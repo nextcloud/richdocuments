@@ -27,5 +27,3 @@ session_write_close();
 
 $file = $_GET['filepath'];
 \OCP\Preview::show($file,120,120);
-
-

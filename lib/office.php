@@ -30,8 +30,5 @@ class Storage {
 		$list=\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text');
 		return $list;
 	}
-	
 
 }
-
-?>

@@ -32,7 +32,3 @@ OCP\App::addNavigationEntry(array(
 	'icon' => OCP\Util::imagePath('office', 'office.png'), 
 	'name' => 'Office')
 );
-
-
-
-?>
