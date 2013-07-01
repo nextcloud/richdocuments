@@ -1,9 +1,10 @@
+<div id="controls"></div>
 <?php if(empty($_['list'])) { ?>
 	<div id="emptyfolder"><?php p('No documents are found. Please upload a document into your ownCloud');?></div>	
 <?php } else { ?>
 	<table class="documentslist" >
 	<?php foreach($_['list'] as $entry) { ?>
-		<tr>
+		<tr data-file="<?php p($entry['path']) ?>">
 			<td width="1">
 				<img align="left" src="<?php p(\OCP\Util::linkToAbsolute('office','ajax/thumbnail.php').'?filepath='.urlencode($entry['url'])) ?>" />
 			</td>

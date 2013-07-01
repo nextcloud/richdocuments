@@ -1,6 +1,6 @@
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 
-.officelist {  margin-top:5px; padding:5px; width:100%;}
-.officelist tr:hover {  backgound-color:#aaa; }
-.officelist tr td {  padding:5px; }
+.documentslist {  position:relative;top:3em; padding:5px; width:100%;}
+.documentslist tr:hover {  backgound-color:#aaa; }
+.documentslist tr td {  padding:5px; }
 
