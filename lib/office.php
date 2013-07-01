@@ -27,19 +27,8 @@ namespace OCA\Office;
 class Storage {
 
 	public static function getDocuments() {
-		$documents=array();
 		$list=\OCP\Files::searchByMime('video' );
-		foreach($list as $l) {
-			$info=pathinfo($l);
-			$size=\OC_Filesystem::filesize($l);
-			$mtime=\OC_Filesystem::filemtime($l);
-
-			$entry=array('url'=>$l,'name'=>$info['filename'],'size'=>$size,'mtime'=>$mtime);
-			$documents[]=$entry;
-		}
-
-	
-		return $documents;
+		return $list;
 	}
 	
 
