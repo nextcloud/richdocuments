@@ -27,7 +27,7 @@ namespace OCA\Office;
 class Storage {
 
 	public static function getDocuments() {
-		$list=\OCP\Files::searchByMime('video' );
+		$list=\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text');
 		return $list;
 	}
 	
