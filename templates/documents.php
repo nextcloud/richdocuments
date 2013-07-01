@@ -13,7 +13,7 @@
 			<td>
 				<a target="_blank" href="<?php p(\OCP\Util::linkToAbsolute('files','download.php').'&file='.urlencode($entry['url']).'&name='.urlencode($entry['name'])) ?>"><?php p($entry['name'])?></a>
 			</td>
-			<td><?php p(\OCP\Util::formatDate($entry['mtime'])); ?></td>
+			<td><?php p(\OCP\Util::formatDate(intval($entry['mtime']))); ?></td>
 			<td><?php p(\OCP\Util::humanFileSize($entry['size'])); ?></td>
 		</tr>
 	<?php } ?>
