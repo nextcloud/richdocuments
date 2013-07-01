@@ -11,7 +11,7 @@
 				<img align="left" src="<?php p( \OCP\Util::linkToAbsolute('office','img/office.png')) ?>" />
 			</td>
 			<td>
-				<a target="_blank" href="<?php p(\OCP\Util::linkToAbsolute('files','download.php').'&file='.urlencode($entry['url']).'&name='.urlencode($entry['name'])) ?>"><?php p($entry['name'])?></a>
+				<a target="_blank" href="<?php p(\OCP\Util::linkToRoute('download', array('file' => $entry['path']))) ?>"><?php p($entry['name'])?></a>
 			</td>
 			<td><?php p(\OCP\Util::formatDate(intval($entry['mtime']))); ?></td>
 			<td><?php p(\OCP\Util::humanFileSize($entry['size'])); ?></td>
