@@ -32,3 +32,5 @@ OCP\App::addNavigationEntry(array(
 	'icon' => OCP\Util::imagePath('office', 'office.png'), 
 	'name' => 'Office')
 );
+
+OC::$CLASSPATH['OCA\Office\Storage'] = 'office/lib/office.php';

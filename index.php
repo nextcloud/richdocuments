@@ -21,15 +21,11 @@
  * 
  */
 
-require_once('lib/office.php');
-
-
 OCP\User::checkLoggedIn();
 OCP\JSON::checkAppEnabled('office');
 OCP\App::setActiveNavigationEntry( 'office_index' );
 
 OCP\Util::addStyle( 'office', 'style' );
-
 
 $list=\OCA\Office\Storage::getDocuments();
 $tmpl = new OCP\Template('office', 'documents', 'user');
