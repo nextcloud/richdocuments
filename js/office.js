@@ -1,30 +1,57 @@
+/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor */
 var officeMain = {
 	onView: function(dir, file) {
-		OC.addStyle('office', 'webodf');
-		OC.addScript('office', 'webodf-debug').done(function() {
-			var location = fileDownloadPath(dir, file);
-
-			// fade out files menu and add odf menu
-			$('.documentslist').fadeOut('slow').promise().done(function() {
-				// odf action toolbar
-				var odfToolbarHtml =
-						'<div id="odf-toolbar">' +
-						'<button id="odf_close">' + t('files_odfviewer', 'Close') +
-						'</button></div>';
-				$('#controls').append(odfToolbarHtml);
+		"use strict";
+		OC.addScript('office', 'dojo-amalgamation').done(function() {
+			document.dojoAnchor.require(["dojo/ready"], function(ready) {
+				ready(function(){alert("ready!");});
 			});
+		});
+		(function no_op() {return {no_op:function(){}};}()).no_op(function() {
+			OC.addScript('office', 'webodf').done(function() {
+				OC.addScript('office', 'webodf_bootstrap').done(function() {
+					OC.addScript('office', 'boot_editor').done(function() {
+						var doclocation = fileDownloadPath(dir, file);
 
-			// fade out file list and show pdf canvas
-			$('table').fadeOut('slow').promise().done(function() {
-				;
-				var canvashtml = '<div id="odf-canvas"></div>';
-				$('table').after(canvashtml);
-				// in case we are on the public sharing page we shall display the odf into the preview tag
-				$('#preview').html(canvashtml);
+						// fade out files menu and add odf menu
+						$('.documentslist').fadeOut('slow').promise().done(function() {
+							// odf action toolbar
+							var odfToolbarHtml =
+							'<div id="odf-toolbar">' +
+								'<button id="odf_close">' + t('files_odfviewer', 'Close') +
+								'</button></div>';
+							$('#controls').append(odfToolbarHtml);
+						});
 
-				var odfelement = document.getElementById("odf-canvas");
-				var odfcanvas = new odf.OdfCanvas(odfelement);
-				odfcanvas.load(location);
+						// fade out file list and show WebODF canvas
+						$('table').fadeOut('slow').promise().done(function() {
+							var odfelement, odfcanvas, canvashtml = '<div id = "mainContainer" style="display: none;">'+
+								'<div id = "editor">'+
+								'<span id = "toolbar"></span>'+
+								'<div id = "container">'+
+								'<div id="canvas"></div>'+
+								'</div>'+
+								'</div>'+
+								'</div>';
+
+							$('table').after(canvashtml);
+							// in case we are on the public sharing page we shall display the odf into the preview tag
+							// $('#preview').html(canvashtml);
+
+							webodfEditor.boot(
+							{
+								collaborative: 0,
+								docUrl: doclocation,
+								callback: function() { alert('live!'); }
+							}
+							);
+
+							// odfelement = document.getElementById("odf-canvas");
+							// odfcanvas = new odf.OdfCanvas(odfelement);
+							// odfcanvas.load(doclocation);
+						});
+					});
+				});
 			});
 		});
 	},
