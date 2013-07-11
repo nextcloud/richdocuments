@@ -2,11 +2,6 @@
 var officeMain = {
 	onView: function(dir, file) {
 		"use strict";
-		OC.addScript('office', 'dojo-amalgamation').done(function() {
-			document.dojoAnchor.require(["dojo/ready"], function(ready) {
-				ready(function(){alert("ready!");});
-			});
-		});
 		(function no_op() {return {no_op:function(){}};}()).no_op(function() {
 			OC.addScript('office', 'webodf').done(function() {
 				OC.addScript('office', 'webodf_bootstrap').done(function() {
@@ -70,6 +65,14 @@ var officeMain = {
 };
 
 $(document).ready(function() {
+	alert("ready A");
+	OC.addScript('office', 'dojo-amalgamation', function() {
+		require(["dojo/ready"], function(ready) {
+			ready(function(){alert("ready B!");});
+		});
+	});
+
+
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
 		officeMain.onView('', $(this).attr('data-file'));
