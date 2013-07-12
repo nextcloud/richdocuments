@@ -31,19 +31,22 @@ var officeMain = {
 			// fade out files menu and add odf menu
 			$('.documentslist').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
+				/*
 				var odfToolbarHtml =
 				'<div id="odf-toolbar">' +
 					'<button id="odf_close">' + t('files_odfviewer', 'Close') +
 					'</button></div>';
 				$('#controls').append(odfToolbarHtml);
+				*/
+				$('#controls').append('<span id="toolbar" class="claro"></span>');
 			});
 
 			// fade out file list and show WebODF canvas
 			$('table').fadeOut('slow').promise().done(function() {
 				var odfelement, odfcanvas, canvashtml =
-					'<div id = "mainContainer" style="display: none;">'+
+					'<div id = "mainContainer" class="claro" style="display: none;">'+
 						'<div id = "editor">'+
-							'<span id = "toolbar"></span>'+
+							//'<span id = "toolbar" class="claro"></span>'+
 							'<div id = "container">'+
 								'<div id="canvas"></div>'+
 							'</div>'+
@@ -58,7 +61,9 @@ var officeMain = {
 					{
 						collaborative: 0,
 						docUrl: doclocation,
-						callback: function() { alert('webodf/editor/Editor initialized!'); }
+						callback: function() { 
+							// initialized.
+						}
 					}
 				);
 
