@@ -1,5 +1,11 @@
-/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor */
+/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require */
 var officeMain = {
+	onStartup: function() {
+		"use strict"; alert("ready A");
+		require(["dojo/ready"], function(ready) {
+			ready(function(){alert("ready B!");});
+		});
+	},
 	onView: function(dir, file) {
 		"use strict";
 		(function no_op() {return {no_op:function(){}};}()).no_op(function() {
@@ -65,12 +71,6 @@ var officeMain = {
 };
 
 $(document).ready(function() {
-	alert("ready A");
-	OC.addScript('office', 'dojo-amalgamation', function() {
-		require(["dojo/ready"], function(ready) {
-			ready(function(){alert("ready B!");});
-		});
-	});
 
 
 	$('.documentslist tr').click(function(event) {
@@ -78,4 +78,5 @@ $(document).ready(function() {
 		officeMain.onView('', $(this).attr('data-file'));
 	});
 	$('#odf_close').live('click', officeMain.onClose);
+	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
 });
