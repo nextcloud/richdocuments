@@ -1,17 +1,5 @@
 /*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo */
 var officeMain = {
-/*
-	dojoConfig: {
-		locale: "C",
-		paths: {
-			"webodf/editor": "/owncloud/apps/office/js/editor",
-			"dijit": "/owncloud/apps/office/js/editor/dijit",
-			"dojox": "/owncloud/apps/office/js/editor/dojox",
-			"dojo": "/owncloud/apps/office/js/editor/dojo",
-			"resources": "/owncloud/apps/office/js/editor/resources"
-		}
-	},
-	*/
 	onStartup: function() {
 		"use strict";
 		OC.addScript('office', 'webodf_bootstrap', function() {
@@ -95,8 +83,6 @@ var officeMain = {
 };
 
 $(document).ready(function() {
-
-
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
 		officeMain.onView('', $(this).attr('data-file'));

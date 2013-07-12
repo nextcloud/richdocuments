@@ -9,10 +9,10 @@ dojoConfig = {
 	locale: usedLocale,
 	paths: {
 		"webodf/editor": "/owncloud/apps/office/js/editor",
-		"dijit": "/owncloud/apps/office/js/editor/dijit",
-		"dojox": "/owncloud/apps/office/js/editor/dojox",
-		"dojo": "/owncloud/apps/office/js/editor/dojo",
-		"resources": "/owncloud/apps/office/js/editor/resources"
+		"dijit": "/owncloud/apps/office/resources/dijit",
+		"dojox": "/owncloud/apps/office/resources/dojox",
+		"dojo": "/owncloud/apps/office/resources/dojo",
+		"resources": "/owncloud/apps/office/resources"
 	}
 };
 
