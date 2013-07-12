@@ -1,5 +1,6 @@
-/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require */
+/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo */
 var officeMain = {
+/*
 	dojoConfig: {
 		locale: "C",
 		paths: {
@@ -10,11 +11,13 @@ var officeMain = {
 			"resources": "/owncloud/apps/office/js/editor/resources"
 		}
 	},
+	*/
 	onStartup: function() {
+		"use strict";
 		OC.addScript('office', 'webodf_bootstrap', function() {
 			require({}, ["dojo/ready"], function(ready) {
 				ready(function(){
-					dojo.config = officeMain.dojoConfig;
+					// dojo.config = officeMain.dojoConfig;
 					alert("dojo loaded");
 					require({}, ["webodf/editor/Editor"], function(Editor) {
 						alert("Editor loaded: "+Editor);
