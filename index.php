@@ -26,6 +26,7 @@ OCP\JSON::checkAppEnabled('office');
 OCP\App::setActiveNavigationEntry( 'office_index' );
 
 OCP\Util::addStyle( 'office', 'style' );
+OCP\Util::addStyle( 'office', 'editor' );
 OCP\Util::addScript('office', 'office');
 
 $list=\OCA\Office\Storage::getDocuments();
