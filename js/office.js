@@ -1,59 +1,72 @@
 /*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require */
 var officeMain = {
+	dojoConfig: {
+		locale: "C",
+		paths: {
+			"webodf/editor": "/owncloud/apps/office/js/editor",
+			"dijit": "/owncloud/apps/office/js/editor/dijit",
+			"dojox": "/owncloud/apps/office/js/editor/dojox",
+			"dojo": "/owncloud/apps/office/js/editor/dojo",
+			"resources": "/owncloud/apps/office/js/editor/resources"
+		}
+	},
 	onStartup: function() {
-		"use strict"; alert("ready A");
-		require(["dojo/ready"], function(ready) {
-			ready(function(){alert("ready B!");});
+		OC.addScript('office', 'webodf_bootstrap', function() {
+			require({}, ["dojo/ready"], function(ready) {
+				ready(function(){
+					dojo.config = officeMain.dojoConfig;
+					alert("dojo loaded");
+					require({}, ["webodf/editor/Editor"], function(Editor) {
+						alert("Editor loaded: "+Editor);
+					});
+				});
+			});
 		});
 	},
 	onView: function(dir, file) {
 		"use strict";
-		(function no_op() {return {no_op:function(){}};}()).no_op(function() {
-			OC.addScript('office', 'webodf').done(function() {
-				OC.addScript('office', 'webodf_bootstrap').done(function() {
-					OC.addScript('office', 'boot_editor').done(function() {
-						var doclocation = fileDownloadPath(dir, file);
+		OC.addScript('office', 'webodf').done(function() {
+				OC.addScript('office', 'boot_editor').done(function() {
+					var doclocation = fileDownloadPath(dir, file);
 
-						// fade out files menu and add odf menu
-						$('.documentslist').fadeOut('slow').promise().done(function() {
-							// odf action toolbar
-							var odfToolbarHtml =
-							'<div id="odf-toolbar">' +
-								'<button id="odf_close">' + t('files_odfviewer', 'Close') +
-								'</button></div>';
-							$('#controls').append(odfToolbarHtml);
-						});
+					// fade out files menu and add odf menu
+					$('.documentslist').fadeOut('slow').promise().done(function() {
+						// odf action toolbar
+						var odfToolbarHtml =
+						'<div id="odf-toolbar">' +
+							'<button id="odf_close">' + t('files_odfviewer', 'Close') +
+							'</button></div>';
+						$('#controls').append(odfToolbarHtml);
+					});
 
-						// fade out file list and show WebODF canvas
-						$('table').fadeOut('slow').promise().done(function() {
-							var odfelement, odfcanvas, canvashtml = '<div id = "mainContainer" style="display: none;">'+
-								'<div id = "editor">'+
-								'<span id = "toolbar"></span>'+
-								'<div id = "container">'+
-								'<div id="canvas"></div>'+
-								'</div>'+
-								'</div>'+
-								'</div>';
+					// fade out file list and show WebODF canvas
+					$('table').fadeOut('slow').promise().done(function() {
+						var odfelement, odfcanvas, canvashtml = '<div id = "mainContainer" style="display: none;">'+
+							'<div id = "editor">'+
+							'<span id = "toolbar"></span>'+
+							'<div id = "container">'+
+							'<div id="canvas"></div>'+
+							'</div>'+
+							'</div>'+
+							'</div>';
 
-							$('table').after(canvashtml);
-							// in case we are on the public sharing page we shall display the odf into the preview tag
-							// $('#preview').html(canvashtml);
+						$('table').after(canvashtml);
+						// in case we are on the public sharing page we shall display the odf into the preview tag
+						// $('#preview').html(canvashtml);
 
-							webodfEditor.boot(
+						webodfEditor.boot(
 							{
 								collaborative: 0,
 								docUrl: doclocation,
 								callback: function() { alert('live!'); }
 							}
-							);
+						);
 
-							// odfelement = document.getElementById("odf-canvas");
-							// odfcanvas = new odf.OdfCanvas(odfelement);
-							// odfcanvas.load(doclocation);
-						});
+						// odfelement = document.getElementById("odf-canvas");
+						// odfcanvas = new odf.OdfCanvas(odfelement);
+						// odfcanvas.load(doclocation);
 					});
 				});
-			});
 		});
 	},
 	onClose: function() {
