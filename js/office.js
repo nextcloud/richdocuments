@@ -50,17 +50,18 @@ var officeMain = {
 								'<div id="canvas"></div>'+
 							'</div>'+
 						'</div>'+
-					'</div>';
-
+					'</div>',
+					bodyelement = document.getElementsByTagName('body')[0];
+				bodyelement.className += " claro";
 				$('table').after(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
-				// $('#preview').html(canvashtml);
+				$('#preview').html(canvashtml);
 
 				webodfEditor.boot(
 					{
 						collaborative: 0,
 						docUrl: doclocation,
-						callback: function() { 
+						callback: function() {
 							// initialized.
 						}
 					}
@@ -73,14 +74,17 @@ var officeMain = {
 		});
 	},
 	onClose: function() {
+		"use strict";
+		var bodyelement = document.getElementsByTagName('body')[0];
 		// Fade out odf-toolbar
 		$('#odf-toolbar').fadeOut('slow');
 		// Fade out editor
-		$('#odf-canvas').fadeOut('slow', function() {
-			$('#odf-toolbar').remove();
+		$('#mainContainer').fadeOut('slow', function() {
+			$('#mainContainer').remove();
 			$('#odf-canvas').remove();
 			$('.actions,#file_access_panel').fadeIn('slow');
 			$('table').fadeIn('slow');
+			bodyelement.className.replace(' claro', '');
 		});
 		is_editor_shown = false;
 	}
