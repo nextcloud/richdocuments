@@ -55,8 +55,8 @@ var webodfEditor = (function () {
     "use strict";
 
     var editorInstance = null,
-        booting = false,
-        loadedFilename;
+        running = false,
+        loadedFilename = null;
 
     /**
      * wait for a network connection through nowjs to establish.
@@ -192,7 +192,7 @@ var webodfEditor = (function () {
      */
     function createLocalEditor(docUrl, editorOptions, editorReadyCallback) {
         var pos;
-        booting = true;
+        running = true;
         editorOptions = editorOptions || {};
         editorOptions.memberid = "localuser";
         editorOptions.loadCallback = load;
@@ -265,7 +265,7 @@ var webodfEditor = (function () {
         var userid, token,
             net = runtime.getNetwork();
 
-        booting = true;
+        running = true;
 
         runtime.assert(editorInstance === null, "cannot boot with instanciated editor");
 
@@ -334,7 +334,7 @@ var webodfEditor = (function () {
      */
     function boot(args) {
         var editorOptions = {}, loginProcedure = startLoginProcess;
-        runtime.assert(!booting, "editor creation already in progress");
+        runtime.assert(!running, "editor creation already in progress");
 
         args = args || {};
 
@@ -415,7 +415,16 @@ var webodfEditor = (function () {
         }
     }
 
+    function shutdown() {
+        running = false;
+        editorInstance = null;
+        loadedFilename = null;
+    }
+
     // exposed API
-    return { boot: boot };
+    return {
+        boot: boot,
+        shutdown: shutdown
+    };
 }());
 

@@ -25,7 +25,7 @@ var officeMain = {
 			alert("WebODF Editor not yet initialized...");
 			return;
 		}
-		OC.addScript('office', 'boot_editor').done(function() {
+		OC.addScript('office', 'editor/boot_editor').done(function() {
 			var doclocation = fileDownloadPath(dir, file);
 
 			// fade out files menu and add odf menu
@@ -85,8 +85,8 @@ var officeMain = {
 			$('.actions,#file_access_panel').fadeIn('slow');
 			$('table').fadeIn('slow');
 			bodyelement.className.replace(' claro', '');
+			webodfEditor.shutdown();
 		});
-		is_editor_shown = false;
 	}
 };
 
