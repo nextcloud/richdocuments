@@ -31,14 +31,13 @@ var officeMain = {
 			// fade out files menu and add odf menu
 			$('.documentslist').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
-				/*
 				var odfToolbarHtml =
-				'<div id="odf-toolbar">' +
-					'<button id="odf_close">' + t('files_odfviewer', 'Close') +
-					'</button></div>';
+					'<div id="odf-toolbar">' +
+					'<button style="float:left" id="odf_close">' + t('files_odfviewer', 'Close') + '</button>' +
+					'<span id="toolbar" class="claro"></span>' +
+					'</div>';
 				$('#controls').append(odfToolbarHtml);
-				*/
-				$('#controls').append('<span id="toolbar" class="claro"></span>');
+				//$('#controls').append('<span id="toolbar" class="claro"></span>');
 			});
 
 			// fade out file list and show WebODF canvas
