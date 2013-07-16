@@ -1,6 +1,7 @@
 /**
- * Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
-
+ * @license
+ * Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+ *
  * @licstart
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU Affero General Public License
@@ -34,86 +35,16 @@
 
 /*global ops, runtime */
 
-function SessionList(net) {
-    "use strict";
+/**
+ * A model which provides information about sessions.
+ * @interface
+ */
+SessionList = function SessionList() {"use strict"; };
 
-    var cachedSessionData = {},
-        subscribers = [];
-
-    function onSessionData(sessionData) {
-        var i,
-            isNew = ! cachedSessionData.hasOwnProperty(sessionData.id);
-
-        // cache
-        cachedSessionData[sessionData.id] = sessionData;
-        runtime.log("get session data for:"+sessionData.title+", is new:"+isNew);
-
-        for (i = 0; i < subscribers.length; i += 1) {
-            if (isNew) {
-                subscribers[i].onCreated(sessionData);
-            } else {
-                subscribers[i].onUpdated(sessionData);
-            }
-        }
-    }
-
-    function onSessionRemoved(sessionId) {
-        var i;
-
-        if (cachedSessionData.hasOwnProperty(sessionId)) {
-            delete cachedSessionData[sessionId];
-
-            for (i = 0; i < subscribers.length; i += 1) {
-                subscribers[i].onRemoved(sessionId);
-            }
-        }
-    }
-
-    this.getSessions = function (subscriber) {
-        var i,
-            sessionList = [];
-
-        if (subscriber) {
-            subscribers.push(subscriber);
-        }
-
-        for (i in cachedSessionData) {
-            if (cachedSessionData.hasOwnProperty(i)) {
-                sessionList.push(cachedSessionData[i]);
-            }
-        }
-
-        return sessionList;
-    };
-
-    this.unsubscribe = function (subscriber) {
-        var i;
-
-        for (i=0; i<subscribers.length; i+=1) {
-            if (subscribers[i] === subscriber) {
-                break;
-            }
-        }
-
-        runtime.assert((i < subscribers.length),
-                        "tried to unsubscribe when not subscribed.");
-
-        subscribers.splice(i,1);
-    };
-
-    function init() {
-        net.onSessionAdded = onSessionData;
-        net.onSessionChanged = onSessionData;
-        net.onSessionRemoved = onSessionRemoved;
-
-        net.getSessionList( function(sessionList) {
-            var idx;
-        runtime.log("get sessions on init:"+sessionList.length);
-            for (idx=0; idx<sessionList.length; idx+=1) {
-                onSessionData(sessionList[idx])
-            }
-        });
-    }
-
-    init();
-}
+/**
+ * @param {{onCreated:function(!Object),
+ *          onUpdated:function(!Object),
+ *          onRemoved:function(!string) }} subscriber
+ * @return {undefined}
+ */
+SessionList.prototype.getSessions = function (subscriber) {"use strict"; };

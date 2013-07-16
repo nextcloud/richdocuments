@@ -549,13 +549,6 @@ function BrowserRuntime(logoutput) {
   };
   this.getWindow = function() {
     return window
-  };
-  this.getNetwork = function() {
-    var now = this.getVariable("now");
-    if(now === undefined) {
-      return{networkStatus:"unavailable"}
-    }
-    return now
   }
 }
 function NodeJSRuntime() {
@@ -704,9 +697,6 @@ function NodeJSRuntime() {
   this.exit = process.exit;
   this.getWindow = function() {
     return null
-  };
-  this.getNetwork = function() {
-    return{networkStatus:"unavailable"}
   };
   function init() {
     var DOMParser = require("xmldom").DOMParser;
@@ -892,9 +882,6 @@ function RhinoRuntime() {
   this.exit = quit;
   this.getWindow = function() {
     return null
-  };
-  this.getNetwork = function() {
-    return{networkStatus:"unavailable"}
   }
 }
 var runtime = function() {
@@ -3027,8 +3014,71 @@ core.LoopWatchDog = function LoopWatchDog(timeout, maxChecks) {
   }
   this.check = check
 };
+core.DomUtils = function DomUtils() {
+  function splitBoundaries(range) {
+    var modifiedNodes = [], splitStart;
+    if(range.endOffset !== 0 && range.endContainer.nodeType === Node.TEXT_NODE && range.endOffset !== range.endContainer.length) {
+      modifiedNodes.push(range.endContainer.splitText(range.endOffset));
+      modifiedNodes.push(range.endContainer)
+    }
+    if(range.startOffset !== 0 && range.startContainer.nodeType === Node.TEXT_NODE && range.startOffset !== range.startContainer.length) {
+      splitStart = range.startContainer.splitText(range.startOffset);
+      modifiedNodes.push(range.startContainer);
+      modifiedNodes.push(splitStart);
+      range.setStart(splitStart, 0)
+    }
+    return modifiedNodes
+  }
+  this.splitBoundaries = splitBoundaries;
+  function mergeTextNodes(node1, node2) {
+    if(node1.nodeType === Node.TEXT_NODE) {
+      if(node1.length === 0) {
+        node1.parentNode.removeChild(node1)
+      }else {
+        if(node2.nodeType === Node.TEXT_NODE) {
+          node2.insertData(0, node1.data);
+          node1.parentNode.removeChild(node1);
+          return node2
+        }
+      }
+    }
+    return node1
+  }
+  function normalizeTextNodes(node) {
+    if(node && node.nextSibling) {
+      node = mergeTextNodes(node, node.nextSibling)
+    }
+    if(node && node.previousSibling) {
+      mergeTextNodes(node.previousSibling, node)
+    }
+  }
+  this.normalizeTextNodes = normalizeTextNodes;
+  function rangeContainsNode(limits, node) {
+    var range = node.ownerDocument.createRange(), nodeLength = node.nodeType === Node.TEXT_NODE ? node.length : node.childNodes.length, result;
+    range.setStart(limits.startContainer, limits.startOffset);
+    range.setEnd(limits.endContainer, limits.endOffset);
+    result = range.comparePoint(node, 0) === 0 && range.comparePoint(node, nodeLength) === 0;
+    range.detach();
+    return result
+  }
+  this.rangeContainsNode = rangeContainsNode;
+  function mergeIntoParent(targetNode) {
+    var parent = targetNode.parentNode;
+    while(targetNode.firstChild) {
+      parent.insertBefore(targetNode.firstChild, targetNode)
+    }
+    parent.removeChild(targetNode);
+    return parent
+  }
+  this.mergeIntoParent = mergeIntoParent;
+  function getElementsByTagNameNS(node, namespace, tagName) {
+    return Array.prototype.slice.call(node.getElementsByTagNameNS(namespace, tagName))
+  }
+  this.getElementsByTagNameNS = getElementsByTagNameNS
+};
+runtime.loadClass("core.DomUtils");
 core.Cursor = function Cursor(document, memberId) {
-  var self = this, cursorns = "urn:webodf:names:cursor", cursorNode = document.createElementNS(cursorns, "cursor"), anchorNode = document.createElementNS(cursorns, "anchor"), forwardSelection, recentlyModifiedNodes = [], selectedRange, isCollapsed;
+  var self = this, cursorns = "urn:webodf:names:cursor", cursorNode = document.createElementNS(cursorns, "cursor"), anchorNode = document.createElementNS(cursorns, "anchor"), forwardSelection, recentlyModifiedNodes = [], selectedRange, isCollapsed, domUtils = new core.DomUtils;
   function putIntoTextNode(node, container, offset) {
     runtime.assert(Boolean(container), "putCursorIntoTextNode: invalid container");
     var parent = container.parentNode;
@@ -3056,32 +3106,10 @@ core.Cursor = function Cursor(document, memberId) {
   }
   function removeNode(node) {
     if(node.parentNode) {
-      recentlyModifiedNodes.push({prev:node.previousSibling, next:node.nextSibling});
+      recentlyModifiedNodes.push(node.previousSibling);
+      recentlyModifiedNodes.push(node.nextSibling);
       node.parentNode.removeChild(node)
     }
-  }
-  function mergeTextNodes(node1, node2) {
-    if(node1.nodeType === Node.TEXT_NODE) {
-      if(node1.length === 0) {
-        node1.parentNode.removeChild(node1)
-      }else {
-        if(node2.nodeType === Node.TEXT_NODE) {
-          node2.insertData(0, node1.data);
-          node1.parentNode.removeChild(node1)
-        }
-      }
-    }
-  }
-  function mergeAdjacentTextNodes() {
-    recentlyModifiedNodes.forEach(function(nodePair) {
-      if(nodePair.prev && nodePair.prev.nextSibling) {
-        mergeTextNodes(nodePair.prev, nodePair.prev.nextSibling)
-      }
-      if(nodePair.next && nodePair.next.previousSibling) {
-        mergeTextNodes(nodePair.next.previousSibling, nodePair.next)
-      }
-    });
-    recentlyModifiedNodes.length = 0
   }
   function putNode(node, container, offset) {
     var text, element;
@@ -3094,7 +3122,8 @@ core.Cursor = function Cursor(document, memberId) {
         putIntoContainer(node, element, offset)
       }
     }
-    recentlyModifiedNodes.push({prev:node.previousSibling, next:node.nextSibling})
+    recentlyModifiedNodes.push(node.previousSibling);
+    recentlyModifiedNodes.push(node.nextSibling)
   }
   function getStartNode() {
     return forwardSelection ? anchorNode : cursorNode
@@ -3135,11 +3164,13 @@ core.Cursor = function Cursor(document, memberId) {
       putNode(getEndNode(), (range.endContainer), range.endOffset);
       putNode(getStartNode(), (range.startContainer), range.startOffset)
     }
-    mergeAdjacentTextNodes()
+    recentlyModifiedNodes.forEach(domUtils.normalizeTextNodes);
+    recentlyModifiedNodes.length = 0
   };
   this.remove = function() {
     removeNode(cursorNode);
-    mergeAdjacentTextNodes()
+    recentlyModifiedNodes.forEach(domUtils.normalizeTextNodes);
+    recentlyModifiedNodes.length = 0
   };
   function init() {
     cursorNode.setAttributeNS(cursorns, "memberId", memberId);
@@ -3506,8 +3537,11 @@ core.PositionIterator = function PositionIterator(root, whatToShow, filter, expa
         if(walker.nextSibling() !== null) {
           currentPos = 0
         }else {
-          walker.parentNode();
-          currentPos = 1
+          if(walker.parentNode()) {
+            currentPos = 1
+          }else {
+            return false
+          }
         }
       }
     }
@@ -3525,8 +3559,7 @@ core.PositionIterator = function PositionIterator(root, whatToShow, filter, expa
     var moved = true;
     if(currentPos === 0) {
       if(walker.previousSibling() === null) {
-        walker.parentNode();
-        if(walker.currentNode === root) {
+        if(!walker.parentNode() || walker.currentNode === root) {
           walker.firstChild();
           return false
         }
@@ -6369,11 +6402,12 @@ odf.OdfUtils = function OdfUtils() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("core.DomUtils");
 runtime.loadClass("core.LoopWatchDog");
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfUtils");
-odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyles) {
-  var nextTextNodes, odfUtils = new odf.OdfUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
+odf.TextStyleApplicator = function TextStyleApplicator(newStylePrefix, formatting, automaticStyles) {
+  var nextTextNodes, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
   function StyleLookup(info) {
     function compare(expected, actual) {
       if(typeof expected === "object" && typeof actual === "object") {
@@ -6407,7 +6441,7 @@ odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyl
         styleNode.setAttributeNS(stylens, "style:family", "text");
         styleNode.setAttributeNS(webodfns, "scope", "document-content")
       }
-      formatting.updateStyle(styleNode, info, true);
+      formatting.updateStyle(styleNode, info, newStylePrefix);
       automaticStyles.appendChild(styleNode);
       return styleNode
     }
@@ -6423,49 +6457,6 @@ odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyl
       container.setAttributeNS(textns, "text:style-name", name)
     }
   }
-  function containsNode(limits, node) {
-    var range = node.ownerDocument.createRange(), nodeLength = node.nodeType === Node.TEXT_NODE ? node.length : node.childNodes.length, result;
-    range.setStart(limits.startContainer, limits.startOffset);
-    range.setEnd(limits.endContainer, limits.endOffset);
-    result = range.comparePoint(node, 0) === 0 && range.comparePoint(node, nodeLength) === 0;
-    range.detach();
-    return result
-  }
-  function splitBoundaries(range) {
-    var newNode;
-    if(range.endOffset !== 0 && range.endContainer.nodeType === Node.TEXT_NODE && range.endOffset !== range.endContainer.length) {
-      nextTextNodes.push(range.endContainer.splitText(range.endOffset));
-      nextTextNodes.push(range.endContainer)
-    }
-    if(range.startOffset !== 0 && range.startContainer.nodeType === Node.TEXT_NODE && range.startOffset !== range.startContainer.length) {
-      newNode = range.startContainer.splitText(range.startOffset);
-      nextTextNodes.push(range.startContainer);
-      nextTextNodes.push(newNode);
-      range.setStart(newNode, 0)
-    }
-  }
-  function mergeTextNodes(node1, node2) {
-    if(node1.nodeType === Node.TEXT_NODE) {
-      if(node1.length === 0) {
-        node1.parentNode.removeChild(node1)
-      }else {
-        if(node2.nodeType === Node.TEXT_NODE) {
-          node2.insertData(0, node1.data);
-          node1.parentNode.removeChild(node1);
-          return node2
-        }
-      }
-    }
-    return node1
-  }
-  function cleanupTextNode(node) {
-    if(node.nextSibling) {
-      node = mergeTextNodes(node, node.nextSibling)
-    }
-    if(node.previousSibling) {
-      mergeTextNodes(node.previousSibling, node)
-    }
-  }
   function moveToNewSpan(startNode, limits) {
     var document = startNode.ownerDocument, originalContainer = startNode.parentNode, styledContainer, trailingContainer, moveTrailing, node = startNode, nextNode, loopGuard = new core.LoopWatchDog(1E3);
     if(odfUtils.isParagraph(originalContainer)) {
@@ -6473,7 +6464,7 @@ odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyl
       originalContainer.insertBefore(styledContainer, startNode);
       moveTrailing = false
     }else {
-      if(startNode.previousSibling && !containsNode(limits, startNode.previousSibling)) {
+      if(startNode.previousSibling && !domUtils.rangeContainsNode(limits, startNode.previousSibling)) {
         styledContainer = originalContainer.cloneNode(false);
         originalContainer.parentNode.insertBefore(styledContainer, originalContainer.nextSibling);
         moveTrailing = true
@@ -6482,7 +6473,7 @@ odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyl
         moveTrailing = true
       }
     }
-    while(node && (node === startNode || containsNode(limits, node))) {
+    while(node && (node === startNode || domUtils.rangeContainsNode(limits, node))) {
       loopGuard.check();
       nextNode = node.nextSibling;
       if(node.parentNode !== styledContainer) {
@@ -6504,12 +6495,11 @@ odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyl
   }
   this.applyStyle = function(range, info) {
     var textNodes, isStyled, container, styleCache, styleLookup, textPropsOnly = {}, limits;
-    runtime.assert(Boolean(info[textProperties]), "applyStyle without any text properties");
+    runtime.assert(info && info[textProperties], "applyStyle without any text properties");
     textPropsOnly[textProperties] = info[textProperties];
     styleCache = new StyleManager(textPropsOnly);
     styleLookup = new StyleLookup(textPropsOnly);
-    nextTextNodes = [];
-    splitBoundaries(range);
+    nextTextNodes = domUtils.splitBoundaries(range);
     textNodes = odfUtils.getTextNodes(range, false);
     limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
     textNodes.forEach(function(n) {
@@ -6519,7 +6509,7 @@ odf.TextStyleApplicator = function TextStyleApplicator(formatting, automaticStyl
         styleCache.applyStyleToContainer(container)
       }
     });
-    nextTextNodes.forEach(cleanupTextNode);
+    nextTextNodes.forEach(domUtils.normalizeTextNodes);
     nextTextNodes = null
   }
 };
@@ -7761,6 +7751,14 @@ runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("odf.TextStyleApplicator");
 odf.Formatting = function Formatting() {
   var self = this, odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, odfUtils = new odf.OdfUtils;
+  function hashString(value) {
+    var hash = 0, i, l;
+    for(i = 0, l = value.length;i < l;i += 1) {
+      hash = (hash << 5) - hash + value.charCodeAt(i);
+      hash |= 0
+    }
+    return hash
+  }
   function mergeRecursive(destination, source) {
     Object.keys(source).forEach(function(p) {
       try {
@@ -7965,8 +7963,8 @@ odf.Formatting = function Formatting() {
     styleChain = buildStyleChain(node);
     return styleChain ? calculateAppliedStyle(styleChain) : undefined
   };
-  this.applyStyle = function(range, info) {
-    var textStyles = new odf.TextStyleApplicator(self, odfContainer.rootElement.automaticStyles);
+  this.applyStyle = function(memberId, range, info) {
+    var textStyles = new odf.TextStyleApplicator("auto" + hashString(memberId) + "_", self, odfContainer.rootElement.automaticStyles);
     textStyles.applyStyle(range, info)
   };
   function getAllStyleNames() {
@@ -7984,15 +7982,15 @@ odf.Formatting = function Formatting() {
     });
     return styleNames
   }
-  this.updateStyle = function(styleNode, info, autoGenerateName) {
+  this.updateStyle = function(styleNode, info, newStylePrefix) {
     var name, existingNames, startIndex;
     mapObjOntoNode(styleNode, info);
     name = styleNode.getAttributeNS(stylens, "name");
-    if(autoGenerateName || !name) {
+    if(newStylePrefix) {
       existingNames = getAllStyleNames();
-      startIndex = Math.floor(Math.random() * 1E8);
+      startIndex = 0;
       do {
-        name = "auto" + startIndex;
+        name = newStylePrefix + startIndex;
         startIndex += 1
       }while(existingNames.indexOf(name) !== -1);
       styleNode.setAttributeNS(stylens, "style:name", name)
@@ -8033,6 +8031,7 @@ odf.Formatting = function Formatting() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("core.DomUtils");
 runtime.loadClass("odf.OdfContainer");
 runtime.loadClass("odf.Formatting");
 runtime.loadClass("xmldom.XPath");
@@ -8190,7 +8189,7 @@ odf.OdfCanvas = function() {
     listenEvent(element, "keyup", checkSelection);
     listenEvent(element, "keydown", checkSelection)
   }
-  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, shadowContent;
+  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent;
   function clear(element) {
     while(element.firstChild) {
       element.removeChild(element.firstChild)
@@ -8391,12 +8390,12 @@ odf.OdfCanvas = function() {
         }
       }
     }
-    spaces = Array.prototype.slice.call(odffragment.getElementsByTagNameNS(textns, "s"));
+    spaces = domUtils.getElementsByTagNameNS(odffragment, textns, "s");
     spaces.forEach(expandSpaceElement)
   }
   function expandTabElements(odffragment) {
     var tabs;
-    tabs = Array.prototype.slice.call(odffragment.getElementsByTagNameNS(textns, "tab"));
+    tabs = domUtils.getElementsByTagNameNS(odffragment, textns, "tab");
     tabs.forEach(function(tab) {
       tab.textContent = "\t"
     })
@@ -8919,6 +8918,227 @@ odf.CommandLineTools = function CommandLineTools() {
 };
 /*
 
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+ops.Server = function Server() {
+};
+ops.Server.prototype.connect = function(timeout, cb) {
+};
+ops.Server.prototype.networkStatus = function() {
+};
+ops.Server.prototype.login = function(login, password, successCb, failCb) {
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+ops.NowjsServer = function NowjsServer() {
+  var nowObject;
+  this.getNowObject = function() {
+    return nowObject
+  };
+  this.connect = function(timeout, callback) {
+    var accumulatedWaitingTime = 0;
+    if(nowObject) {
+      return
+    }
+    nowObject = runtime.getVariable("now");
+    if(nowObject === undefined) {
+      nowObject = {networkStatus:"unavailable"}
+    }
+    function laterCb() {
+      if(nowObject.networkStatus === "unavailable") {
+        runtime.log("connection to server unavailable.");
+        callback("unavailable");
+        return
+      }
+      if(nowObject.networkStatus !== "ready") {
+        if(accumulatedWaitingTime > timeout) {
+          runtime.log("connection to server timed out.");
+          callback("timeout");
+          return
+        }
+        accumulatedWaitingTime += 100;
+        runtime.getWindow().setTimeout(laterCb, 100)
+      }else {
+        runtime.log("connection to collaboration server established.");
+        callback("ready")
+      }
+    }
+    laterCb()
+  };
+  this.networkStatus = function() {
+    return nowObject ? nowObject.networkStatus : "unavailable"
+  };
+  this.login = function(login, password, successCb, failCb) {
+    if(!nowObject) {
+      failCb("Not connected to server")
+    }else {
+      nowObject.login(login, password, successCb, failCb)
+    }
+  }
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("core.Base64");
+runtime.loadClass("core.ByteArrayWriter");
+ops.PullBoxServer = function PullBoxServer(args) {
+  var self = this, token, base64 = new core.Base64;
+  args = args || {};
+  args.url = args.url || "/WSER";
+  function call(message, cb) {
+    var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), data;
+    function handleResult() {
+      if(xhr.readyState === 4) {
+        if((xhr.status < 200 || xhr.status >= 300) && xhr.status === 0) {
+          runtime.log("Status " + String(xhr.status) + ": " + xhr.responseText || xhr.statusText)
+        }
+        cb(xhr.responseText)
+      }
+    }
+    runtime.log("Sending message to server: " + message);
+    byteArrayWriter.appendString(message);
+    data = byteArrayWriter.getByteArray();
+    xhr.open("POST", args.url, true);
+    xhr.onreadystatechange = handleResult;
+    if(data.buffer && !xhr.sendAsBinary) {
+      data = data.buffer
+    }else {
+      data = runtime.byteArrayToString(data, "binary")
+    }
+    try {
+      if(xhr.sendAsBinary) {
+        xhr.sendAsBinary(data)
+      }else {
+        xhr.send(data)
+      }
+    }catch(e) {
+      runtime.log("Problem with calling server: " + e + " " + data);
+      cb(e.message)
+    }
+  }
+  this.call = call;
+  this.getBase64 = function() {
+    return base64
+  };
+  this.getToken = function() {
+    return token
+  };
+  this.connect = function(timeout, callback) {
+    var accumulatedWaitingTime = 0;
+    callback("ready")
+  };
+  this.networkStatus = function() {
+    return"ready"
+  };
+  this.login = function(login, password, successCb, failCb) {
+    call("login:" + base64.toBase64(login) + ":" + base64.toBase64(password), function(responseData) {
+      var response = (runtime.fromJson(responseData));
+      runtime.log("Login reply: " + responseData);
+      if(response.hasOwnProperty("token")) {
+        token = response.token;
+        runtime.log("Caching token: " + self.getToken());
+        successCb(response)
+      }else {
+        failCb(responseData)
+      }
+    })
+  }
+};
+/*
+
  Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
@@ -8954,6 +9174,8 @@ odf.CommandLineTools = function CommandLineTools() {
 ops.Operation = function Operation() {
 };
 ops.Operation.prototype.init = function(data) {
+};
+ops.Operation.prototype.transform = function(otherOp, hasPriority) {
 };
 ops.Operation.prototype.execute = function(odtDocument) {
 };
@@ -8994,10 +9216,13 @@ ops.Operation.prototype.spec = function() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpAddCursor = function OpAddCursor() {
-  var memberid, timestamp;
+  var self = this, memberid, timestamp;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp
+  };
+  this.transform = function(otherOp, hasPriority) {
+    return[self]
   };
   this.execute = function(odtDocument) {
     var cursor = odtDocument.getCursor(memberid);
@@ -9049,13 +9274,16 @@ ops.OpAddCursor = function OpAddCursor() {
 */
 runtime.loadClass("odf.OdfUtils");
 ops.OpApplyStyle = function OpApplyStyle() {
-  var memberid, timestamp, position, length, info, odfUtils = new odf.OdfUtils, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+  var self = this, memberid, timestamp, position, length, info, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
-    position = data.position;
-    length = data.length;
+    position = parseInt(data.position, 10);
+    length = parseInt(data.length, 10);
     info = data.info
+  };
+  this.transform = function(otherOp, hasPriority) {
+    return null
   };
   function getRange(odtDocument) {
     var point1 = length >= 0 ? position : position + length, point2 = length >= 0 ? position + length : position, p1 = odtDocument.getIteratorAtPosition(point1), p2 = length ? odtDocument.getIteratorAtPosition(point2) : p1, range = odtDocument.getDOM().createRange();
@@ -9068,9 +9296,10 @@ ops.OpApplyStyle = function OpApplyStyle() {
     return range.comparePoint(node, 0) <= 0 && range.comparePoint(node, nodeLength) >= 0
   }
   function getImpactedParagraphs(range) {
-    var outerContainer = range.commonAncestorContainer, impactedParagraphs;
-    impactedParagraphs = Array.prototype.slice.call(outerContainer.getElementsByTagNameNS(textns, "p"));
-    impactedParagraphs = impactedParagraphs.concat(Array.prototype.slice.call(outerContainer.getElementsByTagNameNS(textns, "h")));
+    var outerContainer = range.commonAncestorContainer, impactedParagraphs = [];
+    if(outerContainer.nodeType === Node.ELEMENT_NODE) {
+      impactedParagraphs = domUtils.getElementsByTagNameNS(outerContainer, textns, "p").concat(domUtils.getElementsByTagNameNS(outerContainer, textns, "h"))
+    }
     while(outerContainer && !odfUtils.isParagraph(outerContainer)) {
       outerContainer = outerContainer.parentNode
     }
@@ -9083,7 +9312,7 @@ ops.OpApplyStyle = function OpApplyStyle() {
   }
   this.execute = function(odtDocument) {
     var range = getRange(odtDocument), impactedParagraphs = getImpactedParagraphs(range);
-    odtDocument.getFormatting().applyStyle(range, info);
+    odtDocument.getFormatting().applyStyle(memberid, range, info);
     range.detach();
     odtDocument.getOdfCanvas().refreshCSS();
     impactedParagraphs.forEach(function(n) {
@@ -9130,10 +9359,17 @@ ops.OpApplyStyle = function OpApplyStyle() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpRemoveCursor = function OpRemoveCursor() {
-  var memberid, timestamp;
+  var self = this, optype = "RemoveCursor", memberid, timestamp;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec();
+    if(otherOpspec.optype === optype && otherOpspec.memberid === memberid) {
+      return[]
+    }
+    return[self]
   };
   this.execute = function(odtDocument) {
     if(!odtDocument.removeCursor(memberid)) {
@@ -9142,7 +9378,7 @@ ops.OpRemoveCursor = function OpRemoveCursor() {
     return true
   };
   this.spec = function() {
-    return{optype:"RemoveCursor", memberid:memberid, timestamp:timestamp}
+    return{optype:optype, memberid:memberid, timestamp:timestamp}
   }
 };
 /*
@@ -9180,12 +9416,12 @@ ops.OpRemoveCursor = function OpRemoveCursor() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpMoveCursor = function OpMoveCursor() {
-  var memberid, timestamp, position, length;
+  var self = this, memberid, timestamp, position, length;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
-    position = data.position;
-    length = data.length || 0
+    position = parseInt(data.position, 10);
+    length = data.length !== undefined ? parseInt(data.length, 10) : 0
   };
   function countSteps(number, stepCounter, positionFilter) {
     if(number > 0) {
@@ -9196,6 +9432,48 @@ ops.OpMoveCursor = function OpMoveCursor() {
     }
     return 0
   }
+  this.merge = function(otherOpspec) {
+    if(otherOpspec.optype === "MoveCursor" && otherOpspec.memberid === memberid) {
+      position = otherOpspec.position;
+      length = otherOpspec.length;
+      timestamp = otherOpspec.timestamp;
+      return true
+    }
+    return false
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype, result = [self];
+    if(otherOpType === "RemoveText") {
+      if(otherOpspec.position + otherOpspec.length <= position) {
+        position -= otherOpspec.length
+      }else {
+        if(otherOpspec.position < position) {
+          position = otherOpspec.position
+        }
+      }
+    }else {
+      if(otherOpType === "SplitParagraph") {
+        if(otherOpspec.position < position) {
+          position += 1
+        }
+      }else {
+        if(otherOpType === "InsertText") {
+          if(otherOpspec.position < position) {
+            position += otherOpspec.text.length
+          }
+        }else {
+          if(otherOpType === "RemoveCursor" && otherOpspec.memberid === memberid) {
+            result = []
+          }else {
+            if(otherOpType === "InsertTable") {
+              result = null
+            }
+          }
+        }
+      }
+    }
+    return result
+  };
   this.execute = function(odtDocument) {
     var cursor = odtDocument.getCursor(memberid), oldPosition = odtDocument.getCursorPosition(memberid), positionFilter = odtDocument.getPositionFilter(), number = position - oldPosition, stepsToSelectionStart, stepsToSelectionEnd, stepCounter;
     if(!cursor) {
@@ -9216,17 +9494,56 @@ ops.OpMoveCursor = function OpMoveCursor() {
   }
 };
 ops.OpInsertTable = function OpInsertTable() {
-  var memberid, timestamp, initialRows, initialColumns, position, tableName, tableStyleName, tableColumnStyleName, tableCellStyleMatrix, tablens = "urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+  var self = this, optype = "InsertTable", memberid, timestamp, initialRows, initialColumns, position, tableName, tableStyleName, tableColumnStyleName, tableCellStyleMatrix, tablens = "urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
-    position = data.position;
-    initialRows = data.initialRows;
-    initialColumns = data.initialColumns;
+    position = parseInt(data.position, 10);
+    initialRows = parseInt(data.initialRows, 10);
+    initialColumns = parseInt(data.initialColumns, 10);
     tableName = data.tableName;
     tableStyleName = data.tableStyleName;
     tableColumnStyleName = data.tableColumnStyleName;
     tableCellStyleMatrix = data.tableCellStyleMatrix
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOptype = otherOpspec.optype, result = [self];
+    if(otherOptype === optype) {
+      result = null
+    }else {
+      if(otherOptype === "SplitParagraph") {
+        if(otherOpspec.position < position) {
+          position += 1
+        }else {
+          if(otherOpspec.position === position && !hasPriority) {
+            position += 1;
+            return null
+          }
+        }
+      }else {
+        if(otherOptype === "InsertText") {
+          if(otherOpspec.position < position) {
+            position += otherOpspec.text.length
+          }else {
+            if(otherOpspec.position === position && !hasPriority) {
+              position += otherOpspec.text.length;
+              return null
+            }
+          }
+        }else {
+          if(otherOptype === "RemoveText") {
+            if(otherOpspec.position + otherOpspec.length <= position) {
+              position -= otherOpspec.length
+            }else {
+              if(otherOpspec.position < position) {
+                position = otherOpspec.position
+              }
+            }
+          }
+        }
+      }
+    }
+    return result
   };
   function getCellStyleName(row, column) {
     var rowStyles;
@@ -9306,7 +9623,7 @@ ops.OpInsertTable = function OpInsertTable() {
     return false
   };
   this.spec = function() {
-    return{optype:"InsertTable", memberid:memberid, timestamp:timestamp, position:position, initialRows:initialRows, initialColumns:initialColumns, tableName:tableName, tableStyleName:tableStyleName, tableColumnStyleName:tableColumnStyleName, tableCellStyleMatrix:tableCellStyleMatrix}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, position:position, initialRows:initialRows, initialColumns:initialColumns, tableName:tableName, tableStyleName:tableStyleName, tableColumnStyleName:tableColumnStyleName, tableCellStyleMatrix:tableCellStyleMatrix}
   }
 };
 /*
@@ -9344,12 +9661,59 @@ ops.OpInsertTable = function OpInsertTable() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpInsertText = function OpInsertText() {
-  var memberid, timestamp, position, text;
+  var self = this, optype = "InsertText", memberid, timestamp, position, text;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
-    position = data.position;
+    position = parseInt(data.position, 10);
     text = data.text
+  };
+  this.merge = function(otherOpspec) {
+    if(otherOpspec.optype === optype && otherOpspec.memberid === memberid && otherOpspec.position === position + text.length) {
+      text = text + otherOpspec.text;
+      timestamp = otherOpspec.timestamp;
+      return true
+    }
+    return false
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOptype = otherOpspec.optype, result = [self];
+    if(otherOptype === optype) {
+      if(otherOpspec.position < position) {
+        position += otherOpspec.text.length
+      }else {
+        if(otherOpspec.position === position && !hasPriority) {
+          position += otherOpspec.text.length;
+          return null
+        }
+      }
+    }else {
+      if(otherOptype === "SplitParagraph") {
+        if(otherOpspec.position < position) {
+          position += 1
+        }else {
+          if(otherOpspec.position === position && !hasPriority) {
+            position += 1;
+            return null
+          }
+        }
+      }else {
+        if(otherOptype === "InsertTable") {
+          result = null
+        }else {
+          if(otherOptype === "RemoveText") {
+            if(otherOpspec.position + otherOpspec.length <= position) {
+              position -= otherOpspec.length
+            }else {
+              if(otherOpspec.position < position) {
+                position = otherOpspec.position
+              }
+            }
+          }
+        }
+      }
+    }
+    return result
   };
   function triggerLayoutInWebkit(odtDocument, textNode) {
     var parent = textNode.parentNode, next = textNode.nextSibling, impactedCursors = [];
@@ -9401,7 +9765,7 @@ ops.OpInsertText = function OpInsertText() {
     return false
   };
   this.spec = function() {
-    return{optype:"InsertText", memberid:memberid, timestamp:timestamp, position:position, text:text}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, position:position, text:text}
   }
 };
 /*
@@ -9438,8 +9802,10 @@ ops.OpInsertText = function OpInsertText() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("odf.OdfUtils");
+runtime.loadClass("core.DomUtils");
 ops.OpRemoveText = function OpRemoveText() {
-  var memberid, timestamp, position, length, text, odfUtils, editinfons = "urn:webodf:names:editinfo";
+  var self = this, optype = "RemoveText", memberid, timestamp, position, length, text, odfUtils = new odf.OdfUtils, domUtils, editinfons = "urn:webodf:names:editinfo";
   this.init = function(data) {
     runtime.assert(data.length >= 0, "OpRemoveText only supports positive lengths");
     memberid = data.memberid;
@@ -9447,28 +9813,52 @@ ops.OpRemoveText = function OpRemoveText() {
     position = parseInt(data.position, 10);
     length = parseInt(data.length, 10);
     text = data.text;
-    odfUtils = new odf.OdfUtils
+    odfUtils = new odf.OdfUtils;
+    domUtils = new core.DomUtils
   };
-  function fixCursorPositions(odtDocument) {
-    var cursors, stepCounter, steps, filter, i;
-    cursors = odtDocument.getCursors();
-    filter = odtDocument.getPositionFilter();
-    for(i in cursors) {
-      if(cursors.hasOwnProperty(i)) {
-        stepCounter = cursors[i].getStepCounter();
-        if(!stepCounter.isPositionWalkable(filter)) {
-          steps = -stepCounter.countBackwardSteps(1, filter);
-          if(steps === 0) {
-            steps = stepCounter.countForwardSteps(1, filter)
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOptype = otherOpspec.optype, end = position + length, otherOpspecEnd, same = otherOpspec.memberid === memberid, secondOp, secondOpspec, result = [self];
+    if(otherOptype === optype) {
+      otherOpspecEnd = otherOpspec.position + otherOpspec.length;
+      if(otherOpspecEnd <= position) {
+        position -= otherOpspec.length
+      }else {
+        if(otherOpspec.position < end) {
+          if(position < otherOpspec.position) {
+            if(otherOpspecEnd < end) {
+              length = length - otherOpspec.length
+            }else {
+              length = otherOpspec.position - position
+            }
+          }else {
+            if(otherOpspecEnd < end) {
+              position = otherOpspec.position;
+              length = end - otherOpspecEnd
+            }else {
+              result = []
+            }
           }
-          cursors[i].move(steps);
-          if(i === memberid) {
-            odtDocument.emit(ops.OdtDocument.signalCursorMoved, cursors[i])
+        }
+      }
+    }else {
+      if(otherOptype === "InsertText") {
+        if(otherOpspec.position <= position) {
+          position += otherOpspec.text.length
+        }
+      }else {
+        if(otherOptype === "SplitParagraph") {
+          if(otherOpspec.position <= position) {
+            position += 1
+          }
+        }else {
+          if(otherOptype === "InsertTable") {
+            result = null
           }
         }
       }
     }
-  }
+    return result
+  };
   function isEmpty(node) {
     var childNode;
     if(!odfUtils.isParagraph(node) && (odfUtils.isGroupingElement(node) || odfUtils.isCharacterElement(node)) && node.textContent.length === 0) {
@@ -9507,14 +9897,6 @@ ops.OpRemoveText = function OpRemoveText() {
     if(odfUtils.isListItem(parent) && parent.childNodes.length === 0) {
       parent.parentNode.removeChild(parent)
     }
-  }
-  function mergeIntoParent(node) {
-    var parent = node.parentNode;
-    while(node.firstChild) {
-      parent.insertBefore(node.firstChild, node)
-    }
-    parent.removeChild(node);
-    return parent
   }
   function getPreprocessedNeighborhood(odtDocument, position, length) {
     odtDocument.upgradeWhitespacesAtPosition(position);
@@ -9565,9 +9947,9 @@ ops.OpRemoveText = function OpRemoveText() {
       }else {
         if(currentLength <= remainingLength) {
           currentParent.removeChild(currentTextNode);
-          fixCursorPositions(odtDocument);
+          odtDocument.fixCursorPositions(memberid);
           while(isEmpty(currentParent)) {
-            currentParent = mergeIntoParent(currentParent)
+            currentParent = domUtils.mergeIntoParent(currentParent)
           }
           remainingLength -= currentLength;
           neighborhood.splice(0, 1)
@@ -9578,14 +9960,14 @@ ops.OpRemoveText = function OpRemoveText() {
         }
       }
     }
-    fixCursorPositions(odtDocument);
+    odtDocument.fixCursorPositions(memberid);
     odtDocument.getOdfCanvas().refreshSize();
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphElement, memberId:memberid, timeStamp:timestamp});
     odtDocument.emit(ops.OdtDocument.signalCursorMoved, odtDocument.getCursor(memberid));
     return true
   };
   this.spec = function() {
-    return{optype:"RemoveText", memberid:memberid, timestamp:timestamp, position:position, length:length, text:text}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, position:position, length:length, text:text}
   }
 };
 /*
@@ -9623,12 +10005,53 @@ ops.OpRemoveText = function OpRemoveText() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpSplitParagraph = function OpSplitParagraph() {
-  var memberid, timestamp, position, odfUtils;
+  var self = this, optype = "SplitParagraph", memberid, timestamp, position, odfUtils = new odf.OdfUtils;
+  function isListItem(node) {
+    return node && node.localName === "list-item" && node.namespaceURI === "urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+  }
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
-    position = data.position;
-    odfUtils = new odf.OdfUtils
+    position = parseInt(data.position, 10)
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOptype = otherOpspec.optype, result = [self];
+    if(otherOptype === optype) {
+      if(otherOpspec.position < position) {
+        position += 1
+      }else {
+        if(otherOpspec.position === position && !hasPriority) {
+          position += 1;
+          return null
+        }
+      }
+    }else {
+      if(otherOptype === "InsertText") {
+        if(otherOpspec.position < position) {
+          position += otherOpspec.text.length
+        }else {
+          if(otherOpspec.position === position && !hasPriority) {
+            position += otherOpspec.text.length;
+            return null
+          }
+        }
+      }else {
+        if(otherOptype === "InsertTable") {
+          result = null
+        }else {
+          if(otherOptype === "RemoveText") {
+            if(otherOpspec.position + otherOpspec.length <= position) {
+              position -= otherOpspec.length
+            }else {
+              if(otherOpspec.position < position) {
+                position = otherOpspec.position
+              }
+            }
+          }
+        }
+      }
+    }
+    return result
   };
   this.execute = function(odtDocument) {
     var domPosition, paragraphNode, targetNode, node, splitNode, splitChildNode, keptChildNode;
@@ -9679,13 +10102,14 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
     if(odfUtils.isListItem(splitChildNode)) {
       splitChildNode = splitChildNode.childNodes[0]
     }
+    odtDocument.fixCursorPositions(memberid);
     odtDocument.getOdfCanvas().refreshSize();
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphNode, memberId:memberid, timeStamp:timestamp});
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:splitChildNode, memberId:memberid, timeStamp:timestamp});
     return true
   };
   this.spec = function() {
-    return{optype:"SplitParagraph", memberid:memberid, timestamp:timestamp, position:position}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, position:position}
   }
 };
 /*
@@ -9723,12 +10147,21 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
-  var memberid, timestamp, position, styleName, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+  var self = this, optype = "SetParagraphStyle", memberid, timestamp, position, styleName, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     position = data.position;
     styleName = data.styleName
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype;
+    if(otherOpType === "DeleteParagraphStyle") {
+      if(otherOpspec.styleName === styleName) {
+        styleName = ""
+      }
+    }
+    return[self]
   };
   this.execute = function(odtDocument) {
     var domPosition, paragraphNode;
@@ -9749,7 +10182,7 @@ ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
     return false
   };
   this.spec = function() {
-    return{optype:"SetParagraphStyle", memberid:memberid, timestamp:timestamp, position:position, styleName:styleName}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, position:position, styleName:styleName}
   }
 };
 /*
@@ -9787,9 +10220,10 @@ ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
-  var memberid, timestamp, styleName, setProperties, removedProperties, fons = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", textPropertyMapping = [{propertyName:"fontSize", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-size", unit:"pt"}, {propertyName:"fontName", attrNs:stylens, attrPrefix:"style", attrLocaName:"font-name"}, {propertyName:"color", attrNs:fons, 
-  attrPrefix:"fo", attrLocaName:"color"}, {propertyName:"backgroundColor", attrNs:fons, attrPrefix:"fo", attrLocaName:"background-color"}, {propertyName:"fontWeight", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-weight"}, {propertyName:"fontStyle", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-style"}, {propertyName:"underline", attrNs:stylens, attrPrefix:"style", attrLocaName:"text-underline-style"}, {propertyName:"strikethrough", attrNs:stylens, attrPrefix:"style", attrLocaName:"text-line-through-style"}], 
-  paragraphPropertyMapping = [{propertyName:"topMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-top", unit:"mm"}, {propertyName:"bottomMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-bottom", unit:"mm"}, {propertyName:"leftMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-left", unit:"mm"}, {propertyName:"rightMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-right", unit:"mm"}, {propertyName:"textAlign", attrNs:fons, attrPrefix:"fo", attrLocaName:"text-align"}];
+  var self = this, optype = "UpdateParagraphStyle", memberid, timestamp, styleName, setProperties, removedProperties, fons = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", textPropertyMapping = [{propertyName:"fontSize", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-size", unit:"pt"}, {propertyName:"fontName", attrNs:stylens, attrPrefix:"style", attrLocaName:"font-name"}, 
+  {propertyName:"color", attrNs:fons, attrPrefix:"fo", attrLocaName:"color"}, {propertyName:"backgroundColor", attrNs:fons, attrPrefix:"fo", attrLocaName:"background-color"}, {propertyName:"fontWeight", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-weight"}, {propertyName:"fontStyle", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-style"}, {propertyName:"underline", attrNs:stylens, attrPrefix:"style", attrLocaName:"text-underline-style"}, {propertyName:"strikethrough", attrNs:stylens, attrPrefix:"style", 
+  attrLocaName:"text-line-through-style"}], paragraphPropertyMapping = [{propertyName:"topMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-top", unit:"mm"}, {propertyName:"bottomMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-bottom", unit:"mm"}, {propertyName:"leftMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-left", unit:"mm"}, {propertyName:"rightMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-right", unit:"mm"}, {propertyName:"textAlign", attrNs:fons, 
+  attrPrefix:"fo", attrLocaName:"text-align"}];
   function setPropertiesInStyleNode(node, properties, propertyMapping) {
     var i, m, value;
     for(i = 0;i < propertyMapping.length;i += 1) {
@@ -9809,12 +10243,62 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
       }
     }
   }
+  function dropShadowedProperties(properties, removedPropertyNames, shadowingProperties, shadowingRemovedPropertyNames, propertyMapping) {
+    var i, propertyName, p;
+    if(!properties && !removedPropertyNames || !shadowingProperties && !shadowingRemovedPropertyNames) {
+      return
+    }
+    for(i = 0;i < propertyMapping.length;i += 1) {
+      propertyName = propertyMapping[i].propertyName;
+      if(shadowingProperties && shadowingProperties[propertyName] !== undefined || shadowingRemovedPropertyNames && shadowingRemovedPropertyNames.indexOf(propertyName) !== -1) {
+        if(properties) {
+          delete properties[propertyName]
+        }
+        if(removedPropertyNames) {
+          p = removedPropertyNames.indexOf(propertyName);
+          if(p !== -1) {
+            removedPropertyNames.splice(p, 1)
+          }
+        }
+      }
+    }
+  }
+  function hasProperties(properties) {
+    var i;
+    for(i in properties) {
+      if(properties.hasOwnProperty(i)) {
+        return true
+      }
+    }
+    return false
+  }
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     styleName = data.styleName;
     setProperties = data.setProperties;
     removedProperties = data.removedProperties
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype;
+    if(otherOpType === optype) {
+      if(otherOpspec.styleName === styleName) {
+        if(!hasPriority) {
+          dropShadowedProperties(setProperties ? setProperties.paragraphProperties : null, removedProperties ? removedProperties.paragraphPropertyNames : null, otherOpspec.setProperties ? otherOpspec.setProperties.paragraphProperties : null, otherOpspec.removedProperties ? otherOpspec.removedProperties.paragraphPropertyNames : null, paragraphPropertyMapping);
+          dropShadowedProperties(setProperties ? setProperties.textProperties : null, removedProperties ? removedProperties.textPropertyNames : null, otherOpspec.setProperties ? otherOpspec.setProperties.textProperties : null, otherOpspec.removedProperties ? otherOpspec.removedProperties.textPropertyNames : null, textPropertyMapping);
+          if(!(setProperties && (hasProperties(setProperties.textProperties) || hasProperties(setProperties.paragraphProperties))) && !(removedProperties && (removedProperties.textPropertyNames.length > 0 || removedProperties.paragraphPropertyNames.length > 0))) {
+            return[]
+          }
+        }
+      }
+    }else {
+      if(otherOpType === "DeleteParagraphStyle") {
+        if(otherOpspec.styleName === styleName) {
+          return[]
+        }
+      }
+    }
+    return[self]
   };
   this.execute = function(odtDocument) {
     var styleNode, paragraphPropertiesNode, textPropertiesNode, fontFaceNode;
@@ -9865,7 +10349,7 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
     return false
   };
   this.spec = function() {
-    return{optype:"UpdateParagraphStyle", memberid:memberid, timestamp:timestamp, styleName:styleName, setProperties:setProperties, removedProperties:removedProperties}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, styleName:styleName, setProperties:setProperties, removedProperties:removedProperties}
   }
 };
 /*
@@ -9903,13 +10387,20 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpCloneParagraphStyle = function OpCloneParagraphStyle() {
-  var memberid, timestamp, styleName, newStyleName, newStyleDisplayName, stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+  var self = this, memberid, timestamp, styleName, newStyleName, newStyleDisplayName, stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     styleName = data.styleName;
     newStyleName = data.newStyleName;
     newStyleDisplayName = data.newStyleDisplayName
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherSpec = otherOp.spec();
+    if((otherSpec.optype === "UpdateParagraphStyle" || otherSpec.optype === "DeleteParagraphStyle") && otherSpec.styleName === styleName) {
+      return null
+    }
+    return[self]
   };
   this.execute = function(odtDocument) {
     var styleNode = odtDocument.getParagraphStyleElement(styleName), newStyleNode;
@@ -9967,11 +10458,29 @@ ops.OpCloneParagraphStyle = function OpCloneParagraphStyle() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpDeleteParagraphStyle = function OpDeleteParagraphStyle() {
-  var memberid, timestamp, styleName;
+  var self = this, optype = "DeleteParagraphStyle", memberid, timestamp, styleName;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     styleName = data.styleName
+  };
+  this.transform = function(otherOp, hasPriority) {
+    var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype, removeStyleOp;
+    if(otherOpType === optype) {
+      if(otherOpspec.styleName === styleName) {
+        return[]
+      }
+    }else {
+      if(otherOpType === "SetParagraphStyle") {
+        if(otherOpspec.styleName === styleName) {
+          otherOpspec.styleName = "";
+          removeStyleOp = new ops.OpSetParagraphStyle;
+          removeStyleOp.init(otherOpspec);
+          return[removeStyleOp, self]
+        }
+      }
+    }
+    return[self]
   };
   this.execute = function(odtDocument) {
     var styleNode = odtDocument.getParagraphStyleElement(styleName);
@@ -9984,7 +10493,7 @@ ops.OpDeleteParagraphStyle = function OpDeleteParagraphStyle() {
     return true
   };
   this.spec = function() {
-    return{optype:"DeleteParagraphStyle", memberid:memberid, timestamp:timestamp, styleName:styleName}
+    return{optype:optype, memberid:memberid, timestamp:timestamp, styleName:styleName}
   }
 };
 /*
@@ -10034,61 +10543,28 @@ runtime.loadClass("ops.OpUpdateParagraphStyle");
 runtime.loadClass("ops.OpCloneParagraphStyle");
 runtime.loadClass("ops.OpDeleteParagraphStyle");
 ops.OperationFactory = function OperationFactory() {
-  var self = this;
+  var specs;
+  this.register = function(specName, specConstructor) {
+    specs[specName] = specConstructor
+  };
   this.create = function(spec) {
-    var op = null;
-    if(spec.optype === "AddCursor") {
-      op = new ops.OpAddCursor
-    }else {
-      if(spec.optype === "ApplyStyle") {
-        op = new ops.OpApplyStyle
-      }else {
-        if(spec.optype === "InsertTable") {
-          op = new ops.OpInsertTable
-        }else {
-          if(spec.optype === "InsertText") {
-            op = new ops.OpInsertText
-          }else {
-            if(spec.optype === "RemoveText") {
-              op = new ops.OpRemoveText
-            }else {
-              if(spec.optype === "SplitParagraph") {
-                op = new ops.OpSplitParagraph
-              }else {
-                if(spec.optype === "SetParagraphStyle") {
-                  op = new ops.OpSetParagraphStyle
-                }else {
-                  if(spec.optype === "UpdateParagraphStyle") {
-                    op = new ops.OpUpdateParagraphStyle
-                  }else {
-                    if(spec.optype === "CloneParagraphStyle") {
-                      op = new ops.OpCloneParagraphStyle
-                    }else {
-                      if(spec.optype === "DeleteParagraphStyle") {
-                        op = new ops.OpDeleteParagraphStyle
-                      }else {
-                        if(spec.optype === "MoveCursor") {
-                          op = new ops.OpMoveCursor
-                        }else {
-                          if(spec.optype === "RemoveCursor") {
-                            op = new ops.OpRemoveCursor
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    if(op) {
+    var op = null, specConstructor = specs[spec.optype];
+    if(specConstructor) {
+      op = specConstructor(spec);
       op.init(spec)
     }
     return op
+  };
+  function constructor(OperationType) {
+    return function() {
+      return new OperationType
+    }
   }
+  function init() {
+    specs = {AddCursor:constructor(ops.OpAddCursor), ApplyStyle:constructor(ops.OpApplyStyle), InsertTable:constructor(ops.OpInsertTable), InsertText:constructor(ops.OpInsertText), RemoveText:constructor(ops.OpRemoveText), SplitParagraph:constructor(ops.OpSplitParagraph), SetParagraphStyle:constructor(ops.OpSetParagraphStyle), UpdateParagraphStyle:constructor(ops.OpUpdateParagraphStyle), CloneParagraphStyle:constructor(ops.OpCloneParagraphStyle), DeleteParagraphStyle:constructor(ops.OpDeleteParagraphStyle), 
+    MoveCursor:constructor(ops.OpMoveCursor), RemoveCursor:constructor(ops.OpRemoveCursor)}
+  }
+  init()
 };
 runtime.loadClass("core.Cursor");
 runtime.loadClass("core.PositionIterator");
@@ -10397,6 +10873,120 @@ gui.SelectionMover.createPositionIterator = function(rootNode) {
 (function() {
   return gui.SelectionMover
 })();
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("ops.OpAddCursor");
+runtime.loadClass("ops.OpRemoveCursor");
+runtime.loadClass("ops.OpMoveCursor");
+runtime.loadClass("ops.OpInsertTable");
+runtime.loadClass("ops.OpInsertText");
+runtime.loadClass("ops.OpRemoveText");
+runtime.loadClass("ops.OpSplitParagraph");
+runtime.loadClass("ops.OpSetParagraphStyle");
+runtime.loadClass("ops.OpUpdateParagraphStyle");
+runtime.loadClass("ops.OpCloneParagraphStyle");
+runtime.loadClass("ops.OpDeleteParagraphStyle");
+ops.OperationTransformer = function OperationTransformer() {
+  var self = this, operationFactory;
+  function transformOpVsOp(opA, opB) {
+    var oldOpB, opATransformResult, opBTransformResult;
+    runtime.log("Crosstransforming:");
+    runtime.log(runtime.toJson(opA.spec()));
+    runtime.log(runtime.toJson(opB.spec()));
+    oldOpB = operationFactory.create(opB.spec());
+    opBTransformResult = opB.transform(opA, true);
+    opATransformResult = opA.transform(oldOpB, false);
+    if(!opATransformResult || !opBTransformResult) {
+      return null
+    }
+    return{opsA:opATransformResult, opsB:opBTransformResult}
+  }
+  function transformOpListVsOp(opsA, opB) {
+    var b, transformResult, transformListResult, transformedOpsA = [], transformedOpsB = [];
+    while(opsA.length > 0 && opB) {
+      transformResult = transformOpVsOp(opsA.shift(), (opB));
+      if(!transformResult) {
+        return null
+      }
+      transformedOpsA = transformedOpsA.concat(transformResult.opsA);
+      if(transformResult.opsB.length === 0) {
+        transformedOpsA = transformedOpsA.concat(opsA);
+        opB = null;
+        break
+      }
+      if(transformResult.opsB.length > 1) {
+        for(b = 0;b < transformResult.opsB.length - 1;b += 1) {
+          transformListResult = transformOpListVsOp(opsA, transformResult.opsB[b]);
+          if(!transformListResult) {
+            return null
+          }
+          transformedOpsB = transformedOpsB.concat(transformListResult.opsB);
+          opsA = transformListResult.opsA
+        }
+      }
+      opB = transformResult.opsB.pop()
+    }
+    if(opB) {
+      transformedOpsB.push(opB)
+    }
+    return{opsA:transformedOpsA, opsB:transformedOpsB}
+  }
+  this.setOperationFactory = function(f) {
+    operationFactory = f
+  };
+  this.transform = function(opspecsA, opspecsB) {
+    var c, s, opsA = [], clientOp, transformedClientOps, serverOp, oldServerOp, transformResult, transformedOpsB = [];
+    for(c = 0;c < opspecsA.length;c += 1) {
+      clientOp = operationFactory.create(opspecsA[c]);
+      if(!clientOp) {
+        return null
+      }
+      opsA.push(clientOp)
+    }
+    for(s = 0;s < opspecsB.length;s += 1) {
+      serverOp = operationFactory.create(opspecsB[s]);
+      transformResult = transformOpListVsOp(opsA, serverOp);
+      if(!transformResult) {
+        return null
+      }
+      opsA = transformResult.opsA;
+      transformedOpsB = transformedOpsB.concat(transformResult.opsB)
+    }
+    return{opsA:opsA, opsB:transformedOpsB}
+  }
+};
 runtime.loadClass("core.Cursor");
 runtime.loadClass("gui.SelectionMover");
 ops.OdtCursor = function OdtCursor(memberId, odtDocument) {
@@ -10770,6 +11360,103 @@ gui.ClickHandler.signalTripleClick = "tripleClick";
 (function() {
   return gui.ClickHandler
 })();
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+gui.KeyboardHandler = function KeyboardHandler() {
+  var modifier = gui.KeyboardHandler.Modifier, defaultBinding = null, bindings = {};
+  function getModifiers(e) {
+    var modifiers = modifier.None;
+    if(e.metaKey) {
+      modifiers |= modifier.Meta
+    }
+    if(e.ctrlKey) {
+      modifiers |= modifier.Ctrl
+    }
+    if(e.altKey) {
+      modifiers |= modifier.Alt
+    }
+    if(e.shiftKey) {
+      modifiers |= modifier.Shift
+    }
+    return modifiers
+  }
+  function getKeyCombo(keyCode, modifiers) {
+    if(!modifiers) {
+      modifiers = modifiers.None
+    }
+    return keyCode + ":" + modifiers
+  }
+  this.setDefault = function(callback) {
+    defaultBinding = callback
+  };
+  this.bind = function(keyCode, modifiers, callback) {
+    var keyCombo = getKeyCombo(keyCode, modifiers);
+    runtime.assert(bindings.hasOwnProperty(keyCombo) === false, "tried to overwrite the callback handler of key combo: " + keyCombo);
+    bindings[keyCombo] = callback
+  };
+  this.unbind = function(keyCode, modifiers) {
+    var keyCombo = getKeyCombo(keyCode, modifiers);
+    delete bindings[keyCombo]
+  };
+  this.reset = function() {
+    defaultBinding = null;
+    bindings = {}
+  };
+  this.handleEvent = function(e) {
+    var keyCombo = getKeyCombo(e.keyCode, getModifiers(e)), callback = bindings[keyCombo], handled = false;
+    if(callback) {
+      handled = callback()
+    }else {
+      if(defaultBinding !== null) {
+        handled = defaultBinding(e)
+      }
+    }
+    if(handled) {
+      if(e.preventDefault) {
+        e.preventDefault()
+      }else {
+        e.returnValue = false
+      }
+    }
+  }
+};
+gui.KeyboardHandler.Modifier = {None:0, Meta:1, Ctrl:2, Alt:4, Shift:8, MetaShift:9, CtrlShift:10, AltShift:12};
+gui.KeyboardHandler.KeyCode = {Backspace:8, Enter:13, End:35, Home:36, Left:37, Up:38, Right:39, Down:40, Delete:46, Z:90};
+(function() {
+  return gui.KeyboardHandler
+})();
 gui.Clipboard = function Clipboard() {
   this.setDataFromRange = function(e, range) {
     var result = true, setDataResult, clipboard = e.clipboardData, window = runtime.getWindow(), serializer, dom, newNode, fragmentContainer;
@@ -10805,10 +11492,11 @@ runtime.loadClass("ops.OpRemoveText");
 runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
 runtime.loadClass("gui.ClickHandler");
+runtime.loadClass("gui.KeyboardHandler");
 runtime.loadClass("gui.Clipboard");
 gui.SessionController = function() {
   gui.SessionController = function SessionController(session, inputMemberId) {
-    var self = this, odfUtils = new odf.OdfUtils, isMacOS = runtime.getWindow().navigator.appVersion.toLowerCase().indexOf("mac") !== -1, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, undoManager;
+    var self = this, odtDocument = session.getOdtDocument(), odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, undoManager;
     function listenEvent(eventTarget, eventType, eventHandler, includeDirect) {
       var onVariant = "on" + eventType, bound = false;
       if(eventTarget.attachEvent) {
@@ -10844,8 +11532,13 @@ gui.SessionController = function() {
     function dummyHandler(e) {
       cancelEvent(e)
     }
+    function createOpMoveCursor(position, length) {
+      var op = new ops.OpMoveCursor;
+      op.init({memberid:inputMemberId, position:position, length:length || 0});
+      return op
+    }
     function countStepsToNode(targetNode, targetOffset) {
-      var odtDocument = session.getOdtDocument(), iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), canvasElement = odtDocument.getOdfCanvas().getElement(), node;
+      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), canvasElement = odtDocument.getOdfCanvas().getElement(), node;
       node = targetNode;
       if(!node) {
         return
@@ -10866,18 +11559,17 @@ gui.SessionController = function() {
       iterator.setUnfilteredPosition(targetNode, targetOffset);
       return odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset())
     }
-    function moveCursor() {
-      var selection = runtime.getWindow().getSelection(), odtDocument = session.getOdtDocument(), oldPosition = odtDocument.getCursorPosition(inputMemberId), stepsToAnchor, stepsToFocus, op;
+    function select() {
+      var selection = runtime.getWindow().getSelection(), oldPosition = odtDocument.getCursorPosition(inputMemberId), stepsToAnchor, stepsToFocus, op;
       stepsToAnchor = countStepsToNode(selection.anchorNode, selection.anchorOffset);
       stepsToFocus = countStepsToNode(selection.focusNode, selection.focusOffset);
       if(stepsToFocus !== 0 || stepsToAnchor !== 0) {
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + stepsToAnchor, length:stepsToFocus - stepsToAnchor});
+        op = createOpMoveCursor(oldPosition + stepsToAnchor, stepsToFocus - stepsToAnchor);
         session.enqueue(op)
       }
     }
     function selectWord() {
-      var odtDocument = session.getOdtDocument(), iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), cursorNode = odtDocument.getCursor(inputMemberId).getNode(), oldPosition = odtDocument.getCursorPosition(inputMemberId), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0, currentNode, i, c, op;
+      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), cursorNode = odtDocument.getCursor(inputMemberId).getNode(), oldPosition = odtDocument.getCursorPosition(inputMemberId), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0, currentNode, i, c, op;
       iterator.setUnfilteredPosition(cursorNode, 0);
       if(iterator.previousPosition()) {
         currentNode = iterator.getCurrentNode();
@@ -10907,59 +11599,95 @@ gui.SessionController = function() {
         }
       }
       if(stepsToStart !== 0 || stepsToEnd !== 0) {
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + stepsToStart, length:Math.abs(stepsToStart) + Math.abs(stepsToEnd)});
+        op = createOpMoveCursor(oldPosition + stepsToStart, Math.abs(stepsToStart) + Math.abs(stepsToEnd));
         session.enqueue(op)
       }
     }
     function selectParagraph() {
-      var odtDocument = session.getOdtDocument(), iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), oldPosition = odtDocument.getCursorPosition(inputMemberId), stepsToStart, stepsToEnd, op;
+      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), oldPosition = odtDocument.getCursorPosition(inputMemberId), stepsToStart, stepsToEnd, op;
       stepsToStart = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, 0);
       iterator.moveToEndOfNode(paragraphNode);
       stepsToEnd = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, iterator.unfilteredDomOffset());
       if(stepsToStart !== 0 || stepsToEnd !== 0) {
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + stepsToStart, length:Math.abs(stepsToStart) + Math.abs(stepsToEnd)});
+        op = createOpMoveCursor(oldPosition + stepsToStart, Math.abs(stepsToStart) + Math.abs(stepsToEnd));
         session.enqueue(op)
       }
     }
-    function createOpMoveCursor(steps) {
-      var op = new ops.OpMoveCursor, oldPosition = session.getOdtDocument().getCursorPosition(inputMemberId);
-      op.init({memberid:inputMemberId, position:oldPosition + steps});
-      return op
-    }
-    function extendSelection(increment) {
-      var op = new ops.OpMoveCursor, selection = session.getOdtDocument().getCursorSelection(inputMemberId);
-      op.init({memberid:inputMemberId, position:selection.position, length:selection.length + increment});
-      return op
-    }
-    function extendSelectionByLines(lines) {
-      var odtDocument = session.getOdtDocument(), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), selection, steps, op = null;
-      runtime.assert(Boolean(paragraphNode), "SessionController: Cursor outside paragraph");
-      steps = odtDocument.getCursor(inputMemberId).getStepCounter().countLinesSteps(lines, odtDocument.getPositionFilter());
-      if(steps !== 0) {
-        selection = session.getOdtDocument().getCursorSelection(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:selection.position, length:selection.length + steps})
+    function sessionEnqueue(op) {
+      if(op) {
+        session.enqueue(op)
       }
-      return op
     }
-    function createOpMoveCursorByLines(lines) {
-      var odtDocument = session.getOdtDocument(), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), oldPosition, steps, op = null;
-      runtime.assert(Boolean(paragraphNode), "SessionController: Cursor outside paragraph");
-      steps = odtDocument.getCursor(inputMemberId).getStepCounter().countLinesSteps(lines, odtDocument.getPositionFilter());
-      if(steps !== 0) {
-        oldPosition = odtDocument.getCursorPosition(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + steps})
+    function createOpMoveCursorByAdjustment(posAdjust, lenAdjust) {
+      var selection = odtDocument.getCursorSelection(inputMemberId), newPos, newLen;
+      if(posAdjust === 0 && lenAdjust === 0) {
+        return null
       }
-      return op
+      newPos = selection.position + posAdjust;
+      newLen = lenAdjust !== 0 ? selection.length + lenAdjust : 0;
+      return createOpMoveCursor(newPos, newLen)
+    }
+    function moveCursorToLeft() {
+      sessionEnqueue(createOpMoveCursorByAdjustment(-1, 0));
+      return true
+    }
+    function moveCursorToRight() {
+      sessionEnqueue(createOpMoveCursorByAdjustment(1, 0));
+      return true
+    }
+    function extendSelectionToLeft() {
+      sessionEnqueue(createOpMoveCursorByAdjustment(0, -1));
+      return true
+    }
+    function extendSelectionToRight() {
+      sessionEnqueue(createOpMoveCursorByAdjustment(0, 1));
+      return true
+    }
+    function createOpMoveCursorDirection(direction, extend) {
+      var paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), steps, op;
+      runtime.assert(Boolean(paragraphNode), "SessionController: Cursor outside paragraph");
+      steps = odtDocument.getCursor(inputMemberId).getStepCounter().countLinesSteps(direction, odtDocument.getPositionFilter());
+      return extend ? createOpMoveCursorByAdjustment(0, steps) : createOpMoveCursorByAdjustment(steps, 0)
+    }
+    function moveCursorUp() {
+      sessionEnqueue(createOpMoveCursorDirection(-1, false));
+      return true
+    }
+    function moveCursorDown() {
+      sessionEnqueue(createOpMoveCursorDirection(1, false));
+      return true
+    }
+    function extendSelectionUp() {
+      sessionEnqueue(createOpMoveCursorDirection(-1, true));
+      return true
+    }
+    function extendSelectionDown() {
+      sessionEnqueue(createOpMoveCursorDirection(1, true));
+      return true
+    }
+    function createOpMoveCursorLineBoundary(direction, extend) {
+      var steps = odtDocument.getCursor(inputMemberId).getStepCounter().countStepsToLineBoundary(direction, odtDocument.getPositionFilter());
+      return extend ? createOpMoveCursorByAdjustment(0, steps) : createOpMoveCursorByAdjustment(steps, 0)
+    }
+    function moveCursorToLineStart() {
+      sessionEnqueue(createOpMoveCursorLineBoundary(-1, false));
+      return true
+    }
+    function moveCursorToLineEnd() {
+      sessionEnqueue(createOpMoveCursorLineBoundary(1, false));
+      return true
+    }
+    function extendSelectionToLineStart() {
+      sessionEnqueue(createOpMoveCursorLineBoundary(-1, true));
+      return true
+    }
+    function extendSelectionToLineEnd() {
+      sessionEnqueue(createOpMoveCursorLineBoundary(1, true));
+      return true
     }
     function extendSelectionToParagraphStart() {
-      var odtDocument = session.getOdtDocument(), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), iterator, node, selection, steps, op = null;
-      if(!paragraphNode) {
-        return op
-      }
+      var paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), iterator, node, steps;
+      runtime.assert(Boolean(paragraphNode), "SessionController: Cursor outside paragraph");
       steps = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, 0);
       iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode());
       iterator.setUnfilteredPosition(paragraphNode, 0);
@@ -10969,18 +11697,12 @@ gui.SessionController = function() {
           steps = odtDocument.getDistanceFromCursor(inputMemberId, node, 0)
         }
       }
-      if(steps !== 0) {
-        selection = odtDocument.getCursorSelection(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:selection.position, length:selection.length + steps})
-      }
-      return op
+      sessionEnqueue(createOpMoveCursorByAdjustment(0, steps));
+      return true
     }
     function extendSelectionToParagraphEnd() {
-      var odtDocument = session.getOdtDocument(), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), iterator, node, selection, steps, op = null;
-      if(!paragraphNode) {
-        return op
-      }
+      var paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), iterator, node, steps;
+      runtime.assert(Boolean(paragraphNode), "SessionController: Cursor outside paragraph");
       iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode());
       iterator.moveToEndOfNode(paragraphNode);
       steps = odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
@@ -10991,63 +11713,32 @@ gui.SessionController = function() {
           steps = odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset())
         }
       }
-      if(steps !== 0) {
-        selection = odtDocument.getCursorSelection(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:selection.position, length:selection.length + steps})
-      }
-      return op
+      sessionEnqueue(createOpMoveCursorByAdjustment(0, steps));
+      return true
     }
-    function moveToLineBoundary(direction) {
-      var odtDocument = session.getOdtDocument(), oldPosition = odtDocument.getCursorPosition(inputMemberId), steps, op = null;
-      steps = odtDocument.getCursor(inputMemberId).getStepCounter().countStepsToLineBoundary(direction, odtDocument.getPositionFilter());
-      if(steps !== 0) {
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + steps})
+    function createOpMoveCursorDocument(direction, extend) {
+      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), steps;
+      if(direction > 0) {
+        iterator.moveToEnd()
       }
-      return op
-    }
-    function extendSelectionToDocumentEnd() {
-      var odtDocument = session.getOdtDocument(), iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), selection, steps, op = null;
-      iterator.moveToEnd();
       steps = odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
-      if(steps !== 0) {
-        selection = odtDocument.getCursorSelection(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:selection.position, length:selection.length + steps})
-      }
-      return op
-    }
-    function extendSelectionToDocumentStart() {
-      var odtDocument = session.getOdtDocument(), selection, steps, op = null;
-      steps = odtDocument.getDistanceFromCursor(inputMemberId, odtDocument.getRootNode(), 0);
-      if(steps !== 0) {
-        selection = odtDocument.getCursorSelection(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:selection.position, length:selection.length + steps})
-      }
-      return op
-    }
-    function moveCursorToDocumentEnd() {
-      var odtDocument = session.getOdtDocument(), iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), oldPosition, steps, op = null;
-      iterator.moveToEnd();
-      steps = odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
-      if(steps !== 0) {
-        oldPosition = odtDocument.getCursorPosition(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + steps, length:0})
-      }
-      return op
+      return extend ? createOpMoveCursorByAdjustment(0, steps) : createOpMoveCursorByAdjustment(steps, 0)
     }
     function moveCursorToDocumentStart() {
-      var odtDocument = session.getOdtDocument(), oldPosition, steps, op = null;
-      steps = odtDocument.getDistanceFromCursor(inputMemberId, odtDocument.getRootNode(), 0);
-      if(steps !== 0) {
-        oldPosition = odtDocument.getCursorPosition(inputMemberId);
-        op = new ops.OpMoveCursor;
-        op.init({memberid:inputMemberId, position:oldPosition + steps, length:0})
-      }
-      return op
+      sessionEnqueue(createOpMoveCursorDocument(-1, false));
+      return true
+    }
+    function moveCursorToDocumentEnd() {
+      sessionEnqueue(createOpMoveCursorDocument(1, false));
+      return true
+    }
+    function extendSelectionToDocumentStart() {
+      sessionEnqueue(createOpMoveCursorDocument(-1, true));
+      return true
+    }
+    function extendSelectionToDocumentEnd() {
+      sessionEnqueue(createOpMoveCursorDocument(1, true));
+      return true
     }
     function toForwardSelection(selection) {
       if(selection.length < 0) {
@@ -11061,8 +11752,8 @@ gui.SessionController = function() {
       op.init({memberid:inputMemberId, position:selection.position, length:selection.length});
       return op
     }
-    function createOpRemoveTextByBackspaceKey() {
-      var odtDocument = session.getOdtDocument(), selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    function removeTextByBackspaceKey() {
+      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
       if(selection.length === 0) {
         if(selection.position > 0 && odtDocument.getPositionInTextNode(selection.position - 1)) {
           op = new ops.OpRemoveText;
@@ -11071,10 +11762,11 @@ gui.SessionController = function() {
       }else {
         op = createOpRemoveSelection(selection)
       }
-      return op
+      sessionEnqueue(op);
+      return true
     }
-    function createOpRemoveTextByDeleteKey() {
-      var odtDocument = session.getOdtDocument(), selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    function removeTextByDeleteKey() {
+      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
       if(selection.length === 0) {
         if(odtDocument.getPositionInTextNode(selection.position + 1)) {
           op = new ops.OpRemoveText;
@@ -11083,118 +11775,20 @@ gui.SessionController = function() {
       }else {
         op = createOpRemoveSelection(selection)
       }
-      return op
+      sessionEnqueue(op);
+      return op !== null
     }
     function enqueueParagraphSplittingOps() {
-      var odtDocument = session.getOdtDocument(), position = odtDocument.getCursorPosition(inputMemberId), isAtEndOfParagraph = false, paragraphNode, styleName, nextStyleName, op;
+      var position = odtDocument.getCursorPosition(inputMemberId), isAtEndOfParagraph = false, paragraphNode, styleName, nextStyleName, op;
       op = new ops.OpSplitParagraph;
       op.init({memberid:inputMemberId, position:position});
-      session.enqueue(op)
+      session.enqueue(op);
+      return true
     }
     function maintainCursorSelection() {
-      var cursor = session.getOdtDocument().getCursor(inputMemberId), selection = runtime.getWindow().getSelection();
+      var cursor = odtDocument.getCursor(inputMemberId), selection = runtime.getWindow().getSelection();
       selection.removeAllRanges();
       selection.addRange(cursor.getSelectedRange().cloneRange())
-    }
-    function handleKeyDown(e) {
-      var keyCode = e.keyCode, op = null, handled = false;
-      if(keyCode === 37) {
-        op = e.shiftKey ? extendSelection(-1) : createOpMoveCursor(-1);
-        handled = true
-      }else {
-        if(keyCode === 39) {
-          op = e.shiftKey ? extendSelection(1) : createOpMoveCursor(1);
-          handled = true
-        }else {
-          if(keyCode === 38) {
-            if(isMacOS && e.altKey && e.shiftKey || e.ctrlKey && e.shiftKey) {
-              op = extendSelectionToParagraphStart()
-            }else {
-              if(e.metaKey && e.shiftKey) {
-                op = extendSelectionToDocumentStart()
-              }else {
-                if(e.shiftKey) {
-                  op = extendSelectionByLines(-1)
-                }else {
-                  op = createOpMoveCursorByLines(-1)
-                }
-              }
-            }
-            handled = true
-          }else {
-            if(keyCode === 40) {
-              if(isMacOS && e.altKey && e.shiftKey || e.ctrlKey && e.shiftKey) {
-                op = extendSelectionToParagraphEnd()
-              }else {
-                if(e.metaKey && e.shiftKey) {
-                  op = extendSelectionToDocumentEnd()
-                }else {
-                  if(e.shiftKey) {
-                    op = extendSelectionByLines(1)
-                  }else {
-                    op = createOpMoveCursorByLines(1)
-                  }
-                }
-              }
-              handled = true
-            }else {
-              if(keyCode === 36) {
-                if(!isMacOS && e.ctrlKey && e.shiftKey) {
-                  op = extendSelectionToDocumentStart()
-                }else {
-                  if(isMacOS && e.metaKey || e.ctrlKey) {
-                    op = moveCursorToDocumentStart()
-                  }else {
-                    op = moveToLineBoundary(-1)
-                  }
-                }
-                handled = true
-              }else {
-                if(keyCode === 35) {
-                  if(!isMacOS && e.ctrlKey && e.shiftKey) {
-                    op = extendSelectionToDocumentEnd()
-                  }else {
-                    if(isMacOS && e.metaKey || e.ctrlKey) {
-                      op = moveCursorToDocumentEnd()
-                    }else {
-                      op = moveToLineBoundary(1)
-                    }
-                  }
-                  handled = true
-                }else {
-                  if(keyCode === 8) {
-                    op = createOpRemoveTextByBackspaceKey();
-                    handled = true
-                  }else {
-                    if(keyCode === 46) {
-                      op = createOpRemoveTextByDeleteKey();
-                      handled = op !== null
-                    }else {
-                      if(undoManager && keyCode === 90) {
-                        if(!isMacOS && e.ctrlKey || isMacOS && e.metaKey) {
-                          if(e.shiftKey) {
-                            undoManager.moveForward(1)
-                          }else {
-                            undoManager.moveBackward(1)
-                          }
-                          maintainCursorSelection();
-                          handled = true
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      if(op) {
-        session.enqueue(op)
-      }
-      if(handled) {
-        cancelEvent(e)
-      }
     }
     function stringFromKeyPress(event) {
       if(event.which === null) {
@@ -11205,22 +11799,8 @@ gui.SessionController = function() {
       }
       return null
     }
-    function handleKeyPress(e) {
-      var op, text = stringFromKeyPress(e);
-      if(e.keyCode === 13) {
-        enqueueParagraphSplittingOps();
-        cancelEvent(e)
-      }else {
-        if(text && !(e.altKey || e.ctrlKey || e.metaKey)) {
-          op = new ops.OpInsertText;
-          op.init({memberid:inputMemberId, position:session.getOdtDocument().getCursorPosition(inputMemberId), text:text});
-          session.enqueue(op);
-          cancelEvent(e)
-        }
-      }
-    }
     function handleCut(e) {
-      var cursor = session.getOdtDocument().getCursor(inputMemberId), selectedRange = cursor.getSelectedRange(), selection, op;
+      var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange(), selection, op;
       if(selectedRange.collapsed) {
         return
       }
@@ -11234,7 +11814,7 @@ gui.SessionController = function() {
       }
     }
     function handleBeforeCut() {
-      var cursor = session.getOdtDocument().getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
+      var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
       return!(selectedRange.collapsed === false)
     }
     function handlePaste(e) {
@@ -11248,7 +11828,7 @@ gui.SessionController = function() {
       }
       if(plainText) {
         op = new ops.OpInsertText;
-        op.init({memberid:inputMemberId, position:session.getOdtDocument().getCursorPosition(inputMemberId), text:plainText});
+        op.init({memberid:inputMemberId, position:odtDocument.getCursorPosition(inputMemberId), text:plainText});
         session.enqueue(op);
         cancelEvent(e)
       }
@@ -11262,13 +11842,29 @@ gui.SessionController = function() {
       }
     }
     function forwardUndoStackChange(e) {
-      session.getOdtDocument().emit(ops.OdtDocument.signalUndoStackChanged, e)
+      odtDocument.emit(ops.OdtDocument.signalUndoStackChanged, e)
+    }
+    function undo() {
+      if(undoManager) {
+        undoManager.moveBackward(1);
+        maintainCursorSelection();
+        return true
+      }
+      return false
+    }
+    function redo() {
+      if(undoManager) {
+        undoManager.moveForward(1);
+        maintainCursorSelection();
+        return true
+      }
+      return false
     }
     this.startEditing = function() {
-      var canvasElement, op, odtDocument = session.getOdtDocument();
+      var canvasElement, op;
       canvasElement = odtDocument.getOdfCanvas().getElement();
-      listenEvent(canvasElement, "keydown", handleKeyDown);
-      listenEvent(canvasElement, "keypress", handleKeyPress);
+      listenEvent(canvasElement, "keydown", keyDownHandler.handleEvent);
+      listenEvent(canvasElement, "keypress", keyPressHandler.handleEvent);
       listenEvent(canvasElement, "keyup", dummyHandler);
       listenEvent(canvasElement, "beforecut", handleBeforeCut, true);
       listenEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
@@ -11285,12 +11881,12 @@ gui.SessionController = function() {
       }
     };
     this.endEditing = function() {
-      var canvasElement, op, odtDocument = session.getOdtDocument();
+      var canvasElement, op;
       odtDocument.unsubscribe(ops.OdtDocument.signalOperationExecuted, updateUndoStack);
       odtDocument.unsubscribe(ops.OdtDocument.signalOperationExecuted, maintainCursorSelection);
       canvasElement = odtDocument.getOdfCanvas().getElement();
-      removeEvent(canvasElement, "keydown", handleKeyDown);
-      removeEvent(canvasElement, "keypress", handleKeyPress);
+      removeEvent(canvasElement, "keydown", keyDownHandler.handleEvent);
+      removeEvent(canvasElement, "keypress", keyPressHandler.handleEvent);
       removeEvent(canvasElement, "keyup", dummyHandler);
       removeEvent(canvasElement, "cut", handleCut);
       removeEvent(canvasElement, "beforecut", handleBeforeCut);
@@ -11316,9 +11912,9 @@ gui.SessionController = function() {
       }
       undoManager = manager;
       if(undoManager) {
-        undoManager.setOdtDocument(session.getOdtDocument());
+        undoManager.setOdtDocument(odtDocument);
         undoManager.setPlaybackFunction(function(op) {
-          op.execute(session.getOdtDocument())
+          op.execute(odtDocument)
         });
         undoManager.subscribe(gui.UndoManager.signalUndoStackChanged, forwardUndoStackChange)
       }
@@ -11327,7 +11923,52 @@ gui.SessionController = function() {
       return undoManager
     };
     function init() {
-      clickHandler.subscribe(gui.ClickHandler.signalSingleClick, moveCursor);
+      var isMacOS = runtime.getWindow().navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
+      keyDownHandler.bind(keyCode.Left, modifier.None, moveCursorToLeft);
+      keyDownHandler.bind(keyCode.Right, modifier.None, moveCursorToRight);
+      keyDownHandler.bind(keyCode.Up, modifier.None, moveCursorUp);
+      keyDownHandler.bind(keyCode.Down, modifier.None, moveCursorDown);
+      keyDownHandler.bind(keyCode.Backspace, modifier.None, removeTextByBackspaceKey);
+      keyDownHandler.bind(keyCode.Delete, modifier.None, removeTextByDeleteKey);
+      keyDownHandler.bind(keyCode.Left, modifier.Shift, extendSelectionToLeft);
+      keyDownHandler.bind(keyCode.Right, modifier.Shift, extendSelectionToRight);
+      keyDownHandler.bind(keyCode.Up, modifier.Shift, extendSelectionUp);
+      keyDownHandler.bind(keyCode.Down, modifier.Shift, extendSelectionDown);
+      keyDownHandler.bind(keyCode.Home, modifier.None, moveCursorToLineStart);
+      keyDownHandler.bind(keyCode.End, modifier.None, moveCursorToLineEnd);
+      keyDownHandler.bind(keyCode.Home, modifier.Ctrl, moveCursorToDocumentStart);
+      keyDownHandler.bind(keyCode.End, modifier.Ctrl, moveCursorToDocumentEnd);
+      keyDownHandler.bind(keyCode.Home, modifier.Shift, extendSelectionToLineStart);
+      keyDownHandler.bind(keyCode.End, modifier.Shift, extendSelectionToLineEnd);
+      keyDownHandler.bind(keyCode.Up, modifier.CtrlShift, extendSelectionToParagraphStart);
+      keyDownHandler.bind(keyCode.Down, modifier.CtrlShift, extendSelectionToParagraphEnd);
+      keyDownHandler.bind(keyCode.Home, modifier.CtrlShift, extendSelectionToDocumentStart);
+      keyDownHandler.bind(keyCode.End, modifier.CtrlShift, extendSelectionToDocumentEnd);
+      if(isMacOS) {
+        keyDownHandler.bind(keyCode.Left, modifier.Meta, moveCursorToLineStart);
+        keyDownHandler.bind(keyCode.Right, modifier.Meta, moveCursorToLineEnd);
+        keyDownHandler.bind(keyCode.Home, modifier.Meta, moveCursorToDocumentStart);
+        keyDownHandler.bind(keyCode.End, modifier.Meta, moveCursorToDocumentEnd);
+        keyDownHandler.bind(keyCode.Left, modifier.MetaShift, extendSelectionToLineStart);
+        keyDownHandler.bind(keyCode.Right, modifier.MetaShift, extendSelectionToLineEnd);
+        keyDownHandler.bind(keyCode.Up, modifier.AltShift, extendSelectionToParagraphStart);
+        keyDownHandler.bind(keyCode.Down, modifier.AltShift, extendSelectionToParagraphEnd);
+        keyDownHandler.bind(keyCode.Up, modifier.MetaShift, extendSelectionToDocumentStart);
+        keyDownHandler.bind(keyCode.Down, modifier.MetaShift, extendSelectionToDocumentEnd);
+        keyDownHandler.bind(keyCode.Z, modifier.Meta, undo);
+        keyDownHandler.bind(keyCode.Z, modifier.MetaShift, redo)
+      }else {
+        keyDownHandler.bind(keyCode.Z, modifier.Ctrl, undo);
+        keyDownHandler.bind(keyCode.Z, modifier.CtrlShift, redo)
+      }
+      keyPressHandler.setDefault(function(e) {
+        var text = stringFromKeyPress(e), op = new ops.OpInsertText;
+        op.init({memberid:inputMemberId, position:odtDocument.getCursorPosition(inputMemberId), text:text});
+        session.enqueue(op);
+        return true
+      });
+      keyPressHandler.bind(keyCode.Enter, modifier.None, enqueueParagraphSplittingOps);
+      clickHandler.subscribe(gui.ClickHandler.signalSingleClick, select);
       clickHandler.subscribe(gui.ClickHandler.signalDoubleClick, selectWord);
       clickHandler.subscribe(gui.ClickHandler.signalTripleClick, selectParagraph)
     }
@@ -11387,8 +12028,8 @@ ops.TrivialUserModel = function TrivialUserModel() {
   this.unsubscribeUserDetailsUpdates = function(memberId, subscriber) {
   }
 };
-ops.NowjsUserModel = function NowjsUserModel() {
-  var cachedUserData = {}, memberDataSubscribers = {}, net = runtime.getNetwork();
+ops.NowjsUserModel = function NowjsUserModel(server) {
+  var cachedUserData = {}, memberDataSubscribers = {}, nowObject = server.getNowObject();
   function userIdFromMemberId(memberId) {
     return memberId.split("___")[0]
   }
@@ -11415,7 +12056,7 @@ ops.NowjsUserModel = function NowjsUserModel() {
     }else {
       subscribers.push({memberId:memberId, subscriber:subscriber});
       if(subscribers.length === 1) {
-        net.subscribeUserDetailsUpdates(userId)
+        nowObject.subscribeUserDetailsUpdates(userId)
       }
     }
     if(userData) {
@@ -11438,14 +12079,157 @@ ops.NowjsUserModel = function NowjsUserModel() {
         runtime.log("no more subscribers for: " + memberId);
         delete memberDataSubscribers[userId];
         delete cachedUserData[userId];
-        net.unsubscribeUserDetailsUpdates(userId)
+        nowObject.unsubscribeUserDetailsUpdates(userId)
       }
     }
   };
-  net.updateUserDetails = function(userId, udata) {
+  nowObject.updateUserDetails = function(userId, udata) {
     cacheUserDatum(userId, udata ? {userid:udata.uid, fullname:udata.fullname, imageurl:"/user/" + udata.avatarId + "/avatar.png", color:udata.color} : null)
   };
-  runtime.assert(net.networkStatus === "ready", "network not ready")
+  runtime.assert(nowObject.networkStatus === "ready", "network not ready")
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+ops.PullBoxUserModel = function PullBoxUserModel(server) {
+  var cachedUserData = {}, memberDataSubscribers = {}, serverPullingActivated = false, pullingIntervall = 2E4;
+  function userIdFromMemberId(memberId) {
+    return memberId.split("___")[0]
+  }
+  function cacheUserDatum(userData) {
+    var subscribers, i;
+    subscribers = memberDataSubscribers[userData.userid];
+    if(subscribers) {
+      cachedUserData[userData.userid] = userData;
+      for(i = 0;i < subscribers.length;i += 1) {
+        subscribers[i].subscriber(subscribers[i].memberId, userData)
+      }
+    }
+  }
+  function pullUserData() {
+    var base64 = server.getBase64(), i, userIds = [];
+    for(i in memberDataSubscribers) {
+      if(memberDataSubscribers.hasOwnProperty(i)) {
+        userIds.push(i)
+      }
+    }
+    runtime.log("user-list request for : " + userIds.join(","));
+    server.call("user-list:" + base64.toBase64(server.getToken()) + ":" + userIds.join(","), function(responseData) {
+      var response = (runtime.fromJson(responseData)), userList, newUserData, oldUserData;
+      runtime.log("user-list reply: " + responseData);
+      if(response.hasOwnProperty("userdata_list")) {
+        userList = response.userdata_list;
+        for(i = 0;i < userList.length;i += 1) {
+          newUserData = {userid:userList[i].uid, fullname:userList[i].fullname, imageurl:"/user/" + userList[i].avatarId + "/avatar.png", color:userList[i].color};
+          oldUserData = cachedUserData.hasOwnProperty(userList[i].uid) ? cachedUserData[userList[i].uid] : null;
+          if(!oldUserData || oldUserData.fullname !== newUserData.fullname || oldUserData.imageurl !== newUserData.imageurl || oldUserData.color !== newUserData.color) {
+            cacheUserDatum(newUserData)
+          }
+        }
+      }else {
+        runtime.log("Meh, userlist data broken: " + responseData)
+      }
+    })
+  }
+  function periodicPullUserData() {
+    if(!serverPullingActivated) {
+      return
+    }
+    pullUserData();
+    runtime.setTimeout(periodicPullUserData, pullingIntervall)
+  }
+  function activatePeriodicUserDataPulling() {
+    if(serverPullingActivated) {
+      return
+    }
+    serverPullingActivated = true;
+    runtime.setTimeout(periodicPullUserData, pullingIntervall)
+  }
+  function deactivatePeriodicUserDataPulling() {
+    var key;
+    if(!serverPullingActivated) {
+      return
+    }
+    for(key in memberDataSubscribers) {
+      if(memberDataSubscribers.hasOwnProperty(key)) {
+        return
+      }
+    }
+    serverPullingActivated = false
+  }
+  this.getUserDetailsAndUpdates = function(memberId, subscriber) {
+    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] = memberDataSubscribers[userId] || [], i;
+    runtime.assert(subscriber !== undefined, "missing callback");
+    for(i = 0;i < subscribers.length;i += 1) {
+      if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
+        break
+      }
+    }
+    if(i < subscribers.length) {
+      runtime.log("double subscription request for " + memberId + " in PullBoxUserModel::getUserDetailsAndUpdates")
+    }else {
+      subscribers.push({memberId:memberId, subscriber:subscriber});
+      if(subscribers.length === 1) {
+        pullUserData()
+      }
+    }
+    if(userData) {
+      subscriber(memberId, userData)
+    }
+    activatePeriodicUserDataPulling()
+  };
+  this.unsubscribeUserDetailsUpdates = function(memberId, subscriber) {
+    var i, userId = userIdFromMemberId(memberId), subscribers = memberDataSubscribers[userId];
+    runtime.assert(subscriber !== undefined, "missing subscriber parameter or null");
+    runtime.assert(subscribers, "tried to unsubscribe when no one is subscribed ('" + memberId + "')");
+    if(subscribers) {
+      for(i = 0;i < subscribers.length;i += 1) {
+        if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
+          break
+        }
+      }
+      runtime.assert(i < subscribers.length, "tried to unsubscribe when not subscribed for memberId '" + memberId + "'");
+      subscribers.splice(i, 1);
+      if(subscribers.length === 0) {
+        runtime.log("no more subscribers for: " + memberId);
+        delete memberDataSubscribers[userId];
+        delete cachedUserData[userId];
+        deactivatePeriodicUserDataPulling()
+      }
+    }
+  };
+  runtime.assert(server.networkStatus() === "ready", "network not ready")
 };
 /*
 
@@ -11538,8 +12322,8 @@ ops.TrivialOperationRouter = function TrivialOperationRouter() {
     playbackFunction(timedOp)
   }
 };
-ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid) {
-  var self = this, operationFactory, playbackFunction, net = runtime.getNetwork(), last_server_seq = -1, reorder_queue = {}, sends_since_server_op = 0, router_sequence = 1E3;
+ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, server) {
+  var self = this, operationFactory, playbackFunction, nowObject = server.getNowObject(), last_server_seq = -1, reorder_queue = {}, sends_since_server_op = 0, router_sequence = 1E3;
   function nextNonce() {
     runtime.assert(memberid !== null, "Router sequence N/A without memberid");
     router_sequence += 1;
@@ -11576,12 +12360,12 @@ ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid) {
       runtime.log("ignoring invalid incoming opspec: " + opspec)
     }
   }
-  net.ping = function(pong) {
+  nowObject.ping = function(pong) {
     if(memberid !== null) {
       pong(memberid)
     }
   };
-  net.receiveOp = function(op_session_id, opspec) {
+  nowObject.receiveOp = function(op_session_id, opspec) {
     if(op_session_id === sessionId) {
       receiveOpFromNetwork(opspec)
     }
@@ -11592,10 +12376,10 @@ ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid) {
     opspec.parent_op = last_server_seq + "+" + sends_since_server_op;
     sends_since_server_op += 1;
     runtime.log("op out: " + runtime.toJson(opspec));
-    net.deliverOp(sessionId, opspec)
+    nowObject.deliverOp(sessionId, opspec)
   };
   this.requestReplay = function(done_cb) {
-    net.requestReplay(sessionId, function(opspec) {
+    nowObject.requestReplay(sessionId, function(opspec) {
       runtime.log("replaying: " + runtime.toJson(opspec));
       receiveOpFromNetwork(opspec)
     }, function(count) {
@@ -11606,9 +12390,241 @@ ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid) {
     })
   };
   function init() {
-    net.memberid = memberid;
-    net.joinSession(sessionId, function(sessionJoinSuccess) {
+    nowObject.memberid = memberid;
+    nowObject.joinSession(sessionId, function(sessionJoinSuccess) {
       runtime.assert(sessionJoinSuccess, "Trying to join a session which does not exists or where we are already in")
+    })
+  }
+  init()
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("ops.OperationTransformer");
+ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId, server) {
+  var self = this, operationFactory, singleTimeCallbackOnCompleteServerOpSpecsPlay, playbackFunction, pullingTimeOutFlag = null, triggerPushingOpsActivated = false, playUnplayedServerOpSpecsTriggered = false, syncLock = false, hasUnresolvableConflict = false, lastServerSeq = "", unsyncedClientOpspecQueue = [], unplayedServerOpspecQueue = [], operationTransformer = new ops.OperationTransformer, replayTime = 500, pushingIntervall = 3E3, pullingIntervall = 8E3;
+  function compressOpSpecs(opspecs) {
+    var i, j, op, result = [];
+    i = 0;
+    while(i < opspecs.length) {
+      op = operationFactory.create(opspecs[i]);
+      if(op !== null && op.merge) {
+        for(j = i + 1;j < opspecs.length;j += 1) {
+          if(!op.merge(opspecs[j])) {
+            break
+          }
+          runtime.log("Merged: " + opspecs[i].optype + " with " + opspecs[j].optype)
+        }
+        result.push(op.spec());
+        i = j
+      }else {
+        result.push(opspecs[i]);
+        i += 1
+      }
+    }
+    runtime.log("Merged: from " + opspecs.length + " to " + result.length + " specs");
+    return result
+  }
+  function playUnplayedServerOpSpecs() {
+    function doPlayUnplayedServerOpSpecs() {
+      var opspec, op, startTime;
+      playUnplayedServerOpSpecsTriggered = false;
+      startTime = (new Date).getTime();
+      while(unplayedServerOpspecQueue.length > 0) {
+        if((new Date).getTime() - startTime > replayTime) {
+          break
+        }
+        opspec = unplayedServerOpspecQueue.shift();
+        op = operationFactory.create(opspec);
+        runtime.log(" op in: " + runtime.toJson(opspec));
+        if(op !== null) {
+          playbackFunction(op)
+        }else {
+          runtime.log("ignoring invalid incoming opspec: " + opspec)
+        }
+      }
+      if(unplayedServerOpspecQueue.length > 0) {
+        playUnplayedServerOpSpecsTriggered = true;
+        runtime.getWindow().setTimeout(doPlayUnplayedServerOpSpecs, 1)
+      }else {
+        if(singleTimeCallbackOnCompleteServerOpSpecsPlay) {
+          singleTimeCallbackOnCompleteServerOpSpecsPlay();
+          singleTimeCallbackOnCompleteServerOpSpecsPlay = null
+        }
+      }
+    }
+    if(playUnplayedServerOpSpecsTriggered) {
+      return
+    }
+    doPlayUnplayedServerOpSpecs()
+  }
+  function receiveOpSpecsFromNetwork(opspecs) {
+    unplayedServerOpspecQueue = unplayedServerOpspecQueue.concat(opspecs)
+  }
+  function handleOpsSyncConflict(serverOpspecs) {
+    var i, transformResult;
+    if(!serverOpspecs) {
+      runtime.assert(false, "no opspecs received!");
+      return false
+    }
+    transformResult = operationTransformer.transform(unsyncedClientOpspecQueue, (serverOpspecs));
+    if(!transformResult) {
+      return false
+    }
+    for(i = 0;i < transformResult.opsB.length;i += 1) {
+      unplayedServerOpspecQueue.push(transformResult.opsB[i].spec())
+    }
+    unsyncedClientOpspecQueue = [];
+    for(i = 0;i < transformResult.opsA.length;i += 1) {
+      unsyncedClientOpspecQueue.push(transformResult.opsA[i].spec())
+    }
+    return true
+  }
+  function syncOps() {
+    function triggerPullingOps() {
+      var flag = {active:true};
+      pullingTimeOutFlag = flag;
+      runtime.getWindow().setTimeout(function() {
+        runtime.log("Pulling activated:" + flag.active);
+        pullingTimeOutFlag = null;
+        if(flag.active) {
+          syncOps()
+        }
+      }, pullingIntervall)
+    }
+    function doSyncOps() {
+      var base64 = server.getBase64(), syncedClientOpspecs;
+      if(syncLock || hasUnresolvableConflict) {
+        return
+      }
+      syncLock = true;
+      syncedClientOpspecs = unsyncedClientOpspecQueue;
+      unsyncedClientOpspecQueue = [];
+      server.call("sync-ops:" + base64.toBase64(server.getToken()) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId) + ":" + base64.toBase64(String(lastServerSeq)) + ":" + runtime.toJson(syncedClientOpspecs), function(responseData) {
+        var shouldRetryInstantly = false, response = (runtime.fromJson(responseData));
+        runtime.log("sync-ops reply: " + responseData);
+        if(response.result === "newOps") {
+          if(response.ops.length > 0) {
+            if(unsyncedClientOpspecQueue.length === 0) {
+              receiveOpSpecsFromNetwork(compressOpSpecs(response.ops))
+            }else {
+              runtime.log("meh, have new ops locally meanwhile, have to do transformations.");
+              hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops))
+            }
+            lastServerSeq = response.headSeq
+          }
+        }else {
+          if(response.result === "added") {
+            runtime.log("All added to server");
+            lastServerSeq = response.headSeq
+          }else {
+            if(response.result === "conflict") {
+              unsyncedClientOpspecQueue = syncedClientOpspecs.concat(unsyncedClientOpspecQueue);
+              runtime.log("meh, server has new ops meanwhile, have to do transformations.");
+              hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops));
+              lastServerSeq = response.headSeq;
+              if(!hasUnresolvableConflict) {
+                shouldRetryInstantly = true
+              }
+            }else {
+              runtime.assert(false, "Unexpected result on sync-ops call: " + response.result)
+            }
+          }
+        }
+        syncLock = false;
+        if(hasUnresolvableConflict) {
+          runtime.assert(false, "Sorry to tell:\n" + "we hit a pair of operations in a state which yet need to be supported for transformation against each other.\n" + "Client disconnected from session, no further editing accepted.\n\n" + "Please reconnect manually for now.")
+        }else {
+          if(shouldRetryInstantly) {
+            doSyncOps()
+          }else {
+            runtime.log("Preparing next: " + (unsyncedClientOpspecQueue.length === 0));
+            if(unsyncedClientOpspecQueue.length === 0) {
+              triggerPullingOps()
+            }
+          }
+          playUnplayedServerOpSpecs()
+        }
+      })
+    }
+    doSyncOps()
+  }
+  function triggerPushingOps() {
+    if(syncLock || triggerPushingOpsActivated) {
+      return
+    }
+    triggerPushingOpsActivated = true;
+    if(pullingTimeOutFlag) {
+      pullingTimeOutFlag.active = false
+    }
+    runtime.getWindow().setTimeout(function() {
+      runtime.log("Pushing activated");
+      triggerPushingOpsActivated = false;
+      syncOps()
+    }, pushingIntervall)
+  }
+  this.requestReplay = function(done_cb) {
+    singleTimeCallbackOnCompleteServerOpSpecsPlay = done_cb;
+    syncOps()
+  };
+  this.setOperationFactory = function(f) {
+    operationFactory = f;
+    operationTransformer.setOperationFactory(f)
+  };
+  this.setPlaybackFunction = function(playback_func) {
+    playbackFunction = playback_func
+  };
+  this.push = function(op) {
+    var timedOp, opspec = op.spec();
+    if(hasUnresolvableConflict) {
+      return
+    }
+    if(unplayedServerOpspecQueue.length > 0) {
+      return
+    }
+    opspec.timestamp = (new Date).getTime();
+    timedOp = operationFactory.create(opspec);
+    playbackFunction(timedOp);
+    unsyncedClientOpspecQueue.push(opspec);
+    triggerPushingOps()
+  };
+  function init() {
+    var base64 = server.getBase64();
+    server.call("join-session:" + base64.toBase64(server.getToken()) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId), function(responseData) {
+      var response = Boolean(runtime.fromJson(responseData));
+      runtime.log("join-session reply: " + responseData);
+      runtime.assert(response, "Trying to join a session which does not exists or where we are already in")
     })
   }
   init()
@@ -12425,6 +13441,8 @@ gui.UndoManager.prototype.moveBackward = function(states) {
 gui.UndoManager.prototype.onOperationExecuted = function(op) {
 };
 gui.UndoManager.signalUndoStackChanged = "undoStackChanged";
+gui.UndoManager.signalUndoStateCreated = "undoStateCreated";
+gui.UndoManager.signalUndoStateModified = "undoStateModified";
 (function() {
   return gui.UndoManager
 })();
@@ -12466,6 +13484,7 @@ gui.UndoStateRules = function UndoStateRules() {
   function getOpType(op) {
     return op.spec().optype
   }
+  this.getOpType = getOpType;
   function getOpPosition(op) {
     return op.spec().position
   }
@@ -12555,8 +13574,8 @@ gui.UndoStateRules = function UndoStateRules() {
 */
 runtime.loadClass("gui.UndoManager");
 runtime.loadClass("gui.UndoStateRules");
-gui.TrivialUndoManager = function TrivialUndoManager() {
-  var self = this, initialDoc, initialState, playFunc, odtDocument, currentUndoState = [], undoStates = [], redoStates = [], eventNotifier = new core.EventNotifier([gui.UndoManager.signalUndoStackChanged]), undoRules = new gui.UndoStateRules;
+gui.TrivialUndoManager = function TrivialUndoManager(defaultRules) {
+  var self = this, initialDoc, initialState, playFunc, odtDocument, currentUndoState = [], undoStates = [], redoStates = [], eventNotifier = new core.EventNotifier([gui.UndoManager.signalUndoStackChanged, gui.UndoManager.signalUndoStateCreated, gui.UndoManager.signalUndoStateModified, gui.TrivialUndoManager.signalDocumentRootReplaced]), undoRules = defaultRules || new gui.UndoStateRules;
   function emitStackChange() {
     eventNotifier.emit(gui.UndoManager.signalUndoStackChanged, {undoAvailable:self.hasUndoStates(), redoAvailable:self.hasRedoStates()})
   }
@@ -12613,9 +13632,11 @@ gui.TrivialUndoManager = function TrivialUndoManager() {
       completeCurrentUndoState();
       currentUndoState = [op];
       undoStates.push(currentUndoState);
+      eventNotifier.emit(gui.UndoManager.signalUndoStateCreated, {operations:currentUndoState});
       emitStackChange()
     }else {
-      currentUndoState.push(op)
+      currentUndoState.push(op);
+      eventNotifier.emit(gui.UndoManager.signalUndoStateModified, {operations:currentUndoState})
     }
   };
   this.moveForward = function(states) {
@@ -12643,6 +13664,7 @@ gui.TrivialUndoManager = function TrivialUndoManager() {
     if(moved) {
       odfContainer.setRootElement(initialDoc.cloneNode(true));
       odfCanvas.setOdfContainer(odfContainer, true);
+      eventNotifier.emit(gui.TrivialUndoManager.signalDocumentRootReplaced, {});
       odtDocument.getCursors().forEach(function(cursor) {
         odtDocument.removeCursor(cursor.getMemberId())
       });
@@ -12657,6 +13679,10 @@ gui.TrivialUndoManager = function TrivialUndoManager() {
     return moved
   }
 };
+gui.TrivialUndoManager.signalDocumentRootReplaced = "documentRootReplaced";
+(function() {
+  return gui.TrivialUndoManager
+})();
 /*
 
  Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
@@ -12964,6 +13990,26 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
       return null
     }
   };
+  this.fixCursorPositions = function(localMemberId) {
+    var cursors, stepCounter, steps, filter, i;
+    cursors = self.getCursors();
+    filter = self.getPositionFilter();
+    for(i in cursors) {
+      if(cursors.hasOwnProperty(i)) {
+        stepCounter = cursors[i].getStepCounter();
+        if(!stepCounter.isPositionWalkable(filter)) {
+          steps = -stepCounter.countBackwardSteps(1, filter);
+          if(steps === 0) {
+            steps = stepCounter.countForwardSteps(1, filter)
+          }
+          cursors[i].move(steps);
+          if(i === localMemberId) {
+            self.emit(ops.OdtDocument.signalCursorMoved, cursors[i])
+          }
+        }
+      }
+    }
+  };
   this.getWalkableParagraphLength = function(paragraph) {
     var iterator = getIteratorAtPosition(0), length = 0;
     iterator.setUnfilteredPosition(paragraph, 0);
@@ -13122,9 +14168,15 @@ runtime.loadClass("ops.TrivialOperationRouter");
 runtime.loadClass("ops.OperationFactory");
 runtime.loadClass("ops.OdtDocument");
 ops.Session = function Session(odfCanvas) {
-  var self = this, odtDocument = new ops.OdtDocument(odfCanvas), userModel = new ops.TrivialUserModel, operationRouter = null;
+  var self = this, operationFactory = new ops.OperationFactory, odtDocument = new ops.OdtDocument(odfCanvas), userModel = new ops.TrivialUserModel, operationRouter = null;
   this.setUserModel = function(uModel) {
     userModel = uModel
+  };
+  this.setOperationFactory = function(opFactory) {
+    operationFactory = opFactory;
+    if(operationRouter) {
+      operationRouter.setOperationFactory(operationFactory)
+    }
   };
   this.setOperationRouter = function(opRouter) {
     operationRouter = opRouter;
@@ -13132,10 +14184,13 @@ ops.Session = function Session(odfCanvas) {
       op.execute(odtDocument);
       odtDocument.emit(ops.OdtDocument.signalOperationExecuted, op)
     });
-    opRouter.setOperationFactory(new ops.OperationFactory)
+    opRouter.setOperationFactory(operationFactory)
   };
   this.getUserModel = function() {
     return userModel
+  };
+  this.getOperationFactory = function() {
+    return operationFactory
   };
   this.getOdtDocument = function() {
     return odtDocument

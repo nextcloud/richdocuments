@@ -47,16 +47,24 @@
  *
  */
 
-/*global runtime, require, document, alert, gui, window, SessionList, SessionListView, FileReader, Uint8Array */
+/*global runtime, require, document, alert, net, window, NowjsSessionList, PullBoxSessionList, SessionListView, ops */
 
 // define the namespace/object we want to provide
 // this is the first line of API, the user gets.
 var webodfEditor = (function () {
     "use strict";
 
+    runtime.currentDirectory = function () {
+        return "../../webodf/lib";
+    };
+    runtime.libraryPaths = function () {
+        return [ runtime.currentDirectory() ];
+    };
+
     var editorInstance = null,
-        running = false,
-        loadedFilename = null;
+        server = null,
+        booting = false,
+        loadedFilename;
 
     /**
      * wait for a network connection through nowjs to establish.
@@ -69,29 +77,33 @@ var webodfEditor = (function () {
      * @param {!function(!string)} callback
      * @return {undefined}
      */
-    function waitForNetwork(callback) {
-        var net = runtime.getNetwork(), accumulated_waiting_time = 0;
-        function later_cb() {
-            if (net.networkStatus === "unavailable") {
-                runtime.log("connection to server unavailable.");
-                callback("unavailable");
-                return;
-            }
-            if (net.networkStatus !== "ready") {
-                if (accumulated_waiting_time > 8000) {
-                    // game over
-                    runtime.log("connection to server timed out.");
-                    callback("timeout");
-                    return;
-                }
-                accumulated_waiting_time += 100;
-                runtime.getWindow().setTimeout(later_cb, 100);
-            } else {
-                runtime.log("connection to collaboration server established.");
-                callback("ready");
-            }
+    function connectNetwork(backend, callback) {
+        if (backend === "pullbox") {
+            runtime.loadClass("ops.PullBoxServer");
+            server = new ops.PullBoxServer();
+        } else if (backend === "nowjs") {
+            runtime.loadClass("ops.NowjsServer");
+            server = new ops.NowjsServer();
+        } else if (backend === "owncloud") {
+            runtime.loadClass("ops.PullBoxServer");
+            server = new ops.PullBoxServer({url: "../../ajax/otpoll.php"});
+        } else {
+            callback("unavailable");
         }
-        later_cb();
+        server.connect(8000, callback);
+    }
+
+    /**
+     * try to auto-sense the server-backend.
+     *
+     * NOT IMPLEMENTED / MIGHT BE NICE TO HAVE...
+     * for now: try to connect to pullbox backend
+     *
+     * @param {!function(!string)} callback
+     * @return {undefined}
+     */
+    function detectNetwork(callback) {
+        connectNetwork("pullbox", callback);
     }
 
     /**
@@ -192,7 +204,7 @@ var webodfEditor = (function () {
      */
     function createLocalEditor(docUrl, editorOptions, editorReadyCallback) {
         var pos;
-        running = true;
+        booting = true;
         editorOptions = editorOptions || {};
         editorOptions.memberid = "localuser";
         editorOptions.loadCallback = load;
@@ -207,7 +219,6 @@ var webodfEditor = (function () {
             function (Editor) {
                 editorInstance = new Editor(editorOptions);
                 editorInstance.initAndLoadDocument(docUrl, function (editorSession) {
-                    editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
                     editorSession.startEditing();
                     editorReadyCallback(editorInstance);
                 });
@@ -239,7 +250,7 @@ var webodfEditor = (function () {
             function (Editor) {
                 // TODO: the networkSecurityToken needs to be retrieved via now.login
                 // (but this is to be implemented later)
-                editorInstance = new Editor(editorOptions);
+                editorInstance = new Editor(editorOptions, server);
 
                 // load the document and get called back when it's live
                 editorInstance.loadSession(sessionId, function (editorSession) {
@@ -262,10 +273,9 @@ var webodfEditor = (function () {
      * @returns {undefined}
      */
     function startLoginProcess(callback) {
-        var userid, token,
-            net = runtime.getNetwork();
+        var userid, token;
 
-        running = true;
+        booting = true;
 
         runtime.assert(editorInstance === null, "cannot boot with instanciated editor");
 
@@ -278,7 +288,8 @@ var webodfEditor = (function () {
 
         function showSessions() {
             var sessionListDiv = document.getElementById("sessionList"),
-                sessionList = new SessionList(net),
+//                 sessionList = new NowjsSessionList(server),
+                sessionList = new PullBoxSessionList(server),
                 sessionListView = new SessionListView(sessionList, sessionListDiv, enterSession);
 
             // hide login view
@@ -301,7 +312,7 @@ var webodfEditor = (function () {
         }
 
         function onLoginSubmit() {
-            net.login(document.loginForm.login.value, document.loginForm.password.value, loginSuccess, loginFail);
+            server.login(document.loginForm.login.value, document.loginForm.password.value, loginSuccess, loginFail);
 
             // block the submit button, we already dealt with the input
             return false;
@@ -334,7 +345,7 @@ var webodfEditor = (function () {
      */
     function boot(args) {
         var editorOptions = {}, loginProcedure = startLoginProcess;
-        runtime.assert(!running, "editor creation already in progress");
+        runtime.assert(!booting, "editor creation already in progress");
 
         args = args || {};
 
@@ -391,7 +402,7 @@ var webodfEditor = (function () {
 
         if (args.collaborative === "auto") {
             runtime.log("detecting network...");
-            waitForNetwork(function (state) {
+            detectNetwork(function (state) {
                 if (state === "ready") {
                     runtime.log("... network available.");
                     handleNetworkedSituation();
@@ -400,11 +411,10 @@ var webodfEditor = (function () {
                     handleNonNetworkedSituation();
                 }
             });
-        } else if ((args.collaborative === "true") ||
-                   (args.collaborative === "1") ||
-                   (args.collaborative === "yes")) {
-            runtime.log("starting collaborative editor.");
-            waitForNetwork(function (state) {
+        } else if ((args.collaborative === "pullbox") ||
+                   (args.collaborative === "owncloud")) {
+            runtime.log("starting collaborative editor for ["+args.collaborative+"].");
+            connectNetwork(args.collaborative, function (state) {
                 if (state === "ready") {
                     handleNetworkedSituation();
                 }
@@ -415,16 +425,7 @@ var webodfEditor = (function () {
         }
     }
 
-    function shutdown() {
-        running = false;
-        editorInstance = null;
-        loadedFilename = null;
-    }
-
     // exposed API
-    return {
-        boot: boot,
-        shutdown: shutdown
-    };
+    return { boot: boot };
 }());
 

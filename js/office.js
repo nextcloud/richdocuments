@@ -59,7 +59,7 @@ var officeMain = {
 
 				webodfEditor.boot(
 					{
-						collaborative: 0,
+						collaborative: "owncloud",
 						docUrl: doclocation,
 						callback: function() {
 							// initialized.

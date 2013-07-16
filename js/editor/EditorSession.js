@@ -44,8 +44,10 @@ define("webodf/editor/EditorSession", [
 
     runtime.loadClass("ops.OdtDocument");
     runtime.loadClass("ops.Session");
-    runtime.loadClass("ops.NowjsOperationRouter");
-    runtime.loadClass("ops.NowjsUserModel");
+//     runtime.loadClass("ops.NowjsOperationRouter");
+//     runtime.loadClass("ops.NowjsUserModel");
+    runtime.loadClass("ops.PullBoxOperationRouter");
+    runtime.loadClass("ops.PullBoxUserModel");
     runtime.loadClass("odf.OdfCanvas");
     runtime.loadClass("gui.CaretFactory");
     runtime.loadClass("gui.Caret");
