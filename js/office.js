@@ -50,6 +50,14 @@ var officeMain = {
 								'<div id="canvas"></div>'+
 							'</div>'+
 						'</div>'+
+						'<div id = "collaboration">'+
+							'<div id = "collabContainer">'+
+								'<div id = "people">'+
+									'<div id = "inviteButton"></div>'+
+									'<div id = "peopleList"></div>'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
 					'</div>',
 					bodyelement = document.getElementsByTagName('body')[0];
 				bodyelement.className += " claro";
@@ -61,6 +69,9 @@ var officeMain = {
 					{
 						collaborative: "owncloud",
 						docUrl: doclocation,
+						loginProcedure: function(cb) {
+							cb("0", "user", "token");
+						},
 						callback: function() {
 							// initialized.
 						}
