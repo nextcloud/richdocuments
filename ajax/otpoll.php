@@ -51,10 +51,16 @@ function bogusSession($i) {
 	return $bs;
 }
 
+header('Content-Type: application/json');
 if (preg_match('/^session-list/', $postBody) === 1) { // session-list
 	$bogusSessionList = array();
 	$bogusSessionList["session_list"] = array(bogusSession(0), bogusSession(1));
 	print json_encode($bogusSessionList, JSON_PRETTY_PRINT)."\n";
+} else if (preg_match('/^join-session:/', $postBody) === 1) { // join
+	print "true";
+} else if (preg_match('/^sync-ops:/', $postBody) === 1) { // sync
+	// completely bogus
+	print '{"result":"newOps","ops":[],"headSeq":-1}';
 } else {
 	print "unknown command"; // TODO send HTTP 400 response
 }

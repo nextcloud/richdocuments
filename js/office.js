@@ -70,7 +70,7 @@ var officeMain = {
 						collaborative: "owncloud",
 						docUrl: doclocation,
 						loginProcedure: function(cb) {
-							cb("0", "user", "token");
+							cb("0", OC.currentUser, "token");
 						},
 						callback: function() {
 							// initialized.
