@@ -210,7 +210,10 @@ var webodfEditor = (function () {
         editorOptions.loadCallback = load;
         editorOptions.saveCallback = save;
 
-        runtime.assert(docUrl, "docUrl needs to be specified");
+		if (docUrl === undefined) {
+			docUrl = guessDocUrl();
+		}
+		runtime.assert(docUrl, "docUrl needs to be specified");
         runtime.assert(editorInstance === null, "cannot boot with instanciated editor");
 
         document.getElementById("mainContainer").style.display = "";
@@ -350,12 +353,9 @@ var webodfEditor = (function () {
         args = args || {};
 
         if (args.collaborative === undefined) {
-            args.collaborative = "auto";
+            args.collaborative = "standalone";
         } else {
             args.collaborative = String(args.collaborative).toLowerCase();
-        }
-        if (args.docUrl === undefined) {
-            args.docUrl = guessDocUrl();
         }
 
         if (args.saveCallback) {

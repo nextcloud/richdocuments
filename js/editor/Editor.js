@@ -265,13 +265,11 @@ define("webodf/editor/Editor", [
              */
             self.loadSession = function (sessionId, editorReadyCallback) {
                 initGuiAndDoc("/session/" + sessionId + "/genesis", function () {
-                    // use the nowjs op-router when connected
-//                     opRouter = opRouter || new ops.NowjsOperationRouter(sessionId, memberid, server);
-                    opRouter = opRouter || new ops.PullBoxOperationRouter(sessionId, memberid, server);
+                    // get router and user model
+                    opRouter = opRouter || server.createOperationRouter(sessionId, memberid);
                     session.setOperationRouter(opRouter);
 
-//                     userModel = userModel || new ops.NowjsUserModel(server);
-                    userModel = userModel || new ops.PullBoxUserModel(server);
+                    userModel = userModel || server.createUserModel();
                     session.setUserModel(userModel);
 
                     opRouter.requestReplay(function done() {

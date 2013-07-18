@@ -8993,10 +8993,16 @@ ops.Server.prototype.login = function(login, password, successCb, failCb) {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.NowjsServer = function NowjsServer() {
-  var nowObject;
+  var self = this, nowObject;
   this.getNowObject = function() {
     return nowObject
   };
+  function createOperationRouter(sid, mid) {
+    return new ops.NowjsOperationRouter(sid, mid, self)
+  }
+  function createUserModel() {
+    return new ops.NowjsUserModel(self)
+  }
   this.connect = function(timeout, callback) {
     var accumulatedWaitingTime = 0;
     if(nowObject) {
@@ -9036,7 +9042,9 @@ ops.NowjsServer = function NowjsServer() {
     }else {
       nowObject.login(login, password, successCb, failCb)
     }
-  }
+  };
+  this.createOperationRouter = createOperationRouter;
+  this.createUserModel = createUserModel
 };
 /*
 
@@ -9078,6 +9086,12 @@ ops.PullBoxServer = function PullBoxServer(args) {
   var self = this, token, base64 = new core.Base64;
   args = args || {};
   args.url = args.url || "/WSER";
+  function createOperationRouter(sid, mid) {
+    return new ops.PullBoxOperationRouter(sid, mid, self)
+  }
+  function createUserModel() {
+    return new ops.PullBoxUserModel(self)
+  }
   function call(message, cb) {
     var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), data;
     function handleResult() {
@@ -9135,7 +9149,9 @@ ops.PullBoxServer = function PullBoxServer(args) {
         failCb(responseData)
       }
     })
-  }
+  };
+  this.createOperationRouter = createOperationRouter;
+  this.createUserModel = createUserModel
 };
 /*
 
