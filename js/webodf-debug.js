@@ -9136,6 +9136,9 @@ ops.PullBoxServer = function PullBoxServer(args) {
   this.getToken = function() {
     return token
   };
+  this.setToken = function (a_token) {
+  	token = a_token;
+  };
   this.connect = function(timeout, callback) {
     var accumulatedWaitingTime = 0;
     callback("ready")
@@ -10621,6 +10624,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
         if(!containerOffset) {
           containerOffset = getOffset(container)
         }
+		runtime.assert(containerOffset, "getRect: invalid containerOffset");
         rect.top = containerOffset.top;
         rect.left = containerOffset.right;
         rect.bottom = containerOffset.bottom
@@ -10639,6 +10643,9 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
         }
       }
     }
+	runtime.assert(rect, "getRect invalid rect");
+	runtime.assert(rect.top !== undefined, "getRect rect without top property");
+
     return{top:rect.top, left:rect.left, bottom:rect.bottom}
   }
   function doMove(steps, extend, move) {
@@ -12642,8 +12649,10 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
     triggerPushingOps()
   };
   function init() {
-    var base64 = server.getBase64();
-    server.call("join-session:" + base64.toBase64(server.getToken()) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId), function(responseData) {
+    var base64 = server.getBase64(),
+		token = server.getToken();
+	runtime.assert(token, "invalid token");
+    server.call("join-session:" + base64.toBase64(token) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId), function(responseData) {
       var response = Boolean(runtime.fromJson(responseData));
       runtime.log("join-session reply: " + responseData);
       runtime.assert(response, "Trying to join a session which does not exists or where we are already in")

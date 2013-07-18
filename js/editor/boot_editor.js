@@ -86,10 +86,10 @@ var webodfEditor = (function () {
             server = new ops.NowjsServer();
         } else if (backend === "owncloud") {
             runtime.loadClass("ops.PullBoxServer");
-            server = new ops.PullBoxServer({url: "../../ajax/otpoll.php"});
-			server.getGenesisUrl = function(sid) {
-				return "/owncloud/index.php/apps/files/download/welcome.odt";
-			};
+            server = new ops.PullBoxServer({url: "./office/ajax/otpoll.php"});
+            server.getGenesisUrl = function(sid) {
+                return "/owncloud/index.php/apps/files/download/welcome.odt";
+            };
         } else {
             callback("unavailable");
         }
@@ -251,6 +251,11 @@ var webodfEditor = (function () {
         editorOptions.memberid = userid + "___" + Date.now();
         editorOptions.networked = true;
         editorOptions.networkSecurityToken = token;
+
+        // if pre-authentication has happened:
+        if (token) {
+            server.setToken(token);
+        }
 
         require({ }, ["webodf/editor/Editor"],
             function (Editor) {
