@@ -87,6 +87,9 @@ var webodfEditor = (function () {
         } else if (backend === "owncloud") {
             runtime.loadClass("ops.PullBoxServer");
             server = new ops.PullBoxServer({url: "../../ajax/otpoll.php"});
+			server.getGenesisUrl = function(sid) {
+				return "/owncloud/index.php/apps/files/download/welcome.odt";
+			};
         } else {
             callback("unavailable");
         }

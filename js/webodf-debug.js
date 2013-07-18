@@ -9003,6 +9003,9 @@ ops.NowjsServer = function NowjsServer() {
   function createUserModel() {
     return new ops.NowjsUserModel(self)
   }
+  function getGenesisUrl(sessionId) {
+    return"/session/" + sessionId + "/genesis"
+  }
   this.connect = function(timeout, callback) {
     var accumulatedWaitingTime = 0;
     if(nowObject) {
@@ -9091,6 +9094,9 @@ ops.PullBoxServer = function PullBoxServer(args) {
   }
   function createUserModel() {
     return new ops.PullBoxUserModel(self)
+  }
+  function getGenesisUrl(sessionId) {
+    return"/session/" + sessionId + "/genesis"
   }
   function call(message, cb) {
     var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), data;

@@ -264,7 +264,7 @@ define("webodf/editor/Editor", [
              * @param {?function()} editorReadyCallback
              */
             self.loadSession = function (sessionId, editorReadyCallback) {
-                initGuiAndDoc("/session/" + sessionId + "/genesis", function () {
+                initGuiAndDoc(server.getGenesisUrl(sessionId), function () {
                     // get router and user model
                     opRouter = opRouter || server.createOperationRouter(sessionId, memberid);
                     session.setOperationRouter(opRouter);
