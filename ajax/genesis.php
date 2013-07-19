@@ -12,30 +12,12 @@
 // hardcoding the served file with /welcome.odt for now is enough to unblock development
 // (that saves all db work for now)
 
+namespace OCA\Office;
+
 // Check if we are a user
-OCP\User::checkLoggedIn();
+\OCP\User::checkLoggedIn();
 
 $filename = "/welcome.odt";
 
-if(!\OC\Files\Filesystem::file_exists($filename)) {
-	header("HTTP/1.0 404 Not Found");
-	$tmpl = new OCP\Template( '', '404', 'guest' );
-	$tmpl->assign('file', $filename);
-	$tmpl->printPage();
-	exit;
-}
-
-$ftype=\OC\Files\Filesystem::getMimeType( $filename );
-
-header('Content-Type:'.$ftype);
-if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
-	header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
-} else {
-	header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
-										 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
-}
-OCP\Response::disableCaching();
-header('Content-Length: '.\OC\Files\Filesystem::filesize($filename));
-
-OC_Util::obEnd();
-\OC\Files\Filesystem::readfile( $filename );
+$download = new Download($filename);
+$download->sendResponse();
