@@ -20,23 +20,15 @@ class Range extends \OCA\Office\Download {
 		$ranges = explode(',', substr($_SERVER['HTTP_RANGE'], 6));
 		foreach ($ranges as $range){
 			$parts = explode('-', $range);
-			if (isset($parts[0])){
-				$start = $parts[0];
-			} else {
-				$start = 0;
-			}
 
-			if (isset($parts[1])){
-				$end = $parts[1];
-			} else {
-				$end = $this->getFilesize() - 1;
-			}
+			$start = isset($parts[0]) ? $parts[0] : 0;
+			$end = isset($parts[1]) ? $parts[1] : $this->getFilesize() - 1;
 
 			if ($start > $end){
 				$this->sendNotSatisfiable();
 			}
 
-			$handle = \OC\Files\Filesystem::fopen($this->filepath, 'r');
+			$handle = \OC\Files\Filesystem::fopen($this->filepath, 'rb');
 			\fseek($handle, $start);
 			$buffer = \fread($handle, $end - $start);
 			$md5Sum = md5($buffer);
@@ -49,6 +41,7 @@ class Range extends \OCA\Office\Download {
 			header("Connection: close");
 			header("Content-type: " . $this->getMimeType());
 			header('Content-Disposition: attachment; filename=' . $this->getFilename());
+			\OC_Util::obEnd();
 			echo $buffer;
 			flush();
 		}

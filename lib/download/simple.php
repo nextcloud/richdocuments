@@ -25,7 +25,6 @@ class Simple extends \OCA\Office\Download {
 
 		\OC_Util::obEnd();
 		\OC\Files\Filesystem::readfile($this->filepath);
-		exit();
 	}
 
 }
