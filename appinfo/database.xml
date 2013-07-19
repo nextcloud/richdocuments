@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*office_sessions</name>
+		<name>*dbprefix*office_session</name>
 		<declaration>
 			<field>
 				<name>es_id</name>
@@ -37,7 +37,7 @@
 			</field>
 			
 			<index>
-				<name>office_sessions_ei_index</name>
+				<name>office_session_ei_index</name>
 				<primary>true</primary>
 				<unique>true</unique>
 				<field>
@@ -49,7 +49,7 @@
 	</table>
 	
 	<table>
-		<name>*dbprefix*office_ops</name>
+		<name>*dbprefix*office_op</name>
 		<declaration>
 			<field>
 				<name>es_id</name>
@@ -81,7 +81,7 @@
 			</field>
 			
 			<index>
-				<name>office_ops_eis_index</name>
+				<name>office_op_eis_index</name>
 				<unique>true</unique>
 				<field>
 					<name>es_id</name>
