@@ -17,8 +17,9 @@
 			<field>
 				<name>genesis_url</name>
 				<type>text</type>
+				<default></default>
 				<notnull>true</notnull>
-				<length>64</length>
+				<length>512</length>
 				<comments>Relative to storage e.g. /welcome.odt</comments>
 			</field>
 			<field>
@@ -34,6 +35,16 @@
 				<length>64</length>
 				<comments>oC user who created the session</comments>
 			</field>
+			
+			<index>
+				<name>office_sessions_ei_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>es_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 	
@@ -68,30 +79,20 @@
 				<notnull>false</notnull>
 				<comments>json-string</comments>
 			</field>
+			
+			<index>
+				<name>office_ops_eis_index</name>
+				<unique>true</unique>
+				<field>
+					<name>es_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>seq</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
-	
-	<index>
-		<name>office_sessions_ei_index</name>
-		<primary>true</primary>
-		<unique>true</unique>
-		<field>
-			<name>es_id</name>
-			<sorting>ascending</sorting>
-		</field>
-	</index>
-
-	<index>
-		<name>office_ops_eis_index</name>
-		<unique>true</unique>
-		<field>
-			<name>es_id</name>
-			<sorting>ascending</sorting>
-		</field>
-		<field>
-			<name>seq</name>
-			<sorting>ascending</sorting>
-		</field>
-	</index>
 	
 </database>
