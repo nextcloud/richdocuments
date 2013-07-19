@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	 <name>*dbname*</name>
+	 <create>true</create>
+	 <overwrite>false</overwrite>
+	 <charset>utf8</charset>
+	 <table>
+		<name>*dbprefix*office_sessions</name>
+		<declaration>
+			<field>
+				<name>es_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>Editing session id</comments>
+			</field>
+			<field>
+				<name>genesis_url</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>Relative to storage e.g. /welcome.odt</comments>
+			</field>
+			<field>
+				<name>genesis_hash</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<comments>To be sure the genesis did not change</comments>
+			</field>
+			<field>
+				<name>owner</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>oC user who created the session</comments>
+			</field>
+		</declaration>
+	</table>
+	
+	 <table>
+		<name>*dbprefix*office_ops</name>
+		<declaration>
+			<field>
+				<name>es_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>Editing session id</comments>
+			</field>
+			<field>
+				<name>seq</name>
+				<type>integer</type>
+				<unsigned>true</unsigned>
+				<default></default>
+				<notnull>true</notnull>
+				<comments>Sequence number</comments>
+			</field>
+			<field>
+				<name>member</name>
+				<type>text</type>
+				<length>128</length>
+				<notnull>true</notnull>
+				<comments>User and time specific</comments>
+			</field>
+			<field>
+				<name>opspec</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+				<comments>json-string</comments>
+			</field>
+		</declaration>
+	</table>
+	
+</database>
