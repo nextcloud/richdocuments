@@ -17,7 +17,8 @@ namespace OCA\Office;
 // Check if we are a user
 \OCP\User::checkLoggedIn();
 
-$filename = "/welcome.odt";
+$session = Session::getSession($_SERVER['QUERY_STRING']);
+$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
 
 $download = new Download($filename);
 $download->sendResponse();
