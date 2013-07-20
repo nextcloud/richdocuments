@@ -25,5 +25,8 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('office');
 session_write_close();
 
+// TODO: short-circuit or fix the http 500 that happens on ajax/thumbnail.php
+// or just wait unit preview is merged to core ;)
+
 $file = $_GET['filepath'];
-\OCP\Preview::show($file,120,120);
+\OCP\Preview::show($file, 120, 120);

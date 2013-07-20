@@ -34,6 +34,7 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
+
 // OCP\JSON::checkLoggedIn();
 // OCP\JSON::checkAppEnabled('office');
 // session_write_close();
@@ -51,21 +52,37 @@ function bogusSession($i){
 
 $command = isset($_POST['command']) ? $_POST['command'] : '';
 
-header('Content-Type: application/json');
-
+$response = array();
 switch ($command){
 	case 'session-list':
-		$bogusSessionList = array();
-		$bogusSessionList["session_list"] = array(bogusSession(0), bogusSession(1));
-		print json_encode($bogusSessionList, JSON_PRETTY_PRINT) . "\n";
+		$response["session_list"] = array(bogusSession(0), bogusSession(1));
 		break;
 	case 'join-session':
-		print "true";
+
 		break;
 	case 'sync-ops':
 		// completely bogus
-		print '{"result":"newOps","ops":[],"headSeq":-1}';
+		/* 
+		 * try {
+		 * OCA\Office\Op::add(
+		 *	array(
+		 *		'es_id' => ES_ID,
+		 *		'seq' => SEQ,
+		 *		'member' => MEMBER,
+		 *		'opspec' => OPSPEC
+		 *	)
+		 * );
+		 * } catch (Exception $e) {
+		 *	
+		 * }
+		 */
+		$response['result'] = 'newOps';
+		$response['ops'] = array();
+		$response['headSeq'] = -1;
 		break;
 	default:
-		print "unknown command"; // TODO send HTTP 400 response
+		header('HTTP/1.1 400: BAD REQUEST');
+		exit();
 }
+
+\OCP\JSON::success($response);
