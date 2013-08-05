@@ -43,7 +43,7 @@ var officeMain = {
 			// fade out file list and show WebODF canvas
 			$('table').fadeOut('slow').promise().done(function() {
 				var odfelement, odfcanvas, canvashtml =
-					'<div id = "mainContainer" class="claro" style="display: none;">'+
+					'<div id = "mainContainer" class="claro" style="">'+
 						'<div id = "editor">'+
 							//'<span id = "toolbar" class="claro"></span>'+
 							'<div id = "container">'+
