@@ -51,6 +51,13 @@ function bogusSession($i){
 }
 
 $command = isset($_POST['command']) ? $_POST['command'] : '';
+// sorry - but currently the whole body is the message...
+$postbody = file_get_contents('php://input');
+if (preg_match('/(^[^:]*):/', $postbody, $matches)) {
+	$command = $matches[1];
+} else {
+	$command = '';
+}
 
 $response = array();
 switch ($command){
@@ -58,7 +65,7 @@ switch ($command){
 		$response["session_list"] = array(bogusSession(0), bogusSession(1));
 		break;
 	case 'join-session':
-
+		$response = "true"; // should fail when session is non-existent
 		break;
 	case 'sync-ops':
 		// completely bogus
@@ -82,6 +89,9 @@ switch ($command){
 		break;
 	default:
 		header('HTTP/1.1 400: BAD REQUEST');
+		print("");
+		print("bad request: [$command]");
+		print("");
 		exit();
 }
 
