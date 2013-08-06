@@ -19,14 +19,12 @@ var officeMain = {
 			});
 		});
 	},
-	onView: function(dir, file) {
+	onView: function(response) {
 		"use strict";
-		if (officeMain.initialized === undefined) {
-			alert("WebODF Editor not yet initialized...");
-			return;
-		}
+
 		OC.addScript('office', 'editor/boot_editor').done(function() {
-			var doclocation = fileDownloadPath(dir, file);
+			var doclocation = response.genesis_url;
+			officeMain.doclocation = doclocation;
 
 			// fade out files menu and add odf menu
 			$('.documentslist').fadeOut('slow').promise().done(function() {
@@ -84,6 +82,18 @@ var officeMain = {
 			});
 		});
 	},
+	registerSession : function(dir, file){
+		"use strict";
+		if (officeMain.initialized === undefined) {
+			alert("WebODF Editor not yet initialized...");
+			return;
+		}
+		var filepath = fileDownloadPath(dir, file);
+		$.post(OC.filePath('office', 'ajax', 'session.php'), 
+			{ 'genesis' : filepath },
+			officeMain.onView
+		);
+	},
 	onClose: function() {
 		"use strict";
 		var bodyelement = document.getElementsByTagName('body')[0];
@@ -104,7 +114,7 @@ var officeMain = {
 $(document).ready(function() {
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
-		officeMain.onView('', $(this).attr('data-file'));
+		officeMain.registerSession('', $(this).attr('data-file'));
 	});
 	$('#odf_close').live('click', officeMain.onClose);
 	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);

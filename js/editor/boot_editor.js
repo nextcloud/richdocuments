@@ -97,7 +97,8 @@ var webodfEditor = (function () {
                     serverFactory = new ServerFactory();
                     server = serverFactory.createServer({url: "./office/ajax/otpoll.php"});
                     server.getGenesisUrl = function(sid) {
-                        return "/owncloud/index.php/apps/files/download/welcome.odt";
+						// what a dirty hack :)
+                        return window.officeMain.doclocation;
                     };
                     server.connect(8000, callback);
                 });
