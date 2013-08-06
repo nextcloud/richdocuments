@@ -50,10 +50,8 @@ function bogusSession($i){
 	return $bs;
 }
 
-$postbody = file_get_contents('php://input');
-$postobject = json_decode($postbody, true);
-
-$command = $postobject['command'];
+$request = new OCA\Office\Request();
+$command = $request->getParam('command');
 
 $response = array();
 switch ($command){
@@ -64,17 +62,35 @@ switch ($command){
 		$response = "true"; // should fail when session is non-existent
 		break;
 	case 'sync-ops':
-		// completely bogus
+		$seqHead = $request->getParam('args/seq_head');
+		
+		if (!is_null($seqHead)){
+			$esId = $request->getParam('args/es_id');
+			$memberId = $request->getParam('args/member_id');
+			$ops = $request->getParam('args/client_ops');
+			
+			$currentHead = OCA\Office\Op::getHeadSeq($esId);
 
-		if $postobject['args']['seq_head'] is the most recent op in the ops-table:
+			//if $postobject['args']['seq_head'] is the most recent op in the ops-table:
 			// append all ops in $postobject['args']['client_ops'] to the ops-table
-		else:
-			// reply with:
-			// {
+			if ($seqHead>$currentHead){
+				foreach ($ops as $op){
+					OCA\Office\Op::add($op);
+				}
+			} else {
 			//     result: 'conflict',
 			//     ops: a list of all ops since  $postobject['args']['seq_head']
 			//     headSeq: the most recent op-seq
-			// }
+				$response["result"] = 'conflict';
+				$response["ops"] = OCA\Office\Op::getOpsAfter($esId, $seqHead);
+				$last = end($response["ops"]);
+				$response["headSeq"] = $last['seq'];
+			}
+			
+		} else {
+			// Error :)
+		}
+
 		/* 
 		 * try {
 		 * OCA\Office\Op::add(
@@ -89,9 +105,6 @@ switch ($command){
 		 *	
 		 * }
 		 */
-		$response['result'] = 'newOps';
-		$response['ops'] = array();
-		$response['headSeq'] = -1;
 		break;
 	default:
 		header('HTTP/1.1 400: BAD REQUEST');
