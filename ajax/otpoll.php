@@ -50,14 +50,10 @@ function bogusSession($i){
 	return $bs;
 }
 
-$command = isset($_POST['command']) ? $_POST['command'] : '';
-// sorry - but currently the whole body is the message...
 $postbody = file_get_contents('php://input');
-if (preg_match('/(^[^:]*):/', $postbody, $matches)) {
-	$command = $matches[1];
-} else {
-	$command = '';
-}
+$postobject = json_decode($postbody, true);
+
+$command = $postobject['command'];
 
 $response = array();
 switch ($command){
@@ -69,6 +65,16 @@ switch ($command){
 		break;
 	case 'sync-ops':
 		// completely bogus
+
+		if $postobject['args']['seq_head'] is the most recent op in the ops-table:
+			// append all ops in $postobject['args']['client_ops'] to the ops-table
+		else:
+			// reply with:
+			// {
+			//     result: 'conflict',
+			//     ops: a list of all ops since  $postobject['args']['seq_head']
+			//     headSeq: the most recent op-seq
+			// }
 		/* 
 		 * try {
 		 * OCA\Office\Op::add(
