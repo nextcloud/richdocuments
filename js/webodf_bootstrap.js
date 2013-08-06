@@ -8,11 +8,11 @@ if (navigator && navigator.language.match(/^(de)/)) {
 dojoConfig = {
 	locale: usedLocale,
 	paths: {
-		"webodf/editor": "/owncloud/apps/office/js/editor",
-		"dijit": "/owncloud/apps/office/js/editor/dijit",
-		"dojox": "/owncloud/apps/office/js/editor/dojox",
-		"dojo": "/owncloud/apps/office/js/editor/dojo",
-		"resources": "/owncloud/apps/office/js/editor/resources"
+		"webodf/editor": OC.appswebroots.office + "/js/editor",
+		"dijit": OC.appswebroots.office + "/js/editor/dijit",
+		"dojox": OC.appswebroots.office + "/js/editor/dojox",
+		"dojo": OC.appswebroots.office + "/js/editor/dojo",
+		"resources": OC.appswebroots.office + "/js/editor/resources"
 	}
 };
 
