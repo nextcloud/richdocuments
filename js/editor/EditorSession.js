@@ -45,11 +45,12 @@ define("webodf/editor/EditorSession", [
     runtime.loadClass("ops.OdtDocument");
     runtime.loadClass("ops.Session");
     runtime.loadClass("odf.OdfCanvas");
-    runtime.loadClass("gui.CaretFactory");
+    runtime.loadClass("gui.CaretManager");
     runtime.loadClass("gui.Caret");
     runtime.loadClass("gui.SessionController");
     runtime.loadClass("gui.SessionView");
     runtime.loadClass("gui.TrivialUndoManager");
+    runtime.loadClass("gui.StyleHelper");
     runtime.loadClass("core.EventNotifier");
 
     /**
@@ -67,6 +68,7 @@ define("webodf/editor/EditorSession", [
             odtDocument = session.getOdtDocument(),
             textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0",
             formatting = odtDocument.getFormatting(),
+            styleHelper = new gui.StyleHelper(formatting),
             eventNotifier = new core.EventNotifier([
                 EditorSession.signalUserAdded,
                 EditorSession.signalUserRemoved,
@@ -79,7 +81,7 @@ define("webodf/editor/EditorSession", [
 
 
         this.sessionController = new gui.SessionController(session, memberid);
-        this.sessionView = new gui.SessionView(config.viewOptions, session, new gui.CaretFactory(self.sessionController));
+        this.sessionView = new gui.SessionView(config.viewOptions, session, new gui.CaretManager(self.sessionController));
         this.availableFonts = [];
 
         /*
@@ -188,6 +190,7 @@ define("webodf/editor/EditorSession", [
             if (info.paragraphElement !== currentParagraphNode) {
                 return;
             }
+            self.emit(EditorSession.signalParagraphChanged, info);
             checkParagraphStyleName();
         }
 
@@ -276,18 +279,40 @@ define("webodf/editor/EditorSession", [
             return formatting.getAvailableParagraphStyles();
         };
 
-        this.getCurrentSelectionStyle = function () {
-            var cursor = odtDocument.getCursor(memberid),
-                selectedRange;
+        this.isBold = function () {
+            var cursor = odtDocument.getCursor(memberid);
             // no own cursor yet/currently added?
             if (!cursor) {
-                return [];
+                return false;
             }
-            selectedRange = cursor.getSelectedRange();
-            if (selectedRange.collapsed) {
-                return [formatting.getAppliedStylesForElement(cursor.getNode())];
+            return styleHelper.isBold(cursor.getSelectedRange());
+        };
+
+        this.isItalic = function () {
+            var cursor = odtDocument.getCursor(memberid);
+            // no own cursor yet/currently added?
+            if (!cursor) {
+                return false;
             }
-            return formatting.getAppliedStyles(selectedRange);
+            return styleHelper.isItalic(cursor.getSelectedRange());
+        };
+
+        this.hasUnderline = function () {
+            var cursor = odtDocument.getCursor(memberid);
+            // no own cursor yet/currently added?
+            if (!cursor) {
+                return false;
+            }
+            return styleHelper.hasUnderline(cursor.getSelectedRange());
+        };
+
+        this.hasStrikeThrough = function () {
+            var cursor = odtDocument.getCursor(memberid);
+            // no own cursor yet/currently added?
+            if (!cursor) {
+                return false;
+            }
+            return styleHelper.hasStrikeThrough(cursor.getSelectedRange());
         };
 
         this.getCurrentParagraphStyle = function () {
@@ -295,13 +320,35 @@ define("webodf/editor/EditorSession", [
         };
 
         this.formatSelection = function (value) {
-            var op = new ops.OpApplyStyle(),
+            var op = new ops.OpApplyDirectStyling(),
                 selection = self.getCursorSelection();
             op.init({
                 memberid: memberid,
                 position: selection.position,
                 length: selection.length,
-                info: value
+                setProperties: value
+            });
+            session.enqueue(op);
+        };
+
+        /**
+         * Adds an annotation to the document based on the current selection
+         * @return {undefined}
+         */
+        this.addAnnotation = function () {
+            var op = new ops.OpAddAnnotation(),
+                selection = self.getCursorSelection(),
+                length = selection.length,
+                position = selection.position;
+
+            position = length >= 0 ? position : position + length;
+            length = Math.abs(length);
+
+            op.init({
+                memberid: memberid,
+                position: position,
+                length: length,
+                name: memberid + Date.now()
             });
             session.enqueue(op);
         };
@@ -379,14 +426,30 @@ define("webodf/editor/EditorSession", [
          */
         this.cloneParagraphStyle = function (styleName, newStyleDisplayName) {
             var newStyleName = uniqueParagraphStyleNCName(newStyleDisplayName),
-                op;
+                styleNode = odtDocument.getParagraphStyleElement(styleName),
+                formatting = odtDocument.getFormatting(),
+                op, setProperties, attributes, i;
 
-            op = new ops.OpCloneParagraphStyle();
+            setProperties = formatting.getStyleAttributes(styleNode);
+            // copy any attributes directly on the style
+            attributes = styleNode.attributes;
+            for (i = 0; i < attributes.length; i += 1) {
+                // skip...
+                // * style:display-name -> not copied, set to new string below
+                // * style:name         -> not copied, set from op by styleName property
+                // * style:family       -> "paragraph" always, set by op
+                if (!/^(style:display-name|style:name|style:family)/.test(attributes[i].name)) {
+                    setProperties[attributes[i].name] = attributes[i].value;
+                }
+            }
+
+            setProperties['style:display-name'] = newStyleDisplayName;
+
+            op = new ops.OpAddParagraphStyle();
             op.init({
                 memberid: memberid,
-                styleName: styleName,
-                newStyleName: newStyleName,
-                newStyleDisplayName: newStyleDisplayName
+                styleName: newStyleName,
+                setProperties: setProperties
             });
             session.enqueue(op);
 

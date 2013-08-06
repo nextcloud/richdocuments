@@ -47,7 +47,7 @@
  *
  */
 
-/*global runtime, require, document, alert, net, window, NowjsSessionList, PullBoxSessionList, SessionListView, ops */
+/*global runtime, require, document, alert, net, window, SessionListView, ops */
 
 // define the namespace/object we want to provide
 // this is the first line of API, the user gets.
@@ -62,6 +62,7 @@ var webodfEditor = (function () {
     };
 
     var editorInstance = null,
+        serverFactory = null,
         server = null,
         booting = false,
         loadedFilename;
@@ -78,22 +79,31 @@ var webodfEditor = (function () {
      * @return {undefined}
      */
     function connectNetwork(backend, callback) {
-        if (backend === "pullbox") {
-            runtime.loadClass("ops.PullBoxServer");
-            server = new ops.PullBoxServer();
-        } else if (backend === "nowjs") {
-            runtime.loadClass("ops.NowjsServer");
-            server = new ops.NowjsServer();
-        } else if (backend === "owncloud") {
-            runtime.loadClass("ops.PullBoxServer");
-            server = new ops.PullBoxServer({url: "./office/ajax/otpoll.php"});
-            server.getGenesisUrl = function(sid) {
-                return "/owncloud/index.php/apps/files/download/welcome.odt";
-            };
-        } else {
-            callback("unavailable");
+        function createServer(ServerFactory) {
+            serverFactory = new ServerFactory();
+            server = serverFactory.createServer();
+            server.connect(8000, callback);
         }
-        server.connect(8000, callback);
+
+        switch (backend) {
+            case "pullbox":
+                require({ }, ["webodf/editor/server/pullbox/serverFactory"], createServer);
+                break;
+            case "nowjs":
+                require({ }, ["webodf/editor/server/nowjs/serverFactory"], createServer);
+                break;
+            case "owncloud":
+                require({ }, ["webodf/editor/server/pullbox/serverFactory"], function (ServerFactory) {
+                    serverFactory = new ServerFactory();
+                    server = serverFactory.createServer({url: "./office/ajax/otpoll.php"});
+                    server.getGenesisUrl = function(sid) {
+                        return "/owncloud/index.php/apps/files/download/welcome.odt";
+                    };
+                    server.connect(8000, callback);
+                });
+            default:
+                callback("unavailable");
+        }
     }
 
     /**
@@ -261,7 +271,7 @@ var webodfEditor = (function () {
             function (Editor) {
                 // TODO: the networkSecurityToken needs to be retrieved via now.login
                 // (but this is to be implemented later)
-                editorInstance = new Editor(editorOptions, server);
+                editorInstance = new Editor(editorOptions, server, serverFactory);
 
                 // load the document and get called back when it's live
                 editorInstance.loadSession(sessionId, function (editorSession) {
@@ -299,8 +309,7 @@ var webodfEditor = (function () {
 
         function showSessions() {
             var sessionListDiv = document.getElementById("sessionList"),
-//                 sessionList = new NowjsSessionList(server),
-                sessionList = new PullBoxSessionList(server),
+                sessionList = new serverFactory.createSessionList(server),
                 sessionListView = new SessionListView(sessionList, sessionListDiv, enterSession);
 
             // hide login view

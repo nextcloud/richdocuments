@@ -59,8 +59,9 @@ define("webodf/editor/Editor", [
          *          cursorRemovedCallback:function(!string)=,
          *          registerCallbackForShutdown:function(!function())= }} args
          * @param {!ops.Server=} server
+         * @param {!ServerFactory=} serverFactory
          */
-        function Editor(args, server) {
+        function Editor(args, server, serverFactory) {
 
             var self = this,
                 // Private
@@ -102,7 +103,8 @@ define("webodf/editor/Editor", [
                     inviteButton,
                     viewOptions = {
                         editInfoMarkersInitiallyVisible: networked,
-                        caretAvatarsInitiallyVisible: networked
+                        caretAvatarsInitiallyVisible: networked,
+                        caretBlinksOnRangeSelect: true
                     },
                     peopleListDiv = document.getElementById('peopleList');
 
@@ -153,6 +155,8 @@ define("webodf/editor/Editor", [
                         editorSession.startEditing();
                         return;
                     }
+                    // Allow annotations
+                    odfCanvas.enableAnnotations(true);
 
                     if (!memberid) {
                         // legacy - memberid should be passed in the constructor
@@ -266,10 +270,10 @@ define("webodf/editor/Editor", [
             self.loadSession = function (sessionId, editorReadyCallback) {
                 initGuiAndDoc(server.getGenesisUrl(sessionId), function () {
                     // get router and user model
-                    opRouter = opRouter || server.createOperationRouter(sessionId, memberid);
+                    opRouter = opRouter || serverFactory.createOperationRouter(sessionId, memberid, server);
                     session.setOperationRouter(opRouter);
 
-                    userModel = userModel || server.createUserModel();
+                    userModel = userModel || serverFactory.createUserModel(server);
                     session.setUserModel(userModel);
 
                     opRouter.requestReplay(function done() {

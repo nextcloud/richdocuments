@@ -79,6 +79,8 @@ Runtime.prototype.log = function(msgOrCategory, msg) {
 };
 Runtime.prototype.setTimeout = function(callback, milliseconds) {
 };
+Runtime.prototype.clearTimeout = function(timeoutID) {
+};
 Runtime.prototype.libraryPaths = function() {
 };
 Runtime.prototype.type = function() {
@@ -399,7 +401,7 @@ function BrowserRuntime(logoutput) {
       if(xhr.status === 200 || xhr.status === 0) {
         result = xhr.responseText
       }
-    }catch(e) {
+    }catch(ignore) {
     }
     return result
   }
@@ -494,25 +496,16 @@ function BrowserRuntime(logoutput) {
       if(cl) {
         callback(parseInt(cl, 10))
       }else {
-        callback(-1)
+        readFile(path, "binary", function(err, data) {
+          if(!err) {
+            callback(data.length)
+          }else {
+            callback(-1)
+          }
+        })
       }
     };
     xhr.send(null)
-  }
-  function wrap(nativeFunction, nargs) {
-    if(!nativeFunction) {
-      return null
-    }
-    return function() {
-      cache = {};
-      var callback = arguments[nargs], args = Array.prototype.slice.call(arguments, 0, nargs), callbackname = "callback" + String(Math.random()).substring(2);
-      window[callbackname] = function() {
-        delete window[callbackname];
-        callback.apply(this, arguments)
-      };
-      args.push(callbackname);
-      nativeFunction.apply(this, args)
-    }
   }
   this.readFile = readFile;
   this.read = read;
@@ -525,14 +518,17 @@ function BrowserRuntime(logoutput) {
   this.log = log;
   this.assert = assert;
   this.setTimeout = function(f, msec) {
-    setTimeout(function() {
+    return setTimeout(function() {
       f()
     }, msec)
+  };
+  this.clearTimeout = function(timeoutID) {
+    clearTimeout(timeoutID)
   };
   this.libraryPaths = function() {
     return["lib"]
   };
-  this.setCurrentDirectory = function(dir) {
+  this.setCurrentDirectory = function() {
   };
   this.type = function() {
     return"BrowserRuntime"
@@ -620,7 +616,7 @@ function NodeJSRuntime() {
         return
       }
       var buffer = new Buffer(length);
-      fs.read(fd, buffer, 0, length, offset, function(err, bytesRead) {
+      fs.read(fd, buffer, 0, length, offset, function(err) {
         fs.close(fd);
         callback(err, buffer)
       })
@@ -672,9 +668,12 @@ function NodeJSRuntime() {
   }
   this.assert = assert;
   this.setTimeout = function(f, msec) {
-    setTimeout(function() {
+    return setTimeout(function() {
       f()
     }, msec)
+  };
+  this.clearTimeout = function(timeoutID) {
+    clearTimeout(timeoutID)
   };
   this.libraryPaths = function() {
     return[__dirname]
@@ -768,7 +767,7 @@ function RhinoRuntime() {
     }
   }
   function runtimeReadFileSync(path, encoding) {
-    var file = new Packages.java.io.File(path), data, i;
+    var file = new Packages.java.io.File(path);
     if(!file.isFile()) {
       return null
     }
@@ -858,8 +857,11 @@ function RhinoRuntime() {
     }
   }
   this.assert = assert;
-  this.setTimeout = function(f, msec) {
-    f()
+  this.setTimeout = function(f) {
+    f();
+    return 0
+  };
+  this.clearTimeout = function() {
   };
   this.libraryPaths = function() {
     return["lib"]
@@ -997,13 +999,13 @@ var runtime = function() {
     }
     var script = argv[0];
     runtime.readFile(script, "utf8", function(err, code) {
-      var path = "", paths = runtime.libraryPaths(), codestring = (code);
+      var path = "", codestring = (code);
       if(script.indexOf("/") !== -1) {
         path = script.substring(0, script.indexOf("/"))
       }
       runtime.setCurrentDirectory(path);
-      function run() {
-        var script, path, paths, args, argv, result;
+      function inner_run() {
+        var script, path, args, argv, result;
         result = eval(codestring);
         if(result) {
           runtime.exit(result)
@@ -1014,7 +1016,7 @@ var runtime = function() {
         runtime.log(err);
         runtime.exit(1)
       }else {
-        run.apply(null, argv)
+        inner_run.apply(null, argv)
       }
     })
   }
@@ -1029,21 +1031,7 @@ var runtime = function() {
   }
 })(String(typeof arguments) !== "undefined" && arguments);
 core.Base64 = function() {
-  var b64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", b64charcodes = function() {
-    var a = [], i, codeA = "A".charCodeAt(0), codea = "a".charCodeAt(0), code0 = "0".charCodeAt(0);
-    for(i = 0;i < 26;i += 1) {
-      a.push(codeA + i)
-    }
-    for(i = 0;i < 26;i += 1) {
-      a.push(codea + i)
-    }
-    for(i = 0;i < 10;i += 1) {
-      a.push(code0 + i)
-    }
-    a.push("+".charCodeAt(0));
-    a.push("/".charCodeAt(0));
-    return a
-  }(), b64tab = function(bin) {
+  var b64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", b64tab = function(bin) {
     var t = {}, i, l;
     for(i = 0, l = bin.length;i < l;i += 1) {
       t[bin.charAt(i)] = i
@@ -1166,7 +1154,7 @@ core.Base64 = function() {
     return str
   }
   function convertUTF8StringToUTF16String(bin, callback) {
-    var partsize = 1E5, numparts = bin.length / partsize, str = "", pos = 0;
+    var partsize = 1E5, str = "", pos = 0;
     if(bin.length < partsize) {
       callback(convertUTF8StringToUTF16String_internal(bin, 0, bin.length), true);
       return
@@ -1385,30 +1373,6 @@ core.RawDeflate = function() {
     zip_flag_buf = [];
     zip_flag_buf.length = parseInt(zip_LIT_BUFSIZE / 8, 10)
   }
-  var zip_deflate_end = function() {
-    zip_free_queue = zip_qhead = zip_qtail = null;
-    zip_outbuf = null;
-    zip_window = null;
-    zip_d_buf = null;
-    zip_l_buf = null;
-    zip_prev = null;
-    zip_dyn_ltree = null;
-    zip_dyn_dtree = null;
-    zip_static_ltree = null;
-    zip_static_dtree = null;
-    zip_bl_tree = null;
-    zip_l_desc = null;
-    zip_d_desc = null;
-    zip_bl_desc = null;
-    zip_bl_count = null;
-    zip_heap = null;
-    zip_depth = null;
-    zip_length_code = null;
-    zip_dist_code = null;
-    zip_base_length = null;
-    zip_base_dist = null;
-    zip_flag_buf = null
-  };
   var zip_reuse_queue = function(p) {
     p.next = zip_free_queue;
     zip_free_queue = p
@@ -1599,7 +1563,8 @@ core.RawDeflate = function() {
         scan_end1 = zip_window[scanp + best_len - 1];
         scan_end = zip_window[scanp + best_len]
       }
-    }while((cur_match = zip_prev[cur_match & zip_WMASK]) > limit && --chain_length !== 0);
+      cur_match = zip_prev[cur_match & zip_WMASK]
+    }while(cur_match > limit && --chain_length !== 0);
     return best_len
   };
   var zip_ct_tally = function(dist, lc) {
@@ -1735,8 +1700,9 @@ core.RawDeflate = function() {
       code = code + zip_bl_count[bits - 1] << 1;
       next_code[bits] = code
     }
+    var len;
     for(n = 0;n <= max_code;n++) {
-      var len = tree[n].dl;
+      len = tree[n].dl;
       if(len === 0) {
         continue
       }
@@ -1760,8 +1726,9 @@ core.RawDeflate = function() {
         tree[n].dl = 0
       }
     }
+    var xnew;
     while(zip_heap_len < 2) {
-      var xnew = zip_heap[++zip_heap_len] = max_code < 2 ? ++max_code : 0;
+      xnew = zip_heap[++zip_heap_len] = max_code < 2 ? ++max_code : 0;
       tree[xnew].fc = 1;
       zip_depth[xnew] = 0;
       zip_opt_len--;
@@ -1812,21 +1779,20 @@ core.RawDeflate = function() {
       nextlen = tree[n + 1].dl;
       if(++count < max_count && curlen === nextlen) {
         continue
+      }
+      if(count < min_count) {
+        zip_bl_tree[curlen].fc += count
       }else {
-        if(count < min_count) {
-          zip_bl_tree[curlen].fc += count
+        if(curlen !== 0) {
+          if(curlen !== prevlen) {
+            zip_bl_tree[curlen].fc++
+          }
+          zip_bl_tree[zip_REP_3_6].fc++
         }else {
-          if(curlen !== 0) {
-            if(curlen !== prevlen) {
-              zip_bl_tree[curlen].fc++
-            }
-            zip_bl_tree[zip_REP_3_6].fc++
+          if(count <= 10) {
+            zip_bl_tree[zip_REPZ_3_10].fc++
           }else {
-            if(count <= 10) {
-              zip_bl_tree[zip_REPZ_3_10].fc++
-            }else {
-              zip_bl_tree[zip_REPZ_11_138].fc++
-            }
+            zip_bl_tree[zip_REPZ_11_138].fc++
           }
         }
       }
@@ -1926,27 +1892,26 @@ core.RawDeflate = function() {
       nextlen = tree[n + 1].dl;
       if(++count < max_count && curlen === nextlen) {
         continue
+      }
+      if(count < min_count) {
+        do {
+          zip_SEND_CODE(curlen, zip_bl_tree)
+        }while(--count !== 0)
       }else {
-        if(count < min_count) {
-          do {
-            zip_SEND_CODE(curlen, zip_bl_tree)
-          }while(--count !== 0)
+        if(curlen !== 0) {
+          if(curlen !== prevlen) {
+            zip_SEND_CODE(curlen, zip_bl_tree);
+            count--
+          }
+          zip_SEND_CODE(zip_REP_3_6, zip_bl_tree);
+          zip_send_bits(count - 3, 2)
         }else {
-          if(curlen !== 0) {
-            if(curlen !== prevlen) {
-              zip_SEND_CODE(curlen, zip_bl_tree);
-              count--
-            }
-            zip_SEND_CODE(zip_REP_3_6, zip_bl_tree);
-            zip_send_bits(count - 3, 2)
+          if(count <= 10) {
+            zip_SEND_CODE(zip_REPZ_3_10, zip_bl_tree);
+            zip_send_bits(count - 3, 3)
           }else {
-            if(count <= 10) {
-              zip_SEND_CODE(zip_REPZ_3_10, zip_bl_tree);
-              zip_send_bits(count - 3, 3)
-            }else {
-              zip_SEND_CODE(zip_REPZ_11_138, zip_bl_tree);
-              zip_send_bits(count - 11, 7)
-            }
+            zip_SEND_CODE(zip_REPZ_11_138, zip_bl_tree);
+            zip_send_bits(count - 11, 7)
           }
         }
       }
@@ -2033,8 +1998,8 @@ core.RawDeflate = function() {
     }
   };
   var zip_deflate_fast = function() {
+    var flush;
     while(zip_lookahead !== 0 && zip_qhead === null) {
-      var flush;
       zip_INSERT_STRING();
       if(zip_hash_head !== zip_NIL && zip_strstart - zip_hash_head <= zip_MAX_DIST) {
         zip_match_length = zip_longest_match(zip_hash_head);
@@ -2073,6 +2038,7 @@ core.RawDeflate = function() {
     }
   };
   var zip_deflate_better = function() {
+    var flush;
     while(zip_lookahead !== 0 && zip_qhead === null) {
       zip_INSERT_STRING();
       zip_prev_length = zip_match_length;
@@ -2088,7 +2054,6 @@ core.RawDeflate = function() {
         }
       }
       if(zip_prev_length >= zip_MIN_MATCH && zip_match_length <= zip_prev_length) {
-        var flush;
         flush = zip_ct_tally(zip_strstart - 1 - zip_prev_match, zip_prev_length - zip_MIN_MATCH);
         zip_lookahead -= zip_prev_length - 1;
         zip_prev_length -= 2;
@@ -2223,7 +2188,7 @@ core.RawDeflate = function() {
     zip_complete = false
   };
   var zip_qcopy = function(buff, off, buff_size) {
-    var n, i, j;
+    var n, i, j, p;
     n = 0;
     while(zip_qhead !== null && n < buff_size) {
       i = buff_size - n;
@@ -2237,7 +2202,6 @@ core.RawDeflate = function() {
       zip_qhead.len -= i;
       n += i;
       if(zip_qhead.len === 0) {
-        var p;
         p = zip_qhead;
         zip_qhead = zip_qhead.next;
         zip_reuse_queue(p)
@@ -2272,7 +2236,8 @@ core.RawDeflate = function() {
         return 0
       }
     }
-    if((n = zip_qcopy(buff, off, buff_size)) === buff_size) {
+    n = zip_qcopy(buff, off, buff_size);
+    if(n === buff_size) {
       return buff_size
     }
     if(zip_complete) {
@@ -2301,14 +2266,15 @@ core.RawDeflate = function() {
     }
     zip_deflate_start(level);
     var buff = new Array(1024);
-    var aout = [];
-    while((i = zip_deflate_internal(buff, 0, buff.length)) > 0) {
-      var cbuf = [];
+    var aout = [], cbuf = [];
+    i = zip_deflate_internal(buff, 0, buff.length);
+    while(i > 0) {
       cbuf.length = i;
       for(j = 0;j < i;j++) {
         cbuf[j] = String.fromCharCode(buff[j])
       }
-      aout[aout.length] = cbuf.join("")
+      aout[aout.length] = cbuf.join("");
+      i = zip_deflate_internal(buff, 0, buff.length)
     }
     zip_deflate_data = null;
     return aout.join("")
@@ -2319,12 +2285,14 @@ core.ByteArray = function ByteArray(data) {
   this.pos = 0;
   this.data = data;
   this.readUInt32LE = function() {
-    var data = this.data, pos = this.pos += 4;
-    return data[--pos] << 24 | data[--pos] << 16 | data[--pos] << 8 | data[--pos]
+    this.pos += 4;
+    var d = this.data, pos = this.pos;
+    return d[--pos] << 24 | d[--pos] << 16 | d[--pos] << 8 | d[--pos]
   };
   this.readUInt16LE = function() {
-    var data = this.data, pos = this.pos += 2;
-    return data[--pos] << 8 | data[--pos]
+    this.pos += 2;
+    var d = this.data, pos = this.pos;
+    return d[--pos] << 8 | d[--pos]
   }
 };
 core.ByteArrayWriter = function ByteArrayWriter(encoding) {
@@ -3014,22 +2982,83 @@ core.LoopWatchDog = function LoopWatchDog(timeout, maxChecks) {
   }
   this.check = check
 };
-core.DomUtils = function DomUtils() {
-  function splitBoundaries(range) {
-    var modifiedNodes = [], splitStart;
-    if(range.endOffset !== 0 && range.endContainer.nodeType === Node.TEXT_NODE && range.endOffset !== range.endContainer.length) {
-      modifiedNodes.push(range.endContainer.splitText(range.endOffset));
-      modifiedNodes.push(range.endContainer)
+core.Utils = function Utils() {
+  function hashString(value) {
+    var hash = 0, i, l;
+    for(i = 0, l = value.length;i < l;i += 1) {
+      hash = (hash << 5) - hash + value.charCodeAt(i);
+      hash |= 0
     }
-    if(range.startOffset !== 0 && range.startContainer.nodeType === Node.TEXT_NODE && range.startOffset !== range.startContainer.length) {
-      splitStart = range.startContainer.splitText(range.startOffset);
-      modifiedNodes.push(range.startContainer);
-      modifiedNodes.push(splitStart);
-      range.setStart(splitStart, 0)
+    return hash
+  }
+  this.hashString = hashString
+};
+core.DomUtils = function DomUtils() {
+  function findStablePoint(container, offset) {
+    if(offset < container.childNodes.length) {
+      container = container.childNodes[offset];
+      offset = 0;
+      while(container.firstChild) {
+        container = container.firstChild
+      }
+    }else {
+      while(container.lastChild) {
+        container = container.lastChild;
+        offset = container.nodeType === Node.TEXT_NODE ? container.textContent.length : container.childNodes.length
+      }
+    }
+    return{container:container, offset:offset}
+  }
+  function splitBoundaries(range) {
+    var modifiedNodes = [], end, splitStart;
+    if(range.startContainer.nodeType === Node.TEXT_NODE || range.endContainer.nodeType === Node.TEXT_NODE) {
+      end = findStablePoint(range.endContainer, range.endOffset);
+      range.setEnd(end.container, end.offset);
+      if(range.endOffset !== 0 && range.endContainer.nodeType === Node.TEXT_NODE && range.endOffset !== range.endContainer.length) {
+        modifiedNodes.push(range.endContainer.splitText(range.endOffset));
+        modifiedNodes.push(range.endContainer)
+      }
+      if(range.startOffset !== 0 && range.startContainer.nodeType === Node.TEXT_NODE && range.startOffset !== range.startContainer.length) {
+        splitStart = range.startContainer.splitText(range.startOffset);
+        modifiedNodes.push(range.startContainer);
+        modifiedNodes.push(splitStart);
+        range.setStart(splitStart, 0)
+      }
     }
     return modifiedNodes
   }
   this.splitBoundaries = splitBoundaries;
+  function containsRange(container, insideRange) {
+    return container.compareBoundaryPoints(container.START_TO_START, insideRange) <= 0 && container.compareBoundaryPoints(container.END_TO_END, insideRange) >= 0
+  }
+  this.containsRange = containsRange;
+  function rangesIntersect(range1, range2) {
+    return range1.compareBoundaryPoints(range1.END_TO_START, range2) <= 0 && range1.compareBoundaryPoints(range1.START_TO_END, range2) >= 0
+  }
+  this.rangesIntersect = rangesIntersect;
+  function getNodesInRange(range, nodeFilter) {
+    var document = range.startContainer.ownerDocument, elements = [], root = (range.commonAncestorContainer), n, treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_ALL, nodeFilter, false);
+    treeWalker.currentNode = range.startContainer;
+    n = range.startContainer;
+    while(n) {
+      if(nodeFilter(n) === NodeFilter.FILTER_ACCEPT) {
+        elements.push(n)
+      }else {
+        if(nodeFilter(n) === NodeFilter.FILTER_REJECT) {
+          break
+        }
+      }
+      n = n.parentNode
+    }
+    elements.reverse();
+    n = treeWalker.nextNode();
+    while(n) {
+      elements.push(n);
+      n = treeWalker.nextNode()
+    }
+    return elements
+  }
+  this.getNodesInRange = getNodesInRange;
   function mergeTextNodes(node1, node2) {
     if(node1.nodeType === Node.TEXT_NODE) {
       if(node1.length === 0) {
@@ -3074,11 +3103,16 @@ core.DomUtils = function DomUtils() {
   function getElementsByTagNameNS(node, namespace, tagName) {
     return Array.prototype.slice.call(node.getElementsByTagNameNS(namespace, tagName))
   }
-  this.getElementsByTagNameNS = getElementsByTagNameNS
+  this.getElementsByTagNameNS = getElementsByTagNameNS;
+  function rangeIntersectsNode(range, node) {
+    var nodeLength = node.nodeType === Node.TEXT_NODE ? node.length : node.childNodes.length;
+    return range.comparePoint(node, 0) <= 0 && range.comparePoint(node, nodeLength) >= 0
+  }
+  this.rangeIntersectsNode = rangeIntersectsNode
 };
 runtime.loadClass("core.DomUtils");
 core.Cursor = function Cursor(document, memberId) {
-  var self = this, cursorns = "urn:webodf:names:cursor", cursorNode = document.createElementNS(cursorns, "cursor"), anchorNode = document.createElementNS(cursorns, "anchor"), forwardSelection, recentlyModifiedNodes = [], selectedRange, isCollapsed, domUtils = new core.DomUtils;
+  var cursorns = "urn:webodf:names:cursor", cursorNode = document.createElementNS(cursorns, "cursor"), anchorNode = document.createElementNS(cursorns, "anchor"), forwardSelection, recentlyModifiedNodes = [], selectedRange, isCollapsed, domUtils = new core.DomUtils;
   function putIntoTextNode(node, container, offset) {
     runtime.assert(Boolean(container), "putCursorIntoTextNode: invalid container");
     var parent = container.parentNode;
@@ -3213,7 +3247,7 @@ core.Cursor = function Cursor(document, memberId) {
  @source: http://gitorious.org/webodf/webodf/
 */
 core.EventNotifier = function EventNotifier(eventIds) {
-  var self = this, eventListener = {};
+  var eventListener = {};
   this.emit = function(eventId, args) {
     var i, subscribers;
     runtime.assert(eventListener.hasOwnProperty(eventId), 'unknown event fired "' + eventId + '"');
@@ -3485,13 +3519,13 @@ core.UnitTester = function UnitTester() {
         return
       }
       t = todo[0];
-      var tname = Runtime.getFunctionName(t);
-      runtime.log("Running " + tname);
+      var fname = Runtime.getFunctionName(t);
+      runtime.log("Running " + fname);
       lastFailCount = runner.countFailedTests();
       test.setUp();
       t(function() {
         test.tearDown();
-        testResults[tname] = lastFailCount === runner.countFailedTests();
+        testResults[fname] = lastFailCount === runner.countFailedTests();
         runAsyncTests(todo.slice(1))
       })
     }
@@ -3658,17 +3692,6 @@ core.PositionIterator = function PositionIterator(root, whatToShow, filter, expa
     }
     return c
   };
-  this.textOffset = function() {
-    if(walker.currentNode.nodeType !== Node.TEXT_NODE) {
-      return 0
-    }
-    var offset = currentPos, n = walker.currentNode;
-    while(walker.previousSibling() && walker.currentNode.nodeType === Node.TEXT_NODE) {
-      offset += walker.currentNode.length
-    }
-    walker.currentNode = n;
-    return offset
-  };
   this.getPreviousSibling = function() {
     var currentNode = walker.currentNode, sibling = walker.previousSibling();
     walker.currentNode = currentNode;
@@ -3678,33 +3701,6 @@ core.PositionIterator = function PositionIterator(root, whatToShow, filter, expa
     var currentNode = walker.currentNode, sibling = walker.nextSibling();
     walker.currentNode = currentNode;
     return sibling
-  };
-  this.text = function() {
-    var i, data = "", neighborhood = self.textNeighborhood();
-    for(i = 0;i < neighborhood.length;i += 1) {
-      data += neighborhood[i].data
-    }
-    return data
-  };
-  this.textNeighborhood = function() {
-    var n = walker.currentNode, t, neighborhood = [];
-    if(n.nodeType !== Node.TEXT_NODE) {
-      return neighborhood
-    }
-    while(walker.previousSibling()) {
-      if(walker.currentNode.nodeType !== Node.TEXT_NODE) {
-        walker.nextSibling();
-        break
-      }
-    }
-    do {
-      neighborhood.push(walker.currentNode)
-    }while(walker.nextSibling() && walker.currentNode.nodeType === Node.TEXT_NODE);
-    walker.currentNode = n;
-    return neighborhood
-  };
-  this.substr = function(start, length) {
-    return self.text().substr(start, length)
   };
   this.setUnfilteredPosition = function(container, offset) {
     var filterResult;
@@ -3786,6 +3782,27 @@ core.PositionFilter.prototype.acceptPosition = function(point) {
 (function() {
   return core.PositionFilter
 })();
+runtime.loadClass("core.PositionFilter");
+core.PositionFilterChain = function PositionFilterChain() {
+  var filterChain = {}, FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT;
+  this.acceptPosition = function(iterator) {
+    var filterName;
+    for(filterName in filterChain) {
+      if(filterChain.hasOwnProperty(filterName)) {
+        if(filterChain[filterName].acceptPosition(iterator) === FILTER_REJECT) {
+          return FILTER_REJECT
+        }
+      }
+    }
+    return FILTER_ACCEPT
+  };
+  this.addFilter = function(filterName, filterInstance) {
+    filterChain[filterName] = filterInstance
+  };
+  this.removeFilter = function(filterName) {
+    delete filterChain[filterName]
+  }
+};
 core.Async = function Async() {
   this.forEach = function(items, f, callback) {
     var i, l = items.length, itemsDone = 0;
@@ -3807,6 +3824,14 @@ core.Async = function Async() {
     }
   }
 };
+/*
+
+ WebODF
+ Copyright (c) 2010 Jos van den Oever
+ Licensed under the ... License:
+
+ Project home: http://www.webodf.org/
+*/
 runtime.loadClass("core.RawInflate");
 runtime.loadClass("core.ByteArray");
 runtime.loadClass("core.ByteArrayWriter");
@@ -3838,26 +3863,26 @@ core.Zip = function Zip(url, entriesReadCallback) {
     return y < 1980 ? 0 : y - 1980 << 25 | date.getMonth() + 1 << 21 | date.getDate() << 16 | date.getHours() << 11 | date.getMinutes() << 5 | date.getSeconds() >> 1
   }
   function ZipEntry(url, stream) {
-    var sig, namelen, extralen, commentlen, compressionMethod, compressedSize, uncompressedSize, offset, crc, entry = this;
+    var sig, namelen, extralen, commentlen, compressionMethod, compressedSize, uncompressedSize, offset, entry = this;
     function handleEntryData(data, callback) {
-      var stream = new core.ByteArray(data), sig = stream.readUInt32LE(), filenamelen, extralen;
-      if(sig !== 67324752) {
-        callback("File entry signature is wrong." + sig.toString() + " " + data.length.toString(), null);
+      var estream = new core.ByteArray(data), esig = estream.readUInt32LE(), filenamelen, eextralen;
+      if(esig !== 67324752) {
+        callback("File entry signature is wrong." + esig.toString() + " " + data.length.toString(), null);
         return
       }
-      stream.pos += 22;
-      filenamelen = stream.readUInt16LE();
-      extralen = stream.readUInt16LE();
-      stream.pos += filenamelen + extralen;
+      estream.pos += 22;
+      filenamelen = estream.readUInt16LE();
+      eextralen = estream.readUInt16LE();
+      estream.pos += filenamelen + eextralen;
       if(compressionMethod) {
-        data = data.slice(stream.pos, stream.pos + compressedSize);
+        data = data.slice(estream.pos, estream.pos + compressedSize);
         if(compressedSize !== data.length) {
           callback("The amount of compressed bytes read was " + data.length.toString() + " instead of " + compressedSize.toString() + " for " + entry.filename + " in " + url + ".", null);
           return
         }
         data = inflate(data, uncompressedSize)
       }else {
-        data = data.slice(stream.pos, stream.pos + uncompressedSize)
+        data = data.slice(estream.pos, estream.pos + uncompressedSize)
       }
       if(uncompressedSize !== data.length) {
         callback("The amount of bytes read was " + data.length.toString() + " instead of " + uncompressedSize.toString() + " for " + entry.filename + " in " + url + ".", null);
@@ -3903,7 +3928,7 @@ core.Zip = function Zip(url, entriesReadCallback) {
     stream.pos += 6;
     compressionMethod = stream.readUInt16LE();
     this.date = dosTime2Date(stream.readUInt32LE());
-    crc = stream.readUInt32LE();
+    stream.readUInt32LE();
     compressedSize = stream.readUInt32LE();
     uncompressedSize = stream.readUInt32LE();
     namelen = stream.readUInt16LE();
@@ -3966,7 +3991,7 @@ core.Zip = function Zip(url, entriesReadCallback) {
     })
   }
   function load(filename, callback) {
-    var entry = null, end = filesize, e, i;
+    var entry = null, e, i;
     for(i = 0;i < entries.length;i += 1) {
       e = entries[i];
       if(e.filename === filename) {
@@ -4006,7 +4031,7 @@ core.Zip = function Zip(url, entriesReadCallback) {
       if(err) {
         return callback(err, null)
       }
-      var p = data, chunksize = 45E3, i = 0, url;
+      var p = data, chunksize = 45E3, i = 0, dataurl;
       if(!mimetype) {
         if(p[1] === 80 && p[2] === 78 && p[3] === 71) {
           mimetype = "image/png"
@@ -4022,12 +4047,12 @@ core.Zip = function Zip(url, entriesReadCallback) {
           }
         }
       }
-      url = "data:" + mimetype + ";base64,";
+      dataurl = "data:" + mimetype + ";base64,";
       while(i < data.length) {
-        url += base64.convertUTF8ArrayToBase64(p.slice(i, Math.min(i + chunksize, p.length)));
+        dataurl += base64.convertUTF8ArrayToBase64(p.slice(i, Math.min(i + chunksize, p.length)));
         i += chunksize
       }
-      callback(null, url)
+      callback(null, dataurl)
     })
   }
   function loadAsDOM(filename, callback) {
@@ -4213,7 +4238,7 @@ xmldom.LSSerializer = function LSSerializer() {
       }
       return m
     }
-    var self = this, current = nsmap || {}, currentrev = invertMap(nsmap), levels = [current], levelsrev = [currentrev], level = 0;
+    var current = nsmap || {}, currentrev = invertMap(nsmap), levels = [current], levelsrev = [currentrev], level = 0;
     this.push = function() {
       level += 1;
       current = levels[level] = Object.create(current);
@@ -4230,7 +4255,7 @@ xmldom.LSSerializer = function LSSerializer() {
       return currentrev
     };
     this.getQName = function(node) {
-      var ns = node.namespaceURI, n, i = 0, p;
+      var ns = node.namespaceURI, i = 0, p;
       if(!ns) {
         return node.localName
       }
@@ -4363,12 +4388,14 @@ xmldom.RelaxNGParser = function RelaxNGParser() {
     return r
   }
   function splitQNames(def) {
-    var i, l = def.names ? def.names.length : 0, name, localnames = def.localnames = [l], namespaces = def.namespaces = [l];
+    var i, l = def.names ? def.names.length : 0, name, localnames = [], namespaces = [];
     for(i = 0;i < l;i += 1) {
       name = splitQName(def.names[i]);
       namespaces[i] = name[0];
       localnames[i] = name[1]
     }
+    def.localnames = localnames;
+    def.namespaces = namespaces
   }
   function trim(str) {
     str = str.replace(/^\s\s*/, "");
@@ -4597,7 +4624,7 @@ xmldom.RelaxNGParser = function RelaxNGParser() {
     }
   }
   function resolveElements(def, elements) {
-    var i = 0, e, name;
+    var i = 0, e;
     while(def.e && i < def.e.length) {
       e = def.e[i];
       if(e.name === "elementref") {
@@ -4665,7 +4692,7 @@ xmldom.RelaxNG = function RelaxNG() {
     return notAllowed
   }, startTagOpenDeriv:function() {
     return notAllowed
-  }, attDeriv:function(context, attribute) {
+  }, attDeriv:function() {
     return notAllowed
   }, startTagCloseDeriv:function() {
     return empty
@@ -4944,7 +4971,7 @@ xmldom.RelaxNG = function RelaxNG() {
         return createAfter(p, empty)
       }
       return notAllowed
-    }, attDeriv:function(context, attribute) {
+    }, attDeriv:function() {
       return notAllowed
     }, startTagCloseDeriv:function() {
       return this
@@ -4964,7 +4991,7 @@ xmldom.RelaxNG = function RelaxNG() {
     }}
   });
   function createList() {
-    return{type:"list", nullable:false, hash:"list", textDeriv:function(context, text) {
+    return{type:"list", nullable:false, hash:"list", textDeriv:function() {
       return empty
     }}
   }
@@ -4986,9 +5013,6 @@ xmldom.RelaxNG = function RelaxNG() {
       return this
     }}
   });
-  function createDataExcept() {
-    return{type:"dataExcept", nullable:false, hash:"dataExcept"}
-  }
   applyAfter = function applyAfter(f, p) {
     var result;
     if(p.type === "after") {
@@ -5024,14 +5048,13 @@ xmldom.RelaxNG = function RelaxNG() {
     return a
   }
   function childrenDeriv(context, pattern, walker) {
-    var element = walker.currentNode, childNode = walker.firstChild(), numberOfTextNodes = 0, childNodes = [], i, p;
+    var element = walker.currentNode, childNode = walker.firstChild(), childNodes = [], i, p;
     while(childNode) {
       if(childNode.nodeType === Node.ELEMENT_NODE) {
         childNodes.push(childNode)
       }else {
         if(childNode.nodeType === Node.TEXT_NODE && !/^\s*$/.test(childNode.nodeValue)) {
-          childNodes.push(childNode.nodeValue);
-          numberOfTextNodes += 1
+          childNodes.push(childNode.nodeValue)
         }
       }
       childNode = walker.nextSibling()
@@ -5097,9 +5120,9 @@ xmldom.RelaxNG = function RelaxNG() {
           hash += "{" + ns[i] + "}" + name[i] + ","
         }
         result = {hash:hash, contains:function(node) {
-          var i;
-          for(i = 0;i < name.length;i += 1) {
-            if(name[i] === node.localName && ns[i] === node.namespaceURI) {
+          var j;
+          for(j = 0;j < name.length;j += 1) {
+            if(name[j] === node.localName && ns[j] === node.namespaceURI) {
               return true
             }
           }
@@ -5196,7 +5219,7 @@ xmldom.RelaxNG = function RelaxNG() {
 };
 runtime.loadClass("xmldom.RelaxNGParser");
 xmldom.RelaxNG2 = function RelaxNG2() {
-  var start, validateNonEmptyPattern, nsmap, depth = 0, p = "                                                                ";
+  var start, validateNonEmptyPattern, nsmap;
   function RelaxNGParseError(error, context) {
     this.message = function() {
       if(context) {
@@ -5258,26 +5281,22 @@ xmldom.RelaxNG2 = function RelaxNG2() {
   function validateTop(elementdef, walker, element) {
     return validatePattern(elementdef, walker, element)
   }
-  function validateElement(elementdef, walker, element) {
+  function validateElement(elementdef, walker) {
     if(elementdef.e.length !== 2) {
       throw"Element with wrong # of elements: " + elementdef.e.length;
     }
-    depth += 1;
     var node = walker.currentNode, type = node ? node.nodeType : 0, error = null;
     while(type > Node.ELEMENT_NODE) {
       if(type !== Node.COMMENT_NODE && (type !== Node.TEXT_NODE || !/^\s+$/.test(walker.currentNode.nodeValue))) {
-        depth -= 1;
         return[new RelaxNGParseError("Not allowed node of type " + type + ".")]
       }
       node = walker.nextSibling();
       type = node ? node.nodeType : 0
     }
     if(!node) {
-      depth -= 1;
       return[new RelaxNGParseError("Missing element " + elementdef.names)]
     }
     if(elementdef.names && elementdef.names.indexOf(qName(node)) === -1) {
-      depth -= 1;
       return[new RelaxNGParseError("Found " + node.nodeName + " instead of " + elementdef.names + ".", node)]
     }
     if(walker.firstChild()) {
@@ -5285,18 +5304,15 @@ xmldom.RelaxNG2 = function RelaxNG2() {
       while(walker.nextSibling()) {
         type = walker.currentNode.nodeType;
         if(!isWhitespace(walker.currentNode) && type !== Node.COMMENT_NODE) {
-          depth -= 1;
           return[new RelaxNGParseError("Spurious content.", walker.currentNode)]
         }
       }
       if(walker.parentNode() !== node) {
-        depth -= 1;
         return[new RelaxNGParseError("Implementation error.")]
       }
     }else {
       error = validateTop(elementdef.e[1], walker, node)
     }
-    depth -= 1;
     node = walker.nextSibling();
     return error
   }
@@ -5372,7 +5388,7 @@ xmldom.RelaxNG2 = function RelaxNG2() {
     return validateNonEmptyPattern(elementdef.e[0], walker, element) || validateNonEmptyPattern(elementdef.e[1], walker, element)
   }
   function validateText(elementdef, walker, element) {
-    var node = walker.currentNode, type = node ? node.nodeType : 0, error = null;
+    var node = walker.currentNode, type = node ? node.nodeType : 0;
     while(node !== element && type !== 3) {
       if(type === 1) {
         return[new RelaxNGParseError("Element not allowed here.", node)]
@@ -5403,7 +5419,7 @@ xmldom.RelaxNG2 = function RelaxNG2() {
               err = validateAttribute(elementdef, walker, element)
             }else {
               if(name === "element") {
-                err = validateElement(elementdef, walker, element)
+                err = validateElement(elementdef, walker)
               }else {
                 if(name === "oneOrMore") {
                   err = validateOneOrMore(elementdef, walker, element)
@@ -5440,60 +5456,6 @@ xmldom.RelaxNG2 = function RelaxNG2() {
     nsmap = nsmap1
   }
 };
-xmldom.OperationalTransformInterface = function() {
-};
-xmldom.OperationalTransformInterface.prototype.retain = function(amount) {
-};
-xmldom.OperationalTransformInterface.prototype.insertCharacters = function(chars) {
-};
-xmldom.OperationalTransformInterface.prototype.insertElementStart = function(tagname, attributes) {
-};
-xmldom.OperationalTransformInterface.prototype.insertElementEnd = function() {
-};
-xmldom.OperationalTransformInterface.prototype.deleteCharacters = function(amount) {
-};
-xmldom.OperationalTransformInterface.prototype.deleteElementStart = function() {
-};
-xmldom.OperationalTransformInterface.prototype.deleteElementEnd = function() {
-};
-xmldom.OperationalTransformInterface.prototype.replaceAttributes = function(atts) {
-};
-xmldom.OperationalTransformInterface.prototype.updateAttributes = function(atts) {
-};
-xmldom.OperationalTransformDOM = function OperationalTransformDOM(root, serializer) {
-  var pos, length;
-  function retain(amount) {
-  }
-  function insertCharacters(chars) {
-  }
-  function insertElementStart(tagname, attributes) {
-  }
-  function insertElementEnd() {
-  }
-  function deleteCharacters(amount) {
-  }
-  function deleteElementStart() {
-  }
-  function deleteElementEnd() {
-  }
-  function replaceAttributes(atts) {
-  }
-  function updateAttributes(atts) {
-  }
-  function atEnd() {
-    return pos === length
-  }
-  this.retain = retain;
-  this.insertCharacters = insertCharacters;
-  this.insertElementStart = insertElementStart;
-  this.insertElementEnd = insertElementEnd;
-  this.deleteCharacters = deleteCharacters;
-  this.deleteElementStart = deleteElementStart;
-  this.deleteElementEnd = deleteElementEnd;
-  this.replaceAttributes = replaceAttributes;
-  this.updateAttributes = updateAttributes;
-  this.atEnd = atEnd
-};
 xmldom.XPathIterator = function XPathIterator() {
 };
 xmldom.XPath = function() {
@@ -5502,7 +5464,7 @@ xmldom.XPath = function() {
     return a !== -1 && (a < b || b === -1) && (a < c || c === -1)
   }
   function parseXPathStep(xpath, pos, end, steps) {
-    var location = "", predicates = [], value, brapos = xpath.indexOf("[", pos), slapos = xpath.indexOf("/", pos), eqpos = xpath.indexOf("=", pos), depth = 0, start = 0;
+    var location = "", predicates = [], brapos = xpath.indexOf("[", pos), slapos = xpath.indexOf("/", pos), eqpos = xpath.indexOf("=", pos);
     if(isSmallestPositive(slapos, brapos, eqpos)) {
       location = xpath.substring(pos, slapos);
       pos = slapos + 1
@@ -5534,7 +5496,7 @@ xmldom.XPath = function() {
         }else {
           try {
             value = parseInt(value, 10)
-          }catch(e) {
+          }catch(ignore) {
           }
         }
         p = end
@@ -5543,7 +5505,7 @@ xmldom.XPath = function() {
     return{steps:steps, value:value}
   }
   parsePredicates = function parsePredicates(xpath, start, predicates) {
-    var pos = start, l = xpath.length, selector, depth = 0;
+    var pos = start, l = xpath.length, depth = 0;
     while(pos < l) {
       if(xpath[pos] === "]") {
         depth -= 1;
@@ -5585,7 +5547,7 @@ xmldom.XPath = function() {
       it.reset()
     };
     this.next = function next() {
-      var node = it.next(), attr;
+      var node = it.next();
       while(node) {
         node = node.getAttributeNodeNS(namespace, localName);
         if(node) {
@@ -5668,7 +5630,7 @@ xmldom.XPath = function() {
     })
   }
   createXPathPathIterator = function createXPathPathIterator(it, xpath, namespaceResolver) {
-    var i, j, step, location, namespace, localName, prefix, p;
+    var i, j, step, location, p;
     for(i = 0;i < xpath.steps.length;i += 1) {
       step = xpath.steps[i];
       location = step.location;
@@ -5695,7 +5657,7 @@ xmldom.XPath = function() {
     return it
   };
   function fallback(node, xpath, namespaceResolver) {
-    var it = new XPathNodeIterator, i, nodelist, parsedXPath, pos;
+    var it = new XPathNodeIterator, i, nodelist, parsedXPath;
     it.setNode(node);
     parsedXPath = parseXPath(xpath);
     it = createXPathPathIterator(it, parsedXPath, namespaceResolver);
@@ -5762,9 +5724,219 @@ xmldom.XPath = function() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+gui.AnnotationViewManager = function AnnotationViewManager(odfFragment, annotationsPane) {
+  var annotations = [], doc = odfFragment.ownerDocument, odfUtils = new odf.OdfUtils, CONNECTOR_MARGIN = 30, NOTE_MARGIN = 20, window = runtime.getWindow();
+  runtime.assert(Boolean(window), "Expected to be run in an environment which has a global window, like a browser.");
+  function wrapAnnotation(annotation) {
+    var annotationWrapper = doc.createElement("div"), annotationNote = doc.createElement("div"), connectorHorizontal = doc.createElement("div"), connectorAngular = doc.createElement("div"), annotationNode = annotation.node;
+    annotationWrapper.className = "annotationWrapper";
+    annotationNode.parentNode.insertBefore(annotationWrapper, annotationNode);
+    annotationNote.className = "annotationNote";
+    annotationNote.appendChild(annotationNode);
+    connectorHorizontal.className = "annotationConnector horizontal";
+    connectorAngular.className = "annotationConnector angular";
+    annotationWrapper.appendChild(annotationNote);
+    annotationWrapper.appendChild(connectorHorizontal);
+    annotationWrapper.appendChild(connectorAngular)
+  }
+  function unwrapAnnotation(annotation) {
+    var annotationNode = annotation.node, annotationWrapper = annotationNode.parentNode.parentNode;
+    if(annotationWrapper.localName === "div") {
+      annotationWrapper.parentNode.insertBefore(annotationNode, annotationWrapper);
+      annotationWrapper.parentNode.removeChild(annotationWrapper)
+    }
+  }
+  function highlightAnnotation(annotation) {
+    var annotationNode = annotation.node, annotationEnd = annotation.end, range = doc.createRange(), textNodes;
+    if(annotationEnd) {
+      range.setStart(annotationNode, annotationNode.childNodes.length);
+      range.setEnd(annotationEnd, 0);
+      textNodes = odfUtils.getTextNodes(range, false);
+      textNodes.forEach(function(n) {
+        var container = doc.createElement("span");
+        container.className = "annotationHighlight";
+        container.setAttribute("annotation", annotationNode.getAttributeNS(odf.Namespaces.officens, "name"));
+        n.parentNode.insertBefore(container, n);
+        container.appendChild(n)
+      })
+    }
+    range.detach()
+  }
+  function unhighlightAnnotation(annotation) {
+    var annotationName = annotation.node.getAttributeNS(odf.Namespaces.officens, "name"), highlightSpans = doc.querySelectorAll('span.annotationHighlight[annotation="' + annotationName + '"]'), i, j, container, children;
+    for(i = 0;i < highlightSpans.length;i += 1) {
+      container = highlightSpans[i];
+      children = container.childNodes;
+      for(j = 0;j < children.length;j += 1) {
+        container.parentNode.insertBefore(children[j], container)
+      }
+      container.parentNode.removeChild(container)
+    }
+  }
+  function lineDistance(point1, point2) {
+    var xs = 0, ys = 0;
+    xs = point2.x - point1.x;
+    xs = xs * xs;
+    ys = point2.y - point1.y;
+    ys = ys * ys;
+    return Math.sqrt(xs + ys)
+  }
+  function renderAnnotation(annotation) {
+    var annotationNote = annotation.node.parentNode, connectorHorizontal = annotationNote.nextSibling, connectorAngular = connectorHorizontal.nextSibling, annotationWrapper = annotationNote.parentNode, connectorAngle = 0, previousAnnotation = annotations[annotations.indexOf(annotation) - 1], previousRect, creatorNode = annotation.node.getElementsByTagNameNS(odf.Namespaces.dcns, "creator")[0], creatorName;
+    annotationNote.style.left = annotationsPane.getBoundingClientRect().left - annotationWrapper.getBoundingClientRect().left + "px";
+    annotationNote.style.width = annotationsPane.getBoundingClientRect().width + "px";
+    connectorHorizontal.style.width = parseFloat(annotationNote.style.left) - CONNECTOR_MARGIN + "px";
+    if(previousAnnotation) {
+      previousRect = previousAnnotation.node.parentNode.getBoundingClientRect();
+      if(annotationWrapper.getBoundingClientRect().top - previousRect.bottom <= NOTE_MARGIN) {
+        annotationNote.style.top = Math.abs(annotationWrapper.getBoundingClientRect().top - previousRect.bottom) + NOTE_MARGIN + "px"
+      }else {
+        annotationNote.style.top = "0px"
+      }
+    }
+    connectorAngular.style.left = connectorHorizontal.getBoundingClientRect().width + "px";
+    connectorAngular.style.width = lineDistance({x:connectorAngular.getBoundingClientRect().left, y:connectorAngular.getBoundingClientRect().top}, {x:annotationNote.getBoundingClientRect().left, y:annotationNote.getBoundingClientRect().top}) + "px";
+    connectorAngle = Math.asin((annotationNote.getBoundingClientRect().top - connectorAngular.getBoundingClientRect().top) / parseFloat(connectorAngular.style.width));
+    connectorAngular.style.transform = "rotate(" + connectorAngle + "rad)";
+    connectorAngular.style.MozTransform = "rotate(" + connectorAngle + "rad)";
+    connectorAngular.style.WebkitTransform = "rotate(" + connectorAngle + "rad)";
+    connectorAngular.style.msTransform = "rotate(" + connectorAngle + "rad)";
+    if(creatorNode) {
+      creatorName = window.getComputedStyle((creatorNode), ":before").content;
+      if(creatorName && creatorName !== "none") {
+        creatorName = creatorName.substring(1, creatorName.length - 1);
+        if(creatorNode.firstChild) {
+          creatorNode.firstChild.nodeValue = creatorName
+        }else {
+          creatorNode.appendChild(doc.createTextNode(creatorName))
+        }
+      }
+    }
+  }
+  function sortAnnotations() {
+    annotations.sort(function(a, b) {
+      if(a.node.compareDocumentPosition(b.node) === Node.DOCUMENT_POSITION_FOLLOWING) {
+        return-1
+      }
+      return 1
+    })
+  }
+  function rerenderAnnotations() {
+    var i;
+    for(i = 0;i < annotations.length;i += 1) {
+      renderAnnotation(annotations[i])
+    }
+  }
+  this.rerenderAnnotations = rerenderAnnotations;
+  function addAnnotation(annotation) {
+    annotations.push({node:annotation.node, end:annotation.end});
+    sortAnnotations();
+    wrapAnnotation(annotation);
+    if(annotation.end) {
+      highlightAnnotation(annotation)
+    }
+    rerenderAnnotations()
+  }
+  this.addAnnotation = addAnnotation;
+  function forgetAnnotation(annotation) {
+    unwrapAnnotation(annotation);
+    unhighlightAnnotation(annotation);
+    annotations.splice(annotations.indexOf(annotation), 1)
+  }
+  function forgetAnnotations() {
+    while(annotations.length) {
+      forgetAnnotation(annotations[0])
+    }
+  }
+  this.forgetAnnotations = forgetAnnotations
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+odf.OdfNodeFilter = function OdfNodeFilter() {
+  this.acceptNode = function(node) {
+    var result;
+    if(node.namespaceURI === "http://www.w3.org/1999/xhtml") {
+      result = NodeFilter.FILTER_SKIP
+    }else {
+      if(node.namespaceURI && node.namespaceURI.match(/^urn:webodf:/)) {
+        result = NodeFilter.FILTER_REJECT
+      }else {
+        result = NodeFilter.FILTER_ACCEPT
+      }
+    }
+    return result
+  }
+};
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
 odf.Namespaces = function() {
   var drawns = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", fons = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", presentationns = "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", tablens = "urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", 
-  xlinkns = "http://www.w3.org/1999/xlink", xmlns = "http://www.w3.org/XML/1998/namespace", namespaceMap = {"draw":drawns, "fo":fons, "office":officens, "presentation":presentationns, "style":stylens, "svg":svgns, "table":tablens, "text":textns, "xlink":xlinkns, "xml":xmlns}, namespaces;
+  dr3dns = "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", numberns = "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", xlinkns = "http://www.w3.org/1999/xlink", xmlns = "http://www.w3.org/XML/1998/namespace", dcns = "http://purl.org/dc/elements/1.1/", webodfns = "urn:webodf", namespaceMap = {"draw":drawns, "fo":fons, "office":officens, "presentation":presentationns, "style":stylens, "svg":svgns, "table":tablens, "text":textns, "dr3d":dr3dns, "numberns":numberns, "xlink":xlinkns, "xml":xmlns, 
+  "dc":dcns, "webodf":webodfns}, namespaces;
   function forEachPrefix(cb) {
     var prefix;
     for(prefix in namespaceMap) {
@@ -5790,56 +5962,53 @@ odf.Namespaces = function() {
   namespaces.svgns = svgns;
   namespaces.tablens = tablens;
   namespaces.textns = textns;
+  namespaces.dr3dns = dr3dns;
+  namespaces.numberns = numberns;
   namespaces.xlinkns = xlinkns;
   namespaces.xmlns = xmlns;
+  namespaces.dcns = dcns;
+  namespaces.webodfns = webodfns;
   return namespaces
 }();
 runtime.loadClass("xmldom.XPath");
 odf.StyleInfo = function StyleInfo() {
-  var chartns = "urn:oasis:names:tc:opendocument:xmlns:chart:1.0", dbns = "urn:oasis:names:tc:opendocument:xmlns:database:1.0", dr3dns = "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", drawns = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", fons = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", formns = "urn:oasis:names:tc:opendocument:xmlns:form:1.0", numberns = "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", 
-  presentationns = "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", tablens = "urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", xmlns = "http://www.w3.org/XML/1998/namespace", nsprefixes = {"urn:oasis:names:tc:opendocument:xmlns:chart:1.0":"chart:", "urn:oasis:names:tc:opendocument:xmlns:database:1.0":"db:", 
-  "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0":"dr3d:", "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0":"draw:", "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0":"fo:", "urn:oasis:names:tc:opendocument:xmlns:form:1.0":"form:", "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0":"number:", "urn:oasis:names:tc:opendocument:xmlns:office:1.0":"office:", "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0":"presentation:", "urn:oasis:names:tc:opendocument:xmlns:style:1.0":"style:", 
-  "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0":"svg:", "urn:oasis:names:tc:opendocument:xmlns:table:1.0":"table:", "urn:oasis:names:tc:opendocument:xmlns:text:1.0":"chart:", "http://www.w3.org/XML/1998/namespace":"xml:"}, elementstyles = {"text":[{ens:stylens, en:"tab-stop", ans:stylens, a:"leader-text-style"}, {ens:stylens, en:"drop-cap", ans:stylens, a:"style-name"}, {ens:textns, en:"notes-configuration", ans:textns, a:"citation-body-style-name"}, {ens:textns, en:"notes-configuration", 
-  ans:textns, a:"citation-style-name"}, {ens:textns, en:"a", ans:textns, a:"style-name"}, {ens:textns, en:"alphabetical-index", ans:textns, a:"style-name"}, {ens:textns, en:"linenumbering-configuration", ans:textns, a:"style-name"}, {ens:textns, en:"list-level-style-number", ans:textns, a:"style-name"}, {ens:textns, en:"ruby-text", ans:textns, a:"style-name"}, {ens:textns, en:"span", ans:textns, a:"style-name"}, {ens:textns, en:"a", ans:textns, a:"visited-style-name"}, {ens:stylens, en:"text-properties", 
-  ans:stylens, a:"text-line-through-text-style"}, {ens:textns, en:"alphabetical-index-source", ans:textns, a:"main-entry-style-name"}, {ens:textns, en:"index-entry-bibliography", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-chapter", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-link-end", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-link-start", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-page-number", ans:textns, a:"style-name"}, {ens:textns, 
-  en:"index-entry-span", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-tab-stop", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-text", ans:textns, a:"style-name"}, {ens:textns, en:"index-title-template", ans:textns, a:"style-name"}, {ens:textns, en:"list-level-style-bullet", ans:textns, a:"style-name"}, {ens:textns, en:"outline-level-style", ans:textns, a:"style-name"}], "paragraph":[{ens:drawns, en:"caption", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"circle", ans:drawns, 
-  a:"text-style-name"}, {ens:drawns, en:"connector", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"control", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"custom-shape", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"ellipse", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"frame", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"line", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"measure", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"path", ans:drawns, a:"text-style-name"}, 
-  {ens:drawns, en:"polygon", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"polyline", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"rect", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"regular-polygon", ans:drawns, a:"text-style-name"}, {ens:officens, en:"annotation", ans:drawns, a:"text-style-name"}, {ens:formns, en:"column", ans:formns, a:"text-style-name"}, {ens:stylens, en:"style", ans:stylens, a:"next-style-name"}, {ens:tablens, en:"body", ans:tablens, a:"paragraph-style-name"}, 
-  {ens:tablens, en:"even-columns", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"even-rows", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"first-column", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"first-row", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"last-column", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"last-row", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"odd-columns", ans:tablens, a:"paragraph-style-name"}, 
-  {ens:tablens, en:"odd-rows", ans:tablens, a:"paragraph-style-name"}, {ens:textns, en:"notes-configuration", ans:textns, a:"default-style-name"}, {ens:textns, en:"alphabetical-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"bibliography-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"h", ans:textns, a:"style-name"}, {ens:textns, en:"illustration-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"index-source-style", ans:textns, a:"style-name"}, 
-  {ens:textns, en:"object-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"p", ans:textns, a:"style-name"}, {ens:textns, en:"table-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"table-of-content-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"table-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"user-index-entry-template", ans:textns, a:"style-name"}, {ens:stylens, en:"page-layout-properties", ans:stylens, a:"register-truth-ref-style-name"}], 
-  "chart":[{ens:chartns, en:"axis", ans:chartns, a:"style-name"}, {ens:chartns, en:"chart", ans:chartns, a:"style-name"}, {ens:chartns, en:"data-label", ans:chartns, a:"style-name"}, {ens:chartns, en:"data-point", ans:chartns, a:"style-name"}, {ens:chartns, en:"equation", ans:chartns, a:"style-name"}, {ens:chartns, en:"error-indicator", ans:chartns, a:"style-name"}, {ens:chartns, en:"floor", ans:chartns, a:"style-name"}, {ens:chartns, en:"footer", ans:chartns, a:"style-name"}, {ens:chartns, en:"grid", 
-  ans:chartns, a:"style-name"}, {ens:chartns, en:"legend", ans:chartns, a:"style-name"}, {ens:chartns, en:"mean-value", ans:chartns, a:"style-name"}, {ens:chartns, en:"plot-area", ans:chartns, a:"style-name"}, {ens:chartns, en:"regression-curve", ans:chartns, a:"style-name"}, {ens:chartns, en:"series", ans:chartns, a:"style-name"}, {ens:chartns, en:"stock-gain-marker", ans:chartns, a:"style-name"}, {ens:chartns, en:"stock-loss-marker", ans:chartns, a:"style-name"}, {ens:chartns, en:"stock-range-line", 
-  ans:chartns, a:"style-name"}, {ens:chartns, en:"subtitle", ans:chartns, a:"style-name"}, {ens:chartns, en:"title", ans:chartns, a:"style-name"}, {ens:chartns, en:"wall", ans:chartns, a:"style-name"}], "section":[{ens:textns, en:"alphabetical-index", ans:textns, a:"style-name"}, {ens:textns, en:"bibliography", ans:textns, a:"style-name"}, {ens:textns, en:"illustration-index", ans:textns, a:"style-name"}, {ens:textns, en:"index-title", ans:textns, a:"style-name"}, {ens:textns, en:"object-index", 
-  ans:textns, a:"style-name"}, {ens:textns, en:"section", ans:textns, a:"style-name"}, {ens:textns, en:"table-of-content", ans:textns, a:"style-name"}, {ens:textns, en:"table-index", ans:textns, a:"style-name"}, {ens:textns, en:"user-index", ans:textns, a:"style-name"}], "ruby":[{ens:textns, en:"ruby", ans:textns, a:"style-name"}], "table":[{ens:dbns, en:"query", ans:dbns, a:"style-name"}, {ens:dbns, en:"table-representation", ans:dbns, a:"style-name"}, {ens:tablens, en:"background", ans:tablens, 
-  a:"style-name"}, {ens:tablens, en:"table", ans:tablens, a:"style-name"}], "table-column":[{ens:dbns, en:"column", ans:dbns, a:"style-name"}, {ens:tablens, en:"table-column", ans:tablens, a:"style-name"}], "table-row":[{ens:dbns, en:"query", ans:dbns, a:"default-row-style-name"}, {ens:dbns, en:"table-representation", ans:dbns, a:"default-row-style-name"}, {ens:tablens, en:"table-row", ans:tablens, a:"style-name"}], "table-cell":[{ens:dbns, en:"column", ans:dbns, a:"default-cell-style-name"}, {ens:tablens, 
-  en:"table-column", ans:tablens, a:"default-cell-style-name"}, {ens:tablens, en:"table-row", ans:tablens, a:"default-cell-style-name"}, {ens:tablens, en:"body", ans:tablens, a:"style-name"}, {ens:tablens, en:"covered-table-cell", ans:tablens, a:"style-name"}, {ens:tablens, en:"even-columns", ans:tablens, a:"style-name"}, {ens:tablens, en:"covered-table-cell", ans:tablens, a:"style-name"}, {ens:tablens, en:"even-columns", ans:tablens, a:"style-name"}, {ens:tablens, en:"even-rows", ans:tablens, a:"style-name"}, 
-  {ens:tablens, en:"first-column", ans:tablens, a:"style-name"}, {ens:tablens, en:"first-row", ans:tablens, a:"style-name"}, {ens:tablens, en:"last-column", ans:tablens, a:"style-name"}, {ens:tablens, en:"last-row", ans:tablens, a:"style-name"}, {ens:tablens, en:"odd-columns", ans:tablens, a:"style-name"}, {ens:tablens, en:"odd-rows", ans:tablens, a:"style-name"}, {ens:tablens, en:"table-cell", ans:tablens, a:"style-name"}], "graphic":[{ens:dr3dns, en:"cube", ans:drawns, a:"style-name"}, {ens:dr3dns, 
-  en:"extrude", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"rotate", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"scene", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"sphere", ans:drawns, a:"style-name"}, {ens:drawns, en:"caption", ans:drawns, a:"style-name"}, {ens:drawns, en:"circle", ans:drawns, a:"style-name"}, {ens:drawns, en:"connector", ans:drawns, a:"style-name"}, {ens:drawns, en:"control", ans:drawns, a:"style-name"}, {ens:drawns, en:"custom-shape", ans:drawns, a:"style-name"}, {ens:drawns, 
-  en:"ellipse", ans:drawns, a:"style-name"}, {ens:drawns, en:"frame", ans:drawns, a:"style-name"}, {ens:drawns, en:"g", ans:drawns, a:"style-name"}, {ens:drawns, en:"line", ans:drawns, a:"style-name"}, {ens:drawns, en:"measure", ans:drawns, a:"style-name"}, {ens:drawns, en:"page-thumbnail", ans:drawns, a:"style-name"}, {ens:drawns, en:"path", ans:drawns, a:"style-name"}, {ens:drawns, en:"polygon", ans:drawns, a:"style-name"}, {ens:drawns, en:"polyline", ans:drawns, a:"style-name"}, {ens:drawns, en:"rect", 
-  ans:drawns, a:"style-name"}, {ens:drawns, en:"regular-polygon", ans:drawns, a:"style-name"}, {ens:officens, en:"annotation", ans:drawns, a:"style-name"}], "presentation":[{ens:dr3dns, en:"cube", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"extrude", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"rotate", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"scene", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"sphere", ans:presentationns, a:"style-name"}, {ens:drawns, en:"caption", 
-  ans:presentationns, a:"style-name"}, {ens:drawns, en:"circle", ans:presentationns, a:"style-name"}, {ens:drawns, en:"connector", ans:presentationns, a:"style-name"}, {ens:drawns, en:"control", ans:presentationns, a:"style-name"}, {ens:drawns, en:"custom-shape", ans:presentationns, a:"style-name"}, {ens:drawns, en:"ellipse", ans:presentationns, a:"style-name"}, {ens:drawns, en:"frame", ans:presentationns, a:"style-name"}, {ens:drawns, en:"g", ans:presentationns, a:"style-name"}, {ens:drawns, en:"line", 
-  ans:presentationns, a:"style-name"}, {ens:drawns, en:"measure", ans:presentationns, a:"style-name"}, {ens:drawns, en:"page-thumbnail", ans:presentationns, a:"style-name"}, {ens:drawns, en:"path", ans:presentationns, a:"style-name"}, {ens:drawns, en:"polygon", ans:presentationns, a:"style-name"}, {ens:drawns, en:"polyline", ans:presentationns, a:"style-name"}, {ens:drawns, en:"rect", ans:presentationns, a:"style-name"}, {ens:drawns, en:"regular-polygon", ans:presentationns, a:"style-name"}, {ens:officens, 
-  en:"annotation", ans:presentationns, a:"style-name"}], "drawing-page":[{ens:drawns, en:"page", ans:drawns, a:"style-name"}, {ens:presentationns, en:"notes", ans:drawns, a:"style-name"}, {ens:stylens, en:"handout-master", ans:drawns, a:"style-name"}, {ens:stylens, en:"master-page", ans:drawns, a:"style-name"}], "list-style":[{ens:textns, en:"list", ans:textns, a:"style-name"}, {ens:textns, en:"numbered-paragraph", ans:textns, a:"style-name"}, {ens:textns, en:"list-item", ans:textns, a:"style-override"}, 
-  {ens:stylens, en:"style", ans:stylens, a:"list-style-name"}, {ens:stylens, en:"style", ans:stylens, a:"data-style-name"}, {ens:stylens, en:"style", ans:stylens, a:"percentage-data-style-name"}, {ens:presentationns, en:"date-time-decl", ans:stylens, a:"data-style-name"}, {ens:textns, en:"creation-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"creation-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"database-display", ans:stylens, a:"data-style-name"}, {ens:textns, en:"date", 
-  ans:stylens, a:"data-style-name"}, {ens:textns, en:"editing-duration", ans:stylens, a:"data-style-name"}, {ens:textns, en:"expression", ans:stylens, a:"data-style-name"}, {ens:textns, en:"meta-field", ans:stylens, a:"data-style-name"}, {ens:textns, en:"modification-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"modification-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"print-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"print-time", ans:stylens, a:"data-style-name"}, 
-  {ens:textns, en:"table-formula", ans:stylens, a:"data-style-name"}, {ens:textns, en:"time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-defined", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-field-get", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-field-input", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-get", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-input", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-set", 
-  ans:stylens, a:"data-style-name"}], "data":[{ens:stylens, en:"style", ans:stylens, a:"data-style-name"}, {ens:stylens, en:"style", ans:stylens, a:"percentage-data-style-name"}, {ens:presentationns, en:"date-time-decl", ans:stylens, a:"data-style-name"}, {ens:textns, en:"creation-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"creation-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"database-display", ans:stylens, a:"data-style-name"}, {ens:textns, en:"date", ans:stylens, a:"data-style-name"}, 
-  {ens:textns, en:"editing-duration", ans:stylens, a:"data-style-name"}, {ens:textns, en:"expression", ans:stylens, a:"data-style-name"}, {ens:textns, en:"meta-field", ans:stylens, a:"data-style-name"}, {ens:textns, en:"modification-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"modification-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"print-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"print-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"table-formula", 
-  ans:stylens, a:"data-style-name"}, {ens:textns, en:"time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-defined", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-field-get", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-field-input", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-get", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-input", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-set", ans:stylens, a:"data-style-name"}], 
-  "page-layout":[{ens:presentationns, en:"notes", ans:stylens, a:"page-layout-name"}, {ens:stylens, en:"handout-master", ans:stylens, a:"page-layout-name"}, {ens:stylens, en:"master-page", ans:stylens, a:"page-layout-name"}]}, elements, xpath = new xmldom.XPath;
+  var chartns = "urn:oasis:names:tc:opendocument:xmlns:chart:1.0", dbns = "urn:oasis:names:tc:opendocument:xmlns:database:1.0", dr3dns = "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", drawns = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", formns = "urn:oasis:names:tc:opendocument:xmlns:form:1.0", numberns = "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", presentationns = "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", 
+  stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", tablens = "urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", nsprefixes = {"urn:oasis:names:tc:opendocument:xmlns:chart:1.0":"chart:", "urn:oasis:names:tc:opendocument:xmlns:database:1.0":"db:", "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0":"dr3d:", "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0":"draw:", "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0":"fo:", 
+  "urn:oasis:names:tc:opendocument:xmlns:form:1.0":"form:", "urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0":"number:", "urn:oasis:names:tc:opendocument:xmlns:office:1.0":"office:", "urn:oasis:names:tc:opendocument:xmlns:presentation:1.0":"presentation:", "urn:oasis:names:tc:opendocument:xmlns:style:1.0":"style:", "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0":"svg:", "urn:oasis:names:tc:opendocument:xmlns:table:1.0":"table:", "urn:oasis:names:tc:opendocument:xmlns:text:1.0":"chart:", 
+  "http://www.w3.org/XML/1998/namespace":"xml:"}, elementstyles = {"text":[{ens:stylens, en:"tab-stop", ans:stylens, a:"leader-text-style"}, {ens:stylens, en:"drop-cap", ans:stylens, a:"style-name"}, {ens:textns, en:"notes-configuration", ans:textns, a:"citation-body-style-name"}, {ens:textns, en:"notes-configuration", ans:textns, a:"citation-style-name"}, {ens:textns, en:"a", ans:textns, a:"style-name"}, {ens:textns, en:"alphabetical-index", ans:textns, a:"style-name"}, {ens:textns, en:"linenumbering-configuration", 
+  ans:textns, a:"style-name"}, {ens:textns, en:"list-level-style-number", ans:textns, a:"style-name"}, {ens:textns, en:"ruby-text", ans:textns, a:"style-name"}, {ens:textns, en:"span", ans:textns, a:"style-name"}, {ens:textns, en:"a", ans:textns, a:"visited-style-name"}, {ens:stylens, en:"text-properties", ans:stylens, a:"text-line-through-text-style"}, {ens:textns, en:"alphabetical-index-source", ans:textns, a:"main-entry-style-name"}, {ens:textns, en:"index-entry-bibliography", ans:textns, a:"style-name"}, 
+  {ens:textns, en:"index-entry-chapter", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-link-end", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-link-start", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-page-number", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-span", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-tab-stop", ans:textns, a:"style-name"}, {ens:textns, en:"index-entry-text", ans:textns, a:"style-name"}, {ens:textns, en:"index-title-template", 
+  ans:textns, a:"style-name"}, {ens:textns, en:"list-level-style-bullet", ans:textns, a:"style-name"}, {ens:textns, en:"outline-level-style", ans:textns, a:"style-name"}], "paragraph":[{ens:drawns, en:"caption", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"circle", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"connector", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"control", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"custom-shape", ans:drawns, a:"text-style-name"}, {ens:drawns, 
+  en:"ellipse", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"frame", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"line", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"measure", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"path", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"polygon", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"polyline", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"rect", ans:drawns, a:"text-style-name"}, {ens:drawns, en:"regular-polygon", 
+  ans:drawns, a:"text-style-name"}, {ens:officens, en:"annotation", ans:drawns, a:"text-style-name"}, {ens:formns, en:"column", ans:formns, a:"text-style-name"}, {ens:stylens, en:"style", ans:stylens, a:"next-style-name"}, {ens:tablens, en:"body", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"even-columns", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"even-rows", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"first-column", ans:tablens, a:"paragraph-style-name"}, 
+  {ens:tablens, en:"first-row", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"last-column", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"last-row", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"odd-columns", ans:tablens, a:"paragraph-style-name"}, {ens:tablens, en:"odd-rows", ans:tablens, a:"paragraph-style-name"}, {ens:textns, en:"notes-configuration", ans:textns, a:"default-style-name"}, {ens:textns, en:"alphabetical-index-entry-template", ans:textns, a:"style-name"}, 
+  {ens:textns, en:"bibliography-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"h", ans:textns, a:"style-name"}, {ens:textns, en:"illustration-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"index-source-style", ans:textns, a:"style-name"}, {ens:textns, en:"object-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"p", ans:textns, a:"style-name"}, {ens:textns, en:"table-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"table-of-content-entry-template", 
+  ans:textns, a:"style-name"}, {ens:textns, en:"table-index-entry-template", ans:textns, a:"style-name"}, {ens:textns, en:"user-index-entry-template", ans:textns, a:"style-name"}, {ens:stylens, en:"page-layout-properties", ans:stylens, a:"register-truth-ref-style-name"}], "chart":[{ens:chartns, en:"axis", ans:chartns, a:"style-name"}, {ens:chartns, en:"chart", ans:chartns, a:"style-name"}, {ens:chartns, en:"data-label", ans:chartns, a:"style-name"}, {ens:chartns, en:"data-point", ans:chartns, a:"style-name"}, 
+  {ens:chartns, en:"equation", ans:chartns, a:"style-name"}, {ens:chartns, en:"error-indicator", ans:chartns, a:"style-name"}, {ens:chartns, en:"floor", ans:chartns, a:"style-name"}, {ens:chartns, en:"footer", ans:chartns, a:"style-name"}, {ens:chartns, en:"grid", ans:chartns, a:"style-name"}, {ens:chartns, en:"legend", ans:chartns, a:"style-name"}, {ens:chartns, en:"mean-value", ans:chartns, a:"style-name"}, {ens:chartns, en:"plot-area", ans:chartns, a:"style-name"}, {ens:chartns, en:"regression-curve", 
+  ans:chartns, a:"style-name"}, {ens:chartns, en:"series", ans:chartns, a:"style-name"}, {ens:chartns, en:"stock-gain-marker", ans:chartns, a:"style-name"}, {ens:chartns, en:"stock-loss-marker", ans:chartns, a:"style-name"}, {ens:chartns, en:"stock-range-line", ans:chartns, a:"style-name"}, {ens:chartns, en:"subtitle", ans:chartns, a:"style-name"}, {ens:chartns, en:"title", ans:chartns, a:"style-name"}, {ens:chartns, en:"wall", ans:chartns, a:"style-name"}], "section":[{ens:textns, en:"alphabetical-index", 
+  ans:textns, a:"style-name"}, {ens:textns, en:"bibliography", ans:textns, a:"style-name"}, {ens:textns, en:"illustration-index", ans:textns, a:"style-name"}, {ens:textns, en:"index-title", ans:textns, a:"style-name"}, {ens:textns, en:"object-index", ans:textns, a:"style-name"}, {ens:textns, en:"section", ans:textns, a:"style-name"}, {ens:textns, en:"table-of-content", ans:textns, a:"style-name"}, {ens:textns, en:"table-index", ans:textns, a:"style-name"}, {ens:textns, en:"user-index", ans:textns, 
+  a:"style-name"}], "ruby":[{ens:textns, en:"ruby", ans:textns, a:"style-name"}], "table":[{ens:dbns, en:"query", ans:dbns, a:"style-name"}, {ens:dbns, en:"table-representation", ans:dbns, a:"style-name"}, {ens:tablens, en:"background", ans:tablens, a:"style-name"}, {ens:tablens, en:"table", ans:tablens, a:"style-name"}], "table-column":[{ens:dbns, en:"column", ans:dbns, a:"style-name"}, {ens:tablens, en:"table-column", ans:tablens, a:"style-name"}], "table-row":[{ens:dbns, en:"query", ans:dbns, 
+  a:"default-row-style-name"}, {ens:dbns, en:"table-representation", ans:dbns, a:"default-row-style-name"}, {ens:tablens, en:"table-row", ans:tablens, a:"style-name"}], "table-cell":[{ens:dbns, en:"column", ans:dbns, a:"default-cell-style-name"}, {ens:tablens, en:"table-column", ans:tablens, a:"default-cell-style-name"}, {ens:tablens, en:"table-row", ans:tablens, a:"default-cell-style-name"}, {ens:tablens, en:"body", ans:tablens, a:"style-name"}, {ens:tablens, en:"covered-table-cell", ans:tablens, 
+  a:"style-name"}, {ens:tablens, en:"even-columns", ans:tablens, a:"style-name"}, {ens:tablens, en:"covered-table-cell", ans:tablens, a:"style-name"}, {ens:tablens, en:"even-columns", ans:tablens, a:"style-name"}, {ens:tablens, en:"even-rows", ans:tablens, a:"style-name"}, {ens:tablens, en:"first-column", ans:tablens, a:"style-name"}, {ens:tablens, en:"first-row", ans:tablens, a:"style-name"}, {ens:tablens, en:"last-column", ans:tablens, a:"style-name"}, {ens:tablens, en:"last-row", ans:tablens, 
+  a:"style-name"}, {ens:tablens, en:"odd-columns", ans:tablens, a:"style-name"}, {ens:tablens, en:"odd-rows", ans:tablens, a:"style-name"}, {ens:tablens, en:"table-cell", ans:tablens, a:"style-name"}], "graphic":[{ens:dr3dns, en:"cube", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"extrude", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"rotate", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"scene", ans:drawns, a:"style-name"}, {ens:dr3dns, en:"sphere", ans:drawns, a:"style-name"}, {ens:drawns, en:"caption", 
+  ans:drawns, a:"style-name"}, {ens:drawns, en:"circle", ans:drawns, a:"style-name"}, {ens:drawns, en:"connector", ans:drawns, a:"style-name"}, {ens:drawns, en:"control", ans:drawns, a:"style-name"}, {ens:drawns, en:"custom-shape", ans:drawns, a:"style-name"}, {ens:drawns, en:"ellipse", ans:drawns, a:"style-name"}, {ens:drawns, en:"frame", ans:drawns, a:"style-name"}, {ens:drawns, en:"g", ans:drawns, a:"style-name"}, {ens:drawns, en:"line", ans:drawns, a:"style-name"}, {ens:drawns, en:"measure", 
+  ans:drawns, a:"style-name"}, {ens:drawns, en:"page-thumbnail", ans:drawns, a:"style-name"}, {ens:drawns, en:"path", ans:drawns, a:"style-name"}, {ens:drawns, en:"polygon", ans:drawns, a:"style-name"}, {ens:drawns, en:"polyline", ans:drawns, a:"style-name"}, {ens:drawns, en:"rect", ans:drawns, a:"style-name"}, {ens:drawns, en:"regular-polygon", ans:drawns, a:"style-name"}, {ens:officens, en:"annotation", ans:drawns, a:"style-name"}], "presentation":[{ens:dr3dns, en:"cube", ans:presentationns, a:"style-name"}, 
+  {ens:dr3dns, en:"extrude", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"rotate", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"scene", ans:presentationns, a:"style-name"}, {ens:dr3dns, en:"sphere", ans:presentationns, a:"style-name"}, {ens:drawns, en:"caption", ans:presentationns, a:"style-name"}, {ens:drawns, en:"circle", ans:presentationns, a:"style-name"}, {ens:drawns, en:"connector", ans:presentationns, a:"style-name"}, {ens:drawns, en:"control", ans:presentationns, a:"style-name"}, 
+  {ens:drawns, en:"custom-shape", ans:presentationns, a:"style-name"}, {ens:drawns, en:"ellipse", ans:presentationns, a:"style-name"}, {ens:drawns, en:"frame", ans:presentationns, a:"style-name"}, {ens:drawns, en:"g", ans:presentationns, a:"style-name"}, {ens:drawns, en:"line", ans:presentationns, a:"style-name"}, {ens:drawns, en:"measure", ans:presentationns, a:"style-name"}, {ens:drawns, en:"page-thumbnail", ans:presentationns, a:"style-name"}, {ens:drawns, en:"path", ans:presentationns, a:"style-name"}, 
+  {ens:drawns, en:"polygon", ans:presentationns, a:"style-name"}, {ens:drawns, en:"polyline", ans:presentationns, a:"style-name"}, {ens:drawns, en:"rect", ans:presentationns, a:"style-name"}, {ens:drawns, en:"regular-polygon", ans:presentationns, a:"style-name"}, {ens:officens, en:"annotation", ans:presentationns, a:"style-name"}], "drawing-page":[{ens:drawns, en:"page", ans:drawns, a:"style-name"}, {ens:presentationns, en:"notes", ans:drawns, a:"style-name"}, {ens:stylens, en:"handout-master", ans:drawns, 
+  a:"style-name"}, {ens:stylens, en:"master-page", ans:drawns, a:"style-name"}], "list-style":[{ens:textns, en:"list", ans:textns, a:"style-name"}, {ens:textns, en:"numbered-paragraph", ans:textns, a:"style-name"}, {ens:textns, en:"list-item", ans:textns, a:"style-override"}, {ens:stylens, en:"style", ans:stylens, a:"list-style-name"}], "data":[{ens:stylens, en:"style", ans:stylens, a:"data-style-name"}, {ens:stylens, en:"style", ans:stylens, a:"percentage-data-style-name"}, {ens:presentationns, 
+  en:"date-time-decl", ans:stylens, a:"data-style-name"}, {ens:textns, en:"creation-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"creation-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"database-display", ans:stylens, a:"data-style-name"}, {ens:textns, en:"date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"editing-duration", ans:stylens, a:"data-style-name"}, {ens:textns, en:"expression", ans:stylens, a:"data-style-name"}, {ens:textns, en:"meta-field", ans:stylens, 
+  a:"data-style-name"}, {ens:textns, en:"modification-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"modification-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"print-date", ans:stylens, a:"data-style-name"}, {ens:textns, en:"print-time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"table-formula", ans:stylens, a:"data-style-name"}, {ens:textns, en:"time", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-defined", ans:stylens, a:"data-style-name"}, {ens:textns, 
+  en:"user-field-get", ans:stylens, a:"data-style-name"}, {ens:textns, en:"user-field-input", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-get", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-input", ans:stylens, a:"data-style-name"}, {ens:textns, en:"variable-set", ans:stylens, a:"data-style-name"}], "page-layout":[{ens:presentationns, en:"notes", ans:stylens, a:"page-layout-name"}, {ens:stylens, en:"handout-master", ans:stylens, a:"page-layout-name"}, {ens:stylens, 
+  en:"master-page", ans:stylens, a:"page-layout-name"}]}, elements, xpath = new xmldom.XPath;
   function hasDerivedStyles(odfbody, nsResolver, styleElement) {
-    var nodes, xp, stylens = nsResolver("style"), styleName = styleElement.getAttributeNS(stylens, "name"), styleFamily = styleElement.getAttributeNS(stylens, "family");
+    var nodes, xp, resolver = nsResolver("style"), styleName = styleElement.getAttributeNS(resolver, "name"), styleFamily = styleElement.getAttributeNS(resolver, "family");
     xp = "//style:*[@style:parent-style-name='" + styleName + "'][@style:family='" + styleFamily + "']";
     nodes = xpath.getODFElementsWithXPath(odfbody, xp, nsResolver);
     if(nodes.length) {
       return true
     }
     return false
-  }
-  function canElementHaveStyle(family, element) {
-    var elname = elements[element.localName], elns = elname && elname[element.namespaceURI], length = elns ? elns.length : 0;
-    return length > 0
   }
   function prefixUsedStyleNames(styleUsingElementsRoot, prefix) {
     var elname = elements[styleUsingElementsRoot.localName], elns = elname && elname[styleUsingElementsRoot.namespaceURI], length = elns ? elns.length : 0, i, stylename, e;
@@ -6001,20 +6170,20 @@ odf.StyleInfo = function StyleInfo() {
     return knownStyles
   }
   function inverse(elementstyles) {
-    var keyname, i, l, list, item, elements = {}, map, array;
+    var keyname, i, l, list, item, e = {}, map, array;
     for(keyname in elementstyles) {
       if(elementstyles.hasOwnProperty(keyname)) {
         list = elementstyles[keyname];
         l = list.length;
         for(i = 0;i < l;i += 1) {
           item = list[i];
-          map = elements[item.en] = elements[item.en] || {};
+          map = e[item.en] = e[item.en] || {};
           array = map[item.ens] = map[item.ens] || [];
           array.push({ns:item.ans, localname:item.a, keyname:keyname})
         }
       }
     }
-    return elements
+    return e
   }
   function mergeRequiredStyles(styleDependency, usedStyles) {
     var family = usedStyles[styleDependency.family];
@@ -6056,7 +6225,6 @@ odf.StyleInfo = function StyleInfo() {
       mergeUsedAutomaticStyles(automaticStylesRoot, usedStyles)
     }
   };
-  this.canElementHaveStyle = canElementHaveStyle;
   this.hasDerivedStyles = hasDerivedStyles;
   this.prefixStyleNames = prefixStyleNames;
   this.removePrefixFromStyleNames = removePrefixFromStyleNames;
@@ -6097,18 +6265,29 @@ odf.StyleInfo = function StyleInfo() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("core.DomUtils");
 odf.OdfUtils = function OdfUtils() {
-  var self = this, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", drawns = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", whitespaceOnly = /^\s*$/;
+  var textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", drawns = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", whitespaceOnly = /^\s*$/, domUtils = new core.DomUtils;
   function isParagraph(e) {
     var name = e && e.localName;
     return(name === "p" || name === "h") && e.namespaceURI === textns
   }
   this.isParagraph = isParagraph;
-  this.getParagraphElement = function(node) {
+  function getParagraphElement(node) {
     while(node && !isParagraph(node)) {
       node = node.parentNode
     }
     return node
+  }
+  this.getParagraphElement = getParagraphElement;
+  this.isWithinTrackedChanges = function(node, container) {
+    while(node && node !== container) {
+      if(node.namespaceURI === textns && node.localName === "tracked-changes") {
+        return true
+      }
+      node = node.parentNode
+    }
+    return false
   };
   this.isListItem = function(e) {
     var name = e && e.localName;
@@ -6119,8 +6298,11 @@ odf.OdfUtils = function OdfUtils() {
   }
   this.isODFWhitespace = isODFWhitespace;
   function isGroupingElement(e) {
-    var name = e && e.localName;
-    return(name === "span" || name === "p" || name === "h") && e.namespaceURI === textns
+    var localName = e && e.localName;
+    if(/^(span|p|h|a|meta)$/.test(localName) && e.namespaceURI === textns || localName === "span" && e.className === "annotationHighlight") {
+      return true
+    }
+    return false
   }
   this.isGroupingElement = isGroupingElement;
   function isCharacterElement(e) {
@@ -6178,7 +6360,7 @@ odf.OdfUtils = function OdfUtils() {
       }else {
         if(isCharacterElement(node)) {
           r = true;
-          break
+          node = null
         }else {
           node = previousNode(node)
         }
@@ -6227,11 +6409,10 @@ odf.OdfUtils = function OdfUtils() {
       if(node.nodeType === Node.TEXT_NODE && node.length > 0 && !isODFWhitespace(node.data)) {
         r = true;
         break
-      }else {
-        if(isCharacterElement(node)) {
-          r = true;
-          break
-        }
+      }
+      if(isCharacterElement(node)) {
+        r = true;
+        break
       }
       node = previousNode(node)
     }
@@ -6245,11 +6426,10 @@ odf.OdfUtils = function OdfUtils() {
       if(node.nodeType === Node.TEXT_NODE && node.length > 0 && !isODFWhitespace(node.data)) {
         r = true;
         break
-      }else {
-        if(isCharacterElement(node)) {
-          r = true;
-          break
-        }
+      }
+      if(isCharacterElement(node)) {
+        r = true;
+        break
       }
       node = nextNode(node)
     }
@@ -6264,35 +6444,24 @@ odf.OdfUtils = function OdfUtils() {
   }
   this.isTrailingWhitespace = isTrailingWhitespace;
   function isSignificantWhitespace(textNode, offset) {
-    var text = textNode.data, leftChar, leftNode, rightChar, rightNode, result;
+    var text = textNode.data, result;
     if(!isODFWhitespace(text[offset])) {
+      return false
+    }
+    if(isCharacterElement(textNode.parentNode)) {
       return false
     }
     if(offset > 0) {
       if(!isODFWhitespace(text[offset - 1])) {
-        return true
+        result = true
       }
-      if(offset > 1) {
-        if(!isODFWhitespace(text[offset - 2])) {
-          result = true
-        }else {
-          if(!isODFWhitespace(text.substr(0, offset))) {
-            return false
-          }
-        }
-      }else {
-        if(scanLeftForNonWhitespace(previousNode(textNode))) {
-          result = true
-        }
+    }else {
+      if(scanLeftForNonWhitespace(previousNode(textNode))) {
+        result = true
       }
-      if(result === true) {
-        return isTrailingWhitespace(textNode, offset) ? false : true
-      }
-      rightChar = text[offset + 1];
-      if(isODFWhitespace(rightChar)) {
-        return false
-      }
-      return scanLeftForAnyCharacter(previousNode(textNode)) ? false : true
+    }
+    if(result === true) {
+      return isTrailingWhitespace(textNode, offset) ? false : true
     }
     return false
   }
@@ -6342,31 +6511,192 @@ odf.OdfUtils = function OdfUtils() {
     return parseNonNegativeLength(lineHeight) || parsePercentage(lineHeight)
   }
   this.parseFoLineHeight = parseFoLineHeight;
+  function getImpactedParagraphs(range) {
+    var outerContainer = (range.commonAncestorContainer), impactedParagraphs = [];
+    if(outerContainer.nodeType === Node.ELEMENT_NODE) {
+      impactedParagraphs = domUtils.getElementsByTagNameNS(outerContainer, textns, "p").concat(domUtils.getElementsByTagNameNS(outerContainer, textns, "h"))
+    }
+    while(outerContainer && !isParagraph(outerContainer)) {
+      outerContainer = outerContainer.parentNode
+    }
+    if(outerContainer) {
+      impactedParagraphs.push(outerContainer)
+    }
+    return impactedParagraphs.filter(function(n) {
+      return domUtils.rangeIntersectsNode(range, n)
+    })
+  }
+  this.getImpactedParagraphs = getImpactedParagraphs;
+  function isAcceptedNode(node) {
+    switch(node.namespaceURI) {
+      case odf.Namespaces.drawns:
+      ;
+      case odf.Namespaces.svgns:
+      ;
+      case odf.Namespaces.dr3dns:
+        return false;
+      case odf.Namespaces.textns:
+        switch(node.localName) {
+          case "note-body":
+          ;
+          case "ruby-text":
+            return false
+        }
+        break;
+      case odf.Namespaces.officens:
+        switch(node.localName) {
+          case "annotation":
+          ;
+          case "binary-data":
+          ;
+          case "event-listeners":
+            return false
+        }
+        break;
+      default:
+        switch(node.localName) {
+          case "editinfo":
+            return false
+        }
+        break
+    }
+    return true
+  }
+  function isSignificantTextContent(textNode) {
+    return Boolean(getParagraphElement(textNode) && (!isODFWhitespace(textNode.textContent) || isSignificantWhitespace(textNode, 0)))
+  }
   function getTextNodes(range, includePartial) {
-    var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), textNodes = [], n, root = (range.commonAncestorContainer.nodeType === Node.TEXT_NODE ? range.commonAncestorContainer.parentNode : range.commonAncestorContainer), treeWalker;
-    treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_ALL, function(node) {
+    var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), textNodes;
+    function nodeFilter(node) {
       nodeRange.selectNodeContents(node);
-      if(includePartial === false && node.nodeType === Node.TEXT_NODE) {
-        if(range.compareBoundaryPoints(range.START_TO_START, nodeRange) <= 0 && range.compareBoundaryPoints(range.END_TO_END, nodeRange) >= 0) {
-          return NodeFilter.FILTER_ACCEPT
+      if(node.nodeType === Node.TEXT_NODE) {
+        if(includePartial && domUtils.rangesIntersect(range, nodeRange) || domUtils.containsRange(range, nodeRange)) {
+          return isSignificantTextContent(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
         }
       }else {
-        if(range.compareBoundaryPoints(range.END_TO_START, nodeRange) === -1 && range.compareBoundaryPoints(range.START_TO_END, nodeRange) === 1) {
-          return node.nodeType === Node.TEXT_NODE ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
+        if(domUtils.rangesIntersect(range, nodeRange)) {
+          if(isAcceptedNode(node)) {
+            return NodeFilter.FILTER_SKIP
+          }
         }
       }
       return NodeFilter.FILTER_REJECT
-    }, false);
-    treeWalker.currentNode = range.startContainer.previousSibling || range.startContainer.parentNode;
-    n = treeWalker.nextNode();
-    while(n) {
-      textNodes.push(n);
-      n = treeWalker.nextNode()
     }
+    textNodes = domUtils.getNodesInRange(range, nodeFilter);
     nodeRange.detach();
     return textNodes
   }
-  this.getTextNodes = getTextNodes
+  this.getTextNodes = getTextNodes;
+  this.getTextElements = function(range, includeInsignificantWhitespace) {
+    var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), elements;
+    function nodeFilter(node) {
+      var nodeType = node.nodeType;
+      nodeRange.selectNodeContents(node);
+      if(nodeType === Node.TEXT_NODE) {
+        if(domUtils.containsRange(range, nodeRange) && (includeInsignificantWhitespace || isSignificantTextContent(node))) {
+          return NodeFilter.FILTER_ACCEPT
+        }
+      }else {
+        if(isCharacterElement(node)) {
+          if(domUtils.containsRange(range, nodeRange)) {
+            return NodeFilter.FILTER_ACCEPT
+          }
+        }else {
+          if(isAcceptedNode(node) || isGroupingElement(node)) {
+            return NodeFilter.FILTER_SKIP
+          }
+        }
+      }
+      return NodeFilter.FILTER_REJECT
+    }
+    elements = domUtils.getNodesInRange(range, nodeFilter);
+    nodeRange.detach();
+    return elements
+  };
+  this.getParagraphElements = function(range) {
+    var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), elements;
+    function nodeFilter(node) {
+      nodeRange.selectNodeContents(node);
+      if(isParagraph(node)) {
+        if(domUtils.rangesIntersect(range, nodeRange)) {
+          return NodeFilter.FILTER_ACCEPT
+        }
+      }else {
+        if(isAcceptedNode(node) || isGroupingElement(node)) {
+          return NodeFilter.FILTER_SKIP
+        }
+      }
+      return NodeFilter.FILTER_REJECT
+    }
+    elements = domUtils.getNodesInRange(range, nodeFilter);
+    nodeRange.detach();
+    return elements
+  }
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("odf.OdfUtils");
+odf.TextSerializer = function TextSerializer() {
+  var self = this, odfUtils = new odf.OdfUtils;
+  function serializeNode(node) {
+    var s = "", accept = self.filter ? self.filter.acceptNode(node) : NodeFilter.FILTER_ACCEPT, nodeType = node.nodeType, child;
+    if(accept === NodeFilter.FILTER_ACCEPT || accept === NodeFilter.FILTER_SKIP) {
+      child = node.firstChild;
+      while(child) {
+        s += serializeNode(child);
+        child = child.nextSibling
+      }
+    }
+    if(accept === NodeFilter.FILTER_ACCEPT) {
+      if(nodeType === Node.ELEMENT_NODE && odfUtils.isParagraph(node)) {
+        s += "\n"
+      }else {
+        if(nodeType === Node.TEXT_NODE && node.textContent) {
+          s += node.textContent
+        }
+      }
+    }
+    return s
+  }
+  this.filter = null;
+  this.writeToString = function(node) {
+    if(!node) {
+      return""
+    }
+    return serializeNode(node)
+  }
 };
 /*
 
@@ -6405,9 +6735,8 @@ odf.OdfUtils = function OdfUtils() {
 runtime.loadClass("core.DomUtils");
 runtime.loadClass("core.LoopWatchDog");
 runtime.loadClass("odf.Namespaces");
-runtime.loadClass("odf.OdfUtils");
 odf.TextStyleApplicator = function TextStyleApplicator(newStylePrefix, formatting, automaticStyles) {
-  var nextTextNodes, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
+  var domUtils = new core.DomUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
   function StyleLookup(info) {
     function compare(expected, actual) {
       if(typeof expected === "object" && typeof actual === "object") {
@@ -6457,9 +6786,12 @@ odf.TextStyleApplicator = function TextStyleApplicator(newStylePrefix, formattin
       container.setAttributeNS(textns, "text:style-name", name)
     }
   }
+  function isTextSpan(node) {
+    return node.localName === "span" && node.namespaceURI === textns
+  }
   function moveToNewSpan(startNode, limits) {
-    var document = startNode.ownerDocument, originalContainer = startNode.parentNode, styledContainer, trailingContainer, moveTrailing, node = startNode, nextNode, loopGuard = new core.LoopWatchDog(1E3);
-    if(odfUtils.isParagraph(originalContainer)) {
+    var document = startNode.ownerDocument, originalContainer = (startNode.parentNode), styledContainer, trailingContainer, moveTrailing, node = startNode, nextNode, loopGuard = new core.LoopWatchDog(1E3);
+    if(!isTextSpan(originalContainer)) {
       styledContainer = document.createElementNS(textns, "text:span");
       originalContainer.insertBefore(styledContainer, startNode);
       moveTrailing = false
@@ -6493,24 +6825,19 @@ odf.TextStyleApplicator = function TextStyleApplicator(newStylePrefix, formattin
     }
     return(styledContainer)
   }
-  this.applyStyle = function(range, info) {
-    var textNodes, isStyled, container, styleCache, styleLookup, textPropsOnly = {}, limits;
+  this.applyStyle = function(textNodes, limits, info) {
+    var textPropsOnly = {}, isStyled, container, styleCache, styleLookup;
     runtime.assert(info && info[textProperties], "applyStyle without any text properties");
     textPropsOnly[textProperties] = info[textProperties];
     styleCache = new StyleManager(textPropsOnly);
     styleLookup = new StyleLookup(textPropsOnly);
-    nextTextNodes = domUtils.splitBoundaries(range);
-    textNodes = odfUtils.getTextNodes(range, false);
-    limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
     textNodes.forEach(function(n) {
       isStyled = styleLookup.isStyleApplied(n);
       if(isStyled === false) {
         container = moveToNewSpan((n), limits);
         styleCache.applyStyleToContainer(container)
       }
-    });
-    nextTextNodes.forEach(domUtils.normalizeTextNodes);
-    nextTextNodes = null
+    })
   }
 };
 /*
@@ -6761,9 +7088,8 @@ odf.Style2CSS = function Style2CSS() {
         if(fontSize.unit !== "%") {
           fontSizeRule = "font-size: " + fontSize.value * sizeMultiplier + fontSize.unit + ";";
           break
-        }else {
-          sizeMultiplier *= fontSize.value / 100
         }
+        sizeMultiplier *= fontSize.value / 100
       }
       parentStyle = getParentStyleNode(parentStyle)
     }
@@ -6789,7 +7115,7 @@ odf.Style2CSS = function Style2CSS() {
     if(lineHeight && lineHeight !== "normal") {
       lineHeight = utils.parseFoLineHeight(lineHeight);
       if(lineHeight.unit !== "%") {
-        rule += "line-height: " + lineHeight.value + ";"
+        rule += "line-height: " + lineHeight.value + lineHeight.unit + ";"
       }else {
         rule += "line-height: " + lineHeight.value / 100 + ";"
       }
@@ -6917,7 +7243,7 @@ odf.Style2CSS = function Style2CSS() {
     }
     return"content: " + content + ";"
   }
-  function getImageRule(node) {
+  function getImageRule() {
     var rule = "content: none;";
     return rule
   }
@@ -6965,7 +7291,7 @@ odf.Style2CSS = function Style2CSS() {
     }
   }
   function addPageStyleRules(sheet, node) {
-    var rule = "", imageProps, url, element, contentLayoutRule = "", pageSizeRule = "", height, width, props = node.getElementsByTagNameNS(stylens, "page-layout-properties")[0], masterStyles = props.parentNode.parentNode.parentNode.masterStyles, masterPages, masterStyleName = "", i;
+    var rule = "", imageProps, url, element, contentLayoutRule = "", pageSizeRule = "", props = node.getElementsByTagNameNS(stylens, "page-layout-properties")[0], masterStyles = props.parentNode.parentNode.parentNode.masterStyles, masterPages, masterStyleName = "", i;
     rule += applySimpleMapping(props, pageContentPropertySimpleMapping);
     imageProps = props.getElementsByTagNameNS(stylens, "background-image");
     if(imageProps.length > 0) {
@@ -7007,11 +7333,6 @@ odf.Style2CSS = function Style2CSS() {
       }
     }
   }
-  function getPageSizeProperties(props) {
-    var rule = "";
-    rule += applySimpleMapping(props, pageSizePropertySimpleMapping);
-    return rule
-  }
   function addListStyleRules(sheet, name, node) {
     var n = node.firstChild, e, itemrule;
     while(n) {
@@ -7022,7 +7343,7 @@ odf.Style2CSS = function Style2CSS() {
           addListStyleRule(sheet, name, e, itemrule)
         }else {
           if(n.localName === "list-level-style-image") {
-            itemrule = getImageRule(e);
+            itemrule = getImageRule();
             addListStyleRule(sheet, name, e, itemrule)
           }else {
             if(n.localName === "list-level-style-bullet") {
@@ -7056,7 +7377,7 @@ odf.Style2CSS = function Style2CSS() {
     }
   }
   this.style2css = function(doctype, stylesheet, fontFaceMap, styles, autostyles) {
-    var doc, prefix, styletree, tree, name, rule, family, stylenodes, styleautonodes;
+    var doc, styletree, tree, name, rule, family, stylenodes, styleautonodes;
     while(stylesheet.cssRules.length) {
       stylesheet.deleteRule(stylesheet.cssRules.length - 1)
     }
@@ -7076,12 +7397,12 @@ odf.Style2CSS = function Style2CSS() {
       rule = "@namespace " + prefix + " url(" + ns + ");";
       try {
         stylesheet.insertRule(rule, stylesheet.cssRules.length)
-      }catch(e) {
+      }catch(ignore) {
       }
     });
     fontFaceDeclsMap = fontFaceMap;
     documentType = doctype;
-    defaultFontSize = window.getComputedStyle(document.body, null).getPropertyValue("font-size") || "12pt";
+    defaultFontSize = runtime.getWindow().getComputedStyle(document.body, null).getPropertyValue("font-size") || "12pt";
     stylenodes = getStyleMap(styles);
     styleautonodes = getStyleMap(autostyles);
     styletree = {};
@@ -7104,6 +7425,7 @@ runtime.loadClass("core.Zip");
 runtime.loadClass("xmldom.LSSerializer");
 runtime.loadClass("odf.StyleInfo");
 runtime.loadClass("odf.Namespaces");
+runtime.loadClass("odf.OdfNodeFilter");
 odf.OdfContainer = function() {
   var styleInfo = new odf.StyleInfo, officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", manifestns = "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0", webodfns = "urn:webodf:names:scope", nodeorder = ["meta", "settings", "scripts", "font-face-decls", "styles", "automatic-styles", "master-styles", "body"], automaticStylePrefix = (new Date).getTime() + "_webodf_", base64 = new core.Base64, documentStylesScope = "document-styles", documentContentScope = "document-content";
   function getDirectChild(node, ns, name) {
@@ -7125,29 +7447,26 @@ odf.OdfContainer = function() {
     }
     return-1
   }
-  function OdfNodeFilter(styleUsingElementsRoot, automaticStyles) {
-    var usedStyleList;
-    if(styleUsingElementsRoot) {
-      usedStyleList = new styleInfo.UsedStyleList(styleUsingElementsRoot, automaticStyles)
-    }
+  function OdfStylesFilter(styleUsingElementsRoot, automaticStyles) {
+    var usedStyleList = new styleInfo.UsedStyleList(styleUsingElementsRoot, automaticStyles), odfNodeFilter = new odf.OdfNodeFilter;
     this.acceptNode = function(node) {
-      var result;
-      if(node.namespaceURI === "http://www.w3.org/1999/xhtml") {
-        result = 3
-      }else {
-        if(node.namespaceURI && node.namespaceURI.match(/^urn:webodf:/)) {
-          result = 2
+      var result = odfNodeFilter.acceptNode(node);
+      if(result === NodeFilter.FILTER_ACCEPT && node.parentNode === automaticStyles && node.nodeType === Node.ELEMENT_NODE) {
+        if(usedStyleList.uses((node))) {
+          result = NodeFilter.FILTER_ACCEPT
         }else {
-          if(usedStyleList && node.parentNode === automaticStyles && node.nodeType === Node.ELEMENT_NODE) {
-            if(usedStyleList.uses(node)) {
-              result = NodeFilter.FILTER_ACCEPT
-            }else {
-              result = NodeFilter.FILTER_REJECT
-            }
-          }else {
-            result = NodeFilter.FILTER_ACCEPT
-          }
+          result = NodeFilter.FILTER_REJECT
         }
+      }
+      return result
+    }
+  }
+  function OdfContentFilter(styleUsingElementsRoot, automaticStyles) {
+    var odfStylesFilter = new OdfStylesFilter(styleUsingElementsRoot, automaticStyles);
+    this.acceptNode = function(node) {
+      var result = odfStylesFilter.acceptNode(node);
+      if(result === NodeFilter.FILTER_ACCEPT && node.parentNode && node.parentNode.namespaceURI === odf.Namespaces.textns && (node.parentNode.localName === "s" || node.parentNode.localName === "tab")) {
+        result = NodeFilter.FILTER_REJECT
       }
       return result
     }
@@ -7210,8 +7529,6 @@ odf.OdfContainer = function() {
           self.onstatereadychange(self)
         }
       })
-    };
-    this.abort = function() {
     }
   }
   OdfPart.prototype.load = function() {
@@ -7222,19 +7539,12 @@ odf.OdfContainer = function() {
     }
     return null
   };
-  function OdfPartList(odfcontainer) {
-    var self = this;
-    this.length = 0;
-    this.item = function(index) {
-    }
-  }
   odf.OdfContainer = function OdfContainer(url, onstatereadychange) {
     var self = this, zip, partMimetypes = {}, contentElement;
     this.onstatereadychange = onstatereadychange;
     this.onchange = null;
     this.state = null;
     this.rootElement = null;
-    this.parts = null;
     function removeProcessingInstructions(element) {
       var n = element.firstChild, next, e;
       while(n) {
@@ -7283,7 +7593,7 @@ odf.OdfContainer = function() {
         removeProcessingInstructions(xmldoc.documentElement);
         try {
           node = doc.importNode(xmldoc.documentElement, true)
-        }catch(e) {
+        }catch(ignore) {
         }
       }
       return node
@@ -7410,7 +7720,7 @@ odf.OdfContainer = function() {
         callback = (component[1]);
         zip.loadAsDOM(filepath, function(err, xmldoc) {
           callback(xmldoc);
-          if(self.state === OdfContainer.INVALID) {
+          if(err || self.state === OdfContainer.INVALID) {
             return
           }
           loadNextComponent(remainingComponents)
@@ -7424,7 +7734,7 @@ odf.OdfContainer = function() {
       loadNextComponent(componentOrder)
     }
     function createDocumentElement(name) {
-      var s = "", i;
+      var s = "";
       odf.Namespaces.forEachPrefix(function(prefix, ns) {
         s += " xmlns:" + prefix + '="' + ns + '"'
       });
@@ -7432,7 +7742,7 @@ odf.OdfContainer = function() {
     }
     function serializeMetaXml() {
       var serializer = new xmldom.LSSerializer, s = createDocumentElement("document-meta");
-      serializer.filter = new OdfNodeFilter;
+      serializer.filter = new odf.OdfNodeFilter;
       s += serializer.writeToString(self.rootElement.meta, odf.Namespaces.namespaceMap);
       s += "</office:document-meta>";
       return s
@@ -7450,12 +7760,12 @@ odf.OdfContainer = function() {
           manifestRoot.appendChild(createManifestEntry(fullPath, partMimetypes[fullPath]))
         }
       }
-      serializer.filter = new OdfNodeFilter;
+      serializer.filter = new odf.OdfNodeFilter;
       return header + serializer.writeToString(manifest, odf.Namespaces.namespaceMap)
     }
     function serializeSettingsXml() {
       var serializer = new xmldom.LSSerializer, s = createDocumentElement("document-settings");
-      serializer.filter = new OdfNodeFilter;
+      serializer.filter = new odf.OdfNodeFilter;
       s += serializer.writeToString(self.rootElement.settings, odf.Namespaces.namespaceMap);
       s += "</office:document-settings>";
       return s
@@ -7463,7 +7773,7 @@ odf.OdfContainer = function() {
     function serializeStylesXml() {
       var nsmap = odf.Namespaces.namespaceMap, serializer = new xmldom.LSSerializer, automaticStyles = cloneStylesInScope(self.rootElement.automaticStyles, documentStylesScope), masterStyles = self.rootElement.masterStyles && self.rootElement.masterStyles.cloneNode(true), s = createDocumentElement("document-styles");
       styleInfo.removePrefixFromStyleNames(automaticStyles, automaticStylePrefix, masterStyles);
-      serializer.filter = new OdfNodeFilter(masterStyles, automaticStyles);
+      serializer.filter = new OdfStylesFilter(masterStyles, automaticStyles);
       s += serializer.writeToString(self.rootElement.fontFaceDecls, nsmap);
       s += serializer.writeToString(self.rootElement.styles, nsmap);
       s += serializer.writeToString(automaticStyles, nsmap);
@@ -7473,7 +7783,7 @@ odf.OdfContainer = function() {
     }
     function serializeContentXml() {
       var nsmap = odf.Namespaces.namespaceMap, serializer = new xmldom.LSSerializer, automaticStyles = cloneStylesInScope(self.rootElement.automaticStyles, documentContentScope), s = createDocumentElement("document-content");
-      serializer.filter = new OdfNodeFilter(self.rootElement.body, automaticStyles);
+      serializer.filter = new OdfContentFilter(self.rootElement.body, automaticStyles);
       s += serializer.writeToString(automaticStyles, nsmap);
       s += serializer.writeToString(self.rootElement.body, nsmap);
       s += "</office:document-content>";
@@ -7507,8 +7817,8 @@ odf.OdfContainer = function() {
       return contentElement
     };
     this.getDocumentType = function() {
-      var contentElement = self.getContentElement();
-      return contentElement && contentElement.localName
+      var content = self.getContentElement();
+      return content && content.localName
     };
     this.getPart = function(partname) {
       return new OdfPart(partname, partMimetypes[partname], self, zip)
@@ -7517,8 +7827,8 @@ odf.OdfContainer = function() {
       zip.load(url, callback)
     };
     function createEmptyTextDocument() {
-      var zip = new core.Zip("", null), data = runtime.byteArrayFromString("application/vnd.oasis.opendocument.text", "utf8"), root = self.rootElement, text = document.createElementNS(officens, "text");
-      zip.save("mimetype", data, false, new Date);
+      var emptyzip = new core.Zip("", null), data = runtime.byteArrayFromString("application/vnd.oasis.opendocument.text", "utf8"), root = self.rootElement, text = document.createElementNS(officens, "text");
+      emptyzip.save("mimetype", data, false, new Date);
       function addToplevelElement(memberName, realLocalName) {
         var element;
         if(!realLocalName) {
@@ -7538,7 +7848,7 @@ odf.OdfContainer = function() {
       addToplevelElement("body");
       root.body.appendChild(text);
       setState(OdfContainer.DONE);
-      return zip
+      return emptyzip
     }
     function fillZip() {
       var data, date = new Date;
@@ -7573,7 +7883,6 @@ odf.OdfContainer = function() {
     };
     this.state = OdfContainer.LOADING;
     this.rootElement = createElement(ODFDocumentElement);
-    this.parts = new OdfPartList(this);
     if(url) {
       zip = new core.Zip(url, function(err, zipobject) {
         zip = zipobject;
@@ -7680,7 +7989,10 @@ odf.FontLoader = function() {
       }
     }
     if(!name) {
-      return callback()
+      if(callback) {
+        callback()
+      }
+      return
     }
     odfContainer.getPartData(embeddedFontDeclarations[name].href, function(err, fontdata) {
       if(err) {
@@ -7692,11 +8004,9 @@ odf.FontLoader = function() {
     })
   }
   function loadFontsIntoCSS(embeddedFontDeclarations, odfContainer, stylesheet) {
-    loadFontIntoCSS(embeddedFontDeclarations, odfContainer, 0, stylesheet, function() {
-    })
+    loadFontIntoCSS(embeddedFontDeclarations, odfContainer, 0, stylesheet)
   }
   odf.FontLoader = function FontLoader() {
-    var self = this;
     this.loadFonts = function(odfContainer, stylesheet) {
       var embeddedFontDeclarations, fontFaceDecls = odfContainer.rootElement.fontFaceDecls;
       while(stylesheet.cssRules.length) {
@@ -7744,21 +8054,14 @@ odf.FontLoader = function() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("core.Utils");
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfContainer");
 runtime.loadClass("odf.StyleInfo");
 runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("odf.TextStyleApplicator");
 odf.Formatting = function Formatting() {
-  var self = this, odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, odfUtils = new odf.OdfUtils;
-  function hashString(value) {
-    var hash = 0, i, l;
-    for(i = 0, l = value.length;i < l;i += 1) {
-      hash = (hash << 5) - hash + value.charCodeAt(i);
-      hash |= 0
-    }
-    return hash
-  }
+  var self = this, odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, numberns = odf.Namespaces.numberns, odfUtils = new odf.OdfUtils, utils = new core.Utils;
   function mergeRecursive(destination, source) {
     Object.keys(source).forEach(function(p) {
       try {
@@ -7828,17 +8131,21 @@ odf.Formatting = function Formatting() {
     return null
   }
   function getStyleElement(styleName, family, styleElements) {
-    var node, styleListElement;
+    var node, nodeStyleName, styleListElement;
     styleElements = styleElements || [odfContainer.rootElement.automaticStyles, odfContainer.rootElement.styles];
     styleListElement = styleElements.shift();
     while(styleListElement) {
       node = styleListElement.firstChild;
       while(node) {
         if(node.nodeType === Node.ELEMENT_NODE) {
-          if(node.namespaceURI === stylens && node.localName === "style" && node.getAttributeNS(stylens, "family") === family && node.getAttributeNS(stylens, "name") === styleName) {
+          nodeStyleName = node.getAttributeNS(stylens, "name");
+          if(node.namespaceURI === stylens && node.localName === "style" && node.getAttributeNS(stylens, "family") === family && nodeStyleName === styleName) {
             return node
           }
-          if(family === "list-style" && node.namespaceURI === textns && node.localName === "list-style" && node.getAttributeNS(stylens, "name") === styleName) {
+          if(family === "list-style" && node.namespaceURI === textns && node.localName === "list-style" && nodeStyleName === styleName) {
+            return node
+          }
+          if(family === "data" && node.namespaceURI === numberns && nodeStyleName === styleName) {
             return node
           }
         }
@@ -7863,9 +8170,9 @@ odf.Formatting = function Formatting() {
     return propertiesMap
   }
   this.getStyleAttributes = getStyleAttributes;
-  function mapObjOntoNode(node, info) {
-    Object.keys(info).forEach(function(key) {
-      var parts = key.split(":"), prefix = parts[0], localName = parts[1], ns = odf.Namespaces.resolvePrefix(prefix), value = info[key], element;
+  function mapObjOntoNode(node, properties) {
+    Object.keys(properties).forEach(function(key) {
+      var parts = key.split(":"), prefix = parts[0], localName = parts[1], ns = odf.Namespaces.resolvePrefix(prefix), value = properties[key], element;
       if(typeof value === "object" && Object.keys(value).length) {
         element = node.getElementsByTagNameNS(ns, localName)[0] || node.ownerDocument.createElementNS(ns, key);
         node.appendChild(element);
@@ -7897,8 +8204,10 @@ odf.Formatting = function Formatting() {
   this.getInheritedStyleAttributes = getInheritedStyleAttributes;
   this.getFirstNamedParentStyleNameOrSelf = function(styleName) {
     var automaticStyleElementList = odfContainer.rootElement.automaticStyles, styleElementList = odfContainer.rootElement.styles, styleElement;
-    while((styleElement = getStyleElement(styleName, "paragraph", [automaticStyleElementList])) !== null) {
-      styleName = styleElement.getAttributeNS(stylens, "parent-style-name")
+    styleElement = getStyleElement(styleName, "paragraph", [automaticStyleElementList]);
+    while(styleElement) {
+      styleName = styleElement.getAttributeNS(stylens, "parent-style-name");
+      styleElement = getStyleElement(styleName, "paragraph", [automaticStyleElementList])
     }
     styleElement = getStyleElement(styleName, "paragraph", [styleElementList]);
     if(!styleElement) {
@@ -7939,17 +8248,22 @@ odf.Formatting = function Formatting() {
     var mergedChildStyle = {orderedStyles:[]};
     styleChain.forEach(function(elementStyleSet) {
       Object.keys((elementStyleSet)).forEach(function(styleFamily) {
-        var styleName = Object.keys(elementStyleSet[styleFamily])[0], styleElement, parentStyle;
+        var styleName = Object.keys(elementStyleSet[styleFamily])[0], styleElement, parentStyle, displayName;
         styleElement = getStyleElement(styleName, styleFamily);
-        parentStyle = getInheritedStyleAttributes((styleElement));
-        mergedChildStyle = mergeRecursive(parentStyle, mergedChildStyle);
-        mergedChildStyle.orderedStyles.push({name:styleName, family:styleFamily, displayName:styleElement.getAttributeNS(stylens, "display-name")})
+        if(styleElement) {
+          parentStyle = getInheritedStyleAttributes((styleElement));
+          mergedChildStyle = mergeRecursive(parentStyle, mergedChildStyle);
+          displayName = styleElement.getAttributeNS(stylens, "display-name")
+        }else {
+          runtime.log("No style element found for '" + styleName + "' of family '" + styleFamily + "'")
+        }
+        mergedChildStyle.orderedStyles.push({name:styleName, family:styleFamily, displayName:displayName})
       })
     });
     return mergedChildStyle
   }
-  this.getAppliedStyles = function(range) {
-    var textNodes = odfUtils.getTextNodes(range), styleChains = {}, styles = [];
+  this.getAppliedStyles = function(textNodes) {
+    var styleChains = {}, styles = [];
     textNodes.forEach(function(n) {
       buildStyleChain(n, styleChains)
     });
@@ -7963,9 +8277,9 @@ odf.Formatting = function Formatting() {
     styleChain = buildStyleChain(node);
     return styleChain ? calculateAppliedStyle(styleChain) : undefined
   };
-  this.applyStyle = function(memberId, range, info) {
-    var textStyles = new odf.TextStyleApplicator("auto" + hashString(memberId) + "_", self, odfContainer.rootElement.automaticStyles);
-    textStyles.applyStyle(range, info)
+  this.applyStyle = function(memberId, textNodes, limits, info) {
+    var textStyles = new odf.TextStyleApplicator("auto" + utils.hashString(memberId) + "_", self, odfContainer.rootElement.automaticStyles);
+    textStyles.applyStyle(textNodes, limits, info)
   };
   function getAllStyleNames() {
     var styleElements = [odfContainer.rootElement.automaticStyles, odfContainer.rootElement.styles], node, styleNames = [];
@@ -7982,11 +8296,11 @@ odf.Formatting = function Formatting() {
     });
     return styleNames
   }
-  this.updateStyle = function(styleNode, info, newStylePrefix) {
+  this.updateStyle = function(styleNode, properties, newStylePrefix) {
     var name, existingNames, startIndex;
-    mapObjOntoNode(styleNode, info);
-    name = styleNode.getAttributeNS(stylens, "name");
+    mapObjOntoNode(styleNode, properties);
     if(newStylePrefix) {
+      name = styleNode.getAttributeNS(stylens, "name");
       existingNames = getAllStyleNames();
       startIndex = 0;
       do {
@@ -8038,6 +8352,7 @@ runtime.loadClass("xmldom.XPath");
 runtime.loadClass("odf.FontLoader");
 runtime.loadClass("odf.Style2CSS");
 runtime.loadClass("odf.OdfUtils");
+runtime.loadClass("gui.AnnotationViewManager");
 odf.OdfCanvas = function() {
   function LoadingQueue() {
     var queue = [], taskRunning = false;
@@ -8111,7 +8426,7 @@ odf.OdfCanvas = function() {
     }
   }
   function SelectionWatcher(element) {
-    var selection = [], count = 0, listeners = [];
+    var selection = [], listeners = [];
     function isAncestorOf(ancestor, descendant) {
       while(descendant) {
         if(descendant === ancestor) {
@@ -8125,9 +8440,9 @@ odf.OdfCanvas = function() {
       return isAncestorOf(element, range.startContainer) && isAncestorOf(element, range.endContainer)
     }
     function getCurrentSelection() {
-      var s = [], selection = runtime.getWindow().getSelection(), i, r;
-      for(i = 0;i < selection.rangeCount;i += 1) {
-        r = selection.getRangeAt(i);
+      var s = [], current = runtime.getWindow().getSelection(), i, r;
+      for(i = 0;i < current.rangeCount;i += 1) {
+        r = current.getRangeAt(i);
         if(r !== null && fallsWithin(element, r)) {
           s.push(r)
         }
@@ -8189,7 +8504,8 @@ odf.OdfCanvas = function() {
     listenEvent(element, "keyup", checkSelection);
     listenEvent(element, "keydown", checkSelection)
   }
-  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent;
+  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent, annotationsPane, allowAnnotations = 
+  false, annotationManager;
   function clear(element) {
     while(element.firstChild) {
       element.removeChild(element.firstChild)
@@ -8218,8 +8534,8 @@ odf.OdfCanvas = function() {
   }
   function setFramePosition(odfContainer, id, frame, stylesheet) {
     frame.setAttribute("styleid", id);
-    var rule, anchor = frame.getAttributeNS(textns, "anchor-type"), x = frame.getAttributeNS(svgns, "x"), y = frame.getAttributeNS(svgns, "y"), width = frame.getAttributeNS(svgns, "width"), height = frame.getAttributeNS(svgns, "height"), minheight = frame.getAttributeNS(fons, "min-height"), minwidth = frame.getAttributeNS(fons, "min-width"), masterPageName = frame.getAttributeNS(drawns, "master-page-name"), masterPage = null, i, j, clonedPage, clonedNode, pageNumber = 0, pageNumberContainer, node, 
-    document = odfContainer.rootElement.ownerDocument;
+    var rule, anchor = frame.getAttributeNS(textns, "anchor-type"), x = frame.getAttributeNS(svgns, "x"), y = frame.getAttributeNS(svgns, "y"), width = frame.getAttributeNS(svgns, "width"), height = frame.getAttributeNS(svgns, "height"), minheight = frame.getAttributeNS(fons, "min-height"), minwidth = frame.getAttributeNS(fons, "min-width"), masterPageName = frame.getAttributeNS(drawns, "master-page-name"), masterPage = null, j, clonedPage, clonedNode, pageNumber = 0, pageNumberContainer, node, document = 
+    odfContainer.rootElement.ownerDocument;
     masterPage = getMasterPage(odfContainer, masterPageName);
     if(masterPage) {
       clonedPage = document.createElementNS(drawns, "draw:page");
@@ -8292,7 +8608,7 @@ odf.OdfCanvas = function() {
   }
   function setImage(id, container, image, stylesheet) {
     image.setAttribute("styleid", id);
-    var url = image.getAttributeNS(xlinkns, "href"), part, node;
+    var url = image.getAttributeNS(xlinkns, "href"), part;
     function callback(url) {
       var rule;
       if(url) {
@@ -8302,14 +8618,18 @@ odf.OdfCanvas = function() {
       }
     }
     if(url) {
-      try {
-        part = container.getPart(url);
-        part.onchange = function(part) {
-          callback(part.url)
-        };
-        part.load()
-      }catch(e) {
-        runtime.log("slight problem: " + e)
+      if(/^(?:http|https|ftp):\/\//.test(url)) {
+        callback(url)
+      }else {
+        try {
+          part = container.getPart(url);
+          part.onchange = function(part) {
+            callback(part.url)
+          };
+          part.load()
+        }catch(e) {
+          runtime.log("slight problem: " + e)
+        }
       }
     }else {
       url = getUrlFromBinaryDataElement(image);
@@ -8325,9 +8645,9 @@ odf.OdfCanvas = function() {
       }
     }
   }
-  function modifyTables(container, odffragment, stylesheet) {
+  function modifyTables(odffragment) {
     var i, tableCells, node;
-    function modifyTableCell(container, node, stylesheet) {
+    function modifyTableCell(node) {
       if(node.hasAttributeNS(tablens, "number-columns-spanned")) {
         node.setAttribute("colspan", node.getAttributeNS(tablens, "number-columns-spanned"))
       }
@@ -8338,12 +8658,23 @@ odf.OdfCanvas = function() {
     tableCells = odffragment.getElementsByTagNameNS(tablens, "table-cell");
     for(i = 0;i < tableCells.length;i += 1) {
       node = (tableCells.item(i));
-      modifyTableCell(container, node, stylesheet)
+      modifyTableCell(node)
     }
   }
-  function modifyLinks(container, odffragment, stylesheet) {
+  function modifyAnnotations(odffragment) {
+    var annotationNodes = domUtils.getElementsByTagNameNS(odffragment, officens, "annotation"), annotationEnds = domUtils.getElementsByTagNameNS(odffragment, officens, "annotation-end"), currentAnnotationName, i;
+    function matchAnnotationEnd(element) {
+      return currentAnnotationName === element.getAttributeNS(officens, "name")
+    }
+    for(i = 0;i < annotationNodes.length;i += 1) {
+      currentAnnotationName = annotationNodes[i].getAttributeNS(officens, "name");
+      annotationManager.addAnnotation({node:annotationNodes[i], end:annotationEnds.filter(matchAnnotationEnd)[0] || null})
+    }
+    annotationManager.rerenderAnnotations()
+  }
+  function modifyLinks(odffragment) {
     var i, links, node;
-    function modifyLink(container, node, stylesheet) {
+    function modifyLink(node) {
       var url, clickHandler;
       if(!node.hasAttributeNS(xlinkns, "href")) {
         return
@@ -8371,7 +8702,7 @@ odf.OdfCanvas = function() {
     links = odffragment.getElementsByTagNameNS(textns, "a");
     for(i = 0;i < links.length;i += 1) {
       node = (links.item(i));
-      modifyLink(container, node, stylesheet)
+      modifyLink(node)
     }
   }
   function expandSpaceElements(odffragment) {
@@ -8401,7 +8732,7 @@ odf.OdfCanvas = function() {
     })
   }
   function modifyImages(container, odfbody, stylesheet) {
-    var node, frames, i, images;
+    var node, frames, i;
     frames = [];
     node = odfbody.firstChild;
     while(node && node !== odfbody) {
@@ -8425,8 +8756,8 @@ odf.OdfCanvas = function() {
     }
     formatParagraphAnchors(odfbody)
   }
-  function setVideo(id, container, plugin, stylesheet) {
-    var video, source, url, videoType, doc = plugin.ownerDocument, part, node;
+  function setVideo(container, plugin) {
+    var video, source, url, doc = plugin.ownerDocument, part;
     url = plugin.getAttributeNS(xlinkns, "href");
     function callback(url, mimetype) {
       var ns = doc.documentElement.namespaceURI;
@@ -8476,12 +8807,12 @@ odf.OdfCanvas = function() {
     rule = "content: " + content + ";";
     return rule
   }
-  function getImageRule(node) {
+  function getImageRule() {
     var rule = "content: none;";
     return rule
   }
   function getBulletRule(node) {
-    var rule = "", bulletChar = node.getAttributeNS(textns, "bullet-char");
+    var bulletChar = node.getAttributeNS(textns, "bullet-char");
     return"content: '" + bulletChar + "';"
   }
   function getBulletsRule(node) {
@@ -8490,7 +8821,7 @@ odf.OdfCanvas = function() {
       itemrule = getNumberRule(node)
     }else {
       if(node.localName === "list-level-style-image") {
-        itemrule = getImageRule(node)
+        itemrule = getImageRule()
       }else {
         if(node.localName === "list-level-style-bullet") {
           itemrule = getBulletRule(node)
@@ -8499,8 +8830,8 @@ odf.OdfCanvas = function() {
     }
     return itemrule
   }
-  function loadLists(container, odffragment, stylesheet) {
-    var i, lists, node, id, continueList, styleName, rule, listMap = {}, parentList, listStyles, listStyle, listStyleMap = {}, bulletRule;
+  function loadLists(odffragment, stylesheet) {
+    var i, lists, node, id, continueList, styleName, rule, listMap = {}, parentList, listStyles, listStyleMap = {}, bulletRule;
     listStyles = window.document.getElementsByTagNameNS(textns, "list-style");
     for(i = 0;i < listStyles.length;i += 1) {
       node = (listStyles.item(i));
@@ -8574,7 +8905,7 @@ odf.OdfCanvas = function() {
     return style
   }
   function addStyleSheet(document) {
-    var head = document.getElementsByTagName("head")[0], style = document.createElementNS(head.namespaceURI, "style"), text = "", prefix;
+    var head = document.getElementsByTagName("head")[0], style = document.createElementNS(head.namespaceURI, "style"), text = "";
     style.setAttribute("type", "text/css");
     style.setAttribute("media", "screen, print, handheld, projection");
     odf.Namespaces.forEachPrefix(function(prefix, ns) {
@@ -8586,7 +8917,7 @@ odf.OdfCanvas = function() {
   }
   odf.OdfCanvas = function OdfCanvas(element) {
     runtime.assert(element !== null && element !== undefined, "odf.OdfCanvas constructor needs DOM element");
-    var self = this, doc = element.ownerDocument, odfcontainer, formatting = new odf.Formatting, selectionWatcher = new SelectionWatcher(element), slidecssindex = 0, pageSwitcher, fontcss, stylesxmlcss, positioncss, editable = false, zoomLevel = 1, eventHandlers = {}, editparagraph, loadingQueue = new LoadingQueue;
+    var doc = element.ownerDocument, odfcontainer, formatting = new odf.Formatting, selectionWatcher = new SelectionWatcher(element), pageSwitcher, fontcss, stylesxmlcss, positioncss, editable = false, zoomLevel = 1, eventHandlers = {}, editparagraph, loadingQueue = new LoadingQueue;
     addWebODFStyleSheet(doc);
     pageSwitcher = new PageSwitcher(addStyleSheet(doc));
     fontcss = addStyleSheet(doc);
@@ -8605,17 +8936,17 @@ odf.OdfCanvas = function() {
         loadImage("image" + String(i), container, node, stylesheet)
       }
     }
-    function loadVideos(container, odffragment, stylesheet) {
+    function loadVideos(container, odffragment) {
       var i, plugins, node;
-      function loadVideo(name, container, node, stylesheet) {
+      function loadVideo(container, node) {
         loadingQueue.addToQueue(function() {
-          setVideo(name, container, node, stylesheet)
+          setVideo(container, node)
         })
       }
       plugins = odffragment.getElementsByTagNameNS(drawns, "plugin");
       for(i = 0;i < plugins.length;i += 1) {
         node = (plugins.item(i));
-        loadVideo("video" + String(i), container, node, stylesheet)
+        loadVideo(container, node)
       }
     }
     function addEventListener(eventType, eventHandler) {
@@ -8665,8 +8996,11 @@ odf.OdfCanvas = function() {
       sizer = doc.createElementNS(element.namespaceURI, "div");
       sizer.style.display = "inline-block";
       sizer.style.background = "white";
+      sizer.id = "sizer";
       sizer.appendChild(odfnode);
       element.appendChild(sizer);
+      annotationsPane = doc.createElementNS(element.namespaceURI, "div");
+      annotationsPane.id = "annotationsPane";
       shadowContent = doc.createElementNS(element.namespaceURI, "div");
       shadowContent.id = "shadowContent";
       shadowContent.style.position = "absolute";
@@ -8674,15 +9008,37 @@ odf.OdfCanvas = function() {
       shadowContent.style.left = 0;
       container.getContentElement().appendChild(shadowContent);
       modifyImages(container, odfnode.body, css);
-      modifyTables(container, odfnode.body, css);
-      modifyLinks(container, odfnode.body, css);
+      modifyTables(odfnode.body);
+      modifyLinks(odfnode.body);
       expandSpaceElements(odfnode.body);
       expandTabElements(odfnode.body);
       loadImages(container, odfnode.body, css);
-      loadVideos(container, odfnode.body, css);
-      loadLists(container, odfnode.body, css);
+      loadVideos(container, odfnode.body);
+      loadLists(odfnode.body, css);
       sizer.insertBefore(shadowContent, sizer.firstChild);
       fixContainerSize()
+    }
+    function handleAnnotations(odfnode) {
+      var sizer = doc.getElementById("sizer");
+      if(allowAnnotations) {
+        if(!annotationsPane.parentNode) {
+          sizer.appendChild(annotationsPane);
+          sizer.style.paddingRight = window.getComputedStyle(annotationsPane).width;
+          fixContainerSize()
+        }
+        if(annotationManager) {
+          annotationManager.forgetAnnotations()
+        }
+        annotationManager = new gui.AnnotationViewManager(odfnode.body, annotationsPane);
+        modifyAnnotations(odfnode.body)
+      }else {
+        if(annotationsPane.parentNode) {
+          sizer.removeChild(annotationsPane);
+          sizer.style.paddingRight = 0;
+          annotationManager.forgetAnnotations();
+          fixContainerSize()
+        }
+      }
     }
     function refreshOdf(suppressEvent) {
       function callback() {
@@ -8694,6 +9050,7 @@ odf.OdfCanvas = function() {
         handleFonts(odfcontainer, fontcss);
         handleStyles(odfcontainer, formatting, stylesxmlcss);
         handleContent(odfcontainer, odfnode);
+        handleAnnotations(odfnode);
         if(!suppressEvent) {
           fireEvent("statereadychange", [odfcontainer])
         }
@@ -8729,7 +9086,7 @@ odf.OdfCanvas = function() {
       odfcontainer = container;
       refreshOdf(suppressEvent === true)
     };
-    this["load"] = this.load = function(url) {
+    function load(url) {
       loadingQueue.clearQueue();
       element.innerHTML = "loading " + url;
       element.removeAttribute("style");
@@ -8737,7 +9094,9 @@ odf.OdfCanvas = function() {
         odfcontainer = container;
         refreshOdf(false)
       })
-    };
+    }
+    this["load"] = load;
+    this.load = load;
     function stopEditing() {
       if(!editparagraph) {
         return
@@ -8752,13 +9111,6 @@ odf.OdfCanvas = function() {
       stopEditing();
       odfcontainer.save(callback)
     };
-    function cancelPropagation(event) {
-      if(event.stopPropagation) {
-        event.stopPropagation()
-      }else {
-        event.cancelBubble = true
-      }
-    }
     function cancelEvent(event) {
       if(event.preventDefault) {
         event.preventDefault();
@@ -8770,7 +9122,7 @@ odf.OdfCanvas = function() {
     }
     function processClick(evt) {
       evt = evt || window.event;
-      var e = evt.target, selection = window.getSelection(), range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null, startContainer = range && range.startContainer, startOffset = range && range.startOffset, endContainer = range && range.endContainer, endOffset = range && range.endOffset, doc, ns;
+      var e = evt.target, selection = window.getSelection(), range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null, startContainer = range && range.startContainer, startOffset = range && range.startOffset, endContainer = range && range.endContainer, endOffset = range && range.endOffset, clickdoc, ns;
       while(e && !((e.localName === "p" || e.localName === "h") && e.namespaceURI === textns)) {
         e = e.parentNode
       }
@@ -8780,10 +9132,10 @@ odf.OdfCanvas = function() {
       if(!e || e.parentNode === editparagraph) {
         return
       }
-      doc = e.ownerDocument;
-      ns = doc.documentElement.namespaceURI;
+      clickdoc = e.ownerDocument;
+      ns = clickdoc.documentElement.namespaceURI;
       if(!editparagraph) {
-        editparagraph = doc.createElementNS(ns, "p");
+        editparagraph = clickdoc.createElementNS(ns, "p");
         editparagraph.style.margin = "0px";
         editparagraph.style.padding = "0px";
         editparagraph.style.border = "0px";
@@ -8827,6 +9179,28 @@ odf.OdfCanvas = function() {
     };
     this.getFormatting = function() {
       return formatting
+    };
+    this.getAnnotationManager = function() {
+      return annotationManager
+    };
+    this.refreshAnnotations = function() {
+      handleAnnotations(odfcontainer.rootElement)
+    };
+    this.rerenderAnnotations = function() {
+      if(annotationManager) {
+        annotationManager.rerenderAnnotations()
+      }
+    };
+    this.enableAnnotations = function(allow) {
+      if(allow !== allowAnnotations) {
+        allowAnnotations = allow;
+        handleAnnotations(odfcontainer.rootElement)
+      }
+    };
+    this.addAnnotation = function(annotation) {
+      if(annotationManager) {
+        annotationManager.addAnnotation(annotation)
+      }
     };
     this.setZoomLevel = function(zoom) {
       zoomLevel = zoom;
@@ -8879,8 +9253,6 @@ odf.OdfCanvas = function() {
       pageSwitcher.showPage(n);
       fixContainerSize()
     };
-    this.showAllPages = function() {
-    };
     this.getElement = function() {
       return element
     }
@@ -8902,7 +9274,8 @@ odf.CommandLineTools = function CommandLineTools() {
         callback("Document was not completely loaded.")
       }
     }
-    var odfcontainer = new odf.OdfContainer(inputfilepath, onready)
+    var odfcontainer = new odf.OdfContainer(inputfilepath, onready);
+    return odfcontainer
   };
   this.render = function(inputfilepath, document, callback) {
     var body = document.getElementsByTagName("body")[0], odfcanvas;
@@ -8958,6 +9331,8 @@ ops.Server.prototype.networkStatus = function() {
 };
 ops.Server.prototype.login = function(login, password, successCb, failCb) {
 };
+ops.Server.prototype.getGenesisUrl = function(sessionId) {
+};
 /*
 
  Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
@@ -9003,9 +9378,9 @@ ops.NowjsServer = function NowjsServer() {
   function createUserModel() {
     return new ops.NowjsUserModel(self)
   }
-  function getGenesisUrl(sessionId) {
+  this.getGenesisUrl = function(sessionId) {
     return"/session/" + sessionId + "/genesis"
-  }
+  };
   this.connect = function(timeout, callback) {
     var accumulatedWaitingTime = 0;
     if(nowObject) {
@@ -9089,17 +9464,14 @@ ops.PullBoxServer = function PullBoxServer(args) {
   var self = this, token, base64 = new core.Base64;
   args = args || {};
   args.url = args.url || "/WSER";
-  function createOperationRouter(sid, mid) {
-    return new ops.PullBoxOperationRouter(sid, mid, self)
-  }
-  function createUserModel() {
-    return new ops.PullBoxUserModel(self)
-  }
-  function getGenesisUrl(sessionId) {
+  this.getGenesisUrl = function(sessionId) {
     return"/session/" + sessionId + "/genesis"
-  }
+  };
   function call(message, cb) {
     var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), data;
+    if(typeof message === "object") {
+      message = JSON.stringify(message)
+    }
     function handleResult() {
       if(xhr.readyState === 4) {
         if((xhr.status < 200 || xhr.status >= 300) && xhr.status === 0) {
@@ -9136,11 +9508,10 @@ ops.PullBoxServer = function PullBoxServer(args) {
   this.getToken = function() {
     return token
   };
-  this.setToken = function (a_token) {
-  	token = a_token;
+  this.setToken = function(a_token) {
+    token = a_token
   };
   this.connect = function(timeout, callback) {
-    var accumulatedWaitingTime = 0;
     callback("ready")
   };
   this.networkStatus = function() {
@@ -9158,9 +9529,7 @@ ops.PullBoxServer = function PullBoxServer(args) {
         failCb(responseData)
       }
     })
-  };
-  this.createOperationRouter = createOperationRouter;
-  this.createUserModel = createUserModel
+  }
 };
 /*
 
@@ -9297,15 +9666,98 @@ ops.OpAddCursor = function OpAddCursor() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("core.DomUtils");
 runtime.loadClass("odf.OdfUtils");
-ops.OpApplyStyle = function OpApplyStyle() {
-  var self = this, memberid, timestamp, position, length, info, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+gui.StyleHelper = function StyleHelper(formatting) {
+  var domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils;
+  this.getAppliedStyles = function(range) {
+    var textNodes = odfUtils.getTextNodes(range, true);
+    return formatting.getAppliedStyles(textNodes)
+  };
+  this.applyStyle = function(memberId, range, info) {
+    var nextTextNodes = domUtils.splitBoundaries(range), textNodes = odfUtils.getTextNodes(range, false), limits;
+    limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
+    formatting.applyStyle(memberId, textNodes, limits, info);
+    nextTextNodes.forEach(domUtils.normalizeTextNodes)
+  };
+  function hasTextPropertyValue(range, propertyName, propertyValue) {
+    var hasOtherValue = true, nodes, styles, properties, container, i;
+    if(range.collapsed) {
+      container = range.startContainer;
+      if(container.hasChildNodes() && range.startOffset < container.childNodes.length) {
+        container = container.childNodes[range.startOffset]
+      }
+      nodes = [container]
+    }else {
+      nodes = odfUtils.getTextNodes(range, true)
+    }
+    styles = formatting.getAppliedStyles(nodes);
+    for(i = 0;i < styles.length;i += 1) {
+      properties = styles[i]["style:text-properties"];
+      hasOtherValue = !properties || properties[propertyName] !== propertyValue;
+      if(hasOtherValue) {
+        break
+      }
+    }
+    return!hasOtherValue
+  }
+  this.isBold = function(range) {
+    return hasTextPropertyValue(range, "fo:font-weight", "bold")
+  };
+  this.isItalic = function(range) {
+    return hasTextPropertyValue(range, "fo:font-style", "italic")
+  };
+  this.hasUnderline = function(range) {
+    return hasTextPropertyValue(range, "style:text-underline-style", "solid")
+  };
+  this.hasStrikeThrough = function(range) {
+    return hasTextPropertyValue(range, "style:text-line-through-style", "solid")
+  }
+};
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("gui.StyleHelper");
+runtime.loadClass("odf.OdfUtils");
+ops.OpApplyDirectStyling = function OpApplyDirectStyling() {
+  var memberid, timestamp, position, length, setProperties, odfUtils = new odf.OdfUtils;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     position = parseInt(data.position, 10);
     length = parseInt(data.length, 10);
-    info = data.info
+    setProperties = data.setProperties
   };
   this.transform = function(otherOp, hasPriority) {
     return null
@@ -9316,37 +9768,19 @@ ops.OpApplyStyle = function OpApplyStyle() {
     range.setEnd(p2.container(), p2.unfilteredDomOffset());
     return range
   }
-  function intersectsNode(range, node) {
-    var nodeLength = node.nodeType === Node.TEXT_NODE ? node.length : node.childNodes.length;
-    return range.comparePoint(node, 0) <= 0 && range.comparePoint(node, nodeLength) >= 0
-  }
-  function getImpactedParagraphs(range) {
-    var outerContainer = range.commonAncestorContainer, impactedParagraphs = [];
-    if(outerContainer.nodeType === Node.ELEMENT_NODE) {
-      impactedParagraphs = domUtils.getElementsByTagNameNS(outerContainer, textns, "p").concat(domUtils.getElementsByTagNameNS(outerContainer, textns, "h"))
-    }
-    while(outerContainer && !odfUtils.isParagraph(outerContainer)) {
-      outerContainer = outerContainer.parentNode
-    }
-    if(outerContainer) {
-      impactedParagraphs.push(outerContainer)
-    }
-    return impactedParagraphs.filter(function(n) {
-      return intersectsNode(range, n)
-    })
-  }
   this.execute = function(odtDocument) {
-    var range = getRange(odtDocument), impactedParagraphs = getImpactedParagraphs(range);
-    odtDocument.getFormatting().applyStyle(memberid, range, info);
+    var range = getRange(odtDocument), impactedParagraphs = odfUtils.getImpactedParagraphs(range), styleHelper = new gui.StyleHelper(odtDocument.getFormatting());
+    styleHelper.applyStyle(memberid, range, setProperties);
     range.detach();
     odtDocument.getOdfCanvas().refreshCSS();
     impactedParagraphs.forEach(function(n) {
       odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:n, memberId:memberid, timeStamp:timestamp})
     });
+    odtDocument.getOdfCanvas().rerenderAnnotations();
     return true
   };
   this.spec = function() {
-    return{optype:"ApplyStyle", memberid:memberid, timestamp:timestamp, position:position, length:length, info:info}
+    return{optype:"ApplyDirectStyling", memberid:memberid, timestamp:timestamp, position:position, length:length, setProperties:setProperties}
   }
 };
 /*
@@ -9467,24 +9901,46 @@ ops.OpMoveCursor = function OpMoveCursor() {
     return false
   };
   this.transform = function(otherOp, hasPriority) {
-    var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype, result = [self];
+    var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype, end = position + length, otherOpspecEnd, result = [self];
     if(otherOpType === "RemoveText") {
-      if(otherOpspec.position + otherOpspec.length <= position) {
+      otherOpspecEnd = otherOpspec.position + otherOpspec.length;
+      if(otherOpspecEnd <= position) {
         position -= otherOpspec.length
       }else {
-        if(otherOpspec.position < position) {
-          position = otherOpspec.position
+        if(otherOpspec.position < end) {
+          if(position < otherOpspec.position) {
+            if(otherOpspecEnd < end) {
+              length = length - otherOpspec.length
+            }else {
+              length = otherOpspec.position - position
+            }
+          }else {
+            position = otherOpspec.position;
+            if(otherOpspecEnd < end) {
+              length = end - otherOpspecEnd
+            }else {
+              length = 0
+            }
+          }
         }
       }
     }else {
       if(otherOpType === "SplitParagraph") {
         if(otherOpspec.position < position) {
           position += 1
+        }else {
+          if(otherOpspec.position > position && otherOpspec.position < end) {
+            length += 1
+          }
         }
       }else {
         if(otherOpType === "InsertText") {
           if(otherOpspec.position < position) {
             position += otherOpspec.text.length
+          }else {
+            if(otherOpspec.position > position && otherOpspec.position < end) {
+              length += otherOpspec.text.length
+            }
           }
         }else {
           if(otherOpType === "RemoveCursor" && otherOpspec.memberid === memberid) {
@@ -9643,6 +10099,7 @@ ops.OpInsertTable = function OpInsertTable() {
       rootNode.insertBefore(tableNode, previousSibling ? previousSibling.nextSibling : undefined);
       odtDocument.getOdfCanvas().refreshSize();
       odtDocument.emit(ops.OdtDocument.signalTableAdded, {tableElement:tableNode, memberId:memberid, timeStamp:timestamp});
+      odtDocument.getOdfCanvas().rerenderAnnotations();
       return true
     }
     return false
@@ -9757,26 +10214,40 @@ ops.OpInsertText = function OpInsertText() {
     })
   }
   this.execute = function(odtDocument) {
-    var domPosition, textNode, texts = text.split(" "), offset, length, space, previousNode, parent, refNode, ownerDocument = odtDocument.getRootNode().ownerDocument, paragraphElement, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", i;
+    var domPosition, previousNode, parent, refNode, ownerDocument = odtDocument.getRootNode().ownerDocument, paragraphElement, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", space = " ", tab = "\t", append = true, startIndex = 0, textToInsert, spaceTag, node, i;
     domPosition = odtDocument.getPositionInTextNode(position, memberid);
     if(domPosition) {
       previousNode = domPosition.textNode;
       parent = previousNode.parentNode;
       refNode = previousNode.nextSibling;
-      offset = domPosition.offset;
       paragraphElement = odtDocument.getParagraphElement(previousNode);
-      if(offset !== previousNode.length) {
-        refNode = previousNode.splitText(offset)
+      if(domPosition.offset !== previousNode.length) {
+        refNode = previousNode.splitText(domPosition.offset)
       }
-      if(texts[0].length > 0) {
-        previousNode.appendData(texts[0])
+      for(i = 0;i < text.length;i += 1) {
+        if(text[i] === space || text[i] === tab) {
+          if(startIndex < i) {
+            textToInsert = text.substring(startIndex, i);
+            if(append) {
+              previousNode.appendData(textToInsert)
+            }else {
+              parent.insertBefore(ownerDocument.createTextNode(textToInsert), refNode)
+            }
+          }
+          startIndex = i + 1;
+          append = false;
+          spaceTag = text[i] === space ? "text:s" : "text:tab";
+          node = ownerDocument.createElementNS(textns, spaceTag);
+          node.appendChild(ownerDocument.createTextNode(text[i]));
+          parent.insertBefore(node, refNode)
+        }
       }
-      for(i = 1;i < texts.length;i += 1) {
-        space = ownerDocument.createElementNS(textns, "text:s");
-        space.appendChild(ownerDocument.createTextNode(" "));
-        parent.insertBefore(space, refNode);
-        if(texts[i].length > 0) {
-          parent.insertBefore(ownerDocument.createTextNode(texts[i]), refNode)
+      textToInsert = text.substring(startIndex);
+      if(textToInsert.length > 0) {
+        if(append) {
+          previousNode.appendData(textToInsert)
+        }else {
+          parent.insertBefore(ownerDocument.createTextNode(textToInsert), refNode)
         }
       }
       triggerLayoutInWebkit(odtDocument, previousNode);
@@ -9785,6 +10256,7 @@ ops.OpInsertText = function OpInsertText() {
       }
       odtDocument.getOdfCanvas().refreshSize();
       odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphElement, memberId:memberid, timeStamp:timestamp});
+      odtDocument.getOdfCanvas().rerenderAnnotations();
       return true
     }
     return false
@@ -9827,10 +10299,11 @@ ops.OpInsertText = function OpInsertText() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("core.DomUtils");
 ops.OpRemoveText = function OpRemoveText() {
-  var self = this, optype = "RemoveText", memberid, timestamp, position, length, text, odfUtils = new odf.OdfUtils, domUtils, editinfons = "urn:webodf:names:editinfo";
+  var self = this, optype = "RemoveText", memberid, timestamp, position, length, text, odfUtils, domUtils, editinfons = "urn:webodf:names:editinfo";
   this.init = function(data) {
     runtime.assert(data.length >= 0, "OpRemoveText only supports positive lengths");
     memberid = data.memberid;
@@ -9842,7 +10315,7 @@ ops.OpRemoveText = function OpRemoveText() {
     domUtils = new core.DomUtils
   };
   this.transform = function(otherOp, hasPriority) {
-    var otherOpspec = otherOp.spec(), otherOptype = otherOpspec.optype, end = position + length, otherOpspecEnd, same = otherOpspec.memberid === memberid, secondOp, secondOpspec, result = [self];
+    var otherOpspec = otherOp.spec(), otherOptype = otherOpspec.optype, end = position + length, otherOpspecEnd, result = [self];
     if(otherOptype === optype) {
       otherOpspecEnd = otherOpspec.position + otherOpspec.length;
       if(otherOpspecEnd <= position) {
@@ -9884,111 +10357,99 @@ ops.OpRemoveText = function OpRemoveText() {
     }
     return result
   };
-  function isEmpty(node) {
-    var childNode;
-    if(!odfUtils.isParagraph(node) && (odfUtils.isGroupingElement(node) || odfUtils.isCharacterElement(node)) && node.textContent.length === 0) {
+  function CollapsingRules(rootNode) {
+    function isEmpty(node) {
+      var childNode;
+      if(odfUtils.isCharacterElement(node)) {
+        return false
+      }
+      if(node.nodeType === Node.TEXT_NODE) {
+        return node.textContent.length === 0
+      }
       childNode = node.firstChild;
       while(childNode) {
-        if(odfUtils.isCharacterElement(childNode)) {
+        if(!isEmpty(childNode)) {
           return false
         }
         childNode = childNode.nextSibling
       }
       return true
     }
-    return false
-  }
-  function mergeParagraphs(first, second, prepend) {
-    var parent, child, insertionPoint;
-    child = prepend ? second.lastChild : second.firstChild;
-    if(prepend) {
-      insertionPoint = first.getElementsByTagNameNS(editinfons, "editinfo")[0] || first.firstChild
+    this.isEmpty = isEmpty;
+    function isCollapsibleContainer(node) {
+      return!odfUtils.isParagraph(node) && node !== rootNode && isEmpty(node)
     }
-    while(child) {
-      second.removeChild(child);
+    function mergeChildrenIntoParent(node) {
+      var parent = domUtils.mergeIntoParent(node);
+      if(isCollapsibleContainer(parent)) {
+        return mergeChildrenIntoParent(parent)
+      }
+      return parent
+    }
+    this.mergeChildrenIntoParent = mergeChildrenIntoParent
+  }
+  function mergeParagraphs(first, second, collapseRules) {
+    var child, mergeForward, destination = first, source = second, secondParent, insertionPoint;
+    if(collapseRules.isEmpty(first)) {
+      mergeForward = true;
+      if(second.parentNode !== first.parentNode) {
+        secondParent = second.parentNode;
+        first.parentNode.insertBefore(second, first.nextSibling)
+      }
+      source = first;
+      destination = second;
+      insertionPoint = destination.getElementsByTagNameNS(editinfons, "editinfo")[0] || destination.firstChild
+    }
+    while(source.hasChildNodes()) {
+      child = mergeForward ? source.lastChild : source.firstChild;
+      source.removeChild(child);
       if(child.localName !== "editinfo") {
-        if(isEmpty(child)) {
-          while(child.firstChild) {
-            first.insertBefore(child.firstChild, insertionPoint)
-          }
-        }else {
-          first.insertBefore(child, insertionPoint)
-        }
+        destination.insertBefore(child, insertionPoint)
       }
-      child = prepend ? second.lastChild : second.firstChild
     }
-    parent = second.parentNode;
-    parent.removeChild(second);
-    if(odfUtils.isListItem(parent) && parent.childNodes.length === 0) {
-      parent.parentNode.removeChild(parent)
+    if(secondParent && collapseRules.isEmpty(secondParent)) {
+      collapseRules.mergeChildrenIntoParent(secondParent)
     }
+    collapseRules.mergeChildrenIntoParent(source);
+    return destination
   }
-  function getPreprocessedNeighborhood(odtDocument, position, length) {
-    odtDocument.upgradeWhitespacesAtPosition(position);
-    var domPosition = odtDocument.getPositionInTextNode(position), initialTextNode = domPosition.textNode, initialTextOffset = domPosition.offset, initialParentElement = initialTextNode.parentNode, paragraphElement = odtDocument.getParagraphElement(initialParentElement), remainingLength = length, neighborhood, difference;
-    if(initialTextNode.data === "") {
-      initialParentElement.removeChild(initialTextNode);
-      neighborhood = odtDocument.getTextNeighborhood(position, length)
-    }else {
-      if(initialTextOffset !== 0) {
-        difference = remainingLength < initialTextNode.length - initialTextOffset ? remainingLength : initialTextNode.length - initialTextOffset;
-        initialTextNode.deleteData(initialTextOffset, difference);
-        odtDocument.upgradeWhitespacesAtPosition(position);
-        neighborhood = odtDocument.getTextNeighborhood(position, length + difference);
-        remainingLength -= difference;
-        if(difference && neighborhood[0] === initialTextNode) {
-          neighborhood.splice(0, 1)
-        }
-      }else {
-        neighborhood = odtDocument.getTextNeighborhood(position, length)
+  function stepsToRange(odtDocument) {
+    var iterator, filter = odtDocument.getPositionFilter(), startContainer, startOffset, endContainer, endOffset, remainingLength = length, range = odtDocument.getDOM().createRange();
+    iterator = odtDocument.getIteratorAtPosition(position);
+    startContainer = iterator.container();
+    startOffset = iterator.unfilteredDomOffset();
+    while(remainingLength && iterator.nextPosition()) {
+      endContainer = iterator.container();
+      endOffset = iterator.unfilteredDomOffset();
+      if(filter.acceptPosition(iterator) === NodeFilter.FILTER_ACCEPT) {
+        remainingLength -= 1
       }
     }
-    return{paragraphElement:paragraphElement, neighborhood:neighborhood, remainingLength:remainingLength}
+    range.setStart(startContainer, startOffset);
+    range.setEnd(endContainer, endOffset);
+    domUtils.splitBoundaries(range);
+    return range
   }
   this.execute = function(odtDocument) {
-    var neighborhood = [], paragraphElement, currentParagraphElement, nextParagraphElement, remainingLength, currentTextNode = null, currentParent = null, currentLength, preprocessedNeighborhood;
-    preprocessedNeighborhood = getPreprocessedNeighborhood(odtDocument, position, length);
-    neighborhood = preprocessedNeighborhood.neighborhood;
-    remainingLength = preprocessedNeighborhood.remainingLength;
-    paragraphElement = preprocessedNeighborhood.paragraphElement;
-    while(remainingLength) {
-      if(neighborhood[0]) {
-        currentTextNode = neighborhood[0];
-        currentParent = currentTextNode.parentNode;
-        currentLength = currentTextNode.length
-      }
-      currentParagraphElement = odtDocument.getParagraphElement(currentTextNode);
-      if(paragraphElement !== currentParagraphElement) {
-        nextParagraphElement = odtDocument.getNeighboringParagraph(paragraphElement, 1);
-        if(nextParagraphElement) {
-          if(odtDocument.getWalkableParagraphLength(paragraphElement) > 1) {
-            mergeParagraphs(paragraphElement, nextParagraphElement, false)
-          }else {
-            mergeParagraphs(nextParagraphElement, paragraphElement, true);
-            paragraphElement = nextParagraphElement
-          }
-        }
-        remainingLength -= 1
-      }else {
-        if(currentLength <= remainingLength) {
-          currentParent.removeChild(currentTextNode);
-          odtDocument.fixCursorPositions(memberid);
-          while(isEmpty(currentParent)) {
-            currentParent = domUtils.mergeIntoParent(currentParent)
-          }
-          remainingLength -= currentLength;
-          neighborhood.splice(0, 1)
-        }else {
-          currentTextNode.deleteData(0, remainingLength);
-          odtDocument.upgradeWhitespacesAtPosition(position);
-          remainingLength = 0
-        }
-      }
-    }
-    odtDocument.fixCursorPositions(memberid);
+    var paragraphElement, destinationParagraph, range, textNodes, paragraphs, collapseRules = new CollapsingRules(odtDocument.getRootNode());
+    odtDocument.upgradeWhitespacesAtPosition(position);
+    odtDocument.upgradeWhitespacesAtPosition(position + length);
+    range = stepsToRange(odtDocument);
+    paragraphElement = odtDocument.getParagraphElement(range.startContainer);
+    textNodes = odtDocument.getTextElements(range, true);
+    paragraphs = odtDocument.getParagraphElements(range);
+    range.detach();
+    textNodes.forEach(function(element) {
+      collapseRules.mergeChildrenIntoParent(element)
+    });
+    destinationParagraph = paragraphs.reduce(function(destination, paragraph) {
+      return mergeParagraphs(destination, paragraph, collapseRules)
+    });
+    odtDocument.fixCursorPositions();
     odtDocument.getOdfCanvas().refreshSize();
-    odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphElement, memberId:memberid, timeStamp:timestamp});
+    odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:destinationParagraph || paragraphElement, memberId:memberid, timeStamp:timestamp});
     odtDocument.emit(ops.OdtDocument.signalCursorMoved, odtDocument.getCursor(memberid));
+    odtDocument.getOdfCanvas().rerenderAnnotations();
     return true
   };
   this.spec = function() {
@@ -10031,9 +10492,6 @@ ops.OpRemoveText = function OpRemoveText() {
 */
 ops.OpSplitParagraph = function OpSplitParagraph() {
   var self = this, optype = "SplitParagraph", memberid, timestamp, position, odfUtils = new odf.OdfUtils;
-  function isListItem(node) {
-    return node && node.localName === "list-item" && node.namespaceURI === "urn:oasis:names:tc:opendocument:xmlns:text:1.0"
-  }
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
@@ -10080,6 +10538,7 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
   };
   this.execute = function(odtDocument) {
     var domPosition, paragraphNode, targetNode, node, splitNode, splitChildNode, keptChildNode;
+    odtDocument.upgradeWhitespacesAtPosition(position);
     domPosition = odtDocument.getPositionInTextNode(position, memberid);
     if(!domPosition) {
       return false
@@ -10131,6 +10590,7 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
     odtDocument.getOdfCanvas().refreshSize();
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphNode, memberId:memberid, timeStamp:timestamp});
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:splitChildNode, memberId:memberid, timeStamp:timestamp});
+    odtDocument.getOdfCanvas().rerenderAnnotations();
     return true
   };
   this.spec = function() {
@@ -10201,6 +10661,7 @@ ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
         }
         odtDocument.getOdfCanvas().refreshSize();
         odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphNode, timeStamp:timestamp, memberId:memberid});
+        odtDocument.getOdfCanvas().rerenderAnnotations();
         return true
       }
     }
@@ -10245,45 +10706,32 @@ ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
-  var self = this, optype = "UpdateParagraphStyle", memberid, timestamp, styleName, setProperties, removedProperties, fons = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", textPropertyMapping = [{propertyName:"fontSize", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-size", unit:"pt"}, {propertyName:"fontName", attrNs:stylens, attrPrefix:"style", attrLocaName:"font-name"}, 
-  {propertyName:"color", attrNs:fons, attrPrefix:"fo", attrLocaName:"color"}, {propertyName:"backgroundColor", attrNs:fons, attrPrefix:"fo", attrLocaName:"background-color"}, {propertyName:"fontWeight", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-weight"}, {propertyName:"fontStyle", attrNs:fons, attrPrefix:"fo", attrLocaName:"font-style"}, {propertyName:"underline", attrNs:stylens, attrPrefix:"style", attrLocaName:"text-underline-style"}, {propertyName:"strikethrough", attrNs:stylens, attrPrefix:"style", 
-  attrLocaName:"text-line-through-style"}], paragraphPropertyMapping = [{propertyName:"topMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-top", unit:"mm"}, {propertyName:"bottomMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-bottom", unit:"mm"}, {propertyName:"leftMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-left", unit:"mm"}, {propertyName:"rightMargin", attrNs:fons, attrPrefix:"fo", attrLocaName:"margin-right", unit:"mm"}, {propertyName:"textAlign", attrNs:fons, 
-  attrPrefix:"fo", attrLocaName:"text-align"}];
-  function setPropertiesInStyleNode(node, properties, propertyMapping) {
-    var i, m, value;
-    for(i = 0;i < propertyMapping.length;i += 1) {
-      m = propertyMapping[i];
-      value = properties[m.propertyName];
-      if(value !== undefined) {
-        node.setAttributeNS(m.attrNs, m.attrPrefix + ":" + m.attrLocaName, m.unit !== undefined ? value + m.unit : value)
-      }
+  var self = this, optype = "UpdateParagraphStyle", memberid, timestamp, styleName, setProperties, removedProperties, stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
+  function removePropertiesFromStyleNode(node, removedPropertyNames) {
+    var i, propertyNameParts;
+    for(i = 0;i < removedPropertyNames.length;i += 1) {
+      propertyNameParts = removedPropertyNames[i].split(":");
+      node.removeAttributeNS(odf.Namespaces.resolvePrefix(propertyNameParts[0]), propertyNameParts[1])
     }
   }
-  function removePropertiesFromStyleNode(node, removedPropertyNames, propertyMapping) {
-    var i, m;
-    for(i = 0;i < propertyMapping.length;i += 1) {
-      m = propertyMapping[i];
-      if(removedPropertyNames.indexOf(m.propertyName) !== -1) {
-        node.removeAttributeNS(m.attrNs, m.attrLocaName)
-      }
-    }
-  }
-  function dropShadowedProperties(properties, removedPropertyNames, shadowingProperties, shadowingRemovedPropertyNames, propertyMapping) {
-    var i, propertyName, p;
-    if(!properties && !removedPropertyNames || !shadowingProperties && !shadowingRemovedPropertyNames) {
-      return
-    }
-    for(i = 0;i < propertyMapping.length;i += 1) {
-      propertyName = propertyMapping[i].propertyName;
-      if(shadowingProperties && shadowingProperties[propertyName] !== undefined || shadowingRemovedPropertyNames && shadowingRemovedPropertyNames.indexOf(propertyName) !== -1) {
-        if(properties) {
-          delete properties[propertyName]
-        }
-        if(removedPropertyNames) {
-          p = removedPropertyNames.indexOf(propertyName);
-          if(p !== -1) {
-            removedPropertyNames.splice(p, 1)
+  function dropShadowedProperties(properties, removedPropertyNames, shadowingProperties, shadowingRemovedPropertyNames) {
+    var value, i, name;
+    if(properties && (shadowingProperties || shadowingRemovedPropertyNames)) {
+      Object.keys(properties).forEach(function(key) {
+        value = properties[key];
+        if(shadowingProperties && shadowingProperties[key] !== undefined || shadowingRemovedPropertyNames && shadowingRemovedPropertyNames.indexOf(key) !== -1) {
+          if(typeof value !== "object") {
+            delete properties[key]
           }
+        }
+      })
+    }
+    if(removedPropertyNames && (shadowingProperties || shadowingRemovedPropertyNames)) {
+      for(i = 0;i < removedPropertyNames.length;i += 1) {
+        name = removedPropertyNames[i];
+        if(shadowingProperties && shadowingProperties[name] !== undefined || shadowingRemovedPropertyNames && shadowingRemovedPropertyNames.indexOf(name) !== -1) {
+          removedPropertyNames.splice(i, 1);
+          i -= 1
         }
       }
     }
@@ -10309,9 +10757,9 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
     if(otherOpType === optype) {
       if(otherOpspec.styleName === styleName) {
         if(!hasPriority) {
-          dropShadowedProperties(setProperties ? setProperties.paragraphProperties : null, removedProperties ? removedProperties.paragraphPropertyNames : null, otherOpspec.setProperties ? otherOpspec.setProperties.paragraphProperties : null, otherOpspec.removedProperties ? otherOpspec.removedProperties.paragraphPropertyNames : null, paragraphPropertyMapping);
-          dropShadowedProperties(setProperties ? setProperties.textProperties : null, removedProperties ? removedProperties.textPropertyNames : null, otherOpspec.setProperties ? otherOpspec.setProperties.textProperties : null, otherOpspec.removedProperties ? otherOpspec.removedProperties.textPropertyNames : null, textPropertyMapping);
-          if(!(setProperties && (hasProperties(setProperties.textProperties) || hasProperties(setProperties.paragraphProperties))) && !(removedProperties && (removedProperties.textPropertyNames.length > 0 || removedProperties.paragraphPropertyNames.length > 0))) {
+          dropShadowedProperties(setProperties ? setProperties["style:paragraph-properties"] : null, removedProperties ? removedProperties.paragraphPropertyNames : null, otherOpspec.setProperties ? otherOpspec.setProperties["style:paragraph-properties"] : null, otherOpspec.removedProperties ? otherOpspec.removedProperties.paragraphPropertyNames : null);
+          dropShadowedProperties(setProperties ? setProperties["style:text-properties"] : null, removedProperties ? removedProperties.textPropertyNames : null, otherOpspec.setProperties ? otherOpspec.setProperties["style:text-properties"] : null, otherOpspec.removedProperties ? otherOpspec.removedProperties.textPropertyNames : null);
+          if(!(setProperties && (hasProperties(setProperties["style:text-properties"]) || hasProperties(setProperties["style:paragraph-properties"]))) && !(removedProperties && (removedProperties.textPropertyNames.length > 0 || removedProperties.paragraphPropertyNames.length > 0))) {
             return[]
           }
         }
@@ -10326,42 +10774,43 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
     return[self]
   };
   this.execute = function(odtDocument) {
-    var styleNode, paragraphPropertiesNode, textPropertiesNode, fontFaceNode;
+    var styleNode, paragraphPropertiesNode, textPropertiesNode, fontFaceNode, fontName, formatting = odtDocument.getFormatting();
     styleNode = odtDocument.getParagraphStyleElement(styleName);
     if(styleNode) {
       paragraphPropertiesNode = styleNode.getElementsByTagNameNS(stylens, "paragraph-properties")[0];
       textPropertiesNode = styleNode.getElementsByTagNameNS(stylens, "text-properties")[0];
       if(setProperties) {
-        if(paragraphPropertiesNode === undefined && setProperties.paragraphProperties) {
+        if(paragraphPropertiesNode === undefined && setProperties["style:paragraph-properties"]) {
           paragraphPropertiesNode = odtDocument.getDOM().createElementNS(stylens, "style:paragraph-properties");
           styleNode.appendChild(paragraphPropertiesNode)
         }
-        if(textPropertiesNode === undefined && setProperties.textProperties) {
+        if(textPropertiesNode === undefined && setProperties["style:text-properties"]) {
           textPropertiesNode = odtDocument.getDOM().createElementNS(stylens, "style:text-properties");
           styleNode.appendChild(textPropertiesNode)
         }
-        if(setProperties.paragraphProperties) {
-          setPropertiesInStyleNode(paragraphPropertiesNode, setProperties.paragraphProperties, paragraphPropertyMapping)
+        if(setProperties["style:paragraph-properties"]) {
+          formatting.updateStyle(paragraphPropertiesNode, setProperties["style:paragraph-properties"])
         }
-        if(setProperties.textProperties) {
-          if(setProperties.textProperties.fontName && !odtDocument.getOdfCanvas().getFormatting().getFontMap().hasOwnProperty(setProperties.textProperties.fontName)) {
+        if(setProperties["style:text-properties"]) {
+          fontName = setProperties["style:text-properties"]["style:font-name"];
+          if(fontName && !formatting.getFontMap().hasOwnProperty(fontName)) {
             fontFaceNode = odtDocument.getDOM().createElementNS(stylens, "style:font-face");
-            fontFaceNode.setAttributeNS(stylens, "style:name", setProperties.textProperties.fontName);
-            fontFaceNode.setAttributeNS(svgns, "svg:font-family", setProperties.textProperties.fontName);
+            fontFaceNode.setAttributeNS(stylens, "style:name", fontName);
+            fontFaceNode.setAttributeNS(svgns, "svg:font-family", fontName);
             odtDocument.getOdfCanvas().odfContainer().rootElement.fontFaceDecls.appendChild(fontFaceNode)
           }
-          setPropertiesInStyleNode(textPropertiesNode, setProperties.textProperties, textPropertyMapping)
+          formatting.updateStyle(textPropertiesNode, setProperties["style:text-properties"])
         }
       }
       if(removedProperties) {
         if(removedProperties.paragraphPropertyNames) {
-          removePropertiesFromStyleNode(paragraphPropertiesNode, removedProperties.paragraphPropertyNames, paragraphPropertyMapping);
+          removePropertiesFromStyleNode(paragraphPropertiesNode, removedProperties.paragraphPropertyNames);
           if(paragraphPropertiesNode.attributes.length === 0) {
             styleNode.removeChild(paragraphPropertiesNode)
           }
         }
         if(removedProperties.textPropertyNames) {
-          removePropertiesFromStyleNode(textPropertiesNode, removedProperties.textPropertyNames, textPropertyMapping);
+          removePropertiesFromStyleNode(textPropertiesNode, removedProperties.textPropertyNames);
           if(textPropertiesNode.attributes.length === 0) {
             styleNode.removeChild(textPropertiesNode)
           }
@@ -10369,6 +10818,7 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
       }
       odtDocument.getOdfCanvas().refreshCSS();
       odtDocument.emit(ops.OdtDocument.signalParagraphStyleModified, styleName);
+      odtDocument.getOdfCanvas().rerenderAnnotations();
       return true
     }
     return false
@@ -10411,14 +10861,14 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.OpCloneParagraphStyle = function OpCloneParagraphStyle() {
-  var self = this, memberid, timestamp, styleName, newStyleName, newStyleDisplayName, stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+runtime.loadClass("odf.Namespaces");
+ops.OpAddParagraphStyle = function OpAddParagraphStyle() {
+  var self = this, memberid, timestamp, styleName, setProperties, paragraphPropertiesName = "style:paragraph-properties", textPropertiesName = "style:text-properties", svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     styleName = data.styleName;
-    newStyleName = data.newStyleName;
-    newStyleDisplayName = data.newStyleDisplayName
+    setProperties = data.setProperties
   };
   this.transform = function(otherOp, hasPriority) {
     var otherSpec = otherOp.spec();
@@ -10428,24 +10878,47 @@ ops.OpCloneParagraphStyle = function OpCloneParagraphStyle() {
     return[self]
   };
   this.execute = function(odtDocument) {
-    var styleNode = odtDocument.getParagraphStyleElement(styleName), newStyleNode;
+    var odfContainer = odtDocument.getOdfCanvas().odfContainer(), formatting = odtDocument.getFormatting(), dom = odtDocument.getDOM(), styleNode = dom.createElementNS(stylens, "style:style"), paragraphPropertiesNode, textPropertiesNode, fontFaceNode, fontName, ns;
     if(!styleNode) {
       return false
     }
-    newStyleNode = styleNode.cloneNode(true);
-    newStyleNode.setAttributeNS(stylens, "style:name", newStyleName);
-    if(newStyleDisplayName) {
-      newStyleNode.setAttributeNS(stylens, "style:display-name", newStyleDisplayName)
-    }else {
-      newStyleNode.removeAttributeNS(stylens, "display-name")
+    styleNode.setAttributeNS(stylens, "style:family", "paragraph");
+    styleNode.setAttributeNS(stylens, "style:name", styleName);
+    if(setProperties) {
+      Object.keys(setProperties).forEach(function(propertyName) {
+        switch(propertyName) {
+          case paragraphPropertiesName:
+            paragraphPropertiesNode = dom.createElementNS(stylens, paragraphPropertiesName);
+            styleNode.appendChild(paragraphPropertiesNode);
+            formatting.updateStyle(paragraphPropertiesNode, setProperties[paragraphPropertiesName]);
+            break;
+          case textPropertiesName:
+            textPropertiesNode = dom.createElementNS(stylens, textPropertiesName);
+            styleNode.appendChild(textPropertiesNode);
+            fontName = setProperties[textPropertiesName]["style:font-name"];
+            if(fontName && !formatting.getFontMap().hasOwnProperty(fontName)) {
+              fontFaceNode = dom.createElementNS(stylens, "style:font-face");
+              fontFaceNode.setAttributeNS(stylens, "style:name", fontName);
+              fontFaceNode.setAttributeNS(svgns, "svg:font-family", fontName);
+              odfContainer.rootElement.fontFaceDecls.appendChild(fontFaceNode)
+            }
+            formatting.updateStyle(textPropertiesNode, setProperties[textPropertiesName]);
+            break;
+          default:
+            if(typeof setProperties[propertyName] !== "object") {
+              ns = odf.Namespaces.resolvePrefix(propertyName.substr(0, propertyName.indexOf(":")));
+              styleNode.setAttributeNS(ns, propertyName, setProperties[propertyName])
+            }
+        }
+      })
     }
-    styleNode.parentNode.appendChild(newStyleNode);
+    odfContainer.rootElement.styles.appendChild(styleNode);
     odtDocument.getOdfCanvas().refreshCSS();
-    odtDocument.emit(ops.OdtDocument.signalStyleCreated, newStyleName);
+    odtDocument.emit(ops.OdtDocument.signalStyleCreated, styleName);
     return true
   };
   this.spec = function() {
-    return{optype:"CloneParagraphStyle", memberid:memberid, timestamp:timestamp, styleName:styleName, newStyleName:newStyleName, newStyleDisplayName:newStyleDisplayName}
+    return{optype:"AddParagraphStyle", memberid:memberid, timestamp:timestamp, styleName:styleName, setProperties:setProperties}
   }
 };
 /*
@@ -10555,8 +11028,112 @@ ops.OpDeleteParagraphStyle = function OpDeleteParagraphStyle() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+ops.OpAddAnnotation = function OpAddAnnotation() {
+  var memberid, timestamp, position, length, name;
+  this.init = function(data) {
+    memberid = data.memberid;
+    timestamp = parseInt(data.timestamp, 10);
+    position = parseInt(data.position, 10);
+    length = parseInt(data.length, 10) || 0;
+    name = data.name
+  };
+  this.transform = function(otherOp, hasPriority) {
+    if(otherOp || hasPriority) {
+      return null
+    }
+    return null
+  };
+  function createAnnotationNode(odtDocument, date) {
+    var annotationNode, creatorNode, dateNode, listNode, listItemNode, paragraphNode, doc = odtDocument.getRootNode().ownerDocument;
+    annotationNode = doc.createElementNS(odf.Namespaces.officens, "office:annotation");
+    annotationNode.setAttributeNS(odf.Namespaces.officens, "office:name", name);
+    creatorNode = doc.createElementNS(odf.Namespaces.dcns, "dc:creator");
+    creatorNode.setAttributeNS(odf.Namespaces.webodfns + ":names:editinfo", "editinfo:memberid", memberid);
+    dateNode = doc.createElementNS(odf.Namespaces.dcns, "dc:date");
+    dateNode.appendChild(doc.createTextNode(date.toISOString()));
+    listNode = doc.createElementNS(odf.Namespaces.textns, "text:list");
+    listItemNode = doc.createElementNS(odf.Namespaces.textns, "text:list-item");
+    paragraphNode = doc.createElementNS(odf.Namespaces.textns, "text:p");
+    listItemNode.appendChild(paragraphNode);
+    listNode.appendChild(listItemNode);
+    annotationNode.appendChild(creatorNode);
+    annotationNode.appendChild(dateNode);
+    annotationNode.appendChild(listNode);
+    return annotationNode
+  }
+  function createAnnotationEnd(odtDocument) {
+    var annotationEnd, doc = odtDocument.getRootNode().ownerDocument;
+    annotationEnd = doc.createElementNS(odf.Namespaces.officens, "office:annotation-end");
+    annotationEnd.setAttributeNS(odf.Namespaces.officens, "office:name", name);
+    return annotationEnd
+  }
+  function insertNodeAtPosition(odtDocument, node, insertPosition) {
+    var previousNode, domPosition = odtDocument.getPositionInTextNode(insertPosition);
+    if(domPosition) {
+      previousNode = domPosition.textNode;
+      if(domPosition.offset !== previousNode.length) {
+        previousNode.splitText(domPosition.offset)
+      }
+      previousNode.parentNode.insertBefore(node, previousNode.nextSibling)
+    }
+  }
+  this.execute = function(odtDocument) {
+    var annotation = {};
+    annotation.node = createAnnotationNode(odtDocument, new Date(timestamp));
+    if(!annotation.node) {
+      return false
+    }
+    if(length) {
+      annotation.end = createAnnotationEnd(odtDocument);
+      if(!annotation.end) {
+        return false
+      }
+      insertNodeAtPosition(odtDocument, annotation.end, position + length)
+    }
+    insertNodeAtPosition(odtDocument, annotation.node, position);
+    odtDocument.getOdfCanvas().addAnnotation(annotation);
+    return true
+  };
+  this.spec = function() {
+    return{optype:"AddAnnotation", memberid:memberid, timestamp:timestamp, position:position, length:length, name:name}
+  }
+};
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
 runtime.loadClass("ops.OpAddCursor");
-runtime.loadClass("ops.OpApplyStyle");
+runtime.loadClass("ops.OpApplyDirectStyling");
 runtime.loadClass("ops.OpRemoveCursor");
 runtime.loadClass("ops.OpMoveCursor");
 runtime.loadClass("ops.OpInsertTable");
@@ -10565,8 +11142,9 @@ runtime.loadClass("ops.OpRemoveText");
 runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
 runtime.loadClass("ops.OpUpdateParagraphStyle");
-runtime.loadClass("ops.OpCloneParagraphStyle");
+runtime.loadClass("ops.OpAddParagraphStyle");
 runtime.loadClass("ops.OpDeleteParagraphStyle");
+runtime.loadClass("ops.OpAddAnnotation");
 ops.OperationFactory = function OperationFactory() {
   var specs;
   this.register = function(specName, specConstructor) {
@@ -10586,8 +11164,8 @@ ops.OperationFactory = function OperationFactory() {
     }
   }
   function init() {
-    specs = {AddCursor:constructor(ops.OpAddCursor), ApplyStyle:constructor(ops.OpApplyStyle), InsertTable:constructor(ops.OpInsertTable), InsertText:constructor(ops.OpInsertText), RemoveText:constructor(ops.OpRemoveText), SplitParagraph:constructor(ops.OpSplitParagraph), SetParagraphStyle:constructor(ops.OpSetParagraphStyle), UpdateParagraphStyle:constructor(ops.OpUpdateParagraphStyle), CloneParagraphStyle:constructor(ops.OpCloneParagraphStyle), DeleteParagraphStyle:constructor(ops.OpDeleteParagraphStyle), 
-    MoveCursor:constructor(ops.OpMoveCursor), RemoveCursor:constructor(ops.OpRemoveCursor)}
+    specs = {AddCursor:constructor(ops.OpAddCursor), ApplyDirectStyling:constructor(ops.OpApplyDirectStyling), InsertTable:constructor(ops.OpInsertTable), InsertText:constructor(ops.OpInsertText), RemoveText:constructor(ops.OpRemoveText), SplitParagraph:constructor(ops.OpSplitParagraph), SetParagraphStyle:constructor(ops.OpSetParagraphStyle), UpdateParagraphStyle:constructor(ops.OpUpdateParagraphStyle), AddParagraphStyle:constructor(ops.OpAddParagraphStyle), DeleteParagraphStyle:constructor(ops.OpDeleteParagraphStyle), 
+    MoveCursor:constructor(ops.OpMoveCursor), RemoveCursor:constructor(ops.OpRemoveCursor), AddAnnotation:constructor(ops.OpAddAnnotation)}
   }
   init()
 };
@@ -10597,7 +11175,7 @@ runtime.loadClass("core.PositionFilter");
 runtime.loadClass("core.LoopWatchDog");
 runtime.loadClass("odf.OdfUtils");
 gui.SelectionMover = function SelectionMover(cursor, rootNode) {
-  var self = this, odfUtils, positionIterator, cachedXOffset, timeoutHandle;
+  var odfUtils, positionIterator, cachedXOffset, timeoutHandle, FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
   function getOffset(el) {
     var x = 0, y = 0;
     while(el && el.nodeType === Node.ELEMENT_NODE) {
@@ -10624,7 +11202,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
         if(!containerOffset) {
           containerOffset = getOffset(container)
         }
-		runtime.assert(containerOffset, "getRect: invalid containerOffset");
+        runtime.assert(containerOffset, "getRect: invalid containerOffset");
         rect.top = containerOffset.top;
         rect.left = containerOffset.right;
         rect.bottom = containerOffset.bottom
@@ -10643,13 +11221,12 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
         }
       }
     }
-	runtime.assert(rect, "getRect invalid rect");
-	runtime.assert(rect.top !== undefined, "getRect rect without top property");
-
+    runtime.assert(rect, "getRect invalid rect");
+    runtime.assert(rect.top !== undefined, "getRect rect without top property");
     return{top:rect.top, left:rect.left, bottom:rect.bottom}
   }
   function doMove(steps, extend, move) {
-    var left = steps, iterator = getIteratorAtCursor(), initialRect, range = (rootNode.ownerDocument.createRange()), selectionRange = cursor.getSelectedRange() ? cursor.getSelectedRange().cloneRange() : rootNode.ownerDocument.createRange(), newRect, horizontalMovement, o, c, isForwardSelection;
+    var left = steps, iterator = getIteratorAtCursor(), initialRect, range = (rootNode.ownerDocument.createRange()), selectionRange = cursor.getSelectedRange() ? cursor.getSelectedRange().cloneRange() : rootNode.ownerDocument.createRange(), newRect, horizontalMovement, o, c, isForwardSelection, window = runtime.getWindow();
     initialRect = getRect((cursor.getNode()), 0, range);
     while(left > 0 && move()) {
       left -= 1
@@ -10688,7 +11265,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
   };
   function isPositionWalkable(filter) {
     var iterator = getIteratorAtCursor();
-    if(filter.acceptPosition(iterator) === 1) {
+    if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
       return true
     }
     return false
@@ -10698,10 +11275,40 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     while(steps > 0 && iterator.nextPosition()) {
       stepCount += 1;
       watch.check();
-      if(filter.acceptPosition(iterator) === 1) {
+      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
         count += stepCount;
         stepCount = 0;
         steps -= 1
+      }
+    }
+    return count
+  }
+  function convertForwardStepsBetweenFilters(steps, filter1, filter2) {
+    var iterator = getIteratorAtCursor(), watch = new core.LoopWatchDog(1E3), stepCount = 0, count = 0;
+    while(steps > 0 && iterator.nextPosition()) {
+      watch.check();
+      if(filter2.acceptPosition(iterator) === FILTER_ACCEPT) {
+        stepCount += 1;
+        if(filter1.acceptPosition(iterator) === FILTER_ACCEPT) {
+          count += stepCount;
+          stepCount = 0;
+          steps -= 1
+        }
+      }
+    }
+    return count
+  }
+  function convertBackwardStepsBetweenFilters(steps, filter1, filter2) {
+    var iterator = getIteratorAtCursor(), watch = new core.LoopWatchDog(1E3), stepCount = 0, count = 0;
+    while(steps > 0 && iterator.previousPosition()) {
+      watch.check();
+      if(filter2.acceptPosition(iterator) === FILTER_ACCEPT) {
+        stepCount += 1;
+        if(filter1.acceptPosition(iterator) === FILTER_ACCEPT) {
+          count += stepCount;
+          stepCount = 0;
+          steps -= 1
+        }
       }
     }
     return count
@@ -10711,11 +11318,19 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     while(steps > 0 && iterator.previousPosition()) {
       stepCount += 1;
       watch.check();
-      if(filter.acceptPosition(iterator) === 1) {
+      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
         count += stepCount;
         stepCount = 0;
         steps -= 1
       }
+    }
+    return count
+  }
+  function countStepsToValidPosition(filter) {
+    var iterator = getIteratorAtCursor(), paragraphNode = odfUtils.getParagraphElement(iterator.getCurrentNode()), count;
+    count = -countBackwardSteps(1, filter);
+    if(count === 0 || paragraphNode && paragraphNode !== odfUtils.getParagraphElement(iterator.getCurrentNode())) {
+      count = countForwardSteps(1, filter)
     }
     return count
   }
@@ -10731,7 +11346,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     lastTop = top;
     while((direction < 0 ? iterator.previousPosition() : iterator.nextPosition()) === true) {
       watch.check();
-      if(filter.acceptPosition(iterator) === 1) {
+      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
         count += 1;
         c = iterator.container();
         rect = getRect(c, iterator.unfilteredDomOffset(), range);
@@ -10773,7 +11388,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     return count * direction
   }
   function countStepsToLineBoundary(direction, filter) {
-    var iterator = getIteratorAtCursor(), paragraphNode = odfUtils.getParagraphElement(iterator.getCurrentNode()), count = 0, fnNextPos, increment, lastRect, rect, onSameLine, range = (rootNode.ownerDocument.createRange());
+    var fnNextPos, increment, lastRect, rect, onSameLine, iterator = getIteratorAtCursor(), paragraphNode = odfUtils.getParagraphElement(iterator.getCurrentNode()), count = 0, range = (rootNode.ownerDocument.createRange());
     if(direction < 0) {
       fnNextPos = iterator.previousPosition;
       increment = -1
@@ -10783,7 +11398,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     }
     lastRect = getRect(iterator.container(), iterator.unfilteredDomOffset(), range);
     while(fnNextPos.call(iterator)) {
-      if(filter.acceptPosition(iterator) === NodeFilter.FILTER_ACCEPT) {
+      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
         if(odfUtils.getParagraphElement(iterator.getCurrentNode()) !== paragraphNode) {
           break
         }
@@ -10848,7 +11463,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     if(comparison < 0) {
       while(iterator.nextPosition()) {
         watch.check();
-        if(filter.acceptPosition(iterator) === 1) {
+        if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
           steps += 1
         }
         if(iterator.container() === posElement) {
@@ -10861,7 +11476,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
       if(comparison > 0) {
         while(iterator.previousPosition()) {
           watch.check();
-          if(filter.acceptPosition(iterator) === 1) {
+          if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
             steps -= 1
           }
           if(iterator.container() === posElement) {
@@ -10875,7 +11490,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     return steps
   }
   this.getStepCounter = function() {
-    return{countForwardSteps:countForwardSteps, countBackwardSteps:countBackwardSteps, countLinesSteps:countLinesSteps, countStepsToLineBoundary:countStepsToLineBoundary, countStepsToPosition:countStepsToPosition, isPositionWalkable:isPositionWalkable}
+    return{countForwardSteps:countForwardSteps, countBackwardSteps:countBackwardSteps, convertForwardStepsBetweenFilters:convertForwardStepsBetweenFilters, convertBackwardStepsBetweenFilters:convertBackwardStepsBetweenFilters, countLinesSteps:countLinesSteps, countStepsToLineBoundary:countStepsToLineBoundary, countStepsToPosition:countStepsToPosition, isPositionWalkable:isPositionWalkable, countStepsToValidPosition:countStepsToValidPosition}
   };
   function init() {
     odfUtils = new odf.OdfUtils;
@@ -10944,11 +11559,11 @@ runtime.loadClass("ops.OpInsertText");
 runtime.loadClass("ops.OpRemoveText");
 runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
+runtime.loadClass("ops.OpAddParagraphStyle");
 runtime.loadClass("ops.OpUpdateParagraphStyle");
-runtime.loadClass("ops.OpCloneParagraphStyle");
 runtime.loadClass("ops.OpDeleteParagraphStyle");
 ops.OperationTransformer = function OperationTransformer() {
-  var self = this, operationFactory;
+  var operationFactory;
   function transformOpVsOp(opA, opB) {
     var oldOpB, opATransformResult, opBTransformResult;
     runtime.log("Crosstransforming:");
@@ -10996,7 +11611,7 @@ ops.OperationTransformer = function OperationTransformer() {
     operationFactory = f
   };
   this.transform = function(opspecsA, opspecsB) {
-    var c, s, opsA = [], clientOp, transformedClientOps, serverOp, oldServerOp, transformResult, transformedOpsB = [];
+    var c, s, opsA = [], clientOp, serverOp, transformResult, transformedOpsB = [];
     for(c = 0;c < opspecsA.length;c += 1) {
       clientOp = operationFactory.create(opspecsA[c]);
       if(!clientOp) {
@@ -11096,7 +11711,7 @@ ops.OdtCursor = function OdtCursor(memberId, odtDocument) {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.EditInfo = function EditInfo(container, odtDocument) {
-  var self = this, editInfoNode, editHistory = {};
+  var editInfoNode, editHistory = {};
   function sortEdits() {
     var arr = [], memberid;
     for(memberid in editHistory) {
@@ -11192,18 +11807,21 @@ gui.Avatar = function Avatar(parentElement, avatarInitiallyVisible) {
 };
 runtime.loadClass("gui.Avatar");
 runtime.loadClass("ops.OdtCursor");
-gui.Caret = function Caret(cursor, avatarInitiallyVisible) {
-  var self = this, span, avatar, cursorNode, focussed = false, blinking = false, color = "";
-  function blink() {
-    if(!focussed || !cursorNode.parentNode) {
+gui.Caret = function Caret(cursor, avatarInitiallyVisible, blinkOnRangeSelect) {
+  var span, avatar, cursorNode, shouldBlink = false, blinking = false, blinkTimeout;
+  function blink(reset) {
+    if(!shouldBlink || !cursorNode.parentNode) {
       return
     }
-    if(!blinking) {
+    if(!blinking || reset) {
+      if(reset && blinkTimeout !== undefined) {
+        runtime.clearTimeout(blinkTimeout)
+      }
       blinking = true;
-      span.style.borderColor = span.style.borderColor === "transparent" ? color : "transparent";
-      runtime.setTimeout(function() {
+      span.style.opacity = reset || span.style.opacity === "0" ? "1" : "0";
+      blinkTimeout = runtime.setTimeout(function() {
         blinking = false;
-        blink()
+        blink(false)
       }, 500)
     }
   }
@@ -11278,28 +11896,31 @@ gui.Caret = function Caret(cursor, avatarInitiallyVisible) {
     caretOffsetTopLeft.y += caretElement.offsetTop;
     return{left:caretOffsetTopLeft.x - margin, top:caretOffsetTopLeft.y - margin, right:caretOffsetTopLeft.x + caretElement.scrollWidth - 1 + margin, bottom:caretOffsetTopLeft.y + caretElement.scrollHeight - 1 + margin}
   }
+  this.refreshCursor = function() {
+    if(blinkOnRangeSelect || cursor.getSelectedRange().collapsed) {
+      shouldBlink = true;
+      blink(true)
+    }else {
+      shouldBlink = false;
+      span.style.opacity = "0"
+    }
+  };
   this.setFocus = function() {
-    focussed = true;
+    shouldBlink = true;
     avatar.markAsFocussed(true);
-    blink()
+    blink(true)
   };
   this.removeFocus = function() {
-    focussed = false;
+    shouldBlink = false;
     avatar.markAsFocussed(false);
-    span.style.borderColor = color
+    span.style.opacity = "0"
   };
   this.setAvatarImageUrl = function(url) {
     avatar.setImageUrl(url)
   };
   this.setColor = function(newColor) {
-    if(color === newColor) {
-      return
-    }
-    color = newColor;
-    if(span.style.borderColor !== "transparent") {
-      span.style.borderColor = color
-    }
-    avatar.setColor(color)
+    span.style.borderColor = newColor;
+    avatar.setColor(newColor)
   };
   this.getCursor = function() {
     return cursor
@@ -11362,7 +11983,7 @@ gui.ClickHandler = function ClickHandler() {
     if(clickPosition && clickPosition.x === e.screenX && clickPosition.y === e.screenY) {
       clickCount += 1;
       if(clickCount === 1) {
-        eventNotifier.emit(gui.ClickHandler.signalSingleClick, undefined)
+        eventNotifier.emit(gui.ClickHandler.signalSingleClick, e)
       }else {
         if(clickCount === 2) {
           eventNotifier.emit(gui.ClickHandler.signalDoubleClick, undefined)
@@ -11375,7 +11996,7 @@ gui.ClickHandler = function ClickHandler() {
         }
       }
     }else {
-      eventNotifier.emit(gui.ClickHandler.signalSingleClick, undefined);
+      eventNotifier.emit(gui.ClickHandler.signalSingleClick, e);
       clickCount = 1;
       clickPosition = {x:e.screenX, y:e.screenY};
       window.clearTimeout(clickTimer);
@@ -11443,7 +12064,7 @@ gui.KeyboardHandler = function KeyboardHandler() {
   }
   function getKeyCombo(keyCode, modifiers) {
     if(!modifiers) {
-      modifiers = modifiers.None
+      modifiers = modifier.None
     }
     return keyCode + ":" + modifiers
   }
@@ -11482,37 +12103,77 @@ gui.KeyboardHandler = function KeyboardHandler() {
   }
 };
 gui.KeyboardHandler.Modifier = {None:0, Meta:1, Ctrl:2, Alt:4, Shift:8, MetaShift:9, CtrlShift:10, AltShift:12};
-gui.KeyboardHandler.KeyCode = {Backspace:8, Enter:13, End:35, Home:36, Left:37, Up:38, Right:39, Down:40, Delete:46, Z:90};
+gui.KeyboardHandler.KeyCode = {Backspace:8, Tab:9, Clear:12, Enter:13, End:35, Home:36, Left:37, Up:38, Right:39, Down:40, Delete:46, A:65, B:66, I:73, U:85, Z:90};
 (function() {
   return gui.KeyboardHandler
 })();
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("odf.Namespaces");
+runtime.loadClass("xmldom.LSSerializer");
+runtime.loadClass("odf.OdfNodeFilter");
+runtime.loadClass("odf.TextSerializer");
 gui.Clipboard = function Clipboard() {
+  var xmlSerializer, textSerializer, filter;
   this.setDataFromRange = function(e, range) {
-    var result = true, setDataResult, clipboard = e.clipboardData, window = runtime.getWindow(), serializer, dom, newNode, fragmentContainer;
+    var result = true, setDataResult, clipboard = e.clipboardData, window = runtime.getWindow(), document = range.startContainer.ownerDocument, fragmentContainer;
     if(!clipboard && window) {
       clipboard = window.clipboardData
     }
     if(clipboard) {
-      serializer = new XMLSerializer;
-      dom = runtime.getDOMImplementation().createDocument("", "", null);
-      newNode = dom.importNode(range.cloneContents(), true);
-      fragmentContainer = dom.createElement("span");
-      fragmentContainer.appendChild(newNode);
-      dom.appendChild(fragmentContainer);
-      setDataResult = clipboard.setData("text/plain", range.toString());
+      fragmentContainer = document.createElement("span");
+      fragmentContainer.appendChild(range.cloneContents());
+      setDataResult = clipboard.setData("text/plain", textSerializer.writeToString(fragmentContainer));
       result = result && setDataResult;
-      setDataResult = clipboard.setData("text/html", serializer.serializeToString(dom));
+      setDataResult = clipboard.setData("text/html", xmlSerializer.writeToString(fragmentContainer, odf.Namespaces.namespaceMap));
       result = result && setDataResult;
       e.preventDefault()
     }else {
       result = false
     }
     return result
+  };
+  function init() {
+    xmlSerializer = new xmldom.LSSerializer;
+    textSerializer = new odf.TextSerializer;
+    filter = new odf.OdfNodeFilter;
+    xmlSerializer.filter = filter;
+    textSerializer.filter = filter
   }
+  init()
 };
-(function() {
-  return gui.Clipboard
-})();
 runtime.loadClass("ops.OpAddCursor");
 runtime.loadClass("ops.OpRemoveCursor");
 runtime.loadClass("ops.OpMoveCursor");
@@ -11521,11 +12182,14 @@ runtime.loadClass("ops.OpRemoveText");
 runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
 runtime.loadClass("gui.ClickHandler");
-runtime.loadClass("gui.KeyboardHandler");
 runtime.loadClass("gui.Clipboard");
+runtime.loadClass("gui.KeyboardHandler");
+runtime.loadClass("gui.StyleHelper");
 gui.SessionController = function() {
   gui.SessionController = function SessionController(session, inputMemberId) {
-    var self = this, odtDocument = session.getOdtDocument(), odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, undoManager;
+    var odtDocument = session.getOdtDocument(), odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), undoManager = null;
+    keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
+    keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
     function listenEvent(eventTarget, eventType, eventHandler, includeDirect) {
       var onVariant = "on" + eventType, bound = false;
       if(eventTarget.attachEvent) {
@@ -11570,7 +12234,7 @@ gui.SessionController = function() {
       var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), canvasElement = odtDocument.getOdfCanvas().getElement(), node;
       node = targetNode;
       if(!node) {
-        return
+        return null
       }
       while(node !== canvasElement) {
         if(node.namespaceURI === "urn:webodf:names:cursor" && node.localName === "cursor" || node.namespaceURI === "urn:webodf:names:editinfo" && node.localName === "editinfo") {
@@ -11578,7 +12242,7 @@ gui.SessionController = function() {
         }
         node = node.parentNode;
         if(!node) {
-          return
+          return null
         }
       }
       if(node !== canvasElement && targetNode !== node) {
@@ -11588,17 +12252,43 @@ gui.SessionController = function() {
       iterator.setUnfilteredPosition(targetNode, targetOffset);
       return odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset())
     }
-    function select() {
-      var selection = runtime.getWindow().getSelection(), oldPosition = odtDocument.getCursorPosition(inputMemberId), stepsToAnchor, stepsToFocus, op;
-      stepsToAnchor = countStepsToNode(selection.anchorNode, selection.anchorOffset);
-      stepsToFocus = countStepsToNode(selection.focusNode, selection.focusOffset);
-      if(stepsToFocus !== 0 || stepsToAnchor !== 0) {
-        op = createOpMoveCursor(oldPosition + stepsToAnchor, stepsToFocus - stepsToAnchor);
-        session.enqueue(op)
+    function caretPositionFromPoint(x, y) {
+      var doc = odtDocument.getDOM(), result;
+      if(doc.caretRangeFromPoint) {
+        result = doc.caretRangeFromPoint(x, y);
+        return{container:result.startContainer, offset:result.startOffset}
       }
+      if(doc.caretPositionFromPoint) {
+        result = doc.caretPositionFromPoint(x, y);
+        return{container:result.offsetNode, offset:result.offset}
+      }
+      return null
+    }
+    function selectRange(e) {
+      runtime.setTimeout(function() {
+        var selection = runtime.getWindow().getSelection(), oldPosition = odtDocument.getCursorPosition(inputMemberId), range, caretPos, stepsToAnchor, stepsToFocus, op;
+        if(selection.anchorNode === null && selection.focusNode === null) {
+          caretPos = caretPositionFromPoint(e.clientX, e.clientY);
+          if(caretPos) {
+            range = odtDocument.getDOM().createRange();
+            range.setStart(caretPos.container, caretPos.offset);
+            range.collapse(true);
+            selection.addRange(range)
+          }
+        }
+        stepsToAnchor = countStepsToNode(selection.anchorNode, selection.anchorOffset);
+        stepsToFocus = countStepsToNode(selection.focusNode, selection.focusOffset);
+        if(stepsToFocus !== null && stepsToFocus !== 0 || stepsToAnchor !== null && stepsToAnchor !== 0) {
+          op = createOpMoveCursor(oldPosition + stepsToAnchor, stepsToFocus - stepsToAnchor);
+          session.enqueue(op)
+        }
+      }, 0)
+    }
+    function handleContextMenu(e) {
+      selectRange(e)
     }
     function selectWord() {
-      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), cursorNode = odtDocument.getCursor(inputMemberId).getNode(), oldPosition = odtDocument.getCursorPosition(inputMemberId), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0, currentNode, i, c, op;
+      var currentNode, i, c, op, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), cursorNode = odtDocument.getCursor(inputMemberId).getNode(), oldPosition = odtDocument.getCursorPosition(inputMemberId), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0;
       iterator.setUnfilteredPosition(cursorNode, 0);
       if(iterator.previousPosition()) {
         currentNode = iterator.getCurrentNode();
@@ -11633,7 +12323,7 @@ gui.SessionController = function() {
       }
     }
     function selectParagraph() {
-      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), oldPosition = odtDocument.getCursorPosition(inputMemberId), stepsToStart, stepsToEnd, op;
+      var stepsToStart, stepsToEnd, op, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), oldPosition = odtDocument.getCursorPosition(inputMemberId);
       stepsToStart = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, 0);
       iterator.moveToEndOfNode(paragraphNode);
       stepsToEnd = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, iterator.unfilteredDomOffset());
@@ -11642,76 +12332,86 @@ gui.SessionController = function() {
         session.enqueue(op)
       }
     }
-    function sessionEnqueue(op) {
-      if(op) {
-        session.enqueue(op)
+    function extendCursorByAdjustment(lengthAdjust) {
+      var selection = odtDocument.getCursorSelection(inputMemberId), stepCounter = odtDocument.getCursor(inputMemberId).getStepCounter(), newLength;
+      if(lengthAdjust !== 0) {
+        lengthAdjust = lengthAdjust > 0 ? stepCounter.convertForwardStepsBetweenFilters(lengthAdjust, keyboardMovementsFilter, baseFilter) : -stepCounter.convertBackwardStepsBetweenFilters(-lengthAdjust, keyboardMovementsFilter, baseFilter);
+        newLength = selection.length + lengthAdjust;
+        session.enqueue(createOpMoveCursor(selection.position, newLength))
       }
     }
-    function createOpMoveCursorByAdjustment(posAdjust, lenAdjust) {
-      var selection = odtDocument.getCursorSelection(inputMemberId), newPos, newLen;
-      if(posAdjust === 0 && lenAdjust === 0) {
-        return null
+    function moveCursorByAdjustment(positionAdjust) {
+      var position = odtDocument.getCursorPosition(inputMemberId), stepCounter = odtDocument.getCursor(inputMemberId).getStepCounter();
+      if(positionAdjust !== 0) {
+        positionAdjust = positionAdjust > 0 ? stepCounter.convertForwardStepsBetweenFilters(positionAdjust, keyboardMovementsFilter, baseFilter) : -stepCounter.convertBackwardStepsBetweenFilters(-positionAdjust, keyboardMovementsFilter, baseFilter);
+        position = position + positionAdjust;
+        session.enqueue(createOpMoveCursor(position, 0))
       }
-      newPos = selection.position + posAdjust;
-      newLen = lenAdjust !== 0 ? selection.length + lenAdjust : 0;
-      return createOpMoveCursor(newPos, newLen)
     }
     function moveCursorToLeft() {
-      sessionEnqueue(createOpMoveCursorByAdjustment(-1, 0));
+      moveCursorByAdjustment(-1);
       return true
     }
     function moveCursorToRight() {
-      sessionEnqueue(createOpMoveCursorByAdjustment(1, 0));
+      moveCursorByAdjustment(1);
       return true
     }
     function extendSelectionToLeft() {
-      sessionEnqueue(createOpMoveCursorByAdjustment(0, -1));
+      extendCursorByAdjustment(-1);
       return true
     }
     function extendSelectionToRight() {
-      sessionEnqueue(createOpMoveCursorByAdjustment(0, 1));
+      extendCursorByAdjustment(1);
       return true
     }
-    function createOpMoveCursorDirection(direction, extend) {
-      var paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), steps, op;
+    function moveCursorByLine(direction, extend) {
+      var paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), steps;
       runtime.assert(Boolean(paragraphNode), "SessionController: Cursor outside paragraph");
-      steps = odtDocument.getCursor(inputMemberId).getStepCounter().countLinesSteps(direction, odtDocument.getPositionFilter());
-      return extend ? createOpMoveCursorByAdjustment(0, steps) : createOpMoveCursorByAdjustment(steps, 0)
+      steps = odtDocument.getCursor(inputMemberId).getStepCounter().countLinesSteps(direction, keyboardMovementsFilter);
+      if(extend) {
+        extendCursorByAdjustment(steps)
+      }else {
+        moveCursorByAdjustment(steps)
+      }
     }
     function moveCursorUp() {
-      sessionEnqueue(createOpMoveCursorDirection(-1, false));
+      moveCursorByLine(-1, false);
       return true
     }
     function moveCursorDown() {
-      sessionEnqueue(createOpMoveCursorDirection(1, false));
+      moveCursorByLine(1, false);
       return true
     }
     function extendSelectionUp() {
-      sessionEnqueue(createOpMoveCursorDirection(-1, true));
+      moveCursorByLine(-1, true);
       return true
     }
     function extendSelectionDown() {
-      sessionEnqueue(createOpMoveCursorDirection(1, true));
+      moveCursorByLine(1, true);
       return true
     }
-    function createOpMoveCursorLineBoundary(direction, extend) {
-      var steps = odtDocument.getCursor(inputMemberId).getStepCounter().countStepsToLineBoundary(direction, odtDocument.getPositionFilter());
-      return extend ? createOpMoveCursorByAdjustment(0, steps) : createOpMoveCursorByAdjustment(steps, 0)
+    function moveCursorToLineBoundary(direction, extend) {
+      var steps = odtDocument.getCursor(inputMemberId).getStepCounter().countStepsToLineBoundary(direction, keyboardMovementsFilter);
+      if(extend) {
+        extendCursorByAdjustment(steps)
+      }else {
+        moveCursorByAdjustment(steps)
+      }
     }
     function moveCursorToLineStart() {
-      sessionEnqueue(createOpMoveCursorLineBoundary(-1, false));
+      moveCursorToLineBoundary(-1, false);
       return true
     }
     function moveCursorToLineEnd() {
-      sessionEnqueue(createOpMoveCursorLineBoundary(1, false));
+      moveCursorToLineBoundary(1, false);
       return true
     }
     function extendSelectionToLineStart() {
-      sessionEnqueue(createOpMoveCursorLineBoundary(-1, true));
+      moveCursorToLineBoundary(-1, true);
       return true
     }
     function extendSelectionToLineEnd() {
-      sessionEnqueue(createOpMoveCursorLineBoundary(1, true));
+      moveCursorToLineBoundary(1, true);
       return true
     }
     function extendSelectionToParagraphStart() {
@@ -11726,7 +12426,7 @@ gui.SessionController = function() {
           steps = odtDocument.getDistanceFromCursor(inputMemberId, node, 0)
         }
       }
-      sessionEnqueue(createOpMoveCursorByAdjustment(0, steps));
+      extendCursorByAdjustment(steps);
       return true
     }
     function extendSelectionToParagraphEnd() {
@@ -11742,31 +12442,43 @@ gui.SessionController = function() {
           steps = odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset())
         }
       }
-      sessionEnqueue(createOpMoveCursorByAdjustment(0, steps));
+      extendCursorByAdjustment(steps);
       return true
     }
-    function createOpMoveCursorDocument(direction, extend) {
+    function moveCursorToDocumentBoundary(direction, extend) {
       var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), steps;
       if(direction > 0) {
         iterator.moveToEnd()
       }
       steps = odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
-      return extend ? createOpMoveCursorByAdjustment(0, steps) : createOpMoveCursorByAdjustment(steps, 0)
+      if(extend) {
+        extendCursorByAdjustment(steps)
+      }else {
+        moveCursorByAdjustment(steps)
+      }
     }
     function moveCursorToDocumentStart() {
-      sessionEnqueue(createOpMoveCursorDocument(-1, false));
+      moveCursorToDocumentBoundary(-1, false);
       return true
     }
     function moveCursorToDocumentEnd() {
-      sessionEnqueue(createOpMoveCursorDocument(1, false));
+      moveCursorToDocumentBoundary(1, false);
       return true
     }
     function extendSelectionToDocumentStart() {
-      sessionEnqueue(createOpMoveCursorDocument(-1, true));
+      moveCursorToDocumentBoundary(-1, true);
       return true
     }
     function extendSelectionToDocumentEnd() {
-      sessionEnqueue(createOpMoveCursorDocument(1, true));
+      moveCursorToDocumentBoundary(1, true);
+      return true
+    }
+    function extendSelectionToEntireDocument() {
+      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), steps;
+      steps = -odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
+      iterator.moveToEnd();
+      steps += odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
+      session.enqueue(createOpMoveCursor(0, steps));
       return true
     }
     function toForwardSelection(selection) {
@@ -11786,12 +12498,13 @@ gui.SessionController = function() {
       if(selection.length === 0) {
         if(selection.position > 0 && odtDocument.getPositionInTextNode(selection.position - 1)) {
           op = new ops.OpRemoveText;
-          op.init({memberid:inputMemberId, position:selection.position - 1, length:1})
+          op.init({memberid:inputMemberId, position:selection.position - 1, length:1});
+          session.enqueue(op)
         }
       }else {
-        op = createOpRemoveSelection(selection)
+        op = createOpRemoveSelection(selection);
+        session.enqueue(op)
       }
-      sessionEnqueue(op);
       return true
     }
     function removeTextByDeleteKey() {
@@ -11799,16 +12512,34 @@ gui.SessionController = function() {
       if(selection.length === 0) {
         if(odtDocument.getPositionInTextNode(selection.position + 1)) {
           op = new ops.OpRemoveText;
-          op.init({memberid:inputMemberId, position:selection.position, length:1})
+          op.init({memberid:inputMemberId, position:selection.position, length:1});
+          session.enqueue(op)
         }
       }else {
-        op = createOpRemoveSelection(selection)
+        op = createOpRemoveSelection(selection);
+        session.enqueue(op)
       }
-      sessionEnqueue(op);
       return op !== null
     }
+    function removeTextByClearKey() {
+      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId));
+      if(selection.length !== 0) {
+        session.enqueue(createOpRemoveSelection(selection))
+      }
+      return true
+    }
+    function insertText(text) {
+      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+      if(selection.length > 0) {
+        op = createOpRemoveSelection(selection);
+        session.enqueue(op)
+      }
+      op = new ops.OpInsertText;
+      op.init({memberid:inputMemberId, position:selection.position, text:text});
+      session.enqueue(op)
+    }
     function enqueueParagraphSplittingOps() {
-      var position = odtDocument.getCursorPosition(inputMemberId), isAtEndOfParagraph = false, paragraphNode, styleName, nextStyleName, op;
+      var position = odtDocument.getCursorPosition(inputMemberId), op;
       op = new ops.OpSplitParagraph;
       op.init({memberid:inputMemberId, position:position});
       session.enqueue(op);
@@ -11816,8 +12547,10 @@ gui.SessionController = function() {
     }
     function maintainCursorSelection() {
       var cursor = odtDocument.getCursor(inputMemberId), selection = runtime.getWindow().getSelection();
-      selection.removeAllRanges();
-      selection.addRange(cursor.getSelectedRange().cloneRange())
+      if(cursor) {
+        selection.removeAllRanges();
+        selection.addRange(cursor.getSelectedRange().cloneRange())
+      }
     }
     function stringFromKeyPress(event) {
       if(event.which === null) {
@@ -11844,10 +12577,19 @@ gui.SessionController = function() {
     }
     function handleBeforeCut() {
       var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
-      return!(selectedRange.collapsed === false)
+      return selectedRange.collapsed !== false
+    }
+    function handleCopy(e) {
+      var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
+      if(selectedRange.collapsed) {
+        return
+      }
+      if(!clipboard.setDataFromRange(e, cursor.getSelectedRange())) {
+        runtime.log("Cut operation failed")
+      }
     }
     function handlePaste(e) {
-      var plainText, op;
+      var plainText, window = runtime.getWindow();
       if(window.clipboardData && window.clipboardData.getData) {
         plainText = window.clipboardData.getData("Text")
       }else {
@@ -11856,9 +12598,7 @@ gui.SessionController = function() {
         }
       }
       if(plainText) {
-        op = new ops.OpInsertText;
-        op.init({memberid:inputMemberId, position:odtDocument.getCursorPosition(inputMemberId), text:plainText});
-        session.enqueue(op);
+        insertText(plainText);
         cancelEvent(e)
       }
     }
@@ -11889,6 +12629,27 @@ gui.SessionController = function() {
       }
       return false
     }
+    function formatTextSelection(propertyName, propertyValue) {
+      var selection = odtDocument.getCursorSelection(inputMemberId), op = new ops.OpApplyDirectStyling, properties = {};
+      properties[propertyName] = propertyValue;
+      op.init({memberid:inputMemberId, position:selection.position, length:selection.length, setProperties:{"style:text-properties":properties}});
+      session.enqueue(op)
+    }
+    function toggleBold() {
+      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), value = styleHelper.isBold(range) ? "normal" : "bold";
+      formatTextSelection("fo:font-weight", value);
+      return true
+    }
+    function toggleItalic() {
+      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), value = styleHelper.isItalic(range) ? "normal" : "italic";
+      formatTextSelection("fo:font-style", value);
+      return true
+    }
+    function toggleUnderline() {
+      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), value = styleHelper.hasUnderline(range) ? "none" : "solid";
+      formatTextSelection("style:text-underline-style", value);
+      return true
+    }
     this.startEditing = function() {
       var canvasElement, op;
       canvasElement = odtDocument.getOdfCanvas().getElement();
@@ -11896,10 +12657,12 @@ gui.SessionController = function() {
       listenEvent(canvasElement, "keypress", keyPressHandler.handleEvent);
       listenEvent(canvasElement, "keyup", dummyHandler);
       listenEvent(canvasElement, "beforecut", handleBeforeCut, true);
-      listenEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
       listenEvent(canvasElement, "cut", handleCut);
+      listenEvent(canvasElement, "copy", handleCopy);
       listenEvent(canvasElement, "beforepaste", handleBeforePaste, true);
       listenEvent(canvasElement, "paste", handlePaste);
+      listenEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
+      listenEvent(canvasElement, "contextmenu", handleContextMenu);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, maintainCursorSelection);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, updateUndoStack);
       op = new ops.OpAddCursor;
@@ -11919,9 +12682,11 @@ gui.SessionController = function() {
       removeEvent(canvasElement, "keyup", dummyHandler);
       removeEvent(canvasElement, "cut", handleCut);
       removeEvent(canvasElement, "beforecut", handleBeforeCut);
+      removeEvent(canvasElement, "copy", handleCopy);
       removeEvent(canvasElement, "paste", handlePaste);
-      removeEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
       removeEvent(canvasElement, "beforepaste", handleBeforePaste);
+      removeEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
+      removeEvent(canvasElement, "contextmenu", handleContextMenu);
       op = new ops.OpRemoveCursor;
       op.init({memberid:inputMemberId});
       session.enqueue(op);
@@ -11953,6 +12718,10 @@ gui.SessionController = function() {
     };
     function init() {
       var isMacOS = runtime.getWindow().navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
+      keyDownHandler.bind(keyCode.Tab, modifier.None, function() {
+        insertText("\t");
+        return true
+      });
       keyDownHandler.bind(keyCode.Left, modifier.None, moveCursorToLeft);
       keyDownHandler.bind(keyCode.Right, modifier.None, moveCursorToRight);
       keyDownHandler.bind(keyCode.Up, modifier.None, moveCursorUp);
@@ -11974,6 +12743,7 @@ gui.SessionController = function() {
       keyDownHandler.bind(keyCode.Home, modifier.CtrlShift, extendSelectionToDocumentStart);
       keyDownHandler.bind(keyCode.End, modifier.CtrlShift, extendSelectionToDocumentEnd);
       if(isMacOS) {
+        keyDownHandler.bind(keyCode.Clear, modifier.None, removeTextByClearKey);
         keyDownHandler.bind(keyCode.Left, modifier.Meta, moveCursorToLineStart);
         keyDownHandler.bind(keyCode.Right, modifier.Meta, moveCursorToLineEnd);
         keyDownHandler.bind(keyCode.Home, modifier.Meta, moveCursorToDocumentStart);
@@ -11984,20 +12754,30 @@ gui.SessionController = function() {
         keyDownHandler.bind(keyCode.Down, modifier.AltShift, extendSelectionToParagraphEnd);
         keyDownHandler.bind(keyCode.Up, modifier.MetaShift, extendSelectionToDocumentStart);
         keyDownHandler.bind(keyCode.Down, modifier.MetaShift, extendSelectionToDocumentEnd);
+        keyDownHandler.bind(keyCode.A, modifier.Meta, extendSelectionToEntireDocument);
+        keyDownHandler.bind(keyCode.B, modifier.Meta, toggleBold);
+        keyDownHandler.bind(keyCode.I, modifier.Meta, toggleItalic);
+        keyDownHandler.bind(keyCode.U, modifier.Meta, toggleUnderline);
         keyDownHandler.bind(keyCode.Z, modifier.Meta, undo);
         keyDownHandler.bind(keyCode.Z, modifier.MetaShift, redo)
       }else {
+        keyDownHandler.bind(keyCode.A, modifier.Ctrl, extendSelectionToEntireDocument);
+        keyDownHandler.bind(keyCode.B, modifier.Ctrl, toggleBold);
+        keyDownHandler.bind(keyCode.I, modifier.Ctrl, toggleItalic);
+        keyDownHandler.bind(keyCode.U, modifier.Ctrl, toggleUnderline);
         keyDownHandler.bind(keyCode.Z, modifier.Ctrl, undo);
         keyDownHandler.bind(keyCode.Z, modifier.CtrlShift, redo)
       }
       keyPressHandler.setDefault(function(e) {
-        var text = stringFromKeyPress(e), op = new ops.OpInsertText;
-        op.init({memberid:inputMemberId, position:odtDocument.getCursorPosition(inputMemberId), text:text});
-        session.enqueue(op);
-        return true
+        var text = stringFromKeyPress(e);
+        if(text && !(e.altKey || e.ctrlKey || e.metaKey)) {
+          insertText(text);
+          return true
+        }
+        return false
       });
       keyPressHandler.bind(keyCode.Enter, modifier.None, enqueueParagraphSplittingOps);
-      clickHandler.subscribe(gui.ClickHandler.signalSingleClick, select);
+      clickHandler.subscribe(gui.ClickHandler.signalSingleClick, selectRange);
       clickHandler.subscribe(gui.ClickHandler.signalDoubleClick, selectWord);
       clickHandler.subscribe(gui.ClickHandler.signalTripleClick, selectParagraph)
     }
@@ -12073,7 +12853,8 @@ ops.NowjsUserModel = function NowjsUserModel(server) {
     }
   }
   this.getUserDetailsAndUpdates = function(memberId, subscriber) {
-    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] = memberDataSubscribers[userId] || [], i;
+    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] || [], i;
+    memberDataSubscribers[userId] = subscribers;
     runtime.assert(subscriber !== undefined, "missing callback");
     for(i = 0;i < subscribers.length;i += 1) {
       if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
@@ -12218,7 +12999,8 @@ ops.PullBoxUserModel = function PullBoxUserModel(server) {
     serverPullingActivated = false
   }
   this.getUserDetailsAndUpdates = function(memberId, subscriber) {
-    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] = memberDataSubscribers[userId] || [], i;
+    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] || [], i;
+    memberDataSubscribers[userId] = subscribers;
     runtime.assert(subscriber !== undefined, "missing callback");
     for(i = 0;i < subscribers.length;i += 1) {
       if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
@@ -12337,7 +13119,7 @@ ops.OperationRouter.prototype.push = function(op) {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.TrivialOperationRouter = function TrivialOperationRouter() {
-  var self = this, operationFactory, playbackFunction;
+  var operationFactory, playbackFunction;
   this.setOperationFactory = function(f) {
     operationFactory = f
   };
@@ -12352,7 +13134,7 @@ ops.TrivialOperationRouter = function TrivialOperationRouter() {
   }
 };
 ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, server) {
-  var self = this, operationFactory, playbackFunction, nowObject = server.getNowObject(), last_server_seq = -1, reorder_queue = {}, sends_since_server_op = 0, router_sequence = 1E3;
+  var operationFactory, playbackFunction, nowObject = server.getNowObject(), last_server_seq = -1, reorder_queue = {}, sends_since_server_op = 0, router_sequence = 1E3;
   function nextNonce() {
     runtime.assert(memberid !== null, "Router sequence N/A without memberid");
     router_sequence += 1;
@@ -12462,7 +13244,7 @@ ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, se
 */
 runtime.loadClass("ops.OperationTransformer");
 ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId, server) {
-  var self = this, operationFactory, singleTimeCallbackOnCompleteServerOpSpecsPlay, playbackFunction, pullingTimeOutFlag = null, triggerPushingOpsActivated = false, playUnplayedServerOpSpecsTriggered = false, syncLock = false, hasUnresolvableConflict = false, lastServerSeq = "", unsyncedClientOpspecQueue = [], unplayedServerOpspecQueue = [], operationTransformer = new ops.OperationTransformer, replayTime = 500, pushingIntervall = 3E3, pullingIntervall = 8E3;
+  var operationFactory, singleTimeCallbackOnCompleteServerOpSpecsPlay, playbackFunction, pullingTimeOutFlag = null, triggerPushingOpsActivated = false, playUnplayedServerOpSpecsTriggered = false, syncLock = false, hasUnresolvableConflict = false, lastServerSeq = "", unsyncedClientOpspecQueue = [], unplayedServerOpspecQueue = [], operationTransformer = new ops.OperationTransformer, replayTime = 500, pushingIntervall = 3E3, pullingIntervall = 8E3;
   function compressOpSpecs(opspecs) {
     var i, j, op, result = [];
     i = 0;
@@ -12553,15 +13335,20 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
       }, pullingIntervall)
     }
     function doSyncOps() {
-      var base64 = server.getBase64(), syncedClientOpspecs;
+      var syncedClientOpspecs;
       if(syncLock || hasUnresolvableConflict) {
         return
       }
       syncLock = true;
       syncedClientOpspecs = unsyncedClientOpspecQueue;
       unsyncedClientOpspecQueue = [];
-      server.call("sync-ops:" + base64.toBase64(server.getToken()) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId) + ":" + base64.toBase64(String(lastServerSeq)) + ":" + runtime.toJson(syncedClientOpspecs), function(responseData) {
-        var shouldRetryInstantly = false, response = (runtime.fromJson(responseData));
+      server.call({command:"sync-ops", sec_token:server.getToken(), es_id:sessionId, member_id:memberId, seq_head:String(lastServerSeq), client_ops:syncedClientOpspecs}, function(responseData) {
+        var shouldRetryInstantly = false, response;
+        try {
+          response = (runtime.fromJson(responseData))
+        }catch(ex) {
+          runtime.assert(response !== undefined, "invalid sync-ops reply: [" + responseData + "]")
+        }
         runtime.log("sync-ops reply: " + responseData);
         if(response.result === "newOps") {
           if(response.ops.length > 0) {
@@ -12649,9 +13436,8 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
     triggerPushingOps()
   };
   function init() {
-    var base64 = server.getBase64(),
-		token = server.getToken();
-	runtime.assert(token, "invalid token");
+    var base64 = server.getBase64(), token = server.getToken();
+    runtime.assert(token, "invalid token");
     server.call("join-session:" + base64.toBase64(token) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId), function(responseData) {
       var response = Boolean(runtime.fromJson(responseData));
       runtime.log("join-session reply: " + responseData);
@@ -12707,12 +13493,12 @@ runtime.loadClass("gui.EditInfoHandle");
 gui.EditInfoMarker = function EditInfoMarker(editInfo, initialVisibility) {
   var self = this, editInfoNode, handle, marker, editinfons = "urn:webodf:names:editinfo", decay1, decay2, decayTimeStep = 1E4;
   function applyDecay(opacity, delay) {
-    return window.setTimeout(function() {
+    return runtime.getWindow().setTimeout(function() {
       marker.style.opacity = opacity
     }, delay)
   }
   function deleteDecay(timer) {
-    window.clearTimeout(timer)
+    runtime.getWindow().clearTimeout(timer)
   }
   function setLastAuthor(memberid) {
     marker.setAttributeNS(editinfons, "editinfo:memberid", memberid)
@@ -12824,19 +13610,23 @@ runtime.loadClass("gui.Caret");
 runtime.loadClass("ops.TrivialUserModel");
 runtime.loadClass("ops.EditInfo");
 runtime.loadClass("gui.EditInfoMarker");
-gui.SessionViewOptions;
+gui.SessionViewOptions = function() {
+  this.editInfoMarkersInitiallyVisible = true;
+  this.caretAvatarsInitiallyVisible = true;
+  this.caretBlinksOnRangeSelect = true
+};
 gui.SessionView = function() {
   function configOption(userValue, defaultValue) {
     return userValue !== undefined ? userValue : defaultValue
   }
-  function SessionView(viewOptions, session, caretFactory) {
-    var carets = {}, avatarInfoStyles, editInfons = "urn:webodf:names:editinfo", editInfoMap = {}, showEditInfoMarkers = configOption(viewOptions.editInfoMarkersInitiallyVisible, true), showCaretAvatars = configOption(viewOptions.caretAvatarsInitiallyVisible, true);
-    function createAvatarInfoNodeMatch(nodeName, className, memberId) {
+  function SessionView(viewOptions, session, caretManager) {
+    var avatarInfoStyles, editInfons = "urn:webodf:names:editinfo", editInfoMap = {}, showEditInfoMarkers = configOption(viewOptions.editInfoMarkersInitiallyVisible, true), showCaretAvatars = configOption(viewOptions.caretAvatarsInitiallyVisible, true), blinkOnRangeSelect = configOption(viewOptions.caretBlinksOnRangeSelect, true);
+    function createAvatarInfoNodeMatch(nodeName, memberId, pseudoClass) {
       var userId = memberId.split("___")[0];
-      return nodeName + "." + className + '[editinfo|memberid^="' + userId + '"]'
+      return nodeName + '[editinfo|memberid^="' + userId + '"]' + pseudoClass
     }
-    function getAvatarInfoStyle(nodeName, className, memberId) {
-      var node = avatarInfoStyles.firstChild, nodeMatch = createAvatarInfoNodeMatch(nodeName, className, memberId);
+    function getAvatarInfoStyle(nodeName, memberId, pseudoClass) {
+      var node = avatarInfoStyles.firstChild, nodeMatch = createAvatarInfoNodeMatch(nodeName, memberId, pseudoClass);
       while(node) {
         if(node.nodeType === Node.TEXT_NODE && node.data.indexOf(nodeMatch) === 0) {
           return node
@@ -12846,23 +13636,19 @@ gui.SessionView = function() {
       return null
     }
     function setAvatarInfoStyle(memberId, name, color) {
-      function setStyle(nodeName, className, rule) {
-        var styleRule = createAvatarInfoNodeMatch(nodeName, className, memberId) + rule, styleNode = getAvatarInfoStyle(nodeName, className, memberId);
+      function setStyle(nodeName, rule, pseudoClass) {
+        var styleRule = createAvatarInfoNodeMatch(nodeName, memberId, pseudoClass) + rule, styleNode = getAvatarInfoStyle(nodeName, memberId, pseudoClass);
         if(styleNode) {
           styleNode.data = styleRule
         }else {
           avatarInfoStyles.appendChild(document.createTextNode(styleRule))
         }
       }
-      setStyle("div", "editInfoMarker", "{ background-color: " + color + "; }");
-      setStyle("span", "editInfoColor", "{ background-color: " + color + "; }");
-      setStyle("span", "editInfoAuthor", ':before { content: "' + name + '"; }')
-    }
-    function removeAvatarInfoStyle(nodeName, className, memberId) {
-      var styleNode = getAvatarInfoStyle(nodeName, className, memberId);
-      if(styleNode) {
-        avatarInfoStyles.removeChild(styleNode)
-      }
+      setStyle("div.editInfoMarker", "{ background-color: " + color + "; }", "");
+      setStyle("span.editInfoColor", "{ background-color: " + color + "; }", "");
+      setStyle("span.editInfoAuthor", '{ content: "' + name + '"; }', ":before");
+      setStyle("dc|creator", '{ content: "' + name + '"; display: none;}', ":before");
+      setStyle("dc|creator", "{ background-color: " + color + "; }", "")
     }
     function highlightEdit(element, memberId, timestamp) {
       var editInfo, editInfoMarker, id = "", editInfoNode = element.getElementsByTagNameNS(editInfons, "editinfo")[0];
@@ -12893,17 +13679,13 @@ gui.SessionView = function() {
       }
     }
     function setCaretAvatarVisibility(visible) {
-      var caret, keyname;
-      for(keyname in carets) {
-        if(carets.hasOwnProperty(keyname)) {
-          caret = carets[keyname];
-          if(visible) {
-            caret.showHandle()
-          }else {
-            caret.hideHandle()
-          }
+      caretManager.getCarets().forEach(function(caret) {
+        if(visible) {
+          caret.showHandle()
+        }else {
+          caret.hideHandle()
         }
-      }
+      })
     }
     this.showEditInfoMarkers = function() {
       if(showEditInfoMarkers) {
@@ -12937,10 +13719,10 @@ gui.SessionView = function() {
       return session
     };
     this.getCaret = function(memberid) {
-      return carets[memberid]
+      return caretManager.getCaret(memberid)
     };
     function renderMemberData(memberId, userData) {
-      var caret = carets[memberId];
+      var caret = caretManager.getCaret(memberId);
       if(userData === undefined) {
         runtime.log('UserModel sent undefined data for member "' + memberId + '".');
         return
@@ -12955,15 +13737,14 @@ gui.SessionView = function() {
       setAvatarInfoStyle(memberId, userData.fullname, userData.color)
     }
     function onCursorAdded(cursor) {
-      var caret = caretFactory.createCaret(cursor, showCaretAvatars), memberId = cursor.getMemberId(), userModel = session.getUserModel();
-      carets[memberId] = caret;
+      var memberId = cursor.getMemberId(), userModel = session.getUserModel();
+      caretManager.registerCursor(cursor, showCaretAvatars, blinkOnRangeSelect);
       renderMemberData(memberId, null);
       userModel.getUserDetailsAndUpdates(memberId, renderMemberData);
       runtime.log("+++ View here +++ eagerly created an Caret for '" + memberId + "'! +++")
     }
     function onCursorRemoved(memberid) {
       var hasMemberEditInfo = false, keyname;
-      delete carets[memberid];
       for(keyname in editInfoMap) {
         if(editInfoMap.hasOwnProperty(keyname) && editInfoMap[keyname].getEditInfo().getEdits().hasOwnProperty(memberid)) {
           hasMemberEditInfo = true;
@@ -12985,6 +13766,7 @@ gui.SessionView = function() {
       avatarInfoStyles.type = "text/css";
       avatarInfoStyles.media = "screen, print, handheld, projection";
       avatarInfoStyles.appendChild(document.createTextNode("@namespace editinfo url(urn:webodf:names:editinfo);"));
+      avatarInfoStyles.appendChild(document.createTextNode("@namespace dc url(http://purl.org/dc/elements/1.1/);"));
       head.appendChild(avatarInfoStyles)
     }
     init()
@@ -13026,29 +13808,74 @@ gui.SessionView = function() {
  @source: http://gitorious.org/webodf/webodf/
 */
 runtime.loadClass("gui.Caret");
-gui.CaretFactory = function CaretFactory(sessionController) {
-  this.createCaret = function(cursor, caretAvatarInitiallyVisible) {
-    var memberid = cursor.getMemberId(), session = sessionController.getSession(), odtDocument = session.getOdtDocument(), canvasElement = odtDocument.getOdfCanvas().getElement(), caret = new gui.Caret(cursor, caretAvatarInitiallyVisible);
+gui.CaretManager = function CaretManager(sessionController) {
+  var carets = {};
+  function getCanvasElement() {
+    return sessionController.getSession().getOdtDocument().getOdfCanvas().getElement()
+  }
+  function removeCaret(memberId) {
+    if(memberId === sessionController.getInputMemberId()) {
+      getCanvasElement().removeAttribute("tabindex", 0)
+    }
+    delete carets[memberId]
+  }
+  function refreshCaret(cursor) {
+    var caret = carets[cursor.getMemberId()];
+    if(caret) {
+      caret.refreshCursor()
+    }
+  }
+  function ensureLocalCaretVisible(info) {
+    var caret = carets[info.memberId];
+    if(info.memberId === sessionController.getInputMemberId() && caret) {
+      caret.ensureVisible()
+    }
+  }
+  function focusLocalCaret() {
+    var caret = carets[sessionController.getInputMemberId()];
+    if(caret) {
+      caret.setFocus()
+    }
+  }
+  function blurLocalCaret() {
+    var caret = carets[sessionController.getInputMemberId()];
+    if(caret) {
+      caret.removeFocus()
+    }
+  }
+  this.registerCursor = function(cursor, caretAvatarInitiallyVisible, blinkOnRangeSelect) {
+    var memberid = cursor.getMemberId(), canvasElement = getCanvasElement(), caret = new gui.Caret(cursor, caretAvatarInitiallyVisible, blinkOnRangeSelect);
+    carets[memberid] = caret;
     if(memberid === sessionController.getInputMemberId()) {
       runtime.log("Starting to track input on new cursor of " + memberid);
-      odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, function(info) {
-        if(info.memberId === memberid) {
-          caret.ensureVisible()
-        }
-      });
       cursor.handleUpdate = caret.ensureVisible;
       canvasElement.setAttribute("tabindex", 0);
-      canvasElement.onfocus = caret.setFocus;
-      canvasElement.onblur = caret.removeFocus;
       canvasElement.focus()
     }
     return caret
+  };
+  this.getCaret = function(memberid) {
+    return carets[memberid]
+  };
+  this.getCarets = function() {
+    return Object.keys(carets).map(function(memberid) {
+      return carets[memberid]
+    })
+  };
+  function init() {
+    var session = sessionController.getSession(), odtDocument = session.getOdtDocument(), canvasElement = getCanvasElement();
+    odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, ensureLocalCaretVisible);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, refreshCaret);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, removeCaret);
+    canvasElement.onfocus = focusLocalCaret;
+    canvasElement.onblur = blurLocalCaret
   }
+  init()
 };
 runtime.loadClass("xmldom.XPath");
 runtime.loadClass("odf.Namespaces");
 gui.PresenterUI = function() {
-  var xpath = new xmldom.XPath;
+  var xpath = new xmldom.XPath, window = runtime.getWindow();
   return function PresenterUI(odf_element) {
     var self = this;
     self.setInitialSlideMode = function() {
@@ -13109,7 +13936,7 @@ gui.PresenterUI = function() {
     self.slideChange = function(indexChanger) {
       var pages = self.getPages(self.odf_canvas.odfContainer().rootElement), last = -1, i = 0, newidx, pagelist;
       pages.forEach(function(tuple) {
-        var name = tuple[0], node = tuple[1];
+        var node = tuple[1];
         if(node.hasAttribute("slide_current")) {
           last = i;
           node.removeAttribute("slide_current")
@@ -13222,13 +14049,11 @@ gui.PresenterUI = function() {
 runtime.loadClass("core.PositionIterator");
 runtime.loadClass("core.Cursor");
 gui.XMLEdit = function XMLEdit(element, stylesheet) {
-  var simplecss, cssprefix, documentElement, customNS = "customns", walker = null;
+  var simplecss, cssprefix, documentElement, walker = null;
   if(!element.id) {
     element.id = "xml" + String(Math.random()).substring(2)
   }
   cssprefix = "#" + element.id + " ";
-  function installHandlers() {
-  }
   simplecss = cssprefix + "*," + cssprefix + ":visited, " + cssprefix + ":link {display:block; margin: 0px; margin-left: 10px; font-size: medium; color: black; background: white; font-variant: normal; font-weight: normal; font-style: normal; font-family: sans-serif; text-decoration: none; white-space: pre-wrap; height: auto; width: auto}\n" + cssprefix + ":before {color: blue; content: '<' attr(customns_name) attr(customns_atts) '>';}\n" + cssprefix + ":after {color: blue; content: '</' attr(customns_name) '>';}\n" + 
   cssprefix + "{overflow: auto;}\n";
   function listenEvent(eventTarget, eventType, eventHandler) {
@@ -13299,16 +14124,12 @@ gui.XMLEdit = function XMLEdit(element, stylesheet) {
     }
     cancelEvent(event)
   }
-  function handleKeyPress(event) {
-  }
   function handleClick(event) {
-    var sel = element.ownerDocument.defaultView.getSelection(), r = sel.getRangeAt(0), n = r.startContainer;
     cancelEvent(event)
   }
   function initElement(element) {
     listenEvent(element, "click", handleClick);
     listenEvent(element, "keydown", handleKeyDown);
-    listenEvent(element, "keypress", handleKeyPress);
     listenEvent(element, "drop", cancelEvent);
     listenEvent(element, "dragend", cancelEvent);
     listenEvent(element, "beforepaste", cancelEvent);
@@ -13381,7 +14202,7 @@ gui.XMLEdit = function XMLEdit(element, stylesheet) {
     }
   }
   function createCssFromXmlInstance(node) {
-    var prefixes = {}, css = "@namespace customns url(customns);\n", name, pre, ns, names, csssel;
+    var prefixes = {}, css = "@namespace customns url(customns);\n";
     getNamespacePrefixes(node, prefixes);
     generateUniquePrefixes(prefixes);
     return css
@@ -13603,10 +14424,11 @@ gui.UndoStateRules = function UndoStateRules() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("core.DomUtils");
 runtime.loadClass("gui.UndoManager");
 runtime.loadClass("gui.UndoStateRules");
 gui.TrivialUndoManager = function TrivialUndoManager(defaultRules) {
-  var self = this, initialDoc, initialState, playFunc, odtDocument, currentUndoState = [], undoStates = [], redoStates = [], eventNotifier = new core.EventNotifier([gui.UndoManager.signalUndoStackChanged, gui.UndoManager.signalUndoStateCreated, gui.UndoManager.signalUndoStateModified, gui.TrivialUndoManager.signalDocumentRootReplaced]), undoRules = defaultRules || new gui.UndoStateRules;
+  var self = this, cursorns = "urn:webodf:names:cursor", domUtils = new core.DomUtils, initialDoc, initialState = [], playFunc, odtDocument, currentUndoState = [], undoStates = [], redoStates = [], eventNotifier = new core.EventNotifier([gui.UndoManager.signalUndoStackChanged, gui.UndoManager.signalUndoStateCreated, gui.UndoManager.signalUndoStateModified, gui.TrivialUndoManager.signalDocumentRootReplaced]), undoRules = defaultRules || new gui.UndoStateRules;
   function emitStackChange() {
     eventNotifier.emit(gui.UndoManager.signalUndoStackChanged, {undoAvailable:self.hasUndoStates(), redoAvailable:self.hasRedoStates()})
   }
@@ -13617,6 +14439,53 @@ gui.TrivialUndoManager = function TrivialUndoManager(defaultRules) {
     if(currentUndoState !== initialState && currentUndoState !== mostRecentUndoState()) {
       undoStates.push(currentUndoState)
     }
+  }
+  function removeNode(node) {
+    var sibling = node.previousSibling || node.nextSibling;
+    node.parentNode.removeChild(node);
+    domUtils.normalizeTextNodes(sibling)
+  }
+  function removeCursors(root) {
+    domUtils.getElementsByTagNameNS(root, cursorns, "cursor").forEach(removeNode);
+    domUtils.getElementsByTagNameNS(root, cursorns, "anchor").forEach(removeNode)
+  }
+  function values(obj) {
+    return Object.keys(obj).map(function(key) {
+      return obj[key]
+    })
+  }
+  function extractCursorStates(undoStates) {
+    var addCursor = {}, moveCursor = {}, requiredAddOps = {}, remainingAddOps, operations = undoStates.pop();
+    odtDocument.getCursors().forEach(function(cursor) {
+      requiredAddOps[cursor.getMemberId()] = true
+    });
+    remainingAddOps = Object.keys(requiredAddOps).length;
+    function processOp(op) {
+      var spec = op.spec();
+      if(!requiredAddOps[spec.memberid]) {
+        return
+      }
+      switch(spec.optype) {
+        case "AddCursor":
+          if(!addCursor[spec.memberid]) {
+            addCursor[spec.memberid] = op;
+            delete requiredAddOps[spec.memberid];
+            remainingAddOps -= 1
+          }
+          break;
+        case "MoveCursor":
+          if(!moveCursor[spec.memberid]) {
+            moveCursor[spec.memberid] = op
+          }
+          break
+      }
+    }
+    while(operations && remainingAddOps > 0) {
+      operations.reverse();
+      operations.forEach(processOp);
+      operations = undoStates.pop()
+    }
+    return values(addCursor).concat(values(moveCursor))
   }
   this.subscribe = function(signal, callback) {
     eventNotifier.subscribe(signal, callback)
@@ -13642,14 +14511,16 @@ gui.TrivialUndoManager = function TrivialUndoManager(defaultRules) {
     emitStackChange()
   };
   this.saveInitialState = function() {
-    var odfContainer = odtDocument.getOdfCanvas().odfContainer();
+    var odfContainer = odtDocument.getOdfCanvas().odfContainer(), annotationManager = odtDocument.getOdfCanvas().getAnnotationManager();
+    if(annotationManager) {
+      annotationManager.forgetAnnotations()
+    }
     initialDoc = odfContainer.rootElement.cloneNode(true);
-    initialState = [];
+    odtDocument.getOdfCanvas().refreshAnnotations();
+    removeCursors(initialDoc);
     completeCurrentUndoState();
-    undoStates.forEach(function(state) {
-      initialState = initialState.concat(state)
-    });
-    currentUndoState = initialState;
+    undoStates.unshift(initialState);
+    currentUndoState = initialState = extractCursorStates(undoStates);
     undoStates.length = 0;
     redoStates.length = 0;
     emitStackChange()
@@ -13750,49 +14621,72 @@ gui.TrivialUndoManager.signalDocumentRootReplaced = "documentRootReplaced";
 */
 runtime.loadClass("core.EventNotifier");
 runtime.loadClass("odf.OdfUtils");
+runtime.loadClass("gui.SelectionMover");
+runtime.loadClass("gui.StyleHelper");
+runtime.loadClass("core.PositionFilterChain");
 ops.OdtDocument = function OdtDocument(odfCanvas) {
-  var self = this, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", drawns = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", filter, odfUtils, cursors = {}, eventNotifier = new core.EventNotifier([ops.OdtDocument.signalCursorAdded, ops.OdtDocument.signalCursorRemoved, ops.OdtDocument.signalCursorMoved, ops.OdtDocument.signalParagraphChanged, ops.OdtDocument.signalParagraphStyleModified, ops.OdtDocument.signalStyleCreated, ops.OdtDocument.signalStyleDeleted, ops.OdtDocument.signalTableAdded, 
-  ops.OdtDocument.signalOperationExecuted, ops.OdtDocument.signalUndoStackChanged]);
+  var self = this, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", odfUtils, cursors = {}, eventNotifier = new core.EventNotifier([ops.OdtDocument.signalCursorAdded, ops.OdtDocument.signalCursorRemoved, ops.OdtDocument.signalCursorMoved, ops.OdtDocument.signalParagraphChanged, ops.OdtDocument.signalParagraphStyleModified, ops.OdtDocument.signalStyleCreated, ops.OdtDocument.signalStyleDeleted, ops.OdtDocument.signalTableAdded, ops.OdtDocument.signalOperationExecuted, ops.OdtDocument.signalUndoStackChanged]), 
+  FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT, filter;
   function getRootNode() {
     var element = odfCanvas.odfContainer().getContentElement(), localName = element && element.localName;
     runtime.assert(localName === "text", "Unsupported content element type '" + localName + "'for OdtDocument");
     return element
   }
+  function RootFilter(memberId) {
+    function isRoot(node) {
+      if(node.namespaceURI === odf.Namespaces.officens && node.localName === "text" || node.namespaceURI === odf.Namespaces.officens && node.localName === "annotation") {
+        return true
+      }
+      return false
+    }
+    function getRoot(node) {
+      while(!isRoot(node)) {
+        node = (node.parentNode)
+      }
+      return node
+    }
+    this.acceptPosition = function(iterator) {
+      var node = iterator.container(), cursorNode = cursors[memberId].getNode();
+      if(getRoot(node) === getRoot(cursorNode)) {
+        return FILTER_ACCEPT
+      }
+      return FILTER_REJECT
+    }
+  }
   function TextPositionFilter() {
-    var accept = core.PositionFilter.FilterResult.FILTER_ACCEPT, reject = core.PositionFilter.FilterResult.FILTER_REJECT;
     function checkLeftRight(container, leftNode, rightNode) {
       var r, firstPos, rightOfChar;
       if(leftNode) {
         r = odfUtils.lookLeftForCharacter(leftNode);
         if(r === 1) {
-          return accept
+          return FILTER_ACCEPT
         }
         if(r === 2 && (odfUtils.scanRightForAnyCharacter(rightNode) || odfUtils.scanRightForAnyCharacter(odfUtils.nextNode(container)))) {
-          return accept
+          return FILTER_ACCEPT
         }
       }
       firstPos = leftNode === null && odfUtils.isParagraph(container);
       rightOfChar = odfUtils.lookRightForCharacter(rightNode);
       if(firstPos) {
         if(rightOfChar) {
-          return accept
+          return FILTER_ACCEPT
         }
-        return odfUtils.scanRightForAnyCharacter(rightNode) ? reject : accept
+        return odfUtils.scanRightForAnyCharacter(rightNode) ? FILTER_REJECT : FILTER_ACCEPT
       }
       if(!rightOfChar) {
-        return reject
+        return FILTER_REJECT
       }
       leftNode = leftNode || odfUtils.previousNode(container);
-      return odfUtils.scanLeftForAnyCharacter(leftNode) ? reject : accept
+      return odfUtils.scanLeftForAnyCharacter(leftNode) ? FILTER_REJECT : FILTER_ACCEPT
     }
     this.acceptPosition = function(iterator) {
-      var container = iterator.container(), nodeType = container.nodeType, localName, offset, text, leftChar, rightChar, leftNode, rightNode, r;
+      var container = iterator.container(), nodeType = container.nodeType, offset, text, leftChar, rightChar, leftNode, rightNode, r;
       if(nodeType !== Node.ELEMENT_NODE && nodeType !== Node.TEXT_NODE) {
-        return reject
+        return FILTER_REJECT
       }
       if(nodeType === Node.TEXT_NODE) {
-        if(!odfUtils.isGroupingElement(container.parentNode)) {
-          return reject
+        if(!odfUtils.isGroupingElement(container.parentNode) || odfUtils.isWithinTrackedChanges(container.parentNode, getRootNode())) {
+          return FILTER_REJECT
         }
         offset = iterator.unfilteredDomOffset();
         text = container.data;
@@ -13800,39 +14694,39 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
         if(offset > 0) {
           leftChar = text.substr(offset - 1, 1);
           if(!odfUtils.isODFWhitespace(leftChar)) {
-            return accept
+            return FILTER_ACCEPT
           }
           if(offset > 1) {
             leftChar = text.substr(offset - 2, 1);
             if(!odfUtils.isODFWhitespace(leftChar)) {
-              r = accept
+              r = FILTER_ACCEPT
             }else {
               if(!odfUtils.isODFWhitespace(text.substr(0, offset))) {
-                return reject
+                return FILTER_REJECT
               }
             }
           }else {
             leftNode = odfUtils.previousNode(container);
             if(odfUtils.scanLeftForNonWhitespace(leftNode)) {
-              r = accept
+              r = FILTER_ACCEPT
             }
           }
-          if(r === accept) {
-            return odfUtils.isTrailingWhitespace(container, offset) ? reject : accept
+          if(r === FILTER_ACCEPT) {
+            return odfUtils.isTrailingWhitespace(container, offset) ? FILTER_REJECT : FILTER_ACCEPT
           }
           rightChar = text.substr(offset, 1);
           if(odfUtils.isODFWhitespace(rightChar)) {
-            return reject
+            return FILTER_REJECT
           }
-          return odfUtils.scanLeftForAnyCharacter(odfUtils.previousNode(container)) ? reject : accept
+          return odfUtils.scanLeftForAnyCharacter(odfUtils.previousNode(container)) ? FILTER_REJECT : FILTER_ACCEPT
         }
         leftNode = iterator.leftNode();
         rightNode = container;
         container = (container.parentNode);
         r = checkLeftRight(container, leftNode, rightNode)
       }else {
-        if(!odfUtils.isGroupingElement(container)) {
-          r = reject
+        if(!odfUtils.isGroupingElement(container) || odfUtils.isWithinTrackedChanges(container, getRootNode())) {
+          r = FILTER_REJECT
         }else {
           leftNode = iterator.leftNode();
           rightNode = iterator.rightNode();
@@ -13853,43 +14747,8 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     return iterator
   }
   this.getIteratorAtPosition = getIteratorAtPosition;
-  this.getTextNeighborhood = function(position, length) {
-    var iterator = getIteratorAtPosition(position), neighborhood = [], currentNeighborhood = [], currentNode, iteratedLength = 0, visited = false, inFirstNeighborhood = true, neighborhoodStartIndex = 0, segmentStartIndex, i, j;
-    runtime.assert(length >= 0, "OdtDocument.getTextNeighborhood only supports positive lengths");
-    do {
-      currentNeighborhood = iterator.textNeighborhood();
-      visited = false;
-      for(i = 0;i < neighborhood.length;i += 1) {
-        if(neighborhood[i] === currentNeighborhood[0]) {
-          visited = true;
-          break
-        }
-      }
-      if(!visited) {
-        segmentStartIndex = 0;
-        if(inFirstNeighborhood) {
-          currentNode = iterator.container();
-          for(j = 0;j < currentNeighborhood.length;j += 1) {
-            if(currentNeighborhood[j] === currentNode) {
-              neighborhoodStartIndex = j;
-              break
-            }
-          }
-          segmentStartIndex = neighborhoodStartIndex;
-          inFirstNeighborhood = false
-        }
-        if(currentNeighborhood.length) {
-          neighborhood = neighborhood.concat(currentNeighborhood)
-        }
-        for(j = segmentStartIndex;j < currentNeighborhood.length;j += 1) {
-          iteratedLength += currentNeighborhood[j].data.length
-        }
-      }
-    }while(iterator.nextPosition() === true && iteratedLength < length);
-    return neighborhood.slice(neighborhoodStartIndex)
-  };
   function getPositionInTextNode(position, memberid) {
-    var iterator = gui.SelectionMover.createPositionIterator(getRootNode()), lastTextNode = null, lastNode = null, node, nodeOffset = 0, cursorNode = null;
+    var iterator = gui.SelectionMover.createPositionIterator(getRootNode()), lastTextNode = null, node, nodeOffset = 0, cursorNode = null;
     runtime.assert(position >= 0, "position must be >= 0");
     if(filter.acceptPosition(iterator) === 1) {
       node = iterator.container();
@@ -13984,19 +14843,22 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     var space = textNode.ownerDocument.createElementNS(textns, "text:s");
     space.appendChild(textNode.ownerDocument.createTextNode(" "));
     textNode.deleteData(offset, 1);
-    textNode.splitText(offset);
-    textNode.parentNode.insertBefore(space, textNode.nextSibling)
+    if(offset > 0) {
+      textNode = (textNode.splitText(offset))
+    }
+    textNode.parentNode.insertBefore(space, textNode);
+    return space
   }
-  this.upgradeWhitespaceToElement = upgradeWhitespaceToElement;
   function upgradeWhitespacesAtPosition(position) {
-    var iterator = getIteratorAtPosition(position), container = null, offset, i = 0;
+    var iterator = getIteratorAtPosition(position), container, offset, i;
     iterator.previousPosition();
     iterator.previousPosition();
-    for(i = -2;i <= 2;i += 1) {
+    for(i = -1;i <= 1;i += 1) {
       container = iterator.container();
       offset = iterator.unfilteredDomOffset();
       if(container.nodeType === Node.TEXT_NODE && container.data[offset] === " " && odfUtils.isSignificantWhitespace(container, offset)) {
-        upgradeWhitespaceToElement(container, offset)
+        container = upgradeWhitespaceToElement((container), offset);
+        iterator.moveToEndOfNode(container)
       }
       iterator.nextPosition()
     }
@@ -14006,36 +14868,21 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   this.getParagraphElement = getParagraphElement;
   this.getParagraphStyleAttributes = getParagraphStyleAttributes;
   this.getPositionInTextNode = getPositionInTextNode;
-  this.getNeighboringParagraph = function(paragraph, direction) {
-    var iterator = getIteratorAtPosition(0), currentParagraph = null;
-    iterator.setUnfilteredPosition(paragraph, 0);
-    do {
-      if(filter.acceptPosition(iterator) === 1) {
-        currentParagraph = getParagraphElement(iterator.container());
-        if(currentParagraph !== paragraph) {
-          return currentParagraph
-        }
-      }
-    }while((direction > 0 ? iterator.nextPosition() : iterator.previousPosition()) === true);
-    if(currentParagraph === paragraph) {
-      return null
-    }
-  };
   this.fixCursorPositions = function(localMemberId) {
-    var cursors, stepCounter, steps, filter, i;
-    cursors = self.getCursors();
-    filter = self.getPositionFilter();
-    for(i in cursors) {
-      if(cursors.hasOwnProperty(i)) {
-        stepCounter = cursors[i].getStepCounter();
-        if(!stepCounter.isPositionWalkable(filter)) {
-          steps = -stepCounter.countBackwardSteps(1, filter);
-          if(steps === 0) {
-            steps = stepCounter.countForwardSteps(1, filter)
+    var posfilter = self.getPositionFilter(), memberId, cursor, stepCounter, steps;
+    for(memberId in cursors) {
+      if(cursors.hasOwnProperty(memberId)) {
+        cursor = cursors[memberId];
+        stepCounter = cursor.getStepCounter();
+        if(!stepCounter.isPositionWalkable(posfilter)) {
+          steps = stepCounter.countStepsToValidPosition(posfilter);
+          cursor.move(steps);
+          if(memberId === localMemberId) {
+            self.emit(ops.OdtDocument.signalCursorMoved, cursor)
           }
-          cursors[i].move(steps);
-          if(i === localMemberId) {
-            self.emit(ops.OdtDocument.signalCursorMoved, cursors[i])
+        }else {
+          if(self.getCursorSelection(memberId).length === 0) {
+            cursor.move(0)
           }
         }
       }
@@ -14101,6 +14948,7 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     runtime.assert(Boolean(cursor), "OdtDocument::addCursor without cursor");
     var distanceToFirstTextNode = cursor.getStepCounter().countForwardSteps(1, filter), memberid = cursor.getMemberId();
     runtime.assert(Boolean(memberid), "OdtDocument::addCursor has cursor without memberid");
+    runtime.assert(!cursors[memberid], "OdtDocument::addCursor is adding a duplicate cursor with memberid " + memberid);
     cursor.move(distanceToFirstTextNode);
     cursors[memberid] = cursor
   };
@@ -14132,6 +14980,12 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   this.getFormatting = function() {
     return odfCanvas.getFormatting()
   };
+  this.getTextElements = function(range, includeInsignificantWhitespace) {
+    return odfUtils.getTextElements(range, includeInsignificantWhitespace)
+  };
+  this.getParagraphElements = function(range) {
+    return odfUtils.getParagraphElements(range)
+  };
   this.emit = function(eventid, args) {
     eventNotifier.emit(eventid, args)
   };
@@ -14140,6 +14994,9 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   };
   this.unsubscribe = function(eventid, cb) {
     eventNotifier.unsubscribe(eventid, cb)
+  };
+  this.createRootFilter = function(inputMemberId) {
+    return new RootFilter(inputMemberId)
   };
   function init() {
     filter = new TextPositionFilter;
@@ -14234,5 +15091,5 @@ ops.Session = function Session(odfCanvas) {
   }
   init()
 };
-var webodf_css = "@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace runtimens url(urn:webodf); /* namespace for runtime only */\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[runtimens|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|line-break {\n  content: \" \";\n  display: block;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n    /** Let's not draw selection highlight that overflows into the office|text\n     * node when selecting content across several paragraphs\n     */\n    background: transparent;\n}\n\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:\"\";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0px;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n}\ncursor|cursor > span {\n    display: inline;\n    position: absolute;\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > div {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > div > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > div.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > div:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n";
+var webodf_css = "@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace runtimens url(urn:webodf); /* namespace for runtime only */\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[runtimens|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|line-break {\n  content: \" \";\n  display: block;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n    /** Let's not draw selection highlight that overflows into the office|text\n     * node when selecting content across several paragraphs\n     */\n    background: transparent;\n}\n\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:\"\";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0px;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n}\ncursor|cursor > span {\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > div {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > div > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > div.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > div:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 10;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: '';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: inline-block;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n";
 
