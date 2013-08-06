@@ -70,9 +70,14 @@ try{
 
 				$currentHead = OCA\Office\Op::getHeadSeq($esId);
 
-				//if $postobject['args']['seq_head'] is the most recent op in the ops-table:
-				// append all ops in $postobject['args']['client_ops'] to the ops-table
-				if ($seqHead > $currentHead){
+				if (is_null($seqHead) && is_null($currentHead)) { // very first ops
+					foreach ($ops as $op) {
+						$op['opspec'] = json_encode($op['opspec']);
+						$lastSeq = OCA\Office\Op::add($op);
+					}
+					$response["result"] = 'added';
+					$response["headSeq"] = $lastSeq + 1;
+				} else if ($seqHead === $currentHead) { // no conflict
 					foreach ($ops as $op){
 						$op['opspec'] = json_encode($op['opspec']);
 						try{
@@ -81,6 +86,8 @@ try{
 							
 						}
 					}
+					$response["result"] = 'added';
+					$response["headSeq"] = $lastSeq + 1;
 				} else {
 					//     result: 'conflict',
 					//     ops: a list of all ops since  $postobject['args']['seq_head']
