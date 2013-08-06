@@ -5,10 +5,22 @@ namespace OCA\Office;
 class Request {
 	protected $data = array();
 	
+	protected $rawRequest = '';
+	
 	public function __construct(){
-		$this->data = json_decode(file_get_contents('php://input'), true);
+		$this->rawRequest = file_get_contents('php://input');
+		$this->data = json_decode($this->rawRequest, true);
 	}
+	
+	public function getRawRequest(){
+		return $this->rawRequest;
+	}
+
 	public function getParam($name){
+		if (empty($name)){
+			return $this->data;
+		}
+		
 		$path = explode('/', $name);
 		
 		reset($path);

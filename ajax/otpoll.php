@@ -34,7 +34,6 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
-
 // OCP\JSON::checkLoggedIn();
 // OCP\JSON::checkAppEnabled('office');
 // session_write_close();
@@ -50,69 +49,78 @@ function bogusSession($i){
 	return $bs;
 }
 
-$request = new OCA\Office\Request();
-$command = $request->getParam('command');
+try{
+	$request = new OCA\Office\Request();
+	$command = $request->getParam('command');
+	$response = array();
+	switch ($command){
+		case 'session-list':
+			$response["session_list"] = array(bogusSession(0), bogusSession(1));
+			break;
+		case 'join-session':
+			$response = "true"; // should fail when session is non-existent
+			break;
+		case 'sync-ops':
+			$seqHead = $request->getParam('args/seq_head');
 
-$response = array();
-switch ($command){
-	case 'session-list':
-		$response["session_list"] = array(bogusSession(0), bogusSession(1));
-		break;
-	case 'join-session':
-		$response = "true"; // should fail when session is non-existent
-		break;
-	case 'sync-ops':
-		$seqHead = $request->getParam('args/seq_head');
-		
-		if (!is_null($seqHead)){
-			$esId = $request->getParam('args/es_id');
-			$memberId = $request->getParam('args/member_id');
-			$ops = $request->getParam('args/client_ops');
-			
-			$currentHead = OCA\Office\Op::getHeadSeq($esId);
+			if (!is_null($seqHead)){
+				$esId = $request->getParam('args/es_id');
+				$memberId = $request->getParam('args/member_id');
+				$ops = $request->getParam('args/client_ops');
 
-			//if $postobject['args']['seq_head'] is the most recent op in the ops-table:
-			// append all ops in $postobject['args']['client_ops'] to the ops-table
-			if ($seqHead>$currentHead){
-				foreach ($ops as $op){
-					$op['opspec'] = json_encode($op['opspec']);
-					OCA\Office\Op::add($op);
+				$currentHead = OCA\Office\Op::getHeadSeq($esId);
+
+				//if $postobject['args']['seq_head'] is the most recent op in the ops-table:
+				// append all ops in $postobject['args']['client_ops'] to the ops-table
+				if ($seqHead > $currentHead){
+					foreach ($ops as $op){
+						$op['opspec'] = json_encode($op['opspec']);
+						try{
+							OCA\Office\Op::add($op);
+						} catch (Exception $e){
+							
+						}
+					}
+				} else {
+					//     result: 'conflict',
+					//     ops: a list of all ops since  $postobject['args']['seq_head']
+					//     headSeq: the most recent op-seq
+					$response["result"] = 'conflict';
+					$response["ops"] = OCA\Office\Op::getOpsAfter($esId, $seqHead);
+					$last = end($response["ops"]);
+					$response["headSeq"] = $last['seq'];
 				}
 			} else {
-			//     result: 'conflict',
-			//     ops: a list of all ops since  $postobject['args']['seq_head']
-			//     headSeq: the most recent op-seq
-				$response["result"] = 'conflict';
-				$response["ops"] = OCA\Office\Op::getOpsAfter($esId, $seqHead);
-				$last = end($response["ops"]);
-				$response["headSeq"] = $last['seq'];
+				// Error - empty seq_head passed :)
+				throw new BadRequestException();
 			}
-			
-		} else {
-			// Error :)
-		}
 
-		/* 
-		 * try {
-		 * OCA\Office\Op::add(
-		 *	array(
-		 *		'es_id' => ES_ID,
-		 *		'seq' => SEQ,
-		 *		'member' => MEMBER,
-		 *		'opspec' => OPSPEC
-		 *	)
-		 * );
-		 * } catch (Exception $e) {
-		 *	
-		 * }
-		 */
-		break;
-	default:
-		header('HTTP/1.1 400: BAD REQUEST');
-		print("");
-		print("{err:'bad request: [$postbody]'}");
-		print("");
-		exit();
+			break;
+		default:
+			$ex = new BadRequestException();
+			$ex->setBody("{err:'bad request: [" . $request->getRawRequest() . "]'}");
+			throw $ex;
+			break;
+	}
+
+	\OCP\JSON::success($response);
+} catch (BadRequestException $e){
+	header('HTTP/1.1 400: BAD REQUEST');
+	print("");
+	print($e->getBody());
+	print("");
 }
+exit();
+	
+class BadRequestException extends Exception {
 
-\OCP\JSON::success($response);
+	protected $body = "";
+
+	public function setBody($body){
+		$this->body = $body;
+	}
+
+	public function getBody(){
+		return $this->body;
+	}
+}
