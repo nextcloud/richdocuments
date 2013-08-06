@@ -70,24 +70,14 @@ try{
 
 				$currentHead = OCA\Office\Op::getHeadSeq($esId);
 
-				if (is_null($seqHead) && is_null($currentHead)) { // very first ops
+				if (!$currentHead || $seqHead == $currentHead) { // very first ops || match the current head
+					// Add incoming ops, response with a new head
 					foreach ($ops as $op) {
 						$op['opspec'] = json_encode($op['opspec']);
 						$lastSeq = OCA\Office\Op::add($op);
 					}
 					$response["result"] = 'added';
-					$response["headSeq"] = $lastSeq + 1;
-				} else if ($seqHead === $currentHead) { // no conflict
-					foreach ($ops as $op){
-						$op['opspec'] = json_encode($op['opspec']);
-						try{
-							OCA\Office\Op::add($op);
-						} catch (Exception $e){
-							
-						}
-					}
-					$response["result"] = 'added';
-					$response["headSeq"] = $lastSeq + 1;
+					$response["headSeq"] = $lastSeq;
 				} else {
 					//     result: 'conflict',
 					//     ops: a list of all ops since  $postobject['args']['seq_head']
