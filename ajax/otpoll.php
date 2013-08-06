@@ -75,6 +75,7 @@ switch ($command){
 			// append all ops in $postobject['args']['client_ops'] to the ops-table
 			if ($seqHead>$currentHead){
 				foreach ($ops as $op){
+					$op['opspec'] = json_encode($op['opspec']);
 					OCA\Office\Op::add($op);
 				}
 			} else {
