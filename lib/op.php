@@ -6,12 +6,15 @@ class Op {
 
 	public static function add($op){
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_op`  (`es_id`, `member`, `opspec`) VALUES (?, ?, ?) ');
-		$result = $query->execute(array(
-			$op['es_id'],
+		$query->execute(array(
+		$result = $op['es_id'],
 			$op['member'],
 			$op['opspec'],
 		));
-		return $result;
+		if ($result){
+			return \OCP\DB::insertid(`*PREFIX*office_op`);
+		}
+		return 0;
 	}
 	
 	public static function getHeadSeq($esId){
