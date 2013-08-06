@@ -61,9 +61,9 @@
 			<field>
 				<name>seq</name>
 				<type>integer</type>
+				<autoincrement>1</autoincrement>
 				<unsigned>true</unsigned>
-				<default></default>
-				<notnull>true</notnull>
+				<length>4</length>
 				<comments>Sequence number</comments>
 			</field>
 			<field>
