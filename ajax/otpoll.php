@@ -90,7 +90,7 @@ switch ($command){
 	default:
 		header('HTTP/1.1 400: BAD REQUEST');
 		print("");
-		print("bad request: [$command]");
+		print("{err:'bad request: [$postbody]'}");
 		print("");
 		exit();
 }
