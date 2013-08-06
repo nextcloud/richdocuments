@@ -8,9 +8,6 @@
 //
 // * GET requests have to support ranges
 // curl --user admin:admin -r 500-1000 -i http://whatever/owncloud/index.php/apps/office/ajax/genesis.php/1234
-//
-// hardcoding the served file with /welcome.odt for now is enough to unblock development
-// (that saves all db work for now)
 
 namespace OCA\Office;
 
