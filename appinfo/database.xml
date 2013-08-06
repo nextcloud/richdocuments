@@ -52,19 +52,21 @@
 		<name>*dbprefix*office_op</name>
 		<declaration>
 			<field>
+				<name>seq</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<comments>Sequence number</comments>
+			</field>
+			<field>
 				<name>es_id</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
 				<comments>Editing session id</comments>
-			</field>
-			<field>
-				<name>seq</name>
-				<type>integer</type>
-				<autoincrement>1</autoincrement>
-				<unsigned>true</unsigned>
-				<length>4</length>
-				<comments>Sequence number</comments>
 			</field>
 			<field>
 				<name>member</name>
@@ -79,7 +81,14 @@
 				<notnull>false</notnull>
 				<comments>json-string</comments>
 			</field>
-			
+			<index>
+				<name>seq_pKey</name>
+				<primary>true</primary>
+				<field>
+					<name>seq</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 			<index>
 				<name>office_op_eis_index</name>
 				<unique>true</unique>
