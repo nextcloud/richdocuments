@@ -86,7 +86,7 @@ try{
 						$response["headSeq"] = $currentHead;
 					}
 				} else { // HEADs do not match
-					$response["ops"] = OCA\Office\Op::getOpsAfter($esId, $seqHead);
+					$response["ops"] = OCA\Office\Op::getOpsAfterJson($esId, $seqHead);
 					$response["headSeq"] = $currentHead;
 					$response["result"] = $hasOps ? 'conflict' : 'newOps';
 				}
