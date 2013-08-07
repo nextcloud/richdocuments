@@ -2,7 +2,7 @@
 
 namespace OCA\Office;
 
-\OCP\User::checkLoggedIn();
+\OCP\JSON::checkLoggedIn();
 
 \OCP\JSON::success(array(
 	'sessions' => Session::getAllSessions()

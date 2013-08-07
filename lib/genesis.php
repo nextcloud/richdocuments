@@ -5,7 +5,7 @@ namespace OCA\Office;
 class Genesis {
 
 	public static function serve($args){
-		\OCP\User::checkLoggedIn();
+		\OCP\JSON::checkLoggedIn();
 
 		$session = Session::getSession(@$args['es_id']);
 		

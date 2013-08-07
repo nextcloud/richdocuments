@@ -49,10 +49,10 @@ function bogusSession($i){
 	return $bs;
 }
 
+$response = array();
 try{
 	$request = new OCA\Office\Request();
 	$command = $request->getParam('command');
-	$response = array();
 	switch ($command){
 		case 'session-list':
 			$response["session_list"] = array(bogusSession(0), bogusSession(1));

@@ -3,7 +3,7 @@
 namespace OCA\Office;
 
 // Check if we are a user
-\OCP\User::checkLoggedIn();
+\OCP\JSON::checkLoggedIn();
 
 $genesis = @$_POST['genesis'];
 
@@ -18,7 +18,8 @@ if (!$officeView->file_exists($genesis)){
 if ($genesisPath){
 	$session = Session::getSessionByPath($genesisPath);
 	if (!$session){
-		$session = Session::addSession($genesisPath);
+		$hash = View::getHashByGenesis($uid, $genesisPath);
+		$session = Session::addSession($genesisPath, $hash);
 	}
 	\OCP\JSON::success($session);
 	exit();
