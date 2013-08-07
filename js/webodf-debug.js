@@ -9468,10 +9468,7 @@ ops.PullBoxServer = function PullBoxServer(args) {
     return"/session/" + sessionId + "/genesis"
   };
   function call(message, cb) {
-    var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), data;
-    if(typeof message === "object") {
-      message = JSON.stringify(message)
-    }
+    var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), messageString = JSON.stringify(message), data;
     function handleResult() {
       if(xhr.readyState === 4) {
         if((xhr.status < 200 || xhr.status >= 300) && xhr.status === 0) {
@@ -9480,8 +9477,8 @@ ops.PullBoxServer = function PullBoxServer(args) {
         cb(xhr.responseText)
       }
     }
-    runtime.log("Sending message to server: " + message);
-    byteArrayWriter.appendString(message);
+    runtime.log("Sending message to server: " + messageString);
+    byteArrayWriter.appendString(messageString);
     data = byteArrayWriter.getByteArray();
     xhr.open("POST", args.url, true);
     xhr.onreadystatechange = handleResult;
@@ -9502,9 +9499,6 @@ ops.PullBoxServer = function PullBoxServer(args) {
     }
   }
   this.call = call;
-  this.getBase64 = function() {
-    return base64
-  };
   this.getToken = function() {
     return token
   };
@@ -9518,7 +9512,7 @@ ops.PullBoxServer = function PullBoxServer(args) {
     return"ready"
   };
   this.login = function(login, password, successCb, failCb) {
-    call("login:" + base64.toBase64(login) + ":" + base64.toBase64(password), function(responseData) {
+    call({command:"login", args:{login:base64.toBase64(login), password:base64.toBase64(password)}}, function(responseData) {
       var response = (runtime.fromJson(responseData));
       runtime.log("Login reply: " + responseData);
       if(response.hasOwnProperty("token")) {
@@ -12948,14 +12942,14 @@ ops.PullBoxUserModel = function PullBoxUserModel(server) {
     }
   }
   function pullUserData() {
-    var base64 = server.getBase64(), i, userIds = [];
+    var i, userIds = [];
     for(i in memberDataSubscribers) {
       if(memberDataSubscribers.hasOwnProperty(i)) {
         userIds.push(i)
       }
     }
     runtime.log("user-list request for : " + userIds.join(","));
-    server.call("user-list:" + base64.toBase64(server.getToken()) + ":" + userIds.join(","), function(responseData) {
+    server.call({command:"user-list", args:{user_ids:userIds}}, function(responseData) {
       var response = (runtime.fromJson(responseData)), userList, newUserData, oldUserData;
       runtime.log("user-list reply: " + responseData);
       if(response.hasOwnProperty("userdata_list")) {
@@ -13342,13 +13336,8 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
       syncLock = true;
       syncedClientOpspecs = unsyncedClientOpspecQueue;
       unsyncedClientOpspecQueue = [];
-      server.call({command:"sync-ops", sec_token:server.getToken(), es_id:sessionId, member_id:memberId, seq_head:String(lastServerSeq), client_ops:syncedClientOpspecs}, function(responseData) {
-        var shouldRetryInstantly = false, response;
-        try {
-          response = (runtime.fromJson(responseData))
-        }catch(ex) {
-          runtime.assert(response !== undefined, "invalid sync-ops reply: [" + responseData + "]")
-        }
+      server.call({command:"sync-ops", args:{es_id:sessionId, member_id:memberId, seq_head:String(lastServerSeq), client_ops:syncedClientOpspecs}}, function(responseData) {
+        var shouldRetryInstantly = false, response = (runtime.fromJson(responseData));
         runtime.log("sync-ops reply: " + responseData);
         if(response.result === "newOps") {
           if(response.ops.length > 0) {
@@ -13436,9 +13425,7 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
     triggerPushingOps()
   };
   function init() {
-    var base64 = server.getBase64(), token = server.getToken();
-    runtime.assert(token, "invalid token");
-    server.call("join-session:" + base64.toBase64(token) + ":" + base64.toBase64(sessionId) + ":" + base64.toBase64(memberId), function(responseData) {
+    server.call({command:"join-session", args:{session_id:sessionId, member_id:memberId}}, function(responseData) {
       var response = Boolean(runtime.fromJson(responseData));
       runtime.log("join-session reply: " + responseData);
       runtime.assert(response, "Trying to join a session which does not exists or where we are already in")
