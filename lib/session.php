@@ -33,10 +33,10 @@ class Session {
 	}
 	
 	public static function setMockSession(){
-		self::addSession('/welcome.odt');
+		//self::addSession('/welcome.odt');
 	}
 	protected static function getSessionId(){
-		return substr(md5(time()), 1, 10);
+		return  (string) time();
 	}
 	
 	protected static function getHash($genesis){
