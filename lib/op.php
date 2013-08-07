@@ -39,10 +39,12 @@ class Op {
 	}
 	
 	public static function getOpsAfterJson($esId, $seq){
-		return array_map(
-				json_decode, 
-				self::getOpsAfter($esId, $seq)
+		$ops =self::getOpsAfter($esId, $seq);
+		$ops =  array_map(
+				function($x){return json_decode($x['opspec']);}, 
+				$ops
 		);
+		return $ops;
 	}
 	
 	public static function getOpsAfter($esId, $seq){
