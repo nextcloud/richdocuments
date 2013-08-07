@@ -66,39 +66,29 @@ try{
 				$esId = $request->getParam('args/es_id');
 				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
+				$hasOps = is_array($ops) && count($ops>0);
 
 				$currentHead = OCA\Office\Op::getHeadSeq($esId);
 
 				// TODO handle the case ($currentHead == "") && ($seqHead != "")
-
 				if ($seqHead == $currentHead) {
 					// matching heads
-					if (count($ops) > 0) {
+					if ($hasOps) {
 						// incoming ops without conflict
 						// Add incoming ops, respond with a new head
-						$lastSeq = $currentHead; // empty op stack
-						foreach ($ops as $op) {
-							$op['opspec'] = json_encode($op);
-							$op['member'] = $memberId;
-							$lastSeq = OCA\Office\Op::add($esId, $op);
-						}
+						$newHead = OCA\Office\Op::addOpsArray($esId, $memberId, $ops);
 						$response["result"] = 'added';
-						$response["headSeq"] = $lastSeq;
+						$response["headSeq"] = $newHead ? $newHead : $currentHead;
 					} else {
 						// no incoming ops (just checking for new ops...)
 						$response["result"] = 'newOps';
-						$response["ops"] = [];
+						$response["ops"] = array();
 						$response["headSeq"] = $currentHead;
 					}
 				} else { // HEADs do not match
 					$response["ops"] = OCA\Office\Op::getOpsAfter($esId, $seqHead);
 					$response["headSeq"] = $currentHead;
-					if (count($ops) > 0) { // a conflict
-						$response["result"] = 'conflict';
-					} else { // not a conflict
-						$response["result"] = 'newOps';
-
-					}
+					$response["result"] = $hasOps ? 'conflict' : 'newOps';
 				}
 			} else {
 				// Error - no seq_head passed

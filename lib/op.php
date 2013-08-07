@@ -4,18 +4,27 @@ namespace OCA\Office;
 
 class Op {
 
-	public static function add($esId, $op){
+	public static function add($esId, $memberId, $opspec){
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_op`  (`es_id`, `member`, `opspec`) VALUES (?, ?, ?) ');
 		$query->execute(array(
 			$esId,
-			$op['member'],
-			$op['opspec'],
+			$memberId,
+			$opspec,
 		));
 		// throw something - if query fails - thats fatal
 
 		return \OCP\DB::insertid(`*PREFIX*office_op`);
 	}
 	
+	public static function addOpsArray($esId, $memberId, $ops){
+		$lastSeq = false;
+		foreach ($ops as $op) {
+			$lastSeq = self::add($esId, $memberId, json_encode($op));
+		}
+		return $lastSeq;
+	}
+
+
 	/**
 	 * @returns "" when there are no Ops, or the seq of the last Op
 	 */
@@ -26,18 +35,24 @@ class Op {
 			))
 			->fetchOne()	
 		;
-		return is_null($result) ? "" : $result;
+		return !$result ? "" : $result;
+	}
+	
+	public static function getOpsAfterJson($esId, $seq){
+		return array_map(
+				json_decode, 
+				self::getOpsAfter($esId, $seq)
+		);
 	}
 	
 	public static function getOpsAfter($esId, $seq){
-		if ($seq == "") $seq = -1;
-		$oplist = [];
+		if ($seq == ""){
+			$seq = -1;
+		}
+		$oplist = array();
 		$query = \OCP\DB::prepare('SELECT `opspec` FROM `*PREFIX*office_op`  WHERE `es_id`=? AND `seq`>? ORDER BY `seq` ASC');
 		$result = $query->execute(array($esId, $seq));
-		while( $row = $result->fetchRow() ) {
-			$oplist[] = json_decode($row['opspec']);
-		}
-		return $oplist;
+		return $result;
 	}
 
 }
