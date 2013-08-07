@@ -33,7 +33,7 @@ OCP\App::addNavigationEntry(array(
 	'name' => 'Office')
 );
 
-OC::$CLASSPATH['OCA\Office\Storage'] = 'office/lib/storage.php';
+OC::$CLASSPATH['OCA\Office\Genesis'] = 'office/lib/genesis.php';
 OC::$CLASSPATH['OCA\Office\Download\Simple'] = 'office/lib/download/simple.php';
 OC::$CLASSPATH['OCA\Office\Download\Range'] = 'office/lib/download/range.php';
 

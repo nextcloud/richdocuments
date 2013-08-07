@@ -13,8 +13,8 @@ namespace OCA\Office;
 
 \OCP\User::checkLoggedIn();
 
-$session = Session::getSession($_SERVER['QUERY_STRING']);
-$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
+$session = Session::getSession(@$_SERVER['QUERY_STRING']);
 
+$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
 $download = new Download($filename);
 $download->sendResponse();

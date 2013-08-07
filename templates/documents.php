@@ -4,7 +4,7 @@
 <?php } else { ?>
 	<table class="documentslist" >
 	<?php foreach($_['list'] as $entry) { ?>
-		<tr data-file="<?php p($entry['path']) ?>">
+		<tr data-file="<?php \OCP\Util::encodePath(p($entry['path'])) ?>">
 			<td width="1">
 				<img align="left" src="<?php p(\OCP\Util::linkToAbsolute('office','ajax/thumbnail.php').'?filepath='.urlencode($entry['url'])) ?>" />
 			</td>

@@ -6,10 +6,19 @@ namespace OCA\Office;
 \OCP\User::checkLoggedIn();
 
 $genesis = @$_POST['genesis'];
-if ($genesis){
-	$session = Session::getSessionByUrl($genesis);
+
+$uid = \OCP\User::getUser();
+$officeView = View::initOfficeView($uid);
+if (!$officeView->file_exists($genesis)){
+	$genesisPath = View::storeDocument($uid, $genesis);
+} else {
+	$genesisPath = $genesis;
+}
+
+if ($genesisPath){
+	$session = Session::getSessionByPath($genesisPath);
 	if (!$session){
-		$session = Session::addSession($genesis);
+		$session = Session::addSession($genesisPath);
 	}
 	\OCP\JSON::success($session);
 	exit();

@@ -1,7 +1,7 @@
 <?php
 
 namespace OCA\Office\Download;
-
+use OCA\Office\View;
 class Range extends \OCA\Office\Download {
 
 	// Start of the range
@@ -14,6 +14,7 @@ class Range extends \OCA\Office\Download {
 	}
 
 	public function sendResponse(){
+		$this->view = View::initOfficeView(\OCP\User::getUser());
 		if (!preg_match('/^bytes=\d*-\d*(,\d*-\d*)*$/', $_SERVER['HTTP_RANGE'])){
 			$this->sendNotSatisfiable();
 		}
@@ -28,7 +29,7 @@ class Range extends \OCA\Office\Download {
 				$this->sendNotSatisfiable();
 			}
 
-			$handle = \OC\Files\Filesystem::fopen($this->filepath, 'rb');
+			$handle = $this->view->fopen($this->filepath, 'rb');
 			\fseek($handle, $start);
 			$buffer = \fread($handle, $end - $start);
 			$md5Sum = md5($buffer);

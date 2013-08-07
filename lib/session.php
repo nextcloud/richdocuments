@@ -16,7 +16,7 @@ class Session {
 		return $result->fetchRow();
 	}
 	
-	public static function getSessionByUrl($url){
+	public static function getSessionByPath($url){
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ?');
 		$result = $query->execute(array($url));
 		return $result->fetchRow();

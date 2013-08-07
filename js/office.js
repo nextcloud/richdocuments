@@ -83,13 +83,13 @@ var officeMain = {
 			});
 		});
 	},
-	registerSession : function(dir, file){
+	registerSession : function(filepath){
 		"use strict";
 		if (officeMain.initialized === undefined) {
 			alert("WebODF Editor not yet initialized...");
 			return;
 		}
-		var filepath = fileDownloadPath(dir, file);
+
 		$.post(OC.filePath('office', 'ajax', 'session.php'), 
 			{ 'genesis' : filepath },
 			officeMain.onView
@@ -135,7 +135,7 @@ var officeMain = {
 $(document).ready(function() {
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
-		officeMain.registerSession('', $(this).attr('data-file'));
+		officeMain.registerSession($(this).attr('data-file'));
 	});
 	$('#odf_close').live('click', officeMain.onClose);
 	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);

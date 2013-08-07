@@ -1,6 +1,7 @@
 <?php
 
 namespace OCA\Office\Download;
+use OCA\Office\View;
 
 class Simple extends \OCA\Office\Download {
 	
@@ -9,6 +10,7 @@ class Simple extends \OCA\Office\Download {
 	}
 	
 	public function sendResponse(){
+		$this->view = View::initOfficeView(\OCP\User::getUser());
 		header( 'Content-Type:' . $this->getMimeType() );
 		
 		$encodedName = rawurlencode($this->getFilename());
@@ -21,10 +23,10 @@ class Simple extends \OCA\Office\Download {
 					. '; filepath="' . $encodedName . '"');
 		}
 		
-		header('Content-Length: ' . \OC\Files\Filesystem::filesize($this->filepath));
+		header('Content-Length: ' . $this->view->filesize($this->filepath));
 
 		\OC_Util::obEnd();
-		\OC\Files\Filesystem::readfile($this->filepath);
+		 $this->view->readfile($this->filepath);
 	}
 
 }

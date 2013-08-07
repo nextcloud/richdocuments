@@ -3,7 +3,7 @@
 namespace OCA\Office;
 
 class Download {
-
+	protected $view;
 	// File to be served
 	protected $filepath;
 	
@@ -11,6 +11,7 @@ class Download {
 
 	public function __construct($filepath){
 		$this->filepath = $filepath;
+		
         if (isset($_SERVER['HTTP_RANGE'])) {
 			$this->instance = new Download\Range($filepath);
 		} else {
@@ -20,6 +21,7 @@ class Download {
 	
 	public function sendResponse(){
 		\OCP\Response::disableCaching();
+		$this->view = View::initOfficeView(\OCP\User::getUser());
 		
 		if (!$this->fileExists()){
 			$this->sendNotFound();
@@ -34,15 +36,15 @@ class Download {
 	}
 	
 	protected function getFilesize(){
-		return \OC\Files\Filesystem::filesize($this->filepath);
+		return $this->view->filesize($this->filepath);
 	}
 	
 	protected function getMimeType(){
-		return \OC\Files\Filesystem::getMimeType($this->filepath);
+		return $this->view->getMimeType($this->filepath);
 	}
 	
 	protected function fileExists(){
-		return \OC\Files\Filesystem::file_exists($this->filepath);
+		return $this->view->file_exists($this->filepath);
 	}
 
 	protected function sendNotFound(){
