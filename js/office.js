@@ -63,12 +63,13 @@ var officeMain = {
 				// in case we are on the public sharing page we shall display the odf into the preview tag
 				$('#preview').html(canvashtml);
 
+				runtime.assert(response.es_id, "invalid session id.");
 				webodfEditor.boot(
 					{
 						collaborative: "owncloud",
 						docUrl: doclocation,
 						loginProcedure: function(cb) {
-							cb("0", OC.currentUser, "token");
+							cb(response.es_id, OC.currentUser, "token");
 						},
 						callback: function() {
 							// initialized.
