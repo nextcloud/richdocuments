@@ -11,7 +11,6 @@
 
 namespace OCA\Office;
 
-// Check if we are a user
 \OCP\User::checkLoggedIn();
 
 $session = Session::getSession($_SERVER['QUERY_STRING']);

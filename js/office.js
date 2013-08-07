@@ -95,6 +95,26 @@ var officeMain = {
 			officeMain.onView
 		);
 	},
+	
+	showSessions : function(){
+		if ($('#allsessions').length){
+			$('#allsessions').remove();
+			return;
+		}
+		$.post(OC.filePath('office', 'ajax', 'sessions.php'), {}, officeMain.onSessions);
+	},
+	onSessions : function(response){
+		if (response && response.sessions){
+			$(response.sessions).each( function(i, s){ officeMain.addSession(s) } );
+		}
+	},
+	addSession : function(s){
+		if (!$('#allsessions').length){
+			$(document.body).append('<div id="allsessions"></div>');
+		}
+		$('#allsessions').append('<div>'+s.es_id+ '</div>');
+	},
+			
 	onClose: function() {
 		"use strict";
 		var bodyelement = document.getElementsByTagName('body')[0];
@@ -119,4 +139,5 @@ $(document).ready(function() {
 	});
 	$('#odf_close').live('click', officeMain.onClose);
 	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
+	$('#session-list').click(officeMain.showSessions);
 });

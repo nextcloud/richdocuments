@@ -17,7 +17,7 @@ class Op {
 	}
 	
 	public static function addOpsArray($esId, $memberId, $ops){
-		$lastSeq = false;
+		$lastSeq = "";
 		foreach ($ops as $op) {
 			$lastSeq = self::add($esId, $memberId, json_encode($op));
 		}
@@ -52,7 +52,7 @@ class Op {
 		$oplist = array();
 		$query = \OCP\DB::prepare('SELECT `opspec` FROM `*PREFIX*office_op`  WHERE `es_id`=? AND `seq`>? ORDER BY `seq` ASC');
 		$result = $query->execute(array($esId, $seq));
-		return $result;
+		return $result->fetchAll();
 	}
 
 }

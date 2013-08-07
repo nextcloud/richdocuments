@@ -1,4 +1,4 @@
-<div id="controls"></div>
+<div id="controls"><button id="session-list"><?php p($l->t('Sessions')) ?></button></div>
 <?php if(empty($_['list'])) { ?>
 	<div id="emptyfolder"><?php p('No documents are found. Please upload a document into your ownCloud');?></div>	
 <?php } else { ?>

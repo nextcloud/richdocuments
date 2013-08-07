@@ -66,7 +66,7 @@ try{
 				$esId = $request->getParam('args/es_id');
 				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
-				$hasOps = is_array($ops) && count($ops>0);
+				$hasOps = is_array($ops) && count($ops)>0;
 
 				$currentHead = OCA\Office\Op::getHeadSeq($esId);
 

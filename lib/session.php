@@ -3,6 +3,13 @@
 namespace OCA\Office;
 
 class Session {
+	
+	public static function getAllSessions(){
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session`');
+		$result = $query->execute();
+		return $result->fetchAll();
+	}
+	
 	public static function getSession($id){
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `es_id`= ?');
 		$result = $query->execute(array($id));

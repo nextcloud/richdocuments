@@ -4,3 +4,14 @@
 .documentslist tr:hover {  backgound-color:#aaa; }
 .documentslist tr td {  padding:5px; }
 
+#allsessions{
+	position: absolute;
+	z-index:  100500;
+	top : 40px;
+	padding: 10px;
+	background: #ccc;
+}
+
+#allsessions div{
+	margin:5px 0;
+}
