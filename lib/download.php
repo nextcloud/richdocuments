@@ -9,19 +9,20 @@ class Download {
 	
 	protected $instance;
 
-	public function __construct($filepath){
+	public function __construct($view, $filepath){
 		$this->filepath = $filepath;
+		$this->view = $view;
 		
         if (isset($_SERVER['HTTP_RANGE'])) {
-			$this->instance = new Download\Range($filepath);
+			$this->instance = new Download\Range($view, $filepath);
 		} else {
-			$this->instance = new Download\Simple($filepath);
+			$this->instance = new Download\Simple($view, $filepath);
 		}
 	}
 	
 	public function sendResponse(){
 		\OCP\Response::disableCaching();
-		$this->view = View::initOfficeView(\OCP\User::getUser());
+
 		
 		if (!$this->fileExists()){
 			$this->sendNotFound();

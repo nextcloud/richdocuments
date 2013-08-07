@@ -5,7 +5,8 @@ use OCA\Office\View;
 
 class Simple extends \OCA\Office\Download {
 	
-	public function __construct($filepath){
+	public function __construct($view, $filepath){
+		$this->view = $view;
 		$this->filepath = $filepath;
 	}
 	

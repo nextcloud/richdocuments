@@ -9,7 +9,8 @@ class Range extends \OCA\Office\Download {
 	// End of the range
 	protected $end;
 
-	public function __construct($filepath){
+	public function __construct($view, $filepath){
+		$this->view = $view;
 		$this->filepath = $filepath;
 	}
 
