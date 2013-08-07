@@ -62,7 +62,6 @@ try{
 			break;
 		case 'sync-ops':
 			$seqHead = $request->getParam('args/seq_head');
-
 			if (!is_null($seqHead)){
 				$esId = $request->getParam('args/es_id');
 				$memberId = $request->getParam('args/member_id');
@@ -70,25 +69,39 @@ try{
 
 				$currentHead = OCA\Office\Op::getHeadSeq($esId);
 
-				if (!$currentHead || $seqHead == $currentHead) { // very first ops || match the current head
-					// Add incoming ops, response with a new head
-					foreach ($ops as $op) {
-						$op['opspec'] = json_encode($op['opspec']);
-						$lastSeq = OCA\Office\Op::add($op);
+				// TODO handle the case ($currentHead == "") && ($seqHead != "")
+
+				if ($seqHead == $currentHead) {
+					// matching heads
+					if (count($ops) > 0) {
+						// incoming ops without conflict
+						// Add incoming ops, respond with a new head
+						$lastSeq = $currentHead; // empty op stack
+						foreach ($ops as $op) {
+							$op['opspec'] = json_encode($op);
+							$op['member'] = $memberId;
+							$lastSeq = OCA\Office\Op::add($esId, $op);
+						}
+						$response["result"] = 'added';
+						$response["headSeq"] = $lastSeq;
+					} else {
+						// no incoming ops (just checking for new ops...)
+						$response["result"] = 'newOps';
+						$response["ops"] = [];
+						$response["headSeq"] = $currentHead;
 					}
-					$response["result"] = 'added';
-					$response["headSeq"] = $lastSeq;
-				} else {
-					//     result: 'conflict',
-					//     ops: a list of all ops since  $postobject['args']['seq_head']
-					//     headSeq: the most recent op-seq
-					$response["result"] = 'conflict';
+				} else { // HEADs do not match
 					$response["ops"] = OCA\Office\Op::getOpsAfter($esId, $seqHead);
-					$last = end($response["ops"]);
-					$response["headSeq"] = $last['seq'];
+					$response["headSeq"] = $currentHead;
+					if (count($ops) > 0) { // a conflict
+						$response["result"] = 'conflict';
+					} else { // not a conflict
+						$response["result"] = 'newOps';
+
+					}
 				}
 			} else {
-				// Error - empty seq_head passed :)
+				// Error - no seq_head passed
 				throw new BadRequestException();
 			}
 
