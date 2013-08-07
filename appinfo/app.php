@@ -36,8 +36,3 @@ OCP\App::addNavigationEntry(array(
 OC::$CLASSPATH['OCA\Office\Genesis'] = 'office/lib/genesis.php';
 OC::$CLASSPATH['OCA\Office\Download\Simple'] = 'office/lib/download/simple.php';
 OC::$CLASSPATH['OCA\Office\Download\Range'] = 'office/lib/download/range.php';
-
-// Testing
-if (!\OCA\Office\Session::getSession('dev0')){
-	\OCA\Office\Session::setMockSession();
-}

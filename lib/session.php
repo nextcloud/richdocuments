@@ -22,13 +22,13 @@ class Session {
 		return $result->fetchRow();
 	}
 	
-	public static function addSession($genesis){
+	public static function addSession($genesis, $hash){
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`) VALUES (?, ?, ?, ?) ');
 		
 		$data = array(
 			self::getSessionId(),
 			$genesis,
-			self::getHash($genesis),
+			$hash,
 			\OCP\User::getUser()
 		);
 		$result = $query->execute($data);
@@ -39,14 +39,8 @@ class Session {
 		return false;
 	}
 	
-	public static function setMockSession(){
-		//self::addSession('/welcome.odt');
-	}
 	protected static function getSessionId(){
 		return  (string) time();
 	}
 	
-	protected static function getHash($genesis){
-		return '0xdeadbeef';
-	}
 }
