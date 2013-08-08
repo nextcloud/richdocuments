@@ -57,6 +57,8 @@ try{
 		case 'join-session':
 			$response = "true"; // should fail when session is non-existent
 			break;
+		case 'user-list':
+			break;
 		case 'sync-ops':
 			$seqHead = $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){
