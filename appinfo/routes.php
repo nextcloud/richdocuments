@@ -35,3 +35,8 @@ $this->create('office_session_join', 'ajax/session/join/{es_id}')
 	->post()
 	->action('\OCA\Office\Controller', 'joinSession')
 ;
+
+$this->create('office_avatar', 'ajax/avatar')
+	->get()
+	->action('\OCA\Office\Controller', 'sendAvatar')
+;

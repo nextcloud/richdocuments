@@ -29,4 +29,4 @@ session_write_close();
 // or just wait unit preview is merged to core ;)
 
 $file = $_GET['filepath'];
-\OCP\Preview::show($file, 120, 120);
+//\OCP\Preview::show($file, 120, 120);
