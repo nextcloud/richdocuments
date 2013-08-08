@@ -35,12 +35,12 @@ class Session {
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`) VALUES (?, ?, ?, ?) ');
 		
 		$data = array(
-			self::getSessionId(),
-			$genesis,
-			$hash,
-			\OCP\User::getUser()
+			'es_id' => self::getSessionId(),
+			'genesis_url' => $genesis,
+			'genesis_hash' => $hash,
+			'owner' => \OCP\User::getUser()
 		);
-		$result = $query->execute($data);
+		$result = $query->execute(array_values($data));
 		
 		if ($result){
 			return $data;
