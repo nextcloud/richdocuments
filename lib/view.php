@@ -34,8 +34,9 @@ class View extends \OC\Files\View{
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
-		$newName = '/' . self::getHashByGenesis($uid, $path) . '.odt';
 		$view = new \OC\Files\View('/' . $uid);
+		$newName = '/' . sha1($view->file_get_contents('/files' . $path)) . '.odt';
+
 		$view->copy('/files' . $path, self::OFFICE_DIRNAME . $newName);
 		\OC_FileProxy::$enabled = $proxyStatus;
 		return $newName;
