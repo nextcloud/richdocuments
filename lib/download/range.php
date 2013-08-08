@@ -24,7 +24,6 @@ class Range extends \OCA\Office\Download {
 	}
 
 	public function sendResponse(){
-		$this->view = View::initOfficeView(\OCP\User::getUser());
 		if (!preg_match('/^bytes=\d*-\d*(,\d*-\d*)*$/', $_SERVER['HTTP_RANGE'])){
 			$this->sendNotSatisfiable();
 		}

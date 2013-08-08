@@ -38,24 +38,21 @@
 // OCP\JSON::checkAppEnabled('office');
 // session_write_close();
 
-function bogusSession($i){
-	$bs = array();
-	$bs["denomination"] = "[$i] bogus session";
-	$bs["id"] = "$i";
-	$bs["title"] = "bogus.odt";
-	$bs["mimetype"] = "application/vnd.oasis.opendocument.text";
-	$bs["members"] = $bs["cursors"] = array("bob_10002", "alice_10001");
-	$bs["creation_date"] = "2013-07-16T18:52:50.120Z";
-	return $bs;
-}
-
 $response = array();
 try{
 	$request = new OCA\Office\Request();
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'session-list':
-			$response["session_list"] = array(bogusSession(0), bogusSession(1));
+			$sessions = OCA\Office\Session::getAllSessions();
+			if (!is_array($sessions)){
+				$sessions = array();
+			}
+
+			$response["session_list"] = array_map(
+				function($x){return ($x['es_id']);}, 
+				$sessions
+			);
 			break;
 		case 'join-session':
 			$response = "true"; // should fail when session is non-existent

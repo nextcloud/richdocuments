@@ -48,7 +48,7 @@ class Op {
 	}
 	
 	public static function getOpsAfterJson($esId, $seq){
-		$ops =self::getOpsAfter($esId, $seq);
+		$ops = self::getOpsAfter($esId, $seq);
 		$ops =  array_map(
 				function($x){return json_decode($x['opspec']);}, 
 				$ops

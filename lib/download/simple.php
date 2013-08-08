@@ -20,7 +20,6 @@ class Simple extends \OCA\Office\Download {
 	}
 	
 	public function sendResponse(){
-		$this->view = View::initOfficeView(\OCP\User::getUser());
 		header( 'Content-Type:' . $this->getMimeType() );
 		
 		$encodedName = rawurlencode($this->getFilename());
