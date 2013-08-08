@@ -24,7 +24,6 @@ var officeMain = {
 
 		OC.addScript('office', 'editor/boot_editor').done(function() {
 			var doclocation = response.genesis_url;
-			officeMain.doclocation = doclocation;
 
 			// fade out files menu and add odf menu
 			$('.documentslist').fadeOut('slow').promise().done(function() {
@@ -112,7 +111,12 @@ var officeMain = {
 		if (!$('#allsessions').length){
 			$(document.body).append('<div id="allsessions"></div>');
 		}
-		$('#allsessions').append('<div>'+s.es_id+ '</div>');
+		$('<div><a href="">'+s.es_id+ '</a></div>').appendTo('#allsessions').click(
+				function(event){
+					event.preventDefault();
+					officeMain.onView(s);  
+			}
+		);
 	},
 			
 	onClose: function() {
