@@ -26,7 +26,7 @@ var officeMain = {
 			var doclocation = response.genesis_url;
 
 			// fade out files menu and add odf menu
-			$('.documentslist').fadeOut('slow').promise().done(function() {
+			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
 				var odfToolbarHtml =
 					'<div id="odf-toolbar">' +
@@ -38,7 +38,7 @@ var officeMain = {
 			});
 
 			// fade out file list and show WebODF canvas
-			$('table').fadeOut('slow').promise().done(function() {
+			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
 				var odfelement, odfcanvas, canvashtml =
 					'<div id = "mainContainer" class="claro" style="">'+
 						'<div id = "editor">'+
@@ -58,7 +58,7 @@ var officeMain = {
 					'</div>',
 					bodyelement = document.getElementsByTagName('body')[0];
 				bodyelement.className += " claro";
-				$('table').after(canvashtml);
+				$('.documentslist, #emptyfolder').after(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
 				$('#preview').html(canvashtml);
 
@@ -129,7 +129,7 @@ var officeMain = {
 			$('#mainContainer').remove();
 			$('#odf-canvas').remove();
 			$('.actions,#file_access_panel').fadeIn('slow');
-			$('table').fadeIn('slow');
+			$('.documentslist, #emptyfolder').fadeIn('slow');
 			bodyelement.className.replace(' claro', '');
 			webodfEditor.shutdown();
 		});
