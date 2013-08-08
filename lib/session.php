@@ -25,9 +25,9 @@ class Session {
 		return $result->fetchRow();
 	}
 	
-	public static function getSessionByPath($url){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ?');
-		$result = $query->execute(array($url));
+	public static function getSessionByPath($uid, $url){
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ? AND `owner`= ? ');
+		$result = $query->execute(array($url, $uid));
 		return $result->fetchRow();
 	}
 	

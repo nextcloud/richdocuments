@@ -89,8 +89,8 @@ var officeMain = {
 			return;
 		}
 
-		$.post(OC.filePath('office', 'ajax', 'session.php'), 
-			{ 'genesis' : filepath },
+		$.post(OC.Router.generate('office_session_start'), 
+			{ 'path' : filepath },
 			officeMain.onView
 		);
 	},
