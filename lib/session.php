@@ -35,7 +35,7 @@ class Session {
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`) VALUES (?, ?, ?, ?) ');
 		
 		$data = array(
-			'es_id' => self::getSessionId(),
+			'es_id' => self::getUniqueSessionId(),
 			'genesis_url' => $genesis,
 			'genesis_hash' => $hash,
 			'owner' => \OCP\User::getUser()
@@ -48,8 +48,12 @@ class Session {
 		return false;
 	}
 	
-	protected static function getSessionId(){
-		return  (string) time();
+	protected static function getUniqueSessionId(){
+		do {
+			$id = \OC_Util::generate_random_bytes(30);
+		} while (self::getSession($id));
+		
+		return $id;
 	}
 	
 }
