@@ -1,4 +1,4 @@
-/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo */
+/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo,runtime */
 var officeMain = {
 	onStartup: function() {
 		"use strict";
@@ -38,7 +38,7 @@ var officeMain = {
 
 			// fade out file list and show WebODF canvas
 			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
-				var odfelement, odfcanvas, canvashtml =
+				var memberId, odfelement, odfcanvas, canvashtml =
 					'<div id = "mainContainer" class="claro" style="">'+
 						'<div id = "editor">'+
 							//'<span id = "toolbar" class="claro"></span>'+
@@ -61,12 +61,16 @@ var officeMain = {
 				$('#preview').html(canvashtml);
 
 				runtime.assert(response.es_id, "invalid session id.");
+				memberId = response.es_id + "member";
 				webodfEditor.boot(
 					{
 						collaborative: "owncloud",
 						docUrl: doclocation,
 						loginProcedure: function(cb) {
 							cb(response.es_id, OC.currentUser, "token");
+						},
+						joinSession: function(userId, sessionId, cb) {
+							cb(memberId);
 						},
 						callback: function() {
 							// initialized.
