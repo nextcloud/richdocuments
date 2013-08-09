@@ -59,22 +59,23 @@ try{
 			);
 					
 			break;
-		case 'session-list':
+		case 'session_list':
 			OCA\Office\Controller::listSessions();
 			exit();
 			break;
-		case 'join-session':
+		case 'join_session':
+			 // should fail when session is non-existent
+			break;
 			OCA\Office\Controller::joinSession(array(
 				'es_id' => $request->getParam('args/es_id')
 			));
 			exit();
 			break;
-		case 'user-list':
+		case 'user_list':
 			$members = OCA\Office\Member::getMembersByEsId(
 					$request->getParam('args/es_id')
 			);
 			break;
-		case 'sync-ops':
 		case 'sync_ops':
 			$seqHead = $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){
@@ -93,16 +94,16 @@ try{
 						// Add incoming ops, respond with a new head
 						$newHead = OCA\Office\Op::addOpsArray($esId, $memberId, $ops);
 						$response["result"] = 'added';
-						$response["headSeq"] = $newHead ? $newHead : $currentHead;
+						$response["head_seq"] = $newHead ? $newHead : $currentHead;
 					} else {
 						// no incoming ops (just checking for new ops...)
-						$response["result"] = 'newOps';
+						$response["result"] = 'new_ops';
 						$response["ops"] = array();
-						$response["headSeq"] = $currentHead;
+						$response["head_seq"] = $currentHead;
 					}
 				} else { // HEADs do not match
 					$response["ops"] = OCA\Office\Op::getOpsAfterJson($esId, $seqHead);
-					$response["headSeq"] = $currentHead;
+					$response["head_seq"] = $currentHead;
 					$response["result"] = $hasOps ? 'conflict' : 'newOps';
 				}
 			} else {

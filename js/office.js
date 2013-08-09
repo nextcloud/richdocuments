@@ -19,7 +19,7 @@ var officeMain = {
 			});
 		});
 	},
-	joinSession: function(response) {
+	initSession: function(response) {
 		"use strict";
 
 		OC.addScript('office', 'editor/boot_editor').done(function() {
@@ -69,7 +69,7 @@ var officeMain = {
 						loginProcedure: function(cb) {
 							cb(response.es_id, OC.currentUser, "token");
 						},
-						joinSession: function(userId, sessionId, cb) {
+						initSession: function(userId, sessionId, cb) {
 							cb(memberId);
 						},
 						callback: function() {
@@ -89,10 +89,15 @@ var officeMain = {
 
 		$.post(OC.Router.generate('office_session_start'), 
 			{ 'path' : filepath },
-			officeMain.joinSession
+			officeMain.initSession
 		);
 	},
-	
+	joinSession : function (esId){
+		$.post(OC.Router.generate('office_session_join') + '/' + esId, 
+			{},
+			officeMain.initSession
+		);
+	},
 	showSessions : function(){
 		if ($('#allsessions').length){
 			$('#allsessions').remove();
@@ -102,7 +107,7 @@ var officeMain = {
 	},
 	onSessions : function(response){
 		if (response && response.session_list){
-			$(response.session_list).each( function(i, s){ officeMain.addSession(s) } );
+			$(response.session_list).each( function(i, s){ officeMain.addSession(s); } );
 		}
 	},
 	addSession : function(s){
@@ -112,7 +117,7 @@ var officeMain = {
 		$('<div><a href="">'+s+ '</a></div>').appendTo('#allsessions').click(
 			function(event){
 					event.preventDefault();
-					officeMain.joinSession({es_id : s});  
+					officeMain.joinSession(s);  
 			}
 		);
 	},
