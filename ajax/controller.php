@@ -39,7 +39,7 @@ class Controller {
 			$session = Session::getSessionByOwnerAndGenesis($uid, $genesisPath);
 			if (!$session){
 				$hash = View::getHashByGenesis($uid, $genesisPath);
-				$session = Session::addSession($genesisPath, $hash, $path);
+				$session = Session::add($genesisPath, $hash, $path);
 			}
 			\OCP\JSON::success($session);
 			exit();

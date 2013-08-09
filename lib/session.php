@@ -13,25 +13,7 @@ namespace OCA\Office;
 
 class Session {
 	
-	public static function getAllSessions(){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session`');
-		$result = $query->execute();
-		return $result->fetchAll();
-	}
-	
-	public static function getSession($id){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `es_id`= ?');
-		$result = $query->execute(array($id));
-		return $result->fetchRow();
-	}
-	
-	public static function getSessionByOwnerAndGenesis($uid, $url){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ? AND `owner`= ? ');
-		$result = $query->execute(array($url, $uid));
-		return $result->fetchRow();
-	}
-	
-	public static function addSession($genesis, $hash, $documentPath){
+	public static function add($genesis, $hash, $documentPath){
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `document_path`) VALUES (?, ?, ?, ?, ?) ');
 		
 		$data = array(
@@ -47,6 +29,24 @@ class Session {
 			return $data;
 		}
 		return false;
+	}
+	
+	public static function getAll(){
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session`');
+		$result = $query->execute();
+		return $result->fetchAll();
+	}
+	
+	public static function getSession($id){
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `es_id`= ?');
+		$result = $query->execute(array($id));
+		return $result->fetchRow();
+	}
+	
+	public static function getSessionByOwnerAndGenesis($uid, $url){
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ? AND `owner`= ? ');
+		$result = $query->execute(array($url, $uid));
+		return $result->fetchRow();
 	}
 	
 	protected static function getUniqueSessionId(){

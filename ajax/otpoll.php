@@ -44,7 +44,7 @@ try{
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'session-list':
-			$sessions = OCA\Office\Session::getAllSessions();
+			$sessions = OCA\Office\Session::getAll();
 			if (!is_array($sessions)){
 				$sessions = array();
 			}
