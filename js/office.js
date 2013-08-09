@@ -50,7 +50,7 @@ var officeMain = {
 							'<div id = "collabContainer">'+
 								'<div id = "people">'+
 									'<div id = "inviteButton"></div>'+
-									'<div id = "peopleList"></div>'+
+									'<div id = "memberList"></div>'+
 								'</div>'+
 							'</div>'+
 						'</div>'+
