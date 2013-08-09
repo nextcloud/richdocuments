@@ -61,7 +61,7 @@ var officeMain = {
 				$('#preview').html(canvashtml);
 
 				runtime.assert(response.es_id, "invalid session id.");
-				memberId = response.es_id + "member";
+				memberId = response.member_id;
 				webodfEditor.boot(
 					{
 						collaborative: "owncloud",

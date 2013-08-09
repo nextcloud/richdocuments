@@ -17,7 +17,7 @@ class Member {
 	const DEFAULT_ACTIVITY_THRESHOLD = 600; // 10 Minutes
 
 	public static function add($esId, $displayname, $color){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_member`  (`es_id`, `uid`, `color`, `lastactivity`) VALUES (?, ?, ?, ?) ');
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_member`  (`es_id`, `uid`, `color`, `last_activity`) VALUES (?, ?, ?, ?) ');
 		$query->execute(array(
 			$esId,
 			\OCP\User::getUser(),
@@ -54,7 +54,7 @@ class Member {
 			$activeSince = $lastActivity;
 		}
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `es_id`= ? and lastactivity > ?');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `es_id`= ? and last_activity > ?');
 		$result = $query->execute(array($esId, $activeSince));
 		return $result->fetchAll();
 	}

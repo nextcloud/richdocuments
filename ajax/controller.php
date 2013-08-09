@@ -37,14 +37,22 @@ class Controller {
 
 		if ($genesisPath){
 			$session = Session::getSessionByOwnerAndGenesis($uid, $genesisPath);
-			if (!$session){
-				$hash = View::getHashByGenesis($uid, $genesisPath);
-				$session = Session::add($genesisPath, $hash, $path);
+			try {
+				if (!$session){
+					$hash = View::getHashByGenesis($uid, $genesisPath);
+					$session = Session::add($genesisPath, $hash, $path);
+				}
+			
+				$session['member_id'] = Member::add($session['es_id'], \OCP\User::getDisplayName(), '#00f000');
+			 
+				\OCP\JSON::success($session);
+				exit();
+			} catch (\Exception $e){
+				throw $e;
 			}
-			\OCP\JSON::success($session);
-			exit();
 		}
 		\OCP\JSON::error();
+		exit();
 	}
 	
 	public static function sendAvatar(){

@@ -75,6 +75,7 @@ try{
 			);
 			break;
 		case 'sync-ops':
+		case 'sync_ops':
 			$seqHead = $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){
 				$esId = $request->getParam('args/es_id');
