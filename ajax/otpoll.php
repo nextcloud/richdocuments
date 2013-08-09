@@ -47,8 +47,17 @@ try{
 		case 'query_memberdata_list':
 			$ids = $request->getParam('args/member_ids');
 			$members = OCA\Office\Member::getMembersAsArray($ids);
-			//TODO: iterate, adding more info
-			$response["memberdata_list"] = $members;
+			$response["memberdata_list"] = array_map(
+					function($x){
+						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
+						
+						// Stub
+						$x['avatar_url'] = \OCP\Util::linkToRoute('office_avatar');
+						return $x;
+					}, 
+					$members
+			);
+					
 			break;
 		case 'session-list':
 			OCA\Office\Controller::listSessions();
