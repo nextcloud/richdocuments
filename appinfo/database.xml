@@ -77,7 +77,7 @@
 				<comments>Related editing session id</comments>
 			</field>
 			<field>
-				<name>displayname</name>
+				<name>uid</name>
 				<type>text</type>
 				<default></default>
 				<length>64</length>
