@@ -43,12 +43,13 @@ class Controller {
 					$session = Session::add($genesisPath, $hash, $path);
 				}
 			
-				$session['member_id'] = Member::add($session['es_id'], \OCP\User::getDisplayName(), '#00f000');
+				$session['member_id'] = Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
 			 
 				\OCP\JSON::success($session);
 				exit();
 			} catch (\Exception $e){
-				throw $e;
+				//TODO: Log
+				throw $e; //Debug
 			}
 		}
 		\OCP\JSON::error();
@@ -66,12 +67,18 @@ class Controller {
 	public static function joinSession($args){
 		$esId = @$args['es_id'];
 		\OCP\JSON::checkLoggedIn();
-		
-		if ($esId){
-			$session = Session::getSession($esId);
-			// !TODO: return member_id here ???
-			\OCP\JSON::success($session);
-			exit();
+		try {
+			if ($esId){
+				$session = Session::getSession($esId);
+			
+				$session['member_id'] = Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
+				\OCP\JSON::success($session);
+				exit();
+			}
+			
+			throw new \Exception();
+		} catch (\Exception $e){
+			//TODO: Log
 		}
 		\OCP\JSON::error();
 	}
