@@ -60,7 +60,7 @@
 		<name>*dbprefix*office_member</name>
 		<declaration>
 			<field>
-				<name>member</name>
+				<name>member_id</name>
 				<type>integer</type>
 				<default>1</default>
 				<notnull>true</notnull>

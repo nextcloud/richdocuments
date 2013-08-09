@@ -61,6 +61,7 @@ class Controller {
 		
 		if ($esId){
 			$session = Session::getSession($esId);
+			// !TODO: return member_id here ???
 			\OCP\JSON::success($session);
 			exit();
 		}

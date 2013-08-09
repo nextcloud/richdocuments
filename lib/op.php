@@ -60,7 +60,6 @@ class Op {
 		if ($seq == ""){
 			$seq = -1;
 		}
-		$oplist = array();
 		$query = \OCP\DB::prepare('SELECT `opspec` FROM `*PREFIX*office_op`  WHERE `es_id`=? AND `seq`>? ORDER BY `seq` ASC');
 		$result = $query->execute(array($esId, $seq));
 		return $result->fetchAll();

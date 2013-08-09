@@ -29,7 +29,7 @@ class Member {
 	}
 
 	public static function getMember($id){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member`= ?');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member_id`= ?');
 		$result = $query->execute(array($id));
 		return $result->fetchRow();
 	}
@@ -42,7 +42,7 @@ class Member {
 		
 		$placeholders = array_fill(0, $memberCount, '?');
 		$stmt = implode(', ', $placeholders);
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member`IN (' . $stmt . ')');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member_id`IN (' . $stmt . ')');
 		$result = $query->execute(array($ids));
 		return $result->fetchAll();
 	}

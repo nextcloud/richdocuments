@@ -64,9 +64,15 @@ try{
 			exit();
 			break;
 		case 'join-session':
-			$response = "true"; // should fail when session is non-existent
+			OCA\Office\Controller::joinSession(array(
+				'es_id' => $request->getParam('args/es_id')
+			));
+			exit();
 			break;
 		case 'user-list':
+			$members = OCA\Office\Member::getMembersByEsId(
+					$request->getParam('args/es_id')
+			);
 			break;
 		case 'sync-ops':
 			$seqHead = $request->getParam('args/seq_head');
