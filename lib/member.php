@@ -17,10 +17,10 @@ class Member {
 	const DEFAULT_ACTIVITY_THRESHOLD = 600; // 10 Minutes
 
 	public static function add($esId, $displayname, $color){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_member`  (`es_id`, `displayname`, `color`, `lastactivity`) VALUES (?, ?, ?, ?) ');
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_member`  (`es_id`, `uid`, `color`, `lastactivity`) VALUES (?, ?, ?, ?) ');
 		$query->execute(array(
 			$esId,
-			$displayname,
+			\OCP\User::getUser(),
 			$color,
 			time()
 		));

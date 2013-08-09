@@ -44,6 +44,12 @@ try{
 	$request = new OCA\Office\Request();
 	$command = $request->getParam('command');
 	switch ($command){
+		case 'query_memberdata_list':
+			$ids = $request->getParam('args/member_ids');
+			$members = OCA\Office\Member::getMembersAsArray($ids);
+			//TODO: iterate, adding more info
+			$response["memberdata_list"] = $members;
+			break;
 		case 'session-list':
 			OCA\Office\Controller::listSessions();
 			exit();
