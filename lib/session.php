@@ -25,20 +25,21 @@ class Session {
 		return $result->fetchRow();
 	}
 	
-	public static function getSessionByPath($uid, $url){
+	public static function getSessionByOwnerAndGenesis($uid, $url){
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ? AND `owner`= ? ');
 		$result = $query->execute(array($url, $uid));
 		return $result->fetchRow();
 	}
 	
-	public static function addSession($genesis, $hash){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`) VALUES (?, ?, ?, ?) ');
+	public static function addSession($genesis, $hash, $documentPath){
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `document_path`) VALUES (?, ?, ?, ?, ?) ');
 		
 		$data = array(
 			'es_id' => self::getUniqueSessionId(),
 			'genesis_url' => $genesis,
 			'genesis_hash' => $hash,
-			'owner' => \OCP\User::getUser()
+			'owner' => \OCP\User::getUser(),
+			'document_path' => $documentPath
 		);
 		$result = $query->execute(array_values($data));
 		
