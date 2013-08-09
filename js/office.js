@@ -112,7 +112,7 @@ var officeMain = {
 			$(document.body).append('<div id="allsessions"></div>');
 		}
 		$('<div><a href="">'+s.es_id+ '</a></div>').appendTo('#allsessions').click(
-				function(event){
+			function(event){
 					event.preventDefault();
 					officeMain.onView(s);  
 			}
@@ -142,6 +142,6 @@ $(document).ready(function() {
 		officeMain.registerSession($(this).attr('data-file'));
 	});
 	$('#odf_close').live('click', officeMain.onClose);
-	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
 	$('#session-list').click(officeMain.showSessions);
+	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
 });

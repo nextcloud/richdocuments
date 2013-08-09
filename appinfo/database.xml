@@ -57,6 +57,49 @@
 	</table>
 	
 	<table>
+		<name>*dbprefix*office_member</name>
+		<declaration>
+			<field>
+				<name>member</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<comments>Unique per user and session</comments>
+			</field>
+			<field>
+				<name>es_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>Related editing session id</comments>
+			</field>
+			<field>
+				<name>displayname</name>
+				<type>text</type>
+				<default></default>
+				<length>64</length>
+			</field>
+			<field>
+				<name>color</name>
+				<type>text</type>
+				<default></default>
+				<length>32</length>
+			</field>
+			<field>
+				<name>last_activity</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+		</declaration>
+	</table>
+		
+	<table>
 		<name>*dbprefix*office_op</name>
 		<declaration>
 			<field>
@@ -78,9 +121,11 @@
 			</field>
 			<field>
 				<name>member</name>
-				<type>text</type>
-				<length>128</length>
+				<type>integer</type>
+				<default>1</default>
 				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
 				<comments>User and time specific</comments>
 			</field>
 			<field>
