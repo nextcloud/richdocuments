@@ -54,10 +54,11 @@ ServerFactory.prototype.createServer = function () {"use strict"; };
 ServerFactory.prototype.createOperationRouter = function (sessionId, memberId, server) {"use strict"; };
 
 /**
+ * @param {!string} sessionId
  * @param {!ops.Server} server
- * @return {!ops.UserModel}
+ * @return {!ops.MemberModel}
  */
-ServerFactory.prototype.createUserModel = function (server) {"use strict"; };
+ServerFactory.prototype.createMemberModel = function (sessionId, server) {"use strict"; };
 
 /**
  * @param {!ops.Server} server

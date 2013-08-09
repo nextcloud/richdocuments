@@ -77,14 +77,16 @@ define("webodf/editor/server/pullbox/sessionList", [], function () {
         function pullSessionList() {
             if (!pullingActive) { return; }
 
-            server.call("session-list", function(responseData) {
+            server.call({
+                command: "query_sessiondata_list"
+            }, function(responseData) {
                 var response = runtime.fromJson(responseData),
                     sessionList, i,
                     unupdatedSessions = {};
 
-                runtime.log("session-list reply: " + responseData);
+                runtime.log("query_sessiondata_list reply: " + responseData);
 
-                if (response.hasOwnProperty("session_list")) {
+                if (response.hasOwnProperty("sessiondata_list")) {
                     // collect known sessions
                     for (i in cachedSessionData) {
                         if (cachedSessionData.hasOwnProperty(i)) {
@@ -93,7 +95,7 @@ define("webodf/editor/server/pullbox/sessionList", [], function () {
                     }
 
                     // add/update with all delivered sessions
-                    sessionList = response.session_list;
+                    sessionList = response.sessiondata_list;
                     for (i = 0; i < sessionList.length; i++) {
                         if (unupdatedSessions.hasOwnProperty(sessionList[i].id)) {
                             delete unupdatedSessions[sessionList[i].id];

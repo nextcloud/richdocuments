@@ -41,7 +41,7 @@ define("webodf/editor/server/pullbox/serverFactory", [
         "use strict";
 
         runtime.loadClass("ops.PullBoxServer");
-        runtime.loadClass("ops.PullBoxUserModel");
+        runtime.loadClass("ops.PullBoxMemberModel");
         runtime.loadClass("ops.PullBoxOperationRouter");
 
         /**
@@ -55,8 +55,8 @@ define("webodf/editor/server/pullbox/serverFactory", [
             this.createOperationRouter = function (sid, mid, server) {
                 return new ops.PullBoxOperationRouter(sid, mid, server);
             };
-            this.createUserModel = function (server) {
-                return new ops.PullBoxUserModel(server);
+            this.createMemberModel = function (sid, server) {
+                return new ops.PullBoxMemberModel(sid, server);
             };
             this.createSessionList = function (server) {
                 return new PullBoxSessionList(server);

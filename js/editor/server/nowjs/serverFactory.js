@@ -41,7 +41,7 @@ define("webodf/editor/server/nowjs/serverFactory", [
         "use strict";
 
         runtime.loadClass("ops.NowjsServer");
-        runtime.loadClass("ops.NowjsUserModel");
+        runtime.loadClass("ops.NowjsMemberModel");
         runtime.loadClass("ops.NowjsOperationRouter");
 
         /**
@@ -55,8 +55,8 @@ define("webodf/editor/server/nowjs/serverFactory", [
             this.createOperationRouter = function (sid, mid, server) {
                 return new ops.NowjsOperationRouter(sid, mid, server);
             };
-            this.createUserModel = function (server) {
-                return new ops.NowjsUserModel(server);
+            this.createMemberModel = function (sid, server) {
+                return new ops.NowjsMemberModel(server);
             };
             this.createSessionList = function (server) {
                 return new NowjsSessionList(server);

@@ -2994,6 +2994,7 @@ core.Utils = function Utils() {
   this.hashString = hashString
 };
 core.DomUtils = function DomUtils() {
+  var self = this;
   function findStablePoint(container, offset) {
     if(offset < container.childNodes.length) {
       container = container.childNodes[offset];
@@ -3108,7 +3109,26 @@ core.DomUtils = function DomUtils() {
     var nodeLength = node.nodeType === Node.TEXT_NODE ? node.length : node.childNodes.length;
     return range.comparePoint(node, 0) <= 0 && range.comparePoint(node, nodeLength) >= 0
   }
-  this.rangeIntersectsNode = rangeIntersectsNode
+  this.rangeIntersectsNode = rangeIntersectsNode;
+  function containsNode(parent, descendant) {
+    return parent === descendant || parent.contains(descendant)
+  }
+  this.containsNode = containsNode;
+  function containsNodeForBrokenWebKit(parent, descendant) {
+    return parent === descendant || Boolean(parent.compareDocumentPosition(descendant) & Node.DOCUMENT_POSITION_CONTAINED_BY)
+  }
+  function init() {
+    var window = runtime.getWindow(), appVersion, webKitOrSafari;
+    if(window === null) {
+      return
+    }
+    appVersion = window.navigator.appVersion.toLowerCase();
+    webKitOrSafari = appVersion.indexOf("chrome") === -1 && (appVersion.indexOf("applewebkit") !== -1 || appVersion.indexOf("safari") !== -1);
+    if(webKitOrSafari) {
+      self.containsNode = containsNodeForBrokenWebKit
+    }
+  }
+  init()
 };
 runtime.loadClass("core.DomUtils");
 core.Cursor = function Cursor(document, memberId) {
@@ -5724,7 +5744,7 @@ xmldom.XPath = function() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-gui.AnnotationViewManager = function AnnotationViewManager(odfFragment, annotationsPane) {
+gui.AnnotationViewManager = function AnnotationViewManager(odfCanvas, odfFragment, annotationsPane) {
   var annotations = [], doc = odfFragment.ownerDocument, odfUtils = new odf.OdfUtils, CONNECTOR_MARGIN = 30, NOTE_MARGIN = 20, window = runtime.getWindow();
   runtime.assert(Boolean(window), "Expected to be run in an environment which has a global window, like a browser.");
   function wrapAnnotation(annotation) {
@@ -5782,21 +5802,21 @@ gui.AnnotationViewManager = function AnnotationViewManager(odfFragment, annotati
     return Math.sqrt(xs + ys)
   }
   function renderAnnotation(annotation) {
-    var annotationNote = annotation.node.parentNode, connectorHorizontal = annotationNote.nextSibling, connectorAngular = connectorHorizontal.nextSibling, annotationWrapper = annotationNote.parentNode, connectorAngle = 0, previousAnnotation = annotations[annotations.indexOf(annotation) - 1], previousRect, creatorNode = annotation.node.getElementsByTagNameNS(odf.Namespaces.dcns, "creator")[0], creatorName;
-    annotationNote.style.left = annotationsPane.getBoundingClientRect().left - annotationWrapper.getBoundingClientRect().left + "px";
-    annotationNote.style.width = annotationsPane.getBoundingClientRect().width + "px";
+    var annotationNote = annotation.node.parentNode, connectorHorizontal = annotationNote.nextSibling, connectorAngular = connectorHorizontal.nextSibling, annotationWrapper = annotationNote.parentNode, connectorAngle = 0, previousAnnotation = annotations[annotations.indexOf(annotation) - 1], previousRect, creatorNode = annotation.node.getElementsByTagNameNS(odf.Namespaces.dcns, "creator")[0], creatorName, zoomLevel = odfCanvas.getZoomLevel();
+    annotationNote.style.left = (annotationsPane.getBoundingClientRect().left - annotationWrapper.getBoundingClientRect().left) / zoomLevel + "px";
+    annotationNote.style.width = annotationsPane.getBoundingClientRect().width / zoomLevel + "px";
     connectorHorizontal.style.width = parseFloat(annotationNote.style.left) - CONNECTOR_MARGIN + "px";
     if(previousAnnotation) {
       previousRect = previousAnnotation.node.parentNode.getBoundingClientRect();
-      if(annotationWrapper.getBoundingClientRect().top - previousRect.bottom <= NOTE_MARGIN) {
-        annotationNote.style.top = Math.abs(annotationWrapper.getBoundingClientRect().top - previousRect.bottom) + NOTE_MARGIN + "px"
+      if((annotationWrapper.getBoundingClientRect().top - previousRect.bottom) / zoomLevel <= NOTE_MARGIN) {
+        annotationNote.style.top = Math.abs(annotationWrapper.getBoundingClientRect().top - previousRect.bottom) / zoomLevel + NOTE_MARGIN + "px"
       }else {
         annotationNote.style.top = "0px"
       }
     }
-    connectorAngular.style.left = connectorHorizontal.getBoundingClientRect().width + "px";
-    connectorAngular.style.width = lineDistance({x:connectorAngular.getBoundingClientRect().left, y:connectorAngular.getBoundingClientRect().top}, {x:annotationNote.getBoundingClientRect().left, y:annotationNote.getBoundingClientRect().top}) + "px";
-    connectorAngle = Math.asin((annotationNote.getBoundingClientRect().top - connectorAngular.getBoundingClientRect().top) / parseFloat(connectorAngular.style.width));
+    connectorAngular.style.left = connectorHorizontal.getBoundingClientRect().width / zoomLevel + "px";
+    connectorAngular.style.width = lineDistance({x:connectorAngular.getBoundingClientRect().left / zoomLevel, y:connectorAngular.getBoundingClientRect().top / zoomLevel}, {x:annotationNote.getBoundingClientRect().left / zoomLevel, y:annotationNote.getBoundingClientRect().top / zoomLevel}) + "px";
+    connectorAngle = Math.asin((annotationNote.getBoundingClientRect().top - connectorAngular.getBoundingClientRect().top) / (zoomLevel * parseFloat(connectorAngular.style.width)));
     connectorAngular.style.transform = "rotate(" + connectorAngle + "rad)";
     connectorAngular.style.MozTransform = "rotate(" + connectorAngle + "rad)";
     connectorAngular.style.WebkitTransform = "rotate(" + connectorAngle + "rad)";
@@ -8618,18 +8638,14 @@ odf.OdfCanvas = function() {
       }
     }
     if(url) {
-      if(/^(?:http|https|ftp):\/\//.test(url)) {
-        callback(url)
-      }else {
-        try {
-          part = container.getPart(url);
-          part.onchange = function(part) {
-            callback(part.url)
-          };
-          part.load()
-        }catch(e) {
-          runtime.log("slight problem: " + e)
-        }
+      try {
+        part = container.getPart(url);
+        part.onchange = function(part) {
+          callback(part.url)
+        };
+        part.load()
+      }catch(e) {
+        runtime.log("slight problem: " + e)
       }
     }else {
       url = getUrlFromBinaryDataElement(image);
@@ -8917,7 +8933,7 @@ odf.OdfCanvas = function() {
   }
   odf.OdfCanvas = function OdfCanvas(element) {
     runtime.assert(element !== null && element !== undefined, "odf.OdfCanvas constructor needs DOM element");
-    var doc = element.ownerDocument, odfcontainer, formatting = new odf.Formatting, selectionWatcher = new SelectionWatcher(element), pageSwitcher, fontcss, stylesxmlcss, positioncss, editable = false, zoomLevel = 1, eventHandlers = {}, editparagraph, loadingQueue = new LoadingQueue;
+    var self = this, doc = element.ownerDocument, odfcontainer, formatting = new odf.Formatting, selectionWatcher = new SelectionWatcher(element), pageSwitcher, fontcss, stylesxmlcss, positioncss, editable = false, zoomLevel = 1, eventHandlers = {}, editparagraph, loadingQueue = new LoadingQueue;
     addWebODFStyleSheet(doc);
     pageSwitcher = new PageSwitcher(addStyleSheet(doc));
     fontcss = addStyleSheet(doc);
@@ -9029,7 +9045,7 @@ odf.OdfCanvas = function() {
         if(annotationManager) {
           annotationManager.forgetAnnotations()
         }
-        annotationManager = new gui.AnnotationViewManager(odfnode.body, annotationsPane);
+        annotationManager = new gui.AnnotationViewManager(self, odfnode.body, annotationsPane);
         modifyAnnotations(odfnode.body)
       }else {
         if(annotationsPane.parentNode) {
@@ -9331,6 +9347,8 @@ ops.Server.prototype.networkStatus = function() {
 };
 ops.Server.prototype.login = function(login, password, successCb, failCb) {
 };
+ops.Server.prototype.joinSession = function(userId, sessionId, successCb, failCb) {
+};
 ops.Server.prototype.getGenesisUrl = function(sessionId) {
 };
 /*
@@ -9368,16 +9386,10 @@ ops.Server.prototype.getGenesisUrl = function(sessionId) {
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.NowjsServer = function NowjsServer() {
-  var self = this, nowObject;
+  var nowObject;
   this.getNowObject = function() {
     return nowObject
   };
-  function createOperationRouter(sid, mid) {
-    return new ops.NowjsOperationRouter(sid, mid, self)
-  }
-  function createUserModel() {
-    return new ops.NowjsUserModel(self)
-  }
   this.getGenesisUrl = function(sessionId) {
     return"/session/" + sessionId + "/genesis"
   };
@@ -9421,8 +9433,12 @@ ops.NowjsServer = function NowjsServer() {
       nowObject.login(login, password, successCb, failCb)
     }
   };
-  this.createOperationRouter = createOperationRouter;
-  this.createUserModel = createUserModel
+  this.joinSession = function(userId, sessionId, successCb, failCb) {
+    nowObject.joinSession(userId, sessionId, function(memberId) {
+      nowObject.memberid = memberId;
+      successCb(memberId)
+    }, failCb)
+  }
 };
 /*
 
@@ -9521,6 +9537,19 @@ ops.PullBoxServer = function PullBoxServer(args) {
         successCb(response)
       }else {
         failCb(responseData)
+      }
+    })
+  };
+  this.joinSession = function(userId, sessionId, successCb, failCb) {
+    call({command:"join_session", args:{user_id:userId, es_id:sessionId}}, function(responseData) {
+      var response = (runtime.fromJson(responseData));
+      runtime.log("join_session reply: " + responseData);
+      if(response.hasOwnProperty("success") && response.success) {
+        successCb(response.member_id)
+      }else {
+        if(failCb) {
+          failCb()
+        }
       }
     })
   }
@@ -10635,7 +10664,7 @@ ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
   };
   this.transform = function(otherOp, hasPriority) {
     var otherOpspec = otherOp.spec(), otherOpType = otherOpspec.optype;
-    if(otherOpType === "DeleteParagraphStyle") {
+    if(otherOpType === "RemoveParagraphStyle") {
       if(otherOpspec.styleName === styleName) {
         styleName = ""
       }
@@ -10759,7 +10788,7 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
         }
       }
     }else {
-      if(otherOpType === "DeleteParagraphStyle") {
+      if(otherOpType === "RemoveParagraphStyle") {
         if(otherOpspec.styleName === styleName) {
           return[]
         }
@@ -10866,7 +10895,7 @@ ops.OpAddParagraphStyle = function OpAddParagraphStyle() {
   };
   this.transform = function(otherOp, hasPriority) {
     var otherSpec = otherOp.spec();
-    if((otherSpec.optype === "UpdateParagraphStyle" || otherSpec.optype === "DeleteParagraphStyle") && otherSpec.styleName === styleName) {
+    if((otherSpec.optype === "UpdateParagraphStyle" || otherSpec.optype === "RemoveParagraphStyle") && otherSpec.styleName === styleName) {
       return null
     }
     return[self]
@@ -10949,8 +10978,8 @@ ops.OpAddParagraphStyle = function OpAddParagraphStyle() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.OpDeleteParagraphStyle = function OpDeleteParagraphStyle() {
-  var self = this, optype = "DeleteParagraphStyle", memberid, timestamp, styleName;
+ops.OpRemoveParagraphStyle = function OpRemoveParagraphStyle() {
+  var self = this, optype = "RemoveParagraphStyle", memberid, timestamp, styleName;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
@@ -11137,7 +11166,7 @@ runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
 runtime.loadClass("ops.OpUpdateParagraphStyle");
 runtime.loadClass("ops.OpAddParagraphStyle");
-runtime.loadClass("ops.OpDeleteParagraphStyle");
+runtime.loadClass("ops.OpRemoveParagraphStyle");
 runtime.loadClass("ops.OpAddAnnotation");
 ops.OperationFactory = function OperationFactory() {
   var specs;
@@ -11158,7 +11187,7 @@ ops.OperationFactory = function OperationFactory() {
     }
   }
   function init() {
-    specs = {AddCursor:constructor(ops.OpAddCursor), ApplyDirectStyling:constructor(ops.OpApplyDirectStyling), InsertTable:constructor(ops.OpInsertTable), InsertText:constructor(ops.OpInsertText), RemoveText:constructor(ops.OpRemoveText), SplitParagraph:constructor(ops.OpSplitParagraph), SetParagraphStyle:constructor(ops.OpSetParagraphStyle), UpdateParagraphStyle:constructor(ops.OpUpdateParagraphStyle), AddParagraphStyle:constructor(ops.OpAddParagraphStyle), DeleteParagraphStyle:constructor(ops.OpDeleteParagraphStyle), 
+    specs = {AddCursor:constructor(ops.OpAddCursor), ApplyDirectStyling:constructor(ops.OpApplyDirectStyling), InsertTable:constructor(ops.OpInsertTable), InsertText:constructor(ops.OpInsertText), RemoveText:constructor(ops.OpRemoveText), SplitParagraph:constructor(ops.OpSplitParagraph), SetParagraphStyle:constructor(ops.OpSetParagraphStyle), UpdateParagraphStyle:constructor(ops.OpUpdateParagraphStyle), AddParagraphStyle:constructor(ops.OpAddParagraphStyle), RemoveParagraphStyle:constructor(ops.OpRemoveParagraphStyle), 
     MoveCursor:constructor(ops.OpMoveCursor), RemoveCursor:constructor(ops.OpRemoveCursor), AddAnnotation:constructor(ops.OpAddAnnotation)}
   }
   init()
@@ -11555,7 +11584,7 @@ runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
 runtime.loadClass("ops.OpAddParagraphStyle");
 runtime.loadClass("ops.OpUpdateParagraphStyle");
-runtime.loadClass("ops.OpDeleteParagraphStyle");
+runtime.loadClass("ops.OpRemoveParagraphStyle");
 ops.OperationTransformer = function OperationTransformer() {
   var operationFactory;
   function transformOpVsOp(opA, opB) {
@@ -11731,17 +11760,6 @@ ops.EditInfo = function EditInfo(container, odtDocument) {
     return sortEdits()
   };
   this.addEdit = function(memberid, timestamp) {
-    var id, userid = memberid.split("___")[0];
-    if(!editHistory[memberid]) {
-      for(id in editHistory) {
-        if(editHistory.hasOwnProperty(id)) {
-          if(id.split("___")[0] === userid) {
-            delete editHistory[id];
-            break
-          }
-        }
-      }
-    }
     editHistory[memberid] = {time:timestamp}
   };
   this.clearEdits = function() {
@@ -11890,7 +11908,7 @@ gui.Caret = function Caret(cursor, avatarInitiallyVisible, blinkOnRangeSelect) {
     caretOffsetTopLeft.y += caretElement.offsetTop;
     return{left:caretOffsetTopLeft.x - margin, top:caretOffsetTopLeft.y - margin, right:caretOffsetTopLeft.x + caretElement.scrollWidth - 1 + margin, bottom:caretOffsetTopLeft.y + caretElement.scrollHeight - 1 + margin}
   }
-  this.refreshCursor = function() {
+  this.refreshCursorBlinking = function() {
     if(blinkOnRangeSelect || cursor.getSelectedRange().collapsed) {
       shouldBlink = true;
       blink(true)
@@ -12168,6 +12186,8 @@ gui.Clipboard = function Clipboard() {
   }
   init()
 };
+runtime.loadClass("core.DomUtils");
+runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("ops.OpAddCursor");
 runtime.loadClass("ops.OpRemoveCursor");
 runtime.loadClass("ops.OpMoveCursor");
@@ -12181,7 +12201,8 @@ runtime.loadClass("gui.KeyboardHandler");
 runtime.loadClass("gui.StyleHelper");
 gui.SessionController = function() {
   gui.SessionController = function SessionController(session, inputMemberId) {
-    var odtDocument = session.getOdtDocument(), odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), undoManager = null;
+    var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), undoManager = null;
+    runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
     function listenEvent(eventTarget, eventType, eventHandler, includeDirect) {
@@ -12258,21 +12279,67 @@ gui.SessionController = function() {
       }
       return null
     }
+    function findClosestPosition(node) {
+      var canvasElement = odtDocument.getOdfCanvas().getElement(), newNode = odtDocument.getRootNode(), newOffset = 0, beforeCanvas, iterator;
+      beforeCanvas = canvasElement.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING;
+      if(!beforeCanvas) {
+        iterator = gui.SelectionMover.createPositionIterator(newNode);
+        iterator.moveToEnd();
+        newNode = iterator.container();
+        newOffset = iterator.unfilteredDomOffset()
+      }
+      return{node:newNode, offset:newOffset}
+    }
+    function getSelection(e) {
+      var canvasElement = odtDocument.getOdfCanvas().getElement(), selection = window.getSelection(), anchorNode, anchorOffset, focusNode, focusOffset, anchorNodeInsideCanvas, focusNodeInsideCanvas, caretPos, node;
+      if(selection.anchorNode === null && selection.focusNode === null) {
+        caretPos = caretPositionFromPoint(e.clientX, e.clientY);
+        if(!caretPos) {
+          return null
+        }
+        anchorNode = (caretPos.container);
+        anchorOffset = caretPos.offset;
+        focusNode = anchorNode;
+        focusOffset = anchorOffset
+      }else {
+        anchorNode = (selection.anchorNode);
+        anchorOffset = selection.anchorOffset;
+        focusNode = (selection.focusNode);
+        focusOffset = selection.focusOffset
+      }
+      runtime.assert(anchorNode !== null && focusNode !== null, "anchorNode is null or focusNode is null");
+      anchorNodeInsideCanvas = domUtils.containsNode(canvasElement, anchorNode);
+      focusNodeInsideCanvas = domUtils.containsNode(canvasElement, focusNode);
+      if(!anchorNodeInsideCanvas && !focusNodeInsideCanvas) {
+        return null
+      }
+      if(!anchorNodeInsideCanvas) {
+        node = findClosestPosition(anchorNode);
+        anchorNode = node.node;
+        anchorOffset = node.offset
+      }
+      if(!focusNodeInsideCanvas) {
+        node = findClosestPosition(focusNode);
+        focusNode = node.node;
+        focusOffset = node.offset
+      }
+      canvasElement.focus();
+      return{anchorNode:anchorNode, anchorOffset:anchorOffset, focusNode:focusNode, focusOffset:focusOffset}
+    }
     function selectRange(e) {
       runtime.setTimeout(function() {
-        var selection = runtime.getWindow().getSelection(), oldPosition = odtDocument.getCursorPosition(inputMemberId), range, caretPos, stepsToAnchor, stepsToFocus, op;
-        if(selection.anchorNode === null && selection.focusNode === null) {
-          caretPos = caretPositionFromPoint(e.clientX, e.clientY);
-          if(caretPos) {
-            range = odtDocument.getDOM().createRange();
-            range.setStart(caretPos.container, caretPos.offset);
-            range.collapse(true);
-            selection.addRange(range)
-          }
+        var selection = getSelection(e), oldPosition, stepsToAnchor, stepsToFocus, op;
+        if(selection === null) {
+          return
         }
         stepsToAnchor = countStepsToNode(selection.anchorNode, selection.anchorOffset);
-        stepsToFocus = countStepsToNode(selection.focusNode, selection.focusOffset);
+        if(selection.focusNode === selection.anchorNode && selection.focusOffset === selection.anchorOffset) {
+          stepsToFocus = stepsToAnchor
+        }else {
+          stepsToFocus = countStepsToNode(selection.focusNode, selection.focusOffset)
+        }
         if(stepsToFocus !== null && stepsToFocus !== 0 || stepsToAnchor !== null && stepsToAnchor !== 0) {
+          oldPosition = odtDocument.getCursorPosition(inputMemberId);
           op = createOpMoveCursor(oldPosition + stepsToAnchor, stepsToFocus - stepsToAnchor);
           session.enqueue(op)
         }
@@ -12282,18 +12349,22 @@ gui.SessionController = function() {
       selectRange(e)
     }
     function selectWord() {
-      var currentNode, i, c, op, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), cursorNode = odtDocument.getCursor(inputMemberId).getNode(), oldPosition = odtDocument.getCursorPosition(inputMemberId), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0;
+      var canvasElement = odtDocument.getOdfCanvas().getElement(), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0, iterator, cursorNode, oldPosition, currentNode, i, c, op;
+      if(!domUtils.containsNode(canvasElement, window.getSelection().focusNode)) {
+        return
+      }
+      iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode());
+      cursorNode = odtDocument.getCursor(inputMemberId).getNode();
       iterator.setUnfilteredPosition(cursorNode, 0);
       if(iterator.previousPosition()) {
         currentNode = iterator.getCurrentNode();
         if(currentNode.nodeType === Node.TEXT_NODE) {
           for(i = currentNode.data.length - 1;i >= 0;i -= 1) {
             c = currentNode.data[i];
-            if(alphaNumeric.test(c)) {
-              stepsToStart -= 1
-            }else {
+            if(!alphaNumeric.test(c)) {
               break
             }
+            stepsToStart -= 1
           }
         }
       }
@@ -12303,25 +12374,31 @@ gui.SessionController = function() {
         if(currentNode.nodeType === Node.TEXT_NODE) {
           for(i = 0;i < currentNode.data.length;i += 1) {
             c = currentNode.data[i];
-            if(alphaNumeric.test(c)) {
-              stepsToEnd += 1
-            }else {
+            if(!alphaNumeric.test(c)) {
               break
             }
+            stepsToEnd += 1
           }
         }
       }
       if(stepsToStart !== 0 || stepsToEnd !== 0) {
+        oldPosition = odtDocument.getCursorPosition(inputMemberId);
         op = createOpMoveCursor(oldPosition + stepsToStart, Math.abs(stepsToStart) + Math.abs(stepsToEnd));
         session.enqueue(op)
       }
     }
     function selectParagraph() {
-      var stepsToStart, stepsToEnd, op, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode()), oldPosition = odtDocument.getCursorPosition(inputMemberId);
+      var canvasElement = odtDocument.getOdfCanvas().getElement(), iterator, paragraphNode, oldPosition, stepsToStart, stepsToEnd, op;
+      if(!domUtils.containsNode(canvasElement, window.getSelection().focusNode)) {
+        return
+      }
+      paragraphNode = odtDocument.getParagraphElement(odtDocument.getCursor(inputMemberId).getNode());
       stepsToStart = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, 0);
+      iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode());
       iterator.moveToEndOfNode(paragraphNode);
       stepsToEnd = odtDocument.getDistanceFromCursor(inputMemberId, paragraphNode, iterator.unfilteredDomOffset());
       if(stepsToStart !== 0 || stepsToEnd !== 0) {
+        oldPosition = odtDocument.getCursorPosition(inputMemberId);
         op = createOpMoveCursor(oldPosition + stepsToStart, Math.abs(stepsToStart) + Math.abs(stepsToEnd));
         session.enqueue(op)
       }
@@ -12540,7 +12617,7 @@ gui.SessionController = function() {
       return true
     }
     function maintainCursorSelection() {
-      var cursor = odtDocument.getCursor(inputMemberId), selection = runtime.getWindow().getSelection();
+      var cursor = odtDocument.getCursor(inputMemberId), selection = window.getSelection();
       if(cursor) {
         selection.removeAllRanges();
         selection.addRange(cursor.getSelectedRange().cloneRange())
@@ -12583,7 +12660,7 @@ gui.SessionController = function() {
       }
     }
     function handlePaste(e) {
-      var plainText, window = runtime.getWindow();
+      var plainText;
       if(window.clipboardData && window.clipboardData.getData) {
         plainText = window.clipboardData.getData("Text")
       }else {
@@ -12655,7 +12732,7 @@ gui.SessionController = function() {
       listenEvent(canvasElement, "copy", handleCopy);
       listenEvent(canvasElement, "beforepaste", handleBeforePaste, true);
       listenEvent(canvasElement, "paste", handlePaste);
-      listenEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
+      listenEvent(window, "mouseup", clickHandler.handleMouseUp);
       listenEvent(canvasElement, "contextmenu", handleContextMenu);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, maintainCursorSelection);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, updateUndoStack);
@@ -12679,7 +12756,7 @@ gui.SessionController = function() {
       removeEvent(canvasElement, "copy", handleCopy);
       removeEvent(canvasElement, "paste", handlePaste);
       removeEvent(canvasElement, "beforepaste", handleBeforePaste);
-      removeEvent(canvasElement, "mouseup", clickHandler.handleMouseUp);
+      removeEvent(window, "mouseup", clickHandler.handleMouseUp);
       removeEvent(canvasElement, "contextmenu", handleContextMenu);
       op = new ops.OpRemoveCursor;
       op.init({memberid:inputMemberId});
@@ -12711,7 +12788,7 @@ gui.SessionController = function() {
       return undoManager
     };
     function init() {
-      var isMacOS = runtime.getWindow().navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
+      var isMacOS = window.navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
       keyDownHandler.bind(keyCode.Tab, modifier.None, function() {
         insertText("\t");
         return true
@@ -12779,15 +12856,9 @@ gui.SessionController = function() {
   };
   return gui.SessionController
 }();
-ops.UserModel = function UserModel() {
-};
-ops.UserModel.prototype.getUserDetailsAndUpdates = function(memberId, subscriber) {
-};
-ops.UserModel.prototype.unsubscribeUserDetailsUpdates = function(memberId, subscriber) {
-};
 /*
 
- Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
  The JavaScript code in this page is free software: you can redistribute it
@@ -12819,19 +12890,88 @@ ops.UserModel.prototype.unsubscribeUserDetailsUpdates = function(memberId, subsc
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.TrivialUserModel = function TrivialUserModel() {
-  var users = {};
-  users.bob = {memberid:"bob", fullname:"Bob Pigeon", color:"red", imageurl:"avatar-pigeon.png"};
-  users.alice = {memberid:"alice", fullname:"Alice Bee", color:"green", imageurl:"avatar-flower.png"};
-  users.you = {memberid:"you", fullname:"I, Robot", color:"blue", imageurl:"avatar-joe.png"};
-  this.getUserDetailsAndUpdates = function(memberId, subscriber) {
-    var userid = memberId.split("___")[0];
-    subscriber(memberId, users[userid] || null)
+ops.MemberModel = function MemberModel() {
+};
+ops.MemberModel.prototype.getMemberDetailsAndUpdates = function(memberId, subscriber) {
+};
+ops.MemberModel.prototype.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
+};
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+ops.TrivialMemberModel = function TrivialMemberModel() {
+  this.getMemberDetailsAndUpdates = function(memberId, subscriber) {
+    subscriber(memberId, null)
   };
-  this.unsubscribeUserDetailsUpdates = function(memberId, subscriber) {
+  this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
   }
 };
-ops.NowjsUserModel = function NowjsUserModel(server) {
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+ops.NowjsMemberModel = function NowjsMemberModel(server) {
   var cachedUserData = {}, memberDataSubscribers = {}, nowObject = server.getNowObject();
   function userIdFromMemberId(memberId) {
     return memberId.split("___")[0]
@@ -12846,7 +12986,7 @@ ops.NowjsUserModel = function NowjsUserModel(server) {
       }
     }
   }
-  this.getUserDetailsAndUpdates = function(memberId, subscriber) {
+  this.getMemberDetailsAndUpdates = function(memberId, subscriber) {
     var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] || [], i;
     memberDataSubscribers[userId] = subscribers;
     runtime.assert(subscriber !== undefined, "missing callback");
@@ -12856,7 +12996,7 @@ ops.NowjsUserModel = function NowjsUserModel(server) {
       }
     }
     if(i < subscribers.length) {
-      runtime.log("double subscription request for " + memberId + " in NowjsUserModel::getUserDetailsAndUpdates")
+      runtime.log("double subscription request for " + memberId + " in NowjsMemberModel::getMemberDetailsAndUpdates")
     }else {
       subscribers.push({memberId:memberId, subscriber:subscriber});
       if(subscribers.length === 1) {
@@ -12867,7 +13007,7 @@ ops.NowjsUserModel = function NowjsUserModel(server) {
       subscriber(memberId, userData)
     }
   };
-  this.unsubscribeUserDetailsUpdates = function(memberId, subscriber) {
+  this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
     var i, userId = userIdFromMemberId(memberId), subscribers = memberDataSubscribers[userId];
     runtime.assert(subscriber !== undefined, "missing subscriber parameter or null");
     runtime.assert(subscribers, "tried to unsubscribe when no one is subscribed ('" + memberId + "')");
@@ -12926,61 +13066,53 @@ ops.NowjsUserModel = function NowjsUserModel(server) {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.PullBoxUserModel = function PullBoxUserModel(server) {
-  var cachedUserData = {}, memberDataSubscribers = {}, serverPullingActivated = false, pullingIntervall = 2E4;
-  function userIdFromMemberId(memberId) {
-    return memberId.split("___")[0]
-  }
-  function cacheUserDatum(userData) {
+ops.PullBoxMemberModel = function PullBoxMemberModel(sessionId, server) {
+  var cachedMemberData = {}, memberDataSubscribers = {}, serverPullingActivated = false, pullingIntervall = 2E4;
+  function cacheMemberDatum(memberData) {
     var subscribers, i;
-    subscribers = memberDataSubscribers[userData.userid];
+    subscribers = memberDataSubscribers[memberData.memberid];
     if(subscribers) {
-      cachedUserData[userData.userid] = userData;
+      cachedMemberData[memberData.memberid] = memberData;
       for(i = 0;i < subscribers.length;i += 1) {
-        subscribers[i].subscriber(subscribers[i].memberId, userData)
+        subscribers[i](memberData.memberid, memberData)
       }
     }
   }
-  function pullUserData() {
-    var i, userIds = [];
-    for(i in memberDataSubscribers) {
-      if(memberDataSubscribers.hasOwnProperty(i)) {
-        userIds.push(i)
-      }
-    }
-    runtime.log("user-list request for : " + userIds.join(","));
-    server.call({command:"user-list", args:{user_ids:userIds}}, function(responseData) {
-      var response = (runtime.fromJson(responseData)), userList, newUserData, oldUserData;
-      runtime.log("user-list reply: " + responseData);
-      if(response.hasOwnProperty("userdata_list")) {
-        userList = response.userdata_list;
-        for(i = 0;i < userList.length;i += 1) {
-          newUserData = {userid:userList[i].uid, fullname:userList[i].fullname, imageurl:"/user/" + userList[i].avatarId + "/avatar.png", color:userList[i].color};
-          oldUserData = cachedUserData.hasOwnProperty(userList[i].uid) ? cachedUserData[userList[i].uid] : null;
-          if(!oldUserData || oldUserData.fullname !== newUserData.fullname || oldUserData.imageurl !== newUserData.imageurl || oldUserData.color !== newUserData.color) {
-            cacheUserDatum(newUserData)
+  function pullMemberData() {
+    var i, memberIds = Object.keys(memberDataSubscribers);
+    runtime.log("member-list request for : " + memberIds.join(","));
+    server.call({command:"query_memberdata_list", args:{es_id:sessionId, member_ids:memberIds}}, function(responseData) {
+      var response = (runtime.fromJson(responseData)), memberDataList, newMemberData, oldMemberData;
+      runtime.log("member-list reply: " + responseData);
+      if(response.hasOwnProperty("memberdata_list")) {
+        memberDataList = response.memberdata_list;
+        for(i = 0;i < memberDataList.length;i += 1) {
+          newMemberData = {memberid:memberDataList[i].member_id, fullname:memberDataList[i].display_name, imageurl:memberDataList[i].avatar_url, color:memberDataList[i].color};
+          oldMemberData = cachedMemberData.hasOwnProperty(newMemberData.memberid) ? cachedMemberData[newMemberData.memberid] : null;
+          if(!oldMemberData || oldMemberData.fullname !== newMemberData.fullname || oldMemberData.imageurl !== newMemberData.imageurl || oldMemberData.color !== newMemberData.color) {
+            cacheMemberDatum(newMemberData)
           }
         }
       }else {
-        runtime.log("Meh, userlist data broken: " + responseData)
+        runtime.log("Meh, memberdata list broken: " + responseData)
       }
     })
   }
-  function periodicPullUserData() {
+  function periodicPullMemberData() {
     if(!serverPullingActivated) {
       return
     }
-    pullUserData();
-    runtime.setTimeout(periodicPullUserData, pullingIntervall)
+    pullMemberData();
+    runtime.setTimeout(periodicPullMemberData, pullingIntervall)
   }
-  function activatePeriodicUserDataPulling() {
+  function activatePeriodicMemberDataPulling() {
     if(serverPullingActivated) {
       return
     }
     serverPullingActivated = true;
-    runtime.setTimeout(periodicPullUserData, pullingIntervall)
+    runtime.setTimeout(periodicPullMemberData, pullingIntervall)
   }
-  function deactivatePeriodicUserDataPulling() {
+  function deactivatePeriodicMemberDataPulling() {
     var key;
     if(!serverPullingActivated) {
       return
@@ -12992,35 +13124,35 @@ ops.PullBoxUserModel = function PullBoxUserModel(server) {
     }
     serverPullingActivated = false
   }
-  this.getUserDetailsAndUpdates = function(memberId, subscriber) {
-    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] || [], i;
-    memberDataSubscribers[userId] = subscribers;
+  this.getMemberDetailsAndUpdates = function(memberId, subscriber) {
+    var memberData = cachedMemberData[memberId], subscribers = memberDataSubscribers[memberId] || [], i;
+    memberDataSubscribers[memberId] = subscribers;
     runtime.assert(subscriber !== undefined, "missing callback");
     for(i = 0;i < subscribers.length;i += 1) {
-      if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
+      if(subscribers[i] === subscriber) {
         break
       }
     }
     if(i < subscribers.length) {
-      runtime.log("double subscription request for " + memberId + " in PullBoxUserModel::getUserDetailsAndUpdates")
+      runtime.log("double subscription request for " + memberId + " in PullBoxMemberModel::getMemberDetailsAndUpdates")
     }else {
-      subscribers.push({memberId:memberId, subscriber:subscriber});
+      subscribers.push(subscriber);
       if(subscribers.length === 1) {
-        pullUserData()
+        pullMemberData()
       }
     }
-    if(userData) {
-      subscriber(memberId, userData)
+    if(memberData) {
+      subscriber(memberId, memberData)
     }
-    activatePeriodicUserDataPulling()
+    activatePeriodicMemberDataPulling()
   };
-  this.unsubscribeUserDetailsUpdates = function(memberId, subscriber) {
-    var i, userId = userIdFromMemberId(memberId), subscribers = memberDataSubscribers[userId];
+  this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
+    var i, subscribers = memberDataSubscribers[memberId];
     runtime.assert(subscriber !== undefined, "missing subscriber parameter or null");
     runtime.assert(subscribers, "tried to unsubscribe when no one is subscribed ('" + memberId + "')");
     if(subscribers) {
       for(i = 0;i < subscribers.length;i += 1) {
-        if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
+        if(subscribers[i] === subscriber) {
           break
         }
       }
@@ -13028,9 +13160,9 @@ ops.PullBoxUserModel = function PullBoxUserModel(server) {
       subscribers.splice(i, 1);
       if(subscribers.length === 0) {
         runtime.log("no more subscribers for: " + memberId);
-        delete memberDataSubscribers[userId];
-        delete cachedUserData[userId];
-        deactivatePeriodicUserDataPulling()
+        delete memberDataSubscribers[memberId];
+        delete cachedMemberData[memberId];
+        deactivatePeriodicMemberDataPulling()
       }
     }
   };
@@ -13193,14 +13325,7 @@ ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, se
         done_cb()
       }
     })
-  };
-  function init() {
-    nowObject.memberid = memberid;
-    nowObject.joinSession(sessionId, function(sessionJoinSuccess) {
-      runtime.assert(sessionJoinSuccess, "Trying to join a session which does not exists or where we are already in")
-    })
   }
-  init()
 };
 /*
 
@@ -13336,10 +13461,10 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
       syncLock = true;
       syncedClientOpspecs = unsyncedClientOpspecQueue;
       unsyncedClientOpspecQueue = [];
-      server.call({command:"sync-ops", args:{es_id:sessionId, member_id:memberId, seq_head:String(lastServerSeq), client_ops:syncedClientOpspecs}}, function(responseData) {
+      server.call({command:"sync_ops", args:{es_id:sessionId, member_id:memberId, seq_head:String(lastServerSeq), client_ops:syncedClientOpspecs}}, function(responseData) {
         var shouldRetryInstantly = false, response = (runtime.fromJson(responseData));
         runtime.log("sync-ops reply: " + responseData);
-        if(response.result === "newOps") {
+        if(response.result === "new_ops") {
           if(response.ops.length > 0) {
             if(unsyncedClientOpspecQueue.length === 0) {
               receiveOpSpecsFromNetwork(compressOpSpecs(response.ops))
@@ -13347,18 +13472,18 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
               runtime.log("meh, have new ops locally meanwhile, have to do transformations.");
               hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops))
             }
-            lastServerSeq = response.headSeq
+            lastServerSeq = response.head_seq
           }
         }else {
           if(response.result === "added") {
             runtime.log("All added to server");
-            lastServerSeq = response.headSeq
+            lastServerSeq = response.head_seq
           }else {
             if(response.result === "conflict") {
               unsyncedClientOpspecQueue = syncedClientOpspecs.concat(unsyncedClientOpspecQueue);
               runtime.log("meh, server has new ops meanwhile, have to do transformations.");
               hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops));
-              lastServerSeq = response.headSeq;
+              lastServerSeq = response.head_seq;
               if(!hasUnresolvableConflict) {
                 shouldRetryInstantly = true
               }
@@ -13423,15 +13548,7 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
     playbackFunction(timedOp);
     unsyncedClientOpspecQueue.push(opspec);
     triggerPushingOps()
-  };
-  function init() {
-    server.call({command:"join-session", args:{session_id:sessionId, member_id:memberId}}, function(responseData) {
-      var response = Boolean(runtime.fromJson(responseData));
-      runtime.log("join-session reply: " + responseData);
-      runtime.assert(response, "Trying to join a session which does not exists or where we are already in")
-    })
   }
-  init()
 };
 gui.EditInfoHandle = function EditInfoHandle(parentElement) {
   var edits = [], handle, document = (parentElement.ownerDocument), htmlns = document.documentElement.namespaceURI, editinfons = "urn:webodf:names:editinfo";
@@ -13561,7 +13678,7 @@ gui.EditInfoMarker = function EditInfoMarker(editInfo, initialVisibility) {
 };
 /*
 
- Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
  The JavaScript code in this page is free software: you can redistribute it
@@ -13594,7 +13711,7 @@ gui.EditInfoMarker = function EditInfoMarker(editInfo, initialVisibility) {
  @source: http://gitorious.org/webodf/webodf/
 */
 runtime.loadClass("gui.Caret");
-runtime.loadClass("ops.TrivialUserModel");
+runtime.loadClass("ops.TrivialMemberModel");
 runtime.loadClass("ops.EditInfo");
 runtime.loadClass("gui.EditInfoMarker");
 gui.SessionViewOptions = function() {
@@ -13604,7 +13721,7 @@ gui.SessionViewOptions = function() {
 };
 gui.SessionView = function() {
   function configOption(userValue, defaultValue) {
-    return userValue !== undefined ? userValue : defaultValue
+    return userValue !== undefined ? Boolean(userValue) : defaultValue
   }
   function SessionView(viewOptions, session, caretManager) {
     var avatarInfoStyles, editInfons = "urn:webodf:names:editinfo", editInfoMap = {}, showEditInfoMarkers = configOption(viewOptions.editInfoMarkersInitiallyVisible, true), showCaretAvatars = configOption(viewOptions.caretAvatarsInitiallyVisible, true), blinkOnRangeSelect = configOption(viewOptions.caretBlinksOnRangeSelect, true);
@@ -13708,26 +13825,26 @@ gui.SessionView = function() {
     this.getCaret = function(memberid) {
       return caretManager.getCaret(memberid)
     };
-    function renderMemberData(memberId, userData) {
+    function renderMemberData(memberId, memberData) {
       var caret = caretManager.getCaret(memberId);
-      if(userData === undefined) {
-        runtime.log('UserModel sent undefined data for member "' + memberId + '".');
+      if(memberData === undefined) {
+        runtime.log('MemberModel sent undefined data for member "' + memberId + '".');
         return
       }
-      if(userData === null) {
-        userData = {memberid:memberId, fullname:"Unknown Identity", color:"black", imageurl:"avatar-joe.png"}
+      if(memberData === null) {
+        memberData = {memberid:memberId, fullname:"Unknown Identity", color:"black", imageurl:"avatar-joe.png"}
       }
       if(caret) {
-        caret.setAvatarImageUrl(userData.imageurl);
-        caret.setColor(userData.color)
+        caret.setAvatarImageUrl(memberData.imageurl);
+        caret.setColor(memberData.color)
       }
-      setAvatarInfoStyle(memberId, userData.fullname, userData.color)
+      setAvatarInfoStyle(memberId, memberData.fullname, memberData.color)
     }
     function onCursorAdded(cursor) {
-      var memberId = cursor.getMemberId(), userModel = session.getUserModel();
+      var memberId = cursor.getMemberId(), memberModel = session.getMemberModel();
       caretManager.registerCursor(cursor, showCaretAvatars, blinkOnRangeSelect);
       renderMemberData(memberId, null);
-      userModel.getUserDetailsAndUpdates(memberId, renderMemberData);
+      memberModel.getMemberDetailsAndUpdates(memberId, renderMemberData);
       runtime.log("+++ View here +++ eagerly created an Caret for '" + memberId + "'! +++")
     }
     function onCursorRemoved(memberid) {
@@ -13739,7 +13856,7 @@ gui.SessionView = function() {
         }
       }
       if(!hasMemberEditInfo) {
-        session.getUserModel().unsubscribeUserDetailsUpdates(memberid, renderMemberData)
+        session.getMemberModel().unsubscribeMemberDetailsUpdates(memberid, renderMemberData)
       }
     }
     function init() {
@@ -13762,7 +13879,7 @@ gui.SessionView = function() {
 }();
 /*
 
- Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
  The JavaScript code in this page is free software: you can redistribute it
@@ -13797,35 +13914,44 @@ gui.SessionView = function() {
 runtime.loadClass("gui.Caret");
 gui.CaretManager = function CaretManager(sessionController) {
   var carets = {};
+  function getCaret(memberId) {
+    return carets.hasOwnProperty(memberId) ? carets[memberId] : null
+  }
   function getCanvasElement() {
     return sessionController.getSession().getOdtDocument().getOdfCanvas().getElement()
   }
   function removeCaret(memberId) {
     if(memberId === sessionController.getInputMemberId()) {
-      getCanvasElement().removeAttribute("tabindex", 0)
+      getCanvasElement().removeAttribute("tabindex")
     }
     delete carets[memberId]
   }
-  function refreshCaret(cursor) {
-    var caret = carets[cursor.getMemberId()];
-    if(caret) {
-      caret.refreshCursor()
+  function refreshLocalCaretBlinking(cursor) {
+    var caret, memberId = cursor.getMemberId();
+    if(memberId === sessionController.getInputMemberId()) {
+      caret = getCaret(memberId);
+      if(caret) {
+        caret.refreshCursorBlinking()
+      }
     }
   }
   function ensureLocalCaretVisible(info) {
-    var caret = carets[info.memberId];
-    if(info.memberId === sessionController.getInputMemberId() && caret) {
-      caret.ensureVisible()
+    var caret;
+    if(info.memberId === sessionController.getInputMemberId()) {
+      caret = getCaret(info.memberId);
+      if(caret) {
+        caret.ensureVisible()
+      }
     }
   }
   function focusLocalCaret() {
-    var caret = carets[sessionController.getInputMemberId()];
+    var caret = getCaret(sessionController.getInputMemberId());
     if(caret) {
       caret.setFocus()
     }
   }
   function blurLocalCaret() {
-    var caret = carets[sessionController.getInputMemberId()];
+    var caret = getCaret(sessionController.getInputMemberId());
     if(caret) {
       caret.removeFocus()
     }
@@ -13841,9 +13967,7 @@ gui.CaretManager = function CaretManager(sessionController) {
     }
     return caret
   };
-  this.getCaret = function(memberid) {
-    return carets[memberid]
-  };
+  this.getCaret = getCaret;
   this.getCarets = function() {
     return Object.keys(carets).map(function(memberid) {
       return carets[memberid]
@@ -13852,7 +13976,7 @@ gui.CaretManager = function CaretManager(sessionController) {
   function init() {
     var session = sessionController.getSession(), odtDocument = session.getOdtDocument(), canvasElement = getCanvasElement();
     odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, ensureLocalCaretVisible);
-    odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, refreshCaret);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, refreshLocalCaretBlinking);
     odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, removeCaret);
     canvasElement.onfocus = focusLocalCaret;
     canvasElement.onblur = blurLocalCaret
@@ -15038,14 +15162,14 @@ ops.OdtDocument.signalUndoStackChanged = "undo/changed";
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-runtime.loadClass("ops.TrivialUserModel");
+runtime.loadClass("ops.TrivialMemberModel");
 runtime.loadClass("ops.TrivialOperationRouter");
 runtime.loadClass("ops.OperationFactory");
 runtime.loadClass("ops.OdtDocument");
 ops.Session = function Session(odfCanvas) {
-  var self = this, operationFactory = new ops.OperationFactory, odtDocument = new ops.OdtDocument(odfCanvas), userModel = new ops.TrivialUserModel, operationRouter = null;
-  this.setUserModel = function(uModel) {
-    userModel = uModel
+  var self = this, operationFactory = new ops.OperationFactory, odtDocument = new ops.OdtDocument(odfCanvas), memberModel = new ops.TrivialMemberModel, operationRouter = null;
+  this.setMemberModel = function(uModel) {
+    memberModel = uModel
   };
   this.setOperationFactory = function(opFactory) {
     operationFactory = opFactory;
@@ -15061,8 +15185,8 @@ ops.Session = function Session(odfCanvas) {
     });
     opRouter.setOperationFactory(operationFactory)
   };
-  this.getUserModel = function() {
-    return userModel
+  this.getMemberModel = function() {
+    return memberModel
   };
   this.getOperationFactory = function() {
     return operationFactory

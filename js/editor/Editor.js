@@ -36,14 +36,14 @@
 define("webodf/editor/Editor", [
     "dojo/i18n!webodf/editor/nls/myResources",
     "webodf/editor/EditorSession",
-    "webodf/editor/UserList",
+    "webodf/editor/MemberList",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "webodf/editor/widgets"],
 
     function (myResources,
         EditorSession,
-        UserList,
+        MemberList,
         BorderContainer,
         ContentPane,
         loadWidgets) {
@@ -52,7 +52,7 @@ define("webodf/editor/Editor", [
         /**
          * @constructor
          * @param {{networked:boolean=,
-         *          memberid:string=,
+         *          memberid:!string,
          *          loadCallback:function()=,
          *          saveCallback:function()=,
          *          cursorAddedCallback:function(!string)=,
@@ -65,14 +65,13 @@ define("webodf/editor/Editor", [
 
             var self = this,
                 // Private
-                userid,
                 memberid = args.memberid,
                 session,
                 editorSession,
-                userList,
+                memberList,
                 networked = args.networked === true,
                 opRouter,
-                userModel,
+                memberModel,
                 loadOdtFile = args.loadCallback,
                 saveOdtFile = args.saveCallback,
                 cursorAddedHandler = args.cursorAddedCallback,
@@ -99,17 +98,17 @@ define("webodf/editor/Editor", [
              */
             function initGuiAndDoc(initialDocumentUrl, editorReadyCallback) {
                 var odfElement, mainContainer,
-                    editorPane, peoplePane,
+                    editorPane, memberListPane,
                     inviteButton,
                     viewOptions = {
                         editInfoMarkersInitiallyVisible: networked,
                         caretAvatarsInitiallyVisible: networked,
                         caretBlinksOnRangeSelect: true
                     },
-                    peopleListDiv = document.getElementById('peopleList');
+                    memberListDiv = document.getElementById('memberList');
 
                 if (networked) {
-                    runtime.assert(peopleListDiv, "missing peopleList div in HTML");
+                    runtime.assert(memberListDiv, "missing memberList div in HTML");
                 }
 
                 runtime.loadClass('odf.OdfCanvas');
@@ -158,19 +157,14 @@ define("webodf/editor/Editor", [
                     // Allow annotations
                     odfCanvas.enableAnnotations(true);
 
-                    if (!memberid) {
-                        // legacy - memberid should be passed in the constructor
-                        memberid = (userid || 'undefined') + "___" + Date.now();
-                    }
-
                     session = new ops.Session(odfCanvas);
                     editorSession = new EditorSession(session, memberid, {
                         viewOptions: viewOptions
                     });
                     editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
 
-                    if (peopleListDiv) {
-                        userList = new UserList(editorSession, peopleListDiv);
+                    if (memberListDiv) {
+                        memberList = new MemberList(editorSession, memberListDiv);
                     }
 
                     if (registerCallbackForShutdown) {
@@ -192,12 +186,12 @@ define("webodf/editor/Editor", [
                 }, 'editor');
                 mainContainer.addChild(editorPane);
 
-                if (networked && peopleListDiv) {
-                    peoplePane = new ContentPane({
+                if (networked && memberListDiv) {
+                    memberListPane = new ContentPane({
                         region: 'right',
-                        title: translator("people")
-                    }, 'people');
-                    mainContainer.addChild(peoplePane);
+                        title: translator("members")
+                    }, 'members');
+                    mainContainer.addChild(memberListPane);
                 }
 
                 mainContainer.startup();
@@ -205,7 +199,7 @@ define("webodf/editor/Editor", [
                 if (window.inviteButtonProxy) {
                     inviteButton = document.getElementById('inviteButton');
                     if (inviteButton) {
-                        inviteButton.innerText = translator("invitePeople");
+                        inviteButton.innerText = translator("inviteMembers");
                         inviteButton.style.display = "block";
                         inviteButton.onclick = window.inviteButtonProxy.clicked;
                     }
@@ -269,12 +263,12 @@ define("webodf/editor/Editor", [
              */
             self.loadSession = function (sessionId, editorReadyCallback) {
                 initGuiAndDoc(server.getGenesisUrl(sessionId), function () {
-                    // get router and user model
+                    // get router and member model
                     opRouter = opRouter || serverFactory.createOperationRouter(sessionId, memberid, server);
                     session.setOperationRouter(opRouter);
 
-                    userModel = userModel || serverFactory.createUserModel(server);
-                    session.setUserModel(userModel);
+                    memberModel = memberModel  || serverFactory.createMemberModel(sessionId, server);
+                    session.setMemberModel(memberModel);
 
                     opRouter.requestReplay(function done() {
                         var odtDocument = session.getOdtDocument();
@@ -295,9 +289,9 @@ define("webodf/editor/Editor", [
                 });
             };
 
-            // access to user model
-            self.getUserModel = function () {
-                return userModel;
+            // access to member model
+            self.getMemberModel = function () {
+                return memberModel;
             };
         }
         return Editor;

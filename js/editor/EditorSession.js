@@ -70,8 +70,8 @@ define("webodf/editor/EditorSession", [
             formatting = odtDocument.getFormatting(),
             styleHelper = new gui.StyleHelper(formatting),
             eventNotifier = new core.EventNotifier([
-                EditorSession.signalUserAdded,
-                EditorSession.signalUserRemoved,
+                EditorSession.signalMemberAdded,
+                EditorSession.signalMemberRemoved,
                 EditorSession.signalCursorMoved,
                 EditorSession.signalParagraphChanged,
                 EditorSession.signalStyleCreated,
@@ -164,7 +164,7 @@ define("webodf/editor/EditorSession", [
                 ncName = createNCName(name);
 
             // create default paragraph style
-            // memberid is used to avoid id conflicts with ids created by other users
+            // memberid is used to avoid id conflicts with ids created by other members
             result = ncName + "_" + ncMemberId;
             // then loop until result is really unique
             while (formatting.hasParagraphStyle(result)) {
@@ -196,12 +196,12 @@ define("webodf/editor/EditorSession", [
 
         // Custom signals, that make sense in the Editor context. We do not want to expose webodf's ops signals to random bits of the editor UI.
         odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, function (cursor) {
-            self.emit(EditorSession.signalUserAdded, cursor.getMemberId());
+            self.emit(EditorSession.signalMemberAdded, cursor.getMemberId());
             trackCursor(cursor);
         });
 
         odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, function (memberId) {
-            self.emit(EditorSession.signalUserRemoved, memberId);
+            self.emit(EditorSession.signalMemberRemoved, memberId);
         });
 
         odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, function (cursor) {
@@ -251,12 +251,12 @@ define("webodf/editor/EditorSession", [
             eventNotifier.subscribe(eventid, cb);
         };
 
-        this.getUserDetailsAndUpdates = function (memberId, subscriber) {
-            return session.getUserModel().getUserDetailsAndUpdates(memberId, subscriber);
+        this.getMemberDetailsAndUpdates = function (memberId, subscriber) {
+            return session.getMemberModel().getMemberDetailsAndUpdates(memberId, subscriber);
         };
 
-        this.unsubscribeUserDetailsUpdates = function (memberId, subscriber) {
-            return session.getUserModel().unsubscribeUserDetailsUpdates(memberId, subscriber);
+        this.unsubscribeMemberDetailsUpdates = function (memberId, subscriber) {
+            return session.getMemberModel().unsubscribeMemberDetailsUpdates(memberId, subscriber);
         };
 
         this.getCursorPosition = function () {
@@ -458,7 +458,7 @@ define("webodf/editor/EditorSession", [
 
         this.deleteStyle = function (styleName) {
             var op;
-            op = new ops.OpDeleteParagraphStyle();
+            op = new ops.OpRemoveParagraphStyle();
             op.init({
                 memberid: memberid,
                 styleName: styleName
@@ -541,8 +541,8 @@ define("webodf/editor/EditorSession", [
         init();
     };
 
-    /**@const*/EditorSession.signalUserAdded =              "userAdded";
-    /**@const*/EditorSession.signalUserRemoved =            "userRemoved";
+    /**@const*/EditorSession.signalMemberAdded =            "memberAdded";
+    /**@const*/EditorSession.signalMemberRemoved =          "memberRemoved";
     /**@const*/EditorSession.signalCursorMoved =            "cursorMoved";
     /**@const*/EditorSession.signalParagraphChanged =       "paragraphChanged";
     /**@const*/EditorSession.signalStyleCreated =           "styleCreated";

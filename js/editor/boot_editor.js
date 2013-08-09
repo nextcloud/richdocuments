@@ -248,25 +248,21 @@ var webodfEditor = (function () {
      * and start the editor on the network.
      *
      * @param {!string} sessionId
-     * @param {!string} userid
+     * @param {!string} memberId
      * @param {?string} token
      * @param {?Object} editorOptions
      * @param {?function(!Object)} editorReadyCallback
      */
-    function createNetworkedEditor(sessionId, userid, token, editorOptions, editorReadyCallback) {
+    function createNetworkedEditor(sessionId, memberId, token, editorOptions, editorReadyCallback) {
 
         runtime.assert(sessionId, "sessionId needs to be specified");
+        runtime.assert(memberId, "memberId needs to be specified");
         runtime.assert(editorInstance === null, "cannot boot with instanciated editor");
 
         editorOptions = editorOptions || {};
-        editorOptions.memberid = userid + "___" + Date.now();
+        editorOptions.memberid = memberId;
         editorOptions.networked = true;
         editorOptions.networkSecurityToken = token;
-
-        // if pre-authentication has happened:
-        if (token) {
-            server.setToken(token);
-        }
 
         require({ }, ["webodf/editor/Editor"],
             function (Editor) {
@@ -280,7 +276,7 @@ var webodfEditor = (function () {
                     editorReadyCallback(editorInstance);
                 });
             }
-            );
+        );
     }
 
 
@@ -365,7 +361,8 @@ var webodfEditor = (function () {
      *
      */
     function boot(args) {
-        var editorOptions = {}, loginProcedure = startLoginProcess;
+        var editorOptions = {},
+            loginProcedure = startLoginProcess;
         runtime.assert(!booting, "editor creation already in progress");
 
         args = args || {};
@@ -399,13 +396,25 @@ var webodfEditor = (function () {
 
         // start the editor with network
         function handleNetworkedSituation() {
-            loginProcedure(function (sessionId, userid, token) {
-                createNetworkedEditor(sessionId, userid, token, editorOptions, function (ed) {
-                    if (args.callback) {
-                        args.callback(ed);
-                    }
+            var joinSession = server.joinSession;
+
+            if (args.joinSession) {
+                joinSession = args.joinSession;
+            }
+
+            loginProcedure(function (sessionId, userId, token) {
+                // if pre-authentication has happened:
+                if (token) {
+                    server.setToken(token);
                 }
-                    );
+
+                joinSession(userId, sessionId, function(memberId) {
+                    createNetworkedEditor(sessionId, memberId, token, editorOptions, function (ed) {
+                        if (args.callback) {
+                            args.callback(ed);
+                        }
+                    });
+                });
             });
         }
 
