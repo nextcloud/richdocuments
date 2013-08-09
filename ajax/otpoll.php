@@ -34,9 +34,10 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
-// OCP\JSON::checkLoggedIn();
-// OCP\JSON::checkAppEnabled('office');
-// session_write_close();
+
+ OCP\JSON::checkLoggedIn();
+ OCP\JSON::checkAppEnabled('office');
+ // session_write_close();
 
 $response = array();
 try{
@@ -44,15 +45,8 @@ try{
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'session-list':
-			$sessions = OCA\Office\Session::getAll();
-			if (!is_array($sessions)){
-				$sessions = array();
-			}
-
-			$response["session_list"] = array_map(
-				function($x){return ($x['es_id']);}, 
-				$sessions
-			);
+			OCA\Office\Controller::listSessions();
+			exit();
 			break;
 		case 'join-session':
 			$response = "true"; // should fail when session is non-existent

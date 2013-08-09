@@ -23,7 +23,7 @@ var officeMain = {
 		"use strict";
 
 		OC.addScript('office', 'editor/boot_editor').done(function() {
-			var doclocation = response.genesis_url;
+			var doclocation = response.es_id;
 
 			// fade out files menu and add odf menu
 			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
@@ -97,18 +97,18 @@ var officeMain = {
 		$.post(OC.Router.generate('office_session_list'), {}, officeMain.onSessions);
 	},
 	onSessions : function(response){
-		if (response && response.sessions){
-			$(response.sessions).each( function(i, s){ officeMain.addSession(s) } );
+		if (response && response.session_list){
+			$(response.session_list).each( function(i, s){ officeMain.addSession(s) } );
 		}
 	},
 	addSession : function(s){
 		if (!$('#allsessions').length){
 			$(document.body).append('<div id="allsessions"></div>');
 		}
-		$('<div><a href="">'+s.es_id+ '</a></div>').appendTo('#allsessions').click(
+		$('<div><a href="">'+s+ '</a></div>').appendTo('#allsessions').click(
 			function(event){
 					event.preventDefault();
-					officeMain.joinSession(s);  
+					officeMain.joinSession({es_id : s});  
 			}
 		);
 	},

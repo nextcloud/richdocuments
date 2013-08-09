@@ -67,6 +67,22 @@ class Controller {
 		\OCP\JSON::error();
 	}
 	
+	public static function listSessions(){
+		self::getUser();
+		$sessions = Session::getAll();
+		if (!is_array($sessions)){
+			$sessions = array();
+		}
+
+		$preparedSessions = array_map(
+			function($x){return ($x['es_id']);}, 
+			$sessions
+		);
+		\OCP\JSON::success(array(
+			"session_list" => $preparedSessions
+		));
+	}
+
 	protected static function getUser(){
 		\OCP\JSON::checkLoggedIn();
 		return \OCP\User::getUser();
