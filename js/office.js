@@ -69,7 +69,7 @@ var officeMain = {
 						loginProcedure: function(cb) {
 							cb(response.es_id, OC.currentUser, "token");
 						},
-						initSession: function(userId, sessionId, cb) {
+						joinSession: function(userId, sessionId, cb) {
 							cb(memberId);
 						},
 						callback: function() {
