@@ -36,14 +36,14 @@ class Member {
 
 	public static function getMembersAsArray($ids){
 		$memberCount = count($ids);
-		if (!$memberCount || !$is_array($ids)){
+		if (!$memberCount || !is_array($ids)){
 			return array();
 		}
 		
 		$placeholders = array_fill(0, $memberCount, '?');
 		$stmt = implode(', ', $placeholders);
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member_id`IN (' . $stmt . ')');
-		$result = $query->execute(array($ids));
+		$result = $query->execute($ids);
 		return $result->fetchAll();
 	}
 	

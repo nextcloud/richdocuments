@@ -98,6 +98,29 @@ class Controller {
 			"session_list" => $preparedSessions
 		));
 	}
+	
+	public static function listSessionsHtml(){
+		self::getUser();
+		$sessions = Session::getAll();
+		if (!is_array($sessions)){
+			$sessions = array();
+		}
+
+		$preparedSessions = array_map(
+			function($x){return ($x['es_id']);}, 
+			$sessions
+		);
+			
+		$invites = Invite::getAllInvites();
+		if (!is_array($invites)){
+			$invites = array();
+		}
+		
+		$tmpl =  new \OCP\Template('office', 'part.sessions', '');
+		$tmpl->assign('invites', $invites);
+		$tmpl->assign('sessions', $sessions);
+		echo $tmpl->fetchPage();
+	}
 
 	protected static function getUser(){
 		\OCP\JSON::checkLoggedIn();
