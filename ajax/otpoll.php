@@ -85,6 +85,11 @@ try{
 				$hasOps = is_array($ops) && count($ops)>0;
 
 				$currentHead = OCA\Office\Op::getHeadSeq($esId);
+				try {
+					OCA\Office\Member::updateMemberActivity($memberId);
+				} catch (\Exception $e){
+					
+				}
 
 				// TODO handle the case ($currentHead == "") && ($seqHead != "")
 				if ($seqHead == $currentHead) {

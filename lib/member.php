@@ -46,6 +46,14 @@ class Member {
 		$result = $query->execute(array($ids));
 		return $result->fetchAll();
 	}
+	
+	public static function updateMemberActivity($memberId){
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*office_member`  SET `last_activity`=? WHERE `member_id`=?');
+		$query->execute(array(
+			time(),
+			$memberId
+		));
+	}
 
 	public static function getMembersByEsId($esId, $lastActivity = null){
 		if (is_null($lastActivity)){
