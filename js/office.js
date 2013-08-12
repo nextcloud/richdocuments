@@ -18,6 +18,8 @@ var officeMain = {
 				});
 			});
 		});
+		officeMain.updateSessions();
+		setInterval(officeMain.updateSessions, 10000);
 	},
 	initSession: function(response) {
 		"use strict";
@@ -29,10 +31,15 @@ var officeMain = {
 			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
 				var odfToolbarHtml =
-					'<div id="odf-toolbar">' +
-					'<button id="odf_close">' + t('files_odfviewer', 'Close') + '</button>' +
-					'<span id="toolbar" class="claro"></span>' +
-					'</div>';
+					'<div id="odf-toolbar">'
+					+ '<button id="odf_close">'
+					+ t('files_odfviewer', 'Close')
+					+ '</button>'
+					+ '<button id="odf_invite">'
+					+ t('files_odfviewer', 'Invite')
+					+ '</button>'
+					+ '<span id="toolbar" class="claro"></span>'
+					+ '</div>';
 				$('#controls').append(odfToolbarHtml);
 			});
 
@@ -41,7 +48,6 @@ var officeMain = {
 				var memberId, odfelement, odfcanvas, canvashtml =
 					'<div id = "mainContainer" class="claro" style="">'+
 						'<div id = "editor">'+
-							//'<span id = "toolbar" class="claro"></span>'+
 							'<div id = "container">'+
 								'<div id="canvas"></div>'+
 							'</div>'+
@@ -98,27 +104,16 @@ var officeMain = {
 			officeMain.initSession
 		);
 	},
-	showSessions : function(){
-		if ($('#allsessions').length){
-			$('#allsessions').remove();
-			return;
-		}
-		$.post(OC.Router.generate('office_session_list'), {}, officeMain.onSessions);
+	updateSessions : function(){
+		$('#editing-sessions').load(OC.Router.generate('office_session_listhtml'), {}, officeMain.onSessions);
 	},
-	onSessions : function(response){
-		if (response && response.session_list){
-			$(response.session_list).each( function(i, s){ officeMain.addSession(s); } );
-		}
-	},
-	addSession : function(s){
-		if (!$('#allsessions').length){
-			$(document.body).append('<div id="allsessions"></div>');
-		}
-		$('<div><a href="">'+s+ '</a></div>').appendTo('#allsessions').click(
-			function(event){
+			
+	onSessions : function(){
+		$('#editing-sessions a').click(
+				function(event){
 					event.preventDefault();
-					officeMain.joinSession(s);  
-			}
+					officeMain.joinSession($(this).attr('data-esid'));
+				}
 		);
 	},
 			
@@ -145,6 +140,7 @@ $(document).ready(function() {
 		officeMain.startSession($(this).attr('data-file'));
 	});
 	$('#odf_close').live('click', officeMain.onClose);
+	$('#odf_invite').live('click', officeMain.onInvite);
 	$('#session-list').click(officeMain.showSessions);
 	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
 });

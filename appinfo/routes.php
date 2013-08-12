@@ -36,6 +36,15 @@ $this->create('office_session_list', 'ajax/session/list')
 	->action('\OCA\Office\Controller', 'listSessions')
 ;
 
+$this->create('office_session_listhtml', 'ajax/session/listHtml')
+	->get()
+	->action('\OCA\Office\Controller', 'listSessionsHtml')
+;
+$this->create('office_session_listhtml', 'ajax/session/listHtml')
+	->post()
+	->action('\OCA\Office\Controller', 'listSessionsHtml')
+;
+
 $this->create('office_session_join', 'ajax/session/join/{es_id}')
 	->get()
 	->action('\OCA\Office\Controller', 'joinSession')

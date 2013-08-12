@@ -1,12 +1,16 @@
-<div id="controls"><button id="session-list"><?php p($l->t('Sessions')) ?></button></div>
+<div id="controls"></div>
+<div id="office-content">
+	<div id="editing-sessions">
+	</div>
 <?php if(empty($_['list'])) { ?>
 	<div id="emptyfolder"><?php p('No documents are found. Please upload a document into your ownCloud');?></div>	
 <?php } else { ?>
+	<div id="editor-content">
 	<table class="documentslist" >
 	<?php foreach($_['list'] as $entry) { ?>
 		<tr data-file="<?php \OCP\Util::encodePath(p($entry['path'])) ?>">
 			<td width="1">
-				<img align="left" src="<?php p(\OCP\Util::linkToAbsolute('office','ajax/thumbnail.php').'?filepath='.urlencode($entry['url'])) ?>" />
+				<img align="left" src="<?php p(\OCP\Util::linkToAbsolute('office','ajax/thumbnail.php').'?filepath='.\OCP\Util::encodePath($entry['path'])) ?>" />
 			</td>
 			<td width="1">
 				<img align="left" src="<?php p( \OCP\Util::linkToAbsolute('office','img/office.png')) ?>" />
@@ -19,4 +23,6 @@
 		</tr>
 	<?php } ?>
 	</table>
+	</div>
 <?php } ?>
+</div>
