@@ -156,5 +156,40 @@
 			</index>
 		</declaration>
 	</table>
+	<table>
+		<name>*dbprefix*office_invite</name>
+		<declaration>
+			<field>
+				<name>es_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>Related editing session id</comments>
+			</field>
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<length>64</length>
+			</field>
+			<field>
+				<name>status</name>
+				<type>integer</type>
+				<default>0</default>
+				<length>2</length>
+			</field>
+			<field>
+				<name>sent_on</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			
+		</declaration>
+	</table>
+	
+	
 	
 </database>
