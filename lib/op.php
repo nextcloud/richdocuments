@@ -50,7 +50,11 @@ class Op {
 	public static function getOpsAfterJson($esId, $seq){
 		$ops = self::getOpsAfter($esId, $seq);
 		$ops =  array_map(
-				function($x){return json_decode($x['opspec']);}, 
+				function($x){
+					$decoded = json_decode($x['opspec']);
+					$decoded['memberId'] = strval($decoded['memberId']);
+					return $decoded;
+				}, 
 				$ops
 		);
 		return $ops;

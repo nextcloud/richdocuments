@@ -43,7 +43,7 @@ class Controller {
 					$session = Session::add($genesisPath, $hash, $path);
 				}
 			
-				$session['member_id'] = Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
+				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
 			 
 				\OCP\JSON::success($session);
 				exit();
@@ -71,7 +71,7 @@ class Controller {
 			if ($esId){
 				$session = Session::getSession($esId);
 			
-				$session['member_id'] = Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
+				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
 				\OCP\JSON::success($session);
 				exit();
 			}
