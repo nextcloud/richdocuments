@@ -43,7 +43,7 @@ class Controller {
 					$session = Session::add($genesisPath, $hash, $path);
 				}
 			
-				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
+				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), self::getRandomColor());
 			 
 				\OCP\JSON::success($session);
 				exit();
@@ -71,7 +71,7 @@ class Controller {
 			if ($esId){
 				$session = Session::getSession($esId);
 			
-				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), '#00f000');
+				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), self::getRandomColor());
 				\OCP\JSON::success($session);
 				exit();
 			}
@@ -120,6 +120,12 @@ class Controller {
 		$tmpl->assign('invites', $invites);
 		$tmpl->assign('sessions', $sessions);
 		echo $tmpl->fetchPage();
+	}
+	
+	protected static function  getRandomColor(){
+		$str = dechex(floor(rand(0, 16777215)));
+		$str = str_pad($str, 6, "0", STR_PAD_LEFT);
+		return '#' . $str;
 	}
 
 	protected static function getUser(){
