@@ -27,3 +27,15 @@ position:relative;top:3em;width: 100%;
 #odf_close{
 float:left;
 }
+
+#editor-content #mainContainer{
+	background-color: transparent;
+}
+
+#mainContainer #collaboration{
+	position: relative;z-index: 1;
+	width: 120px;margin-left: 10px;
+}
+#memberList{
+	padding-top: 5px;
+}
