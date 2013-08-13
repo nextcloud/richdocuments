@@ -52,7 +52,7 @@ try{
 						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
 						
 						// Stub
-						$x['avatar_url'] = \OCP\Util::linkToRoute('office_avatar');
+						$x['avatar_url'] = \OCP\Util::linkToRoute('office_user_avatar');
 						return $x;
 					}, 
 					$members

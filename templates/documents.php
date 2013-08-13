@@ -1,4 +1,10 @@
-<div id="controls"></div>
+<div id="controls">
+	<div id="invite-block" style="display:none">
+		<input id="inivite-input" type="text" />
+		<div id="invitee-list"></div>
+		<button id="invite-send"><?php p('Send Invitation') ?></button>
+	</div>
+</div>
 <div id="office-content">
 	<div id="editing-sessions">
 	</div>
