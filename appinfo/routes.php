@@ -57,15 +57,15 @@ $this->create('office_session_join', 'ajax/session/join/{es_id}')
 
 $this->create('office_user_avatar', 'ajax/user/avatar')
 	->get()
-	->action('\OCA\Office\Controller', 'sendAvatar')
+	->action('\OCA\Office\UserController', 'sendAvatar')
 ;
 
 $this->create('office_user_invite', 'ajax/user/invite')
 	->post()
-	->action('\OCA\Office\Controller', 'invite')
+	->action('\OCA\Office\UserController', 'invite')
 ;
 
 $this->create('office_user_search', 'ajax/user/search')
 	->get()
-	->action('\OCA\Office\Controller', 'search')
+	->action('\OCA\Office\UserController', 'search')
 ;
