@@ -113,7 +113,8 @@ var officeMain = {
 				}
 		);
 	},
-	onInvite: function() {
+	onInvite: function(event) {
+		event.preventDefault();
 		$('#invite-block').toggle();
 	},
 	sendInvite: function() {
