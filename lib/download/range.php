@@ -18,11 +18,19 @@ class Range extends \OCA\Office\Download {
 	// End of the range
 	protected $end;
 
+	/**
+	 * Build download model to serve HTTP_RANGE
+	 * @param type $view - filesystem view
+	 * @param type $filepath - path to the file relative to this view root
+	 */
 	public function __construct($view, $filepath){
 		$this->view = $view;
 		$this->filepath = $filepath;
 	}
 
+	/**
+	 * Send the requested parts of the file
+	 */
 	public function sendResponse(){
 		if (!preg_match('/^bytes=\d*-\d*(,\d*-\d*)*$/', $_SERVER['HTTP_RANGE'])){
 			$this->sendNotSatisfiable();
@@ -57,6 +65,9 @@ class Range extends \OCA\Office\Download {
 		}
 	}
 
+	/**
+	 * Send 416 if we can't satisfy the requested ranges
+	 */
 	protected function sendNotSatisfiable(){
 		header('HTTP/1.1 416 Requested Range Not Satisfiable');
 		header('Content-Range: bytes */' . $this->getFilesize()); // Required in 416.

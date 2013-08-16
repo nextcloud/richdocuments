@@ -10,15 +10,18 @@
  */
 
 namespace OCA\Office\Download;
-use OCA\Office\View;
 
 class Simple extends \OCA\Office\Download {
+
 	
 	public function __construct($view, $filepath){
 		$this->view = $view;
 		$this->filepath = $filepath;
 	}
 	
+	/**
+	 * Send the whole file content as a response
+	 */
 	public function sendResponse(){
 		header( 'Content-Type:' . $this->getMimeType() );
 		
