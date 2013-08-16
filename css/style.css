@@ -1,7 +1,7 @@
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 
 .documentslist { padding:5px; width:100%;}
-.documentslist tr:hover {  backgound-color:#aaa; }
+.documentslist tr:hover {  background-color:#aaa; }
 .documentslist tr td {  padding:5px; }
 
 #office-content{
@@ -19,8 +19,8 @@ padding-left:160px;
 	width:150px;
 	overflow:hidden;
 }
-#editor-content{
-position:relative;top:3em;width: 100%;
+#editor-content{ /*
+position:relative;top:3em;width: 100%; */
 }
 
 
@@ -35,17 +35,23 @@ float:left;
 #odf_invite{
 	float:right;
 }
-
+/*
 #editor-content #mainContainer{
 	background-color: transparent;
 }
 
 #mainContainer #collaboration{
-	position: relative;z-index: 1;
-	width: 120px;margin-left: 10px;
+	float:right;position: relative;z-index: 1;
+	width: 70px;padding:5px;
 }
 #memberList{
 	padding-top: 5px;
+}
+*/
+
+#mainContainer #editor{
+	/*position: relative !important;
+	top:36px; */
 }
 
 #invite-block{
@@ -60,4 +66,13 @@ float:left;
 #invitee-list li{
 	padding: 5px 0 5px 20px;
 	background: url('%webroot%/core/img/actions/delete.svg') 0 50% no-repeat;
+}
+
+#members{
+z-index: 50;
+position: relative;
+}
+
+#mainContainer{
+	position:absolute;
 }
