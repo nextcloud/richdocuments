@@ -31,34 +31,34 @@ var officeMain = {
 			$('.documentslist, #emptyfolder, #editing-sessions').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
 				var odfToolbarHtml =
-						'<div id="odf-toolbar">'
-						+ '<button id="odf_close">'
-						+ t('files_odfviewer', 'Close')
-						+ '</button>'
-						+ '<button id="odf_invite">'
-						+ t('files_odfviewer', 'Invite')
-						+ '</button>'
-						+ '<span id="toolbar" class="claro"></span>'
-						+ '</div>';
+					'<div id="odf-toolbar">' +
+					'  <button id="odf_close">' +
+					    t('files_odfviewer', 'Close') +
+					'  </button>' +
+					'  <button id="odf_invite">' +
+					    t('files_odfviewer', 'Invite') +
+					'  </button>' +
+					'  <span id="toolbar" class="claro"></span>' +
+					'</div>';
 				$('#controls').append(odfToolbarHtml);
 
 				$('#office-content').addClass('wide');
 				var memberId, odfelement, odfcanvas, canvashtml =
-						'<div id = "mainContainer" class="claro" style="">' +
-						'<div id = "editor">' +
-						'<div id = "container">' +
-						'<div id="canvas"></div>' +
-						'</div>' +
-						'</div>' +
-						'<div id = "collaboration">' +
-						'<div id = "collabContainer">' +
-						'<div id = "members">' +
-						'<div id = "inviteButton"></div>' +
-						'<div id = "memberList"></div>' +
-						'</div>' +
-						'</div>' +
-						'</div>' +
-						'</div>';
+					'<div id = "mainContainer" class="claro" style="">' +
+					'  <div id = "editor">' +
+					'    <div id = "container">' +
+					'      <div id="canvas"></div>' +
+					'    </div>' +
+					'  </div>' +
+					'  <div id = "collaboration">' +
+					'    <div id = "collabContainer">' +
+					'      <div id = "members">' +
+					'        <div id = "inviteButton"></div>' +
+					'        <div id = "memberList"></div>' +
+					'      </div>' +
+					'    </div>' +
+					'  </div>' +
+					'</div>';
 				$(document.body).addClass("claro");
 				$('.documentslist, #emptyfolder').after(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
