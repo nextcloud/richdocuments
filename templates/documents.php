@@ -1,7 +1,7 @@
 <div id="controls">
 	<div id="invite-block" style="display:none">
 		<input id="inivite-input" type="text" />
-		<div id="invitee-list"></div>
+		<ul id="invitee-list"></ul>
 		<button id="invite-send"><?php p('Send Invitation') ?></button>
 	</div>
 </div>

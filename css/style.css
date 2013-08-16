@@ -56,3 +56,8 @@ float:left;
 	padding: 10px;
 	background-color: #ddd;
 }
+
+#invitee-list li{
+	padding: 5px 0 5px 20px;
+	background: url('%webroot%/core/img/actions/delete.svg') 0 50% no-repeat;
+}

@@ -149,6 +149,9 @@ $(document).ready(function() {
 	$('#odf_close').live('click', officeMain.onClose);
 	$('#odf_invite').live('click', officeMain.onInvite);
 	$('#invite-send').live('click', officeMain.sendInvite);
+	$('#invitee-list li').live('click', function(){
+		$(this).remove();
+	});
 	
 	$('#inivite-input').autocomplete({
 		minLength: 1,
@@ -163,15 +166,18 @@ $(document).ready(function() {
 			});
 		},
 		select: function(event, el) {
-			var item = $(
-					'<li>'
+			event.preventDefault();
+			var item = $( 
+					'<li title="'
+					+ t('office', 'Remove from the list')
+					+ '" >'
 					+ el.item.label
 					+ '<input type="hidden" name="invitee[]" value="'
 					+ el.item.value
 					+ '" />'
 					+ '</li>'
 					);
-			$('#invitee-list').append(item);
+			$('#invitee-list').prepend(item);
 		}
 	});
 	
