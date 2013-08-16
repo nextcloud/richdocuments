@@ -150,7 +150,10 @@ define("webodf/editor/Editor", [
                 odfCanvas.addListener("statereadychange", function () {
                     if (!editorReadyCallback) {
                         // already called once, restart session and return
-                        editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
+                        // undo manager is not yet integrated with collaboration
+                        if (! server) {
+                            editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
+                        }
                         editorSession.startEditing();
                         return;
                     }
@@ -161,7 +164,10 @@ define("webodf/editor/Editor", [
                     editorSession = new EditorSession(session, memberid, {
                         viewOptions: viewOptions
                     });
-                    editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
+                    // undo manager is not yet integrated with collaboration
+                    if (! server) {
+                        editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
+                    }
 
                     if (memberListDiv) {
                         memberList = new MemberList(editorSession, memberListDiv);

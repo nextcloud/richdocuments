@@ -305,15 +305,19 @@ var webodfEditor = (function () {
         }
 
         function showSessions() {
-            var sessionListDiv = document.getElementById("sessionList"),
-                sessionList = new serverFactory.createSessionList(server),
-                sessionListView = new SessionListView(sessionList, sessionListDiv, enterSession);
+            require({ }, ["webodf/editor/SessionListView"],
+                function (SessionListView) {
+                    var sessionListDiv = document.getElementById("sessionList"),
+                        sessionList = new serverFactory.createSessionList(server),
+                        sessionListView = new SessionListView(sessionList, sessionListDiv, enterSession);
 
-            // hide login view
-            document.getElementById("loginContainer").style.display = "none";
+                    // hide login view
+                    document.getElementById("loginContainer").style.display = "none";
 
-            // show session list
-            document.getElementById("sessionListContainer").style.display = "";
+                    // show session list
+                    document.getElementById("sessionListContainer").style.display = "";
+                }
+            );
         }
 
         function loginSuccess(userData) {
