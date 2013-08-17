@@ -75,6 +75,9 @@ var officeMain = {
 							joinSession: function(userId, sessionId, cb) {
 								cb(memberId);
 							},
+							registerCallbackForShutdown: function(webodfShutdownFunction) {
+								officeMain.webodfShutdownFunction = webodfShutdownFunction;
+							},
 							callback: function() {
 								// initialized.
 							}
@@ -129,7 +132,7 @@ var officeMain = {
 			$('.documentslist, #emptyfolder, #editing-sessions').fadeIn('slow');
 			$(document.body).removeClass('claro');
 			$('#office-content').removeClass('wide');
-			webodfEditor.shutdown();
+			officeMain.webodfShutdownFunction();
 		});
 	}
 };
