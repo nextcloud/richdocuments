@@ -1,10 +1,11 @@
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 
 .documentslist { padding:5px; width:100%;}
-.documentslist tr:hover {  background-color:#aaa; }
+.documentslist tr:hover {  background-color:#eee; }
 .documentslist tr td {  padding:5px; }
 
 #office-content{
+padding-top: 3em;
 padding-left:160px;
 }
 #office-content.wide{
@@ -19,10 +20,6 @@ padding-left:160px;
 	width:150px;
 	overflow:hidden;
 }
-#editor-content{ 
-margin-top:3em;
-}
-
 
 #editing-sessions div{
 	margin:5px 0;
@@ -44,15 +41,6 @@ float:left;
 	float:right;position: relative;z-index: 1;
 	width: 70px;padding:5px;
 }
-#memberList{
-	padding-top: 5px;
-}
-
-
-#mainContainer #editor{
-	position: relative !important;
-	top:36px; 
-}
 
 #invite-block{
 	position: absolute;
@@ -68,10 +56,7 @@ float:left;
 	background: url('%webroot%/core/img/actions/delete.svg') 0 50% no-repeat;
 }
 
-#members{
-z-index: 50;
-position: relative;
-}
+
 
 #mainContainer{
 	position:absolute;
