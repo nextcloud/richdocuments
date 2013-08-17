@@ -96,6 +96,14 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
+			<field>
+				<name>status</name>
+				<type>integer</type>
+				<default>1</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>1</length>
+			</field>
 		</declaration>
 	</table>
 		

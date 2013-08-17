@@ -14,7 +14,10 @@ namespace OCA\Office;
 
 class Member {
 
-	const DEFAULT_ACTIVITY_THRESHOLD = 600; // 10 Minutes
+	const ACTIVITY_THRESHOLD = 60; // 10 Minutes
+	
+	const MEMBER_STATUS_ACTIVE = 1;
+	const MEMBER_STATUS_INACTIVE = 2;
 
 	public static function add($esId, $displayname, $color){
 		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_member`  (`es_id`, `uid`, `color`, `last_activity`) VALUES (?, ?, ?, ?) ');
@@ -57,15 +60,53 @@ class Member {
 
 	public static function getMembersByEsId($esId, $lastActivity = null){
 		if (is_null($lastActivity)){
-			$activeSince = time() - self::ACTIVITY_THRESHOLD;
+			$activeSince = self::getInactivityPeriod();
 		} else {
 			$activeSince = $lastActivity;
 		}
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `es_id`= ? and last_activity > ?');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `es_id`= ? and `last_activity` > ?');
 		$result = $query->execute(array($esId, $activeSince));
 		return $result->fetchAll();
 	}
+	
+	/**
+	 * Mark memebers as inactive
+	 * @param string $esId - session Id
+	 * @return array - list of memberId that were marked as inactive
+	 */
+	public static function cleanSession($esId){
+		$time = self::getInactivityPeriod();
+
+		$query = \OCP\DB::prepare('SELECT `member_id` FROM `*PREFIX*office_member` WHERE `es_id`= ? AND `last_activity`<? AND `status`=?');
+		$result = $query->execute(array(
+				$esId,
+				$time,
+				self::MEMBER_STATUS_ACTIVE
+		));
+		$deactivated = $result->fetchAll();
+		
+		self::deactivate($esId, $time);
+
+		return $deactivated;
+	}
+
+	/**
+	 * Update members to inactive state
+	 * @param string $esId
+	 * @param timestamp $time
+	 */
+	protected static function deactivate($esId, $time){
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*office_member`  SET `status`=? WHERE `es_id`=? AND `last_activity`<?');
+		$query->execute(array(
+			self::MEMBER_STATUS_INACTIVE,
+			$esId,
+			$time
+		));
+	}
+	
+	protected static function getInactivityPeriod(){
+		return time() - self::ACTIVITY_THRESHOLD;
+	}
 
 }
-

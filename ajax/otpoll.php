@@ -45,6 +45,14 @@ try{
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'query_memberdata_list':
+			$esId = $request->getParam('args/es_id');
+			$inactiveMembers = \OCA\Office\Member::cleanSession($esId);
+			if (is_array($inactiveMembers)){
+				foreach ($inactiveMembers as $member){
+					\OCA\Office\Op::removeCursor($esId, $member['member_id']);
+				}
+			}
+			
 			$ids = $request->getParam('args/member_ids');
 			$members = OCA\Office\Member::getMembersAsArray($ids);
 			$response["memberdata_list"] = array_map(
@@ -70,11 +78,6 @@ try{
 				'es_id' => $request->getParam('args/es_id')
 			));
 			exit();
-			break;
-		case 'user_list':
-			$members = OCA\Office\Member::getMembersByEsId(
-					$request->getParam('args/es_id')
-			);
 			break;
 		case 'sync_ops':
 			$seqHead = (string) $request->getParam('args/seq_head');

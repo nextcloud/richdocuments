@@ -71,5 +71,13 @@ class Op {
 		$result = $query->execute(array($esId, $seq));
 		return $result->fetchAll();
 	}
+	
+	public static function removeCursor($esId, $memberId){
+		return self::add(
+				$esId, 
+				0,
+				'{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}'
+		);
+	}
 
 }
