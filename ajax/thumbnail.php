@@ -61,10 +61,9 @@ if (method_exists('\OCP\Preview', 'show')){
 		$iconFile = \OC::$SERVERROOT . '/core/img/filetypes/file.png';
 	}
 	
-	$iconData = base64_encode(file_get_contents($iconFile));
-	$image = new \OC_Image($iconData);
 	\OC_Util::obEnd();
 
-	echo $image->show();
+	header('Content-Type: ' . \OCP\Files::getMimeType($iconFile));
+	readfile($iconFile);
 }
 
