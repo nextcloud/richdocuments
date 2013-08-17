@@ -75,11 +75,8 @@ var officeMain = {
 							joinSession: function(userId, sessionId, cb) {
 								cb(memberId);
 							},
-							registerCallbackForShutdown: function(webodfShutdownFunction) {
-								officeMain.webodfShutdownFunction = webodfShutdownFunction;
-							},
-							callback: function() {
-								// initialized.
+							callback: function(webodfEditorInstance) {
+								officeMain.webodfEditorInstance = webodfEditorInstance;
 							}
 						}
 				);
@@ -122,22 +119,26 @@ var officeMain = {
 	onClose: function() {
 		"use strict";
 
-		// Fade out odf-toolbar
-		$('#odf-toolbar').fadeOut('slow');
-		// Fade out editor
-		$('#mainContainer').fadeOut('slow', function() {
-			$('#mainContainer').remove();
-			$('#odf-canvas').remove();
-			$('.actions,#file_access_panel').fadeIn('slow');
-			$('.documentslist, #emptyfolder, #editing-sessions').fadeIn('slow');
-			$(document.body).removeClass('claro');
-			$('#office-content').removeClass('wide');
-			officeMain.webodfShutdownFunction();
+		officeMain.webodfEditorInstance.shutdown(function() {
+			// successfull shutdown - all is good.
+
+			// Fade out odf-toolbar
+			$('#odf-toolbar').fadeOut('slow');
+			// Fade out editor
+			$('#mainContainer').fadeOut('slow', function() {
+				$('#mainContainer').remove();
+				$('#odf-canvas').remove();
+				$('.actions,#file_access_panel').fadeIn('slow');
+				$('.documentslist, #emptyfolder, #editing-sessions').fadeIn('slow');
+				$(document.body).removeClass('claro');
+				$('#office-content').removeClass('wide');
+			});
 		});
 	}
 };
 
 $(document).ready(function() {
+	"use strict";
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
 		officeMain.startSession($(this).attr('data-file'));
