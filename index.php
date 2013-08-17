@@ -31,6 +31,7 @@ OCP\Util::addStyle( 'office', 'editor' );
 OCP\Util::addScript('office', 'office');
 
 $list=\OCA\Office\Storage::getDocuments();
+
 $tmpl = new OCP\Template('office', 'documents', 'user');
 $tmpl->assign('list', $list);
 $tmpl->printPage();

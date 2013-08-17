@@ -18,7 +18,6 @@ var officeMain = {
 				});
 			});
 		});
-		officeMain.updateSessions();
 		setInterval(officeMain.updateSessions, 10000);
 	},
 	initSession: function(response) {
@@ -103,16 +102,9 @@ var officeMain = {
 				);
 	},
 	updateSessions: function() {
-		$('#editing-sessions').load(OC.Router.generate('office_session_listhtml'), {}, officeMain.onSessions);
+		$('#editing-sessions').load(OC.Router.generate('office_session_listhtml'), {});
 	},
-	onSessions: function() {
-		$('#editing-sessions a').click(
-				function(event) {
-					event.preventDefault();
-					officeMain.joinSession($(this).attr('data-esid'));
-				}
-		);
-	},
+
 	onInvite: function(event) {
 		event.preventDefault();
 		$('#invite-block').toggle();
@@ -153,6 +145,14 @@ $(document).ready(function() {
 	$('#invitee-list li').live('click', function(){
 		$(this).remove();
 	});
+	
+	
+	$('#editing-sessions a').live('click',
+			function(event) {
+					event.preventDefault();
+					officeMain.joinSession($(this).attr('data-esid'));
+			}
+	);
 	
 	$('#inivite-input').autocomplete({
 		minLength: 1,

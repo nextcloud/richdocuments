@@ -7,6 +7,7 @@
 </div>
 <div id="office-content">
 	<div id="editing-sessions">
+		<?php \OCA\Office\Controller::listSessionsHtml() ?>
 	</div>
 <?php if(empty($_['list'])) { ?>
 	<div id="emptyfolder"><?php p('No documents are found. Please upload a document into your ownCloud');?></div>	
