@@ -20,7 +20,7 @@ padding-left:160px;
 	overflow:hidden;
 }
 #editor-content{ 
-position:relative;top:3em;
+margin-top:3em;
 }
 
 
@@ -35,7 +35,7 @@ float:left;
 #odf_invite{
 	float:right;
 }
-/*
+
 #editor-content #mainContainer{
 	background-color: transparent;
 }
@@ -47,11 +47,11 @@ float:left;
 #memberList{
 	padding-top: 5px;
 }
-*/
+
 
 #mainContainer #editor{
-	/*position: relative !important;
-	top:36px; */
+	position: relative !important;
+	top:36px; 
 }
 
 #invite-block{
