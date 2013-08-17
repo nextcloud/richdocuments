@@ -29,7 +29,7 @@
 				<comments>To be sure the genesis did not change</comments>
 			</field>
 			<field>
-				<name>document_path</name>
+				<name>file_id</name>
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>

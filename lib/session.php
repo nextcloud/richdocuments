@@ -13,15 +13,15 @@ namespace OCA\Office;
 
 class Session {
 	
-	public static function add($genesis, $hash, $documentPath){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `document_path`) VALUES (?, ?, ?, ?, ?) ');
+	public static function add($genesis, $hash, $fileId){
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`) VALUES (?, ?, ?, ?, ?) ');
 		
 		$data = array(
 			'es_id' => self::getUniqueSessionId(),
 			'genesis_url' => $genesis,
 			'genesis_hash' => $hash,
 			'owner' => \OCP\User::getUser(),
-			'document_path' => $documentPath
+			'file_id' => $fileId
 		);
 		$result = $query->execute(array_values($data));
 		

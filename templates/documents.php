@@ -15,14 +15,14 @@
 	<div id="editor-content">
 	<table class="documentslist" >
 	<?php foreach($_['list'] as $entry) { ?>
-		<tr data-file="<?php \OCP\Util::encodePath(p($entry['path'])) ?>">
+		<tr data-file="<?php p($entry['fileid']) ?>">
 			<td width="1">
 				<img align="left" src="<?php p(\OCP\Util::linkToAbsolute('office','ajax/thumbnail.php').'?filepath='.\OCP\Util::encodePath($entry['path'])) ?>" />
 			</td>
-			<td width="1">
+			<!-- <td width="1">
 				<img align="left" src="<?php p( \OCP\Util::linkToAbsolute('office','img/office.png')) ?>" />
-			</td>
-			<td>
+			</td> -->
+			<td width="100%">
 				<a target="_blank" href="<?php p(\OCP\Util::linkToRoute('download', array('file' => $entry['path']))) ?>"><?php p($entry['name'])?></a>
 			</td>
 			<td><?php p(\OCP\Util::formatDate(intval($entry['mtime']))); ?></td>

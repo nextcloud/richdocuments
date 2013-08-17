@@ -91,7 +91,7 @@ var officeMain = {
 		}
 
 		$.post(OC.Router.generate('office_session_start'),
-				{'path': filepath},
+				{'fileid': filepath},
 		officeMain.initSession
 				);
 	},
@@ -101,6 +101,7 @@ var officeMain = {
 				officeMain.initSession
 				);
 	},
+	
 	updateSessions: function() {
 		$('#editing-sessions').load(OC.Router.generate('office_session_listhtml'), {});
 	},
