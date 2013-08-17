@@ -1447,9 +1447,9 @@ h.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:style:1.0","style:name",
  @source: http://gitorious.org/webodf/webodf/
 */
 runtime.loadClass("odf.Namespaces");
-ops.OpAddParagraphStyle=function(){function k(a){g&&["style:parent-style-name","style:next-style-name"].forEach(function(b){g[b]===a&&delete g[b]})}var l=this,h,e,b,g,a=odf.Namespaces.svgns,f=odf.Namespaces.stylens;this.init=function(a){h=a.memberid;e=a.timestamp;b=a.styleName;g=a.setProperties};this.transform=function(a,b){var f=a.spec();"RemoveParagraphStyle"===f.optype&&k(f.styleName);return[l]};this.execute=function(d){var c=d.getOdfCanvas().odfContainer(),e=d.getFormatting(),h=d.getDOM(),l=h.createElementNS(f,
-"style:style"),k,p,r,w,u;if(!l)return!1;l.setAttributeNS(f,"style:family","paragraph");l.setAttributeNS(f,"style:name",b);g&&Object.keys(g).forEach(function(b){switch(b){case "style:paragraph-properties":k=h.createElementNS(f,"style:paragraph-properties");l.appendChild(k);e.updateStyle(k,g["style:paragraph-properties"]);break;case "style:text-properties":p=h.createElementNS(f,"style:text-properties");l.appendChild(p);(w=g["style:text-properties"]["style:font-name"])&&!e.getFontMap().hasOwnProperty(w)&&
-(r=h.createElementNS(f,"style:font-face"),r.setAttributeNS(f,"style:name",w),r.setAttributeNS(a,"svg:font-family",w),c.rootElement.fontFaceDecls.appendChild(r));e.updateStyle(p,g["style:text-properties"]);break;default:"object"!==typeof g[b]&&(u=odf.Namespaces.resolvePrefix(b.substr(0,b.indexOf(":"))),l.setAttributeNS(u,b,g[b]))}});c.rootElement.styles.appendChild(l);d.getOdfCanvas().refreshCSS();d.emit(ops.OdtDocument.signalStyleCreated,b);return!0};this.spec=function(){return{optype:"AddParagraphStyle",
+ops.OpAddParagraphStyle=function(){function k(a){g&&["style:parent-style-name","style:next-style-name"].forEach(function(b){g[b]===a&&delete g[b]})}var l=this,h,e,b,g,a=odf.Namespaces.svgns,f=odf.Namespaces.stylens;this.init=function(a){h=a.memberid;e=a.timestamp;b=a.styleName;g=a.setProperties};this.transform=function(a,b){var f=a.spec();"RemoveParagraphStyle"===f.optype&&k(f.styleName);return[l]};this.execute=function(d){var c=d.getOdfCanvas().odfContainer(),e=d.getFormatting(),h=d.getDOM(),k=h.createElementNS(f,
+"style:style"),l,p,r,w,u;if(!k)return!1;k.setAttributeNS(f,"style:family","paragraph");k.setAttributeNS(f,"style:name",b);g&&Object.keys(g).forEach(function(b){switch(b){case "style:paragraph-properties":l=h.createElementNS(f,"style:paragraph-properties");k.appendChild(l);e.updateStyle(l,g["style:paragraph-properties"]);break;case "style:text-properties":p=h.createElementNS(f,"style:text-properties");k.appendChild(p);(w=g["style:text-properties"]["style:font-name"])&&!e.getFontMap().hasOwnProperty(w)&&
+(r=h.createElementNS(f,"style:font-face"),r.setAttributeNS(f,"style:name",w),r.setAttributeNS(a,"svg:font-family",w),c.rootElement.fontFaceDecls.appendChild(r));e.updateStyle(p,g["style:text-properties"]);break;default:"object"!==typeof g[b]&&(u=odf.Namespaces.resolvePrefix(b.substr(0,b.indexOf(":"))),k.setAttributeNS(u,b,g[b]))}});c.rootElement.styles.appendChild(k);d.getOdfCanvas().refreshCSS();d.emit(ops.OdtDocument.signalStyleCreated,b);return!0};this.spec=function(){return{optype:"AddParagraphStyle",
 memberid:h,timestamp:e,styleName:b,setProperties:g}}};
 // Input 54
 /*
@@ -1848,7 +1848,7 @@ length:a});k.enqueue(c)}else d(a)});oa.subscribe(gui.ClickHandler.signalDoubleCl
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.MemberModel=function(){};ops.MemberModel.prototype.getMemberDetailsAndUpdates=function(k,l){};ops.MemberModel.prototype.unsubscribeMemberDetailsUpdates=function(k,l){};
+ops.MemberModel=function(){};ops.MemberModel.prototype.getMemberDetailsAndUpdates=function(k,l){};ops.MemberModel.prototype.unsubscribeMemberDetailsUpdates=function(k,l){};ops.MemberModel.prototype.shutdown=function(){};
 // Input 69
 /*
 
@@ -1884,7 +1884,7 @@ ops.MemberModel=function(){};ops.MemberModel.prototype.getMemberDetailsAndUpdate
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.TrivialMemberModel=function(){this.getMemberDetailsAndUpdates=function(k,l){l(k,null)};this.unsubscribeMemberDetailsUpdates=function(k,l){}};
+ops.TrivialMemberModel=function(){this.getMemberDetailsAndUpdates=function(k,l){l(k,null)};this.unsubscribeMemberDetailsUpdates=function(k,l){};this.shutdown=function(){}};
 // Input 70
 /*
 
@@ -1921,8 +1921,8 @@ ops.TrivialMemberModel=function(){this.getMemberDetailsAndUpdates=function(k,l){
  @source: http://gitorious.org/webodf/webodf/
 */
 ops.NowjsMemberModel=function(k){var l={},h={},e=k.getNowObject();this.getMemberDetailsAndUpdates=function(b,g){var a=b.split("___")[0],f=l[a],d=h[a]||[],c;h[a]=d;runtime.assert(void 0!==g,"missing callback");for(c=0;c<d.length&&(d[c].subscriber!==g||d[c].memberId!==b);c+=1);c<d.length?runtime.log("double subscription request for "+b+" in NowjsMemberModel::getMemberDetailsAndUpdates"):(d.push({memberId:b,subscriber:g}),1===d.length&&e.subscribeUserDetailsUpdates(a));f&&g(b,f)};this.unsubscribeMemberDetailsUpdates=
-function(b,g){var a,f=b.split("___")[0],d=h[f];runtime.assert(void 0!==g,"missing subscriber parameter or null");runtime.assert(d,"tried to unsubscribe when no one is subscribed ('"+b+"')");if(d){for(a=0;a<d.length&&(d[a].subscriber!==g||d[a].memberId!==b);a+=1);runtime.assert(a<d.length,"tried to unsubscribe when not subscribed for memberId '"+b+"'");d.splice(a,1);0===d.length&&(runtime.log("no more subscribers for: "+b),delete h[f],delete l[f],e.unsubscribeUserDetailsUpdates(f))}};e.updateUserDetails=
-function(b,e){var a=e?{userid:e.uid,fullname:e.fullname,imageurl:"/user/"+e.avatarId+"/avatar.png",color:e.color}:null,f,d;if(f=h[b])for(l[b]=a,d=0;d<f.length;d+=1)f[d].subscriber(f[d].memberId,a)};runtime.assert("ready"===e.networkStatus,"network not ready")};
+function(b,g){var a,f=b.split("___")[0],d=h[f];runtime.assert(void 0!==g,"missing subscriber parameter or null");runtime.assert(d,"tried to unsubscribe when no one is subscribed ('"+b+"')");if(d){for(a=0;a<d.length&&(d[a].subscriber!==g||d[a].memberId!==b);a+=1);runtime.assert(a<d.length,"tried to unsubscribe when not subscribed for memberId '"+b+"'");d.splice(a,1);0===d.length&&(runtime.log("no more subscribers for: "+b),delete h[f],delete l[f],e.unsubscribeUserDetailsUpdates(f))}};this.shutdown=
+function(){};e.updateUserDetails=function(b,e){var a=e?{userid:e.uid,fullname:e.fullname,imageurl:"/user/"+e.avatarId+"/avatar.png",color:e.color}:null,f,d;if(f=h[b])for(l[b]=a,d=0;d<f.length;d+=1)f[d].subscriber(f[d].memberId,a)};runtime.assert("ready"===e.networkStatus,"network not ready")};
 // Input 71
 /*
 
@@ -1961,7 +1961,7 @@ function(b,e){var a=e?{userid:e.uid,fullname:e.fullname,imageurl:"/user/"+e.avat
 ops.PullBoxMemberModel=function(k,l){function h(){var a,d=Object.keys(g);runtime.log("member-list request for : "+d.join(","));l.call({command:"query_memberdata_list",args:{es_id:k,member_ids:d}},function(c){var d=runtime.fromJson(c),e;runtime.log("member-list reply: "+c);if(d.hasOwnProperty("memberdata_list"))for(c=d.memberdata_list,a=0;a<c.length;a+=1){if(d={memberid:c[a].member_id,fullname:c[a].display_name,imageurl:c[a].avatar_url,color:c[a].color},e=b.hasOwnProperty(d.memberid)?b[d.memberid]:
 null,!e||e.fullname!==d.fullname||e.imageurl!==d.imageurl||e.color!==d.color){var h=e=void 0;if(e=g[d.memberid])for(b[d.memberid]=d,h=0;h<e.length;h+=1)e[h](d.memberid,d)}}else runtime.log("Meh, memberdata list broken: "+c)})}function e(){a&&(h(),runtime.setTimeout(e,2E4))}var b={},g={},a=!1;this.getMemberDetailsAndUpdates=function(f,d){var c=b[f],k=g[f]||[],l;g[f]=k;runtime.assert(void 0!==d,"missing callback");for(l=0;l<k.length&&k[l]!==d;l+=1);l<k.length?runtime.log("double subscription request for "+
 f+" in PullBoxMemberModel::getMemberDetailsAndUpdates"):(k.push(d),1===k.length&&h());c&&d(f,c);a||(a=!0,runtime.setTimeout(e,2E4))};this.unsubscribeMemberDetailsUpdates=function(f,d){var c,e=g[f];runtime.assert(void 0!==d,"missing subscriber parameter or null");runtime.assert(e,"tried to unsubscribe when no one is subscribed ('"+f+"')");if(e){for(c=0;c<e.length&&e[c]!==d;c+=1);runtime.assert(c<e.length,"tried to unsubscribe when not subscribed for memberId '"+f+"'");e.splice(c,1);if(0===e.length){runtime.log("no more subscribers for: "+
-f);delete g[f];delete b[f];a:{var h;if(a){for(h in g)if(g.hasOwnProperty(h))break a;a=!1}}}}};runtime.assert("ready"===l.networkStatus(),"network not ready")};
+f);delete g[f];delete b[f];a:{var h;if(a){for(h in g)if(g.hasOwnProperty(h))break a;a=!1}}}}};this.shutdown=function(){};runtime.assert("ready"===l.networkStatus(),"network not ready")};
 // Input 72
 /*
 
@@ -1997,7 +1997,7 @@ f);delete g[f];delete b[f];a:{var h;if(a){for(h in g)if(g.hasOwnProperty(h))brea
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.OperationRouter=function(){};ops.OperationRouter.prototype.setOperationFactory=function(k){};ops.OperationRouter.prototype.setPlaybackFunction=function(k){};ops.OperationRouter.prototype.push=function(k){};
+ops.OperationRouter=function(){};ops.OperationRouter.prototype.setOperationFactory=function(k){};ops.OperationRouter.prototype.setPlaybackFunction=function(k){};ops.OperationRouter.prototype.push=function(k){};ops.OperationRouter.prototype.shutdown=function(k){};
 // Input 73
 /*
 
@@ -2033,11 +2033,11 @@ ops.OperationRouter=function(){};ops.OperationRouter.prototype.setOperationFacto
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
-ops.TrivialOperationRouter=function(){var k,l;this.setOperationFactory=function(h){k=h};this.setPlaybackFunction=function(h){l=h};this.push=function(h){h=h.spec();h.timestamp=(new Date).getTime();h=k.create(h);l(h)}};
+ops.TrivialOperationRouter=function(){var k,l;this.setOperationFactory=function(h){k=h};this.setPlaybackFunction=function(h){l=h};this.push=function(h){h=h.spec();h.timestamp=(new Date).getTime();h=k.create(h);l(h)};this.shutdown=function(h){h()}};
 // Input 74
 ops.NowjsOperationRouter=function(k,l,h){function e(a){var e;e=b.create(a);runtime.log(" op in: "+runtime.toJson(a));if(null!==e)if(a=Number(a.server_seq),runtime.assert(!isNaN(a),"server seq is not a number"),a===f+1)for(g(e),f=a,c=0,e=f+1;d.hasOwnProperty(e);e+=1)g(d[e]),delete d[e],runtime.log("op with server seq "+a+" taken from hold (reordered)");else runtime.assert(a!==f+1,"received incorrect order from server"),runtime.assert(!d.hasOwnProperty(a),"reorder_queue has incoming op"),runtime.log("op with server seq "+
 a+" put on hold"),d[a]=e;else runtime.log("ignoring invalid incoming opspec: "+a)}var b,g,a=h.getNowObject(),f=-1,d={},c=0,t=1E3;this.setOperationFactory=function(a){b=a};this.setPlaybackFunction=function(a){g=a};a.ping=function(a){null!==l&&a(l)};a.receiveOp=function(a,b){a===k&&e(b)};this.push=function(b){b=b.spec();runtime.assert(null!==l,"Router sequence N/A without memberid");t+=1;b.client_nonce="C:"+l+":"+t;b.parent_op=f+"+"+c;c+=1;runtime.log("op out: "+runtime.toJson(b));a.deliverOp(k,b)};
-this.requestReplay=function(b){a.requestReplay(k,function(a){runtime.log("replaying: "+runtime.toJson(a));e(a)},function(a){runtime.log("replay done ("+a+" ops).");b&&b()})}};
+this.requestReplay=function(b){a.requestReplay(k,function(a){runtime.log("replaying: "+runtime.toJson(a));e(a)},function(a){runtime.log("replay done ("+a+" ops).");b&&b()})};this.shutdown=function(a){}};
 // Input 75
 /*
 
@@ -2079,7 +2079,7 @@ runtime.toJson(b)),null!==e?t(e):runtime.log("ignoring invalid incoming opspec: 
 b.active);m=null;b.active&&a()},8E3)}function d(){var a;p||r||(p=!0,a=u,u=[],h.call({command:"sync_ops",args:{es_id:k,member_id:l,seq_head:String(w),client_ops:a}},function(f){var h=!1,k=runtime.fromJson(f);runtime.log("sync-ops reply: "+f);"new_ops"===k.result?0<k.ops.length&&(0===u.length?(f=e(k.ops),y=y.concat(f)):(runtime.log("meh, have new ops locally meanwhile, have to do transformations."),r=!g(e(k.ops))),w=k.head_seq):"added"===k.result?(runtime.log("All added to server"),w=k.head_seq):"conflict"===
 k.result?(u=a.concat(u),runtime.log("meh, server has new ops meanwhile, have to do transformations."),r=!g(e(k.ops)),w=k.head_seq,r||(h=!0)):runtime.assert(!1,"Unexpected result on sync-ops call: "+k.result);p=!1;r?runtime.assert(!1,"Sorry to tell:\nwe hit a pair of operations in a state which yet need to be supported for transformation against each other.\nClient disconnected from session, no further editing accepted.\n\nPlease reconnect manually for now."):(h?d():(runtime.log("Preparing next: "+
 (0===u.length)),0===u.length&&c()),b())}))}d()}function f(){p||q||(q=!0,m&&(m.active=!1),runtime.getWindow().setTimeout(function(){runtime.log("Pushing activated");q=!1;a()},3E3))}var d,c,t,m=null,q=!1,n=!1,p=!1,r=!1,w="",u=[],y=[],x=new ops.OperationTransformer;this.requestReplay=function(b){c=b;a()};this.setOperationFactory=function(a){d=a;x.setOperationFactory(a)};this.setPlaybackFunction=function(a){t=a};this.push=function(a){var b=a.spec();r||0<y.length||(b.timestamp=(new Date).getTime(),a=d.create(b),
-t(a),u.push(b),f())}};
+t(a),u.push(b),f())};this.shutdown=function(b){a();runtime.getWindow().setTimeout(b,2E3)}};
 // Input 76
 gui.EditInfoHandle=function(k){var l=[],h,e=k.ownerDocument,b=e.documentElement.namespaceURI;this.setEdits=function(g){l=g;var a,f,d,c;h.innerHTML="";for(g=0;g<l.length;g+=1)a=e.createElementNS(b,"div"),a.className="editInfo",f=e.createElementNS(b,"span"),f.className="editInfoColor",f.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",l[g].memberid),d=e.createElementNS(b,"span"),d.className="editInfoAuthor",d.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",l[g].memberid),
 c=e.createElementNS(b,"span"),c.className="editInfoTime",c.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",l[g].memberid),c.innerHTML=l[g].time,a.appendChild(f),a.appendChild(d),a.appendChild(c),h.appendChild(a)};this.show=function(){h.style.display="block"};this.hide=function(){h.style.display="none"};h=e.createElementNS(b,"div");h.setAttribute("class","editInfoHandle");h.style.display="none";k.appendChild(h)};

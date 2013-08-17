@@ -13218,6 +13218,8 @@ ops.MemberModel.prototype.getMemberDetailsAndUpdates = function(memberId, subscr
 };
 ops.MemberModel.prototype.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
 };
+ops.MemberModel.prototype.shutdown = function() {
+};
 /*
 
  Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
@@ -13257,6 +13259,8 @@ ops.TrivialMemberModel = function TrivialMemberModel() {
     subscriber(memberId, null)
   };
   this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
+  };
+  this.shutdown = function() {
   }
 };
 /*
@@ -13348,6 +13352,8 @@ ops.NowjsMemberModel = function NowjsMemberModel(server) {
         nowObject.unsubscribeUserDetailsUpdates(userId)
       }
     }
+  };
+  this.shutdown = function() {
   };
   nowObject.updateUserDetails = function(userId, udata) {
     cacheUserDatum(userId, udata ? {userid:udata.uid, fullname:udata.fullname, imageurl:"/user/" + udata.avatarId + "/avatar.png", color:udata.color} : null)
@@ -13488,6 +13494,8 @@ ops.PullBoxMemberModel = function PullBoxMemberModel(sessionId, server) {
       }
     }
   };
+  this.shutdown = function() {
+  };
   runtime.assert(server.networkStatus() === "ready", "network not ready")
 };
 /*
@@ -13531,6 +13539,8 @@ ops.OperationRouter.prototype.setOperationFactory = function(f) {
 ops.OperationRouter.prototype.setPlaybackFunction = function(playback_func) {
 };
 ops.OperationRouter.prototype.push = function(op) {
+};
+ops.OperationRouter.prototype.shutdown = function(success_callback) {
 };
 /*
 
@@ -13579,6 +13589,9 @@ ops.TrivialOperationRouter = function TrivialOperationRouter() {
     opspec.timestamp = (new Date).getTime();
     timedOp = operationFactory.create(opspec);
     playbackFunction(timedOp)
+  };
+  this.shutdown = function(cb) {
+    cb()
   }
 };
 ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, server) {
@@ -13647,6 +13660,8 @@ ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, se
         done_cb()
       }
     })
+  };
+  this.shutdown = function(cb) {
   }
 };
 /*
@@ -13870,6 +13885,10 @@ ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId
     playbackFunction(timedOp);
     unsyncedClientOpspecQueue.push(opspec);
     triggerPushingOps()
+  };
+  this.shutdown = function(cb) {
+    syncOps();
+    runtime.getWindow().setTimeout(cb, 2E3)
   }
 };
 gui.EditInfoHandle = function EditInfoHandle(parentElement) {

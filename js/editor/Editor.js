@@ -227,10 +227,22 @@ define("webodf/editor/Editor", [
             };
 
             /**
+             * Shutdown running editing (polling-timer),
+             * cleanup.
+             */
+            self.shutdown = function (successfullShutdownCallback) {
+                editorSession.endEditing();
+                opRouter.shutdown(function() {
+                    memberModel.shutdown();
+                    successfullShutdownCallback();
+                });
+            };
+
+            /**
              * Load a document in an editor that has already been initialized.
              */
             self.loadDocument = function (docUrl) {
-                editorSession.endEditing();
+                self.shutdown();
                 odfCanvas.load(docUrl);
             };
 
