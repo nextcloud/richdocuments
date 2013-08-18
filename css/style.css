@@ -6,7 +6,6 @@
 
 #office-content{
 padding-top: 3em;
-padding-left:160px;
 }
 #office-content.wide{
 	padding-left: 0;
@@ -72,4 +71,13 @@ float:left;
 .claro .office-settings-btn,
 .claro #office-appsettings{
 	display:none;
+}
+
+.session-info{
+	float:right;
+	display: none;
+}
+
+tr:hover .session-info{
+	display: inline;
 }

@@ -30,16 +30,16 @@ class Controller {
 	
 	public static function startSession($args){
 		$uid = self::getUser();
-		$fileid = @$_POST['fileid'];
+		$fileId = @$_POST['fileid'];
 		$officeView = View::initOfficeView($uid);
-		$genesisPath = View::storeDocument($uid, $fileid);
+		$genesisPath = View::storeDocument($uid, $fileId);
 
 		if ($genesisPath){
-			$session = Session::getSessionByOwnerAndGenesis($uid, $genesisPath);
+			$session = Session::getSessionByFileId($fileId);
 			try {
 				if (!$session){
 					$hash = View::getHashByGenesis($uid, $genesisPath);
-					$session = Session::add($genesisPath, $hash, $fileid);
+					$session = Session::add($genesisPath, $hash, $fileId);
 				}
 			
 				$session['member_id'] = (string) Member::add($session['es_id'], \OCP\User::getUser(), self::getRandomColor());
@@ -90,20 +90,17 @@ class Controller {
 		));
 	}
 	
-	public static function listSessionFor(){
+	public static function sessionInfo(){
 		self::getUser();
-		$path = @$_POST['path'];
-		$sessions = Session::getAll();
-		if (!is_array($sessions)){
-			$sessions = array();
+		$items = @$_POST['items'];
+		$info = array();
+		
+		if (is_array($items)){
+			$info = Session::getInfoByFileid($items);
 		}
 
-		$preparedSessions = array_map(
-			function($x){return ($x['es_id']);}, 
-			$sessions
-		);
 		\OCP\JSON::success(array(
-			"session_list" => $preparedSessions
+			"info" => $info
 		));
 	}
 	

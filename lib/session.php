@@ -43,12 +43,49 @@ class Session {
 		return $result->fetchRow();
 	}
 	
-	public static function getSessionByOwnerAndGenesis($uid, $url){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `genesis_url`= ? AND `owner`= ? ');
-		$result = $query->execute(array($url, $uid));
+	public static function getInfo($esId){
+
+		$query = \OCP\DB::prepare('SELECT s.*, COUNT(`m`.`member_id`) AS users FROM `*PREFIX*office_session` AS s LEFT JOIN `*PREFIX*office_member` AS m ON `s`.`es_id`=`m`.`es_id` AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .' AND `m`.`uid` != ? WHERE `s`.`es_id` = ? GROUP BY `m`.`es_id`');
+		$result = $query->execute(
+			array(
+				\OCP\User::getUser(), 
+				$esId
+				)
+		);
+		
+		$info = $result->fetchRow();
+		if (!is_array($info)){
+			$info = array();
+		}
+		return $info;
+	}
+	
+	public static function getSessionByFileId($fileId){
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `file_id`= ?');
+		$result = $query->execute(array($fileId));
 		return $result->fetchRow();
 	}
 	
+	public static function getInfoByFileid($fileIds){
+		$fileIdCount = count($fileIds);
+		if (!$fileIdCount || !is_array($fileIds)){
+			return array();
+		}
+		
+		$placeholders = array_fill(0, $fileIdCount, '?');
+		$stmt = implode(', ', $placeholders);
+		$query = \OCP\DB::prepare('SELECT s.*, COUNT(`m`.`member_id`) AS users FROM `*PREFIX*office_session` AS s LEFT JOIN `*PREFIX*office_member` AS m ON `s`.`es_id`=`m`.`es_id` AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .' AND `m`.`uid` != ? WHERE `s`.`file_id` IN (' . $stmt .') GROUP BY `m`.`es_id`');
+		$result = $query->execute(
+			array_merge(array(\OCP\User::getUser()), $fileIds)
+		);
+		
+		$info = $result->fetchAll();
+		if (!is_array($info)){
+			$info = array();
+		}
+		return $info;
+	}
+
 	protected static function getUniqueSessionId(){
 		do {
 			$id = \OC_Util::generate_random_bytes(30);

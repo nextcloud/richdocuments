@@ -21,17 +21,26 @@
  * 
  */
 
-OCP\User::checkLoggedIn();
-OCP\JSON::checkAppEnabled('office');
-OCP\App::setActiveNavigationEntry( 'office_index' );
 
-OCP\Util::addStyle( 'office', 'style' );
-OCP\Util::addStyle( 'office', 'dojo-app' );
-OCP\Util::addStyle( 'office', 'editor' );
-OCP\Util::addScript('office', 'office');
+namespace OCA\Office;
 
-$list=\OCA\Office\Storage::getDocuments();
+\OCP\User::checkLoggedIn();
+\OCP\JSON::checkAppEnabled('office');
+\OCP\App::setActiveNavigationEntry( 'office_index' );
 
-$tmpl = new OCP\Template('office', 'documents', 'user');
+\OCP\Util::addStyle( 'office', 'style' );
+\OCP\Util::addStyle( 'office', 'dojo-app' );
+\OCP\Util::addStyle( 'office', 'editor' );
+\OCP\Util::addScript('office', 'office');
+
+$list=Storage::getDocuments();
+
+$tmpl = new \OCP\Template('office', 'documents', 'user');
+$sessions = Session::getAll();
+if (!is_array($sessions)){
+	$sessions = array();
+}
+
+$tmpl->assign('sessions', $sessions);
 $tmpl->assign('list', $list);
 $tmpl->printPage();

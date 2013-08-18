@@ -19,7 +19,7 @@ var officeMain = {
 				});
 			});
 		});
-		setInterval(officeMain.updateSessions, 10000);
+		setInterval(officeMain.updateInfo, 10000);
 	},
 	initSession: function(response) {
 		"use strict";
@@ -84,6 +84,7 @@ var officeMain = {
 			});
 		});
 	},
+	
 	startSession: function(filepath) {
 		"use strict";
 		if (officeMain.initialized === undefined) {
@@ -96,11 +97,34 @@ var officeMain = {
 		officeMain.initSession
 				);
 	},
+	
 	joinSession: function(esId) {
 		$.post(OC.Router.generate('office_session_join') + '/' + esId,
 				{},
 				officeMain.initSession
 				);
+	},
+			
+	
+	updateInfo : function(){
+		var fileIds = [];
+		$('.documentslist tr').each(function(i, e){
+			fileIds.push($(e).attr('data-file'));
+		});
+		$.post(
+				OC.Router.generate('office_session_info'),
+				{items: fileIds},
+				function (response){
+					if (response && response.info && response.info.length){
+						for (var i=0;i<response.info.length;i++){
+							$('.documentslist tr[data-file='+ response.info[i].file_id +'] .session-info').text(
+									t('office', 'Users in session:') 
+									+ response.info[i].users
+							);
+						}
+					}
+				}
+		);
 	},
 	
 	updateSessions: function() {
@@ -149,7 +173,12 @@ $(document).ready(function() {
 	});
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
-		officeMain.startSession($(this).attr('data-file'));
+		if ($(this).attr('data-esid')){
+			officeMain.joinSession($(this).attr('data-esid'));
+		}
+		if ($(this).attr('data-file')){
+			officeMain.startSession($(this).attr('data-file'));
+		}
 	});
 	$('#odf_close').live('click', officeMain.onClose);
 	$('#odf_invite').live('click', officeMain.onInvite);
@@ -157,14 +186,6 @@ $(document).ready(function() {
 	$('#invitee-list li').live('click', function(){
 		$(this).remove();
 	});
-	
-	
-	$('#editing-sessions a').live('click',
-			function(event) {
-					event.preventDefault();
-					officeMain.joinSession($(this).attr('data-esid'));
-			}
-	);
 	
 	$('#inivite-input').autocomplete({
 		minLength: 1,

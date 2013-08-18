@@ -36,9 +36,9 @@ $this->create('office_session_list', 'ajax/session/list')
 	->action('\OCA\Office\Controller', 'listSessions')
 ;
 
-$this->create('office_session_for', 'ajax/session/listFor')
+$this->create('office_session_info', 'ajax/session/info')
 	->post()
-	->action('\OCA\Office\Controller', 'listSessions')
+	->action('\OCA\Office\Controller', 'sessionInfo')
 ;
 
 $this->create('office_session_listhtml', 'ajax/session/listHtml')
