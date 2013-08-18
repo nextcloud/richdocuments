@@ -29,7 +29,7 @@
 		</tr>
 	<?php } ?>
 	<?php foreach($_['list'] as $entry) { ?>
-		<tr data-file="<?php p($entry['fileid']) ?>">
+		<tr data-file="<?php p($entry['path']) ?>">
 			<td>
 				<img align="left" src="<?php p(\OCP\Util::linkToAbsolute('office','ajax/thumbnail.php').'?filepath='.\OCP\Util::encodePath($entry['path'])) ?>" />
 			</td>

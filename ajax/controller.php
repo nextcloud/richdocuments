@@ -31,13 +31,16 @@ class Controller {
 	public static function startSession($args){
 		$uid = self::preDispatch();
 		try{
-			$fileId = @$_POST['fileid'];
-			if (!$fileId){
-				throw new \Exception('No fileId has been passed');
+			$path = @$_POST['path'];
+			if (!$path){
+				throw new \Exception('No file has been passed');
 			}
 
 			$officeView = View::initOfficeView($uid);
-			$genesisPath = View::storeDocument($uid, $fileId);
+			$genesisPath = View::storeDocument($uid, $path);
+			$info = \OC_Files::getFileInfo($path);
+
+			$fileId =  $info['fileid'];
 			if (!$genesisPath){
 				throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
 			}
@@ -52,7 +55,7 @@ class Controller {
 			\OCP\JSON::success($session);
 			exit();
 		} catch (\Exception $e){
-			Helper::warnLog('Starting a session failed. Reason:') . $e->getMessage();
+			Helper::warnLog('Starting a session failed. Reason: '  . $e->getMessage());
 			\OCP\JSON::error();
 			exit();
 		}
@@ -75,7 +78,7 @@ class Controller {
 			\OCP\JSON::success($session);
 			exit();
 		} catch (\Exception $e){
-			Helper::warnLog('Joining a session failed. Reason:') . $e->getMessage();
+			Helper::warnLog('Joining a session failed. Reason:' . $e->getMessage());
 			\OCP\JSON::error();
 			exit();
 		}

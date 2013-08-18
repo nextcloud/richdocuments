@@ -59,7 +59,7 @@ class Session {
 		}
 		return $info;
 	}
-	
+
 	public static function getSessionByFileId($fileId){
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_session` WHERE `file_id`= ?');
 		$result = $query->execute(array($fileId));

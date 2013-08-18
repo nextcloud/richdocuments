@@ -92,7 +92,7 @@ var officeMain = {
 		}
 
 		$.post(OC.Router.generate('office_session_start'),
-				{'fileid': filepath},
+				{'path': filepath},
 		officeMain.initSession
 				);
 	},

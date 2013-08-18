@@ -67,18 +67,6 @@ try{
 			);
 					
 			break;
-		case 'session_list':
-			OCA\Office\Controller::listSessions();
-			exit();
-			break;
-		case 'join_session':
-			 // should fail when session is non-existent
-			break;
-			OCA\Office\Controller::joinSession(array(
-				'es_id' => $request->getParam('args/es_id')
-			));
-			exit();
-			break;
 		case 'sync_ops':
 			$seqHead = (string) $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){
