@@ -1,4 +1,12 @@
+<?php $isAdmin = \OC_User::isAdminUser(\OCP\User::getUser()); ?>
 <div id="controls">
+	
+<?php if ($isAdmin){ ?>
+	<?php $src = OCP\Util::imagePath('core', 'actions/settings.png'); ?>
+	<button id="settingsbtn" class="office-settings-btn" title="<?php p($l->t('Settings')); ?>">
+		<img class="svg" src="<?php print_unescaped($src); ?>" alt="<?php p($l->t('Settings')); ?>" />
+	</button>
+<?php } ?>
 	<div id="invite-block" style="display:none">
 		<input id="inivite-input" type="text" />
 		<ul id="invitee-list"></ul>
@@ -33,3 +41,6 @@
 	</div>
 <?php } ?>
 </div>
+<?php if ($isAdmin){ ?>
+	<div id="appsettings" class="popup hidden topright"></div>
+<?php } ?>

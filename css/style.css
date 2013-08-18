@@ -56,8 +56,20 @@ float:left;
 	background: url('%webroot%/core/img/actions/delete.svg') 0 50% no-repeat;
 }
 
-
-
 #mainContainer{
 	position:absolute;
+}
+
+#office-appsettings #appsettings_popup{
+	right:0;
+}
+
+.office-settings-btn{
+	position:fixed;
+	right:1.5em;
+}
+
+.claro .office-settings-btn,
+.claro #office-appsettings{
+	display:none;
 }

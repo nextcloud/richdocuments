@@ -1,5 +1,6 @@
 /*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo,runtime */
 var officeMain = {
+	useUnstable : false,
 	onStartup: function() {
 		"use strict";
 		OC.addScript('office', 'webodf_bootstrap', function() {
@@ -140,6 +141,12 @@ var officeMain = {
 
 $(document).ready(function() {
 	"use strict";
+	
+	$.get(OC.filePath('office', 'ajax', 'settings.php'), {unstable:''}, function(response){
+		if (response && response.value){
+			officeMain.useUnstable = response.value;
+		}
+	});
 	$('.documentslist tr').click(function(event) {
 		event.preventDefault();
 		officeMain.startSession($(this).attr('data-file'));
@@ -184,6 +191,14 @@ $(document).ready(function() {
 					+ '</li>'
 					);
 			$('#invitee-list').prepend(item);
+		}
+	});
+	
+	$('#settingsbtn').on('click keydown', function() {
+		try {
+			OC.appSettings({appid:'office', loadJS:true, cache:false});
+		} catch(e) {
+			console.log(e);
 		}
 	});
 	
