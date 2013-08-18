@@ -59,6 +59,11 @@ $this->create('office_session_join', 'ajax/session/join/{es_id}')
 	->action('\OCA\Office\Controller', 'joinSession')
 ;
 
+$this->create('office_session_save', 'ajax/session/save')
+	->post()
+	->action('\OCA\Office\Controller', 'save')
+;
+
 
 $this->create('office_user_avatar', 'ajax/user/avatar')
 	->get()

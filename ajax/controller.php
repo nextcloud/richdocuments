@@ -74,6 +74,26 @@ class Controller {
 		\OCP\JSON::error();
 	}
 	
+	public static function save(){
+		$uid = self::getUser();
+		$esId = @$_POST['es_id'];
+		$memberId = @$_POST['member_id'];
+		$content = @$_POST['content'];
+		if ($esId && $content){
+			$session = Session::getSession($esId);
+			$fileInfo = \OC\Files\Cache\Cache::getById($session['file_id']);
+			$path = $fileInfo[1];
+			$view = new \OC\Files\View('/' . $session['owner']);
+			
+			$canWrite = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
+			if ($canWrite){
+				$view->file_put_contents($path, $content);
+			} else {
+				// TODO: report an error
+			}
+		}
+	}
+
 	public static function listSessions(){
 		self::getUser();
 		$sessions = Session::getAll();
