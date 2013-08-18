@@ -19,7 +19,7 @@ var officeMain = {
 				});
 			});
 		});
-		setInterval(officeMain.updateInfo, 10000);
+		//setInterval(officeMain.updateInfo, 10000);
 	},
 	initSession: function(response) {
 		"use strict";
@@ -28,7 +28,7 @@ var officeMain = {
 			var doclocation = response.es_id;
 
 			// fade out file list and show WebODF canvas
-			$('.documentslist, #emptyfolder, #editing-sessions').fadeOut('slow').promise().done(function() {
+			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
 				var odfToolbarHtml =
 					'<div id="odf-toolbar">' +
@@ -42,7 +42,6 @@ var officeMain = {
 					'</div>';
 				$('#controls').append(odfToolbarHtml);
 
-				$('#office-content').addClass('wide');
 				var memberId, odfelement, odfcanvas, canvashtml =
 					'<div id = "mainContainer" class="claro" style="">' +
 					'  <div id = "editor">' +
@@ -104,7 +103,6 @@ var officeMain = {
 				officeMain.initSession
 				);
 	},
-			
 	
 	updateInfo : function(){
 		var fileIds = [];
@@ -125,10 +123,6 @@ var officeMain = {
 					}
 				}
 		);
-	},
-	
-	updateSessions: function() {
-		$('#editing-sessions').load(OC.Router.generate('office_session_listhtml'), {});
 	},
 
 	onInvite: function(event) {
@@ -155,9 +149,8 @@ var officeMain = {
 				$('#mainContainer').remove();
 				$('#odf-canvas').remove();
 				$('.actions,#file_access_panel').fadeIn('slow');
-				$('.documentslist, #emptyfolder, #editing-sessions').fadeIn('slow');
+				$('.documentslist, #emptyfolder').fadeIn('slow');
 				$(document.body).removeClass('claro');
-				$('#office-content').removeClass('wide');
 			});
 		});
 	}
@@ -175,8 +168,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		if ($(this).attr('data-esid')){
 			officeMain.joinSession($(this).attr('data-esid'));
-		}
-		if ($(this).attr('data-file')){
+		} else if ($(this).attr('data-file')){
 			officeMain.startSession($(this).attr('data-file'));
 		}
 	});

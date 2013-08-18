@@ -5,23 +5,7 @@
 .documentslist tr td {  padding:5px; }
 
 #office-content{
-padding-top: 3em;
-}
-#office-content.wide{
-	padding-left: 0;
-}
-
-#editing-sessions{
-	position:absolute;
-	left:0;
-	padding:5px;
-	top:3em;
-	width:150px;
-	overflow:hidden;
-}
-
-#editing-sessions div{
-	margin:5px 0;
+	padding-top: 3em;
 }
 
 #odf_close{
