@@ -36,22 +36,34 @@ class Controller {
 				throw new \Exception('No file has been passed');
 			}
 
-			
 			$info = \OC\Files\Filesystem::getFileInfo($path);
 			if (!$info){
-						// Is it shared?
+				// Is it shared?
+				//searchByMime returns incorrect path for shared items
+				//
+				if (substr($path, 0, 14) === '/Shared/files/'){
+					// remove 'files/' from path as it's relative to '/Shared'
+					$path = '/Shared' . substr($path, 13); 
+					$sharedInfo = \OC\Files\Filesystem::getFileInfo($path);
+					$fileId = $sharedInfo['fileid'];
+					
+				}
+			} else {
+				$fileId = $info['fileid'];
 			}
-			$fileId =  $info['fileid'];
-			$officeView = View::initOfficeView($uid);
 			
-			$genesisPath = View::storeDocument($uid, $path);
-
-			if (!$genesisPath){
-				throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
-			}
-
+			
 			$session = Session::getSessionByFileId($fileId);
+			//If there is no existing session we need to start a new one
 			if (!$session || empty($session)){
+
+				$officeView = View::initOfficeView($uid);
+				$genesisPath = View::storeDocument($uid, $path);
+
+				if (!$genesisPath){
+					throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
+				}
+
 				$hash = View::getHashByGenesis($uid, $genesisPath);
 				$session = Session::add($genesisPath, $hash, $fileId);
 			}
@@ -60,7 +72,7 @@ class Controller {
 			\OCP\JSON::success($session);
 			exit();
 		} catch (\Exception $e){
-			Helper::warnLog('Starting a session failed. Reason: '  . $e->getMessage());
+			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
 			\OCP\JSON::error();
 			exit();
 		}
@@ -73,12 +85,12 @@ class Controller {
 			if (!$esId){
 				throw new \Exception('Session id is empty');
 			}
-			
+
 			$session = Session::getSession($esId);
 			if (!$session || empty($session)){
 				throw new \Exception('Session doesn\'t exist');
 			}
-			
+
 			$session['member_id'] = (string) Member::add($session['es_id'], $uid, Helper::getRandomColor());
 			\OCP\JSON::success($session);
 			exit();
@@ -107,7 +119,7 @@ class Controller {
 			if ($canWrite){
 				$view->file_put_contents($path, $content);
 			} else {
-				// TODO: report an error, broke a plate, burn a house, conquer the galaxy
+				// TODO: report an error, break a plate, burn a house, conquer the galaxy
 			}
 		}
 	}
