@@ -32,7 +32,7 @@ session_write_close();
 
 $file = $_GET['filepath'];
 if (method_exists('\OCP\Preview', 'show')){
-	\OCP\Preview::show($file, 120, 120);
+	\OCP\Preview::show($file, 256, 256);
 } else {
 	$mimetype = \OCP\Files::getMimeType($file);
 
@@ -62,7 +62,8 @@ if (method_exists('\OCP\Preview', 'show')){
 	}
 	
 	\OC_Util::obEnd();
-
+	
+	//$iconFile = ;
 	header('Content-Type: ' . \OCP\Files::getMimeType($iconFile));
 	readfile($iconFile);
 }

@@ -36,11 +36,16 @@ class Controller {
 				throw new \Exception('No file has been passed');
 			}
 
-			$officeView = View::initOfficeView($uid);
-			$genesisPath = View::storeDocument($uid, $path);
-			$info = \OC_Files::getFileInfo($path);
-
+			
+			$info = \OC\Files\Filesystem::getFileInfo($path);
+			if (!$info){
+						// Is it shared?
+			}
 			$fileId =  $info['fileid'];
+			$officeView = View::initOfficeView($uid);
+			
+			$genesisPath = View::storeDocument($uid, $path);
+
 			if (!$genesisPath){
 				throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
 			}

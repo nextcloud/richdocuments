@@ -1,8 +1,14 @@
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 
 .documentslist { padding:5px; width:100%;}
-.documentslist tr:hover {  background-color:#eee; }
-.documentslist tr td {  padding:5px; }
+.documentslist li{
+	float:left;
+	margin:40px;
+}
+.documentslist li img{
+	width:256px;
+	height:256px;
+}
 
 #office-content{
 	padding-top: 3em;
@@ -41,27 +47,4 @@ float:left;
 
 #mainContainer{
 	position:absolute;
-}
-
-#office-appsettings #appsettings_popup{
-	right:0;
-}
-
-.office-settings-btn{
-	position:fixed;
-	right:1.5em;
-}
-
-.claro .office-settings-btn,
-.claro #office-appsettings{
-	display:none;
-}
-
-.session-info{
-	float:right;
-	display: none;
-}
-
-tr:hover .session-info{
-	display: inline;
 }

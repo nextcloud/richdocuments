@@ -12,6 +12,10 @@
 
 namespace OCA\Office;
 
+\OCP\Util::addScript('office', 'settings');
+
 $tmpl = new \OCP\Template('office', 'settings');
-$tmpl->assign('unstable', false);
-$tmpl->printPage();
+$unstable = \OCP\Config::getAppValue('office', 'unstable', 'false');
+$tmpl->assign('unstable', $unstable);
+
+return $tmpl->fetchPage();

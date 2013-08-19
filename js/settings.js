@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	$('#appsettings_popup').wrap('<div id="office-appsettings"></div>');
 	
 	var officeSettings = {
 		save : function() {

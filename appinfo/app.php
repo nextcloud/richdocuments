@@ -24,6 +24,7 @@
 OCP\Util::addStyle( 'office', 'style');
 
 OCP\App::register(array('order' => 70, 'id' => 'office', 'name' => 'Office'));
+OCP\App::registerAdmin('office', 'settings');
 
 OCP\App::addNavigationEntry(array(
 	'id' => 'office_index', 

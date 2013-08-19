@@ -23,6 +23,12 @@ var officeMain = {
 	},
 	initSession: function(response) {
 		"use strict";
+		
+		runtime.assert(response.status, "Server error");
+		if (response.status==='error'){
+			alert('Server error');
+			return;
+		}
 
 		OC.addScript('office', 'editor/boot_editor').done(function() {
 			var doclocation = response.es_id;
@@ -106,7 +112,7 @@ var officeMain = {
 	
 	updateInfo : function(){
 		var fileIds = [];
-		$('.documentslist tr').each(function(i, e){
+		$('.documentslist li').each(function(i, e){
 			fileIds.push($(e).attr('data-file'));
 		});
 		$.post(
@@ -115,7 +121,7 @@ var officeMain = {
 				function (response){
 					if (response && response.info && response.info.length){
 						for (var i=0;i<response.info.length;i++){
-							$('.documentslist tr[data-file='+ response.info[i].file_id +'] .session-info').text(
+							$('.documentslist li[data-file='+ response.info[i].file_id +'] .session-info').text(
 									t('office', 'Users in session:') 
 									+ response.info[i].users
 							);
@@ -159,12 +165,7 @@ var officeMain = {
 $(document).ready(function() {
 	"use strict";
 	
-	$.get(OC.filePath('office', 'ajax', 'settings.php'), {unstable:''}, function(response){
-		if (response && response.value){
-			officeMain.useUnstable = response.value;
-		}
-	});
-	$('.documentslist tr').click(function(event) {
+	$('.documentslist li').click(function(event) {
 		event.preventDefault();
 		if ($(this).attr('data-esid')){
 			officeMain.joinSession($(this).attr('data-esid'));
@@ -206,14 +207,6 @@ $(document).ready(function() {
 			$('#invitee-list').prepend(item);
 		}
 	});
-	
-	$('#settingsbtn').on('click keydown', function() {
-		try {
-			OC.appSettings({appid:'office', loadJS:true, cache:false});
-		} catch(e) {
-			console.log(e);
-		}
-	});
-	
+
 	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
 });
