@@ -39,10 +39,10 @@ var officeMain = {
 				var odfToolbarHtml =
 					'<div id="odf-toolbar">' +
 					'  <button id="odf_close">' +
-					    t('files_odfviewer', 'Close') +
+						t('files_odfviewer', 'Close') +
 					'  </button>' +
 					'  <button id="odf_invite">' +
-					    t('files_odfviewer', 'Invite') +
+						t('files_odfviewer', 'Invite') +
 					'  </button>' +
 					'  <span id="toolbar" class="claro"></span>' +
 					'</div>';
@@ -97,17 +97,19 @@ var officeMain = {
 			return;
 		}
 
-		$.post(OC.Router.generate('office_session_start'),
-				{'path': filepath},
-		officeMain.initSession
-				);
+		$.post(
+			OC.Router.generate('office_session_start'),
+			{'path': filepath},
+			officeMain.initSession
+		);
 	},
 	
 	joinSession: function(esId) {
-		$.post(OC.Router.generate('office_session_join') + '/' + esId,
-				{},
-				officeMain.initSession
-				);
+		$.post(
+			OC.Router.generate('office_session_join') + '/' + esId,
+			{},
+			officeMain.initSession
+		);
 	},
 	
 	updateInfo : function(){
@@ -116,18 +118,18 @@ var officeMain = {
 			fileIds.push($(e).attr('data-file'));
 		});
 		$.post(
-				OC.Router.generate('office_session_info'),
-				{items: fileIds},
-				function (response){
-					if (response && response.info && response.info.length){
-						for (var i=0;i<response.info.length;i++){
-							$('.documentslist li[data-file='+ response.info[i].file_id +'] .session-info').text(
-									t('office', 'Users in session:') 
-									+ response.info[i].users
-							);
-						}
+			OC.Router.generate('office_session_info'),
+			{items: fileIds},
+			function (response){
+				if (response && response.info && response.info.length){
+					for (var i=0;i<response.info.length;i++){
+						$('.documentslist li[data-file='+ response.info[i].file_id +'] .session-info').text(
+							t('office', 'Users in session:') 
+							+ response.info[i].users
+						);
 					}
 				}
+			}
 		);
 	},
 
@@ -183,14 +185,17 @@ $(document).ready(function() {
 	$('#inivite-input').autocomplete({
 		minLength: 1,
 		source: function(search, response) {
-			$.get(OC.Router.generate('office_user_search'), {search: $('#inivite-input').val()},
-			function(result) {
-				if (result.status == 'success' && result.data.length > 0) {
-					response(result.data);
-				} else {
-					response([t('core', 'No people found')]);
+			$.get(
+				OC.Router.generate('office_user_search'),
+				{search: $('#inivite-input').val()},
+				function(result) {
+					if (result.status === 'success' && result.data.length > 0) {
+						response(result.data);
+					} else {
+						response([t('core', 'No people found')]);
+					}
 				}
-			});
+			);
 		},
 		select: function(event, el) {
 			event.preventDefault();
