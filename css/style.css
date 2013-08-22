@@ -1,13 +1,15 @@
 #emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
 
-.documentslist { padding:5px; width:100%;}
+.documentslist { padding:5px; }
 .documentslist li{
-	float:left;
-	margin:40px;
+	margin:4px;
 }
-.documentslist li img{
-	width:256px;
-	height:256px;
+.documentslist li img {
+	width:32px;
+	height:32px;
+}
+.documentslist li .document-info {
+	display: inline;
 }
 
 #office-content{

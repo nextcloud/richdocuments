@@ -10,7 +10,7 @@
 	<div id="emptyfolder"><?php p('No documents are found. Please upload a document!');?></div>	
 <?php } else { ?>
 	<div id="editor-content">
-	<ul class="documentslist" style="overflow:hidden">
+	<ul class="documentslist">
 		<li>
 			<img class="svg" src="<?php p(\OCP\Util::imagePath('core','actions/add.svg')) ?>" />
 		</li>
