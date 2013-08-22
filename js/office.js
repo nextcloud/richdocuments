@@ -175,10 +175,11 @@ $(document).ready(function() {
 			officeMain.startSession($(this).attr('data-file'));
 		}
 	});
-	$('#odf_close').live('click', officeMain.onClose);
-	$('#odf_invite').live('click', officeMain.onInvite);
-	$('#invite-send').live('click', officeMain.sendInvite);
-	$('#invitee-list li').live('click', function(){
+	
+	$('#content').on('click', '#odf_close', officeMain.onClose);
+	$('#content').on('click', '#odf_invite', officeMain.onInvite);
+	$('#content').on('click', '#invite-send', officeMain.sendInvite);
+	$('#content').on('click', '#invitee-list li', function(){
 		$(this).remove();
 	});
 	
