@@ -18,7 +18,7 @@
 				<name>genesis_url</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>512</length>
 				<comments>Relative to owner office storage /welcome.odt</comments>
 			</field>
@@ -32,7 +32,7 @@
 				<name>file_id</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>512</length>
 				<comments>Relative to storage e.g. /welcome.odt</comments>
 			</field>			
@@ -62,7 +62,6 @@
 			<field>
 				<name>member_id</name>
 				<type>integer</type>
-				<default>1</default>
 				<notnull>true</notnull>
 				<autoincrement>1</autoincrement>
 				<unsigned>true</unsigned>
@@ -80,19 +79,21 @@
 				<name>uid</name>
 				<type>text</type>
 				<default></default>
+				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 			<field>
 				<name>color</name>
 				<type>text</type>
 				<default></default>
+				<notnull>false</notnull>
 				<length>32</length>
 			</field>
 			<field>
 				<name>last_activity</name>
 				<type>integer</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
@@ -113,7 +114,6 @@
 			<field>
 				<name>seq</name>
 				<type>integer</type>
-				<default>1</default>
 				<notnull>true</notnull>
 				<autoincrement>1</autoincrement>
 				<unsigned>true</unsigned>
@@ -178,6 +178,7 @@
 				<name>uid</name>
 				<type>text</type>
 				<default></default>
+				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 			<field>
@@ -190,7 +191,7 @@
 				<name>sent_on</name>
 				<type>integer</type>
 				<default></default>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
