@@ -4,12 +4,24 @@
 .documentslist li{
 	margin:4px;
 }
-.documentslist li img {
-	width:32px;
+.documentslist .session-active {
+	float: left;
+	margin-left: 16px;
+	margin-top: 16px;
+	width: 20px;
+}
+.documentslist .document-info {
+	display: inline;
 	height:32px;
 }
-.documentslist li .document-info {
-	display: inline;
+.documentslist .document-info a {
+	display: block;
+	background-repeat: no-repeat;
+	background-size: 32px;
+	height: 32px;
+	padding-left: 36px;
+	vertical-align: middle;
+	line-height: 32px;
 }
 
 #office-content{

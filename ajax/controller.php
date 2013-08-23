@@ -31,7 +31,7 @@ class Controller {
 	public static function startSession($args){
 		$uid = self::preDispatch();
 		try{
-			$path = @$_POST['path'];
+			$path = \OC\Files\Filesystem::getPath(@$_POST['fileid']);
 			if (!$path){
 				throw new \Exception('No file has been passed');
 			}

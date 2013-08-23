@@ -33,14 +33,6 @@ namespace OCA\Office;
 \OCP\Util::addStyle( 'office', 'editor' );
 \OCP\Util::addScript('office', 'office');
 
-$list=Storage::getDocuments();
-
 $tmpl = new \OCP\Template('office', 'documents', 'user');
-$sessions = Session::getAll();
-if (!is_array($sessions)){
-	$sessions = array();
-}
 
-$tmpl->assign('sessions', $sessions);
-$tmpl->assign('list', $list);
 $tmpl->printPage();
