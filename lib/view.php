@@ -41,7 +41,7 @@ class View extends \OC\Files\View{
 			throw new \Exception('Original document doesn\'t exist any more');
 		}
 		
-		$newName = '/' . sha1($view->file_get_contents($path)) . '.odt';
+		$newName = '/' . sha1($view->file_get_contents($relPath)) . '.odt';
 
 		$view->copy($relPath, self::OFFICE_DIRNAME . $newName);
 		\OC_FileProxy::$enabled = $proxyStatus;
