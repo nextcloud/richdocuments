@@ -11,7 +11,7 @@
 		<li class="add-document">
 			<img class="svg" src="<?php p(\OCP\Util::imagePath('core','actions/add.svg')) ?>" />
 		</li>
-		<li class="document template" data-file="" style="display:none;">
+		<li class="document template" data-id="" style="display:none;">
 			<div class="document-info">
 				<a target="_blank" href=""></a>
 			</div>
