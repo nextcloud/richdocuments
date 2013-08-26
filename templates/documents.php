@@ -9,12 +9,15 @@
 	<div id="editor-content">
 	<ul class="documentslist">
 		<li class="add-document">
-			<img class="svg" src="<?php p(\OCP\Util::imagePath('core','actions/add.svg')) ?>" />
+			<a class="add svg" target="_blank" href="">
+				<label><?php p('Add') ?></label>
+			</a>
+			<a class="upload svg" target="_blank" href="">
+				<label><?php p('Upload') ?></label>
+			</a>
 		</li>
 		<li class="document template" data-id="" style="display:none;">
-			<div class="document-info">
-				<a target="_blank" href=""></a>
-			</div>
+			<a target="_blank" href=""><label></label></a>
 		</li>
 	</ul>
 	</div>

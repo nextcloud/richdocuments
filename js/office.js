@@ -234,8 +234,8 @@ officeDocuments.renderDocuments = function () {
 		docElem.attr('data-id', document.fileid);
 		
 		var a = docElem.find('a');
-		a.text(document.name);
 		a.attr('href', OC.Router.generate('download',{file:document.path}));
+		a.find('label').text(document.name);
 		
 		getMimeIcon(document.mimetype).then(function(path){
 			a.css('background-image', 'url("'+path+'")');
@@ -247,7 +247,7 @@ officeDocuments.renderDocuments = function () {
 		var docElem = $('.documentslist .document[data-id="'+session.file_id+'"]');
 		if (docElem.length > 0) {
 			docElem.attr('data-esid', session.es_id);
-			docElem.find('a').before('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
+			docElem.find('label').after('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
 			docElem.addClass('session');
 		} else {
 			console.log('Could not find file '+session.file_id+' for session '+session.es_id);

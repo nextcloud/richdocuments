@@ -1,35 +1,77 @@
-#emptyfolder { position:absolute; margin:10em 0 0 10em; font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0; }
-
-.documentslist { padding:5px; }
-.documentslist li{
-	margin:4px;
-}
-.documentslist .session-active {
-	float: left;
-	margin-left: 16px;
-	margin-top: 16px;
-	width: 20px;
-}
-.documentslist .document-info {
-	display: inline;
-	height:32px;
-}
-.documentslist .document-info a {
-	display: block;
-	background-repeat: no-repeat;
-	background-size: 32px;
-	height: 32px;
-	padding-left: 36px;
-	vertical-align: middle;
-	line-height: 32px;
+#emptyfolder {
+	position:absolute; margin:10em 0 0 10em;
+	font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0;
 }
 
 #office-content{
 	padding-top: 3em;
 }
 
+.documentslist { padding:5px; }
+
+.documentslist .add-document {
+	display: inline-block;
+	height: 200px;
+	width: 200px;
+	margin: 1em;
+	vertical-align: top;
+}
+.add-document a {
+	display: inline-block;
+	position: relative;
+	height: 200px;
+	width: 98px;
+	background-repeat: no-repeat;
+	background-size: 64px;
+	background-position: 18px;
+}
+.add-document .add {
+	background-image: url('%webroot%/core/img/actions/add.png');
+}
+.add-document .upload {
+	background-image: url('%webroot%/core/img/actions/upload.png');
+}
+.add-document label {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+	color: white;
+	text-shadow: 0 0 10px #000;
+	text-align: center;
+}
+.documentslist .document {
+	display: inline-block;
+	height: 200px;
+	width: 200px;
+	margin: 1em;
+	vertical-align: top;
+}
+.documentslist .session-active {
+	position: relative;
+	margin-left: 128px;
+	margin-top: 128px;
+	width: 32px;
+}
+.document a {
+	display: block;
+	position: relative;
+	height: 200px;
+	width: 200px;
+	background-repeat: no-repeat;
+	background-size: 64px;
+	background-position: 68px;
+}
+.document label {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+	color: white;
+	text-shadow: 0 0 10px #000;
+	text-align: center;
+}
+
 #odf_close{
-float:left;
+	float:left;
 }
 
 #odf_invite{
