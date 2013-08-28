@@ -71,9 +71,15 @@ class Session {
 		return $info;
 	}
 
-	public static function getSessionByFileId($fileId){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session` WHERE `file_id`= ?');
-		$result = $query->execute(array($fileId));
+	public static function getSessionByFileId($fileIds){
+		if (!is_array($fileIds)){
+			$fileIds = array($fileIds);
+		}
+		$fileIdCount = count($fileIds);
+		$placeholders = array_fill(0, $fileIdCount, '?');
+		$stmt = implode(', ', $placeholders);
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session` WHERE `file_id` IN (' . $stmt .')');
+		$result = $query->execute(array($fileIds));
 		return $result->fetchRow();
 	}
 	
