@@ -18,7 +18,10 @@ class Invite {
 	const STATUS_ACCEPTED = 2;
 	
 	public static function add($esId, $userId){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*documents_invite`  (`es_id`, `uid`, `status`, `sent_on`) VALUES (?, ?, ?, ?) ');
+		$query = \OCP\DB::prepare('
+			INSERT INTO `*PREFIX*documents_invite` (`es_id`, `uid`, `status`, `sent_on`)
+			VALUES (?, ?, ?, ?)
+			');
 		$query->execute(array(
 			$esId,
 			$userId,
@@ -30,7 +33,7 @@ class Invite {
 	}
 	
 	public static function accept($esId){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_invite`  SET `status`=? WHERE `es_id`=? AND `uid`=?');
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_invite` SET `status`=? WHERE `es_id`=? AND `uid`=?');
 		$query->execute(array(
 			self::STATUS_ACCEPTED,
 			$esId,
@@ -39,7 +42,7 @@ class Invite {
 	}
 
 	public static function decline($esId){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_invite`  SET `status`=? WHERE `es_id`=? AND `uid`=?');
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_invite` SET `status`=? WHERE `es_id`=? AND `uid`=?');
 		$query->execute(array(
 			self::STATUS_DECLINED,
 			$esId,

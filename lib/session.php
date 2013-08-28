@@ -14,7 +14,10 @@ namespace OCA\Documents;
 class Session {
 	
 	public static function add($genesis, $hash, $fileId){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*documents_session`  (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`) VALUES (?, ?, ?, ?, ?) ');
+		$query = \OCP\DB::prepare('
+			INSERT INTO `*PREFIX*documents_session` (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`)
+			VALUES (?, ?, ?, ?, ?)
+			');
 		
 		$data = array(
 			'es_id' => self::getUniqueSessionId(),
@@ -45,7 +48,15 @@ class Session {
 	
 	public static function getInfo($esId){
 
-		$query = \OCP\DB::prepare('SELECT s.*, COUNT(`m`.`member_id`) AS users FROM `*PREFIX*documents_session` AS s LEFT JOIN `*PREFIX*documents_member` AS m ON `s`.`es_id`=`m`.`es_id` AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .' AND `m`.`uid` != ? WHERE `s`.`es_id` = ? GROUP BY `m`.`es_id`');
+		$query = \OCP\DB::prepare('
+			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
+			FROM `*PREFIX*documents_session` AS `s`
+			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
+				AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .'
+				AND `m`.`uid` != ?
+			WHERE `s`.`es_id` = ?
+			GROUP BY `m`.`es_id`
+			');
 		$result = $query->execute(
 			array(
 				\OCP\User::getUser(), 
@@ -74,7 +85,15 @@ class Session {
 		
 		$placeholders = array_fill(0, $fileIdCount, '?');
 		$stmt = implode(', ', $placeholders);
-		$query = \OCP\DB::prepare('SELECT s.*, COUNT(`m`.`member_id`) AS users FROM `*PREFIX*documents_session` AS s LEFT JOIN `*PREFIX*documents_member` AS m ON `s`.`es_id`=`m`.`es_id` AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .' AND `m`.`uid` != ? WHERE `s`.`file_id` IN (' . $stmt .') GROUP BY `m`.`es_id`');
+		$query = \OCP\DB::prepare('
+			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
+			FROM `*PREFIX*documents_session` AS `s`
+			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
+				AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .'
+				AND `m`.`uid` != ?
+			WHERE `s`.`file_id` IN (' . $stmt .')
+			GROUP BY `m`.`es_id`
+			');
 		$result = $query->execute(
 			array_merge(array(\OCP\User::getUser()), $fileIds)
 		);
