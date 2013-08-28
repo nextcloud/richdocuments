@@ -111,12 +111,10 @@ class Session {
 			FROM `*PREFIX*documents_session` AS `s`
 			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
 				AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .'
-				AND `m`.`uid` != ?
 			WHERE `s`.`file_id` IN (' . $stmt .')
 			GROUP BY `m`.`es_id`
 			');
-		$result = $query->execute(
-			array_merge(array(\OCP\User::getUser()), $fileIds)
+		$result = $query->execute($fileIds
 		);
 		
 		$info = $result->fetchAll();

@@ -1,5 +1,8 @@
 /*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo,runtime */
 var documentsMain = {
+	_documents: [],
+	_sessions: [],
+	_members: [],
 	useUnstable : false,
 	onStartup: function() {
 		"use strict";
@@ -113,7 +116,9 @@ var documentsMain = {
 			documentsMain.initSession
 		);
 	},
-	
+	/**
+	 * FIXME
+	 * 
 	updateInfo : function(){
 		var fileIds = [];
 		$('.documentslist li').each(function(i, e){
@@ -134,6 +139,7 @@ var documentsMain = {
 			}
 		);
 	},
+	*/
 
 	onInvite: function(event) {
 		event.preventDefault();
@@ -163,6 +169,56 @@ var documentsMain = {
 				$(document.body).removeClass('claro');
 			});
 		});
+	},
+	loadDocuments: function () {
+		var self = this;
+		var def = new $.Deferred();
+		jQuery.getJSON(OC.filePath('documents', 'ajax', 'documents.php'))
+			.done(function (data) {
+				self._documents = data.documents;
+				self._sessions = data.sessions;
+				self._members = data.members;
+				def.resolve();
+			})
+			.fail(function(data){
+				console.log(t('documents','Failed to load documents.'));
+			});
+		return def;
+	},
+	renderDocuments: function () {
+		var self = this;
+
+		//remove all but template
+		$('.documentslist .document:not(.template)').remove();
+
+		jQuery.each(this._documents, function(i,document){
+			var docElem = $('.documentslist .template').clone();
+			docElem.removeClass('template');
+			docElem.addClass('document');
+			docElem.attr('data-id', document.fileid);
+
+			var a = docElem.find('a');
+			a.attr('href', OC.Router.generate('download',{file:document.path}));
+			a.find('label').text(document.name);
+
+			getMimeIcon(document.mimetype).then(function(path){
+				a.css('background-image', 'url("'+path+'")');
+			});
+			$('.documentslist').append(docElem);
+			docElem.show();
+		});
+		jQuery.each(this._sessions, function(i,session){
+			if (self._members[session.es_id].length > 0) {
+				var docElem = $('.documentslist .document[data-id="'+session.file_id+'"]');
+				if (docElem.length > 0) {
+					docElem.attr('data-esid', session.es_id);
+					docElem.find('label').after('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
+					docElem.addClass('session');
+				} else {
+					console.log('Could not find file '+session.file_id+' for session '+session.es_id);
+				}
+			}
+		});
 	}
 };
 
@@ -190,70 +246,6 @@ function getMimeIcon(mime){
 	return def;
 }
 getMimeIcon.cache={};
-
-// fill the albums from Gallery.images
-var documentsDocuments = {
-	_documents: [],
-	_sessions: []
-};
-documentsDocuments.loadDocuments = function () {
-	var self = this;
-	var def = new $.Deferred();
-	jQuery.getJSON(OC.filePath('documents', 'ajax', 'documents.php'))
-		.done(function (data) {
-			self._documents = data.documents;
-			def.resolve();
-		})
-		.fail(function(data){
-			console.log(t('documents','Failed to load documents.'));
-		});
-	return def;
-};
-documentsDocuments.loadSessions = function () {
-	var self = this;
-	var def = new $.Deferred();
-	jQuery.getJSON(OC.filePath('documents', 'ajax', 'sessions.php'))
-		.done(function (data) {
-			self._sessions = data.sessions;
-			def.resolve();
-		})
-		.fail(function(data){
-			console.log(t('documents','Failed to load sessions.'));
-		});
-	return def;
-};
-documentsDocuments.renderDocuments = function () {
-	
-	//remove all but template
-	$('.documentslist .document:not(.template)').remove();
-	
-	jQuery.each(this._documents, function(i,document){
-		var docElem = $('.documentslist .template').clone();
-		docElem.removeClass('template');
-		docElem.addClass('document');
-		docElem.attr('data-id', document.fileid);
-		
-		var a = docElem.find('a');
-		a.attr('href', OC.Router.generate('download',{file:document.path}));
-		a.find('label').text(document.name);
-		
-		getMimeIcon(document.mimetype).then(function(path){
-			a.css('background-image', 'url("'+path+'")');
-		});
-		$('.documentslist').append(docElem);
-		docElem.show();
-	});
-	jQuery.each(this._sessions, function(i,session){
-		var docElem = $('.documentslist .document[data-id="'+session.file_id+'"]');
-		if (docElem.length > 0) {
-			docElem.attr('data-esid', session.es_id);
-			docElem.find('label').after('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
-			docElem.addClass('session');
-		} else {
-			console.log('Could not find file '+session.file_id+' for session '+session.es_id);
-		}
-	});
-};
 
 $(document).ready(function() {
 	"use strict";
@@ -305,14 +297,11 @@ $(document).ready(function() {
 		}
 	});
 
-	//TODO load list of files
-	jQuery.when(documentsDocuments.loadDocuments(), documentsDocuments.loadSessions())
+	jQuery.when(documentsMain.loadDocuments())
 			.then(function(){
-				documentsDocuments.renderDocuments();
+				documentsMain.renderDocuments();
 			});
-			//TODO show no docs please upload
-	//TODO load list of sessions, and add 'active' as icon overlay
-	//TODO when clicking on a document without a session initialize it
+	//TODO show "no docs, please upload"
 	//TODO when ending a session as the last user close session?
 
 	OC.addScript('documents', 'dojo-amalgamation', documentsMain.onStartup);
