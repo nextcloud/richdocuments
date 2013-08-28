@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.net
+
+[owncloud.documents]
+file_filter = <lang>/documents.po
+source_file = templates/documents.pot
+source_lang = en
+type = PO
+
