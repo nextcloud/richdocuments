@@ -95,10 +95,10 @@ var webodfEditor = (function () {
             case "owncloud":
                 require({ }, ["webodf/editor/server/pullbox/serverFactory"], function (ServerFactory) {
                     serverFactory = new ServerFactory();
-                    server = serverFactory.createServer({url: "./office/ajax/otpoll.php"});
+                    server = serverFactory.createServer({url: "./documents/ajax/otpoll.php"});
                     server.getGenesisUrl = function(sid) {
 						// what a dirty hack :)
-                        return OC.Router.generate('office_genesis')+'/' +sid;
+                        return OC.Router.generate('documents_genesis')+'/' +sid;
                     };
                     server.connect(8000, callback);
                 });

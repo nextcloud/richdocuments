@@ -5,7 +5,7 @@
 		<button id="invite-send"><?php p('Send Invitation') ?></button>
 	</div>
 </div>
-<div id="office-content">
+<div id="documents-content">
 	<div id="editor-content">
 	<ul class="documentslist">
 		<li class="add-document">

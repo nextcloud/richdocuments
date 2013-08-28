@@ -1,15 +1,15 @@
 $(document).ready(function(){
 	
-	var officeSettings = {
+	var documentsSettings = {
 		save : function() {
 			var data = {
 				unstable : $('#webodf-unstable').attr('checked')==="checked"
 			};
-			$.post(OC.filePath('office', 'ajax', 'settings.php'), data, officeSettings.afterSave);
+			$.post(OC.filePath('documents', 'ajax', 'settings.php'), data, documentsSettings.afterSave);
 		},
 		afterSave : function(){
-			officeMain.useUnstable = $('#webodf-unstable').attr('checked')==="checked"
+			documentsMain.useUnstable = $('#webodf-unstable').attr('checked')==="checked"
 		}
 	};
-	$('#webodf-unstable').change(officeSettings.save);
+	$('#webodf-unstable').change(documentsSettings.save);
 });

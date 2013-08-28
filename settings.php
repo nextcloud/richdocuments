@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,12 +10,12 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
-\OCP\Util::addScript('office', 'settings');
+\OCP\Util::addScript('documents', 'settings');
 
-$tmpl = new \OCP\Template('office', 'settings');
-$unstable = \OCP\Config::getAppValue('office', 'unstable', 'false');
+$tmpl = new \OCP\Template('documents', 'settings');
+$unstable = \OCP\Config::getAppValue('documents', 'unstable', 'false');
 $tmpl->assign('unstable', $unstable);
 
 return $tmpl->fetchPage();

@@ -1,15 +1,15 @@
 /*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo,runtime */
-var officeMain = {
+var documentsMain = {
 	useUnstable : false,
 	onStartup: function() {
 		"use strict";
-		OC.addScript('office', 'webodf_bootstrap', function() {
-			OC.addScript('office', 'webodf-debug').done(function() {
+		OC.addScript('documents', 'webodf_bootstrap', function() {
+			OC.addScript('documents', 'webodf-debug').done(function() {
 				require({}, ["dojo/ready"], function(ready) {
 					ready(function() {
 						require({}, ["webodf/editor/Editor"], function(Editor) {
 							if (Editor && typeof(Editor) === 'function') {
-								officeMain.initialized = 1;
+								documentsMain.initialized = 1;
 							} else {
 								alert("initialization of webodf/editor/Editor\n" +
 										"failed somehow...");
@@ -19,7 +19,7 @@ var officeMain = {
 				});
 			});
 		});
-		//setInterval(officeMain.updateInfo, 10000);
+		//setInterval(documentsMain.updateInfo, 10000);
 	},
 	initSession: function(response) {
 		"use strict";
@@ -30,7 +30,7 @@ var officeMain = {
 			return;
 		}
 
-		OC.addScript('office', 'editor/boot_editor').done(function() {
+		OC.addScript('documents', 'editor/boot_editor').done(function() {
 			var doclocation = response.es_id;
 
 			// fade out file list and show WebODF canvas
@@ -82,7 +82,7 @@ var officeMain = {
 								cb(memberId);
 							},
 							callback: function(webodfEditorInstance) {
-								officeMain.webodfEditorInstance = webodfEditorInstance;
+								documentsMain.webodfEditorInstance = webodfEditorInstance;
 							}
 						}
 				);
@@ -93,24 +93,24 @@ var officeMain = {
 	startSession: function(fileid) {
 		"use strict";
 		console.log('starting session for fileid '+fileid);
-		if (officeMain.initialized === undefined) {
+		if (documentsMain.initialized === undefined) {
 			alert("WebODF Editor not yet initialized...");
 			return;
 		}
 
 		$.post(
-			OC.Router.generate('office_session_start'),
+			OC.Router.generate('documents_session_start'),
 			{'fileid': fileid},
-			officeMain.initSession
+			documentsMain.initSession
 		);
 	},
 	
 	joinSession: function(esId) {
 		console.log('joining session '+esId);
 		$.post(
-			OC.Router.generate('office_session_join') + '/' + esId,
+			OC.Router.generate('documents_session_join') + '/' + esId,
 			{},
-			officeMain.initSession
+			documentsMain.initSession
 		);
 	},
 	
@@ -120,13 +120,13 @@ var officeMain = {
 			fileIds.push($(e).attr('data-file'));
 		});
 		$.post(
-			OC.Router.generate('office_session_info'),
+			OC.Router.generate('documents_session_info'),
 			{items: fileIds},
 			function (response){
 				if (response && response.info && response.info.length){
 					for (var i=0;i<response.info.length;i++){
 						$('.documentslist li[data-file='+ response.info[i].file_id +'] .session-info').text(
-							t('office', 'Users in session:') 
+							t('documents', 'Users in session:') 
 							+ response.info[i].users
 						);
 					}
@@ -144,12 +144,12 @@ var officeMain = {
 		$('input[name=invitee\\[\\]]').each(function(i, e) {
 			users.push($(e).val());
 		});
-		$.post(OC.Router.generate('office_user_invite'), {users: users});
+		$.post(OC.Router.generate('documents_user_invite'), {users: users});
 	},
 	onClose: function() {
 		"use strict";
 
-		officeMain.webodfEditorInstance.shutdown(function() {
+		documentsMain.webodfEditorInstance.shutdown(function() {
 			// successfull shutdown - all is good.
 
 			// Fade out odf-toolbar
@@ -177,7 +177,7 @@ function getMimeIcon(mime){
 	if(getMimeIcon.cache[mime]){
 		def.resolve(getMimeIcon.cache[mime]);
 	}else{
-		jQuery.getJSON( OC.filePath('office','ajax','mimeicon.php'), {mime: mime})
+		jQuery.getJSON( OC.filePath('documents','ajax','mimeicon.php'), {mime: mime})
 		.done(function(data){
 			getMimeIcon.cache[mime]=data.path;
 			def.resolve(getMimeIcon.cache[mime]);
@@ -192,37 +192,37 @@ function getMimeIcon(mime){
 getMimeIcon.cache={};
 
 // fill the albums from Gallery.images
-var officeDocuments = {
+var documentsDocuments = {
 	_documents: [],
 	_sessions: []
 };
-officeDocuments.loadDocuments = function () {
+documentsDocuments.loadDocuments = function () {
 	var self = this;
 	var def = new $.Deferred();
-	jQuery.getJSON(OC.filePath('office', 'ajax', 'documents.php'))
+	jQuery.getJSON(OC.filePath('documents', 'ajax', 'documents.php'))
 		.done(function (data) {
 			self._documents = data.documents;
 			def.resolve();
 		})
 		.fail(function(data){
-			console.log(t('office','Failed to load documents.'));
+			console.log(t('documents','Failed to load documents.'));
 		});
 	return def;
 };
-officeDocuments.loadSessions = function () {
+documentsDocuments.loadSessions = function () {
 	var self = this;
 	var def = new $.Deferred();
-	jQuery.getJSON(OC.filePath('office', 'ajax', 'sessions.php'))
+	jQuery.getJSON(OC.filePath('documents', 'ajax', 'sessions.php'))
 		.done(function (data) {
 			self._sessions = data.sessions;
 			def.resolve();
 		})
 		.fail(function(data){
-			console.log(t('office','Failed to load sessions.'));
+			console.log(t('documents','Failed to load sessions.'));
 		});
 	return def;
 };
-officeDocuments.renderDocuments = function () {
+documentsDocuments.renderDocuments = function () {
 	
 	//remove all but template
 	$('.documentslist .document:not(.template)').remove();
@@ -261,15 +261,15 @@ $(document).ready(function() {
 	$('.documentslist').on('click', 'li', function(event) {
 		event.preventDefault();
 		if ($(this).attr('data-esid')){
-			officeMain.joinSession($(this).attr('data-esid'));
+			documentsMain.joinSession($(this).attr('data-esid'));
 		} else if ($(this).attr('data-id')){
-			officeMain.startSession($(this).attr('data-id'));
+			documentsMain.startSession($(this).attr('data-id'));
 		}
 	});
 	
-	$('#content').on('click', '#odf_close', officeMain.onClose);
-	$('#content').on('click', '#odf_invite', officeMain.onInvite);
-	$('#content').on('click', '#invite-send', officeMain.sendInvite);
+	$('#content').on('click', '#odf_close', documentsMain.onClose);
+	$('#content').on('click', '#odf_invite', documentsMain.onInvite);
+	$('#content').on('click', '#invite-send', documentsMain.sendInvite);
 	$('#content').on('click', '#invitee-list li', function(){
 		$(this).remove();
 	});
@@ -278,7 +278,7 @@ $(document).ready(function() {
 		minLength: 1,
 		source: function(search, response) {
 			$.get(
-				OC.Router.generate('office_user_search'),
+				OC.Router.generate('documents_user_search'),
 				{search: $('#inivite-input').val()},
 				function(result) {
 					if (result.status === 'success' && result.data.length > 0) {
@@ -293,7 +293,7 @@ $(document).ready(function() {
 			event.preventDefault();
 			var item = $( 
 					'<li title="'
-					+ t('office', 'Remove from the list')
+					+ t('documents', 'Remove from the list')
 					+ '" >'
 					+ el.item.label
 					+ '<input type="hidden" name="invitee[]" value="'
@@ -306,14 +306,14 @@ $(document).ready(function() {
 	});
 
 	//TODO load list of files
-	jQuery.when(officeDocuments.loadDocuments(), officeDocuments.loadSessions())
+	jQuery.when(documentsDocuments.loadDocuments(), documentsDocuments.loadSessions())
 			.then(function(){
-				officeDocuments.renderDocuments();
+				documentsDocuments.renderDocuments();
 			});
 			//TODO show no docs please upload
 	//TODO load list of sessions, and add 'active' as icon overlay
 	//TODO when clicking on a document without a session initialize it
 	//TODO when ending a session as the last user close session?
 
-	OC.addScript('office', 'dojo-amalgamation', officeMain.onStartup);
+	OC.addScript('documents', 'dojo-amalgamation', documentsMain.onStartup);
 });

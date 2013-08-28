@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,73 +9,73 @@
  * later.
  */
 
-$this->create('office_genesis', 'ajax/genesis/{es_id}')
+$this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->post()
-	->action('\OCA\Office\Controller', 'serve')
+	->action('\OCA\Documents\Controller', 'serve')
 ;
-$this->create('office_genesis', 'ajax/genesis/{es_id}')
+$this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->get()
-	->action('\OCA\Office\Controller', 'serve')
+	->action('\OCA\Documents\Controller', 'serve')
 ;
 
-$this->create('office_session_start', 'ajax/session/start')
+$this->create('documents_session_start', 'ajax/session/start')
 	->get()
-	->action('\OCA\Office\Controller', 'startSession')
+	->action('\OCA\Documents\Controller', 'startSession')
 ;
-$this->create('office_session_start', 'ajax/session/start')
+$this->create('documents_session_start', 'ajax/session/start')
 	->post()
-	->action('\OCA\Office\Controller', 'startSession')
+	->action('\OCA\Documents\Controller', 'startSession')
 ;
 
-$this->create('office_session_list', 'ajax/session/list')
+$this->create('documents_session_list', 'ajax/session/list')
 	->get()
-	->action('\OCA\Office\Controller', 'listSessions')
+	->action('\OCA\Documents\Controller', 'listSessions')
 ;
-$this->create('office_session_list', 'ajax/session/list')
+$this->create('documents_session_list', 'ajax/session/list')
 	->post()
-	->action('\OCA\Office\Controller', 'listSessions')
+	->action('\OCA\Documents\Controller', 'listSessions')
 ;
 
-$this->create('office_session_info', 'ajax/session/info')
+$this->create('documents_session_info', 'ajax/session/info')
 	->post()
-	->action('\OCA\Office\Controller', 'sessionInfo')
+	->action('\OCA\Documents\Controller', 'sessionInfo')
 ;
 
-$this->create('office_session_listhtml', 'ajax/session/listHtml')
+$this->create('documents_session_listhtml', 'ajax/session/listHtml')
 	->get()
-	->action('\OCA\Office\Controller', 'listSessionsHtml')
+	->action('\OCA\Documents\Controller', 'listSessionsHtml')
 ;
-$this->create('office_session_listhtml', 'ajax/session/listHtml')
+$this->create('documents_session_listhtml', 'ajax/session/listHtml')
 	->post()
-	->action('\OCA\Office\Controller', 'listSessionsHtml')
+	->action('\OCA\Documents\Controller', 'listSessionsHtml')
 ;
 
-$this->create('office_session_join', 'ajax/session/join/{es_id}')
+$this->create('documents_session_join', 'ajax/session/join/{es_id}')
 	->get()
-	->action('\OCA\Office\Controller', 'joinSession')
+	->action('\OCA\Documents\Controller', 'joinSession')
 ;
-$this->create('office_session_join', 'ajax/session/join/{es_id}')
+$this->create('documents_session_join', 'ajax/session/join/{es_id}')
 	->post()
-	->action('\OCA\Office\Controller', 'joinSession')
+	->action('\OCA\Documents\Controller', 'joinSession')
 ;
 
-$this->create('office_session_save', 'ajax/session/save')
+$this->create('documents_session_save', 'ajax/session/save')
 	->post()
-	->action('\OCA\Office\Controller', 'save')
+	->action('\OCA\Documents\Controller', 'save')
 ;
 
 
-$this->create('office_user_avatar', 'ajax/user/avatar')
+$this->create('documents_user_avatar', 'ajax/user/avatar')
 	->get()
-	->action('\OCA\Office\UserController', 'sendAvatar')
+	->action('\OCA\Documents\UserController', 'sendAvatar')
 ;
 
-$this->create('office_user_invite', 'ajax/user/invite')
+$this->create('documents_user_invite', 'ajax/user/invite')
 	->post()
-	->action('\OCA\Office\UserController', 'invite')
+	->action('\OCA\Documents\UserController', 'invite')
 ;
 
-$this->create('office_user_search', 'ajax/user/search')
+$this->create('documents_user_search', 'ajax/user/search')
 	->get()
-	->action('\OCA\Office\UserController', 'search')
+	->action('\OCA\Documents\UserController', 'search')
 ;

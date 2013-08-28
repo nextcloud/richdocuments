@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,11 +9,11 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class Helper{
 	
-	const APP_ID = 'office';
+	const APP_ID = 'documents';
 	
 	public static function getRandomColor(){
 		$str = dechex(floor(rand(0, 16777215)));

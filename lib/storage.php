@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Frank Karlitschek
  * @copyright 2012 Frank Karlitschek frank@owncloud.org
@@ -22,7 +22,7 @@
  */
 
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class Storage {
 

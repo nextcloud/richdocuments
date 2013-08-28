@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,9 +9,9 @@
  * later.
  */
 
-namespace OCA\Office\Download;
-use OCA\Office\View;
-class Range extends \OCA\Office\Download {
+namespace OCA\Documents\Download;
+use OCA\Documents\View;
+class Range extends \OCA\Documents\Download {
 
 	// Start of the range
 	protected $start;

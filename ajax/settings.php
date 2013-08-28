@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,21 +10,21 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 \OCP\JSON::callCheck();
 
 $unstable = isset($_POST['unstable']) ? $_POST['unstable'] : null;
 if (!is_null($unstable)){
 	\OCP\JSON::checkAdminUser();
-	\OCP\Config::setAppValue('office', 'unstable', $unstable);
+	\OCP\Config::setAppValue('documents', 'unstable', $unstable);
 	\OCP\JSON::success();
 	exit();
 }
 
 if (isset($_GET['unstable'])){
 	\OCP\JSON::success(array(
-			'value' => \OCP\Config::getAppValue('office', 'unstable', 'false')
+			'value' => \OCP\Config::getAppValue('documents', 'unstable', 'false')
 	));
 }
 exit();

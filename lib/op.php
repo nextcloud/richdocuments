@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,12 +9,12 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class Op {
 
 	public static function add($esId, $memberId, $opspec){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_op`  (`es_id`, `member`, `opspec`) VALUES (?, ?, ?) ');
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*documents_op`  (`es_id`, `member`, `opspec`) VALUES (?, ?, ?) ');
 		$query->execute(array(
 			$esId,
 			$memberId,
@@ -22,7 +22,7 @@ class Op {
 		));
 		// throw something - if query fails - thats fatal
 
-		return \OCP\DB::insertid(`*PREFIX*office_op`);
+		return \OCP\DB::insertid(`*PREFIX*documents_op`);
 	}
 	
 	public static function addOpsArray($esId, $memberId, $ops){
@@ -38,7 +38,7 @@ class Op {
 	 * @returns "" when there are no Ops, or the seq of the last Op
 	 */
 	public static function getHeadSeq($esId){
-		$query = \OCP\DB::prepare('SELECT `seq` FROM `*PREFIX*office_op`  WHERE `es_id`=? ORDER BY `seq` DESC LIMIT 1');
+		$query = \OCP\DB::prepare('SELECT `seq` FROM `*PREFIX*documents_op`  WHERE `es_id`=? ORDER BY `seq` DESC LIMIT 1');
 		$result = $query->execute(array(
 				$esId
 			))
@@ -67,7 +67,7 @@ class Op {
 		if ($seq == ""){
 			$seq = -1;
 		}
-		$query = \OCP\DB::prepare('SELECT `opspec` FROM `*PREFIX*office_op`  WHERE `es_id`=? AND `seq`>? ORDER BY `seq` ASC');
+		$query = \OCP\DB::prepare('SELECT `opspec` FROM `*PREFIX*documents_op`  WHERE `es_id`=? AND `seq`>? ORDER BY `seq` ASC');
 		$result = $query->execute(array($esId, $seq));
 		return $result->fetchAll();
 	}

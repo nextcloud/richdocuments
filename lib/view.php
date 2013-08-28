@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,25 +9,25 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class View extends \OC\Files\View{
-	const OFFICE_DIRNAME='/office';
-	protected static $officeView;
+	const DOCUMENTS_DIRNAME='/documents';
+	protected static $documentsView;
 	
-	public static function initOfficeView($uid){
+	public static function initDocumentsView($uid){
 		$view = new \OC\Files\View('/' . $uid);
-		if (!$view->is_dir(self::OFFICE_DIRNAME)) {
-			$view->mkdir(self::OFFICE_DIRNAME);
+		if (!$view->is_dir(self::DOCUMENTS_DIRNAME)) {
+			$view->mkdir(self::DOCUMENTS_DIRNAME);
 		}
 		
-		//if (!self::$officeView){
-		//	self::$officeView = new \OC\Files\View('/' . $uid . self::OFFICE_DIRNAME);
+		//if (!self::$documentsView){
+		//	self::$documentsView = new \OC\Files\View('/' . $uid . self::DOCUMENTS_DIRNAME);
 		//}
 		
 		// it was a bad idea to use a static method.
 		// to be changed later
-		return new \OC\Files\View('/' . $uid . self::OFFICE_DIRNAME);
+		return new \OC\Files\View('/' . $uid . self::DOCUMENTS_DIRNAME);
 	}
 	
 	public static function storeDocument($uid, $filePath){
@@ -43,13 +43,13 @@ class View extends \OC\Files\View{
 		
 		$newName = '/' . sha1($view->file_get_contents($relPath)) . '.odt';
 
-		$view->copy($relPath, self::OFFICE_DIRNAME . $newName);
+		$view->copy($relPath, self::DOCUMENTS_DIRNAME . $newName);
 		\OC_FileProxy::$enabled = $proxyStatus;
 		return $newName;
 	}
 	
 	public static function getHashByGenesis($uid, $genesisPath){
-		$officeView = self::initOfficeView($uid);
-		return sha1($officeView->file_get_contents($genesisPath));
+		$documentsView = self::initDocumentsView($uid);
+		return sha1($documentsView->file_get_contents($genesisPath));
 	}
 }

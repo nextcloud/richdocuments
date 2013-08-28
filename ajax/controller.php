@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class Controller {
 
@@ -23,8 +23,8 @@ class Controller {
 
 		$session = Session::getSession(@$args['es_id']);
 		$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
-		$officeView = View::initOfficeView($session['owner']);
-		$download = new Download($officeView, $filename);
+		$documentsView = View::initDocumentsView($session['owner']);
+		$download = new Download($documentsView, $filename);
 		$download->sendResponse();
 	}
 
@@ -57,7 +57,7 @@ class Controller {
 			//If there is no existing session we need to start a new one
 			if (!$session || empty($session)){
 
-				$officeView = View::initOfficeView($uid);
+				$documentsView = View::initDocumentsView($uid);
 				$genesisPath = View::storeDocument($uid, $path);
 
 				if (!$genesisPath){
@@ -173,7 +173,7 @@ class Controller {
 			$invites = array();
 		}
 
-		$tmpl = new \OCP\Template('office', 'part.sessions', '');
+		$tmpl = new \OCP\Template('documents', 'part.sessions', '');
 		$tmpl->assign('invites', $invites);
 		$tmpl->assign('sessions', $sessions);
 		echo $tmpl->fetchPage();

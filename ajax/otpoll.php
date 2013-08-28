@@ -36,31 +36,31 @@
  */
 
  OCP\JSON::checkLoggedIn();
- OCP\JSON::checkAppEnabled('office');
+ OCP\JSON::checkAppEnabled('documents');
  // session_write_close();
 
 $response = array();
 try{
-	$request = new OCA\Office\Request();
+	$request = new OCA\Documents\Request();
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'query_memberdata_list':
 			$esId = $request->getParam('args/es_id');
-			$inactiveMembers = \OCA\Office\Member::cleanSession($esId);
+			$inactiveMembers = \OCA\Documents\Member::cleanSession($esId);
 			if (is_array($inactiveMembers)){
 				foreach ($inactiveMembers as $member){
-					\OCA\Office\Op::removeCursor($esId, $member['member_id']);
+					\OCA\Documents\Op::removeCursor($esId, $member['member_id']);
 				}
 			}
 			
 			$ids = $request->getParam('args/member_ids');
-			$members = OCA\Office\Member::getMembersAsArray($ids);
+			$members = OCA\Documents\Member::getMembersAsArray($ids);
 			$response["memberdata_list"] = array_map(
 					function($x){
 						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
 						
 						// Stub
-						$x['avatar_url'] = \OCP\Util::linkToRoute('office_user_avatar');
+						$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
 						return $x;
 					}, 
 					$members
@@ -75,9 +75,9 @@ try{
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
 
-				$currentHead = OCA\Office\Op::getHeadSeq($esId);
+				$currentHead = OCA\Documents\Op::getHeadSeq($esId);
 				try {
-					OCA\Office\Member::updateMemberActivity($memberId);
+					OCA\Documents\Member::updateMemberActivity($memberId);
 				} catch (\Exception $e){
 					
 				}
@@ -88,7 +88,7 @@ try{
 					if ($hasOps) {
 						// incoming ops without conflict
 						// Add incoming ops, respond with a new head
-						$newHead = OCA\Office\Op::addOpsArray($esId, $memberId, $ops);
+						$newHead = OCA\Documents\Op::addOpsArray($esId, $memberId, $ops);
 						$response["result"] = 'added';
 						$response["head_seq"] = $newHead ? $newHead : $currentHead;
 					} else {
@@ -98,7 +98,7 @@ try{
 						$response["head_seq"] = $currentHead;
 					}
 				} else { // HEADs do not match
-					$response["ops"] = OCA\Office\Op::getOpsAfterJson($esId, $seqHead);
+					$response["ops"] = OCA\Documents\Op::getOpsAfterJson($esId, $seqHead);
 					$response["head_seq"] = $currentHead;
 					$response["result"] = $hasOps ? 'conflict' : 'new_ops';
 				}

@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Office;
+namespace OCA\Documents;
 // Init owncloud
 
 \OCP\User::checkLoggedIn();
-\OCP\JSON::checkAppEnabled('office');
+\OCP\JSON::checkAppEnabled('documents');
 
 $sessions = Session::getAll();
 if (!is_array($sessions)){

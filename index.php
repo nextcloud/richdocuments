@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Frank Karlitschek
  * @copyright 2011 Frank Karlitschek karlitschek@kde.org
@@ -22,17 +22,17 @@
  */
 
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 \OCP\User::checkLoggedIn();
-\OCP\JSON::checkAppEnabled('office');
-\OCP\App::setActiveNavigationEntry( 'office_index' );
+\OCP\JSON::checkAppEnabled('documents');
+\OCP\App::setActiveNavigationEntry( 'documents_index' );
 
-\OCP\Util::addStyle( 'office', 'style' );
-\OCP\Util::addStyle( 'office', 'dojo-app' );
-\OCP\Util::addStyle( 'office', 'editor' );
-\OCP\Util::addScript('office', 'office');
+\OCP\Util::addStyle( 'documents', 'style' );
+\OCP\Util::addStyle( 'documents', 'dojo-app' );
+\OCP\Util::addStyle( 'documents', 'editor' );
+\OCP\Util::addScript('documents', 'documents');
 
-$tmpl = new \OCP\Template('office', 'documents', 'user');
+$tmpl = new \OCP\Template('documents', 'documents', 'user');
 
 $tmpl->printPage();

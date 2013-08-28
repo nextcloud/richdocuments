@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class Member {
 
@@ -20,7 +20,7 @@ class Member {
 	const MEMBER_STATUS_INACTIVE = 2;
 
 	public static function add($esId, $displayname, $color){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_member`  (`es_id`, `uid`, `color`, `last_activity`) VALUES (?, ?, ?, ?) ');
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*documents_member`  (`es_id`, `uid`, `color`, `last_activity`) VALUES (?, ?, ?, ?) ');
 		$query->execute(array(
 			$esId,
 			\OCP\User::getUser(),
@@ -28,11 +28,11 @@ class Member {
 			time()
 		));
 
-		return \OCP\DB::insertid(`*PREFIX*office_member`);
+		return \OCP\DB::insertid(`*PREFIX*documents_member`);
 	}
 
 	public static function getMember($id){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member_id`= ?');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `member_id`= ?');
 		$result = $query->execute(array($id));
 		return $result->fetchRow();
 	}
@@ -45,13 +45,13 @@ class Member {
 		
 		$placeholders = array_fill(0, $memberCount, '?');
 		$stmt = implode(', ', $placeholders);
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `member_id`IN (' . $stmt . ')');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `member_id`IN (' . $stmt . ')');
 		$result = $query->execute($ids);
 		return $result->fetchAll();
 	}
 	
 	public static function updateMemberActivity($memberId){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*office_member`  SET `last_activity`=? WHERE `member_id`=?');
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_member`  SET `last_activity`=? WHERE `member_id`=?');
 		$query->execute(array(
 			time(),
 			$memberId
@@ -65,7 +65,7 @@ class Member {
 			$activeSince = $lastActivity;
 		}
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_member` WHERE `es_id`= ? and `last_activity` > ?');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `es_id`= ? and `last_activity` > ?');
 		$result = $query->execute(array($esId, $activeSince));
 		return $result->fetchAll();
 	}
@@ -78,7 +78,7 @@ class Member {
 	public static function cleanSession($esId){
 		$time = self::getInactivityPeriod();
 
-		$query = \OCP\DB::prepare('SELECT `member_id` FROM `*PREFIX*office_member` WHERE `es_id`= ? AND `last_activity`<? AND `status`=?');
+		$query = \OCP\DB::prepare('SELECT `member_id` FROM `*PREFIX*documents_member` WHERE `es_id`= ? AND `last_activity`<? AND `status`=?');
 		$result = $query->execute(array(
 				$esId,
 				$time,
@@ -97,7 +97,7 @@ class Member {
 	 * @param timestamp $time
 	 */
 	protected static function deactivate($esId, $time){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*office_member`  SET `status`=? WHERE `es_id`=? AND `last_activity`<?');
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_member`  SET `status`=? WHERE `es_id`=? AND `last_activity`<?');
 		$query->execute(array(
 			self::MEMBER_STATUS_INACTIVE,
 			$esId,

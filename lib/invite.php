@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Office;
+namespace OCA\Documents;
 
 class Invite {
 	const STATUS_SENT = 0;
@@ -18,7 +18,7 @@ class Invite {
 	const STATUS_ACCEPTED = 2;
 	
 	public static function add($esId, $userId){
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*office_invite`  (`es_id`, `uid`, `status`, `sent_on`) VALUES (?, ?, ?, ?) ');
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*documents_invite`  (`es_id`, `uid`, `status`, `sent_on`) VALUES (?, ?, ?, ?) ');
 		$query->execute(array(
 			$esId,
 			$userId,
@@ -26,11 +26,11 @@ class Invite {
 			time()
 		));
 
-		return \OCP\DB::insertid(`*PREFIX*office_invite`);
+		return \OCP\DB::insertid(`*PREFIX*documents_invite`);
 	}
 	
 	public static function accept($esId){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*office_invite`  SET `status`=? WHERE `es_id`=? AND `uid`=?');
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_invite`  SET `status`=? WHERE `es_id`=? AND `uid`=?');
 		$query->execute(array(
 			self::STATUS_ACCEPTED,
 			$esId,
@@ -39,7 +39,7 @@ class Invite {
 	}
 
 	public static function decline($esId){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*office_invite`  SET `status`=? WHERE `es_id`=? AND `uid`=?');
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_invite`  SET `status`=? WHERE `es_id`=? AND `uid`=?');
 		$query->execute(array(
 			self::STATUS_DECLINED,
 			$esId,
@@ -49,13 +49,13 @@ class Invite {
 
 	
 	public static function getAllInvites(){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*office_invite` WHERE `uid`= ?');
+		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_invite` WHERE `uid`= ?');
 		$result = $query->execute(array(\OCP\User::getUser()));
 		return $result->fetchAll();
 	}
 	
 	public static function getSenderStatusesAsArray(){
-		$l10n = \OCP\Util::getL10N('office');
+		$l10n = \OCP\Util::getL10N('documents');
 		
 		return array(
 			self::STATUS_SENT => $l10n->t('Sent'),
@@ -65,7 +65,7 @@ class Invite {
 	}
 	
 	public static function getRecipientStatusesAsArray(){
-		$l10n = \OCP\Util::getL10N('office');
+		$l10n = \OCP\Util::getL10N('documents');
 		
 		return array(
 			self::STATUS_SENT => $l10n->t('Incoming'),

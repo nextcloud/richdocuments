@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Frank Karlitschek
  * @copyright 2011 Frank Karlitschek karlitschek@kde.org
@@ -21,20 +21,20 @@
  * 
  */
 
-//OCP\Util::addStyle( 'office', 'style');
+//OCP\Util::addStyle( 'documents', 'style');
 
-OCP\App::register(array('order' => 70, 'id' => 'office', 'name' => 'Office'));
-OCP\App::registerAdmin('office', 'settings');
+OCP\App::register(array('order' => 70, 'id' => 'documents', 'name' => 'Documents'));
+OCP\App::registerAdmin('documents', 'settings');
 
 OCP\App::addNavigationEntry(array(
-	'id' => 'office_index', 
+	'id' => 'documents_index', 
 	'order' => 80, 
-	'href' => OCP\Util::linkTo('office', 'index.php'), 
-	'icon' => OCP\Util::imagePath('office', 'office.png'), 
-	'name' => 'Office')
+	'href' => OCP\Util::linkTo('documents', 'index.php'), 
+	'icon' => OCP\Util::imagePath('documents', 'documents.png'), 
+	'name' => 'Documents')
 );
 
-OC::$CLASSPATH['OCA\Office\Controller'] = 'office/ajax/controller.php';
-OC::$CLASSPATH['OCA\Office\UserController'] = 'office/ajax/userController.php';
-OC::$CLASSPATH['OCA\Office\Download\Simple'] = 'office/lib/download/simple.php';
-OC::$CLASSPATH['OCA\Office\Download\Range'] = 'office/lib/download/range.php';
+OC::$CLASSPATH['OCA\Documents\Controller'] = 'documents/ajax/controller.php';
+OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
+OC::$CLASSPATH['OCA\Documents\Download\Simple'] = 'documents/lib/download/simple.php';
+OC::$CLASSPATH['OCA\Documents\Download\Range'] = 'documents/lib/download/range.php';

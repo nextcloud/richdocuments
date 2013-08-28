@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info>
-	<id>office</id>
-	<name>Office</name>
+	<id>documents</id>
+	<name>Documents</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>

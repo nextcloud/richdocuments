@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Office App
+ * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,9 +9,9 @@
  * later.
  */
 
-namespace OCA\Office\Download;
+namespace OCA\Documents\Download;
 
-class Simple extends \OCA\Office\Download {
+class Simple extends \OCA\Documents\Download {
 
 	
 	public function __construct($view, $filepath){

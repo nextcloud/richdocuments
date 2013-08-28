@@ -1,5 +1,5 @@
-<fieldset class="personalblock" id="office">
-	<legend><strong><?php p($l->t('Office')) ?></strong></legend>
+<fieldset class="personalblock" id="documents">
+	<legend><strong><?php p($l->t('Documents')) ?></strong></legend>
 	<table class="nostyle">
 		<tbody><tr>
 				<td>

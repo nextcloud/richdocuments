@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*office_session</name>
+		<name>*dbprefix*documents_session</name>
 		<declaration>
 			<field>
 				<name>es_id</name>
@@ -20,7 +20,7 @@
 				<default></default>
 				<notnull>false</notnull>
 				<length>512</length>
-				<comments>Relative to owner office storage /welcome.odt</comments>
+				<comments>Relative to owner documents storage /welcome.odt</comments>
 			</field>
 			<field>
 				<name>genesis_hash</name>
@@ -45,7 +45,7 @@
 			</field>
 			
 			<index>
-				<name>office_session_ei_index</name>
+				<name>documents_session_ei_idx</name>
 				<primary>true</primary>
 				<unique>true</unique>
 				<field>
@@ -57,7 +57,7 @@
 	</table>
 	
 	<table>
-		<name>*dbprefix*office_member</name>
+		<name>*dbprefix*documents_member</name>
 		<declaration>
 			<field>
 				<name>member_id</name>
@@ -109,7 +109,7 @@
 	</table>
 		
 	<table>
-		<name>*dbprefix*office_op</name>
+		<name>*dbprefix*documents_op</name>
 		<declaration>
 			<field>
 				<name>seq</name>
@@ -151,7 +151,7 @@
 				</field>
 			</index>
 			<index>
-				<name>office_op_eis_index</name>
+				<name>documents_op_eis_idx</name>
 				<unique>true</unique>
 				<field>
 					<name>es_id</name>
@@ -165,7 +165,7 @@
 		</declaration>
 	</table>
 	<table>
-		<name>*dbprefix*office_invite</name>
+		<name>*dbprefix*documents_invite</name>
 		<declaration>
 			<field>
 				<name>es_id</name>
