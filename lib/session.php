@@ -71,7 +71,18 @@ class Session {
 		return $info;
 	}
 
-	public static function getSessionByFileId($fileIds){
+	public static function getSessionByFileId($fileId){
+		$sessions = self::getSessionsByFileIds(array($fileId));
+		if (count($sessions) === 1) {
+			return $sessions[0];
+		} else {
+			\OCP\Util::writeLog('documents','more than one session found for file id '.$fileId,\OCP\Util::ERROR);
+			return $sessions[0];
+		}
+		return null;
+	}
+	
+	public static function getSessionsByFileIds($fileIds){
 		if (!is_array($fileIds)){
 			$fileIds = array($fileIds);
 		}
@@ -79,8 +90,12 @@ class Session {
 		$placeholders = array_fill(0, $fileIdCount, '?');
 		$stmt = implode(', ', $placeholders);
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session` WHERE `file_id` IN (' . $stmt .')');
-		$result = $query->execute(array($fileIds));
-		return $result->fetchRow();
+		$result = $query->execute($fileIds);
+		$sessions = $result->fetchAll();
+		if (!is_array($sessions)){
+			$sessions = array();
+		}
+		return $sessions;
 	}
 	
 	public static function getInfoByFileid($fileIds){
