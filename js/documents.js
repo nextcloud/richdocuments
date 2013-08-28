@@ -155,6 +155,11 @@ var documentsMain = {
 	onClose: function() {
 		"use strict";
 
+		var saveSessionRoute = OC.Router.generate('documents_session_save');
+		//auto save document
+		documentsMain.webodfEditorInstance.saveDocument(saveSessionRoute, function(){});
+
+		//close editor
 		documentsMain.webodfEditorInstance.shutdown(function() {
 			// successfull shutdown - all is good.
 
@@ -173,16 +178,18 @@ var documentsMain = {
 	loadDocuments: function () {
 		var self = this;
 		var def = new $.Deferred();
-		jQuery.getJSON(OC.filePath('documents', 'ajax', 'documents.php'))
-			.done(function (data) {
-				self._documents = data.documents;
-				self._sessions = data.sessions;
-				self._members = data.members;
-				def.resolve();
-			})
-			.fail(function(data){
-				console.log(t('documents','Failed to load documents.'));
-			});
+		OC.Router.registerLoadedCallback(function () {
+			jQuery.getJSON(OC.Router.generate('documents_documents_list'))
+				.done(function (data) {
+					self._documents = data.documents;
+					self._sessions = data.sessions;
+					self._members = data.members;
+					def.resolve();
+				})
+				.fail(function(data){
+					console.log(t('documents','Failed to load documents.'));
+				});
+		});
 		return def;
 	},
 	renderDocuments: function () {

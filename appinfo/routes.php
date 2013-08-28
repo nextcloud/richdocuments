@@ -27,6 +27,11 @@ $this->create('documents_session_start', 'ajax/session/start')
 	->action('\OCA\Documents\Controller', 'startSession')
 ;
 
+$this->create('documents_documents_list', 'ajax/documents/list')
+	->get()
+	->action('\OCA\Documents\Controller', 'listDocuments')
+;
+
 $this->create('documents_session_list', 'ajax/session/list')
 	->get()
 	->action('\OCA\Documents\Controller', 'listSessions')
