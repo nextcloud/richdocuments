@@ -9,6 +9,7 @@
 "Declined" => "Torjuttu",
 "Accepted" => "Hyväksytty",
 "Incoming" => "Saapuva",
+"Documents" => "Asiakirjat",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"
 );
