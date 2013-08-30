@@ -3037,7 +3037,6 @@ core.DomUtils = function DomUtils() {
   }
   this.rangesIntersect = rangesIntersect;
   function getNodesInRange(range, nodeFilter) {
-    runtime.assert(Boolean(range.startContainer), "Expected to get a range with a startContainer in getNodesInRange().");
     var document = range.startContainer.ownerDocument, elements = [], root = (range.commonAncestorContainer), n, treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_ALL, nodeFilter, false);
     treeWalker.currentNode = range.startContainer;
     n = range.startContainer;
@@ -3084,7 +3083,6 @@ core.DomUtils = function DomUtils() {
   }
   this.normalizeTextNodes = normalizeTextNodes;
   function rangeContainsNode(limits, node) {
-    runtime.assert(Boolean(node), "Expected to get a node in rangeContainsNode()");
     var range = node.ownerDocument.createRange(), nodeLength = node.nodeType === Node.TEXT_NODE ? node.length : node.childNodes.length, result;
     range.setStart(limits.startContainer, limits.startOffset);
     range.setEnd(limits.endContainer, limits.endOffset);
@@ -5691,7 +5689,6 @@ xmldom.XPath = function() {
     return nodelist
   }
   function getODFElementsWithXPath(node, xpath, namespaceResolver) {
-    runtime.assert(Boolean(node), "Expected to get a node in getODFElementsWithXPath()");
     var doc = node.ownerDocument, nodes, elements = [], n = null;
     if(!doc || !doc.evaluate) {
       elements = fallback(node, xpath, namespaceResolver)
@@ -5747,7 +5744,6 @@ xmldom.XPath = function() {
  @source: http://gitorious.org/webodf/webodf/
 */
 gui.AnnotationViewManager = function AnnotationViewManager(odfCanvas, odfFragment, annotationsPane) {
-  runtime.assert(Boolean(odfFragment), "Expected to get an odfFragment");
   var annotations = [], doc = odfFragment.ownerDocument, odfUtils = new odf.OdfUtils, CONNECTOR_MARGIN = 30, NOTE_MARGIN = 20, window = runtime.getWindow();
   runtime.assert(Boolean(window), "Expected to be run in an environment which has a global window, like a browser.");
   function wrapAnnotation(annotation) {
@@ -5837,6 +5833,17 @@ gui.AnnotationViewManager = function AnnotationViewManager(odfCanvas, odfFragmen
       }
     }
   }
+  function showAnnotationsPane(show) {
+    var sizer = odfCanvas.getSizer();
+    if(show) {
+      annotationsPane.style.display = "inline-block";
+      sizer.style.paddingRight = window.getComputedStyle(annotationsPane).width
+    }else {
+      annotationsPane.style.display = "none";
+      sizer.style.paddingRight = 0
+    }
+    odfCanvas.refreshSize()
+  }
   function sortAnnotations() {
     annotations.sort(function(a, b) {
       if(a.node.compareDocumentPosition(b.node) === Node.DOCUMENT_POSITION_FOLLOWING) {
@@ -5853,6 +5860,7 @@ gui.AnnotationViewManager = function AnnotationViewManager(odfCanvas, odfFragmen
   }
   this.rerenderAnnotations = rerenderAnnotations;
   function addAnnotation(annotation) {
+    showAnnotationsPane(true);
     annotations.push({node:annotation.node, end:annotation.end});
     sortAnnotations();
     wrapAnnotation(annotation);
@@ -5868,6 +5876,9 @@ gui.AnnotationViewManager = function AnnotationViewManager(odfCanvas, odfFragmen
     unhighlightAnnotation(annotation);
     if(index !== -1) {
       annotations.splice(index, 1)
+    }
+    if(annotations.length === 0) {
+      showAnnotationsPane(false)
     }
   }
   function forgetAnnotations() {
@@ -6593,7 +6604,6 @@ odf.OdfUtils = function OdfUtils() {
     return Boolean(getParagraphElement(textNode) && (!isODFWhitespace(textNode.textContent) || isSignificantWhitespace(textNode, 0)))
   }
   function getTextNodes(range, includePartial) {
-    runtime.assert(Boolean(range.startContainer), "Expected to get a range with a startContainer in getTextNodes().");
     var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), textNodes;
     function nodeFilter(node) {
       nodeRange.selectNodeContents(node);
@@ -6616,7 +6626,6 @@ odf.OdfUtils = function OdfUtils() {
   }
   this.getTextNodes = getTextNodes;
   this.getTextElements = function(range, includeInsignificantWhitespace) {
-    runtime.assert(Boolean(range.startContainer), "Expected to get a range with a startContainer in getTextElements().");
     var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), elements;
     function nodeFilter(node) {
       var nodeType = node.nodeType;
@@ -6643,7 +6652,6 @@ odf.OdfUtils = function OdfUtils() {
     return elements
   };
   this.getParagraphElements = function(range) {
-    runtime.assert(Boolean(range.startContainer), "Expected to get a range with a startContainer in getParagraphElements().");
     var document = range.startContainer.ownerDocument, nodeRange = document.createRange(), elements;
     function nodeFilter(node) {
       nodeRange.selectNodeContents(node);
@@ -6915,10 +6923,11 @@ odf.Style2CSS = function Style2CSS() {
   "index-title", "object-index", "section", "table-of-content", "table-index", "user-index"], "table":["background", "table"], "table-cell":["body", "covered-table-cell", "even-columns", "even-rows", "first-column", "first-row", "last-column", "last-row", "odd-columns", "odd-rows", "table-cell"], "table-column":["table-column"], "table-row":["table-row"], "text":["a", "index-entry-chapter", "index-entry-link-end", "index-entry-link-start", "index-entry-page-number", "index-entry-span", "index-entry-tab-stop", 
   "index-entry-text", "index-title-template", "linenumbering-configuration", "list-level-style-number", "list-level-style-bullet", "outline-level-style", "span"], "list":["list-item"]}, textPropertySimpleMapping = [[fons, "color", "color"], [fons, "background-color", "background-color"], [fons, "font-weight", "font-weight"], [fons, "font-style", "font-style"]], bgImageSimpleMapping = [[stylens, "repeat", "background-repeat"]], paragraphPropertySimpleMapping = [[fons, "background-color", "background-color"], 
   [fons, "text-align", "text-align"], [fons, "text-indent", "text-indent"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], [fons, "padding-bottom", "padding-bottom"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], [fons, "margin-right", 
-  "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"], [fons, "border", "border"]], graphicPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "min-height", "min-height"], [drawns, "stroke", "border"], [svgns, "stroke-color", "border-color"], [svgns, "stroke-width", "border-width"]], tablecellPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], 
-  [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "border", "border"]], tablecolumnPropertySimpleMapping = [[stylens, "column-width", "width"]], tablerowPropertySimpleMapping = [[stylens, "row-height", "height"], [fons, "keep-together", null]], tablePropertySimpleMapping = [[stylens, "width", "width"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageContentPropertySimpleMapping = 
-  [[fons, "background-color", "background-color"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], [fons, "padding-bottom", "padding-bottom"], [fons, "border", "border"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], [fons, 
-  "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageSizePropertySimpleMapping = [[fons, "page-width", "width"], [fons, "page-height", "height"]], borderPropertyMap = {"border":true, "border-left":true, "border-right":true, "border-top":true, "border-bottom":true, "stroke-width":true}, fontFaceDeclsMap = {}, utils = new odf.OdfUtils, documentType, odfRoot, defaultFontSize, xpath = new xmldom.XPath, cssUnits = new core.CSSUnits;
+  "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"], [fons, "border", "border"]], graphicPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "min-height", "min-height"], [drawns, "stroke", "border"], [svgns, "stroke-color", "border-color"], [svgns, "stroke-width", "border-width"], [fons, "border", "border"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, 
+  "border-bottom", "border-bottom"]], tablecellPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "border", "border"]], tablecolumnPropertySimpleMapping = [[stylens, "column-width", "width"]], tablerowPropertySimpleMapping = [[stylens, "row-height", "height"], [fons, "keep-together", null]], tablePropertySimpleMapping = 
+  [[stylens, "width", "width"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageContentPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], [fons, "padding-bottom", "padding-bottom"], [fons, "border", "border"], [fons, 
+  "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageSizePropertySimpleMapping = [[fons, "page-width", "width"], [fons, "page-height", "height"]], borderPropertyMap = {"border":true, "border-left":true, "border-right":true, 
+  "border-top":true, "border-bottom":true, "stroke-width":true}, fontFaceDeclsMap = {}, utils = new odf.OdfUtils, documentType, odfRoot, defaultFontSize, xpath = new xmldom.XPath, cssUnits = new core.CSSUnits;
   function getStyleMap(stylesnode) {
     var stylemap = {}, node, name, family, style;
     if(!stylesnode) {
@@ -8563,7 +8572,7 @@ odf.OdfCanvas = function() {
     listenEvent(element, "keyup", checkSelection);
     listenEvent(element, "keydown", checkSelection)
   }
-  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent, annotationsPane, allowAnnotations = 
+  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent, sizer, annotationsPane, allowAnnotations = 
   false, annotationManager;
   function clear(element) {
     while(element.firstChild) {
@@ -9026,7 +9035,7 @@ odf.OdfCanvas = function() {
       }
     }
     function fixContainerSize() {
-      var sizer = element.firstChild, odfdoc = sizer.firstChild;
+      var odfdoc = sizer.firstChild;
       if(!odfdoc) {
         return
       }
@@ -9049,12 +9058,11 @@ odf.OdfCanvas = function() {
       element.style.height = Math.round(zoomLevel * sizer.offsetHeight) + "px"
     }
     function handleContent(container, odfnode) {
-      var css = positioncss.sheet, sizer;
+      var css = positioncss.sheet;
       clear(element);
       sizer = doc.createElementNS(element.namespaceURI, "div");
       sizer.style.display = "inline-block";
       sizer.style.background = "white";
-      sizer.id = "sizer";
       sizer.appendChild(odfnode);
       element.appendChild(sizer);
       annotationsPane = doc.createElementNS(element.namespaceURI, "div");
@@ -9077,11 +9085,9 @@ odf.OdfCanvas = function() {
       fixContainerSize()
     }
     function handleAnnotations(odfnode) {
-      var sizer = doc.getElementById("sizer");
       if(allowAnnotations) {
         if(!annotationsPane.parentNode) {
           sizer.appendChild(annotationsPane);
-          sizer.style.paddingRight = window.getComputedStyle(annotationsPane).width;
           fixContainerSize()
         }
         if(annotationManager) {
@@ -9092,7 +9098,6 @@ odf.OdfCanvas = function() {
       }else {
         if(annotationsPane.parentNode) {
           sizer.removeChild(annotationsPane);
-          sizer.style.paddingRight = 0;
           annotationManager.forgetAnnotations();
           fixContainerSize()
         }
@@ -9249,10 +9254,15 @@ odf.OdfCanvas = function() {
         annotationManager.rerenderAnnotations()
       }
     };
+    this.getSizer = function() {
+      return sizer
+    };
     this.enableAnnotations = function(allow) {
       if(allow !== allowAnnotations) {
         allowAnnotations = allow;
-        handleAnnotations(odfcontainer.rootElement)
+        if(odfcontainer) {
+          handleAnnotations(odfcontainer.rootElement)
+        }
       }
     };
     this.addAnnotation = function(annotation) {
@@ -9396,210 +9406,9 @@ ops.Server.prototype.login = function(login, password, successCb, failCb) {
 };
 ops.Server.prototype.joinSession = function(userId, sessionId, successCb, failCb) {
 };
+ops.Server.prototype.leaveSession = function(sessionId, memberId, successCb, failCb) {
+};
 ops.Server.prototype.getGenesisUrl = function(sessionId) {
-};
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: http://gitorious.org/webodf/webodf/
-*/
-ops.NowjsServer = function NowjsServer() {
-  var nowObject;
-  this.getNowObject = function() {
-    return nowObject
-  };
-  this.getGenesisUrl = function(sessionId) {
-    return"/session/" + sessionId + "/genesis"
-  };
-  this.connect = function(timeout, callback) {
-    var accumulatedWaitingTime = 0;
-    if(nowObject) {
-      return
-    }
-    nowObject = runtime.getVariable("now");
-    if(nowObject === undefined) {
-      nowObject = {networkStatus:"unavailable"}
-    }
-    function laterCb() {
-      if(nowObject.networkStatus === "unavailable") {
-        runtime.log("connection to server unavailable.");
-        callback("unavailable");
-        return
-      }
-      if(nowObject.networkStatus !== "ready") {
-        if(accumulatedWaitingTime > timeout) {
-          runtime.log("connection to server timed out.");
-          callback("timeout");
-          return
-        }
-        accumulatedWaitingTime += 100;
-        runtime.getWindow().setTimeout(laterCb, 100)
-      }else {
-        runtime.log("connection to collaboration server established.");
-        callback("ready")
-      }
-    }
-    laterCb()
-  };
-  this.networkStatus = function() {
-    return nowObject ? nowObject.networkStatus : "unavailable"
-  };
-  this.login = function(login, password, successCb, failCb) {
-    if(!nowObject) {
-      failCb("Not connected to server")
-    }else {
-      nowObject.login(login, password, successCb, failCb)
-    }
-  };
-  this.joinSession = function(userId, sessionId, successCb, failCb) {
-    nowObject.joinSession(userId, sessionId, function(memberId) {
-      nowObject.memberid = memberId;
-      successCb(memberId)
-    }, failCb)
-  }
-};
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: http://gitorious.org/webodf/webodf/
-*/
-runtime.loadClass("core.Base64");
-runtime.loadClass("core.ByteArrayWriter");
-ops.PullBoxServer = function PullBoxServer(args) {
-  var self = this, token, base64 = new core.Base64;
-  args = args || {};
-  args.url = args.url || "/WSER";
-  this.getGenesisUrl = function(sessionId) {
-    return"/session/" + sessionId + "/genesis"
-  };
-  function call(message, cb) {
-    var xhr = new XMLHttpRequest, byteArrayWriter = new core.ByteArrayWriter("utf8"), messageString = JSON.stringify(message), data;
-    function handleResult() {
-      if(xhr.readyState === 4) {
-        if((xhr.status < 200 || xhr.status >= 300) && xhr.status === 0) {
-          runtime.log("Status " + String(xhr.status) + ": " + xhr.responseText || xhr.statusText)
-        }
-        cb(xhr.responseText)
-      }
-    }
-    runtime.log("Sending message to server: " + messageString);
-    byteArrayWriter.appendString(messageString);
-    data = byteArrayWriter.getByteArray();
-    xhr.open("POST", args.url, true);
-    xhr.onreadystatechange = handleResult;
-    if(data.buffer && !xhr.sendAsBinary) {
-      data = data.buffer
-    }else {
-      data = runtime.byteArrayToString(data, "binary")
-    }
-    try {
-      if(xhr.sendAsBinary) {
-        xhr.sendAsBinary(data)
-      }else {
-        xhr.send(data)
-      }
-    }catch(e) {
-      runtime.log("Problem with calling server: " + e + " " + data);
-      cb(e.message)
-    }
-  }
-  this.call = call;
-  this.getToken = function() {
-    return token
-  };
-  this.setToken = function(a_token) {
-    token = a_token
-  };
-  this.connect = function(timeout, callback) {
-    callback("ready")
-  };
-  this.networkStatus = function() {
-    return"ready"
-  };
-  this.login = function(login, password, successCb, failCb) {
-    call({command:"login", args:{login:base64.toBase64(login), password:base64.toBase64(password)}}, function(responseData) {
-      var response = (runtime.fromJson(responseData));
-      runtime.log("Login reply: " + responseData);
-      if(response.hasOwnProperty("token")) {
-        token = response.token;
-        runtime.log("Caching token: " + self.getToken());
-        successCb(response)
-      }else {
-        failCb(responseData)
-      }
-    })
-  };
-  this.joinSession = function(userId, sessionId, successCb, failCb) {
-    call({command:"join_session", args:{user_id:userId, es_id:sessionId}}, function(responseData) {
-      var response = (runtime.fromJson(responseData));
-      runtime.log("join_session reply: " + responseData);
-      if(response.hasOwnProperty("success") && response.success) {
-        successCb(response.member_id)
-      }else {
-        if(failCb) {
-          failCb()
-        }
-      }
-    })
-  }
 };
 /*
 
@@ -11538,7 +11347,6 @@ runtime.loadClass("core.PositionFilter");
 runtime.loadClass("core.LoopWatchDog");
 runtime.loadClass("odf.OdfUtils");
 gui.SelectionMover = function SelectionMover(cursor, rootNode) {
-  runtime.assert(Boolean(rootNode), "Expected to get a rootNode for gui.SelectionMover.");
   var odfUtils, positionIterator, cachedXOffset, timeoutHandle, FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
   function getIteratorAtCursor() {
     positionIterator.setUnfilteredPosition(cursor.getNode(), 0);
@@ -12479,7 +12287,8 @@ runtime.loadClass("gui.KeyboardHandler");
 runtime.loadClass("gui.StyleHelper");
 gui.SessionController = function() {
   gui.SessionController = function SessionController(session, inputMemberId) {
-    var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), undoManager = null;
+    var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, undoManager = 
+    null;
     runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
@@ -12641,6 +12450,9 @@ gui.SessionController = function() {
       session.enqueue(op)
     }
     function selectRange(e) {
+      if(!clickStartedWithinContainer) {
+        return
+      }
       runtime.setTimeout(function() {
         var selection = getSelection(e), oldPosition, stepsToAnchor, stepsToFocus, op;
         if(selection === null) {
@@ -12662,39 +12474,46 @@ gui.SessionController = function() {
     function handleContextMenu(e) {
       selectRange(e)
     }
+    function isTextSpan(node) {
+      return node.namespaceURI === odf.Namespaces.textns && node.localName === "span"
+    }
     function selectWord() {
-      var canvasElement = odtDocument.getOdfCanvas().getElement(), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0, iterator, cursorNode, oldPosition, currentNode, i, c, op;
+      var canvasElement = odtDocument.getOdfCanvas().getElement(), alphaNumeric = /[A-Za-z0-9]/, stepsToStart = 0, stepsToEnd = 0, iterator, cursorNode, oldPosition, currentNode, c, op;
       if(!domUtils.containsNode(canvasElement, window.getSelection().focusNode)) {
         return
       }
       iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode());
       cursorNode = odtDocument.getCursor(inputMemberId).getNode();
       iterator.setUnfilteredPosition(cursorNode, 0);
-      if(iterator.previousPosition()) {
+      while(iterator.previousPosition()) {
         currentNode = iterator.getCurrentNode();
         if(currentNode.nodeType === Node.TEXT_NODE) {
-          for(i = currentNode.data.length - 1;i >= 0;i -= 1) {
-            c = currentNode.data[i];
-            if(!alphaNumeric.test(c)) {
-              break
-            }
-            stepsToStart -= 1
+          c = currentNode.data[iterator.unfilteredDomOffset()];
+          if(!alphaNumeric.test(c)) {
+            break
+          }
+          stepsToStart -= 1
+        }else {
+          if(!isTextSpan(currentNode)) {
+            break
           }
         }
       }
       iterator.setUnfilteredPosition(cursorNode, 0);
-      if(iterator.nextPosition()) {
+      do {
         currentNode = iterator.getCurrentNode();
         if(currentNode.nodeType === Node.TEXT_NODE) {
-          for(i = 0;i < currentNode.data.length;i += 1) {
-            c = currentNode.data[i];
-            if(!alphaNumeric.test(c)) {
-              break
-            }
-            stepsToEnd += 1
+          c = currentNode.data[iterator.unfilteredDomOffset()];
+          if(!alphaNumeric.test(c)) {
+            break
+          }
+          stepsToEnd += 1
+        }else {
+          if(!isTextSpan(currentNode)) {
+            break
           }
         }
-      }
+      }while(iterator.nextPosition());
       if(stepsToStart !== 0 || stepsToEnd !== 0) {
         oldPosition = odtDocument.getCursorPosition(inputMemberId);
         op = createOpMoveCursor(oldPosition + stepsToStart, Math.abs(stepsToStart) + Math.abs(stepsToEnd));
@@ -13035,6 +12854,9 @@ gui.SessionController = function() {
       formatTextSelection("style:text-underline-style", value);
       return true
     }
+    function filterMouseClicks(e) {
+      clickStartedWithinContainer = e.target && domUtils.containsNode(odtDocument.getOdfCanvas().getElement(), e.target)
+    }
     this.startEditing = function() {
       var canvasElement, op;
       canvasElement = odtDocument.getOdfCanvas().getElement();
@@ -13046,6 +12868,7 @@ gui.SessionController = function() {
       listenEvent(canvasElement, "copy", handleCopy);
       listenEvent(canvasElement, "beforepaste", handleBeforePaste, true);
       listenEvent(canvasElement, "paste", handlePaste);
+      listenEvent(window, "mousedown", filterMouseClicks);
       listenEvent(window, "mouseup", clickHandler.handleMouseUp);
       listenEvent(canvasElement, "contextmenu", handleContextMenu);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, maintainCursorSelection);
@@ -13070,6 +12893,7 @@ gui.SessionController = function() {
       removeEvent(canvasElement, "copy", handleCopy);
       removeEvent(canvasElement, "paste", handlePaste);
       removeEvent(canvasElement, "beforepaste", handleBeforePaste);
+      removeEvent(window, "mousedown", filterMouseClicks);
       removeEvent(window, "mouseup", clickHandler.handleMouseUp);
       removeEvent(canvasElement, "contextmenu", handleContextMenu);
       op = new ops.OpRemoveCursor;
@@ -13100,6 +12924,9 @@ gui.SessionController = function() {
     };
     this.getUndoManager = function() {
       return undoManager
+    };
+    this.close = function(callback) {
+      callback()
     };
     function init() {
       var isMacOS = window.navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
@@ -13218,7 +13045,7 @@ ops.MemberModel.prototype.getMemberDetailsAndUpdates = function(memberId, subscr
 };
 ops.MemberModel.prototype.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
 };
-ops.MemberModel.prototype.shutdown = function() {
+ops.MemberModel.prototype.close = function(callback) {
 };
 /*
 
@@ -13260,243 +13087,9 @@ ops.TrivialMemberModel = function TrivialMemberModel() {
   };
   this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
   };
-  this.shutdown = function() {
+  this.close = function(cb) {
+    cb()
   }
-};
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: http://gitorious.org/webodf/webodf/
-*/
-ops.NowjsMemberModel = function NowjsMemberModel(server) {
-  var cachedUserData = {}, memberDataSubscribers = {}, nowObject = server.getNowObject();
-  function userIdFromMemberId(memberId) {
-    return memberId.split("___")[0]
-  }
-  function cacheUserDatum(userId, userData) {
-    var subscribers, i;
-    subscribers = memberDataSubscribers[userId];
-    if(subscribers) {
-      cachedUserData[userId] = userData;
-      for(i = 0;i < subscribers.length;i += 1) {
-        subscribers[i].subscriber(subscribers[i].memberId, userData)
-      }
-    }
-  }
-  this.getMemberDetailsAndUpdates = function(memberId, subscriber) {
-    var userId = userIdFromMemberId(memberId), userData = cachedUserData[userId], subscribers = memberDataSubscribers[userId] || [], i;
-    memberDataSubscribers[userId] = subscribers;
-    runtime.assert(subscriber !== undefined, "missing callback");
-    for(i = 0;i < subscribers.length;i += 1) {
-      if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
-        break
-      }
-    }
-    if(i < subscribers.length) {
-      runtime.log("double subscription request for " + memberId + " in NowjsMemberModel::getMemberDetailsAndUpdates")
-    }else {
-      subscribers.push({memberId:memberId, subscriber:subscriber});
-      if(subscribers.length === 1) {
-        nowObject.subscribeUserDetailsUpdates(userId)
-      }
-    }
-    if(userData) {
-      subscriber(memberId, userData)
-    }
-  };
-  this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
-    var i, userId = userIdFromMemberId(memberId), subscribers = memberDataSubscribers[userId];
-    runtime.assert(subscriber !== undefined, "missing subscriber parameter or null");
-    runtime.assert(subscribers, "tried to unsubscribe when no one is subscribed ('" + memberId + "')");
-    if(subscribers) {
-      for(i = 0;i < subscribers.length;i += 1) {
-        if(subscribers[i].subscriber === subscriber && subscribers[i].memberId === memberId) {
-          break
-        }
-      }
-      runtime.assert(i < subscribers.length, "tried to unsubscribe when not subscribed for memberId '" + memberId + "'");
-      subscribers.splice(i, 1);
-      if(subscribers.length === 0) {
-        runtime.log("no more subscribers for: " + memberId);
-        delete memberDataSubscribers[userId];
-        delete cachedUserData[userId];
-        nowObject.unsubscribeUserDetailsUpdates(userId)
-      }
-    }
-  };
-  this.shutdown = function() {
-  };
-  nowObject.updateUserDetails = function(userId, udata) {
-    cacheUserDatum(userId, udata ? {userid:udata.uid, fullname:udata.fullname, imageurl:"/user/" + udata.avatarId + "/avatar.png", color:udata.color} : null)
-  };
-  runtime.assert(nowObject.networkStatus === "ready", "network not ready")
-};
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: http://gitorious.org/webodf/webodf/
-*/
-ops.PullBoxMemberModel = function PullBoxMemberModel(sessionId, server) {
-  var cachedMemberData = {}, memberDataSubscribers = {}, serverPullingActivated = false, pullingIntervall = 2E4;
-  function cacheMemberDatum(memberData) {
-    var subscribers, i;
-    subscribers = memberDataSubscribers[memberData.memberid];
-    if(subscribers) {
-      cachedMemberData[memberData.memberid] = memberData;
-      for(i = 0;i < subscribers.length;i += 1) {
-        subscribers[i](memberData.memberid, memberData)
-      }
-    }
-  }
-  function pullMemberData() {
-    var i, memberIds = Object.keys(memberDataSubscribers);
-    runtime.log("member-list request for : " + memberIds.join(","));
-    server.call({command:"query_memberdata_list", args:{es_id:sessionId, member_ids:memberIds}}, function(responseData) {
-      var response = (runtime.fromJson(responseData)), memberDataList, newMemberData, oldMemberData;
-      runtime.log("member-list reply: " + responseData);
-      if(response.hasOwnProperty("memberdata_list")) {
-        memberDataList = response.memberdata_list;
-        for(i = 0;i < memberDataList.length;i += 1) {
-          newMemberData = {memberid:memberDataList[i].member_id, fullname:memberDataList[i].display_name, imageurl:memberDataList[i].avatar_url, color:memberDataList[i].color};
-          oldMemberData = cachedMemberData.hasOwnProperty(newMemberData.memberid) ? cachedMemberData[newMemberData.memberid] : null;
-          if(!oldMemberData || oldMemberData.fullname !== newMemberData.fullname || oldMemberData.imageurl !== newMemberData.imageurl || oldMemberData.color !== newMemberData.color) {
-            cacheMemberDatum(newMemberData)
-          }
-        }
-      }else {
-        runtime.log("Meh, memberdata list broken: " + responseData)
-      }
-    })
-  }
-  function periodicPullMemberData() {
-    if(!serverPullingActivated) {
-      return
-    }
-    pullMemberData();
-    runtime.setTimeout(periodicPullMemberData, pullingIntervall)
-  }
-  function activatePeriodicMemberDataPulling() {
-    if(serverPullingActivated) {
-      return
-    }
-    serverPullingActivated = true;
-    runtime.setTimeout(periodicPullMemberData, pullingIntervall)
-  }
-  function deactivatePeriodicMemberDataPulling() {
-    var key;
-    if(!serverPullingActivated) {
-      return
-    }
-    for(key in memberDataSubscribers) {
-      if(memberDataSubscribers.hasOwnProperty(key)) {
-        return
-      }
-    }
-    serverPullingActivated = false
-  }
-  this.getMemberDetailsAndUpdates = function(memberId, subscriber) {
-    var memberData = cachedMemberData[memberId], subscribers = memberDataSubscribers[memberId] || [], i;
-    memberDataSubscribers[memberId] = subscribers;
-    runtime.assert(subscriber !== undefined, "missing callback");
-    for(i = 0;i < subscribers.length;i += 1) {
-      if(subscribers[i] === subscriber) {
-        break
-      }
-    }
-    if(i < subscribers.length) {
-      runtime.log("double subscription request for " + memberId + " in PullBoxMemberModel::getMemberDetailsAndUpdates")
-    }else {
-      subscribers.push(subscriber);
-      if(subscribers.length === 1) {
-        pullMemberData()
-      }
-    }
-    if(memberData) {
-      subscriber(memberId, memberData)
-    }
-    activatePeriodicMemberDataPulling()
-  };
-  this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
-    var i, subscribers = memberDataSubscribers[memberId];
-    runtime.assert(subscriber !== undefined, "missing subscriber parameter or null");
-    runtime.assert(subscribers, "tried to unsubscribe when no one is subscribed ('" + memberId + "')");
-    if(subscribers) {
-      for(i = 0;i < subscribers.length;i += 1) {
-        if(subscribers[i] === subscriber) {
-          break
-        }
-      }
-      runtime.assert(i < subscribers.length, "tried to unsubscribe when not subscribed for memberId '" + memberId + "'");
-      subscribers.splice(i, 1);
-      if(subscribers.length === 0) {
-        runtime.log("no more subscribers for: " + memberId);
-        delete memberDataSubscribers[memberId];
-        delete cachedMemberData[memberId];
-        deactivatePeriodicMemberDataPulling()
-      }
-    }
-  };
-  this.shutdown = function() {
-  };
-  runtime.assert(server.networkStatus() === "ready", "network not ready")
 };
 /*
 
@@ -13540,7 +13133,11 @@ ops.OperationRouter.prototype.setPlaybackFunction = function(playback_func) {
 };
 ops.OperationRouter.prototype.push = function(op) {
 };
-ops.OperationRouter.prototype.shutdown = function(success_callback) {
+ops.OperationRouter.prototype.close = function(callback) {
+};
+ops.OperationRouter.prototype.getHasLocalUnsyncedOpsAndUpdates = function(subscriber) {
+};
+ops.OperationRouter.prototype.unsubscribeHasLocalUnsyncedOpsUpdates = function(subscriber) {
 };
 /*
 
@@ -13590,305 +13187,13 @@ ops.TrivialOperationRouter = function TrivialOperationRouter() {
     timedOp = operationFactory.create(opspec);
     playbackFunction(timedOp)
   };
-  this.shutdown = function(cb) {
+  this.close = function(cb) {
     cb()
-  }
-};
-ops.NowjsOperationRouter = function NowjsOperationRouter(sessionId, memberid, server) {
-  var operationFactory, playbackFunction, nowObject = server.getNowObject(), last_server_seq = -1, reorder_queue = {}, sends_since_server_op = 0, router_sequence = 1E3;
-  function nextNonce() {
-    runtime.assert(memberid !== null, "Router sequence N/A without memberid");
-    router_sequence += 1;
-    return"C:" + memberid + ":" + router_sequence
-  }
-  this.setOperationFactory = function(f) {
-    operationFactory = f
   };
-  this.setPlaybackFunction = function(playback_func) {
-    playbackFunction = playback_func
+  this.getHasLocalUnsyncedOpsAndUpdates = function(subscriber) {
+    subscriber(true)
   };
-  function receiveOpFromNetwork(opspec) {
-    var idx, seq, op = operationFactory.create(opspec);
-    runtime.log(" op in: " + runtime.toJson(opspec));
-    if(op !== null) {
-      seq = Number(opspec.server_seq);
-      runtime.assert(!isNaN(seq), "server seq is not a number");
-      if(seq === last_server_seq + 1) {
-        playbackFunction(op);
-        last_server_seq = seq;
-        sends_since_server_op = 0;
-        for(idx = last_server_seq + 1;reorder_queue.hasOwnProperty(idx);idx += 1) {
-          playbackFunction(reorder_queue[idx]);
-          delete reorder_queue[idx];
-          runtime.log("op with server seq " + seq + " taken from hold (reordered)")
-        }
-      }else {
-        runtime.assert(seq !== last_server_seq + 1, "received incorrect order from server");
-        runtime.assert(!reorder_queue.hasOwnProperty(seq), "reorder_queue has incoming op");
-        runtime.log("op with server seq " + seq + " put on hold");
-        reorder_queue[seq] = op
-      }
-    }else {
-      runtime.log("ignoring invalid incoming opspec: " + opspec)
-    }
-  }
-  nowObject.ping = function(pong) {
-    if(memberid !== null) {
-      pong(memberid)
-    }
-  };
-  nowObject.receiveOp = function(op_session_id, opspec) {
-    if(op_session_id === sessionId) {
-      receiveOpFromNetwork(opspec)
-    }
-  };
-  this.push = function(op) {
-    var opspec = op.spec();
-    opspec.client_nonce = nextNonce();
-    opspec.parent_op = last_server_seq + "+" + sends_since_server_op;
-    sends_since_server_op += 1;
-    runtime.log("op out: " + runtime.toJson(opspec));
-    nowObject.deliverOp(sessionId, opspec)
-  };
-  this.requestReplay = function(done_cb) {
-    nowObject.requestReplay(sessionId, function(opspec) {
-      runtime.log("replaying: " + runtime.toJson(opspec));
-      receiveOpFromNetwork(opspec)
-    }, function(count) {
-      runtime.log("replay done (" + count + " ops).");
-      if(done_cb) {
-        done_cb()
-      }
-    })
-  };
-  this.shutdown = function(cb) {
-  }
-};
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: http://gitorious.org/webodf/webodf/
-*/
-runtime.loadClass("ops.OperationTransformer");
-ops.PullBoxOperationRouter = function PullBoxOperationRouter(sessionId, memberId, server) {
-  var operationFactory, singleTimeCallbackOnCompleteServerOpSpecsPlay, playbackFunction, pullingTimeOutFlag = null, triggerPushingOpsActivated = false, playUnplayedServerOpSpecsTriggered = false, syncLock = false, hasUnresolvableConflict = false, lastServerSeq = "", unsyncedClientOpspecQueue = [], unplayedServerOpspecQueue = [], operationTransformer = new ops.OperationTransformer, replayTime = 500, pushingIntervall = 3E3, pullingIntervall = 8E3;
-  function compressOpSpecs(opspecs) {
-    var i, j, op, result = [];
-    i = 0;
-    while(i < opspecs.length) {
-      op = operationFactory.create(opspecs[i]);
-      if(op !== null && op.merge) {
-        for(j = i + 1;j < opspecs.length;j += 1) {
-          if(!op.merge(opspecs[j])) {
-            break
-          }
-          runtime.log("Merged: " + opspecs[i].optype + " with " + opspecs[j].optype)
-        }
-        result.push(op.spec());
-        i = j
-      }else {
-        result.push(opspecs[i]);
-        i += 1
-      }
-    }
-    runtime.log("Merged: from " + opspecs.length + " to " + result.length + " specs");
-    return result
-  }
-  function playUnplayedServerOpSpecs() {
-    function doPlayUnplayedServerOpSpecs() {
-      var opspec, op, startTime;
-      playUnplayedServerOpSpecsTriggered = false;
-      startTime = (new Date).getTime();
-      while(unplayedServerOpspecQueue.length > 0) {
-        if((new Date).getTime() - startTime > replayTime) {
-          break
-        }
-        opspec = unplayedServerOpspecQueue.shift();
-        op = operationFactory.create(opspec);
-        runtime.log(" op in: " + runtime.toJson(opspec));
-        if(op !== null) {
-          playbackFunction(op)
-        }else {
-          runtime.log("ignoring invalid incoming opspec: " + opspec)
-        }
-      }
-      if(unplayedServerOpspecQueue.length > 0) {
-        playUnplayedServerOpSpecsTriggered = true;
-        runtime.getWindow().setTimeout(doPlayUnplayedServerOpSpecs, 1)
-      }else {
-        if(singleTimeCallbackOnCompleteServerOpSpecsPlay) {
-          singleTimeCallbackOnCompleteServerOpSpecsPlay();
-          singleTimeCallbackOnCompleteServerOpSpecsPlay = null
-        }
-      }
-    }
-    if(playUnplayedServerOpSpecsTriggered) {
-      return
-    }
-    doPlayUnplayedServerOpSpecs()
-  }
-  function receiveOpSpecsFromNetwork(opspecs) {
-    unplayedServerOpspecQueue = unplayedServerOpspecQueue.concat(opspecs)
-  }
-  function handleOpsSyncConflict(serverOpspecs) {
-    var i, transformResult;
-    if(!serverOpspecs) {
-      runtime.assert(false, "no opspecs received!");
-      return false
-    }
-    transformResult = operationTransformer.transform(unsyncedClientOpspecQueue, (serverOpspecs));
-    if(!transformResult) {
-      return false
-    }
-    for(i = 0;i < transformResult.opsB.length;i += 1) {
-      unplayedServerOpspecQueue.push(transformResult.opsB[i].spec())
-    }
-    unsyncedClientOpspecQueue = [];
-    for(i = 0;i < transformResult.opsA.length;i += 1) {
-      unsyncedClientOpspecQueue.push(transformResult.opsA[i].spec())
-    }
-    return true
-  }
-  function syncOps() {
-    function triggerPullingOps() {
-      var flag = {active:true};
-      pullingTimeOutFlag = flag;
-      runtime.getWindow().setTimeout(function() {
-        runtime.log("Pulling activated:" + flag.active);
-        pullingTimeOutFlag = null;
-        if(flag.active) {
-          syncOps()
-        }
-      }, pullingIntervall)
-    }
-    function doSyncOps() {
-      var syncedClientOpspecs;
-      if(syncLock || hasUnresolvableConflict) {
-        return
-      }
-      syncLock = true;
-      syncedClientOpspecs = unsyncedClientOpspecQueue;
-      unsyncedClientOpspecQueue = [];
-      server.call({command:"sync_ops", args:{es_id:sessionId, member_id:memberId, seq_head:String(lastServerSeq), client_ops:syncedClientOpspecs}}, function(responseData) {
-        var shouldRetryInstantly = false, response = (runtime.fromJson(responseData));
-        runtime.log("sync-ops reply: " + responseData);
-        if(response.result === "new_ops") {
-          if(response.ops.length > 0) {
-            if(unsyncedClientOpspecQueue.length === 0) {
-              receiveOpSpecsFromNetwork(compressOpSpecs(response.ops))
-            }else {
-              runtime.log("meh, have new ops locally meanwhile, have to do transformations.");
-              hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops))
-            }
-            lastServerSeq = response.head_seq
-          }
-        }else {
-          if(response.result === "added") {
-            runtime.log("All added to server");
-            lastServerSeq = response.head_seq
-          }else {
-            if(response.result === "conflict") {
-              unsyncedClientOpspecQueue = syncedClientOpspecs.concat(unsyncedClientOpspecQueue);
-              runtime.log("meh, server has new ops meanwhile, have to do transformations.");
-              hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops));
-              lastServerSeq = response.head_seq;
-              if(!hasUnresolvableConflict) {
-                shouldRetryInstantly = true
-              }
-            }else {
-              runtime.assert(false, "Unexpected result on sync-ops call: " + response.result)
-            }
-          }
-        }
-        syncLock = false;
-        if(hasUnresolvableConflict) {
-          runtime.assert(false, "Sorry to tell:\n" + "we hit a pair of operations in a state which yet need to be supported for transformation against each other.\n" + "Client disconnected from session, no further editing accepted.\n\n" + "Please reconnect manually for now.")
-        }else {
-          if(shouldRetryInstantly) {
-            doSyncOps()
-          }else {
-            runtime.log("Preparing next: " + (unsyncedClientOpspecQueue.length === 0));
-            if(unsyncedClientOpspecQueue.length === 0) {
-              triggerPullingOps()
-            }
-          }
-          playUnplayedServerOpSpecs()
-        }
-      })
-    }
-    doSyncOps()
-  }
-  function triggerPushingOps() {
-    if(syncLock || triggerPushingOpsActivated) {
-      return
-    }
-    triggerPushingOpsActivated = true;
-    if(pullingTimeOutFlag) {
-      pullingTimeOutFlag.active = false
-    }
-    runtime.getWindow().setTimeout(function() {
-      runtime.log("Pushing activated");
-      triggerPushingOpsActivated = false;
-      syncOps()
-    }, pushingIntervall)
-  }
-  this.requestReplay = function(done_cb) {
-    singleTimeCallbackOnCompleteServerOpSpecsPlay = done_cb;
-    syncOps()
-  };
-  this.setOperationFactory = function(f) {
-    operationFactory = f;
-    operationTransformer.setOperationFactory(f)
-  };
-  this.setPlaybackFunction = function(playback_func) {
-    playbackFunction = playback_func
-  };
-  this.push = function(op) {
-    var timedOp, opspec = op.spec();
-    if(hasUnresolvableConflict) {
-      return
-    }
-    if(unplayedServerOpspecQueue.length > 0) {
-      return
-    }
-    opspec.timestamp = (new Date).getTime();
-    timedOp = operationFactory.create(opspec);
-    playbackFunction(timedOp);
-    unsyncedClientOpspecQueue.push(opspec);
-    triggerPushingOps()
-  };
-  this.shutdown = function(cb) {
-    syncOps();
-    runtime.getWindow().setTimeout(cb, 2E3)
+  this.unsubscribeHasLocalUnsyncedOpsUpdates = function(subscriber) {
   }
 };
 gui.EditInfoHandle = function EditInfoHandle(parentElement) {
@@ -14199,6 +13504,9 @@ gui.SessionView = function() {
         session.getMemberModel().unsubscribeMemberDetailsUpdates(memberid, renderMemberData)
       }
     }
+    this.close = function(callback) {
+      callback()
+    };
     function init() {
       var odtDocument = session.getOdtDocument(), head = document.getElementsByTagName("head")[0];
       odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
@@ -15199,7 +14507,7 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   }
   this.getIteratorAtPosition = getIteratorAtPosition;
   function getPositionInTextNode(position, memberid) {
-    var iterator = gui.SelectionMover.createPositionIterator(getRootNode()), lastTextNode = null, node, nodeOffset = 0, cursorNode = null;
+    var iterator = gui.SelectionMover.createPositionIterator(getRootNode()), lastTextNode = null, node, nodeOffset = 0, cursorNode = null, originalPosition = position;
     runtime.assert(position >= 0, "position must be >= 0");
     if(filter.acceptPosition(iterator) === 1) {
       node = iterator.container();
@@ -15245,7 +14553,7 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     if(lastTextNode === null) {
       return null
     }
-    if(memberid && cursors[memberid]) {
+    if(memberid && cursors[memberid] && self.getCursorPosition(memberid) === originalPosition) {
       cursorNode = cursors[memberid].getNode();
       while(nodeOffset === 0 && cursorNode.nextSibling && cursorNode.nextSibling.localName === "cursor") {
         cursorNode.parentNode.insertBefore(cursorNode, cursorNode.nextSibling.nextSibling)
@@ -15320,13 +14628,15 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   this.getParagraphStyleAttributes = getParagraphStyleAttributes;
   this.getPositionInTextNode = getPositionInTextNode;
   this.fixCursorPositions = function(localMemberId) {
-    var posfilter = self.getPositionFilter(), memberId, cursor, stepCounter, steps;
+    var memberId, cursor, stepCounter, steps, rootConstrainedFilter = new core.PositionFilterChain;
+    rootConstrainedFilter.addFilter("BaseFilter", self.getPositionFilter());
     for(memberId in cursors) {
       if(cursors.hasOwnProperty(memberId)) {
+        rootConstrainedFilter.addFilter("RootFilter", self.createRootFilter(memberId));
         cursor = cursors[memberId];
         stepCounter = cursor.getStepCounter();
-        if(!stepCounter.isPositionWalkable(posfilter)) {
-          steps = stepCounter.countStepsToValidPosition(posfilter);
+        if(!stepCounter.isPositionWalkable(rootConstrainedFilter)) {
+          steps = stepCounter.countStepsToValidPosition(rootConstrainedFilter);
           cursor.move(steps);
           if(memberId === localMemberId) {
             self.emit(ops.OdtDocument.signalCursorMoved, cursor)
@@ -15336,6 +14646,7 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
             cursor.move(0)
           }
         }
+        rootConstrainedFilter.removeFilter("RootFilter")
       }
     }
   };
@@ -15449,6 +14760,9 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   this.createRootFilter = function(inputMemberId) {
     return new RootFilter(inputMemberId)
   };
+  this.close = function(callback) {
+    callback()
+  };
   function init() {
     filter = new TextPositionFilter;
     odfUtils = new odf.OdfUtils
@@ -15525,6 +14839,9 @@ ops.Session = function Session(odfCanvas) {
     });
     opRouter.setOperationFactory(operationFactory)
   };
+  this.getOperationRouter = function() {
+    return operationRouter
+  };
   this.getMemberModel = function() {
     return memberModel
   };
@@ -15537,10 +14854,19 @@ ops.Session = function Session(odfCanvas) {
   this.enqueue = function(operation) {
     operationRouter.push(operation)
   };
+  this.close = function(callback) {
+    odtDocument.close(function(err) {
+      if(err) {
+        callback(err)
+      }else {
+        callback()
+      }
+    })
+  };
   function init() {
     self.setOperationRouter(new ops.TrivialOperationRouter)
   }
   init()
 };
-var webodf_css = "@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace runtimens url(urn:webodf); /* namespace for runtime only */\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[runtimens|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|line-break {\n  content: \" \";\n  display: block;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n    /** Let's not draw selection highlight that overflows into the office|text\n     * node when selecting content across several paragraphs\n     */\n    background: transparent;\n}\n\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:\"\";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0px;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n}\ncursor|cursor > span {\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > div {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > div > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > div.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > div:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: '\u00d7';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: '';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: inline-block;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n";
+var webodf_css = "@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace runtimens url(urn:webodf); /* namespace for runtime only */\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[runtimens|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|line-break {\n  content: \" \";\n  display: block;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n    /** Let's not draw selection highlight that overflows into the office|text\n     * node when selecting content across several paragraphs\n     */\n    background: transparent;\n}\noffice|text * draw|text-box {\n    /** only for text documents */\n    display: block;\n    border: 1px solid #d3d3d3;\n}\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:\"\";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0px;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n}\ncursor|cursor > span {\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > div {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > div > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > div.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > div:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: '\u00d7';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: '';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: none;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n";
 

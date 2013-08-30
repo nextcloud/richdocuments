@@ -33,33 +33,42 @@
  * @source: http://gitorious.org/webodf/webodf/
  */
 
-/*global define, document, require, runtime, core, ops */
+/*global define, require, OC*/
 
-define("webodf/editor/server/nowjs/serverFactory", [
-    "webodf/editor/server/nowjs/sessionList"],
-    function (NowjsSessionList) {
+define("webodf/editor/server/owncloud/ServerFactory", [
+    "webodf/editor/server/pullbox/Server",
+    "webodf/editor/server/pullbox/MemberModel",
+    "webodf/editor/server/pullbox/OperationRouter",
+    "webodf/editor/server/pullbox/SessionList"],
+    function (PullBoxServer, PullBoxMemberModel, PullBoxOperationRouter, PullBoxSessionList) {
         "use strict";
-
-        runtime.loadClass("ops.NowjsServer");
-        runtime.loadClass("ops.NowjsMemberModel");
-        runtime.loadClass("ops.NowjsOperationRouter");
 
         /**
         * @constructor
         * @implements ServerFactory
         */
-        return function NowjsServerFactory() {
+        return function OwnCloudServerFactory() {
             this.createServer = function (args) {
-                return new ops.NowjsServer(args);
+                var server;
+                args = args || {};
+                args.url = "./documents/ajax/otpoll.php";
+                args.sessionStateToFileUrl = OC.Router.generate('documents_session_save');
+
+                server = new PullBoxServer(args);
+                server.getGenesisUrl = function(sid) {
+                    // what a dirty hack :)
+                    return OC.Router.generate('documents_genesis') + '/' + sid;
+                };
+                return server;
             };
-            this.createOperationRouter = function (sid, mid, server) {
-                return new ops.NowjsOperationRouter(sid, mid, server);
+            this.createOperationRouter = function (sid, mid, server, odfContainer) {
+                return new PullBoxOperationRouter(sid, mid, server, odfContainer);
             };
             this.createMemberModel = function (sid, server) {
-                return new ops.NowjsMemberModel(server);
+                return new PullBoxMemberModel(sid, server);
             };
             this.createSessionList = function (server) {
-                return new NowjsSessionList(server);
+                return new PullBoxSessionList(server);
             };
         };
 });

@@ -33,51 +33,33 @@
  * @source: http://gitorious.org/webodf/webodf/
  */
 
-/*global define,require,document */
+/*global ops, runtime */
 
-define("webodf/editor/widgets/zoomSlider", [], function () {
-    "use strict";
+/**
+ * A model which provides information about sessions.
+ * @interface
+ */
+SessionList = function SessionList() {"use strict"; };
 
-    return function ZoomSlider(callback) {
-        var editorSession,
-            slider;
+/**
+ * @param {{onCreated:function(!Object),
+ *          onUpdated:function(!Object),
+ *          onRemoved:function(!string) }} subscriber
+ * @return {undefined}
+ */
+SessionList.prototype.getSessions = function (subscriber) {"use strict"; };
 
-        function makeWidget(callback) {
-            require(["dijit/form/HorizontalSlider", "dijit/form/NumberTextBox", "dojo"], function (HorizontalSlider, NumberTextBox, dojo) {
-                var widget = {};
+/**
+ * @param {{onCreated:function(!Object),
+ *          onUpdated:function(!Object),
+ *          onRemoved:function(!string) }} subscriber
+ * @return {undefined}
+ */
+SessionList.prototype.unsubscribe = function (subscriber) {"use strict"; };
 
-                slider = new HorizontalSlider({
-                    name: 'zoomSlider',
-                    value: 100,
-                    minimum: 30,
-                    maximum: 150,
-                    discreteValues: 100,
-                    intermediateChanges: true,
-                    style: {
-                        width: '150px',
-                        height: '25px',
-                        float: 'right'
-                    }
-                });
-
-                slider.onChange = function (value) {
-                    if (editorSession) {
-                        editorSession.getOdfCanvas().setZoomLevel(value / 100.0);
-                    }
-                };
-
-                return callback(slider);
-            });
-        }
-
-        this.setEditorSession = function(session) {
-            editorSession = session;
-//             if (slider) { slider.setValue(editorSession.getOdfCanvas().getZoomLevel() ); TODO!
-        };
-
-        // init
-        makeWidget(function (widget) {
-            return callback(widget);
-        });
-    };
-});
+/**
+ * Per default updates are enabled.
+ * @param {!boolean} enabled
+ * @return {undefined}
+ */
+SessionList.prototype.setUpdatesEnabled = function (enabled) {"use strict"; };

@@ -33,16 +33,15 @@
  * @source: http://gitorious.org/webodf/webodf/
  */
 
-/*global define, document, require, runtime, core, ops */
+/*global define, document, require, runtime, ops */
 
-define("webodf/editor/server/pullbox/serverFactory", [
-    "webodf/editor/server/pullbox/sessionList"],
-    function (PullBoxSessionList) {
+define("webodf/editor/server/pullbox/ServerFactory", [
+    "webodf/editor/server/pullbox/Server",
+    "webodf/editor/server/pullbox/MemberModel",
+    "webodf/editor/server/pullbox/OperationRouter",
+    "webodf/editor/server/pullbox/SessionList"],
+    function (PullBoxServer, PullBoxMemberModel, PullBoxOperationRouter, PullBoxSessionList) {
         "use strict";
-
-        runtime.loadClass("ops.PullBoxServer");
-        runtime.loadClass("ops.PullBoxMemberModel");
-        runtime.loadClass("ops.PullBoxOperationRouter");
 
         /**
         * @constructor
@@ -50,13 +49,13 @@ define("webodf/editor/server/pullbox/serverFactory", [
         */
         return function PullBoxServerFactory() {
             this.createServer = function (args) {
-                return new ops.PullBoxServer(args);
+                return new PullBoxServer(args);
             };
-            this.createOperationRouter = function (sid, mid, server) {
-                return new ops.PullBoxOperationRouter(sid, mid, server);
+            this.createOperationRouter = function (sid, mid, server, odfContainer) {
+                return new PullBoxOperationRouter(sid, mid, server, odfContainer);
             };
             this.createMemberModel = function (sid, server) {
-                return new ops.PullBoxMemberModel(sid, server);
+                return new PullBoxMemberModel(sid, server);
             };
             this.createSessionList = function (server) {
                 return new PullBoxSessionList(server);

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+ * Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
  * The JavaScript code in this page is free software: you can redistribute it
@@ -35,13 +35,14 @@
 
 /*global define, ops, runtime */
 
-define("webodf/editor/server/nowjs/sessionList", [], function () {
+define("webodf/editor/server/pullbox/SessionList", [], function () {
     "use strict";
 
-    return function NowjsSessionList(nowjsServer) {
-
+    return function PullBoxSessionList(server) {
         var cachedSessionData = {},
-            subscribers = [];
+            subscribers = [],
+            serverPullingTimeoutId = null,
+            pullingActive = true;
 
         function onSessionData(sessionData) {
             var i,
@@ -70,6 +71,55 @@ define("webodf/editor/server/nowjs/sessionList", [], function () {
                     subscribers[i].onRemoved(sessionId);
                 }
             }
+        }
+
+        function pullSessionList() {
+            serverPullingTimeoutId = null;
+
+            server.call({
+                command: "query_sessiondata_list"
+            }, function(responseData) {
+                var response = runtime.fromJson(responseData),
+                    sessionList, i,
+                    unupdatedSessions = {};
+
+                // stopped meanwhile? TODO: support for cancelling calls
+                if (!pullingActive) {
+                    return;
+                }
+
+                runtime.log("query_sessiondata_list reply: " + responseData);
+
+                if (response.hasOwnProperty("sessiondata_list")) {
+                    // collect known sessions
+                    for (i in cachedSessionData) {
+                        if (cachedSessionData.hasOwnProperty(i)) {
+                            unupdatedSessions[i] = ""; // some dummy value, unused
+                        }
+                    }
+
+                    // add/update with all delivered sessions
+                    sessionList = response.sessiondata_list;
+                    for (i = 0; i < sessionList.length; i++) {
+                        if (unupdatedSessions.hasOwnProperty(sessionList[i].id)) {
+                            delete unupdatedSessions[sessionList[i].id];
+                        }
+                        onSessionData(sessionList[i]);
+                    }
+
+                    // remove unupdated sessions
+                    for (i in unupdatedSessions) {
+                        if (unupdatedSessions.hasOwnProperty(i)) {
+                            onSessionRemoved(i);
+                        }
+                    }
+
+                    // next update in 5 secs
+                    serverPullingTimeoutId = runtime.getWindow().setTimeout(pullSessionList, 5000);
+                } else {
+                    runtime.log("Meh, sessionlist data broken: " + responseData);
+                }
+            });
         }
 
         this.getSessions = function (subscriber) {
@@ -104,19 +154,25 @@ define("webodf/editor/server/nowjs/sessionList", [], function () {
             subscribers.splice(i,1);
         };
 
-        function init() {
-            var nowObject = nowjsServer.getNowObject();
-            nowObject.onSessionAdded = onSessionData;
-            nowObject.onSessionChanged = onSessionData;
-            nowObject.onSessionRemoved = onSessionRemoved;
+        this.setUpdatesEnabled = function (enabled) {
+            if (pullingActive === enabled) {
+                return;
+            }
 
-            nowObject.getSessionList( function(sessionList) {
-                var idx;
-            runtime.log("get sessions on init:"+sessionList.length);
-                for (idx=0; idx<sessionList.length; idx+=1) {
-                    onSessionData(sessionList[idx])
+            pullingActive = enabled;
+            if (pullingActive) {
+                pullSessionList();
+            } else {
+                // cancel any running pulling timeout
+                if (serverPullingTimeoutId !== null) {
+                    runtime.clearTimeout(serverPullingTimeoutId);
+                    serverPullingTimeoutId = null;
                 }
-            });
+            }
+        };
+
+        function init() {
+            pullSessionList();
         }
 
         init();

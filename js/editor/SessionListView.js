@@ -59,9 +59,6 @@ define("webodf/editor/SessionListView", [], function () {
             sessionDiv.sessionId = sessionDetails.id; // TODO: namespace?
             sessionDiv.style.cursor = "pointer"; // TODO: do not set on each element, use CSS
             sessionDiv.onclick = function () {
-                // HACK: stop pulling, so that does not mess up the logs
-                // Remove before merging to master
-                if (sessionList.stopPulling) { sessionList.stopPulling(); }
                 cb(sessionDetails.id);
             };
 

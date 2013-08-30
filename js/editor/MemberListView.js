@@ -32,27 +32,27 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
+
 /*global define,runtime */
 
-define("webodf/editor/MemberList",
+define("webodf/editor/MemberListView",
        ["webodf/editor/EditorSession"],
 
   function (EditorSession) {
     "use strict";
 
-    return function MemberList(editorSession, memberListDiv) {
-        var self = this;
+    /**
+     * @param {!Element} memberListDiv
+     * @constructor
+     */
+    return function MemberListView(memberListDiv) {
+        var editorSession = null;
 
-        editorSession.subscribe(EditorSession.signalMemberAdded, function (memberId) {
-            self.addMember(memberId);
-        });
-
-        editorSession.subscribe(EditorSession.signalMemberRemoved, function (memberId) {
-            self.removeMember(memberId);
-        });
+        runtime.assert(memberListDiv, "memberListDiv unavailable");
 
         /**
          * @param {!string} memberId
+         * @return {undefined}
          */
         function updateAvatarButton(memberId, memberDetails) {
             var node = memberListDiv.firstChild;
@@ -86,9 +86,9 @@ define("webodf/editor/MemberList",
 
         /**
          * @param {!string} memberId
+         * @return {undefined}
          */
         function createAvatarButton(memberId) {
-            runtime.assert(memberListDiv, "memberListDiv unavailable");
             var doc = memberListDiv.ownerDocument,
                 htmlns = doc.documentElement.namespaceURI,
                 avatarDiv = doc.createElementNS(htmlns, "div"),
@@ -123,6 +123,7 @@ define("webodf/editor/MemberList",
 
         /**
          * @param {!string} memberId
+         * @return {undefined}
          */
         function removeAvatarButton(memberId) {
             var node = memberListDiv.firstChild;
@@ -137,18 +138,48 @@ define("webodf/editor/MemberList",
 
         /**
          * @param {!string} memberId
+         * @return {undefined}
          */
-        this.addMember = function (memberId) {
+        function addMember(memberId) {
             createAvatarButton(memberId);
             editorSession.getMemberDetailsAndUpdates(memberId, updateAvatarButton);
-        };
+        }
 
         /**
          * @param {!string} memberId
+         * @return {undefined}
          */
-        this.removeMember = function (memberId) {
+        function removeMember(memberId) {
             editorSession.unsubscribeMemberDetailsUpdates(memberId, updateAvatarButton);
             removeAvatarButton(memberId);
+        };
+
+        /**
+         * @param {!EditorSession} session
+         * @return {undefined}
+         */
+        this.setEditorSession = function(session) {
+            var node = memberListDiv.firstChild, nextNode;
+
+            if (editorSession) {
+                // remove all current avatars
+                while (node) {
+                    nextNode = node.nextSibling;
+                    if (node.memberId) {
+                        editorSession.unsubscribeMemberDetailsUpdates(node.memberId, updateAvatarButton);
+                    }
+                    memberListDiv.removeChild(node);
+                    node = nextNode;
+                }
+                // unsubscribe from old editorSession
+                editorSession.unsubscribe(EditorSession.signalMemberAdded, addMember);
+                editorSession.unsubscribe(EditorSession.signalMemberRemoved, removeMember);
+            }
+            editorSession = session;
+            if (editorSession) {
+                editorSession.subscribe(EditorSession.signalMemberAdded, addMember);
+                editorSession.subscribe(EditorSession.signalMemberRemoved, removeMember);
+            }
         };
     };
 });

@@ -1,5 +1,6 @@
 /**
- * Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
+ * @license
+ * Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
  * The JavaScript code in this page is free software: you can redistribute it
@@ -31,14 +32,21 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
+
 define({
     // menus
     file: "Datei",
+    open: "Öffnen",
     save: "Speichern",
     edit: "Bearbeiten",
     view: "Ansicht",
+    annotate: "Kommentieren",
+    clone: "Kopiere",
+    create: "Erzeuge",
+    delete: "Entferne",
     insert: "Einfügen",
     format: "Formatieren",
+    close: "Schließe",
     character_DDD: "Zeichen...",
     paragraph_DDD: "Absatz...",
     // dialogs
@@ -50,13 +58,12 @@ define({
     textFlow: "Textfluß",
     character: "Zeichen",
     paragraphStyles: "Absatzstile",
+    cloneThisStyle: "Kopiere diesen Stil",
+    newName_C: "Neuer Name:",
     // Collaboration pane
     collaborationPane: "Zusammenarbeitsfeld",
-    people: "Leute",
-    chat: "Chat",
-    typeYourName_DDD: "Geben Sie Ihren Namen ein...",
-    invitePeople: "Leute einladen",
-    startTypingToChat_DDD: "Eingabe beginnen für Chat...",
+    members: "Teilnehmer",
+    inviteMembers: "Teilnehmer einladen",
     // Various
     left: "Links",
     right: "Rechts",
@@ -67,6 +74,8 @@ define({
     spacing: "Abstand",
     options: "Optionen",
     style: "Stil",
+    undo: "Rückgängig",
+    redo: "Wiederherstellen",
     bold: "Fett",
     italic: "Kursiv",
     underline: "Unterstrichen",

@@ -33,9 +33,7 @@ var documentsMain = {
 			return;
 		}
 
-		OC.addScript('documents', 'editor/boot_editor').done(function() {
-			var doclocation = response.es_id;
-
+		require({ }, ["webodf/editor/server/owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
 			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
@@ -67,6 +65,9 @@ var documentsMain = {
 					'    </div>' +
 					'  </div>' +
 					'</div>';
+
+				var serverFactory = new ServerFactory();
+
 				$(document.body).addClass("claro");
 				$('.documentslist, #emptyfolder').after(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
@@ -74,21 +75,13 @@ var documentsMain = {
 					
 				runtime.assert(response.es_id, "invalid session id.");
 				memberId = response.member_id;
-				webodfEditor.boot(
-						{
-							collaborative: "owncloud",
-							docUrl: doclocation,
-							loginProcedure: function(cb) {
-								cb(response.es_id, OC.currentUser, "token");
-							},
-							joinSession: function(userId, sessionId, cb) {
-								cb(memberId);
-							},
-							callback: function(webodfEditorInstance) {
-								documentsMain.webodfEditorInstance = webodfEditorInstance;
-							}
-						}
-				);
+				documentsMain.webodfServerInstance = serverFactory.createServer();
+				documentsMain.webodfEditorInstance = new Editor({}, documentsMain.webodfServerInstance, serverFactory);
+
+				// load the document and get called back when it's live
+				documentsMain.webodfEditorInstance.loadSession(response.es_id, memberId, function() {
+					documentsMain.webodfEditorInstance.startEditing();
+				});
 			});
 		});
 	},
@@ -155,24 +148,24 @@ var documentsMain = {
 	onClose: function() {
 		"use strict";
 
-		var saveSessionRoute = OC.Router.generate('documents_session_save');
-		//auto save document
-		documentsMain.webodfEditorInstance.saveDocument(saveSessionRoute, function(){});
-
 		//close editor
-		documentsMain.webodfEditorInstance.shutdown(function() {
+		documentsMain.webodfEditorInstance.endEditing();
+		documentsMain.webodfEditorInstance.closeDocument(function() {
 			// successfull shutdown - all is good.
+			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
+// 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
 
-			// Fade out odf-toolbar
-			$('#odf-toolbar').fadeOut('slow');
-			// Fade out editor
-			$('#mainContainer').fadeOut('slow', function() {
-				$('#mainContainer').remove();
-				$('#odf-canvas').remove();
-				$('.actions,#file_access_panel').fadeIn('slow');
-				$('.documentslist, #emptyfolder').fadeIn('slow');
-				$(document.body).removeClass('claro');
-			});
+				// Fade out odf-toolbar
+				$('#odf-toolbar').fadeOut('slow');
+				// Fade out editor
+				$('#mainContainer').fadeOut('slow', function() {
+					$('#mainContainer').remove();
+					$('#odf-canvas').remove();
+					$('.actions,#file_access_panel').fadeIn('slow');
+					$('.documentslist, #emptyfolder').fadeIn('slow');
+					$(document.body).removeClass('claro');
+				});
+// 			});
 		});
 	},
 	loadDocuments: function () {

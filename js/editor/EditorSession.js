@@ -56,11 +56,11 @@ define("webodf/editor/EditorSession", [
     /**
      * Instantiate a new editor session attached to an existing operation session
      * @param {!ops.Session} session
-     * @param {!string} memberid
+     * @param {!string} localMemberId
      * @param {{viewOptions:gui.SessionViewOptions}} config
      * @constructor
      */
-    var EditorSession = function EditorSession(session, memberid, config) {
+    var EditorSession = function EditorSession(session, localMemberId, config) {
         var self = this,
             currentParagraphNode = null,
             currentNamedStyleName = null,
@@ -80,7 +80,7 @@ define("webodf/editor/EditorSession", [
                 EditorSession.signalUndoStackChanged]);
 
 
-        this.sessionController = new gui.SessionController(session, memberid);
+        this.sessionController = new gui.SessionController(session, localMemberId);
         this.sessionView = new gui.SessionView(config.viewOptions, session, new gui.CaretManager(self.sessionController));
         this.availableFonts = [];
 
@@ -160,11 +160,11 @@ define("webodf/editor/EditorSession", [
         function uniqueParagraphStyleNCName(name) {
             var result,
                 i = 0,
-                ncMemberId = createNCName(memberid),
+                ncMemberId = createNCName(localMemberId),
                 ncName = createNCName(name);
 
             // create default paragraph style
-            // memberid is used to avoid id conflicts with ids created by other members
+            // localMemberId is used to avoid id conflicts with ids created by other members
             result = ncName + "_" + ncMemberId;
             // then loop until result is really unique
             while (formatting.hasParagraphStyle(result)) {
@@ -206,7 +206,7 @@ define("webodf/editor/EditorSession", [
 
         odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, function (cursor) {
             // Emit 'cursorMoved' only when *I* am moving the cursor, not the other users
-            if (cursor.getMemberId() === memberid) {
+            if (cursor.getMemberId() === localMemberId) {
                 self.emit(EditorSession.signalCursorMoved, cursor);
             }
         });
@@ -224,14 +224,6 @@ define("webodf/editor/EditorSession", [
         });
 
         odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
-
-        this.startEditing = function () {
-            self.sessionController.startEditing();
-        };
-
-        this.endEditing = function () {
-            self.sessionController.endEditing();
-        };
 
         /**
          * Call all subscribers for the given event with the specified argument
@@ -251,6 +243,15 @@ define("webodf/editor/EditorSession", [
             eventNotifier.subscribe(eventid, cb);
         };
 
+        /**
+         * @param {!string} eventid
+         * @param {!Function} cb
+         * @return {undefined}
+         */
+        this.unsubscribe = function (eventid, cb) {
+            eventNotifier.unsubscribe(eventid, cb);
+        };
+
         this.getMemberDetailsAndUpdates = function (memberId, subscriber) {
             return session.getMemberModel().getMemberDetailsAndUpdates(memberId, subscriber);
         };
@@ -260,11 +261,11 @@ define("webodf/editor/EditorSession", [
         };
 
         this.getCursorPosition = function () {
-            return odtDocument.getCursorPosition(memberid);
+            return odtDocument.getCursorPosition(localMemberId);
         };
 
         this.getCursorSelection = function () {
-            return odtDocument.getCursorSelection(memberid);
+            return odtDocument.getCursorSelection(localMemberId);
         };
 
         this.getOdfCanvas = function () {
@@ -280,7 +281,7 @@ define("webodf/editor/EditorSession", [
         };
 
         this.isBold = function () {
-            var cursor = odtDocument.getCursor(memberid);
+            var cursor = odtDocument.getCursor(localMemberId);
             // no own cursor yet/currently added?
             if (!cursor) {
                 return false;
@@ -289,7 +290,7 @@ define("webodf/editor/EditorSession", [
         };
 
         this.isItalic = function () {
-            var cursor = odtDocument.getCursor(memberid);
+            var cursor = odtDocument.getCursor(localMemberId);
             // no own cursor yet/currently added?
             if (!cursor) {
                 return false;
@@ -298,7 +299,7 @@ define("webodf/editor/EditorSession", [
         };
 
         this.hasUnderline = function () {
-            var cursor = odtDocument.getCursor(memberid);
+            var cursor = odtDocument.getCursor(localMemberId);
             // no own cursor yet/currently added?
             if (!cursor) {
                 return false;
@@ -307,7 +308,7 @@ define("webodf/editor/EditorSession", [
         };
 
         this.hasStrikeThrough = function () {
-            var cursor = odtDocument.getCursor(memberid);
+            var cursor = odtDocument.getCursor(localMemberId);
             // no own cursor yet/currently added?
             if (!cursor) {
                 return false;
@@ -323,7 +324,7 @@ define("webodf/editor/EditorSession", [
             var op = new ops.OpApplyDirectStyling(),
                 selection = self.getCursorSelection();
             op.init({
-                memberid: memberid,
+                memberId: localMemberId,
                 position: selection.position,
                 length: selection.length,
                 setProperties: value
@@ -345,10 +346,10 @@ define("webodf/editor/EditorSession", [
             length = Math.abs(length);
 
             op.init({
-                memberid: memberid,
+                memberId: localMemberId,
                 position: position,
                 length: length,
-                name: memberid + Date.now()
+                name: localMemberId + Date.now()
             });
             session.enqueue(op);
         };
@@ -358,7 +359,7 @@ define("webodf/editor/EditorSession", [
             if (currentNamedStyleName !== value) {
                 op = new ops.OpSetParagraphStyle();
                 op.init({
-                    memberid: memberid,
+                    memberId: localMemberId,
                     position: self.getCursorPosition(),
                     styleName: value
                 });
@@ -369,7 +370,7 @@ define("webodf/editor/EditorSession", [
         this.insertTable = function (initialRows, initialColumns, tableStyleName, tableColumnStyleName, tableCellStyleMatrix) {
             var op = new ops.OpInsertTable();
             op.init({
-                memberid: memberid,
+                memberId: localMemberId,
                 position: self.getCursorPosition(),
                 initialRows: initialRows,
                 initialColumns: initialColumns,
@@ -409,7 +410,7 @@ define("webodf/editor/EditorSession", [
             var op;
             op = new ops.OpUpdateParagraphStyle();
             op.init({
-                memberid: memberid,
+                memberId: localMemberId,
                 styleName: styleName,
                 setProperties: setProperties,
                 removedProperties: (!removedProperties) ? {} : removedProperties
@@ -447,7 +448,7 @@ define("webodf/editor/EditorSession", [
 
             op = new ops.OpAddParagraphStyle();
             op.init({
-                memberid: memberid,
+                memberId: localMemberId,
                 styleName: newStyleName,
                 setProperties: setProperties
             });
@@ -460,7 +461,7 @@ define("webodf/editor/EditorSession", [
             var op;
             op = new ops.OpRemoveParagraphStyle();
             op.init({
-                memberid: memberid,
+                memberId: localMemberId,
                 styleName: styleName
             });
             session.enqueue(op);
@@ -528,6 +529,28 @@ define("webodf/editor/EditorSession", [
 
         this.subscribe(EditorSession.signalCursorMoved, trackCursor);
 
+        /**
+         * @param {!function(!Object=)} callback, passing an error object in case of error
+         * @return {undefined}
+         */
+        this.close = function(callback) {
+            self.sessionController.close(function(err) {
+                if (err) {
+                    callback(err);
+                } else {
+                    delete self.sessionController;
+                    self.sessionView.close(function(err) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            delete self.sessionView;
+                            callback();
+                        }
+                    });
+                }
+            });
+        };
+
         function init() {
             var head = document.getElementsByTagName('head')[0],
                 fontStyles = document.createElement('style');
@@ -548,7 +571,7 @@ define("webodf/editor/EditorSession", [
     /**@const*/EditorSession.signalStyleCreated =           "styleCreated";
     /**@const*/EditorSession.signalStyleDeleted =           "styleDeleted";
     /**@const*/EditorSession.signalParagraphStyleModified = "paragraphStyleModified";
-    /**@const*/EditorSession.signalUndoStackChanged =      "signalUndoStackChanged";
+    /**@const*/EditorSession.signalUndoStackChanged =       "signalUndoStackChanged";
 
     return EditorSession;
 });

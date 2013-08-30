@@ -31,122 +31,180 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
+
 /*global define,document,require */
+
 define("webodf/editor/widgets", [
+    "dojo/ready",
+    "dijit/MenuItem",
+    "dijit/DropDownMenu",
+    "dijit/form/Button",
+    "dijit/form/DropDownButton",
+    "dijit/Toolbar",
     "webodf/editor/widgets/simpleStyles",
     "webodf/editor/widgets/undoRedoMenu",
     "webodf/editor/widgets/toolbarWidgets/currentStyle",
     "webodf/editor/widgets/paragraphStylesDialog",
     "webodf/editor/widgets/zoomSlider"],
-    function (SimpleStyles, UndoRedoMenu, CurrentStyle, ParagraphStylesDialog, ZoomSlider) {
+    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, SimpleStyles, UndoRedoMenu, CurrentStyle, ParagraphStylesDialog, ZoomSlider) {
         "use strict";
 
-        return function loadWidgets(editorSession, loadOdtFile, saveOdtFile) {
-            var translator = document.translator;
+        return function ToolBarTools(args) {
+            var translator = document.translator,
+                loadOdtFile = args.loadOdtFile,
+                saveOdtFile = args.saveOdtFile,
+                close = args.close,
+                toolbar,
+                loadButton, saveButton, annotateButton, closeButton,
+                formatDropDownMenu, formatMenuButton,
+                paragraphStylesMenuItem, paragraphStylesDialog, simpleStyles, currentStyle,
+                zoomSlider,
+                undoRedoMenu,
+                editorSession;
 
-            // Menubar
-            require([
-                "dojo/ready",
-                "dijit/MenuItem",
-                "dijit/DropDownMenu",
-                "dijit/form/Button",
-                "dijit/form/DropDownButton",
-                "dijit/Toolbar"
-            ], function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar) {
-                ready(function () {
-                    var loadButton, saveButton, dropDownMenu, menuButton, paragraphStylesMenuItem, dialog, toolbar, simpleStyles, currentStyle, zoomSlider,
-                        undoRedoMenu, annotateButton;
+            this.setEditorSession = function(session) {
+                editorSession = session;
+                if (undoRedoMenu) {
+                    undoRedoMenu.setEditorSession(session);
+                }
+                if (simpleStyles) {
+                    simpleStyles.setEditorSession(session);
+                }
+                if (currentStyle) {
+                    currentStyle.setEditorSession(session);
+                }
+                if (zoomSlider) {
+                    zoomSlider.setEditorSession(session);
+                }
+                if (paragraphStylesDialog) {
+                    paragraphStylesDialog.setEditorSession(session);
+                }
+            };
 
-                    dropDownMenu = new DropDownMenu({});
-                    paragraphStylesMenuItem = new MenuItem({
-                        label: translator("paragraph_DDD")
+            // init
+            ready(function () {
+                toolbar = new Toolbar({}, "toolbar");
+
+                // Undo/Redo
+                if (args.undoRedoEnabled) {
+                    undoRedoMenu = new UndoRedoMenu(function (widget) {
+                        widget.placeAt(toolbar);
+                        widget.startup();
                     });
-                    dropDownMenu.addChild(paragraphStylesMenuItem);
+                    undoRedoMenu.setEditorSession(editorSession);
+                }
 
-                    dialog = new ParagraphStylesDialog(editorSession, function (dialog) {
-                        paragraphStylesMenuItem.onClick = function () {
-                            dialog.startup();
-                            dialog.show();
-                        };
-                    });
-
-                    // Toolbar
-                    toolbar = new Toolbar({}, "toolbar");
-
-                    if (editorSession.hasUndoManager()) {
-                        undoRedoMenu = new UndoRedoMenu(editorSession, function (widget) {
-                            widget.placeAt(toolbar);
-                            widget.startup();
-                        });
-                    }
-
+                if (args.directStylingEnabled) {
                     // Simple Style Selector [B, I, U, S]
-                    simpleStyles = new SimpleStyles(editorSession, function (widget) {
+                    simpleStyles = new SimpleStyles(function (widget) {
                         widget.placeAt(toolbar);
                         widget.startup();
                     });
+                    simpleStyles.setEditorSession(editorSession);
+                }
 
-                    // Paragraph Style Selector
-                    currentStyle = new CurrentStyle(editorSession, function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
-                    });
+                // Paragraph Style Selector
+                currentStyle = new CurrentStyle(function (widget) {
+                    widget.placeAt(toolbar);
+                    widget.startup();
+                });
+                currentStyle.setEditorSession(editorSession);
 
-                    // Zoom Level Selector
-                    zoomSlider = new ZoomSlider(editorSession, function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
-                    });
+                // Zoom Level Selector
+                zoomSlider = new ZoomSlider(function (widget) {
+                    widget.placeAt(toolbar);
+                    widget.startup();
+                });
+                zoomSlider.setEditorSession(editorSession);
 
-                    if (loadOdtFile) {
-                        loadButton = new Button({
-                            label: translator('open'),
-                            showLabel: false,
-                            iconClass: 'dijitIcon dijitIconFolderOpen',
-                            style: {
-                                float: 'left'
-                            },
-                            onClick: function () {
-                                loadOdtFile();
-                            }
-                        });
-                        loadButton.placeAt(toolbar);
-                    }
-                    if (saveOdtFile) {
-                        saveButton = new Button({
-                            label: translator('save'),
-                            showLabel: false,
-                            iconClass: 'dijitEditorIcon dijitEditorIconSave',
-                            style: {
-                                float: 'left'
-                            },
-                            onClick: function () {
-                                saveOdtFile();
-                            }
-                        });
-                        saveButton.placeAt(toolbar);
-                    }
-
-                    menuButton = new DropDownButton({
-                        dropDown: dropDownMenu,
-                        label: translator('format'),
-                        iconClass: "dijitIconEditTask",
+                // Load
+                if (loadOdtFile) {
+                    loadButton = new Button({
+                        label: translator('open'),
+                        showLabel: false,
+                        iconClass: 'dijitIcon dijitIconFolderOpen',
                         style: {
                             float: 'left'
+                        },
+                        onClick: function () {
+                            loadOdtFile();
                         }
                     });
-                    menuButton.placeAt(toolbar);
+                    loadButton.placeAt(toolbar);
+                }
 
+                // Save
+                if (saveOdtFile) {
+                    saveButton = new Button({
+                        label: translator('save'),
+                        showLabel: false,
+                        iconClass: 'dijitEditorIcon dijitEditorIconSave',
+                        style: {
+                            float: 'left'
+                        },
+                        onClick: function () {
+                            saveOdtFile();
+                        }
+                    });
+                    saveButton.placeAt(toolbar);
+                }
+
+                // Format menu
+                formatDropDownMenu = new DropDownMenu({});
+                paragraphStylesMenuItem = new MenuItem({
+                    label: translator("paragraph_DDD")
+                });
+                formatDropDownMenu.addChild(paragraphStylesMenuItem);
+
+                paragraphStylesDialog = new ParagraphStylesDialog(function (dialog) {
+                    paragraphStylesMenuItem.onClick = function () {
+                        if (editorSession) {
+                            dialog.startup();
+                            dialog.show();
+                        }
+                    };
+                });
+                paragraphStylesDialog.setEditorSession(editorSession);
+
+                formatMenuButton = new DropDownButton({
+                    dropDown: formatDropDownMenu,
+                    label: translator('format'),
+                    iconClass: "dijitIconEditTask",
+                    style: {
+                        float: 'left'
+                    }
+                });
+                formatMenuButton.placeAt(toolbar);
+
+                // Add annotation
+                if (args.annotationsEnabled) {
                     annotateButton = new Button({
                         label: translator('annotate'),
                         showLabel: false,
                         iconClass: 'dijitIconBookmark',
                         onClick: function () {
-                            editorSession.addAnnotation();
+                            if (editorSession) {
+                                editorSession.addAnnotation();
+                            }
                         }
                     });
                     annotateButton.placeAt(toolbar);
-                });
+                }
+
+                if (close) {
+                    closeButton = new Button({
+                        label: translator('close'),
+                        showLabel: false,
+                        iconClass: 'dijitEditorIcon dijitEditorIconCancel',
+                        style: {
+                            float: 'right'
+                        },
+                        onClick: function () {
+                            close();
+                        }
+                    });
+                    closeButton.placeAt(toolbar);
+                }
             });
         };
 
