@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# plazmism <gomidori@live.jp>, 2013
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 17:33-0400\n"
-"PO-Revision-Date: 2013-08-28 21:33+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-08-31 14:09-0400\n"
+"PO-Revision-Date: 2013-08-31 09:50+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,54 +19,54 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/documents.js:45
+#: js/documents.js:43
 msgid "Close"
 msgstr "閉じる"
 
-#: js/documents.js:48
+#: js/documents.js:46
 msgid "Invite"
-msgstr ""
+msgstr "招待"
 
-#: js/documents.js:134
+#: js/documents.js:127
 msgid "Users in session:"
-msgstr ""
+msgstr "セッション中のユーザー:"
 
-#: js/documents.js:190
+#: js/documents.js:183
 msgid "Failed to load documents."
-msgstr ""
+msgstr "ドキュメントのロードに失敗しました。"
 
-#: js/documents.js:286
+#: js/documents.js:279
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/documents.js:295
+#: js/documents.js:288
 msgid "Remove from the list"
-msgstr ""
+msgstr "リストから削除"
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "送信"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "拒否されました"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "受け付けました"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "受信箱"
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "ドキュメント"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "高度な機能セット"
 
 #: templates/settings.php:13
 msgid "(Unstable)"
-msgstr ""
+msgstr "(非安定的)"

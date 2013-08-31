@@ -9,6 +9,7 @@
 "Declined" => "Nekad",
 "Accepted" => "Accepterad",
 "Incoming" => "Inkommande",
+"Documents" => "Dokument",
 "Advanced feature-set" => "Avancerade inställningar",
 "(Unstable)" => "(Ej stabil)"
 );
