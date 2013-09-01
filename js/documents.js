@@ -8,15 +8,10 @@ var documentsMain = {
 		"use strict";
 		OC.addScript('documents', 'webodf_bootstrap', function() {
 			OC.addScript('documents', 'webodf-debug').done(function() {
+				// preload stuff in the background
 				require({}, ["dojo/ready"], function(ready) {
 					ready(function() {
 						require({}, ["webodf/editor/Editor"], function(Editor) {
-							if (Editor && typeof(Editor) === 'function') {
-								documentsMain.initialized = 1;
-							} else {
-								alert("initialization of webodf/editor/Editor\n" +
-										"failed somehow...");
-							}
 						});
 					});
 				});
@@ -89,10 +84,6 @@ var documentsMain = {
 	startSession: function(fileid) {
 		"use strict";
 		console.log('starting session for fileid '+fileid);
-		if (documentsMain.initialized === undefined) {
-			alert("WebODF Editor not yet initialized...");
-			return;
-		}
 
 		$.post(
 			OC.Router.generate('documents_session_start'),
