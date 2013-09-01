@@ -266,9 +266,9 @@ runtime.log("Sending message to server: "+messageString);
 
             // do the request
             xhr.open('POST', args.sessionStateToFileUrl, true);
-            xhr.setRequestHeader("x-webodf-es_id", sessionId);
-            xhr.setRequestHeader("x-webodf-member_id", memberId);
-            xhr.setRequestHeader("x-webodf-seq_head", seqHead);
+            xhr.setRequestHeader("webodf-session-id", sessionId);
+            xhr.setRequestHeader("webodf-member-id", memberId);
+            xhr.setRequestHeader("webodf-session-revision", seqHead);
             xhr.onreadystatechange = handleResult;
             // ArrayBufferView will have an ArrayBuffer property, in WebKit, XHR can send()
             // an ArrayBuffer, In Firefox, one must use sendAsBinary with a string
