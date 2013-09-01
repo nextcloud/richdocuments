@@ -428,7 +428,7 @@ runtime.log("Pushing activated");
             }
 
             // note if any local ops modified TODO: find less fragile way, perhaps have the operationFactory check it?
-            hasPushedModificationOps = hasPushedModificationOps || !/^(AddCursor|RemoveCursor)$/.test(opspec.optype);
+            hasPushedModificationOps = hasPushedModificationOps || !/^(AddCursor|MoveCursor|RemoveCursor)$/.test(opspec.optype);
 
             // apply locally
             opspec.timestamp = (new Date()).getTime();
