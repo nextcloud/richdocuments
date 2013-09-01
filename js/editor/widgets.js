@@ -81,6 +81,16 @@ define("webodf/editor/widgets", [
                 }
             };
 
+            /**
+             * @param {!function(!Object=)} callback, passing an error object in case of error
+             * @return {undefined}
+             */
+            this.destroy = function (callback) {
+                // TODO: investigate what else needs to be done
+                toolbar.destroyRecursive(true);
+                callback();
+            };
+
             // init
             ready(function () {
                 toolbar = new Toolbar({}, "toolbar");

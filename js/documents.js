@@ -79,7 +79,7 @@ var documentsMain = {
 				documentsMain.webodfEditorInstance = new Editor({}, documentsMain.webodfServerInstance, serverFactory);
 
 				// load the document and get called back when it's live
-				documentsMain.webodfEditorInstance.loadSession(response.es_id, memberId, function() {
+				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
 				});
 			});
@@ -150,21 +150,23 @@ var documentsMain = {
 
 		//close editor
 		documentsMain.webodfEditorInstance.endEditing();
-		documentsMain.webodfEditorInstance.closeDocument(function() {
+		documentsMain.webodfEditorInstance.close(function() {
 			// successfull shutdown - all is good.
 			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
 // 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
 
+			documentsMain.webodfEditorInstance.destroy(function() {
 				// Fade out odf-toolbar
 				$('#odf-toolbar').fadeOut('slow');
 				// Fade out editor
 				$('#mainContainer').fadeOut('slow', function() {
 					$('#mainContainer').remove();
-					$('#odf-canvas').remove();
+					$('#odf-toolbar').remove();
 					$('.actions,#file_access_panel').fadeIn('slow');
 					$('.documentslist, #emptyfolder').fadeIn('slow');
 					$(document.body).removeClass('claro');
 				});
+			});
 // 			});
 		});
 	},

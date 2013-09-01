@@ -152,17 +152,17 @@ define("webodf/editor/MemberListView",
         function removeMember(memberId) {
             editorSession.unsubscribeMemberDetailsUpdates(memberId, updateAvatarButton);
             removeAvatarButton(memberId);
-        };
+        }
 
-        /**
-         * @param {!EditorSession} session
-         * @return {undefined}
-         */
-        this.setEditorSession = function(session) {
-            var node = memberListDiv.firstChild, nextNode;
+        function disconnectFromEditorSession() {
+            var node, nextNode;
 
             if (editorSession) {
+                // unsubscribe from editorSession
+                editorSession.unsubscribe(EditorSession.signalMemberAdded, addMember);
+                editorSession.unsubscribe(EditorSession.signalMemberRemoved, removeMember);
                 // remove all current avatars
+                node = memberListDiv.firstChild;
                 while (node) {
                     nextNode = node.nextSibling;
                     if (node.memberId) {
@@ -171,15 +171,30 @@ define("webodf/editor/MemberListView",
                     memberListDiv.removeChild(node);
                     node = nextNode;
                 }
-                // unsubscribe from old editorSession
-                editorSession.unsubscribe(EditorSession.signalMemberAdded, addMember);
-                editorSession.unsubscribe(EditorSession.signalMemberRemoved, removeMember);
             }
+        }
+
+        /**
+         * @param {!EditorSession} session
+         * @return {undefined}
+         */
+        this.setEditorSession = function(session) {
+            disconnectFromEditorSession();
+
             editorSession = session;
             if (editorSession) {
                 editorSession.subscribe(EditorSession.signalMemberAdded, addMember);
                 editorSession.subscribe(EditorSession.signalMemberRemoved, removeMember);
             }
+        };
+
+        /**
+         * @param {!function(!Object=)} callback, passing an error object in case of error
+         * @return {undefined}
+         */
+        this.destroy = function (callback) {
+            disconnectFromEditorSession();
+            callback();
         };
     };
 });

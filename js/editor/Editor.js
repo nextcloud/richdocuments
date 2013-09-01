@@ -1,4 +1,5 @@
 /**
+ * @license
  * Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
@@ -31,6 +32,7 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
+
 /*global runtime, define, document, odf, ops, window, gui, alert, saveAs, Blob */
 
 define("webodf/editor/Editor", [
@@ -66,6 +68,7 @@ define("webodf/editor/Editor", [
                 // Private
                 session,
                 editorSession,
+                mainContainer,
                 memberListView,
                 toolbarTools,
                 loadOdtFile = args.loadCallback,
@@ -112,7 +115,7 @@ define("webodf/editor/Editor", [
 
 
             /**
-             * create the editor, load the starting document,
+             * open the document,
              * call editorReadyCallback once everything is done.
              *
              * @param {!string} docUrl
@@ -120,7 +123,7 @@ define("webodf/editor/Editor", [
              * @param {!function()} editorReadyCallback
              * @return {undefined}
              */
-            this.loadDocument = function (docUrl, memberId, editorReadyCallback) {
+            this.openDocument = function (docUrl, memberId, editorReadyCallback) {
                 initDocLoading(docUrl, memberId, editorReadyCallback);
             };
 
@@ -151,8 +154,8 @@ define("webodf/editor/Editor", [
             };
 
             /**
-             * create the editor, load the starting document of an
-             * editing-session, request a replay of previous operations, call
+             * open the initial document of an editing-session,
+             * request a replay of previous operations, call
              * editorReadyCallback once everything is done.
              *
              * @param {!string} sessionId
@@ -160,7 +163,7 @@ define("webodf/editor/Editor", [
              * @param {!function()} editorReadyCallback
              * @return {undefined}
              */
-            this.loadSession = function (sessionId, memberId, editorReadyCallback) {
+            this.openSession = function (sessionId, memberId, editorReadyCallback) {
                 initDocLoading(server.getGenesisUrl(sessionId), memberId, function () {
                     var opRouter, memberModel;
                     // overwrite router and member model
@@ -185,26 +188,27 @@ define("webodf/editor/Editor", [
              * @param {!function(!Object=)} callback, passing an error object in case of error
              * @return {undefined}
              */
-            this.closeDocument = function (callback) {
+            this.close = function (callback) {
                 runtime.assert(session, "session should exist here.");
-                if (memberListView) {
-                    memberListView.setEditorSession(undefined);
-                }
                 // TODO: there is a better pattern for this instead of unrolling
-                session.getOperationRouter().close(function(err) {
+                editorSession.close(function(err) {
                     if (err) {
                         callback(err);
                     } else {
-                        session.getMemberModel().close(function(err) {
+                        session.close(function(err) {
                             if (err) {
                                 callback(err);
                             } else {
-                                editorSession.close(function(err) {
+                                // now also destroy session, will not be reused for new document
+                                if (memberListView) {
+                                    memberListView.setEditorSession(undefined);
+                                }
+                                editorSession.destroy(function(err) {
                                     if (err) {
                                         callback(err);
                                     } else {
                                         editorSession = undefined;
-                                        session.close(function(err) {
+                                        session.destroy(function(err) {
                                             if (err) {
                                                 callback(err);
                                             } else {
@@ -245,10 +249,45 @@ define("webodf/editor/Editor", [
                 editorSession.sessionController.endEditing();
             };
 
+            /**
+             * @param {!function(!Object=)} callback, passing an error object in case of error
+             * @return {undefined}
+             */
+            this.destroy = function (callback) {
+                var destroyMemberListView = memberListView ? memberListView.destroy : function(cb) { cb(); };
+
+                // TODO: decide if some forced close should be done here instead of enforcing proper API usage
+                runtime.assert(!session, "session should not exist here.");
+
+                // TODO: investigate what else needs to be done
+                mainContainer.destroyRecursive(true);
+
+                destroyMemberListView(function(err) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        toolbarTools.destroy(function(err) {
+                            if (err) {
+                                callback(err);
+                            } else {
+                                odfCanvas.destroy(function(err) {
+                                    if (err) {
+                                        callback(err);
+                                    } else {
+                                        document.translator = null;
+                                        document.translateContent = null;
+                                        callback();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            };
+
             // init
             function init() {
-                var mainContainer,
-                    editorPane, memberListPane,
+                var editorPane, memberListPane,
                     inviteButton,
                     canvasElement = document.getElementById("canvas"),
                     memberListElement = document.getElementById('memberList'),
@@ -317,11 +356,10 @@ define("webodf/editor/Editor", [
 
                 if (window.inviteButtonProxy) {
                     inviteButton = document.getElementById('inviteButton');
-                    if (inviteButton) {
-                        inviteButton.innerText = translator("inviteMembers");
-                        inviteButton.style.display = "block";
-                        inviteButton.onclick = window.inviteButtonProxy.clicked;
-                    }
+                    runtime.assert(inviteButton, 'missing "inviteButton" div in HTML');
+                    inviteButton.innerText = translator("inviteMembers");
+                    inviteButton.style.display = "block";
+                    inviteButton.onclick = window.inviteButtonProxy.clicked;
                 }
 
                 toolbarTools = new ToolBarTools({

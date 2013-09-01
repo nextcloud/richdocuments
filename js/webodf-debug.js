@@ -8479,7 +8479,11 @@ odf.OdfCanvas = function() {
         updateCSS()
       }
     };
-    this.css = css
+    this.css = css;
+    this.destroy = function(callback) {
+      css.parentNode.removeChild(css);
+      callback()
+    }
   }
   function listenEvent(eventTarget, eventType, eventHandler) {
     if(eventTarget.addEventListener) {
@@ -8490,6 +8494,20 @@ odf.OdfCanvas = function() {
         eventTarget.attachEvent(eventType, eventHandler)
       }else {
         eventTarget["on" + eventType] = eventHandler
+      }
+    }
+  }
+  function removeEvent(eventTarget, eventType, eventHandler) {
+    var onVariant = "on" + eventType;
+    if(eventTarget.removeEventListener) {
+      eventTarget.removeEventListener(eventType, eventHandler, false)
+    }else {
+      if(eventTarget.detachEvent) {
+        eventTarget.detachEvent(onVariant, eventHandler)
+      }else {
+        if(eventTarget[onVariant] === eventHandler) {
+          eventTarget[onVariant] = null
+        }
       }
     }
   }
@@ -8568,12 +8586,17 @@ odf.OdfCanvas = function() {
       }
       listeners.push(handler)
     };
+    this.destroy = function(callback) {
+      removeEvent(element, "mouseup", checkSelection);
+      removeEvent(element, "keyup", checkSelection);
+      removeEvent(element, "keydown", checkSelection);
+      callback()
+    };
     listenEvent(element, "mouseup", checkSelection);
     listenEvent(element, "keyup", checkSelection);
     listenEvent(element, "keydown", checkSelection)
   }
-  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent, sizer, annotationsPane, allowAnnotations = 
-  false, annotationManager;
+  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, xmlns = odf.Namespaces.xmlns, presentationns = odf.Namespaces.presentationns, window = runtime.getWindow(), xpath = new xmldom.XPath, utils = new odf.OdfUtils, domUtils = new core.DomUtils, shadowContent;
   function clear(element) {
     while(element.firstChild) {
       element.removeChild(element.firstChild)
@@ -8724,17 +8747,6 @@ odf.OdfCanvas = function() {
       node = (tableCells.item(i));
       modifyTableCell(node)
     }
-  }
-  function modifyAnnotations(odffragment) {
-    var annotationNodes = domUtils.getElementsByTagNameNS(odffragment, officens, "annotation"), annotationEnds = domUtils.getElementsByTagNameNS(odffragment, officens, "annotation-end"), currentAnnotationName, i;
-    function matchAnnotationEnd(element) {
-      return currentAnnotationName === element.getAttributeNS(officens, "name")
-    }
-    for(i = 0;i < annotationNodes.length;i += 1) {
-      currentAnnotationName = annotationNodes[i].getAttributeNS(officens, "name");
-      annotationManager.addAnnotation({node:annotationNodes[i], end:annotationEnds.filter(matchAnnotationEnd)[0] || null})
-    }
-    annotationManager.rerenderAnnotations()
   }
   function modifyLinks(odffragment) {
     var i, links, node;
@@ -8984,12 +8996,7 @@ odf.OdfCanvas = function() {
   odf.OdfCanvas = function OdfCanvas(element) {
     runtime.assert(element !== null && element !== undefined, "odf.OdfCanvas constructor needs DOM element");
     runtime.assert(element.ownerDocument !== null && element.ownerDocument !== undefined, "odf.OdfCanvas constructor needs DOM");
-    var self = this, doc = (element.ownerDocument), odfcontainer, formatting = new odf.Formatting, selectionWatcher = new SelectionWatcher(element), pageSwitcher, fontcss, stylesxmlcss, positioncss, editable = false, zoomLevel = 1, eventHandlers = {}, editparagraph, loadingQueue = new LoadingQueue;
-    addWebODFStyleSheet(doc);
-    pageSwitcher = new PageSwitcher(addStyleSheet(doc));
-    fontcss = addStyleSheet(doc);
-    stylesxmlcss = addStyleSheet(doc);
-    positioncss = addStyleSheet(doc);
+    var self = this, doc = (element.ownerDocument), odfcontainer, formatting = new odf.Formatting, selectionWatcher = new SelectionWatcher(element), pageSwitcher, sizer, annotationsPane, allowAnnotations = false, annotationManager, webodfcss, fontcss, stylesxmlcss, positioncss, editable = false, zoomLevel = 1, eventHandlers = {}, editparagraph, loadingQueue = new LoadingQueue;
     function loadImages(container, odffragment, stylesheet) {
       var i, images, node;
       function loadImage(name, container, node, stylesheet) {
@@ -9083,6 +9090,17 @@ odf.OdfCanvas = function() {
       loadLists(odfnode.body, css);
       sizer.insertBefore(shadowContent, sizer.firstChild);
       fixContainerSize()
+    }
+    function modifyAnnotations(odffragment) {
+      var annotationNodes = domUtils.getElementsByTagNameNS(odffragment, officens, "annotation"), annotationEnds = domUtils.getElementsByTagNameNS(odffragment, officens, "annotation-end"), currentAnnotationName, i;
+      function matchAnnotationEnd(element) {
+        return currentAnnotationName === element.getAttributeNS(officens, "name")
+      }
+      for(i = 0;i < annotationNodes.length;i += 1) {
+        currentAnnotationName = annotationNodes[i].getAttributeNS(officens, "name");
+        annotationManager.addAnnotation({node:annotationNodes[i], end:annotationEnds.filter(matchAnnotationEnd)[0] || null})
+      }
+      annotationManager.rerenderAnnotations()
     }
     function handleAnnotations(odfnode) {
       if(allowAnnotations) {
@@ -9328,7 +9346,33 @@ odf.OdfCanvas = function() {
     };
     this.getElement = function() {
       return element
+    };
+    this.destroy = function(callback) {
+      var head = doc.getElementsByTagName("head")[0];
+      if(annotationsPane.parentNode) {
+        annotationsPane.parentNode.removeChild(annotationsPane)
+      }
+      element.removeChild(sizer);
+      head.removeChild(webodfcss);
+      head.removeChild(fontcss);
+      head.removeChild(stylesxmlcss);
+      head.removeChild(positioncss);
+      selectionWatcher.destroy(function(err) {
+        if(err) {
+          callback(err)
+        }else {
+          pageSwitcher.destroy(callback)
+        }
+      })
+    };
+    function init() {
+      webodfcss = addWebODFStyleSheet(doc);
+      pageSwitcher = new PageSwitcher(addStyleSheet(doc));
+      fontcss = addStyleSheet(doc);
+      stylesxmlcss = addStyleSheet(doc);
+      positioncss = addStyleSheet(doc)
     }
+    init()
   };
   return odf.OdfCanvas
 }();
@@ -11916,6 +11960,10 @@ ops.EditInfo = function EditInfo(container, odtDocument) {
   this.clearEdits = function() {
     editHistory = {}
   };
+  this.destroy = function(callback) {
+    container.removeChild(editInfoNode);
+    callback()
+  };
   function init() {
     var editInfons = "urn:webodf:names:editinfo", dom = odtDocument.getDOM();
     editInfoNode = dom.createElementNS(editInfons, "editinfo");
@@ -11950,6 +11998,10 @@ gui.Avatar = function Avatar(parentElement, avatarInitiallyVisible) {
   };
   this.markAsFocussed = function(isFocussed) {
     handle.className = isFocussed ? "active" : ""
+  };
+  this.destroy = function(callback) {
+    parentElement.removeChild(handle);
+    callback()
   };
   function init() {
     var document = (parentElement.ownerDocument), htmlns = document.documentElement.namespaceURI;
@@ -12055,6 +12107,16 @@ gui.Caret = function Caret(cursor, avatarInitiallyVisible, blinkOnRangeSelect) {
         canvasContainerElement.scrollLeft += caretRect.right - canvasContainerRect.right
       }
     }
+  };
+  this.destroy = function(callback) {
+    avatar.destroy(function(err) {
+      if(err) {
+        callback(err)
+      }else {
+        cursorNode.removeChild(span);
+        callback()
+      }
+    })
   };
   function init() {
     var dom = cursor.getOdtDocument().getDOM(), htmlns = dom.documentElement.namespaceURI;
@@ -12925,7 +12987,7 @@ gui.SessionController = function() {
     this.getUndoManager = function() {
       return undoManager
     };
-    this.close = function(callback) {
+    this.destroy = function(callback) {
       callback()
     };
     function init() {
@@ -13230,6 +13292,10 @@ gui.EditInfoHandle = function EditInfoHandle(parentElement) {
   this.hide = function() {
     handle.style.display = "none"
   };
+  this.destroy = function(callback) {
+    parentElement.removeChild(handle);
+    callback()
+  };
   function init() {
     handle = document.createElementNS(htmlns, "div");
     handle.setAttribute("class", "editInfoHandle");
@@ -13238,6 +13304,40 @@ gui.EditInfoHandle = function EditInfoHandle(parentElement) {
   }
   init()
 };
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
 runtime.loadClass("ops.EditInfo");
 runtime.loadClass("gui.EditInfoHandle");
 gui.EditInfoMarker = function EditInfoMarker(editInfo, initialVisibility) {
@@ -13302,6 +13402,16 @@ gui.EditInfoMarker = function EditInfoMarker(editInfo, initialVisibility) {
   };
   this.hideHandle = function() {
     handle.hide()
+  };
+  this.destroy = function(callback) {
+    editInfoNode.removeChild(marker);
+    handle.destroy(function(err) {
+      if(err) {
+        callback(err)
+      }else {
+        editInfo.destroy(callback)
+      }
+    })
   };
   function init() {
     var dom = editInfo.getOdtDocument().getDOM(), htmlns = dom.documentElement.namespaceURI;
@@ -13504,16 +13614,39 @@ gui.SessionView = function() {
         session.getMemberModel().unsubscribeMemberDetailsUpdates(memberid, renderMemberData)
       }
     }
-    this.close = function(callback) {
-      callback()
+    function onParagraphChanged(info) {
+      highlightEdit(info.paragraphElement, info.memberId, info.timeStamp)
+    }
+    this.destroy = function(callback) {
+      var odtDocument = session.getOdtDocument(), memberModel = session.getMemberModel(), editInfoArray = Object.keys(editInfoMap).map(function(keyname) {
+        return editInfoMap[keyname]
+      });
+      odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+      odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+      odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
+      caretManager.getCarets().forEach(function(caret) {
+        memberModel.unsubscribeMemberDetailsUpdates(caret.getCursor().getMemberId(), renderMemberData)
+      });
+      avatarInfoStyles.parentNode.removeChild(avatarInfoStyles);
+      (function destroyEditInfo(i, err) {
+        if(err) {
+          callback(err)
+        }else {
+          if(i < editInfoArray.length) {
+            editInfoArray[i].destroy(function(err) {
+              destroyEditInfo(i + 1, err)
+            })
+          }else {
+            callback()
+          }
+        }
+      })(0, undefined)
     };
     function init() {
       var odtDocument = session.getOdtDocument(), head = document.getElementsByTagName("head")[0];
       odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
       odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
-      odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, function(info) {
-        highlightEdit(info.paragraphElement, info.memberId, info.timeStamp)
-      });
+      odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
       avatarInfoStyles = document.createElementNS(head.namespaceURI, "style");
       avatarInfoStyles.type = "text/css";
       avatarInfoStyles.media = "screen, print, handheld, projection";
@@ -13564,6 +13697,11 @@ gui.CaretManager = function CaretManager(sessionController) {
   var carets = {};
   function getCaret(memberId) {
     return carets.hasOwnProperty(memberId) ? carets[memberId] : null
+  }
+  function getCarets() {
+    return Object.keys(carets).map(function(memberid) {
+      return carets[memberid]
+    })
   }
   function getCanvasElement() {
     return sessionController.getSession().getOdtDocument().getOdfCanvas().getElement()
@@ -13616,13 +13754,30 @@ gui.CaretManager = function CaretManager(sessionController) {
     return caret
   };
   this.getCaret = getCaret;
-  this.getCarets = function() {
-    return Object.keys(carets).map(function(memberid) {
-      return carets[memberid]
-    })
+  this.getCarets = getCarets;
+  this.destroy = function(callback) {
+    var odtDocument = sessionController.getSession().getOdtDocument(), canvasElement = getCanvasElement(), caretArray = getCarets();
+    odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, ensureLocalCaretVisible);
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, refreshLocalCaretBlinking);
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, removeCaret);
+    canvasElement.onfocus = null;
+    canvasElement.onblur = null;
+    (function destroyCaret(i, err) {
+      if(err) {
+        callback(err)
+      }else {
+        if(i < caretArray.length) {
+          caretArray[i].destroy(function(err) {
+            destroyCaret(i + 1, err)
+          })
+        }else {
+          callback()
+        }
+      }
+    })(0, undefined)
   };
   function init() {
-    var session = sessionController.getSession(), odtDocument = session.getOdtDocument(), canvasElement = getCanvasElement();
+    var odtDocument = sessionController.getSession().getOdtDocument(), canvasElement = getCanvasElement();
     odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, ensureLocalCaretVisible);
     odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, refreshLocalCaretBlinking);
     odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, removeCaret);
@@ -14763,6 +14918,9 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   this.close = function(callback) {
     callback()
   };
+  this.destroy = function(callback) {
+    callback()
+  };
   function init() {
     filter = new TextPositionFilter;
     odfUtils = new odf.OdfUtils
@@ -14839,9 +14997,6 @@ ops.Session = function Session(odfCanvas) {
     });
     opRouter.setOperationFactory(operationFactory)
   };
-  this.getOperationRouter = function() {
-    return operationRouter
-  };
   this.getMemberModel = function() {
     return memberModel
   };
@@ -14855,13 +15010,22 @@ ops.Session = function Session(odfCanvas) {
     operationRouter.push(operation)
   };
   this.close = function(callback) {
-    odtDocument.close(function(err) {
+    operationRouter.close(function(err) {
       if(err) {
         callback(err)
       }else {
-        callback()
+        memberModel.close(function(err) {
+          if(err) {
+            callback(err)
+          }else {
+            odtDocument.close(callback)
+          }
+        })
       }
     })
+  };
+  this.destroy = function(callback) {
+    odtDocument.destroy(callback)
   };
   function init() {
     self.setOperationRouter(new ops.TrivialOperationRouter)

@@ -32,7 +32,9 @@
  * @source: http://www.webodf.org/
  * @source: http://gitorious.org/webodf/webodf/
  */
+
 /*global define, runtime, core, gui, ops, document */
+
 define("webodf/editor/EditorSession", [
     "dojo/text!resources/fonts/fonts.css"
 ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
@@ -65,8 +67,10 @@ define("webodf/editor/EditorSession", [
             currentParagraphNode = null,
             currentNamedStyleName = null,
             currentStyleName = null,
+            caretManager,
             odtDocument = session.getOdtDocument(),
             textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0",
+            fontStyles = document.createElement('style'),
             formatting = odtDocument.getFormatting(),
             styleHelper = new gui.StyleHelper(formatting),
             eventNotifier = new core.EventNotifier([
@@ -81,7 +85,8 @@ define("webodf/editor/EditorSession", [
 
 
         this.sessionController = new gui.SessionController(session, localMemberId);
-        this.sessionView = new gui.SessionView(config.viewOptions, session, new gui.CaretManager(self.sessionController));
+        caretManager = new gui.CaretManager(self.sessionController);
+        this.sessionView = new gui.SessionView(config.viewOptions, session, caretManager);
         this.availableFonts = [];
 
         /*
@@ -194,36 +199,34 @@ define("webodf/editor/EditorSession", [
             checkParagraphStyleName();
         }
 
-        // Custom signals, that make sense in the Editor context. We do not want to expose webodf's ops signals to random bits of the editor UI.
-        odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, function (cursor) {
+        function onCursorAdded(cursor) {
             self.emit(EditorSession.signalMemberAdded, cursor.getMemberId());
             trackCursor(cursor);
-        });
+        }
 
-        odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, function (memberId) {
+        function onCursorRemoved(memberId) {
             self.emit(EditorSession.signalMemberRemoved, memberId);
-        });
+        }
 
-        odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, function (cursor) {
+        function onCursorMoved(cursor) {
             // Emit 'cursorMoved' only when *I* am moving the cursor, not the other users
             if (cursor.getMemberId() === localMemberId) {
                 self.emit(EditorSession.signalCursorMoved, cursor);
+                trackCursor(cursor);
             }
-        });
+        }
 
-        odtDocument.subscribe(ops.OdtDocument.signalStyleCreated, function (newStyleName) {
+        function onStyleCreated(newStyleName) {
             self.emit(EditorSession.signalStyleCreated, newStyleName);
-        });
+        }
 
-        odtDocument.subscribe(ops.OdtDocument.signalStyleDeleted, function (styleName) {
+        function onStyleDeleted(styleName) {
             self.emit(EditorSession.signalStyleDeleted, styleName);
-        });
+        }
 
-        odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, function (styleName) {
+        function onParagraphStyleModified(styleName) {
             self.emit(EditorSession.signalParagraphStyleModified, styleName);
-        });
-
-        odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
+        }
 
         /**
          * Call all subscribers for the given event with the specified argument
@@ -527,24 +530,64 @@ define("webodf/editor/EditorSession", [
             undoManager.moveForward(1);
         };
 
-        this.subscribe(EditorSession.signalCursorMoved, trackCursor);
+        /**
+         * @param {!function(!Object=)} callback, passing an error object in case of error
+         * @return {undefined}
+         */
+        this.close = function (callback) {
+            callback();
+            /*
+            self.sessionView.close(function(err) {
+                if (err) {
+                    callback(err);
+                } else {
+                    caretManager.close(function(err) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            self.sessionController.close(callback);
+                        }
+                    });
+                }
+            });
+            */
+        };
 
         /**
          * @param {!function(!Object=)} callback, passing an error object in case of error
          * @return {undefined}
          */
-        this.close = function(callback) {
-            self.sessionController.close(function(err) {
+        this.destroy = function(callback) {
+            var head = document.getElementsByTagName('head')[0];
+
+            head.removeChild(fontStyles);
+
+            odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+            odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+            odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+            odtDocument.unsubscribe(ops.OdtDocument.signalStyleCreated, onStyleCreated);
+            odtDocument.unsubscribe(ops.OdtDocument.signalStyleDeleted, onStyleDeleted);
+            odtDocument.unsubscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
+            odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
+            odtDocument.unsubscribe(ops.OdtDocument.signalUndoStackChanged, undoStackModified);
+
+            self.sessionView.destroy(function(err) {
                 if (err) {
                     callback(err);
                 } else {
-                    delete self.sessionController;
-                    self.sessionView.close(function(err) {
+                    delete self.sessionView;
+                    caretManager.destroy(function(err) {
                         if (err) {
                             callback(err);
                         } else {
-                            delete self.sessionView;
-                            callback();
+                            self.sessionController.destroy(function(err) {
+                                if (err) {
+                                    callback(err);
+                                } else {
+                                    delete self.sessionController;
+                                    callback();
+                                }
+                            });
                         }
                     });
                 }
@@ -552,12 +595,22 @@ define("webodf/editor/EditorSession", [
         };
 
         function init() {
-            var head = document.getElementsByTagName('head')[0],
-                fontStyles = document.createElement('style');
+            var head = document.getElementsByTagName('head')[0];
+
+            // TODO: fonts.css should be rather done by odfCanvas, or?
             fontStyles.type = 'text/css';
             fontStyles.media = 'screen, print, handheld, projection';
             fontStyles.appendChild(document.createTextNode(fontsCSS));
             head.appendChild(fontStyles);
+
+            // Custom signals, that make sense in the Editor context. We do not want to expose webodf's ops signals to random bits of the editor UI.
+            odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+            odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+            odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+            odtDocument.subscribe(ops.OdtDocument.signalStyleCreated, onStyleCreated);
+            odtDocument.subscribe(ops.OdtDocument.signalStyleDeleted, onStyleDeleted);
+            odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
+            odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
             odtDocument.subscribe(ops.OdtDocument.signalUndoStackChanged, undoStackModified);
         }
 
