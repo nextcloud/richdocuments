@@ -71,7 +71,7 @@ var documentsMain = {
 				runtime.assert(response.es_id, "invalid session id.");
 				memberId = response.member_id;
 				documentsMain.webodfServerInstance = serverFactory.createServer();
-				documentsMain.webodfEditorInstance = new Editor({}, documentsMain.webodfServerInstance, serverFactory);
+				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
 
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
