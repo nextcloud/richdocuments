@@ -26,10 +26,10 @@
 	background-position: 18px;
 }
 .add-document .add {
-	background-image: url('%webroot%/core/img/actions/add.png');
+	background-image: url('%webroot%/core/img/actions/add.svg');
 }
 .add-document .upload {
-	background-image: url('%webroot%/core/img/actions/upload.png');
+	background-image: url('%webroot%/core/img/actions/upload.svg');
 }
 .add-document label {
 	position: absolute;
