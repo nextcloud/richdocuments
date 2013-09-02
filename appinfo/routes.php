@@ -9,67 +9,76 @@
  * later.
  */
 
+/**
+ * Document routes
+ */
 $this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->post()
-	->action('\OCA\Documents\Controller', 'serve')
+	->action('\OCA\Documents\DocumentController', 'serve')
 ;
 $this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->get()
-	->action('\OCA\Documents\Controller', 'serve')
-;
-
-$this->create('documents_session_start', 'ajax/session/start')
-	->get()
-	->action('\OCA\Documents\Controller', 'startSession')
-;
-$this->create('documents_session_start', 'ajax/session/start')
-	->post()
-	->action('\OCA\Documents\Controller', 'startSession')
+	->action('\OCA\Documents\DocumentController', 'serve')
 ;
 
 $this->create('documents_documents_list', 'ajax/documents/list')
 	->get()
-	->action('\OCA\Documents\Controller', 'listDocuments')
+	->action('\OCA\Documents\DocumentController', 'listAll')
+;
+
+
+/**
+ * Session routes
+ */
+$this->create('documents_session_start', 'ajax/session/start')
+	->get()
+	->action('\OCA\Documents\SessionController', 'start')
+;
+$this->create('documents_session_start', 'ajax/session/start')
+	->post()
+	->action('\OCA\Documents\SessionController', 'start')
 ;
 
 $this->create('documents_session_list', 'ajax/session/list')
 	->get()
-	->action('\OCA\Documents\Controller', 'listSessions')
+	->action('\OCA\Documents\SessionController', 'listAll')
 ;
 $this->create('documents_session_list', 'ajax/session/list')
 	->post()
-	->action('\OCA\Documents\Controller', 'listSessions')
+	->action('\OCA\Documents\SessionController', 'listAll')
 ;
 
 $this->create('documents_session_info', 'ajax/session/info')
 	->post()
-	->action('\OCA\Documents\Controller', 'sessionInfo')
+	->action('\OCA\Documents\SessionController', 'info')
 ;
 
 $this->create('documents_session_listhtml', 'ajax/session/listHtml')
 	->get()
-	->action('\OCA\Documents\Controller', 'listSessionsHtml')
+	->action('\OCA\Documents\SessionController', 'listAllHtml')
 ;
 $this->create('documents_session_listhtml', 'ajax/session/listHtml')
 	->post()
-	->action('\OCA\Documents\Controller', 'listSessionsHtml')
+	->action('\OCA\Documents\SessionController', 'listAllHtml')
 ;
 
 $this->create('documents_session_join', 'ajax/session/join/{es_id}')
 	->get()
-	->action('\OCA\Documents\Controller', 'joinSession')
+	->action('\OCA\Documents\SessionController', 'join')
 ;
 $this->create('documents_session_join', 'ajax/session/join/{es_id}')
 	->post()
-	->action('\OCA\Documents\Controller', 'joinSession')
+	->action('\OCA\Documents\SessionController', 'join')
 ;
 
 $this->create('documents_session_save', 'ajax/session/save')
 	->post()
-	->action('\OCA\Documents\Controller', 'save')
+	->action('\OCA\Documents\SessionController', 'save')
 ;
 
-
+/**
+ * User routes
+ */
 $this->create('documents_user_avatar', 'ajax/user/avatar')
 	->get()
 	->action('\OCA\Documents\UserController', 'sendAvatar')

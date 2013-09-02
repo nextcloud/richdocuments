@@ -35,6 +35,8 @@ OCP\App::addNavigationEntry(array(
 );
 
 OC::$CLASSPATH['OCA\Documents\Controller'] = 'documents/ajax/controller.php';
+OC::$CLASSPATH['OCA\Documents\DocumentController'] = 'documents/ajax/documentController.php';
+OC::$CLASSPATH['OCA\Documents\SessionController'] = 'documents/ajax/sessionController.php';
 OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
 OC::$CLASSPATH['OCA\Documents\Download\Simple'] = 'documents/lib/download/simple.php';
 OC::$CLASSPATH['OCA\Documents\Download\Range'] = 'documents/lib/download/range.php';

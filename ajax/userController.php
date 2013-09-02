@@ -12,7 +12,7 @@
 
 namespace OCA\Documents;
 
-class UserController {
+class UserController extends Controller{
 	
 	/**
 	 * Search users according to the pattern
@@ -72,19 +72,6 @@ class UserController {
 		\OC_Util::obEnd();
 
 		echo $image->show();
-	}
-	
-	/**
-	 * Do security precheck
-	 * @param bool callcheck - whether security token check is needed
-	 * @return string userId of the currently logged in user
-	 */
-	protected static function preDispatch($callcheck = true){
-		if ($callcheck){
-			\OCP\JSON::callCheck();
-		}
-		\OCP\JSON::checkLoggedIn();
-		return \OCP\User::getUser();
 	}
 	
 }
