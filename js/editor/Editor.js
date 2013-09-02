@@ -41,14 +41,14 @@ define("webodf/editor/Editor", [
     "webodf/editor/MemberListView",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
-    "webodf/editor/widgets"],
+    "webodf/editor/Tools"],
 
     function (myResources,
         EditorSession,
         MemberListView,
         BorderContainer,
         ContentPane,
-        ToolBarTools) {
+        Tools) {
         "use strict";
 
         runtime.loadClass('odf.OdfCanvas');
@@ -70,7 +70,7 @@ define("webodf/editor/Editor", [
                 editorSession,
                 mainContainer,
                 memberListView,
-                toolbarTools,
+                tools,
                 loadOdtFile = args.loadCallback,
                 saveOdtFile = args.saveCallback,
                 close = args.closeCallback,
@@ -233,7 +233,7 @@ define("webodf/editor/Editor", [
             this.startEditing = function () {
                 runtime.assert(editorSession, "editorSession should exist here.");
 
-                toolbarTools.setEditorSession(editorSession);
+                tools.setEditorSession(editorSession);
                 editorSession.sessionController.startEditing();
             };
 
@@ -245,7 +245,7 @@ define("webodf/editor/Editor", [
             this.endEditing = function () {
                 runtime.assert(editorSession, "editorSession should exist here.");
 
-                toolbarTools.setEditorSession(undefined);
+                tools.setEditorSession(undefined);
                 editorSession.sessionController.endEditing();
             };
 
@@ -266,7 +266,7 @@ define("webodf/editor/Editor", [
                     if (err) {
                         callback(err);
                     } else {
-                        toolbarTools.destroy(function(err) {
+                        tools.destroy(function(err) {
                             if (err) {
                                 callback(err);
                             } else {
@@ -362,7 +362,7 @@ define("webodf/editor/Editor", [
                     inviteButton.onclick = window.inviteButtonProxy.clicked;
                 }
 
-                toolbarTools = new ToolBarTools({
+                tools = new Tools({
                         loadOdtFile: loadOdtFile,
                         saveOdtFile: saveOdtFile,
                         close: close,

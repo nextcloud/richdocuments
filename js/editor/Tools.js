@@ -34,7 +34,7 @@
 
 /*global define,document,require */
 
-define("webodf/editor/widgets", [
+define("webodf/editor/Tools", [
     "dojo/ready",
     "dijit/MenuItem",
     "dijit/DropDownMenu",
@@ -49,7 +49,7 @@ define("webodf/editor/widgets", [
     function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, SimpleStyles, UndoRedoMenu, CurrentStyle, ParagraphStylesDialog, ZoomSlider) {
         "use strict";
 
-        return function ToolBarTools(args) {
+        return function Tools(args) {
             var translator = document.translator,
                 loadOdtFile = args.loadOdtFile,
                 saveOdtFile = args.saveOdtFile,
@@ -104,8 +104,8 @@ define("webodf/editor/widgets", [
                     undoRedoMenu.setEditorSession(editorSession);
                 }
 
+                // Simple Style Selector [B, I, U, S]
                 if (args.directStylingEnabled) {
-                    // Simple Style Selector [B, I, U, S]
                     simpleStyles = new SimpleStyles(function (widget) {
                         widget.placeAt(toolbar);
                         widget.startup();
