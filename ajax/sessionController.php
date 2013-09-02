@@ -92,22 +92,42 @@ class SessionController extends Controller{
 	 */
 	public static function save(){
 		$uid = self::preDispatch();
-		$sessionID = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
-		$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
-		$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
-		$content = fopen('php://input','r');
-		if ($sessionID && $content){
+		try {
+			$sessionID = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
+			if (!$sessionID){
+				throw new \Exception('Session id can not be empty');
+			}
+			
+			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
+			$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
+			
+			$content = fopen('php://input','r');
+			if (!$content){
+				throw new \Exception('New conent missing');
+			}
+			
 			$session = Session::getSession($sessionID);
+			if (!$session){
+				throw new \Exception('Session does not exist');
+			}
+			
 			$fileInfo = \OC\Files\Cache\Cache::getById($session['file_id']);
 			$path = $fileInfo[1];
+			
 			$view = new \OC\Files\View('/' . $session['owner']);
 
-			$canWrite = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
-			if ($canWrite){
-				$view->file_put_contents($path, $content);
-			} else {
-				// TODO: report an error, break a plate, burn a house, conquer the galaxy
+			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
+			if (!$isWritable){
+				throw new \Exception('Document does not exist or is not writable for this user');
 			}
+			
+			$view->file_put_contents($path, $content);
+			\OCP\JSON::success();
+			exit();
+		} catch (\Exception $e){
+			Helper::warnLog('Saving failed. Reason:' . $e->getMessage());
+			\OCP\JSON::error(array('message'=>$e->getMessage()));
+			exit();
 		}
 	}
 	
