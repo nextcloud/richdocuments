@@ -59,8 +59,21 @@ try{
 					function($x){
 						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
 						
-						// Stub
-						$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+						if (!method_exists('\OCP\Avatar', 'get')){
+							$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+						} else {
+							$avatar = new \OC_Avatar();
+							$image = $avatar->get($x['uid'], 64);
+							if ($image instanceof \OC_Image) {
+								$x['avatar_url'] = \OC_Helper::linkToRoute(
+										'core_avatar_get',
+										array( 'user' => $x['uid'], 'size' => 64)
+								);
+							} else {
+								//shortcircuit if it's not an image
+								$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+							}
+						}
 						return $x;
 					}, 
 					$members
