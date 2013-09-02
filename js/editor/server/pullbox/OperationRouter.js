@@ -59,11 +59,10 @@ define("webodf/editor/server/pullbox/OperationRouter", [], function () {
         var operationFactory,
             /**@type{function(!ops.Operation)}*/
             playbackFunction,
+            idleTimeout = null,
             syncOpsTimeout = null,
             /**@type{!boolean}*/
             isInstantSyncRequested = false,
-            /**@type{!boolean}*/
-            isPushingOpsTriggered = false,
             /**@type{!boolean}*/
             isPlayingUnplayedServerOpSpecs = false,
             /**@type{!boolean}*/
@@ -90,8 +89,8 @@ define("webodf/editor/server/pullbox/OperationRouter", [], function () {
             hasPushedModificationOps = false,
             operationTransformer = new ops.OperationTransformer(),
             /**@const*/replayTime = 500,
-            /**@const*/pushingIntervall = 3000,
-            /**@const*/pullingIntervall = 8000;
+            /**@const*/syncOpsDelay = 3000,
+            /**@const*/idleDelay = 5000;
 
 
         function updateHasLocalUnsyncedOpsState() {
@@ -254,6 +253,17 @@ runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
             var syncedClientOpspecs,
                 syncRequestCallbacksArray;
 
+            /**
+             * @return {undefined}
+             */
+            function startSyncOpsTimeout() {
+                idleTimeout = null;
+                syncOpsTimeout = runtime.getWindow().setTimeout(function() {
+                    syncOpsTimeout = null;
+                    syncOps();
+                }, syncOpsDelay);
+            }
+
             if (isSyncCallRunning || hasUnresolvableConflict) {
                 return;
             }
@@ -262,8 +272,8 @@ runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
                 return;
             }
 
-            // no more timeout  or instant pull request in any case
-            syncOpsTimeout = null;
+runtime.log("OperationRouter: sending sync_ops call");
+            // no more instant pull request in any case
             isInstantSyncRequested = false;
             // set lock
             isSyncCallRunning = true;
@@ -290,7 +300,7 @@ runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
                     return;
                 }
 
-                runtime.log("sync-ops reply: " + responseData);
+                runtime.log("sync_ops reply: " + responseData);
 
                 // just new ops?
                 if (response.result === "new_ops") {
@@ -307,6 +317,8 @@ runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
                        }
                         // and note server state
                         lastServerSeq = response.head_seq;
+                    } else {
+                        receiveOpSpecsFromNetwork([], syncRequestCallbacksArray);
                     }
                 } else if (response.result === "added") {
                     runtime.log("All added to server");
@@ -347,10 +359,12 @@ runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
                     if (isInstantSyncRequested) {
                         syncOps();
                     } else {
-                        syncOpsTimeout = runtime.getWindow().setTimeout(function() {
-                            syncOpsTimeout = null;
-                            syncOps();
-                        }, (unsyncedClientOpspecQueue.length === 0) ? pullingIntervall : pushingIntervall);
+                        // nothing on client to sync?
+                        if (unsyncedClientOpspecQueue.length === 0) {
+                            idleTimeout = runtime.getWindow().setTimeout(startSyncOpsTimeout, idleDelay);
+                        } else {
+                            startSyncOpsTimeout();
+                        }
                     }
                     playUnplayedServerOpSpecs();
                 }
@@ -358,25 +372,20 @@ runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
         }
 
         function triggerPushingOps() {
-            if (isSyncCallRunning || isPushingOpsTriggered) {
-                return;
+            // disable any idle timeout
+            if (idleTimeout) {
+                runtime.clearTimeout(idleTimeout);
+                idleTimeout = null;
             }
 
-            isPushingOpsTriggered = true;
-            // disable current pulling timeout
-            if (syncOpsTimeout) {
-                runtime.clearTimeout(syncOpsTimeout);
-                syncOpsTimeout = null;
+            // enable syncOps timeout, if needed
+            if (!syncOpsTimeout && !isSyncCallRunning) {
+runtime.log("OperationRouter: opsSync requested for pushing");
+                syncOpsTimeout = runtime.getWindow().setTimeout(function() {
+                    syncOpsTimeout = null;
+                    syncOps();
+                }, syncOpsDelay);
             }
-
-            // TODO: how stupid! if the pulling timeout was close to done, this will extend it
-            // solution: split pulling into two timeouts, with second as short as pushing,
-            // and only cancel the first half
-            runtime.getWindow().setTimeout(function() {
-runtime.log("Pushing activated");
-                isPushingOpsTriggered = false;
-                syncOps();
-            }, pushingIntervall);
         }
 
         /**
@@ -384,14 +393,23 @@ runtime.log("Pushing activated");
          * @return {undefined}
          */
         function requestInstantOpsSync(cb) {
+            // register callback
             syncRequestCallbacksQueue.push(cb);
 
-            // disable current pulling timeout
+            // disable any idle timeout
+            if (idleTimeout) {
+                runtime.clearTimeout(idleTimeout);
+                idleTimeout = null;
+            }
+
+            // disable any syncOps timeout
             if (syncOpsTimeout) {
                 runtime.clearTimeout(syncOpsTimeout);
                 syncOpsTimeout = null;
             }
 
+runtime.log("OperationRouter: instant opsSync requested");
+            isInstantSyncRequested = true;
             syncOps();
         };
 
