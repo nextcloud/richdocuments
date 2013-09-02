@@ -89,6 +89,9 @@ runtime.log("Sending message to server: "+messageString);
 
             // do the request
             xhr.open('POST', args.url, true);
+            if (token) {
+                xhr.setRequestHeader("requesttoken", token);
+            }
             xhr.onreadystatechange = handleResult;
             // ArrayBufferView will have an ArrayBuffer property, in WebKit, XHR can send()
             // an ArrayBuffer, In Firefox, one must use sendAsBinary with a string
@@ -266,7 +269,9 @@ runtime.log("Sending message to server: "+messageString);
 
             // do the request
             xhr.open('POST', args.sessionStateToFileUrl, true);
-            xhr.setRequestHeader("requesttoken", oc_requesttoken);
+            if (token) {
+                xhr.setRequestHeader("requesttoken", token);
+            }
             xhr.setRequestHeader("webodf-session-id", sessionId);
             xhr.setRequestHeader("webodf-member-id", memberId);
             xhr.setRequestHeader("webodf-session-revision", seqHead);
