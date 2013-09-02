@@ -266,6 +266,7 @@ runtime.log("Sending message to server: "+messageString);
 
             // do the request
             xhr.open('POST', args.sessionStateToFileUrl, true);
+            xhr.setRequestHeader("requesttoken", oc_requesttoken);
             xhr.setRequestHeader("webodf-session-id", sessionId);
             xhr.setRequestHeader("webodf-member-id", memberId);
             xhr.setRequestHeader("webodf-session-revision", seqHead);

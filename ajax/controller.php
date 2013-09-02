@@ -106,11 +106,12 @@ class Controller {
 	 */
 	public static function save(){
 		$uid = self::preDispatch();
-		$esId = @$_POST['es_id'];
-		$memberId = @$_POST['member_id'];
-		$content = @$_POST['content'];
-		if ($esId && $content){
-			$session = Session::getSession($esId);
+		$sessionID = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
+		$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
+		$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
+		$content = fopen('php://input','r');
+		if ($sessionID && $content){
+			$session = Session::getSession($sessionID);
 			$fileInfo = \OC\Files\Cache\Cache::getById($session['file_id']);
 			$path = $fileInfo[1];
 			$view = new \OC\Files\View('/' . $session['owner']);
