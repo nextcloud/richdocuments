@@ -45,7 +45,7 @@ class Op {
 			SELECT `seq`
 			FROM `*PREFIX*documents_op`
 			WHERE `es_id`=?
-			ORDER BY `seq`			DESC
+			ORDER BY `seq` DESC
 			', 1);
 		$result = $query->execute(array(
 				$esId

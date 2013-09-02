@@ -7,6 +7,7 @@
 	<table>
 		<name>*dbprefix*documents_session</name>
 		<declaration>
+			
 			<field>
 				<name>es_id</name>
 				<type>text</type>
@@ -35,7 +36,7 @@
 				<notnull>false</notnull>
 				<length>512</length>
 				<comments>Relative to storage e.g. /welcome.odt</comments>
-			</field>			
+			</field>
 			<field>
 				<name>owner</name>
 				<type>text</type>
@@ -53,12 +54,14 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			
 		</declaration>
 	</table>
 	
 	<table>
 		<name>*dbprefix*documents_member</name>
 		<declaration>
+			
 			<field>
 				<name>member_id</name>
 				<type>integer</type>
@@ -105,12 +108,14 @@
 				<unsigned>true</unsigned>
 				<length>1</length>
 			</field>
+			
 		</declaration>
 	</table>
 		
 	<table>
 		<name>*dbprefix*documents_op</name>
 		<declaration>
+			
 			<field>
 				<name>seq</name>
 				<type>integer</type>
@@ -142,6 +147,7 @@
 				<notnull>false</notnull>
 				<comments>json-string</comments>
 			</field>
+			
 			<index>
 				<name>seq_pKey</name>
 				<primary>true</primary>
@@ -162,11 +168,13 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			
 		</declaration>
 	</table>
 	<table>
 		<name>*dbprefix*documents_invite</name>
 		<declaration>
+			
 			<field>
 				<name>es_id</name>
 				<type>text</type>
@@ -198,7 +206,62 @@
 			
 		</declaration>
 	</table>
-	
-	
+	<table>
+		<name>*dbprefix*documents_revisions</name>
+		<declaration>
+			
+			<field>
+				<name>es_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>Related editing session id</comments>
+			</field>
+			<field>
+				<name>seq_head</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<comments>Sequence head number</comments>
+			</field>
+			<field>
+				<name>member_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<comments>the member that saved the revision</comments>
+			</field>
+			<field>
+				<name>file_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>512</length>
+				<comments>Relative to storage e.g. /welcome.odt</comments>
+			</field>
+			<field>
+				<name>save_hash</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<comments>used to lookup revision in documents folder of member, eg '{hash}.odt'</comments>
+			</field>
+			
+			<index>
+				<name>documents_rev_eis_idx</name>
+				<unique>true</unique>
+				<field>
+					<name>es_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>seq_head</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			
+		</declaration>
+	</table>
 	
 </database>
