@@ -18,22 +18,19 @@
 			<field>
 				<name>genesis_url</name>
 				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>512</length>
 				<comments>Relative to owner documents storage /welcome.odt</comments>
 			</field>
 			<field>
 				<name>genesis_hash</name>
 				<type>text</type>
+				<length>128</length>
 				<notnull>true</notnull>
 				<comments>To be sure the genesis did not change</comments>
 			</field>
 			<field>
 				<name>file_id</name>
 				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>512</length>
 				<comments>Relative to storage e.g. /welcome.odt</comments>
 			</field>
@@ -81,22 +78,16 @@
 			<field>
 				<name>uid</name>
 				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 			<field>
 				<name>color</name>
 				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>32</length>
 			</field>
 			<field>
 				<name>last_activity</name>
 				<type>integer</type>
-				<default></default>
-				<notnull>false</notnull>
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
@@ -185,8 +176,6 @@
 			<field>
 				<name>uid</name>
 				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>64</length>
 			</field>
 			<field>
@@ -236,14 +225,13 @@
 			<field>
 				<name>file_id</name>
 				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
 				<length>512</length>
 				<comments>Relative to storage e.g. /welcome.odt</comments>
 			</field>
 			<field>
 				<name>save_hash</name>
 				<type>text</type>
+				<length>128</length>
 				<notnull>true</notnull>
 				<comments>used to lookup revision in documents folder of member, eg '{hash}.odt'</comments>
 			</field>
