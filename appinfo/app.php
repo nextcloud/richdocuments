@@ -40,3 +40,15 @@ OC::$CLASSPATH['OCA\Documents\SessionController'] = 'documents/ajax/sessionContr
 OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
 OC::$CLASSPATH['OCA\Documents\Download\Simple'] = 'documents/lib/download/simple.php';
 OC::$CLASSPATH['OCA\Documents\Download\Range'] = 'documents/lib/download/range.php';
+
+
+//TODO: stable5 only
+OC::$CLASSPATH['OCA\Documents\Download'] = 'documents/lib/download.php';
+OC::$CLASSPATH['OCA\Documents\Helper'] = 'documents/lib/helper.php';
+OC::$CLASSPATH['OCA\Documents\Invite'] = 'documents/lib/invite.php';
+OC::$CLASSPATH['OCA\Documents\Member'] = 'documents/lib/member.php';
+OC::$CLASSPATH['OCA\Documents\Op'] = 'documents/lib/op.php';
+OC::$CLASSPATH['OCA\Documents\Request'] = 'documents/lib/request.php';
+OC::$CLASSPATH['OCA\Documents\Session'] = 'documents/lib/session.php';
+OC::$CLASSPATH['OCA\Documents\Storage'] = 'documents/lib/storage.php';
+OC::$CLASSPATH['OCA\Documents\View'] = 'documents/lib/view.php';
