@@ -11046,7 +11046,7 @@ ops.OpRemoveParagraphStyle = function OpRemoveParagraphStyle() {
         setAttributes = getStyleReferencingAttributes(otherOpspec.setProperties);
         if(setAttributes.length > 0) {
           helperOp = new ops.OpUpdateParagraphStyle;
-          helperOp.init({styleName:otherOpspec.styleName, removedProperties:{attributes:setAttributes.join(",")}});
+          helperOp.init({memberid:memberid, timestamp:timestamp, styleName:otherOpspec.styleName, removedProperties:{attributes:setAttributes.join(",")}});
           result = [helperOp, self]
         }
         break;
