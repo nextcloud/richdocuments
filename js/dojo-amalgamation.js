@@ -1,21 +1,3 @@
-
-var usedLocale = "C";
-
-if (navigator && navigator.language.match(/^(de)/)) {
-	usedLocale = navigator.language.substr(0,2);
-}
-
-dojoConfig = {
-	locale: usedLocale,
-	paths: {
-		"webodf/editor": OC.appswebroots.documents + "/js/editor",
-		"dijit": OC.appswebroots.documents + "/resources/dijit",
-		"dojox": OC.appswebroots.documents + "/resources/dojox",
-		"dojo": OC.appswebroots.documents + "/resources/dojo",
-		"resources": OC.appswebroots.documents + "/resources"
-	}
-};
-
 //>>built
 (function(e,j){var i,l,c=function(){},g=function(a){for(var d in a)return 0;return 1},h={}.toString,b=function(a){return"[object Function]"==h.call(a)},f=function(a){return"[object String]"==h.call(a)},a=function(a){return"[object Array]"==h.call(a)},k=function(a,d){if(a)for(var b=0;b<a.length;)d(a[b++])},d=function(a,d){for(var b in d)a[b]=d[b];return a},p=function(a,b){return d(Error(a),{src:"dojoLoader",info:b})},m=1,n=function(){return"_"+m++},o=function(a,d,b){return wa(a,d,b,0,o)},r=this,q=
 r.document,v=q&&q.createElement("DiV"),s=o.has=function(a){return b(u[a])?u[a]=u[a](r,q,v):u[a]},u=s.cache=j.hasCache;s.add=function(a,d,b,k){(void 0===u[a]||k)&&(u[a]=d);return b&&s(a)};for(var t in e.has)s.add(t,e.has[t],0,1);o.async=1;var y=new Function("return eval(arguments[0]);");o.eval=function(a,d){return y(a+"\r\n////@ sourceURL="+d)};var z={},I=o.signal=function(d,b){var f=z[d];k(f&&f.slice(0),function(d){d.apply(null,a(b)?b:[b])})},J=o.on=function(a,d){var b=z[a]||(z[a]=[]);b.push(d);return{remove:function(){for(var a=
@@ -1726,5 +1708,4 @@ define("dojox/widget/nls/ru/Wizard",{next:"\u0414\u0430\u043b\u0435\u0435",previ
 
 // END OF nls/dojobundle.js
 
-document.dojoAnchor = {require:this.require,define:this.define};
 (function(){var e=this.require;e({cache:{}});!e.async&&e(["dojo"]);e.boot&&e.apply(null,e.boot)})();

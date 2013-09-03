@@ -6,7 +6,7 @@ var documentsMain = {
 	useUnstable : false,
 	onStartup: function() {
 		"use strict";
-		OC.addScript('documents', 'webodf_bootstrap', function() {
+		OC.addScript('documents', 'dojo-amalgamation', function() {
 			OC.addScript('documents', 'webodf-debug').done(function() {
 				// preload stuff in the background
 				require({}, ["dojo/ready"], function(ready) {
@@ -298,5 +298,5 @@ $(document).ready(function() {
 	//TODO show "no docs, please upload"
 	//TODO when ending a session as the last user close session?
 
-	OC.addScript('documents', 'dojo-amalgamation', documentsMain.onStartup);
+	OC.addScript('documents', 'webodf_bootstrap', documentsMain.onStartup);
 });
