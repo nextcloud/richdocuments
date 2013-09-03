@@ -9,6 +9,7 @@
 "Declined" => "Declinado",
 "Accepted" => "Aceito",
 "Incoming" => "entrando",
+"Documents" => "Documentos",
 "Advanced feature-set" => "Avançado conjunto de funcionalidades",
 "(Unstable)" => "(Instável)"
 );

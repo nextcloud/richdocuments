@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asieriko <asieriko@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 17:33-0400\n"
-"PO-Revision-Date: 2013-08-28 21:33+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-03 05:30-0400\n"
+"PO-Revision-Date: 2013-09-01 21:01+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,54 +18,54 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:45
+#: js/documents.js:38
 msgid "Close"
 msgstr "Itxi"
 
-#: js/documents.js:48
+#: js/documents.js:41
 msgid "Invite"
-msgstr ""
+msgstr "Gonbidatu"
 
-#: js/documents.js:134
+#: js/documents.js:119
 msgid "Users in session:"
-msgstr ""
+msgstr "Erabiltzaileak saioan:"
 
-#: js/documents.js:190
+#: js/documents.js:177
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Dokumentuak kargatzeak huts egin du."
 
-#: js/documents.js:286
+#: js/documents.js:273
 msgid "No people found"
 msgstr "Ez da inor aurkitu"
 
-#: js/documents.js:295
+#: js/documents.js:282
 msgid "Remove from the list"
-msgstr ""
+msgstr "Ezabatu zerrendatik"
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Bidalia"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Ez onartua"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Onartua"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "Sarrerakoa"
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumentuak"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Ezaugarri aurreratu multzoa"
 
 #: templates/settings.php:13
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Ez-egonkorra)"
