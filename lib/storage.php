@@ -27,7 +27,17 @@ namespace OCA\Documents;
 class Storage {
 
 	public static function getDocuments() {
-		$list=\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text');
+		$list = array_filter(
+				\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text'),
+				function($item){
+					//filter Deleted
+					if (strpos($item['path'], '_trashbin')===0){
+						return false;
+					}
+					return true;
+				}
+		);
+		
 		return $list;
 	}
 
