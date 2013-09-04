@@ -3,6 +3,7 @@ var documentsMain = {
 	_documents: [],
 	_sessions: [],
 	_members: [],
+	isEditormode : false,
 	useUnstable : false,
 	onStartup: function() {
 		"use strict";
@@ -158,6 +159,7 @@ var documentsMain = {
 					$('.documentslist, #emptyfolder').fadeIn('slow');
 					$(document.body).removeClass('claro');
 				});
+				documentsMain.isEditorMode = false;
 			});
 // 			});
 		});
@@ -246,6 +248,11 @@ $(document).ready(function() {
 	
 	$('.documentslist').on('click', 'li', function(event) {
 		event.preventDefault();
+		if (documentsMain.isEditorMode){
+			return;
+		}
+		documentsMain.isEditorMode = true;
+		
 		if ($(this).attr('data-esid')){
 			documentsMain.joinSession($(this).attr('data-esid'));
 		} else if ($(this).attr('data-id')){
