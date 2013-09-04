@@ -36,7 +36,7 @@
 /*global define, runtime, core, gui, ops, document */
 
 define("webodf/editor/EditorSession", [
-    "dojo/text!resources/fonts/fonts.css"
+    "dojo/text!" + OC.filePath('documents', 'css', 'fonts.css')
 ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
     "use strict";
 
