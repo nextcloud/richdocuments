@@ -35,18 +35,20 @@
  * @source: http://gitorious.org/webodf/webodf/
  */
 
- OCP\JSON::checkLoggedIn();
- OCP\JSON::checkAppEnabled('documents');
+namespace OCA\Documents;
+
+ \OCP\JSON::checkLoggedIn();
+ \OCP\JSON::checkAppEnabled('documents');
  // session_write_close();
 
 $response = array();
 try{
-	$request = new OCA\Documents\Request();
+	$request = new Request();
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'query_memberdata_list':
 			$ids = $request->getParam('args/member_ids');
-			$members = OCA\Documents\Member::getMembersAsArray($ids);
+			$members = Member::getMembersAsArray($ids);
 			$response["memberdata_list"] = array_map(
 					function($x){
 						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
@@ -79,15 +81,15 @@ try{
 				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
-				$inactiveMembers = \OCA\Documents\Member::cleanSession($esId);
+				$inactiveMembers = Member::cleanSession($esId);
 				if (is_array($inactiveMembers)){
 					foreach ($inactiveMembers as $member){
-						\OCA\Documents\Op::removeCursor($esId, $member['member_id']);
+						Op::removeCursor($esId, $member['member_id']);
 					}
 				}
-				$currentHead = OCA\Documents\Op::getHeadSeq($esId);
+				$currentHead = Op::getHeadSeq($esId);
 				try {
-					OCA\Documents\Member::updateMemberActivity($memberId);
+					Member::updateMemberActivity($memberId);
 				} catch (\Exception $e){
 					
 				}
@@ -98,7 +100,7 @@ try{
 					if ($hasOps) {
 						// incoming ops without conflict
 						// Add incoming ops, respond with a new head
-						$newHead = OCA\Documents\Op::addOpsArray($esId, $memberId, $ops);
+						$newHead = Op::addOpsArray($esId, $memberId, $ops);
 						$response["result"] = 'added';
 						$response["head_seq"] = $newHead ? $newHead : $currentHead;
 					} else {
@@ -108,7 +110,7 @@ try{
 						$response["head_seq"] = $currentHead;
 					}
 				} else { // HEADs do not match
-					$response["ops"] = OCA\Documents\Op::getOpsAfterJson($esId, $seqHead);
+					$response["ops"] = Op::getOpsAfterJson($esId, $seqHead);
 					$response["head_seq"] = $currentHead;
 					$response["result"] = $hasOps ? 'conflict' : 'new_ops';
 				}
