@@ -1,0 +1,126 @@
+@font-face {
+  font-family: "Gentium Basic";
+  src: url("/owncloud/apps/documents/resources/fonts/GenBasR.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gentium Basic";
+  src: url("/owncloud/apps/documents/resources/fonts/GenBasB.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Gentium Basic";
+  src: url("/owncloud/apps/documents/resources/fonts/GenBasI.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Gentium Basic";
+  src: url("/owncloud/apps/documents/resources/fonts/GenBasBI.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Mono";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationMono-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Liberation Mono";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationMono-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Liberation Mono";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationMono-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Mono";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationMono-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSans-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSans-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSans-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSans-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSerif-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSerif-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSerif-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Liberation Serif";
+  src: url("/owncloud/apps/documents/resources/fonts/LiberationSerif-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Linux Biolinum G";
+  src: url("/owncloud/apps/documents/resources/fonts/LinBiolinum_R_G.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linux Biolinum G";
+  src: url("/owncloud/apps/documents/resources/fonts/LinBiolinum_RB_G.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linux Biolinum G";
+  src: url("/owncloud/apps/documents/resources/fonts/LinBiolinum_RI_G.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Lohit Devanagari";
+  src: url("/owncloud/apps/documents/resources/fonts/Lohit-Devanagari.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "WenQuanYi Micro Hei";
+  src: url("/owncloud/apps/documents/resources/fonts/wqy-microhei.ttc") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
