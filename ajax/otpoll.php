@@ -45,14 +45,6 @@ try{
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'query_memberdata_list':
-			$esId = $request->getParam('args/es_id');
-			$inactiveMembers = \OCA\Documents\Member::cleanSession($esId);
-			if (is_array($inactiveMembers)){
-				foreach ($inactiveMembers as $member){
-					\OCA\Documents\Op::removeCursor($esId, $member['member_id']);
-				}
-			}
-			
 			$ids = $request->getParam('args/member_ids');
 			$members = OCA\Documents\Member::getMembersAsArray($ids);
 			$response["memberdata_list"] = array_map(
@@ -87,7 +79,12 @@ try{
 				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
-
+				$inactiveMembers = \OCA\Documents\Member::cleanSession($esId);
+				if (is_array($inactiveMembers)){
+					foreach ($inactiveMembers as $member){
+						\OCA\Documents\Op::removeCursor($esId, $member['member_id']);
+					}
+				}
 				$currentHead = OCA\Documents\Op::getHeadSeq($esId);
 				try {
 					OCA\Documents\Member::updateMemberActivity($memberId);
