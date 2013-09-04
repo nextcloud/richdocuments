@@ -81,12 +81,7 @@ try{
 				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
-				$inactiveMembers = Member::cleanSession($esId);
-				if (is_array($inactiveMembers)){
-					foreach ($inactiveMembers as $member){
-						Op::removeCursor($esId, $member['member_id']);
-					}
-				}
+
 				$currentHead = Op::getHeadSeq($esId);
 				try {
 					Member::updateMemberActivity($memberId);
@@ -114,6 +109,14 @@ try{
 					$response["head_seq"] = $currentHead;
 					$response["result"] = $hasOps ? 'conflict' : 'new_ops';
 				}
+				
+				$inactiveMembers = Member::cleanSession($esId);
+				if (is_array($inactiveMembers)){
+					foreach ($inactiveMembers as $member){
+						Op::removeCursor($esId, $member['member_id']);
+					}
+				}
+				
 			} else {
 				// Error - no seq_head passed
 				throw new BadRequestException();
