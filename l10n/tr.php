@@ -2,5 +2,14 @@
 "Close" => "Kapat",
 "Invite" => "Davet",
 "Users in session:" => "Kullanıcıların oturumu:",
-"No people found" => "Kişi bulunamadı"
+"Failed to load documents." => "Belgeler yüklenemedi.",
+"No people found" => "Kişi bulunamadı",
+"Remove from the list" => "Listeden kaldır",
+"Sent" => "Gönderildi",
+"Declined" => "Reddedildi",
+"Accepted" => "Kabul edildi",
+"Incoming" => "Gelen",
+"Documents" => "Belgeler",
+"Advanced feature-set" => "Gelişmiş özellik seti",
+"(Unstable)" => "(Kararsız)"
 );

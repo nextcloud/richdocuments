@@ -9,6 +9,7 @@
 "Declined" => "Tagasi lükatud",
 "Accepted" => "Vastu võetud",
 "Incoming" => "Sissetulev",
+"Documents" => "Dokumendid",
 "Advanced feature-set" => "Täpsemad seaded",
 "(Unstable)" => "(Ebastabiilne)"
 );

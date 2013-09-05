@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 17:33-0400\n"
-"PO-Revision-Date: 2013-08-28 21:33+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-05 05:35-0400\n"
+"PO-Revision-Date: 2013-09-04 05:50+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:45
+#: js/documents.js:39
 msgid "Close"
 msgstr "Sulge"
 
-#: js/documents.js:48
+#: js/documents.js:42
 msgid "Invite"
 msgstr "Kutsu"
 
-#: js/documents.js:134
+#: js/documents.js:120
 msgid "Users in session:"
 msgstr "Kasutajat sessioonis:"
 
-#: js/documents.js:190
+#: js/documents.js:179
 msgid "Failed to load documents."
 msgstr "Dokumentide laadimine ebaõnnestus."
 
-#: js/documents.js:286
+#: js/documents.js:280
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/documents.js:295
+#: js/documents.js:289
 msgid "Remove from the list"
 msgstr "Eemalda nimekirjast"
 
@@ -60,7 +60,7 @@ msgstr "Sissetulev"
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumendid"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"

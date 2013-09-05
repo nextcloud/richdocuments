@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-03 05:30-0400\n"
+"POT-Creation-Date: 2013-09-05 05:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: js/documents.js:38
+#: js/documents.js:39
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:41
+#: js/documents.js:42
 msgid "Invite"
 msgstr ""
 
-#: js/documents.js:119
+#: js/documents.js:120
 msgid "Users in session:"
 msgstr ""
 
-#: js/documents.js:177
+#: js/documents.js:179
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:273
+#: js/documents.js:280
 msgid "No people found"
 msgstr ""
 
-#: js/documents.js:282
+#: js/documents.js:289
 msgid "Remove from the list"
 msgstr ""
 
