@@ -8,6 +8,7 @@ var documentsMain = {
 	onStartup: function() {
 		"use strict";
 		$('<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>').hide().appendTo(document.body);
+		$('#documents-overlay-below').css({left: $('#navigation').width()+4});
 		OC.addScript('documents', 'dojo-amalgamation', function() {
 			OC.addScript('documents', 'webodf-debug').done(function() {
 				// preload stuff in the background
