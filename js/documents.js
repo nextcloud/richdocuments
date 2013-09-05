@@ -78,6 +78,7 @@ var documentsMain = {
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
+					documentsMain.hideOverlay();
 				});
 			});
 		});
@@ -163,6 +164,12 @@ var documentsMain = {
 			});
 // 			});
 		});
+	},
+	showOverlay : function(){
+		$('<div id="documents-overlay"> </div>').hide().appendTo(document.body).fadeIn('slow');
+	},
+	hideOverlay : function(){
+		$('#documents-overlay').fadeOut('slow');
 	},
 	loadDocuments: function () {
 		var self = this;
@@ -252,7 +259,8 @@ $(document).ready(function() {
 			return;
 		}
 		documentsMain.isEditorMode = true;
-		
+		documentsMain.showOverlay();
+
 		if ($(this).attr('data-esid')){
 			documentsMain.joinSession($(this).attr('data-esid'));
 		} else if ($(this).attr('data-id')){
