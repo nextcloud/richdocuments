@@ -7,6 +7,7 @@ var documentsMain = {
 	useUnstable : false,
 	onStartup: function() {
 		"use strict";
+		$('<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>').hide().appendTo(document.body);
 		OC.addScript('documents', 'dojo-amalgamation', function() {
 			OC.addScript('documents', 'webodf-debug').done(function() {
 				// preload stuff in the background
@@ -166,10 +167,10 @@ var documentsMain = {
 		});
 	},
 	showOverlay : function(){
-		$('<div id="documents-overlay"> </div>').hide().appendTo(document.body).fadeIn('slow');
+		$('#documents-overlay,#documents-overlay-below').fadeIn('slow');
 	},
 	hideOverlay : function(){
-		$('#documents-overlay').fadeOut('slow');
+		$('#documents-overlay,#documents-overlay-below').fadeOut('slow');
 	},
 	loadDocuments: function () {
 		var self = this;

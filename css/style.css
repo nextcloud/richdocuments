@@ -105,7 +105,7 @@
 	position:absolute;
 }
 
-#documents-overlay {
+#documents-overlay,  #documents-overlay-below{
     position: fixed;
     top: 0;
     left: 0;
@@ -115,4 +115,12 @@
     opacity: 0.5;
     z-index: 1000;
 	background: #000 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
+}
+#documents-overlay-below{
+	left:85px;
+	top:48px;
+    filter:alpha(opacity=100);
+    opacity: 1;
+	background:#f0f0f0;
+	z-index: 999;
 }
