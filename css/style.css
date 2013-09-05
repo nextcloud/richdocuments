@@ -3,10 +3,6 @@
 	font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0;
 }
 
-#documents-content{
-	padding-top: 3em;
-}
-
 .documentslist { padding:5px; }
 
 .documentslist .add-document {
@@ -123,4 +119,8 @@
     opacity: 1;
 	background:#f0f0f0;
 	z-index: 999;
+}
+
+#documents-content #editor, #documents-content #members{
+	padding-top: 3em !important;
 }
