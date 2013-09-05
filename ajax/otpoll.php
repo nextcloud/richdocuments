@@ -53,11 +53,13 @@ try{
 					function($x){
 						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
 						
-						if (!method_exists('\OCP\Avatar', 'get')){
+						// Do we have OC_Avatar in out disposal?
+						if (!method_exists('\OCP\Avatar', 'get') || \OC_Config::getValue('enable_avatars', true) !== true){
 							$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
 						} else {
 							$avatar = new \OC_Avatar();
 							$image = $avatar->get($x['uid'], 64);
+							// User has an avatar 
 							if ($image instanceof \OC_Image) {
 								$x['avatar_url'] = \OC_Helper::linkToRoute(
 										'core_avatar_get',
