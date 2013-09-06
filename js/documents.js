@@ -8,7 +8,6 @@ var documentsMain = {
 	onStartup: function() {
 		"use strict";
 		$('<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>').hide().appendTo(document.body);
-		$('#documents-overlay-below').css({left: $('#navigation').width()+4});
 		OC.addScript('documents', 'dojo-amalgamation', function() {
 			OC.addScript('documents', 'webodf-debug').done(function() {
 				// preload stuff in the background
@@ -33,19 +32,19 @@ var documentsMain = {
 
 		require({ }, ["webodf/editor/server/owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
-			$('.documentslist, #emptyfolder').fadeOut('slow').promise().done(function() {
+			$('#content').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
 				var odfToolbarHtml =
-					'<div id="odf-toolbar">' +
-					'  <button id="odf_close">' +
-						t('files_odfviewer', 'Close') +
+					'<div id="odf-toolbar" class="dijitToolbar">' +
+					'  <button id="odf-close">' +
+						t('documents', 'Close') +
 					'  </button>' +
-					'  <button id="odf_invite">' +
-						t('files_odfviewer', 'Invite') +
+					'  <button id="odf-invite">' +
+						t('documents', 'Invite') +
 					'  </button>' +
 					'  <span id="toolbar" class="claro"></span>' +
 					'</div>';
-				$('#controls').append(odfToolbarHtml);
+				$(document.body).prepend(odfToolbarHtml);
 
 				var memberId, odfelement, odfcanvas, canvashtml =
 					'<div id = "mainContainer" class="claro" style="">' +
@@ -67,7 +66,7 @@ var documentsMain = {
 				var serverFactory = new ServerFactory();
 
 				$(document.body).addClass("claro");
-				$('.documentslist, #emptyfolder').after(canvashtml);
+				$(document.body).prepend(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
 				$('#preview').html(canvashtml);
 					
@@ -159,7 +158,7 @@ var documentsMain = {
 					$('#mainContainer').remove();
 					$('#odf-toolbar').remove();
 					$('.actions,#file_access_panel').fadeIn('slow');
-					$('.documentslist, #emptyfolder').fadeIn('slow');
+					$('#content').fadeIn('slow');
 					$(document.body).removeClass('claro');
 				});
 				documentsMain.isEditorMode = false;
@@ -270,10 +269,10 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#content').on('click', '#odf_close', documentsMain.onClose);
-	$('#content').on('click', '#odf_invite', documentsMain.onInvite);
-	$('#content').on('click', '#invite-send', documentsMain.sendInvite);
-	$('#content').on('click', '#invitee-list li', function(){
+	$(document.body).on('click', '#odf-close', documentsMain.onClose);
+	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
+	$(document.body).on('click', '#invite-send', documentsMain.sendInvite);
+	$(document.body).on('click', '#invitee-list li', function(){
 		$(this).remove();
 	});
 	

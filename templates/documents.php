@@ -1,12 +1,14 @@
-<div id="controls">
+<!-- <div id="controls">
 	<div id="invite-block" style="display:none">
 		<input id="inivite-input" type="text" />
 		<ul id="invitee-list"></ul>
 		<button id="invite-send"><?php p('Send Invitation') ?></button>
 	</div>
 </div>
+-->
+<div id="editor-content">
+</div>
 <div id="documents-content">
-	<div id="editor-content">
 	<ul class="documentslist">
 		<li class="add-document">
 			<!-- <a class="add svg" target="_blank" href="">
@@ -20,5 +22,4 @@
 			<a target="_blank" href=""><label></label></a>
 		</li>
 	</ul>
-	</div>
 </div>
