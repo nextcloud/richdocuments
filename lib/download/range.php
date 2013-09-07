@@ -9,9 +9,9 @@
  * later.
  */
 
-namespace OCA\Documents\Download;
-use OCA\Documents\View;
-class Range extends \OCA\Documents\Download {
+namespace OCA\Documents;
+
+class Download_Range extends \OCA\Documents\Download {
 
 	// Start of the range
 	protected $start;
@@ -73,5 +73,4 @@ class Range extends \OCA\Documents\Download {
 		header('Content-Range: bytes */' . $this->getFilesize()); // Required in 416.
 		exit;
 	}
-
 }

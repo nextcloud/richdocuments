@@ -9,11 +9,10 @@
  * later.
  */
 
-namespace OCA\Documents\Download;
+namespace OCA\Documents;
 
-class Simple extends \OCA\Documents\Download {
+class Download_Simple extends \OCA\Documents\Download {
 
-	
 	public function __construct($view, $filepath){
 		$this->view = $view;
 		$this->filepath = $filepath;
@@ -40,5 +39,4 @@ class Simple extends \OCA\Documents\Download {
 		\OC_Util::obEnd();
 		 $this->view->readfile($this->filepath);
 	}
-
 }

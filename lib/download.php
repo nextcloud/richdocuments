@@ -37,9 +37,9 @@ class Download {
 		$this->view = $view;
 		
 		if (isset($_SERVER['HTTP_RANGE'])) {
-			$this->instance = new Download\Range($view, $filepath);
+			$this->instance = new Download_Range($view, $filepath);
 		} else {
-			$this->instance = new Download\Simple($view, $filepath);
+			$this->instance = new Download_Simple($view, $filepath);
 		}
 	}
 	
@@ -98,5 +98,4 @@ class Download {
 		$tmpl->printPage();
 		exit;
 	}
-
 }
