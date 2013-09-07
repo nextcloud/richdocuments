@@ -13,9 +13,11 @@ namespace OCA\Documents;
 
 class Op {
 
+	const DB_TABLE = '`*PREFIX*documents_op`';
+	
 	public static function add($esId, $memberId, $opspec){
 		$query = \OCP\DB::prepare('
-			INSERT INTO `*PREFIX*documents_op` (`es_id`, `member`, `opspec`)
+			INSERT INTO ' . self::DB_TABLE . ' (`es_id`, `member`, `opspec`)
 			VALUES (?, ?, ?)
 			');
 		$query->execute(array(
@@ -23,9 +25,8 @@ class Op {
 			$memberId,
 			$opspec,
 		));
-		// throw something - if query fails - thats fatal
 
-		return \OCP\DB::insertid(`*PREFIX*documents_op`);
+		return \OCP\DB::insertid(self::DB_TABLE);
 	}
 	
 	public static function addOpsArray($esId, $memberId, $ops){
@@ -43,7 +44,7 @@ class Op {
 	public static function getHeadSeq($esId){
 		$query = \OCP\DB::prepare('
 			SELECT `seq`
-			FROM `*PREFIX*documents_op`
+			FROM ' . self::DB_TABLE . '
 			WHERE `es_id`=?
 			ORDER BY `seq` DESC
 			', 1);
@@ -77,7 +78,7 @@ class Op {
 		}
 		$query = \OCP\DB::prepare('
 			SELECT `opspec`
-			FROM `*PREFIX*documents_op`
+			FROM ' . self::DB_TABLE . '
 			WHERE `es_id`=?
 				AND `seq`>?
 			ORDER BY `seq` ASC
@@ -86,6 +87,11 @@ class Op {
 		return $result->fetchAll();
 	}
 	
+	public static function deleteBySessionId($esId){
+		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `es_id` = ?');
+		$query->execute($esId);
+	}
+
 	public static function removeCursor($esId, $memberId){
 		return self::add(
 				$esId, 

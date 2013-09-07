@@ -42,18 +42,27 @@ class Storage {
 	}
 	
 	/**
-	 * @brief Copy files to trash bin
+	 * @brief Cleanup session data on removing the document
 	 * @param array
 	 *
 	 * This function is connected to the delete signal of OC_Filesystem
-	 * to copy the file to the trash bin
+	 * to delete the related info from database
 	 */
 	public static function onDelete($params) {
-
-		if ( \OCP\App::isEnabled('files_trashbin') ) {
-			$path = $params['path'];
-			Trashbin::move2trash($path);
+		$info = \OC\Files\Filesystem::getFileInfo($params['path']);
+		
+		$fileId = @$info['fileid'];
+		if (!$fileId){
+			return;
 		}
+		
+		$session = Session::getSessionByFileId($fileId);
+		if (!is_array($session)){
+			return;
+		}
+		
+		Member::deleteBySessionId($session['es_id']);
+		Op::deleteBySessionId($session['es_id']);
+		Session::deleteByFileid($fileId);
 	}
-
 }

@@ -40,3 +40,6 @@ OC::$CLASSPATH['OCA\Documents\SessionController'] = 'documents/ajax/sessionContr
 OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
 OC::$CLASSPATH['OCA\Documents\Download_Simple'] = 'documents/lib/download/simple.php';
 OC::$CLASSPATH['OCA\Documents\Download_Range'] = 'documents/lib/download/range.php';
+
+//Listen to delete file signal
+\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");

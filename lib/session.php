@@ -12,10 +12,11 @@
 namespace OCA\Documents;
 
 class Session extends Db{
+	const DB_TABLE = '`*PREFIX*documents_session`';
 	
 	public static function add($genesis, $hash, $fileId){
 		$query = \OCP\DB::prepare('
-			INSERT INTO `*PREFIX*documents_session` (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`)
+			INSERT INTO ' . self::DB_TABLE . ' (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`)
 			VALUES (?, ?, ?, ?, ?)
 			');
 		
@@ -35,13 +36,13 @@ class Session extends Db{
 	}
 	
 	public static function getAll(){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session`');
+		$query = \OCP\DB::prepare('SELECT * FROM ' . self::DB_TABLE);
 		$result = $query->execute();
 		return $result->fetchAll();
 	}
 	
 	public static function getSession($id){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session` WHERE `es_id`= ?');
+		$query = \OCP\DB::prepare('SELECT * FROM ' . self::DB_TABLE . ' WHERE `es_id`= ?');
 		$result = $query->execute(array($id));
 		return $result->fetchRow();
 	}
@@ -50,7 +51,7 @@ class Session extends Db{
 
 		$query = \OCP\DB::prepare('
 			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
-			FROM `*PREFIX*documents_session` AS `s`
+			FROM ' . self::DB_TABLE . ' AS `s`
 			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
 				AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .'
 				AND `m`.`uid` != ?
@@ -88,7 +89,7 @@ class Session extends Db{
 		}
 		
 		$stmt = self::buildPlaceholders($fileIds);
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session` WHERE `file_id` IN (' . $stmt .')');
+		$query = \OCP\DB::prepare('SELECT * FROM ' . self::DB_TABLE . ' WHERE `file_id` IN (' . $stmt .')');
 		$result = $query->execute($fileIds);
 		$sessions = $result->fetchAll();
 		if (!is_array($sessions)){
@@ -109,7 +110,7 @@ class Session extends Db{
 		
 		$query = \OCP\DB::prepare('
 			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
-			FROM `*PREFIX*documents_session` AS `s`
+			FROM ' . self::DB_TABLE . ' AS `s`
 			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
 				AND `m`.`status`='. Member::MEMBER_STATUS_ACTIVE .'
 			WHERE `s`.`file_id` IN (' . $stmt .')
@@ -122,6 +123,11 @@ class Session extends Db{
 			$info = array();
 		}
 		return $info;
+	}
+	
+	public static function deleteByFileid($fileId){
+		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `file_id` = ?');
+		$query->execute($fileId);
 	}
 
 	protected static function getUniqueSessionId(){

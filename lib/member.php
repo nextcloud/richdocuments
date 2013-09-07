@@ -14,6 +14,8 @@ namespace OCA\Documents;
 
 class Member extends Db{
 
+	const DB_TABLE = '`*PREFIX*documents_member`';
+	
 	const ACTIVITY_THRESHOLD = 60; // 10 Minutes
 	
 	const MEMBER_STATUS_ACTIVE = 1;
@@ -21,7 +23,7 @@ class Member extends Db{
 
 	public static function add($esId, $displayname, $color){
 		$query = \OCP\DB::prepare('
-			INSERT INTO `*PREFIX*documents_member` (`es_id`, `uid`, `color`, `last_activity`)
+			INSERT INTO ' . self::DB_TABLE . ' (`es_id`, `uid`, `color`, `last_activity`)
 			VALUES (?, ?, ?, ?)
 			');
 		$query->execute(array(
@@ -31,11 +33,11 @@ class Member extends Db{
 			time()
 		));
 
-		return \OCP\DB::insertid(`*PREFIX*documents_member`);
+		return \OCP\DB::insertid(self::DB_TABLE);
 	}
 
 	public static function getMember($id){
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `member_id`= ?');
+		$query = \OCP\DB::prepare('SELECT * FROM ' . self::DB_TABLE . ' WHERE `member_id`= ?');
 		$result = $query->execute(array($id));
 		return $result->fetchRow();
 	}
@@ -47,13 +49,13 @@ class Member extends Db{
 		}
 		
 		$stmt = self::buildPlaceholders($ids);
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `member_id` IN (' . $stmt . ')');
+		$query = \OCP\DB::prepare('SELECT * FROM ' . self::DB_TABLE . ' WHERE `member_id` IN (' . $stmt . ')');
 		$result = $query->execute($ids);
 		return $result->fetchAll();
 	}
 	
 	public static function updateMemberActivity($memberId){
-		$query = \OCP\DB::prepare('UPDATE `*PREFIX*documents_member` SET `last_activity`=? WHERE `member_id`=?');
+		$query = \OCP\DB::prepare('UPDATE ' . self::DB_TABLE . ' SET `last_activity`=? WHERE `member_id`=?');
 		$query->execute(array(
 			time(),
 			$memberId
@@ -67,7 +69,7 @@ class Member extends Db{
 			$activeSince = $lastActivity;
 		}
 
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `es_id`= ? AND `last_activity` > ?');
+		$query = \OCP\DB::prepare('SELECT * FROM ' . self::DB_TABLE . ' WHERE `es_id`= ? AND `last_activity` > ?');
 		$result = $query->execute(array($esId, $activeSince));
 		return $result->fetchAll();
 	}
@@ -82,7 +84,7 @@ class Member extends Db{
 
 		$query = \OCP\DB::prepare('
 			SELECT `member_id`
-			FROM `*PREFIX*documents_member`
+			FROM ' . self::DB_TABLE . '
 			WHERE `es_id`= ?
 				AND `last_activity`<?
 				AND `status`=?
@@ -106,7 +108,7 @@ class Member extends Db{
 	 */
 	protected static function deactivate($esId, $time){
 		$query = \OCP\DB::prepare('
-			UPDATE `*PREFIX*documents_member`
+			UPDATE ' . self::DB_TABLE . '
 			SET `status`=?
 			WHERE `es_id`=?
 				AND `last_activity`<?
@@ -116,6 +118,11 @@ class Member extends Db{
 			$esId,
 			$time
 		));
+	}
+	
+	public static function deleteBySessionId($esId){
+		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `es_id` = ?');
+		$query->execute($esId);
 	}
 	
 	protected static function getInactivityPeriod(){
