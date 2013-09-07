@@ -12,7 +12,7 @@
 
 namespace OCA\Documents;
 
-class Member {
+class Member extends Db{
 
 	const ACTIVITY_THRESHOLD = 60; // 10 Minutes
 	
@@ -46,8 +46,7 @@ class Member {
 			return array();
 		}
 		
-		$placeholders = array_fill(0, $memberCount, '?');
-		$stmt = implode(', ', $placeholders);
+		$placeholders = self::buildPlaceholders($ids);
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `member_id` IN (' . $stmt . ')');
 		$result = $query->execute($ids);
 		return $result->fetchAll();

@@ -11,7 +11,7 @@
 
 namespace OCA\Documents;
 
-class Session {
+class Session extends Db{
 	
 	public static function add($genesis, $hash, $fileId){
 		$query = \OCP\DB::prepare('
@@ -86,9 +86,8 @@ class Session {
 		if (!is_array($fileIds)){
 			$fileIds = array($fileIds);
 		}
-		$fileIdCount = count($fileIds);
-		$placeholders = array_fill(0, $fileIdCount, '?');
-		$stmt = implode(', ', $placeholders);
+		
+		$stmt = self::buildPlaceholders($fileIds);
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_session` WHERE `file_id` IN (' . $stmt .')');
 		$result = $query->execute($fileIds);
 		$sessions = $result->fetchAll();
@@ -99,13 +98,15 @@ class Session {
 	}
 	
 	public static function getInfoByFileid($fileIds){
-		$fileIdCount = count($fileIds);
-		if (!$fileIdCount || !is_array($fileIds)){
+		if (!is_array($fileIds)){
 			return array();
 		}
 		
-		$placeholders = array_fill(0, $fileIdCount, '?');
-		$stmt = implode(', ', $placeholders);
+		$stmt = self::buildPlaceholders($fileIds);
+		if (!$stmt){
+			return array();
+		}
+		
 		$query = \OCP\DB::prepare('
 			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
 			FROM `*PREFIX*documents_session` AS `s`
@@ -114,8 +115,7 @@ class Session {
 			WHERE `s`.`file_id` IN (' . $stmt .')
 			GROUP BY `m`.`es_id`
 			');
-		$result = $query->execute($fileIds
-		);
+		$result = $query->execute($fileIds);
 		
 		$info = $result->fetchAll();
 		if (!is_array($info)){

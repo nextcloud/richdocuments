@@ -40,5 +40,20 @@ class Storage {
 		
 		return $list;
 	}
+	
+	/**
+	 * @brief Copy files to trash bin
+	 * @param array
+	 *
+	 * This function is connected to the delete signal of OC_Filesystem
+	 * to copy the file to the trash bin
+	 */
+	public static function onDelete($params) {
+
+		if ( \OCP\App::isEnabled('files_trashbin') ) {
+			$path = $params['path'];
+			Trashbin::move2trash($path);
+		}
+	}
 
 }
