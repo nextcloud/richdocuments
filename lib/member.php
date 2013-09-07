@@ -122,7 +122,7 @@ class Member extends Db{
 	
 	public static function deleteBySessionId($esId){
 		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `es_id` = ?');
-		$query->execute($esId);
+		$query->execute(array($esId));
 	}
 	
 	protected static function getInactivityPeriod(){

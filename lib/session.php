@@ -127,7 +127,7 @@ class Session extends Db{
 	
 	public static function deleteByFileid($fileId){
 		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `file_id` = ?');
-		$query->execute($fileId);
+		$query->execute(array($fileId));
 	}
 
 	protected static function getUniqueSessionId(){
