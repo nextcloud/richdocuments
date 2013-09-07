@@ -2991,7 +2991,25 @@ core.Utils = function Utils() {
     }
     return hash
   }
-  this.hashString = hashString
+  this.hashString = hashString;
+  function mergeObjects(destination, source) {
+    if(Array.isArray(source)) {
+      destination = (destination || []).concat(source.map(function(obj) {
+        return mergeObjects({}, obj)
+      }))
+    }else {
+      if(typeof source === "object") {
+        destination = destination || {};
+        Object.keys(source).forEach(function(p) {
+          destination[p] = mergeObjects(destination[p], source[p])
+        })
+      }else {
+        destination = source
+      }
+    }
+    return destination
+  }
+  this.mergeObjects = mergeObjects
 };
 core.DomUtils = function DomUtils() {
   function findStablePoint(container, offset) {
@@ -6513,7 +6531,7 @@ odf.OdfUtils = function OdfUtils() {
   }
   this.getFirstNonWhitespaceChild = getFirstNonWhitespaceChild;
   function parseLength(length) {
-    var re = /-?([0-9]*[0-9][0-9]*(\.[0-9]*)?|0+\.[0-9]*[1-9][0-9]*|\.[0-9]*[1-9][0-9]*)((cm)|(mm)|(in)|(pt)|(pc)|(px)|(%))/, m = re.exec(length);
+    var re = /(-?[0-9]*[0-9][0-9]*(\.[0-9]*)?|0+\.[0-9]*[1-9][0-9]*|\.[0-9]*[1-9][0-9]*)((cm)|(mm)|(in)|(pt)|(pc)|(px)|(%))/, m = re.exec(length);
     if(!m) {
       return null
     }
@@ -6534,6 +6552,7 @@ odf.OdfUtils = function OdfUtils() {
     }
     return result
   }
+  this.parseNonNegativeLength = parseNonNegativeLength;
   function parsePercentage(length) {
     var result = parseLength(length);
     if(result && result.unit !== "%") {
@@ -6773,7 +6792,7 @@ odf.TextSerializer = function TextSerializer() {
 runtime.loadClass("core.DomUtils");
 runtime.loadClass("core.LoopWatchDog");
 runtime.loadClass("odf.Namespaces");
-odf.TextStyleApplicator = function TextStyleApplicator(newStylePrefix, formatting, automaticStyles) {
+odf.TextStyleApplicator = function TextStyleApplicator(styleNameGenerator, formatting, automaticStyles) {
   var domUtils = new core.DomUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
   function StyleLookup(info) {
     function compare(expected, actual) {
@@ -6792,25 +6811,15 @@ odf.TextStyleApplicator = function TextStyleApplicator(newStylePrefix, formattin
   function StyleManager(info) {
     var createdStyles = {};
     function createDirectFormat(existingStyleName, document) {
-      var existingStyleNode, styleNode;
-      if(existingStyleName) {
-        existingStyleNode = formatting.getStyleElement(existingStyleName, "text");
-        if(existingStyleNode.parentNode === automaticStyles) {
-          styleNode = existingStyleNode.cloneNode(true)
-        }else {
-          styleNode = document.createElementNS(stylens, "style:style");
-          styleNode.setAttributeNS(stylens, "style:parent-style-name", existingStyleName);
-          styleNode.setAttributeNS(stylens, "style:family", "text");
-          styleNode.setAttributeNS(webodfns, "scope", "document-content")
-        }
-      }else {
-        styleNode = document.createElementNS(stylens, "style:style");
-        styleNode.setAttributeNS(stylens, "style:family", "text");
-        styleNode.setAttributeNS(webodfns, "scope", "document-content")
-      }
-      formatting.updateStyle(styleNode, info, newStylePrefix);
-      automaticStyles.appendChild(styleNode);
-      return styleNode
+      var derivedStyleInfo, derivedStyleNode;
+      derivedStyleInfo = existingStyleName ? formatting.createDerivedStyleObject(existingStyleName, "text", info) : info;
+      derivedStyleNode = document.createElementNS(stylens, "style:style");
+      formatting.updateStyle(derivedStyleNode, derivedStyleInfo);
+      derivedStyleNode.setAttributeNS(stylens, "style:name", styleNameGenerator.generateName());
+      derivedStyleNode.setAttributeNS(stylens, "style:family", "text");
+      derivedStyleNode.setAttributeNS(webodfns, "scope", "document-content");
+      automaticStyles.appendChild(derivedStyleNode);
+      return derivedStyleNode
     }
     function getDirectStyle(existingStyleName, document) {
       existingStyleName = existingStyleName || "";
@@ -8122,32 +8131,77 @@ odf.FontLoader = function() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+odf.StyleNameGenerator = function StyleNameGenerator(prefix, formatting) {
+  var reportedNames = {};
+  this.generateName = function() {
+    var name, existingNames = {}, startIndex = 0;
+    formatting.getAllStyleNames().forEach(function(styleName) {
+      existingNames[styleName] = true
+    });
+    do {
+      name = prefix + startIndex;
+      startIndex += 1
+    }while(reportedNames[name] || existingNames[name]);
+    reportedNames[name] = true;
+    return name
+  }
+};
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
 runtime.loadClass("core.Utils");
+runtime.loadClass("odf.StyleNameGenerator");
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfContainer");
 runtime.loadClass("odf.StyleInfo");
 runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("odf.TextStyleApplicator");
 odf.Formatting = function Formatting() {
-  var self = this, odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, numberns = odf.Namespaces.numberns, odfUtils = new odf.OdfUtils, utils = new core.Utils;
-  function mergeRecursive(destination, source) {
-    Object.keys(source).forEach(function(p) {
-      try {
-        if(source[p].constructor === Object) {
-          destination[p] = mergeRecursive(destination[p], source[p])
-        }else {
-          destination[p] = source[p]
-        }
-      }catch(e) {
-        destination[p] = source[p]
-      }
-    });
-    return destination
+  var self = this, odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, numberns = odf.Namespaces.numberns, odfUtils = new odf.OdfUtils, utils = new core.Utils, builtInDefaultStyleAttributesByFamily = {"paragraph":{"style:paragraph-properties":{"fo:text-align":"left"}}};
+  function getBuiltInDefaultStyleAttributes(styleFamily) {
+    var result, builtInDefaultStyleAttributes = builtInDefaultStyleAttributesByFamily[styleFamily];
+    if(builtInDefaultStyleAttributes) {
+      result = utils.mergeObjects({}, builtInDefaultStyleAttributes)
+    }else {
+      result = null
+    }
+    return result
   }
   this.setOdfContainer = function(odfcontainer) {
     odfContainer = odfcontainer
   };
-  this.getFontMap = function() {
+  function getFontMap() {
     var fontFaceDecls = odfContainer.rootElement.fontFaceDecls, fontFaceDeclsMap = {}, node, name, family;
     node = fontFaceDecls && fontFaceDecls.firstChild;
     while(node) {
@@ -8163,7 +8217,8 @@ odf.Formatting = function Formatting() {
       node = node.nextSibling
     }
     return fontFaceDeclsMap
-  };
+  }
+  this.getFontMap = getFontMap;
   this.getAvailableParagraphStyles = function() {
     var node = odfContainer.rootElement.styles && odfContainer.rootElement.styles.firstChild, p_family, p_name, p_displayName, paragraphStyles = [], style;
     while(node) {
@@ -8198,6 +8253,7 @@ odf.Formatting = function Formatting() {
     }
     return null
   }
+  this.getDefaultStyleElement = getDefaultStyleElement;
   function getStyleElement(styleName, family, styleElements) {
     var node, nodeStyleName, styleListElement;
     styleElements = styleElements || [odfContainer.rootElement.automaticStyles, odfContainer.rootElement.styles];
@@ -8235,6 +8291,9 @@ odf.Formatting = function Formatting() {
       }
       propertiesNode = propertiesNode.nextSibling
     }
+    for(i = 0;i < styleNode.attributes.length;i += 1) {
+      propertiesMap[styleNode.attributes[i].name] = styleNode.attributes[i].value
+    }
     return propertiesMap
   }
   this.getStyleAttributes = getStyleAttributes;
@@ -8250,22 +8309,28 @@ odf.Formatting = function Formatting() {
       }
     })
   }
-  function getInheritedStyleAttributes(styleNode) {
-    var styleListElement = odfContainer.rootElement.styles, parentStyleName, propertiesMap = {}, inheritedPropertiesMap = {}, node = styleNode;
+  function getInheritedStyleAttributes(styleNode, includeSystemDefault) {
+    var styleListElement = odfContainer.rootElement.styles, parentStyleName, propertiesMap, inheritedPropertiesMap = {}, styleFamily = styleNode.getAttributeNS(stylens, "family"), node = styleNode;
     while(node) {
       propertiesMap = getStyleAttributes(node);
-      inheritedPropertiesMap = mergeRecursive(propertiesMap, inheritedPropertiesMap);
+      inheritedPropertiesMap = utils.mergeObjects(propertiesMap, inheritedPropertiesMap);
       parentStyleName = node.getAttributeNS(stylens, "parent-style-name");
       if(parentStyleName) {
-        node = getStyleElement(parentStyleName, styleNode.getAttributeNS(stylens, "family"), [styleListElement])
+        node = getStyleElement(parentStyleName, styleFamily, [styleListElement])
       }else {
         node = null
       }
     }
-    node = getDefaultStyleElement(styleNode.getAttributeNS(stylens, "family"));
+    node = getDefaultStyleElement(styleFamily);
     if(node) {
       propertiesMap = getStyleAttributes(node);
-      inheritedPropertiesMap = mergeRecursive(propertiesMap, inheritedPropertiesMap)
+      inheritedPropertiesMap = utils.mergeObjects(propertiesMap, inheritedPropertiesMap)
+    }
+    if(includeSystemDefault) {
+      propertiesMap = getBuiltInDefaultStyleAttributes(styleFamily);
+      if(propertiesMap) {
+        inheritedPropertiesMap = utils.mergeObjects(propertiesMap, inheritedPropertiesMap)
+      }
     }
     return inheritedPropertiesMap
   }
@@ -8320,7 +8385,7 @@ odf.Formatting = function Formatting() {
         styleElement = getStyleElement(styleName, styleFamily);
         if(styleElement) {
           parentStyle = getInheritedStyleAttributes((styleElement));
-          mergedChildStyle = mergeRecursive(parentStyle, mergedChildStyle);
+          mergedChildStyle = utils.mergeObjects(parentStyle, mergedChildStyle);
           displayName = styleElement.getAttributeNS(stylens, "display-name")
         }else {
           runtime.log("No style element found for '" + styleName + "' of family '" + styleFamily + "'")
@@ -8346,7 +8411,7 @@ odf.Formatting = function Formatting() {
     return styleChain ? calculateAppliedStyle(styleChain) : undefined
   };
   this.applyStyle = function(memberId, textNodes, limits, info) {
-    var textStyles = new odf.TextStyleApplicator("auto" + utils.hashString(memberId) + "_", self, odfContainer.rootElement.automaticStyles);
+    var textStyles = new odf.TextStyleApplicator(new odf.StyleNameGenerator("auto" + utils.hashString(memberId) + "_", self), self, odfContainer.rootElement.automaticStyles);
     textStyles.applyStyle(textNodes, limits, info)
   };
   function getAllStyleNames() {
@@ -8364,19 +8429,39 @@ odf.Formatting = function Formatting() {
     });
     return styleNames
   }
-  this.updateStyle = function(styleNode, properties, newStylePrefix) {
-    var name, existingNames, startIndex;
+  this.getAllStyleNames = getAllStyleNames;
+  this.updateStyle = function(styleNode, properties) {
+    var fontName, fontFaceNode;
     mapObjOntoNode(styleNode, properties);
-    if(newStylePrefix) {
-      name = styleNode.getAttributeNS(stylens, "name");
-      existingNames = getAllStyleNames();
-      startIndex = 0;
-      do {
-        name = newStylePrefix + startIndex;
-        startIndex += 1
-      }while(existingNames.indexOf(name) !== -1);
-      styleNode.setAttributeNS(stylens, "style:name", name)
+    fontName = properties["style:text-properties"] && properties["style:text-properties"]["style:font-name"];
+    if(fontName && !getFontMap().hasOwnProperty(fontName)) {
+      fontFaceNode = styleNode.ownerDocument.createElementNS(stylens, "style:font-face");
+      fontFaceNode.setAttributeNS(stylens, "style:name", fontName);
+      fontFaceNode.setAttributeNS(svgns, "svg:font-family", fontName);
+      odfContainer.rootElement.fontFaceDecls.appendChild(fontFaceNode)
     }
+  };
+  function isAutomaticStyleElement(styleNode) {
+    return styleNode.parentNode === odfContainer.rootElement.automaticStyles
+  }
+  this.createDerivedStyleObject = function(parentStyleName, family, overrides) {
+    var originalStyleElement = (getStyleElement(parentStyleName, family)), newStyleObject;
+    runtime.assert(Boolean(originalStyleElement), "No style element found for '" + parentStyleName + "' of family '" + family + "'");
+    if(isAutomaticStyleElement(originalStyleElement)) {
+      newStyleObject = getStyleAttributes(originalStyleElement)
+    }else {
+      newStyleObject = {"style:parent-style-name":parentStyleName}
+    }
+    newStyleObject["style:family"] = family;
+    utils.mergeObjects(newStyleObject, overrides);
+    return newStyleObject
+  };
+  this.getDefaultTabStopDistance = function() {
+    var defaultParagraph = getDefaultStyleElement("paragraph"), paragraphProperties = defaultParagraph && defaultParagraph.getAttributeNS(stylens, "paragraph-properties"), tabStopDistance = paragraphProperties && paragraphProperties.getAttributeNS(stylens, "tab-stop-distance");
+    if(!tabStopDistance) {
+      tabStopDistance = "1.25cm"
+    }
+    return odfUtils.parseNonNegativeLength(tabStopDistance)
   }
 };
 /*
@@ -9590,9 +9675,10 @@ ops.OpAddCursor = function OpAddCursor() {
  @source: http://gitorious.org/webodf/webodf/
 */
 runtime.loadClass("core.DomUtils");
+runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfUtils");
 gui.StyleHelper = function StyleHelper(formatting) {
-  var domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils;
+  var domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, textns = odf.Namespaces.textns;
   this.getAppliedStyles = function(range) {
     var textNodes = odfUtils.getTextNodes(range, true);
     return formatting.getAppliedStyles(textNodes)
@@ -9635,6 +9721,46 @@ gui.StyleHelper = function StyleHelper(formatting) {
   };
   this.hasStrikeThrough = function(range) {
     return hasTextPropertyValue(range, "style:text-line-through-style", "solid")
+  };
+  function hasParagraphPropertyValue(range, propertyName, propertyValues) {
+    var nodes = odfUtils.getParagraphElements(range), isStyleChecked = {}, isDefaultParagraphStyleChecked = false, paragraphStyleName, paragraphStyleElement, paragraphStyleAttributes, properties;
+    while(nodes.length > 0) {
+      paragraphStyleName = nodes[0].getAttributeNS(textns, "style-name");
+      if(paragraphStyleName) {
+        if(!isStyleChecked[paragraphStyleName]) {
+          paragraphStyleElement = formatting.getStyleElement(paragraphStyleName, "paragraph");
+          isStyleChecked[paragraphStyleName] = true
+        }
+      }else {
+        if(!isDefaultParagraphStyleChecked) {
+          isDefaultParagraphStyleChecked = true;
+          paragraphStyleElement = formatting.getDefaultStyleElement("paragraph")
+        }else {
+          paragraphStyleElement = undefined
+        }
+      }
+      if(paragraphStyleElement) {
+        paragraphStyleAttributes = formatting.getInheritedStyleAttributes((paragraphStyleElement), true);
+        properties = paragraphStyleAttributes["style:paragraph-properties"];
+        if(properties && propertyValues.indexOf(properties[propertyName]) === -1) {
+          return false
+        }
+      }
+      nodes.pop()
+    }
+    return true
+  }
+  this.isAlignedLeft = function(range) {
+    return hasParagraphPropertyValue(range, "fo:text-align", ["left", "start"])
+  };
+  this.isAlignedCenter = function(range) {
+    return hasParagraphPropertyValue(range, "fo:text-align", ["center"])
+  };
+  this.isAlignedRight = function(range) {
+    return hasParagraphPropertyValue(range, "fo:text-align", ["right", "end"])
+  };
+  this.isAlignedJustified = function(range) {
+    return hasParagraphPropertyValue(range, "fo:text-align", ["justify"])
   }
 };
 /*
@@ -10705,8 +10831,9 @@ ops.OpSetParagraphStyle = function OpSetParagraphStyle() {
  @source: http://www.webodf.org/
  @source: http://gitorious.org/webodf/webodf/
 */
+runtime.loadClass("odf.Namespaces");
 ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
-  var self = this, optype = "UpdateParagraphStyle", memberid, timestamp, styleName, setProperties, removedProperties, paragraphPropertiesName = "style:paragraph-properties", textPropertiesName = "style:text-properties", stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
+  var self = this, optype = "UpdateParagraphStyle", memberid, timestamp, styleName, setProperties, removedProperties, paragraphPropertiesName = "style:paragraph-properties", textPropertiesName = "style:text-properties", stylens = odf.Namespaces.stylens;
   function removedAttributesFromStyleNode(node, removedAttributeNames) {
     var i, attributeNameParts, attributeNameList = removedAttributeNames ? removedAttributeNames.split(",") : [];
     for(i = 0;i < attributeNameList.length;i += 1) {
@@ -10814,42 +10941,13 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
     return result
   };
   this.execute = function(odtDocument) {
-    var formatting = odtDocument.getFormatting(), dom = odtDocument.getDOM(), styleNode = dom.createElementNS(stylens, "style:style"), paragraphPropertiesNode, textPropertiesNode, fontFaceNode, fontName, ns;
+    var formatting = odtDocument.getFormatting(), styleNode, paragraphPropertiesNode, textPropertiesNode;
     styleNode = odtDocument.getParagraphStyleElement(styleName);
     if(styleNode) {
       paragraphPropertiesNode = styleNode.getElementsByTagNameNS(stylens, "paragraph-properties")[0];
       textPropertiesNode = styleNode.getElementsByTagNameNS(stylens, "text-properties")[0];
       if(setProperties) {
-        Object.keys(setProperties).forEach(function(propertyName) {
-          switch(propertyName) {
-            case paragraphPropertiesName:
-              if(paragraphPropertiesNode === undefined) {
-                paragraphPropertiesNode = dom.createElementNS(stylens, paragraphPropertiesName);
-                styleNode.appendChild(paragraphPropertiesNode)
-              }
-              formatting.updateStyle(paragraphPropertiesNode, setProperties[paragraphPropertiesName]);
-              break;
-            case textPropertiesName:
-              if(textPropertiesNode === undefined) {
-                textPropertiesNode = dom.createElementNS(stylens, textPropertiesName);
-                styleNode.appendChild(textPropertiesNode)
-              }
-              fontName = setProperties[textPropertiesName]["style:font-name"];
-              if(fontName && !formatting.getFontMap().hasOwnProperty(fontName)) {
-                fontFaceNode = dom.createElementNS(stylens, "style:font-face");
-                fontFaceNode.setAttributeNS(stylens, "style:name", fontName);
-                fontFaceNode.setAttributeNS(svgns, "svg:font-family", fontName);
-                odtDocument.getOdfCanvas().odfContainer().rootElement.fontFaceDecls.appendChild(fontFaceNode)
-              }
-              formatting.updateStyle(textPropertiesNode, setProperties[textPropertiesName]);
-              break;
-            default:
-              if(typeof setProperties[propertyName] !== "object") {
-                ns = odf.Namespaces.resolvePrefix(propertyName.substr(0, propertyName.indexOf(":")));
-                styleNode.setAttributeNS(ns, propertyName, setProperties[propertyName])
-              }
-          }
-        })
+        formatting.updateStyle(styleNode, setProperties)
       }
       if(removedProperties) {
         if(removedProperties[paragraphPropertiesName]) {
@@ -10913,11 +11011,12 @@ ops.OpUpdateParagraphStyle = function OpUpdateParagraphStyle() {
 */
 runtime.loadClass("odf.Namespaces");
 ops.OpAddParagraphStyle = function OpAddParagraphStyle() {
-  var self = this, memberid, timestamp, styleName, setProperties, paragraphPropertiesName = "style:paragraph-properties", textPropertiesName = "style:text-properties", svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens;
+  var self = this, memberid, timestamp, styleName, isAutomaticStyle, setProperties, stylens = odf.Namespaces.stylens;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     styleName = data.styleName;
+    isAutomaticStyle = data.isAutomaticStyle === "true" || data.isAutomaticStyle === true;
     setProperties = data.setProperties
   };
   function dropStyleReferencingAttributes(deletedStyleName) {
@@ -10937,47 +11036,26 @@ ops.OpAddParagraphStyle = function OpAddParagraphStyle() {
     return[self]
   };
   this.execute = function(odtDocument) {
-    var odfContainer = odtDocument.getOdfCanvas().odfContainer(), formatting = odtDocument.getFormatting(), dom = odtDocument.getDOM(), styleNode = dom.createElementNS(stylens, "style:style"), paragraphPropertiesNode, textPropertiesNode, fontFaceNode, fontName, ns;
+    var odfContainer = odtDocument.getOdfCanvas().odfContainer(), formatting = odtDocument.getFormatting(), dom = odtDocument.getDOM(), styleNode = dom.createElementNS(stylens, "style:style");
     if(!styleNode) {
       return false
     }
+    if(setProperties) {
+      formatting.updateStyle(styleNode, setProperties)
+    }
     styleNode.setAttributeNS(stylens, "style:family", "paragraph");
     styleNode.setAttributeNS(stylens, "style:name", styleName);
-    if(setProperties) {
-      Object.keys(setProperties).forEach(function(propertyName) {
-        switch(propertyName) {
-          case paragraphPropertiesName:
-            paragraphPropertiesNode = dom.createElementNS(stylens, paragraphPropertiesName);
-            styleNode.appendChild(paragraphPropertiesNode);
-            formatting.updateStyle(paragraphPropertiesNode, setProperties[paragraphPropertiesName]);
-            break;
-          case textPropertiesName:
-            textPropertiesNode = dom.createElementNS(stylens, textPropertiesName);
-            styleNode.appendChild(textPropertiesNode);
-            fontName = setProperties[textPropertiesName]["style:font-name"];
-            if(fontName && !formatting.getFontMap().hasOwnProperty(fontName)) {
-              fontFaceNode = dom.createElementNS(stylens, "style:font-face");
-              fontFaceNode.setAttributeNS(stylens, "style:name", fontName);
-              fontFaceNode.setAttributeNS(svgns, "svg:font-family", fontName);
-              odfContainer.rootElement.fontFaceDecls.appendChild(fontFaceNode)
-            }
-            formatting.updateStyle(textPropertiesNode, setProperties[textPropertiesName]);
-            break;
-          default:
-            if(typeof setProperties[propertyName] !== "object") {
-              ns = odf.Namespaces.resolvePrefix(propertyName.substr(0, propertyName.indexOf(":")));
-              styleNode.setAttributeNS(ns, propertyName, setProperties[propertyName])
-            }
-        }
-      })
+    if(isAutomaticStyle) {
+      odfContainer.rootElement.automaticStyles.appendChild(styleNode)
+    }else {
+      odfContainer.rootElement.styles.appendChild(styleNode)
     }
-    odfContainer.rootElement.styles.appendChild(styleNode);
     odtDocument.getOdfCanvas().refreshCSS();
     odtDocument.emit(ops.OdtDocument.signalStyleCreated, styleName);
     return true
   };
   this.spec = function() {
-    return{optype:"AddParagraphStyle", memberid:memberid, timestamp:timestamp, styleName:styleName, setProperties:setProperties}
+    return{optype:"AddParagraphStyle", memberid:memberid, timestamp:timestamp, styleName:styleName, isAutomaticStyle:isAutomaticStyle, setProperties:setProperties}
   }
 };
 /*
@@ -12262,7 +12340,7 @@ gui.KeyboardHandler = function KeyboardHandler() {
   }
 };
 gui.KeyboardHandler.Modifier = {None:0, Meta:1, Ctrl:2, Alt:4, Shift:8, MetaShift:9, CtrlShift:10, AltShift:12};
-gui.KeyboardHandler.KeyCode = {Backspace:8, Tab:9, Clear:12, Enter:13, End:35, Home:36, Left:37, Up:38, Right:39, Down:40, Delete:46, A:65, B:66, I:73, U:85, Z:90};
+gui.KeyboardHandler.KeyCode = {Backspace:8, Tab:9, Clear:12, Enter:13, End:35, Home:36, Left:37, Up:38, Right:39, Down:40, Delete:46, A:65, B:66, C:67, D:68, E:69, F:70, G:71, H:72, I:73, J:74, K:75, L:76, M:77, N:78, O:79, P:80, Q:81, R:82, S:83, T:84, U:85, V:86, W:87, X:88, Y:89, Z:90};
 (function() {
   return gui.KeyboardHandler
 })();
@@ -12334,6 +12412,7 @@ gui.Clipboard = function Clipboard() {
   init()
 };
 runtime.loadClass("core.DomUtils");
+runtime.loadClass("core.Utils");
 runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("ops.OpAddCursor");
 runtime.loadClass("ops.OpRemoveCursor");
@@ -12350,7 +12429,7 @@ runtime.loadClass("gui.StyleHelper");
 gui.SessionController = function() {
   gui.SessionController = function SessionController(session, inputMemberId) {
     var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, undoManager = 
-    null;
+    null, utils = new core.Utils, styleNameGenerator = new odf.StyleNameGenerator("auto" + utils.hashString(inputMemberId) + "_", odtDocument.getFormatting());
     runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
@@ -12919,6 +12998,53 @@ gui.SessionController = function() {
     function filterMouseClicks(e) {
       clickStartedWithinContainer = e.target && domUtils.containsNode(odtDocument.getOdfCanvas().getElement(), e.target)
     }
+    function applyParagraphDirectStyling(applyDirectStyling) {
+      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), position = odtDocument.getCursorPosition(inputMemberId), paragraphs = odfUtils.getParagraphElements(range), formatting = odtDocument.getFormatting();
+      paragraphs.forEach(function(paragraph) {
+        var paragraphStartPoint = position + odtDocument.getDistanceFromCursor(inputMemberId, paragraph, 0), paragraphStyleName = paragraph.getAttributeNS(odf.Namespaces.textns, "style-name"), newParagraphStyleName = styleNameGenerator.generateName(), opAddParagraphStyle, opSetParagraphStyle, paragraphProperties;
+        paragraphStartPoint += 1;
+        if(paragraphStyleName) {
+          paragraphProperties = formatting.createDerivedStyleObject(paragraphStyleName, "paragraph", {})
+        }
+        paragraphProperties = applyDirectStyling(paragraphProperties || {});
+        opAddParagraphStyle = new ops.OpAddParagraphStyle;
+        opAddParagraphStyle.init({memberid:inputMemberId, styleName:newParagraphStyleName, isAutomaticStyle:true, setProperties:paragraphProperties});
+        session.enqueue(opAddParagraphStyle);
+        opSetParagraphStyle = new ops.OpSetParagraphStyle;
+        opSetParagraphStyle.init({memberid:inputMemberId, styleName:newParagraphStyleName, position:paragraphStartPoint});
+        session.enqueue(opSetParagraphStyle)
+      })
+    }
+    function applySimpleParagraphDirectStyling(styleOverrides) {
+      applyParagraphDirectStyling(function(paragraphStyle) {
+        return utils.mergeObjects(paragraphStyle, styleOverrides)
+      })
+    }
+    function alignParagraphLeft() {
+      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"left"}});
+      return true
+    }
+    function alignParagraphCenter() {
+      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"center"}});
+      return true
+    }
+    function alignParagraphRight() {
+      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"right"}});
+      return true
+    }
+    function alignParagraphJustified() {
+      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"justify"}});
+      return true
+    }
+    function modifyParagraphIndent(direction, paragraphStyle) {
+      var tabStopDistance = odtDocument.getFormatting().getDefaultTabStopDistance(), paragraphProperties = paragraphStyle["style:paragraph-properties"], indentValue = paragraphProperties && paragraphProperties["fo:margin-left"], indent = indentValue && odfUtils.parseLength(indentValue), newIndent;
+      if(indent && indent.unit === tabStopDistance.unit) {
+        newIndent = indent.value + direction * tabStopDistance.value + indent.unit
+      }else {
+        newIndent = direction * tabStopDistance.value + tabStopDistance.unit
+      }
+      return utils.mergeObjects(paragraphStyle, {"style:paragraph-properties":{"fo:margin-left":newIndent}})
+    }
     this.startEditing = function() {
       var canvasElement, op;
       canvasElement = odtDocument.getOdfCanvas().getElement();
@@ -12964,6 +13090,18 @@ gui.SessionController = function() {
       if(undoManager) {
         undoManager.resetInitialState()
       }
+    };
+    this.alignParagraphLeft = alignParagraphLeft;
+    this.alignParagraphCenter = alignParagraphCenter;
+    this.alignParagraphRight = alignParagraphRight;
+    this.alignParagraphJustified = alignParagraphJustified;
+    this.indent = function() {
+      applyParagraphDirectStyling(modifyParagraphIndent.bind(null, 1));
+      return true
+    };
+    this.outdent = function() {
+      applyParagraphDirectStyling(modifyParagraphIndent.bind(null, -1));
+      return true
     };
     this.getInputMemberId = function() {
       return inputMemberId
@@ -13032,6 +13170,10 @@ gui.SessionController = function() {
         keyDownHandler.bind(keyCode.B, modifier.Meta, toggleBold);
         keyDownHandler.bind(keyCode.I, modifier.Meta, toggleItalic);
         keyDownHandler.bind(keyCode.U, modifier.Meta, toggleUnderline);
+        keyDownHandler.bind(keyCode.L, modifier.MetaShift, alignParagraphLeft);
+        keyDownHandler.bind(keyCode.E, modifier.MetaShift, alignParagraphCenter);
+        keyDownHandler.bind(keyCode.R, modifier.MetaShift, alignParagraphRight);
+        keyDownHandler.bind(keyCode.J, modifier.MetaShift, alignParagraphJustified);
         keyDownHandler.bind(keyCode.Z, modifier.Meta, undo);
         keyDownHandler.bind(keyCode.Z, modifier.MetaShift, redo)
       }else {
@@ -13039,6 +13181,10 @@ gui.SessionController = function() {
         keyDownHandler.bind(keyCode.B, modifier.Ctrl, toggleBold);
         keyDownHandler.bind(keyCode.I, modifier.Ctrl, toggleItalic);
         keyDownHandler.bind(keyCode.U, modifier.Ctrl, toggleUnderline);
+        keyDownHandler.bind(keyCode.L, modifier.CtrlShift, alignParagraphLeft);
+        keyDownHandler.bind(keyCode.E, modifier.CtrlShift, alignParagraphCenter);
+        keyDownHandler.bind(keyCode.R, modifier.CtrlShift, alignParagraphRight);
+        keyDownHandler.bind(keyCode.J, modifier.CtrlShift, alignParagraphJustified);
         keyDownHandler.bind(keyCode.Z, modifier.Ctrl, undo);
         keyDownHandler.bind(keyCode.Z, modifier.CtrlShift, redo)
       }
@@ -13145,7 +13291,7 @@ ops.MemberModel.prototype.close = function(callback) {
 */
 ops.TrivialMemberModel = function TrivialMemberModel() {
   this.getMemberDetailsAndUpdates = function(memberId, subscriber) {
-    subscriber(memberId, null)
+    subscriber(memberId, {memberid:memberId, fullname:"Unknown", color:"black", imageurl:"avatar-joe.png"})
   };
   this.unsubscribeMemberDetailsUpdates = function(memberId, subscriber) {
   };
@@ -13582,12 +13728,9 @@ gui.SessionView = function() {
     };
     function renderMemberData(memberId, memberData) {
       var caret = caretManager.getCaret(memberId);
-      if(memberData === undefined) {
+      if(!memberData) {
         runtime.log('MemberModel sent undefined data for member "' + memberId + '".');
         return
-      }
-      if(memberData === null) {
-        memberData = {memberid:memberId, fullname:"Unknown Identity", color:"black", imageurl:"avatar-joe.png"}
       }
       if(caret) {
         caret.setAvatarImageUrl(memberData.imageurl);
@@ -15032,5 +15175,5 @@ ops.Session = function Session(odfCanvas) {
   }
   init()
 };
-var webodf_css = "@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace runtimens url(urn:webodf); /* namespace for runtime only */\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[runtimens|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|line-break {\n  content: \" \";\n  display: block;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n    /** Let's not draw selection highlight that overflows into the office|text\n     * node when selecting content across several paragraphs\n     */\n    background: transparent;\n}\noffice|text * draw|text-box {\n    /** only for text documents */\n    display: block;\n    border: 1px solid #d3d3d3;\n}\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:\"\";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0px;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n}\ncursor|cursor > span {\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > div {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > div > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > div.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > div:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: '\u00d7';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: '';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: none;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n";
+var webodf_css = "@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace runtimens url(urn:webodf); /* namespace for runtime only */\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[runtimens|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|line-break {\n  content: \" \";\n  display: block;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n    /** Let's not draw selection highlight that overflows into the office|text\n     * node when selecting content across several paragraphs\n     */\n    background: transparent;\n}\noffice|text * draw|text-box {\n    /** only for text documents */\n    display: block;\n    border: 1px solid #d3d3d3;\n}\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:\"\";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0px;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n}\ncursor|cursor > span {\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > div {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > div > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > div.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > div:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: ' ';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: '\u00d7';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n    text-align: left;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: '';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: none;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n";
 

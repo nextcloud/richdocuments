@@ -44,8 +44,10 @@ define("webodf/editor/EditorSession", [
         return [ "../../webodf/lib" ];
     };
 
+    runtime.loadClass("core.DomUtils");
     runtime.loadClass("ops.OdtDocument");
     runtime.loadClass("ops.Session");
+    runtime.loadClass("odf.Namespaces");
     runtime.loadClass("odf.OdfCanvas");
     runtime.loadClass("gui.CaretManager");
     runtime.loadClass("gui.Caret");
@@ -69,10 +71,11 @@ define("webodf/editor/EditorSession", [
             currentStyleName = null,
             caretManager,
             odtDocument = session.getOdtDocument(),
-            textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0",
+            textns = odf.Namespaces.textns,
             fontStyles = document.createElement('style'),
             formatting = odtDocument.getFormatting(),
             styleHelper = new gui.StyleHelper(formatting),
+            domUtils = new core.DomUtils(),
             eventNotifier = new core.EventNotifier([
                 EditorSession.signalMemberAdded,
                 EditorSession.signalMemberRemoved,
@@ -88,6 +91,15 @@ define("webodf/editor/EditorSession", [
         caretManager = new gui.CaretManager(self.sessionController);
         this.sessionView = new gui.SessionView(config.viewOptions, session, caretManager);
         this.availableFonts = [];
+
+        function isTrueForSelection(predicate) {
+            var cursor = odtDocument.getCursor(localMemberId);
+            // no own cursor yet/currently added?
+            if (!cursor) {
+                return false;
+            }
+            return predicate(cursor.getSelectedRange());
+        }
 
         /*
          * @return {Array.{!string}}
@@ -192,11 +204,15 @@ define("webodf/editor/EditorSession", [
         }
 
         function trackCurrentParagraph(info) {
-            if (info.paragraphElement !== currentParagraphNode) {
-                return;
+            var cursor = odtDocument.getCursor(localMemberId),
+                range = cursor && cursor.getSelectedRange(),
+                paragraphRange = odtDocument.getDOM().createRange();
+            paragraphRange.selectNode(info.paragraphElement);
+            if ((range && domUtils.rangesIntersect(range, paragraphRange)) || info.paragraphElement === currentParagraphNode) {
+                self.emit(EditorSession.signalParagraphChanged, info);
+                checkParagraphStyleName();
             }
-            self.emit(EditorSession.signalParagraphChanged, info);
-            checkParagraphStyleName();
+            paragraphRange.detach();
         }
 
         function onCursorAdded(cursor) {
@@ -283,41 +299,15 @@ define("webodf/editor/EditorSession", [
             return formatting.getAvailableParagraphStyles();
         };
 
-        this.isBold = function () {
-            var cursor = odtDocument.getCursor(localMemberId);
-            // no own cursor yet/currently added?
-            if (!cursor) {
-                return false;
-            }
-            return styleHelper.isBold(cursor.getSelectedRange());
-        };
+        this.isBold = isTrueForSelection.bind(self, styleHelper.isBold);
+        this.isItalic = isTrueForSelection.bind(self, styleHelper.isItalic);
+        this.hasUnderline = isTrueForSelection.bind(self, styleHelper.hasUnderline);
+        this.hasStrikeThrough = isTrueForSelection.bind(self, styleHelper.hasStrikeThrough);
 
-        this.isItalic = function () {
-            var cursor = odtDocument.getCursor(localMemberId);
-            // no own cursor yet/currently added?
-            if (!cursor) {
-                return false;
-            }
-            return styleHelper.isItalic(cursor.getSelectedRange());
-        };
-
-        this.hasUnderline = function () {
-            var cursor = odtDocument.getCursor(localMemberId);
-            // no own cursor yet/currently added?
-            if (!cursor) {
-                return false;
-            }
-            return styleHelper.hasUnderline(cursor.getSelectedRange());
-        };
-
-        this.hasStrikeThrough = function () {
-            var cursor = odtDocument.getCursor(localMemberId);
-            // no own cursor yet/currently added?
-            if (!cursor) {
-                return false;
-            }
-            return styleHelper.hasStrikeThrough(cursor.getSelectedRange());
-        };
+        this.isAlignedLeft = isTrueForSelection.bind(self, styleHelper.isAlignedLeft);
+        this.isAlignedCenter = isTrueForSelection.bind(self, styleHelper.isAlignedCenter);
+        this.isAlignedRight = isTrueForSelection.bind(self, styleHelper.isAlignedRight);
+        this.isAlignedJustified = isTrueForSelection.bind(self, styleHelper.isAlignedJustified);
 
         this.getCurrentParagraphStyle = function () {
             return currentNamedStyleName;

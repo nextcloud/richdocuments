@@ -226,6 +226,14 @@ define("webodf/editor/server/pullbox/MemberModel", [], function () {
             if (memberData) {
                 // data available from cache
                 subscriber(memberId, memberData);
+            } else {
+                // pass temporary data
+                subscriber(memberId, {
+                    memberid: memberId,
+                    fullname: "Unknown",
+                    color:    "black",
+                    imageurl: ""
+                });
             }
         };
 
