@@ -46,7 +46,7 @@ class Member extends Db{
 			return array();
 		}
 		
-		$placeholders = self::buildPlaceholders($ids);
+		$stmt = self::buildPlaceholders($ids);
 		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*documents_member` WHERE `member_id` IN (' . $stmt . ')');
 		$result = $query->execute($ids);
 		return $result->fetchAll();
