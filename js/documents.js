@@ -26,7 +26,8 @@ var documentsMain = {
 		
 		runtime.assert(response.status, "Server error");
 		if (response.status==='error'){
-			alert('Server error');
+			OC.Notification.show(t('documents', 'Oops! This document has been either unshared or deleted recently.'));
+			setTimeout(OC.Notification.hide, 3000);
 			documentsMain.hideOverlay();
 			return;
 		}
