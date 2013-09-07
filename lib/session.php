@@ -74,7 +74,7 @@ class Session extends Db{
 
 	public static function getSessionByFileId($fileId){
 		$sessions = self::getSessionsByFileIds(array($fileId));
-		if (count($sessions) === 1) {
+		if (count($sessions) > 1) {
 			return $sessions[0];
 		} else {
 			\OCP\Util::writeLog('documents','more than one session found for file id '.$fileId,\OCP\Util::ERROR);
