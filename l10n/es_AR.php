@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Cerrar",
+"Invite" => "Invitar",
 "Users in session:" => "Usuarios en sesión:",
 "Failed to load documents." => "La carga de documentos ha fallado.",
 "No people found" => "No se encontraron usuarios",
@@ -9,5 +10,6 @@
 "Accepted" => "Aceptado",
 "Incoming" => "Ingresando",
 "Documents" => "Documentos",
+"Advanced feature-set" => "Características Avanzadas",
 "(Unstable)" => "(Inestable)"
 );
