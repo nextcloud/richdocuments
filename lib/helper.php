@@ -29,6 +29,10 @@ class Helper{
 		self::log($message, \OCP\Util::WARN);
 	}
 
+	public static  function errorLog($message){
+		self::log($message, \OCP\Util::ERROR);
+	}
+	
 	public static function log($message, $level){
 		\OCP\Util::writeLog(self::APP_ID, $message, $level);
 	}

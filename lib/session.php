@@ -32,6 +32,7 @@ class Session extends Db{
 		if ($result){
 			return $data;
 		}
+		
 		return false;
 	}
 	
@@ -75,11 +76,13 @@ class Session extends Db{
 	public static function getSessionByFileId($fileId){
 		$sessions = self::getSessionsByFileIds(array($fileId));
 		if (count($sessions) > 1) {
-			return $sessions[0];
-		} else {
-			\OCP\Util::writeLog('documents','more than one session found for file id '.$fileId,\OCP\Util::ERROR);
+			Helper::errorLog('documents','more than one session found for file id ' . $fileId);
+		}
+		
+		if (count($sessions)) {
 			return $sessions[0];
 		}
+		
 		return null;
 	}
 	
