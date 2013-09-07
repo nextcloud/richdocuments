@@ -27,6 +27,7 @@ var documentsMain = {
 		runtime.assert(response.status, "Server error");
 		if (response.status==='error'){
 			alert('Server error');
+			documentsMain.hideOverlay();
 			return;
 		}
 
