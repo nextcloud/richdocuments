@@ -144,7 +144,12 @@ var documentsMain = {
 	},
 	onClose: function() {
 		"use strict";
-
+		
+		if (!documentsMain.isEditorMode){
+			return;
+		}
+		documentsMain.isEditorMode = false;
+		
 		//close editor
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.close(function() {
@@ -163,7 +168,6 @@ var documentsMain = {
 					$('#content').fadeIn('slow');
 					$(document.body).removeClass('claro');
 				});
-				documentsMain.isEditorMode = false;
 			});
 // 			});
 		});
