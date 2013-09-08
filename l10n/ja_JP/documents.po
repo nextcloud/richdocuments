@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-31 14:09-0400\n"
-"PO-Revision-Date: 2013-08-31 09:50+0000\n"
-"Last-Translator: plazmism <gomidori@live.jp>\n"
+"POT-Creation-Date: 2013-09-08 19:34-0400\n"
+"PO-Revision-Date: 2013-09-08 23:34+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,27 +19,31 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/documents.js:43
+#: js/documents.js:29
+msgid "Oops! This document has been either unshared or deleted recently."
+msgstr ""
+
+#: js/documents.js:42
 msgid "Close"
 msgstr "閉じる"
 
-#: js/documents.js:46
+#: js/documents.js:45
 msgid "Invite"
 msgstr "招待"
 
-#: js/documents.js:127
+#: js/documents.js:124
 msgid "Users in session:"
 msgstr "セッション中のユーザー:"
 
-#: js/documents.js:183
+#: js/documents.js:193
 msgid "Failed to load documents."
 msgstr "ドキュメントのロードに失敗しました。"
 
-#: js/documents.js:279
+#: js/documents.js:295
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/documents.js:288
+#: js/documents.js:304
 msgid "Remove from the list"
 msgstr "リストから削除"
 

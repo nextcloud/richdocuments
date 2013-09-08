@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-28 17:33-0400\n"
-"PO-Revision-Date: 2013-08-28 21:33+0000\n"
+"POT-Creation-Date: 2013-09-08 19:34-0400\n"
+"PO-Revision-Date: 2013-09-08 23:34+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,31 @@ msgstr ""
 "Language: cy_GB\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
 
-#: js/documents.js:45
+#: js/documents.js:29
+msgid "Oops! This document has been either unshared or deleted recently."
+msgstr ""
+
+#: js/documents.js:42
 msgid "Close"
 msgstr "Cau"
 
-#: js/documents.js:48
+#: js/documents.js:45
 msgid "Invite"
 msgstr ""
 
-#: js/documents.js:134
+#: js/documents.js:124
 msgid "Users in session:"
 msgstr ""
 
-#: js/documents.js:190
+#: js/documents.js:193
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:286
+#: js/documents.js:295
 msgid "No people found"
 msgstr "Heb ganfod pobl"
 
-#: js/documents.js:295
+#: js/documents.js:304
 msgid "Remove from the list"
 msgstr ""
 
