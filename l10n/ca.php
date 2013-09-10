@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Oops! This document has been either unshared or deleted recently." => "Ep! Aquest document s'ha deixat de compartir o s'ha eliminat recentment.",
 "Close" => "Tanca",
 "Invite" => "Convida",
 "Users in session:" => "Usuaris a la sessió:",

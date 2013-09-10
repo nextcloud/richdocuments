@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Oops! This document has been either unshared or deleted recently." => "Hups! Tämän asiakirjan jakaminen on joko lopetettu äskettäin tai se on poistettu.",
 "Close" => "Sulje",
 "Invite" => "Kutsu",
 "Users in session:" => "Käyttäjät istunnossa:",

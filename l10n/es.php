@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Oops! This document has been either unshared or deleted recently." => "El documento ya no está siendo compartido o ha sido eliminado hace poco.",
 "Close" => "Cerrar",
 "Invite" => "Invitar",
 "Users in session:" => "Usuarios en la sesión:",
