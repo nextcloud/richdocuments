@@ -48,6 +48,8 @@ define("webodf/editor/server/pullbox/SessionList", [], function () {
             var i,
                 isNew = ! cachedSessionData.hasOwnProperty(sessionData.id);
 
+            // extend data with download url
+            sessionData.fileUrl = "/session/" + sessionData.id + "/last/" + sessionData.filename;
             // cache
             cachedSessionData[sessionData.id] = sessionData;
             runtime.log("get session data for:"+sessionData.title+", is new:"+isNew);

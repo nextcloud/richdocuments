@@ -54,14 +54,13 @@ define("webodf/editor/EditorSession", [
     runtime.loadClass("gui.SessionController");
     runtime.loadClass("gui.SessionView");
     runtime.loadClass("gui.TrivialUndoManager");
-    runtime.loadClass("gui.StyleHelper");
     runtime.loadClass("core.EventNotifier");
 
     /**
      * Instantiate a new editor session attached to an existing operation session
      * @param {!ops.Session} session
      * @param {!string} localMemberId
-     * @param {{viewOptions:gui.SessionViewOptions}} config
+     * @param {{viewOptions:gui.SessionViewOptions,directStylingEnabled:boolean}} config
      * @constructor
      */
     var EditorSession = function EditorSession(session, localMemberId, config) {
@@ -74,32 +73,22 @@ define("webodf/editor/EditorSession", [
             textns = odf.Namespaces.textns,
             fontStyles = document.createElement('style'),
             formatting = odtDocument.getFormatting(),
-            styleHelper = new gui.StyleHelper(formatting),
             domUtils = new core.DomUtils(),
             eventNotifier = new core.EventNotifier([
                 EditorSession.signalMemberAdded,
                 EditorSession.signalMemberRemoved,
                 EditorSession.signalCursorMoved,
                 EditorSession.signalParagraphChanged,
-                EditorSession.signalStyleCreated,
-                EditorSession.signalStyleDeleted,
+                EditorSession.signalCommonParagraphStyleCreated,
+                EditorSession.signalCommonParagraphStyleDeleted,
                 EditorSession.signalParagraphStyleModified,
                 EditorSession.signalUndoStackChanged]);
 
 
-        this.sessionController = new gui.SessionController(session, localMemberId);
+        this.sessionController = new gui.SessionController(session, localMemberId, {directStylingEnabled: config.directStylingEnabled});
         caretManager = new gui.CaretManager(self.sessionController);
         this.sessionView = new gui.SessionView(config.viewOptions, session, caretManager);
         this.availableFonts = [];
-
-        function isTrueForSelection(predicate) {
-            var cursor = odtDocument.getCursor(localMemberId);
-            // no own cursor yet/currently added?
-            if (!cursor) {
-                return false;
-            }
-            return predicate(cursor.getSelectedRange());
-        }
 
         /*
          * @return {Array.{!string}}
@@ -233,11 +222,11 @@ define("webodf/editor/EditorSession", [
         }
 
         function onStyleCreated(newStyleName) {
-            self.emit(EditorSession.signalStyleCreated, newStyleName);
+            self.emit(EditorSession.signalCommonParagraphStyleCreated, newStyleName);
         }
 
         function onStyleDeleted(styleName) {
-            self.emit(EditorSession.signalStyleDeleted, styleName);
+            self.emit(EditorSession.signalCommonParagraphStyleDeleted, styleName);
         }
 
         function onParagraphStyleModified(styleName) {
@@ -299,30 +288,8 @@ define("webodf/editor/EditorSession", [
             return formatting.getAvailableParagraphStyles();
         };
 
-        this.isBold = isTrueForSelection.bind(self, styleHelper.isBold);
-        this.isItalic = isTrueForSelection.bind(self, styleHelper.isItalic);
-        this.hasUnderline = isTrueForSelection.bind(self, styleHelper.hasUnderline);
-        this.hasStrikeThrough = isTrueForSelection.bind(self, styleHelper.hasStrikeThrough);
-
-        this.isAlignedLeft = isTrueForSelection.bind(self, styleHelper.isAlignedLeft);
-        this.isAlignedCenter = isTrueForSelection.bind(self, styleHelper.isAlignedCenter);
-        this.isAlignedRight = isTrueForSelection.bind(self, styleHelper.isAlignedRight);
-        this.isAlignedJustified = isTrueForSelection.bind(self, styleHelper.isAlignedJustified);
-
         this.getCurrentParagraphStyle = function () {
             return currentNamedStyleName;
-        };
-
-        this.formatSelection = function (value) {
-            var op = new ops.OpApplyDirectStyling(),
-                selection = self.getCursorSelection();
-            op.init({
-                memberid: localMemberId,
-                position: selection.position,
-                length: selection.length,
-                setProperties: value
-            });
-            session.enqueue(op);
         };
 
         /**
@@ -555,8 +522,8 @@ define("webodf/editor/EditorSession", [
             odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
             odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
             odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
-            odtDocument.unsubscribe(ops.OdtDocument.signalStyleCreated, onStyleCreated);
-            odtDocument.unsubscribe(ops.OdtDocument.signalStyleDeleted, onStyleDeleted);
+            odtDocument.unsubscribe(ops.OdtDocument.signalCommonParagraphStyleCreated, onStyleCreated);
+            odtDocument.unsubscribe(ops.OdtDocument.signalCommonParagraphStyleDeleted, onStyleDeleted);
             odtDocument.unsubscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
             odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
             odtDocument.unsubscribe(ops.OdtDocument.signalUndoStackChanged, undoStackModified);
@@ -597,8 +564,8 @@ define("webodf/editor/EditorSession", [
             odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
             odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
             odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
-            odtDocument.subscribe(ops.OdtDocument.signalStyleCreated, onStyleCreated);
-            odtDocument.subscribe(ops.OdtDocument.signalStyleDeleted, onStyleDeleted);
+            odtDocument.subscribe(ops.OdtDocument.signalCommonParagraphStyleCreated, onStyleCreated);
+            odtDocument.subscribe(ops.OdtDocument.signalCommonParagraphStyleDeleted, onStyleDeleted);
             odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
             odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
             odtDocument.subscribe(ops.OdtDocument.signalUndoStackChanged, undoStackModified);
@@ -611,8 +578,8 @@ define("webodf/editor/EditorSession", [
     /**@const*/EditorSession.signalMemberRemoved =          "memberRemoved";
     /**@const*/EditorSession.signalCursorMoved =            "cursorMoved";
     /**@const*/EditorSession.signalParagraphChanged =       "paragraphChanged";
-    /**@const*/EditorSession.signalStyleCreated =           "styleCreated";
-    /**@const*/EditorSession.signalStyleDeleted =           "styleDeleted";
+    /**@const*/EditorSession.signalCommonParagraphStyleCreated =           "styleCreated";
+    /**@const*/EditorSession.signalCommonParagraphStyleDeleted =           "styleDeleted";
     /**@const*/EditorSession.signalParagraphStyleModified = "paragraphStyleModified";
     /**@const*/EditorSession.signalUndoStackChanged =       "signalUndoStackChanged";
 

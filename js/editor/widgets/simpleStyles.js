@@ -35,143 +35,150 @@
 
 /*global define,require,document */
 
-define("webodf/editor/widgets/simpleStyles",
-       ["webodf/editor/EditorSession"],
+define("webodf/editor/widgets/simpleStyles", [
+    "webodf/editor/widgets/fontPicker",
+    "dijit/form/ToggleButton",
+    "dijit/form/NumberSpinner"],
 
-  function (EditorSession) {
-    "use strict";
+    function (FontPicker, ToggleButton, NumberSpinner) {
+        "use strict";
 
-    return function SimpleStyles(callback) {
-        var editorSession,
-            boldButton,
-            italicButton,
-            underlineButton,
-            strikethroughButton;
+        var SimpleStyles = function(callback) {
+            var widget = {},
+                directTextStyler,
+                boldButton,
+                italicButton,
+                underlineButton,
+                strikethroughButton,
+                fontSizeSpinner,
+                fontPicker,
+                fontPickerWidget;
 
-        function makeWidget(callback) {
-            require(["dijit/form/ToggleButton"], function (ToggleButton) {
-                var i,
-                    widget = {};
-
-                boldButton = new ToggleButton({
-                    label: document.translator('bold'),
-                    showLabel: false,
-                    checked: editorSession ? editorSession.isBold(): false,
-                    iconClass: "dijitEditorIcon dijitEditorIconBold",
-                    onChange: function (checked) {
-                        var value = checked ? 'bold' : 'normal';
-                        if (editorSession) {
-                            editorSession.formatSelection({
-                                'style:text-properties': {
-                                    'fo:font-weight' : value
-                                }
-                            });
-                        }
-                    }
-                });
-
-                italicButton = new ToggleButton({
-                    label: document.translator('italic'),
-                    showLabel: false,
-                    checked: editorSession ? editorSession.isItalic(): false,
-                    iconClass: "dijitEditorIcon dijitEditorIconItalic",
-                    onChange: function (checked) {
-                        var value = checked ? 'italic' : 'normal';
-                        if (editorSession) {
-                            editorSession.formatSelection({
-                                'style:text-properties': {
-                                    'fo:font-style' : value
-                                }
-                            });
-                        }
-                    }
-                });
-                underlineButton = new ToggleButton({
-                    label: document.translator('underline'),
-                    showLabel: false,
-                    checked: editorSession ? editorSession.hasUnderline(): false,
-                    iconClass: "dijitEditorIcon dijitEditorIconUnderline",
-                    onChange: function (checked) {
-                        var value = checked ? 'solid' : 'none';
-                        if (editorSession) {
-                            editorSession.formatSelection({
-                                'style:text-properties': {
-                                    'style:text-underline-style' : value
-                                }
-                            });
-                        }
-                    }
-                });
-                strikethroughButton = new ToggleButton({
-                    label: document.translator('strikethrough'),
-                    showLabel: false,
-                    checked: editorSession ? editorSession.hasStrikeThrough(): false,
-                    iconClass: "dijitEditorIcon dijitEditorIconStrikethrough",
-                    onChange: function (checked) {
-                        var value = checked ? 'solid' : 'none';
-                        if (editorSession) {
-                            editorSession.formatSelection({
-                                'style:text-properties': {
-                                    'style:text-line-through-style' : value
-                                }
-                            });
-                        }
-                    }
-                });
-
-                widget.children = [boldButton, italicButton, underlineButton, strikethroughButton];
-                widget.startup = function () {
-                    widget.children.forEach(function (element) {
-                        element.startup();
-                    });
-                };
-
-                widget.placeAt = function (container) {
-                    widget.children.forEach(function (element) {
-                        element.placeAt(container);
-                    });
-                    return widget;
-                };
-
-                return callback(widget);
+            boldButton = new ToggleButton({
+                label: document.translator('bold'),
+                disabled: true,
+                showLabel: false,
+                checked: false,
+                iconClass: "dijitEditorIcon dijitEditorIconBold",
+                onChange: function (checked) {
+                    directTextStyler.setBold(checked);
+                }
             });
-        }
 
-        function checkStyleButtons() {
-            // The 3rd parameter is false to avoid firing onChange when setting the value
-            // programmatically.
-            if (boldButton) {
-                boldButton.set('checked', editorSession.isBold(), false);
-            }
-            if (italicButton) {
-                italicButton.set('checked', editorSession.isItalic(), false);
-            }
-            if (underlineButton) {
-                underlineButton.set('checked', editorSession.hasUnderline(), false);
-            }
-            if (strikethroughButton) {
-                strikethroughButton.set('checked', editorSession.hasStrikeThrough(), false);
-            }
-        }
+            italicButton = new ToggleButton({
+                label: document.translator('italic'),
+                disabled: true,
+                showLabel: false,
+                checked: false,
+                iconClass: "dijitEditorIcon dijitEditorIconItalic",
+                onChange: function (checked) {
+                    directTextStyler.setItalic(checked);
+                }
+            });
 
-        this.setEditorSession = function(session) {
-            if (editorSession) {
-                editorSession.unsubscribe(EditorSession.signalCursorMoved, checkStyleButtons);
-                editorSession.unsubscribe(EditorSession.signalParagraphChanged, checkStyleButtons);
-                editorSession.unsubscribe(EditorSession.signalParagraphStyleModified, checkStyleButtons);
+            underlineButton = new ToggleButton({
+                label: document.translator('underline'),
+                disabled: true,
+                showLabel: false,
+                checked: false,
+                iconClass: "dijitEditorIcon dijitEditorIconUnderline",
+                onChange: function (checked) {
+                    directTextStyler.setHasUnderline(checked);
+                }
+            });
+
+            strikethroughButton = new ToggleButton({
+                label: document.translator('strikethrough'),
+                disabled: true,
+                showLabel: false,
+                checked: false,
+                iconClass: "dijitEditorIcon dijitEditorIconStrikethrough",
+                onChange: function (checked) {
+                    directTextStyler.setHasStrikethrough(checked);
+                }
+            });
+
+            fontSizeSpinner = new NumberSpinner({
+                label: document.translator('size'),
+                disabled: true,
+                showLabel: false,
+                value: 12,
+                smallDelta: 1,
+                constraints: {min:6, max:96},
+                intermediateChanges: true,
+                onChange: function(value) {
+                    directTextStyler.setFontSize(value);
+                }
+            });
+
+            fontPicker = new FontPicker(function () {});
+            fontPickerWidget = fontPicker.widget();
+            fontPickerWidget.setAttribute('disabled', true);
+            fontPickerWidget.onChange = function(value) {
+                directTextStyler.setFontName(value);
+            };
+
+            widget.children = [boldButton, italicButton, underlineButton, strikethroughButton, fontPickerWidget, fontSizeSpinner];
+            widget.startup = function () {
+                widget.children.forEach(function (element) {
+                    element.startup();
+                });
+            };
+
+            widget.placeAt = function (container) {
+                widget.children.forEach(function (element) {
+                    element.placeAt(container);
+                });
+                return widget;
+            };
+
+            function updateStyleButtons(changes) {
+                // The 3rd parameter to set(...) is false to avoid firing onChange when setting the value programmatically.
+                var updateCalls = {
+                    isBold: function(value) { boldButton.set('checked', value, false); },
+                    isItalic: function(value) { italicButton.set('checked', value, false); },
+                    hasUnderline: function(value) { underlineButton.set('checked', value, false); },
+                    hasStrikeThrough: function(value) { strikethroughButton.set('checked', value, false); },
+                    fontSize: function(value) { 
+                        fontSizeSpinner.set('intermediateChanges', false); // Necessary due to https://bugs.dojotoolkit.org/ticket/11588
+                        fontSizeSpinner.set('value', value, false);
+                        fontSizeSpinner.set('intermediateChanges', true);
+                    },
+                    fontName: function(value) { fontPickerWidget.set('value', value, false); }
+                };
+
+                Object.keys(changes).forEach(function (key) {
+                    var updateCall = updateCalls[key];
+                    if (updateCall) {
+                        updateCall(changes[key]);
+                    }
+                });
             }
-            editorSession = session;
-            if (editorSession) {
-                editorSession.subscribe(EditorSession.signalCursorMoved, checkStyleButtons);
-                editorSession.subscribe(EditorSession.signalParagraphChanged, checkStyleButtons);
-                editorSession.subscribe(EditorSession.signalParagraphStyleModified, checkStyleButtons);
-                checkStyleButtons();
-            }
+
+            this.setEditorSession = function(session) {
+                if (directTextStyler) {
+                    directTextStyler.unsubscribe(gui.DirectTextStyler.textStylingChanged, updateStyleButtons);
+                }
+                directTextStyler = session && session.sessionController.getDirectTextStyler();
+                fontPicker.setEditorSession(session);
+                if (directTextStyler) {
+                    directTextStyler.subscribe(gui.DirectTextStyler.textStylingChanged, updateStyleButtons);
+                }
+                widget.children.forEach(function (element) {
+                    element.setAttribute('disabled', !directTextStyler);
+                });
+                updateStyleButtons({
+                    isBold: directTextStyler ? directTextStyler.isBold() : false,
+                    isItalic: directTextStyler ? directTextStyler.isItalic() : false,
+                    hasUnderline: directTextStyler ? directTextStyler.hasUnderline() : false,
+                    hasStrikeThrough: directTextStyler ? directTextStyler.hasStrikeThrough() : false,
+                    fontSize: directTextStyler ? directTextStyler.fontSize() : undefined,
+                    fontName: directTextStyler ? directTextStyler.fontName() : undefined
+                });
+            };
+
+            callback(widget);
         };
 
-            // init
-        makeWidget(function (widget) {
-            return callback(widget);
-        });
-    };
+        return SimpleStyles;
 });

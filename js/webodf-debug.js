@@ -3083,9 +3083,8 @@ core.DomUtils = function DomUtils() {
         node1.parentNode.removeChild(node1)
       }else {
         if(node2.nodeType === Node.TEXT_NODE) {
-          node2.insertData(0, node1.data);
-          node1.parentNode.removeChild(node1);
-          return node2
+          node1.appendData(node2.data);
+          node2.parentNode.removeChild(node2)
         }
       }
     }
@@ -8305,7 +8304,9 @@ odf.Formatting = function Formatting() {
         node.appendChild(element);
         mapObjOntoNode(element, value)
       }else {
-        node.setAttributeNS(ns, key, value)
+        if(ns) {
+          node.setAttributeNS(ns, key, value)
+        }
       }
     })
   }
@@ -9679,18 +9680,8 @@ runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfUtils");
 gui.StyleHelper = function StyleHelper(formatting) {
   var domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, textns = odf.Namespaces.textns;
-  this.getAppliedStyles = function(range) {
-    var textNodes = odfUtils.getTextNodes(range, true);
-    return formatting.getAppliedStyles(textNodes)
-  };
-  this.applyStyle = function(memberId, range, info) {
-    var nextTextNodes = domUtils.splitBoundaries(range), textNodes = odfUtils.getTextNodes(range, false), limits;
-    limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
-    formatting.applyStyle(memberId, textNodes, limits, info);
-    nextTextNodes.forEach(domUtils.normalizeTextNodes)
-  };
-  function hasTextPropertyValue(range, propertyName, propertyValue) {
-    var hasOtherValue = true, nodes, styles, properties, container, i;
+  function getAppliedStyles(range) {
+    var container, nodes;
     if(range.collapsed) {
       container = range.startContainer;
       if(container.hasChildNodes() && range.startOffset < container.childNodes.length) {
@@ -9700,7 +9691,18 @@ gui.StyleHelper = function StyleHelper(formatting) {
     }else {
       nodes = odfUtils.getTextNodes(range, true)
     }
-    styles = formatting.getAppliedStyles(nodes);
+    return formatting.getAppliedStyles(nodes)
+  }
+  this.getAppliedStyles = getAppliedStyles;
+  this.applyStyle = function(memberId, range, info) {
+    var nextTextNodes = domUtils.splitBoundaries(range), textNodes = odfUtils.getTextNodes(range, false), limits;
+    limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
+    formatting.applyStyle(memberId, textNodes, limits, info);
+    nextTextNodes.forEach(domUtils.normalizeTextNodes)
+  };
+  function hasTextPropertyValue(range, propertyName, propertyValue) {
+    var hasOtherValue = true, styles, properties, i;
+    styles = getAppliedStyles(range);
     for(i = 0;i < styles.length;i += 1) {
       properties = styles[i]["style:text-properties"];
       hasOtherValue = !properties || properties[propertyName] !== propertyValue;
@@ -11051,7 +11053,9 @@ ops.OpAddParagraphStyle = function OpAddParagraphStyle() {
       odfContainer.rootElement.styles.appendChild(styleNode)
     }
     odtDocument.getOdfCanvas().refreshCSS();
-    odtDocument.emit(ops.OdtDocument.signalStyleCreated, styleName);
+    if(!isAutomaticStyle) {
+      odtDocument.emit(ops.OdtDocument.signalCommonParagraphStyleCreated, styleName)
+    }
     return true
   };
   this.spec = function() {
@@ -11146,7 +11150,7 @@ ops.OpRemoveParagraphStyle = function OpRemoveParagraphStyle() {
     }
     styleNode.parentNode.removeChild(styleNode);
     odtDocument.getOdfCanvas().refreshCSS();
-    odtDocument.emit(ops.OdtDocument.signalStyleDeleted, styleName);
+    odtDocument.emit(ops.OdtDocument.signalCommonParagraphStyleDeleted, styleName);
     return true
   };
   this.spec = function() {
@@ -12205,48 +12209,6 @@ gui.Caret = function Caret(cursor, avatarInitiallyVisible, blinkOnRangeSelect) {
   }
   init()
 };
-runtime.loadClass("core.EventNotifier");
-gui.ClickHandler = function ClickHandler() {
-  var clickTimer, clickCount = 0, clickPosition = null, eventNotifier = new core.EventNotifier([gui.ClickHandler.signalSingleClick, gui.ClickHandler.signalDoubleClick, gui.ClickHandler.signalTripleClick]);
-  function resetClick() {
-    clickCount = 0;
-    clickPosition = null
-  }
-  this.subscribe = function(eventid, cb) {
-    eventNotifier.subscribe(eventid, cb)
-  };
-  this.handleMouseUp = function(e) {
-    var window = runtime.getWindow();
-    if(clickPosition && clickPosition.x === e.screenX && clickPosition.y === e.screenY) {
-      clickCount += 1;
-      if(clickCount === 1) {
-        eventNotifier.emit(gui.ClickHandler.signalSingleClick, e)
-      }else {
-        if(clickCount === 2) {
-          eventNotifier.emit(gui.ClickHandler.signalDoubleClick, undefined)
-        }else {
-          if(clickCount === 3) {
-            window.clearTimeout(clickTimer);
-            eventNotifier.emit(gui.ClickHandler.signalTripleClick, undefined);
-            resetClick()
-          }
-        }
-      }
-    }else {
-      eventNotifier.emit(gui.ClickHandler.signalSingleClick, e);
-      clickCount = 1;
-      clickPosition = {x:e.screenX, y:e.screenY};
-      window.clearTimeout(clickTimer);
-      clickTimer = window.setTimeout(resetClick, 400)
-    }
-  }
-};
-gui.ClickHandler.signalSingleClick = "click";
-gui.ClickHandler.signalDoubleClick = "doubleClick";
-gui.ClickHandler.signalTripleClick = "tripleClick";
-(function() {
-  return gui.ClickHandler
-})();
 /*
 
  Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
@@ -12411,6 +12373,381 @@ gui.Clipboard = function Clipboard() {
   }
   init()
 };
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("core.EventNotifier");
+runtime.loadClass("ops.OpApplyDirectStyling");
+runtime.loadClass("gui.StyleHelper");
+gui.DirectTextStyler = function DirectTextStyler(session, inputMemberId) {
+  var self = this, odtDocument = session.getOdtDocument(), styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), eventNotifier = new core.EventNotifier([gui.DirectTextStyler.textStylingChanged]), isBoldValue = false, isItalicValue = false, hasUnderlineValue = false, hasStrikeThroughValue = false, fontSizeValue, fontNameValue;
+  function get(obj, keys) {
+    var i = 0, key = keys[i];
+    while(key && obj) {
+      obj = obj[key];
+      i += 1;
+      key = keys[i]
+    }
+    return keys.length === i ? obj : undefined
+  }
+  function getCommonValue(objArray, keys) {
+    var value = get(objArray[0], keys);
+    return objArray.every(function(obj) {
+      return value === get(obj, keys)
+    }) ? value : undefined
+  }
+  function updatedCachedValues() {
+    var cursor = odtDocument.getCursor(inputMemberId), range = cursor && cursor.getSelectedRange(), currentSelectionStyles = range && styleHelper.getAppliedStyles(range), fontSize, diffMap;
+    function noteChange(oldValue, newValue, id) {
+      if(oldValue !== newValue) {
+        if(diffMap === undefined) {
+          diffMap = {}
+        }
+        diffMap[id] = newValue
+      }
+      return newValue
+    }
+    isBoldValue = noteChange(isBoldValue, range ? styleHelper.isBold(range) : false, "isBold");
+    isItalicValue = noteChange(isItalicValue, range ? styleHelper.isItalic(range) : false, "isItalic");
+    hasUnderlineValue = noteChange(hasUnderlineValue, range ? styleHelper.hasUnderline(range) : false, "hasUnderline");
+    hasStrikeThroughValue = noteChange(hasStrikeThroughValue, range ? styleHelper.hasStrikeThrough(range) : false, "hasStrikeThrough");
+    fontSize = currentSelectionStyles && getCommonValue(currentSelectionStyles, ["style:text-properties", "fo:font-size"]);
+    fontSizeValue = noteChange(fontSizeValue, fontSize && parseFloat(fontSize), "fontSize");
+    fontNameValue = noteChange(fontNameValue, currentSelectionStyles && getCommonValue(currentSelectionStyles, ["style:text-properties", "style:font-name"]), "fontName");
+    if(diffMap) {
+      eventNotifier.emit(gui.DirectTextStyler.textStylingChanged, diffMap)
+    }
+  }
+  function onCursorAdded(cursor) {
+    if(cursor.getMemberId() === inputMemberId) {
+      updatedCachedValues()
+    }
+  }
+  function onCursorRemoved(memberId) {
+    if(memberId === inputMemberId) {
+      updatedCachedValues()
+    }
+  }
+  function onCursorMoved(cursor) {
+    if(cursor.getMemberId() === inputMemberId) {
+      updatedCachedValues()
+    }
+  }
+  function onParagraphStyleModified() {
+    updatedCachedValues()
+  }
+  function onParagraphChanged(args) {
+    var cursor = odtDocument.getCursor(inputMemberId);
+    if(cursor && odtDocument.getParagraphElement(cursor.getNode()) === args.paragraphElement) {
+      updatedCachedValues()
+    }
+  }
+  function toggle(predicate, toggleMethod) {
+    var cursor = odtDocument.getCursor(inputMemberId);
+    if(!cursor) {
+      return false
+    }
+    toggleMethod(!predicate(cursor.getSelectedRange()));
+    return true
+  }
+  function formatTextSelection(propertyName, propertyValue) {
+    var selection = odtDocument.getCursorSelection(inputMemberId), op = new ops.OpApplyDirectStyling, properties = {};
+    properties[propertyName] = propertyValue;
+    op.init({memberid:inputMemberId, position:selection.position, length:selection.length, setProperties:{"style:text-properties":properties}});
+    session.enqueue(op)
+  }
+  function setBold(checked) {
+    var value = checked ? "bold" : "normal";
+    formatTextSelection("fo:font-weight", value)
+  }
+  this.setBold = setBold;
+  function setItalic(checked) {
+    var value = checked ? "italic" : "normal";
+    formatTextSelection("fo:font-style", value)
+  }
+  this.setItalic = setItalic;
+  function setHasUnderline(checked) {
+    var value = checked ? "solid" : "none";
+    formatTextSelection("style:text-underline-style", value)
+  }
+  this.setHasUnderline = setHasUnderline;
+  function setHasStrikethrough(checked) {
+    var value = checked ? "solid" : "none";
+    formatTextSelection("style:text-line-through-style", value)
+  }
+  this.setHasStrikethrough = setHasStrikethrough;
+  function setFontSize(value) {
+    formatTextSelection("fo:font-size", value + "pt")
+  }
+  this.setFontSize = setFontSize;
+  function setFontName(value) {
+    formatTextSelection("style:font-name", value)
+  }
+  this.setFontName = setFontName;
+  this.toggleBold = toggle.bind(self, styleHelper.isBold, setBold);
+  this.toggleItalic = toggle.bind(self, styleHelper.isItalic, setItalic);
+  this.toggleUnderline = toggle.bind(self, styleHelper.hasUnderline, setHasUnderline);
+  this.toggleStrikethrough = toggle.bind(self, styleHelper.hasStrikeThrough, setHasStrikethrough);
+  this.isBold = function() {
+    return isBoldValue
+  };
+  this.isItalic = function() {
+    return isItalicValue
+  };
+  this.hasUnderline = function() {
+    return hasUnderlineValue
+  };
+  this.hasStrikeThrough = function() {
+    return hasStrikeThroughValue
+  };
+  this.fontSize = function() {
+    return fontSizeValue
+  };
+  this.fontName = function() {
+    return fontNameValue
+  };
+  this.subscribe = function(eventid, cb) {
+    eventNotifier.subscribe(eventid, cb)
+  };
+  this.unsubscribe = function(eventid, cb) {
+    eventNotifier.unsubscribe(eventid, cb)
+  };
+  this.destroy = function(callback) {
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+    odtDocument.unsubscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
+    odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
+    callback()
+  };
+  function init() {
+    odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+    odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
+    odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
+    updatedCachedValues()
+  }
+  init()
+};
+gui.DirectTextStyler.textStylingChanged = "textStyling/changed";
+(function() {
+  return gui.DirectTextStyler
+})();
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+runtime.loadClass("core.EventNotifier");
+runtime.loadClass("core.Utils");
+runtime.loadClass("odf.OdfUtils");
+runtime.loadClass("ops.OpAddParagraphStyle");
+runtime.loadClass("ops.OpSetParagraphStyle");
+runtime.loadClass("gui.StyleHelper");
+gui.DirectParagraphStyler = function DirectParagraphStyler(session, inputMemberId, styleNameGenerator) {
+  var odtDocument = session.getOdtDocument(), utils = new core.Utils, odfUtils = new odf.OdfUtils, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), eventNotifier = new core.EventNotifier([gui.DirectParagraphStyler.paragraphStylingChanged]), isAlignedLeftValue, isAlignedCenterValue, isAlignedRightValue, isAlignedJustifiedValue;
+  function updatedCachedValues() {
+    var cursor = odtDocument.getCursor(inputMemberId), range = cursor && cursor.getSelectedRange(), diffMap;
+    function noteChange(oldValue, newValue, id) {
+      if(oldValue !== newValue) {
+        if(diffMap === undefined) {
+          diffMap = {}
+        }
+        diffMap[id] = newValue
+      }
+      return newValue
+    }
+    isAlignedLeftValue = noteChange(isAlignedLeftValue, range ? styleHelper.isAlignedLeft(range) : false, "isAlignedLeft");
+    isAlignedCenterValue = noteChange(isAlignedCenterValue, range ? styleHelper.isAlignedCenter(range) : false, "isAlignedCenter");
+    isAlignedRightValue = noteChange(isAlignedRightValue, range ? styleHelper.isAlignedRight(range) : false, "isAlignedRight");
+    isAlignedJustifiedValue = noteChange(isAlignedJustifiedValue, range ? styleHelper.isAlignedJustified(range) : false, "isAlignedJustified");
+    if(diffMap) {
+      eventNotifier.emit(gui.DirectParagraphStyler.paragraphStylingChanged, diffMap)
+    }
+  }
+  function onCursorAdded(cursor) {
+    if(cursor.getMemberId() === inputMemberId) {
+      updatedCachedValues()
+    }
+  }
+  function onCursorRemoved(memberId) {
+    if(memberId === inputMemberId) {
+      updatedCachedValues()
+    }
+  }
+  function onCursorMoved(cursor) {
+    if(cursor.getMemberId() === inputMemberId) {
+      updatedCachedValues()
+    }
+  }
+  function onParagraphStyleModified() {
+    updatedCachedValues()
+  }
+  function onParagraphChanged(args) {
+    var cursor = odtDocument.getCursor(inputMemberId);
+    if(cursor && odtDocument.getParagraphElement(cursor.getNode()) === args.paragraphElement) {
+      updatedCachedValues()
+    }
+  }
+  this.isAlignedLeft = function() {
+    return isAlignedLeftValue
+  };
+  this.isAlignedCenter = function() {
+    return isAlignedCenterValue
+  };
+  this.isAlignedRight = function() {
+    return isAlignedRightValue
+  };
+  this.isAlignedJustified = function() {
+    return isAlignedJustifiedValue
+  };
+  function applyParagraphDirectStyling(applyDirectStyling) {
+    var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), position = odtDocument.getCursorPosition(inputMemberId), paragraphs = odfUtils.getParagraphElements(range), formatting = odtDocument.getFormatting();
+    paragraphs.forEach(function(paragraph) {
+      var paragraphStartPoint = position + odtDocument.getDistanceFromCursor(inputMemberId, paragraph, 0), paragraphStyleName = paragraph.getAttributeNS(odf.Namespaces.textns, "style-name"), newParagraphStyleName = styleNameGenerator.generateName(), opAddParagraphStyle, opSetParagraphStyle, paragraphProperties;
+      paragraphStartPoint += 1;
+      if(paragraphStyleName) {
+        paragraphProperties = formatting.createDerivedStyleObject(paragraphStyleName, "paragraph", {})
+      }
+      paragraphProperties = applyDirectStyling(paragraphProperties || {});
+      opAddParagraphStyle = new ops.OpAddParagraphStyle;
+      opAddParagraphStyle.init({memberid:inputMemberId, styleName:newParagraphStyleName, isAutomaticStyle:true, setProperties:paragraphProperties});
+      opSetParagraphStyle = new ops.OpSetParagraphStyle;
+      opSetParagraphStyle.init({memberid:inputMemberId, styleName:newParagraphStyleName, position:paragraphStartPoint});
+      session.enqueue(opAddParagraphStyle);
+      session.enqueue(opSetParagraphStyle)
+    })
+  }
+  function applySimpleParagraphDirectStyling(styleOverrides) {
+    applyParagraphDirectStyling(function(paragraphStyle) {
+      return utils.mergeObjects(paragraphStyle, styleOverrides)
+    })
+  }
+  function alignParagraph(alignment) {
+    applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":alignment}})
+  }
+  this.alignParagraphLeft = function() {
+    alignParagraph("left");
+    return true
+  };
+  this.alignParagraphCenter = function() {
+    alignParagraph("center");
+    return true
+  };
+  this.alignParagraphRight = function() {
+    alignParagraph("right");
+    return true
+  };
+  this.alignParagraphJustified = function() {
+    alignParagraph("justify");
+    return true
+  };
+  function modifyParagraphIndent(direction, paragraphStyle) {
+    var tabStopDistance = odtDocument.getFormatting().getDefaultTabStopDistance(), paragraphProperties = paragraphStyle["style:paragraph-properties"], indentValue = paragraphProperties && paragraphProperties["fo:margin-left"], indent = indentValue && odfUtils.parseLength(indentValue), newIndent;
+    if(indent && indent.unit === tabStopDistance.unit) {
+      newIndent = indent.value + direction * tabStopDistance.value + indent.unit
+    }else {
+      newIndent = direction * tabStopDistance.value + tabStopDistance.unit
+    }
+    return utils.mergeObjects(paragraphStyle, {"style:paragraph-properties":{"fo:margin-left":newIndent}})
+  }
+  this.indent = function() {
+    applyParagraphDirectStyling(modifyParagraphIndent.bind(null, 1));
+    return true
+  };
+  this.outdent = function() {
+    applyParagraphDirectStyling(modifyParagraphIndent.bind(null, -1));
+    return true
+  };
+  this.subscribe = function(eventid, cb) {
+    eventNotifier.subscribe(eventid, cb)
+  };
+  this.unsubscribe = function(eventid, cb) {
+    eventNotifier.unsubscribe(eventid, cb)
+  };
+  this.destroy = function(callback) {
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+    odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+    odtDocument.unsubscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
+    odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
+    callback()
+  };
+  function init() {
+    odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+    odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+    odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
+    odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
+    updatedCachedValues()
+  }
+  init()
+};
+gui.DirectParagraphStyler.paragraphStylingChanged = "paragraphStyling/changed";
+(function() {
+  return gui.DirectParagraphStyler
+})();
 runtime.loadClass("core.DomUtils");
 runtime.loadClass("core.Utils");
 runtime.loadClass("odf.OdfUtils");
@@ -12422,14 +12759,14 @@ runtime.loadClass("ops.OpRemoveText");
 runtime.loadClass("ops.OpSplitParagraph");
 runtime.loadClass("ops.OpSetParagraphStyle");
 runtime.loadClass("ops.OpRemoveAnnotation");
-runtime.loadClass("gui.ClickHandler");
 runtime.loadClass("gui.Clipboard");
 runtime.loadClass("gui.KeyboardHandler");
-runtime.loadClass("gui.StyleHelper");
+runtime.loadClass("gui.DirectTextStyler");
+runtime.loadClass("gui.DirectParagraphStyler");
 gui.SessionController = function() {
-  gui.SessionController = function SessionController(session, inputMemberId) {
-    var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, clickHandler = new gui.ClickHandler, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, styleHelper = new gui.StyleHelper(odtDocument.getFormatting()), keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, undoManager = 
-    null, utils = new core.Utils, styleNameGenerator = new odf.StyleNameGenerator("auto" + utils.hashString(inputMemberId) + "_", odtDocument.getFormatting());
+  gui.SessionController = function SessionController(session, inputMemberId, args) {
+    var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), utils = new core.Utils, domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, styleNameGenerator = new odf.StyleNameGenerator("auto" + utils.hashString(inputMemberId) + 
+    "_", odtDocument.getFormatting()), undoManager = null, directTextStyler = args && args.directStylingEnabled ? new gui.DirectTextStyler(session, inputMemberId) : null, directParagraphStyler = args && args.directStylingEnabled ? new gui.DirectParagraphStyler(session, inputMemberId, styleNameGenerator) : null;
     runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
@@ -12591,9 +12928,6 @@ gui.SessionController = function() {
       session.enqueue(op)
     }
     function selectRange(e) {
-      if(!clickStartedWithinContainer) {
-        return
-      }
       runtime.setTimeout(function() {
         var selection = getSelection(e), oldPosition, stepsToAnchor, stepsToFocus, op;
         if(selection === null) {
@@ -12974,76 +13308,29 @@ gui.SessionController = function() {
       }
       return false
     }
-    function formatTextSelection(propertyName, propertyValue) {
-      var selection = odtDocument.getCursorSelection(inputMemberId), op = new ops.OpApplyDirectStyling, properties = {};
-      properties[propertyName] = propertyValue;
-      op.init({memberid:inputMemberId, position:selection.position, length:selection.length, setProperties:{"style:text-properties":properties}});
-      session.enqueue(op)
-    }
-    function toggleBold() {
-      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), value = styleHelper.isBold(range) ? "normal" : "bold";
-      formatTextSelection("fo:font-weight", value);
-      return true
-    }
-    function toggleItalic() {
-      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), value = styleHelper.isItalic(range) ? "normal" : "italic";
-      formatTextSelection("fo:font-style", value);
-      return true
-    }
-    function toggleUnderline() {
-      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), value = styleHelper.hasUnderline(range) ? "none" : "solid";
-      formatTextSelection("style:text-underline-style", value);
-      return true
-    }
     function filterMouseClicks(e) {
       clickStartedWithinContainer = e.target && domUtils.containsNode(odtDocument.getOdfCanvas().getElement(), e.target)
     }
-    function applyParagraphDirectStyling(applyDirectStyling) {
-      var range = odtDocument.getCursor(inputMemberId).getSelectedRange(), position = odtDocument.getCursorPosition(inputMemberId), paragraphs = odfUtils.getParagraphElements(range), formatting = odtDocument.getFormatting();
-      paragraphs.forEach(function(paragraph) {
-        var paragraphStartPoint = position + odtDocument.getDistanceFromCursor(inputMemberId, paragraph, 0), paragraphStyleName = paragraph.getAttributeNS(odf.Namespaces.textns, "style-name"), newParagraphStyleName = styleNameGenerator.generateName(), opAddParagraphStyle, opSetParagraphStyle, paragraphProperties;
-        paragraphStartPoint += 1;
-        if(paragraphStyleName) {
-          paragraphProperties = formatting.createDerivedStyleObject(paragraphStyleName, "paragraph", {})
-        }
-        paragraphProperties = applyDirectStyling(paragraphProperties || {});
-        opAddParagraphStyle = new ops.OpAddParagraphStyle;
-        opAddParagraphStyle.init({memberid:inputMemberId, styleName:newParagraphStyleName, isAutomaticStyle:true, setProperties:paragraphProperties});
-        session.enqueue(opAddParagraphStyle);
-        opSetParagraphStyle = new ops.OpSetParagraphStyle;
-        opSetParagraphStyle.init({memberid:inputMemberId, styleName:newParagraphStyleName, position:paragraphStartPoint});
-        session.enqueue(opSetParagraphStyle)
-      })
-    }
-    function applySimpleParagraphDirectStyling(styleOverrides) {
-      applyParagraphDirectStyling(function(paragraphStyle) {
-        return utils.mergeObjects(paragraphStyle, styleOverrides)
-      })
-    }
-    function alignParagraphLeft() {
-      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"left"}});
-      return true
-    }
-    function alignParagraphCenter() {
-      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"center"}});
-      return true
-    }
-    function alignParagraphRight() {
-      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"right"}});
-      return true
-    }
-    function alignParagraphJustified() {
-      applySimpleParagraphDirectStyling({"style:paragraph-properties":{"fo:text-align":"justify"}});
-      return true
-    }
-    function modifyParagraphIndent(direction, paragraphStyle) {
-      var tabStopDistance = odtDocument.getFormatting().getDefaultTabStopDistance(), paragraphProperties = paragraphStyle["style:paragraph-properties"], indentValue = paragraphProperties && paragraphProperties["fo:margin-left"], indent = indentValue && odfUtils.parseLength(indentValue), newIndent;
-      if(indent && indent.unit === tabStopDistance.unit) {
-        newIndent = indent.value + direction * tabStopDistance.value + indent.unit
+    function handleMouseUp(event) {
+      var target = event.target, clickCount = event.detail, annotationNode = null;
+      if(target.className === "annotationRemoveButton") {
+        annotationNode = domUtils.getElementsByTagNameNS(target.parentNode, odf.Namespaces.officens, "annotation")[0];
+        removeAnnotation(annotationNode)
       }else {
-        newIndent = direction * tabStopDistance.value + tabStopDistance.unit
+        if(clickStartedWithinContainer) {
+          if(clickCount === 1) {
+            selectRange(event)
+          }else {
+            if(clickCount === 2) {
+              selectWord()
+            }else {
+              if(clickCount === 3) {
+                selectParagraph()
+              }
+            }
+          }
+        }
       }
-      return utils.mergeObjects(paragraphStyle, {"style:paragraph-properties":{"fo:margin-left":newIndent}})
     }
     this.startEditing = function() {
       var canvasElement, op;
@@ -13057,7 +13344,7 @@ gui.SessionController = function() {
       listenEvent(canvasElement, "beforepaste", handleBeforePaste, true);
       listenEvent(canvasElement, "paste", handlePaste);
       listenEvent(window, "mousedown", filterMouseClicks);
-      listenEvent(window, "mouseup", clickHandler.handleMouseUp);
+      listenEvent(window, "mouseup", handleMouseUp);
       listenEvent(canvasElement, "contextmenu", handleContextMenu);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, maintainCursorSelection);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, updateUndoStack);
@@ -13082,7 +13369,7 @@ gui.SessionController = function() {
       removeEvent(canvasElement, "paste", handlePaste);
       removeEvent(canvasElement, "beforepaste", handleBeforePaste);
       removeEvent(window, "mousedown", filterMouseClicks);
-      removeEvent(window, "mouseup", clickHandler.handleMouseUp);
+      removeEvent(window, "mouseup", handleMouseUp);
       removeEvent(canvasElement, "contextmenu", handleContextMenu);
       op = new ops.OpRemoveCursor;
       op.init({memberid:inputMemberId});
@@ -13090,18 +13377,6 @@ gui.SessionController = function() {
       if(undoManager) {
         undoManager.resetInitialState()
       }
-    };
-    this.alignParagraphLeft = alignParagraphLeft;
-    this.alignParagraphCenter = alignParagraphCenter;
-    this.alignParagraphRight = alignParagraphRight;
-    this.alignParagraphJustified = alignParagraphJustified;
-    this.indent = function() {
-      applyParagraphDirectStyling(modifyParagraphIndent.bind(null, 1));
-      return true
-    };
-    this.outdent = function() {
-      applyParagraphDirectStyling(modifyParagraphIndent.bind(null, -1));
-      return true
     };
     this.getInputMemberId = function() {
       return inputMemberId
@@ -13125,8 +13400,25 @@ gui.SessionController = function() {
     this.getUndoManager = function() {
       return undoManager
     };
+    this.getDirectTextStyler = function() {
+      return directTextStyler
+    };
+    this.getDirectParagraphStyler = function() {
+      return directParagraphStyler
+    };
     this.destroy = function(callback) {
-      callback()
+      var destroyDirectTextStyler = directTextStyler ? directTextStyler.destroy : function(cb) {
+        cb()
+      }, destroyDirectParagraphStyler = directParagraphStyler ? directParagraphStyler.destroy : function(cb) {
+        cb()
+      };
+      destroyDirectTextStyler(function(err) {
+        if(err) {
+          callback(err)
+        }else {
+          destroyDirectParagraphStyler(callback)
+        }
+      })
     };
     function init() {
       var isMacOS = window.navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
@@ -13167,24 +13459,32 @@ gui.SessionController = function() {
         keyDownHandler.bind(keyCode.Up, modifier.MetaShift, extendSelectionToDocumentStart);
         keyDownHandler.bind(keyCode.Down, modifier.MetaShift, extendSelectionToDocumentEnd);
         keyDownHandler.bind(keyCode.A, modifier.Meta, extendSelectionToEntireDocument);
-        keyDownHandler.bind(keyCode.B, modifier.Meta, toggleBold);
-        keyDownHandler.bind(keyCode.I, modifier.Meta, toggleItalic);
-        keyDownHandler.bind(keyCode.U, modifier.Meta, toggleUnderline);
-        keyDownHandler.bind(keyCode.L, modifier.MetaShift, alignParagraphLeft);
-        keyDownHandler.bind(keyCode.E, modifier.MetaShift, alignParagraphCenter);
-        keyDownHandler.bind(keyCode.R, modifier.MetaShift, alignParagraphRight);
-        keyDownHandler.bind(keyCode.J, modifier.MetaShift, alignParagraphJustified);
+        if(directTextStyler) {
+          keyDownHandler.bind(keyCode.B, modifier.Meta, directTextStyler.toggleBold);
+          keyDownHandler.bind(keyCode.I, modifier.Meta, directTextStyler.toggleItalic);
+          keyDownHandler.bind(keyCode.U, modifier.Meta, directTextStyler.toggleUnderline)
+        }
+        if(directParagraphStyler) {
+          keyDownHandler.bind(keyCode.L, modifier.MetaShift, directParagraphStyler.alignParagraphLeft);
+          keyDownHandler.bind(keyCode.E, modifier.MetaShift, directParagraphStyler.alignParagraphCenter);
+          keyDownHandler.bind(keyCode.R, modifier.MetaShift, directParagraphStyler.alignParagraphRight);
+          keyDownHandler.bind(keyCode.J, modifier.MetaShift, directParagraphStyler.alignParagraphJustified)
+        }
         keyDownHandler.bind(keyCode.Z, modifier.Meta, undo);
         keyDownHandler.bind(keyCode.Z, modifier.MetaShift, redo)
       }else {
         keyDownHandler.bind(keyCode.A, modifier.Ctrl, extendSelectionToEntireDocument);
-        keyDownHandler.bind(keyCode.B, modifier.Ctrl, toggleBold);
-        keyDownHandler.bind(keyCode.I, modifier.Ctrl, toggleItalic);
-        keyDownHandler.bind(keyCode.U, modifier.Ctrl, toggleUnderline);
-        keyDownHandler.bind(keyCode.L, modifier.CtrlShift, alignParagraphLeft);
-        keyDownHandler.bind(keyCode.E, modifier.CtrlShift, alignParagraphCenter);
-        keyDownHandler.bind(keyCode.R, modifier.CtrlShift, alignParagraphRight);
-        keyDownHandler.bind(keyCode.J, modifier.CtrlShift, alignParagraphJustified);
+        if(directTextStyler) {
+          keyDownHandler.bind(keyCode.B, modifier.Ctrl, directTextStyler.toggleBold);
+          keyDownHandler.bind(keyCode.I, modifier.Ctrl, directTextStyler.toggleItalic);
+          keyDownHandler.bind(keyCode.U, modifier.Ctrl, directTextStyler.toggleUnderline)
+        }
+        if(directParagraphStyler) {
+          keyDownHandler.bind(keyCode.L, modifier.CtrlShift, directParagraphStyler.alignParagraphLeft);
+          keyDownHandler.bind(keyCode.E, modifier.CtrlShift, directParagraphStyler.alignParagraphCenter);
+          keyDownHandler.bind(keyCode.R, modifier.CtrlShift, directParagraphStyler.alignParagraphRight);
+          keyDownHandler.bind(keyCode.J, modifier.CtrlShift, directParagraphStyler.alignParagraphJustified)
+        }
         keyDownHandler.bind(keyCode.Z, modifier.Ctrl, undo);
         keyDownHandler.bind(keyCode.Z, modifier.CtrlShift, redo)
       }
@@ -13196,18 +13496,7 @@ gui.SessionController = function() {
         }
         return false
       });
-      keyPressHandler.bind(keyCode.Enter, modifier.None, enqueueParagraphSplittingOps);
-      clickHandler.subscribe(gui.ClickHandler.signalSingleClick, function(event) {
-        var target = event.target, annotationNode = null;
-        if(target.className === "annotationRemoveButton") {
-          annotationNode = domUtils.getElementsByTagNameNS(target.parentNode, odf.Namespaces.officens, "annotation")[0];
-          removeAnnotation(annotationNode)
-        }else {
-          selectRange(event)
-        }
-      });
-      clickHandler.subscribe(gui.ClickHandler.signalDoubleClick, selectWord);
-      clickHandler.subscribe(gui.ClickHandler.signalTripleClick, selectParagraph)
+      keyPressHandler.bind(keyCode.Enter, modifier.None, enqueueParagraphSplittingOps)
     }
     init()
   };
@@ -14682,8 +14971,8 @@ runtime.loadClass("gui.SelectionMover");
 runtime.loadClass("gui.StyleHelper");
 runtime.loadClass("core.PositionFilterChain");
 ops.OdtDocument = function OdtDocument(odfCanvas) {
-  var self = this, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", odfUtils, cursors = {}, eventNotifier = new core.EventNotifier([ops.OdtDocument.signalCursorAdded, ops.OdtDocument.signalCursorRemoved, ops.OdtDocument.signalCursorMoved, ops.OdtDocument.signalParagraphChanged, ops.OdtDocument.signalParagraphStyleModified, ops.OdtDocument.signalStyleCreated, ops.OdtDocument.signalStyleDeleted, ops.OdtDocument.signalTableAdded, ops.OdtDocument.signalOperationExecuted, ops.OdtDocument.signalUndoStackChanged]), 
-  FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT, filter;
+  var self = this, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", odfUtils, cursors = {}, eventNotifier = new core.EventNotifier([ops.OdtDocument.signalCursorAdded, ops.OdtDocument.signalCursorRemoved, ops.OdtDocument.signalCursorMoved, ops.OdtDocument.signalParagraphChanged, ops.OdtDocument.signalParagraphStyleModified, ops.OdtDocument.signalCommonParagraphStyleCreated, ops.OdtDocument.signalCommonParagraphStyleDeleted, ops.OdtDocument.signalTableAdded, ops.OdtDocument.signalOperationExecuted, 
+  ops.OdtDocument.signalUndoStackChanged]), FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT, filter;
   function getRootNode() {
     var element = odfCanvas.odfContainer().getContentElement(), localName = element && element.localName;
     runtime.assert(localName === "text", "Unsupported content element type '" + localName + "'for OdtDocument");
@@ -15075,8 +15364,8 @@ ops.OdtDocument.signalCursorRemoved = "cursor/removed";
 ops.OdtDocument.signalCursorMoved = "cursor/moved";
 ops.OdtDocument.signalParagraphChanged = "paragraph/changed";
 ops.OdtDocument.signalTableAdded = "table/added";
-ops.OdtDocument.signalStyleCreated = "style/created";
-ops.OdtDocument.signalStyleDeleted = "style/deleted";
+ops.OdtDocument.signalCommonParagraphStyleCreated = "style/created";
+ops.OdtDocument.signalCommonParagraphStyleDeleted = "style/deleted";
 ops.OdtDocument.signalParagraphStyleModified = "paragraphstyle/modified";
 ops.OdtDocument.signalOperationExecuted = "operation/executed";
 ops.OdtDocument.signalUndoStackChanged = "undo/changed";
