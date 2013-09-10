@@ -5,8 +5,11 @@ var documentsMain = {
 	_members: [],
 	isEditormode : false,
 	useUnstable : false,
+	mainTitle : '', 
+	documentTitle : '',
 	onStartup: function() {
 		"use strict";
+		documentsMain.mainTitle = $('title').text();
 		$('<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>').hide().appendTo(document.body);
 		OC.addScript('documents', 'dojo-amalgamation', function() {
 			OC.addScript('documents', 'webodf-debug').done(function() {
@@ -80,6 +83,7 @@ var documentsMain = {
 
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
+					$('title').text(documentsMain.documentTitle);
 					documentsMain.webodfEditorInstance.startEditing();
 					documentsMain.hideOverlay();
 				});
@@ -167,6 +171,7 @@ var documentsMain = {
 					$('.actions,#file_access_panel').fadeIn('slow');
 					$('#content').fadeIn('slow');
 					$(document.body).removeClass('claro');
+					$('title').text(documentsMain.mainTitle);
 				});
 			});
 // 			});
@@ -266,6 +271,7 @@ $(document).ready(function() {
 			return;
 		}
 		documentsMain.isEditorMode = true;
+		documentsMain.documentTitle = documentsMain.mainTitle + '| ' + $(this).find('label').text();
 		documentsMain.showOverlay();
 
 		if ($(this).attr('data-esid')){
