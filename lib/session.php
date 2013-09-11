@@ -135,7 +135,13 @@ class Session extends Db{
 
 	protected static function getUniqueSessionId(){
 		do {
-			$id = \OC_Util::generate_random_bytes(30);
+			// this prevents branching for stable5 for now:
+			// OC_Util::generate_random_bytes was camelCased
+			if (method_exists('\OC_Util', 'generate_random_bytes')) {
+				$id = \OC_Util::generate_random_bytes(30);
+			} else {
+				$id = \OC_Util::generateRandomBytes(30);
+			}
 		} while (self::getSession($id));
 		
 		return $id;
