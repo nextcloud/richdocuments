@@ -61,8 +61,6 @@ class Storage {
 			return;
 		}
 		
-		Member::deleteBySessionId($session['es_id']);
-		Op::deleteBySessionId($session['es_id']);
-		Session::deleteByFileid($fileId);
+		Session::cleanUp($session['es_id']);
 	}
 }

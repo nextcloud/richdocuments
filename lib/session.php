@@ -128,9 +128,15 @@ class Session extends Db{
 		return $info;
 	}
 	
-	public static function deleteByFileid($fileId){
-		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `file_id` = ?');
-		$query->execute(array($fileId));
+	public static function cleanUp($esId){
+		self::delete($esId);
+		Member::deleteBySessionId($esId);
+		Op::deleteBySessionId($esId);
+	}
+
+	public static function delete($esId){
+		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `es_id` = ?');
+		$query->execute(array($esId));
 	}
 
 	protected static function getUniqueSessionId(){

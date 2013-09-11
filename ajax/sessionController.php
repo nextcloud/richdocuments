@@ -121,7 +121,10 @@ class SessionController extends Controller{
 				throw new \Exception('Document does not exist or is not writable for this user');
 			}
 			
-			$view->file_put_contents($path, $content);
+			if ($view->file_put_contents($path, $content)){
+				//Document saved successfully. Cleaning session data
+				Session::cleanUp($sessionID);
+			}
 			\OCP\JSON::success();
 			exit();
 		} catch (\Exception $e){
