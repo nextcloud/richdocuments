@@ -9,8 +9,10 @@
 	display: inline-block;
 	height: 200px;
 	width: 200px;
+	background-color: #e8e8e8;
 	margin: 1em;
 	vertical-align: top;
+	border-radius: 5px;
 }
 .add-document a {
 	display: inline-block;
@@ -31,17 +33,26 @@
 	position: absolute;
 	bottom: 5px;
 	width: 100%;
-	color: white;
-	text-shadow: 0 0 10px #000;
+	font-weight: normal;
 	text-align: center;
 }
+
 .documentslist .document {
 	display: inline-block;
 	height: 200px;
 	width: 200px;
+	background-color: #e8e8e8;
 	margin: 1em;
 	vertical-align: top;
+	border-radius: 5px;
 }
+.documentslist .document:hover,
+.documentslist .document:focus,
+.documentslist .add-document:hover,
+.documentslist .add-document:focus {
+	background-color: #ddd;
+}
+
 .documentslist .session-active {
 	position: relative;
 	margin-left: 128px;
@@ -61,9 +72,15 @@
 	position: absolute;
 	bottom: 5px;
 	width: 100%;
-	color: white;
-	text-shadow: 0 0 10px #000;
+	font-weight: normal;
+	text-overflow: ellipsis;
+	overflow: hidden;
 	text-align: center;
+	padding: 0 8px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	white-space: nowrap;
 }
 
 #odf-toolbar{
