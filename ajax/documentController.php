@@ -38,7 +38,8 @@ class DocumentController extends Controller{
 		$documents = Storage::getDocuments();
 
 		$fileIds = array();
-		foreach ($documents as $document) {
+		foreach ($documents as $key=>$document) {
+			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OC_Helper::mimetypeIcon($document['mimetype']));
 			$fileIds[] = $document['fileid'];
 		}
 
