@@ -218,10 +218,8 @@ var documentsMain = {
 			var a = docElem.find('a');
 			a.attr('href', OC.Router.generate('download',{file:document.path}));
 			a.find('label').text(document.name);
+			a.css('background-image', 'url("'+document.icon+'")');
 
-			getMimeIcon(document.mimetype).then(function(path){
-				a.css('background-image', 'url("'+path+'")');
-			});
 			$('.documentslist').append(docElem);
 			docElem.show();
 		});
@@ -240,30 +238,6 @@ var documentsMain = {
 	}
 };
 
-
-/**
- * TODO copy from files, move from files to core? load files.js?
- * @param {type} mime
- * @returns {getMimeIcon}
- */
-function getMimeIcon(mime){
-	var def = new $.Deferred();
-	if(getMimeIcon.cache[mime]){
-		def.resolve(getMimeIcon.cache[mime]);
-	}else{
-		jQuery.getJSON( OC.filePath('documents','ajax','mimeicon.php'), {mime: mime})
-		.done(function(data){
-			getMimeIcon.cache[mime]=data.path;
-			def.resolve(getMimeIcon.cache[mime]);
-		})
-		.error(function(jqXHR, textStatus, errorThrown){
-			console.log(textStatus + ': ' + errorThrown);
-			console.log(jqXHR);
-		});
-	}
-	return def;
-}
-getMimeIcon.cache={};
 
 $(document).ready(function() {
 	"use strict";
