@@ -90,6 +90,15 @@
 	z-index: 500;
 }
 
+#document-title{
+	position: relative;
+	top: 6px;
+	width:50%;
+	margin:0 auto -14px auto;
+	text-align: center;
+	font-weight: bold;
+}
+
 #odf-close{
 	float: right;
 }

@@ -44,6 +44,9 @@ var documentsMain = {
 					'  <button id="odf-close">' +
 						t('documents', 'Close') +
 					'  </button>' +
+					'<div id="document-title">' +
+					documentsMain.documentTitle +
+			        '</div>' +
 					'  <button id="odf-invite">' +
 						t('documents', 'Invite') +
 					'  </button>' +
@@ -83,7 +86,7 @@ var documentsMain = {
 
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
-					$('title').text(documentsMain.documentTitle);
+					$('title').text(documentsMain.mainTitle + '| ' + documentsMain.documentTitle);
 					documentsMain.webodfEditorInstance.startEditing();
 					documentsMain.hideOverlay();
 				});
@@ -271,7 +274,7 @@ $(document).ready(function() {
 			return;
 		}
 		documentsMain.isEditorMode = true;
-		documentsMain.documentTitle = documentsMain.mainTitle + '| ' + $(this).find('label').text();
+		documentsMain.documentTitle = $(this).find('label').text();
 		documentsMain.showOverlay();
 
 		if ($(this).attr('data-esid')){
