@@ -91,11 +91,11 @@
 }
 
 #odf-close{
-	float:left;
+	float: right;
 }
 
 #odf-invite{
-	float:right;
+	float: left;
 }
 
 #mainContainer #collaboration{
@@ -129,9 +129,9 @@
     width: 100%;
     height: 100%;
     filter:alpha(opacity=30);
-    opacity: 0.3;
+    opacity: .3;
     z-index: 1000;
-	background: #000 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
+	background: #111 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
 }
 #documents-overlay-below{
 	left:0;

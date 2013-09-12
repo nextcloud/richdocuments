@@ -25,15 +25,16 @@ html, body, #mainContainer {
 
 #toolbar {
     overflow: hidden;
+    border-bottom: none;
+    padding: 6px 0;
 }
 
 #container {
     text-align: center;
     background-color: #ddd;
     overflow: auto;
-
     position: absolute;
-    top: 30px;
+    top: 38px;
     bottom: 0;
     left: 0;
     right: 0;
