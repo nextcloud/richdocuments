@@ -11,9 +11,9 @@
 <div id="documents-content">
 	<ul class="documentslist">
 		<li class="add-document">
-			<!-- <a class="add svg" target="_blank" href="">
+			<a class="add svg" target="_blank" href="">
 				<label><?php p('Add') ?></label>
-			</a> -->
+			</a>
 			<a class="upload svg" target="_blank" href="">
 				<label><?php p('Upload') ?></label>
 			</a>
