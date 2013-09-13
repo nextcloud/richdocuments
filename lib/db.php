@@ -17,7 +17,7 @@ class Db {
 	 * @param Array $array data
 	 * @return String string of '?' placeholders matching the number of elements in array
 	 */
-	public function buildPlaceholders($array){
+	public static function buildPlaceholders($array){
 		$count = count($array);
 		$placeholders = array_fill(0, $count, '?');
 		$stmt = implode(', ', $placeholders);
