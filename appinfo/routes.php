@@ -12,6 +12,11 @@
 /**
  * Document routes
  */
+
+$this->create('documents_documents_create', 'ajax/documents/create')
+	->post()
+	->action('\OCA\Documents\DocumentController', 'create')
+;
 $this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->post()
 	->action('\OCA\Documents\DocumentController', 'serve')

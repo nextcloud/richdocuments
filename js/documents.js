@@ -113,6 +113,15 @@ var documentsMain = {
 			documentsMain.initSession
 		);
 	},
+			
+	onCreate: function(event){
+		event.preventDefault();
+		$.post(
+			OC.Router.generate('documents_documents_create'),
+			{},
+			documentsMain.show
+		);
+	},
 	/**
 	 * FIXME
 	 * 
@@ -186,6 +195,12 @@ var documentsMain = {
 	hideOverlay : function(){
 		$('#documents-overlay,#documents-overlay-below').fadeOut('slow');
 	},
+	show: function(){
+		jQuery.when(documentsMain.loadDocuments())
+			.then(function(){
+				documentsMain.renderDocuments();
+			});
+	},
 	loadDocuments: function () {
 		var self = this;
 		var def = new $.Deferred();
@@ -242,7 +257,7 @@ var documentsMain = {
 $(document).ready(function() {
 	"use strict";
 	
-	$('.documentslist').on('click', 'li', function(event) {
+	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
 		if (documentsMain.isEditorMode){
 			return;
@@ -264,6 +279,8 @@ $(document).ready(function() {
 	$(document.body).on('click', '#invitee-list li', function(){
 		$(this).remove();
 	});
+	
+	$('.add-document').on('click', '.add', documentsMain.onCreate);
 	
 	$('#inivite-input').autocomplete({
 		minLength: 1,
@@ -296,10 +313,7 @@ $(document).ready(function() {
 		}
 	});
 
-	jQuery.when(documentsMain.loadDocuments())
-			.then(function(){
-				documentsMain.renderDocuments();
-			});
+	documentsMain.show();
 	//TODO show "no docs, please upload"
 	//TODO when ending a session as the last user close session?
 
