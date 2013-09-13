@@ -74,14 +74,17 @@
 }
 
 #document-title{
-	position: relative;
+	position: absolute;
 	top: 6px;
-	width:50%;
-	margin:0 auto -14px auto;
+	left:50%;
+	margin:0;
 	text-align: center;
 	font-weight: bold;
 }
-
+#document-title div{
+	position: relative;
+	margin-left:-50%;
+}
 #odf-close{
 	float:left;
 }
