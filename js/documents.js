@@ -314,6 +314,8 @@ $(document).ready(function() {
 	});
 
 	documentsMain.show();
+	var file_upload_start = $('#file_upload_start');
+	file_upload_start.on('fileuploaddone', documentsMain.show);
 	//TODO show "no docs, please upload"
 	//TODO when ending a session as the last user close session?
 

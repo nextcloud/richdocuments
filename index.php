@@ -36,7 +36,7 @@ namespace OCA\Documents;
 \OCP\Util::addScript('files', 'file-upload');
 \OCP\Util::addScript('files', 'jquery.iframe-transport');
 \OCP\Util::addScript('files', 'jquery.fileupload');
-\OCP\Util::addScript('files', 'upload');
+
 
 $tmpl = new \OCP\Template('documents', 'documents', 'user');
 $maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
