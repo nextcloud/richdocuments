@@ -140,3 +140,13 @@
 #members{
 	padding-top: 3em !important;
 }
+
+#file_upload_start{
+	position:relative;
+	left:0; top:0; width:200px; height:200px; 
+	margin-bottom: -200px;padding:0;
+	cursor:pointer; overflow:hidden;
+	font-size:1em;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
+	z-index:20; 
+	}
