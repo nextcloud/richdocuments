@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-08 19:34-0400\n"
-"PO-Revision-Date: 2013-09-08 23:34+0000\n"
+"POT-Creation-Date: 2013-09-13 19:44-0400\n"
+"PO-Revision-Date: 2013-09-13 23:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/documents.js:29
+#: js/documents.js:32
 msgid "Oops! This document has been either unshared or deleted recently."
 msgstr ""
 
-#: js/documents.js:42
+#: js/documents.js:45
 msgid "Close"
 msgstr " 關閉"
 
-#: js/documents.js:45
+#: js/documents.js:51
 msgid "Invite"
 msgstr "邀請"
 
-#: js/documents.js:124
+#: js/documents.js:140
 msgid "Users in session:"
 msgstr "上線的使用者："
 
-#: js/documents.js:193
+#: js/documents.js:216
 msgid "Failed to load documents."
 msgstr "載入文件失敗"
 
@@ -61,6 +61,10 @@ msgstr "以接受"
 #: lib/invite.php:74
 msgid "Incoming"
 msgstr "新進的"
+
+#: templates/documents.php:17
+msgid "Upload"
+msgstr ""
 
 #: templates/settings.php:2
 msgid "Documents"
