@@ -33,6 +33,14 @@ namespace OCA\Documents;
 \OCP\Util::addStyle( 'documents', 'editor' );
 \OCP\Util::addScript('documents', 'documents');
 
+\OCP\Util::addScript('files', 'file-upload');
+\OCP\Util::addScript('files', 'jquery.iframe-transport');
+\OCP\Util::addScript('files', 'jquery.fileupload');
+\OCP\Util::addScript('files', 'upload');
+
 $tmpl = new \OCP\Template('documents', 'documents', 'user');
+$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
+$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 
 $tmpl->printPage();
