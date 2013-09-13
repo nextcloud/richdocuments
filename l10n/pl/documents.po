@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-08 19:34-0400\n"
-"PO-Revision-Date: 2013-09-08 23:34+0000\n"
+"POT-Creation-Date: 2013-09-13 19:44-0400\n"
+"PO-Revision-Date: 2013-09-13 23:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,23 +18,23 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: js/documents.js:29
+#: js/documents.js:32
 msgid "Oops! This document has been either unshared or deleted recently."
 msgstr ""
 
-#: js/documents.js:42
+#: js/documents.js:45
 msgid "Close"
 msgstr "Zamknij"
 
-#: js/documents.js:45
+#: js/documents.js:51
 msgid "Invite"
 msgstr "Zaproś"
 
-#: js/documents.js:124
+#: js/documents.js:140
 msgid "Users in session:"
 msgstr "Użytkownicy w sesji:"
 
-#: js/documents.js:193
+#: js/documents.js:216
 msgid "Failed to load documents."
 msgstr "Nie można wczytać dokumentów."
 
@@ -61,6 +61,10 @@ msgstr "Zaakceptowane"
 #: lib/invite.php:74
 msgid "Incoming"
 msgstr "Przychodzące"
+
+#: templates/documents.php:17
+msgid "Upload"
+msgstr ""
 
 #: templates/settings.php:2
 msgid "Documents"

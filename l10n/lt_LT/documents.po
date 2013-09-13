@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-08 19:34-0400\n"
-"PO-Revision-Date: 2013-09-08 23:34+0000\n"
+"POT-Creation-Date: 2013-09-13 19:44-0400\n"
+"PO-Revision-Date: 2013-09-13 23:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -17,25 +18,25 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: js/documents.js:29
+#: js/documents.js:32
 msgid "Oops! This document has been either unshared or deleted recently."
-msgstr ""
+msgstr "Oho! Dalinimasis šiuo dokumentu buvo nutrauktas, arba dokumentas buvo tik ką ištrintas."
 
-#: js/documents.js:42
+#: js/documents.js:45
 msgid "Close"
 msgstr "Užverti"
 
-#: js/documents.js:45
+#: js/documents.js:51
 msgid "Invite"
-msgstr ""
+msgstr "Pakviesti"
 
-#: js/documents.js:124
+#: js/documents.js:140
 msgid "Users in session:"
-msgstr ""
+msgstr "Naudotojai sesijoje:"
 
-#: js/documents.js:193
+#: js/documents.js:216
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Nepavyko įkelti dokumentų."
 
 #: js/documents.js:295
 msgid "No people found"
@@ -43,32 +44,36 @@ msgstr "Žmonių nerasta"
 
 #: js/documents.js:304
 msgid "Remove from the list"
-msgstr ""
+msgstr "Pašalinti iš sąrašo"
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Išsiųsta"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Atmesta"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Priimta"
 
 #: lib/invite.php:74
 msgid "Incoming"
+msgstr "Įeinantys"
+
+#: templates/documents.php:17
+msgid "Upload"
 msgstr ""
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumentacija"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Išsamesni funkcijų nustatymai"
 
 #: templates/settings.php:13
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Nestabilus)"

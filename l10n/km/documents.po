@@ -3,9 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Twiguard, 2013
-# cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
-# pstast <petr@stastny.eu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
@@ -13,56 +10,56 @@ msgstr ""
 "POT-Creation-Date: 2013-09-13 19:44-0400\n"
 "PO-Revision-Date: 2013-09-13 23:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
-"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
+"Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: km\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: js/documents.js:32
 msgid "Oops! This document has been either unshared or deleted recently."
-msgstr "Jejda! Tento dokument byl nedávno buď odsdílen nebo smazán."
+msgstr ""
 
 #: js/documents.js:45
 msgid "Close"
-msgstr "Zavřít"
+msgstr ""
 
 #: js/documents.js:51
 msgid "Invite"
-msgstr "Pozvat"
+msgstr ""
 
 #: js/documents.js:140
 msgid "Users in session:"
-msgstr "Uživatelé v sezení:"
+msgstr ""
 
 #: js/documents.js:216
 msgid "Failed to load documents."
-msgstr "Nepodařilo se načíst dokumenty."
+msgstr ""
 
 #: js/documents.js:295
 msgid "No people found"
-msgstr "Žádní lidé nenalezeni"
+msgstr ""
 
 #: js/documents.js:304
 msgid "Remove from the list"
-msgstr "Odebrat ze seznamu"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr "Odesláno"
+msgstr ""
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr "Zamítnuto"
+msgstr ""
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr "Schváleno"
+msgstr ""
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr "Příchozí"
+msgstr ""
 
 #: templates/documents.php:17
 msgid "Upload"
@@ -70,12 +67,12 @@ msgstr ""
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr "Dokumenty"
+msgstr ""
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
-msgstr "Pokročilá sada možností"
+msgstr ""
 
 #: templates/settings.php:13
 msgid "(Unstable)"
-msgstr "(Nestabilní)"
+msgstr ""
