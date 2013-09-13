@@ -18,8 +18,16 @@ class DocumentController extends Controller{
 	public static function create($args){
 		$uid = self::preDispatch();
 		$view = new \OC\Files\View('/' . $uid . '/files');
+		$name = '/New Document.odt';
+		$fileNum = 0;
+		
+		while ($view->file_exists($name)){
+			$fileNum += 1;
+			$name = preg_replace('/(\.odt|\(\d+\)\.odt)$/', ' (' .$fileNum . ').odt', $name);
+		};
+
 		$view->file_put_contents(
-				'document.odt', 
+				$name, 
 				base64_decode(self::ODT_TEMPLATE)
 		);
 	}
