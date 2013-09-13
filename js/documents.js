@@ -44,9 +44,9 @@ var documentsMain = {
 					'  <button id="odf-close">' +
 						t('documents', 'Close') +
 					'  </button>' +
-					'<div id="document-title">' +
+					'<div id="document-title"><div>' +
 					documentsMain.documentTitle +
-			        '</div>' +
+			        '</div></div>' +
 					'  <button id="odf-invite">' +
 						t('documents', 'Invite') +
 					'  </button>' +
