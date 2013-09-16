@@ -110,11 +110,6 @@
 	float: left;
 }
 
-#mainContainer #collaboration{
-	float:right;position: relative;z-index: 1;
-	width: 70px;padding:5px;
-}
-
 #invite-block{
 	position: absolute;
 	top:3em;
@@ -145,6 +140,7 @@
     z-index: 1000;
 	background: #111 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
 }
+
 #documents-overlay-below{
 	left:0;
 	top:0;
@@ -167,10 +163,14 @@
 
 /* override WebODF styling here */
 
+#mainContainer #collaboration{
+	float:right;position: relative;z-index: 1;
+	width: 70px;padding:5px;
+}
+
 #members{
 	padding-top: 3em !important;
 }
-
 
 #editor {
 	box-shadow: 0px 0px 14px #555 !important;

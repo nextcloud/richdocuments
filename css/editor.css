@@ -25,8 +25,6 @@ html, body, #mainContainer {
 
 #toolbar {
     overflow: hidden;
-    border-bottom: none;
-    padding: 6px 0;
 }
 
 #container {
@@ -34,7 +32,7 @@ html, body, #mainContainer {
     background-color: #FAFAFA;
     overflow: auto;
     position: absolute;
-    top: 38px;
+    top: 30px;
     bottom: 0;
     left: 0;
     right: 0;
