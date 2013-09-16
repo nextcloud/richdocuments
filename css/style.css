@@ -9,8 +9,10 @@
 	display: inline-block;
 	height: 200px;
 	width: 200px;
+	background-color: #e8e8e8;
 	margin: 1em;
 	vertical-align: top;
+	border-radius: 5px;
 }
 .add-document a {
 	display: inline-block;
@@ -31,17 +33,26 @@
 	position: absolute;
 	bottom: 5px;
 	width: 100%;
-	color: white;
-	text-shadow: 0 0 10px #000;
+	font-weight: normal;
 	text-align: center;
 }
+
 .documentslist .document {
 	display: inline-block;
 	height: 200px;
 	width: 200px;
+	background-color: #e8e8e8;
 	margin: 1em;
 	vertical-align: top;
+	border-radius: 5px;
 }
+.documentslist .document:hover,
+.documentslist .document:focus,
+.documentslist .add-document:hover,
+.documentslist .add-document:focus {
+	background-color: #ddd;
+}
+
 .documentslist .session-active {
 	position: relative;
 	margin-left: 128px;
@@ -61,9 +72,15 @@
 	position: absolute;
 	bottom: 5px;
 	width: 100%;
-	color: white;
-	text-shadow: 0 0 10px #000;
+	font-weight: normal;
+	text-overflow: ellipsis;
+	overflow: hidden;
 	text-align: center;
+	padding: 0 8px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	white-space: nowrap;
 }
 
 #odf-toolbar{
@@ -86,16 +103,11 @@
 	margin-left:-50%;
 }
 #odf-close{
-	float:left;
+	float: right;
 }
 
 #odf-invite{
-	float:right;
-}
-
-#mainContainer #collaboration{
-	float:right;position: relative;z-index: 1;
-	width: 70px;padding:5px;
+	float: left;
 }
 
 #invite-block{
@@ -124,10 +136,11 @@
     width: 100%;
     height: 100%;
     filter:alpha(opacity=30);
-    opacity: 0.3;
+    opacity: .3;
     z-index: 1000;
-	background: #000 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
+	background: #111 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
 }
+
 #documents-overlay-below{
 	left:0;
 	top:0;
@@ -135,10 +148,6 @@
     opacity: 1;
 	background:#f0f0f0;
 	z-index: 999;
-}
-
-#members{
-	padding-top: 3em !important;
 }
 
 #file_upload_start{
@@ -149,4 +158,30 @@
 	font-size:1em;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
 	z-index:20; 
+}
+
+
+/* override WebODF styling here */
+
+#mainContainer #collaboration{
+	float:right;position: relative;z-index: 1;
+	width: 70px;padding:5px;
+}
+
+#members{
+	padding-top: 3em !important;
+}
+
+#editor {
+	box-shadow: 0px 0px 14px #555 !important;
+}
+
+#toolbar {
+	border-bottom: none !important;
+	padding: 6px 0 !important;
+}
+
+#container {
+	background-color: #ddd !important;
+	top: 38px !important;
 }

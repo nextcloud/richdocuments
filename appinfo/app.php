@@ -30,7 +30,7 @@ OCP\App::addNavigationEntry(array(
 	'id' => 'documents_index', 
 	'order' => 80, 
 	'href' => OCP\Util::linkTo('documents', 'index.php'), 
-	'icon' => OCP\Util::imagePath('documents', 'documents.png'), 
+	'icon' => OCP\Util::imagePath('documents', 'documents.svg'),
 	'name' => 'Documents')
 );
 
