@@ -17,7 +17,7 @@ html, body, #mainContainer {
 
 #editor {
     border: none;
-    box-shadow: 0px 0px 14px #555;
+    box-shadow: 0px 0px 14px black;
     overflow: hidden;
     padding: 0px !important;
     z-index: 4;
@@ -25,16 +25,14 @@ html, body, #mainContainer {
 
 #toolbar {
     overflow: hidden;
-    border-bottom: none;
-    padding: 6px 0;
 }
 
 #container {
     text-align: center;
-    background-color: #ddd;
+    background-color: #FAFAFA;
     overflow: auto;
     position: absolute;
-    top: 38px;
+    top: 30px;
     bottom: 0;
     left: 0;
     right: 0;
