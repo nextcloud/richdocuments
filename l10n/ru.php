@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Закрыть",
-"No people found" => "Ни один человек не найден"
+"No people found" => "Ни один человек не найден",
+"Upload" => "Загрузка"
 );

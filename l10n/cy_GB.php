@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Cau",
-"No people found" => "Heb ganfod pobl"
+"No people found" => "Heb ganfod pobl",
+"Upload" => "Llwytho i fyny"
 );

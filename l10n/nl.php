@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Sluit",
-"No people found" => "Geen mensen gevonden"
+"No people found" => "Geen mensen gevonden",
+"Upload" => "Uploaden"
 );

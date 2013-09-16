@@ -10,6 +10,7 @@
 "Declined" => "Denegat",
 "Accepted" => "Acceptat",
 "Incoming" => "Entrant",
+"Upload" => "Puja",
 "Documents" => "Documents",
 "Advanced feature-set" => "Joc d'opcions avançades",
 "(Unstable)" => "(Inestable)"

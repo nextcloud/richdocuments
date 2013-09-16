@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Clauder"
+"Close" => "Clauder",
+"Upload" => "Incargar"
 );

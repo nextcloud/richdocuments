@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Tutup"
+"Close" => "Tutup",
+"Upload" => "Muat naik"
 );

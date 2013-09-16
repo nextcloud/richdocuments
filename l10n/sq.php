@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"No people found" => "Nuk u gjet asnjë person"
+"No people found" => "Nuk u gjet asnjë person",
+"Upload" => "Ngarko"
 );

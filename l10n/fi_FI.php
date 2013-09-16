@@ -10,6 +10,7 @@
 "Declined" => "Torjuttu",
 "Accepted" => "Hyväksytty",
 "Incoming" => "Saapuva",
+"Upload" => "Lähetä",
 "Documents" => "Asiakirjat",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"

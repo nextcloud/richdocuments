@@ -10,6 +10,7 @@
 "Declined" => "Afvist",
 "Accepted" => "Accepteret",
 "Incoming" => "Indgående",
+"Upload" => "Upload",
 "Documents" => "Dokumenter",
 "Advanced feature-set" => "Avancerede funktioner",
 "(Unstable)" => "(Ustabil)"

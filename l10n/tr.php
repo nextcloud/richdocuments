@@ -9,6 +9,7 @@
 "Declined" => "Reddedildi",
 "Accepted" => "Kabul edildi",
 "Incoming" => "Gelen",
+"Upload" => "Yükle",
 "Documents" => "Belgeler",
 "Advanced feature-set" => "Gelişmiş özellik seti",
 "(Unstable)" => "(Kararsız)"

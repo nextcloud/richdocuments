@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Затвори"
+"Close" => "Затвори",
+"Upload" => "Качване"
 );
