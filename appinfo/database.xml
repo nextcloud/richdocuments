@@ -233,7 +233,7 @@
 				<type>text</type>
 				<length>128</length>
 				<notnull>true</notnull>
-				<comments>used to lookup revision in documents folder of member, eg '{hash}.odt'</comments>
+				<comments>used to lookup revision in documents folder of member, eg hash.odt</comments>
 			</field>
 			
 			<index>
