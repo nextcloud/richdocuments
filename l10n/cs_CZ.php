@@ -10,6 +10,7 @@
 "Declined" => "Zamítnuto",
 "Accepted" => "Schváleno",
 "Incoming" => "Příchozí",
+"Upload" => "Odeslat",
 "Documents" => "Dokumenty",
 "Advanced feature-set" => "Pokročilá sada možností",
 "(Unstable)" => "(Nestabilní)"

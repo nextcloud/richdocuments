@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "ياپ"
+"Close" => "ياپ",
+"Upload" => "يۈكلە"
 );

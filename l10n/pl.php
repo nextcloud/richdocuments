@@ -9,6 +9,7 @@
 "Declined" => "Nie zaakceptowane",
 "Accepted" => "Zaakceptowane",
 "Incoming" => "Przychodzące",
+"Upload" => "Wyślij",
 "Documents" => "Dokumenty",
 "Advanced feature-set" => "Zaawansowany zestaw funkcji",
 "(Unstable)" => "(Niestabilne)"

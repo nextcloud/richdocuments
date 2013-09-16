@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Zavrieť",
-"No people found" => "Používateľ nenájdený"
+"No people found" => "Používateľ nenájdený",
+"Upload" => "Odoslať"
 );

@@ -10,6 +10,7 @@
 "Declined" => "Abgelehnt",
 "Accepted" => "Akzeptiert",
 "Incoming" => "Eingehend",
+"Upload" => "Hochladen",
 "Documents" => "Dokumente",
 "Advanced feature-set" => "Erweiterte Funktionseinstellungen",
 "(Unstable)" => "(Instabil)"

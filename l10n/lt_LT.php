@@ -10,6 +10,7 @@
 "Declined" => "Atmesta",
 "Accepted" => "Priimta",
 "Incoming" => "Įeinantys",
+"Upload" => "Įkelti",
 "Documents" => "Dokumentacija",
 "Advanced feature-set" => "Išsamesni funkcijų nustatymai",
 "(Unstable)" => "(Nestabilus)"

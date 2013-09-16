@@ -10,6 +10,7 @@
 "Declined" => "Tagasi lükatud",
 "Accepted" => "Vastu võetud",
 "Incoming" => "Sissetulev",
+"Upload" => "Lae üles",
 "Documents" => "Dokumendid",
 "Advanced feature-set" => "Täpsemad seaded",
 "(Unstable)" => "(Ebastabiilne)"

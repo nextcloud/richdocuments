@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "داخستن"
+"Close" => "داخستن",
+"Upload" => "بارکردن"
 );
