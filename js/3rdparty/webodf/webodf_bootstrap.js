@@ -9,10 +9,10 @@ dojoConfig = {
 	locale: usedLocale,
 	paths: {
 		"webodf/editor": OC.appswebroots.documents + "/js/3rdparty/webodf/editor",
-		"dijit": OC.appswebroots.documents + "/resources/dijit",
-		"dojox": OC.appswebroots.documents + "/resources/dojox",
-		"dojo": OC.appswebroots.documents + "/resources/dojo",
-		"resources": OC.appswebroots.documents + "/resources"
+		"dijit": OC.appswebroots.documents + "/js/3rdparty/resources/dijit",
+		"dojox": OC.appswebroots.documents + "/js/3rdparty/resources/dojox",
+		"dojo": OC.appswebroots.documents + "/js/3rdparty/resources/dojo",
+		"resources": OC.appswebroots.documents + "/js/3rdparty/resources"
 	}
 };
 

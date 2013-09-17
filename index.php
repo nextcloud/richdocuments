@@ -29,8 +29,8 @@ namespace OCA\Documents;
 \OCP\App::setActiveNavigationEntry( 'documents_index' );
 
 \OCP\Util::addStyle( 'documents', 'style' );
-\OCP\Util::addStyle( 'documents', 'dojo-app' );
-\OCP\Util::addStyle( 'documents', 'editor' );
+\OCP\Util::addStyle( 'documents', '3rdparty/webodf/dojo-app');
+\OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor' );
 \OCP\Util::addScript('documents', 'documents');
 
 \OCP\Util::addScript('files', 'file-upload');
