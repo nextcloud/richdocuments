@@ -2993,12 +2993,12 @@ core.Utils = function Utils() {
   }
   this.hashString = hashString;
   function mergeObjects(destination, source) {
-    if(Array.isArray(source)) {
+    if(source && Array.isArray(source)) {
       destination = (destination || []).concat(source.map(function(obj) {
         return mergeObjects({}, obj)
       }))
     }else {
-      if(typeof source === "object") {
+      if(source && typeof source === "object") {
         destination = destination || {};
         Object.keys(source).forEach(function(p) {
           destination[p] = mergeObjects(destination[p], source[p])
@@ -3339,6 +3339,17 @@ core.UnitTest.cleanupTestAreaDiv = function() {
   var maindoc = runtime.getWindow().document, testarea = maindoc.getElementById("testarea");
   runtime.assert(!!testarea && testarea.parentNode === maindoc.body, 'Test environment broken, found no div with id "testarea" below body.');
   maindoc.body.removeChild(testarea)
+};
+core.UnitTest.createOdtDocument = function(xml, namespaceMap) {
+  var xmlDoc = "<?xml version='1.0' encoding='UTF-8'?>";
+  xmlDoc += "<office:document";
+  Object.keys(namespaceMap).forEach(function(key) {
+    xmlDoc += " xmlns:" + key + '="' + namespaceMap[key] + '"'
+  });
+  xmlDoc += ">";
+  xmlDoc += xml;
+  xmlDoc += "</office:document>";
+  return runtime.parseXML(xmlDoc)
 };
 core.UnitTestRunner = function UnitTestRunner() {
   var failedTests = 0, areObjectsEqual;
@@ -9435,10 +9446,12 @@ odf.OdfCanvas = function() {
     };
     this.destroy = function(callback) {
       var head = doc.getElementsByTagName("head")[0];
-      if(annotationsPane.parentNode) {
+      if(annotationsPane && annotationsPane.parentNode) {
         annotationsPane.parentNode.removeChild(annotationsPane)
       }
-      element.removeChild(sizer);
+      if(sizer) {
+        element.removeChild(sizer)
+      }
       head.removeChild(webodfcss);
       head.removeChild(fontcss);
       head.removeChild(stylesxmlcss);
@@ -11751,23 +11764,23 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     }
     return comparison
   }
-  function countStepsToPosition(posElement, posOffset, filter) {
-    runtime.assert(posElement !== null, "SelectionMover.countStepsToPosition called with element===null");
+  function countStepsToPosition(targetNode, targetOffset, filter) {
+    runtime.assert(targetNode !== null, "SelectionMover.countStepsToPosition called with element===null");
     var iterator = getIteratorAtCursor(), c = iterator.container(), o = iterator.unfilteredDomOffset(), steps = 0, watch = new core.LoopWatchDog(1E3), comparison;
-    iterator.setUnfilteredPosition(posElement, posOffset);
-    posElement = (iterator.container());
-    runtime.assert(Boolean(posElement), "SelectionMover.countStepsToPosition: positionIterator.container() returned null");
-    posOffset = iterator.unfilteredDomOffset();
+    iterator.setUnfilteredPosition(targetNode, targetOffset);
+    targetNode = iterator.container();
+    runtime.assert(Boolean(targetNode), "SelectionMover.countStepsToPosition: positionIterator.container() returned null");
+    targetOffset = iterator.unfilteredDomOffset();
     iterator.setUnfilteredPosition(c, o);
-    comparison = comparePoints(posElement, posOffset, iterator.container(), iterator.unfilteredDomOffset());
+    comparison = comparePoints(targetNode, targetOffset, iterator.container(), iterator.unfilteredDomOffset());
     if(comparison < 0) {
       while(iterator.nextPosition()) {
         watch.check();
         if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
           steps += 1
         }
-        if(iterator.container() === posElement) {
-          if(iterator.unfilteredDomOffset() === posOffset) {
+        if(iterator.container() === targetNode) {
+          if(iterator.unfilteredDomOffset() === targetOffset) {
             return steps
           }
         }
@@ -11777,11 +11790,9 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
         while(iterator.previousPosition()) {
           watch.check();
           if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
-            steps -= 1
-          }
-          if(iterator.container() === posElement) {
-            if(iterator.unfilteredDomOffset() === posOffset) {
-              return steps
+            steps -= 1;
+            if(comparePoints(targetNode, targetOffset, iterator.container(), iterator.unfilteredDomOffset()) <= 0) {
+              break
             }
           }
         }

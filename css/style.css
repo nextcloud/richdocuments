@@ -172,16 +172,11 @@
 	padding-top: 3em !important;
 }
 
-#editor {
-	box-shadow: 0px 0px 14px #555 !important;
-}
-
 #toolbar {
 	border-bottom: none !important;
 	padding: 6px 0 !important;
 }
 
 #container {
-	background-color: #ddd !important;
 	top: 38px !important;
 }
