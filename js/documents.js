@@ -6,7 +6,6 @@ var documentsMain = {
 	isEditormode : false,
 	useUnstable : false,
 	mainTitle : '', 
-	documentTitle : '',
 	onStartup: function() {
 		"use strict";
 		documentsMain.mainTitle = $('title').text();
@@ -17,6 +16,11 @@ var documentsMain = {
 				require({}, ["dojo/ready"], function(ready) {
 					ready(function() {
 						require({}, ["webodf/editor/Editor"], function(Editor) {
+							var esId = parent.location.hash.replace(/\W*/g, '');
+							if (esId){
+								documentsMain.prepareSession();
+								documentsMain.joinSession(esId);
+							}
 						});
 					});
 				});
@@ -24,6 +28,12 @@ var documentsMain = {
 		});
 		//setInterval(documentsMain.updateInfo, 10000);
 	},
+	
+	prepareSession : function(){
+		documentsMain.isEditorMode = true;
+		documentsMain.showOverlay();
+	},
+	
 	initSession: function(response) {
 		"use strict";
 		
@@ -45,7 +55,7 @@ var documentsMain = {
 						t('documents', 'Close') +
 					'  </button>' +
 					'<div id="document-title"><div>' +
-					documentsMain.documentTitle +
+					documentsMain.getNameByFileid(response.file_id) +
 			        '</div></div>' +
 					'  <button id="odf-invite">' +
 						t('documents', 'Invite') +
@@ -86,9 +96,10 @@ var documentsMain = {
 
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
-					$('title').text(documentsMain.mainTitle + '| ' + documentsMain.documentTitle);
+					$('title').text(documentsMain.mainTitle + '| ' + documentsMain.getNameByFileid(response.file_id));
 					documentsMain.webodfEditorInstance.startEditing();
 					documentsMain.hideOverlay();
+					parent.location.hash = response.es_id;
 				});
 			});
 		});
@@ -165,7 +176,7 @@ var documentsMain = {
 			return;
 		}
 		documentsMain.isEditorMode = false;
-		
+		parent.location.hash = "";
 		//close editor
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.close(function() {
@@ -188,6 +199,9 @@ var documentsMain = {
 			});
 // 			});
 		});
+	},
+	getNameByFileid : function(fileid){
+		return $('.documentslist li[data-id='+ fileid + ']').find('label').text();
 	},
 	showOverlay : function(){
 		$('#documents-overlay,#documents-overlay-below').fadeIn('slow');
@@ -262,9 +276,7 @@ $(document).ready(function() {
 		if (documentsMain.isEditorMode){
 			return;
 		}
-		documentsMain.isEditorMode = true;
-		documentsMain.documentTitle = $(this).find('label').text();
-		documentsMain.showOverlay();
+        documentsMain.prepareSession();
 
 		if ($(this).attr('data-esid')){
 			documentsMain.joinSession($(this).attr('data-esid'));
