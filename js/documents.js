@@ -276,7 +276,7 @@ $(document).ready(function() {
 		if (documentsMain.isEditorMode){
 			return;
 		}
-        documentsMain.prepareSession();
+		documentsMain.prepareSession();
 
 		if ($(this).attr('data-esid')){
 			documentsMain.joinSession($(this).attr('data-esid'));
