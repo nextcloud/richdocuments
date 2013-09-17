@@ -8,7 +8,7 @@ if (navigator && navigator.language.match(/^(de)/)) {
 dojoConfig = {
 	locale: usedLocale,
 	paths: {
-		"webodf/editor": OC.appswebroots.documents + "/js/editor",
+		"webodf/editor": OC.appswebroots.documents + "/js/3rdparty/webodf/editor",
 		"dijit": OC.appswebroots.documents + "/resources/dijit",
 		"dojox": OC.appswebroots.documents + "/resources/dojox",
 		"dojo": OC.appswebroots.documents + "/resources/dojo",

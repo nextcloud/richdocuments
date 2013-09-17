@@ -11,8 +11,8 @@ var documentsMain = {
 		"use strict";
 		documentsMain.mainTitle = $('title').text();
 		$('<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>').hide().appendTo(document.body);
-		OC.addScript('documents', 'dojo-amalgamation', function() {
-			OC.addScript('documents', 'webodf-debug').done(function() {
+		OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', function() {
+			OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
 				// preload stuff in the background
 				require({}, ["dojo/ready"], function(ready) {
 					ready(function() {
@@ -319,5 +319,5 @@ $(document).ready(function() {
 	//TODO show "no docs, please upload"
 	//TODO when ending a session as the last user close session?
 
-	OC.addScript('documents', 'webodf_bootstrap', documentsMain.onStartup);
+	OC.addScript('documents', '3rdparty/webodf/webodf_bootstrap', documentsMain.onStartup);
 });
