@@ -14,32 +14,13 @@ namespace OCA\Documents;
 
 class SessionController extends Controller{
 	
-	public static function start($args){
+	public static function join($args){
 		$uid = self::preDispatch();
+		$fileId = intval(@$args['file_id']);
 		try{
-			$path = \OC\Files\Filesystem::getPath(@$_POST['fileid']);
-			if (!$path){
-				throw new \Exception('No file has been passed');
-			}
-
-			$info = \OC\Files\Filesystem::getFileInfo($path);
-			if (!$info){
-				// Is it shared?
-				//searchByMime returns incorrect path for shared items
-				//
-				if (substr($path, 0, 14) === '/Shared/files/'){
-					// remove 'files/' from path as it's relative to '/Shared'
-					$path = '/Shared' . substr($path, 13); 
-					$sharedInfo = \OC\Files\Filesystem::getFileInfo($path);
-					$fileId = $sharedInfo['fileid'];
-					
-				}
-			} else {
-				$fileId = $info['fileid'];
-			}
-			
-			
+			$path = Storage::getFilePath($fileId);
 			$session = Session::getSessionByFileId($fileId);
+			
 			//If there is no existing session we need to start a new one
 			if (!$session || empty($session)){
 
@@ -60,29 +41,6 @@ class SessionController extends Controller{
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
 			\OCP\JSON::error();
-			exit();
-		}
-	}
-
-	public static function join($args){
-		$esId = @$args['es_id'];
-		$uid = self::preDispatch();
-		try{
-			if (!$esId){
-				throw new \Exception('Session id is empty');
-			}
-
-			$session = Session::getSession($esId);
-			if (!$session || empty($session)){
-				throw new \Exception('Session doesn\'t exist');
-			}
-
-			$session['member_id'] = (string) Member::add($session['es_id'], $uid, Helper::getRandomColor());
-			\OCP\JSON::success($session);
-			exit();
-		} catch (\Exception $e){
-			Helper::warnLog('Joining a session failed. Reason:' . $e->getMessage());
-			\OCP\JSON::error(array('message'=>$e->getMessage()));
 			exit();
 		}
 	}
@@ -111,9 +69,7 @@ class SessionController extends Controller{
 				throw new \Exception('Session does not exist');
 			}
 			
-			$fileInfo = \OC\Files\Cache\Cache::getById($session['file_id']);
-			$path = $fileInfo[1];
-			
+			$path = Storage::getFilePath($session['file_id']);
 			$view = new \OC\Files\View('/' . $session['owner']);
 
 			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);

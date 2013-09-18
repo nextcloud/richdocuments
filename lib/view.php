@@ -41,6 +41,10 @@ class View extends \OC\Files\View{
 			throw new \Exception('Original document doesn\'t exist any more');
 		}
 		
+		if (!$view->is_file($relPath)){
+			throw new \Exception('Object ' . $relPath . ' is not a file.');
+		}
+		
 		$newName = '/' . sha1($view->file_get_contents($relPath)) . '.odt';
 
 		$view->copy($relPath, self::DOCUMENTS_DIRNAME . $newName);

@@ -31,19 +31,9 @@ $this->create('documents_documents_list', 'ajax/documents/list')
 	->action('\OCA\Documents\DocumentController', 'listAll')
 ;
 
-
 /**
  * Session routes
  */
-$this->create('documents_session_start', 'ajax/session/start')
-	->get()
-	->action('\OCA\Documents\SessionController', 'start')
-;
-$this->create('documents_session_start', 'ajax/session/start')
-	->post()
-	->action('\OCA\Documents\SessionController', 'start')
-;
-
 $this->create('documents_session_list', 'ajax/session/list')
 	->get()
 	->action('\OCA\Documents\SessionController', 'listAll')
@@ -67,11 +57,11 @@ $this->create('documents_session_listhtml', 'ajax/session/listHtml')
 	->action('\OCA\Documents\SessionController', 'listAllHtml')
 ;
 
-$this->create('documents_session_join', 'ajax/session/join/{es_id}')
+$this->create('documents_session_join', 'ajax/session/join/{file_id}')
 	->get()
 	->action('\OCA\Documents\SessionController', 'join')
 ;
-$this->create('documents_session_join', 'ajax/session/join/{es_id}')
+$this->create('documents_session_join', 'ajax/session/join/{file_id}')
 	->post()
 	->action('\OCA\Documents\SessionController', 'join')
 ;

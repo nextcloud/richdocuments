@@ -90,13 +90,23 @@ var documentsMain = {
 	onStartup: function() {
 		"use strict";
 		documentsMain.UI.init();
+		
+		// Does anything indicate that we need to autostart a session?
+		var esId = parent.location.hash.replace(/\W*/g, '');
+		if (!esId){
+			documentsMain.show();
+		} else {
+			documentsMain.UI.showOverlay();
+		}
+		
+		
 		OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', function() {
 			OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
 				// preload stuff in the background
 				require({}, ["dojo/ready"], function(ready) {
 					ready(function() {
 						require({}, ["webodf/editor/Editor"], function(Editor) {
-							var esId = parent.location.hash.replace(/\W*/g, '');
+
 							if (esId){
 								documentsMain.prepareSession();
 								documentsMain.joinSession(esId);
@@ -121,10 +131,11 @@ var documentsMain = {
 	initSession: function(response) {
 		"use strict";
 		
-		runtime.assert(response.status, "Server error");
-		if (response.status==='error'){
+
+		if (!response || !response.status || response.status==='error'){
 			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			documentsMain.prepareGrid();
+			documentsMain.show();
 			setTimeout(OC.Notification.hide, 7000);
 			return;
 		}
@@ -145,27 +156,17 @@ var documentsMain = {
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
 					documentsMain.UI.hideOverlay();
-					parent.location.hash = response.es_id;
+					parent.location.hash = response.file_id;
 				});
 			});
 		});
 	},
 	
-	startSession: function(fileid) {
-		"use strict";
-		console.log('starting session for fileid '+fileid);
 
+	joinSession: function(fileId) {
+		console.log('joining session '+fileId);
 		$.post(
-			OC.Router.generate('documents_session_start'),
-			{'fileid': fileid},
-			documentsMain.initSession
-		);
-	},
-	
-	joinSession: function(esId) {
-		console.log('joining session '+esId);
-		$.post(
-			OC.Router.generate('documents_session_join') + '/' + esId,
+			OC.Router.generate('documents_session_join') + '/' + fileId,
 			{},
 			documentsMain.initSession
 		);
@@ -327,11 +328,8 @@ $(document).ready(function() {
 			return;
 		}
 		documentsMain.prepareSession();
-
-		if ($(this).attr('data-esid')){
-			documentsMain.joinSession($(this).attr('data-esid'));
-		} else if ($(this).attr('data-id')){
-			documentsMain.startSession($(this).attr('data-id'));
+		if ($(this).attr('data-id')){
+			documentsMain.joinSession($(this).attr('data-id'));
 		}
 	});
 	
@@ -344,7 +342,6 @@ $(document).ready(function() {
 	
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
 
-	documentsMain.show();
 	var file_upload_start = $('#file_upload_start');
 	file_upload_start.on('fileuploaddone', documentsMain.show);
 	//TODO when ending a session as the last user close session?
