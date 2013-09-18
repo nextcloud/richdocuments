@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 09:30-0400\n"
-"PO-Revision-Date: 2013-09-14 00:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-18 09:41-0400\n"
+"PO-Revision-Date: 2013-09-17 13:13+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,49 +18,49 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:32
+#: js/documents.js:42
 msgid "Oops! This document has been either unshared or deleted recently."
-msgstr ""
+msgstr "Oeps! Dit document is ofwel recent afgesloten, of verwijderd"
 
-#: js/documents.js:45
+#: js/documents.js:55
 msgid "Close"
-msgstr "Sluit"
+msgstr "Sluiten"
 
-#: js/documents.js:51
+#: js/documents.js:61
 msgid "Invite"
-msgstr ""
+msgstr "uitnodigen"
 
-#: js/documents.js:140
+#: js/documents.js:151
 msgid "Users in session:"
-msgstr ""
+msgstr "Gebruikers in de sessie:"
 
-#: js/documents.js:216
+#: js/documents.js:230
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Kon documenten niet laden."
 
-#: js/documents.js:295
+#: js/documents.js:307
 msgid "No people found"
 msgstr "Geen mensen gevonden"
 
-#: js/documents.js:304
+#: js/documents.js:316
 msgid "Remove from the list"
-msgstr ""
+msgstr "Verwijderen van de lijst"
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Verzonden"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Afgewezen"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Geaccepteerd"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "Inkomend"
 
 #: templates/documents.php:17
 msgid "Upload"
@@ -67,12 +68,12 @@ msgstr "Uploaden"
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Documenten"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Geavanceerde functies"
 
 #: templates/settings.php:13
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Onstabiel)"
