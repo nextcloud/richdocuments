@@ -1,5 +1,3 @@
-<div id="editor-content">
-</div>
 <div id="documents-content">
 	<ul class="documentslist">
 		<li class="add-document">

@@ -272,7 +272,8 @@ var documentsMain = {
 	},
 	
 	renderDocuments: function () {
-		var self = this;
+		var self = this,
+		hasDocuments = false;
 
 		//remove all but template
 		$('.documentslist .document:not(.template)').remove();
@@ -290,6 +291,7 @@ var documentsMain = {
 
 			$('.documentslist').append(docElem);
 			docElem.show();
+			hasDocuments = true;
 		});
 		jQuery.each(this._sessions, function(i,session){
 			if (self._members[session.es_id].length > 0) {
@@ -303,6 +305,15 @@ var documentsMain = {
 				}
 			}
 		});
+		
+		if (!hasDocuments){
+			$('#documents-content').append('<div id="emptyfolder">'
+				+ t('documents', 'No documents are found. Please upload or create a document!')
+				+ '</div>'
+			);
+		} else {
+			$('#emptyfolder').remove();
+		}
 	}
 };
 
@@ -336,7 +347,6 @@ $(document).ready(function() {
 	documentsMain.show();
 	var file_upload_start = $('#file_upload_start');
 	file_upload_start.on('fileuploaddone', documentsMain.show);
-	//TODO show "no docs, please upload"
 	//TODO when ending a session as the last user close session?
 
 	OC.addScript('documents', '3rdparty/webodf/webodf_bootstrap', documentsMain.onStartup);

@@ -1,5 +1,7 @@
-#emptyfolder {
-	position:absolute; margin:10em 0 0 10em;
+#documents-content #emptyfolder {
+	position: static;
+	margin:0;
+	text-align:center;
 	font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0;
 }
 
