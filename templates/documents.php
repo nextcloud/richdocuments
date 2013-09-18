@@ -1,11 +1,3 @@
-<!-- <div id="controls">
-	<div id="invite-block" style="display:none">
-		<input id="inivite-input" type="text" />
-		<ul id="invitee-list"></ul>
-		<button id="invite-send"><?php p('Send Invitation') ?></button>
-	</div>
-</div>
--->
 <div id="editor-content">
 </div>
 <div id="documents-content">

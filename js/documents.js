@@ -5,11 +5,91 @@ var documentsMain = {
 	_members: [],
 	isEditormode : false,
 	useUnstable : false,
-	mainTitle : '', 
+	
+	UI : {
+		/* Overlay HTML */
+		overlay : '<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>',
+				
+		/* Toolbar HTML */
+		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
+					'  <button id="odf-close">' +
+						t('documents', 'Close') +
+					'  </button>' +
+					'<div id="document-title"><div>' +
+					'%title%' +
+			        '</div></div>' +
+					'  <button id="odf-invite">' +
+						t('documents', 'Share') +
+					'  </button>' +
+					'  <div id="invite-block" style="display:none">' +
+					'    <input id="inivite-input" type="text" />' +
+					'    <ul id="invitee-list"></ul>' +
+		            '    <button id="invite-send">' +
+					t('documents', 'Send Invitation') +
+					'    </button>' +
+	                '    </div>' +
+					'    <span id="toolbar" class="claro"></span>' +
+					'</div>',
+					
+		/* Editor wrapper HTML */
+		container : '<div id = "mainContainer" class="claro" style="">' +
+					'  <div id = "editor">' +
+					'    <div id = "container">' +
+					'      <div id="canvas"></div>' +
+					'    </div>' +
+					'  </div>' +
+					'  <div id = "collaboration">' +
+					'    <div id = "collabContainer">' +
+					'      <div id = "members">' +
+					'        <div id = "inviteButton"></div>' +
+					'        <div id = "memberList"></div>' +
+					'      </div>' +
+					'    </div>' +
+					'  </div>' +
+					'</div>',
+					
+		/* Previous window title */
+		mainTitle : '',
+				
+		init : function(){
+			$(documentsMain.UI.overlay).hide().appendTo(document.body);
+			documentsMain.UI.mainTitle = $('title').text();
+		},
+				
+		showOverlay : function(){
+			$('#documents-overlay,#documents-overlay-below').fadeIn('slow');
+		},
+		
+		hideOverlay : function(){
+			$('#documents-overlay,#documents-overlay-below').fadeOut('slow');
+		},
+		
+		showEditor : function(title){
+			$(document.body).prepend(documentsMain.UI.toolbar.replace(/%title%/g, title));
+			$(document.body).addClass("claro");
+			$(document.body).prepend(documentsMain.UI.container);
+			// in case we are on the public sharing page we shall display the odf into the preview tag
+			$('#preview').html(container);
+			$('title').text(documentsMain.UI.mainTitle + '| ' + title);
+		},
+		
+		hideEditor : function(){
+				// Fade out toolbar
+				$('#odf-toolbar').fadeOut('slow');
+				// Fade out editor
+				$('#mainContainer').fadeOut('slow', function() {
+					$('#mainContainer').remove();
+					$('#odf-toolbar').remove();
+					$('#content').fadeIn('slow');
+					$(document.body).removeClass('claro');
+					$('title').text(documentsMain.UI.mainTitle);
+				});
+		}
+	},
+	
 	onStartup: function() {
 		"use strict";
-		documentsMain.mainTitle = $('title').text();
-		$('<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>').hide().appendTo(document.body);
+		documentsMain.UI.init();
 		OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', function() {
 			OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
 				// preload stuff in the background
@@ -26,12 +106,16 @@ var documentsMain = {
 				});
 			});
 		});
-		//setInterval(documentsMain.updateInfo, 10000);
 	},
 	
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
-		documentsMain.showOverlay();
+		documentsMain.UI.showOverlay();
+	},
+	
+	prepareGrid : function(){
+		documentsMain.isEditorMode = false;
+		documentsMain.UI.hideOverlay();
 	},
 	
 	initSession: function(response) {
@@ -39,66 +123,28 @@ var documentsMain = {
 		
 		runtime.assert(response.status, "Server error");
 		if (response.status==='error'){
-			OC.Notification.show(t('documents', 'Oops! This document has been either unshared or deleted recently.'));
-			setTimeout(OC.Notification.hide, 3000);
-			documentsMain.hideOverlay();
+			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
+			documentsMain.prepareGrid();
+			setTimeout(OC.Notification.hide, 7000);
 			return;
 		}
 
 		require({ }, ["webodf/editor/server/owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
 			$('#content').fadeOut('slow').promise().done(function() {
-				// odf action toolbar
-				var odfToolbarHtml =
-					'<div id="odf-toolbar" class="dijitToolbar">' +
-					'  <button id="odf-close">' +
-						t('documents', 'Close') +
-					'  </button>' +
-					'<div id="document-title"><div>' +
-					documentsMain.getNameByFileid(response.file_id) +
-			        '</div></div>' +
-					'  <button id="odf-invite">' +
-						t('documents', 'Invite') +
-					'  </button>' +
-					'  <span id="toolbar" class="claro"></span>' +
-					'</div>';
-				$(document.body).prepend(odfToolbarHtml);
-
-				var memberId, odfelement, odfcanvas, canvashtml =
-					'<div id = "mainContainer" class="claro" style="">' +
-					'  <div id = "editor">' +
-					'    <div id = "container">' +
-					'      <div id="canvas"></div>' +
-					'    </div>' +
-					'  </div>' +
-					'  <div id = "collaboration">' +
-					'    <div id = "collabContainer">' +
-					'      <div id = "members">' +
-					'        <div id = "inviteButton"></div>' +
-					'        <div id = "memberList"></div>' +
-					'      </div>' +
-					'    </div>' +
-					'  </div>' +
-					'</div>';
-
+				documentsMain.UI.showEditor(documentsMain.getNameByFileid(response.file_id));
 				var serverFactory = new ServerFactory();
-
-				$(document.body).addClass("claro");
-				$(document.body).prepend(canvashtml);
-				// in case we are on the public sharing page we shall display the odf into the preview tag
-				$('#preview').html(canvashtml);
 					
 				runtime.assert(response.es_id, "invalid session id.");
-				memberId = response.member_id;
+				var memberId = response.member_id;
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
 
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
-					$('title').text(documentsMain.mainTitle + '| ' + documentsMain.getNameByFileid(response.file_id));
 					documentsMain.webodfEditorInstance.startEditing();
-					documentsMain.hideOverlay();
+					documentsMain.UI.hideOverlay();
 					parent.location.hash = response.es_id;
 				});
 			});
@@ -133,35 +179,42 @@ var documentsMain = {
 			documentsMain.show
 		);
 	},
-	/**
-	 * FIXME
-	 * 
-	updateInfo : function(){
-		var fileIds = [];
-		$('.documentslist li').each(function(i, e){
-			fileIds.push($(e).attr('data-file'));
-		});
-		$.post(
-			OC.Router.generate('documents_session_info'),
-			{items: fileIds},
-			function (response){
-				if (response && response.info && response.info.length){
-					for (var i=0;i<response.info.length;i++){
-						$('.documentslist li[data-file='+ response.info[i].file_id +'] .session-info').text(
-							t('documents', 'Users in session:') 
-							+ response.info[i].users
-						);
-					}
-				}
-			}
-		);
-	},
-	*/
 
 	onInvite: function(event) {
 		event.preventDefault();
 		$('#invite-block').toggle();
+		$('#inivite-input').autocomplete({
+			minLength: 1,
+			source: function(search, response) {
+				$.get(
+					OC.Router.generate('documents_user_search'),
+					{search: $('#inivite-input').val()},
+					function(result) {
+						if (result.status === 'success' && result.data.length > 0) {
+							response(result.data);
+						} else {
+							response([t('core', 'No people found')]);
+						}
+					}
+				);
+			},
+			select: function(event, el) {
+				event.preventDefault();
+				var item = $( 
+						'<li title="'
+						+ t('documents', 'Remove from the list')
+						+ '" >'
+						+ el.item.label
+						+ '<input type="hidden" name="invitee[]" value="'
+						+ el.item.value
+						+ '" />'
+						+ '</li>'
+				);
+				$('#invitee-list').prepend(item);
+			}
+		});
 	},
+	
 	sendInvite: function() {
 		var users = [];
 		$('input[name=invitee\\[\\]]').each(function(i, e) {
@@ -169,6 +222,7 @@ var documentsMain = {
 		});
 		$.post(OC.Router.generate('documents_user_invite'), {users: users});
 	},
+	
 	onClose: function() {
 		"use strict";
 		
@@ -177,44 +231,28 @@ var documentsMain = {
 		}
 		documentsMain.isEditorMode = false;
 		parent.location.hash = "";
-		//close editor
+
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.close(function() {
 			// successfull shutdown - all is good.
 			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
 // 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
-
-			documentsMain.webodfEditorInstance.destroy(function() {
-				// Fade out odf-toolbar
-				$('#odf-toolbar').fadeOut('slow');
-				// Fade out editor
-				$('#mainContainer').fadeOut('slow', function() {
-					$('#mainContainer').remove();
-					$('#odf-toolbar').remove();
-					$('.actions,#file_access_panel').fadeIn('slow');
-					$('#content').fadeIn('slow');
-					$(document.body).removeClass('claro');
-					$('title').text(documentsMain.mainTitle);
-				});
-			});
+			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 // 			});
 		});
 	},
+	
 	getNameByFileid : function(fileid){
 		return $('.documentslist li[data-id='+ fileid + ']').find('label').text();
 	},
-	showOverlay : function(){
-		$('#documents-overlay,#documents-overlay-below').fadeIn('slow');
-	},
-	hideOverlay : function(){
-		$('#documents-overlay,#documents-overlay-below').fadeOut('slow');
-	},
+	
 	show: function(){
 		jQuery.when(documentsMain.loadDocuments())
 			.then(function(){
 				documentsMain.renderDocuments();
 			});
 	},
+	
 	loadDocuments: function () {
 		var self = this;
 		var def = new $.Deferred();
@@ -232,6 +270,7 @@ var documentsMain = {
 		});
 		return def;
 	},
+	
 	renderDocuments: function () {
 		var self = this;
 
@@ -293,37 +332,6 @@ $(document).ready(function() {
 	});
 	
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
-	
-	$('#inivite-input').autocomplete({
-		minLength: 1,
-		source: function(search, response) {
-			$.get(
-				OC.Router.generate('documents_user_search'),
-				{search: $('#inivite-input').val()},
-				function(result) {
-					if (result.status === 'success' && result.data.length > 0) {
-						response(result.data);
-					} else {
-						response([t('core', 'No people found')]);
-					}
-				}
-			);
-		},
-		select: function(event, el) {
-			event.preventDefault();
-			var item = $( 
-					'<li title="'
-					+ t('documents', 'Remove from the list')
-					+ '" >'
-					+ el.item.label
-					+ '<input type="hidden" name="invitee[]" value="'
-					+ el.item.value
-					+ '" />'
-					+ '</li>'
-					);
-			$('#invitee-list').prepend(item);
-		}
-	});
 
 	documentsMain.show();
 	var file_upload_start = $('#file_upload_start');
