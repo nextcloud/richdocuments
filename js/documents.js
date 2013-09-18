@@ -233,6 +233,8 @@ var documentsMain = {
 		documentsMain.isEditorMode = false;
 		parent.location.hash = "";
 
+		documentsMain.show();
+
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.close(function() {
 			// successfull shutdown - all is good.
