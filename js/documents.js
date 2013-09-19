@@ -211,6 +211,7 @@ var documentsMain = {
 						+ '" />'
 						+ '</li>'
 				);
+				$('#inivite-input').val('');
 				$('#invitee-list').prepend(item);
 			}
 		});
