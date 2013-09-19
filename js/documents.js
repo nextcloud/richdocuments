@@ -64,8 +64,11 @@ var documentsMain = {
 			$('#documents-overlay,#documents-overlay-below').fadeOut('slow');
 		},
 		
-		showEditor : function(title){
+		showEditor : function(title, canShare){
 			$(document.body).prepend(documentsMain.UI.toolbar.replace(/%title%/g, title));
+			if (!canShare){
+				$('#odf-invite,#invite-block').remove();
+			}
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
 			// in case we are on the public sharing page we shall display the odf into the preview tag
@@ -132,7 +135,7 @@ var documentsMain = {
 		"use strict";
 		
 
-		if (!response || !response.status || response.status==='error'){
+		if (!response || !response.es_id || !response.status || response.status==='error'){
 			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			documentsMain.prepareGrid();
 			documentsMain.show();
@@ -143,10 +146,13 @@ var documentsMain = {
 		require({ }, ["webodf/editor/server/owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
 			$('#content').fadeOut('slow').promise().done(function() {
-				documentsMain.UI.showEditor(documentsMain.getNameByFileid(response.file_id));
+				
+				documentsMain.UI.showEditor(
+						documentsMain.getNameByFileid(response.file_id),
+						response.permissions & OC.PERMISSION_SHARE
+				);
 				var serverFactory = new ServerFactory();
-					
-				runtime.assert(response.es_id, "invalid session id.");
+				
 				var memberId = response.member_id;
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
