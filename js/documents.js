@@ -15,20 +15,13 @@ var documentsMain = {
 					'  <button id="odf-close">' +
 						t('documents', 'Close') +
 					'  </button>' +
-					'<div id="document-title"><div>' +
+					'  <div id="document-title"><div>' +
 					'%title%' +
-			        '</div></div>' +
-					'  <button id="odf-invite">' +
-						t('documents', 'Share') +
+			        '  </div></div>' +
+					'  <button id="odf-invite" class="drop">' +
+						  t('documents', 'Share') +
 					'  </button>' +
-					'  <div id="invite-block" style="display:none">' +
-					'    <input id="inivite-input" type="text" />' +
-					'    <ul id="invitee-list"></ul>' +
-		            '    <button id="invite-send">' +
-					t('documents', 'Send Invitation') +
-					'    </button>' +
-	                '    </div>' +
-					'    <span id="toolbar" class="claro"></span>' +
+					'  <span id="toolbar" class="claro"></span>' +
 					'</div>',
 					
 		/* Editor wrapper HTML */
@@ -68,6 +61,8 @@ var documentsMain = {
 			$(document.body).prepend(documentsMain.UI.toolbar.replace(/%title%/g, title));
 			if (!canShare){
 				$('#odf-invite,#invite-block').remove();
+			} else {
+				//TODO: fill in with users
 			}
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
@@ -189,38 +184,11 @@ var documentsMain = {
 
 	onInvite: function(event) {
 		event.preventDefault();
-		$('#invite-block').toggle();
-		$('#inivite-input').autocomplete({
-			minLength: 1,
-			source: function(search, response) {
-				$.get(
-					OC.Router.generate('documents_user_search'),
-					{search: $('#inivite-input').val()},
-					function(result) {
-						if (result.status === 'success' && result.data.length > 0) {
-							response(result.data);
-						} else {
-							response([t('core', 'No people found')]);
-						}
-					}
-				);
-			},
-			select: function(event, el) {
-				event.preventDefault();
-				var item = $( 
-						'<li title="'
-						+ t('documents', 'Remove from the list')
-						+ '" >'
-						+ el.item.label
-						+ '<input type="hidden" name="invitee[]" value="'
-						+ el.item.value
-						+ '" />'
-						+ '</li>'
-				);
-				$('#inivite-input').val('');
-				$('#invitee-list').prepend(item);
-			}
-		});
+		if (OC.Share.droppedDown) {
+			OC.Share.hideDropDown();
+		} else {
+			OC.Share.showDropDown('file', 118, $("#odf-toolbar"), true, OC.PERMISSION_READ | OC.PERMISSION_SHARE | OC.PERMISSION_UPDATE);
+		}
 	},
 	
 	sendInvite: function() {
@@ -344,11 +312,7 @@ $(document).ready(function() {
 	
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
-	$(document.body).on('click', '#invite-send', documentsMain.sendInvite);
-	$(document.body).on('click', '#invitee-list li', function(){
-		$(this).remove();
-	});
-	
+
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
 
 	var file_upload_start = $('#file_upload_start');

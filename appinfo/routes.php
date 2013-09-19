@@ -83,8 +83,3 @@ $this->create('documents_user_invite', 'ajax/user/invite')
 	->post()
 	->action('\OCA\Documents\UserController', 'invite')
 ;
-
-$this->create('documents_user_search', 'ajax/user/search')
-	->get()
-	->action('\OCA\Documents\UserController', 'search')
-;

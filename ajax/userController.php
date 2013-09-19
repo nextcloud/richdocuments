@@ -15,33 +15,6 @@ namespace OCA\Documents;
 class UserController extends Controller{
 	
 	/**
-	 * Search users according to the pattern
-	 */
-	public static function search(){
-		$uid = self::preDispatch();
-		if (@$_GET['search']){
-				$found = array();
-				$users = array();
-				$count = 0;
-				$limit = 0;
-				$offset = 0;
-				while ($count < 15 && count($users) == $limit) {
-					$limit = 15 - $count;
-					$users = \OC_User::getDisplayNames($_GET['search'], $limit, $offset);
-					$offset += $limit;
-					foreach ($users as $userid => $displayName) {
-						$found[] = array(
-							'label' => $displayName,
-							'value' => $userid
-							);
-						$count++;
-					}
-				}
-				\OCP\JSON::success(array('data'=>$found));
-		}
-	}
-
-	/**
 	 * Invite users to the editing session
 	 */
 	public static function invite(){

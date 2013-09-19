@@ -92,6 +92,10 @@
 	z-index: 500;
 }
 
+#odf-toolbar #dropdown{
+	right:auto;
+}
+
 #document-title{
 	position: absolute;
 	top: 9px;
