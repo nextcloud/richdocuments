@@ -60,7 +60,7 @@ var documentsMain = {
 		showEditor : function(title, canShare){
 			$(document.body).prepend(documentsMain.UI.toolbar.replace(/%title%/g, title));
 			if (!canShare){
-				$('#odf-invite,#invite-block').remove();
+				$('#odf-invite').remove();
 			} else {
 				//TODO: fill in with users
 			}
@@ -90,8 +90,8 @@ var documentsMain = {
 		documentsMain.UI.init();
 		
 		// Does anything indicate that we need to autostart a session?
-		var esId = parent.location.hash.replace(/\W*/g, '');
-		if (!esId){
+		var fileId = parent.location.hash.replace(/\W*/g, '');
+		if (!fileId){
 			documentsMain.show();
 		} else {
 			documentsMain.UI.showOverlay();
@@ -105,9 +105,9 @@ var documentsMain = {
 					ready(function() {
 						require({}, ["webodf/editor/Editor"], function(Editor) {
 
-							if (esId){
+							if (fileId){
 								documentsMain.prepareSession();
-								documentsMain.joinSession(esId);
+								documentsMain.joinSession(fileId);
 							}
 						});
 					});
@@ -187,7 +187,13 @@ var documentsMain = {
 		if (OC.Share.droppedDown) {
 			OC.Share.hideDropDown();
 		} else {
-			OC.Share.showDropDown('file', 118, $("#odf-toolbar"), true, OC.PERMISSION_READ | OC.PERMISSION_SHARE | OC.PERMISSION_UPDATE);
+			OC.Share.showDropDown(
+				'file', 
+				parent.location.hash.replace(/\W*/g, ''),
+				$("#odf-toolbar"),
+				true, 
+				OC.PERMISSION_READ | OC.PERMISSION_SHARE | OC.PERMISSION_UPDATE
+			);
 		}
 	},
 	
