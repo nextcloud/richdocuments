@@ -15,10 +15,20 @@ class Helper{
 	
 	const APP_ID = 'documents';
 	
+	public static function getNewFileName($view, $path){
+		$fileNum = 0;
+		
+		while ($view->file_exists($path)){
+			$fileNum += 1;
+			$path = preg_replace('/(\.odt|\(\d+\)\.odt)$/', ' (' .$fileNum . ').odt', $path);
+		};
+		
+		return $path;
+	}
+	
 	public static function getRandomColor(){
 		$str = dechex(floor(rand(0, 16777215)));
-		$str = str_pad($str, 6, "0", STR_PAD_LEFT);
-		return '#' . $str;
+		return '#' . str_pad($str, 6, "0", STR_PAD_LEFT);
 	}
 	
 	public static  function debugLog($message){

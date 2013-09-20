@@ -82,6 +82,14 @@ class SessionController extends Controller{
 				throw new \Exception('Document does not exist or is not writable for this user');
 			}
 			
+			if ($view->file_exists($path)){
+				$currentHash = sha1($view->file_get_contents($path));
+				if ($currentHash !== $session['genesis_hash']){
+					// Original file was modified externally. Save to a new one
+					$path = Helper::getNewFileName($view, $path);
+				}
+			}
+			
 			if ($view->file_put_contents($path, $content)){
 				//Document saved successfully. Cleaning session data
 				Session::cleanUp($sessionID);
