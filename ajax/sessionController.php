@@ -75,11 +75,11 @@ class SessionController extends Controller{
 			}
 			
 			$path = Storage::getFilePath($session['file_id']);
-			$view = new \OC\Files\View('/' . $session['owner']);
+			$view = new \OC\Files\View('/' . $uid);
 
 			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
 			if (!$isWritable){
-				throw new \Exception('Document does not exist or is not writable for this user');
+				throw new \Exception($path . ' does not exist or is not writable for user ' . $uid);
 			}
 			
 			if ($view->file_exists($path)){

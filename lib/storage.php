@@ -55,20 +55,30 @@ class Storage {
 		$path = @$fileInfo[1];
 
 		if (!$path){
-			throw new \Exception('File not found in cache');
+			throw new \Exception($fileId . ' can not be resolved');
 		}
 		
-		// Strip /files infront of the path
-		$normalizedPath = preg_replace('/^\/?files/', '', $path);
-		if (!\OC\Files\Filesystem::file_exists($path)
-				&& \OC\Files\Filesystem::file_exists('/Shared' . $normalizedPath)
-				&& \OC\Files\Filesystem::is_file('/Shared' . $normalizedPath)
-		){
+		$internalPath = preg_replace('/^\/?files/', '', $path);
+		if (!\OC\Files\Filesystem::file_exists($internalPath)){
+			$sharedInfo = \OCP\Share::getItemSharedWithBySource(
+						'file', 
+						$fileId,
+						\OCP\Share::FORMAT_NONE,
+						null,
+						true
+					);
+			if (!$sharedInfo){
+				throw new \Exception($path . ' can not be resolved in shared cache');
+			}
 			// this file is shared
-			$normalizedPath = '/Shared' . $normalizedPath;
+			$internalPath = 'Shared' . $sharedInfo['file_target'];
 		}
 		
-		return $normalizedPath;
+		if (!\OC\Files\Filesystem::file_exists($internalPath)){
+			throw new \Exception($path . ' doesn\'t exist');
+		}
+		
+		return 'files/' . $internalPath;
 	}	
 
 	/**

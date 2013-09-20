@@ -36,18 +36,17 @@ class View extends \OC\Files\View{
 		
 		$view = new \OC\Files\View('/' . $uid);
 		
-		$relPath = '/files' . $filePath;
-		if (!$view->file_exists($relPath)){
-			throw new \Exception('Original document doesn\'t exist any more');
+		if (!$view->file_exists($filePath)){
+			throw new \Exception($filePath . ' doesn\'t exist');
 		}
 		
-		if (!$view->is_file($relPath)){
-			throw new \Exception('Object ' . $relPath . ' is not a file.');
+		if (!$view->is_file($filePath)){
+			throw new \Exception('Object ' . $filePath . ' is not a file.');
 		}
 		
-		$newName = '/' . sha1($view->file_get_contents($relPath)) . '.odt';
+		$newName = '/' . sha1($view->file_get_contents($filePath)) . '.odt';
 
-		$view->copy($relPath, self::DOCUMENTS_DIRNAME . $newName);
+		$view->copy($filePath, self::DOCUMENTS_DIRNAME . $newName);
 		\OC_FileProxy::$enabled = $proxyStatus;
 		return $newName;
 	}
