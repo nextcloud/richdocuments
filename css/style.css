@@ -186,3 +186,18 @@
 #container {
 	top: 38px !important;
 }
+
+cursor > div {
+	padding-bottom: 0 !important;
+}
+
+editinfo > div.editInfoMarker {
+	width: 4px;
+	border-radius: 0;
+	box-shadow: 0 0 0 #fff;
+	background-clip:content-box;
+	padding: 0 5px;
+}
+
+editinfo > div.editInfoMarker:hover {
+}
