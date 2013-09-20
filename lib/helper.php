@@ -15,12 +15,12 @@ class Helper{
 	
 	const APP_ID = 'documents';
 	
-	public static function getNewFileName($view, $path){
+	public static function getNewFileName($view, $path, $prepend = ' '){
 		$fileNum = 0;
 		
 		while ($view->file_exists($path)){
 			$fileNum += 1;
-			$path = preg_replace('/(\.odt|\(\d+\)\.odt)$/', ' (' .$fileNum . ').odt', $path);
+			$path = preg_replace('/(\.odt|' . $prepend . '\(\d+\)\.odt)$/', $prepend . '(' .$fileNum . ').odt', $path);
 		};
 		
 		return $path;
