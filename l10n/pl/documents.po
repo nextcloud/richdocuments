@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-16 09:30-0400\n"
-"PO-Revision-Date: 2013-09-14 00:01+0000\n"
+"POT-Creation-Date: 2013-09-20 07:48-0400\n"
+"PO-Revision-Date: 2013-09-20 11:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,33 +18,28 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: js/documents.js:32
-msgid "Oops! This document has been either unshared or deleted recently."
-msgstr ""
-
-#: js/documents.js:45
+#: js/documents.js:16
 msgid "Close"
 msgstr "Zamknij"
 
-#: js/documents.js:51
-msgid "Invite"
-msgstr "Zaproś"
+#: js/documents.js:22
+msgid "Share"
+msgstr ""
 
-#: js/documents.js:140
-msgid "Users in session:"
-msgstr "Użytkownicy w sesji:"
+#: js/documents.js:134
+msgid ""
+"Failed to load this document. Please check if it can be opened with an "
+"external odt editor. This might also mean it has been unshared or deleted "
+"recently."
+msgstr ""
 
-#: js/documents.js:216
+#: js/documents.js:252
 msgid "Failed to load documents."
 msgstr "Nie można wczytać dokumentów."
 
 #: js/documents.js:295
-msgid "No people found"
-msgstr "Nie znaleziono ludzi"
-
-#: js/documents.js:304
-msgid "Remove from the list"
-msgstr "Usuń z listy"
+msgid "No documents are found. Please upload or create a document!"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -62,7 +57,7 @@ msgstr "Zaakceptowane"
 msgid "Incoming"
 msgstr "Przychodzące"
 
-#: templates/documents.php:17
+#: templates/documents.php:7
 msgid "Upload"
 msgstr "Wyślij"
 

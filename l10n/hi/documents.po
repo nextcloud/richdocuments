@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 09:41-0400\n"
-"PO-Revision-Date: 2013-09-17 13:14+0000\n"
-"Last-Translator: mkghai35 <mkghai35@gmail.com>\n"
+"POT-Creation-Date: 2013-09-20 07:48-0400\n"
+"PO-Revision-Date: 2013-09-20 11:48+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,33 +18,28 @@ msgstr ""
 "Language: hi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:42
-msgid "Oops! This document has been either unshared or deleted recently."
-msgstr "ओह! यह दस्तावेज़ या तो साझा नहीं किया गया या हाल ही में मिटा दिया गया है। "
-
-#: js/documents.js:55
+#: js/documents.js:16
 msgid "Close"
 msgstr "बंद करें "
 
-#: js/documents.js:61
-msgid "Invite"
-msgstr "आमंत्रित करें "
+#: js/documents.js:22
+msgid "Share"
+msgstr ""
 
-#: js/documents.js:151
-msgid "Users in session:"
-msgstr "प्रयोक्ता जो इस समय सत्र में हैं: "
+#: js/documents.js:134
+msgid ""
+"Failed to load this document. Please check if it can be opened with an "
+"external odt editor. This might also mean it has been unshared or deleted "
+"recently."
+msgstr ""
 
-#: js/documents.js:230
+#: js/documents.js:252
 msgid "Failed to load documents."
 msgstr "दस्तावेज़ लोड करने में असफल रहा।  "
 
-#: js/documents.js:307
-msgid "No people found"
-msgstr "कोई व्यक्ति नहीं मिले "
-
-#: js/documents.js:316
-msgid "Remove from the list"
-msgstr "सूची में से हटा दें "
+#: js/documents.js:295
+msgid "No documents are found. Please upload or create a document!"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -62,7 +57,7 @@ msgstr "स्वीकार कर लिया गया "
 msgid "Incoming"
 msgstr "आने वाला/वाली "
 
-#: templates/documents.php:17
+#: templates/documents.php:7
 msgid "Upload"
 msgstr "अपलोड "
 

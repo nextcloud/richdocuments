@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-18 09:41-0400\n"
-"PO-Revision-Date: 2013-09-17 13:21+0000\n"
+"POT-Creation-Date: 2013-09-20 07:48-0400\n"
+"PO-Revision-Date: 2013-09-20 11:48+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Panjabi (Punjabi) (http://www.transifex.com/projects/p/owncloud/language/pa/)\n"
 "MIME-Version: 1.0\n"
@@ -17,32 +17,27 @@ msgstr ""
 "Language: pa\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:42
-msgid "Oops! This document has been either unshared or deleted recently."
-msgstr ""
-
-#: js/documents.js:55
+#: js/documents.js:16
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:61
-msgid "Invite"
+#: js/documents.js:22
+msgid "Share"
 msgstr ""
 
-#: js/documents.js:151
-msgid "Users in session:"
+#: js/documents.js:134
+msgid ""
+"Failed to load this document. Please check if it can be opened with an "
+"external odt editor. This might also mean it has been unshared or deleted "
+"recently."
 msgstr ""
 
-#: js/documents.js:230
+#: js/documents.js:252
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:307
-msgid "No people found"
-msgstr ""
-
-#: js/documents.js:316
-msgid "Remove from the list"
+#: js/documents.js:295
+msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
 #: lib/invite.php:64
@@ -61,7 +56,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: templates/documents.php:17
+#: templates/documents.php:7
 msgid "Upload"
 msgstr "ਅੱਪਲੋਡ"
 
