@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => " 關閉",
+"Share" => "分享",
 "Failed to load documents." => "載入文件失敗",
 "Sent" => "已送出",
 "Declined" => "已拒絕",

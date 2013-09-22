@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Cerrar",
+"Share" => "Compartir",
 "Failed to load documents." => "Error al cargar los documentos.",
 "Sent" => "Enviado",
 "Declined" => "Denegado",

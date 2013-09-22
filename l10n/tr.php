@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Kapat",
+"Share" => "Paylaş",
 "Failed to load documents." => "Belgeler yüklenemedi.",
 "Sent" => "Gönderildi",
 "Declined" => "Reddedildi",

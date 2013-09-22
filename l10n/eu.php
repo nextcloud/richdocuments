@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Itxi",
+"Share" => "Partekatu",
 "Failed to load documents." => "Dokumentuak kargatzeak huts egin du.",
 "Sent" => "Bidalia",
 "Declined" => "Ez onartua",

@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Sluiten",
+"Share" => "Delen",
 "Failed to load documents." => "Kon documenten niet laden.",
 "Sent" => "Verzonden",
 "Declined" => "Afgewezen",

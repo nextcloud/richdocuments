@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "बंद करें ",
+"Share" => "साझा करें",
 "Failed to load documents." => "दस्तावेज़ लोड करने में असफल रहा।  ",
 "Sent" => "भेज दिया गया ",
 "Declined" => "अस्वीकार कर दिया गया ",

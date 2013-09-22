@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Lukk",
+"Share" => "Del",
 "Failed to load documents." => "Klarte ikkje å lasta dokumenta.",
 "Sent" => "Sendt",
 "Declined" => "Avvist",

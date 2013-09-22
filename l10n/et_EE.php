@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Sulge",
+"Share" => "Jaga",
 "Failed to load documents." => "Dokumentide laadimine ebaõnnestus.",
 "Sent" => "Saadetud",
 "Declined" => "Tagasi lükatud",

@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Zavřít",
+"Share" => "Sdílet",
 "Failed to load documents." => "Nepodařilo se načíst dokumenty.",
 "Sent" => "Odesláno",
 "Declined" => "Zamítnuto",

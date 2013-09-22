@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Zatvori"
+"Close" => "Zatvori",
+"Share" => "Podijeli"
 );

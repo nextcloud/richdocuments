@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Užverti",
+"Share" => "Dalintis",
 "Failed to load documents." => "Nepavyko įkelti dokumentų.",
 "Sent" => "Išsiųsta",
 "Declined" => "Atmesta",
