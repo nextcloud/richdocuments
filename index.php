@@ -30,7 +30,7 @@ namespace OCA\Documents;
 
 \OCP\Util::addStyle( 'documents', 'style' );
 \OCP\Util::addStyle( 'documents', '3rdparty/webodf/dojo-app');
-\OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor' );
+\OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor');
 \OCP\Util::addScript('documents', 'documents');
 
 \OCP\Util::addScript('files', 'file-upload');

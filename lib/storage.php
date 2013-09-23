@@ -58,7 +58,7 @@ class Storage {
 			throw new \Exception($fileId . ' can not be resolved');
 		}
 		
-		$internalPath = preg_replace('/^\/?files/', '', $path);
+		$internalPath = preg_replace('/^\/?files\//', '', $path);
 		if (!\OC\Files\Filesystem::file_exists($internalPath)){
 			$sharedInfo = \OCP\Share::getItemSharedWithBySource(
 						'file', 

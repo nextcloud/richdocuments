@@ -7,4 +7,7 @@
 	<author>Frank Karlitschek</author>
 	<require>5.0.19</require>
 	<shipped>true</shipped>
+	<public>
+		<documents>public.php</documents>
+	</public>
 </info>

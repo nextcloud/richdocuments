@@ -90,7 +90,9 @@ var documentsMain = {
 		documentsMain.UI.init();
 		
 		// Does anything indicate that we need to autostart a session?
-		var fileId = parent.location.hash.replace(/\W*/g, '');
+		var fileId = parent.location.hash.replace(/\W*/g, '')
+		    || $("[name='document']").val()
+		;
 		if (!fileId){
 			documentsMain.show();
 		} else {
@@ -231,6 +233,10 @@ var documentsMain = {
 	},
 	
 	show: function(){
+		if (!OC.currentUser){
+			return;
+		}
+		
 		jQuery.when(documentsMain.loadDocuments())
 			.then(function(){
 				documentsMain.renderDocuments();

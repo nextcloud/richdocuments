@@ -35,11 +35,7 @@ class SessionController extends Controller{
 				$session = Session::add($genesisPath, $hash, $fileId);
 			}
 
-			$session['permissions'] = \OCP\PERMISSION_READ;
-			if (\OC\Files\Filesystem::isSharable($path)) {
-				$session['permissions'] |= \OCP\PERMISSION_SHARE;
-			}
-			
+			$session['permissions'] = View::getFilePermissions($path);
 			$session['member_id'] = (string) Member::add($session['es_id'], $uid, Helper::getRandomColor());
 			\OCP\JSON::success($session);
 			exit();

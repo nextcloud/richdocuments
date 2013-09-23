@@ -30,6 +30,18 @@ class View extends \OC\Files\View{
 		return new \OC\Files\View('/' . $uid . self::DOCUMENTS_DIRNAME);
 	}
 	
+	public static function getFilePermissions($path){
+		$view = new \OC\Files\View('/' . \OCP\User::getUser());
+		$permissions = 0;
+		if ($view->isReadable($path)) {
+			$permissions |= \OCP\PERMISSION_READ;
+		}
+		if ($view->isSharable($path)) {
+			$permissions |= \OCP\PERMISSION_SHARE;
+		}
+		return $permissions;
+	}
+
 	public static function storeDocument($uid, $filePath){
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
