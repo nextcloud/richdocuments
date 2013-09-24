@@ -55,7 +55,8 @@ try{
 						
 						// Do we have OC_Avatar in out disposal?
 						if (!class_exists('\OC_Avatar') || \OC_Config::getValue('enable_avatars', true) !== true){
-							$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+							//$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+							$x['avatar_url'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 						} else {
 							$avatar = new \OC_Avatar($x['uid']);
 							$image = $avatar->get(64);
@@ -67,7 +68,7 @@ try{
 								) . '?requesttoken=' . \OC::$session->get('requesttoken');
 							} else {
 								//shortcircuit if it's not an image
-								$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+								$x['avatar_url'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 							}
 						}
 						return $x;
