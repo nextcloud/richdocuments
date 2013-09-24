@@ -51,7 +51,7 @@ define("webodf/editor/server/owncloud/ServerFactory", [
             this.createServer = function (args) {
                 var server;
                 args = args || {};
-                args.url = "./documents/ajax/otpoll.php";
+                args.url = OC.filePath('documents', 'ajax', 'otpoll.php');
                 args.sessionStateToFileUrl = OC.Router.generate('documents_session_save');
 
                 server = new PullBoxServer(args);
