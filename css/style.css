@@ -86,6 +86,7 @@
 }
 
 #odf-toolbar{
+	text-align: left;
 	position: absolute;
 	width: 100%;
 	padding:0;

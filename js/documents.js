@@ -93,6 +93,13 @@ var documentsMain = {
 		var fileId = parent.location.hash.replace(/\W*/g, '')
 		    || $("[name='document']").val()
 		;
+		
+		if ($("[name='document']").val()){
+			// !Login page mess wih WebODF toolbars
+			$(document.body).attr('id', 'body-user');
+			$('header,footer').hide();
+		}
+		
 		if (!fileId){
 			documentsMain.show();
 		} else {
