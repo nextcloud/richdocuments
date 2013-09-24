@@ -43,8 +43,9 @@ define("webodf/editor/widgets/simpleStyles", [
     function (FontPicker, ToggleButton, NumberSpinner) {
         "use strict";
 
-        var SimpleStyles = function(onToolDone, callback) {
-            var widget = {},
+        var SimpleStyles = function(callback) {
+            var self = this,
+                widget = {},
                 directTextStyler,
                 boldButton,
                 italicButton,
@@ -62,7 +63,7 @@ define("webodf/editor/widgets/simpleStyles", [
                 iconClass: "dijitEditorIcon dijitEditorIconBold",
                 onChange: function (checked) {
                     directTextStyler.setBold(checked);
-                    onToolDone();
+                    self.onToolDone();
                 }
             });
 
@@ -74,7 +75,7 @@ define("webodf/editor/widgets/simpleStyles", [
                 iconClass: "dijitEditorIcon dijitEditorIconItalic",
                 onChange: function (checked) {
                     directTextStyler.setItalic(checked);
-                    onToolDone();
+                    self.onToolDone();
                 }
             });
 
@@ -86,7 +87,7 @@ define("webodf/editor/widgets/simpleStyles", [
                 iconClass: "dijitEditorIcon dijitEditorIconUnderline",
                 onChange: function (checked) {
                     directTextStyler.setHasUnderline(checked);
-                    onToolDone();
+                    self.onToolDone();
                 }
             });
 
@@ -98,7 +99,7 @@ define("webodf/editor/widgets/simpleStyles", [
                 iconClass: "dijitEditorIcon dijitEditorIconStrikethrough",
                 onChange: function (checked) {
                     directTextStyler.setHasStrikethrough(checked);
-                    onToolDone();
+                    self.onToolDone();
                 }
             });
 
@@ -110,8 +111,17 @@ define("webodf/editor/widgets/simpleStyles", [
                 smallDelta: 1,
                 constraints: {min:6, max:96},
                 intermediateChanges: true,
-                onChange: function(value) {
+                onChange: function (value) {
                     directTextStyler.setFontSize(value);
+                },
+                onClick: function () {
+                    self.onToolDone();
+                },
+                onInput: function () {
+                    // Do not process any input in the text box;
+                    // even paste events will not be processed
+                    // so that no corrupt values can exist
+                    return false;
                 }
             });
 
@@ -120,7 +130,7 @@ define("webodf/editor/widgets/simpleStyles", [
             fontPickerWidget.setAttribute('disabled', true);
             fontPickerWidget.onChange = function(value) {
                 directTextStyler.setFontName(value);
-                onToolDone();
+                self.onToolDone();
             };
 
             widget.children = [boldButton, italicButton, underlineButton, strikethroughButton, fontPickerWidget, fontSizeSpinner];
@@ -181,6 +191,8 @@ define("webodf/editor/widgets/simpleStyles", [
                     fontName: directTextStyler ? directTextStyler.fontName() : undefined
                 });
             };
+
+            this.onToolDone = function () {};
 
             callback(widget);
         };

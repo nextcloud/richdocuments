@@ -66,7 +66,7 @@ define("webodf/editor/EditorSession", [
     var EditorSession = function EditorSession(session, localMemberId, config) {
         var self = this,
             currentParagraphNode = null,
-            currentNamedStyleName = null,
+            currentCommonStyleName = null,
             currentStyleName = null,
             caretManager,
             odtDocument = session.getOdtDocument(),
@@ -79,8 +79,8 @@ define("webodf/editor/EditorSession", [
                 EditorSession.signalMemberRemoved,
                 EditorSession.signalCursorMoved,
                 EditorSession.signalParagraphChanged,
-                EditorSession.signalCommonParagraphStyleCreated,
-                EditorSession.signalCommonParagraphStyleDeleted,
+                EditorSession.signalCommonStyleCreated,
+                EditorSession.signalCommonStyleDeleted,
                 EditorSession.signalParagraphStyleModified,
                 EditorSession.signalUndoStackChanged]);
 
@@ -113,24 +113,31 @@ define("webodf/editor/EditorSession", [
 
         function checkParagraphStyleName() {
             var newStyleName,
-                newNamedStyleName;
+                newCommonStyleName;
 
             newStyleName = currentParagraphNode.getAttributeNS(textns, 'style-name');
+
             if (newStyleName !== currentStyleName) {
                 currentStyleName = newStyleName;
-                // check if named style is still the same
-                newNamedStyleName = formatting.getFirstNamedParentStyleNameOrSelf(newStyleName);
-                if (!newNamedStyleName) {
-                    // TODO: how to handle default styles?
-                    return;
-                }
-                // a named style
-                if (newNamedStyleName !== currentNamedStyleName) {
-                    currentNamedStyleName = newNamedStyleName;
+                // check if common style is still the same
+                newCommonStyleName = formatting.getFirstCommonParentStyleNameOrSelf(newStyleName);
+                if (!newCommonStyleName) {
+                    // Default style, empty-string name
+                    currentCommonStyleName = newStyleName = currentStyleName = "";
                     self.emit(EditorSession.signalParagraphChanged, {
                         type: 'style',
                         node: currentParagraphNode,
-                        styleName: currentNamedStyleName
+                        styleName: currentCommonStyleName
+                    });
+                    return;
+                }
+                // a common style
+                if (newCommonStyleName !== currentCommonStyleName) {
+                    currentCommonStyleName = newCommonStyleName;
+                    self.emit(EditorSession.signalParagraphChanged, {
+                        type: 'style',
+                        node: currentParagraphNode,
+                        styleName: currentCommonStyleName
                     });
                 }
             }
@@ -222,11 +229,11 @@ define("webodf/editor/EditorSession", [
         }
 
         function onStyleCreated(newStyleName) {
-            self.emit(EditorSession.signalCommonParagraphStyleCreated, newStyleName);
+            self.emit(EditorSession.signalCommonStyleCreated, newStyleName);
         }
 
         function onStyleDeleted(styleName) {
-            self.emit(EditorSession.signalCommonParagraphStyleDeleted, styleName);
+            self.emit(EditorSession.signalCommonStyleDeleted, styleName);
         }
 
         function onParagraphStyleModified(styleName) {
@@ -289,7 +296,7 @@ define("webodf/editor/EditorSession", [
         };
 
         this.getCurrentParagraphStyle = function () {
-            return currentNamedStyleName;
+            return currentCommonStyleName;
         };
 
         /**
@@ -316,7 +323,7 @@ define("webodf/editor/EditorSession", [
 
         this.setCurrentParagraphStyle = function (value) {
             var op;
-            if (currentNamedStyleName !== value) {
+            if (currentCommonStyleName !== value) {
                 op = new ops.OpSetParagraphStyle();
                 op.init({
                     memberid: localMemberId,
@@ -341,8 +348,17 @@ define("webodf/editor/EditorSession", [
             session.enqueue(op);
         };
 
+        /**
+         * Takes a style name and returns the corresponding paragraph style
+         * element. If the style name is an empty string, the default style
+         * is returned.
+         * @param {!string} styleName
+         * @return {Element}
+         */
         this.getParagraphStyleElement = function (styleName) {
-            return odtDocument.getParagraphStyleElement(styleName);
+            return (styleName === "")
+                ? formatting.getDefaultStyleElement('paragraph')
+                : odtDocument.getParagraphStyleElement(styleName);
         };
 
         /**
@@ -354,8 +370,26 @@ define("webodf/editor/EditorSession", [
             return formatting.isStyleUsed(styleElement);
         };
 
+        function getDefaultParagraphStyleAttributes () {
+            var styleNode = formatting.getDefaultStyleElement('paragraph');
+            if (styleNode) {
+                return formatting.getInheritedStyleAttributes(styleNode);
+            }
+
+            return null;
+        };
+
+        /**
+         * Returns the attributes of a given paragraph style name
+         * (with inheritance). If the name is an empty string,
+         * the attributes of the default style are returned.
+         * @param {!string} styleName
+         * @return {Object}
+         */
         this.getParagraphStyleAttributes = function (styleName) {
-            return odtDocument.getParagraphStyleAttributes(styleName);
+            return (styleName === "")
+                ? getDefaultParagraphStyleAttributes()
+                : odtDocument.getParagraphStyleAttributes(styleName);
         };
 
         /**
@@ -387,7 +421,7 @@ define("webodf/editor/EditorSession", [
          */
         this.cloneParagraphStyle = function (styleName, newStyleDisplayName) {
             var newStyleName = uniqueParagraphStyleNCName(newStyleDisplayName),
-                styleNode = odtDocument.getParagraphStyleElement(styleName),
+                styleNode = self.getParagraphStyleElement(styleName),
                 formatting = odtDocument.getFormatting(),
                 op, setProperties, attributes, i;
 
@@ -406,10 +440,11 @@ define("webodf/editor/EditorSession", [
 
             setProperties['style:display-name'] = newStyleDisplayName;
 
-            op = new ops.OpAddParagraphStyle();
+            op = new ops.OpAddStyle();
             op.init({
                 memberid: localMemberId,
                 styleName: newStyleName,
+                styleFamily: 'paragraph',
                 setProperties: setProperties
             });
             session.enqueue(op);
@@ -419,10 +454,11 @@ define("webodf/editor/EditorSession", [
 
         this.deleteStyle = function (styleName) {
             var op;
-            op = new ops.OpRemoveParagraphStyle();
+            op = new ops.OpRemoveStyle();
             op.init({
                 memberid: localMemberId,
-                styleName: styleName
+                styleName: styleName,
+                styleFamily: 'paragraph'
             });
             session.enqueue(op);
         };
@@ -522,8 +558,8 @@ define("webodf/editor/EditorSession", [
             odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
             odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
             odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
-            odtDocument.unsubscribe(ops.OdtDocument.signalCommonParagraphStyleCreated, onStyleCreated);
-            odtDocument.unsubscribe(ops.OdtDocument.signalCommonParagraphStyleDeleted, onStyleDeleted);
+            odtDocument.unsubscribe(ops.OdtDocument.signalCommonStyleCreated, onStyleCreated);
+            odtDocument.unsubscribe(ops.OdtDocument.signalCommonStyleDeleted, onStyleDeleted);
             odtDocument.unsubscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
             odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
             odtDocument.unsubscribe(ops.OdtDocument.signalUndoStackChanged, undoStackModified);
@@ -564,8 +600,8 @@ define("webodf/editor/EditorSession", [
             odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
             odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
             odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
-            odtDocument.subscribe(ops.OdtDocument.signalCommonParagraphStyleCreated, onStyleCreated);
-            odtDocument.subscribe(ops.OdtDocument.signalCommonParagraphStyleDeleted, onStyleDeleted);
+            odtDocument.subscribe(ops.OdtDocument.signalCommonStyleCreated, onStyleCreated);
+            odtDocument.subscribe(ops.OdtDocument.signalCommonStyleDeleted, onStyleDeleted);
             odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
             odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, trackCurrentParagraph);
             odtDocument.subscribe(ops.OdtDocument.signalUndoStackChanged, undoStackModified);
@@ -578,8 +614,8 @@ define("webodf/editor/EditorSession", [
     /**@const*/EditorSession.signalMemberRemoved =          "memberRemoved";
     /**@const*/EditorSession.signalCursorMoved =            "cursorMoved";
     /**@const*/EditorSession.signalParagraphChanged =       "paragraphChanged";
-    /**@const*/EditorSession.signalCommonParagraphStyleCreated =           "styleCreated";
-    /**@const*/EditorSession.signalCommonParagraphStyleDeleted =           "styleDeleted";
+    /**@const*/EditorSession.signalCommonStyleCreated =     "styleCreated";
+    /**@const*/EditorSession.signalCommonStyleDeleted =     "styleDeleted";
     /**@const*/EditorSession.signalParagraphStyleModified = "paragraphStyleModified";
     /**@const*/EditorSession.signalUndoStackChanged =       "signalUndoStackChanged";
 

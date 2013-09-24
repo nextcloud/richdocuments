@@ -41,23 +41,24 @@ define("webodf/editor/widgets/toolbarWidgets/currentStyle",
   function (EditorSession) {
     "use strict";
 
-    return function CurrentStyle(onToolDone, callback) {
-        var editorSession,
+    return function CurrentStyle(callback) {
+        var self = this,
+            editorSession,
             paragraphStyles;
 
         function selectParagraphStyle(info) {
             if (paragraphStyles) {
                 if (info.type === 'style') {
-                    paragraphStyles.widget().set("value", info.styleName);
+                    paragraphStyles.setValue(info.styleName);
                 }
             }
         }
 
-        function setParagraphStyle(value) {
+        function setParagraphStyle() {
             if (editorSession) {
-                editorSession.setCurrentParagraphStyle(value);
-                onToolDone();
+                editorSession.setCurrentParagraphStyle(paragraphStyles.value());
             }
+            self.onToolDone();
         }
 
         function makeWidget(callback) {
@@ -88,6 +89,8 @@ define("webodf/editor/widgets/toolbarWidgets/currentStyle",
                 // TODO: selectParagraphStyle(editorSession.getCurrentParagraphStyle());
             }
         };
+
+        this.onToolDone = function () {};
 
         makeWidget(function (widget) {
             return callback(widget);

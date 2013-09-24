@@ -46,23 +46,40 @@ define("webodf/editor/widgets/paragraphStyles",
     var ParagraphStyles = function (callback) {
         var self = this,
             editorSession,
-            select;
+            select,
+            translator = document.translator,
+            defaultStyleUIId = ":default";
 
         this.widget = function () {
             return select;
         };
 
+        /*
+         * In this widget, we name the default style
+         * (which is referred to as "" in webodf) as
+         * ":default". The ":" is disallowed in an NCName, so this
+         * avoids clashes with other styles.
+         */
+
         this.value = function () {
-            return select.get('value');
+            var value = select.get('value');
+            if (value === defaultStyleUIId) {
+                value = "";
+            }
+            return value;
         };
 
         this.setValue = function (value) {
+            if (value === "") {
+                value = defaultStyleUIId;
+            }
             select.set('value', value);
         };
 
         // events
         this.onAdd = null;
         this.onRemove = null;
+        this.onChange = function () {};
 
         function populateStyles() {
             var i, selectionList, availableStyles;
@@ -71,7 +88,11 @@ define("webodf/editor/widgets/paragraphStyles",
                 return;
             }
 
-            selectionList = [];
+            // Populate the Default Style always 
+            selectionList = [{
+                label: translator("defaultStyle"),
+                value: defaultStyleUIId
+            }];
             availableStyles = editorSession ? editorSession.getAvailableParagraphStyles() : [];
 
             for (i = 0; i < availableStyles.length; i += 1) {
@@ -85,29 +106,38 @@ define("webodf/editor/widgets/paragraphStyles",
             select.addOption(selectionList);
         }
 
-        function addStyle(newStyleName) {
+        function addStyle(styleInfo) {
             var stylens = "urn:oasis:names:tc:opendocument:xmlns:style:1.0",
-                newStyleElement = editorSession.getParagraphStyleElement(newStyleName);
+                newStyleElement;
 
+            if (styleInfo.family !== 'paragraph') {
+                return;
+            }
+
+            newStyleElement = editorSession.getParagraphStyleElement(styleInfo.name);
             if (select) {
                 select.addOption({
-                    value: newStyleName,
+                    value: styleInfo.name,
                     label: newStyleElement.getAttributeNS(stylens, 'display-name')
                 });
             }
 
             if (self.onAdd) {
-                self.onAdd(newStyleName);
+                self.onAdd(styleInfo.name);
             }
         }
 
-        function removeStyle(styleName) {
+        function removeStyle(styleInfo) {
+            if (styleInfo.family !== 'paragraph') {
+                return;
+            }
+
             if (select) {
-                select.removeOption(styleName);
+                select.removeOption(styleInfo.name);
             }
 
             if (self.onRemove) {
-                self.onRemove(styleName);
+                self.onRemove(styleInfo.name);
             }
         }
 
@@ -123,19 +153,28 @@ define("webodf/editor/widgets/paragraphStyles",
 
                 populateStyles();
 
+                // Call ParagraphStyles's onChange handler every time
+                // the select's onchange is called, and pass the value
+                // as reported by ParagraphStyles.value(), because we do not
+                // want to expose the internal naming like ":default" outside this
+                // class.
+                select.onChange = function () {
+                    self.onChange(self.value());
+                };
+
                 return cb();
             });
         }
 
         this.setEditorSession = function(session) {
             if (editorSession) {
-                editorSession.unsubscribe(EditorSession.signalCommonParagraphStyleCreated, addStyle);
-                editorSession.unsubscribe(EditorSession.signalCommonParagraphStyleDeleted, removeStyle);
+                editorSession.unsubscribe(EditorSession.signalCommonStyleCreated, addStyle);
+                editorSession.unsubscribe(EditorSession.signalCommonStyleDeleted, removeStyle);
             }
             editorSession = session;
             if (editorSession) {
-                editorSession.subscribe(EditorSession.signalCommonParagraphStyleCreated, addStyle);
-                editorSession.subscribe(EditorSession.signalCommonParagraphStyleDeleted, removeStyle);
+                editorSession.subscribe(EditorSession.signalCommonStyleCreated, addStyle);
+                editorSession.subscribe(EditorSession.signalCommonStyleDeleted, removeStyle);
                 populateStyles();
             }
         };
