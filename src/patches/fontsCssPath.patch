@@ -1,0 +1,13 @@
+diff --git a/js/3rdparty/webodf/editor/EditorSession.js b/js/3rdparty/webodf/editor/EditorSession.js
+index dc90ac1..d890a8e 100644
+--- a/js/3rdparty/webodf/editor/EditorSession.js
++++ b/js/3rdparty/webodf/editor/EditorSession.js
+@@ -36,7 +36,7 @@
+ /*global define, runtime, core, gui, ops, document */
+ 
+ define("webodf/editor/EditorSession", [
+-    "dojo/text!resources/fonts/fonts.css"
++    "dojo/text!" + OC.filePath('documents', 'css', 'fonts.css')
+ ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
+     "use strict";
+ 
