@@ -36,8 +36,8 @@ class DocumentController extends Controller{
 
 		$session = Session::getSession(@$args['es_id']);
 		$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
-		$documentsView = View::initDocumentsView($session['owner']);
-		$download = new Download($documentsView, $filename);
+		$documentsView = new View('/' . $session['owner']);
+		$download = new Download($documentsView->initDocumentsView(), $filename);
 		$download->sendResponse();
 	}
 

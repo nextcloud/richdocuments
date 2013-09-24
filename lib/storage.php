@@ -42,46 +42,6 @@ class Storage {
 	}
 	
 	/**
-	 * @brief Retrieve path by fileId
-	 * @param int $fileId
-	 * @throws \Exception
-	 */
-	public static function getFilePath($fileId){
-		if (!$fileId){
-			throw new \Exception('No valid file has been passed');
-		}
-		
-		$fileInfo = \OC\Files\Cache\Cache::getById($fileId);
-		$path = @$fileInfo[1];
-
-		if (!$path){
-			throw new \Exception($fileId . ' can not be resolved');
-		}
-		
-		$internalPath = preg_replace('/^\/?files\//', '', $path);
-		if (!\OC\Files\Filesystem::file_exists($internalPath)){
-			$sharedInfo = \OCP\Share::getItemSharedWithBySource(
-						'file', 
-						$fileId,
-						\OCP\Share::FORMAT_NONE,
-						null,
-						true
-					);
-			if (!$sharedInfo){
-				throw new \Exception($path . ' can not be resolved in shared cache');
-			}
-			// this file is shared
-			$internalPath = 'Shared' . $sharedInfo['file_target'];
-		}
-		
-		if (!\OC\Files\Filesystem::file_exists($internalPath)){
-			throw new \Exception($path . ' doesn\'t exist');
-		}
-		
-		return 'files/' . $internalPath;
-	}	
-
-	/**
 	 * @brief Cleanup session data on removing the document
 	 * @param array
 	 *

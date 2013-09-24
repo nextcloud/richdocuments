@@ -15,56 +15,45 @@ class View extends \OC\Files\View{
 	const DOCUMENTS_DIRNAME='/documents';
 	protected static $documentsView;
 	
-	public static function initDocumentsView($uid){
-		$view = new \OC\Files\View('/' . $uid);
-		if (!$view->is_dir(self::DOCUMENTS_DIRNAME)) {
-			$view->mkdir(self::DOCUMENTS_DIRNAME);
+	public function initDocumentsView(){
+		if (!$this->is_dir(self::DOCUMENTS_DIRNAME)) {
+			$this->mkdir(self::DOCUMENTS_DIRNAME);
 		}
 		
-		//if (!self::$documentsView){
-		//	self::$documentsView = new \OC\Files\View('/' . $uid . self::DOCUMENTS_DIRNAME);
-		//}
-		
-		// it was a bad idea to use a static method.
-		// to be changed later
-		return new \OC\Files\View('/' . $uid . self::DOCUMENTS_DIRNAME);
+		return new \OC\Files\View( $this->getRoot() . self::DOCUMENTS_DIRNAME);
 	}
 	
-	public static function getFilePermissions($path){
-		$view = new \OC\Files\View('/' . \OCP\User::getUser());
+	public function getFilePermissions($path){
 		$permissions = 0;
-		if ($view->isReadable($path)) {
+		if ($this->isReadable($path)) {
 			$permissions |= \OCP\PERMISSION_READ;
 		}
-		if ($view->isSharable($path)) {
+		if ($this->isSharable($path)) {
 			$permissions |= \OCP\PERMISSION_SHARE;
 		}
 		return $permissions;
 	}
 
-	public static function storeDocument($uid, $filePath){
+	public function storeDocument($ownerView, $filePath){
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
-		$view = new \OC\Files\View('/' . $uid);
-		
-		if (!$view->file_exists($filePath)){
+		if (!$ownerView->file_exists($filePath)){
 			throw new \Exception($filePath . ' doesn\'t exist');
 		}
 		
-		if (!$view->is_file($filePath)){
+		if (!$ownerView->is_file($filePath)){
 			throw new \Exception('Object ' . $filePath . ' is not a file.');
 		}
 		
-		$newName = '/' . sha1($view->file_get_contents($filePath)) . '.odt';
+		$newName = '/' . sha1($ownerView->file_get_contents($filePath)) . '.odt';
 
-		$view->copy($filePath, self::DOCUMENTS_DIRNAME . $newName);
+		$ownerView->copy($filePath, self::DOCUMENTS_DIRNAME . $newName);
 		\OC_FileProxy::$enabled = $proxyStatus;
 		return $newName;
 	}
 	
-	public static function getHashByGenesis($uid, $genesisPath){
-		$documentsView = self::initDocumentsView($uid);
-		return sha1($documentsView->file_get_contents($genesisPath));
+	public function getHashByGenesis($genesisPath){
+		return sha1($this->file_get_contents(self::DOCUMENTS_DIRNAME . $genesisPath));
 	}
 }

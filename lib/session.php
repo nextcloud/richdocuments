@@ -14,7 +14,7 @@ namespace OCA\Documents;
 class Session extends Db{
 	const DB_TABLE = '`*PREFIX*documents_session`';
 	
-	public static function add($genesis, $hash, $fileId){
+	public static function add($genesis, $hash, $owner, $fileId){
 		$query = \OCP\DB::prepare('
 			INSERT INTO ' . self::DB_TABLE . ' (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`)
 			VALUES (?, ?, ?, ?, ?)
@@ -24,7 +24,7 @@ class Session extends Db{
 			'es_id' => self::getUniqueSessionId(),
 			'genesis_url' => $genesis,
 			'genesis_hash' => $hash,
-			'owner' => \OCP\User::getUser(),
+			'owner' => $owner,
 			'file_id' => $fileId
 		);
 		$result = $query->execute(array_values($data));

@@ -18,24 +18,29 @@ class SessionController extends Controller{
 		$uid = self::preDispatch();
 		$fileId = intval(@$args['file_id']);
 		try{
-			$path = Storage::getFilePath($fileId);
+			$file = new File($fileId);
+			list($ownerView, $path) = $file->getOwnerViewAndPath();
 			$session = Session::getSessionByFileId($fileId);
 			
 			//If there is no existing session we need to start a new one
 			if (!$session || empty($session)){
 
-				$documentsView = View::initDocumentsView($uid);
-				$genesisPath = View::storeDocument($uid, $path);
+				$genesisPath = $ownerView->storeDocument($ownerView, $path);
 
 				if (!$genesisPath){
 					throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
 				}
 
-				$hash = View::getHashByGenesis($uid, $genesisPath);
-				$session = Session::add($genesisPath, $hash, $fileId);
+				$hash = $ownerView->getHashByGenesis($genesisPath);
+				$session = Session::add(
+						$genesisPath, 
+						$hash, 
+						$file->getOwner(), 
+						$fileId
+				);
 			}
 
-			$session['permissions'] = View::getFilePermissions($path);
+			$session['permissions'] = $ownerView->getFilePermissions($path);
 			$session['member_id'] = (string) Member::add($session['es_id'], $uid, Helper::getRandomColor());
 			\OCP\JSON::success($session);
 			exit();
@@ -70,8 +75,8 @@ class SessionController extends Controller{
 				throw new \Exception('Session does not exist');
 			}
 			
-			$path = Storage::getFilePath($session['file_id']);
-			$view = new \OC\Files\View('/' . $uid);
+			$file = new File($session['file_id']);
+			list($view, $path) = $file->getOwnerViewAndPath();
 
 			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
 			if (!$isWritable){
@@ -153,5 +158,4 @@ class SessionController extends Controller{
 		$tmpl->assign('sessions', $sessions);
 		echo $tmpl->fetchPage();
 	}
-
 }
