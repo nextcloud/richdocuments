@@ -21,14 +21,14 @@ class Member extends Db{
 	const MEMBER_STATUS_ACTIVE = 1;
 	const MEMBER_STATUS_INACTIVE = 2;
 
-	public static function add($esId, $displayname, $color){
+	public static function add($esId, $uid, $color){
 		$query = \OCP\DB::prepare('
 			INSERT INTO ' . self::DB_TABLE . ' (`es_id`, `uid`, `color`, `last_activity`)
 			VALUES (?, ?, ?, ?)
 			');
 		$query->execute(array(
 			$esId,
-			\OCP\User::getUser(),
+			$uid,
 			$color,
 			time()
 		));

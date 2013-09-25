@@ -57,13 +57,21 @@ $this->create('documents_session_listhtml', 'ajax/session/listHtml')
 	->action('\OCA\Documents\SessionController', 'listAllHtml')
 ;
 
-$this->create('documents_session_join', 'ajax/session/join/{file_id}')
+$this->create('documents_session_joinasuser', 'ajax/session/joinasuser/{file_id}')
 	->get()
-	->action('\OCA\Documents\SessionController', 'join')
+	->action('\OCA\Documents\SessionController', 'joinAsUser')
 ;
-$this->create('documents_session_join', 'ajax/session/join/{file_id}')
+$this->create('documents_session_joinasuser', 'ajax/session/joinasuser/{file_id}')
 	->post()
-	->action('\OCA\Documents\SessionController', 'join')
+	->action('\OCA\Documents\SessionController', 'joinAsUser')
+;
+$this->create('documents_session_joinasguest', 'ajax/session/joinasguest/{token}')
+	->get()
+	->action('\OCA\Documents\SessionController', 'joinAsGuest')
+;
+$this->create('documents_session_joinasguest', 'ajax/session/joinasguest/{token}')
+	->post()
+	->action('\OCA\Documents\SessionController', 'joinAsGuest')
 ;
 
 $this->create('documents_session_save', 'ajax/session/save')

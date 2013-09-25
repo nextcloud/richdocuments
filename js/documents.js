@@ -5,6 +5,7 @@ var documentsMain = {
 	_members: [],
 	isEditormode : false,
 	useUnstable : false,
+	isGuest : false,
 	
 	UI : {
 		/* Overlay HTML */
@@ -89,10 +90,14 @@ var documentsMain = {
 		"use strict";
 		documentsMain.UI.init();
 		
-		// Does anything indicate that we need to autostart a session?
-		var fileId = parent.location.hash.replace(/\W*/g, '')
-		    || $("[name='document']").val()
-		;
+		if (!OC.currentUser){
+			documentsMain.isGuest = true;
+			var fileId = $("[name='document']").val();
+		} else {
+			// Does anything indicate that we need to autostart a session?
+			var fileId = parent.location.hash.replace(/\W*/g, '');
+		}
+		
 		
 		if ($("[name='document']").val()){
 			// !Login page mess wih WebODF toolbars
@@ -138,7 +143,6 @@ var documentsMain = {
 	initSession: function(response) {
 		"use strict";
 		
-
 		if (!response || !response.es_id || !response.status || response.status==='error'){
 			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			documentsMain.prepareGrid();
@@ -175,9 +179,15 @@ var documentsMain = {
 
 	joinSession: function(fileId) {
 		console.log('joining session '+fileId);
+		var url;
+		if (documentsMain.isGuest){
+			url = OC.Router.generate('documents_session_joinasguest') + '/' + fileId
+		} else {
+			url = OC.Router.generate('documents_session_joinasuser') + '/' + fileId
+		}
 		$.post(
-			OC.Router.generate('documents_session_join') + '/' + fileId,
-			{},
+			url,
+			{ },
 			documentsMain.initSession
 		);
 	},
@@ -230,7 +240,12 @@ var documentsMain = {
 			// successfull shutdown - all is good.
 			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
 // 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
+			if (documentsMain.isGuest){
+				$(document.body).attr('id', 'body-login');
+				$('header,footer').show();
+			}
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
+			
 // 			});
 		});
 	},
@@ -240,7 +255,7 @@ var documentsMain = {
 	},
 	
 	show: function(){
-		if (!OC.currentUser){
+		if (documentsMain.isGuest){
 			return;
 		}
 		

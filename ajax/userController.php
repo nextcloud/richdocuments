@@ -46,5 +46,4 @@ class UserController extends Controller{
 
 		echo $image->show();
 	}
-	
 }

@@ -27,5 +27,17 @@ class Controller {
 		\OCP\JSON::checkLoggedIn();
 		return \OCP\User::getUser();
 	}
+	
+	/**
+	 * Do security precheck for not logged in users
+	 * @param bool callcheck - whether security token check is needed
+	 */
+	public static function preDispatchGuest($callcheck = true){
+		if ($callcheck){
+			\OCP\JSON::callCheck();
+		}
+		\OCP\JSON::checkAppEnabled('documents');
+		return '(guest)';
+	}
 
 }

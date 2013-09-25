@@ -14,34 +14,23 @@ namespace OCA\Documents;
 
 class SessionController extends Controller{
 	
-	public static function join($args){
+	public static function joinAsGuest($args){
+		$uid = self::preDispatchGuest();
+		$token = @$args['token'];
+		$file = File::getByShareToken($token);
+		self::join($uid, $file);
+	}
+
+	public static function joinAsUser($args){
 		$uid = self::preDispatch();
 		$fileId = intval(@$args['file_id']);
+		$file = new File($fileId);
+		self::join($uid, $file);
+	}
+	
+	protected static function join($uid, $file){
 		try{
-			$file = new File($fileId);
-			list($ownerView, $path) = $file->getOwnerViewAndPath();
-			$session = Session::getSessionByFileId($fileId);
-			
-			//If there is no existing session we need to start a new one
-			if (!$session || empty($session)){
-
-				$genesisPath = $ownerView->storeDocument($ownerView, $path);
-
-				if (!$genesisPath){
-					throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
-				}
-
-				$hash = $ownerView->getHashByGenesis($genesisPath);
-				$session = Session::add(
-						$genesisPath, 
-						$hash, 
-						$file->getOwner(), 
-						$fileId
-				);
-			}
-
-			$session['permissions'] = $ownerView->getFilePermissions($path);
-			$session['member_id'] = (string) Member::add($session['es_id'], $uid, Helper::getRandomColor());
+			$session = Session::start($uid, $file);
 			\OCP\JSON::success($session);
 			exit();
 		} catch (\Exception $e){
@@ -50,8 +39,8 @@ class SessionController extends Controller{
 			exit();
 		}
 	}
-	
-	/**
+
+		/**
 	 * Store the document content to its origin
 	 */
 	public static function save(){

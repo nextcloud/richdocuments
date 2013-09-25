@@ -37,7 +37,11 @@
 
 namespace OCA\Documents;
 
- \OCP\JSON::checkLoggedIn();
+
+//TODO: check if the session is related to a public share
+ //\OCP\JSON::checkLoggedIn();
+
+
  \OCP\JSON::checkAppEnabled('documents');
  // session_write_close();
 

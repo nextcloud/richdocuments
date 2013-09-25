@@ -38,7 +38,7 @@ if (isset($fileOwner)) {
 	\OCP\Util::addStyle( 'documents', '3rdparty/webodf/dojo-app');
 	\OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor' );
 	\OCP\Util::addScript('documents', 'documents');
-	$tmpl->assign('document', $rootLinkItem['file_source']);
+	$tmpl->assign('document', $token);
 } else {
 	// TODO: show nice 404 page
 }
