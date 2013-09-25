@@ -383,7 +383,7 @@ define("webodf/editor/Editor", [
                 odfCanvas.addListener("statereadychange", function () {
                     var viewOptions = {
                             editInfoMarkersInitiallyVisible: collabEditing,
-                            caretAvatarsInitiallyVisible: collabEditing,
+                            caretAvatarsInitiallyVisible: false,
                             caretBlinksOnRangeSelect: true
                         };
 
