@@ -1,0 +1,13 @@
+diff --git a/js/3rdparty/webodf/editor/Editor.js b/js/3rdparty/webodf/editor/Editor.js
+index 644f4b5..50881a2 100644
+--- a/js/3rdparty/webodf/editor/Editor.js
++++ b/js/3rdparty/webodf/editor/Editor.js
+@@ -383,7 +383,7 @@ define("webodf/editor/Editor", [
+                 odfCanvas.addListener("statereadychange", function () {
+                     var viewOptions = {
+                             editInfoMarkersInitiallyVisible: collabEditing,
+-                            caretAvatarsInitiallyVisible: collabEditing,
++                            caretAvatarsInitiallyVisible: false,
+                             caretBlinksOnRangeSelect: true
+                         };
+ 

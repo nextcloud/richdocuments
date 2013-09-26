@@ -34,3 +34,4 @@ cp "$WEBODF_BUILDDIR"/programs/editor/editor.css ./css/3rdparty/webodf
 
 # patches against upstream
 patch -p1 -i src/patches/fontsCssPath.patch
+patch -p1 -i src/patches/hideCaretAvatar.patch
