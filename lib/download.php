@@ -11,6 +11,9 @@
 
 namespace OCA\Documents;
 
+/**
+ * Generic download class
+ */
 class Download {
 	
 	/**
@@ -25,6 +28,10 @@ class Download {
 	 */
 	protected $filepath;
 	
+	/**
+	 * Subclassed object
+	 * @var 
+	 */
 	protected $instance;
 
 	/**

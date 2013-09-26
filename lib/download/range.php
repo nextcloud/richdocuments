@@ -11,6 +11,9 @@
 
 namespace OCA\Documents;
 
+/**
+ * Class processing range HTTP request (partial download)
+ */
 class Download_Range extends \OCA\Documents\Download {
 
 	// Start of the range

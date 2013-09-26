@@ -11,6 +11,9 @@
 
 namespace OCA\Documents;
 
+/**
+ * Class processing complete download
+ */
 class Download_Simple extends \OCA\Documents\Download {
 
 	public function __construct($view, $filepath){

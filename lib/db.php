@@ -11,6 +11,10 @@
 
 namespace OCA\Documents;
 
+/**
+ * Generic DB class 
+ */
+
 class Db {
 	/**
 	 * Build placeholders for the query with variable input data 
