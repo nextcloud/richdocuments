@@ -55,9 +55,10 @@ class Member extends Db{
 	}
 	
 	public static function updateMemberActivity($memberId){
-		$query = \OCP\DB::prepare('UPDATE ' . self::DB_TABLE . ' SET `last_activity`=? WHERE `member_id`=?');
+		$query = \OCP\DB::prepare('UPDATE ' . self::DB_TABLE . ' SET `last_activity`=?, `status`=? WHERE `member_id`=?');
 		$query->execute(array(
 			time(),
+			self::MEMBER_STATUS_ACTIVE,
 			$memberId
 		));
 	}

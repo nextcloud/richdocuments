@@ -44,7 +44,6 @@ class SessionController extends Controller{
 	 * Store the document content to its origin
 	 */
 	public static function save(){
-		$uid = self::preDispatch();
 		try {
 			$sessionID = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
 			if (!$sessionID){
@@ -65,6 +64,13 @@ class SessionController extends Controller{
 			}
 			
 			$file = new File($session['file_id']);
+			if (!$file->isPublicShare()){
+				self::preDispatch();
+			} else {
+				self::preDispatchGuest();
+			}
+			
+			
 			list($view, $path) = $file->getOwnerViewAndPath();
 
 			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);

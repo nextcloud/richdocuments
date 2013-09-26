@@ -27,6 +27,7 @@ class File {
 	protected $fileId;
 	protected $owner;
 	protected $path;
+	protected $sharing;
 	
 	public function __construct($fileId){
 		if (!$fileId){
@@ -34,6 +35,10 @@ class File {
 		}
 
 		$this->fileId = $fileId;
+		
+		//if you know how to get sharing info by fileId via API, 
+		//please send me a link to video tutorial :/
+		$this->sharing = $this->getSharingOps();
 	}
 	
 	public static function getByShareToken($token){
@@ -47,8 +52,6 @@ class File {
 		}
 		
 		$file = new File($rootLinkItem['file_source']);
-		$file->setOwner($rootLinkItem['uid_owner']);
-		$file->setPath('/files' . $rootLinkItem['file_target']);
 		
 		return $file;
 	}
@@ -64,6 +67,18 @@ class File {
 	public function setPath($path){
 		$this->path = $path;
 	}
+	
+	public function isPublicShare(){
+		foreach ($this->sharing as $share){
+			if (
+					$share['share_type'] == \OCP\Share::SHARE_TYPE_LINK 
+					|| $share['share_type'] == \OCP\Share::SHARE_TYPE_EMAIL
+				){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * 
@@ -71,69 +86,87 @@ class File {
 	 * @throws \Exception
 	 */
 	public function getOwnerViewAndPath(){
-		if (!$this->owner || !$this->path){
-			$fileInfo = \OC\Files\Cache\Cache::getById($this->fileId);
-
-			//is it shared 
-			$sharedInfo = $this->getSharedBySource();
-		
-			if (is_array($sharedInfo)){
-				$owner = $sharedInfo['uid_owner'];
-				$path = $sharedInfo['path'];
+		if (!$this->owner || !$this->path){			
+			$info = $this->getSharedFileOwnerAndPath();
+			if (is_array($info) && count($info)){
+				$owner = $info[0];
+				$path = $info[1];
 			} else {
-				// owner is myself
-				$owner = \OCP\User::getUser();
-				$path = @$fileInfo[1];
+				list($owner, $path) = $this->getLocalFileOwnerAndPath();
 			}
 
 			if (!$path){
 				throw new \Exception($this->fileId . ' can not be resolved');
 			}
-		
-			$view = new View('/' . $owner);
 			
+			$this->path = $path;
 			$this->owner = $owner;
-		} else {
-			$view = new View('/' . $this->owner);
-			$path = $this->path;
 		}
 		
-		if (!$view->file_exists($path)){
-			throw new \Exception($path . ' doesn\'t exist');
+		$view = new View('/' . $this->owner);
+		if (!$view->file_exists($this->path)){
+			throw new \Exception($this->path . ' doesn\'t exist');
 		}
 		
-		return array($view, $path);
+		return array($view, $this->path);
 	}
-	
+
 	public function getOwner(){
 		if (!$this->owner){
-
-			$fileInfo = \OC\Files\Cache\Cache::getById($this->fileId);
-
-			//is it shared 
-			$sharedInfo = $this->getSharedBySource();
-			if (!is_array($sharedInfo)){
-				$sharedInfo = $this->getSharedByLink();
-			}
-		
-			if (is_array($sharedInfo)){
-				$this->owner = $sharedInfo['uid_owner'];
-			} else {
-				// owner is myself
-				$this->owner = \OCP\User::getUser();
-			}
+			$this->getOwnerViewAndPath();
 		}
 		return $this->owner;
 	}
-
-	protected function getSharedBySource(){
-		return \OCP\Share::getItemSharedWithBySource(
-					'file', 
-					$this->fileId,
-					\OCP\Share::FORMAT_NONE,
-					null,
-					true
-		);
+	
+	protected function getSharedFileOwnerAndPath(){
+		$result = array();
+		foreach ($this->sharing as $share){
+			return array(
+				$share['uid_owner'],
+				$share['path']
+			);
+		}
+		
+		return $result;
 	}
 	
+	
+	protected function getLocalFileOwnerAndPath(){
+		$fileInfo = \OC\Files\Cache\Cache::getById($this->fileId);
+		$owner = \OCP\User::getUser();
+		if (!$owner){
+			throw new Exception('Guest users can\'t access local files. This one was probably unshared recently.');
+		}
+
+		return array ($owner, @$fileInfo[1]);
+	}
+
+	protected function getSharingOps(){
+		
+		$where  = 'AND `file_source`=?';
+		$values = array($this->fileId);
+		
+		if (\OCP\User::isLoggedIn()){
+			$where .= ' AND ((`share_type`=' . \OCP\Share::SHARE_TYPE_USER . ' AND `share_with`=?) OR  `share_type`=' . \OCP\Share::SHARE_TYPE_LINK . ')';
+			$values[] = \OCP\User::getUser();
+		} else {
+			$where .= ' AND (`share_type`=' . \OCP\Share::SHARE_TYPE_LINK . ')';
+		}
+		
+		$query = \OC_DB::prepare('SELECT `*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, '
+							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
+							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
+							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`' 
+							.'FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `item_type` = `file` ' . $where);
+		$result = $query->execute($values);
+		$shares = $result->fetchAll();
+		
+		$origins = array();
+		if (is_array($shares)){
+			foreach ($shares as $share){
+				$origins[] = \OCP\Share::resolveReShare($share);
+			}
+		}
+		return $origins;
+	}
 }

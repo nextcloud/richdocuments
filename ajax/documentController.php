@@ -17,6 +17,7 @@ class DocumentController extends Controller{
 	
 	public static function create($args){
 		$uid = self::preDispatch();
+		
 		$view = new \OC\Files\View('/' . $uid . '/files');
 		$path = Helper::getNewFileName($view, '/New Document.odt');
 		
@@ -32,9 +33,15 @@ class DocumentController extends Controller{
 	 * @param array $args - array containing session id as anelement with a key es_id 
 	 */
 	public static function serve($args){
-		self::preDispatch(false);
-
 		$session = Session::getSession(@$args['es_id']);
+		
+		$file = new File(@$session['file_id']);
+		if (!$file->isPublicShare()){
+			self::preDispatch(false);
+		} else {
+			self::preDispatchGuest(false);
+		}
+		
 		$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
 		$documentsView = new View('/' . $session['owner']);
 		$download = new Download($documentsView->initDocumentsView(), $filename);

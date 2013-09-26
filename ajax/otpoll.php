@@ -37,17 +37,20 @@
 
 namespace OCA\Documents;
 
-
-//TODO: check if the session is related to a public share
- //\OCP\JSON::checkLoggedIn();
-
-
- \OCP\JSON::checkAppEnabled('documents');
- // session_write_close();
-
 $response = array();
+
 try{
 	$request = new Request();
+	$esId = $request->getParam('args/es_id');
+	
+	$session = Session::getSession($esId);
+	$file = new File(@$session['file_id']);
+	if (!$file->isPublicShare()){
+		Controller::preDispatch(false);
+	} else {
+		Controller::preDispatchGuest(false);
+	}
+	
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'query_memberdata_list':
@@ -84,7 +87,6 @@ try{
 		case 'sync_ops':
 			$seqHead = (string) $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){
-				$esId = $request->getParam('args/es_id');
 				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
