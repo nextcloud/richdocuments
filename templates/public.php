@@ -1,5 +1,12 @@
+<div id="notification-container">
+	<div id="notification" style="display: none;"></div>
+</div>
 <div id="documents-content">
 	<?php if (isset($_['document'])): ?>
 		<input type="hidden" name="document" value ="<?php p($_['document']) ?>" />
+	<?php endif; ?>
+	<?php if (isset($_['notFound'])): ?>
+		<div class="push"></div>
+		<div class="warning"><?php p($l->t('This link has been expired or is never existed. Please contact the person who shared it with you for details.')) ?></div>
 	<?php endif; ?>
 </div>

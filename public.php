@@ -40,7 +40,7 @@ if (isset($fileOwner)) {
 	\OCP\Util::addScript('documents', 'documents');
 	$tmpl->assign('document', $token);
 } else {
-	// TODO: show nice 404 page
+	$tmpl->assign('notFound', true);
 }
 
 $tmpl->printPage();
