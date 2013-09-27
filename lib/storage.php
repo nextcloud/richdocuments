@@ -56,11 +56,16 @@ class Storage {
 			return;
 		}
 		
-		$session = Session::getSessionByFileId($fileId);
+		$sessionObj = new Db_Session();
+		$session = $sessionObj
+					->loadBy('file_id', $fileId)
+					->getData()
+				;
+
 		if (!is_array($session)){
 			return;
 		}
 		
-		Session::cleanUp($session['es_id']);
+		Db_Session::cleanUp($session['es_id']);
 	}
 }

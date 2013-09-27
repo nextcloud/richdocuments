@@ -30,7 +30,7 @@ class SessionController extends Controller{
 	
 	protected static function join($uid, $file){
 		try{
-			$session = Session::start($uid, $file);
+			$session = Db_Session::start($uid, $file);
 			\OCP\JSON::success($session);
 			exit();
 		} catch (\Exception $e){
@@ -45,8 +45,8 @@ class SessionController extends Controller{
 	 */
 	public static function save(){
 		try {
-			$sessionID = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
-			if (!$sessionID){
+			$esId = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
+			if (!$esId){
 				throw new \Exception('Session id can not be empty');
 			}
 			
@@ -58,12 +58,14 @@ class SessionController extends Controller{
 				throw new \Exception('New conent missing');
 			}
 			
-			$session = Session::getSession($sessionID);
-			if (!$session){
+			$session = new Db_Session();
+			$session->load($esId);
+			
+			if (!$session->hasData()){
 				throw new \Exception('Session does not exist');
 			}
-			
-			$file = new File($session['file_id']);
+			$sessionData = $session->getData();
+			$file = new File($sessionData['file_id']);
 			if (!$file->isPublicShare()){
 				self::preDispatch();
 			} else {
@@ -80,7 +82,7 @@ class SessionController extends Controller{
 			
 			if ($view->file_exists($path)){
 				$currentHash = sha1($view->file_get_contents($path));
-				if ($currentHash !== $session['genesis_hash']){
+				if ($currentHash !== $sessionData['genesis_hash']){
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
 				}
@@ -88,7 +90,7 @@ class SessionController extends Controller{
 			
 			if ($view->file_put_contents($path, $content)){
 				//Document saved successfully. Cleaning session data
-				Session::cleanUp($sessionID);
+				Db_Session::cleanUp($esId);
 			}
 			\OCP\JSON::success();
 			exit();
@@ -105,7 +107,8 @@ class SessionController extends Controller{
 		$info = array();
 
 		if (is_array($items)){
-			$info = Session::getInfoByFileid($items);
+			$session = new Db_Session();
+			$info = $session->getInfoByFileId($items);
 		}
 
 		\OCP\JSON::success(array(
@@ -115,10 +118,8 @@ class SessionController extends Controller{
 	
 	public static function listAll(){
 		self::preDispatch();
-		$sessions = Session::getAll();
-		if (!is_array($sessions)){
-			$sessions = array();
-		}
+		$session = new Db_Session();
+		$sessions = $session->getCollection();
 
 		$preparedSessions = array_map(
 				function($x){
@@ -132,10 +133,8 @@ class SessionController extends Controller{
 
 	public static function listAllHtml(){
 		self::preDispatch();
-		$sessions = Session::getAll();
-		if (!is_array($sessions)){
-			$sessions = array();
-		}
+		$session = new Db_Session();
+		$sessions = $session->getCollection();
 
 		$preparedSessions = array_map(
 				function($x){

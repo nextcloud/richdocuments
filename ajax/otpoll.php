@@ -43,8 +43,9 @@ try{
 	$request = new Request();
 	$esId = $request->getParam('args/es_id');
 	
-	$session = Session::getSession($esId);
-	$file = new File(@$session['file_id']);
+	$session = new Db_Session();
+	$sessionData = $session->load($esId)->getData();
+	$file = new File(@$sessionData['file_id']);
 	if (!$file->isPublicShare()){
 		Controller::preDispatch(false);
 	} else {
@@ -55,7 +56,10 @@ try{
 	switch ($command){
 		case 'query_memberdata_list':
 			$ids = $request->getParam('args/member_ids');
-			$members = Member::getMembersAsArray($ids);
+			
+			$member = new Db_Member();
+			$members = $member->getCollectionBy('member_id', $ids);
+			
 			$response["memberdata_list"] = array_map(
 					function($x){
 						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
@@ -91,11 +95,13 @@ try{
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
 
-				$currentHead = Op::getHeadSeq($esId);
+				$op = new Db_Op();
+				$currentHead = $op->getHeadSeq($esId);
+				
+				$member = new Db_Member();
 				try {
-					Member::updateMemberActivity($memberId);
+					$member->updateActivity($memberId);
 				} catch (\Exception $e){
-					
 				}
 
 				// TODO handle the case ($currentHead == "") && ($seqHead != "")
@@ -104,7 +110,7 @@ try{
 					if ($hasOps) {
 						// incoming ops without conflict
 						// Add incoming ops, respond with a new head
-						$newHead = Op::addOpsArray($esId, $memberId, $ops);
+						$newHead = Db_Op::addOpsArray($esId, $memberId, $ops);
 						$response["result"] = 'added';
 						$response["head_seq"] = $newHead ? $newHead : $currentHead;
 					} else {
@@ -114,18 +120,16 @@ try{
 						$response["head_seq"] = $currentHead;
 					}
 				} else { // HEADs do not match
-					$response["ops"] = Op::getOpsAfterJson($esId, $seqHead);
+					$response["ops"] = $op->getOpsAfterJson($esId, $seqHead);
 					$response["head_seq"] = $currentHead;
 					$response["result"] = $hasOps ? 'conflict' : 'new_ops';
 				}
 				
-				$inactiveMembers = Member::cleanSession($esId);
-				if (is_array($inactiveMembers)){
-					foreach ($inactiveMembers as $member){
-						Op::removeCursor($esId, $member['member_id']);
-					}
+				$inactiveMembers = $member->updateByTimeout($esId);
+				foreach ($inactiveMembers as $inactive){
+					$op->removeCursor($esId, $inactive['member_id']);
 				}
-				
+			
 			} else {
 				// Error - no seq_head passed
 				throw new BadRequestException();

@@ -11,40 +11,36 @@
 
 namespace OCA\Documents;
 
-class Op {
+class Db_Op extends Db {
 
 	const DB_TABLE = '`*PREFIX*documents_op`';
 	
-	public static function add($esId, $memberId, $opspec){
-		$query = \OCP\DB::prepare('
-			INSERT INTO ' . self::DB_TABLE . ' (`es_id`, `member`, `opspec`)
-			VALUES (?, ?, ?)
-			');
-		$query->execute(array(
-			$esId,
-			$memberId,
-			$opspec,
-		));
-
-		return \OCP\DB::insertid(self::DB_TABLE);
-	}
+	protected $tableName = '`*PREFIX*documents_op`';
 	
+	protected $insertStatement = 'INSERT INTO `*PREFIX*documents_op` (`es_id`, `member`, `opspec`) VALUES (?, ?, ?)';
+
 	public static function addOpsArray($esId, $memberId, $ops){
 		$lastSeq = "";
+		$opObj = new Db_Op();
 		foreach ($ops as $op) {
-			$lastSeq = self::add($esId, $memberId, json_encode($op));
+			$opObj->setData(array(
+				$esId, 
+				$memberId, 
+				json_encode($op)
+			));
+			$opObj->insert();
+			$lastSeq = $opObj->getLastInsertId();
 		}
 		return $lastSeq;
 	}
-
-
+	
 	/**
 	 * @returns "" when there are no Ops, or the seq of the last Op
 	 */
-	public static function getHeadSeq($esId){
+	public function getHeadSeq($esId){
 		$query = \OCP\DB::prepare('
 			SELECT `seq`
-			FROM ' . self::DB_TABLE . '
+			FROM ' . $this->tableName . '
 			WHERE `es_id`=?
 			ORDER BY `seq` DESC
 			', 1);
@@ -56,8 +52,8 @@ class Op {
 		return !$result ? "" : $result;
 	}
 	
-	public static function getOpsAfterJson($esId, $seq){
-		$ops = self::getOpsAfter($esId, $seq);
+	public function getOpsAfterJson($esId, $seq){
+		$ops = $this->getOpsAfter($esId, $seq);
 		if (!is_array($ops)){
 			$ops = array();
 		}
@@ -72,7 +68,7 @@ class Op {
 		return $ops;
 	}
 	
-	public static function getOpsAfter($esId, $seq){
+	public function getOpsAfter($esId, $seq){
 		if ($seq == ""){
 			$seq = -1;
 		}
@@ -86,18 +82,13 @@ class Op {
 		$result = $query->execute(array($esId, $seq));
 		return $result->fetchAll();
 	}
-	
-	public static function deleteBySessionId($esId){
-		$query = \OCP\DB::prepare('DELETE FROM ' . self::DB_TABLE . ' WHERE `es_id` = ?');
-		$query->execute(array($esId));
-	}
 
-	public static function removeCursor($esId, $memberId){
-		return self::add(
-				$esId, 
-				0,
-				'{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}'
-		);
+	public function removeCursor($esId, $memberId){
+		$op = new Db_Op(array(
+			$esId, 
+			0,
+			'{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}'
+		));
+		$op->insert();
 	}
-
 }

@@ -30,20 +30,21 @@ class DocumentController extends Controller{
 
 /**
 	 * Process partial/complete file download
-	 * @param array $args - array containing session id as anelement with a key es_id 
+	 * @param array $args - array containing session id as an element with a key es_id 
 	 */
 	public static function serve($args){
-		$session = Session::getSession(@$args['es_id']);
-		
-		$file = new File(@$session['file_id']);
+		$session = new Db_Session();
+		$sessionData = $session->load(@$args['es_id'])->getData();
+			
+		$file = new File(@$sessionData['file_id']);
 		if (!$file->isPublicShare()){
 			self::preDispatch(false);
 		} else {
 			self::preDispatchGuest(false);
 		}
 		
-		$filename = isset($session['genesis_url']) ? $session['genesis_url'] : '';
-		$documentsView = new View('/' . $session['owner']);
+		$filename = isset($sessionData['genesis_url']) ? $sessionData['genesis_url'] : '';
+		$documentsView = new View('/' . $sessionData['owner']);
 		$download = new Download($documentsView->initDocumentsView(), $filename);
 		$download->sendResponse();
 	}
@@ -66,11 +67,13 @@ class DocumentController extends Controller{
 			$fileIds[] = $document['fileid'];
 		}
 
-		$sessions = Session::getSessionsByFileIds($fileIds);
+		$session = new Db_Session();
+		$sessions = $session->getCollectionBy('file_id', $fileIds);
 
 		$members = array();
+		$member = new Db_Member();
 		foreach ($sessions as $session) {
-			$members[$session['es_id']] = Member::getMembersByEsId($session['es_id']);
+			$members[$session['es_id']] = $member->getCollectionBy('es_id', $session['es_id']);
 		}
 
 		\OCP\JSON::success(array('documents' => $documents,'sessions' => $sessions,'members' => $members));
