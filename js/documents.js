@@ -200,6 +200,15 @@ var documentsMain = {
 		if (OC.Share.droppedDown) {
 			OC.Share.hideDropDown();
 		} else {
+			(function() {
+				var target = OC.Share.showLink;
+				OC.Share.showLink = function() {
+					var r = target.apply( this, arguments );
+					$('#linkText').val( $('#linkText').val().replace('service=files', 'service=documents') );
+					return r;
+				};
+			})();
+
 			OC.Share.showDropDown(
 				'file', 
 				parent.location.hash.replace(/\W*/g, ''),

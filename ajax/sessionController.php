@@ -16,7 +16,7 @@ class SessionController extends Controller{
 	
 	public static function joinAsGuest($args){
 		$uid = self::preDispatchGuest();
-		$uid = substr(@$_POST['name'], 0, 16) . $uid;
+		$uid = substr(@$_POST['name'], 0, 16) .' '. $uid;
 		$token = @$args['token'];
 		$file = File::getByShareToken($token);
 		self::join($uid, $file);
