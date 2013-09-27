@@ -92,17 +92,10 @@ var documentsMain = {
 		
 		if (!OC.currentUser){
 			documentsMain.isGuest = true;
-			var fileId = $("[name='document']").val();
+			var fileId;
 		} else {
 			// Does anything indicate that we need to autostart a session?
 			var fileId = parent.location.hash.replace(/\W*/g, '');
-		}
-		
-		
-		if ($("[name='document']").val()){
-			// !Login page mess wih WebODF toolbars
-			$(document.body).attr('id', 'body-user');
-			$('header,footer').hide();
 		}
 		
 		if (!fileId){
@@ -187,7 +180,7 @@ var documentsMain = {
 		}
 		$.post(
 			url,
-			{ },
+			{ name : $("[name='memberName']").val() },
 			documentsMain.initSession
 		);
 	},
@@ -346,7 +339,16 @@ $(document).ready(function() {
 	
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
-
+	$(document.body).on('click', '#odf-join', function(event){
+		event.preventDefault();
+		// !Login page mess wih WebODF toolbars
+		$(document.body).attr('id', 'body-user');
+		$('header,footer').hide();
+		documentsMain.prepareSession();
+		documentsMain.joinSession(
+				$("[name='document']").val()
+		);
+	});
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
 
 	var file_upload_start = $('#file_upload_start');

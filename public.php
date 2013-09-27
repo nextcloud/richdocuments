@@ -28,10 +28,8 @@ if (isset($_GET['t'])) {
 		$path = null;
 		$rootLinkItem = \OCP\Share::resolveReShare($linkItem);
 		$fileOwner = $rootLinkItem['uid_owner'];
-
 	}
 }
-
 
 $tmpl = new \OCP\Template('documents', 'public', 'guest');
 if (isset($fileOwner)) {
