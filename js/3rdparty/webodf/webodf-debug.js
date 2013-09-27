@@ -7268,7 +7268,7 @@ odf.Style2CSS = function Style2CSS() {
     fontName = props.getAttributeNS(stylens, "font-name") || props.getAttributeNS(fons, "font-family");
     if(fontName) {
       value = fontFaceDeclsMap[fontName];
-      rule += "font-family: " + (value || fontName) + ", sans-serif;"
+      rule += "font-family: " + (value || fontName) + ";"
     }
     parentStyle = props.parentNode;
     fontSize = getFontSize((parentStyle));
@@ -12132,7 +12132,9 @@ ops.EditInfo = function EditInfo(container, odtDocument) {
     editHistory = {}
   };
   this.destroy = function(callback) {
-    container.removeChild(editInfoNode);
+    if(container.parentNode) {
+      container.removeChild(editInfoNode)
+    }
     callback()
   };
   function init() {
@@ -12845,6 +12847,116 @@ gui.DirectParagraphStyler.paragraphStylingChanged = "paragraphStyling/changed";
 (function() {
   return gui.DirectParagraphStyler
 })();
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: http://gitorious.org/webodf/webodf/
+*/
+gui.TextManipulator = function TextManipulator(session, inputMemberId) {
+  var odtDocument = session.getOdtDocument();
+  function createOpRemoveSelection(selection) {
+    var op = new ops.OpRemoveText;
+    op.init({memberid:inputMemberId, position:selection.position, length:selection.length});
+    return op
+  }
+  function toForwardSelection(selection) {
+    if(selection.length < 0) {
+      selection.position += selection.length;
+      selection.length = -selection.length
+    }
+    return selection
+  }
+  this.enqueueParagraphSplittingOps = function() {
+    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op;
+    if(selection.length > 0) {
+      op = createOpRemoveSelection(selection);
+      session.enqueue(op)
+    }
+    op = new ops.OpSplitParagraph;
+    op.init({memberid:inputMemberId, position:selection.position});
+    session.enqueue(op);
+    return true
+  };
+  this.removeTextByBackspaceKey = function() {
+    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    if(selection.length === 0) {
+      if(selection.position > 0 && odtDocument.getPositionInTextNode(selection.position - 1)) {
+        op = new ops.OpRemoveText;
+        op.init({memberid:inputMemberId, position:selection.position - 1, length:1});
+        session.enqueue(op)
+      }
+    }else {
+      op = createOpRemoveSelection(selection);
+      session.enqueue(op)
+    }
+    return op !== null
+  };
+  this.removeTextByDeleteKey = function() {
+    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    if(selection.length === 0) {
+      if(odtDocument.getPositionInTextNode(selection.position + 1)) {
+        op = new ops.OpRemoveText;
+        op.init({memberid:inputMemberId, position:selection.position, length:1});
+        session.enqueue(op)
+      }
+    }else {
+      op = createOpRemoveSelection(selection);
+      session.enqueue(op)
+    }
+    return op !== null
+  };
+  this.removeCurrentSelection = function() {
+    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op;
+    if(selection.length !== 0) {
+      op = createOpRemoveSelection(selection);
+      session.enqueue(op)
+    }
+    return true
+  };
+  function insertText(text) {
+    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    if(selection.length > 0) {
+      op = createOpRemoveSelection(selection);
+      session.enqueue(op)
+    }
+    op = new ops.OpInsertText;
+    op.init({memberid:inputMemberId, position:selection.position, text:text});
+    session.enqueue(op)
+  }
+  this.insertText = insertText
+};
+(function() {
+  return gui.TextManipulator
+})();
 runtime.loadClass("core.DomUtils");
 runtime.loadClass("core.Utils");
 runtime.loadClass("odf.OdfUtils");
@@ -12860,11 +12972,12 @@ runtime.loadClass("gui.Clipboard");
 runtime.loadClass("gui.KeyboardHandler");
 runtime.loadClass("gui.DirectTextStyler");
 runtime.loadClass("gui.DirectParagraphStyler");
+runtime.loadClass("gui.TextManipulator");
 gui.SessionController = function() {
   var FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
   gui.SessionController = function SessionController(session, inputMemberId, args) {
     var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), utils = new core.Utils, domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, styleNameGenerator = new odf.StyleNameGenerator("auto" + utils.hashString(inputMemberId) + 
-    "_", odtDocument.getFormatting()), undoManager = null, directTextStyler = args && args.directStylingEnabled ? new gui.DirectTextStyler(session, inputMemberId) : null, directParagraphStyler = args && args.directStylingEnabled ? new gui.DirectParagraphStyler(session, inputMemberId, styleNameGenerator) : null;
+    "_", odtDocument.getFormatting()), undoManager = null, textManipulator = new gui.TextManipulator(session, inputMemberId), directTextStyler = args && args.directStylingEnabled ? new gui.DirectTextStyler(session, inputMemberId) : null, directParagraphStyler = args && args.directStylingEnabled ? new gui.DirectParagraphStyler(session, inputMemberId, styleNameGenerator) : null;
     runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
@@ -13268,74 +13381,6 @@ gui.SessionController = function() {
       session.enqueue(createOpMoveCursor(0, steps));
       return true
     }
-    function toForwardSelection(selection) {
-      if(selection.length < 0) {
-        selection.position += selection.length;
-        selection.length = -selection.length
-      }
-      return selection
-    }
-    function createOpRemoveSelection(selection) {
-      var op = new ops.OpRemoveText;
-      op.init({memberid:inputMemberId, position:selection.position, length:selection.length});
-      return op
-    }
-    function removeTextByBackspaceKey() {
-      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
-      if(selection.length === 0) {
-        if(selection.position > 0 && odtDocument.getPositionInTextNode(selection.position - 1)) {
-          op = new ops.OpRemoveText;
-          op.init({memberid:inputMemberId, position:selection.position - 1, length:1});
-          session.enqueue(op)
-        }
-      }else {
-        op = createOpRemoveSelection(selection);
-        session.enqueue(op)
-      }
-      return true
-    }
-    function removeTextByDeleteKey() {
-      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
-      if(selection.length === 0) {
-        if(odtDocument.getPositionInTextNode(selection.position + 1)) {
-          op = new ops.OpRemoveText;
-          op.init({memberid:inputMemberId, position:selection.position, length:1});
-          session.enqueue(op)
-        }
-      }else {
-        op = createOpRemoveSelection(selection);
-        session.enqueue(op)
-      }
-      return op !== null
-    }
-    function removeTextByClearKey() {
-      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId));
-      if(selection.length !== 0) {
-        session.enqueue(createOpRemoveSelection(selection))
-      }
-      return true
-    }
-    function insertText(text) {
-      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
-      if(selection.length > 0) {
-        op = createOpRemoveSelection(selection);
-        session.enqueue(op)
-      }
-      op = new ops.OpInsertText;
-      op.init({memberid:inputMemberId, position:selection.position, text:text});
-      session.enqueue(op)
-    }
-    function enqueueParagraphSplittingOps() {
-      var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op;
-      if(selection.length > 0) {
-        op = createOpRemoveSelection(selection);
-        session.enqueue(op)
-      }
-      op = new ops.OpSplitParagraph;
-      op.init({memberid:inputMemberId, position:selection.position});
-      session.enqueue(op);
-      return true
-    }
     function maintainCursorSelection() {
       var cursor = odtDocument.getCursor(inputMemberId), selection = window.getSelection();
       if(cursor) {
@@ -13353,15 +13398,12 @@ gui.SessionController = function() {
       return null
     }
     function handleCut(e) {
-      var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange(), selection, op;
+      var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
       if(selectedRange.collapsed) {
         return
       }
       if(clipboard.setDataFromRange(e, cursor.getSelectedRange())) {
-        op = new ops.OpRemoveText;
-        selection = toForwardSelection(session.getOdtDocument().getCursorSelection(inputMemberId));
-        op.init({memberid:inputMemberId, position:selection.position, length:selection.length});
-        session.enqueue(op)
+        textManipulator.removeCurrentSelection()
       }else {
         runtime.log("Cut operation failed")
       }
@@ -13389,7 +13431,7 @@ gui.SessionController = function() {
         }
       }
       if(plainText) {
-        insertText(plainText);
+        textManipulator.insertText(plainText);
         cancelEvent(e)
       }
     }
@@ -13508,6 +13550,9 @@ gui.SessionController = function() {
     this.getDirectParagraphStyler = function() {
       return directParagraphStyler
     };
+    this.getTextManipulator = function() {
+      return textManipulator
+    };
     this.destroy = function(callback) {
       var destroyDirectTextStyler = directTextStyler ? directTextStyler.destroy : function(cb) {
         cb()
@@ -13525,15 +13570,15 @@ gui.SessionController = function() {
     function init() {
       var isMacOS = window.navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
       keyDownHandler.bind(keyCode.Tab, modifier.None, function() {
-        insertText("\t");
+        textManipulator.insertText("\t");
         return true
       });
       keyDownHandler.bind(keyCode.Left, modifier.None, moveCursorToLeft);
       keyDownHandler.bind(keyCode.Right, modifier.None, moveCursorToRight);
       keyDownHandler.bind(keyCode.Up, modifier.None, moveCursorUp);
       keyDownHandler.bind(keyCode.Down, modifier.None, moveCursorDown);
-      keyDownHandler.bind(keyCode.Backspace, modifier.None, removeTextByBackspaceKey);
-      keyDownHandler.bind(keyCode.Delete, modifier.None, removeTextByDeleteKey);
+      keyDownHandler.bind(keyCode.Backspace, modifier.None, textManipulator.removeTextByBackspaceKey);
+      keyDownHandler.bind(keyCode.Delete, modifier.None, textManipulator.removeTextByDeleteKey);
       keyDownHandler.bind(keyCode.Left, modifier.Shift, extendSelectionToLeft);
       keyDownHandler.bind(keyCode.Right, modifier.Shift, extendSelectionToRight);
       keyDownHandler.bind(keyCode.Up, modifier.Shift, extendSelectionUp);
@@ -13549,7 +13594,7 @@ gui.SessionController = function() {
       keyDownHandler.bind(keyCode.Home, modifier.CtrlShift, extendSelectionToDocumentStart);
       keyDownHandler.bind(keyCode.End, modifier.CtrlShift, extendSelectionToDocumentEnd);
       if(isMacOS) {
-        keyDownHandler.bind(keyCode.Clear, modifier.None, removeTextByClearKey);
+        keyDownHandler.bind(keyCode.Clear, modifier.None, textManipulator.removeCurrentSelection);
         keyDownHandler.bind(keyCode.Left, modifier.Meta, moveCursorToLineStart);
         keyDownHandler.bind(keyCode.Right, modifier.Meta, moveCursorToLineEnd);
         keyDownHandler.bind(keyCode.Home, modifier.Meta, moveCursorToDocumentStart);
@@ -13593,12 +13638,12 @@ gui.SessionController = function() {
       keyPressHandler.setDefault(function(e) {
         var text = stringFromKeyPress(e);
         if(text && !(e.altKey || e.ctrlKey || e.metaKey)) {
-          insertText(text);
+          textManipulator.insertText(text);
           return true
         }
         return false
       });
-      keyPressHandler.bind(keyCode.Enter, modifier.None, enqueueParagraphSplittingOps)
+      keyPressHandler.bind(keyCode.Enter, modifier.None, textManipulator.enqueueParagraphSplittingOps)
     }
     init()
   };
@@ -14061,7 +14106,7 @@ gui.SessionView = function() {
       }
       editInfoMarker.addEdit(memberId, new Date(timestamp))
     }
-    function setEditInfoMarkerVisbility(visible) {
+    function setEditInfoMarkerVisibility(visible) {
       var editInfoMarker, keyname;
       for(keyname in editInfoMap) {
         if(editInfoMap.hasOwnProperty(keyname)) {
@@ -14088,14 +14133,14 @@ gui.SessionView = function() {
         return
       }
       showEditInfoMarkers = true;
-      setEditInfoMarkerVisbility(showEditInfoMarkers)
+      setEditInfoMarkerVisibility(showEditInfoMarkers)
     };
     this.hideEditInfoMarkers = function() {
       if(!showEditInfoMarkers) {
         return
       }
       showEditInfoMarkers = false;
-      setEditInfoMarkerVisbility(showEditInfoMarkers)
+      setEditInfoMarkerVisibility(showEditInfoMarkers)
     };
     this.showCaretAvatars = function() {
       if(showCaretAvatars) {
@@ -14155,9 +14200,9 @@ gui.SessionView = function() {
       var odtDocument = session.getOdtDocument(), memberModel = session.getMemberModel(), editInfoArray = Object.keys(editInfoMap).map(function(keyname) {
         return editInfoMap[keyname]
       });
-      odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
-      odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
-      odtDocument.subscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
+      odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
+      odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
+      odtDocument.unsubscribe(ops.OdtDocument.signalParagraphChanged, onParagraphChanged);
       caretManager.getCarets().forEach(function(caret) {
         memberModel.unsubscribeMemberDetailsUpdates(caret.getCursor().getMemberId(), renderMemberData)
       });
