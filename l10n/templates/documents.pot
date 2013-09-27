@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-09-24 10:54-0400\n"
+"POT-Creation-Date: 2013-09-26 21:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,26 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: js/documents.js:16
+#: js/documents.js:17
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:22
+#: js/documents.js:23
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:143
+#: js/documents.js:147
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:265
+#: js/documents.js:280
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:308
+#: js/documents.js:323
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -58,6 +58,12 @@ msgstr ""
 
 #: templates/documents.php:7
 msgid "Upload"
+msgstr ""
+
+#: templates/public.php:10
+msgid ""
+"This link has been expired or is never existed. Please contact the person "
+"who shared it with you for details."
 msgstr ""
 
 #: templates/settings.php:2

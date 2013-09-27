@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 09:52-0400\n"
-"PO-Revision-Date: 2013-09-20 12:02+0000\n"
+"POT-Creation-Date: 2013-09-26 21:58-0400\n"
+"PO-Revision-Date: 2013-09-27 01:58+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -20,26 +20,26 @@ msgstr ""
 "Language: es_AR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:16
+#: js/documents.js:17
 msgid "Close"
 msgstr "Cerrar"
 
-#: js/documents.js:22
+#: js/documents.js:23
 msgid "Share"
 msgstr "Compartir"
 
-#: js/documents.js:134
+#: js/documents.js:147
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:252
+#: js/documents.js:280
 msgid "Failed to load documents."
 msgstr "La carga de documentos ha fallado."
 
-#: js/documents.js:295
+#: js/documents.js:323
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -62,6 +62,12 @@ msgstr "Ingresando"
 #: templates/documents.php:7
 msgid "Upload"
 msgstr "Subir"
+
+#: templates/public.php:10
+msgid ""
+"This link has been expired or is never existed. Please contact the person "
+"who shared it with you for details."
+msgstr ""
 
 #: templates/settings.php:2
 msgid "Documents"
