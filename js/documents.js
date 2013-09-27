@@ -132,7 +132,6 @@ var documentsMain = {
 	prepareGrid : function(){
 		documentsMain.isEditorMode = false;
 		documentsMain.UI.hideOverlay();
-		$(window).off('beforeunload');
 	},
 	
 	initSession: function(response) {
@@ -152,7 +151,7 @@ var documentsMain = {
 				
 				documentsMain.UI.showEditor(
 						documentsMain.getNameByFileid(response.file_id),
-						response.permissions & OC.PERMISSION_SHARE
+						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
 				var serverFactory = new ServerFactory();
 				
@@ -226,6 +225,7 @@ var documentsMain = {
 			return;
 		}
 		documentsMain.isEditorMode = false;
+		$(window).off('beforeunload');
 		parent.location.hash = "";
 
 		documentsMain.show();
