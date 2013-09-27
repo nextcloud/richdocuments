@@ -126,11 +126,13 @@ var documentsMain = {
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
 		documentsMain.UI.showOverlay();
+		$(window).on('beforeunload', function(){return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.")})
 	},
 	
 	prepareGrid : function(){
 		documentsMain.isEditorMode = false;
 		documentsMain.UI.hideOverlay();
+		$(window).off('beforeunload');
 	},
 	
 	initSession: function(response) {
