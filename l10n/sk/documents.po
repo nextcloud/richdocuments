@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-26 21:58-0400\n"
-"PO-Revision-Date: 2013-09-27 01:58+0000\n"
+"POT-Creation-Date: 2013-09-28 21:59-0400\n"
+"PO-Revision-Date: 2013-09-29 01:59+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/owncloud/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -25,18 +25,24 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:147
+#: js/documents.js:129
+msgid ""
+"Leaving this page in Editor mode might cause unsaved data. It is recommended"
+" to use 'Close' button instead."
+msgstr ""
+
+#: js/documents.js:141
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:280
+#: js/documents.js:284
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:323
+#: js/documents.js:327
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -60,7 +66,15 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: templates/public.php:10
+#: templates/public.php:7
+msgid "Introduce yourself"
+msgstr ""
+
+#: templates/public.php:8
+msgid "Join"
+msgstr ""
+
+#: templates/public.php:14
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

@@ -9,6 +9,7 @@
 "Accepted" => "Akzeptiert",
 "Incoming" => "Eingehend",
 "Upload" => "Hochladen",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktiere, für nähere Details, die Person, die dies mit dir teilt.",
 "Documents" => "Dokumente",
 "Advanced feature-set" => "Erweiterte Funktionseinstellungen",
 "(Unstable)" => "(Instabil)"

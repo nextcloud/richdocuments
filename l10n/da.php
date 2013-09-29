@@ -9,6 +9,7 @@
 "Accepted" => "Accepteret",
 "Incoming" => "Indgående",
 "Upload" => "Upload",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. ",
 "Documents" => "Dokumenter",
 "Advanced feature-set" => "Avancerede funktioner",
 "(Unstable)" => "(Ustabil)"
