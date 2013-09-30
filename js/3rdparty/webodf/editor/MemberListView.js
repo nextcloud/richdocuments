@@ -73,9 +73,8 @@ define("webodf/editor/MemberListView",
                             node.src = memberDetails.imageurl;
                             // update border color
                             node.style.borderColor = memberDetails.color;
-						} else if (node.localName === "span"){
-							node.style.display='block';
-							$(node).avatar(memberDetails.imageurl, 64);
+						} else if (node.localName === "span" && memberDetails.imageurl){
+							$(node).avatar(memberDetails.imageurl, 60);
 							node.style.borderColor = memberDetails.color;
                         } else if (node.localName === "div") {
                             node.setAttribute('fullname', memberDetails.fullname);
