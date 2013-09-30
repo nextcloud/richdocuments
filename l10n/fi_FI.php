@@ -9,6 +9,8 @@
 "Accepted" => "Hyväksytty",
 "Incoming" => "Saapuva",
 "Upload" => "Lähetä",
+"Introduce yourself" => "Esittele itsesi",
+"Join" => "Liity",
 "Documents" => "Asiakirjat",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"

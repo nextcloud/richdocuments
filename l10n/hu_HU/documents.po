@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ebela <bela@dandre.hu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-28 21:59-0400\n"
-"PO-Revision-Date: 2013-09-29 01:59+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-09-30 08:03-0400\n"
+"PO-Revision-Date: 2013-09-30 00:02+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,38 +30,38 @@ msgstr "Megosztás"
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Ha elnavigálsz az oldalról miközben Szerkesztés módban vagy akkor lehet lesznek elvesztett adatok amiket még nem mentettél el. Ajánlott inkább a 'Bezár' gombbal befejezni az oldal szerkesztését."
 
 #: js/documents.js:141
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "A dokumentum betöltése sikertelen. Próbáld külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt, hogy már nincs megosztva vagy már törölve lett a dokumentum."
 
 #: js/documents.js:284
 msgid "Failed to load documents."
-msgstr ""
+msgstr "A dokumentum betőltése sikertelen"
 
 #: js/documents.js:327
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Elküldött"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Elutasított"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Elfogadott"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "Beérkező"
 
 #: templates/documents.php:7
 msgid "Upload"
@@ -68,26 +69,26 @@ msgstr "Feltöltés"
 
 #: templates/public.php:7
 msgid "Introduce yourself"
-msgstr ""
+msgstr "Mutasd be magad"
 
 #: templates/public.php:8
 msgid "Join"
-msgstr ""
+msgstr "Belépés"
 
 #: templates/public.php:14
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Ez a link vagy lejárt vagy sohasem létezett. Kérdezd meg azt aki megosztotta veled ezt a linket."
 
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumentumok"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Haladó funkciók"
 
 #: templates/settings.php:13
 msgid "(Unstable)"
-msgstr ""
+msgstr "(nem stabil)"
