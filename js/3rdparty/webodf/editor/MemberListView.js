@@ -114,7 +114,7 @@ define("webodf/editor/MemberListView",
             avatarDiv.onclick = function () {
                 var caret = editorSession.sessionView.getCaret(memberId);
                 if (caret) {
-                    caret.toggleHandleVisibility();
+                    //caret.toggleHandleVisibility();
                 }
             };
             memberListDiv.appendChild(avatarDiv);
