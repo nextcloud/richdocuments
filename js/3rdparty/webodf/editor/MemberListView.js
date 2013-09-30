@@ -73,6 +73,10 @@ define("webodf/editor/MemberListView",
                             node.src = memberDetails.imageurl;
                             // update border color
                             node.style.borderColor = memberDetails.color;
+						} else if (node.localName === "span"){
+							node.style.display='block';
+							$(node).avatar(memberDetails.imageurl, 64);
+							node.style.borderColor = memberDetails.color;
                         } else if (node.localName === "div") {
                             node.setAttribute('fullname', memberDetails.fullname);
                         }
@@ -92,7 +96,7 @@ define("webodf/editor/MemberListView",
             var doc = memberListDiv.ownerDocument,
                 htmlns = doc.documentElement.namespaceURI,
                 avatarDiv = doc.createElementNS(htmlns, "div"),
-                imageElement = doc.createElement("img"),
+                imageElement = doc.createElement("span"),
                 fullnameNode = doc.createElement("div");
 
             avatarDiv.className = "memberListButton";

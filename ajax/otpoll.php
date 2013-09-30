@@ -69,6 +69,12 @@ try{
 							//$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
 							$x['avatar_url'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 						} else {
+						// https://github.com/owncloud/documents/issues/51
+						// Temporary stub
+						
+							$x['avatar_url'] = $x['uid'];
+							
+							/*
 							$avatar = new \OC_Avatar($x['uid']);
 							$image = $avatar->get(64);
 							// User has an avatar 
@@ -81,7 +87,11 @@ try{
 								//shortcircuit if it's not an image
 								$x['avatar_url'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 							}
+							 
+							 */
 						}
+						
+
 						return $x;
 					}, 
 					$members
