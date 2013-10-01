@@ -39,8 +39,12 @@ namespace OCA\Documents;
 
 
 $tmpl = new \OCP\Template('documents', 'documents', 'user');
+
 $maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
+$savePath = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
+
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
+$tmpl->assign('savePath', $savePath);
 
 $tmpl->printPage();

@@ -21,10 +21,9 @@
  * 
  */
 
-//OCP\Util::addStyle( 'documents', 'style');
-
 OCP\App::register(array('order' => 70, 'id' => 'documents', 'name' => 'Documents'));
 OCP\App::registerAdmin('documents', 'settings');
+OCP\App::registerPersonal('documents', 'personal');
 
 OCP\App::addNavigationEntry(array(
 	'id' => 'documents_index', 

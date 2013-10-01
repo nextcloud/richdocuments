@@ -19,7 +19,9 @@ class DocumentController extends Controller{
 		$uid = self::preDispatch();
 		
 		$view = new \OC\Files\View('/' . $uid . '/files');
-		$path = Helper::getNewFileName($view, '/New Document.odt');
+		
+		$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
+		$path = Helper::getNewFileName($view, $dir . '/New Document.odt');
 		
 		$view->file_put_contents(
 				$path, 
