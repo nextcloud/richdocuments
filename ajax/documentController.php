@@ -67,6 +67,10 @@ class DocumentController extends Controller{
 			$fileIds[] = $document['fileid'];
 		}
 
+		usort($documents, function($a, $b){
+			return @$b['mtime']-@$a['mtime'];
+		});
+		
 		$session = new Db_Session();
 		$sessions = $session->getCollectionBy('file_id', $fileIds);
 
