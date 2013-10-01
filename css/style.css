@@ -19,11 +19,11 @@
 .add-document a {
 	display: inline-block;
 	position: relative;
-	height: 200px;
+	height: 100px;
 	width: 200px;
 	background-repeat: no-repeat;
 	background-size: 64px;
-	background-position: 50% 68px;
+	background-position: 50% 10px;
 }
 .add-document .add {
 	background-image: url('%webroot%/core/img/actions/add.svg');
@@ -31,6 +31,11 @@
 .add-document .upload {
 	background-image: url('%webroot%/core/img/actions/upload.svg');
 }
+
+.add-document a.upload{
+	margin-top:-30px;
+}
+
 .add-document label {
 	position: absolute;
 	bottom: 5px;
@@ -159,7 +164,7 @@
 
 #file_upload_start{
 	position:relative;
-	left:0; top:0; width:200px; height:200px; 
+	left:0; top:0; width:200px; height:100px; 
 	margin-bottom: -200px;padding:0;
 	cursor:pointer; overflow:hidden;
 	font-size:1em;
