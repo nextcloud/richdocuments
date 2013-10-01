@@ -33,7 +33,6 @@
 }
 
 .add-document a.upload{
-	margin-top:-30px;
 }
 
 .add-document label {
@@ -163,9 +162,10 @@
 }
 
 #file_upload_start{
+	display: block;
 	position:relative;
 	left:0; top:0; width:200px; height:100px; 
-	margin-bottom: -200px;padding:0;
+	margin-bottom: -110px;padding:0;
 	cursor:pointer; overflow:hidden;
 	font-size:1em;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
