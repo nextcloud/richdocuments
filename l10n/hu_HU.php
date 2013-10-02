@@ -10,10 +10,10 @@
 "Accepted" => "Elfogadott",
 "Incoming" => "Beérkező",
 "Upload" => "Feltöltés",
+"Documents" => "Dokumentumok",
 "Introduce yourself" => "Mutasd be magad",
 "Join" => "Belépés",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ez a link vagy lejárt vagy sohasem létezett. Kérdezd meg azt aki megosztotta veled ezt a linket.",
-"Documents" => "Dokumentumok",
 "Advanced feature-set" => "Haladó funkciók",
 "(Unstable)" => "(nem stabil)"
 );

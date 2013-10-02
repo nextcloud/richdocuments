@@ -9,9 +9,9 @@
 "Accepted" => "Hyväksytty",
 "Incoming" => "Saapuva",
 "Upload" => "Lähetä",
+"Documents" => "Asiakirjat",
 "Introduce yourself" => "Esittele itsesi",
 "Join" => "Liity",
-"Documents" => "Asiakirjat",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"
 );

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-28 21:59-0400\n"
-"PO-Revision-Date: 2013-09-29 01:59+0000\n"
+"POT-Creation-Date: 2013-10-02 07:22-0400\n"
+"PO-Revision-Date: 2013-10-02 11:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Comparteix"
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Deixant aquesta pàgina en mode editor poden quedar dades sense desar. Es recomana usar el botó 'Tanca'."
 
 #: js/documents.js:141
 msgid ""
@@ -67,23 +67,27 @@ msgstr "Entrant"
 msgid "Upload"
 msgstr "Puja"
 
+#: templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr "Documents"
+
+#: templates/personal.php:4
+msgid "Save new documents to"
+msgstr ""
+
 #: templates/public.php:7
 msgid "Introduce yourself"
-msgstr ""
+msgstr "Quan a vós"
 
 #: templates/public.php:8
 msgid "Join"
-msgstr ""
+msgstr "Uniu-vos"
 
 #: templates/public.php:14
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
-
-#: templates/settings.php:2
-msgid "Documents"
-msgstr "Documents"
+msgstr "Aquest enllaç ha vençut o no ha existit mai. Contacteu amb la persona que l'ha compartit amb vós per més detalls."
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"

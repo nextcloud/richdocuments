@@ -10,10 +10,10 @@
 "Accepted" => "Akzeptiert",
 "Incoming" => "Eingehend",
 "Upload" => "Hochladen",
+"Documents" => "Dokumente",
 "Introduce yourself" => "Stellen Sie sich vor",
 "Join" => "Beitreten",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktieren Sie, für nähere Details, die Person, die dies mit Ihnen teilt.",
-"Documents" => "Dokumente",
 "Advanced feature-set" => "Erweiterte Funktionseinstellungen",
 "(Unstable)" => "(Instabil)"
 );

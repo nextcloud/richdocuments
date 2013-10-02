@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-28 21:59-0400\n"
-"PO-Revision-Date: 2013-09-29 01:59+0000\n"
+"POT-Creation-Date: 2013-10-02 07:22-0400\n"
+"PO-Revision-Date: 2013-10-02 11:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -69,6 +69,14 @@ msgstr "Příchozí"
 msgid "Upload"
 msgstr "Odeslat"
 
+#: templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr "Dokumenty"
+
+#: templates/personal.php:4
+msgid "Save new documents to"
+msgstr ""
+
 #: templates/public.php:7
 msgid "Introduce yourself"
 msgstr ""
@@ -82,10 +90,6 @@ msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
 msgstr ""
-
-#: templates/settings.php:2
-msgid "Documents"
-msgstr "Dokumenty"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"

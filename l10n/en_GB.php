@@ -9,8 +9,8 @@
 "Accepted" => "Accepted",
 "Incoming" => "Incoming",
 "Upload" => "Upload",
-"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "This link has expired or is incorrect. Please contact the person who shared it with you for details.",
 "Documents" => "Documents",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "This link has expired or is incorrect. Please contact the person who shared it with you for details.",
 "Advanced feature-set" => "Advanced feature-set",
 "(Unstable)" => "(Unstable)"
 );

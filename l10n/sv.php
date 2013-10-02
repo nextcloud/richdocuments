@@ -9,8 +9,8 @@
 "Accepted" => "Accepterad",
 "Incoming" => "Inkommande",
 "Upload" => "Ladda upp",
-"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Länken har löpt ut eller aldrig existerat. Kontakta personen som delade den med dig för ytterligare detaljer.",
 "Documents" => "Dokument",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Länken har löpt ut eller aldrig existerat. Kontakta personen som delade den med dig för ytterligare detaljer.",
 "Advanced feature-set" => "Avancerade inställningar",
 "(Unstable)" => "(Ej stabil)"
 );

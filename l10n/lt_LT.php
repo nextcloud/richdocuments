@@ -10,10 +10,10 @@
 "Accepted" => "Priimta",
 "Incoming" => "Įeinantys",
 "Upload" => "Įkelti",
+"Documents" => "Dokumentacija",
 "Introduce yourself" => "Pristatykite save",
 "Join" => "Prisijungti",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Šios nuorodos laikas baigėsi, arba ji neegzistavo. Prašome susisiekti su asmeniu pasidalinusiu ja su Jumis dėl informacijos.",
-"Documents" => "Dokumentacija",
 "Advanced feature-set" => "Išsamesni funkcijų nustatymai",
 "(Unstable)" => "(Nestabilus)"
 );

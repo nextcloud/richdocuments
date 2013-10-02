@@ -6,6 +6,6 @@
 "Declined" => "거절됨",
 "Accepted" => "허",
 "Upload" => "업로드",
-"Join" => "참여하기",
-"Documents" => "문서"
+"Documents" => "문서",
+"Join" => "참여하기"
 );

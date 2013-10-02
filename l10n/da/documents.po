@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 08:03-0400\n"
-"PO-Revision-Date: 2013-09-30 09:01+0000\n"
-"Last-Translator: Sappe\n"
+"POT-Creation-Date: 2013-10-02 07:22-0400\n"
+"PO-Revision-Date: 2013-10-02 11:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,6 +68,14 @@ msgstr "Indgående"
 msgid "Upload"
 msgstr "Upload"
 
+#: templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr "Dokumenter"
+
+#: templates/personal.php:4
+msgid "Save new documents to"
+msgstr ""
+
 #: templates/public.php:7
 msgid "Introduce yourself"
 msgstr "Introducer dig selv"
@@ -81,10 +89,6 @@ msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
 msgstr "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. "
-
-#: templates/settings.php:2
-msgid "Documents"
-msgstr "Dokumenter"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"

@@ -9,9 +9,9 @@
 "Accepted" => "受け付けました",
 "Incoming" => "受信箱",
 "Upload" => "アップロード",
+"Documents" => "ドキュメント",
 "Introduce yourself" => "自己紹介",
 "Join" => "参加",
-"Documents" => "ドキュメント",
 "Advanced feature-set" => "高度な機能セット",
 "(Unstable)" => "(非安定的)"
 );

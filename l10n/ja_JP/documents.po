@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 08:03-0400\n"
-"PO-Revision-Date: 2013-09-30 06:34+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-10-02 07:22-0400\n"
+"PO-Revision-Date: 2013-10-02 11:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,6 +69,14 @@ msgstr "受信箱"
 msgid "Upload"
 msgstr "アップロード"
 
+#: templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr "ドキュメント"
+
+#: templates/personal.php:4
+msgid "Save new documents to"
+msgstr ""
+
 #: templates/public.php:7
 msgid "Introduce yourself"
 msgstr "自己紹介"
@@ -82,10 +90,6 @@ msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
 msgstr ""
-
-#: templates/settings.php:2
-msgid "Documents"
-msgstr "ドキュメント"
 
 #: templates/settings.php:12
 msgid "Advanced feature-set"
