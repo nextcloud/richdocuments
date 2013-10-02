@@ -49,6 +49,10 @@ class View extends \OC\Files\View{
 		$newName = '/' . sha1($ownerView->file_get_contents($filePath)) . '.odt';
 
 		$ownerView->copy($filePath, self::DOCUMENTS_DIRNAME . $newName);
+		if (!$ownerView->file_exists(self::DOCUMENTS_DIRNAME . $newName)){
+			throw new \Exception('Failed to copy genesis');
+		}
+		
 		\OC_FileProxy::$enabled = $proxyStatus;
 		return $newName;
 	}

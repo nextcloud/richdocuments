@@ -38,9 +38,12 @@ class Db_Session extends \OCA\Documents\Db {
 	public static function start($uid, File $file){
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		
+		// Create a directory to store genesis
+		$docView = $ownerView->initDocumentsView();
+		
 		$oldSession = new Db_Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
-
+		
 		//If there is no existing session we need to start a new one
 		if (!$oldSession->hasData()){
 
