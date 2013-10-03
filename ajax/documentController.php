@@ -23,10 +23,16 @@ class DocumentController extends Controller{
 		$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
 		$path = Helper::getNewFileName($view, $dir . '/New Document.odt');
 		
-		$view->file_put_contents(
-				$path, 
-				base64_decode(self::ODT_TEMPLATE)
-		);
+		$content = base64_decode(self::ODT_TEMPLATE);
+		if (class_exists('\OC\Files\Type\TemplateManager')){
+			$manager = \OC_Helper::getFileTemplateManager();
+			$templateContent = $manager->getTemplate('application/vnd.oasis.opendocument.text');
+			if ($templateContent){
+				$content = $templateContent;
+			}
+		}
+		
+		$view->file_put_contents($path, $content);
 	}
 
 
