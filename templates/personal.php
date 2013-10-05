@@ -1,7 +1,7 @@
 <fieldset class="personalblock" id="documents-personal">
-	<legend><strong><?php p($l->t('Documents')); ?></strong></legend>
+	<h2><?php p($l->t('Documents')); ?></h2>
 	<div>
-		<label for="documents-default-path"><strong><?php p($l->t('Save new documents to')) ?></strong></label>
+		<label for="documents-default-path"><?php p($l->t('Save new documents to')) ?></label>
 		<input type="text" id="documents-default-path" value="<?php p($_['savePath']) ?>" /><span class="msg"></span>
 	</div>
 </fieldset>
