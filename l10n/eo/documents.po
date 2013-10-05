@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-02 07:22-0400\n"
-"PO-Revision-Date: 2013-10-02 11:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-05 08:15-0400\n"
+"PO-Revision-Date: 2013-10-02 12:50+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: js/documents.js:284
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Malsukcesis ŝargo de dokumentoj."
 
 #: js/documents.js:327
 msgid "No documents are found. Please upload or create a document!"
@@ -48,7 +49,7 @@ msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Sendita"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
@@ -56,7 +57,7 @@ msgstr ""
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Akceptita"
 
 #: lib/invite.php:74
 msgid "Incoming"
@@ -68,11 +69,11 @@ msgstr "Alŝuti"
 
 #: templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumentoj"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Konservi novajn dokumentojn en"
 
 #: templates/public.php:7
 msgid "Introduce yourself"
@@ -88,10 +89,10 @@ msgid ""
 "who shared it with you for details."
 msgstr ""
 
-#: templates/settings.php:12
+#: templates/settings.php:9
 msgid "Advanced feature-set"
 msgstr ""
 
-#: templates/settings.php:13
+#: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(nestabila)"

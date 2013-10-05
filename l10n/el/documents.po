@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-02 07:22-0400\n"
-"PO-Revision-Date: 2013-10-02 11:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-05 08:15-0400\n"
+"PO-Revision-Date: 2013-10-02 12:30+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,14 +30,14 @@ msgstr "Διαμοιρασμός"
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Αποχωρώντας από την κατάσταση Επεξεργασίας της σελίδας μπορεί να υπάρξουν μη αποθηκευμένα δεδομένα. Αντί γι' αυτό, συνίσταται να χρησιμοποιήσετε το κουμπί 'Κλείσιμο'."
 
 #: js/documents.js:141
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Αποτυχία φόρτωσης του εγγράφου. Παρακαλώ ελέγξτε εάν μπορεί να ανοίξει με εξωτερικό επεξεργαστή odt. Αυτό επίσης μπορεί να σημαίνει ότι πρόσφατα έχει ακυρωθεί ο διαμοιρασμός ή διαγραφεί."
 
 #: js/documents.js:284
 msgid "Failed to load documents."
@@ -45,7 +45,7 @@ msgstr "Αποτυχία φόρτωσης εγγράφων."
 
 #: js/documents.js:327
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "Δεν βρέθηκαν έγγραφα. Παρακαλώ αποστείλετε ή δημιουργήστε ένα έγγραφο."
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -53,11 +53,11 @@ msgstr "Απεστάλη"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Απορρίφθηκε"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Αποδοχή"
 
 #: lib/invite.php:74
 msgid "Incoming"
@@ -73,7 +73,7 @@ msgstr "Έγγραφα"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Αποθήκευση νέων εγγράφων σε"
 
 #: templates/public.php:7
 msgid "Introduce yourself"
@@ -87,12 +87,12 @@ msgstr ""
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Αυτός ο σύνδεσμος έχει λήξει ή δεν υπήρξε ποτέ. Παρακαλώ επικοινωνήστε με το άτομο που το διαμοιράστηκε μαζί σας για λεπτομέρειες."
 
-#: templates/settings.php:12
+#: templates/settings.php:9
 msgid "Advanced feature-set"
 msgstr ""
 
-#: templates/settings.php:13
+#: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Ασταθές)"

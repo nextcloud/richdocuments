@@ -11,6 +11,7 @@
 "Incoming" => "entrando",
 "Upload" => "Upload",
 "Documents" => "Documentos",
+"Save new documents to" => "Salvar o novo documento para",
 "Introduce yourself" => "Apresente-se",
 "Join" => "Juntar",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Este link espirou ou numca existiu. Por favor faça contato com a pessoa que compartilhou este link com você para maiores detalhes.",

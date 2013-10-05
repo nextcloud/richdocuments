@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Закрыть",
 "Share" => "Открыть доступ",
+"Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Не удалось загрузить документ. Пожалуйста, проверьте не открыт ли документ с помощью внешнего odt редактора.",
 "Failed to load documents." => "Загрузка документов не удалась.",
 "No documents are found. Please upload or create a document!" => "Документы не найдены. Пожалуйста загрузите или создайте документ!",
@@ -10,6 +11,9 @@
 "Incoming" => "Входящие",
 "Upload" => "Загрузка",
 "Documents" => "Документы",
+"Save new documents to" => "Сохранять новые документы в",
+"Introduce yourself" => "Представьтесь",
+"Join" => "Присоединиться",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Срок действия ссылки истек, либо ссылка никогда не существовала. Пожалуйста, обратитесь к человеку, который поделился ею, за подробностями.",
 "Advanced feature-set" => "Расширенные функции",
 "(Unstable)" => "(Нестабильно)"

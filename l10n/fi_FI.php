@@ -10,6 +10,7 @@
 "Incoming" => "Saapuva",
 "Upload" => "Lähetä",
 "Documents" => "Asiakirjat",
+"Save new documents to" => "Uusien asiakirjojen tallennussijainti",
 "Introduce yourself" => "Esittele itsesi",
 "Join" => "Liity",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
