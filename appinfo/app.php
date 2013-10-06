@@ -27,7 +27,7 @@ OCP\App::registerPersonal('documents', 'personal');
 
 OCP\App::addNavigationEntry(array(
 	'id' => 'documents_index', 
-	'order' => 80, 
+	'order' => 2,
 	'href' => OCP\Util::linkTo('documents', 'index.php'), 
 	'icon' => OCP\Util::imagePath('documents', 'documents.svg'),
 	'name' => 'Documents')
