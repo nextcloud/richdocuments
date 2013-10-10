@@ -88,6 +88,7 @@ var documentsMain = {
 	
 	onStartup: function() {
 		"use strict";
+		documentsMain.useUnstable = $('#webodf-unstable').val()==='true';
 		documentsMain.UI.init();
 		
 		if (!OC.currentUser){

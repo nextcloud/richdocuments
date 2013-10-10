@@ -40,9 +40,12 @@ namespace OCA\Documents;
 
 $tmpl = new \OCP\Template('documents', 'documents', 'user');
 
+$unstable = \OCP\Config::getAppValue('documents', 'unstable', 'false');
 $maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 $savePath = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
 
+
+$tmpl->assign('useUnstable', $unstable);
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('savePath', $savePath);
