@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Zamknij",
 "Share" => "Udostępnij",
+"Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Opuszczając tę stronę w trybie Editor może spowodować niezapisanie danych. Zaleca się zamiast tego użyć przycisk 'Zamknij'.",
+"Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Nie można załadować tego dokument. Proszę sprawdzić, czy można go otworzyć w edytorze zewnętrznym odt. Może to również oznaczać  nieudostępniony dokument lub jest już usunięty.",
 "Failed to load documents." => "Nie można wczytać dokumentów.",
 "No documents are found. Please upload or create a document!" => "Nie znaleziono dokumentów. Proszę załaduj lub stwórz dokument!",
 "Sent" => "Wyślij",
@@ -9,7 +11,10 @@
 "Incoming" => "Przychodzące",
 "Upload" => "Wyślij",
 "Documents" => "Dokumenty",
+"Save new documents to" => "Zapisz nowy dokument do",
+"Introduce yourself" => "Przedstaw się",
 "Join" => "Dołącz",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ten link już wygasła lub nigdy nie istniał. Proszę skontaktuj się z osobą, która udostępniła ci link, aby uzyskać szczegółowe informacje.",
 "Advanced feature-set" => "Zaawansowany zestaw funkcji",
 "(Unstable)" => "(Niestabilne)"
 );

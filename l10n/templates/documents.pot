@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-10-08 07:14-0400\n"
+"POT-Creation-Date: 2013-10-10 20:21-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,24 +25,24 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:129
+#: js/documents.js:130
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended "
 "to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:141
+#: js/documents.js:142
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:284
+#: js/documents.js:285
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:327
+#: js/documents.js:328
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
