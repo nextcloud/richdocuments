@@ -157,7 +157,7 @@ class File {
 							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
 							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`' 
-							.'FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `item_type` = `file` ' . $where);
+							.'FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `item_type` = \'file\' ' . $where);
 		$result = $query->execute($values);
 		$shares = $result->fetchAll();
 		
