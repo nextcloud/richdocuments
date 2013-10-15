@@ -98,7 +98,10 @@ abstract class Db {
 		if (!is_array($value)){
 			$value = array($value);
 		}
-		if (count($value)===1){
+		$count = count($value);
+		if ($count===0){
+			return 0;
+		} elseif ($count===1){
 			$result = $this->execute('DELETE FROM ' . $this->tableName . ' WHERE `'. $field .'` =?', $value);
 		} else {
 			$stmt = $this->buildInQuery($field, $value);
@@ -129,7 +132,10 @@ abstract class Db {
 		if (!is_array($value)){
 			$value = array($value);
 		}
-		if (count($value)===1){
+		$count = count($value);
+		if ($count===0){
+			return array();
+		} elseif ($count===1){
 			$result = $this->execute('SELECT * FROM ' . $this->tableName . ' WHERE `'. $field .'` =?', $value);
 		} else {
 			$stmt = $this->buildInQuery($field, $value);
