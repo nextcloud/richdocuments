@@ -72,7 +72,8 @@ class Db_Session extends \OCA\Documents\Db {
 		$member = new Db_Member(array(
 			$session['es_id'], 
 			$uid, 
-			Helper::getRandomColor()
+			Helper::getRandomColor(),
+			time()
 		));
 		if ($member->insert()){
 			$session['member_id'] = (string) $member->getLastInsertId();
