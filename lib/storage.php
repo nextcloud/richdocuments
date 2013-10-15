@@ -62,7 +62,7 @@ class Storage {
 					->getData()
 				;
 
-		if (!is_array($session)){
+		if (!is_array($session) || !isset($session['es_id'])){
 			return;
 		}
 		
