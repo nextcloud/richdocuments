@@ -5,13 +5,14 @@
 # Translators:
 # DeeJaVu <ddejjavvu@gmail.com>, 2013
 # Fatih Aşıcı <fatih.asici@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-02 07:22-0400\n"
-"PO-Revision-Date: 2013-10-02 11:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-15 21:29-0400\n"
+"PO-Revision-Date: 2013-10-14 19:10+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,26 +28,26 @@ msgstr "Kapat"
 msgid "Share"
 msgstr "Paylaş"
 
-#: js/documents.js:129
+#: js/documents.js:130
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Düzenleyici kipinde bu sayfadan ayrılmak kaydedilmemiş veriye sebep olabilir. Bunun yerine 'Kapat' düğmesi kullanılması önerilir."
 
-#: js/documents.js:141
+#: js/documents.js:142
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Bu belge yüklenemedi. Lütfen harici bir odt düzenleyicisi ile açılıp açılamayacağını denetleyin. Bu ayrıca paylaşımın yapılmadığı veya yakın zamanda silinmiş olabileceğinden de olabilir."
 
-#: js/documents.js:284
+#: js/documents.js:285
 msgid "Failed to load documents."
 msgstr "Belgeler yüklenemedi."
 
-#: js/documents.js:327
+#: js/documents.js:328
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "Hiçbir belge bulunamadı. Lütfen bir belge yükleyin veya oluşturun!"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -74,26 +75,26 @@ msgstr "Belgeler"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Yeni belgeleri şuraya kaydet"
 
 #: templates/public.php:7
 msgid "Introduce yourself"
-msgstr ""
+msgstr "Kendinizi tanıtın"
 
 #: templates/public.php:8
 msgid "Join"
-msgstr ""
+msgstr "Katıl"
 
 #: templates/public.php:14
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin."
 
-#: templates/settings.php:12
+#: templates/settings.php:9
 msgid "Advanced feature-set"
 msgstr "Gelişmiş özellik seti"
 
-#: templates/settings.php:13
+#: templates/settings.php:10
 msgid "(Unstable)"
 msgstr "(Kararsız)"
