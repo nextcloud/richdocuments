@@ -45,7 +45,15 @@ try{
 	
 	$session = new Db_Session();
 	$sessionData = $session->load($esId)->getData();
-	$file = new File(@$sessionData['file_id']);
+
+	try {
+		$file = new File(@$sessionData['file_id']);
+	} catch (\Exception $e){
+		Helper::warnLog('Error. Session no longer exists. ' . $e->getMessage());
+		$ex = new BadRequestException();
+		$ex->setBody("{err:'bad request: [" . $request->getRawRequest() . "]'}");
+		throw $ex;
+	}
 	if (!$file->isPublicShare()){
 		Controller::preDispatch(false);
 	} else {
