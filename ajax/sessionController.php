@@ -91,7 +91,8 @@ class SessionController extends Controller{
 			
 			if ($view->file_put_contents($path, $content)){
 				//Document saved successfully. Cleaning session data
-				Db_Session::cleanUp($esId);
+				// temporary workaround for https://github.com/owncloud/documents/issues/63
+				//Db_Session::cleanUp($esId);
 				$view->touch($path);
 			}
 			\OCP\JSON::success();
