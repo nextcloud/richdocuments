@@ -164,7 +164,11 @@ class File {
 		$origins = array();
 		if (is_array($shares)){
 			foreach ($shares as $share){
-				$origins[] = \OCP\Share::resolveReShare($share);
+				$origin = \OCP\Share::resolveReShare($share);
+				if (!isset($origin['path']) && isset($origin['file_target'])){
+					$origin['path'] = 'files/' . $origin['file_target'];
+				}
+				$origins[] = $origin;
 			}
 		}
 		return $origins;
