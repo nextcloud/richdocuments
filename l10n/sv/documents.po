@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Daniel Sandman <revoltism@gmail.com>, 2013
+# Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-02 07:22-0400\n"
-"PO-Revision-Date: 2013-10-02 11:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-17 12:31-0400\n"
+"PO-Revision-Date: 2013-10-16 19:00+0000\n"
+"Last-Translator: Gustav Smedberg <shadow.elf@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,24 +28,24 @@ msgstr "Stäng"
 msgid "Share"
 msgstr "Dela"
 
-#: js/documents.js:129
+#: js/documents.js:130
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Att lämna denna sida i Redigera läget kan orsaka osparad data. Det är rekommenderat att använda 'Stäng' knappen i stället."
 
-#: js/documents.js:141
+#: js/documents.js:142
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Misslyckades att ladda detta dokument. Försök gärna att öppna det med en extern textredigerare som har stöd för ODT. Detta fel kan bero på att dokumentet nyligen har slutat delas ut eller blivit borttagen."
 
-#: js/documents.js:284
+#: js/documents.js:285
 msgid "Failed to load documents."
 msgstr "Kunde inte ladda dokumenten."
 
-#: js/documents.js:327
+#: js/documents.js:328
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Inga dokument funna. Ladda upp eller skapa ett dokument!"
 
@@ -74,15 +75,15 @@ msgstr "Dokument"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Spara nya dokument till"
 
 #: templates/public.php:7
 msgid "Introduce yourself"
-msgstr ""
+msgstr "Introdusera dig själv"
 
 #: templates/public.php:8
 msgid "Join"
-msgstr ""
+msgstr "Gå med"
 
 #: templates/public.php:14
 msgid ""
@@ -90,10 +91,10 @@ msgid ""
 "who shared it with you for details."
 msgstr "Länken har löpt ut eller aldrig existerat. Kontakta personen som delade den med dig för ytterligare detaljer."
 
-#: templates/settings.php:12
+#: templates/settings.php:9
 msgid "Advanced feature-set"
 msgstr "Avancerade inställningar"
 
-#: templates/settings.php:13
+#: templates/settings.php:10
 msgid "(Unstable)"
 msgstr "(Ej stabil)"

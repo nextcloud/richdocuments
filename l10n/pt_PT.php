@@ -11,6 +11,7 @@
 "Documents" => "Documentos",
 "Save new documents to" => "Guardar novos documentos para",
 "Introduce yourself" => "Apresente-se",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Esta ligação expirou ou nunca existiu. Para mais detalhes, por favor contacte a pessoa que a partilhou consigo.",
 "Advanced feature-set" => "Opções avançadas",
 "(Unstable)" => "(Instável)"
 );
