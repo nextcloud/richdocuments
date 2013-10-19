@@ -1,5 +1,20 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Zavrieť",
 "Share" => "Zdieľať",
-"Upload" => "Odoslať"
+"Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Ponechaním tejto stránky v editačnom móde môže dôjsť k tomu, že sa zmeny neuložia. Doporučujeme použiť tlačidlo 'Zavrieť'",
+"Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Nepodarilo sa otvoriť tento dokument. Skontrolujte prosím, či je možné ho otvoriť externým editorom ODT súborov. Môže to však tiež znamenať, že bolo zdieľanie zrušené, alebo bol vymazaný.",
+"Failed to load documents." => "Nepodarilo sa načítať dokumenty.",
+"No documents are found. Please upload or create a document!" => "Žiadne dokumenty neboli zájdené. Nahrajte, alebo vytvorte dokument!",
+"Sent" => "Odoslané",
+"Declined" => "Odmietnuté",
+"Accepted" => "Schválené",
+"Incoming" => "Prichádzajúci",
+"Upload" => "Odoslať",
+"Documents" => "Dokumenty",
+"Save new documents to" => "Uložiť nové dokumenty do",
+"Introduce yourself" => "Predstavte sa",
+"Join" => "Vstúpiť",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Tento odkaz vyexpiroval, alebo neexistuje. Pre podrobnosti kontaktujte osobu, ktorá ho s vami zdieľala.",
+"Advanced feature-set" => "Rozšírená sada možností",
+"(Unstable)" => "(Nestabilý)"
 );

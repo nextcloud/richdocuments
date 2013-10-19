@@ -11,6 +11,7 @@
 "Incoming" => "Beérkező",
 "Upload" => "Feltöltés",
 "Documents" => "Dokumentumok",
+"Save new documents to" => "Az új dokumentumokat ide mentese:",
 "Introduce yourself" => "Mutasd be magad",
 "Join" => "Belépés",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ez a link vagy lejárt vagy sohasem létezett. Kérdezd meg azt aki megosztotta veled ezt a linket.",
