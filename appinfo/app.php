@@ -43,5 +43,8 @@ OC::$CLASSPATH['OCA\Documents\Db_Session'] = 'documents/lib/db/session.php';
 OC::$CLASSPATH['OCA\Documents\Db_Member'] = 'documents/lib/db/member.php';
 OC::$CLASSPATH['OCA\Documents\Db_Op'] = 'documents/lib/db/op.php';
 
+//Script for registering file actions
+OCP\Util::addScript('documents', 'viewer/viewer');
+
 //Listen to delete file signal
-\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");
+OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");
