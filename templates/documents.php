@@ -34,3 +34,4 @@
 	</ul>
 </div>
 <input type="hidden" id="webodf-unstable" value="<?php p($_['useUnstable']) ?>" />
+<input type="hidden" name="allowShareWithLink" id="allowShareWithLink" value="<?php p($_['allowShareWithLink']) ?>" />

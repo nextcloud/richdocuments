@@ -49,5 +49,6 @@ $tmpl->assign('useUnstable', $unstable);
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('savePath', $savePath);
+$tmpl->assign("allowShareWithLink", \OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes'));
 
 $tmpl->printPage();
