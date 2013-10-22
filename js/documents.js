@@ -6,6 +6,7 @@ var documentsMain = {
 	isEditormode : false,
 	useUnstable : false,
 	isGuest : false,
+	ready :false,
 	
 	UI : {
 		/* Overlay HTML */
@@ -49,7 +50,7 @@ var documentsMain = {
 			$(documentsMain.UI.overlay).hide().appendTo(document.body);
 			documentsMain.UI.mainTitle = $('title').text();
 		},
-				
+		
 		showOverlay : function(){
 			$('#documents-overlay,#documents-overlay-below').fadeIn('slow');
 		},
@@ -87,16 +88,17 @@ var documentsMain = {
 	},
 	
 	onStartup: function() {
+		var fileId;
 		"use strict";
 		documentsMain.useUnstable = $('#webodf-unstable').val()==='true';
 		documentsMain.UI.init();
 		
 		if (!OC.currentUser){
 			documentsMain.isGuest = true;
-			var fileId;
+			
 		} else {
 			// Does anything indicate that we need to autostart a session?
-			var fileId = parent.location.hash.replace(/\W*/g, '');
+			fileId = parent.location.hash.replace(/\W*/g, '');
 		}
 		
 		if (!fileId){
@@ -106,18 +108,16 @@ var documentsMain = {
 		}
 		
 		
-		OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', function() {
-			OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
-				// preload stuff in the background
-				require({}, ["dojo/ready"], function(ready) {
-					ready(function() {
-						require({}, ["webodf/editor/Editor"], function(Editor) {
-
-							if (fileId){
-								documentsMain.prepareSession();
-								documentsMain.joinSession(fileId);
-							}
-						});
+		OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
+			// preload stuff in the background
+			require({}, ["dojo/ready"], function(ready) {
+				ready(function() {
+					require({}, ["webodf/editor/Editor"], function(Editor) {
+						documentsMain.ready = true;
+						if (fileId){
+							documentsMain.prepareSession();
+							documentsMain.joinSession(fileId);
+						}
 					});
 				});
 			});
@@ -137,12 +137,19 @@ var documentsMain = {
 	
 	initSession: function(response) {
 		"use strict";
-		
+
 		if (!response || !response.es_id || !response.status || response.status==='error'){
 			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			documentsMain.prepareGrid();
 			documentsMain.show();
 			setTimeout(OC.Notification.hide, 7000);
+			return;
+		}
+		
+		//Wait for 3 sec if editor is still loading 
+		if (!documentsMain.ready){
+			setTimeout(function(){ documentsMain.initSession(response) }, 3000);
+			console.log('Waiting for the editor to start...');
 			return;
 		}
 
@@ -335,14 +342,36 @@ var documentsMain = {
 };
 
 
+//web odf bootstrap code. Added here to reduce number of requests
+/*globals navigator,dojoConfig */
+var usedLocale = "C";
+
+if (navigator && navigator.language.match(/^(de)/)) {
+	usedLocale = navigator.language.substr(0,2);
+}
+
+dojoConfig = {
+	locale: usedLocale,
+	paths: {
+		"webodf/editor": OC.appswebroots.documents + "/js/3rdparty/webodf/editor",
+		"dijit": OC.appswebroots.documents + "/js/3rdparty/resources/dijit",
+		"dojox": OC.appswebroots.documents + "/js/3rdparty/resources/dojox",
+		"dojo": OC.appswebroots.documents + "/js/3rdparty/resources/dojo",
+		"resources": OC.appswebroots.documents + "/js/3rdparty/resources"
+	}
+};
+
+//init
 $(document).ready(function() {
 	"use strict";
 	
 	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
+
 		if (documentsMain.isEditorMode){
 			return;
 		}
+		
 		documentsMain.prepareSession();
 		if ($(this).attr('data-id')){
 			documentsMain.joinSession($(this).attr('data-id'));
@@ -353,6 +382,7 @@ $(document).ready(function() {
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
 	$(document.body).on('click', '#odf-join', function(event){
 		event.preventDefault();
+
 		// !Login page mess wih WebODF toolbars
 		$(document.body).attr('id', 'body-user');
 		$('header,footer').hide();
@@ -366,6 +396,6 @@ $(document).ready(function() {
 	var file_upload_start = $('#file_upload_start');
 	file_upload_start.on('fileuploaddone', documentsMain.show);
 	//TODO when ending a session as the last user close session?
-
-	OC.addScript('documents', '3rdparty/webodf/webodf_bootstrap', documentsMain.onStartup);
+	
+	OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', documentsMain.onStartup);
 });
