@@ -4,7 +4,7 @@
 <div id="documents-content">
 	<?php if (isset($_['document'])): ?>
 		<form>
-			<input type="text" name="memberName" placeholder="<?php p($l->t('Introduce yourself')) ?>" />
+			<input type="text" name="memberName" placeholder="<?php p($l->t('Please enter your nickname')) ?>" />
 			<button id="odf-join"><?php p($l->t('Join')) ?></button>
 		</form>
 		<input type="hidden" name="document" value ="<?php p($_['document']) ?>" />
