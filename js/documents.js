@@ -52,11 +52,11 @@ var documentsMain = {
 		},
 		
 		showOverlay : function(){
-			$('#documents-overlay,#documents-overlay-below').fadeIn('slow');
+			$('#documents-overlay,#documents-overlay-below').fadeIn('fast');
 		},
 		
 		hideOverlay : function(){
-			$('#documents-overlay,#documents-overlay-below').fadeOut('slow');
+			$('#documents-overlay,#documents-overlay-below').fadeOut('fast');
 		},
 		
 		showEditor : function(title, canShare){
@@ -75,12 +75,12 @@ var documentsMain = {
 		
 		hideEditor : function(){
 				// Fade out toolbar
-				$('#odf-toolbar').fadeOut('slow');
+				$('#odf-toolbar').fadeOut('fast');
 				// Fade out editor
-				$('#mainContainer').fadeOut('slow', function() {
+				$('#mainContainer').fadeOut('fast', function() {
 					$('#mainContainer').remove();
 					$('#odf-toolbar').remove();
-					$('#content').fadeIn('slow');
+					$('#content').fadeIn('fast');
 					$(document.body).removeClass('claro');
 					$('title').text(documentsMain.UI.mainTitle);
 				});
@@ -156,7 +156,7 @@ var documentsMain = {
 
 		require({ }, ["webodf/editor/server/owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
-			$('#content').fadeOut('slow').promise().done(function() {
+			$('#content').fadeOut('fast').promise().done(function() {
 				
 				documentsMain.UI.showEditor(
 						documentsMain.getNameByFileid(response.file_id),
