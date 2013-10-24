@@ -37,7 +37,10 @@ var odfViewer = {
 	onView: function(filename) {
 		OC.addStyle('documents', 'viewer/webodf');
 		OC.addStyle('documents', 'viewer/odfviewer');
-		OC.addScript('documents', 'viewer/webodf').done(function() {
+		
+		var webodfSource = (oc_debug !== true) ? 'webodf-debug' : 'webodf';
+		
+		OC.addScript('documents', 'viewer/' + webodfSource).done(function() {
 			var location = fileDownloadPath($('#dir').val(), filename);
 
 			// fade out files menu and add odf menu

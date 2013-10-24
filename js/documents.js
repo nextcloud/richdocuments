@@ -107,8 +107,8 @@ var documentsMain = {
 			documentsMain.UI.showOverlay();
 		}
 		
-		
-		OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
+		var webodfSource = (oc_debug !== true) ? 'webodf-debug' : 'webodf';
+		OC.addScript('documents', '3rdparty/webodf/' + webodfSource).done(function() {
 			// preload stuff in the background
 			require({}, ["dojo/ready"], function(ready) {
 				ready(function() {
@@ -127,7 +127,9 @@ var documentsMain = {
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
 		documentsMain.UI.showOverlay();
-		$(window).on('beforeunload', function(){return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.")})
+		$(window).on('beforeunload', function(){
+			return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead."); 
+		});
 	},
 	
 	prepareGrid : function(){
@@ -148,7 +150,7 @@ var documentsMain = {
 		
 		//Wait for 3 sec if editor is still loading 
 		if (!documentsMain.ready){
-			setTimeout(function(){ documentsMain.initSession(response) }, 3000);
+			setTimeout(function(){ documentsMain.initSession(response); }, 3000);
 			console.log('Waiting for the editor to start...');
 			return;
 		}
@@ -183,9 +185,9 @@ var documentsMain = {
 		console.log('joining session '+fileId);
 		var url;
 		if (documentsMain.isGuest){
-			url = OC.Router.generate('documents_session_joinasguest') + '/' + fileId
+			url = OC.Router.generate('documents_session_joinasguest') + '/' + fileId;
 		} else {
-			url = OC.Router.generate('documents_session_joinasuser') + '/' + fileId
+			url = OC.Router.generate('documents_session_joinasuser') + '/' + fileId;
 		}
 		$.post(
 			url,
