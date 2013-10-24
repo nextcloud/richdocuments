@@ -101,9 +101,8 @@ var documentsMain = {
 			fileId = parent.location.hash.replace(/\W*/g, '');
 		}
 		
-		if (!fileId){
-			documentsMain.show();
-		} else {
+		documentsMain.show();
+		if (fileId){
 			documentsMain.UI.showOverlay();
 		}
 		
