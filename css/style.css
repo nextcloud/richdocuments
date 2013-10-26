@@ -36,12 +36,13 @@
 	background-image: url('%webroot%/core/img/actions/upload.svg');
 }
 
-.add-document a.upload{
+.add-document a.add {
+	border-bottom: 1px solid #fff;
 }
 
 .add-document label {
 	position: absolute;
-	bottom: 5px;
+	bottom: 10px;
 	width: 100%;
 	font-weight: normal;
 	text-align: center;
