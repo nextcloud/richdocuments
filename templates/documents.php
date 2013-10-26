@@ -2,7 +2,7 @@
 	<ul class="documentslist">
 		<li class="add-document">
 			<a class="add svg" target="_blank" href="">
-				<label><?php p('Add') ?></label>
+				<label><?php p('New document') ?></label>
 			</a>
 			<div id="upload" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 				<form data-upload-id="1"
