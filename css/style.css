@@ -26,8 +26,8 @@
 	height: 100px;
 	width: 200px;
 	background-repeat: no-repeat;
-	background-size: 64px;
-	background-position: 50% 10px;
+	background-size: 32px;
+	background-position: 50%;
 }
 .add-document .add {
 	background-image: url('%webroot%/core/img/actions/add.svg');
@@ -36,12 +36,23 @@
 	background-image: url('%webroot%/core/img/actions/upload.svg');
 }
 
-.add-document a.upload{
+.add-document a.add {
+	border-bottom: 1px solid #fff;
+}
+.add-document .add,
+.add-document .upload {
+	opacity: .7;
+}
+.add-document .add:hover,
+.add-document .add:focus,
+.add-document #upload:hover .upload,
+.add-document .upload:focus {
+	opacity: 1;
 }
 
 .add-document label {
 	position: absolute;
-	bottom: 5px;
+	bottom: 10px;
 	width: 100%;
 	font-weight: normal;
 	text-align: center;
@@ -57,9 +68,7 @@
 	border-radius: 5px;
 }
 .documentslist .document:hover,
-.documentslist .document:focus,
-.documentslist .add-document:hover,
-.documentslist .add-document:focus {
+.documentslist .document a:focus {
 	background-color: #ddd;
 }
 
