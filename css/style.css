@@ -26,8 +26,8 @@
 	height: 100px;
 	width: 200px;
 	background-repeat: no-repeat;
-	background-size: 64px;
-	background-position: 50% 10px;
+	background-size: 32px;
+	background-position: 50%;
 }
 .add-document .add {
 	background-image: url('%webroot%/core/img/actions/add.svg');
