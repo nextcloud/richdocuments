@@ -25,12 +25,14 @@ OCP\App::register(array('order' => 70, 'id' => 'documents', 'name' => 'Documents
 OCP\App::registerAdmin('documents', 'settings');
 OCP\App::registerPersonal('documents', 'personal');
 
+$l10n = \OCP\Util::getL10N('documents');
+
 OCP\App::addNavigationEntry(array(
 	'id' => 'documents_index', 
 	'order' => 2,
 	'href' => OCP\Util::linkTo('documents', 'index.php'), 
 	'icon' => OCP\Util::imagePath('documents', 'documents.svg'),
-	'name' => 'Documents')
+	'name' => $l10n->t('Documents'))
 );
 
 OC::$CLASSPATH['OCA\Documents\Controller'] = 'documents/ajax/controller.php';
