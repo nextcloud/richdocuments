@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-19 08:16-0400\n"
-"PO-Revision-Date: 2013-10-19 05:40+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2013-10-27 00:20-0400\n"
+"PO-Revision-Date: 2013-10-27 04:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/documents.js:17
+#: js/documents.js:18 js/viewer/viewer.js:51
 msgid "Close"
 msgstr "閉じる"
 
-#: js/documents.js:23
+#: js/documents.js:24
 msgid "Share"
 msgstr "共有"
 
@@ -34,18 +34,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "このページを編集モードのままにしておくと、保存されないデータが出てきます。その代わりに「閉じる」ボタンを使うことをお勧めします。"
 
-#: js/documents.js:142
+#: js/documents.js:143
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "ドキュメントの読み込みに失敗。外部の odtエディターで開けるかどうか確認してください。これは、ドキュメントが最近、非共有になっているか削除されているのかもしれません。"
 
-#: js/documents.js:285
+#: js/documents.js:293
 msgid "Failed to load documents."
 msgstr "ドキュメントのロードに失敗しました。"
 
-#: js/documents.js:328
+#: js/documents.js:336
 msgid "No documents are found. Please upload or create a document!"
 msgstr "ドキュメントはありません。アップロードするか、作成してください。"
 
@@ -78,8 +78,8 @@ msgid "Save new documents to"
 msgstr "ドキュメントを新しく保存する"
 
 #: templates/public.php:7
-msgid "Introduce yourself"
-msgstr "自己紹介"
+msgid "Please enter your nickname"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Join"

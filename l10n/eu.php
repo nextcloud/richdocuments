@@ -10,7 +10,7 @@
 "Upload" => "Igo",
 "Documents" => "Dokumentuak",
 "Save new documents to" => "Gorde dokumentu berriak hemen",
-"Introduce yourself" => "Aurkeztu zure burua",
+"Join" => "Elkartu",
 "Advanced feature-set" => "Ezaugarri aurreratu multzoa",
 "(Unstable)" => "(Ez-egonkorra)"
 );

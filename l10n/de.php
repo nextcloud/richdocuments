@@ -12,7 +12,6 @@
 "Upload" => "Hochladen",
 "Documents" => "Dokumente",
 "Save new documents to" => "Neues Dokument speichern unter",
-"Introduce yourself" => "Stell dich vor",
 "Join" => "Beitreten",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktiere, für nähere Details, die Person, die dies mit dir teilt.",
 "Advanced feature-set" => "Erweiterte Funktionseinstellungen",

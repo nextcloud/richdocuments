@@ -12,7 +12,6 @@
 "Upload" => "Odoslať",
 "Documents" => "Dokumenty",
 "Save new documents to" => "Uložiť nové dokumenty do",
-"Introduce yourself" => "Predstavte sa",
 "Join" => "Vstúpiť",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Tento odkaz vyexpiroval, alebo neexistuje. Pre podrobnosti kontaktujte osobu, ktorá ho s vami zdieľala.",
 "Advanced feature-set" => "Rozšírená sada možností",

@@ -12,7 +12,6 @@
 "Upload" => "Yükle",
 "Documents" => "Belgeler",
 "Save new documents to" => "Yeni belgeleri şuraya kaydet",
-"Introduce yourself" => "Kendinizi tanıtın",
 "Join" => "Katıl",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin.",
 "Advanced feature-set" => "Gelişmiş özellik seti",

@@ -12,7 +12,6 @@
 "Upload" => "アップロード",
 "Documents" => "ドキュメント",
 "Save new documents to" => "ドキュメントを新しく保存する",
-"Introduce yourself" => "自己紹介",
 "Join" => "参加",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "このリンクは期限が切れているか、すでに存在しません。詳細は、それを共有した方に連絡していください。",
 "Advanced feature-set" => "高度な機能セット",

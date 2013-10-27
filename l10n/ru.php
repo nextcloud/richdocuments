@@ -12,7 +12,6 @@
 "Upload" => "Загрузка",
 "Documents" => "Документы",
 "Save new documents to" => "Сохранять новые документы в",
-"Introduce yourself" => "Представьтесь",
 "Join" => "Присоединиться",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Срок действия ссылки истек, либо ссылка никогда не существовала. Пожалуйста, обратитесь к человеку, который поделился ею, за подробностями.",
 "Advanced feature-set" => "Расширенные функции",

@@ -11,7 +11,6 @@
 "Incoming" => "Entrant",
 "Upload" => "Puja",
 "Documents" => "Documents",
-"Introduce yourself" => "Quan a vós",
 "Join" => "Uniu-vos",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Aquest enllaç ha vençut o no ha existit mai. Contacteu amb la persona que l'ha compartit amb vós per més detalls.",
 "Advanced feature-set" => "Joc d'opcions avançades",

@@ -12,7 +12,6 @@
 "Upload" => "Įkelti",
 "Documents" => "Dokumentacija",
 "Save new documents to" => "Saugoti naujus dokumentus į",
-"Introduce yourself" => "Pristatykite save",
 "Join" => "Prisijungti",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Šios nuorodos laikas baigėsi, arba ji neegzistavo. Prašome susisiekti su asmeniu pasidalinusiu ja su Jumis dėl informacijos.",
 "Advanced feature-set" => "Išsamesni funkcijų nustatymai",
