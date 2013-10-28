@@ -87,6 +87,16 @@ $this->create('documents_user_avatar', 'ajax/user/avatar')
 	->action('\OCA\Documents\UserController', 'sendAvatar')
 ;
 
+$this->create('documents_user_disconnect', 'ajax/user/disconnect/{member_id}')
+	->post()
+	->action('\OCA\Documents\UserController', 'disconnectUser')
+;
+
+$this->create('documents_user_disconnectGuest', 'ajax/user/disconnectGuest/{member_id}')
+	->post()
+	->action('\OCA\Documents\UserController', 'disconnectGuest')
+;
+
 $this->create('documents_user_invite', 'ajax/user/invite')
 	->post()
 	->action('\OCA\Documents\UserController', 'invite')

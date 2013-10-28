@@ -6,6 +6,8 @@ var documentsMain = {
 	isEditormode : false,
 	useUnstable : false,
 	isGuest : false,
+	memberId : false,
+	esId : false,
 	ready :false,
 	
 	UI : {
@@ -163,14 +165,15 @@ var documentsMain = {
 						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
 				var serverFactory = new ServerFactory();
+				documentsMain.esId = response.es_id;
+				documentsMain.memberId = response.member_id;
 				
-				var memberId = response.member_id;
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
 
 				// load the document and get called back when it's live
-				documentsMain.webodfEditorInstance.openSession(response.es_id, memberId, function() {
+				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
 					documentsMain.UI.hideOverlay();
 					parent.location.hash = response.file_id;
@@ -256,6 +259,15 @@ var documentsMain = {
 				$('header,footer').show();
 			}
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
+			
+			if (documentsMain.isGuest){
+				var url = OC.Router.generate('documents_user_disconnectGuest');
+			} else {
+				var url = OC.Router.generate('documents_user_disconnect');
+			}
+			
+			$.post(url + '/' + documentsMain.memberId, {esId: documentsMain.esId});
+			
 			documentsMain.show();
 // 			});
 		});

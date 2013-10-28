@@ -14,6 +14,29 @@ namespace OCA\Documents;
 
 class UserController extends Controller{
 	
+	public static function disconnectUser($args){
+		$uid = self::preDispatch();
+		 self::disconnect($args, $uid);
+	}
+	
+	public static function disconnectGuest($args){
+		 self::preDispatchGuest();
+		 self::disconnect($args, false);
+	}
+	
+	protected static function disconnect($args, $uid){
+		$esId = @$_POST['esId'];
+		$member = new Db_Member();
+		$member->loadBy('member_id', $args['member_id']);
+		if ($esId && $member->hasData()){
+			$memberData = $member->getData();
+			if ($memberData['es_id']===$esId){
+				$member->deactivate(array($args['member_id']));
+			}
+		}
+		\OCP\JSON::success();
+	}
+	
 	/**
 	 * Invite users to the editing session
 	 */

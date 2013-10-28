@@ -80,7 +80,7 @@ class Db_Member extends Db{
 	 * Update members to inactive state
 	 * @param array $memberIds
 	 */
-	protected function deactivate($memberIds){
+	public function deactivate($memberIds){
 		$stmt = $this->buildInQuery('member_id', $memberIds);
 		array_unshift($memberIds, self::MEMBER_STATUS_INACTIVE);
 		$this->execute('
