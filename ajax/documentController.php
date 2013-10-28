@@ -89,7 +89,8 @@ class DocumentController extends Controller{
 			$activeMembers = array_filter($sessionMembers, function($member){
 				return $member['status']==Db_Member::MEMBER_STATUS_ACTIVE;
 			});
-			$members[$session['es_id']] = $activeMembers;
+
+			$members[$session['es_id']] = array_values($activeMembers);
 		}
 
 		\OCP\JSON::success(array('documents' => $documents,'sessions' => $sessions,'members' => $members));
