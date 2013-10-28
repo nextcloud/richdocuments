@@ -246,8 +246,6 @@ var documentsMain = {
 		$(window).off('beforeunload');
 		parent.location.hash = "";
 
-		documentsMain.show();
-
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.close(function() {
 			// successfull shutdown - all is good.
@@ -258,7 +256,7 @@ var documentsMain = {
 				$('header,footer').show();
 			}
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
-			
+			documentsMain.show();
 // 			});
 		});
 	},
