@@ -16,7 +16,7 @@ class Helper{
 	const APP_ID = 'documents';
 	
 	public static function getNewFileName($view, $path, $prepend = ' '){
-		$fileNum = 0;
+		$fileNum = 1;
 		
 		while ($view->file_exists($path)){
 			$fileNum += 1;
