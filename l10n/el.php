@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Έγγραφα",
 "Close" => "Κλείσιμο",
 "Share" => "Διαμοιρασμός",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Αποχωρώντας από την κατάσταση Επεξεργασίας της σελίδας μπορεί να υπάρξουν μη αποθηκευμένα δεδομένα. Αντί γι' αυτό, συνίσταται να χρησιμοποιήσετε το κουμπί 'Κλείσιμο'.",
@@ -10,8 +11,10 @@
 "Accepted" => "Αποδοχή",
 "Incoming" => "Εισερχόμενα",
 "Upload" => "Μεταφόρτωση",
-"Documents" => "Έγγραφα",
 "Save new documents to" => "Αποθήκευση νέων εγγράφων σε",
+"Please enter your nickname" => "Παρακαλώ εισάγετε το παρατσούκλι σας",
+"Join" => "Συμμετοχή",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Αυτός ο σύνδεσμος έχει λήξει ή δεν υπήρξε ποτέ. Παρακαλώ επικοινωνήστε με το άτομο που το διαμοιράστηκε μαζί σας για λεπτομέρειες.",
+"Advanced feature-set" => "Σύνολο χαρακτηριστικών για προχωρημένους",
 "(Unstable)" => "(Ασταθές)"
 );

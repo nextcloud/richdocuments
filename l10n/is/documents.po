@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 00:20-0400\n"
-"PO-Revision-Date: 2013-10-27 04:20+0000\n"
+"POT-Creation-Date: 2013-10-29 04:32-0400\n"
+"PO-Revision-Date: 2013-10-28 10:46+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -17,32 +17,36 @@ msgstr ""
 "Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:18 js/viewer/viewer.js:51
+#: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr ""
+
+#: js/documents.js:20 js/viewer/viewer.js:51
 msgid "Close"
 msgstr "Loka"
 
-#: js/documents.js:24
+#: js/documents.js:26
 msgid "Share"
 msgstr "Deila"
 
-#: js/documents.js:130
+#: js/documents.js:132
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:143
+#: js/documents.js:145
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:293
+#: js/documents.js:303
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:336
+#: js/documents.js:346
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -65,10 +69,6 @@ msgstr ""
 #: templates/documents.php:7
 msgid "Upload"
 msgstr "Senda inn"
-
-#: templates/personal.php:2 templates/settings.php:2
-msgid "Documents"
-msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumentuak",
 "Close" => "Itxi",
 "Share" => "Partekatu",
 "Failed to load documents." => "Dokumentuak kargatzeak huts egin du.",
@@ -8,7 +9,6 @@
 "Accepted" => "Onartua",
 "Incoming" => "Sarrerakoa",
 "Upload" => "Igo",
-"Documents" => "Dokumentuak",
 "Save new documents to" => "Gorde dokumentu berriak hemen",
 "Join" => "Elkartu",
 "Advanced feature-set" => "Ezaugarri aurreratu multzoa",

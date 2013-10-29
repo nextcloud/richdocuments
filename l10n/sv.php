@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokument",
 "Close" => "Stäng",
 "Share" => "Dela",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Att lämna denna sida i Redigera läget kan orsaka osparad data. Det är rekommenderat att använda 'Stäng' knappen i stället.",
@@ -10,8 +11,8 @@
 "Accepted" => "Accepterad",
 "Incoming" => "Inkommande",
 "Upload" => "Ladda upp",
-"Documents" => "Dokument",
 "Save new documents to" => "Spara nya dokument till",
+"Please enter your nickname" => "Skriv i ditt användarnamn",
 "Join" => "Gå med",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Länken har löpt ut eller aldrig existerat. Kontakta personen som delade den med dig för ytterligare detaljer.",
 "Advanced feature-set" => "Avancerade inställningar",

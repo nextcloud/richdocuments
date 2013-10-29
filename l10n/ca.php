@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Documents",
 "Close" => "Tanca",
 "Share" => "Comparteix",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Deixant aquesta pàgina en mode editor poden quedar dades sense desar. Es recomana usar el botó 'Tanca'.",
@@ -10,7 +11,8 @@
 "Accepted" => "Acceptat",
 "Incoming" => "Entrant",
 "Upload" => "Puja",
-"Documents" => "Documents",
+"Save new documents to" => "Desa els documents nous a",
+"Please enter your nickname" => "Escriviu el sobrenom",
 "Join" => "Uniu-vos",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Aquest enllaç ha vençut o no ha existit mai. Contacteu amb la persona que l'ha compartit amb vós per més detalls.",
 "Advanced feature-set" => "Joc d'opcions avançades",

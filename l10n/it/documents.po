@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 00:20-0400\n"
-"PO-Revision-Date: 2013-10-27 04:20+0000\n"
+"POT-Creation-Date: 2013-10-29 04:32-0400\n"
+"PO-Revision-Date: 2013-10-28 10:46+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -20,32 +20,36 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:18 js/viewer/viewer.js:51
+#: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr "Documenti"
+
+#: js/documents.js:20 js/viewer/viewer.js:51
 msgid "Close"
 msgstr "Chiudi"
 
-#: js/documents.js:24
+#: js/documents.js:26
 msgid "Share"
 msgstr "Condividi"
 
-#: js/documents.js:130
+#: js/documents.js:132
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Lasciare questa pagina nella modalità potrebbe causare il mancato salvataggio dei dati. Si consiglia invece di utilizzare il pulsante 'Chiudi'."
 
-#: js/documents.js:143
+#: js/documents.js:145
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Caricamento del documento non riuscito. Controlla se può essere aperto con un editor odt esterno. Ciò può anche significare che è stato tolto dalla condivisione o che è stato eliminato recentemente."
 
-#: js/documents.js:293
+#: js/documents.js:303
 msgid "Failed to load documents."
 msgstr "Caricamento documenti non riuscito."
 
-#: js/documents.js:336
+#: js/documents.js:346
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Nessun documento trovato. Carica o crea un documento!"
 
@@ -68,10 +72,6 @@ msgstr "In arrivo"
 #: templates/documents.php:7
 msgid "Upload"
 msgstr "Carica"
-
-#: templates/personal.php:2 templates/settings.php:2
-msgid "Documents"
-msgstr "Documenti"
 
 #: templates/personal.php:4
 msgid "Save new documents to"

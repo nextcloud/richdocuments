@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumentacija",
 "Close" => "Užverti",
 "Share" => "Dalintis",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Išėjimas iš šio puslapio redagavimo veiksenoje gali lemti duomenų neišsaugojimą. Rekomenduojama naudoti „Uždaryti“ mygtuką.",
@@ -10,7 +11,6 @@
 "Accepted" => "Priimta",
 "Incoming" => "Įeinantys",
 "Upload" => "Įkelti",
-"Documents" => "Dokumentacija",
 "Save new documents to" => "Saugoti naujus dokumentus į",
 "Join" => "Prisijungti",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Šios nuorodos laikas baigėsi, arba ji neegzistavo. Prašome susisiekti su asmeniu pasidalinusiu ja su Jumis dėl informacijos.",

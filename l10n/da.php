@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumenter",
 "Close" => "Luk",
 "Share" => "Del",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "At forlade denne side i redigeringstilstand kan resultere i ikke gemte data. Det anbefales at bruge 'Luk' knappen i stedet.",
@@ -10,7 +11,6 @@
 "Accepted" => "Accepteret",
 "Incoming" => "Indgående",
 "Upload" => "Upload",
-"Documents" => "Dokumenter",
 "Save new documents to" => "Gem nye dokumenter til",
 "Join" => "Deltag",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. ",

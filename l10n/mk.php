@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Документи",
 "Close" => "Затвори",
 "Share" => "Сподели",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Оставањето на оваа страница во мод за уредување може да предизивка губиток на неснимените податоци. Се препорачува да се користи копчето 'Затвори'.",
@@ -10,7 +11,6 @@
 "Accepted" => "Прифатен",
 "Incoming" => "Надоаѓачки",
 "Upload" => "Подигни",
-"Documents" => "Документи",
 "Save new documents to" => "Сними го новиот документ во",
 "Join" => "Спои",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Овој линк истекол или никогаш не постоел. Ве молиме контактирајте го корисникот кој го споделил линкот со вас за повеќе детали.",

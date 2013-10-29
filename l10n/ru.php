@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Документы",
 "Close" => "Закрыть",
 "Share" => "Открыть доступ",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'.",
@@ -10,7 +11,6 @@
 "Accepted" => "Принято",
 "Incoming" => "Входящие",
 "Upload" => "Загрузка",
-"Documents" => "Документы",
 "Save new documents to" => "Сохранять новые документы в",
 "Join" => "Присоединиться",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Срок действия ссылки истек, либо ссылка никогда не существовала. Пожалуйста, обратитесь к человеку, который поделился ею, за подробностями.",

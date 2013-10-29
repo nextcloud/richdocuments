@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 00:20-0400\n"
-"PO-Revision-Date: 2013-10-27 04:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-29 04:32-0400\n"
+"PO-Revision-Date: 2013-10-28 10:46+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,32 +19,36 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:18 js/viewer/viewer.js:51
+#: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr "Dokumente"
+
+#: js/documents.js:20 js/viewer/viewer.js:51
 msgid "Close"
 msgstr "Schließen"
 
-#: js/documents.js:24
+#: js/documents.js:26
 msgid "Share"
 msgstr "Teilen"
 
-#: js/documents.js:130
+#: js/documents.js:132
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Das Verlassen dieser Seite im Editor-Modus kann zu nicht gespeicherten Daten führen. Es wird empfohlen, den 'Schließen' - Button zu verwenden."
 
-#: js/documents.js:143
+#: js/documents.js:145
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Fehler beim Laden dieses Dokumentes. Bitte prüfen Sie ob diese Datei mit einem externen ODT-Editor geöffnet werden kann. Dies könnte auch bedeuten, das die Datei nicht mehr geteilt wird oder kürzlich gelöscht wurde."
 
-#: js/documents.js:293
+#: js/documents.js:303
 msgid "Failed to load documents."
 msgstr "Laden der Dokumente fehlgeschlagen."
 
-#: js/documents.js:336
+#: js/documents.js:346
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Keine Dokumente gefunden. Bitte laden Sie Dokumente hoch, oder erstellen Sie ein Dokument!"
 
@@ -68,17 +72,13 @@ msgstr "Eingehend"
 msgid "Upload"
 msgstr "Hochladen"
 
-#: templates/personal.php:2 templates/settings.php:2
-msgid "Documents"
-msgstr "Dokumente"
-
 #: templates/personal.php:4
 msgid "Save new documents to"
 msgstr "Neues Dokument speichern unter"
 
 #: templates/public.php:7
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Bitte geben Sie Ihren Spitznamen ein"
 
 #: templates/public.php:8
 msgid "Join"

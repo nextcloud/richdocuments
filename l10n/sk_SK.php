@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumenty",
 "Close" => "Zavrieť",
 "Share" => "Zdieľať",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Ponechaním tejto stránky v editačnom móde môže dôjsť k tomu, že sa zmeny neuložia. Doporučujeme použiť tlačidlo 'Zavrieť'",
@@ -10,7 +11,6 @@
 "Accepted" => "Schválené",
 "Incoming" => "Prichádzajúci",
 "Upload" => "Odoslať",
-"Documents" => "Dokumenty",
 "Save new documents to" => "Uložiť nové dokumenty do",
 "Join" => "Vstúpiť",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Tento odkaz vyexpiroval, alebo neexistuje. Pre podrobnosti kontaktujte osobu, ktorá ho s vami zdieľala.",

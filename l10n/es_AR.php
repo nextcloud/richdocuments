@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Documentos",
 "Close" => "Cerrar",
 "Share" => "Compartir",
 "Failed to load documents." => "La carga de documentos ha fallado.",
@@ -7,7 +8,6 @@
 "Accepted" => "Aceptado",
 "Incoming" => "Ingresando",
 "Upload" => "Subir",
-"Documents" => "Documentos",
 "Advanced feature-set" => "Características Avanzadas",
 "(Unstable)" => "(Inestable)"
 );

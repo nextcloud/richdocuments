@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumendid",
 "Close" => "Sulge",
 "Share" => "Jaga",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Selle lehe jätmine Redaktori moodi võib põhjustada salvestamata andmete kadu. On soovitav selle asemel kasutada \"Sulge\" nuppu.",
@@ -10,8 +11,8 @@
 "Accepted" => "Vastu võetud",
 "Incoming" => "Sissetulev",
 "Upload" => "Lae üles",
-"Documents" => "Dokumendid",
 "Save new documents to" => "Salvesta dokumendid",
+"Please enter your nickname" => "Palun sisesta oma hüüdnimi",
 "Join" => "Liitu",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "See link on aegunud või seda pole kunagi eksisteerinud. Palun võta ühendust inimesega, kes selle sulle jagas.",
 "Advanced feature-set" => "Täpsemad seaded",

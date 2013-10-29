@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Documentos",
 "Close" => "Pechar",
 "Share" => "Compartir",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Deixar esta páxina no modo Editor pode provocar que non se garden os datos. Recomendámoslle que empregue o botón «Pechar» no seu canto.",
@@ -10,8 +11,8 @@
 "Accepted" => "Aceptado",
 "Incoming" => "Entrante",
 "Upload" => "Enviar",
-"Documents" => "Documentos",
 "Save new documents to" => "Gardar os novos documentos en",
+"Please enter your nickname" => "Introduza o seu alcume",
 "Join" => "Unirse",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Esta ligazón caducou ou xa non existe. Póñase en contacto coa persoa que o compartiu con vostede para obter máis información.",
 "Advanced feature-set" => "Conxunto de funcións avanzadas",

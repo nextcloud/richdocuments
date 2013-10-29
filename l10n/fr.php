@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Documents",
 "Close" => "Fermer",
 "Share" => "Partager",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Maintenir cette page dans le mode Éditeur empêche la sauvegarde des données. Il est recommandé d'utiliser le bouton 'Fermer'.",
@@ -10,8 +11,8 @@
 "Accepted" => "Accepté",
 "Incoming" => "En réception",
 "Upload" => "Envoyer",
-"Documents" => "Documents",
 "Save new documents to" => "Enregistrer les nouveaux documents sous",
+"Please enter your nickname" => "Merci d'entrer votre surnom",
 "Join" => "Joindre",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ce lien a expiré ou n'a jamais existé. Pour plus de détails, veuillez contacter la personne qui a créé ce partage avec vous.",
 "Advanced feature-set" => "Fonctionnalités avancées",

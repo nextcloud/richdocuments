@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Documenten",
 "Close" => "Sluiten",
 "Share" => "Delen",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Deze pagina open laten in de Editor kan resulteren in niet opslaan. Geadviseerd wordt om de 'Sluiten' knop te gebruiken.",
@@ -10,7 +11,6 @@
 "Accepted" => "Geaccepteerd",
 "Incoming" => "Inkomend",
 "Upload" => "Uploaden",
-"Documents" => "Documenten",
 "Save new documents to" => "Bewaar nieuwe documenten  in",
 "Join" => "Meedoen",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details.",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Belgeler",
 "Close" => "Kapat",
 "Share" => "Paylaş",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Düzenleyici kipinde bu sayfadan ayrılmak kaydedilmemiş veriye sebep olabilir. Bunun yerine 'Kapat' düğmesi kullanılması önerilir.",
@@ -10,8 +11,8 @@
 "Accepted" => "Kabul edildi",
 "Incoming" => "Gelen",
 "Upload" => "Yükle",
-"Documents" => "Belgeler",
 "Save new documents to" => "Yeni belgeleri şuraya kaydet",
+"Please enter your nickname" => "Lütfen takma adınızı girin",
 "Join" => "Katıl",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin.",
 "Advanced feature-set" => "Gelişmiş özellik seti",

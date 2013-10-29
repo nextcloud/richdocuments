@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Asiakirjat",
 "Close" => "Sulje",
 "Share" => "Jaa",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Tältä sivulta poistuminen muokkaustilassa saattaa aiheuttaa tallentamatonta tietoa. Käytä sivulta poistumisen sijaan \"Sulje\"-painiketta.",
@@ -10,8 +11,8 @@
 "Accepted" => "Hyväksytty",
 "Incoming" => "Saapuva",
 "Upload" => "Lähetä",
-"Documents" => "Asiakirjat",
 "Save new documents to" => "Uusien asiakirjojen tallennussijainti",
+"Please enter your nickname" => "Kirjoita nimimerkkisi",
 "Join" => "Liity",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"

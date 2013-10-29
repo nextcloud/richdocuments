@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokument",
 "Close" => "Lukk",
 "Share" => "Del",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Klarte ikkje å opna dette dokumentet. Ver venleg og sjekk om det kan opnast med eit eksternt ODT-skriveprogram. Det kan òg henda at dokumentet har blitt udelt eller sletta nyleg.",
@@ -9,7 +10,6 @@
 "Accepted" => "Godtatt",
 "Incoming" => "Inngåande",
 "Upload" => "Last opp",
-"Documents" => "Dokument",
 "Advanced feature-set" => "Avanserte funksjonar",
 "(Unstable)" => "(Ustabil)"
 );

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumentumok",
 "Close" => "Bezárás",
 "Share" => "Megosztás",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Ha elnavigálsz az oldalról miközben Szerkesztés módban vagy akkor lehet lesznek elvesztett adatok amiket még nem mentettél el. Ajánlott inkább a 'Bezár' gombbal befejezni az oldal szerkesztését.",
@@ -10,7 +11,6 @@
 "Accepted" => "Elfogadott",
 "Incoming" => "Beérkező",
 "Upload" => "Feltöltés",
-"Documents" => "Dokumentumok",
 "Save new documents to" => "Az új dokumentumokat ide mentese:",
 "Join" => "Belépés",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ez a link vagy lejárt vagy sohasem létezett. Kérdezd meg azt aki megosztotta veled ezt a linket.",
