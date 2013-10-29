@@ -115,16 +115,19 @@
 }
 
 #document-title{
-	position: absolute;
+/*	position: absolute;
 	top: 9px;
 	left:50%;
-	margin:0;
+	margin:0; */
+	padding: 4px 0 5px;
+	border-bottom: 1px solid #E9E9E9;
+
 	text-align: center;
 	font-weight: bold;
 }
 #document-title div{
 	position: relative;
-	margin-left:-50%;
+	/*margin-left:-50%;*/
 }
 #odf-close{
 	float: right;

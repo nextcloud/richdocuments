@@ -16,12 +16,12 @@ var documentsMain = {
 				
 		/* Toolbar HTML */
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
-					'  <button id="odf-close">' +
-						t('documents', 'Close') +
-					'  </button>' +
 					'  <div id="document-title"><div>' +
 					'%title%' +
 			        '  </div></div>' +
+					'  <button id="odf-close">' +
+						t('documents', 'Close') +
+					'  </button>' +
 					'  <button id="odf-invite" class="drop">' +
 						  t('documents', 'Share') +
 					'  </button>' +
