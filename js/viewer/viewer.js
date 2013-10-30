@@ -76,7 +76,7 @@ var odfViewer = {
 		$('#odf-canvas').fadeOut('slow', function() {
 			$('#odf-toolbar').remove();
 			$('#odf-canvas').remove();
-			$('.actions,#file_access_panel').fadeIn('slow');
+			$('.actions,#file_access_panel').not('.hidden').fadeIn('slow');
 			$('table').fadeIn('slow');
 		});
 		is_editor_shown = false;

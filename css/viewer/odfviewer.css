@@ -9,9 +9,9 @@
 }
 
 #odf_close{
-	margin-left: auto;
-	margin-right: 167px;	
-	float: right;
+	top: 50px;
+	position: absolute;
+	left: 10px;
 }
 
 #odf-toolbar{
