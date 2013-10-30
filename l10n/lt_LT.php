@@ -12,6 +12,7 @@
 "Incoming" => "Įeinantys",
 "Upload" => "Įkelti",
 "Save new documents to" => "Saugoti naujus dokumentus į",
+"Please enter your nickname" => "Įveskite savo slapyvardį",
 "Join" => "Prisijungti",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Šios nuorodos laikas baigėsi, arba ji neegzistavo. Prašome susisiekti su asmeniu pasidalinusiu ja su Jumis dėl informacijos.",
 "Advanced feature-set" => "Išsamesni funkcijų nustatymai",
