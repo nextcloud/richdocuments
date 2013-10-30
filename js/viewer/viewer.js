@@ -16,7 +16,6 @@ var odfViewer = {
 			FileActions.register(mime, 'View', OC.PERMISSION_READ, '', odfViewer.dispatch);
 			FileActions.setDefault(mime, 'View');
 		}
-
 	},
 	
 	dispatch : function(filename){
@@ -40,7 +39,7 @@ var odfViewer = {
 		
 		var webodfSource = (oc_debug !== true) ? 'webodf-debug' : 'webodf';
 		
-		OC.addScript('documents', 'viewer/' + webodfSource).done(function() {
+		OC.addScript('documents', 'viewer/' + webodfSource, function() {
 			var location = fileDownloadPath($('#dir').val(), filename);
 
 			// fade out files menu and add odf menu
@@ -56,7 +55,6 @@ var odfViewer = {
 
 			// fade out file list and show pdf canvas
 			$('table').fadeOut('slow').promise().done(function() {
-				;
 				var canvashtml = '<div id="odf-canvas"></div>';
 				$('table').after(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
@@ -79,7 +77,6 @@ var odfViewer = {
 			$('.actions,#file_access_panel').not('.hidden').fadeIn('slow');
 			$('table').fadeIn('slow');
 		});
-		is_editor_shown = false;
 	}
 };
 
