@@ -84,13 +84,8 @@ class DocumentController extends Controller{
 
 		$members = array();
 		$member = new Db_Member();
-		foreach ($sessions as $session) {
-			$sessionMembers = $member->getCollectionBy('es_id', $session['es_id']);
-			$activeMembers = array_filter($sessionMembers, function($member){
-				return $member['status']==Db_Member::MEMBER_STATUS_ACTIVE;
-			});
-
-			$members[$session['es_id']] = array_values($activeMembers);
+		foreach ($sessions as $session) {			
+			$members[$session['es_id']] = $member->getActiveCollection($session['es_id']);
 		}
 
 		\OCP\JSON::success(array('documents' => $documents,'sessions' => $sessions,'members' => $members));

@@ -39,6 +39,27 @@ class Db_Member extends Db{
 		);
 	}
 	
+	
+	public function getActiveCollection($esId){
+		$result = $this->execute('
+			SELECT `es_id`, `member_id`
+			FROM ' . self::DB_TABLE . '
+			WHERE `es_id`= ?
+				AND `status`=?
+			',
+			array(
+				$esId,
+				self::MEMBER_STATUS_ACTIVE
+			)
+		);
+		$members = $result->fetchAll();
+		if (!is_array($members)){
+			$members = array();
+		}
+		return $members;
+		
+	}
+	
 	/**
 	 * Mark members as inactive
 	 * @param string $esId - session Id

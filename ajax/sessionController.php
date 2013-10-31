@@ -81,6 +81,23 @@ class SessionController extends Controller{
 				throw new \Exception($path . ' does not exist or is not writable for user ' . $uid);
 			}
 			
+			$member = new Db_Member();
+			$members = $member->getActiveCollection($esId);
+			$memberIds = array_map(
+				function($x){
+					return ($x['member_id']);
+				},
+				$members
+			);
+				
+			//check if member belongs to the session
+			if (!in_array($memberId, $memberIds)){
+				throw new \Exception($memberId . ' does not belong to session ' . $esId);
+			}
+			
+			// Active users except current user
+			$memberCount = count($memberIds) - 1;
+			
 			if ($view->file_exists($path)){
 				$currentHash = sha1($view->file_get_contents($path));
 				if ($currentHash !== $sessionData['genesis_hash']){
@@ -90,9 +107,15 @@ class SessionController extends Controller{
 			}
 			
 			if ($view->file_put_contents($path, $content)){
-				//Document saved successfully. Cleaning session data
-				// temporary workaround for https://github.com/owncloud/documents/issues/63
-				Db_Session::cleanUp($esId);
+				// Not a last user
+				if ($memberCount>0){
+					// Update genesis hash to prevent conflicts
+					$session->updateGenesisHash($esId, sha1($content));
+				} else {
+					// Last user. Kill session data
+					Db_Session::cleanUp($esId);
+				}
+				
 				$view->touch($path);
 			}
 			\OCP\JSON::success();

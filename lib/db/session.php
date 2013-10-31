@@ -102,6 +102,15 @@ class Db_Session extends \OCA\Documents\Db {
 		array_unshift($this->data, $esId);
 		return parent::insert($this->data);
 	}
+	
+	public function updateGenesisHash($esId, $genesisHash){
+		return $this->execute(
+			'UPDATE `*PREFIX*documents_session` SET `genesis_hash`=? WHERE `es_id`=?',
+			array(
+				$esId, $genesisHash
+			)
+		);
+	}
 
 	public function getInfo($esId){
 		$result = $this->execute('
