@@ -12,6 +12,7 @@
 "Incoming" => "Beérkező",
 "Upload" => "Feltöltés",
 "Save new documents to" => "Az új dokumentumokat ide mentese:",
+"Please enter your nickname" => "Kérem adja meg a becenevét (nick)",
 "Join" => "Belépés",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ez a link vagy lejárt vagy sohasem létezett. Kérdezd meg azt aki megosztotta veled ezt a linket.",
 "Advanced feature-set" => "Haladó funkciók",

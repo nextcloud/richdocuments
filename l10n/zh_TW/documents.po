@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# sy6614 <sy6614@yahoo.com.hk>, 2013
 # pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 04:32-0400\n"
-"PO-Revision-Date: 2013-10-28 10:46+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-01 13:46-0400\n"
+"PO-Revision-Date: 2013-10-31 17:00+0000\n"
+"Last-Translator: sy6614 <sy6614@yahoo.com.hk>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 msgid "Documents"
 msgstr "文件"
 
-#: js/documents.js:20 js/viewer/viewer.js:51
+#: js/documents.js:23 js/viewer/viewer.js:50
 msgid "Close"
 msgstr " 關閉"
 
@@ -73,15 +74,15 @@ msgstr "上傳"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "儲存新檔案至"
 
 #: templates/public.php:7
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "請輸入你的暱稱"
 
 #: templates/public.php:8
 msgid "Join"
-msgstr ""
+msgstr "加入"
 
 #: templates/public.php:14
 msgid ""
