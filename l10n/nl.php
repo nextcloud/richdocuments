@@ -12,6 +12,7 @@
 "Incoming" => "Inkomend",
 "Upload" => "Uploaden",
 "Save new documents to" => "Bewaar nieuwe documenten  in",
+"Please enter your nickname" => "Geef uw roepnaam op",
 "Join" => "Meedoen",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details.",
 "Advanced feature-set" => "Geavanceerde functies",
