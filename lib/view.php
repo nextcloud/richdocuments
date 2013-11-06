@@ -34,9 +34,12 @@ class View extends \OC\Files\View{
 		return $permissions;
 	}
 
-	public function storeDocument($ownerView, $filePath){
+	public function storeDocument($owner, $filePath){
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
+		
+		$ownerView = new View('/' . $owner);
+		$filePath = '/files' . $filePath;
 		
 		if (!$ownerView->file_exists($filePath)){
 			throw new \Exception($filePath . ' doesn\'t exist');
@@ -57,7 +60,8 @@ class View extends \OC\Files\View{
 		return $newName;
 	}
 	
-	public function getHashByGenesis($genesisPath){
-		return sha1($this->file_get_contents(self::DOCUMENTS_DIRNAME . $genesisPath));
+	public function getHashByGenesis($owner, $genesisPath){
+		$ownerView = new View('/' . $owner);
+		return sha1($ownerView->file_get_contents(self::DOCUMENTS_DIRNAME . $genesisPath));
 	}
 }

@@ -103,7 +103,15 @@ class File {
 			$this->owner = $owner;
 		}
 		
-		$view = new View('/' . $this->owner);
+		/* to emit hooks properly, view root should contain /user/files */
+		
+		if (strpos($this->path, 'files') === 0){
+			$this->path = preg_replace('|^files|', '', $this->path);
+			$view = new View('/' . $this->owner . '/files');
+		} else {
+			$view = new View('/' . $this->owner);
+		}
+		
 		if (!$view->file_exists($this->path)){
 			throw new \Exception($this->path . ' doesn\'t exist');
 		}

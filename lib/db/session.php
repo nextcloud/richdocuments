@@ -48,12 +48,16 @@ class Db_Session extends \OCA\Documents\Db {
 		if (!$oldSession->hasData()){
 
 			//TODO: check if genesis document is a valid odt
-			$genesisPath = $ownerView->storeDocument($ownerView, $path);
+			$genesisPath = $ownerView->storeDocument(
+							$file->getOwner(), 
+							$path
+			);
+			
 			if (!$genesisPath){
 				throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
 			}
 
-			$hash = $ownerView->getHashByGenesis($genesisPath);
+			$hash = $ownerView->getHashByGenesis($file->getOwner(), $genesisPath);
 			
 			$newSession = new Db_Session(array(
 				$genesisPath, $hash, $file->getOwner(), $file->getFileId()
