@@ -39,11 +39,11 @@ var odfViewer = {
 		
 		var webodfSource = (oc_debug !== true) ? 'webodf-debug' : 'webodf';
 		
-		OC.addScript('documents', 'viewer/' + webodfSource, function() {
+		OC.addScript('documents', '3rdparty/webodf/' + webodfSource, function() {
 			var location = fileDownloadPath($('#dir').val(), filename);
 
 			// fade out files menu and add odf menu
-			$('.actions,#file_action_panel').fadeOut('slow').promise().done(function() {
+			$('#controls div').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
 				var odfToolbarHtml =
 						'<div id="odf-toolbar">' +
@@ -74,7 +74,7 @@ var odfViewer = {
 		$('#odf-canvas').fadeOut('slow', function() {
 			$('#odf-toolbar').remove();
 			$('#odf-canvas').remove();
-			$('.actions,#file_access_panel').not('.hidden').fadeIn('slow');
+			$('#controls div').not('.hidden').fadeIn('slow');
 			$('table').fadeIn('slow');
 		});
 	}
