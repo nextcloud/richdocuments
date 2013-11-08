@@ -53,7 +53,7 @@ class DocumentController extends Controller{
 		
 		$filename = isset($sessionData['genesis_url']) ? $sessionData['genesis_url'] : '';
 		$documentsView = new View('/' . $sessionData['owner']);
-		$download = new Download($documentsView->initDocumentsView(), $filename);
+		$download = new Download($documentsView->initDocumentsView($sessionData['owner']), $filename);
 		$download->sendResponse();
 	}
 

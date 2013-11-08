@@ -39,7 +39,7 @@ class Db_Session extends \OCA\Documents\Db {
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		
 		// Create a directory to store genesis
-		$docView = $ownerView->initDocumentsView();
+		$docView = $ownerView->initDocumentsView($file->getOwner());
 		
 		$oldSession = new Db_Session();
 		$oldSession->loadBy('file_id', $file->getFileId());

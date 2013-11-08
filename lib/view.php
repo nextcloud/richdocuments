@@ -15,12 +15,12 @@ class View extends \OC\Files\View{
 	const DOCUMENTS_DIRNAME='/documents';
 	protected static $documentsView;
 	
-	public function initDocumentsView(){
-		if (!$this->is_dir(self::DOCUMENTS_DIRNAME)) {
-			$this->mkdir(self::DOCUMENTS_DIRNAME);
+	public function initDocumentsView($owner){
+		$ownerView = new View('/' . $owner);
+		if (!$ownerView->is_dir(self::DOCUMENTS_DIRNAME)) {
+			$ownerView->mkdir(self::DOCUMENTS_DIRNAME);
 		}
-		
-		return new \OC\Files\View( $this->getRoot() . self::DOCUMENTS_DIRNAME);
+		return $ownerView;
 	}
 	
 	public function getFilePermissions($path){
