@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,7 +33,7 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
 /*global define, runtime, core, gui, ops, document */
@@ -54,7 +57,9 @@ define("webodf/editor/EditorSession", [
     runtime.loadClass("gui.SessionController");
     runtime.loadClass("gui.SessionView");
     runtime.loadClass("gui.TrivialUndoManager");
+    runtime.loadClass("gui.SelectionViewManager");
     runtime.loadClass("core.EventNotifier");
+    runtime.loadClass("gui.ShadowCursor");
 
     /**
      * Instantiate a new editor session attached to an existing operation session
@@ -69,6 +74,7 @@ define("webodf/editor/EditorSession", [
             currentCommonStyleName = null,
             currentStyleName = null,
             caretManager,
+            selectionViewManager,
             odtDocument = session.getOdtDocument(),
             textns = odf.Namespaces.textns,
             fontStyles = document.createElement('style'),
@@ -82,16 +88,11 @@ define("webodf/editor/EditorSession", [
                 EditorSession.signalCommonStyleCreated,
                 EditorSession.signalCommonStyleDeleted,
                 EditorSession.signalParagraphStyleModified,
-                EditorSession.signalUndoStackChanged]);
+                EditorSession.signalUndoStackChanged]),
+            shadowCursor = new gui.ShadowCursor(odtDocument);
 
-
-        this.sessionController = new gui.SessionController(session, localMemberId, {directStylingEnabled: config.directStylingEnabled});
-        caretManager = new gui.CaretManager(self.sessionController);
-        this.sessionView = new gui.SessionView(config.viewOptions, session, caretManager);
-        this.availableFonts = [];
-
-        /*
-         * @return {Array.{!string}}
+        /**
+         * @return {Array.<!string>}
          */
         function getAvailableFonts() {
             var availableFonts, regex, matches;
@@ -109,7 +110,6 @@ define("webodf/editor/EditorSession", [
 
             return availableFonts;
         }
-        this.availableFonts = getAvailableFonts();
 
         function checkParagraphStyleName() {
             var newStyleName,
@@ -299,28 +299,6 @@ define("webodf/editor/EditorSession", [
             return currentCommonStyleName;
         };
 
-        /**
-         * Adds an annotation to the document based on the current selection
-         * @return {undefined}
-         */
-        this.addAnnotation = function () {
-            var op = new ops.OpAddAnnotation(),
-                selection = self.getCursorSelection(),
-                length = selection.length,
-                position = selection.position;
-
-            position = length >= 0 ? position : position + length;
-            length = Math.abs(length);
-
-            op.init({
-                memberid: localMemberId,
-                position: position,
-                length: length,
-                name: localMemberId + Date.now()
-            });
-            session.enqueue(op);
-        };
-
         this.setCurrentParagraphStyle = function (value) {
             var op;
             if (currentCommonStyleName !== value) {
@@ -330,7 +308,7 @@ define("webodf/editor/EditorSession", [
                     position: self.getCursorPosition(),
                     styleName: value
                 });
-                session.enqueue(op);
+                session.enqueue([op]);
             }
         };
 
@@ -345,7 +323,7 @@ define("webodf/editor/EditorSession", [
                 tableColumnStyleName: tableColumnStyleName,
                 tableCellStyleMatrix: tableCellStyleMatrix
             });
-            session.enqueue(op);
+            session.enqueue([op]);
         };
 
         /**
@@ -409,7 +387,7 @@ define("webodf/editor/EditorSession", [
                 setProperties: setProperties,
                 removedProperties: (!removedProperties) ? {} : removedProperties
             });
-            session.enqueue(op);
+            session.enqueue([op]);
         };
 
         /**
@@ -447,7 +425,7 @@ define("webodf/editor/EditorSession", [
                 styleFamily: 'paragraph',
                 setProperties: setProperties
             });
-            session.enqueue(op);
+            session.enqueue([op]);
 
             return newStyleName;
         };
@@ -460,7 +438,7 @@ define("webodf/editor/EditorSession", [
                 styleName: styleName,
                 styleFamily: 'paragraph'
             });
-            session.enqueue(op);
+            session.enqueue([op]);
         };
 
         /**
@@ -469,7 +447,7 @@ define("webodf/editor/EditorSession", [
          * first font name for any given family is kept.
          * The elements of the array are objects containing the font's name and
          * the family.
-         * @return {Array.{Object}}
+         * @return {Array.<!Object>}
          */
         this.getDeclaredFonts = function () {
             var fontMap = formatting.getFontMap(),
@@ -524,6 +502,17 @@ define("webodf/editor/EditorSession", [
         };
 
         /**
+         *
+         * @param {!string} mimetype
+         * @param {!string} content base64 encoded string
+         * @param {!number} width
+         * @param {!number} height
+         */
+        this.insertImage = function (mimetype, content, width, height) {
+            self.sessionController.getTextManipulator().removeCurrentSelection();
+            self.sessionController.getImageManager().insertImage(mimetype, content, width, height);
+        };
+        /**
          * @param {!function(!Object=)} callback, passing an error object in case of error
          * @return {undefined}
          */
@@ -573,12 +562,18 @@ define("webodf/editor/EditorSession", [
                         if (err) {
                             callback(err);
                         } else {
-                            self.sessionController.destroy(function(err) {
+                            selectionViewManager.destroy(function(err) {
                                 if (err) {
                                     callback(err);
                                 } else {
-                                    delete self.sessionController;
-                                    callback();
+                                    self.sessionController.destroy(function(err) {
+                                        if (err) {
+                                            callback(err);
+                                        } else {
+                                            delete self.sessionController;
+                                            callback();
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -596,6 +591,14 @@ define("webodf/editor/EditorSession", [
             fontStyles.appendChild(document.createTextNode(fontsCSS));
             head.appendChild(fontStyles);
 
+            self.sessionController = new gui.SessionController(session, localMemberId, shadowCursor, {
+                directStylingEnabled: config.directStylingEnabled
+            });
+            caretManager = new gui.CaretManager(self.sessionController);
+            selectionViewManager = new gui.SelectionViewManager();
+            self.sessionView = new gui.SessionView(config.viewOptions, localMemberId, session, caretManager, selectionViewManager);
+            self.availableFonts = getAvailableFonts();
+            selectionViewManager.registerCursor(shadowCursor, true);
             // Custom signals, that make sense in the Editor context. We do not want to expose webodf's ops signals to random bits of the editor UI.
             odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
             odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);

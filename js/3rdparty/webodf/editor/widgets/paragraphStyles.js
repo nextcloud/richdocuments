@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,7 +33,7 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
 /*global define,require */
@@ -38,7 +41,7 @@
 define("webodf/editor/widgets/paragraphStyles",
        ["webodf/editor/EditorSession"],
 
-   function (EditorSession) {
+    function (EditorSession) {
     "use strict";
     /**
      * @constructor
@@ -47,7 +50,6 @@ define("webodf/editor/widgets/paragraphStyles",
         var self = this,
             editorSession,
             select,
-            translator = document.translator,
             defaultStyleUIId = ":default";
 
         this.widget = function () {
@@ -90,7 +92,7 @@ define("webodf/editor/widgets/paragraphStyles",
 
             // Populate the Default Style always 
             selectionList = [{
-                label: translator("defaultStyle"),
+                label: runtime.tr("Default Style"),
                 value: defaultStyleUIId
             }];
             availableStyles = editorSession ? editorSession.getAvailableParagraphStyles() : [];
@@ -166,15 +168,24 @@ define("webodf/editor/widgets/paragraphStyles",
             });
         }
 
+        function handleCursorMoved(cursor) {
+            var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
+            if (select) {
+                select.setAttribute('disabled', disabled);
+            }
+        }
+
         this.setEditorSession = function(session) {
             if (editorSession) {
                 editorSession.unsubscribe(EditorSession.signalCommonStyleCreated, addStyle);
                 editorSession.unsubscribe(EditorSession.signalCommonStyleDeleted, removeStyle);
+                editorSession.unsubscribe(EditorSession.signalCursorMoved, handleCursorMoved);
             }
             editorSession = session;
             if (editorSession) {
                 editorSession.subscribe(EditorSession.signalCommonStyleCreated, addStyle);
                 editorSession.subscribe(EditorSession.signalCommonStyleDeleted, removeStyle);
+                editorSession.subscribe(EditorSession.signalCursorMoved, handleCursorMoved);
                 populateStyles();
             }
         };

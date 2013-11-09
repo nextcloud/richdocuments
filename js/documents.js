@@ -167,7 +167,9 @@ var documentsMain = {
 				var serverFactory = new ServerFactory();
 				documentsMain.esId = response.es_id;
 				documentsMain.memberId = response.member_id;
-				
+
+				// TODO: set webodf translation system, by passing a proper function translate(!string):!string in "runtime.setTranslator(translate);"
+
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);

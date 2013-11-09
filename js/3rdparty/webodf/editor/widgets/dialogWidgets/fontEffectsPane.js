@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,7 +33,7 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
 /*global runtime,define,require,document,dijit */
@@ -123,13 +126,12 @@ define("webodf/editor/widgets/dialogWidgets/fontEffectsPane", [], function () {
                 "dojox/widget/ColorPicker",
                 "webodf/editor/widgets/fontPicker"
             ], function (dojo, ready, domConstruct, ContentPane, ColorPicker, FontPicker) {
-                var translator = document.translator,
-                    editorBase = dojo.config && dojo.config.paths &&
+                var editorBase = dojo.config && dojo.config.paths &&
                             dojo.config.paths['webodf/editor'];
                 runtime.assert(editorBase, "webodf/editor path not defined in dojoConfig");
                 ready(function () {
                     contentPane = new ContentPane({
-                        title: translator("fontEffects"),
+                        title: runtime.tr("Font Effects"),
                         href: editorBase+"/widgets/dialogWidgets/fontEffectsPane.html",
                         preload: true
                     });
@@ -139,7 +141,7 @@ define("webodf/editor/widgets/dialogWidgets/fontEffectsPane", [], function () {
                             backgroundColorTB = dijit.byId('backgroundColorTB');
 
                         form = dijit.byId('fontEffectsPaneForm');
-                        document.translateContent(form.domNode);
+                        runtime.translateContent(form.domNode);
 
                         preview = document.getElementById('previewText');
                         textColorPicker = dijit.byId('textColorPicker');

@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,20 +33,22 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global define,require,document */
+/*global define,require,ops,gui */
 
 define("webodf/editor/widgets/paragraphAlignment", [
     "dijit/form/ToggleButton",
-    "dijit/form/Button"],
+    "dijit/form/Button",
+    "webodf/editor/EditorSession"],
 
-    function (ToggleButton, Button) {
+    function (ToggleButton, Button, EditorSession) {
         "use strict";
 
         var ParagraphAlignment = function (callback) {
             var self = this,
+                editorSession,
                 widget = {},
                 directParagraphStyler,
                 justifyLeft,
@@ -54,7 +59,7 @@ define("webodf/editor/widgets/paragraphAlignment", [
                 outdent;
 
             justifyLeft = new ToggleButton({
-                label: document.translator('justifyLeft'),
+                label: runtime.tr('Align Left'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -66,7 +71,7 @@ define("webodf/editor/widgets/paragraphAlignment", [
             });
 
             justifyCenter = new ToggleButton({
-                label: document.translator('justifyCenter'),
+                label: runtime.tr('Center'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -78,7 +83,7 @@ define("webodf/editor/widgets/paragraphAlignment", [
             });
 
             justifyRight = new ToggleButton({
-                label: document.translator('justifyRight'),
+                label: runtime.tr('Align Right'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -90,7 +95,7 @@ define("webodf/editor/widgets/paragraphAlignment", [
             });
 
             justifyFull = new ToggleButton({
-                label: document.translator('justifyFull'),
+                label: runtime.tr('Justify'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -102,7 +107,7 @@ define("webodf/editor/widgets/paragraphAlignment", [
             });
 
             outdent = new Button({
-                label: document.translator('outdent'),
+                label: runtime.tr('Decrease Indent'),
                 disabled: true,
                 showLabel: false,
                 iconClass: "dijitEditorIcon dijitEditorIconOutdent",
@@ -113,7 +118,7 @@ define("webodf/editor/widgets/paragraphAlignment", [
             });
 
             indent = new Button({
-                label: document.translator('indent'),
+                label: runtime.tr('Increase Indent'),
                 disabled: true,
                 showLabel: false,
                 iconClass: "dijitEditorIcon dijitEditorIconIndent",
@@ -161,7 +166,14 @@ define("webodf/editor/widgets/paragraphAlignment", [
                 });
             }
 
-            this.setEditorSession = function(session) {
+            function handleCursorMoved(cursor) {
+                var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
+                widget.children.forEach(function (element) {
+                    element.setAttribute('disabled', disabled);
+                });
+            }
+
+            this.setEditorSession = function (session) {
                 if (directParagraphStyler) {
                     directParagraphStyler.unsubscribe(gui.DirectParagraphStyler.paragraphStylingChanged, updateStyleButtons);
                 }
@@ -178,6 +190,14 @@ define("webodf/editor/widgets/paragraphAlignment", [
                     isAlignedRight:     directParagraphStyler ? directParagraphStyler.isAlignedRight() :     false,
                     isAlignedJustified: directParagraphStyler ? directParagraphStyler.isAlignedJustified() : false
                 });
+
+                if (editorSession) {
+                    editorSession.unsubscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                }
+                editorSession = session;
+                if (editorSession) {
+                    editorSession.subscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                }
             };
 
             this.onToolDone = function () {};

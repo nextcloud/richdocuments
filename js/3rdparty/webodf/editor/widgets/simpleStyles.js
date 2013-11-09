@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,21 +33,23 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global define,require,document */
+/*global define,require,gui,ops */
 
 define("webodf/editor/widgets/simpleStyles", [
     "webodf/editor/widgets/fontPicker",
     "dijit/form/ToggleButton",
-    "dijit/form/NumberSpinner"],
+    "dijit/form/NumberSpinner",
+    "webodf/editor/EditorSession"],
 
-    function (FontPicker, ToggleButton, NumberSpinner) {
+    function (FontPicker, ToggleButton, NumberSpinner, EditorSession) {
         "use strict";
 
         var SimpleStyles = function(callback) {
             var self = this,
+                editorSession,
                 widget = {},
                 directTextStyler,
                 boldButton,
@@ -56,7 +61,7 @@ define("webodf/editor/widgets/simpleStyles", [
                 fontPickerWidget;
 
             boldButton = new ToggleButton({
-                label: document.translator('bold'),
+                label: runtime.tr('Bold'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -68,7 +73,7 @@ define("webodf/editor/widgets/simpleStyles", [
             });
 
             italicButton = new ToggleButton({
-                label: document.translator('italic'),
+                label: runtime.tr('Italic'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -80,7 +85,7 @@ define("webodf/editor/widgets/simpleStyles", [
             });
 
             underlineButton = new ToggleButton({
-                label: document.translator('underline'),
+                label: runtime.tr('Underline'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -92,7 +97,7 @@ define("webodf/editor/widgets/simpleStyles", [
             });
 
             strikethroughButton = new ToggleButton({
-                label: document.translator('strikethrough'),
+                label: runtime.tr('Strikethrough'),
                 disabled: true,
                 showLabel: false,
                 checked: false,
@@ -104,7 +109,7 @@ define("webodf/editor/widgets/simpleStyles", [
             });
 
             fontSizeSpinner = new NumberSpinner({
-                label: document.translator('size'),
+                label: runtime.tr('Size'),
                 disabled: true,
                 showLabel: false,
                 value: 12,
@@ -170,6 +175,13 @@ define("webodf/editor/widgets/simpleStyles", [
                 });
             }
 
+            function handleCursorMoved(cursor) {
+                var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
+                widget.children.forEach(function (element) {
+                    element.setAttribute('disabled', disabled);
+                });
+            }
+
             this.setEditorSession = function(session) {
                 if (directTextStyler) {
                     directTextStyler.unsubscribe(gui.DirectTextStyler.textStylingChanged, updateStyleButtons);
@@ -190,6 +202,14 @@ define("webodf/editor/widgets/simpleStyles", [
                     fontSize: directTextStyler ? directTextStyler.fontSize() : undefined,
                     fontName: directTextStyler ? directTextStyler.fontName() : undefined
                 });
+
+                if (editorSession) {
+                    editorSession.unsubscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                }
+                editorSession = session;
+                if (editorSession) {
+                    editorSession.subscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                }
             };
 
             this.onToolDone = function () {};

@@ -9,6 +9,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -29,10 +32,10 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global define,document,require */
+/*global define,document,require,ops */
 
 define("webodf/editor/Tools", [
     "dojo/ready",
@@ -45,29 +48,48 @@ define("webodf/editor/Tools", [
     "webodf/editor/widgets/simpleStyles",
     "webodf/editor/widgets/undoRedoMenu",
     "webodf/editor/widgets/toolbarWidgets/currentStyle",
+    "webodf/editor/widgets/annotation",
     "webodf/editor/widgets/paragraphStylesDialog",
-    "webodf/editor/widgets/zoomSlider"],
-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, ParagraphStylesDialog, ZoomSlider) {
+    "webodf/editor/widgets/imageInserter",
+    "webodf/editor/widgets/zoomSlider",
+    "webodf/editor/EditorSession"],
+    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, ParagraphStylesDialog, ImageInserter, ZoomSlider, EditorSession) {
         "use strict";
 
         return function Tools(args) {
-            var translator = document.translator,
+            var tr = runtime.tr,
                 onToolDone = args.onToolDone,
                 loadOdtFile = args.loadOdtFile,
                 saveOdtFile = args.saveOdtFile,
                 close = args.close,
                 toolbar,
-                loadButton, saveButton, annotateButton, closeButton,
+                loadButton, saveButton, closeButton,
                 formatDropDownMenu, formatMenuButton,
                 paragraphStylesMenuItem, paragraphStylesDialog, simpleStyles, currentStyle,
                 zoomSlider,
                 undoRedoMenu,
                 editorSession,
                 paragraphAlignment,
+                imageInserter,
+                annotationControl,
                 sessionSubscribers = [];
 
+            function handleCursorMoved(cursor) {
+                var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
+                if (formatMenuButton) {
+                    formatMenuButton.setAttribute('disabled', disabled);
+                }
+            }
+
             function setEditorSession(session) {
+                if (editorSession) {
+                    editorSession.unsubscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                }
                 editorSession = session;
+                if (editorSession) {
+                    editorSession.subscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                }
+
                 sessionSubscribers.forEach(function (subscriber) {
                     subscriber.setEditorSession(editorSession);
                 });
@@ -80,8 +102,18 @@ define("webodf/editor/Tools", [
              * @return {undefined}
              */
             this.destroy = function (callback) {
-                // TODO: investigate what else needs to be done
-                toolbar.destroyRecursive(true);
+                // TODO:
+                // 1. We don't want to use `document`
+                // 2. We would like to avoid deleting all widgets
+                // under document.body because this might interfere with
+                // other apps that use the editor not-in-an-iframe,
+                // but dojo always puts its dialogs below the body,
+                // so this works for now. Perhaps will be obsoleted
+                // once we move to a better widget toolkit
+                var widgets = dijit.findWidgets(document.body);
+                dojo.forEach(widgets, function(w) {
+                    w.destroyRecursive(false);
+                });
                 callback();
             };
 
@@ -100,18 +132,12 @@ define("webodf/editor/Tools", [
 
                 // Add annotation
                 if (args.annotationsEnabled) {
-                    annotateButton = new Button({
-                        label: translator('annotate'),
-                        showLabel: false,
-                        iconClass: 'dijitIconBookmark',
-                        onClick: function () {
-                            if (editorSession) {
-                                editorSession.addAnnotation();
-                                onToolDone();
-                            }
-                        }
+                    annotationControl = new AnnotationControl(function (widget) {
+                        widget.placeAt(toolbar);
+                        widget.startup();
                     });
-                    annotateButton.placeAt(toolbar);
+                    sessionSubscribers.push(annotationControl);
+                    annotationControl.onToolDone = onToolDone;
                 }
 
                 // Simple Style Selector [B, I, U, S]
@@ -154,7 +180,7 @@ define("webodf/editor/Tools", [
                 // Load
                 if (loadOdtFile) {
                     loadButton = new Button({
-                        label: translator('open'),
+                        label: tr('Open'),
                         showLabel: false,
                         iconClass: 'dijitIcon dijitIconFolderOpen',
                         style: {
@@ -170,7 +196,7 @@ define("webodf/editor/Tools", [
                 // Save
                 if (saveOdtFile) {
                     saveButton = new Button({
-                        label: translator('save'),
+                        label: tr('Save'),
                         showLabel: false,
                         iconClass: 'dijitEditorIcon dijitEditorIconSave',
                         style: {
@@ -187,7 +213,7 @@ define("webodf/editor/Tools", [
                 // Format menu
                 formatDropDownMenu = new DropDownMenu({});
                 paragraphStylesMenuItem = new MenuItem({
-                    label: translator("paragraph_DDD")
+                    label: tr("Paragraph...")
                 });
                 formatDropDownMenu.addChild(paragraphStylesMenuItem);
 
@@ -204,7 +230,7 @@ define("webodf/editor/Tools", [
 
                 formatMenuButton = new DropDownButton({
                     dropDown: formatDropDownMenu,
-                    label: translator('format'),
+                    label: tr('Format'),
                     iconClass: "dijitIconEditTask",
                     style: {
                         float: 'left'
@@ -212,9 +238,18 @@ define("webodf/editor/Tools", [
                 });
                 formatMenuButton.placeAt(toolbar);
 
+                if (args.imageInsertingEnabled) {
+                    imageInserter = new ImageInserter(function (widget) {
+                        widget.placeAt(toolbar);
+                        widget.startup();
+                    });
+                    sessionSubscribers.push(imageInserter);
+                    imageInserter.onToolDone = onToolDone;
+                }
+
                 if (close) {
                     closeButton = new Button({
-                        label: translator('close'),
+                        label: tr('Close'),
                         showLabel: false,
                         iconClass: 'dijitEditorIcon dijitEditorIconCancel',
                         style: {

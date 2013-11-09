@@ -3,34 +3,24 @@
  * Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
- * The JavaScript code in this page is free software: you can redistribute it
- * and/or modify it under the terms of the GNU Affero General Public License
- * (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.  The code is distributed
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+ * This file is part of WebODF.
  *
- * As additional permission under GNU AGPL version 3 section 7, you
- * may distribute non-source (e.g., minimized or compacted) forms of
- * that code without the copy of the GNU GPL normally required by
- * section 4, provided you include this license notice and a URL
- * through which recipients can access the Corresponding Source.
+ * WebODF is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License (GNU AGPL)
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
  *
- * As a special exception to the AGPL, any HTML file which merely makes function
- * calls to this code, and for that purpose includes it by reference shall be
- * deemed a separate work for copyright law purposes. In addition, the copyright
- * holders of this code give you permission to combine this code with free
- * software libraries that are released under the GNU LGPL. You may copy and
- * distribute such a system following the terms of the GNU AGPL for this code
- * and the LGPL for the libraries. If you modify this code, you may extend this
- * exception to your version of the code, but you are not obligated to do so.
- * If you do not wish to do so, delete this exception statement from your
- * version.
+ * WebODF is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
- * This license applies to this entire compilation.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
  * @licend
+ *
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
 /*global runtime, ops*/
@@ -81,8 +71,6 @@ define("webodf/editor/server/pullbox/OperationRouter", [], function () {
             unplayedServerOpspecQueue = [],
             /** @type {!Array.<!Function>} sync request callbacks which should be called after the received ops have been applied server */
             uncalledSyncRequestCallbacksQueue = [],
-            /** @type {!Array.<!function(!boolean):undefined>} ops created since the last sync call to the server */
-            hasLocalUnsyncedOpsStateSubscribers = [],
             /**@type{!boolean}*/
             hasLocalUnsyncedOps = false,
             /**@type{!boolean} tells if any local ops have been modifying ops */
@@ -92,10 +80,11 @@ define("webodf/editor/server/pullbox/OperationRouter", [], function () {
             /**@const*/syncOpsDelay = 3000,
             /**@const*/idleDelay = 5000;
 
-
+        /**
+         * @return {undefined}
+         */
         function updateHasLocalUnsyncedOpsState() {
-            var i,
-                hasLocalUnsyncedOpsNow = (unsyncedClientOpspecQueue.length > 0);
+            var hasLocalUnsyncedOpsNow = (unsyncedClientOpspecQueue.length > 0);
 
             // no change?
             if (hasLocalUnsyncedOps === hasLocalUnsyncedOpsNow) {
@@ -103,45 +92,6 @@ define("webodf/editor/server/pullbox/OperationRouter", [], function () {
             }
 
             hasLocalUnsyncedOps = hasLocalUnsyncedOpsNow;
-            for (i=0; i<hasLocalUnsyncedOpsStateSubscribers.length; i+=1) {
-                hasLocalUnsyncedOpsStateSubscribers[i](hasLocalUnsyncedOps);
-            }
-        }
-
-        /**
-         * @param {!Array.<!Object>} opspecs
-         * @return {!Array.<!Object>}
-         */
-        function compressOpSpecs(opspecs) {
-            var i, j, op,
-                result = [];
-
-            i = 0;
-            while (i < opspecs.length) {
-                // use factory to create an instance, and playback!
-                op = operationFactory.create(opspecs[i]);
-                // is known op and can do merge?
-                if (op !== null && op.merge) {
-                    // go over the following and try to merge them
-                    for (j = i+1; j < opspecs.length; j += 1) {
-                        if (!op.merge(opspecs[j])) {
-                            break;
-                        }
-runtime.log("Merged: "+opspecs[i].optype+" with "+opspecs[j].optype);
-                    }
-                    // add the resulting op to the results
-                    result.push(op.spec());
-                    // and continue with the one which could not be merged, or behind end
-                    i = j;
-                } else {
-                    // just pass on
-                    result.push(opspecs[i]);
-                    i += 1;
-                }
-            }
-runtime.log("Merged: from "+opspecs.length+" to "+result.length+" specs");
-
-            return result;
         }
 
         /**
@@ -307,12 +257,12 @@ runtime.log("OperationRouter: sending sync_ops call");
                     if (response.ops.length > 0) {
                         // no new locally in the meantime?
                         if (unsyncedClientOpspecQueue.length === 0) {
-                            receiveOpSpecsFromNetwork(compressOpSpecs(response.ops), syncRequestCallbacksArray);
+                            receiveOpSpecsFromNetwork(response.ops, syncRequestCallbacksArray);
                         } else {
                             // transform server ops against new local ones and apply,
                             // transform and send new local ops to server
                             runtime.log("meh, have new ops locally meanwhile, have to do transformations.");
-                            hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops));
+                            hasUnresolvableConflict = !handleOpsSyncConflict(response.ops);
                             syncRequestCallbacksQueue = syncRequestCallbacksArray.concat(syncRequestCallbacksQueue);
                        }
                         // and note server state
@@ -333,7 +283,7 @@ runtime.log("OperationRouter: sending sync_ops call");
                     // transform server ops against new local ones and apply,
                     // transform and request new send new local ops to server
                     runtime.log("meh, server has new ops meanwhile, have to do transformations.");
-                    hasUnresolvableConflict = !handleOpsSyncConflict(compressOpSpecs(response.ops));
+                    hasUnresolvableConflict = !handleOpsSyncConflict(response.ops);
                     // and note server state
                     lastServerSeq = response.head_seq;
                     // try again instantly
@@ -441,13 +391,10 @@ runtime.log("OperationRouter: instant opsSync requested");
         /**
          * Brings the locally created operations into the game.
          *
-         * @param {!ops.Operation} op
+         * @param {!Array.<!ops.Operation>} operations
          * @return {undefined}
          */
-        this.push = function (op) {
-            var timedOp,
-                opspec = op.spec();
-
+        this.push = function (operations) {
             if (hasUnresolvableConflict) {
                 return;
             }
@@ -459,17 +406,22 @@ runtime.log("OperationRouter: instant opsSync requested");
                 return;
             }
 
-            // note if any local ops modified TODO: find less fragile way, perhaps have the operationFactory check it?
-            hasPushedModificationOps = hasPushedModificationOps || !/^(AddCursor|MoveCursor|RemoveCursor)$/.test(opspec.optype);
+            operations.forEach(function(op) {
+                var timedOp,
+                    opspec = op.spec();
 
-            // apply locally
-            opspec.timestamp = (new Date()).getTime();
-            timedOp = operationFactory.create(opspec);
+                // note if any local ops modified TODO: find less fragile way, perhaps have the operationFactory check it?
+                hasPushedModificationOps = hasPushedModificationOps || !/^(AddCursor|MoveCursor|RemoveCursor)$/.test(opspec.optype);
 
-            playbackFunction(timedOp);
+                // apply locally
+                opspec.timestamp = (new Date()).getTime();
+                timedOp = operationFactory.create(opspec);
 
-            // send to server
-            unsyncedClientOpspecQueue.push(opspec);
+                playbackFunction(timedOp);
+
+                // send to server
+                unsyncedClientOpspecQueue.push(opspec);
+            });
 
             triggerPushingOps();
 
@@ -502,40 +454,5 @@ runtime.log("OperationRouter: instant opsSync requested");
             }
         };
 
-        this.getHasLocalUnsyncedOpsAndUpdates = function (subscriber) {
-            var i;
-
-            // detect double subscription
-            for (i=0; i<hasLocalUnsyncedOpsStateSubscribers.length; i+=1) {
-                if (subscribers[i] === subscriber) {
-                    break;
-                }
-            }
-            if (i < hasLocalUnsyncedOpsStateSubscribers.length) {
-                // already subscribed
-                runtime.log("double subscription request in PullBoxMemberModel::getHasLocalUnsyncedOpsAndUpdates");
-            } else {
-                // subscribe
-                hasLocalUnsyncedOpsStateSubscribers.push(subscriber);
-            }
-
-            subscriber(hasLocalUnsyncedOps);
-        };
-
-        /*jslint emptyblock: true, unparam: true*/
-        this.unsubscribeHasLocalUnsyncedOpsUpdates = function (subscriber) {
-            var i;
-
-            for (i=0; i<hasLocalUnsyncedOpsStateSubscribers.length; i+=1) {
-                if (hasLocalUnsyncedOpsStateSubscribers[i] === subscriber) {
-                    break;
-                }
-            }
-
-            runtime.assert((i < hasLocalUnsyncedOpsStateSubscribers.length),
-                            "tried to unsubscribe when not subscribed in PullBoxMemberModel::getHasLocalUnsyncedOpsAndUpdates");
-
-            hasLocalUnsyncedOpsStateSubscribers.splice(i,1);
-        };
     };
 });
