@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,10 +33,10 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global runtime,core,define,require,document,dijit */
+/*global runtime,core,define,require,dijit */
 
 runtime.loadClass("core.CSSUnits");
 
@@ -103,13 +106,13 @@ define("webodf/editor/widgets/dialogWidgets/alignmentPane", [], function () {
                 runtime.assert(editorBase, "webodf/editor path not defined in dojoConfig");
                 ready(function () {
                     contentPane = new ContentPane({
-                        title: document.translator("alignment"),
+                        title: runtime.tr("Alignment"),
                         href: editorBase+"/widgets/dialogWidgets/alignmentPane.html",
                         preload: true
                     });
                     contentPane.onLoad = function () {
                         form = dijit.byId('alignmentPaneForm');
-                        document.translateContent(form.domNode);
+                        runtime.translateContent(form.domNode);
                     };
                     return cb();
                 });

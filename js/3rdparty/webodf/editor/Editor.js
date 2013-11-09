@@ -10,6 +10,9 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
  *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this code.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * As additional permission under GNU AGPL version 3 section 7, you
  * may distribute non-source (e.g., minimized or compacted) forms of
  * that code without the copy of the GNU GPL normally required by
@@ -30,21 +33,19 @@
  * This license applies to this entire compilation.
  * @licend
  * @source: http://www.webodf.org/
- * @source: http://gitorious.org/webodf/webodf/
+ * @source: https://github.com/kogmbh/WebODF/
  */
 
 /*global runtime, define, document, odf, ops, window, gui, alert, saveAs, Blob */
 
 define("webodf/editor/Editor", [
-    "dojo/i18n!webodf/editor/nls/myResources",
     "webodf/editor/EditorSession",
     "webodf/editor/MemberListView",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "webodf/editor/Tools"],
 
-    function (myResources,
-        EditorSession,
+    function (EditorSession,
         MemberListView,
         BorderContainer,
         ContentPane,
@@ -55,11 +56,11 @@ define("webodf/editor/Editor", [
 
         /**
          * @constructor
-         * @param {{unstableFeaturesEnabled:boolean=,
-         *          loadCallback:function()=,
-         *          saveCallback:function()=,
-         *          closeCallback:function()=,
-         * @param {!ops.Server=} server
+         * @param {{unstableFeaturesEnabled:boolean,
+         *          loadCallback:function(),
+         *          saveCallback:function(),
+         *          closeCallback:function()}}
+         * param {!ops.Server=} server
          * @param {!ServerFactory=} serverFactory
          */
         function Editor(args, server, serverFactory) {
@@ -273,8 +274,6 @@ define("webodf/editor/Editor", [
                                     if (err) {
                                         callback(err);
                                     } else {
-                                        document.translator = null;
-                                        document.translateContent = null;
                                         callback();
                                     }
                                 });
@@ -285,9 +284,7 @@ define("webodf/editor/Editor", [
             };
 
             function setFocusToOdfCanvas() {
-                if (odfCanvas) {
-                    odfCanvas.getElement().focus();
-                }
+                editorSession.sessionController.getEventManager().focus();
             }
 
             // init
@@ -298,29 +295,15 @@ define("webodf/editor/Editor", [
                     memberListElement = document.getElementById('memberList'),
                     collabEditing = Boolean(server),
                     directStylingEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
+                    imageInsertingEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
                     // annotations not yet properly supported for OT
                     annotationsEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
                      // undo manager is not yet integrated with collaboration
                     undoRedoEnabled = (! collabEditing),
                     closeCallback;
 
-                if (collabEditing) {
-                    runtime.assert(memberListElement, 'missing "memberList" div in HTML');
-                }
-
-                runtime.assert(canvasElement, 'missing "canvas" div in HTML');
-
-                // setup translations
-                // TODO: move from document instance into webodf namespace
-                function translator(key, context) {
-                    if (undefined === myResources[key]) {
-                        return "translation missing: " + key;
-                    }
-                    return myResources[key];
-                }
-                document.translator = translator;
-
-                function translateContent(node) {
+                // Extend runtime with a convenient translation function
+                runtime.translateContent = function (node) {
                     var i,
                         element,
                         tag,
@@ -334,11 +317,16 @@ define("webodf/editor/Editor", [
                         if (tag === "label"
                                 || tag === "span"
                                 || /h\d/i.test(tag)) {
-                            element.textContent = document.translator(placeholder);
+                            element.textContent = runtime.tr(placeholder);
                         }
                     }
+                };
+
+                if (collabEditing) {
+                    runtime.assert(memberListElement, 'missing "memberList" div in HTML');
                 }
-                document.translateContent = translateContent;
+
+                runtime.assert(canvasElement, 'missing "canvas" div in HTML');
 
                 // App Widgets
                 mainContainer = new BorderContainer({}, 'mainContainer');
@@ -351,7 +339,7 @@ define("webodf/editor/Editor", [
                 if (collabEditing) {
                     memberListPane = new ContentPane({
                         region: 'right',
-                        title: translator("members")
+                        title: runtime.tr("Members")
                     }, 'members');
                     mainContainer.addChild(memberListPane);
                     memberListView = new MemberListView(memberListElement);
@@ -362,7 +350,7 @@ define("webodf/editor/Editor", [
                 if (window.inviteButtonProxy) {
                     inviteButton = document.getElementById('inviteButton');
                     runtime.assert(inviteButton, 'missing "inviteButton" div in HTML');
-                    inviteButton.innerText = translator("inviteMembers");
+                    inviteButton.innerText = runtime.tr("Invite Members");
                     inviteButton.style.display = "block";
                     inviteButton.onclick = window.inviteButtonProxy.clicked;
                 }
@@ -373,6 +361,7 @@ define("webodf/editor/Editor", [
                         saveOdtFile: saveOdtFile,
                         close: close,
                         directStylingEnabled: directStylingEnabled,
+                        imageInsertingEnabled: imageInsertingEnabled,
                         annotationsEnabled: annotationsEnabled,
                         undoRedoEnabled: undoRedoEnabled
                     });
@@ -391,7 +380,8 @@ define("webodf/editor/Editor", [
                     session = new ops.Session(odfCanvas);
                     editorSession = new EditorSession(session, pendingMemberId, {
                         viewOptions: viewOptions,
-                        directStylingEnabled: directStylingEnabled
+                        directStylingEnabled: directStylingEnabled,
+                        imageInsertingEnabled: imageInsertingEnabled
                     });
                     if (undoRedoEnabled) {
                         editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());

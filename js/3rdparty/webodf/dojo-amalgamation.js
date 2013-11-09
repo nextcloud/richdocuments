@@ -661,7 +661,7 @@ a;this._set("title",a)},postCreate:function(){this.inherited(arguments);this.con
 "-"+c];j.replace(this.domNode,a,this._currentOrientClass||"");this._currentOrientClass=a},focus:function(){this._getFocusItems(this.containerNode);g.focus(this._firstFocusItem)},onOpen:function(a){this.orient(this.domNode,a.aroundCorner,a.corner);var b=a.aroundNodePos;if("M"==a.corner.charAt(0)&&"M"==a.aroundCorner.charAt(0))this.connectorNode.style.top=b.y+(b.h-this.connectorNode.offsetHeight>>1)-a.y+"px",this.connectorNode.style.left="";else if("M"==a.corner.charAt(1)&&"M"==a.aroundCorner.charAt(1))this.connectorNode.style.left=
 b.x+(b.w-this.connectorNode.offsetWidth>>1)-a.x+"px";this._onShow()},onClose:function(){this.onHide()},_onKey:function(a){var b=a.target;a.charOrCode===l.TAB&&this._getFocusItems(this.containerNode);var c=this._firstFocusItem==this._lastFocusItem;a.charOrCode==l.ESCAPE?(this.defer("onCancel"),i.stop(a)):b==this._firstFocusItem&&a.shiftKey&&a.charOrCode===l.TAB?(c||g.focus(this._lastFocusItem),i.stop(a)):b==this._lastFocusItem&&a.charOrCode===l.TAB&&!a.shiftKey?(c||g.focus(this._firstFocusItem),i.stop(a)):
 a.charOrCode===l.TAB&&a.stopPropagation()}})})},"url:dijit/templates/TooltipDialog.html":'<div role="presentation" tabIndex="-1">\n\t<div class="dijitTooltipContainer" role="presentation">\n\t\t<div class ="dijitTooltipContents dijitTooltipFocusNode" data-dojo-attach-point="containerNode" role="dialog"></div>\n\t</div>\n\t<div class="dijitTooltipConnector" role="presentation" data-dojo-attach-point="connectorNode"></div>\n</div>\n',"*now":function(e){e(['dojo/i18n!*preload*dojo/nls/dojo*["ar","ca","cs","da","de","el","en-gb","en-us","es-es","fi-fi","fr-fr","he-il","hu","it-it","ja-jp","ko-kr","nl-nl","nb","pl","pt-br","pt-pt","ru","sk","sl","sv","th","tr","zh-tw","zh-cn","ROOT"]'])}}});
-// START OF nls/dojobundle.js
+// START OF dojobundle.js
 /* START OF NLS BUNDLE ENTRY [dojo-deps/dist/dijit/_editor/nls/FontChoice.js] */
 //>>built
 define("dijit/_editor/nls/FontChoice",{root:{fontSize:"Size",fontName:"Font",formatBlock:"Format",serif:"serif","sans-serif":"sans-serif",monospace:"monospace",cursive:"cursive",fantasy:"fantasy",noFormat:"None",p:"Paragraph",h1:"Heading",h2:"Subheading",h3:"Sub-subheading",pre:"Pre-formatted",1:"xx-small",2:"x-small",3:"small",4:"medium",5:"large",6:"x-large",7:"xx-large"},zh:!0,"zh-tw":!0,tr:!0,th:!0,sv:!0,sl:!0,sk:!0,ru:!0,ro:!0,pt:!0,"pt-pt":!0,pl:!0,nl:!0,nb:!0,ko:!0,kk:!0,ja:!0,it:!0,hu:!0,
@@ -1706,6 +1706,6 @@ define("dojox/widget/nls/ru/FilePicker",{name:"\u0418\u043c\u044f",path:"\u041f\
 define("dojox/widget/nls/ru/Wizard",{next:"\u0414\u0430\u043b\u0435\u0435",previous:"\u041d\u0430\u0437\u0430\u0434",done:"\u0413\u043e\u0442\u043e\u0432\u043e"});
 /* END OF NLS BUNDLE ENTRY [dojo-deps/dist/dojox/widget/nls/ru/Wizard.js] */
 
-// END OF nls/dojobundle.js
+// END OF dojobundle.js
 
 (function(){var e=this.require;e({cache:{}});!e.async&&e(["dojo"]);e.boot&&e.apply(null,e.boot)})();
