@@ -16,8 +16,8 @@ namespace OCA\Documents;
  */
 class Download_Simple extends \OCA\Documents\Download {
 
-	public function __construct($view, $filepath){
-		$this->view = $view;
+	public function __construct($owner, $filepath){
+		$this->view = $this->getView($owner);
 		$this->filepath = $filepath;
 	}
 	

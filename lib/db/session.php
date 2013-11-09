@@ -39,28 +39,19 @@ class Db_Session extends \OCA\Documents\Db {
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		
 		// Create a directory to store genesis
-		$docView = $ownerView->initDocumentsView($file->getOwner());
+		
+		$genesis = new Genesis($ownerView, $path, $file->getOwner());
 		
 		$oldSession = new Db_Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
 		
 		//If there is no existing session we need to start a new one
 		if (!$oldSession->hasData()){
-
-			//TODO: check if genesis document is a valid odt
-			$genesisPath = $ownerView->storeDocument(
-							$file->getOwner(), 
-							$path
-			);
-			
-			if (!$genesisPath){
-				throw new \Exception('Unable to copy document. Check permissions and make sure you have enought free space.');
-			}
-
-			$hash = $ownerView->getHashByGenesis($file->getOwner(), $genesisPath);
-			
 			$newSession = new Db_Session(array(
-				$genesisPath, $hash, $file->getOwner(), $file->getFileId()
+				$genesis->getPath(),
+				$genesis->getHash(),
+				$file->getOwner(),
+				$file->getFileId()
 			));
 			
 			if (!$newSession->insert()){
@@ -71,7 +62,7 @@ class Db_Session extends \OCA\Documents\Db {
 		$session = $oldSession
 					->loadBy('file_id', $file->getFileId())
 					->getData()
-				;
+		;
 		
 		$member = new Db_Member(array(
 			$session['es_id'], 

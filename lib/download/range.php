@@ -26,8 +26,8 @@ class Download_Range extends \OCA\Documents\Download {
 	 * @param type $view - filesystem view
 	 * @param type $filepath - path to the file relative to this view root
 	 */
-	public function __construct($view, $filepath){
-		$this->view = $view;
+	public function __construct($owner, $filepath){
+		$this->view = $this->getView($owner);
 		$this->filepath = $filepath;
 	}
 

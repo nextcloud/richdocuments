@@ -39,15 +39,20 @@ class Download {
 	 * @param type $view - filesystem view
 	 * @param type $filepath - path to the file relative to this view root
 	 */
-	public function __construct($view, $filepath){
+	public function __construct($owner, $filepath){
 		$this->filepath = $filepath;
-		$this->view = $view;
 		
 		if (isset($_SERVER['HTTP_RANGE'])) {
-			$this->instance = new Download_Range($view, $filepath);
+			$this->instance = new Download_Range($owner, $filepath);
 		} else {
-			$this->instance = new Download_Simple($view, $filepath);
+			$this->instance = new Download_Simple($owner, $filepath);
 		}
+		
+		$this->view = $this->getView($owner);
+	}
+	
+	protected function getView($owner){
+		return new View('/' . $owner);
 	}
 	
 	/**

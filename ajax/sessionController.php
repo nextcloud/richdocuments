@@ -41,7 +41,7 @@ class SessionController extends Controller{
 		}
 	}
 
-		/**
+	/**
 	 * Store the document content to its origin
 	 */
 	public static function save(){
@@ -58,7 +58,7 @@ class SessionController extends Controller{
 			if (!$content){
 				throw new \Exception('New conent missing');
 			}
-			
+
 			$session = new Db_Session();
 			$session->load($esId);
 			
