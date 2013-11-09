@@ -102,7 +102,7 @@ class Db_Session extends \OCA\Documents\Db {
 		return $this->execute(
 			'UPDATE `*PREFIX*documents_session` SET `genesis_hash`=? WHERE `es_id`=?',
 			array(
-				$esId, $genesisHash
+				$genesisHash, $esId
 			)
 		);
 	}

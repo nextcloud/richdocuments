@@ -54,10 +54,11 @@ class SessionController extends Controller{
 			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
 			$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
 			
-			$content = fopen('php://input','r');
-			if (!$content){
-				throw new \Exception('New conent missing');
+			$stream = fopen('php://input','r');
+			if (!$stream){
+				throw new \Exception('New content missing');
 			}
+			$content = stream_get_contents($stream);
 
 			$session = new Db_Session();
 			$session->load($esId);
@@ -110,6 +111,7 @@ class SessionController extends Controller{
 				// Not a last user
 				if ($memberCount>0){
 					// Update genesis hash to prevent conflicts
+					Helper::warnLog('Update hash');
 					$session->updateGenesisHash($esId, sha1($content));
 				} else {
 					// Last user. Kill session data
