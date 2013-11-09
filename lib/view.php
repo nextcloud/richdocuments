@@ -20,7 +20,7 @@ class View extends \OC\Files\View{
 		if (!$ownerView->is_dir(self::DOCUMENTS_DIRNAME)) {
 			$ownerView->mkdir(self::DOCUMENTS_DIRNAME);
 		}
-		return $ownerView;
+		return  new View('/' . $owner . self::DOCUMENTS_DIRNAME);
 	}
 	
 	public function getFilePermissions($path){
