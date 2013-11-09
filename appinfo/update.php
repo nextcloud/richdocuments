@@ -1,0 +1,28 @@
+<?php
+/**
+ * ownCloud - Documents App
+ *
+ * @author Victor Dubiniuk
+ * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
+ *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ */
+
+$installedVersion = \OCP\Config::getAppValue('documents', 'installed_version');
+
+if (version_compare($installedVersion, '0.7', '<=')) {
+	\OCP\Config::setAppValue('documents', 'unstable', 'false');
+	$session = new \OCA\Documents\Db_Session();
+	
+	$query = \OC_DB::prepare('UPDATE `*PREFIX*documents_session` SET `genesis_url`=? WHERE `es_id`=?');
+
+	foreach ($session->getCollection() as $sessionData){
+		$sessionData['genesis_url'] = \OCA\Documents\Genesis::DOCUMENTS_DIRNAME . $sessionData['genesis_url'];
+		$query->execute(array(
+			$sessionData['genesis_url'],
+			$sessionData['es_id']
+		));
+		
+	}
+}
