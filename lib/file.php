@@ -28,8 +28,10 @@ class File {
 	protected $owner;
 	protected $path;
 	protected $sharing;
-	
-	public function __construct($fileId){
+	protected $passwordProtected = false;
+
+
+	public function __construct($fileId, $shareOps = null){
 		if (!$fileId){
 			throw new \Exception('No valid file has been passed');
 		}
@@ -38,7 +40,11 @@ class File {
 		
 		//if you know how to get sharing info by fileId via API, 
 		//please send me a link to video tutorial :/
-		$this->sharing = $this->getSharingOps();
+		if (!is_null($shareOps)){
+			$this->sharing = $shareOps;
+		} else {
+			$this->sharing = $this->getSharingOps();
+		}
 	}
 	
 	public static function getByShareToken($token){
@@ -51,7 +57,13 @@ class File {
 			throw new \Exception('This file was probably unshared');
 		}
 		
-		$file = new File($rootLinkItem['file_source']);
+		if (!isset($rootLinkItem['path']) && isset($rootLinkItem['file_target'])){
+			$rootLinkItem['path'] = 'files/' . $rootLinkItem['file_target'];
+		}
+		$file = new File($rootLinkItem['file_source'], array($rootLinkItem));
+		if (isset($linkItem['share_with']) && !empty($linkItem['share_with'])){
+			$file->setPasswordProtected(true);
+		}
 		
 		return $file;
 	}
@@ -78,6 +90,35 @@ class File {
 			}
 		}
 		return false;
+	}
+	
+	public function isPasswordProtected(){
+		return $this->passwordProtected;
+	}
+	
+	public function checkPassword($password){
+		$shareId  = $this->getShareId();
+		if (!$this->isPasswordProtected()
+			|| (\OC::$session->exists('public_link_authenticated')
+				&& \OC::$session->get('public_link_authenticated') === $shareId)	
+			){
+				return true;
+		}
+		
+		// Check Password
+		$forcePortable = (CRYPT_BLOWFISH != 1);
+		$hasher = new \PasswordHash(8, $forcePortable);
+		if ($hasher->CheckPassword($password.\OC_Config::getValue('passwordsalt', ''),
+									 $this->getPassword())) {
+			// Save item id in session for future request
+			\OC::$session->set('public_link_authenticated', $shareId);
+			return true;
+		}
+		return false;
+	}
+	
+	public function setPasswordProtected($value){
+		$this->passwordProtected = $value;
 	}
 
 	/**
@@ -147,6 +188,14 @@ class File {
 		}
 
 		return array ($owner, @$fileInfo[1]);
+	}
+	
+	protected function getPassword(){
+		return $this->sharing[0]['share_with'];
+	}
+	
+	protected function getShareId(){
+		return $this->sharing[0]['id'];
 	}
 
 	protected function getSharingOps(){
