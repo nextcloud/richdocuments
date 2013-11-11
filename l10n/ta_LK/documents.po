@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 04:32-0400\n"
-"PO-Revision-Date: 2013-10-28 10:46+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-11 02:51-0500\n"
+"PO-Revision-Date: 2013-11-11 07:51+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: js/documents.js:20 js/viewer/viewer.js:51
+#: js/documents.js:23 js/viewer/viewer.js:50
 msgid "Close"
 msgstr "மூடுக"
 
@@ -42,11 +42,11 @@ msgid ""
 "recently."
 msgstr ""
 
-#: js/documents.js:303
+#: js/documents.js:305
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:346
+#: js/documents.js:348
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -74,15 +74,27 @@ msgstr "பதிவேற்றுக"
 msgid "Save new documents to"
 msgstr ""
 
-#: templates/public.php:7
+#: templates/public.php:8
+msgid "Wrong password. Please retry."
+msgstr ""
+
+#: templates/public.php:11
+msgid "Password"
+msgstr ""
+
+#: templates/public.php:12
+msgid "OK"
+msgstr ""
+
+#: templates/public.php:17
 msgid "Please enter your nickname"
 msgstr ""
 
-#: templates/public.php:8
+#: templates/public.php:18
 msgid "Join"
 msgstr ""
 
-#: templates/public.php:14
+#: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

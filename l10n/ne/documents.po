@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 00:20-0400\n"
-"PO-Revision-Date: 2013-10-27 04:20+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-11 02:51-0500\n"
+"PO-Revision-Date: 2013-11-11 07:51+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/owncloud/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -17,32 +17,36 @@ msgstr ""
 "Language: ne\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/documents.js:18 js/viewer/viewer.js:51
+#: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
+msgid "Documents"
+msgstr ""
+
+#: js/documents.js:23 js/viewer/viewer.js:50
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:24
+#: js/documents.js:26
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:130
+#: js/documents.js:132
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:143
+#: js/documents.js:145
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:293
+#: js/documents.js:305
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:336
+#: js/documents.js:348
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -66,23 +70,31 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: templates/personal.php:2 templates/settings.php:2
-msgid "Documents"
-msgstr ""
-
 #: templates/personal.php:4
 msgid "Save new documents to"
 msgstr ""
 
-#: templates/public.php:7
+#: templates/public.php:8
+msgid "Wrong password. Please retry."
+msgstr ""
+
+#: templates/public.php:11
+msgid "Password"
+msgstr ""
+
+#: templates/public.php:12
+msgid "OK"
+msgstr ""
+
+#: templates/public.php:17
 msgid "Please enter your nickname"
 msgstr ""
 
-#: templates/public.php:8
+#: templates/public.php:18
 msgid "Join"
 msgstr ""
 
-#: templates/public.php:14
+#: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

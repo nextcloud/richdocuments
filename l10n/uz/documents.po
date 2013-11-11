@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-08 22:49-0500\n"
-"PO-Revision-Date: 2013-11-07 08:41+0000\n"
+"POT-Creation-Date: 2013-11-11 02:51-0500\n"
+"PO-Revision-Date: 2013-11-11 07:51+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uzbek (http://www.transifex.com/projects/p/owncloud/language/uz/)\n"
 "MIME-Version: 1.0\n"
@@ -42,11 +42,11 @@ msgid ""
 "recently."
 msgstr ""
 
-#: js/documents.js:303
+#: js/documents.js:305
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:346
+#: js/documents.js:348
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
@@ -74,15 +74,27 @@ msgstr ""
 msgid "Save new documents to"
 msgstr ""
 
-#: templates/public.php:7
+#: templates/public.php:8
+msgid "Wrong password. Please retry."
+msgstr ""
+
+#: templates/public.php:11
+msgid "Password"
+msgstr ""
+
+#: templates/public.php:12
+msgid "OK"
+msgstr ""
+
+#: templates/public.php:17
 msgid "Please enter your nickname"
 msgstr ""
 
-#: templates/public.php:8
+#: templates/public.php:18
 msgid "Join"
 msgstr ""
 
-#: templates/public.php:14
+#: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

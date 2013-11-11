@@ -12,7 +12,7 @@
 "Incoming" => "Entrante",
 "Upload" => "Subir",
 "Save new documents to" => "Guardar nuevos documentos en",
-"Please enter your nickname" => "Por favor introduzca su alias.",
+"Please enter your nickname" => "Por favor introduzca su apodo",
 "Join" => "Participar",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted.",
 "Advanced feature-set" => "Características avanzadas",
