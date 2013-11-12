@@ -28,6 +28,8 @@
 				</form>
 			</div>
 		</li>
+		<li class="progress">
+		</li>
 		<li class="document template" data-id="" style="display:none;">
 			<a target="_blank" href=""><label></label></a>
 		</li>

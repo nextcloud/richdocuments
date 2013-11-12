@@ -58,7 +58,7 @@
 	text-align: center;
 }
 
-.documentslist .document {
+.documentslist .document, .documentslist .progress {
 	display: inline-block;
 	height: 200px;
 	width: 200px;
@@ -67,6 +67,14 @@
 	vertical-align: top;
 	border-radius: 5px;
 }
+
+
+.documentslist .progress{
+	position:absolute;
+	z-index:5;
+	background: #e8e8e8 url('%webroot%/core/img/loading.gif') 50% 50% no-repeat;
+}
+
 .documentslist .document:hover,
 .documentslist .document a:focus {
 	background-color: #ddd;

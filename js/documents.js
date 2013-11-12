@@ -86,6 +86,13 @@ var documentsMain = {
 					$(document.body).removeClass('claro');
 					$('title').text(documentsMain.UI.mainTitle);
 				});
+		},
+		showProgress : function(){
+			$('.documentslist .progress').show();
+		},
+		
+		hideProgress : function(){
+			$('.documentslist .progress').hide();
 		}
 	},
 	
@@ -283,10 +290,11 @@ var documentsMain = {
 		if (documentsMain.isGuest){
 			return;
 		}
-		
+		documentsMain.UI.showProgress();
 		jQuery.when(documentsMain.loadDocuments())
 			.then(function(){
 				documentsMain.renderDocuments();
+				documentsMain.UI.hideProgress();
 			});
 	},
 	
@@ -313,7 +321,7 @@ var documentsMain = {
 		hasDocuments = false;
 
 		//remove all but template
-		$('.documentslist .document:not(.template)').remove();
+		$('.documentslist .document:not(.template,.progress)').remove();
 
 		jQuery.each(this._documents, function(i,document){
 			var docElem = $('.documentslist .template').clone();
