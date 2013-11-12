@@ -7,7 +7,7 @@ var odfViewer = {
 	],
 			
 	supportedMimesUpdate: [
-		'application/vnd.oasis.opendocument.text'
+		//none. see https://github.com/owncloud/documents/issues/108
 	],
 			
 	register : function(){
