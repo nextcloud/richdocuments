@@ -11,15 +11,19 @@
 
 .documentslist { padding:5px; }
 
+.documentslist .document, 
+.documentslist .progress,
 .documentslist .add-document{
 	display: inline-block;
 	height: 200px;
 	width: 200px;
+	float: left;
 	background-color: #e8e8e8;
-	margin: 1em;
+	margin: 14px;
 	vertical-align: top;
 	border-radius: 5px;
 }
+
 .add-document a {
 	display: inline-block;
 	position: relative;
@@ -58,19 +62,9 @@
 	text-align: center;
 }
 
-.documentslist .document, .documentslist .progress {
-	display: inline-block;
-	height: 200px;
-	width: 200px;
-	background-color: #e8e8e8;
-	margin: 1em;
-	vertical-align: top;
-	border-radius: 5px;
-}
-
-
 .documentslist .progress{
 	position:absolute;
+	left:232px;
 	z-index:5;
 	background: #e8e8e8 url('%webroot%/core/img/loading.gif') 50% 50% no-repeat;
 }

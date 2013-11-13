@@ -3,7 +3,7 @@
 		<li class="add-document">
 			<a class="add svg" target="_blank" href="">
 				<label><?php p('New document') ?></label>
-			</a>
+			</a> 
 			<div id="upload" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 				<form data-upload-id="1"
 					  id="data-upload-form"
@@ -28,8 +28,7 @@
 				</form>
 			</div>
 		</li>
-		<li class="progress">
-		</li>
+		<li class="progress">&nbsp;</li>
 		<li class="document template" data-id="" style="display:none;">
 			<a target="_blank" href=""><label></label></a>
 		</li>

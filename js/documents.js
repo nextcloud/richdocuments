@@ -209,6 +209,11 @@ var documentsMain = {
 			
 	onCreate: function(event){
 		event.preventDefault();
+		var docElem = $('.documentslist .template').clone();
+		docElem.removeClass('template');
+		docElem.addClass('document');
+		docElem.insertAfter('.documentslist .template');
+		docElem.show();
 		$.post(
 			OC.Router.generate('documents_documents_create'),
 			{},
