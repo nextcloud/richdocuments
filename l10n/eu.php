@@ -10,6 +10,8 @@
 "Incoming" => "Sarrerakoa",
 "Upload" => "Igo",
 "Save new documents to" => "Gorde dokumentu berriak hemen",
+"Password" => "Pasahitza",
+"OK" => "Ados",
 "Join" => "Elkartu",
 "Advanced feature-set" => "Ezaugarri aurreratu multzoa",
 "(Unstable)" => "(Ez-egonkorra)"

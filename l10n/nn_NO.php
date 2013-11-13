@@ -10,6 +10,8 @@
 "Accepted" => "Godtatt",
 "Incoming" => "Inngåande",
 "Upload" => "Last opp",
+"Password" => "Passord",
+"OK" => "Greitt",
 "Advanced feature-set" => "Avanserte funksjonar",
 "(Unstable)" => "(Ustabil)"
 );

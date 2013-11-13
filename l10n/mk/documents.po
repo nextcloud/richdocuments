@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 02:51-0500\n"
-"PO-Revision-Date: 2013-11-11 07:51+0000\n"
+"POT-Creation-Date: 2013-11-13 17:04-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -30,24 +30,24 @@ msgstr "Затвори"
 msgid "Share"
 msgstr "Сподели"
 
-#: js/documents.js:132
+#: js/documents.js:139
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Оставањето на оваа страница во мод за уредување може да предизивка губиток на неснимените податоци. Се препорачува да се користи копчето 'Затвори'."
 
-#: js/documents.js:145
+#: js/documents.js:152
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Неуспешно вчитување на документот. Ве молиме да проверите дали може да се отвори со надворешен odt уредувач. Ова исто така може да значи дека истиот бил одстранет од споделување или пак претходно бил избришан."
 
-#: js/documents.js:305
+#: js/documents.js:318
 msgid "Failed to load documents."
 msgstr "Не успеав да го вчитам документот"
 
-#: js/documents.js:348
+#: js/documents.js:361
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Не се пронајдени документи. Ве молиме ставете или креирајте документ!"
 
@@ -81,11 +81,11 @@ msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Лозинка"
 
 #: templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "Во ред"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"

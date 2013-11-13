@@ -12,6 +12,8 @@
 "Incoming" => "Sissetulev",
 "Upload" => "Lae üles",
 "Save new documents to" => "Salvesta dokumendid",
+"Password" => "Parool",
+"OK" => "OK",
 "Please enter your nickname" => "Palun sisesta oma hüüdnimi",
 "Join" => "Liitu",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "See link on aegunud või seda pole kunagi eksisteerinud. Palun võta ühendust inimesega, kes selle sulle jagas.",

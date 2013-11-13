@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Zatvori",
 "Share" => "Podijeli",
-"Upload" => "Učitaj"
+"Upload" => "Učitaj",
+"Password" => "Lozinka"
 );

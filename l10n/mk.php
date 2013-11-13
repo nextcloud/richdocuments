@@ -12,6 +12,8 @@
 "Incoming" => "Надоаѓачки",
 "Upload" => "Подигни",
 "Save new documents to" => "Сними го новиот документ во",
+"Password" => "Лозинка",
+"OK" => "Во ред",
 "Join" => "Спои",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Овој линк истекол или никогаш не постоел. Ве молиме контактирајте го корисникот кој го споделил линкот со вас за повеќе детали.",
 "Advanced feature-set" => "Напредни опции",

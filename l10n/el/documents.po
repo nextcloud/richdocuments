@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 02:51-0500\n"
-"PO-Revision-Date: 2013-11-11 07:51+0000\n"
+"POT-Creation-Date: 2013-11-13 17:04-0500\n"
+"PO-Revision-Date: 2013-11-13 16:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -30,24 +30,24 @@ msgstr "Κλείσιμο"
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/documents.js:132
+#: js/documents.js:139
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Αποχωρώντας από την κατάσταση Επεξεργασίας της σελίδας μπορεί να υπάρξουν μη αποθηκευμένα δεδομένα. Αντί γι' αυτό, συνίσταται να χρησιμοποιήσετε το κουμπί 'Κλείσιμο'."
 
-#: js/documents.js:145
+#: js/documents.js:152
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Αποτυχία φόρτωσης του εγγράφου. Παρακαλώ ελέγξτε εάν μπορεί να ανοίξει με εξωτερικό επεξεργαστή odt. Αυτό επίσης μπορεί να σημαίνει ότι πρόσφατα έχει ακυρωθεί ο διαμοιρασμός ή διαγραφεί."
 
-#: js/documents.js:305
+#: js/documents.js:318
 msgid "Failed to load documents."
 msgstr "Αποτυχία φόρτωσης εγγράφων."
 
-#: js/documents.js:348
+#: js/documents.js:361
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Δεν βρέθηκαν έγγραφα. Παρακαλώ αποστείλετε ή δημιουργήστε ένα έγγραφο."
 
@@ -81,11 +81,11 @@ msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Συνθηματικό"
 
 #: templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "ΟΚ"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"

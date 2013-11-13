@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Close" => "بستن",
 "Share" => "اشتراک‌گذاری",
-"Upload" => "بارگزاری"
+"Upload" => "بارگزاری",
+"Password" => "گذرواژه",
+"OK" => "باشه"
 );

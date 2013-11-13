@@ -8,6 +8,8 @@
 "Accepted" => "Aceptado",
 "Incoming" => "Ingresando",
 "Upload" => "Subir",
+"Password" => "Contraseña",
+"OK" => "Aceptar",
 "Advanced feature-set" => "Características Avanzadas",
 "(Unstable)" => "(Inestable)"
 );

@@ -1,3 +1,3 @@
 <?php $TRANSLATIONS = array(
-"Password" => "پاسورڈ"
+"Password" => "Wagwoord"
 );

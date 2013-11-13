@@ -8,6 +8,7 @@
 "Accepted" => "स्वीकार कर लिया गया ",
 "Incoming" => "आने वाला/वाली ",
 "Upload" => "अपलोड ",
+"Password" => "पासवर्ड",
 "Advanced feature-set" => "उन्नत विशेषता-सेट ",
 "(Unstable)" => "(अस्थायी) "
 );

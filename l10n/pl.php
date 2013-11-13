@@ -12,6 +12,8 @@
 "Incoming" => "Przychodzące",
 "Upload" => "Wyślij",
 "Save new documents to" => "Zapisz nowy dokument do",
+"Password" => "Hasło",
+"OK" => "OK",
 "Please enter your nickname" => "Wpisz swoja nazwę",
 "Join" => "Dołącz",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ten link już wygasła lub nigdy nie istniał. Proszę skontaktuj się z osobą, która udostępniła ci link, aby uzyskać szczegółowe informacje.",

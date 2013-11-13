@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 02:51-0500\n"
-"PO-Revision-Date: 2013-11-11 07:51+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-13 17:04-0500\n"
+"PO-Revision-Date: 2013-11-13 16:12+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,24 +30,24 @@ msgstr "Sluiten"
 msgid "Share"
 msgstr "Delen"
 
-#: js/documents.js:132
+#: js/documents.js:139
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Deze pagina open laten in de Editor kan resulteren in niet opslaan. Geadviseerd wordt om de 'Sluiten' knop te gebruiken."
 
-#: js/documents.js:145
+#: js/documents.js:152
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Kon dit document niet laden. Ga na of het met een externe odt editor wel kan worden geopend. Het kan zijn dat het niet meer is gedeeld of dat het recent is verwijderd."
 
-#: js/documents.js:305
+#: js/documents.js:318
 msgid "Failed to load documents."
 msgstr "Kon documenten niet laden."
 
-#: js/documents.js:348
+#: js/documents.js:361
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Geen documenten gevonden. Upload of maak een document!"
 
@@ -77,15 +77,15 @@ msgstr "Bewaar nieuwe documenten  in"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Onjuist wachtwoord. Probeer opnieuw."
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Wachtwoord"
 
 #: templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"

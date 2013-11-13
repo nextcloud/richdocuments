@@ -1,5 +1,21 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumente",
 "Close" => "Schliessen",
 "Share" => "Freigeben",
-"Upload" => "Datei hochladen"
+"Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Fehler beim Laden dieses Dokumentes. Bitte prüfen Sie ob diese Datei mit einem externen ODT-Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder kürzlich gelöscht wurde.",
+"Failed to load documents." => "Laden der Dokumente fehlgeschlagen.",
+"No documents are found. Please upload or create a document!" => "Keine Dokumente gefunden. Bitte laden Sie Dokumente hoch, oder erstellen Sie ein Dokument!",
+"Sent" => "Senden",
+"Declined" => "Abgelehnt",
+"Accepted" => "Akzeptiert",
+"Incoming" => "Eingehend",
+"Upload" => "Datei hochladen",
+"Save new documents to" => "Neues Dokument speichern unter",
+"Wrong password. Please retry." => "Falsches Passwort. Bitte versuchen Sie es noch einmal.",
+"Password" => "Passwort",
+"OK" => "OK",
+"Please enter your nickname" => "Bitte geben Sie Ihren Spitznamen ein",
+"Join" => "Beitreten",
+"Advanced feature-set" => "Erweiterte Funktionseinstellungen",
+"(Unstable)" => "(Instabil)"
 );

@@ -12,6 +12,8 @@
 "Incoming" => "Eniranta",
 "Upload" => "Alŝuti",
 "Save new documents to" => "Konservi novajn dokumentojn en",
+"Password" => "Pasvorto",
+"OK" => "Akcepti",
 "Please enter your nickname" => "Bonvolu enigi vian kaŝnomon",
 "Join" => "Kuniĝi",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ĉi tiu ligilo eksvalidiĝis aŭ neniam ekzistis. Bonvolu kontakti la personon, kiu kunhavigis ĝin kun vi, por detaloj.",

@@ -1,5 +1,19 @@
 <?php $TRANSLATIONS = array(
+"Documents" => "Dokumenti",
 "Close" => "Zapri",
 "Share" => "Souporaba",
-"Upload" => "Pošlji"
+"Failed to load documents." => "Nalaganje dokumentov je spodletelo.",
+"Sent" => "Poslano",
+"Declined" => "Zavrnjeno",
+"Accepted" => "Sprejeto",
+"Incoming" => "Prihajajoče",
+"Upload" => "Pošlji",
+"Save new documents to" => "Shrani nove dokumente v",
+"Wrong password. Please retry." => "Napačno geslo. Poskusite znova.",
+"Password" => "Geslo",
+"OK" => "V redu",
+"Please enter your nickname" => "Vnesite vzdevek",
+"Join" => "Pridruži se",
+"Advanced feature-set" => "Napredne zmožnosti",
+"(Unstable)" => "(nestabilno)"
 );

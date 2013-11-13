@@ -12,6 +12,8 @@
 "Incoming" => "En réception",
 "Upload" => "Envoyer",
 "Save new documents to" => "Enregistrer les nouveaux documents sous",
+"Password" => "Mot de passe",
+"OK" => "OK",
 "Please enter your nickname" => "Merci d'entrer votre surnom",
 "Join" => "Joindre",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Ce lien a expiré ou n'a jamais existé. Pour plus de détails, veuillez contacter la personne qui a créé ce partage avec vous.",

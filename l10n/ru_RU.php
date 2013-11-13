@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Сделать общим",
-"Upload" => "Загрузка"
+"Upload" => "Загрузка",
+"Password" => "Пароль",
+"OK" => "OK"
 );

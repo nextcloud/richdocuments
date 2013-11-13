@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mateju <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 02:51-0500\n"
-"PO-Revision-Date: 2013-11-11 07:51+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-13 17:04-0500\n"
+"PO-Revision-Date: 2013-11-13 16:12+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumenti"
 
 #: js/documents.js:23 js/viewer/viewer.js:50
 msgid "Close"
@@ -29,42 +30,42 @@ msgstr "Zapri"
 msgid "Share"
 msgstr "Souporaba"
 
-#: js/documents.js:132
+#: js/documents.js:139
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:145
+#: js/documents.js:152
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:305
+#: js/documents.js:318
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Nalaganje dokumentov je spodletelo."
 
-#: js/documents.js:348
+#: js/documents.js:361
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Poslano"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Zavrnjeno"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Sprejeto"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "Prihajajoče"
 
 #: templates/documents.php:7
 msgid "Upload"
@@ -72,27 +73,27 @@ msgstr "Pošlji"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Shrani nove dokumente v"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Napačno geslo. Poskusite znova."
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Geslo"
 
 #: templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "V redu"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Vnesite vzdevek"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "Pridruži se"
 
 #: templates/public.php:24
 msgid ""
@@ -102,8 +103,8 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Napredne zmožnosti"
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(nestabilno)"

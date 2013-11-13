@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Share" => "ਸਾਂਝਾ ਕਰੋ",
-"Upload" => "ਅੱਪਲੋਡ"
+"Upload" => "ਅੱਪਲੋਡ",
+"Password" => "ਪਾਸਵਰ",
+"OK" => "ਠੀਕ ਹੈ"
 );

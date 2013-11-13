@@ -12,6 +12,8 @@
 "Incoming" => "Entrant",
 "Upload" => "Puja",
 "Save new documents to" => "Desa els documents nous a",
+"Password" => "Contrasenya",
+"OK" => "D'acord",
 "Please enter your nickname" => "Escriviu el sobrenom",
 "Join" => "Uniu-vos",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Aquest enllaç ha vençut o no ha existit mai. Contacteu amb la persona que l'ha compartit amb vós per més detalls.",

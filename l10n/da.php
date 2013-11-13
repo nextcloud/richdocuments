@@ -12,6 +12,8 @@
 "Incoming" => "Indgående",
 "Upload" => "Upload",
 "Save new documents to" => "Gem nye dokumenter til",
+"Password" => "Kodeord",
+"OK" => "OK",
 "Join" => "Deltag",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. ",
 "Advanced feature-set" => "Avancerede funktioner",

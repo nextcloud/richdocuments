@@ -7,5 +7,7 @@
 "Declined" => "거절됨",
 "Accepted" => "허",
 "Upload" => "업로드",
+"Password" => "암호",
+"OK" => "확인",
 "Join" => "참여하기"
 );

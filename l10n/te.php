@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Close" => "మూసివేయి"
+"Close" => "మూసివేయి",
+"Password" => "సంకేతపదం"
 );

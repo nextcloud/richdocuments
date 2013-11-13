@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Închide",
 "Share" => "a imparti",
-"Upload" => "Încărcare"
+"Upload" => "Încărcare",
+"Password" => "Parolă",
+"OK" => "OK"
 );

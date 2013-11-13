@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 02:51-0500\n"
-"PO-Revision-Date: 2013-11-11 07:51+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-13 17:04-0500\n"
+"PO-Revision-Date: 2013-11-13 16:12+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,24 +31,24 @@ msgstr "Sulje"
 msgid "Share"
 msgstr "Jaa"
 
-#: js/documents.js:132
+#: js/documents.js:139
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Tältä sivulta poistuminen muokkaustilassa saattaa aiheuttaa tallentamatonta tietoa. Käytä sivulta poistumisen sijaan \"Sulje\"-painiketta."
 
-#: js/documents.js:145
+#: js/documents.js:152
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Asiakirjan lataaminen epäonnistui. Yritä avata asiakirja erillisellä odt:tä tukevalla sovelluksella. Tämä virhe voi myös tarkoittaa, että asiakirja ei ole enää jaettu tai asiakirja on poistettu äskettäin."
 
-#: js/documents.js:305
+#: js/documents.js:318
 msgid "Failed to load documents."
 msgstr "Virhe ladattaessa dokumentteja."
 
-#: js/documents.js:348
+#: js/documents.js:361
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Asiakirjoja ei löytynyt. Lähetä tai luo uusi asiakirja!"
 
@@ -78,15 +78,15 @@ msgstr "Uusien asiakirjojen tallennussijainti"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Väärä salasana. Yritä uudelleen."
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Salasana"
 
 #: templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
