@@ -190,6 +190,29 @@
 	z-index:20; 
 }
 
+#warning-connection-lost{
+	padding: 6px 0;
+	text-align: center;
+	color: #ffffff;
+	background-color: #CE7070;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#warning-connection-lost img {
+	margin-right: 4px;
+	float: right;
+	height: 20px;
+}
+
+#connection-lost{
+	right: 5px;
+	background: #fff;
+	width: 95%;
+	position: absolute;
+	top: 87px;
+}
+
 
 /* override WebODF styling here */
 

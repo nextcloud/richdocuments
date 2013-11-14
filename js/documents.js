@@ -93,6 +93,19 @@ var documentsMain = {
 		
 		hideProgress : function(){
 			$('.documentslist .progress').hide();
+		},
+		
+		showLostConnection : function(){
+			$('#memberList .memberListButton').css({opacity : 0.3});
+			$('#odf-toolbar').children(':not(#document-title)').hide();
+			$('<div id="connection-lost"></div>').prependTo('#memberList');
+			$('<div id="warning-connection-lost">' + t('documents', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').appendTo('#odf-toolbar');
+		},
+		
+		hideLostConnection : function() {
+			$('#connection-lost,#warning-connection-lost').remove();
+			$('#odf-toolbar').children(':not(#document-title)').show();
+			$('#memberList .memberListButton').css({opacity : 1});
 		}
 	},
 	
