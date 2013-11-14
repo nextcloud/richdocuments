@@ -180,7 +180,7 @@ var documentsMain = {
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
-
+				runtime.tr = function(s){return t('documents', s);};
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
