@@ -121,6 +121,7 @@ var documentsMain = {
 			require({}, ["dojo/ready"], function(ready) {
 				ready(function() {
 					require({}, ["webodf/editor/Editor"], function(Editor) {
+						runtime.setTranslator(function(s){return t('documents', s);});
 						documentsMain.ready = true;
 						if (fileId){
 							documentsMain.prepareSession();
@@ -180,7 +181,7 @@ var documentsMain = {
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
-				runtime.tr = function(s){return t('documents', s);};
+				
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
