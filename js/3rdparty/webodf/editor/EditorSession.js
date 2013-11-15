@@ -65,7 +65,7 @@ define("webodf/editor/EditorSession", [
      * Instantiate a new editor session attached to an existing operation session
      * @param {!ops.Session} session
      * @param {!string} localMemberId
-     * @param {{viewOptions:gui.SessionViewOptions,directStylingEnabled:boolean}} config
+     * @param {{viewOptions:gui.SessionViewOptions,directParagraphStylingEnabled:boolean}} config
      * @constructor
      */
     var EditorSession = function EditorSession(session, localMemberId, config) {
@@ -512,28 +512,6 @@ define("webodf/editor/EditorSession", [
             self.sessionController.getTextManipulator().removeCurrentSelection();
             self.sessionController.getImageManager().insertImage(mimetype, content, width, height);
         };
-        /**
-         * @param {!function(!Object=)} callback, passing an error object in case of error
-         * @return {undefined}
-         */
-        this.close = function (callback) {
-            callback();
-            /*
-            self.sessionView.close(function(err) {
-                if (err) {
-                    callback(err);
-                } else {
-                    caretManager.close(function(err) {
-                        if (err) {
-                            callback(err);
-                        } else {
-                            self.sessionController.close(callback);
-                        }
-                    });
-                }
-            });
-            */
-        };
 
         /**
          * @param {!function(!Object=)} callback, passing an error object in case of error
@@ -592,7 +570,7 @@ define("webodf/editor/EditorSession", [
             head.appendChild(fontStyles);
 
             self.sessionController = new gui.SessionController(session, localMemberId, shadowCursor, {
-                directStylingEnabled: config.directStylingEnabled
+                directParagraphStylingEnabled: config.directParagraphStylingEnabled
             });
             caretManager = new gui.CaretManager(self.sessionController);
             selectionViewManager = new gui.SelectionViewManager();

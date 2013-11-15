@@ -3320,15 +3320,6 @@ core.Cursor = function Cursor(document, memberId) {
       }
     }
   }
-  function putIntoContainer(node, container, offset) {
-    runtime.assert(Boolean(container), "putCursorIntoContainer: invalid container");
-    var n = container.firstChild;
-    while(n !== null && offset > 0) {
-      n = n.nextSibling;
-      offset -= 1
-    }
-    container.insertBefore(node, n)
-  }
   function removeNode(node) {
     if(node.parentNode) {
       recentlyModifiedNodes.push(node.previousSibling);
@@ -3337,14 +3328,11 @@ core.Cursor = function Cursor(document, memberId) {
     }
   }
   function putNode(node, container, offset) {
-    var text, element;
     if(container.nodeType === Node.TEXT_NODE) {
-      text = (container);
-      putIntoTextNode(node, text, offset)
+      putIntoTextNode(node, (container), offset)
     }else {
       if(container.nodeType === Node.ELEMENT_NODE) {
-        element = (container);
-        putIntoContainer(node, element, offset)
+        container.insertBefore(node, container.childNodes[offset])
       }
     }
     recentlyModifiedNodes.push(node.previousSibling);
@@ -3546,7 +3534,7 @@ core.UnitTestRunner = function UnitTestRunner() {
     var aatts = a.attributes, n = aatts.length, i, att, v;
     for(i = 0;i < n;i += 1) {
       att = aatts.item(i);
-      if(att.prefix !== "xmlns") {
+      if(att.prefix !== "xmlns" && att.namespaceURI !== "urn:webodf:names:steps") {
         v = b.getAttributeNS(att.namespaceURI, att.localName);
         if(!b.hasAttributeNS(att.namespaceURI, att.localName)) {
           testFailed("Attribute " + att.localName + " with value " + att.value + " was not present");
@@ -3562,23 +3550,32 @@ core.UnitTestRunner = function UnitTestRunner() {
   }
   function areNodesEqual(a, b) {
     if(a.nodeType !== b.nodeType) {
-      testFailed(a.nodeType + " should be " + b.nodeType);
+      testFailed("Nodetype '" + a.nodeType + "' should be '" + b.nodeType + "'");
       return false
     }
     if(a.nodeType === Node.TEXT_NODE) {
-      return a.data === b.data
-    }
-    runtime.assert(a.nodeType === Node.ELEMENT_NODE, "Only textnodes and elements supported.");
-    if(a.namespaceURI !== b.namespaceURI || a.localName !== b.localName) {
-      testFailed(a.namespaceURI + " should be " + b.namespaceURI);
+      if(a.data === b.data) {
+        return true
+      }
+      testFailed("Textnode data '" + a.data + "' should be '" + b.data + "'");
       return false
     }
-    if(!areAttributesEqual(a, b, false)) {
+    runtime.assert(a.nodeType === Node.ELEMENT_NODE, "Only textnodes and elements supported.");
+    if(a.namespaceURI !== b.namespaceURI) {
+      testFailed("namespace '" + a.namespaceURI + "' should be '" + b.namespaceURI + "'");
+      return false
+    }
+    if(a.localName !== b.localName) {
+      testFailed("localName '" + a.localName + "' should be '" + b.localName + "'");
+      return false
+    }
+    if(!areAttributesEqual((a), (b), false)) {
       return false
     }
     var an = a.firstChild, bn = b.firstChild;
     while(an) {
       if(!bn) {
+        testFailed("Nodetype '" + an.nodeType + "' is unexpected here.");
         return false
       }
       if(!areNodesEqual(an, bn)) {
@@ -3588,6 +3585,7 @@ core.UnitTestRunner = function UnitTestRunner() {
       bn = bn.nextSibling
     }
     if(bn) {
+      testFailed("Nodetype '" + bn.nodeType + "' is missing here.");
       return false
     }
     return true
@@ -3603,11 +3601,11 @@ core.UnitTestRunner = function UnitTestRunner() {
       return typeof actual === "number" && isNaN(actual)
     }
     if(Object.prototype.toString.call(expected) === Object.prototype.toString.call([])) {
-      return areArraysEqual(actual, expected)
+      return areArraysEqual((actual), (expected))
     }
     if(typeof expected === "object" && typeof actual === "object") {
       if(expected.constructor === Element || expected.constructor === Node) {
-        return areNodesEqual(expected, actual)
+        return areNodesEqual((expected), (actual))
       }
       return areObjectsEqual(expected, actual)
     }
@@ -3797,18 +3795,22 @@ core.PositionIterator = function PositionIterator(root, whatToShow, filter, expa
       currentPos = type === Node.ELEMENT_NODE ? 1 : 0
     }
   }
+  function previousNode() {
+    if(walker.previousSibling() === null) {
+      if(!walker.parentNode() || walker.currentNode === root) {
+        walker.firstChild();
+        return false
+      }
+      currentPos = 0
+    }else {
+      setAtEnd()
+    }
+    return true
+  }
   this.previousPosition = function() {
     var moved = true;
     if(currentPos === 0) {
-      if(walker.previousSibling() === null) {
-        if(!walker.parentNode() || walker.currentNode === root) {
-          walker.firstChild();
-          return false
-        }
-        currentPos = 0
-      }else {
-        setAtEnd()
-      }
+      moved = previousNode()
     }else {
       if(walker.currentNode.nodeType === Node.TEXT_NODE) {
         currentPos -= 1
@@ -3826,6 +3828,7 @@ core.PositionIterator = function PositionIterator(root, whatToShow, filter, expa
     }
     return moved
   };
+  this.previousNode = previousNode;
   this.container = function() {
     var n = walker.currentNode, t = n.nodeType;
     if(currentPos === 0 && t !== Node.TEXT_NODE) {
@@ -7122,10 +7125,15 @@ odf.TextSerializer = function TextSerializer() {
   }
   this.filter = null;
   this.writeToString = function(node) {
+    var plainText;
     if(!node) {
       return""
     }
-    return serializeNode(node)
+    plainText = serializeNode(node);
+    if(plainText[plainText.length - 1] === "\n") {
+      plainText = plainText.substr(0, plainText.length - 1)
+    }
+    return plainText
   }
 };
 /*
@@ -7213,7 +7221,7 @@ odf.TextStyleApplicator = function TextStyleApplicator(objectNameGenerator, form
     return node.localName === "span" && node.namespaceURI === textns
   }
   function moveToNewSpan(startNode, limits) {
-    var document = startNode.ownerDocument, originalContainer = (startNode.parentNode), styledContainer, trailingContainer, moveTrailing, node, nextNode, loopGuard = new core.LoopWatchDog(1E3), styledNodes = [];
+    var document = startNode.ownerDocument, originalContainer = (startNode.parentNode), styledContainer, trailingContainer, moveTrailing, node, nextNode, loopGuard = new core.LoopWatchDog(1E4), styledNodes = [];
     if(!isTextSpan(originalContainer)) {
       styledContainer = document.createElementNS(textns, "text:span");
       originalContainer.insertBefore(styledContainer, startNode);
@@ -10585,17 +10593,12 @@ ops.OpMoveCursor = function OpMoveCursor() {
     selectionType = data.selectionType || ops.OdtCursor.RangeSelection
   };
   this.execute = function(odtDocument) {
-    var cursor = odtDocument.getCursor(memberid), oldPosition = odtDocument.getCursorPosition(memberid), positionFilter = odtDocument.getPositionFilter(), number = position - oldPosition, stepsToSelectionStart, stepsToSelectionEnd, stepCounter;
+    var cursor = odtDocument.getCursor(memberid), selectedRange;
     if(!cursor) {
       return false
     }
-    stepCounter = cursor.getStepCounter();
-    stepsToSelectionStart = stepCounter.countSteps(number, positionFilter);
-    cursor.move(stepsToSelectionStart);
-    if(length) {
-      stepsToSelectionEnd = stepCounter.countSteps(length, positionFilter);
-      cursor.move(stepsToSelectionEnd, true)
-    }
+    selectedRange = odtDocument.convertCursorToDomRange(position, length);
+    cursor.setSelectedRange(selectedRange, length >= 0);
     cursor.setSelectionType(selectionType);
     odtDocument.emit(ops.OdtDocument.signalCursorMoved, cursor);
     return true
@@ -10774,7 +10777,7 @@ ops.OpInsertImage = function OpInsertImage() {
     return frameNode
   }
   this.execute = function(odtDocument) {
-    var odfCanvas = odtDocument.getOdfCanvas(), domPosition = odtDocument.getPositionInTextNode(position, memberid), textNode, refNode, paragraphElement, frameElement;
+    var odfCanvas = odtDocument.getOdfCanvas(), domPosition = odtDocument.getTextNodeAtStep(position, memberid), textNode, refNode, paragraphElement, frameElement;
     if(!domPosition) {
       return false
     }
@@ -10783,6 +10786,7 @@ ops.OpInsertImage = function OpInsertImage() {
     refNode = domPosition.offset !== textNode.length ? textNode.splitText(domPosition.offset) : textNode.nextSibling;
     frameElement = createFrameElement(odtDocument.getDOM());
     textNode.parentNode.insertBefore(frameElement, refNode);
+    odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:1});
     if(textNode.length === 0) {
       textNode.parentNode.removeChild(textNode)
     }
@@ -10912,11 +10916,12 @@ ops.OpInsertTable = function OpInsertTable() {
     return tableNode
   }
   this.execute = function(odtDocument) {
-    var domPosition = odtDocument.getPositionInTextNode(position), rootNode = odtDocument.getRootNode(), previousSibling, tableNode;
+    var domPosition = odtDocument.getTextNodeAtStep(position), rootNode = odtDocument.getRootNode(), previousSibling, tableNode;
     if(domPosition) {
       tableNode = createTableNode(odtDocument.getDOM());
       previousSibling = odtDocument.getParagraphElement(domPosition.textNode);
       rootNode.insertBefore(tableNode, previousSibling.nextSibling);
+      odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:initialColumns * initialRows + 1});
       odtDocument.getOdfCanvas().refreshSize();
       odtDocument.emit(ops.OdtDocument.signalTableAdded, {tableElement:tableNode, memberId:memberid, timeStamp:timestamp});
       odtDocument.getOdfCanvas().rerenderAnnotations();
@@ -10987,7 +10992,7 @@ ops.OpInsertText = function OpInsertText() {
       parentElement.insertBefore(ownerDocument.createTextNode(toInsertText), nextNode)
     }
     odtDocument.upgradeWhitespacesAtPosition(position);
-    domPosition = odtDocument.getPositionInTextNode(position, memberid);
+    domPosition = odtDocument.getTextNodeAtStep(position, memberid);
     if(domPosition) {
       previousNode = domPosition.textNode;
       nextNode = previousNode.nextSibling;
@@ -11025,6 +11030,7 @@ ops.OpInsertText = function OpInsertText() {
       if(previousNode.length === 0) {
         previousNode.parentNode.removeChild(previousNode)
       }
+      odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:text.length});
       if(position > 0) {
         if(position > 1) {
           odtDocument.downgradeWhitespacesAtPosition(position - 2)
@@ -11086,7 +11092,7 @@ runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("core.DomUtils");
 ops.OpRemoveText = function OpRemoveText() {
-  var memberid, timestamp, position, length, odfUtils, domUtils, editinfons = "urn:webodf:names:editinfo", FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, odfNodeNamespaceMap = {};
+  var memberid, timestamp, position, length, odfUtils, domUtils, editinfons = "urn:webodf:names:editinfo", odfNodeNamespaceMap = {};
   this.init = function(data) {
     runtime.assert(data.length >= 0, "OpRemoveText only supports positive lengths");
     memberid = data.memberid;
@@ -11177,28 +11183,12 @@ ops.OpRemoveText = function OpRemoveText() {
     collapseRules.mergeChildrenIntoParent(source);
     return destination
   }
-  function stepsToRange(odtDocument) {
-    var iterator, filter = odtDocument.getPositionFilter(), startContainer, startOffset, endContainer, endOffset, remainingLength = length, range = odtDocument.getDOM().createRange();
-    iterator = odtDocument.getIteratorAtPosition(position);
-    startContainer = iterator.container();
-    startOffset = iterator.unfilteredDomOffset();
-    while(remainingLength && iterator.nextPosition()) {
-      endContainer = iterator.container();
-      endOffset = iterator.unfilteredDomOffset();
-      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
-        remainingLength -= 1
-      }
-    }
-    range.setStart(startContainer, startOffset);
-    range.setEnd(endContainer, endOffset);
-    domUtils.splitBoundaries(range);
-    return range
-  }
   this.execute = function(odtDocument) {
     var paragraphElement, destinationParagraph, range, textNodes, paragraphs, cursor = odtDocument.getCursor(memberid), collapseRules = new CollapsingRules(odtDocument.getRootNode());
     odtDocument.upgradeWhitespacesAtPosition(position);
     odtDocument.upgradeWhitespacesAtPosition(position + length);
-    range = stepsToRange(odtDocument);
+    range = odtDocument.convertCursorToDomRange(position, length);
+    domUtils.splitBoundaries(range);
     paragraphElement = odtDocument.getParagraphElement(range.startContainer);
     textNodes = odfUtils.getTextElements(range, false, true);
     paragraphs = odfUtils.getParagraphElements(range);
@@ -11209,6 +11199,7 @@ ops.OpRemoveText = function OpRemoveText() {
     destinationParagraph = paragraphs.reduce(function(destination, paragraph) {
       return mergeParagraphs(destination, paragraph, collapseRules)
     });
+    odtDocument.emit(ops.OdtDocument.signalStepsRemoved, {position:position, length:length});
     odtDocument.downgradeWhitespacesAtPosition(position);
     odtDocument.fixCursorPositions();
     odtDocument.getOdfCanvas().refreshSize();
@@ -11272,7 +11263,7 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
   this.execute = function(odtDocument) {
     var domPosition, paragraphNode, targetNode, node, splitNode, splitChildNode, keptChildNode;
     odtDocument.upgradeWhitespacesAtPosition(position);
-    domPosition = odtDocument.getPositionInTextNode(position, memberid);
+    domPosition = odtDocument.getTextNodeAtStep(position, memberid);
     if(!domPosition) {
       return false
     }
@@ -11300,21 +11291,21 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
     while(node !== targetNode) {
       node = node.parentNode;
       splitNode = node.cloneNode(false);
-      if(!keptChildNode) {
-        node.parentNode.insertBefore(splitNode, node);
-        keptChildNode = splitNode;
-        splitChildNode = node
-      }else {
-        if(splitChildNode) {
-          splitNode.appendChild(splitChildNode)
-        }
-        while(keptChildNode.nextSibling) {
+      if(splitChildNode) {
+        splitNode.appendChild(splitChildNode)
+      }
+      if(keptChildNode) {
+        while(keptChildNode && keptChildNode.nextSibling) {
           splitNode.appendChild(keptChildNode.nextSibling)
         }
-        node.parentNode.insertBefore(splitNode, node.nextSibling);
-        keptChildNode = node;
-        splitChildNode = splitNode
+      }else {
+        while(node.firstChild) {
+          splitNode.appendChild(node.firstChild)
+        }
       }
+      node.parentNode.insertBefore(splitNode, node.nextSibling);
+      keptChildNode = node;
+      splitChildNode = splitNode
     }
     if(odfUtils.isListItem(splitChildNode)) {
       splitChildNode = splitChildNode.childNodes[0]
@@ -11322,6 +11313,7 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
     if(domPosition.textNode.length === 0) {
       domPosition.textNode.parentNode.removeChild(domPosition.textNode)
     }
+    odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:1});
     odtDocument.fixCursorPositions();
     odtDocument.getOdfCanvas().refreshSize();
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphNode, memberId:memberid, timeStamp:timestamp});
@@ -11695,7 +11687,7 @@ ops.OpAddAnnotation = function OpAddAnnotation() {
     return annotationEnd
   }
   function insertNodeAtPosition(odtDocument, node, insertPosition) {
-    var previousNode, parentNode, domPosition = odtDocument.getPositionInTextNode(insertPosition, memberid);
+    var previousNode, parentNode, domPosition = odtDocument.getTextNodeAtStep(insertPosition, memberid);
     if(domPosition) {
       previousNode = domPosition.textNode;
       parentNode = previousNode.parentNode;
@@ -11722,6 +11714,7 @@ ops.OpAddAnnotation = function OpAddAnnotation() {
       insertNodeAtPosition(odtDocument, annotation.end, position + length)
     }
     insertNodeAtPosition(odtDocument, annotation.node, position);
+    odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:length});
     if(cursor) {
       stepsToParagraph = cursor.getStepCounter().countSteps(lengthToMove, positionFilter);
       cursor.move(stepsToParagraph);
@@ -11785,7 +11778,7 @@ ops.OpRemoveAnnotation = function OpRemoveAnnotation() {
     domUtils = new core.DomUtils
   };
   this.execute = function(odtDocument) {
-    var iterator = odtDocument.getIteratorAtPosition(position), container = iterator.container(), annotationName, annotationNode = null, annotationEnd = null, cursors;
+    var iterator = odtDocument.getIteratorAtPosition(position), container = iterator.container(), annotationName, annotationNode, annotationEnd, cursors;
     while(!(container.namespaceURI === odf.Namespaces.officens && container.localName === "annotation")) {
       container = container.parentNode
     }
@@ -11808,6 +11801,7 @@ ops.OpRemoveAnnotation = function OpRemoveAnnotation() {
     if(annotationEnd) {
       annotationEnd.parentNode.removeChild(annotationEnd)
     }
+    odtDocument.emit(ops.OdtDocument.signalStepsRemoved, {position:position > 0 ? position - 1 : position, length:length});
     odtDocument.fixCursorPositions();
     odtDocument.getOdfCanvas().refreshAnnotations();
     return true
@@ -12039,7 +12033,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     return false
   }
   function countSteps(iterator, steps, filter) {
-    var watch = new core.LoopWatchDog(1E3), positions = 0, positionsCount = 0, increment = steps >= 0 ? 1 : -1, delegate = (steps >= 0 ? iterator.nextPosition : iterator.previousPosition);
+    var watch = new core.LoopWatchDog(1E4), positions = 0, positionsCount = 0, increment = steps >= 0 ? 1 : -1, delegate = (steps >= 0 ? iterator.nextPosition : iterator.previousPosition);
     while(steps !== 0 && delegate()) {
       watch.check();
       positionsCount += increment;
@@ -12052,7 +12046,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     return positions
   }
   function convertForwardStepsBetweenFilters(stepsFilter1, filter1, filter2) {
-    var iterator = getIteratorAtCursor(), watch = new core.LoopWatchDog(1E3), pendingStepsFilter2 = 0, stepsFilter2 = 0;
+    var iterator = getIteratorAtCursor(), watch = new core.LoopWatchDog(1E4), pendingStepsFilter2 = 0, stepsFilter2 = 0;
     while(stepsFilter1 > 0 && iterator.nextPosition()) {
       watch.check();
       if(filter2.acceptPosition(iterator) === FILTER_ACCEPT) {
@@ -12067,7 +12061,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     return stepsFilter2
   }
   function convertBackwardStepsBetweenFilters(stepsFilter1, filter1, filter2) {
-    var iterator = getIteratorAtCursor(), watch = new core.LoopWatchDog(1E3), pendingStepsFilter2 = 0, stepsFilter2 = 0;
+    var iterator = getIteratorAtCursor(), watch = new core.LoopWatchDog(1E4), pendingStepsFilter2 = 0, stepsFilter2 = 0;
     while(stepsFilter1 > 0 && iterator.previousPosition()) {
       watch.check();
       if(filter2.acceptPosition(iterator) === FILTER_ACCEPT) {
@@ -12098,7 +12092,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
     return count
   }
   function countLineSteps(filter, direction, iterator) {
-    var c = iterator.container(), steps = 0, bestContainer = null, bestOffset, bestXDiff = 10, xDiff, bestCount = 0, top, left, lastTop, rect, range = (rootNode.ownerDocument.createRange()), watch = new core.LoopWatchDog(1E3);
+    var c = iterator.container(), steps = 0, bestContainer = null, bestOffset, bestXDiff = 10, xDiff, bestCount = 0, top, left, lastTop, rect, range = (rootNode.ownerDocument.createRange()), watch = new core.LoopWatchDog(1E4);
     rect = getVisibleRect(c, iterator.unfilteredDomOffset(), range);
     top = rect.top;
     if(cachedXOffset === undefined) {
@@ -12181,7 +12175,7 @@ gui.SelectionMover = function SelectionMover(cursor, rootNode) {
   }
   function countStepsToPosition(targetNode, targetOffset, filter) {
     runtime.assert(targetNode !== null, "SelectionMover.countStepsToPosition called with element===null");
-    var iterator = getIteratorAtCursor(), c = iterator.container(), o = iterator.unfilteredDomOffset(), steps = 0, watch = new core.LoopWatchDog(1E3), comparison;
+    var iterator = getIteratorAtCursor(), c = iterator.container(), o = iterator.unfilteredDomOffset(), steps = 0, watch = new core.LoopWatchDog(1E4), comparison;
     iterator.setUnfilteredPosition(targetNode, targetOffset);
     while(filter.acceptPosition(iterator) !== FILTER_ACCEPT && iterator.previousPosition()) {
       watch.check()
@@ -12250,6 +12244,443 @@ gui.SelectionMover.createPositionIterator = function(rootNode) {
 })();
 /*
 
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: https://github.com/kogmbh/WebODF/
+*/
+runtime.loadClass("core.DomUtils");
+runtime.loadClass("core.PositionFilter");
+runtime.loadClass("odf.OdfUtils");
+(function() {
+  var nextNodeId = 0;
+  function StepsCache(rootNode, filter, bucketSize) {
+    var coordinatens = "urn:webodf:names:steps", stepToDomPoint = {}, nodeToBookmark = {}, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, basePoint, FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
+    function ParagraphBookmark(steps, paragraphNode) {
+      this.steps = steps;
+      this.node = paragraphNode;
+      function positionInContainer(node) {
+        var position = 0;
+        while(node && node.previousSibling) {
+          position += 1;
+          node = node.previousSibling
+        }
+        return position
+      }
+      this.setIteratorPosition = function(iterator) {
+        iterator.setUnfilteredPosition(paragraphNode.parentNode, positionInContainer(paragraphNode));
+        do {
+          if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
+            break
+          }
+        }while(iterator.nextPosition())
+      }
+    }
+    function RootBookmark(steps, rootNode) {
+      this.steps = steps;
+      this.node = rootNode;
+      this.setIteratorPosition = function(iterator) {
+        iterator.setUnfilteredPosition(rootNode, 0);
+        do {
+          if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
+            break
+          }
+        }while(iterator.nextPosition())
+      }
+    }
+    function getBucket(steps) {
+      return Math.floor(steps / bucketSize) * bucketSize
+    }
+    function getDestinationBucket(steps) {
+      return Math.ceil(steps / bucketSize) * bucketSize
+    }
+    function clearNodeId(node) {
+      node.removeAttributeNS(coordinatens, "nodeId")
+    }
+    function getNodeId(node) {
+      return node.nodeType === Node.ELEMENT_NODE && node.getAttributeNS(coordinatens, "nodeId")
+    }
+    function setNodeId(node) {
+      var nodeId = nextNodeId;
+      node.setAttributeNS(coordinatens, "nodeId", nodeId.toString());
+      nextNodeId += 1;
+      return nodeId
+    }
+    function isValidBookmarkForNode(node, bookmark) {
+      return bookmark.node === node
+    }
+    function getNodeBookmark(node, steps) {
+      var nodeId = getNodeId(node) || setNodeId(node), existingBookmark;
+      existingBookmark = nodeToBookmark[nodeId];
+      if(!existingBookmark) {
+        existingBookmark = nodeToBookmark[nodeId] = new ParagraphBookmark(steps, node)
+      }else {
+        if(!isValidBookmarkForNode(node, existingBookmark)) {
+          runtime.log("Cloned node detected. Creating new bookmark");
+          nodeId = setNodeId(node);
+          existingBookmark = nodeToBookmark[nodeId] = new ParagraphBookmark(steps, node)
+        }else {
+          existingBookmark.steps = steps
+        }
+      }
+      return existingBookmark
+    }
+    function isFirstPositionInParagraph(node, offset) {
+      return offset === 0 && odfUtils.isParagraph(node)
+    }
+    this.updateCache = function(steps, node, offset, isWalkable) {
+      var stablePoint, cacheBucket, existingCachePoint, bookmark;
+      if(isFirstPositionInParagraph(node, offset)) {
+        stablePoint = true;
+        if(!isWalkable) {
+          steps += 1
+        }
+      }else {
+        if(node.hasChildNodes() && node.childNodes[offset]) {
+          node = node.childNodes[offset];
+          offset = 0;
+          stablePoint = isFirstPositionInParagraph(node, offset);
+          if(stablePoint) {
+            steps += 1
+          }
+        }
+      }
+      if(stablePoint) {
+        bookmark = getNodeBookmark(node, steps);
+        cacheBucket = getDestinationBucket(bookmark.steps);
+        existingCachePoint = stepToDomPoint[cacheBucket];
+        if(!existingCachePoint || bookmark.steps > existingCachePoint.steps) {
+          stepToDomPoint[cacheBucket] = bookmark
+        }
+      }
+    };
+    this.setToClosestStep = function(steps, iterator) {
+      var cacheBucket = getBucket(steps), cachePoint;
+      while(!cachePoint && cacheBucket !== 0) {
+        cachePoint = stepToDomPoint[cacheBucket];
+        cacheBucket -= bucketSize
+      }
+      cachePoint = cachePoint || basePoint;
+      cachePoint.setIteratorPosition(iterator);
+      return cachePoint.steps
+    };
+    function findBookmarkedAncestor(node, offset) {
+      var nodeId, bookmark = null;
+      node = node.childNodes[offset] || node;
+      while(!bookmark && (node && node !== rootNode)) {
+        nodeId = getNodeId(node);
+        if(nodeId) {
+          bookmark = nodeToBookmark[nodeId];
+          if(bookmark && !isValidBookmarkForNode(node, bookmark)) {
+            runtime.log("Cloned node detected. Creating new bookmark");
+            bookmark = null;
+            clearNodeId(node)
+          }
+        }
+        node = node.parentNode
+      }
+      return bookmark
+    }
+    this.setToClosestDomPoint = function(node, offset, iterator) {
+      var bookmark;
+      if(node === rootNode && offset === 0) {
+        bookmark = basePoint
+      }else {
+        if(node === rootNode && offset === rootNode.childNodes.length) {
+          bookmark = Object.keys(stepToDomPoint).map(function(cacheBucket) {
+            return stepToDomPoint[cacheBucket]
+          }).reduce(function(largestBookmark, bookmark) {
+            return bookmark.steps > largestBookmark.steps ? bookmark : largestBookmark
+          }, basePoint)
+        }else {
+          bookmark = findBookmarkedAncestor(node, offset);
+          if(!bookmark) {
+            iterator.setUnfilteredPosition(node, offset);
+            while(!bookmark && iterator.previousNode()) {
+              bookmark = findBookmarkedAncestor(iterator.container(), iterator.unfilteredDomOffset())
+            }
+          }
+        }
+      }
+      bookmark = bookmark || basePoint;
+      bookmark.setIteratorPosition(iterator);
+      return bookmark.steps
+    };
+    this.updateCacheAtPoint = function(inflectionStep, doUpdate) {
+      var affectedBookmarks, updatedBuckets = {};
+      affectedBookmarks = Object.keys(nodeToBookmark).map(function(nodeId) {
+        return nodeToBookmark[nodeId]
+      }).filter(function(bookmark) {
+        return bookmark.steps > inflectionStep
+      });
+      affectedBookmarks.forEach(function(bookmark) {
+        var originalCacheBucket = getDestinationBucket(bookmark.steps), newCacheBucket, existingBookmark;
+        if(domUtils.containsNode(rootNode, bookmark.node)) {
+          doUpdate(bookmark);
+          newCacheBucket = getDestinationBucket(bookmark.steps);
+          existingBookmark = updatedBuckets[newCacheBucket];
+          if(!existingBookmark || bookmark.steps > existingBookmark.steps) {
+            updatedBuckets[newCacheBucket] = bookmark
+          }
+        }else {
+          delete nodeToBookmark[getNodeId(bookmark.node)]
+        }
+        if(stepToDomPoint[originalCacheBucket] === bookmark) {
+          delete stepToDomPoint[originalCacheBucket]
+        }
+      });
+      Object.keys(updatedBuckets).forEach(function(cacheBucket) {
+        stepToDomPoint[cacheBucket] = updatedBuckets[cacheBucket]
+      })
+    };
+    function init() {
+      basePoint = new RootBookmark(0, rootNode)
+    }
+    init()
+  }
+  ops.StepsTranslator = function StepsTranslator(getRootNode, newIterator, filter, bucketSize) {
+    var rootNode = getRootNode(), stepsCache = new StepsCache(rootNode, filter, bucketSize), domUtils = new core.DomUtils, iterator = newIterator(getRootNode()), FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
+    function verifyRootNode() {
+      var currentRootNode = getRootNode();
+      if(currentRootNode !== rootNode) {
+        runtime.log("Undo detected. Resetting steps cache");
+        rootNode = currentRootNode;
+        stepsCache = new StepsCache(rootNode, filter, bucketSize);
+        iterator = newIterator(rootNode)
+      }
+    }
+    this.convertStepsToDomPoint = function(steps) {
+      var stepsFromRoot, isWalkable;
+      if(steps < 0) {
+        runtime.log("warn", "Requested steps were negative (" + steps + ")");
+        steps = 0
+      }
+      verifyRootNode();
+      stepsFromRoot = stepsCache.setToClosestStep(steps, iterator);
+      while(stepsFromRoot < steps && iterator.nextPosition()) {
+        isWalkable = filter.acceptPosition(iterator) === FILTER_ACCEPT;
+        if(isWalkable) {
+          stepsFromRoot += 1
+        }
+        stepsCache.updateCache(stepsFromRoot, iterator.container(), iterator.unfilteredDomOffset(), isWalkable)
+      }
+      if(stepsFromRoot !== steps) {
+        runtime.log("warn", "Requested " + steps + " steps but only " + stepsFromRoot + " are available")
+      }
+      return{node:iterator.container(), offset:iterator.unfilteredDomOffset()}
+    };
+    this.convertDomPointToSteps = function(node, offset, roundUp) {
+      var stepsFromRoot, beforeRoot, destinationNode, destinationOffset, rounding = 0, isWalkable;
+      verifyRootNode();
+      if(!domUtils.containsNode(rootNode, node)) {
+        beforeRoot = domUtils.comparePoints(rootNode, 0, node, offset) < 0;
+        node = rootNode;
+        offset = beforeRoot ? 0 : rootNode.childNodes.length
+      }
+      iterator.setUnfilteredPosition(node, offset);
+      destinationNode = iterator.container();
+      destinationOffset = iterator.unfilteredDomOffset();
+      if(roundUp && filter.acceptPosition(iterator) !== FILTER_ACCEPT) {
+        rounding = 1
+      }
+      stepsFromRoot = stepsCache.setToClosestDomPoint(node, offset, iterator);
+      if(domUtils.comparePoints(iterator.container(), iterator.unfilteredDomOffset(), destinationNode, destinationOffset) < 0) {
+        return stepsFromRoot > 0 && !roundUp ? stepsFromRoot - 1 : stepsFromRoot
+      }
+      while(!(iterator.container() === destinationNode && iterator.unfilteredDomOffset() === destinationOffset) && iterator.nextPosition()) {
+        isWalkable = filter.acceptPosition(iterator) === FILTER_ACCEPT;
+        if(isWalkable) {
+          stepsFromRoot += 1
+        }
+        stepsCache.updateCache(stepsFromRoot, iterator.container(), iterator.unfilteredDomOffset(), isWalkable)
+      }
+      return stepsFromRoot + rounding
+    };
+    this.prime = function() {
+      var stepsFromRoot, isWalkable;
+      verifyRootNode();
+      stepsFromRoot = stepsCache.setToClosestStep(0, iterator);
+      while(iterator.nextPosition()) {
+        isWalkable = filter.acceptPosition(iterator) === FILTER_ACCEPT;
+        if(isWalkable) {
+          stepsFromRoot += 1
+        }
+        stepsCache.updateCache(stepsFromRoot, iterator.container(), iterator.unfilteredDomOffset(), isWalkable)
+      }
+    };
+    this.handleStepsInserted = function(eventArgs) {
+      verifyRootNode();
+      stepsCache.updateCacheAtPoint(eventArgs.position, function(bucket) {
+        bucket.steps += eventArgs.length
+      })
+    };
+    this.handleStepsRemoved = function(eventArgs) {
+      verifyRootNode();
+      stepsCache.updateCacheAtPoint(eventArgs.position, function(bucket) {
+        bucket.steps -= eventArgs.length;
+        if(bucket.steps < 0) {
+          bucket.steps = 0
+        }
+      })
+    }
+  };
+  return ops.StepsTranslator
+})();
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: https://github.com/kogmbh/WebODF/
+*/
+runtime.loadClass("core.PositionFilter");
+runtime.loadClass("odf.OdfUtils");
+ops.TextPositionFilter = function TextPositionFilter(getRootNode) {
+  var odfUtils = new odf.OdfUtils, FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT;
+  function checkLeftRight(container, leftNode, rightNode) {
+    var r, firstPos, rightOfChar;
+    if(leftNode) {
+      r = odfUtils.lookLeftForCharacter(leftNode);
+      if(r === 1) {
+        return FILTER_ACCEPT
+      }
+      if(r === 2 && (odfUtils.scanRightForAnyCharacter(rightNode) || odfUtils.scanRightForAnyCharacter(odfUtils.nextNode(container)))) {
+        return FILTER_ACCEPT
+      }
+    }
+    firstPos = leftNode === null && odfUtils.isParagraph(container);
+    rightOfChar = odfUtils.lookRightForCharacter(rightNode);
+    if(firstPos) {
+      if(rightOfChar) {
+        return FILTER_ACCEPT
+      }
+      return odfUtils.scanRightForAnyCharacter(rightNode) ? FILTER_REJECT : FILTER_ACCEPT
+    }
+    if(!rightOfChar) {
+      return FILTER_REJECT
+    }
+    leftNode = leftNode || odfUtils.previousNode(container);
+    return odfUtils.scanLeftForAnyCharacter(leftNode) ? FILTER_REJECT : FILTER_ACCEPT
+  }
+  this.acceptPosition = function(iterator) {
+    var container = iterator.container(), nodeType = container.nodeType, offset, text, leftChar, rightChar, leftNode, rightNode, r;
+    if(nodeType !== Node.ELEMENT_NODE && nodeType !== Node.TEXT_NODE) {
+      return FILTER_REJECT
+    }
+    if(nodeType === Node.TEXT_NODE) {
+      if(!odfUtils.isGroupingElement(container.parentNode) || odfUtils.isWithinTrackedChanges(container.parentNode, getRootNode())) {
+        return FILTER_REJECT
+      }
+      offset = iterator.unfilteredDomOffset();
+      text = container.data;
+      runtime.assert(offset !== text.length, "Unexpected offset.");
+      if(offset > 0) {
+        leftChar = text.substr(offset - 1, 1);
+        if(!odfUtils.isODFWhitespace(leftChar)) {
+          return FILTER_ACCEPT
+        }
+        if(offset > 1) {
+          leftChar = text.substr(offset - 2, 1);
+          if(!odfUtils.isODFWhitespace(leftChar)) {
+            r = FILTER_ACCEPT
+          }else {
+            if(!odfUtils.isODFWhitespace(text.substr(0, offset))) {
+              return FILTER_REJECT
+            }
+          }
+        }else {
+          leftNode = odfUtils.previousNode(container);
+          if(odfUtils.scanLeftForNonWhitespace(leftNode)) {
+            r = FILTER_ACCEPT
+          }
+        }
+        if(r === FILTER_ACCEPT) {
+          return odfUtils.isTrailingWhitespace(container, offset) ? FILTER_REJECT : FILTER_ACCEPT
+        }
+        rightChar = text.substr(offset, 1);
+        if(odfUtils.isODFWhitespace(rightChar)) {
+          return FILTER_REJECT
+        }
+        return odfUtils.scanLeftForAnyCharacter(odfUtils.previousNode(container)) ? FILTER_REJECT : FILTER_ACCEPT
+      }
+      leftNode = iterator.leftNode();
+      rightNode = container;
+      container = (container.parentNode);
+      r = checkLeftRight(container, leftNode, rightNode)
+    }else {
+      if(!odfUtils.isGroupingElement(container) || odfUtils.isWithinTrackedChanges(container, getRootNode())) {
+        r = FILTER_REJECT
+      }else {
+        leftNode = iterator.leftNode();
+        rightNode = iterator.rightNode();
+        r = checkLeftRight(container, leftNode, rightNode)
+      }
+    }
+    return r
+  }
+};
+/*
+
  Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
@@ -12273,8 +12704,16 @@ gui.SelectionMover.createPositionIterator = function(rootNode) {
  @source: https://github.com/kogmbh/WebODF/
 */
 ops.OperationTransformMatrix = function OperationTransformMatrix() {
-  function passUnchanged(opSpecA, opSpecB) {
-    return{opSpecsA:[opSpecA], opSpecsB:[opSpecB]}
+  function invertMoveCursorSpecRange(moveCursorSpec) {
+    moveCursorSpec.position = moveCursorSpec.position + moveCursorSpec.length;
+    moveCursorSpec.length *= -1
+  }
+  function invertMoveCursorSpecRangeOnNegativeLength(moveCursorSpec) {
+    var isBackwards = moveCursorSpec.length < 0;
+    if(isBackwards) {
+      invertMoveCursorSpecRange(moveCursorSpec)
+    }
+    return isBackwards
   }
   function getStyleReferencingAttributes(setProperties, styleName) {
     var attributes = [];
@@ -12296,6 +12735,95 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
       })
     }
   }
+  function cloneOpspec(opspec) {
+    var result = {};
+    Object.keys(opspec).forEach(function(key) {
+      if(typeof opspec[key] === "object") {
+        result[key] = cloneOpspec(opspec[key])
+      }else {
+        result[key] = opspec[key]
+      }
+    });
+    return result
+  }
+  function dropShadowedAttributes(minorSetProperties, minorRemovedProperties, majorSetProperties, majorRemovedProperties) {
+    var value, i, name, majorChanged = false, minorChanged = false, shadowingPropertyValue, removedPropertyNames, majorRemovedPropertyNames = majorRemovedProperties && majorRemovedProperties.attributes ? majorRemovedProperties.attributes.split(",") : [];
+    if(minorSetProperties && (majorSetProperties || majorRemovedPropertyNames.length > 0)) {
+      Object.keys(minorSetProperties).forEach(function(key) {
+        value = minorSetProperties[key];
+        if(typeof value !== "object") {
+          shadowingPropertyValue = majorSetProperties && majorSetProperties[key];
+          if(shadowingPropertyValue !== undefined) {
+            delete minorSetProperties[key];
+            minorChanged = true;
+            if(shadowingPropertyValue === value) {
+              delete majorSetProperties[key];
+              majorChanged = true
+            }
+          }else {
+            if(majorRemovedPropertyNames && majorRemovedPropertyNames.indexOf(key) !== -1) {
+              delete minorSetProperties[key];
+              minorChanged = true
+            }
+          }
+        }
+      })
+    }
+    if(minorRemovedProperties && (minorRemovedProperties.attributes && (majorSetProperties || majorRemovedPropertyNames.length > 0))) {
+      removedPropertyNames = minorRemovedProperties.attributes.split(",");
+      for(i = 0;i < removedPropertyNames.length;i += 1) {
+        name = removedPropertyNames[i];
+        if(majorSetProperties && majorSetProperties[name] !== undefined || majorRemovedPropertyNames && majorRemovedPropertyNames.indexOf(name) !== -1) {
+          removedPropertyNames.splice(i, 1);
+          i -= 1;
+          minorChanged = true
+        }
+      }
+      if(removedPropertyNames.length > 0) {
+        minorRemovedProperties.attributes = removedPropertyNames.join(",")
+      }else {
+        delete minorRemovedProperties.attributes
+      }
+    }
+    return{majorChanged:majorChanged, minorChanged:minorChanged}
+  }
+  function hasProperties(properties) {
+    var key;
+    for(key in properties) {
+      if(properties.hasOwnProperty(key)) {
+        return true
+      }
+    }
+    return false
+  }
+  function hasRemovedProperties(properties) {
+    var key;
+    for(key in properties) {
+      if(properties.hasOwnProperty(key)) {
+        if(key !== "attributes" || properties.attributes.length > 0) {
+          return true
+        }
+      }
+    }
+    return false
+  }
+  function dropShadowedProperties(minorOpspec, majorOpspec, propertiesName) {
+    var minorSP = minorOpspec.setProperties ? minorOpspec.setProperties[propertiesName] : null, minorRP = minorOpspec.removedProperties ? minorOpspec.removedProperties[propertiesName] : null, majorSP = majorOpspec.setProperties ? majorOpspec.setProperties[propertiesName] : null, majorRP = majorOpspec.removedProperties ? majorOpspec.removedProperties[propertiesName] : null, result;
+    result = dropShadowedAttributes(minorSP, minorRP, majorSP, majorRP);
+    if(minorSP && !hasProperties(minorSP)) {
+      delete minorOpspec.setProperties[propertiesName]
+    }
+    if(minorRP && !hasRemovedProperties(minorRP)) {
+      delete minorOpspec.removedProperties[propertiesName]
+    }
+    if(majorSP && !hasProperties(majorSP)) {
+      delete majorOpspec.setProperties[propertiesName]
+    }
+    if(majorRP && !hasRemovedProperties(majorRP)) {
+      delete majorOpspec.removedProperties[propertiesName]
+    }
+    return result
+  }
   function transformAddStyleRemoveStyle(addStyleSpec, removeStyleSpec) {
     var setAttributes, helperOpspec, addStyleSpecResult = [addStyleSpec], removeStyleSpecResult = [removeStyleSpec];
     if(addStyleSpec.styleFamily === removeStyleSpec.styleFamily) {
@@ -12307,6 +12835,120 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
       dropStyleReferencingAttributes(addStyleSpec.setProperties, removeStyleSpec.styleName)
     }
     return{opSpecsA:addStyleSpecResult, opSpecsB:removeStyleSpecResult}
+  }
+  function transformApplyDirectStylingApplyDirectStyling(applyDirectStylingSpecA, applyDirectStylingSpecB, hasAPriority) {
+    var majorSpec, minorSpec, majorSpecResult, minorSpecResult, majorSpecEnd, minorSpecEnd, dropResult, originalMajorSpec, originalMinorSpec, helperOpspecBefore, helperOpspecAfter, applyDirectStylingSpecAResult = [applyDirectStylingSpecA], applyDirectStylingSpecBResult = [applyDirectStylingSpecB];
+    if(!(applyDirectStylingSpecA.position + applyDirectStylingSpecA.length <= applyDirectStylingSpecB.position || applyDirectStylingSpecA.position >= applyDirectStylingSpecB.position + applyDirectStylingSpecB.length)) {
+      majorSpec = hasAPriority ? applyDirectStylingSpecA : applyDirectStylingSpecB;
+      minorSpec = hasAPriority ? applyDirectStylingSpecB : applyDirectStylingSpecA;
+      if(applyDirectStylingSpecA.position !== applyDirectStylingSpecB.position || applyDirectStylingSpecA.length !== applyDirectStylingSpecB.length) {
+        originalMajorSpec = cloneOpspec(majorSpec);
+        originalMinorSpec = cloneOpspec(minorSpec)
+      }
+      dropResult = dropShadowedProperties(minorSpec, majorSpec, "style:text-properties");
+      if(dropResult.majorChanged || dropResult.minorChanged) {
+        majorSpecResult = [];
+        minorSpecResult = [];
+        majorSpecEnd = majorSpec.position + majorSpec.length;
+        minorSpecEnd = minorSpec.position + minorSpec.length;
+        if(minorSpec.position < majorSpec.position) {
+          if(dropResult.minorChanged) {
+            helperOpspecBefore = cloneOpspec((originalMinorSpec));
+            helperOpspecBefore.length = majorSpec.position - minorSpec.position;
+            minorSpecResult.push(helperOpspecBefore);
+            minorSpec.position = majorSpec.position;
+            minorSpec.length = minorSpecEnd - minorSpec.position
+          }
+        }else {
+          if(majorSpec.position < minorSpec.position) {
+            if(dropResult.majorChanged) {
+              helperOpspecBefore = cloneOpspec((originalMajorSpec));
+              helperOpspecBefore.length = minorSpec.position - majorSpec.position;
+              majorSpecResult.push(helperOpspecBefore);
+              majorSpec.position = minorSpec.position;
+              majorSpec.length = majorSpecEnd - majorSpec.position
+            }
+          }
+        }
+        if(minorSpecEnd > majorSpecEnd) {
+          if(dropResult.minorChanged) {
+            helperOpspecAfter = originalMinorSpec;
+            helperOpspecAfter.position = majorSpecEnd;
+            helperOpspecAfter.length = minorSpecEnd - majorSpecEnd;
+            minorSpecResult.push(helperOpspecAfter);
+            minorSpec.length = majorSpecEnd - minorSpec.position
+          }
+        }else {
+          if(majorSpecEnd > minorSpecEnd) {
+            if(dropResult.majorChanged) {
+              helperOpspecAfter = originalMajorSpec;
+              helperOpspecAfter.position = minorSpecEnd;
+              helperOpspecAfter.length = majorSpecEnd - minorSpecEnd;
+              majorSpecResult.push(helperOpspecAfter);
+              majorSpec.length = minorSpecEnd - majorSpec.position
+            }
+          }
+        }
+        if(majorSpec.setProperties && hasProperties(majorSpec.setProperties)) {
+          majorSpecResult.push(majorSpec)
+        }
+        if(minorSpec.setProperties && hasProperties(minorSpec.setProperties)) {
+          minorSpecResult.push(minorSpec)
+        }
+        if(hasAPriority) {
+          applyDirectStylingSpecAResult = majorSpecResult;
+          applyDirectStylingSpecBResult = minorSpecResult
+        }else {
+          applyDirectStylingSpecAResult = minorSpecResult;
+          applyDirectStylingSpecBResult = majorSpecResult
+        }
+      }
+    }
+    return{opSpecsA:applyDirectStylingSpecAResult, opSpecsB:applyDirectStylingSpecBResult}
+  }
+  function transformApplyDirectStylingInsertText(applyDirectStylingSpec, insertTextSpec) {
+    if(insertTextSpec.position <= applyDirectStylingSpec.position) {
+      applyDirectStylingSpec.position += insertTextSpec.text.length
+    }else {
+      if(insertTextSpec.position <= applyDirectStylingSpec.position + applyDirectStylingSpec.length) {
+        applyDirectStylingSpec.length += insertTextSpec.text.length
+      }
+    }
+    return{opSpecsA:[applyDirectStylingSpec], opSpecsB:[insertTextSpec]}
+  }
+  function transformApplyDirectStylingRemoveText(applyDirectStylingSpec, removeTextSpec) {
+    var applyDirectStylingSpecEnd = applyDirectStylingSpec.position + applyDirectStylingSpec.length, removeTextSpecEnd = removeTextSpec.position + removeTextSpec.length, applyDirectStylingSpecResult = [applyDirectStylingSpec], removeTextSpecResult = [removeTextSpec];
+    if(removeTextSpecEnd <= applyDirectStylingSpec.position) {
+      applyDirectStylingSpec.position -= removeTextSpec.length
+    }else {
+      if(removeTextSpec.position < applyDirectStylingSpecEnd) {
+        if(applyDirectStylingSpec.position < removeTextSpec.position) {
+          if(removeTextSpecEnd < applyDirectStylingSpecEnd) {
+            applyDirectStylingSpec.length -= removeTextSpec.length
+          }else {
+            applyDirectStylingSpec.length = removeTextSpec.position - applyDirectStylingSpec.position
+          }
+        }else {
+          applyDirectStylingSpec.position = removeTextSpec.position;
+          if(removeTextSpecEnd < applyDirectStylingSpecEnd) {
+            applyDirectStylingSpec.length = applyDirectStylingSpecEnd - removeTextSpecEnd
+          }else {
+            applyDirectStylingSpecResult = []
+          }
+        }
+      }
+    }
+    return{opSpecsA:applyDirectStylingSpecResult, opSpecsB:removeTextSpecResult}
+  }
+  function transformApplyDirectStylingSplitParagraph(applyDirectStylingSpec, splitParagraphSpec) {
+    if(splitParagraphSpec.position < applyDirectStylingSpec.position) {
+      applyDirectStylingSpec.position += 1
+    }else {
+      if(splitParagraphSpec.position < applyDirectStylingSpec.position + applyDirectStylingSpec.length) {
+        applyDirectStylingSpec.length += 1
+      }
+    }
+    return{opSpecsA:[applyDirectStylingSpec], opSpecsB:[splitParagraphSpec]}
   }
   function transformInsertTextInsertText(insertTextSpecA, insertTextSpecB, hasAPriority) {
     if(insertTextSpecA.position < insertTextSpecB.position) {
@@ -12326,12 +12968,16 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
     return{opSpecsA:[insertTextSpecA], opSpecsB:[insertTextSpecB]}
   }
   function transformInsertTextMoveCursor(insertTextSpec, moveCursorSpec) {
+    var isMoveCursorSpecRangeInverted = invertMoveCursorSpecRangeOnNegativeLength(moveCursorSpec);
     if(insertTextSpec.position < moveCursorSpec.position) {
       moveCursorSpec.position += insertTextSpec.text.length
     }else {
-      if(insertTextSpec.position <= moveCursorSpec.position + moveCursorSpec.length) {
+      if(insertTextSpec.position < moveCursorSpec.position + moveCursorSpec.length) {
         moveCursorSpec.length += insertTextSpec.text.length
       }
+    }
+    if(isMoveCursorSpecRangeInverted) {
+      invertMoveCursorSpecRange(moveCursorSpec)
     }
     return{opSpecsA:[insertTextSpec], opSpecsB:[moveCursorSpec]}
   }
@@ -12368,64 +13014,6 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
     }
     return{opSpecsA:[insertTextSpec], opSpecsB:[splitParagraphSpec]}
   }
-  function dropShadowedAttributes(properties, removedProperties, shadowingProperties, shadowingRemovedProperties) {
-    var value, i, name, removedPropertyNames, shadowingRemovedPropertyNames = shadowingRemovedProperties && shadowingRemovedProperties.attributes ? shadowingRemovedProperties.attributes.split(",") : [];
-    if(properties && (shadowingProperties || shadowingRemovedPropertyNames.length > 0)) {
-      Object.keys(properties).forEach(function(key) {
-        value = properties[key];
-        if(shadowingProperties && shadowingProperties[key] !== undefined || shadowingRemovedPropertyNames && shadowingRemovedPropertyNames.indexOf(key) !== -1) {
-          if(typeof value !== "object") {
-            delete properties[key]
-          }
-        }
-      })
-    }
-    if(removedProperties && (removedProperties.attributes && (shadowingProperties || shadowingRemovedPropertyNames.length > 0))) {
-      removedPropertyNames = removedProperties.attributes.split(",");
-      for(i = 0;i < removedPropertyNames.length;i += 1) {
-        name = removedPropertyNames[i];
-        if(shadowingProperties && shadowingProperties[name] !== undefined || shadowingRemovedPropertyNames && shadowingRemovedPropertyNames.indexOf(name) !== -1) {
-          removedPropertyNames.splice(i, 1);
-          i -= 1
-        }
-      }
-      if(removedPropertyNames.length > 0) {
-        removedProperties.attributes = removedPropertyNames.join(",")
-      }else {
-        delete removedProperties.attributes
-      }
-    }
-  }
-  function hasProperties(properties) {
-    var key;
-    for(key in properties) {
-      if(properties.hasOwnProperty(key)) {
-        return true
-      }
-    }
-    return false
-  }
-  function hasRemovedProperties(properties) {
-    var key;
-    for(key in properties) {
-      if(properties.hasOwnProperty(key)) {
-        if(key !== "attributes" || properties.attributes.length > 0) {
-          return true
-        }
-      }
-    }
-    return false
-  }
-  function dropShadowedProperties(targetOpspec, shadowingOpspec, propertiesName) {
-    var sp = targetOpspec.setProperties ? targetOpspec.setProperties[propertiesName] : null, rp = targetOpspec.removedProperties ? targetOpspec.removedProperties[propertiesName] : null;
-    dropShadowedAttributes(sp, rp, shadowingOpspec.setProperties ? shadowingOpspec.setProperties[propertiesName] : null, shadowingOpspec.removedProperties ? shadowingOpspec.removedProperties[propertiesName] : null);
-    if(sp && !hasProperties(sp)) {
-      delete targetOpspec.setProperties[propertiesName]
-    }
-    if(rp && !hasRemovedProperties(rp)) {
-      delete targetOpspec.removedProperties[propertiesName]
-    }
-  }
   function transformUpdateParagraphStyleUpdateParagraphStyle(updateParagraphStyleSpecA, updateParagraphStyleSpecB, hasAPriority) {
     var majorSpec, minorSpec, updateParagraphStyleSpecAResult = [updateParagraphStyleSpecA], updateParagraphStyleSpecBResult = [updateParagraphStyleSpecB];
     if(updateParagraphStyleSpecA.styleName === updateParagraphStyleSpecB.styleName) {
@@ -12434,6 +13022,13 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
       dropShadowedProperties(minorSpec, majorSpec, "style:paragraph-properties");
       dropShadowedProperties(minorSpec, majorSpec, "style:text-properties");
       dropShadowedAttributes(minorSpec.setProperties || null, minorSpec.removedProperties || null, majorSpec.setProperties || null, majorSpec.removedProperties || null);
+      if(!(majorSpec.setProperties && hasProperties(majorSpec.setProperties)) && !(majorSpec.removedProperties && hasRemovedProperties(majorSpec.removedProperties))) {
+        if(hasAPriority) {
+          updateParagraphStyleSpecAResult = []
+        }else {
+          updateParagraphStyleSpecBResult = []
+        }
+      }
       if(!(minorSpec.setProperties && hasProperties(minorSpec.setProperties)) && !(minorSpec.removedProperties && hasRemovedProperties(minorSpec.removedProperties))) {
         if(hasAPriority) {
           updateParagraphStyleSpecBResult = []
@@ -12468,7 +13063,7 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
     return{opSpecsA:isSameCursorRemoved ? [] : [moveCursorSpec], opSpecsB:[removeCursorSpec]}
   }
   function transformMoveCursorRemoveText(moveCursorSpec, removeTextSpec) {
-    var moveCursorSpecEnd = moveCursorSpec.position + moveCursorSpec.length, removeTextSpecEnd = removeTextSpec.position + removeTextSpec.length;
+    var isMoveCursorSpecRangeInverted = invertMoveCursorSpecRangeOnNegativeLength(moveCursorSpec), moveCursorSpecEnd = moveCursorSpec.position + moveCursorSpec.length, removeTextSpecEnd = removeTextSpec.position + removeTextSpec.length;
     if(removeTextSpecEnd <= moveCursorSpec.position) {
       moveCursorSpec.position -= removeTextSpec.length
     }else {
@@ -12489,15 +13084,22 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
         }
       }
     }
+    if(isMoveCursorSpecRangeInverted) {
+      invertMoveCursorSpecRange(moveCursorSpec)
+    }
     return{opSpecsA:[moveCursorSpec], opSpecsB:[removeTextSpec]}
   }
   function transformMoveCursorSplitParagraph(moveCursorSpec, splitParagraphSpec) {
+    var isMoveCursorSpecRangeInverted = invertMoveCursorSpecRangeOnNegativeLength(moveCursorSpec);
     if(splitParagraphSpec.position < moveCursorSpec.position) {
       moveCursorSpec.position += 1
     }else {
-      if(splitParagraphSpec.position <= moveCursorSpec.position + moveCursorSpec.length) {
+      if(splitParagraphSpec.position < moveCursorSpec.position + moveCursorSpec.length) {
         moveCursorSpec.length += 1
       }
+    }
+    if(isMoveCursorSpecRangeInverted) {
+      invertMoveCursorSpecRange(moveCursorSpec)
     }
     return{opSpecsA:[moveCursorSpec], opSpecsB:[splitParagraphSpec]}
   }
@@ -12597,10 +13199,14 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
     }
     return{opSpecsA:removeTextSpecResult, opSpecsB:splitParagraphSpecResult}
   }
-  var transformations = {"AddCursor":{"AddCursor":passUnchanged, "AddStyle":passUnchanged, "InsertText":passUnchanged, "MoveCursor":passUnchanged, "RemoveCursor":passUnchanged, "RemoveStyle":passUnchanged, "RemoveText":passUnchanged, "SetParagraphStyle":passUnchanged, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":passUnchanged}, "AddStyle":{"AddStyle":passUnchanged, "InsertText":passUnchanged, "MoveCursor":passUnchanged, "RemoveCursor":passUnchanged, "RemoveStyle":transformAddStyleRemoveStyle, 
-  "RemoveText":passUnchanged, "SetParagraphStyle":passUnchanged, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":passUnchanged}, "InsertText":{"InsertText":transformInsertTextInsertText, "MoveCursor":transformInsertTextMoveCursor, "RemoveCursor":passUnchanged, "RemoveStyle":passUnchanged, "RemoveText":transformInsertTextRemoveText, "SplitParagraph":transformInsertTextSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "MoveCursor":{"MoveCursor":passUnchanged, "RemoveCursor":transformMoveCursorRemoveCursor, 
-  "RemoveStyle":passUnchanged, "RemoveText":transformMoveCursorRemoveText, "SetParagraphStyle":passUnchanged, "SplitParagraph":transformMoveCursorSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "RemoveCursor":{"RemoveCursor":transformRemoveCursorRemoveCursor, "RemoveStyle":passUnchanged, "RemoveText":passUnchanged, "SetParagraphStyle":passUnchanged, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":passUnchanged}, "RemoveStyle":{"RemoveStyle":transformRemoveStyleRemoveStyle, "RemoveText":passUnchanged, 
-  "SetParagraphStyle":transformRemoveStyleSetParagraphStyle, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":transformRemoveStyleUpdateParagraphStyle}, "RemoveText":{"RemoveText":transformRemoveTextRemoveText, "SplitParagraph":transformRemoveTextSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "SetParagraphStyle":{"UpdateParagraphStyle":passUnchanged}, "SplitParagraph":{"SplitParagraph":transformSplitParagraphSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "UpdateParagraphStyle":{"UpdateParagraphStyle":transformUpdateParagraphStyleUpdateParagraphStyle}};
+  function passUnchanged(opSpecA, opSpecB) {
+    return{opSpecsA:[opSpecA], opSpecsB:[opSpecB]}
+  }
+  var transformations = {"AddCursor":{"AddCursor":passUnchanged, "AddStyle":passUnchanged, "ApplyDirectStyling":passUnchanged, "InsertText":passUnchanged, "MoveCursor":passUnchanged, "RemoveCursor":passUnchanged, "RemoveStyle":passUnchanged, "RemoveText":passUnchanged, "SetParagraphStyle":passUnchanged, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":passUnchanged}, "AddStyle":{"AddStyle":passUnchanged, "ApplyDirectStyling":passUnchanged, "InsertText":passUnchanged, "MoveCursor":passUnchanged, 
+  "RemoveCursor":passUnchanged, "RemoveStyle":transformAddStyleRemoveStyle, "RemoveText":passUnchanged, "SetParagraphStyle":passUnchanged, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":passUnchanged}, "ApplyDirectStyling":{"ApplyDirectStyling":transformApplyDirectStylingApplyDirectStyling, "InsertText":transformApplyDirectStylingInsertText, "MoveCursor":passUnchanged, "RemoveCursor":passUnchanged, "RemoveStyle":passUnchanged, "RemoveText":transformApplyDirectStylingRemoveText, "SetParagraphStyle":passUnchanged, 
+  "SplitParagraph":transformApplyDirectStylingSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "InsertText":{"InsertText":transformInsertTextInsertText, "MoveCursor":transformInsertTextMoveCursor, "RemoveCursor":passUnchanged, "RemoveStyle":passUnchanged, "RemoveText":transformInsertTextRemoveText, "SplitParagraph":transformInsertTextSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "MoveCursor":{"MoveCursor":passUnchanged, "RemoveCursor":transformMoveCursorRemoveCursor, "RemoveStyle":passUnchanged, 
+  "RemoveText":transformMoveCursorRemoveText, "SetParagraphStyle":passUnchanged, "SplitParagraph":transformMoveCursorSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "RemoveCursor":{"RemoveCursor":transformRemoveCursorRemoveCursor, "RemoveStyle":passUnchanged, "RemoveText":passUnchanged, "SetParagraphStyle":passUnchanged, "SplitParagraph":passUnchanged, "UpdateParagraphStyle":passUnchanged}, "RemoveStyle":{"RemoveStyle":transformRemoveStyleRemoveStyle, "RemoveText":passUnchanged, "SetParagraphStyle":transformRemoveStyleSetParagraphStyle, 
+  "SplitParagraph":passUnchanged, "UpdateParagraphStyle":transformRemoveStyleUpdateParagraphStyle}, "RemoveText":{"RemoveText":transformRemoveTextRemoveText, "SplitParagraph":transformRemoveTextSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "SetParagraphStyle":{"UpdateParagraphStyle":passUnchanged}, "SplitParagraph":{"SplitParagraph":transformSplitParagraphSplitParagraph, "UpdateParagraphStyle":passUnchanged}, "UpdateParagraphStyle":{"UpdateParagraphStyle":transformUpdateParagraphStyleUpdateParagraphStyle}};
   this.passUnchanged = passUnchanged;
   this.extendTransformations = function(moreTransformations) {
     Object.keys(moreTransformations).forEach(function(optypeA) {
@@ -12770,7 +13376,8 @@ ops.OdtCursor = function OdtCursor(memberId, odtDocument) {
     return cursor.getSelectedRange()
   };
   this.setSelectedRange = function(range, isForwardSelection) {
-    cursor.setSelectedRange(range, isForwardSelection)
+    cursor.setSelectedRange(range, isForwardSelection);
+    self.handleUpdate()
   };
   this.hasForwardSelection = function() {
     return cursor.hasForwardSelection()
@@ -13152,6 +13759,61 @@ gui.Caret = function Caret(cursor, avatarInitiallyVisible, blinkOnRangeSelect) {
     handleUpdate()
   }
   init()
+};
+/*
+
+ Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: https://github.com/kogmbh/WebODF/
+*/
+gui.PlainTextPasteboard = function PlainTextPasteboard(odtDocument, inputMemberId) {
+  function createOp(op, data) {
+    op.init(data);
+    return op
+  }
+  this.createPasteOps = function(data) {
+    var originalCursorPosition = odtDocument.getCursorPosition(inputMemberId), cursorPosition = originalCursorPosition, operations = [], paragraphs;
+    paragraphs = data.replace(/\r/g, "").split("\n");
+    paragraphs.forEach(function(text) {
+      operations.push(createOp(new ops.OpSplitParagraph, {memberid:inputMemberId, position:cursorPosition}));
+      cursorPosition += 1;
+      operations.push(createOp(new ops.OpInsertText, {memberid:inputMemberId, position:cursorPosition, text:text}));
+      cursorPosition += text.length
+    });
+    operations.push(createOp(new ops.OpRemoveText, {memberid:inputMemberId, position:originalCursorPosition, length:1}));
+    return operations
+  }
 };
 /*
 
@@ -13900,8 +14562,9 @@ gui.ImageSelector = function ImageSelector(odfCanvas) {
  @source: http://www.webodf.org/
  @source: https://github.com/kogmbh/WebODF/
 */
+runtime.loadClass("core.PositionFilter");
 gui.TextManipulator = function TextManipulator(session, inputMemberId, directStyleOp) {
-  var odtDocument = session.getOdtDocument();
+  var odtDocument = session.getOdtDocument(), FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
   function createOpRemoveSelection(selection) {
     var op = new ops.OpRemoveText;
     op.init({memberid:inputMemberId, position:selection.position, length:selection.length});
@@ -13926,10 +14589,22 @@ gui.TextManipulator = function TextManipulator(session, inputMemberId, directSty
     session.enqueue(operations);
     return true
   };
+  function hasPositionInDirection(cursorNode, forward) {
+    var rootConstrainedFilter = new core.PositionFilterChain, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootElement(cursorNode)), nextPosition = (forward ? iterator.nextPosition : iterator.previousPosition);
+    rootConstrainedFilter.addFilter("BaseFilter", odtDocument.getPositionFilter());
+    rootConstrainedFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
+    iterator.setUnfilteredPosition(cursorNode, 0);
+    while(nextPosition()) {
+      if(rootConstrainedFilter.acceptPosition(iterator) === FILTER_ACCEPT) {
+        return true
+      }
+    }
+    return false
+  }
   this.removeTextByBackspaceKey = function() {
-    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    var cursor = odtDocument.getCursor(inputMemberId), selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
     if(selection.length === 0) {
-      if(selection.position > 0 && odtDocument.getPositionInTextNode(selection.position - 1)) {
+      if(hasPositionInDirection(cursor.getNode(), false)) {
         op = new ops.OpRemoveText;
         op.init({memberid:inputMemberId, position:selection.position - 1, length:1});
         session.enqueue([op])
@@ -13941,9 +14616,9 @@ gui.TextManipulator = function TextManipulator(session, inputMemberId, directSty
     return op !== null
   };
   this.removeTextByDeleteKey = function() {
-    var selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
+    var cursor = odtDocument.getCursor(inputMemberId), selection = toForwardSelection(odtDocument.getCursorSelection(inputMemberId)), op = null;
     if(selection.length === 0) {
-      if(odtDocument.getPositionInTextNode(selection.position + 1)) {
+      if(hasPositionInDirection(cursor.getNode(), true)) {
         op = new ops.OpRemoveText;
         op.init({memberid:inputMemberId, position:selection.position, length:1});
         session.enqueue([op])
@@ -14027,7 +14702,7 @@ runtime.loadClass("ops.OpAddAnnotation");
 runtime.loadClass("ops.OpRemoveAnnotation");
 runtime.loadClass("gui.SelectionMover");
 gui.AnnotationManager = function AnnotationManager(session, inputMemberId) {
-  var odtDocument = session.getOdtDocument(), baseFilter = odtDocument.getPositionFilter(), isAnnotatable = false, eventNotifier = new core.EventNotifier([gui.AnnotationManager.annotatableChanged]), officens = odf.Namespaces.officens, FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
+  var odtDocument = session.getOdtDocument(), isAnnotatable = false, eventNotifier = new core.EventNotifier([gui.AnnotationManager.annotatableChanged]), officens = odf.Namespaces.officens;
   function isWithinAnnotation(node, container) {
     while(node && node !== container) {
       if(node.namespaceURI === officens && node.localName === "annotation") {
@@ -14059,34 +14734,6 @@ gui.AnnotationManager = function AnnotationManager(session, inputMemberId) {
       updatedCachedValues()
     }
   }
-  function getWalkableNodeLength(node) {
-    var length = 0, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), inside = false;
-    iterator.setUnfilteredPosition(node, 0);
-    do {
-      inside = Boolean(node.compareDocumentPosition(iterator.container()) & Node.DOCUMENT_POSITION_CONTAINED_BY);
-      if(!inside && node !== iterator.container()) {
-        break
-      }
-      if(baseFilter.acceptPosition(iterator) === FILTER_ACCEPT) {
-        length += 1
-      }
-    }while(iterator.nextPosition());
-    return length
-  }
-  function getFirstWalkablePositionInNode(node) {
-    var position = 0, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), watch = new core.LoopWatchDog(1E3), inside = false;
-    while(iterator.nextPosition()) {
-      watch.check();
-      inside = Boolean(node.compareDocumentPosition(iterator.container()) & Node.DOCUMENT_POSITION_CONTAINED_BY);
-      if(baseFilter.acceptPosition(iterator) === FILTER_ACCEPT) {
-        if(inside) {
-          break
-        }
-        position += 1
-      }
-    }
-    return position
-  }
   this.isAnnotatable = function() {
     return isAnnotatable
   };
@@ -14101,13 +14748,13 @@ gui.AnnotationManager = function AnnotationManager(session, inputMemberId) {
     session.enqueue([op])
   };
   this.removeAnnotation = function(annotationNode) {
-    var position, length, op, moveCursor;
-    position = getFirstWalkablePositionInNode(annotationNode);
-    length = getWalkableNodeLength(annotationNode);
+    var startStep, endStep, op, moveCursor;
+    startStep = odtDocument.convertDomPointToCursorStep(annotationNode, 0) + 1;
+    endStep = odtDocument.convertDomPointToCursorStep(annotationNode, annotationNode.childNodes.length);
     op = new ops.OpRemoveAnnotation;
-    op.init({memberid:inputMemberId, position:position, length:length});
+    op.init({memberid:inputMemberId, position:startStep, length:endStep - startStep});
     moveCursor = new ops.OpMoveCursor;
-    moveCursor.init({memberid:inputMemberId, position:position - 1, length:0});
+    moveCursor.init({memberid:inputMemberId, position:startStep > 0 ? startStep - 1 : startStep, length:0});
     session.enqueue([op, moveCursor])
   };
   this.subscribe = function(eventid, cb) {
@@ -14237,12 +14884,13 @@ runtime.loadClass("gui.ImageSelector");
 runtime.loadClass("gui.TextManipulator");
 runtime.loadClass("gui.AnnotationManager");
 runtime.loadClass("gui.EventManager");
+runtime.loadClass("gui.PlainTextPasteboard");
 gui.SessionController = function() {
   var FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT;
   gui.SessionController = function SessionController(session, inputMemberId, shadowCursor, args) {
     var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), async = new core.Async, domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, objectNameGenerator = new odf.ObjectNameGenerator(odtDocument.getOdfCanvas().odfContainer(), 
-    inputMemberId), isMouseMoved = false, mouseDownRootFilter = null, undoManager = null, eventManager = new gui.EventManager(odtDocument), annotationManager = new gui.AnnotationManager(session, inputMemberId), directTextStyler = args && args.directStylingEnabled ? new gui.DirectTextStyler(session, inputMemberId) : null, directParagraphStyler = args && args.directStylingEnabled ? new gui.DirectParagraphStyler(session, inputMemberId, objectNameGenerator) : null, createCursorStyleOp = (directTextStyler && 
-    directTextStyler.createCursorStyleOp), textManipulator = new gui.TextManipulator(session, inputMemberId, createCursorStyleOp), imageManager = new gui.ImageManager(session, inputMemberId, objectNameGenerator), imageSelector = new gui.ImageSelector(odtDocument.getOdfCanvas()), shadowCursorIterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), drawShadowCursorTask;
+    inputMemberId), isMouseMoved = false, mouseDownRootFilter = null, undoManager = null, eventManager = new gui.EventManager(odtDocument), annotationManager = new gui.AnnotationManager(session, inputMemberId), directTextStyler = new gui.DirectTextStyler(session, inputMemberId), directParagraphStyler = args && args.directParagraphStylingEnabled ? new gui.DirectParagraphStyler(session, inputMemberId, objectNameGenerator) : null, createCursorStyleOp = (directTextStyler.createCursorStyleOp), textManipulator = 
+    new gui.TextManipulator(session, inputMemberId, createCursorStyleOp), imageManager = new gui.ImageManager(session, inputMemberId, objectNameGenerator), imageSelector = new gui.ImageSelector(odtDocument.getOdfCanvas()), shadowCursorIterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), drawShadowCursorTask, pasteHandler = new gui.PlainTextPasteboard(odtDocument, inputMemberId);
     runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
@@ -14275,17 +14923,6 @@ gui.SessionController = function() {
         return{container:result.offsetNode, offset:result.offset}
       }
       return null
-    }
-    function findClosestPosition(node) {
-      var canvasElement = odtDocument.getOdfCanvas().getElement(), newNode = odtDocument.getRootNode(), newOffset = 0, beforeCanvas, iterator;
-      beforeCanvas = canvasElement.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING;
-      if(!beforeCanvas) {
-        iterator = gui.SelectionMover.createPositionIterator(newNode);
-        iterator.moveToEnd();
-        newNode = iterator.container();
-        newOffset = iterator.unfilteredDomOffset()
-      }
-      return{node:newNode, offset:newOffset}
     }
     function expandToWordBoundaries(selection) {
       var alphaNumeric = /[A-Za-z0-9]/, iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), isForwardSelection = domUtils.comparePoints(selection.anchorNode, selection.anchorOffset, selection.focusNode, selection.focusOffset) > 0, startPoint, endPoint, currentNode, c;
@@ -14361,7 +14998,7 @@ gui.SessionController = function() {
       eventManager.focus()
     }
     function selectRange(selection, capturedDetails) {
-      var canvasElement = odtDocument.getOdfCanvas().getElement(), validSelection, clickCount = capturedDetails.detail, caretPos, anchorNodeInsideCanvas, focusNodeInsideCanvas, position, stepsToAnchor, stepsToFocus, oldPosition, op;
+      var canvasElement = odtDocument.getOdfCanvas().getElement(), validSelection, clickCount = capturedDetails.detail, caretPos, anchorNodeInsideCanvas, focusNodeInsideCanvas, existingSelection, newSelection, op;
       if(!selection) {
         return
       }
@@ -14382,36 +15019,24 @@ gui.SessionController = function() {
       if(!anchorNodeInsideCanvas && !focusNodeInsideCanvas) {
         return
       }
-      if(!anchorNodeInsideCanvas) {
-        position = findClosestPosition(validSelection.anchorNode);
-        validSelection.anchorNode = position.node;
-        validSelection.anchorOffset = position.offset
-      }
-      if(!focusNodeInsideCanvas) {
-        position = findClosestPosition(validSelection.focusNode);
-        validSelection.focusNode = position.node;
-        validSelection.focusOffset = position.offset
-      }
-      if(clickCount === 2) {
-        expandToWordBoundaries(validSelection)
-      }else {
-        if(clickCount === 3) {
-          expandToParagraphBoundaries(validSelection)
+      if(anchorNodeInsideCanvas && focusNodeInsideCanvas) {
+        if(clickCount === 2) {
+          expandToWordBoundaries(validSelection)
+        }else {
+          if(clickCount >= 3) {
+            expandToParagraphBoundaries(validSelection)
+          }
         }
       }
-      stepsToAnchor = odtDocument.getDistanceFromCursor(inputMemberId, validSelection.anchorNode, validSelection.anchorOffset);
-      if(validSelection.focusNode === validSelection.anchorNode && validSelection.focusOffset === validSelection.anchorOffset) {
-        stepsToFocus = stepsToAnchor
-      }else {
-        stepsToFocus = odtDocument.getDistanceFromCursor(inputMemberId, validSelection.focusNode, validSelection.focusOffset)
-      }
-      if(stepsToFocus || stepsToAnchor) {
-        oldPosition = odtDocument.getCursorPosition(inputMemberId);
-        op = createOpMoveCursor(oldPosition + stepsToAnchor, stepsToFocus - stepsToAnchor, ops.OdtCursor.RangeSelection);
+      newSelection = odtDocument.convertDomToCursorRange(validSelection.anchorNode, validSelection.anchorOffset, validSelection.focusNode, validSelection.focusOffset);
+      existingSelection = odtDocument.getCursorSelection(inputMemberId);
+      if(newSelection.position !== existingSelection.position || newSelection.length !== existingSelection.length) {
+        op = createOpMoveCursor(newSelection.position, newSelection.length, ops.OdtCursor.RangeSelection);
         session.enqueue([op])
       }
       eventManager.focus()
     }
+    this.selectRange = selectRange;
     function extendCursorByAdjustment(lengthAdjust) {
       var selection = odtDocument.getCursorSelection(inputMemberId), stepCounter = odtDocument.getCursor(inputMemberId).getStepCounter(), newLength;
       if(lengthAdjust !== 0) {
@@ -14432,6 +15057,7 @@ gui.SessionController = function() {
       moveCursorByAdjustment(-1);
       return true
     }
+    this.moveCursorToLeft = moveCursorToLeft;
     function moveCursorToRight() {
       moveCursorByAdjustment(1);
       return true
@@ -14537,6 +15163,7 @@ gui.SessionController = function() {
         moveCursorByAdjustment(steps)
       }
     }
+    this.moveCursorToDocumentBoundary = moveCursorToDocumentBoundary;
     function moveCursorToDocumentStart() {
       moveCursorToDocumentBoundary(-1, false);
       return true
@@ -14554,13 +15181,11 @@ gui.SessionController = function() {
       return true
     }
     function extendSelectionToEntireDocument() {
-      var iterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), steps;
-      steps = -odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
-      iterator.moveToEnd();
-      steps += odtDocument.getDistanceFromCursor(inputMemberId, iterator.container(), iterator.unfilteredDomOffset());
-      session.enqueue([createOpMoveCursor(0, steps)]);
+      var rootNode = odtDocument.getRootNode(), lastWalkableStep = odtDocument.convertDomPointToCursorStep(rootNode, rootNode.childNodes.length);
+      session.enqueue([createOpMoveCursor(0, lastWalkableStep)]);
       return true
     }
+    this.extendSelectionToEntireDocument = extendSelectionToEntireDocument;
     function maintainCursorSelection() {
       var cursor = odtDocument.getCursor(inputMemberId), selection = window.getSelection(), imageElement, range;
       if(cursor) {
@@ -14636,7 +15261,8 @@ gui.SessionController = function() {
         }
       }
       if(plainText) {
-        textManipulator.insertText(plainText);
+        textManipulator.removeCurrentSelection();
+        session.enqueue(pasteHandler.createPasteOps(plainText));
         cancelEvent(e)
       }
     }
@@ -14827,10 +15453,7 @@ gui.SessionController = function() {
       return{keydown:keyDownHandler, keypress:keyPressHandler}
     };
     this.destroy = function(callback) {
-      var destroyCallbacks = [drawShadowCursorTask.destroy];
-      if(directTextStyler) {
-        destroyCallbacks.push(directTextStyler.destroy)
-      }
+      var destroyCallbacks = [drawShadowCursorTask.destroy, directTextStyler.destroy];
       if(directParagraphStyler) {
         destroyCallbacks.push(directParagraphStyler.destroy)
       }
@@ -14891,11 +15514,9 @@ gui.SessionController = function() {
         keyDownHandler.bind(keyCode.Up, modifier.MetaShift, rangeSelectionOnly(extendSelectionToDocumentStart));
         keyDownHandler.bind(keyCode.Down, modifier.MetaShift, rangeSelectionOnly(extendSelectionToDocumentEnd));
         keyDownHandler.bind(keyCode.A, modifier.Meta, rangeSelectionOnly(extendSelectionToEntireDocument));
-        if(directTextStyler) {
-          keyDownHandler.bind(keyCode.B, modifier.Meta, rangeSelectionOnly(directTextStyler.toggleBold));
-          keyDownHandler.bind(keyCode.I, modifier.Meta, rangeSelectionOnly(directTextStyler.toggleItalic));
-          keyDownHandler.bind(keyCode.U, modifier.Meta, rangeSelectionOnly(directTextStyler.toggleUnderline))
-        }
+        keyDownHandler.bind(keyCode.B, modifier.Meta, rangeSelectionOnly(directTextStyler.toggleBold));
+        keyDownHandler.bind(keyCode.I, modifier.Meta, rangeSelectionOnly(directTextStyler.toggleItalic));
+        keyDownHandler.bind(keyCode.U, modifier.Meta, rangeSelectionOnly(directTextStyler.toggleUnderline));
         if(directParagraphStyler) {
           keyDownHandler.bind(keyCode.L, modifier.MetaShift, rangeSelectionOnly(directParagraphStyler.alignParagraphLeft));
           keyDownHandler.bind(keyCode.E, modifier.MetaShift, rangeSelectionOnly(directParagraphStyler.alignParagraphCenter));
@@ -14909,11 +15530,9 @@ gui.SessionController = function() {
         keyDownHandler.bind(keyCode.Z, modifier.MetaShift, redo)
       }else {
         keyDownHandler.bind(keyCode.A, modifier.Ctrl, rangeSelectionOnly(extendSelectionToEntireDocument));
-        if(directTextStyler) {
-          keyDownHandler.bind(keyCode.B, modifier.Ctrl, rangeSelectionOnly(directTextStyler.toggleBold));
-          keyDownHandler.bind(keyCode.I, modifier.Ctrl, rangeSelectionOnly(directTextStyler.toggleItalic));
-          keyDownHandler.bind(keyCode.U, modifier.Ctrl, rangeSelectionOnly(directTextStyler.toggleUnderline))
-        }
+        keyDownHandler.bind(keyCode.B, modifier.Ctrl, rangeSelectionOnly(directTextStyler.toggleBold));
+        keyDownHandler.bind(keyCode.I, modifier.Ctrl, rangeSelectionOnly(directTextStyler.toggleItalic));
+        keyDownHandler.bind(keyCode.U, modifier.Ctrl, rangeSelectionOnly(directTextStyler.toggleUnderline));
         if(directParagraphStyler) {
           keyDownHandler.bind(keyCode.L, modifier.CtrlShift, rangeSelectionOnly(directParagraphStyler.alignParagraphLeft));
           keyDownHandler.bind(keyCode.E, modifier.CtrlShift, rangeSelectionOnly(directParagraphStyler.alignParagraphCenter));
@@ -16534,27 +17153,34 @@ runtime.loadClass("odf.OdfUtils");
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("gui.SelectionMover");
 runtime.loadClass("core.PositionFilterChain");
+runtime.loadClass("ops.StepsTranslator");
+runtime.loadClass("ops.TextPositionFilter");
 ops.OdtDocument = function OdtDocument(odfCanvas) {
-  var self = this, odfUtils, domUtils, cursors = {}, eventNotifier = new core.EventNotifier([ops.OdtDocument.signalCursorAdded, ops.OdtDocument.signalCursorRemoved, ops.OdtDocument.signalCursorMoved, ops.OdtDocument.signalParagraphChanged, ops.OdtDocument.signalParagraphStyleModified, ops.OdtDocument.signalCommonStyleCreated, ops.OdtDocument.signalCommonStyleDeleted, ops.OdtDocument.signalTableAdded, ops.OdtDocument.signalOperationExecuted, ops.OdtDocument.signalUndoStackChanged]), FILTER_ACCEPT = 
-  core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT, filter;
+  var self = this, odfUtils, domUtils, cursors = {}, eventNotifier = new core.EventNotifier([ops.OdtDocument.signalCursorAdded, ops.OdtDocument.signalCursorRemoved, ops.OdtDocument.signalCursorMoved, ops.OdtDocument.signalParagraphChanged, ops.OdtDocument.signalParagraphStyleModified, ops.OdtDocument.signalCommonStyleCreated, ops.OdtDocument.signalCommonStyleDeleted, ops.OdtDocument.signalTableAdded, ops.OdtDocument.signalOperationExecuted, ops.OdtDocument.signalUndoStackChanged, ops.OdtDocument.signalStepsInserted, 
+  ops.OdtDocument.signalStepsRemoved]), FILTER_ACCEPT = core.PositionFilter.FilterResult.FILTER_ACCEPT, FILTER_REJECT = core.PositionFilter.FilterResult.FILTER_REJECT, filter, stepsTranslator;
   function getRootNode() {
     var element = odfCanvas.odfContainer().getContentElement(), localName = element && element.localName;
-    runtime.assert(localName === "text", "Unsupported content element type '" + localName + "'for OdtDocument");
+    runtime.assert(localName === "text", "Unsupported content element type '" + localName + "' for OdtDocument");
     return element
   }
+  function getDOM() {
+    return(getRootNode().ownerDocument)
+  }
+  this.getDOM = getDOM;
+  function isRoot(node) {
+    if(node.namespaceURI === odf.Namespaces.officens && node.localName === "text" || node.namespaceURI === odf.Namespaces.officens && node.localName === "annotation") {
+      return true
+    }
+    return false
+  }
+  function getRoot(node) {
+    while(node && !isRoot(node)) {
+      node = (node.parentNode)
+    }
+    return node
+  }
+  this.getRootElement = getRoot;
   function RootFilter(anchor) {
-    function isRoot(node) {
-      if(node.namespaceURI === odf.Namespaces.officens && node.localName === "text" || node.namespaceURI === odf.Namespaces.officens && node.localName === "annotation") {
-        return true
-      }
-      return false
-    }
-    function getRoot(node) {
-      while(node && !isRoot(node)) {
-        node = (node.parentNode)
-      }
-      return node
-    }
     this.acceptPosition = function(iterator) {
       var node = iterator.container(), anchorNode;
       if(typeof anchor === "string") {
@@ -16568,167 +17194,62 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
       return FILTER_REJECT
     }
   }
-  function TextPositionFilter() {
-    function checkLeftRight(container, leftNode, rightNode) {
-      var r, firstPos, rightOfChar;
-      if(leftNode) {
-        r = odfUtils.lookLeftForCharacter(leftNode);
-        if(r === 1) {
-          return FILTER_ACCEPT
-        }
-        if(r === 2 && (odfUtils.scanRightForAnyCharacter(rightNode) || odfUtils.scanRightForAnyCharacter(odfUtils.nextNode(container)))) {
-          return FILTER_ACCEPT
-        }
-      }
-      firstPos = leftNode === null && odfUtils.isParagraph(container);
-      rightOfChar = odfUtils.lookRightForCharacter(rightNode);
-      if(firstPos) {
-        if(rightOfChar) {
-          return FILTER_ACCEPT
-        }
-        return odfUtils.scanRightForAnyCharacter(rightNode) ? FILTER_REJECT : FILTER_ACCEPT
-      }
-      if(!rightOfChar) {
-        return FILTER_REJECT
-      }
-      leftNode = leftNode || odfUtils.previousNode(container);
-      return odfUtils.scanLeftForAnyCharacter(leftNode) ? FILTER_REJECT : FILTER_ACCEPT
-    }
-    this.acceptPosition = function(iterator) {
-      var container = iterator.container(), nodeType = container.nodeType, offset, text, leftChar, rightChar, leftNode, rightNode, r;
-      if(nodeType !== Node.ELEMENT_NODE && nodeType !== Node.TEXT_NODE) {
-        return FILTER_REJECT
-      }
-      if(nodeType === Node.TEXT_NODE) {
-        if(!odfUtils.isGroupingElement(container.parentNode) || odfUtils.isWithinTrackedChanges(container.parentNode, getRootNode())) {
-          return FILTER_REJECT
-        }
-        offset = iterator.unfilteredDomOffset();
-        text = container.data;
-        runtime.assert(offset !== text.length, "Unexpected offset.");
-        if(offset > 0) {
-          leftChar = text.substr(offset - 1, 1);
-          if(!odfUtils.isODFWhitespace(leftChar)) {
-            return FILTER_ACCEPT
-          }
-          if(offset > 1) {
-            leftChar = text.substr(offset - 2, 1);
-            if(!odfUtils.isODFWhitespace(leftChar)) {
-              r = FILTER_ACCEPT
-            }else {
-              if(!odfUtils.isODFWhitespace(text.substr(0, offset))) {
-                return FILTER_REJECT
-              }
-            }
-          }else {
-            leftNode = odfUtils.previousNode(container);
-            if(odfUtils.scanLeftForNonWhitespace(leftNode)) {
-              r = FILTER_ACCEPT
-            }
-          }
-          if(r === FILTER_ACCEPT) {
-            return odfUtils.isTrailingWhitespace(container, offset) ? FILTER_REJECT : FILTER_ACCEPT
-          }
-          rightChar = text.substr(offset, 1);
-          if(odfUtils.isODFWhitespace(rightChar)) {
-            return FILTER_REJECT
-          }
-          return odfUtils.scanLeftForAnyCharacter(odfUtils.previousNode(container)) ? FILTER_REJECT : FILTER_ACCEPT
-        }
-        leftNode = iterator.leftNode();
-        rightNode = container;
-        container = (container.parentNode);
-        r = checkLeftRight(container, leftNode, rightNode)
-      }else {
-        if(!odfUtils.isGroupingElement(container) || odfUtils.isWithinTrackedChanges(container, getRootNode())) {
-          r = FILTER_REJECT
-        }else {
-          leftNode = iterator.leftNode();
-          rightNode = iterator.rightNode();
-          r = checkLeftRight(container, leftNode, rightNode)
-        }
-      }
-      return r
-    }
-  }
   function getIteratorAtPosition(position) {
-    var iterator = gui.SelectionMover.createPositionIterator(getRootNode());
-    position += 1;
-    while(position > 0 && iterator.nextPosition()) {
-      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
-        position -= 1
-      }
-    }
+    var iterator = gui.SelectionMover.createPositionIterator(getRootNode()), point = stepsTranslator.convertStepsToDomPoint(position);
+    iterator.setUnfilteredPosition(point.node, point.offset);
     return iterator
   }
   this.getIteratorAtPosition = getIteratorAtPosition;
-  function getPositionInTextNode(position, memberid) {
-    var iterator = gui.SelectionMover.createPositionIterator(getRootNode()), lastTextNode = null, node, nodeOffset = 0, cursorNode = null, originalPosition = position;
-    runtime.assert(position >= 0, "position must be >= 0");
-    if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
-      node = iterator.container();
-      if(node.nodeType === Node.TEXT_NODE) {
-        lastTextNode = (node);
-        nodeOffset = 0
+  this.convertDomPointToCursorStep = function(node, offset) {
+    return stepsTranslator.convertDomPointToSteps(node, offset)
+  };
+  this.convertDomToCursorRange = function(anchorNode, anchorOffset, focusNode, focusOffset) {
+    var point1, point2;
+    point1 = stepsTranslator.convertDomPointToSteps(anchorNode, anchorOffset);
+    if(anchorNode === focusNode && anchorOffset === focusOffset) {
+      point2 = point1
+    }else {
+      point2 = stepsTranslator.convertDomPointToSteps(focusNode, focusOffset)
+    }
+    return{position:point1, length:point2 - point1}
+  };
+  this.convertCursorToDomRange = function(position, length) {
+    var range = getDOM().createRange(), point1, point2;
+    point1 = stepsTranslator.convertStepsToDomPoint(position);
+    if(length) {
+      point2 = stepsTranslator.convertStepsToDomPoint(position + length);
+      if(length > 0) {
+        range.setStart(point1.node, point1.offset);
+        range.setEnd(point2.node, point2.offset)
+      }else {
+        range.setStart(point2.node, point2.offset);
+        range.setEnd(point1.node, point1.offset)
       }
     }else {
-      position += 1
+      range.setStart(point1.node, point1.offset)
     }
-    while(position > 0 || lastTextNode === null) {
-      if(!iterator.nextPosition()) {
-        return null
-      }
-      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
-        position -= 1;
-        node = iterator.container();
-        if(node.nodeType === Node.TEXT_NODE) {
-          if(node !== lastTextNode) {
-            lastTextNode = (node);
-            nodeOffset = iterator.unfilteredDomOffset()
-          }else {
-            nodeOffset += 1
-          }
-        }else {
-          if(lastTextNode !== null) {
-            if(position === 0) {
-              nodeOffset = lastTextNode.length;
-              break
-            }
-            lastTextNode = null
-          }else {
-            if(position === 0) {
-              lastTextNode = getRootNode().ownerDocument.createTextNode("");
-              node.insertBefore(lastTextNode, iterator.rightNode());
-              nodeOffset = 0;
-              break
-            }
-          }
-        }
-      }
+    return range
+  };
+  function getTextNodeAtStep(steps, memberid) {
+    var iterator = getIteratorAtPosition(steps), node = iterator.container(), lastTextNode, nodeOffset = 0, cursorNode = null;
+    if(node.nodeType === Node.TEXT_NODE) {
+      lastTextNode = (node);
+      nodeOffset = iterator.unfilteredDomOffset()
+    }else {
+      lastTextNode = getDOM().createTextNode("");
+      nodeOffset = 0;
+      node.insertBefore(lastTextNode, iterator.rightNode())
     }
-    if(lastTextNode === null) {
-      return null
-    }
-    if(memberid && (cursors[memberid] && self.getCursorPosition(memberid) === originalPosition)) {
+    if(memberid && (cursors[memberid] && self.getCursorPosition(memberid) === steps)) {
       cursorNode = cursors[memberid].getNode();
-      while(nodeOffset === 0 && (cursorNode.nextSibling && cursorNode.nextSibling.localName === "cursor")) {
-        cursorNode.parentNode.insertBefore(cursorNode, cursorNode.nextSibling.nextSibling)
+      while(cursorNode.nextSibling && cursorNode.nextSibling.localName === "cursor") {
+        cursorNode.parentNode.insertBefore(cursorNode.nextSibling, cursorNode)
       }
-      if(lastTextNode.length > 0) {
-        lastTextNode = getRootNode().ownerDocument.createTextNode("");
-        nodeOffset = 0;
-        cursorNode.parentNode.insertBefore(lastTextNode, cursorNode.nextSibling)
+      if(lastTextNode.length > 0 && lastTextNode.nextSibling !== cursorNode) {
+        lastTextNode = getDOM().createTextNode("");
+        nodeOffset = 0
       }
-      while(nodeOffset === 0 && (lastTextNode.previousSibling && lastTextNode.previousSibling.localName === "cursor")) {
-        node = lastTextNode.previousSibling;
-        if(lastTextNode.length > 0) {
-          lastTextNode = getRootNode().ownerDocument.createTextNode("")
-        }
-        node.parentNode.insertBefore(lastTextNode, node);
-        if(cursorNode === node) {
-          break
-        }
-      }
+      cursorNode.parentNode.insertBefore(lastTextNode, cursorNode)
     }
     while(lastTextNode.previousSibling && lastTextNode.previousSibling.nodeType === Node.TEXT_NODE) {
       lastTextNode.previousSibling.appendData(lastTextNode.data);
@@ -16805,7 +17326,7 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
   this.getParagraphStyleElement = getParagraphStyleElement;
   this.getParagraphElement = getParagraphElement;
   this.getParagraphStyleAttributes = getParagraphStyleAttributes;
-  this.getPositionInTextNode = getPositionInTextNode;
+  this.getTextNodeAtStep = getTextNodeAtStep;
   this.fixCursorPositions = function() {
     var rootConstrainedFilter = new core.PositionFilterChain;
     rootConstrainedFilter.addFilter("BaseFilter", filter);
@@ -16841,39 +17362,26 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
       rootConstrainedFilter.removeFilter("RootFilter")
     })
   };
-  this.getWalkableParagraphLength = function(paragraph) {
-    var iterator = getIteratorAtPosition(0), length = 0;
-    iterator.setUnfilteredPosition(paragraph, 0);
-    do {
-      if(getParagraphElement(iterator.container()) !== paragraph) {
-        return length
-      }
-      if(filter.acceptPosition(iterator) === FILTER_ACCEPT) {
-        length += 1
-      }
-    }while(iterator.nextPosition());
-    return length
-  };
   this.getDistanceFromCursor = function(memberid, node, offset) {
-    var counter, cursor = cursors[memberid], steps = 0;
+    var cursor = cursors[memberid], focusPosition, targetPosition;
     runtime.assert(node !== null && node !== undefined, "OdtDocument.getDistanceFromCursor called without node");
     if(cursor) {
-      counter = cursor.getStepCounter().countStepsToPosition;
-      steps = counter(node, offset, filter)
+      focusPosition = stepsTranslator.convertDomPointToSteps(cursor.getNode(), 0);
+      targetPosition = stepsTranslator.convertDomPointToSteps(node, offset)
     }
-    return steps
+    return targetPosition - focusPosition
   };
   this.getCursorPosition = function(memberid) {
-    return-self.getDistanceFromCursor(memberid, getRootNode(), 0)
+    var cursor = cursors[memberid];
+    return cursor ? stepsTranslator.convertDomPointToSteps(cursor.getNode(), 0) : 0
   };
   this.getCursorSelection = function(memberid) {
-    var counter, cursor = cursors[memberid], focusPosition = 0, stepsToAnchor = 0;
+    var cursor = cursors[memberid], focusPosition = 0, anchorPosition = 0;
     if(cursor) {
-      counter = cursor.getStepCounter().countStepsToPosition;
-      focusPosition = -counter(getRootNode(), 0, filter);
-      stepsToAnchor = counter(cursor.getAnchorNode(), 0, filter)
+      focusPosition = stepsTranslator.convertDomPointToSteps(cursor.getNode(), 0);
+      anchorPosition = stepsTranslator.convertDomPointToSteps(cursor.getAnchorNode(), 0)
     }
-    return{position:focusPosition + stepsToAnchor, length:-stepsToAnchor}
+    return{position:anchorPosition, length:focusPosition - anchorPosition}
   };
   this.getPositionFilter = function() {
     return filter
@@ -16882,9 +17390,6 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     return odfCanvas
   };
   this.getRootNode = getRootNode;
-  this.getDOM = function() {
-    return(getRootNode().ownerDocument)
-  };
   this.getCursor = function(memberid) {
     return cursors[memberid]
   };
@@ -16952,9 +17457,12 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     callback()
   };
   function init() {
-    filter = new TextPositionFilter;
+    filter = new ops.TextPositionFilter(getRootNode);
     odfUtils = new odf.OdfUtils;
-    domUtils = new core.DomUtils
+    domUtils = new core.DomUtils;
+    stepsTranslator = new ops.StepsTranslator(getRootNode, gui.SelectionMover.createPositionIterator, filter, 500);
+    eventNotifier.subscribe(ops.OdtDocument.signalStepsInserted, stepsTranslator.handleStepsInserted);
+    eventNotifier.subscribe(ops.OdtDocument.signalStepsRemoved, stepsTranslator.handleStepsRemoved)
   }
   init()
 };
@@ -16968,6 +17476,8 @@ ops.OdtDocument.signalCommonStyleDeleted = "style/deleted";
 ops.OdtDocument.signalParagraphStyleModified = "paragraphstyle/modified";
 ops.OdtDocument.signalOperationExecuted = "operation/executed";
 ops.OdtDocument.signalUndoStackChanged = "undo/changed";
+ops.OdtDocument.signalStepsInserted = "steps/inserted";
+ops.OdtDocument.signalStepsRemoved = "steps/removed";
 (function() {
   return ops.OdtDocument
 })();
