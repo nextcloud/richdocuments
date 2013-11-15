@@ -278,7 +278,7 @@ var documentsMain = {
 		parent.location.hash = "";
 
 		documentsMain.webodfEditorInstance.endEditing();
-		documentsMain.webodfEditorInstance.close(function() {
+		documentsMain.webodfEditorInstance.closeSession(function() {
 			// successfull shutdown - all is good.
 			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
 // 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
