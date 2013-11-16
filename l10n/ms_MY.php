@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Tutup",
 "Share" => "Kongsi",
+"OK" => "OK",
 "Upload" => "Muat naik",
-"Password" => "Kata laluan",
-"OK" => "OK"
+"Password" => "Kata laluan"
 );

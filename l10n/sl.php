@@ -2,7 +2,11 @@
 "Documents" => "Dokumenti",
 "Close" => "Zapri",
 "Share" => "Souporaba",
+"Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Odhod s strani v načinu urejevalnika lahko vpliva na shranjevanje podatkov. Priporočljivo je raje uporabiti gumb za 'zapiranje' okna.",
+"Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Nalaganje dokumenta je spodletelo. Preverite, ali ga je mogoče odpreti v zunanjem urejevalniku datotek odt. Do napake je lahko prišlo tudi, če je datoteka izbrisana, ali pa ni več v souporabi.",
 "Failed to load documents." => "Nalaganje dokumentov je spodletelo.",
+"No documents are found. Please upload or create a document!" => "Ni najdenih dokumentov. Pošljite dokument na strežnik, ali pa ga ustvarite.",
+"OK" => "V redu",
 "Sent" => "Poslano",
 "Declined" => "Zavrnjeno",
 "Accepted" => "Sprejeto",
@@ -11,9 +15,9 @@
 "Save new documents to" => "Shrani nove dokumente v",
 "Wrong password. Please retry." => "Napačno geslo. Poskusite znova.",
 "Password" => "Geslo",
-"OK" => "V redu",
 "Please enter your nickname" => "Vnesite vzdevek",
 "Join" => "Pridruži se",
+"This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Povezava je pretekla ali pa ni nikoli obstajala. Za več podrobnosti stopite v stik z osebo, ki naj bi vam jo poslala.",
 "Advanced feature-set" => "Napredne zmožnosti",
 "(Unstable)" => "(nestabilno)"
 );

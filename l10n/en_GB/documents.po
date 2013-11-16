@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-13 17:04-0500\n"
-"PO-Revision-Date: 2013-11-13 16:00+0000\n"
-"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"POT-Creation-Date: 2013-11-15 20:04-0500\n"
+"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Documents"
 
-#: js/documents.js:23 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
 msgid "Close"
 msgstr "Close"
 
@@ -30,26 +30,218 @@ msgstr "Close"
 msgid "Share"
 msgstr "Share"
 
-#: js/documents.js:139
+#: js/documents.js:102
+msgid "No connection to server. Trying to reconnect."
+msgstr ""
+
+#: js/documents.js:153
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead."
 
-#: js/documents.js:152
+#: js/documents.js:166
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Failed to load this document. Please check if it can be opened with an external ODT editor. This might also mean it has been unshared or deleted recently."
 
-#: js/documents.js:318
+#: js/documents.js:332
 msgid "Failed to load documents."
 msgstr "Failed to load documents."
 
-#: js/documents.js:361
+#: js/documents.js:375
 msgid "No documents are found. Please upload or create a document!"
 msgstr "No documents can be found. Please upload or create a document!"
+
+#: js/locale.js:1
+msgid "Align Left"
+msgstr ""
+
+#: js/locale.js:2
+msgid "Alignment"
+msgstr ""
+
+#: js/locale.js:3
+msgid "Align Right"
+msgstr ""
+
+#: js/locale.js:4
+msgid "Annotate"
+msgstr ""
+
+#: js/locale.js:5
+msgid "Background"
+msgstr ""
+
+#: js/locale.js:6
+msgid "Bold"
+msgstr ""
+
+#: js/locale.js:7
+msgid "Bottom"
+msgstr ""
+
+#: js/locale.js:8
+msgid "Cancel"
+msgstr ""
+
+#: js/locale.js:9
+msgid "Center"
+msgstr ""
+
+#: js/locale.js:10
+msgid "Clone"
+msgstr ""
+
+#: js/locale.js:11
+msgid "Clone this Style"
+msgstr ""
+
+#: js/locale.js:13
+msgid "Color"
+msgstr ""
+
+#: js/locale.js:14
+msgid "Create"
+msgstr ""
+
+#: js/locale.js:15
+msgid "Decrease Indent"
+msgstr ""
+
+#: js/locale.js:16
+msgid "Default Style"
+msgstr ""
+
+#: js/locale.js:17
+msgid "Delete"
+msgstr ""
+
+#: js/locale.js:18
+msgid "Family"
+msgstr ""
+
+#: js/locale.js:19
+msgid "Font"
+msgstr ""
+
+#: js/locale.js:20
+msgid "Font Effects"
+msgstr ""
+
+#: js/locale.js:21
+msgid "Format"
+msgstr ""
+
+#: js/locale.js:22
+msgid "Increase Indent"
+msgstr ""
+
+#: js/locale.js:23
+msgid "Insert Image"
+msgstr ""
+
+#: js/locale.js:24
+msgid "Invite Members"
+msgstr ""
+
+#: js/locale.js:25
+msgid "Italic"
+msgstr ""
+
+#: js/locale.js:26
+msgid "Justified"
+msgstr ""
+
+#: js/locale.js:27
+msgid "Justify"
+msgstr ""
+
+#: js/locale.js:28
+msgid "Left"
+msgstr ""
+
+#: js/locale.js:29
+msgid "Loading"
+msgstr ""
+
+#: js/locale.js:30
+msgid "Members"
+msgstr ""
+
+#: js/locale.js:31
+msgid "New Name:"
+msgstr ""
+
+#: js/locale.js:32 templates/public.php:12
+msgid "OK"
+msgstr "OK"
+
+#: js/locale.js:33
+msgid "Open"
+msgstr ""
+
+#: js/locale.js:34
+msgid "Options"
+msgstr ""
+
+#: js/locale.js:35
+msgid "Paragraph..."
+msgstr ""
+
+#: js/locale.js:36
+msgid "Paragraph Styles"
+msgstr ""
+
+#: js/locale.js:37
+msgid "Redo"
+msgstr ""
+
+#: js/locale.js:38
+msgid "Right"
+msgstr ""
+
+#: js/locale.js:39
+msgid "Save"
+msgstr ""
+
+#: js/locale.js:40
+msgid "Size"
+msgstr ""
+
+#: js/locale.js:41
+msgid "Spacing"
+msgstr ""
+
+#: js/locale.js:42
+msgid "Strikethrough"
+msgstr ""
+
+#: js/locale.js:43
+msgid "Style"
+msgstr ""
+
+#: js/locale.js:44
+msgid "Text"
+msgstr ""
+
+#: js/locale.js:45
+msgid "Top"
+msgstr ""
+
+#: js/locale.js:46
+msgid "Underline"
+msgstr ""
+
+#: js/locale.js:47
+msgid "Undo"
+msgstr ""
+
+#: js/locale.js:48
+msgid "Unknown Author"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -82,10 +274,6 @@ msgstr "Incorrect password. Please try again."
 #: templates/public.php:11
 msgid "Password"
 msgstr "Password"
-
-#: templates/public.php:12
-msgid "OK"
-msgstr "OK"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"

@@ -4,6 +4,7 @@
 "Share" => "Partilhar",
 "Failed to load documents." => "O carregamento dos documentos falhou",
 "No documents are found. Please upload or create a document!" => "Nenhum documento encontrado. Por favor carregue ou crie um documento!",
+"OK" => "OK",
 "Sent" => "Enviado",
 "Declined" => "Negado",
 "Accepted" => "Aceite",
@@ -11,7 +12,6 @@
 "Upload" => "Carregar",
 "Save new documents to" => "Guardar novos documentos para",
 "Password" => "Palavra-passe",
-"OK" => "OK",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Esta ligação expirou ou nunca existiu. Para mais detalhes, por favor contacte a pessoa que a partilhou consigo.",
 "Advanced feature-set" => "Opções avançadas",
 "(Unstable)" => "(Instável)"
