@@ -2,7 +2,7 @@
 	<ul class="documentslist">
 		<li class="add-document">
 			<a class="add svg" target="_blank" href="">
-				<label><?php p('New document') ?></label>
+				<label><?php p($l->t('New document')) ?></label>
 			</a> 
 			<div id="upload" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 				<form data-upload-id="1"
@@ -24,7 +24,7 @@
 					<input type="hidden" name="dir" value="<?php p($_['savePath']) ?>" id="dir" />
 					<input type="file" id="file_upload_start" name='files[]' />
 					<a href="#" class="upload svg">
-					<label><?php p('Upload') ?></label></a>
+					<label><?php p($l->t('Upload')) ?></label></a>
 				</form>
 			</div>
 		</li>
