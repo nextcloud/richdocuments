@@ -222,7 +222,7 @@
 }
 
 #members{
-	padding-top: 65px !important;
+	padding-top: 69px !important;
 }
 
 .memberListButton span{
@@ -241,7 +241,14 @@
 
 #toolbar {
 	border-bottom: none !important;
-	padding: 6px 0 !important;
+	padding: 5px 0 0 !important;
+}
+
+#toolbar > .dijit{
+	margin-left:3px;
+}
+#toolbar > span.dijit{
+	margin-left: 0;
 }
 
 #container {
@@ -261,6 +268,19 @@ editinfo > div.editInfoMarker {
 }
 
 editinfo > div.editInfoMarker:hover {
+}
+
+.dijitToolbar .dijitDropDownButton {
+	padding-top: 2px;
+}
+
+.dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
+margin-top:-1px;
+}
+
+.claro .dijitTextBox .dijitInputInner,
+.claro .dijitSpinner .dijitSpinnerButtonInner {
+	margin: 0;
 }
 
 /* part of dojo.css */
