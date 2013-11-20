@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swahili (Kenya) (http://www.transifex.com/projects/p/owncloud/language/sw_KE/)\n"
 "MIME-Version: 1.0\n"
@@ -258,7 +258,11 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr ""
 

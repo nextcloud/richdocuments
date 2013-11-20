@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -84,7 +84,7 @@ msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: js/locale.js:9
 msgid "Center"
@@ -104,7 +104,7 @@ msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Lag"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
@@ -116,11 +116,11 @@ msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Familie"
 
 #: js/locale.js:19
 msgid "Font"
@@ -164,7 +164,7 @@ msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Lastar"
 
 #: js/locale.js:30
 msgid "Members"
@@ -180,7 +180,7 @@ msgstr "Greitt"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Opna"
 
 #: js/locale.js:34
 msgid "Options"
@@ -204,11 +204,11 @@ msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Lagra"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Storleik"
 
 #: js/locale.js:41
 msgid "Spacing"
@@ -224,7 +224,7 @@ msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: js/locale.js:45
 msgid "Top"
@@ -258,7 +258,11 @@ msgstr "Godtatt"
 msgid "Incoming"
 msgstr "Inngåande"
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr "Last opp"
 

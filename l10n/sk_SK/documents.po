@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Zdieľať"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Nie je pripojenie k serveru. Pokúste sa o znovupripojenie."
 
 #: js/documents.js:153
 msgid ""
@@ -57,75 +57,75 @@ msgstr "Žiadne dokumenty neboli nájdené. Nahrajte, alebo vytvorte dokument!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Zarovnanie vľavo"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Zarovnanie"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Zarovnanie vpravo"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Anotácia"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Pozadie"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Tučné"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Nadol"
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Na stred"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Klonovať"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Klonovať tento štýl"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Farba"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Vytvoriť"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Zmenšiť odsadenie"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Predvolený štýl"
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Zmazať"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Rodina"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: js/locale.js:20
 msgid "Font Effects"
@@ -133,23 +133,23 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Formát"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Zväčšiť odsadenie"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Vložiť obrázok"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Pozvať členov"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Kurzíva"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -161,19 +161,19 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Vľavo"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Nahrávam"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Členovia"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nový názov:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -181,19 +181,19 @@ msgstr "OK"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Otvoriť"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "Možnosti"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Odsek..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Štýly odseku"
 
 #: js/locale.js:37
 msgid "Redo"
@@ -201,15 +201,15 @@ msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Veľkosť"
 
 #: js/locale.js:41
 msgid "Spacing"
@@ -217,15 +217,15 @@ msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Prečiarknuté"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Štýl"
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: js/locale.js:45
 msgid "Top"
@@ -233,7 +233,7 @@ msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Zdôrazniť"
 
 #: js/locale.js:47
 msgid "Undo"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Neznámy autor"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -259,7 +259,11 @@ msgstr "Schválené"
 msgid "Incoming"
 msgstr "Prichádzajúci"
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr "Odoslať"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Jaa"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ei yhteyttä palvelimeen. Yritetään yhdistää uudelleen."
 
 #: js/documents.js:153
 msgid ""
@@ -74,7 +74,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Tausta"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -86,7 +86,7 @@ msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Peru"
 
 #: js/locale.js:9
 msgid "Center"
@@ -102,11 +102,11 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Väri"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Luo"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
@@ -114,27 +114,27 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Oletustyyli"
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Poista"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Perhe"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Kirjasin"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Kirjasintehosteet"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Muotoilu"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -142,11 +142,11 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Lisää kuva"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Kutsu jäseniä"
 
 #: js/locale.js:25
 msgid "Italic"
@@ -166,15 +166,15 @@ msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Ladataan"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Jäsenet"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Uusi nimi:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -182,11 +182,11 @@ msgstr "OK"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Avaa"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "Valinnat"
 
 #: js/locale.js:35
 msgid "Paragraph..."
@@ -198,7 +198,7 @@ msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Tee uudelleen"
 
 #: js/locale.js:38
 msgid "Right"
@@ -206,11 +206,11 @@ msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Tallenna"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Koko"
 
 #: js/locale.js:41
 msgid "Spacing"
@@ -226,7 +226,7 @@ msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Teksti"
 
 #: js/locale.js:45
 msgid "Top"
@@ -238,11 +238,11 @@ msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Kumoa"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Tuntematon tekijä"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -260,7 +260,11 @@ msgstr "Hyväksytty"
 msgid "Incoming"
 msgstr "Saapuva"
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr "Lähetä"
 

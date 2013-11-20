@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -32,13 +32,13 @@ msgstr "Freigeben"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Keine Verbindung zum Server. Versuche wiederzuverbinden."
 
 #: js/documents.js:153
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Das Verlassen dieser Seite im Editor-Modus kann zu nicht gespeicherten Daten führen. Es wird empfohlen, den 'Schliessen' - Button zu verwenden."
 
 #: js/documents.js:166
 msgid ""
@@ -57,47 +57,47 @@ msgstr "Keine Dokumente gefunden. Bitte laden Sie Dokumente hoch, oder erstellen
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Linksbündig"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Ausrichtung"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Rechtsbündig"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Kommentieren"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Hintergrund"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Fett"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Unten"
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Zentriert"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Klonen"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Diesen Stil klonen"
 
 #: js/locale.js:13
 msgid "Color"
@@ -105,7 +105,7 @@ msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
@@ -117,11 +117,11 @@ msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Familie"
 
 #: js/locale.js:19
 msgid "Font"
@@ -165,7 +165,7 @@ msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Lade"
 
 #: js/locale.js:30
 msgid "Members"
@@ -181,11 +181,11 @@ msgstr "OK"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #: js/locale.js:35
 msgid "Paragraph..."
@@ -205,11 +205,11 @@ msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Grösse"
 
 #: js/locale.js:41
 msgid "Spacing"
@@ -225,7 +225,7 @@ msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: js/locale.js:45
 msgid "Top"
@@ -259,7 +259,11 @@ msgstr "Akzeptiert"
 msgid "Incoming"
 msgstr "Eingehend"
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr "Datei hochladen"
 
@@ -287,7 +291,7 @@ msgstr "Beitreten"
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Dieser Link ist abgelaufen oder hat niemals existiert. Für nähere Details kontaktiere bitte die Person, die den Link mit dir teilt."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"

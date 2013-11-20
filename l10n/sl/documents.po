@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Souporaba"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ni povezave s strežnikom. Poskus povezave bo ponovljen."
 
 #: js/documents.js:153
 msgid ""
@@ -57,123 +57,123 @@ msgstr "Ni najdenih dokumentov. Pošljite dokument na strežnik, ali pa ga ustva
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Poravnaj levo"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Poravnava"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Poravnaj desno"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Zabeleži"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Ozadje"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Krepko"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Spodaj"
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Sredina"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Kloniraj"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Kloniraj slog"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Barva"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Ustvari"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Zmanjšaj zamik"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Privzet slog"
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Izbriši"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Družina"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Pisava"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Učinki pisave"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Zapis"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Povečaj zamik"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Vstavi sliko"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Povabi druge uporabnike"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Ležeče"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Poravnano"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Poravnaj"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Levo"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Nalaganje"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Člani"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Novo ime:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -181,67 +181,67 @@ msgstr "V redu"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Odpri"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "Možnosti"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Odstavek ..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Slog odstavka"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Ponovno uveljavi"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Desno"
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Shrani"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Razmik"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Prečrtano"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Slog"
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Besedilo"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Zgoraj"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Podčrtano"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Razveljavi"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Neznan avtor"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -259,7 +259,11 @@ msgstr "Sprejeto"
 msgid "Incoming"
 msgstr "Prihajajoče"
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr "Pošlji"
 

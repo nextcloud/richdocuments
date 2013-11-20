@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 20:04-0500\n"
-"PO-Revision-Date: 2013-11-16 01:04+0000\n"
+"POT-Creation-Date: 2013-11-20 16:09-0500\n"
+"PO-Revision-Date: 2013-11-20 21:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Share"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "No connection to server. Trying to reconnect."
 
 #: js/documents.js:153
 msgid ""
@@ -57,123 +57,123 @@ msgstr "No documents can be found. Please upload or create a document!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Align Left"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Alignment"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Align Right"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Annotate"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Background"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Bold"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Bottom"
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centre"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Clone"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Clone this Style"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Colour"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Create"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Decrease Indent"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Default Style"
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Family"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Font Effects"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Increase Indent"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Insert Image"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Invite Members"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Italic"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justified"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justify"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Left"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Loading"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Members"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "New Name:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -181,67 +181,67 @@ msgstr "OK"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Open"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragraph..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Paragraph Styles"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Redo"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Right"
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Save"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Size"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Spacing"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Strikethrough"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Style"
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Top"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Underline"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Undo"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Unknown Author"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -259,7 +259,11 @@ msgstr "Accepted"
 msgid "Incoming"
 msgstr "Incoming"
 
-#: templates/documents.php:7
+#: templates/documents.php:5
+msgid "New document"
+msgstr ""
+
+#: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
 msgstr "Upload"
 
