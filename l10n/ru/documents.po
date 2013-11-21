@@ -6,6 +6,7 @@
 # Dmitry <linuxsquirrel.dev@gmail.com>, 2013
 # jekader <jekader@gmail.com>, 2013
 # sk.avenger <sk.avenger@adygnet.ru>, 2013
+# unixoid <victor.ashirov@gmail.com>, 2013
 # VicDeo <victor.dubiniuk@gmail.com>, 2013
 # 3lnc <slam.3lnc@live.com>, 2013
 # vsapronov <vladimir.sapronov@gmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-20 16:09-0500\n"
-"PO-Revision-Date: 2013-11-20 21:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 18:13-0500\n"
+"PO-Revision-Date: 2013-11-21 09:40+0000\n"
+"Last-Translator: unixoid <victor.ashirov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -267,7 +268,7 @@ msgstr "Входящие"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Новый документ"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"

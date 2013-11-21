@@ -58,6 +58,7 @@
 "Declined" => "Denegado",
 "Accepted" => "Aceptado",
 "Incoming" => "Entrante",
+"New document" => "Nuevo documento",
 "Upload" => "Subir",
 "Save new documents to" => "Guardar nuevos documentos en",
 "Wrong password. Please retry." => "Contraseña incorrecta. Inténtelo de nuevo.",

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I Robot <owncloud-bot@tmit.eu>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # stefanniedermann <stefan.niedermann@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-20 16:09-0500\n"
-"PO-Revision-Date: 2013-11-20 21:09+0000\n"
+"POT-Creation-Date: 2013-11-21 18:13-0500\n"
+"PO-Revision-Date: 2013-11-21 09:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -33,20 +34,20 @@ msgstr "Teilen"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr "Keine Verbindung zum Server. Versuche wiederzuverbinden."
+msgstr "Keine Verbindung zum Server. Es wird versucht diese wiederherzustellen."
 
 #: js/documents.js:153
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Das Verlassen dieser Seite im Editor-Modus kann zu nicht gespeicherten Daten führen. Es wird empfohlen, den 'Schließen' - Button zu verwenden."
+msgstr "Das Verlassen dieser Seite kann zu nicht gespeicherten Daten führen. Bitte verwenden die den 'Schließen'-Button."
 
 #: js/documents.js:166
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Fehler beim Laden dieses Dokumentes. Bitte prüfen Sie ob diese Datei mit einem externen ODT-Editor geöffnet werden kann. Dies könnte auch bedeuten, das die Datei nicht mehr geteilt wird oder kürzlich gelöscht wurde."
+msgstr "Fehler beim Laden dieses Dokumentes. Bitte prüfen Sie, ob diese Datei mit einem externen ODT-Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder vor kurzem gelöscht wurde."
 
 #: js/documents.js:332
 msgid "Failed to load documents."
@@ -54,7 +55,7 @@ msgstr "Laden der Dokumente fehlgeschlagen."
 
 #: js/documents.js:375
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Keine Dokumente gefunden. Bitte laden Sie Dokumente hoch, oder erstellen Sie ein Dokument!"
+msgstr "Keine Dokumente gefunden. Bitte laden Sie ein Dokument hoch, oder erstellen Sie eins!"
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -110,7 +111,7 @@ msgstr "Erstellen"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Einzug verkleinern"
+msgstr "Einrückung verkleinern"
 
 #: js/locale.js:16
 msgid "Default Style"
@@ -138,7 +139,7 @@ msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Einzug vergrößern"
+msgstr "Einrückung vergrößern"
 
 #: js/locale.js:23
 msgid "Insert Image"
@@ -170,7 +171,7 @@ msgstr "Lade"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Mitglied"
+msgstr "Mitglieder"
 
 #: js/locale.js:31
 msgid "New Name:"
@@ -262,7 +263,7 @@ msgstr "Eingehend"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Neues Dokument"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -292,7 +293,7 @@ msgstr "Beitreten"
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktieren Sie, für nähere Details, die Person, die dies mit Ihnen teilt."
+msgstr "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktieren Sie für nähere Details die Person, die dieses Dokument mit Ihnen geteilt hat."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"

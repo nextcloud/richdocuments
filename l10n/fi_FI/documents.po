@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-20 16:09-0500\n"
-"PO-Revision-Date: 2013-11-20 21:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 18:13-0500\n"
+"PO-Revision-Date: 2013-11-20 23:00+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,15 +58,15 @@ msgstr "Asiakirjoja ei löytynyt. Lähetä tai luo uusi asiakirja!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Tasaa vasemmalle"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Tasaus"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Tasaa oikealle"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -110,7 +110,7 @@ msgstr "Luo"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Vähennä sisennystä"
 
 #: js/locale.js:16
 msgid "Default Style"
@@ -138,7 +138,7 @@ msgstr "Muotoilu"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Lisää sisennystä"
 
 #: js/locale.js:23
 msgid "Insert Image"
@@ -190,11 +190,11 @@ msgstr "Valinnat"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Kappale..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Kappaletyylit"
 
 #: js/locale.js:37
 msgid "Redo"
@@ -222,7 +222,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Tyyli"
 
 #: js/locale.js:44
 msgid "Text"
@@ -262,7 +262,7 @@ msgstr "Saapuva"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Uusi asiakirja"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"

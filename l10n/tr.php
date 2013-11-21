@@ -58,6 +58,7 @@
 "Declined" => "Reddedildi",
 "Accepted" => "Kabul edildi",
 "Incoming" => "Gelen",
+"New document" => "Yeni belge",
 "Upload" => "Yükle",
 "Save new documents to" => "Yeni belgeleri şuraya kaydet",
 "Wrong password. Please retry." => "Yanlış parola. Lütfen yeniden deneyin.",

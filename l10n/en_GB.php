@@ -58,6 +58,7 @@
 "Declined" => "Declined",
 "Accepted" => "Accepted",
 "Incoming" => "Incoming",
+"New document" => "New document",
 "Upload" => "Upload",
 "Save new documents to" => "Save new documents to",
 "Wrong password. Please retry." => "Incorrect password. Please try again.",

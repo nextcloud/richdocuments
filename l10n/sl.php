@@ -58,6 +58,7 @@
 "Declined" => "Zavrnjeno",
 "Accepted" => "Sprejeto",
 "Incoming" => "Prihajajoče",
+"New document" => "Nov dokument",
 "Upload" => "Pošlji",
 "Save new documents to" => "Shrani nove dokumente v",
 "Wrong password. Please retry." => "Napačno geslo. Poskusite znova.",

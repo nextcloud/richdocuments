@@ -58,6 +58,7 @@
 "Declined" => "Rexeitado",
 "Accepted" => "Aceptado",
 "Incoming" => "Entrante",
+"New document" => "Novo documento",
 "Upload" => "Enviar",
 "Save new documents to" => "Gardar os novos documentos en",
 "Wrong password. Please retry." => "Contrasinal incorrecto. Tenteo de novo.",
