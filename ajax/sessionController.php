@@ -101,7 +101,7 @@ class SessionController extends Controller{
 			
 			if ($view->file_exists($path)){
 				$currentHash = sha1($view->file_get_contents($path));
-				if ($currentHash !== $sessionData['genesis_hash']){
+				if (!Helper::isVersionsEnabled() && $currentHash !== $sessionData['genesis_hash']){
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
 				}

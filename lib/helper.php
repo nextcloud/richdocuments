@@ -26,6 +26,10 @@ class Helper{
 		return $path;
 	}
 	
+	public static function isVersionsEnabled(){
+		return \OCP\App::isEnabled('files_versions');
+	}
+	
 	public static function getRandomColor(){
 		$str = dechex(floor(rand(0, 16777215)));
 		return '#' . str_pad($str, 6, "0", STR_PAD_LEFT);
