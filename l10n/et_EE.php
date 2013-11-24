@@ -58,6 +58,7 @@
 "Declined" => "Tagasi lükatud",
 "Accepted" => "Vastu võetud",
 "Incoming" => "Sissetulev",
+"New document" => "Uus dokument",
 "Upload" => "Lae üles",
 "Save new documents to" => "Salvesta dokumendid",
 "Wrong password. Please retry." => "Vale parool. Palun proovi uuesti.",

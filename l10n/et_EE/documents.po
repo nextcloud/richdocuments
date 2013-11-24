@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-20 16:09-0500\n"
-"PO-Revision-Date: 2013-11-20 21:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-23 22:06-0500\n"
+"PO-Revision-Date: 2013-11-22 09:40+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -262,7 +262,7 @@ msgstr "Sissetulev"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Uus dokument"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
