@@ -84,11 +84,34 @@ class Db_Op extends Db {
 	}
 
 	public function removeCursor($esId, $memberId){
+		$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
+		$this->insertOp($esId, $op);
+	}
+	
+	public function addMember($esId, $memberId, $fullName, $color, $imageUrl){
+		$op = '{"optype":"AddMember","memberid":"'. $memberId .'","timestamp":"'. time() .'", "setProperties":{"fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'"}}';
+		$this->insertOp($esId, $op);
+	}
+	
+	public function removeMember($esId, $memberId){
+		$op ='{"optype":"RemoveMember","memberid":"'. $memberId .'","timestamp":'. time() .'}';
+		$this->insertOp($esId, $op);
+	}
+	
+	public function updateMember($esId, $memberId, $fullName, $color, $imageUrl){
+		//TODO: Follow the spec https://github.com/kogmbh/WebODF/blob/master/webodf/lib/ops/OpUpdateMember.js#L95
+		$op = '{"optype":"UpdateMember","memberid":"'. $memberId .'","fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'","timestamp":'. time() .'}'
+		;
+		$this->insertOp($esId, $op);
+	}
+	
+	protected function insertOp($esId, $op){
 		$op = new Db_Op(array(
 			$esId, 
 			0,
-			'{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}'
+			$op
 		));
 		$op->insert();
 	}
+	
 }
