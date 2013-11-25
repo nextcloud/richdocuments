@@ -1,0 +1,14 @@
+diff --git a/css/3rdparty/webodf/dojo-app.css b/css/3rdparty/webodf/dojo-app.css
+index a30426b..ee1c0f3 100644
+--- a/css/3rdparty/webodf/dojo-app.css
++++ b/css/3rdparty/webodf/dojo-app.css
+@@ -6,7 +6,7 @@
+  * It is highly, highly recommended that you develop your CSS using Stylus: http://learnboost.github.com/stylus/.
+  */
+ 
+-@import '../../../js/3rdparty/resources/dojo/resources/dojo.css';
++/* @import '../../../js/3rdparty/resources/dojo/resources/dojo.css'; */
+ @import '../../../js/3rdparty/resources/dijit/themes/claro/claro.css';
+ @import '../../../js/3rdparty/resources/dojox/layout/resources/ExpandoPane.css';
+ @import '../../../js/3rdparty/resources/dojox/widget/ColorPicker/ColorPicker.css';
+

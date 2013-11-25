@@ -36,3 +36,5 @@ cp "$WEBODF_BUILDDIR"/programs/editor/editor.css ./css/3rdparty/webodf
 patch -p1 -i src/patches/fontsCssPath.patch
 patch -p1 -i src/patches/hideCaretAvatar.patch
 patch -p1 -i src/patches/MemberListView-OCavatar.patch
+patch -p1 -i src/patches/keepBodyStyle.patch
+patch -p1 -i src/patches/dojoStylesPill.patch
