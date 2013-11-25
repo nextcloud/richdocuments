@@ -22,19 +22,20 @@ cp "$WEBODF_BUILDDIR"/programs/editor/dojo-amalgamation.js ./js/3rdparty/webodf
 
 # Tools, Editor, EditorSession, MemberListView:
 cp "$WEBODF_BUILDDIR"/programs/editor/{Tools,Editor,EditorSession,MemberListView}.js ./js/3rdparty/webodf/editor
-cp "$WEBODF_BUILDDIR"/programs/editor/server/owncloud/* ./js/3rdparty/webodf/editor/server/owncloud -R
 cp "$WEBODF_BUILDDIR"/programs/editor/server/pullbox/* ./js/3rdparty/webodf/editor/server/pullbox -R
 cp "$WEBODF_BUILDDIR"/programs/editor/server/ServerFactory.js ./js/3rdparty/webodf/editor/server -R
 cp "$WEBODF_BUILDDIR"/programs/editor/widgets ./js/3rdparty/webodf/editor -R
 cp "$WEBODF_BUILDDIR"/programs/editor/nls ./js/3rdparty/webodf/editor -R
 cp "$WEBODF_BUILDDIR"/programs/editor/editor.css ./css/3rdparty/webodf
 
-# dojo stuff
-# TODO
-
 # patches against upstream
 patch -p1 -i src/patches/fontsCssPath.patch
 patch -p1 -i src/patches/hideCaretAvatar.patch
 patch -p1 -i src/patches/MemberListView-OCavatar.patch
 patch -p1 -i src/patches/keepBodyStyle.patch
-patch -p1 -i src/patches/dojoStylesPill.patch
+
+
+# files which need to be adapted manually:
+# "$WEBODF_BUILDDIR"/programs/editor/dojo-deps/src/app/resources/app.css  -> ./css/3rdparty/webodf/dojo-app.css
+# dojo-app.css has other paths then upstream, needs to be manually adapted to changes
+# also is dojo.css is not imported here, other than in upstream
