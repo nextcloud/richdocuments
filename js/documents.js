@@ -128,7 +128,7 @@ var documentsMain = {
 			documentsMain.UI.showOverlay();
 		}
 		
-		var webodfSource = (oc_debug !== true) ? 'webodf-debug' : 'webodf';
+		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf';
 		OC.addScript('documents', '3rdparty/webodf/' + webodfSource).done(function() {
 			// preload stuff in the background
 			require({}, ["dojo/ready"], function(ready) {

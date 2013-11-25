@@ -37,7 +37,7 @@ var odfViewer = {
 		OC.addStyle('documents', 'viewer/webodf');
 		OC.addStyle('documents', 'viewer/odfviewer');
 		
-		var webodfSource = (oc_debug !== true) ? 'webodf-debug' : 'webodf';
+		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf';
 		
 		OC.addScript('documents', '3rdparty/webodf/' + webodfSource, function() {
 			var location = fileDownloadPath($('#dir').val(), filename);
