@@ -64,14 +64,52 @@ class Db_Session extends \OCA\Documents\Db {
 					->getData()
 		;
 		
+		$memberColor = Helper::getRandomColor();
+		
 		$member = new Db_Member(array(
 			$session['es_id'], 
-			$uid, 
-			Helper::getRandomColor(),
+			$uid,
+			$memberColor,
 			time()
 		));
+		
 		if ($member->insert()){
+			// Do we have OC_Avatar in out disposal?
+			if (!class_exists('\OC_Avatar') || \OC_Config::getValue('enable_avatars', true) !== true){
+				//$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
+				$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
+			} else {
+				// https://github.com/owncloud/documents/issues/51
+				// Temporary stub
+				$imageUrl = $uid;
+							
+			/*
+				$avatar = new \OC_Avatar($uid);
+				$image = $avatar->get(64);
+					// User has an avatar 
+				if ($image instanceof \OC_Image) {
+					$imageUrl = \OC_Helper::linkToRoute(
+							'core_avatar_get',
+							array( 'user' => $uid, 'size' => 64)
+					) . '?requesttoken=' . \OC::$session->get('requesttoken');
+				} else {
+					//shortcircuit if it's not an image
+					$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
+				}
+							 
+			 */
+			}
+			
+			
 			$session['member_id'] = (string) $member->getLastInsertId();
+			$op = new Db_Op();
+			$op->addMember(
+					$session['es_id'],
+					$session['member_id'],
+					\OCP\User::getDisplayName($uid),
+					$memberColor,
+					$imageUrl
+			);
 		} else {
 			throw new \Exception('Failed to add member into database');
 		}
