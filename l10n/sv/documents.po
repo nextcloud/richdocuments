@@ -5,14 +5,15 @@
 # Translators:
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
+# kallemooo <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-20 16:09-0500\n"
-"PO-Revision-Date: 2013-11-20 21:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-26 01:18-0500\n"
+"PO-Revision-Date: 2013-11-24 19:30+0000\n"
+"Last-Translator: kallemooo <karl.h.thoren@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgstr "Dela"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ingen kontakt med servern. Försöker att koppla upp igen."
 
 #: js/documents.js:153
 msgid ""
@@ -75,11 +76,11 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Bakgrund"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Fet"
 
 #: js/locale.js:7
 msgid "Bottom"
@@ -91,11 +92,11 @@ msgstr "Avbryt"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centrerad"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Klona"
 
 #: js/locale.js:11
 msgid "Clone this Style"
@@ -103,7 +104,7 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Färg"
 
 #: js/locale.js:14
 msgid "Create"
@@ -135,7 +136,7 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -143,11 +144,11 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Infoga bild"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Bjud in medlemmar"
 
 #: js/locale.js:25
 msgid "Italic"
@@ -155,15 +156,15 @@ msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justerad"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justera"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Vänster"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -171,11 +172,11 @@ msgstr "Laddar"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Medlemmar"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nytt namn:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -199,11 +200,11 @@ msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Klar"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Höger"
 
 #: js/locale.js:39
 msgid "Save"
@@ -219,11 +220,11 @@ msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Genomstruket"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #: js/locale.js:44
 msgid "Text"
@@ -239,11 +240,11 @@ msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Ångra"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Okänd författare"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -263,7 +264,7 @@ msgstr "Inkommande"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Nytt dokument"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -275,7 +276,7 @@ msgstr "Spara nya dokument till"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Fel lösenord. Försök igen."
 
 #: templates/public.php:11
 msgid "Password"
