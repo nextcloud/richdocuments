@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-20 16:09-0500\n"
-"PO-Revision-Date: 2013-11-20 21:09+0000\n"
+"POT-Creation-Date: 2013-11-27 09:16-0500\n"
+"PO-Revision-Date: 2013-11-27 14:16+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,14 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumentacija"
 
+#: js/3rdparty/webodf/webodf.js:831
+msgid "document-styles"
+msgstr ""
+
+#: js/3rdparty/webodf/webodf.js:832
+msgid "document-content"
+msgstr ""
+
 #: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
 msgid "Close"
 msgstr "Užverti"
@@ -33,7 +41,7 @@ msgstr "Dalintis"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Nėra ryšio su serveriu. Bandoma jungtis vėl."
 
 #: js/documents.js:153
 msgid ""
@@ -58,15 +66,15 @@ msgstr "Nerasta dokumentų. Prašome įkelti ar sukurti dokumentą!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Lygiuoti į kairę"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Lygiavimas"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Lygiuoti į dešinę"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -74,7 +82,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Fonas"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -274,7 +282,7 @@ msgstr "Saugoti naujus dokumentus į"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Neteisingas slaptažodis. Bandykite dar."
 
 #: templates/public.php:11
 msgid "Password"

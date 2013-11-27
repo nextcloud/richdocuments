@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# TheHiter <magicreative.fr@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
@@ -11,16 +10,16 @@ msgstr ""
 "POT-Creation-Date: 2013-11-27 09:16-0500\n"
 "PO-Revision-Date: 2013-11-27 14:16+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
+"Language-Team: French (Canada) (http://www.transifex.com/projects/p/owncloud/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Language: fr_CA\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr "وثائق"
+msgstr ""
 
 #: js/3rdparty/webodf/webodf.js:831
 msgid "document-styles"
@@ -32,11 +31,11 @@ msgstr ""
 
 #: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
 msgid "Close"
-msgstr "إغلاق"
+msgstr ""
 
 #: js/documents.js:26
 msgid "Share"
-msgstr "شارك"
+msgstr ""
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
@@ -57,7 +56,7 @@ msgstr ""
 
 #: js/documents.js:332
 msgid "Failed to load documents."
-msgstr "فشل في تحميل الوثائق"
+msgstr ""
 
 #: js/documents.js:375
 msgid "No documents are found. Please upload or create a document!"
@@ -81,7 +80,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "خلفية"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
@@ -89,15 +88,15 @@ msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "أسفل"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "الغاء"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "وسط"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
@@ -109,11 +108,11 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "اللون"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "انشئ"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
@@ -125,11 +124,11 @@ msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "إلغاء"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "العائلة"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
@@ -141,7 +140,7 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "الشكل"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -153,7 +152,7 @@ msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "دعوة الأعضاء"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
@@ -165,35 +164,35 @@ msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "برر"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "اليسار"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "تحميل"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "الأعضاء"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "اسم جديد:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "تم"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "افتح"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "خيارات"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
@@ -209,15 +208,15 @@ msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "اليمين"
+msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr "حفظ"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "حجم"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
@@ -233,11 +232,11 @@ msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "معلومات إضافية"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "أعلى"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
@@ -249,19 +248,19 @@ msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "المؤلف مجهول"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr "أرسلت"
+msgstr ""
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr "رفض"
+msgstr ""
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr "مقبول"
+msgstr ""
 
 #: lib/invite.php:74
 msgid "Incoming"
@@ -273,27 +272,27 @@ msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "رفع"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "حفظ المستندات الجديدة إلى"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "كلمة مرور خاطئة. يرجى إعادة المحاولة"
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "كلمة المرور"
+msgstr ""
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr "الرجاء إدخال كنيتك"
+msgstr ""
 
 #: templates/public.php:18
 msgid "Join"
-msgstr "انضم"
+msgstr ""
 
 #: templates/public.php:24
 msgid ""
