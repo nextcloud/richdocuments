@@ -50,50 +50,6 @@ try{
 	
 	$command = $request->getParam('command');
 	switch ($command){
-		case 'query_memberdata_list':
-			$ids = $request->getParam('args/member_ids');
-			
-			$member = new Db_Member();
-			$members = $member->getCollectionBy('member_id', $ids);
-			
-			$response["memberdata_list"] = array_map(
-					function($x){
-						$x['display_name'] = \OCP\User::getDisplayName($x['uid']);
-						
-						// Do we have OC_Avatar in out disposal?
-						if (!class_exists('\OC_Avatar') || \OC_Config::getValue('enable_avatars', true) !== true){
-							//$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
-							$x['avatar_url'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
-						} else {
-						// https://github.com/owncloud/documents/issues/51
-						// Temporary stub
-						
-							$x['avatar_url'] = $x['uid'];
-							
-							/*
-							$avatar = new \OC_Avatar($x['uid']);
-							$image = $avatar->get(64);
-							// User has an avatar 
-							if ($image instanceof \OC_Image) {
-								$x['avatar_url'] = \OC_Helper::linkToRoute(
-										'core_avatar_get',
-										array( 'user' => $x['uid'], 'size' => 64)
-								) . '?requesttoken=' . \OC::$session->get('requesttoken');
-							} else {
-								//shortcircuit if it's not an image
-								$x['avatar_url'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
-							}
-							 
-							 */
-						}
-						
-
-						return $x;
-					}, 
-					$members
-			);
-					
-			break;
 		case 'sync_ops':
 			$seqHead = (string) $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){

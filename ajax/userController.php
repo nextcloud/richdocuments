@@ -32,6 +32,8 @@ class UserController extends Controller{
 			$memberData = $member->getData();
 			if ($memberData['es_id']===$esId){
 				$member->deactivate(array($args['member_id']));
+				$op = new Db_Op();
+				$op->removeMember($esId, $args['member_id']);
 			}
 		}
 		\OCP\JSON::success();
