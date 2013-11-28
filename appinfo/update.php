@@ -11,7 +11,7 @@
 
 $installedVersion = \OCP\Config::getAppValue('documents', 'installed_version');
 
-$cleanup = \OC_DB::prepare('DELETE FROM `*PREFIX*documents_member` WHERE `member_id` NOT IN(SELECT `member_id` from `*PREFIX*documents_member` WHERE `last_activity`>0)');
+$cleanup = \OC_DB::prepare('DELETE FROM `*PREFIX*documents_member` WHERE `last_activity`=0 or `last_activity` is NULL');
 $cleanup->execute();
 
 if (version_compare($installedVersion, '0.7', '<=')) {
