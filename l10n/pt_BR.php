@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Documentos",
+"document-styles" => "documento-estilos",
+"document-content" => "documento-conteúdo",
 "Close" => "Fechar",
 "Share" => "Compartilhar",
 "No connection to server. Trying to reconnect." => "Sem conexão com o servidor. Tentando reconectar.",

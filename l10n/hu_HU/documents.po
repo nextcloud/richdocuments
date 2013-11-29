@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ádám Radovits <adamradovits12@hotmail.com>, 2013
 # sherlock79 <david@interpont.hu>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 11:21-0500\n"
+"PO-Revision-Date: 2013-11-27 15:10+0000\n"
+"Last-Translator: Ádám Radovits <adamradovits12@hotmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,11 +27,11 @@ msgstr "Dokumentumok"
 
 #: js/3rdparty/webodf/webodf.js:831
 msgid "document-styles"
-msgstr ""
+msgstr "dokumentum-stílusok"
 
 #: js/3rdparty/webodf/webodf.js:832
 msgid "document-content"
-msgstr ""
+msgstr "dokumentum-tartalom"
 
 #: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
 msgid "Close"
@@ -42,7 +43,7 @@ msgstr "Megosztás"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Nincs kapcsolat a szerverrel. Újracsatlakozás."
 
 #: js/documents.js:153
 msgid ""
@@ -67,15 +68,15 @@ msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy doku
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Balra igazítás"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Igazítás"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Jobbra igazítás"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -83,15 +84,15 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Háttér"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Félkövér"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Alsó"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -99,19 +100,19 @@ msgstr "Mégsem"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Közép"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Másolás"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Stílus másolása"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Szín"
 
 #: js/locale.js:14
 msgid "Create"
@@ -123,7 +124,7 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Alapértelmezett stílus"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -135,15 +136,15 @@ msgstr "Család"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Betűtípus"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Betűtípus effektek"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Formátum"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -151,19 +152,19 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Kép beillesztése"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Tagok meghívása"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Dőlt"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Sorkizárt"
 
 #: js/locale.js:27
 msgid "Justify"
@@ -171,19 +172,19 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Bal"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Betöltés"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Tagok"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Új név:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -199,19 +200,19 @@ msgstr "Opciók"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragrafus..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Paragrafus stílusok"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Helyrehoz"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Jobb"
 
 #: js/locale.js:39
 msgid "Save"
@@ -223,15 +224,15 @@ msgstr "Méret"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Ritkítás"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Áthúzott"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Stílus"
 
 #: js/locale.js:44
 msgid "Text"
@@ -239,19 +240,19 @@ msgstr "SMS"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Felső"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Aláhúzás"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Visszavonás"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Ismeretlen szerző"
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -271,7 +272,7 @@ msgstr "Beérkező"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Új dokumentum"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"

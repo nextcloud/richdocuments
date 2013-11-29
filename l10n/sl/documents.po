@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 11:21-0500\n"
+"PO-Revision-Date: 2013-11-27 18:15+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +24,11 @@ msgstr "Dokumenti"
 
 #: js/3rdparty/webodf/webodf.js:831
 msgid "document-styles"
-msgstr ""
+msgstr "slogi dokumenta"
 
 #: js/3rdparty/webodf/webodf.js:832
 msgid "document-content"
-msgstr ""
+msgstr "vsebina dokumenta"
 
 #: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
 msgid "Close"

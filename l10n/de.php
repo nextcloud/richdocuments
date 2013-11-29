@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumente",
+"document-styles" => "Formatvorlagen",
+"document-content" => "Dokumenteninhalt",
 "Close" => "Schließen",
 "Share" => "Teilen",
 "No connection to server. Trying to reconnect." => "Keine Verbindung zum Server. Versuche wiederzuverbinden.",

@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Belgeler",
+"document-styles" => "belge-biçemleri",
+"document-content" => "belge-içeriği",
 "Close" => "Kapat",
 "Share" => "Paylaş",
 "No connection to server. Trying to reconnect." => "Sunucuya bağlantı yok. Yeniden bağlanmaya çalışıyor.",

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 11:21-0500\n"
+"PO-Revision-Date: 2013-11-27 18:30+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,11 +104,11 @@ msgstr "Vystředit"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Klonuj"
+msgstr "Klonovat"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Klonuj tento styl"
+msgstr "Klonovat tento styl"
 
 #: js/locale.js:13
 msgid "Color"
@@ -184,7 +184,7 @@ msgstr "Členové"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Nový název"
+msgstr "Nový název:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -200,7 +200,7 @@ msgstr "Možnosti"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Odstavec"
+msgstr "Odstavec..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
@@ -284,7 +284,7 @@ msgstr "Uložit nové dokumenty do"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Nesprávné heslo"
+msgstr "Nesprávné heslo. Zkuste to znovu."
 
 #: templates/public.php:11
 msgid "Password"
@@ -292,7 +292,7 @@ msgstr "Heslo"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr "Zadejte přezdívku"
+msgstr "Zadejte vaši přezdívku"
 
 #: templates/public.php:18
 msgid "Join"
