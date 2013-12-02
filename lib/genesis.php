@@ -41,19 +41,22 @@ class Genesis {
 	 * */	
 	public function __construct(\OCA\Documents\View $view, $path, $owner){
 		$this->view = new View('/' . $owner);
-		$this->hash = $this->getDocumentHash($view, $path);
 		
 		if (!$this->view->file_exists(self::DOCUMENTS_DIRNAME)){
 			$this->view->mkdir(self::DOCUMENTS_DIRNAME );
 		}
 		
+		$this->hash = $this->getDocumentHash($view, $path);
 		$this->path = self::DOCUMENTS_DIRNAME . '/' . $this->hash . '.odt';
-		
 		if (!$this->view->file_exists($this->path)){
 			//copy new genesis to /user/documents/{hash}.odt
+			// get decrypted content
+			$content = $view->file_get_contents($path);
+					
 			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
-			$this->view->copy('/files' . $path, $this->path);
+			\OC_FileProxy::$enabled = false;	
+			
+			$this->view->file_put_contents($this->path, $content);
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 		
@@ -78,7 +81,13 @@ class Genesis {
 	
 	protected function getDocumentHash($view, $path){
 		$this->validate($view, $path);
-		return sha1($view->file_get_contents($path));
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+		
+		$hash = sha1($view->file_get_contents($path));
+		
+		\OC_FileProxy::$enabled = $proxyStatus;
+		return $hash;
 	}
 	
 	/**

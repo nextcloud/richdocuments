@@ -100,7 +100,13 @@ class SessionController extends Controller{
 			$memberCount = count($memberIds) - 1;
 			
 			if ($view->file_exists($path)){
+				
+				
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;	
 				$currentHash = sha1($view->file_get_contents($path));
+				\OC_FileProxy::$enabled = $proxyStatus;
+				
 				if (!Helper::isVersionsEnabled() && $currentHash !== $sessionData['genesis_hash']){
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
@@ -111,7 +117,7 @@ class SessionController extends Controller{
 				// Not a last user
 				if ($memberCount>0){
 					// Update genesis hash to prevent conflicts
-					Helper::warnLog('Update hash');
+					Helper::debugLog('Update hash');
 					$session->updateGenesisHash($esId, sha1($content));
 				} else {
 					// Last user. Kill session data
