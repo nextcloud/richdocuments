@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 11:21-0500\n"
-"PO-Revision-Date: 2013-11-29 11:40+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-12-02 15:22-0500\n"
+"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "ドキュメントースタイル"
 msgid "document-content"
 msgstr "ドキュメント-内容"
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
 msgid "Close"
 msgstr "閉じる"
 
@@ -252,6 +252,10 @@ msgstr "元に戻す"
 #: js/locale.js:48
 msgid "Unknown Author"
 msgstr "不明な作者"
+
+#: js/viewer/viewer.js:23
+msgid "Edit"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"

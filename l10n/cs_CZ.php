@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumenty",
+"document-styles" => "styly-dokumentu",
+"document-content" => "obsah-dokumentu",
 "Close" => "Zavřít",
 "Share" => "Sdílet",
 "No connection to server. Trying to reconnect." => "Ztráta připojení k serveru. Zkouším znovu.",

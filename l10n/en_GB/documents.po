@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 11:21-0500\n"
-"PO-Revision-Date: 2013-11-28 14:20+0000\n"
-"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"POT-Creation-Date: 2013-12-02 15:22-0500\n"
+"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "document-styles"
 msgid "document-content"
 msgstr "document-content"
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
 msgid "Close"
 msgstr "Close"
 
@@ -250,6 +250,10 @@ msgstr "Undo"
 #: js/locale.js:48
 msgid "Unknown Author"
 msgstr "Unknown Author"
+
+#: js/viewer/viewer.js:23
+msgid "Edit"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"

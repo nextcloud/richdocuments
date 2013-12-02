@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
+"POT-Creation-Date: 2013-12-02 15:22-0500\n"
+"PO-Revision-Date: 2013-12-02 20:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "document-content"
 msgstr ""
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
 msgid "Close"
 msgstr "닫기"
 
@@ -40,7 +40,7 @@ msgstr "공유"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "서버에 연결되지 않았습니다. 재연결을 시도합니다."
 
 #: js/documents.js:153
 msgid ""
@@ -97,7 +97,7 @@ msgstr "취소"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "중앙"
 
 #: js/locale.js:10
 msgid "Clone"
@@ -121,7 +121,7 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "기본 스타일"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -133,11 +133,11 @@ msgstr "가족"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "글꼴"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "글꼴 효과"
 
 #: js/locale.js:21
 msgid "Format"
@@ -249,6 +249,10 @@ msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
+msgstr "알수없는 저자"
+
+#: js/viewer/viewer.js:23
+msgid "Edit"
 msgstr ""
 
 #: lib/invite.php:64
@@ -269,7 +273,7 @@ msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "새 문서"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -281,7 +285,7 @@ msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "잘못된 비밀번호입니다. 다시 넣어주세요"
 
 #: templates/public.php:11
 msgid "Password"

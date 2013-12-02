@@ -4,12 +4,13 @@
 # 
 # Translators:
 # hanfeng <appweb.cn@gmail.com>, 2013
+# fkj <fengkaijia@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
+"POT-Creation-Date: 2013-12-02 15:22-0500\n"
+"PO-Revision-Date: 2013-12-02 20:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "文档"
 
 #: js/3rdparty/webodf/webodf.js:831
 msgid "document-styles"
@@ -30,7 +31,7 @@ msgstr ""
 msgid "document-content"
 msgstr ""
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
 msgid "Close"
 msgstr "关闭"
 
@@ -40,7 +41,7 @@ msgstr "共享"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "无法连接到服务，正在尝试重新连接。"
 
 #: js/documents.js:153
 msgid ""
@@ -53,7 +54,7 @@ msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "打开文档失败，请检查此文档是否可以使用外部 ODT 编辑器打开。同时，此文档可能已经关闭分享或者已经被删除。"
 
 #: js/documents.js:332
 msgid "Failed to load documents."
@@ -65,15 +66,15 @@ msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "左对齐"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "对齐"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "右对齐"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -81,15 +82,15 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "粗体"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "底部"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -109,7 +110,7 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "颜色"
 
 #: js/locale.js:14
 msgid "Create"
@@ -121,7 +122,7 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "默认样式"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -133,31 +134,31 @@ msgstr "家庭"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "字体"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "字体效果"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "增加缩进"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "插入图片"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "邀请用户"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "斜体"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -177,7 +178,7 @@ msgstr "加载中"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "成员"
 
 #: js/locale.js:31
 msgid "New Name:"
@@ -205,7 +206,7 @@ msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "重做"
 
 #: js/locale.js:38
 msgid "Right"
@@ -229,7 +230,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "样式"
 
 #: js/locale.js:44
 msgid "Text"
@@ -241,14 +242,18 @@ msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "下划线"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "撤消"
 
 #: js/locale.js:48
 msgid "Unknown Author"
+msgstr "未知作者"
+
+#: js/viewer/viewer.js:23
+msgid "Edit"
 msgstr ""
 
 #: lib/invite.php:64
@@ -257,11 +262,11 @@ msgstr "发送"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "拒绝"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "接受"
 
 #: lib/invite.php:74
 msgid "Incoming"
@@ -269,7 +274,7 @@ msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "新建文档"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -281,7 +286,7 @@ msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "密码错误，请重新尝试。"
 
 #: templates/public.php:11
 msgid "Password"
@@ -289,11 +294,11 @@ msgstr "密码"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "请输入您的昵称"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "加入"
 
 #: templates/public.php:24
 msgid ""
@@ -303,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "高级功能"
 
 #: templates/settings.php:10
 msgid "(Unstable)"

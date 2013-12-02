@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
+"POT-Creation-Date: 2013-12-02 15:22-0500\n"
+"PO-Revision-Date: 2013-12-02 20:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "document-content"
 msgstr ""
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
 msgid "Close"
 msgstr "Zavrieť"
 
@@ -137,7 +137,7 @@ msgstr "Font"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Efekty písma"
 
 #: js/locale.js:21
 msgid "Format"
@@ -161,11 +161,11 @@ msgstr "Kurzíva"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Zarovnaný"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Zarovnať"
 
 #: js/locale.js:28
 msgid "Left"
@@ -205,7 +205,7 @@ msgstr "Štýly odseku"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
 #: js/locale.js:38
 msgid "Right"
@@ -221,7 +221,7 @@ msgstr "Veľkosť"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Riadkovanie"
 
 #: js/locale.js:42
 msgid "Strikethrough"
@@ -237,19 +237,23 @@ msgstr "Text"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Horný"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Zdôrazniť"
+msgstr "Podčiarknuť"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Späť"
 
 #: js/locale.js:48
 msgid "Unknown Author"
 msgstr "Neznámy autor"
+
+#: js/viewer/viewer.js:23
+msgid "Edit"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
@@ -269,7 +273,7 @@ msgstr "Prichádzajúci"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Nový dokument"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 09:16-0500\n"
-"PO-Revision-Date: 2013-11-27 14:16+0000\n"
+"POT-Creation-Date: 2013-12-02 15:22-0500\n"
+"PO-Revision-Date: 2013-12-02 20:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -24,13 +24,13 @@ msgstr "Documents"
 
 #: js/3rdparty/webodf/webodf.js:831
 msgid "document-styles"
-msgstr ""
+msgstr "document-styles"
 
 #: js/3rdparty/webodf/webodf.js:832
 msgid "document-content"
-msgstr ""
+msgstr "document-content"
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:50
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
 msgid "Close"
 msgstr "Tanca"
 
@@ -40,7 +40,7 @@ msgstr "Comparteix"
 
 #: js/documents.js:102
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "No hi ha connexió amb el servidor Intentant reconnectar."
 
 #: js/documents.js:153
 msgid ""
@@ -65,31 +65,31 @@ msgstr "No hi ha documents. Pugeu o creeu un document!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Alinea a l'esquerra"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Alineament"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Alinea a la dreta"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Anota"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Fons"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Negreta"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "A baix"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -97,19 +97,19 @@ msgstr "Cancel·la"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centra"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Clona"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Clona aquest estil"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: js/locale.js:14
 msgid "Create"
@@ -117,11 +117,11 @@ msgstr "Crea"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Decrementa la identació"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Estil predeterminat"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -133,43 +133,43 @@ msgstr "Familia"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Lletra"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Efectes de lletra"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Incrementa la identació"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Insereix imatge"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Convida a membres"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Cursiva"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justificat"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justifica"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Esquerra"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -177,11 +177,11 @@ msgstr "Carregant"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Membres"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nom nou:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -197,19 +197,19 @@ msgstr "Options"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paràgraf..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Estils de paràgraf"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Refés"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Dreta"
 
 #: js/locale.js:39
 msgid "Save"
@@ -221,15 +221,15 @@ msgstr "Mida"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Espaiat"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Ratllat"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Estil"
 
 #: js/locale.js:44
 msgid "Text"
@@ -237,18 +237,22 @@ msgstr "Text"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "A dalt"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Subratllat"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Desfés"
 
 #: js/locale.js:48
 msgid "Unknown Author"
+msgstr "Autor desconegut"
+
+#: js/viewer/viewer.js:23
+msgid "Edit"
 msgstr ""
 
 #: lib/invite.php:64
@@ -269,7 +273,7 @@ msgstr "Entrant"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Document nou"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -281,7 +285,7 @@ msgstr "Desa els documents nous a"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Contrasenya incorrecta. Intenteu-ho de nou."
 
 #: templates/public.php:11
 msgid "Password"

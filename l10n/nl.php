@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Documenten",
+"document-styles" => "documentstijlen",
+"document-content" => "document inhoud",
 "Close" => "Sluiten",
 "Share" => "Delen",
 "No connection to server. Trying to reconnect." => "Geen verbinding met de server. Bezig te verbinden.",
@@ -58,6 +60,7 @@
 "Declined" => "Afgewezen",
 "Accepted" => "Geaccepteerd",
 "Incoming" => "Inkomend",
+"New document" => "Nieuw document",
 "Upload" => "Uploaden",
 "Save new documents to" => "Bewaar nieuwe documenten  in",
 "Wrong password. Please retry." => "Onjuist wachtwoord. Probeer opnieuw.",
