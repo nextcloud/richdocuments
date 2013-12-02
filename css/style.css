@@ -2,13 +2,6 @@
 	background-color: #fff;
 }
 
-#documents-content #emptyfolder {
-	position: static;
-	margin:0;
-	text-align:center;
-	font-size:1.5em; font-weight:bold; color:#888; text-shadow:#fff 0 1px 0;
-}
-
 .documentslist { padding:5px; }
 
 .documentslist .document, 

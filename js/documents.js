@@ -371,12 +371,12 @@ var documentsMain = {
 		});
 		
 		if (!hasDocuments){
-			$('#documents-content').append('<div id="emptyfolder">'
+			$('#documents-content').append('<div id="emptycontent">'
 				+ t('documents', 'No documents are found. Please upload or create a document!')
 				+ '</div>'
 			);
 		} else {
-			$('#emptyfolder').remove();
+			$('#emptycontent').remove();
 		}
 	}
 };
