@@ -18,7 +18,13 @@ var odfViewer = {
 		}
 		for (var i = 0; i < odfViewer.supportedMimesUpdate.length; ++i) {
 			var mime = odfViewer.supportedMimesUpdate[i];
-			FileActions.register(mime, t('documents', 'Edit'), OC.PERMISSION_UPDATE, '', odfViewer.onEdit);
+			FileActions.register(
+					mime, 
+					t('documents', 'Edit'), 
+					OC.PERMISSION_UPDATE, 
+					OC.imagePath('core', 'actions/rename'), 
+					odfViewer.onEdit
+			);
 		}
 	},
 	
