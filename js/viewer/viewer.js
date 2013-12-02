@@ -7,14 +7,18 @@ var odfViewer = {
 	],
 			
 	supportedMimesUpdate: [
-		//none. see https://github.com/owncloud/documents/issues/108
+		'application/vnd.oasis.opendocument.text'
 	],
 			
 	register : function(){
 		for (var i = 0; i < odfViewer.supportedMimesRead.length; ++i) {
 			var mime = odfViewer.supportedMimesRead[i];
-			FileActions.register(mime, 'View', OC.PERMISSION_READ, '', odfViewer.dispatch);
+			FileActions.register(mime, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
 			FileActions.setDefault(mime, 'View');
+		}
+		for (var i = 0; i < odfViewer.supportedMimesUpdate.length; ++i) {
+			var mime = odfViewer.supportedMimesUpdate[i];
+			FileActions.register(mime, t('documents', 'Edit'), OC.PERMISSION_UPDATE, '', odfViewer.onEdit);
 		}
 	},
 	
@@ -30,7 +34,7 @@ var odfViewer = {
 	
 	onEdit : function(){
 		var fileId = FileActions.currentFile.parent().attr('data-id');
-		window.location = OC.linkTo('documents', 'index.php') + '#' + fileId;
+		window.open(OC.linkTo('documents', 'index.php') + '#' + fileId);
 	},
 			
 	onView: function(filename) {
