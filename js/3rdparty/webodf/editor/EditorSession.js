@@ -48,7 +48,9 @@ define("webodf/editor/EditorSession", [
     };
 
     runtime.loadClass("core.DomUtils");
+    runtime.loadClass("odf.OdfUtils");
     runtime.loadClass("ops.OdtDocument");
+    runtime.loadClass("ops.StepsTranslator");
     runtime.loadClass("ops.Session");
     runtime.loadClass("odf.Namespaces");
     runtime.loadClass("odf.OdfCanvas");
@@ -80,6 +82,7 @@ define("webodf/editor/EditorSession", [
             fontStyles = document.createElement('style'),
             formatting = odtDocument.getFormatting(),
             domUtils = new core.DomUtils(),
+            odfUtils = new odf.OdfUtils(),
             eventNotifier = new core.EventNotifier([
                 EditorSession.signalMemberAdded,
                 EditorSession.signalMemberUpdated,
@@ -306,16 +309,45 @@ define("webodf/editor/EditorSession", [
             return currentCommonStyleName;
         };
 
-        this.setCurrentParagraphStyle = function (value) {
-            var op;
-            if (currentCommonStyleName !== value) {
-                op = new ops.OpSetParagraphStyle();
-                op.init({
-                    memberid: localMemberId,
-                    position: self.getCursorPosition(),
-                    styleName: value
-                });
-                session.enqueue([op]);
+        /**
+         * Round the step up to the next step
+         * @param {!number} step
+         * @returns {!boolean}
+         */
+        function roundUp(step) {
+            return step === ops.StepsTranslator.NEXT_STEP;
+        }
+
+        /**
+         * Applies the paragraph style with the given
+         * style name to all the paragraphs within
+         * the cursor selection.
+         * @param {!string} styleName
+         * @return {undefined}
+         */
+        this.setCurrentParagraphStyle = function (styleName) {
+            var range = odtDocument.getCursor(localMemberId).getSelectedRange(),
+                paragraphs = odfUtils.getParagraphElements(range),
+                opQueue = [];
+
+            paragraphs.forEach(function (paragraph) {
+                var paragraphStartPoint = odtDocument.convertDomPointToCursorStep(paragraph, 0, roundUp),
+                    paragraphStyleName = paragraph.getAttributeNS(odf.Namespaces.textns, "style-name"),
+                    opSetParagraphStyle;
+
+                if (paragraphStyleName !== styleName) {
+                    opSetParagraphStyle = new ops.OpSetParagraphStyle();
+                    opSetParagraphStyle.init({
+                        memberid: localMemberId,
+                        styleName: styleName,
+                        position: paragraphStartPoint
+                    });
+                    opQueue.push(opSetParagraphStyle);
+                }
+            });
+
+            if (opQueue.length > 0) {
+                session.enqueue(opQueue);
             }
         };
 

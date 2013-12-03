@@ -50,8 +50,8 @@ define("webodf/editor/server/owncloud/ServerFactory", [
                 };
                 return server;
             };
-            this.createOperationRouter = function (sid, mid, server, odfContainer) {
-                return new PullBoxOperationRouter(sid, mid, server, odfContainer);
+            this.createOperationRouter = function (sid, mid, server, odfContainer, errorCallback) {
+                return new PullBoxOperationRouter(sid, mid, server, odfContainer, errorCallback);
             };
             this.createSessionList = function (server) {
                 return new PullBoxSessionList(server);
