@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Documents",
-"document-styles" => "document-styles",
-"document-content" => "document-content",
 "Close" => "Tanca",
 "Share" => "Comparteix",
 "No connection to server. Trying to reconnect." => "No hi ha connexió amb el servidor Intentant reconnectar.",
@@ -56,6 +54,7 @@
 "Underline" => "Subratllat",
 "Undo" => "Desfés",
 "Unknown Author" => "Autor desconegut",
+"Edit" => "Edita",
 "Sent" => "Enviat",
 "Declined" => "Denegat",
 "Accepted" => "Acceptat",

@@ -7,6 +7,7 @@
 "Open" => "Dubrís",
 "Save" => "Enregistra",
 "Size" => "Talha",
+"Edit" => "Editar",
 "Upload" => "Amontcarga",
 "Password" => "Senhal"
 );

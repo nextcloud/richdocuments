@@ -28,6 +28,7 @@
 "Save" => "Speichern",
 "Size" => "Grösse",
 "Text" => "Text",
+"Edit" => "Bearbeiten",
 "Sent" => "Senden",
 "Declined" => "Abgelehnt",
 "Accepted" => "Akzeptiert",

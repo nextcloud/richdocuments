@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,15 +22,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Documenten"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr "documentstijlen"
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr "document inhoud"
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Sluiten"
 
@@ -48,18 +40,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Deze pagina open laten in de Editor kan resulteren in niet opslaan. Geadviseerd wordt om de 'Sluiten' knop te gebruiken."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Kon dit document niet laden. Ga na of het met een externe odt editor wel kan worden geopend. Het kan zijn dat het niet meer is gedeeld of dat het recent is verwijderd."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Kon documenten niet laden."
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Geen documenten gevonden. Upload of maak een document!"
 
@@ -251,9 +243,9 @@ msgstr "Ongedaan maken"
 msgid "Unknown Author"
 msgstr "Onbekende auteur"
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Bewerk"
 
 #: lib/invite.php:64
 msgid "Sent"

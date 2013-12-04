@@ -7,6 +7,7 @@
 "Save" => "Snimi",
 "Size" => "Veličina",
 "Text" => "Tekst",
+"Edit" => "Uredi",
 "Upload" => "Učitaj",
 "Password" => "Lozinka"
 );

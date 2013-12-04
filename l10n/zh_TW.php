@@ -14,6 +14,7 @@
 "Save" => "儲存",
 "Size" => "大小",
 "Text" => "文字",
+"Edit" => "編輯",
 "Sent" => "已送出",
 "Declined" => "已拒絕",
 "Accepted" => "以接受",

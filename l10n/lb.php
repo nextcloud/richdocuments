@@ -10,6 +10,7 @@
 "Save" => "Späicheren",
 "Size" => "Gréisst",
 "Text" => "SMS",
+"Edit" => "Editéieren",
 "Upload" => "Eroplueden",
 "Password" => "Passwuert"
 );

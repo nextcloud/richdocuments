@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,15 +22,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Documentos"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr "estilos do documento"
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr "contido do documento"
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Pechar"
 
@@ -48,18 +40,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Deixar esta páxina no modo Editor pode provocar que non se garden os datos. Recomendámoslle que empregue o botón «Pechar» no seu canto."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Non foi posíbel cargar o documento. Comprobe se pode abrirse cun editor «odt» externo. Isto tamén pode deberse a que foi eliminado ou a que deixou de compartires recentemente."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Non foi posíbel cargar os documentos."
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Non se atopou ningún documento. Envíe ou cree un documento."
 
@@ -251,9 +243,9 @@ msgstr "Desfacer"
 msgid "Unknown Author"
 msgstr "Autor descoñecido"
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: lib/invite.php:64
 msgid "Sent"

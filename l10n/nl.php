@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Documenten",
-"document-styles" => "documentstijlen",
-"document-content" => "document inhoud",
 "Close" => "Sluiten",
 "Share" => "Delen",
 "No connection to server. Trying to reconnect." => "Geen verbinding met de server. Bezig te verbinden.",
@@ -56,6 +54,7 @@
 "Underline" => "Onderstrepen",
 "Undo" => "Ongedaan maken",
 "Unknown Author" => "Onbekende auteur",
+"Edit" => "Bewerk",
 "Sent" => "Verzonden",
 "Declined" => "Afgewezen",
 "Accepted" => "Geaccepteerd",

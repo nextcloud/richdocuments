@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -23,15 +23,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumenter"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr ""
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr ""
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Luk"
 
@@ -49,18 +41,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "At forlade denne side i redigeringstilstand kan resultere i ikke gemte data. Det anbefales at bruge 'Luk' knappen i stedet."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Kunne ikke hentet dette dokument. Undersøg venligst om det kan åbnes med en ekstern odt læser. Dette kan også betyde at dokumentet for nylig er blevet gjort privat eller slettet. "
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Kunne ikke hente dokumenterne. "
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Ingen dokumenter fundet. Upload eller opret venligst et dokument!"
 
@@ -252,9 +244,9 @@ msgstr ""
 msgid "Unknown Author"
 msgstr ""
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Rediger"
 
 #: lib/invite.php:64
 msgid "Sent"

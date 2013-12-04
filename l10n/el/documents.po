@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -23,15 +23,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Έγγραφα"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr ""
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr ""
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Κλείσιμο"
 
@@ -49,18 +41,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Αποχωρώντας από την κατάσταση Επεξεργασίας της σελίδας μπορεί να υπάρξουν μη αποθηκευμένα δεδομένα. Αντί γι' αυτό, συνίσταται να χρησιμοποιήσετε το κουμπί 'Κλείσιμο'."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Αποτυχία φόρτωσης του εγγράφου. Παρακαλώ ελέγξτε εάν μπορεί να ανοίξει με εξωτερικό επεξεργαστή odt. Αυτό επίσης μπορεί να σημαίνει ότι πρόσφατα έχει ακυρωθεί ο διαμοιρασμός ή διαγραφεί."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Αποτυχία φόρτωσης εγγράφων."
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Δεν βρέθηκαν έγγραφα. Παρακαλώ αποστείλετε ή δημιουργήστε ένα έγγραφο."
 
@@ -252,9 +244,9 @@ msgstr "Αναίρεση"
 msgid "Unknown Author"
 msgstr "Άγνωστος Δημιουργός"
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Επεξεργασία"
 
 #: lib/invite.php:64
 msgid "Sent"

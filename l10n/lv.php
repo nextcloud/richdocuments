@@ -11,6 +11,7 @@
 "Save" => "Saglabāt",
 "Size" => "Izmērs",
 "Text" => "Teksts",
+"Edit" => "Rediģēt",
 "Upload" => "Augšupielādēt",
 "Password" => "Parole"
 );

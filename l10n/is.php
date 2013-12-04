@@ -9,6 +9,7 @@
 "Save" => "Vista",
 "Size" => "Stærð",
 "Text" => "Texti",
+"Edit" => "Breyta",
 "Upload" => "Senda inn",
 "Password" => "Lykilorð"
 );

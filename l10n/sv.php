@@ -37,6 +37,7 @@
 "Text" => "Text",
 "Undo" => "Ångra",
 "Unknown Author" => "Okänd författare",
+"Edit" => "Redigera",
 "Sent" => "Skickad",
 "Declined" => "Nekad",
 "Accepted" => "Accepterad",

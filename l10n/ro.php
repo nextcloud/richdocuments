@@ -11,6 +11,7 @@
 "Save" => "Salvează",
 "Size" => "Dimensiune",
 "Text" => "Text",
+"Edit" => "Editează",
 "Upload" => "Încărcare",
 "Password" => "Parolă"
 );

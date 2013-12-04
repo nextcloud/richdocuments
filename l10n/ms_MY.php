@@ -9,6 +9,7 @@
 "Save" => "Simpan",
 "Size" => "Saiz",
 "Text" => "Teks",
+"Edit" => "Sunting",
 "Upload" => "Muat naik",
 "Password" => "Kata laluan"
 );

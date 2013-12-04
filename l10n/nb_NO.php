@@ -12,6 +12,7 @@
 "Save" => "Lagre",
 "Size" => "Størrelse",
 "Text" => "Tekst",
+"Edit" => "Endre",
 "Upload" => "Last opp",
 "Password" => "Passord"
 );

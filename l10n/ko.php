@@ -20,6 +20,7 @@
 "Size" => "크기",
 "Text" => "텍스트",
 "Unknown Author" => "알수없는 저자",
+"Edit" => "편집",
 "Sent" => "보내기",
 "Declined" => "거절됨",
 "Accepted" => "허",

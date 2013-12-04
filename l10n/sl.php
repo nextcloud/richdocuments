@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumenti",
-"document-styles" => "slogi dokumenta",
-"document-content" => "vsebina dokumenta",
 "Close" => "Zapri",
 "Share" => "Souporaba",
 "No connection to server. Trying to reconnect." => "Ni povezave s strežnikom. Poskus povezave bo ponovljen.",
@@ -56,6 +54,7 @@
 "Underline" => "Podčrtano",
 "Undo" => "Razveljavi",
 "Unknown Author" => "Neznan avtor",
+"Edit" => "Uredi",
 "Sent" => "Poslano",
 "Declined" => "Zavrnjeno",
 "Accepted" => "Sprejeto",

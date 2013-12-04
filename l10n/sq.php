@@ -7,6 +7,7 @@
 "Save" => "Ruaj",
 "Size" => "Madhësia",
 "Text" => "Tekst",
+"Edit" => "Modifiko",
 "Upload" => "Ngarko",
 "Password" => "fjalëkalim"
 );

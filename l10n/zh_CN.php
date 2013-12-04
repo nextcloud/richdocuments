@@ -37,6 +37,7 @@
 "Underline" => "下划线",
 "Undo" => "撤消",
 "Unknown Author" => "未知作者",
+"Edit" => "编辑",
 "Sent" => "发送",
 "Declined" => "拒绝",
 "Accepted" => "接受",

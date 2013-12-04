@@ -54,6 +54,7 @@
 "Underline" => "Sottolineato",
 "Undo" => "Annulla",
 "Unknown Author" => "Autore sconosciuto",
+"Edit" => "Modifica",
 "Sent" => "Inviato",
 "Declined" => "Rifiutato",
 "Accepted" => "Accettato",

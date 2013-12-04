@@ -15,6 +15,7 @@
 "Save" => "Lagra",
 "Size" => "Storleik",
 "Text" => "Tekst",
+"Edit" => "Endra",
 "Sent" => "Sendt",
 "Declined" => "Avvist",
 "Accepted" => "Godtatt",

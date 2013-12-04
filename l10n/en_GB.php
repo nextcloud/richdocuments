@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Documents",
-"document-styles" => "document-styles",
-"document-content" => "document-content",
 "Close" => "Close",
 "Share" => "Share",
 "No connection to server. Trying to reconnect." => "No connection to server. Trying to reconnect.",
@@ -56,6 +54,7 @@
 "Underline" => "Underline",
 "Undo" => "Undo",
 "Unknown Author" => "Unknown Author",
+"Edit" => "Edit",
 "Sent" => "Sent",
 "Declined" => "Declined",
 "Accepted" => "Accepted",

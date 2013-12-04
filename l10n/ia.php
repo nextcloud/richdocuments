@@ -7,6 +7,7 @@
 "Save" => "Salveguardar",
 "Size" => "Dimension",
 "Text" => "Texto",
+"Edit" => "Modificar",
 "Upload" => "Incargar",
 "Password" => "Contrasigno"
 );

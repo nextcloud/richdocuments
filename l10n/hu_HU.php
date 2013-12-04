@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumentumok",
-"document-styles" => "dokumentum-stílusok",
-"document-content" => "dokumentum-tartalom",
 "Close" => "Bezárás",
 "Share" => "Megosztás",
 "No connection to server. Trying to reconnect." => "Nincs kapcsolat a szerverrel. Újracsatlakozás.",
@@ -52,6 +50,7 @@
 "Underline" => "Aláhúzás",
 "Undo" => "Visszavonás",
 "Unknown Author" => "Ismeretlen szerző",
+"Edit" => "Szerkesztés",
 "Sent" => "Elküldött",
 "Declined" => "Elutasított",
 "Accepted" => "Elfogadott",

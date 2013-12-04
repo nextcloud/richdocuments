@@ -8,6 +8,7 @@
 "Save" => "Cadw",
 "Size" => "Maint",
 "Text" => "Testun",
+"Edit" => "Golygu",
 "Upload" => "Llwytho i fyny",
 "Password" => "Cyfrinair"
 );

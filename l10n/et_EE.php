@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumendid",
-"document-styles" => "dokumendi-stiilid",
-"document-content" => "dokumendi-sisu",
 "Close" => "Sulge",
 "Share" => "Jaga",
 "No connection to server. Trying to reconnect." => "Serveriga puudub ühendus. Proovin uuesti ühenduda.",
@@ -56,6 +54,7 @@
 "Underline" => "Alljoon",
 "Undo" => "Ennista",
 "Unknown Author" => "Tundmatu autor",
+"Edit" => "Muuda",
 "Sent" => "Saadetud",
 "Declined" => "Tagasi lükatud",
 "Accepted" => "Vastu võetud",

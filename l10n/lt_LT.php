@@ -22,6 +22,7 @@
 "Save" => "Išsaugoti",
 "Size" => "Dydis",
 "Text" => "Žinučių",
+"Edit" => "Redaguoti",
 "Sent" => "Išsiųsta",
 "Declined" => "Atmesta",
 "Accepted" => "Priimta",

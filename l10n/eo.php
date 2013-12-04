@@ -17,6 +17,7 @@
 "Save" => "Konservi",
 "Size" => "Grando",
 "Text" => "Teksto",
+"Edit" => "Redakti",
 "Sent" => "Sendita",
 "Declined" => "Malakceptita",
 "Accepted" => "Akceptita",

@@ -17,6 +17,7 @@
 "Save" => "Gorde",
 "Size" => "Tamaina",
 "Text" => "Testua",
+"Edit" => "Editatu",
 "Sent" => "Bidalia",
 "Declined" => "Ez onartua",
 "Accepted" => "Onartua",

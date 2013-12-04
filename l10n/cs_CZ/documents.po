@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -25,15 +25,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumenty"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr "styly-dokumentu"
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr "obsah-dokumentu"
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Zavřít"
 
@@ -51,18 +43,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Ponecháním této stránky v módu editoru může dojít k neuložení změn. Místo toho je doporučeno použít tlačítko 'Zavřít'."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Nepodařilo se otevřít tento dokument. Prosím zkontrolujte, zda je možné jej otevřít externím editorem odt. Může to také znamenat, že byl nedávno odsdílen nebo smazán."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Nepodařilo se načíst dokumenty."
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Žádné dokumenty nebyly nalezeny. Nahrajte nebo vytvořte dokument!"
 
@@ -254,9 +246,9 @@ msgstr "Zpět"
 msgid "Unknown Author"
 msgstr "Autor neznámý"
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: lib/invite.php:64
 msgid "Sent"

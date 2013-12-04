@@ -54,6 +54,7 @@
 "Underline" => "Podkreślenie",
 "Undo" => "Cofnij",
 "Unknown Author" => "Nieznany autor",
+"Edit" => "Edytuj",
 "Sent" => "Wyślij",
 "Declined" => "Nie zaakceptowane",
 "Accepted" => "Zaakceptowane",

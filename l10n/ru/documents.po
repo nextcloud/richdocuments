@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -29,15 +29,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Документы"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr ""
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr ""
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Закрыть"
 
@@ -55,18 +47,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Не удалось загрузить документ. Пожалуйста, проверьте возможно ли открыть его с помощью обычного odt редактора."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Загрузка документов не удалась."
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Документов нет. Пожалуйста, загрузите или создайте документ!"
 
@@ -258,9 +250,9 @@ msgstr "Отмена"
 msgid "Unknown Author"
 msgstr "Неизвестный автор"
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: lib/invite.php:64
 msgid "Sent"

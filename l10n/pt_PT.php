@@ -15,6 +15,7 @@
 "Save" => "Guardar",
 "Size" => "Tamanho",
 "Text" => "Texto",
+"Edit" => "Editar",
 "Sent" => "Enviado",
 "Declined" => "Negado",
 "Accepted" => "Aceite",

@@ -54,6 +54,7 @@
 "Underline" => "Podčiarknuť",
 "Undo" => "Späť",
 "Unknown Author" => "Neznámy autor",
+"Edit" => "Upraviť",
 "Sent" => "Odoslané",
 "Declined" => "Odmietnuté",
 "Accepted" => "Schválené",

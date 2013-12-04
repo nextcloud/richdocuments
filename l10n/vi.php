@@ -11,6 +11,7 @@
 "Save" => "Lưu",
 "Size" => "Kích cỡ",
 "Text" => "Văn bản",
+"Edit" => "Sửa",
 "Upload" => "Tải lên",
 "Password" => "Mật khẩu"
 );

@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Belgeler",
-"document-styles" => "belge-biçemleri",
-"document-content" => "belge-içeriği",
 "Close" => "Kapat",
 "Share" => "Paylaş",
 "No connection to server. Trying to reconnect." => "Sunucuya bağlantı yok. Yeniden bağlanmaya çalışıyor.",
@@ -56,6 +54,7 @@
 "Underline" => "Altı Çizili",
 "Undo" => "Geri A",
 "Unknown Author" => "Bilinmeyen Yazar",
+"Edit" => "Düzenle",
 "Sent" => "Gönderildi",
 "Declined" => "Reddedildi",
 "Accepted" => "Kabul edildi",

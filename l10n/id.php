@@ -12,6 +12,7 @@
 "Save" => "Simpan",
 "Size" => "Ukuran",
 "Text" => "Teks",
+"Edit" => "Edit",
 "Upload" => "Unggah",
 "Password" => "Sandi"
 );

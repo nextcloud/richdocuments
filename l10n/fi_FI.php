@@ -39,6 +39,7 @@
 "Text" => "Teksti",
 "Undo" => "Kumoa",
 "Unknown Author" => "Tuntematon tekijä",
+"Edit" => "Muokkaa",
 "Sent" => "Lähetetty",
 "Declined" => "Torjuttu",
 "Accepted" => "Hyväksytty",

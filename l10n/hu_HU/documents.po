@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -25,15 +25,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumentumok"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr "dokumentum-stílusok"
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr "dokumentum-tartalom"
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Bezárás"
 
@@ -51,18 +43,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Ha elnavigálsz az oldalról miközben Szerkesztés módban vagy akkor lehet lesznek elvesztett adatok amiket még nem mentettél el. Ajánlott inkább a 'Bezár' gombbal befejezni az oldal szerkesztését."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "A dokumentum betöltése sikertelen. Próbáld külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt, hogy már nincs megosztva vagy már törölve lett a dokumentum."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "A dokumentum betőltése sikertelen"
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
 
@@ -254,9 +246,9 @@ msgstr "Visszavonás"
 msgid "Unknown Author"
 msgstr "Ismeretlen szerző"
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 #: lib/invite.php:64
 msgid "Sent"

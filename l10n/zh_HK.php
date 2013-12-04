@@ -8,6 +8,7 @@
 "Open" => "開啟",
 "Save" => "儲存",
 "Text" => "文字",
+"Edit" => "編輯",
 "Upload" => "上傳",
 "Password" => "密碼"
 );

@@ -16,6 +16,7 @@
 "Save" => "Gem",
 "Size" => "Størrelse",
 "Text" => "SMS",
+"Edit" => "Rediger",
 "Sent" => "Sent",
 "Declined" => "Afvist",
 "Accepted" => "Accepteret",

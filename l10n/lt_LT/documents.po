@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 15:22-0500\n"
-"PO-Revision-Date: 2013-12-02 20:22+0000\n"
+"POT-Creation-Date: 2013-12-04 18:13-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -23,15 +23,7 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumentacija"
 
-#: js/3rdparty/webodf/webodf.js:831
-msgid "document-styles"
-msgstr ""
-
-#: js/3rdparty/webodf/webodf.js:832
-msgid "document-content"
-msgstr ""
-
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:60
+#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Užverti"
 
@@ -49,18 +41,18 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "Išėjimas iš šio puslapio redagavimo veiksenoje gali lemti duomenų neišsaugojimą. Rekomenduojama naudoti „Uždaryti“ mygtuką."
 
-#: js/documents.js:166
+#: js/documents.js:170
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Nepavyko įkelti šio dokumento. Prašome patikrinti ar galima jį atverti su išoriniu odt redaktoriumi. Tai gali reikšti, kad jis nebebendrinamas arba neseniai pašalintas."
 
-#: js/documents.js:332
+#: js/documents.js:347
 msgid "Failed to load documents."
 msgstr "Nepavyko įkelti dokumentų."
 
-#: js/documents.js:375
+#: js/documents.js:390
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Nerasta dokumentų. Prašome įkelti ar sukurti dokumentą!"
 
@@ -252,9 +244,9 @@ msgstr ""
 msgid "Unknown Author"
 msgstr ""
 
-#: js/viewer/viewer.js:23
+#: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr ""
+msgstr "Redaguoti"
 
 #: lib/invite.php:64
 msgid "Sent"

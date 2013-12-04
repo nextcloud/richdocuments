@@ -1,7 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "ドキュメント",
-"document-styles" => "ドキュメントースタイル",
-"document-content" => "ドキュメント-内容",
 "Close" => "閉じる",
 "Share" => "共有",
 "No connection to server. Trying to reconnect." => "サーバに接続されていません。再接続してください。",
@@ -56,6 +54,7 @@
 "Underline" => "下線",
 "Undo" => "元に戻す",
 "Unknown Author" => "不明な作者",
+"Edit" => "編集",
 "Sent" => "送信",
 "Declined" => "拒否されました",
 "Accepted" => "受け付けました",
