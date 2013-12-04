@@ -61,6 +61,15 @@ class File {
 			$rootLinkItem['path'] = 'files/' . $rootLinkItem['file_target'];
 		}
 		$file = new File($rootLinkItem['file_source'], array($rootLinkItem));
+		
+
+		if (isset($rootLinkItem['uid_owner'])){
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($rootLinkItem['uid_owner']);
+			$file->setOwner($rootLinkItem['uid_owner']);
+			$file->setPath('/files' . \OC\Files\Filesystem::getPath($linkItem['file_source']));
+		}
+		
 		if (isset($linkItem['share_with']) && !empty($linkItem['share_with'])){
 			$file->setPasswordProtected(true);
 		}
