@@ -26,7 +26,17 @@ class SessionController extends Controller{
 		$uid = self::preDispatch();
 		$fileId = intval(@$args['file_id']);
 		$file = new File($fileId);
-		self::join($uid, $file);
+		
+		if ($file->getPermissions() & \OCP\PERMISSION_UPDATE) {
+			self::join($uid, $file);	
+		} else {
+			\OCP\JSON::success(array(
+				'permissions' => $file->getPermissions(),
+				'id' => $fileId
+			));
+		}
+		
+		exit();
 	}
 	
 	protected static function join($uid, $file){

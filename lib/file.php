@@ -129,6 +129,27 @@ class File {
 	public function setPasswordProtected($value){
 		$this->passwordProtected = $value;
 	}
+	
+	public function getPermissions(){
+		if (count($this->sharing)){
+			if ($this->isPublicShare()){
+				$permissions = \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE;
+			} else {
+				$permissions = $this->sharing[0]['permissions'];
+			}
+		} else {
+			list($owner, $path) = $this->getOwnerViewAndPath();
+			$permissions = 0;
+			if (\OC\Files\Filesystem::isReadable($path)){
+				$permissions |= \OCP\PERMISSION_READ;
+			}
+			if (\OC\Files\Filesystem::isUpdatable($path)){
+				$permissions |= \OCP\PERMISSION_UPDATE;
+			}
+				
+		}
+		return $permissions;
+	}
 
 	/**
 	 * 

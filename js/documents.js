@@ -162,10 +162,15 @@ var documentsMain = {
 	initSession: function(response) {
 		"use strict";
 
-		if (!response || !response.es_id || !response.status || response.status==='error'){
+		if(response && (response.id && !response.es_id)){
+			return documentsMain.view(response.id);
+		} 
+
+		if (!response || !response.status || response.status==='error'){
 			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			documentsMain.prepareGrid();
 			documentsMain.show();
+			$(window).off('beforeunload');
 			setTimeout(OC.Notification.hide, 7000);
 			return;
 		}
@@ -219,6 +224,16 @@ var documentsMain = {
 			{ name : $("[name='memberName']").val() },
 			documentsMain.initSession
 		);
+	},
+	
+	view : function(id){
+		OC.addScript('documents', 'viewer/viewer', function() {
+			documentsMain.prepareGrid();
+			$(window).off('beforeunload');
+			var path = $('li[data-id='+ id +']>a').attr('href');
+			odfViewer.isDocuments = true;
+			odfViewer.onView(path);
+		});
 	},
 			
 	onCreate: function(event){

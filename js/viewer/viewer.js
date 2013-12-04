@@ -1,4 +1,5 @@
 var odfViewer = {
+	isDocuments : false,
 	supportedMimesRead: [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
@@ -44,14 +45,22 @@ var odfViewer = {
 	},
 			
 	onView: function(filename) {
-		OC.addStyle('documents', 'viewer/webodf');
+		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf',
+		attachTo = odfViewer.isDocuments ? '#documents-content' : 'table',
+		attachToolbarTo = odfViewer.isDocuments ? '#content-wrapper' : '#controls';
+
+		if (odfViewer.isDocuments){
+			//Documents view
+			var location = filename;
+		} else {
+			//Public page, files app, etc
+			var location = fileDownloadPath($('#dir').val(), filename);
+			OC.addStyle('documents', 'viewer/webodf');
+		}
+		
 		OC.addStyle('documents', 'viewer/odfviewer');
 		
-		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf';
-		
 		OC.addScript('documents', '3rdparty/webodf/' + webodfSource, function() {
-			var location = fileDownloadPath($('#dir').val(), filename);
-
 			// fade out files menu and add odf menu
 			$('#controls div').fadeOut('slow').promise().done(function() {
 				// odf action toolbar
@@ -59,14 +68,18 @@ var odfViewer = {
 						'<div id="odf-toolbar">' +
 						'<button id="odf_close">' + t('documents', 'Close') +
 						'</button></div>';
-				$('#controls').append(odfToolbarHtml);
-
+				if (odfViewer.isDocuments){
+					$(attachToolbarTo).prepend(odfToolbarHtml);
+					$('#odf-toolbar').css({position:'fixed'});
+				} else {
+					$(attachToolbarTo).append(odfToolbarHtml);
+				}
 			});
 
 			// fade out file list and show pdf canvas
-			$('table').fadeOut('slow').promise().done(function() {
+			$('table, #documents-content').fadeOut('slow').promise().done(function() {
 				var canvashtml = '<div id="odf-canvas"></div>';
-				$('table').after(canvashtml);
+				$(attachTo).after(canvashtml);
 				// in case we are on the public sharing page we shall display the odf into the preview tag
 				$('#preview').html(canvashtml);
 
@@ -85,7 +98,7 @@ var odfViewer = {
 			$('#odf-toolbar').remove();
 			$('#odf-canvas').remove();
 			$('#controls div').not('.hidden').fadeIn('slow');
-			$('table').fadeIn('slow');
+			$('table, #documents-content').fadeIn('slow');
 		});
 	}
 };
