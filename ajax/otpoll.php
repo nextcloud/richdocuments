@@ -90,6 +90,7 @@ try{
 				$inactiveMembers = $member->updateByTimeout($esId);
 				foreach ($inactiveMembers as $inactive){
 					$op->removeCursor($esId, $inactive);
+					$op->removeMember($esId, $inactive);
 				}
 			
 			} else {
