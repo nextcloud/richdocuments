@@ -307,17 +307,75 @@ var documentsMain = {
 		);
 	},
 
+	// FIXME: copy/pasted from Files.isFileNameValid, needs refactor into core
+	isFileNameValid:function (name) {
+		if (name === '.') {
+			throw t('files', '\'.\' is an invalid file name.');
+		} else if (name.length === 0) {
+			throw t('files', 'File name cannot be empty.');
+		}
+
+		// check for invalid characters
+		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		for (var i = 0; i < invalid_characters.length; i++) {
+			if (name.indexOf(invalid_characters[i]) !== -1) {
+				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
+			}
+		}
+		return true;
+	},
+
 	onRenamePrompt: function() {
 		var name = documentsMain.fileName;
 		var lastPos = name.lastIndexOf('.');
 		var extension = name.substr(lastPos + 1);
 		name = name.substr(0, lastPos);
-		// FIXME: don't use an ugly prompt but an inline field
-		// FIXME: check for invalid characters
-		var newName = prompt(t('document', 'Please enter the document name'), name);
-		if (newName !== null && newName !== '') {
-			documentsMain.renameDocument(newName + '.' + extension);
-		}
+		var input = $('<input type="text" class="filename"/>').val(name);
+		$('#document-title').append(input);
+		$('#document-title>div').hide();
+
+		input.on('blur', function(){
+			var newName = input.val();
+			if (!newName || newName === name) {
+				input.tipsy('hide');
+				input.remove();
+				$('#document-title>div').show();
+				return;
+			}
+			else {
+				newName = newName + '.' + extension;
+				try {
+					input.tipsy('hide');
+					input.removeClass('error');
+					if (documentsMain.isFileNameValid(newName)) {
+						input.tipsy('hide');
+						input.remove();
+						$('#document-title>div').show();
+						documentsMain.renameDocument(newName);
+					}
+				}
+				catch (error) {
+					input.attr('title', error);
+					input.tipsy({gravity: 'n', trigger: 'manual'});
+					input.tipsy('show');
+					input.addClass('error');
+				}
+			}
+		});
+		input.on('keyup', function(event){
+			if (event.keyCode === 27) {
+				// cancel by putting in an empty value
+				$(this).val('');
+				$(this).blur();
+				event.preventDefault();
+			}
+			if (event.keyCode === 13) {
+				$(this).blur();
+				event.preventDefault();
+			}
+		});
+		input.focus();
+		input.selectRange(0, name.length);
 	},
 
 	onClose: function() {
@@ -471,7 +529,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$(document.body).on('click', '#document-title', documentsMain.onRenamePrompt);
+	$(document.body).on('click', '#document-title>div', documentsMain.onRenamePrompt);
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
 	$(document.body).on('click', '#odf-join', function(event){

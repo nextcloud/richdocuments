@@ -124,6 +124,11 @@
 	position: relative;
 	/*margin-left:-50%;*/
 }
+#document-title>input {
+	margin: 0;
+	width: 300px;
+}
+
 #odf-close{
 	float: right;
 }
