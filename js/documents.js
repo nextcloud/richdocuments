@@ -9,6 +9,7 @@ var documentsMain = {
 	memberId : false,
 	esId : false,
 	ready :false,
+	fileName: null,
 	
 	UI : {
 		/* Overlay HTML */
@@ -186,8 +187,10 @@ var documentsMain = {
 			// fade out file list and show WebODF canvas
 			$('#content').fadeOut('fast').promise().done(function() {
 				
+				documentsMain.fileId = response.file_id;
+				documentsMain.fileName = documentsMain.getNameByFileid(response.file_id);
 				documentsMain.UI.showEditor(
-						documentsMain.getNameByFileid(response.file_id),
+						documentsMain.fileName,
 						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
 				var serverFactory = new ServerFactory();
@@ -281,7 +284,100 @@ var documentsMain = {
 		});
 		$.post(OC.Router.generate('documents_user_invite'), {users: users});
 	},
-	
+
+	renameDocument: function(name) {
+		var url = OC.Router.generate('documents_session_renamedocument') + '/' + documentsMain.fileId;
+		$.post(
+			url,
+			{ name : name },
+			function(result) {
+				if (result && result.status === 'error') {
+					if (result.message){
+						OC.Notification.show(result.message);
+						setTimeout(function() {
+							OC.Notification.hide();
+						}, 10000);
+					}
+					return;
+				}
+				documentsMain.fileName = name;
+				$('title').text(documentsMain.UI.mainTitle + '| ' + name);
+				$('#document-title>div').text(name);
+			}
+		);
+	},
+
+	// FIXME: copy/pasted from Files.isFileNameValid, needs refactor into core
+	isFileNameValid:function (name) {
+		if (name === '.') {
+			throw t('files', '\'.\' is an invalid file name.');
+		} else if (name.length === 0) {
+			throw t('files', 'File name cannot be empty.');
+		}
+
+		// check for invalid characters
+		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		for (var i = 0; i < invalid_characters.length; i++) {
+			if (name.indexOf(invalid_characters[i]) !== -1) {
+				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
+			}
+		}
+		return true;
+	},
+
+	onRenamePrompt: function() {
+		var name = documentsMain.fileName;
+		var lastPos = name.lastIndexOf('.');
+		var extension = name.substr(lastPos + 1);
+		name = name.substr(0, lastPos);
+		var input = $('<input type="text" class="filename"/>').val(name);
+		$('#document-title').append(input);
+		$('#document-title>div').hide();
+
+		input.on('blur', function(){
+			var newName = input.val();
+			if (!newName || newName === name) {
+				input.tipsy('hide');
+				input.remove();
+				$('#document-title>div').show();
+				return;
+			}
+			else {
+				newName = newName + '.' + extension;
+				try {
+					input.tipsy('hide');
+					input.removeClass('error');
+					if (documentsMain.isFileNameValid(newName)) {
+						input.tipsy('hide');
+						input.remove();
+						$('#document-title>div').show();
+						documentsMain.renameDocument(newName);
+					}
+				}
+				catch (error) {
+					input.attr('title', error);
+					input.tipsy({gravity: 'n', trigger: 'manual'});
+					input.tipsy('show');
+					input.addClass('error');
+				}
+			}
+		});
+		input.on('keyup', function(event){
+			if (event.keyCode === 27) {
+				// cancel by putting in an empty value
+				$(this).val('');
+				$(this).blur();
+				event.preventDefault();
+			}
+			if (event.keyCode === 13) {
+				$(this).blur();
+				event.preventDefault();
+			}
+		});
+		input.focus();
+		input.selectRange(0, name.length);
+	},
+
 	onClose: function() {
 		"use strict";
 		
@@ -433,6 +529,7 @@ $(document).ready(function() {
 		}
 	});
 	
+	$(document.body).on('click', '#document-title>div', documentsMain.onRenamePrompt);
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
 	$(document.body).on('click', '#odf-join', function(event){

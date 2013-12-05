@@ -152,6 +152,17 @@ class File {
 	}
 
 	/**
+	 * Rename this file to the given name
+	 * @param string $newName name to give (without path)
+	 * @return boolean true if rename succeeded, false otherwise
+	 */
+	public function renameTo($newName) {
+		list($owner, $path) = $this->getOwnerViewAndPath();
+		$newPath = dirname($path) . '/' . $newName;
+		return \OC\Files\Filesystem::rename($path, $newPath);
+	}
+
+	/**
 	 * 
 	 * @return string owner of the current file item
 	 * @throws \Exception
