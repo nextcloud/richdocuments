@@ -281,3 +281,8 @@ margin-top:-1px;
 .dojoTabular th {text-align: center; font-weight: bold;}
 .dojoTabular thead,.dojoTabular tfoot {background-color: #efefef; border: 1px solid #ccc; border-width: 1px 0;}
 .dojoTabular th,.dojoTabular td {padding: 0.25em 0.5em;}
+
+/* raise notification z-index above the documents app */
+#odf-toolbar + #notification-container {
+	z-index: 501;
+}

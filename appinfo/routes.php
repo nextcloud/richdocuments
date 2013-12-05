@@ -73,6 +73,10 @@ $this->create('documents_session_joinasguest', 'ajax/session/joinasguest/{token}
 	->post()
 	->action('\OCA\Documents\SessionController', 'joinAsGuest')
 ;
+$this->create('documents_session_renamedocument', 'ajax/session/renamedocument/{file_id}')
+	->post()
+	->action('\OCA\Documents\SessionController', 'renameDocument')
+;
 
 $this->create('documents_session_save', 'ajax/session/save')
 	->post()

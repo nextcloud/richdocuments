@@ -22,6 +22,24 @@ class SessionController extends Controller{
 		self::join($uid, $file);
 	}
 
+	public static function renameDocument($args){
+		$fileId = intval(@$args['file_id']);
+		$name = @$_POST['name'];
+		$file = new File($fileId);
+		$l = new \OC_L10n('documents');
+
+		if (isset($name) && $file->getPermissions() & \OCP\PERMISSION_UPDATE) {
+			if ($file->renameTo($name)) {
+				// TODO: propagate to other clients
+				\OCP\JSON::success();
+				return;
+			}
+		}
+		\OCP\JSON::error(array(
+			'message' => $l->t('You don\'t have permission to rename this document')
+		));
+	}
+
 	public static function joinAsUser($args){
 		$uid = self::preDispatch();
 		$fileId = intval(@$args['file_id']);

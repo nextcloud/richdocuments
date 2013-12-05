@@ -9,6 +9,7 @@ var documentsMain = {
 	memberId : false,
 	esId : false,
 	ready :false,
+	fileName: null,
 	
 	UI : {
 		/* Overlay HTML */
@@ -186,8 +187,10 @@ var documentsMain = {
 			// fade out file list and show WebODF canvas
 			$('#content').fadeOut('fast').promise().done(function() {
 				
+				documentsMain.fileId = response.file_id;
+				documentsMain.fileName = documentsMain.getNameByFileid(response.file_id);
 				documentsMain.UI.showEditor(
-						documentsMain.getNameByFileid(response.file_id),
+						documentsMain.fileName,
 						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
 				var serverFactory = new ServerFactory();
@@ -281,7 +284,42 @@ var documentsMain = {
 		});
 		$.post(OC.Router.generate('documents_user_invite'), {users: users});
 	},
-	
+
+	renameDocument: function(name) {
+		var url = OC.Router.generate('documents_session_renamedocument') + '/' + documentsMain.fileId;
+		$.post(
+			url,
+			{ name : name },
+			function(result) {
+				if (result && result.status === 'error') {
+					if (result.message){
+						OC.Notification.show(result.message);
+						setTimeout(function() {
+							OC.Notification.hide();
+						}, 10000);
+					}
+					return;
+				}
+				documentsMain.fileName = name;
+				$('title').text(documentsMain.UI.mainTitle + '| ' + name);
+				$('#document-title>div').text(name);
+			}
+		);
+	},
+
+	onRenamePrompt: function() {
+		var name = documentsMain.fileName;
+		var lastPos = name.lastIndexOf('.');
+		var extension = name.substr(lastPos + 1);
+		name = name.substr(0, lastPos);
+		// FIXME: don't use an ugly prompt but an inline field
+		// FIXME: check for invalid characters
+		var newName = prompt(t('document', 'Please enter the document name'), name);
+		if (newName !== null && newName !== '') {
+			documentsMain.renameDocument(newName + '.' + extension);
+		}
+	},
+
 	onClose: function() {
 		"use strict";
 		
@@ -433,6 +471,7 @@ $(document).ready(function() {
 		}
 	});
 	
+	$(document.body).on('click', '#document-title', documentsMain.onRenamePrompt);
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
 	$(document.body).on('click', '#odf-join', function(event){
