@@ -7,12 +7,14 @@ index cbab8ec..f51aec3 100644
                              // update border color
                              node.style.borderColor = memberDetails.color;
 +						} else if (node.localName === "span" && memberDetails.imageUrl){
-+							$(node).avatar(memberDetails.imageUrl, 60);
++                           try {
++							    $(node).avatar(memberDetails.imageUrl, 60);
++                           } catch (e){}
 +							node.style.borderColor = memberDetails.color;
                          } else if (node.localName === "div") {
                              node.setAttribute('fullname', memberDetails.fullname);
                          }
-@@ -92,7 +95,7 @@ define("webodf/editor/MemberListView",
+@@ -94,7 +97,7 @@ define("webodf/editor/MemberListView",
              var doc = memberListDiv.ownerDocument,
                  htmlns = doc.documentElement.namespaceURI,
                  avatarDiv = doc.createElementNS(htmlns, "div"),
@@ -21,7 +23,7 @@ index cbab8ec..f51aec3 100644
                  fullnameNode = doc.createElement("div");
  
              avatarDiv.className = "memberListButton";
-@@ -110,7 +113,7 @@ define("webodf/editor/MemberListView",
+@@ -112,7 +115,7 @@ define("webodf/editor/MemberListView",
              avatarDiv.onclick = function () {
                  var caret = editorSession.sessionView.getCaret(memberId);
                  if (caret) {
