@@ -55,7 +55,7 @@ var odfViewer = {
 		} else {
 			//Public page, files app, etc
 			var location = fileDownloadPath($('#dir').val(), filename);
-			OC.addStyle('documents', 'viewer/webodf');
+			OC.addStyle('documents', '3rdparty/webodf/editor');
 		}
 		
 		OC.addStyle('documents', 'viewer/odfviewer');
