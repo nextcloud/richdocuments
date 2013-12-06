@@ -1,5 +1,7 @@
 #!/bin/bash
 # Copies the needed files from the build dir of the WebODF pullbox branch
+#
+# Prepare the webodf build dir by calling: make webodf-debug.js-target editor-compiled.js-target
 
 WEBODF_BUILDDIR=${1%/}
 
@@ -25,7 +27,6 @@ cp "$WEBODF_BUILDDIR"/programs/editor/{Tools,Editor,EditorSession,MemberListView
 cp "$WEBODF_BUILDDIR"/programs/editor/server/pullbox/* ./js/3rdparty/webodf/editor/server/pullbox -R
 cp "$WEBODF_BUILDDIR"/programs/editor/server/ServerFactory.js ./js/3rdparty/webodf/editor/server -R
 cp "$WEBODF_BUILDDIR"/programs/editor/widgets ./js/3rdparty/webodf/editor -R
-cp "$WEBODF_BUILDDIR"/programs/editor/nls ./js/3rdparty/webodf/editor -R
 cp "$WEBODF_BUILDDIR"/programs/editor/editor.css ./css/3rdparty/webodf
 
 # patches against upstream
