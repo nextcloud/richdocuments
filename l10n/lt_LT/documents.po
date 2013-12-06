@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:13-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
+"POT-Creation-Date: 2013-12-05 20:18-0500\n"
+"PO-Revision-Date: 2013-12-06 01:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -19,40 +19,62 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+#: ajax/sessionController.php:39
+msgid "You don't have permission to rename this document"
+msgstr ""
+
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
 msgstr "Dokumentacija"
 
-#: js/documents.js:23 js/locale.js:12 js/viewer/viewer.js:69
+#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
 msgstr "Užverti"
 
-#: js/documents.js:26
+#: js/documents.js:27
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/documents.js:102
+#: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
 msgstr "Nėra ryšio su serveriu. Bandoma jungtis vėl."
 
-#: js/documents.js:153
+#: js/documents.js:158
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Išėjimas iš šio puslapio redagavimo veiksenoje gali lemti duomenų neišsaugojimą. Rekomenduojama naudoti „Uždaryti“ mygtuką."
 
-#: js/documents.js:170
+#: js/documents.js:175
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Nepavyko įkelti šio dokumento. Prašome patikrinti ar galima jį atverti su išoriniu odt redaktoriumi. Tai gali reikšti, kad jis nebebendrinamas arba neseniai pašalintas."
 
-#: js/documents.js:347
+#: js/documents.js:317
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/documents.js:319
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/documents.js:326
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/documents.js:427 templates/documents.php:31
+msgid "Loading documents..."
+msgstr ""
+
+#: js/documents.js:447
 msgid "Failed to load documents."
 msgstr "Nepavyko įkelti dokumentų."
 
-#: js/documents.js:390
+#: js/documents.js:490
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Nerasta dokumentų. Prašome įkelti ar sukurti dokumentą!"
 
