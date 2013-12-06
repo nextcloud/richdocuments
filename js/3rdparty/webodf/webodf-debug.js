@@ -1,4 +1,4 @@
-var webodf_version = "0.4.2-1556-gf8a94ee";
+var webodf_version = "0.4.2-1579-gfc3a4e6";
 function Runtime() {
 }
 Runtime.prototype.getVariable = function(name) {
@@ -3738,8 +3738,8 @@ gui.KeyboardHandler.KeyCode = {Backspace:8, Tab:9, Clear:12, Enter:13, End:35, H
 */
 odf.Namespaces = {namespaceMap:{db:"urn:oasis:names:tc:opendocument:xmlns:database:1.0", dc:"http://purl.org/dc/elements/1.1/", dr3d:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", draw:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", chart:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0", fo:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", form:"urn:oasis:names:tc:opendocument:xmlns:form:1.0", meta:"urn:oasis:names:tc:opendocument:xmlns:meta:1.0", number:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", 
 office:"urn:oasis:names:tc:opendocument:xmlns:office:1.0", presentation:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", style:"urn:oasis:names:tc:opendocument:xmlns:style:1.0", svg:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", table:"urn:oasis:names:tc:opendocument:xmlns:table:1.0", text:"urn:oasis:names:tc:opendocument:xmlns:text:1.0", xlink:"http://www.w3.org/1999/xlink", xml:"http://www.w3.org/XML/1998/namespace"}, prefixMap:{}, dbns:"urn:oasis:names:tc:opendocument:xmlns:database:1.0", 
-dcns:"http://purl.org/dc/elements/1.1/", dr3dns:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", drawns:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", chartns:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0", fons:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", formns:"urn:oasis:names:tc:opendocument:xmlns:form:1.0", numberns:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", officens:"urn:oasis:names:tc:opendocument:xmlns:office:1.0", presentationns:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", 
-stylens:"urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", tablens:"urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns:"urn:oasis:names:tc:opendocument:xmlns:text:1.0", xlinkns:"http://www.w3.org/1999/xlink", xmlns:"http://www.w3.org/XML/1998/namespace"};
+dcns:"http://purl.org/dc/elements/1.1/", dr3dns:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0", drawns:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0", chartns:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0", fons:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0", formns:"urn:oasis:names:tc:opendocument:xmlns:form:1.0", metans:"urn:oasis:names:tc:opendocument:xmlns:meta:1.0", numberns:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0", officens:"urn:oasis:names:tc:opendocument:xmlns:office:1.0", 
+presentationns:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0", stylens:"urn:oasis:names:tc:opendocument:xmlns:style:1.0", svgns:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0", tablens:"urn:oasis:names:tc:opendocument:xmlns:table:1.0", textns:"urn:oasis:names:tc:opendocument:xmlns:text:1.0", xlinkns:"http://www.w3.org/1999/xlink", xmlns:"http://www.w3.org/XML/1998/namespace"};
 (function() {
   var map = odf.Namespaces.namespaceMap, pmap = odf.Namespaces.prefixMap, prefix;
   for(prefix in map) {
@@ -3818,6 +3818,18 @@ odf.OdfUtils = function OdfUtils() {
     return e !== null && (e.nodeType === Node.ELEMENT_NODE && (e.localName === "frame" && (e.namespaceURI === drawns && (e).getAttributeNS(textns, "anchor-type") === "as-char")))
   }
   this.isCharacterFrame = isCharacterFrame;
+  function isAnnotation(e) {
+    var name = e && e.localName;
+    return name === "annotation" && e.namespaceURI === odf.Namespaces.officens
+  }
+  function isAnnotationWrapper(e) {
+    var name = e && e.localName;
+    return name === "div" && (e).className === "annotationWrapper"
+  }
+  function isInlineRoot(e) {
+    return isAnnotation(e) || isAnnotationWrapper(e)
+  }
+  this.isInlineRoot = isInlineRoot;
   this.isTextSpan = function(e) {
     var name = e && e.localName;
     return name === "span" && e.namespaceURI === textns
@@ -3869,13 +3881,15 @@ odf.OdfUtils = function OdfUtils() {
       ns = e.namespaceURI;
       if(ns === textns) {
         r = n === "s" || (n === "tab" || n === "line-break")
-      }else {
-        r = isCharacterFrame(e)
       }
     }
     return r
   }
   this.isCharacterElement = isCharacterElement;
+  function isAnchoredAsCharacterElement(e) {
+    return isCharacterElement(e) || (isCharacterFrame(e) || isInlineRoot(e))
+  }
+  this.isAnchoredAsCharacterElement = isAnchoredAsCharacterElement;
   function isSpaceElement(e) {
     var n = e && e.localName, ns, r = false;
     if(n) {
@@ -3926,7 +3940,7 @@ odf.OdfUtils = function OdfUtils() {
           return!isODFWhitespace(text.data.substr(text.length - 1, 1))
         }
       }else {
-        if(isCharacterElement(node)) {
+        if(isAnchoredAsCharacterElement(node)) {
           r = isSpaceElement(node) === false;
           node = null
         }else {
@@ -3954,7 +3968,7 @@ odf.OdfUtils = function OdfUtils() {
         }
       }
     }else {
-      if(isCharacterElement(node)) {
+      if(isAnchoredAsCharacterElement(node)) {
         r = 1
       }
     }
@@ -3969,7 +3983,7 @@ odf.OdfUtils = function OdfUtils() {
     if(l > 0) {
       r = !isODFWhitespace((node).data.substr(0, 1))
     }else {
-      if(isCharacterElement(node)) {
+      if(isAnchoredAsCharacterElement(node)) {
         r = true
       }
     }
@@ -3989,7 +4003,7 @@ odf.OdfUtils = function OdfUtils() {
         r = true;
         break
       }
-      if(isCharacterElement(node)) {
+      if(isAnchoredAsCharacterElement(node)) {
         r = true;
         break
       }
@@ -4011,7 +4025,7 @@ odf.OdfUtils = function OdfUtils() {
         r = true;
         break
       }
-      if(isCharacterElement(node)) {
+      if(isAnchoredAsCharacterElement(node)) {
         r = true;
         break
       }
@@ -4032,7 +4046,7 @@ odf.OdfUtils = function OdfUtils() {
     if(!isODFWhitespace(text[offset])) {
       return false
     }
-    if(isCharacterElement(textNode.parentNode)) {
+    if(isAnchoredAsCharacterElement(textNode.parentNode)) {
       return false
     }
     if(offset > 0) {
@@ -4203,7 +4217,7 @@ odf.OdfUtils = function OdfUtils() {
           }
         }
       }else {
-        if(isCharacterElement(node)) {
+        if(isAnchoredAsCharacterElement(node)) {
           if(includeNode(range, nodeRange, includePartial)) {
             return NodeFilter.FILTER_ACCEPT
           }
@@ -5203,58 +5217,6 @@ gui.SelectionMover.createPositionIterator = function(rootNode) {
 (function() {
   return gui.SelectionMover
 })();
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-runtime.loadClass("odf.Namespaces");
-runtime.loadClass("core.DomUtils");
-odf.MetadataManager = function MetadataManager(metaElement) {
-  var domUtils = new core.DomUtils, metadata = {};
-  function setMetadata(setProperties, removedProperties) {
-    if(setProperties) {
-      Object.keys(setProperties).forEach(function(key) {
-        metadata[key] = setProperties[key]
-      });
-      domUtils.mapKeyValObjOntoNode(metaElement, setProperties, odf.Namespaces.lookupNamespaceURI)
-    }
-    if(removedProperties) {
-      removedProperties.forEach(function(name) {
-        delete metadata[name]
-      });
-      domUtils.removeKeyElementsFromNode(metaElement, removedProperties, odf.Namespaces.lookupNamespaceURI)
-    }
-  }
-  this.setMetadata = setMetadata;
-  this.incrementEditingCycles = function() {
-    var cycles = parseInt(metadata["meta:editing-cycles"] || 0, 10) + 1;
-    setMetadata({"meta:editing-cycles":cycles}, null)
-  };
-  function init() {
-    metadata = domUtils.getKeyValRepresentationOfNode(metaElement, odf.Namespaces.lookupPrefix)
-  }
-  init()
-};
 /*
 
  Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
@@ -6414,6 +6376,9 @@ ops.TextPositionFilter = function TextPositionFilter(getRootNode) {
   function checkLeftRight(container, leftNode, rightNode) {
     var r, firstPos, rightOfChar;
     if(leftNode) {
+      if(odfUtils.isInlineRoot(leftNode) && odfUtils.isGroupingElement(rightNode)) {
+        return FILTER_REJECT
+      }
       r = odfUtils.lookLeftForCharacter(leftNode);
       if(r === 1) {
         return FILTER_ACCEPT
@@ -6735,14 +6700,14 @@ gui.Clipboard = function Clipboard() {
 */
 runtime.loadClass("core.Base64");
 runtime.loadClass("core.Zip");
+runtime.loadClass("core.DomUtils");
 runtime.loadClass("xmldom.LSSerializer");
 runtime.loadClass("odf.StyleInfo");
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfNodeFilter");
-runtime.loadClass("odf.MetadataManager");
 (function() {
-  var styleInfo = new odf.StyleInfo, metadataManager, officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", manifestns = "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0", webodfns = "urn:webodf:names:scope", stylens = odf.Namespaces.stylens, nodeorder = ["meta", "settings", "scripts", "font-face-decls", "styles", "automatic-styles", "master-styles", "body"], automaticStylePrefix = (new Date).getTime() + "_webodf_", base64 = new core.Base64, documentStylesScope = "document-styles", documentContentScope = 
-  "document-content";
+  var styleInfo = new odf.StyleInfo, domUtils = new core.DomUtils, officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", manifestns = "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0", webodfns = "urn:webodf:names:scope", stylens = odf.Namespaces.stylens, nodeorder = ["meta", "settings", "scripts", "font-face-decls", "styles", "automatic-styles", "master-styles", "body"], automaticStylePrefix = (new Date).getTime() + "_webodf_", base64 = new core.Base64, documentStylesScope = "document-styles", 
+  documentContentScope = "document-content";
   function getDirectChild(node, ns, name) {
     node = node ? node.firstChild : null;
     while(node) {
@@ -6892,6 +6857,30 @@ runtime.loadClass("odf.MetadataManager");
         n = n.nextSibling
       }
     }
+    function getEnsuredMetaElement() {
+      var root = self.rootElement, meta = root.meta;
+      if(!meta) {
+        root.meta = meta = document.createElementNS(officens, "meta");
+        setChild(root, meta)
+      }
+      return meta
+    }
+    function getMetaData(metadataNs, metadataLocalName) {
+      var node = self.rootElement.meta, textNode;
+      node = node && node.firstChild;
+      while(node && (node.namespaceURI !== metadataNs || node.localName !== metadataLocalName)) {
+        node = node.nextSibling
+      }
+      node = node && node.firstChild;
+      while(node && node.nodeType !== Node.TEXT_NODE) {
+        node = node.nextSibling
+      }
+      if(node) {
+        textNode = (node);
+        return textNode.data
+      }
+      return null
+    }
     function unusedKey(key, map1, map2) {
       var i = 0, postFixedKey;
       key = key.replace(/\d+$/, "");
@@ -6976,9 +6965,6 @@ runtime.loadClass("odf.MetadataManager");
         }
       }
       return copy
-    }
-    function initializeMetadataManager(metaRootElement) {
-      metadataManager = new odf.MetadataManager(metaRootElement)
     }
     function importRootNode(xmldoc) {
       var doc = self.rootElement.ownerDocument, node;
@@ -7085,10 +7071,8 @@ runtime.loadClass("odf.MetadataManager");
         return
       }
       root = self.rootElement;
-      node = getDirectChild(node, officens, "meta");
-      root.meta = node || xmldoc.createElementNS(officens, "meta");
-      setChild(root, root.meta);
-      initializeMetadataManager(root.meta)
+      root.meta = getDirectChild(node, officens, "meta");
+      setChild(root, root.meta)
     }
     function handleSettingsXml(xmldoc) {
       var node = importRootNode(xmldoc), root;
@@ -7229,14 +7213,28 @@ runtime.loadClass("odf.MetadataManager");
       var content = self.getContentElement();
       return content && content.localName
     };
-    this.getMetadataManager = function() {
-      return metadataManager
-    };
     this.getPart = function(partname) {
       return new odf.OdfPart(partname, partMimetypes[partname], self, zip)
     };
     this.getPartData = function(url, callback) {
       zip.load(url, callback)
+    };
+    function setMetadata(setProperties, removedPropertyNames) {
+      var metaElement = getEnsuredMetaElement();
+      if(setProperties) {
+        domUtils.mapKeyValObjOntoNode(metaElement, setProperties, odf.Namespaces.lookupNamespaceURI)
+      }
+      if(removedPropertyNames) {
+        domUtils.removeKeyElementsFromNode(metaElement, removedPropertyNames, odf.Namespaces.lookupNamespaceURI)
+      }
+    }
+    this.setMetadata = setMetadata;
+    this.incrementEditingCycles = function() {
+      var currentValueString = getMetaData(odf.Namespaces.metans, "editing-cycles"), currentCycles = currentValueString ? parseInt(currentValueString, 10) : 0;
+      if(isNaN(currentCycles)) {
+        currentCycles = 0
+      }
+      setMetadata({"meta:editing-cycles":currentCycles + 1}, null)
     };
     function updateMetadataForSaving() {
       var generatorString, window = runtime.getWindow();
@@ -7244,7 +7242,7 @@ runtime.loadClass("odf.MetadataManager");
       if(window) {
         generatorString = generatorString + " " + window.navigator.userAgent
       }
-      metadataManager.setMetadata({"meta:generator":generatorString}, null)
+      setMetadata({"meta:generator":generatorString}, null)
     }
     function createEmptyTextDocument() {
       var emptyzip = new core.Zip("", null), data = runtime.byteArrayFromString("application/vnd.oasis.opendocument.text", "utf8"), root = self.rootElement, text = document.createElementNS(officens, "text");
@@ -7267,7 +7265,6 @@ runtime.loadClass("odf.MetadataManager");
       addToplevelElement("masterStyles", "master-styles");
       addToplevelElement("body");
       root.body.appendChild(text);
-      initializeMetadataManager(root.meta);
       setState(OdfContainer.DONE);
       return emptyzip
     }
@@ -7601,163 +7598,14 @@ odf.ObjectNameGenerator = function ObjectNameGenerator(odfContainer, memberId) {
  @source: http://www.webodf.org/
  @source: https://github.com/kogmbh/WebODF/
 */
-runtime.loadClass("core.DomUtils");
-runtime.loadClass("core.LoopWatchDog");
-runtime.loadClass("odf.Namespaces");
-odf.TextStyleApplicatorFormatting = function() {
-};
-odf.TextStyleApplicatorFormatting.prototype.getAppliedStylesForElement = function(textnode) {
-};
-odf.TextStyleApplicatorFormatting.prototype.createDerivedStyleObject = function(parentStyleName, family, overrides) {
-};
-odf.TextStyleApplicatorFormatting.prototype.updateStyle = function(styleNode, properties) {
-};
-odf.TextStyleApplicator = function TextStyleApplicator(objectNameGenerator, formatting, automaticStyles) {
-  var domUtils = new core.DomUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
-  function StyleLookup(info) {
-    function compare(expected, actual) {
-      if(typeof expected === "object" && typeof actual === "object") {
-        return Object.keys(expected).every(function(key) {
-          return compare(expected[key], actual[key])
-        })
-      }
-      return expected === actual
-    }
-    this.isStyleApplied = function(textNode) {
-      var appliedStyle = formatting.getAppliedStylesForElement(textNode);
-      return compare(info, appliedStyle)
-    }
-  }
-  function StyleManager(info) {
-    var createdStyles = {};
-    function createDirectFormat(existingStyleName, document) {
-      var derivedStyleInfo, derivedStyleNode;
-      derivedStyleInfo = existingStyleName ? formatting.createDerivedStyleObject(existingStyleName, "text", info) : info;
-      derivedStyleNode = document.createElementNS(stylens, "style:style");
-      formatting.updateStyle(derivedStyleNode, derivedStyleInfo);
-      derivedStyleNode.setAttributeNS(stylens, "style:name", objectNameGenerator.generateStyleName());
-      derivedStyleNode.setAttributeNS(stylens, "style:family", "text");
-      derivedStyleNode.setAttributeNS(webodfns, "scope", "document-content");
-      automaticStyles.appendChild(derivedStyleNode);
-      return derivedStyleNode
-    }
-    function getDirectStyle(existingStyleName, document) {
-      existingStyleName = existingStyleName || "";
-      if(!createdStyles.hasOwnProperty(existingStyleName)) {
-        createdStyles[existingStyleName] = createDirectFormat(existingStyleName, document)
-      }
-      return createdStyles[existingStyleName].getAttributeNS(stylens, "name")
-    }
-    this.applyStyleToContainer = function(container) {
-      var name = getDirectStyle(container.getAttributeNS(textns, "style-name"), container.ownerDocument);
-      container.setAttributeNS(textns, "text:style-name", name)
-    }
-  }
-  function isTextSpan(node) {
-    return node.localName === "span" && node.namespaceURI === textns
-  }
-  function moveToNewSpan(startNode, limits) {
-    var document = startNode.ownerDocument, originalContainer = (startNode.parentNode), styledContainer, trailingContainer, moveTrailing, node, nextNode, loopGuard = new core.LoopWatchDog(1E4), styledNodes = [];
-    if(!isTextSpan(originalContainer)) {
-      styledContainer = document.createElementNS(textns, "text:span");
-      originalContainer.insertBefore(styledContainer, startNode);
-      moveTrailing = false
-    }else {
-      if(startNode.previousSibling && !domUtils.rangeContainsNode(limits, (originalContainer.firstChild))) {
-        styledContainer = originalContainer.cloneNode(false);
-        originalContainer.parentNode.insertBefore(styledContainer, originalContainer.nextSibling);
-        moveTrailing = true
-      }else {
-        styledContainer = originalContainer;
-        moveTrailing = true
-      }
-    }
-    styledNodes.push(startNode);
-    node = startNode.nextSibling;
-    while(node && domUtils.rangeContainsNode(limits, node)) {
-      loopGuard.check();
-      styledNodes.push(node);
-      node = node.nextSibling
-    }
-    styledNodes.forEach(function(n) {
-      if(n.parentNode !== styledContainer) {
-        styledContainer.appendChild(n)
-      }
-    });
-    if(node && moveTrailing) {
-      trailingContainer = styledContainer.cloneNode(false);
-      styledContainer.parentNode.insertBefore(trailingContainer, styledContainer.nextSibling);
-      while(node) {
-        loopGuard.check();
-        nextNode = node.nextSibling;
-        trailingContainer.appendChild(node);
-        node = nextNode
-      }
-    }
-    return(styledContainer)
-  }
-  this.applyStyle = function(textNodes, limits, info) {
-    var textPropsOnly = {}, isStyled, container, styleCache, styleLookup;
-    runtime.assert(info && info.hasOwnProperty(textProperties), "applyStyle without any text properties");
-    textPropsOnly[textProperties] = info[textProperties];
-    styleCache = new StyleManager(textPropsOnly);
-    styleLookup = new StyleLookup(textPropsOnly);
-    function apply(n) {
-      isStyled = styleLookup.isStyleApplied(n);
-      if(isStyled === false) {
-        container = moveToNewSpan(n, limits);
-        styleCache.applyStyleToContainer(container)
-      }
-    }
-    textNodes.forEach(apply)
-  }
-};
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
 runtime.loadClass("core.Utils");
 runtime.loadClass("odf.ObjectNameGenerator");
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfContainer");
 runtime.loadClass("odf.StyleInfo");
 runtime.loadClass("odf.OdfUtils");
-runtime.loadClass("odf.TextStyleApplicator");
 odf.Formatting = function Formatting() {
-  var self = this, odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, numberns = odf.Namespaces.numberns, fons = odf.Namespaces.fons, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, utils = new core.Utils, builtInDefaultStyleAttributesByFamily = {"paragraph":{"style:paragraph-properties":{"fo:text-align":"left"}}}, defaultPageFormatSettings = {width:21.001, height:29.7, margin:2, padding:0};
+  var odfContainer, styleInfo = new odf.StyleInfo, svgns = odf.Namespaces.svgns, stylens = odf.Namespaces.stylens, textns = odf.Namespaces.textns, numberns = odf.Namespaces.numberns, fons = odf.Namespaces.fons, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, utils = new core.Utils, builtInDefaultStyleAttributesByFamily = {"paragraph":{"style:paragraph-properties":{"fo:text-align":"left"}}}, defaultPageFormatSettings = {width:21.001, height:29.7, margin:2, padding:0};
   function getSystemDefaultStyleAttributes(styleFamily) {
     var result, builtInDefaultStyleAttributes = builtInDefaultStyleAttributesByFamily[styleFamily];
     if(builtInDefaultStyleAttributes) {
@@ -7977,10 +7825,6 @@ odf.Formatting = function Formatting() {
     var styleChain;
     styleChain = buildStyleChain(node);
     return styleChain ? calculateAppliedStyle(styleChain) : undefined
-  };
-  this.applyStyle = function(memberId, textNodes, limits, info) {
-    var textStyles = new odf.TextStyleApplicator(new odf.ObjectNameGenerator((odfContainer), memberId), self, odfContainer.rootElement.automaticStyles);
-    textStyles.applyStyle(textNodes, limits, info)
   };
   this.updateStyle = function(styleNode, properties) {
     var fontName, fontFaceNode;
@@ -9042,10 +8886,149 @@ runtime.loadClass("gui.AnnotationViewManager");
  @source: https://github.com/kogmbh/WebODF/
 */
 runtime.loadClass("core.DomUtils");
+runtime.loadClass("core.LoopWatchDog");
+runtime.loadClass("odf.Namespaces");
+odf.TextStyleApplicator = function TextStyleApplicator(objectNameGenerator, formatting, automaticStyles) {
+  var domUtils = new core.DomUtils, textns = odf.Namespaces.textns, stylens = odf.Namespaces.stylens, textProperties = "style:text-properties", webodfns = "urn:webodf:names:scope";
+  function StyleLookup(info) {
+    function compare(expected, actual) {
+      if(typeof expected === "object" && typeof actual === "object") {
+        return Object.keys(expected).every(function(key) {
+          return compare(expected[key], actual[key])
+        })
+      }
+      return expected === actual
+    }
+    this.isStyleApplied = function(textNode) {
+      var appliedStyle = formatting.getAppliedStylesForElement(textNode);
+      return compare(info, appliedStyle)
+    }
+  }
+  function StyleManager(info) {
+    var createdStyles = {};
+    function createDirectFormat(existingStyleName, document) {
+      var derivedStyleInfo, derivedStyleNode;
+      derivedStyleInfo = existingStyleName ? formatting.createDerivedStyleObject(existingStyleName, "text", info) : info;
+      derivedStyleNode = document.createElementNS(stylens, "style:style");
+      formatting.updateStyle(derivedStyleNode, derivedStyleInfo);
+      derivedStyleNode.setAttributeNS(stylens, "style:name", objectNameGenerator.generateStyleName());
+      derivedStyleNode.setAttributeNS(stylens, "style:family", "text");
+      derivedStyleNode.setAttributeNS(webodfns, "scope", "document-content");
+      automaticStyles.appendChild(derivedStyleNode);
+      return derivedStyleNode
+    }
+    function getDirectStyle(existingStyleName, document) {
+      existingStyleName = existingStyleName || "";
+      if(!createdStyles.hasOwnProperty(existingStyleName)) {
+        createdStyles[existingStyleName] = createDirectFormat(existingStyleName, document)
+      }
+      return createdStyles[existingStyleName].getAttributeNS(stylens, "name")
+    }
+    this.applyStyleToContainer = function(container) {
+      var name = getDirectStyle(container.getAttributeNS(textns, "style-name"), container.ownerDocument);
+      container.setAttributeNS(textns, "text:style-name", name)
+    }
+  }
+  function isTextSpan(node) {
+    return node.localName === "span" && node.namespaceURI === textns
+  }
+  function moveToNewSpan(startNode, limits) {
+    var document = startNode.ownerDocument, originalContainer = (startNode.parentNode), styledContainer, trailingContainer, moveTrailing, node, nextNode, loopGuard = new core.LoopWatchDog(1E4), styledNodes = [];
+    if(!isTextSpan(originalContainer)) {
+      styledContainer = document.createElementNS(textns, "text:span");
+      originalContainer.insertBefore(styledContainer, startNode);
+      moveTrailing = false
+    }else {
+      if(startNode.previousSibling && !domUtils.rangeContainsNode(limits, (originalContainer.firstChild))) {
+        styledContainer = originalContainer.cloneNode(false);
+        originalContainer.parentNode.insertBefore(styledContainer, originalContainer.nextSibling);
+        moveTrailing = true
+      }else {
+        styledContainer = originalContainer;
+        moveTrailing = true
+      }
+    }
+    styledNodes.push(startNode);
+    node = startNode.nextSibling;
+    while(node && domUtils.rangeContainsNode(limits, node)) {
+      loopGuard.check();
+      styledNodes.push(node);
+      node = node.nextSibling
+    }
+    styledNodes.forEach(function(n) {
+      if(n.parentNode !== styledContainer) {
+        styledContainer.appendChild(n)
+      }
+    });
+    if(node && moveTrailing) {
+      trailingContainer = styledContainer.cloneNode(false);
+      styledContainer.parentNode.insertBefore(trailingContainer, styledContainer.nextSibling);
+      while(node) {
+        loopGuard.check();
+        nextNode = node.nextSibling;
+        trailingContainer.appendChild(node);
+        node = nextNode
+      }
+    }
+    return(styledContainer)
+  }
+  this.applyStyle = function(textNodes, limits, info) {
+    var textPropsOnly = {}, isStyled, container, styleCache, styleLookup;
+    runtime.assert(info && info.hasOwnProperty(textProperties), "applyStyle without any text properties");
+    textPropsOnly[textProperties] = info[textProperties];
+    styleCache = new StyleManager(textPropsOnly);
+    styleLookup = new StyleLookup(textPropsOnly);
+    function apply(n) {
+      isStyled = styleLookup.isStyleApplied(n);
+      if(isStyled === false) {
+        container = moveToNewSpan(n, limits);
+        styleCache.applyStyleToContainer(container)
+      }
+    }
+    textNodes.forEach(apply)
+  }
+};
+/*
+
+ Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ The JavaScript code in this page is free software: you can redistribute it
+ and/or modify it under the terms of the GNU Affero General Public License
+ (GNU AGPL) as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.  The code is distributed
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+ As additional permission under GNU AGPL version 3 section 7, you
+ may distribute non-source (e.g., minimized or compacted) forms of
+ that code without the copy of the GNU GPL normally required by
+ section 4, provided you include this license notice and a URL
+ through which recipients can access the Corresponding Source.
+
+ As a special exception to the AGPL, any HTML file which merely makes function
+ calls to this code, and for that purpose includes it by reference shall be
+ deemed a separate work for copyright law purposes. In addition, the copyright
+ holders of this code give you permission to combine this code with free
+ software libraries that are released under the GNU LGPL. You may copy and
+ distribute such a system following the terms of the GNU AGPL for this code
+ and the LGPL for the libraries. If you modify this code, you may extend this
+ exception to your version of the code, but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version.
+
+ This license applies to this entire compilation.
+ @licend
+ @source: http://www.webodf.org/
+ @source: https://github.com/kogmbh/WebODF/
+*/
 runtime.loadClass("odf.Namespaces");
 runtime.loadClass("odf.OdfUtils");
 gui.StyleHelper = function StyleHelper(formatting) {
-  var domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, textns = odf.Namespaces.textns;
+  var odfUtils = new odf.OdfUtils, textns = odf.Namespaces.textns;
   function getAppliedStyles(range) {
     var container, nodes;
     if(range.collapsed) {
@@ -9060,12 +9043,6 @@ gui.StyleHelper = function StyleHelper(formatting) {
     return formatting.getAppliedStyles(nodes)
   }
   this.getAppliedStyles = getAppliedStyles;
-  this.applyStyle = function(memberId, range, info) {
-    var nextTextNodes = domUtils.splitBoundaries(range), textNodes = odfUtils.getTextNodes(range, false), limits;
-    limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
-    formatting.applyStyle(memberId, textNodes, limits, info);
-    nextTextNodes.forEach(domUtils.normalizeTextNodes)
-  };
   function hasTextPropertyValue(appliedStyles, propertyName, propertyValue) {
     var hasOtherValue = true, properties, i;
     for(i = 0;i < appliedStyles.length;i += 1) {
@@ -11184,27 +11161,45 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     var iterator = getIteratorAtPosition(steps), node = iterator.container(), lastTextNode, nodeOffset = 0, cursorNode = null;
     if(node.nodeType === Node.TEXT_NODE) {
       lastTextNode = (node);
-      nodeOffset = iterator.unfilteredDomOffset()
+      nodeOffset = (iterator.unfilteredDomOffset());
+      if(lastTextNode.length > 0) {
+        if(nodeOffset > 0) {
+          lastTextNode = lastTextNode.splitText(nodeOffset)
+        }
+        lastTextNode.parentNode.insertBefore(getDOM().createTextNode(""), lastTextNode);
+        lastTextNode = (lastTextNode.previousSibling);
+        nodeOffset = 0
+      }
     }else {
       lastTextNode = getDOM().createTextNode("");
       nodeOffset = 0;
       node.insertBefore(lastTextNode, iterator.rightNode())
     }
-    if(memberid && (cursors[memberid] && self.getCursorPosition(memberid) === steps)) {
-      cursorNode = cursors[memberid].getNode();
-      while(cursorNode.nextSibling && cursorNode.nextSibling.localName === "cursor") {
-        cursorNode.parentNode.insertBefore(cursorNode.nextSibling, cursorNode)
+    if(memberid) {
+      if(cursors[memberid] && self.getCursorPosition(memberid) === steps) {
+        cursorNode = cursors[memberid].getNode();
+        while(cursorNode.nextSibling && cursorNode.nextSibling.localName === "cursor") {
+          cursorNode.parentNode.insertBefore(cursorNode.nextSibling, cursorNode)
+        }
+        if(lastTextNode.length > 0 && lastTextNode.nextSibling !== cursorNode) {
+          lastTextNode = getDOM().createTextNode("");
+          nodeOffset = 0
+        }
+        cursorNode.parentNode.insertBefore(lastTextNode, cursorNode)
       }
-      if(lastTextNode.length > 0 && lastTextNode.nextSibling !== cursorNode) {
-        lastTextNode = getDOM().createTextNode("");
-        nodeOffset = 0
+    }else {
+      while(lastTextNode.nextSibling && lastTextNode.nextSibling.localName === "cursor") {
+        lastTextNode.parentNode.insertBefore(lastTextNode.nextSibling, lastTextNode)
       }
-      cursorNode.parentNode.insertBefore(lastTextNode, cursorNode)
     }
     while(lastTextNode.previousSibling && lastTextNode.previousSibling.nodeType === Node.TEXT_NODE) {
       lastTextNode.previousSibling.appendData(lastTextNode.data);
-      nodeOffset = lastTextNode.previousSibling.length;
+      nodeOffset = (lastTextNode.previousSibling.length);
       lastTextNode = (lastTextNode.previousSibling);
+      lastTextNode.parentNode.removeChild(lastTextNode.nextSibling)
+    }
+    while(lastTextNode.nextSibling && lastTextNode.nextSibling.nodeType === Node.TEXT_NODE) {
+      lastTextNode.appendData(lastTextNode.nextSibling.data);
       lastTextNode.parentNode.removeChild(lastTextNode.nextSibling)
     }
     return{textNode:lastTextNode, offset:nodeOffset}
@@ -11227,14 +11222,14 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     return null
   }
   function handleOperationExecuted(op) {
-    var spec = op.spec(), memberId = spec.memberid, date = (new Date(spec.timestamp)).toISOString(), metadataManager = odfCanvas.odfContainer().getMetadataManager(), fullName;
+    var spec = op.spec(), memberId = spec.memberid, date = (new Date(spec.timestamp)).toISOString(), odfContainer = odfCanvas.odfContainer(), fullName;
     if(op.isEdit) {
       fullName = self.getMember(memberId).getProperties().fullName;
-      metadataManager.setMetadata({"dc:creator":fullName, "dc:date":date}, null);
+      odfContainer.setMetadata({"dc:creator":fullName, "dc:date":date}, null);
       if(!lastEditingOp) {
-        metadataManager.incrementEditingCycles();
+        odfContainer.incrementEditingCycles();
         if(!unsupportedMetadataRemoved) {
-          metadataManager.setMetadata(null, ["meta:editing-duration", "meta:document-statistic"])
+          odfContainer.setMetadata(null, ["meta:editing-duration", "meta:document-statistic"])
         }
       }
       lastEditingOp = op
@@ -11270,7 +11265,7 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
     var iterator = getIteratorAtPosition(position), container, offset, firstSpaceElementChild, lastSpaceElementChild;
     container = iterator.container();
     offset = iterator.unfilteredDomOffset();
-    while(!odfUtils.isCharacterElement(container) && container.childNodes[offset]) {
+    while(!odfUtils.isSpaceElement(container) && container.childNodes[offset]) {
       container = container.childNodes[offset];
       offset = 0
     }
@@ -11393,6 +11388,13 @@ ops.OdtDocument = function OdtDocument(odfCanvas) {
       return true
     }
     return false
+  };
+  this.moveCursor = function(memberid, position, length, selectionType) {
+    var cursor = cursors[memberid], selectionRange = self.convertCursorToDomRange(position, length);
+    if(cursor && selectionRange) {
+      cursor.setSelectedRange(selectionRange, length >= 0);
+      cursor.setSelectionType(selectionType || ops.OdtCursor.RangeSelection)
+    }
   };
   this.getFormatting = function() {
     return odfCanvas.getFormatting()
@@ -12455,7 +12457,10 @@ gui.Caret = function Caret(cursor, avatarInitiallyVisible, blinkOnRangeSelect) {
   init()
 };
 gui.EventManager = function EventManager(odtDocument) {
-  var canvasElement = odtDocument.getOdfCanvas().getElement(), window = runtime.getWindow(), bindToDirectHandler = {"beforecut":true, "beforepaste":true}, bindToWindow;
+  var window = (runtime.getWindow()), bindToDirectHandler = {"beforecut":true, "beforepaste":true}, bindToWindow, eventTrap;
+  function getCanvasElement() {
+    return odtDocument.getOdfCanvas().getElement()
+  }
   function EventDelegate() {
     var self = this, recentEvents = [];
     this.handlers = [];
@@ -12515,20 +12520,21 @@ gui.EventManager = function EventManager(odtDocument) {
     }
   }
   this.subscribe = function(eventName, handler) {
-    var delegate = window && bindToWindow[eventName];
+    var delegate = bindToWindow[eventName], canvasElement = getCanvasElement();
     if(delegate) {
       delegate.handlers.push(handler);
       if(!delegate.isSubscribed) {
         delegate.isSubscribed = true;
         listenEvent((window), eventName, delegate.handleEvent);
-        listenEvent(canvasElement, eventName, delegate.handleEvent)
+        listenEvent(canvasElement, eventName, delegate.handleEvent);
+        listenEvent(eventTrap, eventName, delegate.handleEvent)
       }
     }else {
       listenEvent(canvasElement, eventName, handler)
     }
   };
   this.unsubscribe = function(eventName, handler) {
-    var delegate = window && bindToWindow[eventName], handlerIndex = delegate && delegate.handlers.indexOf(handler);
+    var delegate = bindToWindow[eventName], handlerIndex = delegate && delegate.handlers.indexOf(handler), canvasElement = getCanvasElement();
     if(delegate) {
       if(handlerIndex !== -1) {
         delegate.handlers.splice(handlerIndex, 1)
@@ -12538,10 +12544,8 @@ gui.EventManager = function EventManager(odtDocument) {
     }
   };
   function hasFocus() {
-    var activeElement = odtDocument.getDOM().activeElement;
-    return activeElement === canvasElement
+    return odtDocument.getDOM().activeElement === getCanvasElement()
   }
-  this.hasFocus = hasFocus;
   function findScrollableParent(element) {
     while(element && (!element.scrollTop && !element.scrollLeft)) {
       element = (element.parentNode)
@@ -12549,13 +12553,10 @@ gui.EventManager = function EventManager(odtDocument) {
     if(element) {
       return new ElementScrollState(element)
     }
-    if(window) {
-      return new WindowScrollState(window)
-    }
-    return null
+    return new WindowScrollState(window)
   }
   this.focus = function() {
-    var scrollParent;
+    var scrollParent, canvasElement = getCanvasElement(), selection = window.getSelection();
     if(!hasFocus()) {
       scrollParent = findScrollableParent(canvasElement);
       canvasElement.focus();
@@ -12563,9 +12564,25 @@ gui.EventManager = function EventManager(odtDocument) {
         scrollParent.restore()
       }
     }
+    if(selection && selection.extend) {
+      if(eventTrap.parentNode !== canvasElement) {
+        canvasElement.appendChild(eventTrap)
+      }
+      selection.collapse(eventTrap.firstChild, 0);
+      selection.extend(eventTrap, eventTrap.childNodes.length)
+    }
   };
   function init() {
-    bindToWindow = {"mousedown":new EventDelegate, "mouseup":new EventDelegate}
+    var canvasElement = getCanvasElement(), doc = canvasElement.ownerDocument;
+    runtime.assert(Boolean(window), "EventManager requires a window object to operate correctly");
+    bindToWindow = {"mousedown":new EventDelegate, "mouseup":new EventDelegate, "focus":new EventDelegate};
+    eventTrap = doc.createElement("div");
+    eventTrap.id = "eventTrap";
+    eventTrap.setAttribute("contenteditable", "true");
+    eventTrap.style.position = "absolute";
+    eventTrap.style.left = "-10000px";
+    eventTrap.appendChild(doc.createTextNode("dummy content"));
+    canvasElement.appendChild(eventTrap)
   }
   init()
 };
@@ -13171,10 +13188,11 @@ ops.OpAddStyle.Spec;
  @source: http://www.webodf.org/
  @source: https://github.com/kogmbh/WebODF/
 */
-runtime.loadClass("gui.StyleHelper");
+runtime.loadClass("core.DomUtils");
 runtime.loadClass("odf.OdfUtils");
+runtime.loadClass("odf.TextStyleApplicator");
 ops.OpApplyDirectStyling = function OpApplyDirectStyling() {
-  var memberid, timestamp, position, length, setProperties, odfUtils = new odf.OdfUtils;
+  var memberid, timestamp, position, length, setProperties, odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
@@ -13183,15 +13201,16 @@ ops.OpApplyDirectStyling = function OpApplyDirectStyling() {
     setProperties = data.setProperties
   };
   this.isEdit = true;
-  function getRange(odtDocument) {
-    var point1 = length >= 0 ? position : position + length, point2 = length >= 0 ? position + length : position, p1 = odtDocument.getIteratorAtPosition(point1), p2 = length ? odtDocument.getIteratorAtPosition(point2) : p1, range = odtDocument.getDOM().createRange();
-    range.setStart(p1.container(), p1.unfilteredDomOffset());
-    range.setEnd(p2.container(), p2.unfilteredDomOffset());
-    return range
+  function applyStyle(odtDocument, range, info) {
+    var odfCanvas = odtDocument.getOdfCanvas(), odfContainer = odfCanvas.odfContainer(), nextTextNodes = domUtils.splitBoundaries(range), textNodes = odfUtils.getTextNodes(range, false), limits, textStyles;
+    limits = {startContainer:range.startContainer, startOffset:range.startOffset, endContainer:range.endContainer, endOffset:range.endOffset};
+    textStyles = new odf.TextStyleApplicator(new odf.ObjectNameGenerator((odfContainer), memberid), odtDocument.getFormatting(), odfContainer.rootElement.automaticStyles);
+    textStyles.applyStyle(textNodes, limits, info);
+    nextTextNodes.forEach(domUtils.normalizeTextNodes)
   }
   this.execute = function(odtDocument) {
-    var range = getRange(odtDocument), impactedParagraphs = odfUtils.getImpactedParagraphs(range), styleHelper = new gui.StyleHelper(odtDocument.getFormatting());
-    styleHelper.applyStyle(memberid, range, setProperties);
+    var range = odtDocument.convertCursorToDomRange(position, length), impactedParagraphs = odfUtils.getImpactedParagraphs(range);
+    applyStyle(odtDocument, range, setProperties);
     range.detach();
     odtDocument.getOdfCanvas().refreshCSS();
     odtDocument.fixCursorPositions();
@@ -13466,12 +13485,13 @@ ops.OpInsertTable = function OpInsertTable() {
  @source: https://github.com/kogmbh/WebODF/
 */
 ops.OpInsertText = function OpInsertText() {
-  var space = " ", tab = "\t", memberid, timestamp, position, text;
+  var space = " ", tab = "\t", memberid, timestamp, position, text, moveCursor;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     position = data.position;
-    text = data.text
+    text = data.text;
+    moveCursor = data.moveCursor === "true" || data.moveCursor === true
   };
   this.isEdit = true;
   function triggerLayoutInWebkit(textNode) {
@@ -13483,12 +13503,12 @@ ops.OpInsertText = function OpInsertText() {
     return text[index] === space && (index === 0 || (index === text.length - 1 || text[index - 1] === space))
   }
   this.execute = function(odtDocument) {
-    var domPosition, previousNode, parentElement, nextNode = null, ownerDocument = odtDocument.getDOM(), paragraphElement, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", toInsertIndex = 0, spaceTag, spaceElement, i;
+    var domPosition, previousNode, parentElement, nextNode = null, ownerDocument = odtDocument.getDOM(), paragraphElement, textns = "urn:oasis:names:tc:opendocument:xmlns:text:1.0", toInsertIndex = 0, spaceTag, spaceElement, cursor = odtDocument.getCursor(memberid), i;
     function insertTextNode(toInsertText) {
       parentElement.insertBefore(ownerDocument.createTextNode(toInsertText), nextNode)
     }
     odtDocument.upgradeWhitespacesAtPosition(position);
-    domPosition = odtDocument.getTextNodeAtStep(position, memberid);
+    domPosition = odtDocument.getTextNodeAtStep(position);
     if(domPosition) {
       previousNode = domPosition.textNode;
       nextNode = previousNode.nextSibling;
@@ -13527,6 +13547,10 @@ ops.OpInsertText = function OpInsertText() {
         previousNode.parentNode.removeChild(previousNode)
       }
       odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:text.length});
+      if(cursor && moveCursor) {
+        odtDocument.moveCursor(memberid, position + text.length, 0);
+        odtDocument.emit(ops.OdtDocument.signalCursorMoved, cursor)
+      }
       if(position > 0) {
         if(position > 1) {
           odtDocument.downgradeWhitespacesAtPosition(position - 2)
@@ -13544,7 +13568,7 @@ ops.OpInsertText = function OpInsertText() {
     return false
   };
   this.spec = function() {
-    return{optype:"InsertText", memberid:memberid, timestamp:timestamp, position:position, text:text}
+    return{optype:"InsertText", memberid:memberid, timestamp:timestamp, position:position, text:text, moveCursor:moveCursor}
   }
 };
 ops.OpInsertText.Spec;
@@ -14233,18 +14257,19 @@ ops.OpSetParagraphStyle.Spec;
  @source: https://github.com/kogmbh/WebODF/
 */
 ops.OpSplitParagraph = function OpSplitParagraph() {
-  var memberid, timestamp, position, odfUtils;
+  var memberid, timestamp, position, moveCursor, odfUtils;
   this.init = function(data) {
     memberid = data.memberid;
     timestamp = data.timestamp;
     position = data.position;
+    moveCursor = data.moveCursor === "true" || data.moveCursor === true;
     odfUtils = new odf.OdfUtils
   };
   this.isEdit = true;
   this.execute = function(odtDocument) {
-    var domPosition, paragraphNode, targetNode, node, splitNode, splitChildNode, keptChildNode;
+    var domPosition, paragraphNode, targetNode, node, splitNode, splitChildNode, keptChildNode, cursor = odtDocument.getCursor(memberid);
     odtDocument.upgradeWhitespacesAtPosition(position);
-    domPosition = odtDocument.getTextNodeAtStep(position, memberid);
+    domPosition = odtDocument.getTextNodeAtStep(position);
     if(!domPosition) {
       return false
     }
@@ -14295,6 +14320,10 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
       domPosition.textNode.parentNode.removeChild(domPosition.textNode)
     }
     odtDocument.emit(ops.OdtDocument.signalStepsInserted, {position:position, length:1});
+    if(cursor && moveCursor) {
+      odtDocument.moveCursor(memberid, position + 1, 0);
+      odtDocument.emit(ops.OdtDocument.signalCursorMoved, cursor)
+    }
     odtDocument.fixCursorPositions();
     odtDocument.getOdfCanvas().refreshSize();
     odtDocument.emit(ops.OdtDocument.signalParagraphChanged, {paragraphElement:paragraphNode, memberId:memberid, timeStamp:timestamp});
@@ -14303,7 +14332,7 @@ ops.OpSplitParagraph = function OpSplitParagraph() {
     return true
   };
   this.spec = function() {
-    return{optype:"SplitParagraph", memberid:memberid, timestamp:timestamp, position:position}
+    return{optype:"SplitParagraph", memberid:memberid, timestamp:timestamp, position:position, moveCursor:moveCursor}
   }
 };
 ops.OpSplitParagraph.Spec;
@@ -14409,7 +14438,7 @@ ops.OpUpdateMetadata = function OpUpdateMetadata() {
   };
   this.isEdit = true;
   this.execute = function(odtDocument) {
-    var metadataManager = odtDocument.getOdfCanvas().odfContainer().getMetadataManager(), removedPropertiesArray = [], blockedProperties = ["dc:date", "dc:creator", "meta:editing-cycles"];
+    var odfContainer = odtDocument.getOdfCanvas().odfContainer(), removedPropertiesArray = [], blockedProperties = ["dc:date", "dc:creator", "meta:editing-cycles"];
     if(setProperties) {
       blockedProperties.forEach(function(el) {
         if(setProperties[el]) {
@@ -14425,7 +14454,7 @@ ops.OpUpdateMetadata = function OpUpdateMetadata() {
       });
       removedPropertiesArray = removedProperties.attributes.split(",")
     }
-    metadataManager.setMetadata(setProperties, removedPropertiesArray);
+    odfContainer.setMetadata(setProperties, removedPropertiesArray);
     return true
   };
   this.spec = function() {
@@ -14947,7 +14976,6 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
         }else {
           insertTextSpecA.position += insertTextSpecB.text.length
         }
-        return null
       }
     }
     return{opSpecsA:[insertTextSpecA], opSpecsB:[insertTextSpecB]}
@@ -15058,7 +15086,6 @@ ops.OperationTransformMatrix = function OperationTransformMatrix() {
           }else {
             splitParagraphSpecA.position += 1
           }
-          return null
         }
       }
     }
@@ -15592,9 +15619,9 @@ gui.PlainTextPasteboard = function PlainTextPasteboard(odtDocument, inputMemberI
     var originalCursorPosition = odtDocument.getCursorPosition(inputMemberId), cursorPosition = originalCursorPosition, operations = [], paragraphs;
     paragraphs = data.replace(/\r/g, "").split("\n");
     paragraphs.forEach(function(text) {
-      operations.push(createOp(new ops.OpSplitParagraph, {memberid:inputMemberId, position:cursorPosition}));
+      operations.push(createOp(new ops.OpSplitParagraph, {memberid:inputMemberId, position:cursorPosition, moveCursor:true}));
       cursorPosition += 1;
-      operations.push(createOp(new ops.OpInsertText, {memberid:inputMemberId, position:cursorPosition, text:text}));
+      operations.push(createOp(new ops.OpInsertText, {memberid:inputMemberId, position:cursorPosition, text:text, moveCursor:true}));
       cursorPosition += text.length
     });
     operations.push(createOp(new ops.OpRemoveText, {memberid:inputMemberId, position:originalCursorPosition, length:1}));
@@ -16945,7 +16972,7 @@ gui.TextManipulator = function TextManipulator(session, inputMemberId, directSty
       operations.push(op)
     }
     op = new ops.OpSplitParagraph;
-    op.init({memberid:inputMemberId, position:selection.position});
+    op.init({memberid:inputMemberId, position:selection.position, moveCursor:true});
     operations.push(op);
     session.enqueue(operations);
     return true
@@ -17005,7 +17032,7 @@ gui.TextManipulator = function TextManipulator(session, inputMemberId, directSty
       operations.push(op)
     }
     op = new ops.OpInsertText;
-    op.init({memberid:inputMemberId, position:selection.position, text:text});
+    op.init({memberid:inputMemberId, position:selection.position, text:text, moveCursor:true});
     operations.push(op);
     if(directStyleOp) {
       stylingOp = directStyleOp(selection.position, text.length);
@@ -17043,7 +17070,7 @@ gui.SessionController = function() {
   gui.SessionController = function SessionController(session, inputMemberId, shadowCursor, args) {
     var window = (runtime.getWindow()), odtDocument = session.getOdtDocument(), async = new core.Async, domUtils = new core.DomUtils, odfUtils = new odf.OdfUtils, clipboard = new gui.Clipboard, keyDownHandler = new gui.KeyboardHandler, keyPressHandler = new gui.KeyboardHandler, keyboardMovementsFilter = new core.PositionFilterChain, baseFilter = odtDocument.getPositionFilter(), clickStartedWithinContainer = false, objectNameGenerator = new odf.ObjectNameGenerator(odtDocument.getOdfCanvas().odfContainer(), 
     inputMemberId), isMouseMoved = false, mouseDownRootFilter = null, undoManager = null, eventManager = new gui.EventManager(odtDocument), annotationController = new gui.AnnotationController(session, inputMemberId), directTextStyler = new gui.DirectTextStyler(session, inputMemberId), directParagraphStyler = args && args.directParagraphStylingEnabled ? new gui.DirectParagraphStyler(session, inputMemberId, objectNameGenerator) : null, createCursorStyleOp = (directTextStyler.createCursorStyleOp), textManipulator = 
-    new gui.TextManipulator(session, inputMemberId, createCursorStyleOp), imageManager = new gui.ImageManager(session, inputMemberId, objectNameGenerator), imageSelector = new gui.ImageSelector(odtDocument.getOdfCanvas()), shadowCursorIterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), drawShadowCursorTask, suppressFocusEvent = false, redrawRegionSelectionTask, pasteHandler = new gui.PlainTextPasteboard(odtDocument, inputMemberId), clickCount = 0;
+    new gui.TextManipulator(session, inputMemberId, createCursorStyleOp), imageManager = new gui.ImageManager(session, inputMemberId, objectNameGenerator), imageSelector = new gui.ImageSelector(odtDocument.getOdfCanvas()), shadowCursorIterator = gui.SelectionMover.createPositionIterator(odtDocument.getRootNode()), drawShadowCursorTask, redrawRegionSelectionTask, pasteHandler = new gui.PlainTextPasteboard(odtDocument, inputMemberId), clickCount = 0;
     runtime.assert(window !== null, "Expected to be run in an environment which has a global window, like a browser.");
     keyboardMovementsFilter.addFilter("BaseFilter", baseFilter);
     keyboardMovementsFilter.addFilter("RootFilter", odtDocument.createRootFilter(inputMemberId));
@@ -17183,7 +17210,6 @@ gui.SessionController = function() {
         op = createOpMoveCursor(newSelection.position, newSelection.length, ops.OdtCursor.RangeSelection);
         session.enqueue([op])
       }
-      eventManager.focus()
     }
     this.selectRange = selectRange;
     function extendCursorByAdjustment(lengthAdjust) {
@@ -17335,45 +17361,16 @@ gui.SessionController = function() {
       return true
     }
     this.extendSelectionToEntireDocument = extendSelectionToEntireDocument;
-    function maintainCursorSelection() {
-      var cursor = odtDocument.getCursor(inputMemberId), selection = window.getSelection(), imageElement, range;
-      if(cursor) {
-        imageSelector.clearSelection();
-        if(cursor.getSelectionType() === ops.OdtCursor.RegionSelection) {
-          range = cursor.getSelectedRange();
-          imageElement = odfUtils.getImageElements(range)[0];
-          if(imageElement) {
-            imageSelector.select((imageElement.parentNode))
-          }
+    function redrawRegionSelection() {
+      var cursor = odtDocument.getCursor(inputMemberId), imageElement;
+      if(cursor && cursor.getSelectionType() === ops.OdtCursor.RegionSelection) {
+        imageElement = odfUtils.getImageElements(cursor.getSelectedRange())[0];
+        if(imageElement) {
+          imageSelector.select((imageElement.parentNode));
+          return
         }
-        if(eventManager.hasFocus()) {
-          range = cursor.getSelectedRange();
-          if(selection.extend) {
-            if(cursor.hasForwardSelection()) {
-              selection.collapse(range.startContainer, range.startOffset);
-              selection.extend(range.endContainer, range.endOffset)
-            }else {
-              selection.collapse(range.endContainer, range.endOffset);
-              selection.extend(range.startContainer, range.startOffset)
-            }
-          }else {
-            suppressFocusEvent = true;
-            selection.removeAllRanges();
-            selection.addRange(range.cloneRange());
-            (odtDocument.getOdfCanvas().getElement()).setActive();
-            runtime.setTimeout(function() {
-              suppressFocusEvent = false
-            }, 0)
-          }
-        }
-      }else {
-        imageSelector.clearSelection()
       }
-    }
-    function delayedMaintainCursor() {
-      if(suppressFocusEvent === false) {
-        runtime.setTimeout(maintainCursorSelection, 0)
-      }
+      imageSelector.clearSelection()
     }
     function stringFromKeyPress(event) {
       if(event.which === null || event.which === undefined) {
@@ -17387,6 +17384,7 @@ gui.SessionController = function() {
     function handleCut(e) {
       var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
       if(selectedRange.collapsed) {
+        e.preventDefault();
         return
       }
       if(clipboard.setDataFromRange(e, selectedRange)) {
@@ -17402,10 +17400,11 @@ gui.SessionController = function() {
     function handleCopy(e) {
       var cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange();
       if(selectedRange.collapsed) {
+        e.preventDefault();
         return
       }
       if(!clipboard.setDataFromRange(e, selectedRange)) {
-        runtime.log("Cut operation failed")
+        runtime.log("Copy operation failed")
       }
     }
     function handlePaste(e) {
@@ -17419,9 +17418,9 @@ gui.SessionController = function() {
       }
       if(plainText) {
         textManipulator.removeCurrentSelection();
-        session.enqueue(pasteHandler.createPasteOps(plainText));
-        cancelEvent(e)
+        session.enqueue(pasteHandler.createPasteOps(plainText))
       }
+      cancelEvent(e)
     }
     function handleBeforePaste() {
       return false
@@ -17469,6 +17468,22 @@ gui.SessionController = function() {
         }
       }
     }
+    function synchronizeWindowSelection(cursor) {
+      var selection = window.getSelection(), range = cursor.getSelectedRange();
+      if(selection.extend) {
+        if(cursor.hasForwardSelection()) {
+          selection.collapse(range.startContainer, range.startOffset);
+          selection.extend(range.endContainer, range.endOffset)
+        }else {
+          selection.collapse(range.endContainer, range.endOffset);
+          selection.extend(range.startContainer, range.startOffset)
+        }
+      }else {
+        selection.removeAllRanges();
+        selection.addRange(range.cloneRange());
+        (odtDocument.getOdfCanvas().getElement()).setActive()
+      }
+    }
     function handleMouseDown(e) {
       var target = getTarget(e), cursor = odtDocument.getCursor(inputMemberId);
       clickStartedWithinContainer = target && domUtils.containsNode(odtDocument.getOdfCanvas().getElement(), target);
@@ -17478,6 +17493,8 @@ gui.SessionController = function() {
         clickCount = e.detail;
         if(cursor && e.shiftKey) {
           window.getSelection().collapse(cursor.getAnchorNode(), 0)
+        }else {
+          synchronizeWindowSelection(cursor)
         }
         if(clickCount > 1) {
           updateShadowCursor()
@@ -17494,29 +17511,41 @@ gui.SessionController = function() {
       var target = getTarget(event), eventDetails = {detail:event.detail, clientX:event.clientX, clientY:event.clientY, target:target};
       drawShadowCursorTask.processRequests();
       if(odfUtils.isImage(target) && odfUtils.isCharacterFrame(target.parentNode)) {
-        selectImage(target.parentNode)
+        selectImage(target.parentNode);
+        eventManager.focus()
       }else {
         if(clickStartedWithinContainer && !imageSelector.isSelectorElement(target)) {
           if(isMouseMoved) {
-            selectRange(shadowCursor.getSelectedRange(), shadowCursor.hasForwardSelection(), event.detail)
+            selectRange(shadowCursor.getSelectedRange(), shadowCursor.hasForwardSelection(), event.detail);
+            eventManager.focus()
           }else {
             runtime.setTimeout(function() {
               var selection = mutableSelection(window.getSelection()), selectionRange, caretPos;
               if(!selection.anchorNode && !selection.focusNode) {
                 caretPos = caretPositionFromPoint(eventDetails.clientX, eventDetails.clientY);
-                if(!caretPos) {
-                  return
+                if(caretPos) {
+                  selection.anchorNode = (caretPos.container);
+                  selection.anchorOffset = caretPos.offset;
+                  selection.focusNode = selection.anchorNode;
+                  selection.focusOffset = selection.anchorOffset
                 }
-                selection.anchorNode = (caretPos.container);
-                selection.anchorOffset = caretPos.offset;
-                selection.focusNode = selection.anchorNode;
-                selection.focusOffset = selection.anchorOffset
               }
-              selectionRange = selectionToRange(selection);
-              selectRange(selectionRange.range, selectionRange.hasForwardSelection, eventDetails.detail)
+              if(selection.anchorNode && selection.focusNode) {
+                selectionRange = selectionToRange(selection);
+                selectRange(selectionRange.range, selectionRange.hasForwardSelection, eventDetails.detail)
+              }
+              eventManager.focus()
             }, 0)
           }
         }
+      }
+      clickCount = 0;
+      clickStartedWithinContainer = false;
+      isMouseMoved = false
+    }
+    function handleDragEnd() {
+      if(clickStartedWithinContainer) {
+        eventManager.focus()
       }
       clickCount = 0;
       clickStartedWithinContainer = false;
@@ -17549,7 +17578,7 @@ gui.SessionController = function() {
       eventManager.subscribe("mousemove", drawShadowCursorTask.trigger);
       eventManager.subscribe("mouseup", handleMouseUp);
       eventManager.subscribe("contextmenu", handleContextMenu);
-      eventManager.subscribe("focus", delayedMaintainCursor);
+      eventManager.subscribe("dragend", handleDragEnd);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, redrawRegionSelectionTask.trigger);
       odtDocument.subscribe(ops.OdtDocument.signalOperationExecuted, updateUndoStack);
       op = new ops.OpAddCursor;
@@ -17581,7 +17610,7 @@ gui.SessionController = function() {
       eventManager.unsubscribe("mousedown", handleMouseDown);
       eventManager.unsubscribe("mouseup", handleMouseUp);
       eventManager.unsubscribe("contextmenu", handleContextMenu);
-      eventManager.unsubscribe("focus", delayedMaintainCursor);
+      eventManager.unsubscribe("dragend", handleDragEnd);
       odtDocument.getOdfCanvas().getElement().classList.remove("virtualSelections")
     };
     this.getInputMemberId = function() {
@@ -17652,7 +17681,7 @@ gui.SessionController = function() {
     function init() {
       var isMacOS = window.navigator.appVersion.toLowerCase().indexOf("mac") !== -1, modifier = gui.KeyboardHandler.Modifier, keyCode = gui.KeyboardHandler.KeyCode;
       drawShadowCursorTask = new core.ScheduledTask(updateShadowCursor, 0);
-      redrawRegionSelectionTask = new core.ScheduledTask(maintainCursorSelection, 0);
+      redrawRegionSelectionTask = new core.ScheduledTask(redrawRegionSelection, 0);
       keyDownHandler.bind(keyCode.Tab, modifier.None, rangeSelectionOnly(function() {
         textManipulator.insertText("\t");
         return true
