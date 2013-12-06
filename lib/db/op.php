@@ -84,8 +84,10 @@ class Db_Op extends Db {
 	}
 
 	public function removeCursor($esId, $memberId){
-		$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
-		$this->insertOp($esId, $op);
+		if ($this->hasAddCursor($esId, $memberId)){
+			$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
+			$this->insertOp($esId, $op);
+		}
 	}
 	
 	public function addMember($esId, $memberId, $fullName, $color, $imageUrl){
@@ -94,8 +96,10 @@ class Db_Op extends Db {
 	}
 	
 	public function removeMember($esId, $memberId){
-		$op ='{"optype":"RemoveMember","memberid":"'. $memberId .'","timestamp":'. time() .'}';
-		$this->insertOp($esId, $op);
+		if ($this->hasAddMember($esId, $memberId)){
+			$op ='{"optype":"RemoveMember","memberid":"'. $memberId .'","timestamp":'. time() .'}';
+			$this->insertOp($esId, $op);
+		}
 	}
 	
 	public function updateMember($esId, $memberId, $fullName, $color, $imageUrl){
@@ -112,6 +116,24 @@ class Db_Op extends Db {
 			$op
 		));
 		$op->insert();
+	}
+	
+	protected function hasAddMember($esId, $memberId){
+		$ops = $this->execute(
+			'SELECT * FROM ' . $this->tableName . ' WHERE `es_id`=? AND `opspec` LIKE \'%"AddMember","memberid":"' . $memberId .'"%\'',
+			array($esId)
+		);
+		$result = $ops->fetchAll();
+		return is_array($result) && count($result)>0;
+	}
+	
+	protected function hasAddCursor($esId, $memberId){
+		$ops = $this->execute(
+			'SELECT * FROM ' . $this->tableName . ' WHERE `es_id`=? AND `opspec` LIKE \'%"AddCursor","memberid":"' . $memberId .'"%\'',
+			array($esId)
+		);
+		$result = $ops->fetchAll();
+		return is_array($result) && count($result)>0;
 	}
 	
 }
