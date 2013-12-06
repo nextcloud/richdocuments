@@ -28,7 +28,7 @@
 				</form>
 			</div>
 		</li>
-		<li class="progress">&nbsp;</li>
+		<li class="progress"><div><?php p($l->t('Loading documents...')); ?></div></li>
 		<li class="document template" data-id="" style="display:none;">
 			<a target="_blank" href=""><label></label></a>
 		</li>

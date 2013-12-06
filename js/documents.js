@@ -88,7 +88,11 @@ var documentsMain = {
 					$('title').text(documentsMain.UI.mainTitle);
 				});
 		},
-		showProgress : function(){
+		showProgress : function(message){
+			if (!message){
+				message = '&nbsp;';
+			}
+			$('.documentslist .progress div').text(message);
 			$('.documentslist .progress').show();
 		},
 		
@@ -420,7 +424,7 @@ var documentsMain = {
 		if (documentsMain.isGuest){
 			return;
 		}
-		documentsMain.UI.showProgress();
+		documentsMain.UI.showProgress(t('documents', 'Loading documents...'));
 		jQuery.when(documentsMain.loadDocuments())
 			.then(function(){
 				documentsMain.renderDocuments();
