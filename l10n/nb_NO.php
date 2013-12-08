@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Lukk",
 "Share" => "Del",
+"'.' is an invalid file name." => "'.' er et ugyldig filnavn.",
+"File name cannot be empty." => "Filnavn kan ikke være tomt.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt.",
 "Cancel" => "Avbryt",
 "Create" => "Opprett",
 "Delete" => "Slett",

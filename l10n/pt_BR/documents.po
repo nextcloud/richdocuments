@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 20:18-0500\n"
-"PO-Revision-Date: 2013-12-06 01:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-07 20:22-0500\n"
+"PO-Revision-Date: 2013-12-06 09:30+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/sessionController.php:39
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Você não tem permissão para renomear este documento"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -53,21 +53,21 @@ msgstr "Falha ao carregar o documento. Por favor verifique se o arquivo derá se
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' é um nome de arquivo inválido."
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "O nome do arquivo não pode estar vazio."
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Carregando documentos..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."

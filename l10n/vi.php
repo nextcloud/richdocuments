@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Đóng",
 "Share" => "Chia sẻ",
+"'.' is an invalid file name." => "'.' là một tên file không hợp lệ",
+"File name cannot be empty." => "Tên file không được rỗng",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng.",
 "Cancel" => "Hủy",
 "Create" => "Tạo",
 "Delete" => "Xóa",

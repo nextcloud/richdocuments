@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Închide",
 "Share" => "a imparti",
+"'.' is an invalid file name." => "'.' este un nume invalid de fișier.",
+"File name cannot be empty." => "Numele fișierului nu poate rămâne gol.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nume invalide, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise.",
 "Cancel" => "Anulare",
 "Create" => "Crează",
 "Delete" => "Șterge",

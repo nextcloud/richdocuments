@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Tutup",
 "Share" => "Bagikan",
+"'.' is an invalid file name." => "'.' bukan nama berkas yang valid.",
+"File name cannot be empty." => "Nama berkas tidak boleh kosong.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nama tidak valid, karakter '\\', '/', '<', '>', ':', '\"', '|', '?' dan '*' tidak diizinkan.",
 "Cancel" => "Batal",
 "Create" => "Buat",
 "Delete" => "Hapus",

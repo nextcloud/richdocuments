@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 20:18-0500\n"
-"PO-Revision-Date: 2013-12-06 01:18+0000\n"
+"POT-Creation-Date: 2013-12-07 20:22-0500\n"
+"PO-Revision-Date: 2013-12-06 01:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -52,17 +52,17 @@ msgstr ""
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' является неверным именем файла."
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Имя файла не может быть пустым."
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы."
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."

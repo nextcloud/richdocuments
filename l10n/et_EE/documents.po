@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 20:18-0500\n"
-"PO-Revision-Date: 2013-12-06 01:18+0000\n"
+"POT-Creation-Date: 2013-12-07 20:22-0500\n"
+"PO-Revision-Date: 2013-12-06 01:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -54,17 +54,17 @@ msgstr "Selle dokumendi laadimine ebaõnnestus. Palun kontrolli, kas seda saab a
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' on vigane failinimi."
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Faili nimi ei saa olla tühi."
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud."
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."

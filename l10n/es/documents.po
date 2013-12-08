@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 20:18-0500\n"
-"PO-Revision-Date: 2013-12-06 01:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-07 20:22-0500\n"
+"PO-Revision-Date: 2013-12-06 04:40+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ajax/sessionController.php:39
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "No tiene permiso para cambiar de nombre a este documento"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -56,21 +56,21 @@ msgstr "No se pudo cargar el documento. Sírvase comprobar si puede abrirlo con 
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' no es un nombre de archivo válido."
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "El nombre de archivo no puede estar vacío."
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nombre inválido, los caracteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos "
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Cargando los documentos..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."

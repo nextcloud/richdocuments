@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Aizvērt",
 "Share" => "Dalīties",
+"'.' is an invalid file name." => "'.' ir nederīgs datnes nosaukums.",
+"File name cannot be empty." => "Datnes nosaukums nevar būt tukšs.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nederīgs nosaukums, nav atļauti '\\', '/', '<', '>', ':', '\"', '|', '?' un '*'.",
 "Cancel" => "Atcelt",
 "Create" => "Izveidot",
 "Delete" => "Dzēst",

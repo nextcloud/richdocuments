@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "بستن",
 "Share" => "اشتراک‌گذاری",
+"'.' is an invalid file name." => "'.'   یک نام پرونده نامعتبر است.",
+"File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '*'  مجاز نمی باشند.",
 "Cancel" => "منصرف شدن",
 "Create" => "ایجاد کردن",
 "Delete" => "حذف",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 20:18-0500\n"
-"PO-Revision-Date: 2013-12-06 01:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-07 20:22-0500\n"
+"PO-Revision-Date: 2013-12-07 11:40+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/sessionController.php:39
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Ez duzu dokumentu honi izena aldatzeko baimenik"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -36,7 +36,7 @@ msgstr "Partekatu"
 
 #: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ez dago konexiorik zerbitzariarekin. Birkonektatzen saiatzen."
 
 #: js/documents.js:158
 msgid ""
@@ -53,21 +53,21 @@ msgstr "Dokumentu hau kargatzeak huts egin du. Mesedez egiaztatu ea kanpoko odt 
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' ez da fitxategi izen baliogarria."
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Fitxategi izena ezin da hutsa izan."
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta."
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Dokumentuak kargatzen..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."
@@ -79,15 +79,15 @@ msgstr "Ez da dokumenturik aurkitu. Mesedez igo edo sortu dokumentu bat!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Lerrokatu ezkerrean"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Lerrokatzea"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Lerrokatu eskuinean"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -95,15 +95,15 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Atzeko planoa"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Lodia"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Behean"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -111,7 +111,7 @@ msgstr "Ezeztatu"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Edrian"
 
 #: js/locale.js:10
 msgid "Clone"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Kolorea"
 
 #: js/locale.js:14
 msgid "Create"
@@ -131,11 +131,11 @@ msgstr "Sortu"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Txikitu koxka"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Estilo lehenetsia"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -147,43 +147,43 @@ msgstr "Familia"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Letra tipoa"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Letra efektuak"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Formatua"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Handitu koxka"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Txertatu irudia"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Gonbidatu partaideak"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Etzana"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justifikatuta"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justifikatu"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Ezkerra"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -191,11 +191,11 @@ msgstr "Kargatzen"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Partaideak"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Izen berria"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -211,19 +211,19 @@ msgstr "Aukerak"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragrafoa..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Paragrafo Estiloak"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Berregin"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Eskuina"
 
 #: js/locale.js:39
 msgid "Save"
@@ -235,7 +235,7 @@ msgstr "Tamaina"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Tarteak"
 
 #: js/locale.js:42
 msgid "Strikethrough"
@@ -243,7 +243,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Estiloa"
 
 #: js/locale.js:44
 msgid "Text"
@@ -251,19 +251,19 @@ msgstr "Testua"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Goian"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Azpimarratua"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Desegin"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Egile ezezaguna"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
@@ -287,7 +287,7 @@ msgstr "Sarrerakoa"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Dokumentu berria"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"

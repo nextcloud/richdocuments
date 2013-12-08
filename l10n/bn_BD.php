@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Close" => "বন্ধ",
 "Share" => "ভাগাভাগি কর",
+"'.' is an invalid file name." => "টি একটি অননুমোদিত নাম।",
+"File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",
 "Cancel" => "বাতির",
 "Create" => "তৈরী কর",
 "Delete" => "মুছে",
