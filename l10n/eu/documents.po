@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 20:22-0500\n"
-"PO-Revision-Date: 2013-12-07 11:40+0000\n"
+"POT-Creation-Date: 2013-12-11 10:35-0500\n"
+"PO-Revision-Date: 2013-12-10 21:30+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr "Lerrokatu eskuinean"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Oharra idatzi"
 
 #: js/locale.js:5
 msgid "Background"
@@ -115,11 +115,11 @@ msgstr "Edrian"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Klonatu"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Klonatu Estiloa"
 
 #: js/locale.js:13
 msgid "Color"
@@ -239,7 +239,7 @@ msgstr "Tarteak"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Marratuta"
 
 #: js/locale.js:43
 msgid "Style"

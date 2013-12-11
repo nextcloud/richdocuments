@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"You don't have permission to rename this document" => "Nemáte oprávnenie na premenovanie tohto dokumentu",
 "Documents" => "Dokumenty",
 "Close" => "Zavrieť",
 "Share" => "Zdieľať",
@@ -8,6 +9,7 @@
 "'.' is an invalid file name." => "'.' je neplatné meno súboru.",
 "File name cannot be empty." => "Meno súboru nemôže byť prázdne",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
+"Loading documents..." => "Nahrávam dokulenty...",
 "Failed to load documents." => "Nepodarilo sa načítať dokumenty.",
 "No documents are found. Please upload or create a document!" => "Žiadne dokumenty neboli nájdené. Nahrajte, alebo vytvorte dokument!",
 "Align Left" => "Zarovnanie vľavo",

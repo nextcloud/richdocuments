@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 20:22-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-11 10:35-0500\n"
+"PO-Revision-Date: 2013-12-10 16:40+0000\n"
+"Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: ajax/sessionController.php:39
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Anda tidak memiliki izin untuk mengubah nama dokumen ini"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumen"
 
 #: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
@@ -35,20 +35,20 @@ msgstr "Bagikan"
 
 #: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Tidak tersambung ke server. Coba untuk menyambungkan ulang."
 
 #: js/documents.js:158
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Meninggalkan halaman ini dalam mode Penyunting menyebabkan data tidak disimpan. Direkomendasikan untuk menggunakan tombol 'Tutup' sebagai gantinya."
 
 #: js/documents.js:175
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Gagal memuat dokumen ini. Silakan periksa apakah ini dapat dibuka dengan penyunting odt eksternal. Dokumen ini mungkin saja sudah tidak dibagikan kepada Anda atau sudah dihapus baru-baru ini."
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
@@ -66,43 +66,43 @@ msgstr "Nama tidak valid, karakter '\\', '/', '<', '>', ':', '\"', '|', '?' dan 
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Memuat dokumen..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Gagal untuk memuat dokumen."
 
 #: js/documents.js:490
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "Tidak ada dokumen yang ditemukan. Silakan unggah atau buat sebuah dokumen!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Rata kiri"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Rata Kiri Kanan"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Rata kanan"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Keterangan"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Latar belakang"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Tebal"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Tombol"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -110,19 +110,19 @@ msgstr "Batal"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Tengah"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Duplikat"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Duplikat gaya ini"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Warna"
 
 #: js/locale.js:14
 msgid "Create"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Gaya bawaan"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -146,15 +146,15 @@ msgstr "Keluarga"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Huruf"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Efek huruf"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -162,15 +162,15 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Sisipkan Gambar"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Undang Anggota"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Miring"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -182,7 +182,7 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Kiri"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -190,11 +190,11 @@ msgstr "Memuat"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Anggota"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nama Baru"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -210,19 +210,19 @@ msgstr "Opsi"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragraf..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Gaya Paragraf"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Batal"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Kanan"
 
 #: js/locale.js:39
 msgid "Save"
@@ -234,7 +234,7 @@ msgstr "Ukuran"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Spasi"
 
 #: js/locale.js:42
 msgid "Strikethrough"
@@ -242,7 +242,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Gaya"
 
 #: js/locale.js:44
 msgid "Text"
@@ -250,19 +250,19 @@ msgstr "Teks"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Atas"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Garis bawah"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Batal"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Penulis tidak diketahui"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
@@ -270,7 +270,7 @@ msgstr "Edit"
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Kirim"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
@@ -278,15 +278,15 @@ msgstr ""
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Terima"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "Masuk"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Dokumen Baru"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -294,11 +294,11 @@ msgstr "Unggah"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Simpan dokumen ke"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Sandi salah. Silakan ulangi."
 
 #: templates/public.php:11
 msgid "Password"
@@ -306,17 +306,17 @@ msgstr "Sandi"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Silakan masukkan nama panggilan"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "Gabung"
 
 #: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Tautan ini sudah kadaluarsa atau tidak pernah ada. Silahkan hubungi orang yang berbagi dengan Anda untuk lebih rinci."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
@@ -324,4 +324,4 @@ msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Tidak stabil)"
