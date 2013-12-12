@@ -8,7 +8,7 @@
 			<div class="warning"><?php p($l->t('Wrong password. Please retry.')) ?></div>
 		<?php endif; ?>
 		<form method="post">
-			<input type="text" name="password" placeholder="<?php p($l->t('Password')) ?>" />
+			<input type="password" name="password" placeholder="<?php p($l->t('Password')) ?>" />
 			<input type="submit" name="submit" value="<?php p($l->t('OK')) ?>" />
 		</form>
 	<?php endif; ?>
