@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"You don't have permission to rename this document" => "Nie masz uprawnień do zmiany nazwy tego dokumentu",
 "Documents" => "Dokumenty",
 "Close" => "Zamknij",
 "Share" => "Udostępnij",
@@ -8,6 +9,7 @@
 "'.' is an invalid file name." => "„.” jest nieprawidłową nazwą pliku.",
 "File name cannot be empty." => "Nazwa pliku nie może być pusta.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nieprawidłowa nazwa. Znaki '\\', '/', '<', '>', ':', '\"', '|', '?' oraz '*' są niedozwolone.",
+"Loading documents..." => "Ładowanie dokumentów...",
 "Failed to load documents." => "Nie można wczytać dokumentów.",
 "No documents are found. Please upload or create a document!" => "Nie znaleziono dokumentów. Proszę załaduj lub stwórz dokument!",
 "Align Left" => "Wyrównaj do lewej",
@@ -62,6 +64,7 @@
 "Declined" => "Nie zaakceptowane",
 "Accepted" => "Zaakceptowane",
 "Incoming" => "Przychodzące",
+"New document" => "Nowy dokument",
 "Upload" => "Wyślij",
 "Save new documents to" => "Zapisz nowy dokument do",
 "Wrong password. Please retry." => "Złe hasło. Spróbuj ponownie.",

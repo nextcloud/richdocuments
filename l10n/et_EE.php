@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"You don't have permission to rename this document" => "Puuduvad õigused dokumendi ümber nimetamiseks",
 "Documents" => "Dokumendid",
 "Close" => "Sulge",
 "Share" => "Jaga",
@@ -8,6 +9,7 @@
 "'.' is an invalid file name." => "'.' on vigane failinimi.",
 "File name cannot be empty." => "Faili nimi ei saa olla tühi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud.",
+"Loading documents..." => "Laadin dokumente...",
 "Failed to load documents." => "Dokumentide laadimine ebaõnnestus.",
 "No documents are found. Please upload or create a document!" => "Ühtegi dokumenti ei leitud. Palun laadi dokument üles või loo dokument!",
 "Align Left" => "Joonda vasakule",
