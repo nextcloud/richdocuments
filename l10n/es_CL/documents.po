@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 03:47-0500\n"
-"PO-Revision-Date: 2013-12-16 14:34+0000\n"
+"POT-Creation-Date: 2013-12-17 16:38-0500\n"
+"PO-Revision-Date: 2013-12-17 15:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -290,7 +290,7 @@ msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr ""
+msgstr "Subir"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
@@ -302,7 +302,7 @@ msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Clave"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
