@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Carlos <crolidge@gmail.com>, 2013
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 20:22-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-17 03:47-0500\n"
+"PO-Revision-Date: 2013-12-16 03:50+0000\n"
+"Last-Translator: Carlos <crolidge@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +69,7 @@ msgstr "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "A carregar documentos..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."
@@ -96,7 +97,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Fundo"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -148,7 +149,7 @@ msgstr "Familia"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Tipo de letra"
 
 #: js/locale.js:20
 msgid "Font Effects"
@@ -172,7 +173,7 @@ msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Itálico"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -184,7 +185,7 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Esquerda"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -192,11 +193,11 @@ msgstr "A carregar tarefas..."
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Membros"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Novo Nome:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -212,7 +213,7 @@ msgstr "Opções"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Parágrafo..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
@@ -236,7 +237,7 @@ msgstr "Tamanho"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Espaçamento"
 
 #: js/locale.js:42
 msgid "Strikethrough"
@@ -244,7 +245,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 #: js/locale.js:44
 msgid "Text"
@@ -260,7 +261,7 @@ msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Desfazer"
 
 #: js/locale.js:48
 msgid "Unknown Author"
@@ -288,7 +289,7 @@ msgstr "Chegada"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Novo documento"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -300,7 +301,7 @@ msgstr "Guardar novos documentos para"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Senha errada. Por favor tente novamente."
 
 #: templates/public.php:11
 msgid "Password"

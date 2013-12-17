@@ -3,328 +3,325 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# DeeJaVu <ddejjavvu@gmail.com>, 2013
-# Fatih Aşıcı <fatih.asici@gmail.com>, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2013-12-17 03:47-0500\n"
-"PO-Revision-Date: 2013-12-15 13:00+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
+"PO-Revision-Date: 2013-12-16 14:34+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: es_CL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/sessionController.php:39
 msgid "You don't have permission to rename this document"
-msgstr "Bu belgeyi adlandırmak için izniniz yok."
+msgstr ""
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr "Belgeler"
+msgstr ""
 
 #: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
-msgstr "Kapat"
+msgstr ""
 
 #: js/documents.js:27
 msgid "Share"
-msgstr "Paylaş"
+msgstr ""
 
 #: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
-msgstr "Sunucuya bağlantı yok. Yeniden bağlanmaya çalışıyor."
+msgstr ""
 
 #: js/documents.js:158
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Düzenleyici kipinde bu sayfadan ayrılmak kaydedilmemiş veriye sebep olabilir. Bunun yerine 'Kapat' düğmesi kullanılması önerilir."
+msgstr ""
 
 #: js/documents.js:175
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Bu belge yüklenemedi. Lütfen harici bir odt düzenleyicisi ile açılıp açılamayacağını denetleyin. Bu ayrıca paylaşımın yapılmadığı veya yakın zamanda silinmiş olabileceğinden de olabilir."
+msgstr ""
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr "'.' geçersiz bir dosya adı."
+msgstr ""
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr "Dosya adı boş olamaz."
+msgstr ""
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir."
+msgstr ""
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Belgeler yükleniyor..."
+msgstr ""
 
 #: js/documents.js:447
 msgid "Failed to load documents."
-msgstr "Belgeler yüklenemedi."
+msgstr ""
 
 #: js/documents.js:490
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Hiçbir belge bulunamadı. Lütfen bir belge yükleyin veya oluşturun!"
+msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Sola Hizala"
+msgstr ""
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr "Hizalama"
+msgstr ""
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Sağa Hizala"
+msgstr ""
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr "Yorum Yap"
+msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Arkapla"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr "Kalın"
+msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "Alt"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "İptal"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "Orta"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Kopyala"
+msgstr ""
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Bu Biçemi Kopyala"
+msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Renk"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "Oluştur"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Girintiyi Azalt"
+msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Öntanımlı Biçem"
+msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Sil"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "Aile"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
-msgstr "Yazı Tipi"
+msgstr ""
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr "Yazı Tipi Efektleri"
+msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Biçi"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Girintiyi Arttır"
+msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Resim Ekle"
+msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "Üye Davet Et"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr "Eğik"
+msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr "Yaslanmış"
+msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "Yasla"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "So"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "Yükleniyor"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Üyeler"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Yeni İsim:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "Aç"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "Seçenekler"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Paragraf.."
+msgstr ""
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Paragraf Biçemleri"
+msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Yenile"
+msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Sağa"
+msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr "Kaydet"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "Boyut"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr "Boşluklar"
+msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Üzeri Çizili"
+msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr "Biçem"
+msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Metin"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "Üst"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Altı Çizili"
+msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Geri A"
+msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Bilinmeyen Yazar"
+msgstr ""
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr "Düzenle"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr "Gönderildi"
+msgstr ""
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr "Reddedildi"
+msgstr ""
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr "Kabul edildi"
+msgstr ""
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr "Gelen"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr "Yeni belge"
+msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "Yükle"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Yeni belgeleri şuraya kaydet"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Yanlış parola. Lütfen yeniden deneyin."
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Parola"
+msgstr ""
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr "Lütfen takma adınızı girin"
+msgstr ""
 
 #: templates/public.php:18
 msgid "Join"
-msgstr "Katıl"
+msgstr ""
 
 #: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin."
+msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Gelişmiş özellik seti"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(Kararsız)"
+msgstr ""

@@ -17,7 +17,7 @@
 "Align Right" => "Sağa Hizala",
 "Annotate" => "Yorum Yap",
 "Background" => "Arkapla",
-"Bold" => "Kalı",
+"Bold" => "Kalın",
 "Bottom" => "Alt",
 "Cancel" => "İptal",
 "Center" => "Orta",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"You don't have permission to rename this document" => "No teniu permisos per canviar de nom aquest document",
 "Documents" => "Documents",
 "Close" => "Tanca",
 "Share" => "Comparteix",
@@ -8,6 +9,7 @@
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
+"Loading documents..." => "S'estan carregant els documents...",
 "Failed to load documents." => "Ha fallat en carregar documents.",
 "No documents are found. Please upload or create a document!" => "No hi ha documents. Pugeu o creeu un document!",
 "Align Left" => "Alinea a l'esquerra",
