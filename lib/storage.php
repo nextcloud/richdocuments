@@ -41,6 +41,20 @@ class Storage {
 		return $list;
 	}
 	
+	public static function resolvePath($fileId){
+		$list = array_filter(
+				\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text'),
+				function($item) use ($fileId){
+					return intval($item['fileid'])==$fileId;
+				}
+		);
+		if (count($list)>0){
+			$item = current($list);
+			return $item['path'];
+		}
+		return false;
+	}
+	
 	/**
 	 * @brief Cleanup session data on removing the document
 	 * @param array

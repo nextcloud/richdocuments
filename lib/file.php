@@ -58,7 +58,7 @@ class File {
 		}
 		
 		if (!isset($rootLinkItem['path']) && isset($rootLinkItem['file_target'])){
-			$rootLinkItem['path'] = 'files/' . $rootLinkItem['file_target'];
+			$rootLinkItem['path'] = $rootLinkItem['file_target'];
 		}
 		$file = new File($rootLinkItem['file_source'], array($rootLinkItem));
 		
@@ -67,7 +67,7 @@ class File {
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($rootLinkItem['uid_owner']);
 			$file->setOwner($rootLinkItem['uid_owner']);
-			$file->setPath('/files' . \OC\Files\Filesystem::getPath($linkItem['file_source']));
+			$file->setPath(\OC\Files\Filesystem::getPath($linkItem['file_source']));
 		}
 		
 		if (isset($linkItem['share_with']) && !empty($linkItem['share_with'])){
@@ -168,38 +168,27 @@ class File {
 	 * @throws \Exception
 	 */
 	public function getOwnerViewAndPath(){
-		if (!$this->owner || !$this->path){			
-			$info = $this->getSharedFileOwnerAndPath();
-			if (is_array($info) && count($info)){
-				$owner = $info[0];
-				$path = $info[1];
+		if (!$this->owner || !$this->path){
+			if ($this->isPublicShare()){
+				list($owner, $path) = $this->getSharedFileOwnerAndPath();
 			} else {
-				list($owner, $path) = $this->getLocalFileOwnerAndPath();
-			}
-
-			if (!$path){
-				throw new \Exception($this->fileId . ' can not be resolved');
+				$owner = \OCP\User::getUser();
+				$path = Storage::resolvePath($this->fileId);
+				if (!$path){
+					throw new \Exception($this->fileId . ' can not be resolved');
+				}
 			}
 			
 			$this->path = $path;
 			$this->owner = $owner;
 		}
 		
-		/* to emit hooks properly, view root should contain /user/files */
-		
-		if (strpos($this->path, 'files') === 0){
-			$path = preg_replace('|^files|', '', $this->path);
-			$view = new View('/' . $this->owner . '/files');
-		} else {
-			$path = $this->path;
-			$view = new View('/' . $this->owner);
-		}
-		
-		if (!$view->file_exists($path)){
+		$view = new View('/' . $this->owner . '/files');
+		if (!$view->file_exists($this->path)){
 			throw new \Exception($this->path . ' doesn\'t exist');
 		}
-		
-		return array($view, $path);
+
+		return array($view, $this->path);
 	}
 
 	public function getOwner(){
@@ -209,19 +198,29 @@ class File {
 		return $this->owner;
 	}
 	
+	/**
+	 * public links only
+	 * @return array
+	 */
 	protected function getSharedFileOwnerAndPath(){
-		$result = array();
 		foreach ($this->sharing as $share){
+			$rootLinkItem = \OCP\Share::resolveReShare($share);
+			if (isset($rootLinkItem['uid_owner'])){
+				$owner = $rootLinkItem['uid_owner'];
+			} else {
+				$owner = false;
+			}
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($owner);
 			return array(
-				$share['uid_owner'],
-				$share['path']
-			);
+					$owner,
+					\OC\Files\Filesystem::getPath($rootLinkItem['file_source'])
+                );
 		}
-		
+
 		return $result;
 	}
-	
-	
+
 	protected function getLocalFileOwnerAndPath(){
 		$fileInfo = \OC\Files\Cache\Cache::getById($this->fileId);
 		$owner = \OCP\User::getUser();
