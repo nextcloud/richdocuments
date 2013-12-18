@@ -18,37 +18,43 @@ class SessionController extends Controller{
 		$uid = self::preDispatchGuest();
 		$uid = substr(@$_POST['name'], 0, 16) .' '. $uid;
 		$token = @$args['token'];
-		$file = File::getByShareToken($token);
-		self::join($uid, $file);
+		try {
+			$file = File::getByShareToken($token);
+			self::join($uid, $file);
+		} catch (\Exception $e){
+			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
+			\OCP\JSON::error();
+			exit();
+		}
 	}
 
 	public static function joinAsUser($args){
 		$uid = self::preDispatch();
 		$fileId = intval(@$args['file_id']);
-		$file = new File($fileId);
 		
-		if ($file->getPermissions() & \OCP\PERMISSION_UPDATE) {
-			self::join($uid, $file);	
-		} else {
-			\OCP\JSON::success(array(
-				'permissions' => $file->getPermissions(),
-				'id' => $fileId
-			));
-		}
+		try {
+			$file = new File($fileId);
 		
-		exit();
-	}
-	
-	protected static function join($uid, $file){
-		try{
-			$session = Db_Session::start($uid, $file);
-			\OCP\JSON::success($session);
+			if ($file->getPermissions() & \OCP\PERMISSION_UPDATE) {
+				self::join($uid, $file);	
+			} else {
+				\OCP\JSON::success(array(
+					'permissions' => $file->getPermissions(),
+					'id' => $fileId
+				));
+			}
 			exit();
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
 			\OCP\JSON::error();
 			exit();
 		}
+	}
+	
+	protected static function join($uid, $file){
+			$session = Db_Session::start($uid, $file);
+			\OCP\JSON::success($session);
+			exit();
 	}
 
 	/**
