@@ -55,6 +55,25 @@ class DocumentController extends Controller{
 		$download = new Download($sessionData['owner'], $filename);
 		$download->sendResponse();
 	}
+	
+
+	public static function rename($args){
+		$fileId = intval(@$args['file_id']);
+		$name = @$_POST['name'];
+		$file = new File($fileId);
+		$l = new \OC_L10n('documents');
+
+		if (isset($name) && $file->getPermissions() & \OCP\PERMISSION_UPDATE) {
+			if ($file->renameTo($name)) {
+				// TODO: propagate to other clients
+				\OCP\JSON::success();
+				return;
+			}
+		}
+		\OCP\JSON::error(array(
+			'message' => $l->t('You don\'t have permission to rename this document')
+		));
+	}
 
 	/**
 	 * lists the documents the user has access to (including shared files, once the code in core has been fixed)

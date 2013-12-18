@@ -21,6 +21,10 @@ $this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->post()
 	->action('\OCA\Documents\DocumentController', 'serve')
 ;
+$this->create('documents_rename', 'ajax/documents/rename/{file_id}')
+	->post()
+	->action('\OCA\Documents\DocumentController', 'rename')
+;
 $this->create('documents_genesis', 'ajax/genesis/{es_id}')
 	->get()
 	->action('\OCA\Documents\DocumentController', 'serve')
@@ -72,10 +76,6 @@ $this->create('documents_session_joinasguest', 'ajax/session/joinasguest/{token}
 $this->create('documents_session_joinasguest', 'ajax/session/joinasguest/{token}')
 	->post()
 	->action('\OCA\Documents\SessionController', 'joinAsGuest')
-;
-$this->create('documents_session_renamedocument', 'ajax/session/renamedocument/{file_id}')
-	->post()
-	->action('\OCA\Documents\SessionController', 'renameDocument')
 ;
 
 $this->create('documents_session_save', 'ajax/session/save')

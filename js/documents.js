@@ -290,7 +290,7 @@ var documentsMain = {
 	},
 
 	renameDocument: function(name) {
-		var url = OC.Router.generate('documents_session_renamedocument') + '/' + documentsMain.fileId;
+		var url = OC.Router.generate('documents_rename') + '/' + documentsMain.fileId;
 		$.post(
 			url,
 			{ name : name },
