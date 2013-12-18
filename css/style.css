@@ -298,3 +298,7 @@ margin-top:-1px;
 #odf-toolbar + #notification-container {
 	z-index: 501;
 }
+
+document p{
+	cursor:auto;
+}
