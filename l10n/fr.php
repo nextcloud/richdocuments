@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"You don't have permission to rename this document" => "Vous n'avez pas les droits suffisants pour renommer ce document",
 "Documents" => "Documents",
 "Close" => "Fermer",
 "Share" => "Partager",
@@ -8,6 +9,7 @@
 "'.' is an invalid file name." => "'.' n'est pas un nom de fichier valide.",
 "File name cannot be empty." => "Le nom de fichier ne peut être vide.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' et '*' ne sont pas autorisés.",
+"Loading documents..." => "Chargement des documents...",
 "Failed to load documents." => "Échec du chargement des documents.",
 "No documents are found. Please upload or create a document!" => "Aucun document n'a été trouvé. Veuillez charger ou créer un document !",
 "Align Left" => "Aligner à gauche",
