@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 10:35-0500\n"
-"PO-Revision-Date: 2013-12-11 02:10+0000\n"
+"POT-Creation-Date: 2013-12-21 00:44-0500\n"
+"PO-Revision-Date: 2013-12-20 06:24+0000\n"
 "Last-Translator: iLikeIT <dj_dark_junglist@yahoo.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/sessionController.php:39
+#: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
 msgstr "ドキュメント名を変更する権限がありません"
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 20:22-0500\n"
-"PO-Revision-Date: 2013-12-07 18:10+0000\n"
+"POT-Creation-Date: 2013-12-21 00:44-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/sessionController.php:39
+#: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
 msgstr "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ..."
 

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 20:22-0500\n"
-"PO-Revision-Date: 2013-12-06 10:50+0000\n"
+"POT-Creation-Date: 2013-12-21 00:44-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/sessionController.php:39
+#: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
 msgstr "Du besitzt nicht die Berechtigung, dieses Dokument umzubenennen."
 

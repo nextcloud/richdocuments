@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 03:47-0500\n"
-"PO-Revision-Date: 2013-12-15 14:00+0000\n"
+"POT-Creation-Date: 2013-12-21 00:44-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: Josep Torné <josep.torne@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/sessionController.php:39
+#: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
 msgstr "No teniu permisos per canviar de nom aquest document"
 
