@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Sappe, 2013
+# lodahl <leiflodahl@gmail.com>, 2013
 # patrickknudsen, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:24+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-22 00:44-0500\n"
+"PO-Revision-Date: 2013-12-21 16:20+0000\n"
+"Last-Translator: lodahl <leiflodahl@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Du har ikke tilladelse til at omdøbe dette dokument"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -37,7 +38,7 @@ msgstr "Del"
 
 #: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ingen forbindelse til servver. Prøv at forbinde igen."
 
 #: js/documents.js:158
 msgid ""
@@ -68,7 +69,7 @@ msgstr "Ugyldigt navn, '\\', '/', '<', '>', ':' | '?', '\"', '', og '*' er ikke 
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Henter dokumenter..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."
@@ -80,31 +81,31 @@ msgstr "Ingen dokumenter fundet. Upload eller opret venligst et dokument!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Venstrejusteret"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Justering"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Højrejusteret"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Kommenter"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Baggrund"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Fed"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Bund"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -112,19 +113,19 @@ msgstr "Annuller"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Midten"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Kopier"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Kopier denne typografi"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Farve"
 
 #: js/locale.js:14
 msgid "Create"
@@ -132,11 +133,11 @@ msgstr "Ny"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Formindsk indrykning"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Standardtypografi"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -148,55 +149,55 @@ msgstr "Familie"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Skrifttype"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Skifteffekter"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Forøg indrykning"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Indsæt billede"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Inviter medlemmer"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justeret"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Juster"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Venstre"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Indlæser"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Medlemmer"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nyt navn:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -212,19 +213,19 @@ msgstr "Valgmuligheder"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Afsnit..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Afsnitstypografi"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Gentag"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Højre"
 
 #: js/locale.js:39
 msgid "Save"
@@ -236,15 +237,15 @@ msgstr "Størrelse"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Afstand"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Gennemstreget"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Typografi"
 
 #: js/locale.js:44
 msgid "Text"
@@ -252,19 +253,19 @@ msgstr "SMS"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Top"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Understregning"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Fortryd"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Ukendt forfatter"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
@@ -288,7 +289,7 @@ msgstr "Indgående"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Nyt dokument"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -300,7 +301,7 @@ msgstr "Gem nye dokumenter til"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Forkert kodeord. Prøv igen."
 
 #: templates/public.php:11
 msgid "Password"
@@ -308,7 +309,7 @@ msgstr "Kodeord"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Indtast venligst dit kaldenavn"
 
 #: templates/public.php:18
 msgid "Join"
