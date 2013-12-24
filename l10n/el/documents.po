@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:24+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-24 00:43-0500\n"
+"PO-Revision-Date: 2013-12-23 19:10+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -68,7 +68,7 @@ msgstr "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' �
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Φόρτωση εγγράφων..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."
@@ -116,11 +116,11 @@ msgstr "Κέντρο"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Κλώνος"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Κλωνοποίηση αυτού του μοτίβου"
 
 #: js/locale.js:13
 msgid "Color"

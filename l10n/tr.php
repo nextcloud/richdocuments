@@ -38,7 +38,7 @@
 "Italic" => "Eğik",
 "Justified" => "Yaslanmış",
 "Justify" => "Yasla",
-"Left" => "So",
+"Left" => "Sol",
 "Loading" => "Yükleniyor",
 "Members" => "Üyeler",
 "New Name:" => "Yeni İsim:",

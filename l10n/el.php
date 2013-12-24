@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"You don't have permission to rename this document" => "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο",
 "Documents" => "Έγγραφα",
 "Close" => "Κλείσιμο",
 "Share" => "Διαμοιρασμός",
@@ -8,6 +9,7 @@
 "'.' is an invalid file name." => "'.' είναι μη έγκυρο όνομα αρχείου.",
 "File name cannot be empty." => "Το όνομα αρχείου δεν μπορεί να είναι κενό.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται.",
+"Loading documents..." => "Φόρτωση εγγράφων...",
 "Failed to load documents." => "Αποτυχία φόρτωσης εγγράφων.",
 "No documents are found. Please upload or create a document!" => "Δεν βρέθηκαν έγγραφα. Παρακαλώ αποστείλετε ή δημιουργήστε ένα έγγραφο.",
 "Align Left" => "Στοίχιση στα αριστερά",
@@ -19,6 +21,8 @@
 "Bottom" => "Κάτω",
 "Cancel" => "Άκυρο",
 "Center" => "Κέντρο",
+"Clone" => "Κλώνος",
+"Clone this Style" => "Κλωνοποίηση αυτού του μοτίβου",
 "Color" => "Χρώμα",
 "Create" => "Δημιουργία",
 "Decrease Indent" => "Μείωση εσοχής",

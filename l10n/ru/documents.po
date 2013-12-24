@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Dmitry <linuxsquirrel.dev@gmail.com>, 2013
+# Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
 # sk.avenger <sk.avenger@adygnet.ru>, 2013
 # unixoid <victor.ashirov@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-24 00:43-0500\n"
+"PO-Revision-Date: 2013-12-22 17:10+0000\n"
+"Last-Translator: Evgeniy Spitsyn <evgeniy@spitsyn.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "У вас не достаточно прав для переименования этого документа."
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -74,7 +75,7 @@ msgstr "Неправильное имя, '\\', '/', '<', '>', ':', '\"', '|', '?
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Загрузка документов..."
 
 #: js/documents.js:447
 msgid "Failed to load documents."
