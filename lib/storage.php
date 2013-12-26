@@ -29,7 +29,7 @@ class Storage {
 
 	public static function getDocuments() {
 		$list = array_filter(
-				\OCP\Files::searchByMime(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
+				self::searchDocuments(),
 				function($item){
 					//filter Deleted
 					if (strpos($item['path'], '_trashbin')===0){
@@ -44,7 +44,7 @@ class Storage {
 	
 	public static function resolvePath($fileId){
 		$list = array_filter(
-				\OCP\Files::searchByMime(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
+				self::searchDocuments(),
 				function($item) use ($fileId){
 					return intval($item['fileid'])==$fileId;
 				}
@@ -82,5 +82,20 @@ class Storage {
 		}
 		
 		Db_Session::cleanUp($session['es_id']);
+	}
+	
+	protected static function searchDocuments(){
+		$documents = array();
+		foreach (self::getSupportedMimetypes() as $mime){
+			$documents = array_merge($documents, \OCP\Files::searchByMime($mime));
+		}
+		return $documents;
+	}
+	
+	protected static function getSupportedMimetypes(){
+		return array_merge(
+			array(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
+			Filter::getAll()	
+		);
 	}
 }

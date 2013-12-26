@@ -13,14 +13,28 @@
 namespace OCA\Documents;
 
  class Filter {
+	 protected static $filters = array();
+	 
+	 public static function add($mimetype, $class){
+		 self::$filters[$mimetype] = $class;
+	}
 
-	 public static function read($content, $mimetype){
+	public static function read($content, $mimetype){
 		$data = array(
 			'mimetype' => $mimetype,
 			'content' => $content
 		);
+
+		if (isset(self::$filters[$mimetype])){
+			$data = call_user_func(
+					array(
+						self::$filters[$mimetype],
+						'read'
+					),
+					$data
+			);
+		}
 		
-		\OCP\Util::emitHook('\OCA\Documents\Filter', 'read', $data);
 		return $data;
 	 }
 	 
@@ -30,8 +44,21 @@ namespace OCA\Documents;
 			'content' => $content
 		);
 		
-		\OCP\Util::emitHook('\OCA\Documents\Filter', 'write', $data);
+		if (isset(self::$filters[$mimetype])){
+			$data = call_user_func(
+					array(
+						self::$filters[$mimetype],
+						'write'
+					),
+					$data
+			);
+		}
+		
 		return $data;
+	 }
+	 
+	 public static function getAll(){
+		 return array_keys(self::$filters);
 	 }
 	 
  }
