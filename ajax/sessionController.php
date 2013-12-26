@@ -115,8 +115,7 @@ class SessionController extends Controller{
 			// Active users except current user
 			$memberCount = count($memberIds) - 1;
 			
-			if ($view->file_exists($path)){
-				
+			if ($view->file_exists($path)){		
 				
 				$proxyStatus = \OC_FileProxy::$enabled;
 				\OC_FileProxy::$enabled = false;	
@@ -127,14 +126,21 @@ class SessionController extends Controller{
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
 				}
+				
+				$mimetype = $view->getMimeType($path);
+			} else {
+				$mimetype = Storage::MIMETYPE_LIBREOFFICE_WORDPROCESSOR;
 			}
 			
-			if ($view->file_put_contents($path, $content)){
+			$data = Filter::write($content, $mimetype);
+			
+			if ($view->file_put_contents($path, $data['content'])){
 				// Not a last user
 				if ($memberCount>0){
 					// Update genesis hash to prevent conflicts
 					Helper::debugLog('Update hash');
-					$session->updateGenesisHash($esId, sha1($content));
+					
+					$session->updateGenesisHash($esId, sha1($data['content']));
 				} else {
 					// Last user. Kill session data
 					Db_Session::cleanUp($esId);

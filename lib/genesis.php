@@ -52,11 +52,14 @@ class Genesis {
 			//copy new genesis to /user/documents/{hash}.odt
 			// get decrypted content
 			$content = $view->file_get_contents($path);
-					
+			$mimetype = $view->getMimeType($path);
+			
+			$data = Filter::read($content, $mimetype);
+			
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;	
 			
-			$this->view->file_put_contents($this->path, $content);
+			$this->view->file_put_contents($this->path, $data['content']);
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 		

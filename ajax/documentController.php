@@ -26,7 +26,7 @@ class DocumentController extends Controller{
 		$content = base64_decode(self::ODT_TEMPLATE);
 		if (class_exists('\OC\Files\Type\TemplateManager')){
 			$manager = \OC_Helper::getFileTemplateManager();
-			$templateContent = $manager->getTemplate('application/vnd.oasis.opendocument.text');
+			$templateContent = $manager->getTemplate(Storage::MIMETYPE_LIBREOFFICE_WORDPROCESSOR);
 			if ($templateContent){
 				$content = $templateContent;
 			}

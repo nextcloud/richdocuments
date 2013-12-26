@@ -25,10 +25,11 @@
 namespace OCA\Documents;
 
 class Storage {
+	const MIMETYPE_LIBREOFFICE_WORDPROCESSOR = 'application/vnd.oasis.opendocument.text';
 
 	public static function getDocuments() {
 		$list = array_filter(
-				\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text'),
+				\OCP\Files::searchByMime(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
 				function($item){
 					//filter Deleted
 					if (strpos($item['path'], '_trashbin')===0){
@@ -43,7 +44,7 @@ class Storage {
 	
 	public static function resolvePath($fileId){
 		$list = array_filter(
-				\OCP\Files::searchByMime('application/vnd.oasis.opendocument.text'),
+				\OCP\Files::searchByMime(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
 				function($item) use ($fileId){
 					return intval($item['fileid'])==$fileId;
 				}
