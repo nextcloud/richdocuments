@@ -38,29 +38,33 @@ class Download_Range extends \OCA\Documents\Download {
 		if (!preg_match('/^bytes=\d*-\d*(,\d*-\d*)*$/', $_SERVER['HTTP_RANGE'])){
 			$this->sendNotSatisfiable();
 		}
+	
+		$mimetype = $this->getMimeType();
+		$content = $this->view->file_get_contents($this->filepath);
+		$data = Filter::read($content, $mimetype);
+		$size = strlen($data['content']);
+		
 		$ranges = explode(',', substr($_SERVER['HTTP_RANGE'], 6));
 		foreach ($ranges as $range){
 			$parts = explode('-', $range);
 
 			$start = isset($parts[0]) ? $parts[0] : 0;
-			$end = isset($parts[1]) ? $parts[1] : $this->getFilesize() - 1;
+			$end = isset($parts[1]) ? $parts[1] : $size - 1;
 
 			if ($start > $end){
 				$this->sendNotSatisfiable();
 			}
 
-			$handle = $this->view->fopen($this->filepath, 'rb');
-			\fseek($handle, $start);
-			$buffer = \fread($handle, $end - $start);
+			$buffer = substr($data['content'], $start,  $end - $start);
 			$md5Sum = md5($buffer);
-			\fclose($handle);
+
 			// send the headers and data 
 			header("Content-Length: " . $end - $start);
 			header("Content-md5: " . $md5Sum);
 			header("Accept-Ranges: bytes");
-			header('Content-Range: bytes ' . $start . '-' . ($end) . '/' . $this->getFilesize());
+			header('Content-Range: bytes ' . $start . '-' . ($end) . '/' . $size);
 			header("Connection: close");
-			header("Content-type: " . $this->getMimeType());
+			header("Content-type: " . $data['mimetype']);
 			header('Content-Disposition: attachment; filename=' . $this->getFilename());
 			\OC_Util::obEnd();
 			echo $buffer;

@@ -25,7 +25,11 @@ class Download_Simple extends \OCA\Documents\Download {
 	 * Send the whole file content as a response
 	 */
 	public function sendResponse(){
-		header( 'Content-Type:' . $this->getMimeType() );
+		$mimetype = $this->getMimeType();
+		$content = $this->view->file_get_contents($this->filepath);
+		$data = Filter::read($content, $mimetype);
+		
+		header( 'Content-Type:' . $data['mimetype'] );
 		
 		$encodedName = rawurlencode($this->getFilename());
 		if (preg_match("/MSIE/", $_SERVER["HTTP_USER_AGENT"])){
@@ -37,9 +41,10 @@ class Download_Simple extends \OCA\Documents\Download {
 					. '; filepath="' . $encodedName . '"');
 		}
 		
-		header('Content-Length: ' . $this->view->filesize($this->filepath));
+		header('Content-Length: ' . strlen($data['content']));
 
 		\OC_Util::obEnd();
-		 $this->view->readfile($this->filepath);
+		
+		echo $data['content'];
 	}
 }

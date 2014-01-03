@@ -90,7 +90,6 @@ class SessionController extends Controller{
 				self::preDispatchGuest();
 			}
 			
-			
 			list($view, $path) = $file->getOwnerViewAndPath();
 
 			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
