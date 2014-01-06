@@ -31,7 +31,7 @@
 "Family" => "Aile",
 "Font" => "Yazı Tipi",
 "Font Effects" => "Yazı Tipi Efektleri",
-"Format" => "Biçi",
+"Format" => "Biçim",
 "Increase Indent" => "Girintiyi Arttır",
 "Insert Image" => "Resim Ekle",
 "Invite Members" => "Üye Davet Et",

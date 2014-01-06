@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-05 00:44-0500\n"
-"PO-Revision-Date: 2014-01-04 22:10+0000\n"
+"POT-Creation-Date: 2014-01-06 00:44-0500\n"
+"PO-Revision-Date: 2014-01-05 16:30+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr "Yazı Tipi Efektleri"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Biçi"
+msgstr "Biçim"
 
 #: js/locale.js:22
 msgid "Increase Indent"
