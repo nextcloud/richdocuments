@@ -3,327 +3,325 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
-# vkehayas <vkehayas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-01-07 00:44-0500\n"
-"PO-Revision-Date: 2014-01-06 20:50+0000\n"
-"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
+"PO-Revision-Date: 2014-01-06 23:45+0000\n"
+"Last-Translator: I Robot\n"
+"Language-Team: Urdu (http://www.transifex.com/projects/p/owncloud/language/ur/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
+"Language: ur\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο"
+msgstr ""
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr "Έγγραφα"
+msgstr ""
 
 #: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
 msgid "Close"
-msgstr "Κλείσιμο"
+msgstr ""
 
 #: js/documents.js:27
 msgid "Share"
-msgstr "Διαμοιρασμός"
+msgstr ""
 
 #: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
-msgstr "Αποτυχία σύνδεσης με το διακομιστή. Προσπάθεια επανασύνδεσης σε εξέλιξη."
+msgstr ""
 
 #: js/documents.js:158
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Αποχωρώντας από την κατάσταση Επεξεργασίας της σελίδας μπορεί να υπάρξουν μη αποθηκευμένα δεδομένα. Αντί γι' αυτό, συνίσταται να χρησιμοποιήσετε το κουμπί 'Κλείσιμο'."
+msgstr ""
 
 #: js/documents.js:175
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Αποτυχία φόρτωσης του εγγράφου. Παρακαλώ ελέγξτε εάν μπορεί να ανοίξει με εξωτερικό επεξεργαστή odt. Αυτό επίσης μπορεί να σημαίνει ότι πρόσφατα έχει ακυρωθεί ο διαμοιρασμός ή διαγραφεί."
+msgstr ""
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
-msgstr "'.' είναι μη έγκυρο όνομα αρχείου."
+msgstr ""
 
 #: js/documents.js:319
 msgid "File name cannot be empty."
-msgstr "Το όνομα αρχείου δεν μπορεί να είναι κενό."
+msgstr ""
 
 #: js/documents.js:326
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται."
+msgstr ""
 
 #: js/documents.js:427 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Φόρτωση εγγράφων..."
+msgstr ""
 
 #: js/documents.js:447
 msgid "Failed to load documents."
-msgstr "Αποτυχία φόρτωσης εγγράφων."
+msgstr ""
 
 #: js/documents.js:490
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Δεν βρέθηκαν έγγραφα. Παρακαλώ αποστείλετε ή δημιουργήστε ένα έγγραφο."
+msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Στοίχιση στα αριστερά"
+msgstr ""
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr "Στοίχιση"
+msgstr ""
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Στοίχιση στα δεξιά"
+msgstr ""
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr "Εισαγωγή σχολίου"
+msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Φόντο"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr "Έντονα"
+msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "Κάτω"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "Άκυρο"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "Κέντρο"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Κλώνος"
+msgstr ""
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Κλωνοποίηση αυτού του μοτίβου"
+msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Χρώμα"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "Δημιουργία"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Μείωση εσοχής"
+msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Προεπιλεγμένη διάταξη"
+msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "Οικογένεια"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
-msgstr "Γραμματοσειρά"
+msgstr ""
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr "Εφέ γραμματοσειράς"
+msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Μορφοποίηση"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Αύξηση εσοχής"
+msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Εισαγωγή Εικόνας"
+msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "Πρόσκληση μελών"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr "Πλάγια"
+msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr "Στοιχισμένα"
+msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "Στοίχιση"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "Αριστερά"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "Φόρτωση"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Μέλη"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Νέο Όνομα:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "ΟΚ"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "Άνοιγμα"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "Επιλογές"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Παράγραφος"
+msgstr ""
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Διάταξη Παραγράφου"
+msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Επανάληψη"
+msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Δεξιά"
+msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr "Αποθήκευση"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "Μέγεθος"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr "Διαστήματα"
+msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr "Διάταξη"
+msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Κείμενο"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "Επάνω"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Υπογράμμιση"
+msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Αναίρεση"
+msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Άγνωστος Δημιουργός"
+msgstr ""
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
-msgstr "Επεξεργασία"
+msgstr ""
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr "Απεστάλη"
+msgstr ""
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr "Απορρίφθηκε"
+msgstr ""
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr "Αποδοχή"
+msgstr ""
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr "Εισερχόμενα"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr "Νέο έγγραφο"
+msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "Μεταφόρτωση"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Αποθήκευση νέων εγγράφων σε"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Λανθασμένος κωδικός πρόσβασης. Παρακαλώ προσπαθήστε ξανά."
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Συνθηματικό"
+msgstr ""
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr "Παρακαλώ εισάγετε το παρατσούκλι σας"
+msgstr ""
 
 #: templates/public.php:18
 msgid "Join"
-msgstr "Συμμετοχή"
+msgstr ""
 
 #: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Αυτός ο σύνδεσμος έχει λήξει ή δεν υπήρξε ποτέ. Παρακαλώ επικοινωνήστε με το άτομο που το διαμοιράστηκε μαζί σας για λεπτομέρειες."
+msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Σύνολο χαρακτηριστικών για προχωρημένους"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(Ασταθές)"
+msgstr ""
