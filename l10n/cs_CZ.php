@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"You don't have permission to rename this document" => "Nemáte oprávnění přejmenovat tento soubor",
+"You don't have permission to rename this document" => "Nemáte oprávnění pro přejmenování tohoto souboru",
 "Documents" => "Dokumenty",
 "Close" => "Zavřít",
 "Share" => "Sdílet",
