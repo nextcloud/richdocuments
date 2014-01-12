@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-06 00:44-0500\n"
-"PO-Revision-Date: 2014-01-05 16:30+0000\n"
+"POT-Creation-Date: 2014-01-12 00:43-0500\n"
+"PO-Revision-Date: 2014-01-11 16:25+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr "Yorum Yap"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Arkapla"
+msgstr "Arkaplan"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -225,7 +225,7 @@ msgstr "Yenile"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Sağa"
+msgstr "Sağ"
 
 #: js/locale.js:39
 msgid "Save"
