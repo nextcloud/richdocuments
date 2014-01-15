@@ -5,14 +5,14 @@
 # Translators:
 # Carlos <crolidge@gmail.com>, 2013
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
-# Helder Meneses <helder.meneses@gmail.com>, 2013
+# Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: Carlos <crolidge@gmail.com>\n"
+"POT-Creation-Date: 2014-01-15 01:02-0500\n"
+"PO-Revision-Date: 2014-01-14 14:30+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Não tem permissões para renomear este documento"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -81,19 +81,19 @@ msgstr "Nenhum documento encontrado. Por favor carregue ou crie um documento!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Alinhar á esquerda"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Alinhamento"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Alinhar á direita"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Anotar"
 
 #: js/locale.js:5
 msgid "Background"
@@ -105,7 +105,7 @@ msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Fundo"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -113,19 +113,19 @@ msgstr "Cancelar"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centro"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Clonar"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Clonar este estilo"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Côr"
 
 #: js/locale.js:14
 msgid "Create"
@@ -137,7 +137,7 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Estilo padrão"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Formatar"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -165,11 +165,11 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Inserir imagem"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Convidar Membros"
 
 #: js/locale.js:25
 msgid "Italic"
@@ -177,11 +177,11 @@ msgstr "Itálico"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justificado"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justificar"
 
 #: js/locale.js:28
 msgid "Left"
@@ -225,7 +225,7 @@ msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Direita"
 
 #: js/locale.js:39
 msgid "Save"
@@ -253,7 +253,7 @@ msgstr "Texto"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Topo"
 
 #: js/locale.js:46
 msgid "Underline"
@@ -265,7 +265,7 @@ msgstr "Desfazer"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Autor desconhecido"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
