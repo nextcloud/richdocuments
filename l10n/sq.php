@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Close" => "Mbyll",
 "Share" => "Nda",
 "'.' is an invalid file name." => "'.' nuk është skedar i vlefshem.",
 "File name cannot be empty." => "Emri i skedarit nuk mund të jetë bosh.",
@@ -6,6 +7,8 @@
 "Cancel" => "Anullo",
 "Create" => "Krijo",
 "Delete" => "Fshi",
+"Loading" => "Ngarkim",
+"OK" => "Ok",
 "Open" => "Hap",
 "Save" => "Ruaj",
 "Size" => "Madhësia",
