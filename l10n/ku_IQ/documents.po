@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-20 00:43-0500\n"
+"PO-Revision-Date: 2014-01-19 22:00+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,7 +106,7 @@ msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "لابردن"
 
 #: js/locale.js:9
 msgid "Center"
@@ -198,7 +198,7 @@ msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "باشە"
 
 #: js/locale.js:33
 msgid "Open"

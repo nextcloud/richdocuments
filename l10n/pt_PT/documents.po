@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Carlos <crolidge@gmail.com>, 2013
+# Carlos <crolidge@gmail.com>, 2013-2014
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-15 01:02-0500\n"
-"PO-Revision-Date: 2014-01-14 14:30+0000\n"
-"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
+"POT-Creation-Date: 2014-01-20 00:43-0500\n"
+"PO-Revision-Date: 2014-01-20 00:20+0000\n"
+"Last-Translator: Carlos <crolidge@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,20 +38,20 @@ msgstr "Partilhar"
 
 #: js/documents.js:107
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Não há ligação ao servidor. A tentar religar."
 
 #: js/documents.js:158
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Sair desta página em modo de Edição pode deixar dados não guardados. É recomendado usar o botão \"Fechar\" em vez disso."
 
 #: js/documents.js:175
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Falhou ao carregar o documento. Por favor verifique se ele pode ser aberto com um editor ODT externo. Isto poderá significar que foi apagado recentemente ou a partilha acabou."
 
 #: js/documents.js:317
 msgid "'.' is an invalid file name."
@@ -101,7 +101,7 @@ msgstr "Fundo"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Negrito"
 
 #: js/locale.js:7
 msgid "Bottom"
@@ -133,7 +133,7 @@ msgstr "Criar"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Diminuir Indentação"
 
 #: js/locale.js:16
 msgid "Default Style"
@@ -153,7 +153,7 @@ msgstr "Tipo de letra"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Efeitos de Letra"
 
 #: js/locale.js:21
 msgid "Format"
@@ -161,7 +161,7 @@ msgstr "Formatar"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Aumentar Indentação"
 
 #: js/locale.js:23
 msgid "Insert Image"
@@ -217,11 +217,11 @@ msgstr "Parágrafo..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Estilos de Parágrafo"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Refazer"
 
 #: js/locale.js:38
 msgid "Right"
@@ -241,7 +241,7 @@ msgstr "Espaçamento"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Rasurado"
 
 #: js/locale.js:43
 msgid "Style"
@@ -257,7 +257,7 @@ msgstr "Topo"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Sublinhado"
 
 #: js/locale.js:47
 msgid "Undo"
@@ -309,11 +309,11 @@ msgstr "Palavra-passe"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Por favor introduza a sua alcunha"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "Entrar"
 
 #: templates/public.php:24
 msgid ""
