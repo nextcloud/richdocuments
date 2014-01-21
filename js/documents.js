@@ -123,7 +123,7 @@ var documentsMain = {
 		
 		hideLostConnection : function() {
 			$('#connection-lost,#warning-connection-lost').remove();
-			$('#odf-toolbar').children(':not(#document-title)').show();
+			$('#odf-toolbar').children(':not(#document-title,#saving-document)').show();
 			$('#memberList .memberListButton').css({opacity : 1});
 		}
 	},
@@ -219,6 +219,13 @@ var documentsMain = {
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_BEFORESAVETOFILE, documentsMain.UI.showSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_SAVEDTOFILE, documentsMain.UI.hideSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_ERROR, documentsMain.onEditorShutdown);
+				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_HASSESSIONHOSTCONNECTIONCHANGED, function(has) {
+					if (has){
+						documentsMain.UI.hideLostConnection();
+					} else {
+						documentsMain.UI.showLostConnection();
+					}
+				});
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
