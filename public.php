@@ -45,4 +45,3 @@ if (isset($_GET['t'])) {
 	}
 	$tmpl->printPage();
 }
-
