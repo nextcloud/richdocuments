@@ -186,11 +186,7 @@ var documentsMain = {
 		} 
 
 		if (!response || !response.status || response.status==='error'){
-			OC.Notification.show(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
-			documentsMain.prepareGrid();
-			documentsMain.show();
-			$(window).off('beforeunload');
-			setTimeout(OC.Notification.hide, 7000);
+			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			return;
 		}
 		
@@ -222,6 +218,7 @@ var documentsMain = {
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_BEFORESAVETOFILE, documentsMain.UI.showSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_SAVEDTOFILE, documentsMain.UI.hideSave);
+				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_ERROR, documentsMain.onEditorShutdown);
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
@@ -396,6 +393,30 @@ var documentsMain = {
 		input.focus();
 		input.selectRange(0, name.length);
 	},
+
+	onEditorShutdown : function (message){
+			OC.Notification.show(message);
+
+			$(window).off('beforeunload');
+			if (documentsMain.isEditorMode){
+				documentsMain.isEditorMode = false;
+				parent.location.hash = "";
+			} else {
+				setTimeout(OC.Notification.hide, 7000);
+			}
+			documentsMain.prepareGrid();
+			try {
+				documentsMain.webodfEditorInstance.endEditing();
+				documentsMain.webodfEditorInstance.closeSession(function() {
+					documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
+				});
+			} catch (e){
+				documentsMain.UI.hideEditor();
+			}
+			
+			documentsMain.show();
+		},
+		
 
 	onClose: function() {
 		"use strict";
