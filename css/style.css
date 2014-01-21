@@ -195,6 +195,11 @@
 	z-index:20; 
 }
 
+#saving-document{
+	float:right;
+	display:none;
+}
+
 #warning-connection-lost{
 	padding: 6px 0;
 	text-align: center;

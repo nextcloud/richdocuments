@@ -23,6 +23,9 @@ var documentsMain = {
 					'  <button id="odf-close">' +
 						t('documents', 'Close') +
 					'  </button>' +
+					'  <img id="saving-document" alt=""' +
+					'   src="' + OC.imagePath('core', 'loading.gif') + '"' +
+					'  />' +
 					'  <button id="odf-invite" class="drop">' +
 						  t('documents', 'Share') +
 					'  </button>' +
@@ -88,6 +91,17 @@ var documentsMain = {
 					$('title').text(documentsMain.UI.mainTitle);
 				});
 		},
+		
+		showSave : function (){
+			$('#odf-close').hide();
+			$('#saving-document').show();
+		},
+		
+		hideSave : function(){
+			$('#saving-document').hide();
+			$('#odf-close').show();
+		},
+		
 		showProgress : function(message){
 			if (!message){
 				message = '&nbsp;';
@@ -206,7 +220,8 @@ var documentsMain = {
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
-				
+				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_BEFORESAVETOFILE, documentsMain.UI.showSave);
+				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_SAVEDTOFILE, documentsMain.UI.hideSave);
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
