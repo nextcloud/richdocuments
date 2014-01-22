@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-21 00:43-0500\n"
+"POT-Creation-Date: 2014-01-22 00:43-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,50 +29,50 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended "
 "to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:317
+#: js/documents.js:336
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:319
+#: js/documents.js:338
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:326
+#: js/documents.js:345
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr ""
 
-#: js/documents.js:427 templates/documents.php:31
+#: js/documents.js:470 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:447
+#: js/documents.js:490
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:490
+#: js/documents.js:533
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
