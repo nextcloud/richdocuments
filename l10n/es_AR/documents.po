@@ -4,15 +4,15 @@
 # 
 # Translators:
 # cjtess <claudio.tessone@gmail.com>, 2013
-# cnngimenez, 2013
+# cnngimenez, 2013-2014
 # juliabis, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-23 00:43-0500\n"
+"PO-Revision-Date: 2014-01-23 01:00+0000\n"
+"Last-Translator: cnngimenez\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "No tienes permisos para cambiar de nombre a este documento."
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -32,80 +32,80 @@ msgstr "Documentos"
 msgid "Close"
 msgstr "Cerrar"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Compartir"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "No hay conexión al servidor. Intentado reconectar."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Salir de esta página en modo Editor puede causar pérdida de datos. Es recomendable usar el botón 'Cerrar'."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Fallo al cargar este documento. Por favor, chequée si puede ser abierto con un editor odt externo. Esto también puede suceder si ha dejado de compartirse o ha sido borrado recietemente."
 
-#: js/documents.js:317
+#: js/documents.js:336
 msgid "'.' is an invalid file name."
 msgstr "'.' es un nombre de archivo inválido."
 
-#: js/documents.js:319
+#: js/documents.js:338
 msgid "File name cannot be empty."
 msgstr "El nombre del archivo no puede quedar vacío."
 
-#: js/documents.js:326
+#: js/documents.js:345
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nombre invalido, '\\', '/', '<', '>', ':', '\"', '|', '?' y '*' no están permitidos."
 
-#: js/documents.js:427 templates/documents.php:31
+#: js/documents.js:470 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Cargando documentos..."
 
-#: js/documents.js:447
+#: js/documents.js:490
 msgid "Failed to load documents."
 msgstr "La carga de documentos ha fallado."
 
-#: js/documents.js:490
+#: js/documents.js:533
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "No se han encontrado documentos. ¡Por favor crea o carge un documento!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Alinear a la izquierda"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Alineación"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Alinear a la derecha"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Anotar"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Fondo"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Negrita"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Abajo"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -113,19 +113,19 @@ msgstr "Cancelar"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centro"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Clonar"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Clonar este Estilo"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: js/locale.js:14
 msgid "Create"
@@ -133,11 +133,11 @@ msgstr "Crear"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Disminuir indentación"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Estilo Predefinido"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -149,43 +149,43 @@ msgstr "Familia"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Fuente"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Efectos de Fuente"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Incrementar Indentación"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Insertar Imágen"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Invitar Miembros"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Itálica"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justificado"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justificar"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Izquierda"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -193,11 +193,11 @@ msgstr "Cargando"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Miembros"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nuevo Nombre:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -213,19 +213,19 @@ msgstr "Opciones"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Párrafo..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Estilos de Párrafo"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Rehacer"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Derecha"
 
 #: js/locale.js:39
 msgid "Save"
@@ -237,15 +237,15 @@ msgstr "Tamaño"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Espaciado"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Tachado"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 #: js/locale.js:44
 msgid "Text"
@@ -253,19 +253,19 @@ msgstr "Texto"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Arriba"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Subrayado"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Deshacer"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Autor Desconocido"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
@@ -289,7 +289,7 @@ msgstr "Ingresando"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Nuevo documento"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -297,11 +297,11 @@ msgstr "Subir"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Guardar nuevo documento a"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Clave incorrecta. Intente de nuevo."
 
 #: templates/public.php:11
 msgid "Password"
@@ -309,17 +309,17 @@ msgstr "Contraseña"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Por favor, ingrese su apodo"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "Unir"
 
 #: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Este vínculo ha expirado o nunca existió. Por favor contacte a la persona que lo compartió con usted para más detalles."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"

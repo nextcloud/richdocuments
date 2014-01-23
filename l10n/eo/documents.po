@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mariano <mstreet@kde.org.ar>, 2013
+# Mariano <mstreet@kde.org.ar>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-23 00:43-0500\n"
+"PO-Revision-Date: 2014-01-22 07:10+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Vi ne havas permeson alinomigi ĉi tiun dokumenton"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -30,80 +30,80 @@ msgstr "Dokumentoj"
 msgid "Close"
 msgstr "Fermi"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Kunhavigi"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ne estas konekto al servilo. Provu rekonekti."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Laso de ĉi tiu paĝo en reĝimo Redaktilo povas kaŭzi nekonservotaj datumoj. Rekomendatas uzo de la butono “Fermi” anstataŭe."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Malsukcesis ŝargo de ĉi tiu dokumento. Bonvolu kontroli ĉu ĝi malfermeblas per malena odt-redaktilo. Ĉi tio povas ankaŭ signifi, ke ĝi malkunhaviĝis aŭ foriĝis lastatempe."
 
-#: js/documents.js:317
+#: js/documents.js:336
 msgid "'.' is an invalid file name."
 msgstr "'.' ne estas valida dosiernomo."
 
-#: js/documents.js:319
+#: js/documents.js:338
 msgid "File name cannot be empty."
 msgstr "Dosiernomo devas ne malpleni."
 
-#: js/documents.js:326
+#: js/documents.js:345
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nevalida nomo: “\\”, “/”, “<”, “>”, “:”, “\"”, “|”, “?” kaj “*” ne permesatas."
 
-#: js/documents.js:427 templates/documents.php:31
+#: js/documents.js:470 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Ŝargante dokumentojn..."
 
-#: js/documents.js:447
+#: js/documents.js:490
 msgid "Failed to load documents."
 msgstr "Malsukcesis ŝargo de dokumentoj."
 
-#: js/documents.js:490
+#: js/documents.js:533
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Neniu dokumento troviĝis. Bonvolu alŝuti aŭ krei dokumenton!"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Ĝisrandigi maldekstren"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Ĝisrandigo"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Ĝisrandigi dekstren"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Prinoti"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Fono"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Grasa"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Malsupro"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -111,19 +111,19 @@ msgstr "Nuligi"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centrigi"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Kloni"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Kloni ĉi tiun stilon"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Koloro"
 
 #: js/locale.js:14
 msgid "Create"
@@ -131,11 +131,11 @@ msgstr "Krei"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Malgrindigi krommarĝenon"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Defaŭlta stilo"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -147,43 +147,43 @@ msgstr "Familio"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Tiparo"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Tiparaj efektoj"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Aranĝo"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Grandigi krommarĝenon"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Enigi bildon"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Inviti membrojn"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Kursiva"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Ĝis ambaŭ randoj"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Ĝisambaŭrandigi"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Maldekstren"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -191,11 +191,11 @@ msgstr "Ŝargante"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Membroj"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nova nomo:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -211,19 +211,19 @@ msgstr "Malneproj"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Alineo..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Alineaj stiloj"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Refari"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Dekstren"
 
 #: js/locale.js:39
 msgid "Save"
@@ -235,15 +235,15 @@ msgstr "Grando"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Interspaco"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Trastreko"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Stilo"
 
 #: js/locale.js:44
 msgid "Text"
@@ -251,19 +251,19 @@ msgstr "Teksto"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Supro"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Substreko"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Malfari"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Nekonata verkinto"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
@@ -287,7 +287,7 @@ msgstr "Eniranta"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Nova dokumento"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -299,7 +299,7 @@ msgstr "Konservi novajn dokumentojn en"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "La pasvorto malĝustas. Bonvolu reprovi."
 
 #: templates/public.php:11
 msgid "Password"
