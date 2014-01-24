@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nguyễn Tài <mattheu.9x@gmail.com>, 2014
 # Sơn Nguyễn <sonnghit@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-19 00:43-0500\n"
-"PO-Revision-Date: 2014-01-18 14:50+0000\n"
-"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
+"POT-Creation-Date: 2014-01-24 00:44-0500\n"
+"PO-Revision-Date: 2014-01-23 12:40+0000\n"
+"Last-Translator: Nguyễn Tài <mattheu.9x@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,80 +31,80 @@ msgstr "Tài liệu"
 msgid "Close"
 msgstr "Đóng"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Không thể kết nối đến máy chủ. Đang thử kết nối lại."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Rời khỏi trang này khi đang trong chế độ chỉnh sửa có thể gây mất dữ liệu. Bạn nên sử dụng nút 'Đóng' để thay thế."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Không thể tải tài liệu này. Hãy kiểm tra xem nó có thể đang được mở ra bởi ai đó. Hay là tài liệu này không  chia sẻ hoặc bị xóa gần đây."
 
-#: js/documents.js:317
+#: js/documents.js:336
 msgid "'.' is an invalid file name."
 msgstr "'.' là một tên file không hợp lệ"
 
-#: js/documents.js:319
+#: js/documents.js:338
 msgid "File name cannot be empty."
 msgstr "Tên file không được rỗng"
 
-#: js/documents.js:326
+#: js/documents.js:345
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng."
 
-#: js/documents.js:427 templates/documents.php:31
+#: js/documents.js:470 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Tải tài liệu ..."
 
-#: js/documents.js:447
+#: js/documents.js:490
 msgid "Failed to load documents."
 msgstr "Không thể tải tài liệu thử lại sau."
 
-#: js/documents.js:490
+#: js/documents.js:533
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới !"
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Canh trái"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Canh giữa"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Canh phải"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Chú thích"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Nền"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "In đậm"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Ở dưới"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -111,19 +112,19 @@ msgstr "Hủy"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Ở giữa"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Sao chép"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Sao chép kiểu này"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Màu sắc"
 
 #: js/locale.js:14
 msgid "Create"
@@ -131,11 +132,11 @@ msgstr "Tạo"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Giảm thụt lề"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Kiểu mặc định"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -147,55 +148,55 @@ msgstr "Gia đình"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Font chữ"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Hiệu ứng chữ"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Định dạng"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Tăng thụt lề"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Chèn ảnh"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Mời thành viên"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "in nghiêng"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Canh đều"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Căn chỉnh"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Bên trái"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Đang tải"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Thành viên"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Tên mới:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -211,19 +212,19 @@ msgstr "Tùy chọn"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Đoạn văn bản..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Kiểu đoạn văn bản"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Làm lại"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Bên phải"
 
 #: js/locale.js:39
 msgid "Save"
@@ -235,15 +236,15 @@ msgstr "Kích cỡ"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Khoảng cách"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Gạch ngang"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Kiểu"
 
 #: js/locale.js:44
 msgid "Text"
@@ -251,19 +252,19 @@ msgstr "Văn bản"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Ở trên"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Gạch chân"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Lùi lại"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Không biết tác giả"
 
 #: js/viewer/viewer.js:24
 msgid "Edit"
@@ -271,19 +272,19 @@ msgstr "Sửa"
 
 #: lib/invite.php:64
 msgid "Sent"
-msgstr ""
+msgstr "Đã gửi"
 
 #: lib/invite.php:65 lib/invite.php:75
 msgid "Declined"
-msgstr ""
+msgstr "Từ chối"
 
 #: lib/invite.php:66 lib/invite.php:76
 msgid "Accepted"
-msgstr ""
+msgstr "Chấp nhận"
 
 #: lib/invite.php:74
 msgid "Incoming"
-msgstr ""
+msgstr "Đang đến"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -299,7 +300,7 @@ msgstr "Lưu tài liệu "
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Mật khẩu không đúng. Vui lòng thử lại."
 
 #: templates/public.php:11
 msgid "Password"
@@ -307,22 +308,22 @@ msgstr "Mật khẩu"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Vui lòng nhập nickname"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "Tham gia"
 
 #: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Liên kết này đã hết hạn hoặc không tồn tại. Vui lòng liên hệ với người đã chia sẻ nó để biết chi tiết."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Thiết lập tính năng nâng cao"
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Không ổn định)"
