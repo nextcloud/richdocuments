@@ -11,7 +11,13 @@ var odfViewer = {
 		'application/vnd.oasis.opendocument.text'
 	],
 			
-	register : function(){
+	register : function(response){
+		if (response && response.mimes){
+			jQuery.each(response.mimes, function(i, mime){
+				odfViewer.supportedMimesRead.push(mime);
+				odfViewer.supportedMimesUpdate.push(mime);
+			});
+		}
 		for (var i = 0; i < odfViewer.supportedMimesRead.length; ++i) {
 			var mime = odfViewer.supportedMimesRead[i];
 			FileActions.register(mime, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
@@ -54,7 +60,8 @@ var odfViewer = {
 			var location = filename;
 		} else {
 			//Public page, files app, etc
-			var location = OC.filePath('documents', 'ajax', 'download.php') + '?path=' + $('#dir').val() + '/' + encodeURIComponent(filename);
+			var dirName = $('#dir').val()!='/' ? $('#dir').val() + '/' : '/';
+			var location = OC.filePath('documents', 'ajax', 'download.php') + '?path=' + dirName + encodeURIComponent(filename);
 			OC.addStyle('documents', '3rdparty/webodf/editor');
 		}
 		
@@ -105,7 +112,11 @@ var odfViewer = {
 
 $(document).ready(function() {
 	if (typeof FileActions !== 'undefined') {
-		odfViewer.register();
+		$.post(
+			OC.filePath('documents', 'ajax', 'mimes.php'),
+			{},
+			odfViewer.register
+		);
 	}
 
 	$('#odf_close').live('click', odfViewer.onClose);
