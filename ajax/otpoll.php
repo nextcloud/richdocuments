@@ -109,8 +109,8 @@ try{
 	\OCP\JSON::success($response);
 } catch (BadRequestException $e){
 	header('HTTP/1.1 400: BAD REQUEST');
-	print("");
-	print($e->getBody());
-	print("");
+	\OCP\JSON::error( array(
+		'message' => $e->getBody(),
+	));
 }
 exit();
