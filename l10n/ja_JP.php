@@ -3,7 +3,7 @@
 "Documents" => "ドキュメント",
 "Close" => "閉じる",
 "Share" => "共有",
-"No connection to server. Trying to reconnect." => "サーバに接続されていません。再接続してください。",
+"No connection to server. Trying to reconnect." => "サーバーに接続されていません。再接続してください。",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "このページを編集モードのままにしておくと、保存されないデータが出てきます。その代わりに「閉じる」ボタンを使うことをお勧めします。",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "ドキュメントの読み込みに失敗。外部の odtエディターで開けるかどうか確認してください。これは、ドキュメントが最近、非共有になっているか削除されているのかもしれません。",
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",

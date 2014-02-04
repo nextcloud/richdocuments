@@ -6,14 +6,15 @@
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # plazmism <gomidori@live.jp>, 2013
 # iLikeIT <dj_dark_junglist@yahoo.com>, 2013
+# kuromabo <md81bird@hitaki.net>, 2014
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:24+0000\n"
-"Last-Translator: iLikeIT <dj_dark_junglist@yahoo.com>\n"
+"POT-Creation-Date: 2014-02-04 00:43-0500\n"
+"PO-Revision-Date: 2014-02-03 17:10+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,54 +30,54 @@ msgstr "ドキュメント名を変更する権限がありません"
 msgid "Documents"
 msgstr "ドキュメント"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
+#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "閉じる"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "共有"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
-msgstr "サーバに接続されていません。再接続してください。"
+msgstr "サーバーに接続されていません。再接続してください。"
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "このページを編集モードのままにしておくと、保存されないデータが出てきます。その代わりに「閉じる」ボタンを使うことをお勧めします。"
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "ドキュメントの読み込みに失敗。外部の odtエディターで開けるかどうか確認してください。これは、ドキュメントが最近、非共有になっているか削除されているのかもしれません。"
 
-#: js/documents.js:317
+#: js/documents.js:336
 msgid "'.' is an invalid file name."
 msgstr "'.' は無効なファイル名です。"
 
-#: js/documents.js:319
+#: js/documents.js:338
 msgid "File name cannot be empty."
 msgstr "ファイル名を空にすることはできません。"
 
-#: js/documents.js:326
+#: js/documents.js:345
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。"
 
-#: js/documents.js:427 templates/documents.php:31
+#: js/documents.js:470 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "ドキュメントを読込中..."
 
-#: js/documents.js:447
+#: js/documents.js:490
 msgid "Failed to load documents."
 msgstr "ドキュメントのロードに失敗しました。"
 
-#: js/documents.js:490
+#: js/documents.js:533
 msgid "No documents are found. Please upload or create a document!"
 msgstr "ドキュメントはありません。アップロードするか、作成してください。"
 
@@ -268,7 +269,7 @@ msgstr "元に戻す"
 msgid "Unknown Author"
 msgstr "不明な作者"
 
-#: js/viewer/viewer.js:24
+#: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "編集"
 
