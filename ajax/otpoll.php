@@ -39,7 +39,7 @@ try{
 	} catch (\Exception $e){
 		Helper::warnLog('Error. Session no longer exists. ' . $e->getMessage());
 		$ex = new BadRequestException();
-		$ex->setBody("{err:'bad request: [" . $request->getRawRequest() . "]'}");
+		$ex->setBody($request->getRawRequest());
 		throw $ex;
 	}
 	if (!$file->isPublicShare()){
@@ -101,7 +101,7 @@ try{
 			break;
 		default:
 			$ex = new BadRequestException();
-			$ex->setBody("{err:'bad request: [" . $request->getRawRequest() . "]'}");
+			$ex->setBody($request->getRawRequest());
 			throw $ex;
 			break;
 	}
@@ -110,7 +110,7 @@ try{
 } catch (BadRequestException $e){
 	header('HTTP/1.1 400: BAD REQUEST');
 	\OCP\JSON::error( array(
-		'err' => $e->getBody(),
+		'err' => 'bad request:[' . $e->getBody() . ']',
 	));
 }
 exit();
