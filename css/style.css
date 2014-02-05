@@ -26,12 +26,7 @@
 	background-size: 32px;
 	background-position: 50%;
 }
-.add-document .add {
-	background-image: url('%webroot%/core/img/actions/add.svg');
-}
-.add-document .upload {
-	background-image: url('%webroot%/core/img/actions/upload.svg');
-}
+
 
 .add-document a.add {
 	border-bottom: 1px solid #fff;
@@ -59,7 +54,7 @@
 	position:absolute;
 	left:232px;
 	z-index:5;
-	background: #e8e8e8 url('%webroot%/core/img/loading.gif') 50% 50% no-repeat;
+	background-color: #e8e8e8;
 }
 
 .documentslist .progress div{
@@ -155,7 +150,6 @@
 
 #invitee-list li{
 	padding: 5px 0 5px 20px;
-	background: url('%webroot%/core/img/actions/delete.svg') 0 50% no-repeat;
 }
 
 #mainContainer{
@@ -172,7 +166,7 @@
     filter:alpha(opacity=30);
     opacity: .3;
     z-index: 1000;
-	background: #111 url('%webroot%/core/img/loading-dark.gif') 50% 50% no-repeat;
+	background-color: #111;
 }
 
 #documents-overlay-below{

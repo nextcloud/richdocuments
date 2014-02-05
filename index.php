@@ -31,6 +31,14 @@ namespace OCA\Documents;
 \OCP\Util::addStyle( 'documents', 'style' );
 \OCP\Util::addStyle( 'documents', '3rdparty/webodf/dojo-app');
 \OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor');
+
+
+$ocVersion = \OCP\Util::getVersion();
+
+if ($ocVersion[0]<=6){
+	\OCP\Util::addStyle( 'documents', 'compat/icons' );
+}
+
 \OCP\Util::addScript('documents', 'documents');
 
 \OCP\Util::addScript('files', 'file-upload');

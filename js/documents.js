@@ -13,7 +13,7 @@ var documentsMain = {
 	
 	UI : {
 		/* Overlay HTML */
-		overlay : '<div id="documents-overlay"></div> <div id="documents-overlay-below"></div>',
+		overlay : '<div id="documents-overlay" class="icon icon-loading-dark"></div> <div id="documents-overlay-below" class="icon icon-loading-dark"></div>',
 				
 		/* Toolbar HTML */
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
