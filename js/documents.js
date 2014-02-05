@@ -330,23 +330,6 @@ var documentsMain = {
 		);
 	},
 
-	// FIXME: copy/pasted from Files.isFileNameValid, needs refactor into core
-	isFileNameValid:function (name) {
-		if (name === '.') {
-			throw t('files', '\'.\' is an invalid file name.');
-		} else if (name.length === 0) {
-			throw t('files', 'File name cannot be empty.');
-		}
-
-		// check for invalid characters
-		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
-		for (var i = 0; i < invalid_characters.length; i++) {
-			if (name.indexOf(invalid_characters[i]) !== -1) {
-				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
-			}
-		}
-		return true;
-	},
 
 	onRenamePrompt: function() {
 		var name = documentsMain.fileName;
@@ -370,7 +353,7 @@ var documentsMain = {
 				try {
 					input.tipsy('hide');
 					input.removeClass('error');
-					if (documentsMain.isFileNameValid(newName)) {
+					if (Files.isFileNameValid(newName)) {
 						input.tipsy('hide');
 						input.remove();
 						$('#document-title>div').show();
@@ -559,7 +542,30 @@ dojoConfig = {
 	}
 };
 
+
 //init
+var Files = Files || {
+	// FIXME: copy/pasted from Files.isFileNameValid, needs refactor into core
+	isFileNameValid:function (name) {
+		if (name === '.') {
+			throw t('files', '\'.\' is an invalid file name.');
+		} else if (name.length === 0) {
+			throw t('files', 'File name cannot be empty.');
+		}
+
+		// check for invalid characters
+		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		for (var i = 0; i < invalid_characters.length; i++) {
+			if (name.indexOf(invalid_characters[i]) !== -1) {
+				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
+			}
+		}
+		return true;
+	},
+	
+	updateStorageStatistics: function(){}
+};
+
 $(document).ready(function() {
 	"use strict";
 	
@@ -591,6 +597,7 @@ $(document).ready(function() {
 		);
 	});
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
+
 
 	var file_upload_start = $('#file_upload_start');
 	file_upload_start.on('fileuploaddone', documentsMain.show);
