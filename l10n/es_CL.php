@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Share" => "Compartir",
 "Cancel" => "Cancelar",
 "OK" => "OK",
 "Upload" => "Subir",
