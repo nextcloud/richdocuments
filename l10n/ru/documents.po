@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-24 00:43-0500\n"
-"PO-Revision-Date: 2013-12-22 17:10+0000\n"
+"POT-Creation-Date: 2014-02-10 06:03-0500\n"
+"PO-Revision-Date: 2014-02-09 13:11+0000\n"
 "Last-Translator: Evgeniy Spitsyn <evgeniy@spitsyn.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -34,56 +34,56 @@ msgstr "У вас не достаточно прав для переименов
 msgid "Documents"
 msgstr "Документы"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
+#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Закрыть"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
 msgstr "Нет связи с сервером. Попытка переподключения."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Не удалось загрузить документ. Пожалуйста, проверьте возможно ли открыть его с помощью обычного odt редактора."
 
-#: js/documents.js:317
+#: js/documents.js:453 templates/documents.php:31
+msgid "Loading documents..."
+msgstr "Загрузка документов..."
+
+#: js/documents.js:473
+msgid "Failed to load documents."
+msgstr "Загрузка документов не удалась."
+
+#: js/documents.js:516
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Документов нет. Пожалуйста, загрузите или создайте документ!"
+
+#: js/documents.js:551
 msgid "'.' is an invalid file name."
 msgstr "'.' - неправильное имя файла."
 
-#: js/documents.js:319
+#: js/documents.js:553
 msgid "File name cannot be empty."
 msgstr "Имя файла не может быть пустым."
 
-#: js/documents.js:326
+#: js/documents.js:560
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Неправильное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы."
-
-#: js/documents.js:427 templates/documents.php:31
-msgid "Loading documents..."
-msgstr "Загрузка документов..."
-
-#: js/documents.js:447
-msgid "Failed to load documents."
-msgstr "Загрузка документов не удалась."
-
-#: js/documents.js:490
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Документов нет. Пожалуйста, загрузите или создайте документ!"
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -273,7 +273,7 @@ msgstr "Отмена"
 msgid "Unknown Author"
 msgstr "Неизвестный автор"
 
-#: js/viewer/viewer.js:24
+#: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "Редактировать"
 
