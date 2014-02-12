@@ -204,7 +204,7 @@ var documentsMain = {
 				documentsMain.fileId = response.file_id;
 				documentsMain.fileName = documentsMain.getNameByFileid(response.file_id);
 				documentsMain.UI.showEditor(
-						documentsMain.fileName,
+						documentsMain.fileName || response.title,
 						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
 				var serverFactory = new ServerFactory();
