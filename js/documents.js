@@ -299,14 +299,6 @@ var documentsMain = {
 			);
 		}
 	},
-	
-	sendInvite: function() {
-		var users = [];
-		$('input[name=invitee\\[\\]]').each(function(i, e) {
-			users.push($(e).val());
-		});
-		$.post(OC.Router.generate('documents_user_invite'), {users: users});
-	},
 
 	renameDocument: function(name) {
 		var url = OC.Router.generate('documents_rename') + '/' + documentsMain.fileId;

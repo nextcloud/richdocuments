@@ -39,27 +39,6 @@ class UserController extends Controller{
 		\OCP\JSON::success();
 	}
 	
-	/**
-	 * Invite users to the editing session
-	 */
-	public static function invite(){
-		self::preDispatch();
-		$invitees = @$_POST['users'];
-		
-		if (is_array($invitees)){
-			$invitees = array_unique($invitees);
-		
-			$esId = @$_POST['esId'];
-			foreach ($invitees as $userId){
-				try {
-					Invite::add($esId, $userId);
-				} catch (\Exception $e) {
-					
-				}
-			}
-		}
-		\OCP\JSON::success();
-	}
 	
 	/**
 	 * Stub - sends a generic avatar

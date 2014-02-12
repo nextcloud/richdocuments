@@ -52,15 +52,6 @@ $this->create('documents_session_info', 'ajax/session/info')
 	->action('\OCA\Documents\SessionController', 'info')
 ;
 
-$this->create('documents_session_listhtml', 'ajax/session/listHtml')
-	->get()
-	->action('\OCA\Documents\SessionController', 'listAllHtml')
-;
-$this->create('documents_session_listhtml', 'ajax/session/listHtml')
-	->post()
-	->action('\OCA\Documents\SessionController', 'listAllHtml')
-;
-
 $this->create('documents_session_joinasuser', 'ajax/session/joinasuser/{file_id}')
 	->get()
 	->action('\OCA\Documents\SessionController', 'joinAsUser')
@@ -99,9 +90,4 @@ $this->create('documents_user_disconnect', 'ajax/user/disconnect/{member_id}')
 $this->create('documents_user_disconnectGuest', 'ajax/user/disconnectGuest/{member_id}')
 	->post()
 	->action('\OCA\Documents\UserController', 'disconnectGuest')
-;
-
-$this->create('documents_user_invite', 'ajax/user/invite')
-	->post()
-	->action('\OCA\Documents\UserController', 'invite')
 ;

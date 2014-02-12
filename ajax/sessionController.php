@@ -186,25 +186,4 @@ class SessionController extends Controller{
 		));
 	}
 
-	public static function listAllHtml(){
-		self::preDispatch();
-		$session = new Db_Session();
-		$sessions = $session->getCollection();
-
-		$preparedSessions = array_map(
-				function($x){
-					return ($x['es_id']);
-				}, $sessions
-		);
-
-		$invites = Invite::getAllInvites();
-		if (!is_array($invites)){
-			$invites = array();
-		}
-
-		$tmpl = new \OCP\Template('documents', 'part.sessions', '');
-		$tmpl->assign('invites', $invites);
-		$tmpl->assign('sessions', $sessions);
-		echo $tmpl->fetchPage();
-	}
 }
