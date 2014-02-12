@@ -76,7 +76,7 @@ var documentsMain = {
 			$(document.body).prepend(documentsMain.UI.container);
 			// in case we are on the public sharing page we shall display the odf into the preview tag
 			$('#preview').html(container);
-			$('title').text(documentsMain.UI.mainTitle + '| ' + title);
+			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
 		},
 		
 		hideEditor : function(){
