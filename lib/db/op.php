@@ -82,21 +82,21 @@ class Db_Op extends Db {
 		$result = $query->execute(array($esId, $seq));
 		return $result->fetchAll();
 	}
-
-	public function removeCursor($esId, $memberId){
-		if ($this->hasAddCursor($esId, $memberId)){
-			$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
-			$this->insertOp($esId, $op);
-		}
-	}
 	
 	public function addMember($esId, $memberId, $fullName, $color, $imageUrl){
 		$op = '{"optype":"AddMember","memberid":"'. $memberId .'","timestamp":"'. time() .'", "setProperties":{"fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'"}}';
 		$this->insertOp($esId, $op);
 	}
 	
+	public function removeCursor($esId, $memberId){
+		if ($this->hasOp($esId, $memberId, 'AddCursor')){
+			$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
+			$this->insertOp($esId, $op);
+		}
+	}
+	
 	public function removeMember($esId, $memberId){
-		if ($this->hasAddMember($esId, $memberId)){
+		if ($this->hasOp($esId, $memberId, 'AddMember')){
 			$op ='{"optype":"RemoveMember","memberid":"'. $memberId .'","timestamp":'. time() .'}';
 			$this->insertOp($esId, $op);
 		}
@@ -118,18 +118,9 @@ class Db_Op extends Db {
 		$op->insert();
 	}
 	
-	protected function hasAddMember($esId, $memberId){
+	protected function hasOp($esId, $memberId, $opType){
 		$ops = $this->execute(
-			'SELECT * FROM ' . $this->tableName . ' WHERE `es_id`=? AND `opspec` LIKE \'%"AddMember","memberid":"' . $memberId .'"%\'',
-			array($esId)
-		);
-		$result = $ops->fetchAll();
-		return is_array($result) && count($result)>0;
-	}
-	
-	protected function hasAddCursor($esId, $memberId){
-		$ops = $this->execute(
-			'SELECT * FROM ' . $this->tableName . ' WHERE `es_id`=? AND `opspec` LIKE \'%"AddCursor","memberid":"' . $memberId .'"%\'',
+			'SELECT * FROM ' . $this->tableName . ' WHERE `es_id`=? AND `opspec` LIKE \'%"' . $opType . '","memberid":"' . $memberId .'"%\'',
 			array($esId)
 		);
 		$result = $ops->fetchAll();
