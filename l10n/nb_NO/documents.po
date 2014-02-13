@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-04 00:43-0500\n"
-"PO-Revision-Date: 2014-02-04 01:10+0000\n"
-"Last-Translator: espenbye <espenbye@me.com>\n"
+"POT-Creation-Date: 2014-02-13 02:13-0500\n"
+"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,31 +51,31 @@ msgid ""
 "recently."
 msgstr ""
 
-#: js/documents.js:336
+#: js/documents.js:445 templates/documents.php:31
+msgid "Loading documents..."
+msgstr "Laster dokumenter..."
+
+#: js/documents.js:465
+msgid "Failed to load documents."
+msgstr ""
+
+#: js/documents.js:508
+msgid "No documents are found. Please upload or create a document!"
+msgstr ""
+
+#: js/documents.js:543
 msgid "'.' is an invalid file name."
 msgstr "'.' er et ugyldig filnavn."
 
-#: js/documents.js:338
+#: js/documents.js:545
 msgid "File name cannot be empty."
 msgstr "Filnavn kan ikke være tomt."
 
-#: js/documents.js:345
+#: js/documents.js:552
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt."
-
-#: js/documents.js:470 templates/documents.php:31
-msgid "Loading documents..."
-msgstr "Laster dokumenter..."
-
-#: js/documents.js:490
-msgid "Failed to load documents."
-msgstr ""
-
-#: js/documents.js:533
-msgid "No documents are found. Please upload or create a document!"
-msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -268,22 +268,6 @@ msgstr ""
 #: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "Endre"
-
-#: lib/invite.php:64
-msgid "Sent"
-msgstr ""
-
-#: lib/invite.php:65 lib/invite.php:75
-msgid "Declined"
-msgstr ""
-
-#: lib/invite.php:66 lib/invite.php:76
-msgid "Accepted"
-msgstr ""
-
-#: lib/invite.php:74
-msgid "Incoming"
-msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"

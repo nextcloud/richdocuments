@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-02-13 02:13-0500\n"
+"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,56 +27,56 @@ msgstr "Oikeutesi eivät riitä nimeämään tätä asiakirjaa uudelleen"
 msgid "Documents"
 msgstr "Asiakirjat"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
+#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Sulje"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Jaa"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ei yhteyttä palvelimeen. Yritetään yhdistää uudelleen."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Tältä sivulta poistuminen muokkaustilassa saattaa aiheuttaa tallentamatonta tietoa. Käytä sivulta poistumisen sijaan \"Sulje\"-painiketta."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Asiakirjan lataaminen epäonnistui. Yritä avata asiakirja erillisellä odt:tä tukevalla sovelluksella. Tämä virhe voi myös tarkoittaa, että asiakirja ei ole enää jaettu tai asiakirja on poistettu äskettäin."
 
-#: js/documents.js:317
+#: js/documents.js:445 templates/documents.php:31
+msgid "Loading documents..."
+msgstr "Ladataan asiakirjoja..."
+
+#: js/documents.js:465
+msgid "Failed to load documents."
+msgstr "Virhe ladattaessa dokumentteja."
+
+#: js/documents.js:508
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Asiakirjoja ei löytynyt. Lähetä tai luo uusi asiakirja!"
+
+#: js/documents.js:543
 msgid "'.' is an invalid file name."
 msgstr "'.' on virheellinen nimi tiedostolle."
 
-#: js/documents.js:319
+#: js/documents.js:545
 msgid "File name cannot be empty."
 msgstr "Tiedoston nimi ei voi olla tyhjä."
 
-#: js/documents.js:326
+#: js/documents.js:552
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja."
-
-#: js/documents.js:427 templates/documents.php:31
-msgid "Loading documents..."
-msgstr "Ladataan asiakirjoja..."
-
-#: js/documents.js:447
-msgid "Failed to load documents."
-msgstr "Virhe ladattaessa dokumentteja."
-
-#: js/documents.js:490
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Asiakirjoja ei löytynyt. Lähetä tai luo uusi asiakirja!"
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -266,25 +266,9 @@ msgstr "Kumoa"
 msgid "Unknown Author"
 msgstr "Tuntematon tekijä"
 
-#: js/viewer/viewer.js:24
+#: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "Muokkaa"
-
-#: lib/invite.php:64
-msgid "Sent"
-msgstr "Lähetetty"
-
-#: lib/invite.php:65 lib/invite.php:75
-msgid "Declined"
-msgstr "Torjuttu"
-
-#: lib/invite.php:66 lib/invite.php:76
-msgid "Accepted"
-msgstr "Hyväksytty"
-
-#: lib/invite.php:74
-msgid "Incoming"
-msgstr "Saapuva"
 
 #: templates/documents.php:5
 msgid "New document"

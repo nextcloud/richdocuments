@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:24+0000\n"
-"Last-Translator: asieriko <asieriko@gmail.com>\n"
+"POT-Creation-Date: 2014-02-13 02:13-0500\n"
+"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,56 +26,56 @@ msgstr "Ez duzu dokumentu honi izena aldatzeko baimenik"
 msgid "Documents"
 msgstr "Dokumentuak"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
+#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Itxi"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Partekatu"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ez dago konexiorik zerbitzariarekin. Birkonektatzen saiatzen."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Orri hau Editore moduan uzteak gordegabeko datuak utz ditzake. Aholkatzen da 'Itxi' botoia erabiltzea."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Dokumentu hau kargatzeak huts egin du. Mesedez egiaztatu ea kanpoko odt editore batekin ireki daitekeen. Honek ere dokumentua partekatzeari utzi egin zaiola edo ezabatu egin dela esan dezake."
 
-#: js/documents.js:317
+#: js/documents.js:445 templates/documents.php:31
+msgid "Loading documents..."
+msgstr "Dokumentuak kargatzen..."
+
+#: js/documents.js:465
+msgid "Failed to load documents."
+msgstr "Dokumentuak kargatzeak huts egin du."
+
+#: js/documents.js:508
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Ez da dokumenturik aurkitu. Mesedez igo edo sortu dokumentu bat!"
+
+#: js/documents.js:543
 msgid "'.' is an invalid file name."
 msgstr "'.' ez da fitxategi izen baliogarria."
 
-#: js/documents.js:319
+#: js/documents.js:545
 msgid "File name cannot be empty."
 msgstr "Fitxategi izena ezin da hutsa izan."
 
-#: js/documents.js:326
+#: js/documents.js:552
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta."
-
-#: js/documents.js:427 templates/documents.php:31
-msgid "Loading documents..."
-msgstr "Dokumentuak kargatzen..."
-
-#: js/documents.js:447
-msgid "Failed to load documents."
-msgstr "Dokumentuak kargatzeak huts egin du."
-
-#: js/documents.js:490
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Ez da dokumenturik aurkitu. Mesedez igo edo sortu dokumentu bat!"
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -265,25 +265,9 @@ msgstr "Desegin"
 msgid "Unknown Author"
 msgstr "Egile ezezaguna"
 
-#: js/viewer/viewer.js:24
+#: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "Editatu"
-
-#: lib/invite.php:64
-msgid "Sent"
-msgstr "Bidalia"
-
-#: lib/invite.php:65 lib/invite.php:75
-msgid "Declined"
-msgstr "Ez onartua"
-
-#: lib/invite.php:66 lib/invite.php:76
-msgid "Accepted"
-msgstr "Onartua"
-
-#: lib/invite.php:74
-msgid "Incoming"
-msgstr "Sarrerakoa"
 
 #: templates/documents.php:5
 msgid "New document"

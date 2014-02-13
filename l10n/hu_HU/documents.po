@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-21 00:44-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: ebela <bela@dandre.hu>\n"
+"POT-Creation-Date: 2014-02-13 02:13-0500\n"
+"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,56 +29,56 @@ msgstr "Nincs jogod ahhoz, hogy átnevezzed ezt a dokumentumot"
 msgid "Documents"
 msgstr "Dokumentumok"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:69
+#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Bezárás"
 
-#: js/documents.js:27
+#: js/documents.js:30
 msgid "Share"
 msgstr "Megosztás"
 
-#: js/documents.js:107
+#: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
 msgstr "Nincs kapcsolat a szerverrel. Újracsatlakozás."
 
-#: js/documents.js:158
+#: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Ha elnavigálsz az oldalról miközben Szerkesztés módban vagy akkor lehet lesznek elvesztett adatok amiket még nem mentettél el. Ajánlott inkább a 'Bezár' gombbal befejezni az oldal szerkesztését."
 
-#: js/documents.js:175
+#: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "A dokumentum betöltése sikertelen. Próbáld külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt, hogy már nincs megosztva vagy már törölve lett a dokumentum."
 
-#: js/documents.js:317
+#: js/documents.js:445 templates/documents.php:31
+msgid "Loading documents..."
+msgstr "Dokumentumok betöltése..."
+
+#: js/documents.js:465
+msgid "Failed to load documents."
+msgstr "A dokumentum betőltése sikertelen"
+
+#: js/documents.js:508
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
+
+#: js/documents.js:543
 msgid "'.' is an invalid file name."
 msgstr "'.' fájlnév érvénytelen."
 
-#: js/documents.js:319
+#: js/documents.js:545
 msgid "File name cannot be empty."
 msgstr "A fájlnév nem lehet semmi."
 
-#: js/documents.js:326
+#: js/documents.js:552
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'"
-
-#: js/documents.js:427 templates/documents.php:31
-msgid "Loading documents..."
-msgstr "Dokumentumok betöltése..."
-
-#: js/documents.js:447
-msgid "Failed to load documents."
-msgstr "A dokumentum betőltése sikertelen"
-
-#: js/documents.js:490
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -268,25 +268,9 @@ msgstr "Visszavonás"
 msgid "Unknown Author"
 msgstr "Ismeretlen szerző"
 
-#: js/viewer/viewer.js:24
+#: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "Szerkesztés"
-
-#: lib/invite.php:64
-msgid "Sent"
-msgstr "Elküldött"
-
-#: lib/invite.php:65 lib/invite.php:75
-msgid "Declined"
-msgstr "Elutasított"
-
-#: lib/invite.php:66 lib/invite.php:76
-msgid "Accepted"
-msgstr "Elfogadott"
-
-#: lib/invite.php:74
-msgid "Incoming"
-msgstr "Beérkező"
 
 #: templates/documents.php:5
 msgid "New document"

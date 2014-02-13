@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Close" => "Lukk",
 "Share" => "Del",
+"Loading documents..." => "Laster dokumenter...",
 "'.' is an invalid file name." => "'.' er et ugyldig filnavn.",
 "File name cannot be empty." => "Filnavn kan ikke være tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt.",
-"Loading documents..." => "Laster dokumenter...",
 "Background" => "Bakgrunn",
 "Bold" => "Fet",
 "Cancel" => "Avbryt",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-09 03:23-0500\n"
-"PO-Revision-Date: 2014-02-08 16:07+0000\n"
+"POT-Creation-Date: 2014-02-13 02:13-0500\n"
+"PO-Revision-Date: 2014-02-13 07:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Sundanese (http://www.transifex.com/projects/p/owncloud/language/su/)\n"
 "MIME-Version: 1.0\n"
@@ -50,27 +50,27 @@ msgid ""
 "recently."
 msgstr ""
 
-#: js/documents.js:453 templates/documents.php:31
+#: js/documents.js:445 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:473
+#: js/documents.js:465
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:516
+#: js/documents.js:508
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:551
+#: js/documents.js:543
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:553
+#: js/documents.js:545
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:560
+#: js/documents.js:552
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -266,22 +266,6 @@ msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
-msgstr ""
-
-#: lib/invite.php:64
-msgid "Sent"
-msgstr ""
-
-#: lib/invite.php:65 lib/invite.php:75
-msgid "Declined"
-msgstr ""
-
-#: lib/invite.php:66 lib/invite.php:76
-msgid "Accepted"
-msgstr ""
-
-#: lib/invite.php:74
-msgid "Incoming"
 msgstr ""
 
 #: templates/documents.php:5
