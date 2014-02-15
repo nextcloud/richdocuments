@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-13 02:13-0500\n"
-"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"POT-Creation-Date: 2014-02-15 06:11-0500\n"
+"PO-Revision-Date: 2014-02-15 11:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Austria) (http://www.transifex.com/projects/p/owncloud/language/de_AT/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: js/documents.js:30
 msgid "Share"
-msgstr ""
+msgstr "Freigeben"
 
 #: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
@@ -106,7 +106,7 @@ msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: js/locale.js:9
 msgid "Center"
@@ -138,7 +138,7 @@ msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: js/locale.js:18
 msgid "Family"
@@ -226,7 +226,7 @@ msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: js/locale.js:40
 msgid "Size"
@@ -266,7 +266,7 @@ msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: templates/documents.php:5
 msgid "New document"
