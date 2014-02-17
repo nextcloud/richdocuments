@@ -3,5 +3,6 @@
 "Cancel" => "Abbrechen",
 "Delete" => "Löschen",
 "Save" => "Speichern",
-"Edit" => "Bearbeiten"
+"Edit" => "Bearbeiten",
+"Password" => "Passwort"
 );
