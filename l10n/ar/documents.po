@@ -4,13 +4,14 @@
 # 
 # Translators:
 # TheHiter <magicreative.fr@gmail.com>, 2013
+# suliman <alsaqer71@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-02-20 02:21-0500\n"
+"PO-Revision-Date: 2014-02-19 20:11+0000\n"
+"Last-Translator: suliman <alsaqer71@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "لا تمتلك الصلاحية لاعادة تسمية هذا المستند"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
@@ -36,24 +37,24 @@ msgstr "شارك"
 
 #: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "لا يوجد اتصال مع الخادم. في محاولة لإعادة الاتصال."
 
 #: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "ترك هذه الصفحة في وضع التعديل ممكن ان يسبب فقد للبيانات. ننصح باستخدام زر اغلاق"
 
 #: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "فشل في تحميل المستند. يرجى التحقق من امكانية فتحة عن طريق محرر odt خارجي. قد يعني انه تم الغاء المشاركة او حذفة مؤخرا"
 
 #: js/documents.js:445 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "يتم تحميل المستند ..."
 
 #: js/documents.js:465
 msgid "Failed to load documents."
@@ -61,7 +62,7 @@ msgstr "فشل في تحميل الوثائق"
 
 #: js/documents.js:508
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!"
 
 #: js/documents.js:543
 msgid "'.' is an invalid file name."
@@ -79,19 +80,19 @@ msgstr "اسم غير صحيح , الرموز  '\\', '/', '<', '>', ':', '\"', '
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "محاذاة إلى اليسار"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "المحاذاة"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "محاذاة إلى اليمين"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "تعليق"
 
 #: js/locale.js:5
 msgid "Background"
@@ -115,11 +116,11 @@ msgstr "وسط"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "استنساخ "
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "استنساخ هذا الشكل"
 
 #: js/locale.js:13
 msgid "Color"
@@ -135,7 +136,7 @@ msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "الشكل الافتراضي"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -147,11 +148,11 @@ msgstr "العائلة"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "الخط"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "تاثيرات الخط"
 
 #: js/locale.js:21
 msgid "Format"
@@ -163,7 +164,7 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "إدراج صورة"
 
 #: js/locale.js:24
 msgid "Invite Members"
@@ -171,7 +172,7 @@ msgstr "دعوة الأعضاء"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "مائل"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -211,15 +212,15 @@ msgstr "خيارات"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "فقرة..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "شكل الفقرة "
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "إعادة"
 
 #: js/locale.js:38
 msgid "Right"
@@ -243,7 +244,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "شكل"
 
 #: js/locale.js:44
 msgid "Text"
@@ -259,7 +260,7 @@ msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "تراجع"
 
 #: js/locale.js:48
 msgid "Unknown Author"
@@ -271,7 +272,7 @@ msgstr "تعديل"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "مستند جديد"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -301,7 +302,7 @@ msgstr "انضم"
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "هذا الرابط قد انتهى او لم ينشئ. يرجى الاتصال بالشخص المعني للمزيد من المعلومات."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
@@ -309,4 +310,4 @@ msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(غير مستقر)"
