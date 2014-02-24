@@ -30,7 +30,7 @@ class UserController extends Controller{
 		$member->loadBy('member_id', $args['member_id']);
 		if ($esId && $member->hasData()){
 			$memberData = $member->getData();
-			if ($memberData['es_id']===$esId){
+			if ($memberData['es_id']===$esId && $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE){
 				$member->deactivate(array($args['member_id']));
 				$op = new Db_Op();
 				$op->removeMember($esId, $args['member_id']);
