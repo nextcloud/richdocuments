@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-13 02:13-0500\n"
-"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"POT-Creation-Date: 2014-02-25 00:44-0500\n"
+"PO-Revision-Date: 2014-02-24 12:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
-msgstr ""
+msgstr "បិទ"
 
 #: js/documents.js:30
 msgid "Share"
-msgstr ""
+msgstr "ចែក​រំលែក"
 
 #: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
@@ -106,7 +106,7 @@ msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "លើកលែង"
 
 #: js/locale.js:9
 msgid "Center"
@@ -226,7 +226,7 @@ msgstr ""
 
 #: js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "រក្សាទុក"
 
 #: js/locale.js:40
 msgid "Size"
@@ -266,7 +266,7 @@ msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
-msgstr ""
+msgstr "កែ"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -286,7 +286,7 @@ msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "ពាក្យសម្ងាត់"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
