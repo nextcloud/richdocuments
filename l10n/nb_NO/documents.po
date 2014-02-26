@@ -4,13 +4,14 @@
 # 
 # Translators:
 # espenbye <espenbye@me.com>, 2014
+# vidaren <news@vidartysse.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-02-26 00:44-0500\n"
+"PO-Revision-Date: 2014-02-25 21:50+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +21,11 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Du har ikke tillatelse til å gi nytt navn til dette dokumentet"
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumenter"
 
 #: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
@@ -36,20 +37,20 @@ msgstr "Del"
 
 #: js/documents.js:121
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Ingen forbindelse til server. Prøver å gjenopprette forbindelsen."
 
 #: js/documents.js:172
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Hvis denne siden forlates i redigeringsmodus kan data gå tapt. Det anbefales å bruke 'Lukk'-knappen i stedet."
 
 #: js/documents.js:189
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Klarte ikke å laste dette dokumentet. Sjekk om det kan åpnes med en ekstern odt-editor. Dette kan også bety at deling er avsluttet eller at dokumentet er slettet nylig."
 
 #: js/documents.js:445 templates/documents.php:31
 msgid "Loading documents..."
@@ -57,11 +58,11 @@ msgstr "Laster dokumenter..."
 
 #: js/documents.js:465
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Klarte ikke å laste dokumenter."
 
 #: js/documents.js:508
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "Ingen dokumenter funnet. Last opp eller opprett et dokument!"
 
 #: js/documents.js:543
 msgid "'.' is an invalid file name."
@@ -79,19 +80,19 @@ msgstr "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke ti
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Venstrejustér"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Justering"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Høyrejustér"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Bemerk"
 
 #: js/locale.js:5
 msgid "Background"
@@ -103,7 +104,7 @@ msgstr "Fet"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Bunn"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -111,19 +112,19 @@ msgstr "Avbryt"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Sentrert"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Klone"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Klone denne stilen"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Farge"
 
 #: js/locale.js:14
 msgid "Create"
@@ -131,11 +132,11 @@ msgstr "Opprett"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Reduser innrykk"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Standardstil"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -147,39 +148,39 @@ msgstr "Familie"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Fonteffekter"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Øk innrykk"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Sett inn bilde"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Inviter medlemmer"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justert"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Juster"
 
 #: js/locale.js:28
 msgid "Left"
@@ -215,11 +216,11 @@ msgstr "Paragraf..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Stiler for avsnitt"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Gjør om"
 
 #: js/locale.js:38
 msgid "Right"
@@ -235,15 +236,15 @@ msgstr "Størrelse"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Avstand"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Gjennomstreking"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #: js/locale.js:44
 msgid "Text"
@@ -251,19 +252,19 @@ msgstr "Tekst"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Topp"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Understreking"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Angre"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Ukjent Forfatter"
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
@@ -271,7 +272,7 @@ msgstr "Endre"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Nytt dokument"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -279,11 +280,11 @@ msgstr "Last opp"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Lagre nye dokumenter i"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Feil passord. Prøv igjen."
 
 #: templates/public.php:11
 msgid "Password"
@@ -291,22 +292,22 @@ msgstr "Passord"
 
 #: templates/public.php:17
 msgid "Please enter your nickname"
-msgstr ""
+msgstr "Legg inn kallenavnet ditt"
 
 #: templates/public.php:18
 msgid "Join"
-msgstr ""
+msgstr "Delta"
 
 #: templates/public.php:24
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Denne lenken er utgått eller har aldri eksistert. Kontakt personen som delte den med deg for detaljer."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Avanserte egenskaper"
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Ustabil)"
