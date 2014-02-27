@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Dr. ROX <to.dr.rox@gmail.com>, 2013
-# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-02-27 00:44-0500\n"
+"PO-Revision-Date: 2014-02-26 12:10+0000\n"
+"Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,11 +100,11 @@ msgstr "Fonas"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Paryškinta"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Apačia"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -112,19 +112,19 @@ msgstr "Atšaukti"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centre"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Klonuoti"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Klonuoti šį stilių"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Slapva"
 
 #: js/locale.js:14
 msgid "Create"
@@ -132,7 +132,7 @@ msgstr "Sukurti"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Sumažinti įtrauką"
 
 #: js/locale.js:16
 msgid "Default Style"
