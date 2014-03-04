@@ -20,16 +20,17 @@ var documentsMain = {
 					'  <div id="document-title"><div>' +
 					'%title%' +
 			        '  </div></div>' +
+					'  <span id="toolbar" class="claro">' +
+					'  <button id="odf-invite" class="drop">' +
+						  t('documents', 'Share') +
+					'  </button>' +
 					'  <button id="odf-close">' +
 						t('documents', 'Close') +
 					'  </button>' +
 					'  <img id="saving-document" alt=""' +
 					'   src="' + OC.imagePath('core', 'loading.gif') + '"' +
 					'  />' +
-					'  <button id="odf-invite" class="drop">' +
-						  t('documents', 'Share') +
-					'  </button>' +
-					'  <span id="toolbar" class="claro"></span>' +
+					'</span>' +
 					'</div>',
 					
 		/* Editor wrapper HTML */

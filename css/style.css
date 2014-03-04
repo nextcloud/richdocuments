@@ -132,10 +132,12 @@
 }
 
 #odf-close{
+	margin-top:0;
 	float: right;
 }
 
 #odf-invite{
+	margin-top:0;
 	float: left;
 }
 
@@ -231,6 +233,7 @@
 }
 
 #toolbar {
+	top:30px !important;
 	border-bottom: none !important;
 	padding: 5px 0 0 !important;
 }
