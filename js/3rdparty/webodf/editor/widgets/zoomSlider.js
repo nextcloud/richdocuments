@@ -38,24 +38,29 @@
 
 /*global define,require*/
 
-define("webodf/editor/widgets/zoomSlider", [], function () {
+define("webodf/editor/widgets/zoomSlider", [
+    "webodf/editor/EditorSession"],
+    function (EditorSession) {
     "use strict";
 
     return function ZoomSlider(callback) {
         var self = this,
             editorSession,
-            slider;
+            slider,
+            extremeZoomFactor = 4;
 
+        // The slider zooms from -1 to +1, which corresponds
+        // to zoom levels of 1/extremeZoomFactor to extremeZoomFactor.
         function makeWidget(callback) {
             require(["dijit/form/HorizontalSlider", "dijit/form/NumberTextBox", "dojo"], function (HorizontalSlider, NumberTextBox, dojo) {
                 var widget = {};
 
                 slider = new HorizontalSlider({
                     name: 'zoomSlider',
-                    value: 100,
-                    minimum: 30,
-                    maximum: 150,
-                    discreteValues: 100,
+                    value: 0,
+                    minimum: -1,
+                    maximum: 1,
+                    discreteValues: 0.01,
                     intermediateChanges: true,
                     style: {
                         width: '150px',
@@ -66,7 +71,7 @@ define("webodf/editor/widgets/zoomSlider", [], function () {
 
                 slider.onChange = function (value) {
                     if (editorSession) {
-                        editorSession.getOdfCanvas().setZoomLevel(value / 100.0);
+                        editorSession.getOdfCanvas().getZoomHelper().setZoomLevel(Math.pow(extremeZoomFactor, value));
                     }
                     self.onToolDone();
                 };
@@ -75,9 +80,23 @@ define("webodf/editor/widgets/zoomSlider", [], function () {
             });
         }
 
+        function updateSlider(zoomLevel) {
+            if (slider) {
+                slider.set('value', Math.log(zoomLevel) / Math.log(extremeZoomFactor), false);
+            }
+        }
+
         this.setEditorSession = function(session) {
+            var zoomHelper;
+            if (editorSession) {
+                editorSession.getOdfCanvas().getZoomHelper().unsubscribe(gui.ZoomHelper.signalZoomChanged, updateSlider);
+            }
             editorSession = session;
-//             if (slider) { slider.setValue(editorSession.getOdfCanvas().getZoomLevel() ); TODO!
+            if (editorSession) {
+                zoomHelper = editorSession.getOdfCanvas().getZoomHelper();
+                zoomHelper.subscribe(gui.ZoomHelper.signalZoomChanged, updateSlider);
+                updateSlider(zoomHelper.getZoomLevel());
+            }
         };
 
         this.onToolDone = function () {};

@@ -25,13 +25,18 @@ body.claro, #mainContainer {
 
 #toolbar {
     overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 5;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
 #container {
     text-align: center;
     background-color: #ddd;
     overflow: auto;
-
     position: absolute;
     top: 30px;
     bottom: 0;
@@ -40,7 +45,6 @@ body.claro, #mainContainer {
 }
 
 #canvas {
-    box-shadow: 0px 0px 20px #aaa;
     margin-top: 30px;
     margin-left: 10px;
     margin-right: 10px;
@@ -50,8 +54,16 @@ body.claro, #mainContainer {
     -webkit-transform-origin: top center;
     -moz-transform-origin: top center;
     -o-transform-origin: top center;
-    overflow: hidden;
+    overflow: visible;
+}
 
+/* Add shadow to the sizer and not the canvas,
+ * so that it will follow the smooth zooming
+ * of the slider and not have to be updated
+ * every time a gesture ends
+ */
+#canvas > div {
+    box-shadow: 0px 0px 20px #aaa;
     border: 1px solid #ccc;
 }
 
@@ -241,7 +253,7 @@ div.memberListLabel[fullname]:before {
     text-align: center;
 }
 
-cursor div {
+cursor .handle {
     margin-top: 5px;
     padding-top: 3px;
     margin-left: auto;
@@ -269,11 +281,11 @@ cursor img {
     margin: auto;
 }
 
-cursor div.active {
+cursor .handle.active {
     opacity: 0.8;
 }
 
-cursor div:after {
+cursor .handle:after {
     content: ' ';
     position: absolute;
     width: 0px;

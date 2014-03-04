@@ -43,10 +43,6 @@ define("webodf/editor/EditorSession", [
 ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
     "use strict";
 
-    runtime.libraryPaths = function () {
-        return [ "../../webodf/lib" ];
-    };
-
     runtime.loadClass("core.DomUtils");
     runtime.loadClass("odf.OdfUtils");
     runtime.loadClass("ops.OdtDocument");
@@ -54,11 +50,13 @@ define("webodf/editor/EditorSession", [
     runtime.loadClass("ops.Session");
     runtime.loadClass("odf.Namespaces");
     runtime.loadClass("odf.OdfCanvas");
+    runtime.loadClass("odf.OdfUtils");
     runtime.loadClass("gui.CaretManager");
     runtime.loadClass("gui.Caret");
     runtime.loadClass("gui.SessionController");
     runtime.loadClass("gui.SessionView");
     runtime.loadClass("gui.TrivialUndoManager");
+    runtime.loadClass("gui.SvgSelectionView");
     runtime.loadClass("gui.SelectionViewManager");
     runtime.loadClass("core.EventNotifier");
     runtime.loadClass("gui.ShadowCursor");
@@ -208,7 +206,7 @@ define("webodf/editor/EditorSession", [
         function trackCurrentParagraph(info) {
             var cursor = odtDocument.getCursor(localMemberId),
                 range = cursor && cursor.getSelectedRange(),
-                paragraphRange = odtDocument.getDOM().createRange();
+                paragraphRange = odtDocument.getDOMDocument().createRange();
             paragraphRange.selectNode(info.paragraphElement);
             if ((range && domUtils.rangesIntersect(range, paragraphRange)) || info.paragraphElement === currentParagraphNode) {
                 self.emit(EditorSession.signalParagraphChanged, info);
@@ -312,7 +310,7 @@ define("webodf/editor/EditorSession", [
         /**
          * Round the step up to the next step
          * @param {!number} step
-         * @returns {!boolean}
+         * @return {!boolean}
          */
         function roundUp(step) {
             return step === ops.StepsTranslator.NEXT_STEP;
@@ -387,14 +385,14 @@ define("webodf/editor/EditorSession", [
             return formatting.isStyleUsed(styleElement);
         };
 
-        function getDefaultParagraphStyleAttributes () {
+        function getDefaultParagraphStyleAttributes() {
             var styleNode = formatting.getDefaultStyleElement('paragraph');
             if (styleNode) {
                 return formatting.getInheritedStyleAttributes(styleNode);
             }
 
             return null;
-        };
+        }
 
         /**
          * Returns the attributes of a given paragraph style name
@@ -522,22 +520,30 @@ define("webodf/editor/EditorSession", [
             return array;
         };
 
+        this.getSelectedHyperlinks = function () {
+            var cursor = odtDocument.getCursor(localMemberId);
+            // no own cursor yet/currently added?
+            if (!cursor) {
+                return [];
+            }
+            return odfUtils.getHyperlinkElements(cursor.getSelectedRange());
+        };
+
+        this.getSelectedRange = function () {
+            var cursor = odtDocument.getCursor(localMemberId);
+            return cursor && cursor.getSelectedRange();
+        };
+
         function undoStackModified(e) {
             self.emit(EditorSession.signalUndoStackChanged, e);
         }
 
-        this.hasUndoManager = function () {
-            return Boolean(self.sessionController.getUndoManager());
-        };
-
         this.undo = function () {
-            var undoManager = self.sessionController.getUndoManager();
-            undoManager.moveBackward(1);
+            self.sessionController.undo();
         };
 
         this.redo = function () {
-            var undoManager = self.sessionController.getUndoManager();
-            undoManager.moveForward(1);
+            self.sessionController.redo();
         };
 
         /**
@@ -548,8 +554,8 @@ define("webodf/editor/EditorSession", [
          * @param {!number} height
          */
         this.insertImage = function (mimetype, content, width, height) {
-            self.sessionController.getTextManipulator().removeCurrentSelection();
-            self.sessionController.getImageManager().insertImage(mimetype, content, width, height);
+            self.sessionController.getTextController().removeCurrentSelection();
+            self.sessionController.getImageController().insertImage(mimetype, content, width, height);
         };
 
         /**
@@ -569,12 +575,12 @@ define("webodf/editor/EditorSession", [
 
             head.removeChild(fontStyles);
 
-            odtDocument.unsubscribe(ops.OdtDocument.signalMemberAdded, onMemberAdded);
-            odtDocument.unsubscribe(ops.OdtDocument.signalMemberUpdated, onMemberUpdated);
-            odtDocument.unsubscribe(ops.OdtDocument.signalMemberRemoved, onMemberRemoved);
-            odtDocument.unsubscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
-            odtDocument.unsubscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
-            odtDocument.unsubscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+            odtDocument.unsubscribe(ops.Document.signalMemberAdded, onMemberAdded);
+            odtDocument.unsubscribe(ops.Document.signalMemberUpdated, onMemberUpdated);
+            odtDocument.unsubscribe(ops.Document.signalMemberRemoved, onMemberRemoved);
+            odtDocument.unsubscribe(ops.Document.signalCursorAdded, onCursorAdded);
+            odtDocument.unsubscribe(ops.Document.signalCursorRemoved, onCursorRemoved);
+            odtDocument.unsubscribe(ops.Document.signalCursorMoved, onCursorMoved);
             odtDocument.unsubscribe(ops.OdtDocument.signalCommonStyleCreated, onStyleCreated);
             odtDocument.unsubscribe(ops.OdtDocument.signalCommonStyleDeleted, onStyleDeleted);
             odtDocument.unsubscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
@@ -623,17 +629,17 @@ define("webodf/editor/EditorSession", [
                 directParagraphStylingEnabled: config.directParagraphStylingEnabled
             });
             caretManager = new gui.CaretManager(self.sessionController);
-            selectionViewManager = new gui.SelectionViewManager();
+            selectionViewManager = new gui.SelectionViewManager(gui.SvgSelectionView);
             self.sessionView = new gui.SessionView(config.viewOptions, localMemberId, session, caretManager, selectionViewManager);
             self.availableFonts = getAvailableFonts();
             selectionViewManager.registerCursor(shadowCursor, true);
             // Custom signals, that make sense in the Editor context. We do not want to expose webodf's ops signals to random bits of the editor UI.
-            odtDocument.subscribe(ops.OdtDocument.signalMemberAdded, onMemberAdded);
-            odtDocument.subscribe(ops.OdtDocument.signalMemberUpdated, onMemberUpdated);
-            odtDocument.subscribe(ops.OdtDocument.signalMemberRemoved, onMemberRemoved);
-            odtDocument.subscribe(ops.OdtDocument.signalCursorAdded, onCursorAdded);
-            odtDocument.subscribe(ops.OdtDocument.signalCursorRemoved, onCursorRemoved);
-            odtDocument.subscribe(ops.OdtDocument.signalCursorMoved, onCursorMoved);
+            odtDocument.subscribe(ops.Document.signalMemberAdded, onMemberAdded);
+            odtDocument.subscribe(ops.Document.signalMemberUpdated, onMemberUpdated);
+            odtDocument.subscribe(ops.Document.signalMemberRemoved, onMemberRemoved);
+            odtDocument.subscribe(ops.Document.signalCursorAdded, onCursorAdded);
+            odtDocument.subscribe(ops.Document.signalCursorRemoved, onCursorRemoved);
+            odtDocument.subscribe(ops.Document.signalCursorMoved, onCursorMoved);
             odtDocument.subscribe(ops.OdtDocument.signalCommonStyleCreated, onStyleCreated);
             odtDocument.subscribe(ops.OdtDocument.signalCommonStyleDeleted, onStyleDeleted);
             odtDocument.subscribe(ops.OdtDocument.signalParagraphStyleModified, onParagraphStyleModified);
