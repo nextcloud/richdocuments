@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "ドキュメント名を変更する権限がありません",
 "Documents" => "ドキュメント",
-"Close" => "閉じる",
 "Share" => "共有",
+"Close" => "閉じる",
 "No connection to server. Trying to reconnect." => "サーバーに接続されていません。再接続してください。",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "このページを編集モードのままにしておくと、保存されないデータが出てきます。その代わりに「閉じる」ボタンを使うことをお勧めします。",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "ドキュメントの読み込みに失敗。外部の odtエディターで開けるかどうか確認してください。これは、ドキュメントが最近、非共有になっているか削除されているのかもしれません。",
@@ -62,7 +62,7 @@
 "Edit" => "編集",
 "New document" => "新しいドキュメント",
 "Upload" => "アップロード",
-"Save new documents to" => "ドキュメントを新しく保存する",
+"Save new documents to" => "新規ドキュメントの保存先:",
 "Wrong password. Please retry." => "間違ったパスワード。もう一度入力してください。",
 "Password" => "パスワード",
 "Please enter your nickname" => "ニックネームを入力してください",
