@@ -1,4 +1,4 @@
-var webodf_version = "0.4.2-2010-ge06842f";
+var webodf_version = "0.4.2-2039-gdbdc4e9";
 function Runtime() {
 }
 Runtime.prototype.getVariable = function(name) {
@@ -1797,7 +1797,7 @@ core.CSSUnits = function CSSUnits() {
           element = (node);
           rect = element.getBoundingClientRect();
           if(quirks.elementBCRIgnoresBodyScroll) {
-            return({left:rect.left + body.scrollLeft, right:rect.right + body.scrollLeft, top:rect.top + body.scrollTop, bottom:rect.bottom + body.scrollTop})
+            return({left:rect.left + body.scrollLeft, right:rect.right + body.scrollLeft, top:rect.top + body.scrollTop, bottom:rect.bottom + body.scrollTop, width:rect.width, height:rect.height})
           }
           return rect
         }
@@ -11714,7 +11714,11 @@ ops.OpRemoveText = function OpRemoveText() {
     paragraphs = odfUtils.getParagraphElements(range);
     range.detach();
     textNodes.forEach(function(element) {
-      collapseRules.mergeChildrenIntoParent(element)
+      if(element.parentNode) {
+        collapseRules.mergeChildrenIntoParent(element)
+      }else {
+        runtime.log("WARN: text element has already been removed from it's container")
+      }
     });
     function merge(destination, paragraph) {
       return mergeParagraphs(destination, paragraph, collapseRules)
@@ -13817,11 +13821,13 @@ gui.IOSSafariSupport = function(eventManager) {
   this.destroy = function(callback) {
     eventManager.unsubscribe("focus", suppressFocusScrollIfKeyboardOpen);
     eventTrap.removeAttribute("autocapitalize");
+    eventTrap.style.WebkitTransform = "";
     callback()
   };
   function init() {
     eventManager.subscribe("focus", suppressFocusScrollIfKeyboardOpen);
-    eventTrap.setAttribute("autocapitalize", "off")
+    eventTrap.setAttribute("autocapitalize", "off");
+    eventTrap.style.WebkitTransform = "translateX(-10000px)"
   }
   init()
 };
