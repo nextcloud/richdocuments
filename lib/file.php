@@ -48,7 +48,7 @@ class File {
 	}
 	
 	public static function getByShareToken($token){
-		$linkItem = \OCP\Share::getShareByToken($token);
+		$linkItem = \OCP\Share::getShareByToken($token, false);
 		if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
 			// seems to be a valid share
 			$rootLinkItem = \OCP\Share::resolveReShare($linkItem);

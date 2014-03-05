@@ -85,20 +85,20 @@ class Db_Op extends Db {
 	
 	public function addMember($esId, $memberId, $fullName, $color, $imageUrl){
 		$op = '{"optype":"AddMember","memberid":"'. $memberId .'","timestamp":"'. time() .'", "setProperties":{"fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'"}}';
-		$this->insertOp($esId, $op);
+		$this->insertOp($esId, $memberId, $op);
 	}
 	
 	public function removeCursor($esId, $memberId){
-		if ($this->hasOp($esId, $memberId, 'AddCursor')){
+		if ($this->hasOp($esId, $memberId, 'AddCursor') && !$this->hasLastOp($esId, $memberId, 'RemoveCursor')){
 			$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
-			$this->insertOp($esId, $op);
+			$this->insertOp($esId, $memberId, $op);
 		}
 	}
 	
 	public function removeMember($esId, $memberId){
-		if ($this->hasOp($esId, $memberId, 'AddMember')){
+		if ($this->hasOp($esId, $memberId, 'AddMember') && !$this->hasLastOp($esId, $memberId, 'RemoveMember')){
 			$op ='{"optype":"RemoveMember","memberid":"'. $memberId .'","timestamp":'. time() .'}';
-			$this->insertOp($esId, $op);
+			$this->insertOp($esId, $memberId, $op);
 		}
 	}
 	
@@ -106,16 +106,39 @@ class Db_Op extends Db {
 		//TODO: Follow the spec https://github.com/kogmbh/WebODF/blob/master/webodf/lib/ops/OpUpdateMember.js#L95
 		$op = '{"optype":"UpdateMember","memberid":"'. $memberId .'","fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'","timestamp":'. time() .'}'
 		;
-		$this->insertOp($esId, $op);
+		$this->insertOp($esId, $memberId, $op);
 	}
 	
-	protected function insertOp($esId, $op){
+	protected function insertOp($esId, $memberId, $op){
 		$op = new Db_Op(array(
 			$esId, 
-			0,
+			$memberId,
 			$op
 		));
 		$op->insert();
+	}
+	
+	protected function hasLastOp($esId, $memberId, $opType){
+		$query = \OCP\DB::prepare('
+			SELECT `opspec`
+			FROM ' . self::DB_TABLE . '
+			WHERE `es_id`=?
+				AND `member`=?
+				
+			ORDER BY `seq` DESC
+			', 
+			2,0
+		);
+		
+		$result = $query->execute(array($esId, $memberId));
+		$ops = $result->fetchAll();
+		foreach ($ops as $op){
+			$decoded = json_decode($op['opspec'], true);
+			if ($decoded['optype']==$opType){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	protected function hasOp($esId, $memberId, $opType){

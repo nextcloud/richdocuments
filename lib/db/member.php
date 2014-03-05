@@ -16,7 +16,7 @@ class Db_Member extends Db{
 
 	const DB_TABLE = '`*PREFIX*documents_member`';
 	
-	const ACTIVITY_THRESHOLD = 60; // 1 Minute
+	const ACTIVITY_THRESHOLD = 90; // 1.5 Minutes
 	
 	const MEMBER_STATUS_ACTIVE = 1;
 	const MEMBER_STATUS_INACTIVE = 2;
