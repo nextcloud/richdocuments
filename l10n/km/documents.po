@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-27 00:44-0500\n"
-"PO-Revision-Date: 2014-02-26 12:31+0000\n"
+"POT-Creation-Date: 2014-03-06 00:44-0500\n"
+"PO-Revision-Date: 2014-03-05 19:20+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -25,52 +25,52 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "បិទ"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "ចែក​រំលែក"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "បិទ"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:446 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:508
+#: js/documents.js:509
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:543
+#: js/documents.js:544
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:545
+#: js/documents.js:546
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:552
+#: js/documents.js:553
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -198,7 +198,7 @@ msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: js/locale.js:33
 msgid "Open"

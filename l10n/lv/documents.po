@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# jeanmarcgailis <jeanmarc.gailis@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-06 00:44-0500\n"
+"PO-Revision-Date: 2014-03-05 16:30+0000\n"
+"Last-Translator: jeanmarcgailis <jeanmarc.gailis@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,58 +20,58 @@ msgstr ""
 
 #: ajax/documentController.php:74
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Jums nav tiesības pārsaukt šo dokumentu "
 
 #: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Dokumenti"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "Aizvērt"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "Dalīties"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "Aizvērt"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:446 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Ielādē dokumentus..."
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:508
+#: js/documents.js:509
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:543
+#: js/documents.js:544
 msgid "'.' is an invalid file name."
 msgstr "'.' ir nederīgs datnes nosaukums."
 
-#: js/documents.js:545
+#: js/documents.js:546
 msgid "File name cannot be empty."
 msgstr "Datnes nosaukums nevar būt tukšs."
 
-#: js/documents.js:552
+#: js/documents.js:553
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -122,7 +123,7 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Krāsa"
 
 #: js/locale.js:14
 msgid "Create"
@@ -162,7 +163,7 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Ievietot Attēlu"
 
 #: js/locale.js:24
 msgid "Invite Members"
@@ -186,11 +187,11 @@ msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Ielādē"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Dalībnieki"
 
 #: js/locale.js:31
 msgid "New Name:"
@@ -262,7 +263,7 @@ msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Nezināms Autors"
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
@@ -270,7 +271,7 @@ msgstr "Rediģēt"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Jauns dokuments"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -282,7 +283,7 @@ msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Nepareiza paroli. Lūdzu mēģiniet vēlreiz."
 
 #: templates/public.php:11
 msgid "Password"
