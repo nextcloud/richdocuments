@@ -1,4 +1,4 @@
-var webodf_version = "0.4.2-2039-gdbdc4e9";
+var webodf_version = "0.4.2-2041-g9de1ecc";
 function Runtime() {
 }
 Runtime.prototype.getVariable = function(name) {
@@ -1548,6 +1548,16 @@ core.CSSUnits = function CSSUnits() {
     }
     return browserQuirks
   }
+  function getDirectChild(parent, ns, name) {
+    var node = parent ? parent.firstElementChild : null;
+    while(node) {
+      if(node.localName === name && node.namespaceURI === ns) {
+        return(node)
+      }
+      node = node.nextElementSibling
+    }
+    return null
+  }
   core.DomUtils = function DomUtils() {
     var sharedRange = null;
     function getSharedRange(doc) {
@@ -1873,6 +1883,7 @@ core.CSSUnits = function CSSUnits() {
       })
     }
     this.mapObjOntoNode = mapObjOntoNode;
+    this.getDirectChild = getDirectChild;
     function init(self) {
       var appVersion, webKitOrSafari, ie, window = runtime.getWindow();
       if(window === null) {
@@ -4894,16 +4905,6 @@ xmldom.LSSerializer = function LSSerializer() {
 (function() {
   var styleInfo = new odf.StyleInfo, domUtils = new core.DomUtils, officens = "urn:oasis:names:tc:opendocument:xmlns:office:1.0", manifestns = "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0", webodfns = "urn:webodf:names:scope", stylens = odf.Namespaces.stylens, nodeorder = ["meta", "settings", "scripts", "font-face-decls", "styles", "automatic-styles", "master-styles", "body"], automaticStylePrefix = (new Date).getTime() + "_webodf_", base64 = new core.Base64, documentStylesScope = "document-styles", 
   documentContentScope = "document-content";
-  function getDirectChild(node, ns, name) {
-    node = node ? node.firstChild : null;
-    while(node) {
-      if(node.localName === name && node.namespaceURI === ns) {
-        return(node)
-      }
-      node = node.nextSibling
-    }
-    return null
-  }
   function getNodePosition(child) {
     var i, l = nodeorder.length;
     for(i = 0;i < l;i += 1) {
@@ -5197,7 +5198,7 @@ xmldom.LSSerializer = function LSSerializer() {
       if(xmldoc) {
         removeProcessingInstructions(xmldoc.documentElement);
         try {
-          node = doc.importNode(xmldoc.documentElement, true)
+          node = (doc.importNode(xmldoc.documentElement, true))
         }catch(ignore) {
         }
       }
@@ -5215,12 +5216,12 @@ xmldom.LSSerializer = function LSSerializer() {
     function setRootElement(root) {
       contentElement = null;
       self.rootElement = (root);
-      root.fontFaceDecls = getDirectChild(root, officens, "font-face-decls");
-      root.styles = getDirectChild(root, officens, "styles");
-      root.automaticStyles = getDirectChild(root, officens, "automatic-styles");
-      root.masterStyles = getDirectChild(root, officens, "master-styles");
-      root.body = getDirectChild(root, officens, "body");
-      root.meta = getDirectChild(root, officens, "meta");
+      root.fontFaceDecls = domUtils.getDirectChild(root, officens, "font-face-decls");
+      root.styles = domUtils.getDirectChild(root, officens, "styles");
+      root.automaticStyles = domUtils.getDirectChild(root, officens, "automatic-styles");
+      root.masterStyles = domUtils.getDirectChild(root, officens, "master-styles");
+      root.body = domUtils.getDirectChild(root, officens, "body");
+      root.meta = domUtils.getDirectChild(root, officens, "meta");
       linkAnnotationStartAndEndElements(root)
     }
     function handleFlatXml(xmldoc) {
@@ -5238,16 +5239,16 @@ xmldom.LSSerializer = function LSSerializer() {
         setState(OdfContainer.INVALID);
         return
       }
-      root.fontFaceDecls = getDirectChild(node, officens, "font-face-decls");
+      root.fontFaceDecls = domUtils.getDirectChild(node, officens, "font-face-decls");
       setChild(root, root.fontFaceDecls);
-      n = getDirectChild(node, officens, "styles");
+      n = domUtils.getDirectChild(node, officens, "styles");
       root.styles = n || xmldoc.createElementNS(officens, "styles");
       setChild(root, root.styles);
-      n = getDirectChild(node, officens, "automatic-styles");
+      n = domUtils.getDirectChild(node, officens, "automatic-styles");
       root.automaticStyles = n || xmldoc.createElementNS(officens, "automatic-styles");
       setAutomaticStylesScope(root.automaticStyles, documentStylesScope);
       setChild(root, root.automaticStyles);
-      node = getDirectChild(node, officens, "master-styles");
+      node = domUtils.getDirectChild(node, officens, "master-styles");
       root.masterStyles = node || xmldoc.createElementNS(officens, "master-styles");
       setChild(root, root.masterStyles);
       styleInfo.prefixStyleNames(root.automaticStyles, automaticStylePrefix, root.masterStyles)
@@ -5259,7 +5260,7 @@ xmldom.LSSerializer = function LSSerializer() {
         return
       }
       root = self.rootElement;
-      fontFaceDecls = getDirectChild(node, officens, "font-face-decls");
+      fontFaceDecls = domUtils.getDirectChild(node, officens, "font-face-decls");
       if(root.fontFaceDecls && fontFaceDecls) {
         fontFaceNameChangeMap = mergeFontFaceDecls(root.fontFaceDecls, fontFaceDecls)
       }else {
@@ -5268,7 +5269,7 @@ xmldom.LSSerializer = function LSSerializer() {
           setChild(root, fontFaceDecls)
         }
       }
-      automaticStyles = getDirectChild(node, officens, "automatic-styles");
+      automaticStyles = domUtils.getDirectChild(node, officens, "automatic-styles");
       setAutomaticStylesScope(automaticStyles, documentContentScope);
       if(fontFaceNameChangeMap) {
         styleInfo.changeFontFaceNames(automaticStyles, fontFaceNameChangeMap)
@@ -5285,7 +5286,7 @@ xmldom.LSSerializer = function LSSerializer() {
           setChild(root, automaticStyles)
         }
       }
-      node = getDirectChild(node, officens, "body");
+      node = domUtils.getDirectChild(node, officens, "body");
       if(node === null) {
         throw"<office:body/> tag is mising.";
       }
@@ -5298,7 +5299,7 @@ xmldom.LSSerializer = function LSSerializer() {
         return
       }
       root = self.rootElement;
-      root.meta = getDirectChild(node, officens, "meta");
+      root.meta = domUtils.getDirectChild(node, officens, "meta");
       setChild(root, root.meta)
     }
     function handleSettingsXml(xmldoc) {
@@ -5307,7 +5308,7 @@ xmldom.LSSerializer = function LSSerializer() {
         return
       }
       root = self.rootElement;
-      root.settings = getDirectChild(node, officens, "settings");
+      root.settings = domUtils.getDirectChild(node, officens, "settings");
       setChild(root, root.settings)
     }
     function handleManifestXml(xmldoc) {
@@ -5366,7 +5367,7 @@ xmldom.LSSerializer = function LSSerializer() {
       return element
     }
     function serializeManifestXml() {
-      var header = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n', xml = '<manifest:manifest xmlns:manifest="' + manifestns + '" manifest:version="1.2"></manifest:manifest>', manifest = (runtime.parseXML(xml)), manifestRoot = getDirectChild(manifest, manifestns, "manifest"), serializer = new xmldom.LSSerializer, fullPath;
+      var header = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n', xml = '<manifest:manifest xmlns:manifest="' + manifestns + '" manifest:version="1.2"></manifest:manifest>', manifest = (runtime.parseXML(xml)), manifestRoot = manifest.documentElement, serializer = new xmldom.LSSerializer, fullPath;
       for(fullPath in partMimetypes) {
         if(partMimetypes.hasOwnProperty(fullPath)) {
           manifestRoot.appendChild(createManifestEntry(fullPath, partMimetypes[fullPath]))
@@ -5432,7 +5433,7 @@ xmldom.LSSerializer = function LSSerializer() {
       var body;
       if(!contentElement) {
         body = self.rootElement.body;
-        contentElement = getDirectChild(body, officens, "text") || (getDirectChild(body, officens, "presentation") || getDirectChild(body, officens, "spreadsheet"))
+        contentElement = domUtils.getDirectChild(body, officens, "text") || (domUtils.getDirectChild(body, officens, "presentation") || domUtils.getDirectChild(body, officens, "spreadsheet"))
       }
       if(!contentElement) {
         throw"Could not find content element in <office:body/>.";
@@ -6696,16 +6697,6 @@ odf.Formatting = function Formatting() {
   this.setOdfContainer = function(odfcontainer) {
     odfContainer = odfcontainer
   };
-  function getDirectChild(node, ns, name) {
-    var e = node && node.firstElementChild;
-    while(e) {
-      if(e.namespaceURI === ns && e.localName === name) {
-        break
-      }
-      e = e.nextElementSibling
-    }
-    return e
-  }
   function getFontMap() {
     var fontFaceDecls = odfContainer.rootElement.fontFaceDecls, fontFaceDeclsMap = {}, node, name, family;
     node = fontFaceDecls && fontFaceDecls.firstElementChild;
@@ -7002,9 +6993,9 @@ odf.Formatting = function Formatting() {
     var pageLayoutElement, props, printOrientation, defaultOrientedPageWidth, defaultOrientedPageHeight, pageWidth, pageHeight, margin, marginLeft, marginRight, marginTop, marginBottom, padding, paddingLeft, paddingRight, paddingTop, paddingBottom;
     pageLayoutElement = getPageLayoutStyleElement(styleName, styleFamily);
     if(!pageLayoutElement) {
-      pageLayoutElement = getDirectChild(odfContainer.rootElement.styles, stylens, "default-page-layout")
+      pageLayoutElement = domUtils.getDirectChild(odfContainer.rootElement.styles, stylens, "default-page-layout")
     }
-    props = getDirectChild(pageLayoutElement, stylens, "page-layout-properties");
+    props = domUtils.getDirectChild(pageLayoutElement, stylens, "page-layout-properties");
     if(props) {
       printOrientation = props.getAttributeNS(stylens, "print-orientation") || "portrait";
       if(printOrientation === "portrait") {
@@ -7080,17 +7071,17 @@ odf.StyleTreeNode = function StyleTreeNode(element) {
   this.element = element
 };
 odf.Style2CSS = function Style2CSS() {
-  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, presentationns = odf.Namespaces.presentationns, familynamespaceprefixes = {"graphic":"draw", "drawing-page":"draw", "paragraph":"text", "presentation":"presentation", "ruby":"text", "section":"text", "table":"table", "table-cell":"table", 
-  "table-column":"table", "table-row":"table", "text":"text", "list":"text", "page":"office"}, familytagnames = {"graphic":["circle", "connected", "control", "custom-shape", "ellipse", "frame", "g", "line", "measure", "page", "page-thumbnail", "path", "polygon", "polyline", "rect", "regular-polygon"], "paragraph":["alphabetical-index-entry-template", "h", "illustration-index-entry-template", "index-source-style", "object-index-entry-template", "p", "table-index-entry-template", "table-of-content-entry-template", 
-  "user-index-entry-template"], "presentation":["caption", "circle", "connector", "control", "custom-shape", "ellipse", "frame", "g", "line", "measure", "page-thumbnail", "path", "polygon", "polyline", "rect", "regular-polygon"], "drawing-page":["caption", "circle", "connector", "control", "page", "custom-shape", "ellipse", "frame", "g", "line", "measure", "page-thumbnail", "path", "polygon", "polyline", "rect", "regular-polygon"], "ruby":["ruby", "ruby-text"], "section":["alphabetical-index", "bibliography", 
-  "illustration-index", "index-title", "object-index", "section", "table-of-content", "table-index", "user-index"], "table":["background", "table"], "table-cell":["body", "covered-table-cell", "even-columns", "even-rows", "first-column", "first-row", "last-column", "last-row", "odd-columns", "odd-rows", "table-cell"], "table-column":["table-column"], "table-row":["table-row"], "text":["a", "index-entry-chapter", "index-entry-link-end", "index-entry-link-start", "index-entry-page-number", "index-entry-span", 
-  "index-entry-tab-stop", "index-entry-text", "index-title-template", "linenumbering-configuration", "list-level-style-number", "list-level-style-bullet", "outline-level-style", "span"], "list":["list-item"]}, textPropertySimpleMapping = [[fons, "color", "color"], [fons, "background-color", "background-color"], [fons, "font-weight", "font-weight"], [fons, "font-style", "font-style"]], bgImageSimpleMapping = [[stylens, "repeat", "background-repeat"]], paragraphPropertySimpleMapping = [[fons, "background-color", 
-  "background-color"], [fons, "text-align", "text-align"], [fons, "text-indent", "text-indent"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], [fons, "padding-bottom", "padding-bottom"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], 
-  [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"], [fons, "border", "border"]], graphicPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "min-height", "min-height"], [drawns, "stroke", "border"], [svgns, "stroke-color", "border-color"], [svgns, "stroke-width", "border-width"], [fons, "border", "border"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", 
-  "border-top"], [fons, "border-bottom", "border-bottom"]], tablecellPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "border", "border"]], tablecolumnPropertySimpleMapping = [[stylens, "column-width", "width"]], tablerowPropertySimpleMapping = [[stylens, "row-height", "height"], [fons, "keep-together", null]], tablePropertySimpleMapping = 
-  [[stylens, "width", "width"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageContentPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], [fons, "padding-bottom", "padding-bottom"], [fons, "border", "border"], [fons, 
-  "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageSizePropertySimpleMapping = [[fons, "page-width", "width"], [fons, "page-height", "height"]], borderPropertyMap = {"border":true, "border-left":true, "border-right":true, 
-  "border-top":true, "border-bottom":true, "stroke-width":true}, fontFaceDeclsMap = {}, utils = new odf.OdfUtils, documentType, odfRoot, defaultFontSize, xpath = xmldom.XPath, cssUnits = new core.CSSUnits;
+  var drawns = odf.Namespaces.drawns, fons = odf.Namespaces.fons, officens = odf.Namespaces.officens, stylens = odf.Namespaces.stylens, svgns = odf.Namespaces.svgns, tablens = odf.Namespaces.tablens, textns = odf.Namespaces.textns, xlinkns = odf.Namespaces.xlinkns, presentationns = odf.Namespaces.presentationns, domUtils = new core.DomUtils, familynamespaceprefixes = {"graphic":"draw", "drawing-page":"draw", "paragraph":"text", "presentation":"presentation", "ruby":"text", "section":"text", "table":"table", 
+  "table-cell":"table", "table-column":"table", "table-row":"table", "text":"text", "list":"text", "page":"office"}, familytagnames = {"graphic":["circle", "connected", "control", "custom-shape", "ellipse", "frame", "g", "line", "measure", "page", "page-thumbnail", "path", "polygon", "polyline", "rect", "regular-polygon"], "paragraph":["alphabetical-index-entry-template", "h", "illustration-index-entry-template", "index-source-style", "object-index-entry-template", "p", "table-index-entry-template", 
+  "table-of-content-entry-template", "user-index-entry-template"], "presentation":["caption", "circle", "connector", "control", "custom-shape", "ellipse", "frame", "g", "line", "measure", "page-thumbnail", "path", "polygon", "polyline", "rect", "regular-polygon"], "drawing-page":["caption", "circle", "connector", "control", "page", "custom-shape", "ellipse", "frame", "g", "line", "measure", "page-thumbnail", "path", "polygon", "polyline", "rect", "regular-polygon"], "ruby":["ruby", "ruby-text"], 
+  "section":["alphabetical-index", "bibliography", "illustration-index", "index-title", "object-index", "section", "table-of-content", "table-index", "user-index"], "table":["background", "table"], "table-cell":["body", "covered-table-cell", "even-columns", "even-rows", "first-column", "first-row", "last-column", "last-row", "odd-columns", "odd-rows", "table-cell"], "table-column":["table-column"], "table-row":["table-row"], "text":["a", "index-entry-chapter", "index-entry-link-end", "index-entry-link-start", 
+  "index-entry-page-number", "index-entry-span", "index-entry-tab-stop", "index-entry-text", "index-title-template", "linenumbering-configuration", "list-level-style-number", "list-level-style-bullet", "outline-level-style", "span"], "list":["list-item"]}, textPropertySimpleMapping = [[fons, "color", "color"], [fons, "background-color", "background-color"], [fons, "font-weight", "font-weight"], [fons, "font-style", "font-style"]], bgImageSimpleMapping = [[stylens, "repeat", "background-repeat"]], 
+  paragraphPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "text-align", "text-align"], [fons, "text-indent", "text-indent"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], [fons, "padding-bottom", "padding-bottom"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], 
+  [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"], [fons, "border", "border"]], graphicPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "min-height", "min-height"], [drawns, "stroke", "border"], [svgns, "stroke-color", "border-color"], [svgns, "stroke-width", "border-width"], [fons, "border", "border"], [fons, "border-left", "border-left"], 
+  [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"]], tablecellPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "border", "border"]], tablecolumnPropertySimpleMapping = [[stylens, "column-width", "width"]], tablerowPropertySimpleMapping = [[stylens, 
+  "row-height", "height"], [fons, "keep-together", null]], tablePropertySimpleMapping = [[stylens, "width", "width"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageContentPropertySimpleMapping = [[fons, "background-color", "background-color"], [fons, "padding", "padding"], [fons, "padding-left", "padding-left"], [fons, "padding-right", "padding-right"], [fons, "padding-top", "padding-top"], 
+  [fons, "padding-bottom", "padding-bottom"], [fons, "border", "border"], [fons, "border-left", "border-left"], [fons, "border-right", "border-right"], [fons, "border-top", "border-top"], [fons, "border-bottom", "border-bottom"], [fons, "margin", "margin"], [fons, "margin-left", "margin-left"], [fons, "margin-right", "margin-right"], [fons, "margin-top", "margin-top"], [fons, "margin-bottom", "margin-bottom"]], pageSizePropertySimpleMapping = [[fons, "page-width", "width"], [fons, "page-height", 
+  "height"]], borderPropertyMap = {"border":true, "border-left":true, "border-right":true, "border-top":true, "border-bottom":true, "stroke-width":true}, fontFaceDeclsMap = {}, utils = new odf.OdfUtils, documentType, odfRoot, defaultFontSize, xpath = xmldom.XPath, cssUnits = new core.CSSUnits;
   function getStyleMap(stylesnode) {
     var node, name, family, style, stylemap = {};
     if(!stylesnode) {
@@ -7204,16 +7195,6 @@ odf.Style2CSS = function Style2CSS() {
     }
     return selectors
   }
-  function getDirectChild(node, ns, name) {
-    var e = node && node.firstElementChild;
-    while(e) {
-      if(e.namespaceURI === ns && e.localName === name) {
-        break
-      }
-      e = e.nextElementSibling
-    }
-    return e
-  }
   function fixBorderWidth(value) {
     var index = value.indexOf(" "), width, theRestOfBorderAttributes;
     if(index !== -1) {
@@ -7247,7 +7228,7 @@ odf.Style2CSS = function Style2CSS() {
     return rule
   }
   function getFontSize(styleNode) {
-    var props = getDirectChild(styleNode, stylens, "text-properties");
+    var props = domUtils.getDirectChild(styleNode, stylens, "text-properties");
     if(props) {
       return utils.parseFoFontSize(props.getAttributeNS(fons, "font-size"))
     }
@@ -7313,7 +7294,7 @@ odf.Style2CSS = function Style2CSS() {
   function getParagraphProperties(props) {
     var rule = "", bgimage, url, lineHeight;
     rule += applySimpleMapping(props, paragraphPropertySimpleMapping);
-    bgimage = getDirectChild(props, stylens, "background-image");
+    bgimage = domUtils.getDirectChild(props, stylens, "background-image");
     if(bgimage) {
       url = bgimage.getAttributeNS(xlinkns, "href");
       if(url) {
@@ -7405,35 +7386,35 @@ odf.Style2CSS = function Style2CSS() {
   }
   function addStyleRule(sheet, family, name, node) {
     var selectors = getSelectors(family, name, node), selector = selectors.join(","), rule = "", properties;
-    properties = getDirectChild(node.element, stylens, "text-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "text-properties");
     if(properties) {
       rule += getTextProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "paragraph-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "paragraph-properties");
     if(properties) {
       rule += getParagraphProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "graphic-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "graphic-properties");
     if(properties) {
       rule += getGraphicProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "drawing-page-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "drawing-page-properties");
     if(properties) {
       rule += getDrawingPageProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "table-cell-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "table-cell-properties");
     if(properties) {
       rule += getTableCellProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "table-row-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "table-row-properties");
     if(properties) {
       rule += getTableRowProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "table-column-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "table-column-properties");
     if(properties) {
       rule += getTableColumnProperties(properties)
     }
-    properties = getDirectChild(node.element, stylens, "table-properties");
+    properties = domUtils.getDirectChild(node.element, stylens, "table-properties");
     if(properties) {
       rule += getTableProperties(properties)
     }
@@ -7471,7 +7452,7 @@ odf.Style2CSS = function Style2CSS() {
     return"content: '" + bulletChar + "';"
   }
   function addListStyleRule(sheet, name, node, itemrule) {
-    var selector = 'text|list[text|style-name="' + name + '"]', level = node.getAttributeNS(textns, "level"), itemSelector, listItemRule, listLevelProps = getDirectChild(node, stylens, "list-level-properties"), listLevelLabelAlign = getDirectChild(listLevelProps, stylens, "list-level-label-alignment"), bulletIndent, listIndent, bulletWidth, rule;
+    var selector = 'text|list[text|style-name="' + name + '"]', level = node.getAttributeNS(textns, "level"), itemSelector, listItemRule, listLevelProps = domUtils.getDirectChild(node, stylens, "list-level-properties"), listLevelLabelAlign = domUtils.getDirectChild(listLevelProps, stylens, "list-level-label-alignment"), bulletIndent, listIndent, bulletWidth, rule;
     if(listLevelLabelAlign) {
       bulletIndent = listLevelLabelAlign.getAttributeNS(fons, "text-indent");
       listIndent = listLevelLabelAlign.getAttributeNS(fons, "margin-left")
@@ -7514,13 +7495,13 @@ odf.Style2CSS = function Style2CSS() {
     }
   }
   function addPageStyleRules(sheet, node) {
-    var rule = "", imageProps, url, contentLayoutRule = "", pageSizeRule = "", props = getDirectChild(node, stylens, "page-layout-properties"), stylename, masterStyles, e, masterStyleName;
+    var rule = "", imageProps, url, contentLayoutRule = "", pageSizeRule = "", props = domUtils.getDirectChild(node, stylens, "page-layout-properties"), stylename, masterStyles, e, masterStyleName;
     if(!props) {
       return
     }
     stylename = node.getAttributeNS(stylens, "name");
     rule += applySimpleMapping(props, pageContentPropertySimpleMapping);
-    imageProps = getDirectChild(props, stylens, "background-image");
+    imageProps = domUtils.getDirectChild(props, stylens, "background-image");
     if(imageProps) {
       url = imageProps.getAttributeNS(xlinkns, "href");
       if(url) {
@@ -7529,7 +7510,7 @@ odf.Style2CSS = function Style2CSS() {
       }
     }
     if(documentType === "presentation") {
-      masterStyles = getDirectChild((node.parentNode.parentNode), officens, "master-styles");
+      masterStyles = domUtils.getDirectChild((node.parentNode.parentNode), officens, "master-styles");
       e = masterStyles && masterStyles.firstElementChild;
       while(e) {
         if(e.namespaceURI === stylens && (e.localName === "master-page" && e.getAttributeNS(stylens, "page-layout-name") === stylename)) {
