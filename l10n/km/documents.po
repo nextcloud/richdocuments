@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-06 00:44-0500\n"
-"PO-Revision-Date: 2014-03-05 19:20+0000\n"
+"POT-Creation-Date: 2014-03-07 00:44-0500\n"
+"PO-Revision-Date: 2014-03-06 13:51+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr ""
+msgstr "ផ្ទុក​ឡើង"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
