@@ -242,9 +242,9 @@ var documentsMain = {
 		console.log('joining session '+fileId);
 		var url;
 		if (documentsMain.isGuest){
-			url = OC.Router.generate('documents_session_joinasguest') + '/' + fileId;
+			url = OC.generateUrl('apps/documents/ajax/session/joinasguest/{token}') + '/' + fileId;
 		} else {
-			url = OC.Router.generate('documents_session_joinasuser') + '/' + fileId;
+			url = OC.generateUrl('apps/documents/ajax/session/joinasuser/{file_id}', {file_id: fileId});
 		}
 		$.post(
 			url,
@@ -271,7 +271,7 @@ var documentsMain = {
 		docElem.insertAfter('.documentslist .template');
 		docElem.show();
 		$.post(
-			OC.Router.generate('documents_documents_create'),
+			OC.generateUrl('apps/documents/ajax/documents/create'),
 			{},
 			documentsMain.show
 		);
@@ -302,7 +302,7 @@ var documentsMain = {
 	},
 
 	renameDocument: function(name) {
-		var url = OC.Router.generate('documents_rename') + '/' + documentsMain.fileId;
+		var url = OC.generateUrl('apps/documents/ajax/documents/rename/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
 			url,
 			{ name : name },
@@ -421,14 +421,15 @@ var documentsMain = {
 				$('header,footer').show();
 			}
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
-			
+
+			var url = '';
 			if (documentsMain.isGuest){
-				var url = OC.Router.generate('documents_user_disconnectGuest');
+				url = OC.generateUrl('apps/documents/ajax/user/disconnectGuest/{member_id}', {member_id: documentsMain.memberId});
 			} else {
-				var url = OC.Router.generate('documents_user_disconnect');
+				url = OC.generateUrl('apps/documents/ajax/user/disconnect/{member_id}', {member_id: documentsMain.memberId});
 			}
 			
-			$.post(url + '/' + documentsMain.memberId, {esId: documentsMain.esId});
+			$.post(url, {esId: documentsMain.esId});
 			
 			documentsMain.show();
 // 			});
@@ -454,18 +455,16 @@ var documentsMain = {
 	loadDocuments: function () {
 		var self = this;
 		var def = new $.Deferred();
-		OC.Router.registerLoadedCallback(function () {
-			jQuery.getJSON(OC.Router.generate('documents_documents_list'))
-				.done(function (data) {
-					self._documents = data.documents;
-					self._sessions = data.sessions;
-					self._members = data.members;
-					def.resolve();
-				})
-				.fail(function(data){
-					console.log(t('documents','Failed to load documents.'));
-				});
-		});
+		jQuery.getJSON(OC.generateUrl('apps/documents/ajax/documents/list'))
+			.done(function (data) {
+				self._documents = data.documents;
+				self._sessions = data.sessions;
+				self._members = data.members;
+				def.resolve();
+			})
+			.fail(function(data){
+				console.log(t('documents','Failed to load documents.'));
+			});
 		return def;
 	},
 	
@@ -483,7 +482,7 @@ var documentsMain = {
 			docElem.attr('data-id', document.fileid);
 
 			var a = docElem.find('a');
-			a.attr('href', OC.Router.generate('download',{file:document.path}));
+			a.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}));
 			a.find('label').text(document.name);
 			a.css('background-image', 'url("'+document.icon+'")');
 

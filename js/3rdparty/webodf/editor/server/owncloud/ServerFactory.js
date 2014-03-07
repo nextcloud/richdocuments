@@ -41,12 +41,12 @@ define("webodf/editor/server/owncloud/ServerFactory", [
                 var server;
                 args = args || {};
                 args.url = OC.filePath('documents', 'ajax', 'otpoll.php');
-                args.sessionStateToFileUrl = OC.Router.generate('documents_session_save');
+                args.sessionStateToFileUrl = OC.generateUrl('apps/documents/ajax/session/save');
 
                 server = new PullBoxServer(args);
                 server.getGenesisUrl = function(sid) {
                     // what a dirty hack :)
-                    return OC.Router.generate('documents_genesis') + '/' + sid;
+                    return OC.generateUrl('apps/documents/ajax/genesis/{es_id}', {es_id: sid});
                 };
                 return server;
             };
