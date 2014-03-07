@@ -242,7 +242,7 @@ var documentsMain = {
 		console.log('joining session '+fileId);
 		var url;
 		if (documentsMain.isGuest){
-			url = OC.generateUrl('apps/documents/ajax/session/joinasguest/{token}') + '/' + fileId;
+			url = OC.generateUrl('apps/documents/ajax/session/joinasguest/{token}', {token: fileId});
 		} else {
 			url = OC.generateUrl('apps/documents/ajax/session/joinasuser/{file_id}', {file_id: fileId});
 		}
