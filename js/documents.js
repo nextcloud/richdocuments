@@ -556,6 +556,11 @@ var Files = Files || {
 	},
 	
 	updateStorageStatistics: function(){}
+},
+FileList = FileList || {};
+
+FileList.getCurrentDirectory = function(){
+	return $('#dir').val() || '/';
 };
 
 $(document).ready(function() {
@@ -592,7 +597,17 @@ $(document).ready(function() {
 
 
 	var file_upload_start = $('#file_upload_start');
-	file_upload_start.on('fileuploaddone', documentsMain.show);
+	if (supportAjaxUploadWithProgress()) {
+		file_upload_start.on('fileuploadstart', function(e, data) {
+			$('#upload').addClass('icon icon-loading');
+			$('.add-document .upload').css({opacity:0})
+		});
+	}
+	file_upload_start.on('fileuploaddone', function(){
+		$('#upload').removeClass('icon icon-loading');
+		$('.add-document .upload').css({opacity:0.7})
+		documentsMain.show();
+	});
 	//TODO when ending a session as the last user close session?
 	
 	OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', documentsMain.onStartup);
