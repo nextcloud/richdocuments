@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Tutup",
 "Share" => "Kongsi",
+"Close" => "Tutup",
 "Cancel" => "Batal",
 "Create" => "Buat",
 "Delete" => "Padam",

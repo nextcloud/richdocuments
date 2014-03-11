@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "文件",
-"Close" => " 關閉",
 "Share" => "分享",
+"Close" => " 關閉",
 "Failed to load documents." => "載入文件失敗",
 "'.' is an invalid file name." => "'.' 是不合法的檔名",
 "File name cannot be empty." => "檔名不能為空",

@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Nemáte oprávnenie na premenovanie tohto dokumentu",
 "Documents" => "Dokumenty",
-"Close" => "Zavrieť",
 "Share" => "Zdieľať",
+"Close" => "Zavrieť",
 "No connection to server. Trying to reconnect." => "Nie je pripojenie k serveru. Pokúste sa o znovupripojenie.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Ponechaním tejto stránky v editačnom móde môže dôjsť k tomu, že sa zmeny neuložia. Doporučujeme použiť tlačidlo 'Zavrieť'",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Nepodarilo sa otvoriť tento dokument. Skontrolujte prosím, či je možné ho otvoriť externým editorom ODT súborov. Môže to však tiež znamenať, že bolo zdieľanie zrušené, alebo bol vymazaný.",

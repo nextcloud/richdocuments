@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "이 문서의 이름을 변경할 권한이 없습니다",
 "Documents" => "문서",
-"Close" => "닫기",
 "Share" => "공유",
+"Close" => "닫기",
 "No connection to server. Trying to reconnect." => "서버에 연결되지 않았습니다. 재연결을 시도합니다.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "편집기 모드에서 이 페이지를 벗어나면 데이터가 저장되지 않을 수도 있습니다. '닫기' 단추를 누르는 것을 추천합니다.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "이 문서를 불러올 수 없습니다. 외부 ODT 편집기로 불러올 수 있는지 확인해 보십시오. 최근에 공유가 해제되었거나 삭제되었을 수도 있습니다.",

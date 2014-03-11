@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Zoumaachen",
 "Share" => "Deelen",
+"Close" => "Zoumaachen",
 "Cancel" => "Ofbriechen",
 "Create" => "Erstellen",
 "Delete" => "Läschen",

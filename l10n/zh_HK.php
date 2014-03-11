@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "關閉",
 "Share" => "分享",
+"Close" => "關閉",
 "Cancel" => "取消",
 "Delete" => "刪除",
 "Loading" => "載入中",

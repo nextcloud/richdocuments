@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Vous n'avez pas les droits suffisants pour renommer ce document",
 "Documents" => "Documents",
-"Close" => "Fermer",
 "Share" => "Partager",
+"Close" => "Fermer",
 "No connection to server. Trying to reconnect." => "Aucune connexion au serveur. Tentative de reconnection en cours.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Maintenir cette page dans le mode Éditeur empêche la sauvegarde des données. Il est recommandé d'utiliser le bouton 'Fermer'.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Le chargement du document a échoué. Veuillez vérifier s'il peut être ouvert avec un éditeur odt externe. Il se peut également que le document a été récemment supprimé ou retiré d'un partage.",

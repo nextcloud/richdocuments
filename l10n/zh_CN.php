@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "您没有重命名该文档的权限",
 "Documents" => "文档",
-"Close" => "关闭",
 "Share" => "共享",
+"Close" => "关闭",
 "No connection to server. Trying to reconnect." => "无法连接到服务，正在尝试重新连接。",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "从编辑模式离开当前页面可能会导致数据丢失。建议改用“关闭”按钮。",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "打开文档失败，请检查此文档是否可以使用外部 ODT 编辑器打开。同时，此文档可能已经关闭分享或者已经被删除。",

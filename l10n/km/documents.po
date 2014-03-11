@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-07 00:44-0500\n"
-"PO-Revision-Date: 2014-03-06 13:51+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgid ""
 "recently."
 msgstr ""
 
-#: js/documents.js:446 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
@@ -58,19 +58,19 @@ msgstr ""
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:509
+#: js/documents.js:508
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:544
+#: js/documents.js:543
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:546
+#: js/documents.js:545
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:553
+#: js/documents.js:552
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokument",
-"Close" => "Stäng",
 "Share" => "Dela",
+"Close" => "Stäng",
 "No connection to server. Trying to reconnect." => "Ingen kontakt med servern. Försöker att koppla upp igen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Att lämna denna sida i Redigera läget kan orsaka osparad data. Det är rekommenderat att använda 'Stäng' knappen i stället.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Misslyckades att ladda detta dokument. Försök gärna att öppna det med en extern textredigerare som har stöd för ODT. Detta fel kan bero på att dokumentet nyligen har slutat delas ut eller blivit borttagen.",

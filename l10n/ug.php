@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "ياپ",
 "Share" => "ھەمبەھىر",
+"Close" => "ياپ",
 "Cancel" => "ۋاز كەچ",
 "Create" => "قۇر",
 "Delete" => "ئۆچۈر",

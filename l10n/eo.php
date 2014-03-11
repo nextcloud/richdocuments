@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Vi ne havas permeson alinomigi ĉi tiun dokumenton",
 "Documents" => "Dokumentoj",
-"Close" => "Fermi",
 "Share" => "Kunhavigi",
+"Close" => "Fermi",
 "No connection to server. Trying to reconnect." => "Ne estas konekto al servilo. Provu rekonekti.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Laso de ĉi tiu paĝo en reĝimo Redaktilo povas kaŭzi nekonservotaj datumoj. Rekomendatas uzo de la butono “Fermi” anstataŭe.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Malsukcesis ŝargo de ĉi tiu dokumento. Bonvolu kontroli ĉu ĝi malfermeblas per malena odt-redaktilo. Ĉi tio povas ankaŭ signifi, ke ĝi malkunhaviĝis aŭ foriĝis lastatempe.",

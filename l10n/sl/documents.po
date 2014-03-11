@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,36 +26,36 @@ msgstr "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ..."
 msgid "Documents"
 msgstr "Dokumenti"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "Zapri"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "Souporaba"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "Zapri"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ni povezave s strežnikom. Poskus povezave bo ponovljen."
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Odhod s strani v načinu urejevalnika lahko vpliva na shranjevanje podatkov. Priporočljivo je raje uporabiti gumb za 'zapiranje' okna."
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Nalaganje dokumenta je spodletelo. Preverite, ali ga je mogoče odpreti v zunanjem urejevalniku datotek odt. Do napake je lahko prišlo tudi, če je datoteka izbrisana, ali pa ni več v souporabi."
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Nalaganje dokumentov ..."
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr "Nalaganje dokumentov je spodletelo."
 

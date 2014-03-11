@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Ez duzu dokumentu honi izena aldatzeko baimenik",
 "Documents" => "Dokumentuak",
-"Close" => "Itxi",
 "Share" => "Partekatu",
+"Close" => "Itxi",
 "No connection to server. Trying to reconnect." => "Ez dago konexiorik zerbitzariarekin. Birkonektatzen saiatzen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Orri hau Editore moduan uzteak gordegabeko datuak utz ditzake. Aholkatzen da 'Itxi' botoia erabiltzea.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Dokumentu hau kargatzeak huts egin du. Mesedez egiaztatu ea kanpoko odt editore batekin ireki daitekeen. Honek ere dokumentua partekatzeari utzi egin zaiola edo ezabatu egin dela esan dezake.",

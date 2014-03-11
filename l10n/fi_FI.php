@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Oikeutesi eivät riitä nimeämään tätä asiakirjaa uudelleen",
 "Documents" => "Asiakirjat",
-"Close" => "Sulje",
 "Share" => "Jaa",
+"Close" => "Sulje",
 "No connection to server. Trying to reconnect." => "Ei yhteyttä palvelimeen. Yritetään yhdistää uudelleen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Tältä sivulta poistuminen muokkaustilassa saattaa aiheuttaa tallentamatonta tietoa. Käytä sivulta poistumisen sijaan \"Sulje\"-painiketta.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Asiakirjan lataaminen epäonnistui. Yritä avata asiakirja erillisellä odt:tä tukevalla sovelluksella. Tämä virhe voi myös tarkoittaa, että asiakirja ei ole enää jaettu tai asiakirja on poistettu äskettäin.",

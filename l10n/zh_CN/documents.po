@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-27 00:44-0500\n"
-"PO-Revision-Date: 2014-02-26 12:10+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: Hawy <hawy.hust@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -28,36 +28,36 @@ msgstr "您没有重命名该文档的权限"
 msgid "Documents"
 msgstr "文档"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "关闭"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "共享"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "关闭"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr "无法连接到服务，正在尝试重新连接。"
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "从编辑模式离开当前页面可能会导致数据丢失。建议改用“关闭”按钮。"
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "打开文档失败，请检查此文档是否可以使用外部 ODT 编辑器打开。同时，此文档可能已经关闭分享或者已经被删除。"
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "载入文档......"
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr "载入文档失败"
 

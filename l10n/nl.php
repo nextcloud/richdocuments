@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "U hebt niet de autorisatie om die document te hernoemen",
 "Documents" => "Documenten",
-"Close" => "Sluiten",
 "Share" => "Delen",
+"Close" => "Sluiten",
 "No connection to server. Trying to reconnect." => "Geen verbinding met de server. Bezig te verbinden.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Deze pagina open laten in de Editor kan resulteren in niet opslaan. Geadviseerd wordt om de 'Sluiten' knop te gebruiken.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Kon dit document niet laden. Ga na of het met een externe odt editor wel kan worden geopend. Het kan zijn dat het niet meer is gedeeld of dat het recent is verwijderd.",

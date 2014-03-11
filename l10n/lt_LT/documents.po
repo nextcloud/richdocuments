@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-27 00:44-0500\n"
-"PO-Revision-Date: 2014-02-26 12:10+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -27,36 +27,36 @@ msgstr ""
 msgid "Documents"
 msgstr "Dokumentacija"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "Užverti"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "Užverti"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr "Nėra ryšio su serveriu. Bandoma jungtis vėl."
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Išėjimas iš šio puslapio redagavimo veiksenoje gali lemti duomenų neišsaugojimą. Rekomenduojama naudoti „Uždaryti“ mygtuką."
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Nepavyko įkelti šio dokumento. Prašome patikrinti ar galima jį atverti su išoriniu odt redaktoriumi. Tai gali reikšti, kad jis nebebendrinamas arba neseniai pašalintas."
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr "Nepavyko įkelti dokumentų."
 

@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "لا تمتلك الصلاحية لاعادة تسمية هذا المستند",
 "Documents" => "وثائق",
-"Close" => "إغلاق",
 "Share" => "شارك",
+"Close" => "إغلاق",
 "No connection to server. Trying to reconnect." => "لا يوجد اتصال مع الخادم. في محاولة لإعادة الاتصال.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "ترك هذه الصفحة في وضع التعديل ممكن ان يسبب فقد للبيانات. ننصح باستخدام زر اغلاق",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "فشل في تحميل المستند. يرجى التحقق من امكانية فتحة عن طريق محرر odt خارجي. قد يعني انه تم الغاء المشاركة او حذفة مؤخرا",

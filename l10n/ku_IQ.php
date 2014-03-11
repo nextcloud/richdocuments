@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "داخستن",
 "Share" => "هاوبەشی کردن",
+"Close" => "داخستن",
 "Cancel" => "لابردن",
 "OK" => "باشە",
 "Open" => "کردنه‌وه",

@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "شما دسترسی مجاز برای تغییر نام این سند را ندارید",
 "Documents" => "اسناد",
-"Close" => "بستن",
 "Share" => "اشتراک‌گذاری",
+"Close" => "بستن",
 "No connection to server. Trying to reconnect." => "هیچگونه ارتباط به سرور موجود نمی‌باشد. لطفاً ارتباط مجدد برقرار کنید.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "خروج از این صفحه در مود ویرایش باعث از دست دادن اطلاعات ذخیر نشده خواهد شد. پیشنهاد می‌شود بجای آن که از دکمه‌ی 'خروج' استفاده فرمایید.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "فراخوانی این سند با مشکل مواجه شد. لطفاً بررسی نمایید که آیا می‌توان آن را با یک برنامه‌ی ویرایشگر odt خارجی باز نمود. البته این اشکال ممکن است بخاطر حذف شدن یا حذف اشتراک گذاری آن نیز اتفاق افتاده باشد",

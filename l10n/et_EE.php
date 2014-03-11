@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Puuduvad õigused dokumendi ümber nimetamiseks",
 "Documents" => "Dokumendid",
-"Close" => "Sulge",
 "Share" => "Jaga",
+"Close" => "Sulge",
 "No connection to server. Trying to reconnect." => "Serveriga puudub ühendus. Proovin uuesti ühenduda.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Selle lehe jätmine Redaktori moodi võib põhjustada salvestamata andmete kadu. On soovitav selle asemel kasutada \"Sulge\" nuppu.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Selle dokumendi laadimine ebaõnnestus. Palun kontrolli, kas seda saab avada välise odt redaktoriga. Ühtlasi võib see tähendada, et fail pole jagatud või on hiljuti kustutatud.",

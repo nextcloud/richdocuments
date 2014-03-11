@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -28,36 +28,36 @@ msgstr "Não tem permissões para renomear este documento"
 msgid "Documents"
 msgstr "Documentos"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "Fechar"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "Partilhar"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "Fechar"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr "Não há ligação ao servidor. A tentar religar."
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Sair desta página em modo de Edição pode deixar dados não guardados. É recomendado usar o botão \"Fechar\" em vez disso."
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Falhou ao carregar o documento. Por favor verifique se ele pode ser aberto com um editor ODT externo. Isto poderá significar que foi apagado recentemente ou a partilha acabou."
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "A carregar documentos..."
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr "O carregamento dos documentos falhou"
 

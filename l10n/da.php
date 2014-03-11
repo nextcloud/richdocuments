@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Du har ikke tilladelse til at omdøbe dette dokument",
 "Documents" => "Dokumenter",
-"Close" => "Luk",
 "Share" => "Del",
+"Close" => "Luk",
 "No connection to server. Trying to reconnect." => "Ingen forbindelse til servver. Prøv at forbinde igen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "At forlade denne side i redigeringstilstand kan resultere i ikke gemte data. Det anbefales at bruge 'Luk' knappen i stedet.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Kunne ikke hentet dette dokument. Undersøg venligst om det kan åbnes med en ekstern odt læser. Dette kan også betyde at dokumentet for nylig er blevet gjort privat eller slettet. ",

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Документи",
-"Close" => "Затвори",
 "Share" => "Сподели",
+"Close" => "Затвори",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Оставањето на оваа страница во мод за уредување може да предизивка губиток на неснимените податоци. Се препорачува да се користи копчето 'Затвори'.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Неуспешно вчитување на документот. Ве молиме да проверите дали може да се отвори со надворешен odt уредувач. Ова исто така може да значи дека истиот бил одстранет од споделување или пак претходно бил избришан.",
 "Failed to load documents." => "Не успеав да го вчитам документот",

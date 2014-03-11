@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Anda tidak memiliki izin untuk mengubah nama dokumen ini",
 "Documents" => "Dokumen",
-"Close" => "Tutup",
 "Share" => "Bagikan",
+"Close" => "Tutup",
 "No connection to server. Trying to reconnect." => "Tidak tersambung ke server. Coba untuk menyambungkan ulang.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Meninggalkan halaman ini dalam mode Penyunting menyebabkan data tidak disimpan. Direkomendasikan untuk menggunakan tombol 'Tutup' sebagai gantinya.",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Gagal memuat dokumen ini. Silakan periksa apakah ini dapat dibuka dengan penyunting odt eksternal. Dokumen ini mungkin saja sudah tidak dibagikan kepada Anda atau sudah dihapus baru-baru ini.",

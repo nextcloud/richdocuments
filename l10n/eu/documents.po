@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -26,36 +26,36 @@ msgstr "Ez duzu dokumentu honi izena aldatzeko baimenik"
 msgid "Documents"
 msgstr "Dokumentuak"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "Itxi"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "Partekatu"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "Itxi"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ez dago konexiorik zerbitzariarekin. Birkonektatzen saiatzen."
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Orri hau Editore moduan uzteak gordegabeko datuak utz ditzake. Aholkatzen da 'Itxi' botoia erabiltzea."
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Dokumentu hau kargatzeak huts egin du. Mesedez egiaztatu ea kanpoko odt editore batekin ireki daitekeen. Honek ere dokumentua partekatzeari utzi egin zaiola edo ezabatu egin dela esan dezake."
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Dokumentuak kargatzen..."
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr "Dokumentuak kargatzeak huts egin du."
 

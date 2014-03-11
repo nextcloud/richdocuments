@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Cau",
 "Share" => "Rhannu",
+"Close" => "Cau",
 "'.' is an invalid file name." => "Mae '.' yn enw ffeil annilys.",
 "File name cannot be empty." => "Does dim hawl cael enw ffeil gwag.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Enw annilys, ni chaniateir, '\\', '/', '<', '>', ':', '\"', '|', '?' na '*'.",

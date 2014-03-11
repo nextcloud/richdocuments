@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Затвори",
 "Share" => "Споделяне",
+"Close" => "Затвори",
 "Cancel" => "Отказ",
 "Create" => "Създаване",
 "Delete" => "Изтриване",

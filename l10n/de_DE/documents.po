@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-16 01:12-0500\n"
-"PO-Revision-Date: 2014-02-15 11:31+0000\n"
+"POT-Creation-Date: 2014-03-11 06:40-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -29,36 +29,36 @@ msgstr "Sie haben nicht die erforderlichen Rechte, dieses Dokument umzubenennen.
 msgid "Documents"
 msgstr "Dokumente"
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr "Schließen"
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr "Teilen"
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr "Schließen"
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr "Keine Verbindung zum Server. Es wird versucht diese wiederherzustellen."
 
-#: js/documents.js:172
+#: js/documents.js:173
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Das Verlassen dieser Seite kann zu nicht gespeicherten Daten führen. Bitte verwenden die den 'Schließen'-Button."
 
-#: js/documents.js:189
+#: js/documents.js:190
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Es ist ein Fehler beim Laden dieses Dokumentes aufgetreten. Bitte überprüfen Sie, ob diese Datei mit einem externen ODT-Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder vor kurzem gelöscht wurde."
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:447 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Lade Dokumente…"
 
-#: js/documents.js:465
+#: js/documents.js:466
 msgid "Failed to load documents."
 msgstr "Das Laden der Dokumente ist fehlgeschlagen."
 
