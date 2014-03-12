@@ -1,4 +1,4 @@
-var webodf_version = "0.4.2-2041-g9de1ecc";
+var webodf_version = "0.4.2-2050-g8d8fc02";
 function Runtime() {
 }
 Runtime.prototype.getVariable = function(name) {
@@ -6309,232 +6309,6 @@ gui.AnnotationViewManager = function AnnotationViewManager(canvas, odfFragment, 
 };
 /*
 
- Copyright (C) 2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function() {
-  function Point(x, y) {
-    var self = this;
-    this.getDistance = function(point) {
-      var xOffset = self.x - point.x, yOffset = self.y - point.y;
-      return Math.sqrt(xOffset * xOffset + yOffset * yOffset)
-    };
-    this.getCenter = function(point) {
-      return new Point((self.x + point.x) / 2, (self.y + point.y) / 2)
-    };
-    this.x;
-    this.y;
-    function init() {
-      self.x = x;
-      self.y = y
-    }
-    init()
-  }
-  gui.ZoomHelper = function() {
-    var zoomableElement, panPoint, previousPanPoint, firstPinchDistance, zoom, previousZoom, maxZoom = 4, offsetParent, events = new core.EventNotifier([gui.ZoomHelper.signalZoomChanged]), gestures = {NONE:0, SCROLL:1, PINCH:2}, currentGesture = gestures.NONE, requiresCustomScrollBars = runtime.getWindow().hasOwnProperty("ontouchstart");
-    function applyCSSTransform(x, y, scale, is3D) {
-      var transformCommand;
-      if(is3D) {
-        transformCommand = "translate3d(" + x + "px, " + y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)"
-      }else {
-        transformCommand = "translate(" + x + "px, " + y + "px) scale(" + scale + ")"
-      }
-      zoomableElement.style.WebkitTransform = transformCommand;
-      zoomableElement.style.MozTransform = transformCommand;
-      zoomableElement.style.msTransform = transformCommand;
-      zoomableElement.style.OTransform = transformCommand;
-      zoomableElement.style.transform = transformCommand
-    }
-    function applyTransform(is3D) {
-      if(is3D) {
-        applyCSSTransform(-panPoint.x, -panPoint.y, zoom, true)
-      }else {
-        applyCSSTransform(0, 0, zoom, true);
-        applyCSSTransform(0, 0, zoom, false)
-      }
-    }
-    function applyFastTransform() {
-      applyTransform(true)
-    }
-    function applyDetailedTransform() {
-      applyTransform(false)
-    }
-    function enableScrollBars(enable) {
-      if(!offsetParent || !requiresCustomScrollBars) {
-        return
-      }
-      var initialOverflow = offsetParent.style.overflow, enabled = offsetParent.classList.contains("customScrollbars");
-      if(enable && enabled || !enable && !enabled) {
-        return
-      }
-      if(enable) {
-        offsetParent.classList.add("customScrollbars");
-        offsetParent.style.overflow = "hidden";
-        runtime.requestAnimationFrame(function() {
-          offsetParent.style.overflow = initialOverflow
-        })
-      }else {
-        offsetParent.classList.remove("customScrollbars")
-      }
-    }
-    function removeScroll() {
-      applyCSSTransform(-panPoint.x, -panPoint.y, zoom, true);
-      offsetParent.scrollLeft = 0;
-      offsetParent.scrollTop = 0;
-      enableScrollBars(false)
-    }
-    function restoreScroll() {
-      applyCSSTransform(0, 0, zoom, true);
-      offsetParent.scrollLeft = panPoint.x;
-      offsetParent.scrollTop = panPoint.y;
-      enableScrollBars(true)
-    }
-    function getPoint(touch) {
-      return new Point(touch.pageX - zoomableElement.offsetLeft, touch.pageY - zoomableElement.offsetTop)
-    }
-    function sanitizePointForPan(point) {
-      return new Point(Math.min(Math.max(point.x, zoomableElement.offsetLeft), (zoomableElement.offsetLeft + zoomableElement.offsetWidth) * zoom - offsetParent.clientWidth), Math.min(Math.max(point.y, zoomableElement.offsetTop), (zoomableElement.offsetTop + zoomableElement.offsetHeight) * zoom - offsetParent.clientHeight))
-    }
-    function processPan(point) {
-      if(previousPanPoint) {
-        panPoint.x -= point.x - previousPanPoint.x;
-        panPoint.y -= point.y - previousPanPoint.y;
-        panPoint = sanitizePointForPan(panPoint)
-      }
-      previousPanPoint = point
-    }
-    function processZoom(zoomPoint, incrementalZoom) {
-      var originalZoom = zoom, actuallyIncrementedZoom, minZoom = Math.min(maxZoom, zoomableElement.offsetParent.clientWidth / zoomableElement.offsetWidth);
-      zoom = previousZoom * incrementalZoom;
-      zoom = Math.min(Math.max(zoom, minZoom), maxZoom);
-      actuallyIncrementedZoom = zoom / originalZoom;
-      panPoint.x += (actuallyIncrementedZoom - 1) * (zoomPoint.x + panPoint.x);
-      panPoint.y += (actuallyIncrementedZoom - 1) * (zoomPoint.y + panPoint.y)
-    }
-    function processPinch(point1, point2) {
-      var zoomPoint = point1.getCenter(point2), pinchDistance = point1.getDistance(point2), incrementalZoom = pinchDistance / firstPinchDistance;
-      processPan(zoomPoint);
-      processZoom(zoomPoint, incrementalZoom)
-    }
-    function prepareGesture(event) {
-      var fingers = event.touches.length, point1 = fingers > 0 ? getPoint(event.touches[0]) : null, point2 = fingers > 1 ? getPoint(event.touches[1]) : null;
-      if(point1 && point2) {
-        firstPinchDistance = point1.getDistance(point2);
-        previousZoom = zoom;
-        previousPanPoint = point1.getCenter(point2);
-        removeScroll();
-        currentGesture = gestures.PINCH
-      }else {
-        if(point1) {
-          previousPanPoint = point1;
-          currentGesture = gestures.SCROLL
-        }
-      }
-    }
-    function processGesture(event) {
-      var fingers = event.touches.length, point1 = fingers > 0 ? getPoint(event.touches[0]) : null, point2 = fingers > 1 ? getPoint(event.touches[1]) : null;
-      if(point1 && point2) {
-        event.preventDefault();
-        if(currentGesture === gestures.SCROLL) {
-          currentGesture = gestures.PINCH;
-          removeScroll();
-          firstPinchDistance = point1.getDistance(point2);
-          return
-        }
-        processPinch(point1, point2);
-        applyFastTransform()
-      }else {
-        if(point1) {
-          if(currentGesture === gestures.PINCH) {
-            currentGesture = gestures.SCROLL;
-            restoreScroll();
-            return
-          }
-          processPan(point1)
-        }
-      }
-    }
-    function sanitizeGesture() {
-      if(currentGesture === gestures.PINCH) {
-        events.emit(gui.ZoomHelper.signalZoomChanged, zoom);
-        restoreScroll();
-        applyDetailedTransform()
-      }
-      currentGesture = gestures.NONE
-    }
-    this.subscribe = function(eventid, cb) {
-      events.subscribe(eventid, cb)
-    };
-    this.unsubscribe = function(eventid, cb) {
-      events.unsubscribe(eventid, cb)
-    };
-    this.getZoomLevel = function() {
-      return zoom
-    };
-    this.setZoomLevel = function(zoomLevel) {
-      if(zoomableElement) {
-        zoom = zoomLevel;
-        applyDetailedTransform();
-        events.emit(gui.ZoomHelper.signalZoomChanged, zoom)
-      }
-    };
-    function registerGestureListeners() {
-      if(offsetParent) {
-        offsetParent.addEventListener("touchstart", (prepareGesture), false);
-        offsetParent.addEventListener("touchmove", (processGesture), false);
-        offsetParent.addEventListener("touchend", (sanitizeGesture), false)
-      }
-    }
-    function unregisterGestureListeners() {
-      if(offsetParent) {
-        offsetParent.removeEventListener("touchstart", (prepareGesture), false);
-        offsetParent.removeEventListener("touchmove", (processGesture), false);
-        offsetParent.removeEventListener("touchend", (sanitizeGesture), false)
-      }
-    }
-    this.destroy = function(callback) {
-      unregisterGestureListeners();
-      enableScrollBars(false);
-      callback()
-    };
-    this.setZoomableElement = function(element) {
-      unregisterGestureListeners();
-      zoomableElement = element;
-      offsetParent = (zoomableElement.offsetParent);
-      applyDetailedTransform();
-      registerGestureListeners();
-      enableScrollBars(true)
-    };
-    function init() {
-      zoom = 1;
-      previousZoom = 1;
-      panPoint = new Point(0, 0)
-    }
-    init()
-  };
-  gui.ZoomHelper.signalZoomChanged = "zoomChanged"
-})();
-/*
-
  Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
@@ -7629,6 +7403,232 @@ odf.Style2CSS = function Style2CSS() {
 };
 /*
 
+ Copyright (C) 2014 KO GmbH <copyright@kogmbh.com>
+
+ @licstart
+ This file is part of WebODF.
+
+ WebODF is free software: you can redistribute it and/or modify it
+ under the terms of the GNU Affero General Public License (GNU AGPL)
+ as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.
+
+ WebODF is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
+ @licend
+
+ @source: http://www.webodf.org/
+ @source: https://github.com/kogmbh/WebODF/
+*/
+(function() {
+  function Point(x, y) {
+    var self = this;
+    this.getDistance = function(point) {
+      var xOffset = self.x - point.x, yOffset = self.y - point.y;
+      return Math.sqrt(xOffset * xOffset + yOffset * yOffset)
+    };
+    this.getCenter = function(point) {
+      return new Point((self.x + point.x) / 2, (self.y + point.y) / 2)
+    };
+    this.x;
+    this.y;
+    function init() {
+      self.x = x;
+      self.y = y
+    }
+    init()
+  }
+  gui.ZoomHelper = function() {
+    var zoomableElement, panPoint, previousPanPoint, firstPinchDistance, zoom, previousZoom, maxZoom = 4, offsetParent, events = new core.EventNotifier([gui.ZoomHelper.signalZoomChanged]), gestures = {NONE:0, SCROLL:1, PINCH:2}, currentGesture = gestures.NONE, requiresCustomScrollBars = runtime.getWindow().hasOwnProperty("ontouchstart");
+    function applyCSSTransform(x, y, scale, is3D) {
+      var transformCommand;
+      if(is3D) {
+        transformCommand = "translate3d(" + x + "px, " + y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)"
+      }else {
+        transformCommand = "translate(" + x + "px, " + y + "px) scale(" + scale + ")"
+      }
+      zoomableElement.style.WebkitTransform = transformCommand;
+      zoomableElement.style.MozTransform = transformCommand;
+      zoomableElement.style.msTransform = transformCommand;
+      zoomableElement.style.OTransform = transformCommand;
+      zoomableElement.style.transform = transformCommand
+    }
+    function applyTransform(is3D) {
+      if(is3D) {
+        applyCSSTransform(-panPoint.x, -panPoint.y, zoom, true)
+      }else {
+        applyCSSTransform(0, 0, zoom, true);
+        applyCSSTransform(0, 0, zoom, false)
+      }
+    }
+    function applyFastTransform() {
+      applyTransform(true)
+    }
+    function applyDetailedTransform() {
+      applyTransform(false)
+    }
+    function enableScrollBars(enable) {
+      if(!offsetParent || !requiresCustomScrollBars) {
+        return
+      }
+      var initialOverflow = offsetParent.style.overflow, enabled = offsetParent.classList.contains("customScrollbars");
+      if(enable && enabled || !enable && !enabled) {
+        return
+      }
+      if(enable) {
+        offsetParent.classList.add("customScrollbars");
+        offsetParent.style.overflow = "hidden";
+        runtime.requestAnimationFrame(function() {
+          offsetParent.style.overflow = initialOverflow
+        })
+      }else {
+        offsetParent.classList.remove("customScrollbars")
+      }
+    }
+    function removeScroll() {
+      applyCSSTransform(-panPoint.x, -panPoint.y, zoom, true);
+      offsetParent.scrollLeft = 0;
+      offsetParent.scrollTop = 0;
+      enableScrollBars(false)
+    }
+    function restoreScroll() {
+      applyCSSTransform(0, 0, zoom, true);
+      offsetParent.scrollLeft = panPoint.x;
+      offsetParent.scrollTop = panPoint.y;
+      enableScrollBars(true)
+    }
+    function getPoint(touch) {
+      return new Point(touch.pageX - zoomableElement.offsetLeft, touch.pageY - zoomableElement.offsetTop)
+    }
+    function sanitizePointForPan(point) {
+      return new Point(Math.min(Math.max(point.x, zoomableElement.offsetLeft), (zoomableElement.offsetLeft + zoomableElement.offsetWidth) * zoom - offsetParent.clientWidth), Math.min(Math.max(point.y, zoomableElement.offsetTop), (zoomableElement.offsetTop + zoomableElement.offsetHeight) * zoom - offsetParent.clientHeight))
+    }
+    function processPan(point) {
+      if(previousPanPoint) {
+        panPoint.x -= point.x - previousPanPoint.x;
+        panPoint.y -= point.y - previousPanPoint.y;
+        panPoint = sanitizePointForPan(panPoint)
+      }
+      previousPanPoint = point
+    }
+    function processZoom(zoomPoint, incrementalZoom) {
+      var originalZoom = zoom, actuallyIncrementedZoom, minZoom = Math.min(maxZoom, zoomableElement.offsetParent.clientWidth / zoomableElement.offsetWidth);
+      zoom = previousZoom * incrementalZoom;
+      zoom = Math.min(Math.max(zoom, minZoom), maxZoom);
+      actuallyIncrementedZoom = zoom / originalZoom;
+      panPoint.x += (actuallyIncrementedZoom - 1) * (zoomPoint.x + panPoint.x);
+      panPoint.y += (actuallyIncrementedZoom - 1) * (zoomPoint.y + panPoint.y)
+    }
+    function processPinch(point1, point2) {
+      var zoomPoint = point1.getCenter(point2), pinchDistance = point1.getDistance(point2), incrementalZoom = pinchDistance / firstPinchDistance;
+      processPan(zoomPoint);
+      processZoom(zoomPoint, incrementalZoom)
+    }
+    function prepareGesture(event) {
+      var fingers = event.touches.length, point1 = fingers > 0 ? getPoint(event.touches[0]) : null, point2 = fingers > 1 ? getPoint(event.touches[1]) : null;
+      if(point1 && point2) {
+        firstPinchDistance = point1.getDistance(point2);
+        previousZoom = zoom;
+        previousPanPoint = point1.getCenter(point2);
+        removeScroll();
+        currentGesture = gestures.PINCH
+      }else {
+        if(point1) {
+          previousPanPoint = point1;
+          currentGesture = gestures.SCROLL
+        }
+      }
+    }
+    function processGesture(event) {
+      var fingers = event.touches.length, point1 = fingers > 0 ? getPoint(event.touches[0]) : null, point2 = fingers > 1 ? getPoint(event.touches[1]) : null;
+      if(point1 && point2) {
+        event.preventDefault();
+        if(currentGesture === gestures.SCROLL) {
+          currentGesture = gestures.PINCH;
+          removeScroll();
+          firstPinchDistance = point1.getDistance(point2);
+          return
+        }
+        processPinch(point1, point2);
+        applyFastTransform()
+      }else {
+        if(point1) {
+          if(currentGesture === gestures.PINCH) {
+            currentGesture = gestures.SCROLL;
+            restoreScroll();
+            return
+          }
+          processPan(point1)
+        }
+      }
+    }
+    function sanitizeGesture() {
+      if(currentGesture === gestures.PINCH) {
+        events.emit(gui.ZoomHelper.signalZoomChanged, zoom);
+        restoreScroll();
+        applyDetailedTransform()
+      }
+      currentGesture = gestures.NONE
+    }
+    this.subscribe = function(eventid, cb) {
+      events.subscribe(eventid, cb)
+    };
+    this.unsubscribe = function(eventid, cb) {
+      events.unsubscribe(eventid, cb)
+    };
+    this.getZoomLevel = function() {
+      return zoom
+    };
+    this.setZoomLevel = function(zoomLevel) {
+      if(zoomableElement) {
+        zoom = zoomLevel;
+        applyDetailedTransform();
+        events.emit(gui.ZoomHelper.signalZoomChanged, zoom)
+      }
+    };
+    function registerGestureListeners() {
+      if(offsetParent) {
+        offsetParent.addEventListener("touchstart", (prepareGesture), false);
+        offsetParent.addEventListener("touchmove", (processGesture), false);
+        offsetParent.addEventListener("touchend", (sanitizeGesture), false)
+      }
+    }
+    function unregisterGestureListeners() {
+      if(offsetParent) {
+        offsetParent.removeEventListener("touchstart", (prepareGesture), false);
+        offsetParent.removeEventListener("touchmove", (processGesture), false);
+        offsetParent.removeEventListener("touchend", (sanitizeGesture), false)
+      }
+    }
+    this.destroy = function(callback) {
+      unregisterGestureListeners();
+      enableScrollBars(false);
+      callback()
+    };
+    this.setZoomableElement = function(element) {
+      unregisterGestureListeners();
+      zoomableElement = element;
+      offsetParent = (zoomableElement.offsetParent);
+      applyDetailedTransform();
+      registerGestureListeners();
+      enableScrollBars(true)
+    };
+    function init() {
+      zoom = 1;
+      previousZoom = 1;
+      panPoint = new Point(0, 0)
+    }
+    init()
+  };
+  gui.ZoomHelper.signalZoomChanged = "zoomChanged"
+})();
+/*
+
  Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
 
  @licstart
@@ -7669,6 +7669,8 @@ ops.Canvas = function Canvas() {
 ops.Canvas.prototype.getZoomLevel = function() {
 };
 ops.Canvas.prototype.getElement = function() {
+};
+ops.Canvas.prototype.getZoomHelper = function() {
 };
 /*
 
@@ -13634,7 +13636,7 @@ gui.HyperlinkController = function HyperlinkController(session, inputMemberId) {
   this.removeHyperlinks = removeHyperlinks
 };
 gui.EventManager = function EventManager(odtDocument) {
-  var window = (runtime.getWindow()), bindToDirectHandler = {"beforecut":true, "beforepaste":true}, bindToWindow = {"mousedown":true, "mouseup":true, "focus":true}, eventDelegates = {}, eventTrap, canvasElement = odtDocument.getCanvas().getElement();
+  var window = (runtime.getWindow()), bindToDirectHandler = {"beforecut":true, "beforepaste":true, "longpress":true, "drag":true, "dragstop":true}, bindToWindow = {"mousedown":true, "mouseup":true, "focus":true}, compoundEvents = {}, eventDelegates = {}, eventTrap, canvasElement = (odtDocument.getCanvas().getElement()), eventManager = this, longPressTimers = {}, LONGPRESS_DURATION = 400;
   function EventDelegate() {
     var self = this, recentEvents = [];
     this.filters = [];
@@ -13655,6 +13657,100 @@ gui.EventManager = function EventManager(odtDocument) {
       }
     }
   }
+  function CompoundEvent(eventName, dependencies, eventProxy) {
+    var cachedState = {}, events = new core.EventNotifier(["eventTriggered"]);
+    function subscribedProxy(event) {
+      eventProxy(event, cachedState, function(compoundEventInstance) {
+        compoundEventInstance.type = eventName;
+        events.emit("eventTriggered", compoundEventInstance)
+      })
+    }
+    this.subscribe = function(cb) {
+      events.subscribe("eventTriggered", cb)
+    };
+    this.unsubscribe = function(cb) {
+      events.unsubscribe("eventTriggered", cb)
+    };
+    this.destroy = function() {
+      dependencies.forEach(function(eventName) {
+        eventManager.unsubscribe(eventName, subscribedProxy)
+      })
+    };
+    function init() {
+      dependencies.forEach(function(eventName) {
+        eventManager.subscribe(eventName, subscribedProxy)
+      })
+    }
+    init()
+  }
+  function clearTimeout(timer) {
+    runtime.clearTimeout(timer);
+    delete longPressTimers[timer]
+  }
+  function setTimeout(fn, duration) {
+    var timer = runtime.setTimeout(function() {
+      fn();
+      clearTimeout(timer)
+    }, duration);
+    longPressTimers[timer] = true;
+    return timer
+  }
+  function getTarget(e) {
+    return(e.target) || (e.srcElement || null)
+  }
+  function emitLongPressEvent(event, cachedState, callback) {
+    var touchEvent = (event), fingers = (touchEvent.touches.length), touch = (touchEvent.touches[0]), timer = (cachedState).timer;
+    if(event.type === "touchmove" || event.type === "touchend") {
+      if(timer) {
+        clearTimeout(timer)
+      }
+    }else {
+      if(event.type === "touchstart") {
+        if(fingers !== 1) {
+          runtime.clearTimeout(timer)
+        }else {
+          timer = setTimeout(function() {
+            callback({clientX:touch.clientX, clientY:touch.clientY, pageX:touch.pageX, pageY:touch.pageY, target:getTarget(event), detail:1})
+          }, LONGPRESS_DURATION)
+        }
+      }
+    }
+    cachedState.timer = timer
+  }
+  function emitDragEvent(event, cachedState, callback) {
+    var touchEvent = (event), fingers = (touchEvent.touches.length), touch = (touchEvent.touches[0]), target = (getTarget(event)), cachedTarget = (cachedState).target;
+    if(fingers !== 1 || event.type === "touchend") {
+      cachedTarget = null
+    }else {
+      if(event.type === "touchstart" && target.getAttribute("class") === "draggable") {
+        cachedTarget = target
+      }else {
+        if(event.type === "touchmove" && cachedTarget) {
+          event.preventDefault();
+          event.stopPropagation();
+          callback({clientX:touch.clientX, clientY:touch.clientY, pageX:touch.pageX, pageY:touch.pageY, target:cachedTarget, detail:1})
+        }
+      }
+    }
+    cachedState.target = cachedTarget
+  }
+  function emitDragStopEvent(event, cachedState, callback) {
+    var touchEvent = (event), target = (getTarget(event)), touch, dragging = (cachedState).dragging;
+    if(event.type === "drag") {
+      dragging = true
+    }else {
+      if(event.type === "touchend" && dragging) {
+        dragging = false;
+        touch = (touchEvent.changedTouches[0]);
+        callback({clientX:touch.clientX, clientY:touch.clientY, pageX:touch.pageX, pageY:touch.pageY, target:target, detail:1})
+      }
+    }
+    cachedState.dragging = dragging
+  }
+  function declareTouchEnabled() {
+    canvasElement.classList.add("webodf-touchEnabled");
+    eventManager.unsubscribe("touchstart", declareTouchEnabled)
+  }
   function WindowScrollState(window) {
     var x = window.scrollX, y = window.scrollY;
     this.restore = function() {
@@ -13673,7 +13769,12 @@ gui.EventManager = function EventManager(odtDocument) {
     }
   }
   function listenEvent(eventTarget, eventType, eventHandler) {
-    var onVariant = "on" + eventType, bound = false;
+    var onVariant, bound = false;
+    if(compoundEvents.hasOwnProperty(eventType)) {
+      compoundEvents[eventType].subscribe(eventHandler);
+      return
+    }
+    onVariant = "on" + eventType;
     if(eventTarget.attachEvent) {
       eventTarget.attachEvent(onVariant, eventHandler);
       bound = true
@@ -13752,6 +13853,15 @@ gui.EventManager = function EventManager(odtDocument) {
     }
   };
   this.destroy = function(callback) {
+    Object.keys(longPressTimers).forEach(function(timer) {
+      clearTimeout(parseInt(timer, 10))
+    });
+    longPressTimers.length = 0;
+    Object.keys(compoundEvents).forEach(function(compoundEventName) {
+      compoundEvents[compoundEventName].destroy()
+    });
+    compoundEvents = {};
+    eventManager.unsubscribe("touchstart", declareTouchEnabled);
     eventTrap.parentNode.removeChild(eventTrap);
     callback()
   };
@@ -13761,7 +13871,11 @@ gui.EventManager = function EventManager(odtDocument) {
     eventTrap = (doc.createElement("input"));
     eventTrap.id = "eventTrap";
     eventTrap.setAttribute("tabindex", -1);
-    sizerElement.appendChild(eventTrap)
+    sizerElement.appendChild(eventTrap);
+    compoundEvents.longpress = new CompoundEvent("longpress", ["touchstart", "touchmove", "touchend"], emitLongPressEvent);
+    compoundEvents.drag = new CompoundEvent("drag", ["touchstart", "touchmove", "touchend"], emitDragEvent);
+    compoundEvents.dragstop = new CompoundEvent("dragstop", ["drag", "touchend"], emitDragStopEvent);
+    eventManager.subscribe("touchstart", declareTouchEnabled)
   }
   init()
 };
@@ -15022,6 +15136,28 @@ gui.UndoManager.signalUndoStateModified = "undoStateModified";
       return false
     }
     this.redo = redo;
+    function extendSelectionByDrag(event) {
+      var position, cursor = odtDocument.getCursor(inputMemberId), selectedRange = cursor.getSelectedRange(), newSelectionRange, handleEnd = (getTarget(event)).getAttribute("end");
+      if(selectedRange && handleEnd) {
+        position = caretPositionFromPoint(event.clientX, event.clientY);
+        if(position) {
+          shadowCursorIterator.setUnfilteredPosition(position.container, position.offset);
+          if(mouseDownRootFilter.acceptPosition(shadowCursorIterator) === FILTER_ACCEPT) {
+            newSelectionRange = (selectedRange.cloneRange());
+            if(handleEnd === "left") {
+              newSelectionRange.setStart(shadowCursorIterator.container(), shadowCursorIterator.unfilteredDomOffset())
+            }else {
+              newSelectionRange.setEnd(shadowCursorIterator.container(), shadowCursorIterator.unfilteredDomOffset())
+            }
+            shadowCursor.setSelectedRange(newSelectionRange, handleEnd === "right");
+            odtDocument.emit(ops.Document.signalCursorMoved, shadowCursor)
+          }
+        }
+      }
+    }
+    function updateCursorSelection() {
+      selectionController.selectRange(shadowCursor.getSelectedRange(), shadowCursor.hasForwardSelection(), 1)
+    }
     function updateShadowCursor() {
       var selection = window.getSelection(), selectionRange = selection.rangeCount > 0 && selectionController.selectionToRange(selection);
       if(clickStartedWithinCanvas && selectionRange) {
@@ -15123,6 +15259,18 @@ gui.UndoManager.signalUndoStateModified = "undoStateModified";
       }
       eventManager.focus()
     }
+    function selectWordByLongPress(event) {
+      var selection, position, selectionRange, container, offset;
+      position = caretPositionFromPoint(event.clientX, event.clientY);
+      if(position) {
+        container = (position.container);
+        offset = position.offset;
+        selection = {anchorNode:container, anchorOffset:offset, focusNode:container, focusOffset:offset};
+        selectionRange = selectionController.selectionToRange(selection);
+        selectionController.selectRange(selectionRange.range, selectionRange.hasForwardSelection, 2);
+        eventManager.focus()
+      }
+    }
     function handleMouseClickEvent(event) {
       var target = getTarget(event), range, wasCollapsed, frameNode, pos;
       drawShadowCursorTask.processRequests();
@@ -15190,7 +15338,9 @@ gui.UndoManager.signalUndoStateModified = "undoStateModified";
         annotationController.removeAnnotation(annotationNode);
         eventManager.focus()
       }else {
-        handleMouseClickEvent(event)
+        if(target.getAttribute("class") !== "draggable") {
+          handleMouseClickEvent(event)
+        }
       }
     }
     function insertNonEmptyData(e) {
@@ -15393,6 +15543,9 @@ gui.UndoManager.signalUndoStateModified = "undoStateModified";
       eventManager.unsubscribe("dragstart", handleDragStart);
       eventManager.unsubscribe("dragend", handleDragEnd);
       eventManager.unsubscribe("click", hyperlinkClickHandler.handleClick);
+      eventManager.unsubscribe("longpress", selectWordByLongPress);
+      eventManager.unsubscribe("drag", extendSelectionByDrag);
+      eventManager.unsubscribe("dragstop", updateCursorSelection);
       odtDocument.unsubscribe(ops.OdtDocument.signalOperationEnd, redrawRegionSelectionTask.trigger);
       odtDocument.unsubscribe(ops.Document.signalCursorAdded, inputMethodEditor.registerCursor);
       odtDocument.unsubscribe(ops.Document.signalCursorRemoved, inputMethodEditor.removeCursor);
@@ -15466,6 +15619,9 @@ gui.UndoManager.signalUndoStateModified = "undoStateModified";
       eventManager.subscribe("dragstart", handleDragStart);
       eventManager.subscribe("dragend", handleDragEnd);
       eventManager.subscribe("click", hyperlinkClickHandler.handleClick);
+      eventManager.subscribe("longpress", selectWordByLongPress);
+      eventManager.subscribe("drag", extendSelectionByDrag);
+      eventManager.subscribe("dragstop", updateCursorSelection);
       odtDocument.subscribe(ops.OdtDocument.signalOperationEnd, redrawRegionSelectionTask.trigger);
       odtDocument.subscribe(ops.Document.signalCursorAdded, inputMethodEditor.registerCursor);
       odtDocument.subscribe(ops.Document.signalCursorRemoved, inputMethodEditor.removeCursor);
@@ -16100,7 +16256,10 @@ gui.SessionViewOptions = function() {
       setStyle("span.editInfoColor", "{ background-color: " + color + "; }", "");
       setStyle("span.editInfoAuthor", '{ content: "' + name + '"; }', ":before");
       setStyle("dc|creator", "{ background-color: " + color + "; }", "");
-      setStyle(".selectionOverlay", "{ fill: " + color + "; stroke: " + color + ";}", "")
+      setStyle(".selectionOverlay", "{ fill: " + color + "; stroke: " + color + ";}", "");
+      if(memberId === gui.ShadowCursor.ShadowCursorMemberId || memberId === localMemberId) {
+        setStyle(".webodf-touchEnabled .selectionOverlay", "{ display: block; }", " > .draggable")
+      }
     }
     function highlightEdit(element, memberId, timestamp) {
       var editInfo, editInfoMarker, id = "", editInfoNode = element.getElementsByTagNameNS(editInfons, "editinfo").item(0);
@@ -16269,7 +16428,8 @@ gui.SessionViewOptions = function() {
   }
 })();
 gui.SvgSelectionView = function SvgSelectionView(cursor) {
-  var document = cursor.getDocument(), documentRoot, root, doc = document.getDOMDocument(), async = new core.Async, svgns = "http://www.w3.org/2000/svg", overlay = doc.createElementNS(svgns, "svg"), polygon = doc.createElementNS(svgns, "polygon"), odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, isVisible = true, positionIterator = gui.SelectionMover.createPositionIterator(document.getRootNode()), FILTER_ACCEPT = NodeFilter.FILTER_ACCEPT, FILTER_REJECT = NodeFilter.FILTER_REJECT, renderTask;
+  var document = cursor.getDocument(), documentRoot, root, doc = document.getDOMDocument(), async = new core.Async, svgns = "http://www.w3.org/2000/svg", overlay = doc.createElementNS(svgns, "svg"), polygon = doc.createElementNS(svgns, "polygon"), handle1 = doc.createElementNS(svgns, "circle"), handle2 = doc.createElementNS(svgns, "circle"), odfUtils = new odf.OdfUtils, domUtils = new core.DomUtils, zoomHelper = document.getCanvas().getZoomHelper(), isVisible = true, positionIterator = gui.SelectionMover.createPositionIterator(document.getRootNode()), 
+  FILTER_ACCEPT = NodeFilter.FILTER_ACCEPT, FILTER_REJECT = NodeFilter.FILTER_REJECT, HANDLE_RADIUS = 8, renderTask;
   function addOverlay() {
     var newDocumentRoot = document.getRootNode();
     if(documentRoot !== newDocumentRoot) {
@@ -16277,11 +16437,19 @@ gui.SvgSelectionView = function SvgSelectionView(cursor) {
       root = (documentRoot.parentNode.parentNode.parentNode);
       root.appendChild(overlay);
       overlay.setAttribute("class", "selectionOverlay");
-      overlay.appendChild(polygon)
+      handle1.setAttribute("class", "draggable");
+      handle2.setAttribute("class", "draggable");
+      handle1.setAttribute("end", "left");
+      handle2.setAttribute("end", "right");
+      handle1.setAttribute("r", HANDLE_RADIUS);
+      handle2.setAttribute("r", HANDLE_RADIUS);
+      overlay.appendChild(polygon);
+      overlay.appendChild(handle1);
+      overlay.appendChild(handle2)
     }
   }
   function translateRect(rect) {
-    var rootRect = domUtils.getBoundingClientRect(root), zoomLevel = document.getCanvas().getZoomLevel(), resultRect = {};
+    var rootRect = domUtils.getBoundingClientRect(root), zoomLevel = zoomHelper.getZoomLevel(), resultRect = {};
     resultRect.top = domUtils.adaptRangeDifferenceToZoomLevel(rect.top - rootRect.top, zoomLevel);
     resultRect.left = domUtils.adaptRangeDifferenceToZoomLevel(rect.left - rootRect.left, zoomLevel);
     resultRect.bottom = domUtils.adaptRangeDifferenceToZoomLevel(rect.bottom - rootRect.top, zoomLevel);
@@ -16513,6 +16681,10 @@ gui.SvgSelectionView = function SvgSelectionView(cursor) {
       top = Math.min(firstRect.top, lastRect.top);
       bottom = lastRect.top + lastRect.height;
       setPoints([{x:firstRect.left, y:top + firstRect.height}, {x:firstRect.left, y:top}, {x:right, y:top}, {x:right, y:bottom - lastRect.height}, {x:lastRect.right, y:bottom - lastRect.height}, {x:lastRect.right, y:bottom}, {x:left, y:bottom}, {x:left, y:top + firstRect.height}, {x:firstRect.left, y:top + firstRect.height}]);
+      handle1.setAttribute("cx", firstRect.left);
+      handle1.setAttribute("cy", top + firstRect.height / 2);
+      handle2.setAttribute("cx", lastRect.right);
+      handle2.setAttribute("cy", bottom - lastRect.height / 2);
       firstRange.detach();
       lastRange.detach();
       fillerRange.detach()
@@ -16550,9 +16722,15 @@ gui.SvgSelectionView = function SvgSelectionView(cursor) {
       renderTask.trigger()
     }
   }
+  function scaleHandles(zoomLevel) {
+    var radius = HANDLE_RADIUS / zoomLevel;
+    handle1.setAttribute("r", radius);
+    handle2.setAttribute("r", radius)
+  }
   function destroy(callback) {
     root.removeChild(overlay);
     cursor.getDocument().unsubscribe(ops.Document.signalCursorMoved, handleCursorMove);
+    zoomHelper.unsubscribe(gui.ZoomHelper.signalZoomChanged, scaleHandles);
     callback()
   }
   this.destroy = function(callback) {
@@ -16563,7 +16741,9 @@ gui.SvgSelectionView = function SvgSelectionView(cursor) {
     renderTask = new core.ScheduledTask(rerender, 0);
     addOverlay();
     overlay.setAttributeNS(editinfons, "editinfo:memberid", memberid);
-    cursor.getDocument().subscribe(ops.Document.signalCursorMoved, handleCursorMove)
+    cursor.getDocument().subscribe(ops.Document.signalCursorMoved, handleCursorMove);
+    zoomHelper.subscribe(gui.ZoomHelper.signalZoomChanged, scaleHandles);
+    scaleHandles(zoomHelper.getZoomLevel())
   }
   init()
 };
@@ -17657,5 +17837,5 @@ ops.Server.prototype.leaveSession = function(sessionId, memberId, successCb, fai
 };
 ops.Server.prototype.getGenesisUrl = function(sessionId) {
 };
-var webodf_css = '@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace webodfhelper url(urn:webodf:names:helper);\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n@namespace svgns url(http://www.w3.org/2000/svg);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[webodfhelper|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n  /** Let\'s not draw selection highlight that overflows into the office|text\n   * node when selecting content across several paragraphs\n   */\n  background: transparent;\n}\n\noffice|document *::selection {\n  background: transparent;\n}\noffice|document *::-moz-selection {\n  background: transparent;\n}\n\noffice|text * draw|text-box {\n/** only for text documents */\n    display: block;\n    border: 1px solid #d3d3d3;\n}\ndraw|frame {\n  /** make sure frames are above the main body. */\n  z-index: 1;\n}\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:"";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\noffice|text[webodfhelper|links="inactive"] text|a {\n    cursor: text;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n    pointer-events: none;\n}\n\ncursor|cursor > .caret {\n    /* IMPORTANT: when changing these values ensure DEFAULT_CARET_TOP and DEFAULT_CARET_HEIGHT\n        in Caret.js remain in sync */\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > .handle {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > .handle > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > .handle.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > .handle:after {\n    content: \' \';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n/** Input Method Editor input pane & behaviours */\n/* not within a cursor */\n#eventTrap {\n    height: auto;\n    display: block;\n    position: absolute;\n    width: 1px;\n    outline: none;\n    opacity: 0;\n    color: rgba(255, 255, 255, 0); /* hide the blinking caret by setting the colour to fully transparent */\n    overflow: hidden; /* The overflow visibility is used to hide and show characters being entered */\n    pointer-events: none;\n}\n\n/* within a cursor */\ncursor|cursor > #composer {\n    text-decoration: underline;\n}\n\ncursor|cursor[cursor|composing="true"] > #composer {\n    display: inline-block;\n    height: auto;\n    width: auto;\n}\n\ncursor|cursor[cursor|composing="true"] {\n    display: inline-block;\n    width: auto;\n    height: inherit;\n}\n\ncursor|cursor[cursor|composing="true"] > .caret {\n    /* during composition, the caret should be pushed along by the composition text, inline with the text */\n    position: static;\n    /* as it is now part of an inline-block, it will no longer need correct to top or height values to align properly */\n    height: auto !important;\n    top: auto !important;\n}\n\neditinfo|editinfo {\n    /* Empty or invisible display:inline elements respond very badly to mouse selection.\n       Inline blocks are much more reliably selectable in Chrome & friends */\n    display: inline-block;\n}\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: \' \';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: \'\u00d7\';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n    text-align: left;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: \'\';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n    color: black;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: none;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n\n.selectionOverlay {\n    position: absolute;\n    pointer-events: none;\n    top: 0;\n    left: 0;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    z-index: 15;\n}\n.selectionOverlay > polygon {\n    fill-opacity: 0.3;\n    stroke-opacity: 0.8;\n    stroke-width: 1;\n    fill-rule: evenodd;\n}\n\n#imageSelector {\n    display: none;\n    position: absolute;\n    border-style: solid;\n    border-color: black;\n}\n\n#imageSelector > div {\n    width: 5px;\n    height: 5px;\n    display: block;\n    position: absolute;\n    border: 1px solid black;\n    background-color: #ffffff;\n}\n\n#imageSelector > .topLeft {\n    top: -4px;\n    left: -4px;\n}\n\n#imageSelector > .topRight {\n    top: -4px;\n    right: -4px;\n}\n\n#imageSelector > .bottomRight {\n    right: -4px;\n    bottom: -4px;\n}\n\n#imageSelector > .bottomLeft {\n    bottom: -4px;\n    left: -4px;\n}\n\n#imageSelector > .topMiddle {\n    top: -4px;\n    left: 50%;\n    margin-left: -2.5px; /* half of the width defined in #imageSelector > div */\n}\n\n#imageSelector > .rightMiddle {\n    top: 50%;\n    right: -4px;\n    margin-top: -2.5px; /* half of the height defined in #imageSelector > div */\n}\n\n#imageSelector > .bottomMiddle {\n    bottom: -4px;\n    left: 50%;\n    margin-left: -2.5px; /* half of the width defined in #imageSelector > div */\n}\n\n#imageSelector > .leftMiddle {\n    top: 50%;\n    left: -4px;\n    margin-top: -2.5px; /* half of the height defined in #imageSelector > div */\n}\n\ndiv.customScrollbars::-webkit-scrollbar\n{\n    width: 8px;\n    height: 8px;\n    background-color: transparent;\n}\n\ndiv.customScrollbars::-webkit-scrollbar-track\n{\n    background-color: transparent;\n}\n\ndiv.customScrollbars::-webkit-scrollbar-thumb\n{\n    background-color: #444;\n    border-radius: 4px;\n}\n';
+var webodf_css = '@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace webodfhelper url(urn:webodf:names:helper);\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n@namespace svgns url(http://www.w3.org/2000/svg);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[webodfhelper|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n  /** Let\'s not draw selection highlight that overflows into the office|text\n   * node when selecting content across several paragraphs\n   */\n  background: transparent;\n}\n\noffice|document *::selection {\n  background: transparent;\n}\noffice|document *::-moz-selection {\n  background: transparent;\n}\n\noffice|text * draw|text-box {\n/** only for text documents */\n    display: block;\n    border: 1px solid #d3d3d3;\n}\ndraw|frame {\n  /** make sure frames are above the main body. */\n  z-index: 1;\n}\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:"";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\noffice|text[webodfhelper|links="inactive"] text|a {\n    cursor: text;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n    pointer-events: none;\n}\n\ncursor|cursor > .caret {\n    /* IMPORTANT: when changing these values ensure DEFAULT_CARET_TOP and DEFAULT_CARET_HEIGHT\n        in Caret.js remain in sync */\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > .handle {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > .handle > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > .handle.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > .handle:after {\n    content: \' \';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n/** Input Method Editor input pane & behaviours */\n/* not within a cursor */\n#eventTrap {\n    height: auto;\n    display: block;\n    position: absolute;\n    width: 1px;\n    outline: none;\n    opacity: 0;\n    color: rgba(255, 255, 255, 0); /* hide the blinking caret by setting the colour to fully transparent */\n    overflow: hidden; /* The overflow visibility is used to hide and show characters being entered */\n    pointer-events: none;\n}\n\n/* within a cursor */\ncursor|cursor > #composer {\n    text-decoration: underline;\n}\n\ncursor|cursor[cursor|composing="true"] > #composer {\n    display: inline-block;\n    height: auto;\n    width: auto;\n}\n\ncursor|cursor[cursor|composing="true"] {\n    display: inline-block;\n    width: auto;\n    height: inherit;\n}\n\ncursor|cursor[cursor|composing="true"] > .caret {\n    /* during composition, the caret should be pushed along by the composition text, inline with the text */\n    position: static;\n    /* as it is now part of an inline-block, it will no longer need correct to top or height values to align properly */\n    height: auto !important;\n    top: auto !important;\n}\n\neditinfo|editinfo {\n    /* Empty or invisible display:inline elements respond very badly to mouse selection.\n       Inline blocks are much more reliably selectable in Chrome & friends */\n    display: inline-block;\n}\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: \' \';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: \'\u00d7\';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n    text-align: left;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: \'\';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n    color: black;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: none;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n\n.selectionOverlay {\n    position: absolute;\n    pointer-events: none;\n    top: 0;\n    left: 0;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    z-index: 15;\n}\n.selectionOverlay > polygon {\n    fill-opacity: 0.3;\n    stroke-opacity: 0.8;\n    stroke-width: 1;\n    fill-rule: evenodd;\n}\n\n.selectionOverlay > .draggable {\n    fill-opacity: 0.8;\n    stroke-opacity: 0;\n    stroke-width: 8;\n    pointer-events: all;\n    display: none;\n\n    -moz-transform-origin: center center;\n    -webkit-transform-origin: center center;\n    -ms-transform-origin: center center;\n    transform-origin: center center;\n}\n\n#imageSelector {\n    display: none;\n    position: absolute;\n    border-style: solid;\n    border-color: black;\n}\n\n#imageSelector > div {\n    width: 5px;\n    height: 5px;\n    display: block;\n    position: absolute;\n    border: 1px solid black;\n    background-color: #ffffff;\n}\n\n#imageSelector > .topLeft {\n    top: -4px;\n    left: -4px;\n}\n\n#imageSelector > .topRight {\n    top: -4px;\n    right: -4px;\n}\n\n#imageSelector > .bottomRight {\n    right: -4px;\n    bottom: -4px;\n}\n\n#imageSelector > .bottomLeft {\n    bottom: -4px;\n    left: -4px;\n}\n\n#imageSelector > .topMiddle {\n    top: -4px;\n    left: 50%;\n    margin-left: -2.5px; /* half of the width defined in #imageSelector > div */\n}\n\n#imageSelector > .rightMiddle {\n    top: 50%;\n    right: -4px;\n    margin-top: -2.5px; /* half of the height defined in #imageSelector > div */\n}\n\n#imageSelector > .bottomMiddle {\n    bottom: -4px;\n    left: 50%;\n    margin-left: -2.5px; /* half of the width defined in #imageSelector > div */\n}\n\n#imageSelector > .leftMiddle {\n    top: 50%;\n    left: -4px;\n    margin-top: -2.5px; /* half of the height defined in #imageSelector > div */\n}\n\ndiv.customScrollbars::-webkit-scrollbar\n{\n    width: 8px;\n    height: 8px;\n    background-color: transparent;\n}\n\ndiv.customScrollbars::-webkit-scrollbar-track\n{\n    background-color: transparent;\n}\n\ndiv.customScrollbars::-webkit-scrollbar-thumb\n{\n    background-color: #444;\n    border-radius: 4px;\n}\n';
 
