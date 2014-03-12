@@ -597,7 +597,7 @@ $(document).ready(function() {
 
 
 	var file_upload_start = $('#file_upload_start');
-	if (supportAjaxUploadWithProgress()) {
+	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {
 		file_upload_start.on('fileuploadstart', function(e, data) {
 			$('#upload').addClass('icon icon-loading');
 			$('.add-document .upload').css({opacity:0})
