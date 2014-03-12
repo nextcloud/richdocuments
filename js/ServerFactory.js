@@ -25,7 +25,7 @@
 
 /*global define, require, OC*/
 
-define("webodf/editor/server/owncloud/ServerFactory", [
+define("owncloud/ServerFactory", [
     "webodf/editor/server/pullbox/Server",
     "webodf/editor/server/pullbox/OperationRouter",
     "webodf/editor/server/pullbox/SessionList"],

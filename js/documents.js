@@ -198,7 +198,7 @@ var documentsMain = {
 			return;
 		}
 
-		require({ }, ["webodf/editor/server/owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
+		require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
 			$('#content').fadeOut('fast').promise().done(function() {
 				
@@ -530,7 +530,8 @@ dojoConfig = {
 		"dijit": OC.appswebroots.documents + "/js/3rdparty/resources/dijit",
 		"dojox": OC.appswebroots.documents + "/js/3rdparty/resources/dojox",
 		"dojo": OC.appswebroots.documents + "/js/3rdparty/resources/dojo",
-		"resources": OC.appswebroots.documents + "/js/3rdparty/resources"
+		"resources": OC.appswebroots.documents + "/js/3rdparty/resources",
+		"owncloud" : OC.appswebroots.documents + "/js"
 	}
 };
 
