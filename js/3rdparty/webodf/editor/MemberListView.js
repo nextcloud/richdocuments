@@ -116,6 +116,7 @@ define("webodf/editor/MemberListView",
                 //avatar.getCaret().hideHandle();
             };
             avatarDiv.onclick = function () {
+				documentsMain.onNickChange(memberId, fullnameNode);
                 var caret = editorSession.sessionView.getCaret(memberId);
                 if (caret) {
                     //caret.toggleHandleVisibility();

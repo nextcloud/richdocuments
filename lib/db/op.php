@@ -109,6 +109,12 @@ class Db_Op extends Db {
 		$this->insertOp($esId, $memberId, $op);
 	}
 	
+	public function changeNick($esId, $memberId, $fullName){
+		$op = '{"optype":"UpdateMember","memberid":"'. $memberId .'", "setProperties":{"fullName":"'. $fullName .'"},"timestamp":'. time() .'}'
+		;
+		$this->insertOp($esId, $memberId, $op);
+	}
+	
 	protected function insertOp($esId, $memberId, $op){
 		$op = new Db_Op(array(
 			$esId, 

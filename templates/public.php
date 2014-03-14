@@ -12,11 +12,7 @@
 			<input type="submit" name="submit" value="<?php p($l->t('OK')) ?>" />
 		</form>
 	<?php endif; ?>
-	<?php if (isset($_['document'])): ?>
-		<form>
-			<input type="text" name="memberName" placeholder="<?php p($l->t('Please enter your nickname')) ?>" />
-			<button id="odf-join"><?php p($l->t('Join')) ?></button>
-		</form>
+	<?php if (isset($_['document']) && !isset($_['wrongpw'])): ?>
 		<input type="hidden" name="document" value ="<?php p($_['document']) ?>" />
 	<?php endif; ?>
 	<?php if (isset($_['notFound'])): ?>

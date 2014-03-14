@@ -25,7 +25,7 @@ var documentsMain = {
 						  t('documents', 'Share') +
 					'  </button>' +
 					'  <button id="odf-close">' +
-						t('documents', 'Close') +
+					       t('documents', 'Close') +
 					'  </button>' +
 					'  <img id="saving-document" alt=""' +
 					'   src="' + OC.imagePath('core', 'loading.gif') + '"' +
@@ -138,6 +138,17 @@ var documentsMain = {
 		if (!OC.currentUser){
 			documentsMain.isGuest = true;
 			
+			
+			if ($("[name='document']").val()){
+				// !Login page mess wih WebODF toolbars
+				$(document.body).attr('id', 'body-user');
+				$('header,footer').hide();
+				documentsMain.prepareSession();
+				documentsMain.joinSession(
+					$("[name='document']").val()
+				);
+			}
+
 		} else {
 			// Does anything indicate that we need to autostart a session?
 			fileId = parent.location.hash.replace(/\W*/g, '');
@@ -208,6 +219,9 @@ var documentsMain = {
 						documentsMain.fileName || response.title,
 						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
+				if (documentsMain.isGuest){
+					$('#odf-close').text(t('documents', 'Save') );
+				}
 				var serverFactory = new ServerFactory();
 				documentsMain.esId = response.es_id;
 				documentsMain.memberId = response.member_id;
@@ -299,6 +313,78 @@ var documentsMain = {
 				OC.PERMISSION_READ | OC.PERMISSION_SHARE | OC.PERMISSION_UPDATE
 			);
 		}
+	},
+	
+	changeNick: function(memberId, name, node){
+		var url = OC.generateUrl('apps/documents/ajax/user/rename/{member_id}', {member_id: memberId});
+		$.post(
+			url,
+			{ name : name },
+			function(result) {
+				if (result && result.status === 'error') {
+					if (result.message){
+						OC.Notification.show(result.message);
+						setTimeout(function() {
+							OC.Notification.hide();
+						}, 10000);
+					}
+					return;
+				}
+			}
+		);
+	},
+	
+	onNickChange: function(memberId, fullNameNode){
+		if (!documentsMain.isGuest || memberId !== documentsMain.memberId){
+			return;
+		}
+		if ($(fullNameNode.parentNode).children('input').length !== 0){
+			return;
+		}
+		
+		var input = $('<input type="text"/>').val($(fullNameNode).attr('fullname'));
+		$(fullNameNode.parentNode).append(input);
+		$(fullNameNode).hide();
+
+		input.on('blur', function(){
+			var newName = input.val();
+			if (!newName || newName === name) {
+				input.tipsy('hide');
+				input.remove();
+				$(fullNameNode).show();
+				return;
+			}
+			else {
+				try {
+					input.tipsy('hide');
+					input.removeClass('error');
+					input.tipsy('hide');
+					input.remove();
+					$(fullNameNode).show();
+					documentsMain.changeNick(memberId, newName, fullNameNode);
+				}
+				catch (error) {
+					input.attr('title', error);
+					input.tipsy({gravity: 'n', trigger: 'manual'});
+					input.tipsy('show');
+					input.addClass('error');
+				}
+			}
+		});
+		input.on('keyup', function(event){
+			if (event.keyCode === 27) {
+				// cancel by putting in an empty value
+				$(this).val('');
+				$(this).blur();
+				event.preventDefault();
+			}
+			if (event.keyCode === 13) {
+				$(this).blur();
+				event.preventDefault();
+			}
+		});
+		input.focus();
+		input.selectRange(0, name.length);
 	},
 
 	renameDocument: function(name) {
@@ -583,17 +669,7 @@ $(document).ready(function() {
 	$(document.body).on('click', '#document-title>div', documentsMain.onRenamePrompt);
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
-	$(document.body).on('click', '#odf-join', function(event){
-		event.preventDefault();
 
-		// !Login page mess wih WebODF toolbars
-		$(document.body).attr('id', 'body-user');
-		$('header,footer').hide();
-		documentsMain.prepareSession();
-		documentsMain.joinSession(
-				$("[name='document']").val()
-		);
-	});
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
 
 

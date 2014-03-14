@@ -232,6 +232,10 @@
     border: 0 none !important;
 }
 
+.memberListButton input{
+	width:46px;
+}
+
 #toolbar {
 	top:30px !important;
 	border-bottom: none !important;

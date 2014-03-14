@@ -39,6 +39,24 @@ class UserController extends Controller{
 		\OCP\JSON::success();
 	}
 	
+	public static function rename($args){
+		$memberId = @$args['member_id'];
+		$name = @$_POST['name'];
+		$member = new Db_Member();
+		$member->load($memberId);
+		$memberData = $member->getData();
+		if (count($memberData) && $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE 
+			&& preg_match('/.* \(guest\)$/', $memberData['uid'])
+		){
+			if (!preg_match('/.* \(guest\)$/', $name)){
+				$name .= ' (guest)';
+			}
+			$op = new Db_Op();
+			$op->changeNick($memberData['es_id'], $memberId, $name);
+		}
+		\OCP\JSON::success();
+	}
+	
 	
 	/**
 	 * Stub - sends a generic avatar
