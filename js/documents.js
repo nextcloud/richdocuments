@@ -13,7 +13,7 @@ var documentsMain = {
 	
 	UI : {
 		/* Overlay HTML */
-		overlay : '<div id="documents-overlay" class="icon icon-loading-dark"></div> <div id="documents-overlay-below" class="icon icon-loading-dark"></div>',
+		overlay : '<div id="documents-overlay" class="icon-loading-dark"></div> <div id="documents-overlay-below" class="icon-loading-dark"></div>',
 				
 		/* Toolbar HTML */
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
@@ -599,12 +599,12 @@ $(document).ready(function() {
 	var file_upload_start = $('#file_upload_start');
 	if (supportAjaxUploadWithProgress()) {
 		file_upload_start.on('fileuploadstart', function(e, data) {
-			$('#upload').addClass('icon icon-loading');
+			$('#upload').addClass('icon-loading');
 			$('.add-document .upload').css({opacity:0})
 		});
 	}
 	file_upload_start.on('fileuploaddone', function(){
-		$('#upload').removeClass('icon icon-loading');
+		$('#upload').removeClass('icon-loading');
 		$('.add-document .upload').css({opacity:0.7})
 		documentsMain.show();
 	});

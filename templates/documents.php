@@ -1,7 +1,7 @@
 <div id="documents-content">
 	<ul class="documentslist">
 		<li class="add-document">
-			<a class="icon icon-add add svg" target="_blank" href="">
+			<a class="icon-add add svg" target="_blank" href="">
 				<label><?php p($l->t('New document')) ?></label>
 			</a> 
 			<div id="upload" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
@@ -23,12 +23,12 @@
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)" />
 					<input type="hidden" name="dir" value="<?php p($_['savePath']) ?>" id="dir" />
 					<input type="file" id="file_upload_start" name='files[]' />
-					<a href="#" class="icon icon-upload upload svg">
+					<a href="#" class="icon-upload upload svg">
 					<label><?php p($l->t('Upload')) ?></label></a>
 				</form>
 			</div>
 		</li>
-		<li class="progress icon icon-loading"><div><?php p($l->t('Loading documents...')); ?></div></li>
+		<li class="progress icon-loading"><div><?php p($l->t('Loading documents...')); ?></div></li>
 		<li class="document template" data-id="" style="display:none;">
 			<a target="_blank" href=""><label></label></a>
 		</li>
