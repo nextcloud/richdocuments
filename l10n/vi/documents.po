@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 06:40-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -39,40 +39,44 @@ msgstr "Đóng"
 msgid "No connection to server. Trying to reconnect."
 msgstr "Không thể kết nối đến máy chủ. Đang thử kết nối lại."
 
-#: js/documents.js:173
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Rời khỏi trang này khi đang trong chế độ chỉnh sửa có thể gây mất dữ liệu. Bạn nên sử dụng nút 'Đóng' để thay thế."
 
-#: js/documents.js:190
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Không thể tải tài liệu này. Hãy kiểm tra xem nó có thể đang được mở ra bởi ai đó. Hay là tài liệu này không  chia sẻ hoặc bị xóa gần đây."
 
-#: js/documents.js:447 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr "Lưu"
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Tải tài liệu ..."
 
-#: js/documents.js:466
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr "Không thể tải tài liệu thử lại sau."
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới !"
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr "'.' là một tên file không hợp lệ"
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr "Tên file không được rỗng"
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -226,10 +230,6 @@ msgstr "Làm lại"
 msgid "Right"
 msgstr "Bên phải"
 
-#: js/locale.js:39
-msgid "Save"
-msgstr "Lưu"
-
 #: js/locale.js:40
 msgid "Size"
 msgstr "Kích cỡ"
@@ -290,15 +290,7 @@ msgstr "Mật khẩu không đúng. Vui lòng thử lại."
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr "Vui lòng nhập nickname"
-
-#: templates/public.php:18
-msgid "Join"
-msgstr "Tham gia"
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

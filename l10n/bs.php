@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Zatvori",
 "Share" => "Podijeli",
+"Close" => "Zatvori",
 "Save" => "Spasi",
 "Size" => "Veličina"
 );

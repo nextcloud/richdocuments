@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 06:40-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,40 +40,44 @@ msgstr "Fechar"
 msgid "No connection to server. Trying to reconnect."
 msgstr "Não há ligação ao servidor. A tentar religar."
 
-#: js/documents.js:173
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Sair desta página em modo de Edição pode deixar dados não guardados. É recomendado usar o botão \"Fechar\" em vez disso."
 
-#: js/documents.js:190
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Falhou ao carregar o documento. Por favor verifique se ele pode ser aberto com um editor ODT externo. Isto poderá significar que foi apagado recentemente ou a partilha acabou."
 
-#: js/documents.js:447 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr "Guardar"
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "A carregar documentos..."
 
-#: js/documents.js:466
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr "O carregamento dos documentos falhou"
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Nenhum documento encontrado. Por favor carregue ou crie um documento!"
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr "'.' não é um nome de ficheiro válido!"
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr "O nome do ficheiro não pode estar vazio."
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -227,10 +231,6 @@ msgstr "Refazer"
 msgid "Right"
 msgstr "Direita"
 
-#: js/locale.js:39
-msgid "Save"
-msgstr "Guardar"
-
 #: js/locale.js:40
 msgid "Size"
 msgstr "Tamanho"
@@ -291,15 +291,7 @@ msgstr "Senha errada. Por favor tente novamente."
 msgid "Password"
 msgstr "Palavra-passe"
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr "Por favor introduza a sua alcunha"
-
-#: templates/public.php:18
-msgid "Join"
-msgstr "Entrar"
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

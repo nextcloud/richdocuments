@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 06:40-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -46,40 +46,44 @@ msgstr "Закрыть"
 msgid "No connection to server. Trying to reconnect."
 msgstr "Нет связи с сервером. Попытка переподключения."
 
-#: js/documents.js:173
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'."
 
-#: js/documents.js:190
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Не удалось загрузить документ. Пожалуйста, проверьте возможно ли открыть его с помощью обычного odt редактора."
 
-#: js/documents.js:447 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr "Сохранить"
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Загрузка документов..."
 
-#: js/documents.js:466
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr "Загрузка документов не удалась."
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Документов нет. Пожалуйста, загрузите или создайте документ!"
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr "'.' - неправильное имя файла."
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr "Имя файла не может быть пустым."
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -233,10 +237,6 @@ msgstr "Повторить"
 msgid "Right"
 msgstr "Справа"
 
-#: js/locale.js:39
-msgid "Save"
-msgstr "Сохранить"
-
 #: js/locale.js:40
 msgid "Size"
 msgstr "Размер"
@@ -297,15 +297,7 @@ msgstr "Неправильный пароль. Повторите попытку
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr "Пожалуйста, введите ваш псевдоним"
-
-#: templates/public.php:18
-msgid "Join"
-msgstr "Присоединиться"
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

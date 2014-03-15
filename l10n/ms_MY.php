@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Kongsi",
 "Close" => "Tutup",
+"Save" => "Simpan",
 "Cancel" => "Batal",
 "Create" => "Buat",
 "Delete" => "Padam",
 "OK" => "OK",
 "Open" => "Buka",
-"Save" => "Simpan",
 "Size" => "Saiz",
 "Text" => "Teks",
 "Edit" => "Sunting",

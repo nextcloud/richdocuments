@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Save" => "Gorde",
 "Cancel" => "Ezeztatu",
 "Delete" => "Ezabatu",
-"Save" => "Gorde",
 "Edit" => "Aldatu"
 );

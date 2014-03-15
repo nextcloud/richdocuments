@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Podeli",
 "Close" => "Zatvori",
+"Save" => "Snimi",
 "Cancel" => "Otkaži",
 "Create" => "Napravi",
 "Delete" => "Obriši",
-"Save" => "Snimi",
 "Size" => "Veličina",
 "Text" => "Tekst",
 "Edit" => "Uredi",

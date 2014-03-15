@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Close" => "మూసివేయి",
+"Save" => "భద్రపరచు",
 "Cancel" => "రద్దుచేయి",
 "Delete" => "తొలగించు",
-"Save" => "భద్రపరచు",
 "Size" => "పరిమాణం",
 "Password" => "సంకేతపదం"
 );

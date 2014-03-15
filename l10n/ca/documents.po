@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 06:40-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -39,40 +39,44 @@ msgstr "Tanca"
 msgid "No connection to server. Trying to reconnect."
 msgstr "No hi ha connexió amb el servidor Intentant reconnectar."
 
-#: js/documents.js:173
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Deixant aquesta pàgina en mode editor poden quedar dades sense desar. Es recomana usar el botó 'Tanca'."
 
-#: js/documents.js:190
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Ha fallat la càrrega d'aquest document. Comproveu si es pot obrir amb un editor odt extern. Això podria significar que s'ha deixat de compartir o eliminat recentment."
 
-#: js/documents.js:447 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr "Desa"
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "S'estan carregant els documents..."
 
-#: js/documents.js:466
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr "Ha fallat en carregar documents."
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr "No hi ha documents. Pugeu o creeu un document!"
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr "'.' és un nom no vàlid per un fitxer."
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr "El nom del fitxer no pot ser buit."
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -226,10 +230,6 @@ msgstr "Refés"
 msgid "Right"
 msgstr "Dreta"
 
-#: js/locale.js:39
-msgid "Save"
-msgstr "Desa"
-
 #: js/locale.js:40
 msgid "Size"
 msgstr "Mida"
@@ -290,15 +290,7 @@ msgstr "Contrasenya incorrecta. Intenteu-ho de nou."
 msgid "Password"
 msgstr "Contrasenya"
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr "Escriviu el sobrenom"
-
-#: templates/public.php:18
-msgid "Join"
-msgstr "Uniu-vos"
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

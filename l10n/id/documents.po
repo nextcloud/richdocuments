@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 06:40-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -38,40 +38,44 @@ msgstr "Tutup"
 msgid "No connection to server. Trying to reconnect."
 msgstr "Tidak tersambung ke server. Coba untuk menyambungkan ulang."
 
-#: js/documents.js:173
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Meninggalkan halaman ini dalam mode Penyunting menyebabkan data tidak disimpan. Direkomendasikan untuk menggunakan tombol 'Tutup' sebagai gantinya."
 
-#: js/documents.js:190
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Gagal memuat dokumen ini. Silakan periksa apakah ini dapat dibuka dengan penyunting odt eksternal. Dokumen ini mungkin saja sudah tidak dibagikan kepada Anda atau sudah dihapus baru-baru ini."
 
-#: js/documents.js:447 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr "Simpan"
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Memuat dokumen..."
 
-#: js/documents.js:466
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr "Gagal untuk memuat dokumen."
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Tidak ada dokumen yang ditemukan. Silakan unggah atau buat sebuah dokumen!"
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr "'.' bukan nama berkas yang valid."
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr "Nama berkas tidak boleh kosong."
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -225,10 +229,6 @@ msgstr "Batal"
 msgid "Right"
 msgstr "Kanan"
 
-#: js/locale.js:39
-msgid "Save"
-msgstr "Simpan"
-
 #: js/locale.js:40
 msgid "Size"
 msgstr "Ukuran"
@@ -289,15 +289,7 @@ msgstr "Sandi salah. Silakan ulangi."
 msgid "Password"
 msgstr "Sandi"
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr "Silakan masukkan nama panggilan"
-
-#: templates/public.php:18
-msgid "Join"
-msgstr "Gabung"
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

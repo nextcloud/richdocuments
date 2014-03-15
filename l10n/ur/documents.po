@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-02-13 02:13-0500\n"
-"PO-Revision-Date: 2014-02-13 07:13+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (http://www.transifex.com/projects/p/owncloud/language/ur/)\n"
 "MIME-Version: 1.0\n"
@@ -25,52 +25,56 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: js/documents.js:24 js/locale.js:12 js/viewer/viewer.js:76
-msgid "Close"
-msgstr ""
-
-#: js/documents.js:30
+#: js/documents.js:25
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:121
+#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+msgid "Close"
+msgstr ""
+
+#: js/documents.js:122
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:172
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:189
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:445 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr ""
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:465
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -224,10 +228,6 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: js/locale.js:39
-msgid "Save"
-msgstr ""
-
 #: js/locale.js:40
 msgid "Size"
 msgstr ""
@@ -288,15 +288,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr ""
-
-#: templates/public.php:18
-msgid "Join"
-msgstr ""
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Поділитися",
 "Close" => "Закрити",
+"Save" => "Зберегти",
 "Failed to load documents." => "Не вдалося завантажити документи.",
 "'.' is an invalid file name." => "'.' це невірне ім'я файлу.",
 "File name cannot be empty." => " Ім'я файлу не може бути порожнім.",
@@ -13,7 +14,6 @@
 "OK" => "OK",
 "Open" => "Відкрити",
 "Options" => "Опції",
-"Save" => "Зберегти",
 "Size" => "Розмір",
 "Text" => "Текст",
 "Edit" => "Редагувати",

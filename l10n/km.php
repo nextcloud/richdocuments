@@ -1,10 +1,11 @@
 <?php $TRANSLATIONS = array(
 "Share" => "ចែក​រំលែក",
 "Close" => "បិទ",
+"Save" => "រក្សាទុក",
 "Cancel" => "លើកលែង",
 "Delete" => "លុប",
 "OK" => "OK",
-"Save" => "រក្សាទុក",
+"Size" => "ទំហំ",
 "Text" => "អត្ថបទ",
 "Edit" => "កែ",
 "Upload" => "ផ្ទុក​ឡើង",

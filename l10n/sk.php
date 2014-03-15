@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Zdieľať",
+"Save" => "Uložiť",
 "Cancel" => "Zrušiť",
 "Delete" => "Odstrániť",
-"Save" => "Uložiť",
 "Edit" => "Upraviť"
 );

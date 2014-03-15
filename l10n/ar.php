@@ -6,6 +6,7 @@
 "No connection to server. Trying to reconnect." => "لا يوجد اتصال مع الخادم. في محاولة لإعادة الاتصال.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "ترك هذه الصفحة في وضع التعديل ممكن ان يسبب فقد للبيانات. ننصح باستخدام زر اغلاق",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "فشل في تحميل المستند. يرجى التحقق من امكانية فتحة عن طريق محرر odt خارجي. قد يعني انه تم الغاء المشاركة او حذفة مؤخرا",
+"Save" => "حفظ",
 "Loading documents..." => "يتم تحميل المستند ...",
 "Failed to load documents." => "فشل في تحميل الوثائق",
 "No documents are found. Please upload or create a document!" => "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!",
@@ -45,7 +46,6 @@
 "Paragraph Styles" => "شكل الفقرة ",
 "Redo" => "إعادة",
 "Right" => "اليمين",
-"Save" => "حفظ",
 "Size" => "حجم",
 "Style" => "شكل",
 "Text" => "معلومات إضافية",
@@ -58,8 +58,6 @@
 "Save new documents to" => "حفظ المستندات الجديدة إلى",
 "Wrong password. Please retry." => "كلمة مرور خاطئة. يرجى إعادة المحاولة",
 "Password" => "كلمة المرور",
-"Please enter your nickname" => "الرجاء إدخال كنيتك",
-"Join" => "انضم",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "هذا الرابط قد انتهى او لم ينشئ. يرجى الاتصال بالشخص المعني للمزيد من المعلومات.",
 "(Unstable)" => "(غير مستقر)"
 );

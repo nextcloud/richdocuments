@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 06:40-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-15 01:11-0400\n"
+"PO-Revision-Date: 2014-03-15 05:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -38,40 +38,44 @@ msgstr "Затвори"
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:173
+#: js/documents.js:184
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Оставањето на оваа страница во мод за уредување може да предизивка губиток на неснимените податоци. Се препорачува да се користи копчето 'Затвори'."
 
-#: js/documents.js:190
+#: js/documents.js:201
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Неуспешно вчитување на документот. Ве молиме да проверите дали може да се отвори со надворешен odt уредувач. Ова исто така може да значи дека истиот бил одстранет од споделување или пак претходно бил избришан."
 
-#: js/documents.js:447 templates/documents.php:31
+#: js/documents.js:223 js/locale.js:39
+msgid "Save"
+msgstr "Сними"
+
+#: js/documents.js:533 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:466
+#: js/documents.js:552
 msgid "Failed to load documents."
 msgstr "Не успеав да го вчитам документот"
 
-#: js/documents.js:508
+#: js/documents.js:594
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Не се пронајдени документи. Ве молиме ставете или креирајте документ!"
 
-#: js/documents.js:543
+#: js/documents.js:630
 msgid "'.' is an invalid file name."
 msgstr "'.' е грешно име за датотека."
 
-#: js/documents.js:545
+#: js/documents.js:632
 msgid "File name cannot be empty."
 msgstr "Името на датотеката не може да биде празно."
 
-#: js/documents.js:552
+#: js/documents.js:639
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -225,10 +229,6 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: js/locale.js:39
-msgid "Save"
-msgstr "Сними"
-
 #: js/locale.js:40
 msgid "Size"
 msgstr "Големина"
@@ -289,15 +289,7 @@ msgstr ""
 msgid "Password"
 msgstr "Лозинка"
 
-#: templates/public.php:17
-msgid "Please enter your nickname"
-msgstr ""
-
-#: templates/public.php:18
-msgid "Join"
-msgstr "Спои"
-
-#: templates/public.php:24
+#: templates/public.php:20
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

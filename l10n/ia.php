@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Compartir",
 "Close" => "Clauder",
+"Save" => "Salveguardar",
 "Cancel" => "Cancellar",
 "Create" => "Crear",
 "Delete" => "Deler",
-"Save" => "Salveguardar",
 "Size" => "Dimension",
 "Text" => "Texto",
 "Edit" => "Modificar",

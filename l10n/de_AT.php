@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Freigeben",
+"Save" => "Speichern",
 "Cancel" => "Abbrechen",
 "Delete" => "Löschen",
-"Save" => "Speichern",
 "Edit" => "Bearbeiten",
 "Password" => "Passwort"
 );
