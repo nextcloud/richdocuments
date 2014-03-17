@@ -33,6 +33,8 @@ class DocumentController extends Controller{
 		}
 		
 		$view->file_put_contents($path, $content);
+		$info = $view->getFileInfo($path);
+		\OCP\JSON::success(array ('fileid' => $info['fileid']) );
 	}
 
 
