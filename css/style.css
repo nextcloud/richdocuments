@@ -125,10 +125,11 @@
 	/*margin-left:-50%;*/
 }
 #document-title>input {
-	height:9px;
+	height:14px;
 	margin: 0;
-	padding-top:4px;
+	padding:3px 6px;
 	width: 300px;
+	font-size: 12px;
 }
 
 #odf-close{
