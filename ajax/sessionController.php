@@ -83,18 +83,22 @@ class SessionController extends Controller{
 				throw new \Exception('Session does not exist');
 			}
 			$sessionData = $session->getData();
-			$file = new File($sessionData['file_id']);
-			if (!$file->isPublicShare()){
-				self::preDispatch();
-			} else {
-				self::preDispatchGuest();
-			}
-			
-			list($view, $path) = $file->getOwnerViewAndPath();
-
-			$isWritable = ($view->file_exists($path) && $view->isUpdatable($path)) || $view->isCreatable($path);
-			if (!$isWritable){
-				throw new \Exception($path . ' does not exist or is not writable for user ' . $uid);
+			try {
+				$file = new File($sessionData['file_id']);
+				if (!$file->isPublicShare()){
+					self::preDispatch();
+				} else {
+					self::preDispatchGuest();
+				}
+				list($view, $path) = $file->getOwnerViewAndPath();
+			} catch (\Exception $e){
+				//File was deleted or unshared. We need to save content as new file anyway
+				//Sorry, but for guests it would be lost :(
+				$uid = self::preDispatch();
+				$view = new \OC\Files\View('/' . $uid . '/files');
+		
+				$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '');
+				$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
 			}
 			
 			$member = new Db_Member();

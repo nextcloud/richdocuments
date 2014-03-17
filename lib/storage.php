@@ -81,6 +81,14 @@ class Storage {
 			return;
 		}
 		
+		$member = new Db_Member();
+		$sessionMembers = $member->getCollectionBy('es_id', $session['es_id']);
+		foreach ($sessionMembers as $memberData){
+			if (intval($memberData['status'])===Db_Member::MEMBER_STATUS_ACTIVE){
+				return;
+			}
+		}
+		
 		Db_Session::cleanUp($session['es_id']);
 	}
 	
