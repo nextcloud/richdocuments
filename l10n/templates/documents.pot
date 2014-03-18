@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-17 00:44-0400\n"
+"POT-Creation-Date: 2014-03-18 00:44-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ajax/documentController.php:74
+#: ajax/documentController.php:76
 msgid "You don't have permission to rename this document"
 msgstr ""
 
@@ -54,27 +54,27 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: js/documents.js:533 templates/documents.php:31
+#: js/documents.js:541 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:552
+#: js/documents.js:560
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:594
+#: js/documents.js:602
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:630
+#: js/documents.js:638
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:632
+#: js/documents.js:640
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:639
+#: js/documents.js:647
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
