@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-15 01:11-0400\n"
-"PO-Revision-Date: 2014-03-15 05:11+0000\n"
+"POT-Creation-Date: 2014-03-19 00:44-0400\n"
+"PO-Revision-Date: 2014-03-18 18:50+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: ajax/documentController.php:74
+#: ajax/documentController.php:76
 msgid "You don't have permission to rename this document"
 msgstr "لا تمتلك الصلاحية لاعادة تسمية هذا المستند"
 
@@ -56,27 +56,27 @@ msgstr "فشل في تحميل المستند. يرجى التحقق من امك
 msgid "Save"
 msgstr "حفظ"
 
-#: js/documents.js:533 templates/documents.php:31
+#: js/documents.js:541 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "يتم تحميل المستند ..."
 
-#: js/documents.js:552
+#: js/documents.js:560
 msgid "Failed to load documents."
 msgstr "فشل في تحميل الوثائق"
 
-#: js/documents.js:594
+#: js/documents.js:602
 msgid "No documents are found. Please upload or create a document!"
 msgstr "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!"
 
-#: js/documents.js:630
+#: js/documents.js:638
 msgid "'.' is an invalid file name."
 msgstr "\".\" اسم ملف غير صحيح."
 
-#: js/documents.js:632
+#: js/documents.js:640
 msgid "File name cannot be empty."
 msgstr "اسم الملف لا يجوز أن يكون فارغا"
 
-#: js/documents.js:639
+#: js/documents.js:647
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
