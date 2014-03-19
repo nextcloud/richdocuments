@@ -119,7 +119,15 @@
 
 	text-align: center;
 	font-weight: bold;
+	color:#fff;
+	background:#1d2d44 url('../../../img/noise.png') repeat;
 }
+
+#document-title img{
+	float:left;
+	height: 22px;
+}
+
 #document-title div{
 	position: relative;
 	/*margin-left:-50%;*/

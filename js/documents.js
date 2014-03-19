@@ -17,7 +17,9 @@ var documentsMain = {
 				
 		/* Toolbar HTML */
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
-					'  <div id="document-title"><div>' +
+					'  <div id="document-title">' +
+					'<img src='+ OC.imagePath('core', 'logo-wide') +' />' +
+					'<div>' +
 					'%title%' +
 			        '  </div></div>' +
 					'  <span id="toolbar" class="claro">' +
