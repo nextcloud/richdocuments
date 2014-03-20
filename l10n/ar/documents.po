@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-19 00:44-0400\n"
-"PO-Revision-Date: 2014-03-18 18:50+0000\n"
+"POT-Creation-Date: 2014-03-20 00:44-0400\n"
+"PO-Revision-Date: 2014-03-19 06:40+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -27,56 +27,56 @@ msgstr "لا تمتلك الصلاحية لاعادة تسمية هذا المس
 msgid "Documents"
 msgstr "وثائق"
 
-#: js/documents.js:25
+#: js/documents.js:27
 msgid "Share"
 msgstr "شارك"
 
-#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:30 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "إغلاق"
 
-#: js/documents.js:122
+#: js/documents.js:124
 msgid "No connection to server. Trying to reconnect."
 msgstr "لا يوجد اتصال مع الخادم. في محاولة لإعادة الاتصال."
 
-#: js/documents.js:184
+#: js/documents.js:186
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "ترك هذه الصفحة في وضع التعديل ممكن ان يسبب فقد للبيانات. ننصح باستخدام زر اغلاق"
 
-#: js/documents.js:201
+#: js/documents.js:203
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "فشل في تحميل المستند. يرجى التحقق من امكانية فتحة عن طريق محرر odt خارجي. قد يعني انه تم الغاء المشاركة او حذفة مؤخرا"
 
-#: js/documents.js:223 js/locale.js:39
+#: js/documents.js:225 js/locale.js:39
 msgid "Save"
 msgstr "حفظ"
 
-#: js/documents.js:541 templates/documents.php:31
+#: js/documents.js:543 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "يتم تحميل المستند ..."
 
-#: js/documents.js:560
+#: js/documents.js:562
 msgid "Failed to load documents."
 msgstr "فشل في تحميل الوثائق"
 
-#: js/documents.js:602
+#: js/documents.js:604
 msgid "No documents are found. Please upload or create a document!"
 msgstr "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!"
 
-#: js/documents.js:638
+#: js/documents.js:640
 msgid "'.' is an invalid file name."
 msgstr "\".\" اسم ملف غير صحيح."
 
-#: js/documents.js:640
+#: js/documents.js:642
 msgid "File name cannot be empty."
 msgstr "اسم الملف لا يجوز أن يكون فارغا"
 
-#: js/documents.js:647
+#: js/documents.js:649
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
