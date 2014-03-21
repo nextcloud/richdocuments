@@ -1,0 +1,10 @@
+--- MemberListView-old.js	2014-03-21 20:54:57.764793256 +0300
++++ MemberListView.js	2014-03-21 20:55:12.761110324 +0300
+@@ -116,6 +116,7 @@
+                 //avatar.getCaret().hideHandle();
+             };
+             avatarDiv.onclick = function () {
++                documentsMain.onNickChange(memberId, fullnameNode);
+                 var caret = editorSession.sessionView.getCaret(memberId);
+                 if (caret) {
+                     //caret.toggleHandleVisibility();
