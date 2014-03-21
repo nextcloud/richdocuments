@@ -185,6 +185,7 @@ var documentsMain = {
 		$(window).on('beforeunload', function(){
 			return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead."); 
 		});
+		$(window).on("unload", documentsMain.onTerminate);
 	},
 	
 	prepareGrid : function(){
@@ -273,6 +274,7 @@ var documentsMain = {
 		OC.addScript('documents', 'viewer/viewer', function() {
 			documentsMain.prepareGrid();
 			$(window).off('beforeunload');
+			$(window).off('unload');
 			var path = $('li[data-id='+ id +']>a').attr('href');
 			odfViewer.isDocuments = true;
 			odfViewer.onView(path);
@@ -477,6 +479,7 @@ var documentsMain = {
 			OC.Notification.show(message);
 
 			$(window).off('beforeunload');
+			$(window).off('unload');
 			if (documentsMain.isEditorMode){
 				documentsMain.isEditorMode = false;
 				parent.location.hash = "";
@@ -494,7 +497,7 @@ var documentsMain = {
 			}
 			
 			documentsMain.show();
-		},
+	},
 		
 
 	onClose: function() {
@@ -505,6 +508,7 @@ var documentsMain = {
 		}
 		documentsMain.isEditorMode = false;
 		$(window).off('beforeunload');
+		$(window).off('unload');
 		parent.location.hash = "";
 
 		documentsMain.webodfEditorInstance.endEditing();
@@ -530,6 +534,33 @@ var documentsMain = {
 			documentsMain.show();
 // 			});
 		});
+	},
+	
+	onTerminate: function(){
+		var url = '';
+		if (documentsMain.isGuest){
+			url = OC.generateUrl('apps/documents/ajax/user/disconnectGuest/{member_id}', {member_id: documentsMain.memberId});
+		} else {
+			url = OC.generateUrl('apps/documents/ajax/user/disconnect/{member_id}', {member_id: documentsMain.memberId});
+		}
+		$.ajax({
+				type: "POST",
+				url: url,
+				data: {esId: documentsMain.esId},
+				dataType: "json",
+				async: false // Should be sync to complete before the page is closed
+		});
+
+		
+		documentsMain.webodfEditorInstance.endEditing();
+		documentsMain.webodfEditorInstance.closeSession(function() {
+			if (documentsMain.isGuest){
+				$(document.body).attr('id', 'body-login');
+				$('header,footer').show();
+			}
+			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
+		});
+
 	},
 	
 	getNameByFileid : function(fileid){
