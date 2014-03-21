@@ -123,9 +123,11 @@
 	background-color:#1d2d44;
 }
 
-#document-title img{
+#document-title div.logo-wide{
 	float:left;
-	height: 22px;
+	height: 24px;
+	width: 80px;
+	background-size:80px 24px;
 }
 
 #document-title div{
