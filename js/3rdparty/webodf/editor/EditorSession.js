@@ -348,6 +348,10 @@ define("webodf/editor/EditorSession", [
                 session.enqueue(opQueue);
             }
         };
+		
+		this.getLocalMemberId = function(){
+			return localMemberId;
+		};
 
         this.insertTable = function (initialRows, initialColumns, tableStyleName, tableColumnStyleName, tableCellStyleMatrix) {
             var op = new ops.OpInsertTable();
