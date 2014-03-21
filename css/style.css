@@ -120,7 +120,7 @@
 	text-align: center;
 	font-weight: bold;
 	color:#fff;
-	background:#1d2d44 url('../../../img/noise.png') repeat;
+	background-color:#1d2d44;
 }
 
 #document-title img{
