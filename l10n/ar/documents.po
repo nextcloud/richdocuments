@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-21 00:44-0400\n"
-"PO-Revision-Date: 2014-03-20 06:20+0000\n"
+"POT-Creation-Date: 2014-03-27 00:44-0400\n"
+"PO-Revision-Date: 2014-03-26 06:01+0000\n"
 "Last-Translator: Abderraouf Mehdi Bouhali <armbouhali@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -46,38 +46,38 @@ msgid ""
 " to use 'Close' button instead."
 msgstr "ترك هذه الصفحة في وضع التعديل ممكن ان يسبب فقد للبيانات. ننصح باستخدام زر اغلاق"
 
-#: js/documents.js:203
+#: js/documents.js:204
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "فشل في تحميل المستند. يرجى التحقق من امكانية فتحة عن طريق محرر odt خارجي. قد يعني انه تم الغاء المشاركة او حذفة مؤخرا"
 
-#: js/documents.js:225 js/locale.js:39
+#: js/documents.js:226 js/locale.js:39
 msgid "Save"
 msgstr "حفظ"
 
-#: js/documents.js:543 templates/documents.php:31
+#: js/documents.js:574 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "يتم تحميل المستند ..."
 
-#: js/documents.js:562
+#: js/documents.js:593
 msgid "Failed to load documents."
 msgstr "فشل في تحميل الوثائق"
 
-#: js/documents.js:604
+#: js/documents.js:635
 msgid "No documents are found. Please upload or create a document!"
 msgstr "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!"
 
-#: js/documents.js:640
+#: js/documents.js:671
 msgid "'.' is an invalid file name."
 msgstr "\".\" اسم ملف غير صحيح."
 
-#: js/documents.js:642
+#: js/documents.js:673
 msgid "File name cannot be empty."
 msgstr "اسم الملف لا يجوز أن يكون فارغا"
 
-#: js/documents.js:649
+#: js/documents.js:680
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
