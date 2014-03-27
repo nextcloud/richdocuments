@@ -612,7 +612,8 @@ var documentsMain = {
 			a.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}));
 			a.find('label').text(document.name);
 			a.css('background-image', 'url("'+document.icon+'")');
-
+			Files.lazyLoadPreview(document.path, document.mimetype, function(node){ return function(path){node.css('background-image', 'url("'+ path +'")');}; }(a),  32, 40, document.etag, document.icon);
+//function(path, mime, ready, width, height, etag) {
 			$('.documentslist').append(docElem);
 			docElem.show();
 			hasDocuments = true;
@@ -681,6 +682,58 @@ var Files = Files || {
 			}
 		}
 		return true;
+	},
+	
+	lazyLoadPreview : function(path, mime, ready, width, height, etag, defaultIcon) {
+		var urlSpec = {};
+		var previewURL;
+		ready(defaultIcon); // set mimeicon URL
+
+		// now try getting a preview thumbnail URL
+		if ( ! width ) {
+			width = $('#filestable').data('preview-x');
+		}
+			if ( ! height ) {
+			height = $('#filestable').data('preview-y');
+		}
+		// note: the order of arguments must match the one
+		// from the server's template so that the browser
+		// knows it's the same file for caching
+		urlSpec.x = width;
+		urlSpec.y = height;
+		urlSpec.file = Files.fixPath(path);
+
+		if (etag){
+			// use etag as cache buster
+			urlSpec.c = etag;
+		} else {
+			console.warn('Files.lazyLoadPreview(): missing etag argument');
+		}
+
+		if ( $('#isPublic').length ) {
+			urlSpec.t = $('#dirToken').val();
+			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
+		} else {
+			previewURL = OC.Router.generate('core_ajax_preview', urlSpec);
+		}
+		previewURL = previewURL.replace('(', '%28');
+		previewURL = previewURL.replace(')', '%29');
+
+		// preload image to prevent delay
+		// this will make the browser cache the image
+		var img = new Image();
+		img.onload = function(){
+			//set preview thumbnail URL
+			ready(previewURL);
+		};
+		img.src = previewURL;
+	},
+	
+	fixPath: function(fileName) {
+		if (fileName.substr(0, 2) === '//') {
+			return fileName.substr(1);
+		}
+		return fileName;
 	},
 	
 	updateStorageStatistics: function(){}
