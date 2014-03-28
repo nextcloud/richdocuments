@@ -22,7 +22,7 @@ class Converter {
 		}
 		
 		if (empty($output)){
-			\OCP\Util::writeLog('Documents', 'Empty conversion output', \OCP\Util::WARN);
+			Helper::warnLog('Empty conversion output');
 			throw new \RuntimeException('Empty conversion output');
 		}
 		return $output;
@@ -84,7 +84,7 @@ class Converter {
 		curl_setopt_array($ch, $options);
 		$content = curl_exec($ch);
 		if (curl_errno($ch)){
-			\OCP\Util::writeLog('Documents', 'cURL error' . curl_errno($ch) . ':' . curl_error($ch), \OCP\Util::DEBUG);
+			Helper::debugLog('cURL error' . curl_errno($ch) . ':' . curl_error($ch));
 		}
 		curl_close($ch);
 		

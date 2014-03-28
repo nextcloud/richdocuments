@@ -158,8 +158,8 @@ class Helper {
 		}
 		
 		if (empty($cmd)){
-			\OCP\Util::writeLog('Documents', 'Pure configuration issue. Missing open office binary that is mandatory for conversion.', \OCP\Util::WARN);
-			\OCP\Util::writeLog('Documents', 'If openoffice or libreoffice is already installed please specify the path to it using preview_libreoffice_path config. Refer to admin manual for details.', \OCP\Util::WARN);
+			Helper::warnLog('Pure configuration issue. Missing open office binary that is mandatory for conversion.');
+			Helper::debugLog('If openoffice or libreoffice is already installed please specify the path to it using preview_libreoffice_path config. Refer to admin manual for details.');
 			throw new \RuntimeException('Missing open office binary that is mandatory for conversion.');
 		}
 		
