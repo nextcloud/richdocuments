@@ -44,9 +44,44 @@ OC::$CLASSPATH['OCA\Documents\Download_Range'] = 'documents/lib/download/range.p
 OC::$CLASSPATH['OCA\Documents\Db_Session'] = 'documents/lib/db/session.php';
 OC::$CLASSPATH['OCA\Documents\Db_Member'] = 'documents/lib/db/member.php';
 OC::$CLASSPATH['OCA\Documents\Db_Op'] = 'documents/lib/db/op.php';
+OC::$CLASSPATH['OCA\Documents\Filter_Office'] = 'documents/lib/filter/office.php';
 
 //Script for registering file actions
 OCP\Util::addScript('documents', 'viewer/viewer');
+
+$docFilter = new OCA\Documents\Filter_Office(
+			array(
+				'read' => 
+					array (
+						'target' => 'application/vnd.oasis.opendocument.text',
+						'format' => 'odt:writer8',
+						'extension' => 'odt'
+					),
+				'write' => 
+					array (
+						'target' => 'application/msword',
+						'format' => 'doc',
+						'extension' => 'doc'
+					)
+			)
+);
+
+$docxFilter = new OCA\Documents\Filter_Office(
+		array (
+				'read' => 
+					array (
+						'target' => 'application/vnd.oasis.opendocument.text',
+						'format' => 'odt:writer8',
+						'extension' => 'odt'
+					),
+				'write' => 
+					array (
+						'target' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+						'format' => 'docx',
+						'extension' => 'docx'
+					)
+			)
+);
 
 //Listen to delete file signal
 OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");
