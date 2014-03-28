@@ -152,12 +152,12 @@ class SessionController extends Controller{
 				$view->touch($path);
 			}
 			\OCP\JSON::success();
-			exit();
 		} catch (\Exception $e){
 			Helper::warnLog('Saving failed. Reason:' . $e->getMessage());
-			\OCP\JSON::error(array('message'=>$e->getMessage()));
-			exit();
+			//\OCP\JSON::error(array('message'=>$e->getMessage()));
+			\OC_Response::setStatus(500);
 		}
+		exit();
 	}
 	
 	public static function info(){
