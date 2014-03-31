@@ -23,6 +23,7 @@
 
 OCP\App::register(array('order' => 70, 'id' => 'documents', 'name' => 'Documents'));
 //OCP\App::registerAdmin('documents', 'settings');
+\OCP\App::registerAdmin('documents', 'admin');
 OCP\App::registerPersonal('documents', 'personal');
 
 $l10n = \OCP\Util::getL10N('documents');
