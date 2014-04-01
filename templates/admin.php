@@ -1,5 +1,5 @@
 <?php $isLocal = $_['converter']=='local' ?>
-<fieldset class="personalblock" id="documents">
+<div class="section" id="documents">
 	<h2><?php p($l->t('Documents')) ?></h2>
 	<p>
 		<input type="radio" name="docs_converter" value="local" id="docs_converter_local" 
@@ -24,4 +24,4 @@
 	<br /><em><?php p($l->t('Server URL')) ?></em>
 	</div>
 	<br /><button type="button" id="docs_apply"><?php p($l->t('Apply')) ?></button>
-</fieldset>
+</div>
