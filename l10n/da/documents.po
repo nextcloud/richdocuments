@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 00:44-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
+"POT-Creation-Date: 2014-04-01 00:44-0400\n"
+"PO-Revision-Date: 2014-04-01 04:44+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,16 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ajax/admin.php:24
+msgid "Format filter server is down or misconfigured"
+msgstr ""
+
 #: ajax/documentController.php:76
 msgid "You don't have permission to rename this document"
 msgstr "Du har ikke tilladelse til at omdøbe dette dokument"
 
-#: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
+#: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
+#: templates/settings.php:2
 msgid "Documents"
 msgstr "Dokumenter"
 
@@ -65,19 +70,19 @@ msgstr "Henter dokumenter..."
 msgid "Failed to load documents."
 msgstr "Kunne ikke hente dokumenterne. "
 
-#: js/documents.js:635
+#: js/documents.js:636
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Ingen dokumenter fundet. Upload eller opret venligst et dokument!"
 
-#: js/documents.js:671
+#: js/documents.js:672
 msgid "'.' is an invalid file name."
 msgstr "'.' er et ugyldigt filnavn."
 
-#: js/documents.js:673
+#: js/documents.js:674
 msgid "File name cannot be empty."
 msgstr "Filnavnet kan ikke stå tomt."
 
-#: js/documents.js:680
+#: js/documents.js:681
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -270,6 +275,34 @@ msgstr "Ukendt forfatter"
 #: js/viewer/viewer.js:30
 msgid "Edit"
 msgstr "Rediger"
+
+#: templates/admin.php:8
+msgid "Local"
+msgstr ""
+
+#: templates/admin.php:9
+msgid "openOffice/libreOffice is installed on this server"
+msgstr ""
+
+#: templates/admin.php:15
+msgid "External"
+msgstr ""
+
+#: templates/admin.php:16
+msgid "openOffice/libreOffice is installed on another server"
+msgstr ""
+
+#: templates/admin.php:21
+msgid "scheme://domain.tld[:port]"
+msgstr ""
+
+#: templates/admin.php:24
+msgid "Server URL"
+msgstr ""
+
+#: templates/admin.php:26
+msgid "Apply"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-15 01:11-0400\n"
-"PO-Revision-Date: 2014-03-15 05:11+0000\n"
+"POT-Creation-Date: 2014-04-01 00:44-0400\n"
+"PO-Revision-Date: 2014-04-01 04:44+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Akan (http://www.transifex.com/projects/p/owncloud/language/ak/)\n"
 "MIME-Version: 1.0\n"
@@ -17,64 +17,69 @@ msgstr ""
 "Language: ak\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 
-#: ajax/documentController.php:74
+#: ajax/admin.php:24
+msgid "Format filter server is down or misconfigured"
+msgstr ""
+
+#: ajax/documentController.php:76
 msgid "You don't have permission to rename this document"
 msgstr ""
 
-#: appinfo/app.php:35 templates/personal.php:2 templates/settings.php:2
+#: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
+#: templates/settings.php:2
 msgid "Documents"
 msgstr ""
 
-#: js/documents.js:25
+#: js/documents.js:27
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:28 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:30 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:122
+#: js/documents.js:124
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:184
+#: js/documents.js:186
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:201
+#: js/documents.js:204
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:223 js/locale.js:39
+#: js/documents.js:226 js/locale.js:39
 msgid "Save"
 msgstr ""
 
-#: js/documents.js:533 templates/documents.php:31
+#: js/documents.js:574 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:552
+#: js/documents.js:593
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:594
+#: js/documents.js:636
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:630
+#: js/documents.js:672
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:632
+#: js/documents.js:674
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:639
+#: js/documents.js:681
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -266,6 +271,34 @@ msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
+msgstr ""
+
+#: templates/admin.php:8
+msgid "Local"
+msgstr ""
+
+#: templates/admin.php:9
+msgid "openOffice/libreOffice is installed on this server"
+msgstr ""
+
+#: templates/admin.php:15
+msgid "External"
+msgstr ""
+
+#: templates/admin.php:16
+msgid "openOffice/libreOffice is installed on another server"
+msgstr ""
+
+#: templates/admin.php:21
+msgid "scheme://domain.tld[:port]"
+msgstr ""
+
+#: templates/admin.php:24
+msgid "Server URL"
+msgstr ""
+
+#: templates/admin.php:26
+msgid "Apply"
 msgstr ""
 
 #: templates/documents.php:5
