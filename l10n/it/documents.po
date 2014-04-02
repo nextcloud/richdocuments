@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jessica Di Maria <dimariaj87@gmail.com>, 2014
 # F0ca <staffhabbfoca@live.it>, 2013
 # ogasser, 2013
 # Paolo Velati <paolo.velati@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-01 00:44-0400\n"
-"PO-Revision-Date: 2014-04-01 04:44+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-02 00:44-0400\n"
+"PO-Revision-Date: 2014-04-01 08:29+0000\n"
+"Last-Translator: Jessica Di Maria <dimariaj87@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: ajax/admin.php:24
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "Il formato del filtro del server è inattivo o configurato in modo errato."
 
 #: ajax/documentController.php:76
 msgid "You don't have permission to rename this document"
@@ -279,31 +280,31 @@ msgstr "Modifica"
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "Locale"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr ""
+msgstr "Open Office/libre Office è installato su questo server"
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "Esterno"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr ""
+msgstr "open Office/libre Office è installato su un altro server"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "schema://domain.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "URL del Server"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "Applica"
 
 #: templates/documents.php:5
 msgid "New document"
