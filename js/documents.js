@@ -220,7 +220,7 @@ var documentsMain = {
 				documentsMain.fileName = documentsMain.getNameByFileid(response.file_id);
 				documentsMain.UI.showEditor(
 						documentsMain.fileName || response.title,
-						response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
+						typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
 				);
 				if (documentsMain.isGuest){
 					$('#odf-close').text(t('documents', 'Save') );
