@@ -128,6 +128,13 @@ var documentsMain = {
 			$('#connection-lost,#warning-connection-lost').remove();
 			$('#odf-toolbar').children(':not(#document-title,#saving-document)').show();
 			$('#memberList .memberListButton').css({opacity : 1});
+		},
+		
+		notify : function(message){
+			OC.Notification.show(message);
+			setTimeout(function() {
+				OC.Notification.hide();
+			}, 10000);
 		}
 	},
 	
@@ -296,6 +303,9 @@ var documentsMain = {
 					documentsMain.prepareSession();
 					documentsMain.joinSession(response.fileid);
 				} else {
+					if (response && response.message){
+						documentsMain.UI.notify(response.message);
+					}
 					documentsMain.show();
 				}
 			}
@@ -335,10 +345,7 @@ var documentsMain = {
 			function(result) {
 				if (result && result.status === 'error') {
 					if (result.message){
-						OC.Notification.show(result.message);
-						setTimeout(function() {
-							OC.Notification.hide();
-						}, 10000);
+						documentsMain.UI.notify(result.message);
 					}
 					return;
 				}
@@ -407,10 +414,7 @@ var documentsMain = {
 			function(result) {
 				if (result && result.status === 'error') {
 					if (result.message){
-						OC.Notification.show(result.message);
-						setTimeout(function() {
-							OC.Notification.hide();
-						}, 10000);
+						documentsMain.IU.notify(result.message);
 					}
 					return;
 				}
