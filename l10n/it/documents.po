@@ -7,14 +7,14 @@
 # F0ca <staffhabbfoca@live.it>, 2013
 # ogasser, 2013
 # Paolo Velati <paolo.velati@gmail.com>, 2013
-# Vincenzo Reale <vinx.reale@gmail.com>, 2013
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 00:44-0400\n"
-"PO-Revision-Date: 2014-04-01 08:29+0000\n"
-"Last-Translator: Jessica Di Maria <dimariaj87@gmail.com>\n"
+"POT-Creation-Date: 2014-04-03 00:44-0400\n"
+"PO-Revision-Date: 2014-04-03 04:44+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,9 +24,13 @@ msgstr ""
 
 #: ajax/admin.php:24
 msgid "Format filter server is down or misconfigured"
-msgstr "Il formato del filtro del server è inattivo o configurato in modo errato."
+msgstr "Il formato del filtro del server è inattivo o configurato in modo errato"
 
-#: ajax/documentController.php:76
+#: ajax/documentController.php:45
+msgid "Can't create document"
+msgstr ""
+
+#: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
 msgstr "Non hai i permessi per rinominare questo documento"
 
@@ -47,44 +51,44 @@ msgstr "Chiudi"
 msgid "No connection to server. Trying to reconnect."
 msgstr "Nessuna connessione al server. Riprova a connetterti."
 
-#: js/documents.js:186
+#: js/documents.js:193
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Lasciare questa pagina nella modalità potrebbe causare il mancato salvataggio dei dati. Si consiglia invece di utilizzare il pulsante 'Chiudi'."
 
-#: js/documents.js:204
+#: js/documents.js:211
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Caricamento del documento non riuscito. Controlla se può essere aperto con un editor odt esterno. Ciò può anche significare che è stato tolto dalla condivisione o che è stato eliminato recentemente."
 
-#: js/documents.js:226 js/locale.js:39
+#: js/documents.js:233 js/locale.js:39
 msgid "Save"
 msgstr "Salva"
 
-#: js/documents.js:574 templates/documents.php:31
+#: js/documents.js:578 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Caricamento documenti..."
 
-#: js/documents.js:593
+#: js/documents.js:597
 msgid "Failed to load documents."
 msgstr "Caricamento documenti non riuscito."
 
-#: js/documents.js:636
+#: js/documents.js:640
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Nessun documento trovato. Carica o crea un documento!"
 
-#: js/documents.js:672
+#: js/documents.js:676
 msgid "'.' is an invalid file name."
 msgstr "'.' non è un nome file valido."
 
-#: js/documents.js:674
+#: js/documents.js:678
 msgid "File name cannot be empty."
 msgstr "Il nome del file non può essere vuoto."
 
-#: js/documents.js:681
+#: js/documents.js:685
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -284,7 +288,7 @@ msgstr "Locale"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr "Open Office/libre Office è installato su questo server"
+msgstr "openOffice/libreOffice è installato su questo server"
 
 #: templates/admin.php:15
 msgid "External"
@@ -292,15 +296,15 @@ msgstr "Esterno"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr "open Office/libre Office è installato su un altro server"
+msgstr "openOffice/libreOffice è installato su un altro server"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr "schema://domain.tld[:port]"
+msgstr "scheme://dominio.tld[:porta]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr "URL del Server"
+msgstr "URL del server"
 
 #: templates/admin.php:26
 msgid "Apply"
@@ -326,7 +330,12 @@ msgstr "Password errata. Riprova."
 msgid "Password"
 msgstr "Password"
 
-#: templates/public.php:20
+#: templates/public.php:17
+#, php-format
+msgid "User %s"
+msgstr ""
+
+#: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."

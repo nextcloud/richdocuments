@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-01 00:44-0400\n"
-"PO-Revision-Date: 2014-04-01 04:44+0000\n"
+"POT-Creation-Date: 2014-04-03 00:44-0400\n"
+"PO-Revision-Date: 2014-04-03 04:44+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr ""
 
-#: ajax/documentController.php:76
+#: ajax/documentController.php:45
+msgid "Can't create document"
+msgstr ""
+
+#: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
 msgstr ""
 
@@ -46,44 +50,44 @@ msgstr "Stäng"
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ingen kontakt med servern. Försöker att koppla upp igen."
 
-#: js/documents.js:186
+#: js/documents.js:193
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Att lämna denna sida i Redigera läget kan orsaka osparad data. Det är rekommenderat att använda 'Stäng' knappen i stället."
 
-#: js/documents.js:204
+#: js/documents.js:211
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Misslyckades att ladda detta dokument. Försök gärna att öppna det med en extern textredigerare som har stöd för ODT. Detta fel kan bero på att dokumentet nyligen har slutat delas ut eller blivit borttagen."
 
-#: js/documents.js:226 js/locale.js:39
+#: js/documents.js:233 js/locale.js:39
 msgid "Save"
 msgstr "Spara"
 
-#: js/documents.js:574 templates/documents.php:31
+#: js/documents.js:578 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:593
+#: js/documents.js:597
 msgid "Failed to load documents."
 msgstr "Kunde inte ladda dokumenten."
 
-#: js/documents.js:636
+#: js/documents.js:640
 msgid "No documents are found. Please upload or create a document!"
 msgstr "Inga dokument funna. Ladda upp eller skapa ett dokument!"
 
-#: js/documents.js:672
+#: js/documents.js:676
 msgid "'.' is an invalid file name."
 msgstr "'.' är ett ogiltigt filnamn."
 
-#: js/documents.js:674
+#: js/documents.js:678
 msgid "File name cannot be empty."
 msgstr "Filnamn kan inte vara tomt."
 
-#: js/documents.js:681
+#: js/documents.js:685
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -325,7 +329,12 @@ msgstr "Fel lösenord. Försök igen."
 msgid "Password"
 msgstr "Lösenord"
 
-#: templates/public.php:20
+#: templates/public.php:17
+#, php-format
+msgid "User %s"
+msgstr ""
+
+#: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
