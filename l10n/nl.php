@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formaatfilter server is down of onjuist geconfigureerd",
+"Can't create document" => "Kan document niet creëren",
 "You don't have permission to rename this document" => "U hebt niet de autorisatie om die document te hernoemen",
 "Documents" => "Documenten",
 "Share" => "Delen",
@@ -73,6 +74,7 @@
 "Save new documents to" => "Bewaar nieuwe documenten  in",
 "Wrong password. Please retry." => "Onjuist wachtwoord. Probeer opnieuw.",
 "Password" => "Wachtwoord",
+"User %s" => "Gebruiker %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details.",
 "Advanced feature-set" => "Geavanceerde functies",
 "(Unstable)" => "(Onstabiel)"

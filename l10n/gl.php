@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "O servidor de filtro de formato está sen servizo ou mal configurado",
+"Can't create document" => "Non é posíbel crear o documento",
 "You don't have permission to rename this document" => "Vostede non ten permisos para cambiarlle o nome a este documento",
 "Documents" => "Documentos",
 "Share" => "Compartir",
@@ -73,6 +74,7 @@
 "Save new documents to" => "Gardar os novos documentos en",
 "Wrong password. Please retry." => "Contrasinal incorrecto. Tenteo de novo.",
 "Password" => "Contrasinal",
+"User %s" => "Usuario %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Esta ligazón caducou ou xa non existe. Póñase en contacto coa persoa que o compartiu con vostede para obter máis información.",
 "Advanced feature-set" => "Conxunto de funcións avanzadas",
 "(Unstable)" => "(Inestábel)"

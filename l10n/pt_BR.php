@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "O servidor de formato de filtro está desligado ou com configuração errada",
+"Can't create document" => "Impedido de criar documentos",
 "You don't have permission to rename this document" => "Você não tem permissão para renomear este documento",
 "Documents" => "Documentos",
 "Share" => "Compartilhar",
@@ -73,6 +74,7 @@
 "Save new documents to" => "Salvar o novo documento para",
 "Wrong password. Please retry." => "Senha errada. Por favor tente novamente.",
 "Password" => "Senha",
+"User %s" => "Usuário %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Este link espirou ou numca existiu. Por favor faça contato com a pessoa que compartilhou este link com você para maiores detalhes.",
 "Advanced feature-set" => "Avançado conjunto de funcionalidades",
 "(Unstable)" => "(Instável)"

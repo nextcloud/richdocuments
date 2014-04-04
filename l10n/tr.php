@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Biçim filtre sunucusu kapalı veya hatalı yapılandırılmış",
+"Can't create document" => "Belge oluşturulamıyor",
 "You don't have permission to rename this document" => "Bu belgeyi adlandırmak için izniniz yok.",
 "Documents" => "Belgeler",
 "Share" => "Paylaş",
@@ -73,6 +74,7 @@
 "Save new documents to" => "Yeni belgeleri şuraya kaydet",
 "Wrong password. Please retry." => "Yanlış parola. Lütfen yeniden deneyin.",
 "Password" => "Parola",
+"User %s" => "%s kullanıcısı",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin.",
 "Advanced feature-set" => "Gelişmiş özellik seti",
 "(Unstable)" => "(Kararsız)"

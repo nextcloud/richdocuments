@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Can't create document" => "Asiakirjan luominen epäonnistui",
 "You don't have permission to rename this document" => "Oikeutesi eivät riitä nimeämään tätä asiakirjaa uudelleen",
 "Documents" => "Asiakirjat",
 "Share" => "Jaa",
@@ -71,6 +72,7 @@
 "Save new documents to" => "Uusien asiakirjojen tallennussijainti",
 "Wrong password. Please retry." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",
+"User %s" => "Käyttäjä %s",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"
 );

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Can't create document" => "No es posible crear el documento",
 "You don't have permission to rename this document" => "No tiene permiso para cambiar de nombre a este documento",
 "Documents" => "Documentos",
 "Share" => "Compartir",
@@ -71,6 +72,7 @@
 "Save new documents to" => "Guardar nuevos documentos en",
 "Wrong password. Please retry." => "Contraseña incorrecta. Inténtelo de nuevo.",
 "Password" => "Contraseña",
+"User %s" => "Usuario %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted.",
 "Advanced feature-set" => "Características avanzadas",
 "(Unstable)" => "(Inestable)"

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-03 00:44-0400\n"
-"PO-Revision-Date: 2014-04-03 04:44+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-04 00:44-0400\n"
+"PO-Revision-Date: 2014-04-03 06:40+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr "Formatfilter-Server ist ausgeschaltet oder falsch konfiguriert"
 
 #: ajax/documentController.php:45
 msgid "Can't create document"
-msgstr ""
+msgstr "Dokument kann nicht erstellt werden"
 
 #: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
@@ -332,7 +332,7 @@ msgstr "Passwort"
 #: templates/public.php:17
 #, php-format
 msgid "User %s"
-msgstr ""
+msgstr "Benutzer %s"
 
 #: templates/public.php:21
 msgid ""
