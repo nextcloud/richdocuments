@@ -74,7 +74,6 @@
 "Save new documents to" => "Shrani nove dokumente v",
 "Wrong password. Please retry." => "Napačno geslo. Poskusite znova.",
 "Password" => "Geslo",
-"User %s" => "Uporabnik %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Povezava je pretekla ali pa ni nikoli obstajala. Za več podrobnosti stopite v stik z osebo, ki naj bi vam jo poslala.",
 "Advanced feature-set" => "Napredne zmožnosti",
 "(Unstable)" => "(nestabilno)"

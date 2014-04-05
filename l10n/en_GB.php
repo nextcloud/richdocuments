@@ -74,7 +74,6 @@
 "Save new documents to" => "Save new documents to",
 "Wrong password. Please retry." => "Incorrect password. Please try again.",
 "Password" => "Password",
-"User %s" => "User %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "This link has expired or is incorrect. Please contact the person who shared it with you for details.",
 "Advanced feature-set" => "Advanced feature-set",
 "(Unstable)" => "(Unstable)"

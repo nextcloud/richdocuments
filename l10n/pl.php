@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Serwer filtrów formatów jest niedostępny lub nieprawidłowo skonfigurowany",
+"Can't create document" => "Nie można utworzyć dokumentu",
 "You don't have permission to rename this document" => "Nie masz uprawnień do zmiany nazwy tego dokumentu",
 "Documents" => "Dokumenty",
 "Share" => "Udostępnij",

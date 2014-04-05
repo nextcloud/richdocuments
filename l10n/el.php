@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Can't create document" => "Δεν είναι δυνατή η δημιουργία του εγγράφου",
 "You don't have permission to rename this document" => "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο",
 "Documents" => "Έγγραφα",
 "Share" => "Διαμοιρασμός",

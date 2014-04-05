@@ -74,7 +74,6 @@
 "Save new documents to" => "Gardar os novos documentos en",
 "Wrong password. Please retry." => "Contrasinal incorrecto. Tenteo de novo.",
 "Password" => "Contrasinal",
-"User %s" => "Usuario %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Esta ligazón caducou ou xa non existe. Póñase en contacto coa persoa que o compartiu con vostede para obter máis información.",
 "Advanced feature-set" => "Conxunto de funcións avanzadas",
 "(Unstable)" => "(Inestábel)"

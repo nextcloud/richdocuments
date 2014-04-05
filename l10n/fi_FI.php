@@ -72,7 +72,6 @@
 "Save new documents to" => "Uusien asiakirjojen tallennussijainti",
 "Wrong password. Please retry." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",
-"User %s" => "Käyttäjä %s",
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"
 );

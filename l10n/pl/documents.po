@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-03 00:44-0400\n"
-"PO-Revision-Date: 2014-04-03 04:44+0000\n"
+"POT-Creation-Date: 2014-04-05 00:44-0400\n"
+"PO-Revision-Date: 2014-04-05 04:44+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Serwer filtrów formatów jest niedostępny lub nieprawidłowo skonfigur
 
 #: ajax/documentController.php:45
 msgid "Can't create document"
-msgstr ""
+msgstr "Nie można utworzyć dokumentu"
 
 #: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
@@ -329,7 +329,7 @@ msgstr "Hasło"
 
 #: templates/public.php:17
 #, php-format
-msgid "User %s"
+msgid "Guest %s"
 msgstr ""
 
 #: templates/public.php:21

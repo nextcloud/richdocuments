@@ -5,13 +5,14 @@
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013
 # pe_ppe <peppe@cs.uoi.gr>, 2014
+# stratosgl <stratos_gl@yahoo.com>, 2014
 # vkehayas <vkehayas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-03 00:44-0400\n"
-"PO-Revision-Date: 2014-04-03 04:44+0000\n"
+"POT-Creation-Date: 2014-04-05 00:44-0400\n"
+"PO-Revision-Date: 2014-04-05 04:44+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: ajax/documentController.php:45
 msgid "Can't create document"
-msgstr ""
+msgstr "Δεν είναι δυνατή η δημιουργία του εγγράφου"
 
 #: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
@@ -330,7 +331,7 @@ msgstr "Συνθηματικό"
 
 #: templates/public.php:17
 #, php-format
-msgid "User %s"
+msgid "Guest %s"
 msgstr ""
 
 #: templates/public.php:21

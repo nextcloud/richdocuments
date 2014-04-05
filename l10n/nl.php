@@ -74,7 +74,6 @@
 "Save new documents to" => "Bewaar nieuwe documenten  in",
 "Wrong password. Please retry." => "Onjuist wachtwoord. Probeer opnieuw.",
 "Password" => "Wachtwoord",
-"User %s" => "Gebruiker %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details.",
 "Advanced feature-set" => "Geavanceerde functies",
 "(Unstable)" => "(Onstabiel)"
