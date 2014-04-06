@@ -74,6 +74,7 @@
 "Save new documents to" => "Yeni belgeleri şuraya kaydet",
 "Wrong password. Please retry." => "Yanlış parola. Lütfen yeniden deneyin.",
 "Password" => "Parola",
+"Guest %s" => "Misafir %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin.",
 "Advanced feature-set" => "Gelişmiş özellik seti",
 "(Unstable)" => "(Kararsız)"

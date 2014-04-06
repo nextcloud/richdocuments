@@ -74,6 +74,7 @@
 "Save new documents to" => "Neues Dokument speichern unter",
 "Wrong password. Please retry." => "Falsches Passwort. Bitte versuche es noch einmal.",
 "Password" => "Passwort",
+"Guest %s" => "Gast %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktiere, für nähere Details, die Person, die dies mit Dir teilt.",
 "Advanced feature-set" => "Erweiterte Funktionseinstellungen",
 "(Unstable)" => "(Instabil)"
