@@ -26,6 +26,13 @@ class Helper {
 
 		return $path;
 	}
+	
+	public static function getArrayValueByKey($array, $key, $default=''){
+		if (array_key_exists($key, $array)){
+			return $array[$key];
+		}
+		return $default;
+	}
 
 	public static function isVersionsEnabled(){
 		return \OCP\App::isEnabled('files_versions');

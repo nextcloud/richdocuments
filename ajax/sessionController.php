@@ -52,9 +52,9 @@ class SessionController extends Controller{
 	}
 	
 	protected static function join($uid, $file){
-			$session = Db_Session::start($uid, $file);
-			\OCP\JSON::success($session);
-			exit();
+		$session = Db_Session::start($uid, $file);
+		\OCP\JSON::success($session);
+		exit();
 	}
 
 	/**

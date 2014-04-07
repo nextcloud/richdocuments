@@ -40,8 +40,8 @@ class UserController extends Controller{
 	}
 	
 	public static function rename($args){
-		$memberId = @$args['member_id'];
-		$name = @$_POST['name'];
+		$memberId = Helper::getArrayValueByKey($args, 'member_id');
+		$name = Helper::getArrayValueByKey($_POST, 'name');
 		$member = new Db_Member();
 		$member->load($memberId);
 		$memberData = $member->getData();

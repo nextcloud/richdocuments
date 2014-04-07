@@ -19,9 +19,8 @@ var documentsMain = {
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
 					'  <div id="document-title" class="icon-noise">' +
 					'<div class="logo-wide"></div>' +
-					'<div>' +
-					'%title%' +
-			        '  </div></div>' +
+					'<div id="document-title-container"></div>' +
+			        '</div>' +
 					'  <span id="toolbar" class="claro">' +
 					'  <button id="odf-invite" class="drop">' +
 						  t('documents', 'Share') +
@@ -69,7 +68,8 @@ var documentsMain = {
 		},
 		
 		showEditor : function(title, canShare){
-			$(document.body).prepend(documentsMain.UI.toolbar.replace(/%title%/g, title));
+			$(document.body).prepend(documentsMain.UI.toolbar);
+			$('#document-title-container').text(title);
 			if (!canShare){
 				$('#odf-invite').remove();
 			} else {
@@ -132,9 +132,7 @@ var documentsMain = {
 		
 		notify : function(message){
 			OC.Notification.show(message);
-			setTimeout(function() {
-				OC.Notification.hide();
-			}, 10000);
+			setTimeout(OC.Notification.hide, 10000);
 		}
 	},
 	
@@ -420,7 +418,7 @@ var documentsMain = {
 				}
 				documentsMain.fileName = name;
 				$('title').text(documentsMain.UI.mainTitle + '| ' + name);
-				$('#document-title>div').text(name);
+				$('#document-title-container').text(name);
 			}
 		);
 	},
