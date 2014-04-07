@@ -45,8 +45,7 @@ define("owncloud/ServerFactory", [
 
                 server = new PullBoxServer(args);
                 server.getGenesisUrl = function(sid) {
-                    // what a dirty hack :)
-                    return OC.generateUrl('apps/documents/ajax/genesis/{es_id}', {es_id: sid});
+                    return OC.generateUrl('apps/documents/ajax/genesis/{es_id}', {es_id: sid}) + '?requesttoken=' + oc_requesttoken;
                 };
                 return server;
             };
