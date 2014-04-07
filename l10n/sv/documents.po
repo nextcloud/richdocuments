@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AsavarTzeth <asavartzeth@gmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # kallemooo <karl.h.thoren@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-05 00:44-0400\n"
-"PO-Revision-Date: 2014-04-05 04:44+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-07 00:44-0400\n"
+"PO-Revision-Date: 2014-04-06 10:30+0000\n"
+"Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +24,15 @@ msgstr ""
 
 #: ajax/admin.php:24
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "Formatfilter servern är nere eller felkonfigurerad"
 
 #: ajax/documentController.php:45
 msgid "Can't create document"
-msgstr ""
+msgstr "Kan inte skapa dokument"
 
 #: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Du har inte behörighet att döpa om detta dokument"
 
 #: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -69,7 +70,7 @@ msgstr "Spara"
 
 #: js/documents.js:578 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Laddar dokument..."
 
 #: js/documents.js:597
 msgid "Failed to load documents."
@@ -95,19 +96,19 @@ msgstr "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Vänsterjustera"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Justering"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Högerjustera"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Annotera"
 
 #: js/locale.js:5
 msgid "Background"
@@ -119,7 +120,7 @@ msgstr "Fet"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Botten"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -135,7 +136,7 @@ msgstr "Klona"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Klona denna stilen"
 
 #: js/locale.js:13
 msgid "Color"
@@ -147,11 +148,11 @@ msgstr "Skapa"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Minska indrag"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Förvald stil"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -163,11 +164,11 @@ msgstr "Familj"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Font effekter"
 
 #: js/locale.js:21
 msgid "Format"
@@ -175,7 +176,7 @@ msgstr "Format"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Öka indrag"
 
 #: js/locale.js:23
 msgid "Insert Image"
@@ -187,7 +188,7 @@ msgstr "Bjud in medlemmar"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -227,11 +228,11 @@ msgstr "Alternativ"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragraph..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Paragrafstilar"
 
 #: js/locale.js:37
 msgid "Redo"
@@ -247,7 +248,7 @@ msgstr "Storlek"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Mellanrum"
 
 #: js/locale.js:42
 msgid "Strikethrough"
@@ -263,11 +264,11 @@ msgstr "Text"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Topp"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Understrykning"
 
 #: js/locale.js:47
 msgid "Undo"
@@ -283,19 +284,19 @@ msgstr "Redigera"
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr ""
+msgstr "OpenOffice/LibreOffice är installerat på denna servern"
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "Externa"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr ""
+msgstr "OpenOffice/LibreOffice är installerat på en annan server"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
@@ -303,11 +304,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "Server URL"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "Tillämpa"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -332,7 +333,7 @@ msgstr "Lösenord"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "Gäst %s"
 
 #: templates/public.php:21
 msgid ""
