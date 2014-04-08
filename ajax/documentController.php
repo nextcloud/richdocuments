@@ -70,14 +70,19 @@ class DocumentController extends Controller{
 	
 
 	public static function rename($args){
+		$uid = self::preDispatch();
+		
 		$fileId = intval(@$args['file_id']);
 		$name = @$_POST['name'];
-		$file = new File($fileId);
+		
+		$view = \OC\Files\Filesystem::getView();
+		$path = $view->getPath($fileId);
+		
 		$l = new \OC_L10n('documents');
 
-		if (isset($name) && $file->getPermissions() & \OCP\PERMISSION_UPDATE) {
-			if ($file->renameTo($name)) {
-				// TODO: propagate to other clients
+		if (isset($name) && $view->is_file($path) && $view->isUpdatable($path)) {
+			$newPath = dirname($path) . '/' . $name;
+			if ($view->rename($path, $newPath)) {
 				\OCP\JSON::success();
 				return;
 			}
