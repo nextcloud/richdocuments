@@ -3,348 +3,343 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jessica Di Maria <dimariaj87@gmail.com>, 2014
-# F0ca <staffhabbfoca@live.it>, 2013
-# ogasser, 2013
-# Paolo Velati <paolo.velati@gmail.com>, 2013-2014
-# Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-04-08 00:45-0400\n"
-"PO-Revision-Date: 2014-04-07 18:25+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
-"Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
+"PO-Revision-Date: 2014-04-07 17:00+0000\n"
+"Last-Translator: I Robot\n"
+"Language-Team: Javanese (http://www.transifex.com/projects/p/owncloud/language/jv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
+"Language: jv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/admin.php:24
 msgid "Format filter server is down or misconfigured"
-msgstr "Il formato del filtro del server è inattivo o configurato in modo errato"
+msgstr ""
 
 #: ajax/documentController.php:45
 msgid "Can't create document"
-msgstr "Impossibile creare il documento"
+msgstr ""
 
 #: ajax/documentController.php:86
 msgid "You don't have permission to rename this document"
-msgstr "Non hai i permessi per rinominare questo documento"
+msgstr ""
 
 #: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr "Documenti"
+msgstr ""
 
 #: js/documents.js:27
 msgid "Share"
-msgstr "Condividi"
+msgstr ""
 
 #: js/documents.js:30 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
-msgstr "Chiudi"
+msgstr ""
 
 #: js/documents.js:124
 msgid "No connection to server. Trying to reconnect."
-msgstr "Nessuna connessione al server. Riprova a connetterti."
+msgstr ""
 
 #: js/documents.js:193
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Lasciare questa pagina nella modalità potrebbe causare il mancato salvataggio dei dati. Si consiglia invece di utilizzare il pulsante 'Chiudi'."
+msgstr ""
 
 #: js/documents.js:211
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Caricamento del documento non riuscito. Controlla se può essere aperto con un editor odt esterno. Ciò può anche significare che è stato tolto dalla condivisione o che è stato eliminato recentemente."
+msgstr ""
 
 #: js/documents.js:233 js/locale.js:39
 msgid "Save"
-msgstr "Salva"
+msgstr ""
 
 #: js/documents.js:578 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Caricamento documenti..."
+msgstr ""
 
 #: js/documents.js:597
 msgid "Failed to load documents."
-msgstr "Caricamento documenti non riuscito."
+msgstr ""
 
 #: js/documents.js:640
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Nessun documento trovato. Carica o crea un documento!"
+msgstr ""
 
 #: js/documents.js:676
 msgid "'.' is an invalid file name."
-msgstr "'.' non è un nome file valido."
+msgstr ""
 
 #: js/documents.js:678
 msgid "File name cannot be empty."
-msgstr "Il nome del file non può essere vuoto."
+msgstr ""
 
 #: js/documents.js:685
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Nome non valido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' non sono consentiti."
+msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Allineamento a sinistra"
+msgstr ""
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr "Allineamento"
+msgstr ""
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Allineamento a destra"
+msgstr ""
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr "Annota"
+msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Sfondo"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr "Grassetto"
+msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "In basso"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "Annulla"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "Centrato"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Clona"
+msgstr ""
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Clona questo stile"
+msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Colore"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "Crea"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Riduci rientro"
+msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Stile predefinito"
+msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Elimina"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "Famiglia"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
-msgstr "Carattere"
+msgstr ""
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr "Effetti carattere"
+msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Formato"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Aumenta rientro"
+msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Inserisci immagine"
+msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "Invita membri"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr "Corsivo"
+msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr "Giustificato"
+msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "Giustifica"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "Sinistra"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "Caricamento"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Membri"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Nuovo nome:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "Apri"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "Opzioni"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Paragrafo..."
+msgstr ""
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Stili paragrafo"
+msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Rifai"
+msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Destra"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "Dimensione"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr "Spaziatura"
+msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Barrato"
+msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr "Stile"
+msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Testo"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "In alto"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Sottolineato"
+msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Annulla"
+msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Autore sconosciuto"
+msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
-msgstr "Modifica"
+msgstr "Ngganti"
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr "Locale"
+msgstr ""
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr "openOffice/libreOffice è installato su questo server"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "External"
-msgstr "Esterno"
+msgstr ""
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr "openOffice/libreOffice è installato su un altro server"
+msgstr ""
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr "scheme://dominio.tld[:porta]"
+msgstr ""
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr "URL del server"
+msgstr ""
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr "Applica"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr "Nuovo documento"
+msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "Carica"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Salva i nuovi documenti in"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Password errata. Riprova."
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Password"
+msgstr ""
 
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr "Ospite %s"
+msgstr ""
 
 #: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Questo collegamento è scaduto o non è mai esistito. Contatta la persona che lo ha condiviso per i dettagli."
+msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Funzionalità avanzate"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(Non stabile)"
+msgstr ""

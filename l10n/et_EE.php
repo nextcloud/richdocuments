@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formaadi filtri server ei ole saadaval või on valesti seadistatud",
+"Can't create document" => "Ei suuda dokumenti luua",
 "You don't have permission to rename this document" => "Puuduvad õigused dokumendi ümber nimetamiseks",
 "Documents" => "Dokumendid",
 "Share" => "Jaga",
@@ -73,6 +74,7 @@
 "Save new documents to" => "Salvesta dokumendid",
 "Wrong password. Please retry." => "Vale parool. Palun proovi uuesti.",
 "Password" => "Parool",
+"Guest %s" => "Külaline %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "See link on aegunud või seda pole kunagi eksisteerinud. Palun võta ühendust inimesega, kes selle sulle jagas.",
 "Advanced feature-set" => "Täpsemad seaded",
 "(Unstable)" => "(Ebastabiilne)"
