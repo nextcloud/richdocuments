@@ -220,16 +220,6 @@ class File {
 
 		return $result;
 	}
-
-	protected function getLocalFileOwnerAndPath(){
-		$fileInfo = \OC\Files\Cache\Cache::getById($this->fileId);
-		$owner = \OCP\User::getUser();
-		if (!$owner){
-			throw new Exception('Guest users can\'t access local files. This one was probably unshared recently.');
-		}
-
-		return array ($owner, @$fileInfo[1]);
-	}
 	
 	protected function getPassword(){
 		return $this->sharing[0]['share_with'];
