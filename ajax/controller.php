@@ -37,7 +37,6 @@ class Controller {
 			\OCP\JSON::callCheck();
 		}
 		\OCP\JSON::checkAppEnabled('documents');
-		return '(guest)';
 	}
 
 }
