@@ -15,12 +15,15 @@ namespace OCA\Documents;
 class SessionController extends Controller{
 	
 	public static function joinAsGuest($args){
-		$uid = self::preDispatchGuest();
-		$uid = substr(@$_POST['name'], 0, 16) .' '. $uid;
-		$token = @$args['token'];
+		$postfix = self::preDispatchGuest();
+		
+		$uid = Helper::getArrayValueByKey($_POST, 'name');
+		$guestUid = substr($uid, 0, 16) .' '. $postfix;
+		
 		try {
-			$file = File::getByShareToken($token);
-			self::join($uid, $file);
+			$token = Helper::getArrayValueByKey($args, 'token');
+			$fileId = File::getIdByShareToken($token);
+			self::join($guestUid, $fileId);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
 			\OCP\JSON::error();
@@ -33,13 +36,15 @@ class SessionController extends Controller{
 		$fileId = intval(@$args['file_id']);
 		
 		try {
-			$file = new File($fileId);
-		
-			if ($file->getPermissions() & \OCP\PERMISSION_UPDATE) {
-				self::join($uid, $file);	
+			$view = \OC\Files\Filesystem::getView();
+			$path = $view->getPath($fileId);
+			
+			if ($view->isUpdatable($path)) {
+				self::join($uid, $fileId);	
 			} else {
+				$info = $view->getFileInfo();
 				\OCP\JSON::success(array(
-					'permissions' => $file->getPermissions(),
+					'permissions' => $info['permissions'],
 					'id' => $fileId
 				));
 			}
@@ -51,8 +56,8 @@ class SessionController extends Controller{
 		}
 	}
 	
-	protected static function join($uid, $file){
-		$session = Db_Session::start($uid, $file);
+	protected static function join($uid, $fileId){
+		$session = Db_Session::start($uid, $fileId);
 		\OCP\JSON::success($session);
 		exit();
 	}

@@ -35,7 +35,8 @@ class Db_Session extends \OCA\Documents\Db {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function start($uid, File $file){
+	public static function start($uid, $fileId){
+		$file = new File($fileId);
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		
 		// Create a directory to store genesis

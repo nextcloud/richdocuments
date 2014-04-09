@@ -47,6 +47,23 @@ class File {
 		}
 	}
 	
+	public static function getIdByShareToken($token){
+		$linkItem = \OCP\Share::getShareByToken($token, false);
+		if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
+			// seems to be a valid share
+			$rootLinkItem = \OCP\Share::resolveReShare($linkItem);
+			$fileOwner = $rootLinkItem['uid_owner'];
+		} else {
+			throw new \Exception('This file was probably unshared');
+		}
+		
+		if (!isset($rootLinkItem['path']) && isset($rootLinkItem['file_target'])){
+			$rootLinkItem['path'] = $rootLinkItem['file_target'];
+		}
+		
+		return $rootLinkItem['file_source'];
+	}
+	
 	public static function getByShareToken($token){
 		$linkItem = \OCP\Share::getShareByToken($token, false);
 		if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
