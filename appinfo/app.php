@@ -4,7 +4,7 @@
  * ownCloud - Documents App
  *
  * @author Frank Karlitschek
- * @copyright 2011 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2013-2014 Frank Karlitschek karlitschek@kde.org
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
