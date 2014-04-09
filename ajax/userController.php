@@ -40,6 +40,8 @@ class UserController extends Controller{
 	}
 	
 	public static function rename($args){
+		self::preDispatchGuest();
+		
 		$memberId = Helper::getArrayValueByKey($args, 'member_id');
 		$name = Helper::getArrayValueByKey($_POST, 'name');
 		$member = new Db_Member();
