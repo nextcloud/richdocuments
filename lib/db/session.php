@@ -35,7 +35,7 @@ class Db_Session extends \OCA\Documents\Db {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function start($uid, $fileId){
+	public static function start($uid, $fileId, $isGuest){
 		$file = new File($fileId);
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		
@@ -72,7 +72,8 @@ class Db_Session extends \OCA\Documents\Db {
 			$session['es_id'], 
 			$uid,
 			$memberColor,
-			time()
+			time(),
+			intval($isGuest)
 		));
 		
 		if ($member->insert()){
@@ -101,20 +102,23 @@ class Db_Session extends \OCA\Documents\Db {
 							 
 			 */
 			}
-			
+
+			$displayName = $isGuest ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
 			$session['member_id'] = (string) $member->getLastInsertId();
 			$op = new Db_Op();
 			$op->addMember(
 					$session['es_id'],
 					$session['member_id'],
-					\OCP\User::getDisplayName($uid),
+					$displayName,
 					$memberColor,
 					$imageUrl
 			);
 		} else {
 			throw new \Exception('Failed to add member into database');
 		}
+		
+		
 		
 		$session['permissions'] = $ownerView->getFilePermissions($path);
 		

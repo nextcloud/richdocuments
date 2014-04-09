@@ -15,15 +15,16 @@ namespace OCA\Documents;
 class SessionController extends Controller{
 	
 	public static function joinAsGuest($args){
-		$postfix = self::preDispatchGuest();
+		self::preDispatchGuest();
 		
 		$uid = Helper::getArrayValueByKey($_POST, 'name');
-		$guestUid = substr($uid, 0, 16) .' '. $postfix;
+		$guestUid = substr($uid, 0, 16);
 		
 		try {
 			$token = Helper::getArrayValueByKey($args, 'token');
 			$fileId = File::getIdByShareToken($token);
-			self::join($guestUid, $fileId);
+			$session = Db_Session::start($uid, $fileId, true);
+			\OCP\JSON::success($session);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
 			\OCP\JSON::error();
@@ -40,7 +41,8 @@ class SessionController extends Controller{
 			$path = $view->getPath($fileId);
 			
 			if ($view->isUpdatable($path)) {
-				self::join($uid, $fileId);	
+				$session = Db_Session::start($uid, $fileId, false);
+				\OCP\JSON::success($session);
 			} else {
 				$info = $view->getFileInfo();
 				\OCP\JSON::success(array(
@@ -56,11 +58,6 @@ class SessionController extends Controller{
 		}
 	}
 	
-	protected static function join($uid, $fileId){
-		$session = Db_Session::start($uid, $fileId);
-		\OCP\JSON::success($session);
-		exit();
-	}
 
 	/**
 	 * Store the document content to its origin

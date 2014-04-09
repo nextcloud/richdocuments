@@ -45,12 +45,15 @@ class UserController extends Controller{
 		$member = new Db_Member();
 		$member->load($memberId);
 		$memberData = $member->getData();
-		if (count($memberData) && $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE 
-			&& preg_match('/.* \(guest\)$/', $memberData['uid'])
+		if (count($memberData) 
+				&& $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE 
+				&& $memberData['is_guest']
 		){
-			if (!preg_match('/.* \(guest\)$/', $name)){
-				$name .= ' (guest)';
+			$guestMark = Db_Member::getGuestPostfix();
+			if (substr($name, -strlen($guestMark)) !== $guestMark){
+				$name = $name . ' ' . $guestMark;
 			}
+			
 			$op = new Db_Op();
 			$op->changeNick($memberData['es_id'], $memberId, $name);
 		}
