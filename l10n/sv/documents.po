@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-07 00:44-0400\n"
-"PO-Revision-Date: 2014-04-06 10:30+0000\n"
+"POT-Creation-Date: 2014-04-09 00:44-0400\n"
+"PO-Revision-Date: 2014-04-08 18:20+0000\n"
 "Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Formatfilter servern är nere eller felkonfigurerad"
 msgid "Can't create document"
 msgstr "Kan inte skapa dokument"
 
-#: ajax/documentController.php:86
+#: ajax/documentController.php:91
 msgid "You don't have permission to rename this document"
 msgstr "Du har inte behörighet att döpa om detta dokument"
 
@@ -300,7 +300,7 @@ msgstr "OpenOffice/LibreOffice är installerat på en annan server"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "ordning://domän.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"

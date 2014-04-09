@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Iñigo Varela <ivarela@softastur.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 00:45-0400\n"
-"PO-Revision-Date: 2014-04-07 19:30+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-09 00:44-0400\n"
+"PO-Revision-Date: 2014-04-08 19:10+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,20 +20,20 @@ msgstr ""
 
 #: ajax/admin.php:24
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "El sirvidor de filtru de formatu cayó o ta mal configuráu"
 
 #: ajax/documentController.php:45
 msgid "Can't create document"
-msgstr ""
+msgstr "Nun pue crease'l documentu"
 
-#: ajax/documentController.php:86
+#: ajax/documentController.php:91
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Nun tienes permisu pa camudar de nome a esti documentu"
 
 #: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "Documentos"
 
 #: js/documents.js:27
 msgid "Share"
@@ -40,114 +41,114 @@ msgstr "Compartir"
 
 #: js/documents.js:30 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
-msgstr ""
+msgstr "Zarrar"
 
 #: js/documents.js:124
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "Nun hai conexón col sirvidor. Intentando reconeutar."
 
 #: js/documents.js:193
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr ""
+msgstr "Si dexes esta páxina nel mou d'edición, pue ser que nun se guarden dalgunos datos. Ye preferible usar el botón «Zarrar»."
 
 #: js/documents.js:211
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr ""
+msgstr "Nun pudo cargase'l documentu. Comprueba si pues abrilu con un editor de ficheros ODT esternu. Tamién pue ser que yá nun se comparta o se desaniciara de recién."
 
 #: js/documents.js:233 js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: js/documents.js:578 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "Cargando los documentos..."
 
 #: js/documents.js:597
 msgid "Failed to load documents."
-msgstr ""
+msgstr "Fallu al cargar los documentos."
 
 #: js/documents.js:640
 msgid "No documents are found. Please upload or create a document!"
-msgstr ""
+msgstr "Nun s'atoparon documentos. ¡Xubi o crea un documentu!"
 
 #: js/documents.js:676
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' nun ye un nome de ficheru válidu."
 
 #: js/documents.js:678
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "El nome de ficheru nun pue quedar baleru."
 
 #: js/documents.js:685
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nome inválidu, los caráuteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" nun tán permitíos."
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Alliniar a la esquierda"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Alliniación"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Alliniar a la derecha"
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr ""
+msgstr "Anotar"
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Fondu"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "Negrina"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Inferior"
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Encaboxar"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "Centráu"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "Clonar"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "Clonar esti estilu"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Amenorgar sangría"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "Estilu por defeutu"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -155,123 +156,123 @@ msgstr "Desaniciar"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Familia"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Fonte"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Efeutos de fonte"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Formatu"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "Aumentar sangría"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Inxertar una imaxe"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Invitar a miembros"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Cursiva"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Xustificáu"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Xustificar"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Esquierda"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Cargando"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Miembros"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Nome nuevu:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr ""
+msgstr "Aceutar"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "Abrir"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "Opciones"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Párrafu..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "Estilos de párrafu"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Refacer"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Derechu"
 
 #: js/locale.js:40
 msgid "Size"
-msgstr ""
+msgstr "Tamañu"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "Espaciamientu"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "Tacháu"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Estilu"
 
 #: js/locale.js:44
 msgid "Text"
-msgstr ""
+msgstr "Testu"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "Superior"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Solliñáu"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Desfacer"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Autor desconocíu"
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
@@ -279,67 +280,67 @@ msgstr "Editar"
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "Llocal"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr ""
+msgstr "OpenOffice/LibreOffice ta instaláu nesti sirvidor"
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "Esternu"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr ""
+msgstr "OpenOffice/LibreOffice ta instaláu n'otru sirvidor"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "scheme://domain.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "URL del sirvidor"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "Aplicar"
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Documentu nuevu"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr ""
+msgstr "Xubir"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr ""
+msgstr "Guardar documentos nuevos en"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Contraseña incorreuta. Inténtalo de nueves."
 
 #: templates/public.php:11
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "Invitáu %s"
 
 #: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr ""
+msgstr "Esti enllaz caducó o enxamás esistió. Pa más detalles, contauta cola persona que lu compartió contigo."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Carauterístiques avanzaes"
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(Inestable)"
