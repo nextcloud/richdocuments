@@ -101,9 +101,10 @@ class SessionController extends Controller{
 			}
 			$sessionData = $session->getData();
 			try {
-				$file = new File($sessionData['file_id']);
 				if ($isGuest){
-					$file->setToken('yes');
+					$file = File::getByShareToken($currentMemberData['token']);
+				} else {
+					$file = new File($sessionData['file_id']);
 				}
 				
 				list($view, $path) = $file->getOwnerViewAndPath();
@@ -128,8 +129,7 @@ class SessionController extends Controller{
 			// Active users except current user
 			$memberCount = count($memberIds) - 1;
 			
-			if ($view->file_exists($path)){		
-				
+			if ($view->file_exists($path)){
 				$proxyStatus = \OC_FileProxy::$enabled;
 				\OC_FileProxy::$enabled = false;	
 				$currentHash = sha1($view->file_get_contents($path));
@@ -152,7 +152,6 @@ class SessionController extends Controller{
 				if ($memberCount>0){
 					// Update genesis hash to prevent conflicts
 					Helper::debugLog('Update hash');
-					
 					$session->updateGenesisHash($esId, sha1($data['content']));
 				} else {
 					// Last user. Kill session data

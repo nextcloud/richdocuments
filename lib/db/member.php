@@ -23,8 +23,8 @@ class Db_Member extends Db{
 	
 	protected $tableName  = '`*PREFIX*documents_member`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*documents_member` (`es_id`, `uid`, `color`, `last_activity`, `is_guest`)
-			VALUES (?, ?, ?, ?, ?)';
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*documents_member` (`es_id`, `uid`, `color`, `last_activity`, `is_guest`, `token`)
+			VALUES (?, ?, ?, ?, ?, ?)';
 	
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*documents_member` WHERE `member_id`= ?';
 

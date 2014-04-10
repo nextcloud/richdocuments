@@ -38,8 +38,8 @@ class Genesis {
 	 * @param OCA\Documents\File $file 
 	 * */	
 	public function __construct(\OCA\Documents\File $file){
-		$owner = $file->getOwner();
 		list($view, $path) = $file->getOwnerViewAndPath();
+		$owner = $file->getOwner();
 		
 		$this->view = new View('/' . $owner);
 		

@@ -68,7 +68,8 @@ class Db_Session extends \OCA\Documents\Db {
 			$uid,
 			$memberColor,
 			time(),
-			intval($file->isPublicShare())
+			intval($file->isPublicShare()),
+			$file->getToken()
 		));
 		
 		if ($member->insert()){
