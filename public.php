@@ -41,8 +41,13 @@ if (isset($_GET['t'])) {
 			if ($file->getFileId()){
 				$session = new Db_Session();
 				$sessionData = $session->loadBy('file_id', $file->getFileId())->getData();
-				$member = new Db_Member();
-				$members = $member->getCollectionBy('es_id', $sessionData['es_id']);
+				
+				if (isset($sessionData['es_id'])){
+					$member = new Db_Member();
+					$members = $member->getCollectionBy('es_id', $sessionData['es_id']);
+				} else {
+					$members = 0;
+				}
 				$tmpl->assign('total', count($members)+1);
 			} else {
 				$tmpl->assign('total', 1);
