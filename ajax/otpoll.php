@@ -33,6 +33,16 @@ try{
 	
 	$session = new Db_Session();
 	$sessionData = $session->load($esId)->getData();
+	
+	$memberId = $request->getParam('args/member_id');
+	$member = new Db_Member();
+	$memberData = $member->load($memberId)->getData();
+	
+	if (isset($memberData['is_guest']) && $memberData['is_guest']){
+		Controller::preDispatchGuest(false);
+	} else {
+		Controller::preDispatch(false);
+	}
 
 	try {
 		$file = new File(@$sessionData['file_id']);
@@ -42,25 +52,18 @@ try{
 		$ex->setBody($request->getRawRequest());
 		throw $ex;
 	}
-	if (!$file->isPublicShare()){
-		Controller::preDispatch(false);
-	} else {
-		Controller::preDispatchGuest(false);
-	}
 	
 	$command = $request->getParam('command');
 	switch ($command){
 		case 'sync_ops':
 			$seqHead = (string) $request->getParam('args/seq_head');
 			if (!is_null($seqHead)){
-				$memberId = $request->getParam('args/member_id');
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
 
 				$op = new Db_Op();
 				$currentHead = $op->getHeadSeq($esId);
 				
-				$member = new Db_Member();
 				try {
 					$member->updateActivity($memberId);
 				} catch (\Exception $e){

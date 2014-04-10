@@ -22,8 +22,8 @@ class SessionController extends Controller{
 		
 		try {
 			$token = Helper::getArrayValueByKey($args, 'token');
-			$fileId = File::getIdByShareToken($token);
-			$session = Db_Session::start($uid, $fileId, true);
+			$file = File::getByShareToken($token);
+			$session = Db_Session::start($uid, $file, true);
 			\OCP\JSON::success($session);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
@@ -34,14 +34,15 @@ class SessionController extends Controller{
 
 	public static function joinAsUser($args){
 		$uid = self::preDispatch();
-		$fileId = intval(@$args['file_id']);
+		$fileId = Helper::getArrayValueByKey($args, 'file_id');
 		
 		try {
 			$view = \OC\Files\Filesystem::getView();
 			$path = $view->getPath($fileId);
 			
 			if ($view->isUpdatable($path)) {
-				$session = Db_Session::start($uid, $fileId, false);
+				$file = new File($fileId);
+				$session = Db_Session::start($uid, $file);
 				\OCP\JSON::success($session);
 			} else {
 				$info = $view->getFileInfo();
@@ -73,7 +74,8 @@ class SessionController extends Controller{
 			$currentMember = new Db_Member();
 			$currentMemberData = $currentMember->load($memberId)->getData();
 			if (isset($currentMemberData['is_guest']) && $currentMemberData['is_guest']){
-				self::preDispatchGuest();
+				$uid = self::preDispatchGuest();
+				$isGuest = true;				
 			} else {
 				self::preDispatch();
 			}
@@ -100,11 +102,14 @@ class SessionController extends Controller{
 			$sessionData = $session->getData();
 			try {
 				$file = new File($sessionData['file_id']);
+				if ($isGuest){
+					$file->setToken('yes');
+				}
+				
 				list($view, $path) = $file->getOwnerViewAndPath();
 			} catch (\Exception $e){
 				//File was deleted or unshared. We need to save content as new file anyway
 				//Sorry, but for guests it would be lost :(
-				$uid = self::preDispatch();
 				$view = new \OC\Files\View('/' . $uid . '/files');
 		
 				$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '');

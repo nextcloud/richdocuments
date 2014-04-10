@@ -28,6 +28,7 @@ class File {
 	protected $owner;
 	protected $path;
 	protected $sharing;
+	protected $token ='';
 	protected $passwordProtected = false;
 
 
@@ -47,22 +48,6 @@ class File {
 		}
 	}
 	
-	public static function getIdByShareToken($token){
-		$linkItem = \OCP\Share::getShareByToken($token, false);
-		if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
-			// seems to be a valid share
-			$rootLinkItem = \OCP\Share::resolveReShare($linkItem);
-			$fileOwner = $rootLinkItem['uid_owner'];
-		} else {
-			throw new \Exception('This file was probably unshared');
-		}
-		
-		if (!isset($rootLinkItem['path']) && isset($rootLinkItem['file_target'])){
-			$rootLinkItem['path'] = $rootLinkItem['file_target'];
-		}
-		
-		return $rootLinkItem['file_source'];
-	}
 	
 	public static function getByShareToken($token){
 		$linkItem = \OCP\Share::getShareByToken($token, false);
@@ -78,7 +63,7 @@ class File {
 			$rootLinkItem['path'] = $rootLinkItem['file_target'];
 		}
 		$file = new File($rootLinkItem['file_source'], array($rootLinkItem));
-		
+		$file->setToken($token);
 
 		if (isset($rootLinkItem['uid_owner'])){
 			\OC_Util::tearDownFS();
@@ -106,16 +91,12 @@ class File {
 		$this->path = $path;
 	}
 	
+	public function setToken($token){
+		$this->token = $token;
+	}
+	
 	public function isPublicShare(){
-		foreach ($this->sharing as $share){
-			if (
-					$share['share_type'] == \OCP\Share::SHARE_TYPE_LINK 
-					|| $share['share_type'] == \OCP\Share::SHARE_TYPE_EMAIL
-				){
-				return true;
-			}
-		}
-		return false;
+		return  !empty($this->token);
 	}
 	
 	public function isPasswordProtected(){
@@ -217,11 +198,11 @@ class File {
 			} else {
 				$owner = false;
 			}
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($owner);
+			$view = new View('/' . $owner . '/files');
+			
 			return array(
 					$owner,
-					\OC\Files\Filesystem::getPath($rootLinkItem['file_source'])
+					$view->getPath($rootLinkItem['file_source'])
                 );
 		}
 

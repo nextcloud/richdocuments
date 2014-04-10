@@ -35,9 +35,7 @@ class Db_Session extends \OCA\Documents\Db {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function start($uid, $fileId, $isGuest){
-		
-		$file = new File($fileId);
+	public static function start($uid, $file){
 		// Create a directory to store genesis
 		$genesis = new Genesis($file);
 		
@@ -70,7 +68,7 @@ class Db_Session extends \OCA\Documents\Db {
 			$uid,
 			$memberColor,
 			time(),
-			intval($isGuest)
+			intval($file->isPublicShare())
 		));
 		
 		if ($member->insert()){
@@ -81,7 +79,7 @@ class Db_Session extends \OCA\Documents\Db {
 				$imageUrl = $uid;
 			}
 
-			$displayName = $isGuest ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
+			$displayName = $file->isPublicShare() ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
 			$session['member_id'] = (string) $member->getLastInsertId();
 			$op = new Db_Op();
