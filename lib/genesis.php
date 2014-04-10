@@ -39,7 +39,7 @@ class Genesis {
 	 * */	
 	public function __construct(\OCA\Documents\File $file){
 		$owner = $file->getOwner();
-		list($ownerView, $path) = $file->getOwnerViewAndPath();
+		list($view, $path) = $file->getOwnerViewAndPath();
 		
 		$this->view = new View('/' . $owner);
 		
