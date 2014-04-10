@@ -53,14 +53,15 @@ class DocumentController extends Controller{
 	 * @param array $args - array containing session id as an element with a key es_id 
 	 */
 	public static function serve($args){
+		
 		$session = new Db_Session();
 		$sessionData = $session->load(@$args['es_id'])->getData();
 			
 		$file = new File(@$sessionData['file_id']);
 		if (!$file->isPublicShare()){
-			self::preDispatch(false);
+			self::preDispatch();
 		} else {
-			self::preDispatchGuest(false);
+			self::preDispatchGuest();
 		}
 		
 		$filename = isset($sessionData['genesis_url']) ? $sessionData['genesis_url'] : '';
