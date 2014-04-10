@@ -38,12 +38,10 @@ class Db_Session extends \OCA\Documents\Db {
 	public static function start($uid, $fileId, $isGuest){
 		
 		$file = new File($fileId);
-		list($ownerView, $path) = $file->getOwnerViewAndPath();
-		
 		// Create a directory to store genesis
+		$genesis = new Genesis($file);
 		
-		$genesis = new Genesis($ownerView, $path, $file->getOwner());
-		
+		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		$oldSession = new Db_Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
 		
@@ -65,10 +63,8 @@ class Db_Session extends \OCA\Documents\Db {
 					->loadBy('file_id', $file->getFileId())
 					->getData()
 		;
-		$session['title'] = basename($path);
 		
 		$memberColor = Helper::getMemberColor($uid);
-		
 		$member = new Db_Member(array(
 			$session['es_id'], 
 			$uid,
@@ -100,8 +96,7 @@ class Db_Session extends \OCA\Documents\Db {
 			throw new \Exception('Failed to add member into database');
 		}
 		
-		
-		
+		$session['title'] = basename($path);
 		$session['permissions'] = $ownerView->getFilePermissions($path);
 		
 		return $session;
