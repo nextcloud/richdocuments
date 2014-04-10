@@ -36,6 +36,7 @@ class Db_Session extends \OCA\Documents\Db {
 	 * @throws \Exception
 	 */
 	public static function start($uid, $fileId, $isGuest){
+		
 		$file = new File($fileId);
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		
@@ -79,28 +80,9 @@ class Db_Session extends \OCA\Documents\Db {
 		if ($member->insert()){
 			// Do we have OC_Avatar in out disposal?
 			if (!class_exists('\OC_Avatar') || \OC_Config::getValue('enable_avatars', true) !== true){
-				//$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
 				$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 			} else {
-				// https://github.com/owncloud/documents/issues/51
-				// Temporary stub
 				$imageUrl = $uid;
-							
-			/*
-				$avatar = new \OC_Avatar($uid);
-				$image = $avatar->get(64);
-					// User has an avatar 
-				if ($image instanceof \OC_Image) {
-					$imageUrl = \OC_Helper::linkToRoute(
-							'core_avatar_get',
-							array( 'user' => $uid, 'size' => 64)
-					) . '?requesttoken=' . \OC::$session->get('requesttoken');
-				} else {
-					//shortcircuit if it's not an image
-					$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
-				}
-							 
-			 */
 			}
 
 			$displayName = $isGuest ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
@@ -201,14 +183,8 @@ class Db_Session extends \OCA\Documents\Db {
 	protected function getUniqueSessionId(){
 		$testSession = new Db_Session();
 		do{
-			// this prevents branching for stable5 for now:
-			// OC_Util::generate_random_bytes was camelCased
-			if (method_exists('\OC_Util', 'generate_random_bytes')){
-				$id = \OC_Util::generate_random_bytes(30);
-			} else {
-				$id = \OC_Util::generateRandomBytes(30);
-			}
-		}while ($testSession->load($id)->hasData());
+			$id = \OC_Util::generateRandomBytes(30);
+		} while ($testSession->load($id)->hasData());
 
 		return $id;
 	}
