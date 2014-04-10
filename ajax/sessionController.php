@@ -70,6 +70,19 @@ class SessionController extends Controller{
 			}
 			
 			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
+			$currentMember = new Db_Member();
+			$currentMemberData = $currentMember->load($memberId)->getData();
+			if (isset($currentMemberData['is_guest']) && $currentMemberData['is_guest']){
+				self::preDispatchGuest();
+			} else {
+				self::preDispatch();
+			}
+			
+			//check if member belongs to the session
+			if (!isset($currentMemberData['es_id']) || $esId!=$currentMemberData['es_id']){
+				throw new \Exception($memberId . ' does not belong to session ' . $esId);
+			}
+			
 			$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
 			
 			$stream = fopen('php://input','r');
@@ -87,11 +100,6 @@ class SessionController extends Controller{
 			$sessionData = $session->getData();
 			try {
 				$file = new File($sessionData['file_id']);
-				if (!$file->isPublicShare()){
-					self::preDispatch();
-				} else {
-					self::preDispatchGuest();
-				}
 				list($view, $path) = $file->getOwnerViewAndPath();
 			} catch (\Exception $e){
 				//File was deleted or unshared. We need to save content as new file anyway
@@ -111,11 +119,6 @@ class SessionController extends Controller{
 				},
 				$members
 			);
-				
-			//check if member belongs to the session
-			if (!in_array($memberId, $memberIds)){
-				throw new \Exception($memberId . ' does not belong to session ' . $esId);
-			}
 			
 			// Active users except current user
 			$memberCount = count($memberIds) - 1;
