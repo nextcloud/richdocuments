@@ -52,12 +52,12 @@ class DocumentController extends Controller{
 	 */
 	public static function serve($args){
 		$session = new Db_Session();
-		$sessionData = $session->load(@$args['es_id'])->getData();
+		$session->load(@$args['es_id']);
 			
 		self::preDispatchGuest();
 		
-		$filename = isset($sessionData['genesis_url']) ? $sessionData['genesis_url'] : '';
-		$download = new Download($sessionData['owner'], $filename);
+		$filename = $session->getGenesisUrl() ? $session->getGenesisUrl() : '';
+		$download = new Download($session->getOwner(), $filename);
 		$download->sendResponse();
 	}
 	

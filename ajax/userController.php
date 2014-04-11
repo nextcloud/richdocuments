@@ -29,8 +29,7 @@ class UserController extends Controller{
 		$member = new Db_Member();
 		$member->loadBy('member_id', $args['member_id']);
 		if ($esId && $member->hasData()){
-			$memberData = $member->getData();
-			if ($memberData['es_id']===$esId && $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE){
+			if ($member->getEsId() === $esId && $member->getStatus() == Db_Member::MEMBER_STATUS_ACTIVE){
 				$member->deactivate(array($args['member_id']));
 				$op = new Db_Op();
 				$op->removeMember($esId, $args['member_id']);
@@ -46,10 +45,10 @@ class UserController extends Controller{
 		$name = Helper::getArrayValueByKey($_POST, 'name');
 		$member = new Db_Member();
 		$member->load($memberId);
-		$memberData = $member->getData();
-		if (count($memberData) 
-				&& $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE 
-				&& $memberData['is_guest']
+
+		if ($member->getEsId()
+				&& $member->getStatus() == Db_Member::MEMBER_STATUS_ACTIVE 
+				&& $member->getIsGuest()
 		){
 			$guestMark = Db_Member::getGuestPostfix();
 			if (substr($name, -strlen($guestMark)) !== $guestMark){
@@ -57,7 +56,7 @@ class UserController extends Controller{
 			}
 			
 			$op = new Db_Op();
-			$op->changeNick($memberData['es_id'], $memberId, $name);
+			$op->changeNick($member->getEsId(), $memberId, $name);
 		}
 		\OCP\JSON::success();
 	}

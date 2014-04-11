@@ -32,20 +32,20 @@ try{
 	$esId = $request->getParam('args/es_id');
 	
 	$session = new Db_Session();
-	$sessionData = $session->load($esId)->getData();
+	$session->load($esId);
 	
 	$memberId = $request->getParam('args/member_id');
 	$member = new Db_Member();
-	$memberData = $member->load($memberId)->getData();
+	$member->load($memberId);
 	
-	if (isset($memberData['is_guest']) && $memberData['is_guest']){
+	if ($member->getIsGuest() || is_null($member->getIsGuest())){
 		Controller::preDispatchGuest(false);
 	} else {
 		Controller::preDispatch(false);
 	}
 
 	try {
-		$file = new File(@$sessionData['file_id']);
+		$file = new File($session->getFileId());
 	} catch (\Exception $e){
 		Helper::warnLog('Error. Session no longer exists. ' . $e->getMessage());
 		$ex = new BadRequestException();

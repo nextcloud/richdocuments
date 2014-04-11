@@ -72,16 +72,15 @@ class SessionController extends Controller{
 			
 			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
 			$currentMember = new Db_Member();
-			$currentMemberData = $currentMember->load($memberId)->getData();
-			if (isset($currentMemberData['is_guest']) && $currentMemberData['is_guest']){
+			$currentMember->load($memberId);
+			if (is_null($currentMember->getIsGuest()) || $currentMember->getIsGuest()){
 				$uid = self::preDispatchGuest();
-				$isGuest = true;				
 			} else {
 				self::preDispatch();
 			}
 			
 			//check if member belongs to the session
-			if (!isset($currentMemberData['es_id']) || $esId!=$currentMemberData['es_id']){
+			if ($esId != $currentMember->getEsId()){
 				throw new \Exception($memberId . ' does not belong to session ' . $esId);
 			}
 			
@@ -96,15 +95,15 @@ class SessionController extends Controller{
 			$session = new Db_Session();
 			$session->load($esId);
 			
-			if (!$session->hasData()){
+			if (!$session->getEsId()){
 				throw new \Exception('Session does not exist');
 			}
-			$sessionData = $session->getData();
+
 			try {
-				if ($isGuest){
-					$file = File::getByShareToken($currentMemberData['token']);
+				if ($currentMember->getIsGuest()){
+					$file = File::getByShareToken($currentMember->getToken());
 				} else {
-					$file = new File($sessionData['file_id']);
+					$file = new File($session->getFileId());
 				}
 				
 				list($view, $path) = $file->getOwnerViewAndPath();
@@ -135,7 +134,7 @@ class SessionController extends Controller{
 				$currentHash = sha1($view->file_get_contents($path));
 				\OC_FileProxy::$enabled = $proxyStatus;
 				
-				if (!Helper::isVersionsEnabled() && $currentHash !== $sessionData['genesis_hash']){
+				if (!Helper::isVersionsEnabled() && $currentHash !== $session->getGenesisHash()){
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
 				}

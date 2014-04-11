@@ -57,14 +57,14 @@ class Db_Session extends \OCA\Documents\Db {
 			}
 		}
 		
-		$session = $oldSession
+		$sessionData = $oldSession
 					->loadBy('file_id', $file->getFileId())
 					->getData()
 		;
 		
 		$memberColor = Helper::getMemberColor($uid);
 		$member = new Db_Member(array(
-			$session['es_id'], 
+			$sessionData['es_id'], 
 			$uid,
 			$memberColor,
 			time(),
@@ -82,11 +82,11 @@ class Db_Session extends \OCA\Documents\Db {
 
 			$displayName = $file->isPublicShare() ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
-			$session['member_id'] = (string) $member->getLastInsertId();
+			$sessionData['member_id'] = (string) $member->getLastInsertId();
 			$op = new Db_Op();
 			$op->addMember(
-					$session['es_id'],
-					$session['member_id'],
+					$sessionData['es_id'],
+					$sessionData['member_id'],
 					$displayName,
 					$memberColor,
 					$imageUrl
@@ -95,10 +95,10 @@ class Db_Session extends \OCA\Documents\Db {
 			throw new \Exception('Failed to add member into database');
 		}
 		
-		$session['title'] = basename($path);
-		$session['permissions'] = $ownerView->getFilePermissions($path);
+		$sessionData['title'] = basename($path);
+		$sessionData['permissions'] = $ownerView->getFilePermissions($path);
 		
-		return $session;
+		return $sessionData;
 	}
 	
 	public static function cleanUp($esId){

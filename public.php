@@ -40,11 +40,11 @@ if (isset($_GET['t'])) {
 			\OCP\Util::addScript('documents', 'documents');
 			if ($file->getFileId()){
 				$session = new Db_Session();
-				$sessionData = $session->loadBy('file_id', $file->getFileId())->getData();
+				$session->loadBy('file_id', $file->getFileId());
 				
-				if (isset($sessionData['es_id'])){
+				if ($session->getEsId()){
 					$member = new Db_Member();
-					$members = $member->getCollectionBy('es_id', $sessionData['es_id']);
+					$members = $member->getCollectionBy('es_id', $session->getEsId());
 				} else {
 					$members = 0;
 				}
