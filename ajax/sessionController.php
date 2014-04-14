@@ -15,12 +15,16 @@ namespace OCA\Documents;
 class SessionController extends Controller{
 	
 	public static function joinAsGuest($args){
-		$uid = self::preDispatchGuest();
-		$uid = substr(@$_POST['name'], 0, 16) .' '. $uid;
-		$token = @$args['token'];
+		self::preDispatchGuest();
+		
+		$uid = Helper::getArrayValueByKey($_POST, 'name');
+		$guestUid = substr($uid, 0, 16);
+		
 		try {
+			$token = Helper::getArrayValueByKey($args, 'token');
 			$file = File::getByShareToken($token);
-			self::join($uid, $file);
+			$session = Db_Session::start($uid, $file, true);
+			\OCP\JSON::success($session);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
 			\OCP\JSON::error();
@@ -30,16 +34,20 @@ class SessionController extends Controller{
 
 	public static function joinAsUser($args){
 		$uid = self::preDispatch();
-		$fileId = intval(@$args['file_id']);
+		$fileId = Helper::getArrayValueByKey($args, 'file_id');
 		
 		try {
-			$file = new File($fileId);
-		
-			if ($file->getPermissions() & \OCP\PERMISSION_UPDATE) {
-				self::join($uid, $file);	
+			$view = \OC\Files\Filesystem::getView();
+			$path = $view->getPath($fileId);
+			
+			if ($view->isUpdatable($path)) {
+				$file = new File($fileId);
+				$session = Db_Session::start($uid, $file);
+				\OCP\JSON::success($session);
 			} else {
+				$info = $view->getFileInfo();
 				\OCP\JSON::success(array(
-					'permissions' => $file->getPermissions(),
+					'permissions' => $info['permissions'],
 					'id' => $fileId
 				));
 			}
@@ -51,11 +59,6 @@ class SessionController extends Controller{
 		}
 	}
 	
-	protected static function join($uid, $file){
-		$session = Db_Session::start($uid, $file);
-		\OCP\JSON::success($session);
-		exit();
-	}
 
 	/**
 	 * Store the document content to its origin
@@ -68,6 +71,19 @@ class SessionController extends Controller{
 			}
 			
 			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
+			$currentMember = new Db_Member();
+			$currentMember->load($memberId);
+			if (is_null($currentMember->getIsGuest()) || $currentMember->getIsGuest()){
+				$uid = self::preDispatchGuest();
+			} else {
+				self::preDispatch();
+			}
+			
+			//check if member belongs to the session
+			if ($esId != $currentMember->getEsId()){
+				throw new \Exception($memberId . ' does not belong to session ' . $esId);
+			}
+			
 			$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
 			
 			$stream = fopen('php://input','r');
@@ -79,22 +95,21 @@ class SessionController extends Controller{
 			$session = new Db_Session();
 			$session->load($esId);
 			
-			if (!$session->hasData()){
+			if (!$session->getEsId()){
 				throw new \Exception('Session does not exist');
 			}
-			$sessionData = $session->getData();
+
 			try {
-				$file = new File($sessionData['file_id']);
-				if (!$file->isPublicShare()){
-					self::preDispatch();
+				if ($currentMember->getIsGuest()){
+					$file = File::getByShareToken($currentMember->getToken());
 				} else {
-					self::preDispatchGuest();
+					$file = new File($session->getFileId());
 				}
+				
 				list($view, $path) = $file->getOwnerViewAndPath();
 			} catch (\Exception $e){
 				//File was deleted or unshared. We need to save content as new file anyway
 				//Sorry, but for guests it would be lost :(
-				$uid = self::preDispatch();
 				$view = new \OC\Files\View('/' . $uid . '/files');
 		
 				$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '');
@@ -109,23 +124,17 @@ class SessionController extends Controller{
 				},
 				$members
 			);
-				
-			//check if member belongs to the session
-			if (!in_array($memberId, $memberIds)){
-				throw new \Exception($memberId . ' does not belong to session ' . $esId);
-			}
 			
 			// Active users except current user
 			$memberCount = count($memberIds) - 1;
 			
-			if ($view->file_exists($path)){		
-				
+			if ($view->file_exists($path)){
 				$proxyStatus = \OC_FileProxy::$enabled;
 				\OC_FileProxy::$enabled = false;	
 				$currentHash = sha1($view->file_get_contents($path));
 				\OC_FileProxy::$enabled = $proxyStatus;
 				
-				if (!Helper::isVersionsEnabled() && $currentHash !== $sessionData['genesis_hash']){
+				if (!Helper::isVersionsEnabled() && $currentHash !== $session->getGenesisHash()){
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
 				}
@@ -142,7 +151,6 @@ class SessionController extends Controller{
 				if ($memberCount>0){
 					// Update genesis hash to prevent conflicts
 					Helper::debugLog('Update hash');
-					
 					$session->updateGenesisHash($esId, sha1($data['content']));
 				} else {
 					// Last user. Kill session data

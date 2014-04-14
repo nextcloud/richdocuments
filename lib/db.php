@@ -206,4 +206,15 @@ abstract class Db {
 		
 		return $result;
 	}
+	
+	protected function __call($name, $arguments){
+		if (substr($name, 0, 3) === 'get'){
+			$requestedProperty = substr($name, 3);
+			$property = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $requestedProperty));
+			if (isset($this->data[$property])){
+				return $this->data[$property];
+			}
+		}
+		return null;
+	}
 }

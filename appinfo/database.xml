@@ -92,6 +92,21 @@
 				<length>4</length>
 			</field>
 			<field>
+				<name>is_guest</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>1</length>
+			</field>
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>32</length>
+			</field>
+			<field>
 				<name>status</name>
 				<type>integer</type>
 				<default>1</default>

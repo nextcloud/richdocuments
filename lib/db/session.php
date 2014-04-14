@@ -35,13 +35,11 @@ class Db_Session extends \OCA\Documents\Db {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function start($uid, File $file){
-		list($ownerView, $path) = $file->getOwnerViewAndPath();
-		
+	public static function start($uid, $file){
 		// Create a directory to store genesis
+		$genesis = new Genesis($file);
 		
-		$genesis = new Genesis($ownerView, $path, $file->getOwner());
-		
+		list($ownerView, $path) = $file->getOwnerViewAndPath();
 		$oldSession = new Db_Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
 		
@@ -59,55 +57,37 @@ class Db_Session extends \OCA\Documents\Db {
 			}
 		}
 		
-		$session = $oldSession
+		$sessionData = $oldSession
 					->loadBy('file_id', $file->getFileId())
 					->getData()
 		;
-		$session['title'] = basename($path);
 		
 		$memberColor = Helper::getMemberColor($uid);
-		
 		$member = new Db_Member(array(
-			$session['es_id'], 
+			$sessionData['es_id'], 
 			$uid,
 			$memberColor,
-			time()
+			time(),
+			intval($file->isPublicShare()),
+			$file->getToken()
 		));
 		
 		if ($member->insert()){
 			// Do we have OC_Avatar in out disposal?
 			if (!class_exists('\OC_Avatar') || \OC_Config::getValue('enable_avatars', true) !== true){
-				//$x['avatar_url'] = \OCP\Util::linkToRoute('documents_user_avatar');
 				$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 			} else {
-				// https://github.com/owncloud/documents/issues/51
-				// Temporary stub
 				$imageUrl = $uid;
-							
-			/*
-				$avatar = new \OC_Avatar($uid);
-				$image = $avatar->get(64);
-					// User has an avatar 
-				if ($image instanceof \OC_Image) {
-					$imageUrl = \OC_Helper::linkToRoute(
-							'core_avatar_get',
-							array( 'user' => $uid, 'size' => 64)
-					) . '?requesttoken=' . \OC::$session->get('requesttoken');
-				} else {
-					//shortcircuit if it's not an image
-					$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
-				}
-							 
-			 */
 			}
+
+			$displayName = $file->isPublicShare() ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
-			
-			$session['member_id'] = (string) $member->getLastInsertId();
+			$sessionData['member_id'] = (string) $member->getLastInsertId();
 			$op = new Db_Op();
 			$op->addMember(
-					$session['es_id'],
-					$session['member_id'],
-					\OCP\User::getDisplayName($uid),
+					$sessionData['es_id'],
+					$sessionData['member_id'],
+					$displayName,
 					$memberColor,
 					$imageUrl
 			);
@@ -115,9 +95,10 @@ class Db_Session extends \OCA\Documents\Db {
 			throw new \Exception('Failed to add member into database');
 		}
 		
-		$session['permissions'] = $ownerView->getFilePermissions($path);
+		$sessionData['title'] = basename($path);
+		$sessionData['permissions'] = $ownerView->getFilePermissions($path);
 		
-		return $session;
+		return $sessionData;
 	}
 	
 	public static function cleanUp($esId){
@@ -196,14 +177,8 @@ class Db_Session extends \OCA\Documents\Db {
 	protected function getUniqueSessionId(){
 		$testSession = new Db_Session();
 		do{
-			// this prevents branching for stable5 for now:
-			// OC_Util::generate_random_bytes was camelCased
-			if (method_exists('\OC_Util', 'generate_random_bytes')){
-				$id = \OC_Util::generate_random_bytes(30);
-			} else {
-				$id = \OC_Util::generateRandomBytes(30);
-			}
-		}while ($testSession->load($id)->hasData());
+			$id = \OC_Util::generateRandomBytes(30);
+		} while ($testSession->load($id)->hasData());
 
 		return $id;
 	}

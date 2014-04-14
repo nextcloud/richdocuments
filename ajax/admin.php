@@ -5,8 +5,6 @@ namespace OCA\Documents;
 \OCP\JSON::callCheck();
 \OCP\JSON::checkAdminUser();
 
-$l10n = \OCP\Util::getL10N('documents');
-
 $converter = isset($_POST['converter']) ? $_POST['converter'] : null;
 $url = isset($_POST['url']) ? $_POST['url'] : null;
 try {
@@ -21,7 +19,7 @@ try {
 	if (Config::getConverter()!='local'){
 		if (!Converter::checkConnection()){
 			Helper::warnLog('Bad response from Format Filter Server');
-			\OCP\JSON::error(array('message' => $l10n->t('Format filter server is down or misconfigured') ));
+			\OCP\JSON::error(array('message' => Config::getL10n()->t('Format filter server is down or misconfigured') ));
 			exit();
 		}
 	}

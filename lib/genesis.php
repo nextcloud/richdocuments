@@ -35,11 +35,12 @@ class Genesis {
 	
 	/**
 	 * Create new genesis document
-	 * @param OCA\Documents\View $view Filesystem view with root '/user/files'
-	 * @param string $path relative path
-	 * @param string $owner file owner
+	 * @param OCA\Documents\File $file 
 	 * */	
-	public function __construct(\OCA\Documents\View $view, $path, $owner){
+	public function __construct(\OCA\Documents\File $file){
+		list($view, $path) = $file->getOwnerViewAndPath();
+		$owner = $file->getOwner();
+		
 		$this->view = new View('/' . $owner);
 		
 		if (!$this->view->file_exists(self::DOCUMENTS_DIRNAME)){

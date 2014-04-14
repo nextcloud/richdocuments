@@ -4,7 +4,7 @@
  * ownCloud - Documents App
  *
  * @author Frank Karlitschek
- * @copyright 2011 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2013-2014 Frank Karlitschek karlitschek@kde.org
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,14 +26,12 @@ OCP\App::register(array('order' => 70, 'id' => 'documents', 'name' => 'Documents
 \OCP\App::registerAdmin('documents', 'admin');
 OCP\App::registerPersonal('documents', 'personal');
 
-$l10n = \OCP\Util::getL10N('documents');
-
 OCP\App::addNavigationEntry(array(
 	'id' => 'documents_index', 
 	'order' => 2,
 	'href' => OCP\Util::linkTo('documents', 'index.php'), 
 	'icon' => OCP\Util::imagePath('documents', 'documents.svg'),
-	'name' => $l10n->t('Documents'))
+	'name' => OCA\Documents\Config::getL10n()->t('Documents'))
 );
 
 OC::$CLASSPATH['OCA\Documents\Controller'] = 'documents/ajax/controller.php';

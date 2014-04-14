@@ -4,7 +4,7 @@
  * ownCloud - Documents App
  *
  * @author Frank Karlitschek
- * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ * @copyright 2013-2014 Frank Karlitschek frank@owncloud.org
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -71,25 +71,22 @@ class Storage {
 			return;
 		}
 		
-		$sessionObj = new Db_Session();
-		$session = $sessionObj
-					->loadBy('file_id', $fileId)
-					->getData()
-				;
+		$session = new Db_Session();
+		$session->loadBy('file_id', $fileId);
 
-		if (!is_array($session) || !isset($session['es_id'])){
+		if (!$session->getEsId()){
 			return;
 		}
 		
 		$member = new Db_Member();
-		$sessionMembers = $member->getCollectionBy('es_id', $session['es_id']);
+		$sessionMembers = $member->getCollectionBy('es_id', $session->getEsId());
 		foreach ($sessionMembers as $memberData){
 			if (intval($memberData['status'])===Db_Member::MEMBER_STATUS_ACTIVE){
 				return;
 			}
 		}
 		
-		Db_Session::cleanUp($session['es_id']);
+		Db_Session::cleanUp($session->getEsId());
 	}
 	
 	protected static function searchDocuments(){

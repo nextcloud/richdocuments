@@ -29,8 +29,7 @@ class UserController extends Controller{
 		$member = new Db_Member();
 		$member->loadBy('member_id', $args['member_id']);
 		if ($esId && $member->hasData()){
-			$memberData = $member->getData();
-			if ($memberData['es_id']===$esId && $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE){
+			if ($member->getEsId() === $esId && $member->getStatus() == Db_Member::MEMBER_STATUS_ACTIVE){
 				$member->deactivate(array($args['member_id']));
 				$op = new Db_Op();
 				$op->removeMember($esId, $args['member_id']);
@@ -40,19 +39,24 @@ class UserController extends Controller{
 	}
 	
 	public static function rename($args){
+		self::preDispatchGuest();
+		
 		$memberId = Helper::getArrayValueByKey($args, 'member_id');
 		$name = Helper::getArrayValueByKey($_POST, 'name');
 		$member = new Db_Member();
 		$member->load($memberId);
-		$memberData = $member->getData();
-		if (count($memberData) && $memberData['status']==Db_Member::MEMBER_STATUS_ACTIVE 
-			&& preg_match('/.* \(guest\)$/', $memberData['uid'])
+
+		if ($member->getEsId()
+				&& $member->getStatus() == Db_Member::MEMBER_STATUS_ACTIVE 
+				&& $member->getIsGuest()
 		){
-			if (!preg_match('/.* \(guest\)$/', $name)){
-				$name .= ' (guest)';
+			$guestMark = Db_Member::getGuestPostfix();
+			if (substr($name, -strlen($guestMark)) !== $guestMark){
+				$name = $name . ' ' . $guestMark;
 			}
+			
 			$op = new Db_Op();
-			$op->changeNick($memberData['es_id'], $memberId, $name);
+			$op->changeNick($member->getEsId(), $memberId, $name);
 		}
 		\OCP\JSON::success();
 	}

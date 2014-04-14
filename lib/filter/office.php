@@ -15,8 +15,8 @@ namespace OCA\Documents;
 class Filter_Office {
 	const NATIVE_MIMETYPE = 'application/vnd.oasis.opendocument.text';
 	
-	private static $readSpec;
-	private static $writeSpec;
+	private $readSpec;
+	private $writeSpec;
 	
 	/* sample mimespec 	
 			array (
