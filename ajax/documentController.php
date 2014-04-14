@@ -90,13 +90,16 @@ class DocumentController extends Controller{
 	public static function listAll(){
 		self::preDispatch();
 		
-		$documents = Storage::getDocuments();
+		$found = Storage::getDocuments();
 
 		$fileIds = array();
-		
-		//$previewAvailable = \OCP\Preview::show($file);
-		foreach ($documents as $key=>$document) {
-			//\OCP\Preview::show($document['path']);
+		$documents = array();
+		foreach ($found as $key=>$document) {
+			if (is_object($document)){
+				$documents[] = $document->getData();
+			} else {
+				$documents[$key] = $document;
+			}
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OC_Helper::mimetypeIcon($document['mimetype']));
 			$fileIds[] = $document['fileid'];
 		}
