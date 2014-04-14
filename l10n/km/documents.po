@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# សុវិចិត្រ Sovichet ទេព Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-05 00:44-0400\n"
-"PO-Revision-Date: 2014-04-05 04:44+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-14 00:43-0400\n"
+"PO-Revision-Date: 2014-04-13 09:30+0000\n"
+"Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,65 +26,65 @@ msgstr ""
 msgid "Can't create document"
 msgstr ""
 
-#: ajax/documentController.php:86
+#: ajax/documentController.php:92
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "អ្នក​មិន​មាន​សិទ្ធិ​ប្ដូរ​ឈ្មោះ​ឯកសារ​នេះ​ទេ"
 
 #: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "កម្រង​ឯកសារ"
 
-#: js/documents.js:27
+#: js/documents.js:26
 msgid "Share"
 msgstr "ចែក​រំលែក"
 
-#: js/documents.js:30 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "បិទ"
 
 #: js/documents.js:124
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "គ្មាន​ការ​តភ្ជាប់​ទៅ​ម៉ាស៊ីន​បម្រើ។ កំពុង​ព្យាយាម​តភ្ជាប់​ម្ដង​ទៀត។"
 
-#: js/documents.js:193
+#: js/documents.js:191
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:211
+#: js/documents.js:209
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:233 js/locale.js:39
+#: js/documents.js:231 js/locale.js:39
 msgid "Save"
 msgstr "រក្សាទុក"
 
-#: js/documents.js:578 templates/documents.php:31
+#: js/documents.js:576 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:597
+#: js/documents.js:595
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:640
+#: js/documents.js:638
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:676
+#: js/documents.js:674
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:678
+#: js/documents.js:676
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:685
+#: js/documents.js:683
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -91,15 +92,15 @@ msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "តម្រឹម​ឆ្វេង"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "ការ​តម្រឹម"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "តម្រឹម​ស្ដាំ"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -107,15 +108,15 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "ផ្ទៃ​ក្រោយ"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "ដិត"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "បាត​ក្រោម"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -123,7 +124,7 @@ msgstr "លើកលែង"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "កណ្ដាល"
 
 #: js/locale.js:10
 msgid "Clone"
@@ -135,19 +136,19 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "ពណ៌"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "បង្កើត"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "ខិត​ចេញ"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr ""
+msgstr "រចនាបថ​លំនាំ​ដើម"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -155,11 +156,11 @@ msgstr "លុប"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "គ្រួសារ"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "ពុម្ព​អក្សរ"
 
 #: js/locale.js:20
 msgid "Font Effects"
@@ -167,23 +168,23 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "ទ្រង់ទ្រាយ"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr ""
+msgstr "ខិត​ចូល"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "បញ្ចូល​រូបភាព"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "អញ្ជើញ​សមាជិក"
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "ទ្រេត"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -195,19 +196,19 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "ឆ្វេង"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "កំពុង​ផ្ទុក"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "សមាជិក"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "ឈ្មោះ​ថ្មី៖"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -215,27 +216,27 @@ msgstr "OK"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "បើក"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "ជម្រើស"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "កថាខណ្ឌ..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "រចនាបថ​កថាខណ្ឌ"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "ធ្វើ​ឡើង​វិញ"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "ស្ដាំ"
 
 #: js/locale.js:40
 msgid "Size"
@@ -243,15 +244,15 @@ msgstr "ទំហំ"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "គម្លាត"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "គូស​បន្ទាត់​ឆូត"
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "រចនាបថ"
 
 #: js/locale.js:44
 msgid "Text"
@@ -259,19 +260,19 @@ msgstr "អត្ថបទ"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "កំពូល​លើ"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "បន្ទាត់​ក្រោម"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "មិន​ធ្វើ​វិញ"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "មិន​ស្គាល់​អ្នក​បង្កើត"
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
@@ -307,7 +308,7 @@ msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "កម្រង​ឯកសារ​ថ្មី"
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
@@ -342,4 +343,4 @@ msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr ""
+msgstr "(មិន​ស្ថិតស្ថិរ)"
