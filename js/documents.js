@@ -686,25 +686,26 @@ var Files = Files || {
 		return true;
 	},
 	
+	generatePreviewUrl : function(urlSpec) {
+		urlSpec = urlSpec || {};
+		if (!urlSpec.x) {
+			urlSpec.x = $('#filestable').data('preview-x');
+		}
+		if (!urlSpec.y) {
+			urlSpec.y = $('#filestable').data('preview-y');
+		}
+		urlSpec.y *= window.devicePixelRatio;
+		urlSpec.x *= window.devicePixelRatio;
+		urlSpec.forceIcon = 0;
+		return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+	},
+	
 	lazyLoadPreview : function(path, mime, ready, width, height, etag, defaultIcon) {
 		var urlSpec = {};
 		var previewURL;
 		ready(defaultIcon); // set mimeicon URL
 
-		// now try getting a preview thumbnail URL
-		if ( ! width ) {
-			width = $('#filestable').data('preview-x');
-		}
-			if ( ! height ) {
-			height = $('#filestable').data('preview-y');
-		}
-		// note: the order of arguments must match the one
-		// from the server's template so that the browser
-		// knows it's the same file for caching
-		urlSpec.x = width;
-		urlSpec.y = height;
 		urlSpec.file = Files.fixPath(path);
-
 		if (etag){
 			// use etag as cache buster
 			urlSpec.c = etag;
@@ -712,12 +713,12 @@ var Files = Files || {
 			console.warn('Files.lazyLoadPreview(): missing etag argument');
 		}
 
+		urlSpec.x = width;
+		urlSpec.y = height;
 		if ( $('#isPublic').length ) {
 			urlSpec.t = $('#dirToken').val();
-			previewURL = OC.generateUrl('core_ajax_public_preview/{url_spec}', {url_spec : urlSpec});
-		} else {
-			previewURL = OC.generateUrl('core_ajax_preview/{url_spec}', {url_spec : urlSpec});
 		}
+		previewURL = Files.generatePreviewUrl(urlSpec);
 		previewURL = previewURL.replace('(', '%28');
 		previewURL = previewURL.replace(')', '%29');
 
