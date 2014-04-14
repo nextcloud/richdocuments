@@ -68,7 +68,7 @@ class File {
 		return $file;
 	}
 
-	public function getToken($token){
+	public function getToken(){
 		return $this->token;
 	}
 	
