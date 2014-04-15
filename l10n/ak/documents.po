@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-05 00:44-0400\n"
-"PO-Revision-Date: 2014-04-05 04:44+0000\n"
+"POT-Creation-Date: 2014-04-15 00:43-0400\n"
+"PO-Revision-Date: 2014-04-15 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Akan (http://www.transifex.com/projects/p/owncloud/language/ak/)\n"
 "MIME-Version: 1.0\n"
@@ -17,28 +17,28 @@ msgstr ""
 "Language: ak\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 
-#: ajax/admin.php:24
+#: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
 msgstr ""
 
-#: ajax/documentController.php:45
+#: ajax/documentController.php:43
 msgid "Can't create document"
 msgstr ""
 
-#: ajax/documentController.php:86
+#: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
 msgstr ""
 
-#: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
+#: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
 msgstr ""
 
-#: js/documents.js:27
+#: js/documents.js:26
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:30 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr ""
 
@@ -46,44 +46,44 @@ msgstr ""
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:193
+#: js/documents.js:191
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:211
+#: js/documents.js:209
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:233 js/locale.js:39
+#: js/documents.js:231 js/locale.js:39
 msgid "Save"
 msgstr ""
 
-#: js/documents.js:578 templates/documents.php:31
+#: js/documents.js:576 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:597
+#: js/documents.js:595
 msgid "Failed to load documents."
 msgstr ""
 
-#: js/documents.js:640
+#: js/documents.js:638
 msgid "No documents are found. Please upload or create a document!"
 msgstr ""
 
-#: js/documents.js:676
+#: js/documents.js:674
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:678
+#: js/documents.js:676
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:685
+#: js/documents.js:683
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -275,6 +275,10 @@ msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
+msgstr ""
+
+#: lib/db/member.php:32
+msgid "guest"
 msgstr ""
 
 #: templates/admin.php:8

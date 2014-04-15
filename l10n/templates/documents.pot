@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-14 00:43-0400\n"
+"POT-Creation-Date: 2014-04-15 00:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ajax/admin.php:24
+#: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
 msgstr ""
 
-#: ajax/documentController.php:45
+#: ajax/documentController.php:43
 msgid "Can't create document"
 msgstr ""
 
-#: ajax/documentController.php:92
+#: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
 msgstr ""
 
-#: appinfo/app.php:36 templates/admin.php:3 templates/personal.php:2
+#: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
 msgstr ""
@@ -275,6 +275,10 @@ msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
+msgstr ""
+
+#: lib/db/member.php:32
+msgid "guest"
 msgstr ""
 
 #: templates/admin.php:8
