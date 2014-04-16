@@ -62,6 +62,7 @@
 "Undo" => "Ongedaan maken",
 "Unknown Author" => "Onbekende auteur",
 "Edit" => "Bewerk",
+"guest" => "gast",
 "Local" => "Lokaal",
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice is geïnstalleerd op deze server",
 "External" => "Extern",

@@ -61,6 +61,7 @@
 "Undo" => "Kumoa",
 "Unknown Author" => "Tuntematon tekijä",
 "Edit" => "Muokkaa",
+"guest" => "vieras",
 "Local" => "Paikallinen",
 "openOffice/libreOffice is installed on this server" => "OpenOffice tai LibreOffice on asennettu tälle palvelimelle",
 "External" => "Ulkoinen",

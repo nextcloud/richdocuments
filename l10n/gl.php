@@ -62,6 +62,7 @@
 "Undo" => "Desfacer",
 "Unknown Author" => "Autor descoñecido",
 "Edit" => "Editar",
+"guest" => "convidado",
 "Local" => "Local",
 "openOffice/libreOffice is installed on this server" => "O openOffice/libreOffice está instalado neste servidor",
 "External" => "Externo",
