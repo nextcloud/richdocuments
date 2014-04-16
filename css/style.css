@@ -73,6 +73,7 @@
 	width: 32px;
 }
 .document a {
+	border-radius: 5px;
 	display: block;
 	position: relative;
 	height: 200px;
@@ -83,7 +84,6 @@
 }
 .document label {
 	background: lightgray;
-	border-bottom: 1px solid grey;
 	opacity: 0.6;
 	position: absolute;
 	bottom: 0px;
