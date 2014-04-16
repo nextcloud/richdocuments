@@ -649,7 +649,7 @@ var documentsMain = {
 /*globals navigator,dojoConfig */
 var usedLocale = "C";
 
-if (navigator && navigator.language.match(/^(de)/)) {
+if (navigator && navigator.language && navigator.language.match(/^(de)/)) {
 	usedLocale = navigator.language.substr(0,2);
 }
 
