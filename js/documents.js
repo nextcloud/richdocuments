@@ -614,7 +614,7 @@ var documentsMain = {
 			a.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}));
 			a.find('label').text(document.name);
 			a.css('background-image', 'url("'+document.icon+'")');
-			Files.lazyLoadPreview(document.path, document.mimetype, function(node){ return function(path){node.css('background-image', 'url("'+ path +'")');}; }(a),  32, 40, document.etag, document.icon);
+			Files.lazyLoadPreview(document.path, document.mimetype, function(node){ return function(path){node.css('background-image', 'url("'+ path +'")');}; }(a),  200, 200, document.etag, document.icon);
 //function(path, mime, ready, width, height, etag) {
 			$('.documentslist').append(docElem);
 			docElem.show();
@@ -649,7 +649,7 @@ var documentsMain = {
 /*globals navigator,dojoConfig */
 var usedLocale = "C";
 
-if (navigator && navigator.language.match(/^(de)/)) {
+if (navigator && navigator.language && navigator.language.match(/^(de)/)) {
 	usedLocale = navigator.language.substr(0,2);
 }
 

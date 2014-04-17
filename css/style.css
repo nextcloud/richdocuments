@@ -1,3 +1,12 @@
+/* IE 8 fixes */
+.ie8 .document label {
+	background-color: #fff;
+}
+.ie8 .add-document .upload {
+	margin-top: 5px;
+}
+/* end IE 8 fixes */
+
 #editor ::-webkit-scrollbar-thumb {
 	background-color: #fff;
 }
@@ -11,13 +20,14 @@
 	height: 200px;
 	width: 200px;
 	float: left;
-	background-color: #e8e8e8;
 	margin: 14px;
 	vertical-align: top;
-	border-radius: 5px;
 }
 
 .add-document a {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	display: inline-block;
 	position: relative;
 	height: 100px;
@@ -27,19 +37,23 @@
 	background-position: 50%;
 }
 
-
 .add-document a.add {
 	border-bottom: 1px solid #fff;
 }
 .add-document .add,
 .add-document .upload {
 	opacity: .7;
+	border: 1px solid #e8e8e8;
+}
+.add-document .upload {
+	margin-top: 4px;
 }
 .add-document .add:hover,
 .add-document .add:focus,
 .add-document #upload:hover .upload,
 .add-document .upload:focus {
 	opacity: 1;
+	border: 1px solid #818181;
 }
 
 .add-document label {
@@ -51,10 +65,7 @@
 }
 
 .documentslist .progress{
-	position:absolute;
-	left:232px;
-	z-index:5;
-	background-color: #e8e8e8;
+	border: 1px solid #e8e8e8;
 }
 
 .documentslist .progress div{
@@ -79,12 +90,16 @@
 	height: 200px;
 	width: 200px;
 	background-repeat: no-repeat;
-	background-size: 64px;
-	background-position: 68px;
+	background-size: 200px;
+	border: 1px solid #e8e8e8;
+}
+.document a:hover {
+	border: 1px solid #818181;
 }
 .document label {
+	background: rgba(255, 255, 255, 0.7);
 	position: absolute;
-	bottom: 5px;
+	bottom: 0px;
 	width: 100%;
 	font-weight: normal;
 	text-overflow: ellipsis;
