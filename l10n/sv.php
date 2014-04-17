@@ -62,6 +62,7 @@
 "Undo" => "Ångra",
 "Unknown Author" => "Okänd författare",
 "Edit" => "Redigera",
+"guest" => "gäst",
 "Local" => "Lokal",
 "openOffice/libreOffice is installed on this server" => "OpenOffice/LibreOffice är installerat på denna servern",
 "External" => "Externa",
