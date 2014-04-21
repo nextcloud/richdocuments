@@ -45,7 +45,7 @@
 "Loading" => "Yükleniyor",
 "Members" => "Üyeler",
 "New Name:" => "Yeni İsim:",
-"OK" => "OK",
+"OK" => "Tamam",
 "Open" => "Aç",
 "Options" => "Seçenekler",
 "Paragraph..." => "Paragraf...",

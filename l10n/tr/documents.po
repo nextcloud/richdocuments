@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-17 00:44-0400\n"
-"PO-Revision-Date: 2014-04-17 00:42+0000\n"
+"POT-Creation-Date: 2014-04-21 00:44-0400\n"
+"PO-Revision-Date: 2014-04-20 13:10+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,7 @@ msgstr "Yeni İsim:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "OK"
+msgstr "Tamam"
 
 #: js/locale.js:33
 msgid "Open"

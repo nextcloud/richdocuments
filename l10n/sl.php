@@ -62,6 +62,7 @@
 "Undo" => "Razveljavi",
 "Unknown Author" => "Neznan avtor",
 "Edit" => "Uredi",
+"guest" => "gost",
 "Local" => "Krajevno",
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice je nameščen na tem strežniku",
 "External" => "Zunanje",
@@ -74,6 +75,7 @@
 "Save new documents to" => "Shrani nove dokumente v",
 "Wrong password. Please retry." => "Napačno geslo. Poskusite znova.",
 "Password" => "Geslo",
+"Guest %s" => "Gost %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Povezava je pretekla ali pa ni nikoli obstajala. Za več podrobnosti stopite v stik z osebo, ki naj bi vam jo poslala.",
 "Advanced feature-set" => "Napredne zmožnosti",
 "(Unstable)" => "(nestabilno)"
