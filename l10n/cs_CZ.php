@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Can't create document" => "Nelze vytvořit dokument",
 "You don't have permission to rename this document" => "Nemáte oprávnění pro přejmenování tohoto souboru",
 "Documents" => "Dokumenty",
 "Share" => "Sdílet",
@@ -60,11 +61,14 @@
 "Undo" => "Zpět",
 "Unknown Author" => "Autor neznámý",
 "Edit" => "Upravit",
+"guest" => "host",
+"Apply" => "Použít",
 "New document" => "Nový dokument",
 "Upload" => "Odeslat",
 "Save new documents to" => "Uložit nové dokumenty do",
 "Wrong password. Please retry." => "Nesprávné heslo. Zkuste to znovu.",
 "Password" => "Heslo",
+"Guest %s" => "Host %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Tento odkaz expiroval nebo neexistuje. Pro podrobnosti kontaktujte osobu, která jej s vámi sdílela.",
 "Advanced feature-set" => "Pokročilá sada možností",
 "(Unstable)" => "(Nestabilní)"
