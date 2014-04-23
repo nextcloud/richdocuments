@@ -61,6 +61,7 @@
 "Undo" => "Späť",
 "Unknown Author" => "Neznámy autor",
 "Edit" => "Upraviť",
+"guest" => "hosť",
 "Local" => "Lokálny",
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice je nainštalovaný na tomto serveri",
 "External" => "Externý",
