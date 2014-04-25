@@ -1,8 +1,134 @@
 /*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo,runtime */
+
+$.widget('oc.documentGrid', {
+	options : {
+		context : '.documentslist',
+		documents : {},
+		sessions : {},
+		members : {}
+	},
+	
+	_create : function (){
+			
+	},
+	
+	render : function(){
+		var that = this;
+		jQuery.when(this._load())
+			.then(function(){
+				that._render();
+			});
+	},
+	
+	add : function(document) {
+		var docElem = $(this.options.context + ' .template').clone(),
+			a = docElem.find('a')
+		;
+
+		//Fill an element
+		docElem.removeClass('template').attr('data-id', document.fileid);
+		a.css('background-image', 'url("'+document.icon+'")')
+			.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}))
+			.find('label').text(document.name)
+		;
+		
+		docElem.appendTo(this.options.context).show();
+		
+		//Preview
+		var previewURL,
+			urlSpec = {
+			file : document.path.replace(/^\/\//, '/'),
+			x : 200,
+			y : 200,
+			c : document.etag,
+			forceIcon : 0
+		};
+
+		if ( $('#isPublic').length ) {
+			urlSpec.t = $('#dirToken').val();
+		}
+		
+		if (!urlSpec.x) {
+			urlSpec.x = $('#filestable').data('preview-x');
+		}
+		if (!urlSpec.y) {
+			urlSpec.y = $('#filestable').data('preview-y');
+		}
+		urlSpec.y *= window.devicePixelRatio;
+		urlSpec.x *= window.devicePixelRatio;
+
+		previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+		previewURL = previewURL.replace('(', '%28').replace(')', '%29');
+
+		var img = new Image();
+		img.onload = function(){
+			var ready = function (node){
+				return function(path){
+					node.css('background-image', 'url("'+ path +'")');
+				}; 
+			}(a);
+			ready(previewURL);
+		};
+		img.src = previewURL;
+	},
+	
+	_load : function (){
+		var that = this;
+		var def = new $.Deferred();
+		$.getJSON(OC.generateUrl('apps/documents/ajax/documents/list'))
+			.done(function (data) {
+				that.options.documents = data.documents;
+				that.options.sessions = data.sessions;
+				that.options.members = data.members;
+				def.resolve();
+			})
+			.fail(function(data){
+				console.log(t('documents','Failed to load documents.'));
+			});
+		return def;
+	},
+	
+	_render : function (data){
+		var that = this,
+			documents = data && data.documents || this.options.documents,
+			sessions = data && data.sessions || this.options.sessions,
+			members = data && data.members || this.options.members,
+			hasDocuments = false
+		;
+		
+		$(this.options.context + ' .document:not(.template,.progress)').remove();
+		
+		$.each(documents, function(i, document){
+			hasDocuments = true;
+			that.add(document);
+		});
+		
+		$.each(sessions, function(i, session){
+			if (members[session.es_id].length > 0) {
+				var docElem = $(that.options.context + ' .document[data-id="'+session.file_id+'"]');
+				if (docElem.length > 0) {
+					docElem.attr('data-esid', session.es_id);
+					docElem.find('label').after('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
+					docElem.addClass('session');
+				} else {
+					console.log('Could not find file '+session.file_id+' for session '+session.es_id);
+				}
+			}
+		});
+		
+		if (!hasDocuments){
+			$(this.options.context).before('<div id="emptycontent">'
+				+ t('documents', 'No documents are found. Please upload or create a document!')
+				+ '</div>'
+			);
+		} else {
+			$('#emptycontent').remove();
+		}
+	}
+});
+
+
 var documentsMain = {
-	_documents: [],
-	_sessions: [],
-	_members: [],
 	isEditormode : false,
 	useUnstable : false,
 	isGuest : false,
@@ -575,73 +701,8 @@ var documentsMain = {
 			return;
 		}
 		documentsMain.UI.showProgress(t('documents', 'Loading documents...'));
-		jQuery.when(documentsMain.loadDocuments())
-			.then(function(){
-				documentsMain.renderDocuments();
-				documentsMain.UI.hideProgress();
-			});
-	},
-	
-	loadDocuments: function () {
-		var self = this;
-		var def = new $.Deferred();
-		jQuery.getJSON(OC.generateUrl('apps/documents/ajax/documents/list'))
-			.done(function (data) {
-				self._documents = data.documents;
-				self._sessions = data.sessions;
-				self._members = data.members;
-				def.resolve();
-			})
-			.fail(function(data){
-				console.log(t('documents','Failed to load documents.'));
-			});
-		return def;
-	},
-	
-	renderDocuments: function () {
-		var self = this,
-		hasDocuments = false;
-
-		//remove all but template
-		$('.documentslist .document:not(.template,.progress)').remove();
-
-		jQuery.each(this._documents, function(i,document){
-			var docElem = $('.documentslist .template').clone();
-			docElem.removeClass('template');
-			docElem.addClass('document');
-			docElem.attr('data-id', document.fileid);
-
-			var a = docElem.find('a');
-			a.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}));
-			a.find('label').text(document.name);
-			a.css('background-image', 'url("'+document.icon+'")');
-			Files.lazyLoadPreview(document.path, document.mimetype, function(node){ return function(path){node.css('background-image', 'url("'+ path +'")');}; }(a),  200, 200, document.etag, document.icon);
-//function(path, mime, ready, width, height, etag) {
-			$('.documentslist').append(docElem);
-			docElem.show();
-			hasDocuments = true;
-		});
-		jQuery.each(this._sessions, function(i,session){
-			if (self._members[session.es_id].length > 0) {
-				var docElem = $('.documentslist .document[data-id="'+session.file_id+'"]');
-				if (docElem.length > 0) {
-					docElem.attr('data-esid', session.es_id);
-					docElem.find('label').after('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
-					docElem.addClass('session');
-				} else {
-					console.log('Could not find file '+session.file_id+' for session '+session.es_id);
-				}
-			}
-		});
-		
-		if (!hasDocuments){
-			$('#documents-content').append('<div id="emptycontent">'
-				+ t('documents', 'No documents are found. Please upload or create a document!')
-				+ '</div>'
-			);
-		} else {
-			$('#emptycontent').remove();
-		}
+		documentsMain.docs.documentGrid('render');
+		documentsMain.UI.hideProgress();
 	}
 };
 
@@ -687,59 +748,6 @@ var Files = Files || {
 		return true;
 	},
 	
-	generatePreviewUrl : function(urlSpec) {
-		urlSpec = urlSpec || {};
-		if (!urlSpec.x) {
-			urlSpec.x = $('#filestable').data('preview-x');
-		}
-		if (!urlSpec.y) {
-			urlSpec.y = $('#filestable').data('preview-y');
-		}
-		urlSpec.y *= window.devicePixelRatio;
-		urlSpec.x *= window.devicePixelRatio;
-		urlSpec.forceIcon = 0;
-		return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-	},
-	
-	lazyLoadPreview : function(path, mime, ready, width, height, etag, defaultIcon) {
-		var urlSpec = {};
-		var previewURL;
-		ready(defaultIcon); // set mimeicon URL
-
-		urlSpec.file = Files.fixPath(path);
-		if (etag){
-			// use etag as cache buster
-			urlSpec.c = etag;
-		} else {
-			console.warn('Files.lazyLoadPreview(): missing etag argument');
-		}
-
-		urlSpec.x = width;
-		urlSpec.y = height;
-		if ( $('#isPublic').length ) {
-			urlSpec.t = $('#dirToken').val();
-		}
-		previewURL = Files.generatePreviewUrl(urlSpec);
-		previewURL = previewURL.replace('(', '%28');
-		previewURL = previewURL.replace(')', '%29');
-
-		// preload image to prevent delay
-		// this will make the browser cache the image
-		var img = new Image();
-		img.onload = function(){
-			//set preview thumbnail URL
-			ready(previewURL);
-		};
-		img.src = previewURL;
-	},
-	
-	fixPath: function(fileName) {
-		if (fileName.substr(0, 2) === '//') {
-			return fileName.substr(1);
-		}
-		return fileName;
-	},
-	
 	updateStorageStatistics: function(){}
 },
 FileList = FileList || {};
@@ -750,7 +758,7 @@ FileList.getCurrentDirectory = function(){
 
 $(document).ready(function() {
 	"use strict";
-	
+	documentsMain.docs = $('.documentslist').documentGrid();
 	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
 
