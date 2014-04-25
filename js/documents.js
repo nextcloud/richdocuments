@@ -13,16 +13,16 @@ var documentsMain = {
 	
 	UI : {
 		/* Overlay HTML */
-		overlay : '<div id="documents-overlay" class="icon-loading-dark"></div> <div id="documents-overlay-below" class="icon-loading-dark"></div>',
+		overlay : '<div id="documents-overlay" class="icon-loading"></div> <div id="documents-overlay-below" class="icon-loading-dark"></div>',
 				
 		/* Toolbar HTML */
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
 					'  <div id="document-title" class="icon-noise">' +
 					'<div class="logo-wide"></div>' +
-					'<div id="document-title-container"></div>' +
+					'<div id="document-title-container">&nbsp;</div>' +
 			        '</div>' +
 					'  <span id="toolbar" class="claro">' +
-					'  <button id="odf-invite" class="drop">' +
+					'  <button id="odf-invite" class="drop hidden">' +
 						  t('documents', 'Share') +
 					'  </button>' +
 					'  <button id="odf-close">' +
@@ -35,7 +35,7 @@ var documentsMain = {
 					'</div>',
 					
 		/* Editor wrapper HTML */
-		container : '<div id = "mainContainer" class="claro" style="">' +
+		container : '<div id = "mainContainer" class="claro">' +
 					'  <div id = "editor">' +
 					'    <div id = "container">' +
 					'      <div id="canvas"></div>' +
@@ -68,12 +68,15 @@ var documentsMain = {
 		},
 		
 		showEditor : function(title, canShare){
-			$(document.body).prepend(documentsMain.UI.toolbar);
+			if (documentsMain.isGuest){
+				// !Login page mess wih WebODF toolbars
+			}
+
 			$('#document-title-container').text(title);
 			if (!canShare){
 				$('#odf-invite').remove();
 			} else {
-				//TODO: fill in with users
+				$('#odf-invite').show();
 			}
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
@@ -145,11 +148,7 @@ var documentsMain = {
 		if (!OC.currentUser){
 			documentsMain.isGuest = true;
 			
-			
 			if ($("[name='document']").val()){
-				// !Login page mess wih WebODF toolbars
-				$(document.body).attr('id', 'body-user');
-				$('header,footer').hide();
 				documentsMain.prepareSession();
 				documentsMain.joinSession(
 					$("[name='document']").val()
@@ -203,7 +202,12 @@ var documentsMain = {
 
 		if(response && (response.id && !response.es_id)){
 			return documentsMain.view(response.id);
-		} 
+		}
+		
+		if (!$('#odf-toolbar').length){
+			$('header,footer,nav').hide();
+			$(document.body).prepend(documentsMain.UI.toolbar);
+		}
 
 		if (!response || !response.status || response.status==='error'){
 			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
@@ -518,10 +522,8 @@ var documentsMain = {
 			// successfull shutdown - all is good.
 			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
 // 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
-			if (documentsMain.isGuest){
-				$(document.body).attr('id', 'body-login');
-				$('header,footer').show();
-			}
+
+			$('header,footer,nav').show();
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 
 			var url = '';
@@ -557,8 +559,7 @@ var documentsMain = {
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.closeSession(function() {
 			if (documentsMain.isGuest){
-				$(document.body).attr('id', 'body-login');
-				$('header,footer').show();
+				$('header,footer,nav').show();
 			}
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 		});
@@ -774,15 +775,14 @@ $(document).ready(function() {
 	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {
 		file_upload_start.on('fileuploadstart', function(e, data) {
 			$('#upload').addClass('icon-loading');
-			$('.add-document .upload').css({opacity:0})
+			$('.add-document .upload').css({opacity:0});
 		});
 	}
 	file_upload_start.on('fileuploaddone', function(){
 		$('#upload').removeClass('icon-loading');
-		$('.add-document .upload').css({opacity:0.7})
+		$('.add-document .upload').css({opacity:0.7});
 		documentsMain.show();
 	});
-	//TODO when ending a session as the last user close session?
 	
 	OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', documentsMain.onStartup);
 });
