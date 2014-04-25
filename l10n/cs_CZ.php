@@ -66,6 +66,7 @@
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice je nainstalováno na tomto serveru",
 "External" => "Externí",
 "openOffice/libreOffice is installed on another server" => "openOffice/libreOffice je nainstalováno na jiném serveru",
+"scheme://domain.tld[:port]" => "schéma://doména druhého řádu.doména prvního řádu[:port]",
 "Server URL" => "URL serveru",
 "Apply" => "Použít",
 "New document" => "Nový dokument",

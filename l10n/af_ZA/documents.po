@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-15 00:43-0400\n"
-"PO-Revision-Date: 2014-04-15 04:43+0000\n"
+"POT-Creation-Date: 2014-04-25 00:43-0400\n"
+"PO-Revision-Date: 2014-04-24 12:53+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,7 @@ msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr ""
+msgstr "Kanseleer"
 
 #: js/locale.js:9
 msgid "Center"

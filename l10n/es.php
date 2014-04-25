@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Format filter server is down or misconfigured" => "El filtro de formato del servidor está caído o desconfigurado",
 "Can't create document" => "No es posible crear el documento",
 "You don't have permission to rename this document" => "No tiene permiso para cambiar de nombre a este documento",
 "Documents" => "Documentos",
@@ -66,6 +67,7 @@
 "openOffice/libreOffice is installed on this server" => "OpenOffice/LibreOffice está instalado en este servidor",
 "External" => "Externo",
 "openOffice/libreOffice is installed on another server" => "OpenOffice/LibreOffice está instalado en otro servidor",
+"scheme://domain.tld[:port]" => "Esquema://dominio.tld[:puerto]",
 "Server URL" => "URL del servidor",
 "Apply" => "Aplicar",
 "New document" => "Nuevo documento",

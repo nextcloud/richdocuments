@@ -62,6 +62,7 @@
 "Undo" => "Ennista",
 "Unknown Author" => "Tundmatu autor",
 "Edit" => "Muuda",
+"guest" => "külaline",
 "Local" => "Kohalik",
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice on paigaldatud selles serveris",
 "External" => "Väline",
