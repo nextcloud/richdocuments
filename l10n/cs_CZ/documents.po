@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 00:43-0400\n"
-"PO-Revision-Date: 2014-04-24 12:32+0000\n"
-"Last-Translator: xmorave2 <josef.moravec@gmail.com>\n"
+"POT-Creation-Date: 2014-04-28 00:43-0400\n"
+"PO-Revision-Date: 2014-04-28 02:40+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "Server pro zpracování formátu je nedostupný nebo chybně nakonfigurovaný"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -305,7 +305,7 @@ msgstr "openOffice/libreOffice je nainstalováno na jiném serveru"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr "schéma://doména druhého řádu.doména prvního řádu[:port]"
+msgstr "schéma://doména.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"

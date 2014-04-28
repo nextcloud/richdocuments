@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Format filter server is down or misconfigured" => "Server pro zpracování formátu je nedostupný nebo chybně nakonfigurovaný",
 "Can't create document" => "Nelze vytvořit dokument",
 "You don't have permission to rename this document" => "Nemáte oprávnění pro přejmenování tohoto souboru",
 "Documents" => "Dokumenty",
@@ -66,7 +67,7 @@
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice je nainstalováno na tomto serveru",
 "External" => "Externí",
 "openOffice/libreOffice is installed on another server" => "openOffice/libreOffice je nainstalováno na jiném serveru",
-"scheme://domain.tld[:port]" => "schéma://doména druhého řádu.doména prvního řádu[:port]",
+"scheme://domain.tld[:port]" => "schéma://doména.tld[:port]",
 "Server URL" => "URL serveru",
 "Apply" => "Použít",
 "New document" => "Nový dokument",

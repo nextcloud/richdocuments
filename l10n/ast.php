@@ -62,6 +62,7 @@
 "Undo" => "Desfacer",
 "Unknown Author" => "Autor desconocíu",
 "Edit" => "Editar",
+"guest" => "invitáu",
 "Local" => "Llocal",
 "openOffice/libreOffice is installed on this server" => "OpenOffice/LibreOffice ta instaláu nesti sirvidor",
 "External" => "Esternu",
