@@ -48,8 +48,17 @@ class Download_Range extends \OCA\Documents\Download {
 		foreach ($ranges as $range){
 			$parts = explode('-', $range);
 
-			$start = isset($parts[0]) ? $parts[0] : 0;
-			$end = isset($parts[1]) ? $parts[1] : $size - 1;
+			if ($parts[0]==='' && $parts[1]=='') {
+				$this->sendNotSatisfiable();
+			}
+			if ($parts[0]==='') {
+				$start = $size - $parts[1];
+				$end = $size - 1;
+			}
+			else {
+				$start = $parts[0];
+				$end = ($parts[1]==='') ? $size - 1 : $parts[1];
+			}
 
 			if ($start > $end){
 				$this->sendNotSatisfiable();
@@ -59,7 +68,7 @@ class Download_Range extends \OCA\Documents\Download {
 			$md5Sum = md5($buffer);
 
 			// send the headers and data 
-			header("Content-Length: " . $end - $start);
+			header("Content-Length: " . ($end - $start));
 			header("Content-md5: " . $md5Sum);
 			header("Accept-Ranges: bytes");
 			header('Content-Range: bytes ' . $start . '-' . ($end) . '/' . $size);
