@@ -1,4 +1,4 @@
-<fieldset class="personalblock" id="documents">
+<div id="documents" class="section">
 	<h2><?php p($l->t('Documents')) ?></h2>
 	<input id="webodf-unstable" type ="checkbox"
 		<?php if ($_['unstable'] === 'true'){ ?>
@@ -9,4 +9,4 @@
 		<?php p($l->t('Advanced feature-set'))?>&nbsp;
 		<?php p($l->t('(Unstable)')); ?>
 	</label>
-</fieldset>
+</div>
