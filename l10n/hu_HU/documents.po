@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Ádám Radovits <adamradovits12@hotmail.com>, 2013
-# sherlock79 <david@interpont.hu>, 2013
+# sherlock79 <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-15 00:43-0400\n"
-"PO-Revision-Date: 2014-04-15 04:43+0000\n"
+"POT-Creation-Date: 2014-04-30 00:43-0400\n"
+"PO-Revision-Date: 2014-04-29 10:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"

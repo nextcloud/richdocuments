@@ -3,19 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mkghai35 <mkghai35@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-04-30 00:43-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
-"Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
+"PO-Revision-Date: 2013-08-27 22:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hindi (India) (http://www.transifex.com/projects/p/owncloud/language/hi_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hi\n"
+"Language: hi_IN\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/admin.php:22
@@ -33,15 +32,15 @@ msgstr ""
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr "दस्तावेज़ "
+msgstr ""
 
 #: js/documents.js:26
 msgid "Share"
-msgstr "साझा करें"
+msgstr ""
 
 #: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
-msgstr "बंद करें "
+msgstr ""
 
 #: js/documents.js:124
 msgid "No connection to server. Trying to reconnect."
@@ -62,7 +61,7 @@ msgstr ""
 
 #: js/documents.js:231 js/locale.js:39
 msgid "Save"
-msgstr "सहेजें"
+msgstr ""
 
 #: js/documents.js:576 templates/documents.php:31
 msgid "Loading documents..."
@@ -70,7 +69,7 @@ msgstr ""
 
 #: js/documents.js:595
 msgid "Failed to load documents."
-msgstr "दस्तावेज़ लोड करने में असफल रहा।  "
+msgstr ""
 
 #: js/documents.js:638
 msgid "No documents are found. Please upload or create a document!"
@@ -216,7 +215,7 @@ msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "खोलें"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
@@ -316,7 +315,7 @@ msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "अपलोड "
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
@@ -328,7 +327,7 @@ msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "पासवर्ड"
+msgstr ""
 
 #: templates/public.php:17
 #, php-format
@@ -343,8 +342,8 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "उन्नत विशेषता-सेट "
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(अस्थायी) "
+msgstr ""
