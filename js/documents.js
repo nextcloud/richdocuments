@@ -127,6 +127,21 @@ $.widget('oc.documentGrid', {
 	}
 });
 
+$.widget('oc.documentOverlay', {
+	options : {
+		parent : 'document.body'
+	},
+	_create : function (){
+		$(this.element).hide().appendTo(document.body);
+	},
+	show : function(){
+		$(this.element).fadeIn('fast');
+	},
+	hide : function(){
+		$(this.element).fadeOut('fast');
+	}
+});
+
 
 var documentsMain = {
 	isEditormode : false,
@@ -138,15 +153,12 @@ var documentsMain = {
 	fileName: null,
 	
 	UI : {
-		/* Overlay HTML */
-		overlay : '<div id="documents-overlay" class="icon-loading"></div> <div id="documents-overlay-below" class="icon-loading-dark"></div>',
-				
 		/* Toolbar HTML */
 		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
 					'  <div id="document-title" class="icon-noise">' +
-					'<div class="logo-wide"></div>' +
+					'<div id="header"><div class="logo-wide"></div>' +
 					'<div id="document-title-container">&nbsp;</div>' +
-			        '</div>' +
+			        '</div></div>' +
 					'  <span id="toolbar" class="claro">' +
 					'  <button id="odf-invite" class="drop hidden">' +
 						  t('documents', 'Share') +
@@ -181,21 +193,13 @@ var documentsMain = {
 		mainTitle : '',
 				
 		init : function(){
-			$(documentsMain.UI.overlay).hide().appendTo(document.body);
 			documentsMain.UI.mainTitle = $('title').text();
-		},
-		
-		showOverlay : function(){
-			$('#documents-overlay,#documents-overlay-below').fadeIn('fast');
-		},
-		
-		hideOverlay : function(){
-			$('#documents-overlay,#documents-overlay-below').fadeOut('fast');
 		},
 		
 		showEditor : function(title, canShare){
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
+				$(document.body).attr('id', 'body-user');
 			}
 
 			$('#document-title-container').text(title);
@@ -212,16 +216,21 @@ var documentsMain = {
 		},
 		
 		hideEditor : function(){
-				// Fade out toolbar
-				$('#odf-toolbar').fadeOut('fast');
-				// Fade out editor
-				$('#mainContainer').fadeOut('fast', function() {
-					$('#mainContainer').remove();
-					$('#odf-toolbar').remove();
-					$('#content').fadeIn('fast');
-					$(document.body).removeClass('claro');
-					$('title').text(documentsMain.UI.mainTitle);
-				});
+			if (documentsMain.isGuest){
+				// !Login page mess wih WebODF toolbars
+				$(document.body).attr('id', 'body-login');
+				$('header,footer,nav').show();
+			}
+			// Fade out toolbar
+			$('#odf-toolbar').fadeOut('fast');
+			// Fade out editor
+			$('#mainContainer').fadeOut('fast', function() {
+				$('#mainContainer').remove();
+				$('#odf-toolbar').remove();
+				$('#content').fadeIn('fast');
+				$(document.body).removeClass('claro');
+				$('title').text(documentsMain.UI.mainTitle);
+			});
 		},
 		
 		showSave : function (){
@@ -288,7 +297,7 @@ var documentsMain = {
 		
 		documentsMain.show();
 		if (fileId){
-			documentsMain.UI.showOverlay();
+			documentsMain.overlay.documentOverlay('show');
 		}
 		
 		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf';
@@ -311,7 +320,7 @@ var documentsMain = {
 	
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
-		documentsMain.UI.showOverlay();
+		documentsMain.overlay.documentOverlay('show');
 		$(window).on('beforeunload', function(){
 			return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead."); 
 		});
@@ -320,7 +329,7 @@ var documentsMain = {
 	
 	prepareGrid : function(){
 		documentsMain.isEditorMode = false;
-		documentsMain.UI.hideOverlay();
+		documentsMain.overlay.documentOverlay('hide');
 	},
 	
 	initSession: function(response) {
@@ -382,7 +391,7 @@ var documentsMain = {
 				// load the document and get called back when it's live
 				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
 					documentsMain.webodfEditorInstance.startEditing();
-					documentsMain.UI.hideOverlay();
+					documentsMain.overlay.documentOverlay('hide');
 					parent.location.hash = response.file_id;
 				});
 			});
@@ -758,7 +767,10 @@ FileList.getCurrentDirectory = function(){
 
 $(document).ready(function() {
 	"use strict";
+	
 	documentsMain.docs = $('.documentslist').documentGrid();
+	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
+	
 	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
 

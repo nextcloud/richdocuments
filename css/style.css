@@ -121,7 +121,11 @@
 }
 
 #odf-toolbar #dropdown{
-	right:auto;
+	right: auto;
+}
+
+#body-user #document-title #header{
+	height: 32px;
 }
 
 #document-title{
@@ -138,6 +142,7 @@
 	float:left;
 	height: 24px;
 	width: 80px;
+	margin: 3px;
 	background-size:80px 24px;
 }
 
@@ -169,7 +174,7 @@
 
 #documents-overlay,  #documents-overlay-below{
     position: fixed;
-    top: 36px;
+    top: 32px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -227,9 +232,7 @@
 	top: 87px;
 }
 
-
 /* override WebODF styling here */
-
 #mainContainer #collaboration{
 	float:right;position: relative;z-index: 1;
 	width: 70px;padding:5px;
