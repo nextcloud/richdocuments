@@ -142,6 +142,38 @@ $.widget('oc.documentOverlay', {
 	}
 });
 
+$.widget('oc.documentToolbar', {
+	options : {
+		innerhtml : '<div id="document-title" class="icon-noise">' +
+					'  <div id="header">' +
+					'    <div class="logo-wide"></div>' +
+					'    <div id="document-title-container">&nbsp;</div>' +
+			        '  </div>' +
+					'</div>' +
+					
+					'<span id="toolbar" class="claro">' +
+					'  <button id="odf-invite" class="drop hidden">' +
+					t('documents', 'Share') +
+					'  </button>' +
+					'  <button id="odf-close">' +
+					t('documents', 'Close') +
+					'  </button>' +
+					'  <img id="saving-document" alt=""' +
+					'    src="' + OC.imagePath('core', 'loading.gif') + '"' +
+					'  />' +
+					'</span>'
+	},
+	_create : function (){
+		$(this.element).html(this.options.innerhtml).hide().prependTo(document.body);
+	},
+	show : function (){
+		$(this.element).show();
+	},
+	hide : function(){
+		$(this.element).fadeOut('fast');
+		$(this.element).html(this.options.innerhtml);
+	}
+});
 
 var documentsMain = {
 	isEditormode : false,
@@ -152,26 +184,7 @@ var documentsMain = {
 	ready :false,
 	fileName: null,
 	
-	UI : {
-		/* Toolbar HTML */
-		toolbar : '<div id="odf-toolbar" class="dijitToolbar">' +
-					'  <div id="document-title" class="icon-noise">' +
-					'<div id="header"><div class="logo-wide"></div>' +
-					'<div id="document-title-container">&nbsp;</div>' +
-			        '</div></div>' +
-					'  <span id="toolbar" class="claro">' +
-					'  <button id="odf-invite" class="drop hidden">' +
-						  t('documents', 'Share') +
-					'  </button>' +
-					'  <button id="odf-close">' +
-					       t('documents', 'Close') +
-					'  </button>' +
-					'  <img id="saving-document" alt=""' +
-					'   src="' + OC.imagePath('core', 'loading.gif') + '"' +
-					'  />' +
-					'</span>' +
-					'</div>',
-					
+	UI : {		
 		/* Editor wrapper HTML */
 		container : '<div id = "mainContainer" class="claro">' +
 					'  <div id = "editor">' +
@@ -221,12 +234,12 @@ var documentsMain = {
 				$(document.body).attr('id', 'body-login');
 				$('header,footer,nav').show();
 			}
-			// Fade out toolbar
-			$('#odf-toolbar').fadeOut('fast');
+			
+			documentsMain.toolbar.documentToolbar('hide');
+			
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
 				$('#mainContainer').remove();
-				$('#odf-toolbar').remove();
 				$('#content').fadeIn('fast');
 				$(document.body).removeClass('claro');
 				$('title').text(documentsMain.UI.mainTitle);
@@ -284,6 +297,7 @@ var documentsMain = {
 			documentsMain.isGuest = true;
 			
 			if ($("[name='document']").val()){
+				documentsMain.toolbar.documentToolbar('show');
 				documentsMain.prepareSession();
 				documentsMain.joinSession(
 					$("[name='document']").val()
@@ -339,11 +353,9 @@ var documentsMain = {
 			return documentsMain.view(response.id);
 		}
 		
-		if (!$('#odf-toolbar').length){
-			$('header,footer,nav').hide();
-			$(document.body).prepend(documentsMain.UI.toolbar);
-		}
-
+		$('header,footer,nav').hide();
+		documentsMain.toolbar.documentToolbar('show');
+		
 		if (!response || !response.status || response.status==='error'){
 			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			return;
@@ -770,6 +782,7 @@ $(document).ready(function() {
 	
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
+	documentsMain.toolbar = $('<div id="odf-toolbar" class="dijitToolbar"></div>').documentToolbar();
 	
 	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
