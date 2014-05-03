@@ -60,6 +60,7 @@
 "Undo" => "Desfazer",
 "Unknown Author" => "Autor desconhecido",
 "Edit" => "Editar",
+"Local" => "Local",
 "New document" => "Novo documento",
 "Upload" => "Carregar",
 "Save new documents to" => "Guardar novos documentos para",

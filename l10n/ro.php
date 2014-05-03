@@ -8,6 +8,7 @@
 "Cancel" => "Anulare",
 "Create" => "Crează",
 "Delete" => "Șterge",
+"Family" => "Familie",
 "Loading" => "încărcare",
 "OK" => "OK",
 "Open" => "Deschide",
