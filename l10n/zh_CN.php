@@ -26,7 +26,7 @@
 "Create" => "创建",
 "Default Style" => "默认样式",
 "Delete" => "删除",
-"Family" => "家庭",
+"Family" => "字体族",
 "Font" => "字体",
 "Font Effects" => "字体效果",
 "Format" => "格式",
