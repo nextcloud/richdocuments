@@ -60,6 +60,7 @@
 "Undo" => "Batal",
 "Unknown Author" => "Penulis tidak diketahui",
 "Edit" => "Edit",
+"Local" => "Lokal",
 "New document" => "Dokumen Baru",
 "Upload" => "Unggah",
 "Save new documents to" => "Simpan dokumen ke",

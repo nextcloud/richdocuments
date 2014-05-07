@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Can't create document" => "无法创建文档",
 "You don't have permission to rename this document" => "您没有重命名该文档的权限",
 "Documents" => "文档",
 "Share" => "共享",
@@ -47,11 +48,17 @@
 "Undo" => "撤消",
 "Unknown Author" => "未知作者",
 "Edit" => "编辑",
+"Local" => "本地",
+"External" => "外部",
+"scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
+"Server URL" => "服务器 URL",
+"Apply" => "应用",
 "New document" => "新建文档",
 "Upload" => "上传",
 "Save new documents to" => "保存新文档到",
 "Wrong password. Please retry." => "密码错误，请重新尝试。",
 "Password" => "密码",
+"Guest %s" => "访客 %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "该链接已失效或不存在。详情请联系文件分享者。",
 "Advanced feature-set" => "高级功能",
 "(Unstable)" => "(非稳定)"

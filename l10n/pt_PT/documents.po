@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-03 00:44-0400\n"
-"PO-Revision-Date: 2014-05-02 16:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-07 00:44-0400\n"
+"PO-Revision-Date: 2014-05-06 11:21+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "Não foi possível criar o documento"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
@@ -282,7 +282,7 @@ msgstr "Editar"
 
 #: lib/db/member.php:32
 msgid "guest"
-msgstr ""
+msgstr "convidado"
 
 #: templates/admin.php:8
 msgid "Local"
@@ -290,27 +290,27 @@ msgstr "Local"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr ""
+msgstr "openOffice/libreOffice está instalado neste servidor"
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "Externo"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr ""
+msgstr "openOffice/libreOffice está instalado noutro servidor"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "scheme://domain.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "Endereço do Servidor"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "Aplicar"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -335,7 +335,7 @@ msgstr "Palavra-passe"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "Convidado %s"
 
 #: templates/public.php:21
 msgid ""

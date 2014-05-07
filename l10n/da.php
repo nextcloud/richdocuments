@@ -60,6 +60,7 @@
 "Undo" => "Fortryd",
 "Unknown Author" => "Ukendt forfatter",
 "Edit" => "Rediger",
+"Local" => "Lokal",
 "New document" => "Nyt dokument",
 "Upload" => "Upload",
 "Save new documents to" => "Gem nye dokumenter til",

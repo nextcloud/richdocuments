@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-05 00:44-0400\n"
-"PO-Revision-Date: 2014-05-04 19:31+0000\n"
+"POT-Creation-Date: 2014-05-07 00:44-0400\n"
+"PO-Revision-Date: 2014-05-05 18:46+0000\n"
 "Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "无法创建文档"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
@@ -287,7 +287,7 @@ msgstr ""
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "本地"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "外部"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
@@ -303,15 +303,15 @@ msgstr ""
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "scheme://domain.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "服务器 URL"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "应用"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -336,7 +336,7 @@ msgstr "密码"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "访客 %s"
 
 #: templates/public.php:21
 msgid ""
