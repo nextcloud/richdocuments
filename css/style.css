@@ -122,6 +122,7 @@
 
 #odf-toolbar #dropdown{
 	right: auto;
+	top: 66px;
 }
 
 #body-user #document-title #header{
@@ -144,12 +145,13 @@
 	width: 80px;
 	margin: 3px;
 	background-size:80px 24px;
+	z-index: 110;
 }
 
 #document-title div{
 	position: relative;
 }
-#document-title>input {
+#document-title #header input {
 	height:14px;
 	margin: 0;
 	padding:3px 6px;

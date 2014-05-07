@@ -581,15 +581,15 @@ var documentsMain = {
 		var extension = name.substr(lastPos + 1);
 		name = name.substr(0, lastPos);
 		var input = $('<input type="text" class="filename"/>').val(name);
-		$('#document-title').append(input);
-		$('#document-title>div').hide();
+		$('#header').append(input);
+		$('#document-title-container').hide();
 
 		input.on('blur', function(){
 			var newName = input.val();
 			if (!newName || newName === name) {
 				input.tipsy('hide');
 				input.remove();
-				$('#document-title>div').show();
+				$('#document-title-container').show();
 				return;
 			}
 			else {
@@ -600,7 +600,7 @@ var documentsMain = {
 					if (Files.isFileNameValid(newName)) {
 						input.tipsy('hide');
 						input.remove();
-						$('#document-title>div').show();
+						$('#document-title-container').show();
 						documentsMain.renameDocument(newName);
 					}
 				}
@@ -797,7 +797,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$(document.body).on('click', '#document-title>div', documentsMain.onRenamePrompt);
+	$(document.body).on('click', '#document-title-container', documentsMain.onRenamePrompt);
 	$(document.body).on('click', '#odf-close', documentsMain.onClose);
 	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
 
