@@ -3,309 +3,299 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dmitry <linuxsquirrel.dev@gmail.com>, 2013
-# Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
-# jekader <jekader@gmail.com>, 2013
-# tukos <kalyuzhniy@gmail.com>, 2014
-# sk.avenger <sk.avenger@adygnet.ru>, 2013
-# unixoid <victor.ashirov@gmail.com>, 2013
-# VicDeo <victor.dubiniuk@gmail.com>, 2013
-# 3lnc <slam.3lnc@live.com>, 2013
-# vsapronov <vladimir.sapronov@gmail.com>, 2013
-# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-05-10 00:44-0400\n"
-"PO-Revision-Date: 2014-05-09 11:20+0000\n"
-"Last-Translator: tukos <kalyuzhniy@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
+"PO-Revision-Date: 2013-08-27 22:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish (Ecuador) (http://www.transifex.com/projects/p/owncloud/language/es_EC/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: es_EC\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr "Сервер фильтрации формата не работает или настроен неправильно"
+msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr "Невозможно создать документ"
+msgstr ""
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr "У вас не достаточно прав для переименования этого документа."
+msgstr ""
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr "Документы"
+msgstr ""
 
 #: js/documents.js:86
 msgid "Failed to load documents."
-msgstr "Загрузка документов не удалась."
+msgstr ""
 
 #: js/documents.js:121
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Документов нет. Пожалуйста, загрузите или создайте документ!"
+msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
-msgstr "Открыть доступ"
+msgstr ""
 
 #: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
-msgstr "Закрыть"
+msgstr ""
 
 #: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
-msgstr "Нет связи с сервером. Попытка переподключения."
+msgstr ""
 
 #: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'."
+msgstr ""
 
 #: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Не удалось загрузить документ. Пожалуйста, проверьте возможно ли открыть его с помощью обычного odt редактора."
+msgstr ""
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
-msgstr "Сохранить"
+msgstr ""
 
 #: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Загрузка документов..."
+msgstr ""
 
 #: js/documents.js:757
 msgid "'.' is an invalid file name."
-msgstr "'.' - неправильное имя файла."
+msgstr ""
 
 #: js/documents.js:759
 msgid "File name cannot be empty."
-msgstr "Имя файла не может быть пустым."
+msgstr ""
 
 #: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Неправильное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы."
+msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Выровнять по левому краю"
+msgstr ""
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr "Выравнивание"
+msgstr ""
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Выровнять по правому краю"
+msgstr ""
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr "Аннотации"
+msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Фон"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr "Жирный"
+msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "Низ"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "Отменить"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "Центр"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Клонировать"
+msgstr ""
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Клонировать этот стиль"
+msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Цвет"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "Создать"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Уменьшить отступ"
+msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Стиль по умолчанию"
+msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Удалить"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "Семья"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
-msgstr "Шрифт"
+msgstr ""
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr "Шрифтовые эффекты"
+msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Формат"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Увеличить отступ"
+msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Вставить изображение"
+msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "Пригласить участников"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr "Курсив"
+msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr "по ширине"
+msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "Выровнять по ширине"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "Слева"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "Загрузка"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Участники"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Новое имя:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "ОК"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "Открыть"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "Опции"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Абзац..."
+msgstr ""
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Стили абзацев"
+msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Повторить"
+msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Справа"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "Размер"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr "Расстояние между строк"
+msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Перечёркнутый"
+msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr "Стиль"
+msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Текст"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "Верх"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Подчеркнуть"
+msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Отмена"
+msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Неизвестный автор"
+msgstr ""
 
 #: js/viewer/viewer.js:30
 msgid "Edit"
-msgstr "Редактировать"
+msgstr ""
 
 #: lib/db/member.php:32
 msgid "guest"
-msgstr "Гость"
+msgstr ""
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr "Локально"
+msgstr ""
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr "openOffice/libreOffice установлен на данном сервере"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "External"
-msgstr "Внешний"
+msgstr ""
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr "openOffice/libreOffice установлен на другом сервере"
+msgstr ""
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
@@ -313,47 +303,47 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr "URL сервера"
+msgstr ""
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr "Применить"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr "Новый документ"
+msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "Загрузка"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Сохранять новые документы в"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Неправильный пароль. Повторите попытку."
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Пароль"
+msgstr ""
 
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr "Гость %s"
+msgstr ""
 
 #: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Срок действия ссылки истек, либо ссылка никогда не существовала. Пожалуйста, обратитесь к человеку, который поделился ею, за подробностями."
+msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Расширенные функции"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(Нестабильно)"
+msgstr ""
