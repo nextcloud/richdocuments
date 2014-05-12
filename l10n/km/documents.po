@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-07 00:44-0400\n"
-"PO-Revision-Date: 2014-05-05 14:13+0000\n"
+"POT-Creation-Date: 2014-05-12 00:44-0400\n"
+"PO-Revision-Date: 2014-05-11 06:00+0000\n"
 "Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -35,60 +35,60 @@ msgstr "អ្នក​មិន​មាន​សិទ្ធិ​ប្ដូ
 msgid "Documents"
 msgstr "កម្រង​ឯកសារ"
 
-#: js/documents.js:26
+#: js/documents.js:86
+msgid "Failed to load documents."
+msgstr ""
+
+#: js/documents.js:121
+msgid "No documents are found. Please upload or create a document!"
+msgstr ""
+
+#: js/documents.js:156
 msgid "Share"
 msgstr "ចែក​រំលែក"
 
-#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "បិទ"
 
-#: js/documents.js:124
+#: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
 msgstr "គ្មាន​ការ​តភ្ជាប់​ទៅ​ម៉ាស៊ីន​បម្រើ។ កំពុង​ព្យាយាម​តភ្ជាប់​ម្ដង​ទៀត។"
 
-#: js/documents.js:191
+#: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:209
+#: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:231 js/locale.js:39
+#: js/documents.js:382 js/locale.js:39
 msgid "Save"
 msgstr "រក្សាទុក"
 
-#: js/documents.js:576 templates/documents.php:31
+#: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:595
-msgid "Failed to load documents."
-msgstr ""
-
-#: js/documents.js:638
-msgid "No documents are found. Please upload or create a document!"
-msgstr ""
-
-#: js/documents.js:674
+#: js/documents.js:757
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' គឺ​ជា​ឈ្មោះ​ឯកសារ​មិន​ត្រឹម​ត្រូវ។"
 
-#: js/documents.js:676
+#: js/documents.js:759
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "ឈ្មោះ​ឯកសារ​មិន​អាច​នៅ​ទទេ​បាន​ឡើយ។"
 
-#: js/documents.js:683
+#: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "ឈ្មោះ​មិន​ត្រឹម​ត្រូវ, មិន​អនុញ្ញាត '\\', '/', '<', '>', ':', '\"', '|', '?' និង '*' ទេ។"
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -128,11 +128,11 @@ msgstr "កណ្ដាល"
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr ""
+msgstr "ក្លូន"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "ក្លូន​រចនាបថ​នេះ"
 
 #: js/locale.js:13
 msgid "Color"
@@ -188,11 +188,11 @@ msgstr "ទ្រេត"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "បាន​តម្រឹម​ពេញ"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "តម្រឹម​ពេញ"
 
 #: js/locale.js:28
 msgid "Left"
@@ -280,7 +280,7 @@ msgstr "កែ"
 
 #: lib/db/member.php:32
 msgid "guest"
-msgstr ""
+msgstr "ភ្ញៀវ"
 
 #: templates/admin.php:8
 msgid "Local"
@@ -288,7 +288,7 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr ""
+msgstr "openOffice/libreOffice ត្រូវ​បាន​ដំឡើង​លើ​ម៉ាស៊ីន​បម្រើ​នេះ"
 
 #: templates/admin.php:15
 msgid "External"
@@ -296,19 +296,19 @@ msgstr ""
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr ""
+msgstr "openOffice/libreOffice ត្រូវ​បាន​ដំឡើង​នៅ​លើ​ម៉ាស៊ីន​បម្រើ​ដទៃ"
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "scheme://domain.tld[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "URL ម៉ាស៊ីន​បម្រើ"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "អនុវត្ត"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -333,7 +333,7 @@ msgstr "ពាក្យសម្ងាត់"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "ភ្ញៀវ %s"
 
 #: templates/public.php:21
 msgid ""
@@ -343,7 +343,7 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "សំណុំ​មុខងារ​កម្រិត​ខ្ពស់"
 
 #: templates/settings.php:10
 msgid "(Unstable)"

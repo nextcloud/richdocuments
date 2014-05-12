@@ -5,6 +5,7 @@
 "Cancel" => "Cancellar",
 "Create" => "Crear",
 "Delete" => "Deler",
+"OK" => "Ok",
 "Open" => "Aperi",
 "Size" => "Dimension",
 "Text" => "Texto",

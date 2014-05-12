@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "이 문서의 이름을 변경할 권한이 없습니다",
 "Documents" => "문서",
+"Failed to load documents." => "문서를 불러올 수 없습니다.",
+"No documents are found. Please upload or create a document!" => "문서를 찾을 수 없습니다. 문서를 만들거나 업로드하십시오!",
 "Share" => "공유",
 "Close" => "닫기",
 "No connection to server. Trying to reconnect." => "서버에 연결되지 않았습니다. 재연결을 시도합니다.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "이 문서를 불러올 수 없습니다. 외부 ODT 편집기로 불러올 수 있는지 확인해 보십시오. 최근에 공유가 해제되었거나 삭제되었을 수도 있습니다.",
 "Save" => "저장",
 "Loading documents..." => "문서 불러오는 중...",
-"Failed to load documents." => "문서를 불러올 수 없습니다.",
-"No documents are found. Please upload or create a document!" => "문서를 찾을 수 없습니다. 문서를 만들거나 업로드하십시오!",
 "'.' is an invalid file name." => "'.' 는 올바르지 않은 파일 이름입니다.",
 "File name cannot be empty." => "파일 이름이 비어 있을 수 없습니다.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "폴더 이름이 올바르지 않습니다. 이름에 문자 '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다.",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "No tiene permiso para cambiar de nombre a este documento",
 "Documents" => "Documentos",
+"Failed to load documents." => "Error al cargar los documentos.",
+"No documents are found. Please upload or create a document!" => "No se encontraron documentos. ¡Suba o cree un documento!",
 "Share" => "Compartir",
 "Close" => "Cerrar",
 "No connection to server. Trying to reconnect." => "No hay conexión con el servidor. Intentando reconectar.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "No se pudo cargar el documento. Sírvase comprobar si puede abrirlo con un editor de archivos ODT externo. También puede ser que hayan dejado de compartirlo o haya sido eliminado recientemente.",
 "Save" => "Guardar",
 "Loading documents..." => "Cargando los documentos...",
-"Failed to load documents." => "Error al cargar los documentos.",
-"No documents are found. Please upload or create a document!" => "No se encontraron documentos. ¡Suba o cree un documento!",
 "'.' is an invalid file name." => "'.' no es un nombre de archivo válido.",
 "File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre inválido, los caracteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos ",

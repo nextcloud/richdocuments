@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "شما دسترسی مجاز برای تغییر نام این سند را ندارید",
 "Documents" => "اسناد",
+"Failed to load documents." => "فراخوانی اسناد با شکست مواجه شد",
+"No documents are found. Please upload or create a document!" => "هیچ سندی یافت نشد، لطفاً بارگذاری کنید یا اینکه یک سند ایجاد نمایید!",
 "Share" => "اشتراک‌گذاری",
 "Close" => "بستن",
 "No connection to server. Trying to reconnect." => "هیچگونه ارتباط به سرور موجود نمی‌باشد. لطفاً ارتباط مجدد برقرار کنید.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "فراخوانی این سند با مشکل مواجه شد. لطفاً بررسی نمایید که آیا می‌توان آن را با یک برنامه‌ی ویرایشگر odt خارجی باز نمود. البته این اشکال ممکن است بخاطر حذف شدن یا حذف اشتراک گذاری آن نیز اتفاق افتاده باشد",
 "Save" => "ذخیره",
 "Loading documents..." => "در حال بارگذاری اسناد...",
-"Failed to load documents." => "فراخوانی اسناد با شکست مواجه شد",
-"No documents are found. Please upload or create a document!" => "هیچ سندی یافت نشد، لطفاً بارگذاری کنید یا اینکه یک سند ایجاد نمایید!",
 "'.' is an invalid file name." => "'.'   یک نام پرونده نامعتبر است.",
 "File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '*'  مجاز نمی باشند.",

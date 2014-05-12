@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Nincs jogod ahhoz, hogy átnevezzed ezt a dokumentumot",
 "Documents" => "Dokumentumok",
+"Failed to load documents." => "A dokumentum betőltése sikertelen",
+"No documents are found. Please upload or create a document!" => "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot.",
 "Share" => "Megosztás",
 "Close" => "Bezárás",
 "No connection to server. Trying to reconnect." => "Nincs kapcsolat a szerverrel. Újracsatlakozás.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "A dokumentum betöltése sikertelen. Próbáld külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt, hogy már nincs megosztva vagy már törölve lett a dokumentum.",
 "Save" => "Mentés",
 "Loading documents..." => "Dokumentumok betöltése...",
-"Failed to load documents." => "A dokumentum betőltése sikertelen",
-"No documents are found. Please upload or create a document!" => "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot.",
 "'.' is an invalid file name." => "'.' fájlnév érvénytelen.",
 "File name cannot be empty." => "A fájlnév nem lehet semmi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'",

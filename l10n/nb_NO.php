@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Du har ikke tillatelse til å gi nytt navn til dette dokumentet",
 "Documents" => "Dokumenter",
+"Failed to load documents." => "Klarte ikke å laste dokumenter.",
+"No documents are found. Please upload or create a document!" => "Ingen dokumenter funnet. Last opp eller opprett et dokument!",
 "Share" => "Del",
 "Close" => "Lukk",
 "No connection to server. Trying to reconnect." => "Ingen forbindelse til server. Prøver å gjenopprette forbindelsen.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Klarte ikke å laste dette dokumentet. Sjekk om det kan åpnes med en ekstern odt-editor. Dette kan også bety at deling er avsluttet eller at dokumentet er slettet nylig.",
 "Save" => "Lagre",
 "Loading documents..." => "Laster dokumenter...",
-"Failed to load documents." => "Klarte ikke å laste dokumenter.",
-"No documents are found. Please upload or create a document!" => "Ingen dokumenter funnet. Last opp eller opprett et dokument!",
 "'.' is an invalid file name." => "'.' er et ugyldig filnavn.",
 "File name cannot be empty." => "Filnavn kan ikke være tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt.",

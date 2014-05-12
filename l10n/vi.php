@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Bạn không có quyền đổi tên tài liệu này",
 "Documents" => "Tài liệu",
+"Failed to load documents." => "Không thể tải tài liệu thử lại sau.",
+"No documents are found. Please upload or create a document!" => "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới !",
 "Share" => "Chia sẻ",
 "Close" => "Đóng",
 "No connection to server. Trying to reconnect." => "Không thể kết nối đến máy chủ. Đang thử kết nối lại.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Không thể tải tài liệu này. Hãy kiểm tra xem nó có thể đang được mở ra bởi ai đó. Hay là tài liệu này không  chia sẻ hoặc bị xóa gần đây.",
 "Save" => "Lưu",
 "Loading documents..." => "Tải tài liệu ...",
-"Failed to load documents." => "Không thể tải tài liệu thử lại sau.",
-"No documents are found. Please upload or create a document!" => "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới !",
 "'.' is an invalid file name." => "'.' là một tên file không hợp lệ",
 "File name cannot be empty." => "Tên file không được rỗng",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng.",

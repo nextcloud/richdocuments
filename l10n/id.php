@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Anda tidak memiliki izin untuk mengubah nama dokumen ini",
 "Documents" => "Dokumen",
+"Failed to load documents." => "Gagal untuk memuat dokumen.",
+"No documents are found. Please upload or create a document!" => "Tidak ada dokumen yang ditemukan. Silakan unggah atau buat sebuah dokumen!",
 "Share" => "Bagikan",
 "Close" => "Tutup",
 "No connection to server. Trying to reconnect." => "Tidak tersambung ke server. Coba untuk menyambungkan ulang.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Gagal memuat dokumen ini. Silakan periksa apakah ini dapat dibuka dengan penyunting odt eksternal. Dokumen ini mungkin saja sudah tidak dibagikan kepada Anda atau sudah dihapus baru-baru ini.",
 "Save" => "Simpan",
 "Loading documents..." => "Memuat dokumen...",
-"Failed to load documents." => "Gagal untuk memuat dokumen.",
-"No documents are found. Please upload or create a document!" => "Tidak ada dokumen yang ditemukan. Silakan unggah atau buat sebuah dokumen!",
 "'.' is an invalid file name." => "'.' bukan nama berkas yang valid.",
 "File name cannot be empty." => "Nama berkas tidak boleh kosong.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nama tidak valid, karakter '\\', '/', '<', '>', ':', '\"', '|', '?' dan '*' tidak diizinkan.",

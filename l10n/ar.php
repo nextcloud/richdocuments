@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "لا تمتلك الصلاحية لاعادة تسمية هذا المستند",
 "Documents" => "وثائق",
+"Failed to load documents." => "فشل في تحميل الوثائق",
+"No documents are found. Please upload or create a document!" => "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!",
 "Share" => "شارك",
 "Close" => "إغلاق",
 "No connection to server. Trying to reconnect." => "لا يوجد اتصال مع الخادم. في محاولة لإعادة الاتصال.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "فشل في تحميل المستند. يرجى التحقق من امكانية فتحة عن طريق محرر odt خارجي. قد يعني انه تم الغاء المشاركة او حذفة مؤخرا",
 "Save" => "حفظ",
 "Loading documents..." => "يتم تحميل المستند ...",
-"Failed to load documents." => "فشل في تحميل الوثائق",
-"No documents are found. Please upload or create a document!" => "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!",
 "'.' is an invalid file name." => "\".\" اسم ملف غير صحيح.",
 "File name cannot be empty." => "اسم الملف لا يجوز أن يكون فارغا",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "اسم غير صحيح , الرموز  '\\', '/', '<', '>', ':', '\"', '|', '?' و \"*\" غير مسموح استخدامها",

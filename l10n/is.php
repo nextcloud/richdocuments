@@ -8,6 +8,7 @@
 "Cancel" => "Hætta við",
 "Create" => "Búa til",
 "Delete" => "Eyða",
+"OK" => "Í lagi",
 "Open" => "Opna",
 "Options" => "Stillingar",
 "Size" => "Stærð",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Vi ne havas permeson alinomigi ĉi tiun dokumenton",
 "Documents" => "Dokumentoj",
+"Failed to load documents." => "Malsukcesis ŝargo de dokumentoj.",
+"No documents are found. Please upload or create a document!" => "Neniu dokumento troviĝis. Bonvolu alŝuti aŭ krei dokumenton!",
 "Share" => "Kunhavigi",
 "Close" => "Fermi",
 "No connection to server. Trying to reconnect." => "Ne estas konekto al servilo. Provu rekonekti.",
@@ -8,8 +10,6 @@
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Malsukcesis ŝargo de ĉi tiu dokumento. Bonvolu kontroli ĉu ĝi malfermeblas per malena odt-redaktilo. Ĉi tio povas ankaŭ signifi, ke ĝi malkunhaviĝis aŭ foriĝis lastatempe.",
 "Save" => "Konservi",
 "Loading documents..." => "Ŝargante dokumentojn...",
-"Failed to load documents." => "Malsukcesis ŝargo de dokumentoj.",
-"No documents are found. Please upload or create a document!" => "Neniu dokumento troviĝis. Bonvolu alŝuti aŭ krei dokumenton!",
 "'.' is an invalid file name." => "'.' ne estas valida dosiernomo.",
 "File name cannot be empty." => "Dosiernomo devas ne malpleni.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nevalida nomo: “\\”, “/”, “<”, “>”, “:”, “\"”, “|”, “?” kaj “*” ne permesatas.",

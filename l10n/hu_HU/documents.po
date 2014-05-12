@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 00:43-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-12 00:44-0400\n"
+"PO-Revision-Date: 2014-05-11 05:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -38,56 +38,56 @@ msgstr "Nincs jogod ahhoz, hogy átnevezzed ezt a dokumentumot"
 msgid "Documents"
 msgstr "Dokumentumok"
 
-#: js/documents.js:26
+#: js/documents.js:86
+msgid "Failed to load documents."
+msgstr "A dokumentum betőltése sikertelen"
+
+#: js/documents.js:121
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
+
+#: js/documents.js:156
 msgid "Share"
 msgstr "Megosztás"
 
-#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Bezárás"
 
-#: js/documents.js:124
+#: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
 msgstr "Nincs kapcsolat a szerverrel. Újracsatlakozás."
 
-#: js/documents.js:191
+#: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Ha elnavigálsz az oldalról miközben Szerkesztés módban vagy akkor lehet lesznek elvesztett adatok amiket még nem mentettél el. Ajánlott inkább a 'Bezár' gombbal befejezni az oldal szerkesztését."
 
-#: js/documents.js:209
+#: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "A dokumentum betöltése sikertelen. Próbáld külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt, hogy már nincs megosztva vagy már törölve lett a dokumentum."
 
-#: js/documents.js:231 js/locale.js:39
+#: js/documents.js:382 js/locale.js:39
 msgid "Save"
 msgstr "Mentés"
 
-#: js/documents.js:576 templates/documents.php:31
+#: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Dokumentumok betöltése..."
 
-#: js/documents.js:595
-msgid "Failed to load documents."
-msgstr "A dokumentum betőltése sikertelen"
-
-#: js/documents.js:638
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
-
-#: js/documents.js:674
+#: js/documents.js:757
 msgid "'.' is an invalid file name."
 msgstr "'.' fájlnév érvénytelen."
 
-#: js/documents.js:676
+#: js/documents.js:759
 msgid "File name cannot be empty."
 msgstr "A fájlnév nem lehet semmi."
 
-#: js/documents.js:683
+#: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

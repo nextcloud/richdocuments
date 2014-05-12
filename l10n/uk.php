@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Failed to load documents." => "Не вдалося завантажити документи.",
 "Share" => "Поділитися",
 "Close" => "Закрити",
 "Save" => "Зберегти",
-"Failed to load documents." => "Не вдалося завантажити документи.",
 "'.' is an invalid file name." => "'.' це невірне ім'я файлу.",
 "File name cannot be empty." => " Ім'я файлу не може бути порожнім.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*' не дозволені.",

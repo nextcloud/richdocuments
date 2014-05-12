@@ -5,6 +5,7 @@
 "Cancel" => "Odustani",
 "Create" => "Izradi",
 "Delete" => "Obriši",
+"OK" => "U redu",
 "Size" => "Veličina",
 "Text" => "Tekst",
 "Edit" => "Uredi",

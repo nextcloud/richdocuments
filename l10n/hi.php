@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "दस्तावेज़ ",
+"Failed to load documents." => "दस्तावेज़ लोड करने में असफल रहा।  ",
 "Share" => "साझा करें",
 "Close" => "बंद करें ",
 "Save" => "सहेजें",
-"Failed to load documents." => "दस्तावेज़ लोड करने में असफल रहा।  ",
 "Open" => "खोलें",
 "Upload" => "अपलोड ",
 "Password" => "पासवर्ड",

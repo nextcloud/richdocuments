@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 00:43-0400\n"
-"PO-Revision-Date: 2014-04-29 09:59+0000\n"
+"POT-Creation-Date: 2014-05-12 00:44-0400\n"
+"PO-Revision-Date: 2014-05-11 05:03+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -35,56 +35,56 @@ msgstr "U hebt niet de autorisatie om die document te hernoemen"
 msgid "Documents"
 msgstr "Documenten"
 
-#: js/documents.js:26
+#: js/documents.js:86
+msgid "Failed to load documents."
+msgstr "Kon documenten niet laden."
+
+#: js/documents.js:121
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Geen documenten gevonden. Upload of maak een document!"
+
+#: js/documents.js:156
 msgid "Share"
 msgstr "Delen"
 
-#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Sluiten"
 
-#: js/documents.js:124
+#: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
 msgstr "Geen verbinding met de server. Bezig te verbinden."
 
-#: js/documents.js:191
+#: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Deze pagina open laten in de Editor kan resulteren in niet opslaan. Geadviseerd wordt om de 'Sluiten' knop te gebruiken."
 
-#: js/documents.js:209
+#: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Kon dit document niet laden. Ga na of het met een externe odt editor wel kan worden geopend. Het kan zijn dat het niet meer is gedeeld of dat het recent is verwijderd."
 
-#: js/documents.js:231 js/locale.js:39
+#: js/documents.js:382 js/locale.js:39
 msgid "Save"
 msgstr "Bewaren"
 
-#: js/documents.js:576 templates/documents.php:31
+#: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Laden documenten..."
 
-#: js/documents.js:595
-msgid "Failed to load documents."
-msgstr "Kon documenten niet laden."
-
-#: js/documents.js:638
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Geen documenten gevonden. Upload of maak een document!"
-
-#: js/documents.js:674
+#: js/documents.js:757
 msgid "'.' is an invalid file name."
 msgstr "'.' is een ongeldige bestandsnaam."
 
-#: js/documents.js:676
+#: js/documents.js:759
 msgid "File name cannot be empty."
 msgstr "Bestandsnaam kan niet leeg zijn."
 
-#: js/documents.js:683
+#: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

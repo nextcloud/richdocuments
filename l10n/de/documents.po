@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 00:43-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-12 00:44-0400\n"
+"PO-Revision-Date: 2014-05-11 05:03+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -38,56 +38,56 @@ msgstr "Du besitzt nicht die Berechtigung, dieses Dokument umzubenennen."
 msgid "Documents"
 msgstr "Dokumente"
 
-#: js/documents.js:26
+#: js/documents.js:86
+msgid "Failed to load documents."
+msgstr "Laden der Dokumente fehlgeschlagen."
+
+#: js/documents.js:121
+msgid "No documents are found. Please upload or create a document!"
+msgstr "Keine Dokumente gefunden. Bitte lade Dokumente hoch, oder erstelle ein Dokument!"
+
+#: js/documents.js:156
 msgid "Share"
 msgstr "Teilen"
 
-#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
 msgid "Close"
 msgstr "Schließen"
 
-#: js/documents.js:124
+#: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
 msgstr "Keine Verbindung zum Server. Versuche wiederzuverbinden."
 
-#: js/documents.js:191
+#: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Das Verlassen dieser Seite im Editor-Modus kann zu nicht gespeicherten Daten führen. Es wird empfohlen, den 'Schließen' - Button zu verwenden."
 
-#: js/documents.js:209
+#: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Fehler beim Laden dieses Dokumentes. Bitte prüfe ob diese Datei mit einem externen ODT-Editor geöffnet werden kann. Dies könnte auch bedeuten, das die Datei nicht mehr geteilt wird oder kürzlich gelöscht wurde."
 
-#: js/documents.js:231 js/locale.js:39
+#: js/documents.js:382 js/locale.js:39
 msgid "Save"
 msgstr "Speichern"
 
-#: js/documents.js:576 templates/documents.php:31
+#: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Lade Dokumente..."
 
-#: js/documents.js:595
-msgid "Failed to load documents."
-msgstr "Laden der Dokumente fehlgeschlagen."
-
-#: js/documents.js:638
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Keine Dokumente gefunden. Bitte lade Dokumente hoch, oder erstelle ein Dokument!"
-
-#: js/documents.js:674
+#: js/documents.js:757
 msgid "'.' is an invalid file name."
 msgstr "'.' ist kein gültiger Dateiname."
 
-#: js/documents.js:676
+#: js/documents.js:759
 msgid "File name cannot be empty."
 msgstr "Der Dateiname darf nicht leer sein."
 
-#: js/documents.js:683
+#: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
