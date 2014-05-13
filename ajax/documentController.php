@@ -63,7 +63,7 @@ class DocumentController extends Controller{
 	
 
 	public static function rename($args){
-		$uid = self::preDispatch();
+		self::preDispatch();
 		
 		$fileId = intval(Helper::getArrayValueByKey($args, 'file_id', 0));
 		$name = Helper::getArrayValueByKey($_POST, 'name');
