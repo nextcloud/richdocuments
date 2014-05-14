@@ -13,7 +13,14 @@
 namespace OCA\Documents;
 
 /**
- *  Session management 
+ *  Session management
+ * 
+ * @method string getEsId()
+ * @method int getFileId()
+ * @method string getGenesisUrl()
+ * @method string getOwner()
+ * @method string getGenesisHash()
+ * 
  */
 class Db_Session extends \OCA\Documents\Db {
 

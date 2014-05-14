@@ -67,6 +67,7 @@ try{
 				try {
 					$member->updateActivity($memberId);
 				} catch (\Exception $e){
+					//Db error. Not critical
 				}
 
 				// TODO handle the case ($currentHead == "") && ($seqHead != "")

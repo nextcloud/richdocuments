@@ -30,7 +30,7 @@ class Converter {
 	
 	public static function checkConnection(){
 		$expected = file_get_contents(__DIR__ . '/response.odt');
-		$converted = self::convertExternal('');
+		$converted = self::convertExternal('', 'application/vnd.oasis.opendocument.text');
 		
 		return $converted === $expected;
 	}

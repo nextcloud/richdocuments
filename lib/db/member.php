@@ -12,6 +12,12 @@
 
 namespace OCA\Documents;
 
+/*
+ * @method boolean getIsGuest()
+ * @method string getEsId()
+ * @method string getToken()
+ */
+
 class Db_Member extends Db{
 
 	const DB_TABLE = '`*PREFIX*documents_member`';

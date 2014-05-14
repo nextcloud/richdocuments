@@ -18,7 +18,7 @@ class SessionController extends Controller{
 		self::preDispatchGuest();
 		
 		$uid = Helper::getArrayValueByKey($_POST, 'name');
-		$guestUid = substr($uid, 0, 16);
+		$uid = substr($uid, 0, 16);
 		
 		try {
 			$token = Helper::getArrayValueByKey($args, 'token');
@@ -74,9 +74,9 @@ class SessionController extends Controller{
 			$currentMember = new Db_Member();
 			$currentMember->load($memberId);
 			if (is_null($currentMember->getIsGuest()) || $currentMember->getIsGuest()){
-				$uid = self::preDispatchGuest();
+				self::preDispatchGuest();
 			} else {
-				self::preDispatch();
+				$uid = self::preDispatch();
 			}
 			
 			//check if member belongs to the session
@@ -84,7 +84,8 @@ class SessionController extends Controller{
 				throw new \Exception($memberId . ' does not belong to session ' . $esId);
 			}
 			
-			$sessionRevision = @$_SERVER['HTTP_WEBODF_SESSION_REVISION'];
+			// Extra info for future usage
+			// $sessionRevision = Helper::getArrayValueByKey($_SERVER, 'HTTP_WEBODF_SESSION_REVISION');
 			
 			$stream = fopen('php://input','r');
 			if (!$stream){
@@ -110,10 +111,12 @@ class SessionController extends Controller{
 			} catch (\Exception $e){
 				//File was deleted or unshared. We need to save content as new file anyway
 				//Sorry, but for guests it would be lost :(
-				$view = new \OC\Files\View('/' . $uid . '/files');
+				if (isset($uid)){
+					$view = new \OC\Files\View('/' . $uid . '/files');
 		
-				$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '');
-				$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
+					$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '');
+					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
+				}
 			}
 			
 			$member = new Db_Member();

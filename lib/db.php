@@ -100,12 +100,12 @@ abstract class Db {
 		}
 		$count = count($value);
 		if ($count===0){
-			return 0;
+			return;
 		} elseif ($count===1){
-			$result = $this->execute('DELETE FROM ' . $this->tableName . ' WHERE `'. $field .'` =?', $value);
+			$this->execute('DELETE FROM ' . $this->tableName . ' WHERE `'. $field .'` =?', $value);
 		} else {
 			$stmt = $this->buildInQuery($field, $value);
-			$result = $this->execute('DELETE FROM ' . $this->tableName . ' WHERE ' . $stmt, $value);
+			$this->execute('DELETE FROM ' . $this->tableName . ' WHERE ' . $stmt, $value);
 		}
 	}
 	
