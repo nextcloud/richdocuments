@@ -12,7 +12,7 @@
 
 namespace OCA\Documents;
 
-/*
+/**
  * @method boolean getIsGuest()
  * @method string getEsId()
  * @method string getToken()
