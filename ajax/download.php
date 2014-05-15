@@ -14,5 +14,10 @@ namespace OCA\Documents;
 
 \OCP\JSON::checkLoggedIn();
 
-$download = new Download(\OCP\User::getUser(), '/files' . @$_GET['path']);
-$download->sendResponse();
+$path = Helper::getArrayValueByKey($_GET, 'path');
+if (!empty($path)){
+	$fullPath = '/files' . $path;
+	$download = new Download(\OCP\User::getUser(), $fullPath);
+	$download->sendResponse();
+}
+exit();
