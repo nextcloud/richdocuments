@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Format filter server is down or misconfigured" => "Ο διακομιστής μορφών φίλτρων είναι εκτός σύνδεσης ή δεν έχει ρυθμιστεί σωστά",
 "Can't create document" => "Δεν είναι δυνατή η δημιουργία του εγγράφου",
 "You don't have permission to rename this document" => "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο",
 "Documents" => "Έγγραφα",
