@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud documents 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 00:43-0400\n"
+"POT-Creation-Date: 2014-05-16 00:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -277,7 +277,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: lib/db/member.php:38
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 

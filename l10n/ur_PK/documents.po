@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:10+0000\n"
+"POT-Creation-Date: 2014-05-16 00:43-0400\n"
+"PO-Revision-Date: 2014-05-15 19:05+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -44,9 +44,9 @@ msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
-msgstr ""
+msgstr "تقسیم"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:79
 msgid "Close"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 

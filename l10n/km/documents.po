@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 06:00+0000\n"
+"POT-Creation-Date: 2014-05-16 00:43-0400\n"
+"PO-Revision-Date: 2014-05-15 15:00+0000\n"
 "Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr ""
 msgid "Share"
 msgstr "ចែក​រំលែក"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:79
 msgid "Close"
 msgstr "បិទ"
 
@@ -278,7 +278,7 @@ msgstr "មិន​ស្គាល់​អ្នក​បង្កើត"
 msgid "Edit"
 msgstr "កែ"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr "ភ្ញៀវ"
 
