@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 00:43-0400\n"
-"PO-Revision-Date: 2014-05-16 15:33+0000\n"
+"POT-Creation-Date: 2014-05-18 00:43-0400\n"
+"PO-Revision-Date: 2014-05-17 18:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "تقسیم"
 
 #: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:79
 msgid "Close"
-msgstr ""
+msgstr "بند "
 
 #: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
@@ -69,7 +69,7 @@ msgstr ""
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
-msgstr ""
+msgstr "حفظ"
 
 #: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
@@ -215,7 +215,7 @@ msgstr "اوکے"
 
 #: js/locale.js:33
 msgid "Open"
-msgstr ""
+msgstr "کھولیں"
 
 #: js/locale.js:34
 msgid "Options"
