@@ -1,3 +1,4 @@
+/* globals FileList, FileActions, oc_debug */
 var odfViewer = {
 	isDocuments : false,
 	supportedMimesRead: [
@@ -71,45 +72,35 @@ var odfViewer = {
 		OC.addStyle('documents', 'viewer/odfviewer');
 		
 		OC.addScript('documents', '3rdparty/webodf/' + webodfSource, function() {
-			// fade out files menu and add odf menu
-			$('#controls div').fadeOut('slow').promise().done(function() {
-				// odf action toolbar
-				var odfToolbarHtml =
-						'<div id="odf-toolbar">' +
-						'<button id="odf_close">' + t('documents', 'Close') +
-						'</button></div>';
-				if (odfViewer.isDocuments){
-					$(attachToolbarTo).prepend(odfToolbarHtml);
-					$('#odf-toolbar').css({position:'fixed'});
-				} else {
-					$(attachToolbarTo).append(odfToolbarHtml);
-				}
-			});
+			FileList.setViewerMode(true);
 
-			// fade out file list and show pdf canvas
-			$('table, #documents-content').fadeOut('slow').promise().done(function() {
-				var canvashtml = '<div id="odf-canvas"></div>';
-				$(attachTo).after(canvashtml);
-				// in case we are on the public sharing page we shall display the odf into the preview tag
-				$('#preview').html(canvashtml);
+			// odf action toolbar
+			var odfToolbarHtml =
+					'<div id="odf-toolbar">' +
+					'<button id="odf_close">' + t('documents', 'Close') +
+					'</button></div>';
+			if (odfViewer.isDocuments){
+				$(attachToolbarTo).prepend(odfToolbarHtml);
+				$('#odf-toolbar').css({position:'fixed'});
+			} else {
+				$(attachToolbarTo).append(odfToolbarHtml);
+			}
 
-				var odfelement = document.getElementById("odf-canvas");
-				var odfcanvas = new odf.OdfCanvas(odfelement);
-				odfcanvas.load(location);
-			});
+			var canvashtml = '<div id="odf-canvas"></div>';
+			$(attachTo).after(canvashtml);
+			// in case we are on the public sharing page we shall display the odf into the preview tag
+			$('#preview').html(canvashtml);
+
+			var odfelement = document.getElementById("odf-canvas");
+			var odfcanvas = new odf.OdfCanvas(odfelement);
+			odfcanvas.load(location);
 		});
 	},
 	
 	onClose: function() {
-		// Fade out odf-toolbar
-		$('#odf-toolbar').fadeOut('slow');
-		// Fade out editor
-		$('#odf-canvas').fadeOut('slow', function() {
-			$('#odf-toolbar').remove();
-			$('#odf-canvas').remove();
-			$('#controls div').not('.hidden').fadeIn('slow');
-			$('table, #documents-content').fadeIn('slow');
-		});
+		FileList.setViewerMode(false);
+		$('#odf-toolbar').remove();
+		$('#odf-canvas').remove();
 	}
 };
 
