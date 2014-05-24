@@ -67,6 +67,7 @@
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice установлен на данном сервере",
 "External" => "Внешний",
 "openOffice/libreOffice is installed on another server" => "openOffice/libreOffice установлен на другом сервере",
+"scheme://domain.tld[:port]" => "протокол://домен.зона[:порт]",
 "Server URL" => "URL сервера",
 "Apply" => "Применить",
 "New document" => "Новый документ",

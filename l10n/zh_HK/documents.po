@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ronnietse <tseronnie@ymail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-24 00:43-0400\n"
+"PO-Revision-Date: 2014-05-23 13:42+0000\n"
+"Last-Translator: ronnietse <tseronnie@ymail.com>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +47,7 @@ msgstr ""
 msgid "Share"
 msgstr "分享"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr "關閉"
 
@@ -107,7 +108,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -123,7 +124,7 @@ msgstr "取消"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "中間"
 
 #: js/locale.js:10
 msgid "Clone"
@@ -135,11 +136,11 @@ msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "顏色"
 
 #: js/locale.js:14
 msgid "Create"
-msgstr ""
+msgstr "新增"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
@@ -155,11 +156,11 @@ msgstr "刪除"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "家庭"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "字體"
 
 #: js/locale.js:20
 msgid "Font Effects"
@@ -167,7 +168,7 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -183,7 +184,7 @@ msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "斜體"
 
 #: js/locale.js:26
 msgid "Justified"
@@ -207,7 +208,7 @@ msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "新名稱:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -219,11 +220,11 @@ msgstr "開啟"
 
 #: js/locale.js:34
 msgid "Options"
-msgstr ""
+msgstr "選項"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "段落..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
@@ -231,7 +232,7 @@ msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr ""
+msgstr "重複"
 
 #: js/locale.js:38
 msgid "Right"
@@ -259,7 +260,7 @@ msgstr "文字"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "頂"
 
 #: js/locale.js:46
 msgid "Underline"
@@ -273,11 +274,11 @@ msgstr ""
 msgid "Unknown Author"
 msgstr ""
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr "編輯"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 
@@ -307,7 +308,7 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "套用"
 
 #: templates/documents.php:5
 msgid "New document"
