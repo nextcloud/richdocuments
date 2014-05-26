@@ -144,7 +144,7 @@ $.widget('oc.documentOverlay', {
 
 $.widget('oc.documentToolbar', {
 	options : {
-		innerhtml : '<div id="document-title" class="icon-noise">' +
+		innerhtml : '<div id="document-title">' +
 					'  <div id="header">' +
 					'    <div class="logo-wide"></div>' +
 					'    <div id="document-title-container">&nbsp;</div>' +
