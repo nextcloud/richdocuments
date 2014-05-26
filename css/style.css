@@ -142,9 +142,9 @@
 #document-title div.logo-wide{
 	float:left;
 	height: 24px;
-	width: 80px;
+	width: 110px;
 	margin: 3px;
-	background-size:80px 24px;
+	background-size:110px 24px;
 	z-index: 110;
 }
 
