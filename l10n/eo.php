@@ -60,6 +60,7 @@
 "Undo" => "Malfari",
 "Unknown Author" => "Nekonata verkinto",
 "Edit" => "Redakti",
+"Local" => "Loka",
 "New document" => "Nova dokumento",
 "Upload" => "Alŝuti",
 "Save new documents to" => "Konservi novajn dokumentojn en",

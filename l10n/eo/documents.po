@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:03+0000\n"
+"POT-Creation-Date: 2014-05-26 00:43-0400\n"
+"PO-Revision-Date: 2014-05-25 21:53+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Neniu dokumento troviĝis. Bonvolu alŝuti aŭ krei dokumenton!"
 msgid "Share"
 msgstr "Kunhavigi"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr "Fermi"
 
@@ -274,17 +274,17 @@ msgstr "Malfari"
 msgid "Unknown Author"
 msgstr "Nekonata verkinto"
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr "Redakti"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "Loka"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
