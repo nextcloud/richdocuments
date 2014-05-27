@@ -1,6 +1,9 @@
 documents
 =========
 
+Documents app for ownCloud
+
+An ownCloud app to work with office documents alone and/or collaboratively.
 
 [![Build Status](https://travis-ci.org/owncloud/documents.svg?branch=master)](https://travis-ci.org/owncloud/documents)
 
