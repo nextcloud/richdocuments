@@ -3,349 +3,347 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# espenbye <espenbye@me.com>, 2014
-# vidaren <news@vidartysse.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-05-31 00:43-0400\n"
-"PO-Revision-Date: 2014-05-30 19:12+0000\n"
-"Last-Translator: vidaren <news@vidartysse.net>\n"
-"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
+"PO-Revision-Date: 2013-08-27 22:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Catalan (Valencian) (http://www.transifex.com/projects/p/owncloud/language/ca@valencia/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb_NO\n"
+"Language: ca@valencia\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr "Formatfilter-server er nede eller feilkonfigurert"
+msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr "Kan ikke opprette dokument"
+msgstr ""
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr "Du har ikke tillatelse til å gi nytt navn til dette dokumentet"
+msgstr ""
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr "Dokumenter"
+msgstr ""
 
 #: js/documents.js:86
 msgid "Failed to load documents."
-msgstr "Klarte ikke å laste dokumenter."
+msgstr ""
 
 #: js/documents.js:121
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Ingen dokumenter funnet. Last opp eller opprett et dokument!"
+msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
-msgstr "Del"
+msgstr ""
 
 #: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
-msgstr "Lukk"
+msgstr ""
 
 #: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
-msgstr "Ingen forbindelse til server. Prøver å gjenopprette forbindelsen."
+msgstr ""
 
 #: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Hvis denne siden forlates i redigeringsmodus kan data gå tapt. Det anbefales å bruke 'Lukk'-knappen i stedet."
+msgstr ""
 
 #: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Klarte ikke å laste dette dokumentet. Sjekk om det kan åpnes med en ekstern odt-editor. Dette kan også bety at deling er avsluttet eller at dokumentet er slettet nylig."
+msgstr ""
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
-msgstr "Lagre"
+msgstr ""
 
 #: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Laster dokumenter..."
+msgstr ""
 
 #: js/documents.js:757
 msgid "'.' is an invalid file name."
-msgstr "'.' er et ugyldig filnavn."
+msgstr ""
 
 #: js/documents.js:759
 msgid "File name cannot be empty."
-msgstr "Filnavn kan ikke være tomt."
+msgstr ""
 
 #: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt."
+msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Venstrejustér"
+msgstr ""
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr "Justering"
+msgstr ""
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Høyrejustér"
+msgstr ""
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr "Bemerk"
+msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Bakgrunn"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr "Fet"
+msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "Bunn"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "Sentrert"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Klone"
+msgstr ""
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Klone denne stilen"
+msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Farge"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "Opprett"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Reduser innrykk"
+msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Standardstil"
+msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Slett"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "Familie"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
-msgstr "Font"
+msgstr ""
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr "Fonteffekter"
+msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Format"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Øk innrykk"
+msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Sett inn bilde"
+msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "Inviter medlemmer"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr "Kursiv"
+msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr "Justert"
+msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "Juster"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "Venstre"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "Laster"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Medlemmer"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Nytt navn:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "Åpne"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "Innstillinger"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Paragraf..."
+msgstr ""
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Stiler for avsnitt"
+msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Gjør om"
+msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Høyre"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "Størrelse"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr "Avstand"
+msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Gjennomstreking"
+msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr "Stil"
+msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Tekst"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "Topp"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Understreking"
+msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Angre"
+msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Ukjent Forfatter"
+msgstr ""
 
 #: js/viewer/viewer.js:31
 msgid "Edit"
-msgstr "Endre"
+msgstr ""
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr "gjest"
+msgstr ""
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr "Lokal"
+msgstr ""
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr "openOffice/libreOffice er installert på denne serveren"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "External"
-msgstr "Ekstern"
+msgstr ""
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr "openOffice/libreOffice er installert på en annen server"
+msgstr ""
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr "scheme://domain.tld[:port]"
+msgstr ""
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr "Server-URL"
+msgstr ""
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr "Bruk"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr "Nytt dokument"
+msgstr ""
 
 #: templates/documents.php:7 templates/documents.php:27
 msgid "Upload"
-msgstr "Last opp"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Lagre nye dokumenter i"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Feil passord. Prøv igjen."
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Passord"
+msgstr ""
 
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr "Gjest %s"
+msgstr ""
 
 #: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Denne lenken er utgått eller har aldri eksistert. Kontakt personen som delte den med deg for detaljer."
+msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Avanserte egenskaper"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(Ustabil)"
+msgstr ""
