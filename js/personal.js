@@ -12,4 +12,10 @@ $(document).ready(function(){
 		}
 	};
 	$('#documents-default-path').blur(documentsSettings.save);
+	$('#documents-default-path').keypress(function( event ) {
+						if (event.which == 13) {
+						  event.preventDefault();
+						  documentsSettings.save();
+						}
+	});
 });

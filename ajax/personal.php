@@ -15,13 +15,15 @@ namespace OCA\Documents;
 \OCP\JSON::callCheck();
 \OCP\JSON::checkLoggedIn();
 
+$l = \OC_L10N::get('documents');
+
 $savePath = isset($_POST['savePath']) ? $_POST['savePath'] : null;
 if (!is_null($savePath)){
 	if (\OC\Files\Filesystem::file_exists($savePath) ===false ){
 		if(!\OC\Files\Filesystem::mkdir($savePath)){
 			\OCP\JSON::error(
 				array(
-					'data' => array('message'=>'')
+					'data' => array('message'=> $l->t('An error occurred while changing directory.'))
 				)
 			);
 		}
@@ -29,7 +31,7 @@ if (!is_null($savePath)){
 	\OCP\Config::setUserValue(\OCP\User::getUser(), 'documents', 'save_path', $savePath);
 	\OCP\JSON::success(
 		array(
-			'data' => array('message'=>'')
+			'data' => array('message'=> $l->t('Directory saved successfully.'))
 			)
 	);
 	exit();
