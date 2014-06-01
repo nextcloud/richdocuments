@@ -4,7 +4,7 @@
 			<a class="icon-add add svg" target="_blank" href="">
 				<label><?php p($l->t('New document')) ?></label>
 			</a> 
-			<div id="upload" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
+			<div id="upload" title="<?php p($l->t('Upload (max. %s)', array($_['uploadMaxHumanFilesize']))) ?>">
 				<form data-upload-id="1"
 					  id="data-upload-form"
 					  class="file_upload_form"
