@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:03+0000\n"
+"POT-Creation-Date: 2014-06-02 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,14 @@ msgstr ""
 msgid "You don't have permission to rename this document"
 msgstr "Bạn không có quyền đổi tên tài liệu này"
 
+#: ajax/personal.php:26
+msgid "An error occurred while changing directory."
+msgstr ""
+
+#: ajax/personal.php:34
+msgid "Directory saved successfully."
+msgstr ""
+
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
@@ -48,7 +56,7 @@ msgstr "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới 
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr "Đóng"
 
@@ -275,11 +283,11 @@ msgstr "Lùi lại"
 msgid "Unknown Author"
 msgstr "Không biết tác giả"
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr "Sửa"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 
@@ -315,7 +323,12 @@ msgstr ""
 msgid "New document"
 msgstr "Tạo mới"
 
-#: templates/documents.php:7 templates/documents.php:27
+#: templates/documents.php:7
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
+
+#: templates/documents.php:27
 msgid "Upload"
 msgstr "Tải lên"
 

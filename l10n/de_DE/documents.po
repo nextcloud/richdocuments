@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:03+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2014-06-02 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 04:43+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,6 +33,14 @@ msgstr "Dokument kann nicht erstellt werden"
 msgid "You don't have permission to rename this document"
 msgstr "Sie haben nicht die erforderlichen Rechte, dieses Dokument umzubenennen."
 
+#: ajax/personal.php:26
+msgid "An error occurred while changing directory."
+msgstr ""
+
+#: ajax/personal.php:34
+msgid "Directory saved successfully."
+msgstr ""
+
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
@@ -50,7 +58,7 @@ msgstr "Es wurden keine Dokumente gefunden. Bitte laden Sie ein Dokument hoch, o
 msgid "Share"
 msgstr "Teilen"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr "Schließen"
 
@@ -277,11 +285,11 @@ msgstr "Rückgängig"
 msgid "Unknown Author"
 msgstr "Unbekannter Autor"
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr "Gast"
 
@@ -317,7 +325,12 @@ msgstr "Anwenden"
 msgid "New document"
 msgstr "Neues Dokument"
 
-#: templates/documents.php:7 templates/documents.php:27
+#: templates/documents.php:7
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
+
+#: templates/documents.php:27
 msgid "Upload"
 msgstr "Hochladen"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 00:43-0400\n"
-"PO-Revision-Date: 2014-04-22 22:46+0000\n"
+"POT-Creation-Date: 2014-06-02 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Oriya (India) (http://www.transifex.com/projects/p/owncloud/language/or_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -29,61 +29,69 @@ msgstr ""
 msgid "You don't have permission to rename this document"
 msgstr ""
 
+#: ajax/personal.php:26
+msgid "An error occurred while changing directory."
+msgstr ""
+
+#: ajax/personal.php:34
+msgid "Directory saved successfully."
+msgstr ""
+
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
 msgstr ""
 
-#: js/documents.js:26
+#: js/documents.js:86
+msgid "Failed to load documents."
+msgstr ""
+
+#: js/documents.js:121
+msgid "No documents are found. Please upload or create a document!"
+msgstr ""
+
+#: js/documents.js:156
 msgid "Share"
 msgstr ""
 
-#: js/documents.js:29 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr ""
 
-#: js/documents.js:124
+#: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:191
+#: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:209
+#: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:231 js/locale.js:39
+#: js/documents.js:382 js/locale.js:39
 msgid "Save"
 msgstr ""
 
-#: js/documents.js:576 templates/documents.php:31
+#: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:595
-msgid "Failed to load documents."
-msgstr ""
-
-#: js/documents.js:638
-msgid "No documents are found. Please upload or create a document!"
-msgstr ""
-
-#: js/documents.js:674
+#: js/documents.js:757
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/documents.js:676
+#: js/documents.js:759
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/documents.js:683
+#: js/documents.js:766
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -273,11 +281,11 @@ msgstr ""
 msgid "Unknown Author"
 msgstr ""
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr ""
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 
@@ -313,7 +321,12 @@ msgstr ""
 msgid "New document"
 msgstr ""
 
-#: templates/documents.php:7 templates/documents.php:27
+#: templates/documents.php:7
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
+
+#: templates/documents.php:27
 msgid "Upload"
 msgstr ""
 

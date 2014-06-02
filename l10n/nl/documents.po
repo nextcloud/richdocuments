@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:03+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2014-06-02 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 04:43+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,6 +30,14 @@ msgstr "Kan document niet creëren"
 msgid "You don't have permission to rename this document"
 msgstr "U hebt niet de autorisatie om die document te hernoemen"
 
+#: ajax/personal.php:26
+msgid "An error occurred while changing directory."
+msgstr ""
+
+#: ajax/personal.php:34
+msgid "Directory saved successfully."
+msgstr ""
+
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
@@ -47,7 +55,7 @@ msgstr "Geen documenten gevonden. Upload of maak een document!"
 msgid "Share"
 msgstr "Delen"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr "Sluiten"
 
@@ -274,11 +282,11 @@ msgstr "Ongedaan maken"
 msgid "Unknown Author"
 msgstr "Onbekende auteur"
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr "Bewerk"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr "gast"
 
@@ -314,7 +322,12 @@ msgstr "Toepassen"
 msgid "New document"
 msgstr "Nieuw document"
 
-#: templates/documents.php:7 templates/documents.php:27
+#: templates/documents.php:7
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
+
+#: templates/documents.php:27
 msgid "Upload"
 msgstr "Uploaden"
 

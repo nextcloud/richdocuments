@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 00:44-0400\n"
-"PO-Revision-Date: 2014-05-11 05:03+0000\n"
+"POT-Creation-Date: 2014-06-02 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,14 @@ msgstr ""
 msgid "You don't have permission to rename this document"
 msgstr "이 문서의 이름을 변경할 권한이 없습니다"
 
+#: ajax/personal.php:26
+msgid "An error occurred while changing directory."
+msgstr ""
+
+#: ajax/personal.php:34
+msgid "Directory saved successfully."
+msgstr ""
+
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
@@ -49,7 +57,7 @@ msgstr "문서를 찾을 수 없습니다. 문서를 만들거나 업로드하�
 msgid "Share"
 msgstr "공유"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:76
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
 msgid "Close"
 msgstr "닫기"
 
@@ -276,11 +284,11 @@ msgstr "실행 취소"
 msgid "Unknown Author"
 msgstr "알 수 없는 작성자"
 
-#: js/viewer/viewer.js:30
+#: js/viewer/viewer.js:31
 msgid "Edit"
 msgstr "편집"
 
-#: lib/db/member.php:32
+#: lib/db/member.php:39
 msgid "guest"
 msgstr ""
 
@@ -316,7 +324,12 @@ msgstr ""
 msgid "New document"
 msgstr "새 문서"
 
-#: templates/documents.php:7 templates/documents.php:27
+#: templates/documents.php:7
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
+
+#: templates/documents.php:27
 msgid "Upload"
 msgstr "업로드"
 
