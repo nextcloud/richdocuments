@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-02 00:43-0400\n"
-"PO-Revision-Date: 2014-06-02 04:43+0000\n"
+"POT-Creation-Date: 2014-06-04 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 05:01+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -335,7 +335,7 @@ msgstr "Новый документ"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Загружено (max. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"

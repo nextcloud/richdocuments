@@ -71,6 +71,7 @@
 "Server URL" => "Naslov URL strežnika",
 "Apply" => "Uveljavi",
 "New document" => "Nov dokument",
+"Upload (max. %s)" => "Pošiljanje (omejitev %s)",
 "Upload" => "Pošlji",
 "Save new documents to" => "Shrani nove dokumente v",
 "Wrong password. Please retry." => "Napačno geslo. Poskusite znova.",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Can't create document" => "Asiakirjan luominen epäonnistui",
 "You don't have permission to rename this document" => "Oikeutesi eivät riitä nimeämään tätä asiakirjaa uudelleen",
+"An error occurred while changing directory." => "Virhe kansiota vaihtaessa.",
+"Directory saved successfully." => "Kansio tallennettiin onnistuneesti.",
 "Documents" => "Asiakirjat",
 "Failed to load documents." => "Virhe ladattaessa dokumentteja.",
 "No documents are found. Please upload or create a document!" => "Asiakirjoja ei löytynyt. Lähetä tai luo uusi asiakirja!",
@@ -69,6 +71,7 @@
 "Server URL" => "Palvelimen osoite",
 "Apply" => "Toteuta",
 "New document" => "Uusi asiakirja",
+"Upload (max. %s)" => "Lähetys (enintään %s)",
 "Upload" => "Lähetä",
 "Save new documents to" => "Uusien asiakirjojen tallennussijainti",
 "Wrong password. Please retry." => "Väärä salasana. Yritä uudelleen.",

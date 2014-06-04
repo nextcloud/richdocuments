@@ -71,6 +71,7 @@
 "Server URL" => "URL del sirvidor",
 "Apply" => "Aplicar",
 "New document" => "Documentu nuevu",
+"Upload (max. %s)" => "Xuba (máx. %s)",
 "Upload" => "Xubir",
 "Save new documents to" => "Guardar documentos nuevos en",
 "Wrong password. Please retry." => "Contraseña incorreuta. Inténtalo de nueves.",

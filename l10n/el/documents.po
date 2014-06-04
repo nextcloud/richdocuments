@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
+# goergios <goergios@hotmail.com>, 2014
 # pe_ppe <peppe@cs.uoi.gr>, 2014
 # stratosgl <stratos_gl@yahoo.com>, 2014
 # vkehayas <vkehayas@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-02 00:43-0400\n"
-"PO-Revision-Date: 2014-06-02 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-04 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 09:32+0000\n"
+"Last-Translator: goergios <goergios@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,11 +36,11 @@ msgstr "Δεν έχετε άδεια να μετονομάσετε αυτό το
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "Παρουσιάστηκε ένα πρόβλημα κατά την αλλαγή βιβλιοθήκης."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "Η βιβλιοθήκη αποθηκεύτηκε επιτυχημένα."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -291,7 +292,7 @@ msgstr "Επεξεργασία"
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr ""
+msgstr "Επισκέπτης"
 
 #: templates/admin.php:8
 msgid "Local"
@@ -328,7 +329,7 @@ msgstr "Νέο έγγραφο"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Διαμοιρασμός (max. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"

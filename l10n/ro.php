@@ -16,6 +16,7 @@
 "Size" => "Dimensiune",
 "Text" => "Text",
 "Edit" => "Editează",
+"Upload (max. %s)" => "Încarcă (max. %s)",
 "Upload" => "Încărcare",
 "Password" => "Parolă"
 );

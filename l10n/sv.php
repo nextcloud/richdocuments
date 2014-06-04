@@ -71,6 +71,7 @@
 "Server URL" => "Server URL",
 "Apply" => "Tillämpa",
 "New document" => "Nytt dokument",
+"Upload (max. %s)" => "Ladda upp (max. %s)",
 "Upload" => "Ladda upp",
 "Save new documents to" => "Spara nya dokument till",
 "Wrong password. Please retry." => "Fel lösenord. Försök igen.",

@@ -54,6 +54,7 @@
 "Server URL" => "服务器 URL",
 "Apply" => "应用",
 "New document" => "新建文档",
+"Upload (max. %s)" => "上传 (最大 %s)",
 "Upload" => "上传",
 "Save new documents to" => "保存新文档到",
 "Wrong password. Please retry." => "密码错误，请重新尝试。",

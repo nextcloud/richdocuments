@@ -71,6 +71,7 @@
 "Server URL" => "Zerbitzariaren URLa",
 "Apply" => "Aplikatu",
 "New document" => "Dokumentu berria",
+"Upload (max. %s)" => "Igo (max. %s)",
 "Upload" => "Igo",
 "Save new documents to" => "Gorde dokumentu berriak hemen",
 "Wrong password. Please retry." => "Pasahitz okerra. Saiatu berriro.",

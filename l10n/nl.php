@@ -71,6 +71,7 @@
 "Server URL" => "Server URL",
 "Apply" => "Toepassen",
 "New document" => "Nieuw document",
+"Upload (max. %s)" => "Upload (max. %s)",
 "Upload" => "Uploaden",
 "Save new documents to" => "Bewaar nieuwe documenten  in",
 "Wrong password. Please retry." => "Onjuist wachtwoord. Probeer opnieuw.",

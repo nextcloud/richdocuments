@@ -71,6 +71,7 @@
 "Server URL" => "URL сервера",
 "Apply" => "Применить",
 "New document" => "Новый документ",
+"Upload (max. %s)" => "Загружено (max. %s)",
 "Upload" => "Загрузка",
 "Save new documents to" => "Сохранять новые документы в",
 "Wrong password. Please retry." => "Неправильный пароль. Повторите попытку.",

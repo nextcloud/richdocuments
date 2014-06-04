@@ -67,6 +67,7 @@
 "Server URL" => "Server URL",
 "Apply" => "Anvend",
 "New document" => "Nyt dokument",
+"Upload (max. %s)" => "Upload (max. %s)",
 "Upload" => "Upload",
 "Save new documents to" => "Gem nye dokumenter til",
 "Wrong password. Please retry." => "Forkert kodeord. Prøv igen.",

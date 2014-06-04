@@ -71,6 +71,7 @@
 "Server URL" => "サーバ URL",
 "Apply" => "適用",
 "New document" => "新しいドキュメント",
+"Upload (max. %s)" => "アップロード ( 最大 %s )",
 "Upload" => "アップロード",
 "Save new documents to" => "新規ドキュメントの保存先:",
 "Wrong password. Please retry." => "間違ったパスワード。もう一度入力してください。",

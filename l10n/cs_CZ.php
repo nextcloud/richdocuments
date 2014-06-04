@@ -71,6 +71,7 @@
 "Server URL" => "URL serveru",
 "Apply" => "Použít",
 "New document" => "Nový dokument",
+"Upload (max. %s)" => "Nahrát (max. %s)",
 "Upload" => "Odeslat",
 "Save new documents to" => "Uložit nové dokumenty do",
 "Wrong password. Please retry." => "Nesprávné heslo. Zkuste to znovu.",

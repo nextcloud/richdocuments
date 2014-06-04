@@ -71,6 +71,7 @@
 "Server URL" => "Serveri URL",
 "Apply" => "Rakenda",
 "New document" => "Uus dokument",
+"Upload (max. %s)" => "Üleslaadimine (max. %s)",
 "Upload" => "Lae üles",
 "Save new documents to" => "Salvesta dokumendid",
 "Wrong password. Please retry." => "Vale parool. Palun proovi uuesti.",

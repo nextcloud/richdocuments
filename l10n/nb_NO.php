@@ -71,6 +71,7 @@
 "Server URL" => "Server-URL",
 "Apply" => "Bruk",
 "New document" => "Nytt dokument",
+"Upload (max. %s)" => "Opplasting (maks. %s)",
 "Upload" => "Last opp",
 "Save new documents to" => "Lagre nye dokumenter i",
 "Wrong password. Please retry." => "Feil passord. Prøv igjen.",

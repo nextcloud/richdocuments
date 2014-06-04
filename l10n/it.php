@@ -71,6 +71,7 @@
 "Server URL" => "URL del server",
 "Apply" => "Applica",
 "New document" => "Nuovo documento",
+"Upload (max. %s)" => "Carica (massimo %s)",
 "Upload" => "Carica",
 "Save new documents to" => "Salva i nuovi documenti in",
 "Wrong password. Please retry." => "Password errata. Riprova.",

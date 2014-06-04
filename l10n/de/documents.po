@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-02 00:43-0400\n"
-"PO-Revision-Date: 2014-06-02 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-04 00:43-0400\n"
+"PO-Revision-Date: 2014-06-02 11:41+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,11 +35,11 @@ msgstr "Du besitzt nicht die Berechtigung, dieses Dokument umzubenennen."
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "Es ist ein Fehler beim Wechseln des Verzeichnisses aufgetreten."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "Verzeichnis erfolgreich gespeichert."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -328,7 +328,7 @@ msgstr "Neues Dokument"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Hochladen (max. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"
