@@ -2,6 +2,8 @@
 "Format filter server is down or misconfigured" => "El sirvidor de filtru de formatu cayó o ta mal configuráu",
 "Can't create document" => "Nun pue crease'l documentu",
 "You don't have permission to rename this document" => "Nun tienes permisu pa camudar de nome a esti documentu",
+"An error occurred while changing directory." => "Asocedió un fallu cuando se camudaba'l direutoriu.",
+"Directory saved successfully." => "Guardóse con ésitu'l direutoriu.",
 "Documents" => "Documentos",
 "Failed to load documents." => "Fallu al cargar los documentos.",
 "No documents are found. Please upload or create a document!" => "Nun s'atoparon documentos. ¡Xubi o crea un documentu!",

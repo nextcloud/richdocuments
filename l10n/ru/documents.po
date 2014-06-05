@@ -5,21 +5,21 @@
 # Translators:
 # BuxarNET <buxarnet@gmail.com>, 2014
 # Dmitry <linuxsquirrel.dev@gmail.com>, 2013
-# Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
+# Evgenij Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
-# tukos, 2014
-# sk.avenger <sk.avenger@adygnet.ru>, 2013
-# unixoid <victor.ashirov@gmail.com>, 2013
-# VicDeo <victor.dubiniuk@gmail.com>, 2013
-# 3lnc <slam.3lnc@live.com>, 2013
-# vsapronov <vladimir.sapronov@gmail.com>, 2013
-# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
+# Kalyuzhniy Aleksey, 2014
+# Sk.Avenger <sk.avenger@adygnet.ru>, 2013
+# Victor Ashirov <victor.ashirov@gmail.com>, 2013
+# Victor Dubiniuk <victor.dubiniuk@gmail.com>, 2013
+# Viktor Kharkovets <slam.3lnc@live.com>, 2013
+# Vladimir Sapronov <vladimir.sapronov@gmail.com>, 2013
+# Yuriy Malyovaniy <yuriy.malyovaniy@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 00:43-0400\n"
-"PO-Revision-Date: 2014-06-02 05:01+0000\n"
+"POT-Creation-Date: 2014-06-05 00:43-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"

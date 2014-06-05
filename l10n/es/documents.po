@@ -4,19 +4,19 @@
 # 
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2013-2014
-# Dharth <emilpg@gmail.com>, 2014
-# Jose Luis Tirado <joseluis.tirado@gmail.com>, 2014
+# Emilio Plaza García <emilpg@gmail.com>, 2014
+# Jose Luis <joseluis.tirado@gmail.com>, 2014
 # joses <jose_mari_s@hotmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013
-# plaguna <laguna.sanchez@gmail.com>, 2014
+# Pablo Laguna <laguna.sanchez@gmail.com>, 2014
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
-# saskarip <saskarip@gmail.com>, 2013
+# Sam Askari <saskarip@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 00:43-0400\n"
-"PO-Revision-Date: 2014-06-02 08:31+0000\n"
+"POT-Creation-Date: 2014-06-05 00:43-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: joses <jose_mari_s@hotmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
