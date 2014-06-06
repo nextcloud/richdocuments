@@ -2,6 +2,8 @@
 "Format filter server is down or misconfigured" => "Formaatfilter server is down of onjuist geconfigureerd",
 "Can't create document" => "Kan document niet creëren",
 "You don't have permission to rename this document" => "U hebt niet de autorisatie om die document te hernoemen",
+"An error occurred while changing directory." => "Er trad een fout op bij het wijzigen van de directory",
+"Directory saved successfully." => "Directory succesvol bewaard.",
 "Documents" => "Documenten",
 "Failed to load documents." => "Kon documenten niet laden.",
 "No documents are found. Please upload or create a document!" => "Geen documenten gevonden. Upload of maak een document!",
