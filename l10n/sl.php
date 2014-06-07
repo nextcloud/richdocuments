@@ -2,6 +2,8 @@
 "Format filter server is down or misconfigured" => "Strežnik filtriranja je nedejaven, ali pa ni pravilno nastavljen",
 "Can't create document" => "Dokumenta ni mogoče ustvariti",
 "You don't have permission to rename this document" => "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ...",
+"An error occurred while changing directory." => "Med spreminjanjem mape je prišlo do napake.",
+"Directory saved successfully." => "Mapa uspešno shranjena.",
 "Documents" => "Dokumenti",
 "Failed to load documents." => "Nalaganje dokumentov je spodletelo.",
 "No documents are found. Please upload or create a document!" => "Ni najdenih dokumentov. Pošljite dokument na strežnik, ali pa ga ustvarite.",
