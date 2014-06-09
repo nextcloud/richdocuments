@@ -36,6 +36,7 @@ class UserController extends Controller{
 			}
 		}
 		\OCP\JSON::success();
+		exit();
 	}
 	
 	public static function rename($args){
