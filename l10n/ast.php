@@ -3,7 +3,7 @@
 "Can't create document" => "Nun pue crease'l documentu",
 "You don't have permission to rename this document" => "Nun tienes permisu pa camudar de nome a esti documentu",
 "An error occurred while changing directory." => "Asocedió un fallu cuando se camudaba'l direutoriu.",
-"Directory saved successfully." => "Guardóse con ésitu'l direutoriu.",
+"Directory saved successfully." => "El direutoriu guardóse correchamente.",
 "Documents" => "Documentos",
 "Failed to load documents." => "Fallu al cargar los documentos.",
 "No documents are found. Please upload or create a document!" => "Nun s'atoparon documentos. ¡Xubi o crea un documentu!",

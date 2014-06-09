@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Miroslav Jovanovic <jmiroslav@softhome.net>, 2013
+# Miroslav Jovanovic <jmiroslav@softhome.net>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 00:43-0400\n"
-"PO-Revision-Date: 2014-06-05 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 00:43-0400\n"
+"PO-Revision-Date: 2014-06-08 21:30+0000\n"
+"Last-Translator: Miroslav Jovanovic <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "Не можам да креирам документ"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
@@ -116,7 +116,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "Позадина"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "Долу"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -164,19 +164,19 @@ msgstr "Избриши"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Фамилија"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Фонт"
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr ""
+msgstr "Фонт ефекти"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Форматирање"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -192,31 +192,31 @@ msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr ""
+msgstr "Italic"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "Justified"
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr ""
+msgstr "Justify"
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Лево"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Вчитувам ..."
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Членови"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "Ново име:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -232,7 +232,7 @@ msgstr "Опции"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "Параграф..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
@@ -244,7 +244,7 @@ msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Десно"
 
 #: js/locale.js:40
 msgid "Size"
@@ -260,7 +260,7 @@ msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr ""
+msgstr "Стил"
 
 #: js/locale.js:44
 msgid "Text"
@@ -268,11 +268,11 @@ msgstr "Текст"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "На врв"
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr ""
+msgstr "Подвлечи"
 
 #: js/locale.js:47
 msgid "Undo"
@@ -280,7 +280,7 @@ msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Непознат автор"
 
 #: js/viewer/viewer.js:31
 msgid "Edit"
@@ -288,11 +288,11 @@ msgstr "Уреди"
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr ""
+msgstr "гостин"
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "Локален"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "Надворешен"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
@@ -320,7 +320,7 @@ msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Нов документ"
 
 #: templates/documents.php:7
 #, php-format
@@ -337,7 +337,7 @@ msgstr "Сними го новиот документ во"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr ""
+msgstr "Погрешна лозинка. Обиди се повторно."
 
 #: templates/public.php:11
 msgid "Password"
