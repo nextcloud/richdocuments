@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Can't create document" => "Kan ikke oprette dokument",
 "You don't have permission to rename this document" => "Du har ikke tilladelse til at omdøbe dette dokument",
+"An error occurred while changing directory." => "Fejl ved skift af bibliotek.",
 "Documents" => "Dokumenter",
 "Failed to load documents." => "Kunne ikke hente dokumenterne. ",
 "No documents are found. Please upload or create a document!" => "Ingen dokumenter fundet. Upload eller opret venligst et dokument!",
@@ -63,7 +64,9 @@
 "Edit" => "Rediger",
 "guest" => "Gæst",
 "Local" => "Lokal",
+"openOffice/libreOffice is installed on this server" => "openOffice/libreOffice er installeret på denne server",
 "External" => "Ekstern",
+"openOffice/libreOffice is installed on another server" => "openOffice/libreOffice er installeret på en anden server",
 "Server URL" => "Server URL",
 "Apply" => "Anvend",
 "New document" => "Nyt dokument",
