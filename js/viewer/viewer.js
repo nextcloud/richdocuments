@@ -21,12 +21,12 @@ var odfViewer = {
 		}
 		for (var i = 0; i < odfViewer.supportedMimesRead.length; ++i) {
 			var mime = odfViewer.supportedMimesRead[i];
-			FileActions.register(mime, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
-			FileActions.setDefault(mime, 'View');
+			OCA.Files.fileActions.register(mime, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
+			OCA.Files.fileActions.setDefault(mime, 'View');
 		}
 		for (var i = 0; i < odfViewer.supportedMimesUpdate.length; ++i) {
 			var mime = odfViewer.supportedMimesUpdate[i];
-			FileActions.register(
+			OCA.Files.fileActions.register(
 					mime, 
 					t('documents', 'Edit'), 
 					OC.PERMISSION_UPDATE, 
@@ -56,7 +56,7 @@ var odfViewer = {
 			
 	onView: function(filename) {
 		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf',
-		attachTo = odfViewer.isDocuments ? '#documents-content' : 'table',
+		attachTo = odfViewer.isDocuments ? '#documents-content' : '#app-content-files',
 		attachToolbarTo = odfViewer.isDocuments ? '#content-wrapper' : '#controls';
 
 		if (odfViewer.isDocuments){
