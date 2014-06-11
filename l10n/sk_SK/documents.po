@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 00:43-0400\n"
-"PO-Revision-Date: 2014-06-05 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-11 00:43-0400\n"
+"PO-Revision-Date: 2014-06-10 13:02+0000\n"
+"Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "Server pre spracovanie formátu je nedostupný alebo chybne nakonfigurovaný"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -32,11 +32,11 @@ msgstr "Nemáte oprávnenie na premenovanie tohto dokumentu"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "Pri pokuse o zmenu priečinka nastala chyba."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "Priečinok bol úspešne uložený."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -82,7 +82,7 @@ msgstr "Uložiť"
 
 #: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Nahrávam dokulenty..."
+msgstr "Nahrávam dokumenty..."
 
 #: js/documents.js:757
 msgid "'.' is an invalid file name."

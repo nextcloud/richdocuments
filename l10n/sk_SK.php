@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Format filter server is down or misconfigured" => "Server pre spracovanie formátu je nedostupný alebo chybne nakonfigurovaný",
 "Can't create document" => "Nedá sa vytvoriť dokument",
 "You don't have permission to rename this document" => "Nemáte oprávnenie na premenovanie tohto dokumentu",
+"An error occurred while changing directory." => "Pri pokuse o zmenu priečinka nastala chyba.",
+"Directory saved successfully." => "Priečinok bol úspešne uložený.",
 "Documents" => "Dokumenty",
 "Failed to load documents." => "Nepodarilo sa načítať dokumenty.",
 "No documents are found. Please upload or create a document!" => "Žiadne dokumenty neboli nájdené. Nahrajte, alebo vytvorte dokument!",
@@ -10,7 +13,7 @@
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Ponechaním tejto stránky v editačnom móde môže dôjsť k tomu, že sa zmeny neuložia. Doporučujeme použiť tlačidlo 'Zavrieť'",
 "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." => "Nepodarilo sa otvoriť tento dokument. Skontrolujte prosím, či je možné ho otvoriť externým editorom ODT súborov. Môže to však tiež znamenať, že bolo zdieľanie zrušené, alebo bol vymazaný.",
 "Save" => "Uložiť",
-"Loading documents..." => "Nahrávam dokulenty...",
+"Loading documents..." => "Nahrávam dokumenty...",
 "'.' is an invalid file name." => "'.' je neplatné meno súboru.",
 "File name cannot be empty." => "Meno súboru nemôže byť prázdne",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
