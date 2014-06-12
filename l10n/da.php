@@ -67,6 +67,7 @@
 "openOffice/libreOffice is installed on this server" => "openOffice/libreOffice er installeret på denne server",
 "External" => "Ekstern",
 "openOffice/libreOffice is installed on another server" => "openOffice/libreOffice er installeret på en anden server",
+"scheme://domain.tld[:port]" => "system://domain.tld[:port]",
 "Server URL" => "Server URL",
 "Apply" => "Anvend",
 "New document" => "Nyt dokument",
