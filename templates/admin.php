@@ -1,19 +1,20 @@
 <?php $isLocal = $_['converter']=='local' ?>
 <div class="section" id="documents">
 	<h2><?php p($l->t('Documents')) ?></h2>
+	<p><?php p($l->t('MS Word support (requires openOffice/libreOffice)')) ?></p>
 	<p>
 		<input type="radio" name="docs_converter" value="local" id="docs_converter_local" 
 			   <?php print_unescaped($isLocal ? 'checked="checked"' : '') ?> 
 			   />
 		<label for="docs_converter_local"><?php p($l->t('Local')) ?></label><br>
-		<em><?php p($l->t('openOffice/libreOffice is installed on this server')) ?></em>
+		<em><?php p($l->t('openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php')) ?></em>
 	</p>
 	<p>
 		<input type="radio" name="docs_converter" value="external" id="docs_converter_external"
 			   <?php print_unescaped(!$isLocal ? 'checked="checked"' : '') ?> 
 			   />
 		<label for="docs_converter_external"><?php p($l->t('External')) ?></label><br>
-		<em><?php p($l->t('openOffice/libreOffice is installed on another server')) ?></em>
+		<em><?php p($l->t('openOffice/libreOffice is installed on external server running a format filter server')) ?></em>
 	</p>
 	<div id="docs_extra" <?php print_unescaped($isLocal ? 'style="display:none"' : '') ?>>
 	<input type="text" name="docs_url" id="docs_url" 
