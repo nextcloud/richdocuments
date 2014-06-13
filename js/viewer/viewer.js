@@ -56,7 +56,7 @@ var odfViewer = {
 			
 	onView: function(filename) {
 		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf',
-		attachTo = odfViewer.isDocuments ? '#documents-content' : '#app-content-files',
+		attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls',
 		attachToolbarTo = odfViewer.isDocuments ? '#content-wrapper' : '#controls';
 
 		if (odfViewer.isDocuments){
