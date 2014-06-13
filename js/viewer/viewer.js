@@ -51,7 +51,7 @@ var odfViewer = {
 	
 	onEdit : function(){
 		var fileId = FileActions.currentFile.parent().attr('data-id');
-		window.open(OC.linkTo('documents', 'index.php') + '#' + fileId);
+		window.location = OC.linkTo('documents', 'index.php') + '#' + fileId;
 	},
 			
 	onView: function(filename) {
