@@ -109,7 +109,10 @@ var odfViewer = {
 };
 
 $(document).ready(function() {
-	if (typeof FileActions !== 'undefined') {
+	if ( typeof OCA !== 'undefined' 
+		&& typeof OCA.Files !== 'undefined'
+		&& typeof OCA.Files.fileActions !== 'undefined'
+	) {
 		$.post(
 			OC.filePath('documents', 'ajax', 'mimes.php'),
 			{},
