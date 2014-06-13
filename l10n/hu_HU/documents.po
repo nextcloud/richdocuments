@@ -6,14 +6,14 @@
 # Adam Radovits <adamradovits12@hotmail.com>, 2013
 # David Szilagyi <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
-# Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 00:43-0400\n"
-"PO-Revision-Date: 2014-06-05 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-13 00:43-0400\n"
+"PO-Revision-Date: 2014-06-12 20:20+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,23 +23,23 @@ msgstr ""
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "A formátumszűrő szerver nem üzemel, vagy rosszul van konfigurálva"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "A dokumentum nem hozható létre"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr "Nincs jogod ahhoz, hogy átnevezzed ezt a dokumentumot"
+msgstr "Nincs joga ahhoz, hogy átnevezze ezt a dokumentumot"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "Hiba történt a másik mappára történő áttérés közben."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "A mappát sikeresen elmentettük."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -52,7 +52,7 @@ msgstr "A dokumentum betőltése sikertelen"
 
 #: js/documents.js:121
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Nem található egy dokumentum sem. Tölts fel vagy hozz létre egy dokumentumot."
+msgstr "Nem található egy dokumentum sem. Töltsön fel vagy hozzon létre egy dokumentumot!"
 
 #: js/documents.js:156
 msgid "Share"
@@ -70,14 +70,14 @@ msgstr "Nincs kapcsolat a szerverrel. Újracsatlakozás."
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Ha elnavigálsz az oldalról miközben Szerkesztés módban vagy akkor lehet lesznek elvesztett adatok amiket még nem mentettél el. Ajánlott inkább a 'Bezár' gombbal befejezni az oldal szerkesztését."
+msgstr "Ha elhagyja ezt az oldalt, miközben Szerkesztés módban van, akkor előfordulhat, hogy nem minden adat mentődik el. Érdemes inkább a 'Bezár' gombbal befejezni az oldal szerkesztését."
 
 #: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "A dokumentum betöltése sikertelen. Próbáld külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt, hogy már nincs megosztva vagy már törölve lett a dokumentum."
+msgstr "A dokumentum betöltése sikertelen. Próbálja külső odt szerkeszővel megnyitni. Ez hiba jelentheti azt is, hogy már nincs megosztva, vagy már törölve lett a dokumentum."
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
@@ -89,7 +89,7 @@ msgstr "Dokumentumok betöltése..."
 
 #: js/documents.js:757
 msgid "'.' is an invalid file name."
-msgstr "'.' fájlnév érvénytelen."
+msgstr "'.' érvénytelen, mint fájlnév."
 
 #: js/documents.js:759
 msgid "File name cannot be empty."
@@ -155,7 +155,7 @@ msgstr "Létrehozás"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Bekezdés csökkentés"
+msgstr "Bekezdés csökkentése"
 
 #: js/locale.js:16
 msgid "Default Style"
@@ -183,7 +183,7 @@ msgstr "Formátum"
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Bekezdés növelés"
+msgstr "Bekezdés növelése"
 
 #: js/locale.js:23
 msgid "Insert Image"
@@ -235,15 +235,15 @@ msgstr "Opciók"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Paragrafus..."
+msgstr "Bekezdés..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Paragrafus stílusok"
+msgstr "Bekezdés stílusok"
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Helyrehoz"
+msgstr "Mégse vonjuk vissza"
 
 #: js/locale.js:38
 msgid "Right"
@@ -291,35 +291,35 @@ msgstr "Szerkesztés"
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr ""
+msgstr "vendég"
 
 #: templates/admin.php:8
 msgid "Local"
-msgstr ""
+msgstr "Helyi"
 
 #: templates/admin.php:9
 msgid "openOffice/libreOffice is installed on this server"
-msgstr ""
+msgstr "Az openOffice/libreOffice ezen a szerveren telepítve van."
 
 #: templates/admin.php:15
 msgid "External"
-msgstr ""
+msgstr "Külső"
 
 #: templates/admin.php:16
 msgid "openOffice/libreOffice is installed on another server"
-msgstr ""
+msgstr "Az openOffice/libreOffice másik szerveren van telepítve."
 
 #: templates/admin.php:21
 msgid "scheme://domain.tld[:port]"
-msgstr ""
+msgstr "protokoll://teljes.gép.név[:port]"
 
 #: templates/admin.php:24
 msgid "Server URL"
-msgstr ""
+msgstr "Szerver URL"
 
 #: templates/admin.php:26
 msgid "Apply"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -328,7 +328,7 @@ msgstr "Új dokumentum"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Feltöltés (max. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"
@@ -336,7 +336,7 @@ msgstr "Feltöltés"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Az új dokumentumokat ide mentese:"
+msgstr "Az új dokumentumokat ide mentse:"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
@@ -349,13 +349,13 @@ msgstr "Jelszó"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "Vendég: %s"
 
 #: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Ez a link vagy lejárt vagy sohasem létezett. Kérdezd meg azt aki megosztotta veled ezt a linket."
+msgstr "Ez a link vagy lejárt vagy sohasem létezett. Kérdezze meg azt, aki megosztotta Önnel ezt a linket."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
