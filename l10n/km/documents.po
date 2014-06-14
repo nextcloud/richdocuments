@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 00:43-0400\n"
-"PO-Revision-Date: 2014-06-05 06:13+0000\n"
+"POT-Creation-Date: 2014-06-14 00:43-0400\n"
+"PO-Revision-Date: 2014-06-14 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -290,31 +290,39 @@ msgstr "កែ"
 msgid "guest"
 msgstr "ភ្ញៀវ"
 
-#: templates/admin.php:8
-msgid "Local"
+#: templates/admin.php:4
+msgid "MS Word support (requires openOffice/libreOffice)"
 msgstr ""
 
 #: templates/admin.php:9
-msgid "openOffice/libreOffice is installed on this server"
-msgstr "openOffice/libreOffice ត្រូវ​បាន​ដំឡើង​លើ​ម៉ាស៊ីន​បម្រើ​នេះ"
+msgid "Local"
+msgstr ""
 
-#: templates/admin.php:15
-msgid "External"
+#: templates/admin.php:10
+msgid ""
+"openOffice/libreOffice is installed on this server. Path to binary is "
+"provided via preview_libreoffice_path in config.php"
 msgstr ""
 
 #: templates/admin.php:16
-msgid "openOffice/libreOffice is installed on another server"
-msgstr "openOffice/libreOffice ត្រូវ​បាន​ដំឡើង​នៅ​លើ​ម៉ាស៊ីន​បម្រើ​ដទៃ"
+msgid "External"
+msgstr ""
 
-#: templates/admin.php:21
+#: templates/admin.php:17
+msgid ""
+"openOffice/libreOffice is installed on external server running a format "
+"filter server"
+msgstr ""
+
+#: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
 msgstr "scheme://domain.tld[:port]"
 
-#: templates/admin.php:24
+#: templates/admin.php:25
 msgid "Server URL"
 msgstr "URL ម៉ាស៊ីន​បម្រើ"
 
-#: templates/admin.php:26
+#: templates/admin.php:27
 msgid "Apply"
 msgstr "អនុវត្ត"
 

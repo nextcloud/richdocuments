@@ -55,8 +55,6 @@
 "Unknown Author" => "មិន​ស្គាល់​អ្នក​បង្កើត",
 "Edit" => "កែ",
 "guest" => "ភ្ញៀវ",
-"openOffice/libreOffice is installed on this server" => "openOffice/libreOffice ត្រូវ​បាន​ដំឡើង​លើ​ម៉ាស៊ីន​បម្រើ​នេះ",
-"openOffice/libreOffice is installed on another server" => "openOffice/libreOffice ត្រូវ​បាន​ដំឡើង​នៅ​លើ​ម៉ាស៊ីន​បម្រើ​ដទៃ",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "URL ម៉ាស៊ីន​បម្រើ",
 "Apply" => "អនុវត្ត",
