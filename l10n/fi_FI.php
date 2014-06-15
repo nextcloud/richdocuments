@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Format filter server is down or misconfigured" => "Muotosuodatuspalvelin ei ole käytettävissä tai sen asetukset ovat väärin",
 "Can't create document" => "Asiakirjan luominen epäonnistui",
 "You don't have permission to rename this document" => "Oikeutesi eivät riitä nimeämään tätä asiakirjaa uudelleen",
 "An error occurred while changing directory." => "Virhe kansiota vaihtaessa.",
@@ -64,8 +65,11 @@
 "Unknown Author" => "Tuntematon tekijä",
 "Edit" => "Muokkaa",
 "guest" => "vieras",
+"MS Word support (requires openOffice/libreOffice)" => "MS Word -tuki (vaatimuksena openOffice/libreOffice)",
 "Local" => "Paikallinen",
+"openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "openOffice/libreOffice on asennettu tälle palvelimelle. Polku suoritettavaan tiedostoon määritetään tiedoston config.php kohdassa preview_libreoffice_path",
 "External" => "Ulkoinen",
+"openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice on asennettu erillisille palvelimelle, joka tarjoaa muotosuodatuspalvelimen ominaisuudet",
 "Server URL" => "Palvelimen osoite",
 "Apply" => "Toteuta",
 "New document" => "Uusi asiakirja",

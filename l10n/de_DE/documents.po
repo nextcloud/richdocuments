@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 00:43-0400\n"
-"PO-Revision-Date: 2014-06-14 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-15 00:43-0400\n"
+"PO-Revision-Date: 2014-06-14 10:00+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -295,7 +295,7 @@ msgstr "Gast"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "MS Word Unterstützung (benötigt OpenOffice/LibreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -305,7 +305,7 @@ msgstr "Lokal"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "OpenOffice/LibreOffice ist auf diesem Server installiert. Der Pfad zur Binärdatei wird über preview_libreoffice_path in der config.php bereit gestellt."
 
 #: templates/admin.php:16
 msgid "External"
@@ -315,7 +315,7 @@ msgstr "Extern"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr ""
+msgstr "OpenOffice/LibreOffice ist auf einem externen Server installiert und läuft dort als Formatfilter-Server"
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"

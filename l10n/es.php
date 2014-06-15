@@ -65,6 +65,7 @@
 "Unknown Author" => "Autor desconocido",
 "Edit" => "Editar",
 "guest" => "invitado",
+"MS Word support (requires openOffice/libreOffice)" => "Soporte de MS Word (requiere OpenOffice/LibreOffice)",
 "Local" => "Local",
 "External" => "Externo",
 "scheme://domain.tld[:port]" => "Esquema://dominio.tld[:puerto]",
