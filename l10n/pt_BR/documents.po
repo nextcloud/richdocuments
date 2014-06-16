@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 00:43-0400\n"
-"PO-Revision-Date: 2014-06-14 17:30+0000\n"
+"POT-Creation-Date: 2014-06-16 00:43-0400\n"
+"PO-Revision-Date: 2014-06-15 14:40+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -68,18 +68,18 @@ msgstr "Sem conexão com o servidor. Tentando reconectar."
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Deixando esta página aberta para o modo de Edição pode causar o não salvamento de dados. É recomendado usar o botão \"Fechar\"."
+msgstr "Deixando esta página no modo de Edição pode causar o não salvamento de dados. É recomendado usar o botão \"Fechar\"."
 
 #: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Falha ao carregar o documento. Por favor verifique se o arquivo derá ser aberto com um editor externo odt. Isso também pode significar que o arquivo foi descompartilhado ou eliminado recentemente."
+msgstr "Falha ao carregar o documento. Por favor verifique se o arquivo poderá ser aberto com um editor externo odt. Isso também pode significar que o arquivo foi descompartilhado ou eliminado recentemente."
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
-msgstr "Guardar"
+msgstr "Salvar"
 
 #: js/documents.js:724 templates/documents.php:31
 msgid "Loading documents..."
@@ -157,7 +157,7 @@ msgstr "Diminuir recuo"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Estilo padrão"
+msgstr "Estilo Padrão"
 
 #: js/locale.js:17
 msgid "Delete"
@@ -257,7 +257,7 @@ msgstr "Espaçamento"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Tachado"
+msgstr "Rasurado"
 
 #: js/locale.js:43
 msgid "Style"
@@ -307,7 +307,7 @@ msgstr "openOffice/libreOffice está instalado no servidor. O caminho para o bin
 
 #: templates/admin.php:16
 msgid "External"
-msgstr "Extarno"
+msgstr "Externo"
 
 #: templates/admin.php:17
 msgid ""
@@ -338,7 +338,7 @@ msgstr "Envio (max. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"
-msgstr "Upload"
+msgstr "Enviar"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
@@ -361,7 +361,7 @@ msgstr "Convidado %s"
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Este link espirou ou numca existiu. Por favor faça contato com a pessoa que compartilhou este link com você para maiores detalhes."
+msgstr "Este link expirou ou nunca existiu. Por favor faça contato com a pessoa que compartilhou este link com você para maiores detalhes."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"

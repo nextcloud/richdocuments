@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 00:43-0400\n"
-"PO-Revision-Date: 2014-06-14 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 00:43-0400\n"
+"PO-Revision-Date: 2014-06-15 10:19+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -294,7 +294,7 @@ msgstr "invitáu"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "Sofitu de MS Word (requier openOffice/libreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -304,7 +304,7 @@ msgstr "Llocal"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "openOffice/libreOffice ta instaláu nesti sirvidor. El camín pal binariu apúrrese per preview_libreoffice_path en config.php"
 
 #: templates/admin.php:16
 msgid "External"
@@ -314,7 +314,7 @@ msgstr "Esternu"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr ""
+msgstr "openOffice/libreOffice ta instaláu nun sirvidor esternu executando un sirvidor de filtráu de formatu"
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
