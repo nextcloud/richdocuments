@@ -1,4 +1,4 @@
-/* globals FileList, FileActions, oc_debug */
+/* globals FileList, OCA.Files.fileActions, oc_debug */
 var odfViewer = {
 	isDocuments : false,
 	supportedMimesRead: [
@@ -35,13 +35,13 @@ var odfViewer = {
 			);
 		}
 		$('#fileList tr').each(function () {
-			FileActions.display($(this).children('td.filename'));
+			OCA.Files.fileActions.display($(this).children('td.filename'));
 		});
 	},
 	
 	dispatch : function(filename){
-		if (odfViewer.supportedMimesUpdate.indexOf(FileActions.getCurrentMimeType()) !== -1
-		 && FileActions.getCurrentPermissions() & OC.PERMISSION_UPDATE
+		if (odfViewer.supportedMimesUpdate.indexOf(OCA.Files.fileActions.getCurrentMimeType()) !== -1
+		 && OCA.Files.fileActions.getCurrentPermissions() & OC.PERMISSION_UPDATE
 		){
 			odfViewer.onEdit(filename);
 		} else {
@@ -50,7 +50,7 @@ var odfViewer = {
 	},
 	
 	onEdit : function(){
-		var fileId = FileActions.currentFile.parent().attr('data-id');
+		var fileId = OCA.Files.fileActions.currentFile.parent().attr('data-id');
 		window.location = OC.linkTo('documents', 'index.php') + '#' + fileId;
 	},
 			
