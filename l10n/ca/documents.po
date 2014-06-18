@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 00:43-0400\n"
-"PO-Revision-Date: 2014-06-14 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-18 00:43-0400\n"
+"PO-Revision-Date: 2014-06-17 16:10+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,11 +33,11 @@ msgstr "No teniu permisos per canviar de nom aquest document"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "S'ha produït un error en canviar de carpeta"
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "La carpeta s'ha desat correctament"
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -293,7 +293,7 @@ msgstr "convidat"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "compatibilitat amb MS Word (requereix openOffice/libreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -303,7 +303,7 @@ msgstr "Local"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "openOffice/libreOffice està instal·ñlat en aquest servidor. La carpeta al binari es proporciona via preview_libreoffice_path a config.php"
 
 #: templates/admin.php:16
 msgid "External"
@@ -313,7 +313,7 @@ msgstr "Extern"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr ""
+msgstr "openOffice/libreOffice està instal·lat en un servidor extern executant un servidor de filtrat de formats"
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
@@ -334,7 +334,7 @@ msgstr "Document nou"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Pujada (màx. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formatfilter-server er nede eller feilkonfigurert",
+"Format filter server is down or misconfigured" => "Formatfiltrerings-serveren er nede eller feilkonfigurert",
 "Can't create document" => "Kan ikke opprette dokument",
 "You don't have permission to rename this document" => "Du har ikke tillatelse til å gi nytt navn til dette dokumentet",
 "An error occurred while changing directory." => "En feil oppstod ved endring av mappe.",
@@ -65,8 +65,11 @@
 "Unknown Author" => "Ukjent Forfatter",
 "Edit" => "Endre",
 "guest" => "gjest",
+"MS Word support (requires openOffice/libreOffice)" => "Støtte for MS Word (krever openOffice/libreOffice)",
 "Local" => "Lokal",
+"openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "openOffice/libreOffice er installert på denne serveren. Stien til binærfilen er gitt via preview_libreoffice_path i config.php",
 "External" => "Ekstern",
+"openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice er installert på en ekstern server som kjører en formatfiltrerings-server",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Server-URL",
 "Apply" => "Bruk",

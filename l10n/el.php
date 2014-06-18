@@ -65,6 +65,7 @@
 "Unknown Author" => "Άγνωστος Δημιουργός",
 "Edit" => "Επεξεργασία",
 "guest" => "Επισκέπτης",
+"MS Word support (requires openOffice/libreOffice)" => "Υποστήριξη MS Word (απαιτεί openOffice/libreOffice)",
 "Local" => "Τοπικός",
 "External" => "Εξωτερικός",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
