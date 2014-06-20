@@ -83,7 +83,6 @@ var odfViewer = {
 				$(attachToolbarTo).prepend(odfToolbarHtml);
 				$('#odf-toolbar').css({position:'fixed'});
 			} else {
-				$('#controls').css({left:'0px'});
 				$(attachToolbarTo).append(odfToolbarHtml);
 			}
 
@@ -102,9 +101,6 @@ var odfViewer = {
 		FileList.setViewerMode(false);
 		$('#odf-toolbar').remove();
 		$('#odf-canvas').remove();
-		if (!odfViewer.isDocuments){
-			$('#controls').css({left:'auto'});
-		}
 	}
 };
 
