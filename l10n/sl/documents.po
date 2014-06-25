@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-25 06:27-0400\n"
+"PO-Revision-Date: 2014-06-24 13:52+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Med spreminjanjem mape je prišlo do napake."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr "Mapa uspešno shranjena."
+msgstr "Mapa je uspešno shranjena."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -293,7 +293,7 @@ msgstr "gost"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "Podpora za MS Word (zahteva namestitev OpenOffice/LibreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -303,7 +303,7 @@ msgstr "Krajevno"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "OpenOffice oziroma LibreOffice je nameščen na strežniku. Pot to izvedljive datoteke je podana preko možnosti preview_libreoffice_path v datoteki config.php"
 
 #: templates/admin.php:16
 msgid "External"
@@ -313,7 +313,7 @@ msgstr "Zunanje"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr ""
+msgstr "Pisarniški paket OpenOffice.org oziroma LibreOffice je nameščen na zunanjem strežniku z zagnanim strežnikom filtra za odpiranje pisarniških datotek."
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
