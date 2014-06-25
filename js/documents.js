@@ -373,7 +373,7 @@ var documentsMain = {
 			$('#content').fadeOut('fast').promise().done(function() {
 				
 				documentsMain.fileId = response.file_id;
-				documentsMain.fileName = documentsMain.getNameByFileid(response.file_id);
+				documentsMain.fileName = response.title;
 				documentsMain.UI.showEditor(
 						documentsMain.fileName || response.title,
 						typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
@@ -711,10 +711,6 @@ var documentsMain = {
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 		});
 
-	},
-	
-	getNameByFileid : function(fileid){
-		return $('.documentslist li[data-id='+ fileid + ']').find('label').text();
 	},
 	
 	show: function(){
