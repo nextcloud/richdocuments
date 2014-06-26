@@ -148,7 +148,7 @@ class File {
 	 * @return string owner of the current file item
 	 * @throws \Exception
 	 */
-	public function getOwnerViewAndPath(){
+	public function getOwnerViewAndPath($useDefaultRoot = false){
 		if ($this->isPublicShare()){
 			$rootLinkItem = \OCP\Share::resolveReShare($this->sharing[0]);
 			if (isset($rootLinkItem['uid_owner'])){
@@ -160,7 +160,11 @@ class File {
 			$path = $rootLinkItem['file_target'];
 		} else {
 			$owner = \OCP\User::getUser();
-			$view = new View('/' . $this->owner);
+			$root = '/' . $owner;
+			if ($useDefaultRoot){
+				$root .= '/' . 'files';
+			}
+			$view = new View($root);
 			$path = $view->getPath($this->fileId);
 		}
 			

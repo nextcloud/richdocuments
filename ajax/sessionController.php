@@ -107,7 +107,7 @@ class SessionController extends Controller{
 					$file = new File($session->getFileId());
 				}
 				
-				list($view, $path) = $file->getOwnerViewAndPath();
+				list($view, $path) = $file->getOwnerViewAndPath(true);
 			} catch (\Exception $e){
 				//File was deleted or unshared. We need to save content as new file anyway
 				//Sorry, but for guests it would be lost :(
