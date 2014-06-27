@@ -34,9 +34,6 @@ var odfViewer = {
 					odfViewer.onEdit
 			);
 		}
-		$('#fileList tr').each(function () {
-			OCA.Files.fileActions.display($(this).children('td.filename'));
-		});
 	},
 	
 	dispatch : function(filename){
