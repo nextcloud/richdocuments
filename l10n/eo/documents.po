@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-27 00:43-0400\n"
+"PO-Revision-Date: 2014-06-26 14:41+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "Ne povas kreiĝi dokumento"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
@@ -32,11 +32,11 @@ msgstr "Vi ne havas permeson alinomigi ĉi tiun dokumenton"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "Eraro okazis dum ŝanĝo de dosierujo."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "La dosierujo konserviĝis sukcese."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -80,19 +80,19 @@ msgstr "Malsukcesis ŝargo de ĉi tiu dokumento. Bonvolu kontroli ĉu ĝi malfer
 msgid "Save"
 msgstr "Konservi"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Ŝargante dokumentojn..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' ne estas valida dosiernomo."
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "Dosiernomo devas ne malpleni."
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -288,11 +288,11 @@ msgstr "Redakti"
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr ""
+msgstr "gasto"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "Kongruo kun MS Word (postuliĝas openOffice/libreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -306,7 +306,7 @@ msgstr ""
 
 #: templates/admin.php:16
 msgid "External"
-msgstr ""
+msgstr "Malena"
 
 #: templates/admin.php:17
 msgid ""
@@ -320,11 +320,11 @@ msgstr ""
 
 #: templates/admin.php:25
 msgid "Server URL"
-msgstr ""
+msgstr "Servila URL"
 
 #: templates/admin.php:27
 msgid "Apply"
-msgstr ""
+msgstr "Apliki"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -333,7 +333,7 @@ msgstr "Nova dokumento"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Alŝuti (maks. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"
@@ -354,7 +354,7 @@ msgstr "Pasvorto"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "Gasto %s"
 
 #: templates/public.php:21
 msgid ""
