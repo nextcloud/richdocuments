@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formatfilter servern är nere eller felkonfigurerad",
+"Format filter server is down or misconfigured" => "Formatfilter servern är ur funktion eller felkonfigurerad",
 "Can't create document" => "Kan inte skapa dokument",
 "You don't have permission to rename this document" => "Du har inte behörighet att döpa om detta dokument",
 "An error occurred while changing directory." => "Ett fel uppstod vid byte av katalog",

@@ -6,6 +6,7 @@
 # Patrik Nilsson <asavartzeth@gmail.com>, 2014
 # Daniel Nilsson <bobkant-fyrsvamp@hotmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
+# enoch85 <enoch85@gmail.com>, 2014
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Juho Ojala, 2014
 # Karl Thorén <karl.h.thoren@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
+"POT-Creation-Date: 2014-06-30 00:43-0400\n"
+"PO-Revision-Date: 2014-06-29 23:00+0000\n"
+"Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr "Formatfilter servern är nere eller felkonfigurerad"
+msgstr "Formatfilter servern är ur funktion eller felkonfigurerad"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -62,7 +63,7 @@ msgstr "Inga dokument funna. Ladda upp eller skapa ett dokument!"
 msgid "Share"
 msgstr "Dela"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "Stäng"
 
@@ -87,19 +88,19 @@ msgstr "Misslyckades att ladda detta dokument. Försök gärna att öppna det me
 msgid "Save"
 msgstr "Spara"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Laddar dokument..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' är ett ogiltigt filnamn."
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "Filnamn kan inte vara tomt."
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

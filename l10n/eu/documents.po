@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Alexander Gabilondo <alexgabi@openmailbox.org>, 2014
-# asieriko <asieriko@gmail.com>, 2013
+# asieriko <asieriko@gmail.com>, 2013-2014
 # Mikel Olasagasti Uranga <mikel@olasagasti.info>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 00:43-0400\n"
+"PO-Revision-Date: 2014-06-29 20:30+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "Ez da dokumenturik aurkitu. Mesedez igo edo sortu dokumentu bat!"
 msgid "Share"
 msgstr "Partekatu"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "Itxi"
 
@@ -82,19 +82,19 @@ msgstr "Dokumentu hau kargatzeak huts egin du. Mesedez egiaztatu ea kanpoko odt 
 msgid "Save"
 msgstr "Gorde"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Dokumentuak kargatzen..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' ez da fitxategi izen baliogarria."
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "Fitxategi izena ezin da hutsa izan."
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -294,7 +294,7 @@ msgstr "gonbidatua"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "MS Word (openOffice/libreOffice behar du)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -304,7 +304,7 @@ msgstr "Bertakoa"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "openOffice/libreOffice zerbitzarian instalatuta dago. Programaren bidea preview_libreoffice_path aukeran zehaztu behar da config.php fitxategian"
 
 #: templates/admin.php:16
 msgid "External"
@@ -314,7 +314,7 @@ msgstr "Kanpokoa"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr ""
+msgstr "openOffice/libreOffice kanpoko zerbitzari batean instalatuta dago zeinak formatu iragazki zerbitzari bat duen"
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
