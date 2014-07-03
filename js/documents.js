@@ -378,6 +378,7 @@ var documentsMain = {
 				);
 				if (documentsMain.isGuest){
 					$('#odf-close').text(t('documents', 'Save') );
+					$('#odf-close').removeClass('icon-close');
 				}
 				var serverFactory = new ServerFactory();
 				documentsMain.esId = response.es_id;

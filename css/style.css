@@ -160,6 +160,8 @@
 #odf-close{
 	margin-top: 0;
 	float: right;
+}
+#odf-close.icon-close {
 	height: 29px;
 	width: 29px;
 }
