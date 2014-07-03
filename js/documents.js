@@ -152,12 +152,10 @@ $.widget('oc.documentToolbar', {
 					'</div>' +
 					
 					'<span id="toolbar" class="claro">' +
-					'  <button id="odf-invite" class="drop hidden">' +
+					'  <button id="odf-invite" class="drop hidden icon-share svg">' +
 					t('documents', 'Share') +
 					'  </button>' +
-					'  <button id="odf-close">' +
-					t('documents', 'Close') +
-					'  </button>' +
+					'  <button id="odf-close" class="icon-close svg"></button>' +
 					'  <img id="saving-document" alt=""' +
 					'    src="' + OC.imagePath('core', 'loading.gif') + '"' +
 					'  />' +

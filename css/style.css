@@ -158,13 +158,18 @@
 }
 
 #odf-close{
-	margin-top:0;
+	margin-top: 0;
 	float: right;
+	height: 29px;
+	width: 29px;
 }
 
 #odf-invite{
-	margin-top:0;
+	margin-top: 0;
+	margin-left: 3px;
 	float: left;
+	background-position: 5px center;
+	padding-left: 24px;
 }
 
 #mainContainer{
