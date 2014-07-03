@@ -118,7 +118,7 @@ $.widget('oc.documentGrid', {
 		
 		if (!hasDocuments){
 			$(this.options.context).before('<div id="emptycontent">'
-				+ t('documents', 'No documents are found. Please upload or create a document!')
+				+ t('documents', 'No documents were found. Upload or create a document to get started!')
 				+ '</div>'
 			);
 		} else {
