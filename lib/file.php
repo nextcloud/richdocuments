@@ -157,7 +157,6 @@ class File {
 				throw new \Exception($this->fileId . ' is a broken share');
 			}
 			$view = new View('/' . $owner . '/files');
-			$path = $rootLinkItem['file_target'];
 		} else {
 			$owner = \OCP\User::getUser();
 			$root = '/' . $owner;
@@ -165,9 +164,9 @@ class File {
 				$root .= '/' . 'files';
 			}
 			$view = new View($root);
-			$path = $view->getPath($this->fileId);
 		}
 			
+		$path = $view->getPath($this->fileId);
 		if (!$path){
 			throw new \Exception($this->fileId . ' can not be resolved');
 		}
