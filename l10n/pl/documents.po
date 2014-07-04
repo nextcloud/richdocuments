@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# bar_pet <bartosz.petrynski@gmail.com>, 2014
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-26 00:43-0400\n"
-"PO-Revision-Date: 2014-06-25 10:51+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2014-07-04 00:43-0400\n"
+"PO-Revision-Date: 2014-07-03 14:51+0000\n"
+"Last-Translator: bar_pet <bartosz.petrynski@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +57,7 @@ msgstr "Nie znaleziono dokumentów. Proszę załaduj lub stwórz dokument!"
 msgid "Share"
 msgstr "Udostępnij"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "Zamknij"
 
@@ -68,14 +69,14 @@ msgstr "Nie połączono z serwerem. Próba ponownego łączenia. "
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Opuszczając tę stronę w trybie Editor może spowodować niezapisanie danych. Zaleca się zamiast tego użyć przycisk 'Zamknij'."
+msgstr "Opuszczając tę stronę w trybie Edytor może spowodować niezapisanie danych. Zaleca się zamiast tego użyć przycisk 'Zamknij'."
 
 #: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Nie można załadować tego dokument. Proszę sprawdzić, czy można go otworzyć w edytorze zewnętrznym odt. Może to również oznaczać  nieudostępniony dokument lub jest już usunięty."
+msgstr "Nie można załadować tego dokumentu. Proszę sprawdzić, czy można go otworzyć w zewnętrznym edytorze odt. Może to również oznaczać, że dokument został niedawno zmieniony na nieudostępniony lub usunięty."
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
@@ -265,7 +266,7 @@ msgstr "Style"
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Połączenie tekstowe"
+msgstr "Tekst"
 
 #: js/locale.js:45
 msgid "Top"
