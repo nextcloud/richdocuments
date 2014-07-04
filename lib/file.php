@@ -153,11 +153,13 @@ class File {
 			$rootLinkItem = \OCP\Share::resolveReShare($this->sharing[0]);
 			if (isset($rootLinkItem['uid_owner'])){
 				$owner = $rootLinkItem['uid_owner'];
+				\OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
+				\OC_Util::tearDownFS();
+				\OC_Util::setupFS($rootLinkItem['uid_owner']);
 			} else {
 				throw new \Exception($this->fileId . ' is a broken share');
 			}
 			$view = new View('/' . $owner . '/files');
-			$path = $rootLinkItem['file_target'];
 		} else {
 			$owner = \OCP\User::getUser();
 			$root = '/' . $owner;
@@ -165,9 +167,9 @@ class File {
 				$root .= '/' . 'files';
 			}
 			$view = new View($root);
-			$path = $view->getPath($this->fileId);
 		}
 			
+		$path = $view->getPath($this->fileId);
 		if (!$path){
 			throw new \Exception($this->fileId . ' can not be resolved');
 		}
