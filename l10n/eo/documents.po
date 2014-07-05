@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 00:43-0400\n"
-"PO-Revision-Date: 2014-06-26 14:41+0000\n"
+"POT-Creation-Date: 2014-07-05 00:43-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Neniu dokumento troviĝis. Bonvolu alŝuti aŭ krei dokumenton!"
 msgid "Share"
 msgstr "Kunhavigi"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "Fermi"
 

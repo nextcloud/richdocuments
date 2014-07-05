@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-07-05 00:43-0400\n"
+"PO-Revision-Date: 2014-07-04 15:14+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "ドキュメントはありません。アップロードするか、作
 msgid "Share"
 msgstr "共有"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "閉じる"
 
@@ -85,19 +85,19 @@ msgstr "ドキュメントの読み込みに失敗。外部の odtエディタ�
 msgid "Save"
 msgstr "保存"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "ドキュメントを読込中..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' は無効なファイル名です。"
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "ファイル名を空にすることはできません。"
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

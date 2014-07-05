@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-24 00:43-0400\n"
-"PO-Revision-Date: 2014-06-23 13:32+0000\n"
+"POT-Creation-Date: 2014-07-05 00:43-0400\n"
+"PO-Revision-Date: 2014-07-04 15:14+0000\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Aucun document n'a été trouvé. Veuillez charger ou créer un document
 msgid "Share"
 msgstr "Partager"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "Fermer"
 
@@ -84,19 +84,19 @@ msgstr "Le chargement du document a échoué. Veuillez vérifier s'il peut être
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Chargement des documents..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' n'est pas un nom de fichier valide."
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "Le nom de fichier ne peut être vide."
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

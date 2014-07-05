@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-07-05 00:43-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới 
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "Đóng"
 
@@ -81,19 +81,19 @@ msgstr "Không thể tải tài liệu này. Hãy kiểm tra xem nó có thể �
 msgid "Save"
 msgstr "Lưu"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Tải tài liệu ..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' là một tên file không hợp lệ"
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "Tên file không được rỗng"
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

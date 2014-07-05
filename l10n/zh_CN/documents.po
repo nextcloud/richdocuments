@@ -5,15 +5,15 @@
 # Translators:
 # hanfeng <appweb.cn@gmail.com>, 2013
 # HofmannHe <hawy.hust@gmail.com>, 2014
-# Kaijia Feng <fengkaijia@gmail.com>, 2013
+# Kaijia Feng <fengkaijia@gmail.com>, 2013-2014
 # csslayer <wengxt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-05 00:43-0400\n"
+"PO-Revision-Date: 2014-07-05 02:00+0000\n"
+"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ajax/admin.php:22
 msgid "Format filter server is down or misconfigured"
-msgstr ""
+msgstr "Format Filter Server 无法连接或配置错误"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -35,11 +35,11 @@ msgstr "您没有重命名该文档的权限"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "修改目录时发生了一个错误。"
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr ""
+msgstr "目录保存成功。"
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -58,7 +58,7 @@ msgstr "未找到任何文档。请上传或者创建文档！"
 msgid "Share"
 msgstr "共享"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "关闭"
 
@@ -83,19 +83,19 @@ msgstr "打开文档失败，请检查此文档是否可以使用外部 ODT 编�
 msgid "Save"
 msgstr "保存"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "载入文档......"
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' 是一个无效的文件名。"
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "文件名不能为空。"
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -135,7 +135,7 @@ msgstr "取消"
 
 #: js/locale.js:9
 msgid "Center"
-msgstr ""
+msgstr "居中"
 
 #: js/locale.js:10
 msgid "Clone"
@@ -143,7 +143,7 @@ msgstr "克隆"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr ""
+msgstr "保存样式"
 
 #: js/locale.js:13
 msgid "Color"
@@ -155,7 +155,7 @@ msgstr "创建"
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr ""
+msgstr "减少缩进"
 
 #: js/locale.js:16
 msgid "Default Style"
@@ -199,7 +199,7 @@ msgstr "斜体"
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr ""
+msgstr "两端对齐"
 
 #: js/locale.js:27
 msgid "Justify"
@@ -207,7 +207,7 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "左对齐"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -219,7 +219,7 @@ msgstr "成员"
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr ""
+msgstr "新样式名称："
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
@@ -235,11 +235,11 @@ msgstr "选项"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr ""
+msgstr "段落...."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr ""
+msgstr "段落样式"
 
 #: js/locale.js:37
 msgid "Redo"
@@ -247,7 +247,7 @@ msgstr "重做"
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "右对齐"
 
 #: js/locale.js:40
 msgid "Size"
@@ -255,11 +255,11 @@ msgstr "大小"
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr ""
+msgstr "边距"
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr ""
+msgstr "删除线"
 
 #: js/locale.js:43
 msgid "Style"
@@ -271,7 +271,7 @@ msgstr "文本"
 
 #: js/locale.js:45
 msgid "Top"
-msgstr ""
+msgstr "顶部"
 
 #: js/locale.js:46
 msgid "Underline"
@@ -291,11 +291,11 @@ msgstr "编辑"
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr ""
+msgstr "访客"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr ""
+msgstr "Microsoft Word 支持 (需要 openOffice/libreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -305,7 +305,7 @@ msgstr "本地"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "此服务器已经安装 openOffice/libreOffice，config.php 中的 preview_libreoffice_path 指定了程序的路径"
 
 #: templates/admin.php:16
 msgid "External"
@@ -315,7 +315,7 @@ msgstr "外部"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr ""
+msgstr "openOffice/libreOffice 安装在一台运行有 Format Filter Server 的外部服务器上"
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"

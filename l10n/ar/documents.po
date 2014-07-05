@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 00:43-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-07-05 00:43-0400\n"
+"PO-Revision-Date: 2014-07-04 15:14+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "لم يتم العثور على مستند. يرجى رفع او انش�
 msgid "Share"
 msgstr "شارك"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:80
+#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
 msgstr "إغلاق"
 
@@ -82,19 +82,19 @@ msgstr "فشل في تحميل المستند. يرجى التحقق من امك
 msgid "Save"
 msgstr "حفظ"
 
-#: js/documents.js:724 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "يتم تحميل المستند ..."
 
-#: js/documents.js:757
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "\".\" اسم ملف غير صحيح."
 
-#: js/documents.js:759
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "اسم الملف لا يجوز أن يكون فارغا"
 
-#: js/documents.js:766
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
