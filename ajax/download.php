@@ -16,7 +16,14 @@ namespace OCA\Documents;
 
 $path = Helper::getArrayValueByKey($_GET, 'path');
 if (!empty($path)){
-	$fullPath = '/files' . $path;
+	if (\OC\Files\Filesystem::getMimeType($path)!==Filter_Office::NATIVE_MIMETYPE){
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
+		$file = new File($fileInfo->getId());
+		$genesis = new Genesis($file);
+		$fullPath = $genesis->getPath();
+	} else {
+		$fullPath = '/files' . $path;
+	}
 	$download = new Download(\OCP\User::getUser(), $fullPath);
 	$download->sendResponse();
 }
