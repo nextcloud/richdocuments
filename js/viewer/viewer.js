@@ -46,8 +46,8 @@ var odfViewer = {
 		}
 	},
 	
-	onEdit : function(){
-		var fileId = OCA.Files.fileActions.currentFile.parent().attr('data-id');
+	onEdit : function(fileName, context){
+		var fileId = context.$file.attr('data-id');
 		window.location = OC.linkTo('documents', 'index.php') + '#' + fileId;
 	},
 			
