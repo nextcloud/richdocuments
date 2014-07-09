@@ -24,5 +24,6 @@
 		   />
 	<br /><em><?php p($l->t('Server URL')) ?></em>
 	</div>
-	<br /><button type="button" id="docs_apply"><?php p($l->t('Apply')) ?></button>
+	<br /><button type="button" id="docs_apply"><?php p($l->t('Apply and test')) ?></button>
+	<span id="documents-admin-msg" class="msg"></span>
 </div>
