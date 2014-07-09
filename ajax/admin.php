@@ -41,7 +41,7 @@ wAAAQACAAAAAAAAAAAAAAAAAAAAAAACAAAAAtXN1ZwuGxCTlwgAKyz5rkQAAAAF1c3VnC4bEJOXCAArL
 		$outfile = $outdir . '/' . basename($infile) . '.' . $targetExtension;
 		$cmd = Helper::findOpenOffice();
  
-		$params = ' --headless --convert-to ' . $targetFilter . ' --outdir ' 
+		$params = ' --headless --convert-to ' . escapeshellarg($targetFilter) . ' --outdir ' 
 			. escapeshellarg($outdir) 
 			. ' --writer '. escapeshellarg($infile) . ' 2>&1';
 		;
@@ -67,4 +67,3 @@ wAAAQACAAAAAAAAAAAAAAAAAAAAAAACAAAAAtXN1ZwuGxCTlwgAKyz5rkQAAAAF1c3VnC4bEJOXCAArL
 					array('message' => $e->getMessage() )
 	));
 }
-exit();
