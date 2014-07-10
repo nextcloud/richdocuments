@@ -70,7 +70,6 @@
 "External" => "Zewnętrzny",
 "scheme://domain.tld[:port]" => "schemat://domena.tld[:port]",
 "Server URL" => "URL serwera",
-"Apply" => "Zastosuj",
 "New document" => "Nowy dokument",
 "Upload (max. %s)" => "Wysyłka (max. %s)",
 "Upload" => "Wyślij",

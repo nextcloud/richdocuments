@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice kanpoko zerbitzari batean instalatuta dago zeinak formatu iragazki zerbitzari bat duen",
 "scheme://domain.tld[:port]" => "eskema://domain.tld[:port]",
 "Server URL" => "Zerbitzariaren URLa",
-"Apply" => "Aplikatu",
 "New document" => "Dokumentu berria",
 "Upload (max. %s)" => "Igo (max. %s)",
 "Upload" => "Igo",

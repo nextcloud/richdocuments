@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 00:43-0400\n"
-"PO-Revision-Date: 2014-07-08 06:13+0000\n"
+"POT-Creation-Date: 2014-07-10 02:56-0400\n"
+"PO-Revision-Date: 2014-07-10 06:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/owncloud/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,16 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/admin.php:22
+#: ajax/admin.php:23
 msgid "Format filter server is down or misconfigured"
+msgstr ""
+
+#: ajax/admin.php:56
+msgid "Conversion failed. Check log for details."
+msgstr ""
+
+#: ajax/admin.php:64
+msgid "Saved"
 msgstr ""
 
 #: ajax/documentController.php:43
@@ -40,6 +48,10 @@ msgstr ""
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
+msgstr ""
+
+#: js/admin.js:16
+msgid "Saving..."
 msgstr ""
 
 #: js/documents.js:86
@@ -322,7 +334,7 @@ msgid "Server URL"
 msgstr ""
 
 #: templates/admin.php:27
-msgid "Apply"
+msgid "Apply and test"
 msgstr ""
 
 #: templates/documents.php:5

@@ -57,7 +57,6 @@
 "guest" => "ភ្ញៀវ",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "URL ម៉ាស៊ីន​បម្រើ",
-"Apply" => "អនុវត្ត",
 "New document" => "កម្រង​ឯកសារ​ថ្មី",
 "Upload" => "ផ្ទុក​ឡើង",
 "Wrong password. Please retry." => "ខុស​ពាក្យ​សម្ងាត់។ សូម​ព្យាយាម​ម្ដង​ទៀត។",

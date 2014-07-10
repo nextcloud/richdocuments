@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffie je nainštalovaný na externom serveri, kde beží inštancia filtrujúca formáty",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Server URL",
-"Apply" => "Aplikovať",
 "New document" => "Nový dokument",
 "Upload (max. %s)" => "Nahrať (max. %s)",
 "Upload" => "Odoslať",

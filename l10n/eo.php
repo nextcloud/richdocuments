@@ -68,7 +68,6 @@
 "Local" => "Loka",
 "External" => "Malena",
 "Server URL" => "Servila URL",
-"Apply" => "Apliki",
 "New document" => "Nova dokumento",
 "Upload (max. %s)" => "Alŝuti (maks. %s)",
 "Upload" => "Alŝuti",

@@ -71,7 +71,6 @@
 "External" => "Ulkoinen",
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice on asennettu erillisille palvelimelle, joka tarjoaa muotosuodatuspalvelimen ominaisuudet",
 "Server URL" => "Palvelimen osoite",
-"Apply" => "Toteuta",
 "New document" => "Uusi asiakirja",
 "Upload (max. %s)" => "Lähetys (enintään %s)",
 "Upload" => "Lähetä",

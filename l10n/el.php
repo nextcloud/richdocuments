@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "Το openOffice/libreOffice είναι εγκατεστημένο σε εξωτερικό διακομιστή που εκτελεί ένα διακομιστή φίλτρου μορφοποίησης",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Διεύθυνση URL διακομιστή",
-"Apply" => "Εφαρμογή",
 "New document" => "Νέο έγγραφο",
 "Upload (max. %s)" => "Διαμοιρασμός (max. %s)",
 "Upload" => "Μεταφόρτωση",

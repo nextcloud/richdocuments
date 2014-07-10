@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice, bir biçim filtre sunucusu çalıştıran harici sunucuda kurulu",
 "scheme://domain.tld[:port]" => "scheme://alanadı.tld[:bağl.nokt.]",
 "Server URL" => "Sunucu Adresi",
-"Apply" => "Uygula",
 "New document" => "Yeni belge",
 "Upload (max. %s)" => "Yükle (azami: %s)",
 "Upload" => "Yükle",

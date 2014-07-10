@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "OpenOffice/LibreOffice on paigaldatud välisesse serverisse, millel jookseb formaatide filter server.",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Serveri URL",
-"Apply" => "Rakenda",
 "New document" => "Uus dokument",
 "Upload (max. %s)" => "Üleslaadimine (max. %s)",
 "Upload" => "Lae üles",

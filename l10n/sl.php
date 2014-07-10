@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "Pisarniški paket OpenOffice.org oziroma LibreOffice je nameščen na zunanjem strežniku z zagnanim strežnikom filtra za odpiranje pisarniških datotek.",
 "scheme://domain.tld[:port]" => "shema://domena.tld[:vrata]",
 "Server URL" => "Naslov URL strežnika",
-"Apply" => "Uveljavi",
 "New document" => "Nov dokument",
 "Upload (max. %s)" => "Pošiljanje (omejitev %s)",
 "Upload" => "Pošlji",

@@ -71,7 +71,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice 安装在一台运行有 Format Filter Server 的外部服务器上",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "服务器 URL",
-"Apply" => "应用",
 "New document" => "新建文档",
 "Upload (max. %s)" => "上传 (最大 %s)",
 "Upload" => "上传",

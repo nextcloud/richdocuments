@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice ta instaláu nun sirvidor esternu executando un sirvidor de filtráu de formatu",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "URL del sirvidor",
-"Apply" => "Aplicar",
 "New document" => "Documentu nuevu",
 "Upload (max. %s)" => "Xuba (máx. %s)",
 "Upload" => "Xubir",

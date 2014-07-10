@@ -67,7 +67,6 @@
 "External" => "Ekstern",
 "scheme://domain.tld[:port]" => "system://domain.tld[:port]",
 "Server URL" => "Server URL",
-"Apply" => "Anvend",
 "New document" => "Nyt dokument",
 "Upload (max. %s)" => "Upload (max. %s)",
 "Upload" => "Upload",

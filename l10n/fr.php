@@ -72,7 +72,6 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice est installé sur un serveur externe faisant fonctionner un serveur de filtre de format",
 "scheme://domain.tld[:port]" => "scheme://domaine.tld[:port]",
 "Server URL" => "URL du serveur",
-"Apply" => "Appliquer",
 "New document" => "Nouveau document",
 "Upload (max. %s)" => "Envoi (max. %s)",
 "Upload" => "Envoyer",

@@ -69,7 +69,6 @@
 "External" => "Külső",
 "scheme://domain.tld[:port]" => "protokoll://teljes.gép.név[:port]",
 "Server URL" => "Szerver URL",
-"Apply" => "Alkalmaz",
 "New document" => "Új dokumentum",
 "Upload (max. %s)" => "Feltöltés (max. %s)",
 "Upload" => "Feltöltés",

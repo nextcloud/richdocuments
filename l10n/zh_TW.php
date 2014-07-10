@@ -58,7 +58,6 @@
 "External" => "外部",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "伺服器網址",
-"Apply" => "套用",
 "New document" => "新文件",
 "Upload" => "上傳",
 "Save new documents to" => "儲存新檔案至",
