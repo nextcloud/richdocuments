@@ -7,6 +7,10 @@
 }
 /* end IE 8 fixes */
 
+#editor {
+	box-shadow: none !important;
+}
+
 #editor ::-webkit-scrollbar-thumb {
 	background-color: #fff;
 }
@@ -175,8 +179,9 @@
 }
 
 #mainContainer{
-	position:absolute;
-	z-index:500;
+	position: absolute;
+	z-index: 500;
+	background-color: #ddd !important;
 }
 
 #documents-overlay,  #documents-overlay-below{
@@ -245,8 +250,15 @@
 	width: 70px;padding:5px;
 }
 
-#members{
+#members {
 	padding-top: 86px !important;
+	background-color: #ddd !important;
+}
+
+.memberListButton {
+	background-color: transparent !important;
+	box-shadow: none !important;
+	border: none !important;
 }
 
 .memberListButton span {
@@ -264,10 +276,19 @@
 	width:46px;
 }
 
+#memberList .memberListLabel {
+	color: #555 !important;
+	border-radius: 3px !important;
+	padding: 0 !important;
+	font-size: 10px !important;
+}
+
 #toolbar {
 	top: 45px !important;
 	border-bottom: none !important;
 	padding: 5px 0 0 !important;
+	box-shadow: none !important;
+	background-color: rgba(255,255,255,.95);
 }
 
 #toolbar > .dijit{
@@ -279,6 +300,10 @@
 
 #container {
 	top: 83px !important;
+}
+
+#canvas > div {
+	box-shadow: none !important;
 }
 
 cursor > div {
