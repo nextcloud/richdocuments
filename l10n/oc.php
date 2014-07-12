@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "Enregistra...",
 "Share" => "Parteja",
 "Save" => "Enregistra",
 "Cancel" => "Annula",

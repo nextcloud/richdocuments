@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumente",
+"Saving..." => "Speichern...",
 "Failed to load documents." => "Laden der Dokumente fehlgeschlagen.",
 "No documents are found. Please upload or create a document!" => "Keine Dokumente gefunden. Bitte laden Sie Dokumente hoch, oder erstellen Sie ein Dokument!",
 "Share" => "Freigeben",

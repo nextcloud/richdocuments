@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "Disimpan",
 "You don't have permission to rename this document" => "Anda tidak memiliki izin untuk mengubah nama dokumen ini",
 "Documents" => "Dokumen",
+"Saving..." => "Menyimpan...",
 "Failed to load documents." => "Gagal untuk memuat dokumen.",
 "No documents are found. Please upload or create a document!" => "Tidak ada dokumen yang ditemukan. Silakan unggah atau buat sebuah dokumen!",
 "Share" => "Bagikan",

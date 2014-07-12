@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "Yn cadw...",
 "Share" => "Rhannu",
 "Close" => "Cau",
 "Save" => "Cadw",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "กำลังบันทึกข้อมูล...",
 "Share" => "แชร์",
 "Close" => "ปิด",
 "Save" => "บันทึก",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "Er að vista ...",
 "Share" => "Deila",
 "Close" => "Loka",
 "Save" => "Vista",

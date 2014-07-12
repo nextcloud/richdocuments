@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "Salvat",
+"Saving..." => "Se salvează...",
 "Share" => "a imparti",
 "Close" => "Închide",
 "Save" => "Salvează",

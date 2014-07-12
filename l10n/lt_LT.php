@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokumentacija",
+"Saving..." => "Saugoma...",
 "Failed to load documents." => "Nepavyko įkelti dokumentų.",
 "No documents are found. Please upload or create a document!" => "Nerasta dokumentų. Prašome įkelti ar sukurti dokumentą!",
 "Share" => "Dalintis",

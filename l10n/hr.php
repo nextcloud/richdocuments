@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "Spremanje...",
 "Share" => "Podijeli",
 "Close" => "Zatvori",
 "Save" => "Snimi",

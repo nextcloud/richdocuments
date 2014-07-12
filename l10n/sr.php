@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "Чување у току...",
 "Share" => "Дели",
 "Close" => "Затвори",
 "Save" => "Сачувај",

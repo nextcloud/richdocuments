@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formatfilter servern är ur funktion eller felkonfigurerad",
+"Saved" => "Sparad",
 "Can't create document" => "Kan inte skapa dokument",
 "You don't have permission to rename this document" => "Du har inte behörighet att döpa om detta dokument",
 "An error occurred while changing directory." => "Ett fel uppstod vid byte av katalog",
 "Directory saved successfully." => "Katalog sparades.",
 "Documents" => "Dokument",
+"Saving..." => "Sparar...",
 "Failed to load documents." => "Kunde inte ladda dokumenten.",
 "No documents are found. Please upload or create a document!" => "Inga dokument funna. Ladda upp eller skapa ett dokument!",
 "Share" => "Dela",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "Снимено",
 "Can't create document" => "Не можам да креирам документ",
 "Documents" => "Документи",
+"Saving..." => "Снимам...",
 "Failed to load documents." => "Не успеав да го вчитам документот",
 "No documents are found. Please upload or create a document!" => "Не се пронајдени документи. Ве молиме ставете или креирајте документ!",
 "Share" => "Сподели",

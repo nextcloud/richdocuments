@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 02:56-0400\n"
-"PO-Revision-Date: 2014-07-10 06:56+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-12 00:43-0400\n"
+"PO-Revision-Date: 2014-07-10 13:41+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,11 +25,11 @@ msgstr "Muotosuodatuspalvelin ei ole käytettävissä tai sen asetukset ovat vä
 
 #: ajax/admin.php:56
 msgid "Conversion failed. Check log for details."
-msgstr ""
+msgstr "Muuntaminen epäonnistui. Katso lisätietoja lokista."
 
 #: ajax/admin.php:64
 msgid "Saved"
-msgstr ""
+msgstr "Tallennettu"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -54,7 +54,7 @@ msgstr "Asiakirjat"
 
 #: js/admin.js:16
 msgid "Saving..."
-msgstr ""
+msgstr "Tallennetaan..."
 
 #: js/documents.js:86
 msgid "Failed to load documents."
@@ -337,7 +337,7 @@ msgstr "Palvelimen osoite"
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr ""
+msgstr "Toteuta ja testaa"
 
 #: templates/documents.php:5
 msgid "New document"

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "حفظ",
 "You don't have permission to rename this document" => "لا تمتلك الصلاحية لاعادة تسمية هذا المستند",
 "Documents" => "وثائق",
+"Saving..." => "جاري الحفظ...",
 "Failed to load documents." => "فشل في تحميل الوثائق",
 "No documents are found. Please upload or create a document!" => "لم يتم العثور على مستند. يرجى رفع او انشاء مستند!",
 "Share" => "شارك",

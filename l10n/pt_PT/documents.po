@@ -7,14 +7,15 @@
 # zedascouves <duartegrilo@gmail.com>, 2013
 # Fernando Moura <moura232@gmail.com>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
+# Manuela Silva <manuela.silva@sky.com>, 2014
 # sccosta <sonia.peres.costa@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 02:56-0400\n"
-"PO-Revision-Date: 2014-07-10 06:56+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-12 00:43-0400\n"
+"PO-Revision-Date: 2014-07-10 19:51+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,31 +25,31 @@ msgstr ""
 
 #: ajax/admin.php:23
 msgid "Format filter server is down or misconfigured"
-msgstr "O servidor de formatação de filtros falhou ou está mal configurado"
+msgstr "O servidor do filtro de formatação está em baixo ou mal configurado"
 
 #: ajax/admin.php:56
 msgid "Conversion failed. Check log for details."
-msgstr ""
+msgstr "Não foi possível converter. Verifique o registo para detalhes."
 
 #: ajax/admin.php:64
 msgid "Saved"
-msgstr ""
+msgstr "Guardado"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr "Não foi possível criar o documento"
+msgstr "Não é possível criar o documento"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr "Não tem permissões para renomear este documento"
+msgstr "Não tem permissão para renomear este documento"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr "Ocorreu um erro ao mudar de directório."
+msgstr "Ocorreu um erro ao mudar de diretoria."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr "Directório salvo com sucesso."
+msgstr "Diretoria guardada com sucesso."
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
@@ -57,19 +58,19 @@ msgstr "Documentos"
 
 #: js/admin.js:16
 msgid "Saving..."
-msgstr ""
+msgstr "A guardar..."
 
 #: js/documents.js:86
 msgid "Failed to load documents."
-msgstr "O carregamento dos documentos falhou"
+msgstr "Não foi possível carregar os documentos."
 
 #: js/documents.js:121
 msgid "No documents are found. Please upload or create a document!"
-msgstr "Nenhum documento encontrado. Por favor carregue ou crie um documento!"
+msgstr "Não foram encontrados documentos. Por favor, envie ou crie um documento!"
 
 #: js/documents.js:156
 msgid "Share"
-msgstr "Partilhar"
+msgstr "Compartilhar"
 
 #: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
 msgid "Close"
@@ -77,20 +78,20 @@ msgstr "Fechar"
 
 #: js/documents.js:275
 msgid "No connection to server. Trying to reconnect."
-msgstr "Não há ligação ao servidor. A tentar religar."
+msgstr "Sem conexão ao servidor. A tentar reconetar."
 
 #: js/documents.js:339
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Sair desta página em modo de Edição pode deixar dados não guardados. É recomendado usar o botão \"Fechar\" em vez disso."
+msgstr "Ao sair desta página no modo Editor poderá deixar dados não guardados. Em vez disso, é recomendado a utilização do botão 'Fechar'."
 
 #: js/documents.js:360
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Falhou ao carregar o documento. Por favor verifique se ele pode ser aberto com um editor ODT externo. Isto poderá significar que foi apagado recentemente ou a partilha acabou."
+msgstr "Não foi possível carregar este documento. Por favor, verifique se este pode ser aberto com um editor odt externo. Isto poderá significar que este foi apagado recentemente ou a partilha foi cancelada."
 
 #: js/documents.js:382 js/locale.js:39
 msgid "Save"
@@ -98,25 +99,25 @@ msgstr "Guardar"
 
 #: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "A carregar documentos..."
+msgstr "A carregar os documentos ..."
 
 #: js/documents.js:753
 msgid "'.' is an invalid file name."
-msgstr "'.' não é um nome de ficheiro válido!"
+msgstr "'.' não é um nome de ficheiro válido."
 
 #: js/documents.js:755
 msgid "File name cannot be empty."
-msgstr "O nome do ficheiro não pode estar vazio."
+msgstr "O nome do ficheiro não pode estar em branco."
 
 #: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
+msgstr "Nome inválido, os carateres '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Alinhar á esquerda"
+msgstr "Alinhar à Esquerda"
 
 #: js/locale.js:2
 msgid "Alignment"
@@ -124,7 +125,7 @@ msgstr "Alinhamento"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Alinhar á direita"
+msgstr "Alinhar à Direita"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -140,7 +141,7 @@ msgstr "Negrito"
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "Fundo"
+msgstr "Base"
 
 #: js/locale.js:8
 msgid "Cancel"
@@ -156,11 +157,11 @@ msgstr "Clonar"
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Clonar este estilo"
+msgstr "Clonar este Estilo"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Côr"
+msgstr "Cor"
 
 #: js/locale.js:14
 msgid "Create"
@@ -172,11 +173,11 @@ msgstr "Diminuir Indentação"
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Estilo padrão"
+msgstr "Estilo Predefinido"
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Apagar"
 
 #: js/locale.js:18
 msgid "Family"
@@ -192,7 +193,7 @@ msgstr "Efeitos de Letra"
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Formatar"
+msgstr "Formato"
 
 #: js/locale.js:22
 msgid "Increase Indent"
@@ -200,7 +201,7 @@ msgstr "Aumentar Indentação"
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Inserir imagem"
+msgstr "Inserir Imagem"
 
 #: js/locale.js:24
 msgid "Invite Members"
@@ -224,7 +225,7 @@ msgstr "Esquerda"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "A carregar tarefas..."
+msgstr "A carregar ..."
 
 #: js/locale.js:30
 msgid "Members"
@@ -236,7 +237,7 @@ msgstr "Novo Nome:"
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "OK"
+msgstr "CONFIRMAR"
 
 #: js/locale.js:33
 msgid "Open"
@@ -248,7 +249,7 @@ msgstr "Opções"
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Parágrafo..."
+msgstr "Parágrafo ..."
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
@@ -292,11 +293,11 @@ msgstr "Sublinhado"
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Desfazer"
+msgstr "Anular"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Autor desconhecido"
+msgstr "Autor Desconhecido"
 
 #: js/viewer/viewer.js:31
 msgid "Edit"
@@ -308,7 +309,7 @@ msgstr "convidado"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr "Suporte a MS Word (requer openOffice/libreOffice)"
+msgstr "Suporte para MS Word (requer openOffice/libreOffice)"
 
 #: templates/admin.php:9
 msgid "Local"
@@ -318,7 +319,7 @@ msgstr "Local"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr "openOffice/libreOffice está instalado no servidor. O caminho para o binário é disponibilizado via preview_libreoffice_path no config.php"
+msgstr "openOffice/libreOffice está instalado neste servidor. O caminho para o binário é disponibilizado via preview_libreoffice_path no config.php"
 
 #: templates/admin.php:16
 msgid "External"
@@ -328,7 +329,7 @@ msgstr "Externo"
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr "openOffice/libreOffice está instalado num servidor externo executando um servidor de filtro de formato"
+msgstr "openOffice/libreOffice está instalado num servidor externo, a executar um servidor de filtro de formato"
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
@@ -336,11 +337,11 @@ msgstr "scheme://domain.tld[:port]"
 
 #: templates/admin.php:25
 msgid "Server URL"
-msgstr "Endereço do Servidor"
+msgstr "URL do Servidor"
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr ""
+msgstr "Aplicar e Testar"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -349,23 +350,23 @@ msgstr "Novo documento"
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr "Enviar (max. %s)"
+msgstr "Enviar (máx. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"
-msgstr "Carregar"
+msgstr "Enviar"
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Guardar novos documentos para"
+msgstr "Guarde os novos documentos em"
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Senha errada. Por favor tente novamente."
+msgstr "Senha errada. Por favor, tente de novo."
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Palavra-passe"
+msgstr "Senha"
 
 #: templates/public.php:17
 #, php-format
@@ -376,11 +377,11 @@ msgstr "Convidado %s"
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Esta ligação expirou ou nunca existiu. Para mais detalhes, por favor contacte a pessoa que a partilhou consigo."
+msgstr "Esta hiperligação expirou ou nunca existiu. Para mais detalhes, por favor, contacte a pessoa que a partilhou consigo."
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Opções avançadas"
+msgstr "Opções Avançadas"
 
 #: templates/settings.php:10
 msgid "(Unstable)"

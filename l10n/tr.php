@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Biçim filtre sunucusu kapalı veya hatalı yapılandırılmış",
+"Saved" => "Kaydedildi",
 "Can't create document" => "Belge oluşturulamıyor",
 "You don't have permission to rename this document" => "Bu belgeyi adlandırmak için izniniz yok.",
 "An error occurred while changing directory." => "Dizin değiştirilirken bir hata oluştu.",
 "Directory saved successfully." => "Dizin başarıyla kaydedildi.",
 "Documents" => "Belgeler",
+"Saving..." => "Kaydediliyor...",
 "Failed to load documents." => "Belgeler yüklenemedi.",
 "No documents are found. Please upload or create a document!" => "Hiçbir belge bulunamadı. Lütfen bir belge yükleyin veya oluşturun!",
 "Share" => "Paylaş",

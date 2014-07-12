@@ -1,8 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "Gemt",
 "Can't create document" => "Kan ikke oprette dokument",
 "You don't have permission to rename this document" => "Du har ikke tilladelse til at omdøbe dette dokument",
 "An error occurred while changing directory." => "Fejl ved skift af bibliotek.",
 "Documents" => "Dokumenter",
+"Saving..." => "Gemmer...",
 "Failed to load documents." => "Kunne ikke hente dokumenterne. ",
 "No documents are found. Please upload or create a document!" => "Ingen dokumenter fundet. Upload eller opret venligst et dokument!",
 "Share" => "Del",

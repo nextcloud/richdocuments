@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "ساقلاۋاتىدۇ…",
 "Share" => "ھەمبەھىر",
 "Close" => "ياپ",
 "Save" => "ساقلا",

@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formatuen iragazki zerbitzaria erorita edo gaizki konfiguratua",
+"Saved" => "Gordeta",
 "Can't create document" => "Ezin da dokumentua sortu",
 "You don't have permission to rename this document" => "Ez duzu dokumentu honi izena aldatzeko baimenik",
 "An error occurred while changing directory." => "Errore bat gertatu da direktorioz aldatzen.",
 "Directory saved successfully." => "Direktorioa ongi gorde da.",
 "Documents" => "Dokumentuak",
+"Saving..." => "Gordetzen...",
 "Failed to load documents." => "Dokumentuak kargatzeak huts egin du.",
 "No documents are found. Please upload or create a document!" => "Ez da dokumenturik aurkitu. Mesedez igo edo sortu dokumentu bat!",
 "Share" => "Partekatu",

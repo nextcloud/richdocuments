@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Server pro zpracování formátu je nedostupný nebo chybně nakonfigurovaný",
+"Saved" => "Uloženo",
 "Can't create document" => "Nelze vytvořit dokument",
 "You don't have permission to rename this document" => "Nemáte oprávnění pro přejmenování tohoto souboru",
 "An error occurred while changing directory." => "Při pokusu o změnu adresáře došlo k chybě.",
 "Directory saved successfully." => "Adresář byl úspěšně uložen.",
 "Documents" => "Dokumenty",
+"Saving..." => "Ukládám...",
 "Failed to load documents." => "Nepodařilo se načíst dokumenty.",
 "No documents are found. Please upload or create a document!" => "Žádné dokumenty nebyly nalezeny. Nahrajte nebo vytvořte dokument!",
 "Share" => "Sdílet",

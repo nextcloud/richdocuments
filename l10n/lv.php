@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Jums nav tiesības pārsaukt šo dokumentu ",
 "Documents" => "Dokumenti",
+"Saving..." => "Saglabā...",
 "Share" => "Dalīties",
 "Close" => "Aizvērt",
 "Save" => "Saglabāt",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "محفوظ ھو رہا ہے ...",
 "Share" => "تقسیم",
 "Close" => "بند ",
 "Save" => "حفظ",

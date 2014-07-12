@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 02:56-0400\n"
-"PO-Revision-Date: 2014-07-10 06:56+0000\n"
+"POT-Creation-Date: 2014-07-12 00:43-0400\n"
+"PO-Revision-Date: 2014-07-10 07:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: ajax/admin.php:64
 msgid "Saved"
-msgstr ""
+msgstr "Сохранено"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -64,7 +64,7 @@ msgstr "Документы"
 
 #: js/admin.js:16
 msgid "Saving..."
-msgstr ""
+msgstr "Сохранение..."
 
 #: js/documents.js:86
 msgid "Failed to load documents."

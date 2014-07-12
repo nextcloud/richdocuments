@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Serwer filtrów formatów jest niedostępny lub nieprawidłowo skonfigurowany",
+"Saved" => "Zapisano",
 "Can't create document" => "Nie można utworzyć dokumentu",
 "You don't have permission to rename this document" => "Nie masz uprawnień do zmiany nazwy tego dokumentu",
 "An error occurred while changing directory." => "Pojawił się błąd podczas zmiany katalogu.",
 "Directory saved successfully." => "Katalog zapisany poprawnie.",
 "Documents" => "Dokumenty",
+"Saving..." => "Zapisywanie...",
 "Failed to load documents." => "Nie można wczytać dokumentów.",
 "No documents are found. Please upload or create a document!" => "Nie znaleziono dokumentów. Proszę załaduj lub stwórz dokument!",
 "Share" => "Udostępnij",

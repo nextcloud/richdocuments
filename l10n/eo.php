@@ -1,9 +1,11 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "Konservita",
 "Can't create document" => "Ne povas kreiĝi dokumento",
 "You don't have permission to rename this document" => "Vi ne havas permeson alinomigi ĉi tiun dokumenton",
 "An error occurred while changing directory." => "Eraro okazis dum ŝanĝo de dosierujo.",
 "Directory saved successfully." => "La dosierujo konserviĝis sukcese.",
 "Documents" => "Dokumentoj",
+"Saving..." => "Konservante...",
 "Failed to load documents." => "Malsukcesis ŝargo de dokumentoj.",
 "No documents are found. Please upload or create a document!" => "Neniu dokumento troviĝis. Bonvolu alŝuti aŭ krei dokumenton!",
 "Share" => "Kunhavigi",

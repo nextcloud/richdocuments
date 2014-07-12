@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saving..." => "Зберігаю...",
 "Failed to load documents." => "Не вдалося завантажити документи.",
 "Share" => "Поділитися",
 "Close" => "Закрити",

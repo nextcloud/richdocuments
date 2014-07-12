@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Documents" => "Dokument",
+"Saving..." => "Lagrar …",
 "Failed to load documents." => "Klarte ikkje å lasta dokumenta.",
 "No documents are found. Please upload or create a document!" => "Fann ingen dokument. Last opp eller opprett eit dokument!",
 "Share" => "Del",

@@ -1,6 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "저장됨",
 "You don't have permission to rename this document" => "이 문서의 이름을 변경할 권한이 없습니다",
 "Documents" => "문서",
+"Saving..." => "저장 중...",
 "Failed to load documents." => "문서를 불러올 수 없습니다.",
 "No documents are found. Please upload or create a document!" => "문서를 찾을 수 없습니다. 문서를 만들거나 업로드하십시오!",
 "Share" => "공유",

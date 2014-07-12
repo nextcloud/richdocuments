@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "You don't have permission to rename this document" => "شما دسترسی مجاز برای تغییر نام این سند را ندارید",
 "Documents" => "اسناد",
+"Saving..." => "در حال ذخیره سازی...",
 "Failed to load documents." => "فراخوانی اسناد با شکست مواجه شد",
 "No documents are found. Please upload or create a document!" => "هیچ سندی یافت نشد، لطفاً بارگذاری کنید یا اینکه یک سند ایجاد نمایید!",
 "Share" => "اشتراک‌گذاری",

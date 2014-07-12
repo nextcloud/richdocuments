@@ -1,7 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "已儲存",
 "Can't create document" => "無法建立文件",
 "You don't have permission to rename this document" => "您沒有重新命名的權限",
 "Documents" => "文件",
+"Saving..." => "儲存中...",
 "Failed to load documents." => "載入文件失敗",
 "No documents are found. Please upload or create a document!" => "找不到文件。請上傳或建立一個文件！",
 "Share" => "分享",
