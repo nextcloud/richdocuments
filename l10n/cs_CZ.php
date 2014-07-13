@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Server pro zpracování formátu je nedostupný nebo chybně nakonfigurovaný",
+"Conversion failed. Check log for details." => "Převod selhal. Více detailů je v logu.",
 "Saved" => "Uloženo",
 "Can't create document" => "Nelze vytvořit dokument",
 "You don't have permission to rename this document" => "Nemáte oprávnění pro přejmenování tohoto souboru",
@@ -74,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffie je nainstalován na externím serveru, kde běží instance filtrující formáty",
 "scheme://domain.tld[:port]" => "schéma://doména.tld[:port]",
 "Server URL" => "URL serveru",
+"Apply and test" => "Použít a otestovat",
 "New document" => "Nový dokument",
 "Upload (max. %s)" => "Nahrát (max. %s)",
 "Upload" => "Odeslat",

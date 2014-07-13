@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Il formato del filtro del server è inattivo o configurato in modo errato",
-"Conversion failed. Check log for details." => "Conversione non riuscita. Controlla i log per ottenere i dettagli.",
+"Conversion failed. Check log for details." => "Conversione non riuscita. Controlla i log per i dettagli.",
 "Saved" => "Salvato",
 "Can't create document" => "Impossibile creare il documento",
 "You don't have permission to rename this document" => "Non hai i permessi per rinominare questo documento",
