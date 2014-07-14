@@ -118,7 +118,7 @@ $.widget('oc.documentGrid', {
 		
 		if (!hasDocuments){
 			$(this.options.context).before('<div id="emptycontent">'
-				+ t('documents', 'No documents are found. Please upload or create a document!')
+				+ t('documents', 'No documents were found. Upload or create a document to get started!')
 				+ '</div>'
 			);
 		} else {
@@ -152,12 +152,10 @@ $.widget('oc.documentToolbar', {
 					'</div>' +
 					
 					'<span id="toolbar" class="claro">' +
-					'  <button id="odf-invite" class="drop hidden">' +
+					'  <button id="odf-invite" class="drop hidden icon-share svg">' +
 					t('documents', 'Share') +
 					'  </button>' +
-					'  <button id="odf-close">' +
-					t('documents', 'Close') +
-					'  </button>' +
+					'  <button id="odf-close" class="icon-close svg"></button>' +
 					'  <img id="saving-document" alt=""' +
 					'    src="' + OC.imagePath('core', 'loading.gif') + '"' +
 					'  />' +
@@ -380,6 +378,7 @@ var documentsMain = {
 				);
 				if (documentsMain.isGuest){
 					$('#odf-close').text(t('documents', 'Save') );
+					$('#odf-close').removeClass('icon-close');
 				}
 				var serverFactory = new ServerFactory();
 				documentsMain.esId = response.es_id;
