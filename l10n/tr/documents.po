@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 00:43-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-14 00:43-0400\n"
+"PO-Revision-Date: 2014-07-13 14:10+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Biçim filtre sunucusu kapalı veya hatalı yapılandırılmış"
 
 #: ajax/admin.php:56
 msgid "Conversion failed. Check log for details."
-msgstr ""
+msgstr "Dönüşüm başarısız. Ayrıntılar için günlüğe bakın."
 
 #: ajax/admin.php:64
 msgid "Saved"
@@ -338,7 +338,7 @@ msgstr "Sunucu Adresi"
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr ""
+msgstr "Uygula ve sına"
 
 #: templates/documents.php:5
 msgid "New document"

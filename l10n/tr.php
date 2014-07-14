@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Biçim filtre sunucusu kapalı veya hatalı yapılandırılmış",
+"Conversion failed. Check log for details." => "Dönüşüm başarısız. Ayrıntılar için günlüğe bakın.",
 "Saved" => "Kaydedildi",
 "Can't create document" => "Belge oluşturulamıyor",
 "You don't have permission to rename this document" => "Bu belgeyi adlandırmak için izniniz yok.",
@@ -74,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice, bir biçim filtre sunucusu çalıştıran harici sunucuda kurulu",
 "scheme://domain.tld[:port]" => "scheme://alanadı.tld[:bağl.nokt.]",
 "Server URL" => "Sunucu Adresi",
+"Apply and test" => "Uygula ve sına",
 "New document" => "Yeni belge",
 "Upload (max. %s)" => "Yükle (azami: %s)",
 "Upload" => "Yükle",
