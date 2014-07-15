@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Simpan...",
 "Share" => "Kongsi",
-"Close" => "Tutup",
 "Save" => "Simpan",
 "Cancel" => "Batal",
+"Close" => "Tutup",
 "Create" => "Buat",
 "Delete" => "Padam",
 "OK" => "OK",

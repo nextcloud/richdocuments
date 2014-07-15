@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 00:43-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-15 00:43-0400\n"
+"PO-Revision-Date: 2014-07-15 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -68,51 +68,47 @@ msgid "Failed to load documents."
 msgstr "Kunde inte ladda dokumenten."
 
 #: js/documents.js:121
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Inga dokument funna. Ladda upp eller skapa ett dokument!"
+msgid "No documents were found. Upload or create a document to get started!"
+msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
 msgstr "Dela"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
-msgid "Close"
-msgstr "Stäng"
-
-#: js/documents.js:275
+#: js/documents.js:273
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ingen kontakt med servern. Försöker att koppla upp igen."
 
-#: js/documents.js:339
+#: js/documents.js:337
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Att lämna denna sida i Redigera läget kan orsaka osparad data. Det är rekommenderat att använda 'Stäng' knappen i stället."
 
-#: js/documents.js:360
+#: js/documents.js:358
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Misslyckades att ladda detta dokument. Försök gärna att öppna det med en extern textredigerare som har stöd för ODT. Detta fel kan bero på att dokumentet nyligen har slutat delas ut eller blivit borttagen."
 
-#: js/documents.js:382 js/locale.js:39
+#: js/documents.js:380 js/locale.js:39
 msgid "Save"
 msgstr "Spara"
 
-#: js/documents.js:720 templates/documents.php:31
+#: js/documents.js:719 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Laddar dokument..."
 
-#: js/documents.js:753
+#: js/documents.js:752
 msgid "'.' is an invalid file name."
 msgstr "'.' är ett ogiltigt filnamn."
 
-#: js/documents.js:755
+#: js/documents.js:754
 msgid "File name cannot be empty."
 msgstr "Filnamn kan inte vara tomt."
 
-#: js/documents.js:762
+#: js/documents.js:761
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -161,6 +157,10 @@ msgstr "Klona"
 #: js/locale.js:11
 msgid "Clone this Style"
 msgstr "Klona denna stilen"
+
+#: js/locale.js:12 js/viewer/viewer.js:77
+msgid "Close"
+msgstr "Stäng"
 
 #: js/locale.js:13
 msgid "Color"

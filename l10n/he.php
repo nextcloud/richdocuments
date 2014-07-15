@@ -1,11 +1,11 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "שמירה…",
 "Share" => "שיתוף",
-"Close" => "סגירה",
 "Save" => "שמירה",
 "File name cannot be empty." => "שם קובץ אינו יכול להיות ריק",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "השם שגוי, אסור להשתמש בתווים '\\', '/', '<', '>', ':', '\"', '|', '?' ו־'*'.",
 "Cancel" => "ביטול",
+"Close" => "סגירה",
 "Create" => "יצירה",
 "Delete" => "מחיקה",
 "Family" => "משפחה",

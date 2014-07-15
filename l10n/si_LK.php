@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "සුරැකෙමින් පවතී...",
 "Share" => "බෙදා හදා ගන්න",
-"Close" => "වසන්න",
 "Save" => "සුරකින්න",
 "Cancel" => "එපා",
+"Close" => "වසන්න",
 "Create" => "තනන්න",
 "Delete" => "මකා දමන්න",
 "OK" => "හරි",

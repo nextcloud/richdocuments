@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "ساقلاۋاتىدۇ…",
 "Share" => "ھەمبەھىر",
-"Close" => "ياپ",
 "Save" => "ساقلا",
 "Cancel" => "ۋاز كەچ",
+"Close" => "ياپ",
 "Create" => "قۇر",
 "Delete" => "ئۆچۈر",
 "Family" => "جەمەتىم",

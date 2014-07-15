@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Share" => "Podeli",
-"Close" => "Zatvori",
 "Save" => "Snimi",
 "Cancel" => "Otkaži",
+"Close" => "Zatvori",
 "Create" => "Napravi",
 "Delete" => "Obriši",
 "OK" => "Ok",

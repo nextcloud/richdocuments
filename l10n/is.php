@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Er að vista ...",
 "Share" => "Deila",
-"Close" => "Loka",
 "Save" => "Vista",
 "'.' is an invalid file name." => "'.' er ekki leyfilegt nafn.",
 "File name cannot be empty." => "Nafn skráar má ekki vera tómt",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð.",
 "Cancel" => "Hætta við",
+"Close" => "Loka",
 "Create" => "Búa til",
 "Delete" => "Eyða",
 "OK" => "Í lagi",

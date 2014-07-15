@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Close" => "మూసివేయి",
 "Save" => "భద్రపరచు",
 "Cancel" => "రద్దుచేయి",
+"Close" => "మూసివేయి",
 "Delete" => "తొలగించు",
 "OK" => "సరే",
 "Size" => "పరిమాణం",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 00:43-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-15 00:43-0400\n"
+"PO-Revision-Date: 2014-07-15 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/owncloud/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -59,51 +59,47 @@ msgid "Failed to load documents."
 msgstr "Error al cargar los documentos."
 
 #: js/documents.js:121
-msgid "No documents are found. Please upload or create a document!"
-msgstr "No se encontraron documentos. ¡Suba o cree un documento!"
+msgid "No documents were found. Upload or create a document to get started!"
+msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
 msgstr "Compartir"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
-msgid "Close"
-msgstr "Cerrar"
-
-#: js/documents.js:275
+#: js/documents.js:273
 msgid "No connection to server. Trying to reconnect."
 msgstr "No hay conexión con el servidor. Intentando reconectar."
 
-#: js/documents.js:339
+#: js/documents.js:337
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Si deja esta página en el modo de edición, puede que algunos datos no sean guardados. Es preferible usar el botón «Cerrar»."
 
-#: js/documents.js:360
+#: js/documents.js:358
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "No se pudo cargar el documento. Sírvase comprobar si puede abrirlo con un editor de archivos ODT externo. También puede ser que hayan dejado de compartirlo o haya sido eliminado recientemente."
 
-#: js/documents.js:382 js/locale.js:39
+#: js/documents.js:380 js/locale.js:39
 msgid "Save"
 msgstr "Guardar"
 
-#: js/documents.js:720 templates/documents.php:31
+#: js/documents.js:719 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Cargando los documentos..."
 
-#: js/documents.js:753
+#: js/documents.js:752
 msgid "'.' is an invalid file name."
 msgstr "'.' no es un nombre de archivo válido."
 
-#: js/documents.js:755
+#: js/documents.js:754
 msgid "File name cannot be empty."
 msgstr "El nombre de archivo no puede estar vacío."
 
-#: js/documents.js:762
+#: js/documents.js:761
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -152,6 +148,10 @@ msgstr "Clonar"
 #: js/locale.js:11
 msgid "Clone this Style"
 msgstr "Clonar este estilo"
+
+#: js/locale.js:12 js/viewer/viewer.js:77
+msgid "Close"
+msgstr "Cerrar"
 
 #: js/locale.js:13
 msgid "Color"

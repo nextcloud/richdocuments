@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Spremanje...",
 "Share" => "Podijeli",
-"Close" => "Zatvori",
 "Save" => "Snimi",
 "Cancel" => "Odustani",
+"Close" => "Zatvori",
 "Create" => "Izradi",
 "Delete" => "Obriši",
 "OK" => "U redu",

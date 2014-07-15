@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Speicheren...",
 "Share" => "Deelen",
-"Close" => "Zoumaachen",
 "Save" => "Späicheren",
 "Cancel" => "Ofbriechen",
+"Close" => "Zoumaachen",
 "Create" => "Erstellen",
 "Delete" => "Läschen",
 "Family" => "Famill",

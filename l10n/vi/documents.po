@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 00:43-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-15 00:43-0400\n"
+"PO-Revision-Date: 2014-07-15 04:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -61,51 +61,47 @@ msgid "Failed to load documents."
 msgstr "Không thể tải tài liệu thử lại sau."
 
 #: js/documents.js:121
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Không tìm thấy tài liệu. Vui lòng tải lên hoặc tạo mới !"
+msgid "No documents were found. Upload or create a document to get started!"
+msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
-msgid "Close"
-msgstr "Đóng"
-
-#: js/documents.js:275
+#: js/documents.js:273
 msgid "No connection to server. Trying to reconnect."
 msgstr "Không thể kết nối đến máy chủ. Đang thử kết nối lại."
 
-#: js/documents.js:339
+#: js/documents.js:337
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Rời khỏi trang này khi đang trong chế độ chỉnh sửa có thể gây mất dữ liệu. Bạn nên sử dụng nút 'Đóng' để thay thế."
 
-#: js/documents.js:360
+#: js/documents.js:358
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Không thể tải tài liệu này. Hãy kiểm tra xem nó có thể đang được mở ra bởi ai đó. Hay là tài liệu này không  chia sẻ hoặc bị xóa gần đây."
 
-#: js/documents.js:382 js/locale.js:39
+#: js/documents.js:380 js/locale.js:39
 msgid "Save"
 msgstr "Lưu"
 
-#: js/documents.js:720 templates/documents.php:31
+#: js/documents.js:719 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Tải tài liệu ..."
 
-#: js/documents.js:753
+#: js/documents.js:752
 msgid "'.' is an invalid file name."
 msgstr "'.' là một tên file không hợp lệ"
 
-#: js/documents.js:755
+#: js/documents.js:754
 msgid "File name cannot be empty."
 msgstr "Tên file không được rỗng"
 
-#: js/documents.js:762
+#: js/documents.js:761
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -154,6 +150,10 @@ msgstr "Sao chép"
 #: js/locale.js:11
 msgid "Clone this Style"
 msgstr "Sao chép kiểu này"
+
+#: js/locale.js:12 js/viewer/viewer.js:77
+msgid "Close"
+msgstr "Đóng"
 
 #: js/locale.js:13
 msgid "Color"

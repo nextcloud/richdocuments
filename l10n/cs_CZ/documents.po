@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-13 00:43-0400\n"
-"PO-Revision-Date: 2014-07-12 07:30+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-07-15 00:43-0400\n"
+"PO-Revision-Date: 2014-07-15 04:43+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,51 +65,47 @@ msgid "Failed to load documents."
 msgstr "Nepodařilo se načíst dokumenty."
 
 #: js/documents.js:121
-msgid "No documents are found. Please upload or create a document!"
-msgstr "Žádné dokumenty nebyly nalezeny. Nahrajte nebo vytvořte dokument!"
+msgid "No documents were found. Upload or create a document to get started!"
+msgstr ""
 
 #: js/documents.js:156
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/documents.js:159 js/locale.js:12 js/viewer/viewer.js:77
-msgid "Close"
-msgstr "Zavřít"
-
-#: js/documents.js:275
+#: js/documents.js:273
 msgid "No connection to server. Trying to reconnect."
 msgstr "Ztráta připojení k serveru. Zkouším znovu."
 
-#: js/documents.js:339
+#: js/documents.js:337
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Ponecháním této stránky v módu editoru může dojít k neuložení změn. Místo toho je doporučeno použít tlačítko 'Zavřít'."
 
-#: js/documents.js:360
+#: js/documents.js:358
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Nepodařilo se otevřít tento dokument. Prosím zkontrolujte, zda je možné jej otevřít externím editorem odt. Může to také znamenat, že byl nedávno odsdílen nebo smazán."
 
-#: js/documents.js:382 js/locale.js:39
+#: js/documents.js:380 js/locale.js:39
 msgid "Save"
 msgstr "Uložit"
 
-#: js/documents.js:720 templates/documents.php:31
+#: js/documents.js:719 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Nahrávám dokumenty ..."
 
-#: js/documents.js:753
+#: js/documents.js:752
 msgid "'.' is an invalid file name."
 msgstr "'.' je neplatným názvem souboru."
 
-#: js/documents.js:755
+#: js/documents.js:754
 msgid "File name cannot be empty."
 msgstr "Název souboru nemůže být prázdný řetězec."
 
-#: js/documents.js:762
+#: js/documents.js:761
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -158,6 +154,10 @@ msgstr "Klonovat"
 #: js/locale.js:11
 msgid "Clone this Style"
 msgstr "Klonovat tento styl"
+
+#: js/locale.js:12 js/viewer/viewer.js:77
+msgid "Close"
+msgstr "Zavřít"
 
 #: js/locale.js:13
 msgid "Color"

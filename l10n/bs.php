@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Saving..." => "Spašavam...",
 "Share" => "Podijeli",
-"Close" => "Zatvori",
 "Save" => "Spasi",
+"Close" => "Zatvori",
 "Size" => "Veličina"
 );

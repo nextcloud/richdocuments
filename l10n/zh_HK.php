@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Share" => "分享",
-"Close" => "關閉",
 "Save" => "儲存",
 "Background" => "背景",
 "Cancel" => "取消",
 "Center" => "中間",
+"Close" => "關閉",
 "Color" => "顏色",
 "Create" => "新增",
 "Delete" => "刪除",

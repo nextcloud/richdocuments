@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Close" => "Փակել",
 "Save" => "Պահպանել",
+"Close" => "Փակել",
 "Delete" => "Ջնջել"
 );
