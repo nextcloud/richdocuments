@@ -43,7 +43,8 @@ wAAAQACAAAAAAAAAAAAAAAAAAAAAAACAAAAAtXN1ZwuGxCTlwgAKyz5rkQAAAAF1c3VnC4bEJOXCAArL
  
 		$params = ' --headless --convert-to ' . escapeshellarg($targetFilter) . ' --outdir ' 
 			. escapeshellarg($outdir) 
-			. ' --writer '. escapeshellarg($infile) . ' 2>&1';
+			. ' --writer '. escapeshellarg($infile) 
+			. ' -env:UserInstallation=file://' . escapeshellarg(get_temp_dir()) . ' 2>&1'
 		;
 		file_put_contents($infile, $input);
  
