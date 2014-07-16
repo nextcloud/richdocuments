@@ -49,6 +49,7 @@ class Converter {
 		$params = ' --headless --convert-to ' . $targetFilter . ' --outdir ' 
 				. escapeshellarg($outdir) 
 				. ' --writer '. escapeshellarg($infile)
+				. ' -env:UserInstallation=file://' . escapeshellarg(get_temp_dir())
 		;
 		
 		file_put_contents($infile, $input);
