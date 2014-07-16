@@ -9,6 +9,7 @@
 "Documents" => "Dokumente",
 "Saving..." => "Speichern...",
 "Failed to load documents." => "Das Laden der Dokumente ist fehlgeschlagen.",
+"No documents were found. Upload or create a document to get started!" => "Keine Dokumente gefunden. Bitte laden Sie zu Beginn Dokumente hoch, oder erstellen Sie ein Dokument!",
 "Share" => "Teilen",
 "No connection to server. Trying to reconnect." => "Keine Verbindung zum Server. Es wird versucht diese wiederherzustellen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Das Verlassen dieser Seite kann zu nicht gespeicherten Daten führen. Bitte verwenden die den 'Schließen'-Button.",

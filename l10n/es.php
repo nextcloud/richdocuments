@@ -9,6 +9,7 @@
 "Documents" => "Documentos",
 "Saving..." => "Guardando...",
 "Failed to load documents." => "Error al cargar los documentos.",
+"No documents were found. Upload or create a document to get started!" => "No se encontraron documentos. ¡Suba o cree un documento para comenzar!",
 "Share" => "Compartir",
 "No connection to server. Trying to reconnect." => "No hay conexión con el servidor. Intentando reconectar.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Si deja esta página en el modo de edición, puede que algunos datos no sean guardados. Es preferible usar el botón «Cerrar».",

@@ -9,6 +9,7 @@
 "Documents" => "Documents",
 "Saving..." => "Saving...",
 "Failed to load documents." => "Failed to load documents.",
+"No documents were found. Upload or create a document to get started!" => "No documents were found. Upload or create a document to get started!",
 "Share" => "Share",
 "No connection to server. Trying to reconnect." => "No connection to server. Trying to reconnect.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.",

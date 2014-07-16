@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formatfilter servern är ur funktion eller felkonfigurerad",
+"Conversion failed. Check log for details." => "Konvertering misslyckades. Se loggen för detaljer.",
 "Saved" => "Sparad",
 "Can't create document" => "Kan inte skapa dokument",
 "You don't have permission to rename this document" => "Du har inte behörighet att döpa om detta dokument",
@@ -8,6 +9,7 @@
 "Documents" => "Dokument",
 "Saving..." => "Sparar...",
 "Failed to load documents." => "Kunde inte ladda dokumenten.",
+"No documents were found. Upload or create a document to get started!" => "Inga dokument hittades. Ladda upp eller skapa ett dokument för att komma igång!",
 "Share" => "Dela",
 "No connection to server. Trying to reconnect." => "Ingen kontakt med servern. Försöker att koppla upp igen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Att lämna denna sida i Redigera läget kan orsaka osparad data. Det är rekommenderat att använda 'Stäng' knappen i stället.",
@@ -73,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "OpenOffice/LibreOffice är installerad på en extern server som kör en formatfilter-server",
 "scheme://domain.tld[:port]" => "ordning://domän.tld[:port]",
 "Server URL" => "Server URL",
+"Apply and test" => "Spara och utför test",
 "New document" => "Nytt dokument",
 "Upload (max. %s)" => "Ladda upp (max. %s)",
 "Upload" => "Ladda upp",

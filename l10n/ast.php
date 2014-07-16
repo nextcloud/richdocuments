@@ -9,6 +9,7 @@
 "Documents" => "Documentos",
 "Saving..." => "Guardando...",
 "Failed to load documents." => "Fallu al cargar los documentos.",
+"No documents were found. Upload or create a document to get started!" => "Nun s'alcontrarón documentos. ¡Xubi o crea un documentu pa entamar!",
 "Share" => "Compartir",
 "No connection to server. Trying to reconnect." => "Nun hai conexón col sirvidor. Intentando reconeutar.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Si dexes esta páxina nel mou d'edición, pue ser que nun se guarden dalgunos datos. Ye preferible usar el botón «Zarrar».",

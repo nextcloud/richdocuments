@@ -9,6 +9,7 @@
 "Documents" => "ドキュメント",
 "Saving..." => "保存中...",
 "Failed to load documents." => "ドキュメントのロードに失敗しました。",
+"No documents were found. Upload or create a document to get started!" => "ドキュメントはありません。アップロードもしくは新規に作成してください！",
 "Share" => "共有",
 "No connection to server. Trying to reconnect." => "サーバーに接続されていません。再接続してください。",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "このページを編集モードのままにしておくと、保存されないデータが出てきます。その代わりに「閉じる」ボタンを使うことをお勧めします。",

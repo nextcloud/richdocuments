@@ -9,6 +9,7 @@
 "Documents" => "Asiakirjat",
 "Saving..." => "Tallennetaan...",
 "Failed to load documents." => "Virhe ladattaessa dokumentteja.",
+"No documents were found. Upload or create a document to get started!" => "Asiakirjoja ei löytynyt. Lähetä tai luo asiakirja aloittaaksesi!",
 "Share" => "Jaa",
 "No connection to server. Trying to reconnect." => "Ei yhteyttä palvelimeen. Yritetään yhdistää uudelleen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Tältä sivulta poistuminen muokkaustilassa saattaa aiheuttaa tallentamatonta tietoa. Käytä sivulta poistumisen sijaan \"Sulje\"-painiketta.",
