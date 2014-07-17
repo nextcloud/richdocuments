@@ -99,9 +99,10 @@ class File {
 	public function checkPassword($password){
 		$shareId  = $this->getShareId();
 		if (!$this->isPasswordProtected()
-			|| (\OC::$session->exists('public_link_authenticated')
-				&& \OC::$session->get('public_link_authenticated') === $shareId)	
-			){
+			|| (\OC::$server->getSession()->exists('public_link_authenticated')
+				&& \OC::$server->getSession()->get('public_link_authenticated') === $shareId
+			)
+		){
 				return true;
 		}
 		
@@ -111,7 +112,7 @@ class File {
 		if ($hasher->CheckPassword($password.\OC_Config::getValue('passwordsalt', ''),
 									 $this->getPassword())) {
 			// Save item id in session for future request
-			\OC::$session->set('public_link_authenticated', $shareId);
+			\OC::$server->getSession()->set('public_link_authenticated', $shareId);
 			return true;
 		}
 		return false;
