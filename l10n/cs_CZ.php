@@ -9,6 +9,7 @@
 "Documents" => "Dokumenty",
 "Saving..." => "Ukládám...",
 "Failed to load documents." => "Nepodařilo se načíst dokumenty.",
+"No documents were found. Upload or create a document to get started!" => "Žádné dokumenty nebyly nalezeny. Začněte nahráním nebo vytvořením prvního dokumentu!",
 "Share" => "Sdílet",
 "No connection to server. Trying to reconnect." => "Ztráta připojení k serveru. Zkouším znovu.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Ponecháním této stránky v módu editoru může dojít k neuložení změn. Místo toho je doporučeno použít tlačítko 'Zavřít'.",

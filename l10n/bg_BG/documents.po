@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 04:43+0000\n"
+"POT-Creation-Date: 2014-07-17 00:43-0400\n"
+"PO-Revision-Date: 2014-07-16 22:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr ""
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr ""
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr ""
 
@@ -97,13 +97,13 @@ msgstr ""
 
 #: js/documents.js:754
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Името на файла неможе да е празно."
 
 #: js/documents.js:761
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Невалидно име, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не са разрешени."
 
 #: js/locale.js:1
 msgid "Align Left"
@@ -175,7 +175,7 @@ msgstr "Изтриване"
 
 #: js/locale.js:18
 msgid "Family"
-msgstr ""
+msgstr "Семейство"
 
 #: js/locale.js:19
 msgid "Font"
@@ -344,7 +344,7 @@ msgstr ""
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Качване (макс. %s)"
 
 #: templates/documents.php:27
 msgid "Upload"
