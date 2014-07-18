@@ -9,6 +9,7 @@
 "Documents" => "Dokumenter",
 "Saving..." => "Gemmer...",
 "Failed to load documents." => "Kunne ikke hente dokumenterne. ",
+"No documents were found. Upload or create a document to get started!" => "Der blev ikke fundet nogle dokumenter. Upload eller opret et dokument for at komme igang",
 "Share" => "Del",
 "No connection to server. Trying to reconnect." => "Ingen forbindelse til servver. Prøv at forbinde igen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "At forlade denne side i redigeringstilstand kan resultere i ikke gemte data. Det anbefales at bruge 'Luk' knappen i stedet.",
