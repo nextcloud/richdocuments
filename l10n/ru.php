@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Сервер фильтрации формата не работает или настроен неправильно",
+"Conversion failed. Check log for details." => "Конвертация не удалась. О деталях обратитесь к логам.",
 "Saved" => "Сохранено",
 "Can't create document" => "Невозможно создать документ",
 "You don't have permission to rename this document" => "У вас не достаточно прав для переименования этого документа.",
@@ -8,6 +9,7 @@
 "Documents" => "Документы",
 "Saving..." => "Сохранение...",
 "Failed to load documents." => "Не удалось загрузить документы.",
+"No documents were found. Upload or create a document to get started!" => "Документы не найдены. Чтобы начать, загрузите или создайте документ!",
 "Share" => "Открыть доступ",
 "No connection to server. Trying to reconnect." => "Нет связи с сервером. Попытка переподключения.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'.",
@@ -73,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice установлен на внешнем сервере выполняющем форматирование и фильтрацию",
 "scheme://domain.tld[:port]" => "протокол://домен.зона[:порт]",
 "Server URL" => "URL сервера",
+"Apply and test" => "Применить и проверить",
 "New document" => "Новый документ",
 "Upload (max. %s)" => "Загружено (max. %s)",
 "Upload" => "Загрузка",

@@ -9,6 +9,7 @@
 "Documents" => "Dokumendid",
 "Saving..." => "Salvestamine...",
 "Failed to load documents." => "Dokumentide laadimine ebaõnnestus.",
+"No documents were found. Upload or create a document to get started!" => "Ühtegi dokumenti ei leitud. Alustamiseks laadi mõni üles või loo uus dokument!",
 "Share" => "Jaga",
 "No connection to server. Trying to reconnect." => "Serveriga puudub ühendus. Proovin uuesti ühenduda.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Selle lehe jätmine Redaktori moodi võib põhjustada salvestamata andmete kadu. On soovitav selle asemel kasutada \"Sulge\" nuppu.",

@@ -9,6 +9,7 @@
 "Documents" => "Belgeler",
 "Saving..." => "Kaydediliyor...",
 "Failed to load documents." => "Belgeler yüklenemedi.",
+"No documents were found. Upload or create a document to get started!" => "Hiçbir belge bulunamadı. Lütfen bir belge yükleyin veya oluşturun!",
 "Share" => "Paylaş",
 "No connection to server. Trying to reconnect." => "Sunucuya bağlantı yok. Yeniden bağlanmaya çalışıyor.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Düzenleyici kipinde bu sayfadan ayrılmak, kaydedilmemiş verilere sebep olabilir. Bunun yerine 'Kapat' düğmesi kullanılması önerilir.",
