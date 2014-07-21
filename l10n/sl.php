@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Strežnik filtriranja je nedejaven, ali pa ni pravilno nastavljen",
+"Conversion failed. Check log for details." => "Pretvarjanje je spodletelo. Preverite dnevniški zapis za več podrobnosti.",
 "Saved" => "Shranjeno",
 "Can't create document" => "Dokumenta ni mogoče ustvariti",
 "You don't have permission to rename this document" => "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ...",
@@ -8,6 +9,7 @@
 "Documents" => "Dokumenti",
 "Saving..." => "Poteka shranjevanje ...",
 "Failed to load documents." => "Nalaganje dokumentov je spodletelo.",
+"No documents were found. Upload or create a document to get started!" => "Ni najdenih dokumentov. Ustvarite ga ali pa pošljite obstoječega v oblak.",
 "Share" => "Souporaba",
 "No connection to server. Trying to reconnect." => "Ni povezave s strežnikom. Poskus povezave bo ponovljen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Odhod s strani v načinu urejevalnika lahko vpliva na shranjevanje podatkov. Priporočljivo je raje uporabiti gumb za 'zapiranje' okna.",
@@ -73,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "Pisarniški paket OpenOffice.org oziroma LibreOffice je nameščen na zunanjem strežniku z zagnanim strežnikom filtra za odpiranje pisarniških datotek.",
 "scheme://domain.tld[:port]" => "shema://domena.tld[:vrata]",
 "Server URL" => "Naslov URL strežnika",
+"Apply and test" => "Uveljavi in preizkusi",
 "New document" => "Nov dokument",
 "Upload (max. %s)" => "Pošiljanje (omejitev %s)",
 "Upload" => "Pošlji",
