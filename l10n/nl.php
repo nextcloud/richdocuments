@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formaatfilter server is down of onjuist geconfigureerd",
+"Conversion failed. Check log for details." => "Conversie mislukt. Beoordeel log voor details.",
 "Saved" => "Bewaard",
 "Can't create document" => "Kan document niet creëren",
 "You don't have permission to rename this document" => "U hebt niet de autorisatie om die document te hernoemen",
@@ -8,6 +9,7 @@
 "Documents" => "Documenten",
 "Saving..." => "Opslaan",
 "Failed to load documents." => "Kon documenten niet laden.",
+"No documents were found. Upload or create a document to get started!" => "Geen documenten gevonden. Upload of maak een document om  te starten!",
 "Share" => "Delen",
 "No connection to server. Trying to reconnect." => "Geen verbinding met de server. Bezig te verbinden.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Deze pagina open laten in de Editor kan resulteren in niet opslaan. Geadviseerd wordt om de 'Sluiten' knop te gebruiken.",
@@ -73,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice is geïnstalleerd op een externe server die een format filter server draait",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Server URL",
+"Apply and test" => "Toepassen en testen",
 "New document" => "Nieuw document",
 "Upload (max. %s)" => "Upload (max. %s)",
 "Upload" => "Uploaden",
