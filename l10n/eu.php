@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formatuen iragazki zerbitzaria erorita edo gaizki konfiguratua",
+"Conversion failed. Check log for details." => "Bihurketak huts egin du. Begiratu erregistroak zehaztapenetarako.",
 "Saved" => "Gordeta",
 "Can't create document" => "Ezin da dokumentua sortu",
 "You don't have permission to rename this document" => "Ez duzu dokumentu honi izena aldatzeko baimenik",
@@ -8,6 +9,7 @@
 "Documents" => "Dokumentuak",
 "Saving..." => "Gordetzen...",
 "Failed to load documents." => "Dokumentuak kargatzeak huts egin du.",
+"No documents were found. Upload or create a document to get started!" => "Ez da dokumenturik aurkitu. Igo edo sortu dokumentu bat hasteko!",
 "Share" => "Partekatu",
 "No connection to server. Trying to reconnect." => "Ez dago konexiorik zerbitzariarekin. Birkonektatzen saiatzen.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Orri hau Editore moduan uzteak gordegabeko datuak utz ditzake. Aholkatzen da 'Itxi' botoia erabiltzea.",
@@ -73,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice kanpoko zerbitzari batean instalatuta dago zeinak formatu iragazki zerbitzari bat duen",
 "scheme://domain.tld[:port]" => "eskema://domain.tld[:port]",
 "Server URL" => "Zerbitzariaren URLa",
+"Apply and test" => "Aplikatu eta probatu",
 "New document" => "Dokumentu berria",
 "Upload (max. %s)" => "Igo (max. %s)",
 "Upload" => "Igo",
