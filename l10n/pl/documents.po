@@ -5,14 +5,15 @@
 # Translators:
 # bar_pet <bartosz.petrynski@gmail.com>, 2014
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
+# JurijPietrowicz <aleksander_cichon@fastmail.fm>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-26 00:43-0400\n"
+"PO-Revision-Date: 2014-07-26 00:00+0000\n"
+"Last-Translator: JurijPietrowicz <aleksander_cichon@fastmail.fm>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +25,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr "Serwer filtrów formatów jest niedostępny lub nieprawidłowo skonfigurowany"
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
-msgstr ""
+msgstr "Konwersja nieudana. Sprawdź szczegóły w logu."
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr "Zapisano"
 
@@ -63,7 +64,7 @@ msgstr "Nie można wczytać dokumentów."
 
 #: js/documents.js:121
 msgid "No documents were found. Upload or create a document to get started!"
-msgstr ""
+msgstr "Nie znaleziono dokumentów. Wyślij lub stwórz dokument aby rozpocząć!"
 
 #: js/documents.js:156
 msgid "Share"
@@ -316,7 +317,7 @@ msgstr "Lokalny"
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr ""
+msgstr "openOffice/libreOffice jest zainstalowany na tej maszynie. Ścieżka do binariów jest podawana przez preview_libreoffice_path w config.php"
 
 #: templates/admin.php:16
 msgid "External"
@@ -338,7 +339,7 @@ msgstr "URL serwera"
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr ""
+msgstr "Zastosuj i przetestuj"
 
 #: templates/documents.php:5
 msgid "New document"
