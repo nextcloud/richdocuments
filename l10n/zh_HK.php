@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "已儲存",
+"Saving..." => "儲存中...",
 "Share" => "分享",
 "Save" => "儲存",
 "Background" => "背景",

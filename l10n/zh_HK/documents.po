@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 04:43+0000\n"
+"POT-Creation-Date: 2014-07-27 00:43-0400\n"
+"PO-Revision-Date: 2014-07-26 17:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -22,13 +22,13 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr ""
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr ""
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
-msgstr ""
+msgstr "已儲存"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -53,7 +53,7 @@ msgstr ""
 
 #: js/admin.js:16
 msgid "Saving..."
-msgstr ""
+msgstr "儲存中..."
 
 #: js/documents.js:86
 msgid "Failed to load documents."
