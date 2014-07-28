@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Playerthe12 <a7652246@drdrb.net>, 2014
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # George Daniil <goergios@hotmail.com>, 2014
 # Spyros Melissovas <peppe@cs.uoi.gr>, 2014
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 04:43+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-28 00:43-0400\n"
+"PO-Revision-Date: 2014-07-27 20:40+0000\n"
+"Last-Translator: Playerthe12 <a7652246@drdrb.net>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +28,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr "Ο διακομιστής μορφών φίλτρων είναι εκτός σύνδεσης ή δεν έχει ρυθμιστεί σωστά"
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
-msgstr ""
+msgstr "Η μετατροπή απέτυχε. Ελέγξτε το αρχείο καταγραφής για λεπτομέρειες."
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr "Αποθηκεύτηκαν"
 
@@ -66,7 +67,7 @@ msgstr "Αποτυχία φόρτωσης εγγράφων."
 
 #: js/documents.js:121
 msgid "No documents were found. Upload or create a document to get started!"
-msgstr ""
+msgstr "Δεν βρέθηκαν έγγραφα. Μεταφορτώστε ή δημιουργήστε ένα έγγραφο για να αρχίσετε!"
 
 #: js/documents.js:156
 msgid "Share"
@@ -341,7 +342,7 @@ msgstr "Διεύθυνση URL διακομιστή"
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr ""
+msgstr "Εφαρμογή και δοκιμή"
 
 #: templates/documents.php:5
 msgid "New document"

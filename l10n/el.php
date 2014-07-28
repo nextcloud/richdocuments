@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Ο διακομιστής μορφών φίλτρων είναι εκτός σύνδεσης ή δεν έχει ρυθμιστεί σωστά",
+"Conversion failed. Check log for details." => "Η μετατροπή απέτυχε. Ελέγξτε το αρχείο καταγραφής για λεπτομέρειες.",
 "Saved" => "Αποθηκεύτηκαν",
 "Can't create document" => "Δεν είναι δυνατή η δημιουργία του εγγράφου",
 "You don't have permission to rename this document" => "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο",
@@ -8,6 +9,7 @@
 "Documents" => "Έγγραφα",
 "Saving..." => "Γίνεται αποθήκευση...",
 "Failed to load documents." => "Αποτυχία φόρτωσης εγγράφων.",
+"No documents were found. Upload or create a document to get started!" => "Δεν βρέθηκαν έγγραφα. Μεταφορτώστε ή δημιουργήστε ένα έγγραφο για να αρχίσετε!",
 "Share" => "Διαμοιρασμός",
 "No connection to server. Trying to reconnect." => "Αποτυχία σύνδεσης με το διακομιστή. Προσπάθεια επανασύνδεσης σε εξέλιξη.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Αποχωρώντας από την κατάσταση Επεξεργασίας της σελίδας μπορεί να υπάρξουν μη αποθηκευμένα δεδομένα. Αντί γι' αυτό, συνίσταται να χρησιμοποιήσετε το κουμπί 'Κλείσιμο'.",
@@ -73,6 +75,7 @@
 "openOffice/libreOffice is installed on external server running a format filter server" => "Το openOffice/libreOffice είναι εγκατεστημένο σε εξωτερικό διακομιστή που εκτελεί ένα διακομιστή φίλτρου μορφοποίησης",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Διεύθυνση URL διακομιστή",
+"Apply and test" => "Εφαρμογή και δοκιμή",
 "New document" => "Νέο έγγραφο",
 "Upload (max. %s)" => "Διαμοιρασμός (max. %s)",
 "Upload" => "Μεταφόρτωση",
