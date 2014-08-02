@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Iñigo Varela <ivarela@softastur.org>, 2014
-# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <tornes@opmbx.org>, 2014
 # Arcipiescu <xandru.martino@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 16:31+0000\n"
-"Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
+"POT-Creation-Date: 2014-08-02 00:43-0400\n"
+"PO-Revision-Date: 2014-08-01 08:27+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +24,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr "El sirvidor de filtru de formatu cayó o ta mal configuráu"
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr "Conversión fallida. Comprueba'l rexistru pa detalles."
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr "Guardáu"
 
