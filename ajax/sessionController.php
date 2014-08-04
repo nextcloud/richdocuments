@@ -23,7 +23,7 @@ class SessionController extends Controller{
 		try {
 			$token = Helper::getArrayValueByKey($args, 'token');
 			$file = File::getByShareToken($token);
-			$session = Db\Session::start($uid, $file, true);
+			$session = Db\Session::start($uid, $file);
 			\OCP\JSON::success($session);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
