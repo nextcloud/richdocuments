@@ -9,12 +9,12 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Download;
 
 /**
  * Class processing complete download
  */
-class Download_Simple extends \OCA\Documents\Download {
+class Simple extends \OCA\Documents\Download {
 
 	public function __construct($owner, $filepath){
 		$this->view = $this->getView($owner);
@@ -27,7 +27,7 @@ class Download_Simple extends \OCA\Documents\Download {
 	public function sendResponse(){
 		$mimetype = $this->getMimeType();
 		$content = $this->view->file_get_contents($this->filepath);
-		$data = Filter::read($content, $mimetype);
+		$data = \OCA\Documents\Filter::read($content, $mimetype);
 		
 		header( 'Content-Type:' . $data['mimetype'] );
 		
