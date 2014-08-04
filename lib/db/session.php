@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Db;
 
 /**
  *  Session management
@@ -22,7 +22,7 @@ namespace OCA\Documents;
  * @method string getGenesisHash()
  * 
  */
-class Db_Session extends \OCA\Documents\Db {
+class Session extends \OCA\Documents\Db {
 
 	/**
 	 * DB table
@@ -44,15 +44,15 @@ class Db_Session extends \OCA\Documents\Db {
 	 */
 	public static function start($uid, $file){
 		// Create a directory to store genesis
-		$genesis = new Genesis($file);
+		$genesis = new \OCA\Documents\Genesis($file);
 		
 		list($ownerView, $path) = $file->getOwnerViewAndPath();
-		$oldSession = new Db_Session();
+		$oldSession = new Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
 		
 		//If there is no existing session we need to start a new one
 		if (!$oldSession->hasData()){
-			$newSession = new Db_Session(array(
+			$newSession = new Session(array(
 				$genesis->getPath(),
 				$genesis->getHash(),
 				$file->getOwner(),
@@ -69,8 +69,8 @@ class Db_Session extends \OCA\Documents\Db {
 					->getData()
 		;
 		
-		$memberColor = Helper::getMemberColor($uid);
-		$member = new Db_Member(array(
+		$memberColor = \OCA\Documents\Helper::getMemberColor($uid);
+		$member = new \OCA\Documents\Db_Member(array(
 			$sessionData['es_id'], 
 			$uid,
 			$memberColor,
@@ -87,10 +87,10 @@ class Db_Session extends \OCA\Documents\Db {
 				$imageUrl = $uid;
 			}
 
-			$displayName = $file->isPublicShare() ? $uid . ' ' . Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
+			$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
 			$sessionData['member_id'] = (string) $member->getLastInsertId();
-			$op = new Db_Op();
+			$op = new \OCA\Documents\Db_Op();
 			$op->addMember(
 					$sessionData['es_id'],
 					$sessionData['member_id'],
@@ -109,13 +109,13 @@ class Db_Session extends \OCA\Documents\Db {
 	}
 	
 	public static function cleanUp($esId){
-		$session = new Db_Session();
+		$session = new Session();
 		$session->deleteBy('es_id', $esId);
 		
-		$member = new Db_Member();
+		$member = new \OCA\Documents\Db_Member();
 		$member->deleteBy('es_id', $esId);
 		
-		$op= new Db_Op();
+		$op= new \OCA\Documents\Db_Op();
 		$op->deleteBy('es_id', $esId);
 	}
 	
@@ -182,7 +182,7 @@ class Db_Session extends \OCA\Documents\Db {
 	}
 
 	protected function getUniqueSessionId(){
-		$testSession = new Db_Session();
+		$testSession = new Session();
 		do{
 			$id = \OC_Util::generateRandomBytes(30);
 		} while ($testSession->load($id)->hasData());

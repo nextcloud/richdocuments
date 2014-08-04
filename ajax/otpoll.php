@@ -31,7 +31,7 @@ try{
 	$request = new Request();
 	$esId = $request->getParam('args/es_id');
 	
-	$session = new Db_Session();
+	$session = new Db\Session();
 	$session->load($esId);
 	
 	$memberId = $request->getParam('args/member_id');

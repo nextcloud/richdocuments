@@ -51,7 +51,7 @@ class DocumentController extends Controller{
 	 * @param array $args - array containing session id as an element with a key es_id 
 	 */
 	public static function serve($args){
-		$session = new Db_Session();
+		$session = new Db\Session();
 		$session->load(@$args['es_id']);
 			
 		self::preDispatchGuest();
@@ -108,7 +108,7 @@ class DocumentController extends Controller{
 			return @$b['mtime']-@$a['mtime'];
 		});
 		
-		$session = new Db_Session();
+		$session = new Db\Session();
 		$sessions = $session->getCollectionBy('file_id', $fileIds);
 
 		$members = array();

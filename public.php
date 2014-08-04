@@ -39,7 +39,7 @@ if (isset($_GET['t'])) {
 			\OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor' );
 			\OCP\Util::addScript('documents', 'documents');
 			if ($file->getFileId()){
-				$session = new Db_Session();
+				$session = new Db\Session();
 				$session->loadBy('file_id', $file->getFileId());
 				
 				if ($session->getEsId()){

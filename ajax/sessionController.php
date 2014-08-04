@@ -23,7 +23,7 @@ class SessionController extends Controller{
 		try {
 			$token = Helper::getArrayValueByKey($args, 'token');
 			$file = File::getByShareToken($token);
-			$session = Db_Session::start($uid, $file, true);
+			$session = Db\Session::start($uid, $file, true);
 			\OCP\JSON::success($session);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
@@ -42,7 +42,7 @@ class SessionController extends Controller{
 			
 			if ($view->isUpdatable($path)) {
 				$file = new File($fileId);
-				$session = Db_Session::start($uid, $file);
+				$session = Db\Session::start($uid, $file);
 				\OCP\JSON::success($session);
 			} else {
 				$info = $view->getFileInfo();
@@ -93,7 +93,7 @@ class SessionController extends Controller{
 			}
 			$content = stream_get_contents($stream);
 
-			$session = new Db_Session();
+			$session = new Db\Session();
 			$session->load($esId);
 			
 			if (!$session->getEsId()){
@@ -157,7 +157,7 @@ class SessionController extends Controller{
 					$session->updateGenesisHash($esId, sha1($data['content']));
 				} else {
 					// Last user. Kill session data
-					Db_Session::cleanUp($esId);
+					Db\Session::cleanUp($esId);
 				}
 				
 				$view->touch($path);
@@ -177,7 +177,7 @@ class SessionController extends Controller{
 		$info = array();
 
 		if (is_array($items)){
-			$session = new Db_Session();
+			$session = new Db\Session();
 			$info = $session->getInfoByFileId($items);
 		}
 
@@ -188,7 +188,7 @@ class SessionController extends Controller{
 	
 	public static function listAll(){
 		self::preDispatch();
-		$session = new Db_Session();
+		$session = new Db\Session();
 		$sessions = $session->getCollection();
 
 		$preparedSessions = array_map(
