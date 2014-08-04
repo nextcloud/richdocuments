@@ -70,7 +70,7 @@ class Session extends \OCA\Documents\Db {
 		;
 		
 		$memberColor = \OCA\Documents\Helper::getMemberColor($uid);
-		$member = new \OCA\Documents\Db_Member(array(
+		$member = new \OCA\Documents\Db\Member(array(
 			$sessionData['es_id'], 
 			$uid,
 			$memberColor,
@@ -87,7 +87,7 @@ class Session extends \OCA\Documents\Db {
 				$imageUrl = $uid;
 			}
 
-			$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
+			$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db\Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
 			$sessionData['member_id'] = (string) $member->getLastInsertId();
 			$op = new \OCA\Documents\Db\Op();
@@ -112,7 +112,7 @@ class Session extends \OCA\Documents\Db {
 		$session = new Session();
 		$session->deleteBy('es_id', $esId);
 		
-		$member = new \OCA\Documents\Db_Member();
+		$member = new \OCA\Documents\Db\Member();
 		$member->deleteBy('es_id', $esId);
 		
 		$op= new \OCA\Documents\Db\Op();
@@ -139,7 +139,7 @@ class Session extends \OCA\Documents\Db {
 			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
 			FROM ' . $this->tableName . ' AS `s`
 			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
-				AND `m`.`status`=' . Db_Member::MEMBER_STATUS_ACTIVE . '
+				AND `m`.`status`=' . Db\Member::MEMBER_STATUS_ACTIVE . '
 				AND `m`.`uid` != ?
 			WHERE `s`.`es_id` = ?
 			GROUP BY `m`.`es_id`
@@ -168,7 +168,7 @@ class Session extends \OCA\Documents\Db {
 			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
 			FROM ' . $this->tableName . ' AS `s`
 			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
-				AND `m`.`status`=' . Db_Member::MEMBER_STATUS_ACTIVE . '
+				AND `m`.`status`=' . Db\Member::MEMBER_STATUS_ACTIVE . '
 			WHERE `s`.`file_id` ' . $stmt .'
 			GROUP BY `m`.`es_id`',
 			$fileIds

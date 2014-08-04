@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Db;
 
 /**
  * @method boolean getIsGuest()
@@ -19,7 +19,7 @@ namespace OCA\Documents;
  * @method int getStatus()
  */
 
-class Db_Member extends Db{
+class Member extends \OCA\Documents\Db{
 
 	const DB_TABLE = '`*PREFIX*documents_member`';
 

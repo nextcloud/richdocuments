@@ -35,7 +35,7 @@ try{
 	$session->load($esId);
 	
 	$memberId = $request->getParam('args/member_id');
-	$member = new Db_Member();
+	$member = new Db\Member();
 	$member->load($memberId);
 	
 	if ($member->getIsGuest() || is_null($member->getIsGuest())){

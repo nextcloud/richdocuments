@@ -71,7 +71,7 @@ class SessionController extends Controller{
 			}
 			
 			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
-			$currentMember = new Db_Member();
+			$currentMember = new Db\Member();
 			$currentMember->load($memberId);
 			if (is_null($currentMember->getIsGuest()) || $currentMember->getIsGuest()){
 				self::preDispatchGuest();
@@ -119,7 +119,7 @@ class SessionController extends Controller{
 				}
 			}
 			
-			$member = new Db_Member();
+			$member = new Db\Member();
 			$members = $member->getActiveCollection($esId);
 			$memberIds = array_map(
 				function($x){

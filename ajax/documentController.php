@@ -112,7 +112,7 @@ class DocumentController extends Controller{
 		$sessions = $session->getCollectionBy('file_id', $fileIds);
 
 		$members = array();
-		$member = new Db_Member();
+		$member = new Db\Member();
 		foreach ($sessions as $session) {			
 			$members[$session['es_id']] = $member->getActiveCollection($session['es_id']);
 		}

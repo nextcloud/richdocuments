@@ -78,10 +78,10 @@ class Storage {
 			return;
 		}
 		
-		$member = new Db_Member();
+		$member = new Db\Member();
 		$sessionMembers = $member->getCollectionBy('es_id', $session->getEsId());
 		foreach ($sessionMembers as $memberData){
-			if (intval($memberData['status'])===Db_Member::MEMBER_STATUS_ACTIVE){
+			if (intval($memberData['status'])===Db\Member::MEMBER_STATUS_ACTIVE){
 				return;
 			}
 		}
