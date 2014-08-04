@@ -9,9 +9,9 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Db;
 
-class Db_Op extends Db {
+class Op extends \OCA\Documents\Db {
 
 	const DB_TABLE = '`*PREFIX*documents_op`';
 	
@@ -21,7 +21,7 @@ class Db_Op extends Db {
 
 	public static function addOpsArray($esId, $memberId, $ops){
 		$lastSeq = "";
-		$opObj = new Db_Op();
+		$opObj = new Op();
 		foreach ($ops as $op) {
 			$opObj->setData(array(
 				$esId, 
@@ -116,7 +116,7 @@ class Db_Op extends Db {
 	}
 	
 	protected function insertOp($esId, $memberId, $op){
-		$op = new Db_Op(array(
+		$op = new Op(array(
 			$esId, 
 			$memberId,
 			$op

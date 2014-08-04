@@ -90,7 +90,7 @@ class Session extends \OCA\Documents\Db {
 			$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db_Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
 			
 			$sessionData['member_id'] = (string) $member->getLastInsertId();
-			$op = new \OCA\Documents\Db_Op();
+			$op = new \OCA\Documents\Db\Op();
 			$op->addMember(
 					$sessionData['es_id'],
 					$sessionData['member_id'],
@@ -115,7 +115,7 @@ class Session extends \OCA\Documents\Db {
 		$member = new \OCA\Documents\Db_Member();
 		$member->deleteBy('es_id', $esId);
 		
-		$op= new \OCA\Documents\Db_Op();
+		$op= new \OCA\Documents\Db\Op();
 		$op->deleteBy('es_id', $esId);
 	}
 	
