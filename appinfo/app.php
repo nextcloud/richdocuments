@@ -38,17 +38,11 @@ OC::$CLASSPATH['OCA\Documents\Controller'] = 'documents/ajax/controller.php';
 OC::$CLASSPATH['OCA\Documents\DocumentController'] = 'documents/ajax/documentController.php';
 OC::$CLASSPATH['OCA\Documents\SessionController'] = 'documents/ajax/sessionController.php';
 OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
-OC::$CLASSPATH['OCA\Documents\Download_Simple'] = 'documents/lib/download/simple.php';
-OC::$CLASSPATH['OCA\Documents\Download_Range'] = 'documents/lib/download/range.php';
-OC::$CLASSPATH['OCA\Documents\Db_Session'] = 'documents/lib/db/session.php';
-OC::$CLASSPATH['OCA\Documents\Db_Member'] = 'documents/lib/db/member.php';
-OC::$CLASSPATH['OCA\Documents\Db_Op'] = 'documents/lib/db/op.php';
-OC::$CLASSPATH['OCA\Documents\Filter_Office'] = 'documents/lib/filter/office.php';
 
 //Script for registering file actions
 OCP\Util::addScript('documents', 'viewer/viewer');
 
-$docFilter = new OCA\Documents\Filter_Office(
+$docFilter = new OCA\Documents\Filter\Office(
 			array(
 				'read' => 
 					array (
@@ -65,7 +59,7 @@ $docFilter = new OCA\Documents\Filter_Office(
 			)
 );
 
-$docxFilter = new OCA\Documents\Filter_Office(
+$docxFilter = new OCA\Documents\Filter\Office(
 		array (
 				'read' => 
 					array (

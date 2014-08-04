@@ -26,12 +26,12 @@ class UserController extends Controller{
 	
 	protected static function disconnect($args){
 		$esId = @$_POST['esId'];
-		$member = new Db_Member();
+		$member = new Db\Member();
 		$member->loadBy('member_id', $args['member_id']);
 		if ($esId && $member->hasData()){
-			if ($member->getEsId() === $esId && $member->getStatus() == Db_Member::MEMBER_STATUS_ACTIVE){
+			if ($member->getEsId() === $esId && $member->getStatus() == Db\Member::MEMBER_STATUS_ACTIVE){
 				$member->deactivate(array($args['member_id']));
-				$op = new Db_Op();
+				$op = new Db\Op();
 				$op->removeMember($esId, $args['member_id']);
 			}
 		}
@@ -44,19 +44,19 @@ class UserController extends Controller{
 		
 		$memberId = Helper::getArrayValueByKey($args, 'member_id');
 		$name = Helper::getArrayValueByKey($_POST, 'name');
-		$member = new Db_Member();
+		$member = new Db\Member();
 		$member->load($memberId);
 
 		if ($member->getEsId()
-				&& $member->getStatus() == Db_Member::MEMBER_STATUS_ACTIVE 
+				&& $member->getStatus() == Db\Member::MEMBER_STATUS_ACTIVE 
 				&& $member->getIsGuest()
 		){
-			$guestMark = Db_Member::getGuestPostfix();
+			$guestMark = Db\Member::getGuestPostfix();
 			if (substr($name, -strlen($guestMark)) !== $guestMark){
 				$name = $name . ' ' . $guestMark;
 			}
 			
-			$op = new Db_Op();
+			$op = new Db\Op();
 			$op->changeNick($member->getEsId(), $memberId, $name);
 		}
 		\OCP\JSON::success();

@@ -43,9 +43,9 @@ class Download {
 		$this->filepath = $filepath;
 		
 		if (isset($_SERVER['HTTP_RANGE'])) {
-			$this->instance = new Download_Range($owner, $filepath);
+			$this->instance = new Download\Range($owner, $filepath);
 		} else {
-			$this->instance = new Download_Simple($owner, $filepath);
+			$this->instance = new Download\Simple($owner, $filepath);
 		}
 		
 		$this->view = $this->getView($owner);

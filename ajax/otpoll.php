@@ -31,11 +31,11 @@ try{
 	$request = new Request();
 	$esId = $request->getParam('args/es_id');
 	
-	$session = new Db_Session();
+	$session = new Db\Session();
 	$session->load($esId);
 	
 	$memberId = $request->getParam('args/member_id');
-	$member = new Db_Member();
+	$member = new Db\Member();
 	$member->load($memberId);
 	
 	if ($member->getIsGuest() || is_null($member->getIsGuest())){
@@ -61,7 +61,7 @@ try{
 				$ops = $request->getParam('args/client_ops');
 				$hasOps = is_array($ops) && count($ops)>0;
 
-				$op = new Db_Op();
+				$op = new Db\Op();
 				$currentHead = $op->getHeadSeq($esId);
 				
 				try {
@@ -76,7 +76,7 @@ try{
 					if ($hasOps) {
 						// incoming ops without conflict
 						// Add incoming ops, respond with a new head
-						$newHead = Db_Op::addOpsArray($esId, $memberId, $ops);
+						$newHead = Db\Op::addOpsArray($esId, $memberId, $ops);
 						$response["result"] = 'added';
 						$response["head_seq"] = $newHead ? $newHead : $currentHead;
 					} else {

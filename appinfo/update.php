@@ -16,7 +16,7 @@ $cleanup->execute();
 
 if (version_compare($installedVersion, '0.7', '<=')) {
 	\OCP\Config::setAppValue('documents', 'unstable', 'false');
-	$session = new \OCA\Documents\Db_Session();
+	$session = new \OCA\Documents\Db\Session();
 	
 	$query = \OC_DB::prepare('UPDATE `*PREFIX*documents_session` SET `genesis_url`=? WHERE `es_id`=?');
 

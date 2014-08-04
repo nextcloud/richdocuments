@@ -10,9 +10,9 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Filter;
 
-class Filter_Office {
+class Office {
 	const NATIVE_MIMETYPE = 'application/vnd.oasis.opendocument.text';
 	
 	private $readSpec;
@@ -55,14 +55,14 @@ class Filter_Office {
 		$this->readSpec = $mimeSpec['read'];
 		$this->writeSpec = $mimeSpec['write'];
 		
-		Filter::add($mimeSpec['write']['target'], $this);
+		\OCA\Documents\Filter::add($mimeSpec['write']['target'], $this);
 	}
 
 	public function read($data){
 		return array(
 			'mimetype' => $this->readSpec['target'],
 			'content' => 
-				Converter::convert(
+				\OCA\Documents\Converter::convert(
 						$data['content'], 
 						$this->readSpec['format'],
 						$this->readSpec['extension']
@@ -74,7 +74,7 @@ class Filter_Office {
 		return array(
 			'mimetype' => $this->writeSpec['target'],
 			'content' => 
-				Converter::convert(
+				\OCA\Documents\Converter::convert(
 						$data['content'], 
 						$this->writeSpec['format'],
 						$this->writeSpec['extension']

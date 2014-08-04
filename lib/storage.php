@@ -71,22 +71,22 @@ class Storage {
 			return;
 		}
 		
-		$session = new Db_Session();
+		$session = new Session();
 		$session->loadBy('file_id', $fileId);
 
 		if (!$session->getEsId()){
 			return;
 		}
 		
-		$member = new Db_Member();
+		$member = new Db\Member();
 		$sessionMembers = $member->getCollectionBy('es_id', $session->getEsId());
 		foreach ($sessionMembers as $memberData){
-			if (intval($memberData['status'])===Db_Member::MEMBER_STATUS_ACTIVE){
+			if (intval($memberData['status'])===Db\Member::MEMBER_STATUS_ACTIVE){
 				return;
 			}
 		}
 		
-		Db_Session::cleanUp($session->getEsId());
+		Db\Session::cleanUp($session->getEsId());
 	}
 	
 	protected static function searchDocuments(){

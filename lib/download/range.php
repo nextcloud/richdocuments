@@ -9,12 +9,12 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Download;
 
 /**
  * Class processing range HTTP request (partial download)
  */
-class Download_Range extends \OCA\Documents\Download {
+class Range extends \OCA\Documents\Download {
 
 	// Start of the range
 	protected $start;
@@ -41,7 +41,7 @@ class Download_Range extends \OCA\Documents\Download {
 	
 		$mimetype = $this->getMimeType();
 		$content = $this->view->file_get_contents($this->filepath);
-		$data = Filter::read($content, $mimetype);
+		$data = \OCA\Documents\Filter::read($content, $mimetype);
 		$size = strlen($data['content']);
 		
 		$ranges = explode(',', substr($_SERVER['HTTP_RANGE'], 6));
