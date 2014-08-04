@@ -39,7 +39,6 @@ OC::$CLASSPATH['OCA\Documents\DocumentController'] = 'documents/ajax/documentCon
 OC::$CLASSPATH['OCA\Documents\SessionController'] = 'documents/ajax/sessionController.php';
 OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
 OC::$CLASSPATH['OCA\Documents\Download_Simple'] = 'documents/lib/download/simple.php';
-OC::$CLASSPATH['OCA\Documents\Download_Range'] = 'documents/lib/download/range.php';
 OC::$CLASSPATH['OCA\Documents\Filter_Office'] = 'documents/lib/filter/office.php';
 
 //Script for registering file actions
