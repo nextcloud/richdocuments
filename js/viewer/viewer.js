@@ -28,10 +28,11 @@ var odfViewer = {
 			var mime = odfViewer.supportedMimesUpdate[i];
 			OCA.Files.fileActions.register(
 					mime, 
-					t('documents', 'Edit'), 
+					'Edit',
 					OC.PERMISSION_UPDATE, 
 					OC.imagePath('core', 'actions/rename'), 
-					odfViewer.onEdit
+					odfViewer.onEdit,
+					t('documents', 'Edit')
 			);
 		}
 	},
