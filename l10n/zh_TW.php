@@ -60,6 +60,7 @@
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "伺服器網址",
 "New document" => "新文件",
+"Upload (max. %s)" => "上傳（至多 %s）",
 "Upload" => "上傳",
 "Save new documents to" => "儲存新檔案至",
 "Wrong password. Please retry." => "密碼錯誤，請重新嘗試。",
