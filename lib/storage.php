@@ -71,7 +71,7 @@ class Storage {
 			return;
 		}
 		
-		$session = new Session();
+		$session = new Db\Session();
 		$session->loadBy('file_id', $fileId);
 
 		if (!$session->getEsId()){
