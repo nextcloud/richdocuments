@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "ذخیره شد",
 "You don't have permission to rename this document" => "شما دسترسی مجاز برای تغییر نام این سند را ندارید",
 "Documents" => "اسناد",
 "Saving..." => "در حال ذخیره سازی...",
