@@ -45,7 +45,7 @@ class SessionController extends Controller{
 				$session = Db\Session::start($uid, $file);
 				\OCP\JSON::success($session);
 			} else {
-				$info = $view->getFileInfo();
+				$info = $view->getFileInfo($path);
 				\OCP\JSON::success(array(
 					'permissions' => $info['permissions'],
 					'id' => $fileId
