@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 04:43+0000\n"
+"POT-Creation-Date: 2014-08-17 00:43-0400\n"
+"PO-Revision-Date: 2014-08-16 05:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr ""
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr ""
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr "Klonuoti"
 msgid "Clone this Style"
 msgstr "Klonuoti šį stilių"
 
-#: js/locale.js:12 js/viewer/viewer.js:77
+#: js/locale.js:12 js/viewer/viewer.js:78
 msgid "Close"
 msgstr "Užverti"
 
@@ -295,7 +295,7 @@ msgstr ""
 msgid "Unknown Author"
 msgstr ""
 
-#: js/viewer/viewer.js:31
+#: js/viewer/viewer.js:35
 msgid "Edit"
 msgstr "Redaguoti"
 

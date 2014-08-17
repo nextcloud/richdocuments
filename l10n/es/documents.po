@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 05:20+0000\n"
+"POT-Creation-Date: 2014-08-17 00:43-0400\n"
+"PO-Revision-Date: 2014-08-16 05:03+0000\n"
 "Last-Translator: Artopal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +30,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr "El filtro de formato del servidor está caído o desconfigurado"
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr "La conversión falló. Para más detalles, revise el registro."
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr "Guardado"
 
@@ -158,7 +158,7 @@ msgstr "Clonar"
 msgid "Clone this Style"
 msgstr "Clonar este estilo"
 
-#: js/locale.js:12 js/viewer/viewer.js:77
+#: js/locale.js:12 js/viewer/viewer.js:78
 msgid "Close"
 msgstr "Cerrar"
 
@@ -302,7 +302,7 @@ msgstr "Deshacer"
 msgid "Unknown Author"
 msgstr "Autor desconocido"
 
-#: js/viewer/viewer.js:31
+#: js/viewer/viewer.js:35
 msgid "Edit"
 msgstr "Editar"
 

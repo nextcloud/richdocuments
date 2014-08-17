@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-02 00:43-0400\n"
-"PO-Revision-Date: 2014-08-01 08:27+0000\n"
+"POT-Creation-Date: 2014-08-17 00:43-0400\n"
+"PO-Revision-Date: 2014-08-16 05:03+0000\n"
 "Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -152,7 +152,7 @@ msgstr "Clonar"
 msgid "Clone this Style"
 msgstr "Clonar esti estilu"
 
-#: js/locale.js:12 js/viewer/viewer.js:77
+#: js/locale.js:12 js/viewer/viewer.js:78
 msgid "Close"
 msgstr "Zarrar"
 
@@ -296,7 +296,7 @@ msgstr "Desfacer"
 msgid "Unknown Author"
 msgstr "Autor desconocíu"
 
-#: js/viewer/viewer.js:31
+#: js/viewer/viewer.js:35
 msgid "Edit"
 msgstr "Editar"
 

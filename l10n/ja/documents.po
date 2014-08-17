@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 00:43-0400\n"
-"PO-Revision-Date: 2014-07-16 01:40+0000\n"
+"POT-Creation-Date: 2014-08-17 00:43-0400\n"
+"PO-Revision-Date: 2014-08-16 05:03+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr "フォーマットフィルタサーバーが稼働していないか設定ミス"
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr "変換に失敗しました。詳細についてはログを確認してください。"
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr "保存されました"
 
@@ -156,7 +156,7 @@ msgstr "複製"
 msgid "Clone this Style"
 msgstr "このスタイルを複製"
 
-#: js/locale.js:12 js/viewer/viewer.js:77
+#: js/locale.js:12 js/viewer/viewer.js:78
 msgid "Close"
 msgstr "閉じる"
 
@@ -300,7 +300,7 @@ msgstr "元に戻す"
 msgid "Unknown Author"
 msgstr "不明な作者"
 
-#: js/viewer/viewer.js:31
+#: js/viewer/viewer.js:35
 msgid "Edit"
 msgstr "編集"
 

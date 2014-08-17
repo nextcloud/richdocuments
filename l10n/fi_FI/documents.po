@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 00:43-0400\n"
-"PO-Revision-Date: 2014-07-15 06:30+0000\n"
+"POT-Creation-Date: 2014-08-17 00:43-0400\n"
+"PO-Revision-Date: 2014-08-16 05:03+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid "Format filter server is down or misconfigured"
 msgstr "Muotosuodatuspalvelin ei ole käytettävissä tai sen asetukset ovat väärin"
 
-#: ajax/admin.php:56
+#: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
 msgstr "Muuntaminen epäonnistui. Katso lisätietoja lokista."
 
-#: ajax/admin.php:64
+#: ajax/admin.php:65
 msgid "Saved"
 msgstr "Tallennettu"
 
@@ -151,7 +151,7 @@ msgstr "Kloonaa"
 msgid "Clone this Style"
 msgstr "Kloonaa tämä tyyli"
 
-#: js/locale.js:12 js/viewer/viewer.js:77
+#: js/locale.js:12 js/viewer/viewer.js:78
 msgid "Close"
 msgstr "Sulje"
 
@@ -295,7 +295,7 @@ msgstr "Kumoa"
 msgid "Unknown Author"
 msgstr "Tuntematon tekijä"
 
-#: js/viewer/viewer.js:31
+#: js/viewer/viewer.js:35
 msgid "Edit"
 msgstr "Muokkaa"
 
