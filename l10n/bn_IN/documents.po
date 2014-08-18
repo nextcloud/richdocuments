@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 00:43-0400\n"
-"PO-Revision-Date: 2014-08-16 05:03+0000\n"
+"POT-Creation-Date: 2014-08-18 00:43-0400\n"
+"PO-Revision-Date: 2014-08-17 13:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ajax/admin.php:65
 msgid "Saved"
-msgstr ""
+msgstr "সংরক্ষিত"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
