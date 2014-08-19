@@ -6,10 +6,12 @@
 "You don't have permission to rename this document" => "Bu sənədin adını dəyişmək üçün sizin yetkiniz yoxdur.",
 "An error occurred while changing directory." => "Qovluğu dəyişdikdə səhv baş verdi.",
 "Saving..." => "Saxlama...",
+"Failed to load documents." => "Sənədlərin yüklənməsi mümkün olmadı.",
 "Share" => "Yayımla",
 "Save" => "Saxlamaq",
 "Cancel" => "Dayandır",
 "Close" => "Bağla",
+"Delete" => "Sil",
 "Size" => "Həcm",
 "Upload" => "Serverə yüklə"
 );
