@@ -68,7 +68,7 @@
 "Unknown Author" => "不明な作者",
 "Edit" => "編集",
 "guest" => "ゲスト",
-"MS Word support (requires openOffice/libreOffice)" => "MS Word サポート (openOffice/libreOffice が必要)",
+"MS Word support (requires openOffice/libreOffice)" => "MS Wordサポート (OpenOffice/LibreOfficeが必要)",
 "Local" => "ローカル",
 "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "openOffice/libreOffice はこのサーバーにインストールされています。バイナリへのパスは、config.php の preview_libreoffice_path で指定することができます。",
 "External" => "外部",
