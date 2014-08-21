@@ -146,7 +146,7 @@ $.widget('oc.documentToolbar', {
 	options : {
 		innerhtml : '<div id="document-title">' +
 					'  <div id="header">' +
-					'    <div class="logo-wide"></div>' +
+					'    <a href="'+ OC.webroot +'"><div class="logo-wide"></div></a>' +
 					'    <div id="document-title-container">&nbsp;</div>' +
 			        '  </div>' +
 					'</div>' +
