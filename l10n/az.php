@@ -9,9 +9,13 @@
 "Failed to load documents." => "Sənədlərin yüklənməsi mümkün olmadı.",
 "Share" => "Yayımla",
 "Save" => "Saxlamaq",
+"Loading documents..." => "Sənədlər yüklənir...",
+"File name cannot be empty." => "Faylın adı boş ola bilməz.",
 "Cancel" => "Dayandır",
 "Close" => "Bağla",
 "Delete" => "Sil",
 "Size" => "Həcm",
-"Upload" => "Serverə yüklə"
+"Edit" => "Dəyişiklik et",
+"Upload" => "Serverə yüklə",
+"Password" => "Şifrə"
 );
