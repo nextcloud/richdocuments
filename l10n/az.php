@@ -7,6 +7,7 @@
 "An error occurred while changing directory." => "Qovluğu dəyişdikdə səhv baş verdi.",
 "Saving..." => "Saxlama...",
 "Failed to load documents." => "Sənədlərin yüklənməsi mümkün olmadı.",
+"No documents were found. Upload or create a document to get started!" => "Heç bir sənəd tapılmadı. Başlamaq üçün bir sənəd yarat yada əlavə et!",
 "Share" => "Yayımla",
 "Save" => "Saxlamaq",
 "Loading documents..." => "Sənədlər yüklənir...",

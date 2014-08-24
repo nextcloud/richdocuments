@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 00:43-0400\n"
-"PO-Revision-Date: 2014-08-22 05:03+0000\n"
+"POT-Creation-Date: 2014-08-24 00:43-0400\n"
+"PO-Revision-Date: 2014-08-23 09:51+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Sənədlərin yüklənməsi mümkün olmadı."
 
 #: js/documents.js:121
 msgid "No documents were found. Upload or create a document to get started!"
-msgstr ""
+msgstr "Heç bir sənəd tapılmadı. Başlamaq üçün bir sənəd yarat yada əlavə et!"
 
 #: js/documents.js:156
 msgid "Share"
