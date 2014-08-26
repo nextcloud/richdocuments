@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# avarx <a.vonarx@frappant.ch>, 2014
 # KenWood <kenwood@gmx.ch>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-25 00:43-0400\n"
-"PO-Revision-Date: 2014-08-24 05:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-26 00:43-0400\n"
+"PO-Revision-Date: 2014-08-25 15:11+0000\n"
+"Last-Translator: avarx <a.vonarx@frappant.ch>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,15 +29,15 @@ msgstr ""
 
 #: ajax/admin.php:65
 msgid "Saved"
-msgstr ""
+msgstr "Gespeichert"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "Dokument konnte nicht erstellt werden"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "Sie haben nicht die erforderlichen Rechte, dieses Dokument umzubenennen"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
@@ -156,7 +157,7 @@ msgstr "Schliessen"
 
 #: js/locale.js:13
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: js/locale.js:14
 msgid "Create"
@@ -180,7 +181,7 @@ msgstr "Familie"
 
 #: js/locale.js:19
 msgid "Font"
-msgstr ""
+msgstr "Schriftart"
 
 #: js/locale.js:20
 msgid "Font Effects"
@@ -196,7 +197,7 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Bild einfügen"
 
 #: js/locale.js:24
 msgid "Invite Members"
@@ -216,7 +217,7 @@ msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: js/locale.js:29
 msgid "Loading"
@@ -224,7 +225,7 @@ msgstr "Lade"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Mitglieder"
 
 #: js/locale.js:31
 msgid "New Name:"
@@ -256,7 +257,7 @@ msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: js/locale.js:40
 msgid "Size"
@@ -292,7 +293,7 @@ msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Unbekannter Author"
 
 #: js/viewer/viewer.js:35
 msgid "Edit"
@@ -300,7 +301,7 @@ msgstr "Bearbeiten"
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr ""
+msgstr "Gast"
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
@@ -308,7 +309,7 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 #: templates/admin.php:10
 msgid ""
@@ -332,7 +333,7 @@ msgstr ""
 
 #: templates/admin.php:25
 msgid "Server URL"
-msgstr ""
+msgstr "Server URL"
 
 #: templates/admin.php:27
 msgid "Apply and test"
@@ -340,7 +341,7 @@ msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr ""
+msgstr "Neues Dokument"
 
 #: templates/documents.php:7
 #, php-format
@@ -366,7 +367,7 @@ msgstr "Passwort"
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr ""
+msgstr "Gast %s"
 
 #: templates/public.php:21
 msgid ""
