@@ -16,7 +16,7 @@ namespace OCA\Documents;
 
 $path = Helper::getArrayValueByKey($_GET, 'path');
 if (!empty($path)){
-	if (\OC\Files\Filesystem::getMimeType($path)!==Filter_Office::NATIVE_MIMETYPE){
+	if (\OC\Files\Filesystem::getMimeType($path) !== \OCA\Documents\Filter\Office::NATIVE_MIMETYPE){
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
 		$file = new File($fileInfo->getId());
 		$genesis = new Genesis($file);
