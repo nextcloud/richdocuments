@@ -15,6 +15,7 @@
 "Cancel" => "Dayandır",
 "Close" => "Bağla",
 "Delete" => "Sil",
+"Open" => "Aç",
 "Size" => "Həcm",
 "Edit" => "Dəyişiklik et",
 "Upload" => "Serverə yüklə",
