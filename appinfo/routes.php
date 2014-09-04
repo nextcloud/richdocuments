@@ -13,6 +13,10 @@
  * Document routes
  */
 
+$this->create('documents_index', '')
+	->get()
+	->actionInclude('documents/index.php');
+ 
 $this->create('documents_documents_create', 'ajax/documents/create')
 	->post()
 	->action('\OCA\Documents\DocumentController', 'create')
@@ -72,6 +76,11 @@ $this->create('documents_session_joinasguest', 'ajax/session/joinasguest/{token}
 $this->create('documents_session_save', 'ajax/session/save')
 	->post()
 	->action('\OCA\Documents\SessionController', 'save')
+;
+
+$this->create('documents_otpoll', 'ajax/otpoll.php')
+	->post()
+	->actionInclude('documents/ajax/otpoll.php')
 ;
 
 /**
