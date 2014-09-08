@@ -42,15 +42,6 @@ $this->create('documents_documents_list', 'ajax/documents/list')
 /**
  * Session routes
  */
-$this->create('documents_session_list', 'ajax/session/list')
-	->get()
-	->action('\OCA\Documents\SessionController', 'listAll')
-;
-$this->create('documents_session_list', 'ajax/session/list')
-	->post()
-	->action('\OCA\Documents\SessionController', 'listAll')
-;
-
 $this->create('documents_session_info', 'ajax/session/info')
 	->post()
 	->action('\OCA\Documents\SessionController', 'info')
