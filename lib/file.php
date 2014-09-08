@@ -95,7 +95,7 @@ class File {
 	public function isPasswordProtected(){
 		return $this->passwordProtected;
 	}
-	
+
 	public function checkPassword($password){
 		$shareId  = $this->getShareId();
 		if (!$this->isPasswordProtected()
