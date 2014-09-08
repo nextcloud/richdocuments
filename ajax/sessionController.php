@@ -23,6 +23,9 @@ class SessionController extends Controller{
 		try {
 			$token = Helper::getArrayValueByKey($args, 'token');
 			$file = File::getByShareToken($token);
+			if ($file->isPasswordProtected() && !$file->checkPassword('')){
+				throw new \Exception('Not authorized');
+			}
 			$session = Db\Session::start($uid, $file);
 			\OCP\JSON::success($session);
 		} catch (\Exception $e){
