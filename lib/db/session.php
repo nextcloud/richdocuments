@@ -157,30 +157,6 @@ class Session extends \OCA\Documents\Db {
 		return $info;
 	}
 
-	public function getInfoByFileId($fileIds){
-		if (!is_array($fileIds)){
-			return array();
-		}
-
-		$stmt = $this->buildInQuery('file_id', $fileIds);
-
-		$result = $this->execute('
-			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
-			FROM ' . $this->tableName . ' AS `s`
-			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
-				AND `m`.`status`=' . Db\Member::MEMBER_STATUS_ACTIVE . '
-			WHERE `s`.`file_id` ' . $stmt .'
-			GROUP BY `m`.`es_id`',
-			$fileIds
-		);
-
-		$info = $result->fetchAll();
-		if (!is_array($info)){
-			$info = array();
-		}
-		return $info;
-	}
-
 	protected function getUniqueSessionId(){
 		$testSession = new Session();
 		do{

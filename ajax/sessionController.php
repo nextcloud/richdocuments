@@ -170,35 +170,4 @@ class SessionController extends Controller{
 		}
 		exit();
 	}
-	
-	public static function info(){
-		self::preDispatch();
-		$items = @$_POST['items'];
-		$info = array();
-
-		if (is_array($items)){
-			$session = new Db\Session();
-			$info = $session->getInfoByFileId($items);
-		}
-
-		\OCP\JSON::success(array(
-			"info" => $info
-		));
-	}
-	
-	public static function listAll(){
-		self::preDispatch();
-		$session = new Db\Session();
-		$sessions = $session->getCollection();
-
-		$preparedSessions = array_map(
-				function($x){
-					return ($x['es_id']);
-				}, $sessions
-		);
-		\OCP\JSON::success(array(
-			"session_list" => $preparedSessions
-		));
-	}
-
 }
