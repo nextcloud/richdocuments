@@ -42,11 +42,6 @@ $this->create('documents_documents_list', 'ajax/documents/list')
 /**
  * Session routes
  */
-$this->create('documents_session_info', 'ajax/session/info')
-	->post()
-	->action('\OCA\Documents\SessionController', 'info')
-;
-
 $this->create('documents_session_joinasuser', 'ajax/session/joinasuser/{file_id}')
 	->get()
 	->action('\OCA\Documents\SessionController', 'joinAsUser')

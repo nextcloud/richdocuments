@@ -170,19 +170,4 @@ class SessionController extends Controller{
 		}
 		exit();
 	}
-	
-	public static function info(){
-		self::preDispatch();
-		$items = @$_POST['items'];
-		$info = array();
-
-		if (is_array($items)){
-			$session = new Db\Session();
-			$info = $session->getInfoByFileId($items);
-		}
-
-		\OCP\JSON::success(array(
-			"info" => $info
-		));
-	}
 }
