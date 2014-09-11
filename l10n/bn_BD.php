@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Conversion failed. Check log for details." => "রূপান্তর ব্যার্থ। বিস্তারিত জানতে লগ দেখুন।",
 "Saved" => "সংরক্ষণ করা হলো",
 "Saving..." => "সংরক্ষণ করা হচ্ছে..",
 "Share" => "ভাগাভাগি কর",
