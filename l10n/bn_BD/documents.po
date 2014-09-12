@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-11 00:43-0400\n"
-"PO-Revision-Date: 2014-09-10 17:10+0000\n"
+"POT-Creation-Date: 2014-09-12 03:30-0400\n"
+"PO-Revision-Date: 2014-09-11 18:11+0000\n"
 "Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "সংরক্ষণ করা হলো"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr ""
+msgstr "ডকুমেন্ট তৈরী করা যাবেনা"
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr ""
+msgstr "আপনার এই ডকুমেন্ট পূণঃনামকরণের অনুমতি নেই অনুমতি নেই "
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
@@ -49,7 +49,7 @@ msgstr ""
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr ""
+msgstr "ডকুমেন্ট"
 
 #: js/admin.js:16
 msgid "Saving..."
@@ -308,7 +308,7 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Local"
-msgstr ""
+msgstr "স্থানীয়"
 
 #: templates/admin.php:10
 msgid ""

@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Conversion failed. Check log for details." => "রূপান্তর ব্যার্থ। বিস্তারিত জানতে লগ দেখুন।",
 "Saved" => "সংরক্ষণ করা হলো",
+"Can't create document" => "ডকুমেন্ট তৈরী করা যাবেনা",
+"You don't have permission to rename this document" => "আপনার এই ডকুমেন্ট পূণঃনামকরণের অনুমতি নেই অনুমতি নেই ",
+"Documents" => "ডকুমেন্ট",
 "Saving..." => "সংরক্ষণ করা হচ্ছে..",
 "Share" => "ভাগাভাগি কর",
 "Save" => "সংরক্ষণ",
@@ -32,6 +35,7 @@
 "Unknown Author" => "অজানা লেখক",
 "Edit" => "সম্পাদনা",
 "guest" => "অতিথি",
+"Local" => "স্থানীয়",
 "External" => "বাহ্যিক",
 "Upload" => "আপলোড",
 "Password" => "কূটশব্দ"
