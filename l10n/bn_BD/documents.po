@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-12 03:30-0400\n"
-"PO-Revision-Date: 2014-09-11 18:11+0000\n"
+"POT-Creation-Date: 2014-09-16 00:45-0400\n"
+"PO-Revision-Date: 2014-09-15 19:01+0000\n"
 "Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "আপনার এই ডকুমেন্ট পূণঃনামক
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "ডিরেক্টরি পরিবর্তন করতে যেয়ে একটি সমস্যা হলো।"
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
@@ -124,7 +124,7 @@ msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr ""
+msgstr "ব্যাকগ্রাউন্ড"
 
 #: js/locale.js:6
 msgid "Bold"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr ""
+msgstr "নীচ"
 
 #: js/locale.js:8
 msgid "Cancel"
