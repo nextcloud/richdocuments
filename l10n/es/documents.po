@@ -9,15 +9,15 @@
 # Jose Luis <joseluis.tirado@gmail.com>, 2014
 # joses <jose_mari_s@hotmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013
-# Pablo Laguna <laguna.sanchez@gmail.com>, 2014
+# Pablo Laguna <pablolaguna@vera.com.uy>, 2014
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013-2014
 # Sam Askari <saskarip@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-03 00:43-0400\n"
-"PO-Revision-Date: 2014-09-02 05:02+0000\n"
+"POT-Creation-Date: 2014-09-17 00:43-0400\n"
+"PO-Revision-Date: 2014-09-16 05:10+0000\n"
 "Last-Translator: Artopal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"

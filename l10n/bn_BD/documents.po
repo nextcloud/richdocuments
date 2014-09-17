@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-16 00:45-0400\n"
-"PO-Revision-Date: 2014-09-15 19:01+0000\n"
+"POT-Creation-Date: 2014-09-17 00:43-0400\n"
+"PO-Revision-Date: 2014-09-16 18:41+0000\n"
 "Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "সংরক্ষণ করা হচ্ছে.."
 
 #: js/documents.js:86
 msgid "Failed to load documents."
-msgstr ""
+msgstr "নথি লোডিং ব্যার্থ হলো।"
 
 #: js/documents.js:121
 msgid "No documents were found. Upload or create a document to get started!"
@@ -69,7 +69,7 @@ msgstr "ভাগাভাগি কর"
 
 #: js/documents.js:273
 msgid "No connection to server. Trying to reconnect."
-msgstr ""
+msgstr "সার্ভার সংযোগ নেই। সংযোগের চেষ্টা চলছে।"
 
 #: js/documents.js:337
 msgid ""
@@ -90,11 +90,11 @@ msgstr "সংরক্ষণ"
 
 #: js/documents.js:719 templates/documents.php:31
 msgid "Loading documents..."
-msgstr ""
+msgstr "নথি লোড করা হচ্ছে...."
 
 #: js/documents.js:752
 msgid "'.' is an invalid file name."
-msgstr "টি একটি অননুমোদিত নাম।"
+msgstr "'.' টি একটি অননুমোদিত নাম।"
 
 #: js/documents.js:754
 msgid "File name cannot be empty."
