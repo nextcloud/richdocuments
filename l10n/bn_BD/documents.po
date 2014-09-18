@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-17 00:43-0400\n"
-"PO-Revision-Date: 2014-09-16 18:41+0000\n"
+"POT-Creation-Date: 2014-09-18 00:43-0400\n"
+"PO-Revision-Date: 2014-09-17 18:20+0000\n"
 "Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgstr "ব্যাকগ্রাউন্ড"
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr ""
+msgstr "গাঢ়"
 
 #: js/locale.js:7
 msgid "Bottom"
