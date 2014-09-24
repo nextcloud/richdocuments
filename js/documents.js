@@ -29,6 +29,7 @@ $.widget('oc.documentGrid', {
 		docElem.removeClass('template').attr('data-id', document.fileid);
 		a.css('background-image', 'url("'+document.icon+'")')
 			.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}))
+			.attr('original-title', document.path)
 			.find('label').text(document.name)
 		;
 		
@@ -778,6 +779,8 @@ $(document).ready(function() {
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
 	documentsMain.toolbar = $('<div id="odf-toolbar" class="dijitToolbar"></div>').documentToolbar();
+	
+	$('li.document a').tipsy({fade: true, live: true});
 	
 	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
