@@ -12,6 +12,7 @@
 "Save" => "Saxlamaq",
 "Loading documents..." => "Sənədlər yüklənir...",
 "File name cannot be empty." => "Faylın adı boş ola bilməz.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Yalnış ad, '\\', '/', '<', '>', ':', '\"', '|', '?' və '*' qəbul edilmir.",
 "Cancel" => "Dayandır",
 "Close" => "Bağla",
 "Delete" => "Sil",
