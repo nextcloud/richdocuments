@@ -52,6 +52,7 @@ if (isset($_GET['t'])) {
 			} else {
 				$tmpl->assign('total', 1);
 			}
+			$tmpl->assign('isPipelined', \OCP\Config::getSystemValue('asset-pipeline.enabled'));
 			$tmpl->assign('document', $token);
 		}
 	} catch (\Exception $e){
