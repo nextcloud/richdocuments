@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-01 06:52-0400\n"
-"PO-Revision-Date: 2014-09-30 14:10+0000\n"
+"POT-Creation-Date: 2014-10-04 00:43-0400\n"
+"PO-Revision-Date: 2014-10-03 16:41+0000\n"
 "Last-Translator: giogio <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -108,15 +108,15 @@ msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr ""
+msgstr "Alinea a sinistra"
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr ""
+msgstr "Alineamento"
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr ""
+msgstr "Alinea a dextera"
 
 #: js/locale.js:4
 msgid "Annotate"
@@ -196,11 +196,11 @@ msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr ""
+msgstr "Inserta imagine"
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr ""
+msgstr "Invita Membros"
 
 #: js/locale.js:25
 msgid "Italic"
@@ -220,11 +220,11 @@ msgstr "Sinistra"
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr ""
+msgstr "Cargante"
 
 #: js/locale.js:30
 msgid "Members"
-msgstr ""
+msgstr "Membros"
 
 #: js/locale.js:31
 msgid "New Name:"
@@ -288,11 +288,11 @@ msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr ""
+msgstr "Annulla"
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr ""
+msgstr "Autor incognite"
 
 #: js/viewer/viewer.js:35
 msgid "Edit"
@@ -336,7 +336,7 @@ msgstr "URL de servitor"
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr ""
+msgstr "Applica e essaya"
 
 #: templates/documents.php:5
 msgid "New document"
@@ -376,7 +376,7 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr ""
+msgstr "Insimul de characteristicas avantiate"
 
 #: templates/settings.php:10
 msgid "(Unstable)"
