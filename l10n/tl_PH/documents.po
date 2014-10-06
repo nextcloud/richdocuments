@@ -3,387 +3,380 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Albion von Darx, 2013
-# Jan Liska, 2013
-# Jaroslav Lichtblau <jlichtblau@seznam.cz>, 2014
-# Jaroslav Lichtblau <jlichtblau@seznam.cz>, 2014
-# Josef Moravec <josef.moravec@gmail.com>, 2014
-# Lenka <mrs.jenkins.oh.yeah@gmail.com>, 2013
-# Petr Šťastný <petr@stastny.eu>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-10-06 00:43-0400\n"
-"PO-Revision-Date: 2014-10-05 19:00+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jlichtblau@seznam.cz>\n"
-"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
+"PO-Revision-Date: 2013-08-27 22:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Tagalog (Philippines) (http://www.transifex.com/projects/p/owncloud/language/tl_PH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: tl_PH\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ajax/admin.php:23
 msgid "Format filter server is down or misconfigured"
-msgstr "Server pro zpracování formátu je nedostupný nebo chybně nakonfigurovaný"
+msgstr ""
 
 #: ajax/admin.php:57
 msgid "Conversion failed. Check log for details."
-msgstr "Převod selhal. Zkontrolujte logy pro více detailů."
+msgstr ""
 
 #: ajax/admin.php:65
 msgid "Saved"
-msgstr "Uloženo"
+msgstr ""
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
-msgstr "Nelze vytvořit dokument"
+msgstr ""
 
 #: ajax/documentController.php:82
 msgid "You don't have permission to rename this document"
-msgstr "Nemáte oprávnění pro přejmenování tohoto souboru"
+msgstr ""
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr "Při pokusu o změnu adresáře došlo k chybě."
+msgstr ""
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
-msgstr "Adresář byl úspěšně uložen."
+msgstr ""
 
 #: appinfo/app.php:34 templates/admin.php:3 templates/personal.php:2
 #: templates/settings.php:2
 msgid "Documents"
-msgstr "Dokumenty"
+msgstr ""
 
 #: js/admin.js:16
 msgid "Saving..."
-msgstr "Ukládám..."
+msgstr ""
 
 #: js/documents.js:87
 msgid "Failed to load documents."
-msgstr "Nepodařilo se načíst dokumenty."
+msgstr ""
 
 #: js/documents.js:122
 msgid "No documents were found. Upload or create a document to get started!"
-msgstr "Žádné dokumenty nebyly nalezeny. Začněte nahráním nebo vytvořením prvního dokumentu!"
+msgstr ""
 
 #: js/documents.js:157
 msgid "Share"
-msgstr "Sdílet"
+msgstr ""
 
 #: js/documents.js:274
 msgid "No connection to server. Trying to reconnect."
-msgstr "Ztráta připojení k serveru. Zkouším znovu."
+msgstr ""
 
 #: js/documents.js:338
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
-msgstr "Ponecháním této stránky v módu editoru může dojít k neuložení změn. Místo toho je doporučeno použít tlačítko 'Zavřít'."
+msgstr ""
 
 #: js/documents.js:359
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
-msgstr "Nepodařilo se otevřít tento dokument. Prosím zkontrolujte, zda je možné jej otevřít externím editorem odt. Může to také znamenat, že byl nedávno odsdílen nebo smazán."
+msgstr ""
 
 #: js/documents.js:381 js/locale.js:39
 msgid "Save"
-msgstr "Uložit"
+msgstr ""
 
 #: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
-msgstr "Nahrávám dokumenty ..."
+msgstr ""
 
 #: js/documents.js:753
 msgid "'.' is an invalid file name."
-msgstr "'.' je neplatným názvem souboru."
+msgstr ""
 
 #: js/documents.js:755
 msgid "File name cannot be empty."
-msgstr "Název souboru nemůže být prázdný řetězec."
+msgstr ""
 
 #: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny."
+msgstr ""
 
 #: js/locale.js:1
 msgid "Align Left"
-msgstr "Zarovnat vlevo"
+msgstr ""
 
 #: js/locale.js:2
 msgid "Alignment"
-msgstr "Zarovnání"
+msgstr ""
 
 #: js/locale.js:3
 msgid "Align Right"
-msgstr "Zarovnat vpravo"
+msgstr ""
 
 #: js/locale.js:4
 msgid "Annotate"
-msgstr "Komentovat"
+msgstr ""
 
 #: js/locale.js:5
 msgid "Background"
-msgstr "Pozadí"
+msgstr ""
 
 #: js/locale.js:6
 msgid "Bold"
-msgstr "Tučné"
+msgstr ""
 
 #: js/locale.js:7
 msgid "Bottom"
-msgstr "Dolní"
+msgstr ""
 
 #: js/locale.js:8
 msgid "Cancel"
-msgstr "Zrušit"
+msgstr ""
 
 #: js/locale.js:9
 msgid "Center"
-msgstr "Vystředit"
+msgstr ""
 
 #: js/locale.js:10
 msgid "Clone"
-msgstr "Klonovat"
+msgstr ""
 
 #: js/locale.js:11
 msgid "Clone this Style"
-msgstr "Klonovat tento styl"
+msgstr ""
 
 #: js/locale.js:12 js/viewer/viewer.js:78
 msgid "Close"
-msgstr "Zavřít"
+msgstr ""
 
 #: js/locale.js:13
 msgid "Color"
-msgstr "Barva"
+msgstr ""
 
 #: js/locale.js:14
 msgid "Create"
-msgstr "Vytvořit"
+msgstr ""
 
 #: js/locale.js:15
 msgid "Decrease Indent"
-msgstr "Zmenšit odsazení"
+msgstr ""
 
 #: js/locale.js:16
 msgid "Default Style"
-msgstr "Výchozí styl"
+msgstr ""
 
 #: js/locale.js:17
 msgid "Delete"
-msgstr "Smazat"
+msgstr ""
 
 #: js/locale.js:18
 msgid "Family"
-msgstr "Rodina"
+msgstr ""
 
 #: js/locale.js:19
 msgid "Font"
-msgstr "Font"
+msgstr ""
 
 #: js/locale.js:20
 msgid "Font Effects"
-msgstr "Efekty písma"
+msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr "Formát"
+msgstr ""
 
 #: js/locale.js:22
 msgid "Increase Indent"
-msgstr "Zvětšit odsazení"
+msgstr ""
 
 #: js/locale.js:23
 msgid "Insert Image"
-msgstr "Vlož obrázek"
+msgstr ""
 
 #: js/locale.js:24
 msgid "Invite Members"
-msgstr "Pozvat členy"
+msgstr ""
 
 #: js/locale.js:25
 msgid "Italic"
-msgstr "Kurzíva"
+msgstr ""
 
 #: js/locale.js:26
 msgid "Justified"
-msgstr "Zarovnaný"
+msgstr ""
 
 #: js/locale.js:27
 msgid "Justify"
-msgstr "Zarovnat"
+msgstr ""
 
 #: js/locale.js:28
 msgid "Left"
-msgstr "Vlevo"
+msgstr ""
 
 #: js/locale.js:29
 msgid "Loading"
-msgstr "Načítám"
+msgstr ""
 
 #: js/locale.js:30
 msgid "Members"
-msgstr "Členové"
+msgstr ""
 
 #: js/locale.js:31
 msgid "New Name:"
-msgstr "Nový název:"
+msgstr ""
 
 #: js/locale.js:32 templates/public.php:12
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: js/locale.js:33
 msgid "Open"
-msgstr "Otevřít"
+msgstr ""
 
 #: js/locale.js:34
 msgid "Options"
-msgstr "Možnosti"
+msgstr ""
 
 #: js/locale.js:35
 msgid "Paragraph..."
-msgstr "Odstavec..."
+msgstr ""
 
 #: js/locale.js:36
 msgid "Paragraph Styles"
-msgstr "Styly odstavce"
+msgstr ""
 
 #: js/locale.js:37
 msgid "Redo"
-msgstr "Znovu"
+msgstr ""
 
 #: js/locale.js:38
 msgid "Right"
-msgstr "Vpravo"
+msgstr ""
 
 #: js/locale.js:40
 msgid "Size"
-msgstr "Velikost"
+msgstr ""
 
 #: js/locale.js:41
 msgid "Spacing"
-msgstr "Řádkování"
+msgstr ""
 
 #: js/locale.js:42
 msgid "Strikethrough"
-msgstr "Přeškrtnuté"
+msgstr ""
 
 #: js/locale.js:43
 msgid "Style"
-msgstr "Styl"
+msgstr ""
 
 #: js/locale.js:44
 msgid "Text"
-msgstr "Text"
+msgstr ""
 
 #: js/locale.js:45
 msgid "Top"
-msgstr "Horní"
+msgstr ""
 
 #: js/locale.js:46
 msgid "Underline"
-msgstr "Podtržené"
+msgstr ""
 
 #: js/locale.js:47
 msgid "Undo"
-msgstr "Zpět"
+msgstr ""
 
 #: js/locale.js:48
 msgid "Unknown Author"
-msgstr "Autor neznámý"
+msgstr ""
 
 #: js/viewer/viewer.js:35
 msgid "Edit"
-msgstr "Upravit"
+msgstr ""
 
 #: lib/db/member.php:39
 msgid "guest"
-msgstr "host"
+msgstr ""
 
 #: templates/admin.php:4
 msgid "MS Word support (requires openOffice/libreOffice)"
-msgstr "Podpora MS Word (vyžaduje openOffice/libreOffice)"
+msgstr ""
 
 #: templates/admin.php:9
 msgid "Local"
-msgstr "Místní"
+msgstr ""
 
 #: templates/admin.php:10
 msgid ""
 "openOffice/libreOffice is installed on this server. Path to binary is "
 "provided via preview_libreoffice_path in config.php"
-msgstr "openOffice/libreOffice je nainstalován na tomto serveru. Cesta ke spustitelnému souboru je zaznamenána pod preview_libreoffice_path v config.php"
+msgstr ""
 
 #: templates/admin.php:16
 msgid "External"
-msgstr "Externí"
+msgstr ""
 
 #: templates/admin.php:17
 msgid ""
 "openOffice/libreOffice is installed on external server running a format "
 "filter server"
-msgstr "openOffice/libreOffie je nainstalován na externím serveru, kde běží instance filtrující formáty"
+msgstr ""
 
 #: templates/admin.php:22
 msgid "scheme://domain.tld[:port]"
-msgstr "schéma://doména.tld[:port]"
+msgstr ""
 
 #: templates/admin.php:25
 msgid "Server URL"
-msgstr "URL serveru"
+msgstr ""
 
 #: templates/admin.php:27
 msgid "Apply and test"
-msgstr "Použít a otestovat"
+msgstr ""
 
 #: templates/documents.php:5
 msgid "New document"
-msgstr "Nový dokument"
+msgstr ""
 
 #: templates/documents.php:7
 #, php-format
 msgid "Upload (max. %s)"
-msgstr "Nahrát (max. %s)"
+msgstr ""
 
 #: templates/documents.php:27
 msgid "Upload"
-msgstr "Odeslat"
+msgstr ""
 
 #: templates/personal.php:4
 msgid "Save new documents to"
-msgstr "Uložit nové dokumenty do"
+msgstr ""
 
 #: templates/public.php:8
 msgid "Wrong password. Please retry."
-msgstr "Nesprávné heslo. Zkuste to znovu."
+msgstr ""
 
 #: templates/public.php:11
 msgid "Password"
-msgstr "Heslo"
+msgstr ""
 
 #: templates/public.php:17
 #, php-format
 msgid "Guest %s"
-msgstr "Host %s"
+msgstr ""
 
 #: templates/public.php:21
 msgid ""
 "This link has been expired or is never existed. Please contact the person "
 "who shared it with you for details."
-msgstr "Tento odkaz vypršel nebo neexistuje. Pro podrobnosti kontaktujte osobu, která jej s vámi sdílela."
+msgstr ""
 
 #: templates/settings.php:9
 msgid "Advanced feature-set"
-msgstr "Pokročilá sada možností"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "(Unstable)"
-msgstr "(Nestabilní)"
+msgstr ""
