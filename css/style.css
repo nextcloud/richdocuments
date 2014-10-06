@@ -222,7 +222,10 @@
 }
 
 #warning-connection-lost{
-	padding: 6px 0;
+	position: relative;
+	z-index: 2000;
+	margin-top: 35px;
+	padding: 8px 0;
 	text-align: center;
 	color: #ffffff;
 	background-color: #CE7070;
