@@ -52,9 +52,9 @@ define("webodf/editor/Tools", [
     "webodf/editor/widgets/editHyperlinks",
     "webodf/editor/widgets/imageInserter",
     "webodf/editor/widgets/paragraphStylesDialog",
-    "webodf/editor/widgets/zoomSlider",
+    "owncloud/widgets/zoomSelect",
     "webodf/editor/EditorSession"],
-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomSlider, EditorSession) {
+    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomSelect, EditorSession) {
         "use strict";
 
         return function Tools(args) {
@@ -67,7 +67,7 @@ define("webodf/editor/Tools", [
                 loadButton, saveButton, closeButton,
                 formatDropDownMenu, formatMenuButton,
                 paragraphStylesMenuItem, paragraphStylesDialog, simpleStyles, currentStyle,
-                zoomSlider,
+                zoomSelect,
                 undoRedoMenu,
                 editorSession,
                 paragraphAlignment,
@@ -171,12 +171,12 @@ define("webodf/editor/Tools", [
                 currentStyle.onToolDone = onToolDone;
 
                 // Zoom Level Selector
-                zoomSlider = new ZoomSlider(function (widget) {
+                zoomSelect = new ZoomSelect(function (widget) {
                     widget.placeAt(toolbar);
                     widget.startup();
                 });
-                sessionSubscribers.push(zoomSlider);
-                zoomSlider.onToolDone = onToolDone;
+                sessionSubscribers.push(zoomSelect);
+                zoomSelect.onToolDone = onToolDone;
 
                 // Load
                 if (loadOdtFile) {
