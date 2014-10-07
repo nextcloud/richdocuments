@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Le serveur de filtre de format est en panne ou mal configuré",
 "Conversion failed. Check log for details." => "La conversion a échoué. Veuillez vérifier le journal des erreurs pour plus d’informations.",
-"Saved" => "Sauvegarder",
+"Saved" => "Sauvegardé",
 "Can't create document" => "Impossible de créer le document",
 "You don't have permission to rename this document" => "Vous n'avez pas les droits suffisants pour renommer ce document",
 "An error occurred while changing directory." => "Une erreur est survenue lors du changement de dossier.",
