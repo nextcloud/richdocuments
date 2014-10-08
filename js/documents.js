@@ -775,20 +775,6 @@ FileList.getCurrentDirectory = function(){
 
 $(document).ready(function() {
 	"use strict";
-
-        /* Hotfix.  Pipeline mode  doesn't support @import */
-	if ($('#isPipelined').val()>0){
-		var required = [
-			'../js/3rdparty/resources/dijit/themes/claro/claro.css',
-			'../js/3rdparty/resources/dojox/layout/resources/ExpandoPane.css',
-			'../js/3rdparty/resources/dojox/widget/ColorPicker/ColorPicker.css',
-			'style.css'
-		];
-		for (var i=0;i<required.length;i++){
-			var styleUrl = OC.filePath('documents','css', required[i]).replace('/index\.php\//', '');
-			$('head').append('<link rel="stylesheet" type="text/css" href="'+ styleUrl +'"/>');
-		}
-	}
 	
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();

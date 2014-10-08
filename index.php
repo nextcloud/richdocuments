@@ -39,14 +39,13 @@ namespace OCA\Documents;
 \OCP\Util::addScript('files', 'jquery.fileupload');
 
 
-
 $tmpl = new \OCP\Template('documents', 'documents', 'user');
 
 $unstable = \OCP\Config::getAppValue('documents', 'unstable', 'false');
 $maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 $savePath = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
 
-$tmpl->assign('isPipelined', \OCP\Config::getSystemValue('asset-pipeline.enabled'));
+
 $tmpl->assign('useUnstable', $unstable);
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
