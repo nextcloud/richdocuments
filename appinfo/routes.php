@@ -9,6 +9,26 @@
  * later.
  */
 
+/** @var $this \OC\Route\Router */
+
+$this->create('documents_ajax_admin', 'ajax/admin.php')
+	->actionInclude('documents/ajax/admin.php');
+
+$this->create('documents_ajax_download', 'ajax/download.php')
+	->actionInclude('documents/ajax/admin.php');
+
+$this->create('documents_ajax_mimes', 'ajax/mimes.php')
+	->actionInclude('documents/ajax/mimes.php');
+
+$this->create('documents_ajax_otpoll', 'ajax/otpoll.php')
+	->actionInclude('documents/ajax/otpoll.php');
+
+$this->create('documents_ajax_personal', 'ajax/personal.php')
+	->actionInclude('documents/ajax/personal.php');
+
+$this->create('documents_ajax_settings', 'ajax/settings.php')
+	->actionInclude('documents/ajax/settings.php');
+
 /**
  * Document routes
  */
