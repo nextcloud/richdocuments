@@ -336,6 +336,10 @@ editinfo > div.editInfoMarker:hover {
 margin-top: -1px;
 }
 
+.claro .dijitComboBox .dijitInputInner{
+	padding:0 1px !important;
+}
+
 .claro .dijitTextBox .dijitInputInner,
 .claro .dijitSpinner .dijitSpinnerButtonInner {
 	margin: 0;
