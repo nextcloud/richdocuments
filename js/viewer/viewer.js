@@ -53,8 +53,7 @@ var odfViewer = {
 	},
 			
 	onView: function(filename) {
-		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf',
-		attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls',
+		var attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls',
 		attachToolbarTo = odfViewer.isDocuments ? '#content-wrapper' : '#controls';
 
 		if (odfViewer.isDocuments){
@@ -69,7 +68,7 @@ var odfViewer = {
 		
 		OC.addStyle('documents', 'viewer/odfviewer');
 		
-		OC.addScript('documents', '3rdparty/webodf/' + webodfSource, function() {
+		OC.addScript('documents', '3rdparty/webodf/webodf-debug', function() {
 			FileList.setViewerMode(true);
 
 			// odf action toolbar

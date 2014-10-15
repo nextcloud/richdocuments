@@ -313,8 +313,7 @@ var documentsMain = {
 			documentsMain.overlay.documentOverlay('show');
 		}
 		
-		var webodfSource = (oc_debug === true) ? 'webodf-debug' : 'webodf';
-		OC.addScript('documents', '3rdparty/webodf/' + webodfSource).done(function() {
+		OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
 			// preload stuff in the background
 			require({}, ["dojo/ready"], function(ready) {
 				ready(function() {
