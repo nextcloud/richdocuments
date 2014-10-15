@@ -43,6 +43,8 @@ define("webodf/editor/EditorSession", [
 ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
     "use strict";
 
+    fontsCSS = fontsCSS.replace(/\.\/fonts/g, OC.appswebroots['documents']+'/css/fonts');
+
     runtime.loadClass("core.DomUtils");
     runtime.loadClass("odf.OdfUtils");
     runtime.loadClass("ops.OdtDocument");
