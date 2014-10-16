@@ -20,14 +20,13 @@
  * 
  */
 
-
 namespace OCA\Documents;
 
 class File {
 	protected $fileId;
 	protected $owner;
 	protected $path;
-	protected $sharing;
+	protected $sharing = array();
 	protected $token ='';
 	protected $passwordProtected = false;
 
@@ -43,8 +42,6 @@ class File {
 		//please send me a link to video tutorial :/
 		if (!is_null($shareOps)){
 			$this->sharing = $shareOps;
-		} else {
-			$this->sharing = $this->getSharingOps();
 		}
 	}
 	
@@ -97,20 +94,24 @@ class File {
 	}
 
 	public function checkPassword($password){
-		$shareId  = $this->getShareId();
+		$shareId  = $this->sharing[0]['id'];
 		if (!$this->isPasswordProtected()
 			|| (\OC::$server->getSession()->exists('public_link_authenticated')
 				&& \OC::$server->getSession()->get('public_link_authenticated') === $shareId
 			)
 		){
-				return true;
+			return true;
 		}
 		
 		// Check Password
 		$forcePortable = (CRYPT_BLOWFISH != 1);
 		$hasher = new \PasswordHash(8, $forcePortable);
-		if ($hasher->CheckPassword($password.\OC_Config::getValue('passwordsalt', ''),
-									 $this->getPassword())) {
+		if (
+			$hasher->CheckPassword(
+				$password.\OC_Config::getValue('passwordsalt', ''),
+				$this->getPassword()
+			)
+		) {
 			// Save item id in session for future request
 			\OC::$server->getSession()->set('public_link_authenticated', $shareId);
 			return true;
@@ -142,7 +143,6 @@ class File {
 		}
 		return $permissions;
 	}
-
 
 	/**
 	 * 
@@ -195,42 +195,5 @@ class File {
 	
 	protected function getPassword(){
 		return $this->sharing[0]['share_with'];
-	}
-	
-	protected function getShareId(){
-		return $this->sharing[0]['id'];
-	}
-
-	protected function getSharingOps(){
-		
-		$where  = 'AND `file_source`=?';
-		$values = array($this->fileId);
-		
-		if (\OCP\User::isLoggedIn()){
-			$where .= ' AND ((`share_type`=' . \OCP\Share::SHARE_TYPE_USER . ' AND `share_with`=?) OR  `share_type`=' . \OCP\Share::SHARE_TYPE_LINK . ')';
-			$values[] = \OCP\User::getUser();
-		} else {
-			$where .= ' AND (`share_type`=' . \OCP\Share::SHARE_TYPE_LINK . ')';
-		}
-		
-		$query = \OC_DB::prepare('SELECT `*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, '
-							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
-							.'`*PREFIX*share`.`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`' 
-							.'FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `item_type` = \'file\' ' . $where);
-		$result = $query->execute($values);
-		$shares = $result->fetchAll();
-		
-		$origins = array();
-		if (is_array($shares)){
-			foreach ($shares as $share){
-				$origin = \OCP\Share::resolveReShare($share);
-				if (!isset($origin['path']) && isset($origin['file_target'])){
-					$origin['path'] = 'files/' . $origin['file_target'];
-				}
-				$origins[] = $origin;
-			}
-		}
-		return $origins;
 	}
 }
