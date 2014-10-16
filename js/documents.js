@@ -471,7 +471,7 @@ var documentsMain = {
 				var target = OC.Share.showLink;
 				OC.Share.showLink = function() {
 					var r = target.apply( this, arguments );
-					$('#linkText').val( $('#linkText').val().replace('service=files', 'service=documents') );
+					$('#linkText').val( $('#linkText').val().replace('index.php/s/', 'public.php?service=documents&t=') );
 					return r;
 				};
 			})();
