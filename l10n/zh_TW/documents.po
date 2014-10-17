@@ -6,13 +6,14 @@
 # Andy Lam <sy6614@yahoo.com.hk>, 2013
 # Pellaeon Lin <nfsmwlin@gmail.com>, 2013
 # Flymok <transifex@flymok.net>, 2014
+# Wayne San <waynesan@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-20 00:43-0400\n"
-"PO-Revision-Date: 2014-09-19 05:21+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-10-17 00:43-0400\n"
+"PO-Revision-Date: 2014-10-17 04:20+0000\n"
+"Last-Translator: Wayne San <waynesan@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +43,7 @@ msgstr "您沒有重新命名的權限"
 
 #: ajax/personal.php:26
 msgid "An error occurred while changing directory."
-msgstr ""
+msgstr "變更資料夾時發生錯誤."
 
 #: ajax/personal.php:34
 msgid "Directory saved successfully."
@@ -57,52 +58,52 @@ msgstr "文件"
 msgid "Saving..."
 msgstr "儲存中..."
 
-#: js/documents.js:86
+#: js/documents.js:87
 msgid "Failed to load documents."
 msgstr "載入文件失敗"
 
-#: js/documents.js:121
+#: js/documents.js:122
 msgid "No documents were found. Upload or create a document to get started!"
 msgstr ""
 
-#: js/documents.js:156
+#: js/documents.js:157
 msgid "Share"
 msgstr "分享"
 
-#: js/documents.js:273
+#: js/documents.js:274
 msgid "No connection to server. Trying to reconnect."
 msgstr "未連接伺服器，嘗試連線中。"
 
-#: js/documents.js:337
+#: js/documents.js:338
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:358
+#: js/documents.js:359
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:380 js/locale.js:39
+#: js/documents.js:381 js/locale.js:39
 msgid "Save"
 msgstr "儲存"
 
-#: js/documents.js:719 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "讀取文件中..."
 
-#: js/documents.js:752
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' 是不合法的檔名"
 
-#: js/documents.js:754
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "檔名不能為空"
 
-#: js/documents.js:761
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

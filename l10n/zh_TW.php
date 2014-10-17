@@ -2,6 +2,7 @@
 "Saved" => "已儲存",
 "Can't create document" => "無法建立文件",
 "You don't have permission to rename this document" => "您沒有重新命名的權限",
+"An error occurred while changing directory." => "變更資料夾時發生錯誤.",
 "Documents" => "文件",
 "Saving..." => "儲存中...",
 "Failed to load documents." => "載入文件失敗",
