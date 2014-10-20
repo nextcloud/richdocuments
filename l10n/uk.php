@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Saved" => "Збереженно",
 "Saving..." => "Зберігаю...",
 "Failed to load documents." => "Не вдалося завантажити документи.",
 "Share" => "Поділитися",
@@ -11,6 +12,7 @@
 "Create" => "Створити",
 "Delete" => "Видалити",
 "Family" => "Сім'я",
+"Format" => "Формат",
 "Loading" => "Завантаження",
 "OK" => "OK",
 "Open" => "Відкрити",

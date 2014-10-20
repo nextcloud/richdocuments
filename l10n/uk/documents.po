@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-20 00:43-0400\n"
-"PO-Revision-Date: 2014-09-19 05:21+0000\n"
+"POT-Creation-Date: 2014-10-20 00:43-0400\n"
+"PO-Revision-Date: 2014-10-19 18:20+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: ajax/admin.php:65
 msgid "Saved"
-msgstr ""
+msgstr "Збереженно"
 
 #: ajax/documentController.php:43
 msgid "Can't create document"
@@ -55,52 +55,52 @@ msgstr ""
 msgid "Saving..."
 msgstr "Зберігаю..."
 
-#: js/documents.js:86
+#: js/documents.js:87
 msgid "Failed to load documents."
 msgstr "Не вдалося завантажити документи."
 
-#: js/documents.js:121
+#: js/documents.js:122
 msgid "No documents were found. Upload or create a document to get started!"
 msgstr ""
 
-#: js/documents.js:156
+#: js/documents.js:157
 msgid "Share"
 msgstr "Поділитися"
 
-#: js/documents.js:273
+#: js/documents.js:274
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:337
+#: js/documents.js:338
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr ""
 
-#: js/documents.js:358
+#: js/documents.js:359
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr ""
 
-#: js/documents.js:380 js/locale.js:39
+#: js/documents.js:381 js/locale.js:39
 msgid "Save"
 msgstr "Зберегти"
 
-#: js/documents.js:719 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:752
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' це невірне ім'я файлу."
 
-#: js/documents.js:754
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr " Ім'я файлу не може бути порожнім."
 
-#: js/documents.js:761
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
@@ -188,7 +188,7 @@ msgstr ""
 
 #: js/locale.js:21
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: js/locale.js:22
 msgid "Increase Indent"
