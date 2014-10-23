@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-20 00:43-0400\n"
-"PO-Revision-Date: 2014-09-19 05:21+0000\n"
+"POT-Creation-Date: 2014-10-23 00:43-0400\n"
+"PO-Revision-Date: 2014-10-22 09:38+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -55,52 +55,52 @@ msgstr "Документи"
 msgid "Saving..."
 msgstr "Снимам..."
 
-#: js/documents.js:86
+#: js/documents.js:87
 msgid "Failed to load documents."
 msgstr "Не успеав да го вчитам документот"
 
-#: js/documents.js:121
+#: js/documents.js:122
 msgid "No documents were found. Upload or create a document to get started!"
 msgstr ""
 
-#: js/documents.js:156
+#: js/documents.js:157
 msgid "Share"
 msgstr "Сподели"
 
-#: js/documents.js:273
+#: js/documents.js:274
 msgid "No connection to server. Trying to reconnect."
 msgstr ""
 
-#: js/documents.js:337
+#: js/documents.js:338
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Оставањето на оваа страница во мод за уредување може да предизивка губиток на неснимените податоци. Се препорачува да се користи копчето 'Затвори'."
 
-#: js/documents.js:358
+#: js/documents.js:359
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Неуспешно вчитување на документот. Ве молиме да проверите дали може да се отвори со надворешен odt уредувач. Ова исто така може да значи дека истиот бил одстранет од споделување или пак претходно бил избришан."
 
-#: js/documents.js:380 js/locale.js:39
+#: js/documents.js:381 js/locale.js:39
 msgid "Save"
 msgstr "Сними"
 
-#: js/documents.js:719 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr ""
 
-#: js/documents.js:752
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' е грешно име за датотека."
 
-#: js/documents.js:754
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "Името на датотеката не може да биде празно."
 
-#: js/documents.js:761
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

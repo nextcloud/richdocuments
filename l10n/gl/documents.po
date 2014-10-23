@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-20 00:43-0400\n"
-"PO-Revision-Date: 2014-09-19 05:21+0000\n"
+"POT-Creation-Date: 2014-10-23 00:43-0400\n"
+"PO-Revision-Date: 2014-10-22 09:38+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -56,52 +56,52 @@ msgstr "Documentos"
 msgid "Saving..."
 msgstr "Gardando..."
 
-#: js/documents.js:86
+#: js/documents.js:87
 msgid "Failed to load documents."
 msgstr "Non foi posíbel cargar os documentos."
 
-#: js/documents.js:121
+#: js/documents.js:122
 msgid "No documents were found. Upload or create a document to get started!"
 msgstr "Non se atopou ningún documento. Envíe un documento para comezar!"
 
-#: js/documents.js:156
+#: js/documents.js:157
 msgid "Share"
 msgstr "Compartir"
 
-#: js/documents.js:273
+#: js/documents.js:274
 msgid "No connection to server. Trying to reconnect."
 msgstr "Sen conexión co servidor. Tentando conectar de novo."
 
-#: js/documents.js:337
+#: js/documents.js:338
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Deixar esta páxina no modo Editor pode provocar que non se garden os datos. Recomendámoslle que empregue o botón «Pechar» no seu canto."
 
-#: js/documents.js:358
+#: js/documents.js:359
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Non foi posíbel cargar o documento. Comprobe se pode abrirse cun editor «odt» externo. Isto tamén pode deberse a que foi eliminado ou a que deixou de compartires recentemente."
 
-#: js/documents.js:380 js/locale.js:39
+#: js/documents.js:381 js/locale.js:39
 msgid "Save"
 msgstr "Gardar"
 
-#: js/documents.js:719 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Cargando documentos..."
 
-#: js/documents.js:752
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "«.» é un nome de ficheiro incorrecto"
 
-#: js/documents.js:754
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "O nome de ficheiro non pode estar baleiro"
 
-#: js/documents.js:761
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."

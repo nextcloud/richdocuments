@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-20 00:43-0400\n"
-"PO-Revision-Date: 2014-09-19 05:21+0000\n"
+"POT-Creation-Date: 2014-10-23 00:43-0400\n"
+"PO-Revision-Date: 2014-10-22 09:38+0000\n"
 "Last-Translator: Darren Richardson <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -55,52 +55,52 @@ msgstr "Documents"
 msgid "Saving..."
 msgstr "Saving..."
 
-#: js/documents.js:86
+#: js/documents.js:87
 msgid "Failed to load documents."
 msgstr "Failed to load documents."
 
-#: js/documents.js:121
+#: js/documents.js:122
 msgid "No documents were found. Upload or create a document to get started!"
 msgstr "No documents were found. Upload or create a document to get started!"
 
-#: js/documents.js:156
+#: js/documents.js:157
 msgid "Share"
 msgstr "Share"
 
-#: js/documents.js:273
+#: js/documents.js:274
 msgid "No connection to server. Trying to reconnect."
 msgstr "No connection to server. Trying to reconnect."
 
-#: js/documents.js:337
+#: js/documents.js:338
 msgid ""
 "Leaving this page in Editor mode might cause unsaved data. It is recommended"
 " to use 'Close' button instead."
 msgstr "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead."
 
-#: js/documents.js:358
+#: js/documents.js:359
 msgid ""
 "Failed to load this document. Please check if it can be opened with an "
 "external odt editor. This might also mean it has been unshared or deleted "
 "recently."
 msgstr "Failed to load this document. Please check if it can be opened with an external ODT editor. This might also mean it has been unshared or deleted recently."
 
-#: js/documents.js:380 js/locale.js:39
+#: js/documents.js:381 js/locale.js:39
 msgid "Save"
 msgstr "Save"
 
-#: js/documents.js:719 templates/documents.php:31
+#: js/documents.js:720 templates/documents.php:31
 msgid "Loading documents..."
 msgstr "Loading documents..."
 
-#: js/documents.js:752
+#: js/documents.js:753
 msgid "'.' is an invalid file name."
 msgstr "'.' is an invalid file name."
 
-#: js/documents.js:754
+#: js/documents.js:755
 msgid "File name cannot be empty."
 msgstr "File name cannot be empty."
 
-#: js/documents.js:761
+#: js/documents.js:762
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
