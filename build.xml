@@ -1,4 +1,4 @@
-<project name="owncloud-firstrunwizard" basedir="." default="test">
+<project name="owncloud-documents" basedir="." default="test">
 
 	<!-- test - Tests if the code syntax is correct and executes phpunit tests -->
 	<target name="test">
