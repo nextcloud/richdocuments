@@ -1,86 +1,108 @@
 <?php
-
 /**
  * ownCloud - Documents App
  *
  * @author Victor Dubiniuk
- * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
+ * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Documents\Controller;
+
+use \OCP\AppFramework\Controller;
+use \OCP\IRequest;
+use \OCP\AppFramework\Http\JSONResponse;
+
+use \OCA\Documents\Db;
+use \OCA\Documents\File;
+use \OCA\Documents\Helper;
+use OCA\Documents\Filter;
 
 class SessionController extends Controller{
 	
-	public static function joinAsGuest($args){
-		self::preDispatchGuest();
-		
-		$uid = Helper::getArrayValueByKey($_POST, 'name');
-		$uid = substr($uid, 0, 16);
+	protected $uid;
+
+	public function __construct($appName, IRequest $request, $uid){
+		parent::__construct($appName, $request);
+		$this->uid = $uid;
+	}
+	
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 */
+	public function joinAsGuest($token, $name){
+		$uid = substr($name, 0, 16);
 		
 		try {
-			$token = Helper::getArrayValueByKey($args, 'token');
 			$file = File::getByShareToken($token);
 			if ($file->isPasswordProtected() && !$file->checkPassword('')){
 				throw new \Exception('Not authorized');
 			}
-			$session = Db\Session::start($uid, $file);
-			\OCP\JSON::success($session);
+
+			$response = array_merge( 
+				Db\Session::start($uid, $file),
+				array('status'=>'success')
+			);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
-			\OCP\JSON::error();
-			exit();
+			$response = array (
+				'status'=>'error'
+			);
 		}
-	}
-
-	public static function joinAsUser($args){
-		$uid = self::preDispatch();
-		$fileId = Helper::getArrayValueByKey($args, 'file_id');
 		
+		return $response;
+	}
+	
+	/**
+	 * @NoAdminRequired
+	 */
+	public function joinAsUser($fileId){
 		try {
 			$view = \OC\Files\Filesystem::getView();
 			$path = $view->getPath($fileId);
 			
 			if ($view->isUpdatable($path)) {
 				$file = new File($fileId);
-				$session = Db\Session::start($uid, $file);
-				\OCP\JSON::success($session);
+				$response = Db\Session::start($this->uid, $file);
 			} else {
 				$info = $view->getFileInfo($path);
-				\OCP\JSON::success(array(
+				$response = array(
 					'permissions' => $info['permissions'],
 					'id' => $fileId
-				));
+				);
 			}
-			exit();
+			$response = array_merge( 
+					$response,
+					array('status'=>'success')
+			);
 		} catch (\Exception $e){
 			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
-			\OCP\JSON::error();
-			exit();
+			$response = array (
+				'status'=>'error'
+			);
 		}
+		
+		return $response;
 	}
 	
-
 	/**
+	 * @NoAdminRequired
+	 * @PublicPage
 	 * Store the document content to its origin
 	 */
-	public static function save(){
+	public function save(){
 		try {
-			$esId = @$_SERVER['HTTP_WEBODF_SESSION_ID'];
+			$esId = $this->request->server['HTTP_WEBODF_SESSION_ID'];
 			if (!$esId){
 				throw new \Exception('Session id can not be empty');
 			}
 			
-			$memberId = @$_SERVER['HTTP_WEBODF_MEMBER_ID'];
+			$memberId = $this->request->server['HTTP_WEBODF_MEMBER_ID'];
 			$currentMember = new Db\Member();
 			$currentMember->load($memberId);
-			if (is_null($currentMember->getIsGuest()) || $currentMember->getIsGuest()){
-				self::preDispatchGuest();
-			} else {
-				$uid = self::preDispatch();
-			}
 			
 			//check if member belongs to the session
 			if ($esId != $currentMember->getEsId()){
@@ -88,8 +110,9 @@ class SessionController extends Controller{
 			}
 			
 			// Extra info for future usage
-			// $sessionRevision = Helper::getArrayValueByKey($_SERVER, 'HTTP_WEBODF_SESSION_REVISION');
+			// $sessionRevision = $this->request->server['HTTP_WEBODF_SESSION_REVISION'];
 			
+			//NB ouch! New document content is passed as an input stream content
 			$stream = fopen('php://input','r');
 			if (!$stream){
 				throw new \Exception('New content missing');
@@ -114,11 +137,13 @@ class SessionController extends Controller{
 			} catch (\Exception $e){
 				//File was deleted or unshared. We need to save content as new file anyway
 				//Sorry, but for guests it would be lost :(
-				if (isset($uid)){
-					$view = new \OC\Files\View('/' . $uid . '/files');
+				if ($this->uid){
+					$view = new \OC\Files\View('/' . $this->uid . '/files');
 		
-					$dir = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '');
+					$dir = \OCP\Config::getUserValue($this->uid, 'documents', 'save_path', '');
 					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
+				} else {
+					throw $e;
 				}
 			}
 			
@@ -165,12 +190,13 @@ class SessionController extends Controller{
 				
 				$view->touch($path);
 			}
-			\OCP\JSON::success();
+			$response = array('status'=>'success');
 		} catch (\Exception $e){
 			Helper::warnLog('Saving failed. Reason:' . $e->getMessage());
-			//\OCP\JSON::error(array('message'=>$e->getMessage()));
 			\OC_Response::setStatus(500);
+			$response = array();
 		}
-		exit();
+
+		return $response;
 	}
 }

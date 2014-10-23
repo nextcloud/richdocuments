@@ -35,9 +35,6 @@ OCP\App::addNavigationEntry(array(
 );
 
 OC::$CLASSPATH['OCA\Documents\Controller'] = 'documents/ajax/controller.php';
-OC::$CLASSPATH['OCA\Documents\DocumentController'] = 'documents/ajax/documentController.php';
-OC::$CLASSPATH['OCA\Documents\SessionController'] = 'documents/ajax/sessionController.php';
-OC::$CLASSPATH['OCA\Documents\UserController'] = 'documents/ajax/userController.php';
 
 //Script for registering file actions
 OCP\Util::addScript('documents', 'viewer/viewer');

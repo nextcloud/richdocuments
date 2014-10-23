@@ -25,6 +25,7 @@ class BadRequestException extends \Exception {
 	}
 }
 
+\OCP\JSON::checkAppEnabled('documents');
 $response = array();
 
 try{
@@ -38,10 +39,8 @@ try{
 	$member = new Db\Member();
 	$member->load($memberId);
 	
-	if ($member->getIsGuest() || is_null($member->getIsGuest())){
-		Controller::preDispatchGuest(false);
-	} else {
-		Controller::preDispatch(false);
+	if (!$member->getIsGuest()){
+		\OCP\JSON::checkLoggedIn();
 	}
 
 	try {
