@@ -63,6 +63,7 @@
 "Edit" => "Edit",
 "Local" => "Lokal",
 "New document" => "Dokumen Baru",
+"Upload (max. %s)" => "Unggah (maks. %s)",
 "Upload" => "Unggah",
 "Save new documents to" => "Simpan dokumen ke",
 "Wrong password. Please retry." => "Sandi salah. Silakan ulangi.",
