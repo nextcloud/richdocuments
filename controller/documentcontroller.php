@@ -66,7 +66,7 @@ class DocumentController extends Controller{
 		} else {
 			$response =  array(
 				'status' => 'error',
-				'message' => $this->l10n->t('Can\'t create document')
+				'message' => (string) $this->l10n->t('Can\'t create document')
 			);
 		}
 		return $response;
@@ -103,7 +103,7 @@ class DocumentController extends Controller{
 		}
 		return array(
 			'status' => 'error',
-			'message' => $this->l10n->t('You don\'t have permission to rename this document')
+			'message' => (string) $this->l10n->t('You don\'t have permission to rename this document')
 		);
 	}
 

@@ -5,7 +5,7 @@ $(document).ready(function(){
 			var data = {
 				unstable : $('#webodf-unstable').attr('checked')==="checked"
 			};
-			$.post(OC.filePath('documents', 'ajax', 'settings.php'), data, documentsSettings.afterSave);
+			$.post(OC.generateUrl('apps/documents/ajax/config/unstable'), data, documentsSettings.afterSave);
 		},
 		afterSave : function(){
 			documentsMain.useUnstable = $('#webodf-unstable').attr('checked')==="checked"

@@ -28,29 +28,23 @@ $application->registerRoutes($this, array(
 		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => array('GET', 'HEAD')),
 		array('name' => 'document#rename', 'url' => 'ajax/documents/rename/{fileId}', 'verb' => 'POST'),
 		array('name' => 'document#listAll', 'url' => 'ajax/documents/list', 'verb' => 'GET'),
+		//settings
+		array('name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'),
+		array('name' => 'settings#setUnstable', 'url' => 'ajax/config/unstable', 'verb' => 'POST'),
+		array('name' => 'settings#setConverter', 'url' => 'ajax/admin.php', 'verb' => 'POST'),
 	)
 ));
 
 
 /** @var $this \OC\Route\Router */
-
-$this->create('documents_ajax_admin', 'ajax/admin.php')
-	->actionInclude('documents/ajax/admin.php');
-
 $this->create('documents_ajax_download', 'ajax/download.php')
-	->actionInclude('documents/ajax/admin.php');
+	->actionInclude('documents/ajax/download.php');
 
 $this->create('documents_ajax_mimes', 'ajax/mimes.php')
 	->actionInclude('documents/ajax/mimes.php');
 
 $this->create('documents_ajax_otpoll', 'ajax/otpoll.php')
 	->actionInclude('documents/ajax/otpoll.php');
-
-$this->create('documents_ajax_personal', 'ajax/personal.php')
-	->actionInclude('documents/ajax/personal.php');
-
-$this->create('documents_ajax_settings', 'ajax/settings.php')
-	->actionInclude('documents/ajax/settings.php');
 
 /**
  * Document routes
