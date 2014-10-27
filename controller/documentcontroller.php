@@ -21,6 +21,8 @@ use \OCA\Documents\Db;
 use \OCA\Documents\Helper;
 use \OCA\Documents\Storage;
 use \OCA\Documents\Download;
+use \OCA\Documents\File;
+use OCA\Documents\Genesis;
 
 class DocumentController extends Controller{
 	
@@ -84,6 +86,24 @@ class DocumentController extends Controller{
 		$filename = $session->getGenesisUrl() ? $session->getGenesisUrl() : '';
 		$download = new Download($session->getOwner(), $filename);
 		$download->sendResponse();
+	}
+	
+	/**
+	 * @NoAdminRequired
+	 */
+	public function download($path){
+		if ($path){
+			if (\OC\Files\Filesystem::getMimeType($path) !== \OCA\Documents\Filter\Office::NATIVE_MIMETYPE){
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
+				$file = new File($fileInfo->getId());
+				$genesis = new Genesis($file);
+				$fullPath = $genesis->getPath();
+			} else {
+				$fullPath = '/files' . $path;
+			}
+			$download = new Download($this->uid, $fullPath);
+			$download->sendResponse();
+		}
 	}
 	
 	/**

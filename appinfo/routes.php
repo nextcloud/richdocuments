@@ -28,6 +28,7 @@ $application->registerRoutes($this, array(
 		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => array('GET', 'HEAD')),
 		array('name' => 'document#rename', 'url' => 'ajax/documents/rename/{fileId}', 'verb' => 'POST'),
 		array('name' => 'document#listAll', 'url' => 'ajax/documents/list', 'verb' => 'GET'),
+		array('name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => array('GET', 'HEAD')),
 		//settings
 		array('name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'),
 		array('name' => 'settings#setUnstable', 'url' => 'ajax/config/unstable', 'verb' => 'POST'),
@@ -37,9 +38,6 @@ $application->registerRoutes($this, array(
 
 
 /** @var $this \OC\Route\Router */
-$this->create('documents_ajax_download', 'ajax/download.php')
-	->actionInclude('documents/ajax/download.php');
-
 $this->create('documents_ajax_mimes', 'ajax/mimes.php')
 	->actionInclude('documents/ajax/mimes.php');
 
