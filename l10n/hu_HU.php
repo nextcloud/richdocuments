@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "A formátumszűrő szerver nem üzemel, vagy rosszul van konfigurálva",
 "Conversion failed. Check log for details." => "Az átalakítás nem sikerült. Ellenőrizze a naplóállományban a részleteket!",
 "Saved" => "Elmentve",
@@ -87,3 +88,4 @@
 "Advanced feature-set" => "Haladó funkciók",
 "(Unstable)" => "(nem stabil)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

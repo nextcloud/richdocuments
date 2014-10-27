@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "সংরক্ষিত",
 "Saving..." => "সংরক্ষণ করা হচ্ছে ...",
 "Share" => "শেয়ার",
@@ -10,3 +11,4 @@
 "Size" => "আকার",
 "Edit" => "এডিট"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

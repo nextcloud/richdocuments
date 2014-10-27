@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saving..." => "ساقلاۋاتىدۇ…",
 "Share" => "ھەمبەھىر",
 "Save" => "ساقلا",
@@ -17,3 +18,4 @@
 "Upload" => "يۈكلە",
 "Password" => "ئىم"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

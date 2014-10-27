@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Share" => "Сделать общим",
 "'.' is an invalid file name." => "'.' является неверным именем файла.",
 "File name cannot be empty." => "Имя файла не может быть пустым.",
@@ -17,3 +18,4 @@
 "Upload" => "Загрузка",
 "Password" => "Пароль"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

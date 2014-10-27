@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "已儲存",
 "Can't create document" => "無法建立文件",
 "You don't have permission to rename this document" => "您沒有重新命名的權限",
@@ -72,3 +73,4 @@
 "Advanced feature-set" => "進階功能",
 "(Unstable)" => "（不穩定）"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

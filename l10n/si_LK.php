@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saving..." => "සුරැකෙමින් පවතී...",
 "Share" => "බෙදා හදා ගන්න",
 "Save" => "සුරකින්න",
@@ -15,3 +16,4 @@
 "Upload" => "උඩුගත කරන්න",
 "Password" => "මුර පදය"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

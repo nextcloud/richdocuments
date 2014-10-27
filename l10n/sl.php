@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Strežnik filtriranja je nedejaven, ali pa ni pravilno nastavljen",
 "Conversion failed. Check log for details." => "Pretvarjanje je spodletelo. Preverite dnevniški zapis za več podrobnosti.",
 "Saved" => "Shranjeno",
@@ -87,3 +88,4 @@
 "Advanced feature-set" => "Napredne zmožnosti",
 "(Unstable)" => "(nestabilno)"
 );
+$PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

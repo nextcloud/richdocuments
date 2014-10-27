@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "已儲存",
 "Saving..." => "儲存中...",
 "Share" => "分享",
@@ -28,3 +29,4 @@
 "Upload" => "上傳",
 "Password" => "密碼"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "U ruajt",
 "Saving..." => "Duke ruajtur...",
 "Share" => "Nda",
@@ -19,3 +20,4 @@
 "Upload" => "Ngarko",
 "Password" => "fjalëkalim"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

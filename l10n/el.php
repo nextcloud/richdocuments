@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Ο διακομιστής μορφών φίλτρων είναι εκτός σύνδεσης ή δεν έχει ρυθμιστεί σωστά",
 "Conversion failed. Check log for details." => "Η μετατροπή απέτυχε. Ελέγξτε το αρχείο καταγραφής για λεπτομέρειες.",
 "Saved" => "Αποθηκεύτηκαν",
@@ -87,3 +88,4 @@
 "Advanced feature-set" => "Σύνολο χαρακτηριστικών για προχωρημένους",
 "(Unstable)" => "(Ασταθές)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

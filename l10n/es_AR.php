@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "Guardado",
 "You don't have permission to rename this document" => "No tienes permisos para cambiar de nombre a este documento.",
 "Documents" => "Documentos",
@@ -70,3 +71,4 @@
 "Advanced feature-set" => "Características Avanzadas",
 "(Unstable)" => "(Inestable)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

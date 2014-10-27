@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "O servidor de formato de filtro está desligado ou com configuração errada",
 "Conversion failed. Check log for details." => "Falha na conversão. Verifique o log para detalhes.",
 "Saved" => "Salvo",
@@ -87,3 +88,4 @@
 "Advanced feature-set" => "Avançado conjunto de funcionalidades",
 "(Unstable)" => "(Instável)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

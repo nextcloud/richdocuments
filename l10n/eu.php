@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formatuen iragazki zerbitzaria erorita edo gaizki konfiguratua",
 "Conversion failed. Check log for details." => "Bihurketak huts egin du. Begiratu erregistroak zehaztapenetarako.",
 "Saved" => "Gordeta",
@@ -87,3 +88,4 @@
 "Advanced feature-set" => "Ezaugarri aurreratu multzoa",
 "(Unstable)" => "(Ez-egonkorra)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

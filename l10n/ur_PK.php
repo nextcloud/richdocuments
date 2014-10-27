@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saving..." => "محفوظ ھو رہا ہے ...",
 "Share" => "تقسیم",
 "Save" => "حفظ",
@@ -10,3 +11,4 @@
 "Edit" => "تدوین کریں",
 "Password" => "پاسورڈ"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

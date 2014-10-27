@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Documents" => "Dokument",
 "Saving..." => "Lagrar …",
 "Failed to load documents." => "Klarte ikkje å lasta dokumenta.",
@@ -24,3 +25,4 @@
 "Advanced feature-set" => "Avanserte funksjonar",
 "(Unstable)" => "(Ustabil)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

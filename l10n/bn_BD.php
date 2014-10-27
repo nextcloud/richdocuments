@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Conversion failed. Check log for details." => "রূপান্তর ব্যার্থ। বিস্তারিত জানতে লগ দেখুন।",
 "Saved" => "সংরক্ষণ করা হলো",
 "Can't create document" => "ডকুমেন্ট তৈরী করা যাবেনা",
@@ -52,3 +53,4 @@
 "Upload" => "আপলোড",
 "Password" => "কূটশব্দ"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

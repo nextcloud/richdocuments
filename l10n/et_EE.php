@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Formaadi filtri server ei ole saadaval või on valesti seadistatud",
 "Conversion failed. Check log for details." => "Muutmine ebaõnnestus. Vaata logidest lisaks.",
 "Saved" => "Salvestatud",
@@ -87,3 +88,4 @@
 "Advanced feature-set" => "Täpsemad seaded",
 "(Unstable)" => "(Ebastabiilne)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

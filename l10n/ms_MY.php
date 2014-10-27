@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saving..." => "Simpan...",
 "Share" => "Kongsi",
 "Save" => "Simpan",
@@ -14,3 +15,4 @@
 "Upload" => "Muat naik",
 "Password" => "Kata laluan"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

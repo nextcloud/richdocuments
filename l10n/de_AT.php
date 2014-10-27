@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Share" => "Freigeben",
 "Save" => "Speichern",
 "Cancel" => "Abbrechen",
@@ -6,3 +7,4 @@
 "Edit" => "Bearbeiten",
 "Password" => "Passwort"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

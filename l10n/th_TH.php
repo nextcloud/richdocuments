@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saving..." => "กำลังบันทึกข้อมูล...",
 "Share" => "แชร์",
 "Save" => "บันทึก",
@@ -19,3 +20,4 @@
 "Upload" => "อัพโหลด",
 "Password" => "รหัสผ่าน"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

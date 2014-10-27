@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "저장됨",
 "You don't have permission to rename this document" => "이 문서의 이름을 변경할 권한이 없습니다",
 "Documents" => "문서",
@@ -70,3 +71,4 @@
 "Advanced feature-set" => "고급 기능",
 "(Unstable)" => "(불안정)"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

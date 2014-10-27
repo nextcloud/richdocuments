@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Conversion failed. Check log for details." => "המרה נכשלה. יש לבדוק לוג פעילות לפרטים.",
 "Saved" => "נשמר",
 "Can't create document" => "לא ניתן ליצור מסמך",
@@ -79,3 +80,4 @@
 "Wrong password. Please retry." => "סיסמא שגויה. נא לנסות שוב",
 "Password" => "סיסמא"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

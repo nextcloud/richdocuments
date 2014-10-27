@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "ذخیره شد",
 "You don't have permission to rename this document" => "شما دسترسی مجاز برای تغییر نام این سند را ندارید",
 "Documents" => "اسناد",
@@ -66,3 +67,4 @@
 "Advanced feature-set" => "مجموعه‌ی امکانات پیشرفته",
 "(Unstable)" => "(ناپایدار)"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

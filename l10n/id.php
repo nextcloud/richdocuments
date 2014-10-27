@@ -1,9 +1,16 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
+"Format filter server is down or misconfigured" => "Server penyaring format mati atau salah konfigurasi",
+"Conversion failed. Check log for details." => "Konversi gagal. Lihat log untuk rincian.",
 "Saved" => "Disimpan",
+"Can't create document" => "Tidak dapat membuat dokumen",
 "You don't have permission to rename this document" => "Anda tidak memiliki izin untuk mengubah nama dokumen ini",
+"An error occurred while changing directory." => "Terjadi kesalahan saatt mengubah direktori.",
+"Directory saved successfully." => "Direktori berhasil disimpan.",
 "Documents" => "Dokumen",
 "Saving..." => "Menyimpan...",
 "Failed to load documents." => "Gagal untuk memuat dokumen.",
+"No documents were found. Upload or create a document to get started!" => "Tidak ada dokumen yang ditemukan. Unggah atau buat sebuah dokumen untuk memulai!",
 "Share" => "Bagikan",
 "No connection to server. Trying to reconnect." => "Tidak tersambung ke server. Coba untuk menyambungkan ulang.",
 "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." => "Meninggalkan halaman ini dalam mode Penyunting menyebabkan data tidak disimpan. Direkomendasikan untuk menggunakan tombol 'Tutup' sebagai gantinya.",
@@ -61,14 +68,24 @@
 "Undo" => "Batal",
 "Unknown Author" => "Penulis tidak diketahui",
 "Edit" => "Edit",
+"guest" => "pengunjung",
+"MS Word support (requires openOffice/libreOffice)" => "Dukungan MS Word (memerlukan openOffice/libreOffice)",
 "Local" => "Lokal",
+"openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "openOffice/libreOffice sudah terinstal pada server ini. Jalur lokasi biner disediakan via preview_libreoffice_path didalam config.php",
+"External" => "Eksternal",
+"openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice sudah terinstal pada server eksternal menjalankan server penyaring format",
+"scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
+"Server URL" => "URL Server",
+"Apply and test" => "Terapkan dan uji coba",
 "New document" => "Dokumen Baru",
 "Upload (max. %s)" => "Unggah (maks. %s)",
 "Upload" => "Unggah",
 "Save new documents to" => "Simpan dokumen ke",
 "Wrong password. Please retry." => "Sandi salah. Silakan ulangi.",
 "Password" => "Sandi",
+"Guest %s" => "Pengunjung %s",
 "This link has been expired or is never existed. Please contact the person who shared it with you for details." => "Tautan ini sudah kadaluarsa atau tidak pernah ada. Silahkan hubungi orang yang berbagi dengan Anda untuk lebih rinci.",
 "Advanced feature-set" => "Set fitur lanjutan",
 "(Unstable)" => "(Tidak stabil)"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

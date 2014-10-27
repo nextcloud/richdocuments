@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "Снимено",
 "Can't create document" => "Не можам да креирам документ",
 "Documents" => "Документи",
@@ -52,3 +53,4 @@
 "Advanced feature-set" => "Напредни опции",
 "(Unstable)" => "(Нестабилен)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Muotosuodatuspalvelin ei ole käytettävissä tai sen asetukset ovat väärin",
 "Conversion failed. Check log for details." => "Muuntaminen epäonnistui. Katso lisätietoja lokista.",
 "Saved" => "Tallennettu",
@@ -85,3 +86,4 @@
 "Advanced feature-set" => "Tarkemmat toiminto-asetukset",
 "(Unstable)" => "(Epävakaa)"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

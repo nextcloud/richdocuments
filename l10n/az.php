@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Format filter server is down or misconfigured" => "Fomat filtrasiyası serveri sönülüdür yada düzgün config edilməyib",
 "Conversion failed. Check log for details." => "Dəyişiklikdə səh oldu. Ətraflı məlumat üçün jurnal faylını yoxlayın",
 "Saved" => "Saxlanıldı",
@@ -23,3 +24,4 @@
 "Upload" => "Serverə yüklə",
 "Password" => "Şifrə"
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

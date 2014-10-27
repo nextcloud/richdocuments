@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Jums nav tiesības pārsaukt šo dokumentu ",
 "Documents" => "Dokumenti",
 "Saving..." => "Saglabā...",
@@ -29,3 +30,4 @@
 "Wrong password. Please retry." => "Nepareiza paroli. Lūdzu mēģiniet vēlreiz.",
 "Password" => "Parole"
 );
+$PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

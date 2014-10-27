@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "Saved" => "បាន​រក្សាទុក",
 "You don't have permission to rename this document" => "អ្នក​មិន​មាន​សិទ្ធិ​ប្ដូរ​ឈ្មោះ​ឯកសារ​នេះ​ទេ",
 "Documents" => "កម្រង​ឯកសារ",
@@ -67,3 +68,4 @@
 "Advanced feature-set" => "សំណុំ​មុខងារ​កម្រិត​ខ្ពស់",
 "(Unstable)" => "(មិន​ស្ថិតស្ថិរ)"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";

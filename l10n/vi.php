@@ -1,4 +1,5 @@
-<?php $TRANSLATIONS = array(
+<?php
+$TRANSLATIONS = array(
 "You don't have permission to rename this document" => "Bạn không có quyền đổi tên tài liệu này",
 "Documents" => "Tài liệu",
 "Saving..." => "Đang lưu...",
@@ -69,3 +70,4 @@
 "Advanced feature-set" => "Thiết lập tính năng nâng cao",
 "(Unstable)" => "(Không ổn định)"
 );
+$PLURAL_FORMS = "nplurals=1; plural=0;";
