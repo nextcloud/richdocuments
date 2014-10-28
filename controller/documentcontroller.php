@@ -21,8 +21,10 @@ use \OCA\Documents\Db;
 use \OCA\Documents\Helper;
 use \OCA\Documents\Storage;
 use \OCA\Documents\Download;
+use \OCA\Documents\DownloadResponse;
 use \OCA\Documents\File;
 use OCA\Documents\Genesis;
+use \OCA\Documents\View;
 
 class DocumentController extends Controller{
 	
@@ -84,8 +86,7 @@ class DocumentController extends Controller{
 		$session->load($esId);
 		
 		$filename = $session->getGenesisUrl() ? $session->getGenesisUrl() : '';
-		$download = new Download($session->getOwner(), $filename);
-		$download->sendResponse();
+		return new DownloadResponse($this->request, $session->getOwner(), $filename);
 	}
 	
 	/**
@@ -101,11 +102,12 @@ class DocumentController extends Controller{
 			} else {
 				$fullPath = '/files' . $path;
 			}
-			$download = new Download($this->uid, $fullPath);
-			$download->sendResponse();
+
+			return new DownloadResponse($this->request, $this->uid, $fullPath);
 		}
 	}
 	
+
 	/**
 	 * @NoAdminRequired
 	 */
