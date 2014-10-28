@@ -81,11 +81,12 @@ define("webodf/editor/server/pullbox/Server", [], function () {
                 cbError(0, xhr.statusText);
             }
 
-runtime.log("Sending message to server: "+messageString);
+            runtime.log("Sending message to server: "+messageString);
             // create body data for request from metadata and payload
 
             // do the request
             xhr.open('POST', args.url, true);
+            xhr.setRequestHeader("Content-type","application/json");
             if (token) {
                 xhr.setRequestHeader("requesttoken", token);
             }
