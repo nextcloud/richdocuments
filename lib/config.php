@@ -44,6 +44,7 @@ wAAAQACAAAAAAAAAAAAAAAAAAAAAAACAAAAAtXN1ZwuGxCTlwgAKyz5rkQAAAAF1c3VnC4bEJOXCAArL
  		$exists = file_exists($outfile);
 		
 		if (!$exists){
+			Helper::warnLog('Conversion test failed. Raw output:' . $result);
 			return false;
 		} else {
 			unlink($outfile);

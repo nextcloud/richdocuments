@@ -19,19 +19,20 @@ use \OCP\AppFramework\Http\JSONResponse;
 
 use OCA\Documents\Converter;
 use OCA\Documents\Config;
-use OCA\Documents\Helper;
 use OCA\Documents\Filter;
 
 class SettingsController extends Controller{
 	
 	private $uid;
 	private $settings;
+	private $logger;
 	private $l10n;
 	
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid){
+	public function __construct($appName, IRequest $request, IConfig $settings, $logger, IL10N $l10n, $uid){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->settings = $settings;
+		$this->logger = $logger;
 		$this->l10n = $l10n;
 	}
 	
@@ -98,7 +99,7 @@ class SettingsController extends Controller{
 		
 		if ($this->settings->getAppValue($this->appName, 'converter', 'local') != 'local'){
 			if (!Converter::checkConnection()){
-				Helper::warnLog('Bad response from Format Filter Server');
+				$this->logger->warning('Bad response from Format Filter Server', array('app' => $this->appName));
 					$response = array(
 						'status' => 'error',
 						'data'=>
@@ -108,7 +109,6 @@ class SettingsController extends Controller{
 		} else {
 			try {
 				if (!Config::testConversion()){
-					Helper::warnLog('Conversion failed. Raw output:' . $result);
 					$response = array( 
 						'status' => 'error',
 						'data'=>

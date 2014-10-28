@@ -38,10 +38,12 @@ class BadRequestException extends \Exception {
 class SessionController extends Controller{
 	
 	protected $uid;
+	protected $logger;
 
-	public function __construct($appName, IRequest $request, $uid){
+	public function __construct($appName, IRequest $request, $logger, $uid){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
+		$this->logger = $logger;
 	}
 	
 	/**
@@ -62,7 +64,7 @@ class SessionController extends Controller{
 				array('status'=>'success')
 			);
 		} catch (\Exception $e){
-			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
+			$this->logger->warning('Starting a session failed. Reason: ' . $e->getMessage(), array('app' => $this->appName));
 			$response = array (
 				'status'=>'error'
 			);
@@ -94,7 +96,7 @@ class SessionController extends Controller{
 					array('status'=>'success')
 			);
 		} catch (\Exception $e){
-			Helper::warnLog('Starting a session failed. Reason: ' . $e->getMessage());
+			$this->logger->warning('Starting a session failed. Reason: ' . $e->getMessage(), array('app' => $this->appName));
 			$response = array (
 				'status'=>'error'
 			);
@@ -123,7 +125,7 @@ class SessionController extends Controller{
 			try {
 				$file = new File($session->getFileId());
 			} catch (\Exception $e){
-				Helper::warnLog('Error. Session no longer exists. ' . $e->getMessage());
+				$this->logger->warning('Error. Session no longer exists. ' . $e->getMessage(), array('app' => $this->appName));
 				$ex = new BadRequestException();
 				$ex->setBody(
 						implode(',', $this->request->getParams())
@@ -302,7 +304,7 @@ class SessionController extends Controller{
 				// Not a last user
 				if ($memberCount>0){
 					// Update genesis hash to prevent conflicts
-					Helper::debugLog('Update hash');
+					$this->logger->debug('Update hash', array('app' => $this->appName));
 					$session->updateGenesisHash($esId, sha1($data['content']));
 				} else {
 					// Last user. Kill session data
@@ -313,7 +315,7 @@ class SessionController extends Controller{
 			}
 			$response = array('status'=>'success');
 		} catch (\Exception $e){
-			Helper::warnLog('Saving failed. Reason:' . $e->getMessage());
+			$this->logger->warning('Saving failed. Reason:' . $e->getMessage(), array('app' => $this->appName));
 			\OC_Response::setStatus(500);
 			$response = array();
 		}

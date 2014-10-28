@@ -26,7 +26,7 @@ $application->registerRoutes($this, array(
 		array('name' => 'session#poll', 'url' => 'ajax/otpoll.php', 'verb' => 'POST'),
 		//documents
 		array('name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'),
-		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => array('GET', 'HEAD')),
+		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => 'GET', 'HEAD'),
 		array('name' => 'document#rename', 'url' => 'ajax/documents/rename/{fileId}', 'verb' => 'POST'),
 		array('name' => 'document#listAll', 'url' => 'ajax/documents/list', 'verb' => 'GET'),
 		array('name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => array('GET', 'HEAD')),

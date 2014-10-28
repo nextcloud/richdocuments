@@ -37,6 +37,7 @@ class Application extends App {
 			return new SessionController(
 				$c->query('AppName'), 
 				$c->query('Request'),
+				$c->query('Logger'),
 				$c->query('UserId')
 			);
 		});
@@ -54,6 +55,7 @@ class Application extends App {
 				$c->query('AppName'), 
 				$c->query('Request'),
 				$c->query('CoreConfig'),
+				$c->query('Logger'),
 				$c->query('L10N'),
 				$c->query('UserId')
 			);
@@ -62,7 +64,9 @@ class Application extends App {
 		/**
 		 * Core
 		 */
-		
+		$container->registerService('Logger', function($c) {
+			return $c->query('ServerContainer')->getLogger();
+		});
         $container->registerService('CoreConfig', function($c) {
             return $c->query('ServerContainer')->getConfig();
         });
