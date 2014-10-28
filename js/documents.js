@@ -656,6 +656,7 @@ var documentsMain = {
 			}
 			
 			documentsMain.show();
+			$('header,footer,nav').show();
 	},
 		
 
