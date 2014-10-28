@@ -23,6 +23,7 @@ $application->registerRoutes($this, array(
 		array('name' => 'session#joinAsUser', 'url' => 'ajax/session/joinasuser/{fileId}', 'verb' => 'POST'),
 		array('name' => 'session#joinAsGuest', 'url' => 'ajax/session/joinasguest/{token}', 'verb' => 'POST'),
 		array('name' => 'session#save', 'url' => 'ajax/session/save', 'verb' => 'POST'),
+		array('name' => 'session#poll', 'url' => 'ajax/otpoll.php', 'verb' => 'POST'),
 		//documents
 		array('name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'),
 		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => array('GET', 'HEAD')),
@@ -37,20 +38,12 @@ $application->registerRoutes($this, array(
 	)
 ));
 
-
-/** @var $this \OC\Route\Router */
-$this->create('documents_ajax_otpoll', 'ajax/otpoll.php')
-	->actionInclude('documents/ajax/otpoll.php');
-
 /**
  * Document routes
  */
 
+/** @var $this \OC\Route\Router */
+
 $this->create('documents_index', '')
 	->get()
 	->actionInclude('documents/index.php');
-
-$this->create('documents_otpoll', 'ajax/otpoll.php')
-	->post()
-	->actionInclude('documents/ajax/otpoll.php')
-;

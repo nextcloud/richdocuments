@@ -13,12 +13,27 @@ namespace OCA\Documents\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
+use \OCP\AppFramework\Http;
 use \OCP\AppFramework\Http\JSONResponse;
+
 
 use \OCA\Documents\Db;
 use \OCA\Documents\File;
 use \OCA\Documents\Helper;
 use OCA\Documents\Filter;
+
+class BadRequestException extends \Exception {
+
+	protected $body = "";
+
+	public function setBody($body){
+		$this->body = $body;
+	}
+
+	public function getBody(){
+		return $this->body;
+	}
+}
 
 class SessionController extends Controller{
 	
@@ -87,6 +102,112 @@ class SessionController extends Controller{
 		
 		return $response;
 	}
+	
+	public function poll($command, $args){
+		$response = new JSONResponse();
+
+		try{
+			$esId = isset($args['es_id']) ? $args['es_id'] : null;
+	
+			$session = new Db\Session();
+			$session->load($esId);
+	
+			$memberId = isset($args['member_id']) ? $args['member_id'] : null;
+			$member = new Db\Member();
+			$member->load($memberId);
+	
+			if (!$member->getIsGuest()){
+				\OCP\JSON::checkLoggedIn();
+			}
+
+			try {
+				$file = new File($session->getFileId());
+			} catch (\Exception $e){
+				Helper::warnLog('Error. Session no longer exists. ' . $e->getMessage());
+				$ex = new BadRequestException();
+				$ex->setBody(
+						implode(',', $this->request->getParams())
+				);
+				throw $ex;
+			}
+	
+			switch ($command){
+				case 'sync_ops':
+					$seqHead = (string) isset($args['seq_head']) ? $args['seq_head'] : null;
+					if (!is_null($seqHead)){
+						$ops = isset($args['client_ops']) ? $args['client_ops'] : null;
+						$hasOps = is_array($ops) && count($ops)>0;
+
+						$op = new Db\Op();
+						$currentHead = $op->getHeadSeq($esId);
+				
+						try {
+							$member->updateActivity($memberId);
+						} catch (\Exception $e){
+							//Db error. Not critical
+						}
+
+						// TODO handle the case ($currentHead == "") && ($seqHead != "")
+						if ($seqHead == $currentHead) {
+							// matching heads
+							if ($hasOps) {
+								// incoming ops without conflict
+								// Add incoming ops, respond with a new head
+								$newHead = Db\Op::addOpsArray($esId, $memberId, $ops);
+								$response->setData( 
+										array(
+											'result' => 'added',
+											'head_seq' => $newHead ? $newHead : $currentHead
+										)
+								);
+							} else {
+								// no incoming ops (just checking for new ops...)
+								$response->setData( 
+										array(
+											'result' => 'new_ops',
+											'ops' => array(),
+											'head_seq' => $currentHead
+										)
+								);
+							}
+						} else { // HEADs do not match
+								$response->setData( 
+										array(
+											'result' => $hasOps ? 'conflict' : 'new_ops',
+											'ops' => $op->getOpsAfterJson($esId, $seqHead),
+											'head_seq' => $currentHead,
+											)
+								);			
+						}
+				
+						$inactiveMembers = $member->updateByTimeout($esId);
+						foreach ($inactiveMembers as $inactive){
+							$op->removeCursor($esId, $inactive);
+							$op->removeMember($esId, $inactive);
+						}
+					} else {
+						// Error - no seq_head passed
+						throw new BadRequestException();
+					}
+
+					break;
+				default:
+					$ex = new BadRequestException();
+					$ex->setBody(
+							implode(',', $this->request->getParams())
+					);
+					throw $ex;
+					break;
+			}
+		} catch (BadRequestException $e){
+			$response->setStatus(Http::STATUS_BAD_REQUEST);
+			$response->setData(
+					array('err' => 'bad request:[' . $e->getBody() . ']')
+			);
+		}
+		return $response;
+	}
+	
 	
 	/**
 	 * @NoAdminRequired
