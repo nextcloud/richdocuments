@@ -108,7 +108,7 @@ $(document).ready(function() {
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
-		$.post(
+		$.get(
 			OC.filePath('documents', 'ajax', 'mimes.php'),
 			{},
 			odfViewer.register

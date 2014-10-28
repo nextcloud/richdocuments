@@ -33,14 +33,12 @@ $application->registerRoutes($this, array(
 		array('name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'),
 		array('name' => 'settings#setUnstable', 'url' => 'ajax/config/unstable', 'verb' => 'POST'),
 		array('name' => 'settings#setConverter', 'url' => 'ajax/admin.php', 'verb' => 'POST'),
+		array('name' => 'settings#getSupportedMimes', 'url' => 'ajax/mimes.php', 'verb' => 'GET'),
 	)
 ));
 
 
 /** @var $this \OC\Route\Router */
-$this->create('documents_ajax_mimes', 'ajax/mimes.php')
-	->actionInclude('documents/ajax/mimes.php');
-
 $this->create('documents_ajax_otpoll', 'ajax/otpoll.php')
 	->actionInclude('documents/ajax/otpoll.php');
 

@@ -20,6 +20,7 @@ use \OCP\AppFramework\Http\JSONResponse;
 use OCA\Documents\Converter;
 use OCA\Documents\Config;
 use OCA\Documents\Helper;
+use OCA\Documents\Filter;
 
 class SettingsController extends Controller{
 	
@@ -33,6 +34,17 @@ class SettingsController extends Controller{
 		$this->settings = $settings;
 		$this->l10n = $l10n;
 	}
+	
+	/**
+	 * @NoAdminRequired
+	 */
+	public function getSupportedMimes(){
+		return array(
+			'status' => 'success',
+			'mimes' => Filter::getAll()
+		);
+	}
+	
 	
 	/**
 	 * @NoAdminRequired
