@@ -48,7 +48,7 @@ abstract class Db {
 	
 	/**
 	 * Get single record by primary key
-	 * @param type $value primary key value
+	 * @param int $value primary key value
 	 * @return \OCA\Documents\Db
 	 */
 	public function load($value){

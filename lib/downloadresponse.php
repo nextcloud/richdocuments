@@ -12,13 +12,19 @@
 namespace OCA\Documents;
 
 use \OCP\AppFramework\Http;
+use \OCP\IRequest;
 
 class DownloadResponse extends \OCP\AppFramework\Http\Response {
 	private $request;
 	private $view;
 	private $path;
 	
-	public function __construct($request, $user, $path) {
+	/**
+	 * @param IRequest $request
+	 * @param string $user
+	 * @param string $path
+	 */
+	public function __construct(IRequest $request, $user, $path) {
 		$this->request = $request;
 		$this->user = $user;
 		$this->path = $path;
@@ -90,6 +96,7 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 	
 	/**
 	 * Send 416 if we can't satisfy the requested ranges
+	 * @param integer $filesize
 	 */
 	protected function sendRangeNotSatisfiable($filesize){
 		$this->setStatus(Http::STATUS_REQUEST_RANGE_NOT_SATISFIABLE);

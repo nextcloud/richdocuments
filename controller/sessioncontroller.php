@@ -123,7 +123,7 @@ class SessionController extends Controller{
 			}
 
 			try {
-				$file = new File($session->getFileId());
+				new File($session->getFileId());
 			} catch (\Exception $e){
 				$this->logger->warning('Error. Session no longer exists. ' . $e->getMessage(), array('app' => $this->appName));
 				$ex = new BadRequestException();
@@ -199,7 +199,6 @@ class SessionController extends Controller{
 							implode(',', $this->request->getParams())
 					);
 					throw $ex;
-					break;
 			}
 		} catch (BadRequestException $e){
 			$response->setStatus(Http::STATUS_BAD_REQUEST);

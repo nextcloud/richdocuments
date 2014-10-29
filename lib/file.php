@@ -93,6 +93,10 @@ class File {
 		return $this->passwordProtected;
 	}
 
+	/**
+	 * @param string $password
+	 * @return boolean
+	 */
 	public function checkPassword($password){
 		$shareId  = $this->sharing[0]['id'];
 		if (!$this->isPasswordProtected()
@@ -119,6 +123,9 @@ class File {
 		return false;
 	}
 	
+	/**
+	 * @param boolean $value
+	 */
 	public function setPasswordProtected($value){
 		$this->passwordProtected = $value;
 	}
