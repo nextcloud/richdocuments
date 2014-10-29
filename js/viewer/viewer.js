@@ -63,7 +63,8 @@ var odfViewer = {
 		} else {
 			//Public page, files app, etc
 			var dirName = $('#dir').val()!='/' ? $('#dir').val() + '/' : '/';
-			var location = OC.filePath('documents', 'ajax', 'download.php') + '?path=' + dirName + encodeURIComponent(filename);
+			var location = OC.filePath('documents', 'ajax', 'download.php') + '?path=' + dirName + encodeURIComponent(filename)
+			 + '&requesttoken=' + oc_requesttoken;
 			OC.addStyle('documents', '3rdparty/webodf/editor');
 		}
 		
@@ -107,7 +108,7 @@ $(document).ready(function() {
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
-		$.post(
+		$.get(
 			OC.filePath('documents', 'ajax', 'mimes.php'),
 			{},
 			odfViewer.register

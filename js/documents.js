@@ -487,11 +487,17 @@ var documentsMain = {
 	},
 	
 	changeNick: function(memberId, name, node){
-		var url = OC.generateUrl('apps/documents/ajax/user/rename/{member_id}', {member_id: memberId});
-		$.post(
-			url,
-			{ name : name },
-			function(result) {
+		var url = OC.generateUrl('apps/documents/ajax/user/rename');
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify({ 
+				name : name,
+				memberId : memberId
+			}),
+			contentType: 'application/json; charset=utf-8',
+			dataType:"json",
+			success: function(result) {
 				if (result && result.status === 'error') {
 					if (result.message){
 						documentsMain.UI.notify(result.message);
@@ -499,7 +505,7 @@ var documentsMain = {
 					return;
 				}
 			}
-		);
+		});
 	},
 	
 	onNickChange: function(memberId, fullNameNode){
@@ -650,6 +656,7 @@ var documentsMain = {
 			}
 			
 			documentsMain.show();
+			$('header,footer,nav').show();
 	},
 		
 
