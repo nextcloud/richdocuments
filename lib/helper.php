@@ -43,6 +43,10 @@ class Helper {
 		return '#' . str_pad($str, 6, "0", STR_PAD_LEFT);
 	}
 
+	/**
+	 * @param string $name
+	 * @return string
+	 */
 	public static function getMemberColor($name){
 		$hash = md5($name);
 		$maxRange = hexdec('ffffffffffffffffffffffffffffffff');
@@ -50,22 +54,30 @@ class Helper {
 		return '#' . self::convertHSLToRGB($hue, 90, 60);
 	}
 
+	/**
+	 * @param string $message
+	 */
 	public static function debugLog($message){
 		self::log($message, \OCP\Util::DEBUG);
 	}
 
+	/**
+	 * @param string $message
+	 */
 	public static function warnLog($message){
 		self::log($message, \OCP\Util::WARN);
-	}
-
-	public static function errorLog($message){
-		self::log($message, \OCP\Util::ERROR);
 	}
 
 	public static function log($message, $level){
 		\OCP\Util::writeLog(self::APP_ID, $message, $level);
 	}
 
+	/**
+	 * @param integer $iH
+	 * @param integer $iS
+	 * @param integer $iV
+	 * @return string
+	 */
 	protected static function convertHSLToRGB($iH, $iS, $iV){
 		if ($iH < 0){
 			$iH = 0;   // Hue:
