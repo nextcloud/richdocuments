@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "El sirvidor de filtru de formatu cayó o ta mal configuráu",
-"Conversion failed. Check log for details." => "Conversión fallida. Comprueba'l rexistru pa detalles.",
-"Saved" => "Guardáu",
+"Documents" => "Documentos",
 "Can't create document" => "Nun pue crease'l documentu",
 "You don't have permission to rename this document" => "Nun tienes permisu pa camudar de nome a esti documentu",
-"An error occurred while changing directory." => "Asocedió un fallu cuando se camudaba'l direutoriu.",
 "Directory saved successfully." => "El direutoriu guardóse correchamente.",
-"Documents" => "Documentos",
+"An error occurred while changing directory." => "Asocedió un fallu cuando se camudaba'l direutoriu.",
+"Saved" => "Guardáu",
+"Format filter server is down or misconfigured" => "El sirvidor de filtru de formatu cayó o ta mal configuráu",
+"Conversion failed. Check log for details." => "Conversión fallida. Comprueba'l rexistru pa detalles.",
 "Saving..." => "Guardando...",
 "Failed to load documents." => "Fallu al cargar los documentos.",
 "No documents were found. Upload or create a document to get started!" => "Nun s'alcontrarón documentos. ¡Xubi o crea un documentu pa entamar!",

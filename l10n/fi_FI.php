@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Muotosuodatuspalvelin ei ole käytettävissä tai sen asetukset ovat väärin",
-"Conversion failed. Check log for details." => "Muuntaminen epäonnistui. Katso lisätietoja lokista.",
-"Saved" => "Tallennettu",
+"Documents" => "Asiakirjat",
 "Can't create document" => "Asiakirjan luominen epäonnistui",
 "You don't have permission to rename this document" => "Oikeutesi eivät riitä nimeämään tätä asiakirjaa uudelleen",
-"An error occurred while changing directory." => "Virhe kansiota vaihtaessa.",
 "Directory saved successfully." => "Kansio tallennettiin onnistuneesti.",
-"Documents" => "Asiakirjat",
+"An error occurred while changing directory." => "Virhe kansiota vaihtaessa.",
+"Saved" => "Tallennettu",
+"Format filter server is down or misconfigured" => "Muotosuodatuspalvelin ei ole käytettävissä tai sen asetukset ovat väärin",
+"Conversion failed. Check log for details." => "Muuntaminen epäonnistui. Katso lisätietoja lokista.",
 "Saving..." => "Tallennetaan...",
 "Failed to load documents." => "Virhe ladattaessa dokumentteja.",
 "No documents were found. Upload or create a document to get started!" => "Asiakirjoja ei löytynyt. Lähetä tai luo asiakirja aloittaaksesi!",

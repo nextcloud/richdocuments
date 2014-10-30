@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formaadi filtri server ei ole saadaval või on valesti seadistatud",
-"Conversion failed. Check log for details." => "Muutmine ebaõnnestus. Vaata logidest lisaks.",
-"Saved" => "Salvestatud",
+"Documents" => "Dokumendid",
 "Can't create document" => "Ei suuda dokumenti luua",
 "You don't have permission to rename this document" => "Puuduvad õigused dokumendi ümber nimetamiseks",
-"An error occurred while changing directory." => "Kataloogi vahetamisel tekkis viga.",
 "Directory saved successfully." => "Kataloog salvestatud edukalt.",
-"Documents" => "Dokumendid",
+"An error occurred while changing directory." => "Kataloogi vahetamisel tekkis viga.",
+"Saved" => "Salvestatud",
+"Format filter server is down or misconfigured" => "Formaadi filtri server ei ole saadaval või on valesti seadistatud",
+"Conversion failed. Check log for details." => "Muutmine ebaõnnestus. Vaata logidest lisaks.",
 "Saving..." => "Salvestamine...",
 "Failed to load documents." => "Dokumentide laadimine ebaõnnestus.",
 "No documents were found. Upload or create a document to get started!" => "Ühtegi dokumenti ei leitud. Alustamiseks laadi mõni üles või loo uus dokument!",

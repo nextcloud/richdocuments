@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Server penyaring format mati atau salah konfigurasi",
-"Conversion failed. Check log for details." => "Konversi gagal. Lihat log untuk rincian.",
-"Saved" => "Disimpan",
+"Documents" => "Dokumen",
 "Can't create document" => "Tidak dapat membuat dokumen",
 "You don't have permission to rename this document" => "Anda tidak memiliki izin untuk mengubah nama dokumen ini",
-"An error occurred while changing directory." => "Terjadi kesalahan saatt mengubah direktori.",
 "Directory saved successfully." => "Direktori berhasil disimpan.",
-"Documents" => "Dokumen",
+"An error occurred while changing directory." => "Terjadi kesalahan saatt mengubah direktori.",
+"Saved" => "Disimpan",
+"Format filter server is down or misconfigured" => "Server penyaring format mati atau salah konfigurasi",
+"Conversion failed. Check log for details." => "Konversi gagal. Lihat log untuk rincian.",
 "Saving..." => "Menyimpan...",
 "Failed to load documents." => "Gagal untuk memuat dokumen.",
 "No documents were found. Upload or create a document to get started!" => "Tidak ada dokumen yang ditemukan. Unggah atau buat sebuah dokumen untuk memulai!",

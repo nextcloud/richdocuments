@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"You don't have permission to rename this document" => "Bạn không có quyền đổi tên tài liệu này",
 "Documents" => "Tài liệu",
+"You don't have permission to rename this document" => "Bạn không có quyền đổi tên tài liệu này",
 "Saving..." => "Đang lưu...",
 "Failed to load documents." => "Không thể tải tài liệu thử lại sau.",
 "Share" => "Chia sẻ",

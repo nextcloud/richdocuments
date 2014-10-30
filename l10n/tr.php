@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Biçim filtre sunucusu kapalı veya hatalı yapılandırılmış",
-"Conversion failed. Check log for details." => "Dönüşüm başarısız. Ayrıntılar için günlüğe bakın.",
-"Saved" => "Kaydedildi",
+"Documents" => "Belgeler",
 "Can't create document" => "Belge oluşturulamıyor",
 "You don't have permission to rename this document" => "Bu belgeyi adlandırmak için izniniz yok.",
-"An error occurred while changing directory." => "Dizin değiştirilirken bir hata oluştu.",
 "Directory saved successfully." => "Dizin başarıyla kaydedildi.",
-"Documents" => "Belgeler",
+"An error occurred while changing directory." => "Dizin değiştirilirken bir hata oluştu.",
+"Saved" => "Kaydedildi",
+"Format filter server is down or misconfigured" => "Biçim filtre sunucusu kapalı veya hatalı yapılandırılmış",
+"Conversion failed. Check log for details." => "Dönüşüm başarısız. Ayrıntılar için günlüğe bakın.",
 "Saving..." => "Kaydediliyor...",
 "Failed to load documents." => "Belgeler yüklenemedi.",
 "No documents were found. Upload or create a document to get started!" => "Hiçbir belge bulunamadı. Lütfen bir belge yükleyin veya oluşturun!",

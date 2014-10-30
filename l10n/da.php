@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formatfilter-server er nede eller konfigureret forkert",
-"Conversion failed. Check log for details." => "Konvertering mislykkedes. Tjek loggen for detaljer.",
-"Saved" => "Gemt",
+"Documents" => "Dokumenter",
 "Can't create document" => "Kan ikke oprette dokument",
 "You don't have permission to rename this document" => "Du har ikke tilladelse til at omdøbe dette dokument",
-"An error occurred while changing directory." => "Fejl ved skift af bibliotek.",
 "Directory saved successfully." => "Mappen blev gemt.",
-"Documents" => "Dokumenter",
+"An error occurred while changing directory." => "Fejl ved skift af bibliotek.",
+"Saved" => "Gemt",
+"Format filter server is down or misconfigured" => "Formatfilter-server er nede eller konfigureret forkert",
+"Conversion failed. Check log for details." => "Konvertering mislykkedes. Tjek loggen for detaljer.",
 "Saving..." => "Gemmer...",
 "Failed to load documents." => "Kunne ikke hente dokumenterne. ",
 "No documents were found. Upload or create a document to get started!" => "Der blev ikke fundet nogle dokumenter. Upload eller opret et dokument for at komme igang",

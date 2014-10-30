@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "បាន​រក្សាទុក",
-"You don't have permission to rename this document" => "អ្នក​មិន​មាន​សិទ្ធិ​ប្ដូរ​ឈ្មោះ​ឯកសារ​នេះ​ទេ",
 "Documents" => "កម្រង​ឯកសារ",
+"You don't have permission to rename this document" => "អ្នក​មិន​មាន​សិទ្ធិ​ប្ដូរ​ឈ្មោះ​ឯកសារ​នេះ​ទេ",
+"Saved" => "បាន​រក្សាទុក",
 "Saving..." => "កំពុង​រក្សាទុក",
 "Share" => "ចែក​រំលែក",
 "No connection to server. Trying to reconnect." => "គ្មាន​ការ​តភ្ជាប់​ទៅ​ម៉ាស៊ីន​បម្រើ។ កំពុង​ព្យាយាម​តភ្ជាប់​ម្ដង​ទៀត។",

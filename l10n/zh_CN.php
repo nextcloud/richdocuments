@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Format Filter Server 无法连接或配置错误",
-"Conversion failed. Check log for details." => "转换失败，请检查日志了解详情。",
-"Saved" => "已保存",
+"Documents" => "文档",
 "Can't create document" => "无法创建文档",
 "You don't have permission to rename this document" => "您没有重命名该文档的权限",
-"An error occurred while changing directory." => "修改目录时发生了一个错误。",
 "Directory saved successfully." => "目录保存成功。",
-"Documents" => "文档",
+"An error occurred while changing directory." => "修改目录时发生了一个错误。",
+"Saved" => "已保存",
+"Format filter server is down or misconfigured" => "Format Filter Server 无法连接或配置错误",
+"Conversion failed. Check log for details." => "转换失败，请检查日志了解详情。",
 "Saving..." => "保存中",
 "Failed to load documents." => "载入文档失败",
 "No documents were found. Upload or create a document to get started!" => "未找到任何文档。开始上传或者创建文档！",

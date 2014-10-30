@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "El filtro de formato del servidor está caído o desconfigurado",
-"Conversion failed. Check log for details." => "La conversión falló. Para más detalles, revise el registro.",
-"Saved" => "Guardado",
+"Documents" => "Documentos",
 "Can't create document" => "No es posible crear el documento",
 "You don't have permission to rename this document" => "No tiene permiso para cambiar de nombre a este documento",
-"An error occurred while changing directory." => "Se produjo un error mientras se cambiaba el directorio.",
 "Directory saved successfully." => "Directorio guardado con exito.",
-"Documents" => "Documentos",
+"An error occurred while changing directory." => "Se produjo un error mientras se cambiaba el directorio.",
+"Saved" => "Guardado",
+"Format filter server is down or misconfigured" => "El filtro de formato del servidor está caído o desconfigurado",
+"Conversion failed. Check log for details." => "La conversión falló. Para más detalles, revise el registro.",
 "Saving..." => "Guardando...",
 "Failed to load documents." => "Error al cargar los documentos.",
 "No documents were found. Upload or create a document to get started!" => "No se encontraron documentos. ¡Suba o cree un documento para comenzar!",
