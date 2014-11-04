@@ -1,11 +1,11 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "已儲存",
+"Documents" => "文件",
 "Can't create document" => "無法建立文件",
 "You don't have permission to rename this document" => "您沒有重新命名的權限",
-"An error occurred while changing directory." => "變更資料夾時發生錯誤.",
 "Directory saved successfully." => "資料夾已成功儲存.",
-"Documents" => "文件",
+"An error occurred while changing directory." => "變更資料夾時發生錯誤.",
+"Saved" => "已儲存",
 "Saving..." => "儲存中...",
 "Failed to load documents." => "載入文件失敗",
 "Share" => "分享",

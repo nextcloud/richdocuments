@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "A formátumszűrő szerver nem üzemel, vagy rosszul van konfigurálva",
-"Conversion failed. Check log for details." => "Az átalakítás nem sikerült. Ellenőrizze a naplóállományban a részleteket!",
-"Saved" => "Elmentve",
+"Documents" => "Dokumentumok",
 "Can't create document" => "A dokumentum nem hozható létre",
 "You don't have permission to rename this document" => "Nincs joga ahhoz, hogy átnevezze ezt a dokumentumot",
-"An error occurred while changing directory." => "Hiba történt a másik mappára történő áttérés közben.",
 "Directory saved successfully." => "A mappát sikeresen elmentettük.",
-"Documents" => "Dokumentumok",
+"An error occurred while changing directory." => "Hiba történt a másik mappára történő áttérés közben.",
+"Saved" => "Elmentve",
+"Format filter server is down or misconfigured" => "A formátumszűrő szerver nem üzemel, vagy rosszul van konfigurálva",
+"Conversion failed. Check log for details." => "Az átalakítás nem sikerült. Ellenőrizze a naplóállományban a részleteket!",
 "Saving..." => "Mentés...",
 "Failed to load documents." => "A dokumentum betőltése sikertelen",
 "No documents were found. Upload or create a document to get started!" => "Itt nincs semmi. Töltsön fel, vagy hozzon létre egy dokumentumot!",

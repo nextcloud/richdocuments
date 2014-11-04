@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "Guardado",
-"You don't have permission to rename this document" => "No tienes permisos para cambiar de nombre a este documento.",
 "Documents" => "Documentos",
+"You don't have permission to rename this document" => "No tienes permisos para cambiar de nombre a este documento.",
+"Saved" => "Guardado",
 "Saving..." => "Guardando...",
 "Failed to load documents." => "La carga de documentos ha fallado.",
 "Share" => "Compartir",

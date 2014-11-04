@@ -1,12 +1,12 @@
 <?php
 $TRANSLATIONS = array(
-"Conversion failed. Check log for details." => "המרה נכשלה. יש לבדוק לוג פעילות לפרטים.",
-"Saved" => "נשמר",
+"Documents" => "מסמכים",
 "Can't create document" => "לא ניתן ליצור מסמך",
 "You don't have permission to rename this document" => "אין לך הרשאות לשנות את שם המשמך",
-"An error occurred while changing directory." => "שגיאה אירעה בזמן שינוי התיקייה",
 "Directory saved successfully." => "תיקייה נשמרה בהצלחה",
-"Documents" => "מסמכים",
+"An error occurred while changing directory." => "שגיאה אירעה בזמן שינוי התיקייה",
+"Saved" => "נשמר",
+"Conversion failed. Check log for details." => "המרה נכשלה. יש לבדוק לוג פעילות לפרטים.",
 "Saving..." => "שמירה…",
 "Failed to load documents." => "טעינת מסמך נכשלה",
 "No documents were found. Upload or create a document to get started!" => "לא נמצאו מסמכים. יש להעלות או ליצור מסמך כדי להתחיל!",

@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formaatfilter server is down of onjuist geconfigureerd",
-"Conversion failed. Check log for details." => "Conversie mislukt. Beoordeel log voor details.",
-"Saved" => "Bewaard",
+"Documents" => "Documenten",
 "Can't create document" => "Kan document niet creëren",
 "You don't have permission to rename this document" => "U hebt niet de autorisatie om die document te hernoemen",
-"An error occurred while changing directory." => "Er trad een fout op bij het wijzigen van de directory",
 "Directory saved successfully." => "Directory succesvol bewaard.",
-"Documents" => "Documenten",
+"An error occurred while changing directory." => "Er trad een fout op bij het wijzigen van de directory",
+"Saved" => "Bewaard",
+"Format filter server is down or misconfigured" => "Formaatfilter server is down of onjuist geconfigureerd",
+"Conversion failed. Check log for details." => "Conversie mislukt. Beoordeel log voor details.",
 "Saving..." => "Opslaan",
 "Failed to load documents." => "Kon documenten niet laden.",
 "No documents were found. Upload or create a document to get started!" => "Geen documenten gevonden. Upload of maak een document om  te starten!",

@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Strežnik filtriranja je nedejaven, ali pa ni pravilno nastavljen",
-"Conversion failed. Check log for details." => "Pretvarjanje je spodletelo. Preverite dnevniški zapis za več podrobnosti.",
-"Saved" => "Shranjeno",
+"Documents" => "Dokumenti",
 "Can't create document" => "Dokumenta ni mogoče ustvariti",
 "You don't have permission to rename this document" => "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ...",
-"An error occurred while changing directory." => "Med spreminjanjem mape je prišlo do napake.",
 "Directory saved successfully." => "Mapa je uspešno shranjena.",
-"Documents" => "Dokumenti",
+"An error occurred while changing directory." => "Med spreminjanjem mape je prišlo do napake.",
+"Saved" => "Shranjeno",
+"Format filter server is down or misconfigured" => "Strežnik filtriranja je nedejaven, ali pa ni pravilno nastavljen",
+"Conversion failed. Check log for details." => "Pretvarjanje je spodletelo. Preverite dnevniški zapis za več podrobnosti.",
 "Saving..." => "Poteka shranjevanje ...",
 "Failed to load documents." => "Nalaganje dokumentov je spodletelo.",
 "No documents were found. Upload or create a document to get started!" => "Ni najdenih dokumentov. Ustvarite ga ali pa pošljite obstoječega v oblak.",

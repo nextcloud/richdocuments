@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formatuen iragazki zerbitzaria erorita edo gaizki konfiguratua",
-"Conversion failed. Check log for details." => "Bihurketak huts egin du. Begiratu erregistroak zehaztapenetarako.",
-"Saved" => "Gordeta",
+"Documents" => "Dokumentuak",
 "Can't create document" => "Ezin da dokumentua sortu",
 "You don't have permission to rename this document" => "Ez duzu dokumentu honi izena aldatzeko baimenik",
-"An error occurred while changing directory." => "Errore bat gertatu da direktorioz aldatzen.",
 "Directory saved successfully." => "Direktorioa ongi gorde da.",
-"Documents" => "Dokumentuak",
+"An error occurred while changing directory." => "Errore bat gertatu da direktorioz aldatzen.",
+"Saved" => "Gordeta",
+"Format filter server is down or misconfigured" => "Formatuen iragazki zerbitzaria erorita edo gaizki konfiguratua",
+"Conversion failed. Check log for details." => "Bihurketak huts egin du. Begiratu erregistroak zehaztapenetarako.",
 "Saving..." => "Gordetzen...",
 "Failed to load documents." => "Dokumentuak kargatzeak huts egin du.",
 "No documents were found. Upload or create a document to get started!" => "Ez da dokumenturik aurkitu. Igo edo sortu dokumentu bat hasteko!",

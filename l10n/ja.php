@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "フォーマットフィルタサーバーが稼働していないか設定ミス",
-"Conversion failed. Check log for details." => "変換に失敗しました。詳細についてはログを確認してください。",
-"Saved" => "保存されました",
+"Documents" => "ドキュメント",
 "Can't create document" => "文書を生成することができません",
 "You don't have permission to rename this document" => "ドキュメント名を変更する権限がありません",
-"An error occurred while changing directory." => "ディレクトリの変更中にエラーが発生しました。",
 "Directory saved successfully." => "ディレクトリの保存に成功しました。",
-"Documents" => "ドキュメント",
+"An error occurred while changing directory." => "ディレクトリの変更中にエラーが発生しました。",
+"Saved" => "保存されました",
+"Format filter server is down or misconfigured" => "フォーマットフィルタサーバーが稼働していないか設定ミス",
+"Conversion failed. Check log for details." => "変換に失敗しました。詳細についてはログを確認してください。",
 "Saving..." => "保存中...",
 "Failed to load documents." => "ドキュメントのロードに失敗しました。",
 "No documents were found. Upload or create a document to get started!" => "ドキュメントはありません。アップロードもしくは新規に作成してください！",

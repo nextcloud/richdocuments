@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Ο διακομιστής μορφών φίλτρων είναι εκτός σύνδεσης ή δεν έχει ρυθμιστεί σωστά",
-"Conversion failed. Check log for details." => "Η μετατροπή απέτυχε. Ελέγξτε το αρχείο καταγραφής για λεπτομέρειες.",
-"Saved" => "Αποθηκεύτηκαν",
+"Documents" => "Έγγραφα",
 "Can't create document" => "Δεν είναι δυνατή η δημιουργία του εγγράφου",
 "You don't have permission to rename this document" => "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο",
-"An error occurred while changing directory." => "Παρουσιάστηκε ένα πρόβλημα κατά την αλλαγή βιβλιοθήκης.",
 "Directory saved successfully." => "Η βιβλιοθήκη αποθηκεύτηκε επιτυχημένα.",
-"Documents" => "Έγγραφα",
+"An error occurred while changing directory." => "Παρουσιάστηκε ένα πρόβλημα κατά την αλλαγή βιβλιοθήκης.",
+"Saved" => "Αποθηκεύτηκαν",
+"Format filter server is down or misconfigured" => "Ο διακομιστής μορφών φίλτρων είναι εκτός σύνδεσης ή δεν έχει ρυθμιστεί σωστά",
+"Conversion failed. Check log for details." => "Η μετατροπή απέτυχε. Ελέγξτε το αρχείο καταγραφής για λεπτομέρειες.",
 "Saving..." => "Γίνεται αποθήκευση...",
 "Failed to load documents." => "Αποτυχία φόρτωσης εγγράφων.",
 "No documents were found. Upload or create a document to get started!" => "Δεν βρέθηκαν έγγραφα. Μεταφορτώστε ή δημιουργήστε ένα έγγραφο για να αρχίσετε!",

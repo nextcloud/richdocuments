@@ -12,27 +12,33 @@
 namespace OCA\Documents;
 
 use \OCP\AppFramework\Http;
+use \OCP\IRequest;
 
 class DownloadResponse extends \OCP\AppFramework\Http\Response {
 	private $request;
 	private $view;
 	private $path;
 	
-	public function __construct($request, $user, $path) {
+	/**
+	 * @param IRequest $request
+	 * @param string $user
+	 * @param string $path
+	 */
+	public function __construct(IRequest $request, $user, $path) {
 		$this->request = $request;
 		$this->user = $user;
 		$this->path = $path;
+		
 		$this->view = new View('/' . $user);
 		if (!$this->view->file_exists($path)){
-			$this->setStatus(Http::STATUS_NOT_FOUND);
+			parent::setStatus(Http::STATUS_NOT_FOUND);
 		}
 	}
 	
 	public function render(){
-		if ($this->status === Http::STATUS_NOT_FOUND){
+		if (parent::getStatus() === Http::STATUS_NOT_FOUND){
 			return '';
 		}
-		
 		$info = $this->view->getFileInfo($this->path);
 		$this->ETag = $info['etag'];
 		
@@ -41,7 +47,7 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 		$size = strlen($data['content']);
 		
 		
-		if (!is_null($this->request->server['HTTP_RANGE'])){
+		if (isset($this->request->server['HTTP_RANGE']) && !is_null($this->request->server['HTTP_RANGE'])){
 			$isValidRange = preg_match('/^bytes=\d*-\d*(,\d*-\d*)*$/', $this->request->server['HTTP_RANGE']);
 			if (!$isValidRange){
 				return $this->sendRangeNotSatisfiable($size);
@@ -90,6 +96,7 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 	
 	/**
 	 * Send 416 if we can't satisfy the requested ranges
+	 * @param integer $filesize
 	 */
 	protected function sendRangeNotSatisfiable($filesize){
 		$this->setStatus(Http::STATUS_REQUEST_RANGE_NOT_SATISFIABLE);

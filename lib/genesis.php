@@ -35,7 +35,7 @@ class Genesis {
 	
 	/**
 	 * Create new genesis document
-	 * @param OCA\Documents\File $file 
+	 * @param File $file 
 	 * */	
 	public function __construct(\OCA\Documents\File $file){
 		list($view, $path) = $file->getOwnerViewAndPath();

@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Сервер фільтрації формату не працює або налаштований невірно",
-"Conversion failed. Check log for details." => "Конвертація не вдалася. За деталями зверніться до журналу.",
-"Saved" => "Збереженно",
+"Documents" => "Документи",
 "Can't create document" => "Неможливо створити документ",
 "You don't have permission to rename this document" => "Вам бракує прав на зміну імені цього документу",
-"An error occurred while changing directory." => "При зміні теки виникла помилка.",
 "Directory saved successfully." => "Директорію збережено.",
-"Documents" => "Документи",
+"An error occurred while changing directory." => "При зміні теки виникла помилка.",
+"Saved" => "Збереженно",
+"Format filter server is down or misconfigured" => "Сервер фільтрації формату не працює або налаштований невірно",
+"Conversion failed. Check log for details." => "Конвертація не вдалася. За деталями зверніться до журналу.",
 "Saving..." => "Зберігаю...",
 "Failed to load documents." => "Не вдалося завантажити документи.",
 "No documents were found. Upload or create a document to get started!" => "Документів не знайдено. Завантажте або створіть новий документ для початку!",

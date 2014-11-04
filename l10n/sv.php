@@ -1,13 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Format filter server is down or misconfigured" => "Formatfilter servern är ur funktion eller felkonfigurerad",
-"Conversion failed. Check log for details." => "Konvertering misslyckades. Se loggen för detaljer.",
-"Saved" => "Sparad",
+"Documents" => "Dokument",
 "Can't create document" => "Kan inte skapa dokument",
 "You don't have permission to rename this document" => "Du har inte behörighet att döpa om detta dokument",
-"An error occurred while changing directory." => "Ett fel uppstod vid byte av katalog",
 "Directory saved successfully." => "Katalog sparades.",
-"Documents" => "Dokument",
+"An error occurred while changing directory." => "Ett fel uppstod vid byte av katalog",
+"Saved" => "Sparad",
+"Format filter server is down or misconfigured" => "Formatfilter servern är ur funktion eller felkonfigurerad",
+"Conversion failed. Check log for details." => "Konvertering misslyckades. Se loggen för detaljer.",
 "Saving..." => "Sparar...",
 "Failed to load documents." => "Kunde inte ladda dokumenten.",
 "No documents were found. Upload or create a document to get started!" => "Inga dokument hittades. Ladda upp eller skapa ett dokument för att komma igång!",
