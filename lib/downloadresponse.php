@@ -28,17 +28,17 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 		$this->request = $request;
 		$this->user = $user;
 		$this->path = $path;
+		
 		$this->view = new View('/' . $user);
 		if (!$this->view->file_exists($path)){
-			$this->setStatus(Http::STATUS_NOT_FOUND);
+			parent::setStatus(Http::STATUS_NOT_FOUND);
 		}
 	}
 	
 	public function render(){
-		if ($this->status === Http::STATUS_NOT_FOUND){
+		if (parent::getStatus() === Http::STATUS_NOT_FOUND){
 			return '';
 		}
-		
 		$info = $this->view->getFileInfo($this->path);
 		$this->ETag = $info['etag'];
 		
@@ -47,7 +47,7 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 		$size = strlen($data['content']);
 		
 		
-		if (!is_null($this->request->server['HTTP_RANGE'])){
+		if (isset($this->request->server['HTTP_RANGE']) && !is_null($this->request->server['HTTP_RANGE'])){
 			$isValidRange = preg_match('/^bytes=\d*-\d*(,\d*-\d*)*$/', $this->request->server['HTTP_RANGE']);
 			if (!$isValidRange){
 				return $this->sendRangeNotSatisfiable($size);
