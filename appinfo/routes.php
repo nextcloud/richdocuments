@@ -26,10 +26,10 @@ $application->registerRoutes($this, array(
 		array('name' => 'session#poll', 'url' => 'ajax/otpoll.php', 'verb' => 'POST'),
 		//documents
 		array('name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'),
-		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => 'GET', 'HEAD'),
+		array('name' => 'document#serve', 'url' => 'ajax/genesis/{esId}', 'verb' => 'GET'),
 		array('name' => 'document#rename', 'url' => 'ajax/documents/rename/{fileId}', 'verb' => 'POST'),
 		array('name' => 'document#listAll', 'url' => 'ajax/documents/list', 'verb' => 'GET'),
-		array('name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => array('GET', 'HEAD')),
+		array('name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => 'GET'),
 		//settings
 		array('name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'),
 		array('name' => 'settings#setUnstable', 'url' => 'ajax/config/unstable', 'verb' => 'POST'),
