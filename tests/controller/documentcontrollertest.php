@@ -12,18 +12,15 @@
 namespace OCA\Documents\Controller;
 
 class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
-	private $appName;
+	private $appName = 'documents';
 	private $request;
 	private $l10n;
 	private $settings;
-	private $uid;
-	private $password;
+	private $uid = 'jack_the_documents_tester';
+	private $password = 'password';
 	private $controller;
 	
 	public function setUp(){
-		$this->appName = 'documents';
-		$this->uid = 'jack_the_documents_tester';
-		$this->password = 'password';
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock()
@@ -43,14 +40,19 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->l10n,
 			$this->uid
 		);
+		
+		if (!\OCP\User::userExists($this->uid)){
+			\OC_User::createUser($this->uid, $this->password);
+		}
+		\OC_User::getUserSession()->login($this->uid, $this->password);
+		\OC_Util::setupFS();
 	}
 	
-	public function tearDown(){
-		\OC_User::deleteUser($this->uid);
+	public static function tearDownAfterClass(){
+		\OC_User::deleteUser(\OC_User::getUserSession()->getUser()->getUID());
 	}
 	
 	public function testRename(){
-		$this->login();
 		$result = array(
 			'status' => 'error',
 			'message' => (string) $this->l10n->t('You don\'t have permission to rename this document')
@@ -63,15 +65,11 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $response);
 	}
 	
-	protected function login(){
-		if (!\OCP\User::userExists($this->uid)){
-			\OC_User::createUser($this->uid, $this->password);
-		}
-		if (!\OC_User::isLoggedIn()){
-			$result = \OC_User::getUserSession()->login($this->uid, $this->password);
-			if ($result){
-				\OC_Util::setupFS(\OC_User::getUserSession()->getUser()->getUID());
-			}
-		}
+	public function testCreate(){
+		$currentDir = getcwd();
+		chdir('../../../');
+		$response = $this->controller->create();
+		chdir($currentDir);
+		$this->assertEquals('success', $response['status']);
 	}
 }
