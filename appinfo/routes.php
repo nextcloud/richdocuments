@@ -15,7 +15,6 @@ $application = new \OCA\Documents\AppInfo\Application();
 $application->registerRoutes($this, array(
 	'routes' => array(
 		//users
-		array('name' => 'user#getAvatar', 'url' => 'ajax/user/avatar', 'verb' => 'GET'),
 		array('name' => 'user#rename', 'url' => 'ajax/user/rename', 'verb' => 'POST'),
 		array('name' => 'user#disconnect', 'url' => 'ajax/user/disconnect/{memberId}', 'verb' => 'POST'),
 		array('name' => 'user#disconnectGuest', 'url' => 'ajax/user/disconnectGuest/{memberId}', 'verb' => 'POST'),
