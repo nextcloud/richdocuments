@@ -12,7 +12,7 @@
 	<!-- filters for code coverage -->
 	<filter>
 		<whitelist>
-			<directory suffix=".php">../../mail</directory>
+			<directory suffix=".php">../../documents</directory>
 			<exclude>
 				<directory suffix=".php">../../documents/l10n</directory>
 				<directory suffix=".php">../../documents/tests</directory>

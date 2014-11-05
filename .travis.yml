@@ -16,6 +16,19 @@ php:
 #env:
 #  - DB=mysql
 #  - DB=pgsql
+env:
+  global:
+    - CORE_BRANCH=master
+  matrix:
+    - DB=sqlite
+    
+branches:
+  only:
+    - master
+
+before_install:
+  - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/before_install.sh
+  - bash ./before_install.sh documents $CORE_BRANCH $DB
 
 # execute any number of scripts before the test run, custom env's are available as variables
 #before_script:
@@ -24,11 +37,28 @@ php:
 #  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot; fi
 
 # omitting "script:" will default to phpunit
-# use the $DB env variable to determine the phpunit.xml to use
-#script: phpunit --configuration phpunit_$DB.xml --coverage-text
-script: ant test
 
-# configure notifications (email, IRC, campfire etc)
-#notifications:
-#  irc: "irc.freenode.org#travis"
+script:
+  # Test lint
+  - cd ../core/apps/documents
+  - sh -c "if [ '$DB' = 'sqlite' ]; then ant test; fi"
 
+  # Run phpunit tests
+  - cd tests
+  - phpunit --configuration phpunit.xml
+
+  # Create coverage report
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover clover.xml
+  
+matrix:
+  include:
+    - php: 5.4
+      env: DB=mysql
+    - php: 5.4
+      env: DB=pgsql
+    - php: 5.4
+      env: DB=oracle
+  allow_failures:
+    - php: hhvm
+  fast_finish: true
