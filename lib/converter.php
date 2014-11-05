@@ -29,7 +29,7 @@ class Converter {
 	}
 	
 	public static function checkConnection(){
-		$expected = file_get_contents(__DIR__ . '/response.odt');
+		$expected = file_get_contents(dirname(__DIR__) . '/assets/response.odt');
 		$converted = self::convertExternal('', 'odt');
 		
 		return $converted === $expected;
