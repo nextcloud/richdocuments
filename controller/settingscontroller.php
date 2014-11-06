@@ -97,7 +97,8 @@ class SettingsController extends Controller{
 			'data' => array('message' => (string) $this->l10n->t('Saved'))
 		);
 		
-		if ($this->settings->getAppValue($this->appName, 'converter', 'local') != 'local'){
+		$currentConverter = $this->settings->getAppValue($this->appName, 'converter', 'off');
+		if ($currentConverter == 'external'){
 			if (!Converter::checkConnection()){
 				$this->logger->warning('Bad response from Format Filter Server', array('app' => $this->appName));
 					$response = array(
@@ -106,7 +107,7 @@ class SettingsController extends Controller{
 						array('message' => (string) $this->l10n->t('Format filter server is down or misconfigured') )
 					);
 			}
-		} else {
+		} elseif ($currentConverter === 'local') {
 			try {
 				if (!Config::testConversion()){
 					$response = array( 
