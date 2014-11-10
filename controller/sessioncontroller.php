@@ -105,6 +105,10 @@ class SessionController extends Controller{
 		return $response;
 	}
 	
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 */
 	public function poll($command, $args){
 		$response = new JSONResponse();
 
