@@ -49,7 +49,7 @@ class Config {
 	}
 	
 	public static function getConverter(){
-		return self::getAppValue('converter', 'local');
+		return self::getAppValue('converter', 'off');
 	}
 	
 	public static function setConverter($value){

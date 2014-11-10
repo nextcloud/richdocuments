@@ -9,7 +9,7 @@ $(document).ready(function(){
 				converter : $('[name="docs_converter"]:checked').val()
 			}; 
 			
-			if (data.converter !== 'local'){
+			if (data.converter === 'external'){
 				data.url = $('#docs_url').val();
 			}
 			
@@ -27,8 +27,8 @@ $(document).ready(function(){
 		}
 	};
 	
-	$('#docs_converter_external, #docs_converter_local').on('click', function(){
-		$('#docs_extra').toggle($('[name="docs_converter"]:checked').val() !== 'local');
+	$('#docs_converter_external, #docs_converter_local, #docs_converter_off').on('click', function(){
+		$('#docs_extra').toggle($('[name="docs_converter"]:checked').val() === 'external');
 	});
 	$('#docs_apply').on('click', documentsSettings.save);
 });
