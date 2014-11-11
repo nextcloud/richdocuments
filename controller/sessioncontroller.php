@@ -142,9 +142,8 @@ class SessionController extends Controller{
 				case 'sync_ops':
 					$seqHead = (string) isset($args['seq_head']) ? $args['seq_head'] : null;
 					if (!is_null($seqHead)){
-						$ops = isset($args['client_ops']) ? $args['client_ops'] : null;
-						$hasOps = is_array($ops) && count($ops)>0;
-
+						$ops = isset($args['client_ops']) ? $args['client_ops'] : array();
+						
 						$op = new Db\Op();
 						$currentHead = $op->getHeadSeq($esId);
 				
@@ -153,40 +152,10 @@ class SessionController extends Controller{
 						} catch (\Exception $e){
 							//Db error. Not critical
 						}
+						$response->setData(
+								$session->syncOps($memberId, $currentHead, $seqHead, $ops)
+						);
 
-						// TODO handle the case ($currentHead == "") && ($seqHead != "")
-						if ($seqHead == $currentHead) {
-							// matching heads
-							if ($hasOps) {
-								// incoming ops without conflict
-								// Add incoming ops, respond with a new head
-								$newHead = Db\Op::addOpsArray($esId, $memberId, $ops);
-								$response->setData( 
-										array(
-											'result' => 'added',
-											'head_seq' => $newHead ? $newHead : $currentHead
-										)
-								);
-							} else {
-								// no incoming ops (just checking for new ops...)
-								$response->setData( 
-										array(
-											'result' => 'new_ops',
-											'ops' => array(),
-											'head_seq' => $currentHead
-										)
-								);
-							}
-						} else { // HEADs do not match
-								$response->setData( 
-										array(
-											'result' => $hasOps ? 'conflict' : 'new_ops',
-											'ops' => $op->getOpsAfterJson($esId, $seqHead),
-											'head_seq' => $currentHead,
-											)
-								);			
-						}
-				
 						$inactiveMembers = $member->updateByTimeout($esId);
 						foreach ($inactiveMembers as $inactive){
 							$op->removeCursor($esId, $inactive);

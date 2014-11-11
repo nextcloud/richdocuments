@@ -120,6 +120,41 @@ class Session extends \OCA\Documents\Db {
 		$op->deleteBy('es_id', $esId);
 	}
 	
+	
+	public function syncOps($memberId, $currentHead, $clientHead, $clientOps){
+		$hasOps = count($clientOps)>0;
+		$op = new \OCA\Documents\Db\Op();
+		
+		// TODO handle the case ($currentHead == "") && ($seqHead != "")
+		if ($clientHead == $currentHead) {
+			// matching heads
+			if ($hasOps) {
+				// incoming ops without conflict
+				// Add incoming ops, respond with a new head
+				$newHead = \OCA\Documents\Db\Op::addOpsArray($this->getEsId(), $memberId, $clientOps);
+				$result = array(
+						'result' => 'added',
+						'head_seq' => $newHead ? $newHead : $currentHead
+				);
+			} else {
+				// no incoming ops (just checking for new ops...)
+				$result = array(
+						'result' => 'new_ops',
+						'ops' => array(),
+						'head_seq' => $currentHead
+				);
+			}
+		} else { // HEADs do not match
+			$result = array(
+						'result' => $hasOps ? 'conflict' : 'new_ops',
+						'ops' => $op->getOpsAfterJson($this->getEsId(), $clientHead),
+						'head_seq' => $currentHead,
+			);			
+		}
+		
+		return $result;
+	}
+	
 	public function insert(){
 		$esId = $this->getUniqueSessionId();
 		array_unshift($this->data, $esId);
