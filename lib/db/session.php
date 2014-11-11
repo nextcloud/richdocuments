@@ -123,7 +123,7 @@ class Session extends \OCA\Documents\Db {
 	public function insert(){
 		$esId = $this->getUniqueSessionId();
 		array_unshift($this->data, $esId);
-		return parent::insert($this->data);
+		return parent::insert();
 	}
 	
 	public function updateGenesisHash($esId, $genesisHash){
