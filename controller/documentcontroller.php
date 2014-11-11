@@ -24,7 +24,7 @@ use \OCA\Documents\Download;
 use \OCA\Documents\DownloadResponse;
 use \OCA\Documents\File;
 use OCA\Documents\Genesis;
-use \OCA\Documents\View;
+use \OC\Files\View;
 
 class DocumentController extends Controller{
 	
@@ -45,7 +45,7 @@ class DocumentController extends Controller{
 	 * @NoAdminRequired
 	 */
 	public function create(){
-		$view = new \OC\Files\View('/' . $this->uid . '/files');
+		$view = new View('/' . $this->uid . '/files');
 		$dir = $this->settings->getUserValue($this->uid, $this->appName, 'save_path', '/');
 		if (!$view->is_dir($dir)){
 			$dir = '/';

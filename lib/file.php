@@ -22,6 +22,8 @@
 
 namespace OCA\Documents;
 
+use \OC\Files\View;
+
 class File {
 	protected $fileId;
 	protected $owner;

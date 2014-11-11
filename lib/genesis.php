@@ -22,6 +22,8 @@
 
 namespace OCA\Documents;
 
+use \OC\Files\View;
+
 class Genesis {
 	
 	const DOCUMENTS_DIRNAME='/documents';
@@ -37,7 +39,7 @@ class Genesis {
 	 * Create new genesis document
 	 * @param File $file 
 	 * */	
-	public function __construct(\OCA\Documents\File $file){
+	public function __construct(File $file){
 		list($view, $path) = $file->getOwnerViewAndPath();
 		$owner = $file->getOwner();
 		
@@ -96,7 +98,7 @@ class Genesis {
 	
 	/**
 	 * Check if genesis is valid
-	 * @param OCA\Documents\View $view 
+	 * @param \OC\Files\View $view 
 	 * @param string $path relative to the view
 	 * @throws \Exception
 	 */

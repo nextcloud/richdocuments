@@ -21,6 +21,7 @@ use \OCA\Documents\Db;
 use \OCA\Documents\File;
 use \OCA\Documents\Helper;
 use OCA\Documents\Filter;
+use \OC\Files\View;
 
 class BadRequestException extends \Exception {
 
@@ -264,7 +265,7 @@ class SessionController extends Controller{
 				//File was deleted or unshared. We need to save content as new file anyway
 				//Sorry, but for guests it would be lost :(
 				if ($this->uid){
-					$view = new \OC\Files\View('/' . $this->uid . '/files');
+					$view = new View('/' . $this->uid . '/files');
 		
 					$dir = \OCP\Config::getUserValue($this->uid, 'documents', 'save_path', '');
 					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');

@@ -13,6 +13,7 @@ namespace OCA\Documents;
 
 use \OCP\AppFramework\Http;
 use \OCP\IRequest;
+use \OC\Files\View;
 
 class DownloadResponse extends \OCP\AppFramework\Http\Response {
 	private $request;
