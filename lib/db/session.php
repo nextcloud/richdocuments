@@ -103,7 +103,8 @@ class Session extends \OCA\Documents\Db {
 		}
 		
 		$sessionData['title'] = basename($path);
-		$sessionData['permissions'] = $ownerView->getFilePermissions($path);
+		$fileInfo = $ownerView->getFileInfo($path);
+		$sessionData['permissions'] = $fileInfo->getPermissions();
 		
 		return $sessionData;
 	}

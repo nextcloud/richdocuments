@@ -22,11 +22,13 @@
 
 namespace OCA\Documents;
 
+use \OC\Files\View;
+
 class File {
 	protected $fileId;
 	protected $owner;
 	protected $path;
-	protected $sharing = array();
+	protected $sharing;
 	protected $token ='';
 	protected $passwordProtected = false;
 
@@ -37,12 +39,7 @@ class File {
 		}
 
 		$this->fileId = $fileId;
-		
-		//if you know how to get sharing info by fileId via API, 
-		//please send me a link to video tutorial :/
-		if (!is_null($shareOps)){
-			$this->sharing = $shareOps;
-		}
+		$this->sharing = $shareOps;
 	}
 	
 	
@@ -55,7 +52,7 @@ class File {
 			throw new \Exception('This file was probably unshared');
 		}
 		
-		$file = new File($rootLinkItem['file_source'], array($rootLinkItem));
+		$file = new File($rootLinkItem['file_source'], $rootLinkItem);
 		$file->setToken($token);
 		
 		if (isset($linkItem['share_with']) && !empty($linkItem['share_with'])){
@@ -98,7 +95,7 @@ class File {
 	 * @return boolean
 	 */
 	public function checkPassword($password){
-		$shareId  = $this->sharing[0]['id'];
+		$shareId  = $this->sharing['id'];
 		if (!$this->isPasswordProtected()
 			|| (\OC::$server->getSession()->exists('public_link_authenticated')
 				&& \OC::$server->getSession()->get('public_link_authenticated') === $shareId
@@ -130,26 +127,6 @@ class File {
 		$this->passwordProtected = $value;
 	}
 	
-	public function getPermissions(){
-		if (count($this->sharing)){
-			if ($this->isPublicShare()){
-				$permissions = \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE;
-			} else {
-				$permissions = $this->sharing[0]['permissions'];
-			}
-		} else {
-			list($owner, $path) = $this->getOwnerViewAndPath();
-			$permissions = 0;
-			if (\OC\Files\Filesystem::isReadable($path)){
-				$permissions |= \OCP\PERMISSION_READ;
-			}
-			if (\OC\Files\Filesystem::isUpdatable($path)){
-				$permissions |= \OCP\PERMISSION_UPDATE;
-			}
-				
-		}
-		return $permissions;
-	}
 
 	/**
 	 * 
@@ -158,12 +135,11 @@ class File {
 	 */
 	public function getOwnerViewAndPath($useDefaultRoot = false){
 		if ($this->isPublicShare()){
-			$rootLinkItem = \OCP\Share::resolveReShare($this->sharing[0]);
-			if (isset($rootLinkItem['uid_owner'])){
-				$owner = $rootLinkItem['uid_owner'];
-				\OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
+			if (isset($this->sharing['uid_owner'])){
+				$owner = $this->sharing['uid_owner'];
+				\OCP\JSON::checkUserExists($this->sharing['uid_owner']);
 				\OC_Util::tearDownFS();
-				\OC_Util::setupFS($rootLinkItem['uid_owner']);
+				\OC_Util::setupFS($this->sharing['uid_owner']);
 			} else {
 				throw new \Exception($this->fileId . ' is a broken share');
 			}
@@ -201,6 +177,6 @@ class File {
 	
 	
 	protected function getPassword(){
-		return $this->sharing[0]['share_with'];
+		return $this->sharing['share_with'];
 	}
 }
