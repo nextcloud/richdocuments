@@ -125,22 +125,6 @@ class File {
 		$this->passwordProtected = $value;
 	}
 	
-	public function getPermissions(){
-		if ($this->isPublicShare()){
-			$permissions = \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE;
-		} else {
-			list($owner, $path) = $this->getOwnerViewAndPath();
-			$permissions = 0;
-			if (\OC\Files\Filesystem::isReadable($path)){
-				$permissions |= \OCP\PERMISSION_READ;
-			}
-			if (\OC\Files\Filesystem::isUpdatable($path)){
-				$permissions |= \OCP\PERMISSION_UPDATE;
-			}
-				
-		}
-		return $permissions;
-	}
 
 	/**
 	 * 
