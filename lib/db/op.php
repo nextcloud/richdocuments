@@ -121,19 +121,7 @@ class Op extends \OCA\Documents\Db {
 		}
 	}
 	
-	public function updateMember($esId, $memberId, $fullName, $color, $imageUrl){
-		//TODO: Follow the spec https://github.com/kogmbh/WebODF/blob/master/webodf/lib/ops/OpUpdateMember.js#L95
-		$op = array(
-			'optype' => 'UpdateMember',
-			'memberid' => (string) $memberId,
-			'timestamp' => (string) time(),
-			'fullName' => $fullName,
-			'color' => $color,
-			'imageUrl' => $imageUrl
-		);
-		$this->insertOp($esId, $memberId, $op);
-	}
-	
+	//TODO: Implement https://github.com/kogmbh/WebODF/blob/master/webodf/lib/ops/OpUpdateMember.js#L95
 	public function changeNick($esId, $memberId, $fullName){
 		$op = array(
 			'optype' => 'UpdateMember',
