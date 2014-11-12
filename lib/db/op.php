@@ -17,15 +17,16 @@ class Op extends \OCA\Documents\Db {
 	
 	protected $tableName = '`*PREFIX*documents_op`';
 	
-	protected $insertStatement = 'INSERT INTO `*PREFIX*documents_op` (`es_id`, `member`, `opspec`) VALUES (?, ?, ?)';
+	protected $insertStatement = 'INSERT INTO `*PREFIX*documents_op` (`es_id`, `optype`, `member`, `opspec`) VALUES (?, ?, ?, ?)';
 
 	public static function addOpsArray($esId, $memberId, $ops){
 		$lastSeq = "";
 		$opObj = new Op();
 		foreach ($ops as $op) {
 			$opObj->setData(array(
-				$esId, 
-				$memberId, 
+				$esId,
+				$op['optype'],
+				$memberId,
 				json_encode($op)
 			));
 			$opObj->insert();
@@ -84,42 +85,73 @@ class Op extends \OCA\Documents\Db {
 	}
 	
 	public function addMember($esId, $memberId, $fullName, $color, $imageUrl){
-		$op = '{"optype":"AddMember","memberid":"'. $memberId .'","timestamp":"'. time() .'", "setProperties":{"fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'"}}';
+		$op = array(
+			'optype' => 'AddMember',
+			'memberid' => (string) $memberId,
+			'timestamp' => (string) time(),
+			'setProperties' => array(
+				'fullName' => $fullName,
+				'color' => $color,
+				'imageUrl' => $imageUrl
+			)
+		);
 		$this->insertOp($esId, $memberId, $op);
 	}
 	
 	public function removeCursor($esId, $memberId){
+		$op = array(
+			'optype' => 'RemoveCursor',
+			'memberid' => (string) $memberId,
+			'reason' => 'server-idle',
+			'timestamp' => (string) time()
+		);
 		if ($this->hasOp($esId, $memberId, 'AddCursor') && !$this->hasLastOp($esId, $memberId, 'RemoveCursor')){
-			$op = '{"optype":"RemoveCursor","memberid":"'. $memberId .'","reason":"server-idle","timestamp":'. time() .'}';
 			$this->insertOp($esId, $memberId, $op);
 		}
 	}
 	
 	public function removeMember($esId, $memberId){
+		$op = array(
+			'optype' => 'RemoveMember',
+			'memberid' => (string) $memberId,
+			'timestamp' => (string) time()
+		);
 		if ($this->hasOp($esId, $memberId, 'AddMember') && !$this->hasLastOp($esId, $memberId, 'RemoveMember')){
-			$op ='{"optype":"RemoveMember","memberid":"'. $memberId .'","timestamp":'. time() .'}';
 			$this->insertOp($esId, $memberId, $op);
 		}
 	}
 	
 	public function updateMember($esId, $memberId, $fullName, $color, $imageUrl){
 		//TODO: Follow the spec https://github.com/kogmbh/WebODF/blob/master/webodf/lib/ops/OpUpdateMember.js#L95
-		$op = '{"optype":"UpdateMember","memberid":"'. $memberId .'","fullName":"'. $fullName .'","color":"'. $color .'","imageUrl":"'. $imageUrl .'","timestamp":'. time() .'}'
-		;
+		$op = array(
+			'optype' => 'UpdateMember',
+			'memberid' => (string) $memberId,
+			'timestamp' => (string) time(),
+			'fullName' => $fullName,
+			'color' => $color,
+			'imageUrl' => $imageUrl
+		);
 		$this->insertOp($esId, $memberId, $op);
 	}
 	
 	public function changeNick($esId, $memberId, $fullName){
-		$op = '{"optype":"UpdateMember","memberid":"'. $memberId .'", "setProperties":{"fullName":"'. $fullName .'"},"timestamp":'. time() .'}'
-		;
+		$op = array(
+			'optype' => 'UpdateMember',
+			'memberid' => (string) $memberId,
+			'timestamp' => (string) time(),
+			'setProperties' => array(
+				'fullName' => $fullName,
+			)
+		);
 		$this->insertOp($esId, $memberId, $op);
 	}
 	
 	protected function insertOp($esId, $memberId, $op){
 		$op = new Op(array(
-			$esId, 
+			$esId,
+			$op['optype'],
 			$memberId,
-			$op
+			json_encode($op)
 		));
 		$op->insert();
 	}
@@ -130,7 +162,6 @@ class Op extends \OCA\Documents\Db {
 			FROM ' . self::DB_TABLE . '
 			WHERE `es_id`=?
 				AND `member`=?
-				
 			ORDER BY `seq` DESC
 			', 
 			2,0
@@ -149,8 +180,9 @@ class Op extends \OCA\Documents\Db {
 	
 	protected function hasOp($esId, $memberId, $opType){
 		$ops = $this->execute(
-			'SELECT * FROM ' . $this->tableName . ' WHERE `es_id`=? AND `opspec` LIKE \'%"' . $opType . '","memberid":"' . $memberId .'"%\'',
-			array($esId)
+			'SELECT * FROM ' . $this->tableName
+			. ' WHERE `es_id`=? AND	`optype`=? AND `member`=?',
+			array($esId, $opType, $memberId)
 		);
 		$result = $ops->fetchAll();
 		return is_array($result) && count($result)>0;
