@@ -75,6 +75,7 @@ OC.L10N.register(
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "OpenOffice/LibreOffice är installerad på denna server. Sökväg till binärmappen är angiven som preview_libreoffice_path i config.php",
     "External" : "Externa",
     "openOffice/libreOffice is installed on external server running a format filter server" : "OpenOffice/LibreOffice är installerad på en extern server som kör en formatfilter-server",
+    "Disabled" : "Inaktiverad",
     "scheme://domain.tld[:port]" : "ordning://domän.tld[:port]",
     "Server URL" : "Server URL",
     "Apply and test" : "Spara och utför test",

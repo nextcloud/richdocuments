@@ -61,6 +61,7 @@ $TRANSLATIONS = array(
 "Undo" => "Lùi lại",
 "Unknown Author" => "Không biết tác giả",
 "Edit" => "Sửa",
+"Disabled" => "Tắt",
 "New document" => "Tạo mới",
 "Upload" => "Tải lên",
 "Save new documents to" => "Lưu tài liệu ",

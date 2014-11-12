@@ -75,6 +75,7 @@ OC.L10N.register(
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice zerbitzarian instalatuta dago. Programaren bidea preview_libreoffice_path aukeran zehaztu behar da config.php fitxategian",
     "External" : "Kanpokoa",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice kanpoko zerbitzari batean instalatuta dago zeinak formatu iragazki zerbitzari bat duen",
+    "Disabled" : "Ez-gaitua",
     "scheme://domain.tld[:port]" : "eskema://domain.tld[:port]",
     "Server URL" : "Zerbitzariaren URLa",
     "Apply and test" : "Aplikatu eta probatu",

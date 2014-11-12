@@ -73,6 +73,7 @@
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice ta instaláu nesti sirvidor. El camín pal binariu apúrrese per preview_libreoffice_path en config.php",
     "External" : "Esternu",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice ta instaláu nun sirvidor esternu executando un sirvidor de filtráu de formatu",
+    "Disabled" : "Deshabilitáu",
     "scheme://domain.tld[:port]" : "scheme://domain.tld[:port]",
     "Server URL" : "URL del sirvidor",
     "Apply and test" : "Aplicar y comprobar",

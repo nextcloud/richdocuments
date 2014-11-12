@@ -61,6 +61,7 @@ OC.L10N.register(
     "guest" : "訪客",
     "Local" : "本地",
     "External" : "外部",
+    "Disabled" : "已停用",
     "scheme://domain.tld[:port]" : "scheme://domain.tld[:port]",
     "Server URL" : "伺服器網址",
     "Apply and test" : "套用並測試",

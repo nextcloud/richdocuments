@@ -75,6 +75,8 @@ OC.L10N.register(
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice je nainstalován na tomto serveru. Cesta ke spustitelnému souboru je zaznamenána pod preview_libreoffice_path v config.php",
     "External" : "Externí",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffie je nainstalován na externím serveru, kde běží instance filtrující formáty",
+    "Disabled" : "Zakázáno",
+    "No MS Word support" : "Žádná podpora MS Word",
     "scheme://domain.tld[:port]" : "schéma://doména.tld[:port]",
     "Server URL" : "URL serveru",
     "Apply and test" : "Použít a otestovat",

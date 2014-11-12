@@ -75,6 +75,8 @@ OC.L10N.register(
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice bu sunucuda kurulu. İkili dosya yolu, config.php içerisindeki preview_libreoffice_path ile sağlanmaktadır",
     "External" : "Harici",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice, bir biçim filtre sunucusu çalıştıran harici sunucuda kurulu",
+    "Disabled" : "Devre Dışı",
+    "No MS Word support" : "MS Word desteği yok",
     "scheme://domain.tld[:port]" : "scheme://alanadı.tld[:bağl.nokt.]",
     "Server URL" : "Sunucu Adresi",
     "Apply and test" : "Uygula ve sına",

@@ -73,6 +73,7 @@
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice er installeret på denne server. Stien til den binære fil er angivet via preview_libreoffice_path i config.php",
     "External" : "Ekstern",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice er installeret på en ekstern server som kører en formatfilter-server",
+    "Disabled" : "Deaktiveret",
     "scheme://domain.tld[:port]" : "system://domain.tld[:port]",
     "Server URL" : "Server URL",
     "Apply and test" : "Anvend og test",

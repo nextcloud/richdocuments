@@ -73,6 +73,7 @@
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "Az openOffice/libreOffice telepítve van ezen a kiszolgálón. A program elérési útvonala a config.php  preview_libreoffice_path paraméterében adható meg.",
     "External" : "Külső",
     "openOffice/libreOffice is installed on external server running a format filter server" : "Az openOffice/libreOffice egy másik kiszolgálón van telepítve, ott zajlik a formátum átalakítása",
+    "Disabled" : "Kikapcsolva",
     "scheme://domain.tld[:port]" : "protokoll://teljes.gép.név[:port]",
     "Server URL" : "Szerver URL",
     "Apply and test" : "A beállítás kipróbálása",

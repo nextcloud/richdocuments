@@ -74,6 +74,7 @@ $TRANSLATIONS = array(
 "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "openOffice/libreOffice е инсталиран на този сървър. Пътя до изпълнимия файл е зададен чрез preview_libreoffice_path в config.php",
 "External" => "Външен",
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice е инсталиран на външен съвър, на който работи сървър за филтриране на форматите.",
+"Disabled" => "Изключено",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "Адрес на Сървъра",
 "Apply and test" => "Приложи и тествай",

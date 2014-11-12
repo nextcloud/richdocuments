@@ -69,6 +69,7 @@ $TRANSLATIONS = array(
 "MS Word support (requires openOffice/libreOffice)" => "Kongruo kun MS Word (postuliĝas openOffice/libreOffice)",
 "Local" => "Loka",
 "External" => "Malena",
+"Disabled" => "Malkapabligita",
 "Server URL" => "Servila URL",
 "New document" => "Nova dokumento",
 "Upload (max. %s)" => "Alŝuti (maks. %s)",

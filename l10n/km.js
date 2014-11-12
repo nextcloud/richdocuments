@@ -59,6 +59,7 @@ OC.L10N.register(
     "Unknown Author" : "មិន​ស្គាល់​អ្នក​បង្កើត",
     "Edit" : "កែ",
     "guest" : "ភ្ញៀវ",
+    "Disabled" : "បាន​បិទ",
     "scheme://domain.tld[:port]" : "scheme://domain.tld[:port]",
     "Server URL" : "URL ម៉ាស៊ីន​បម្រើ",
     "New document" : "កម្រង​ឯកសារ​ថ្មី",

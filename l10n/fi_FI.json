@@ -73,6 +73,8 @@
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice on asennettu tälle palvelimelle. Polku suoritettavaan tiedostoon määritetään tiedoston config.php kohdassa preview_libreoffice_path",
     "External" : "Ulkoinen",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice on asennettu erillisille palvelimelle, joka tarjoaa muotosuodatuspalvelimen ominaisuudet",
+    "Disabled" : "Ei käytössä",
+    "No MS Word support" : "Ei MS Word -tukea",
     "Server URL" : "Palvelimen osoite",
     "Apply and test" : "Toteuta ja testaa",
     "New document" : "Uusi asiakirja",

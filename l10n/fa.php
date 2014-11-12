@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "Undo" => "بازگردان",
 "Unknown Author" => "نویسنده‌ی نامعلوم",
 "Edit" => "ویرایش",
+"Disabled" => "غیرفعال شده",
 "New document" => "سند جدید",
 "Upload" => "بارگزاری",
 "Save new documents to" => "ذخیره کردن اسناد جدید به",

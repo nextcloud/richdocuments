@@ -74,6 +74,7 @@ $TRANSLATIONS = array(
 "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "OpenOffice/LibreOffice está instalado neste servidor. A ruta ao binario fornecese mediante preview_libreoffice_path en config.php",
 "External" => "Externo",
 "openOffice/libreOffice is installed on external server running a format filter server" => "OpenOffice/LibreOffice está instalado nun servidor externo executando un servidor de filtro de formato",
+"Disabled" => "Desactivado",
 "scheme://domain.tld[:port]" => "scheme://dominio.tld[:porto]",
 "Server URL" => "URL do servidor",
 "Apply and test" => "Aplicar e probar",

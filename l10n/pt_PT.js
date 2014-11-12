@@ -75,6 +75,7 @@ OC.L10N.register(
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice está instalado neste servidor. O caminho para o binário é disponibilizado via preview_libreoffice_path no config.php",
     "External" : "Externo",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice está instalado num servidor externo, a executar um servidor de filtro de formato",
+    "Disabled" : "Desactivada",
     "scheme://domain.tld[:port]" : "scheme://domain.tld[:port]",
     "Server URL" : "URL do Servidor",
     "Apply and test" : "Aplicar e Testar",

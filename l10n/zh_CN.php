@@ -74,6 +74,7 @@ $TRANSLATIONS = array(
 "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" => "此服务器已经安装 openOffice/libreOffice，config.php 中的 preview_libreoffice_path 指定了程序的路径",
 "External" => "外部",
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice 安装在一台运行有 Format Filter Server 的外部服务器上",
+"Disabled" => "禁用",
 "scheme://domain.tld[:port]" => "scheme://domain.tld[:port]",
 "Server URL" => "服务器 URL",
 "Apply and test" => "应用并测试",

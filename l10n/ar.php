@@ -62,6 +62,7 @@ $TRANSLATIONS = array(
 "Undo" => "تراجع",
 "Unknown Author" => "المؤلف مجهول",
 "Edit" => "تعديل",
+"Disabled" => "معطلة",
 "New document" => "مستند جديد",
 "Upload" => "رفع",
 "Save new documents to" => "حفظ المستندات الجديدة إلى",

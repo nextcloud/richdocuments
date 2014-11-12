@@ -73,6 +73,8 @@
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice はこのサーバーにインストールされています。バイナリへのパスは、config.php の preview_libreoffice_path で指定することができます。",
     "External" : "外部",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice は、フォーマットフィルターサーバーが動作している外部サーバーにインストールされています。",
+    "Disabled" : "無効",
+    "No MS Word support" : "MS Wordはサポートしていません。",
     "scheme://domain.tld[:port]" : "scheme://domain.tld[:port]",
     "Server URL" : "サーバーURL",
     "Apply and test" : "適用してテスト",

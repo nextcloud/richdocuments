@@ -62,6 +62,7 @@ OC.L10N.register(
     "Undo" : "Deshacer",
     "Unknown Author" : "Autor desconocido",
     "Edit" : "Editar",
+    "Disabled" : "Deshabilitado",
     "New document" : "Nuevo documento",
     "Upload" : "Subir",
     "Save new documents to" : "Guardar nuevos documentos en",
