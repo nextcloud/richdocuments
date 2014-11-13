@@ -148,6 +148,13 @@
 				<comments>User and time specific</comments>
 			</field>
 			<field>
+				<name>optype</name>
+				<type>text</type>
+				<notnull>false</notnull>
+				<length>64</length>
+				<comments>Operation type</comments>
+			</field>
+			<field>
 				<name>opspec</name>
 				<type>clob</type>
 				<notnull>false</notnull>
