@@ -20,9 +20,11 @@ class Op extends \OCA\Documents\Db {
 	protected $insertStatement = 'INSERT INTO `*PREFIX*documents_op` (`es_id`, `optype`, `member`, `opspec`) VALUES (?, ?, ?, ?)';
 
 	public static function addOpsArray($esId, $memberId, $ops){
-		$lastSeq = "";
 		$opObj = new Op();
 		foreach ($ops as $op) {
+			if (!$opObj->canInsertOp($esId, $memberId, $op)){
+				continue;
+			}
 			$opObj->setData(array(
 				$esId,
 				$op['optype'],
@@ -30,9 +32,9 @@ class Op extends \OCA\Documents\Db {
 				json_encode($op)
 			));
 			$opObj->insert();
-			$lastSeq = $opObj->getLastInsertId();
 		}
-		return $lastSeq;
+
+		return $opObj->getHeadSeq($esId);
 	}
 	
 	/**
@@ -105,9 +107,7 @@ class Op extends \OCA\Documents\Db {
 			'reason' => 'server-idle',
 			'timestamp' => (string) time()
 		);
-		if ($this->hasOp($esId, $memberId, 'AddCursor') && !$this->hasLastOp($esId, $memberId, 'RemoveCursor')){
-			$this->insertOp($esId, $memberId, $op);
-		}
+		$this->insertOp($esId, $memberId, $op);
 	}
 	
 	public function removeMember($esId, $memberId){
@@ -116,9 +116,7 @@ class Op extends \OCA\Documents\Db {
 			'memberid' => (string) $memberId,
 			'timestamp' => (string) time()
 		);
-		if ($this->hasOp($esId, $memberId, 'AddMember') && !$this->hasLastOp($esId, $memberId, 'RemoveMember')){
-			$this->insertOp($esId, $memberId, $op);
-		}
+		$this->insertOp($esId, $memberId, $op);
 	}
 	
 	//TODO: Implement https://github.com/kogmbh/WebODF/blob/master/webodf/lib/ops/OpUpdateMember.js#L95
@@ -135,45 +133,54 @@ class Op extends \OCA\Documents\Db {
 	}
 	
 	protected function insertOp($esId, $memberId, $op){
-		$op = new Op(array(
-			$esId,
-			$op['optype'],
-			$memberId,
-			json_encode($op)
-		));
-		$op->insert();
-	}
-	
-	protected function hasLastOp($esId, $memberId, $opType){
-		$query = \OCP\DB::prepare('
-			SELECT `opspec`
-			FROM ' . self::DB_TABLE . '
-			WHERE `es_id`=?
-				AND `member`=?
-			ORDER BY `seq` DESC
-			', 
-			2,0
-		);
-		
-		$result = $query->execute(array($esId, $memberId));
-		$ops = $result->fetchAll();
-		foreach ($ops as $op){
-			$decoded = json_decode($op['opspec'], true);
-			if ($decoded['optype']==$opType){
-				return true;
-			}
+		if ($this->canInsertOp($esId, $memberId, $op)){
+			$op = new Op(array(
+				$esId,
+				$op['optype'],
+				$memberId,
+				json_encode($op)
+			));
+			$op->insert();
 		}
-		return false;
 	}
 	
-	protected function hasOp($esId, $memberId, $opType){
-		$ops = $this->execute(
-			'SELECT * FROM ' . $this->tableName
-			. ' WHERE `es_id`=? AND	`optype`=? AND `member`=?',
-			array($esId, $opType, $memberId)
+	protected function canInsertOp($esId, $memberId, $op){
+		$cursorOps = array('AddCursor', 'RemoveCursor');
+		$memberOps = array('AddMember', 'RemoveMember');
+		$result = true;
+		
+		switch ($op['optype']){
+			case 'AddCursor':
+				$ops = $this->getFilteredMemberOps($esId, $memberId, $cursorOps);
+				$result = !count($ops) || $ops[0]['optype'] === 'RemoveCursor';
+				break;
+			case 'RemoveCursor':
+				$ops = $this->getFilteredMemberOps($esId, $memberId, $cursorOps);
+				$result = count($ops) && $ops[0]['optype'] === 'AddCursor';
+				break;
+			case 'AddMember':
+				$ops = $this->getFilteredMemberOps($esId, $memberId, $memberOps);
+				$result = !count($ops) || $ops[0]['optype'] === 'RemoveMember';
+				break;
+			case 'RemoveMember':
+				$ops = $this->getFilteredMemberOps($esId, $memberId, $memberOps);
+				$result = count($ops) && $ops[0]['optype'] === 'AddMember';
+				break;
+		}
+		return $result;
+	}
+
+	protected function getFilteredMemberOps($esId, $memberId, $targetOps){
+		$stmt = $this->buildInQuery('optype', $targetOps);
+		$result = $this->execute('
+			SELECT `optype` FROM ' . $this->tableName . '
+			WHERE es_id=? AND member=? AND ' . $stmt . 'ORDER BY `seq` DESC',
+			array_merge(array($esId, $memberId), $targetOps)
 		);
-		$result = $ops->fetchAll();
-		return is_array($result) && count($result)>0;
+		$ops = $result->fetchAll();
+		if (!is_array($ops)){
+			$ops = array();
+		}
+		return $ops;
 	}
-	
 }
