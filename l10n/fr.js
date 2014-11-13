@@ -70,7 +70,7 @@ OC.L10N.register(
     "Unknown Author" : "Auteur inconnu",
     "Edit" : "Modifier",
     "guest" : "Invité",
-    "MS Word support (requires openOffice/libreOffice)" : "Support de MS Word (nécessite openOffice/libreOffice)",
+    "MS Word support (requires openOffice/libreOffice)" : "Prise en charge de MS Word (nécessite openOffice/libreOffice)",
     "Local" : "Local",
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/libreOffice est installé sur ce serveur. Le chemin au binaire est founi via preview_libreoffice_path dans config.php",
     "External" : "Externe",

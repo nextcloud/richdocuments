@@ -76,6 +76,7 @@ OC.L10N.register(
     "External" : "Ekstern",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice er installeret på en ekstern server som kører en formatfilter-server",
     "Disabled" : "Deaktiveret",
+    "No MS Word support" : "Ingen understøttelse af MS Word",
     "scheme://domain.tld[:port]" : "system://domain.tld[:port]",
     "Server URL" : "Server URL",
     "Apply and test" : "Anvend og test",
