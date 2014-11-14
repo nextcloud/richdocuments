@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "External" => "Externo",
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice está instalado en un servidor externo ejecutando un filtro de formato",
 "Disabled" => "Deshabilitado",
+"No MS Word support" => "Sin soporte MS Word",
 "scheme://domain.tld[:port]" => "Esquema://dominio.tld[:puerto]",
 "Server URL" => "URL del servidor",
 "Apply and test" => "Aplicar y probar",
