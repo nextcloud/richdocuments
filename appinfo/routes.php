@@ -16,8 +16,8 @@ $application->registerRoutes($this, array(
 	'routes' => array(
 		//users
 		array('name' => 'user#rename', 'url' => 'ajax/user/rename', 'verb' => 'POST'),
-		array('name' => 'user#disconnect', 'url' => 'ajax/user/disconnect/{memberId}', 'verb' => 'POST'),
-		array('name' => 'user#disconnectGuest', 'url' => 'ajax/user/disconnectGuest/{memberId}', 'verb' => 'POST'),
+		array('name' => 'user#disconnectUser', 'url' => 'ajax/user/disconnect', 'verb' => 'POST'),
+		array('name' => 'user#disconnectGuest', 'url' => 'ajax/user/disconnectGuest', 'verb' => 'POST'),
 		//session
 		array('name' => 'session#joinAsUser', 'url' => 'ajax/session/joinasuser/{fileId}', 'verb' => 'POST'),
 		array('name' => 'session#joinAsGuest', 'url' => 'ajax/session/joinasguest/{token}', 'verb' => 'POST'),

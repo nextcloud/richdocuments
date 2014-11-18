@@ -19,6 +19,7 @@ use \OCP\AppFramework\Http\JSONResponse;
 use \OCA\Documents\Db;
 
 class UserController extends Controller {
+	
 	public function __construct($appName, IRequest $request){
 		parent::__construct($appName, $request);
 	}
@@ -35,7 +36,7 @@ class UserController extends Controller {
 	 * @PublicPage
 	 */
 	public function disconnectGuest($memberId, $esId){
-		 return $this->disconnect($memberId, $esId);
+		return $this->disconnect($memberId, $esId);
 	}
 	
 	private function disconnect($memberId, $esId){
