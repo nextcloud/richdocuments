@@ -86,7 +86,7 @@ class Op extends \OCA\Documents\Db {
 		return $result->fetchAll();
 	}
 	
-	public function addMember($esId, $memberId, $fullName, $color, $imageUrl){
+	public function addMember($esId, $memberId, $fullName, $userId, $color, $imageUrl){
 		$op = array(
 			'optype' => 'AddMember',
 			'memberid' => (string) $memberId,
@@ -94,7 +94,8 @@ class Op extends \OCA\Documents\Db {
 			'setProperties' => array(
 				'fullName' => $fullName,
 				'color' => $color,
-				'imageUrl' => $imageUrl
+				'imageUrl' => $imageUrl,
+				'uid' => $userId,
 			)
 		);
 		$this->insertOp($esId, $memberId, $op);
