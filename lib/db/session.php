@@ -79,29 +79,31 @@ class Session extends \OCA\Documents\Db {
 			$file->getToken()
 		));
 		
-		if ($member->insert()){
-			// Do we have OC_Avatar in out disposal?
-			if (!class_exists('\OC_Avatar') || \OC_Config::getValue('enable_avatars', true) !== true){
-				$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
-			} else {
-				$imageUrl = $uid;
-			}
-
-			$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db\Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
-			
-			$sessionData['member_id'] = (string) $member->getLastInsertId();
-			$op = new \OCA\Documents\Db\Op();
-			$op->addMember(
-					$sessionData['es_id'],
-					$sessionData['member_id'],
-					$displayName,
-					$memberColor,
-					$imageUrl
-			);
-		} else {
+		if (!$member->insert()){
 			throw new \Exception('Failed to add member into database');
 		}
 		
+		// Do we have OC_Avatar in out disposal?
+		if (\OC_Config::getValue('enable_avatars', true) !== true){
+			$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
+		} else {
+			$imageUrl = $uid;
+		}
+
+		$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db\Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
+		$userId = $file->isPublicShare() ? $displayName : \OCP\User::getUser();
+			
+		$sessionData['member_id'] = (string) $member->getLastInsertId();
+		$op = new \OCA\Documents\Db\Op();
+		$op->addMember(
+					$sessionData['es_id'],
+					$sessionData['member_id'],
+					$displayName,
+					$userId,
+					$memberColor,
+					$imageUrl
+		);
+	
 		$sessionData['title'] = basename($path);
 		$fileInfo = $ownerView->getFileInfo($path);
 		$sessionData['permissions'] = $fileInfo->getPermissions();
