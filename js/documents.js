@@ -682,12 +682,15 @@ var documentsMain = {
 
 			var url = '';
 			if (documentsMain.isGuest){
-				url = OC.generateUrl('apps/documents/ajax/user/disconnectGuest/{member_id}', {member_id: documentsMain.memberId});
+				url = OC.generateUrl('apps/documents/ajax/user/disconnectGuest', {});
 			} else {
-				url = OC.generateUrl('apps/documents/ajax/user/disconnect/{member_id}', {member_id: documentsMain.memberId});
+				url = OC.generateUrl('apps/documents/ajax/user/disconnect', {});
 			}
 			
-			$.post(url, {esId: documentsMain.esId});
+			$.post(url, {
+				memberId : documentsMain.memberId,
+				esId: documentsMain.esId
+			});
 			
 			documentsMain.show();
 // 			});
