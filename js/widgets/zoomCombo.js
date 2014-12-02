@@ -39,11 +39,11 @@ define("owncloud/widgets/zoomCombo",
                     maxHeight: 200,
                     store: zoomStore,
                     searchAttr: "name",
+                    class: "dijit",
                     value: defaultZoom,
                     style: {
-                        height: '21px',
+                        height: '20px',
                         width: '60px',
-                        margin: "2px 10px 0 0",
                         float: 'right'
                     }
                 });

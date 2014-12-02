@@ -143,37 +143,6 @@ $.widget('oc.documentOverlay', {
 	}
 });
 
-$.widget('oc.documentToolbar', {
-	options : {
-		innerhtml : '<div id="document-title">' +
-					'  <div id="header">' +
-					'    <a href="'+ OC.webroot +'"><div class="logo-wide"></div></a>' +
-					'    <div id="document-title-container">&nbsp;</div>' +
-			        '  </div>' +
-					'</div>' +
-					
-					'<span id="toolbar" class="claro">' +
-					'  <button id="odf-invite" class="drop hidden icon-share svg">' +
-					t('documents', 'Share') +
-					'  </button>' +
-					'  <button id="odf-close" class="icon-close svg"></button>' +
-					'  <img id="saving-document" alt=""' +
-					'    src="' + OC.imagePath('core', 'loading.gif') + '"' +
-					'  />' +
-					'</span>'
-	},
-	_create : function (){
-		$(this.element).html(this.options.innerhtml).hide().prependTo(document.body);
-	},
-	show : function (){
-		$(this.element).show();
-	},
-	hide : function(){
-		$(this.element).fadeOut('fast');
-		$(this.element).html(this.options.innerhtml);
-	}
-});
-
 var documentsMain = {
 	isEditormode : false,
 	useUnstable : false,
@@ -182,6 +151,8 @@ var documentsMain = {
 	esId : false,
 	ready :false,
 	fileName: null,
+	canShare : false,
+	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 	
 	UI : {		
 		/* Editor wrapper HTML */
@@ -208,18 +179,12 @@ var documentsMain = {
 			documentsMain.UI.mainTitle = $('title').text();
 		},
 		
-		showEditor : function(title, canShare){
+		showEditor : function(title){
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
 			}
 
-			$('#document-title-container').text(title);
-			if (!canShare){
-				$('#odf-invite').remove();
-			} else {
-				$('#odf-invite').show();
-			}
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
 			// in case we are on the public sharing page we shall display the odf into the preview tag
@@ -231,10 +196,8 @@ var documentsMain = {
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-login');
-				$('header,footer,nav').show();
+				$('footer,nav').show();
 			}
-			
-			documentsMain.toolbar.documentToolbar('hide');
 			
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
@@ -269,14 +232,14 @@ var documentsMain = {
 		
 		showLostConnection : function(){
 			$('#memberList .memberListButton').css({opacity : 0.3});
-			$('#odf-toolbar').children(':not(#document-title)').hide();
+			$('#ocToolbar').children(':not(#document-title)').hide();
 			$('<div id="connection-lost"></div>').prependTo('#memberList');
-			$('<div id="warning-connection-lost">' + t('documents', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').appendTo('#odf-toolbar');
+			$('<div id="warning-connection-lost">' + t('documents', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').prependTo('#ocToolbar');
 		},
 		
 		hideLostConnection : function() {
 			$('#connection-lost,#warning-connection-lost').remove();
-			$('#odf-toolbar').children(':not(#document-title,#saving-document)').show();
+			$('#ocToolbar').children(':not(#document-title,#saving-document)').show();
 			$('#memberList .memberListButton').css({opacity : 1});
 		},
 		
@@ -288,7 +251,6 @@ var documentsMain = {
 	
 	onStartup: function() {
 		var fileId;
-		"use strict";
 		documentsMain.useUnstable = $('#webodf-unstable').val()==='true';
 		documentsMain.UI.init();
 		
@@ -296,7 +258,7 @@ var documentsMain = {
 			documentsMain.isGuest = true;
 			
 			if ($("[name='document']").val()){
-				documentsMain.toolbar.documentToolbar('show');
+				$(documentsMain.toolbar).appendTo('#header');
 				documentsMain.prepareSession();
 				documentsMain.joinSession(
 					$("[name='document']").val()
@@ -346,14 +308,12 @@ var documentsMain = {
 	},
 	
 	initSession: function(response) {
-		"use strict";
-
 		if(response && (response.id && !response.es_id)){
 			return documentsMain.view(response.id);
 		}
 		
-		$('header,footer,nav').hide();
-		documentsMain.toolbar.documentToolbar('show');
+		$('footer,nav').hide();
+		$(documentsMain.toolbar).appendTo('#header');
 		
 		if (!response || !response.status || response.status==='error'){
 			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
@@ -367,16 +327,16 @@ var documentsMain = {
 			return;
 		}
 
+		documentsMain.canShare = !documentsMain.isGuest
+				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
 		require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
 			$('#content').fadeOut('fast').promise().done(function() {
 				
 				documentsMain.fileId = response.file_id;
 				documentsMain.fileName = response.title;
-				documentsMain.UI.showEditor(
-						documentsMain.fileName || response.title,
-						typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE && !documentsMain.isGuest
-				);
+				
+				documentsMain.UI.showEditor(documentsMain.fileName || response.title);
 				if (documentsMain.isGuest){
 					$('#odf-close').text(t('documents', 'Save') );
 					$('#odf-close').removeClass('icon-close');
@@ -460,30 +420,6 @@ var documentsMain = {
 			}
 			
 		);
-	},
-
-	onInvite: function(event) {
-		event.preventDefault();
-		if (OC.Share.droppedDown) {
-			OC.Share.hideDropDown();
-		} else {
-			(function() {
-				var target = OC.Share.showLink;
-				OC.Share.showLink = function() {
-					var r = target.apply( this, arguments );
-					$('#linkText').val( $('#linkText').val().replace('index.php/s/', 'public.php?service=documents&t=') );
-					return r;
-				};
-			})();
-
-			OC.Share.showDropDown(
-				'file', 
-				parent.location.hash.replace(/\W*/g, ''),
-				$("#odf-toolbar"),
-				true, 
-				OC.PERMISSION_READ | OC.PERMISSION_SHARE | OC.PERMISSION_UPDATE
-			);
-		}
 	},
 	
 	changeNick: function(memberId, name, node){
@@ -575,63 +511,9 @@ var documentsMain = {
 				}
 				documentsMain.fileName = name;
 				$('title').text(documentsMain.UI.mainTitle + '| ' + name);
-				$('#document-title-container').text(name);
+				$('#document-title').text(name);
 			}
 		);
-	},
-
-
-	onRenamePrompt: function() {
-		var name = documentsMain.fileName;
-		var lastPos = name.lastIndexOf('.');
-		var extension = name.substr(lastPos + 1);
-		name = name.substr(0, lastPos);
-		var input = $('<input type="text" class="filename"/>').val(name);
-		$('#header').append(input);
-		$('#document-title-container').hide();
-
-		input.on('blur', function(){
-			var newName = input.val();
-			if (!newName || newName === name) {
-				input.tipsy('hide');
-				input.remove();
-				$('#document-title-container').show();
-				return;
-			}
-			else {
-				newName = newName + '.' + extension;
-				try {
-					input.tipsy('hide');
-					input.removeClass('error');
-					if (Files.isFileNameValid(newName)) {
-						input.tipsy('hide');
-						input.remove();
-						$('#document-title-container').show();
-						documentsMain.renameDocument(newName);
-					}
-				}
-				catch (error) {
-					input.attr('title', error);
-					input.tipsy({gravity: 'n', trigger: 'manual'});
-					input.tipsy('show');
-					input.addClass('error');
-				}
-			}
-		});
-		input.on('keyup', function(event){
-			if (event.keyCode === 27) {
-				// cancel by putting in an empty value
-				$(this).val('');
-				$(this).blur();
-				event.preventDefault();
-			}
-			if (event.keyCode === 13) {
-				$(this).blur();
-				event.preventDefault();
-			}
-		});
-		input.focus();
-		input.selectRange(0, name.length);
 	},
 
 	onEditorShutdown : function (message){
@@ -656,13 +538,11 @@ var documentsMain = {
 			}
 			
 			documentsMain.show();
-			$('header,footer,nav').show();
+			$('footer,nav').show();
 	},
 		
 
 	onClose: function() {
-		"use strict";
-		
 		if (!documentsMain.isEditorMode){
 			return;
 		}
@@ -673,11 +553,7 @@ var documentsMain = {
 
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.closeSession(function() {
-			// successfull shutdown - all is good.
-			// TODO: proper session leaving call to server, either by webodfServerInstance or custom
-// 			documentsMain.webodfServerInstance.leaveSession(sessionId, memberId, function() {
-
-			$('header,footer,nav').show();
+			$('footer,nav').show();
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 
 			var url = '';
@@ -693,7 +569,6 @@ var documentsMain = {
 			});
 			
 			documentsMain.show();
-// 			});
 		});
 	},
 	
@@ -716,11 +591,10 @@ var documentsMain = {
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.closeSession(function() {
 			if (documentsMain.isGuest){
-				$('header,footer,nav').show();
+				$('footer,nav').show();
 			}
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 		});
-
 	},
 	
 	show: function(){
@@ -784,11 +658,8 @@ FileList.getCurrentDirectory = function(){
 };
 
 $(document).ready(function() {
-	"use strict";
-	
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
-	documentsMain.toolbar = $('<div id="odf-toolbar" class="dijitToolbar"></div>').documentToolbar();
 	
 	$('li.document a').tipsy({fade: true, live: true});
 	
@@ -805,12 +676,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$(document.body).on('click', '#document-title-container', documentsMain.onRenamePrompt);
-	$(document.body).on('click', '#odf-close', documentsMain.onClose);
-	$(document.body).on('click', '#odf-invite', documentsMain.onInvite);
-
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
-
 
 	var file_upload_start = $('#file_upload_start');
 	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {
