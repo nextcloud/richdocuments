@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "External" => "Külső",
 "openOffice/libreOffice is installed on external server running a format filter server" => "Az openOffice/libreOffice egy másik kiszolgálón van telepítve, ott zajlik a formátum átalakítása",
 "Disabled" => "Kikapcsolva",
+"No MS Word support" => "Nincs MS Word-támogatás",
 "scheme://domain.tld[:port]" => "protokoll://teljes.gép.név[:port]",
 "Server URL" => "Szerver URL",
 "Apply and test" => "A beállítás kipróbálása",
