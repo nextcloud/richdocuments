@@ -87,7 +87,7 @@ OC.L10N.register(
     "Wrong password. Please retry." : "Mot de passe erroné. Merci de réessayer.",
     "Password" : "Mot de passe",
     "Guest %s" : "Invité %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Ce lien a expiré ou n'a jamais existé. Pour plus de détails, veuillez contacter la personne qui a créé ce partage avec vous.",
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Ce lien a expiré ou n'a jamais existé. Pour plus de détails, veuillez contacter la personne qui a partagé ce lien avec vous.",
     "Advanced feature-set" : "Fonctionnalités avancées",
     "(Unstable)" : "(instable)"
 },
