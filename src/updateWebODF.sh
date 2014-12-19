@@ -34,7 +34,7 @@ patch -p1 -i src/patches/fontsCssPath.patch
 patch -p1 -i src/patches/hideCaretAvatar.patch
 patch -p1 -i src/patches/MemberListView.js.patch
 patch -p1 -i src/patches/keepBodyStyle.patch
-
+patch -p1 -i src/patches/ocToolbar.patch
 
 # files which need to be adapted manually:
 # "$WEBODF_BUILDDIR"/programs/editor/dojo-deps/src/app/resources/app.css  -> ./css/3rdparty/webodf/dojo-app.css
