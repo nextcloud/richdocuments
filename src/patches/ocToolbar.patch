@@ -1,0 +1,66 @@
+diff --git a/js/3rdparty/webodf/editor/Tools.js b/js/3rdparty/webodf/editor/Tools.js
+index c0aa4da..602edff 100644
+--- a/js/3rdparty/webodf/editor/Tools.js
++++ b/js/3rdparty/webodf/editor/Tools.js
+@@ -52,9 +52,10 @@ define("webodf/editor/Tools", [
+     "webodf/editor/widgets/editHyperlinks",
+     "webodf/editor/widgets/imageInserter",
+     "webodf/editor/widgets/paragraphStylesDialog",
+-    "webodf/editor/widgets/zoomSlider",
++    "owncloud/widgets/zoomCombo",
++    "owncloud/widgets/ocToolbar",
+     "webodf/editor/EditorSession"],
+-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomSlider, EditorSession) {
++    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, OcToolbar, EditorSession) {
+         "use strict";
+ 
+         return function Tools(args) {
+@@ -67,7 +68,8 @@ define("webodf/editor/Tools", [
+                 loadButton, saveButton, closeButton,
+                 formatDropDownMenu, formatMenuButton,
+                 paragraphStylesMenuItem, paragraphStylesDialog, simpleStyles, currentStyle,
+-                zoomSlider,
++                zoomCombo,
++                ocToolbar,
+                 undoRedoMenu,
+                 editorSession,
+                 paragraphAlignment,
+@@ -121,6 +123,10 @@ define("webodf/editor/Tools", [
+ 
+             // init
+             ready(function () {
++                ocToolbar = new OcToolbar(function (widget) {
++                    widget.startup();
++                });
++
+                 toolbar = new Toolbar({}, "toolbar");
+ 
+                 // Undo/Redo
+@@ -171,12 +177,12 @@ define("webodf/editor/Tools", [
+                 currentStyle.onToolDone = onToolDone;
+ 
+                 // Zoom Level Selector
+-                zoomSlider = new ZoomSlider(function (widget) {
++                zoomCombo = new ZoomCombo(function (widget) {
+                     widget.placeAt(toolbar);
+                     widget.startup();
+                 });
+-                sessionSubscribers.push(zoomSlider);
+-                zoomSlider.onToolDone = onToolDone;
++                sessionSubscribers.push(zoomCombo);
++                zoomCombo.onToolDone = onToolDone;
+ 
+                 // Load
+                 if (loadOdtFile) {
+@@ -271,7 +277,7 @@ define("webodf/editor/Tools", [
+                     });
+                     closeButton.placeAt(toolbar);
+                 }
+-
++                toolbar.startup();
+                 setEditorSession(editorSession);
+             });
+         };
+-- 
+
+

@@ -53,8 +53,9 @@ define("webodf/editor/Tools", [
     "webodf/editor/widgets/imageInserter",
     "webodf/editor/widgets/paragraphStylesDialog",
     "owncloud/widgets/zoomCombo",
+    "owncloud/widgets/ocToolbar",
     "webodf/editor/EditorSession"],
-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, EditorSession) {
+    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, OcToolbar, EditorSession) {
         "use strict";
 
         return function Tools(args) {
@@ -68,6 +69,7 @@ define("webodf/editor/Tools", [
                 formatDropDownMenu, formatMenuButton,
                 paragraphStylesMenuItem, paragraphStylesDialog, simpleStyles, currentStyle,
                 zoomCombo,
+                ocToolbar,
                 undoRedoMenu,
                 editorSession,
                 paragraphAlignment,
@@ -121,6 +123,10 @@ define("webodf/editor/Tools", [
 
             // init
             ready(function () {
+                ocToolbar = new OcToolbar(function (widget) {
+                    widget.startup();
+                });
+
                 toolbar = new Toolbar({}, "toolbar");
 
                 // Undo/Redo
@@ -271,7 +277,7 @@ define("webodf/editor/Tools", [
                     });
                     closeButton.placeAt(toolbar);
                 }
-
+				toolbar.startup();
                 setEditorSession(editorSession);
             });
         };
