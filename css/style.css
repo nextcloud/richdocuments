@@ -147,10 +147,13 @@
 }
 
 #odf-close{
-	position:absolute;
-	right:0;
-	margin: 8px;
+	position: absolute;
+	right: 0;
 	float: right;
+	padding: 18px;
+	background-color: transparent;
+	border: none;
+	opacity: .5;
 }
 #odf-close.icon-close {
 	height: 23px;
