@@ -338,7 +338,7 @@ var documentsMain = {
 				documentsMain.UI.showEditor(documentsMain.fileName || response.title);
 				if (documentsMain.isGuest){
 					$('#odf-close').text(t('documents', 'Save') );
-					$('#odf-close').removeClass('icon-close');
+					$('#odf-close').removeClass('icon-view-close');
 				}
 				var serverFactory = new ServerFactory();
 				documentsMain.esId = response.es_id;
