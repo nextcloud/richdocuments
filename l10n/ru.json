@@ -12,7 +12,7 @@
     "No documents were found. Upload or create a document to get started!" : "Документы не найдены. Чтобы начать, загрузите или создайте документ!",
     "No connection to server. Trying to reconnect." : "Нет связи с сервером. Попытка переподключения.",
     "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead." : "Если вы покинете эту страницу в режиме Редактора, то некоторые данные могут не сохраниться. Рекомендуется вместо этого использовать кнопку 'Закрыть'.",
-    "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." : "Не удалось загрузить документ. Пожалуйста, проверьте возможно ли открыть его с помощью обычного odt редактора.",
+    "Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently." : "Не удалось открыть документ. Убедитесь что файл можно открыть с помощью обычного odt-редактора. Так-же ошибка может означать, что файл был удален или к нему закрыли доступ.",
     "Save" : "Сохранить",
     "Loading documents..." : "Загрузка документов...",
     "'.' is an invalid file name." : "'.' - неправильное имя файла.",
