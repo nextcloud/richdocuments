@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "External" => "Externa",
 "openOffice/libreOffice is installed on external server running a format filter server" => "OpenOffice/LibreOffice är installerad på en extern server som kör en formatfilter-server",
 "Disabled" => "Inaktiverad",
+"No MS Word support" => "Inget MS Word stöd",
 "scheme://domain.tld[:port]" => "ordning://domän.tld[:port]",
 "Server URL" => "Server URL",
 "Apply and test" => "Spara och utför test",
