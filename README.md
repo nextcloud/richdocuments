@@ -22,21 +22,31 @@ If you don't want to mess around with dependencies, you need simply install `uno
 
 ### WebODF upgrade ###
 1. Build WebODF:
-```
-git clone https://github.com/kogmbh/WebODF.git webodf
-mkdir build
-cd build
-cmake ../webodf
-make webodf.js-target
-```
+
+        git clone https://github.com/kogmbh/WebODF.git webodf
+        mkdir build
+        cd build
+        cmake ../webodf
+        make webodf.js-target
 
 2. Refresh code and create a new branch:
-```
-cd /path/to/documents
-git checkout master
-git pull --rebase
-git checkout -b new-branch
-```
+
+        cd /path/to/documents
+        git checkout master
+        git pull --rebase
+        git checkout -b new-branch
 
 3. Run upgrade script:
-./src/updateWebODF.sh
+
+        ./src/updateWebODF.sh /path/to/WebODF/build/dir
+
+4. Resolve confilcts in patches (if any). Commit changes.
+5. Update patches in `/path/to/documents/src/patches` according to conflicts. Commit changes.
+6. Test UI. Fix glitches by updating CSS. Commit changes.
+7. Run locale extraction script:
+
+        ./src/updateWebODF.sh
+
+8. Commit changes
+9. Push the branch for testing
+10. You are done.
