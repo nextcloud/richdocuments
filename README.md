@@ -19,3 +19,24 @@ If you don't want to mess around with dependencies, you need simply install `uno
 ### How to add more fonts ###
 + Upload font files to **documents/css/fonts** directory
 + Edit **documents/css/fonts.css** adding `@font-face` rule for each uploaded file 
+
+### WebODF upgrade ###
+1. Build WebODF:
+```
+git clone https://github.com/kogmbh/WebODF.git webodf
+mkdir build
+cd build
+cmake ../webodf
+make webodf.js-target
+```
+
+2. Refresh code and create a new branch:
+```
+cd /path/to/documents
+git checkout master
+git pull --rebase
+git checkout -b new-branch
+```
+
+3. Run upgrade script:
+./src/updateWebODF.sh
