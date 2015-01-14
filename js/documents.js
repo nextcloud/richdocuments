@@ -70,7 +70,9 @@ $.widget('oc.documentGrid', {
 			}(a);
 			ready(previewURL);
 		};
-		img.src = previewURL;
+		if ( $('#previews_enabled').length ) {
+			img.src = previewURL;
+		}
 	},
 	
 	_load : function (){
