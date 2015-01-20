@@ -35,4 +35,7 @@
 	</ul>
 </div>
 <input type="hidden" id="webodf-unstable" value="<?php p($_['useUnstable']) ?>" />
+<?php if ($_['enable_previews']): ?>
+<input type="hidden" id="previews_enabled" value="<?php p($_['enable_previews']) ?>" />
+<?php endif; ?>
 <input type="hidden" name="allowShareWithLink" id="allowShareWithLink" value="<?php p($_['allowShareWithLink']) ?>" />
