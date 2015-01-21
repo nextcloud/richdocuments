@@ -9,7 +9,7 @@ OC.L10N.register(
     "Saved" : "Sauvegardé",
     "Format filter server is down or misconfigured" : "Le serveur de filtre de format est en panne ou mal configuré",
     "Conversion failed. Check log for details." : "La conversion a échoué. Consultez le journal des erreurs pour plus d’informations.",
-    "Saving..." : "Enregistrement ...",
+    "Saving..." : "Enregistrement...",
     "Failed to load documents." : "Échec du chargement des documents.",
     "No documents were found. Upload or create a document to get started!" : "Aucun document n’a été trouvé. Veuillez en créer un nouveau ou en importer un existant afin de commencer !",
     "No connection to server. Trying to reconnect." : "Aucune connexion au serveur. Tentative de reconnexion en cours.",
