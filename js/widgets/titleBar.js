@@ -1,7 +1,7 @@
 /*global define,require */
 define("owncloud/widgets/titleBar",
-		["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "webodf/editor/EditorSession"],
-		function (declare, _WidgetBase, _TemplatedMixin, EditorSession) {
+		["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojox/html/entities", "webodf/editor/EditorSession"],
+		function (declare, _WidgetBase, _TemplatedMixin, Entities, EditorSession) {
 			return declare("TitleBar", [_WidgetBase, _TemplatedMixin], {
 				title : '',
 				templateString:
@@ -10,7 +10,7 @@ define("owncloud/widgets/titleBar",
 					'</div>',
 				buildRendering: function () {
 					// FixMe: this should not be global
-					this.title = documentsMain.fileName;
+					this.title = Entities.encode(documentsMain.fileName);
 					this.inherited(arguments);
 				},
 				showRenamePrompt: function () {
