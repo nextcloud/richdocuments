@@ -27,7 +27,7 @@ If you don't want to mess around with dependencies, you need simply install `uno
         mkdir build
         cd build
         cmake ../webodf
-        make webodf.js-target
+        make webodf-debug.js-target editor-compiled.js-target
 
 2. Refresh code and create a new branch:
 
@@ -38,7 +38,7 @@ If you don't want to mess around with dependencies, you need simply install `uno
 
 3. Run upgrade script:
 
-        ./src/updateWebODF.sh /path/to/WebODF/build/dir
+        ./src/updateWebODF.sh /path/to/WebODF/buildDir
 
 4. Resolve confilcts in patches (if any). Commit changes.
 5. Update patches in `/path/to/documents/src/patches` according to conflicts. Commit changes.
