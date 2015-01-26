@@ -1,4 +1,4 @@
-var webodf_version = "0.4.2-2050-g8d8fc02";
+var webodf_version = "0.4.2-2050-g8d8fc02-dirty";
 function Runtime() {
 }
 Runtime.prototype.getVariable = function(name) {
@@ -13549,7 +13549,11 @@ gui.HyperlinkClickHandler = function HyperlinkClickHandler(getRootNode) {
         bookmarks[0].scrollIntoView(true)
       }
     }else {
-      runtime.getWindow().open(url)
+      if(/^\s*(javascript|data):/.test(url)) {
+        runtime.log("WARN:", "potentially malicious URL ignored")
+      }else {
+        runtime.getWindow().open(url)
+      }
     }
     if(e.preventDefault) {
       e.preventDefault()
