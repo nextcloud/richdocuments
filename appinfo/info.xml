@@ -6,8 +6,6 @@
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>
 	<require>6.0</require>
-	<shipped>true</shipped>
-	<default_enable/>
 	<public>
 		<documents>public.php</documents>
 	</public>
