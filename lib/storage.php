@@ -97,7 +97,7 @@ class Storage {
 		return $documents;
 	}
 	
-	protected static function getSupportedMimetypes(){
+	public static function getSupportedMimetypes(){
 		return array_merge(
 			array(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
 			Filter::getAll()	

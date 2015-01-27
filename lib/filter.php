@@ -13,9 +13,9 @@
 namespace OCA\Documents;
 
  class Filter {
-	 protected static $filters = array();
+	protected static $filters = array();
 	 
-	 public static function add($mimetype, $class){
+	public static function add($mimetype, $class){
 		 self::$filters[$mimetype] = $class;
 	}
 
@@ -36,9 +36,9 @@ namespace OCA\Documents;
 		}
 		
 		return $data;
-	 }
+	}
 	 
-	 public static function write($content, $mimetype){
+	public static function write($content, $mimetype){
 		$data = array(
 			'mimetype' => $mimetype,
 			'content' => $content
@@ -55,11 +55,20 @@ namespace OCA\Documents;
 		}
 		
 		return $data;
-	 }
+	}
 	 
-	 public static function getAll(){
+	public static function getAll(){
 		 return array_keys(self::$filters);
-	 }
+	}
 	 
- }
+	/**
+	 * Checks if mimetype is supported by the app
+	 * @param string $mimetype - checked mimetype
+	 * @return bool
+	 */
+	public static function isSupportedMimetype($mimetype){
+		return in_array($mimetype, Storage::getSupportedMimetypes());
+	} 
+}
+
  
