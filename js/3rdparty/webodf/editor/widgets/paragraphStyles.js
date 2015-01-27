@@ -39,9 +39,12 @@
 /*global define,require */
 
 define("webodf/editor/widgets/paragraphStyles",
-       ["webodf/editor/EditorSession"],
+       [
+           "dojox/html/entities",
+           "webodf/editor/EditorSession"
+       ],
 
-    function (EditorSession) {
+    function (htmlEntities, EditorSession) {
     "use strict";
     /**
      * @constructor
@@ -99,7 +102,7 @@ define("webodf/editor/widgets/paragraphStyles",
 
             for (i = 0; i < availableStyles.length; i += 1) {
                 selectionList.push({
-                    label: availableStyles[i].displayName,
+                    label: htmlEntities.encode(availableStyles[i].displayName),
                     value: availableStyles[i].name
                 });
             }
@@ -120,7 +123,7 @@ define("webodf/editor/widgets/paragraphStyles",
             if (select) {
                 select.addOption({
                     value: styleInfo.name,
-                    label: newStyleElement.getAttributeNS(stylens, 'display-name')
+                    label: htmlEntities.encode(newStyleElement.getAttributeNS(stylens, 'display-name'))
                 });
             }
 
