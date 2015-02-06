@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "External" => "Kanpokoa",
 "openOffice/libreOffice is installed on external server running a format filter server" => "openOffice/libreOffice kanpoko zerbitzari batean instalatuta dago zeinak formatu iragazki zerbitzari bat duen",
 "Disabled" => "Ez-gaitua",
+"No MS Word support" => "Ez da MS Word onartzen",
 "scheme://domain.tld[:port]" => "eskema://domain.tld[:port]",
 "Server URL" => "Zerbitzariaren URLa",
 "Apply and test" => "Aplikatu eta probatu",
