@@ -7,7 +7,7 @@ OC.L10N.register(
     "Directory saved successfully." : "ディレクトリの保存に成功しました。",
     "An error occurred while changing directory." : "ディレクトリの変更中にエラーが発生しました。",
     "Saved" : "保存されました",
-    "Format filter server is down or misconfigured" : "フォーマットフィルタサーバーが稼働していないか設定ミス",
+    "Format filter server is down or misconfigured" : "フォーマットフィルターサーバーが稼働していないか設定ミス",
     "Conversion failed. Check log for details." : "変換に失敗しました。詳細についてはログを確認してください。",
     "Saving..." : "保存中...",
     "Failed to load documents." : "ドキュメントのロードに失敗しました。",
