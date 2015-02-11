@@ -54,7 +54,7 @@ OC.L10N.register(
     "OK" : "OK",
     "Open" : "Öffnen",
     "Options" : "Optionen",
-    "Paragraph..." : "Absatz...",
+    "Paragraph..." : "Absatz…",
     "Paragraph Styles" : "Absatz-Stile",
     "Redo" : "Wiederholen",
     "Right" : "Rechts",
