@@ -76,6 +76,7 @@ OC.L10N.register(
     "External" : "Zewnętrzny",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice jest zainstalowany na zewnętrznym systemie z uruchomionym serwerem konwersji formatów",
     "Disabled" : "Wyłączone",
+    "No MS Word support" : "Brak wsparcia dla MS Word",
     "scheme://domain.tld[:port]" : "schemat://domena.tld[:port]",
     "Server URL" : "URL serwera",
     "Apply and test" : "Zastosuj i przetestuj",
