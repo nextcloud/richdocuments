@@ -26,7 +26,7 @@ OC.L10N.register(
     "Annotate" : "Anotar",
     "Background" : "Fondo",
     "Bold" : "Negrita",
-    "Bottom" : "inferior",
+    "Bottom" : "Inferior",
     "Cancel" : "Cancelar",
     "Center" : "Centrado",
     "Clone" : "Clonar",
