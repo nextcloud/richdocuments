@@ -76,6 +76,7 @@ OC.L10N.register(
     "External" : "Esternu",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice ta instaláu nun sirvidor esternu executando un sirvidor de filtráu de formatu",
     "Disabled" : "Deshabilitáu",
+    "No MS Word support" : "Nun esiste sofitu pa MS Word",
     "scheme://domain.tld[:port]" : "scheme://domain.tld[:port]",
     "Server URL" : "URL del sirvidor",
     "Apply and test" : "Aplicar y comprobar",
