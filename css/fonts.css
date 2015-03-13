@@ -137,6 +137,30 @@
   font-style: italic;
 }
 @font-face {
+  font-family: "Calibri";
+  src: url("./fonts/Carlito-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Calibri";
+  src: url("./fonts/Carlito-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Calibri";
+  src: url("./fonts/Carlito-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Calibri";
+  src: url("./fonts/Carlito-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
   font-family: "Caladea";
   src: url("./fonts/Caladea-Regular.ttf") format("truetype");
   font-weight: normal;
