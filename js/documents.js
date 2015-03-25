@@ -60,17 +60,17 @@ $.widget('oc.documentGrid', {
 
 		previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		previewURL = previewURL.replace('(', '%28').replace(')', '%29');
-
-		var img = new Image();
-		img.onload = function(){
-			var ready = function (node){
-				return function(path){
-					node.css('background-image', 'url("'+ path +'")');
-				}; 
-			}(a);
-			ready(previewURL);
-		};
+		
 		if ( $('#previews_enabled').length ) {
+			var img = new Image();
+			img.onload = function(){
+				var ready = function (node){
+					return function(path){
+						node.css('background-image', 'url("'+ path +'")');
+					}; 
+				}(a);
+				ready(previewURL);
+			};
 			img.src = previewURL;
 		}
 	},
