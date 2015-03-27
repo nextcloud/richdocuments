@@ -41,7 +41,7 @@ namespace OCA\Documents;
 
 $tmpl = new \OCP\Template('documents', 'documents', 'user');
 
-$previewsEnabled = \OC::$server->getConfig()->getSystemValue('enable_previews', false);
+$previewsEnabled = \OC::$server->getConfig()->getSystemValue('enable_previews', true);
 $unstable = \OCP\Config::getAppValue('documents', 'unstable', 'false');
 $maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 $savePath = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
