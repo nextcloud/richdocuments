@@ -58,12 +58,7 @@ class Genesis {
 			$mimetype = $view->getMimeType($path);
 			
 			$data = Filter::read($content, $mimetype);
-			
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;	
-			
 			$this->view->file_put_contents($this->path, $data['content']);
-			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 		
 		try {
@@ -87,12 +82,7 @@ class Genesis {
 	
 	protected function getDocumentHash($view, $path){
 		$this->validate($view, $path);
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-		
 		$hash = sha1($view->file_get_contents($path));
-		
-		\OC_FileProxy::$enabled = $proxyStatus;
 		return $hash;
 	}
 	
