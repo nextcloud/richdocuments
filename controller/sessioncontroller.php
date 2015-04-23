@@ -256,10 +256,7 @@ class SessionController extends Controller{
 			$memberCount = count($memberIds) - 1;
 			
 			if ($view->file_exists($path)){
-				$proxyStatus = \OC_FileProxy::$enabled;
-				\OC_FileProxy::$enabled = false;	
 				$currentHash = sha1($view->file_get_contents($path));
-				\OC_FileProxy::$enabled = $proxyStatus;
 				
 				if (!Helper::isVersionsEnabled() && $currentHash !== $session->getGenesisHash()){
 					// Original file was modified externally. Save to a new one
