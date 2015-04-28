@@ -28,7 +28,8 @@ class Config {
 		$params = ' --headless --convert-to ' . escapeshellarg($targetFilter) . ' --outdir ' 
 			. escapeshellarg($outdir) 
 			. ' --writer '. escapeshellarg($infile) 
-			. ' -env:UserInstallation=file://' . escapeshellarg(get_temp_dir()) . ' 2>&1'
+			. ' -env:UserInstallation=file://'
+			. escapeshellarg(get_temp_dir() . '/owncloud-' . \OC_Util::getInstanceId().'/') . ' 2>&1'
 		;
 		file_put_contents($infile, $input);
  

@@ -49,7 +49,8 @@ class Converter {
 		$params = ' --headless --convert-to ' . $targetFilter . ' --outdir ' 
 				. escapeshellarg($outdir) 
 				. ' --writer '. escapeshellarg($infile)
-				. ' -env:UserInstallation=file://' . escapeshellarg(get_temp_dir())
+				. ' -env:UserInstallation=file://'
+				. escapeshellarg(get_temp_dir() . '/owncloud-' . \OC_Util::getInstanceId().'/')
 		;
 		
 		file_put_contents($infile, $input);
