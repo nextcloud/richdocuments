@@ -68,7 +68,7 @@
     "Edit" : "Éditer",
     "Share" : "Partager",
     "guest" : "invité",
-    "MS Word support (requires openOffice/libreOffice)" : "Prise en charge de MS Word (nécessite openOffice/libreOffice)",
+    "MS Word support (requires openOffice/libreOffice)" : "Prise en charge de MS Word (nécessite OpenOffice/LibreOffice)",
     "Local" : "Local",
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "openOffice/LibreOffice est installé sur ce serveur. Le chemin vers le binaire est fourni via preview_libreoffice_path dans config.php",
     "External" : "Externe",
