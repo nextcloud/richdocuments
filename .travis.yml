@@ -15,7 +15,7 @@ env:
 branches:
   only:
     - master
-    - /^stable\d*$/
+    - /^stable\d+(\.\d+)?$/
 
 before_install:
   - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/before_install.sh
