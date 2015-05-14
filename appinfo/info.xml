@@ -4,10 +4,10 @@
 	<name>Documents</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
-	<author>Frank Karlitschek</author>
-	<require>6.0</require>
+	<author>Frank Karlitschek, Victor Dubiniuk</author>
+	<requiremin>8.0</requiremin>
 	<public>
 		<documents>public.php</documents>
 	</public>
-	<ocsid>166045</ocsid>
+	<ocsid>168711</ocsid>
 </info>
