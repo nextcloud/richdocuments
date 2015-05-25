@@ -41,10 +41,13 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->uid
 		);
 		
-		if (!\OCP\User::userExists($this->uid)){
-			\OC_User::createUser($this->uid, $this->password);
+		$userManager = \OC::$server->getUserManager();
+		$userSession = \OC::$server->getUserSession();
+		if (!$userManager->userExists($this->uid)){
+			$userManager->createUser($this->uid, $this->password);
+			\OC::$server->getUserFolder($this->uid);
 		}
-		\OC_User::getUserSession()->login($this->uid, $this->password);
+		$userSession->login($this->uid, $this->password);
 		\OC_Util::setupFS();
 	}
 	
