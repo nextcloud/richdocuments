@@ -1,7 +1,9 @@
 <?php
 $TRANSLATIONS = array(
 "Documents" => "Tài liệu",
+"Can't create document" => "Không thể tạo tài liệu",
 "You don't have permission to rename this document" => "Bạn không có quyền đổi tên tài liệu này",
+"Saved" => "Đã lưu",
 "Saving..." => "Đang lưu...",
 "Failed to load documents." => "Không thể tải tài liệu thử lại sau.",
 "No connection to server. Trying to reconnect." => "Không thể kết nối đến máy chủ. Đang thử kết nối lại.",
