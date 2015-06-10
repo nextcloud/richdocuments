@@ -1,7 +1,7 @@
-diff --git a/css/3rdparty/webodf/editor.css b/css/3rdparty/webodf/editor.css
+diff --git a/css/3rdparty/webodf/wodotexteditor.css b/css/3rdparty/webodf/wodotexteditor.css
 index 42f64a1..23f86ee 100644
---- a/css/3rdparty/webodf/editor.css
-+++ b/css/3rdparty/webodf/editor.css
+--- a/css/3rdparty/webodf/wodotexteditor.css
++++ b/css/3rdparty/webodf/wodotexteditor.css
 @@ -1,4 +1,4 @@
 -html, body, #mainContainer {
 +body.claro, #mainContainer {

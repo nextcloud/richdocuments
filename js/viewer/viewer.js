@@ -64,7 +64,7 @@ var odfViewer = {
 			var dirName = $('#dir').val()!='/' ? $('#dir').val() + '/' : '/';
 			var location = OC.filePath('documents', 'ajax', 'download.php') + '?path=' + encodeURIComponent(dirName) + encodeURIComponent(filename)
 			 + '&requesttoken=' + encodeURIComponent(oc_requesttoken);
-			OC.addStyle('documents', '3rdparty/webodf/editor');
+			OC.addStyle('documents', '3rdparty/webodf/wodotexteditor');
 		}
 		
 		OC.addStyle('documents', 'viewer/odfviewer');
