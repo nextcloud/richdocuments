@@ -26,9 +26,9 @@
 /*global define, require, OC*/
 
 define("owncloud/ServerFactory", [
-    "webodf/editor/server/pullbox/Server",
-    "webodf/editor/server/pullbox/OperationRouter",
-    "webodf/editor/server/pullbox/SessionList"],
+    "webodf/editor/backend/pullbox/Server",
+    "webodf/editor/backend/pullbox/OperationRouter",
+    "webodf/editor/backend/pullbox/SessionList"],
     function (PullBoxServer, PullBoxOperationRouter, PullBoxSessionList) {
         "use strict";
 

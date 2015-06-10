@@ -42,7 +42,7 @@ define("owncloud/widgets/zoomCombo",
                     class: "dijit",
                     value: defaultZoom,
                     style: {
-                        height: '20px',
+                        height: '23px',
                         width: '60px',
                         float: 'right'
                     }

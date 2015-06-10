@@ -442,6 +442,21 @@ define("webodf/editor/Editor", [
             function setFocusToOdfCanvas() {
                 editorSession.sessionController.getEventManager().focus();
             }
+            
+
+            /**
+            * Returns true if either all features are wanted and this one is not explicitely disabled
+            * or if not all features are wanted by default and it is explicitely enabled
+            * @param {?boolean|undefined} isFeatureEnabled explicit flag which enables a feature
+            * @param {!boolean=} isUnstable set to true if the feature is not stable (in collab mode)
+            * @return {!boolean}
+            */
+            function isEnabled(isFeatureEnabled, isUnstable) {
+                if (isUnstable && ! args.unstableFeaturesEnabled) {
+                    return false;
+                }
+                return args.allFeaturesEnabled ? (isFeatureEnabled !== false) : isFeatureEnabled;
+            }
 
             // init
             function init() {
@@ -451,13 +466,16 @@ define("webodf/editor/Editor", [
                     container = document.getElementById('container'),
                     memberListElement = document.getElementById('memberList'),
                     collabEditing = Boolean(server),
-                    directParagraphStylingEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
-                    imageInsertingEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
-                    hyperlinkEditingEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
-                    // annotations not yet properly supported for OT
-                    annotationsEnabled = (! collabEditing) || args.unstableFeaturesEnabled,
-                     // undo manager is not yet integrated with collaboration
-                    undoRedoEnabled = (! collabEditing),
+                    directTextStylingEnabled = isEnabled(args.directTextStylingEnabled),
+                    directParagraphStylingEnabled = isEnabled(args.directParagraphStylingEnabled),
+                    paragraphStyleSelectingEnabled = isEnabled(args.paragraphStyleSelectingEnabled),
+                    paragraphStyleEditingEnabled = isEnabled(args.paragraphStyleEditingEnabled),
+                    imageEditingEnabled = isEnabled(args.imageEditingEnabled, true),
+                    hyperlinkEditingEnabled = isEnabled(args.hyperlinkEditingEnabled, true),
+                    reviewModeEnabled = isEnabled(args.reviewModeEnabled, true),
+                    annotationsEnabled = reviewModeEnabled || isEnabled(args.annotationsEnabled),
+                    undoRedoEnabled = false, // no proper mechanism yet for collab
+                    zoomingEnabled = isEnabled(args.zoomingEnabled),
                     closeCallback;
 
                 // Extend runtime with a convenient translation function
@@ -513,16 +531,19 @@ define("webodf/editor/Editor", [
                     inviteButton.onclick = window.inviteButtonProxy.clicked;
                 }
 
-                tools = new Tools({
+                tools = new Tools('toolbar', {
                     onToolDone: setFocusToOdfCanvas,
-                    loadOdtFile: loadOdtFile,
                     saveOdtFile: saveOdtFile,
                     close: close,
+                    directTextStylingEnabled: directTextStylingEnabled,
                     directParagraphStylingEnabled: directParagraphStylingEnabled,
-                    imageInsertingEnabled: imageInsertingEnabled,
+                    paragraphStyleSelectingEnabled: paragraphStyleSelectingEnabled,
+                    paragraphStyleEditingEnabled: paragraphStyleEditingEnabled,
+                    imageInsertingEnabled: imageEditingEnabled,
                     hyperlinkEditingEnabled: hyperlinkEditingEnabled,
                     annotationsEnabled: annotationsEnabled,
-                    undoRedoEnabled: undoRedoEnabled
+                    undoRedoEnabled: undoRedoEnabled,
+                    zoomingEnabled: zoomingEnabled
                 });
 
                 odfCanvas = new odf.OdfCanvas(canvasElement);
@@ -536,12 +557,23 @@ define("webodf/editor/Editor", [
                         };
 
                     // create session around loaded document
+                    var viewOptions = {
+                        editInfoMarkersInitiallyVisible: true,
+                        caretAvatarsInitiallyVisible: false,
+                        caretBlinksOnRangeSelect: true
+                    };
                     session = new ops.Session(odfCanvas);
                     editorSession = new EditorSession(session, pendingMemberId, {
                         viewOptions: viewOptions,
+                        directTextStylingEnabled: directTextStylingEnabled,
                         directParagraphStylingEnabled: directParagraphStylingEnabled,
-                        imageInsertingEnabled: imageInsertingEnabled,
-                        hyperlinkEditingEnabled: hyperlinkEditingEnabled
+                        paragraphStyleSelectingEnabled: paragraphStyleSelectingEnabled,
+                        paragraphStyleEditingEnabled: paragraphStyleEditingEnabled,
+                        imageEditingEnabled: imageEditingEnabled,
+                        hyperlinkEditingEnabled: hyperlinkEditingEnabled,
+                        annotationsEnabled: annotationsEnabled,
+                        zoomingEnabled: zoomingEnabled,
+                        reviewModeEnabled: reviewModeEnabled
                     });
                     if (undoRedoEnabled) {
                         editorSession.sessionController.setUndoManager(new gui.TrivialUndoManager());
