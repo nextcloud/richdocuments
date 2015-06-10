@@ -39,10 +39,11 @@ define("webodf/editor/Tools", [
     "webodf/editor/widgets/editHyperlinks",
     "webodf/editor/widgets/imageInserter",
     "webodf/editor/widgets/paragraphStylesDialog",
-    "webodf/editor/widgets/zoomSlider",
+    "owncloud/widgets/zoomCombo",
+    "owncloud/widgets/ocToolbar",
     "webodf/editor/widgets/aboutDialog",
     "webodf/editor/EditorSession"],
-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomSlider, AboutDialog, EditorSession) {
+    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, OcToolbar, AboutDialog, EditorSession) {
         "use strict";
 
         return function Tools(toolbarElementId, args) {
@@ -60,6 +61,7 @@ define("webodf/editor/Tools", [
                 paragraphStylesMenuItem, paragraphStylesDialog,
                 editorSession,
                 aboutDialog,
+                ocToolbar,
                 sessionSubscribers = [];
 
             function placeAndStartUpWidget(widget) {
@@ -145,6 +147,10 @@ define("webodf/editor/Tools", [
 
             // init
             ready(function () {
+                ocToolbar = new OcToolbar(function (widget) {
+                    widget.startup();
+                });
+
                 toolbar = new Toolbar({}, toolbarElementId);
 
                 // About
@@ -268,7 +274,7 @@ define("webodf/editor/Tools", [
                 createTool(CurrentStyle, args.paragraphStyleSelectingEnabled);
 
                 // Zoom Level Selector
-                createTool(ZoomSlider, args.zoomingEnabled);
+                createTool(ZoomCombo, args.zoomingEnabled);
 
                 // hyper links
                 createTool(EditHyperlinks, args.hyperlinkEditingEnabled);
@@ -309,7 +315,7 @@ define("webodf/editor/Tools", [
                     });
 
                 }
-
+                toolbar.startup();
                 setEditorSession(editorSession);
             });
         };
