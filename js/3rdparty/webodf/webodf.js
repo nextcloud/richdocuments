@@ -1,3382 +1,636 @@
-// Input 0
-var webodf_version="0.4.2-2050-g8d8fc02-dirty";
-// Input 1
-function Runtime(){}Runtime.prototype.getVariable=function(m){};Runtime.prototype.toJson=function(m){};Runtime.prototype.fromJson=function(m){};Runtime.prototype.byteArrayFromString=function(m,g){};Runtime.prototype.byteArrayToString=function(m,g){};Runtime.prototype.read=function(m,g,b,k){};Runtime.prototype.readFile=function(m,g,b){};Runtime.prototype.readFileSync=function(m,g){};Runtime.prototype.loadXML=function(m,g){};Runtime.prototype.writeFile=function(m,g,b){};
-Runtime.prototype.isFile=function(m,g){};Runtime.prototype.getFileSize=function(m,g){};Runtime.prototype.deleteFile=function(m,g){};Runtime.prototype.log=function(m,g){};Runtime.prototype.setTimeout=function(m,g){};Runtime.prototype.clearTimeout=function(m){};Runtime.prototype.libraryPaths=function(){};Runtime.prototype.currentDirectory=function(){};Runtime.prototype.setCurrentDirectory=function(m){};Runtime.prototype.type=function(){};Runtime.prototype.getDOMImplementation=function(){};
-Runtime.prototype.parseXML=function(m){};Runtime.prototype.exit=function(m){};Runtime.prototype.getWindow=function(){};Runtime.prototype.requestAnimationFrame=function(m){};Runtime.prototype.cancelAnimationFrame=function(m){};Runtime.prototype.assert=function(m,g,b){};var IS_COMPILED_CODE=!0;
-Runtime.byteArrayToString=function(m,g){function b(b){var p="",f,d=b.length;for(f=0;f<d;f+=1)p+=String.fromCharCode(b[f]&255);return p}function k(b){var d="",f,k=b.length,e=[],r,a,c,l;for(f=0;f<k;f+=1)r=b[f],128>r?e.push(r):(f+=1,a=b[f],194<=r&&224>r?e.push((r&31)<<6|a&63):(f+=1,c=b[f],224<=r&&240>r?e.push((r&15)<<12|(a&63)<<6|c&63):(f+=1,l=b[f],240<=r&&245>r&&(r=(r&7)<<18|(a&63)<<12|(c&63)<<6|l&63,r-=65536,e.push((r>>10)+55296,(r&1023)+56320))))),1E3===e.length&&(d+=String.fromCharCode.apply(null,
-e),e.length=0);return d+String.fromCharCode.apply(null,e)}var d;"utf8"===g?d=k(m):("binary"!==g&&this.log("Unsupported encoding: "+g),d=b(m));return d};Runtime.getVariable=function(m){try{return eval(m)}catch(g){}};Runtime.toJson=function(m){return JSON.stringify(m)};Runtime.fromJson=function(m){return JSON.parse(m)};Runtime.getFunctionName=function(m){return void 0===m.name?(m=/function\s+(\w+)/.exec(m))&&m[1]:m.name};
-function BrowserRuntime(m){function g(r){var a=r.length,c,l,h=0;for(c=0;c<a;c+=1)l=r.charCodeAt(c),h+=1+(128<l)+(2048<l),55040<l&&57344>l&&(h+=1,c+=1);return h}function b(r,a,c){var l=r.length,h,b;a=new Uint8Array(new ArrayBuffer(a));c?(a[0]=239,a[1]=187,a[2]=191,b=3):b=0;for(c=0;c<l;c+=1)h=r.charCodeAt(c),128>h?(a[b]=h,b+=1):2048>h?(a[b]=192|h>>>6,a[b+1]=128|h&63,b+=2):55040>=h||57344<=h?(a[b]=224|h>>>12&15,a[b+1]=128|h>>>6&63,a[b+2]=128|h&63,b+=3):(c+=1,h=(h-55296<<10|r.charCodeAt(c)-56320)+65536,
-a[b]=240|h>>>18&7,a[b+1]=128|h>>>12&63,a[b+2]=128|h>>>6&63,a[b+3]=128|h&63,b+=4);return a}function k(b){var a=b.length,c=new Uint8Array(new ArrayBuffer(a)),l;for(l=0;l<a;l+=1)c[l]=b.charCodeAt(l)&255;return c}function d(b,a){var c,l,h;void 0!==a?h=b:a=b;m?(l=m.ownerDocument,h&&(c=l.createElement("span"),c.className=h,c.appendChild(l.createTextNode(h)),m.appendChild(c),m.appendChild(l.createTextNode(" "))),c=l.createElement("span"),0<a.length&&"<"===a[0]?c.innerHTML=a:c.appendChild(l.createTextNode(a)),
-m.appendChild(c),m.appendChild(l.createElement("br"))):console&&console.log(a);"alert"===h&&alert(a)}function n(r,a,c){if(0!==c.status||c.responseText)if(200===c.status||0===c.status){if(c.response&&"string"!==typeof c.response)"binary"===a?(c=c.response,c=new Uint8Array(c)):c=String(c.response);else if("binary"===a)if(null!==c.responseBody&&"undefined"!==String(typeof VBArray)){c=(new VBArray(c.responseBody)).toArray();var l=c.length,h=new Uint8Array(new ArrayBuffer(l));for(a=0;a<l;a+=1)h[a]=c[a];
-c=h}else{(a=c.getResponseHeader("Content-Length"))&&(a=parseInt(a,10));if(a&&a!==c.responseText.length)a:{var l=c.responseText,h=!1,f=g(l);if("number"===typeof a){if(a!==f&&a!==f+3){l=void 0;break a}h=f+3===a;f=a}l=b(l,f,h)}void 0===l&&(l=k(c.responseText));c=l}else c=c.responseText;e[r]=c;r={err:null,data:c}}else r={err:c.responseText||c.statusText,data:null};else r={err:"File "+r+" is empty.",data:null};return r}function p(b,a,c){var l=new XMLHttpRequest;l.open("GET",b,c);l.overrideMimeType&&("binary"!==
-a?l.overrideMimeType("text/plain; charset="+a):l.overrideMimeType("text/plain; charset=x-user-defined"));return l}function f(b,a,c){function l(){var l;4===h.readyState&&(l=n(b,a,h),c(l.err,l.data))}if(e.hasOwnProperty(b))c(null,e[b]);else{var h=p(b,a,!0);h.onreadystatechange=l;try{h.send(null)}catch(f){c(f.message,null)}}}var q=this,e={};this.byteArrayFromString=function(r,a){var c;"utf8"===a?c=b(r,g(r),!1):("binary"!==a&&q.log("unknown encoding: "+a),c=k(r));return c};this.byteArrayToString=Runtime.byteArrayToString;
-this.getVariable=Runtime.getVariable;this.fromJson=Runtime.fromJson;this.toJson=Runtime.toJson;this.readFile=f;this.read=function(b,a,c,l){f(b,"binary",function(h,b){var r=null;if(b){if("string"===typeof b)throw"This should not happen.";r=b.subarray(a,a+c)}l(h,r)})};this.readFileSync=function(b,a){var c=p(b,a,!1),l;try{c.send(null);l=n(b,a,c);if(l.err)throw l.err;if(null===l.data)throw"No data read from "+b+".";}catch(h){throw h;}return l.data};this.writeFile=function(b,a,c){e[b]=a;var l=new XMLHttpRequest,
-h;l.open("PUT",b,!0);l.onreadystatechange=function(){4===l.readyState&&(0!==l.status||l.responseText?200<=l.status&&300>l.status||0===l.status?c(null):c("Status "+String(l.status)+": "+l.responseText||l.statusText):c("File "+b+" is empty."))};h=a.buffer&&!l.sendAsBinary?a.buffer:q.byteArrayToString(a,"binary");try{l.sendAsBinary?l.sendAsBinary(h):l.send(h)}catch(f){q.log("HUH? "+f+" "+a),c(f.message)}};this.deleteFile=function(b,a){delete e[b];var c=new XMLHttpRequest;c.open("DELETE",b,!0);c.onreadystatechange=
-function(){4===c.readyState&&(200>c.status&&300<=c.status?a(c.responseText):a(null))};c.send(null)};this.loadXML=function(b,a){var c=new XMLHttpRequest;c.open("GET",b,!0);c.overrideMimeType&&c.overrideMimeType("text/xml");c.onreadystatechange=function(){4===c.readyState&&(0!==c.status||c.responseText?200===c.status||0===c.status?a(null,c.responseXML):a(c.responseText,null):a("File "+b+" is empty.",null))};try{c.send(null)}catch(l){a(l.message,null)}};this.isFile=function(b,a){q.getFileSize(b,function(c){a(-1!==
-c)})};this.getFileSize=function(b,a){if(e.hasOwnProperty(b)&&"string"!==typeof e[b])a(e[b].length);else{var c=new XMLHttpRequest;c.open("HEAD",b,!0);c.onreadystatechange=function(){if(4===c.readyState){var l=c.getResponseHeader("Content-Length");l?a(parseInt(l,10)):f(b,"binary",function(c,l){c?a(-1):a(l.length)})}};c.send(null)}};this.log=d;this.assert=function(b,a,c){if(!b)throw d("alert","ASSERTION FAILED:\n"+a),c&&c(),a;};this.setTimeout=function(b,a){return setTimeout(function(){b()},a)};this.clearTimeout=
-function(b){clearTimeout(b)};this.libraryPaths=function(){return["lib"]};this.setCurrentDirectory=function(){};this.currentDirectory=function(){return""};this.type=function(){return"BrowserRuntime"};this.getDOMImplementation=function(){return window.document.implementation};this.parseXML=function(b){return(new DOMParser).parseFromString(b,"text/xml")};this.exit=function(b){d("Calling exit with code "+String(b)+", but exit() is not implemented.")};this.getWindow=function(){return window};this.requestAnimationFrame=
-function(b){var a=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.msRequestAnimationFrame,c=0;if(a)a.bind(window),c=a(b);else return setTimeout(b,15);return c};this.cancelAnimationFrame=function(b){var a=window.cancelAnimationFrame||window.webkitCancelAnimationFrame||window.mozCancelAnimationFrame||window.msCancelAnimationFrame;a?(a.bind(window),a(b)):clearTimeout(b)}}
-function NodeJSRuntime(){function m(b){var e=b.length,f,a=new Uint8Array(new ArrayBuffer(e));for(f=0;f<e;f+=1)a[f]=b[f];return a}function g(b,e,f){function a(a,l){if(a)return f(a,null);if(!l)return f("No data for "+b+".",null);if("string"===typeof l)return f(a,l);f(a,m(l))}b=d.resolve(n,b);"binary"!==e?k.readFile(b,e,a):k.readFile(b,null,a)}var b=this,k=require("fs"),d=require("path"),n="",p,f;this.byteArrayFromString=function(b,e){var f=new Buffer(b,e),a,c=f.length,l=new Uint8Array(new ArrayBuffer(c));
-for(a=0;a<c;a+=1)l[a]=f[a];return l};this.byteArrayToString=Runtime.byteArrayToString;this.getVariable=Runtime.getVariable;this.fromJson=Runtime.fromJson;this.toJson=Runtime.toJson;this.readFile=g;this.loadXML=function(f,e){g(f,"utf-8",function(r,a){if(r)return e(r,null);if(!a)return e("No data for "+f+".",null);e(null,b.parseXML(a))})};this.writeFile=function(b,e,f){e=new Buffer(e);b=d.resolve(n,b);k.writeFile(b,e,"binary",function(a){f(a||null)})};this.deleteFile=function(b,e){b=d.resolve(n,b);
-k.unlink(b,e)};this.read=function(b,e,f,a){b=d.resolve(n,b);k.open(b,"r+",666,function(c,l){if(c)a(c,null);else{var h=new Buffer(f);k.read(l,h,0,f,e,function(c){k.close(l);a(c,m(h))})}})};this.readFileSync=function(b,e){var f;f=k.readFileSync(b,"binary"===e?null:e);if(null===f)throw"File "+b+" could not be read.";"binary"===e&&(f=m(f));return f};this.isFile=function(b,f){b=d.resolve(n,b);k.stat(b,function(b,a){f(!b&&a.isFile())})};this.getFileSize=function(b,f){b=d.resolve(n,b);k.stat(b,function(b,
-a){b?f(-1):f(a.size)})};this.log=function(b,f){var d;void 0!==f?d=b:f=b;"alert"===d&&process.stderr.write("\n!!!!! ALERT !!!!!\n");process.stderr.write(f+"\n");"alert"===d&&process.stderr.write("!!!!! ALERT !!!!!\n")};this.assert=function(b,f,d){b||(process.stderr.write("ASSERTION FAILED: "+f),d&&d())};this.setTimeout=function(b,f){return setTimeout(function(){b()},f)};this.clearTimeout=function(b){clearTimeout(b)};this.libraryPaths=function(){return[__dirname]};this.setCurrentDirectory=function(b){n=
-b};this.currentDirectory=function(){return n};this.type=function(){return"NodeJSRuntime"};this.getDOMImplementation=function(){return f};this.parseXML=function(b){return p.parseFromString(b,"text/xml")};this.exit=process.exit;this.getWindow=function(){return null};this.requestAnimationFrame=function(b){return setTimeout(b,15)};this.cancelAnimationFrame=function(b){clearTimeout(b)};p=new (require("xmldom").DOMParser);f=b.parseXML("<a/>").implementation}
-function RhinoRuntime(){function m(b,d){var e;void 0!==d?e=b:d=b;"alert"===e&&print("\n!!!!! ALERT !!!!!");print(d);"alert"===e&&print("!!!!! ALERT !!!!!")}var g=this,b={},k=b.javax.xml.parsers.DocumentBuilderFactory.newInstance(),d,n,p="";k.setValidating(!1);k.setNamespaceAware(!0);k.setExpandEntityReferences(!1);k.setSchema(null);n=b.org.xml.sax.EntityResolver({resolveEntity:function(f,d){var e=new b.java.io.FileReader(d);return new b.org.xml.sax.InputSource(e)}});d=k.newDocumentBuilder();d.setEntityResolver(n);
-this.byteArrayFromString=function(b,d){var e,k=b.length,a=new Uint8Array(new ArrayBuffer(k));for(e=0;e<k;e+=1)a[e]=b.charCodeAt(e)&255;return a};this.byteArrayToString=Runtime.byteArrayToString;this.getVariable=Runtime.getVariable;this.fromJson=Runtime.fromJson;this.toJson=Runtime.toJson;this.loadXML=function(f,k){var e=new b.java.io.File(f),p=null;try{p=d.parse(e)}catch(a){return print(a),k(a,null)}k(null,p)};this.readFile=function(f,d,e){p&&(f=p+"/"+f);var k=new b.java.io.File(f),a="binary"===d?
-"latin1":d;k.isFile()?((f=readFile(f,a))&&"binary"===d&&(f=g.byteArrayFromString(f,"binary")),e(null,f)):e(f+" is not a file.",null)};this.writeFile=function(f,d,e){p&&(f=p+"/"+f);f=new b.java.io.FileOutputStream(f);var k,a=d.length;for(k=0;k<a;k+=1)f.write(d[k]);f.close();e(null)};this.deleteFile=function(f,d){p&&(f=p+"/"+f);var e=new b.java.io.File(f),k=f+Math.random(),k=new b.java.io.File(k);e.rename(k)?(k.deleteOnExit(),d(null)):d("Could not delete "+f)};this.read=function(f,d,e,k){p&&(f=p+"/"+
-f);var a;a=f;var c="binary";(new b.java.io.File(a)).isFile()?("binary"===c&&(c="latin1"),a=readFile(a,c)):a=null;a?k(null,this.byteArrayFromString(a.substring(d,d+e),"binary")):k("Cannot read "+f,null)};this.readFileSync=function(b,d){if(!d)return"";var e=readFile(b,d);if(null===e)throw"File could not be read.";return e};this.isFile=function(f,d){p&&(f=p+"/"+f);var e=new b.java.io.File(f);d(e.isFile())};this.getFileSize=function(f,d){p&&(f=p+"/"+f);var e=new b.java.io.File(f);d(e.length())};this.log=
-m;this.assert=function(b,d,e){b||(m("alert","ASSERTION FAILED: "+d),e&&e())};this.setTimeout=function(b){b();return 0};this.clearTimeout=function(){};this.libraryPaths=function(){return["lib"]};this.setCurrentDirectory=function(b){p=b};this.currentDirectory=function(){return p};this.type=function(){return"RhinoRuntime"};this.getDOMImplementation=function(){return d.getDOMImplementation()};this.parseXML=function(f){f=new b.java.io.StringReader(f);f=new b.org.xml.sax.InputSource(f);return d.parse(f)};
-this.exit=quit;this.getWindow=function(){return null};this.requestAnimationFrame=function(b){b();return 0};this.cancelAnimationFrame=function(){}}Runtime.create=function(){return"undefined"!==String(typeof window)?new BrowserRuntime(window.document.getElementById("logoutput")):"undefined"!==String(typeof require)?new NodeJSRuntime:new RhinoRuntime};var runtime=Runtime.create(),core={},gui={},xmldom={},odf={},ops={};
-(function(){function m(b,d,e){var k=b+"/manifest.json",a,c;runtime.log("Loading manifest: "+k);try{a=runtime.readFileSync(k,"utf-8")}catch(l){if(e)runtime.log("No loadable manifest found.");else throw console.log(String(l)),l;return}e=JSON.parse(a);for(c in e)e.hasOwnProperty(c)&&(d[c]={dir:b,deps:e[c]})}function g(b,d,e){function k(b){if(!l[b]&&!e(b)){if(c[b])throw"Circular dependency detected for "+b+".";c[b]=!0;if(!d[b])throw"Missing dependency information for class "+b+".";var f=d[b],p=f.deps,
-g,n=p.length;for(g=0;g<n;g+=1)k(p[g]);c[b]=!1;l[b]=!0;a.push(f.dir+"/"+b.replace(".","/")+".js")}}var a=[],c={},l={};b.forEach(k);return a}function b(b,d){return d=d+("\n//# sourceURL="+b)+("\n//@ sourceURL="+b)}function k(d){var k,e;for(k=0;k<d.length;k+=1)e=runtime.readFileSync(d[k],"utf-8"),e=b(d[k],e),eval(e)}function d(b){b=b.split(".");var d,e=p,k=b.length;for(d=0;d<k;d+=1){if(!e.hasOwnProperty(b[d]))return!1;e=e[b[d]]}return!0}var n,p={core:core,gui:gui,xmldom:xmldom,odf:odf,ops:ops};runtime.loadClasses=
-function(b,p){if(IS_COMPILED_CODE||0===b.length)return p&&p();var e;if(!(e=n)){e=[];var r=runtime.libraryPaths(),a;runtime.currentDirectory()&&-1===r.indexOf(runtime.currentDirectory())&&m(runtime.currentDirectory(),e,!0);for(a=0;a<r.length;a+=1)m(r[a],e)}n=e;b=g(b,n,d);if(0===b.length)return p&&p();if("BrowserRuntime"===runtime.type()&&p){e=b;r=document.currentScript||document.documentElement.lastChild;a=document.createDocumentFragment();var c,l;for(l=0;l<e.length;l+=1)c=document.createElement("script"),
-c.type="text/javascript",c.charset="utf-8",c.async=!1,c.setAttribute("src",e[l]),a.appendChild(c);p&&(c.onload=p);r.parentNode.insertBefore(a,r)}else k(b),p&&p()};runtime.loadClass=function(b,d){runtime.loadClasses([b],d)}})();(function(){var m=function(g){return g};runtime.getTranslator=function(){return m};runtime.setTranslator=function(g){m=g};runtime.tr=function(g){var b=m(g);return b&&"string"===String(typeof b)?b:g}})();
-(function(m){function g(b){if(b.length){var k=b[0];runtime.readFile(k,"utf8",function(d,g){function p(){var b;(b=eval(m))&&runtime.exit(b)}var f="",f=k.lastIndexOf("/"),m=g,f=-1!==f?k.substring(0,f):".";runtime.setCurrentDirectory(f);d?(runtime.log(d),runtime.exit(1)):null===m?(runtime.log("No code found for "+k),runtime.exit(1)):p.apply(null,b)})}}m=m?Array.prototype.slice.call(m):[];"NodeJSRuntime"===runtime.type()?g(process.argv.slice(2)):"RhinoRuntime"===runtime.type()?g(m):g(m.slice(1))})("undefined"!==
-String(typeof arguments)&&arguments);
-// Input 2
-core.Async=function(){this.forEach=function(m,g,b){function k(d){p!==n&&(d?(p=n,b(d)):(p+=1,p===n&&b(null)))}var d,n=m.length,p=0;for(d=0;d<n;d+=1)g(m[d],k)};this.destroyAll=function(m,g){function b(k,d){if(d)g(d);else if(k<m.length)m[k](function(d){b(k+1,d)});else g()}b(0,void 0)}};
-// Input 3
-function makeBase64(){function m(a){var c,b=a.length,l=new Uint8Array(new ArrayBuffer(b));for(c=0;c<b;c+=1)l[c]=a.charCodeAt(c)&255;return l}function g(a){var c,b="",l,h=a.length-2;for(l=0;l<h;l+=3)c=a[l]<<16|a[l+1]<<8|a[l+2],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c>>>18],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c>>>12&63],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c>>>6&63],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c&
-63];l===h+1?(c=a[l]<<4,b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c>>>6],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c&63],b+="=="):l===h&&(c=a[l]<<10|a[l+1]<<2,b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c>>>12],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c>>>6&63],b+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[c&63],b+="=");return b}function b(a){a=a.replace(/[^A-Za-z0-9+\/]+/g,
-"");var c=a.length,b=new Uint8Array(new ArrayBuffer(3*c)),l=a.length%4,d=0,e,k;for(e=0;e<c;e+=4)k=(h[a.charAt(e)]||0)<<18|(h[a.charAt(e+1)]||0)<<12|(h[a.charAt(e+2)]||0)<<6|(h[a.charAt(e+3)]||0),b[d]=k>>16,b[d+1]=k>>8&255,b[d+2]=k&255,d+=3;c=3*c-[0,0,2,1][l];return b.subarray(0,c)}function k(a){var c,b,l=a.length,h=0,d=new Uint8Array(new ArrayBuffer(3*l));for(c=0;c<l;c+=1)b=a[c],128>b?d[h++]=b:(2048>b?d[h++]=192|b>>>6:(d[h++]=224|b>>>12&15,d[h++]=128|b>>>6&63),d[h++]=128|b&63);return d.subarray(0,
-h)}function d(a){var c,b,l,h,d=a.length,e=new Uint8Array(new ArrayBuffer(d)),k=0;for(c=0;c<d;c+=1)b=a[c],128>b?e[k++]=b:(c+=1,l=a[c],224>b?e[k++]=(b&31)<<6|l&63:(c+=1,h=a[c],e[k++]=(b&15)<<12|(l&63)<<6|h&63));return e.subarray(0,k)}function n(a){return g(m(a))}function p(a){return String.fromCharCode.apply(String,b(a))}function f(a){return d(m(a))}function q(a){a=d(a);for(var c="",b=0;b<a.length;)c+=String.fromCharCode.apply(String,a.subarray(b,b+45E3)),b+=45E3;return c}function e(a,c,b){var l,h,
-d,e="";for(d=c;d<b;d+=1)c=a.charCodeAt(d)&255,128>c?e+=String.fromCharCode(c):(d+=1,l=a.charCodeAt(d)&255,224>c?e+=String.fromCharCode((c&31)<<6|l&63):(d+=1,h=a.charCodeAt(d)&255,e+=String.fromCharCode((c&15)<<12|(l&63)<<6|h&63)));return e}function r(a,c){function b(){var d=h+1E5;d>a.length&&(d=a.length);l+=e(a,h,d);h=d;d=h===a.length;c(l,d)&&!d&&runtime.setTimeout(b,0)}var l="",h=0;1E5>a.length?c(e(a,0,a.length),!0):("string"!==typeof a&&(a=a.slice()),b())}function a(a){return k(m(a))}function c(a){return String.fromCharCode.apply(String,
-k(a))}function l(a){return String.fromCharCode.apply(String,k(m(a)))}var h=function(a){var c={},b,l;b=0;for(l=a.length;b<l;b+=1)c[a.charAt(b)]=b;return c}("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"),v,w,z=runtime.getWindow(),x,u;z&&z.btoa?(x=z.btoa,v=function(a){return x(l(a))}):(x=n,v=function(c){return g(a(c))});z&&z.atob?(u=z.atob,w=function(a){a=u(a);return e(a,0,a.length)}):(u=p,w=function(a){return q(b(a))});core.Base64=function(){this.convertByteArrayToBase64=this.convertUTF8ArrayToBase64=
-g;this.convertBase64ToByteArray=this.convertBase64ToUTF8Array=b;this.convertUTF16ArrayToByteArray=this.convertUTF16ArrayToUTF8Array=k;this.convertByteArrayToUTF16Array=this.convertUTF8ArrayToUTF16Array=d;this.convertUTF8StringToBase64=n;this.convertBase64ToUTF8String=p;this.convertUTF8StringToUTF16Array=f;this.convertByteArrayToUTF16String=this.convertUTF8ArrayToUTF16String=q;this.convertUTF8StringToUTF16String=r;this.convertUTF16StringToByteArray=this.convertUTF16StringToUTF8Array=a;this.convertUTF16ArrayToUTF8String=
-c;this.convertUTF16StringToUTF8String=l;this.convertUTF16StringToBase64=v;this.convertBase64ToUTF16String=w;this.fromBase64=p;this.toBase64=n;this.atob=u;this.btoa=x;this.utob=l;this.btou=r;this.encode=v;this.encodeURI=function(a){return v(a).replace(/[+\/]/g,function(a){return"+"===a?"-":"_"}).replace(/\\=+$/,"")};this.decode=function(a){return w(a.replace(/[\-_]/g,function(a){return"-"===a?"+":"/"}))};return this};return core.Base64}core.Base64=makeBase64();
-// Input 4
-core.ByteArray=function(m){this.pos=0;this.data=m;this.readUInt32LE=function(){this.pos+=4;var g=this.data,b=this.pos;return g[--b]<<24|g[--b]<<16|g[--b]<<8|g[--b]};this.readUInt16LE=function(){this.pos+=2;var g=this.data,b=this.pos;return g[--b]<<8|g[--b]}};
-// Input 5
-core.ByteArrayWriter=function(m){function g(b){b>d-k&&(d=Math.max(2*d,k+b),b=new Uint8Array(new ArrayBuffer(d)),b.set(n),n=b)}var b=this,k=0,d=1024,n=new Uint8Array(new ArrayBuffer(d));this.appendByteArrayWriter=function(d){b.appendByteArray(d.getByteArray())};this.appendByteArray=function(b){var d=b.length;g(d);n.set(b,k);k+=d};this.appendArray=function(b){var d=b.length;g(d);n.set(b,k);k+=d};this.appendUInt16LE=function(d){b.appendArray([d&255,d>>8&255])};this.appendUInt32LE=function(d){b.appendArray([d&
-255,d>>8&255,d>>16&255,d>>24&255])};this.appendString=function(d){b.appendByteArray(runtime.byteArrayFromString(d,m))};this.getLength=function(){return k};this.getByteArray=function(){var b=new Uint8Array(new ArrayBuffer(k));b.set(n.subarray(0,k));return b}};
-// Input 6
-core.CSSUnits=function(){var m=this,g={"in":1,cm:2.54,mm:25.4,pt:72,pc:12};this.convert=function(b,k,d){return b*g[d]/g[k]};this.convertMeasure=function(b,k){var d,g;b&&k?(d=parseFloat(b),g=b.replace(d.toString(),""),d=m.convert(d,g,k).toString()):d="";return d};this.getUnits=function(b){return b.substr(b.length-2,b.length)}};
-// Input 7
 /*
 
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
+ This is a generated file. DO NOT EDIT.
+
+ Copyright (C) 2010-2015 KO GmbH <copyright@kogmbh.com>
 
  @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+ This file is the compiled version of the WebODF library.
+
+ WebODF is free software: you can redistribute it and/or modify it
+ under the terms of the GNU Affero General Public License (GNU AGPL)
+ as published by the Free Software Foundation, either version 3 of
+ the License, or (at your option) any later version.
+
+ WebODF is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
 
  You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
+ along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
  @licend
+
  @source: http://www.webodf.org/
  @source: https://github.com/kogmbh/WebODF/
 */
-(function(){function m(){var k,d,g,p,f,m,e,r,a;void 0===b&&(d=(k=runtime.getWindow())&&k.document,m=d.documentElement,e=d.body,b={rangeBCRIgnoresElementBCR:!1,unscaledRangeClientRects:!1,elementBCRIgnoresBodyScroll:!1},d&&(p=d.createElement("div"),p.style.position="absolute",p.style.left="-99999px",p.style.transform="scale(2)",p.style["-webkit-transform"]="scale(2)",f=d.createElement("div"),p.appendChild(f),e.appendChild(p),k=d.createRange(),k.selectNode(f),b.rangeBCRIgnoresElementBCR=0===k.getClientRects().length,
-f.appendChild(d.createTextNode("Rect transform test")),d=f.getBoundingClientRect(),g=k.getBoundingClientRect(),b.unscaledRangeClientRects=2<Math.abs(d.height-g.height),p.style.transform="",p.style["-webkit-transform"]="",d=m.style.overflow,g=e.style.overflow,r=e.style.height,a=e.scrollTop,m.style.overflow="visible",e.style.overflow="visible",e.style.height="200%",e.scrollTop=e.scrollHeight,b.elementBCRIgnoresBodyScroll=k.getBoundingClientRect().top!==f.getBoundingClientRect().top,e.scrollTop=a,e.style.height=
-r,e.style.overflow=g,m.style.overflow=d,k.detach(),e.removeChild(p),k=Object.keys(b).map(function(a){return a+":"+String(b[a])}).join(", "),runtime.log("Detected browser quirks - "+k)));return b}function g(b,d,g){for(b=b?b.firstElementChild:null;b;){if(b.localName===g&&b.namespaceURI===d)return b;b=b.nextElementSibling}return null}var b;core.DomUtils=function(){function b(a,c){for(var l=0,h;a.parentNode!==c;)runtime.assert(null!==a.parentNode,"parent is null"),a=a.parentNode;for(h=c.firstChild;h!==
-a;)l+=1,h=h.nextSibling;return l}function d(a,c){return 0>=a.compareBoundaryPoints(Range.START_TO_START,c)&&0<=a.compareBoundaryPoints(Range.END_TO_END,c)}function n(a,c){var b=null;a.nodeType===Node.TEXT_NODE&&(0===a.length?(a.parentNode.removeChild(a),c.nodeType===Node.TEXT_NODE&&(b=c)):(c.nodeType===Node.TEXT_NODE&&(a.appendData(c.data),c.parentNode.removeChild(c)),b=a));return b}function p(a){for(var c=a.parentNode;a.firstChild;)c.insertBefore(a.firstChild,a);c.removeChild(a);return c}function f(a,
-c){for(var b=a.parentNode,h=a.firstChild,d;h;)d=h.nextSibling,f(h,c),h=d;b&&c(a)&&p(a);return b}function q(a,c){return a===c||Boolean(a.compareDocumentPosition(c)&Node.DOCUMENT_POSITION_CONTAINED_BY)}function e(a,c,b){Object.keys(c).forEach(function(h){var d=h.split(":"),k=d[1],f=b(d[0]),d=c[h],g=typeof d;"object"===g?Object.keys(d).length&&(h=f?a.getElementsByTagNameNS(f,k)[0]||a.ownerDocument.createElementNS(f,h):a.getElementsByTagName(k)[0]||a.ownerDocument.createElement(h),a.appendChild(h),e(h,
-d,b)):f&&(runtime.assert("number"===g||"string"===g,"attempting to map unsupported type '"+g+"' (key: "+h+")"),a.setAttributeNS(f,h,String(d)))})}var r=null;this.splitBoundaries=function(a){var c,l=[],h,d,e;if(a.startContainer.nodeType===Node.TEXT_NODE||a.endContainer.nodeType===Node.TEXT_NODE){h=a.endContainer;d=a.endContainer.nodeType!==Node.TEXT_NODE?a.endOffset===a.endContainer.childNodes.length:!1;e=a.endOffset;c=a.endContainer;if(e<c.childNodes.length)for(c=c.childNodes.item(e),e=0;c.firstChild;)c=
-c.firstChild;else for(;c.lastChild;)c=c.lastChild,e=c.nodeType===Node.TEXT_NODE?c.textContent.length:c.childNodes.length;c===h&&(h=null);a.setEnd(c,e);e=a.endContainer;0!==a.endOffset&&e.nodeType===Node.TEXT_NODE&&(c=e,a.endOffset!==c.length&&(l.push(c.splitText(a.endOffset)),l.push(c)));e=a.startContainer;0!==a.startOffset&&e.nodeType===Node.TEXT_NODE&&(c=e,a.startOffset!==c.length&&(e=c.splitText(a.startOffset),l.push(c),l.push(e),a.setStart(e,0)));if(null!==h){for(e=a.endContainer;e.parentNode&&
-e.parentNode!==h;)e=e.parentNode;d=d?h.childNodes.length:b(e,h);a.setEnd(h,d)}}return l};this.containsRange=d;this.rangesIntersect=function(a,c){return 0>=a.compareBoundaryPoints(Range.END_TO_START,c)&&0<=a.compareBoundaryPoints(Range.START_TO_END,c)};this.getNodesInRange=function(a,c,b){var h=[],d=a.commonAncestorContainer;b=a.startContainer.ownerDocument.createTreeWalker(d.nodeType===Node.TEXT_NODE?d.parentNode:d,b,c,!1);var e;a.endContainer.childNodes[a.endOffset-1]?(d=a.endContainer.childNodes[a.endOffset-
-1],e=Node.DOCUMENT_POSITION_PRECEDING|Node.DOCUMENT_POSITION_CONTAINED_BY):(d=a.endContainer,e=Node.DOCUMENT_POSITION_PRECEDING);a.startContainer.childNodes[a.startOffset]?(a=a.startContainer.childNodes[a.startOffset],b.currentNode=a):a.startOffset===(a.startContainer.nodeType===Node.TEXT_NODE?a.startContainer.length:a.startContainer.childNodes.length)?(a=a.startContainer,b.currentNode=a,b.lastChild(),a=b.nextNode()):(a=a.startContainer,b.currentNode=a);a&&c(a)===NodeFilter.FILTER_ACCEPT&&h.push(a);
-for(a=b.nextNode();a;){c=d.compareDocumentPosition(a);if(0!==c&&0===(c&e))break;h.push(a);a=b.nextNode()}return h};this.normalizeTextNodes=function(a){a&&a.nextSibling&&(a=n(a,a.nextSibling));a&&a.previousSibling&&n(a.previousSibling,a)};this.rangeContainsNode=function(a,c){var b=c.ownerDocument.createRange(),h=c.ownerDocument.createRange(),e;b.setStart(a.startContainer,a.startOffset);b.setEnd(a.endContainer,a.endOffset);h.selectNodeContents(c);e=d(b,h);b.detach();h.detach();return e};this.mergeIntoParent=
-p;this.removeUnwantedNodes=f;this.getElementsByTagNameNS=function(a,c,b){var h=[];a=a.getElementsByTagNameNS(c,b);h.length=b=a.length;for(c=0;c<b;c+=1)h[c]=a.item(c);return h};this.containsNode=function(a,c){return a===c||a.contains(c)};this.comparePoints=function(a,c,l,h){if(a===l)return h-c;var d=a.compareDocumentPosition(l);2===d?d=-1:4===d?d=1:10===d?(c=b(a,l),d=c<h?1:-1):(h=b(l,a),d=h<c?-1:1);return d};this.adaptRangeDifferenceToZoomLevel=function(a,c){return m().unscaledRangeClientRects?a:a/
-c};this.getBoundingClientRect=function(a){var c=a.ownerDocument,b=m(),h=c.body;if((!1===b.unscaledRangeClientRects||b.rangeBCRIgnoresElementBCR)&&a.nodeType===Node.ELEMENT_NODE)return a=a.getBoundingClientRect(),b.elementBCRIgnoresBodyScroll?{left:a.left+h.scrollLeft,right:a.right+h.scrollLeft,top:a.top+h.scrollTop,bottom:a.bottom+h.scrollTop,width:a.width,height:a.height}:a;var d;r?d=r:r=d=c.createRange();b=d;b.selectNode(a);return b.getBoundingClientRect()};this.mapKeyValObjOntoNode=function(a,
-c,b){Object.keys(c).forEach(function(h){var d=h.split(":"),e=d[1],d=b(d[0]),k=c[h];d?(e=a.getElementsByTagNameNS(d,e)[0],e||(e=a.ownerDocument.createElementNS(d,h),a.appendChild(e)),e.textContent=k):runtime.log("Key ignored: "+h)})};this.removeKeyElementsFromNode=function(a,c,b){c.forEach(function(c){var d=c.split(":"),e=d[1];(d=b(d[0]))?(e=a.getElementsByTagNameNS(d,e)[0])?e.parentNode.removeChild(e):runtime.log("Element for "+c+" not found."):runtime.log("Property Name ignored: "+c)})};this.getKeyValRepresentationOfNode=
-function(a,c){for(var b={},h=a.firstElementChild,d;h;){if(d=c(h.namespaceURI))b[d+":"+h.localName]=h.textContent;h=h.nextElementSibling}return b};this.mapObjOntoNode=e;this.getDirectChild=g;(function(a){var c,b;b=runtime.getWindow();null!==b&&(c=b.navigator.appVersion.toLowerCase(),b=-1===c.indexOf("chrome")&&(-1!==c.indexOf("applewebkit")||-1!==c.indexOf("safari")),c=c.indexOf("msie"),b||c)&&(a.containsNode=q)})(this)};return core.DomUtils})();
-// Input 8
-core.Cursor=function(m,g){function b(a){a.parentNode&&(f.push(a.previousSibling),f.push(a.nextSibling),a.parentNode.removeChild(a))}function k(a,c,b){if(c.nodeType===Node.TEXT_NODE){runtime.assert(Boolean(c),"putCursorIntoTextNode: invalid container");var h=c.parentNode;runtime.assert(Boolean(h),"putCursorIntoTextNode: container without parent");runtime.assert(0<=b&&b<=c.length,"putCursorIntoTextNode: offset is out of bounds");0===b?h.insertBefore(a,c):(b!==c.length&&c.splitText(b),h.insertBefore(a,
-c.nextSibling))}else c.nodeType===Node.ELEMENT_NODE&&c.insertBefore(a,c.childNodes.item(b));f.push(a.previousSibling);f.push(a.nextSibling)}var d=m.createElementNS("urn:webodf:names:cursor","cursor"),n=m.createElementNS("urn:webodf:names:cursor","anchor"),p,f=[],q=m.createRange(),e,r=new core.DomUtils;this.getNode=function(){return d};this.getAnchorNode=function(){return n.parentNode?n:d};this.getSelectedRange=function(){e?(q.setStartBefore(d),q.collapse(!0)):(q.setStartAfter(p?n:d),q.setEndBefore(p?
-d:n));return q};this.setSelectedRange=function(a,c){q&&q!==a&&q.detach();q=a;p=!1!==c;(e=a.collapsed)?(b(n),b(d),k(d,a.startContainer,a.startOffset)):(b(n),b(d),k(p?d:n,a.endContainer,a.endOffset),k(p?n:d,a.startContainer,a.startOffset));f.forEach(r.normalizeTextNodes);f.length=0};this.hasForwardSelection=function(){return p};this.remove=function(){b(d);f.forEach(r.normalizeTextNodes);f.length=0};d.setAttributeNS("urn:webodf:names:cursor","memberId",g);n.setAttributeNS("urn:webodf:names:cursor","memberId",
-g)};
-// Input 9
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-core.Destroyable=function(){};core.Destroyable.prototype.destroy=function(m){};
-// Input 10
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-core.EventNotifier=function(m){var g={};this.emit=function(b,k){var d,n;runtime.assert(g.hasOwnProperty(b),'unknown event fired "'+b+'"');n=g[b];for(d=0;d<n.length;d+=1)n[d](k)};this.subscribe=function(b,k){runtime.assert(g.hasOwnProperty(b),'tried to subscribe to unknown event "'+b+'"');g[b].push(k)};this.unsubscribe=function(b,k){var d;runtime.assert(g.hasOwnProperty(b),'tried to unsubscribe from unknown event "'+b+'"');d=g[b].indexOf(k);runtime.assert(-1!==d,'tried to unsubscribe unknown callback from event "'+
-b+'"');-1!==d&&g[b].splice(d,1)};(function(){var b,k;for(b=0;b<m.length;b+=1)k=m[b],runtime.assert(!g.hasOwnProperty(k),'Duplicated event ids: "'+k+'" registered more than once.'),g[k]=[]})()};
-// Input 11
-/*
-
- Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-core.LoopWatchDog=function(m,g){var b=Date.now(),k=0;this.check=function(){var d;if(m&&(d=Date.now(),d-b>m))throw runtime.log("alert","watchdog timeout"),"timeout!";if(0<g&&(k+=1,k>g))throw runtime.log("alert","watchdog loop overflow"),"loop overflow";}};
-// Input 12
-core.PositionIterator=function(m,g,b,k){function d(){this.acceptNode=function(a){return!a||a.nodeType===l&&0===a.length?w:v}}function n(a){this.acceptNode=function(c){return!c||c.nodeType===l&&0===c.length?w:a.acceptNode(c)}}function p(){var c=r.currentNode,b=c.nodeType;a=b===l?c.length-1:b===h?1:0}function f(){if(null===r.previousSibling()){if(!r.parentNode()||r.currentNode===m)return r.firstChild(),!1;a=0}else p();return!0}function q(){var b=r.currentNode,l;l=c(b);if(b!==m)for(b=b.parentNode;b&&
-b!==m;)c(b)===w&&(r.currentNode=b,l=w),b=b.parentNode;l===w?(a=1,b=e.nextPosition()):b=l===v?!0:e.nextPosition();b&&runtime.assert(c(r.currentNode)===v,"moveToAcceptedNode did not result in walker being on an accepted node");return b}var e=this,r,a,c,l=Node.TEXT_NODE,h=Node.ELEMENT_NODE,v=NodeFilter.FILTER_ACCEPT,w=NodeFilter.FILTER_REJECT;this.nextPosition=function(){var c=r.currentNode,b=c.nodeType;if(c===m)return!1;if(0===a&&b===h)null===r.firstChild()&&(a=1);else if(b===l&&a+1<c.length)a+=1;else if(null!==
-r.nextSibling())a=0;else if(r.parentNode())a=1;else return!1;return!0};this.previousPosition=function(){var c=!0,b=r.currentNode;0===a?c=f():b.nodeType===l?a-=1:null!==r.lastChild()?p():b===m?c=!1:a=0;return c};this.previousNode=f;this.container=function(){var c=r.currentNode,b=c.nodeType;0===a&&b!==l&&(c=c.parentNode);return c};this.rightNode=function(){var b=r.currentNode,d=b.nodeType;if(d===l&&a===b.length)for(b=b.nextSibling;b&&c(b)!==v;)b=b.nextSibling;else d===h&&1===a&&(b=null);return b};this.leftNode=
-function(){var b=r.currentNode;if(0===a)for(b=b.previousSibling;b&&c(b)!==v;)b=b.previousSibling;else if(b.nodeType===h)for(b=b.lastChild;b&&c(b)!==v;)b=b.previousSibling;return b};this.getCurrentNode=function(){return r.currentNode};this.unfilteredDomOffset=function(){if(r.currentNode.nodeType===l)return a;for(var c=0,b=r.currentNode,b=1===a?b.lastChild:b.previousSibling;b;)c+=1,b=b.previousSibling;return c};this.getPreviousSibling=function(){var a=r.currentNode,c=r.previousSibling();r.currentNode=
-a;return c};this.getNextSibling=function(){var a=r.currentNode,c=r.nextSibling();r.currentNode=a;return c};this.setPositionBeforeElement=function(c){runtime.assert(Boolean(c),"setPositionBeforeElement called without element");r.currentNode=c;a=0;return q()};this.setUnfilteredPosition=function(c,b){runtime.assert(Boolean(c),"PositionIterator.setUnfilteredPosition called without container");r.currentNode=c;if(c.nodeType===l)return a=b,runtime.assert(b<=c.length,"Error in setPosition: "+b+" > "+c.length),
-runtime.assert(0<=b,"Error in setPosition: "+b+" < 0"),b===c.length&&(r.nextSibling()?a=0:r.parentNode()?a=1:runtime.assert(!1,"Error in setUnfilteredPosition: position not valid.")),!0;b<c.childNodes.length?(r.currentNode=c.childNodes.item(b),a=0):a=1;return q()};this.moveToEnd=function(){r.currentNode=m;a=1};this.moveToEndOfNode=function(c){c.nodeType===l?e.setUnfilteredPosition(c,c.length):(r.currentNode=c,a=1)};this.isBeforeNode=function(){return 0===a};this.getNodeFilter=function(){return c};
-c=(b?new n(b):new d).acceptNode;c.acceptNode=c;g=g||NodeFilter.SHOW_ALL;runtime.assert(m.nodeType!==Node.TEXT_NODE,"Internet Explorer doesn't allow tree walker roots to be text nodes");r=m.ownerDocument.createTreeWalker(m,g,c,k);a=0;null===r.firstChild()&&(a=1)};
-// Input 13
-core.PositionFilter=function(){};core.PositionFilter.FilterResult={FILTER_ACCEPT:1,FILTER_REJECT:2,FILTER_SKIP:3};core.PositionFilter.prototype.acceptPosition=function(m){};(function(){return core.PositionFilter})();
-// Input 14
-core.PositionFilterChain=function(){var m=[],g=core.PositionFilter.FilterResult.FILTER_ACCEPT,b=core.PositionFilter.FilterResult.FILTER_REJECT;this.acceptPosition=function(k){var d;for(d=0;d<m.length;d+=1)if(m[d].acceptPosition(k)===b)return b;return g};this.addFilter=function(b){m.push(b)}};
-// Input 15
-core.zip_HuftNode=function(){this.n=this.b=this.e=0;this.t=null};core.zip_HuftList=function(){this.list=this.next=null};
-core.RawInflate=function(){function m(a,c,b,l,d,h){this.BMAX=16;this.N_MAX=288;this.status=0;this.root=null;this.m=0;var e=Array(this.BMAX+1),k,f,g,p,n,y,m,r=Array(this.BMAX+1),s,H,L,q=new core.zip_HuftNode,v=Array(this.BMAX);p=Array(this.N_MAX);var F,u=Array(this.BMAX+1),t,O,w;w=this.root=null;for(n=0;n<e.length;n++)e[n]=0;for(n=0;n<r.length;n++)r[n]=0;for(n=0;n<v.length;n++)v[n]=null;for(n=0;n<p.length;n++)p[n]=0;for(n=0;n<u.length;n++)u[n]=0;k=256<c?a[256]:this.BMAX;s=a;H=0;n=c;do e[s[H]]++,H++;
-while(0<--n);if(e[0]===c)this.root=null,this.status=this.m=0;else{for(y=1;y<=this.BMAX&&0===e[y];y++);m=y;h<y&&(h=y);for(n=this.BMAX;0!==n&&0===e[n];n--);g=n;h>n&&(h=n);for(t=1<<y;y<n;y++,t<<=1)if(t-=e[y],0>t){this.status=2;this.m=h;return}t-=e[n];if(0>t)this.status=2,this.m=h;else{e[n]+=t;u[1]=y=0;s=e;H=1;for(L=2;0<--n;)y+=s[H++],u[L++]=y;s=a;n=H=0;do y=s[H++],0!==y&&(p[u[y]++]=n);while(++n<c);c=u[g];u[0]=n=0;s=p;H=0;p=-1;F=r[0]=0;L=null;O=0;for(m=m-1+1;m<=g;m++)for(a=e[m];0<a--;){for(;m>F+r[1+p];){F+=
-r[1+p];p++;O=g-F;O=O>h?h:O;y=m-F;f=1<<y;if(f>a+1)for(f-=a+1,L=m;++y<O;){f<<=1;if(f<=e[++L])break;f-=e[L]}F+y>k&&F<k&&(y=k-F);O=1<<y;r[1+p]=y;L=Array(O);for(f=0;f<O;f++)L[f]=new core.zip_HuftNode;w=null===w?this.root=new core.zip_HuftList:w.next=new core.zip_HuftList;w.next=null;w.list=L;v[p]=L;0<p&&(u[p]=n,q.b=r[p],q.e=16+y,q.t=L,y=(n&(1<<F)-1)>>F-r[p],v[p-1][y].e=q.e,v[p-1][y].b=q.b,v[p-1][y].n=q.n,v[p-1][y].t=q.t)}q.b=m-F;H>=c?q.e=99:s[H]<b?(q.e=256>s[H]?16:15,q.n=s[H++]):(q.e=d[s[H]-b],q.n=l[s[H++]-
-b]);f=1<<m-F;for(y=n>>F;y<O;y+=f)L[y].e=q.e,L[y].b=q.b,L[y].n=q.n,L[y].t=q.t;for(y=1<<m-1;0!==(n&y);y>>=1)n^=y;for(n^=y;(n&(1<<F)-1)!==u[p];)F-=r[p],p--}this.m=r[1];this.status=0!==t&&1!==g?1:0}}}function g(b){for(;c<b;){var l=a,h;h=s.length===y?-1:s[y++];a=l|h<<c;c+=8}}function b(c){return a&F[c]}function k(b){a>>=b;c-=b}function d(a,c,h){var d,e,n;if(0===h)return 0;for(n=0;;){g(u);e=z.list[b(u)];for(d=e.e;16<d;){if(99===d)return-1;k(e.b);d-=16;g(d);e=e.t[b(d)];d=e.e}k(e.b);if(16===d)f&=32767,a[c+
-n++]=p[f++]=e.n;else{if(15===d)break;g(d);v=e.n+b(d);k(d);g(t);e=x.list[b(t)];for(d=e.e;16<d;){if(99===d)return-1;k(e.b);d-=16;g(d);e=e.t[b(d)];d=e.e}k(e.b);g(d);w=f-e.n-b(d);for(k(d);0<v&&n<h;)v--,w&=32767,f&=32767,a[c+n++]=p[f++]=p[w++]}if(n===h)return h}l=-1;return n}function n(a,c,l){var h,e,f,n,p,y,r,s=Array(316);for(h=0;h<s.length;h++)s[h]=0;g(5);y=257+b(5);k(5);g(5);r=1+b(5);k(5);g(4);h=4+b(4);k(4);if(286<y||30<r)return-1;for(e=0;e<h;e++)g(3),s[T[e]]=b(3),k(3);for(e=h;19>e;e++)s[T[e]]=0;u=
-7;e=new m(s,19,19,null,null,u);if(0!==e.status)return-1;z=e.root;u=e.m;n=y+r;for(h=f=0;h<n;)if(g(u),p=z.list[b(u)],e=p.b,k(e),e=p.n,16>e)s[h++]=f=e;else if(16===e){g(2);e=3+b(2);k(2);if(h+e>n)return-1;for(;0<e--;)s[h++]=f}else{17===e?(g(3),e=3+b(3),k(3)):(g(7),e=11+b(7),k(7));if(h+e>n)return-1;for(;0<e--;)s[h++]=0;f=0}u=9;e=new m(s,y,257,L,O,u);0===u&&(e.status=1);if(0!==e.status)return-1;z=e.root;u=e.m;for(h=0;h<r;h++)s[h]=s[h+y];t=6;e=new m(s,r,0,H,U,t);x=e.root;t=e.m;return 0===t&&257<y||0!==e.status?
--1:d(a,c,l)}var p=[],f,q=null,e,r,a,c,l,h,v,w,z,x,u,t,s,y,F=[0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535],L=[3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258,0,0],O=[0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0,99,99],H=[1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577],U=[0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13],T=[16,17,18,0,8,7,9,6,
-10,5,11,4,12,3,13,2,14,1,15],X;this.inflate=function(F,T){p.length=65536;c=a=f=0;l=-1;h=!1;v=w=0;z=null;s=F;y=0;var G=new Uint8Array(new ArrayBuffer(T));a:for(var J=0,Q;J<T&&(!h||-1!==l);){if(0<v){if(0!==l)for(;0<v&&J<T;)v--,w&=32767,f&=32767,G[0+J]=p[f]=p[w],J+=1,f+=1,w+=1;else{for(;0<v&&J<T;)v-=1,f&=32767,g(8),G[0+J]=p[f]=b(8),J+=1,f+=1,k(8);0===v&&(l=-1)}if(J===T)break}if(-1===l){if(h)break;g(1);0!==b(1)&&(h=!0);k(1);g(2);l=b(2);k(2);z=null;v=0}switch(l){case 0:Q=G;var ea=0+J,P=T-J,N=void 0,N=
-c&7;k(N);g(16);N=b(16);k(16);g(16);if(N!==(~a&65535))Q=-1;else{k(16);v=N;for(N=0;0<v&&N<P;)v--,f&=32767,g(8),Q[ea+N++]=p[f++]=b(8),k(8);0===v&&(l=-1);Q=N}break;case 1:if(null!==z)Q=d(G,0+J,T-J);else b:{Q=G;ea=0+J;P=T-J;if(null===q){for(var I=void 0,N=Array(288),I=void 0,I=0;144>I;I++)N[I]=8;for(I=144;256>I;I++)N[I]=9;for(I=256;280>I;I++)N[I]=7;for(I=280;288>I;I++)N[I]=8;r=7;I=new m(N,288,257,L,O,r);if(0!==I.status){alert("HufBuild error: "+I.status);Q=-1;break b}q=I.root;r=I.m;for(I=0;30>I;I++)N[I]=
-5;X=5;I=new m(N,30,0,H,U,X);if(1<I.status){q=null;alert("HufBuild error: "+I.status);Q=-1;break b}e=I.root;X=I.m}z=q;x=e;u=r;t=X;Q=d(Q,ea,P)}break;case 2:Q=null!==z?d(G,0+J,T-J):n(G,0+J,T-J);break;default:Q=-1}if(-1===Q)break a;J+=Q}s=new Uint8Array(new ArrayBuffer(0));return G}};
-// Input 16
-core.ScheduledTask=function(m,g){function b(){n&&(runtime.clearTimeout(d),n=!1)}function k(){b();m.apply(void 0,p);p=null}var d,n=!1,p=[];this.trigger=function(){p=Array.prototype.slice.call(arguments);n||(n=!0,d=runtime.setTimeout(k,g))};this.triggerImmediate=function(){p=Array.prototype.slice.call(arguments);k()};this.processRequests=function(){n&&k()};this.cancel=b;this.destroy=function(d){b();d()}};
-// Input 17
-/*
-
- Copyright (C) 2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-core.StepIterator=function(m,g){function b(){r=null;c=a=void 0}function k(){void 0===c&&(c=m.acceptPosition(g)===e);return c}function d(a,c){b();return g.setUnfilteredPosition(a,c)}function n(){r||(r=g.container());return r}function p(){void 0===a&&(a=g.unfilteredDomOffset());return a}function f(){for(b();g.nextPosition();)if(b(),k())return!0;return!1}function q(){for(b();g.previousPosition();)if(b(),k())return!0;return!1}var e=core.PositionFilter.FilterResult.FILTER_ACCEPT,r,a,c;this.isStep=k;this.setPosition=
-d;this.container=n;this.offset=p;this.nextStep=f;this.previousStep=q;this.roundToClosestStep=function(){var a=n(),c=p(),b=k();b||(b=q(),b||(d(a,c),b=f()));return b};this.roundToPreviousStep=function(){var a=k();a||(a=q());return a};this.roundToNextStep=function(){var a=k();a||(a=f());return a}};
-// Input 18
-core.UnitTest=function(){};core.UnitTest.prototype.setUp=function(){};core.UnitTest.prototype.tearDown=function(){};core.UnitTest.prototype.description=function(){};core.UnitTest.prototype.tests=function(){};core.UnitTest.prototype.asyncTests=function(){};
-core.UnitTest.provideTestAreaDiv=function(){var m=runtime.getWindow().document,g=m.getElementById("testarea");runtime.assert(!g,'Unclean test environment, found a div with id "testarea".');g=m.createElement("div");g.setAttribute("id","testarea");m.body.appendChild(g);return g};
-core.UnitTest.cleanupTestAreaDiv=function(){var m=runtime.getWindow().document,g=m.getElementById("testarea");runtime.assert(!!g&&g.parentNode===m.body,'Test environment broken, found no div with id "testarea" below body.');m.body.removeChild(g)};core.UnitTest.createOdtDocument=function(m,g){var b="<?xml version='1.0' encoding='UTF-8'?>",b=b+"<office:document";Object.keys(g).forEach(function(k){b+=" xmlns:"+k+'="'+g[k]+'"'});b+=">";b+=m;b+="</office:document>";return runtime.parseXML(b)};
-core.UnitTestLogger=function(){var m=[],g=0,b=0,k="",d="";this.startTest=function(n,p){m=[];g=0;k=n;d=p;b=(new Date).getTime()};this.endTest=function(){var n=(new Date).getTime();return{description:d,suite:[k,d],success:0===g,log:m,time:n-b}};this.debug=function(b){m.push({category:"debug",message:b})};this.fail=function(b){g+=1;m.push({category:"fail",message:b})};this.pass=function(b){m.push({category:"pass",message:b})}};
-core.UnitTestRunner=function(m,g){function b(c){q+=1;a?g.debug(c):g.fail(c)}function k(a,l){var h;try{if(a.length!==l.length)return b("array of length "+a.length+" should be "+l.length+" long"),!1;for(h=0;h<a.length;h+=1)if(a[h]!==l[h])return b(a[h]+" should be "+l[h]+" at array index "+h),!1}catch(d){return!1}return!0}function d(a,l,h){var e=a.attributes,f=e.length,k,n,g;for(k=0;k<f;k+=1)if(n=e.item(k),"xmlns"!==n.prefix&&"urn:webodf:names:steps"!==n.namespaceURI){g=l.getAttributeNS(n.namespaceURI,
-n.localName);if(!l.hasAttributeNS(n.namespaceURI,n.localName))return b("Attribute "+n.localName+" with value "+n.value+" was not present"),!1;if(g!==n.value)return b("Attribute "+n.localName+" was "+g+" should be "+n.value),!1}return h?!0:d(l,a,!0)}function n(a,l){var h,e;h=a.nodeType;e=l.nodeType;if(h!==e)return b("Nodetype '"+h+"' should be '"+e+"'"),!1;if(h===Node.TEXT_NODE){if(a.data===l.data)return!0;b("Textnode data '"+a.data+"' should be '"+l.data+"'");return!1}runtime.assert(h===Node.ELEMENT_NODE,
-"Only textnodes and elements supported.");if(a.namespaceURI!==l.namespaceURI)return b("namespace '"+a.namespaceURI+"' should be '"+l.namespaceURI+"'"),!1;if(a.localName!==l.localName)return b("localName '"+a.localName+"' should be '"+l.localName+"'"),!1;if(!d(a,l,!1))return!1;h=a.firstChild;for(e=l.firstChild;h;){if(!e)return b("Nodetype '"+h.nodeType+"' is unexpected here."),!1;if(!n(h,e))return!1;h=h.nextSibling;e=e.nextSibling}return e?(b("Nodetype '"+e.nodeType+"' is missing here."),!1):!0}function p(a,
-b){return 0===b?a===b&&1/a===1/b:a===b?!0:null===a||null===b?!1:"number"===typeof b&&isNaN(b)?"number"===typeof a&&isNaN(a):Object.prototype.toString.call(b)===Object.prototype.toString.call([])?k(a,b):"object"===typeof b&&"object"===typeof a?b.constructor===Element||b.constructor===Node?n(a,b):r(a,b):!1}function f(a,l,h){"string"===typeof l&&"string"===typeof h||g.debug("WARN: shouldBe() expects string arguments");var d,e;try{e=eval(l)}catch(f){d=f}a=eval(h);d?b(l+" should be "+a+". Threw exception "+
-d):p(e,a)?g.pass(l+" is "+h):String(typeof e)===String(typeof a)?(h=0===e&&0>1/e?"-0":String(e),b(l+" should be "+a+". Was "+h+".")):b(l+" should be "+a+" (of type "+typeof a+"). Was "+e+" (of type "+typeof e+").")}var q=0,e,r,a=!1;this.resourcePrefix=function(){return m};this.beginExpectFail=function(){e=q;a=!0};this.endExpectFail=function(){var c=e===q;a=!1;q=e;c&&(q+=1,g.fail("Expected at least one failed test, but none registered."))};r=function(a,l){var d=Object.keys(a),e=Object.keys(l);d.sort();
-e.sort();return k(d,e)&&Object.keys(a).every(function(d){var h=a[d],e=l[d];return p(h,e)?!0:(b(h+" should be "+e+" for key "+d),!1)})};this.areNodesEqual=n;this.shouldBeNull=function(a,b){f(a,b,"null")};this.shouldBeNonNull=function(a,d){var h,e;try{e=eval(d)}catch(f){h=f}h?b(d+" should be non-null. Threw exception "+h):null!==e?g.pass(d+" is non-null."):b(d+" should be non-null. Was "+e)};this.shouldBe=f;this.testFailed=b;this.countFailedTests=function(){return q};this.name=function(a){var b,d,e=
-[],f=a.length;e.length=f;for(b=0;b<f;b+=1){d=Runtime.getFunctionName(a[b])||"";if(""===d)throw"Found a function without a name.";e[b]={f:a[b],name:d}}return e}};
-core.UnitTester=function(){function m(b,d){return"<span style='color:blue;cursor:pointer' onclick='"+d+"'>"+b+"</span>"}function g(d){b.reporter&&b.reporter(d)}var b=this,k=0,d=new core.UnitTestLogger,n={},p="BrowserRuntime"===runtime.type();this.resourcePrefix="";this.reporter=function(b){var d,e;p?runtime.log("<span>Running "+m(b.description,'runTest("'+b.suite[0]+'","'+b.description+'")')+"</span>"):runtime.log("Running "+b.description);if(!b.success)for(d=0;d<b.log.length;d+=1)e=b.log[d],runtime.log(e.category,
-e.message)};this.runTests=function(f,q,e){function r(b){if(0===b.length)n[a]=h,k+=c.countFailedTests(),q();else{w=b[0].f;var f=b[0].name,p=!0===b[0].expectFail;u=c.countFailedTests();e.length&&-1===e.indexOf(f)?r(b.slice(1)):(l.setUp(),d.startTest(a,f),p&&c.beginExpectFail(),w(function(){p&&c.endExpectFail();g(d.endTest());l.tearDown();h[f]=u===c.countFailedTests();r(b.slice(1))}))}}var a=Runtime.getFunctionName(f)||"",c=new core.UnitTestRunner(b.resourcePrefix,d),l=new f(c),h={},v,w,z,x,u;if(n.hasOwnProperty(a))runtime.log("Test "+
-a+" has already run.");else{p?runtime.log("<span>Running "+m(a,'runSuite("'+a+'");')+": "+l.description()+"</span>"):runtime.log("Running "+a+": "+l.description);z=l.tests();for(v=0;v<z.length;v+=1)if(w=z[v].f,f=z[v].name,x=!0===z[v].expectFail,!e.length||-1!==e.indexOf(f)){u=c.countFailedTests();l.setUp();d.startTest(a,f);x&&c.beginExpectFail();try{w()}catch(t){c.testFailed("Unexpected exception encountered: "+t.toString()+"\n"+t.stack)}x&&c.endExpectFail();g(d.endTest());l.tearDown();h[f]=u===c.countFailedTests()}r(l.asyncTests())}};
-this.countFailedTests=function(){return k};this.results=function(){return n}};
-// Input 19
-core.Utils=function(){function m(g,b){if(b&&Array.isArray(b)){g=g||[];if(!Array.isArray(g))throw"Destination is not an array.";g=g.concat(b.map(function(b){return m(null,b)}))}else if(b&&"object"===typeof b){g=g||{};if("object"!==typeof g)throw"Destination is not an object.";Object.keys(b).forEach(function(k){g[k]=m(g[k],b[k])})}else g=b;return g}this.hashString=function(g){var b=0,k,d;k=0;for(d=g.length;k<d;k+=1)b=(b<<5)-b+g.charCodeAt(k),b|=0;return b};this.mergeObjects=function(g,b){Object.keys(b).forEach(function(k){g[k]=
-m(g[k],b[k])});return g}};
-// Input 20
-/*
-
- WebODF
- Copyright (c) 2010 Jos van den Oever
- Licensed under the ... License:
-
- Project home: http://www.webodf.org/
-*/
-core.Zip=function(m,g){function b(a){var c=[0,1996959894,3993919788,2567524794,124634137,1886057615,3915621685,2657392035,249268274,2044508324,3772115230,2547177864,162941995,2125561021,3887607047,2428444049,498536548,1789927666,4089016648,2227061214,450548861,1843258603,4107580753,2211677639,325883990,1684777152,4251122042,2321926636,335633487,1661365465,4195302755,2366115317,997073096,1281953886,3579855332,2724688242,1006888145,1258607687,3524101629,2768942443,901097722,1119000684,3686517206,2898065728,
-853044451,1172266101,3705015759,2882616665,651767980,1373503546,3369554304,3218104598,565507253,1454621731,3485111705,3099436303,671266974,1594198024,3322730930,2970347812,795835527,1483230225,3244367275,3060149565,1994146192,31158534,2563907772,4023717930,1907459465,112637215,2680153253,3904427059,2013776290,251722036,2517215374,3775830040,2137656763,141376813,2439277719,3865271297,1802195444,476864866,2238001368,4066508878,1812370925,453092731,2181625025,4111451223,1706088902,314042704,2344532202,
-4240017532,1658658271,366619977,2362670323,4224994405,1303535960,984961486,2747007092,3569037538,1256170817,1037604311,2765210733,3554079995,1131014506,879679996,2909243462,3663771856,1141124467,855842277,2852801631,3708648649,1342533948,654459306,3188396048,3373015174,1466479909,544179635,3110523913,3462522015,1591671054,702138776,2966460450,3352799412,1504918807,783551873,3082640443,3233442989,3988292384,2596254646,62317068,1957810842,3939845945,2647816111,81470997,1943803523,3814918930,2489596804,
-225274430,2053790376,3826175755,2466906013,167816743,2097651377,4027552580,2265490386,503444072,1762050814,4150417245,2154129355,426522225,1852507879,4275313526,2312317920,282753626,1742555852,4189708143,2394877945,397917763,1622183637,3604390888,2714866558,953729732,1340076626,3518719985,2797360999,1068828381,1219638859,3624741850,2936675148,906185462,1090812512,3747672003,2825379669,829329135,1181335161,3412177804,3160834842,628085408,1382605366,3423369109,3138078467,570562233,1426400815,3317316542,
-2998733608,733239954,1555261956,3268935591,3050360625,752459403,1541320221,2607071920,3965973030,1969922972,40735498,2617837225,3943577151,1913087877,83908371,2512341634,3803740692,2075208622,213261112,2463272603,3855990285,2094854071,198958881,2262029012,4057260610,1759359992,534414190,2176718541,4139329115,1873836001,414664567,2282248934,4279200368,1711684554,285281116,2405801727,4167216745,1634467795,376229701,2685067896,3608007406,1308918612,956543938,2808555105,3495958263,1231636301,1047427035,
-2932959818,3654703836,1088359270,936918E3,2847714899,3736837829,1202900863,817233897,3183342108,3401237130,1404277552,615818150,3134207493,3453421203,1423857449,601450431,3009837614,3294710456,1567103746,711928724,3020668471,3272380065,1510334235,755167117],b,d,e=a.length,h=0,h=0;b=-1;for(d=0;d<e;d+=1)h=(b^a[d])&255,h=c[h],b=b>>>8^h;return b^-1}function k(a){return new Date((a>>25&127)+1980,(a>>21&15)-1,a>>16&31,a>>11&15,a>>5&63,(a&31)<<1)}function d(a){var c=a.getFullYear();return 1980>c?0:c-1980<<
-25|a.getMonth()+1<<21|a.getDate()<<16|a.getHours()<<11|a.getMinutes()<<5|a.getSeconds()>>1}function n(a,c){var b,d,e,l,f,n,g,p=this;this.load=function(c){if(null!==p.data)c(null,p.data);else{var b=f+34+d+e+256;b+g>h&&(b=h-g);runtime.read(a,g,b,function(b,d){if(b||null===d)c(b,d);else a:{var e=d,h=new core.ByteArray(e),k=h.readUInt32LE(),g;if(67324752!==k)c("File entry signature is wrong."+k.toString()+" "+e.length.toString(),null);else{h.pos+=22;k=h.readUInt16LE();g=h.readUInt16LE();h.pos+=k+g;if(l){e=
-e.subarray(h.pos,h.pos+f);if(f!==e.length){c("The amount of compressed bytes read was "+e.length.toString()+" instead of "+f.toString()+" for "+p.filename+" in "+a+".",null);break a}e=w(e,n)}else e=e.subarray(h.pos,h.pos+n);n!==e.length?c("The amount of bytes read was "+e.length.toString()+" instead of "+n.toString()+" for "+p.filename+" in "+a+".",null):(p.data=e,c(null,e))}}})}};this.set=function(a,c,b,d){p.filename=a;p.data=c;p.compressed=b;p.date=d};this.error=null;c&&(b=c.readUInt32LE(),33639248!==
-b?this.error="Central directory entry has wrong signature at position "+(c.pos-4).toString()+' for file "'+a+'": '+c.data.length.toString():(c.pos+=6,l=c.readUInt16LE(),this.date=k(c.readUInt32LE()),c.readUInt32LE(),f=c.readUInt32LE(),n=c.readUInt32LE(),d=c.readUInt16LE(),e=c.readUInt16LE(),b=c.readUInt16LE(),c.pos+=8,g=c.readUInt32LE(),this.filename=runtime.byteArrayToString(c.data.subarray(c.pos,c.pos+d),"utf8"),this.data=null,c.pos+=d+e+b))}function p(a,c){if(22!==a.length)c("Central directory length should be 22.",
-z);else{var b=new core.ByteArray(a),d;d=b.readUInt32LE();101010256!==d?c("Central directory signature is wrong: "+d.toString(),z):(d=b.readUInt16LE(),0!==d?c("Zip files with non-zero disk numbers are not supported.",z):(d=b.readUInt16LE(),0!==d?c("Zip files with non-zero disk numbers are not supported.",z):(d=b.readUInt16LE(),v=b.readUInt16LE(),d!==v?c("Number of entries is inconsistent.",z):(d=b.readUInt32LE(),b=b.readUInt16LE(),b=h-22-d,runtime.read(m,b,h-b,function(a,b){if(a||null===b)c(a,z);else a:{var d=
-new core.ByteArray(b),e,h;l=[];for(e=0;e<v;e+=1){h=new n(m,d);if(h.error){c(h.error,z);break a}l[l.length]=h}c(null,z)}})))))}}function f(a,c){var b=null,d,e;for(e=0;e<l.length;e+=1)if(d=l[e],d.filename===a){b=d;break}b?b.data?c(null,b.data):b.load(c):c(a+" not found.",null)}function q(a){var c=new core.ByteArrayWriter("utf8"),e=0;c.appendArray([80,75,3,4,20,0,0,0,0,0]);a.data&&(e=a.data.length);c.appendUInt32LE(d(a.date));c.appendUInt32LE(a.data?b(a.data):0);c.appendUInt32LE(e);c.appendUInt32LE(e);
-c.appendUInt16LE(a.filename.length);c.appendUInt16LE(0);c.appendString(a.filename);a.data&&c.appendByteArray(a.data);return c}function e(a,c){var e=new core.ByteArrayWriter("utf8"),h=0;e.appendArray([80,75,1,2,20,0,20,0,0,0,0,0]);a.data&&(h=a.data.length);e.appendUInt32LE(d(a.date));e.appendUInt32LE(a.data?b(a.data):0);e.appendUInt32LE(h);e.appendUInt32LE(h);e.appendUInt16LE(a.filename.length);e.appendArray([0,0,0,0,0,0,0,0,0,0,0,0]);e.appendUInt32LE(c);e.appendString(a.filename);return e}function r(a,
-c){if(a===l.length)c(null);else{var b=l[a];null!==b.data?r(a+1,c):b.load(function(b){b?c(b):r(a+1,c)})}}function a(a,c){r(0,function(b){if(b)c(b);else{var d,h,f=new core.ByteArrayWriter("utf8"),k=[0];for(d=0;d<l.length;d+=1)f.appendByteArrayWriter(q(l[d])),k.push(f.getLength());b=f.getLength();for(d=0;d<l.length;d+=1)h=l[d],f.appendByteArrayWriter(e(h,k[d]));d=f.getLength()-b;f.appendArray([80,75,5,6,0,0,0,0]);f.appendUInt16LE(l.length);f.appendUInt16LE(l.length);f.appendUInt32LE(d);f.appendUInt32LE(b);
-f.appendArray([0,0]);a(f.getByteArray())}})}function c(c,b){a(function(a){runtime.writeFile(c,a,b)},b)}var l,h,v,w=(new core.RawInflate).inflate,z=this,x=new core.Base64;this.load=f;this.save=function(a,c,b,d){var e,h;for(e=0;e<l.length;e+=1)if(h=l[e],h.filename===a){h.set(a,c,b,d);return}h=new n(m);h.set(a,c,b,d);l.push(h)};this.remove=function(a){var c,b;for(c=0;c<l.length;c+=1)if(b=l[c],b.filename===a)return l.splice(c,1),!0;return!1};this.write=function(a){c(m,a)};this.writeAs=c;this.createByteArray=
-a;this.loadContentXmlAsFragments=function(a,c){z.loadAsString(a,function(a,b){if(a)return c.rootElementReady(a);c.rootElementReady(null,b,!0)})};this.loadAsString=function(a,c){f(a,function(a,b){if(a||null===b)return c(a,null);var d=runtime.byteArrayToString(b,"utf8");c(null,d)})};this.loadAsDOM=function(a,c){z.loadAsString(a,function(a,b){if(a||null===b)c(a,null);else{var d=(new DOMParser).parseFromString(b,"text/xml");c(null,d)}})};this.loadAsDataURL=function(a,c,b){f(a,function(a,d){if(a||!d)return b(a,
-null);var e=0,h;c||(c=80===d[1]&&78===d[2]&&71===d[3]?"image/png":255===d[0]&&216===d[1]&&255===d[2]?"image/jpeg":71===d[0]&&73===d[1]&&70===d[2]?"image/gif":"");for(h="data:"+c+";base64,";e<d.length;)h+=x.convertUTF8ArrayToBase64(d.subarray(e,Math.min(e+45E3,d.length))),e+=45E3;b(null,h)})};this.getEntries=function(){return l.slice()};h=-1;null===g?l=[]:runtime.getFileSize(m,function(a){h=a;0>h?g("File '"+m+"' cannot be read.",z):runtime.read(m,h-22,22,function(a,c){a||null===g||null===c?g(a,z):
-p(c,g)})})};
-// Input 21
-xmldom.LSSerializerFilter=function(){};xmldom.LSSerializerFilter.prototype.acceptNode=function(m){};
-// Input 22
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.OdfNodeFilter=function(){this.acceptNode=function(m){return"http://www.w3.org/1999/xhtml"===m.namespaceURI?NodeFilter.FILTER_SKIP:m.namespaceURI&&m.namespaceURI.match(/^urn:webodf:/)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}};
-// Input 23
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.Namespaces={namespaceMap:{db:"urn:oasis:names:tc:opendocument:xmlns:database:1.0",dc:"http://purl.org/dc/elements/1.1/",dr3d:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0",draw:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0",chart:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0",fo:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0",form:"urn:oasis:names:tc:opendocument:xmlns:form:1.0",meta:"urn:oasis:names:tc:opendocument:xmlns:meta:1.0",number:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0",
-office:"urn:oasis:names:tc:opendocument:xmlns:office:1.0",presentation:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0",style:"urn:oasis:names:tc:opendocument:xmlns:style:1.0",svg:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0",table:"urn:oasis:names:tc:opendocument:xmlns:table:1.0",text:"urn:oasis:names:tc:opendocument:xmlns:text:1.0",xlink:"http://www.w3.org/1999/xlink",xml:"http://www.w3.org/XML/1998/namespace"},prefixMap:{},dbns:"urn:oasis:names:tc:opendocument:xmlns:database:1.0",
-dcns:"http://purl.org/dc/elements/1.1/",dr3dns:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0",drawns:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0",chartns:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0",fons:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0",formns:"urn:oasis:names:tc:opendocument:xmlns:form:1.0",metans:"urn:oasis:names:tc:opendocument:xmlns:meta:1.0",numberns:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0",officens:"urn:oasis:names:tc:opendocument:xmlns:office:1.0",
-presentationns:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0",stylens:"urn:oasis:names:tc:opendocument:xmlns:style:1.0",svgns:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0",tablens:"urn:oasis:names:tc:opendocument:xmlns:table:1.0",textns:"urn:oasis:names:tc:opendocument:xmlns:text:1.0",xlinkns:"http://www.w3.org/1999/xlink",xmlns:"http://www.w3.org/XML/1998/namespace"};
-(function(){var m=odf.Namespaces.namespaceMap,g=odf.Namespaces.prefixMap,b;for(b in m)m.hasOwnProperty(b)&&(g[m[b]]=b)})();odf.Namespaces.forEachPrefix=function(m){var g=odf.Namespaces.namespaceMap,b;for(b in g)g.hasOwnProperty(b)&&m(b,g[b])};odf.Namespaces.lookupNamespaceURI=function(m){var g=null;odf.Namespaces.namespaceMap.hasOwnProperty(m)&&(g=odf.Namespaces.namespaceMap[m]);return g};odf.Namespaces.lookupPrefix=function(m){var g=odf.Namespaces.prefixMap;return g.hasOwnProperty(m)?g[m]:null};
-odf.Namespaces.lookupNamespaceURI.lookupNamespaceURI=odf.Namespaces.lookupNamespaceURI;
-// Input 24
-xmldom.XPathIterator=function(){};xmldom.XPathIterator.prototype.next=function(){};xmldom.XPathIterator.prototype.reset=function(){};
-function createXPathSingleton(){function m(b,a,c){return-1!==b&&(b<a||-1===a)&&(b<c||-1===c)}function g(b){for(var a=[],c=0,d=b.length,h;c<d;){var f=b,k=d,n=a,g="",p=[],q=f.indexOf("[",c),s=f.indexOf("/",c),y=f.indexOf("=",c);m(s,q,y)?(g=f.substring(c,s),c=s+1):m(q,s,y)?(g=f.substring(c,q),c=e(f,q,p)):m(y,s,q)?(g=f.substring(c,y),c=y):(g=f.substring(c,k),c=k);n.push({location:g,predicates:p});if(c<d&&"="===b[c]){h=b.substring(c+1,d);if(2<h.length&&("'"===h[0]||'"'===h[0]))h=h.slice(1,h.length-1);
-else try{h=parseInt(h,10)}catch(F){}c=d}}return{steps:a,value:h}}function b(){var b=null,a=!1;this.setNode=function(a){b=a};this.reset=function(){a=!1};this.next=function(){var c=a?null:b;a=!0;return c}}function k(b,a,c){this.reset=function(){b.reset()};this.next=function(){for(var d=b.next();d;){d.nodeType===Node.ELEMENT_NODE&&(d=d.getAttributeNodeNS(a,c));if(d)break;d=b.next()}return d}}function d(b,a){var c=b.next(),d=null;this.reset=function(){b.reset();c=b.next();d=null};this.next=function(){for(;c;){if(d)if(a&&
-d.firstChild)d=d.firstChild;else{for(;!d.nextSibling&&d!==c;)d=d.parentNode;d===c?c=b.next():d=d.nextSibling}else{do(d=c.firstChild)||(c=b.next());while(c&&!d)}if(d&&d.nodeType===Node.ELEMENT_NODE)return d}return null}}function n(b,a){this.reset=function(){b.reset()};this.next=function(){for(var c=b.next();c&&!a(c);)c=b.next();return c}}function p(b,a,c){a=a.split(":",2);var d=c(a[0]),e=a[1];return new n(b,function(a){return a.localName===e&&a.namespaceURI===d})}function f(d,a,c){var e=new b,h=q(e,
-a,c),f=a.value;return void 0===f?new n(d,function(a){e.setNode(a);h.reset();return null!==h.next()}):new n(d,function(a){e.setNode(a);h.reset();return(a=h.next())?a.nodeValue===f:!1})}var q,e;e=function(b,a,c){for(var d=a,e=b.length,f=0;d<e;)"]"===b[d]?(f-=1,0>=f&&c.push(g(b.substring(a,d)))):"["===b[d]&&(0>=f&&(a=d+1),f+=1),d+=1;return d};q=function(b,a,c){var e,h,n,g;for(e=0;e<a.steps.length;e+=1){n=a.steps[e];h=n.location;if(""===h)b=new d(b,!1);else if("@"===h[0]){h=h.substr(1).split(":",2);g=
-c(h[0]);if(!g)throw"No namespace associated with the prefix "+h[0];b=new k(b,g,h[1])}else"."!==h&&(b=new d(b,!1),-1!==h.indexOf(":")&&(b=p(b,h,c)));for(h=0;h<n.predicates.length;h+=1)g=n.predicates[h],b=f(b,g,c)}return b};return{getODFElementsWithXPath:function(d,a,c){var e=d.ownerDocument,h=[],f=null;if(e&&"function"===typeof e.evaluate)for(c=e.evaluate(a,d,c,XPathResult.UNORDERED_NODE_ITERATOR_TYPE,null),f=c.iterateNext();null!==f;)f.nodeType===Node.ELEMENT_NODE&&h.push(f),f=c.iterateNext();else{h=
-new b;h.setNode(d);d=g(a);h=q(h,d,c);d=[];for(c=h.next();c;)d.push(c),c=h.next();h=d}return h}}}xmldom.XPath=createXPathSingleton();
-// Input 25
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.StyleInfo=function(){function m(a,c){var b,d,e,h,l,f=0;if(b=L[a.localName])if(e=b[a.namespaceURI])f=e.length;for(b=0;b<f;b+=1)d=e[b],h=d.ns,l=d.localname,(d=a.getAttributeNS(h,l))&&a.setAttributeNS(h,y[h]+l,c+d);for(e=a.firstElementChild;e;)m(e,c),e=e.nextElementSibling}function g(a,c){var b,d,e,h,l,f=0;if(b=L[a.localName])if(e=b[a.namespaceURI])f=e.length;for(b=0;b<f;b+=1)if(d=e[b],h=d.ns,l=d.localname,d=a.getAttributeNS(h,l))d=d.replace(c,""),a.setAttributeNS(h,y[h]+l,d);for(e=a.firstElementChild;e;)g(e,
-c),e=e.nextElementSibling}function b(a,c){var b,d,e,h,l,f=0;if(b=L[a.localName])if(e=b[a.namespaceURI])f=e.length;for(b=0;b<f;b+=1)if(h=e[b],d=h.ns,l=h.localname,d=a.getAttributeNS(d,l))c=c||{},h=h.keyname,c.hasOwnProperty(h)?c[h][d]=1:(l={},l[d]=1,c[h]=l);return c}function k(a,c){var d,e;b(a,c);for(d=a.firstChild;d;)d.nodeType===Node.ELEMENT_NODE&&(e=d,k(e,c)),d=d.nextSibling}function d(a,c,b){this.key=a;this.name=c;this.family=b;this.requires={}}function n(a,c,b){var e=a+'"'+c,h=b[e];h||(h=b[e]=
-new d(e,a,c));return h}function p(a,c,b){var d,e,h,l,f,k=0;d=a.getAttributeNS(u,"name");l=a.getAttributeNS(u,"family");d&&l&&(c=n(d,l,b));if(c){if(d=L[a.localName])if(h=d[a.namespaceURI])k=h.length;for(d=0;d<k;d+=1)if(l=h[d],e=l.ns,f=l.localname,e=a.getAttributeNS(e,f))l=l.keyname,l=n(e,l,b),c.requires[l.key]=l}for(a=a.firstElementChild;a;)p(a,c,b),a=a.nextElementSibling;return b}function f(a,c){var b=c[a.family];b||(b=c[a.family]={});b[a.name]=1;Object.keys(a.requires).forEach(function(b){f(a.requires[b],
-c)})}function q(a,c){var b=p(a,null,{});Object.keys(b).forEach(function(a){a=b[a];var d=c[a.family];d&&d.hasOwnProperty(a.name)&&f(a,c)})}function e(a,c){function b(c){(c=l.getAttributeNS(u,c))&&(a[c]=!0)}var d=["font-name","font-name-asian","font-name-complex"],h,l;for(h=c&&c.firstElementChild;h;)l=h,d.forEach(b),e(a,l),h=h.nextElementSibling}function r(a,c){function b(a){var d=h.getAttributeNS(u,a);d&&c.hasOwnProperty(d)&&h.setAttributeNS(u,"style:"+a,c[d])}var d=["font-name","font-name-asian",
-"font-name-complex"],e,h;for(e=a&&a.firstElementChild;e;)h=e,d.forEach(b),r(h,c),e=e.nextElementSibling}var a=odf.Namespaces.chartns,c=odf.Namespaces.dbns,l=odf.Namespaces.dr3dns,h=odf.Namespaces.drawns,v=odf.Namespaces.formns,w=odf.Namespaces.numberns,z=odf.Namespaces.officens,x=odf.Namespaces.presentationns,u=odf.Namespaces.stylens,t=odf.Namespaces.tablens,s=odf.Namespaces.textns,y={"urn:oasis:names:tc:opendocument:xmlns:chart:1.0":"chart:","urn:oasis:names:tc:opendocument:xmlns:database:1.0":"db:",
+var webodf_version="0.5.7-66-g25bf592";function Runtime(){}Runtime.prototype.getVariable=function(h){};Runtime.prototype.toJson=function(h){};Runtime.prototype.fromJson=function(h){};Runtime.prototype.byteArrayFromString=function(h,k){};Runtime.prototype.byteArrayToString=function(h,k){};Runtime.prototype.read=function(h,k,c,b){};Runtime.prototype.readFile=function(h,k,c){};Runtime.prototype.readFileSync=function(h,k){};Runtime.prototype.loadXML=function(h,k){};Runtime.prototype.writeFile=function(h,k,c){};
+Runtime.prototype.deleteFile=function(h,k){};Runtime.prototype.log=function(h,k){};Runtime.prototype.setTimeout=function(h,k){};Runtime.prototype.clearTimeout=function(h){};Runtime.prototype.libraryPaths=function(){};Runtime.prototype.currentDirectory=function(){};Runtime.prototype.setCurrentDirectory=function(h){};Runtime.prototype.type=function(){};Runtime.prototype.getDOMImplementation=function(){};Runtime.prototype.parseXML=function(h){};Runtime.prototype.exit=function(h){};
+Runtime.prototype.getWindow=function(){};Runtime.prototype.requestAnimationFrame=function(h){};Runtime.prototype.cancelAnimationFrame=function(h){};Runtime.prototype.assert=function(h,k){};var IS_COMPILED_CODE=!0;
+Runtime.byteArrayToString=function(h,k){function c(b){var c="",m,q=b.length;for(m=0;m<q;m+=1)c+=String.fromCharCode(b[m]&255);return c}function b(b){var c="",m,q=b.length,f=[],e,a,d,r;for(m=3<=q&&239===b[0]&&187===b[1]&&191===b[2]?3:0;m<q;m+=1)e=b[m],128>e?f.push(e):(m+=1,a=b[m],194<=e&&224>e?f.push((e&31)<<6|a&63):(m+=1,d=b[m],224<=e&&240>e?f.push((e&15)<<12|(a&63)<<6|d&63):(m+=1,r=b[m],240<=e&&245>e&&(e=(e&7)<<18|(a&63)<<12|(d&63)<<6|r&63,e-=65536,f.push((e>>10)+55296,(e&1023)+56320))))),1E3<=f.length&&
+(c+=String.fromCharCode.apply(null,f),f.length=0);return c+String.fromCharCode.apply(null,f)}var g;"utf8"===k?g=b(h):("binary"!==k&&this.log("Unsupported encoding: "+k),g=c(h));return g};Runtime.getVariable=function(h){try{return eval(h)}catch(k){}};Runtime.toJson=function(h){return JSON.stringify(h)};Runtime.fromJson=function(h){return JSON.parse(h)};Runtime.getFunctionName=function(h){return void 0===h.name?(h=/function\s+(\w+)/.exec(h))&&h[1]:h.name};
+Runtime.assert=function(h,k){if(!h)throw this.log("alert","ASSERTION FAILED:\n"+k),Error(k);};
+function BrowserRuntime(){function h(b){var f=b.length,e,a,d=0;for(e=0;e<f;e+=1)a=b.charCodeAt(e),d+=1+(128<a)+(2048<a),55040<a&&57344>a&&(d+=1,e+=1);return d}function k(b,f,e){var a=b.length,d,r;f=new Uint8Array(new ArrayBuffer(f));e?(f[0]=239,f[1]=187,f[2]=191,r=3):r=0;for(e=0;e<a;e+=1)d=b.charCodeAt(e),128>d?(f[r]=d,r+=1):2048>d?(f[r]=192|d>>>6,f[r+1]=128|d&63,r+=2):55040>=d||57344<=d?(f[r]=224|d>>>12&15,f[r+1]=128|d>>>6&63,f[r+2]=128|d&63,r+=3):(e+=1,d=(d-55296<<10|b.charCodeAt(e)-56320)+65536,
+f[r]=240|d>>>18&7,f[r+1]=128|d>>>12&63,f[r+2]=128|d>>>6&63,f[r+3]=128|d&63,r+=4);return f}function c(b){var f=b.length,e=new Uint8Array(new ArrayBuffer(f)),a;for(a=0;a<f;a+=1)e[a]=b.charCodeAt(a)&255;return e}function b(b,f){var e;void 0!==f?e=b:f=b;console.log(f);m.enableAlerts&&"alert"===e&&alert(f)}function g(b,f,e){if(0!==e.status||e.responseText)if(200===e.status||0===e.status){if(e.response&&"string"!==typeof e.response)"binary"===f?(e=e.response,e=new Uint8Array(e)):e=String(e.response);else if("binary"===
+f)if(null!==e.responseBody&&"undefined"!==String(typeof VBArray)){e=(new VBArray(e.responseBody)).toArray();var a=e.length;f=new Uint8Array(new ArrayBuffer(a));for(b=0;b<a;b+=1)f[b]=e[b];e=f}else{(b=e.getResponseHeader("Content-Length"))&&(b=parseInt(b,10));if(b&&b!==e.responseText.length)a:{a=e.responseText;f=!1;var d=h(a);if("number"===typeof b){if(b!==d&&b!==d+3){a=void 0;break a}f=d+3===b;d=b}a=k(a,d,f)}void 0===a&&(a=c(e.responseText));e=a}else e=e.responseText;e={err:null,data:e}}else e={err:e.responseText||
+e.statusText,data:null};else e={err:"File "+b+" is empty.",data:null};return e}function n(b,f,e){var a=new XMLHttpRequest;a.open("GET",b,e);a.overrideMimeType&&("binary"!==f?a.overrideMimeType("text/plain; charset="+f):a.overrideMimeType("text/plain; charset=x-user-defined"));return a}function p(b,f,e){var a=n(b,f,!0);a.onreadystatechange=function(){var d;4===a.readyState&&(d=g(b,f,a),e(d.err,d.data))};try{a.send(null)}catch(d){e(d.message,null)}}var m=this;this.byteArrayFromString=function(b,f){var e;
+"utf8"===f?e=k(b,h(b),!1):("binary"!==f&&m.log("unknown encoding: "+f),e=c(b));return e};this.byteArrayToString=Runtime.byteArrayToString;this.getVariable=Runtime.getVariable;this.fromJson=Runtime.fromJson;this.toJson=Runtime.toJson;this.readFile=p;this.read=function(b,f,e,a){p(b,"binary",function(d,r){var l=null;if(r){if("string"===typeof r)throw"This should not happen.";l=r.subarray(f,f+e)}a(d,l)})};this.readFileSync=function(b,f){var e=n(b,f,!1),a;try{e.send(null);a=g(b,f,e);if(a.err)throw a.err;
+if(null===a.data)throw"No data read from "+b+".";}catch(d){throw d;}return a.data};this.writeFile=function(b,f,e){var a=new XMLHttpRequest,d;a.open("PUT",b,!0);a.onreadystatechange=function(){4===a.readyState&&(0!==a.status||a.responseText?200<=a.status&&300>a.status||0===a.status?e(null):e("Status "+String(a.status)+": "+a.responseText||a.statusText):e("File "+b+" is empty."))};d=f.buffer&&!a.sendAsBinary?f.buffer:m.byteArrayToString(f,"binary");try{a.sendAsBinary?a.sendAsBinary(d):a.send(d)}catch(r){m.log("HUH? "+
+r+" "+f),e(r.message)}};this.deleteFile=function(b,f){var e=new XMLHttpRequest;e.open("DELETE",b,!0);e.onreadystatechange=function(){4===e.readyState&&(200>e.status&&300<=e.status?f(e.responseText):f(null))};e.send(null)};this.loadXML=function(b,f){var e=new XMLHttpRequest;e.open("GET",b,!0);e.overrideMimeType&&e.overrideMimeType("text/xml");e.onreadystatechange=function(){4===e.readyState&&(0!==e.status||e.responseText?200===e.status||0===e.status?f(null,e.responseXML):f(e.responseText,null):f("File "+
+b+" is empty.",null))};try{e.send(null)}catch(a){f(a.message,null)}};this.log=b;this.enableAlerts=!0;this.assert=Runtime.assert;this.setTimeout=function(b,f){return setTimeout(function(){b()},f)};this.clearTimeout=function(b){clearTimeout(b)};this.libraryPaths=function(){return["lib"]};this.setCurrentDirectory=function(){};this.currentDirectory=function(){return""};this.type=function(){return"BrowserRuntime"};this.getDOMImplementation=function(){return window.document.implementation};this.parseXML=
+function(b){return(new DOMParser).parseFromString(b,"text/xml")};this.exit=function(c){b("Calling exit with code "+String(c)+", but exit() is not implemented.")};this.getWindow=function(){return window};this.requestAnimationFrame=function(b){var f=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.msRequestAnimationFrame,e=0;if(f)f.bind(window),e=f(b);else return setTimeout(b,15);return e};this.cancelAnimationFrame=function(b){var f=window.cancelAnimationFrame||
+window.webkitCancelAnimationFrame||window.mozCancelAnimationFrame||window.msCancelAnimationFrame;f?(f.bind(window),f(b)):clearTimeout(b)}}
+function NodeJSRuntime(){function h(b){var f=b.length,e,a=new Uint8Array(new ArrayBuffer(f));for(e=0;e<f;e+=1)a[e]=b[e];return a}function k(c,f,e){function a(a,r){if(a)return e(a,null);if(!r)return e("No data for "+c+".",null);if("string"===typeof r)return e(a,r);e(a,h(r))}c=g.resolve(n,c);"binary"!==f?b.readFile(c,f,a):b.readFile(c,null,a)}var c=this,b=require("fs"),g=require("path"),n="",p,m;this.byteArrayFromString=function(b,f){var e=new Buffer(b,f),a,d=e.length,r=new Uint8Array(new ArrayBuffer(d));
+for(a=0;a<d;a+=1)r[a]=e[a];return r};this.byteArrayToString=Runtime.byteArrayToString;this.getVariable=Runtime.getVariable;this.fromJson=Runtime.fromJson;this.toJson=Runtime.toJson;this.readFile=k;this.loadXML=function(b,f){k(b,"utf-8",function(e,a){if(e)return f(e,null);if(!a)return f("No data for "+b+".",null);f(null,c.parseXML(a))})};this.writeFile=function(c,f,e){f=new Buffer(f);c=g.resolve(n,c);b.writeFile(c,f,"binary",function(a){e(a||null)})};this.deleteFile=function(c,f){c=g.resolve(n,c);
+b.unlink(c,f)};this.read=function(c,f,e,a){c=g.resolve(n,c);b.open(c,"r+",666,function(d,r){if(d)a(d,null);else{var l=new Buffer(e);b.read(r,l,0,e,f,function(d){b.close(r);a(d,h(l))})}})};this.readFileSync=function(c,f){var e;e=b.readFileSync(c,"binary"===f?null:f);if(null===e)throw"File "+c+" could not be read.";"binary"===f&&(e=h(e));return e};this.log=function(b,c){var e;void 0!==c?e=b:c=b;"alert"===e&&process.stderr.write("\n!!!!! ALERT !!!!!\n");process.stderr.write(c+"\n");"alert"===e&&process.stderr.write("!!!!! ALERT !!!!!\n")};
+this.assert=Runtime.assert;this.setTimeout=function(b,c){return setTimeout(function(){b()},c)};this.clearTimeout=function(b){clearTimeout(b)};this.libraryPaths=function(){return[__dirname]};this.setCurrentDirectory=function(b){n=b};this.currentDirectory=function(){return n};this.type=function(){return"NodeJSRuntime"};this.getDOMImplementation=function(){return m};this.parseXML=function(b){return p.parseFromString(b,"text/xml")};this.exit=process.exit;this.getWindow=function(){return null};this.requestAnimationFrame=
+function(b){return setTimeout(b,15)};this.cancelAnimationFrame=function(b){clearTimeout(b)};p=new (require("xmldom").DOMParser);m=c.parseXML("<a/>").implementation}
+function RhinoRuntime(){var h=this,k={},c=k.javax.xml.parsers.DocumentBuilderFactory.newInstance(),b,g,n="";c.setValidating(!1);c.setNamespaceAware(!0);c.setExpandEntityReferences(!1);c.setSchema(null);g=k.org.xml.sax.EntityResolver({resolveEntity:function(b,c){var g=new k.java.io.FileReader(c);return new k.org.xml.sax.InputSource(g)}});b=c.newDocumentBuilder();b.setEntityResolver(g);this.byteArrayFromString=function(b,c){var g,f=b.length,e=new Uint8Array(new ArrayBuffer(f));for(g=0;g<f;g+=1)e[g]=
+b.charCodeAt(g)&255;return e};this.byteArrayToString=Runtime.byteArrayToString;this.getVariable=Runtime.getVariable;this.fromJson=Runtime.fromJson;this.toJson=Runtime.toJson;this.loadXML=function(c,m){var g=new k.java.io.File(c),f=null;try{f=b.parse(g)}catch(e){return print(e),m(e,null)}m(null,f)};this.readFile=function(b,c,g){n&&(b=n+"/"+b);var f=new k.java.io.File(b),e="binary"===c?"latin1":c;f.isFile()?((b=readFile(b,e))&&"binary"===c&&(b=h.byteArrayFromString(b,"binary")),g(null,b)):g(b+" is not a file.",
+null)};this.writeFile=function(b,c,g){n&&(b=n+"/"+b);b=new k.java.io.FileOutputStream(b);var f,e=c.length;for(f=0;f<e;f+=1)b.write(c[f]);b.close();g(null)};this.deleteFile=function(b,c){n&&(b=n+"/"+b);var g=new k.java.io.File(b),f=b+Math.random(),f=new k.java.io.File(f);g.rename(f)?(f.deleteOnExit(),c(null)):c("Could not delete "+b)};this.read=function(b,c,g,f){n&&(b=n+"/"+b);var e;e=b;var a="binary";(new k.java.io.File(e)).isFile()?("binary"===a&&(a="latin1"),e=readFile(e,a)):e=null;e?f(null,this.byteArrayFromString(e.substring(c,
+c+g),"binary")):f("Cannot read "+b,null)};this.readFileSync=function(b,c){if(!c)return"";var g=readFile(b,c);if(null===g)throw"File could not be read.";return g};this.log=function(b,c){var g;void 0!==c?g=b:c=b;"alert"===g&&print("\n!!!!! ALERT !!!!!");print(c);"alert"===g&&print("!!!!! ALERT !!!!!")};this.assert=Runtime.assert;this.setTimeout=function(b){b();return 0};this.clearTimeout=function(){};this.libraryPaths=function(){return["lib"]};this.setCurrentDirectory=function(b){n=b};this.currentDirectory=
+function(){return n};this.type=function(){return"RhinoRuntime"};this.getDOMImplementation=function(){return b.getDOMImplementation()};this.parseXML=function(c){c=new k.java.io.StringReader(c);c=new k.org.xml.sax.InputSource(c);return b.parse(c)};this.exit=quit;this.getWindow=function(){return null};this.requestAnimationFrame=function(b){b();return 0};this.cancelAnimationFrame=function(){}}
+Runtime.create=function(){return"undefined"!==String(typeof window)?new BrowserRuntime:"undefined"!==String(typeof require)?new NodeJSRuntime:new RhinoRuntime};var runtime=Runtime.create(),core={},gui={},xmldom={},odf={},ops={},webodf={};(function(){webodf.Version="undefined"!==String(typeof webodf_version)?webodf_version:"From Source"})();
+(function(){function h(b,c,f){var e=b+"/manifest.json",a,d;runtime.log("Loading manifest: "+e);try{a=runtime.readFileSync(e,"utf-8")}catch(r){if(f)runtime.log("No loadable manifest found.");else throw console.log(String(r)),r;return}f=JSON.parse(a);for(d in f)f.hasOwnProperty(d)&&(c[d]={dir:b,deps:f[d]})}function k(b,c,f){function e(l){if(!r[l]&&!f(l)){if(d[l])throw"Circular dependency detected for "+l+".";d[l]=!0;if(!c[l])throw"Missing dependency information for class "+l+".";var b=c[l],g=b.deps,
+m,n=g.length;for(m=0;m<n;m+=1)e(g[m]);d[l]=!1;r[l]=!0;a.push(b.dir+"/"+l.replace(".","/")+".js")}}var a=[],d={},r={};b.forEach(e);return a}function c(b,c){return c+("\n//# sourceURL="+b)}function b(b){var g,f;for(g=0;g<b.length;g+=1)f=runtime.readFileSync(b[g],"utf-8"),f=c(b[g],f),eval(f)}function g(b){b=b.split(".");var c,f=p,e=b.length;for(c=0;c<e;c+=1){if(!f.hasOwnProperty(b[c]))return!1;f=f[b[c]]}return!0}var n,p={core:core,gui:gui,xmldom:xmldom,odf:odf,ops:ops};runtime.loadClasses=function(c,
+p){if(IS_COMPILED_CODE||0===c.length)return p&&p();var f;if(!(f=n)){f=[];var e=runtime.libraryPaths(),a;runtime.currentDirectory()&&-1===e.indexOf(runtime.currentDirectory())&&h(runtime.currentDirectory(),f,!0);for(a=0;a<e.length;a+=1)h(e[a],f)}n=f;c=k(c,n,g);if(0===c.length)return p&&p();if("BrowserRuntime"===runtime.type()&&p){f=c;e=document.currentScript||document.documentElement.lastChild;a=document.createDocumentFragment();var d,r;for(r=0;r<f.length;r+=1)d=document.createElement("script"),d.type=
+"text/javascript",d.charset="utf-8",d.async=!1,d.setAttribute("src",f[r]),a.appendChild(d);p&&(d.onload=p);e.parentNode.insertBefore(a,e)}else b(c),p&&p()};runtime.loadClass=function(b,c){runtime.loadClasses([b],c)}})();(function(){var h=function(h){return h};runtime.getTranslator=function(){return h};runtime.setTranslator=function(k){h=k};runtime.tr=function(k){var c=h(k);return c&&"string"===String(typeof c)?c:k}})();
+(function(h){function k(c){if(c.length){var b=c[0];runtime.readFile(b,"utf8",function(g,n){function p(){var b;(b=eval(h))&&runtime.exit(b)}var m="",m=b.lastIndexOf("/"),h=n,m=-1!==m?b.substring(0,m):".";runtime.setCurrentDirectory(m);g?(runtime.log(g),runtime.exit(1)):null===h?(runtime.log("No code found for "+b),runtime.exit(1)):p.apply(null,c)})}}h=h?Array.prototype.slice.call(h):[];"NodeJSRuntime"===runtime.type()?k(process.argv.slice(2)):"RhinoRuntime"===runtime.type()?k(h):k(h.slice(1))})("undefined"!==
+String(typeof arguments)&&arguments);(function(){core.Async=function(){return{forEach:function(h,k,c){function b(b){p!==n&&(b?(p=n,c(b)):(p+=1,p===n&&c(null)))}var g,n=h.length,p=0;for(g=0;g<n;g+=1)k(h[g],b)},destroyAll:function(h,k){function c(b,g){if(g)k(g);else if(b<h.length)h[b](function(g){c(b+1,g)});else k()}c(0,void 0)}}}()})();function makeBase64(){function h(a){var d,l=a.length,r=new Uint8Array(new ArrayBuffer(l));for(d=0;d<l;d+=1)r[d]=a.charCodeAt(d)&255;return r}function k(a){var d,l="",r,b=a.length-2;for(r=0;r<b;r+=3)d=a[r]<<16|a[r+1]<<8|a[r+2],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d>>>18],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d>>>12&63],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d>>>6&63],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d&
+63];r===b+1?(d=a[r]<<4,l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d>>>6],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d&63],l+="=="):r===b&&(d=a[r]<<10|a[r+1]<<2,l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d>>>12],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d>>>6&63],l+="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[d&63],l+="=");return l}function c(a){a=a.replace(/[^A-Za-z0-9+\/]+/g,
+"");var d=a.length,r=new Uint8Array(new ArrayBuffer(3*d)),b=a.length%4,c=0,e,f;for(e=0;e<d;e+=4)f=(l[a.charAt(e)]||0)<<18|(l[a.charAt(e+1)]||0)<<12|(l[a.charAt(e+2)]||0)<<6|(l[a.charAt(e+3)]||0),r[c]=f>>16,r[c+1]=f>>8&255,r[c+2]=f&255,c+=3;d=3*d-[0,0,2,1][b];return r.subarray(0,d)}function b(a){var d,l,r=a.length,b=0,c=new Uint8Array(new ArrayBuffer(3*r));for(d=0;d<r;d+=1)l=a[d],128>l?c[b++]=l:(2048>l?c[b++]=192|l>>>6:(c[b++]=224|l>>>12&15,c[b++]=128|l>>>6&63),c[b++]=128|l&63);return c.subarray(0,
+b)}function g(a){var d,l,r,b,c=a.length,e=new Uint8Array(new ArrayBuffer(c)),f=0;for(d=0;d<c;d+=1)l=a[d],128>l?e[f++]=l:(d+=1,r=a[d],224>l?e[f++]=(l&31)<<6|r&63:(d+=1,b=a[d],e[f++]=(l&15)<<12|(r&63)<<6|b&63));return e.subarray(0,f)}function n(a){return k(h(a))}function p(a){return String.fromCharCode.apply(String,c(a))}function m(a){return g(h(a))}function q(a){a=g(a);for(var d="",l=0;l<a.length;)d+=String.fromCharCode.apply(String,a.subarray(l,l+45E3)),l+=45E3;return d}function f(a,d,l){var r,b,
+c,e="";for(c=d;c<l;c+=1)d=a.charCodeAt(c)&255,128>d?e+=String.fromCharCode(d):(c+=1,r=a.charCodeAt(c)&255,224>d?e+=String.fromCharCode((d&31)<<6|r&63):(c+=1,b=a.charCodeAt(c)&255,e+=String.fromCharCode((d&15)<<12|(r&63)<<6|b&63)));return e}function e(a,d){function l(){var c=b+1E5;c>a.length&&(c=a.length);r+=f(a,b,c);b=c;c=b===a.length;d(r,c)&&!c&&runtime.setTimeout(l,0)}var r="",b=0;1E5>a.length?d(f(a,0,a.length),!0):("string"!==typeof a&&(a=a.slice()),l())}function a(a){return b(h(a))}function d(a){return String.fromCharCode.apply(String,
+b(a))}function r(a){return String.fromCharCode.apply(String,b(h(a)))}var l=function(a){var d={},l,r;l=0;for(r=a.length;l<r;l+=1)d[a.charAt(l)]=l;return d}("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"),B,y,D=runtime.getWindow(),z,t;D&&D.btoa?(z=D.btoa,B=function(a){return z(r(a))}):(z=n,B=function(d){return k(a(d))});D&&D.atob?(t=D.atob,y=function(a){a=t(a);return f(a,0,a.length)}):(t=p,y=function(a){return q(c(a))});core.Base64=function(){this.convertByteArrayToBase64=this.convertUTF8ArrayToBase64=
+k;this.convertBase64ToByteArray=this.convertBase64ToUTF8Array=c;this.convertUTF16ArrayToByteArray=this.convertUTF16ArrayToUTF8Array=b;this.convertByteArrayToUTF16Array=this.convertUTF8ArrayToUTF16Array=g;this.convertUTF8StringToBase64=n;this.convertBase64ToUTF8String=p;this.convertUTF8StringToUTF16Array=m;this.convertByteArrayToUTF16String=this.convertUTF8ArrayToUTF16String=q;this.convertUTF8StringToUTF16String=e;this.convertUTF16StringToByteArray=this.convertUTF16StringToUTF8Array=a;this.convertUTF16ArrayToUTF8String=
+d;this.convertUTF16StringToUTF8String=r;this.convertUTF16StringToBase64=B;this.convertBase64ToUTF16String=y;this.fromBase64=p;this.toBase64=n;this.atob=t;this.btoa=z;this.utob=r;this.btou=e;this.encode=B;this.encodeURI=function(a){return B(a).replace(/[+\/]/g,function(a){return"+"===a?"-":"_"}).replace(/\\=+$/,"")};this.decode=function(a){return y(a.replace(/[\-_]/g,function(a){return"-"===a?"+":"/"}))};return this};return core.Base64}core.Base64=makeBase64();core.ByteArray=function(h){this.pos=0;this.data=h;this.readUInt32LE=function(){this.pos+=4;var h=this.data,c=this.pos;return h[--c]<<24|h[--c]<<16|h[--c]<<8|h[--c]};this.readUInt16LE=function(){this.pos+=2;var h=this.data,c=this.pos;return h[--c]<<8|h[--c]}};core.ByteArrayWriter=function(h){function k(c){c>g-b&&(g=Math.max(2*g,b+c),c=new Uint8Array(new ArrayBuffer(g)),c.set(n),n=c)}var c=this,b=0,g=1024,n=new Uint8Array(new ArrayBuffer(g));this.appendByteArrayWriter=function(b){c.appendByteArray(b.getByteArray())};this.appendByteArray=function(c){var g=c.length;k(g);n.set(c,b);b+=g};this.appendArray=function(c){var g=c.length;k(g);n.set(c,b);b+=g};this.appendUInt16LE=function(b){c.appendArray([b&255,b>>8&255])};this.appendUInt32LE=function(b){c.appendArray([b&
+255,b>>8&255,b>>16&255,b>>24&255])};this.appendString=function(b){c.appendByteArray(runtime.byteArrayFromString(b,h))};this.getLength=function(){return b};this.getByteArray=function(){var c=new Uint8Array(new ArrayBuffer(b));c.set(n.subarray(0,b));return c}};core.CSSUnits=function(){var h=this,k={"in":1,cm:2.54,mm:25.4,pt:72,pc:12,px:96};this.convert=function(c,b,g){return c*k[g]/k[b]};this.convertMeasure=function(c,b){var g,n;c&&b&&(g=parseFloat(c),n=c.replace(g.toString(),""),g=h.convert(g,n,b));return g};this.getUnits=function(c){return c.substr(c.length-2,c.length)}};(function(){function h(){var b,g,n,h,m,k,f,e,a;void 0===c&&(g=(b=runtime.getWindow())&&b.document,k=g.documentElement,f=g.body,c={rangeBCRIgnoresElementBCR:!1,unscaledRangeClientRects:!1,elementBCRIgnoresBodyScroll:!1},g&&(h=g.createElement("div"),h.style.position="absolute",h.style.left="-99999px",h.style.transform="scale(2)",h.style["-webkit-transform"]="scale(2)",m=g.createElement("div"),h.appendChild(m),f.appendChild(h),b=g.createRange(),b.selectNode(m),c.rangeBCRIgnoresElementBCR=0===b.getClientRects().length,
+m.appendChild(g.createTextNode("Rect transform test")),g=m.getBoundingClientRect(),n=b.getBoundingClientRect(),c.unscaledRangeClientRects=2<Math.abs(g.height-n.height),h.style.transform="",h.style["-webkit-transform"]="",g=k.style.overflow,n=f.style.overflow,e=f.style.height,a=f.scrollTop,k.style.overflow="visible",f.style.overflow="visible",f.style.height="200%",f.scrollTop=f.scrollHeight,c.elementBCRIgnoresBodyScroll=b.getBoundingClientRect().top!==m.getBoundingClientRect().top,f.scrollTop=a,f.style.height=
+e,f.style.overflow=n,k.style.overflow=g,b.detach(),f.removeChild(h),b=Object.keys(c).map(function(a){return a+":"+String(c[a])}).join(", "),runtime.log("Detected browser quirks - "+b)));return c}function k(b,c,n){for(b=b?b.firstElementChild:null;b;){if(b.localName===n&&b.namespaceURI===c)return b;b=b.nextElementSibling}return null}var c;core.DomUtilsImpl=function(){function b(a,d){for(var b=0,c;a.parentNode!==d;)runtime.assert(null!==a.parentNode,"parent is null"),a=a.parentNode;for(c=d.firstChild;c!==
+a;)b+=1,c=c.nextSibling;return b}function c(a,d){return 0>=a.compareBoundaryPoints(Range.START_TO_START,d)&&0<=a.compareBoundaryPoints(Range.END_TO_END,d)}function n(a,d){return 0>=a.compareBoundaryPoints(Range.END_TO_START,d)&&0<=a.compareBoundaryPoints(Range.START_TO_END,d)}function p(a,d){var b=null;a.nodeType===Node.TEXT_NODE&&(0===a.length?(a.parentNode.removeChild(a),d.nodeType===Node.TEXT_NODE&&(b=d)):(d.nodeType===Node.TEXT_NODE&&(a.appendData(d.data),d.parentNode.removeChild(d)),b=a));return b}
+function m(a){for(var d=a.parentNode;a.firstChild;)d.insertBefore(a.firstChild,a);d.removeChild(a);return d}function q(a,d){var b=a.parentNode,c=a.firstChild,e=d(a),f;if(e===NodeFilter.FILTER_SKIP)return b;for(;c;)f=c.nextSibling,q(c,d),c=f;b&&e===NodeFilter.FILTER_REJECT&&m(a);return b}function f(a,d){return a===d||Boolean(a.compareDocumentPosition(d)&Node.DOCUMENT_POSITION_CONTAINED_BY)}function e(a,d){return h().unscaledRangeClientRects?a:a/d}function a(d,l,b){Object.keys(l).forEach(function(c){var e=
+c.split(":"),f=e[1],g=b(e[0]),e=l[c],n=typeof e;"object"===n?Object.keys(e).length&&(c=g?d.getElementsByTagNameNS(g,f)[0]||d.ownerDocument.createElementNS(g,c):d.getElementsByTagName(f)[0]||d.ownerDocument.createElement(c),d.appendChild(c),a(c,e,b)):g&&(runtime.assert("number"===n||"string"===n,"attempting to map unsupported type '"+n+"' (key: "+c+")"),d.setAttributeNS(g,c,String(e)))})}var d=null;this.splitBoundaries=function(a){var d,c=[],e,f,g;if(a.startContainer.nodeType===Node.TEXT_NODE||a.endContainer.nodeType===
+Node.TEXT_NODE){e=a.endContainer;f=a.endContainer.nodeType!==Node.TEXT_NODE?a.endOffset===a.endContainer.childNodes.length:!1;g=a.endOffset;d=a.endContainer;if(g<d.childNodes.length)for(d=d.childNodes.item(g),g=0;d.firstChild;)d=d.firstChild;else for(;d.lastChild;)d=d.lastChild,g=d.nodeType===Node.TEXT_NODE?d.textContent.length:d.childNodes.length;d===e&&(e=null);a.setEnd(d,g);g=a.endContainer;0!==a.endOffset&&g.nodeType===Node.TEXT_NODE&&(d=g,a.endOffset!==d.length&&(c.push(d.splitText(a.endOffset)),
+c.push(d)));g=a.startContainer;0!==a.startOffset&&g.nodeType===Node.TEXT_NODE&&(d=g,a.startOffset!==d.length&&(g=d.splitText(a.startOffset),c.push(d),c.push(g),a.setStart(g,0)));if(null!==e){for(g=a.endContainer;g.parentNode&&g.parentNode!==e;)g=g.parentNode;f=f?e.childNodes.length:b(g,e);a.setEnd(e,f)}}return c};this.containsRange=c;this.rangesIntersect=n;this.rangeIntersection=function(a,d){var b;n(a,d)&&(b=a.cloneRange(),-1===a.compareBoundaryPoints(Range.START_TO_START,d)&&b.setStart(d.startContainer,
+d.startOffset),1===a.compareBoundaryPoints(Range.END_TO_END,d)&&b.setEnd(d.endContainer,d.endOffset));return b};this.getNodesInRange=function(a,d,b){var c=[],e=a.commonAncestorContainer,e=e.nodeType===Node.TEXT_NODE?e.parentNode:e;b=a.startContainer.ownerDocument.createTreeWalker(e,b,d,!1);var f,g;a.endContainer.childNodes[a.endOffset-1]?(f=a.endContainer.childNodes[a.endOffset-1],g=Node.DOCUMENT_POSITION_PRECEDING|Node.DOCUMENT_POSITION_CONTAINED_BY):(f=a.endContainer,g=Node.DOCUMENT_POSITION_PRECEDING);
+if(a.startContainer.childNodes[a.startOffset])a=a.startContainer.childNodes[a.startOffset],b.currentNode=a;else{var n=a.startContainer;a.startOffset===(n.nodeType===Node.TEXT_NODE?n.length:n.childNodes.length)?(a=a.startContainer,b.currentNode=a,b.lastChild(),a=b.nextNode()):(a=a.startContainer,b.currentNode=a)}if(a){a=b.currentNode;if(a!==e)for(a=a.parentNode;a&&a!==e;)d(a)===NodeFilter.FILTER_REJECT&&(b.currentNode=a),a=a.parentNode;a=b.currentNode;switch(d(a)){case NodeFilter.FILTER_REJECT:for(a=
+b.nextSibling();!a&&b.parentNode();)a=b.nextSibling();break;case NodeFilter.FILTER_SKIP:a=b.nextNode()}for(;a;){d=f.compareDocumentPosition(a);if(0!==d&&0===(d&g))break;c.push(a);a=b.nextNode()}}return c};this.normalizeTextNodes=function(a){a&&a.nextSibling&&(a=p(a,a.nextSibling));a&&a.previousSibling&&p(a.previousSibling,a)};this.rangeContainsNode=function(a,d){var b=d.ownerDocument.createRange(),e=d.ownerDocument.createRange(),f;b.setStart(a.startContainer,a.startOffset);b.setEnd(a.endContainer,
+a.endOffset);e.selectNodeContents(d);f=c(b,e);b.detach();e.detach();return f};this.mergeIntoParent=m;this.removeUnwantedNodes=q;this.removeAllChildNodes=function(a){for(;a.firstChild;)a.removeChild(a.firstChild)};this.getElementsByTagNameNS=function(a,d,b){var c=[];a=a.getElementsByTagNameNS(d,b);c.length=b=a.length;for(d=0;d<b;d+=1)c[d]=a.item(d);return c};this.getElementsByTagName=function(a,d){var b=[],c,e,f;c=a.getElementsByTagName(d);b.length=f=c.length;for(e=0;e<f;e+=1)b[e]=c.item(e);return b};
+this.containsNode=function(a,d){return a===d||a.contains(d)};this.comparePoints=function(a,d,c,e){if(a===c)return e-d;var f=a.compareDocumentPosition(c);2===f?f=-1:4===f?f=1:10===f?(d=b(a,c),f=d<e?1:-1):(e=b(c,a),f=e<d?-1:1);return f};this.adaptRangeDifferenceToZoomLevel=e;this.translateRect=function(a,d,b){return{top:e(a.top-d.top,b),left:e(a.left-d.left,b),bottom:e(a.bottom-d.top,b),right:e(a.right-d.left,b),width:e(a.width,b),height:e(a.height,b)}};this.getBoundingClientRect=function(a){var b=
+a.ownerDocument,c=h(),e=b.body;if((!1===c.unscaledRangeClientRects||c.rangeBCRIgnoresElementBCR)&&a.nodeType===Node.ELEMENT_NODE)return a=a.getBoundingClientRect(),c.elementBCRIgnoresBodyScroll?{left:a.left+e.scrollLeft,right:a.right+e.scrollLeft,top:a.top+e.scrollTop,bottom:a.bottom+e.scrollTop,width:a.width,height:a.height}:a;var f;d?f=d:d=f=b.createRange();c=f;c.selectNode(a);return c.getBoundingClientRect()};this.mapKeyValObjOntoNode=function(a,d,b){Object.keys(d).forEach(function(c){var e=c.split(":"),
+f=e[1],e=b(e[0]),g=d[c];e?(f=a.getElementsByTagNameNS(e,f)[0],f||(f=a.ownerDocument.createElementNS(e,c),a.appendChild(f)),f.textContent=g):runtime.log("Key ignored: "+c)})};this.removeKeyElementsFromNode=function(a,d,b){d.forEach(function(d){var l=d.split(":"),c=l[1];(l=b(l[0]))?(c=a.getElementsByTagNameNS(l,c)[0])?c.parentNode.removeChild(c):runtime.log("Element for "+d+" not found."):runtime.log("Property Name ignored: "+d)})};this.getKeyValRepresentationOfNode=function(a,d){for(var b={},c=a.firstElementChild,
+e;c;){if(e=d(c.namespaceURI))b[e+":"+c.localName]=c.textContent;c=c.nextElementSibling}return b};this.mapObjOntoNode=a;this.cloneEvent=function(a){var d=Object.create(null);Object.keys(a).forEach(function(b){d[b]=a[b]});d.prototype=a.constructor.prototype;return d};this.getDirectChild=k;(function(a){var d,b;b=runtime.getWindow();null!==b&&(d=b.navigator.appVersion.toLowerCase(),b=-1===d.indexOf("chrome")&&(-1!==d.indexOf("applewebkit")||-1!==d.indexOf("safari")),d=-1!==d.indexOf("msie")||-1!==d.indexOf("trident"),
+b||d)&&(a.containsNode=f)})(this)};core.DomUtils=new core.DomUtilsImpl})();core.Cursor=function(h,k){function c(a){a.parentNode&&(m.push(a.previousSibling),m.push(a.nextSibling),a.parentNode.removeChild(a))}function b(a,d,b){if(d.nodeType===Node.TEXT_NODE){runtime.assert(Boolean(d),"putCursorIntoTextNode: invalid container");var l=d.parentNode;runtime.assert(Boolean(l),"putCursorIntoTextNode: container without parent");runtime.assert(0<=b&&b<=d.length,"putCursorIntoTextNode: offset is out of bounds");0===b?l.insertBefore(a,d):(b!==d.length&&d.splitText(b),l.insertBefore(a,
+d.nextSibling))}else d.nodeType===Node.ELEMENT_NODE&&d.insertBefore(a,d.childNodes.item(b));m.push(a.previousSibling);m.push(a.nextSibling)}var g=h.createElementNS("urn:webodf:names:cursor","cursor"),n=h.createElementNS("urn:webodf:names:cursor","anchor"),p,m=[],q=h.createRange(),f,e=core.DomUtils;this.getNode=function(){return g};this.getAnchorNode=function(){return n.parentNode?n:g};this.getSelectedRange=function(){f?(q.setStartBefore(g),q.collapse(!0)):(q.setStartAfter(p?n:g),q.setEndBefore(p?
+g:n));return q};this.setSelectedRange=function(a,d){q&&q!==a&&q.detach();q=a;p=!1!==d;(f=a.collapsed)?(c(n),c(g),b(g,a.startContainer,a.startOffset)):(c(n),c(g),b(p?g:n,a.endContainer,a.endOffset),b(p?n:g,a.startContainer,a.startOffset));m.forEach(e.normalizeTextNodes);m.length=0};this.hasForwardSelection=function(){return p};this.remove=function(){c(g);m.forEach(e.normalizeTextNodes);m.length=0};g.setAttributeNS("urn:webodf:names:cursor","memberId",k);n.setAttributeNS("urn:webodf:names:cursor","memberId",
+k)};core.Destroyable=function(){};core.Destroyable.prototype.destroy=function(h){};core.EventSource=function(){};core.EventSource.prototype.subscribe=function(h,k){};core.EventSource.prototype.unsubscribe=function(h,k){};core.EventNotifier=function(h){function k(b){runtime.assert(!c.hasOwnProperty(b),'Duplicated event ids: "'+b+'" registered more than once.');c[b]=[]}var c={};this.emit=function(b,g){var n,h;runtime.assert(c.hasOwnProperty(b),'unknown event fired "'+b+'"');h=c[b];for(n=0;n<h.length;n+=1)h[n](g)};this.subscribe=function(b,g){runtime.assert(c.hasOwnProperty(b),'tried to subscribe to unknown event "'+b+'"');c[b].push(g)};this.unsubscribe=function(b,g){var n;runtime.assert(c.hasOwnProperty(b),'tried to unsubscribe from unknown event "'+
+b+'"');n=c[b].indexOf(g);runtime.assert(-1!==n,'tried to unsubscribe unknown callback from event "'+b+'"');-1!==n&&c[b].splice(n,1)};this.register=k;h&&h.forEach(k)};core.ScheduledTask=function(h,k,c){function b(){p&&(c(n),p=!1)}function g(){b();h.apply(void 0,m);m=null}var n,p=!1,m=[],q=!1;this.trigger=function(){runtime.assert(!1===q,"Can't trigger destroyed ScheduledTask instance");m=Array.prototype.slice.call(arguments);p||(p=!0,n=k(g))};this.triggerImmediate=function(){runtime.assert(!1===q,"Can't trigger destroyed ScheduledTask instance");m=Array.prototype.slice.call(arguments);g()};this.processRequests=function(){p&&g()};this.cancel=b;this.restart=function(){runtime.assert(!1===
+q,"Can't trigger destroyed ScheduledTask instance");b();p=!0;n=k(g)};this.destroy=function(c){b();q=!0;c()}};(function(){var h;core.Task={};core.Task.SUPPRESS_MANUAL_PROCESSING=!1;core.Task.processTasks=function(){core.Task.SUPPRESS_MANUAL_PROCESSING||h.performRedraw()};core.Task.createRedrawTask=function(k){return new core.ScheduledTask(k,h.requestRedrawTask,h.cancelRedrawTask)};core.Task.createTimeoutTask=function(h,c){return new core.ScheduledTask(h,function(b){return runtime.setTimeout(b,c)},runtime.clearTimeout)};h=new function(){var h={};this.requestRedrawTask=function(c){var b=runtime.requestAnimationFrame(function(){c();
+delete h[b]});h[b]=c;return b};this.performRedraw=function(){Object.keys(h).forEach(function(c){h[c]();runtime.cancelAnimationFrame(parseInt(c,10))});h={}};this.cancelRedrawTask=function(c){runtime.cancelAnimationFrame(c);delete h[c]}}})();core.EventSubscriptions=function(){function h(b,g,n){b.subscribe(g,n);c.push({eventSource:b,eventid:g,callback:n})}function k(){var n=[];c.forEach(function(b){b.eventSource.unsubscribe(b.eventid,b.callback)});c.length=0;Object.keys(g).forEach(function(b){g[b].forEach(function(b){n.push(b.task.destroy)});delete g[b]});core.Async.destroyAll(n,function(){});b=new core.EventNotifier}var c=[],b=new core.EventNotifier,g={},n=0;this.addSubscription=h;this.addFrameSubscription=function(c,m,k){var f,e,a,d;
+g.hasOwnProperty(m)||(g[m]=[]);a=g[m];for(d=0;d<a.length;d+=1)if(a[d].eventSource===c){f=a[d];break}f||(e="s"+n,n+=1,b.register(e),f={frameEventId:e,eventSource:c,task:core.Task.createRedrawTask(function(){b.emit(e,void 0)})},a.push(f),h(c,m,f.task.trigger));b.subscribe(f.frameEventId,k)};this.unsubscribeAll=k;this.destroy=function(b){k();b()}};core.LazyProperty=function(h){var k,c=!1;this.value=function(){c||(k=h(),c=!0);return k};this.reset=function(){c=!1}};core.LoopWatchDog=function(h,k){var c=Date.now(),b=0;this.check=function(){var g;if(h&&(g=Date.now(),g-c>h))throw runtime.log("alert","watchdog timeout"),"timeout!";if(0<k&&(b+=1,b>k))throw runtime.log("alert","watchdog loop overflow"),"loop overflow";}};core.NodeFilterChain=function(h){var k=NodeFilter.FILTER_REJECT,c=NodeFilter.FILTER_ACCEPT;this.acceptNode=function(b){var g;for(g=0;g<h.length;g+=1)if(h[g].acceptNode(b)===k)return k;return c}};core.PositionIterator=function(h,k,c,b){function g(){this.acceptNode=function(a){return!a||a.nodeType===r&&0===a.length?y:B}}function n(a){this.acceptNode=function(d){return!d||d.nodeType===r&&0===d.length?y:a.acceptNode(d)}}function p(){var d=e.currentNode,b=d.nodeType;a=b===r?d.length-1:b===l?1:0}function m(){if(null===e.previousSibling()){if(!e.parentNode()||e.currentNode===h)return e.firstChild(),!1;a=0}else p();return!0}function q(){var b=e.currentNode,l;l=d(b);if(b!==h)for(b=b.parentNode;b&&
+b!==h;)d(b)===y&&(e.currentNode=b,l=y),b=b.parentNode;l===y?(a=e.currentNode.nodeType===r?b.length:1,b=f.nextPosition()):b=l===B?!0:f.nextPosition();b&&runtime.assert(d(e.currentNode)===B,"moveToAcceptedNode did not result in walker being on an accepted node");return b}var f=this,e,a,d,r=Node.TEXT_NODE,l=Node.ELEMENT_NODE,B=NodeFilter.FILTER_ACCEPT,y=NodeFilter.FILTER_REJECT;this.nextPosition=function(){var d=e.currentNode,b=d.nodeType;if(d===h)return!1;if(0===a&&b===l)null===e.firstChild()&&(a=1);
+else if(b===r&&a+1<d.length)a+=1;else if(null!==e.nextSibling())a=0;else if(e.parentNode())a=1;else return!1;return!0};this.previousPosition=function(){var d=!0,b=e.currentNode;0===a?d=m():b.nodeType===r?--a:null!==e.lastChild()?p():b===h?d=!1:a=0;return d};this.previousNode=m;this.container=function(){var d=e.currentNode,b=d.nodeType;0===a&&b!==r&&(d=d.parentNode);return d};this.rightNode=function(){var b=e.currentNode,c=b.nodeType;if(c===r&&a===b.length)for(b=b.nextSibling;b&&d(b)!==B;)b=b.nextSibling;
+else c===l&&1===a&&(b=null);return b};this.leftNode=function(){var b=e.currentNode;if(0===a)for(b=b.previousSibling;b&&d(b)!==B;)b=b.previousSibling;else if(b.nodeType===l)for(b=b.lastChild;b&&d(b)!==B;)b=b.previousSibling;return b};this.getCurrentNode=function(){return e.currentNode};this.unfilteredDomOffset=function(){if(e.currentNode.nodeType===r)return a;for(var d=0,b=e.currentNode,b=1===a?b.lastChild:b.previousSibling;b;)d+=1,b=b.previousSibling;return d};this.getPreviousSibling=function(){var a=
+e.currentNode,d=e.previousSibling();e.currentNode=a;return d};this.getNextSibling=function(){var a=e.currentNode,d=e.nextSibling();e.currentNode=a;return d};this.setPositionBeforeElement=function(d){runtime.assert(Boolean(d),"setPositionBeforeElement called without element");e.currentNode=d;a=0;return q()};this.setUnfilteredPosition=function(d,b){runtime.assert(Boolean(d),"PositionIterator.setUnfilteredPosition called without container");e.currentNode=d;d.nodeType===r?(a=b,runtime.assert(b<=d.length,
+"Error in setPosition: "+b+" > "+d.length),runtime.assert(0<=b,"Error in setPosition: "+b+" < 0"),b===d.length&&(e.nextSibling()?a=0:e.parentNode()?a=1:runtime.assert(!1,"Error in setUnfilteredPosition: position not valid."))):b<d.childNodes.length?(e.currentNode=d.childNodes.item(b),a=0):a=1;return q()};this.moveToEnd=function(){e.currentNode=h;a=1};this.moveToEndOfNode=function(d){d.nodeType===r?f.setUnfilteredPosition(d,d.length):(e.currentNode=d,a=1)};this.isBeforeNode=function(){return 0===a};
+this.getNodeFilter=function(){return d};d=(c?new n(c):new g).acceptNode;d.acceptNode=d;k=k||NodeFilter.SHOW_ALL;runtime.assert(h.nodeType!==Node.TEXT_NODE,"Internet Explorer doesn't allow tree walker roots to be text nodes");e=h.ownerDocument.createTreeWalker(h,k,d,b);a=0;null===e.firstChild()&&(a=1)};core.PositionFilter=function(){};core.PositionFilter.FilterResult={FILTER_ACCEPT:1,FILTER_REJECT:2,FILTER_SKIP:3};core.PositionFilter.prototype.acceptPosition=function(h){};core.PositionFilterChain=function(){var h=[],k=core.PositionFilter.FilterResult.FILTER_ACCEPT,c=core.PositionFilter.FilterResult.FILTER_REJECT;this.acceptPosition=function(b){var g;for(g=0;g<h.length;g+=1)if(h[g].acceptPosition(b)===c)return c;return k};this.addFilter=function(b){h.push(b)}};(function(){core.RawInflate=function(){var h;(function(k){h=k()})(function(){return function c(b,g,n){function h(m,f){if(!g[m]){if(!b[m])throw Error("Cannot find module '"+m+"'");var e=g[m]={exports:{}};b[m][0].call(e.exports,function(a){var d=b[m][1][a];return h(d?d:a)},e,e.exports,c,b,g,n)}return g[m].exports}for(var m=0;m<n.length;m++)h(n[m]);return h}({1:[function(c,b,g){function n(a,d){var b=new r(d);b.push(a,!0);if(b.err)throw b.msg;return b.result}var h=c("./zlib/inflate.js"),m=c("./utils/common"),
+q=c("./utils/strings"),f=c("./zlib/constants"),e=c("./zlib/messages"),a=c("./zlib/zstream"),d=c("./zlib/gzheader"),r=function(b){var c=this.options=m.assign({chunkSize:16384,windowBits:0,to:""},b||{});c.raw&&0<=c.windowBits&&16>c.windowBits&&(c.windowBits=-c.windowBits,0===c.windowBits&&(c.windowBits=-15));!(0<=c.windowBits&&16>c.windowBits)||b&&b.windowBits||(c.windowBits+=32);15<c.windowBits&&48>c.windowBits&&0===(c.windowBits&15)&&(c.windowBits|=15);this.err=0;this.msg="";this.ended=!1;this.chunks=
+[];this.strm=new a;this.strm.avail_out=0;b=h.inflateInit2(this.strm,c.windowBits);if(b!==f.Z_OK)throw Error(e[b]);this.header=new d;h.inflateGetHeader(this.strm,this.header)};r.prototype.push=function(a,d){var b=this.strm,c=this.options.chunkSize,e,r,g,w,n;if(this.ended)return!1;r=d===~~d?d:!0===d?f.Z_FINISH:f.Z_NO_FLUSH;b.input="string"===typeof a?q.binstring2buf(a):a;b.next_in=0;b.avail_in=b.input.length;do{0===b.avail_out&&(b.output=new m.Buf8(c),b.next_out=0,b.avail_out=c);e=h.inflate(b,f.Z_NO_FLUSH);
+if(e!==f.Z_STREAM_END&&e!==f.Z_OK)return this.onEnd(e),this.ended=!0,!1;if(b.next_out&&(0===b.avail_out||e===f.Z_STREAM_END||0===b.avail_in&&r===f.Z_FINISH))if("string"===this.options.to)g=q.utf8border(b.output,b.next_out),w=b.next_out-g,n=q.buf2string(b.output,g),b.next_out=w,b.avail_out=c-w,w&&m.arraySet(b.output,b.output,g,w,0),this.onData(n);else this.onData(m.shrinkBuf(b.output,b.next_out))}while((0<b.avail_in||0===b.avail_out)&&e!==f.Z_STREAM_END);e===f.Z_STREAM_END&&(r=f.Z_FINISH);return r===
+f.Z_FINISH?(e=h.inflateEnd(this.strm),this.onEnd(e),this.ended=!0,e===f.Z_OK):!0};r.prototype.onData=function(a){this.chunks.push(a)};r.prototype.onEnd=function(a){a===f.Z_OK&&(this.result="string"===this.options.to?this.chunks.join(""):m.flattenChunks(this.chunks));this.chunks=[];this.err=a;this.msg=this.strm.msg};g.Inflate=r;g.inflate=n;g.inflateRaw=function(a,d){d=d||{};d.raw=!0;return n(a,d)};g.ungzip=n},{"./utils/common":2,"./utils/strings":3,"./zlib/constants":5,"./zlib/gzheader":7,"./zlib/inflate.js":9,
+"./zlib/messages":11,"./zlib/zstream":12}],2:[function(c,b,g){c="undefined"!==typeof Uint8Array&&"undefined"!==typeof Uint16Array&&"undefined"!==typeof Int32Array;g.assign=function(b){for(var c=Array.prototype.slice.call(arguments,1);c.length;){var f=c.shift();if(f){if("object"!==typeof f)throw new TypeError(f+"must be non-object");for(var e in f)f.hasOwnProperty(e)&&(b[e]=f[e])}}return b};g.shrinkBuf=function(b,c){if(b.length===c)return b;if(b.subarray)return b.subarray(0,c);b.length=c;return b};
+var n={arraySet:function(b,c,f,e,a){if(c.subarray&&b.subarray)b.set(c.subarray(f,f+e),a);else for(var d=0;d<e;d++)b[a+d]=c[f+d]},flattenChunks:function(b){var c,f,e,a,d;c=e=0;for(f=b.length;c<f;c++)e+=b[c].length;d=new Uint8Array(e);c=e=0;for(f=b.length;c<f;c++)a=b[c],d.set(a,e),e+=a.length;return d}},h={arraySet:function(b,c,f,e,a){for(var d=0;d<e;d++)b[a+d]=c[f+d]},flattenChunks:function(b){return[].concat.apply([],b)}};g.setTyped=function(b){b?(g.Buf8=Uint8Array,g.Buf16=Uint16Array,g.Buf32=Int32Array,
+g.assign(g,n)):(g.Buf8=Array,g.Buf16=Array,g.Buf32=Array,g.assign(g,h))};g.setTyped(c)},{}],3:[function(c,b,g){function n(a,b){if(65537>b&&(a.subarray&&q||!a.subarray&&m))return String.fromCharCode.apply(null,h.shrinkBuf(a,b));for(var c="",e=0;e<b;e++)c+=String.fromCharCode(a[e]);return c}var h=c("./common"),m=!0,q=!0;try{String.fromCharCode.apply(null,[0])}catch(f){m=!1}try{String.fromCharCode.apply(null,new Uint8Array(1))}catch(e){q=!1}var a=new h.Buf8(256);for(c=0;256>c;c++)a[c]=252<=c?6:248<=
+c?5:240<=c?4:224<=c?3:192<=c?2:1;a[254]=a[254]=1;g.string2buf=function(a){var b,c,e,f,g,n=a.length,m=0;for(f=0;f<n;f++)c=a.charCodeAt(f),55296===(c&64512)&&f+1<n&&(e=a.charCodeAt(f+1),56320===(e&64512)&&(c=65536+(c-55296<<10)+(e-56320),f++)),m+=128>c?1:2048>c?2:65536>c?3:4;b=new h.Buf8(m);for(f=g=0;g<m;f++)c=a.charCodeAt(f),55296===(c&64512)&&f+1<n&&(e=a.charCodeAt(f+1),56320===(e&64512)&&(c=65536+(c-55296<<10)+(e-56320),f++)),128>c?b[g++]=c:(2048>c?b[g++]=192|c>>>6:(65536>c?b[g++]=224|c>>>12:(b[g++]=
+240|c>>>18,b[g++]=128|c>>>12&63),b[g++]=128|c>>>6&63),b[g++]=128|c&63);return b};g.buf2binstring=function(a){return n(a,a.length)};g.binstring2buf=function(a){for(var b=new h.Buf8(a.length),c=0,e=b.length;c<e;c++)b[c]=a.charCodeAt(c);return b};g.buf2string=function(d,b){var c,e,f,g,h=b||d.length,m=Array(2*h);for(c=e=0;c<h;)if(f=d[c++],128>f)m[e++]=f;else if(g=a[f],4<g)m[e++]=65533,c+=g-1;else{for(f&=2===g?31:3===g?15:7;1<g&&c<h;)f=f<<6|d[c++]&63,g--;1<g?m[e++]=65533:65536>f?m[e++]=f:(f-=65536,m[e++]=
+55296|f>>10&1023,m[e++]=56320|f&1023)}return n(m,e)};g.utf8border=function(d,b){var c;b=b||d.length;b>d.length&&(b=d.length);for(c=b-1;0<=c&&128===(d[c]&192);)c--;return 0>c||0===c?b:c+a[d[c]]>b?c:b}},{"./common":2}],4:[function(c,b,g){b.exports=function(b,c,g,h){var f=b&65535|0;b=b>>>16&65535|0;for(var e=0;0!==g;){e=2E3<g?2E3:g;g-=e;do f=f+c[h++]|0,b=b+f|0;while(--e);f%=65521;b%=65521}return f|b<<16|0}},{}],5:[function(c,b,g){b.exports={Z_NO_FLUSH:0,Z_PARTIAL_FLUSH:1,Z_SYNC_FLUSH:2,Z_FULL_FLUSH:3,
+Z_FINISH:4,Z_BLOCK:5,Z_TREES:6,Z_OK:0,Z_STREAM_END:1,Z_NEED_DICT:2,Z_ERRNO:-1,Z_STREAM_ERROR:-2,Z_DATA_ERROR:-3,Z_BUF_ERROR:-5,Z_NO_COMPRESSION:0,Z_BEST_SPEED:1,Z_BEST_COMPRESSION:9,Z_DEFAULT_COMPRESSION:-1,Z_FILTERED:1,Z_HUFFMAN_ONLY:2,Z_RLE:3,Z_FIXED:4,Z_DEFAULT_STRATEGY:0,Z_BINARY:0,Z_TEXT:1,Z_UNKNOWN:2,Z_DEFLATED:8}},{}],6:[function(c,b,g){var n=function(){for(var b,c=[],g=0;256>g;g++){b=g;for(var f=0;8>f;f++)b=b&1?3988292384^b>>>1:b>>>1;c[g]=b}return c}();b.exports=function(b,c,g,f){g=f+g;for(b^=
+-1;f<g;f++)b=b>>>8^n[(b^c[f])&255];return b^-1}},{}],7:[function(c,b,g){b.exports=function(){this.os=this.xflags=this.time=this.text=0;this.extra=null;this.extra_len=0;this.comment=this.name="";this.hcrc=0;this.done=!1}},{}],8:[function(c,b,g){b.exports=function(b,c){var g,h,f,e,a,d,r,l,B,y,D,z,t,x,w,F,L,H,G,A,K,v,u,Q;g=b.state;h=b.next_in;u=b.input;f=h+(b.avail_in-5);e=b.next_out;Q=b.output;a=e-(c-b.avail_out);d=e+(b.avail_out-257);r=g.dmax;l=g.wsize;B=g.whave;y=g.wnext;D=g.window;z=g.hold;t=g.bits;
+x=g.lencode;w=g.distcode;F=(1<<g.lenbits)-1;L=(1<<g.distbits)-1;a:do b:for(15>t&&(z+=u[h++]<<t,t+=8,z+=u[h++]<<t,t+=8),H=x[z&F];;){G=H>>>24;z>>>=G;t-=G;G=H>>>16&255;if(0===G)Q[e++]=H&65535;else if(G&16){A=H&65535;if(G&=15)t<G&&(z+=u[h++]<<t,t+=8),A+=z&(1<<G)-1,z>>>=G,t-=G;15>t&&(z+=u[h++]<<t,t+=8,z+=u[h++]<<t,t+=8);H=w[z&L];c:for(;;){G=H>>>24;z>>>=G;t-=G;G=H>>>16&255;if(G&16){H&=65535;G&=15;t<G&&(z+=u[h++]<<t,t+=8,t<G&&(z+=u[h++]<<t,t+=8));H+=z&(1<<G)-1;if(H>r){b.msg="invalid distance too far back";
+g.mode=30;break a}z>>>=G;t-=G;G=e-a;if(H>G){G=H-G;if(G>B&&g.sane){b.msg="invalid distance too far back";g.mode=30;break a}K=0;v=D;if(0===y){if(K+=l-G,G<A){A-=G;do Q[e++]=D[K++];while(--G);K=e-H;v=Q}}else if(y<G){if(K+=l+y-G,G-=y,G<A){A-=G;do Q[e++]=D[K++];while(--G);K=0;if(y<A){G=y;A-=G;do Q[e++]=D[K++];while(--G);K=e-H;v=Q}}}else if(K+=y-G,G<A){A-=G;do Q[e++]=D[K++];while(--G);K=e-H;v=Q}for(;2<A;)Q[e++]=v[K++],Q[e++]=v[K++],Q[e++]=v[K++],A-=3;A&&(Q[e++]=v[K++],1<A&&(Q[e++]=v[K++]))}else{K=e-H;do Q[e++]=
+Q[K++],Q[e++]=Q[K++],Q[e++]=Q[K++],A-=3;while(2<A);A&&(Q[e++]=Q[K++],1<A&&(Q[e++]=Q[K++]))}}else if(0===(G&64)){H=w[(H&65535)+(z&(1<<G)-1)];continue c}else{b.msg="invalid distance code";g.mode=30;break a}break}}else if(0===(G&64)){H=x[(H&65535)+(z&(1<<G)-1)];continue b}else{G&32?g.mode=12:(b.msg="invalid literal/length code",g.mode=30);break a}break}while(h<f&&e<d);A=t>>3;h-=A;t-=A<<3;b.next_in=h;b.next_out=e;b.avail_in=h<f?5+(f-h):5-(h-f);b.avail_out=e<d?257+(d-e):257-(e-d);g.hold=z&(1<<t)-1;g.bits=
+t}},{}],9:[function(c,b,g){function h(a){return(a>>>24&255)+(a>>>8&65280)+((a&65280)<<8)+((a&255)<<24)}function p(){this.mode=0;this.last=!1;this.wrap=0;this.havedict=!1;this.total=this.check=this.dmax=this.flags=0;this.head=null;this.wnext=this.whave=this.wsize=this.wbits=0;this.window=null;this.extra=this.offset=this.length=this.bits=this.hold=0;this.distcode=this.lencode=null;this.have=this.ndist=this.nlen=this.ncode=this.distbits=this.lenbits=0;this.next=null;this.lens=new a.Buf16(320);this.work=
+new a.Buf16(288);this.distdyn=this.lendyn=null;this.was=this.back=this.sane=0}function m(d){var b;if(!d||!d.state)return-2;b=d.state;d.total_in=d.total_out=b.total=0;d.msg="";b.wrap&&(d.adler=b.wrap&1);b.mode=1;b.last=0;b.havedict=0;b.dmax=32768;b.head=null;b.hold=0;b.bits=0;b.lencode=b.lendyn=new a.Buf32(852);b.distcode=b.distdyn=new a.Buf32(592);b.sane=1;b.back=-1;return 0}function q(a){var d;if(!a||!a.state)return-2;d=a.state;d.wsize=0;d.whave=0;d.wnext=0;return m(a)}function f(a,d){var b,c;if(!a||
+!a.state)return-2;c=a.state;0>d?(b=0,d=-d):(b=(d>>4)+1,48>d&&(d&=15));if(d&&(8>d||15<d))return-2;null!==c.window&&c.wbits!==d&&(c.window=null);c.wrap=b;c.wbits=d;return q(a)}function e(a,d){var b;if(!a)return-2;b=new p;a.state=b;b.window=null;b=f(a,d);0!==b&&(a.state=null);return b}var a=c("../utils/common"),d=c("./adler32"),r=c("./crc32"),l=c("./inffast"),B=c("./inftrees"),y=!0,D,z;g.inflateReset=q;g.inflateReset2=f;g.inflateResetKeep=m;g.inflateInit=function(a){return e(a,15)};g.inflateInit2=e;
+g.inflate=function(b,c){var e,f,g,m,p,A,q,v,u,Q,R,C,I,P,U=0,T,ca,Y,E=new a.Buf8(4),Z=[16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];if(!b||!b.state||!b.output||!b.input&&0!==b.avail_in)return-2;e=b.state;12===e.mode&&(e.mode=13);p=b.next_out;g=b.output;q=b.avail_out;m=b.next_in;f=b.input;A=b.avail_in;v=e.hold;u=e.bits;Q=A;R=q;Y=0;a:for(;;)switch(e.mode){case 1:if(0===e.wrap){e.mode=13;break}for(;16>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}if(e.wrap&2&&35615===v){e.check=0;E[0]=v&255;E[1]=v>>>
+8&255;e.check=r(e.check,E,2,0);u=v=0;e.mode=2;break}e.flags=0;e.head&&(e.head.done=!1);if(!(e.wrap&1)||(((v&255)<<8)+(v>>8))%31){b.msg="incorrect header check";e.mode=30;break}if(8!==(v&15)){b.msg="unknown compression method";e.mode=30;break}v>>>=4;u-=4;I=(v&15)+8;if(0===e.wbits)e.wbits=I;else if(I>e.wbits){b.msg="invalid window size";e.mode=30;break}e.dmax=1<<I;b.adler=e.check=1;e.mode=v&512?10:12;u=v=0;break;case 2:for(;16>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.flags=v;if(8!==(e.flags&255)){b.msg=
+"unknown compression method";e.mode=30;break}if(e.flags&57344){b.msg="unknown header flags set";e.mode=30;break}e.head&&(e.head.text=v>>8&1);e.flags&512&&(E[0]=v&255,E[1]=v>>>8&255,e.check=r(e.check,E,2,0));u=v=0;e.mode=3;case 3:for(;32>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.head&&(e.head.time=v);e.flags&512&&(E[0]=v&255,E[1]=v>>>8&255,E[2]=v>>>16&255,E[3]=v>>>24&255,e.check=r(e.check,E,4,0));u=v=0;e.mode=4;case 4:for(;16>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.head&&(e.head.xflags=v&255,
+e.head.os=v>>8);e.flags&512&&(E[0]=v&255,E[1]=v>>>8&255,e.check=r(e.check,E,2,0));u=v=0;e.mode=5;case 5:if(e.flags&1024){for(;16>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.length=v;e.head&&(e.head.extra_len=v);e.flags&512&&(E[0]=v&255,E[1]=v>>>8&255,e.check=r(e.check,E,2,0));u=v=0}else e.head&&(e.head.extra=null);e.mode=6;case 6:if(e.flags&1024&&(C=e.length,C>A&&(C=A),C&&(e.head&&(I=e.head.extra_len-e.length,e.head.extra||(e.head.extra=Array(e.head.extra_len)),a.arraySet(e.head.extra,f,m,C,I)),
+e.flags&512&&(e.check=r(e.check,f,C,m)),A-=C,m+=C,e.length-=C),e.length))break a;e.length=0;e.mode=7;case 7:if(e.flags&2048){if(0===A)break a;C=0;do I=f[m+C++],e.head&&I&&65536>e.length&&(e.head.name+=String.fromCharCode(I));while(I&&C<A);e.flags&512&&(e.check=r(e.check,f,C,m));A-=C;m+=C;if(I)break a}else e.head&&(e.head.name=null);e.length=0;e.mode=8;case 8:if(e.flags&4096){if(0===A)break a;C=0;do I=f[m+C++],e.head&&I&&65536>e.length&&(e.head.comment+=String.fromCharCode(I));while(I&&C<A);e.flags&
+512&&(e.check=r(e.check,f,C,m));A-=C;m+=C;if(I)break a}else e.head&&(e.head.comment=null);e.mode=9;case 9:if(e.flags&512){for(;16>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}if(v!==(e.check&65535)){b.msg="header crc mismatch";e.mode=30;break}u=v=0}e.head&&(e.head.hcrc=e.flags>>9&1,e.head.done=!0);b.adler=e.check=0;e.mode=12;break;case 10:for(;32>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}b.adler=e.check=h(v);u=v=0;e.mode=11;case 11:if(0===e.havedict)return b.next_out=p,b.avail_out=q,b.next_in=m,b.avail_in=
+A,e.hold=v,e.bits=u,2;b.adler=e.check=1;e.mode=12;case 12:if(5===c||6===c)break a;case 13:if(e.last){v>>>=u&7;u-=u&7;e.mode=27;break}for(;3>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.last=v&1;v>>>=1;--u;switch(v&3){case 0:e.mode=14;break;case 1:C=e;if(y){I=void 0;D=new a.Buf32(512);z=new a.Buf32(32);for(I=0;144>I;)C.lens[I++]=8;for(;256>I;)C.lens[I++]=9;for(;280>I;)C.lens[I++]=7;for(;288>I;)C.lens[I++]=8;B(1,C.lens,0,288,D,0,C.work,{bits:9});for(I=0;32>I;)C.lens[I++]=5;B(2,C.lens,0,32,z,0,C.work,
+{bits:5});y=!1}C.lencode=D;C.lenbits=9;C.distcode=z;C.distbits=5;e.mode=20;if(6===c){v>>>=2;u-=2;break a}break;case 2:e.mode=17;break;case 3:b.msg="invalid block type",e.mode=30}v>>>=2;u-=2;break;case 14:v>>>=u&7;for(u-=u&7;32>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}if((v&65535)!==(v>>>16^65535)){b.msg="invalid stored block lengths";e.mode=30;break}e.length=v&65535;u=v=0;e.mode=15;if(6===c)break a;case 15:e.mode=16;case 16:if(C=e.length){C>A&&(C=A);C>q&&(C=q);if(0===C)break a;a.arraySet(g,f,m,
+C,p);A-=C;m+=C;q-=C;p+=C;e.length-=C;break}e.mode=12;break;case 17:for(;14>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.nlen=(v&31)+257;v>>>=5;u-=5;e.ndist=(v&31)+1;v>>>=5;u-=5;e.ncode=(v&15)+4;v>>>=4;u-=4;if(286<e.nlen||30<e.ndist){b.msg="too many length or distance symbols";e.mode=30;break}e.have=0;e.mode=18;case 18:for(;e.have<e.ncode;){for(;3>u;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.lens[Z[e.have++]]=v&7;v>>>=3;u-=3}for(;19>e.have;)e.lens[Z[e.have++]]=0;e.lencode=e.lendyn;e.lenbits=7;C={bits:e.lenbits};
+Y=B(0,e.lens,0,19,e.lencode,0,e.work,C);e.lenbits=C.bits;if(Y){b.msg="invalid code lengths set";e.mode=30;break}e.have=0;e.mode=19;case 19:for(;e.have<e.nlen+e.ndist;){for(;;){U=e.lencode[v&(1<<e.lenbits)-1];C=U>>>24;U&=65535;if(C<=u)break;if(0===A)break a;A--;v+=f[m++]<<u;u+=8}if(16>U)v>>>=C,u-=C,e.lens[e.have++]=U;else{if(16===U){for(I=C+2;u<I;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}v>>>=C;u-=C;if(0===e.have){b.msg="invalid bit length repeat";e.mode=30;break}I=e.lens[e.have-1];C=3+(v&3);v>>>=2;
+u-=2}else if(17===U){for(I=C+3;u<I;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}v>>>=C;u-=C;I=0;C=3+(v&7);v>>>=3;u-=3}else{for(I=C+7;u<I;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}v>>>=C;u-=C;I=0;C=11+(v&127);v>>>=7;u-=7}if(e.have+C>e.nlen+e.ndist){b.msg="invalid bit length repeat";e.mode=30;break}for(;C--;)e.lens[e.have++]=I}}if(30===e.mode)break;if(0===e.lens[256]){b.msg="invalid code -- missing end-of-block";e.mode=30;break}e.lenbits=9;C={bits:e.lenbits};Y=B(1,e.lens,0,e.nlen,e.lencode,0,e.work,C);e.lenbits=
+C.bits;if(Y){b.msg="invalid literal/lengths set";e.mode=30;break}e.distbits=6;e.distcode=e.distdyn;C={bits:e.distbits};Y=B(2,e.lens,e.nlen,e.ndist,e.distcode,0,e.work,C);e.distbits=C.bits;if(Y){b.msg="invalid distances set";e.mode=30;break}e.mode=20;if(6===c)break a;case 20:e.mode=21;case 21:if(6<=A&&258<=q){b.next_out=p;b.avail_out=q;b.next_in=m;b.avail_in=A;e.hold=v;e.bits=u;l(b,R);p=b.next_out;g=b.output;q=b.avail_out;m=b.next_in;f=b.input;A=b.avail_in;v=e.hold;u=e.bits;12===e.mode&&(e.back=-1);
+break}for(e.back=0;;){U=e.lencode[v&(1<<e.lenbits)-1];C=U>>>24;I=U>>>16&255;U&=65535;if(C<=u)break;if(0===A)break a;A--;v+=f[m++]<<u;u+=8}if(I&&0===(I&240)){P=C;T=I;for(ca=U;;){U=e.lencode[ca+((v&(1<<P+T)-1)>>P)];C=U>>>24;I=U>>>16&255;U&=65535;if(P+C<=u)break;if(0===A)break a;A--;v+=f[m++]<<u;u+=8}v>>>=P;u-=P;e.back+=P}v>>>=C;u-=C;e.back+=C;e.length=U;if(0===I){e.mode=26;break}if(I&32){e.back=-1;e.mode=12;break}if(I&64){b.msg="invalid literal/length code";e.mode=30;break}e.extra=I&15;e.mode=22;case 22:if(e.extra){for(I=
+e.extra;u<I;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.length+=v&(1<<e.extra)-1;v>>>=e.extra;u-=e.extra;e.back+=e.extra}e.was=e.length;e.mode=23;case 23:for(;;){U=e.distcode[v&(1<<e.distbits)-1];C=U>>>24;I=U>>>16&255;U&=65535;if(C<=u)break;if(0===A)break a;A--;v+=f[m++]<<u;u+=8}if(0===(I&240)){P=C;T=I;for(ca=U;;){U=e.distcode[ca+((v&(1<<P+T)-1)>>P)];C=U>>>24;I=U>>>16&255;U&=65535;if(P+C<=u)break;if(0===A)break a;A--;v+=f[m++]<<u;u+=8}v>>>=P;u-=P;e.back+=P}v>>>=C;u-=C;e.back+=C;if(I&64){b.msg="invalid distance code";
+e.mode=30;break}e.offset=U;e.extra=I&15;e.mode=24;case 24:if(e.extra){for(I=e.extra;u<I;){if(0===A)break a;A--;v+=f[m++]<<u;u+=8}e.offset+=v&(1<<e.extra)-1;v>>>=e.extra;u-=e.extra;e.back+=e.extra}if(e.offset>e.dmax){b.msg="invalid distance too far back";e.mode=30;break}e.mode=25;case 25:if(0===q)break a;C=R-q;if(e.offset>C){C=e.offset-C;if(C>e.whave&&e.sane){b.msg="invalid distance too far back";e.mode=30;break}C>e.wnext?(C-=e.wnext,I=e.wsize-C):I=e.wnext-C;C>e.length&&(C=e.length);P=e.window}else P=
+g,I=p-e.offset,C=e.length;C>q&&(C=q);q-=C;e.length-=C;do g[p++]=P[I++];while(--C);0===e.length&&(e.mode=21);break;case 26:if(0===q)break a;g[p++]=e.length;q--;e.mode=21;break;case 27:if(e.wrap){for(;32>u;){if(0===A)break a;A--;v|=f[m++]<<u;u+=8}R-=q;b.total_out+=R;e.total+=R;R&&(b.adler=e.check=e.flags?r(e.check,g,R,p-R):d(e.check,g,R,p-R));R=q;if((e.flags?v:h(v))!==e.check){b.msg="incorrect data check";e.mode=30;break}u=v=0}e.mode=28;case 28:if(e.wrap&&e.flags){for(;32>u;){if(0===A)break a;A--;v+=
+f[m++]<<u;u+=8}if(v!==(e.total&4294967295)){b.msg="incorrect length check";e.mode=30;break}u=v=0}e.mode=29;case 29:Y=1;break a;case 30:Y=-3;break a;case 31:return-4;default:return-2}b.next_out=p;b.avail_out=q;b.next_in=m;b.avail_in=A;e.hold=v;e.bits=u;if(e.wsize||R!==b.avail_out&&30>e.mode&&(27>e.mode||4!==c))f=b.output,m=b.next_out,p=R-b.avail_out,q=b.state,null===q.window&&(q.wsize=1<<q.wbits,q.wnext=0,q.whave=0,q.window=new a.Buf8(q.wsize)),p>=q.wsize?(a.arraySet(q.window,f,m-q.wsize,q.wsize,0),
+q.wnext=0,q.whave=q.wsize):(A=q.wsize-q.wnext,A>p&&(A=p),a.arraySet(q.window,f,m-p,A,q.wnext),(p-=A)?(a.arraySet(q.window,f,m-p,p,0),q.wnext=p,q.whave=q.wsize):(q.wnext+=A,q.wnext===q.wsize&&(q.wnext=0),q.whave<q.wsize&&(q.whave+=A)));Q-=b.avail_in;R-=b.avail_out;b.total_in+=Q;b.total_out+=R;e.total+=R;e.wrap&&R&&(b.adler=e.check=e.flags?r(e.check,g,R,b.next_out-R):d(e.check,g,R,b.next_out-R));b.data_type=e.bits+(e.last?64:0)+(12===e.mode?128:0)+(20===e.mode||15===e.mode?256:0);(0===Q&&0===R||4===
+c)&&0===Y&&(Y=-5);return Y};g.inflateEnd=function(a){if(!a||!a.state)return-2;var d=a.state;d.window&&(d.window=null);a.state=null;return 0};g.inflateGetHeader=function(a,d){var b;if(!a||!a.state)return-2;b=a.state;if(0===(b.wrap&2))return-2;b.head=d;d.done=!1;return 0};g.inflateInfo="pako inflate (from Nodeca project)"},{"../utils/common":2,"./adler32":4,"./crc32":6,"./inffast":8,"./inftrees":10}],10:[function(c,b,g){var h=c("../utils/common"),p=[3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,
+59,67,83,99,115,131,163,195,227,258,0,0],m=[16,16,16,16,16,16,16,16,17,17,17,17,18,18,18,18,19,19,19,19,20,20,20,20,21,21,21,21,16,72,78],q=[1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577,0,0],f=[16,16,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27,27,28,28,29,29,64,64];b.exports=function(b,a,d,c,l,g,y,D){for(var z=D.bits,t=0,x=0,w=0,F=0,L=0,H=0,G=0,A=0,K=0,v=0,u,Q,R=null,C=0,I,P=new h.Buf16(16),H=new h.Buf16(16),
+U=null,T=0,ca,Y,E,t=0;15>=t;t++)P[t]=0;for(x=0;x<c;x++)P[a[d+x]]++;L=z;for(F=15;1<=F&&0===P[F];F--);L>F&&(L=F);if(0===F)return l[g++]=20971520,l[g++]=20971520,D.bits=1,0;for(w=1;w<F&&0===P[w];w++);L<w&&(L=w);for(t=A=1;15>=t;t++)if(A<<=1,A-=P[t],0>A)return-1;if(0<A&&(0===b||1!==F))return-1;H[1]=0;for(t=1;15>t;t++)H[t+1]=H[t]+P[t];for(x=0;x<c;x++)0!==a[d+x]&&(y[H[a[d+x]]++]=x);switch(b){case 0:R=U=y;I=19;break;case 1:R=p;C-=257;U=m;T-=257;I=256;break;default:R=q,U=f,I=-1}x=v=0;t=w;z=g;H=L;G=0;Q=-1;
+K=1<<L;c=K-1;if(1===b&&852<K||2===b&&592<K)return 1;for(var Z=0;;){Z++;ca=t-G;y[x]<I?(Y=0,E=y[x]):y[x]>I?(Y=U[T+y[x]],E=R[C+y[x]]):(Y=96,E=0);A=1<<t-G;w=u=1<<H;do u-=A,l[z+(v>>G)+u]=ca<<24|Y<<16|E|0;while(0!==u);for(A=1<<t-1;v&A;)A>>=1;0!==A?(v&=A-1,v+=A):v=0;x++;if(0===--P[t]){if(t===F)break;t=a[d+y[x]]}if(t>L&&(v&c)!==Q){0===G&&(G=L);z+=w;H=t-G;for(A=1<<H;H+G<F;){A-=P[H+G];if(0>=A)break;H++;A<<=1}K+=1<<H;if(1===b&&852<K||2===b&&592<K)return 1;Q=v&c;l[Q]=L<<24|H<<16|z-g|0}}0!==v&&(l[z+v]=t-G<<24|
+4194304);D.bits=L;return 0}},{"../utils/common":2}],11:[function(c,b,g){b.exports={2:"need dictionary",1:"stream end",0:"","-1":"file error","-2":"stream error","-3":"data error","-4":"insufficient memory","-5":"buffer error","-6":"incompatible version"}},{}],12:[function(c,b,g){b.exports=function(){this.input=null;this.total_in=this.avail_in=this.next_in=0;this.output=null;this.total_out=this.avail_out=this.next_out=0;this.msg="";this.state=null;this.data_type=2;this.adler=0}},{}]},{},[1])(1)});
+return{inflate:function(k,c){return h.inflateRaw(k)}}}()})();core.StepDirection={PREVIOUS:1,NEXT:2};core.StepIterator=function(h,k){function c(){a=null;r=d=void 0}function b(){void 0===r&&(r=h.acceptPosition(k)===f);return r}function g(a,d){c();return k.setUnfilteredPosition(a,d)}function n(){a||(a=k.container());return a}function p(){void 0===d&&(d=k.unfilteredDomOffset());return d}function m(){for(c();k.nextPosition();)if(c(),b())return!0;return!1}function q(){for(c();k.previousPosition();)if(c(),b())return!0;return!1}var f=core.PositionFilter.FilterResult.FILTER_ACCEPT,e=core.StepDirection.NEXT,
+a,d,r;this.isStep=b;this.setPosition=g;this.container=n;this.offset=p;this.nextStep=m;this.previousStep=q;this.advanceStep=function(a){return a===e?m():q()};this.roundToClosestStep=function(){var a,d,e=b();e||(a=n(),d=p(),e=q(),e||(g(a,d),e=m()));return e};this.roundToPreviousStep=function(){var a=b();a||(a=q());return a};this.roundToNextStep=function(){var a=b();a||(a=m());return a};this.leftNode=function(){return k.leftNode()};this.snapshot=function(){return new core.StepIterator.StepSnapshot(n(),
+p())};this.restore=function(a){g(a.container,a.offset)}};core.StepIterator.StepSnapshot=function(h,k){this.container=h;this.offset=k};core.Utils=function(){function h(k,c){if(c&&Array.isArray(c)){k=k||[];if(!Array.isArray(k))throw"Destination is not an array.";k=k.concat(c.map(function(b){return h(null,b)}))}else if(c&&"object"===typeof c){k=k||{};if("object"!==typeof k)throw"Destination is not an object.";Object.keys(c).forEach(function(b){k[b]=h(k[b],c[b])})}else k=c;return k}this.hashString=function(h){var c=0,b,g;b=0;for(g=h.length;b<g;b+=1)c=(c<<5)-c+h.charCodeAt(b),c|=0;return c};this.mergeObjects=function(k,c){Object.keys(c).forEach(function(b){k[b]=
+h(k[b],c[b])});return k}};core.Zip=function(h,k){function c(a,d,b){B?b(null,B.subarray(a,a+d)):b("File data not loaded",null)}function b(a){var d=[0,1996959894,3993919788,2567524794,124634137,1886057615,3915621685,2657392035,249268274,2044508324,3772115230,2547177864,162941995,2125561021,3887607047,2428444049,498536548,1789927666,4089016648,2227061214,450548861,1843258603,4107580753,2211677639,325883990,1684777152,4251122042,2321926636,335633487,1661365465,4195302755,2366115317,997073096,1281953886,3579855332,2724688242,1006888145,
+1258607687,3524101629,2768942443,901097722,1119000684,3686517206,2898065728,853044451,1172266101,3705015759,2882616665,651767980,1373503546,3369554304,3218104598,565507253,1454621731,3485111705,3099436303,671266974,1594198024,3322730930,2970347812,795835527,1483230225,3244367275,3060149565,1994146192,31158534,2563907772,4023717930,1907459465,112637215,2680153253,3904427059,2013776290,251722036,2517215374,3775830040,2137656763,141376813,2439277719,3865271297,1802195444,476864866,2238001368,4066508878,
+1812370925,453092731,2181625025,4111451223,1706088902,314042704,2344532202,4240017532,1658658271,366619977,2362670323,4224994405,1303535960,984961486,2747007092,3569037538,1256170817,1037604311,2765210733,3554079995,1131014506,879679996,2909243462,3663771856,1141124467,855842277,2852801631,3708648649,1342533948,654459306,3188396048,3373015174,1466479909,544179635,3110523913,3462522015,1591671054,702138776,2966460450,3352799412,1504918807,783551873,3082640443,3233442989,3988292384,2596254646,62317068,
+1957810842,3939845945,2647816111,81470997,1943803523,3814918930,2489596804,225274430,2053790376,3826175755,2466906013,167816743,2097651377,4027552580,2265490386,503444072,1762050814,4150417245,2154129355,426522225,1852507879,4275313526,2312317920,282753626,1742555852,4189708143,2394877945,397917763,1622183637,3604390888,2714866558,953729732,1340076626,3518719985,2797360999,1068828381,1219638859,3624741850,2936675148,906185462,1090812512,3747672003,2825379669,829329135,1181335161,3412177804,3160834842,
+628085408,1382605366,3423369109,3138078467,570562233,1426400815,3317316542,2998733608,733239954,1555261956,3268935591,3050360625,752459403,1541320221,2607071920,3965973030,1969922972,40735498,2617837225,3943577151,1913087877,83908371,2512341634,3803740692,2075208622,213261112,2463272603,3855990285,2094854071,198958881,2262029012,4057260610,1759359992,534414190,2176718541,4139329115,1873836001,414664567,2282248934,4279200368,1711684554,285281116,2405801727,4167216745,1634467795,376229701,2685067896,
+3608007406,1308918612,956543938,2808555105,3495958263,1231636301,1047427035,2932959818,3654703836,1088359270,936918E3,2847714899,3736837829,1202900863,817233897,3183342108,3401237130,1404277552,615818150,3134207493,3453421203,1423857449,601450431,3009837614,3294710456,1567103746,711928724,3020668471,3272380065,1510334235,755167117],b,e,c=a.length,l=0,l=0;b=-1;for(e=0;e<c;e+=1)l=(b^a[e])&255,l=d[l],b=b>>>8^l;return b^-1}function g(a){return new Date((a>>25&127)+1980,(a>>21&15)-1,a>>16&31,a>>11&15,
+a>>5&63,(a&31)<<1)}function n(a){var d=a.getFullYear();return 1980>d?0:d-1980<<25|a.getMonth()+1<<21|a.getDate()<<16|a.getHours()<<11|a.getMinutes()<<5|a.getSeconds()>>1}function p(a,d){var b,e,l,f,r,v,u,h=this;this.load=function(d){if(null!==h.data)d(null,h.data);else{var b=r+34+e+l+256;b+u>y&&(b=y-u);c(u,b,function(b,e){if(b||null===e)d(b,e);else a:{var c=e,l=new core.ByteArray(c),g=l.readUInt32LE(),u;if(67324752!==g)d("File entry signature is wrong."+g.toString()+" "+c.length.toString(),null);
+else{l.pos+=22;g=l.readUInt16LE();u=l.readUInt16LE();l.pos+=g+u;if(f){c=c.subarray(l.pos,l.pos+r);if(r!==c.length){d("The amount of compressed bytes read was "+c.length.toString()+" instead of "+r.toString()+" for "+h.filename+" in "+a+".",null);break a}c=z(c,v)}else c=c.subarray(l.pos,l.pos+v);v!==c.length?d("The amount of bytes read was "+c.length.toString()+" instead of "+v.toString()+" for "+h.filename+" in "+a+".",null):(h.data=c,d(null,c))}}})}};this.set=function(a,d,b,e){h.filename=a;h.data=
+d;h.compressed=b;h.date=e};this.error=null;d&&(b=d.readUInt32LE(),33639248!==b?this.error="Central directory entry has wrong signature at position "+(d.pos-4).toString()+' for file "'+a+'": '+d.data.length.toString():(d.pos+=6,f=d.readUInt16LE(),this.date=g(d.readUInt32LE()),d.readUInt32LE(),r=d.readUInt32LE(),v=d.readUInt32LE(),e=d.readUInt16LE(),l=d.readUInt16LE(),b=d.readUInt16LE(),d.pos+=8,u=d.readUInt32LE(),this.filename=runtime.byteArrayToString(d.data.subarray(d.pos,d.pos+e),"utf8"),this.data=
+null,d.pos+=e+l+b))}function m(a,d){if(22!==a.length)d("Central directory length should be 22.",t);else{var b=new core.ByteArray(a),e;e=b.readUInt32LE();101010256!==e?d("Central directory signature is wrong: "+e.toString(),t):(e=b.readUInt16LE(),0!==e?d("Zip files with non-zero disk numbers are not supported.",t):(e=b.readUInt16LE(),0!==e?d("Zip files with non-zero disk numbers are not supported.",t):(e=b.readUInt16LE(),D=b.readUInt16LE(),e!==D?d("Number of entries is inconsistent.",t):(e=b.readUInt32LE(),
+b=b.readUInt16LE(),b=y-22-e,c(b,y-b,function(a,b){if(a||null===b)d(a,t);else a:{var e=new core.ByteArray(b),c,f;l=[];for(c=0;c<D;c+=1){f=new p(h,e);if(f.error){d(f.error,t);break a}l[l.length]=f}d(null,t)}})))))}}function q(a,d){var b=null,e,c;for(c=0;c<l.length;c+=1)if(e=l[c],e.filename===a){b=e;break}b?b.data?d(null,b.data):b.load(d):d(a+" not found.",null)}function f(a){var d=new core.ByteArrayWriter("utf8"),e=0;d.appendArray([80,75,3,4,20,0,0,0,0,0]);a.data&&(e=a.data.length);d.appendUInt32LE(n(a.date));
+d.appendUInt32LE(a.data?b(a.data):0);d.appendUInt32LE(e);d.appendUInt32LE(e);d.appendUInt16LE(a.filename.length);d.appendUInt16LE(0);d.appendString(a.filename);a.data&&d.appendByteArray(a.data);return d}function e(a,d){var e=new core.ByteArrayWriter("utf8"),c=0;e.appendArray([80,75,1,2,20,0,20,0,0,0,0,0]);a.data&&(c=a.data.length);e.appendUInt32LE(n(a.date));e.appendUInt32LE(a.data?b(a.data):0);e.appendUInt32LE(c);e.appendUInt32LE(c);e.appendUInt16LE(a.filename.length);e.appendArray([0,0,0,0,0,0,
+0,0,0,0,0,0]);e.appendUInt32LE(d);e.appendString(a.filename);return e}function a(d,b){if(d===l.length)b(null);else{var e=l[d];null!==e.data?a(d+1,b):e.load(function(e){e?b(e):a(d+1,b)})}}function d(d,b){a(0,function(a){if(a)b(a);else{var c,g,r=new core.ByteArrayWriter("utf8"),h=[0];for(c=0;c<l.length;c+=1)r.appendByteArrayWriter(f(l[c])),h.push(r.getLength());a=r.getLength();for(c=0;c<l.length;c+=1)g=l[c],r.appendByteArrayWriter(e(g,h[c]));c=r.getLength()-a;r.appendArray([80,75,5,6,0,0,0,0]);r.appendUInt16LE(l.length);
+r.appendUInt16LE(l.length);r.appendUInt32LE(c);r.appendUInt32LE(a);r.appendArray([0,0]);d(r.getByteArray())}})}function r(a,b){d(function(d){runtime.writeFile(a,d,function(a){a||(B=d,y=B.length);b(a)})},b)}var l,B,y,D,z=core.RawInflate.inflate,t=this,x=new core.Base64;this.load=q;this.save=function(a,d,b,e){var c,f;for(c=0;c<l.length;c+=1)if(f=l[c],f.filename===a){f.set(a,d,b,e);return}f=new p(h);f.set(a,d,b,e);l.push(f)};this.remove=function(a){var d,b;for(d=0;d<l.length;d+=1)if(b=l[d],b.filename===
+a)return l.splice(d,1),!0;return!1};this.write=function(a){r(h,a)};this.writeAs=r;this.createByteArray=d;this.loadContentXmlAsFragments=function(a,d){t.loadAsString(a,function(a,b){if(a)return d.rootElementReady(a);d.rootElementReady(null,b,!0)})};this.loadAsString=function(a,d){q(a,function(a,b){if(a||null===b)return d(a,null);var e=runtime.byteArrayToString(b,"utf8");d(null,e)})};this.loadAsDOM=function(a,d){t.loadAsString(a,function(a,b){if(a||null===b)d(a,null);else{var e=(new DOMParser).parseFromString(b,
+"text/xml");d(null,e)}})};this.loadAsDataURL=function(a,d,b){q(a,function(a,e){if(a||!e)return b(a,null);var c=0,l;d||(d=80===e[1]&&78===e[2]&&71===e[3]?"image/png":255===e[0]&&216===e[1]&&255===e[2]?"image/jpeg":71===e[0]&&73===e[1]&&70===e[2]?"image/gif":"");for(l="data:"+d+";base64,";c<e.length;)l+=x.convertUTF8ArrayToBase64(e.subarray(c,Math.min(c+45E3,e.length))),c+=45E3;b(null,l)})};this.getEntries=function(){return l.slice()};y=-1;null===k?l=[]:runtime.readFile(h,"binary",function(a,d){"string"===
+typeof d&&(a="file was read as a string. Should be Uint8Array.");a||!d||0===d.length?k("File '"+h+"' cannot be read. Err: "+(a||"[none]"),t):(B=d,y=B.length,c(y-22,22,function(a,d){a||null===d?k(a,t):m(d,k)}))})};core.SimpleClientRect=null;gui.CommonConstraints={EDIT:{ANNOTATIONS:{ONLY_DELETE_OWN:"onlyDeleteOwn"},REVIEW_MODE:"reviewMode"}};gui.SessionConstraints=function(){function h(b){k.hasOwnProperty(b)||(k[b]=!1,c.register(b))}var k={},c=new core.EventNotifier;this.registerConstraint=h;this.subscribe=function(b,g){h(b);c.subscribe(b,g)};this.unsubscribe=function(b,g){c.unsubscribe(b,g)};this.setState=function(b,g){runtime.assert(!0===k.hasOwnProperty(b),"No such constraint");k[b]!==g&&(k[b]=g,c.emit(b,g))};this.getState=function(b){runtime.assert(!0===k.hasOwnProperty(b),"No such constraint");return k[b]}};gui.BlacklistNamespaceNodeFilter=function(h){var k={},c=NodeFilter.FILTER_REJECT,b=NodeFilter.FILTER_ACCEPT;this.acceptNode=function(g){return!g||k.hasOwnProperty(g.namespaceURI)?c:b};(function(){h.forEach(function(b){k[b]=!0})})()};odf.Namespaces={namespaceMap:{config:"urn:oasis:names:tc:opendocument:xmlns:config:1.0",db:"urn:oasis:names:tc:opendocument:xmlns:database:1.0",dc:"http://purl.org/dc/elements/1.1/",dr3d:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0",draw:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0",chart:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0",fo:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0",form:"urn:oasis:names:tc:opendocument:xmlns:form:1.0",math:"http://www.w3.org/1998/Math/MathML",
+meta:"urn:oasis:names:tc:opendocument:xmlns:meta:1.0",number:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0",office:"urn:oasis:names:tc:opendocument:xmlns:office:1.0",presentation:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0",style:"urn:oasis:names:tc:opendocument:xmlns:style:1.0",svg:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0",table:"urn:oasis:names:tc:opendocument:xmlns:table:1.0",text:"urn:oasis:names:tc:opendocument:xmlns:text:1.0",xforms:"http://www.w3.org/2002/xforms",
+xlink:"http://www.w3.org/1999/xlink",xml:"http://www.w3.org/XML/1998/namespace"},prefixMap:{},configns:"urn:oasis:names:tc:opendocument:xmlns:config:1.0",dbns:"urn:oasis:names:tc:opendocument:xmlns:database:1.0",dcns:"http://purl.org/dc/elements/1.1/",dr3dns:"urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0",drawns:"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0",chartns:"urn:oasis:names:tc:opendocument:xmlns:chart:1.0",fons:"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0",formns:"urn:oasis:names:tc:opendocument:xmlns:form:1.0",
+mathns:"http://www.w3.org/1998/Math/MathML",metans:"urn:oasis:names:tc:opendocument:xmlns:meta:1.0",numberns:"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0",officens:"urn:oasis:names:tc:opendocument:xmlns:office:1.0",presentationns:"urn:oasis:names:tc:opendocument:xmlns:presentation:1.0",stylens:"urn:oasis:names:tc:opendocument:xmlns:style:1.0",svgns:"urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0",tablens:"urn:oasis:names:tc:opendocument:xmlns:table:1.0",textns:"urn:oasis:names:tc:opendocument:xmlns:text:1.0",
+xformsns:"http://www.w3.org/2002/xforms",xlinkns:"http://www.w3.org/1999/xlink",xmlns:"http://www.w3.org/XML/1998/namespace"};(function(){var h=odf.Namespaces.namespaceMap,k=odf.Namespaces.prefixMap,c;for(c in h)h.hasOwnProperty(c)&&(k[h[c]]=c)})();odf.Namespaces.forEachPrefix=function(h){var k=odf.Namespaces.namespaceMap,c;for(c in k)k.hasOwnProperty(c)&&h(c,k[c])};
+odf.Namespaces.lookupNamespaceURI=function(h){var k=null;odf.Namespaces.namespaceMap.hasOwnProperty(h)&&(k=odf.Namespaces.namespaceMap[h]);return k};odf.Namespaces.lookupPrefix=function(h){var k=odf.Namespaces.prefixMap;return k.hasOwnProperty(h)?k[h]:null};odf.Namespaces.lookupNamespaceURI.lookupNamespaceURI=odf.Namespaces.lookupNamespaceURI;(function(){odf.OdfSchemaImpl=function(){var h=[["config:config-item","uncategorized"],["form:item","object"],["form:option","uncategorized"],["math:math","field"],["meta:user-defined","uncategorized"],["number:currency-symbol","uncategorized"],["number:embedded-text","uncategorized"],["number:text","uncategorized"],["presentation:date-time-decl","uncategorized"],["presentation:footer-decl","uncategorized"],["presentation:header-decl","uncategorized"],["svg:desc","text"],["svg:title","text"],["table:desc",
+"uncategorized"],["table:title","uncategorized"],["text:a","text"],["text:author-initials","field"],["text:author-name","field"],["text:bibliography-mark","field"],["text:bookmark-ref","field"],["text:chapter","field"],["text:character-count","field"],["text:conditional-text","field"],["text:creation-date","field"],["text:creation-time","field"],["text:creator","field"],["text:database-display","field"],["text:database-name","field"],["text:database-row-number","field"],["text:date","field"],["text:dde-connection",
+"field"],["text:description","field"],["text:editing-cycles","field"],["text:editing-duration","field"],["text:execute-macro","uncategorized"],["text:expression","uncategorized"],["text:file-name","field"],["text:h","text"],["text:hidden-paragraph","text"],["text:hidden-text","text"],["text:image-count","field"],["text:index-entry-span","uncategorized"],["text:index-title-template","uncategorized"],["text:initial-creator","field"],["text:keywords","field"],["text:linenumbering-separator","style"],
+["text:measure","uncategorized"],["text:meta","uncategorized"],["text:meta-field","uncategorized"],["text:modification-date","field"],["text:modification-time","field"],["text:note-citation","field"],["text:note-continuation-notice-backward","style"],["text:note-continuation-notice-forward","style"],["text:note-ref","field"],["text:object-count","field"],["text:p","text"],["text:page-continuation","uncategorized"],["text:page-count","field"],["text:page-number","field"],["text:page-variable-get",
+"field"],["text:page-variable-set","field"],["text:paragraph-count","field"],["text:placeholder","field"],["text:print-date","field"],["text:print-time","field"],["text:printed-by","field"],["text:reference-ref","field"],["text:ruby-base","text"],["text:ruby-text","text"],["text:script","text"],["text:sender-city","field"],["text:sender-company","field"],["text:sender-country","field"],["text:sender-email","field"],["text:sender-fax","field"],["text:sender-firstname","field"],["text:sender-initials",
+"field"],["text:sender-lastname","field"],["text:sender-phone-private","field"],["text:sender-phone-work","field"],["text:sender-position","field"],["text:sender-postal-code","field"],["text:sender-state-or-province","field"],["text:sender-street","field"],["text:sender-title","field"],["text:sequence","uncategorized"],["text:sequence-ref","uncategorized"],["text:sheet-name","uncategorized"],["text:span","text"],["text:subject","field"],["text:table-count","field"],["text:table-formula","deprecated"],
+["text:template-name","uncategorized"],["text:text-input","field"],["text:time","field"],["text:title","field"],["text:user-defined","field"],["text:user-field-get","field"],["text:user-field-input","field"],["text:variable-get","field"],["text:variable-input","field"],["text:variable-set","field"],["text:word-count","field"],["xforms:model","uncategorized"]],k={};this.isTextContainer=function(c,b){return"text"===k[c+":"+b]};this.isField=function(c,b){return"field"===k[c+":"+b]};this.getFields=function(){return h.filter(function(c){return"field"===
+c[1]}).map(function(c){return c[0]})};(function(){h.forEach(function(c){var b=c[1],g=c[0].split(":");c=g[0];var g=g[1],h=odf.Namespaces.lookupNamespaceURI(c);h?k[h+":"+g]=b:runtime.log("DEBUG: OdfSchema - unknown prefix '"+c+"'")})})()};odf.OdfSchema=new odf.OdfSchemaImpl})();odf.OdfUtilsImpl=function(){function h(a){return"image"===(a&&a.localName)&&a.namespaceURI===I}function k(a){return null!==a&&a.nodeType===Node.ELEMENT_NODE&&"frame"===a.localName&&a.namespaceURI===I&&"as-char"===a.getAttributeNS(C,"anchor-type")}function c(a){var d;(d="annotation"===(a&&a.localName)&&a.namespaceURI===odf.Namespaces.officens)||(d="div"===(a&&a.localName)&&"annotationWrapper"===a.className);return d}function b(a){return"a"===(a&&a.localName)&&a.namespaceURI===C}function g(a){var d=
+a&&a.localName;return("p"===d||"h"===d)&&a.namespaceURI===C}function n(a,d){for(a&&void 0!==d&&!g(a)&&a.childNodes.item(d)&&(a=a.childNodes.item(d));a&&!g(a);)a=a.parentNode;return a}function p(a,d){for(;a&&a!==d;){if(a.namespaceURI===odf.Namespaces.officens&&"annotation"===a.localName)return a;a=a.parentNode}return null}function m(a){return/^[ \t\r\n]+$/.test(a)}function q(a){if(null===a||a.nodeType!==Node.ELEMENT_NODE)return!1;var d=a.localName;return ca.isTextContainer(a.namespaceURI,d)||"span"===
+d&&"webodf-annotationHighlight"===a.className}function f(a){return null===a||a.nodeType!==Node.ELEMENT_NODE?!1:ca.isField(a.namespaceURI,a.localName)}function e(a){var d=a&&a.localName,b=!1;d&&(a=a.namespaceURI,a===C&&(b="s"===d||"tab"===d||"line-break"===d));return b}function a(a){return e(a)||f(a)||k(a)||c(a)}function d(a){var d=a&&a.localName,b=!1;d&&(a=a.namespaceURI,a===C&&(b="s"===d));return b}function r(a){return-1!==T.indexOf(a.namespaceURI)}function l(a){if(e(a)||f(a))return!1;if(q(a.parentNode)&&
+a.nodeType===Node.TEXT_NODE)return 0===a.textContent.length;for(a=a.firstChild;a;){if(r(a)||!l(a))return!1;a=a.nextSibling}return!0}function B(a){for(;null!==a.firstChild&&q(a);)a=a.firstChild;return a}function y(a){for(;null!==a.lastChild&&q(a);)a=a.lastChild;return a}function D(a){for(;!g(a)&&null===a.previousSibling;)a=a.parentNode;return g(a)?null:y(a.previousSibling)}function z(a){for(;!g(a)&&null===a.nextSibling;)a=a.parentNode;return g(a)?null:B(a.nextSibling)}function t(b){for(var e=!1;b;)if(b.nodeType===
+Node.TEXT_NODE)if(0===b.length)b=D(b);else return!m(b.data.substr(b.length-1,1));else a(b)?(e=!1===d(b),b=null):b=D(b);return e}function x(d){var b=!1,e;for(d=d&&B(d);d;){e=d.nodeType===Node.TEXT_NODE?d.length:0;if(0<e&&!m(d.data)){b=!0;break}if(a(d)){b=!0;break}d=z(d)}return b}function w(a,d){return m(a.data.substr(d))?!x(z(a)):!1}function F(d,b){var e=d.data,c;if(!m(e[b])||a(d.parentNode))return!1;0<b?m(e[b-1])||(c=!0):t(D(d))&&(c=!0);return!0===c?w(d,b)?!1:!0:!1}function L(a){return(a=/(-?[0-9]*[0-9][0-9]*(\.[0-9]*)?|0+\.[0-9]*[1-9][0-9]*|\.[0-9]*[1-9][0-9]*)((cm)|(mm)|(in)|(pt)|(pc)|(px)|(%))/.exec(a))?
+{value:parseFloat(a[1]),unit:a[3]}:null}function H(a){return(a=L(a))&&(0>a.value||"%"===a.unit)?null:a}function G(a){return(a=L(a))&&"%"!==a.unit?null:a}function A(a){switch(a.namespaceURI){case odf.Namespaces.drawns:case odf.Namespaces.svgns:case odf.Namespaces.dr3dns:return!1;case odf.Namespaces.textns:switch(a.localName){case "note-body":case "ruby-text":return!1}break;case odf.Namespaces.officens:switch(a.localName){case "annotation":case "binary-data":case "event-listeners":return!1}break;default:switch(a.localName){case "cursor":case "editinfo":return!1}}return!0}
+function K(a){return Boolean(n(a)&&(!m(a.textContent)||F(a,0)))}function v(a,d){for(;0<d.length&&!U.rangeContainsNode(a,d[0]);)d.shift();for(;0<d.length&&!U.rangeContainsNode(a,d[d.length-1]);)d.pop()}function u(d,b,l){var g;g=U.getNodesInRange(d,function(d){var b=NodeFilter.FILTER_REJECT;if(e(d.parentNode)||f(d.parentNode)||c(d))b=NodeFilter.FILTER_REJECT;else if(d.nodeType===Node.TEXT_NODE){if(l||K(d))b=NodeFilter.FILTER_ACCEPT}else if(a(d))b=NodeFilter.FILTER_ACCEPT;else if(A(d)||q(d))b=NodeFilter.FILTER_SKIP;
+return b},NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);b||v(d,g);return g}function Q(a,d,b){for(;a;){if(b(a)){d[0]!==a&&d.unshift(a);break}if(c(a))break;a=a.parentNode}}function R(a,d){var b=a;if(d<b.childNodes.length-1)b=b.childNodes[d+1];else{for(;!b.nextSibling;)b=b.parentNode;b=b.nextSibling}for(;b.firstChild;)b=b.firstChild;return b}var C=odf.Namespaces.textns,I=odf.Namespaces.drawns,P=odf.Namespaces.xlinkns,U=core.DomUtils,T=[odf.Namespaces.dbns,odf.Namespaces.dcns,odf.Namespaces.dr3dns,odf.Namespaces.drawns,
+odf.Namespaces.chartns,odf.Namespaces.formns,odf.Namespaces.numberns,odf.Namespaces.officens,odf.Namespaces.presentationns,odf.Namespaces.stylens,odf.Namespaces.svgns,odf.Namespaces.tablens,odf.Namespaces.textns],ca=odf.OdfSchema;this.isImage=h;this.isCharacterFrame=k;this.isInlineRoot=c;this.isTextSpan=function(a){return"span"===(a&&a.localName)&&a.namespaceURI===C};this.isHyperlink=b;this.getHyperlinkTarget=function(a){return a.getAttributeNS(P,"href")||""};this.isParagraph=g;this.getParagraphElement=
+n;this.getParentAnnotation=p;this.isWithinAnnotation=function(a,d){return Boolean(p(a,d))};this.getAnnotationCreator=function(a){return a.getElementsByTagNameNS(odf.Namespaces.dcns,"creator")[0].textContent};this.isListItem=function(a){return"list-item"===(a&&a.localName)&&a.namespaceURI===C};this.isLineBreak=function(a){return"line-break"===(a&&a.localName)&&a.namespaceURI===C};this.isODFWhitespace=m;this.isGroupingElement=q;this.isFieldElement=f;this.isCharacterElement=e;this.isAnchoredAsCharacterElement=
+a;this.isSpaceElement=d;this.isODFNode=r;this.hasNoODFContent=l;this.firstChild=B;this.lastChild=y;this.previousNode=D;this.nextNode=z;this.scanLeftForNonSpace=t;this.lookLeftForCharacter=function(d){var b,e=b=0;d.nodeType===Node.TEXT_NODE&&(e=d.length);0<e?(b=d.data,b=m(b.substr(e-1,1))?1===e?t(D(d))?2:0:m(b.substr(e-2,1))?0:2:1):a(d)&&(b=1);return b};this.lookRightForCharacter=function(d){var b=!1,e=0;d&&d.nodeType===Node.TEXT_NODE&&(e=d.length);0<e?b=!m(d.data.substr(0,1)):a(d)&&(b=!0);return b};
+this.scanLeftForAnyCharacter=function(d){var b=!1,e;for(d=d&&y(d);d;){e=d.nodeType===Node.TEXT_NODE?d.length:0;if(0<e&&!m(d.data)){b=!0;break}if(a(d)){b=!0;break}d=D(d)}return b};this.scanRightForAnyCharacter=x;this.isTrailingWhitespace=w;this.isSignificantWhitespace=F;this.isDowngradableSpaceElement=function(a){return d(a)?t(D(a))&&x(z(a)):!1};this.parseLength=L;this.parseNonNegativeLength=H;this.parseFoFontSize=function(a){var d;d=(d=L(a))&&(0>=d.value||"%"===d.unit)?null:d;return d||G(a)};this.parseFoLineHeight=
+function(a){return H(a)||G(a)};this.isTextContentContainingNode=A;this.getTextNodes=function(a,d){var b;b=U.getNodesInRange(a,function(a){var d=NodeFilter.FILTER_REJECT;a.nodeType===Node.TEXT_NODE?K(a)&&(d=NodeFilter.FILTER_ACCEPT):A(a)&&(d=NodeFilter.FILTER_SKIP);return d},NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);d||v(a,b);return b};this.getTextElements=u;this.getParagraphElements=function(a){var d;d=U.getNodesInRange(a,function(a){var d=NodeFilter.FILTER_REJECT;if(g(a))d=NodeFilter.FILTER_ACCEPT;
+else if(A(a)||q(a))d=NodeFilter.FILTER_SKIP;return d},NodeFilter.SHOW_ELEMENT);Q(a.startContainer,d,g);return d};this.getImageElements=function(a){var d;d=U.getNodesInRange(a,function(a){var d=NodeFilter.FILTER_SKIP;h(a)&&(d=NodeFilter.FILTER_ACCEPT);return d},NodeFilter.SHOW_ELEMENT);Q(a.startContainer,d,h);return d};this.getHyperlinkElements=function(a){var d=[],e=a.cloneRange();a.collapsed&&a.endContainer.nodeType===Node.ELEMENT_NODE&&(a=R(a.endContainer,a.endOffset),a.nodeType===Node.TEXT_NODE&&
+e.setEnd(a,1));u(e,!0,!1).forEach(function(a){for(a=a.parentNode;!g(a);){if(b(a)&&-1===d.indexOf(a)){d.push(a);break}a=a.parentNode}});e.detach();return d};this.getNormalizedFontFamilyName=function(a){/^(["'])(?:.|[\n\r])*?\1$/.test(a)||(a=a.replace(/^[ \t\r\n\f]*((?:.|[\n\r])*?)[ \t\r\n\f]*$/,"$1"),/[ \t\r\n\f]/.test(a)&&(a="'"+a.replace(/[ \t\r\n\f]+/g," ")+"'"));return a}};odf.OdfUtils=new odf.OdfUtilsImpl;gui.OdfTextBodyNodeFilter=function(){var h=odf.OdfUtils,k=Node.TEXT_NODE,c=NodeFilter.FILTER_REJECT,b=NodeFilter.FILTER_ACCEPT,g=odf.Namespaces.textns;this.acceptNode=function(n){if(n.nodeType===k){if(!h.isGroupingElement(n.parentNode))return c}else if(n.namespaceURI===g&&"tracked-changes"===n.localName)return c;return b}};xmldom.LSSerializerFilter=function(){};xmldom.LSSerializerFilter.prototype.acceptNode=function(h){};odf.OdfNodeFilter=function(){this.acceptNode=function(h){return"http://www.w3.org/1999/xhtml"===h.namespaceURI?NodeFilter.FILTER_SKIP:h.namespaceURI&&h.namespaceURI.match(/^urn:webodf:/)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}};xmldom.XPathIterator=function(){};xmldom.XPathIterator.prototype.next=function(){};xmldom.XPathIterator.prototype.reset=function(){};
+function createXPathSingleton(){function h(b,a,d){return-1!==b&&(b<a||-1===a)&&(b<d||-1===d)}function k(b){for(var a=[],d=0,c=b.length,l;d<c;){var g=b,n=c,m=a,k="",p=[],q=g.indexOf("[",d),w=g.indexOf("/",d),F=g.indexOf("=",d);h(w,q,F)?(k=g.substring(d,w),d=w+1):h(q,w,F)?(k=g.substring(d,q),d=f(g,q,p)):h(F,w,q)?(k=g.substring(d,F),d=F):(k=g.substring(d,n),d=n);m.push({location:k,predicates:p});if(d<c&&"="===b[d]){l=b.substring(d+1,c);if(2<l.length&&("'"===l[0]||'"'===l[0]))l=l.slice(1,l.length-1);
+else try{l=parseInt(l,10)}catch(L){}d=c}}return{steps:a,value:l}}function c(){var b=null,a=!1;this.setNode=function(a){b=a};this.reset=function(){a=!1};this.next=function(){var d=a?null:b;a=!0;return d}}function b(b,a,d){this.reset=function(){b.reset()};this.next=function(){for(var c=b.next();c;){c.nodeType===Node.ELEMENT_NODE&&(c=c.getAttributeNodeNS(a,d));if(c)break;c=b.next()}return c}}function g(b,a){var d=b.next(),c=null;this.reset=function(){b.reset();d=b.next();c=null};this.next=function(){for(;d;){if(c)if(a&&
+c.firstChild)c=c.firstChild;else{for(;!c.nextSibling&&c!==d;)c=c.parentNode;c===d?d=b.next():c=c.nextSibling}else{do(c=d.firstChild)||(d=b.next());while(d&&!c)}if(c&&c.nodeType===Node.ELEMENT_NODE)return c}return null}}function n(b,a){this.reset=function(){b.reset()};this.next=function(){for(var d=b.next();d&&!a(d);)d=b.next();return d}}function p(b,a,d){a=a.split(":",2);var c=d(a[0]),l=a[1];return new n(b,function(a){return a.localName===l&&a.namespaceURI===c})}function m(b,a,d){var f=new c,l=q(f,
+a,d),g=a.value;return void 0===g?new n(b,function(a){f.setNode(a);l.reset();return null!==l.next()}):new n(b,function(a){f.setNode(a);l.reset();return(a=l.next())?a.nodeValue===g:!1})}var q,f;f=function(b,a,d){for(var c=a,l=b.length,f=0;c<l;)"]"===b[c]?(--f,0>=f&&d.push(k(b.substring(a,c)))):"["===b[c]&&(0>=f&&(a=c+1),f+=1),c+=1;return c};q=function(e,a,d){var c,l,f,h;for(c=0;c<a.steps.length;c+=1){f=a.steps[c];l=f.location;if(""===l)e=new g(e,!1);else if("@"===l[0]){l=l.substr(1).split(":",2);h=
+d(l[0]);if(!h)throw"No namespace associated with the prefix "+l[0];e=new b(e,h,l[1])}else"."!==l&&(e=new g(e,!1),-1!==l.indexOf(":")&&(e=p(e,l,d)));for(l=0;l<f.predicates.length;l+=1)h=f.predicates[l],e=m(e,h,d)}return e};return{getODFElementsWithXPath:function(b,a,d){var f=b.ownerDocument,l=[],g=null;if(f&&"function"===typeof f.evaluate)for(d=f.evaluate(a,b,d,XPathResult.UNORDERED_NODE_ITERATOR_TYPE,null),g=d.iterateNext();null!==g;)g.nodeType===Node.ELEMENT_NODE&&l.push(g),g=d.iterateNext();else{l=
+new c;l.setNode(b);b=k(a);l=q(l,b,d);b=[];for(d=l.next();d;)b.push(d),d=l.next();l=b}return l}}}xmldom.XPath=createXPathSingleton();odf.StyleInfo=function(){function h(a,d){var b,e,c,l,f,g=0;if(b=H[a.localName])if(c=b[a.namespaceURI])g=c.length;for(b=0;b<g;b+=1)e=c[b],l=e.ns,f=e.localname,(e=a.getAttributeNS(l,f))&&a.setAttributeNS(l,F[l]+f,d+e);for(c=a.firstElementChild;c;)h(c,d),c=c.nextElementSibling}function k(a,d){var b,e,c,l,f,g=0;if(b=H[a.localName])if(c=b[a.namespaceURI])g=c.length;for(b=0;b<g;b+=1)if(e=c[b],l=e.ns,f=e.localname,e=a.getAttributeNS(l,f))e=e.replace(d,""),a.setAttributeNS(l,F[l]+f,e);for(c=a.firstElementChild;c;)k(c,
+d),c=c.nextElementSibling}function c(a,d){var b,e,c,l,f,g=0;if(b=H[a.localName])if(c=b[a.namespaceURI])g=c.length;for(b=0;b<g;b+=1)if(l=c[b],e=l.ns,f=l.localname,e=a.getAttributeNS(e,f))d=d||{},l=l.keyname,d.hasOwnProperty(l)?d[l][e]=1:(f={},f[e]=1,d[l]=f);return d}function b(a,d){var e,l;c(a,d);for(e=a.firstChild;e;)e.nodeType===Node.ELEMENT_NODE&&(l=e,b(l,d)),e=e.nextSibling}function g(a,d,b){this.key=a;this.name=d;this.family=b;this.requires={}}function n(a,d,b){var e=a+'"'+d,c=b[e];c||(c=b[e]=
+new g(e,a,d));return c}function p(a,d,b){var e,c,l,f,g,r=0;e=a.getAttributeNS(t,"name");f=a.getAttributeNS(t,"family");e&&f&&(d=n(e,f,b));if(d){if(e=H[a.localName])if(l=e[a.namespaceURI])r=l.length;for(e=0;e<r;e+=1)if(f=l[e],c=f.ns,g=f.localname,c=a.getAttributeNS(c,g))f=f.keyname,f=n(c,f,b),d.requires[f.key]=f}for(a=a.firstElementChild;a;)p(a,d,b),a=a.nextElementSibling;return b}function m(a,d){var b=d[a.family];b||(b=d[a.family]={});b[a.name]=1;Object.keys(a.requires).forEach(function(b){m(a.requires[b],
+d)})}function q(a,d){var b=p(a,null,{});Object.keys(b).forEach(function(a){a=b[a];var e=d[a.family];e&&e.hasOwnProperty(a.name)&&m(a,d)})}function f(a,d){function b(d){(d=l.getAttributeNS(t,d))&&(a[d]=!0)}var e=["font-name","font-name-asian","font-name-complex"],c,l;for(c=d&&d.firstElementChild;c;)l=c,e.forEach(b),f(a,l),c=c.nextElementSibling}function e(a,d){function b(a){var e=f.getAttributeNS(t,a);e&&d.hasOwnProperty(e)&&f.setAttributeNS(t,"style:"+a,d[e])}var c=["font-name","font-name-asian",
+"font-name-complex"],l,f;for(l=a&&a.firstElementChild;l;)f=l,c.forEach(b),e(f,d),l=l.nextElementSibling}var a=odf.Namespaces.chartns,d=odf.Namespaces.dbns,r=odf.Namespaces.dr3dns,l=odf.Namespaces.drawns,B=odf.Namespaces.formns,y=odf.Namespaces.numberns,D=odf.Namespaces.officens,z=odf.Namespaces.presentationns,t=odf.Namespaces.stylens,x=odf.Namespaces.tablens,w=odf.Namespaces.textns,F={"urn:oasis:names:tc:opendocument:xmlns:chart:1.0":"chart:","urn:oasis:names:tc:opendocument:xmlns:database:1.0":"db:",
 "urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0":"dr3d:","urn:oasis:names:tc:opendocument:xmlns:drawing:1.0":"draw:","urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0":"fo:","urn:oasis:names:tc:opendocument:xmlns:form:1.0":"form:","urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0":"number:","urn:oasis:names:tc:opendocument:xmlns:office:1.0":"office:","urn:oasis:names:tc:opendocument:xmlns:presentation:1.0":"presentation:","urn:oasis:names:tc:opendocument:xmlns:style:1.0":"style:","urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0":"svg:",
-"urn:oasis:names:tc:opendocument:xmlns:table:1.0":"table:","urn:oasis:names:tc:opendocument:xmlns:text:1.0":"chart:","http://www.w3.org/XML/1998/namespace":"xml:"},F={text:[{ens:u,en:"tab-stop",ans:u,a:"leader-text-style"},{ens:u,en:"drop-cap",ans:u,a:"style-name"},{ens:s,en:"notes-configuration",ans:s,a:"citation-body-style-name"},{ens:s,en:"notes-configuration",ans:s,a:"citation-style-name"},{ens:s,en:"a",ans:s,a:"style-name"},{ens:s,en:"alphabetical-index",ans:s,a:"style-name"},{ens:s,en:"linenumbering-configuration",
-ans:s,a:"style-name"},{ens:s,en:"list-level-style-number",ans:s,a:"style-name"},{ens:s,en:"ruby-text",ans:s,a:"style-name"},{ens:s,en:"span",ans:s,a:"style-name"},{ens:s,en:"a",ans:s,a:"visited-style-name"},{ens:u,en:"text-properties",ans:u,a:"text-line-through-text-style"},{ens:s,en:"alphabetical-index-source",ans:s,a:"main-entry-style-name"},{ens:s,en:"index-entry-bibliography",ans:s,a:"style-name"},{ens:s,en:"index-entry-chapter",ans:s,a:"style-name"},{ens:s,en:"index-entry-link-end",ans:s,a:"style-name"},
-{ens:s,en:"index-entry-link-start",ans:s,a:"style-name"},{ens:s,en:"index-entry-page-number",ans:s,a:"style-name"},{ens:s,en:"index-entry-span",ans:s,a:"style-name"},{ens:s,en:"index-entry-tab-stop",ans:s,a:"style-name"},{ens:s,en:"index-entry-text",ans:s,a:"style-name"},{ens:s,en:"index-title-template",ans:s,a:"style-name"},{ens:s,en:"list-level-style-bullet",ans:s,a:"style-name"},{ens:s,en:"outline-level-style",ans:s,a:"style-name"}],paragraph:[{ens:h,en:"caption",ans:h,a:"text-style-name"},{ens:h,
-en:"circle",ans:h,a:"text-style-name"},{ens:h,en:"connector",ans:h,a:"text-style-name"},{ens:h,en:"control",ans:h,a:"text-style-name"},{ens:h,en:"custom-shape",ans:h,a:"text-style-name"},{ens:h,en:"ellipse",ans:h,a:"text-style-name"},{ens:h,en:"frame",ans:h,a:"text-style-name"},{ens:h,en:"line",ans:h,a:"text-style-name"},{ens:h,en:"measure",ans:h,a:"text-style-name"},{ens:h,en:"path",ans:h,a:"text-style-name"},{ens:h,en:"polygon",ans:h,a:"text-style-name"},{ens:h,en:"polyline",ans:h,a:"text-style-name"},
-{ens:h,en:"rect",ans:h,a:"text-style-name"},{ens:h,en:"regular-polygon",ans:h,a:"text-style-name"},{ens:z,en:"annotation",ans:h,a:"text-style-name"},{ens:v,en:"column",ans:v,a:"text-style-name"},{ens:u,en:"style",ans:u,a:"next-style-name"},{ens:t,en:"body",ans:t,a:"paragraph-style-name"},{ens:t,en:"even-columns",ans:t,a:"paragraph-style-name"},{ens:t,en:"even-rows",ans:t,a:"paragraph-style-name"},{ens:t,en:"first-column",ans:t,a:"paragraph-style-name"},{ens:t,en:"first-row",ans:t,a:"paragraph-style-name"},
-{ens:t,en:"last-column",ans:t,a:"paragraph-style-name"},{ens:t,en:"last-row",ans:t,a:"paragraph-style-name"},{ens:t,en:"odd-columns",ans:t,a:"paragraph-style-name"},{ens:t,en:"odd-rows",ans:t,a:"paragraph-style-name"},{ens:s,en:"notes-configuration",ans:s,a:"default-style-name"},{ens:s,en:"alphabetical-index-entry-template",ans:s,a:"style-name"},{ens:s,en:"bibliography-entry-template",ans:s,a:"style-name"},{ens:s,en:"h",ans:s,a:"style-name"},{ens:s,en:"illustration-index-entry-template",ans:s,a:"style-name"},
-{ens:s,en:"index-source-style",ans:s,a:"style-name"},{ens:s,en:"object-index-entry-template",ans:s,a:"style-name"},{ens:s,en:"p",ans:s,a:"style-name"},{ens:s,en:"table-index-entry-template",ans:s,a:"style-name"},{ens:s,en:"table-of-content-entry-template",ans:s,a:"style-name"},{ens:s,en:"table-index-entry-template",ans:s,a:"style-name"},{ens:s,en:"user-index-entry-template",ans:s,a:"style-name"},{ens:u,en:"page-layout-properties",ans:u,a:"register-truth-ref-style-name"}],chart:[{ens:a,en:"axis",ans:a,
+"urn:oasis:names:tc:opendocument:xmlns:table:1.0":"table:","urn:oasis:names:tc:opendocument:xmlns:text:1.0":"chart:","http://www.w3.org/XML/1998/namespace":"xml:"},L={text:[{ens:t,en:"tab-stop",ans:t,a:"leader-text-style"},{ens:t,en:"drop-cap",ans:t,a:"style-name"},{ens:w,en:"notes-configuration",ans:w,a:"citation-body-style-name"},{ens:w,en:"notes-configuration",ans:w,a:"citation-style-name"},{ens:w,en:"a",ans:w,a:"style-name"},{ens:w,en:"alphabetical-index",ans:w,a:"style-name"},{ens:w,en:"linenumbering-configuration",
+ans:w,a:"style-name"},{ens:w,en:"list-level-style-number",ans:w,a:"style-name"},{ens:w,en:"ruby-text",ans:w,a:"style-name"},{ens:w,en:"span",ans:w,a:"style-name"},{ens:w,en:"a",ans:w,a:"visited-style-name"},{ens:t,en:"text-properties",ans:t,a:"text-line-through-text-style"},{ens:w,en:"alphabetical-index-source",ans:w,a:"main-entry-style-name"},{ens:w,en:"index-entry-bibliography",ans:w,a:"style-name"},{ens:w,en:"index-entry-chapter",ans:w,a:"style-name"},{ens:w,en:"index-entry-link-end",ans:w,a:"style-name"},
+{ens:w,en:"index-entry-link-start",ans:w,a:"style-name"},{ens:w,en:"index-entry-page-number",ans:w,a:"style-name"},{ens:w,en:"index-entry-span",ans:w,a:"style-name"},{ens:w,en:"index-entry-tab-stop",ans:w,a:"style-name"},{ens:w,en:"index-entry-text",ans:w,a:"style-name"},{ens:w,en:"index-title-template",ans:w,a:"style-name"},{ens:w,en:"list-level-style-bullet",ans:w,a:"style-name"},{ens:w,en:"outline-level-style",ans:w,a:"style-name"}],paragraph:[{ens:l,en:"caption",ans:l,a:"text-style-name"},{ens:l,
+en:"circle",ans:l,a:"text-style-name"},{ens:l,en:"connector",ans:l,a:"text-style-name"},{ens:l,en:"control",ans:l,a:"text-style-name"},{ens:l,en:"custom-shape",ans:l,a:"text-style-name"},{ens:l,en:"ellipse",ans:l,a:"text-style-name"},{ens:l,en:"frame",ans:l,a:"text-style-name"},{ens:l,en:"line",ans:l,a:"text-style-name"},{ens:l,en:"measure",ans:l,a:"text-style-name"},{ens:l,en:"path",ans:l,a:"text-style-name"},{ens:l,en:"polygon",ans:l,a:"text-style-name"},{ens:l,en:"polyline",ans:l,a:"text-style-name"},
+{ens:l,en:"rect",ans:l,a:"text-style-name"},{ens:l,en:"regular-polygon",ans:l,a:"text-style-name"},{ens:D,en:"annotation",ans:l,a:"text-style-name"},{ens:B,en:"column",ans:B,a:"text-style-name"},{ens:t,en:"style",ans:t,a:"next-style-name"},{ens:x,en:"body",ans:x,a:"paragraph-style-name"},{ens:x,en:"even-columns",ans:x,a:"paragraph-style-name"},{ens:x,en:"even-rows",ans:x,a:"paragraph-style-name"},{ens:x,en:"first-column",ans:x,a:"paragraph-style-name"},{ens:x,en:"first-row",ans:x,a:"paragraph-style-name"},
+{ens:x,en:"last-column",ans:x,a:"paragraph-style-name"},{ens:x,en:"last-row",ans:x,a:"paragraph-style-name"},{ens:x,en:"odd-columns",ans:x,a:"paragraph-style-name"},{ens:x,en:"odd-rows",ans:x,a:"paragraph-style-name"},{ens:w,en:"notes-configuration",ans:w,a:"default-style-name"},{ens:w,en:"alphabetical-index-entry-template",ans:w,a:"style-name"},{ens:w,en:"bibliography-entry-template",ans:w,a:"style-name"},{ens:w,en:"h",ans:w,a:"style-name"},{ens:w,en:"illustration-index-entry-template",ans:w,a:"style-name"},
+{ens:w,en:"index-source-style",ans:w,a:"style-name"},{ens:w,en:"object-index-entry-template",ans:w,a:"style-name"},{ens:w,en:"p",ans:w,a:"style-name"},{ens:w,en:"table-index-entry-template",ans:w,a:"style-name"},{ens:w,en:"table-of-content-entry-template",ans:w,a:"style-name"},{ens:w,en:"table-index-entry-template",ans:w,a:"style-name"},{ens:w,en:"user-index-entry-template",ans:w,a:"style-name"},{ens:t,en:"page-layout-properties",ans:t,a:"register-truth-ref-style-name"}],chart:[{ens:a,en:"axis",ans:a,
 a:"style-name"},{ens:a,en:"chart",ans:a,a:"style-name"},{ens:a,en:"data-label",ans:a,a:"style-name"},{ens:a,en:"data-point",ans:a,a:"style-name"},{ens:a,en:"equation",ans:a,a:"style-name"},{ens:a,en:"error-indicator",ans:a,a:"style-name"},{ens:a,en:"floor",ans:a,a:"style-name"},{ens:a,en:"footer",ans:a,a:"style-name"},{ens:a,en:"grid",ans:a,a:"style-name"},{ens:a,en:"legend",ans:a,a:"style-name"},{ens:a,en:"mean-value",ans:a,a:"style-name"},{ens:a,en:"plot-area",ans:a,a:"style-name"},{ens:a,en:"regression-curve",
-ans:a,a:"style-name"},{ens:a,en:"series",ans:a,a:"style-name"},{ens:a,en:"stock-gain-marker",ans:a,a:"style-name"},{ens:a,en:"stock-loss-marker",ans:a,a:"style-name"},{ens:a,en:"stock-range-line",ans:a,a:"style-name"},{ens:a,en:"subtitle",ans:a,a:"style-name"},{ens:a,en:"title",ans:a,a:"style-name"},{ens:a,en:"wall",ans:a,a:"style-name"}],section:[{ens:s,en:"alphabetical-index",ans:s,a:"style-name"},{ens:s,en:"bibliography",ans:s,a:"style-name"},{ens:s,en:"illustration-index",ans:s,a:"style-name"},
-{ens:s,en:"index-title",ans:s,a:"style-name"},{ens:s,en:"object-index",ans:s,a:"style-name"},{ens:s,en:"section",ans:s,a:"style-name"},{ens:s,en:"table-of-content",ans:s,a:"style-name"},{ens:s,en:"table-index",ans:s,a:"style-name"},{ens:s,en:"user-index",ans:s,a:"style-name"}],ruby:[{ens:s,en:"ruby",ans:s,a:"style-name"}],table:[{ens:c,en:"query",ans:c,a:"style-name"},{ens:c,en:"table-representation",ans:c,a:"style-name"},{ens:t,en:"background",ans:t,a:"style-name"},{ens:t,en:"table",ans:t,a:"style-name"}],
-"table-column":[{ens:c,en:"column",ans:c,a:"style-name"},{ens:t,en:"table-column",ans:t,a:"style-name"}],"table-row":[{ens:c,en:"query",ans:c,a:"default-row-style-name"},{ens:c,en:"table-representation",ans:c,a:"default-row-style-name"},{ens:t,en:"table-row",ans:t,a:"style-name"}],"table-cell":[{ens:c,en:"column",ans:c,a:"default-cell-style-name"},{ens:t,en:"table-column",ans:t,a:"default-cell-style-name"},{ens:t,en:"table-row",ans:t,a:"default-cell-style-name"},{ens:t,en:"body",ans:t,a:"style-name"},
-{ens:t,en:"covered-table-cell",ans:t,a:"style-name"},{ens:t,en:"even-columns",ans:t,a:"style-name"},{ens:t,en:"covered-table-cell",ans:t,a:"style-name"},{ens:t,en:"even-columns",ans:t,a:"style-name"},{ens:t,en:"even-rows",ans:t,a:"style-name"},{ens:t,en:"first-column",ans:t,a:"style-name"},{ens:t,en:"first-row",ans:t,a:"style-name"},{ens:t,en:"last-column",ans:t,a:"style-name"},{ens:t,en:"last-row",ans:t,a:"style-name"},{ens:t,en:"odd-columns",ans:t,a:"style-name"},{ens:t,en:"odd-rows",ans:t,a:"style-name"},
-{ens:t,en:"table-cell",ans:t,a:"style-name"}],graphic:[{ens:l,en:"cube",ans:h,a:"style-name"},{ens:l,en:"extrude",ans:h,a:"style-name"},{ens:l,en:"rotate",ans:h,a:"style-name"},{ens:l,en:"scene",ans:h,a:"style-name"},{ens:l,en:"sphere",ans:h,a:"style-name"},{ens:h,en:"caption",ans:h,a:"style-name"},{ens:h,en:"circle",ans:h,a:"style-name"},{ens:h,en:"connector",ans:h,a:"style-name"},{ens:h,en:"control",ans:h,a:"style-name"},{ens:h,en:"custom-shape",ans:h,a:"style-name"},{ens:h,en:"ellipse",ans:h,a:"style-name"},
-{ens:h,en:"frame",ans:h,a:"style-name"},{ens:h,en:"g",ans:h,a:"style-name"},{ens:h,en:"line",ans:h,a:"style-name"},{ens:h,en:"measure",ans:h,a:"style-name"},{ens:h,en:"page-thumbnail",ans:h,a:"style-name"},{ens:h,en:"path",ans:h,a:"style-name"},{ens:h,en:"polygon",ans:h,a:"style-name"},{ens:h,en:"polyline",ans:h,a:"style-name"},{ens:h,en:"rect",ans:h,a:"style-name"},{ens:h,en:"regular-polygon",ans:h,a:"style-name"},{ens:z,en:"annotation",ans:h,a:"style-name"}],presentation:[{ens:l,en:"cube",ans:x,
-a:"style-name"},{ens:l,en:"extrude",ans:x,a:"style-name"},{ens:l,en:"rotate",ans:x,a:"style-name"},{ens:l,en:"scene",ans:x,a:"style-name"},{ens:l,en:"sphere",ans:x,a:"style-name"},{ens:h,en:"caption",ans:x,a:"style-name"},{ens:h,en:"circle",ans:x,a:"style-name"},{ens:h,en:"connector",ans:x,a:"style-name"},{ens:h,en:"control",ans:x,a:"style-name"},{ens:h,en:"custom-shape",ans:x,a:"style-name"},{ens:h,en:"ellipse",ans:x,a:"style-name"},{ens:h,en:"frame",ans:x,a:"style-name"},{ens:h,en:"g",ans:x,a:"style-name"},
-{ens:h,en:"line",ans:x,a:"style-name"},{ens:h,en:"measure",ans:x,a:"style-name"},{ens:h,en:"page-thumbnail",ans:x,a:"style-name"},{ens:h,en:"path",ans:x,a:"style-name"},{ens:h,en:"polygon",ans:x,a:"style-name"},{ens:h,en:"polyline",ans:x,a:"style-name"},{ens:h,en:"rect",ans:x,a:"style-name"},{ens:h,en:"regular-polygon",ans:x,a:"style-name"},{ens:z,en:"annotation",ans:x,a:"style-name"}],"drawing-page":[{ens:h,en:"page",ans:h,a:"style-name"},{ens:x,en:"notes",ans:h,a:"style-name"},{ens:u,en:"handout-master",
-ans:h,a:"style-name"},{ens:u,en:"master-page",ans:h,a:"style-name"}],"list-style":[{ens:s,en:"list",ans:s,a:"style-name"},{ens:s,en:"numbered-paragraph",ans:s,a:"style-name"},{ens:s,en:"list-item",ans:s,a:"style-override"},{ens:u,en:"style",ans:u,a:"list-style-name"}],data:[{ens:u,en:"style",ans:u,a:"data-style-name"},{ens:u,en:"style",ans:u,a:"percentage-data-style-name"},{ens:x,en:"date-time-decl",ans:u,a:"data-style-name"},{ens:s,en:"creation-date",ans:u,a:"data-style-name"},{ens:s,en:"creation-time",
-ans:u,a:"data-style-name"},{ens:s,en:"database-display",ans:u,a:"data-style-name"},{ens:s,en:"date",ans:u,a:"data-style-name"},{ens:s,en:"editing-duration",ans:u,a:"data-style-name"},{ens:s,en:"expression",ans:u,a:"data-style-name"},{ens:s,en:"meta-field",ans:u,a:"data-style-name"},{ens:s,en:"modification-date",ans:u,a:"data-style-name"},{ens:s,en:"modification-time",ans:u,a:"data-style-name"},{ens:s,en:"print-date",ans:u,a:"data-style-name"},{ens:s,en:"print-time",ans:u,a:"data-style-name"},{ens:s,
-en:"table-formula",ans:u,a:"data-style-name"},{ens:s,en:"time",ans:u,a:"data-style-name"},{ens:s,en:"user-defined",ans:u,a:"data-style-name"},{ens:s,en:"user-field-get",ans:u,a:"data-style-name"},{ens:s,en:"user-field-input",ans:u,a:"data-style-name"},{ens:s,en:"variable-get",ans:u,a:"data-style-name"},{ens:s,en:"variable-input",ans:u,a:"data-style-name"},{ens:s,en:"variable-set",ans:u,a:"data-style-name"}],"page-layout":[{ens:x,en:"notes",ans:u,a:"page-layout-name"},{ens:u,en:"handout-master",ans:u,
-a:"page-layout-name"},{ens:u,en:"master-page",ans:u,a:"page-layout-name"}]},L,O=xmldom.XPath;this.collectUsedFontFaces=e;this.changeFontFaceNames=r;this.UsedStyleList=function(a,c){var b={};this.uses=function(a){var c=a.localName,d=a.getAttributeNS(h,"name")||a.getAttributeNS(u,"name");a="style"===c?a.getAttributeNS(u,"family"):a.namespaceURI===w?"data":c;return(a=b[a])?0<a[d]:!1};k(a,b);c&&q(c,b)};this.hasDerivedStyles=function(a,c,b){var d=b.getAttributeNS(u,"name");b=b.getAttributeNS(u,"family");
-return O.getODFElementsWithXPath(a,"//style:*[@style:parent-style-name='"+d+"'][@style:family='"+b+"']",c).length?!0:!1};this.prefixStyleNames=function(a,c,b){var d;if(a){for(d=a.firstChild;d;){if(d.nodeType===Node.ELEMENT_NODE){var e=d,l=c,f=e.getAttributeNS(h,"name"),k=void 0;f?k=h:(f=e.getAttributeNS(u,"name"))&&(k=u);k&&e.setAttributeNS(k,y[k]+"name",l+f)}d=d.nextSibling}m(a,c);b&&m(b,c)}};this.removePrefixFromStyleNames=function(a,c,b){var d=RegExp("^"+c);if(a){for(c=a.firstChild;c;){if(c.nodeType===
-Node.ELEMENT_NODE){var e=c,l=d,f=e.getAttributeNS(h,"name"),k=void 0;f?k=h:(f=e.getAttributeNS(u,"name"))&&(k=u);k&&(f=f.replace(l,""),e.setAttributeNS(k,y[k]+"name",f))}c=c.nextSibling}g(a,d);b&&g(b,d)}};this.determineStylesForNode=b;L=function(){var a,c,b,d,e,h={},l,f,k,n;for(b in F)if(F.hasOwnProperty(b))for(d=F[b],c=d.length,a=0;a<c;a+=1)e=d[a],k=e.en,n=e.ens,h.hasOwnProperty(k)?l=h[k]:h[k]=l={},l.hasOwnProperty(n)?f=l[n]:l[n]=f=[],f.push({ns:e.ans,localname:e.a,keyname:b});return h}()};
-// Input 26
-"function"!==typeof Object.create&&(Object.create=function(m){var g=function(){};g.prototype=m;return new g});
-xmldom.LSSerializer=function(){function m(b){var k=b||{},g=function(b){var a={},c;for(c in b)b.hasOwnProperty(c)&&(a[b[c]]=c);return a}(b),f=[k],m=[g],e=0;this.push=function(){e+=1;k=f[e]=Object.create(k);g=m[e]=Object.create(g)};this.pop=function(){f.pop();m.pop();e-=1;k=f[e];g=m[e]};this.getLocalNamespaceDefinitions=function(){return g};this.getQName=function(b){var a=b.namespaceURI,c=0,d;if(!a)return b.localName;if(d=g[a])return d+":"+b.localName;do{d||!b.prefix?(d="ns"+c,c+=1):d=b.prefix;if(k[d]===
-a)break;if(!k[d]){k[d]=a;g[a]=d;break}d=null}while(null===d);return d+":"+b.localName}}function g(b){return b.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;")}function b(d,n){var p="",f=k.filter?k.filter.acceptNode(n):NodeFilter.FILTER_ACCEPT,m;if(f===NodeFilter.FILTER_ACCEPT&&n.nodeType===Node.ELEMENT_NODE){d.push();m=d.getQName(n);var e,r=n.attributes,a,c,l,h="",v;e="<"+m;a=r.length;for(c=0;c<a;c+=1)l=r.item(c),"http://www.w3.org/2000/xmlns/"!==
-l.namespaceURI&&(v=k.filter?k.filter.acceptNode(l):NodeFilter.FILTER_ACCEPT,v===NodeFilter.FILTER_ACCEPT&&(v=d.getQName(l),l="string"===typeof l.value?g(l.value):l.value,h+=" "+(v+'="'+l+'"')));a=d.getLocalNamespaceDefinitions();for(c in a)a.hasOwnProperty(c)&&((r=a[c])?"xmlns"!==r&&(e+=" xmlns:"+a[c]+'="'+c+'"'):e+=' xmlns="'+c+'"');p+=e+(h+">")}if(f===NodeFilter.FILTER_ACCEPT||f===NodeFilter.FILTER_SKIP){for(f=n.firstChild;f;)p+=b(d,f),f=f.nextSibling;n.nodeValue&&(p+=g(n.nodeValue))}m&&(p+="</"+
-m+">",d.pop());return p}var k=this;this.filter=null;this.writeToString=function(d,k){if(!d)return"";var g=new m(k);return b(g,d)}};
-// Input 27
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function(){function m(b){var a,c=f.length;for(a=0;a<c;a+=1)if("urn:oasis:names:tc:opendocument:xmlns:office:1.0"===b.namespaceURI&&b.localName===f[a])return a;return-1}function g(b,a){var c=new d.UsedStyleList(b,a),e=new odf.OdfNodeFilter;this.acceptNode=function(b){var d=e.acceptNode(b);d===NodeFilter.FILTER_ACCEPT&&b.parentNode===a&&b.nodeType===Node.ELEMENT_NODE&&(d=c.uses(b)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT);return d}}function b(b,a){var c=new g(b,a);this.acceptNode=function(a){var b=
-c.acceptNode(a);b!==NodeFilter.FILTER_ACCEPT||!a.parentNode||a.parentNode.namespaceURI!==odf.Namespaces.textns||"s"!==a.parentNode.localName&&"tab"!==a.parentNode.localName||(b=NodeFilter.FILTER_REJECT);return b}}function k(b,a){if(a){var c=m(a),d,e=b.firstChild;if(-1!==c){for(;e;){d=m(e);if(-1!==d&&d>c)break;e=e.nextSibling}b.insertBefore(a,e)}}}var d=new odf.StyleInfo,n=new core.DomUtils,p=odf.Namespaces.stylens,f="meta settings scripts font-face-decls styles automatic-styles master-styles body".split(" "),
-q=(new Date).getTime()+"_webodf_",e=new core.Base64;odf.ODFElement=function(){};odf.ODFDocumentElement=function(){};odf.ODFDocumentElement.prototype=new odf.ODFElement;odf.ODFDocumentElement.prototype.constructor=odf.ODFDocumentElement;odf.ODFDocumentElement.prototype.fontFaceDecls=null;odf.ODFDocumentElement.prototype.manifest=null;odf.ODFDocumentElement.prototype.settings=null;odf.ODFDocumentElement.namespaceURI="urn:oasis:names:tc:opendocument:xmlns:office:1.0";odf.ODFDocumentElement.localName=
-"document";odf.AnnotationElement=function(){};odf.OdfPart=function(b,a,c,d){var e=this;this.size=0;this.type=null;this.name=b;this.container=c;this.url=null;this.mimetype=a;this.onstatereadychange=this.document=null;this.EMPTY=0;this.LOADING=1;this.DONE=2;this.state=this.EMPTY;this.data="";this.load=function(){null!==d&&(this.mimetype=a,d.loadAsDataURL(b,a,function(a,b){a&&runtime.log(a);e.url=b;if(e.onchange)e.onchange(e);if(e.onstatereadychange)e.onstatereadychange(e)}))}};odf.OdfPart.prototype.load=
-function(){};odf.OdfPart.prototype.getUrl=function(){return this.data?"data:;base64,"+e.toBase64(this.data):null};odf.OdfContainer=function a(c,l){function h(a){for(var b=a.firstChild,c;b;)c=b.nextSibling,b.nodeType===Node.ELEMENT_NODE?h(b):b.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&a.removeChild(b),b=c}function f(a){var b={},c,d,e=a.ownerDocument.createNodeIterator(a,NodeFilter.SHOW_ELEMENT,null,!1);for(a=e.nextNode();a;)"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===a.namespaceURI&&("annotation"===
-a.localName?(c=a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","name"))&&(b.hasOwnProperty(c)?runtime.log("Warning: annotation name used more than once with <office:annotation/>: '"+c+"'"):b[c]=a):"annotation-end"===a.localName&&((c=a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","name"))?b.hasOwnProperty(c)?(d=b[c],d.annotationEndElement?runtime.log("Warning: annotation name used more than once with <office:annotation-end/>: '"+c+"'"):d.annotationEndElement=
-a):runtime.log("Warning: annotation end without an annotation start, name: '"+c+"'"):runtime.log("Warning: annotation end without a name found"))),a=e.nextNode()}function m(a,b){for(var c=a&&a.firstChild;c;)c.nodeType===Node.ELEMENT_NODE&&c.setAttributeNS("urn:webodf:names:scope","scope",b),c=c.nextSibling}function z(a){var b={},c;for(a=a.firstChild;a;)a.nodeType===Node.ELEMENT_NODE&&a.namespaceURI===p&&"font-face"===a.localName&&(c=a.getAttributeNS(p,"name"),b[c]=a),a=a.nextSibling;return b}function x(a,
-b){var c=null,d,e,h;if(a)for(c=a.cloneNode(!0),d=c.firstElementChild;d;)e=d.nextElementSibling,(h=d.getAttributeNS("urn:webodf:names:scope","scope"))&&h!==b&&c.removeChild(d),d=e;return c}function u(a,b){var c,e,h,l=null,f={};if(a)for(b.forEach(function(a){d.collectUsedFontFaces(f,a)}),l=a.cloneNode(!0),c=l.firstElementChild;c;)e=c.nextElementSibling,h=c.getAttributeNS(p,"name"),f[h]||l.removeChild(c),c=e;return l}function t(a){var b=M.rootElement.ownerDocument,c;if(a){h(a.documentElement);try{c=
-b.importNode(a.documentElement,!0)}catch(d){}}return c}function s(a){M.state=a;if(M.onchange)M.onchange(M);if(M.onstatereadychange)M.onstatereadychange(M)}function y(a){S=null;M.rootElement=a;a.fontFaceDecls=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","font-face-decls");a.styles=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","styles");a.automaticStyles=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles");a.masterStyles=
-n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","master-styles");a.body=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","body");a.meta=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","meta");f(a)}function F(b){var c=t(b),e=M.rootElement,h;c&&"document-styles"===c.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===c.namespaceURI?(e.fontFaceDecls=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","font-face-decls"),
-k(e,e.fontFaceDecls),h=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","styles"),e.styles=h||b.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","styles"),k(e,e.styles),h=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles"),e.automaticStyles=h||b.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles"),m(e.automaticStyles,"document-styles"),k(e,e.automaticStyles),c=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0",
-"master-styles"),e.masterStyles=c||b.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","master-styles"),k(e,e.masterStyles),d.prefixStyleNames(e.automaticStyles,q,e.masterStyles)):s(a.INVALID)}function L(b){b=t(b);var c,e,h,l;if(b&&"document-content"===b.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===b.namespaceURI){c=M.rootElement;h=n.getDirectChild(b,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","font-face-decls");if(c.fontFaceDecls&&h){l=c.fontFaceDecls;var f,
-g,y,L,q={};e=z(l);L=z(h);for(h=h.firstElementChild;h;){f=h.nextElementSibling;if(h.namespaceURI===p&&"font-face"===h.localName)if(g=h.getAttributeNS(p,"name"),e.hasOwnProperty(g)){if(!h.isEqualNode(e[g])){y=g;for(var H=e,G=L,F=0,v=void 0,v=y=y.replace(/\d+$/,"");H.hasOwnProperty(v)||G.hasOwnProperty(v);)F+=1,v=y+F;y=v;h.setAttributeNS(p,"style:name",y);l.appendChild(h);e[y]=h;delete L[g];q[g]=y}}else l.appendChild(h),e[g]=h,delete L[g];h=f}l=q}else h&&(c.fontFaceDecls=h,k(c,h));e=n.getDirectChild(b,
-"urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles");m(e,"document-content");l&&d.changeFontFaceNames(e,l);if(c.automaticStyles&&e)for(l=e.firstChild;l;)c.automaticStyles.appendChild(l),l=e.firstChild;else e&&(c.automaticStyles=e,k(c,e));b=n.getDirectChild(b,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","body");if(null===b)throw"<office:body/> tag is mising.";c.body=b;k(c,c.body)}else s(a.INVALID)}function O(a){a=t(a);var b;a&&"document-meta"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===
-a.namespaceURI&&(b=M.rootElement,b.meta=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","meta"),k(b,b.meta))}function H(a){a=t(a);var b;a&&"document-settings"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===a.namespaceURI&&(b=M.rootElement,b.settings=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","settings"),k(b,b.settings))}function U(a){a=t(a);var b;if(a&&"manifest"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"===
-a.namespaceURI)for(b=M.rootElement,b.manifest=a,a=b.manifest.firstElementChild;a;)"file-entry"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"===a.namespaceURI&&(W[a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","full-path")]=a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","media-type")),a=a.nextElementSibling}function T(b){var c=b.shift();c?$.loadAsDOM(c.path,function(d,e){c.handler(e);d||M.state===a.INVALID||T(b)}):(f(M.rootElement),
-s(a.DONE))}function X(a){var b="";odf.Namespaces.forEachPrefix(function(a,c){b+=" xmlns:"+a+'="'+c+'"'});return'<?xml version="1.0" encoding="UTF-8"?><office:'+a+" "+b+' office:version="1.2">'}function D(){var a=new xmldom.LSSerializer,b=X("document-meta");a.filter=new odf.OdfNodeFilter;b+=a.writeToString(M.rootElement.meta,odf.Namespaces.namespaceMap);return b+"</office:document-meta>"}function ba(a,b){var c=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","manifest:file-entry");
-c.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","manifest:full-path",a);c.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","manifest:media-type",b);return c}function G(){var a=runtime.parseXML('<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.2"></manifest:manifest>'),b=a.documentElement,c=new xmldom.LSSerializer,d;for(d in W)W.hasOwnProperty(d)&&b.appendChild(ba(d,W[d]));c.filter=new odf.OdfNodeFilter;
-return'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+c.writeToString(a,odf.Namespaces.namespaceMap)}function J(){var a=new xmldom.LSSerializer,b=X("document-settings");a.filter=new odf.OdfNodeFilter;M.rootElement.settings.firstElementChild&&(b+=a.writeToString(M.rootElement.settings,odf.Namespaces.namespaceMap));return b+"</office:document-settings>"}function Q(){var a,b,c,e=odf.Namespaces.namespaceMap,h=new xmldom.LSSerializer,l=X("document-styles");b=x(M.rootElement.automaticStyles,
-"document-styles");c=M.rootElement.masterStyles.cloneNode(!0);a=u(M.rootElement.fontFaceDecls,[c,M.rootElement.styles,b]);d.removePrefixFromStyleNames(b,q,c);h.filter=new g(c,b);l+=h.writeToString(a,e);l+=h.writeToString(M.rootElement.styles,e);l+=h.writeToString(b,e);l+=h.writeToString(c,e);return l+"</office:document-styles>"}function ea(){var a,c,d=odf.Namespaces.namespaceMap,e=new xmldom.LSSerializer,h=X("document-content");c=x(M.rootElement.automaticStyles,"document-content");a=u(M.rootElement.fontFaceDecls,
-[c]);e.filter=new b(M.rootElement.body,c);h+=e.writeToString(a,d);h+=e.writeToString(c,d);h+=e.writeToString(M.rootElement.body,d);return h+"</office:document-content>"}function P(b,c){runtime.loadXML(b,function(b,d){if(b)c(b);else{var e=t(d);e&&"document"===e.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===e.namespaceURI?(y(e),s(a.DONE)):s(a.INVALID)}})}function N(a,b){var c;c=M.rootElement;var d=c.meta;d||(c.meta=d=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0",
-"meta"),k(c,d));c=d;a&&n.mapKeyValObjOntoNode(c,a,odf.Namespaces.lookupNamespaceURI);b&&n.removeKeyElementsFromNode(c,b,odf.Namespaces.lookupNamespaceURI)}function I(){function b(a,c){var d;c||(c=a);d=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0",c);e[a]=d;e.appendChild(d)}var c=new core.Zip("",null),d=runtime.byteArrayFromString("application/vnd.oasis.opendocument.text","utf8"),e=M.rootElement,h=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0",
-"text");c.save("mimetype",d,!1,new Date);b("meta");b("settings");b("scripts");b("fontFaceDecls","font-face-decls");b("styles");b("automaticStyles","automatic-styles");b("masterStyles","master-styles");b("body");e.body.appendChild(h);W["/"]="application/vnd.oasis.opendocument.text";W["settings.xml"]="text/xml";W["meta.xml"]="text/xml";W["styles.xml"]="text/xml";W["content.xml"]="text/xml";s(a.DONE);return c}function B(){var a,b=new Date,c=runtime.getWindow();a="WebODF/"+("undefined"!==String(typeof webodf_version)?
-webodf_version:"FromSource");c&&(a=a+" "+c.navigator.userAgent);N({"meta:generator":a},null);a=runtime.byteArrayFromString(J(),"utf8");$.save("settings.xml",a,!0,b);a=runtime.byteArrayFromString(D(),"utf8");$.save("meta.xml",a,!0,b);a=runtime.byteArrayFromString(Q(),"utf8");$.save("styles.xml",a,!0,b);a=runtime.byteArrayFromString(ea(),"utf8");$.save("content.xml",a,!0,b);a=runtime.byteArrayFromString(G(),"utf8");$.save("META-INF/manifest.xml",a,!0,b)}function V(a,b){B();$.writeAs(a,function(a){b(a)})}
-var M=this,$,W={},S;this.onstatereadychange=l;this.state=this.onchange=null;this.setRootElement=y;this.getContentElement=function(){var a;S||(a=M.rootElement.body,S=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","text")||n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","presentation")||n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","spreadsheet"));if(!S)throw"Could not find content element in <office:body/>.";return S};this.getDocumentType=
-function(){var a=M.getContentElement();return a&&a.localName};this.getPart=function(a){return new odf.OdfPart(a,W[a],M,$)};this.getPartData=function(a,b){$.load(a,b)};this.setMetadata=N;this.incrementEditingCycles=function(){var a;for(a=(a=M.rootElement.meta)&&a.firstChild;a&&(a.namespaceURI!==odf.Namespaces.metans||"editing-cycles"!==a.localName);)a=a.nextSibling;for(a=a&&a.firstChild;a&&a.nodeType!==Node.TEXT_NODE;)a=a.nextSibling;a=a?a.data:null;a=a?parseInt(a,10):0;isNaN(a)&&(a=0);N({"meta:editing-cycles":a+
-1},null)};this.createByteArray=function(a,b){B();$.createByteArray(a,b)};this.saveAs=V;this.save=function(a){V(c,a)};this.getUrl=function(){return c};this.setBlob=function(a,b,c){c=e.convertBase64ToByteArray(c);$.save(a,c,!1,new Date);W.hasOwnProperty(a)&&runtime.log(a+" has been overwritten.");W[a]=b};this.removeBlob=function(a){var b=$.remove(a);runtime.assert(b,"file is not found: "+a);delete W[a]};this.state=a.LOADING;this.rootElement=function(a){var b=document.createElementNS(a.namespaceURI,
-a.localName),c;a=new a.Type;for(c in a)a.hasOwnProperty(c)&&(b[c]=a[c]);return b}({Type:odf.ODFDocumentElement,namespaceURI:odf.ODFDocumentElement.namespaceURI,localName:odf.ODFDocumentElement.localName});$=c?new core.Zip(c,function(b,d){$=d;b?P(c,function(c){b&&($.error=b+"\n"+c,s(a.INVALID))}):T([{path:"styles.xml",handler:F},{path:"content.xml",handler:L},{path:"meta.xml",handler:O},{path:"settings.xml",handler:H},{path:"META-INF/manifest.xml",handler:U}])}):I()};odf.OdfContainer.EMPTY=0;odf.OdfContainer.LOADING=
-1;odf.OdfContainer.DONE=2;odf.OdfContainer.INVALID=3;odf.OdfContainer.SAVING=4;odf.OdfContainer.MODIFIED=5;odf.OdfContainer.getContainer=function(a){return new odf.OdfContainer(a,null)};return odf.OdfContainer})();
-// Input 28
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.OdfUtils=function(){function m(a){return"image"===(a&&a.localName)&&a.namespaceURI===T}function g(a){return null!==a&&a.nodeType===Node.ELEMENT_NODE&&"frame"===a.localName&&a.namespaceURI===T&&"as-char"===a.getAttributeNS(U,"anchor-type")}function b(a){var b;(b="annotation"===(a&&a.localName)&&a.namespaceURI===odf.Namespaces.officens)||(b="div"===(a&&a.localName)&&"annotationWrapper"===a.className);return b}function k(a){return"a"===(a&&a.localName)&&a.namespaceURI===U}function d(a){var b=a&&
-a.localName;return("p"===b||"h"===b)&&a.namespaceURI===U}function n(a){for(;a&&!d(a);)a=a.parentNode;return a}function p(a){return/^[ \t\r\n]+$/.test(a)}function f(a){if(null===a||a.nodeType!==Node.ELEMENT_NODE)return!1;var b=a.localName;return/^(span|p|h|a|meta)$/.test(b)&&a.namespaceURI===U||"span"===b&&"annotationHighlight"===a.className}function q(a){var b=a&&a.localName,c=!1;b&&(a=a.namespaceURI,a===U&&(c="s"===b||"tab"===b||"line-break"===b));return c}function e(a){return q(a)||g(a)||b(a)}function r(a){var b=
-a&&a.localName,c=!1;b&&(a=a.namespaceURI,a===U&&(c="s"===b));return c}function a(a){for(;null!==a.firstChild&&f(a);)a=a.firstChild;return a}function c(a){for(;null!==a.lastChild&&f(a);)a=a.lastChild;return a}function l(a){for(;!d(a)&&null===a.previousSibling;)a=a.parentNode;return d(a)?null:c(a.previousSibling)}function h(b){for(;!d(b)&&null===b.nextSibling;)b=b.parentNode;return d(b)?null:a(b.nextSibling)}function v(a){for(var b=!1;a;)if(a.nodeType===Node.TEXT_NODE)if(0===a.length)a=l(a);else return!p(a.data.substr(a.length-
-1,1));else e(a)?(b=!1===r(a),a=null):a=l(a);return b}function w(b){var c=!1,d;for(b=b&&a(b);b;){d=b.nodeType===Node.TEXT_NODE?b.length:0;if(0<d&&!p(b.data)){c=!0;break}if(e(b)){c=!0;break}b=h(b)}return c}function z(a,b){return p(a.data.substr(b))?!w(h(a)):!1}function x(a,b){var c=a.data,d;if(!p(c[b])||e(a.parentNode))return!1;0<b?p(c[b-1])||(d=!0):v(l(a))&&(d=!0);return!0===d?z(a,b)?!1:!0:!1}function u(a){return(a=/(-?[0-9]*[0-9][0-9]*(\.[0-9]*)?|0+\.[0-9]*[1-9][0-9]*|\.[0-9]*[1-9][0-9]*)((cm)|(mm)|(in)|(pt)|(pc)|(px)|(%))/.exec(a))?
-{value:parseFloat(a[1]),unit:a[3]}:null}function t(a){return(a=u(a))&&(0>a.value||"%"===a.unit)?null:a}function s(a){return(a=u(a))&&"%"!==a.unit?null:a}function y(a){switch(a.namespaceURI){case odf.Namespaces.drawns:case odf.Namespaces.svgns:case odf.Namespaces.dr3dns:return!1;case odf.Namespaces.textns:switch(a.localName){case "note-body":case "ruby-text":return!1}break;case odf.Namespaces.officens:switch(a.localName){case "annotation":case "binary-data":case "event-listeners":return!1}break;default:switch(a.localName){case "cursor":case "editinfo":return!1}}return!0}
-function F(a,b){for(;0<b.length&&!ba.rangeContainsNode(a,b[0]);)b.shift();for(;0<b.length&&!ba.rangeContainsNode(a,b[b.length-1]);)b.pop()}function L(a,c,d){var h;h=ba.getNodesInRange(a,function(a){var c=NodeFilter.FILTER_REJECT;if(q(a.parentNode)||b(a))c=NodeFilter.FILTER_REJECT;else if(a.nodeType===Node.TEXT_NODE){if(d||Boolean(n(a)&&(!p(a.textContent)||x(a,0))))c=NodeFilter.FILTER_ACCEPT}else if(e(a))c=NodeFilter.FILTER_ACCEPT;else if(y(a)||f(a))c=NodeFilter.FILTER_SKIP;return c},NodeFilter.SHOW_ELEMENT|
-NodeFilter.SHOW_TEXT);c||F(a,h);return h}function O(a,c,d){for(;a;){if(d(a)){c[0]!==a&&c.unshift(a);break}if(b(a))break;a=a.parentNode}}function H(a,b){var c=a;if(b<c.childNodes.length-1)c=c.childNodes[b+1];else{for(;!c.nextSibling;)c=c.parentNode;c=c.nextSibling}for(;c.firstChild;)c=c.firstChild;return c}var U=odf.Namespaces.textns,T=odf.Namespaces.drawns,X=odf.Namespaces.xlinkns,D=/^\s*$/,ba=new core.DomUtils;this.isImage=m;this.isCharacterFrame=g;this.isInlineRoot=b;this.isTextSpan=function(a){return"span"===
-(a&&a.localName)&&a.namespaceURI===U};this.isHyperlink=k;this.getHyperlinkTarget=function(a){return a.getAttributeNS(X,"href")};this.isParagraph=d;this.getParagraphElement=n;this.isWithinTrackedChanges=function(a,b){for(;a&&a!==b;){if(a.namespaceURI===U&&"tracked-changes"===a.localName)return!0;a=a.parentNode}return!1};this.isListItem=function(a){return"list-item"===(a&&a.localName)&&a.namespaceURI===U};this.isLineBreak=function(a){return"line-break"===(a&&a.localName)&&a.namespaceURI===U};this.isODFWhitespace=
-p;this.isGroupingElement=f;this.isCharacterElement=q;this.isAnchoredAsCharacterElement=e;this.isSpaceElement=r;this.firstChild=a;this.lastChild=c;this.previousNode=l;this.nextNode=h;this.scanLeftForNonSpace=v;this.lookLeftForCharacter=function(a){var b,c=b=0;a.nodeType===Node.TEXT_NODE&&(c=a.length);0<c?(b=a.data,b=p(b.substr(c-1,1))?1===c?v(l(a))?2:0:p(b.substr(c-2,1))?0:2:1):e(a)&&(b=1);return b};this.lookRightForCharacter=function(a){var b=!1,c=0;a&&a.nodeType===Node.TEXT_NODE&&(c=a.length);0<
-c?b=!p(a.data.substr(0,1)):e(a)&&(b=!0);return b};this.scanLeftForAnyCharacter=function(a){var b=!1,d;for(a=a&&c(a);a;){d=a.nodeType===Node.TEXT_NODE?a.length:0;if(0<d&&!p(a.data)){b=!0;break}if(e(a)){b=!0;break}a=l(a)}return b};this.scanRightForAnyCharacter=w;this.isTrailingWhitespace=z;this.isSignificantWhitespace=x;this.isDowngradableSpaceElement=function(a){return a.namespaceURI===U&&"s"===a.localName?v(l(a))&&w(h(a)):!1};this.getFirstNonWhitespaceChild=function(a){for(a=a&&a.firstChild;a&&a.nodeType===
-Node.TEXT_NODE&&D.test(a.nodeValue);)a=a.nextSibling;return a};this.parseLength=u;this.parseNonNegativeLength=t;this.parseFoFontSize=function(a){var b;b=(b=u(a))&&(0>=b.value||"%"===b.unit)?null:b;return b||s(a)};this.parseFoLineHeight=function(a){return t(a)||s(a)};this.isTextContentContainingNode=y;this.getTextNodes=function(a,b){var c;c=ba.getNodesInRange(a,function(a){var b=NodeFilter.FILTER_REJECT;a.nodeType===Node.TEXT_NODE?Boolean(n(a)&&(!p(a.textContent)||x(a,0)))&&(b=NodeFilter.FILTER_ACCEPT):
-y(a)&&(b=NodeFilter.FILTER_SKIP);return b},NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);b||F(a,c);return c};this.getTextElements=L;this.getParagraphElements=function(a){var b;b=ba.getNodesInRange(a,function(a){var b=NodeFilter.FILTER_REJECT;if(d(a))b=NodeFilter.FILTER_ACCEPT;else if(y(a)||f(a))b=NodeFilter.FILTER_SKIP;return b},NodeFilter.SHOW_ELEMENT);O(a.startContainer,b,d);return b};this.getImageElements=function(a){var b;b=ba.getNodesInRange(a,function(a){var b=NodeFilter.FILTER_SKIP;m(a)&&(b=
-NodeFilter.FILTER_ACCEPT);return b},NodeFilter.SHOW_ELEMENT);O(a.startContainer,b,m);return b};this.getHyperlinkElements=function(a){var b=[],c=a.cloneRange();a.collapsed&&a.endContainer.nodeType===Node.ELEMENT_NODE&&(a=H(a.endContainer,a.endOffset),a.nodeType===Node.TEXT_NODE&&c.setEnd(a,1));L(c,!0,!1).forEach(function(a){for(a=a.parentNode;!d(a);){if(k(a)&&-1===b.indexOf(a)){b.push(a);break}a=a.parentNode}});c.detach();return b}};
-// Input 29
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.AnnotatableCanvas=function(){};gui.AnnotatableCanvas.prototype.refreshSize=function(){};gui.AnnotatableCanvas.prototype.getZoomLevel=function(){};gui.AnnotatableCanvas.prototype.getSizer=function(){};
-gui.AnnotationViewManager=function(m,g,b,k){function d(a){var b=a.annotationEndElement,d=e.createRange(),f=a.getAttributeNS(odf.Namespaces.officens,"name");b&&(d.setStart(a,a.childNodes.length),d.setEnd(b,0),a=r.getTextNodes(d,!1),a.forEach(function(a){var b=e.createElement("span");b.className="annotationHighlight";b.setAttribute("annotation",f);a.parentNode.insertBefore(b,a);b.appendChild(a)}));d.detach()}function n(c){var d=m.getSizer();c?(b.style.display="inline-block",d.style.paddingRight=a.getComputedStyle(b).width):
-(b.style.display="none",d.style.paddingRight=0);m.refreshSize()}function p(){q.sort(function(a,b){return 0!==(a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1})}function f(){var a;for(a=0;a<q.length;a+=1){var d=q[a],e=d.parentNode,f=e.nextElementSibling,k=f.nextElementSibling,g=e.parentNode,n=0,n=q[q.indexOf(d)-1],p=void 0,d=m.getZoomLevel();e.style.left=(b.getBoundingClientRect().left-g.getBoundingClientRect().left)/d+"px";e.style.width=b.getBoundingClientRect().width/d+"px";f.style.width=
-parseFloat(e.style.left)-30+"px";n&&(p=n.parentNode.getBoundingClientRect(),20>=(g.getBoundingClientRect().top-p.bottom)/d?e.style.top=Math.abs(g.getBoundingClientRect().top-p.bottom)/d+20+"px":e.style.top="0px");k.style.left=f.getBoundingClientRect().width/d+"px";var f=k.style,g=k.getBoundingClientRect().left/d,n=k.getBoundingClientRect().top/d,p=e.getBoundingClientRect().left/d,r=e.getBoundingClientRect().top/d,s=0,y=0,s=p-g,s=s*s,y=r-n,y=y*y,g=Math.sqrt(s+y);f.width=g+"px";n=Math.asin((e.getBoundingClientRect().top-
-k.getBoundingClientRect().top)/(d*parseFloat(k.style.width)));k.style.transform="rotate("+n+"rad)";k.style.MozTransform="rotate("+n+"rad)";k.style.WebkitTransform="rotate("+n+"rad)";k.style.msTransform="rotate("+n+"rad)"}}var q=[],e=g.ownerDocument,r=new odf.OdfUtils,a=runtime.getWindow();runtime.assert(Boolean(a),"Expected to be run in an environment which has a global window, like a browser.");this.rerenderAnnotations=f;this.getMinimumHeightForAnnotationPane=function(){return"none"!==b.style.display&&
-0<q.length?(q[q.length-1].parentNode.getBoundingClientRect().bottom-b.getBoundingClientRect().top)/m.getZoomLevel()+"px":null};this.addAnnotation=function(a){n(!0);q.push(a);p();var b=e.createElement("div"),h=e.createElement("div"),g=e.createElement("div"),m=e.createElement("div"),r;b.className="annotationWrapper";a.parentNode.insertBefore(b,a);h.className="annotationNote";h.appendChild(a);k&&(r=e.createElement("div"),r.className="annotationRemoveButton",h.appendChild(r));g.className="annotationConnector horizontal";
-m.className="annotationConnector angular";b.appendChild(h);b.appendChild(g);b.appendChild(m);a.annotationEndElement&&d(a);f()};this.forgetAnnotations=function(){for(;q.length;){var a=q[0],b=q.indexOf(a),d=a.parentNode.parentNode;"div"===d.localName&&(d.parentNode.insertBefore(a,d),d.parentNode.removeChild(d));for(var a=a.getAttributeNS(odf.Namespaces.officens,"name"),a=e.querySelectorAll('span.annotationHighlight[annotation="'+a+'"]'),f=d=void 0,d=0;d<a.length;d+=1){for(f=a.item(d);f.firstChild;)f.parentNode.insertBefore(f.firstChild,
-f);f.parentNode.removeChild(f)}-1!==b&&q.splice(b,1);0===q.length&&n(!1)}}};
-// Input 30
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function(){function m(k,d,g,p,f){var q,e=0,r;for(r in k)if(k.hasOwnProperty(r)){if(e===g){q=r;break}e+=1}q?d.getPartData(k[q].href,function(a,c){if(a)runtime.log(a);else if(c){var e="@font-face { font-family: '"+(k[q].family||q)+"'; src: url(data:application/x-font-ttf;charset=binary;base64,"+b.convertUTF8ArrayToBase64(c)+') format("truetype"); }';try{p.insertRule(e,p.cssRules.length)}catch(h){runtime.log("Problem inserting rule in CSS: "+runtime.toJson(h)+"\nRule: "+e)}}else runtime.log("missing font data for "+
-k[q].href);m(k,d,g+1,p,f)}):f&&f()}var g=xmldom.XPath,b=new core.Base64;odf.FontLoader=function(){this.loadFonts=function(b,d){for(var n=b.rootElement.fontFaceDecls;d.cssRules.length;)d.deleteRule(d.cssRules.length-1);if(n){var p={},f,q,e,r;if(n)for(n=g.getODFElementsWithXPath(n,"style:font-face[svg:font-face-src]",odf.Namespaces.lookupNamespaceURI),f=0;f<n.length;f+=1)q=n[f],e=q.getAttributeNS(odf.Namespaces.stylens,"name"),r=q.getAttributeNS(odf.Namespaces.svgns,"font-family"),q=g.getODFElementsWithXPath(q,
-"svg:font-face-src/svg:font-face-uri",odf.Namespaces.lookupNamespaceURI),0<q.length&&(q=q[0].getAttributeNS(odf.Namespaces.xlinkns,"href"),p[e]={href:q,family:r});m(p,b,0,d)}}};return odf.FontLoader})();
-// Input 31
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.Formatting=function(){function m(a){return(a=t[a])?u.mergeObjects({},a):{}}function g(){for(var a=r.rootElement.fontFaceDecls,b={},d,e,a=a&&a.firstElementChild;a;){if(d=a.getAttributeNS(l,"name"))if((e=a.getAttributeNS(c,"font-family"))||0<a.getElementsByTagNameNS(c,"font-face-uri").length)b[d]=e;a=a.nextElementSibling}return b}function b(a){for(var b=r.rootElement.styles.firstElementChild;b;){if(b.namespaceURI===l&&"default-style"===b.localName&&b.getAttributeNS(l,"family")===a)return b;b=b.nextElementSibling}return null}
-function k(a,b,c){var d,e,f;c=c||[r.rootElement.automaticStyles,r.rootElement.styles];for(f=0;f<c.length;f+=1)for(d=c[f],d=d.firstElementChild;d;){e=d.getAttributeNS(l,"name");if(d.namespaceURI===l&&"style"===d.localName&&d.getAttributeNS(l,"family")===b&&e===a||"list-style"===b&&d.namespaceURI===h&&"list-style"===d.localName&&e===a||"data"===b&&d.namespaceURI===v&&e===a)return d;d=d.nextElementSibling}return null}function d(a){for(var b,c,d,e,h={},f=a.firstElementChild;f;){if(f.namespaceURI===l)for(d=
-h[f.nodeName]={},c=f.attributes,b=0;b<c.length;b+=1)e=c.item(b),d[e.name]=e.value;f=f.nextElementSibling}c=a.attributes;for(b=0;b<c.length;b+=1)e=c.item(b),h[e.name]=e.value;return h}function n(a,c){for(var e=r.rootElement.styles,h,f={},g=a.getAttributeNS(l,"family"),n=a;n;)h=d(n),f=u.mergeObjects(h,f),n=(h=n.getAttributeNS(l,"parent-style-name"))?k(h,g,[e]):null;if(n=b(g))h=d(n),f=u.mergeObjects(h,f);!1!==c&&(h=m(g),f=u.mergeObjects(h,f));return f}function p(b,c){function d(a){Object.keys(a).forEach(function(b){Object.keys(a[b]).forEach(function(a){l+=
-"|"+b+":"+a+"|"})})}for(var e=b.nodeType===Node.TEXT_NODE?b.parentNode:b,h,f=[],l="",k=!1;e;)!k&&z.isGroupingElement(e)&&(k=!0),(h=a.determineStylesForNode(e))&&f.push(h),e=e.parentNode;k&&(f.forEach(d),c&&(c[l]=f));return k?f:void 0}function f(a){var b={orderedStyles:[]};a.forEach(function(a){Object.keys(a).forEach(function(c){var d=Object.keys(a[c])[0],e={name:d,family:c,displayName:void 0,isCommonStyle:!1},h;(h=k(d,c))?(c=n(h),b=u.mergeObjects(c,b),e.displayName=h.getAttributeNS(l,"display-name"),
-e.isCommonStyle=h.parentNode===r.rootElement.styles):runtime.log("No style element found for '"+d+"' of family '"+c+"'");b.orderedStyles.push(e)})});return b}function q(a,b){var c={},d=[];b||(b={});a.forEach(function(a){p(a,c)});Object.keys(c).forEach(function(a){b[a]||(b[a]=f(c[a]));d.push(b[a])});return d}function e(a,b){var c=z.parseLength(a),d=b;if(c)switch(c.unit){case "cm":d=c.value;break;case "mm":d=0.1*c.value;break;case "in":d=2.54*c.value;break;case "pt":d=0.035277778*c.value;break;case "pc":case "px":case "em":break;
-default:runtime.log("Unit identifier: "+c.unit+" is not supported.")}return d}var r,a=new odf.StyleInfo,c=odf.Namespaces.svgns,l=odf.Namespaces.stylens,h=odf.Namespaces.textns,v=odf.Namespaces.numberns,w=odf.Namespaces.fons,z=new odf.OdfUtils,x=new core.DomUtils,u=new core.Utils,t={paragraph:{"style:paragraph-properties":{"fo:text-align":"left"}}};this.getSystemDefaultStyleAttributes=m;this.setOdfContainer=function(a){r=a};this.getFontMap=g;this.getAvailableParagraphStyles=function(){for(var a=r.rootElement.styles,
-b,c,d=[],a=a&&a.firstElementChild;a;)"style"===a.localName&&a.namespaceURI===l&&(b=a.getAttributeNS(l,"family"),"paragraph"===b&&(b=a.getAttributeNS(l,"name"),c=a.getAttributeNS(l,"display-name")||b,b&&c&&d.push({name:b,displayName:c}))),a=a.nextElementSibling;return d};this.isStyleUsed=function(b){var c,d=r.rootElement;c=a.hasDerivedStyles(d,odf.Namespaces.lookupNamespaceURI,b);b=(new a.UsedStyleList(d.styles)).uses(b)||(new a.UsedStyleList(d.automaticStyles)).uses(b)||(new a.UsedStyleList(d.body)).uses(b);
-return c||b};this.getDefaultStyleElement=b;this.getStyleElement=k;this.getStyleAttributes=d;this.getInheritedStyleAttributes=n;this.getFirstCommonParentStyleNameOrSelf=function(a){var b=r.rootElement.automaticStyles,c=r.rootElement.styles,d;for(d=k(a,"paragraph",[b]);d;)a=d.getAttributeNS(l,"parent-style-name"),d=k(a,"paragraph",[b]);return(d=k(a,"paragraph",[c]))?a:null};this.hasParagraphStyle=function(a){return Boolean(k(a,"paragraph"))};this.getAppliedStyles=q;this.getAppliedStylesForElement=function(a,
-b){return q([a],b)[0]};this.updateStyle=function(a,b){var d,e;x.mapObjOntoNode(a,b,odf.Namespaces.lookupNamespaceURI);(d=b["style:text-properties"]&&b["style:text-properties"]["style:font-name"])&&!g().hasOwnProperty(d)&&(e=a.ownerDocument.createElementNS(l,"style:font-face"),e.setAttributeNS(l,"style:name",d),e.setAttributeNS(c,"svg:font-family",d),r.rootElement.fontFaceDecls.appendChild(e))};this.createDerivedStyleObject=function(a,b,c){var e=k(a,b);runtime.assert(Boolean(e),"No style element found for '"+
-a+"' of family '"+b+"'");a=e.parentNode===r.rootElement.styles?{"style:parent-style-name":a}:d(e);a["style:family"]=b;u.mergeObjects(a,c);return a};this.getDefaultTabStopDistance=function(){for(var a=b("paragraph"),a=a&&a.firstElementChild,c;a;)a.namespaceURI===l&&"paragraph-properties"===a.localName&&(c=a.getAttributeNS(l,"tab-stop-distance")),a=a.nextElementSibling;c||(c="1.25cm");return z.parseNonNegativeLength(c)};this.getContentSize=function(a,b){var c,d,h,f,g,n,p,m,q,v,u;a:{var t,z,P;c=k(a,
-b);runtime.assert("paragraph"===b||"table"===b,"styleFamily has to be either paragraph or table");if(c){t=c.getAttributeNS(l,"master-page-name")||"Standard";for(c=r.rootElement.masterStyles.lastElementChild;c&&c.getAttributeNS(l,"name")!==t;)c=c.previousElementSibling;t=c.getAttributeNS(l,"page-layout-name");z=x.getElementsByTagNameNS(r.rootElement.automaticStyles,l,"page-layout");for(P=0;P<z.length;P+=1)if(c=z[P],c.getAttributeNS(l,"name")===t)break a}c=null}c||(c=x.getDirectChild(r.rootElement.styles,
-l,"default-page-layout"));if(c=x.getDirectChild(c,l,"page-layout-properties"))d=c.getAttributeNS(l,"print-orientation")||"portrait","portrait"===d?(d=21.001,h=29.7):(d=29.7,h=21.001),d=e(c.getAttributeNS(w,"page-width"),d),h=e(c.getAttributeNS(w,"page-height"),h),f=e(c.getAttributeNS(w,"margin"),null),null===f?(f=e(c.getAttributeNS(w,"margin-left"),2),g=e(c.getAttributeNS(w,"margin-right"),2),n=e(c.getAttributeNS(w,"margin-top"),2),p=e(c.getAttributeNS(w,"margin-bottom"),2)):f=g=n=p=f,m=e(c.getAttributeNS(w,
-"padding"),null),null===m?(m=e(c.getAttributeNS(w,"padding-left"),0),q=e(c.getAttributeNS(w,"padding-right"),0),v=e(c.getAttributeNS(w,"padding-top"),0),u=e(c.getAttributeNS(w,"padding-bottom"),0)):m=q=v=u=m;return{width:d-f-g-m-q,height:h-n-p-v-u}}};
-// Input 32
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.StyleTreeNode=function(m){this.derivedStyles={};this.element=m};
-odf.Style2CSS=function(){function m(a){var b,c,d,e={};if(!a)return e;for(a=a.firstElementChild;a;){if(c=a.namespaceURI!==l||"style"!==a.localName&&"default-style"!==a.localName?a.namespaceURI===w&&"list-style"===a.localName?"list":a.namespaceURI!==l||"page-layout"!==a.localName&&"default-page-layout"!==a.localName?void 0:"page":a.getAttributeNS(l,"family"))(b=a.getAttributeNS(l,"name"))||(b=""),e.hasOwnProperty(c)?d=e[c]:e[c]=d={},d[b]=a;a=a.nextElementSibling}return e}function g(a,b){if(a.hasOwnProperty(b))return a[b];
-var c,d=null;for(c in a)if(a.hasOwnProperty(c)&&(d=g(a[c].derivedStyles,b)))break;return d}function b(a,c,d){var e,h,f;if(!c.hasOwnProperty(a))return null;e=new odf.StyleTreeNode(c[a]);h=e.element.getAttributeNS(l,"parent-style-name");f=null;h&&(f=g(d,h)||b(h,c,d));f?f.derivedStyles[a]=e:d[a]=e;delete c[a];return e}function k(a,c){for(var d in a)a.hasOwnProperty(d)&&b(d,a,c)}function d(a,b,c){var e=[];c=c.derivedStyles;var h;var f=t[a],l;void 0===f?b=null:(l=b?"["+f+'|style-name="'+b+'"]':"","presentation"===
-f&&(f="draw",l=b?'[presentation|style-name="'+b+'"]':""),b=f+"|"+s[a].join(l+","+f+"|")+l);null!==b&&e.push(b);for(h in c)c.hasOwnProperty(h)&&(b=d(a,h,c[h]),e=e.concat(b));return e}function n(a,b){var c="",d,e,h;for(d=0;d<b.length;d+=1)if(e=b[d],h=a.getAttributeNS(e[0],e[1])){h=h.trim();if(G.hasOwnProperty(e[1])){var f=h.indexOf(" "),l=void 0,k=void 0;-1!==f?(l=h.substring(0,f),k=h.substring(f)):(l=h,k="");(l=Q.parseLength(l))&&"pt"===l.unit&&0.75>l.value&&(h="0.75pt"+k)}e[2]&&(c+=e[2]+":"+h+";")}return c}
-function p(b){return(b=u.getDirectChild(b,l,"text-properties"))?Q.parseFoFontSize(b.getAttributeNS(a,"font-size")):null}function f(a,b,c,d){return b+b+c+c+d+d}function q(b,c,d,e){c='text|list[text|style-name="'+c+'"]';var h=d.getAttributeNS(w,"level");d=u.getDirectChild(d,l,"list-level-properties");d=u.getDirectChild(d,l,"list-level-label-alignment");var f,k;d&&(f=d.getAttributeNS(a,"text-indent"),k=d.getAttributeNS(a,"margin-left"));f||(f="-0.6cm");d="-"===f.charAt(0)?f.substring(1):"-"+f;for(h=
-h&&parseInt(h,10);1<h;)c+=" > text|list-item > text|list",h-=1;if(k){h=c+" > text|list-item > *:not(text|list):first-child";h+="{";h=h+("margin-left:"+k+";")+"}";try{b.insertRule(h,b.cssRules.length)}catch(g){runtime.log("cannot load rule: "+h)}}e=c+" > text|list-item > *:not(text|list):first-child:before{"+e+";";e=e+"counter-increment:list;"+("margin-left:"+f+";");e+="width:"+d+";";e+="display:inline-block}";try{b.insertRule(e,b.cssRules.length)}catch(n){runtime.log("cannot load rule: "+e)}}function e(b,
-h,k,g){if("list"===h)for(var m=g.element.firstChild,s,t;m;){if(m.namespaceURI===w)if(s=m,"list-level-style-number"===m.localName){var G=s;t=G.getAttributeNS(l,"num-format");var A=G.getAttributeNS(l,"num-suffix")||"",G=G.getAttributeNS(l,"num-prefix")||"",Y={1:"decimal",a:"lower-latin",A:"upper-latin",i:"lower-roman",I:"upper-roman"},R="";G&&(R+=' "'+G+'"');R=Y.hasOwnProperty(t)?R+(" counter(list, "+Y[t]+")"):t?R+(' "'+t+'"'):R+" ''";t="content:"+R+' "'+A+'"';q(b,k,s,t)}else"list-level-style-image"===
-m.localName?(t="content: none;",q(b,k,s,t)):"list-level-style-bullet"===m.localName&&(t="content: '"+s.getAttributeNS(w,"bullet-char")+"';",q(b,k,s,t));m=m.nextSibling}else if("page"===h){if(t=g.element,G=A=k="",m=u.getDirectChild(t,l,"page-layout-properties"))if(s=t.getAttributeNS(l,"name"),k+=n(m,D),(A=u.getDirectChild(m,l,"background-image"))&&(G=A.getAttributeNS(z,"href"))&&(k=k+("background-image: url('odfkit:"+G+"');")+n(A,F)),"presentation"===ea)for(t=(t=u.getDirectChild(t.parentNode.parentNode,
-c,"master-styles"))&&t.firstElementChild;t;){if(t.namespaceURI===l&&"master-page"===t.localName&&t.getAttributeNS(l,"page-layout-name")===s){G=t.getAttributeNS(l,"name");A="draw|page[draw|master-page-name="+G+"] {"+k+"}";G="office|body, draw|page[draw|master-page-name="+G+"] {"+n(m,ba)+" }";try{b.insertRule(A,b.cssRules.length),b.insertRule(G,b.cssRules.length)}catch(aa){throw aa;}}t=t.nextElementSibling}else if("text"===ea){A="office|text {"+k+"}";G="office|body {width: "+m.getAttributeNS(a,"page-width")+
-";}";try{b.insertRule(A,b.cssRules.length),b.insertRule(G,b.cssRules.length)}catch(ia){throw ia;}}}else{k=d(h,k,g).join(",");m="";if(s=u.getDirectChild(g.element,l,"text-properties")){G=s;t=R="";A=1;s=""+n(G,y);Y=G.getAttributeNS(l,"text-underline-style");"solid"===Y&&(R+=" underline");Y=G.getAttributeNS(l,"text-line-through-style");"solid"===Y&&(R+=" line-through");R.length&&(s+="text-decoration:"+R+";");if(R=G.getAttributeNS(l,"font-name")||G.getAttributeNS(a,"font-family"))Y=J[R],s+="font-family: "+
-(Y||R)+";";Y=G.parentNode;if(G=p(Y)){for(;Y;){if(G=p(Y)){if("%"!==G.unit){t="font-size: "+G.value*A+G.unit+";";break}A*=G.value/100}G=Y;R=Y="";Y=null;"default-style"===G.localName?Y=null:(Y=G.getAttributeNS(l,"parent-style-name"),R=G.getAttributeNS(l,"family"),Y=I.getODFElementsWithXPath(P,Y?"//style:*[@style:name='"+Y+"'][@style:family='"+R+"']":"//style:default-style[@style:family='"+R+"']",odf.Namespaces.lookupNamespaceURI)[0])}t||(t="font-size: "+parseFloat(N)*A+B.getUnits(N)+";");s+=t}m+=s}if(s=
-u.getDirectChild(g.element,l,"paragraph-properties"))t=s,s=""+n(t,L),(A=u.getDirectChild(t,l,"background-image"))&&(G=A.getAttributeNS(z,"href"))&&(s=s+("background-image: url('odfkit:"+G+"');")+n(A,F)),(t=t.getAttributeNS(a,"line-height"))&&"normal"!==t&&(t=Q.parseFoLineHeight(t),s="%"!==t.unit?s+("line-height: "+t.value+t.unit+";"):s+("line-height: "+t.value/100+";")),m+=s;if(s=u.getDirectChild(g.element,l,"graphic-properties"))G=s,s=""+n(G,O),t=G.getAttributeNS(r,"opacity"),A=G.getAttributeNS(r,
-"fill"),G=G.getAttributeNS(r,"fill-color"),"solid"===A||"hatch"===A?G&&"none"!==G?(t=isNaN(parseFloat(t))?1:parseFloat(t)/100,A=G.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,f),(G=(A=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(A))?{r:parseInt(A[1],16),g:parseInt(A[2],16),b:parseInt(A[3],16)}:null)&&(s+="background-color: rgba("+G.r+","+G.g+","+G.b+","+t+");")):s+="background: none;":"none"===A&&(s+="background: none;"),m+=s;if(s=u.getDirectChild(g.element,l,"drawing-page-properties"))t=""+n(s,
-O),"true"===s.getAttributeNS(x,"background-visible")&&(t+="background: none;"),m+=t;if(s=u.getDirectChild(g.element,l,"table-cell-properties"))s=""+n(s,H),m+=s;if(s=u.getDirectChild(g.element,l,"table-row-properties"))s=""+n(s,T),m+=s;if(s=u.getDirectChild(g.element,l,"table-column-properties"))s=""+n(s,U),m+=s;if(s=u.getDirectChild(g.element,l,"table-properties"))t=s,s=""+n(t,X),t=t.getAttributeNS(v,"border-model"),"collapsing"===t?s+="border-collapse:collapse;":"separating"===t&&(s+="border-collapse:separate;"),
-m+=s;if(0!==m.length)try{b.insertRule(k+"{"+m+"}",b.cssRules.length)}catch(ga){throw ga;}}for(var da in g.derivedStyles)g.derivedStyles.hasOwnProperty(da)&&e(b,h,da,g.derivedStyles[da])}var r=odf.Namespaces.drawns,a=odf.Namespaces.fons,c=odf.Namespaces.officens,l=odf.Namespaces.stylens,h=odf.Namespaces.svgns,v=odf.Namespaces.tablens,w=odf.Namespaces.textns,z=odf.Namespaces.xlinkns,x=odf.Namespaces.presentationns,u=new core.DomUtils,t={graphic:"draw","drawing-page":"draw",paragraph:"text",presentation:"presentation",
-ruby:"text",section:"text",table:"table","table-cell":"table","table-column":"table","table-row":"table",text:"text",list:"text",page:"office"},s={graphic:"circle connected control custom-shape ellipse frame g line measure page page-thumbnail path polygon polyline rect regular-polygon".split(" "),paragraph:"alphabetical-index-entry-template h illustration-index-entry-template index-source-style object-index-entry-template p table-index-entry-template table-of-content-entry-template user-index-entry-template".split(" "),
+ans:a,a:"style-name"},{ens:a,en:"series",ans:a,a:"style-name"},{ens:a,en:"stock-gain-marker",ans:a,a:"style-name"},{ens:a,en:"stock-loss-marker",ans:a,a:"style-name"},{ens:a,en:"stock-range-line",ans:a,a:"style-name"},{ens:a,en:"subtitle",ans:a,a:"style-name"},{ens:a,en:"title",ans:a,a:"style-name"},{ens:a,en:"wall",ans:a,a:"style-name"}],section:[{ens:w,en:"alphabetical-index",ans:w,a:"style-name"},{ens:w,en:"bibliography",ans:w,a:"style-name"},{ens:w,en:"illustration-index",ans:w,a:"style-name"},
+{ens:w,en:"index-title",ans:w,a:"style-name"},{ens:w,en:"object-index",ans:w,a:"style-name"},{ens:w,en:"section",ans:w,a:"style-name"},{ens:w,en:"table-of-content",ans:w,a:"style-name"},{ens:w,en:"table-index",ans:w,a:"style-name"},{ens:w,en:"user-index",ans:w,a:"style-name"}],ruby:[{ens:w,en:"ruby",ans:w,a:"style-name"}],table:[{ens:d,en:"query",ans:d,a:"style-name"},{ens:d,en:"table-representation",ans:d,a:"style-name"},{ens:x,en:"background",ans:x,a:"style-name"},{ens:x,en:"table",ans:x,a:"style-name"}],
+"table-column":[{ens:d,en:"column",ans:d,a:"style-name"},{ens:x,en:"table-column",ans:x,a:"style-name"}],"table-row":[{ens:d,en:"query",ans:d,a:"default-row-style-name"},{ens:d,en:"table-representation",ans:d,a:"default-row-style-name"},{ens:x,en:"table-row",ans:x,a:"style-name"}],"table-cell":[{ens:d,en:"column",ans:d,a:"default-cell-style-name"},{ens:x,en:"table-column",ans:x,a:"default-cell-style-name"},{ens:x,en:"table-row",ans:x,a:"default-cell-style-name"},{ens:x,en:"body",ans:x,a:"style-name"},
+{ens:x,en:"covered-table-cell",ans:x,a:"style-name"},{ens:x,en:"even-columns",ans:x,a:"style-name"},{ens:x,en:"covered-table-cell",ans:x,a:"style-name"},{ens:x,en:"even-columns",ans:x,a:"style-name"},{ens:x,en:"even-rows",ans:x,a:"style-name"},{ens:x,en:"first-column",ans:x,a:"style-name"},{ens:x,en:"first-row",ans:x,a:"style-name"},{ens:x,en:"last-column",ans:x,a:"style-name"},{ens:x,en:"last-row",ans:x,a:"style-name"},{ens:x,en:"odd-columns",ans:x,a:"style-name"},{ens:x,en:"odd-rows",ans:x,a:"style-name"},
+{ens:x,en:"table-cell",ans:x,a:"style-name"}],graphic:[{ens:r,en:"cube",ans:l,a:"style-name"},{ens:r,en:"extrude",ans:l,a:"style-name"},{ens:r,en:"rotate",ans:l,a:"style-name"},{ens:r,en:"scene",ans:l,a:"style-name"},{ens:r,en:"sphere",ans:l,a:"style-name"},{ens:l,en:"caption",ans:l,a:"style-name"},{ens:l,en:"circle",ans:l,a:"style-name"},{ens:l,en:"connector",ans:l,a:"style-name"},{ens:l,en:"control",ans:l,a:"style-name"},{ens:l,en:"custom-shape",ans:l,a:"style-name"},{ens:l,en:"ellipse",ans:l,a:"style-name"},
+{ens:l,en:"frame",ans:l,a:"style-name"},{ens:l,en:"g",ans:l,a:"style-name"},{ens:l,en:"line",ans:l,a:"style-name"},{ens:l,en:"measure",ans:l,a:"style-name"},{ens:l,en:"page-thumbnail",ans:l,a:"style-name"},{ens:l,en:"path",ans:l,a:"style-name"},{ens:l,en:"polygon",ans:l,a:"style-name"},{ens:l,en:"polyline",ans:l,a:"style-name"},{ens:l,en:"rect",ans:l,a:"style-name"},{ens:l,en:"regular-polygon",ans:l,a:"style-name"},{ens:D,en:"annotation",ans:l,a:"style-name"}],presentation:[{ens:r,en:"cube",ans:z,
+a:"style-name"},{ens:r,en:"extrude",ans:z,a:"style-name"},{ens:r,en:"rotate",ans:z,a:"style-name"},{ens:r,en:"scene",ans:z,a:"style-name"},{ens:r,en:"sphere",ans:z,a:"style-name"},{ens:l,en:"caption",ans:z,a:"style-name"},{ens:l,en:"circle",ans:z,a:"style-name"},{ens:l,en:"connector",ans:z,a:"style-name"},{ens:l,en:"control",ans:z,a:"style-name"},{ens:l,en:"custom-shape",ans:z,a:"style-name"},{ens:l,en:"ellipse",ans:z,a:"style-name"},{ens:l,en:"frame",ans:z,a:"style-name"},{ens:l,en:"g",ans:z,a:"style-name"},
+{ens:l,en:"line",ans:z,a:"style-name"},{ens:l,en:"measure",ans:z,a:"style-name"},{ens:l,en:"page-thumbnail",ans:z,a:"style-name"},{ens:l,en:"path",ans:z,a:"style-name"},{ens:l,en:"polygon",ans:z,a:"style-name"},{ens:l,en:"polyline",ans:z,a:"style-name"},{ens:l,en:"rect",ans:z,a:"style-name"},{ens:l,en:"regular-polygon",ans:z,a:"style-name"},{ens:D,en:"annotation",ans:z,a:"style-name"}],"drawing-page":[{ens:l,en:"page",ans:l,a:"style-name"},{ens:z,en:"notes",ans:l,a:"style-name"},{ens:t,en:"handout-master",
+ans:l,a:"style-name"},{ens:t,en:"master-page",ans:l,a:"style-name"}],"list-style":[{ens:w,en:"list",ans:w,a:"style-name"},{ens:w,en:"numbered-paragraph",ans:w,a:"style-name"},{ens:w,en:"list-item",ans:w,a:"style-override"},{ens:t,en:"style",ans:t,a:"list-style-name"}],data:[{ens:t,en:"style",ans:t,a:"data-style-name"},{ens:t,en:"style",ans:t,a:"percentage-data-style-name"},{ens:z,en:"date-time-decl",ans:t,a:"data-style-name"},{ens:w,en:"creation-date",ans:t,a:"data-style-name"},{ens:w,en:"creation-time",
+ans:t,a:"data-style-name"},{ens:w,en:"database-display",ans:t,a:"data-style-name"},{ens:w,en:"date",ans:t,a:"data-style-name"},{ens:w,en:"editing-duration",ans:t,a:"data-style-name"},{ens:w,en:"expression",ans:t,a:"data-style-name"},{ens:w,en:"meta-field",ans:t,a:"data-style-name"},{ens:w,en:"modification-date",ans:t,a:"data-style-name"},{ens:w,en:"modification-time",ans:t,a:"data-style-name"},{ens:w,en:"print-date",ans:t,a:"data-style-name"},{ens:w,en:"print-time",ans:t,a:"data-style-name"},{ens:w,
+en:"table-formula",ans:t,a:"data-style-name"},{ens:w,en:"time",ans:t,a:"data-style-name"},{ens:w,en:"user-defined",ans:t,a:"data-style-name"},{ens:w,en:"user-field-get",ans:t,a:"data-style-name"},{ens:w,en:"user-field-input",ans:t,a:"data-style-name"},{ens:w,en:"variable-get",ans:t,a:"data-style-name"},{ens:w,en:"variable-input",ans:t,a:"data-style-name"},{ens:w,en:"variable-set",ans:t,a:"data-style-name"}],"page-layout":[{ens:z,en:"notes",ans:t,a:"page-layout-name"},{ens:t,en:"handout-master",ans:t,
+a:"page-layout-name"},{ens:t,en:"master-page",ans:t,a:"page-layout-name"}]},H,G=xmldom.XPath;this.collectUsedFontFaces=f;this.changeFontFaceNames=e;this.UsedStyleList=function(a,d){var e={};this.uses=function(a){var d=a.localName,b=a.getAttributeNS(l,"name")||a.getAttributeNS(t,"name");a="style"===d?a.getAttributeNS(t,"family"):a.namespaceURI===y?"data":d;return(a=e[a])?0<a[b]:!1};b(a,e);d&&q(d,e)};this.getStyleName=function(a,d){var b,e,c=H[d.localName];if(c&&(c=c[d.namespaceURI]))for(e=0;e<c.length;e+=
+1)if(c[e].keyname===a&&(c=c[e],d.hasAttributeNS(c.ns,c.localname))){b=d.getAttributeNS(c.ns,c.localname);break}return b};this.hasDerivedStyles=function(a,d,b){var e=b.getAttributeNS(t,"name");b=b.getAttributeNS(t,"family");return G.getODFElementsWithXPath(a,'//style:*[@style:parent-style-name="'+e+'"][@style:family="'+b+'"]',d).length?!0:!1};this.prefixStyleNames=function(a,d,b){var e;if(a){for(e=a.firstChild;e;){if(e.nodeType===Node.ELEMENT_NODE){var c=e,f=d,g=c.getAttributeNS(l,"name"),r=void 0;
+g?r=l:(g=c.getAttributeNS(t,"name"))&&(r=t);r&&c.setAttributeNS(r,F[r]+"name",f+g)}e=e.nextSibling}h(a,d);b&&h(b,d)}};this.removePrefixFromStyleNames=function(a,d,b){var e=new RegExp("^"+d);if(a){for(d=a.firstChild;d;){if(d.nodeType===Node.ELEMENT_NODE){var c=d,f=e,g=c.getAttributeNS(l,"name"),r=void 0;g?r=l:(g=c.getAttributeNS(t,"name"))&&(r=t);r&&(g=g.replace(f,""),c.setAttributeNS(r,F[r]+"name",g))}d=d.nextSibling}k(a,e);b&&k(b,e)}};this.determineStylesForNode=c;H=function(){var a,d,b,e,c,l={},
+f,g,r,h;for(b in L)if(L.hasOwnProperty(b))for(e=L[b],d=e.length,a=0;a<d;a+=1)c=e[a],r=c.en,h=c.ens,l.hasOwnProperty(r)?f=l[r]:l[r]=f={},f.hasOwnProperty(h)?g=f[h]:f[h]=g=[],g.push({ns:c.ans,localname:c.a,keyname:b});return l}()};"function"!==typeof Object.create&&(Object.create=function(h){var k=function(){};k.prototype=h;return new k});
+xmldom.LSSerializer=function(){function h(b){var c=b||{},h=function(b){var a={},d;for(d in b)b.hasOwnProperty(d)&&(a[b[d]]=d);return a}(b),m=[c],k=[h],f=0;this.push=function(){f+=1;c=m[f]=Object.create(c);h=k[f]=Object.create(h)};this.pop=function(){m.pop();k.pop();--f;c=m[f];h=k[f]};this.getLocalNamespaceDefinitions=function(){return h};this.getQName=function(b){var a=b.namespaceURI,d=0,f;if(!a)return b.localName;if(f=h[a])return f+":"+b.localName;do{f||!b.prefix?(f="ns"+d,d+=1):f=b.prefix;if(c[f]===
+a)break;if(!c[f]){c[f]=a;h[a]=f;break}f=null}while(null===f);return f+":"+b.localName}}function k(b){return b.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"&apos;").replace(/"/g,"&quot;")}function c(g,h){var p="",m=b.filter?b.filter.acceptNode(h):NodeFilter.FILTER_ACCEPT,q;if(m===NodeFilter.FILTER_ACCEPT&&h.nodeType===Node.ELEMENT_NODE){g.push();q=g.getQName(h);var f,e=h.attributes,a,d,r,l="",B;f="<"+q;a=e.length;for(d=0;d<a;d+=1)r=e.item(d),"http://www.w3.org/2000/xmlns/"!==
+r.namespaceURI&&(B=b.filter?b.filter.acceptNode(r):NodeFilter.FILTER_ACCEPT,B===NodeFilter.FILTER_ACCEPT&&(B=g.getQName(r),r="string"===typeof r.value?k(r.value):r.value,l+=" "+(B+'="'+r+'"')));a=g.getLocalNamespaceDefinitions();for(d in a)a.hasOwnProperty(d)&&((e=a[d])?"xmlns"!==e&&(f+=" xmlns:"+a[d]+'="'+d+'"'):f+=' xmlns="'+d+'"');p+=f+(l+">")}if(m===NodeFilter.FILTER_ACCEPT||m===NodeFilter.FILTER_SKIP){for(m=h.firstChild;m;)p+=c(g,m),m=m.nextSibling;h.nodeValue&&(p+=k(h.nodeValue))}q&&(p+="</"+
+q+">",g.pop());return p}var b=this;this.filter=null;this.writeToString=function(b,n){if(!b)return"";var k=new h(n);return c(k,b)}};(function(){function h(b){var a,d=m.length;for(a=0;a<d;a+=1)if("urn:oasis:names:tc:opendocument:xmlns:office:1.0"===b.namespaceURI&&b.localName===m[a])return a;return-1}function k(b,a){var d=new g.UsedStyleList(b,a),c=new odf.OdfNodeFilter;this.acceptNode=function(b){var e=c.acceptNode(b);e===NodeFilter.FILTER_ACCEPT&&b.parentNode===a&&b.nodeType===Node.ELEMENT_NODE&&(e=d.uses(b)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT);return e}}function c(b,a){var d=new k(b,a);this.acceptNode=function(a){var b=
+d.acceptNode(a);b!==NodeFilter.FILTER_ACCEPT||!a.parentNode||a.parentNode.namespaceURI!==odf.Namespaces.textns||"s"!==a.parentNode.localName&&"tab"!==a.parentNode.localName||(b=NodeFilter.FILTER_REJECT);return b}}function b(b,a){if(a){var d=h(a),c,f=b.firstChild;if(-1!==d){for(;f;){c=h(f);if(-1!==c&&c>d)break;f=f.nextSibling}b.insertBefore(a,f)}}}var g=new odf.StyleInfo,n=core.DomUtils,p=odf.Namespaces.stylens,m="meta settings scripts font-face-decls styles automatic-styles master-styles body".split(" "),
+q=Date.now()+"_webodf_",f=new core.Base64;odf.ODFElement=function(){};odf.ODFDocumentElement=function(){};odf.ODFDocumentElement.prototype=new odf.ODFElement;odf.ODFDocumentElement.prototype.constructor=odf.ODFDocumentElement;odf.ODFDocumentElement.prototype.fontFaceDecls=null;odf.ODFDocumentElement.prototype.manifest=null;odf.ODFDocumentElement.prototype.settings=null;odf.ODFDocumentElement.namespaceURI="urn:oasis:names:tc:opendocument:xmlns:office:1.0";odf.ODFDocumentElement.localName="document";
+odf.AnnotationElement=function(){};odf.OdfPart=function(b,a,d,c){var f=this;this.size=0;this.type=null;this.name=b;this.container=d;this.url=null;this.mimetype=a;this.onstatereadychange=this.document=null;this.EMPTY=0;this.LOADING=1;this.DONE=2;this.state=this.EMPTY;this.data="";this.load=function(){null!==c&&(this.mimetype=a,c.loadAsDataURL(b,a,function(a,d){a&&runtime.log(a);f.url=d;if(f.onchange)f.onchange(f);if(f.onstatereadychange)f.onstatereadychange(f)}))}};odf.OdfPart.prototype.load=function(){};
+odf.OdfPart.prototype.getUrl=function(){return this.data?"data:;base64,"+f.toBase64(this.data):null};odf.OdfContainer=function a(d,r){function l(a){for(var d=a.firstChild,b;d;)b=d.nextSibling,d.nodeType===Node.ELEMENT_NODE?l(d):d.nodeType===Node.PROCESSING_INSTRUCTION_NODE&&a.removeChild(d),d=b}function h(a){var d={},b,c,f=a.ownerDocument.createNodeIterator(a,NodeFilter.SHOW_ELEMENT,null,!1);for(a=f.nextNode();a;)"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===a.namespaceURI&&("annotation"===
+a.localName?(b=a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","name"))&&(d.hasOwnProperty(b)?runtime.log("Warning: annotation name used more than once with <office:annotation/>: '"+b+"'"):d[b]=a):"annotation-end"===a.localName&&((b=a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","name"))?d.hasOwnProperty(b)?(c=d[b],c.annotationEndElement?runtime.log("Warning: annotation name used more than once with <office:annotation-end/>: '"+b+"'"):c.annotationEndElement=
+a):runtime.log("Warning: annotation end without an annotation start, name: '"+b+"'"):runtime.log("Warning: annotation end without a name found"))),a=f.nextNode()}function m(a,d){for(var b=a&&a.firstChild;b;)b.nodeType===Node.ELEMENT_NODE&&b.setAttributeNS("urn:webodf:names:scope","scope",d),b=b.nextSibling}function D(a,d){for(var b=J.rootElement.meta,b=b&&b.firstChild;b&&(b.namespaceURI!==a||b.localName!==d);)b=b.nextSibling;for(b=b&&b.firstChild;b&&b.nodeType!==Node.TEXT_NODE;)b=b.nextSibling;return b?
+b.data:null}function z(a){var d={},b;for(a=a.firstChild;a;)a.nodeType===Node.ELEMENT_NODE&&a.namespaceURI===p&&"font-face"===a.localName&&(b=a.getAttributeNS(p,"name"),d[b]=a),a=a.nextSibling;return d}function t(a,d){var b=null,c,f,l;if(a)for(b=a.cloneNode(!0),c=b.firstElementChild;c;)f=c.nextElementSibling,(l=c.getAttributeNS("urn:webodf:names:scope","scope"))&&l!==d&&b.removeChild(c),c=f;return b}function x(a,d){var b,c,f,l=null,r={};if(a)for(d.forEach(function(a){g.collectUsedFontFaces(r,a)}),
+l=a.cloneNode(!0),b=l.firstElementChild;b;)c=b.nextElementSibling,f=b.getAttributeNS(p,"name"),r[f]||l.removeChild(b),b=c;return l}function w(a){var d=J.rootElement.ownerDocument,b;if(a){l(a.documentElement);try{b=d.importNode(a.documentElement,!0)}catch(c){}}return b}function F(a){J.state=a;if(J.onchange)J.onchange(J);if(J.onstatereadychange)J.onstatereadychange(J)}function L(a){V=null;J.rootElement=a;a.fontFaceDecls=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","font-face-decls");
+a.styles=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","styles");a.automaticStyles=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles");a.masterStyles=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","master-styles");a.body=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","body");a.meta=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","meta");a.settings=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0",
+"settings");a.scripts=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","scripts");h(a)}function H(d){var c=w(d),f=J.rootElement,l;c&&"document-styles"===c.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===c.namespaceURI?(f.fontFaceDecls=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","font-face-decls"),b(f,f.fontFaceDecls),l=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","styles"),f.styles=l||d.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0",
+"styles"),b(f,f.styles),l=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles"),f.automaticStyles=l||d.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles"),m(f.automaticStyles,"document-styles"),b(f,f.automaticStyles),c=n.getDirectChild(c,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","master-styles"),f.masterStyles=c||d.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","master-styles"),b(f,f.masterStyles),
+g.prefixStyleNames(f.automaticStyles,q,f.masterStyles)):F(a.INVALID)}function G(d){d=w(d);var c,f,l,r;if(d&&"document-content"===d.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===d.namespaceURI){c=J.rootElement;l=n.getDirectChild(d,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","font-face-decls");if(c.fontFaceDecls&&l){r=c.fontFaceDecls;var h,v,u,k,q={};f=z(r);k=z(l);for(l=l.firstElementChild;l;){h=l.nextElementSibling;if(l.namespaceURI===p&&"font-face"===l.localName)if(v=l.getAttributeNS(p,
+"name"),f.hasOwnProperty(v)){if(!l.isEqualNode(f[v])){u=v;for(var A=f,B=k,C=0,R=void 0,R=u=u.replace(/\d+$/,"");A.hasOwnProperty(R)||B.hasOwnProperty(R);)C+=1,R=u+C;u=R;l.setAttributeNS(p,"style:name",u);r.appendChild(l);f[u]=l;delete k[v];q[v]=u}}else r.appendChild(l),f[v]=l,delete k[v];l=h}r=q}else l&&(c.fontFaceDecls=l,b(c,l));f=n.getDirectChild(d,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","automatic-styles");m(f,"document-content");r&&g.changeFontFaceNames(f,r);if(c.automaticStyles&&f)for(r=
+f.firstChild;r;)c.automaticStyles.appendChild(r),r=f.firstChild;else f&&(c.automaticStyles=f,b(c,f));d=n.getDirectChild(d,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","body");if(null===d)throw"<office:body/> tag is mising.";c.body=d;b(c,c.body)}else F(a.INVALID)}function A(a){a=w(a);var d;a&&"document-meta"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===a.namespaceURI&&(d=J.rootElement,d.meta=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","meta"),
+b(d,d.meta))}function K(a){a=w(a);var d;a&&"document-settings"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===a.namespaceURI&&(d=J.rootElement,d.settings=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","settings"),b(d,d.settings))}function v(a){a=w(a);var d;if(a&&"manifest"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"===a.namespaceURI)for(d=J.rootElement,d.manifest=a,a=d.manifest.firstElementChild;a;)"file-entry"===a.localName&&"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"===
+a.namespaceURI&&(S[a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","full-path")]=a.getAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","media-type")),a=a.nextElementSibling}function u(a,d,b){a=n.getElementsByTagName(a,d);var c;for(c=0;c<a.length;c+=1)d=a[c],b.hasOwnProperty(d.namespaceURI)||d.parentNode.removeChild(d)}function Q(a){u(a,"script",{"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0":!0,"urn:oasis:names:tc:opendocument:xmlns:office:1.0":!0,"urn:oasis:names:tc:opendocument:xmlns:table:1.0":!0,
+"urn:oasis:names:tc:opendocument:xmlns:text:1.0":!0,"urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0":!0});u(a,"style",{"urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0":!0,"urn:oasis:names:tc:opendocument:xmlns:drawing:1.0":!0,"urn:oasis:names:tc:opendocument:xmlns:style:1.0":!0})}function R(a){var d=a.firstElementChild,b=[],c,f,l,g=a.attributes,r=g.length;for(c=0;c<r;c+=1)l=g.item(c),f=l.localName.substr(0,2).toLowerCase(),null===l.namespaceURI&&"on"===f&&b.push(l);r=b.length;for(c=
+0;c<r;c+=1)a.removeAttributeNode(b[c]);for(;d;)R(d),d=d.nextElementSibling}function C(d){var b=d.shift();b?ba.loadAsDOM(b.path,function(c,f){f&&(Q(f),R(f.documentElement));b.handler(f);J.state===a.INVALID?c?runtime.log("ERROR: Unable to load "+b.path+" - "+c):runtime.log("ERROR: Unable to load "+b.path):(c&&runtime.log("DEBUG: Unable to load "+b.path+" - "+c),C(d))}):(h(J.rootElement),F(a.DONE))}function I(a){var d="";odf.Namespaces.forEachPrefix(function(a,b){d+=" xmlns:"+a+'="'+b+'"'});return'<?xml version="1.0" encoding="UTF-8"?><office:'+
+a+" "+d+' office:version="1.2">'}function P(){var a=new xmldom.LSSerializer,d=I("document-meta");a.filter=new odf.OdfNodeFilter;d+=a.writeToString(J.rootElement.meta,odf.Namespaces.namespaceMap);return d+"</office:document-meta>"}function U(a,d){var b=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","manifest:file-entry");b.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0","manifest:full-path",a);b.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
+"manifest:media-type",d);return b}function T(){var a=runtime.parseXML('<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.2"></manifest:manifest>'),d=a.documentElement,b=new xmldom.LSSerializer,c;for(c in S)S.hasOwnProperty(c)&&d.appendChild(U(c,S[c]));b.filter=new odf.OdfNodeFilter;return'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+b.writeToString(a,odf.Namespaces.namespaceMap)}function ca(){var a,d,b,c=odf.Namespaces.namespaceMap,
+f=new xmldom.LSSerializer,l=I("document-styles");d=t(J.rootElement.automaticStyles,"document-styles");b=J.rootElement.masterStyles.cloneNode(!0);a=x(J.rootElement.fontFaceDecls,[b,J.rootElement.styles,d]);g.removePrefixFromStyleNames(d,q,b);f.filter=new k(b,d);l+=f.writeToString(a,c);l+=f.writeToString(J.rootElement.styles,c);l+=f.writeToString(d,c);l+=f.writeToString(b,c);return l+"</office:document-styles>"}function Y(){var a,d,b=odf.Namespaces.namespaceMap,f=new xmldom.LSSerializer,l=I("document-content");
+d=t(J.rootElement.automaticStyles,"document-content");a=x(J.rootElement.fontFaceDecls,[d]);f.filter=new c(J.rootElement.body,d);l+=f.writeToString(a,b);l+=f.writeToString(d,b);l+=f.writeToString(J.rootElement.body,b);return l+"</office:document-content>"}function E(d,b){runtime.loadXML(d,function(d,c){if(d)b(d);else if(c){Q(c);R(c.documentElement);var f=w(c);f&&"document"===f.localName&&"urn:oasis:names:tc:opendocument:xmlns:office:1.0"===f.namespaceURI?(L(f),F(a.DONE)):F(a.INVALID)}else b("No DOM was loaded.")})}
+function Z(a,d){var c;c=J.rootElement;var f=c.meta;f||(c.meta=f=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0","meta"),b(c,f));c=f;a&&n.mapKeyValObjOntoNode(c,a,odf.Namespaces.lookupNamespaceURI);d&&n.removeKeyElementsFromNode(c,d,odf.Namespaces.lookupNamespaceURI)}function da(d,b){function c(a,d){var b;d||(d=a);b=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0",d);r[a]=b;r.appendChild(b)}var f=new core.Zip("",null),l="application/vnd.oasis.opendocument."+
+d+(!0===b?"-template":""),g=runtime.byteArrayFromString(l,"utf8"),r=J.rootElement,h=document.createElementNS("urn:oasis:names:tc:opendocument:xmlns:office:1.0",d);f.save("mimetype",g,!1,new Date);c("meta");c("settings");c("scripts");c("fontFaceDecls","font-face-decls");c("styles");c("automaticStyles","automatic-styles");c("masterStyles","master-styles");c("body");r.body.appendChild(h);S["/"]=l;S["settings.xml"]="text/xml";S["meta.xml"]="text/xml";S["styles.xml"]="text/xml";S["content.xml"]="text/xml";
+F(a.DONE);return f}function X(){var a,d=new Date,b="";J.rootElement.settings&&J.rootElement.settings.firstElementChild&&(a=new xmldom.LSSerializer,b=I("document-settings"),a.filter=new odf.OdfNodeFilter,b+=a.writeToString(J.rootElement.settings,odf.Namespaces.namespaceMap),b+="</office:document-settings>");(a=b)?(a=runtime.byteArrayFromString(a,"utf8"),ba.save("settings.xml",a,!0,d)):ba.remove("settings.xml");b=runtime.getWindow();a="WebODF/"+webodf.Version;b&&(a=a+" "+b.navigator.userAgent);Z({"meta:generator":a},
+null);a=runtime.byteArrayFromString(P(),"utf8");ba.save("meta.xml",a,!0,d);a=runtime.byteArrayFromString(ca(),"utf8");ba.save("styles.xml",a,!0,d);a=runtime.byteArrayFromString(Y(),"utf8");ba.save("content.xml",a,!0,d);a=runtime.byteArrayFromString(T(),"utf8");ba.save("META-INF/manifest.xml",a,!0,d)}function ha(a,d){X();ba.writeAs(a,function(a){d(a)})}var J=this,ba,S={},V,M="";this.onstatereadychange=r;this.state=this.onchange=null;this.getMetadata=D;this.setRootElement=L;this.getContentElement=function(){var a;
+V||(a=J.rootElement.body,V=n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","text")||n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","presentation")||n.getDirectChild(a,"urn:oasis:names:tc:opendocument:xmlns:office:1.0","spreadsheet"));if(!V)throw"Could not find content element in <office:body/>.";return V};this.getDocumentType=function(){var a=J.getContentElement();return a&&a.localName};this.isTemplate=function(){return"-template"===S["/"].substr(-9)};
+this.setIsTemplate=function(a){var d=S["/"],b="-template"===d.substr(-9);a!==b&&(d=a?d+"-template":d.substr(0,d.length-9),S["/"]=d,a=runtime.byteArrayFromString(d,"utf8"),ba.save("mimetype",a,!1,new Date))};this.getPart=function(a){return new odf.OdfPart(a,S[a],J,ba)};this.getPartData=function(a,d){ba.load(a,d)};this.setMetadata=Z;this.incrementEditingCycles=function(){var a=D(odf.Namespaces.metans,"editing-cycles"),a=a?parseInt(a,10):0;isNaN(a)&&(a=0);Z({"meta:editing-cycles":a+1},null);return a+
+1};this.createByteArray=function(a,d){X();ba.createByteArray(a,d)};this.saveAs=ha;this.save=function(a){ha(M,a)};this.getUrl=function(){return M};this.setBlob=function(a,d,b){b=f.convertBase64ToByteArray(b);ba.save(a,b,!1,new Date);S.hasOwnProperty(a)&&runtime.log(a+" has been overwritten.");S[a]=d};this.removeBlob=function(a){var d=ba.remove(a);runtime.assert(d,"file is not found: "+a);delete S[a]};this.state=a.LOADING;this.rootElement=function(a){var d=document.createElementNS(a.namespaceURI,a.localName),
+b;a=new a.Type;for(b in a)a.hasOwnProperty(b)&&(d[b]=a[b]);return d}({Type:odf.ODFDocumentElement,namespaceURI:odf.ODFDocumentElement.namespaceURI,localName:odf.ODFDocumentElement.localName});d===odf.OdfContainer.DocumentType.TEXT?ba=da("text"):d===odf.OdfContainer.DocumentType.TEXT_TEMPLATE?ba=da("text",!0):d===odf.OdfContainer.DocumentType.PRESENTATION?ba=da("presentation"):d===odf.OdfContainer.DocumentType.PRESENTATION_TEMPLATE?ba=da("presentation",!0):d===odf.OdfContainer.DocumentType.SPREADSHEET?
+ba=da("spreadsheet"):d===odf.OdfContainer.DocumentType.SPREADSHEET_TEMPLATE?ba=da("spreadsheet",!0):(M=d,ba=new core.Zip(M,function(d,b){ba=b;d?E(M,function(b){d&&(ba.error=d+"\n"+b,F(a.INVALID))}):C([{path:"styles.xml",handler:H},{path:"content.xml",handler:G},{path:"meta.xml",handler:A},{path:"settings.xml",handler:K},{path:"META-INF/manifest.xml",handler:v}])}))};odf.OdfContainer.EMPTY=0;odf.OdfContainer.LOADING=1;odf.OdfContainer.DONE=2;odf.OdfContainer.INVALID=3;odf.OdfContainer.SAVING=4;odf.OdfContainer.MODIFIED=
+5;odf.OdfContainer.getContainer=function(a){return new odf.OdfContainer(a,null)}})();odf.OdfContainer.DocumentType={TEXT:1,TEXT_TEMPLATE:2,PRESENTATION:3,PRESENTATION_TEMPLATE:4,SPREADSHEET:5,SPREADSHEET_TEMPLATE:6};gui.AnnotatableCanvas=function(){};gui.AnnotatableCanvas.prototype.refreshSize=function(){};gui.AnnotatableCanvas.prototype.getZoomLevel=function(){};gui.AnnotatableCanvas.prototype.getSizer=function(){};
+gui.AnnotationViewManager=function(h,k,c,b){function g(d){var b=d.annotationEndElement,c=e.createRange(),f=d.getAttributeNS(odf.Namespaces.officens,"name");b&&(c.setStart(d,d.childNodes.length),c.setEnd(b,0),d=a.getTextNodes(c,!1),d.forEach(function(a){var d;a:{for(d=a.parentNode;d.namespaceURI!==odf.Namespaces.officens||"body"!==d.localName;){if("http://www.w3.org/1999/xhtml"===d.namespaceURI&&"webodf-annotationHighlight"===d.className&&d.getAttribute("annotation")===f){d=!0;break a}d=d.parentNode}d=
+!1}d||(d=e.createElement("span"),d.className="webodf-annotationHighlight",d.setAttribute("annotation",f),a.parentNode.replaceChild(d,a),d.appendChild(a))}));c.detach()}function n(a){var b=h.getSizer();a?(c.style.display="inline-block",b.style.paddingRight=d.getComputedStyle(c).width):(c.style.display="none",b.style.paddingRight=0);h.refreshSize()}function p(){f.sort(function(a,d){return 0!==(a.compareDocumentPosition(d)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1})}function m(){var a;for(a=0;a<f.length;a+=
+1){var d=f[a],b=d.parentNode,e=b.nextElementSibling,g=e.nextElementSibling,m=b.parentNode,n=0,n=f[f.indexOf(d)-1],k=void 0,d=h.getZoomLevel();b.style.left=(c.getBoundingClientRect().left-m.getBoundingClientRect().left)/d+"px";b.style.width=c.getBoundingClientRect().width/d+"px";e.style.width=parseFloat(b.style.left)-30+"px";n?(k=n.parentNode.getBoundingClientRect(),20>=(m.getBoundingClientRect().top-k.bottom)/d?b.style.top=Math.abs(m.getBoundingClientRect().top-k.bottom)/d+20+"px":b.style.top="0px"):
+b.style.top="0px";g.style.left=e.getBoundingClientRect().width/d+"px";var e=g.style,m=g.getBoundingClientRect().left/d,n=g.getBoundingClientRect().top/d,k=b.getBoundingClientRect().left/d,p=b.getBoundingClientRect().top/d,q=0,L=0,q=k-m,q=q*q,L=p-n,L=L*L,m=Math.sqrt(q+L);e.width=m+"px";n=Math.asin((b.getBoundingClientRect().top-g.getBoundingClientRect().top)/(d*parseFloat(g.style.width)));g.style.transform="rotate("+n+"rad)";g.style.MozTransform="rotate("+n+"rad)";g.style.WebkitTransform="rotate("+
+n+"rad)";g.style.msTransform="rotate("+n+"rad)"}}function q(a){var d=f.indexOf(a),b=a.parentNode.parentNode;"div"===b.localName&&(b.parentNode.insertBefore(a,b),b.parentNode.removeChild(b));a=a.getAttributeNS(odf.Namespaces.officens,"name");a=e.querySelectorAll('span.webodf-annotationHighlight[annotation="'+a+'"]');for(var c,b=0;b<a.length;b+=1){for(c=a.item(b);c.firstChild;)c.parentNode.insertBefore(c.firstChild,c);c.parentNode.removeChild(c)}-1!==d&&f.splice(d,1);0===f.length&&n(!1)}var f=[],e=
+k.ownerDocument,a=odf.OdfUtils,d=runtime.getWindow();runtime.assert(Boolean(d),"Expected to be run in an environment which has a global window, like a browser.");this.rerenderAnnotations=m;this.rehighlightAnnotations=function(){f.forEach(function(a){g(a)})};this.getMinimumHeightForAnnotationPane=function(){return"none"!==c.style.display&&0<f.length?(f[f.length-1].parentNode.getBoundingClientRect().bottom-c.getBoundingClientRect().top)/h.getZoomLevel()+"px":null};this.addAnnotations=function(d){0!==
+d.length&&(n(!0),d.forEach(function(d){f.push(d);var c=e.createElement("div"),r=e.createElement("div"),h=e.createElement("div"),m=e.createElement("div"),n;c.className="annotationWrapper";c.setAttribute("creator",a.getAnnotationCreator(d));d.parentNode.insertBefore(c,d);r.className="annotationNote";r.appendChild(d);b&&(n=e.createElement("div"),n.className="annotationRemoveButton",r.appendChild(n));h.className="annotationConnector horizontal";m.className="annotationConnector angular";c.appendChild(r);
+c.appendChild(h);c.appendChild(m);d.annotationEndElement&&g(d)}),p(),m())};this.forgetAnnotation=q;this.forgetAnnotations=function(){for(;f.length;)q(f[0])}};gui.Viewport=function(){};gui.Viewport.prototype.scrollIntoView=function(h,k){};gui.SingleScrollViewport=function(h){this.scrollIntoView=function(k,c){var b,g,n,p;p=h.offsetHeight-h.clientHeight;n=h.offsetWidth-h.clientWidth;var m=h.getBoundingClientRect();if(k&&m){b=m.left+5;g=m.top+5;n=m.right-(n+5);p=m.bottom-(p+5);if(c||k.top<g)h.scrollTop-=g-k.top;else if(k.top>p||k.bottom>p)h.scrollTop=k.bottom-k.top<=p-g?h.scrollTop+(k.bottom-p):h.scrollTop+(k.top-g);k.left<b?h.scrollLeft-=b-k.left:k.right>n&&(h.scrollLeft=k.right-k.left<=n-b?h.scrollLeft+(k.right-n):h.scrollLeft-(b-k.left))}}};(function(){function h(c,n,k,m,q){var f,e=0,a;for(a in c)if(c.hasOwnProperty(a)){if(e===k){f=a;break}e+=1}f?n.getPartData(c[f].href,function(a,e){if(a)runtime.log(a);else if(e){var l="@font-face { font-family: "+(c[f].family||f)+"; src: url(data:application/x-font-ttf;charset=binary;base64,"+b.convertUTF8ArrayToBase64(e)+') format("truetype"); }';try{m.insertRule(l,m.cssRules.length)}catch(B){runtime.log("Problem inserting rule in CSS: "+runtime.toJson(B)+"\nRule: "+l)}}else runtime.log("missing font data for "+
+c[f].href);h(c,n,k+1,m,q)}):q&&q()}var k=xmldom.XPath,c=odf.OdfUtils,b=new core.Base64;odf.FontLoader=function(){this.loadFonts=function(b,n){for(var p=b.rootElement.fontFaceDecls;n.cssRules.length;)n.deleteRule(n.cssRules.length-1);if(p){var m={},q,f,e,a;if(p)for(p=k.getODFElementsWithXPath(p,"style:font-face[svg:font-face-src]",odf.Namespaces.lookupNamespaceURI),q=0;q<p.length;q+=1)f=p[q],e=f.getAttributeNS(odf.Namespaces.stylens,"name"),a=c.getNormalizedFontFamilyName(f.getAttributeNS(odf.Namespaces.svgns,
+"font-family")),f=k.getODFElementsWithXPath(f,"svg:font-face-src/svg:font-face-uri",odf.Namespaces.lookupNamespaceURI),0<f.length&&(f=f[0].getAttributeNS(odf.Namespaces.xlinkns,"href"),m[e]={href:f,family:a});h(m,b,0,n)}}}})();odf.Formatting=function(){function h(a){return(a=F[a])?x.mergeObjects({},a):{}}function k(){for(var d=a.rootElement.fontFaceDecls,b={},c,e,d=d&&d.firstElementChild;d;){if(c=d.getAttributeNS(l,"name"))if((e=d.getAttributeNS(r,"font-family"))||0<d.getElementsByTagNameNS(r,"font-face-uri").length)b[c]=e;d=d.nextElementSibling}return b}function c(d){for(var b=a.rootElement.styles.firstElementChild;b;){if(b.namespaceURI===l&&"default-style"===b.localName&&b.getAttributeNS(l,"family")===d)return b;b=b.nextElementSibling}return null}
+function b(d,b,c){var e,f,g;c=c||[a.rootElement.automaticStyles,a.rootElement.styles];for(g=0;g<c.length;g+=1)for(e=c[g],e=e.firstElementChild;e;){f=e.getAttributeNS(l,"name");if(e.namespaceURI===l&&"style"===e.localName&&e.getAttributeNS(l,"family")===b&&f===d||"list-style"===b&&e.namespaceURI===B&&"list-style"===e.localName&&f===d||"data"===b&&e.namespaceURI===y&&f===d)return e;e=e.nextElementSibling}return null}function g(a){for(var d,b,c,e,f={},g=a.firstElementChild;g;){if(g.namespaceURI===l)for(c=
+f[g.nodeName]={},b=g.attributes,d=0;d<b.length;d+=1)e=b.item(d),c[e.name]=e.value;g=g.nextElementSibling}b=a.attributes;for(d=0;d<b.length;d+=1)e=b.item(d),f[e.name]=e.value;return f}function n(d,e){for(var f=a.rootElement.styles,r,m={},n=d.getAttributeNS(l,"family"),u=d;u;)r=g(u),m=x.mergeObjects(r,m),u=(r=u.getAttributeNS(l,"parent-style-name"))?b(r,n,[f]):null;if(u=c(n))r=g(u),m=x.mergeObjects(r,m);!1!==e&&(r=h(n),m=x.mergeObjects(r,m));return m}function p(b,c){function e(a){Object.keys(a).forEach(function(d){Object.keys(a[d]).forEach(function(a){r+=
+"|"+d+":"+a+"|"})})}for(var f=b.nodeType===Node.TEXT_NODE?b.parentNode:b,l,g=[],r="",h=!1;f&&!z.isInlineRoot(f)&&f.parentNode!==a.rootElement;)!h&&z.isGroupingElement(f)&&(h=!0),(l=d.determineStylesForNode(f))&&g.push(l),f=f.parentNode;h&&(g.forEach(e),c&&(c[r]=g));return h?g:void 0}function m(d){var c={orderedStyles:[],styleProperties:{}};d.forEach(function(d){Object.keys(d).forEach(function(e){var f=Object.keys(d[e])[0],g={name:f,family:e,displayName:void 0,isCommonStyle:!1},r;(r=b(f,e))?(e=n(r),
+c.styleProperties=x.mergeObjects(e,c.styleProperties),g.displayName=r.getAttributeNS(l,"display-name")||void 0,g.isCommonStyle=r.parentNode===a.rootElement.styles):runtime.log("No style element found for '"+f+"' of family '"+e+"'");c.orderedStyles.push(g)})});return c}function q(a,d){var b={},c=[];d||(d={});a.forEach(function(a){p(a,b)});Object.keys(b).forEach(function(a){d[a]||(d[a]=m(b[a]));c.push(d[a])});return c}function f(d){for(var b=a.rootElement.masterStyles.firstElementChild;b&&(b.namespaceURI!==
+l||"master-page"!==b.localName||b.getAttributeNS(l,"name")!==d);)b=b.nextElementSibling;return b}function e(a,d){var b;a&&(b=w.convertMeasure(a,"px"));void 0===b&&d&&(b=w.convertMeasure(d,"px"));return b}var a,d=new odf.StyleInfo,r=odf.Namespaces.svgns,l=odf.Namespaces.stylens,B=odf.Namespaces.textns,y=odf.Namespaces.numberns,D=odf.Namespaces.fons,z=odf.OdfUtils,t=core.DomUtils,x=new core.Utils,w=new core.CSSUnits,F={paragraph:{"style:paragraph-properties":{"fo:text-align":"left"}}};this.getSystemDefaultStyleAttributes=
+h;this.setOdfContainer=function(d){a=d};this.getFontMap=k;this.getAvailableParagraphStyles=function(){for(var d=a.rootElement.styles,b,c,e=[],d=d&&d.firstElementChild;d;)"style"===d.localName&&d.namespaceURI===l&&(b=d.getAttributeNS(l,"family"),"paragraph"===b&&(b=d.getAttributeNS(l,"name"),c=d.getAttributeNS(l,"display-name")||b,b&&c&&e.push({name:b,displayName:c}))),d=d.nextElementSibling;return e};this.isStyleUsed=function(b){var c,e=a.rootElement;c=d.hasDerivedStyles(e,odf.Namespaces.lookupNamespaceURI,
+b);b=(new d.UsedStyleList(e.styles)).uses(b)||(new d.UsedStyleList(e.automaticStyles)).uses(b)||(new d.UsedStyleList(e.body)).uses(b);return c||b};this.getDefaultStyleElement=c;this.getStyleElement=b;this.getStyleAttributes=g;this.getInheritedStyleAttributes=n;this.getFirstCommonParentStyleNameOrSelf=function(d){var c=a.rootElement.styles,e;if(e=b(d,"paragraph",[a.rootElement.automaticStyles]))if(d=e.getAttributeNS(l,"parent-style-name"),!d)return null;return(e=b(d,"paragraph",[c]))?d:null};this.hasParagraphStyle=
+function(a){return Boolean(b(a,"paragraph"))};this.getAppliedStyles=q;this.getAppliedStylesForElement=function(a,d){return q([a],d)[0]};this.updateStyle=function(d,b){var c,e;t.mapObjOntoNode(d,b,odf.Namespaces.lookupNamespaceURI);(c=(c=b["style:text-properties"])&&c["style:font-name"])&&!k().hasOwnProperty(c)&&(e=d.ownerDocument.createElementNS(l,"style:font-face"),e.setAttributeNS(l,"style:name",c),e.setAttributeNS(r,"svg:font-family",c),a.rootElement.fontFaceDecls.appendChild(e))};this.createDerivedStyleObject=
+function(d,c,e){var f=b(d,c);runtime.assert(Boolean(f),"No style element found for '"+d+"' of family '"+c+"'");d=f.parentNode===a.rootElement.styles?{"style:parent-style-name":d}:g(f);d["style:family"]=c;x.mergeObjects(d,e);return d};this.getDefaultTabStopDistance=function(){for(var a=c("paragraph"),a=a&&a.firstElementChild,d;a;)a.namespaceURI===l&&"paragraph-properties"===a.localName&&(d=a.getAttributeNS(l,"tab-stop-distance")),a=a.nextElementSibling;d||(d="1.25cm");return z.parseNonNegativeLength(d)};
+this.getMasterPageElement=f;this.getContentSize=function(d,c){var g,r,h,m,n,k,p,q,B,x;a:{r=b(d,c);runtime.assert("paragraph"===c||"table"===c,"styleFamily must be either paragraph or table");if(r){if(r=r.getAttributeNS(l,"master-page-name"))(g=f(r))||runtime.log("WARN: No master page definition found for "+r);g||(g=f("Standard"));g||(g=a.rootElement.masterStyles.getElementsByTagNameNS(l,"master-page")[0])||runtime.log("WARN: Document has no master pages defined");if(g)for(r=g.getAttributeNS(l,"page-layout-name"),
+h=a.rootElement.automaticStyles.getElementsByTagNameNS(l,"page-layout"),m=0;m<h.length;m+=1)if(g=h.item(m),g.getAttributeNS(l,"name")===r)break a}g=null}g||(g=t.getDirectChild(a.rootElement.styles,l,"default-page-layout"));(g=t.getDirectChild(g,l,"page-layout-properties"))?("landscape"===g.getAttributeNS(l,"print-orientation")?(r="29.7cm",h="21.001cm"):(r="21.001cm",h="29.7cm"),r=e(g.getAttributeNS(D,"page-width"),r),h=e(g.getAttributeNS(D,"page-height"),h),m=e(g.getAttributeNS(D,"margin")),void 0===
+m?(m=e(g.getAttributeNS(D,"margin-left"),"2cm"),n=e(g.getAttributeNS(D,"margin-right"),"2cm"),k=e(g.getAttributeNS(D,"margin-top"),"2cm"),p=e(g.getAttributeNS(D,"margin-bottom"),"2cm")):m=n=k=p=m,q=e(g.getAttributeNS(D,"padding")),void 0===q?(q=e(g.getAttributeNS(D,"padding-left"),"0cm"),B=e(g.getAttributeNS(D,"padding-right"),"0cm"),x=e(g.getAttributeNS(D,"padding-top"),"0cm"),g=e(g.getAttributeNS(D,"padding-bottom"),"0cm")):q=B=x=g=q):(r=e("21.001cm"),h=e("29.7cm"),m=n=k=p=m=e("2cm"),q=B=x=g=q=
+e("0cm"));return{width:r-m-n-q-B,height:h-k-p-x-g}}};(function(){var h=odf.Namespaces.stylens,k=odf.Namespaces.textns,c={graphic:"draw","drawing-page":"draw",paragraph:"text",presentation:"presentation",ruby:"text",section:"text",table:"table","table-cell":"table","table-column":"table","table-row":"table",text:"text",list:"text",page:"office"};odf.StyleTreeNode=function(b){this.derivedStyles={};this.element=b};odf.StyleTree=function(b,g){function n(b){var a,d,c,f={};if(!b)return f;for(b=b.firstElementChild;b;){if(d=b.namespaceURI!==h||"style"!==b.localName&&
+"default-style"!==b.localName?b.namespaceURI===k&&"list-style"===b.localName?"list":b.namespaceURI!==h||"page-layout"!==b.localName&&"default-page-layout"!==b.localName?void 0:"page":b.getAttributeNS(h,"family"))(a=b.getAttributeNS(h,"name"))||(a=""),f.hasOwnProperty(d)?c=f[d]:f[d]=c={},c[a]=b;b=b.nextElementSibling}return f}function p(b,a){if(b.hasOwnProperty(a))return b[a];var d=null,c=Object.keys(b),f;for(f=0;f<c.length&&!(d=p(b[c[f]].derivedStyles,a));f+=1);return d}function m(b,a,d){var c,f,
+g;if(!a.hasOwnProperty(b))return null;c=new odf.StyleTreeNode(a[b]);f=c.element.getAttributeNS(h,"parent-style-name");g=null;f&&(g=p(d,f)||m(f,a,d));g?g.derivedStyles[b]=c:d[b]=c;delete a[b];return c}function q(b,a){b&&Object.keys(b).forEach(function(d){m(d,b,a)})}var f={};this.getStyleTree=function(){return f};(function(){var e,a,d;a=n(b);d=n(g);Object.keys(c).forEach(function(b){e=f[b]={};q(a[b],e);q(d[b],e)})})()}})();(function(){function h(b,c){try{b.insertRule(c,b.cssRules.length)}catch(e){runtime.log("cannot load rule: "+c+" - "+e)}}function k(b,c){this.listCounterCount=0;this.contentRules=b;this.counterIdStack=[];this.continuedCounterIdStack=c}function c(b){function c(d,e,g,m){var k=e.namespaceURI===n&&"list"===e.localName,p=e.namespaceURI===n&&"list-item"===e.localName;if(k||p){if(k){var k=g+=1,t,x,w;m.listCounterCount+=1;p=d+"-level"+k+"-"+m.listCounterCount;e.setAttributeNS("urn:webodf:names:helper","counter-id",
+p);t=m.continuedCounterIdStack.shift();t||(t=p,a+=p+" 1 ",x='text|list[webodfhelper|counter-id="'+p+'"] > text|list-item:first-child > :not(text|list):first-child:before',x+="{",x+="counter-increment: "+t+" 0;",x+="}",h(b,x));for(;m.counterIdStack.length>=k;)m.counterIdStack.pop();m.counterIdStack.push(t);w=m.contentRules[k.toString()]||"";for(x=1;x<=k;x+=1)w=w.replace(x+"webodf-listLevel",m.counterIdStack[x-1]);x='text|list[webodfhelper|counter-id="'+p+'"] > text|list-item > :not(text|list):first-child:before';
+x+="{";x+=w;x+="counter-increment: "+t+";";x+="}";h(b,x)}for(e=e.firstElementChild;e;)c(d,e,g,m),e=e.nextElementSibling}else m.continuedCounterIdStack=[]}var e=0,a="",d={};this.createCounterRules=function(a,b,g){var h=b.getAttributeNS(p,"id"),m=[];g&&(g=g.getAttributeNS("urn:webodf:names:helper","counter-id"),m=d[g].slice(0));a=new k(a,m);h?h="Y"+h:(e+=1,h="X"+e);c(h,b,0,a);d[h+"-level1-1"]=a.counterIdStack};this.initialiseCreatedCounters=function(){var d;d="office|document{"+("counter-reset: "+a+
+";");d+="}";h(b,d)}}var b=odf.Namespaces.fons,g=odf.Namespaces.stylens,n=odf.Namespaces.textns,p=odf.Namespaces.xmlns,m={1:"decimal",a:"lower-latin",A:"upper-latin",i:"lower-roman",I:"upper-roman"};odf.ListStyleToCss=function(){function k(a){var b=r.parseLength(a);return b?d.convert(b.value,b.unit,"px"):(runtime.log("Could not parse value '"+a+"'."),0)}function f(a){return a.replace(/\\/g,"\\\\").replace(/"/g,'\\"')}function e(a,d){var b;a&&(b=a.getAttributeNS(n,"style-name"));return b===d}function a(a,
+d,b){d=d.getElementsByTagNameNS(n,"list");a=new c(a);var h,r,k,q,w,F,L={},H;for(H=0;H<d.length;H+=1)if(h=d.item(H),F=h.getAttributeNS(n,"style-name")){k=h.getAttributeNS(n,"continue-numbering");q=h.getAttributeNS(n,"continue-list");(w=h.getAttributeNS(p,"id"))&&(L[w]=h);w=b[F].element.firstElementChild;for(var G=void 0,A={};w;){var G=(G=w.getAttributeNS(n,"level"))&&parseInt(G,10),K=w,v="",u=void 0,Q=void 0,R=u=void 0;if("list-level-style-number"===K.localName){var C=K,v=C.getAttributeNS(g,"num-format"),
+u=C.getAttributeNS(g,"num-suffix")||"",Q=C.getAttributeNS(g,"num-prefix")||"",I="",P=C.getAttributeNS(n,"level"),C=C.getAttributeNS(n,"display-levels");Q&&(I+='"'+f(Q)+'"\n');if(m.hasOwnProperty(v))for(P=P?parseInt(P,10):1,C=C?parseInt(C,10):1;0<C;)I+=" counter("+(P-C+1)+"webodf-listLevel,"+m[v]+")",1<C&&(I+='"."'),--C;else I=v?I+(' "'+v+'"'):I+' ""';v="content:"+I+' "'+f(u)+'"'}else"list-level-style-image"===K.localName?v="content: none":"list-level-style-bullet"===K.localName&&(v=K.getAttributeNS(n,
+"bullet-char"),v='content: "'+f(v)+'"');if(u=K.getElementsByTagNameNS(g,"list-level-properties")[0])Q=u.getAttributeNS(n,"list-level-position-and-space-mode"),"label-alignment"===Q&&((u=u.getElementsByTagNameNS(g,"list-level-label-alignment")[0])&&(R=u.getAttributeNS(n,"label-followed-by")),"space"===R&&(v+=' "\\a0"'));A[G]="\n"+v+";\n";w=w.nextElementSibling}w=A;k&&!q&&e(r,F)?a.createCounterRules(w,h,r):q&&e(L[q],F)?a.createCounterRules(w,h,L[q]):a.createCounterRules(w,h);r=h}a.initialiseCreatedCounters()}
+var d=new core.CSSUnits,r=odf.OdfUtils;this.applyListStyles=function(d,c,e){var f,r;(f=c.list)&&Object.keys(f).forEach(function(a){r=f[a];for(var c=r.element.firstElementChild;c;){if(c.namespaceURI===n){for(var e=d,m=c,p='text|list[text|style-name="'+a+'"]',B=m.getAttributeNS(n,"level"),y=void 0,A=void 0,K=A=void 0,v=void 0,u=void 0,Q=y=void 0,R=void 0,C=void 0,I=void 0,v=void 0,K=(A=m.getElementsByTagNameNS(g,"list-level-properties")[0])&&A.getAttributeNS(n,"list-level-position-and-space-mode"),
+v=A&&A.getElementsByTagNameNS(g,"list-level-label-alignment")[0],y=B=B&&parseInt(B,10);1<y;)p+=" > text|list-item > text|list",--y;y=A&&A.getAttributeNS(b,"text-align")||"left";switch(y){case "end":y="right";break;case "start":y="left"}"label-alignment"===K?(u=v&&v.getAttributeNS(b,"margin-left")||"0px",C=v&&v.getAttributeNS(b,"text-indent")||"0px",I=v&&v.getAttributeNS(n,"label-followed-by"),v=k(u)):(u=A&&A.getAttributeNS(n,"space-before")||"0px",Q=A&&A.getAttributeNS(n,"min-label-width")||"0px",
+R=A&&A.getAttributeNS(n,"min-label-distance")||"0px",v=k(u)+k(Q));A=p+" > text|list-item";A+="{";A+="margin-left: "+v+"px;";A+="}";h(e,A);A=p+" > text|list-item > text|list";A+="{";A+="margin-left: "+-v+"px;";A+="}";h(e,A);A=p+" > text|list-item > :not(text|list):first-child:before";A+="{";A+="text-align: "+y+";";A+="display: inline-block;";"label-alignment"===K?(A+="margin-left: "+C+";","listtab"===I&&(A+="padding-right: 0.2cm;")):(A+="min-width: "+Q+";",A+="margin-left: "+(0===parseFloat(Q)?"":
+"-")+Q+";",A+="padding-right: "+R+";");A+="}";h(e,A)}c=c.nextElementSibling}});a(d,e,f)}}})();odf.LazyStyleProperties=function(h,k){var c={};this.value=function(b){var g;c.hasOwnProperty(b)?g=c[b]:(g=k[b](),void 0===g&&h&&(g=h.value(b)),c[b]=g);return g};this.reset=function(b){h=b;c={}}};
+odf.StyleParseUtils=function(){function h(c){var b,g;c=(c=/(-?[0-9]*[0-9][0-9]*(\.[0-9]*)?|0+\.[0-9]*[1-9][0-9]*|\.[0-9]*[1-9][0-9]*)((cm)|(mm)|(in)|(pt)|(pc)|(px))/.exec(c))?{value:parseFloat(c[1]),unit:c[3]}:null;g=c&&c.unit;"px"===g?b=c.value:"cm"===g?b=c.value/2.54*96:"mm"===g?b=c.value/25.4*96:"in"===g?b=96*c.value:"pt"===g?b=c.value/.75:"pc"===g&&(b=16*c.value);return b}var k=odf.Namespaces.stylens;this.parseLength=h;this.parsePositiveLengthOrPercent=function(c,b,g){var n;c&&(n=parseFloat(c.substr(0,
+c.indexOf("%"))),isNaN(n)&&(n=void 0));var k;void 0!==n?(g&&(k=g.value(b)),n=void 0===k?void 0:k/100*n):n=h(c);return n};this.getPropertiesElement=function(c,b,g){for(b=g?g.nextElementSibling:b.firstElementChild;null!==b&&(b.localName!==c||b.namespaceURI!==k);)b=b.nextElementSibling;return b};this.parseAttributeList=function(c){c&&(c=c.replace(/^\s*(.*?)\s*$/g,"$1"));return c&&0<c.length?c.split(/\s+/):[]}};odf.Style2CSS=function(){function h(a,d,b){var c=[];b=b.derivedStyles;var e;var f=D[a],g;void 0===f?d=null:(g=d?"["+f+'|style-name="'+d+'"]':"","presentation"===f&&(f="draw",g=d?'[presentation|style-name="'+d+'"]':""),d=f+"|"+z[a].join(g+","+f+"|")+g);null!==d&&c.push(d);for(e in b)b.hasOwnProperty(e)&&(d=h(a,e,b[e]),c=c.concat(d));return c}function k(a){var d="",b="",d=null;if("default-style"===a.localName)return null;d=a.getAttributeNS(e,"parent-style-name");b=a.getAttributeNS(e,"family");return d=
+T.getODFElementsWithXPath(P,d?"//style:*[@style:name='"+d+"'][@style:family='"+b+"']":"//style:default-style[@style:family='"+b+"']",odf.Namespaces.lookupNamespaceURI)[0]}function c(a,d){var b="",c,f,g;for(c=0;c<d.length;c+=1)if(f=d[c],g=a.getAttributeNS(f[0],f[1])){g=g.trim();if(u.hasOwnProperty(f[1])){var l=g,h=l.indexOf(" "),r=void 0;g=void 0;-1!==h?(r=l.substring(0,h),g=l.substring(h)):(r=l,g="");(r=C.parseLength(r))&&"pt"===r.unit&&.75>r.value&&(l="0.75pt"+g);g=l}else if(Q.hasOwnProperty(f[1])){var l=
+a,h=f[0],r=f[1],m=C.parseLength(g),n=void 0,v=void 0,p=void 0,q=void 0,p=void 0;if(m&&"%"===m.unit){n=m.value/100;v=k(l.parentNode);for(q="0";v;){if(p=B.getDirectChild(v,e,"paragraph-properties"))if(p=C.parseLength(p.getAttributeNS(h,r))){if("%"!==p.unit){q=p.value*n+p.unit;break}n*=p.value/100}v=k(v)}g=q}}f[2]&&(b+=f[2]+":"+g+";")}return b}function b(a,d,b,c){return d+d+b+b+c+c}function g(a,d){var b=[a],c=d.derivedStyles;Object.keys(c).forEach(function(a){a=g(a,c[a]);b=b.concat(a)});return b}function n(a,
+d,b,c){function e(d,b){var c=[],g;d.forEach(function(a){f.forEach(function(d){c.push('draw|page[webodfhelper|page-style-name="'+d+'"] draw|frame[presentation|class="'+a+'"]')})});0<c.length&&(g=c.join(",")+"{visibility:"+b+";}",a.insertRule(g,a.cssRules.length))}var f=g(d,c),h=[],r=[];["page-number","date-time","header","footer"].forEach(function(a){var d;d=b.getAttributeNS(l,"display-"+a);"true"===d?h.push(a):"false"===d&&r.push(a)});e(h,"visible");e(r,"hidden")}function p(a,g,u,Q){var z,D;if("page"===
+g){var J=Q.element,P="",S,V;V=S="";u=B.getDirectChild(J,e,"page-layout-properties");var M;if(u)if(M=J.getAttributeNS(e,"name"),P+=c(u,K),(S=B.getDirectChild(u,e,"background-image"))&&(V=S.getAttributeNS(r,"href"))&&(P=P+("background-image: url('odfkit:"+V+"');")+c(S,x)),"presentation"===I)for(J=(J=B.getDirectChild(J.parentNode.parentNode,f,"master-styles"))&&J.firstElementChild;J;)J.namespaceURI===e&&"master-page"===J.localName&&J.getAttributeNS(e,"page-layout-name")===M&&(V=J.getAttributeNS(e,"name"),
+S='draw|page[draw|master-page-name="'+V+'"] {'+P+"}",V='office|body, draw|page[draw|master-page-name="'+V+'"] {'+c(u,v)+" }",a.insertRule(S,a.cssRules.length),a.insertRule(V,a.cssRules.length)),J=J.nextElementSibling;else"text"===I&&(S="office|text {"+P+"}",V="office|body {width: "+u.getAttributeNS(q,"page-width")+";}",a.insertRule(S,a.cssRules.length),a.insertRule(V,a.cssRules.length))}else{P=h(g,u,Q).join(",");M="";if(J=B.getDirectChild(Q.element,e,"text-properties")){var T=J,ea=D="";S="";V=1;J=
+""+c(T,t);z=T.getAttributeNS(e,"text-underline-style");"solid"===z&&(D+=" underline");z=T.getAttributeNS(e,"text-line-through-style");"solid"===z&&(D+=" line-through");D.length&&(J=J+("text-decoration:"+D+";\n")+("text-decoration-line:"+D+";\n"),J+="-moz-text-decoration-line:"+D+";\n");z=T.getAttributeNS(e,"text-line-through-type");switch(z){case "double":ea+=" double";break;case "single":ea+=" single"}ea&&(J+="text-decoration-style:"+ea+";\n",J+="-moz-text-decoration-style:"+ea+";\n");if(D=T.getAttributeNS(e,
+"font-name")||T.getAttributeNS(q,"font-family"))z=R[D],J+="font-family: "+(z||D)+";";if(z=T.getAttributeNS(e,"text-position"))D=y.parseAttributeList(z),z=D[0],D=D[1],J+="vertical-align: "+z+"\n; ",D&&(V=parseFloat(D)/100);if(T.hasAttributeNS(q,"font-size")||1!==V){for(T=T.parentNode;T;){if(z=(z=B.getDirectChild(T,e,"text-properties"))?C.parseFoFontSize(z.getAttributeNS(q,"font-size")):null){if("%"!==z.unit){S="font-size: "+z.value*V+z.unit+";";break}V*=z.value/100}T=k(T)}S||(S="font-size: "+parseFloat(U)*
+V+ca.getUnits(U)+";")}J+=S;M+=J}if(J=B.getDirectChild(Q.element,e,"paragraph-properties"))S=J,J=""+c(S,w),(V=B.getDirectChild(S,e,"background-image"))&&(T=V.getAttributeNS(r,"href"))&&(J=J+("background-image: url('odfkit:"+T+"');")+c(V,x)),(S=S.getAttributeNS(q,"line-height"))&&"normal"!==S&&(S=C.parseFoLineHeight(S),J="%"!==S.unit?J+("line-height: "+S.value+S.unit+";"):J+("line-height: "+S.value/100+";")),M+=J;if(J=B.getDirectChild(Q.element,e,"graphic-properties"))T=J,J=""+c(T,F),S=T.getAttributeNS(m,
+"opacity"),V=T.getAttributeNS(m,"fill"),T=T.getAttributeNS(m,"fill-color"),"solid"===V||"hatch"===V?T&&"none"!==T?(S=isNaN(parseFloat(S))?1:parseFloat(S)/100,V=T.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,b),(T=(V=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(V))?{r:parseInt(V[1],16),g:parseInt(V[2],16),b:parseInt(V[3],16)}:null)&&(J+="background-color: rgba("+T.r+","+T.g+","+T.b+","+S+");")):J+="background: none;":"none"===V&&(J+="background: none;"),M+=J;if(J=B.getDirectChild(Q.element,e,"drawing-page-properties"))S=
+J,V=""+c(S,F),"true"===S.getAttributeNS(l,"background-visible")&&(V+="background: none;"),M+=V,n(a,u,J,Q);if(J=B.getDirectChild(Q.element,e,"table-cell-properties"))u=M,M=""+c(J,L),M=u+M;if(J=B.getDirectChild(Q.element,e,"table-row-properties"))u=M,M=""+c(J,G),M=u+M;if(J=B.getDirectChild(Q.element,e,"table-column-properties"))u=M,M=""+c(J,H),M=u+M;if(J=B.getDirectChild(Q.element,e,"table-properties"))u=M,M=""+c(J,A),J=J.getAttributeNS(d,"border-model"),"collapsing"===J?M+="border-collapse:collapse;":
+"separating"===J&&(M+="border-collapse:separate;"),M=u+M;0!==M.length&&a.insertRule(P+"{"+M+"}",a.cssRules.length)}for(var aa in Q.derivedStyles)Q.derivedStyles.hasOwnProperty(aa)&&p(a,g,aa,Q.derivedStyles[aa])}var m=odf.Namespaces.drawns,q=odf.Namespaces.fons,f=odf.Namespaces.officens,e=odf.Namespaces.stylens,a=odf.Namespaces.svgns,d=odf.Namespaces.tablens,r=odf.Namespaces.xlinkns,l=odf.Namespaces.presentationns,B=core.DomUtils,y=new odf.StyleParseUtils,D={graphic:"draw","drawing-page":"draw",paragraph:"text",
+presentation:"presentation",ruby:"text",section:"text",table:"table","table-cell":"table","table-column":"table","table-row":"table",text:"text",list:"text",page:"office"},z={graphic:"circle connected control custom-shape ellipse frame g line measure page page-thumbnail path polygon polyline rect regular-polygon".split(" "),paragraph:"alphabetical-index-entry-template h illustration-index-entry-template index-source-style object-index-entry-template p table-index-entry-template table-of-content-entry-template user-index-entry-template".split(" "),
 presentation:"caption circle connector control custom-shape ellipse frame g line measure page-thumbnail path polygon polyline rect regular-polygon".split(" "),"drawing-page":"caption circle connector control page custom-shape ellipse frame g line measure page-thumbnail path polygon polyline rect regular-polygon".split(" "),ruby:["ruby","ruby-text"],section:"alphabetical-index bibliography illustration-index index-title object-index section table-of-content table-index user-index".split(" "),table:["background",
 "table"],"table-cell":"body covered-table-cell even-columns even-rows first-column first-row last-column last-row odd-columns odd-rows table-cell".split(" "),"table-column":["table-column"],"table-row":["table-row"],text:"a index-entry-chapter index-entry-link-end index-entry-link-start index-entry-page-number index-entry-span index-entry-tab-stop index-entry-text index-title-template linenumbering-configuration list-level-style-number list-level-style-bullet outline-level-style span".split(" "),
-list:["list-item"]},y=[[a,"color","color"],[a,"background-color","background-color"],[a,"font-weight","font-weight"],[a,"font-style","font-style"]],F=[[l,"repeat","background-repeat"]],L=[[a,"background-color","background-color"],[a,"text-align","text-align"],[a,"text-indent","text-indent"],[a,"padding","padding"],[a,"padding-left","padding-left"],[a,"padding-right","padding-right"],[a,"padding-top","padding-top"],[a,"padding-bottom","padding-bottom"],[a,"border-left","border-left"],[a,"border-right",
-"border-right"],[a,"border-top","border-top"],[a,"border-bottom","border-bottom"],[a,"margin","margin"],[a,"margin-left","margin-left"],[a,"margin-right","margin-right"],[a,"margin-top","margin-top"],[a,"margin-bottom","margin-bottom"],[a,"border","border"]],O=[[a,"background-color","background-color"],[a,"min-height","min-height"],[r,"stroke","border"],[h,"stroke-color","border-color"],[h,"stroke-width","border-width"],[a,"border","border"],[a,"border-left","border-left"],[a,"border-right","border-right"],
-[a,"border-top","border-top"],[a,"border-bottom","border-bottom"]],H=[[a,"background-color","background-color"],[a,"border-left","border-left"],[a,"border-right","border-right"],[a,"border-top","border-top"],[a,"border-bottom","border-bottom"],[a,"border","border"]],U=[[l,"column-width","width"]],T=[[l,"row-height","height"],[a,"keep-together",null]],X=[[l,"width","width"],[a,"margin-left","margin-left"],[a,"margin-right","margin-right"],[a,"margin-top","margin-top"],[a,"margin-bottom","margin-bottom"]],
-D=[[a,"background-color","background-color"],[a,"padding","padding"],[a,"padding-left","padding-left"],[a,"padding-right","padding-right"],[a,"padding-top","padding-top"],[a,"padding-bottom","padding-bottom"],[a,"border","border"],[a,"border-left","border-left"],[a,"border-right","border-right"],[a,"border-top","border-top"],[a,"border-bottom","border-bottom"],[a,"margin","margin"],[a,"margin-left","margin-left"],[a,"margin-right","margin-right"],[a,"margin-top","margin-top"],[a,"margin-bottom","margin-bottom"]],
-ba=[[a,"page-width","width"],[a,"page-height","height"]],G={border:!0,"border-left":!0,"border-right":!0,"border-top":!0,"border-bottom":!0,"stroke-width":!0},J={},Q=new odf.OdfUtils,ea,P,N,I=xmldom.XPath,B=new core.CSSUnits;this.style2css=function(a,b,c,d,h){for(var f,l,g,n;b.cssRules.length;)b.deleteRule(b.cssRules.length-1);f=null;d&&(f=d.ownerDocument,P=d.parentNode);h&&(f=h.ownerDocument,P=h.parentNode);if(f)for(n in odf.Namespaces.forEachPrefix(function(a,c){l="@namespace "+a+" url("+c+");";
-try{b.insertRule(l,b.cssRules.length)}catch(d){}}),J=c,ea=a,N=runtime.getWindow().getComputedStyle(document.body,null).getPropertyValue("font-size")||"12pt",a=m(d),d=m(h),h={},t)if(t.hasOwnProperty(n))for(g in c=h[n]={},k(a[n],c),k(d[n],c),c)c.hasOwnProperty(g)&&e(b,n,g,c[g])}};
-// Input 33
-/*
-
- Copyright (C) 2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function(){function m(g,b){var k=this;this.getDistance=function(b){var g=k.x-b.x;b=k.y-b.y;return Math.sqrt(g*g+b*b)};this.getCenter=function(b){return new m((k.x+b.x)/2,(k.y+b.y)/2)};k.x=g;k.y=b}gui.ZoomHelper=function(){function g(a,b,d,e){a=e?"translate3d("+a+"px, "+b+"px, 0) scale3d("+d+", "+d+", 1)":"translate("+a+"px, "+b+"px) scale("+d+")";c.style.WebkitTransform=a;c.style.MozTransform=a;c.style.msTransform=a;c.style.OTransform=a;c.style.transform=a}function b(a){a?g(-l.x,-l.y,w,!0):(g(0,
-0,w,!0),g(0,0,w,!1))}function k(a){if(u&&F){var b=u.style.overflow,c=u.classList.contains("customScrollbars");a&&c||!a&&!c||(a?(u.classList.add("customScrollbars"),u.style.overflow="hidden",runtime.requestAnimationFrame(function(){u.style.overflow=b})):u.classList.remove("customScrollbars"))}}function d(){g(-l.x,-l.y,w,!0);u.scrollLeft=0;u.scrollTop=0;k(!1)}function n(){g(0,0,w,!0);u.scrollLeft=l.x;u.scrollTop=l.y;k(!0)}function p(a){return new m(a.pageX-c.offsetLeft,a.pageY-c.offsetTop)}function f(a){h&&
-(l.x-=a.x-h.x,l.y-=a.y-h.y,l=new m(Math.min(Math.max(l.x,c.offsetLeft),(c.offsetLeft+c.offsetWidth)*w-u.clientWidth),Math.min(Math.max(l.y,c.offsetTop),(c.offsetTop+c.offsetHeight)*w-u.clientHeight)));h=a}function q(a){var b=a.touches.length,c=0<b?p(a.touches[0]):null;a=1<b?p(a.touches[1]):null;c&&a?(v=c.getDistance(a),z=w,h=c.getCenter(a),d(),y=s.PINCH):c&&(h=c,y=s.SCROLL)}function e(a){var e=a.touches.length,h=0<e?p(a.touches[0]):null,e=1<e?p(a.touches[1]):null;if(h&&e)if(a.preventDefault(),y===
-s.SCROLL)y=s.PINCH,d(),v=h.getDistance(e);else{a=h.getCenter(e);h=h.getDistance(e)/v;f(a);var e=w,k=Math.min(x,c.offsetParent.clientWidth/c.offsetWidth);w=z*h;w=Math.min(Math.max(w,k),x);h=w/e;l.x+=(h-1)*(a.x+l.x);l.y+=(h-1)*(a.y+l.y);b(!0)}else h&&(y===s.PINCH?(y=s.SCROLL,n()):f(h))}function r(){y===s.PINCH&&(t.emit(gui.ZoomHelper.signalZoomChanged,w),n(),b(!1));y=s.NONE}function a(){u&&(u.removeEventListener("touchstart",q,!1),u.removeEventListener("touchmove",e,!1),u.removeEventListener("touchend",
-r,!1))}var c,l,h,v,w,z,x=4,u,t=new core.EventNotifier([gui.ZoomHelper.signalZoomChanged]),s={NONE:0,SCROLL:1,PINCH:2},y=s.NONE,F=runtime.getWindow().hasOwnProperty("ontouchstart");this.subscribe=function(a,b){t.subscribe(a,b)};this.unsubscribe=function(a,b){t.unsubscribe(a,b)};this.getZoomLevel=function(){return w};this.setZoomLevel=function(a){c&&(w=a,b(!1),t.emit(gui.ZoomHelper.signalZoomChanged,w))};this.destroy=function(b){a();k(!1);b()};this.setZoomableElement=function(d){a();c=d;u=c.offsetParent;
-b(!1);u&&(u.addEventListener("touchstart",q,!1),u.addEventListener("touchmove",e,!1),u.addEventListener("touchend",r,!1));k(!0)};z=w=1;l=new m(0,0)};gui.ZoomHelper.signalZoomChanged="zoomChanged"})();
-// Input 34
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.Canvas=function(){};ops.Canvas.prototype.getZoomLevel=function(){};ops.Canvas.prototype.getElement=function(){};ops.Canvas.prototype.getZoomHelper=function(){};
-// Input 35
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function(){function m(){function a(d){c=!0;runtime.setTimeout(function(){try{d()}catch(e){runtime.log(String(e))}c=!1;0<b.length&&a(b.pop())},10)}var b=[],c=!1;this.clearQueue=function(){b.length=0};this.addToQueue=function(d){if(0===b.length&&!c)return a(d);b.push(d)}}function g(a){function b(){for(;0<c.cssRules.length;)c.deleteRule(0);c.insertRule("#shadowContent draw|page {display:none;}",0);c.insertRule("office|presentation draw|page {display:none;}",1);c.insertRule("#shadowContent draw|page:nth-of-type("+
-d+") {display:block;}",2);c.insertRule("office|presentation draw|page:nth-of-type("+d+") {display:block;}",3)}var c=a.sheet,d=1;this.showFirstPage=function(){d=1;b()};this.showNextPage=function(){d+=1;b()};this.showPreviousPage=function(){1<d&&(d-=1,b())};this.showPage=function(a){0<a&&(d=a,b())};this.css=a;this.destroy=function(b){a.parentNode.removeChild(a);b()}}function b(a){for(;a.firstChild;)a.removeChild(a.firstChild)}function k(a){a=a.sheet;for(var b=a.cssRules;b.length;)a.deleteRule(b.length-
-1)}function d(a,b,c){(new odf.Style2CSS).style2css(a.getDocumentType(),c.sheet,b.getFontMap(),a.rootElement.styles,a.rootElement.automaticStyles)}function n(a,b,c){var d=null;a=a.rootElement.body.getElementsByTagNameNS(H,c+"-decl");c=b.getAttributeNS(H,"use-"+c+"-name");var e;if(c&&0<a.length)for(b=0;b<a.length;b+=1)if(e=a[b],e.getAttributeNS(H,"name")===c){d=e.textContent;break}return d}function p(a,c,d,e){var h=a.ownerDocument;c=a.getElementsByTagNameNS(c,d);for(a=0;a<c.length;a+=1)b(c[a]),e&&(d=
-c[a],d.appendChild(h.createTextNode(e)))}function f(a,b,c){b.setAttributeNS("urn:webodf:names:helper","styleid",a);var d,e=b.getAttributeNS(F,"anchor-type"),h=b.getAttributeNS(s,"x"),f=b.getAttributeNS(s,"y"),l=b.getAttributeNS(s,"width"),k=b.getAttributeNS(s,"height"),g=b.getAttributeNS(x,"min-height"),n=b.getAttributeNS(x,"min-width");if("as-char"===e)d="display: inline-block;";else if(e||h||f)d="position: absolute;";else if(l||k||g||n)d="display: block;";h&&(d+="left: "+h+";");f&&(d+="top: "+f+
-";");l&&(d+="width: "+l+";");k&&(d+="height: "+k+";");g&&(d+="min-height: "+g+";");n&&(d+="min-width: "+n+";");d&&(d="draw|"+b.localName+'[webodfhelper|styleid="'+a+'"] {'+d+"}",c.insertRule(d,c.cssRules.length))}function q(a){for(a=a.firstChild;a;){if(a.namespaceURI===u&&"binary-data"===a.localName)return"data:image/png;base64,"+a.textContent.replace(/[\r\n\s]/g,"");a=a.nextSibling}return""}function e(a,b,c,d){function e(b){b&&(b='draw|image[webodfhelper|styleid="'+a+'"] {'+("background-image: url("+
-b+");")+"}",d.insertRule(b,d.cssRules.length))}function h(a){e(a.url)}c.setAttributeNS("urn:webodf:names:helper","styleid",a);var f=c.getAttributeNS(L,"href"),l;if(f)try{l=b.getPart(f),l.onchange=h,l.load()}catch(k){runtime.log("slight problem: "+String(k))}else f=q(c),e(f)}function r(a){var b=a.ownerDocument;D.getElementsByTagNameNS(a,F,"line-break").forEach(function(a){a.hasChildNodes()||a.appendChild(b.createElement("br"))})}function a(a){var b=a.ownerDocument;D.getElementsByTagNameNS(a,F,"s").forEach(function(a){for(var c,
-d;a.firstChild;)a.removeChild(a.firstChild);a.appendChild(b.createTextNode(" "));d=parseInt(a.getAttributeNS(F,"c"),10);if(1<d)for(a.removeAttributeNS(F,"c"),c=1;c<d;c+=1)a.parentNode.insertBefore(a.cloneNode(!0),a)})}function c(a){D.getElementsByTagNameNS(a,F,"tab").forEach(function(a){a.textContent="\t"})}function l(a,b){function c(a,d){var f=l.documentElement.namespaceURI;"video/"===d.substr(0,6)?(e=l.createElementNS(f,"video"),e.setAttribute("controls","controls"),h=l.createElementNS(f,"source"),
-a&&h.setAttribute("src",a),h.setAttribute("type",d),e.appendChild(h),b.parentNode.appendChild(e)):b.innerHtml="Unrecognised Plugin"}function d(a){c(a.url,a.mimetype)}var e,h,f,l=b.ownerDocument,k;if(f=b.getAttributeNS(L,"href"))try{k=a.getPart(f),k.onchange=d,k.load()}catch(g){runtime.log("slight problem: "+String(g))}else runtime.log("using MP4 data fallback"),f=q(b),c(f,"video/mp4")}function h(a){var b=a.getElementsByTagName("head")[0],c,d;c=a.styleSheets.length;for(d=b.firstElementChild;d&&("style"!==
-d.localName||!d.hasAttribute("webodfcss"));)d=d.nextElementSibling;if(d)return c=parseInt(d.getAttribute("webodfcss"),10),d.setAttribute("webodfcss",c+1),d;"string"===String(typeof webodf_css)?c=webodf_css:(d="webodf.css",runtime.currentDirectory&&(d=runtime.currentDirectory(),0<d.length&&"/"!==d.substr(-1)&&(d+="/"),d+="../webodf.css"),c=runtime.readFileSync(d,"utf-8"));d=a.createElementNS(b.namespaceURI,"style");d.setAttribute("media","screen, print, handheld, projection");d.setAttribute("type",
-"text/css");d.setAttribute("webodfcss","1");d.appendChild(a.createTextNode(c));b.appendChild(d);return d}function v(a){var b=parseInt(a.getAttribute("webodfcss"),10);1===b?a.parentNode.removeChild(a):a.setAttribute("count",b-1)}function w(a){var b=a.getElementsByTagName("head")[0],c=a.createElementNS(b.namespaceURI,"style"),d="";c.setAttribute("type","text/css");c.setAttribute("media","screen, print, handheld, projection");odf.Namespaces.forEachPrefix(function(a,b){d+="@namespace "+a+" url("+b+");\n"});
-d+="@namespace webodfhelper url(urn:webodf:names:helper);\n";c.appendChild(a.createTextNode(d));b.appendChild(c);return c}var z=odf.Namespaces.drawns,x=odf.Namespaces.fons,u=odf.Namespaces.officens,t=odf.Namespaces.stylens,s=odf.Namespaces.svgns,y=odf.Namespaces.tablens,F=odf.Namespaces.textns,L=odf.Namespaces.xlinkns,O=odf.Namespaces.xmlns,H=odf.Namespaces.presentationns,U=runtime.getWindow(),T=xmldom.XPath,X=new odf.OdfUtils,D=new core.DomUtils;odf.OdfCanvas=function(q){function s(a,b,c){function d(a,
-b,c,h){ka.addToQueue(function(){e(a,b,c,h)})}var h,f;h=b.getElementsByTagNameNS(z,"image");for(b=0;b<h.length;b+=1)f=h.item(b),d("image"+String(b),a,f,c)}function L(a,b){function c(a,b){ka.addToQueue(function(){l(a,b)})}var d,e,h;e=b.getElementsByTagNameNS(z,"plugin");for(d=0;d<e.length;d+=1)h=e.item(d),c(a,h)}function x(){var a;a=S.firstChild;var b=Z.getZoomLevel();a&&(S.style.WebkitTransformOrigin="0% 0%",S.style.MozTransformOrigin="0% 0%",S.style.msTransformOrigin="0% 0%",S.style.OTransformOrigin=
-"0% 0%",S.style.transformOrigin="0% 0%",A&&((a=A.getMinimumHeightForAnnotationPane())?S.style.minHeight=a:S.style.removeProperty("min-height")),q.style.width=Math.round(b*S.offsetWidth)+"px",q.style.height=Math.round(b*S.offsetHeight)+"px")}function ea(a){ma?(fa.parentNode||S.appendChild(fa),A&&A.forgetAnnotations(),A=new gui.AnnotationViewManager(I,a.body,fa,ca),D.getElementsByTagNameNS(a.body,u,"annotation").forEach(A.addAnnotation),A.rerenderAnnotations(),x()):fa.parentNode&&(S.removeChild(fa),
-A.forgetAnnotations(),x())}function P(e){function h(){k(R);k(aa);k(ia);b(q);q.style.display="inline-block";var l=M.rootElement;q.ownerDocument.importNode(l,!0);$.setOdfContainer(M);var g=M,m=R;(new odf.FontLoader).loadFonts(g,m.sheet);d(M,$,aa);m=M;g=ia.sheet;b(q);S=B.createElementNS(q.namespaceURI,"div");S.style.display="inline-block";S.style.background="white";S.style.setProperty("float","left","important");S.appendChild(l);q.appendChild(S);fa=B.createElementNS(q.namespaceURI,"div");fa.id="annotationsPane";
-ga=B.createElementNS(q.namespaceURI,"div");ga.id="shadowContent";ga.style.position="absolute";ga.style.top=0;ga.style.left=0;m.getContentElement().appendChild(ga);var v=l.body,w,x=[],D;for(w=v.firstElementChild;w&&w!==v;)if(w.namespaceURI===z&&(x[x.length]=w),w.firstElementChild)w=w.firstElementChild;else{for(;w&&w!==v&&!w.nextElementSibling;)w=w.parentNode;w&&w.nextElementSibling&&(w=w.nextElementSibling)}for(D=0;D<x.length;D+=1)w=x[D],f("frame"+String(D),w,g);x=T.getODFElementsWithXPath(v,".//*[*[@text:anchor-type='paragraph']]",
-odf.Namespaces.lookupNamespaceURI);for(w=0;w<x.length;w+=1)v=x[w],v.setAttributeNS&&v.setAttributeNS("urn:webodf:names:helper","containsparagraphanchor",!0);var v=ga,P,A,N;N=0;var I,K,x=m.rootElement.ownerDocument;if((w=l.body.firstElementChild)&&w.namespaceURI===u&&("presentation"===w.localName||"drawing"===w.localName))for(w=w.firstElementChild;w;){D=w.getAttributeNS(z,"master-page-name");if(D){for(P=m.rootElement.masterStyles.firstElementChild;P&&(P.getAttributeNS(t,"name")!==D||"master-page"!==
-P.localName||P.namespaceURI!==t);)P=P.nextElementSibling;D=P}else D=null;if(D){P=w.getAttributeNS("urn:webodf:names:helper","styleid");A=x.createElementNS(z,"draw:page");K=D.firstElementChild;for(I=0;K;)"true"!==K.getAttributeNS(H,"placeholder")&&(N=K.cloneNode(!0),A.appendChild(N),f(P+"_"+I,N,g)),K=K.nextElementSibling,I+=1;K=I=N=void 0;var Q=A.getElementsByTagNameNS(z,"frame");for(N=0;N<Q.length;N+=1)I=Q[N],(K=I.getAttributeNS(H,"class"))&&!/^(date-time|footer|header|page-number)$/.test(K)&&I.parentNode.removeChild(I);
-v.appendChild(A);N=String(v.getElementsByTagNameNS(z,"page").length);p(A,F,"page-number",N);p(A,H,"header",n(m,w,"header"));p(A,H,"footer",n(m,w,"footer"));f(P,A,g);A.setAttributeNS(z,"draw:master-page-name",D.getAttributeNS(t,"name"))}w=w.nextElementSibling}v=q.namespaceURI;x=l.body.getElementsByTagNameNS(y,"table-cell");for(w=0;w<x.length;w+=1)D=x.item(w),D.hasAttributeNS(y,"number-columns-spanned")&&D.setAttributeNS(v,"colspan",D.getAttributeNS(y,"number-columns-spanned")),D.hasAttributeNS(y,"number-rows-spanned")&&
-D.setAttributeNS(v,"rowspan",D.getAttributeNS(y,"number-rows-spanned"));r(l.body);a(l.body);c(l.body);s(m,l.body,g);L(m,l.body);D=l.body;m=q.namespaceURI;w={};var x={},V;P=U.document.getElementsByTagNameNS(F,"list-style");for(v=0;v<P.length;v+=1)I=P.item(v),(K=I.getAttributeNS(t,"name"))&&(x[K]=I);D=D.getElementsByTagNameNS(F,"list");for(v=0;v<D.length;v+=1)if(I=D.item(v),P=I.getAttributeNS(O,"id")){A=I.getAttributeNS(F,"continue-list");I.setAttributeNS(m,"id",P);N="text|list#"+P+" > text|list-item > *:first-child:before {";
-if(K=I.getAttributeNS(F,"style-name")){I=x[K];V=X.getFirstNonWhitespaceChild(I);I=void 0;if(V)if("list-level-style-number"===V.localName){I=V.getAttributeNS(t,"num-format");K=V.getAttributeNS(t,"num-suffix")||"";var Q="",Q={1:"decimal",a:"lower-latin",A:"upper-latin",i:"lower-roman",I:"upper-roman"},W=void 0,W=V.getAttributeNS(t,"num-prefix")||"",W=Q.hasOwnProperty(I)?W+(" counter(list, "+Q[I]+")"):I?W+("'"+I+"';"):W+" ''";K&&(W+=" '"+K+"'");I=Q="content: "+W+";"}else"list-level-style-image"===V.localName?
-I="content: none;":"list-level-style-bullet"===V.localName&&(I="content: '"+V.getAttributeNS(F,"bullet-char")+"';");V=I}if(A){for(I=w[A];I;)I=w[I];N+="counter-increment:"+A+";";V?(V=V.replace("list",A),N+=V):N+="content:counter("+A+");"}else A="",V?(V=V.replace("list",P),N+=V):N+="content: counter("+P+");",N+="counter-increment:"+P+";",g.insertRule("text|list#"+P+" {counter-reset:"+P+"}",g.cssRules.length);N+="}";w[P]=A;N&&g.insertRule(N,g.cssRules.length)}S.insertBefore(ga,S.firstChild);Z.setZoomableElement(S);
-ea(l);if(!e&&(l=[M],da.hasOwnProperty("statereadychange")))for(g=da.statereadychange,V=0;V<g.length;V+=1)g[V].apply(null,l)}M.state===odf.OdfContainer.DONE?h():(runtime.log("WARNING: refreshOdf called but ODF was not DONE."),la=runtime.setTimeout(function C(){M.state===odf.OdfContainer.DONE?h():(runtime.log("will be back later..."),la=runtime.setTimeout(C,500))},100))}function N(a){ka.clearQueue();q.innerHTML=runtime.tr("Loading")+" "+a+"...";q.removeAttribute("style");M=new odf.OdfContainer(a,function(a){M=
-a;P(!1)})}runtime.assert(null!==q&&void 0!==q,"odf.OdfCanvas constructor needs DOM element");runtime.assert(null!==q.ownerDocument&&void 0!==q.ownerDocument,"odf.OdfCanvas constructor needs DOM");var I=this,B=q.ownerDocument,V=new core.Async,M,$=new odf.Formatting,W,S=null,fa=null,ma=!1,ca=!1,A=null,Y,R,aa,ia,ga,da={},la,ja,na=!1,ha=!1,ka=new m,Z=new gui.ZoomHelper;this.refreshCSS=function(){na=!0;ja.trigger()};this.refreshSize=function(){ja.trigger()};this.odfContainer=function(){return M};this.setOdfContainer=
-function(a,b){M=a;P(!0===b)};this.load=this.load=N;this.save=function(a){M.save(a)};this.addListener=function(a,b){switch(a){case "click":var c=q,d=a;c.addEventListener?c.addEventListener(d,b,!1):c.attachEvent?c.attachEvent("on"+d,b):c["on"+d]=b;break;default:c=da.hasOwnProperty(a)?da[a]:da[a]=[],b&&-1===c.indexOf(b)&&c.push(b)}};this.getFormatting=function(){return $};this.getAnnotationViewManager=function(){return A};this.refreshAnnotations=function(){ea(M.rootElement)};this.rerenderAnnotations=
-function(){A&&(ha=!0,ja.trigger())};this.getSizer=function(){return S};this.enableAnnotations=function(a,b){a!==ma&&(ma=a,ca=b,M&&ea(M.rootElement))};this.addAnnotation=function(a){A&&(A.addAnnotation(a),x())};this.forgetAnnotations=function(){A&&(A.forgetAnnotations(),x())};this.getZoomHelper=function(){return Z};this.setZoomLevel=function(a){Z.setZoomLevel(a)};this.getZoomLevel=function(){return Z.getZoomLevel()};this.fitToContainingElement=function(a,b){var c=Z.getZoomLevel(),d=q.offsetHeight/
-c,c=a/(q.offsetWidth/c);b/d<c&&(c=b/d);Z.setZoomLevel(c)};this.fitToWidth=function(a){var b=q.offsetWidth/Z.getZoomLevel();Z.setZoomLevel(a/b)};this.fitSmart=function(a,b){var c,d;d=Z.getZoomLevel();c=q.offsetWidth/d;d=q.offsetHeight/d;c=a/c;void 0!==b&&b/d<c&&(c=b/d);Z.setZoomLevel(Math.min(1,c))};this.fitToHeight=function(a){var b=q.offsetHeight/Z.getZoomLevel();Z.setZoomLevel(a/b)};this.showFirstPage=function(){W.showFirstPage()};this.showNextPage=function(){W.showNextPage()};this.showPreviousPage=
-function(){W.showPreviousPage()};this.showPage=function(a){W.showPage(a);x()};this.getElement=function(){return q};this.addCssForFrameWithImage=function(a){var b=a.getAttributeNS(z,"name"),c=a.firstElementChild;f(b,a,ia.sheet);c&&e(b+"img",M,c,ia.sheet)};this.destroy=function(a){var b=B.getElementsByTagName("head")[0],c=[W.destroy,ja.destroy];runtime.clearTimeout(la);fa&&fa.parentNode&&fa.parentNode.removeChild(fa);Z.destroy(function(){S&&(q.removeChild(S),S=null)});v(Y);b.removeChild(R);b.removeChild(aa);
-b.removeChild(ia);V.destroyAll(c,a)};Y=h(B);W=new g(w(B));R=w(B);aa=w(B);ia=w(B);ja=new core.ScheduledTask(function(){na&&(d(M,$,aa),na=!1);ha&&(A&&A.rerenderAnnotations(),ha=!1);x()},0);Z.subscribe(gui.ZoomHelper.signalZoomChanged,x)}})();
-// Input 36
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.MemberProperties=function(){};
-ops.Member=function(m,g){var b=new ops.MemberProperties;this.getMemberId=function(){return m};this.getProperties=function(){return b};this.setProperties=function(k){Object.keys(k).forEach(function(d){b[d]=k[d]})};this.removeProperties=function(k){Object.keys(k).forEach(function(d){"fullName"!==d&&"color"!==d&&"imageUrl"!==d&&b.hasOwnProperty(d)&&delete b[d]})};runtime.assert(Boolean(m),"No memberId was supplied!");g.fullName||(g.fullName=runtime.tr("Unknown Author"));g.color||(g.color="black");g.imageUrl||
-(g.imageUrl="avatar-joe.png");b=g};
-// Input 37
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.SelectionMover=function(m,g){function b(){r.setUnfilteredPosition(m.getNode(),0);return r}function k(a,b){var d,e=null;a&&0<a.length&&(d=b?a.item(a.length-1):a.item(0));d&&(e={top:d.top,left:b?d.right:d.left,bottom:d.bottom});return e}function d(a,b,e,f){var n=a.nodeType;e.setStart(a,b);e.collapse(!f);f=k(e.getClientRects(),!0===f);!f&&0<b&&(e.setStart(a,b-1),e.setEnd(a,b),f=k(e.getClientRects(),!0));f||(n===Node.ELEMENT_NODE&&0<b&&a.childNodes.length>=b?f=d(a,b-1,e,!0):a.nodeType===Node.TEXT_NODE&&
-0<b?f=d(a,b-1,e,!0):a.previousSibling?f=d(a.previousSibling,a.previousSibling.nodeType===Node.TEXT_NODE?a.previousSibling.textContent.length:a.previousSibling.childNodes.length,e,!0):a.parentNode&&a.parentNode!==g?f=d(a.parentNode,0,e,!1):(e.selectNode(g),f=k(e.getClientRects(),!1)));runtime.assert(Boolean(f),"No visible rectangle found");return f}function n(c,d,e){for(var f=b(),k=new core.LoopWatchDog(1E4),g=0,n=0;0<c&&f.nextPosition();)k.check(),e.acceptPosition(f)===a&&(g+=1,d.acceptPosition(f)===
-a&&(n+=g,g=0,c-=1));return n}function p(c,d,e){for(var f=b(),k=new core.LoopWatchDog(1E4),g=0,n=0;0<c&&f.previousPosition();)k.check(),e.acceptPosition(f)===a&&(g+=1,d.acceptPosition(f)===a&&(n+=g,g=0,c-=1));return n}function f(c,e){var h=b(),f=0,k=0,n=0>c?-1:1;for(c=Math.abs(c);0<c;){for(var m=e,p=n,r=h,q=r.container(),y=0,F=null,L=void 0,O=10,H=void 0,U=0,T=void 0,X=void 0,D=void 0,H=void 0,ba=g.ownerDocument.createRange(),G=new core.LoopWatchDog(1E4),H=d(q,r.unfilteredDomOffset(),ba),T=H.top,X=
-H.left,D=T;!0===(0>p?r.previousPosition():r.nextPosition());)if(G.check(),m.acceptPosition(r)===a&&(y+=1,q=r.container(),H=d(q,r.unfilteredDomOffset(),ba),H.top!==T)){if(H.top!==D&&D!==T)break;D=H.top;H=Math.abs(X-H.left);if(null===F||H<O)F=q,L=r.unfilteredDomOffset(),O=H,U=y}null!==F?(r.setUnfilteredPosition(F,L),y=U):y=0;ba.detach();f+=y;if(0===f)break;k+=f;c-=1}return k*n}function q(c,f){var h,k,n,m,p=b(),r=e.getParagraphElement(p.getCurrentNode()),q=0,s=g.ownerDocument.createRange();0>c?(h=p.previousPosition,
-k=-1):(h=p.nextPosition,k=1);for(n=d(p.container(),p.unfilteredDomOffset(),s);h.call(p);)if(f.acceptPosition(p)===a){if(e.getParagraphElement(p.getCurrentNode())!==r)break;m=d(p.container(),p.unfilteredDomOffset(),s);if(m.bottom!==n.bottom&&(n=m.top>=n.top&&m.bottom<n.bottom||m.top<=n.top&&m.bottom>n.bottom,!n))break;q+=k;n=m}s.detach();return q}var e=new odf.OdfUtils,r,a=core.PositionFilter.FilterResult.FILTER_ACCEPT;this.getStepCounter=function(){return{convertForwardStepsBetweenFilters:n,convertBackwardStepsBetweenFilters:p,
-countLinesSteps:f,countStepsToLineBoundary:q}};(function(){r=gui.SelectionMover.createPositionIterator(g);var a=g.ownerDocument.createRange();a.setStart(r.container(),r.unfilteredDomOffset());a.collapse(!0);m.setSelectedRange(a)})()};
-gui.SelectionMover.createPositionIterator=function(m){var g=new function(){this.acceptNode=function(b){return b&&"urn:webodf:names:cursor"!==b.namespaceURI&&"urn:webodf:names:editinfo"!==b.namespaceURI?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}};return new core.PositionIterator(m,5,g,!1)};(function(){return gui.SelectionMover})();
-// Input 38
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.Document=function(){};ops.Document.prototype.getMemberIds=function(){};ops.Document.prototype.removeCursor=function(m){};ops.Document.prototype.getDocumentElement=function(){};ops.Document.prototype.getRootNode=function(){};ops.Document.prototype.getDOMDocument=function(){};ops.Document.prototype.cloneDocumentElement=function(){};ops.Document.prototype.setDocumentElement=function(m){};ops.Document.prototype.subscribe=function(m,g){};ops.Document.prototype.unsubscribe=function(m,g){};
-ops.Document.prototype.getCanvas=function(){};ops.Document.prototype.createRootFilter=function(m){};ops.Document.signalCursorAdded="cursor/added";ops.Document.signalCursorRemoved="cursor/removed";ops.Document.signalCursorMoved="cursor/moved";ops.Document.signalMemberAdded="member/added";ops.Document.signalMemberUpdated="member/updated";ops.Document.signalMemberRemoved="member/removed";
-// Input 39
-ops.OdtCursor=function(m,g){var b=this,k={},d,n,p,f=new core.EventNotifier([ops.OdtCursor.signalCursorUpdated]);this.removeFromDocument=function(){p.remove()};this.subscribe=function(b,d){f.subscribe(b,d)};this.unsubscribe=function(b,d){f.unsubscribe(b,d)};this.getStepCounter=function(){return n.getStepCounter()};this.getMemberId=function(){return m};this.getNode=function(){return p.getNode()};this.getAnchorNode=function(){return p.getAnchorNode()};this.getSelectedRange=function(){return p.getSelectedRange()};
-this.setSelectedRange=function(d,e){p.setSelectedRange(d,e);f.emit(ops.OdtCursor.signalCursorUpdated,b)};this.hasForwardSelection=function(){return p.hasForwardSelection()};this.getDocument=function(){return g};this.getSelectionType=function(){return d};this.setSelectionType=function(b){k.hasOwnProperty(b)?d=b:runtime.log("Invalid selection type: "+b)};this.resetSelectionType=function(){b.setSelectionType(ops.OdtCursor.RangeSelection)};p=new core.Cursor(g.getDOMDocument(),m);n=new gui.SelectionMover(p,
-g.getRootNode());k[ops.OdtCursor.RangeSelection]=!0;k[ops.OdtCursor.RegionSelection]=!0;b.resetSelectionType()};ops.OdtCursor.RangeSelection="Range";ops.OdtCursor.RegionSelection="Region";ops.OdtCursor.signalCursorUpdated="cursorUpdated";(function(){return ops.OdtCursor})();
-// Input 40
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.Operation=function(){};ops.Operation.prototype.init=function(m){};ops.Operation.prototype.execute=function(m){};ops.Operation.prototype.spec=function(){};
-// Input 41
-/*
-
- Copyright (C) 2010-2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function(){var m=0;ops.StepsCache=function(g,b,k){function d(a,c,d){this.nodeId=a;this.steps=c;this.node=d;this.previousBookmark=this.nextBookmark=null;this.setIteratorPosition=function(a){a.setPositionBeforeElement(d);do if(b.acceptPosition(a)===t)break;while(a.nextPosition())}}function n(a,c,d){this.nodeId=a;this.steps=c;this.node=d;this.previousBookmark=this.nextBookmark=null;this.setIteratorPosition=function(a){a.setUnfilteredPosition(d,0);do if(b.acceptPosition(a)===t)break;while(a.nextPosition())}}
-function p(a,b){var c="["+a.nodeId;b&&(c+=" => "+b.nodeId);return c+"]"}function f(){for(var a=x,b,c,d,e=new core.LoopWatchDog(0,1E5);a;){e.check();(b=a.previousBookmark)?runtime.assert(b.nextBookmark===a,"Broken bookmark link to previous @"+p(b,a)):(runtime.assert(a===x,"Broken bookmark link @"+p(a)),runtime.assert(void 0===u||x.steps<=u,"Base point is damaged @"+p(a)));(c=a.nextBookmark)&&runtime.assert(c.previousBookmark===a,"Broken bookmark link to next @"+p(a,c));if(void 0===u||a.steps<=u)runtime.assert(z.containsNode(g,
-a.node),"Disconnected node is being reported as undamaged @"+p(a)),b&&(d=a.node.compareDocumentPosition(b.node),runtime.assert(0===d||0!==(d&Node.DOCUMENT_POSITION_PRECEDING),"Bookmark order with previous does not reflect DOM order @"+p(b,a))),c&&z.containsNode(g,c.node)&&(d=a.node.compareDocumentPosition(c.node),runtime.assert(0===d||0!==(d&Node.DOCUMENT_POSITION_FOLLOWING),"Bookmark order with next does not reflect DOM order @"+p(a,c)));a=a.nextBookmark}}function q(a){var b="";a.nodeType===Node.ELEMENT_NODE&&
-(b=a.getAttributeNS(l,"nodeId"));return b}function e(a){var b=m.toString();a.setAttributeNS(l,"nodeId",b);m+=1;return b}function r(a){var b,c,d=new core.LoopWatchDog(0,1E4);void 0!==u&&a>u&&(a=u);for(b=Math.floor(a/k)*k;!c&&0!==b;)c=h[b],b-=k;for(c=c||x;c.nextBookmark&&c.nextBookmark.steps<=a;)d.check(),c=c.nextBookmark;return c}function a(a){a.previousBookmark&&(a.previousBookmark.nextBookmark=a.nextBookmark);a.nextBookmark&&(a.nextBookmark.previousBookmark=a.previousBookmark)}function c(a){for(var b,
-c=null;!c&&a&&a!==g;)(b=q(a))&&(c=v[b])&&c.node!==a&&(runtime.log("Cloned node detected. Creating new bookmark"),c=null,a.removeAttributeNS(l,"nodeId")),a=a.parentNode;return c}var l="urn:webodf:names:steps",h={},v={},w=new odf.OdfUtils,z=new core.DomUtils,x,u,t=core.PositionFilter.FilterResult.FILTER_ACCEPT,s;this.updateCache=function(b,c,f){var l;l=c.getCurrentNode();if(c.isBeforeNode()&&w.isParagraph(l)){f||(b+=1);c=b;var n,m,p;if(void 0!==u&&u<c){n=r(u);for(f=n.nextBookmark;f&&f.steps<=c;)m=f.nextBookmark,
-p=Math.ceil(f.steps/k)*k,h[p]===f&&delete h[p],z.containsNode(g,f.node)?f.steps=c+1:(a(f),delete v[f.nodeId]),f=m;u=c}else n=r(c);c=n;f=q(l)||e(l);(n=v[f])?n.node===l?n.steps=b:(runtime.log("Cloned node detected. Creating new bookmark"),f=e(l),n=v[f]=new d(f,b,l)):n=v[f]=new d(f,b,l);l=n;c!==l&&c.nextBookmark!==l&&(a(l),b=c.nextBookmark,l.nextBookmark=c.nextBookmark,l.previousBookmark=c,c.nextBookmark=l,b&&(b.previousBookmark=l));b=Math.ceil(l.steps/k)*k;c=h[b];if(!c||l.steps>c.steps)h[b]=l;s()}};
-this.setToClosestStep=function(a,b){var c;s();c=r(a);c.setIteratorPosition(b);return c.steps};this.setToClosestDomPoint=function(a,b,d){var e,f;s();if(a===g&&0===b)e=x;else if(a===g&&b===g.childNodes.length)for(f in e=x,h)h.hasOwnProperty(f)&&(a=h[f],a.steps>e.steps&&(e=a));else if(e=c(a.childNodes.item(b)||a),!e)for(d.setUnfilteredPosition(a,b);!e&&d.previousNode();)e=c(d.getCurrentNode());e=e||x;void 0!==u&&e.steps>u&&(e=r(u));e.setIteratorPosition(d);return e.steps};this.damageCacheAfterStep=function(a){0>
-a&&(a=0);void 0===u?u=a:a<u&&(u=a);s()};(function(){var a=q(g)||e(g);x=new n(a,0,g);s=ops.StepsCache.ENABLE_CACHE_VERIFICATION?f:function(){}})()};ops.StepsCache.ENABLE_CACHE_VERIFICATION=!1;ops.StepsCache.Bookmark=function(){};ops.StepsCache.Bookmark.prototype.setIteratorPosition=function(g){}})();
-// Input 42
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-(function(){ops.StepsTranslator=function(m,g,b,k){function d(){var a=m();a!==p&&(runtime.log("Undo detected. Resetting steps cache"),p=a,f=new ops.StepsCache(p,b,k),e=g(p))}function n(a,c){if(!c||b.acceptPosition(a)===r)return!0;for(;a.previousPosition();)if(b.acceptPosition(a)===r){if(c(0,a.container(),a.unfilteredDomOffset()))return!0;break}for(;a.nextPosition();)if(b.acceptPosition(a)===r){if(c(1,a.container(),a.unfilteredDomOffset()))return!0;break}return!1}var p=m(),f=new ops.StepsCache(p,b,
-k),q=new core.DomUtils,e=g(m()),r=core.PositionFilter.FilterResult.FILTER_ACCEPT;this.convertStepsToDomPoint=function(a){var c,l;if(isNaN(a))throw new TypeError("Requested steps is not numeric ("+a+")");if(0>a)throw new RangeError("Requested steps is negative ("+a+")");d();for(c=f.setToClosestStep(a,e);c<a&&e.nextPosition();)(l=b.acceptPosition(e)===r)&&(c+=1),f.updateCache(c,e,l);if(c!==a)throw new RangeError("Requested steps ("+a+") exceeds available steps ("+c+")");return{node:e.container(),offset:e.unfilteredDomOffset()}};
-this.convertDomPointToSteps=function(a,c,l){var h;d();q.containsNode(p,a)||(c=0>q.comparePoints(p,0,a,c),a=p,c=c?0:p.childNodes.length);e.setUnfilteredPosition(a,c);n(e,l)||e.setUnfilteredPosition(a,c);l=e.container();c=e.unfilteredDomOffset();a=f.setToClosestDomPoint(l,c,e);if(0>q.comparePoints(e.container(),e.unfilteredDomOffset(),l,c))return 0<a?a-1:a;for(;(e.container()!==l||e.unfilteredDomOffset()!==c)&&e.nextPosition();)(h=b.acceptPosition(e)===r)&&(a+=1),f.updateCache(a,e,h);return a+0};this.prime=
-function(){var a,c;d();for(a=f.setToClosestStep(0,e);e.nextPosition();)(c=b.acceptPosition(e)===r)&&(a+=1),f.updateCache(a,e,c)};this.handleStepsInserted=function(a){d();f.damageCacheAfterStep(a.position)};this.handleStepsRemoved=function(a){d();f.damageCacheAfterStep(a.position-1)}};ops.StepsTranslator.PREVIOUS_STEP=0;ops.StepsTranslator.NEXT_STEP=1;return ops.StepsTranslator})();
-// Input 43
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.TextPositionFilter=function(m){function g(d,k,e){var g,a;if(k){if(b.isInlineRoot(k)&&b.isGroupingElement(e))return p;g=b.lookLeftForCharacter(k);if(1===g||2===g&&(b.scanRightForAnyCharacter(e)||b.scanRightForAnyCharacter(b.nextNode(d))))return n}g=null===k&&b.isParagraph(d);a=b.lookRightForCharacter(e);if(g)return a?n:b.scanRightForAnyCharacter(e)?p:n;if(!a)return p;k=k||b.previousNode(d);return b.scanLeftForAnyCharacter(k)?p:n}var b=new odf.OdfUtils,k=Node.ELEMENT_NODE,d=Node.TEXT_NODE,n=core.PositionFilter.FilterResult.FILTER_ACCEPT,
-p=core.PositionFilter.FilterResult.FILTER_REJECT;this.acceptPosition=function(f){var q=f.container(),e=q.nodeType,r,a,c;if(e!==k&&e!==d)return p;if(e===d){if(!b.isGroupingElement(q.parentNode)||b.isWithinTrackedChanges(q.parentNode,m()))return p;e=f.unfilteredDomOffset();r=q.data;runtime.assert(e!==r.length,"Unexpected offset.");if(0<e){f=r[e-1];if(!b.isODFWhitespace(f))return n;if(1<e)if(f=r[e-2],!b.isODFWhitespace(f))a=n;else{if(!b.isODFWhitespace(r.substr(0,e)))return p}else c=b.previousNode(q),
-b.scanLeftForNonSpace(c)&&(a=n);if(a===n)return b.isTrailingWhitespace(q,e)?p:n;a=r[e];return b.isODFWhitespace(a)?p:b.scanLeftForAnyCharacter(b.previousNode(q))?p:n}c=f.leftNode();a=q;q=q.parentNode;a=g(q,c,a)}else!b.isGroupingElement(q)||b.isWithinTrackedChanges(q,m())?a=p:(c=f.leftNode(),a=f.rightNode(),a=g(q,c,a));return a}};
-// Input 44
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OdtDocument=function(m){function g(){var a=m.odfContainer().getContentElement(),b=a&&a.localName;runtime.assert("text"===b,"Unsupported content element type '"+b+"' for OdtDocument");return a}function b(){return a.getDocumentElement().ownerDocument}function k(a){for(;a&&!(a.namespaceURI===odf.Namespaces.officens&&"text"===a.localName||a.namespaceURI===odf.Namespaces.officens&&"annotation"===a.localName);)a=a.parentNode;return a}function d(a){this.acceptPosition=function(b){b=b.container();var c;
-c="string"===typeof a?h[a].getNode():a;return k(b)===k(c)?z:x}}function n(a,b,c,d){d=gui.SelectionMover.createPositionIterator(d);var e;1===c.length?e=c[0]:(e=new core.PositionFilterChain,c.forEach(e.addFilter));c=new core.StepIterator(e,d);c.setPosition(a,b);return c}function p(a){var b=gui.SelectionMover.createPositionIterator(g());a=t.convertStepsToDomPoint(a);b.setUnfilteredPosition(a.node,a.offset);return b}function f(a){return c.getParagraphElement(a)}function q(a,b){return m.getFormatting().getStyleElement(a,
-b)}function e(a){return q(a,"paragraph")}function r(a,b,c){a=a.childNodes.item(b)||a;return(a=f(a))&&l.containsNode(c,a)?a:c}var a=this,c,l,h={},v={},w=new core.EventNotifier([ops.Document.signalMemberAdded,ops.Document.signalMemberUpdated,ops.Document.signalMemberRemoved,ops.Document.signalCursorAdded,ops.Document.signalCursorRemoved,ops.Document.signalCursorMoved,ops.OdtDocument.signalParagraphChanged,ops.OdtDocument.signalParagraphStyleModified,ops.OdtDocument.signalCommonStyleCreated,ops.OdtDocument.signalCommonStyleDeleted,
-ops.OdtDocument.signalTableAdded,ops.OdtDocument.signalOperationStart,ops.OdtDocument.signalOperationEnd,ops.OdtDocument.signalProcessingBatchStart,ops.OdtDocument.signalProcessingBatchEnd,ops.OdtDocument.signalUndoStackChanged,ops.OdtDocument.signalStepsInserted,ops.OdtDocument.signalStepsRemoved]),z=core.PositionFilter.FilterResult.FILTER_ACCEPT,x=core.PositionFilter.FilterResult.FILTER_REJECT,u,t,s;this.getDocumentElement=function(){return m.odfContainer().rootElement};this.getDOMDocument=function(){return this.getDocumentElement().ownerDocument};
-this.cloneDocumentElement=function(){var b=a.getDocumentElement(),c=m.getAnnotationViewManager();c&&c.forgetAnnotations();b=b.cloneNode(!0);m.refreshAnnotations();return b};this.setDocumentElement=function(a){var b=m.odfContainer();b.setRootElement(a);m.setOdfContainer(b,!0);m.refreshCSS()};this.getDOMDocument=b;this.getRootElement=k;this.createStepIterator=n;this.getIteratorAtPosition=p;this.convertDomPointToCursorStep=function(a,b,c){return t.convertDomPointToSteps(a,b,c)};this.convertDomToCursorRange=
-function(a,b){var c,d;c=b&&b(a.anchorNode,a.anchorOffset);c=t.convertDomPointToSteps(a.anchorNode,a.anchorOffset,c);b||a.anchorNode!==a.focusNode||a.anchorOffset!==a.focusOffset?(d=b&&b(a.focusNode,a.focusOffset),d=t.convertDomPointToSteps(a.focusNode,a.focusOffset,d)):d=c;return{position:c,length:d-c}};this.convertCursorToDomRange=function(a,c){var d=b().createRange(),e,h;e=t.convertStepsToDomPoint(a);c?(h=t.convertStepsToDomPoint(a+c),0<c?(d.setStart(e.node,e.offset),d.setEnd(h.node,h.offset)):
-(d.setStart(h.node,h.offset),d.setEnd(e.node,e.offset))):d.setStart(e.node,e.offset);return d};this.getStyleElement=q;this.upgradeWhitespacesAtPosition=function(a){a=p(a);var b,d,e;a.previousPosition();a.previousPosition();for(e=-1;1>=e;e+=1){b=a.container();d=a.unfilteredDomOffset();if(b.nodeType===Node.TEXT_NODE&&" "===b.data[d]&&c.isSignificantWhitespace(b,d)){runtime.assert(" "===b.data[d],"upgradeWhitespaceToElement: textNode.data[offset] should be a literal space");var h=b.ownerDocument.createElementNS(odf.Namespaces.textns,
-"text:s"),f=b.parentNode,l=b;h.appendChild(b.ownerDocument.createTextNode(" "));1===b.length?f.replaceChild(h,b):(b.deleteData(d,1),0<d&&(d<b.length&&b.splitText(d),l=b.nextSibling),f.insertBefore(h,l));b=h;a.moveToEndOfNode(b)}a.nextPosition()}};this.downgradeWhitespacesAtPosition=function(a){var b=p(a),d;a=b.container();for(b=b.unfilteredDomOffset();!c.isSpaceElement(a)&&a.childNodes.item(b);)a=a.childNodes.item(b),b=0;a.nodeType===Node.TEXT_NODE&&(a=a.parentNode);c.isDowngradableSpaceElement(a)&&
-(b=a.firstChild,d=a.lastChild,l.mergeIntoParent(a),d!==b&&l.normalizeTextNodes(d),l.normalizeTextNodes(b))};this.getParagraphStyleElement=e;this.getParagraphElement=f;this.getParagraphStyleAttributes=function(a){return(a=e(a))?m.getFormatting().getInheritedStyleAttributes(a,!1):null};this.getTextNodeAtStep=function(c,d){var e=p(c),f=e.container(),l,k=0,g=null;f.nodeType===Node.TEXT_NODE?(l=f,k=e.unfilteredDomOffset(),0<l.length&&(0<k&&(l=l.splitText(k)),l.parentNode.insertBefore(b().createTextNode(""),
-l),l=l.previousSibling,k=0)):(l=b().createTextNode(""),k=0,f.insertBefore(l,e.rightNode()));if(d){if(h[d]&&a.getCursorPosition(d)===c){for(g=h[d].getNode();g.nextSibling&&"cursor"===g.nextSibling.localName;)g.parentNode.insertBefore(g.nextSibling,g);0<l.length&&l.nextSibling!==g&&(l=b().createTextNode(""),k=0);g.parentNode.insertBefore(l,g)}}else for(;l.nextSibling&&"cursor"===l.nextSibling.localName;)l.parentNode.insertBefore(l.nextSibling,l);for(;l.previousSibling&&l.previousSibling.nodeType===
-Node.TEXT_NODE;)e=l.previousSibling,e.appendData(l.data),k=e.length,l=e,l.parentNode.removeChild(l.nextSibling);for(;l.nextSibling&&l.nextSibling.nodeType===Node.TEXT_NODE;)e=l.nextSibling,l.appendData(e.data),l.parentNode.removeChild(e);return{textNode:l,offset:k}};this.fixCursorPositions=function(){Object.keys(h).forEach(function(b){var c=h[b],d=k(c.getNode()),e=a.createRootFilter(d),f,l,g,m=!1;g=c.getSelectedRange();f=r(g.startContainer,g.startOffset,d);l=n(g.startContainer,g.startOffset,[u,e],
-f);g.collapsed?d=l:(f=r(g.endContainer,g.endOffset,d),d=n(g.endContainer,g.endOffset,[u,e],f));l.isStep()&&d.isStep()?l.container()!==d.container()||l.offset()!==d.offset()||g.collapsed&&c.getAnchorNode()===c.getNode()||(m=!0,g.setStart(l.container(),l.offset()),g.collapse(!0)):(m=!0,runtime.assert(l.roundToClosestStep(),"No walkable step found for cursor owned by "+b),g.setStart(l.container(),l.offset()),runtime.assert(d.roundToClosestStep(),"No walkable step found for cursor owned by "+b),g.setEnd(d.container(),
-d.offset()));m&&(c.setSelectedRange(g,c.hasForwardSelection()),a.emit(ops.Document.signalCursorMoved,c))})};this.getCursorPosition=function(a){return(a=h[a])?t.convertDomPointToSteps(a.getNode(),0):0};this.getCursorSelection=function(a){a=h[a];var b=0,c=0;a&&(b=t.convertDomPointToSteps(a.getNode(),0),c=t.convertDomPointToSteps(a.getAnchorNode(),0));return{position:c,length:b-c}};this.getPositionFilter=function(){return u};this.getOdfCanvas=function(){return m};this.getCanvas=function(){return m};
-this.getRootNode=g;this.addMember=function(a){runtime.assert(void 0===v[a.getMemberId()],"This member already exists");v[a.getMemberId()]=a};this.getMember=function(a){return v.hasOwnProperty(a)?v[a]:null};this.removeMember=function(a){delete v[a]};this.getCursor=function(a){return h[a]};this.getMemberIds=function(){var a=[],b;for(b in h)h.hasOwnProperty(b)&&a.push(h[b].getMemberId());return a};this.addCursor=function(b){runtime.assert(Boolean(b),"OdtDocument::addCursor without cursor");var c=b.getMemberId(),
-d=a.convertCursorToDomRange(0,0);runtime.assert("string"===typeof c,"OdtDocument::addCursor has cursor without memberid");runtime.assert(!h[c],"OdtDocument::addCursor is adding a duplicate cursor with memberid "+c);b.setSelectedRange(d,!0);h[c]=b};this.removeCursor=function(b){var c=h[b];return c?(c.removeFromDocument(),delete h[b],a.emit(ops.Document.signalCursorRemoved,b),!0):!1};this.moveCursor=function(b,c,d,e){b=h[b];c=a.convertCursorToDomRange(c,d);b&&(b.setSelectedRange(c,0<=d),b.setSelectionType(e||
-ops.OdtCursor.RangeSelection))};this.getFormatting=function(){return m.getFormatting()};this.emit=function(a,b){w.emit(a,b)};this.subscribe=function(a,b){w.subscribe(a,b)};this.unsubscribe=function(a,b){w.unsubscribe(a,b)};this.createRootFilter=function(a){return new d(a)};this.close=function(a){a()};this.destroy=function(a){a()};u=new ops.TextPositionFilter(g);c=new odf.OdfUtils;l=new core.DomUtils;t=new ops.StepsTranslator(g,gui.SelectionMover.createPositionIterator,u,500);w.subscribe(ops.OdtDocument.signalStepsInserted,
-t.handleStepsInserted);w.subscribe(ops.OdtDocument.signalStepsRemoved,t.handleStepsRemoved);w.subscribe(ops.OdtDocument.signalOperationEnd,function(b){var c=b.spec(),d=c.memberid,c=(new Date(c.timestamp)).toISOString(),e=m.odfContainer();b.isEdit&&(d=a.getMember(d).getProperties().fullName,e.setMetadata({"dc:creator":d,"dc:date":c},null),s||(e.incrementEditingCycles(),e.setMetadata(null,["meta:editing-duration","meta:document-statistic"])),s=b)})};ops.OdtDocument.signalParagraphChanged="paragraph/changed";
-ops.OdtDocument.signalTableAdded="table/added";ops.OdtDocument.signalCommonStyleCreated="style/created";ops.OdtDocument.signalCommonStyleDeleted="style/deleted";ops.OdtDocument.signalParagraphStyleModified="paragraphstyle/modified";ops.OdtDocument.signalOperationStart="operation/start";ops.OdtDocument.signalOperationEnd="operation/end";ops.OdtDocument.signalProcessingBatchStart="router/batchstart";ops.OdtDocument.signalProcessingBatchEnd="router/batchend";ops.OdtDocument.signalUndoStackChanged="undo/changed";
-ops.OdtDocument.signalStepsInserted="steps/inserted";ops.OdtDocument.signalStepsRemoved="steps/removed";(function(){return ops.OdtDocument})();
-// Input 45
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpAddAnnotation=function(){function m(b,d,e){var k=b.getTextNodeAtStep(e,g);k&&(b=k.textNode,e=b.parentNode,k.offset!==b.length&&b.splitText(k.offset),e.insertBefore(d,b.nextSibling),0===b.length&&e.removeChild(b))}var g,b,k,d,n,p;this.init=function(f){g=f.memberid;b=parseInt(f.timestamp,10);k=parseInt(f.position,10);d=parseInt(f.length,10)||0;n=f.name};this.isEdit=!0;this.group=void 0;this.execute=function(f){var q=f.getCursor(g),e,r;r=new core.DomUtils;p=f.getDOMDocument();var a=new Date(b),
-c,l,h,v;c=p.createElementNS(odf.Namespaces.officens,"office:annotation");c.setAttributeNS(odf.Namespaces.officens,"office:name",n);e=p.createElementNS(odf.Namespaces.dcns,"dc:creator");e.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",g);e.textContent=f.getMember(g).getProperties().fullName;l=p.createElementNS(odf.Namespaces.dcns,"dc:date");l.appendChild(p.createTextNode(a.toISOString()));a=p.createElementNS(odf.Namespaces.textns,"text:list");h=p.createElementNS(odf.Namespaces.textns,
-"text:list-item");v=p.createElementNS(odf.Namespaces.textns,"text:p");h.appendChild(v);a.appendChild(h);c.appendChild(e);c.appendChild(l);c.appendChild(a);d&&(e=p.createElementNS(odf.Namespaces.officens,"office:annotation-end"),e.setAttributeNS(odf.Namespaces.officens,"office:name",n),c.annotationEndElement=e,m(f,e,k+d));m(f,c,k);f.emit(ops.OdtDocument.signalStepsInserted,{position:k,length:d});q&&(e=p.createRange(),r=r.getElementsByTagNameNS(c,odf.Namespaces.textns,"p")[0],e.selectNodeContents(r),
-q.setSelectedRange(e,!1),f.emit(ops.Document.signalCursorMoved,q));f.getOdfCanvas().addAnnotation(c);f.fixCursorPositions();return!0};this.spec=function(){return{optype:"AddAnnotation",memberid:g,timestamp:b,position:k,length:d,name:n}}};
-// Input 46
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpAddCursor=function(){var m,g;this.init=function(b){m=b.memberid;g=b.timestamp};this.isEdit=!1;this.group=void 0;this.execute=function(b){var g=b.getCursor(m);if(g)return!1;g=new ops.OdtCursor(m,b);b.addCursor(g);b.emit(ops.Document.signalCursorAdded,g);return!0};this.spec=function(){return{optype:"AddCursor",memberid:m,timestamp:g}}};
-// Input 47
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpAddMember=function(){var m,g,b;this.init=function(k){m=k.memberid;g=parseInt(k.timestamp,10);b=k.setProperties};this.isEdit=!1;this.group=void 0;this.execute=function(g){var d;if(g.getMember(m))return!1;d=new ops.Member(m,b);g.addMember(d);g.emit(ops.Document.signalMemberAdded,d);return!0};this.spec=function(){return{optype:"AddMember",memberid:m,timestamp:g,setProperties:b}}};
-// Input 48
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpAddStyle=function(){var m,g,b,k,d,n,p=odf.Namespaces.stylens;this.init=function(f){m=f.memberid;g=f.timestamp;b=f.styleName;k=f.styleFamily;d="true"===f.isAutomaticStyle||!0===f.isAutomaticStyle;n=f.setProperties};this.isEdit=!0;this.group=void 0;this.execute=function(f){var g=f.getOdfCanvas().odfContainer(),e=f.getFormatting(),m=f.getDOMDocument().createElementNS(p,"style:style");if(!m)return!1;n&&e.updateStyle(m,n);m.setAttributeNS(p,"style:family",k);m.setAttributeNS(p,"style:name",b);d?
-g.rootElement.automaticStyles.appendChild(m):g.rootElement.styles.appendChild(m);f.getOdfCanvas().refreshCSS();d||f.emit(ops.OdtDocument.signalCommonStyleCreated,{name:b,family:k});return!0};this.spec=function(){return{optype:"AddStyle",memberid:m,timestamp:g,styleName:b,styleFamily:k,isAutomaticStyle:d,setProperties:n}}};
-// Input 49
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.ObjectNameGenerator=function(m,g){function b(a,b){var c={};this.generateName=function(){var d=b(),e=0,f;do f=a+e,e+=1;while(c[f]||d[f]);c[f]=!0;return f}}function k(){var a={};[m.rootElement.automaticStyles,m.rootElement.styles].forEach(function(b){for(b=b.firstElementChild;b;)b.namespaceURI===d&&"style"===b.localName&&(a[b.getAttributeNS(d,"name")]=!0),b=b.nextElementSibling});return a}var d=odf.Namespaces.stylens,n=odf.Namespaces.drawns,p=odf.Namespaces.xlinkns,f=new core.DomUtils,q=(new core.Utils).hashString(g),
-e=null,r=null,a=null,c={},l={};this.generateStyleName=function(){null===e&&(e=new b("auto"+q+"_",function(){return k()}));return e.generateName()};this.generateFrameName=function(){null===r&&(f.getElementsByTagNameNS(m.rootElement.body,n,"frame").forEach(function(a){c[a.getAttributeNS(n,"name")]=!0}),r=new b("fr"+q+"_",function(){return c}));return r.generateName()};this.generateImageName=function(){null===a&&(f.getElementsByTagNameNS(m.rootElement.body,n,"image").forEach(function(a){a=a.getAttributeNS(p,
-"href");a=a.substring(9,a.lastIndexOf("."));l[a]=!0}),a=new b("img"+q+"_",function(){return l}));return a.generateName()}};
-// Input 50
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.TextStyleApplicator=function(m,g,b){function k(b){function d(a,b){return"object"===typeof a&&"object"===typeof b?Object.keys(a).every(function(e){return d(a[e],b[e])}):a===b}var a={};this.isStyleApplied=function(c){c=g.getAppliedStylesForElement(c,a);return d(b,c)}}function d(d){var k={};this.applyStyleToContainer=function(a){var c;c=a.getAttributeNS(f,"style-name");var l=a.ownerDocument;c=c||"";if(!k.hasOwnProperty(c)){var h=c,n;n=c?g.createDerivedStyleObject(c,"text",d):d;l=l.createElementNS(q,
-"style:style");g.updateStyle(l,n);l.setAttributeNS(q,"style:name",m.generateStyleName());l.setAttributeNS(q,"style:family","text");l.setAttributeNS("urn:webodf:names:scope","scope","document-content");b.appendChild(l);k[h]=l}c=k[c].getAttributeNS(q,"name");a.setAttributeNS(f,"text:style-name",c)}}function n(b,d){var a=b.ownerDocument,c=b.parentNode,l,h,g=new core.LoopWatchDog(1E4);h=[];"span"!==c.localName||c.namespaceURI!==f?(l=a.createElementNS(f,"text:span"),c.insertBefore(l,b),c=!1):(b.previousSibling&&
-!p.rangeContainsNode(d,c.firstChild)?(l=c.cloneNode(!1),c.parentNode.insertBefore(l,c.nextSibling)):l=c,c=!0);h.push(b);for(a=b.nextSibling;a&&p.rangeContainsNode(d,a);)g.check(),h.push(a),a=a.nextSibling;h.forEach(function(a){a.parentNode!==l&&l.appendChild(a)});if(a&&c)for(h=l.cloneNode(!1),l.parentNode.insertBefore(h,l.nextSibling);a;)g.check(),c=a.nextSibling,h.appendChild(a),a=c;return l}var p=new core.DomUtils,f=odf.Namespaces.textns,q=odf.Namespaces.stylens;this.applyStyle=function(b,f,a){var c=
-{},l,h,g,m;runtime.assert(a&&a.hasOwnProperty("style:text-properties"),"applyStyle without any text properties");c["style:text-properties"]=a["style:text-properties"];g=new d(c);m=new k(c);b.forEach(function(a){l=m.isStyleApplied(a);!1===l&&(h=n(a,f),g.applyStyleToContainer(h))})}};
-// Input 51
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpApplyDirectStyling=function(){function m(b,d,k){var a=b.getOdfCanvas().odfContainer(),c=f.splitBoundaries(d),l=p.getTextNodes(d,!1);d={startContainer:d.startContainer,startOffset:d.startOffset,endContainer:d.endContainer,endOffset:d.endOffset};(new odf.TextStyleApplicator(new odf.ObjectNameGenerator(a,g),b.getFormatting(),a.rootElement.automaticStyles)).applyStyle(l,d,k);c.forEach(f.normalizeTextNodes)}var g,b,k,d,n,p=new odf.OdfUtils,f=new core.DomUtils;this.init=function(f){g=f.memberid;b=
-f.timestamp;k=parseInt(f.position,10);d=parseInt(f.length,10);n=f.setProperties};this.isEdit=!0;this.group=void 0;this.execute=function(f){var e=f.convertCursorToDomRange(k,d),r=p.getParagraphElements(e);m(f,e,n);e.detach();f.getOdfCanvas().refreshCSS();f.fixCursorPositions();r.forEach(function(a){f.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:a,memberId:g,timeStamp:b})});f.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"ApplyDirectStyling",memberid:g,
-timestamp:b,position:k,length:d,setProperties:n}}};
-// Input 52
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpApplyHyperlink=function(){function m(b){for(;b;){if(f.isHyperlink(b))return!0;b=b.parentNode}return!1}var g,b,k,d,n,p=new core.DomUtils,f=new odf.OdfUtils;this.init=function(f){g=f.memberid;b=f.timestamp;k=f.position;d=f.length;n=f.hyperlink};this.isEdit=!0;this.group=void 0;this.execute=function(q){var e=q.getDOMDocument(),r=q.convertCursorToDomRange(k,d),a=p.splitBoundaries(r),c=[],l=f.getTextNodes(r,!1);if(0===l.length)return!1;l.forEach(function(a){var b=f.getParagraphElement(a);runtime.assert(!1===
-m(a),"The given range should not contain any link.");var d=n,l=e.createElementNS(odf.Namespaces.textns,"text:a");l.setAttributeNS(odf.Namespaces.xlinkns,"xlink:type","simple");l.setAttributeNS(odf.Namespaces.xlinkns,"xlink:href",d);a.parentNode.insertBefore(l,a);l.appendChild(a);-1===c.indexOf(b)&&c.push(b)});a.forEach(p.normalizeTextNodes);r.detach();q.getOdfCanvas().refreshSize();q.getOdfCanvas().rerenderAnnotations();c.forEach(function(a){q.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:a,
-memberId:g,timeStamp:b})});return!0};this.spec=function(){return{optype:"ApplyHyperlink",memberid:g,timestamp:b,position:k,length:d,hyperlink:n}}};
-// Input 53
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpInsertImage=function(){var m,g,b,k,d,n,p,f,q=odf.Namespaces.drawns,e=odf.Namespaces.svgns,r=odf.Namespaces.textns,a=odf.Namespaces.xlinkns;this.init=function(a){m=a.memberid;g=a.timestamp;b=a.position;k=a.filename;d=a.frameWidth;n=a.frameHeight;p=a.frameStyleName;f=a.frameName};this.isEdit=!0;this.group=void 0;this.execute=function(c){var l=c.getOdfCanvas(),h=c.getTextNodeAtStep(b,m),v,w;if(!h)return!1;v=h.textNode;w=c.getParagraphElement(v);var h=h.offset!==v.length?v.splitText(h.offset):v.nextSibling,
-z=c.getDOMDocument(),x=z.createElementNS(q,"draw:image"),z=z.createElementNS(q,"draw:frame");x.setAttributeNS(a,"xlink:href",k);x.setAttributeNS(a,"xlink:type","simple");x.setAttributeNS(a,"xlink:show","embed");x.setAttributeNS(a,"xlink:actuate","onLoad");z.setAttributeNS(q,"draw:style-name",p);z.setAttributeNS(q,"draw:name",f);z.setAttributeNS(r,"text:anchor-type","as-char");z.setAttributeNS(e,"svg:width",d);z.setAttributeNS(e,"svg:height",n);z.appendChild(x);v.parentNode.insertBefore(z,h);c.emit(ops.OdtDocument.signalStepsInserted,
-{position:b,length:1});0===v.length&&v.parentNode.removeChild(v);l.addCssForFrameWithImage(z);l.refreshCSS();c.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:w,memberId:m,timeStamp:g});l.rerenderAnnotations();return!0};this.spec=function(){return{optype:"InsertImage",memberid:m,timestamp:g,filename:k,position:b,frameWidth:d,frameHeight:n,frameStyleName:p,frameName:f}}};
-// Input 54
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpInsertTable=function(){function m(b,a){var c;if(1===e.length)c=e[0];else if(3===e.length)switch(b){case 0:c=e[0];break;case k-1:c=e[2];break;default:c=e[1]}else c=e[b];if(1===c.length)return c[0];if(3===c.length)switch(a){case 0:return c[0];case d-1:return c[2];default:return c[1]}return c[a]}var g,b,k,d,n,p,f,q,e;this.init=function(m){g=m.memberid;b=m.timestamp;n=m.position;k=m.initialRows;d=m.initialColumns;p=m.tableName;f=m.tableStyleName;q=m.tableColumnStyleName;e=m.tableCellStyleMatrix};
-this.isEdit=!0;this.group=void 0;this.execute=function(e){var a=e.getTextNodeAtStep(n),c=e.getRootNode();if(a){var l=e.getDOMDocument(),h=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table"),v=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table-column"),w,z,x,u;f&&h.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:style-name",f);p&&h.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:name",p);v.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0",
-"table:number-columns-repeated",d);q&&v.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:style-name",q);h.appendChild(v);for(x=0;x<k;x+=1){v=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table-row");for(u=0;u<d;u+=1)w=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table-cell"),(z=m(x,u))&&w.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:style-name",z),z=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0",
-"text:p"),w.appendChild(z),v.appendChild(w);h.appendChild(v)}a=e.getParagraphElement(a.textNode);c.insertBefore(h,a.nextSibling);e.emit(ops.OdtDocument.signalStepsInserted,{position:n,length:d*k+1});e.getOdfCanvas().refreshSize();e.emit(ops.OdtDocument.signalTableAdded,{tableElement:h,memberId:g,timeStamp:b});e.getOdfCanvas().rerenderAnnotations();return!0}return!1};this.spec=function(){return{optype:"InsertTable",memberid:g,timestamp:b,position:n,initialRows:k,initialColumns:d,tableName:p,tableStyleName:f,
-tableColumnStyleName:q,tableCellStyleMatrix:e}}};
-// Input 55
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpInsertText=function(){var m,g,b,k,d;this.init=function(n){m=n.memberid;g=n.timestamp;b=n.position;d=n.text;k="true"===n.moveCursor||!0===n.moveCursor};this.isEdit=!0;this.group=void 0;this.execute=function(n){var p,f,q,e=null,r=n.getDOMDocument(),a,c=0,l,h=n.getCursor(m),v;n.upgradeWhitespacesAtPosition(b);if(p=n.getTextNodeAtStep(b)){f=p.textNode;e=f.nextSibling;q=f.parentNode;a=n.getParagraphElement(f);for(v=0;v<d.length;v+=1)if(" "===d[v]&&(0===v||v===d.length-1||" "===d[v-1])||"\t"===d[v])0===
-c?(p.offset!==f.length&&(e=f.splitText(p.offset)),0<v&&f.appendData(d.substring(0,v))):c<v&&(c=d.substring(c,v),q.insertBefore(r.createTextNode(c),e)),c=v+1,l=" "===d[v]?"text:s":"text:tab",l=r.createElementNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0",l),l.appendChild(r.createTextNode(d[v])),q.insertBefore(l,e);0===c?f.insertData(p.offset,d):c<d.length&&(p=d.substring(c),q.insertBefore(r.createTextNode(p),e));q=f.parentNode;e=f.nextSibling;q.removeChild(f);q.insertBefore(f,e);0===f.length&&
-f.parentNode.removeChild(f);n.emit(ops.OdtDocument.signalStepsInserted,{position:b,length:d.length});h&&k&&(n.moveCursor(m,b+d.length,0),n.emit(ops.Document.signalCursorMoved,h));0<b&&(1<b&&n.downgradeWhitespacesAtPosition(b-2),n.downgradeWhitespacesAtPosition(b-1));n.downgradeWhitespacesAtPosition(b);n.downgradeWhitespacesAtPosition(b+d.length-1);n.downgradeWhitespacesAtPosition(b+d.length);n.getOdfCanvas().refreshSize();n.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:a,memberId:m,
-timeStamp:g});n.getOdfCanvas().rerenderAnnotations();return!0}return!1};this.spec=function(){return{optype:"InsertText",memberid:m,timestamp:g,position:b,text:d,moveCursor:k}}};
-// Input 56
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpMoveCursor=function(){var m,g,b,k,d;this.init=function(n){m=n.memberid;g=n.timestamp;b=n.position;k=n.length||0;d=n.selectionType||ops.OdtCursor.RangeSelection};this.isEdit=!1;this.group=void 0;this.execute=function(g){var p=g.getCursor(m),f;if(!p)return!1;f=g.convertCursorToDomRange(b,k);p.setSelectedRange(f,0<=k);p.setSelectionType(d);g.emit(ops.Document.signalCursorMoved,p);return!0};this.spec=function(){return{optype:"MoveCursor",memberid:m,timestamp:g,position:b,length:k,selectionType:d}}};
-// Input 57
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveAnnotation=function(){var m,g,b,k,d;this.init=function(n){m=n.memberid;g=n.timestamp;b=parseInt(n.position,10);k=parseInt(n.length,10);d=new core.DomUtils};this.isEdit=!0;this.group=void 0;this.execute=function(g){function m(b){q.parentNode.insertBefore(b,q)}for(var f=g.getIteratorAtPosition(b).container(),q;f.namespaceURI!==odf.Namespaces.officens||"annotation"!==f.localName;)f=f.parentNode;if(null===f)return!1;q=f;f=q.annotationEndElement;g.getOdfCanvas().forgetAnnotations();d.getElementsByTagNameNS(q,
-"urn:webodf:names:cursor","cursor").forEach(m);d.getElementsByTagNameNS(q,"urn:webodf:names:cursor","anchor").forEach(m);q.parentNode.removeChild(q);f&&f.parentNode.removeChild(f);g.emit(ops.OdtDocument.signalStepsRemoved,{position:0<b?b-1:b,length:k});g.fixCursorPositions();g.getOdfCanvas().refreshAnnotations();return!0};this.spec=function(){return{optype:"RemoveAnnotation",memberid:m,timestamp:g,position:b,length:k}}};
-// Input 58
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveBlob=function(){var m,g,b;this.init=function(k){m=k.memberid;g=k.timestamp;b=k.filename};this.isEdit=!0;this.group=void 0;this.execute=function(g){g.getOdfCanvas().odfContainer().removeBlob(b);return!0};this.spec=function(){return{optype:"RemoveBlob",memberid:m,timestamp:g,filename:b}}};
-// Input 59
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveCursor=function(){var m,g;this.init=function(b){m=b.memberid;g=b.timestamp};this.isEdit=!1;this.group=void 0;this.execute=function(b){return b.removeCursor(m)?!0:!1};this.spec=function(){return{optype:"RemoveCursor",memberid:m,timestamp:g}}};
-// Input 60
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveHyperlink=function(){var m,g,b,k,d=new core.DomUtils,n=new odf.OdfUtils;this.init=function(d){m=d.memberid;g=d.timestamp;b=d.position;k=d.length};this.isEdit=!0;this.group=void 0;this.execute=function(p){var f=p.convertCursorToDomRange(b,k),q=n.getHyperlinkElements(f);runtime.assert(1===q.length,"The given range should only contain a single link.");q=d.mergeIntoParent(q[0]);f.detach();p.getOdfCanvas().refreshSize();p.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:n.getParagraphElement(q),
-memberId:m,timeStamp:g});p.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"RemoveHyperlink",memberid:m,timestamp:g,position:b,length:k}}};
-// Input 61
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveMember=function(){var m,g;this.init=function(b){m=b.memberid;g=parseInt(b.timestamp,10)};this.isEdit=!1;this.group=void 0;this.execute=function(b){if(!b.getMember(m))return!1;b.removeMember(m);b.emit(ops.Document.signalMemberRemoved,m);return!0};this.spec=function(){return{optype:"RemoveMember",memberid:m,timestamp:g}}};
-// Input 62
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveStyle=function(){var m,g,b,k;this.init=function(d){m=d.memberid;g=d.timestamp;b=d.styleName;k=d.styleFamily};this.isEdit=!0;this.group=void 0;this.execute=function(d){var g=d.getStyleElement(b,k);if(!g)return!1;g.parentNode.removeChild(g);d.getOdfCanvas().refreshCSS();d.emit(ops.OdtDocument.signalCommonStyleDeleted,{name:b,family:k});return!0};this.spec=function(){return{optype:"RemoveStyle",memberid:m,timestamp:g,styleName:b,styleFamily:k}}};
-// Input 63
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpRemoveText=function(){function m(b){function d(a){return f.hasOwnProperty(a.namespaceURI)||"br"===a.localName&&n.isLineBreak(a.parentNode)||a.nodeType===Node.TEXT_NODE&&f.hasOwnProperty(a.parentNode.namespaceURI)}function g(a){if(n.isCharacterElement(a))return!1;if(a.nodeType===Node.TEXT_NODE)return 0===a.textContent.length;for(a=a.firstChild;a;){if(f.hasOwnProperty(a.namespaceURI)||!g(a))return!1;a=a.nextSibling}return!0}function a(c){var f;c.nodeType===Node.TEXT_NODE?(f=c.parentNode,f.removeChild(c)):
-f=p.removeUnwantedNodes(c,d);return f&&!n.isParagraph(f)&&f!==b&&g(f)?a(f):f}this.isEmpty=g;this.mergeChildrenIntoParent=a}var g,b,k,d,n,p,f={};this.init=function(m){runtime.assert(0<=m.length,"OpRemoveText only supports positive lengths");g=m.memberid;b=m.timestamp;k=parseInt(m.position,10);d=parseInt(m.length,10);n=new odf.OdfUtils;p=new core.DomUtils;f[odf.Namespaces.dbns]=!0;f[odf.Namespaces.dcns]=!0;f[odf.Namespaces.dr3dns]=!0;f[odf.Namespaces.drawns]=!0;f[odf.Namespaces.chartns]=!0;f[odf.Namespaces.formns]=
-!0;f[odf.Namespaces.numberns]=!0;f[odf.Namespaces.officens]=!0;f[odf.Namespaces.presentationns]=!0;f[odf.Namespaces.stylens]=!0;f[odf.Namespaces.svgns]=!0;f[odf.Namespaces.tablens]=!0;f[odf.Namespaces.textns]=!0};this.isEdit=!0;this.group=void 0;this.execute=function(f){var e,r,a,c,l=f.getCursor(g),h=new m(f.getRootNode());f.upgradeWhitespacesAtPosition(k);f.upgradeWhitespacesAtPosition(k+d);r=f.convertCursorToDomRange(k,d);p.splitBoundaries(r);e=f.getParagraphElement(r.startContainer);a=n.getTextElements(r,
-!1,!0);c=n.getParagraphElements(r);r.detach();a.forEach(function(a){a.parentNode?h.mergeChildrenIntoParent(a):runtime.log("WARN: text element has already been removed from it's container")});r=c.reduce(function(a,b){var c,d=a,e=b,f,l=null;h.isEmpty(a)&&(b.parentNode!==a.parentNode&&(f=b.parentNode,a.parentNode.insertBefore(b,a.nextSibling)),e=a,d=b,l=d.getElementsByTagNameNS("urn:webodf:names:editinfo","editinfo").item(0)||d.firstChild);for(;e.firstChild;)c=e.firstChild,e.removeChild(c),"editinfo"!==
-c.localName&&d.insertBefore(c,l);f&&h.isEmpty(f)&&h.mergeChildrenIntoParent(f);h.mergeChildrenIntoParent(e);return d});f.emit(ops.OdtDocument.signalStepsRemoved,{position:k,length:d});f.downgradeWhitespacesAtPosition(k);f.fixCursorPositions();f.getOdfCanvas().refreshSize();f.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:r||e,memberId:g,timeStamp:b});l&&(l.resetSelectionType(),f.emit(ops.Document.signalCursorMoved,l));f.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"RemoveText",
-memberid:g,timestamp:b,position:k,length:d}}};
-// Input 64
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpSetBlob=function(){var m,g,b,k,d;this.init=function(n){m=n.memberid;g=n.timestamp;b=n.filename;k=n.mimetype;d=n.content};this.isEdit=!0;this.group=void 0;this.execute=function(g){g.getOdfCanvas().odfContainer().setBlob(b,k,d);return!0};this.spec=function(){return{optype:"SetBlob",memberid:m,timestamp:g,filename:b,mimetype:k,content:d}}};
-// Input 65
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpSetParagraphStyle=function(){var m,g,b,k;this.init=function(d){m=d.memberid;g=d.timestamp;b=d.position;k=d.styleName};this.isEdit=!0;this.group=void 0;this.execute=function(d){var n;n=d.getIteratorAtPosition(b);return(n=d.getParagraphElement(n.container()))?(""!==k?n.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0","text:style-name",k):n.removeAttributeNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0","style-name"),d.getOdfCanvas().refreshSize(),d.emit(ops.OdtDocument.signalParagraphChanged,
-{paragraphElement:n,timeStamp:g,memberId:m}),d.getOdfCanvas().rerenderAnnotations(),!0):!1};this.spec=function(){return{optype:"SetParagraphStyle",memberid:m,timestamp:g,position:b,styleName:k}}};
-// Input 66
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpSplitParagraph=function(){var m,g,b,k,d;this.init=function(n){m=n.memberid;g=n.timestamp;b=n.position;k="true"===n.moveCursor||!0===n.moveCursor;d=new odf.OdfUtils};this.isEdit=!0;this.group=void 0;this.execute=function(n){var p,f,q,e,r,a,c,l=n.getCursor(m);n.upgradeWhitespacesAtPosition(b);p=n.getTextNodeAtStep(b);if(!p)return!1;f=n.getParagraphElement(p.textNode);if(!f)return!1;q=d.isListItem(f.parentNode)?f.parentNode:f;0===p.offset?(c=p.textNode.previousSibling,a=null):(c=p.textNode,a=p.offset>=
-p.textNode.length?null:p.textNode.splitText(p.offset));for(e=p.textNode;e!==q;){e=e.parentNode;r=e.cloneNode(!1);a&&r.appendChild(a);if(c)for(;c&&c.nextSibling;)r.appendChild(c.nextSibling);else for(;e.firstChild;)r.appendChild(e.firstChild);e.parentNode.insertBefore(r,e.nextSibling);c=e;a=r}d.isListItem(a)&&(a=a.childNodes.item(0));0===p.textNode.length&&p.textNode.parentNode.removeChild(p.textNode);n.emit(ops.OdtDocument.signalStepsInserted,{position:b,length:1});l&&k&&(n.moveCursor(m,b+1,0),n.emit(ops.Document.signalCursorMoved,
-l));n.fixCursorPositions();n.getOdfCanvas().refreshSize();n.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:f,memberId:m,timeStamp:g});n.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:a,memberId:m,timeStamp:g});n.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"SplitParagraph",memberid:m,timestamp:g,position:b,moveCursor:k}}};
-// Input 67
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpUpdateMember=function(){function m(b){var d="//dc:creator[@editinfo:memberid='"+g+"']";b=xmldom.XPath.getODFElementsWithXPath(b.getRootNode(),d,function(b){return"editinfo"===b?"urn:webodf:names:editinfo":odf.Namespaces.lookupNamespaceURI(b)});for(d=0;d<b.length;d+=1)b[d].textContent=k.fullName}var g,b,k,d;this.init=function(n){g=n.memberid;b=parseInt(n.timestamp,10);k=n.setProperties;d=n.removedProperties};this.isEdit=!1;this.group=void 0;this.execute=function(b){var p=b.getMember(g);if(!p)return!1;
-d&&p.removeProperties(d);k&&(p.setProperties(k),k.fullName&&m(b));b.emit(ops.Document.signalMemberUpdated,p);return!0};this.spec=function(){return{optype:"UpdateMember",memberid:g,timestamp:b,setProperties:k,removedProperties:d}}};
-// Input 68
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpUpdateMetadata=function(){var m,g,b,k;this.init=function(d){m=d.memberid;g=parseInt(d.timestamp,10);b=d.setProperties;k=d.removedProperties};this.isEdit=!0;this.group=void 0;this.execute=function(d){d=d.getOdfCanvas().odfContainer();var g=[];k&&(g=k.attributes.split(","));d.setMetadata(b,g);return!0};this.spec=function(){return{optype:"UpdateMetadata",memberid:m,timestamp:g,setProperties:b,removedProperties:k}}};
-// Input 69
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OpUpdateParagraphStyle=function(){function m(b,d){var e,g,a=d?d.split(","):[];for(e=0;e<a.length;e+=1)g=a[e].split(":"),b.removeAttributeNS(odf.Namespaces.lookupNamespaceURI(g[0]),g[1])}var g,b,k,d,n,p=odf.Namespaces.stylens;this.init=function(f){g=f.memberid;b=f.timestamp;k=f.styleName;d=f.setProperties;n=f.removedProperties};this.isEdit=!0;this.group=void 0;this.execute=function(b){var g=b.getFormatting(),e,r,a;return(e=""!==k?b.getParagraphStyleElement(k):g.getDefaultStyleElement("paragraph"))?
-(r=e.getElementsByTagNameNS(p,"paragraph-properties").item(0),a=e.getElementsByTagNameNS(p,"text-properties").item(0),d&&g.updateStyle(e,d),n&&(g=n["style:paragraph-properties"],r&&g&&(m(r,g.attributes),0===r.attributes.length&&e.removeChild(r)),g=n["style:text-properties"],a&&g&&(m(a,g.attributes),0===a.attributes.length&&e.removeChild(a)),m(e,n.attributes)),b.getOdfCanvas().refreshCSS(),b.emit(ops.OdtDocument.signalParagraphStyleModified,k),b.getOdfCanvas().rerenderAnnotations(),!0):!1};this.spec=
-function(){return{optype:"UpdateParagraphStyle",memberid:g,timestamp:b,styleName:k,setProperties:d,removedProperties:n}}};
-// Input 70
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OperationFactory=function(){var m;this.register=function(g,b){m[g]=b};this.create=function(g){var b=null,k=m[g.optype];k&&(b=new k,b.init(g));return b};m={AddMember:ops.OpAddMember,UpdateMember:ops.OpUpdateMember,RemoveMember:ops.OpRemoveMember,AddCursor:ops.OpAddCursor,ApplyDirectStyling:ops.OpApplyDirectStyling,SetBlob:ops.OpSetBlob,RemoveBlob:ops.OpRemoveBlob,InsertImage:ops.OpInsertImage,InsertTable:ops.OpInsertTable,InsertText:ops.OpInsertText,RemoveText:ops.OpRemoveText,SplitParagraph:ops.OpSplitParagraph,
-SetParagraphStyle:ops.OpSetParagraphStyle,UpdateParagraphStyle:ops.OpUpdateParagraphStyle,AddStyle:ops.OpAddStyle,RemoveStyle:ops.OpRemoveStyle,MoveCursor:ops.OpMoveCursor,RemoveCursor:ops.OpRemoveCursor,AddAnnotation:ops.OpAddAnnotation,RemoveAnnotation:ops.OpRemoveAnnotation,UpdateMetadata:ops.OpUpdateMetadata,ApplyHyperlink:ops.OpApplyHyperlink,RemoveHyperlink:ops.OpRemoveHyperlink}};
-// Input 71
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OperationRouter=function(){};ops.OperationRouter.prototype.setOperationFactory=function(m){};ops.OperationRouter.prototype.setPlaybackFunction=function(m){};ops.OperationRouter.prototype.push=function(m){};ops.OperationRouter.prototype.close=function(m){};ops.OperationRouter.prototype.subscribe=function(m,g){};ops.OperationRouter.prototype.unsubscribe=function(m,g){};ops.OperationRouter.prototype.hasLocalUnsyncedOps=function(){};ops.OperationRouter.prototype.hasSessionHostConnection=function(){};
-ops.OperationRouter.signalProcessingBatchStart="router/batchstart";ops.OperationRouter.signalProcessingBatchEnd="router/batchend";
-// Input 72
-/*
-
- Copyright (C) 2012 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.TrivialOperationRouter=function(){var m=new core.EventNotifier([ops.OperationRouter.signalProcessingBatchStart,ops.OperationRouter.signalProcessingBatchEnd]),g,b,k=0;this.setOperationFactory=function(b){g=b};this.setPlaybackFunction=function(d){b=d};this.push=function(d){k+=1;m.emit(ops.OperationRouter.signalProcessingBatchStart,{});d.forEach(function(d){d=d.spec();d.timestamp=(new Date).getTime();d=g.create(d);d.group="g"+k;b(d)});m.emit(ops.OperationRouter.signalProcessingBatchEnd,{})};this.close=
-function(b){b()};this.subscribe=function(b,g){m.subscribe(b,g)};this.unsubscribe=function(b,g){m.unsubscribe(b,g)};this.hasLocalUnsyncedOps=function(){return!1};this.hasSessionHostConnection=function(){return!0}};
-// Input 73
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.Session=function(m){function g(b){d.emit(ops.OdtDocument.signalProcessingBatchStart,b)}function b(b){d.emit(ops.OdtDocument.signalProcessingBatchEnd,b)}var k=new ops.OperationFactory,d=new ops.OdtDocument(m),n=null;this.setOperationFactory=function(b){k=b;n&&n.setOperationFactory(k)};this.setOperationRouter=function(m){n&&(n.unsubscribe(ops.OperationRouter.signalProcessingBatchStart,g),n.unsubscribe(ops.OperationRouter.signalProcessingBatchEnd,b));n=m;n.subscribe(ops.OperationRouter.signalProcessingBatchStart,
-g);n.subscribe(ops.OperationRouter.signalProcessingBatchEnd,b);m.setPlaybackFunction(function(b){d.emit(ops.OdtDocument.signalOperationStart,b);return b.execute(d)?(d.emit(ops.OdtDocument.signalOperationEnd,b),!0):!1});m.setOperationFactory(k)};this.getOperationFactory=function(){return k};this.getOdtDocument=function(){return d};this.enqueue=function(b){n.push(b)};this.close=function(b){n.close(function(f){f?b(f):d.close(b)})};this.destroy=function(b){d.destroy(b)};this.setOperationRouter(new ops.TrivialOperationRouter)};
-// Input 74
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.AnnotationController=function(m,g){function b(){var b=p.getCursor(g),b=b&&b.getNode(),a=!1;if(b){a:{for(a=p.getRootNode();b&&b!==a;){if(b.namespaceURI===e&&"annotation"===b.localName){b=!0;break a}b=b.parentNode}b=!1}a=!b}a!==f&&(f=a,q.emit(gui.AnnotationController.annotatableChanged,f))}function k(d){d.getMemberId()===g&&b()}function d(d){d===g&&b()}function n(d){d.getMemberId()===g&&b()}var p=m.getOdtDocument(),f=!1,q=new core.EventNotifier([gui.AnnotationController.annotatableChanged]),e=odf.Namespaces.officens;
-this.isAnnotatable=function(){return f};this.addAnnotation=function(){var b=new ops.OpAddAnnotation,a=p.getCursorSelection(g),c=a.length,a=a.position;f&&(a=0<=c?a:a+c,c=Math.abs(c),b.init({memberid:g,position:a,length:c,name:g+Date.now()}),m.enqueue([b]))};this.removeAnnotation=function(b){var a,c;a=p.convertDomPointToCursorStep(b,0)+1;c=p.convertDomPointToCursorStep(b,b.childNodes.length);b=new ops.OpRemoveAnnotation;b.init({memberid:g,position:a,length:c-a});c=new ops.OpMoveCursor;c.init({memberid:g,
-position:0<a?a-1:a,length:0});m.enqueue([b,c])};this.subscribe=function(b,a){q.subscribe(b,a)};this.unsubscribe=function(b,a){q.unsubscribe(b,a)};this.destroy=function(b){p.unsubscribe(ops.Document.signalCursorAdded,k);p.unsubscribe(ops.Document.signalCursorRemoved,d);p.unsubscribe(ops.Document.signalCursorMoved,n);b()};p.subscribe(ops.Document.signalCursorAdded,k);p.subscribe(ops.Document.signalCursorRemoved,d);p.subscribe(ops.Document.signalCursorMoved,n);b()};
-gui.AnnotationController.annotatableChanged="annotatable/changed";(function(){return gui.AnnotationController})();
-// Input 75
-gui.Avatar=function(m,g){var b=this,k,d,n;this.setColor=function(b){d.style.borderColor=b};this.setImageUrl=function(g){b.isVisible()?d.src=g:n=g};this.isVisible=function(){return"block"===k.style.display};this.show=function(){n&&(d.src=n,n=void 0);k.style.display="block"};this.hide=function(){k.style.display="none"};this.markAsFocussed=function(b){b?k.classList.add("active"):k.classList.remove("active")};this.destroy=function(b){m.removeChild(k);b()};(function(){var b=m.ownerDocument,f=b.documentElement.namespaceURI;
-k=b.createElementNS(f,"div");d=b.createElementNS(f,"img");d.width=64;d.height=64;k.appendChild(d);k.style.width="64px";k.style.height="70px";k.style.position="absolute";k.style.top="-80px";k.style.left="-34px";k.style.display=g?"block":"none";k.className="handle";m.appendChild(k)})()};
-// Input 76
-gui.Caret=function(m,g,b){function k(){q.style.opacity="0"===q.style.opacity?"1":"0";v.trigger()}function d(a,b){var c=a.getBoundingClientRect(),d=0,e=0;c&&b&&(d=Math.max(c.top,b.top),e=Math.min(c.bottom,b.bottom));return e-d}function n(){Object.keys(u).forEach(function(a){t[a]=u[a]})}function p(){var h,f,l,g;if(!1===u.isShown||m.getSelectionType()!==ops.OdtCursor.RangeSelection||!b&&!m.getSelectedRange().collapsed)u.visibility="hidden",q.style.visibility="hidden",v.cancel();else{u.visibility="visible";
-q.style.visibility="visible";if(!1===u.isFocused)q.style.opacity="1",v.cancel();else{if(w||t.visibility!==u.visibility)q.style.opacity="1",v.cancel();v.trigger()}if(x||z||t.visibility!==u.visibility){h=m.getSelectedRange().cloneRange();f=m.getNode();var k=null;f.previousSibling&&(l=f.previousSibling.nodeType===Node.TEXT_NODE?f.previousSibling.textContent.length:f.previousSibling.childNodes.length,h.setStart(f.previousSibling,0<l?l-1:0),h.setEnd(f.previousSibling,l),(l=h.getBoundingClientRect())&&
-l.height&&(k=l));f.nextSibling&&(h.setStart(f.nextSibling,0),h.setEnd(f.nextSibling,0<(f.nextSibling.nodeType===Node.TEXT_NODE?f.nextSibling.textContent.length:f.nextSibling.childNodes.length)?1:0),(l=h.getBoundingClientRect())&&l.height&&(!k||d(f,l)>d(f,k))&&(k=l));f=k;k=m.getDocument().getCanvas();h=k.getZoomLevel();k=c.getBoundingClientRect(k.getSizer());f?(q.style.top="0",l=c.getBoundingClientRect(q),8>f.height&&(f={top:f.top-(8-f.height)/2,height:8}),q.style.height=c.adaptRangeDifferenceToZoomLevel(f.height,
-h)+"px",q.style.top=c.adaptRangeDifferenceToZoomLevel(f.top-l.top,h)+"px"):(q.style.height="1em",q.style.top="5%");a&&(f=runtime.getWindow().getComputedStyle(q,null),l=c.getBoundingClientRect(q),a.style.bottom=c.adaptRangeDifferenceToZoomLevel(k.bottom-l.bottom,h)+"px",a.style.left=c.adaptRangeDifferenceToZoomLevel(l.right-k.left,h)+"px",f.font?a.style.font=f.font:(a.style.fontStyle=f.fontStyle,a.style.fontVariant=f.fontVariant,a.style.fontWeight=f.fontWeight,a.style.fontSize=f.fontSize,a.style.lineHeight=
-f.lineHeight,a.style.fontFamily=f.fontFamily))}if(z){var k=m.getDocument().getCanvas().getElement().parentNode,p;l=k.offsetWidth-k.clientWidth+5;g=k.offsetHeight-k.clientHeight+5;p=q.getBoundingClientRect();h=p.left-l;f=p.top-g;l=p.right+l;g=p.bottom+g;p=k.getBoundingClientRect();f<p.top?k.scrollTop-=p.top-f:g>p.bottom&&(k.scrollTop+=g-p.bottom);h<p.left?k.scrollLeft-=p.left-h:l>p.right&&(k.scrollLeft+=l-p.right)}}t.isFocused!==u.isFocused&&e.markAsFocussed(u.isFocused);n();x=z=w=!1}function f(a){r.removeChild(q);
-a()}var q,e,r,a,c=new core.DomUtils,l=new core.Async,h,v,w=!1,z=!1,x=!1,u={isFocused:!1,isShown:!0,visibility:"hidden"},t={isFocused:!u.isFocused,isShown:!u.isShown,visibility:"hidden"};this.handleUpdate=function(){x=!0;"hidden"!==u.visibility&&(u.visibility="hidden",q.style.visibility="hidden");h.trigger()};this.refreshCursorBlinking=function(){w=!0;h.trigger()};this.setFocus=function(){u.isFocused=!0;h.trigger()};this.removeFocus=function(){u.isFocused=!1;h.trigger()};this.show=function(){u.isShown=
-!0;h.trigger()};this.hide=function(){u.isShown=!1;h.trigger()};this.setAvatarImageUrl=function(a){e.setImageUrl(a)};this.setColor=function(a){q.style.borderColor=a;e.setColor(a)};this.getCursor=function(){return m};this.getFocusElement=function(){return q};this.toggleHandleVisibility=function(){e.isVisible()?e.hide():e.show()};this.showHandle=function(){e.show()};this.hideHandle=function(){e.hide()};this.setOverlayElement=function(b){a=b;x=!0;h.trigger()};this.ensureVisible=function(){z=!0;h.trigger()};
-this.destroy=function(a){l.destroyAll([h.destroy,v.destroy,e.destroy,f],a)};(function(){var a=m.getDocument().getDOMDocument();q=a.createElementNS(a.documentElement.namespaceURI,"span");q.className="caret";q.style.top="5%";r=m.getNode();r.appendChild(q);e=new gui.Avatar(r,g);h=new core.ScheduledTask(p,0);v=new core.ScheduledTask(k,500);h.triggerImmediate()})()};
-// Input 77
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.TextSerializer=function(){function m(k){var d="",n=g.filter?g.filter.acceptNode(k):NodeFilter.FILTER_ACCEPT,p=k.nodeType,f;if((n===NodeFilter.FILTER_ACCEPT||n===NodeFilter.FILTER_SKIP)&&b.isTextContentContainingNode(k))for(f=k.firstChild;f;)d+=m(f),f=f.nextSibling;n===NodeFilter.FILTER_ACCEPT&&(p===Node.ELEMENT_NODE&&b.isParagraph(k)?d+="\n":p===Node.TEXT_NODE&&k.textContent&&(d+=k.textContent));return d}var g=this,b=new odf.OdfUtils;this.filter=null;this.writeToString=function(b){if(!b)return"";
-b=m(b);"\n"===b[b.length-1]&&(b=b.substr(0,b.length-1));return b}};
-// Input 78
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.MimeDataExporter=function(){var m,g;this.exportRangeToDataTransfer=function(b,g){var d;d=g.startContainer.ownerDocument.createElement("span");d.appendChild(g.cloneContents());d=m.writeToString(d);try{b.setData("text/plain",d)}catch(n){b.setData("Text",d)}};m=new odf.TextSerializer;g=new odf.OdfNodeFilter;m.filter=g};
-// Input 79
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.Clipboard=function(m){this.setDataFromRange=function(g,b){var k,d=g.clipboardData;k=runtime.getWindow();!d&&k&&(d=k.clipboardData);d?(k=!0,m.exportRangeToDataTransfer(d,b),g.preventDefault()):k=!1;return k}};
-// Input 80
-/*
-
- Copyright (C) 2012-2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.StyleSummary=function(m){function g(b,g){var f=b+"|"+g,k;d.hasOwnProperty(f)||(k=[],m.forEach(function(d){d=(d=d[b])&&d[g];-1===k.indexOf(d)&&k.push(d)}),d[f]=k);return d[f]}function b(b,d,f){return function(){var k=g(b,d);return f.length>=k.length&&k.every(function(b){return-1!==f.indexOf(b)})}}function k(b,d){var f=g(b,d);return 1===f.length?f[0]:void 0}var d={};this.getPropertyValues=g;this.getCommonValue=k;this.isBold=b("style:text-properties","fo:font-weight",["bold"]);this.isItalic=b("style:text-properties",
-"fo:font-style",["italic"]);this.hasUnderline=b("style:text-properties","style:text-underline-style",["solid"]);this.hasStrikeThrough=b("style:text-properties","style:text-line-through-style",["solid"]);this.fontSize=function(){var b=k("style:text-properties","fo:font-size");return b&&parseFloat(b)};this.fontName=function(){return k("style:text-properties","style:font-name")};this.isAlignedLeft=b("style:paragraph-properties","fo:text-align",["left","start"]);this.isAlignedCenter=b("style:paragraph-properties",
-"fo:text-align",["center"]);this.isAlignedRight=b("style:paragraph-properties","fo:text-align",["right","end"]);this.isAlignedJustified=b("style:paragraph-properties","fo:text-align",["justify"]);this.text={isBold:this.isBold,isItalic:this.isItalic,hasUnderline:this.hasUnderline,hasStrikeThrough:this.hasStrikeThrough,fontSize:this.fontSize,fontName:this.fontName};this.paragraph={isAlignedLeft:this.isAlignedLeft,isAlignedCenter:this.isAlignedCenter,isAlignedRight:this.isAlignedRight,isAlignedJustified:this.isAlignedJustified}};
-// Input 81
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.DirectFormattingController=function(m,g,b,k){function d(a){var b;a.collapsed?(b=a.startContainer,b.hasChildNodes()&&a.startOffset<b.childNodes.length&&(b=b.childNodes.item(a.startOffset)),a=[b]):a=T.getTextNodes(a,!0);return a}function n(a,b){var c={};Object.keys(a).forEach(function(d){var e=a[d](),h=b[d]();e!==h&&(c[d]=h)});return c}function p(){var a,b,c;a=(a=(a=H.getCursor(g))&&a.getSelectedRange())?d(a):[];a=H.getFormatting().getAppliedStyles(a);a[0]&&G&&(a[0]=U.mergeObjects(a[0],G));J=a;
-c=new gui.StyleSummary(J);a=n(Q.text,c.text);b=n(Q.paragraph,c.paragraph);Q=c;0<Object.keys(a).length&&X.emit(gui.DirectFormattingController.textStylingChanged,a);0<Object.keys(b).length&&X.emit(gui.DirectFormattingController.paragraphStylingChanged,b)}function f(a){("string"===typeof a?a:a.getMemberId())===g&&p()}function q(){p()}function e(a){var b=H.getCursor(g);a=a.paragraphElement;b&&H.getParagraphElement(b.getNode())===a&&p()}function r(a,b){b(!a());return!0}function a(a){var b=H.getCursorSelection(g),
-c={"style:text-properties":a};0!==b.length?(a=new ops.OpApplyDirectStyling,a.init({memberid:g,position:b.position,length:b.length,setProperties:c}),m.enqueue([a])):(G=U.mergeObjects(G||{},c),p())}function c(b,c){var d={};d[b]=c;a(d)}function l(a){a=a.spec();G&&a.memberid===g&&"SplitParagraph"!==a.optype&&(G=null,p())}function h(a){c("fo:font-weight",a?"bold":"normal")}function v(a){c("fo:font-style",a?"italic":"normal")}function w(a){c("style:text-underline-style",a?"solid":"none")}function z(a){c("style:text-line-through-style",
-a?"solid":"none")}function x(a){return a===ops.StepsTranslator.NEXT_STEP}function u(a){var c=H.getCursor(g).getSelectedRange(),c=T.getParagraphElements(c),d=H.getFormatting(),e=[],h={},f;c.forEach(function(c){var l=H.convertDomPointToCursorStep(c,0,x),k=c.getAttributeNS(odf.Namespaces.textns,"style-name"),m;c=k?h.hasOwnProperty(k)?h[k]:void 0:f;c||(c=b.generateStyleName(),k?(h[k]=c,m=d.createDerivedStyleObject(k,"paragraph",{})):(f=c,m={}),m=a(m),k=new ops.OpAddStyle,k.init({memberid:g,styleName:c.toString(),
-styleFamily:"paragraph",isAutomaticStyle:!0,setProperties:m}),e.push(k));k=new ops.OpSetParagraphStyle;k.init({memberid:g,styleName:c.toString(),position:l});e.push(k)});m.enqueue(e)}function t(a){u(function(b){return U.mergeObjects(b,a)})}function s(a){t({"style:paragraph-properties":{"fo:text-align":a}})}function y(a,b){var c=H.getFormatting().getDefaultTabStopDistance(),d=b["style:paragraph-properties"],e;d&&(d=d["fo:margin-left"])&&(e=T.parseLength(d));return U.mergeObjects(b,{"style:paragraph-properties":{"fo:margin-left":e&&
-e.unit===c.unit?e.value+a*c.value+e.unit:a*c.value+c.unit}})}function F(a,b){var c=d(a),e=H.getFormatting().getAppliedStyles(c)[0],h=H.getFormatting().getAppliedStylesForElement(b);if(!e||"text"!==e["style:family"]||!e["style:text-properties"])return!1;if(!h||!h["style:text-properties"])return!0;e=e["style:text-properties"];h=h["style:text-properties"];return!Object.keys(e).every(function(a){return e[a]===h[a]})}function L(){}var O=this,H=m.getOdtDocument(),U=new core.Utils,T=new odf.OdfUtils,X=new core.EventNotifier([gui.DirectFormattingController.textStylingChanged,
-gui.DirectFormattingController.paragraphStylingChanged]),D=odf.Namespaces.textns,ba=core.PositionFilter.FilterResult.FILTER_ACCEPT,G,J=[],Q=new gui.StyleSummary(J);this.formatTextSelection=a;this.createCursorStyleOp=function(a,b,c){var d=null;(c=c?J[0]:G)&&c["style:text-properties"]&&(d=new ops.OpApplyDirectStyling,d.init({memberid:g,position:a,length:b,setProperties:{"style:text-properties":c["style:text-properties"]}}),G=null,p());return d};this.setBold=h;this.setItalic=v;this.setHasUnderline=w;
-this.setHasStrikethrough=z;this.setFontSize=function(a){c("fo:font-size",a+"pt")};this.setFontName=function(a){c("style:font-name",a)};this.getAppliedStyles=function(){return J};this.toggleBold=r.bind(O,function(){return Q.isBold()},h);this.toggleItalic=r.bind(O,function(){return Q.isItalic()},v);this.toggleUnderline=r.bind(O,function(){return Q.hasUnderline()},w);this.toggleStrikethrough=r.bind(O,function(){return Q.hasStrikeThrough()},z);this.isBold=function(){return Q.isBold()};this.isItalic=function(){return Q.isItalic()};
-this.hasUnderline=function(){return Q.hasUnderline()};this.hasStrikeThrough=function(){return Q.hasStrikeThrough()};this.fontSize=function(){return Q.fontSize()};this.fontName=function(){return Q.fontName()};this.isAlignedLeft=function(){return Q.isAlignedLeft()};this.isAlignedCenter=function(){return Q.isAlignedCenter()};this.isAlignedRight=function(){return Q.isAlignedRight()};this.isAlignedJustified=function(){return Q.isAlignedJustified()};this.alignParagraphLeft=function(){s("left");return!0};
-this.alignParagraphCenter=function(){s("center");return!0};this.alignParagraphRight=function(){s("right");return!0};this.alignParagraphJustified=function(){s("justify");return!0};this.indent=function(){u(y.bind(null,1));return!0};this.outdent=function(){u(y.bind(null,-1));return!0};this.createParagraphStyleOps=function(a){var c=H.getCursor(g),d=c.getSelectedRange(),e=[],h,f;c.hasForwardSelection()?(h=c.getAnchorNode(),f=c.getNode()):(h=c.getNode(),f=c.getAnchorNode());c=H.getParagraphElement(f);runtime.assert(Boolean(c),
-"DirectFormattingController: Cursor outside paragraph");var l;a:{l=c;var k=gui.SelectionMover.createPositionIterator(l),m=new core.PositionFilterChain;m.addFilter(H.getPositionFilter());m.addFilter(H.createRootFilter(g));for(k.setUnfilteredPosition(d.endContainer,d.endOffset);k.nextPosition();)if(m.acceptPosition(k)===ba){l=H.getParagraphElement(k.getCurrentNode())!==l;break a}l=!0}if(!l)return e;f!==h&&(c=H.getParagraphElement(h));if(!G&&!F(d,c))return e;d=J[0];if(!d)return e;if(h=c.getAttributeNS(D,
-"style-name"))d={"style:text-properties":d["style:text-properties"]},d=H.getFormatting().createDerivedStyleObject(h,"paragraph",d);c=b.generateStyleName();h=new ops.OpAddStyle;h.init({memberid:g,styleName:c,styleFamily:"paragraph",isAutomaticStyle:!0,setProperties:d});e.push(h);h=new ops.OpSetParagraphStyle;h.init({memberid:g,styleName:c,position:a});e.push(h);return e};this.subscribe=function(a,b){X.subscribe(a,b)};this.unsubscribe=function(a,b){X.unsubscribe(a,b)};this.destroy=function(a){H.unsubscribe(ops.Document.signalCursorAdded,
-f);H.unsubscribe(ops.Document.signalCursorRemoved,f);H.unsubscribe(ops.Document.signalCursorMoved,f);H.unsubscribe(ops.OdtDocument.signalParagraphStyleModified,q);H.unsubscribe(ops.OdtDocument.signalParagraphChanged,e);H.unsubscribe(ops.OdtDocument.signalOperationEnd,l);a()};(function(){H.subscribe(ops.Document.signalCursorAdded,f);H.subscribe(ops.Document.signalCursorRemoved,f);H.subscribe(ops.Document.signalCursorMoved,f);H.subscribe(ops.OdtDocument.signalParagraphStyleModified,q);H.subscribe(ops.OdtDocument.signalParagraphChanged,
-e);H.subscribe(ops.OdtDocument.signalOperationEnd,l);p();k||(O.alignParagraphCenter=L,O.alignParagraphJustified=L,O.alignParagraphLeft=L,O.alignParagraphRight=L,O.createParagraphStyleOps=function(){return[]},O.indent=L,O.outdent=L)})()};gui.DirectFormattingController.textStylingChanged="textStyling/changed";gui.DirectFormattingController.paragraphStylingChanged="paragraphStyling/changed";(function(){return gui.DirectFormattingController})();
-// Input 82
-gui.HyperlinkClickHandler=function(m){function g(){m().removeAttributeNS("urn:webodf:names:helper","links")}function b(){m().setAttributeNS("urn:webodf:names:helper","links","inactive")}var k=gui.HyperlinkClickHandler.Modifier.None,d=gui.HyperlinkClickHandler.Modifier.Ctrl,n=gui.HyperlinkClickHandler.Modifier.Meta,p=new odf.OdfUtils,f=xmldom.XPath,q=k;this.handleClick=function(b){var g=b.target||b.srcElement,a,c;b.ctrlKey?a=d:b.metaKey&&(a=n);if(q===k||q===a){a:{for(;null!==g;){if(p.isHyperlink(g))break a;
-if(p.isParagraph(g))break;g=g.parentNode}g=null}g&&(g=p.getHyperlinkTarget(g),""!==g&&("#"===g[0]?(g=g.substring(1),a=m(),c=f.getODFElementsWithXPath(a,"//text:bookmark-start[@text:name='"+g+"']",odf.Namespaces.lookupNamespaceURI),0===c.length&&(c=f.getODFElementsWithXPath(a,"//text:bookmark[@text:name='"+g+"']",odf.Namespaces.lookupNamespaceURI)),0<c.length&&c[0].scrollIntoView(!0)):/^\s*(javascript|data):/.test(g)?runtime.log("WARN:","potentially malicious URL ignored"):runtime.getWindow().open(g),
-b.preventDefault?b.preventDefault():b.returnValue=!1))}};this.showPointerCursor=g;this.showTextCursor=b;this.setModifier=function(d){q=d;q!==k?b():g()}};gui.HyperlinkClickHandler.Modifier={None:0,Ctrl:1,Meta:2};
-// Input 83
-gui.HyperlinkController=function(m,g){var b=new odf.OdfUtils,k=m.getOdtDocument();this.addHyperlink=function(b,n){var p=k.getCursorSelection(g),f=new ops.OpApplyHyperlink,q=[];if(0===p.length||n)n=n||b,f=new ops.OpInsertText,f.init({memberid:g,position:p.position,text:n}),p.length=n.length,q.push(f);f=new ops.OpApplyHyperlink;f.init({memberid:g,position:p.position,length:p.length,hyperlink:b});q.push(f);m.enqueue(q)};this.removeHyperlinks=function(){var d=gui.SelectionMover.createPositionIterator(k.getRootNode()),
-n=k.getCursor(g).getSelectedRange(),p=b.getHyperlinkElements(n),f=n.collapsed&&1===p.length,q=k.getDOMDocument().createRange(),e=[],r,a;0!==p.length&&(p.forEach(function(b){q.selectNodeContents(b);r=k.convertDomToCursorRange({anchorNode:q.startContainer,anchorOffset:q.startOffset,focusNode:q.endContainer,focusOffset:q.endOffset});a=new ops.OpRemoveHyperlink;a.init({memberid:g,position:r.position,length:r.length});e.push(a)}),f||(f=p[0],-1===n.comparePoint(f,0)&&(q.setStart(f,0),q.setEnd(n.startContainer,
-n.startOffset),r=k.convertDomToCursorRange({anchorNode:q.startContainer,anchorOffset:q.startOffset,focusNode:q.endContainer,focusOffset:q.endOffset}),0<r.length&&(a=new ops.OpApplyHyperlink,a.init({memberid:g,position:r.position,length:r.length,hyperlink:b.getHyperlinkTarget(f)}),e.push(a))),p=p[p.length-1],d.moveToEndOfNode(p),d=d.unfilteredDomOffset(),1===n.comparePoint(p,d)&&(q.setStart(n.endContainer,n.endOffset),q.setEnd(p,d),r=k.convertDomToCursorRange({anchorNode:q.startContainer,anchorOffset:q.startOffset,
-focusNode:q.endContainer,focusOffset:q.endOffset}),0<r.length&&(a=new ops.OpApplyHyperlink,a.init({memberid:g,position:r.position,length:r.length,hyperlink:b.getHyperlinkTarget(p)}),e.push(a)))),m.enqueue(e),q.detach())}};
-// Input 84
-gui.EventManager=function(m){function g(){var a=this,b=[];this.filters=[];this.handlers=[];this.handleEvent=function(c){-1===b.indexOf(c)&&(b.push(c),a.filters.every(function(a){return a(c)})&&a.handlers.forEach(function(a){a(c)}),runtime.setTimeout(function(){b.splice(b.indexOf(c),1)},0))}}function b(a,b,c){function d(b){c(b,e,function(b){b.type=a;h.emit("eventTriggered",b)})}var e={},h=new core.EventNotifier(["eventTriggered"]);this.subscribe=function(a){h.subscribe("eventTriggered",a)};this.unsubscribe=
-function(a){h.unsubscribe("eventTriggered",a)};this.destroy=function(){b.forEach(function(a){y.unsubscribe(a,d)})};(function(){b.forEach(function(a){y.subscribe(a,d)})})()}function k(a){runtime.clearTimeout(a);delete F[a]}function d(a,b){var c=runtime.setTimeout(function(){a();k(c)},b);F[c]=!0;return c}function n(a,b,c){var e=a.touches.length,h=a.touches[0],f=b.timer;"touchmove"===a.type||"touchend"===a.type?f&&k(f):"touchstart"===a.type&&(1!==e?runtime.clearTimeout(f):f=d(function(){c({clientX:h.clientX,
-clientY:h.clientY,pageX:h.pageX,pageY:h.pageY,target:a.target||a.srcElement||null,detail:1})},400));b.timer=f}function p(a,b,c){var d=a.touches[0],e=a.target||a.srcElement||null,h=b.target;1!==a.touches.length||"touchend"===a.type?h=null:"touchstart"===a.type&&"draggable"===e.getAttribute("class")?h=e:"touchmove"===a.type&&h&&(a.preventDefault(),a.stopPropagation(),c({clientX:d.clientX,clientY:d.clientY,pageX:d.pageX,pageY:d.pageY,target:h,detail:1}));b.target=h}function f(a,b,c){var d=a.target||
-a.srcElement||null,e=b.dragging;"drag"===a.type?e=!0:"touchend"===a.type&&e&&(e=!1,a=a.changedTouches[0],c({clientX:a.clientX,clientY:a.clientY,pageX:a.pageX,pageY:a.pageY,target:d,detail:1}));b.dragging=e}function q(){s.classList.add("webodf-touchEnabled");y.unsubscribe("touchstart",q)}function e(a){var b=a.scrollX,c=a.scrollY;this.restore=function(){a.scrollX===b&&a.scrollY===c||a.scrollTo(b,c)}}function r(a){var b=a.scrollTop,c=a.scrollLeft;this.restore=function(){if(a.scrollTop!==b||a.scrollLeft!==
-c)a.scrollTop=b,a.scrollLeft=c}}function a(a,b,c){var d,e=!1;x.hasOwnProperty(b)?x[b].subscribe(c):(d="on"+b,a.attachEvent&&(a.attachEvent(d,c),e=!0),!e&&a.addEventListener&&(a.addEventListener(b,c,!1),e=!0),e&&!w[b]||!a.hasOwnProperty(d)||(a[d]=c))}function c(b,c){var d=u[b]||null;!d&&c&&(d=u[b]=new g,z[b]&&a(v,b,d.handleEvent),a(t,b,d.handleEvent),a(s,b,d.handleEvent));return d}function l(){return m.getDOMDocument().activeElement===t}function h(a){for(var b=[];a;)(a.scrollWidth>a.clientWidth||a.scrollHeight>
-a.clientHeight)&&b.push(new r(a)),a=a.parentNode;b.push(new e(v));return b}var v=runtime.getWindow(),w={beforecut:!0,beforepaste:!0,longpress:!0,drag:!0,dragstop:!0},z={mousedown:!0,mouseup:!0,focus:!0},x={},u={},t,s=m.getCanvas().getElement(),y=this,F={};this.addFilter=function(a,b){c(a,!0).filters.push(b)};this.removeFilter=function(a,b){var d=c(a,!0),e=d.filters.indexOf(b);-1!==e&&d.filters.splice(e,1)};this.subscribe=function(a,b){c(a,!0).handlers.push(b)};this.unsubscribe=function(a,b){var d=
-c(a,!1),e=d&&d.handlers.indexOf(b);d&&-1!==e&&d.handlers.splice(e,1)};this.hasFocus=l;this.focus=function(){var a;l()||(a=h(t),t.focus(),a.forEach(function(a){a.restore()}))};this.getEventTrap=function(){return t};this.blur=function(){l()&&t.blur()};this.destroy=function(a){Object.keys(F).forEach(function(a){k(parseInt(a,10))});F.length=0;Object.keys(x).forEach(function(a){x[a].destroy()});x={};y.unsubscribe("touchstart",q);t.parentNode.removeChild(t);a()};(function(){var a=m.getOdfCanvas().getSizer(),
-c=a.ownerDocument;runtime.assert(Boolean(v),"EventManager requires a window object to operate correctly");t=c.createElement("input");t.id="eventTrap";t.setAttribute("tabindex",-1);a.appendChild(t);x.longpress=new b("longpress",["touchstart","touchmove","touchend"],n);x.drag=new b("drag",["touchstart","touchmove","touchend"],p);x.dragstop=new b("dragstop",["drag","touchend"],f);y.subscribe("touchstart",q)})()};
-// Input 85
-/*
-
- Copyright (C) 2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.IOSSafariSupport=function(m){function g(){b.innerHeight!==b.outerHeight&&(k.style.display="none",runtime.requestAnimationFrame(function(){k.style.display="block"}))}var b=runtime.getWindow(),k=m.getEventTrap();this.destroy=function(b){m.unsubscribe("focus",g);k.removeAttribute("autocapitalize");k.style.WebkitTransform="";b()};m.subscribe("focus",g);k.setAttribute("autocapitalize","off");k.style.WebkitTransform="translateX(-10000px)"};
-// Input 86
-gui.ImageController=function(m,g,b){var k={"image/gif":".gif","image/jpeg":".jpg","image/png":".png"},d=odf.Namespaces.textns,n=m.getOdtDocument(),p=n.getFormatting(),f={};this.insertImage=function(q,e,r,a){var c;runtime.assert(0<r&&0<a,"Both width and height of the image should be greater than 0px.");c=n.getParagraphElement(n.getCursor(g).getNode()).getAttributeNS(d,"style-name");f.hasOwnProperty(c)||(f[c]=p.getContentSize(c,"paragraph"));c=f[c];r*=0.0264583333333334;a*=0.0264583333333334;var l=
-1,h=1;r>c.width&&(l=c.width/r);a>c.height&&(h=c.height/a);l=Math.min(l,h);c=r*l;r=a*l;h=n.getOdfCanvas().odfContainer().rootElement.styles;a=q.toLowerCase();var l=k.hasOwnProperty(a)?k[a]:null,v;a=[];runtime.assert(null!==l,"Image type is not supported: "+q);l="Pictures/"+b.generateImageName()+l;v=new ops.OpSetBlob;v.init({memberid:g,filename:l,mimetype:q,content:e});a.push(v);p.getStyleElement("Graphics","graphic",[h])||(q=new ops.OpAddStyle,q.init({memberid:g,styleName:"Graphics",styleFamily:"graphic",
-isAutomaticStyle:!1,setProperties:{"style:graphic-properties":{"text:anchor-type":"paragraph","svg:x":"0cm","svg:y":"0cm","style:wrap":"dynamic","style:number-wrapped-paragraphs":"no-limit","style:wrap-contour":"false","style:vertical-pos":"top","style:vertical-rel":"paragraph","style:horizontal-pos":"center","style:horizontal-rel":"paragraph"}}}),a.push(q));q=b.generateStyleName();e=new ops.OpAddStyle;e.init({memberid:g,styleName:q,styleFamily:"graphic",isAutomaticStyle:!0,setProperties:{"style:parent-style-name":"Graphics",
-"style:graphic-properties":{"style:vertical-pos":"top","style:vertical-rel":"baseline","style:horizontal-pos":"center","style:horizontal-rel":"paragraph","fo:background-color":"transparent","style:background-transparency":"100%","style:shadow":"none","style:mirror":"none","fo:clip":"rect(0cm, 0cm, 0cm, 0cm)","draw:luminance":"0%","draw:contrast":"0%","draw:red":"0%","draw:green":"0%","draw:blue":"0%","draw:gamma":"100%","draw:color-inversion":"false","draw:image-opacity":"100%","draw:color-mode":"standard"}}});
-a.push(e);v=new ops.OpInsertImage;v.init({memberid:g,position:n.getCursorPosition(g),filename:l,frameWidth:c+"cm",frameHeight:r+"cm",frameStyleName:q,frameName:b.generateFrameName()});a.push(v);m.enqueue(a)}};
-// Input 87
-gui.ImageSelector=function(m){function g(){var b=m.getSizer(),f=d.createElement("div");f.id="imageSelector";f.style.borderWidth="1px";b.appendChild(f);k.forEach(function(b){var e=d.createElement("div");e.className=b;f.appendChild(e)});return f}var b=odf.Namespaces.svgns,k="topLeft topRight bottomRight bottomLeft topMiddle rightMiddle bottomMiddle leftMiddle".split(" "),d=m.getElement().ownerDocument,n=!1;this.select=function(k){var f,q,e=d.getElementById("imageSelector");e||(e=g());n=!0;f=e.parentNode;
-q=k.getBoundingClientRect();var r=f.getBoundingClientRect(),a=m.getZoomLevel();f=(q.left-r.left)/a-1;q=(q.top-r.top)/a-1;e.style.display="block";e.style.left=f+"px";e.style.top=q+"px";e.style.width=k.getAttributeNS(b,"width");e.style.height=k.getAttributeNS(b,"height")};this.clearSelection=function(){var b;n&&(b=d.getElementById("imageSelector"))&&(b.style.display="none");n=!1};this.isSelectorElement=function(b){var f=d.getElementById("imageSelector");return f?b===f||b.parentNode===f:!1}};
-// Input 88
-(function(){function m(g){function b(b){p=b.which&&String.fromCharCode(b.which)===m;m=void 0;return!1===p}function k(){p=!1}function d(b){m=b.data;p=!1}var m,p=!1;this.destroy=function(f){g.unsubscribe("textInput",k);g.unsubscribe("compositionend",d);g.removeFilter("keypress",b);f()};g.subscribe("textInput",k);g.subscribe("compositionend",d);g.addFilter("keypress",b)}gui.InputMethodEditor=function(g,b){function k(a){l&&(a?l.getNode().setAttributeNS(c,"composing","true"):(l.getNode().removeAttributeNS(c,
-"composing"),w.textContent=""))}function d(){t&&(t=!1,k(!1),y.emit(gui.InputMethodEditor.signalCompositionEnd,{data:s}),s="")}function n(){d();l&&l.getSelectedRange().collapsed?h.value="":h.value=x;h.setSelectionRange(0,h.value.length)}function p(){F=void 0;u.cancel();k(!0);t||y.emit(gui.InputMethodEditor.signalCompositionStart,{data:""})}function f(a){a=F=a.data;t=!0;s+=a;u.trigger()}function q(a){a.data!==F&&(a=a.data,t=!0,s+=a,u.trigger());F=void 0}function e(){w.textContent=h.value}function r(){b.blur();
-h.setAttribute("disabled",!0)}function a(){var a=b.hasFocus();a&&b.blur();H?h.removeAttribute("disabled"):h.setAttribute("disabled",!0);a&&b.focus()}var c="urn:webodf:names:cursor",l=null,h=b.getEventTrap(),v=h.ownerDocument,w,z=new core.Async,x="b",u,t=!1,s="",y=new core.EventNotifier([gui.InputMethodEditor.signalCompositionStart,gui.InputMethodEditor.signalCompositionEnd]),F,L=[],O,H=!1;this.subscribe=y.subscribe;this.unsubscribe=y.unsubscribe;this.registerCursor=function(a){a.getMemberId()===g&&
-(l=a,l.getNode().appendChild(w),b.subscribe("input",e),b.subscribe("compositionupdate",e))};this.removeCursor=function(a){l&&a===g&&(l.getNode().removeChild(w),b.unsubscribe("input",e),b.unsubscribe("compositionupdate",e),l=null)};this.setEditing=function(b){H=b;a()};this.destroy=function(c){b.unsubscribe("compositionstart",p);b.unsubscribe("compositionend",f);b.unsubscribe("textInput",q);b.unsubscribe("keypress",d);b.unsubscribe("mousedown",r);b.unsubscribe("mouseup",a);b.unsubscribe("focus",n);
-z.destroyAll(O,c)};(function(){b.subscribe("compositionstart",p);b.subscribe("compositionend",f);b.subscribe("textInput",q);b.subscribe("keypress",d);b.subscribe("mousedown",r);b.subscribe("mouseup",a);b.subscribe("focus",n);L.push(new m(b));O=L.map(function(a){return a.destroy});w=v.createElement("span");w.setAttribute("id","composer");u=new core.ScheduledTask(n,1);O.push(u.destroy)})()};gui.InputMethodEditor.signalCompositionStart="input/compositionstart";gui.InputMethodEditor.signalCompositionEnd=
-"input/compositionend";return gui.InputMethodEditor})();
-// Input 89
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.KeyboardHandler=function(){function m(b,k){k||(k=g.None);return b+":"+k}var g=gui.KeyboardHandler.Modifier,b=null,k={};this.setDefault=function(d){b=d};this.bind=function(b,g,p,f){b=m(b,g);runtime.assert(f||!1===k.hasOwnProperty(b),"tried to overwrite the callback handler of key combo: "+b);k[b]=p};this.unbind=function(b,g){var p=m(b,g);delete k[p]};this.reset=function(){b=null;k={}};this.handleEvent=function(d){var n=d.keyCode,p=g.None;d.metaKey&&(p|=g.Meta);d.ctrlKey&&(p|=g.Ctrl);d.altKey&&
-(p|=g.Alt);d.shiftKey&&(p|=g.Shift);n=m(n,p);n=k[n];p=!1;n?p=n():null!==b&&(p=b(d));p&&(d.preventDefault?d.preventDefault():d.returnValue=!1)}};gui.KeyboardHandler.Modifier={None:0,Meta:1,Ctrl:2,Alt:4,CtrlAlt:6,Shift:8,MetaShift:9,CtrlShift:10,AltShift:12};
-gui.KeyboardHandler.KeyCode={Backspace:8,Tab:9,Clear:12,Enter:13,Ctrl:17,End:35,Home:36,Left:37,Up:38,Right:39,Down:40,Delete:46,A:65,B:66,C:67,D:68,E:69,F:70,G:71,H:72,I:73,J:74,K:75,L:76,M:77,N:78,O:79,P:80,Q:81,R:82,S:83,T:84,U:85,V:86,W:87,X:88,Y:89,Z:90,LeftMeta:91,MetaInMozilla:224};(function(){return gui.KeyboardHandler})();
-// Input 90
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.PlainTextPasteboard=function(m,g){function b(b,d){b.init(d);return b}this.createPasteOps=function(k){var d=m.getCursorPosition(g),n=d,p=[];k.replace(/\r/g,"").split("\n").forEach(function(d){p.push(b(new ops.OpSplitParagraph,{memberid:g,position:n,moveCursor:!0}));n+=1;p.push(b(new ops.OpInsertText,{memberid:g,position:n,text:d,moveCursor:!0}));n+=d.length});p.push(b(new ops.OpRemoveText,{memberid:g,position:d,length:1}));return p}};
-// Input 91
-/*
-
- Copyright (C) 2014 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-odf.WordBoundaryFilter=function(m,g){function b(a,b,c){for(var d=null,e=m.getRootNode(),f;a!==e&&null!==a&&null===d;)f=0>b?a.previousSibling:a.nextSibling,c(f)===NodeFilter.FILTER_ACCEPT&&(d=f),a=a.parentNode;return d}function k(a,b){var c;return null===a?l.NO_NEIGHBOUR:p.isCharacterElement(a)?l.SPACE_CHAR:a.nodeType===d||p.isTextSpan(a)||p.isHyperlink(a)?(c=a.textContent.charAt(b()),q.test(c)?l.SPACE_CHAR:f.test(c)?l.PUNCTUATION_CHAR:l.WORD_CHAR):l.OTHER}var d=Node.TEXT_NODE,n=Node.ELEMENT_NODE,
-p=new odf.OdfUtils,f=/[!-#%-*,-\/:-;?-@\[-\]_{}\u00a1\u00ab\u00b7\u00bb\u00bf;\u00b7\u055a-\u055f\u0589-\u058a\u05be\u05c0\u05c3\u05c6\u05f3-\u05f4\u0609-\u060a\u060c-\u060d\u061b\u061e-\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0964-\u0965\u0970\u0df4\u0e4f\u0e5a-\u0e5b\u0f04-\u0f12\u0f3a-\u0f3d\u0f85\u0fd0-\u0fd4\u104a-\u104f\u10fb\u1361-\u1368\u166d-\u166e\u169b-\u169c\u16eb-\u16ed\u1735-\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u180a\u1944-\u1945\u19de-\u19df\u1a1e-\u1a1f\u1b5a-\u1b60\u1c3b-\u1c3f\u1c7e-\u1c7f\u2000-\u206e\u207d-\u207e\u208d-\u208e\u3008-\u3009\u2768-\u2775\u27c5-\u27c6\u27e6-\u27ef\u2983-\u2998\u29d8-\u29db\u29fc-\u29fd\u2cf9-\u2cfc\u2cfe-\u2cff\u2e00-\u2e7e\u3000-\u303f\u30a0\u30fb\ua60d-\ua60f\ua673\ua67e\ua874-\ua877\ua8ce-\ua8cf\ua92e-\ua92f\ua95f\uaa5c-\uaa5f\ufd3e-\ufd3f\ufe10-\ufe19\ufe30-\ufe52\ufe54-\ufe61\ufe63\ufe68\ufe6a-\ufe6b\uff01-\uff03\uff05-\uff0a\uff0c-\uff0f\uff1a-\uff1b\uff1f-\uff20\uff3b-\uff3d\uff3f\uff5b\uff5d\uff5f-\uff65]|\ud800[\udd00-\udd01\udf9f\udfd0]|\ud802[\udd1f\udd3f\ude50-\ude58]|\ud809[\udc00-\udc7e]/,
-q=/\s/,e=core.PositionFilter.FilterResult.FILTER_ACCEPT,r=core.PositionFilter.FilterResult.FILTER_REJECT,a=odf.WordBoundaryFilter.IncludeWhitespace.TRAILING,c=odf.WordBoundaryFilter.IncludeWhitespace.LEADING,l={NO_NEIGHBOUR:0,SPACE_CHAR:1,PUNCTUATION_CHAR:2,WORD_CHAR:3,OTHER:4};this.acceptPosition=function(d){var f=d.container(),m=d.leftNode(),p=d.rightNode(),q=d.unfilteredDomOffset,u=function(){return d.unfilteredDomOffset()-1};f.nodeType===n&&(null===p&&(p=b(f,1,d.getNodeFilter())),null===m&&(m=
-b(f,-1,d.getNodeFilter())));f!==p&&(q=function(){return 0});f!==m&&null!==m&&(u=function(){return m.textContent.length-1});f=k(m,u);p=k(p,q);return f===l.WORD_CHAR&&p===l.WORD_CHAR||f===l.PUNCTUATION_CHAR&&p===l.PUNCTUATION_CHAR||g===a&&f!==l.NO_NEIGHBOUR&&p===l.SPACE_CHAR||g===c&&f===l.SPACE_CHAR&&p!==l.NO_NEIGHBOUR?r:e}};odf.WordBoundaryFilter.IncludeWhitespace={None:0,TRAILING:1,LEADING:2};(function(){return odf.WordBoundaryFilter})();
-// Input 92
-gui.SelectionController=function(m,g){function b(){var a=x.getCursor(g).getNode();return x.createStepIterator(a,0,[s,F],x.getRootElement(a))}function k(a,b,c){c=new odf.WordBoundaryFilter(x,c);return x.createStepIterator(a,b,[s,F,c],x.getRootElement(a))}function d(a){return function(b){var c=a(b);return function(b,d){return a(d)===c}}}function n(a,b){return b?{anchorNode:a.startContainer,anchorOffset:a.startOffset,focusNode:a.endContainer,focusOffset:a.endOffset}:{anchorNode:a.endContainer,anchorOffset:a.endOffset,
-focusNode:a.startContainer,focusOffset:a.startOffset}}function p(a,b,c){var d=new ops.OpMoveCursor;d.init({memberid:g,position:a,length:b||0,selectionType:c});return d}function f(a){var b;b=k(a.startContainer,a.startOffset,L);b.roundToPreviousStep()&&a.setStart(b.container(),b.offset());b=k(a.endContainer,a.endOffset,O);b.roundToNextStep()&&a.setEnd(b.container(),b.offset())}function q(a){var b=t.getParagraphElements(a),c=b[0],b=b[b.length-1];c&&a.setStart(c,0);b&&(t.isParagraph(a.endContainer)&&
-0===a.endOffset?a.setEndBefore(b):a.setEnd(b,b.childNodes.length))}function e(a){var b=x.getCursorSelection(g),c=x.getCursor(g).getStepCounter();0!==a&&(a=0<a?c.convertForwardStepsBetweenFilters(a,y,s):-c.convertBackwardStepsBetweenFilters(-a,y,s),a=b.length+a,m.enqueue([p(b.position,a)]))}function r(a){var c=b(),d=x.getCursor(g).getAnchorNode();a(c)&&(a=x.convertDomToCursorRange({anchorNode:d,anchorOffset:0,focusNode:c.container(),focusOffset:c.offset()}),m.enqueue([p(a.position,a.length)]))}function a(a){var b=
-x.getCursorPosition(g),c=x.getCursor(g).getStepCounter();0!==a&&(a=0<a?c.convertForwardStepsBetweenFilters(a,y,s):-c.convertBackwardStepsBetweenFilters(-a,y,s),m.enqueue([p(b+a,0)]))}function c(a){var c=b();a(c)&&(a=x.convertDomPointToCursorStep(c.container(),c.offset()),m.enqueue([p(a,0)]))}function l(b,c){var d=x.getParagraphElement(x.getCursor(g).getNode());runtime.assert(Boolean(d),"SelectionController: Cursor outside paragraph");d=x.getCursor(g).getStepCounter().countLinesSteps(b,y);c?e(d):a(d)}
-function h(b,c){var d=x.getCursor(g).getStepCounter().countStepsToLineBoundary(b,y);c?e(d):a(d)}function v(a,b){var c=x.getCursor(g),c=n(c.getSelectedRange(),c.hasForwardSelection()),d=k(c.focusNode,c.focusOffset,L);if(0<=a?d.nextStep():d.previousStep())c.focusNode=d.container(),c.focusOffset=d.offset(),b||(c.anchorNode=c.focusNode,c.anchorOffset=c.focusOffset),c=x.convertDomToCursorRange(c),m.enqueue([p(c.position,c.length)])}function w(a,b){var c=x.getCursor(g),e=b(c.getNode()),c=n(c.getSelectedRange(),
-c.hasForwardSelection());runtime.assert(Boolean(e),"SelectionController: Cursor outside root");0>a?(c.focusNode=e,c.focusOffset=0):(c.focusNode=e,c.focusOffset=e.childNodes.length);e=x.convertDomToCursorRange(c,d(b));m.enqueue([p(e.position,e.length)])}function z(a){var b=x.getCursor(g),b=x.getRootElement(b.getNode());runtime.assert(Boolean(b),"SelectionController: Cursor outside root");a=0>a?x.convertDomPointToCursorStep(b,0,function(a){return a===ops.StepsTranslator.NEXT_STEP}):x.convertDomPointToCursorStep(b,
-b.childNodes.length);m.enqueue([p(a,0)]);return!0}var x=m.getOdtDocument(),u=new core.DomUtils,t=new odf.OdfUtils,s=x.getPositionFilter(),y=new core.PositionFilterChain,F=x.createRootFilter(g),L=odf.WordBoundaryFilter.IncludeWhitespace.TRAILING,O=odf.WordBoundaryFilter.IncludeWhitespace.LEADING;this.selectionToRange=function(a){var b=0<=u.comparePoints(a.anchorNode,a.anchorOffset,a.focusNode,a.focusOffset),c=a.focusNode.ownerDocument.createRange();b?(c.setStart(a.anchorNode,a.anchorOffset),c.setEnd(a.focusNode,
-a.focusOffset)):(c.setStart(a.focusNode,a.focusOffset),c.setEnd(a.anchorNode,a.anchorOffset));return{range:c,hasForwardSelection:b}};this.rangeToSelection=n;this.selectImage=function(a){var b=x.getRootElement(a),c=x.createRootFilter(b),b=x.createStepIterator(a,0,[c,x.getPositionFilter()],b),d;b.roundToPreviousStep()||runtime.assert(!1,"No walkable position before frame");c=b.container();d=b.offset();b.setPosition(a,a.childNodes.length);b.roundToNextStep()||runtime.assert(!1,"No walkable position after frame");
-a=x.convertDomToCursorRange({anchorNode:c,anchorOffset:d,focusNode:b.container(),focusOffset:b.offset()});a=p(a.position,a.length,ops.OdtCursor.RegionSelection);m.enqueue([a])};this.expandToWordBoundaries=f;this.expandToParagraphBoundaries=q;this.selectRange=function(a,b,c){var e=x.getOdfCanvas().getElement(),h;h=u.containsNode(e,a.startContainer);e=u.containsNode(e,a.endContainer);if(h||e)if(h&&e&&(2===c?f(a):3<=c&&q(a)),a=n(a,b),b=x.convertDomToCursorRange(a,d(t.getParagraphElement)),a=x.getCursorSelection(g),
-b.position!==a.position||b.length!==a.length)a=p(b.position,b.length,ops.OdtCursor.RangeSelection),m.enqueue([a])};this.moveCursorToLeft=function(){c(function(a){return a.previousStep()});return!0};this.moveCursorToRight=function(){c(function(a){return a.nextStep()});return!0};this.extendSelectionToLeft=function(){r(function(a){return a.previousStep()});return!0};this.extendSelectionToRight=function(){r(function(a){return a.nextStep()});return!0};this.moveCursorUp=function(){l(-1,!1);return!0};this.moveCursorDown=
-function(){l(1,!1);return!0};this.extendSelectionUp=function(){l(-1,!0);return!0};this.extendSelectionDown=function(){l(1,!0);return!0};this.moveCursorBeforeWord=function(){v(-1,!1);return!0};this.moveCursorPastWord=function(){v(1,!1);return!0};this.extendSelectionBeforeWord=function(){v(-1,!0);return!0};this.extendSelectionPastWord=function(){v(1,!0);return!0};this.moveCursorToLineStart=function(){h(-1,!1);return!0};this.moveCursorToLineEnd=function(){h(1,!1);return!0};this.extendSelectionToLineStart=
-function(){h(-1,!0);return!0};this.extendSelectionToLineEnd=function(){h(1,!0);return!0};this.extendSelectionToParagraphStart=function(){w(-1,x.getParagraphElement);return!0};this.extendSelectionToParagraphEnd=function(){w(1,x.getParagraphElement);return!0};this.moveCursorToDocumentStart=function(){z(-1);return!0};this.moveCursorToDocumentEnd=function(){z(1);return!0};this.extendSelectionToDocumentStart=function(){w(-1,x.getRootElement);return!0};this.extendSelectionToDocumentEnd=function(){w(1,x.getRootElement);
-return!0};this.extendSelectionToEntireDocument=function(){var a=x.getCursor(g),a=x.getRootElement(a.getNode());runtime.assert(Boolean(a),"SelectionController: Cursor outside root");a=x.convertDomToCursorRange({anchorNode:a,anchorOffset:0,focusNode:a,focusOffset:a.childNodes.length},d(x.getRootElement));m.enqueue([p(a.position,a.length)]);return!0};y.addFilter(s);y.addFilter(x.createRootFilter(g))};
-// Input 93
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.TextController=function(m,g,b,k){function d(b){var d=new ops.OpRemoveText;d.init({memberid:g,position:b.position,length:b.length});return d}function n(b){0>b.length&&(b.position+=b.length,b.length=-b.length);return b}function p(b,d){var a=new core.PositionFilterChain,c=gui.SelectionMover.createPositionIterator(f.getRootElement(b)),l=d?c.nextPosition:c.previousPosition;a.addFilter(f.getPositionFilter());a.addFilter(f.createRootFilter(g));for(c.setUnfilteredPosition(b,0);l();)if(a.acceptPosition(c)===
-q)return!0;return!1}var f=m.getOdtDocument(),q=core.PositionFilter.FilterResult.FILTER_ACCEPT;this.enqueueParagraphSplittingOps=function(){var b=n(f.getCursorSelection(g)),p,a=[];0<b.length&&(p=d(b),a.push(p));p=new ops.OpSplitParagraph;p.init({memberid:g,position:b.position,moveCursor:!0});a.push(p);k&&(b=k(b.position+1),a=a.concat(b));m.enqueue(a);return!0};this.removeTextByBackspaceKey=function(){var b=f.getCursor(g),k=n(f.getCursorSelection(g)),a=null;0===k.length?p(b.getNode(),!1)&&(a=new ops.OpRemoveText,
-a.init({memberid:g,position:k.position-1,length:1}),m.enqueue([a])):(a=d(k),m.enqueue([a]));return null!==a};this.removeTextByDeleteKey=function(){var b=f.getCursor(g),k=n(f.getCursorSelection(g)),a=null;0===k.length?p(b.getNode(),!0)&&(a=new ops.OpRemoveText,a.init({memberid:g,position:k.position,length:1}),m.enqueue([a])):(a=d(k),m.enqueue([a]));return null!==a};this.removeCurrentSelection=function(){var b=n(f.getCursorSelection(g));0!==b.length&&(b=d(b),m.enqueue([b]));return!0};this.insertText=
-function(e){var k=n(f.getCursorSelection(g)),a,c=[],l=!1;0<k.length&&(a=d(k),c.push(a),l=!0);a=new ops.OpInsertText;a.init({memberid:g,position:k.position,text:e,moveCursor:!0});c.push(a);b&&(e=b(k.position,e.length,l))&&c.push(e);m.enqueue(c)}};(function(){return gui.TextController})();
-// Input 94
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.UndoManager=function(){};gui.UndoManager.prototype.subscribe=function(m,g){};gui.UndoManager.prototype.unsubscribe=function(m,g){};gui.UndoManager.prototype.setDocument=function(m){};gui.UndoManager.prototype.setInitialState=function(){};gui.UndoManager.prototype.initialize=function(){};gui.UndoManager.prototype.purgeInitialState=function(){};gui.UndoManager.prototype.setPlaybackFunction=function(m){};gui.UndoManager.prototype.hasUndoStates=function(){};
-gui.UndoManager.prototype.hasRedoStates=function(){};gui.UndoManager.prototype.moveForward=function(m){};gui.UndoManager.prototype.moveBackward=function(m){};gui.UndoManager.prototype.onOperationExecuted=function(m){};gui.UndoManager.signalUndoStackChanged="undoStackChanged";gui.UndoManager.signalUndoStateCreated="undoStateCreated";gui.UndoManager.signalUndoStateModified="undoStateModified";(function(){return gui.UndoManager})();
-// Input 95
-(function(){var m=core.PositionFilter.FilterResult.FILTER_ACCEPT;gui.SessionController=function(g,b,k,d){function n(a){return a.target||a.srcElement||null}function p(a,b){var c=J.getDOMDocument(),d=null;c.caretRangeFromPoint?(c=c.caretRangeFromPoint(a,b),d={container:c.startContainer,offset:c.startOffset}):c.caretPositionFromPoint&&(c=c.caretPositionFromPoint(a,b))&&c.offsetNode&&(d={container:c.offsetNode,offset:c.offset});return d}function f(a){var c=J.getCursor(b).getSelectedRange();c.collapsed?
-a.preventDefault():I.setDataFromRange(a,c)?aa.removeCurrentSelection():runtime.log("Cut operation failed")}function q(){return!1!==J.getCursor(b).getSelectedRange().collapsed}function e(a){var c=J.getCursor(b).getSelectedRange();c.collapsed?a.preventDefault():I.setDataFromRange(a,c)||runtime.log("Copy operation failed")}function r(a){var b;G.clipboardData&&G.clipboardData.getData?b=G.clipboardData.getData("Text"):a.clipboardData&&a.clipboardData.getData&&(b=a.clipboardData.getData("text/plain"));
-b&&(aa.removeCurrentSelection(),g.enqueue(na.createPasteOps(b)));a.preventDefault?a.preventDefault():a.returnValue=!1}function a(){return!1}function c(a){if(ca)ca.onOperationExecuted(a)}function l(a){J.emit(ops.OdtDocument.signalUndoStackChanged,a)}function h(){var a=A.getEventTrap(),b,c;return ca?(c=A.hasFocus(),ca.moveBackward(1),b=J.getOdfCanvas().getSizer(),ea.containsNode(b,a)||(b.appendChild(a),c&&A.focus()),!0):!1}function v(){var a;return ca?(a=A.hasFocus(),ca.moveForward(1),a&&A.focus(),
-!0):!1}function w(a){var c=J.getCursor(b).getSelectedRange(),d=n(a).getAttribute("end");c&&d&&(a=p(a.clientX,a.clientY))&&(da.setUnfilteredPosition(a.container,a.offset),fa.acceptPosition(da)===m&&(c=c.cloneRange(),"left"===d?c.setStart(da.container(),da.unfilteredDomOffset()):c.setEnd(da.container(),da.unfilteredDomOffset()),k.setSelectedRange(c,"right"===d),J.emit(ops.Document.signalCursorMoved,k)))}function z(){K.selectRange(k.getSelectedRange(),k.hasForwardSelection(),1)}function x(){var a=G.getSelection(),
-b=0<a.rangeCount&&K.selectionToRange(a);$&&b&&(S=!0,ga.clearSelection(),da.setUnfilteredPosition(a.focusNode,a.focusOffset),fa.acceptPosition(da)===m&&(2===ka?K.expandToWordBoundaries(b.range):3<=ka&&K.expandToParagraphBoundaries(b.range),k.setSelectedRange(b.range,b.hasForwardSelection),J.emit(ops.Document.signalCursorMoved,k)))}function u(a){var c=n(a),d=J.getCursor(b);if($=null!==c&&ea.containsNode(J.getOdfCanvas().getElement(),c))S=!1,fa=J.createRootFilter(c),ka=a.detail,d&&a.shiftKey?G.getSelection().collapse(d.getAnchorNode(),
-0):(a=G.getSelection(),c=d.getSelectedRange(),a.extend?d.hasForwardSelection()?(a.collapse(c.startContainer,c.startOffset),a.extend(c.endContainer,c.endOffset)):(a.collapse(c.endContainer,c.endOffset),a.extend(c.startContainer,c.startOffset)):(a.removeAllRanges(),a.addRange(c.cloneRange()))),1<ka&&x()}function t(a){var b=J.getRootElement(a),c=J.createRootFilter(b),b=J.createStepIterator(a,0,[c,J.getPositionFilter()],b);b.setPosition(a,a.childNodes.length);return b.roundToNextStep()?{container:b.container(),
-offset:b.offset()}:null}function s(a){var b;b=(b=G.getSelection())?{anchorNode:b.anchorNode,anchorOffset:b.anchorOffset,focusNode:b.focusNode,focusOffset:b.focusOffset}:null;var c,d;b.anchorNode||b.focusNode||!(c=p(a.clientX,a.clientY))||(b.anchorNode=c.container,b.anchorOffset=c.offset,b.focusNode=b.anchorNode,b.focusOffset=b.anchorOffset);if(P.isImage(b.focusNode)&&0===b.focusOffset&&P.isCharacterFrame(b.focusNode.parentNode)){if(d=b.focusNode.parentNode,c=d.getBoundingClientRect(),a.clientX>c.right&&
-(c=t(d)))b.anchorNode=b.focusNode=c.container,b.anchorOffset=b.focusOffset=c.offset}else P.isImage(b.focusNode.firstChild)&&1===b.focusOffset&&P.isCharacterFrame(b.focusNode)&&(c=t(b.focusNode))&&(b.anchorNode=b.focusNode=c.container,b.anchorOffset=b.focusOffset=c.offset);b.anchorNode&&b.focusNode&&(b=K.selectionToRange(b),K.selectRange(b.range,b.hasForwardSelection,a.detail));A.focus()}function y(a){var b;if(b=p(a.clientX,a.clientY))a=b.container,b=b.offset,a={anchorNode:a,anchorOffset:b,focusNode:a,
-focusOffset:b},a=K.selectionToRange(a),K.selectRange(a.range,a.hasForwardSelection,2),A.focus()}function F(a){var b=n(a),c,d;la.processRequests();P.isImage(b)&&P.isCharacterFrame(b.parentNode)&&G.getSelection().isCollapsed?(K.selectImage(b.parentNode),A.focus()):ga.isSelectorElement(b)?A.focus():$&&(S?(b=k.getSelectedRange(),c=b.collapsed,P.isImage(b.endContainer)&&0===b.endOffset&&P.isCharacterFrame(b.endContainer.parentNode)&&(d=b.endContainer.parentNode,d=t(d))&&(b.setEnd(d.container,d.offset),
-c&&b.collapse(!1)),K.selectRange(b,k.hasForwardSelection(),a.detail),A.focus()):qa?s(a):ma=runtime.setTimeout(function(){s(a)},0));ka=0;S=$=!1}function L(a){var c=J.getCursor(b).getSelectedRange();c.collapsed||N.exportRangeToDataTransfer(a.dataTransfer,c)}function O(){$&&A.focus();ka=0;S=$=!1}function H(a){F(a)}function U(a){var b=n(a),c=null;"annotationRemoveButton"===b.className?(c=ea.getElementsByTagNameNS(b.parentNode,odf.Namespaces.officens,"annotation")[0],Y.removeAnnotation(c),A.focus()):"draggable"!==
-b.getAttribute("class")&&F(a)}function T(a){(a=a.data)&&aa.insertText(a)}function X(a){return function(){a();return!0}}function D(a){return function(c){return J.getCursor(b).getSelectionType()===ops.OdtCursor.RangeSelection?a(c):!0}}function ba(a){A.unsubscribe("keydown",B.handleEvent);A.unsubscribe("keypress",V.handleEvent);A.unsubscribe("keyup",M.handleEvent);A.unsubscribe("copy",e);A.unsubscribe("mousedown",u);A.unsubscribe("mousemove",la.trigger);A.unsubscribe("mouseup",U);A.unsubscribe("contextmenu",
-H);A.unsubscribe("dragstart",L);A.unsubscribe("dragend",O);A.unsubscribe("click",Z.handleClick);A.unsubscribe("longpress",y);A.unsubscribe("drag",w);A.unsubscribe("dragstop",z);J.unsubscribe(ops.OdtDocument.signalOperationEnd,ja.trigger);J.unsubscribe(ops.Document.signalCursorAdded,ha.registerCursor);J.unsubscribe(ops.Document.signalCursorRemoved,ha.removeCursor);J.unsubscribe(ops.OdtDocument.signalOperationEnd,c);a()}var G=runtime.getWindow(),J=g.getOdtDocument(),Q=new core.Async,ea=new core.DomUtils,
-P=new odf.OdfUtils,N=new gui.MimeDataExporter,I=new gui.Clipboard(N),B=new gui.KeyboardHandler,V=new gui.KeyboardHandler,M=new gui.KeyboardHandler,$=!1,W=new odf.ObjectNameGenerator(J.getOdfCanvas().odfContainer(),b),S=!1,fa=null,ma,ca=null,A=new gui.EventManager(J),Y=new gui.AnnotationController(g,b),R=new gui.DirectFormattingController(g,b,W,d.directParagraphStylingEnabled),aa=new gui.TextController(g,b,R.createCursorStyleOp,R.createParagraphStyleOps),ia=new gui.ImageController(g,b,W),ga=new gui.ImageSelector(J.getOdfCanvas()),
-da=gui.SelectionMover.createPositionIterator(J.getRootNode()),la,ja,na=new gui.PlainTextPasteboard(J,b),ha=new gui.InputMethodEditor(b,A),ka=0,Z=new gui.HyperlinkClickHandler(J.getRootNode),ra=new gui.HyperlinkController(g,b),K=new gui.SelectionController(g,b),E=gui.KeyboardHandler.Modifier,C=gui.KeyboardHandler.KeyCode,oa=-1!==G.navigator.appVersion.toLowerCase().indexOf("mac"),qa=-1!==["iPad","iPod","iPhone"].indexOf(G.navigator.platform),pa;runtime.assert(null!==G,"Expected to be run in an environment which has a global window, like a browser.");
-this.undo=h;this.redo=v;this.insertLocalCursor=function(){runtime.assert(void 0===g.getOdtDocument().getCursor(b),"Inserting local cursor a second time.");var a=new ops.OpAddCursor;a.init({memberid:b});g.enqueue([a]);A.focus()};this.removeLocalCursor=function(){runtime.assert(void 0!==g.getOdtDocument().getCursor(b),"Removing local cursor without inserting before.");var a=new ops.OpRemoveCursor;a.init({memberid:b});g.enqueue([a])};this.startEditing=function(){ha.subscribe(gui.InputMethodEditor.signalCompositionStart,
-aa.removeCurrentSelection);ha.subscribe(gui.InputMethodEditor.signalCompositionEnd,T);A.subscribe("beforecut",q);A.subscribe("cut",f);A.subscribe("beforepaste",a);A.subscribe("paste",r);G.addEventListener("focus",Z.showTextCursor,!1);ca&&ca.initialize();ha.setEditing(!0);Z.setModifier(oa?gui.HyperlinkClickHandler.Modifier.Meta:gui.HyperlinkClickHandler.Modifier.Ctrl);B.bind(C.Backspace,E.None,X(aa.removeTextByBackspaceKey),!0);B.bind(C.Delete,E.None,aa.removeTextByDeleteKey);B.bind(C.Tab,E.None,D(function(){aa.insertText("\t");
-return!0}));oa?(B.bind(C.Clear,E.None,aa.removeCurrentSelection),B.bind(C.B,E.Meta,D(R.toggleBold)),B.bind(C.I,E.Meta,D(R.toggleItalic)),B.bind(C.U,E.Meta,D(R.toggleUnderline)),B.bind(C.L,E.MetaShift,D(R.alignParagraphLeft)),B.bind(C.E,E.MetaShift,D(R.alignParagraphCenter)),B.bind(C.R,E.MetaShift,D(R.alignParagraphRight)),B.bind(C.J,E.MetaShift,D(R.alignParagraphJustified)),B.bind(C.C,E.MetaShift,Y.addAnnotation),B.bind(C.Z,E.Meta,h),B.bind(C.Z,E.MetaShift,v),B.bind(C.LeftMeta,E.Meta,Z.showPointerCursor),
-B.bind(C.MetaInMozilla,E.Meta,Z.showPointerCursor),M.bind(C.LeftMeta,E.None,Z.showTextCursor),M.bind(C.MetaInMozilla,E.None,Z.showTextCursor)):(B.bind(C.B,E.Ctrl,D(R.toggleBold)),B.bind(C.I,E.Ctrl,D(R.toggleItalic)),B.bind(C.U,E.Ctrl,D(R.toggleUnderline)),B.bind(C.L,E.CtrlShift,D(R.alignParagraphLeft)),B.bind(C.E,E.CtrlShift,D(R.alignParagraphCenter)),B.bind(C.R,E.CtrlShift,D(R.alignParagraphRight)),B.bind(C.J,E.CtrlShift,D(R.alignParagraphJustified)),B.bind(C.C,E.CtrlAlt,Y.addAnnotation),B.bind(C.Z,
-E.Ctrl,h),B.bind(C.Z,E.CtrlShift,v),B.bind(C.Ctrl,E.Ctrl,Z.showPointerCursor),M.bind(C.Ctrl,E.None,Z.showTextCursor));V.setDefault(D(function(a){var b;b=null===a.which||void 0===a.which?String.fromCharCode(a.keyCode):0!==a.which&&0!==a.charCode?String.fromCharCode(a.which):null;return!b||a.altKey||a.ctrlKey||a.metaKey?!1:(aa.insertText(b),!0)}));V.bind(C.Enter,E.None,D(aa.enqueueParagraphSplittingOps))};this.endEditing=function(){ha.unsubscribe(gui.InputMethodEditor.signalCompositionStart,aa.removeCurrentSelection);
-ha.unsubscribe(gui.InputMethodEditor.signalCompositionEnd,T);A.unsubscribe("cut",f);A.unsubscribe("beforecut",q);A.unsubscribe("paste",r);A.unsubscribe("beforepaste",a);G.removeEventListener("focus",Z.showTextCursor,!1);ha.setEditing(!1);Z.setModifier(gui.HyperlinkClickHandler.Modifier.None);B.bind(C.Backspace,E.None,function(){return!0},!0);B.unbind(C.Delete,E.None);B.unbind(C.Tab,E.None);oa?(B.unbind(C.Clear,E.None),B.unbind(C.B,E.Meta),B.unbind(C.I,E.Meta),B.unbind(C.U,E.Meta),B.unbind(C.L,E.MetaShift),
-B.unbind(C.E,E.MetaShift),B.unbind(C.R,E.MetaShift),B.unbind(C.J,E.MetaShift),B.unbind(C.C,E.MetaShift),B.unbind(C.Z,E.Meta),B.unbind(C.Z,E.MetaShift),B.unbind(C.LeftMeta,E.Meta),B.unbind(C.MetaInMozilla,E.Meta),M.unbind(C.LeftMeta,E.None),M.unbind(C.MetaInMozilla,E.None)):(B.unbind(C.B,E.Ctrl),B.unbind(C.I,E.Ctrl),B.unbind(C.U,E.Ctrl),B.unbind(C.L,E.CtrlShift),B.unbind(C.E,E.CtrlShift),B.unbind(C.R,E.CtrlShift),B.unbind(C.J,E.CtrlShift),B.unbind(C.C,E.CtrlAlt),B.unbind(C.Z,E.Ctrl),B.unbind(C.Z,E.CtrlShift),
-B.unbind(C.Ctrl,E.Ctrl),M.unbind(C.Ctrl,E.None));V.setDefault(null);V.unbind(C.Enter,E.None)};this.getInputMemberId=function(){return b};this.getSession=function(){return g};this.setUndoManager=function(a){ca&&ca.unsubscribe(gui.UndoManager.signalUndoStackChanged,l);if(ca=a)ca.setDocument(J),ca.setPlaybackFunction(g.enqueue),ca.subscribe(gui.UndoManager.signalUndoStackChanged,l)};this.getUndoManager=function(){return ca};this.getAnnotationController=function(){return Y};this.getDirectFormattingController=
-function(){return R};this.getHyperlinkController=function(){return ra};this.getImageController=function(){return ia};this.getSelectionController=function(){return K};this.getTextController=function(){return aa};this.getEventManager=function(){return A};this.getKeyboardHandlers=function(){return{keydown:B,keypress:V}};this.destroy=function(a){var b=[];pa&&b.push(pa.destroy);b=b.concat([la.destroy,ja.destroy,R.destroy,ha.destroy,A.destroy,ba]);runtime.clearTimeout(ma);Q.destroyAll(b,a)};la=new core.ScheduledTask(x,
-0);ja=new core.ScheduledTask(function(){var a=J.getCursor(b);if(a&&a.getSelectionType()===ops.OdtCursor.RegionSelection&&(a=P.getImageElements(a.getSelectedRange())[0])){ga.select(a.parentNode);return}ga.clearSelection()},0);B.bind(C.Left,E.None,D(K.moveCursorToLeft));B.bind(C.Right,E.None,D(K.moveCursorToRight));B.bind(C.Up,E.None,D(K.moveCursorUp));B.bind(C.Down,E.None,D(K.moveCursorDown));B.bind(C.Left,E.Shift,D(K.extendSelectionToLeft));B.bind(C.Right,E.Shift,D(K.extendSelectionToRight));B.bind(C.Up,
-E.Shift,D(K.extendSelectionUp));B.bind(C.Down,E.Shift,D(K.extendSelectionDown));B.bind(C.Home,E.None,D(K.moveCursorToLineStart));B.bind(C.End,E.None,D(K.moveCursorToLineEnd));B.bind(C.Home,E.Ctrl,D(K.moveCursorToDocumentStart));B.bind(C.End,E.Ctrl,D(K.moveCursorToDocumentEnd));B.bind(C.Home,E.Shift,D(K.extendSelectionToLineStart));B.bind(C.End,E.Shift,D(K.extendSelectionToLineEnd));B.bind(C.Up,E.CtrlShift,D(K.extendSelectionToParagraphStart));B.bind(C.Down,E.CtrlShift,D(K.extendSelectionToParagraphEnd));
-B.bind(C.Home,E.CtrlShift,D(K.extendSelectionToDocumentStart));B.bind(C.End,E.CtrlShift,D(K.extendSelectionToDocumentEnd));oa?(B.bind(C.Left,E.Alt,D(K.moveCursorBeforeWord)),B.bind(C.Right,E.Alt,D(K.moveCursorPastWord)),B.bind(C.Left,E.Meta,D(K.moveCursorToLineStart)),B.bind(C.Right,E.Meta,D(K.moveCursorToLineEnd)),B.bind(C.Home,E.Meta,D(K.moveCursorToDocumentStart)),B.bind(C.End,E.Meta,D(K.moveCursorToDocumentEnd)),B.bind(C.Left,E.AltShift,D(K.extendSelectionBeforeWord)),B.bind(C.Right,E.AltShift,
-D(K.extendSelectionPastWord)),B.bind(C.Left,E.MetaShift,D(K.extendSelectionToLineStart)),B.bind(C.Right,E.MetaShift,D(K.extendSelectionToLineEnd)),B.bind(C.Up,E.AltShift,D(K.extendSelectionToParagraphStart)),B.bind(C.Down,E.AltShift,D(K.extendSelectionToParagraphEnd)),B.bind(C.Up,E.MetaShift,D(K.extendSelectionToDocumentStart)),B.bind(C.Down,E.MetaShift,D(K.extendSelectionToDocumentEnd)),B.bind(C.A,E.Meta,D(K.extendSelectionToEntireDocument))):(B.bind(C.Left,E.Ctrl,D(K.moveCursorBeforeWord)),B.bind(C.Right,
-E.Ctrl,D(K.moveCursorPastWord)),B.bind(C.Left,E.CtrlShift,D(K.extendSelectionBeforeWord)),B.bind(C.Right,E.CtrlShift,D(K.extendSelectionPastWord)),B.bind(C.A,E.Ctrl,D(K.extendSelectionToEntireDocument)));qa&&(pa=new gui.IOSSafariSupport(A));A.subscribe("keydown",B.handleEvent);A.subscribe("keypress",V.handleEvent);A.subscribe("keyup",M.handleEvent);A.subscribe("copy",e);A.subscribe("mousedown",u);A.subscribe("mousemove",la.trigger);A.subscribe("mouseup",U);A.subscribe("contextmenu",H);A.subscribe("dragstart",
-L);A.subscribe("dragend",O);A.subscribe("click",Z.handleClick);A.subscribe("longpress",y);A.subscribe("drag",w);A.subscribe("dragstop",z);J.subscribe(ops.OdtDocument.signalOperationEnd,ja.trigger);J.subscribe(ops.Document.signalCursorAdded,ha.registerCursor);J.subscribe(ops.Document.signalCursorRemoved,ha.removeCursor);J.subscribe(ops.OdtDocument.signalOperationEnd,c)};return gui.SessionController})();
-// Input 96
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.CaretManager=function(m){function g(a){return c.hasOwnProperty(a)?c[a]:null}function b(){return Object.keys(c).map(function(a){return c[a]})}function k(a){var b=c[a];b&&(b.destroy(function(){}),delete c[a])}function d(a){a=a.getMemberId();a===m.getInputMemberId()&&(a=g(a))&&a.refreshCursorBlinking()}function n(){var a=g(m.getInputMemberId());w=!1;a&&a.ensureVisible()}function p(){var a=g(m.getInputMemberId());a&&(a.handleUpdate(),w||(w=!0,v=runtime.setTimeout(n,50)))}function f(a){a.memberId===
-m.getInputMemberId()&&p()}function q(){var a=g(m.getInputMemberId());a&&a.setFocus()}function e(){var a=g(m.getInputMemberId());a&&a.removeFocus()}function r(){var a=g(m.getInputMemberId());a&&a.show()}function a(){var a=g(m.getInputMemberId());a&&a.hide()}var c={},l=new core.Async,h=runtime.getWindow(),v,w=!1;this.registerCursor=function(a,b,d){var e=a.getMemberId();b=new gui.Caret(a,b,d);d=m.getEventManager();c[e]=b;e===m.getInputMemberId()?(runtime.log("Starting to track input on new cursor of "+
-e),a.subscribe(ops.OdtCursor.signalCursorUpdated,p),b.setOverlayElement(d.getEventTrap())):a.subscribe(ops.OdtCursor.signalCursorUpdated,b.handleUpdate);return b};this.getCaret=g;this.getCarets=b;this.destroy=function(g){var n=m.getSession().getOdtDocument(),p=m.getEventManager(),t=b().map(function(a){return a.destroy});runtime.clearTimeout(v);n.unsubscribe(ops.OdtDocument.signalParagraphChanged,f);n.unsubscribe(ops.Document.signalCursorMoved,d);n.unsubscribe(ops.Document.signalCursorRemoved,k);p.unsubscribe("focus",
-q);p.unsubscribe("blur",e);h.removeEventListener("focus",r,!1);h.removeEventListener("blur",a,!1);c={};l.destroyAll(t,g)};(function(){var b=m.getSession().getOdtDocument(),c=m.getEventManager();b.subscribe(ops.OdtDocument.signalParagraphChanged,f);b.subscribe(ops.Document.signalCursorMoved,d);b.subscribe(ops.Document.signalCursorRemoved,k);c.subscribe("focus",q);c.subscribe("blur",e);h.addEventListener("focus",r,!1);h.addEventListener("blur",a,!1)})()};
-// Input 97
-gui.EditInfoHandle=function(m){var g=[],b,k=m.ownerDocument,d=k.documentElement.namespaceURI;this.setEdits=function(m){g=m;var p,f,q,e;b.innerHTML="";for(m=0;m<g.length;m+=1)p=k.createElementNS(d,"div"),p.className="editInfo",f=k.createElementNS(d,"span"),f.className="editInfoColor",f.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",g[m].memberid),q=k.createElementNS(d,"span"),q.className="editInfoAuthor",q.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",g[m].memberid),
-e=k.createElementNS(d,"span"),e.className="editInfoTime",e.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",g[m].memberid),e.innerHTML=g[m].time,p.appendChild(f),p.appendChild(q),p.appendChild(e),b.appendChild(p)};this.show=function(){b.style.display="block"};this.hide=function(){b.style.display="none"};this.destroy=function(d){m.removeChild(b);d()};b=k.createElementNS(d,"div");b.setAttribute("class","editInfoHandle");b.style.display="none";m.appendChild(b)};
-// Input 98
-/*
-
- Copyright (C) 2012 KO GmbH <aditya.bhatt@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.EditInfo=function(m,g){function b(){var b=[],g;for(g in d)d.hasOwnProperty(g)&&b.push({memberid:g,time:d[g].time});b.sort(function(b,d){return b.time-d.time});return b}var k,d={};this.getNode=function(){return k};this.getOdtDocument=function(){return g};this.getEdits=function(){return d};this.getSortedEdits=function(){return b()};this.addEdit=function(b,g){d[b]={time:g}};this.clearEdits=function(){d={}};this.destroy=function(b){m.parentNode&&m.removeChild(k);b()};k=g.getDOMDocument().createElementNS("urn:webodf:names:editinfo",
-"editinfo");m.insertBefore(k,m.firstChild)};
-// Input 99
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.EditInfoMarker=function(m,g){function b(b,a){return runtime.setTimeout(function(){p.style.opacity=b},a)}var k=this,d,n,p,f,q,e;this.addEdit=function(d,a){var c=Date.now()-a;m.addEdit(d,a);n.setEdits(m.getSortedEdits());p.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",d);runtime.clearTimeout(q);runtime.clearTimeout(e);1E4>c?(f=b(1,0),q=b(0.5,1E4-c),e=b(0.2,2E4-c)):1E4<=c&&2E4>c?(f=b(0.5,0),e=b(0.2,2E4-c)):f=b(0.2,0)};this.getEdits=function(){return m.getEdits()};this.clearEdits=
-function(){m.clearEdits();n.setEdits([]);p.hasAttributeNS("urn:webodf:names:editinfo","editinfo:memberid")&&p.removeAttributeNS("urn:webodf:names:editinfo","editinfo:memberid")};this.getEditInfo=function(){return m};this.show=function(){p.style.display="block"};this.hide=function(){k.hideHandle();p.style.display="none"};this.showHandle=function(){n.show()};this.hideHandle=function(){n.hide()};this.destroy=function(b){runtime.clearTimeout(f);runtime.clearTimeout(q);runtime.clearTimeout(e);d.removeChild(p);
-n.destroy(function(a){a?b(a):m.destroy(b)})};(function(){var b=m.getOdtDocument().getDOMDocument();p=b.createElementNS(b.documentElement.namespaceURI,"div");p.setAttribute("class","editInfoMarker");p.onmouseover=function(){k.showHandle()};p.onmouseout=function(){k.hideHandle()};d=m.getNode();d.appendChild(p);n=new gui.EditInfoHandle(d);g||k.hide()})()};
-// Input 100
-gui.ShadowCursor=function(m){var g=m.getDOMDocument().createRange(),b=!0;this.removeFromDocument=function(){};this.getMemberId=function(){return gui.ShadowCursor.ShadowCursorMemberId};this.getSelectedRange=function(){return g};this.setSelectedRange=function(k,d){g=k;b=!1!==d};this.hasForwardSelection=function(){return b};this.getDocument=function(){return m};this.getSelectionType=function(){return ops.OdtCursor.RangeSelection};g.setStart(m.getRootNode(),0)};gui.ShadowCursor.ShadowCursorMemberId="";
-(function(){return gui.ShadowCursor})();
-// Input 101
-gui.SelectionView=function(m){};gui.SelectionView.prototype.rerender=function(){};gui.SelectionView.prototype.show=function(){};gui.SelectionView.prototype.hide=function(){};gui.SelectionView.prototype.destroy=function(m){};
-// Input 102
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.SelectionViewManager=function(m){function g(){return Object.keys(b).map(function(g){return b[g]})}var b={};this.getSelectionView=function(g){return b.hasOwnProperty(g)?b[g]:null};this.getSelectionViews=g;this.removeSelectionView=function(g){b.hasOwnProperty(g)&&(b[g].destroy(function(){}),delete b[g])};this.hideSelectionView=function(g){b.hasOwnProperty(g)&&b[g].hide()};this.showSelectionView=function(g){b.hasOwnProperty(g)&&b[g].show()};this.rerenderSelectionViews=function(){Object.keys(b).forEach(function(g){b[g].rerender()})};
-this.registerCursor=function(g,d){var n=g.getMemberId(),p=new m(g);d?p.show():p.hide();return b[n]=p};this.destroy=function(b){function d(g,f){f?b(f):g<m.length?m[g].destroy(function(b){d(g+1,b)}):b()}var m=g();d(0,void 0)}};
-// Input 103
-/*
-
- Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.SessionViewOptions=function(){this.caretBlinksOnRangeSelect=this.caretAvatarsInitiallyVisible=this.editInfoMarkersInitiallyVisible=!0};
-(function(){gui.SessionView=function(m,g,b,k,d){function n(a,b,c){function d(b,c,e){c=b+'[editinfo|memberid="'+a+'"]'+e+c;a:{var h=l.firstChild;for(b=b+'[editinfo|memberid="'+a+'"]'+e+"{";h;){if(h.nodeType===Node.TEXT_NODE&&0===h.data.indexOf(b)){b=h;break a}h=h.nextSibling}b=null}b?b.data=c:l.appendChild(document.createTextNode(c))}d("div.editInfoMarker","{ background-color: "+c+"; }","");d("span.editInfoColor","{ background-color: "+c+"; }","");d("span.editInfoAuthor",'{ content: "'+b+'"; }',":before");
-d("dc|creator","{ background-color: "+c+"; }","");d(".selectionOverlay","{ fill: "+c+"; stroke: "+c+";}","");a!==gui.ShadowCursor.ShadowCursorMemberId&&a!==g||d(".webodf-touchEnabled .selectionOverlay","{ display: block; }"," > .draggable")}function p(a){var b,c;for(c in v)v.hasOwnProperty(c)&&(b=v[c],a?b.show():b.hide())}function f(a){k.getCarets().forEach(function(b){a?b.showHandle():b.hideHandle()})}function q(a){var b=a.getMemberId();a=a.getProperties();n(b,a.fullName,a.color);g===b&&n("","",
-a.color)}function e(a){var c=a.getMemberId(),e=b.getOdtDocument().getMember(c).getProperties();k.registerCursor(a,z,x);d.registerCursor(a,!0);if(a=k.getCaret(c))a.setAvatarImageUrl(e.imageUrl),a.setColor(e.color);runtime.log("+++ View here +++ eagerly created an Caret for '"+c+"'! +++")}function r(a){a=a.getMemberId();var b=d.getSelectionView(g),c=d.getSelectionView(gui.ShadowCursor.ShadowCursorMemberId),e=k.getCaret(g);a===g?(c.hide(),b&&b.show(),e&&e.show()):a===gui.ShadowCursor.ShadowCursorMemberId&&
-(c.show(),b&&b.hide(),e&&e.hide())}function a(a){d.removeSelectionView(a)}function c(a){var c=a.paragraphElement,d=a.memberId;a=a.timeStamp;var e,f="",g=c.getElementsByTagNameNS(h,"editinfo").item(0);g?(f=g.getAttributeNS(h,"id"),e=v[f]):(f=Math.random().toString(),e=new ops.EditInfo(c,b.getOdtDocument()),e=new gui.EditInfoMarker(e,w),g=c.getElementsByTagNameNS(h,"editinfo").item(0),g.setAttributeNS(h,"id",f),v[f]=e);e.addEdit(d,new Date(a))}var l,h="urn:webodf:names:editinfo",v={},w=void 0!==m.editInfoMarkersInitiallyVisible?
-Boolean(m.editInfoMarkersInitiallyVisible):!0,z=void 0!==m.caretAvatarsInitiallyVisible?Boolean(m.caretAvatarsInitiallyVisible):!0,x=void 0!==m.caretBlinksOnRangeSelect?Boolean(m.caretBlinksOnRangeSelect):!0;this.showEditInfoMarkers=function(){w||(w=!0,p(w))};this.hideEditInfoMarkers=function(){w&&(w=!1,p(w))};this.showCaretAvatars=function(){z||(z=!0,f(z))};this.hideCaretAvatars=function(){z&&(z=!1,f(z))};this.getSession=function(){return b};this.getCaret=function(a){return k.getCaret(a)};this.destroy=
-function(h){var f=b.getOdtDocument(),g=Object.keys(v).map(function(a){return v[a]});f.unsubscribe(ops.Document.signalMemberAdded,q);f.unsubscribe(ops.Document.signalMemberUpdated,q);f.unsubscribe(ops.Document.signalCursorAdded,e);f.unsubscribe(ops.Document.signalCursorRemoved,a);f.unsubscribe(ops.OdtDocument.signalParagraphChanged,c);f.unsubscribe(ops.Document.signalCursorMoved,r);f.unsubscribe(ops.OdtDocument.signalParagraphChanged,d.rerenderSelectionViews);f.unsubscribe(ops.OdtDocument.signalTableAdded,
-d.rerenderSelectionViews);f.unsubscribe(ops.OdtDocument.signalParagraphStyleModified,d.rerenderSelectionViews);l.parentNode.removeChild(l);(function F(a,b){b?h(b):a<g.length?g[a].destroy(function(b){F(a+1,b)}):h()})(0,void 0)};(function(){var h=b.getOdtDocument(),f=document.getElementsByTagName("head").item(0);h.subscribe(ops.Document.signalMemberAdded,q);h.subscribe(ops.Document.signalMemberUpdated,q);h.subscribe(ops.Document.signalCursorAdded,e);h.subscribe(ops.Document.signalCursorRemoved,a);h.subscribe(ops.OdtDocument.signalParagraphChanged,
-c);h.subscribe(ops.Document.signalCursorMoved,r);h.subscribe(ops.OdtDocument.signalParagraphChanged,d.rerenderSelectionViews);h.subscribe(ops.OdtDocument.signalTableAdded,d.rerenderSelectionViews);h.subscribe(ops.OdtDocument.signalParagraphStyleModified,d.rerenderSelectionViews);l=document.createElementNS(f.namespaceURI,"style");l.type="text/css";l.media="screen, print, handheld, projection";l.appendChild(document.createTextNode("@namespace editinfo url(urn:webodf:names:editinfo);"));l.appendChild(document.createTextNode("@namespace dc url(http://purl.org/dc/elements/1.1/);"));
-f.appendChild(l)})()}})();
-// Input 104
-gui.SvgSelectionView=function(m){function g(){var a=l.getRootNode();h!==a&&(h=a,v=h.parentNode.parentNode.parentNode,v.appendChild(x),x.setAttribute("class","selectionOverlay"),t.setAttribute("class","draggable"),s.setAttribute("class","draggable"),t.setAttribute("end","left"),s.setAttribute("end","right"),t.setAttribute("r",8),s.setAttribute("r",8),x.appendChild(u),x.appendChild(t),x.appendChild(s))}function b(a){var b=F.getBoundingClientRect(v),c=L.getZoomLevel(),d={};d.top=F.adaptRangeDifferenceToZoomLevel(a.top-
-b.top,c);d.left=F.adaptRangeDifferenceToZoomLevel(a.left-b.left,c);d.bottom=F.adaptRangeDifferenceToZoomLevel(a.bottom-b.top,c);d.right=F.adaptRangeDifferenceToZoomLevel(a.right-b.left,c);d.width=F.adaptRangeDifferenceToZoomLevel(a.width,c);d.height=F.adaptRangeDifferenceToZoomLevel(a.height,c);return d}function k(a){a=a.getBoundingClientRect();return Boolean(a&&0!==a.height)}function d(a){var b=y.getTextElements(a,!0,!1),c=a.cloneRange(),d=a.cloneRange();a=a.cloneRange();if(!b.length)return null;
-var e;a:{e=0;var h=b[e],f=c.startContainer===h?c.startOffset:0,g=f;c.setStart(h,f);for(c.setEnd(h,g);!k(c);){if(h.nodeType===Node.ELEMENT_NODE&&g<h.childNodes.length)g=h.childNodes.length;else if(h.nodeType===Node.TEXT_NODE&&g<h.length)g+=1;else if(b[e])h=b[e],e+=1,f=g=0;else{e=!1;break a}c.setStart(h,f);c.setEnd(h,g)}e=!0}if(!e)return null;a:{e=b.length-1;h=b[e];g=f=d.endContainer===h?d.endOffset:h.nodeType===Node.TEXT_NODE?h.length:h.childNodes.length;d.setStart(h,f);for(d.setEnd(h,g);!k(d);){if(h.nodeType===
-Node.ELEMENT_NODE&&0<f)f=0;else if(h.nodeType===Node.TEXT_NODE&&0<f)f-=1;else if(b[e])h=b[e],e-=1,f=g=h.length||h.childNodes.length;else{b=!1;break a}d.setStart(h,f);d.setEnd(h,g)}b=!0}if(!b)return null;a.setStart(c.startContainer,c.startOffset);a.setEnd(d.endContainer,d.endOffset);return{firstRange:c,lastRange:d,fillerRange:a}}function n(a,b){var c={};c.top=Math.min(a.top,b.top);c.left=Math.min(a.left,b.left);c.right=Math.max(a.right,b.right);c.bottom=Math.max(a.bottom,b.bottom);c.width=c.right-
-c.left;c.height=c.bottom-c.top;return c}function p(a,b){b&&0<b.width&&0<b.height&&(a=a?n(a,b):b);return a}function f(a){function b(a){H.setUnfilteredPosition(a,0);return v.acceptNode(a)===U&&s.acceptPosition(H)===U?U:T}function c(a){var d=null;b(a)===U&&(d=F.getBoundingClientRect(a));return d}var d=a.commonAncestorContainer,e=a.startContainer,h=a.endContainer,f=a.startOffset,g=a.endOffset,k,m,n=null,q,r=w.createRange(),s,v=new odf.OdfNodeFilter,u;if(e===d||h===d)return r=a.cloneRange(),n=r.getBoundingClientRect(),
-r.detach(),n;for(a=e;a.parentNode!==d;)a=a.parentNode;for(m=h;m.parentNode!==d;)m=m.parentNode;s=l.createRootFilter(e);for(d=a.nextSibling;d&&d!==m;)q=c(d),n=p(n,q),d=d.nextSibling;if(y.isParagraph(a))n=p(n,F.getBoundingClientRect(a));else if(a.nodeType===Node.TEXT_NODE)d=a,r.setStart(d,f),r.setEnd(d,d===m?g:d.length),q=r.getBoundingClientRect(),n=p(n,q);else for(u=w.createTreeWalker(a,NodeFilter.SHOW_TEXT,b,!1),d=u.currentNode=e;d&&d!==h;)r.setStart(d,f),r.setEnd(d,d.length),q=r.getBoundingClientRect(),
-n=p(n,q),k=d,f=0,d=u.nextNode();k||(k=e);if(y.isParagraph(m))n=p(n,F.getBoundingClientRect(m));else if(m.nodeType===Node.TEXT_NODE)d=m,r.setStart(d,d===a?f:0),r.setEnd(d,g),q=r.getBoundingClientRect(),n=p(n,q);else for(u=w.createTreeWalker(m,NodeFilter.SHOW_TEXT,b,!1),d=u.currentNode=h;d&&d!==k;)if(r.setStart(d,0),r.setEnd(d,g),q=r.getBoundingClientRect(),n=p(n,q),d=u.previousNode())g=d.length;return n}function q(a,b){var c=a.getBoundingClientRect(),d={width:0};d.top=c.top;d.bottom=c.bottom;d.height=
-c.height;d.left=d.right=b?c.right:c.left;return d}function e(){var a=m.getSelectedRange(),c;if(c=O&&m.getSelectionType()===ops.OdtCursor.RangeSelection&&!a.collapsed){g();var a=d(a),e,h,l,k,p,r,v,w;if(a){c=a.firstRange;e=a.lastRange;h=a.fillerRange;l=b(q(c,!1));p=b(q(e,!0));k=(k=f(h))?b(k):n(l,p);r=k.left;v=l.left+Math.max(0,k.width-(l.left-k.left));k=Math.min(l.top,p.top);w=p.top+p.height;r=[{x:l.left,y:k+l.height},{x:l.left,y:k},{x:v,y:k},{x:v,y:w-p.height},{x:p.right,y:w-p.height},{x:p.right,y:w},
-{x:r,y:w},{x:r,y:k+l.height},{x:l.left,y:k+l.height}];v="";var y;for(y=0;y<r.length;y+=1)v+=r[y].x+","+r[y].y+" ";u.setAttribute("points",v);t.setAttribute("cx",l.left);t.setAttribute("cy",k+l.height/2);s.setAttribute("cx",p.right);s.setAttribute("cy",w-p.height/2);c.detach();e.detach();h.detach()}c=Boolean(a)}x.style.display=c?"block":"none"}function r(a){O&&a===m&&X.trigger()}function a(a){a=8/a;t.setAttribute("r",a);s.setAttribute("r",a)}function c(b){v.removeChild(x);m.getDocument().unsubscribe(ops.Document.signalCursorMoved,
-r);L.unsubscribe(gui.ZoomHelper.signalZoomChanged,a);b()}var l=m.getDocument(),h,v,w=l.getDOMDocument(),z=new core.Async,x=w.createElementNS("http://www.w3.org/2000/svg","svg"),u=w.createElementNS("http://www.w3.org/2000/svg","polygon"),t=w.createElementNS("http://www.w3.org/2000/svg","circle"),s=w.createElementNS("http://www.w3.org/2000/svg","circle"),y=new odf.OdfUtils,F=new core.DomUtils,L=l.getCanvas().getZoomHelper(),O=!0,H=gui.SelectionMover.createPositionIterator(l.getRootNode()),U=NodeFilter.FILTER_ACCEPT,
-T=NodeFilter.FILTER_REJECT,X;this.rerender=function(){O&&X.trigger()};this.show=function(){O=!0;X.trigger()};this.hide=function(){O=!1;X.trigger()};this.destroy=function(a){z.destroyAll([X.destroy,c],a)};(function(){var b=m.getMemberId();X=new core.ScheduledTask(e,0);g();x.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",b);m.getDocument().subscribe(ops.Document.signalCursorMoved,r);L.subscribe(gui.ZoomHelper.signalZoomChanged,a);a(L.getZoomLevel())})()};
-// Input 105
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.UndoStateRules=function(){function m(b,g){var k=b.length;this.previous=function(){for(k-=1;0<=k;k-=1)if(g(b[k]))return b[k];return null}}function g(b){b=b.spec();var g;b.hasOwnProperty("position")&&(g=b.position);return g}function b(b){return b.isEdit}function k(b,k,m){if(!m)return m=g(b)-g(k),0===m||1===Math.abs(m);b=g(b);k=g(k);m=g(m);return b-k===k-m}this.isEditOperation=b;this.isPartOfOperationSet=function(d,g){var p=void 0!==d.group,f;if(!d.isEdit||0===g.length)return!0;f=g[g.length-1];if(p&&
-d.group===f.group)return!0;a:switch(d.spec().optype){case "RemoveText":case "InsertText":f=!0;break a;default:f=!1}if(f&&g.some(b)){if(p){var q;p=d.spec().optype;f=new m(g,b);var e=f.previous(),r=null,a,c;runtime.assert(Boolean(e),"No edit operations found in state");c=e.group;runtime.assert(void 0!==c,"Operation has no group");for(a=1;e&&e.group===c;){if(p===e.spec().optype){q=e;break}e=f.previous()}if(q){for(e=f.previous();e;){if(e.group!==c){if(2===a)break;c=e.group;a+=1}if(p===e.spec().optype){r=
-e;break}e=f.previous()}q=k(d,q,r)}else q=!1;return q}q=d.spec().optype;p=new m(g,b);f=p.previous();runtime.assert(Boolean(f),"No edit operations found in state");q=q===f.spec().optype?k(d,f,p.previous()):!1;return q}return!1}};
-// Input 106
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-gui.TrivialUndoManager=function(m){function g(a){0<a.length&&(t=!0,l(a),t=!1)}function b(){x.emit(gui.UndoManager.signalUndoStackChanged,{undoAvailable:q.hasUndoStates(),redoAvailable:q.hasRedoStates()})}function k(){v!==c&&v!==w[w.length-1]&&w.push(v)}function d(a){var b=a.previousSibling||a.nextSibling;a.parentNode.removeChild(a);r.normalizeTextNodes(b)}function n(a){return Object.keys(a).map(function(b){return a[b]})}function p(a){function b(a){var h=a.spec();if(e[h.memberid])switch(h.optype){case "AddCursor":c[h.memberid]||
-(c[h.memberid]=a,delete e[h.memberid],f-=1);break;case "MoveCursor":d[h.memberid]||(d[h.memberid]=a)}}var c={},d={},e={},f,g=a.pop();h.getMemberIds().forEach(function(a){e[a]=!0});for(f=Object.keys(e).length;g&&0<f;)g.reverse(),g.forEach(b),g=a.pop();return n(c).concat(n(d))}function f(){var f=a=h.cloneDocumentElement();r.getElementsByTagNameNS(f,e,"cursor").forEach(d);r.getElementsByTagNameNS(f,e,"anchor").forEach(d);k();v=c=p([c].concat(w));w.length=0;z.length=0;b()}var q=this,e="urn:webodf:names:cursor",
-r=new core.DomUtils,a,c=[],l,h,v=[],w=[],z=[],x=new core.EventNotifier([gui.UndoManager.signalUndoStackChanged,gui.UndoManager.signalUndoStateCreated,gui.UndoManager.signalUndoStateModified,gui.TrivialUndoManager.signalDocumentRootReplaced]),u=m||new gui.UndoStateRules,t=!1;this.subscribe=function(a,b){x.subscribe(a,b)};this.unsubscribe=function(a,b){x.unsubscribe(a,b)};this.hasUndoStates=function(){return 0<w.length};this.hasRedoStates=function(){return 0<z.length};this.setDocument=function(a){h=
-a};this.purgeInitialState=function(){w.length=0;z.length=0;c.length=0;v.length=0;a=null;b()};this.setInitialState=f;this.initialize=function(){a||f()};this.setPlaybackFunction=function(a){l=a};this.onOperationExecuted=function(a){t||(u.isEditOperation(a)&&(v===c||0<z.length)||!u.isPartOfOperationSet(a,v)?(z.length=0,k(),v=[a],w.push(v),x.emit(gui.UndoManager.signalUndoStateCreated,{operations:v}),b()):(v.push(a),x.emit(gui.UndoManager.signalUndoStateModified,{operations:v})))};this.moveForward=function(a){for(var c=
-0,d;a&&z.length;)d=z.pop(),w.push(d),g(d),a-=1,c+=1;c&&(v=w[w.length-1],b());return c};this.moveBackward=function(d){for(var e=0;d&&w.length;)z.push(w.pop()),d-=1,e+=1;e&&(h.setDocumentElement(a.cloneNode(!0)),x.emit(gui.TrivialUndoManager.signalDocumentRootReplaced,{}),h.getMemberIds().forEach(function(a){h.removeCursor(a)}),g(c),w.forEach(g),v=w[w.length-1]||c,b());return e}};gui.TrivialUndoManager.signalDocumentRootReplaced="documentRootReplaced";(function(){return gui.TrivialUndoManager})();
-// Input 107
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OperationTransformMatrix=function(){function m(a){a.position+=a.length;a.length*=-1}function g(a){var b=0>a.length;b&&m(a);return b}function b(a,b){function d(f){a[f]===b&&e.push(f)}var e=[];a&&["style:parent-style-name","style:next-style-name"].forEach(d);return e}function k(a,b){function d(e){a[e]===b&&delete a[e]}a&&["style:parent-style-name","style:next-style-name"].forEach(d)}function d(a){var b={};Object.keys(a).forEach(function(e){b[e]="object"===typeof a[e]?d(a[e]):a[e]});return b}function n(a,
-b,d,e){var f,g=!1,k=!1,m,n=[];e&&e.attributes&&(n=e.attributes.split(","));a&&(d||0<n.length)&&Object.keys(a).forEach(function(b){var c=a[b],e;"object"!==typeof c&&(d&&(e=d[b]),void 0!==e?(delete a[b],k=!0,e===c&&(delete d[b],g=!0)):-1!==n.indexOf(b)&&(delete a[b],k=!0))});if(b&&b.attributes&&(d||0<n.length)){m=b.attributes.split(",");for(e=0;e<m.length;e+=1)if(f=m[e],d&&void 0!==d[f]||n&&-1!==n.indexOf(f))m.splice(e,1),e-=1,k=!0;0<m.length?b.attributes=m.join(","):delete b.attributes}return{majorChanged:g,
-minorChanged:k}}function p(a){for(var b in a)if(a.hasOwnProperty(b))return!0;return!1}function f(a){for(var b in a)if(a.hasOwnProperty(b)&&("attributes"!==b||0<a.attributes.length))return!0;return!1}function q(a,b,d,e,g){var k=a?a[g]:null,m=b?b[g]:null,q=d?d[g]:null,r=e?e[g]:null,t;t=n(k,m,q,r);k&&!p(k)&&delete a[g];m&&!f(m)&&delete b[g];q&&!p(q)&&delete d[g];r&&!f(r)&&delete e[g];return t}function e(a,b){return{opSpecsA:[a],opSpecsB:[b]}}var r;r={AddCursor:{AddCursor:e,AddMember:e,AddStyle:e,ApplyDirectStyling:e,
-InsertText:e,MoveCursor:e,RemoveCursor:e,RemoveMember:e,RemoveStyle:e,RemoveText:e,SetParagraphStyle:e,SplitParagraph:e,UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},AddMember:{AddStyle:e,InsertText:e,MoveCursor:e,RemoveCursor:e,RemoveStyle:e,RemoveText:e,SetParagraphStyle:e,SplitParagraph:e,UpdateMetadata:e,UpdateParagraphStyle:e},AddStyle:{AddStyle:e,ApplyDirectStyling:e,InsertText:e,MoveCursor:e,RemoveCursor:e,RemoveMember:e,RemoveStyle:function(a,c){var d,e=[a],f=[c];a.styleFamily===
-c.styleFamily&&(d=b(a.setProperties,c.styleName),0<d.length&&(d={optype:"UpdateParagraphStyle",memberid:c.memberid,timestamp:c.timestamp,styleName:a.styleName,removedProperties:{attributes:d.join(",")}},f.unshift(d)),k(a.setProperties,c.styleName));return{opSpecsA:e,opSpecsB:f}},RemoveText:e,SetParagraphStyle:e,SplitParagraph:e,UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},ApplyDirectStyling:{ApplyDirectStyling:function(a,b,e){var h,f,g,k,m,n,r,s;k=[a];g=[b];if(!(a.position+a.length<=b.position||
-a.position>=b.position+b.length)){h=e?a:b;f=e?b:a;if(a.position!==b.position||a.length!==b.length)n=d(h),r=d(f);b=q(f.setProperties,null,h.setProperties,null,"style:text-properties");if(b.majorChanged||b.minorChanged)g=[],a=[],k=h.position+h.length,m=f.position+f.length,f.position<h.position?b.minorChanged&&(s=d(r),s.length=h.position-f.position,a.push(s),f.position=h.position,f.length=m-f.position):h.position<f.position&&b.majorChanged&&(s=d(n),s.length=f.position-h.position,g.push(s),h.position=
-f.position,h.length=k-h.position),m>k?b.minorChanged&&(n=r,n.position=k,n.length=m-k,a.push(n),f.length=k-f.position):k>m&&b.majorChanged&&(n.position=m,n.length=k-m,g.push(n),h.length=m-h.position),h.setProperties&&p(h.setProperties)&&g.push(h),f.setProperties&&p(f.setProperties)&&a.push(f),e?(k=g,g=a):k=a}return{opSpecsA:k,opSpecsB:g}},InsertText:function(a,b){b.position<=a.position?a.position+=b.text.length:b.position<=a.position+a.length&&(a.length+=b.text.length);return{opSpecsA:[a],opSpecsB:[b]}},
-MoveCursor:e,RemoveCursor:e,RemoveStyle:e,RemoveText:function(a,b){var d=a.position+a.length,e=b.position+b.length,f=[a],g=[b];e<=a.position?a.position-=b.length:b.position<d&&(a.position<b.position?a.length=e<d?a.length-b.length:b.position-a.position:(a.position=b.position,e<d?a.length=d-e:f=[]));return{opSpecsA:f,opSpecsB:g}},SetParagraphStyle:e,SplitParagraph:function(a,b){b.position<a.position?a.position+=1:b.position<a.position+a.length&&(a.length+=1);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMetadata:e,
-UpdateParagraphStyle:e},InsertText:{InsertText:function(a,b,d){a.position<b.position?b.position+=a.text.length:a.position>b.position?a.position+=b.text.length:d?b.position+=a.text.length:a.position+=b.text.length;return{opSpecsA:[a],opSpecsB:[b]}},MoveCursor:function(a,b){var d=g(b);a.position<b.position?b.position+=a.text.length:a.position<b.position+b.length&&(b.length+=a.text.length);d&&m(b);return{opSpecsA:[a],opSpecsB:[b]}},RemoveCursor:e,RemoveMember:e,RemoveStyle:e,RemoveText:function(a,b){var d;
-d=b.position+b.length;var e=[a],f=[b];d<=a.position?a.position-=b.length:a.position<=b.position?b.position+=a.text.length:(b.length=a.position-b.position,d={optype:"RemoveText",memberid:b.memberid,timestamp:b.timestamp,position:a.position+a.text.length,length:d-a.position},f.unshift(d),a.position=b.position);return{opSpecsA:e,opSpecsB:f}},SplitParagraph:function(a,b,d){if(a.position<b.position)b.position+=a.text.length;else if(a.position>b.position)a.position+=1;else return d?b.position+=a.text.length:
-a.position+=1,null;return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},MoveCursor:{MoveCursor:e,RemoveCursor:function(a,b){return{opSpecsA:a.memberid===b.memberid?[]:[a],opSpecsB:[b]}},RemoveMember:e,RemoveStyle:e,RemoveText:function(a,b){var d=g(a),e=a.position+a.length,f=b.position+b.length;f<=a.position?a.position-=b.length:b.position<e&&(a.position<b.position?a.length=f<e?a.length-b.length:b.position-a.position:(a.position=b.position,a.length=f<e?e-f:0));
-d&&m(a);return{opSpecsA:[a],opSpecsB:[b]}},SetParagraphStyle:e,SplitParagraph:function(a,b){var d=g(a);b.position<a.position?a.position+=1:b.position<a.position+a.length&&(a.length+=1);d&&m(a);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},RemoveCursor:{RemoveCursor:function(a,b){var d=a.memberid===b.memberid;return{opSpecsA:d?[]:[a],opSpecsB:d?[]:[b]}},RemoveMember:e,RemoveStyle:e,RemoveText:e,SetParagraphStyle:e,SplitParagraph:e,UpdateMember:e,UpdateMetadata:e,
-UpdateParagraphStyle:e},RemoveMember:{RemoveStyle:e,RemoveText:e,SetParagraphStyle:e,SplitParagraph:e,UpdateMetadata:e,UpdateParagraphStyle:e},RemoveStyle:{RemoveStyle:function(a,b){var d=a.styleName===b.styleName&&a.styleFamily===b.styleFamily;return{opSpecsA:d?[]:[a],opSpecsB:d?[]:[b]}},RemoveText:e,SetParagraphStyle:function(a,b){var d,e=[a],f=[b];"paragraph"===a.styleFamily&&a.styleName===b.styleName&&(d={optype:"SetParagraphStyle",memberid:a.memberid,timestamp:a.timestamp,position:b.position,
-styleName:""},e.unshift(d),b.styleName="");return{opSpecsA:e,opSpecsB:f}},SplitParagraph:e,UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:function(a,c){var d,e=[a],f=[c];"paragraph"===a.styleFamily&&(d=b(c.setProperties,a.styleName),0<d.length&&(d={optype:"UpdateParagraphStyle",memberid:a.memberid,timestamp:a.timestamp,styleName:c.styleName,removedProperties:{attributes:d.join(",")}},e.unshift(d)),a.styleName===c.styleName?f=[]:k(c.setProperties,a.styleName));return{opSpecsA:e,opSpecsB:f}}},
-RemoveText:{RemoveText:function(a,b){var d=a.position+a.length,e=b.position+b.length,f=[a],g=[b];e<=a.position?a.position-=b.length:d<=b.position?b.position-=a.length:b.position<d&&(a.position<b.position?(a.length=e<d?a.length-b.length:b.position-a.position,d<e?(b.position=a.position,b.length=e-d):g=[]):(d<e?b.length-=a.length:b.position<a.position?b.length=a.position-b.position:g=[],e<d?(a.position=b.position,a.length=d-e):f=[]));return{opSpecsA:f,opSpecsB:g}},SplitParagraph:function(a,b){var d=
-a.position+a.length,e=[a],f=[b];b.position<=a.position?a.position+=1:b.position<d&&(a.length=b.position-a.position,d={optype:"RemoveText",memberid:a.memberid,timestamp:a.timestamp,position:b.position+1,length:d-b.position},e.unshift(d));a.position+a.length<=b.position?b.position-=a.length:a.position<b.position&&(b.position=a.position);return{opSpecsA:e,opSpecsB:f}},UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},SetParagraphStyle:{UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},SplitParagraph:{SplitParagraph:function(a,
-b,d){a.position<b.position?b.position+=1:a.position>b.position?a.position+=1:a.position===b.position&&(d?b.position+=1:a.position+=1);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:e,UpdateMetadata:e,UpdateParagraphStyle:e},UpdateMember:{UpdateMetadata:e,UpdateParagraphStyle:e},UpdateMetadata:{UpdateMetadata:function(a,b,d){var e,g=[a],k=[b];e=d?a:b;a=d?b:a;n(a.setProperties||null,a.removedProperties||null,e.setProperties||null,e.removedProperties||null);e.setProperties&&p(e.setProperties)||e.removedProperties&&
-f(e.removedProperties)||(d?g=[]:k=[]);a.setProperties&&p(a.setProperties)||a.removedProperties&&f(a.removedProperties)||(d?k=[]:g=[]);return{opSpecsA:g,opSpecsB:k}},UpdateParagraphStyle:e},UpdateParagraphStyle:{UpdateParagraphStyle:function(a,b,d){var e,g=[a],k=[b];a.styleName===b.styleName&&(e=d?a:b,a=d?b:a,q(a.setProperties,a.removedProperties,e.setProperties,e.removedProperties,"style:paragraph-properties"),q(a.setProperties,a.removedProperties,e.setProperties,e.removedProperties,"style:text-properties"),
-n(a.setProperties||null,a.removedProperties||null,e.setProperties||null,e.removedProperties||null),e.setProperties&&p(e.setProperties)||e.removedProperties&&f(e.removedProperties)||(d?g=[]:k=[]),a.setProperties&&p(a.setProperties)||a.removedProperties&&f(a.removedProperties)||(d?k=[]:g=[]));return{opSpecsA:g,opSpecsB:k}}}};this.passUnchanged=e;this.extendTransformations=function(a){Object.keys(a).forEach(function(b){var d=a[b],e,f=r.hasOwnProperty(b);runtime.log((f?"Extending":"Adding")+" map for optypeA: "+
-b);f||(r[b]={});e=r[b];Object.keys(d).forEach(function(a){var f=e.hasOwnProperty(a);runtime.assert(b<=a,"Wrong order:"+b+", "+a);runtime.log("  "+(f?"Overwriting":"Adding")+" entry for optypeB: "+a);e[a]=d[a]})})};this.transformOpspecVsOpspec=function(a,b){var d=a.optype<=b.optype,e;runtime.log("Crosstransforming:");runtime.log(runtime.toJson(a));runtime.log(runtime.toJson(b));d||(e=a,a=b,b=e);(e=(e=r[a.optype])&&e[b.optype])?(e=e(a,b,!d),d||null===e||(e={opSpecsA:e.opSpecsB,opSpecsB:e.opSpecsA})):
-e=null;runtime.log("result:");e?(runtime.log(runtime.toJson(e.opSpecsA)),runtime.log(runtime.toJson(e.opSpecsB))):runtime.log("null");return e}};
-// Input 108
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- This file is part of WebODF.
-
- WebODF is free software: you can redistribute it and/or modify it
- under the terms of the GNU Affero General Public License (GNU AGPL)
- as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.
-
- WebODF is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
- @licend
-
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.OperationTransformer=function(){function m(d){var g=[];d.forEach(function(d){g.push(b.create(d))});return g}function g(b,m){for(var p,f,q=[],e=[];0<b.length&&m;){p=b.shift();p=k.transformOpspecVsOpspec(p,m);if(!p)return null;q=q.concat(p.opSpecsA);if(0===p.opSpecsB.length){q=q.concat(b);m=null;break}for(;1<p.opSpecsB.length;){f=g(b,p.opSpecsB.shift());if(!f)return null;e=e.concat(f.opSpecsB);b=f.opSpecsA}m=p.opSpecsB.pop()}m&&e.push(m);return{opSpecsA:q,opSpecsB:e}}var b,k=new ops.OperationTransformMatrix;
-this.setOperationFactory=function(d){b=d};this.getOperationTransformMatrix=function(){return k};this.transform=function(b,k){for(var p,f=[];0<k.length;){p=g(b,k.shift());if(!p)return null;b=p.opSpecsA;f=f.concat(p.opSpecsB)}return{opsA:m(b),opsB:m(f)}}};
-// Input 109
-/*
-
- Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
-
- @licstart
- The JavaScript code in this page is free software: you can redistribute it
- and/or modify it under the terms of the GNU Affero General Public License
- (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- the License, or (at your option) any later version.  The code is distributed
- WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this code.  If not, see <http://www.gnu.org/licenses/>.
-
- As additional permission under GNU AGPL version 3 section 7, you
- may distribute non-source (e.g., minimized or compacted) forms of
- that code without the copy of the GNU GPL normally required by
- section 4, provided you include this license notice and a URL
- through which recipients can access the Corresponding Source.
-
- As a special exception to the AGPL, any HTML file which merely makes function
- calls to this code, and for that purpose includes it by reference shall be
- deemed a separate work for copyright law purposes. In addition, the copyright
- holders of this code give you permission to combine this code with free
- software libraries that are released under the GNU LGPL. You may copy and
- distribute such a system following the terms of the GNU AGPL for this code
- and the LGPL for the libraries. If you modify this code, you may extend this
- exception to your version of the code, but you are not obligated to do so.
- If you do not wish to do so, delete this exception statement from your
- version.
-
- This license applies to this entire compilation.
- @licend
- @source: http://www.webodf.org/
- @source: https://github.com/kogmbh/WebODF/
-*/
-ops.Server=function(){};ops.Server.prototype.connect=function(m,g){};ops.Server.prototype.networkStatus=function(){};ops.Server.prototype.login=function(m,g,b,k){};ops.Server.prototype.joinSession=function(m,g,b,k){};ops.Server.prototype.leaveSession=function(m,g,b,k){};ops.Server.prototype.getGenesisUrl=function(m){};
-// Input 110
-var webodf_css='@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);\n@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);\n@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);\n@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);\n@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);\n@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);\n@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);\n@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);\n@namespace webodfhelper url(urn:webodf:names:helper);\n@namespace cursor url(urn:webodf:names:cursor);\n@namespace editinfo url(urn:webodf:names:editinfo);\n@namespace annotation url(urn:webodf:names:annotation);\n@namespace dc url(http://purl.org/dc/elements/1.1/);\n@namespace svgns url(http://www.w3.org/2000/svg);\n\noffice|document > *, office|document-content > * {\n  display: none;\n}\noffice|body, office|document {\n  display: inline-block;\n  position: relative;\n}\n\ntext|p, text|h {\n  display: block;\n  padding: 0;\n  margin: 0;\n  line-height: normal;\n  position: relative;\n  min-height: 1.3em; /* prevent empty paragraphs and headings from collapsing if they are empty */\n}\n*[webodfhelper|containsparagraphanchor] {\n  position: relative;\n}\ntext|s {\n    white-space: pre;\n}\ntext|tab {\n  display: inline;\n  white-space: pre;\n}\ntext|tracked-changes {\n  /*Consumers that do not support change tracking, should ignore changes.*/\n  display: none;\n}\noffice|binary-data {\n  display: none;\n}\noffice|text {\n  display: block;\n  text-align: left;\n  overflow: visible;\n  word-wrap: break-word;\n}\n\noffice|text::selection {\n  /** Let\'s not draw selection highlight that overflows into the office|text\n   * node when selecting content across several paragraphs\n   */\n  background: transparent;\n}\n\noffice|document *::selection {\n  background: transparent;\n}\noffice|document *::-moz-selection {\n  background: transparent;\n}\n\noffice|text * draw|text-box {\n/** only for text documents */\n    display: block;\n    border: 1px solid #d3d3d3;\n}\ndraw|frame {\n  /** make sure frames are above the main body. */\n  z-index: 1;\n}\noffice|spreadsheet {\n  display: block;\n  border-collapse: collapse;\n  empty-cells: show;\n  font-family: sans-serif;\n  font-size: 10pt;\n  text-align: left;\n  page-break-inside: avoid;\n  overflow: hidden;\n}\noffice|presentation {\n  display: inline-block;\n  text-align: left;\n}\n#shadowContent {\n  display: inline-block;\n  text-align: left;\n}\ndraw|page {\n  display: block;\n  position: relative;\n  overflow: hidden;\n}\npresentation|notes, presentation|footer-decl, presentation|date-time-decl {\n    display: none;\n}\n@media print {\n  draw|page {\n    border: 1pt solid black;\n    page-break-inside: avoid;\n  }\n  presentation|notes {\n    /*TODO*/\n  }\n}\noffice|spreadsheet text|p {\n  border: 0px;\n  padding: 1px;\n  margin: 0px;\n}\noffice|spreadsheet table|table {\n  margin: 3px;\n}\noffice|spreadsheet table|table:after {\n  /* show sheet name the end of the sheet */\n  /*content: attr(table|name);*/ /* gives parsing error in opera */\n}\noffice|spreadsheet table|table-row {\n  counter-increment: row;\n}\noffice|spreadsheet table|table-row:before {\n  width: 3em;\n  background: #cccccc;\n  border: 1px solid black;\n  text-align: center;\n  content: counter(row);\n  display: table-cell;\n}\noffice|spreadsheet table|table-cell {\n  border: 1px solid #cccccc;\n}\ntable|table {\n  display: table;\n}\ndraw|frame table|table {\n  width: 100%;\n  height: 100%;\n  background: white;\n}\ntable|table-header-rows {\n  display: table-header-group;\n}\ntable|table-row {\n  display: table-row;\n}\ntable|table-column {\n  display: table-column;\n}\ntable|table-cell {\n  width: 0.889in;\n  display: table-cell;\n  word-break: break-all; /* prevent long words from extending out the table cell */\n}\ndraw|frame {\n  display: block;\n}\ndraw|image {\n  display: block;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  background-repeat: no-repeat;\n  background-size: 100% 100%;\n  -moz-background-size: 100% 100%;\n}\n/* only show the first image in frame */\ndraw|frame > draw|image:nth-of-type(n+2) {\n  display: none;\n}\ntext|list:before {\n    display: none;\n    content:"";\n}\ntext|list {\n    counter-reset: list;\n}\ntext|list-item {\n    display: block;\n}\ntext|number {\n    display:none;\n}\n\ntext|a {\n    color: blue;\n    text-decoration: underline;\n    cursor: pointer;\n}\noffice|text[webodfhelper|links="inactive"] text|a {\n    cursor: text;\n}\ntext|note-citation {\n    vertical-align: super;\n    font-size: smaller;\n}\ntext|note-body {\n    display: none;\n}\ntext|note:hover text|note-citation {\n    background: #dddddd;\n}\ntext|note:hover text|note-body {\n    display: block;\n    left:1em;\n    max-width: 80%;\n    position: absolute;\n    background: #ffffaa;\n}\nsvg|title, svg|desc {\n    display: none;\n}\nvideo {\n    width: 100%;\n    height: 100%\n}\n\n/* below set up the cursor */\ncursor|cursor {\n    display: inline;\n    width: 0;\n    height: 1em;\n    /* making the position relative enables the avatar to use\n       the cursor as reference for its absolute position */\n    position: relative;\n    z-index: 1;\n    pointer-events: none;\n}\n\ncursor|cursor > .caret {\n    /* IMPORTANT: when changing these values ensure DEFAULT_CARET_TOP and DEFAULT_CARET_HEIGHT\n        in Caret.js remain in sync */\n    display: inline;\n    position: absolute;\n    top: 5%; /* push down the caret; 0px can do the job, 5% looks better, 10% is a bit over */\n    height: 1em;\n    border-left: 2px solid black;\n    outline: none;\n}\n\ncursor|cursor > .handle {\n    padding: 3px;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    border: none !important;\n    border-radius: 5px;\n    opacity: 0.3;\n}\n\ncursor|cursor > .handle > img {\n    border-radius: 5px;\n}\n\ncursor|cursor > .handle.active {\n    opacity: 0.8;\n}\n\ncursor|cursor > .handle:after {\n    content: \' \';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 43%;\n}\n\n/** Input Method Editor input pane & behaviours */\n/* not within a cursor */\n#eventTrap {\n    height: auto;\n    display: block;\n    position: absolute;\n    width: 1px;\n    outline: none;\n    opacity: 0;\n    color: rgba(255, 255, 255, 0); /* hide the blinking caret by setting the colour to fully transparent */\n    overflow: hidden; /* The overflow visibility is used to hide and show characters being entered */\n    pointer-events: none;\n}\n\n/* within a cursor */\ncursor|cursor > #composer {\n    text-decoration: underline;\n}\n\ncursor|cursor[cursor|composing="true"] > #composer {\n    display: inline-block;\n    height: auto;\n    width: auto;\n}\n\ncursor|cursor[cursor|composing="true"] {\n    display: inline-block;\n    width: auto;\n    height: inherit;\n}\n\ncursor|cursor[cursor|composing="true"] > .caret {\n    /* during composition, the caret should be pushed along by the composition text, inline with the text */\n    position: static;\n    /* as it is now part of an inline-block, it will no longer need correct to top or height values to align properly */\n    height: auto !important;\n    top: auto !important;\n}\n\neditinfo|editinfo {\n    /* Empty or invisible display:inline elements respond very badly to mouse selection.\n       Inline blocks are much more reliably selectable in Chrome & friends */\n    display: inline-block;\n}\n\n.editInfoMarker {\n    position: absolute;\n    width: 10px;\n    height: 100%;\n    left: -20px;\n    opacity: 0.8;\n    top: 0;\n    border-radius: 5px;\n    background-color: transparent;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n}\n.editInfoMarker:hover {\n    box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);\n}\n\n.editInfoHandle {\n    position: absolute;\n    background-color: black;\n    padding: 5px;\n    border-radius: 5px;\n    opacity: 0.8;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    bottom: 100%;\n    margin-bottom: 10px;\n    z-index: 3;\n    left: -25px;\n}\n.editInfoHandle:after {\n    content: \' \';\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: black transparent transparent transparent;\n\n    top: 100%;\n    left: 5px;\n}\n.editInfo {\n    font-family: sans-serif;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    color: white;\n    width: 100%;\n    height: 12pt;\n}\n.editInfoColor {\n    float: left;\n    width: 10pt;\n    height: 10pt;\n    border: 1px solid white;\n}\n.editInfoAuthor {\n    float: left;\n    margin-left: 5pt;\n    font-size: 10pt;\n    text-align: left;\n    height: 12pt;\n    line-height: 12pt;\n}\n.editInfoTime {\n    float: right;\n    margin-left: 30pt;\n    font-size: 8pt;\n    font-style: italic;\n    color: yellow;\n    height: 12pt;\n    line-height: 12pt;\n}\n\n.annotationWrapper {\n    display: inline;\n    position: relative;\n}\n\n.annotationRemoveButton:before {\n    content: \'\u00d7\';\n    color: white;\n    padding: 5px;\n    line-height: 1em;\n}\n\n.annotationRemoveButton {\n    width: 20px;\n    height: 20px;\n    border-radius: 10px;\n    background-color: black;\n    box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);\n    position: absolute;\n    top: -10px;\n    left: -10px;\n    z-index: 3;\n    text-align: center;\n    font-family: sans-serif;\n    font-style: normal;\n    font-weight: normal;\n    text-decoration: none;\n    font-size: 15px;\n}\n.annotationRemoveButton:hover {\n    cursor: pointer;\n    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);\n}\n\n.annotationNote {\n    width: 4cm;\n    position: absolute;\n    display: inline;\n    z-index: 10;\n}\n.annotationNote > office|annotation {\n    display: block;\n    text-align: left;\n}\n\n.annotationConnector {\n    position: absolute;\n    display: inline;\n    z-index: 2;\n    border-top: 1px dashed brown;\n}\n.annotationConnector.angular {\n    -moz-transform-origin: left top;\n    -webkit-transform-origin: left top;\n    -ms-transform-origin: left top;\n    transform-origin: left top;\n}\n.annotationConnector.horizontal {\n    left: 0;\n}\n.annotationConnector.horizontal:before {\n    content: \'\';\n    display: inline;\n    position: absolute;\n    width: 0px;\n    height: 0px;\n    border-style: solid;\n    border-width: 8.7px 5px 0 5px;\n    border-color: brown transparent transparent transparent;\n    top: -1px;\n    left: -5px;\n}\n\noffice|annotation {\n    width: 100%;\n    height: 100%;\n    display: none;\n    background: rgb(198, 238, 184);\n    background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);\n    box-shadow: 0 3px 4px -3px #ccc;\n}\n\noffice|annotation > dc|creator {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    color: white;\n    background-color: brown;\n    padding: 4px;\n}\noffice|annotation > dc|date {\n    display: block;\n    font-size: 10pt;\n    font-weight: normal;\n    font-style: normal;\n    font-family: sans-serif;\n    border: 4px solid transparent;\n    color: black;\n}\noffice|annotation > text|list {\n    display: block;\n    padding: 5px;\n}\n\n/* This is very temporary CSS. This must go once\n * we start bundling webodf-default ODF styles for annotations.\n */\noffice|annotation text|p {\n    font-size: 10pt;\n    color: black;\n    font-weight: normal;\n    font-style: normal;\n    text-decoration: none;\n    font-family: sans-serif;\n}\n\ndc|*::selection {\n    background: transparent;\n}\ndc|*::-moz-selection {\n    background: transparent;\n}\n\n#annotationsPane {\n    background-color: #EAEAEA;\n    width: 4cm;\n    height: 100%;\n    display: none;\n    position: absolute;\n    outline: 1px solid #ccc;\n}\n\n.annotationHighlight {\n    background-color: yellow;\n    position: relative;\n}\n\n.selectionOverlay {\n    position: absolute;\n    pointer-events: none;\n    top: 0;\n    left: 0;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    z-index: 15;\n}\n.selectionOverlay > polygon {\n    fill-opacity: 0.3;\n    stroke-opacity: 0.8;\n    stroke-width: 1;\n    fill-rule: evenodd;\n}\n\n.selectionOverlay > .draggable {\n    fill-opacity: 0.8;\n    stroke-opacity: 0;\n    stroke-width: 8;\n    pointer-events: all;\n    display: none;\n\n    -moz-transform-origin: center center;\n    -webkit-transform-origin: center center;\n    -ms-transform-origin: center center;\n    transform-origin: center center;\n}\n\n#imageSelector {\n    display: none;\n    position: absolute;\n    border-style: solid;\n    border-color: black;\n}\n\n#imageSelector > div {\n    width: 5px;\n    height: 5px;\n    display: block;\n    position: absolute;\n    border: 1px solid black;\n    background-color: #ffffff;\n}\n\n#imageSelector > .topLeft {\n    top: -4px;\n    left: -4px;\n}\n\n#imageSelector > .topRight {\n    top: -4px;\n    right: -4px;\n}\n\n#imageSelector > .bottomRight {\n    right: -4px;\n    bottom: -4px;\n}\n\n#imageSelector > .bottomLeft {\n    bottom: -4px;\n    left: -4px;\n}\n\n#imageSelector > .topMiddle {\n    top: -4px;\n    left: 50%;\n    margin-left: -2.5px; /* half of the width defined in #imageSelector > div */\n}\n\n#imageSelector > .rightMiddle {\n    top: 50%;\n    right: -4px;\n    margin-top: -2.5px; /* half of the height defined in #imageSelector > div */\n}\n\n#imageSelector > .bottomMiddle {\n    bottom: -4px;\n    left: 50%;\n    margin-left: -2.5px; /* half of the width defined in #imageSelector > div */\n}\n\n#imageSelector > .leftMiddle {\n    top: 50%;\n    left: -4px;\n    margin-top: -2.5px; /* half of the height defined in #imageSelector > div */\n}\n\ndiv.customScrollbars::-webkit-scrollbar\n{\n    width: 8px;\n    height: 8px;\n    background-color: transparent;\n}\n\ndiv.customScrollbars::-webkit-scrollbar-track\n{\n    background-color: transparent;\n}\n\ndiv.customScrollbars::-webkit-scrollbar-thumb\n{\n    background-color: #444;\n    border-radius: 4px;\n}\n';
+list:["list-item"]},t=[[q,"color","color"],[q,"background-color","background-color"],[q,"font-weight","font-weight"],[q,"font-style","font-style"]],x=[[e,"repeat","background-repeat"]],w=[[q,"background-color","background-color"],[q,"text-align","text-align"],[q,"text-indent","text-indent"],[q,"padding","padding"],[q,"padding-left","padding-left"],[q,"padding-right","padding-right"],[q,"padding-top","padding-top"],[q,"padding-bottom","padding-bottom"],[q,"border-left","border-left"],[q,"border-right",
+"border-right"],[q,"border-top","border-top"],[q,"border-bottom","border-bottom"],[q,"margin","margin"],[q,"margin-left","margin-left"],[q,"margin-right","margin-right"],[q,"margin-top","margin-top"],[q,"margin-bottom","margin-bottom"],[q,"border","border"]],F=[[q,"background-color","background-color"],[q,"min-height","min-height"],[m,"stroke","border"],[a,"stroke-color","border-color"],[a,"stroke-width","border-width"],[q,"border","border"],[q,"border-left","border-left"],[q,"border-right","border-right"],
+[q,"border-top","border-top"],[q,"border-bottom","border-bottom"]],L=[[q,"background-color","background-color"],[q,"border-left","border-left"],[q,"border-right","border-right"],[q,"border-top","border-top"],[q,"border-bottom","border-bottom"],[q,"border","border"]],H=[[e,"column-width","width"]],G=[[e,"row-height","height"],[q,"keep-together",null]],A=[[e,"width","width"],[q,"margin-left","margin-left"],[q,"margin-right","margin-right"],[q,"margin-top","margin-top"],[q,"margin-bottom","margin-bottom"]],
+K=[[q,"background-color","background-color"],[q,"padding","padding"],[q,"padding-left","padding-left"],[q,"padding-right","padding-right"],[q,"padding-top","padding-top"],[q,"padding-bottom","padding-bottom"],[q,"border","border"],[q,"border-left","border-left"],[q,"border-right","border-right"],[q,"border-top","border-top"],[q,"border-bottom","border-bottom"],[q,"margin","margin"],[q,"margin-left","margin-left"],[q,"margin-right","margin-right"],[q,"margin-top","margin-top"],[q,"margin-bottom","margin-bottom"]],
+v=[[q,"page-width","width"],[q,"page-height","height"]],u={border:!0,"border-left":!0,"border-right":!0,"border-top":!0,"border-bottom":!0,"stroke-width":!0},Q={margin:!0,"margin-left":!0,"margin-right":!0,"margin-top":!0,"margin-bottom":!0},R={},C=odf.OdfUtils,I,P,U,T=xmldom.XPath,ca=new core.CSSUnits;this.style2css=function(a,d,b,c,e){function f(a,d){g="@namespace "+a+" url("+d+");";try{b.insertRule(g,b.cssRules.length)}catch(c){}}var g,l,h;for(P=d;b.cssRules.length;)b.deleteRule(b.cssRules.length-
+1);odf.Namespaces.forEachPrefix(f);f("webodfhelper","urn:webodf:names:helper");R=c;I=a;U=runtime.getWindow().getComputedStyle(document.body,null).getPropertyValue("font-size")||"12pt";for(h in D)if(D.hasOwnProperty(h))for(l in a=e[h],a)a.hasOwnProperty(l)&&p(b,h,l,a[l])}};(function(){function h(k,c){var b=this;this.getDistance=function(c){var h=b.x-c.x;c=b.y-c.y;return Math.sqrt(h*h+c*c)};this.getCenter=function(c){return new h((b.x+c.x)/2,(b.y+c.y)/2)};b.x=k;b.y=c}gui.ZoomHelper=function(){function k(a,b,c,e){a=e?"translate3d("+a+"px, "+b+"px, 0) scale3d("+c+", "+c+", 1)":"translate("+a+"px, "+b+"px) scale("+c+")";d.style.WebkitTransform=a;d.style.MozTransform=a;d.style.msTransform=a;d.style.OTransform=a;d.style.transform=a}function c(a){a?k(-r.x,-r.y,y,!0):(k(0,
+0,y,!0),k(0,0,y,!1))}function b(a){if(z&&L){var d=z.style.overflow,b=z.classList.contains("webodf-customScrollbars");a&&b||!a&&!b||(a?(z.classList.add("webodf-customScrollbars"),z.style.overflow="hidden",runtime.requestAnimationFrame(function(){z.style.overflow=d})):z.classList.remove("webodf-customScrollbars"))}}function g(){k(-r.x,-r.y,y,!0);z.scrollLeft=0;z.scrollTop=0;H=t.style.overflow;t.style.overflow="visible";b(!1)}function n(){k(0,0,y,!0);z.scrollLeft=r.x;z.scrollTop=r.y;t.style.overflow=
+H||"";b(!0)}function p(a){return new h(a.pageX-d.offsetLeft,a.pageY-d.offsetTop)}function m(a){if(l){r.x-=a.x-l.x;r.y-=a.y-l.y;var b=r;r=new h(Math.min(Math.max(b.x,d.offsetLeft),(d.offsetLeft+d.offsetWidth)*y-z.clientWidth),Math.min(Math.max(b.y,d.offsetTop),(d.offsetTop+d.offsetHeight)*y-z.clientHeight))}l=a}function q(a){var d=a.touches.length,b=0<d?p(a.touches[0]):null;a=1<d?p(a.touches[1]):null;b&&a?(B=b.getDistance(a),D=y,l=b.getCenter(a),g(),F=w.PINCH):b&&(l=b,F=w.SCROLL)}function f(a){var b=
+a.touches.length,e=0<b?p(a.touches[0]):null,b=1<b?p(a.touches[1]):null;if(e&&b)if(a.preventDefault(),F===w.SCROLL)F=w.PINCH,g(),B=e.getDistance(b);else{a=e.getCenter(b);e=e.getDistance(b)/B;m(a);var b=y,f=Math.min(4,d.offsetParent.clientWidth/d.offsetWidth);y=D*e;y=Math.min(Math.max(y,f),4);e=y/b;r.x+=(e-1)*(a.x+r.x);r.y+=(e-1)*(a.y+r.y);c(!0)}else e&&(F===w.PINCH?(F=w.SCROLL,n()):m(e))}function e(){F===w.PINCH&&(x.emit(gui.ZoomHelper.signalZoomChanged,y),n(),c(!1));F=w.NONE}function a(){z&&(z.removeEventListener("touchstart",
+q,!1),z.removeEventListener("touchmove",f,!1),z.removeEventListener("touchend",e,!1))}var d,r,l,B,y,D,z,t,x=new core.EventNotifier([gui.ZoomHelper.signalZoomChanged]),w={NONE:0,SCROLL:1,PINCH:2},F=w.NONE,L=runtime.getWindow().hasOwnProperty("ontouchstart"),H="";this.subscribe=function(a,d){x.subscribe(a,d)};this.unsubscribe=function(a,d){x.unsubscribe(a,d)};this.getZoomLevel=function(){return y};this.setZoomLevel=function(a){d&&(y=a,c(!1),x.emit(gui.ZoomHelper.signalZoomChanged,y))};this.destroy=
+function(d){a();b(!1);d()};this.setZoomableElement=function(g){a();d=g;z=d.offsetParent;t=d.parentNode;c(!1);z&&(z.addEventListener("touchstart",q,!1),z.addEventListener("touchmove",f,!1),z.addEventListener("touchend",e,!1));b(!0)};D=y=1;r=new h(0,0)};gui.ZoomHelper.signalZoomChanged="zoomChanged"})();ops.Canvas=function(){};ops.Canvas.prototype.getZoomLevel=function(){};ops.Canvas.prototype.getElement=function(){};ops.Canvas.prototype.getSizer=function(){};ops.Canvas.prototype.getZoomHelper=function(){};(function(){function h(){function a(c){b=!0;runtime.setTimeout(function(){try{c()}catch(e){runtime.log(String(e)+"\n"+e.stack)}b=!1;0<d.length&&a(d.pop())},10)}var d=[],b=!1;this.clearQueue=function(){d.length=0};this.addToQueue=function(c){if(0===d.length&&!b)return a(c);d.push(c)}}function k(a){function d(){for(;0<b.cssRules.length;)b.deleteRule(0);b.insertRule("#shadowContent draw|page {display:none;}",0);b.insertRule("office|presentation draw|page {display:none;}",1);b.insertRule("#shadowContent draw|page:nth-of-type("+
+c+") {display:block;}",2);b.insertRule("office|presentation draw|page:nth-of-type("+c+") {display:block;}",3)}var b=a.sheet,c=1;this.showFirstPage=function(){c=1;d()};this.showNextPage=function(){c+=1;d()};this.showPreviousPage=function(){1<c&&(--c,d())};this.showPage=function(a){0<a&&(c=a,d())};this.css=a;this.destroy=function(d){a.parentNode.removeChild(a);d()}}function c(a){a=a.sheet;for(var d=a.cssRules;d.length;)a.deleteRule(d.length-1)}function b(a,d,b){var c=new odf.Style2CSS,e=new odf.ListStyleToCss;
+b=b.sheet;var f=(new odf.StyleTree(a.rootElement.styles,a.rootElement.automaticStyles)).getStyleTree();c.style2css(a.getDocumentType(),a.rootElement,b,d.getFontMap(),f);e.applyListStyles(b,f,a.rootElement.body)}function g(a,d){(new odf.FontLoader).loadFonts(a,d.sheet)}function n(a,d,b){var c=null;a=a.rootElement.body.getElementsByTagNameNS(G,b+"-decl");b=d.getAttributeNS(G,"use-"+b+"-name");var e;if(b&&0<a.length)for(d=0;d<a.length;d+=1)if(e=a[d],e.getAttributeNS(G,"name")===b){c=e.textContent;break}return c}
+function p(a,d,b,c){var e=a.ownerDocument;d=K.getElementsByTagNameNS(a,d,b);for(a=0;a<d.length;a+=1)K.removeAllChildNodes(d[a]),c&&(b=d[a],b.appendChild(e.createTextNode(c)))}function m(a,d,b){d.setAttributeNS("urn:webodf:names:helper","styleid",a);var c,e=d.getAttributeNS(L,"anchor-type"),f=d.getAttributeNS(w,"x"),g=d.getAttributeNS(w,"y"),l=d.getAttributeNS(w,"width"),h=d.getAttributeNS(w,"height"),r=d.getAttributeNS(z,"min-height"),m=d.getAttributeNS(z,"min-width");if("as-char"===e)c="display: inline-block;";
+else if(e||f||g)c="position: absolute;";else if(l||h||r||m)c="display: block;";f&&(c+="left: "+f+";");g&&(c+="top: "+g+";");l&&(c+="width: "+l+";");h&&(c+="height: "+h+";");r&&(c+="min-height: "+r+";");m&&(c+="min-width: "+m+";");c&&(c="draw|"+d.localName+'[webodfhelper|styleid="'+a+'"] {'+c+"}",b.insertRule(c,b.cssRules.length))}function q(a){for(a=a.firstChild;a;){if(a.namespaceURI===t&&"binary-data"===a.localName)return"data:image/png;base64,"+a.textContent.replace(/[\r\n\s]/g,"");a=a.nextSibling}return""}
+function f(a,d,b,c){function e(d){d&&(d='draw|image[webodfhelper|styleid="'+a+'"] {'+("background-image: url("+d+");")+"}",c.insertRule(d,c.cssRules.length))}function f(a){e(a.url)}b.setAttributeNS("urn:webodf:names:helper","styleid",a);var g=b.getAttributeNS(H,"href"),l;if(g)try{l=d.getPart(g),l.onchange=f,l.load()}catch(h){runtime.log("slight problem: "+String(h))}else g=q(b),e(g)}function e(a){var d=a.ownerDocument;K.getElementsByTagNameNS(a,L,"line-break").forEach(function(a){a.hasChildNodes()||
+a.appendChild(d.createElement("br"))})}function a(a){var d=a.ownerDocument;K.getElementsByTagNameNS(a,L,"s").forEach(function(a){var b,c;K.removeAllChildNodes(a);a.appendChild(d.createTextNode(" "));c=parseInt(a.getAttributeNS(L,"c"),10);if(1<c)for(a.removeAttributeNS(L,"c"),b=1;b<c;b+=1)a.parentNode.insertBefore(a.cloneNode(!0),a)})}function d(a){K.getElementsByTagNameNS(a,L,"tab").forEach(function(a){a.textContent="\t"})}function r(a,d){function b(a,c){var g=l.documentElement.namespaceURI;"video/"===
+c.substr(0,6)?(e=l.createElementNS(g,"video"),e.setAttribute("controls","controls"),f=l.createElementNS(g,"source"),a&&f.setAttribute("src",a),f.setAttribute("type",c),e.appendChild(f),d.parentNode.appendChild(e)):d.innerHtml="Unrecognised Plugin"}function c(a){b(a.url,a.mimetype)}var e,f,g,l=d.ownerDocument,h;if(g=d.getAttributeNS(H,"href"))try{h=a.getPart(g),h.onchange=c,h.load()}catch(r){runtime.log("slight problem: "+String(r))}else runtime.log("using MP4 data fallback"),g=q(d),b(g,"video/mp4")}
+function l(a){var d=a.getElementsByTagName("head")[0],b,c;b=a.styleSheets.length;for(c=d.firstElementChild;c&&("style"!==c.localName||!c.hasAttribute("webodfcss"));)c=c.nextElementSibling;if(c)return b=parseInt(c.getAttribute("webodfcss"),10),c.setAttribute("webodfcss",b+1),c;"string"===String(typeof webodf_css)?b=webodf_css:(c="webodf.css",runtime.currentDirectory&&(c=runtime.currentDirectory(),0<c.length&&"/"!==c.substr(-1)&&(c+="/"),c+="../webodf.css"),b=runtime.readFileSync(c,"utf-8"));c=a.createElementNS(d.namespaceURI,
+"style");c.setAttribute("media","screen, print, handheld, projection");c.setAttribute("type","text/css");c.setAttribute("webodfcss","1");c.appendChild(a.createTextNode(b));d.appendChild(c);return c}function B(a){var d=parseInt(a.getAttribute("webodfcss"),10);1===d?a.parentNode.removeChild(a):a.setAttribute("count",d-1)}function y(a){var d=a.getElementsByTagName("head")[0],b=a.createElementNS(d.namespaceURI,"style"),c="";b.setAttribute("type","text/css");b.setAttribute("media","screen, print, handheld, projection");
+odf.Namespaces.forEachPrefix(function(a,d){c+="@namespace "+a+" url("+d+");\n"});c+="@namespace webodfhelper url(urn:webodf:names:helper);\n";b.appendChild(a.createTextNode(c));d.appendChild(b);return b}var D=odf.Namespaces.drawns,z=odf.Namespaces.fons,t=odf.Namespaces.officens,x=odf.Namespaces.stylens,w=odf.Namespaces.svgns,F=odf.Namespaces.tablens,L=odf.Namespaces.textns,H=odf.Namespaces.xlinkns,G=odf.Namespaces.presentationns,A=xmldom.XPath,K=core.DomUtils;odf.OdfCanvas=function(v,u){function q(a,
+d,b){function c(a,d,b,e){na.addToQueue(function(){f(a,d,b,e)})}var e,g;e=d.getElementsByTagNameNS(D,"image");for(d=0;d<e.length;d+=1)g=e.item(d),c("image"+String(d),a,g,b)}function w(a,d){function b(a,d){na.addToQueue(function(){r(a,d)})}var c,e,f;e=d.getElementsByTagNameNS(D,"plugin");for(c=0;c<e.length;c+=1)f=e.item(c),b(a,f)}function C(){var a;a=X.firstChild;var d=ga.getZoomLevel();a&&(X.style.WebkitTransformOrigin="0% 0%",X.style.MozTransformOrigin="0% 0%",X.style.msTransformOrigin="0% 0%",X.style.OTransformOrigin=
+"0% 0%",X.style.transformOrigin="0% 0%",S&&((a=S.getMinimumHeightForAnnotationPane())?X.style.minHeight=a:X.style.removeProperty("min-height")),v.style.width=Math.round(d*X.offsetWidth)+"px",v.style.height=Math.round(d*X.offsetHeight)+"px",v.style.display="inline-block")}function z(b,c){var f=ea.sheet;K.removeAllChildNodes(v);X=Y.createElementNS(v.namespaceURI,"div");X.style.display="inline-block";X.style.background="white";X.style.setProperty("float","left","important");X.appendChild(c);v.appendChild(X);
+ha=Y.createElementNS(v.namespaceURI,"div");ha.id="annotationsPane";aa=Y.createElementNS(v.namespaceURI,"div");aa.id="shadowContent";aa.style.position="absolute";aa.style.top=0;aa.style.left=0;b.getContentElement().appendChild(aa);var g=c.body,l,h=[],r;for(l=g.firstElementChild;l&&l!==g;)if(l.namespaceURI===D&&(h[h.length]=l),l.firstElementChild)l=l.firstElementChild;else{for(;l&&l!==g&&!l.nextElementSibling;)l=l.parentNode;l&&l.nextElementSibling&&(l=l.nextElementSibling)}for(r=0;r<h.length;r+=1)l=
+h[r],m("frame"+String(r),l,f);h=A.getODFElementsWithXPath(g,".//*[*[@text:anchor-type='paragraph']]",odf.Namespaces.lookupNamespaceURI);for(l=0;l<h.length;l+=1)g=h[l],g.setAttributeNS&&g.setAttributeNS("urn:webodf:names:helper","containsparagraphanchor",!0);g=Z;l=aa;var k,u,B,C,y=0,H;r=b.rootElement.ownerDocument;if((h=c.body.firstElementChild)&&h.namespaceURI===t&&("presentation"===h.localName||"drawing"===h.localName))for(h=h.firstElementChild;h;){if(k=(k=h.getAttributeNS(D,"master-page-name"))?
+g.getMasterPageElement(k):null){u=h.getAttributeNS("urn:webodf:names:helper","styleid");B=r.createElementNS(D,"draw:page");H=k.firstElementChild;for(y=0;H;)"true"!==H.getAttributeNS(G,"placeholder")&&(C=H.cloneNode(!0),B.appendChild(C)),H=H.nextElementSibling,y+=1;H=C=y=void 0;for(var I=K.getElementsByTagNameNS(B,D,"frame"),y=0;y<I.length;y+=1)C=I[y],(H=C.getAttributeNS(G,"class"))&&!/^(date-time|footer|header|page-number)$/.test(H)&&C.parentNode.removeChild(C);C=K.getElementsByTagNameNS(B,D,"*");
+for(y=0;y<C.length;y+=1)m(u+"_"+y,C[y],f);l.appendChild(B);y=String(l.getElementsByTagNameNS(D,"page").length);p(B,L,"page-number",y);p(B,G,"header",n(b,h,"header"));p(B,G,"footer",n(b,h,"footer"));m(u,B,f);B.setAttributeNS("urn:webodf:names:helper","page-style-name",h.getAttributeNS(D,"style-name"));B.setAttributeNS(D,"draw:master-page-name",k.getAttributeNS(x,"name"))}h=h.nextElementSibling}g=v.namespaceURI;h=K.getElementsByTagNameNS(c.body,F,"table-cell");for(l=0;l<h.length;l+=1)r=h[l],r.hasAttributeNS(F,
+"number-columns-spanned")&&r.setAttributeNS(g,"colspan",r.getAttributeNS(F,"number-columns-spanned")),r.hasAttributeNS(F,"number-rows-spanned")&&r.setAttributeNS(g,"rowspan",r.getAttributeNS(F,"number-rows-spanned"));e(c.body);a(c.body);d(c.body);q(b,c.body,f);w(b,c.body);X.insertBefore(aa,X.firstChild);ga.setZoomableElement(X)}function H(a){J?(ha.parentNode||X.appendChild(ha),S&&S.forgetAnnotations(),S=new gui.AnnotationViewManager(ca,a.body,ha,ba),a=K.getElementsByTagNameNS(a.body,t,"annotation"),
+S.addAnnotations(a),C()):ha.parentNode&&(X.removeChild(ha),S.forgetAnnotations(),C())}function U(a){function d(){c(M);c(ja);c(ea);K.removeAllChildNodes(v);v.style.display="inline-block";var e=E.rootElement;v.ownerDocument.importNode(e,!0);Z.setOdfContainer(E);g(E,M);b(E,Z,ja);z(E,e);H(e);a||na.addToQueue(function(){var a=[E];if(fa.hasOwnProperty("statereadychange")){var d=fa.statereadychange,b;for(b=0;b<d.length;b+=1)d[b].apply(null,a)}})}E.state===odf.OdfContainer.DONE?d():(runtime.log("WARNING: refreshOdf called but ODF was not DONE."),
+qa=runtime.setTimeout(function W(){E.state===odf.OdfContainer.DONE?d():(runtime.log("will be back later..."),qa=runtime.setTimeout(W,500))},100))}function T(a){na.clearQueue();K.removeAllChildNodes(v);v.appendChild(v.ownerDocument.createTextNode(runtime.tr("Loading")+a+"..."));v.removeAttribute("style");E=new odf.OdfContainer(a,function(a){E=a;U(!1)})}runtime.assert(null!==v&&void 0!==v,"odf.OdfCanvas constructor needs DOM element");runtime.assert(null!==v.ownerDocument&&void 0!==v.ownerDocument,
+"odf.OdfCanvas constructor needs DOM");var ca=this,Y=v.ownerDocument,E,Z=new odf.Formatting,da,X=null,ha=null,J=!1,ba=!1,S=null,V,M,ja,ea,aa,fa={},qa,la,ia=!1,ma=!1,na=new h,ga=new gui.ZoomHelper,ka=u||new gui.SingleScrollViewport(v.parentNode);this.refreshCSS=function(){ia=!0;la.trigger()};this.refreshSize=function(){la.trigger()};this.odfContainer=function(){return E};this.setOdfContainer=function(a,d){E=a;U(!0===d)};this.load=this.load=T;this.save=function(a){E.save(a)};this.addListener=function(a,
+d){switch(a){case "click":var b=a;v.addEventListener?v.addEventListener(b,d,!1):v.attachEvent?v.attachEvent("on"+b,d):v["on"+b]=d;break;default:b=fa.hasOwnProperty(a)?fa[a]:fa[a]=[],d&&-1===b.indexOf(d)&&b.push(d)}};this.getFormatting=function(){return Z};this.getAnnotationViewManager=function(){return S};this.refreshAnnotations=function(){H(E.rootElement)};this.rerenderAnnotations=function(){S&&(ma=!0,la.trigger())};this.getSizer=function(){return X};this.enableAnnotations=function(a,d){a!==J&&(J=
+a,ba=d,E&&H(E.rootElement))};this.addAnnotation=function(a){S&&(S.addAnnotations([a]),C())};this.forgetAnnotation=function(a){S&&(S.forgetAnnotation(a),C())};this.getZoomHelper=function(){return ga};this.setZoomLevel=function(a){ga.setZoomLevel(a)};this.getZoomLevel=function(){return ga.getZoomLevel()};this.fitToContainingElement=function(a,d){var b=ga.getZoomLevel(),c=v.offsetHeight/b,b=a/(v.offsetWidth/b);d/c<b&&(b=d/c);ga.setZoomLevel(b)};this.fitToWidth=function(a){var d=v.offsetWidth/ga.getZoomLevel();
+ga.setZoomLevel(a/d)};this.fitSmart=function(a,d){var b,c;c=ga.getZoomLevel();b=v.offsetWidth/c;c=v.offsetHeight/c;b=a/b;void 0!==d&&d/c<b&&(b=d/c);ga.setZoomLevel(Math.min(1,b))};this.fitToHeight=function(a){var d=v.offsetHeight/ga.getZoomLevel();ga.setZoomLevel(a/d)};this.showFirstPage=function(){da.showFirstPage()};this.showNextPage=function(){da.showNextPage()};this.showPreviousPage=function(){da.showPreviousPage()};this.showPage=function(a){da.showPage(a);C()};this.getElement=function(){return v};
+this.getViewport=function(){return ka};this.addCssForFrameWithImage=function(a){var d=a.getAttributeNS(D,"name"),b=a.firstElementChild;m(d,a,ea.sheet);b&&f(d+"img",E,b,ea.sheet)};this.destroy=function(a){var d=Y.getElementsByTagName("head")[0],b=[da.destroy,la.destroy];runtime.clearTimeout(qa);ha&&ha.parentNode&&ha.parentNode.removeChild(ha);ga.destroy(function(){X&&(v.removeChild(X),X=null)});B(V);d.removeChild(M);d.removeChild(ja);d.removeChild(ea);core.Async.destroyAll(b,a)};V=l(Y);da=new k(y(Y));
+M=y(Y);ja=y(Y);ea=y(Y);la=core.Task.createRedrawTask(function(){ia&&(b(E,Z,ja),ia=!1);ma&&(S&&S.rerenderAnnotations(),ma=!1);C()});ga.subscribe(gui.ZoomHelper.signalZoomChanged,C)}})();odf.StepUtils=function(){this.getContentBounds=function(h){var k=h.container(),c,b;runtime.assert(h.isStep(),"Step iterator must be on a step");k.nodeType===Node.TEXT_NODE&&0<h.offset()?c=h.offset():(k=h.leftNode())&&k.nodeType===Node.TEXT_NODE&&(c=k.length);k&&(k.nodeType===Node.TEXT_NODE?(runtime.assert(0<c,"Empty text node found"),b={container:k,startOffset:c-1,endOffset:c}):b={container:k,startOffset:0,endOffset:k.childNodes.length});return b}};ops.MemberProperties=function(){};
+ops.Member=function(h,k){var c=new ops.MemberProperties;this.getMemberId=function(){return h};this.getProperties=function(){return c};this.setProperties=function(b){Object.keys(b).forEach(function(g){c[g]=b[g]})};this.removeProperties=function(b){Object.keys(b).forEach(function(b){"fullName"!==b&&"color"!==b&&"imageUrl"!==b&&c.hasOwnProperty(b)&&delete c[b]})};runtime.assert(Boolean(h),"No memberId was supplied!");k.fullName||(k.fullName=runtime.tr("Unknown Author"));k.color||(k.color="black");k.imageUrl||
+(k.imageUrl="avatar-joe.png");c=k};ops.Document=function(){};ops.Document.prototype.getMemberIds=function(){};ops.Document.prototype.removeCursor=function(h){};ops.Document.prototype.getDocumentElement=function(){};ops.Document.prototype.getRootNode=function(){};ops.Document.prototype.getDOMDocument=function(){};ops.Document.prototype.cloneDocumentElement=function(){};ops.Document.prototype.setDocumentElement=function(h){};ops.Document.prototype.subscribe=function(h,k){};ops.Document.prototype.unsubscribe=function(h,k){};
+ops.Document.prototype.getCanvas=function(){};ops.Document.prototype.createRootFilter=function(h){};ops.Document.prototype.createPositionIterator=function(h){};ops.Document.signalCursorAdded="cursor/added";ops.Document.signalCursorRemoved="cursor/removed";ops.Document.signalCursorMoved="cursor/moved";ops.Document.signalMemberAdded="member/added";ops.Document.signalMemberUpdated="member/updated";ops.Document.signalMemberRemoved="member/removed";ops.OdtCursor=function(h,k){var c=this,b={},g,n,p=new core.EventNotifier([ops.OdtCursor.signalCursorUpdated]);this.removeFromDocument=function(){n.remove()};this.subscribe=function(b,c){p.subscribe(b,c)};this.unsubscribe=function(b,c){p.unsubscribe(b,c)};this.getMemberId=function(){return h};this.getNode=function(){return n.getNode()};this.getAnchorNode=function(){return n.getAnchorNode()};this.getSelectedRange=function(){return n.getSelectedRange()};this.setSelectedRange=function(b,g){n.setSelectedRange(b,
+g);p.emit(ops.OdtCursor.signalCursorUpdated,c)};this.hasForwardSelection=function(){return n.hasForwardSelection()};this.getDocument=function(){return k};this.getSelectionType=function(){return g};this.setSelectionType=function(c){b.hasOwnProperty(c)?g=c:runtime.log("Invalid selection type: "+c)};this.resetSelectionType=function(){c.setSelectionType(ops.OdtCursor.RangeSelection)};n=new core.Cursor(k.getDOMDocument(),h);b[ops.OdtCursor.RangeSelection]=!0;b[ops.OdtCursor.RegionSelection]=!0;c.resetSelectionType()};
+ops.OdtCursor.RangeSelection="Range";ops.OdtCursor.RegionSelection="Region";ops.OdtCursor.signalCursorUpdated="cursorUpdated";(function(){var h=0;ops.StepsCache=function(k,c,b){function g(a,d){var c=this;this.nodeId=a;this.steps=-1;this.node=d;this.previousBookmark=this.nextBookmark=null;this.setIteratorPosition=function(a){a.setPositionBeforeElement(d);b(c.steps,a)}}function n(a,d,c){var e=this;this.nodeId=a;this.steps=d;this.node=c;this.previousBookmark=this.nextBookmark=null;this.setIteratorPosition=function(a){a.setUnfilteredPosition(c,0);b(e.steps,a)}}function p(a,d){var b="["+a.nodeId;d&&(b+=" => "+d.nodeId);return b+
+"]"}function m(){if(!0===ops.StepsCache.ENABLE_CACHE_VERIFICATION){for(var a=y,d,b,c,e=new core.LoopWatchDog(0,1E5),f={};a;){e.check();(d=a.previousBookmark)?runtime.assert(d.nextBookmark===a,"Broken bookmark link to previous @"+p(d,a)):(runtime.assert(a===y,"Broken bookmark link @"+p(a)),runtime.assert(void 0===D||y===y||y.steps<=D,"Base point is damaged @"+p(a)));(b=a.nextBookmark)&&runtime.assert(b.previousBookmark===a,"Broken bookmark link to next @"+p(a,b));if(void 0===D||a===y||a.steps<=D)runtime.assert(B.containsNode(k,
+a.node),"Disconnected node is being reported as undamaged @"+p(a)),d&&(c=a.node.compareDocumentPosition(d.node),runtime.assert(0===c||0!==(c&t),"Bookmark order with previous does not reflect DOM order @"+p(d,a))),b&&B.containsNode(k,b.node)&&(c=a.node.compareDocumentPosition(b.node),runtime.assert(0===c||0!==(c&z),"Bookmark order with next does not reflect DOM order @"+p(a,b)));a=a.nextBookmark}Object.keys(r).forEach(function(a){var d=r[a];(void 0===D||a<=D)&&runtime.assert(d.steps<=a,"Bookmark step of "+
+d.steps+" exceeds cached step lookup for "+a+" @"+p(d));runtime.assert(!1===f.hasOwnProperty(d.nodeId),"Bookmark "+p(d)+" appears twice in cached step lookup at steps "+f[d.nodeId]+" and "+a);f[d.nodeId]=a})}}function q(a){var d="";a.nodeType===Node.ELEMENT_NODE&&(d=a.getAttributeNS("urn:webodf:names:steps","nodeId")||"");return d}function f(a){var d=h.toString();a.setAttributeNS("urn:webodf:names:steps","nodeId",d);h+=1;return d}function e(a){var d,b,e=new core.LoopWatchDog(0,1E4);void 0!==D&&a>
+D&&(a=D);for(d=Math.floor(a/c)*c;!b&&0<=d;)b=r[d],d-=c;for(b=b||y;b.nextBookmark&&b.nextBookmark.steps<=a;)e.check(),b=b.nextBookmark;runtime.assert(-1===a||b.steps<=a,"Bookmark @"+p(b)+" at step "+b.steps+" exceeds requested step of "+a);return b}function a(a){a.previousBookmark&&(a.previousBookmark.nextBookmark=a.nextBookmark);a.nextBookmark&&(a.nextBookmark.previousBookmark=a.previousBookmark)}function d(a){for(var d,b=null;!b&&a&&a!==k;)(d=q(a))&&(b=l[d])&&b.node!==a&&(runtime.log("Cloned node detected. Creating new bookmark"),
+b=null,a.removeAttributeNS("urn:webodf:names:steps","nodeId")),a=a.parentNode;return b}var r={},l={},B=core.DomUtils,y,D,z=Node.DOCUMENT_POSITION_FOLLOWING,t=Node.DOCUMENT_POSITION_PRECEDING;this.updateBookmark=function(d,b){var h,n=Math.ceil(d/c)*c,p,t,A;if(void 0!==D&&D<d){p=e(D);for(t=p.nextBookmark;t&&t.steps<=d;)h=t.nextBookmark,A=Math.ceil(t.steps/c)*c,r[A]===t&&delete r[A],B.containsNode(k,t.node)?t.steps=d+1:(a(t),delete l[t.nodeId]),t=h;D=d}else p=e(d);t=q(b)||f(b);h=l[t];h?h.node!==b&&(runtime.log("Cloned node detected. Creating new bookmark"),
+t=f(b),h=l[t]=new g(t,b)):h=l[t]=new g(t,b);t=h;t.steps!==d&&(h=Math.ceil(t.steps/c)*c,h!==n&&r[h]===t&&delete r[h],t.steps=d);if(p!==t&&p.nextBookmark!==t){if(p.steps===t.steps)for(;0!==(t.node.compareDocumentPosition(p.node)&z)&&p!==y;)p=p.previousBookmark;p!==t&&p.nextBookmark!==t&&(a(t),h=p.nextBookmark,t.nextBookmark=p.nextBookmark,t.previousBookmark=p,p.nextBookmark=t,h&&(h.previousBookmark=t))}p=r[n];if(!p||t.steps>p.steps)r[n]=t;m()};this.setToClosestStep=function(a,d){var b;m();b=e(a);b.setIteratorPosition(d);
+return b.steps};this.setToClosestDomPoint=function(a,b,c){var f,g;m();if(a===k&&0===b)f=y;else if(a===k&&b===k.childNodes.length)for(g in f=y,r)r.hasOwnProperty(g)&&(a=r[g],a.steps>f.steps&&(f=a));else if(f=d(a.childNodes.item(b)||a),!f)for(c.setUnfilteredPosition(a,b);!f&&c.previousNode();)f=d(c.getCurrentNode());f=f||y;void 0!==D&&f.steps>D&&(f=e(D));f.setIteratorPosition(c);return f.steps};this.damageCacheAfterStep=function(a){0>a&&(a=-1);void 0===D?D=a:a<D&&(D=a);m()};(function(){var a=q(k)||
+f(k);y=new n(a,0,k)})()};ops.StepsCache.ENABLE_CACHE_VERIFICATION=!1;ops.StepsCache.Bookmark=function(){};ops.StepsCache.Bookmark.prototype.setIteratorPosition=function(h){}})();(function(){ops.OdtStepsTranslator=function(h,k,c,b){function g(a,b,c){var e=b.getCurrentNode();b.isBeforeNode()&&m.isParagraph(e)&&(c||(a+=1),p.updateBookmark(a,e))}function n(d,b){if(!b||c.acceptPosition(d)===f)return!0;for(;d.previousPosition();)if(c.acceptPosition(d)===f){if(b(e,d.container(),d.unfilteredDomOffset()))return!0;break}for(;d.nextPosition();)if(c.acceptPosition(d)===f){if(b(a,d.container(),d.unfilteredDomOffset()))return!0;break}return!1}var p,m=odf.OdfUtils,q=core.DomUtils,f=core.PositionFilter.FilterResult.FILTER_ACCEPT,
+e=core.StepDirection.PREVIOUS,a=core.StepDirection.NEXT;this.convertStepsToDomPoint=function(a){var b,e;if(isNaN(a))throw new TypeError("Requested steps is not numeric ("+a+")");if(0>a)throw new RangeError("Requested steps is negative ("+a+")");for(b=p.setToClosestStep(a,k);b<a&&k.nextPosition();)(e=c.acceptPosition(k)===f)&&(b+=1),g(b,k,e);if(b!==a)throw new RangeError("Requested steps ("+a+") exceeds available steps ("+b+")");return{node:k.container(),offset:k.unfilteredDomOffset()}};this.convertDomPointToSteps=
+function(a,b,e){var m;q.containsNode(h,a)||(b=0>q.comparePoints(h,0,a,b),a=h,b=b?0:h.childNodes.length);k.setUnfilteredPosition(a,b);n(k,e)||k.setUnfilteredPosition(a,b);e=k.container();b=k.unfilteredDomOffset();a=p.setToClosestDomPoint(e,b,k);if(0>q.comparePoints(k.container(),k.unfilteredDomOffset(),e,b))return 0<a?a-1:a;for(;(k.container()!==e||k.unfilteredDomOffset()!==b)&&k.nextPosition();)(m=c.acceptPosition(k)===f)&&(a+=1),g(a,k,m);return a+0};this.prime=function(){var a,b;for(a=p.setToClosestStep(0,
+k);k.nextPosition();)(b=c.acceptPosition(k)===f)&&(a+=1),g(a,k,b)};this.handleStepsInserted=function(a){p.damageCacheAfterStep(a.position)};this.handleStepsRemoved=function(a){p.damageCacheAfterStep(a.position-1)};p=new ops.StepsCache(h,b,function(a,b){do{if(c.acceptPosition(b)===f){g(a,b,!0);break}g(a-1,b,!1)}while(b.nextPosition())})}})();ops.Operation=function(){};ops.Operation.prototype.init=function(h){};ops.Operation.prototype.execute=function(h){};ops.Operation.prototype.spec=function(){};ops.TextPositionFilter=function(){function h(b,c){for(;b&&c(b)!==n;)b=b.previousSibling;return b}function k(b,g,f,e){var a;if(g){if(c.isInlineRoot(g)&&c.isGroupingElement(f))return p;e=c.lookLeftForCharacter(g);if(1===e||2===e&&(c.scanRightForAnyCharacter(f)||c.scanRightForAnyCharacter(c.nextNode(b))))return n}else if(c.isGroupingElement(b)&&c.isInlineRoot(h(b.previousSibling,e)))return n;e=null===g&&c.isParagraph(b);a=c.lookRightForCharacter(f);if(e)return a?n:c.scanRightForAnyCharacter(f)?p:n;if(!a)return p;
+g=g||c.previousNode(b);return c.scanLeftForAnyCharacter(g)?p:n}var c=odf.OdfUtils,b=Node.ELEMENT_NODE,g=Node.TEXT_NODE,n=core.PositionFilter.FilterResult.FILTER_ACCEPT,p=core.PositionFilter.FilterResult.FILTER_REJECT;this.acceptPosition=function(h){var q=h.container(),f=q.nodeType,e,a,d;if(f!==b&&f!==g)return p;if(f===g){f=h.unfilteredDomOffset();e=q.data;runtime.assert(f!==e.length,"Unexpected offset.");if(0<f){h=e[f-1];if(!c.isODFWhitespace(h))return n;if(1<f)if(h=e[f-2],!c.isODFWhitespace(h))d=
+n;else{if(!c.isODFWhitespace(e.substr(0,f)))return p}else a=c.previousNode(q),c.scanLeftForNonSpace(a)&&(d=n);if(d===n)return c.isTrailingWhitespace(q,f)?p:n;h=e[f];return c.isODFWhitespace(h)?p:c.scanLeftForAnyCharacter(c.previousNode(q))?p:n}a=h.leftNode();d=q;q=q.parentNode;d=k(q,a,d,h.getNodeFilter())}else c.isGroupingElement(q)?(a=h.leftNode(),d=h.rightNode(),d=k(q,a,d,h.getNodeFilter())):d=p;return d}};function RootFilter(h,k,c){var b=core.PositionFilter.FilterResult.FILTER_ACCEPT,g=core.PositionFilter.FilterResult.FILTER_REJECT;this.acceptPosition=function(n){n=n.container();var p;p="string"===typeof h?k[h].getNode():h;return c(n)===c(p)?b:g}}
+ops.OdtDocument=function(h){function k(a){return new core.PositionIterator(a,F,G,!1)}function c(){var a=h.odfContainer().getContentElement(),b=a&&a.localName;runtime.assert("text"===b,"Unsupported content element type '"+b+"' for OdtDocument");return a}function b(){return a.getDocumentElement().ownerDocument}function g(a){for(;a&&!(a.namespaceURI===odf.Namespaces.officens&&"text"===a.localName||a.namespaceURI===odf.Namespaces.officens&&"annotation"===a.localName);)a=a.parentNode;return a}function n(a,
+b,d,c){c=k(c);var e;1===d.length?e=d[0]:(e=new core.PositionFilterChain,d.forEach(e.addFilter));d=new core.StepIterator(e,c);d.setPosition(a,b);return d}function p(a){var b=k(c());a=x.convertStepsToDomPoint(a);b.setUnfilteredPosition(a.node,a.offset);return b}function m(a){return a===z}function q(b){var d=b.spec(),c=d.memberid,e=(new Date(d.timestamp)).toISOString(),d=h.odfContainer();b.isEdit&&(c=a.getMember(c).getProperties().fullName,d.setMetadata({"dc:creator":c,"dc:date":e},null),c={setProperties:{"dc:creator":c,
+"dc:date":e},removedProperties:[]},w||(c.setProperties["meta:editing-cycles"]=d.incrementEditingCycles(),d.setMetadata(null,["meta:editing-duration","meta:document-statistic"])),w=b,a.emit(ops.OdtDocument.signalMetadataUpdated,c))}function f(a){var b,c=[],e,f=2;runtime.assert(a.isStep(),"positionIterator is not at a step");do{if(b=d.getContentBounds(a))if(b=b.container,r.isDowngradableSpaceElement(b)){for(e=b.lastChild;b.firstChild;)c.push(b.firstChild),b.parentNode.insertBefore(b.firstChild,b);b.parentNode.removeChild(b);
+a.setPosition(e,e.nodeType===Node.TEXT_NODE?e.length:e.childNodes.length);a.roundToPreviousStep()}--f}while(0<f&&a.nextStep());c.forEach(l.normalizeTextNodes)}function e(a,b,d){a=a.childNodes.item(b)||a;return(a=r.getParagraphElement(a))&&l.containsNode(d,a)?a:d}var a=this,d,r=odf.OdfUtils,l=core.DomUtils,B={},y={},D=new core.EventNotifier([ops.Document.signalMemberAdded,ops.Document.signalMemberUpdated,ops.Document.signalMemberRemoved,ops.Document.signalCursorAdded,ops.Document.signalCursorRemoved,
+ops.Document.signalCursorMoved,ops.OdtDocument.signalParagraphChanged,ops.OdtDocument.signalParagraphStyleModified,ops.OdtDocument.signalCommonStyleCreated,ops.OdtDocument.signalCommonStyleDeleted,ops.OdtDocument.signalTableAdded,ops.OdtDocument.signalOperationStart,ops.OdtDocument.signalOperationEnd,ops.OdtDocument.signalProcessingBatchStart,ops.OdtDocument.signalProcessingBatchEnd,ops.OdtDocument.signalUndoStackChanged,ops.OdtDocument.signalStepsInserted,ops.OdtDocument.signalStepsRemoved,ops.OdtDocument.signalMetadataUpdated,
+ops.OdtDocument.signalAnnotationAdded]),z=core.StepDirection.NEXT,t,x,w,F=NodeFilter.SHOW_ALL,L=new gui.BlacklistNamespaceNodeFilter(["urn:webodf:names:cursor","urn:webodf:names:editinfo"]),H=new gui.OdfTextBodyNodeFilter,G=new core.NodeFilterChain([L,H]);this.createPositionIterator=k;this.getDocumentElement=function(){return h.odfContainer().rootElement};this.cloneDocumentElement=function(){var b=a.getDocumentElement(),d=h.getAnnotationViewManager();d&&d.forgetAnnotations();b=b.cloneNode(!0);h.refreshAnnotations();
+a.fixCursorPositions();return b};this.setDocumentElement=function(a){var b=h.odfContainer();D.unsubscribe(ops.OdtDocument.signalStepsInserted,x.handleStepsInserted);D.unsubscribe(ops.OdtDocument.signalStepsRemoved,x.handleStepsRemoved);b.setRootElement(a);h.setOdfContainer(b,!0);h.refreshCSS();a=c();x=new ops.OdtStepsTranslator(a,k(a),t,500);D.subscribe(ops.OdtDocument.signalStepsInserted,x.handleStepsInserted);D.subscribe(ops.OdtDocument.signalStepsRemoved,x.handleStepsRemoved)};this.getDOMDocument=
+b;this.getRootElement=g;this.createStepIterator=n;this.getIteratorAtPosition=p;this.convertCursorStepToDomPoint=function(a){return x.convertStepsToDomPoint(a)};this.convertDomPointToCursorStep=function(a,b,d){var c;d===z&&(c=m);return x.convertDomPointToSteps(a,b,c)};this.convertDomToCursorRange=function(a){var b;b=x.convertDomPointToSteps(a.anchorNode,a.anchorOffset);a=a.anchorNode===a.focusNode&&a.anchorOffset===a.focusOffset?b:x.convertDomPointToSteps(a.focusNode,a.focusOffset);return{position:b,
+length:a-b}};this.convertCursorToDomRange=function(a,d){var c=b().createRange(),e,f;e=x.convertStepsToDomPoint(a);d?(f=x.convertStepsToDomPoint(a+d),0<d?(c.setStart(e.node,e.offset),c.setEnd(f.node,f.offset)):(c.setStart(f.node,f.offset),c.setEnd(e.node,e.offset))):c.setStart(e.node,e.offset);return c};this.upgradeWhitespacesAtPosition=function(a){var b=p(a),b=new core.StepIterator(t,b),c,e=2;runtime.assert(b.isStep(),"positionIterator is not at a step (requested step: "+a+")");do{if(c=d.getContentBounds(b))if(a=
+c.container,c=c.startOffset,a.nodeType===Node.TEXT_NODE&&r.isSignificantWhitespace(a,c)){runtime.assert(" "===a.data[c],"upgradeWhitespaceToElement: textNode.data[offset] should be a literal space");var f=a.ownerDocument.createElementNS(odf.Namespaces.textns,"text:s"),g=a.parentNode,l=a;f.appendChild(a.ownerDocument.createTextNode(" "));1===a.length?g.replaceChild(f,a):(a.deleteData(c,1),0<c&&(c<a.length&&a.splitText(c),l=a.nextSibling),g.insertBefore(f,l));a=f;b.setPosition(a,a.childNodes.length);
+b.roundToPreviousStep()}--e}while(0<e&&b.nextStep())};this.downgradeWhitespaces=f;this.downgradeWhitespacesAtPosition=function(a){a=p(a);a=new core.StepIterator(t,a);f(a)};this.getTextNodeAtStep=function(d,c){var e=p(d),f=e.container(),g,l=0,h=null;f.nodeType===Node.TEXT_NODE?(g=f,l=e.unfilteredDomOffset(),0<g.length&&(0<l&&(g=g.splitText(l)),g.parentNode.insertBefore(b().createTextNode(""),g),g=g.previousSibling,l=0)):(g=b().createTextNode(""),l=0,f.insertBefore(g,e.rightNode()));if(c){if(B[c]&&
+a.getCursorPosition(c)===d){for(h=B[c].getNode();h.nextSibling&&"cursor"===h.nextSibling.localName;)h.parentNode.insertBefore(h.nextSibling,h);0<g.length&&g.nextSibling!==h&&(g=b().createTextNode(""),l=0);h.parentNode.insertBefore(g,h)}}else for(;g.nextSibling&&"cursor"===g.nextSibling.localName;)g.parentNode.insertBefore(g.nextSibling,g);for(;g.previousSibling&&g.previousSibling.nodeType===Node.TEXT_NODE;)e=g.previousSibling,e.appendData(g.data),l=e.length,g=e,g.parentNode.removeChild(g.nextSibling);
+for(;g.nextSibling&&g.nextSibling.nodeType===Node.TEXT_NODE;)e=g.nextSibling,g.appendData(e.data),g.parentNode.removeChild(e);return{textNode:g,offset:l}};this.fixCursorPositions=function(){Object.keys(B).forEach(function(b){var d=B[b],c=g(d.getNode()),f=a.createRootFilter(c),l,h,r,m=!1;r=d.getSelectedRange();l=e(r.startContainer,r.startOffset,c);h=n(r.startContainer,r.startOffset,[t,f],l);r.collapsed?c=h:(l=e(r.endContainer,r.endOffset,c),c=n(r.endContainer,r.endOffset,[t,f],l));h.isStep()&&c.isStep()?
+h.container()!==c.container()||h.offset()!==c.offset()||r.collapsed&&d.getAnchorNode()===d.getNode()||(m=!0,r.setStart(h.container(),h.offset()),r.collapse(!0)):(m=!0,runtime.assert(h.roundToClosestStep(),"No walkable step found for cursor owned by "+b),r.setStart(h.container(),h.offset()),runtime.assert(c.roundToClosestStep(),"No walkable step found for cursor owned by "+b),r.setEnd(c.container(),c.offset()));m&&(d.setSelectedRange(r,d.hasForwardSelection()),a.emit(ops.Document.signalCursorMoved,
+d))})};this.getCursorPosition=function(a){return(a=B[a])?x.convertDomPointToSteps(a.getNode(),0):0};this.getCursorSelection=function(a){a=B[a];var b=0,d=0;a&&(b=x.convertDomPointToSteps(a.getNode(),0),d=x.convertDomPointToSteps(a.getAnchorNode(),0));return{position:d,length:b-d}};this.getPositionFilter=function(){return t};this.getOdfCanvas=function(){return h};this.getCanvas=function(){return h};this.getRootNode=c;this.addMember=function(a){runtime.assert(void 0===y[a.getMemberId()],"This member already exists");
+y[a.getMemberId()]=a};this.getMember=function(a){return y.hasOwnProperty(a)?y[a]:null};this.removeMember=function(a){delete y[a]};this.getCursor=function(a){return B[a]};this.getMemberIds=function(){var a=[],b;for(b in B)B.hasOwnProperty(b)&&a.push(B[b].getMemberId());return a};this.addCursor=function(b){runtime.assert(Boolean(b),"OdtDocument::addCursor without cursor");var d=b.getMemberId(),c=a.convertCursorToDomRange(0,0);runtime.assert("string"===typeof d,"OdtDocument::addCursor has cursor without memberid");
+runtime.assert(!B[d],"OdtDocument::addCursor is adding a duplicate cursor with memberid "+d);b.setSelectedRange(c,!0);B[d]=b};this.removeCursor=function(b){var d=B[b];return d?(d.removeFromDocument(),delete B[b],a.emit(ops.Document.signalCursorRemoved,b),!0):!1};this.moveCursor=function(b,d,c,e){b=B[b];d=a.convertCursorToDomRange(d,c);b&&(b.setSelectedRange(d,0<=c),b.setSelectionType(e||ops.OdtCursor.RangeSelection))};this.getFormatting=function(){return h.getFormatting()};this.emit=function(a,b){D.emit(a,
+b)};this.subscribe=function(a,b){D.subscribe(a,b)};this.unsubscribe=function(a,b){D.unsubscribe(a,b)};this.createRootFilter=function(a){return new RootFilter(a,B,g)};this.close=function(a){a()};this.destroy=function(a){a()};(function(){var a=c();t=new ops.TextPositionFilter;d=new odf.StepUtils;x=new ops.OdtStepsTranslator(a,k(a),t,500);D.subscribe(ops.OdtDocument.signalStepsInserted,x.handleStepsInserted);D.subscribe(ops.OdtDocument.signalStepsRemoved,x.handleStepsRemoved);D.subscribe(ops.OdtDocument.signalOperationEnd,
+q);D.subscribe(ops.OdtDocument.signalProcessingBatchEnd,core.Task.processTasks)})()};ops.OdtDocument.signalParagraphChanged="paragraph/changed";ops.OdtDocument.signalTableAdded="table/added";ops.OdtDocument.signalCommonStyleCreated="style/created";ops.OdtDocument.signalCommonStyleDeleted="style/deleted";ops.OdtDocument.signalParagraphStyleModified="paragraphstyle/modified";ops.OdtDocument.signalOperationStart="operation/start";ops.OdtDocument.signalOperationEnd="operation/end";
+ops.OdtDocument.signalProcessingBatchStart="router/batchstart";ops.OdtDocument.signalProcessingBatchEnd="router/batchend";ops.OdtDocument.signalUndoStackChanged="undo/changed";ops.OdtDocument.signalStepsInserted="steps/inserted";ops.OdtDocument.signalStepsRemoved="steps/removed";ops.OdtDocument.signalMetadataUpdated="metadata/updated";ops.OdtDocument.signalAnnotationAdded="annotation/added";ops.OpAddAnnotation=function(){function h(b,c,f){var e=b.getTextNodeAtStep(f,k);e&&(b=e.textNode,f=b.parentNode,e.offset!==b.length&&b.splitText(e.offset),f.insertBefore(c,b.nextSibling),0===b.length&&f.removeChild(b))}var k,c,b,g,n,p;this.init=function(h){k=h.memberid;c=parseInt(h.timestamp,10);b=parseInt(h.position,10);g=void 0!==h.length?parseInt(h.length,10)||0:void 0;n=h.name};this.isEdit=!0;this.group=void 0;this.execute=function(m){var q=m.getCursor(k),f,e;p=m.getDOMDocument();var a=new Date(c),
+d,r,l;d=p.createElementNS(odf.Namespaces.officens,"office:annotation");d.setAttributeNS(odf.Namespaces.officens,"office:name",n);f=p.createElementNS(odf.Namespaces.dcns,"dc:creator");f.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",k);f.textContent=m.getMember(k).getProperties().fullName;e=p.createElementNS(odf.Namespaces.dcns,"dc:date");e.appendChild(p.createTextNode(a.toISOString()));a=p.createElementNS(odf.Namespaces.textns,"text:list");r=p.createElementNS(odf.Namespaces.textns,
+"text:list-item");l=p.createElementNS(odf.Namespaces.textns,"text:p");r.appendChild(l);a.appendChild(r);d.appendChild(f);d.appendChild(e);d.appendChild(a);void 0!==g&&(f=p.createElementNS(odf.Namespaces.officens,"office:annotation-end"),f.setAttributeNS(odf.Namespaces.officens,"office:name",n),d.annotationEndElement=f,h(m,f,b+g));h(m,d,b);m.emit(ops.OdtDocument.signalStepsInserted,{position:b});q&&(f=p.createRange(),e=d.getElementsByTagNameNS(odf.Namespaces.textns,"p")[0],f.selectNodeContents(e),
+q.setSelectedRange(f,!1),q.setSelectionType(ops.OdtCursor.RangeSelection),m.emit(ops.Document.signalCursorMoved,q));m.getOdfCanvas().addAnnotation(d);m.fixCursorPositions();m.emit(ops.OdtDocument.signalAnnotationAdded,{memberId:k,annotation:d});return!0};this.spec=function(){return{optype:"AddAnnotation",memberid:k,timestamp:c,position:b,length:g,name:n}}};ops.OpAddCursor=function(){var h,k;this.init=function(c){h=c.memberid;k=c.timestamp};this.isEdit=!1;this.group=void 0;this.execute=function(c){var b=c.getCursor(h);if(b)return!1;b=new ops.OdtCursor(h,c);c.addCursor(b);c.emit(ops.Document.signalCursorAdded,b);return!0};this.spec=function(){return{optype:"AddCursor",memberid:h,timestamp:k}}};ops.OpAddMember=function(){var h,k,c;this.init=function(b){h=b.memberid;k=parseInt(b.timestamp,10);c=b.setProperties};this.isEdit=!1;this.group=void 0;this.execute=function(b){var g;if(b.getMember(h))return!1;g=new ops.Member(h,c);b.addMember(g);b.emit(ops.Document.signalMemberAdded,g);return!0};this.spec=function(){return{optype:"AddMember",memberid:h,timestamp:k,setProperties:c}}};ops.OpAddStyle=function(){var h,k,c,b,g,n,p=odf.Namespaces.stylens;this.init=function(m){h=m.memberid;k=m.timestamp;c=m.styleName;b=m.styleFamily;g="true"===m.isAutomaticStyle||!0===m.isAutomaticStyle;n=m.setProperties};this.isEdit=!0;this.group=void 0;this.execute=function(h){var k=h.getOdfCanvas().odfContainer(),f=h.getFormatting(),e=h.getDOMDocument().createElementNS(p,"style:style");if(!e)return!1;n&&f.updateStyle(e,n);e.setAttributeNS(p,"style:family",b);e.setAttributeNS(p,"style:name",c);g?
+k.rootElement.automaticStyles.appendChild(e):k.rootElement.styles.appendChild(e);h.getOdfCanvas().refreshCSS();g||h.emit(ops.OdtDocument.signalCommonStyleCreated,{name:c,family:b});return!0};this.spec=function(){return{optype:"AddStyle",memberid:h,timestamp:k,styleName:c,styleFamily:b,isAutomaticStyle:g,setProperties:n}}};odf.ObjectNameGenerator=function(h,k){function c(a,b){var d={};this.generateName=function(){var c=b(),e=0,f;do f=a+e,e+=1;while(d[f]||c[f]);d[f]=!0;return f}}function b(){var a={};[h.rootElement.automaticStyles,h.rootElement.styles].forEach(function(b){for(b=b.firstElementChild;b;)b.namespaceURI===g&&"style"===b.localName&&(a[b.getAttributeNS(g,"name")]=!0),b=b.nextElementSibling});return a}var g=odf.Namespaces.stylens,n=odf.Namespaces.drawns,p=odf.Namespaces.xlinkns,m=(new core.Utils).hashString(k),
+q=null,f=null,e=null,a={},d={};this.generateStyleName=function(){null===q&&(q=new c("auto"+m+"_",function(){return b()}));return q.generateName()};this.generateFrameName=function(){var b,d,e;if(null===f){d=h.rootElement.body.getElementsByTagNameNS(n,"frame");for(b=0;b<d.length;b+=1)e=d.item(b),a[e.getAttributeNS(n,"name")]=!0;f=new c("fr"+m+"_",function(){return a})}return f.generateName()};this.generateImageName=function(){var a,b,f;if(null===e){f=h.rootElement.body.getElementsByTagNameNS(n,"image");
+for(a=0;a<f.length;a+=1)b=f.item(a),b=b.getAttributeNS(p,"href"),b=b.substring(9,b.lastIndexOf(".")),d[b]=!0;e=new c("img"+m+"_",function(){return d})}return e.generateName()}};odf.TextStyleApplicator=function(h,k,c){function b(b){function c(a,b){return"object"===typeof a&&"object"===typeof b?Object.keys(a).every(function(f){return c(a[f],b[f])}):a===b}var a={};this.isStyleApplied=function(d){d=k.getAppliedStylesForElement(d,a).styleProperties;return c(b,d)}}function g(b){var e={};this.applyStyleToContainer=function(a){var d;d=a.getAttributeNS(m,"style-name");var g=a.ownerDocument;d=d||"";if(!e.hasOwnProperty(d)){var l=d,n;n=d?k.createDerivedStyleObject(d,"text",b):b;g=
+g.createElementNS(q,"style:style");k.updateStyle(g,n);g.setAttributeNS(q,"style:name",h.generateStyleName());g.setAttributeNS(q,"style:family","text");g.setAttributeNS("urn:webodf:names:scope","scope","document-content");c.appendChild(g);e[l]=g}d=e[d].getAttributeNS(q,"name");a.setAttributeNS(m,"text:style-name",d)}}function n(b,c){var a=b.ownerDocument,d=b.parentNode,g,l,h,n=new core.LoopWatchDog(1E4);l=[];l.push(b);for(h=b.nextSibling;h&&p.rangeContainsNode(c,h);)n.check(),l.push(h),h=h.nextSibling;
+"span"!==d.localName||d.namespaceURI!==m?(g=a.createElementNS(m,"text:span"),d.insertBefore(g,b),a=!1):(b.previousSibling&&!p.rangeContainsNode(c,d.firstChild)?(g=d.cloneNode(!1),d.parentNode.insertBefore(g,d.nextSibling)):g=d,a=!0);l.forEach(function(a){a.parentNode!==g&&g.appendChild(a)});if(h&&a)for(l=g.cloneNode(!1),g.parentNode.insertBefore(l,g.nextSibling);h;)n.check(),a=h.nextSibling,l.appendChild(h),h=a;return g}var p=core.DomUtils,m=odf.Namespaces.textns,q=odf.Namespaces.stylens;this.applyStyle=
+function(c,e,a){var d={},h,l,m,k;runtime.assert(a&&a.hasOwnProperty("style:text-properties"),"applyStyle without any text properties");d["style:text-properties"]=a["style:text-properties"];m=new g(d);k=new b(d);c.forEach(function(a){h=k.isStyleApplied(a);!1===h&&(l=n(a,e),m.applyStyleToContainer(l))})}};ops.OpApplyDirectStyling=function(){function h(b,c,e){var a=b.getOdfCanvas().odfContainer(),d=m.splitBoundaries(c),g=p.getTextNodes(c,!1);(new odf.TextStyleApplicator(new odf.ObjectNameGenerator(a,k),b.getFormatting(),a.rootElement.automaticStyles)).applyStyle(g,c,e);d.forEach(m.normalizeTextNodes)}var k,c,b,g,n,p=odf.OdfUtils,m=core.DomUtils;this.init=function(h){k=h.memberid;c=h.timestamp;b=parseInt(h.position,10);g=parseInt(h.length,10);n=h.setProperties};this.isEdit=!0;this.group=void 0;this.execute=
+function(m){var f=m.convertCursorToDomRange(b,g),e=p.getParagraphElements(f);h(m,f,n);f.detach();m.getOdfCanvas().refreshCSS();m.fixCursorPositions();e.forEach(function(a){m.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:a,memberId:k,timeStamp:c})});m.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"ApplyDirectStyling",memberid:k,timestamp:c,position:b,length:g,setProperties:n}}};ops.OpApplyHyperlink=function(){function h(b){for(;b;){if(m.isHyperlink(b))return!0;b=b.parentNode}return!1}var k,c,b,g,n,p=core.DomUtils,m=odf.OdfUtils;this.init=function(h){k=h.memberid;c=h.timestamp;b=h.position;g=h.length;n=h.hyperlink};this.isEdit=!0;this.group=void 0;this.execute=function(q){var f=q.getDOMDocument(),e=q.convertCursorToDomRange(b,g),a=p.splitBoundaries(e),d=[],r=m.getTextNodes(e,!1);if(0===r.length)return!1;r.forEach(function(a){var b=m.getParagraphElement(a);runtime.assert(!1===
+h(a),"The given range should not contain any link.");var c=n,e=f.createElementNS(odf.Namespaces.textns,"text:a");e.setAttributeNS(odf.Namespaces.xlinkns,"xlink:type","simple");e.setAttributeNS(odf.Namespaces.xlinkns,"xlink:href",c);a.parentNode.insertBefore(e,a);e.appendChild(a);-1===d.indexOf(b)&&d.push(b)});a.forEach(p.normalizeTextNodes);e.detach();q.fixCursorPositions();q.getOdfCanvas().refreshSize();q.getOdfCanvas().rerenderAnnotations();d.forEach(function(a){q.emit(ops.OdtDocument.signalParagraphChanged,
+{paragraphElement:a,memberId:k,timeStamp:c})});return!0};this.spec=function(){return{optype:"ApplyHyperlink",memberid:k,timestamp:c,position:b,length:g,hyperlink:n}}};ops.OpInsertImage=function(){var h,k,c,b,g,n,p,m,q=odf.Namespaces.drawns,f=odf.Namespaces.svgns,e=odf.Namespaces.textns,a=odf.Namespaces.xlinkns,d=odf.OdfUtils;this.init=function(a){h=a.memberid;k=a.timestamp;c=a.position;b=a.filename;g=a.frameWidth;n=a.frameHeight;p=a.frameStyleName;m=a.frameName};this.isEdit=!0;this.group=void 0;this.execute=function(r){var l=r.getOdfCanvas(),B=r.getTextNodeAtStep(c,h),y,D;if(!B)return!1;y=B.textNode;D=d.getParagraphElement(y);var B=B.offset!==y.length?y.splitText(B.offset):
+y.nextSibling,z=r.getDOMDocument(),t=z.createElementNS(q,"draw:image"),z=z.createElementNS(q,"draw:frame");t.setAttributeNS(a,"xlink:href",b);t.setAttributeNS(a,"xlink:type","simple");t.setAttributeNS(a,"xlink:show","embed");t.setAttributeNS(a,"xlink:actuate","onLoad");z.setAttributeNS(q,"draw:style-name",p);z.setAttributeNS(q,"draw:name",m);z.setAttributeNS(e,"text:anchor-type","as-char");z.setAttributeNS(f,"svg:width",g);z.setAttributeNS(f,"svg:height",n);z.appendChild(t);y.parentNode.insertBefore(z,
+B);r.emit(ops.OdtDocument.signalStepsInserted,{position:c});0===y.length&&y.parentNode.removeChild(y);l.addCssForFrameWithImage(z);l.refreshCSS();r.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:D,memberId:h,timeStamp:k});l.rerenderAnnotations();return!0};this.spec=function(){return{optype:"InsertImage",memberid:h,timestamp:k,filename:b,position:c,frameWidth:g,frameHeight:n,frameStyleName:p,frameName:m}}};ops.OpInsertTable=function(){function h(a,d){var c;if(1===f.length)c=f[0];else if(3===f.length)switch(a){case 0:c=f[0];break;case b-1:c=f[2];break;default:c=f[1]}else c=f[a];if(1===c.length)return c[0];if(3===c.length)switch(d){case 0:return c[0];case g-1:return c[2];default:return c[1]}return c[d]}var k,c,b,g,n,p,m,q,f,e=odf.OdfUtils;this.init=function(a){k=a.memberid;c=a.timestamp;n=a.position;b=a.initialRows;g=a.initialColumns;p=a.tableName;m=a.tableStyleName;q=a.tableColumnStyleName;f=a.tableCellStyleMatrix};
+this.isEdit=!0;this.group=void 0;this.execute=function(a){var d=a.getTextNodeAtStep(n),f=a.getRootNode();if(d){var l=a.getDOMDocument(),B=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table"),y=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table-column"),D,z,t,x;m&&B.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:style-name",m);p&&B.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:name",p);y.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0",
+"table:number-columns-repeated",g);q&&y.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:style-name",q);B.appendChild(y);for(t=0;t<b;t+=1){y=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table-row");for(x=0;x<g;x+=1)D=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:table-cell"),(z=h(t,x))&&D.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:table:1.0","table:style-name",z),z=l.createElementNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0",
+"text:p"),D.appendChild(z),y.appendChild(D);B.appendChild(y)}d=e.getParagraphElement(d.textNode);f.insertBefore(B,d.nextSibling);a.emit(ops.OdtDocument.signalStepsInserted,{position:n});a.getOdfCanvas().refreshSize();a.emit(ops.OdtDocument.signalTableAdded,{tableElement:B,memberId:k,timeStamp:c});a.getOdfCanvas().rerenderAnnotations();return!0}return!1};this.spec=function(){return{optype:"InsertTable",memberid:k,timestamp:c,position:n,initialRows:b,initialColumns:g,tableName:p,tableStyleName:m,tableColumnStyleName:q,
+tableCellStyleMatrix:f}}};ops.OpInsertText=function(){function h(b){return"\t"!==b&&p.isODFWhitespace(b)}var k,c,b,g,n,p=odf.OdfUtils;this.init=function(h){k=h.memberid;c=h.timestamp;b=h.position;n=h.text;g="true"===h.moveCursor||!0===h.moveCursor};this.isEdit=!0;this.group=void 0;this.execute=function(m){var q,f,e,a=null,d=m.getDOMDocument(),r,l=0,B,y=m.getCursor(k),D;m.upgradeWhitespacesAtPosition(b);if(q=m.getTextNodeAtStep(b)){f=q.textNode;a=f.nextSibling;e=f.parentNode;r=p.getParagraphElement(f);for(D=0;D<n.length;D+=
+1){if(!(B="\t"===n[D])){B=n;var z=D;B=h(B[z])&&(0===z||z===B.length-1||h(B[z-1]))}B&&(0===l?(q.offset!==f.length&&(a=f.splitText(q.offset)),0<D&&f.appendData(n.substring(0,D))):l<D&&(l=n.substring(l,D),e.insertBefore(d.createTextNode(l),a)),l=D+1,"\t"===n[D]?(B=d.createElementNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0","text:tab"),B.appendChild(d.createTextNode("\t"))):(" "!==n[D]&&runtime.log("WARN: InsertText operation contains non-tab, non-space whitespace character (character code "+n.charCodeAt(D)+
+")"),B=d.createElementNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0","text:s"),B.appendChild(d.createTextNode(" "))),e.insertBefore(B,a))}0===l?f.insertData(q.offset,n):l<n.length&&(q=n.substring(l),e.insertBefore(d.createTextNode(q),a));e=f.parentNode;a=f.nextSibling;e.removeChild(f);e.insertBefore(f,a);0===f.length&&f.parentNode.removeChild(f);m.emit(ops.OdtDocument.signalStepsInserted,{position:b});y&&g&&(m.moveCursor(k,b+n.length,0),m.emit(ops.Document.signalCursorMoved,y));m.downgradeWhitespacesAtPosition(b);
+m.downgradeWhitespacesAtPosition(b+n.length);m.getOdfCanvas().refreshSize();m.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:r,memberId:k,timeStamp:c});m.getOdfCanvas().rerenderAnnotations();return!0}return!1};this.spec=function(){return{optype:"InsertText",memberid:k,timestamp:c,position:b,text:n,moveCursor:g}}};odf.CollapsingRules=function(h){function k(c){return b.isODFNode(c)||"br"===c.localName&&b.isLineBreak(c.parentNode)||c.nodeType===Node.TEXT_NODE&&b.isODFNode(c.parentNode)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}function c(n){var p;n.nodeType===Node.TEXT_NODE?(p=n.parentNode,p.removeChild(n)):p=g.removeUnwantedNodes(n,k);if(n=p)n=p,n=!b.isParagraph(n)&&n!==h&&b.hasNoODFContent(n);return n?c(p):p}var b=odf.OdfUtils,g=core.DomUtils;this.mergeChildrenIntoParent=c};ops.OpMergeParagraph=function(){function h(a){return odf.OdfUtils.isInlineRoot(a)?NodeFilter.FILTER_SKIP:e.isGroupingElement(a)&&e.hasNoODFContent(a)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}function k(a){if(a.nodeType===Node.TEXT_NODE){if(0===a.length)return runtime.log("WARN: Empty text node found during merge operation"),!0;if(e.isODFWhitespace(a.data)&&!1===e.isSignificantWhitespace(a,0))return!0;a="#text"}else a=(a.prefix?a.prefix+":":"")+a.localName;runtime.log("WARN: Unexpected text element found near paragraph boundary ["+
+a+"]");return!1}function c(b){b.collapsed||(a.splitBoundaries(b),b=e.getTextElements(b,!1,!0).filter(k),b.forEach(function(a){a.parentNode.removeChild(a)}))}function b(a,b,d){a=a.convertCursorStepToDomPoint(b);var c=e.getParagraphElement(a.node,a.offset);runtime.assert(Boolean(c),"Paragraph not found at step "+b);d&&d.setPosition(a.node,a.offset);return c}var g,n,p,m,q,f,e=odf.OdfUtils,a=core.DomUtils,d=odf.Namespaces.textns;this.init=function(a){g=a.memberid;n=a.timestamp;p=a.moveCursor;m=a.paragraphStyleName;
+q=parseInt(a.sourceStartPosition,10);f=parseInt(a.destinationStartPosition,10)};this.isEdit=!0;this.group=void 0;this.execute=function(e){var l,k,y=e.getCursor(g);l=e.getRootNode();var D=new odf.CollapsingRules(l),z=e.createStepIterator(l,0,[e.getPositionFilter()],l),t;runtime.assert(f<q,"Destination paragraph ("+f+") must be before source paragraph ("+q+")");k=b(e,f);l=b(e,q,z);z.previousStep();runtime.assert(a.containsNode(k,z.container()),"Destination paragraph must be adjacent to the source paragraph");
+t=k.ownerDocument.createRange();z.setPosition(k,k.childNodes.length);z.roundToPreviousStep();t.setStart(z.container(),z.offset());t.setEnd(k,k.childNodes.length);c(t);t=k.childNodes.length;var x=l.ownerDocument.createRange();z.setPosition(l,0);z.roundToNextStep();x.setStart(l,0);x.setEnd(z.container(),z.offset());c(x);for(x=l.firstChild;x;)"editinfo"===x.localName?l.removeChild(x):(k.appendChild(x),a.removeUnwantedNodes(x,h)),x=l.firstChild;runtime.assert(0===l.childNodes.length,"Source paragraph should be empty before it is removed");
+D.mergeChildrenIntoParent(l);e.emit(ops.OdtDocument.signalStepsRemoved,{position:q-1});z.setPosition(k,t);z.roundToClosestStep();z.previousStep()||z.roundToNextStep();e.downgradeWhitespaces(z);m?k.setAttributeNS(d,"text:style-name",m):k.removeAttributeNS(d,"style-name");y&&p&&(e.moveCursor(g,q-1,0),e.emit(ops.Document.signalCursorMoved,y));e.fixCursorPositions();e.getOdfCanvas().refreshSize();e.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:k,memberId:g,timeStamp:n});e.getOdfCanvas().rerenderAnnotations();
+return!0};this.spec=function(){return{optype:"MergeParagraph",memberid:g,timestamp:n,moveCursor:p,paragraphStyleName:m,sourceStartPosition:q,destinationStartPosition:f}}};ops.OpMoveCursor=function(){var h,k,c,b,g;this.init=function(n){h=n.memberid;k=n.timestamp;c=n.position;b=n.length||0;g=n.selectionType||ops.OdtCursor.RangeSelection};this.isEdit=!1;this.group=void 0;this.execute=function(n){var k=n.getCursor(h),m;if(!k)return!1;m=n.convertCursorToDomRange(c,b);k.setSelectedRange(m,0<=b);k.setSelectionType(g);n.emit(ops.Document.signalCursorMoved,k);return!0};this.spec=function(){return{optype:"MoveCursor",memberid:h,timestamp:k,position:c,length:b,selectionType:g}}};ops.OpRemoveAnnotation=function(){var h,k,c,b,g=core.DomUtils;this.init=function(g){h=g.memberid;k=g.timestamp;c=parseInt(g.position,10);b=parseInt(g.length,10)};this.isEdit=!0;this.group=void 0;this.execute=function(b){function h(b){k.parentNode.insertBefore(b,k)}for(var m=b.getIteratorAtPosition(c).container(),k;m.namespaceURI!==odf.Namespaces.officens||"annotation"!==m.localName;)m=m.parentNode;if(null===m)return!1;k=m;m=k.annotationEndElement;b.getOdfCanvas().forgetAnnotation(k);g.getElementsByTagNameNS(k,
+"urn:webodf:names:cursor","cursor").forEach(h);g.getElementsByTagNameNS(k,"urn:webodf:names:cursor","anchor").forEach(h);k.parentNode.removeChild(k);m&&m.parentNode.removeChild(m);b.emit(ops.OdtDocument.signalStepsRemoved,{position:0<c?c-1:c});b.getOdfCanvas().rerenderAnnotations();b.fixCursorPositions();return!0};this.spec=function(){return{optype:"RemoveAnnotation",memberid:h,timestamp:k,position:c,length:b}}};ops.OpRemoveBlob=function(){var h,k,c;this.init=function(b){h=b.memberid;k=b.timestamp;c=b.filename};this.isEdit=!0;this.group=void 0;this.execute=function(b){b.getOdfCanvas().odfContainer().removeBlob(c);return!0};this.spec=function(){return{optype:"RemoveBlob",memberid:h,timestamp:k,filename:c}}};ops.OpRemoveCursor=function(){var h,k;this.init=function(c){h=c.memberid;k=c.timestamp};this.isEdit=!1;this.group=void 0;this.execute=function(c){return c.removeCursor(h)?!0:!1};this.spec=function(){return{optype:"RemoveCursor",memberid:h,timestamp:k}}};ops.OpRemoveHyperlink=function(){var h,k,c,b,g=core.DomUtils,n=odf.OdfUtils;this.init=function(g){h=g.memberid;k=g.timestamp;c=g.position;b=g.length};this.isEdit=!0;this.group=void 0;this.execute=function(p){var m=p.convertCursorToDomRange(c,b),q=n.getHyperlinkElements(m);runtime.assert(1===q.length,"The given range should only contain a single link.");q=g.mergeIntoParent(q[0]);m.detach();p.fixCursorPositions();p.getOdfCanvas().refreshSize();p.getOdfCanvas().rerenderAnnotations();p.emit(ops.OdtDocument.signalParagraphChanged,
+{paragraphElement:n.getParagraphElement(q),memberId:h,timeStamp:k});return!0};this.spec=function(){return{optype:"RemoveHyperlink",memberid:h,timestamp:k,position:c,length:b}}};ops.OpRemoveMember=function(){var h,k;this.init=function(c){h=c.memberid;k=parseInt(c.timestamp,10)};this.isEdit=!1;this.group=void 0;this.execute=function(c){if(!c.getMember(h))return!1;c.removeMember(h);c.emit(ops.Document.signalMemberRemoved,h);return!0};this.spec=function(){return{optype:"RemoveMember",memberid:h,timestamp:k}}};ops.OpRemoveStyle=function(){var h,k,c,b;this.init=function(g){h=g.memberid;k=g.timestamp;c=g.styleName;b=g.styleFamily};this.isEdit=!0;this.group=void 0;this.execute=function(g){var h=g.getFormatting().getStyleElement(c,b);if(!h)return!1;h.parentNode.removeChild(h);g.getOdfCanvas().refreshCSS();g.emit(ops.OdtDocument.signalCommonStyleDeleted,{name:c,family:b});return!0};this.spec=function(){return{optype:"RemoveStyle",memberid:h,timestamp:k,styleName:c,styleFamily:b}}};ops.OpRemoveText=function(){var h,k,c,b,g=odf.OdfUtils,n=core.DomUtils;this.init=function(g){runtime.assert(0<=g.length,"OpRemoveText only supports positive lengths");h=g.memberid;k=g.timestamp;c=parseInt(g.position,10);b=parseInt(g.length,10)};this.isEdit=!0;this.group=void 0;this.execute=function(p){var m,q,f,e=p.getCursor(h),a=new odf.CollapsingRules(p.getRootNode());p.upgradeWhitespacesAtPosition(c);p.upgradeWhitespacesAtPosition(c+b);m=p.convertCursorToDomRange(c,b);n.splitBoundaries(m);q=g.getTextElements(m,
+!1,!0);f=g.getParagraphElement(m.startContainer,m.startOffset);runtime.assert(void 0!==f,"Attempting to remove text outside a paragraph element");m.detach();q.forEach(function(b){b.parentNode?(runtime.assert(n.containsNode(f,b),"RemoveText only supports removing elements within the same paragraph"),a.mergeChildrenIntoParent(b)):runtime.log("WARN: text element has already been removed from it's container")});p.emit(ops.OdtDocument.signalStepsRemoved,{position:c});p.downgradeWhitespacesAtPosition(c);
+p.fixCursorPositions();p.getOdfCanvas().refreshSize();p.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:f,memberId:h,timeStamp:k});e&&(e.resetSelectionType(),p.emit(ops.Document.signalCursorMoved,e));p.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"RemoveText",memberid:h,timestamp:k,position:c,length:b}}};ops.OpSetBlob=function(){var h,k,c,b,g;this.init=function(n){h=n.memberid;k=n.timestamp;c=n.filename;b=n.mimetype;g=n.content};this.isEdit=!0;this.group=void 0;this.execute=function(h){h.getOdfCanvas().odfContainer().setBlob(c,b,g);return!0};this.spec=function(){return{optype:"SetBlob",memberid:h,timestamp:k,filename:c,mimetype:b,content:g}}};ops.OpSetParagraphStyle=function(){function h(b,c,g){var f=[b.getPositionFilter()],e=g.container();g=g.unfilteredDomOffset();return!1===b.createStepIterator(e,g,f,c).previousStep()}var k,c,b,g,n=odf.OdfUtils;this.init=function(h){k=h.memberid;c=h.timestamp;b=h.position;g=h.styleName};this.isEdit=!0;this.group=void 0;this.execute=function(p){var m,q;m=p.getIteratorAtPosition(b);return(q=n.getParagraphElement(m.container()))?(runtime.assert(h(p,q,m),"SetParagraphStyle position should be the first position in the paragraph"),
+g?q.setAttributeNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0","text:style-name",g):q.removeAttributeNS("urn:oasis:names:tc:opendocument:xmlns:text:1.0","style-name"),p.getOdfCanvas().refreshSize(),p.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:q,timeStamp:c,memberId:k}),p.getOdfCanvas().rerenderAnnotations(),!0):!1};this.spec=function(){return{optype:"SetParagraphStyle",memberid:k,timestamp:c,position:b,styleName:g}}};ops.OpSplitParagraph=function(){var h,k,c,b,g,n,p=odf.OdfUtils,m=odf.Namespaces.textns;this.init=function(m){h=m.memberid;k=m.timestamp;b=m.position;c=m.sourceParagraphPosition;n=m.paragraphStyleName;g="true"===m.moveCursor||!0===m.moveCursor};this.isEdit=!0;this.group=void 0;this.execute=function(c){var f,e,a,d,r,l,B,y=c.getCursor(h);c.upgradeWhitespacesAtPosition(b);f=c.getTextNodeAtStep(b);if(!f)return!1;e=p.getParagraphElement(f.textNode);if(!e)return!1;a=p.isListItem(e.parentNode)?e.parentNode:
+e;0===f.offset?(B=f.textNode.previousSibling,l=null):(B=f.textNode,l=f.offset>=f.textNode.length?null:f.textNode.splitText(f.offset));for(d=f.textNode;d!==a;){d=d.parentNode;r=d.cloneNode(!1);l&&r.appendChild(l);if(B)for(;B&&B.nextSibling;)r.appendChild(B.nextSibling);else for(;d.firstChild;)r.appendChild(d.firstChild);d.parentNode.insertBefore(r,d.nextSibling);B=d;l=r}p.isListItem(l)&&(l=l.childNodes.item(0));n?l.setAttributeNS(m,"text:style-name",n):l.removeAttributeNS(m,"style-name");0===f.textNode.length&&
+f.textNode.parentNode.removeChild(f.textNode);c.emit(ops.OdtDocument.signalStepsInserted,{position:b});y&&g&&(c.moveCursor(h,b+1,0),c.emit(ops.Document.signalCursorMoved,y));c.fixCursorPositions();c.getOdfCanvas().refreshSize();c.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:e,memberId:h,timeStamp:k});c.emit(ops.OdtDocument.signalParagraphChanged,{paragraphElement:l,memberId:h,timeStamp:k});c.getOdfCanvas().rerenderAnnotations();return!0};this.spec=function(){return{optype:"SplitParagraph",
+memberid:h,timestamp:k,position:b,sourceParagraphPosition:c,paragraphStyleName:n,moveCursor:g}}};ops.OpUpdateMember=function(){function h(c){var g="//dc:creator[@editinfo:memberid='"+k+"']";c=xmldom.XPath.getODFElementsWithXPath(c.getRootNode(),g,function(b){return"editinfo"===b?"urn:webodf:names:editinfo":odf.Namespaces.lookupNamespaceURI(b)});for(g=0;g<c.length;g+=1)c[g].textContent=b.fullName}var k,c,b,g;this.init=function(h){k=h.memberid;c=parseInt(h.timestamp,10);b=h.setProperties;g=h.removedProperties};this.isEdit=!1;this.group=void 0;this.execute=function(c){var p=c.getMember(k);if(!p)return!1;
+g&&p.removeProperties(g);b&&(p.setProperties(b),b.fullName&&h(c));c.emit(ops.Document.signalMemberUpdated,p);return!0};this.spec=function(){return{optype:"UpdateMember",memberid:k,timestamp:c,setProperties:b,removedProperties:g}}};ops.OpUpdateMetadata=function(){var h,k,c,b;this.init=function(g){h=g.memberid;k=parseInt(g.timestamp,10);c=g.setProperties;b=g.removedProperties};this.isEdit=!0;this.group=void 0;this.execute=function(g){var h=g.getOdfCanvas().odfContainer(),k=null;b&&(k=b.attributes.split(","));h.setMetadata(c,k);g.emit(ops.OdtDocument.signalMetadataUpdated,{setProperties:null!==c?c:{},removedProperties:null!==k?k:[]});return!0};this.spec=function(){return{optype:"UpdateMetadata",memberid:h,timestamp:k,setProperties:c,
+removedProperties:b}}};ops.OpUpdateParagraphStyle=function(){function h(b,c){var f,e,a=c?c.split(","):[];for(f=0;f<a.length;f+=1)e=a[f].split(":"),b.removeAttributeNS(odf.Namespaces.lookupNamespaceURI(e[0]),e[1])}var k,c,b,g,n,p=odf.Namespaces.stylens;this.init=function(h){k=h.memberid;c=h.timestamp;b=h.styleName;g=h.setProperties;n=h.removedProperties};this.isEdit=!0;this.group=void 0;this.execute=function(c){var k=c.getFormatting(),f,e,a;return(f=""!==b?k.getStyleElement(b,"paragraph"):k.getDefaultStyleElement("paragraph"))?
+(e=f.getElementsByTagNameNS(p,"paragraph-properties").item(0),a=f.getElementsByTagNameNS(p,"text-properties").item(0),g&&k.updateStyle(f,g),n&&(k=n["style:paragraph-properties"],e&&k&&(h(e,k.attributes),0===e.attributes.length&&f.removeChild(e)),k=n["style:text-properties"],a&&k&&(h(a,k.attributes),0===a.attributes.length&&f.removeChild(a)),h(f,n.attributes)),c.getOdfCanvas().refreshCSS(),c.emit(ops.OdtDocument.signalParagraphStyleModified,b),c.getOdfCanvas().rerenderAnnotations(),!0):!1};this.spec=
+function(){return{optype:"UpdateParagraphStyle",memberid:k,timestamp:c,styleName:b,setProperties:g,removedProperties:n}}};ops.OperationFactory=function(){function h(c){return function(b){return new c}}var k;this.register=function(c,b){k[c]=b};this.create=function(c){var b=null,g=k[c.optype];g&&(b=g(c),b.init(c));return b};k={AddMember:h(ops.OpAddMember),UpdateMember:h(ops.OpUpdateMember),RemoveMember:h(ops.OpRemoveMember),AddCursor:h(ops.OpAddCursor),ApplyDirectStyling:h(ops.OpApplyDirectStyling),SetBlob:h(ops.OpSetBlob),RemoveBlob:h(ops.OpRemoveBlob),InsertImage:h(ops.OpInsertImage),InsertTable:h(ops.OpInsertTable),
+InsertText:h(ops.OpInsertText),RemoveText:h(ops.OpRemoveText),MergeParagraph:h(ops.OpMergeParagraph),SplitParagraph:h(ops.OpSplitParagraph),SetParagraphStyle:h(ops.OpSetParagraphStyle),UpdateParagraphStyle:h(ops.OpUpdateParagraphStyle),AddStyle:h(ops.OpAddStyle),RemoveStyle:h(ops.OpRemoveStyle),MoveCursor:h(ops.OpMoveCursor),RemoveCursor:h(ops.OpRemoveCursor),AddAnnotation:h(ops.OpAddAnnotation),RemoveAnnotation:h(ops.OpRemoveAnnotation),UpdateMetadata:h(ops.OpUpdateMetadata),ApplyHyperlink:h(ops.OpApplyHyperlink),
+RemoveHyperlink:h(ops.OpRemoveHyperlink)}};ops.OperationRouter=function(){};ops.OperationRouter.prototype.setOperationFactory=function(h){};ops.OperationRouter.prototype.setPlaybackFunction=function(h){};ops.OperationRouter.prototype.push=function(h){};ops.OperationRouter.prototype.close=function(h){};ops.OperationRouter.prototype.subscribe=function(h,k){};ops.OperationRouter.prototype.unsubscribe=function(h,k){};ops.OperationRouter.prototype.hasLocalUnsyncedOps=function(){};ops.OperationRouter.prototype.hasSessionHostConnection=function(){};
+ops.OperationRouter.signalProcessingBatchStart="router/batchstart";ops.OperationRouter.signalProcessingBatchEnd="router/batchend";ops.TrivialOperationRouter=function(){var h=new core.EventNotifier([ops.OperationRouter.signalProcessingBatchStart,ops.OperationRouter.signalProcessingBatchEnd]),k,c,b=0;this.setOperationFactory=function(b){k=b};this.setPlaybackFunction=function(b){c=b};this.push=function(g){b+=1;h.emit(ops.OperationRouter.signalProcessingBatchStart,{});g.forEach(function(g){g=g.spec();g.timestamp=Date.now();g=k.create(g);g.group="g"+b;c(g)});h.emit(ops.OperationRouter.signalProcessingBatchEnd,{})};this.close=function(b){b()};
+this.subscribe=function(b,c){h.subscribe(b,c)};this.unsubscribe=function(b,c){h.unsubscribe(b,c)};this.hasLocalUnsyncedOps=function(){return!1};this.hasSessionHostConnection=function(){return!0}};ops.Session=function(h){function k(b){g.emit(ops.OdtDocument.signalProcessingBatchStart,b)}function c(b){g.emit(ops.OdtDocument.signalProcessingBatchEnd,b)}var b=new ops.OperationFactory,g=new ops.OdtDocument(h),n=null;this.setOperationFactory=function(c){b=c;n&&n.setOperationFactory(b)};this.setOperationRouter=function(h){n&&(n.unsubscribe(ops.OperationRouter.signalProcessingBatchStart,k),n.unsubscribe(ops.OperationRouter.signalProcessingBatchEnd,c));n=h;n.subscribe(ops.OperationRouter.signalProcessingBatchStart,
+k);n.subscribe(ops.OperationRouter.signalProcessingBatchEnd,c);h.setPlaybackFunction(function(b){g.emit(ops.OdtDocument.signalOperationStart,b);return b.execute(g)?(g.emit(ops.OdtDocument.signalOperationEnd,b),!0):!1});h.setOperationFactory(b)};this.getOperationFactory=function(){return b};this.getOdtDocument=function(){return g};this.enqueue=function(b){n.push(b)};this.close=function(b){n.close(function(c){c?b(c):g.close(b)})};this.destroy=function(b){g.destroy(b)};this.setOperationRouter(new ops.TrivialOperationRouter)};gui.AnnotationController=function(h,k,c){function b(){var a=m.getCursor(c),a=a&&a.getNode(),b=!1;a&&(b=!e.isWithinAnnotation(a,m.getRootNode()));b!==q&&(q=b,f.emit(gui.AnnotationController.annotatableChanged,q))}function g(a){a.getMemberId()===c&&b()}function n(a){a===c&&b()}function p(a){a.getMemberId()===c&&b()}var m=h.getOdtDocument(),q=!1,f=new core.EventNotifier([gui.AnnotationController.annotatableChanged]),e=odf.OdfUtils,a=core.StepDirection.NEXT;this.isAnnotatable=function(){return q};this.addAnnotation=
+function(){var a=new ops.OpAddAnnotation,b=m.getCursorSelection(c),e=b.length,b=b.position;q&&(0===e?e=void 0:(b=0<=e?b:b+e,e=Math.abs(e)),a.init({memberid:c,position:b,length:e,name:c+Date.now()}),h.enqueue([a]))};this.removeAnnotation=function(b){var f,g;f=m.getMember(c).getProperties().fullName;if(!0!==k.getState(gui.CommonConstraints.EDIT.ANNOTATIONS.ONLY_DELETE_OWN)||f===e.getAnnotationCreator(b))f=m.convertDomPointToCursorStep(b,0,a),g=m.convertDomPointToCursorStep(b,b.childNodes.length),b=
+new ops.OpRemoveAnnotation,b.init({memberid:c,position:f,length:g-f}),g=new ops.OpMoveCursor,g.init({memberid:c,position:0<f?f-1:f,length:0}),h.enqueue([b,g])};this.subscribe=function(a,b){f.subscribe(a,b)};this.unsubscribe=function(a,b){f.unsubscribe(a,b)};this.destroy=function(a){m.unsubscribe(ops.Document.signalCursorAdded,g);m.unsubscribe(ops.Document.signalCursorRemoved,n);m.unsubscribe(ops.Document.signalCursorMoved,p);a()};k.registerConstraint(gui.CommonConstraints.EDIT.ANNOTATIONS.ONLY_DELETE_OWN);
+m.subscribe(ops.Document.signalCursorAdded,g);m.subscribe(ops.Document.signalCursorRemoved,n);m.subscribe(ops.Document.signalCursorMoved,p);b()};gui.AnnotationController.annotatableChanged="annotatable/changed";gui.Avatar=function(h,k){var c=this,b,g,n;this.setColor=function(b){g.style.borderColor=b};this.setImageUrl=function(b){c.isVisible()?g.src=b:n=b};this.isVisible=function(){return"block"===b.style.display};this.show=function(){n&&(g.src=n,n=void 0);b.style.display="block"};this.hide=function(){b.style.display="none"};this.markAsFocussed=function(c){c?b.classList.add("active"):b.classList.remove("active")};this.destroy=function(c){h.removeChild(b);c()};(function(){var c=h.ownerDocument;b=c.createElement("div");
+g=c.createElement("img");b.appendChild(g);b.style.display=k?"block":"none";b.className="handle";h.appendChild(b)})()};gui.StepInfo=function(){};gui.StepInfo.VisualDirection={LEFT_TO_RIGHT:0,RIGHT_TO_LEFT:1};gui.StepInfo.prototype.container=function(){};gui.StepInfo.prototype.offset=function(){};gui.VisualStepScanner=function(){};gui.VisualStepScanner.prototype.process=function(h,k,c){};gui.GuiStepUtils=function(){function h(g){g=c.getContentBounds(g);var h,f=null;if(g)if(g.container.nodeType===Node.TEXT_NODE)h=g.container.ownerDocument.createRange(),h.setStart(g.container,g.startOffset),h.setEnd(g.container,g.endOffset),(f=0<h.getClientRects().length?h.getBoundingClientRect():null)&&" "===g.container.data.substring(g.startOffset,g.endOffset)&&1>=f.width&&(f=null),h.detach();else if(k.isCharacterElement(g.container)||k.isCharacterFrame(g.container))f=b.getBoundingClientRect(g.container);
+return f}var k=odf.OdfUtils,c=new odf.StepUtils,b=core.DomUtils,g=core.StepDirection.NEXT,n=gui.StepInfo.VisualDirection.LEFT_TO_RIGHT,p=gui.StepInfo.VisualDirection.RIGHT_TO_LEFT;this.getContentRect=h;this.moveToFilteredStep=function(b,c,f){function e(a,b){b.process(z,l,B)&&(a=!0,!y&&b.token&&(y=b.token));return a}var a=c===g,d,k,l,B,y,D=b.snapshot();d=!1;var z;do d=h(b),z={token:b.snapshot(),container:b.container,offset:b.offset,direction:c,visualDirection:c===g?n:p},k=b.nextStep()?h(b):null,b.restore(z.token),
+a?(l=d,B=k):(l=k,B=d),d=f.reduce(e,!1);while(!d&&b.advanceStep(c));d||f.forEach(function(a){!y&&a.token&&(y=a.token)});b.restore(y||D);return Boolean(y)}};gui.Caret=function(h,k,c,b){function g(){a.style.opacity="0"===a.style.opacity?"1":"0";w.trigger()}function n(){B.selectNodeContents(l);return B.getBoundingClientRect()}function p(a){return A[a]!==G[a]}function m(){Object.keys(G).forEach(function(a){A[a]=G[a]})}function q(){if(!1===G.isShown||h.getSelectionType()!==ops.OdtCursor.RangeSelection||!b&&!h.getSelectedRange().collapsed)G.visibility="hidden",a.style.visibility="hidden",w.cancel();else if(G.visibility="visible",a.style.visibility="visible",
+!1===G.isFocused)a.style.opacity="1",w.cancel();else{if(F||p("visibility"))a.style.opacity="1",w.cancel();w.trigger()}if(H||L){var c;c=h.getNode();var f,g,l=D.getBoundingClientRect(y.getSizer()),q=!1,B=0;c.removeAttributeNS("urn:webodf:names:cursor","caret-sizer-active");if(0<c.getClientRects().length)g=n(),B=g.left-D.getBoundingClientRect(c).left,q=!0;else if(t.setPosition(c,0),g=z.getContentRect(t),!g&&t.nextStep()&&(f=z.getContentRect(t))&&(g=f,q=!0),g||(c.setAttributeNS("urn:webodf:names:cursor",
+"caret-sizer-active","true"),g=n(),q=!0),!g)for(runtime.log("WARN: No suitable client rectangle found for visual caret for "+h.getMemberId());c;){if(0<c.getClientRects().length){g=D.getBoundingClientRect(c);q=!0;break}c=c.parentNode}g=D.translateRect(g,l,y.getZoomLevel());c={top:g.top,height:g.height,right:q?g.left:g.right,width:D.adaptRangeDifferenceToZoomLevel(B,y.getZoomLevel())};8>c.height&&(c={top:c.top-(8-c.height)/2,height:8,right:c.right});e.style.height=c.height+"px";e.style.top=c.top+"px";
+e.style.left=c.right-c.width+"px";e.style.width=c.width?c.width+"px":"";r&&(c=runtime.getWindow().getComputedStyle(h.getNode(),null),c.font?r.style.font=c.font:(r.style.fontStyle=c.fontStyle,r.style.fontVariant=c.fontVariant,r.style.fontWeight=c.fontWeight,r.style.fontSize=c.fontSize,r.style.lineHeight=c.lineHeight,r.style.fontFamily=c.fontFamily))}G.isShown&&L&&k.scrollIntoView(a.getBoundingClientRect());p("isFocused")&&d.markAsFocussed(G.isFocused);m();H=L=F=!1}function f(a){e.parentNode.removeChild(e);
+l.parentNode.removeChild(l);a()}var e,a,d,r,l,B,y=h.getDocument().getCanvas(),D=core.DomUtils,z=new gui.GuiStepUtils,t,x,w,F=!1,L=!1,H=!1,G={isFocused:!1,isShown:!0,visibility:"hidden"},A={isFocused:!G.isFocused,isShown:!G.isShown,visibility:"hidden"};this.handleUpdate=function(){H=!0;x.trigger()};this.refreshCursorBlinking=function(){F=!0;x.trigger()};this.setFocus=function(){G.isFocused=!0;x.trigger()};this.removeFocus=function(){G.isFocused=!1;x.trigger()};this.show=function(){G.isShown=!0;x.trigger()};
+this.hide=function(){G.isShown=!1;x.trigger()};this.setAvatarImageUrl=function(a){d.setImageUrl(a)};this.setColor=function(b){a.style.borderColor=b;d.setColor(b)};this.getCursor=function(){return h};this.getFocusElement=function(){return a};this.toggleHandleVisibility=function(){d.isVisible()?d.hide():d.show()};this.showHandle=function(){d.show()};this.hideHandle=function(){d.hide()};this.setOverlayElement=function(a){r=a;e.appendChild(a);H=!0;x.trigger()};this.ensureVisible=function(){L=!0;x.trigger()};
+this.getBoundingClientRect=function(){return D.getBoundingClientRect(e)};this.destroy=function(a){core.Async.destroyAll([x.destroy,w.destroy,d.destroy,f],a)};(function(){var b=h.getDocument(),f=[b.createRootFilter(h.getMemberId()),b.getPositionFilter()],k=b.getDOMDocument();B=k.createRange();l=k.createElement("span");l.className="webodf-caretSizer";l.textContent="|";h.getNode().appendChild(l);e=k.createElement("div");e.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",h.getMemberId());
+e.className="webodf-caretOverlay";a=k.createElement("div");a.className="caret";e.appendChild(a);d=new gui.Avatar(e,c);y.getSizer().appendChild(e);t=b.createStepIterator(h.getNode(),0,f,b.getRootNode());x=core.Task.createRedrawTask(q);w=core.Task.createTimeoutTask(g,500);x.triggerImmediate()})()};odf.TextSerializer=function(){function h(b){var g="",n=k.filter?k.filter.acceptNode(b):NodeFilter.FILTER_ACCEPT,p=b.nodeType,m;if((n===NodeFilter.FILTER_ACCEPT||n===NodeFilter.FILTER_SKIP)&&c.isTextContentContainingNode(b))for(m=b.firstChild;m;)g+=h(m),m=m.nextSibling;n===NodeFilter.FILTER_ACCEPT&&(p===Node.ELEMENT_NODE&&c.isParagraph(b)?g+="\n":p===Node.TEXT_NODE&&b.textContent&&(g+=b.textContent));return g}var k=this,c=odf.OdfUtils;this.filter=null;this.writeToString=function(b){if(!b)return"";
+b=h(b);"\n"===b[b.length-1]&&(b=b.substr(0,b.length-1));return b}};gui.MimeDataExporter=function(){var h;this.exportRangeToDataTransfer=function(k,c){var b;b=c.startContainer.ownerDocument.createElement("span");b.appendChild(c.cloneContents());b=h.writeToString(b);try{k.setData("text/plain",b)}catch(g){k.setData("Text",b)}};h=new odf.TextSerializer;h.filter=new odf.OdfNodeFilter};gui.Clipboard=function(h){this.setDataFromRange=function(k,c){var b,g=k.clipboardData;b=runtime.getWindow();!g&&b&&(g=b.clipboardData);g?(b=!0,h.exportRangeToDataTransfer(g,c),k.preventDefault()):b=!1;return b}};gui.SessionContext=function(h,k){var c=h.getOdtDocument(),b=odf.OdfUtils;this.isLocalCursorWithinOwnAnnotation=function(){var g=c.getCursor(k),h;if(!g)return!1;h=g&&g.getNode();g=c.getMember(k).getProperties().fullName;return(h=b.getParentAnnotation(h,c.getRootNode()))&&b.getAnnotationCreator(h)===g?!0:!1}};gui.StyleSummary=function(h){function k(b,c){var k=b+"|"+c,q;g.hasOwnProperty(k)||(q=[],h.forEach(function(f){f=(f=f.styleProperties[b])&&f[c];-1===q.indexOf(f)&&q.push(f)}),g[k]=q);return g[k]}function c(b,c,g){return function(){var h=k(b,c);return g.length>=h.length&&h.every(function(b){return-1!==g.indexOf(b)})}}function b(b,c){var g=k(b,c);return 1===g.length?g[0]:void 0}var g={};this.getPropertyValues=k;this.getCommonValue=b;this.isBold=c("style:text-properties","fo:font-weight",["bold"]);this.isItalic=
+c("style:text-properties","fo:font-style",["italic"]);this.hasUnderline=c("style:text-properties","style:text-underline-style",["solid"]);this.hasStrikeThrough=c("style:text-properties","style:text-line-through-style",["solid"]);this.fontSize=function(){var c=b("style:text-properties","fo:font-size");return c&&parseFloat(c)};this.fontName=function(){return b("style:text-properties","style:font-name")};this.isAlignedLeft=c("style:paragraph-properties","fo:text-align",["left","start"]);this.isAlignedCenter=
+c("style:paragraph-properties","fo:text-align",["center"]);this.isAlignedRight=c("style:paragraph-properties","fo:text-align",["right","end"]);this.isAlignedJustified=c("style:paragraph-properties","fo:text-align",["justify"]);this.text={isBold:this.isBold,isItalic:this.isItalic,hasUnderline:this.hasUnderline,hasStrikeThrough:this.hasStrikeThrough,fontSize:this.fontSize,fontName:this.fontName};this.paragraph={isAlignedLeft:this.isAlignedLeft,isAlignedCenter:this.isAlignedCenter,isAlignedRight:this.isAlignedRight,
+isAlignedJustified:this.isAlignedJustified}};gui.DirectFormattingController=function(h,k,c,b,g,n,p){function m(){return X.value().styleSummary}function q(){return X.value().enabledFeatures}function f(a){var b;a.collapsed?(b=a.startContainer,b.hasChildNodes()&&a.startOffset<b.childNodes.length&&(b=b.childNodes.item(a.startOffset)),a=[b]):a=T.getTextElements(a,!0,!1);return a}function e(){var a=P.getCursor(b),d=a&&a.getSelectedRange(),e=[],e=[],g=!0,h={directTextStyling:!0,directParagraphStyling:!0};d&&(e=f(d),0===e.length&&(e=[d.startContainer,
+d.endContainer],g=!1),e=P.getFormatting().getAppliedStyles(e));void 0!==e[0]&&Z&&(e[0].styleProperties=U.mergeObjects(e[0].styleProperties,Z));!0===k.getState(gui.CommonConstraints.EDIT.REVIEW_MODE)&&(h.directTextStyling=h.directParagraphStyling=c.isLocalCursorWithinOwnAnnotation());h.directTextStyling&&(h.directTextStyling=g&&void 0!==a&&a.getSelectionType()===ops.OdtCursor.RangeSelection);return{enabledFeatures:h,appliedStyles:e,styleSummary:new gui.StyleSummary(e)}}function a(a,b){var d={};Object.keys(a).forEach(function(c){var e=
+a[c](),f=b[c]();e!==f&&(d[c]=f)});return d}function d(){var b,d;d=da.styleSummary;var c=X.value(),e=c.styleSummary,f=da.enabledFeatures,g=c.enabledFeatures;b=a(d.text,e.text);d=a(d.paragraph,e.paragraph);f=!(g.directTextStyling===f.directTextStyling&&g.directParagraphStyling===f.directParagraphStyling);da=c;f&&ca.emit(gui.DirectFormattingController.enabledChanged,g);0<Object.keys(b).length&&ca.emit(gui.DirectFormattingController.textStylingChanged,b);0<Object.keys(d).length&&ca.emit(gui.DirectFormattingController.paragraphStylingChanged,
+d)}function r(){X.reset();d()}function l(a){("string"===typeof a?a:a.getMemberId())===b&&X.reset()}function B(){X.reset()}function y(a){var d=P.getCursor(b);a=a.paragraphElement;d&&T.getParagraphElement(d.getNode())===a&&X.reset()}function D(a,b){b(!a());return!0}function z(a){if(q().directTextStyling){var d=P.getCursorSelection(b),c={"style:text-properties":a};0!==d.length?(a=new ops.OpApplyDirectStyling,a.init({memberid:b,position:d.position,length:d.length,setProperties:c}),h.enqueue([a])):(Z=
+U.mergeObjects(Z||{},c),X.reset())}}function t(a,b){var d={};d[a]=b;z(d)}function x(a){a=a.spec();Z&&a.memberid===b&&"SplitParagraph"!==a.optype&&(Z=null,X.reset())}function w(a){t("fo:font-weight",a?"bold":"normal")}function F(a){t("fo:font-style",a?"italic":"normal")}function L(a){t("style:text-underline-style",a?"solid":"none")}function H(a){t("style:text-line-through-style",a?"solid":"none")}function G(a){if(q().directParagraphStyling){var d=P.getCursor(b).getSelectedRange(),d=T.getParagraphElements(d),
+c=P.getFormatting(),e=[],f={},l;d.forEach(function(d){var h=P.convertDomPointToCursorStep(d,0,E),k=d.getAttributeNS(odf.Namespaces.textns,"style-name"),r;d=k?f.hasOwnProperty(k)?f[k]:void 0:l;d||(d=g.generateStyleName(),k?(f[k]=d,r=c.createDerivedStyleObject(k,"paragraph",{})):(l=d,r={}),r=a(r),k=new ops.OpAddStyle,k.init({memberid:b,styleName:d.toString(),styleFamily:"paragraph",isAutomaticStyle:!0,setProperties:r}),e.push(k));k=new ops.OpSetParagraphStyle;k.init({memberid:b,styleName:d.toString(),
+position:h});e.push(k)});h.enqueue(e)}}function A(a){G(function(b){return U.mergeObjects(b,a)})}function K(a){A({"style:paragraph-properties":{"fo:text-align":a}})}function v(a,b){var d=P.getFormatting().getDefaultTabStopDistance(),c=b["style:paragraph-properties"],e;c&&(c=c["fo:margin-left"],e=T.parseLength(c));return U.mergeObjects(b,{"style:paragraph-properties":{"fo:margin-left":e&&e.unit===d.unit?e.value+a*d.value+e.unit:a*d.value+d.unit}})}function u(a,b){var d=f(a),d=0===d.length?[a.startContainer]:
+d,d=P.getFormatting().getAppliedStyles(d),c=0<d.length?d[0].styleProperties:void 0,e=P.getFormatting().getAppliedStylesForElement(b).styleProperties;if(!c||"text"!==c["style:family"]||!c["style:text-properties"])return!1;if(!e||!e["style:text-properties"])return!0;c=c["style:text-properties"];e=e["style:text-properties"];return!Object.keys(c).every(function(a){return c[a]===e[a]})}function Q(){}function R(){return!1}function C(){return!1}var I=this,P=h.getOdtDocument(),U=new core.Utils,T=odf.OdfUtils,
+ca=new core.EventNotifier([gui.DirectFormattingController.enabledChanged,gui.DirectFormattingController.textStylingChanged,gui.DirectFormattingController.paragraphStylingChanged]),Y=odf.Namespaces.textns,E=core.StepDirection.NEXT,Z=null,da,X;this.enabledFeatures=q;this.formatTextSelection=z;this.createCursorStyleOp=function(a,d,c){var e=null,f=Z;c&&(f=(c=X.value().appliedStyles[0])&&c.styleProperties);f&&f["style:text-properties"]&&(e=new ops.OpApplyDirectStyling,e.init({memberid:b,position:a,length:d,
+setProperties:{"style:text-properties":f["style:text-properties"]}}),Z=null,X.reset());return e};this.setBold=w;this.setItalic=F;this.setHasUnderline=L;this.setHasStrikethrough=H;this.setFontSize=function(a){t("fo:font-size",a+"pt")};this.setFontName=function(a){t("style:font-name",a)};this.getAppliedStyles=function(){return X.value().appliedStyles};this.toggleBold=D.bind(I,function(){return m().isBold()},w);this.toggleItalic=D.bind(I,function(){return m().isItalic()},F);this.toggleUnderline=D.bind(I,
+function(){return m().hasUnderline()},L);this.toggleStrikethrough=D.bind(I,function(){return m().hasStrikeThrough()},H);this.isBold=function(){return m().isBold()};this.isItalic=function(){return m().isItalic()};this.hasUnderline=function(){return m().hasUnderline()};this.hasStrikeThrough=function(){return m().hasStrikeThrough()};this.fontSize=function(){return m().fontSize()};this.fontName=function(){return m().fontName()};this.isAlignedLeft=function(){return m().isAlignedLeft()};this.isAlignedCenter=
+function(){return m().isAlignedCenter()};this.isAlignedRight=function(){return m().isAlignedRight()};this.isAlignedJustified=function(){return m().isAlignedJustified()};this.alignParagraphLeft=function(){K("left");return!0};this.alignParagraphCenter=function(){K("center");return!0};this.alignParagraphRight=function(){K("right");return!0};this.alignParagraphJustified=function(){K("justify");return!0};this.indent=function(){G(v.bind(null,1));return!0};this.outdent=function(){G(v.bind(null,-1));return!0};
+this.createParagraphStyleOps=function(a){if(!q().directParagraphStyling)return[];var d=P.getCursor(b),c=d.getSelectedRange(),e=[],f,h;d.hasForwardSelection()?(f=d.getAnchorNode(),h=d.getNode()):(f=d.getNode(),h=d.getAnchorNode());d=T.getParagraphElement(h);runtime.assert(Boolean(d),"DirectFormattingController: Cursor outside paragraph");var l=d,k=[P.getPositionFilter(),P.createRootFilter(b)];if(!1!==P.createStepIterator(c.endContainer,c.endOffset,k,l).nextStep())return e;h!==f&&(d=T.getParagraphElement(f));
+if(!Z&&!u(c,d))return e;c=(c=X.value().appliedStyles[0])&&c.styleProperties;if(!c)return e;if(d=d.getAttributeNS(Y,"style-name"))c={"style:text-properties":c["style:text-properties"]},c=P.getFormatting().createDerivedStyleObject(d,"paragraph",c);f=g.generateStyleName();d=new ops.OpAddStyle;d.init({memberid:b,styleName:f,styleFamily:"paragraph",isAutomaticStyle:!0,setProperties:c});e.push(d);d=new ops.OpSetParagraphStyle;d.init({memberid:b,styleName:f,position:a});e.push(d);return e};this.subscribe=
+function(a,b){ca.subscribe(a,b)};this.unsubscribe=function(a,b){ca.unsubscribe(a,b)};this.destroy=function(a){P.unsubscribe(ops.Document.signalCursorAdded,l);P.unsubscribe(ops.Document.signalCursorRemoved,l);P.unsubscribe(ops.Document.signalCursorMoved,l);P.unsubscribe(ops.OdtDocument.signalParagraphStyleModified,B);P.unsubscribe(ops.OdtDocument.signalParagraphChanged,y);P.unsubscribe(ops.OdtDocument.signalOperationEnd,x);P.unsubscribe(ops.OdtDocument.signalProcessingBatchEnd,d);k.unsubscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,
+r);a()};(function(){P.subscribe(ops.Document.signalCursorAdded,l);P.subscribe(ops.Document.signalCursorRemoved,l);P.subscribe(ops.Document.signalCursorMoved,l);P.subscribe(ops.OdtDocument.signalParagraphStyleModified,B);P.subscribe(ops.OdtDocument.signalParagraphChanged,y);P.subscribe(ops.OdtDocument.signalOperationEnd,x);P.subscribe(ops.OdtDocument.signalProcessingBatchEnd,d);k.subscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,r);X=new core.LazyProperty(e);da=X.value();n||(I.formatTextSelection=Q,
+I.setBold=Q,I.setItalic=Q,I.setHasUnderline=Q,I.setHasStrikethrough=Q,I.setFontSize=Q,I.setFontName=Q,I.toggleBold=C,I.toggleItalic=C,I.toggleUnderline=C,I.toggleStrikethrough=C);p||(I.alignParagraphCenter=R,I.alignParagraphJustified=R,I.alignParagraphLeft=R,I.alignParagraphRight=R,I.createParagraphStyleOps=function(){return[]},I.indent=R,I.outdent=R)})()};gui.DirectFormattingController.enabledChanged="enabled/changed";gui.DirectFormattingController.textStylingChanged="textStyling/changed";
+gui.DirectFormattingController.paragraphStylingChanged="paragraphStyling/changed";gui.DirectFormattingController.SelectionInfo=function(){};gui.KeyboardHandler=function(){function h(b,c){c||(c=k.None);switch(b){case gui.KeyboardHandler.KeyCode.LeftMeta:case gui.KeyboardHandler.KeyCode.RightMeta:case gui.KeyboardHandler.KeyCode.MetaInMozilla:c|=k.Meta;break;case gui.KeyboardHandler.KeyCode.Ctrl:c|=k.Ctrl;break;case gui.KeyboardHandler.KeyCode.Alt:c|=k.Alt;break;case gui.KeyboardHandler.KeyCode.Shift:c|=k.Shift}return b+":"+c}var k=gui.KeyboardHandler.Modifier,c=null,b={};this.setDefault=function(b){c=b};this.bind=function(c,k,p,m){c=h(c,
+k);runtime.assert(m||!1===b.hasOwnProperty(c),"tried to overwrite the callback handler of key combo: "+c);b[c]=p};this.unbind=function(c,k){var p=h(c,k);delete b[p]};this.reset=function(){c=null;b={}};this.handleEvent=function(g){var n=g.keyCode,p=k.None;g.metaKey&&(p|=k.Meta);g.ctrlKey&&(p|=k.Ctrl);g.altKey&&(p|=k.Alt);g.shiftKey&&(p|=k.Shift);n=h(n,p);n=b[n];p=!1;n?p=n():null!==c&&(p=c(g));p&&(g.preventDefault?g.preventDefault():g.returnValue=!1)}};
+gui.KeyboardHandler.Modifier={None:0,Meta:1,Ctrl:2,Alt:4,CtrlAlt:6,Shift:8,MetaShift:9,CtrlShift:10,AltShift:12};gui.KeyboardHandler.KeyCode={Backspace:8,Tab:9,Clear:12,Enter:13,Shift:16,Ctrl:17,Alt:18,End:35,Home:36,Left:37,Up:38,Right:39,Down:40,Delete:46,A:65,B:66,C:67,D:68,E:69,F:70,G:71,H:72,I:73,J:74,K:75,L:76,M:77,N:78,O:79,P:80,Q:81,R:82,S:83,T:84,U:85,V:86,W:87,X:88,Y:89,Z:90,LeftMeta:91,RightMeta:93,MetaInMozilla:224};gui.HyperlinkClickHandler=function(h,k,c){function b(){var a=h();runtime.assert(Boolean(a.classList),"Document container has no classList element");a.classList.remove("webodf-inactiveLinks")}function g(){var a=h();runtime.assert(Boolean(a.classList),"Document container has no classList element");a.classList.add("webodf-inactiveLinks")}function n(){a.removeEventListener("focus",g,!1);r.forEach(function(a){k.unbind(a.keyCode,a.modifier);c.unbind(a.keyCode,a.modifier)});r.length=0}function p(d){n();
+if(d!==m.None){a.addEventListener("focus",g,!1);switch(d){case m.Ctrl:r.push({keyCode:q.Ctrl,modifier:m.None});break;case m.Meta:r.push({keyCode:q.LeftMeta,modifier:m.None}),r.push({keyCode:q.RightMeta,modifier:m.None}),r.push({keyCode:q.MetaInMozilla,modifier:m.None})}r.forEach(function(a){k.bind(a.keyCode,a.modifier,b);c.bind(a.keyCode,a.modifier,g)})}}var m=gui.KeyboardHandler.Modifier,q=gui.KeyboardHandler.KeyCode,f=xmldom.XPath,e=odf.OdfUtils,a=runtime.getWindow(),d=m.None,r=[];runtime.assert(null!==
+a,"Expected to be run in an environment which has a global window, like a browser.");this.handleClick=function(b){var c=b.target||b.srcElement,g,k;b.ctrlKey?g=m.Ctrl:b.metaKey&&(g=m.Meta);if(d===m.None||d===g){a:{for(;null!==c;){if(e.isHyperlink(c))break a;if(e.isParagraph(c))break;c=c.parentNode}c=null}c&&(c=e.getHyperlinkTarget(c),""!==c&&("#"===c[0]?(c=c.substring(1),g=h(),k=f.getODFElementsWithXPath(g,"//text:bookmark-start[@text:name='"+c+"']",odf.Namespaces.lookupNamespaceURI),0===k.length&&
+(k=f.getODFElementsWithXPath(g,"//text:bookmark[@text:name='"+c+"']",odf.Namespaces.lookupNamespaceURI)),0<k.length&&k[0].scrollIntoView(!0)):/^\s*(javascript|data):/.test(c)?runtime.log("WARN:","potentially malicious URL ignored"):a.open(c),b.preventDefault?b.preventDefault():b.returnValue=!1))}};this.setModifier=function(a){d!==a&&(runtime.assert(a===m.None||a===m.Ctrl||a===m.Meta,"Unsupported KeyboardHandler.Modifier value: "+a),d=a,d!==m.None?g():b(),p(d))};this.getModifier=function(){return d};
+this.destroy=function(a){g();n();a()}};gui.EventManager=function(h){function k(a){function b(a,d,c){var e,f=!1;e="on"+d;a.attachEvent&&(a.attachEvent(e,c),f=!0);!f&&a.addEventListener&&(a.addEventListener(d,c,!1),f=!0);f&&!x[d]||!a.hasOwnProperty(e)||(a[e]=c)}function d(a,b,c){var e="on"+b;a.detachEvent&&a.detachEvent(e,c);a.removeEventListener&&a.removeEventListener(b,c,!1);a[e]===c&&(a[e]=null)}function c(b){if(-1===f.indexOf(b)){f.push(b);if(e.filters.every(function(a){return a(b)}))try{g.emit(a,b)}catch(d){runtime.log("Error occurred while processing "+
+a+":\n"+d.message+"\n"+d.stack)}runtime.setTimeout(function(){f.splice(f.indexOf(b),1)},0)}}var e=this,f=[],g=new core.EventNotifier([a]);this.filters=[];this.subscribe=function(b){g.subscribe(a,b)};this.unsubscribe=function(b){g.unsubscribe(a,b)};this.destroy=function(){d(t,a,c);d(H,a,c);d(G,a,c)};w[a]&&b(t,a,c);b(H,a,c);b(G,a,c)}function c(a,b,d){function c(b){d(b,e,function(b){b.type=a;f.emit(a,b)})}var e={},f=new core.EventNotifier([a]);this.subscribe=function(b){f.subscribe(a,b)};this.unsubscribe=
+function(b){f.unsubscribe(a,b)};this.destroy=function(){b.forEach(function(a){A.unsubscribe(a,c)})};(function(){b.forEach(function(a){A.subscribe(a,c)})})()}function b(a){runtime.clearTimeout(a);delete K[a]}function g(a,d){var c=runtime.setTimeout(function(){a();b(c)},d);K[c]=!0;return c}function n(a,d,c){var e=a.touches.length,f=a.touches[0],h=d.timer;"touchmove"===a.type||"touchend"===a.type?h&&b(h):"touchstart"===a.type&&(1!==e?runtime.clearTimeout(h):h=g(function(){c({clientX:f.clientX,clientY:f.clientY,
+pageX:f.pageX,pageY:f.pageY,target:a.target||a.srcElement||null,detail:1})},400));d.timer=h}function p(a,b,d){var c=a.touches[0],e=a.target||a.srcElement||null,f=b.target;1!==a.touches.length||"touchend"===a.type?f=null:"touchstart"===a.type&&"webodf-draggable"===e.getAttribute("class")?f=e:"touchmove"===a.type&&f&&(a.preventDefault(),a.stopPropagation(),d({clientX:c.clientX,clientY:c.clientY,pageX:c.pageX,pageY:c.pageY,target:f,detail:1}));b.target=f}function m(a,b,d){var c=a.target||a.srcElement||
+null,e=b.dragging;"drag"===a.type?e=!0:"touchend"===a.type&&e&&(e=!1,a=a.changedTouches[0],d({clientX:a.clientX,clientY:a.clientY,pageX:a.pageX,pageY:a.pageY,target:c,detail:1}));b.dragging=e}function q(){G.classList.add("webodf-touchEnabled");A.unsubscribe("touchstart",q)}function f(a){var b=a.scrollX,d=a.scrollY;this.restore=function(){a.scrollX===b&&a.scrollY===d||a.scrollTo(b,d)}}function e(a){var b=a.scrollTop,d=a.scrollLeft;this.restore=function(){if(a.scrollTop!==b||a.scrollLeft!==d)a.scrollTop=
+b,a.scrollLeft=d}}function a(a,b){var d=L[a]||F[a]||null;!d&&b&&(d=L[a]=new k(a));return d}function d(b,d){a(b,!0).subscribe(d)}function r(b,d){var c=a(b,!1);c&&c.unsubscribe(d)}function l(){return h.getDOMDocument().activeElement===H}function B(){l()&&H.blur();H.setAttribute("disabled","true")}function y(){H.removeAttribute("disabled")}function D(a){for(var b=[];a;)(a.scrollWidth>a.clientWidth||a.scrollHeight>a.clientHeight)&&b.push(new e(a)),a=a.parentNode;b.push(new f(t));return b}function z(){var a;
+l()||(a=D(H),y(),H.focus(),a.forEach(function(a){a.restore()}))}var t=runtime.getWindow(),x={beforecut:!0,beforepaste:!0,longpress:!0,drag:!0,dragstop:!0},w={mousedown:!0,mouseup:!0,focus:!0},F={},L={},H,G=h.getCanvas().getElement(),A=this,K={};this.addFilter=function(b,d){a(b,!0).filters.push(d)};this.removeFilter=function(b,d){var c=a(b,!0),e=c.filters.indexOf(d);-1!==e&&c.filters.splice(e,1)};this.subscribe=d;this.unsubscribe=r;this.hasFocus=l;this.focus=z;this.getEventTrap=function(){return H};
+this.setEditing=function(a){var b=l();b&&H.blur();a?H.removeAttribute("readOnly"):H.setAttribute("readOnly","true");b&&z()};this.destroy=function(a){r("touchstart",q);Object.keys(K).forEach(function(a){b(parseInt(a,10))});K.length=0;Object.keys(F).forEach(function(a){F[a].destroy()});F={};r("mousedown",B);r("mouseup",y);r("contextmenu",y);Object.keys(L).forEach(function(a){L[a].destroy()});L={};H.parentNode.removeChild(H);a()};(function(){var a=h.getOdfCanvas().getSizer(),b=a.ownerDocument;runtime.assert(Boolean(t),
+"EventManager requires a window object to operate correctly");H=b.createElement("textarea");H.id="eventTrap";H.setAttribute("tabindex","-1");H.setAttribute("readOnly","true");H.setAttribute("rows","1");a.appendChild(H);d("mousedown",B);d("mouseup",y);d("contextmenu",y);F.longpress=new c("longpress",["touchstart","touchmove","touchend"],n);F.drag=new c("drag",["touchstart","touchmove","touchend"],p);F.dragstop=new c("dragstop",["drag","touchend"],m);d("touchstart",q)})()};gui.IOSSafariSupport=function(h){function k(){c.innerHeight!==c.outerHeight&&(b.style.display="none",runtime.requestAnimationFrame(function(){b.style.display="block"}))}var c=runtime.getWindow(),b=h.getEventTrap();this.destroy=function(c){h.unsubscribe("focus",k);b.removeAttribute("autocapitalize");b.style.WebkitTransform="";c()};h.subscribe("focus",k);b.setAttribute("autocapitalize","off");b.style.WebkitTransform="translateX(-10000px)"};gui.HyperlinkController=function(h,k,c,b){function g(){var b=!0;!0===k.getState(gui.CommonConstraints.EDIT.REVIEW_MODE)&&(b=c.isLocalCursorWithinOwnAnnotation());b!==f&&(f=b,q.emit(gui.HyperlinkController.enabledChanged,f))}function n(c){c.getMemberId()===b&&g()}var p=odf.OdfUtils,m=h.getOdtDocument(),q=new core.EventNotifier([gui.HyperlinkController.enabledChanged]),f=!1;this.isEnabled=function(){return f};this.subscribe=function(b,a){q.subscribe(b,a)};this.unsubscribe=function(b,a){q.unsubscribe(b,
+a)};this.addHyperlink=function(c,a){if(f){var d=m.getCursorSelection(b),g=new ops.OpApplyHyperlink,l=[];if(0===d.length||a)a=a||c,g=new ops.OpInsertText,g.init({memberid:b,position:d.position,text:a}),d.length=a.length,l.push(g);g=new ops.OpApplyHyperlink;g.init({memberid:b,position:d.position,length:d.length,hyperlink:c});l.push(g);h.enqueue(l)}};this.removeHyperlinks=function(){if(f){var c=m.createPositionIterator(m.getRootNode()),a=m.getCursor(b).getSelectedRange(),d=p.getHyperlinkElements(a),
+g=a.collapsed&&1===d.length,l=m.getDOMDocument().createRange(),k=[],n,q;0!==d.length&&(d.forEach(function(a){l.selectNodeContents(a);n=m.convertDomToCursorRange({anchorNode:l.startContainer,anchorOffset:l.startOffset,focusNode:l.endContainer,focusOffset:l.endOffset});q=new ops.OpRemoveHyperlink;q.init({memberid:b,position:n.position,length:n.length});k.push(q)}),g||(g=d[0],-1===a.comparePoint(g,0)&&(l.setStart(g,0),l.setEnd(a.startContainer,a.startOffset),n=m.convertDomToCursorRange({anchorNode:l.startContainer,
+anchorOffset:l.startOffset,focusNode:l.endContainer,focusOffset:l.endOffset}),0<n.length&&(q=new ops.OpApplyHyperlink,q.init({memberid:b,position:n.position,length:n.length,hyperlink:p.getHyperlinkTarget(g)}),k.push(q))),d=d[d.length-1],c.moveToEndOfNode(d),c=c.unfilteredDomOffset(),1===a.comparePoint(d,c)&&(l.setStart(a.endContainer,a.endOffset),l.setEnd(d,c),n=m.convertDomToCursorRange({anchorNode:l.startContainer,anchorOffset:l.startOffset,focusNode:l.endContainer,focusOffset:l.endOffset}),0<n.length&&
+(q=new ops.OpApplyHyperlink,q.init({memberid:b,position:n.position,length:n.length,hyperlink:p.getHyperlinkTarget(d)}),k.push(q)))),h.enqueue(k),l.detach())}};this.destroy=function(b){m.unsubscribe(ops.Document.signalCursorMoved,n);k.unsubscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,g);b()};m.subscribe(ops.Document.signalCursorMoved,n);k.subscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,g);g()};gui.HyperlinkController.enabledChanged="enabled/changed";gui.ImageController=function(h,k,c,b,g){function n(){var a=!0;!0===k.getState(gui.CommonConstraints.EDIT.REVIEW_MODE)&&(a=c.isLocalCursorWithinOwnAnnotation());a!==r&&(r=a,d.emit(gui.ImageController.enabledChanged,r))}function p(a){a.getMemberId()===b&&n()}var m={"image/gif":".gif","image/jpeg":".jpg","image/png":".png"},q=odf.Namespaces.textns,f=h.getOdtDocument(),e=odf.OdfUtils,a=f.getFormatting(),d=new core.EventNotifier([gui.HyperlinkController.enabledChanged]),r=!1;this.isEnabled=function(){return r};
+this.subscribe=function(a,b){d.subscribe(a,b)};this.unsubscribe=function(a,b){d.unsubscribe(a,b)};this.insertImage=function(d,c,k,n){if(r){runtime.assert(0<k&&0<n,"Both width and height of the image should be greater than 0px.");n={width:k,height:n};if(k=e.getParagraphElement(f.getCursor(b).getNode()).getAttributeNS(q,"style-name")){k=a.getContentSize(k,"paragraph");var p=1,t=1;n.width>k.width&&(p=k.width/n.width);n.height>k.height&&(t=k.height/n.height);k=Math.min(p,t);n={width:n.width*k,height:n.height*
+k}}k=n.width+"px";n=n.height+"px";var x=f.getOdfCanvas().odfContainer().rootElement.styles,p=d.toLowerCase(),t=m.hasOwnProperty(p)?m[p]:null,w,p=[];runtime.assert(null!==t,"Image type is not supported: "+d);t="Pictures/"+g.generateImageName()+t;w=new ops.OpSetBlob;w.init({memberid:b,filename:t,mimetype:d,content:c});p.push(w);a.getStyleElement("Graphics","graphic",[x])||(d=new ops.OpAddStyle,d.init({memberid:b,styleName:"Graphics",styleFamily:"graphic",isAutomaticStyle:!1,setProperties:{"style:graphic-properties":{"text:anchor-type":"paragraph",
+"svg:x":"0cm","svg:y":"0cm","style:wrap":"dynamic","style:number-wrapped-paragraphs":"no-limit","style:wrap-contour":"false","style:vertical-pos":"top","style:vertical-rel":"paragraph","style:horizontal-pos":"center","style:horizontal-rel":"paragraph"}}}),p.push(d));d=g.generateStyleName();c=new ops.OpAddStyle;c.init({memberid:b,styleName:d,styleFamily:"graphic",isAutomaticStyle:!0,setProperties:{"style:parent-style-name":"Graphics","style:graphic-properties":{"style:vertical-pos":"top","style:vertical-rel":"baseline",
+"style:horizontal-pos":"center","style:horizontal-rel":"paragraph","fo:background-color":"transparent","style:background-transparency":"100%","style:shadow":"none","style:mirror":"none","fo:clip":"rect(0cm, 0cm, 0cm, 0cm)","draw:luminance":"0%","draw:contrast":"0%","draw:red":"0%","draw:green":"0%","draw:blue":"0%","draw:gamma":"100%","draw:color-inversion":"false","draw:image-opacity":"100%","draw:color-mode":"standard"}}});p.push(c);w=new ops.OpInsertImage;w.init({memberid:b,position:f.getCursorPosition(b),
+filename:t,frameWidth:k,frameHeight:n,frameStyleName:d,frameName:g.generateFrameName()});p.push(w);h.enqueue(p)}};this.destroy=function(a){f.unsubscribe(ops.Document.signalCursorMoved,p);k.unsubscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,n);a()};f.subscribe(ops.Document.signalCursorMoved,p);k.subscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,n);n()};gui.ImageController.enabledChanged="enabled/changed";gui.ImageSelector=function(h){function k(){var c=h.getSizer(),k=g.createElement("div");k.id="imageSelector";k.style.borderWidth="1px";c.appendChild(k);b.forEach(function(b){var c=g.createElement("div");c.className=b;k.appendChild(c)});return k}var c=odf.Namespaces.svgns,b="topLeft topRight bottomRight bottomLeft topMiddle rightMiddle bottomMiddle leftMiddle".split(" "),g=h.getElement().ownerDocument,n=!1;this.select=function(b){var m,q,f=g.getElementById("imageSelector");f||(f=k());n=!0;m=f.parentNode;
+q=b.getBoundingClientRect();var e=m.getBoundingClientRect(),a=h.getZoomLevel();m=(q.left-e.left)/a-1;q=(q.top-e.top)/a-1;f.style.display="block";f.style.left=m+"px";f.style.top=q+"px";f.style.width=b.getAttributeNS(c,"width");f.style.height=b.getAttributeNS(c,"height")};this.clearSelection=function(){var b;n&&(b=g.getElementById("imageSelector"))&&(b.style.display="none");n=!1};this.isSelectorElement=function(b){var c=g.getElementById("imageSelector");return c?b===c||b.parentNode===c:!1}};(function(){function h(h){function c(b){p=b.which&&String.fromCharCode(b.which)===n;n=void 0;return!1===p}function b(){p=!1}function g(b){n=b.data;p=!1}var n,p=!1;this.destroy=function(n){h.unsubscribe("textInput",b);h.unsubscribe("compositionend",g);h.removeFilter("keypress",c);n()};h.subscribe("textInput",b);h.subscribe("compositionend",g);h.addFilter("keypress",c)}gui.InputMethodEditor=function(k,c){function b(b){a&&(b?a.getNode().setAttributeNS("urn:webodf:names:cursor","composing","true"):(a.getNode().removeAttributeNS("urn:webodf:names:cursor",
+"composing"),l.textContent=""))}function g(){y&&(y=!1,b(!1),z.emit(gui.InputMethodEditor.signalCompositionEnd,{data:D}),D="")}function n(){L||(L=!0,g(),a&&a.getSelectedRange().collapsed?d.value="":d.value=x.writeToString(a.getSelectedRange().cloneContents()),d.setSelectionRange(0,d.value.length),L=!1)}function p(){c.hasFocus()&&B.trigger()}function m(){t=void 0;B.cancel();b(!0);y||z.emit(gui.InputMethodEditor.signalCompositionStart,{data:""})}function q(a){a=t=a.data;y=!0;D+=a;B.trigger()}function f(a){a.data!==
+t&&(a=a.data,y=!0,D+=a,B.trigger());t=void 0}function e(){l.textContent=d.value}var a=null,d=c.getEventTrap(),r=d.ownerDocument,l,B,y=!1,D="",z=new core.EventNotifier([gui.InputMethodEditor.signalCompositionStart,gui.InputMethodEditor.signalCompositionEnd]),t,x,w=[],F,L=!1;this.subscribe=z.subscribe;this.unsubscribe=z.unsubscribe;this.registerCursor=function(b){b.getMemberId()===k&&(a=b,a.getNode().appendChild(l),b.subscribe(ops.OdtCursor.signalCursorUpdated,p),c.subscribe("input",e),c.subscribe("compositionupdate",
+e))};this.removeCursor=function(b){a&&b===k&&(a.getNode().removeChild(l),a.unsubscribe(ops.OdtCursor.signalCursorUpdated,p),c.unsubscribe("input",e),c.unsubscribe("compositionupdate",e),a=null)};this.destroy=function(a){c.unsubscribe("compositionstart",m);c.unsubscribe("compositionend",q);c.unsubscribe("textInput",f);c.unsubscribe("keypress",g);c.unsubscribe("focus",n);core.Async.destroyAll(F,a)};(function(){x=new odf.TextSerializer;x.filter=new odf.OdfNodeFilter;c.subscribe("compositionstart",m);
+c.subscribe("compositionend",q);c.subscribe("textInput",f);c.subscribe("keypress",g);c.subscribe("focus",n);w.push(new h(c));F=w.map(function(a){return a.destroy});l=r.createElement("span");l.setAttribute("id","composer");B=core.Task.createTimeoutTask(n,1);F.push(B.destroy)})()};gui.InputMethodEditor.signalCompositionStart="input/compositionstart";gui.InputMethodEditor.signalCompositionEnd="input/compositionend"})();gui.MetadataController=function(h,k){function c(b){n.emit(gui.MetadataController.signalMetadataChanged,b)}function b(b){var c=-1===p.indexOf(b);c||runtime.log("Setting "+b+" is restricted.");return c}var g=h.getOdtDocument(),n=new core.EventNotifier([gui.MetadataController.signalMetadataChanged]),p=["dc:creator","dc:date","meta:editing-cycles","meta:editing-duration","meta:document-statistic"];this.setMetadata=function(c,g){var f={},e="",a;c&&Object.keys(c).filter(b).forEach(function(a){f[a]=c[a]});
+g&&(e=g.filter(b).join(","));if(0<e.length||0<Object.keys(f).length)a=new ops.OpUpdateMetadata,a.init({memberid:k,setProperties:f,removedProperties:0<e.length?{attributes:e}:null}),h.enqueue([a])};this.getMetadata=function(b){var c;runtime.assert("string"===typeof b,"Property must be a string");c=b.split(":");runtime.assert(2===c.length,"Property must be a namespace-prefixed string");b=odf.Namespaces.lookupNamespaceURI(c[0]);runtime.assert(Boolean(b),"Prefix must be for an ODF namespace.");return g.getOdfCanvas().odfContainer().getMetadata(b,
+c[1])};this.subscribe=function(b,c){n.subscribe(b,c)};this.unsubscribe=function(b,c){n.unsubscribe(b,c)};this.destroy=function(b){g.unsubscribe(ops.OdtDocument.signalMetadataUpdated,c);b()};g.subscribe(ops.OdtDocument.signalMetadataUpdated,c)};gui.MetadataController.signalMetadataChanged="metadata/changed";gui.PasteController=function(h,k,c,b){function g(){m=!0===k.getState(gui.CommonConstraints.EDIT.REVIEW_MODE)?c.isLocalCursorWithinOwnAnnotation():!0}function n(a){a.getMemberId()===b&&g()}var p=h.getOdtDocument(),m=!1,q=odf.Namespaces.textns,f=core.StepDirection.NEXT,e=odf.OdfUtils;this.isEnabled=function(){return m};this.paste=function(a){if(m){var d=p.getCursorPosition(b),c=p.getCursor(b).getNode(),c=e.getParagraphElement(c),g=c.getAttributeNS(q,"style-name")||"",k=d,n=[],D=p.convertDomPointToCursorStep(c,
+0,f);a.replace(/\r/g,"").split("\n").forEach(function(a){var d=new ops.OpInsertText,c=new ops.OpSplitParagraph;d.init({memberid:b,position:k,text:a,moveCursor:!0});n.push(d);k+=a.length;c.init({memberid:b,position:k,paragraphStyleName:g,sourceParagraphPosition:D,moveCursor:!0});n.push(c);D=k+=1});n.pop();h.enqueue(n)}};this.destroy=function(a){p.unsubscribe(ops.Document.signalCursorMoved,n);k.unsubscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,g);a()};p.subscribe(ops.Document.signalCursorMoved,n);
+k.subscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,g);g()};gui.ClosestXOffsetScanner=function(h){function k(b){return null!==b&&void 0!==g?Math.abs(b-h)>g:!1}function c(b){null!==b&&!1===k(b)&&(g=Math.abs(b-h))}var b=this,g,n=gui.StepInfo.VisualDirection.LEFT_TO_RIGHT;this.token=void 0;this.process=function(g,h,q){var f,e;g.visualDirection===n?(f=h&&h.right,e=q&&q.left):(f=h&&h.left,e=q&&q.right);if(k(f)||k(e))return!0;if(h||q)c(f),c(e),b.token=g.token;return!1}};gui.LineBoundaryScanner=function(){var h=this,k=null;this.token=void 0;this.process=function(c,b,g){var n;if(n=g)if(k){var p=k;n=Math.min(p.bottom-p.top,g.bottom-g.top);var m=Math.max(p.top,g.top),p=Math.min(p.bottom,g.bottom)-m;n=.4>=(0<n?p/n:0)}else n=!1;!b||g&&!n||(h.token=c.token);if(n)return!0;k=(c=k)&&b?{left:Math.min(c.left,b.left),right:Math.max(c.right,b.right),top:Math.min(c.top,b.top),bottom:Math.min(c.bottom,b.bottom)}:c||b;return!1}};gui.ParagraphBoundaryScanner=function(){var h=this,k=!1,c,b=odf.OdfUtils;this.token=void 0;this.process=function(g){var n=b.getParagraphElement(g.container());k||(c=n,k=!0);if(c!==n)return!0;h.token=g.token;return!1}};odf.WordBoundaryFilter=function(h,k){function c(a,b,d){for(var c=null,e=h.getRootNode(),f;a!==e&&null!==a&&null===c;)f=0>b?a.previousSibling:a.nextSibling,d(f)===NodeFilter.FILTER_ACCEPT&&(c=f),a=a.parentNode;return c}function b(a,b){var d;return null===a?r.NO_NEIGHBOUR:p.isCharacterElement(a)?r.SPACE_CHAR:a.nodeType===g||p.isTextSpan(a)||p.isHyperlink(a)?(d=a.textContent.charAt(b()),q.test(d)?r.SPACE_CHAR:m.test(d)?r.PUNCTUATION_CHAR:r.WORD_CHAR):r.OTHER}var g=Node.TEXT_NODE,n=Node.ELEMENT_NODE,
+p=odf.OdfUtils,m=/[!-#%-*,-\/:-;?-@\[-\]_{}\u00a1\u00ab\u00b7\u00bb\u00bf;\u00b7\u055a-\u055f\u0589-\u058a\u05be\u05c0\u05c3\u05c6\u05f3-\u05f4\u0609-\u060a\u060c-\u060d\u061b\u061e-\u061f\u066a-\u066d\u06d4\u0700-\u070d\u07f7-\u07f9\u0964-\u0965\u0970\u0df4\u0e4f\u0e5a-\u0e5b\u0f04-\u0f12\u0f3a-\u0f3d\u0f85\u0fd0-\u0fd4\u104a-\u104f\u10fb\u1361-\u1368\u166d-\u166e\u169b-\u169c\u16eb-\u16ed\u1735-\u1736\u17d4-\u17d6\u17d8-\u17da\u1800-\u180a\u1944-\u1945\u19de-\u19df\u1a1e-\u1a1f\u1b5a-\u1b60\u1c3b-\u1c3f\u1c7e-\u1c7f\u2000-\u206e\u207d-\u207e\u208d-\u208e\u3008-\u3009\u2768-\u2775\u27c5-\u27c6\u27e6-\u27ef\u2983-\u2998\u29d8-\u29db\u29fc-\u29fd\u2cf9-\u2cfc\u2cfe-\u2cff\u2e00-\u2e7e\u3000-\u303f\u30a0\u30fb\ua60d-\ua60f\ua673\ua67e\ua874-\ua877\ua8ce-\ua8cf\ua92e-\ua92f\ua95f\uaa5c-\uaa5f\ufd3e-\ufd3f\ufe10-\ufe19\ufe30-\ufe52\ufe54-\ufe61\ufe63\ufe68\ufe6a-\ufe6b\uff01-\uff03\uff05-\uff0a\uff0c-\uff0f\uff1a-\uff1b\uff1f-\uff20\uff3b-\uff3d\uff3f\uff5b\uff5d\uff5f-\uff65]|\ud800[\udd00-\udd01\udf9f\udfd0]|\ud802[\udd1f\udd3f\ude50-\ude58]|\ud809[\udc00-\udc7e]/,
+q=/\s/,f=core.PositionFilter.FilterResult.FILTER_ACCEPT,e=core.PositionFilter.FilterResult.FILTER_REJECT,a=odf.WordBoundaryFilter.IncludeWhitespace.TRAILING,d=odf.WordBoundaryFilter.IncludeWhitespace.LEADING,r={NO_NEIGHBOUR:0,SPACE_CHAR:1,PUNCTUATION_CHAR:2,WORD_CHAR:3,OTHER:4};this.acceptPosition=function(g){var h=g.container(),m=g.leftNode(),p=g.rightNode(),q=g.unfilteredDomOffset,t=function(){return g.unfilteredDomOffset()-1};h.nodeType===n&&(null===p&&(p=c(h,1,g.getNodeFilter())),null===m&&(m=
+c(h,-1,g.getNodeFilter())));h!==p&&(q=function(){return 0});h!==m&&null!==m&&(t=function(){return m.textContent.length-1});h=b(m,t);p=b(p,q);return h===r.WORD_CHAR&&p===r.WORD_CHAR||h===r.PUNCTUATION_CHAR&&p===r.PUNCTUATION_CHAR||k===a&&h!==r.NO_NEIGHBOUR&&p===r.SPACE_CHAR||k===d&&h===r.SPACE_CHAR&&p!==r.NO_NEIGHBOUR?e:f}};odf.WordBoundaryFilter.IncludeWhitespace={None:0,TRAILING:1,LEADING:2};gui.SelectionController=function(h,k){function c(a){var b=a.spec();if(a.isEdit||b.memberid===k)L=void 0,H.cancel()}function b(){var a=y.getCursor(k).getNode();return y.createStepIterator(a,0,[t,w],y.getRootElement(a))}function g(a,b,d){d=new odf.WordBoundaryFilter(y,d);var c=y.getRootElement(a)||y.getRootNode(),e=y.createRootFilter(c);return y.createStepIterator(a,b,[t,e,d],c)}function n(a,b){return b?{anchorNode:a.startContainer,anchorOffset:a.startOffset,focusNode:a.endContainer,focusOffset:a.endOffset}:
+{anchorNode:a.endContainer,anchorOffset:a.endOffset,focusNode:a.startContainer,focusOffset:a.startOffset}}function p(a,b,d){var c=new ops.OpMoveCursor;c.init({memberid:k,position:a,length:b||0,selectionType:d});return c}function m(a,b,d){var c;c=y.getCursor(k);c=n(c.getSelectedRange(),c.hasForwardSelection());c.focusNode=a;c.focusOffset=b;d||(c.anchorNode=c.focusNode,c.anchorOffset=c.focusOffset);a=y.convertDomToCursorRange(c);h.enqueue([p(a.position,a.length)])}function q(a){var b;b=g(a.startContainer,
+a.startOffset,G);b.roundToPreviousStep()&&a.setStart(b.container(),b.offset());b=g(a.endContainer,a.endOffset,A);b.roundToNextStep()&&a.setEnd(b.container(),b.offset())}function f(a){var b=z.getParagraphElements(a),d=b[0],b=b[b.length-1];d&&a.setStart(d,0);b&&(z.isParagraph(a.endContainer)&&0===a.endOffset?a.setEndBefore(b):a.setEnd(b,b.childNodes.length))}function e(a,b,d,c){var e,f;c?(e=d.startContainer,f=d.startOffset):(e=d.endContainer,f=d.endOffset);D.containsNode(a,e)||(f=0>D.comparePoints(a,
+0,e,f)?0:a.childNodes.length,e=a);a=y.createStepIterator(e,f,b,z.getParagraphElement(e)||a);a.roundToClosestStep()||runtime.assert(!1,"No step found in requested range");c?d.setStart(a.container(),a.offset()):d.setEnd(a.container(),a.offset())}function a(a,d){var c=b();c.advanceStep(a)&&m(c.container(),c.offset(),d)}function d(a,d){var c,e=L,f=[new gui.LineBoundaryScanner,new gui.ParagraphBoundaryScanner];void 0===e&&F&&(e=F());isNaN(e)||(c=b(),x.moveToFilteredStep(c,a,f)&&c.advanceStep(a)&&(f=[new gui.ClosestXOffsetScanner(e),
+new gui.LineBoundaryScanner,new gui.ParagraphBoundaryScanner],x.moveToFilteredStep(c,a,f)&&(m(c.container(),c.offset(),d),L=e,H.restart())))}function r(a,d){var c=b(),e=[new gui.LineBoundaryScanner,new gui.ParagraphBoundaryScanner];x.moveToFilteredStep(c,a,e)&&m(c.container(),c.offset(),d)}function l(a,b){var d=y.getCursor(k),d=n(d.getSelectedRange(),d.hasForwardSelection()),d=g(d.focusNode,d.focusOffset,G);d.advanceStep(a)&&m(d.container(),d.offset(),b)}function B(a,b,d){var c=!1,e=y.getCursor(k),
+e=n(e.getSelectedRange(),e.hasForwardSelection()),c=y.getRootElement(e.focusNode);runtime.assert(Boolean(c),"SelectionController: Cursor outside root");e=y.createStepIterator(e.focusNode,e.focusOffset,[t,w],c);e.roundToClosestStep();e.advanceStep(a)&&(d=d(e.container()))&&(a===K?(e.setPosition(d,0),c=e.roundToNextStep()):(e.setPosition(d,d.childNodes.length),c=e.roundToPreviousStep()),c&&m(e.container(),e.offset(),b))}var y=h.getOdtDocument(),D=core.DomUtils,z=odf.OdfUtils,t=y.getPositionFilter(),
+x=new gui.GuiStepUtils,w=y.createRootFilter(k),F=null,L,H,G=odf.WordBoundaryFilter.IncludeWhitespace.TRAILING,A=odf.WordBoundaryFilter.IncludeWhitespace.LEADING,K=core.StepDirection.PREVIOUS,v=core.StepDirection.NEXT;this.selectionToRange=function(a){var b=0<=D.comparePoints(a.anchorNode,a.anchorOffset,a.focusNode,a.focusOffset),d=a.focusNode.ownerDocument.createRange();b?(d.setStart(a.anchorNode,a.anchorOffset),d.setEnd(a.focusNode,a.focusOffset)):(d.setStart(a.focusNode,a.focusOffset),d.setEnd(a.anchorNode,
+a.anchorOffset));return{range:d,hasForwardSelection:b}};this.rangeToSelection=n;this.selectImage=function(a){var b=y.getRootElement(a),d=y.createRootFilter(b),b=y.createStepIterator(a,0,[d,y.getPositionFilter()],b),c;b.roundToPreviousStep()||runtime.assert(!1,"No walkable position before frame");d=b.container();c=b.offset();b.setPosition(a,a.childNodes.length);b.roundToNextStep()||runtime.assert(!1,"No walkable position after frame");a=y.convertDomToCursorRange({anchorNode:d,anchorOffset:c,focusNode:b.container(),
+focusOffset:b.offset()});a=p(a.position,a.length,ops.OdtCursor.RegionSelection);h.enqueue([a])};this.expandToWordBoundaries=q;this.expandToParagraphBoundaries=f;this.selectRange=function(a,b,d){var c=y.getOdfCanvas().getElement(),g,l=[t];g=D.containsNode(c,a.startContainer);c=D.containsNode(c,a.endContainer);if(g||c)if(g&&c&&(2===d?q(a):3<=d&&f(a)),(d=b?y.getRootElement(a.startContainer):y.getRootElement(a.endContainer))||(d=y.getRootNode()),l.push(y.createRootFilter(d)),e(d,l,a,!0),e(d,l,a,!1),a=
+n(a,b),b=y.convertDomToCursorRange(a),a=y.getCursorSelection(k),b.position!==a.position||b.length!==a.length)a=p(b.position,b.length,ops.OdtCursor.RangeSelection),h.enqueue([a])};this.moveCursorToLeft=function(){a(K,!1);return!0};this.moveCursorToRight=function(){a(v,!1);return!0};this.extendSelectionToLeft=function(){a(K,!0);return!0};this.extendSelectionToRight=function(){a(v,!0);return!0};this.setCaretXPositionLocator=function(a){F=a};this.moveCursorUp=function(){d(K,!1);return!0};this.moveCursorDown=
+function(){d(v,!1);return!0};this.extendSelectionUp=function(){d(K,!0);return!0};this.extendSelectionDown=function(){d(v,!0);return!0};this.moveCursorBeforeWord=function(){l(K,!1);return!0};this.moveCursorPastWord=function(){l(v,!1);return!0};this.extendSelectionBeforeWord=function(){l(K,!0);return!0};this.extendSelectionPastWord=function(){l(v,!0);return!0};this.moveCursorToLineStart=function(){r(K,!1);return!0};this.moveCursorToLineEnd=function(){r(v,!1);return!0};this.extendSelectionToLineStart=
+function(){r(K,!0);return!0};this.extendSelectionToLineEnd=function(){r(v,!0);return!0};this.extendSelectionToParagraphStart=function(){B(K,!0,z.getParagraphElement);return!0};this.extendSelectionToParagraphEnd=function(){B(v,!0,z.getParagraphElement);return!0};this.moveCursorToParagraphStart=function(){B(K,!1,z.getParagraphElement);return!0};this.moveCursorToParagraphEnd=function(){B(v,!1,z.getParagraphElement);return!0};this.moveCursorToDocumentStart=function(){B(K,!1,y.getRootElement);return!0};
+this.moveCursorToDocumentEnd=function(){B(v,!1,y.getRootElement);return!0};this.extendSelectionToDocumentStart=function(){B(K,!0,y.getRootElement);return!0};this.extendSelectionToDocumentEnd=function(){B(v,!0,y.getRootElement);return!0};this.extendSelectionToEntireDocument=function(){var a=y.getCursor(k),a=y.getRootElement(a.getNode()),b,d,c;runtime.assert(Boolean(a),"SelectionController: Cursor outside root");c=y.createStepIterator(a,0,[t,w],a);c.roundToClosestStep();b=c.container();d=c.offset();
+c.setPosition(a,a.childNodes.length);c.roundToClosestStep();a=y.convertDomToCursorRange({anchorNode:b,anchorOffset:d,focusNode:c.container(),focusOffset:c.offset()});h.enqueue([p(a.position,a.length)]);return!0};this.destroy=function(a){y.unsubscribe(ops.OdtDocument.signalOperationStart,c);core.Async.destroyAll([H.destroy],a)};(function(){H=core.Task.createTimeoutTask(function(){L=void 0},2E3);y.subscribe(ops.OdtDocument.signalOperationStart,c)})()};gui.TextController=function(h,k,c,b,g,n){function p(){B=!0===k.getState(gui.CommonConstraints.EDIT.REVIEW_MODE)?c.isLocalCursorWithinOwnAnnotation():!0}function m(a){a.getMemberId()===b&&p()}function q(a,b,c){var e=[d.getPositionFilter()];c&&e.push(d.createRootFilter(a.startContainer));c=d.createStepIterator(a.startContainer,a.startOffset,e,b);c.roundToClosestStep()||runtime.assert(!1,"No walkable step found in paragraph element at range start");b=d.convertDomPointToCursorStep(c.container(),c.offset());
+a.collapsed?a=b:(c.setPosition(a.endContainer,a.endOffset),c.roundToClosestStep()||runtime.assert(!1,"No walkable step found in paragraph element at range end"),a=d.convertDomPointToCursorStep(c.container(),c.offset()));return{position:b,length:a-b}}function f(a){var d,c,e,f=r.getParagraphElements(a),g=a.cloneRange(),h=[];d=f[0];1<f.length&&(r.hasNoODFContent(d)&&(d=f[f.length-1]),c=d.getAttributeNS(odf.Namespaces.textns,"style-name")||"");f.forEach(function(d,f){var k,n;g.setStart(d,0);g.collapse(!0);
+k=q(g,d,!1).position;0<f&&(n=new ops.OpMergeParagraph,n.init({memberid:b,paragraphStyleName:c,destinationStartPosition:e,sourceStartPosition:k,moveCursor:1===f}),h.unshift(n));e=k;g.selectNodeContents(d);if(k=l.rangeIntersection(g,a))k=q(k,d,!0),0<k.length&&(n=new ops.OpRemoveText,n.init({memberid:b,position:k.position,length:k.length}),h.unshift(n))});return h}function e(a){0>a.length&&(a.position+=a.length,a.length=-a.length);return a}function a(a){if(!B)return!1;var c,g=d.getCursor(b).getSelectedRange().cloneRange(),
+l=e(d.getCursorSelection(b)),k;if(0===l.length){l=void 0;c=d.getCursor(b).getNode();k=d.getRootElement(c);var n=[d.getPositionFilter(),d.createRootFilter(k)];k=d.createStepIterator(c,0,n,k);k.roundToClosestStep()&&(a?k.nextStep():k.previousStep())&&(l=e(d.convertDomToCursorRange({anchorNode:c,anchorOffset:0,focusNode:k.container(),focusOffset:k.offset()})),a?(g.setStart(c,0),g.setEnd(k.container(),k.offset())):(g.setStart(k.container(),k.offset()),g.setEnd(c,0)))}l&&h.enqueue(f(g));return void 0!==
+l}var d=h.getOdtDocument(),r=odf.OdfUtils,l=core.DomUtils,B=!1,y=odf.Namespaces.textns,D=core.StepDirection.NEXT;this.isEnabled=function(){return B};this.enqueueParagraphSplittingOps=function(){if(!B)return!1;var a=d.getCursor(b),c=a.getSelectedRange(),g=e(d.getCursorSelection(b)),l=[],a=r.getParagraphElement(a.getNode()),k=a.getAttributeNS(y,"style-name")||"";0<g.length&&(l=l.concat(f(c)));c=new ops.OpSplitParagraph;c.init({memberid:b,position:g.position,paragraphStyleName:k,sourceParagraphPosition:d.convertDomPointToCursorStep(a,
+0,D),moveCursor:!0});l.push(c);n&&(g=n(g.position+1),l=l.concat(g));h.enqueue(l);return!0};this.removeTextByBackspaceKey=function(){return a(!1)};this.removeTextByDeleteKey=function(){return a(!0)};this.removeCurrentSelection=function(){if(!B)return!1;var a=d.getCursor(b).getSelectedRange();h.enqueue(f(a));return!0};this.insertText=function(a){if(B){var c=d.getCursor(b).getSelectedRange(),l=e(d.getCursorSelection(b)),k=[],n=!1;0<l.length&&(k=k.concat(f(c)),n=!0);c=new ops.OpInsertText;c.init({memberid:b,
+position:l.position,text:a,moveCursor:!0});k.push(c);g&&(a=g(l.position,a.length,n))&&k.push(a);h.enqueue(k)}};this.destroy=function(a){d.unsubscribe(ops.Document.signalCursorMoved,m);k.unsubscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,p);a()};d.subscribe(ops.Document.signalCursorMoved,m);k.subscribe(gui.CommonConstraints.EDIT.REVIEW_MODE,p);p()};gui.UndoManager=function(){};gui.UndoManager.prototype.subscribe=function(h,k){};gui.UndoManager.prototype.unsubscribe=function(h,k){};gui.UndoManager.prototype.setDocument=function(h){};gui.UndoManager.prototype.setInitialState=function(){};gui.UndoManager.prototype.initialize=function(){};gui.UndoManager.prototype.purgeInitialState=function(){};gui.UndoManager.prototype.setPlaybackFunction=function(h){};gui.UndoManager.prototype.hasUndoStates=function(){};
+gui.UndoManager.prototype.hasRedoStates=function(){};gui.UndoManager.prototype.moveForward=function(h){};gui.UndoManager.prototype.moveBackward=function(h){};gui.UndoManager.prototype.onOperationExecuted=function(h){};gui.UndoManager.prototype.isDocumentModified=function(){};gui.UndoManager.prototype.setDocumentModified=function(h){};gui.UndoManager.signalUndoStackChanged="undoStackChanged";gui.UndoManager.signalUndoStateCreated="undoStateCreated";gui.UndoManager.signalUndoStateModified="undoStateModified";
+gui.UndoManager.signalDocumentModifiedChanged="documentModifiedChanged";gui.SessionControllerOptions=function(){this.annotationsEnabled=this.directParagraphStylingEnabled=this.directTextStylingEnabled=!1};
+(function(){var h=core.PositionFilter.FilterResult.FILTER_ACCEPT;gui.SessionController=function(k,c,b,g){function n(a,b){var d=C.getDOMDocument(),c=null;d.caretRangeFromPoint?(d=d.caretRangeFromPoint(a,b),c={container:d.startContainer,offset:d.startOffset}):d.caretPositionFromPoint&&(d=d.caretPositionFromPoint(a,b))&&d.offsetNode&&(c={container:d.offsetNode,offset:d.offset});return c}function p(a){var b=C.getCursor(c).getSelectedRange();b.collapsed?a.preventDefault():Y.setDataFromRange(a,b)?fa.removeCurrentSelection():
+runtime.log("Cut operation failed")}function m(){return!1!==C.getCursor(c).getSelectedRange().collapsed}function q(a){var b=C.getCursor(c).getSelectedRange();b.collapsed?a.preventDefault():Y.setDataFromRange(a,b)||runtime.log("Copy operation failed")}function f(a){var b;R.clipboardData&&R.clipboardData.getData?b=R.clipboardData.getData("Text"):a.clipboardData&&a.clipboardData.getData&&(b=a.clipboardData.getData("text/plain"));b&&(fa.removeCurrentSelection(),ga.paste(b));a.preventDefault?a.preventDefault():
+a.returnValue=!1}function e(){return!1}function a(a){if(V)V.onOperationExecuted(a)}function d(a){C.emit(ops.OdtDocument.signalUndoStackChanged,a)}function r(){var a;return V?(a=M.hasFocus(),V.moveBackward(1),a&&M.focus(),!0):!1}function l(){var a;return V?(a=M.hasFocus(),V.moveForward(1),a&&M.focus(),!0):!1}function B(a){var d=C.getCursor(c).getSelectedRange(),e=(a.target||a.srcElement||null).getAttribute("end");d&&e&&(a=n(a.clientX,a.clientY))&&(ia.setUnfilteredPosition(a.container,a.offset),ba.acceptPosition(ia)===
+h&&(d=d.cloneRange(),"left"===e?d.setStart(ia.container(),ia.unfilteredDomOffset()):d.setEnd(ia.container(),ia.unfilteredDomOffset()),b.setSelectedRange(d,"right"===e),C.emit(ops.Document.signalCursorMoved,b)))}function y(){W.selectRange(b.getSelectedRange(),b.hasForwardSelection(),1)}function D(){var a=R.getSelection(),d=0<a.rangeCount&&W.selectionToRange(a);X&&d&&(J=!0,la.clearSelection(),ia.setUnfilteredPosition(a.focusNode,a.focusOffset),ba.acceptPosition(ia)===h&&(2===oa?W.expandToWordBoundaries(d.range):
+3<=oa&&W.expandToParagraphBoundaries(d.range),b.setSelectedRange(d.range,d.hasForwardSelection),C.emit(ops.Document.signalCursorMoved,b)))}function z(a){var b=a.target||a.srcElement||null,d=C.getCursor(c);if(X=null!==b&&U.containsNode(C.getOdfCanvas().getElement(),b))J=!1,b=C.getRootElement(b)||C.getRootNode(),ba=C.createRootFilter(b),oa=0===a.button?a.detail:0,d&&a.shiftKey?R.getSelection().collapse(d.getAnchorNode(),0):(a=R.getSelection(),b=d.getSelectedRange(),a.extend?d.hasForwardSelection()?
+(a.collapse(b.startContainer,b.startOffset),a.extend(b.endContainer,b.endOffset)):(a.collapse(b.endContainer,b.endOffset),a.extend(b.startContainer,b.startOffset)):(a.removeAllRanges(),a.addRange(b.cloneRange()))),1<oa&&D()}function t(a){var b=C.getRootElement(a),d=C.createRootFilter(b),b=C.createStepIterator(a,0,[d,C.getPositionFilter()],b);b.setPosition(a,a.childNodes.length);return b.roundToNextStep()?{container:b.container(),offset:b.offset()}:null}function x(a){var b;b=(b=R.getSelection())?{anchorNode:b.anchorNode,
+anchorOffset:b.anchorOffset,focusNode:b.focusNode,focusOffset:b.focusOffset}:null;var d=R.getSelection().isCollapsed,c,e;b.anchorNode||b.focusNode||!(c=n(a.clientX,a.clientY))||(b.anchorNode=c.container,b.anchorOffset=c.offset,b.focusNode=b.anchorNode,b.focusOffset=b.anchorOffset);if(T.isImage(b.focusNode)&&0===b.focusOffset&&T.isCharacterFrame(b.focusNode.parentNode)){if(e=b.focusNode.parentNode,c=e.getBoundingClientRect(),a.clientX>c.left&&(c=t(e)))b.focusNode=c.container,b.focusOffset=c.offset,
+d&&(b.anchorNode=b.focusNode,b.anchorOffset=b.focusOffset)}else T.isImage(b.focusNode.firstChild)&&1===b.focusOffset&&T.isCharacterFrame(b.focusNode)&&(c=t(b.focusNode))&&(b.anchorNode=b.focusNode=c.container,b.anchorOffset=b.focusOffset=c.offset);b.anchorNode&&b.focusNode&&(b=W.selectionToRange(b),W.selectRange(b.range,b.hasForwardSelection,0===a.button?a.detail:0));M.focus()}function w(a){var b;if(b=n(a.clientX,a.clientY))a=b.container,b=b.offset,a={anchorNode:a,anchorOffset:b,focusNode:a,focusOffset:b},
+a=W.selectionToRange(a),W.selectRange(a.range,a.hasForwardSelection,2),M.focus()}function F(a){var d=a.target||a.srcElement||null,c,e,f;ma.processRequests();X&&(T.isImage(d)&&T.isCharacterFrame(d.parentNode)&&R.getSelection().isCollapsed?(W.selectImage(d.parentNode),M.focus()):la.isSelectorElement(d)?M.focus():J?(d=b.getSelectedRange(),e=d.collapsed,T.isImage(d.endContainer)&&0===d.endOffset&&T.isCharacterFrame(d.endContainer.parentNode)&&(f=d.endContainer.parentNode,f=t(f))&&(d.setEnd(f.container,
+f.offset),e&&d.collapse(!1)),W.selectRange(d,b.hasForwardSelection(),0===a.button?a.detail:0),M.focus()):ua?x(a):(c=U.cloneEvent(a),S=runtime.setTimeout(function(){x(c)},0)),oa=0,J=X=!1)}function L(a){var b=C.getCursor(c).getSelectedRange();b.collapsed||ca.exportRangeToDataTransfer(a.dataTransfer,b)}function H(){X&&M.focus();oa=0;J=X=!1}function G(a){F(a)}function A(a){var b=a.target||a.srcElement||null,d=null;"annotationRemoveButton"===b.className?(runtime.assert(ja,"Remove buttons are displayed on annotations while annotation editing is disabled in the controller."),
+d=b.parentNode.getElementsByTagNameNS(odf.Namespaces.officens,"annotation").item(0),ea.removeAnnotation(d),M.focus()):"webodf-draggable"!==b.getAttribute("class")&&F(a)}function K(a){(a=a.data)&&(-1===a.indexOf("\n")?fa.insertText(a):ga.paste(a))}function v(a){return function(){a();return!0}}function u(a){return function(b){return C.getCursor(c).getSelectionType()===ops.OdtCursor.RangeSelection?a(b):!0}}function Q(b){M.unsubscribe("keydown",E.handleEvent);M.unsubscribe("keypress",Z.handleEvent);M.unsubscribe("keyup",
+da.handleEvent);M.unsubscribe("copy",q);M.unsubscribe("mousedown",z);M.unsubscribe("mousemove",ma.trigger);M.unsubscribe("mouseup",A);M.unsubscribe("contextmenu",G);M.unsubscribe("dragstart",L);M.unsubscribe("dragend",H);M.unsubscribe("click",pa.handleClick);M.unsubscribe("longpress",w);M.unsubscribe("drag",B);M.unsubscribe("dragstop",y);C.unsubscribe(ops.OdtDocument.signalOperationEnd,na.trigger);C.unsubscribe(ops.Document.signalCursorAdded,ka.registerCursor);C.unsubscribe(ops.Document.signalCursorRemoved,
+ka.removeCursor);C.unsubscribe(ops.OdtDocument.signalOperationEnd,a);b()}var R=runtime.getWindow(),C=k.getOdtDocument(),I=new gui.SessionConstraints,P=new gui.SessionContext(k,c),U=core.DomUtils,T=odf.OdfUtils,ca=new gui.MimeDataExporter,Y=new gui.Clipboard(ca),E=new gui.KeyboardHandler,Z=new gui.KeyboardHandler,da=new gui.KeyboardHandler,X=!1,ha=new odf.ObjectNameGenerator(C.getOdfCanvas().odfContainer(),c),J=!1,ba=null,S,V=null,M=new gui.EventManager(C),ja=g.annotationsEnabled,ea=new gui.AnnotationController(k,
+I,c),aa=new gui.DirectFormattingController(k,I,P,c,ha,g.directTextStylingEnabled,g.directParagraphStylingEnabled),fa=new gui.TextController(k,I,P,c,aa.createCursorStyleOp,aa.createParagraphStyleOps),qa=new gui.ImageController(k,I,P,c,ha),la=new gui.ImageSelector(C.getOdfCanvas()),ia=C.createPositionIterator(C.getRootNode()),ma,na,ga=new gui.PasteController(k,I,P,c),ka=new gui.InputMethodEditor(c,M),oa=0,pa=new gui.HyperlinkClickHandler(C.getOdfCanvas().getElement,E,da),ta=new gui.HyperlinkController(k,
+I,P,c),W=new gui.SelectionController(k,c),va=new gui.MetadataController(k,c),N=gui.KeyboardHandler.Modifier,O=gui.KeyboardHandler.KeyCode,ra=-1!==R.navigator.appVersion.toLowerCase().indexOf("mac"),ua=-1!==["iPad","iPod","iPhone"].indexOf(R.navigator.platform),sa;runtime.assert(null!==R,"Expected to be run in an environment which has a global window, like a browser.");this.undo=r;this.redo=l;this.insertLocalCursor=function(){runtime.assert(void 0===k.getOdtDocument().getCursor(c),"Inserting local cursor a second time.");
+var a=new ops.OpAddCursor;a.init({memberid:c});k.enqueue([a]);M.focus()};this.removeLocalCursor=function(){runtime.assert(void 0!==k.getOdtDocument().getCursor(c),"Removing local cursor without inserting before.");var a=new ops.OpRemoveCursor;a.init({memberid:c});k.enqueue([a])};this.startEditing=function(){ka.subscribe(gui.InputMethodEditor.signalCompositionStart,fa.removeCurrentSelection);ka.subscribe(gui.InputMethodEditor.signalCompositionEnd,K);M.subscribe("beforecut",m);M.subscribe("cut",p);
+M.subscribe("beforepaste",e);M.subscribe("paste",f);V&&V.initialize();M.setEditing(!0);pa.setModifier(ra?N.Meta:N.Ctrl);E.bind(O.Backspace,N.None,v(fa.removeTextByBackspaceKey),!0);E.bind(O.Delete,N.None,fa.removeTextByDeleteKey);E.bind(O.Tab,N.None,u(function(){fa.insertText("\t");return!0}));ra?(E.bind(O.Clear,N.None,fa.removeCurrentSelection),E.bind(O.B,N.Meta,u(aa.toggleBold)),E.bind(O.I,N.Meta,u(aa.toggleItalic)),E.bind(O.U,N.Meta,u(aa.toggleUnderline)),E.bind(O.L,N.MetaShift,u(aa.alignParagraphLeft)),
+E.bind(O.E,N.MetaShift,u(aa.alignParagraphCenter)),E.bind(O.R,N.MetaShift,u(aa.alignParagraphRight)),E.bind(O.J,N.MetaShift,u(aa.alignParagraphJustified)),ja&&E.bind(O.C,N.MetaShift,ea.addAnnotation),E.bind(O.Z,N.Meta,r),E.bind(O.Z,N.MetaShift,l)):(E.bind(O.B,N.Ctrl,u(aa.toggleBold)),E.bind(O.I,N.Ctrl,u(aa.toggleItalic)),E.bind(O.U,N.Ctrl,u(aa.toggleUnderline)),E.bind(O.L,N.CtrlShift,u(aa.alignParagraphLeft)),E.bind(O.E,N.CtrlShift,u(aa.alignParagraphCenter)),E.bind(O.R,N.CtrlShift,u(aa.alignParagraphRight)),
+E.bind(O.J,N.CtrlShift,u(aa.alignParagraphJustified)),ja&&E.bind(O.C,N.CtrlAlt,ea.addAnnotation),E.bind(O.Z,N.Ctrl,r),E.bind(O.Z,N.CtrlShift,l));Z.setDefault(u(function(a){var b;b=null===a.which||void 0===a.which?String.fromCharCode(a.keyCode):0!==a.which&&0!==a.charCode?String.fromCharCode(a.which):null;return!b||a.altKey||a.ctrlKey||a.metaKey?!1:(fa.insertText(b),!0)}));Z.bind(O.Enter,N.None,u(fa.enqueueParagraphSplittingOps))};this.endEditing=function(){ka.unsubscribe(gui.InputMethodEditor.signalCompositionStart,
+fa.removeCurrentSelection);ka.unsubscribe(gui.InputMethodEditor.signalCompositionEnd,K);M.unsubscribe("cut",p);M.unsubscribe("beforecut",m);M.unsubscribe("paste",f);M.unsubscribe("beforepaste",e);M.setEditing(!1);pa.setModifier(N.None);E.bind(O.Backspace,N.None,function(){return!0},!0);E.unbind(O.Delete,N.None);E.unbind(O.Tab,N.None);ra?(E.unbind(O.Clear,N.None),E.unbind(O.B,N.Meta),E.unbind(O.I,N.Meta),E.unbind(O.U,N.Meta),E.unbind(O.L,N.MetaShift),E.unbind(O.E,N.MetaShift),E.unbind(O.R,N.MetaShift),
+E.unbind(O.J,N.MetaShift),ja&&E.unbind(O.C,N.MetaShift),E.unbind(O.Z,N.Meta),E.unbind(O.Z,N.MetaShift)):(E.unbind(O.B,N.Ctrl),E.unbind(O.I,N.Ctrl),E.unbind(O.U,N.Ctrl),E.unbind(O.L,N.CtrlShift),E.unbind(O.E,N.CtrlShift),E.unbind(O.R,N.CtrlShift),E.unbind(O.J,N.CtrlShift),ja&&E.unbind(O.C,N.CtrlAlt),E.unbind(O.Z,N.Ctrl),E.unbind(O.Z,N.CtrlShift));Z.setDefault(null);Z.unbind(O.Enter,N.None)};this.getInputMemberId=function(){return c};this.getSession=function(){return k};this.getSessionConstraints=function(){return I};
+this.setUndoManager=function(a){V&&V.unsubscribe(gui.UndoManager.signalUndoStackChanged,d);if(V=a)V.setDocument(C),V.setPlaybackFunction(k.enqueue),V.subscribe(gui.UndoManager.signalUndoStackChanged,d)};this.getUndoManager=function(){return V};this.getMetadataController=function(){return va};this.getAnnotationController=function(){return ea};this.getDirectFormattingController=function(){return aa};this.getHyperlinkClickHandler=function(){return pa};this.getHyperlinkController=function(){return ta};
+this.getImageController=function(){return qa};this.getSelectionController=function(){return W};this.getTextController=function(){return fa};this.getEventManager=function(){return M};this.getKeyboardHandlers=function(){return{keydown:E,keypress:Z}};this.destroy=function(a){var b=[ma.destroy,na.destroy,aa.destroy,ka.destroy,M.destroy,pa.destroy,ta.destroy,va.destroy,W.destroy,fa.destroy,Q];sa&&b.unshift(sa.destroy);runtime.clearTimeout(S);core.Async.destroyAll(b,a)};ma=core.Task.createRedrawTask(D);
+na=core.Task.createRedrawTask(function(){var a=C.getCursor(c);if(a&&a.getSelectionType()===ops.OdtCursor.RegionSelection&&(a=T.getImageElements(a.getSelectedRange())[0])){la.select(a.parentNode);return}la.clearSelection()});E.bind(O.Left,N.None,u(W.moveCursorToLeft));E.bind(O.Right,N.None,u(W.moveCursorToRight));E.bind(O.Up,N.None,u(W.moveCursorUp));E.bind(O.Down,N.None,u(W.moveCursorDown));E.bind(O.Left,N.Shift,u(W.extendSelectionToLeft));E.bind(O.Right,N.Shift,u(W.extendSelectionToRight));E.bind(O.Up,
+N.Shift,u(W.extendSelectionUp));E.bind(O.Down,N.Shift,u(W.extendSelectionDown));E.bind(O.Home,N.None,u(W.moveCursorToLineStart));E.bind(O.End,N.None,u(W.moveCursorToLineEnd));E.bind(O.Home,N.Ctrl,u(W.moveCursorToDocumentStart));E.bind(O.End,N.Ctrl,u(W.moveCursorToDocumentEnd));E.bind(O.Home,N.Shift,u(W.extendSelectionToLineStart));E.bind(O.End,N.Shift,u(W.extendSelectionToLineEnd));E.bind(O.Up,N.CtrlShift,u(W.extendSelectionToParagraphStart));E.bind(O.Down,N.CtrlShift,u(W.extendSelectionToParagraphEnd));
+E.bind(O.Home,N.CtrlShift,u(W.extendSelectionToDocumentStart));E.bind(O.End,N.CtrlShift,u(W.extendSelectionToDocumentEnd));ra?(E.bind(O.Left,N.Alt,u(W.moveCursorBeforeWord)),E.bind(O.Right,N.Alt,u(W.moveCursorPastWord)),E.bind(O.Left,N.Meta,u(W.moveCursorToLineStart)),E.bind(O.Right,N.Meta,u(W.moveCursorToLineEnd)),E.bind(O.Home,N.Meta,u(W.moveCursorToDocumentStart)),E.bind(O.End,N.Meta,u(W.moveCursorToDocumentEnd)),E.bind(O.Left,N.AltShift,u(W.extendSelectionBeforeWord)),E.bind(O.Right,N.AltShift,
+u(W.extendSelectionPastWord)),E.bind(O.Left,N.MetaShift,u(W.extendSelectionToLineStart)),E.bind(O.Right,N.MetaShift,u(W.extendSelectionToLineEnd)),E.bind(O.Up,N.AltShift,u(W.extendSelectionToParagraphStart)),E.bind(O.Down,N.AltShift,u(W.extendSelectionToParagraphEnd)),E.bind(O.Up,N.MetaShift,u(W.extendSelectionToDocumentStart)),E.bind(O.Down,N.MetaShift,u(W.extendSelectionToDocumentEnd)),E.bind(O.A,N.Meta,u(W.extendSelectionToEntireDocument))):(E.bind(O.Left,N.Ctrl,u(W.moveCursorBeforeWord)),E.bind(O.Right,
+N.Ctrl,u(W.moveCursorPastWord)),E.bind(O.Left,N.CtrlShift,u(W.extendSelectionBeforeWord)),E.bind(O.Right,N.CtrlShift,u(W.extendSelectionPastWord)),E.bind(O.A,N.Ctrl,u(W.extendSelectionToEntireDocument)));ua&&(sa=new gui.IOSSafariSupport(M));M.subscribe("keydown",E.handleEvent);M.subscribe("keypress",Z.handleEvent);M.subscribe("keyup",da.handleEvent);M.subscribe("copy",q);M.subscribe("mousedown",z);M.subscribe("mousemove",ma.trigger);M.subscribe("mouseup",A);M.subscribe("contextmenu",G);M.subscribe("dragstart",
+L);M.subscribe("dragend",H);M.subscribe("click",pa.handleClick);M.subscribe("longpress",w);M.subscribe("drag",B);M.subscribe("dragstop",y);C.subscribe(ops.OdtDocument.signalOperationEnd,na.trigger);C.subscribe(ops.Document.signalCursorAdded,ka.registerCursor);C.subscribe(ops.Document.signalCursorRemoved,ka.removeCursor);C.subscribe(ops.OdtDocument.signalOperationEnd,a)}})();gui.CaretManager=function(h,k){function c(b){return n.hasOwnProperty(b)?n[b]:null}function b(){return Object.keys(n).map(function(b){return n[b]})}function g(b){var c=n[b];c&&(delete n[b],b===h.getInputMemberId()?(m.unsubscribe(ops.OdtDocument.signalProcessingBatchEnd,c.ensureVisible),m.unsubscribe(ops.Document.signalCursorMoved,c.refreshCursorBlinking),q.unsubscribe("compositionupdate",c.handleUpdate),q.unsubscribe("compositionend",c.handleUpdate),q.unsubscribe("focus",c.setFocus),q.unsubscribe("blur",
+c.removeFocus),p.removeEventListener("focus",c.show,!1),p.removeEventListener("blur",c.hide,!1)):m.unsubscribe(ops.OdtDocument.signalProcessingBatchEnd,c.handleUpdate),c.destroy(function(){}))}var n={},p=runtime.getWindow(),m=h.getSession().getOdtDocument(),q=h.getEventManager();this.registerCursor=function(b,c,a){var d=b.getMemberId();b=new gui.Caret(b,k,c,a);n[d]=b;d===h.getInputMemberId()?(runtime.log("Starting to track input on new cursor of "+d),m.subscribe(ops.OdtDocument.signalProcessingBatchEnd,
+b.ensureVisible),m.subscribe(ops.Document.signalCursorMoved,b.refreshCursorBlinking),q.subscribe("compositionupdate",b.handleUpdate),q.subscribe("compositionend",b.handleUpdate),q.subscribe("focus",b.setFocus),q.subscribe("blur",b.removeFocus),p.addEventListener("focus",b.show,!1),p.addEventListener("blur",b.hide,!1),b.setOverlayElement(q.getEventTrap())):m.subscribe(ops.OdtDocument.signalProcessingBatchEnd,b.handleUpdate);return b};this.getCaret=c;this.getCarets=b;this.destroy=function(c){var e=
+b().map(function(a){return a.destroy});h.getSelectionController().setCaretXPositionLocator(null);m.unsubscribe(ops.Document.signalCursorRemoved,g);n={};core.Async.destroyAll(e,c)};h.getSelectionController().setCaretXPositionLocator(function(){var b=c(h.getInputMemberId()),e;b&&(e=b.getBoundingClientRect());return e?e.right:void 0});m.subscribe(ops.Document.signalCursorRemoved,g)};gui.EditInfoHandle=function(h){var k=[],c,b=h.ownerDocument,g=b.documentElement.namespaceURI;this.setEdits=function(h){k=h;var p,m,q,f;core.DomUtils.removeAllChildNodes(c);for(h=0;h<k.length;h+=1)p=b.createElementNS(g,"div"),p.className="editInfo",m=b.createElementNS(g,"span"),m.className="editInfoColor",m.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",k[h].memberid),q=b.createElementNS(g,"span"),q.className="editInfoAuthor",q.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",
+k[h].memberid),f=b.createElementNS(g,"span"),f.className="editInfoTime",f.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",k[h].memberid),f.appendChild(b.createTextNode(k[h].time.toString())),p.appendChild(m),p.appendChild(q),p.appendChild(f),c.appendChild(p)};this.show=function(){c.style.display="block"};this.hide=function(){c.style.display="none"};this.destroy=function(b){h.removeChild(c);b()};c=b.createElementNS(g,"div");c.setAttribute("class","editInfoHandle");c.style.display="none";
+h.appendChild(c)};ops.EditInfo=function(h,k){function c(){var b=[],c;for(c in g)g.hasOwnProperty(c)&&b.push({memberid:c,time:g[c].time});b.sort(function(b,c){return b.time-c.time});return b}var b,g={};this.getNode=function(){return b};this.getOdtDocument=function(){return k};this.getEdits=function(){return g};this.getSortedEdits=function(){return c()};this.addEdit=function(b,c){g[b]={time:c}};this.clearEdits=function(){g={}};this.destroy=function(c){h.parentNode&&h.removeChild(b);c()};b=k.getDOMDocument().createElementNS("urn:webodf:names:editinfo",
+"editinfo");h.insertBefore(b,h.firstChild)};gui.EditInfoMarker=function(h,k){function c(b,a){return runtime.setTimeout(function(){p.style.opacity=b},a)}var b=this,g,n,p,m,q,f;this.addEdit=function(b,a){var d=Date.now()-a;h.addEdit(b,a);n.setEdits(h.getSortedEdits());p.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",b);runtime.clearTimeout(q);runtime.clearTimeout(f);1E4>d?(m=c(1,0),q=c(.5,1E4-d),f=c(.2,2E4-d)):1E4<=d&&2E4>d?(m=c(.5,0),f=c(.2,2E4-d)):m=c(.2,0)};this.getEdits=function(){return h.getEdits()};this.clearEdits=function(){h.clearEdits();
+n.setEdits([]);p.hasAttributeNS("urn:webodf:names:editinfo","editinfo:memberid")&&p.removeAttributeNS("urn:webodf:names:editinfo","editinfo:memberid")};this.getEditInfo=function(){return h};this.show=function(){p.style.display="block"};this.hide=function(){b.hideHandle();p.style.display="none"};this.showHandle=function(){n.show()};this.hideHandle=function(){n.hide()};this.destroy=function(b){runtime.clearTimeout(m);runtime.clearTimeout(q);runtime.clearTimeout(f);g.removeChild(p);n.destroy(function(a){a?
+b(a):h.destroy(b)})};(function(){var c=h.getOdtDocument().getDOMDocument();p=c.createElementNS(c.documentElement.namespaceURI,"div");p.setAttribute("class","editInfoMarker");p.onmouseover=function(){b.showHandle()};p.onmouseout=function(){b.hideHandle()};g=h.getNode();g.appendChild(p);n=new gui.EditInfoHandle(g);k||b.hide()})()};gui.HyperlinkTooltipView=function(h,k){var c=core.DomUtils,b=odf.OdfUtils,g=runtime.getWindow(),n,p,m;runtime.assert(null!==g,"Expected to be run in an environment which has a global window, like a browser.");this.showTooltip=function(q){var f=q.target||q.srcElement,e=h.getSizer(),a=h.getZoomLevel(),d;a:{for(;f;){if(b.isHyperlink(f))break a;if(b.isParagraph(f)||b.isInlineRoot(f))break;f=f.parentNode}f=null}if(f){c.containsNode(e,m)||e.appendChild(m);d=p;var r;switch(k()){case gui.KeyboardHandler.Modifier.Ctrl:r=
+runtime.tr("Ctrl-click to follow link");break;case gui.KeyboardHandler.Modifier.Meta:r=runtime.tr("\u2318-click to follow link");break;default:r=""}d.textContent=r;n.textContent=b.getHyperlinkTarget(f);m.style.display="block";d=g.innerWidth-m.offsetWidth-15;f=q.clientX>d?d:q.clientX+15;d=g.innerHeight-m.offsetHeight-10;q=q.clientY>d?d:q.clientY+10;e=e.getBoundingClientRect();f=(f-e.left)/a;q=(q-e.top)/a;m.style.left=f+"px";m.style.top=q+"px"}};this.hideTooltip=function(){m.style.display="none"};this.destroy=
+function(b){m.parentNode&&m.parentNode.removeChild(m);b()};(function(){var b=h.getElement().ownerDocument;n=b.createElement("span");p=b.createElement("span");n.className="webodf-hyperlinkTooltipLink";p.className="webodf-hyperlinkTooltipText";m=b.createElement("div");m.className="webodf-hyperlinkTooltip";m.appendChild(n);m.appendChild(p);h.getElement().appendChild(m)})()};gui.OdfFieldView=function(h){function k(){var b=odf.OdfSchema.getFields().map(function(b){return b.replace(":","|")}),c=b.join(",\n")+"\n{ background-color: #D0D0D0; }\n",b=b.map(function(b){return b+":empty::after"}).join(",\n")+"\n{ content:' '; white-space: pre; }\n";return c+"\n"+b}var c,b=h.getElement().ownerDocument;this.showFieldHighlight=function(){c.appendChild(b.createTextNode(k()))};this.hideFieldHighlight=function(){for(var b=c.sheet,h=b.cssRules;h.length;)b.deleteRule(h.length-1)};this.destroy=
+function(b){c.parentNode&&c.parentNode.removeChild(c);b()};c=function(){var c=b.getElementsByTagName("head").item(0),h=b.createElement("style"),k="";h.type="text/css";h.media="screen, print, handheld, projection";odf.Namespaces.forEachPrefix(function(b,c){k+="@namespace "+b+" url("+c+");\n"});h.appendChild(b.createTextNode(k));c.appendChild(h);return h}()};gui.ShadowCursor=function(h){var k=h.getDOMDocument().createRange(),c=!0;this.removeFromDocument=function(){};this.getMemberId=function(){return gui.ShadowCursor.ShadowCursorMemberId};this.getSelectedRange=function(){return k};this.setSelectedRange=function(b,g){k=b;c=!1!==g};this.hasForwardSelection=function(){return c};this.getDocument=function(){return h};this.getSelectionType=function(){return ops.OdtCursor.RangeSelection};k.setStart(h.getRootNode(),0)};gui.ShadowCursor.ShadowCursorMemberId="";gui.SelectionView=function(h){};gui.SelectionView.prototype.rerender=function(){};gui.SelectionView.prototype.show=function(){};gui.SelectionView.prototype.hide=function(){};gui.SelectionView.prototype.destroy=function(h){};gui.SelectionViewManager=function(h){function k(){return Object.keys(c).map(function(b){return c[b]})}var c={};this.getSelectionView=function(b){return c.hasOwnProperty(b)?c[b]:null};this.getSelectionViews=k;this.removeSelectionView=function(b){c.hasOwnProperty(b)&&(c[b].destroy(function(){}),delete c[b])};this.hideSelectionView=function(b){c.hasOwnProperty(b)&&c[b].hide()};this.showSelectionView=function(b){c.hasOwnProperty(b)&&c[b].show()};this.rerenderSelectionViews=function(){Object.keys(c).forEach(function(b){c[b].rerender()})};
+this.registerCursor=function(b,g){var k=b.getMemberId(),p=new h(b);g?p.show():p.hide();return c[k]=p};this.destroy=function(b){function c(k,m){m?b(m):k<h.length?h[k].destroy(function(b){c(k+1,b)}):b()}var h=k();c(0,void 0)}};gui.SessionViewOptions=function(){this.caretBlinksOnRangeSelect=this.caretAvatarsInitiallyVisible=this.editInfoMarkersInitiallyVisible=!0};
+(function(){function h(h,c){return void 0!==h?Boolean(h):c}gui.SessionView=function(k,c,b,g,n,p){function m(a){a.memberId===c&&L.getViewport().scrollIntoView(a.annotation.getBoundingClientRect())}function q(){var a=document.getElementsByTagName("head").item(0),b=document.createElement("style");b.type="text/css";b.media="screen, print, handheld, projection";a.appendChild(b);return b}function f(a,b,d){function e(b,d,c){d=b+'[editinfo|memberid="'+a+'"]'+c+d;a:{var f=t.firstChild;for(b=b+'[editinfo|memberid="'+
+a+'"]'+c+"{";f;){if(f.nodeType===Node.TEXT_NODE&&0===f.data.indexOf(b)){b=f;break a}f=f.nextSibling}b=null}b?b.data=d:t.appendChild(document.createTextNode(d))}e("div.editInfoMarker","{ background-color: "+d+"; }","");e("span.editInfoColor","{ background-color: "+d+"; }","");e("span.editInfoAuthor",'{ content: "'+b+'"; }',":before");e("dc|creator","{ background-color: "+d+"; }","");e(".webodf-selectionOverlay","{ fill: "+d+"; stroke: "+d+";}","");a===c&&(e(".webodf-touchEnabled .webodf-selectionOverlay",
+"{ display: block; }"," > .webodf-draggable"),a=gui.ShadowCursor.ShadowCursorMemberId,e(".webodf-selectionOverlay","{ fill: "+d+"; stroke: "+d+";}",""),e(".webodf-touchEnabled .webodf-selectionOverlay","{ display: block; }"," > .webodf-draggable"))}function e(a){var b,d;for(d in w)w.hasOwnProperty(d)&&(b=w[d],a?b.show():b.hide())}function a(a){n.getCarets().forEach(function(b){a?b.showHandle():b.hideHandle()})}function d(a){var b=a.getMemberId();a=a.getProperties();f(b,a.fullName,a.color)}function r(a){var d=
+a.getMemberId(),c=b.getOdtDocument().getMember(d).getProperties();n.registerCursor(a,A,K);p.registerCursor(a,!0);if(a=n.getCaret(d))a.setAvatarImageUrl(c.imageUrl),a.setColor(c.color);runtime.log("+++ View here +++ eagerly created an Caret for '"+d+"'! +++")}function l(a){a=a.getMemberId();var b=p.getSelectionView(c),d=p.getSelectionView(gui.ShadowCursor.ShadowCursorMemberId),e=n.getCaret(c);a===c?(d.hide(),b&&b.show(),e&&e.show()):a===gui.ShadowCursor.ShadowCursorMemberId&&(d.show(),b&&b.hide(),
+e&&e.hide())}function B(a){p.removeSelectionView(a)}function y(a){var d=a.paragraphElement,c=a.memberId;a=a.timeStamp;var e,f="",g=d.getElementsByTagNameNS("urn:webodf:names:editinfo","editinfo").item(0);g?(f=g.getAttributeNS("urn:webodf:names:editinfo","id"),e=w[f]):(f=Math.random().toString(),e=new ops.EditInfo(d,b.getOdtDocument()),e=new gui.EditInfoMarker(e,G),g=d.getElementsByTagNameNS("urn:webodf:names:editinfo","editinfo").item(0),g.setAttributeNS("urn:webodf:names:editinfo","id",f),w[f]=e);
+e.addEdit(c,new Date(a));H.trigger()}function D(){var a;x.hasChildNodes()&&core.DomUtils.removeAllChildNodes(x);!0===g.getState(gui.CommonConstraints.EDIT.ANNOTATIONS.ONLY_DELETE_OWN)&&(a=b.getOdtDocument().getMember(c))&&(a=a.getProperties().fullName,x.appendChild(document.createTextNode(".annotationWrapper:not([creator = '"+a+"']) .annotationRemoveButton { display: none; }")))}function z(a){var b=Object.keys(w).map(function(a){return w[a]});F.unsubscribe(ops.Document.signalMemberAdded,d);F.unsubscribe(ops.Document.signalMemberUpdated,
+d);F.unsubscribe(ops.Document.signalCursorAdded,r);F.unsubscribe(ops.Document.signalCursorRemoved,B);F.unsubscribe(ops.OdtDocument.signalParagraphChanged,y);F.unsubscribe(ops.Document.signalCursorMoved,l);F.unsubscribe(ops.OdtDocument.signalParagraphChanged,p.rerenderSelectionViews);F.unsubscribe(ops.OdtDocument.signalTableAdded,p.rerenderSelectionViews);F.unsubscribe(ops.OdtDocument.signalParagraphStyleModified,p.rerenderSelectionViews);g.unsubscribe(gui.CommonConstraints.EDIT.ANNOTATIONS.ONLY_DELETE_OWN,
+D);F.unsubscribe(ops.Document.signalMemberAdded,D);F.unsubscribe(ops.Document.signalMemberUpdated,D);t.parentNode.removeChild(t);x.parentNode.removeChild(x);(function R(d,c){c?a(c):d<b.length?b[d].destroy(function(a){R(d+1,a)}):a()})(0,void 0)}var t,x,w={},F,L,H,G=h(k.editInfoMarkersInitiallyVisible,!0),A=h(k.caretAvatarsInitiallyVisible,!0),K=h(k.caretBlinksOnRangeSelect,!0);this.showEditInfoMarkers=function(){G||(G=!0,e(G))};this.hideEditInfoMarkers=function(){G&&(G=!1,e(G))};this.showCaretAvatars=
+function(){A||(A=!0,a(A))};this.hideCaretAvatars=function(){A&&(A=!1,a(A))};this.getSession=function(){return b};this.getCaret=function(a){return n.getCaret(a)};this.destroy=function(a){var b=[H.destroy,z];F.unsubscribe(ops.OdtDocument.signalAnnotationAdded,m);core.Async.destroyAll(b,a)};F=b.getOdtDocument();L=F.getOdfCanvas();F.subscribe(ops.OdtDocument.signalAnnotationAdded,m);F.subscribe(ops.Document.signalMemberAdded,d);F.subscribe(ops.Document.signalMemberUpdated,d);F.subscribe(ops.Document.signalCursorAdded,
+r);F.subscribe(ops.Document.signalCursorRemoved,B);F.subscribe(ops.OdtDocument.signalParagraphChanged,y);F.subscribe(ops.Document.signalCursorMoved,l);F.subscribe(ops.OdtDocument.signalParagraphChanged,p.rerenderSelectionViews);F.subscribe(ops.OdtDocument.signalTableAdded,p.rerenderSelectionViews);F.subscribe(ops.OdtDocument.signalParagraphStyleModified,p.rerenderSelectionViews);g.subscribe(gui.CommonConstraints.EDIT.ANNOTATIONS.ONLY_DELETE_OWN,D);F.subscribe(ops.Document.signalMemberAdded,D);F.subscribe(ops.Document.signalMemberUpdated,
+D);t=q();t.appendChild(document.createTextNode("@namespace editinfo url(urn:webodf:names:editinfo);"));t.appendChild(document.createTextNode("@namespace dc url(http://purl.org/dc/elements/1.1/);"));x=q();D();H=core.Task.createRedrawTask(function(){var a=L.getAnnotationViewManager();a&&(a.rehighlightAnnotations(),F.fixCursorPositions())})}})();gui.SvgSelectionView=function(h){function k(){var a=d.getRootNode();r!==a&&(r=a,l=d.getCanvas().getSizer(),l.appendChild(y),y.setAttribute("class","webodf-selectionOverlay"),z.setAttribute("class","webodf-draggable"),t.setAttribute("class","webodf-draggable"),z.setAttribute("end","left"),t.setAttribute("end","right"),z.setAttribute("r",8),t.setAttribute("r",8),y.appendChild(D),y.appendChild(z),y.appendChild(t))}function c(a){a=a.getBoundingClientRect();return Boolean(a&&0!==a.height)}function b(a){var b=
+x.getTextElements(a,!0,!1),d=a.cloneRange(),e=a.cloneRange();a=a.cloneRange();if(!b.length)return null;var f;a:{f=0;var g=b[f],h=d.startContainer===g?d.startOffset:0,l=h;d.setStart(g,h);for(d.setEnd(g,l);!c(d);){if(g.nodeType===Node.ELEMENT_NODE&&l<g.childNodes.length)l=g.childNodes.length;else if(g.nodeType===Node.TEXT_NODE&&l<g.length)l+=1;else if(b[f])g=b[f],f+=1,h=l=0;else{f=!1;break a}d.setStart(g,h);d.setEnd(g,l)}f=!0}if(!f)return null;a:{f=b.length-1;g=b[f];l=h=e.endContainer===g?e.endOffset:
+g.nodeType===Node.TEXT_NODE?g.length:g.childNodes.length;e.setStart(g,h);for(e.setEnd(g,l);!c(e);){if(g.nodeType===Node.ELEMENT_NODE&&0<h)h=0;else if(g.nodeType===Node.TEXT_NODE&&0<h)--h;else if(b[f])g=b[f],--f,h=l=g.length||g.childNodes.length;else{b=!1;break a}e.setStart(g,h);e.setEnd(g,l)}b=!0}if(!b)return null;a.setStart(d.startContainer,d.startOffset);a.setEnd(e.endContainer,e.endOffset);return{firstRange:d,lastRange:e,fillerRange:a}}function g(a,b){var d={};d.top=Math.min(a.top,b.top);d.left=
+Math.min(a.left,b.left);d.right=Math.max(a.right,b.right);d.bottom=Math.max(a.bottom,b.bottom);d.width=d.right-d.left;d.height=d.bottom-d.top;return d}function n(a,b){b&&0<b.width&&0<b.height&&(a=a?g(a,b):b);return a}function p(a){function b(a){H.setUnfilteredPosition(a,0);return y.acceptNode(a)===G&&t.acceptPosition(H)===G?G:A}function c(a){var d=null;b(a)===G&&(d=w.getBoundingClientRect(a));return d}var e=a.commonAncestorContainer,f=a.startContainer,g=a.endContainer,h=a.startOffset,l=a.endOffset,
+k,r,m=null,p,q=B.createRange(),t,y=new odf.OdfNodeFilter,z;if(f===e||g===e)return q=a.cloneRange(),m=q.getBoundingClientRect(),q.detach(),m;for(a=f;a.parentNode!==e;)a=a.parentNode;for(r=g;r.parentNode!==e;)r=r.parentNode;t=d.createRootFilter(f);for(e=a.nextSibling;e&&e!==r;)p=c(e),m=n(m,p),e=e.nextSibling;if(x.isParagraph(a))m=n(m,w.getBoundingClientRect(a));else if(a.nodeType===Node.TEXT_NODE)e=a,q.setStart(e,h),q.setEnd(e,e===r?l:e.length),p=q.getBoundingClientRect(),m=n(m,p);else for(z=B.createTreeWalker(a,
+NodeFilter.SHOW_TEXT,b,!1),e=z.currentNode=f;e&&e!==g;)q.setStart(e,h),q.setEnd(e,e.length),p=q.getBoundingClientRect(),m=n(m,p),k=e,h=0,e=z.nextNode();k||(k=f);if(x.isParagraph(r))m=n(m,w.getBoundingClientRect(r));else if(r.nodeType===Node.TEXT_NODE)e=r,q.setStart(e,e===a?h:0),q.setEnd(e,l),p=q.getBoundingClientRect(),m=n(m,p);else for(z=B.createTreeWalker(r,NodeFilter.SHOW_TEXT,b,!1),e=z.currentNode=g;e&&e!==k;)if(q.setStart(e,0),q.setEnd(e,l),p=q.getBoundingClientRect(),m=n(m,p),e=z.previousNode())l=
+e.length;return m}function m(a,b){var d=a.getBoundingClientRect(),c={width:0};c.top=d.top;c.bottom=d.bottom;c.height=d.height;c.left=c.right=b?d.right:d.left;return c}function q(){var a=h.getSelectedRange(),d;if(d=L&&h.getSelectionType()===ops.OdtCursor.RangeSelection&&!a.collapsed){k();var c=w.getBoundingClientRect(l),e=F.getZoomLevel(),a=b(a),f,r,n,q,B,A;if(a){d=a.firstRange;f=a.lastRange;r=a.fillerRange;n=w.translateRect(m(d,!1),c,e);B=w.translateRect(m(f,!0),c,e);q=(q=p(r))?w.translateRect(q,
+c,e):g(n,B);A=q.left;q=n.left+Math.max(0,q.width-(n.left-q.left));c=Math.min(n.top,B.top);e=B.top+B.height;A=[{x:n.left,y:c+n.height},{x:n.left,y:c},{x:q,y:c},{x:q,y:e-B.height},{x:B.right,y:e-B.height},{x:B.right,y:e},{x:A,y:e},{x:A,y:c+n.height},{x:n.left,y:c+n.height}];q="";var x;for(x=0;x<A.length;x+=1)q+=A[x].x+","+A[x].y+" ";D.setAttribute("points",q);z.setAttribute("cx",n.left);z.setAttribute("cy",c+n.height/2);t.setAttribute("cx",B.right);t.setAttribute("cy",e-B.height/2);d.detach();f.detach();
+r.detach()}d=Boolean(a)}y.style.display=d?"block":"none"}function f(a){L&&a===h&&K.trigger()}function e(a){a=8/a;z.setAttribute("r",a);t.setAttribute("r",a)}function a(a){l.removeChild(y);l.classList.remove("webodf-virtualSelections");h.getDocument().unsubscribe(ops.Document.signalCursorMoved,f);F.unsubscribe(gui.ZoomHelper.signalZoomChanged,e);a()}var d=h.getDocument(),r,l,B=d.getDOMDocument(),y=B.createElementNS("http://www.w3.org/2000/svg","svg"),D=B.createElementNS("http://www.w3.org/2000/svg",
+"polygon"),z=B.createElementNS("http://www.w3.org/2000/svg","circle"),t=B.createElementNS("http://www.w3.org/2000/svg","circle"),x=odf.OdfUtils,w=core.DomUtils,F=d.getCanvas().getZoomHelper(),L=!0,H=h.getDocument().createPositionIterator(d.getRootNode()),G=NodeFilter.FILTER_ACCEPT,A=NodeFilter.FILTER_REJECT,K;this.rerender=function(){L&&K.trigger()};this.show=function(){L=!0;K.trigger()};this.hide=function(){L=!1;K.trigger()};this.destroy=function(b){core.Async.destroyAll([K.destroy,a],b)};(function(){var a=
+h.getMemberId();K=core.Task.createRedrawTask(q);k();y.setAttributeNS("urn:webodf:names:editinfo","editinfo:memberid",a);l.classList.add("webodf-virtualSelections");h.getDocument().subscribe(ops.Document.signalCursorMoved,f);F.subscribe(gui.ZoomHelper.signalZoomChanged,e);e(F.getZoomLevel())})()};gui.UndoStateRules=function(){function h(b,c){var h=b.length;this.previous=function(){for(--h;0<=h;--h)if(c(b[h]))return b[h];return null}}function k(b){b=b.spec();var c;b.hasOwnProperty("position")&&(c=b.position);return c}function c(b){return b.isEdit}function b(b,c,h){if(!h)return h=k(b)-k(c),0===h||1===Math.abs(h);b=k(b);c=k(c);h=k(h);return b-c===c-h}this.isEditOperation=c;this.isPartOfOperationSet=function(g,k){var p=void 0!==g.group,m;if(!g.isEdit||0===k.length)return!0;m=k[k.length-1];if(p&&
+g.group===m.group)return!0;a:switch(g.spec().optype){case "RemoveText":case "InsertText":m=!0;break a;default:m=!1}if(m&&k.some(c)){if(p){var q;p=g.spec().optype;m=new h(k,c);var f=m.previous(),e=null,a,d;runtime.assert(Boolean(f),"No edit operations found in state");d=f.group;runtime.assert(void 0!==d,"Operation has no group");for(a=1;f&&f.group===d;){if(p===f.spec().optype){q=f;break}f=m.previous()}if(q){for(f=m.previous();f;){if(f.group!==d){if(2===a)break;d=f.group;a+=1}if(p===f.spec().optype){e=
+f;break}f=m.previous()}q=b(g,q,e)}else q=!1;return q}q=g.spec().optype;p=new h(k,c);m=p.previous();runtime.assert(Boolean(m),"No edit operations found in state");q=q===m.spec().optype?b(g,m,p.previous()):!1;return q}return!1}};(function(){function h(b,c){this.mainId=void 0!==b?b:-1;this.subId=void 0!==c?c:-1}function k(b,g,k){function p(c,a){return c+(b.isEditOperation(a)?1:0)}var m,q,f;this.addOperation=function(c){b.isEditOperation(c)&&(f+=1);q.push(c)};this.isNextStateId=function(b){return b.mainId===m&&b.subId===f};this.getNextStateId=function(){return new h(m,f)};this.getOperations=function(){return q};m=c+=1;q=g||[];f=g&&k?g.reduce(p,0):0}var c=0;gui.TrivialUndoManager=function(b){function c(){return!0!==x.isNextStateId(t)}
+function n(a){a=a.getOperations();0<a.length&&(G=!0,D(a),G=!1)}function p(){L.emit(gui.UndoManager.signalUndoStackChanged,{undoAvailable:r.hasUndoStates(),redoAvailable:r.hasRedoStates()})}function m(a){var b=c();a!==b&&L.emit(gui.UndoManager.signalDocumentModifiedChanged,b)}function q(){x!==y&&x!==w[w.length-1]&&w.push(x)}function f(a){var b=a.previousSibling||a.nextSibling;a.parentNode.removeChild(a);l.normalizeTextNodes(b)}function e(a){return Object.keys(a).map(function(b){return a[b]})}function a(a){function b(a){var e=
+a.spec();if(f[e.memberid])switch(e.optype){case "AddCursor":d[e.memberid]||(d[e.memberid]=a,delete f[e.memberid],--g);break;case "MoveCursor":c[e.memberid]||(c[e.memberid]=a)}}var d={},c={},f={},g,h;h=a.pop();z.getMemberIds().forEach(function(a){f[a]=!0});for(g=Object.keys(f).length;h&&0<g;)h=h.getOperations(),h.reverse(),h.forEach(b),h=a.pop();return new k(H,e(d).concat(e(c)))}function d(){var b=c(),d=B=z.cloneDocumentElement();l.getElementsByTagNameNS(d,"urn:webodf:names:cursor","cursor").forEach(f);
+l.getElementsByTagNameNS(d,"urn:webodf:names:cursor","anchor").forEach(f);q();x=y=a([y].concat(w));w.length=0;F.length=0;b||(t=x.getNextStateId());p();m(b)}var r=this,l=core.DomUtils,B,y,D,z,t,x,w=[],F=[],L=new core.EventNotifier([gui.UndoManager.signalUndoStackChanged,gui.UndoManager.signalUndoStateCreated,gui.UndoManager.signalUndoStateModified,gui.UndoManager.signalDocumentModifiedChanged,gui.TrivialUndoManager.signalDocumentRootReplaced]),H=b||new gui.UndoStateRules,G=!1;this.subscribe=function(a,
+b){L.subscribe(a,b)};this.unsubscribe=function(a,b){L.unsubscribe(a,b)};this.isDocumentModified=c;this.setDocumentModified=function(a){c()!==a&&(t=a?new h:x.getNextStateId(),L.emit(gui.UndoManager.signalDocumentModifiedChanged,a))};this.hasUndoStates=function(){return 0<w.length};this.hasRedoStates=function(){return 0<F.length};this.setDocument=function(a){z=a};this.purgeInitialState=function(){var a=c();w.length=0;F.length=0;x=y=new k(H);t=x.getNextStateId();B=null;p();m(a)};this.setInitialState=
+d;this.initialize=function(){B||d()};this.setPlaybackFunction=function(a){D=a};this.onOperationExecuted=function(a){if(!G){var b=c();H.isEditOperation(a)&&(x===y||0<F.length)||!H.isPartOfOperationSet(a,x.getOperations())?(F.length=0,q(),x=new k(H,[a],!0),w.push(x),L.emit(gui.UndoManager.signalUndoStateCreated,{operations:x.getOperations()}),p()):(x.addOperation(a),L.emit(gui.UndoManager.signalUndoStateModified,{operations:x.getOperations()}));m(b)}};this.moveForward=function(a){for(var b=0,d=c(),
+e;a&&F.length;)e=F.pop(),w.push(e),n(e),--a,b+=1;b&&(x=w[w.length-1],p(),m(d));return b};this.moveBackward=function(a){for(var b=0,d=c();a&&w.length;)F.push(w.pop()),--a,b+=1;b&&(z.getMemberIds().forEach(function(a){z.removeCursor(a)}),z.setDocumentElement(B.cloneNode(!0)),L.emit(gui.TrivialUndoManager.signalDocumentRootReplaced,{}),n(y),w.forEach(n),x=w[w.length-1]||y,p(),m(d));return b};x=y=new k(H);t=x.getNextStateId()};gui.TrivialUndoManager.signalDocumentRootReplaced="documentRootReplaced"})();odf.GraphicProperties=function(h,k,c){var b=this,g=odf.Namespaces.stylens,n=odf.Namespaces.svgns;this.verticalPos=function(){return b.data.value("verticalPos")};this.verticalRel=function(){return b.data.value("verticalRel")};this.horizontalPos=function(){return b.data.value("horizontalPos")};this.horizontalRel=function(){return b.data.value("horizontalRel")};this.strokeWidth=function(){return b.data.value("strokeWidth")};b.data=new odf.LazyStyleProperties(void 0===c?void 0:c.data,{verticalPos:function(){var b=
+h.getAttributeNS(g,"vertical-pos");return""===b?void 0:b},verticalRel:function(){var b=h.getAttributeNS(g,"vertical-rel");return""===b?void 0:b},horizontalPos:function(){var b=h.getAttributeNS(g,"horizontal-pos");return""===b?void 0:b},horizontalRel:function(){var b=h.getAttributeNS(g,"horizontal-rel");return""===b?void 0:b},strokeWidth:function(){var b=h.getAttributeNS(n,"stroke-width");return k.parseLength(b)}})};
+odf.ComputedGraphicProperties=function(){var h;this.setGraphicProperties=function(k){h=k};this.verticalPos=function(){return h&&h.verticalPos()||"from-top"};this.verticalRel=function(){return h&&h.verticalRel()||"page"};this.horizontalPos=function(){return h&&h.horizontalPos()||"from-left"};this.horizontalRel=function(){return h&&h.horizontalRel()||"page"}};odf.PageLayoutProperties=function(h,k,c){var b=this,g=odf.Namespaces.fons;this.pageHeight=function(){return b.data.value("pageHeight")||1123};this.pageWidth=function(){return b.data.value("pageWidth")||794};b.data=new odf.LazyStyleProperties(void 0===c?void 0:c.data,{pageHeight:function(){var b;h&&(b=h.getAttributeNS(g,"page-height"),b=k.parseLength(b));return b},pageWidth:function(){var b;h&&(b=h.getAttributeNS(g,"page-width"),b=k.parseLength(b));return b}})};
+odf.PageLayout=function(h,k,c){var b=null;h&&(b=k.getPropertiesElement("page-layout-properties",h));this.pageLayout=new odf.PageLayoutProperties(b,k,c&&c.pageLayout)};odf.PageLayoutCache=function(){};odf.PageLayoutCache.prototype.getPageLayout=function(h){};odf.PageLayoutCache.prototype.getDefaultPageLayout=function(){};odf.ParagraphProperties=function(h,k,c){var b=this,g=odf.Namespaces.fons;this.marginTop=function(){return b.data.value("marginTop")};b.data=new odf.LazyStyleProperties(void 0===c?void 0:c.data,{marginTop:function(){var b=h.getAttributeNS(g,"margin-top");return k.parsePositiveLengthOrPercent(b,"marginTop",c&&c.data)}})};
+odf.ComputedParagraphProperties=function(){var h={},k=[];this.setStyleChain=function(c){k=c;h={}};this.marginTop=function(){var c,b;if(h.hasOwnProperty("marginTop"))c=h.marginTop;else{for(b=0;void 0===c&&b<k.length;b+=1)c=k[b].marginTop();h.marginTop=c}return c||0}};odf.TextProperties=function(h,k,c){var b=this,g=odf.Namespaces.fons;this.fontSize=function(){return b.data.value("fontSize")};b.data=new odf.LazyStyleProperties(void 0===c?void 0:c.data,{fontSize:function(){var b=h.getAttributeNS(g,"font-size");return k.parsePositiveLengthOrPercent(b,"fontSize",c&&c.data)}})};
+odf.ComputedTextProperties=function(){var h={},k=[];this.setStyleChain=function(c){k=c;h={}};this.fontSize=function(){var c,b;if(h.hasOwnProperty("fontSize"))c=h.fontSize;else{for(b=0;void 0===c&&b<k.length;b+=1)c=k[b].fontSize();h.fontSize=c}return c||12}};odf.MasterPage=function(h,k){var c;h?(c=h.getAttributeNS(odf.Namespaces.stylens,"page-layout-name"),this.pageLayout=k.getPageLayout(c)):this.pageLayout=k.getDefaultPageLayout()};odf.MasterPageCache=function(){};odf.MasterPageCache.prototype.getMasterPage=function(h){};
+odf.StylePileEntry=function(h,k,c,b){this.masterPage=function(){var b=h.getAttributeNS(odf.Namespaces.stylens,"master-page-name"),k=null;b&&(k=c.getMasterPage(b));return k};(function(c){var n=h.getAttributeNS(odf.Namespaces.stylens,"family"),p=null;if("graphic"===n||"chart"===n)c.graphic=void 0===b?void 0:b.graphic,p=k.getPropertiesElement("graphic-properties",h,p),null!==p&&(c.graphic=new odf.GraphicProperties(p,k,c.graphic));if("paragraph"===n||"table-cell"===n||"graphic"===n||"presentation"===
+n||"chart"===n)c.paragraph=void 0===b?void 0:b.paragraph,p=k.getPropertiesElement("paragraph-properties",h,p),null!==p&&(c.paragraph=new odf.ParagraphProperties(p,k,c.paragraph));if("text"===n||"paragraph"===n||"table-cell"===n||"graphic"===n||"presentation"===n||"chart"===n)c.text=void 0===b?void 0:b.text,p=k.getPropertiesElement("text-properties",h,p),null!==p&&(c.text=new odf.TextProperties(p,k,c.text))})(this)};
+odf.StylePile=function(h,k){function c(c,a){var d,g;c.hasAttributeNS(b,"parent-style-name")&&(g=c.getAttributeNS(b,"parent-style-name"),-1===a.indexOf(g)&&(d=f(g,a)));return new odf.StylePileEntry(c,h,k,d)}var b=odf.Namespaces.stylens,g={},n={},p,m={},q={},f;f=function(b,a){var d=m[b],f;!d&&(f=g[b])&&(a.push(b),d=c(f,a),m[b]=d);return d};this.getStyle=function(b){var a=q[b]||m[b],d,f=[];a||(d=n[b],d||(d=g[b])&&f.push(b),d&&(a=c(d,f)));return a};this.addCommonStyle=function(c){var a;c.hasAttributeNS(b,
+"name")&&(a=c.getAttributeNS(b,"name"),g.hasOwnProperty(a)||(g[a]=c))};this.addAutomaticStyle=function(c){var a;c.hasAttributeNS(b,"name")&&(a=c.getAttributeNS(b,"name"),n.hasOwnProperty(a)||(n[a]=c))};this.setDefaultStyle=function(b){void 0===p&&(p=c(b,[]))};this.getDefaultStyle=function(){return p}};odf.ComputedGraphicStyle=function(){this.text=new odf.ComputedTextProperties;this.paragraph=new odf.ComputedParagraphProperties;this.graphic=new odf.ComputedGraphicProperties};
+odf.ComputedParagraphStyle=function(){this.text=new odf.ComputedTextProperties;this.paragraph=new odf.ComputedParagraphProperties};odf.ComputedTextStyle=function(){this.text=new odf.ComputedTextProperties};
+odf.StyleCache=function(h){function k(a,b,d,c){b=d.getAttributeNS(b,"class-names");var e;if(b)for(b=b.split(" "),e=0;e<b.length;e+=1)if(d=b[e])c.push(a),c.push(d)}function c(a,b){var d=y.getStyleName("paragraph",a);void 0!==d&&(b.push("paragraph"),b.push(d));a.namespaceURI!==l||"h"!==a.localName&&"p"!==a.localName||k("paragraph",l,a,b);return b}function b(a,b,d){var c=[],e,f,g,h;for(e=0;e<a.length;e+=2)g=a[e],h=a[e+1],g=m[g],h=g.getStyle(h),void 0!==h&&(h=h[b],void 0!==h&&h!==f&&(c.push(h),f=h));
+g=m[d];if(h=g.getDefaultStyle())h=h[b],void 0!==h&&h!==f&&c.push(h);return c}function g(a,b){var d=y.getStyleName("text",a),e=a.parentNode;void 0!==d&&(b.push("text"),b.push(d));"span"===a.localName&&a.namespaceURI===l&&k("text",l,a,b);if(!e||e===h)return b;e.namespaceURI!==l||"p"!==e.localName&&"h"!==e.localName?g(e,b):c(e,b);return b}function n(a){a=a.getAttributeNS(B,"family");return m[a]}var p=this,m,q,f,e,a,d,r,l=odf.Namespaces.textns,B=odf.Namespaces.stylens,y=new odf.StyleInfo,D=new odf.StyleParseUtils,
+z,t,x,w,F,L;this.getComputedGraphicStyle=function(a){var d=[];a=y.getStyleName("graphic",a);void 0!==a&&(d.push("graphic"),d.push(a));a=d.join("/");var c=e[a];runtime.assert(0===d.length%2,"Invalid style chain.");void 0===c&&(c=new odf.ComputedGraphicStyle,c.graphic.setGraphicProperties(b(d,"graphic","graphic")[0]),c.text.setStyleChain(b(d,"text","graphic")),c.paragraph.setStyleChain(b(d,"paragraph","graphic")),e[a]=c);return c};this.getComputedParagraphStyle=function(a){a=c(a,[]);var d=a.join("/"),
+e=f[d];runtime.assert(0===a.length%2,"Invalid style chain.");void 0===e&&(e=new odf.ComputedParagraphStyle,e.text.setStyleChain(b(a,"text","paragraph")),e.paragraph.setStyleChain(b(a,"paragraph","paragraph")),f[d]=e);return e};this.getComputedTextStyle=function(a){a=g(a,[]);var d=a.join("/"),c=q[d];runtime.assert(0===a.length%2,"Invalid style chain.");void 0===c&&(c=new odf.ComputedTextStyle,c.text.setStyleChain(b(a,"text","text")),q[d]=c);return c};this.getPageLayout=function(a){var b=L[a];b||((b=
+F[a])?(b=new odf.PageLayout(b,D,w),L[a]=b):b=w);return b};this.getDefaultPageLayout=function(){return w};this.getMasterPage=function(a){var b=t[a];void 0===b&&((b=z[a])?(b=new odf.MasterPage(b,p),t[a]=b):b=null);return b};this.getDefaultMasterPage=function(){return x};this.update=function(){var b,c,g=null,l=null;q={};f={};e={};z={};t={};L={};F={};a=new odf.StylePile(D,p);d=new odf.StylePile(D,p);r=new odf.StylePile(D,p);m={text:a,paragraph:d,graphic:r};for(b=h.styles.firstElementChild;b;)b.namespaceURI===
+B&&((c=n(b))?"style"===b.localName?c.addCommonStyle(b):"default-style"===b.localName&&c.setDefaultStyle(b):"default-page-layout"===b.localName&&(g=b)),b=b.nextElementSibling;w=new odf.PageLayout(g,D);for(b=h.automaticStyles.firstElementChild;b;)b.namespaceURI===B&&((c=n(b))&&"style"===b.localName?c.addAutomaticStyle(b):"page-layout"===b.localName&&(F[b.getAttributeNS(B,"name")]=b)),b=b.nextElementSibling;for(b=h.masterStyles.firstElementChild;b;)b.namespaceURI===B&&"master-page"===b.localName&&(l=
+l||b,c=b,g=c.getAttributeNS(B,"name"),0<g.length&&!z.hasOwnProperty(g)&&(z[g]=c)),b=b.nextElementSibling;x=new odf.MasterPage(l,p)}};ops.OperationTransformMatrix=function(){function h(a){a.position+=a.length;a.length*=-1}function k(a){var b=0>a.length;b&&h(a);return b}function c(a,b){function c(f){a[f]===b&&e.push(f)}var e=[];a&&["style:parent-style-name","style:next-style-name"].forEach(c);return e}function b(a,b){function c(e){a[e]===b&&delete a[e]}a&&["style:parent-style-name","style:next-style-name"].forEach(c)}function g(a){var b={};Object.keys(a).forEach(function(c){b[c]="object"===typeof a[c]?g(a[c]):a[c]});return b}function n(a,
+b,c,e){var f,g=!1,h=!1,k,m=[];e&&e.attributes&&(m=e.attributes.split(","));a&&(c||0<m.length)&&Object.keys(a).forEach(function(b){var d=a[b],e;"object"!==typeof d&&(c&&(e=c[b]),void 0!==e?(delete a[b],h=!0,e===d&&(delete c[b],g=!0)):-1!==m.indexOf(b)&&(delete a[b],h=!0))});if(b&&b.attributes&&(c||0<m.length)){k=b.attributes.split(",");for(e=0;e<k.length;e+=1)if(f=k[e],c&&void 0!==c[f]||m&&-1!==m.indexOf(f))k.splice(e,1),--e,h=!0;0<k.length?b.attributes=k.join(","):delete b.attributes}return{majorChanged:g,
+minorChanged:h}}function p(a){for(var b in a)if(a.hasOwnProperty(b))return!0;return!1}function m(a){for(var b in a)if(a.hasOwnProperty(b)&&("attributes"!==b||0<a.attributes.length))return!0;return!1}function q(a,b,c,e,f){var g=a?a[f]:null,h=b?b[f]:null,k=c?c[f]:null,q=e?e[f]:null,x;x=n(g,h,k,q);g&&!p(g)&&delete a[f];h&&!m(h)&&delete b[f];k&&!p(k)&&delete c[f];q&&!m(q)&&delete e[f];return x}function f(a,b){return{opSpecsA:[a],opSpecsB:[b]}}var e;e={AddAnnotation:{AddAnnotation:function(a,b,c){var e;
+a.position<b.position?(e=a,c=b):b.position<a.position?(e=b,c=a):(e=c?a:b,c=c?b:a);c.position<e.position+e.length&&(e.length+=2);c.position+=2;return{opSpecsA:[a],opSpecsB:[b]}},AddCursor:f,AddMember:f,AddStyle:f,ApplyDirectStyling:function(a,b){a.position<=b.position?b.position+=2:a.position<=b.position+b.length&&(b.length+=2);return{opSpecsA:[a],opSpecsB:[b]}},InsertText:function(a,b){b.position<=a.position?a.position+=b.text.length:(void 0!==a.length&&b.position<=a.position+a.length&&(a.length+=
+b.text.length),b.position+=2);return{opSpecsA:[a],opSpecsB:[b]}},MergeParagraph:function(a,b){b.sourceStartPosition<=a.position?--a.position:(void 0!==a.length&&b.sourceStartPosition<=a.position+a.length&&--a.length,b.sourceStartPosition+=2,a.position<b.destinationStartPosition&&(b.destinationStartPosition+=2));return{opSpecsA:[a],opSpecsB:[b]}},MoveCursor:function(a,b){var c=k(b);a.position<b.position?b.position+=2:a.position<b.position+b.length&&(b.length+=2);c&&h(b);return{opSpecsA:[a],opSpecsB:[b]}},
+RemoveAnnotation:function(a,b){a.position<b.position?(b.position<a.position+a.length&&(a.length-=b.length+2),b.position+=2):a.position-=b.length+2;return{opSpecsA:[a],opSpecsB:[b]}},RemoveCursor:f,RemoveMember:f,RemoveStyle:f,RemoveText:function(a,b){var c=b.position,e=b.position+b.length,f,g=[a],h=[b];a.position<=b.position?b.position+=2:a.position<e&&(b.length=a.position-b.position,f={optype:"RemoveText",memberid:b.memberid,timestamp:b.timestamp,position:a.position+2,length:e-a.position},h.unshift(f));
+b.position+b.length<=a.position?(a.position-=b.length,void 0!==a.length&&f&&(a.length=f.length>=a.length?0:a.length-f.length)):void 0!==a.length&&(f=a.position+a.length,e<=f?a.length-=b.length:c<f&&(a.length=c-a.position));return{opSpecsA:g,opSpecsB:h}},SetParagraphStyle:function(a,b){a.position<b.position&&(b.position+=2);return{opSpecsA:[a],opSpecsB:[b]}},SplitParagraph:function(a,b){a.position<b.sourceParagraphPosition&&(b.sourceParagraphPosition+=2);b.position<=a.position?a.position+=1:(void 0!==
+a.length&&b.position<=a.position+a.length&&(a.length+=1),b.position+=2);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},AddCursor:{AddCursor:f,AddMember:f,AddStyle:f,ApplyDirectStyling:f,InsertText:f,MergeParagraph:f,MoveCursor:f,RemoveAnnotation:f,RemoveCursor:f,RemoveMember:f,RemoveStyle:f,RemoveText:f,SetParagraphStyle:f,SplitParagraph:f,UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},AddMember:{AddStyle:f,ApplyDirectStyling:f,InsertText:f,MergeParagraph:f,
+MoveCursor:f,RemoveAnnotation:f,RemoveCursor:f,RemoveStyle:f,RemoveText:f,SetParagraphStyle:f,SplitParagraph:f,UpdateMetadata:f,UpdateParagraphStyle:f},AddStyle:{AddStyle:f,ApplyDirectStyling:f,InsertText:f,MergeParagraph:f,MoveCursor:f,RemoveAnnotation:f,RemoveCursor:f,RemoveMember:f,RemoveStyle:function(a,d){var e,f=[a],g=[d];a.styleFamily===d.styleFamily&&(e=c(a.setProperties,d.styleName),0<e.length&&(e={optype:"UpdateParagraphStyle",memberid:d.memberid,timestamp:d.timestamp,styleName:a.styleName,
+removedProperties:{attributes:e.join(",")}},g.unshift(e)),b(a.setProperties,d.styleName));return{opSpecsA:f,opSpecsB:g}},RemoveText:f,SetParagraphStyle:f,SplitParagraph:f,UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},ApplyDirectStyling:{ApplyDirectStyling:function(a,b,c){var e,f,h,k,m,n,x,w;k=[a];h=[b];if(!(a.position+a.length<=b.position||a.position>=b.position+b.length)){e=c?a:b;f=c?b:a;if(a.position!==b.position||a.length!==b.length)n=g(e),x=g(f);b=q(f.setProperties,null,e.setProperties,
+null,"style:text-properties");if(b.majorChanged||b.minorChanged)h=[],a=[],k=e.position+e.length,m=f.position+f.length,f.position<e.position?b.minorChanged&&(w=g(x),w.length=e.position-f.position,a.push(w),f.position=e.position,f.length=m-f.position):e.position<f.position&&b.majorChanged&&(w=g(n),w.length=f.position-e.position,h.push(w),e.position=f.position,e.length=k-e.position),m>k?b.minorChanged&&(n=x,n.position=k,n.length=m-k,a.push(n),f.length=k-f.position):k>m&&b.majorChanged&&(n.position=m,
+n.length=k-m,h.push(n),e.length=m-e.position),e.setProperties&&p(e.setProperties)&&h.push(e),f.setProperties&&p(f.setProperties)&&a.push(f),c?(k=h,h=a):k=a}return{opSpecsA:k,opSpecsB:h}},InsertText:function(a,b){b.position<=a.position?a.position+=b.text.length:b.position<=a.position+a.length&&(a.length+=b.text.length);return{opSpecsA:[a],opSpecsB:[b]}},MergeParagraph:function(a,b){var c=a.position,e=a.position+a.length;c>=b.sourceStartPosition&&--c;e>=b.sourceStartPosition&&--e;a.position=c;a.length=
+e-c;return{opSpecsA:[a],opSpecsB:[b]}},MoveCursor:f,RemoveAnnotation:function(a,b){var c=a.position,e=a.position+a.length,f=b.position+b.length,g=[a],h=[b];b.position<=c&&e<=f?g=[]:(f<c&&(c-=b.length+2),f<e&&(e-=b.length+2),a.position=c,a.length=e-c);return{opSpecsA:g,opSpecsB:h}},RemoveCursor:f,RemoveMember:f,RemoveStyle:f,RemoveText:function(a,b){var c=a.position+a.length,e=b.position+b.length,f=[a],g=[b];e<=a.position?a.position-=b.length:b.position<c&&(a.position<b.position?a.length=e<c?a.length-
+b.length:b.position-a.position:(a.position=b.position,e<c?a.length=c-e:f=[]));return{opSpecsA:f,opSpecsB:g}},SetParagraphStyle:f,SplitParagraph:function(a,b){b.position<a.position?a.position+=1:b.position<a.position+a.length&&(a.length+=1);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},InsertText:{InsertText:function(a,b,c){a.position<b.position?b.position+=a.text.length:a.position>b.position?a.position+=b.text.length:c?b.position+=a.text.length:a.position+=
+b.text.length;return{opSpecsA:[a],opSpecsB:[b]}},MergeParagraph:function(a,b){a.position>=b.sourceStartPosition?--a.position:(a.position<b.sourceStartPosition&&(b.sourceStartPosition+=a.text.length),a.position<b.destinationStartPosition&&(b.destinationStartPosition+=a.text.length));return{opSpecsA:[a],opSpecsB:[b]}},MoveCursor:function(a,b){var c=k(b);a.position<b.position?b.position+=a.text.length:a.position<b.position+b.length&&(b.length+=a.text.length);c&&h(b);return{opSpecsA:[a],opSpecsB:[b]}},
+RemoveAnnotation:function(a,b){var c=a.position,e=b.position+b.length,f=[a],g=[b];b.position<=c&&c<=e?(f=[],b.length+=a.text.length):e<a.position?a.position-=b.length+2:b.position+=a.text.length;return{opSpecsA:f,opSpecsB:g}},RemoveCursor:f,RemoveMember:f,RemoveStyle:f,RemoveText:function(a,b){var c;c=b.position+b.length;var e=[a],f=[b];c<=a.position?a.position-=b.length:a.position<=b.position?b.position+=a.text.length:(b.length=a.position-b.position,c={optype:"RemoveText",memberid:b.memberid,timestamp:b.timestamp,
+position:a.position+a.text.length,length:c-a.position},f.unshift(c),a.position=b.position);return{opSpecsA:e,opSpecsB:f}},SetParagraphStyle:function(a,b){b.position>a.position&&(b.position+=a.text.length);return{opSpecsA:[a],opSpecsB:[b]}},SplitParagraph:function(a,b){a.position<b.sourceParagraphPosition&&(b.sourceParagraphPosition+=a.text.length);a.position<=b.position?b.position+=a.text.length:a.position+=1;return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},
+MergeParagraph:{MergeParagraph:function(a,b,c){var e=[a],f=[b],g;a.destinationStartPosition===b.destinationStartPosition?(e=[],f=[],a.moveCursor&&(g={optype:"MoveCursor",memberid:a.memberid,timestamp:a.timestamp,position:a.sourceStartPosition-1},e.push(g)),b.moveCursor&&(g={optype:"MoveCursor",memberid:b.memberid,timestamp:b.timestamp,position:b.sourceStartPosition-1},f.push(g)),a=c?a:b,a={optype:"SetParagraphStyle",memberid:a.memberid,timestamp:a.timestamp,position:a.destinationStartPosition,styleName:a.paragraphStyleName},
+c?e.push(a):f.push(a)):b.sourceStartPosition===a.destinationStartPosition?(a.destinationStartPosition=b.destinationStartPosition,--a.sourceStartPosition,a.paragraphStyleName=b.paragraphStyleName):a.sourceStartPosition===b.destinationStartPosition?(b.destinationStartPosition=a.destinationStartPosition,--b.sourceStartPosition,b.paragraphStyleName=a.paragraphStyleName):a.destinationStartPosition<b.destinationStartPosition?(--b.destinationStartPosition,--b.sourceStartPosition):(--a.destinationStartPosition,
+--a.sourceStartPosition);return{opSpecsA:e,opSpecsB:f}},MoveCursor:function(a,b){var c=b.position,e=b.position+b.length,f=Math.min(c,e),c=Math.max(c,e);f>=a.sourceStartPosition&&--f;c>=a.sourceStartPosition&&--c;0<=b.length?(b.position=f,b.length=c-f):(b.position=c,b.length=f-c);return{opSpecsA:[a],opSpecsB:[b]}},RemoveAnnotation:function(a,b){var c=b.position+b.length,e=[a],f=[b];b.position<=a.destinationStartPosition&&a.sourceStartPosition<=c?(e=[],--b.length):a.sourceStartPosition<b.position?--b.position:
+(c<a.destinationStartPosition&&(a.destinationStartPosition-=b.length+2),c<a.sourceStartPosition&&(a.sourceStartPosition-=b.length+2));return{opSpecsA:e,opSpecsB:f}},RemoveCursor:f,RemoveMember:f,RemoveStyle:f,RemoveText:function(a,b){b.position>=a.sourceStartPosition?--b.position:(b.position<a.destinationStartPosition&&(a.destinationStartPosition-=b.length),b.position<a.sourceStartPosition&&(a.sourceStartPosition-=b.length));return{opSpecsA:[a],opSpecsB:[b]}},SetParagraphStyle:function(a,b){var c=
+[a],e=[b];if(b.position>a.sourceStartPosition)--b.position;else if(b.position===a.destinationStartPosition||b.position===a.sourceStartPosition)b.position=a.destinationStartPosition,a.paragraphStyleName=b.styleName;return{opSpecsA:c,opSpecsB:e}},SplitParagraph:function(a,b){var c,e=[a],f=[b];b.position<a.destinationStartPosition?(a.destinationStartPosition+=1,a.sourceStartPosition+=1):b.position>=a.destinationStartPosition&&b.position<a.sourceStartPosition?(b.paragraphStyleName=a.paragraphStyleName,
+c={optype:"SetParagraphStyle",memberid:a.memberid,timestamp:a.timestamp,position:a.destinationStartPosition,styleName:a.paragraphStyleName},e.push(c),b.position===a.sourceStartPosition-1&&a.moveCursor&&(c={optype:"MoveCursor",memberid:a.memberid,timestamp:a.timestamp,position:b.position,length:0},e.push(c)),a.destinationStartPosition=b.position+1,a.sourceStartPosition+=1):b.position>=a.sourceStartPosition&&(--b.position,--b.sourceParagraphPosition);return{opSpecsA:e,opSpecsB:f}},UpdateMember:f,UpdateMetadata:f,
+UpdateParagraphStyle:f},MoveCursor:{MoveCursor:f,RemoveAnnotation:function(a,b){var c=k(a),e=a.position+a.length,f=b.position+b.length;b.position<=a.position&&e<=f?(a.position=b.position-1,a.length=0):(f<a.position?a.position-=b.length+2:f<e&&(a.length-=b.length+2),c&&h(a));return{opSpecsA:[a],opSpecsB:[b]}},RemoveCursor:function(a,b){return{opSpecsA:a.memberid===b.memberid?[]:[a],opSpecsB:[b]}},RemoveMember:f,RemoveStyle:f,RemoveText:function(a,b){var c=k(a),e=a.position+a.length,f=b.position+b.length;
+f<=a.position?a.position-=b.length:b.position<e&&(a.position<b.position?a.length=f<e?a.length-b.length:b.position-a.position:(a.position=b.position,a.length=f<e?e-f:0));c&&h(a);return{opSpecsA:[a],opSpecsB:[b]}},SetParagraphStyle:f,SplitParagraph:function(a,b){var c=k(a);b.position<a.position?a.position+=1:b.position<a.position+a.length&&(a.length+=1);c&&h(a);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},RemoveAnnotation:{RemoveAnnotation:function(a,b){var c=
+[a],e=[b];a.position===b.position&&a.length===b.length?(c=[],e=[]):a.position<b.position?b.position-=a.length+2:a.position-=b.length+2;return{opSpecsA:c,opSpecsB:e}},RemoveCursor:f,RemoveMember:f,RemoveStyle:f,RemoveText:function(a,b){var c=a.position+a.length,e=b.position+b.length,f=[a],g=[b];a.position<=b.position&&e<=c?(g=[],a.length-=b.length):e<a.position?a.position-=b.length:b.position<a.position?(a.position=b.position+1,b.length-=a.length+2):b.position-=a.length+2;return{opSpecsA:f,opSpecsB:g}},
+SetParagraphStyle:function(a,b){var c=b.position,e=a.position+a.length,f=[a],g=[b];a.position<=c&&c<=e?g=[]:e<c&&(b.position-=a.length+2);return{opSpecsA:f,opSpecsB:g}},SplitParagraph:function(a,b){var c=b.position,e=a.position+a.length,f=[a],g=[b];a.position<=c&&c<=e?(g=[],a.length+=1):(e<b.sourceParagraphPosition&&(b.sourceParagraphPosition-=a.length+2),e<c?b.position-=a.length+2:a.position+=1);return{opSpecsA:f,opSpecsB:g}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},RemoveCursor:{RemoveCursor:function(a,
+b){var c=a.memberid===b.memberid;return{opSpecsA:c?[]:[a],opSpecsB:c?[]:[b]}},RemoveMember:f,RemoveStyle:f,RemoveText:f,SetParagraphStyle:f,SplitParagraph:f,UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},RemoveMember:{RemoveStyle:f,RemoveText:f,SetParagraphStyle:f,SplitParagraph:f,UpdateMetadata:f,UpdateParagraphStyle:f},RemoveStyle:{RemoveStyle:function(a,b){var c=a.styleName===b.styleName&&a.styleFamily===b.styleFamily;return{opSpecsA:c?[]:[a],opSpecsB:c?[]:[b]}},RemoveText:f,SetParagraphStyle:function(a,
+b){var c,e=[a],f=[b];"paragraph"===a.styleFamily&&a.styleName===b.styleName&&(c={optype:"SetParagraphStyle",memberid:a.memberid,timestamp:a.timestamp,position:b.position,styleName:""},e.unshift(c),b.styleName="");return{opSpecsA:e,opSpecsB:f}},SplitParagraph:f,UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:function(a,d){var e,f=[a],g=[d];"paragraph"===a.styleFamily&&(e=c(d.setProperties,a.styleName),0<e.length&&(e={optype:"UpdateParagraphStyle",memberid:a.memberid,timestamp:a.timestamp,styleName:d.styleName,
+removedProperties:{attributes:e.join(",")}},f.unshift(e)),a.styleName===d.styleName?g=[]:b(d.setProperties,a.styleName));return{opSpecsA:f,opSpecsB:g}}},RemoveText:{RemoveText:function(a,b){var c=a.position+a.length,e=b.position+b.length,f=[a],g=[b];e<=a.position?a.position-=b.length:c<=b.position?b.position-=a.length:b.position<c&&(a.position<b.position?(a.length=e<c?a.length-b.length:b.position-a.position,c<e?(b.position=a.position,b.length=e-c):g=[]):(c<e?b.length-=a.length:b.position<a.position?
+b.length=a.position-b.position:g=[],e<c?(a.position=b.position,a.length=c-e):f=[]));return{opSpecsA:f,opSpecsB:g}},SetParagraphStyle:function(a,b){a.position<b.position&&(b.position-=a.length);return{opSpecsA:[a],opSpecsB:[b]}},SplitParagraph:function(a,b){var c=a.position+a.length,e=[a],f=[b];b.position<=a.position?a.position+=1:b.position<c&&(a.length=b.position-a.position,c={optype:"RemoveText",memberid:a.memberid,timestamp:a.timestamp,position:b.position+1,length:c-b.position},e.unshift(c));a.position+
+a.length<=b.position?b.position-=a.length:a.position<b.position&&(b.position=a.position);a.position+a.length<b.sourceParagraphPosition&&(b.sourceParagraphPosition-=a.length);return{opSpecsA:e,opSpecsB:f}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},SetParagraphStyle:{SetParagraphStyle:function(a,b,c){a.position===b.position&&(c?b.styleName=a.styleName:a.styleName=b.styleName);return{opSpecsA:[a],opSpecsB:[b]}},SplitParagraph:function(a,b){var c=[a],e=[b],f;a.position>b.position?a.position+=
+1:a.position===b.sourceParagraphPosition&&(b.paragraphStyleName=a.styleName,f=g(a),f.position=b.position+1,c.push(f));return{opSpecsA:c,opSpecsB:e}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},SplitParagraph:{SplitParagraph:function(a,b,c){var e,f;a.position<b.position?e=!0:b.position<a.position?f=!0:a.position===b.position&&(c?e=!0:f=!0);e?(b.position+=1,b.sourceParagraphPosition=a.position<b.sourceParagraphPosition?b.sourceParagraphPosition+1:a.position+1):f&&(a.position+=1,a.sourceParagraphPosition=
+b.position<b.sourceParagraphPosition?a.sourceParagraphPosition+1:b.position+1);return{opSpecsA:[a],opSpecsB:[b]}},UpdateMember:f,UpdateMetadata:f,UpdateParagraphStyle:f},UpdateMember:{UpdateMetadata:f,UpdateParagraphStyle:f},UpdateMetadata:{UpdateMetadata:function(a,b,c){var e,f=[a],g=[b];e=c?a:b;a=c?b:a;n(a.setProperties||null,a.removedProperties||null,e.setProperties||null,e.removedProperties||null);e.setProperties&&p(e.setProperties)||e.removedProperties&&m(e.removedProperties)||(c?f=[]:g=[]);
+a.setProperties&&p(a.setProperties)||a.removedProperties&&m(a.removedProperties)||(c?g=[]:f=[]);return{opSpecsA:f,opSpecsB:g}},UpdateParagraphStyle:f},UpdateParagraphStyle:{UpdateParagraphStyle:function(a,b,c){var e,f=[a],g=[b];a.styleName===b.styleName&&(e=c?a:b,a=c?b:a,q(a.setProperties,a.removedProperties,e.setProperties,e.removedProperties,"style:paragraph-properties"),q(a.setProperties,a.removedProperties,e.setProperties,e.removedProperties,"style:text-properties"),n(a.setProperties||null,a.removedProperties||
+null,e.setProperties||null,e.removedProperties||null),e.setProperties&&p(e.setProperties)||e.removedProperties&&m(e.removedProperties)||(c?f=[]:g=[]),a.setProperties&&p(a.setProperties)||a.removedProperties&&m(a.removedProperties)||(c?g=[]:f=[]));return{opSpecsA:f,opSpecsB:g}}}};this.passUnchanged=f;this.extendTransformations=function(a){Object.keys(a).forEach(function(b){var c=a[b],f,g=e.hasOwnProperty(b);runtime.log((g?"Extending":"Adding")+" map for optypeA: "+b);g||(e[b]={});f=e[b];Object.keys(c).forEach(function(a){var e=
+f.hasOwnProperty(a);runtime.assert(b<=a,"Wrong order:"+b+", "+a);runtime.log("  "+(e?"Overwriting":"Adding")+" entry for optypeB: "+a);f[a]=c[a]})})};this.transformOpspecVsOpspec=function(a,b){var c=a.optype<=b.optype,f;runtime.log("Crosstransforming:");runtime.log(runtime.toJson(a));runtime.log(runtime.toJson(b));c||(f=a,a=b,b=f);(f=(f=e[a.optype])&&f[b.optype])?(f=f(a,b,!c),c||null===f||(f={opSpecsA:f.opSpecsB,opSpecsB:f.opSpecsA})):f=null;runtime.log("result:");f?(runtime.log(runtime.toJson(f.opSpecsA)),
+runtime.log(runtime.toJson(f.opSpecsB))):runtime.log("null");return f}};ops.OperationTransformer=function(){function h(c,b){for(var g,n,p=[],m=[];0<c.length&&b;){g=c.shift();g=k.transformOpspecVsOpspec(g,b);if(!g)return null;p=p.concat(g.opSpecsA);if(0===g.opSpecsB.length){p=p.concat(c);b=null;break}for(;1<g.opSpecsB.length;){n=h(c,g.opSpecsB.shift());if(!n)return null;m=m.concat(n.opSpecsB);c=n.opSpecsA}b=g.opSpecsB.pop()}b&&m.push(b);return{opSpecsA:p,opSpecsB:m}}var k=new ops.OperationTransformMatrix;this.getOperationTransformMatrix=function(){return k};this.transform=
+function(c,b){for(var g,k=[];0<b.length;){g=h(c,b.shift());if(!g)return null;c=g.opSpecsA;k=k.concat(g.opSpecsB)}return{opSpecsA:c,opSpecsB:k}}};var webodf_css='@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);@namespace webodfhelper url(urn:webodf:names:helper);@namespace cursor url(urn:webodf:names:cursor);@namespace editinfo url(urn:webodf:names:editinfo);@namespace annotation url(urn:webodf:names:annotation);@namespace dc url(http://purl.org/dc/elements/1.1/);@namespace svgns url(http://www.w3.org/2000/svg);office|document > *, office|document-content > * {display: none;}office|body, office|document {display: inline-block;position: relative;}text|p, text|h {display: block;padding: 0;margin: 0;line-height: normal;position: relative;}text|p::after, text|h::after {content: "\\200B";white-space: pre;}*[webodfhelper|containsparagraphanchor] {position: relative;}text|s {white-space: pre;}text|tab {display: inline;white-space: pre;}text|tracked-changes {display: none;}office|binary-data {display: none;}office|text {display: block;text-align: left;overflow: visible;word-wrap: break-word;}office|text::selection {background: transparent;}.webodf-virtualSelections *::selection {background: transparent;}.webodf-virtualSelections *::-moz-selection {background: transparent;}office|text * draw|text-box {display: block;border: 1px solid #d3d3d3;}office|text draw|frame {z-index: 1;}office|spreadsheet {display: block;border-collapse: collapse;empty-cells: show;font-family: sans-serif;font-size: 10pt;text-align: left;page-break-inside: avoid;overflow: hidden;}office|presentation {display: inline-block;text-align: left;}#shadowContent {display: inline-block;text-align: left;}draw|page {display: block;position: relative;overflow: hidden;}presentation|notes, presentation|footer-decl, presentation|date-time-decl {display: none;}@media print {draw|page {border: 1pt solid black;page-break-inside: avoid;}presentation|notes {}}office|spreadsheet text|p {border: 0px;padding: 1px;margin: 0px;}office|spreadsheet table|table {margin: 3px;}office|spreadsheet table|table:after {}office|spreadsheet table|table-row {counter-increment: row;}office|spreadsheet table|table-row:before {width: 3em;background: #cccccc;border: 1px solid black;text-align: center;content: counter(row);display: table-cell;}office|spreadsheet table|table-cell {border: 1px solid #cccccc;}table|table {display: table;}draw|frame table|table {width: 100%;height: 100%;background: white;}table|table-header-rows {display: table-header-group;}table|table-row {display: table-row;}table|table-column {display: table-column;}table|table-cell {width: 0.889in;display: table-cell;word-break: break-all;}draw|frame {display: block;}draw|image {display: block;width: 100%;height: 100%;top: 0px;left: 0px;background-repeat: no-repeat;background-size: 100% 100%;-moz-background-size: 100% 100%;}draw|frame > draw|image:nth-of-type(n+2) {display: none;}text|list:before {display: none;content:"";}text|list {display: block;}text|list-item {display: block;}text|number {display:none;}text|a {color: blue;text-decoration: underline;cursor: pointer;}.webodf-inactiveLinks text|a {cursor: text;}text|note-citation {vertical-align: super;font-size: smaller;}text|note-body {display: none;}text|note:hover text|note-citation {background: #dddddd;}text|note:hover text|note-body {display: block;left:1em;max-width: 80%;position: absolute;background: #ffffaa;}text|bibliography-source {display: none;}svg|title, svg|desc {display: none;}video {width: 100%;height: 100%}cursor|anchor {display: none;}cursor|cursor {display: none;}.webodf-caretOverlay {position: absolute;top: 5%;height: 1em;z-index: 10;padding-left: 1px;pointer-events: none;}.webodf-caretOverlay .caret {position: absolute;border-left: 2px solid black;top: 0;bottom: 0;right: 0;}.webodf-caretOverlay .handle {position: absolute;margin-top: 5px;padding-top: 3px;margin-left: auto;margin-right: auto;width: 64px;height: 68px;border-radius: 5px;opacity: 0.3;text-align: center;background-color: black;box-shadow: 0px 0px 5px rgb(90, 90, 90);border: 1px solid black;top: -85px;right: -32px;}.webodf-caretOverlay .handle > img {box-shadow: 0px 0px 5px rgb(90, 90, 90) inset;background-color: rgb(200, 200, 200);border-radius: 5px;border: 2px solid;height: 60px;width: 60px;display: block;margin: auto;}.webodf-caretOverlay .handle.active {opacity: 0.8;}.webodf-caretOverlay .handle:after {content: " ";position: absolute;width: 0px;height: 0px;border-style: solid;border-width: 8.7px 5px 0 5px;border-color: black transparent transparent transparent;top: 100%;left: 43%;}.webodf-caretSizer {display: inline-block;width: 0;visibility: hidden;}#eventTrap {display: block;position: absolute;bottom: 0;left: 0;outline: none;opacity: 0;color: rgba(255, 255, 255, 0);pointer-events: none;white-space: pre;overflow: hidden;}cursor|cursor > #composer {text-decoration: underline;}cursor|cursor[cursor|caret-sizer-active="true"],cursor|cursor[cursor|composing="true"] {display: inline;}editinfo|editinfo {display: inline-block;}.editInfoMarker {position: absolute;width: 10px;height: 100%;left: -20px;opacity: 0.8;top: 0;border-radius: 5px;background-color: transparent;box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);}.editInfoMarker:hover {box-shadow: 0px 0px 8px rgba(0, 0, 0, 1);}.editInfoHandle {position: absolute;background-color: black;padding: 5px;border-radius: 5px;opacity: 0.8;box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);bottom: 100%;margin-bottom: 10px;z-index: 3;left: -25px;}.editInfoHandle:after {content: " ";position: absolute;width: 0px;height: 0px;border-style: solid;border-width: 8.7px 5px 0 5px;border-color: black transparent transparent transparent;top: 100%;left: 5px;}.editInfo {font-family: sans-serif;font-weight: normal;font-style: normal;text-decoration: none;color: white;width: 100%;height: 12pt;}.editInfoColor {float: left;width: 10pt;height: 10pt;border: 1px solid white;}.editInfoAuthor {float: left;margin-left: 5pt;font-size: 10pt;text-align: left;height: 12pt;line-height: 12pt;}.editInfoTime {float: right;margin-left: 30pt;font-size: 8pt;font-style: italic;color: yellow;height: 12pt;line-height: 12pt;}.annotationWrapper {display: inline;position: relative;}.annotationRemoveButton:before {content: "\u00d7";color: white;padding: 5px;line-height: 1em;}.annotationRemoveButton {width: 20px;height: 20px;border-radius: 10px;background-color: black;box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.75);position: absolute;top: -10px;left: -10px;z-index: 3;text-align: center;font-family: sans-serif;font-style: normal;font-weight: normal;text-decoration: none;font-size: 15px;}.annotationRemoveButton:hover {cursor: pointer;box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);}.annotationNote {width: 4cm;position: absolute;display: inline;z-index: 10;top: 0;}.annotationNote > office|annotation {display: block;text-align: left;}.annotationConnector {position: absolute;display: inline;top: 0;z-index: 2;border-top: 1px dashed brown;}.annotationConnector.angular {-moz-transform-origin: left top;-webkit-transform-origin: left top;-ms-transform-origin: left top;transform-origin: left top;}.annotationConnector.horizontal {left: 0;}.annotationConnector.horizontal:before {content: "";display: inline;position: absolute;width: 0px;height: 0px;border-style: solid;border-width: 8.7px 5px 0 5px;border-color: brown transparent transparent transparent;top: -1px;left: -5px;}office|annotation {width: 100%;height: 100%;display: none;background: rgb(198, 238, 184);background: -moz-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);background: -webkit-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);background: -o-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);background: -ms-linear-gradient(90deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);background: linear-gradient(180deg, rgb(198, 238, 184) 30%, rgb(180, 196, 159) 100%);box-shadow: 0 3px 4px -3px #ccc;}office|annotation > dc|creator {display: block;font-size: 10pt;font-weight: normal;font-style: normal;font-family: sans-serif;color: white;background-color: brown;padding: 4px;}office|annotation > dc|date {display: block;font-size: 10pt;font-weight: normal;font-style: normal;font-family: sans-serif;border: 4px solid transparent;color: black;}office|annotation > text|list {display: block;padding: 5px;}office|annotation text|p {font-size: 10pt;color: black;font-weight: normal;font-style: normal;text-decoration: none;font-family: sans-serif;}#annotationsPane {background-color: #EAEAEA;width: 4cm;height: 100%;display: none;position: absolute;outline: 1px solid #ccc;}.webodf-annotationHighlight {background-color: yellow;position: relative;}.webodf-selectionOverlay {position: absolute;pointer-events: none;top: 0;left: 0;top: 0;left: 0;width: 100%;height: 100%;z-index: 15;}.webodf-selectionOverlay > polygon {fill-opacity: 0.3;stroke-opacity: 0.8;stroke-width: 1;fill-rule: evenodd;}.webodf-selectionOverlay > .webodf-draggable {fill-opacity: 0.8;stroke-opacity: 0;stroke-width: 8;pointer-events: all;display: none;-moz-transform-origin: center center;-webkit-transform-origin: center center;-ms-transform-origin: center center;transform-origin: center center;}#imageSelector {display: none;position: absolute;border-style: solid;border-color: black;}#imageSelector > div {width: 5px;height: 5px;display: block;position: absolute;border: 1px solid black;background-color: #ffffff;}#imageSelector > .topLeft {top: -4px;left: -4px;}#imageSelector > .topRight {top: -4px;right: -4px;}#imageSelector > .bottomRight {right: -4px;bottom: -4px;}#imageSelector > .bottomLeft {bottom: -4px;left: -4px;}#imageSelector > .topMiddle {top: -4px;left: 50%;margin-left: -2.5px;}#imageSelector > .rightMiddle {top: 50%;right: -4px;margin-top: -2.5px;}#imageSelector > .bottomMiddle {bottom: -4px;left: 50%;margin-left: -2.5px;}#imageSelector > .leftMiddle {top: 50%;left: -4px;margin-top: -2.5px;}div.webodf-customScrollbars::-webkit-scrollbar{width: 8px;height: 8px;background-color: transparent;}div.webodf-customScrollbars::-webkit-scrollbar-track{background-color: transparent;}div.webodf-customScrollbars::-webkit-scrollbar-thumb{background-color: #444;border-radius: 4px;}.webodf-hyperlinkTooltip {display: none;color: white;background-color: black;border-radius: 5px;box-shadow: 2px 2px 5px gray;padding: 3px;position: absolute;max-width: 210px;text-align: left;word-break: break-all;z-index: 16;}.webodf-hyperlinkTooltipText {display: block;font-weight: bold;}';
