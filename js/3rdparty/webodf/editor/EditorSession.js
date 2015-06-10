@@ -25,9 +25,11 @@
 /*global runtime, define, document, core, odf, gui, ops*/
 
 define("webodf/editor/EditorSession", [
-    "dojo/text!resources/fonts/fonts.css"
+    "dojo/text!" + OC.filePath('documents', 'css', 'fonts.css')
 ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
     "use strict";
+
+    fontsCSS = fontsCSS.replace(/\.\/fonts/g, OC.appswebroots['documents']+'/css/fonts');
 
     runtime.loadClass("core.Async");
     runtime.loadClass("core.DomUtils");
