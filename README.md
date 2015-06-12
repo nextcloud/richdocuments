@@ -23,11 +23,16 @@ If you don't want to mess around with dependencies, you need simply install `uno
 ### WebODF upgrade ###
 1. Build WebODF:
 
+
+        ./src/updateWebODF.sh prepare
+or
+
+
         git clone https://github.com/kogmbh/WebODF.git webodf
         mkdir build
         cd build
         cmake ../webodf
-        make webodf-debug.js-target editor-compiled.js-target
+        make all webodf-debug.js-target build-wodocollabtexteditor
 
 2. Refresh code and create a new branch:
 
@@ -38,7 +43,8 @@ If you don't want to mess around with dependencies, you need simply install `uno
 
 3. Run upgrade script:
 
-        ./src/updateWebODF.sh /path/to/WebODF/buildDir
+        ./src/updateWebODF.sh copy
+        ./src/updateWebODF.sh patch
 
 4. Resolve confilcts in patches (if any). Commit changes.
 5. Update patches in `/path/to/documents/src/patches` according to conflicts. Commit changes.

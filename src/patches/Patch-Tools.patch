@@ -1,0 +1,67 @@
+From 1f9288176b2c31ec9a740284275ff9c1f6dbd8f4 Mon Sep 17 00:00:00 2001
+From: Victor Dubiniuk <victor.dubiniuk@gmail.com>
+Date: Wed, 10 Jun 2015 19:35:23 +0300
+Subject: [PATCH] Patch Tools manually
+
+---
+ js/3rdparty/webodf/editor/Tools.js | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/js/3rdparty/webodf/editor/Tools.js b/js/3rdparty/webodf/editor/Tools.js
+index e5e2e9b..5ddf105 100644
+--- a/js/3rdparty/webodf/editor/Tools.js
++++ b/js/3rdparty/webodf/editor/Tools.js
+@@ -39,10 +39,11 @@ define("webodf/editor/Tools", [
+     "webodf/editor/widgets/editHyperlinks",
+     "webodf/editor/widgets/imageInserter",
+     "webodf/editor/widgets/paragraphStylesDialog",
+-    "webodf/editor/widgets/zoomSlider",
++    "owncloud/widgets/zoomCombo",
++    "owncloud/widgets/ocToolbar",
+     "webodf/editor/widgets/aboutDialog",
+     "webodf/editor/EditorSession"],
+-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomSlider, AboutDialog, EditorSession) {
++    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, OcToolbar, AboutDialog, EditorSession) {
+         "use strict";
+ 
+         return function Tools(toolbarElementId, args) {
+@@ -60,6 +61,7 @@ define("webodf/editor/Tools", [
+                 paragraphStylesMenuItem, paragraphStylesDialog,
+                 editorSession,
+                 aboutDialog,
++                ocToolbar,
+                 sessionSubscribers = [];
+ 
+             function placeAndStartUpWidget(widget) {
+@@ -145,6 +147,10 @@ define("webodf/editor/Tools", [
+ 
+             // init
+             ready(function () {
++                ocToolbar = new OcToolbar(function (widget) {
++                    widget.startup();
++                });
++
+                 toolbar = new Toolbar({}, toolbarElementId);
+ 
+                 // About
+@@ -268,7 +274,7 @@ define("webodf/editor/Tools", [
+                 createTool(CurrentStyle, args.paragraphStyleSelectingEnabled);
+ 
+                 // Zoom Level Selector
+-                createTool(ZoomSlider, args.zoomingEnabled);
++                createTool(ZoomCombo, args.zoomingEnabled);
+ 
+                 // hyper links
+                 createTool(EditHyperlinks, args.hyperlinkEditingEnabled);
+@@ -309,7 +315,7 @@ define("webodf/editor/Tools", [
+                     });
+ 
+                 }
+-
++                toolbar.startup();
+                 setEditorSession(editorSession);
+             });
+         };
+-- 
+2.1.4
+
