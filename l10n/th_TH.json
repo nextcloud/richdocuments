@@ -69,7 +69,7 @@
     "Share" : "แชร์",
     "guest" : "ผู้เยี่ยมชม",
     "MS Word support (requires openOffice/libreOffice)" : "สนับสนุน MS Word (ต้องใช้ openOffice/libreOffice)",
-    "Local" : "ภายใน",
+    "Local" : "ต้นทาง",
     "openOffice/libreOffice is installed on this server. Path to binary is provided via preview_libreoffice_path in config.php" : "OpenOffice/LibreOffice มีการติดตั้งบนเซิร์ฟเวอร์นี้ ระบุเส้นทางไปยังไบนารีผ่าน preview_libreoffice_path ใน config.php",
     "External" : "ภายนอก",
     "openOffice/libreOffice is installed on external server running a format filter server" : "openOffice/libreOffice ถูกติดตั้งบนเซิร์ฟเวอร์ภายนอก กำลังทำงานรูปแบบของเซิร์ฟเวอร์ตัวกรอง",
