@@ -42,8 +42,7 @@ define("owncloud/widgets/ocToolbar",
 						ocClose.startup();
 					});
 					return callback(ocToolbar);
-				}
-				;
+				};
 				// init
 				makeWidget(function (widget) {
 					return callback(widget);
