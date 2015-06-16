@@ -1,47 +1,36 @@
 /**
- * @license
  * Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
- * The JavaScript code in this page is free software: you can redistribute it
- * and/or modify it under the terms of the GNU Affero General Public License
- * (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.  The code is distributed
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+ * This file is part of WebODF.
+ *
+ * WebODF is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License (GNU AGPL)
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * WebODF is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this code.  If not, see <http://www.gnu.org/licenses/>.
- *
- * As additional permission under GNU AGPL version 3 section 7, you
- * may distribute non-source (e.g., minimized or compacted) forms of
- * that code without the copy of the GNU GPL normally required by
- * section 4, provided you include this license notice and a URL
- * through which recipients can access the Corresponding Source.
- *
- * As a special exception to the AGPL, any HTML file which merely makes function
- * calls to this code, and for that purpose includes it by reference shall be
- * deemed a separate work for copyright law purposes. In addition, the copyright
- * holders of this code give you permission to combine this code with free
- * software libraries that are released under the GNU LGPL. You may copy and
- * distribute such a system following the terms of the GNU AGPL for this code
- * and the LGPL for the libraries. If you modify this code, you may extend this
- * exception to your version of the code, but you are not obligated to do so.
- * If you do not wish to do so, delete this exception statement from your
- * version.
- *
- * This license applies to this entire compilation.
+ * along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
  * @licend
+ *
  * @source: http://www.webodf.org/
  * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global define,require,dojo,dijit */
+/*global define, require, dojo, dijit, runtime */
 
-define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
+define("webodf/editor/widgets/paragraphStylesDialog", [
+    "webodf/editor/widgets/dialogWidgets/idMangler"],
+function (IdMangler) {
     "use strict";
     return function ParagraphStylesDialog(callback) {
         var self = this,
+            idMangler = new IdMangler(),
             editorSession,
             dialog,
             stylePicker, alignmentPane, fontEffectsPane;
@@ -51,35 +40,25 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                 "dijit/Dialog",
                 "dijit/TooltipDialog",
                 "dijit/popup",
+                "dijit/layout/LayoutContainer",
                 "dijit/layout/TabContainer",
                 "dijit/layout/ContentPane",
                 "dijit/form/Button",
-                "dijit/form/DropDownButton",
-                "dijit/form/RadioButton"], function (Dialog, TooltipDialog, popup, TabContainer, ContentPane, Button, DropDownButton, RadioButton) {
-                var i,
-                    tr = runtime.tr,
+                "dijit/form/DropDownButton"], function (Dialog, TooltipDialog, popup, LayoutContainer, TabContainer, ContentPane, Button, DropDownButton) {
+                var tr = runtime.tr,
+                    mainLayoutContainer,
                     tabContainer,
-                    flowPane,
-                    numberingPane,
-                    tabsPane,
-                    capsPane,
-                    bordersPane,
-                    backgroundPane,
-                    indentsPane,
+                    topBar,
                     actionBar,
-                    okButton,
-                    cancelButton,
                     cloneButton,
                     deleteButton,
                     cloneTooltip,
                     cloneDropDown,
-                    newStyleName = null,
                     /**
                     * Mapping of the properties from edit pane properties to the attributes of style:text-properties
                     * @const@type{Array.<!{propertyName:string,attributeName:string,unit:string}>}
                     */
-                    textPropertyMapping = [
-                    {
+                    textPropertyMapping = [{
                         propertyName:  'fontSize',
                         attributeName: 'fo:font-size',
                         unit:          'pt'
@@ -109,8 +88,7 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                     * Mapping of the properties from edit pane properties to the attributes of style:paragraph-properties
                     * @const@type{Array.<!{propertyName:string,attributeName:string,unit:string}>}
                     */
-                    paragraphPropertyMapping = [
-                    {
+                    paragraphPropertyMapping = [{
                         propertyName:  'topMargin',
                         attributeName: 'fo:margin-top',
                         unit:          'mm'
@@ -129,14 +107,16 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                     }, {
                         propertyName:  'textAlign',
                         attributeName: 'fo:text-align'
-                    }];
+                    }],
+                    originalFontEffectsPaneValue,
+                    originalAlignmentPaneValue;
 
                 /**
                 * Sets attributes of a node by the properties of the object properties,
                 * based on the mapping defined in propertyMapping.
                 * @param {!Object} properties
                 * @param {!Array.<!{propertyName:string,attributeName:string,unit:string}>} propertyMapping
-                * @return {undefined}
+                * @return {!Object}
                 */
                 function mappedProperties(properties, propertyMapping) {
                     var i, m, value,
@@ -153,10 +133,33 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                     return result;
                 }
 
+                /**
+                 * Returns an flat object containing only the key-value mappings
+                 * from the 'new' flat object which are different from the 'old' object's.
+                 * @param {!Object} oldProperties
+                 * @param {!Object} newProperties
+                 * @return {!Object}
+                 */
+                function updatedProperties(oldProperties, newProperties) {
+                    var properties = {};
+                    Object.keys(newProperties).forEach(function (key) {
+                        if (newProperties[key] !== oldProperties[key]) {
+                            properties[key] = newProperties[key];
+                        }
+                    });
+                    return properties;
+                }
+
                 function accept() {
                     editorSession.updateParagraphStyle(stylePicker.value(), {
-                        "style:paragraph-properties": mappedProperties(alignmentPane.value(), paragraphPropertyMapping),
-                        "style:text-properties": mappedProperties(fontEffectsPane.value(), textPropertyMapping)
+                        "style:paragraph-properties": mappedProperties(
+                                                        updatedProperties(originalAlignmentPaneValue, alignmentPane.value()),
+                                                        paragraphPropertyMapping
+                                                     ),
+                        "style:text-properties": mappedProperties(
+                                                    updatedProperties(originalFontEffectsPaneValue, fontEffectsPane.value()),
+                                                    textPropertyMapping
+                                                 )
                     });
 
                     dialog.hide();
@@ -164,6 +167,24 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
 
                 function cancel() {
                     dialog.hide();
+                }
+
+                function setStyle(value) {
+                    if (value !== stylePicker.value()) {
+                        stylePicker.setValue(value);
+                    }
+
+                    alignmentPane.setStyle(value);
+                    fontEffectsPane.setStyle(value);
+                    originalAlignmentPaneValue = alignmentPane.value();
+                    originalFontEffectsPaneValue = fontEffectsPane.value();
+
+                    // If it is a default (nameless) style or is used, make it undeletable.
+                    if (value === "" || editorSession.isStyleUsed(editorSession.getParagraphStyleElement(value))) {
+                        deleteButton.domNode.style.display = 'none';
+                    } else {
+                        deleteButton.domNode.style.display = 'block';
+                    }
                 }
 
                 /**
@@ -174,7 +195,8 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                 * @param {!string} newStyleDisplayName display name of the new style
                 */
                 function cloneStyle(styleName, newStyleDisplayName) {
-                    newStyleName = editorSession.cloneParagraphStyle(styleName, newStyleDisplayName);
+                    var newStyleName = editorSession.cloneParagraphStyle(styleName, newStyleDisplayName);
+                    setStyle(newStyleName);
                 }
 
                 function deleteStyle(styleName) {
@@ -185,10 +207,20 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                     title: tr("Paragraph Styles")
                 });
 
+                mainLayoutContainer = new LayoutContainer({
+                    style: "height: 520px; width: 450px;"
+                });
+
+                topBar = new ContentPane({
+                    region: "top",
+                    style: "margin: 0; padding: 0"
+                });
+                mainLayoutContainer.addChild(topBar);
+
                 cloneTooltip = new TooltipDialog({
-                    content:
-                        '<h2 style="margin: 0;">'+tr("Clone this Style")+'</h2><br/>' +
-                        '<label for="name">'+tr("New Name:")+'</label> <input data-dojo-type="dijit/form/TextBox" id="name" name="name"><br/><br/>',
+                    content: idMangler.mangleIds(
+                        '<h2 style="margin: 0;">' + tr("Clone this Style") + '</h2><br/>' +
+                        '<label for="name">' + tr("New Name:") + '</label> <input data-dojo-type="dijit/form/TextBox" id="name" name="name"><br/><br/>'),
                     style: "width: 300px;"
                 });
                 cloneButton = new Button({
@@ -207,7 +239,7 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                     dropDown: cloneTooltip,
                     style: "float: right; margin-bottom: 5px;"
                 });
-                dialog.addChild(cloneDropDown, 1);
+                topBar.addChild(cloneDropDown, 1);
 
                 deleteButton = new Button({
                     label: tr("Delete"),
@@ -218,22 +250,22 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                         deleteStyle(stylePicker.value());
                     }
                 });
-                dialog.addChild(deleteButton, 2);
+                topBar.addChild(deleteButton, 2);
 
                 // Tab Container
                 tabContainer = new TabContainer({
-                    style: "height: 100%; width: 100%;"
+                    region: "center"
                 });
-                dialog.addChild(tabContainer, 3);
+                mainLayoutContainer.addChild(tabContainer);
 
                 actionBar = dojo.create("div", {
                     "class": "dijitDialogPaneActionBar"
                 });
-                okButton = new dijit.form.Button({
+                new dijit.form.Button({
                     label: tr("OK"),
                     onClick: accept
                 }).placeAt(actionBar);
-                cancelButton = new dijit.form.Button({
+                new dijit.form.Button({
                     label: tr("Cancel"),
                     onClick: cancel
                 }).placeAt(actionBar);
@@ -247,38 +279,23 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
                 ], function (ParagraphStyles, AlignmentPane, FontEffectsPane) {
                     var p, a, f;
 
-                    function openStyle(value) {
-                        alignmentPane.setStyle(value);
-                        fontEffectsPane.setStyle(value);
-                        // If it is a default (nameless) style or is used, make it undeletable.
-                        if (value === "" || editorSession.isStyleUsed(editorSession.getParagraphStyleElement(value))) {
-                            deleteButton.domNode.style.display = 'none';
-                        } else {
-                            deleteButton.domNode.style.display = 'block';
-                        }
-                    }
-
                     p = new ParagraphStyles(function (paragraphStyles) {
                         stylePicker = paragraphStyles;
                         stylePicker.widget().startup();
                         stylePicker.widget().domNode.style.float = "left";
                         stylePicker.widget().domNode.style.width = "350px";
                         stylePicker.widget().domNode.style.marginTop = "5px";
-                        dialog.addChild(stylePicker.widget(), 0);
+                        topBar.addChild(stylePicker.widget(), 0);
 
-                        stylePicker.onAdd = function (name) {
-                            if (newStyleName === name) {
-                                stylePicker.setValue(name);
-                                newStyleName = null; // reset 'flag' name
-                            }
+                        stylePicker.onRemove = function () {
+                            // The style picker automatically falls back
+                            // to the first entry if the currently selected
+                            // entry is deleted. So it is safe to simply
+                            // open the new auto-selected entry after removal.
+                            setStyle(stylePicker.value());
                         };
 
-                        stylePicker.onRemove = function (name) {
-                            // Set the first style name as current
-                            stylePicker.setValue(stylePicker.widget().getOptions(0));
-                        };
-
-                        stylePicker.onChange = openStyle;
+                        stylePicker.onChange = setStyle;
                         stylePicker.setEditorSession(editorSession);
                     });
                     a = new AlignmentPane(function (pane) {
@@ -296,26 +313,23 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
 
                     dialog.onShow = function () {
                         var currentStyle = editorSession.getCurrentParagraphStyle();
-                        // setting the stylepicker value if the style name is the same
-                        // will not trigger onChange, so specifically open the style in
-                        // the panes.
-                        if (stylePicker.value() === currentStyle) {
-                            openStyle(currentStyle);
-                        } else {
-                            stylePicker.setValue(currentStyle);
-                        }
+                        setStyle(currentStyle);
                     };
 
                     dialog.onHide = self.onToolDone;
+
+                    // only done to make jslint see the var used
+                    return p || a || f;
                 });
 
-                tabContainer.startup();
+                dialog.addChild(mainLayoutContainer);
+                mainLayoutContainer.startup();
 
                 return callback(dialog);
             });
         }
 
-        this.setEditorSession = function(session) {
+        this.setEditorSession = function (session) {
             editorSession = session;
             if (stylePicker) {
                 stylePicker.setEditorSession(session);
@@ -331,7 +345,9 @@ define("webodf/editor/widgets/paragraphStylesDialog", [], function () {
             }
         };
 
+        /*jslint emptyblock: true*/
         this.onToolDone = function () {};
+        /*jslint emptyblock: false*/
 
         // init
         makeWidget(function (dialog) {

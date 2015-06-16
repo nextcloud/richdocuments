@@ -1,0 +1,30 @@
+From 28f377dc8fd3411ce7fad011140626484e180ac8 Mon Sep 17 00:00:00 2001
+From: Victor Dubiniuk <victor.dubiniuk@gmail.com>
+Date: Wed, 10 Jun 2015 19:29:27 +0300
+Subject: [PATCH] Patch EditorSession manually
+
+---
+ js/3rdparty/webodf/editor/EditorSession.js | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/js/3rdparty/webodf/editor/EditorSession.js b/js/3rdparty/webodf/editor/EditorSession.js
+index f2e91b6..709fd24 100644
+--- a/js/3rdparty/webodf/editor/EditorSession.js
++++ b/js/3rdparty/webodf/editor/EditorSession.js
+@@ -25,10 +25,12 @@
+ /*global runtime, define, document, core, odf, gui, ops*/
+ 
+ define("webodf/editor/EditorSession", [
+-    "dojo/text!resources/fonts/fonts.css"
++    "dojo/text!" + OC.filePath('documents', 'css', 'fonts.css')
+ ], function (fontsCSS) { // fontsCSS is retrieved as a string, using dojo's text retrieval AMD plugin
+     "use strict";
+ 
++    fontsCSS = fontsCSS.replace(/\.\/fonts/g, OC.appswebroots['documents']+'/css/fonts');
++
+     runtime.loadClass("core.Async");
+     runtime.loadClass("core.DomUtils");
+     runtime.loadClass("odf.OdfUtils");
+-- 
+2.1.4
+

@@ -3,7 +3,7 @@ define("owncloud/widgets/ocShare",
 		["dojo/_base/declare", "dojo/dom-style", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "webodf/editor/EditorSession"],
 		function (declare, domStyle, _WidgetBase, _TemplatedMixin, EditorSession) {
 			return declare("OcShare", [_WidgetBase, _TemplatedMixin], {
-				templateString: '<div class="dijit" style="float:left;margin-top:5px">'
+				templateString: '<div class="dijit" style="float:left;margin-top:3px">'
 						+ '<button id="odf-invite" class="drop icon-share svg" data-dojo-attach-event="onclick: showDropdown">' +
 						t('documents', 'Share') +
 						'</button></div>',

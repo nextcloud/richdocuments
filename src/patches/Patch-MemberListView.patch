@@ -1,0 +1,104 @@
+From c3f8c8d13d4fd0c9c4c1c47a5c53c184ad8e1c25 Mon Sep 17 00:00:00 2001
+From: Victor Dubiniuk <victor.dubiniuk@gmail.com>
+Date: Wed, 10 Jun 2015 19:26:42 +0300
+Subject: [PATCH] Patch MemberListView manually
+
+---
+ js/3rdparty/webodf/editor/MemberListView.js | 44 +++++++++++++++++++++++------
+ 1 file changed, 36 insertions(+), 8 deletions(-)
+
+diff --git a/js/3rdparty/webodf/editor/MemberListView.js b/js/3rdparty/webodf/editor/MemberListView.js
+index c188e2a..c5ae12b 100644
+--- a/js/3rdparty/webodf/editor/MemberListView.js
++++ b/js/3rdparty/webodf/editor/MemberListView.js
+@@ -55,6 +55,8 @@ define("webodf/editor/MemberListView",
+ 
+                 while (node) {
+                     if (node.memberId === memberId) {
++                        node.setAttribute('uid', memberDetails.uid);
++                        node.setAttribute('count', 1);
+                         node = node.firstChild;
+                         while (node) {
+                             if (node.localName === "img") {
+@@ -62,6 +64,11 @@ define("webodf/editor/MemberListView",
+                                 node.src = memberDetails.imageUrl;
+                                 // update border color
+                                 node.style.borderColor = memberDetails.color;
++                            } else if (node.localName === "span" && memberDetails.imageUrl){
++                                try {
++                                    $(node).avatar(memberDetails.imageUrl, 60);
++                                } catch (e){}
++                                node.style.borderColor = memberDetails.color;
+                             } else if (node.localName === "div") {
+                                 node.setAttribute('fullname', memberDetails.fullName);
+                             }
+@@ -81,7 +88,7 @@ define("webodf/editor/MemberListView",
+                 var doc = memberListDiv.ownerDocument,
+                     htmlns = doc.documentElement.namespaceURI,
+                     avatarDiv = doc.createElementNS(htmlns, "div"),
+-                    imageElement = doc.createElement("img"),
++                    imageElement = doc.createElement("span"),
+                     fullnameNode = doc.createElement("div");
+ 
+                 avatarDiv.className = "webodfeditor-memberListButton";
+@@ -91,12 +98,15 @@ define("webodf/editor/MemberListView",
+                 avatarDiv.memberId = memberId; // TODO: namespace?
+ 
+                 avatarDiv.onclick = function () {
+-                    var caret = editorSession.sessionView.getCaret(memberId);
+-                    if (caret) {
+-                        caret.toggleHandleVisibility();
++                    if (memberId === editorSession.sessionController.getInputMemberId()){
++                        documentsMain.onNickChange(memberId, fullnameNode);
+                     }
+                 };
+-                memberListDiv.appendChild(avatarDiv);
++                if (memberId === editorSession.sessionController.getInputMemberId()){
++                    memberListDiv.insertBefore(avatarDiv, memberListDiv.firstChild);
++                } else {
++                    memberListDiv.appendChild(avatarDiv);
++                }
+             }
+ 
+             /**
+@@ -107,7 +117,12 @@ define("webodf/editor/MemberListView",
+                 var node = memberListDiv.firstChild;
+                 while (node) {
+                     if (node.memberId === memberId) {
+-                        memberListDiv.removeChild(node);
++                        var count = parseInt(node.getAttribute('count'));
++                        if (count>1){
++                            node.setAttribute('count', count-1);
++                        } else {
++                            memberListDiv.removeChild(node);
++                        }
+                         return;
+                     }
+                     node = node.nextSibling;
+@@ -120,8 +135,21 @@ define("webodf/editor/MemberListView",
+              */
+             function addMember(memberId) {
+                 var member = editorSession.getMember(memberId),
+-                    properties = member.getProperties();
+-                createAvatarButton(memberId);
++                    properties = member.getProperties(),
++                    node = memberListDiv.firstChild,
++                    found = false;
++                while (node) {
++                    if (node.getAttribute('uid') === properties.uid) {
++                        var count = parseInt(node.getAttribute('count'));
++                        node.setAttribute('count', count+1);
++                        found = true;
++                        break;
++                    }
++                    node = node.nextSibling;
++                }
++                if (!found){
++                    createAvatarButton(memberId);
++                }
+                 updateAvatarButton(memberId, properties);
+             }
+ 
+-- 
+2.1.4
+

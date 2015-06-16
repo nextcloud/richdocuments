@@ -158,17 +158,17 @@ var documentsMain = {
 	
 	UI : {		
 		/* Editor wrapper HTML */
-		container : '<div id = "mainContainer" class="claro">' +
-					'  <div id = "editor">' +
-					'    <div id = "container">' +
-					'      <div id="canvas"></div>' +
+		container : '<div id="mainContainer" class="claro">' +
+					'  <div id="editor" class="webodfeditor-editor">' +
+					'    <div id="container" class="webodfeditor-canvascontainer">' +
+					'      <div id="canvas" class="webodfeditor-canvas"></div>' +
 					'    </div>' +
 					'  </div>' +
-					'  <div id = "collaboration">' +
-					'    <div id = "collabContainer">' +
-					'      <div id = "members">' +
-					'        <div id = "inviteButton"></div>' +
-					'        <div id = "memberList"></div>' +
+					'  <div id="collaboration">' +
+					'    <div id="collabContainer">' +
+					'      <div id="members">' +
+					'        <div id="inviteButton"></div>' +
+					'        <div id="memberList"></div>' +
 					'      </div>' +
 					'    </div>' +
 					'  </div>' +
@@ -204,7 +204,7 @@ var documentsMain = {
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
 				$('#mainContainer').remove();
-				$('#content').fadeIn('fast');
+				$('#content-wrapper').fadeIn('fast');
 				$(document.body).removeClass('claro');
 				$('title').text(documentsMain.UI.mainTitle);
 			});
@@ -332,7 +332,7 @@ var documentsMain = {
 				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
 		require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
 			// fade out file list and show WebODF canvas
-			$('#content').fadeOut('fast').promise().done(function() {
+			$('#content-wrapper').fadeOut('fast').promise().done(function() {
 				
 				documentsMain.fileId = response.file_id;
 				documentsMain.fileName = response.title;
@@ -350,7 +350,14 @@ var documentsMain = {
 
 				documentsMain.webodfServerInstance = serverFactory.createServer();
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
-				documentsMain.webodfEditorInstance = new Editor({unstableFeaturesEnabled: documentsMain.useUnstable}, documentsMain.webodfServerInstance, serverFactory);
+				documentsMain.webodfEditorInstance = new Editor(
+						{
+							allFeaturesEnabled: true,
+							collabEditingEnabled: true
+						},
+						documentsMain.webodfServerInstance, serverFactory
+				);
+				
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_BEFORESAVETOFILE, documentsMain.UI.showSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_SAVEDTOFILE, documentsMain.UI.hideSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_ERROR, documentsMain.onEditorShutdown);
@@ -691,6 +698,8 @@ $(document).ready(function() {
 		$('.add-document .upload').css({opacity:0.7});
 		documentsMain.show();
 	});
-	
+	OC.addStyle('documents', '3rdparty/webodf/wodotexteditor');
+	OC.addStyle('documents', '/3rdparty/webodf/wodocollabpane');
+
 	OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', documentsMain.onStartup);
 });

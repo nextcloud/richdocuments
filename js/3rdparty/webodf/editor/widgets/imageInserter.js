@@ -1,42 +1,28 @@
 /**
- * @license
  * Copyright (C) 2012-2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
- * The JavaScript code in this page is free software: you can redistribute it
- * and/or modify it under the terms of the GNU Affero General Public License
- * (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.  The code is distributed
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+ * This file is part of WebODF.
+ *
+ * WebODF is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License (GNU AGPL)
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * WebODF is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this code.  If not, see <http://www.gnu.org/licenses/>.
- *
- * As additional permission under GNU AGPL version 3 section 7, you
- * may distribute non-source (e.g., minimized or compacted) forms of
- * that code without the copy of the GNU GPL normally required by
- * section 4, provided you include this license notice and a URL
- * through which recipients can access the Corresponding Source.
- *
- * As a special exception to the AGPL, any HTML file which merely makes function
- * calls to this code, and for that purpose includes it by reference shall be
- * deemed a separate work for copyright law purposes. In addition, the copyright
- * holders of this code give you permission to combine this code with free
- * software libraries that are released under the GNU LGPL. You may copy and
- * distribute such a system following the terms of the GNU AGPL for this code
- * and the LGPL for the libraries. If you modify this code, you may extend this
- * exception to your version of the code, but you are not obligated to do so.
- * If you do not wish to do so, delete this exception statement from your
- * version.
- *
- * This license applies to this entire compilation.
+ * along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
  * @licend
+ *
  * @source: http://www.webodf.org/
  * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global define,require,document,Image,FileReader,window,runtime,ops */
+/*global define, require, document, Image, FileReader, window, runtime, ops, gui */
 
 define("webodf/editor/widgets/imageInserter", [
     "dijit/form/Button",
@@ -50,8 +36,21 @@ define("webodf/editor/widgets/imageInserter", [
                 widget = {},
                 insertImageButton,
                 editorSession,
-                fileLoader;
+                fileLoader,
+                textController,
+                imageController;
 
+            /**
+             *
+             * @param {!string} mimetype
+             * @param {!string} content base64 encoded string
+             * @param {!number} width
+             * @param {!number} height
+             */
+            function insertImage(mimetype, content, width, height) {
+                textController.removeCurrentSelection();
+                imageController.insertImage(mimetype, content, width, height);
+            }
 
             /**
              * @param {!string} content  as datauri
@@ -67,9 +66,7 @@ define("webodf/editor/widgets/imageInserter", [
                 hiddenImage.onload = function () {
                     // remove the data:image/jpg;base64, bit
                     content = content.substring(content.indexOf(",") + 1);
-                    if (editorSession) {
-                        editorSession.insertImage(mimetype, content, hiddenImage.width, hiddenImage.height);
-                    }
+                    insertImage(mimetype, content, hiddenImage.width, hiddenImage.height);
                     // clean up
                     document.body.removeChild(hiddenImage);
                     self.onToolDone();
@@ -137,27 +134,43 @@ define("webodf/editor/widgets/imageInserter", [
                 return widget;
             };
 
+            function enableButtons(isEnabled) {
+                widget.children.forEach(function (element) {
+                    element.setAttribute('disabled', !isEnabled);
+                });
+            }
             function handleCursorMoved(cursor) {
-                var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
-                // LO/AOO pops up the picture/frame option dialog if image is selected when pressing the button
-                // Since we only support inline images, disable the button for now.
-                insertImageButton.setAttribute('disabled', disabled);
+                if (imageController.isEnabled()) {
+                    var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
+                    // LO/AOO pops up the picture/frame option dialog if image is selected when pressing the button
+                    // Since we only support inline images, disable the button for now.
+                    insertImageButton.setAttribute('disabled', disabled);
+                }
             }
 
             this.setEditorSession = function (session) {
                 if (editorSession) {
                     editorSession.unsubscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                    imageController.unsubscribe(gui.ImageController.enabledChanged, enableButtons);
                 }
+
                 editorSession = session;
                 if (editorSession) {
+                    textController = editorSession.sessionController.getTextController();
+                    imageController = editorSession.sessionController.getImageController();
+
                     editorSession.subscribe(EditorSession.signalCursorMoved, handleCursorMoved);
+                    imageController.subscribe(gui.ImageController.enabledChanged, enableButtons);
+
+                    enableButtons(imageController.isEnabled());
+                } else {
+                    enableButtons(false);
                 }
-                widget.children.forEach(function (element) {
-                    element.setAttribute("disabled", !session);
-                });
             };
 
+            /*jslint emptyblock: true*/
             this.onToolDone = function () {};
+            /*jslint emptyblock: false*/
 
             callback(widget);
         };

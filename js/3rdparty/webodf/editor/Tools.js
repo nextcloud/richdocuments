@@ -2,40 +2,27 @@
  * Copyright (C) 2013 KO GmbH <copyright@kogmbh.com>
  *
  * @licstart
- * The JavaScript code in this page is free software: you can redistribute it
- * and/or modify it under the terms of the GNU Affero General Public License
- * (GNU AGPL) as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.  The code is distributed
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
+ * This file is part of WebODF.
+ *
+ * WebODF is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Affero General Public License (GNU AGPL)
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * WebODF is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this code.  If not, see <http://www.gnu.org/licenses/>.
- *
- * As additional permission under GNU AGPL version 3 section 7, you
- * may distribute non-source (e.g., minimized or compacted) forms of
- * that code without the copy of the GNU GPL normally required by
- * section 4, provided you include this license notice and a URL
- * through which recipients can access the Corresponding Source.
- *
- * As a special exception to the AGPL, any HTML file which merely makes function
- * calls to this code, and for that purpose includes it by reference shall be
- * deemed a separate work for copyright law purposes. In addition, the copyright
- * holders of this code give you permission to combine this code with free
- * software libraries that are released under the GNU LGPL. You may copy and
- * distribute such a system following the terms of the GNU AGPL for this code
- * and the LGPL for the libraries. If you modify this code, you may extend this
- * exception to your version of the code, but you are not obligated to do so.
- * If you do not wish to do so, delete this exception statement from your
- * version.
- *
- * This license applies to this entire compilation.
+ * along with WebODF.  If not, see <http://www.gnu.org/licenses/>.
  * @licend
+ *
  * @source: http://www.webodf.org/
  * @source: https://github.com/kogmbh/WebODF/
  */
 
-/*global define,document,require,ops */
+/*global window, define, require, document, dijit, dojo, runtime, ops*/
 
 define("webodf/editor/Tools", [
     "dojo/ready",
@@ -54,29 +41,59 @@ define("webodf/editor/Tools", [
     "webodf/editor/widgets/paragraphStylesDialog",
     "owncloud/widgets/zoomCombo",
     "owncloud/widgets/ocToolbar",
+    "webodf/editor/widgets/aboutDialog",
     "webodf/editor/EditorSession"],
-    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, OcToolbar, EditorSession) {
+    function (ready, MenuItem, DropDownMenu, Button, DropDownButton, Toolbar, ParagraphAlignment, SimpleStyles, UndoRedoMenu, CurrentStyle, AnnotationControl, EditHyperlinks, ImageInserter, ParagraphStylesDialog, ZoomCombo, OcToolbar, AboutDialog, EditorSession) {
         "use strict";
 
-        return function Tools(args) {
+        return function Tools(toolbarElementId, args) {
             var tr = runtime.tr,
                 onToolDone = args.onToolDone,
                 loadOdtFile = args.loadOdtFile,
                 saveOdtFile = args.saveOdtFile,
+                saveAsOdtFile = args.saveAsOdtFile,
+                downloadOdtFile = args.downloadOdtFile,
                 close = args.close,
                 toolbar,
-                loadButton, saveButton, closeButton,
+                loadButton, saveButton, closeButton, aboutButton,
+                saveAsButton, downloadButton,
                 formatDropDownMenu, formatMenuButton,
-                paragraphStylesMenuItem, paragraphStylesDialog, simpleStyles, currentStyle,
-                zoomCombo,
-                ocToolbar,
-                undoRedoMenu,
+                paragraphStylesMenuItem, paragraphStylesDialog,
                 editorSession,
-                paragraphAlignment,
-                imageInserter,
-                annotationControl,
-                editHyperlinks,
+                aboutDialog,
+                ocToolbar,
                 sessionSubscribers = [];
+
+            function placeAndStartUpWidget(widget) {
+                widget.placeAt(toolbar);
+                widget.startup();
+            }
+
+            /**
+             * Creates a tool and installs it, if the enabled flag is set to true.
+             * Only supports tool classes whose constructor has a single argument which
+             * is a callback to pass the created widget object to.
+             * @param {!function(new:Object, function(!Object):undefined)} Tool  constructor method of the tool
+             * @param {!boolean} enabled
+             * @param {!Object|undefined=} config
+             * @return {?Object}
+             */
+            function createTool(Tool, enabled, config) {
+                var tool = null;
+
+                if (enabled) {
+                    if (config) {
+                        tool = new Tool(config, placeAndStartUpWidget);
+                    } else {
+                        tool = new Tool(placeAndStartUpWidget);
+                    }
+                    sessionSubscribers.push(tool);
+                    tool.onToolDone = onToolDone;
+                    tool.setEditorSession(editorSession);
+                }
+
+                return tool;
+            }
 
             function handleCursorMoved(cursor) {
                 var disabled = cursor.getSelectionType() === ops.OdtCursor.RegionSelection;
@@ -89,6 +106,7 @@ define("webodf/editor/Tools", [
                 if (editorSession) {
                     editorSession.unsubscribe(EditorSession.signalCursorMoved, handleCursorMoved);
                 }
+
                 editorSession = session;
                 if (editorSession) {
                     editorSession.subscribe(EditorSession.signalCursorMoved, handleCursorMoved);
@@ -97,12 +115,18 @@ define("webodf/editor/Tools", [
                 sessionSubscribers.forEach(function (subscriber) {
                     subscriber.setEditorSession(editorSession);
                 });
+
+                [saveButton, saveAsButton, downloadButton, closeButton, formatMenuButton].forEach(function (button) {
+                    if (button) {
+                        button.setAttribute('disabled', !editorSession);
+                    }
+                });
             }
 
             this.setEditorSession = setEditorSession;
 
             /**
-             * @param {!function(!Object=)} callback, passing an error object in case of error
+             * @param {!function(!Error=)} callback, passing an error object in case of error
              * @return {undefined}
              */
             this.destroy = function (callback) {
@@ -127,62 +151,24 @@ define("webodf/editor/Tools", [
                     widget.startup();
                 });
 
-                toolbar = new Toolbar({}, "toolbar");
+                toolbar = new Toolbar({}, toolbarElementId);
 
-                // Undo/Redo
-                if (args.undoRedoEnabled) {
-                    undoRedoMenu = new UndoRedoMenu(function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
+                // About
+                if (args.aboutEnabled) {
+                    aboutButton = new Button({
+                        label: tr('About WebODF Text Editor'),
+                        showLabel: false,
+                        iconClass: 'webodfeditor-dijitWebODFIcon'
                     });
-                    sessionSubscribers.push(undoRedoMenu);
-                    undoRedoMenu.onToolDone = onToolDone;
-                }
-
-                // Add annotation
-                if (args.annotationsEnabled) {
-                    annotationControl = new AnnotationControl(function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
+                    aboutDialog = new AboutDialog(function (dialog) {
+                        aboutButton.onClick = function () {
+                            dialog.startup();
+                            dialog.show();
+                        };
                     });
-                    sessionSubscribers.push(annotationControl);
-                    annotationControl.onToolDone = onToolDone;
+                    aboutDialog.onToolDone = onToolDone;
+                    aboutButton.placeAt(toolbar);
                 }
-
-                // Simple Style Selector [B, I, U, S]
-                simpleStyles = new SimpleStyles(function (widget) {
-                    widget.placeAt(toolbar);
-                    widget.startup();
-                });
-                sessionSubscribers.push(simpleStyles);
-                simpleStyles.onToolDone = onToolDone;
-
-                // Paragraph direct alignment buttons
-                if (args.directParagraphStylingEnabled) {
-                    paragraphAlignment = new ParagraphAlignment(function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
-                    });
-                    sessionSubscribers.push(paragraphAlignment);
-                    paragraphAlignment.onToolDone = onToolDone;
-                }
-
-
-                // Paragraph Style Selector
-                currentStyle = new CurrentStyle(function (widget) {
-                    widget.placeAt(toolbar);
-                    widget.startup();
-                });
-                sessionSubscribers.push(currentStyle);
-                currentStyle.onToolDone = onToolDone;
-
-                // Zoom Level Selector
-                zoomCombo = new ZoomCombo(function (widget) {
-                    widget.placeAt(toolbar);
-                    widget.startup();
-                });
-                sessionSubscribers.push(zoomCombo);
-                zoomCombo.onToolDone = onToolDone;
 
                 // Load
                 if (loadOdtFile) {
@@ -190,9 +176,6 @@ define("webodf/editor/Tools", [
                         label: tr('Open'),
                         showLabel: false,
                         iconClass: 'dijitIcon dijitIconFolderOpen',
-                        style: {
-                            float: 'left'
-                        },
                         onClick: function () {
                             loadOdtFile();
                         }
@@ -205,10 +188,8 @@ define("webodf/editor/Tools", [
                     saveButton = new Button({
                         label: tr('Save'),
                         showLabel: false,
+                        disabled: true,
                         iconClass: 'dijitEditorIcon dijitEditorIconSave',
-                        style: {
-                            float: 'left'
-                        },
                         onClick: function () {
                             saveOdtFile();
                             onToolDone();
@@ -217,56 +198,96 @@ define("webodf/editor/Tools", [
                     saveButton.placeAt(toolbar);
                 }
 
-                // Format menu
-                formatDropDownMenu = new DropDownMenu({});
-                paragraphStylesMenuItem = new MenuItem({
-                    label: tr("Paragraph...")
-                });
-                formatDropDownMenu.addChild(paragraphStylesMenuItem);
-
-                paragraphStylesDialog = new ParagraphStylesDialog(function (dialog) {
-                    paragraphStylesMenuItem.onClick = function () {
-                        if (editorSession) {
-                            dialog.startup();
-                            dialog.show();
+                // SaveAs
+                if (saveAsOdtFile) {
+                    saveAsButton = new Button({
+                        label: tr('Save as...'),
+                        showLabel: false,
+                        disabled: true,
+                        iconClass: 'webodfeditor-dijitSaveAsIcon',
+                        onClick: function () {
+                            saveAsOdtFile();
+                            onToolDone();
                         }
-                    };
-                });
-                sessionSubscribers.push(paragraphStylesDialog);
-                paragraphStylesDialog.onToolDone = onToolDone;
-
-                if (args.hyperlinkEditingEnabled) {
-                    editHyperlinks = new EditHyperlinks(function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
                     });
-                    sessionSubscribers.push(editHyperlinks);
-                    editHyperlinks.onToolDone = onToolDone;
+                    saveAsButton.placeAt(toolbar);
                 }
 
-                formatMenuButton = new DropDownButton({
-                    dropDown: formatDropDownMenu,
-                    label: tr('Format'),
-                    iconClass: "dijitIconEditTask",
-                    style: {
-                        float: 'left'
-                    }
-                });
-                formatMenuButton.placeAt(toolbar);
-
-                if (args.imageInsertingEnabled) {
-                    imageInserter = new ImageInserter(function (widget) {
-                        widget.placeAt(toolbar);
-                        widget.startup();
+                // Download
+                if (downloadOdtFile) {
+                    downloadButton = new Button({
+                        label: tr('Download'),
+                        showLabel: true,
+                        disabled: true,
+                        style: {
+                            float: 'right'
+                        },
+                        onClick: function () {
+                            downloadOdtFile();
+                            onToolDone();
+                        }
                     });
-                    sessionSubscribers.push(imageInserter);
-                    imageInserter.onToolDone = onToolDone;
+                    downloadButton.placeAt(toolbar);
                 }
 
+                // Format menu
+                if (args.paragraphStyleEditingEnabled) {
+                    formatDropDownMenu = new DropDownMenu({});
+                    paragraphStylesMenuItem = new MenuItem({
+                        label: tr("Paragraph...")
+                    });
+                    formatDropDownMenu.addChild(paragraphStylesMenuItem);
+
+                    paragraphStylesDialog = new ParagraphStylesDialog(function (dialog) {
+                        paragraphStylesMenuItem.onClick = function () {
+                            if (editorSession) {
+                                dialog.startup();
+                                dialog.show();
+                            }
+                        };
+                    });
+                    sessionSubscribers.push(paragraphStylesDialog);
+                    paragraphStylesDialog.onToolDone = onToolDone;
+
+                    formatMenuButton = new DropDownButton({
+                        dropDown: formatDropDownMenu,
+                        disabled: true,
+                        label: tr('Format'),
+                        iconClass: "dijitIconEditTask"
+                    });
+                    formatMenuButton.placeAt(toolbar);
+                }
+
+                // Undo/Redo
+                createTool(UndoRedoMenu, args.undoRedoEnabled);
+
+                // Add annotation
+                createTool(AnnotationControl, args.annotationsEnabled);
+
+                // Simple Style Selector [B, I, U, S]
+                createTool(SimpleStyles, args.directTextStylingEnabled);
+
+                // Paragraph direct alignment buttons
+                createTool(ParagraphAlignment, args.directParagraphStylingEnabled);
+
+                // Paragraph Style Selector
+                createTool(CurrentStyle, args.paragraphStyleSelectingEnabled);
+
+                // Zoom Level Selector
+                createTool(ZoomCombo, args.zoomingEnabled);
+
+                // hyper links
+                createTool(EditHyperlinks, args.hyperlinkEditingEnabled);
+
+                // image insertion
+                createTool(ImageInserter, args.imageInsertingEnabled);
+
+                // close button
                 if (close) {
                     closeButton = new Button({
                         label: tr('Close'),
                         showLabel: false,
+                        disabled: true,
                         iconClass: 'dijitEditorIcon dijitEditorIconCancel',
                         style: {
                             float: 'right'
@@ -277,7 +298,24 @@ define("webodf/editor/Tools", [
                     });
                     closeButton.placeAt(toolbar);
                 }
-				toolbar.startup();
+
+                // This is an internal hook for debugging/testing.
+                // Yes, you discovered something interesting. But:
+                // Do NOT rely on it, it will not be supported and can and will change in any version.
+                // It is not officially documented for a reason. A real plugin system is only on the wishlist
+                // so far, please file your suggestions/needs at the official WebODF issue system.
+                // You have been warned.
+                if (window.wodo_plugins) {
+                    window.wodo_plugins.forEach(function (plugin) {
+                        runtime.log("Creating plugin: "+plugin.id);
+                        require([plugin.id], function (Plugin) {
+                            runtime.log("Creating as tool now: "+plugin.id);
+                            createTool(Plugin, true, plugin.config);
+                        });
+                    });
+
+                }
+                toolbar.startup();
                 setEditorSession(editorSession);
             });
         };
