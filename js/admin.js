@@ -5,7 +5,7 @@ $(document).ready(function(){
 	var documentsSettings = {
 		save : function() {
 			$('#docs_apply').attr('disabled', true);
-			var data = 	{
+			var data = {
 				converter : $('[name="docs_converter"]:checked').val()
 			}; 
 			

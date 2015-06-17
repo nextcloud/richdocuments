@@ -21,61 +21,72 @@
  *
  */
 
-OCP\App::register(array('order' => 70, 'id' => 'documents', 'name' => 'Documents'));
-//OCP\App::registerAdmin('documents', 'settings');
-\OCP\App::registerAdmin('documents', 'admin');
-OCP\App::registerPersonal('documents', 'personal');
+namespace OCA\Documents\AppInfo;
 
-OCP\App::addNavigationEntry(array(
-	'id' => 'documents_index',
-	'order' => 2,
-	'href' => OCP\Util::linkTo('documents/', 'index.php'),
-	'icon' => OCP\Util::imagePath('documents', 'documents.svg'),
-	'name' => OCA\Documents\Config::getL10n()->t('Documents'))
-);
+use OCA\Documents\Filter\Office;
+use OCA\Documents\Config;
+
+$app = new Application();
+$c = $app->getContainer();
+
+\OCP\App::register(['order' => 70, 'id' => 'documents', 'name' => 'Documents']);
+//\OCP\App::registerAdmin('documents', 'settings');
+\OCP\App::registerAdmin('documents', 'admin');
+\OCP\App::registerPersonal('documents', 'personal');
+
+$navigationEntry = function () use ($c) {
+	return [
+		'id' => 'documents_index',
+		'order' => 2,
+		'href' => \OCP\Util::linkTo('documents/', 'index.php'),
+		'icon' => \OCP\Util::imagePath('documents', 'documents.svg'),
+		'name' => $c->query('L10N')->t('Documents')
+	];
+};
+$c->getServer()->getNavigationManager()->add($navigationEntry);
 
 //Script for registering file actions
-$url = OC::$server->getRequest()->server['REQUEST_URI'];
+$url = \OC::$server->getRequest()->server['REQUEST_URI'];
 
 if (preg_match('%index.php/apps/files(/.*)?%', $url)) {
-	OCP\Util::addScript('documents', 'viewer/viewer');
+	\OCP\Util::addScript('documents', 'viewer/viewer');
 }
 
-if (OCA\Documents\Config::getConverter() !== 'off'){
-	$docFilter = new OCA\Documents\Filter\Office(
-			array(
-				'read' =>
-					array (
-						'target' => 'application/vnd.oasis.opendocument.text',
-						'format' => 'odt:writer8',
-						'extension' => 'odt'
-					),
-				'write' =>
-					array (
-						'target' => 'application/msword',
-						'format' => 'doc',
-						'extension' => 'doc'
-					)
-			)
-);
+if (Config::getConverter() !== 'off'){
+	$docFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.text',
+					'format' => 'odt:writer8',
+					'extension' => 'odt'
+				],
+			'write' => 
+				[
+					'target' => 'application/msword',
+					'format' => 'doc',
+					'extension' => 'doc'
+				]
+		]
+	);
 
-$docxFilter = new OCA\Documents\Filter\Office(
-		array (
-				'read' =>
-					array (
-						'target' => 'application/vnd.oasis.opendocument.text',
-						'format' => 'odt:writer8',
-						'extension' => 'odt'
-					),
-				'write' =>
-					array (
-						'target' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-						'format' => 'docx',
-						'extension' => 'docx'
-					)
-			)
+	$docxFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.text',
+					'format' => 'odt:writer8',
+					'extension' => 'odt'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+					'format' => 'docx',
+					'extension' => 'docx'
+				]
+		]
 	);
 }
 
 //Listen to delete file signal
-OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");
+\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");
