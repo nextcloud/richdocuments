@@ -13,6 +13,7 @@ OC.L10N.register(
     "document-content" : "περιεχόμενο-εγγράφων",
     "bold" : "έντονα",
     "italic" : "πλάγια",
+    "solid" : "συνεχή",
     "pt" : "pt",
     "Saving..." : "Γίνεται αποθήκευση...",
     "Failed to load documents." : "Αποτυχία φόρτωσης εγγράφων.",

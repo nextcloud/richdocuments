@@ -9,6 +9,8 @@ OC.L10N.register(
     "Saved" : "Uloženo",
     "Format filter server is down or misconfigured" : "Server pro zpracování formátu je nedostupný nebo chybně nakonfigurovaný",
     "Conversion failed. Check log for details." : "Převod selhal. Zkontrolujte logy pro více detailů.",
+    "bold" : "tučné",
+    "italic" : "kurzíva",
     "Saving..." : "Ukládám...",
     "Failed to load documents." : "Nepodařilo se načíst dokumenty.",
     "No documents were found. Upload or create a document to get started!" : "Žádné dokumenty nebyly nalezeny. Začněte nahráním nebo vytvořením prvního dokumentu!",
