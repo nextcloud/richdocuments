@@ -1,8 +1,5 @@
 <?php
 
-global $RUNTIME_NOAPPS;
-$RUNTIME_NOAPPS = true;
-
 if (!defined('PHPUNIT_RUN')) {
 	define('PHPUNIT_RUN', 1);
 }
@@ -14,4 +11,3 @@ if(!class_exists('PHPUnit_Framework_TestCase')) {
 }
 
 OC_Hook::clear();
-OC_Log::$enabled = false;
