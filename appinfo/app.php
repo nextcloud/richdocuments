@@ -46,10 +46,13 @@ $navigationEntry = function () use ($c) {
 $c->getServer()->getNavigationManager()->add($navigationEntry);
 
 //Script for registering file actions
-$url = \OC::$server->getRequest()->server['REQUEST_URI'];
+$request = \OC::$server->getRequest();
+if (isset($request->server['REQUEST_URI'])) {
+	$url = $request->server['REQUEST_URI'];
 
-if (preg_match('%index.php/apps/files(/.*)?%', $url)) {
-	\OCP\Util::addScript('documents', 'viewer/viewer');
+	if (preg_match('%index.php/apps/files(/.*)?%', $url)) {
+		\OCP\Util::addScript('documents', 'viewer/viewer');
+	}
 }
 
 if (Config::getConverter() !== 'off'){
