@@ -29,8 +29,6 @@ use OCA\Documents\Config;
 $app = new Application();
 $c = $app->getContainer();
 
-\OCP\App::register(['order' => 70, 'id' => 'documents', 'name' => 'Documents']);
-//\OCP\App::registerAdmin('documents', 'settings');
 \OCP\App::registerAdmin('documents', 'admin');
 \OCP\App::registerPersonal('documents', 'personal');
 
