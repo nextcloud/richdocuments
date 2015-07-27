@@ -7,8 +7,6 @@
     "Saved" : "Uložené",
     "Format filter server is down or misconfigured" : "Server pre spracovanie formátu je nedostupný alebo chybne nakonfigurovaný",
     "Conversion failed. Check log for details." : "Konverzia zlyhala. Podrobnosti uvidíte v protokole.",
-    "bold" : "tučné",
-    "italic" : "kurzíva",
     "Saving..." : "Ukladám...",
     "Failed to load documents." : "Nepodarilo sa načítať dokumenty.",
     "No documents were found. Upload or create a document to get started!" : "Neboli nájdené žiadne dokumenty. Začnite tým, že nahráte alebo vytvoríte dokument.",
