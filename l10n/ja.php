@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "document-content" => "ドキュメント-内容",
 "bold" => "太字",
 "italic" => "イタリック",
+"solid" => "ソリッド",
 "pt" => "pt",
 "Saving..." => "保存中...",
 "Failed to load documents." => "ドキュメントのロードに失敗しました。",
