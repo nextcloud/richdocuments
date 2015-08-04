@@ -52,22 +52,22 @@ var odfViewer = {
 	},
 	
 	onEdit : function(fileName, context){
-		var location,
-			fileId = context.$file.attr('data-id');
+		var fileId = context.$file.attr('data-id');
 		window.location = OC.linkTo('documents', 'index.php') + '#' + fileId;
 	},
 			
 	onView: function(filename) {
-		var attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls',
+		var fileloc,
+		attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls',
 		attachToolbarTo = odfViewer.isDocuments ? '#content-wrapper' : '#controls';
 
 		if (odfViewer.isDocuments){
 			//Documents view
-			location = filename;
+			fileloc = filename;
 		} else {
 			//Public page, files app, etc
 			var dirName = $('#dir').val()!='/' ? $('#dir').val() + '/' : '/';
-			location = OC.filePath('documents', 'ajax', 'download.php') + '?path=' 
+			fileloc = OC.filePath('documents', 'ajax', 'download.php') + '?path=' 
 				+ encodeURIComponent(dirName) + encodeURIComponent(filename)
 				+ '&requesttoken=' + encodeURIComponent(oc_requesttoken);
 			OC.addStyle('documents', '3rdparty/webodf/wodotexteditor');
@@ -97,7 +97,7 @@ var odfViewer = {
 
 			var odfelement = document.getElementById("odf-canvas");
 			var odfcanvas = new odf.OdfCanvas(odfelement);
-			odfcanvas.load(location);
+			odfcanvas.load(fileloc);
 		});
 	},
 	
