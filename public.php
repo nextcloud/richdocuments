@@ -36,7 +36,6 @@ if (isset($_GET['t'])) {
 			$tmpl->assign('hasPassword', true);
 		} else {
 			\OCP\Util::addStyle( 'documents', '3rdparty/webodf/dojo-app');
-			\OCP\Util::addStyle( 'documents', '3rdparty/webodf/editor' );
 			\OCP\Util::addScript('documents', 'documents');
 			if ($file->getFileId()){
 				$session = new Db\Session();
