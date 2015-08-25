@@ -90,7 +90,7 @@ class Op extends \OCA\Documents\Db {
 		$op = array(
 			'optype' => 'AddMember',
 			'memberid' => (string) $memberId,
-			'timestamp' => (string) time(),
+			'timestamp' => $this->getMillisecondsAsString(),
 			'setProperties' => array(
 				'fullName' => $fullName,
 				'color' => $color,
@@ -106,7 +106,7 @@ class Op extends \OCA\Documents\Db {
 			'optype' => 'RemoveCursor',
 			'memberid' => (string) $memberId,
 			'reason' => 'server-idle',
-			'timestamp' => (string) time()
+			'timestamp' => $this->getMillisecondsAsString()
 		);
 		$this->insertOp($esId, $memberId, $op);
 	}
@@ -115,7 +115,7 @@ class Op extends \OCA\Documents\Db {
 		$op = array(
 			'optype' => 'RemoveMember',
 			'memberid' => (string) $memberId,
-			'timestamp' => (string) time()
+			'timestamp' => $this->getMillisecondsAsString()
 		);
 		$this->insertOp($esId, $memberId, $op);
 	}
@@ -125,7 +125,7 @@ class Op extends \OCA\Documents\Db {
 		$op = array(
 			'optype' => 'UpdateMember',
 			'memberid' => (string) $memberId,
-			'timestamp' => (string) time(),
+			'timestamp' => $this->getMillisecondsAsString(),
 			'setProperties' => array(
 				'fullName' => $fullName,
 			)
@@ -183,5 +183,12 @@ class Op extends \OCA\Documents\Db {
 			$ops = array();
 		}
 		return $ops;
+	}
+	
+	protected function getMillisecondsAsString(){
+		$microtime = microtime();
+		list($usec, $sec) = explode(" ", $microtime);
+		$milliseconds = $sec.substr($usec, 2, 3);
+		return $milliseconds;
 	}
 }
