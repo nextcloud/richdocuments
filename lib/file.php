@@ -147,7 +147,10 @@ class File {
 		if ($this->isPublicShare()){
 			if (isset($this->sharing['uid_owner'])){
 				$owner = $this->sharing['uid_owner'];
-				\OCP\JSON::checkUserExists($this->sharing['uid_owner']);
+				if (!\OC::$server->getUserManager()->userExists($this->sharing['uid_owner'])) {
+					throw new \Exception('Share owner' . $this->sharing['uid_owner'] . ' does not exist ');
+				}
+
 				\OC_Util::tearDownFS();
 				\OC_Util::setupFS($this->sharing['uid_owner']);
 			} else {
@@ -155,7 +158,7 @@ class File {
 			}
 			$view = new View('/' . $owner . '/files');
 		} else {
-			$owner = \OCP\User::getUser();
+			$owner = \OC::$server->getUserSession()->getUser()->getUID();
 			$root = '/' . $owner;
 			if ($useDefaultRoot){
 				$root .= '/' . 'files';

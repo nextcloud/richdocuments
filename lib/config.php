@@ -20,8 +20,8 @@ class Config {
 		$targetFilter = 'odt:writer8';
 		$targetExtension = 'odt';
 		$input = file_get_contents(dirname(__DIR__) . self::TEST_DOC_PATH);
-		$infile = \OCP\Files::tmpFile();
-		$outdir = \OCP\Files::tmpFolder();
+		$infile = \OC::$server->getTempManager()->getTemporaryFile();
+		$outdir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$outfile = $outdir . '/' . basename($infile) . '.' . $targetExtension;
 		$cmd = Helper::findOpenOffice();
  

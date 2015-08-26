@@ -123,8 +123,8 @@ class SessionController extends Controller{
 			$member = new Db\Member();
 			$member->load($memberId);
 	
-			if (!$member->getIsGuest() && !\OCP\User::checkLoggedIn()){
-				exit();
+			if (!$member->getIsGuest()){
+				\OCP\JSON::checkLoggedIn();
 			}
 
 			try {

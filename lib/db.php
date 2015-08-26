@@ -43,7 +43,7 @@ abstract class Db {
 	 * @return mixed
 	 */
 	public function getLastInsertId(){
-		return \OCP\DB::insertid($this->tableName);
+		return \OC::$server->getDatabaseConnection()->lastInsertId($this->tableName);
 	}
 	
 	/**
