@@ -16,6 +16,7 @@ use \OCP\IRequest;
 use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 
 use OCA\Documents\Converter;
 use OCA\Documents\Config;
@@ -23,16 +24,14 @@ use OCA\Documents\Filter;
 
 class SettingsController extends Controller{
 	
-	private $uid;
+	private $userId;
 	private $settings;
-	private $logger;
 	private $l10n;
 	
-	public function __construct($appName, IRequest $request, IConfig $settings, $logger, IL10N $l10n, $uid){
+	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $userId){
 		parent::__construct($appName, $request);
-		$this->uid = $uid;
+		$this->userId = $userId;
 		$this->settings = $settings;
-		$this->logger = $logger;
 		$this->l10n = $l10n;
 	}
 	
@@ -46,6 +45,45 @@ class SettingsController extends Controller{
 		);
 	}
 	
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function personalIndex(){
+		return new TemplateResponse(
+			'documents', 
+			'personal',
+			[ 'save_path' => $this->settings->getUserValue($this->userId, 'documents', 'save_path', '/') ],
+			'blank'
+		);
+	}
+	
+	/**
+	 * @NoCSRFRequired
+	 */
+	public function settingsIndex(){
+		return new TemplateResponse(
+			'documents', 
+			'settings',
+			[ 'unstable' => $this->settings->getAppValue('documents', 'unstable', 'false') ],
+			'blank'
+		);
+	}
+	
+	/**
+	 * @NoCSRFRequired
+	 */
+	public function adminIndex(){
+		return new TemplateResponse(
+			'documents', 
+			'admin',
+			[
+				'converter' => Config::getConverter(),
+				'converter_url' => Config::getConverterUrl(),
+			],
+			'blank'
+		);
+	}
 	
 	/**
 	 * @NoAdminRequired
@@ -60,7 +98,7 @@ class SettingsController extends Controller{
 		}
 		
 		if ($status){
-			$this->settings->setUserValue($this->uid, $this->appName, 'save_path', $savePath);
+			$this->settings->setUserValue($this->userId, $this->appName, 'save_path', $savePath);
 			$response = array(
 				'status' => 'success',
 				'data' => array('message'=> $this->l10n->t('Directory saved successfully.'))
@@ -100,7 +138,10 @@ class SettingsController extends Controller{
 		$currentConverter = $this->settings->getAppValue($this->appName, 'converter', 'off');
 		if ($currentConverter == 'external'){
 			if (!Converter::checkConnection()){
-				$this->logger->warning('Bad response from Format Filter Server', array('app' => $this->appName));
+				\OC::$server->getLogger()->warning(
+					'Bad response from Format Filter Server', 
+					['app' => $this->appName]
+				);
 					$response = array(
 						'status' => 'error',
 						'data'=>

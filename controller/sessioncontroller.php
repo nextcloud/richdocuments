@@ -123,8 +123,8 @@ class SessionController extends Controller{
 			$member = new Db\Member();
 			$member->load($memberId);
 	
-			if (!$member->getIsGuest()){
-				\OCP\JSON::checkLoggedIn();
+			if (!$member->getIsGuest() && !\OCP\User::checkLoggedIn()){
+				exit();
 			}
 
 			try {
@@ -236,7 +236,7 @@ class SessionController extends Controller{
 				if ($this->uid){
 					$view = new View('/' . $this->uid . '/files');
 		
-					$dir = \OCP\Config::getUserValue($this->uid, 'documents', 'save_path', '');
+					$dir = \OC::$server->getConfig()->getUserValue($this->uid, 'documents', 'save_path', '');
 					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
 				} else {
 					throw $e;

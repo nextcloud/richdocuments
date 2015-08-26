@@ -12,10 +12,8 @@
 
 namespace OCA\Documents;
 
-\OCP\Util::addScript('documents', 'personal');
+use \OCA\Documents\AppInfo\Application;
 
-$tmpl = new \OCP\Template('documents', 'personal');
-$savePath = \OCP\Config::getUserValue(\OCP\User::getUser(), 'documents', 'save_path', '/');
-$tmpl->assign('savePath', $savePath);
-
-return $tmpl->fetchPage();
+$app = new Application();
+$response = $app->getContainer()->query('\OCA\Documents\Controller\SettingsController')->personalIndex();
+return $response->render();

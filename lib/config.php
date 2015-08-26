@@ -66,11 +66,11 @@ class Config {
 	}
 
 	protected static function getAppValue($key, $default){
-		return \OCP\Config::getAppValue(self::APP_NAME, $key, $default);
+		return \OC::$server->getConfig()->getAppValue(self::APP_NAME, $key, $default);
 	}
 	
 	protected static function setAppValue($key, $value){
-		return \OCP\Config::setAppValue(self::APP_NAME, $key, $value);
+		return \OC::$server->getConfig()->setAppValue(self::APP_NAME, $key, $value);
 	}
 	
 }

@@ -12,6 +12,8 @@
 
 namespace OCA\Documents\Db;
 
+use OCP\Security\ISecureRandom;
+
 use OCA\Documents\Filter;
 
 /**
@@ -204,7 +206,9 @@ class Session extends \OCA\Documents\Db {
 	protected function getUniqueSessionId(){
 		$testSession = new Session();
 		do{
-			$id = \OC_Util::generateRandomBytes(30);
+			$id = \OC::$server->getSecureRandom()
+				->getMediumStrengthGenerator()
+				->generate(30, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		} while ($testSession->load($id)->hasData());
 
 		return $id;

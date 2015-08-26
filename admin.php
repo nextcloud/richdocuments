@@ -2,10 +2,9 @@
 
 namespace OCA\Documents;
 
-\OCP\Util::addScript('documents', 'admin');
+use \OCA\Documents\AppInfo\Application;
 
-$tmpl = new \OCP\Template('documents', 'admin');
-$tmpl->assign('converter', Config::getConverter());
-$tmpl->assign('converter_url', Config::getConverterUrl());
+$app = new Application();
+$response = $app->getContainer()->query('\OCA\Documents\Controller\SettingsController')->adminIndex();
+return $response->render();
 
-return $tmpl->fetchPage();

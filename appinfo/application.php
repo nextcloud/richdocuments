@@ -55,7 +55,6 @@ class Application extends App {
 				$c->query('AppName'), 
 				$c->query('Request'),
 				$c->query('CoreConfig'),
-				$c->query('Logger'),
 				$c->query('L10N'),
 				$c->query('UserId')
 			);
