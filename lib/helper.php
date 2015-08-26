@@ -161,9 +161,10 @@ class Helper {
 	}
 	
 	public static function findOpenOffice(){
+		$config = \OC::$server->getConfig();
 		$cmd = '';
-		if (is_string(\OC_Config::getValue('preview_libreoffice_path', null))){
-			$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
+		if (is_string($config->getSystemValue('preview_libreoffice_path', null))){
+			$cmd = $config->getSystemValue('preview_libreoffice_path', null);
 		}
 
 		$whichLibreOffice = shell_exec('which libreoffice');
