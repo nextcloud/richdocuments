@@ -55,7 +55,6 @@ class Application extends App {
 				$c->query('AppName'), 
 				$c->query('Request'),
 				$c->query('CoreConfig'),
-				$c->query('Logger'),
 				$c->query('L10N'),
 				$c->query('UserId')
 			);
@@ -73,8 +72,8 @@ class Application extends App {
         $container->registerService('L10N', function($c) {
             return $c->query('ServerContainer')->getL10N($c->query('AppName'));
         });
-        $container->registerService('UserId', function() {
-            return \OCP\User::getUser();
+        $container->registerService('UserId', function($c) {
+            return $c->query('ServerContainer')->getUserSession()->getUser()->getUID();
         });
 	}
 }

@@ -236,7 +236,7 @@ class SessionController extends Controller{
 				if ($this->uid){
 					$view = new View('/' . $this->uid . '/files');
 		
-					$dir = \OCP\Config::getUserValue($this->uid, 'documents', 'save_path', '');
+					$dir = \OC::$server->getConfig()->getUserValue($this->uid, 'documents', 'save_path', '');
 					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
 				} else {
 					throw $e;

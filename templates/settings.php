@@ -1,3 +1,6 @@
+<?php
+script('documents', 'settings');
+?>
 <div id="documents" class="section">
 	<h2><?php p($l->t('Documents')) ?></h2>
 	<input id="webodf-unstable" type ="checkbox"

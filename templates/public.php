@@ -1,3 +1,6 @@
+<?php
+style( 'documents', 'style' );
+?>
 <div id="notification-container">
 	<div id="notification" style="display: none;"></div>
 </div>

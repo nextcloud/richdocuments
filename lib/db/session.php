@@ -12,6 +12,8 @@
 
 namespace OCA\Documents\Db;
 
+use OCP\Security\ISecureRandom;
+
 use OCA\Documents\Filter;
 
 /**
@@ -88,6 +90,7 @@ class Session extends \OCA\Documents\Db {
 		if (!$member->insert()){
 			throw new \Exception('Failed to add member into database');
 		}
+		$sessionData['member_id'] = (string) $member->getLastInsertId();
 		
 		// Do we have OC_Avatar in out disposal?
 		if (\OC_Config::getValue('enable_avatars', true) !== true){
@@ -96,10 +99,11 @@ class Session extends \OCA\Documents\Db {
 			$imageUrl = $uid;
 		}
 
-		$displayName = $file->isPublicShare() ? $uid . ' ' . \OCA\Documents\Db\Member::getGuestPostfix() : \OCP\User::getDisplayName($uid);
-		$userId = $file->isPublicShare() ? $displayName : \OCP\User::getUser();
-			
-		$sessionData['member_id'] = (string) $member->getLastInsertId();
+		$displayName = $file->isPublicShare() 
+			? $uid . ' ' . \OCA\Documents\Db\Member::getGuestPostfix() 
+			: \OC::$server->getUserSession()->getUser()->getDisplayName($uid)
+		;
+		$userId = $file->isPublicShare() ? $displayName : \OC::$server->getUserSession()->getUser()->getUID();
 		$op = new \OCA\Documents\Db\Op();
 		$op->addMember(
 					$sessionData['es_id'],
@@ -188,10 +192,10 @@ class Session extends \OCA\Documents\Db {
 			WHERE `s`.`es_id` = ?
 			GROUP BY `m`.`es_id`
 			',
-			array(
-					\OCP\User::getUser(),
+			[
+					\OC::$server->getUserSession()->getUser()->getUID(),
 					$esId
-			)
+			]
 		);
 
 		$info = $result->fetchRow();
@@ -204,7 +208,9 @@ class Session extends \OCA\Documents\Db {
 	protected function getUniqueSessionId(){
 		$testSession = new Session();
 		do{
-			$id = \OC_Util::generateRandomBytes(30);
+			$id = \OC::$server->getSecureRandom()
+				->getMediumStrengthGenerator()
+				->generate(30, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		} while ($testSession->load($id)->hasData());
 
 		return $id;

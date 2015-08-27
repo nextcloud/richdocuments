@@ -9,16 +9,18 @@
  * later.
  */
 
-$installedVersion = \OCP\Config::getAppValue('documents', 'installed_version');
+$config = \OC::$server->getConfig();
+$dbConnection = \OC::$server->getDatabaseConnection();
+$installedVersion = $config->getAppValue('documents', 'installed_version');
 
-$cleanup = \OC_DB::prepare('DELETE FROM `*PREFIX*documents_member` WHERE `last_activity`=0 or `last_activity` is NULL');
+$cleanup = $dbConnection->prepare('DELETE FROM `*PREFIX*documents_member` WHERE `last_activity`=0 or `last_activity` is NULL');
 $cleanup->execute();
 
 if (version_compare($installedVersion, '0.7', '<=')) {
-	\OCP\Config::setAppValue('documents', 'unstable', 'false');
+	$config->setAppValue('documents', 'unstable', 'false');
 	$session = new \OCA\Documents\Db\Session();
 	
-	$query = \OC_DB::prepare('UPDATE `*PREFIX*documents_session` SET `genesis_url`=? WHERE `es_id`=?');
+	$query = $dbConnection->prepare('UPDATE `*PREFIX*documents_session` SET `genesis_url`=? WHERE `es_id`=?');
 
 	foreach ($session->getCollection() as $sessionData){
 		$sessionData['genesis_url'] = \OCA\Documents\Genesis::DOCUMENTS_DIRNAME . $sessionData['genesis_url'];
@@ -30,12 +32,12 @@ if (version_compare($installedVersion, '0.7', '<=')) {
 	}
 }
 if (version_compare($installedVersion, '0.8', '<')) {
-	$query = \OC_DB::prepare('UPDATE `*PREFIX*documents_member` SET `is_guest`=1 WHERE `uid` LIKE \'%(guest)\' ');
+	$query = $dbConnection->prepare('UPDATE `*PREFIX*documents_member` SET `is_guest`=1 WHERE `uid` LIKE \'%(guest)\' ');
 	$query->execute(array());
 }
 
 if (version_compare($installedVersion, '0.9', '<')) {
-	$query = \OC_DB::prepare('UPDATE `*PREFIX*documents_op` SET `optype`=? WHERE `seq`=?');
+	$query = $dbConnection->prepare('UPDATE `*PREFIX*documents_op` SET `optype`=? WHERE `seq`=?');
 	$ops = new \OCA\Documents\Db\Op();
 	foreach ($ops->getCollection() as $opData){
 		$opSpec = json_decode($opData['opspec'], true);

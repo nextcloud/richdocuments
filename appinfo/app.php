@@ -36,8 +36,8 @@ $navigationEntry = function () use ($c) {
 	return [
 		'id' => 'documents_index',
 		'order' => 2,
-		'href' => \OCP\Util::linkTo('documents/', 'index.php'),
-		'icon' => \OCP\Util::imagePath('documents', 'documents.svg'),
+		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('documents.document.index'),
+		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('documents', 'documents.svg'),
 		'name' => $c->query('L10N')->t('Documents')
 	];
 };

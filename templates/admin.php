@@ -1,3 +1,6 @@
+<?php
+script('documents', 'admin');
+?>
 <div class="section" id="documents">
 	<h2><?php p($l->t('Documents')) ?></h2>
 	<p><?php p($l->t('MS Word support (requires openOffice/libreOffice)')) ?></p>

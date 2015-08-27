@@ -20,8 +20,8 @@ class Config {
 		$targetFilter = 'odt:writer8';
 		$targetExtension = 'odt';
 		$input = file_get_contents(dirname(__DIR__) . self::TEST_DOC_PATH);
-		$infile = \OCP\Files::tmpFile();
-		$outdir = \OCP\Files::tmpFolder();
+		$infile = \OC::$server->getTempManager()->getTemporaryFile();
+		$outdir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$outfile = $outdir . '/' . basename($infile) . '.' . $targetExtension;
 		$cmd = Helper::findOpenOffice();
  
@@ -66,11 +66,11 @@ class Config {
 	}
 
 	protected static function getAppValue($key, $default){
-		return \OCP\Config::getAppValue(self::APP_NAME, $key, $default);
+		return \OC::$server->getConfig()->getAppValue(self::APP_NAME, $key, $default);
 	}
 	
 	protected static function setAppValue($key, $value){
-		return \OCP\Config::setAppValue(self::APP_NAME, $key, $value);
+		return \OC::$server->getConfig()->setAppValue(self::APP_NAME, $key, $value);
 	}
 	
 }

@@ -16,6 +16,7 @@ use \OCP\IRequest;
 use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 
 use \OCA\Documents\Db;
 use \OCA\Documents\Helper;
@@ -39,6 +40,23 @@ class DocumentController extends Controller{
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
+	}
+	
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function index(){
+		\OC::$server->getNavigationManager()->setActiveEntry( 'documents_index' );
+		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
+		return new TemplateResponse('documents', 'documents', [
+			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
+			'useUnstable' => 		$this->settings->getAppValue('documents', 'unstable', 'false'),
+			'savePath' => 			$this->settings->getUserValue($this->uid, 'documents', 'save_path', '/'),
+			'uploadMaxFilesize' =>		$maxUploadFilesize,
+			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
+			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
+		]);
 	}
 	
 	/**

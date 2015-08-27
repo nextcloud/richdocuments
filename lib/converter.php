@@ -43,8 +43,8 @@ class Converter {
 	 * @return string
 	 */
 	protected static function convertLocal($input, $targetFilter, $targetExtension){
-		$infile = \OCP\Files::tmpFile();
-		$outdir = \OCP\Files::tmpFolder();
+		$infile = \OC::$server->getTempManager()->getTemporaryFile();
+		$outdir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$cmd = Helper::findOpenOffice();
 		$params = ' --headless --convert-to ' . $targetFilter . ' --outdir ' 
 				. escapeshellarg($outdir) 

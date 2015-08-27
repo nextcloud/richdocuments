@@ -12,10 +12,8 @@
 
 namespace OCA\Documents;
 
-\OCP\Util::addScript('documents', 'settings');
+use \OCA\Documents\AppInfo\Application;
 
-$tmpl = new \OCP\Template('documents', 'settings');
-$unstable = \OCP\Config::getAppValue('documents', 'unstable', 'false');
-$tmpl->assign('unstable', $unstable);
-
-return $tmpl->fetchPage();
+$app = new Application();
+$response = $app->getContainer()->query('\OCA\Documents\Controller\SettingsController')->settingsIndex();
+return $response->render();
