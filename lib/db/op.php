@@ -41,18 +41,14 @@ class Op extends \OCA\Documents\Db {
 	 * @returns "" when there are no Ops, or the seq of the last Op
 	 */
 	public function getHeadSeq($esId){
-		$query = \OCP\DB::prepare('
+		$query = \OC::$server->getDatabaseConnection()->prepare('
 			SELECT `seq`
 			FROM ' . $this->tableName . '
 			WHERE `es_id`=?
 			ORDER BY `seq` DESC
 			', 1);
-		$result = $query->execute(array(
-				$esId
-			))
-			->fetchOne()	
-		;
-		return !$result ? "" : $result;
+		$result = $query->execute([$esId]);
+		return !$result ? "" : $query->fetchColumn();
 	}
 	
 	public function getOpsAfterJson($esId, $seq){
@@ -75,7 +71,7 @@ class Op extends \OCA\Documents\Db {
 		if ($seq == ""){
 			$seq = -1;
 		}
-		$query = \OCP\DB::prepare('
+		$query = \OC::$server->getDatabaseConnection()->prepare('
 			SELECT `opspec`
 			FROM ' . self::DB_TABLE . '
 			WHERE `es_id`=?
@@ -83,7 +79,7 @@ class Op extends \OCA\Documents\Db {
 			ORDER BY `seq` ASC
 			');
 		$result = $query->execute(array($esId, $seq));
-		return $result->fetchAll();
+		return $query->fetchAll();
 	}
 	
 	public function addMember($esId, $memberId, $fullName, $userId, $color, $imageUrl){

@@ -57,7 +57,7 @@ abstract class Db {
 		}
 		
 		$result = $this->execute($this->loadStatement, $value);
-		$data = $result->fetchRow();
+		$data = $result->fetch();
 		if (!is_array($data)){
 			$data = array();
 		}
@@ -194,7 +194,7 @@ abstract class Db {
 	 * @return mixed (array/false)
 	 */
 	protected function execute($statement, $args = null){
-		$query = \OCP\DB::prepare($statement);
+		$query = \OC::$server->getDatabaseConnection()->prepare($statement);
 		
 		if (!is_null($args)){
 			$result = $query->execute($args);
@@ -204,7 +204,7 @@ abstract class Db {
 			$result = $query->execute();
 		}
 		
-		return $result;
+		return $result ? $query : false;
 	}
 	
 	public function __call($name, $arguments){

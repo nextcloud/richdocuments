@@ -66,14 +66,16 @@ class Application extends App {
 		$container->registerService('Logger', function($c) {
 			return $c->query('ServerContainer')->getLogger();
 		});
-        $container->registerService('CoreConfig', function($c) {
-            return $c->query('ServerContainer')->getConfig();
-        });
-        $container->registerService('L10N', function($c) {
-            return $c->query('ServerContainer')->getL10N($c->query('AppName'));
-        });
-        $container->registerService('UserId', function($c) {
-            return $c->query('ServerContainer')->getUserSession()->getUser()->getUID();
-        });
+		$container->registerService('CoreConfig', function($c) {
+			return $c->query('ServerContainer')->getConfig();
+		});
+		$container->registerService('L10N', function($c) {
+			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
+		});
+		$container->registerService('UserId', function($c) {
+			$user = $c->query('ServerContainer')->getUserSession()->getUser();
+			$uid = is_null($user) ? '' : $user->getUID();
+			return $uid;
+		});
 	}
 }

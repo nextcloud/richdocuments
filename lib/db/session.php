@@ -93,7 +93,7 @@ class Session extends \OCA\Documents\Db {
 		$sessionData['member_id'] = (string) $member->getLastInsertId();
 		
 		// Do we have OC_Avatar in out disposal?
-		if (\OC_Config::getValue('enable_avatars', true) !== true){
+		if (\OC::$server->getConfig()->getSystemValue('enable_avatars', true) !== true){
 			$imageUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==';
 		} else {
 			$imageUrl = $uid;
@@ -198,7 +198,7 @@ class Session extends \OCA\Documents\Db {
 			]
 		);
 
-		$info = $result->fetchRow();
+		$info = $result->fetch();
 		if (!is_array($info)){
 			$info = array();
 		}
