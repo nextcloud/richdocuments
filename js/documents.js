@@ -61,7 +61,7 @@ $.widget('oc.documentGrid', {
 		previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		previewURL = previewURL.replace('(', '%28').replace(')', '%29');
 		
-		if ( $('#previews_enabled').length ) {
+		if ( $('#previews_enabled').length && document.hasPreview) {
 			var img = new Image();
 			img.onload = function(){
 				var ready = function (node){
