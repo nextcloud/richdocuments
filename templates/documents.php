@@ -16,7 +16,7 @@ script('files', 'jquery.fileupload');
 				<form data-upload-id="1"
 					  id="data-upload-form"
 					  class="file_upload_form"
-					  action="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>"
+					  action="<?php print_unescaped(link_to('files', 'ajax/upload.php')); ?>"
 					  method="post"
 					  enctype="multipart/form-data"
 					  target="file_upload_target_1">

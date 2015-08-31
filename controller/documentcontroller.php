@@ -168,7 +168,8 @@ class DocumentController extends Controller{
 			} else {
 				$documents[$key] = $document;
 			}
-			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OC_Helper::mimetypeIcon($document['mimetype']));
+			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
+			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
 			$fileIds[] = $document['fileid'];
 		}
 
