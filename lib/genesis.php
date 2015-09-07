@@ -76,10 +76,6 @@ class Genesis {
 		return $this->hash;
 	}
 	
-	public static function getHashByPath($path){
-		return preg_replace('|([a-zA-Z0-9])*\..*$|', '\1', $path);
-	}
-	
 	protected function getDocumentHash($view, $path){
 		$this->validate($view, $path);
 		$hash = sha1($view->file_get_contents($path));
