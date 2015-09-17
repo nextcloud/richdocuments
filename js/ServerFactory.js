@@ -40,8 +40,6 @@ define("owncloud/ServerFactory", [
             this.createServer = function (args) {
                 var server;
                 args = args || {};
-                args.url = OC.filePath('documents', 'ajax', 'otpoll.php');
-                args.sessionStateToFileUrl = OC.generateUrl('apps/documents/ajax/session/save');
 
                 server = new PullBoxServer(args);
                 server.getGenesisUrl = function(sid) {

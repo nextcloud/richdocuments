@@ -328,6 +328,13 @@ var documentsMain = {
 			return;
 		}
 
+		var pollUrl = documentsMain.isGuest 
+				? OC.generateUrl('apps/documents/session/guest/poll/{token}', {'token' : $("[name='document']").val()})
+				: OC.generateUrl('apps/documents/session/user/poll'),
+			saveUrl = documentsMain.isGuest 
+				? OC.generateUrl('apps/documents/session/guest/save/{token}', {'token' : $("[name='document']").val()})
+				: OC.generateUrl('apps/documents/session/user/save')
+				;
 		documentsMain.canShare = !documentsMain.isGuest
 				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
 		require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
@@ -347,8 +354,10 @@ var documentsMain = {
 				documentsMain.memberId = response.member_id;
 
 				// TODO: set webodf translation system, by passing a proper function translate(!string):!string in "runtime.setTranslator(translate);"
-
-				documentsMain.webodfServerInstance = serverFactory.createServer();
+				documentsMain.webodfServerInstance = serverFactory.createServer({
+					url : pollUrl,
+					sessionStateToFileUrl : saveUrl
+				});
 				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
 				documentsMain.webodfEditorInstance = new Editor(
 						{
@@ -383,9 +392,9 @@ var documentsMain = {
 		console.log('joining session '+fileId);
 		var url;
 		if (documentsMain.isGuest){
-			url = OC.generateUrl('apps/documents/ajax/session/joinasguest/{token}', {token: fileId});
+			url = OC.generateUrl('apps/documents/session/guest/join/{token}', {token: fileId});
 		} else {
-			url = OC.generateUrl('apps/documents/ajax/session/joinasuser/{file_id}', {file_id: fileId});
+			url = OC.generateUrl('apps/documents/session/user/join/{file_id}', {file_id: fileId});
 		}
 		$.post(
 			url,

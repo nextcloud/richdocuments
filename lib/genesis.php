@@ -40,7 +40,8 @@ class Genesis {
 	 * @param File $file 
 	 * */	
 	public function __construct(File $file){
-		list($view, $path) = $file->getOwnerViewAndPath();
+		$view = $file->getOwnerView();
+		$path = $file->getPath();
 		$owner = $file->getOwner();
 		
 		$this->view = new View('/' . $owner);
@@ -48,8 +49,9 @@ class Genesis {
 		if (!$this->view->file_exists(self::DOCUMENTS_DIRNAME)){
 			$this->view->mkdir(self::DOCUMENTS_DIRNAME );
 		}
+		$this->validate($view, $path);
 		
-		$this->hash = $this->getDocumentHash($view, $path);
+		$this->hash = $view->hash('sha1', $path, false);
 		$this->path = self::DOCUMENTS_DIRNAME . '/' . $this->hash . '.odt';
 		if (!$this->view->file_exists($this->path)){
 			//copy new genesis to /user/documents/{hash}.odt
@@ -74,12 +76,6 @@ class Genesis {
 	
 	public function getHash(){
 		return $this->hash;
-	}
-	
-	protected function getDocumentHash($view, $path){
-		$this->validate($view, $path);
-		$hash = sha1($view->file_get_contents($path));
-		return $hash;
 	}
 	
 	/**

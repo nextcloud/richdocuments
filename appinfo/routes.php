@@ -19,10 +19,12 @@ $application->registerRoutes($this, [
 		['name' => 'user#disconnectUser', 'url' => 'ajax/user/disconnect', 'verb' => 'POST'],
 		['name' => 'user#disconnectGuest', 'url' => 'ajax/user/disconnectGuest', 'verb' => 'POST'],
 		//session
-		['name' => 'session#joinAsUser', 'url' => 'ajax/session/joinasuser/{fileId}', 'verb' => 'POST'],
-		['name' => 'session#joinAsGuest', 'url' => 'ajax/session/joinasguest/{token}', 'verb' => 'POST'],
-		['name' => 'session#save', 'url' => 'ajax/session/save', 'verb' => 'POST'],
-		['name' => 'session#poll', 'url' => 'ajax/otpoll.php', 'verb' => 'POST'],
+		['name' => 'session#join', 'url' => 'session/user/join/{fileId}', 'verb' => 'POST'],
+		['name' => 'session#poll', 'url' => 'session/user/poll', 'verb' => 'POST'],
+		['name' => 'session#save', 'url' => 'session/user/save', 'verb' => 'POST'],
+		['name' => 'session#joinAsGuest', 'url' => 'session/guest/join/{token}', 'verb' => 'POST'],
+		['name' => 'session#pollAsGuest', 'url' => 'session/guest/poll/{token}', 'verb' => 'POST'],
+		['name' => 'session#saveAsGuest', 'url' => 'session/guest/save/{token}', 'verb' => 'POST'],
 		//documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'],

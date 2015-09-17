@@ -28,14 +28,14 @@ class File {
 	protected $fileId;
 	protected $owner;
 	protected $sharing;
-	protected $token ='';
+	protected $token;
 	protected $passwordProtected = false;
 	protected $ownerView;
 	protected $ownerViewFiles;
 	protected $path;
 	protected $pathFiles;
 
-	public function __construct($fileId, $shareOps = null, $token = null){
+	public function __construct($fileId, $shareOps = null, $token = ''){
 		if (!$fileId){
 			throw new \Exception('No valid file has been passed');
 		}
@@ -43,6 +43,22 @@ class File {
 		$this->fileId = $fileId;
 		$this->sharing = $shareOps;
 		$this->token = $token;
+		
+		if ($this->isPublicShare()) {
+			if (isset($this->sharing['uid_owner'])){
+				$this->owner = $this->sharing['uid_owner'];
+				if (!\OC::$server->getUserManager()->userExists($this->sharing['uid_owner'])) {
+					throw new \Exception('Share owner' . $this->sharing['uid_owner'] . ' does not exist ');
+				}
+
+				\OC_Util::tearDownFS();
+				\OC_Util::setupFS($this->sharing['uid_owner']);
+			} else {
+				throw new \Exception($this->fileId . ' is a broken share');
+			}
+		} else {
+			$this->owner = \OC::$server->getUserSession()->getUser()->getUID();
+		}
 		$this->initViews();
 	}
 	
@@ -131,15 +147,6 @@ class File {
 	public function setPasswordProtected($value){
 		$this->passwordProtected = $value;
 	}
-
-	/**
-	 * 
-	 * @return string owner of the current file item
-	 * @throws \Exception
-	 */
-	public function getOwnerViewAndPath($useDefaultRoot = false){
-		return $useDefaultRoot ? [$this->ownerViewFiles, $this->pathFiles] : [$this->ownerView, $this->path];
-	}
 	
 	public function getOwner(){
 		return $this->owner;
@@ -153,23 +160,12 @@ class File {
 		return $relativeToFiles ? $this->pathFiles : $this->path;
 	}
 	
+	public function getPermissions(){
+		$fileInfo = $this->ownerView->getFileInfo($this->path);
+		return $fileInfo->getPermissions();
+	}
+	
 	protected function initViews(){
-		if ($this->isPublicShare()) {
-			if (isset($this->sharing['uid_owner'])){
-				$this->owner = $this->sharing['uid_owner'];
-				if (!\OC::$server->getUserManager()->userExists($this->sharing['uid_owner'])) {
-					throw new \Exception('Share owner' . $this->sharing['uid_owner'] . ' does not exist ');
-				}
-
-				\OC_Util::tearDownFS();
-				\OC_Util::setupFS($this->sharing['uid_owner']);
-			} else {
-				throw new \Exception($this->fileId . ' is a broken share');
-			}
-		} else {
-			$this->owner = \OC::$server->getUserSession()->getUser()->getUID();
-		}
-		
 		$this->ownerView = new View('/' . $this->owner);
 		$this->ownerViewFiles = new View('/' . $this->owner . '/files');
 		$this->path = $this->ownerView->getPath($this->fileId);
@@ -185,6 +181,16 @@ class File {
 		
 		if (!$this->ownerViewFiles->file_exists($this->pathFiles)) {
 			throw new \Exception($this->pathFiles . ' doesn\'t exist');
+		}
+		
+		if (!$this->ownerView->is_file($this->path)){
+			throw new \Exception('Object ' . $this->path . ' is not a file.');
+		}
+		//TODO check if it is a valid odt
+		
+		$mimetype = $this->ownerView->getMimeType($this->path);
+		if (!Filter::isSupportedMimetype($mimetype)){
+			throw new \Exception( $this->path . ' is ' . $mimetype . ' and is not supported by Documents app');
 		}
 	}
 	
