@@ -51,10 +51,6 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 		\OC_Util::setupFS();
 	}
 	
-	public static function tearDownAfterClass(){
-		\OC_User::deleteUser(\OC_User::getUserSession()->getUser()->getUID());
-	}
-	
 	public function testRename(){
 		$result = array(
 			'status' => 'error',
