@@ -100,7 +100,7 @@ class Storage {
 	public static function getSupportedMimetypes(){
 		return array_merge(
 			array(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
-			Filter::getAll()	
+			Filter::getAll()
 		);
 	}
 }
