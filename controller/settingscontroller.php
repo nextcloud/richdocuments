@@ -13,26 +13,25 @@ namespace OCA\Documents\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
-use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 
+use OCA\Documents\AppConfig;
 use OCA\Documents\Converter;
-use OCA\Documents\Config;
 use OCA\Documents\Filter;
 
 class SettingsController extends Controller{
 	
 	private $userId;
-	private $settings;
 	private $l10n;
+	private $appConfig;
 	
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $userId){
+	public function __construct($appName, IRequest $request, IL10N $l10n, AppConfig $appConfig, $userId){
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
-		$this->settings = $settings;
 		$this->l10n = $l10n;
+		$this->appConfig = $appConfig;
 	}
 	
 	/**
@@ -51,9 +50,9 @@ class SettingsController extends Controller{
 	 */
 	public function personalIndex(){
 		return new TemplateResponse(
-			'documents', 
+			$this->appName, 
 			'personal',
-			[ 'save_path' => $this->settings->getUserValue($this->userId, 'documents', 'save_path', '/') ],
+			[ 'save_path' => $this->appConfig->getUserValue($this->userId, 'save_path') ],
 			'blank'
 		);
 	}
@@ -63,9 +62,9 @@ class SettingsController extends Controller{
 	 */
 	public function settingsIndex(){
 		return new TemplateResponse(
-			'documents', 
+			$this->appName, 
 			'settings',
-			[ 'unstable' => $this->settings->getAppValue('documents', 'unstable', 'false') ],
+			[ 'unstable' => $this->appConfig->getAppValue('unstable') ],
 			'blank'
 		);
 	}
@@ -75,11 +74,11 @@ class SettingsController extends Controller{
 	 */
 	public function adminIndex(){
 		return new TemplateResponse(
-			'documents', 
+			$this->appName, 
 			'admin',
 			[
-				'converter' => Config::getConverter(),
-				'converter_url' => Config::getConverterUrl(),
+				'converter' => $this->appConfig->getAppValue('converter'),
+				'converter_url' => $this->appConfig->getAppValue('converter_url'),
 			],
 			'blank'
 		);
@@ -98,7 +97,7 @@ class SettingsController extends Controller{
 		}
 		
 		if ($status){
-			$this->settings->setUserValue($this->userId, $this->appName, 'save_path', $savePath);
+			$this->appConfig->setUserValue($this->userId, 'save_path', $savePath);
 			$response = array(
 				'status' => 'success',
 				'data' => array('message'=> $this->l10n->t('Directory saved successfully.'))
@@ -116,18 +115,18 @@ class SettingsController extends Controller{
 	
 	public function setUnstable($unstable){
 		if (!is_null($unstable)){
-			$this->settings->setAppValue($this->appName, 'unstable', $unstable);
+			$this->appConfig->setAppValue('unstable', $unstable);
 		}
 		return array('status' => 'success');
 	}
 	
 	public function setConverter($converter, $url){
 		if (!is_null($converter)){
-			$this->settings->setAppValue($this->appName, 'converter', $converter);
+			$this->appConfig->setAppValue('converter', $converter);
 		}
 	
 		if (!is_null($url)){
-			$this->settings->setAppValue($this->appName, 'converter_url', $url);
+			$this->appConfig->setAppValue('converter_url', $url);
 		}
 		
 		$response = array(
@@ -135,7 +134,7 @@ class SettingsController extends Controller{
 			'data' => array('message' => (string) $this->l10n->t('Saved'))
 		);
 		
-		$currentConverter = $this->settings->getAppValue($this->appName, 'converter', 'off');
+		$currentConverter = $this->appConfig->getAppValue('converter');
 		if ($currentConverter == 'external'){
 			if (!Converter::checkConnection()){
 				\OC::$server->getLogger()->warning(
@@ -150,7 +149,7 @@ class SettingsController extends Controller{
 			}
 		} elseif ($currentConverter === 'local') {
 			try {
-				if (!Config::testConversion()){
+				if (!Converter::testConversion()){
 					$response = array( 
 						'status' => 'error',
 						'data'=>

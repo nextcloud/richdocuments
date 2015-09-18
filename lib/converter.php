@@ -12,10 +12,47 @@
 
 namespace OCA\Documents;
 
+use OCA\Documents\AppInfo\Application;
+
 class Converter {
 	
+	const TEST_DOC_PATH = '/assets/test.doc';
+	
+	public static function testConversion(){
+		$targetFilter = 'odt:writer8';
+		$targetExtension = 'odt';
+		$input = file_get_contents(dirname(__DIR__) . self::TEST_DOC_PATH);
+		$infile = \OC::$server->getTempManager()->getTemporaryFile();
+		$outdir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$outfile = $outdir . '/' . basename($infile) . '.' . $targetExtension;
+		$cmd = Helper::findOpenOffice();
+ 
+		$params = ' --headless --convert-to ' . escapeshellarg($targetFilter) . ' --outdir ' 
+			. escapeshellarg($outdir) 
+			. ' --writer '. escapeshellarg($infile) 
+			. ' -env:UserInstallation=file://'
+			. escapeshellarg(\OC::$server->getTempManager()->getTempBaseDir() . '/owncloud-' . \OC_Util::getInstanceId().'/') . ' 2>&1'
+		;
+		file_put_contents($infile, $input);
+ 
+		$result = shell_exec($cmd . $params);
+ 		$exists = file_exists($outfile);
+		
+		if (!$exists){
+			\OC::$server->getLogger()->warn(
+				'Conversion test failed. Raw output:' . $result,
+				['app' => 'documents']
+				
+			);
+			return false;
+		} else {
+			unlink($outfile);
+		}
+		return true;
+	}
+	
 	public static function convert($input, $targetFilter, $targetExtension){
-		if (Config::getConverter() == 'local'){
+		if (self::getAppConfig()->getAppValue('converter') === 'local'){
 			$output = self::convertLocal($input, $targetFilter, $targetExtension);
 		} else {
 			$output = self::convertExternal($input, $targetExtension);
@@ -86,7 +123,7 @@ class Converter {
 			CURLOPT_VERBOSE => 1
 		);
 
-		$ch = curl_init(Config::getConverterUrl() . '?target_format=' . $targetExtension);
+		$ch = curl_init(self::getAppConfig()->getAppValue('converter_url') . '?target_format=' . $targetExtension);
 		curl_setopt_array($ch, $options);
 		$content = curl_exec($ch);
 		if (curl_errno($ch)){
@@ -99,6 +136,12 @@ class Converter {
 		curl_close($ch);
 		
 		return $content;
+	}
+	
+	protected static function getAppConfig(){
+		$app = new Application();
+		$c = $app->getContainer();
+		return $c->query('AppConfig');
 	}
 
 }
