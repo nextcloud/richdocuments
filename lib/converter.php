@@ -22,7 +22,11 @@ class Converter {
 		}
 		
 		if (empty($output)){
-			Helper::warnLog('Empty conversion output');
+			\OC::$server->getLogger()->warn(
+				'Empty conversion output',
+				['app' => 'documents']
+				
+			);
 			throw new \RuntimeException('Empty conversion output');
 		}
 		return $output;
@@ -86,7 +90,11 @@ class Converter {
 		curl_setopt_array($ch, $options);
 		$content = curl_exec($ch);
 		if (curl_errno($ch)){
-			Helper::debugLog('cURL error' . curl_errno($ch) . ':' . curl_error($ch));
+			\OC::$server->getLogger()->debug(
+				'cURL error' . curl_errno($ch) . ':' . curl_error($ch),
+				['app' => 'documents']
+				
+			);
 		}
 		curl_close($ch);
 		

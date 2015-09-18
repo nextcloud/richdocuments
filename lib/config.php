@@ -37,7 +37,11 @@ class Config {
  		$exists = file_exists($outfile);
 		
 		if (!$exists){
-			Helper::warnLog('Conversion test failed. Raw output:' . $result);
+			\OC::$server->getLogger()->warn(
+				'Conversion test failed. Raw output:' . $result,
+				['app' => 'documents']
+				
+			);
 			return false;
 		} else {
 			unlink($outfile);
