@@ -78,7 +78,7 @@ class Op extends \OCA\Documents\Db {
 				AND `seq`>?
 			ORDER BY `seq` ASC
 			');
-		$result = $query->execute(array($esId, $seq));
+		$query->execute(array($esId, $seq));
 		return $query->fetchAll();
 	}
 	

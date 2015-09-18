@@ -32,12 +32,12 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 		
 		$this->view = new View('/' . $user);
 		if (!$this->view->file_exists($path)){
-			parent::setStatus(Http::STATUS_NOT_FOUND);
+			$this->setStatus(Http::STATUS_NOT_FOUND);
 		}
 	}
 	
 	public function render(){
-		if (parent::getStatus() === Http::STATUS_NOT_FOUND){
+		if ($this->getStatus() === Http::STATUS_NOT_FOUND){
 			return '';
 		}
 		$info = $this->view->getFileInfo($this->path);
