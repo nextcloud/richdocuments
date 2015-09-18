@@ -36,7 +36,7 @@ class Member extends \OCA\Documents\Db{
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*documents_member` WHERE `member_id`= ?';
 
 	public static function getGuestPostfix(){
-		return '(' . \OCA\Documents\Config::getL10n()->t('guest') . ')';
+		return '(' . \OC::$server->getL10n('documents')->t('guest') . ')';
 	}
 
 

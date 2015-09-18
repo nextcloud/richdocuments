@@ -45,10 +45,6 @@ class Config {
 		return true;
 	}
 	
-	public static function getL10n(){
-		return \OCP\Util::getL10N(self::APP_NAME);
-	}
-	
 	public static function getConverter(){
 		return self::getAppValue('converter', 'off');
 	}
