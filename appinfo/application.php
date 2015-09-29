@@ -17,6 +17,7 @@ use \OCA\Documents\Controller\UserController;
 use \OCA\Documents\Controller\SessionController;
 use \OCA\Documents\Controller\DocumentController;
 use \OCA\Documents\Controller\SettingsController;
+use \OCA\Documents\AppConfig;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
@@ -54,9 +55,15 @@ class Application extends App {
 			return new SettingsController(
 				$c->query('AppName'), 
 				$c->query('Request'),
-				$c->query('CoreConfig'),
 				$c->query('L10N'),
+				$c->query('AppConfig'),
 				$c->query('UserId')
+			);
+		});
+		
+		$container->registerService('AppConfig', function($c) {
+			return new AppConfig(
+				$c->query('CoreConfig')
 			);
 		});
 		

@@ -49,12 +49,7 @@ class Session extends \OCA\Documents\Db {
 	public static function start($uid, $file){
 		// Create a directory to store genesis
 		$genesis = new \OCA\Documents\Genesis($file);
-		
-		list($ownerView, $path) = $file->getOwnerViewAndPath();
-		$mimetype = $ownerView->getMimeType($path);
-		if (!Filter::isSupportedMimetype($mimetype)){
-			throw new \Exception( $path . ' is ' . $mimetype . ' and is not supported by Documents app');
-		}
+
 		$oldSession = new Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
 		
@@ -78,14 +73,14 @@ class Session extends \OCA\Documents\Db {
 		;
 		
 		$memberColor = \OCA\Documents\Helper::getMemberColor($uid);
-		$member = new \OCA\Documents\Db\Member(array(
+		$member = new \OCA\Documents\Db\Member([
 			$sessionData['es_id'], 
 			$uid,
 			$memberColor,
 			time(),
 			intval($file->isPublicShare()),
 			$file->getToken()
-		));
+		]);
 		
 		if (!$member->insert()){
 			throw new \Exception('Failed to add member into database');
@@ -113,10 +108,9 @@ class Session extends \OCA\Documents\Db {
 					$memberColor,
 					$imageUrl
 		);
-	
-		$sessionData['title'] = basename($path);
-		$fileInfo = $ownerView->getFileInfo($path);
-		$sessionData['permissions'] = $fileInfo->getPermissions();
+
+		$sessionData['title'] = basename($file->getPath());
+		$sessionData['permissions'] = $file->getPermissions();
 		
 		return $sessionData;
 	}

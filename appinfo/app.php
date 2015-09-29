@@ -53,7 +53,7 @@ if (isset($request->server['REQUEST_URI'])) {
 	}
 }
 
-if (Config::getConverter() !== 'off'){
+if ($c->query('AppConfig')->isConverterEnabled()){
 	$docFilter = new Office(
 		[
 			'read' =>
