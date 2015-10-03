@@ -105,6 +105,7 @@ OC.L10N.register(
     "Disabled" : "معطلة",
     "Server URL" : "رابط السيرفر",
     "New document" : "مستند جديد",
+    "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Upload" : "رفع",
     "Save new documents to" : "حفظ المستندات الجديدة إلى",
     "Wrong password. Please retry." : "كلمة مرور خاطئة. يرجى إعادة المحاولة",
