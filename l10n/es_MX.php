@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Documents" => "Documentos",
 "You don't have permission to rename this document" => "No tiene permiso para cambiar de nombre a este documento",
+"Saved" => "Guardado",
 "Saving..." => "Guardando...",
 "Failed to load documents." => "Error al cargar los documentos.",
 "No connection to server. Trying to reconnect." => "No hay conexión con el servidor. Intentando reconectar.",
