@@ -98,7 +98,7 @@ OC.L10N.register(
     "Shared in {item} with {user}" : "Partagé dans {item} avec {user}",
     "Unshare" : "Ne plus partager",
     "notify by email" : "notifier par courriel",
-    "can share" : "partage autorisé",
+    "can share" : "peut partager",
     "can edit" : "peut modifier",
     "access control" : "contrôle d'accès",
     "create" : "créer",
