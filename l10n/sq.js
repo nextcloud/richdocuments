@@ -2,7 +2,7 @@ OC.L10N.register(
     "documents",
     {
     "Documents" : "Dokumente",
-    "Can't create document" : "S’krijhet dot dokumenti",
+    "Can't create document" : "S’krijohet dot dokumenti",
     "You don't have permission to rename this document" : "Nuk keni leje të riemërtoni këtë dokument",
     "Directory saved successfully." : "Drejtoria u ruajt me sukses.",
     "An error occurred while changing directory." : "Ndodhi një gabim gjatë ndryshimit të drejtorisë.",
