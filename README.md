@@ -20,6 +20,12 @@ If you don't want to mess around with dependencies, you need simply install `uno
 + Upload font files to **documents/css/fonts** directory
 + Edit **documents/css/fonts.css** adding `@font-face` rule for each uploaded file 
 
+### CloudSuite upgrade ###
+Similar to WebODF upgrade below, but easier:
+
+        ./src/updateWebODF.sh prepare
+        ./src/updateWebODF.sh copy
+
 ### WebODF upgrade ###
 1. Build WebODF:
 
