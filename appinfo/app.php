@@ -38,7 +38,7 @@ $navigationEntry = function () use ($c) {
 		'order' => 2,
 		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('documents.document.index'),
 		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('documents', 'documents.svg'),
-		'name' => $c->query('L10N')->t('Documents')
+		'name' => $c->query('L10N')->t('Collabora CloudSuite')
 	];
 };
 $c->getServer()->getNavigationManager()->add($navigationEntry);

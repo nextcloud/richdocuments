@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <info>
 	<id>documents</id>
-	<name>Documents</name>
+	<name>Collabora CloudSuite</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
 	<version>0.12.0</version>
-	<author>Frank Karlitschek, Victor Dubiniuk</author>
-	<bugs>https://github.com/owncloud/documents/issues</bugs>
-	<repository type="git">http://github.com/owncloud/documents.git</repository>
+	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
+	<bugs>https://www.collaboraoffice.com/</bugs>
+	<repository type="git">git://gerrit.libreoffice.org/online.git</repository>
 	<category>productivity</category>
 	<dependencies>
 		<owncloud min-version="8.1" max-version="9.0" />
