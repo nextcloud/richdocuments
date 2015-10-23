@@ -159,6 +159,13 @@ var documentsMain = {
 	UI : {		
 		/* Editor wrapper HTML */
 		container : '<div id="mainContainer" class="claro">' +
+					'  <div id="toolbar" style="visibility: hidden;"></div>' +
+					'  <div id="toolbar-up"></div>' +
+					'  <div id="toolbar-down"></div>' +
+					'  <input id="insertgraphic" type="file" onchange="onInsertFile()" style="position: fixed; top: -100em">' +
+					'  <div id="document-container"><div id="map"></div></div>' +
+					'</div>',
+					/*'<div id="mainContainer" class="claro">' +
 					'  <div id="editor" class="webodfeditor-editor">' +
 					'    <div id="container" class="webodfeditor-canvascontainer">' +
 					'      <div id="canvas" class="webodfeditor-canvas"></div>' +
@@ -172,7 +179,7 @@ var documentsMain = {
 					'      </div>' +
 					'    </div>' +
 					'  </div>' +
-					'</div>',
+					'</div>',*/
 					
 		/* Previous window title */
 		mainTitle : '',
@@ -182,6 +189,16 @@ var documentsMain = {
 		},
 		
 		showEditor : function(title){
+			OC.addScript('documents', '3rdparty/cloudsuite/jquery.min');
+			OC.addScript('documents', '3rdparty/cloudsuite/w2ui.min');
+			OC.addScript('documents', '3rdparty/cloudsuite/select2.min');
+			OC.addScript('documents', '3rdparty/cloudsuite/leaflet-src');
+			OC.addScript('documents', '3rdparty/cloudsuite/leaflet.draw');
+			OC.addScript('documents', '3rdparty/cloudsuite/jquery.mCustomScrollbar');
+			OC.addScript('documents', '3rdparty/cloudsuite/vex.combined.min');
+
+			//vex.defaultOptions.className = 'vex-theme-plain';
+
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
@@ -190,8 +207,28 @@ var documentsMain = {
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
 			// in case we are on the public sharing page we shall display the odf into the preview tag
-			$('#preview').html(container);
+			//$('#preview').html(container);
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
+
+			var map = L.map('map', {
+				server: 'ws://localhost:9980',
+				doc: 'file:///local/home/kendy/Downloads/ODT-test.odt',
+				edit: true,
+				timestamp: '',
+				/*server: host,
+				doc: filePath,
+				edit: edit,
+				timestamp: timestamp,*/
+				readOnly: false
+			});
+
+			////// Controls /////
+			map.addControl(L.control.scroll());
+			map.addControl(L.control.dialog());
+			map.addControl(L.control.partsPreview());
+			map.addControl(L.control.tabs());
+
+			OC.addScript('documents', '3rdparty/cloudsuite/cloudsuite.js');
 		},
 		
 		hideEditor : function(){
