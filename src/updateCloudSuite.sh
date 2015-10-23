@@ -56,6 +56,9 @@ function copy_sources(){
     cp "$CLOUDSUITE_SRCDIR"/toolbar/cloudsuite.js "$JS_TARGET"
     cp "$CLOUDSUITE_SRCDIR"/toolbar/select2.min.js "$JS_TARGET"
     cp "$CLOUDSUITE_SRCDIR"/toolbar/w2ui.min.js "$JS_TARGET"
+
+    # general
+    ( cd "$JS_TARGET" && rm -f jquery.min.js && wget 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js' )
 }
 
 # patches against upstream
