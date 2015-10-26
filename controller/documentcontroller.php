@@ -15,8 +15,9 @@ use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
 use \OCP\IConfig;
 use \OCP\IL10N;
+use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\TemplateResponse;
+use \OCP\AppFramework\Http\TemplateResponse;
 
 use \OCA\Documents\Db;
 use \OCA\Documents\Helper;
@@ -49,7 +50,7 @@ class DocumentController extends Controller{
 	public function index(){
 		\OC::$server->getNavigationManager()->setActiveEntry( 'documents_index' );
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
-		return new TemplateResponse('documents', 'documents', [
+		$response = new TemplateResponse('documents', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
 			'useUnstable' => 		$this->settings->getAppValue('documents', 'unstable', 'false'),
 			'savePath' => 			$this->settings->getUserValue($this->uid, 'documents', 'save_path', '/'),
@@ -57,6 +58,17 @@ class DocumentController extends Controller{
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
 		]);
+
+		$policy = new ContentSecurityPolicy();
+		//$policy->addAllowedChildSrcDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\'');
+		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\'');
+		$policy->addAllowedConnectDomain('ws://' . $_SERVER['SERVER_NAME'] . ':9980');
+		$policy->addAllowedImageDomain('*');
+		$policy->allowInlineScript(true);
+		$policy->addAllowedFontDomain('data:');
+		$response->setContentSecurityPolicy($policy);
+
+		return $response;
 	}
 	
 	/**
