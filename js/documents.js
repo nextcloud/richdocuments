@@ -222,6 +222,8 @@ var documentsMain = {
 				map.addControl(L.control.tabs());
 
 				OC.addScript('documents', '3rdparty/cloudsuite/cloudsuite.js');
+
+				documentsMain.overlay.documentOverlay('hide');
 			});
 
 			OC.addScript('documents', '3rdparty/cloudsuite/leaflet.draw');
@@ -385,7 +387,7 @@ var documentsMain = {
 				;
 		documentsMain.canShare = !documentsMain.isGuest
 				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
-		require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {
+		/*require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {*/
 			// fade out file list and show WebODF canvas
 			$('#content-wrapper').fadeOut('fast').promise().done(function() {
 				
@@ -397,10 +399,11 @@ var documentsMain = {
 					$('#odf-close').text(t('documents', 'Save') );
 					$('#odf-close').removeClass('icon-view-close');
 				}
-				var serverFactory = new ServerFactory();
+				//var serverFactory = new ServerFactory();
 				documentsMain.esId = response.es_id;
 				documentsMain.memberId = response.member_id;
 
+				/*
 				// TODO: set webodf translation system, by passing a proper function translate(!string):!string in "runtime.setTranslator(translate);"
 				documentsMain.webodfServerInstance = serverFactory.createServer({
 					url : pollUrl,
@@ -431,8 +434,9 @@ var documentsMain = {
 					documentsMain.overlay.documentOverlay('hide');
 					parent.location.hash = response.file_id;
 				});
+				*/
 			});
-		});
+		/*});*/
 	},
 	
 
