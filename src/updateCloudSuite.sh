@@ -17,6 +17,7 @@ LOLEAFLET_SRCDIR='online/loleaflet/'
 CLOUDSUITE_SRCDIR='loolvm/looldemo/assets/'
 
 JS_TARGET='js/3rdparty/cloudsuite/'
+CSS_TARGET='css/3rdparty/cloudsuite/'
 
 # create folders
 function prepare(){
@@ -59,6 +60,19 @@ function copy_sources(){
 
     # general
     ( cd "$JS_TARGET" && rm -f jquery.min.js && wget 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js' )
+
+    mkdir -p "$CSS_TARGET"
+
+    # loleaflet
+    cp "$LOLEAFLET_SRCDIR"/dist/leaflet.css "$CSS_TARGET"
+    cp "$LOLEAFLET_SRCDIR"/plugins/draw-0.2.4/dist/leaflet.draw.css "$CSS_TARGET"
+    cp "$LOLEAFLET_SRCDIR"/src/scrollbar/jquery.mCustomScrollbar.css "$CSS_TARGET"
+    cp "$LOLEAFLET_SRCDIR"/dist/dialog/vex.css "$CSS_TARGET"
+    cp "$LOLEAFLET_SRCDIR"/dist/dialog/vex-theme-plain.css "$CSS_TARGET"
+
+    # cloudsuite
+    cp "$CLOUDSUITE_SRCDIR"/toolbar/w2ui.min.css "$CSS_TARGET"
+    cp "$CLOUDSUITE_SRCDIR"/toolbar/select2.min.css "$CSS_TARGET"
 }
 
 # patches against upstream
