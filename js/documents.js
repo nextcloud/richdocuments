@@ -224,7 +224,7 @@ var documentsMain = {
 										map.addControl(L.control.partsPreview());
 										map.addControl(L.control.tabs());
 
-										OC.addScript('documents', '3rdparty/cloudsuite/cloudsuite.js');
+										OC.addScript('documents', '3rdparty/cloudsuite/cloudsuite');
 
 										documentsMain.overlay.documentOverlay('hide');
 									});
