@@ -27,20 +27,23 @@ use \OCA\Documents\DownloadResponse;
 use \OCA\Documents\File;
 use OCA\Documents\Genesis;
 use \OC\Files\View;
+use OCP\IURLGenerator;
 
 class DocumentController extends Controller{
 	
 	private $uid;
 	private $l10n;
 	private $settings;
+	private $urlGenerator;
 	
 	const ODT_TEMPLATE_PATH = '/assets/new.odt';
 	
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid){
+	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, IURLGenerator $urlGenerator, $uid){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
+		$this->urlGenerator = $urlGenerator;
 	}
 	
 	/**
@@ -202,5 +205,4 @@ class DocumentController extends Controller{
 			'status' => 'success', 'documents' => $documents,'sessions' => $sessions,'members' => $members
 		);
 	}
-	
 }
