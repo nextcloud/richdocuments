@@ -27,24 +27,21 @@ use \OCA\Documents\DownloadResponse;
 use \OCA\Documents\File;
 use OCA\Documents\Genesis;
 use \OC\Files\View;
-use OCP\IURLGenerator;
 
 class DocumentController extends Controller{
 	
 	private $uid;
 	private $l10n;
 	private $settings;
-	private $urlGenerator;
 	
 	const ODT_TEMPLATE_PATH = '/assets/new.odt';
 	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
 	
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, IURLGenerator $urlGenerator, $uid){
+	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
-		$this->urlGenerator = $urlGenerator;
 	}
 	
 	/**
@@ -248,29 +245,4 @@ class DocumentController extends Controller{
 			'status' => 'success', 'documents' => $documents,'sessions' => $sessions,'members' => $members
 		);
 	}
-
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @return TemplateResponse
-	 */
-	public function showLOleaflet() {
-		$params = [
-			'urlGenerator' => $this->urlGenerator
-		];
-		$response = new TemplateResponse($this->appName, '3rdparty/cloudsuite/assets/cloudsuite', $params, 'blank');
-
-		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedChildSrcDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\'');
-		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\'');
-    $policy->addAllowedFrameDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\'');
-		$policy->addAllowedConnectDomain('ws://' . $_SERVER['SERVER_NAME'] . ':9980');
-		$policy->addAllowedImageDomain('*');
-		$policy->allowInlineScript(true);
-		$policy->addAllowedFontDomain('data:');
-		$response->setContentSecurityPolicy($policy);
-
-		return $response;
-  }
 }

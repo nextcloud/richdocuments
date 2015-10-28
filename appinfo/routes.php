@@ -32,7 +32,6 @@ $application->registerRoutes($this, [
 		['name' => 'document#rename', 'url' => 'ajax/documents/rename/{fileId}', 'verb' => 'POST'],
 		['name' => 'document#listAll', 'url' => 'ajax/documents/list', 'verb' => 'GET'],
 		['name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => 'GET'],
-		['name' => 'document#showLOleaflet', 'url' => '/loleaflet', 'verb' => 'GET'],
 		//documents - for CloudSuite access
 		['name' => 'document#localLoad', 'url' => 'ajax/documents/load/{esId}', 'verb' => 'POST'],
 		//settings

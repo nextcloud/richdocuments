@@ -48,7 +48,6 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('CoreConfig'),
 				$c->query('L10N'),
-				$c->query('URLGenerator'),
 				$c->query('UserId')
 			);
 		});
@@ -84,9 +83,6 @@ class Application extends App {
 			$user = $c->query('ServerContainer')->getUserSession()->getUser();
 			$uid = is_null($user) ? '' : $user->getUID();
 			return $uid;
-		});
-		$container->registerService('URLGenerator', function ($c) {
-			return $c->query('ServerContainer')->getUrlGenerator();
 		});
 	}
 }
