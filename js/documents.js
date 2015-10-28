@@ -171,6 +171,7 @@ var documentsMain = {
 		},
 		
 		showEditor : function(title){
+			var self = this;
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
