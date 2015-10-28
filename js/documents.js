@@ -158,36 +158,8 @@ var documentsMain = {
 	
 	UI : {		
 		/* Editor wrapper HTML */
-		container : '<div id="mainContainer" class="claro">' +
-					'  <div id="toolbar" style="visibility: hidden;"></div>' +
-					'  <div id="toolbar-up"></div>' +
-					'  <div id="toolbar-down"></div>' +
-					'  <input id="insertgraphic" type="file" onchange="onInsertFile()" style="position: fixed; top: -100em">' +
-					'  <div id="document-container"><div id="map"></div></div>' +
-					'  <div id="collaboration">' +
-					'    <div id="collabContainer">' +
-					'      <div id="members">' +
-					'        <div id="inviteButton"></div>' +
-					'        <div id="memberList"></div>' +
-					'      </div>' +
-					'    </div>' +
-					'  </div>' +
+		container : '<div id="mainContainer" class="claro" style="top:46px">' +
 					'</div>',
-					/*'<div id="mainContainer" class="claro">' +
-					'  <div id="editor" class="webodfeditor-editor">' +
-					'    <div id="container" class="webodfeditor-canvascontainer">' +
-					'      <div id="canvas" class="webodfeditor-canvas"></div>' +
-					'    </div>' +
-					'  </div>' +
-					'  <div id="collaboration">' +
-					'    <div id="collabContainer">' +
-					'      <div id="members">' +
-					'        <div id="inviteButton"></div>' +
-					'        <div id="memberList"></div>' +
-					'      </div>' +
-					'    </div>' +
-					'  </div>' +
-					'</div>',*/
 					
 		/* Previous window title */
 		mainTitle : '',
@@ -197,44 +169,6 @@ var documentsMain = {
 		},
 		
 		showEditor : function(title){
-			OC.addScript('documents', '3rdparty/cloudsuite/jquery.min').done(function() {
-				OC.addScript('documents', '3rdparty/cloudsuite/w2ui.min').done(function() {
-					OC.addScript('documents', '3rdparty/cloudsuite/select2.min').done(function() {
-						OC.addScript('documents', '3rdparty/cloudsuite/leaflet-src').done(function() {
-							OC.addScript('documents', '3rdparty/cloudsuite/leaflet.draw').done(function() {
-								OC.addScript('documents', '3rdparty/cloudsuite/jquery.mCustomScrollbar').done(function() {
-									OC.addScript('documents', '3rdparty/cloudsuite/vex.combined.min').done(function() {
-										//vex.defaultOptions.className = 'vex-theme-plain';
-
-										var map = L.map('map', {
-											server: 'ws://localhost:9980',
-											doc: 'file:///local/home/kendy/Downloads/ODT-test.odt',
-											edit: true,
-											timestamp: '',
-												/*server: host,
-												  doc: filePath,
-												  edit: edit,
-												  timestamp: timestamp,*/
-											readOnly: false
-										});
-
-										////// Controls /////
-										map.addControl(L.control.scroll());
-										map.addControl(L.control.dialog());
-										map.addControl(L.control.partsPreview());
-										map.addControl(L.control.tabs());
-
-										OC.addScript('documents', '3rdparty/cloudsuite/cloudsuite');
-
-										documentsMain.overlay.documentOverlay('hide');
-									});
-								});
-							});
-						});
-					});
-				});
-			});
-
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
@@ -242,9 +176,24 @@ var documentsMain = {
 
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
-			// in case we are on the public sharing page we shall display the odf into the preview tag
-			//$('#preview').html(container);
+
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
+			var viewer = OC.generateUrl('/apps/documents/loleaflet?');
+			viewer += 'file_path=' + 'file:///home/hcastro/Descargas/03_Carta_Jurado_Software_Henrry.odt' +
+			          '&host=' + 'ws://localhost:9980' +
+			          '&edit=' + 'false' +
+			          '&timestamp=' + '';
+
+			$iframe = $('<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:absolute;top:0;" src="'+viewer+'" sandbox="allow-scripts allow-same-origin allow-popups" />');
+
+			$('#mainContainer').append($iframe);
+			documentsMain.overlay.documentOverlay('hide');
+			$('#loleafletframe').load(function(){
+			  var iframe = $('#loleafletframe').contents();
+			  iframe.find('#tb_toolbar-up_item_close').click(function() {
+			    self.hideEditor();
+			  });
+			});
 		},
 		
 		hideEditor : function(){
