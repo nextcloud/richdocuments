@@ -178,21 +178,21 @@ var documentsMain = {
 			$(document.body).prepend(documentsMain.UI.container);
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
-			var viewer = OC.generateUrl('/apps/documents/loleaflet?');
-			viewer += 'file_path=' + 'file:///home/hcastro/Descargas/03_Carta_Jurado_Software_Henrry.odt' +
-			          '&host=' + 'ws://localhost:9980' +
-			          '&edit=' + 'false' +
-			          '&timestamp=' + '';
+			var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
+				'file_path=' + 'file:///local/home/kendy/Downloads/ODT-test.odt' +
+				'&host=' + 'ws://localhost:9980' +
+				'&edit=' + 'false' +
+				'&timestamp=' + '';
 
-			$iframe = $('<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:absolute;top:0;" src="'+viewer+'" sandbox="allow-scripts allow-same-origin allow-popups" />');
+			var frame = '<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:absolute;top:0;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';
 
-			$('#mainContainer').append($iframe);
+			$('#mainContainer').append(frame);
 			documentsMain.overlay.documentOverlay('hide');
 			$('#loleafletframe').load(function(){
-			  var iframe = $('#loleafletframe').contents();
-			  iframe.find('#tb_toolbar-up_item_close').click(function() {
-			    self.hideEditor();
-			  });
+				var iframe = $('#loleafletframe').contents();
+				iframe.find('#tb_toolbar-up_item_close').click(function() {
+					self.hideEditor();
+				});
 			});
 		},
 		
