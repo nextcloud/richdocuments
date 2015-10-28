@@ -18,6 +18,7 @@ CLOUDSUITE_SRCDIR='loolvm/looldemo/assets/'
 
 JS_TARGET='js/3rdparty/cloudsuite/'
 CSS_TARGET='css/3rdparty/cloudsuite/'
+TEMPLATE_TARGET='templates/3rdparty/cloudsuite'
 
 # create folders
 function prepare(){
@@ -73,6 +74,11 @@ function copy_sources(){
     # cloudsuite
     cp "$CLOUDSUITE_SRCDIR"/toolbar/w2ui.min.css "$CSS_TARGET"
     cp "$CLOUDSUITE_SRCDIR"/toolbar/select2.min.css "$CSS_TARGET"
+
+    mkdir -p "$TEMPLATE_TARGET"
+
+    cp -R "$CLOUDSUITE_SRCDIR" "$TEMPLATE_TARGET"
+    cp -R "$LOLEAFLET_SRCDIR" "$TEMPLATE_TARGET"
 }
 
 # patches against upstream
