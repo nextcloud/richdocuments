@@ -160,7 +160,7 @@ var documentsMain = {
 	
 	UI : {		
 		/* Editor wrapper HTML */
-		container : '<div id="mainContainer" class="claro" style="top:46px">' +
+		container : '<div id="mainContainer" class="claro">' +
 					'</div>',
 					
 		/* Previous window title */
@@ -186,7 +186,7 @@ var documentsMain = {
 				'&edit=' + 'false' +
 				'&timestamp=' + '';
 
-			var frame = '<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:absolute;top:0;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';
+			var frame = '<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:fixed;top:46px;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';
 
 			$('#mainContainer').append(frame);
 			documentsMain.overlay.documentOverlay('hide');
