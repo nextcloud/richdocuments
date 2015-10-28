@@ -739,14 +739,5 @@ $(document).ready(function() {
 	OC.addStyle('documents', '3rdparty/webodf/wodotexteditor');
 	OC.addStyle('documents', '3rdparty/webodf/wodocollabpane');
 
-	// cloudsuite stylesheets
-	OC.addStyle('documents', '3rdparty/cloudsuite/leaflet');
-	OC.addStyle('documents', '3rdparty/cloudsuite/leaflet.draw');
-	OC.addStyle('documents', '3rdparty/cloudsuite/jquery.mCustomScrollbar');
-	OC.addStyle('documents', '3rdparty/cloudsuite/vex');
-	OC.addStyle('documents', '3rdparty/cloudsuite/vex-theme-plain');
-	OC.addStyle('documents', '3rdparty/cloudsuite/w2ui.min');
-	OC.addStyle('documents', '3rdparty/cloudsuite/select2.min');
-
 	OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', documentsMain.onStartup);
 });
