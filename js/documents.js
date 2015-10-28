@@ -153,6 +153,8 @@ var documentsMain = {
 	esId : false,
 	ready :false,
 	fileName: null,
+	baseName: null,
+	url: null,
 	canShare : false,
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 	
@@ -179,8 +181,8 @@ var documentsMain = {
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
 			var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
-				'file_path=' + 'file:///local/home/kendy/Downloads/ODT-test.odt' +
-				'&host=' + 'ws://localhost:9980' +
+				'file_path=' + documentsMain.url +
+				'&host=' + 'ws://' + window.location.hostname + ':9980' +
 				'&edit=' + 'false' +
 				'&timestamp=' + '';
 
@@ -346,15 +348,16 @@ var documentsMain = {
 				documentsMain.fileId = response.file_id;
 				documentsMain.fileName = response.title;
 				
-				documentsMain.UI.showEditor(documentsMain.fileName || response.title);
+				documentsMain.esId = response.es_id;
+				documentsMain.memberId = response.member_id;
+
+				documentsMain.loadDocument();
+
 				if (documentsMain.isGuest){
 					$('#odf-close').text(t('documents', 'Save') );
 					$('#odf-close').removeClass('icon-view-close');
 				}
 				//var serverFactory = new ServerFactory();
-				documentsMain.esId = response.es_id;
-				documentsMain.memberId = response.member_id;
-
 				/*
 				// TODO: set webodf translation system, by passing a proper function translate(!string):!string in "runtime.setTranslator(translate);"
 				documentsMain.webodfServerInstance = serverFactory.createServer({
@@ -516,6 +519,28 @@ var documentsMain = {
 		});
 		input.focus();
 		input.selectRange(0, name.length);
+	},
+
+	loadDocument: function() {
+		var url = OC.generateUrl('apps/documents/ajax/documents/load/{es_id}', {es_id: documentsMain.esId});
+		$.post(
+			url,
+			{},
+			function(result) {
+				if (result && result.status === 'error') {
+					if (result.message){
+						documentsMain.IU.notify(result.message);
+					}
+					documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
+					return;
+				}
+
+				documentsMain.url = 'file://' + result.filename;
+				documentsMain.baseName = result.basename;
+
+				documentsMain.UI.showEditor(documentsMain.fileName);
+			}
+		);
 	},
 
 	renameDocument: function(name) {

@@ -37,6 +37,7 @@ class DocumentController extends Controller{
 	private $urlGenerator;
 	
 	const ODT_TEMPLATE_PATH = '/assets/new.odt';
+	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
 	
 	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, IURLGenerator $urlGenerator, $uid){
 		parent::__construct($appName, $request);
@@ -109,6 +110,47 @@ class DocumentController extends Controller{
 			);
 		}
 		return $response;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * Copy the file to a temporary location that is shared between the
+	 * cloudsuite server part and owncloud.
+	 */
+	public function localLoad($esId){
+		$session = new Db\Session();
+		$session->load($esId);
+
+		$member = new Db\Member();
+		$member->load($this->uid);
+
+		try {
+			if ($member->getIsGuest()){
+				$file = File::getByShareToken($member->getToken());
+			} else {
+				$file = new File($session->getFileId());
+			}
+
+			$view = $file->getOwnerView(true);
+			$path = $file->getPath(true);
+		} catch (\Exception $e){
+			return array(
+				'status' => 'error',
+				'message' => (string) $this->l10n->t('Unable to copy document for CloudSuite access.')
+			);
+		}
+
+		$content = $view->file_get_contents($path);
+
+		$filename = tempnam(dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH, 'ccs-');
+		file_put_contents($filename, $content);
+		chmod($filename, 0660);
+
+		return array(
+		    'status' => 'success', 'filename' => $filename,
+		    'basename' => basename($filename)
+		);
 	}
 
 	/**
