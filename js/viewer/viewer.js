@@ -81,8 +81,7 @@ var odfViewer = {
 	
 	onClose: function() {
 		FileList.setViewerMode(false);
-		$('#odf-toolbar').remove();
-		$('#odf-canvas').remove();
+		$('#loleafletframe').remove();
 	}
 };
 
