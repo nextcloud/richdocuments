@@ -57,6 +57,26 @@ var odfViewer = {
 	},
 			
 	onView: function(filename, context) {
+	    var attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls';
+
+	    FileList.setViewerMode(true);
+
+	    // TODO replace file_path = documentsMain.url
+	    var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
+		'file_path=' + context.dir + '/' + filename +
+		'&host=' + 'ws://' + window.location.hostname + ':9980' +
+		'&edit=' + 'false' +
+		'&timestamp=' + '';
+
+	    var frame = '<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:fixed;top:46px;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';
+	    $(attachTo).append(frame);
+
+	    $('#loleafletframe').load(function(){
+		var iframe = $('#loleafletframe').contents();
+		iframe.find('#tb_toolbar-up_item_close').click(function() {
+		    odfViewer.onClose();
+		});
+	    });
 	},
 	
 	onClose: function() {
