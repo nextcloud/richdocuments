@@ -1,0 +1,63 @@
+#
+# spec file for package owncloud-ccs
+#
+# Copyright (c) 2015 Collabora
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+
+# See also http://en.opensuse.org/openSUSE:Specfile_guidelines
+
+Name:           owncloud-ccs
+Version:        @PACKAGE_VERSION@
+Release:        0
+Vendor:         Collabora
+Summary:        Collabora CloudSuite plugin for ownCloud
+License:        MPL
+Source0:        owncloud-ccs-@PACKAGE_VERSION@.tar.gz
+BuildArch:      noarch
+Requires:       owncloud
+Requires:       loolwsd
+Requires:       loleaflet
+Requires:       cloudsuite
+
+%description
+
+%prep
+%setup -q
+
+%build
+
+%check
+
+%install
+rm -rf %{buildroot}
+mkdir -p %{buildroot}/srv/www/htdocs/owncloud/apps/documents
+tar cf - . | (cd %{buildroot}/srv/www/htdocs/owncloud/apps/documents && tar xf -)
+
+%files
+/srv/www/htdocs/owncloud/apps/documents
+
+%post
+
+chown -R wwwrun:www /srv/www/htdocs/owncloud/apps
+su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ app:enable documents" wwwrun
+getent group loolwww >/dev/null || groupadd -r loolwww
+usermod -a -G loolwww wwwrun
+usermod -a -G loolwww lool
+mkdir -p /srv/www/htdocs/owncloud/apps/documents/documents-tmp
+chown wwwrun:loolwww /srv/www/htdocs/owncloud/apps/documents/documents-tmp
+chmod g+ws /srv/www/htdocs/owncloud/apps/documents/documents-tmp
+chmod o-rwx /srv/www/htdocs/owncloud/apps/documents/documents-tmp
+systemctl restart apache2.service
+
+%changelog
+* Thu Oct 22 2015 Andras Timar
+- Initial RPM release
