@@ -54,7 +54,7 @@ if (isset($request->server['REQUEST_URI'])) {
 }
 
 if ($c->query('AppConfig')->isConverterEnabled()){
-	$docFilter = new Office(
+	$odtFilter = new Office(
 		[
 			'read' =>
 				[
@@ -62,7 +62,7 @@ if ($c->query('AppConfig')->isConverterEnabled()){
 					'format' => 'odt:writer8',
 					'extension' => 'odt'
 				],
-			'write' => 
+			'write' =>
 				[
 					'target' => 'application/msword',
 					'format' => 'doc',
@@ -84,6 +84,244 @@ if ($c->query('AppConfig')->isConverterEnabled()){
 					'target' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 					'format' => 'docx',
 					'extension' => 'docx'
+				]
+		]
+	);
+
+	$odpFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.presentation',
+					'format' => 'odp',
+					'extension' => 'odp'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.presentation',
+					'format' => 'dop',
+					'extension' => 'odp'
+				]
+		]
+	);
+
+	$odsFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.spreadsheet',
+					'format' => 'ods',
+					'extension' => 'ods'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.spreadsheet',
+					'format' => 'ods',
+					'extension' => 'ods'
+				]
+		]
+	);
+
+	$odgFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.graphics',
+					'format' => 'odg',
+					'extension' => 'odg'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.oasis.opendocument.graphics',
+					'format' => 'odg',
+					'extension' => 'odg'
+				]
+		]
+	);
+
+	$odgFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/pdf',
+					'format' => 'pdf',
+					'extension' => 'pdf'
+				],
+			'write' =>
+				[
+					'target' => 'application/pdf',
+					'format' => 'pdf',
+					'extension' => 'pdf'
+				]
+		]
+	);
+
+	$docFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/msword',
+					'format' => 'doc',
+					'extension' => 'doc'
+				],
+			'write' =>
+				[
+					'target' => 'application/msword',
+					'format' => 'doc',
+					'extension' => 'doc'
+				]
+		]
+	);
+
+	$lwpFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.lotus-wordpro',
+					'format' => 'lwp',
+					'extension' => 'lwp'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.lotus-wordpro',
+					'format' => 'lwp',
+					'extension' => 'lwp'
+				]
+		]
+	);
+
+	$svgFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'image/svg+xml',
+					'format' => 'svg',
+					'extension' => 'svg'
+				],
+			'write' =>
+				[
+					'target' => 'image/svg+xml',
+					'format' => 'svg',
+					'extension' => 'svg'
+				]
+		]
+	);
+
+	$potFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.ms-powerpoint',
+					'format' => 'pot',
+					'extension' => 'pot'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.ms-powerpoint',
+					'format' => 'pot',
+					'extension' => 'pot'
+				]
+		]
+	);
+
+	$xlaFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.ms-excel',
+					'format' => 'xla',
+					'extension' => 'xla'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.ms-excel',
+					'format' => 'xla',
+					'extension' => 'xla'
+				]
+		]
+	);
+
+	$xlaFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.ms-excel',
+					'format' => 'xla',
+					'extension' => 'xla'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.ms-excel',
+					'format' => 'xla',
+					'extension' => 'xla'
+				]
+		]
+	);
+
+	$xlsxFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+					'format' => 'xlsx',
+					'extension' => 'xlsx'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+					'format' => 'xlsx',
+					'extension' => 'xlsx'
+				]
+		]
+	);
+
+	$vsdFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.visio',
+					'format' => 'vsd',
+					'extension' => 'vsd'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.visio',
+					'format' => 'vsd',
+					'extension' => 'vsd'
+				]
+		]
+	);
+
+	$wpdFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.wordperfect',
+					'format' => 'wpd',
+					'extension' => 'wpd'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.wordperfect',
+					'format' => 'wpd',
+					'extension' => 'wpd'
+				]
+		]
+	);
+
+	$wpdFilter = new Office(
+		[
+			'read' =>
+				[
+					'target' => 'application/vnd.wordperfect',
+					'format' => 'wpd',
+					'extension' => 'wpd'
+				],
+			'write' =>
+				[
+					'target' => 'application/vnd.wordperfect',
+					'format' => 'wpd',
+					'extension' => 'wpd'
 				]
 		]
 	);
