@@ -25,7 +25,21 @@
 namespace OCA\Documents;
 
 class Storage {
-	const MIMETYPE_LIBREOFFICE_WORDPROCESSOR = 'application/vnd.oasis.opendocument.text';
+	public static $MIMETYPE_LIBREOFFICE_WORDPROCESSOR = array(
+		'application/vnd.oasis.opendocument.text',
+		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.oasis.opendocument.spreadhseet',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+		'application/vnd.lotus-wordpro',
+		'image/svg+xml',
+		'application/vnd.ms-powerpoint',
+		'application/vnd.ms-excel',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		'application/pdf',
+		'application/vnd.visio',
+		'application/vnd.wordperfect',
+		'application/vnd.oasis.opendocument.graphics'
+	);
 
 	public static function getDocuments() {
 		$list = array_filter(
@@ -99,7 +113,7 @@ class Storage {
 
 	public static function getSupportedMimetypes(){
 		return array_merge(
-			array(self::MIMETYPE_LIBREOFFICE_WORDPROCESSOR),
+			self::$MIMETYPE_LIBREOFFICE_WORDPROCESSOR,
 			Filter::getAll()
 		);
 	}
