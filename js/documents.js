@@ -7,11 +7,11 @@ $.widget('oc.documentGrid', {
 		sessions : {},
 		members : {}
 	},
-	
+
 	_create : function (){
-			
+
 	},
-	
+
 	render : function(){
 		var that = this;
 		jQuery.when(this._load())
@@ -19,7 +19,7 @@ $.widget('oc.documentGrid', {
 				that._render();
 			});
 	},
-	
+
 	add : function(document) {
 		var docElem = $(this.options.context + ' .template').clone(),
 			a = docElem.find('a')
@@ -32,9 +32,9 @@ $.widget('oc.documentGrid', {
 			.attr('original-title', document.path)
 			.find('label').text(document.name)
 		;
-		
+
 		docElem.appendTo(this.options.context).show();
-		
+
 		//Preview
 		var previewURL,
 			urlSpec = {
@@ -48,7 +48,7 @@ $.widget('oc.documentGrid', {
 		if ( $('#isPublic').length ) {
 			urlSpec.t = $('#dirToken').val();
 		}
-		
+
 		if (!urlSpec.x) {
 			urlSpec.x = $('#filestable').data('preview-x');
 		}
@@ -60,21 +60,21 @@ $.widget('oc.documentGrid', {
 
 		previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		previewURL = previewURL.replace('(', '%28').replace(')', '%29');
-		
+
 		if ( $('#previews_enabled').length && document.hasPreview) {
 			var img = new Image();
 			img.onload = function(){
 				var ready = function (node){
 					return function(path){
 						node.css('background-image', 'url("'+ path +'")');
-					}; 
+					};
 				}(a);
 				ready(previewURL);
 			};
 			img.src = previewURL;
 		}
 	},
-	
+
 	_load : function (){
 		var that = this;
 		var def = new $.Deferred();
@@ -90,7 +90,7 @@ $.widget('oc.documentGrid', {
 			});
 		return def;
 	},
-	
+
 	_render : function (data){
 		var that = this,
 			documents = data && data.documents || this.options.documents,
@@ -98,14 +98,14 @@ $.widget('oc.documentGrid', {
 			members = data && data.members || this.options.members,
 			hasDocuments = false
 		;
-		
+
 		$(this.options.context + ' .document:not(.template,.progress)').remove();
-		
+
 		$.each(documents, function(i, document){
 			hasDocuments = true;
 			that.add(document);
 		});
-		
+
 		$.each(sessions, function(i, session){
 			if (members[session.es_id].length > 0) {
 				var docElem = $(that.options.context + ' .document[data-id="'+session.file_id+'"]');
@@ -118,7 +118,7 @@ $.widget('oc.documentGrid', {
 				}
 			}
 		});
-		
+
 		if (!hasDocuments){
 			$(this.options.context).before('<div id="emptycontent">'
 				+ t('documents', 'No documents were found. Upload or create a document to get started!')
@@ -157,19 +157,19 @@ var documentsMain = {
 	url: null,
 	canShare : false,
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
-	
-	UI : {		
+
+	UI : {
 		/* Editor wrapper HTML */
 		container : '<div id="mainContainer" class="claro">' +
 					'</div>',
-					
+
 		/* Previous window title */
 		mainTitle : '',
-				
+
 		init : function(){
 			documentsMain.UI.mainTitle = $('title').text();
 		},
-		
+
 		showEditor : function(title){
 			var self = this;
 			if (documentsMain.isGuest){
@@ -198,14 +198,14 @@ var documentsMain = {
 				});
 			});
 		},
-		
+
 		hideEditor : function(){
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-login');
 				$('footer,nav').show();
 			}
-			
+
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
 				$('#mainContainer').remove();
@@ -214,17 +214,17 @@ var documentsMain = {
 				$('title').text(documentsMain.UI.mainTitle);
 			});
 		},
-		
+
 		showSave : function (){
 			$('#odf-close').hide();
 			$('#saving-document').show();
 		},
-		
+
 		hideSave : function(){
 			$('#saving-document').hide();
 			$('#odf-close').show();
 		},
-		
+
 		showProgress : function(message){
 			if (!message){
 				message = '&nbsp;';
@@ -232,38 +232,38 @@ var documentsMain = {
 			$('.documentslist .progress div').text(message);
 			$('.documentslist .progress').show();
 		},
-		
+
 		hideProgress : function(){
 			$('.documentslist .progress').hide();
 		},
-		
+
 		showLostConnection : function(){
 			$('#memberList .memberListButton').css({opacity : 0.3});
 			$('#ocToolbar').children(':not(#document-title)').hide();
 			$('<div id="connection-lost"></div>').prependTo('#memberList');
 			$('<div id="warning-connection-lost">' + t('documents', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').prependTo('#ocToolbar');
 		},
-		
+
 		hideLostConnection : function() {
 			$('#connection-lost,#warning-connection-lost').remove();
 			$('#ocToolbar').children(':not(#document-title,#saving-document)').show();
 			$('#memberList .memberListButton').css({opacity : 1});
 		},
-		
+
 		notify : function(message){
 			OC.Notification.show(message);
 			setTimeout(OC.Notification.hide, 10000);
 		}
 	},
-	
+
 	onStartup: function() {
 		var fileId;
 		documentsMain.useUnstable = $('#webodf-unstable').val()==='true';
 		documentsMain.UI.init();
-		
+
 		if (!OC.currentUser){
 			documentsMain.isGuest = true;
-			
+
 			if ($("[name='document']").val()){
 				$(documentsMain.toolbar).appendTo('#header');
 				documentsMain.prepareSession();
@@ -276,12 +276,12 @@ var documentsMain = {
 			// Does anything indicate that we need to autostart a session?
 			fileId = parent.location.hash.replace(/\W*/g, '');
 		}
-		
+
 		documentsMain.show();
 		if (fileId){
 			documentsMain.overlay.documentOverlay('show');
 		}
-		
+
 		OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
 			// preload stuff in the background
 			require({}, ["dojo/ready"], function(ready) {
@@ -298,45 +298,45 @@ var documentsMain = {
 			});
 		});
 	},
-	
+
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
 		documentsMain.overlay.documentOverlay('show');
 		$(window).on('beforeunload', function(){
-			return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead."); 
+			return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.");
 		});
 		$(window).on("unload", documentsMain.onTerminate);
 	},
-	
+
 	prepareGrid : function(){
 		documentsMain.isEditorMode = false;
 		documentsMain.overlay.documentOverlay('hide');
 	},
-	
+
 	initSession: function(response) {
 		if(response && (response.id && !response.es_id)){
 			return documentsMain.view(response.id);
 		}
-		
+
 		$('footer,nav').hide();
 		$(documentsMain.toolbar).appendTo('#header');
-		
+
 		if (!response || !response.status || response.status==='error'){
 			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
 			return;
 		}
-		
-		//Wait for 3 sec if editor is still loading 
+
+		//Wait for 3 sec if editor is still loading
 		if (!documentsMain.ready){
 			setTimeout(function(){ documentsMain.initSession(response); }, 3000);
 			console.log('Waiting for the editor to start...');
 			return;
 		}
 
-		var pollUrl = documentsMain.isGuest 
+		var pollUrl = documentsMain.isGuest
 				? OC.generateUrl('apps/documents/session/guest/poll/{token}', {'token' : $("[name='document']").val()})
 				: OC.generateUrl('apps/documents/session/user/poll'),
-			saveUrl = documentsMain.isGuest 
+			saveUrl = documentsMain.isGuest
 				? OC.generateUrl('apps/documents/session/guest/save/{token}', {'token' : $("[name='document']").val()})
 				: OC.generateUrl('apps/documents/session/user/save')
 				;
@@ -345,10 +345,10 @@ var documentsMain = {
 		/*require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {*/
 			// fade out file list and show WebODF canvas
 			$('#content-wrapper').fadeOut('fast').promise().done(function() {
-				
+
 				documentsMain.fileId = response.file_id;
 				documentsMain.fileName = response.title;
-				
+
 				documentsMain.esId = response.es_id;
 				documentsMain.memberId = response.member_id;
 
@@ -373,7 +373,7 @@ var documentsMain = {
 						},
 						documentsMain.webodfServerInstance, serverFactory
 				);
-				
+
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_BEFORESAVETOFILE, documentsMain.UI.showSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_SAVEDTOFILE, documentsMain.UI.hideSave);
 				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_ERROR, documentsMain.onEditorShutdown);
@@ -394,7 +394,7 @@ var documentsMain = {
 			});
 		/*});*/
 	},
-	
+
 
 	joinSession: function(fileId) {
 		console.log('joining session '+fileId);
@@ -410,7 +410,7 @@ var documentsMain = {
 			documentsMain.initSession
 		);
 	},
-	
+
 	view : function(id){
 		OC.addScript('documents', 'viewer/viewer', function() {
 			documentsMain.prepareGrid();
@@ -421,7 +421,7 @@ var documentsMain = {
 			odfViewer.onView(path);
 		});
 	},
-			
+
 	onCreate: function(event){
 		event.preventDefault();
 		var docElem = $('.documentslist .template').clone();
@@ -443,16 +443,16 @@ var documentsMain = {
 					documentsMain.show();
 				}
 			}
-			
+
 		);
 	},
-	
+
 	changeNick: function(memberId, name, node){
 		var url = OC.generateUrl('apps/documents/ajax/user/rename');
 		$.ajax({
 			url: url,
 			type: "POST",
-			data: JSON.stringify({ 
+			data: JSON.stringify({
 				name : name,
 				memberId : memberId
 			}),
@@ -468,7 +468,7 @@ var documentsMain = {
 			}
 		});
 	},
-	
+
 	onNickChange: function(memberId, fullNameNode){
 		if (!documentsMain.isGuest || memberId !== documentsMain.memberId){
 			return;
@@ -476,7 +476,7 @@ var documentsMain = {
 		if ($(fullNameNode.parentNode).children('input').length !== 0){
 			return;
 		}
-		
+
 		var input = $('<input type="text"/>').val($(fullNameNode).attr('fullname'));
 		$(fullNameNode.parentNode).append(input);
 		$(fullNameNode).hide();
@@ -583,11 +583,11 @@ var documentsMain = {
 			} catch (e){
 				documentsMain.UI.hideEditor();
 			}
-			
+
 			documentsMain.show();
 			$('footer,nav').show();
 	},
-		
+
 
 	onClose: function() {
 		if (!documentsMain.isEditorMode){
@@ -609,16 +609,16 @@ var documentsMain = {
 			} else {
 				url = OC.generateUrl('apps/documents/ajax/user/disconnect', {});
 			}
-			
+
 			$.post(url, {
 				memberId : documentsMain.memberId,
 				esId: documentsMain.esId
 			});
-			
+
 			documentsMain.show();
 		});
 	},
-	
+
 	onTerminate: function(){
 		var url = '';
 		if (documentsMain.isGuest){
@@ -634,7 +634,7 @@ var documentsMain = {
 				async: false // Should be sync to complete before the page is closed
 		});
 
-		
+
 		documentsMain.webodfEditorInstance.endEditing();
 		documentsMain.webodfEditorInstance.closeSession(function() {
 			if (documentsMain.isGuest){
@@ -643,7 +643,7 @@ var documentsMain = {
 			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
 		});
 	},
-	
+
 	show: function(){
 		if (documentsMain.isGuest){
 			return;
@@ -695,7 +695,7 @@ var Files = Files || {
 		}
 		return true;
 	},
-	
+
 	updateStorageStatistics: function(){}
 },
 FileList = FileList || {};
@@ -707,22 +707,22 @@ FileList.getCurrentDirectory = function(){
 $(document).ready(function() {
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
-	
+
 	$('li.document a').tipsy({fade: true, live: true});
-	
+
 	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
 		event.preventDefault();
 
 		if (documentsMain.isEditorMode){
 			return;
 		}
-		
+
 		documentsMain.prepareSession();
 		if ($(this).attr('data-id')){
 			documentsMain.joinSession($(this).attr('data-id'));
 		}
 	});
-	
+
 	$('.add-document').on('click', '.add', documentsMain.onCreate);
 
 	var file_upload_start = $('#file_upload_start');
