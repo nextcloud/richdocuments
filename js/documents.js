@@ -704,6 +704,9 @@ FileList.getCurrentDirectory = function(){
 	return $('#dir').val() || '/';
 };
 
+FileList.highlightFiles = function(files, highlightFunction) {
+};
+
 $(document).ready(function() {
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
