@@ -115,23 +115,11 @@ class DocumentController extends Controller{
 	 * Copy the file to a temporary location that is shared between the
 	 * cloudsuite server part and owncloud.
 	 */
-	public function localLoad($esId){
-		$session = new Db\Session();
-		$session->load($esId);
+	public function localLoad($fileId){
+		$view = \OC\Files\Filesystem::getView();
+		$path = $view->getPath($fileId);
 
-		$member = new Db\Member();
-		$member->load($this->uid);
-
-		try {
-			if ($member->getIsGuest()){
-				$file = File::getByShareToken($member->getToken());
-			} else {
-				$file = new File($session->getFileId());
-			}
-
-			$view = $file->getOwnerView(true);
-			$path = $file->getPath(true);
-		} catch (\Exception $e){
+		if (!$view->is_file($path)) {
 			return array(
 				'status' => 'error',
 				'message' => (string) $this->l10n->t('Unable to copy document for CloudSuite access.')

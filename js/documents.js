@@ -277,8 +277,11 @@ var documentsMain = {
 		}
 
 		documentsMain.show();
+
 		if (fileId){
 			documentsMain.overlay.documentOverlay('show');
+			documentsMain.prepareSession();
+			documentsMain.joinSession(fileId);
 		}
 
 		documentsMain.ready = true;
@@ -508,7 +511,7 @@ var documentsMain = {
 	},
 
 	loadDocument: function() {
-		var url = OC.generateUrl('apps/documents/ajax/documents/load/{es_id}', {es_id: documentsMain.esId});
+		var url = OC.generateUrl('apps/documents/load/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
 			url,
 			{},
