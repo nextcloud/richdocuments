@@ -186,7 +186,7 @@ var documentsMain = {
 				'&edit=' + 'false' +
 				'&timestamp=' + '';
 
-			var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';
+			var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups allow-modals"/>';
 
 			$('#mainContainer').append(frame);
 			documentsMain.overlay.documentOverlay('hide');
