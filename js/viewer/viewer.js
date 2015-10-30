@@ -2,14 +2,13 @@
 var odfViewer = {
 	isDocuments : false,
 	supportedMimesRead: [
+	],
+
+	supportedMimesUpdate: [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.oasis.opendocument.graphics',
 		'application/vnd.oasis.opendocument.presentation'
-	],
-			
-	supportedMimesUpdate: [
-		'application/vnd.oasis.opendocument.text'
 	],
 			
 	register : function(response){
@@ -38,6 +37,7 @@ var odfViewer = {
 					odfViewer.onEdit,
 					t('documents', 'Edit')
 			);
+			OCA.Files.fileActions.setDefault(mimeUpdate, 'Edit');
 		}
 	},
 	
@@ -61,7 +61,9 @@ var odfViewer = {
 
 	    FileList.setViewerMode(true);
 
-	    // TODO replace file_path = documentsMain.url
+	    // TODO call something like in the onEdit case; or do we want
+		// view-only at all?
+	    /*
 	    var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
 		'file_path=' + context.dir + '/' + filename +
 		'&host=' + 'ws://' + window.location.hostname + ':9980' +
@@ -77,6 +79,7 @@ var odfViewer = {
 		    odfViewer.onClose();
 		});
 	    });
+	    */
 	},
 	
 	onClose: function() {
