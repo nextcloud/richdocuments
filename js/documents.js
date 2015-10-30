@@ -578,7 +578,7 @@ var documentsMain = {
 
 		$('footer,nav').show();
 		documentsMain.UI.hideEditor();
-		$(documentsMain.toolbar).remove();
+		$('#ocToolbar').remove();
 		documentsMain.show();
 	},
 
