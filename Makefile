@@ -4,7 +4,20 @@ VERSION=1.0.0
 dist: owncloud-ccs.spec
 	rm -rf owncloud-ccs-$(VERSION)
 	mkdir owncloud-ccs-$(VERSION)
-	cp -ra  *.php assets controller img l10n appinfo css js lib templates owncloud-ccs-$(VERSION)
+	tar cf -  *.php \
+                appinfo \
+                assets \
+                controller \
+                css/style.css \
+                img \
+                js/*.js \
+                js/3rdparty/resources \
+                js/viewer \
+                js/widgets \
+                l10n \
+                lib \
+                templates \
+                | ( cd owncloud-ccs-$(VERSION) && tar xf - )
 	tar cfz owncloud-ccs-$(VERSION).tar.gz owncloud-ccs-$(VERSION)
 	rm -rf owncloud-ccs-$(VERSION)
 
