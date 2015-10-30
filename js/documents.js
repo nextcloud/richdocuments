@@ -560,14 +560,7 @@ var documentsMain = {
 				setTimeout(OC.Notification.hide, 7000);
 			}
 			documentsMain.prepareGrid();
-			try {
-				documentsMain.webodfEditorInstance.endEditing();
-				documentsMain.webodfEditorInstance.closeSession(function() {
-					documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
-				});
-			} catch (e){
-				documentsMain.UI.hideEditor();
-			}
+			documentsMain.UI.hideEditor();
 
 			documentsMain.show();
 			$('footer,nav').show();
@@ -604,14 +597,9 @@ var documentsMain = {
 				async: false // Should be sync to complete before the page is closed
 		});
 
-
-		documentsMain.webodfEditorInstance.endEditing();
-		documentsMain.webodfEditorInstance.closeSession(function() {
 			if (documentsMain.isGuest){
 				$('footer,nav').show();
 			}
-			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
-		});
 	},
 
 	show: function(){
