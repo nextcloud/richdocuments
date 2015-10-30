@@ -281,21 +281,7 @@ var documentsMain = {
 			documentsMain.overlay.documentOverlay('show');
 		}
 
-		OC.addScript('documents', '3rdparty/webodf/webodf-debug').done(function() {
-			// preload stuff in the background
-			require({}, ["dojo/ready"], function(ready) {
-				ready(function() {
-					require({}, ["webodf/editor/Editor"], function(Editor) {
-						runtime.setTranslator(function(s){return t('documents', s);});
-						documentsMain.ready = true;
-						if (fileId){
-							documentsMain.prepareSession();
-							documentsMain.joinSession(fileId);
-						}
-					});
-				});
-			});
-		});
+		documentsMain.ready = true;
 	},
 
 	prepareSession : function(){
@@ -638,28 +624,6 @@ var documentsMain = {
 	}
 };
 
-
-//web odf bootstrap code. Added here to reduce number of requests
-/*globals navigator,dojoConfig */
-var usedLocale = "C";
-
-if (navigator && navigator.language && navigator.language.match(/^(de)/)) {
-	usedLocale = navigator.language.substr(0,2);
-}
-
-dojoConfig = {
-	locale: usedLocale,
-	paths: {
-		"webodf/editor": OC.appswebroots.documents + "/js/3rdparty/webodf/editor",
-		"dijit": OC.appswebroots.documents + "/js/3rdparty/resources/dijit",
-		"dojox": OC.appswebroots.documents + "/js/3rdparty/resources/dojox",
-		"dojo": OC.appswebroots.documents + "/js/3rdparty/resources/dojo",
-		"resources": OC.appswebroots.documents + "/js/3rdparty/resources",
-		"owncloud" : OC.appswebroots.documents + "/js"
-	}
-};
-
-
 //init
 var Files = Files || {
 	// FIXME: copy/pasted from Files.isFileNameValid, needs refactor into core
@@ -724,8 +688,6 @@ $(document).ready(function() {
 		$('.add-document .upload').css({opacity:0.7});
 		documentsMain.show();
 	});
-	OC.addStyle('documents', '3rdparty/webodf/wodotexteditor');
-	OC.addStyle('documents', '3rdparty/webodf/wodocollabpane');
 
-	OC.addScript('documents', '3rdparty/webodf/dojo-amalgamation', documentsMain.onStartup);
+	documentsMain.onStartup();
 });
