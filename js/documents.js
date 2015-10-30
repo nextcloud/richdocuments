@@ -598,25 +598,10 @@ var documentsMain = {
 		$(window).off('unload');
 		parent.location.hash = "";
 
-		documentsMain.webodfEditorInstance.endEditing();
-		documentsMain.webodfEditorInstance.closeSession(function() {
-			$('footer,nav').show();
-			documentsMain.webodfEditorInstance.destroy(documentsMain.UI.hideEditor);
-
-			var url = '';
-			if (documentsMain.isGuest){
-				url = OC.generateUrl('apps/documents/ajax/user/disconnectGuest', {});
-			} else {
-				url = OC.generateUrl('apps/documents/ajax/user/disconnect', {});
-			}
-
-			$.post(url, {
-				memberId : documentsMain.memberId,
-				esId: documentsMain.esId
-			});
-
-			documentsMain.show();
-		});
+		$('footer,nav').show();
+		documentsMain.UI.hideEditor();
+		$(documentsMain.toolbar).remove();
+		documentsMain.show();
 	},
 
 	onTerminate: function(){
