@@ -17,7 +17,7 @@
 
 .documentslist { padding:5px; }
 
-.documentslist .document, 
+.documentslist .document,
 .documentslist .progress,
 .documentslist .add-document{
 	display: inline-block;
@@ -171,9 +171,10 @@
 #mainContainer{
 	position: absolute;
 	width:100%;
-	height:100%;
 	z-index: 500;
 	background-color: #ddd !important;
+	top: 46px;
+	bottom: 0;
 }
 
 #documents-overlay,  #documents-overlay-below{
@@ -200,12 +201,12 @@
 #file_upload_start{
 	display: block;
 	position:relative;
-	left:0; top:0; width:200px; height:100px; 
+	left:0; top:0; width:200px; height:100px;
 	margin-bottom: -110px;padding:0;
 	cursor:pointer; overflow:hidden;
 	font-size:1em;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
-	z-index:20; 
+	z-index:20;
 }
 
 #saving-document{
