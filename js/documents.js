@@ -646,7 +646,25 @@ FileList.getCurrentDirectory = function(){
 FileList.highlightFiles = function(files, highlightFunction) {
 };
 
+FileList.findFile = function(filename) {
+    var documents = documentsMain.docs.documentGrid('option').documents;
+    return _.find(documents, function(aFile) {
+				return (aFile.name === filename);
+			}) || false;
+};
+
 $(document).ready(function() {
+
+	if (!OCA.Files) {
+		OCA.Files = {};
+		OCA.Files.App = {};
+		OCA.Files.App.fileList = FileList;
+	}
+
+	if (!OC.Share) {
+		OC.Share = {};
+	}
+
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
 
