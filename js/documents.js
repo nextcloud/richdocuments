@@ -653,6 +653,32 @@ FileList.findFile = function(filename) {
 			}) || false;
 };
 
+FileList.generatePreviewUrl = function(urlSpec) {
+    urlSpec = urlSpec || {};
+    if (!urlSpec.x) {
+	urlSpec.x = 32;
+    }
+    if (!urlSpec.y) {
+	urlSpec.y = 32;
+    }
+    urlSpec.x *= window.devicePixelRatio;
+    urlSpec.y *= window.devicePixelRatio;
+    urlSpec.x = Math.ceil(urlSpec.x);
+    urlSpec.y = Math.ceil(urlSpec.y);
+    urlSpec.forceIcon = 0;
+    return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+}
+
+FileList.isFileNameValid = function (name) {
+    var trimmedName = name.trim();
+    if (trimmedName === '.'	|| trimmedName === '..') {
+	throw t('files', '"{name}" is an invalid file name.', {name: name});
+    } else if (trimmedName.length === 0) {
+	throw t('files', 'File name cannot be empty.');
+    }
+    return true;
+}
+
 $(document).ready(function() {
 
 	if (!OCA.Files) {
@@ -664,6 +690,8 @@ $(document).ready(function() {
 	if (!OC.Share) {
 		OC.Share = {};
 	}
+
+	window.Files = FileList;
 
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
