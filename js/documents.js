@@ -1,4 +1,4 @@
-/*globals $,OC,fileDownloadPath,t,document,odf,webodfEditor,alert,require,dojo,runtime */
+/*globals $,OC,fileDownloadPath,t,document,odf,alert,require,dojo,runtime */
 
 $.widget('oc.documentGrid', {
 	options : {
@@ -147,7 +147,6 @@ $.widget('oc.documentOverlay', {
 
 var documentsMain = {
 	isEditormode : false,
-	useUnstable : false,
 	isGuest : false,
 	memberId : false,
 	esId : false,
@@ -257,7 +256,6 @@ var documentsMain = {
 
 	onStartup: function() {
 		var fileId;
-		documentsMain.useUnstable = $('#webodf-unstable').val()==='true';
 		documentsMain.UI.init();
 
 		if (!OC.currentUser){
@@ -330,57 +328,23 @@ var documentsMain = {
 				;
 		documentsMain.canShare = !documentsMain.isGuest
 				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
-		/*require({ }, ["owncloud/ServerFactory", "webodf/editor/Editor"], function (ServerFactory, Editor) {*/
-			// fade out file list and show WebODF canvas
-			$('#content-wrapper').fadeOut('fast').promise().done(function() {
 
-				documentsMain.fileId = response.file_id;
-				documentsMain.fileName = response.title;
+		// fade out file list and show the cloudsuite
+		$('#content-wrapper').fadeOut('fast').promise().done(function() {
 
-				documentsMain.esId = response.es_id;
-				documentsMain.memberId = response.member_id;
+			documentsMain.fileId = response.file_id;
+			documentsMain.fileName = response.title;
 
-				documentsMain.loadDocument();
+			documentsMain.esId = response.es_id;
+			documentsMain.memberId = response.member_id;
 
-				if (documentsMain.isGuest){
-					$('#odf-close').text(t('documents', 'Save') );
-					$('#odf-close').removeClass('icon-view-close');
-				}
-				//var serverFactory = new ServerFactory();
-				/*
-				// TODO: set webodf translation system, by passing a proper function translate(!string):!string in "runtime.setTranslator(translate);"
-				documentsMain.webodfServerInstance = serverFactory.createServer({
-					url : pollUrl,
-					sessionStateToFileUrl : saveUrl
-				});
-				documentsMain.webodfServerInstance.setToken(oc_requesttoken);
-				documentsMain.webodfEditorInstance = new Editor(
-						{
-							allFeaturesEnabled: true,
-							collabEditingEnabled: true
-						},
-						documentsMain.webodfServerInstance, serverFactory
-				);
+			documentsMain.loadDocument();
 
-				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_BEFORESAVETOFILE, documentsMain.UI.showSave);
-				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_SAVEDTOFILE, documentsMain.UI.hideSave);
-				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_ERROR, documentsMain.onEditorShutdown);
-				documentsMain.webodfEditorInstance.addEventListener(Editor.EVENT_HASSESSIONHOSTCONNECTIONCHANGED, function(has) {
-					if (has){
-						documentsMain.UI.hideLostConnection();
-					} else {
-						documentsMain.UI.showLostConnection();
-					}
-				});
-				// load the document and get called back when it's live
-				documentsMain.webodfEditorInstance.openSession(documentsMain.esId, documentsMain.memberId, function() {
-					documentsMain.webodfEditorInstance.startEditing();
-					documentsMain.overlay.documentOverlay('hide');
-					parent.location.hash = response.file_id;
-				});
-				*/
-			});
-		/*});*/
+			if (documentsMain.isGuest){
+				$('#odf-close').text(t('documents', 'Save') );
+				$('#odf-close').removeClass('icon-view-close');
+			}
+		});
 	},
 
 
