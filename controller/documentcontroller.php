@@ -34,7 +34,7 @@ class DocumentController extends Controller{
 	private $l10n;
 	private $settings;
 	
-	const ODT_TEMPLATE_PATH = '/assets/new.odt';
+	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
 	
 	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid){
@@ -87,7 +87,7 @@ class DocumentController extends Controller{
 		$content = '';
 		if (class_exists('\OC\Files\Type\TemplateManager')){
 			$manager = \OC_Helper::getFileTemplateManager();
-			$content = $manager->getTemplate(Storage::MIMETYPE_LIBREOFFICE_WORDPROCESSOR);
+			$content = $manager->getTemplate('application/vnd.oasis.opendocument.text');
 		}
 		
 		if (!$content){
