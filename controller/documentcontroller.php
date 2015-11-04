@@ -141,6 +141,37 @@ class DocumentController extends Controller{
 	/**
 	 * @NoAdminRequired
 	 * @PublicPage
+	 * Copy the file to a temporary location that is shared between the
+	 * cloudsuite server part and owncloud.
+	 */
+	public function localSave($fileId){
+		// get really just the basename for the case somebody tries to trick us
+		$basename = basename($this->request->post['basename']);
+
+		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . $basename;
+
+		$view = \OC\Files\Filesystem::getView();
+		$path = $view->getPath($fileId);
+
+		if (!is_file($filename) || !$view->is_file($path)) {
+			return array(
+				'status' => 'error',
+				'message' => (string) $this->l10n->t('Unable to copy the document back from CloudSuite.')
+			);
+		}
+
+		$content = file_get_contents($filename);
+
+		$view->file_put_contents($path, $content);
+
+		return array(
+			'status' => 'success'
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
 	 * Process partial/complete file download
 	 */
 	public function serve($esId){

@@ -308,7 +308,7 @@ var documentsMain = {
 		$(documentsMain.toolbar).appendTo('#header');
 
 		if (!response || !response.status || response.status==='error'){
-			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
+			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
 			return;
 		}
 
@@ -484,7 +484,7 @@ var documentsMain = {
 					if (result.message){
 						documentsMain.IU.notify(result.message);
 					}
-					documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external odt editor. This might also mean it has been unshared or deleted recently.'));
+					documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
 					return;
 				}
 
@@ -494,6 +494,23 @@ var documentsMain = {
 				documentsMain.UI.showEditor(documentsMain.fileName);
 			}
 		);
+	},
+
+	saveDocumentBack: function() {
+		var url = OC.generateUrl('apps/documents/save/{file_id}', {file_id: documentsMain.fileId});
+		$.post(
+				url,
+				{ basename : documentsMain.baseName },
+				function(result) {
+					if (result && result.status === 'error') {
+						if (result.message){
+							documentsMain.IU.notify(result.message);
+						}
+						documentsMain.onEditorShutdown(t('documents', 'Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently.'));
+						return;
+					}
+				}
+			  );
 	},
 
 	renameDocument: function(name) {

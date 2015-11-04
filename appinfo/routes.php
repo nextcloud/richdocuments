@@ -34,6 +34,7 @@ $application->registerRoutes($this, [
 		['name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => 'GET'],
 		//documents - for CloudSuite access
 		['name' => 'document#localLoad', 'url' => 'load/{fileId}', 'verb' => 'POST'],
+		['name' => 'document#localSave', 'url' => 'save/{fileId}', 'verb' => 'POST'],
 		//settings
 		['name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'],
 		['name' => 'settings#setUnstable', 'url' => 'ajax/config/unstable', 'verb' => 'POST'],
