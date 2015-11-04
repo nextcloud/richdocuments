@@ -1,10 +1,10 @@
 /* globals FileList, OCA.Files.fileActions, oc_debug */
 var odfViewer = {
 	isDocuments : false,
-	supportedMimesRead: [
+	supportedMimesReadOnly: [
 	],
 
-	supportedMimesUpdate: [
+	supportedMimesReadWrite: [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.oasis.opendocument.graphics',
@@ -39,36 +39,36 @@ var odfViewer = {
 
 	register : function(response){
 		var i,
-			mimeRead,
-			mimeUpdate;
+			mimeReadOnly,
+			mimeReadWrite;
 
 		if (response && response.mimes){
 			jQuery.each(response.mimes, function(i, mime){
-				odfViewer.supportedMimesRead.push(mime);
-				odfViewer.supportedMimesUpdate.push(mime);
+				odfViewer.supportedMimesReadOnly.push(mime);
+				odfViewer.supportedMimesReadWrite.push(mime);
 			});
 		}
-		for (i = 0; i < odfViewer.supportedMimesRead.length; ++i) {
-			mimeRead = odfViewer.supportedMimesRead[i];
-			OCA.Files.fileActions.register(mimeRead, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
-			OCA.Files.fileActions.setDefault(mimeRead, 'View');
+		for (i = 0; i < odfViewer.supportedMimesReadOnly.length; ++i) {
+			mimeReadOnly = odfViewer.supportedMimesReadOnly[i];
+			OCA.Files.fileActions.register(mimeReadOnly, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
+			OCA.Files.fileActions.setDefault(mimeReadOnly, 'View');
 		}
-		for (i = 0; i < odfViewer.supportedMimesUpdate.length; ++i) {
-			mimeUpdate = odfViewer.supportedMimesUpdate[i];
+		for (i = 0; i < odfViewer.supportedMimesReadWrite.length; ++i) {
+			mimeReadWrite = odfViewer.supportedMimesReadWrite[i];
 			OCA.Files.fileActions.register(
-					mimeUpdate,
+					mimeReadWrite,
 					'Edit',
 					OC.PERMISSION_UPDATE,
 					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
 					t('documents', 'Edit')
 			);
-			OCA.Files.fileActions.setDefault(mimeUpdate, 'Edit');
+			OCA.Files.fileActions.setDefault(mimeReadWrite, 'Edit');
 		}
 	},
 
 	dispatch : function(filename){
-		if (odfViewer.supportedMimesUpdate.indexOf(OCA.Files.fileActions.getCurrentMimeType()) !== -1
+		if (odfViewer.supportedMimesReadWrite.indexOf(OCA.Files.fileActions.getCurrentMimeType()) !== -1
 			&& OCA.Files.fileActions.getCurrentPermissions() & OC.PERMISSION_UPDATE
 		){
 			odfViewer.onEdit(filename);
