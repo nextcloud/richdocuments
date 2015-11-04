@@ -11,9 +11,15 @@ script('files', 'jquery.fileupload');
 <div id="documents-content">
 	<ul class="documentslist">
 		<li class="add-document">
-			<a class="icon-add add svg" target="_blank" href="">
-				<label><?php p($l->t('New document')) ?></label>
+			<a class="icon-add add-odt svg" target="_blank" href="">
+				<label><?php p($l->t('New Document')) ?></label>
 			</a> 
+			<a class="icon-add add-ods svg" target="_blank" href="">
+				<label><?php p($l->t('New Spreadsheet')) ?></label>
+			</a>
+			<a class="icon-add add-odp svg" target="_blank" href="">
+				<label><?php p($l->t('New Presentation')) ?></label>
+			</a>
 			<div id="upload" title="<?php p($l->t('Upload (max. %s)', array($_['uploadMaxHumanFilesize']))) ?>">
 				<form data-upload-id="1"
 					  id="data-upload-form"

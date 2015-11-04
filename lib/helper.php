@@ -21,7 +21,7 @@ class Helper {
 
 		while ($view->file_exists($path)){
 			$fileNum += 1;
-			$path = preg_replace('/(\.odt|' . $prepend . '\(\d+\)\.odt)$/', $prepend . '(' . $fileNum . ').odt', $path);
+			$path = preg_replace('/(\.|' . $prepend . '\(\d+\)\.)([^.]*)$/', $prepend . '(' . $fileNum . ').$2', $path);
 		};
 
 		return $path;

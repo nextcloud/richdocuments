@@ -34,26 +34,29 @@
 	box-sizing: border-box;
 	display: inline-block;
 	position: relative;
-	height: 100px;
+	height: 46px;
 	width: 200px;
 	background-repeat: no-repeat;
 	background-size: 32px;
-	background-position: 50%;
+	background-position: 3%;
 }
 
-.add-document a.add {
-	border-bottom: 1px solid #fff;
-}
-.add-document .add,
+.add-document .add-odt,
+.add-document .add-ods,
+.add-document .add-odp,
 .add-document .upload {
 	opacity: .7;
 	border: 1px solid #e8e8e8;
 }
 .add-document .upload {
-	margin-top: 4px;
+	margin-top: 12px;
 }
-.add-document .add:hover,
-.add-document .add:focus,
+.add-document .add-odt:hover,
+.add-document .add-ods:hover,
+.add-document .add-odp:hover,
+.add-document .add-odt:focus,
+.add-document .add-ods:focus,
+.add-document .add-odp:focus,
 .add-document #upload:hover .upload,
 .add-document .upload:focus {
 	opacity: 1;

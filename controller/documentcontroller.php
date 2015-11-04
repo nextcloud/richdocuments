@@ -77,17 +77,34 @@ class DocumentController extends Controller{
 	 * @NoAdminRequired
 	 */
 	public function create(){
+		$mimetype = $this->request->post['mimetype'];
+
 		$view = new View('/' . $this->uid . '/files');
 		$dir = $this->settings->getUserValue($this->uid, $this->appName, 'save_path', '/');
 		if (!$view->is_dir($dir)){
 			$dir = '/';
 		}
-		$path = Helper::getNewFileName($view, $dir . '/New Document.odt');
+
+		$basename = $this->l10n->t('New Document.odt');
+		switch ($mimetype) {
+			case 'application/vnd.oasis.opendocument.spreadsheet':
+				$basename = $this->l10n->t('New Spreadsheet.ods');
+				break;
+			case 'application/vnd.oasis.opendocument.presentation':
+				$basename = $this->l10n->t('New Presentation.odp');
+				break;
+			default:
+				// to be safe
+				$mimetype = 'application/vnd.oasis.opendocument.text';
+				break;
+		}
+
+		$path = Helper::getNewFileName($view, $dir . '/' . $basename);
 		
 		$content = '';
 		if (class_exists('\OC\Files\Type\TemplateManager')){
 			$manager = \OC_Helper::getFileTemplateManager();
-			$content = $manager->getTemplate('application/vnd.oasis.opendocument.text');
+			$content = $manager->getTemplate($mimetype);
 		}
 		
 		if (!$content){

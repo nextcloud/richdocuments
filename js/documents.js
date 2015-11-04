@@ -374,8 +374,22 @@ var documentsMain = {
 		});
 	},
 
-	onCreate: function(event){
+	onCreateODT: function(event){
 		event.preventDefault();
+		documentsMain.create('application/vnd.oasis.opendocument.text');
+	},
+
+	onCreateODS: function(event){
+		event.preventDefault();
+		documentsMain.create('application/vnd.oasis.opendocument.spreadsheet');
+	},
+
+	onCreateODP: function(event){
+		event.preventDefault();
+		documentsMain.create('application/vnd.oasis.opendocument.presentation');
+	},
+
+	create: function(mimetype){
 		var docElem = $('.documentslist .template').clone();
 		docElem.removeClass('template');
 		docElem.addClass('document');
@@ -383,7 +397,7 @@ var documentsMain = {
 		docElem.show();
 		$.post(
 			OC.generateUrl('apps/documents/ajax/documents/create'),
-			{},
+			{ mimetype : mimetype },
 			function(response){
 				if (response && response.fileid){
 					documentsMain.prepareSession();
@@ -692,7 +706,9 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.add-document').on('click', '.add', documentsMain.onCreate);
+	$('.add-document').on('click', '.add-odt', documentsMain.onCreateODT);
+	$('.add-document').on('click', '.add-ods', documentsMain.onCreateODS);
+	$('.add-document').on('click', '.add-odp', documentsMain.onCreateODP);
 
 	var file_upload_start = $('#file_upload_start');
 	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {
