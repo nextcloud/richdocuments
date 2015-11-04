@@ -29,6 +29,7 @@ class Storage {
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.presentation',
 		'application/vnd.oasis.opendocument.spreadsheet',
+		'application/vnd.oasis.opendocument.graphics',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.lotus-wordpro',
 		'image/svg+xml',
