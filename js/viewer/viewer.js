@@ -8,14 +8,19 @@ var odfViewer = {
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.oasis.opendocument.graphics',
-		'application/vnd.oasis.opendocument.presentation'
+		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.lotus-wordpro',
+		'image/svg+xml',
+		'application/pdf',
+		'application/vnd.visio',
+		'application/vnd.wordperfect',
 	],
-			
+
 	register : function(response){
-		var i, 
-			mimeRead, 
+		var i,
+			mimeRead,
 			mimeUpdate;
-		
+
 		if (response && response.mimes){
 			jQuery.each(response.mimes, function(i, mime){
 				odfViewer.supportedMimesRead.push(mime);
@@ -30,17 +35,17 @@ var odfViewer = {
 		for (i = 0; i < odfViewer.supportedMimesUpdate.length; ++i) {
 			mimeUpdate = odfViewer.supportedMimesUpdate[i];
 			OCA.Files.fileActions.register(
-					mimeUpdate, 
+					mimeUpdate,
 					'Edit',
-					OC.PERMISSION_UPDATE, 
-					OC.imagePath('core', 'actions/rename'), 
+					OC.PERMISSION_UPDATE,
+					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
 					t('documents', 'Edit')
 			);
 			OCA.Files.fileActions.setDefault(mimeUpdate, 'Edit');
 		}
 	},
-	
+
 	dispatch : function(filename){
 		if (odfViewer.supportedMimesUpdate.indexOf(OCA.Files.fileActions.getCurrentMimeType()) !== -1
 			&& OCA.Files.fileActions.getCurrentPermissions() & OC.PERMISSION_UPDATE
@@ -50,12 +55,12 @@ var odfViewer = {
 			odfViewer.onView(filename);
 		}
 	},
-	
+
 	onEdit : function(fileName, context){
 		var fileId = context.$file.attr('data-id');
 		window.location = OC.generateUrl('apps/documents/index#{file_id}', {file_id: fileId});
 	},
-			
+
 	onView: function(filename, context) {
 	    var attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls';
 
@@ -81,7 +86,7 @@ var odfViewer = {
 	    });
 	    */
 	},
-	
+
 	onClose: function() {
 		FileList.setViewerMode(false);
 		$('#loleafletframe').remove();
@@ -89,7 +94,7 @@ var odfViewer = {
 };
 
 $(document).ready(function() {
-	if ( typeof OCA !== 'undefined' 
+	if ( typeof OCA !== 'undefined'
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
