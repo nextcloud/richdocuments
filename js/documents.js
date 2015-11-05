@@ -527,6 +527,14 @@ var documentsMain = {
 			  );
 	},
 
+	closeDocument: function() {
+		var url = OC.generateUrl('apps/documents/close/{file_id}', {file_id: documentsMain.fileId});
+		$.post(
+				url,
+				{ basename : documentsMain.baseName }
+			  );
+	},
+
 	renameDocument: function(name) {
 		var url = OC.generateUrl('apps/documents/ajax/documents/rename/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
@@ -576,6 +584,7 @@ var documentsMain = {
 
 		$('footer,nav').show();
 		documentsMain.UI.hideEditor();
+		documentsMain.closeDocument();
 		$('#ocToolbar').remove();
 		documentsMain.show();
 	},

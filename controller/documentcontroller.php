@@ -189,6 +189,24 @@ class DocumentController extends Controller{
 	/**
 	 * @NoAdminRequired
 	 * @PublicPage
+	 * Remove the temporary local copy of the document.
+	 */
+	public function localClose($fileId){
+		// get really just the basename for the case somebody tries to trick us
+		$basename = basename($this->request->post['basename']);
+
+		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . $basename;
+
+		unlink($filename);
+
+		return array(
+			'status' => 'success'
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
 	 * Process partial/complete file download
 	 */
 	public function serve($esId){
