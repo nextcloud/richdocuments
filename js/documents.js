@@ -595,9 +595,9 @@ var documentsMain = {
 				async: false // Should be sync to complete before the page is closed
 		});
 
-			if (documentsMain.isGuest){
-				$('footer,nav').show();
-			}
+		if (documentsMain.isGuest){
+			$('footer,nav').show();
+		}
 	},
 
 	show: function(){
@@ -642,36 +642,36 @@ FileList.highlightFiles = function(files, highlightFunction) {
 };
 
 FileList.findFile = function(filename) {
-    var documents = documentsMain.docs.documentGrid('option').documents;
-    return _.find(documents, function(aFile) {
+	var documents = documentsMain.docs.documentGrid('option').documents;
+	return _.find(documents, function(aFile) {
 				return (aFile.name === filename);
 			}) || false;
 };
 
 FileList.generatePreviewUrl = function(urlSpec) {
-    urlSpec = urlSpec || {};
-    if (!urlSpec.x) {
-	urlSpec.x = 32;
-    }
-    if (!urlSpec.y) {
-	urlSpec.y = 32;
-    }
-    urlSpec.x *= window.devicePixelRatio;
-    urlSpec.y *= window.devicePixelRatio;
-    urlSpec.x = Math.ceil(urlSpec.x);
-    urlSpec.y = Math.ceil(urlSpec.y);
-    urlSpec.forceIcon = 0;
-    return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+	urlSpec = urlSpec || {};
+	if (!urlSpec.x) {
+		urlSpec.x = 32;
+	}
+	if (!urlSpec.y) {
+		urlSpec.y = 32;
+	}
+	urlSpec.x *= window.devicePixelRatio;
+	urlSpec.y *= window.devicePixelRatio;
+	urlSpec.x = Math.ceil(urlSpec.x);
+	urlSpec.y = Math.ceil(urlSpec.y);
+	urlSpec.forceIcon = 0;
+	return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 }
 
 FileList.isFileNameValid = function (name) {
-    var trimmedName = name.trim();
-    if (trimmedName === '.'	|| trimmedName === '..') {
-	throw t('files', '"{name}" is an invalid file name.', {name: name});
-    } else if (trimmedName.length === 0) {
-	throw t('files', 'File name cannot be empty.');
-    }
-    return true;
+	var trimmedName = name.trim();
+	if (trimmedName === '.'	|| trimmedName === '..') {
+		throw t('files', '"{name}" is an invalid file name.', {name: name});
+	} else if (trimmedName.length === 0) {
+		throw t('files', 'File name cannot be empty.');
+	}
+	return true;
 }
 
 $(document).ready(function() {
