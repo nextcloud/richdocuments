@@ -145,9 +145,19 @@ class DocumentController extends Controller{
 
 		$content = $view->file_get_contents($path);
 
-		$filename = tempnam(dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH, 'ccs-');
+		// copy; the first user gets a predictable filename so that cloudsuite
+		// uses the tile cache, others get tempnam
+		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . 'ccs-' . $fileId;
+		if (file_exists($filename))
+			$filename = tempnam(dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH, 'ccs-' . $fileId . '-');
+
 		file_put_contents($filename, $content);
+
+		// set the needed attribs
 		chmod($filename, 0660);
+		$modified = $view->filemtime($path);
+		if ($modified !== false)
+			touch($filename, $modified);
 
 		return array(
 		    'status' => 'success', 'filename' => $filename,
