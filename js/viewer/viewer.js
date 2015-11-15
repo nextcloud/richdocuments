@@ -11,7 +11,6 @@ var odfViewer = {
 		'application/vnd.oasis.opendocument.presentation',
 		'application/vnd.lotus-wordpro',
 		'image/svg+xml',
-		'application/pdf',
 		'application/vnd.visio',
 		'application/vnd.wordperfect',
 		'application/msonenote',

@@ -32,7 +32,6 @@ class Storage {
 		'application/vnd.oasis.opendocument.graphics',
 		'application/vnd.lotus-wordpro',
 		'image/svg+xml',
-		'application/pdf',
 		'application/vnd.visio',
 		'application/vnd.wordperfect',
 		'application/msonenote',

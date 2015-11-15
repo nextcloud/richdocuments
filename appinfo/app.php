@@ -139,23 +139,6 @@ if ($c->query('AppConfig')->isConverterEnabled()){
 		]
 	);
 
-	$odgFilter = new Office(
-		[
-			'read' =>
-				[
-					'target' => 'application/pdf',
-					'format' => 'pdf',
-					'extension' => 'pdf'
-				],
-			'write' =>
-				[
-					'target' => 'application/pdf',
-					'format' => 'pdf',
-					'extension' => 'pdf'
-				]
-		]
-	);
-
 	$docFilter = new Office(
 		[
 			'read' =>
