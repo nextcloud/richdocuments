@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info>
 	<id>documents</id>
-	<name>Collabora CloudSuite</name>
+	<name>Collabora Online Development Edition</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
 	<version>0.12.0</version>
