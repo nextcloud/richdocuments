@@ -24,7 +24,7 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock()
-		;	
+		;
 		$this->settings = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock()
@@ -50,7 +50,10 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 		$userSession->login($this->uid, $this->password);
 		\OC_Util::setupFS();
 	}
-	
+
+	/**
+	 * @expectedException \OCP\Files\NotFoundException
+	 */
 	public function testRename(){
 		$result = array(
 			'status' => 'error',
@@ -61,14 +64,5 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			'name' => 'newname.ext'
 		);
 		$response = $this->controller->rename(500);
-		$this->assertEquals($result, $response);
-	}
-	
-	public function testCreate(){
-		$currentDir = getcwd();
-		chdir('../../../');
-		$response = $this->controller->create();
-		chdir($currentDir);
-		$this->assertEquals('success', $response['status']);
 	}
 }
