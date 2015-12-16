@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,9 +10,9 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
-use OCA\Documents\AppInfo\Application;
+use OCA\Richdocuments\AppInfo\Application;
 
 class Converter {
 	
@@ -41,7 +41,7 @@ class Converter {
 		if (!$exists){
 			\OC::$server->getLogger()->warn(
 				'Conversion test failed. Raw output:' . $result,
-				['app' => 'documents']
+				['app' => 'richdocuments']
 				
 			);
 			return false;
@@ -61,7 +61,7 @@ class Converter {
 		if (empty($output)){
 			\OC::$server->getLogger()->warn(
 				'Empty conversion output',
-				['app' => 'documents']
+				['app' => 'richdocuments']
 				
 			);
 			throw new \RuntimeException('Empty conversion output');
@@ -129,7 +129,7 @@ class Converter {
 		if (curl_errno($ch)){
 			\OC::$server->getLogger()->debug(
 				'cURL error' . curl_errno($ch) . ':' . curl_error($ch),
-				['app' => 'documents']
+				['app' => 'richdocuments']
 				
 			);
 		}

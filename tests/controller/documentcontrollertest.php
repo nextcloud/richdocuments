@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,10 +9,10 @@
  * later.
  */
 
-namespace OCA\Documents\Controller;
+namespace OCA\Richdocuments\Controller;
 
 class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
-	private $appName = 'documents';
+	private $appName = 'richdocuments';
 	private $request;
 	private $l10n;
 	private $settings;

@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,19 +9,19 @@
  * later.
  */
 
-namespace OCA\Documents\AppInfo;
+namespace OCA\Richdocuments\AppInfo;
 
 use \OCP\AppFramework\App;
 
-use \OCA\Documents\Controller\UserController;
-use \OCA\Documents\Controller\SessionController;
-use \OCA\Documents\Controller\DocumentController;
-use \OCA\Documents\Controller\SettingsController;
-use \OCA\Documents\AppConfig;
+use \OCA\Richdocuments\Controller\UserController;
+use \OCA\Richdocuments\Controller\SessionController;
+use \OCA\Richdocuments\Controller\DocumentController;
+use \OCA\Richdocuments\Controller\SettingsController;
+use \OCA\Richdocuments\AppConfig;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
-		parent::__construct('documents', $urlParams);
+		parent::__construct('richdocuments', $urlParams);
 		
 		$container = $this->getContainer();
 		

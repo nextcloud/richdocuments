@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013-2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,9 +9,9 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
-$application = new \OCA\Documents\AppInfo\Application();
+$application = new \OCA\Richdocuments\AppInfo\Application();
 $application->registerRoutes($this, [
 	'routes' => [
 		//users

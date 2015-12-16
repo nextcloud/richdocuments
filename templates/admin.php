@@ -1,5 +1,5 @@
 <?php
-script('documents', 'admin');
+script('richdocuments', 'admin');
 ?>
 <div class="section" id="documents">
 	<h2><?php p($l->t('Documents')) ?></h2>

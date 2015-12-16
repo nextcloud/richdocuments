@@ -78,7 +78,7 @@ $.widget('oc.documentGrid', {
 	_load : function (){
 		var that = this;
 		var def = new $.Deferred();
-		$.getJSON(OC.generateUrl('apps/documents/ajax/documents/list'))
+		$.getJSON(OC.generateUrl('apps/richdocuments/ajax/documents/list'))
 			.done(function (data) {
 				that.options.documents = data.documents;
 				that.options.sessions = data.sessions;
@@ -86,7 +86,7 @@ $.widget('oc.documentGrid', {
 				def.resolve();
 			})
 			.fail(function(data){
-				console.log(t('documents','Failed to load documents.'));
+				console.log(t('richdocuments','Failed to load documents.'));
 			});
 		return def;
 	},
@@ -121,7 +121,7 @@ $.widget('oc.documentGrid', {
 
 		if (!hasDocuments){
 			$(this.options.context).before('<div id="emptycontent">'
-				+ t('documents', 'No documents were found. Upload or create a document to get started!')
+				+ t('richdocuments', 'No documents were found. Upload or create a document to get started!')
 				+ '</div>'
 			);
 		} else {
@@ -239,7 +239,7 @@ var documentsMain = {
 			$('#memberList .memberListButton').css({opacity : 0.3});
 			$('#ocToolbar').children(':not(#document-title)').hide();
 			$('<div id="connection-lost"></div>').prependTo('#memberList');
-			$('<div id="warning-connection-lost">' + t('documents', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').prependTo('#ocToolbar');
+			$('<div id="warning-connection-lost">' + t('richdocuments', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').prependTo('#ocToolbar');
 		},
 
 		hideLostConnection : function() {
@@ -289,7 +289,7 @@ var documentsMain = {
 		documentsMain.isEditorMode = true;
 		documentsMain.overlay.documentOverlay('show');
 		$(window).on('beforeunload', function(){
-			return t('documents', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.");
+			return t('richdocuments', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.");
 		});
 		$(window).on("unload", documentsMain.onTerminate);
 	},
@@ -308,7 +308,7 @@ var documentsMain = {
 		$(documentsMain.toolbar).appendTo('#header');
 
 		if (!response || !response.status || response.status==='error'){
-			documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
+			documentsMain.onEditorShutdown(t('richdocuments', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
 			return;
 		}
 
@@ -320,11 +320,11 @@ var documentsMain = {
 		}
 
 		var pollUrl = documentsMain.isGuest
-				? OC.generateUrl('apps/documents/session/guest/poll/{token}', {'token' : $("[name='document']").val()})
-				: OC.generateUrl('apps/documents/session/user/poll'),
+				? OC.generateUrl('apps/richdocuments/session/guest/poll/{token}', {'token' : $("[name='document']").val()})
+				: OC.generateUrl('apps/richdocuments/session/user/poll'),
 			saveUrl = documentsMain.isGuest
-				? OC.generateUrl('apps/documents/session/guest/save/{token}', {'token' : $("[name='document']").val()})
-				: OC.generateUrl('apps/documents/session/user/save')
+				? OC.generateUrl('apps/richdocuments/session/guest/save/{token}', {'token' : $("[name='document']").val()})
+				: OC.generateUrl('apps/richdocuments/session/user/save')
 				;
 		documentsMain.canShare = !documentsMain.isGuest
 				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
@@ -341,7 +341,7 @@ var documentsMain = {
 			documentsMain.loadDocument();
 
 			if (documentsMain.isGuest){
-				$('#odf-close').text(t('documents', 'Save') );
+				$('#odf-close').text(t('richdocuments', 'Save') );
 				$('#odf-close').removeClass('icon-view-close');
 			}
 		});
@@ -352,9 +352,9 @@ var documentsMain = {
 		console.log('joining session '+fileId);
 		var url;
 		if (documentsMain.isGuest){
-			url = OC.generateUrl('apps/documents/session/guest/join/{token}', {token: fileId});
+			url = OC.generateUrl('apps/richdocuments/session/guest/join/{token}', {token: fileId});
 		} else {
-			url = OC.generateUrl('apps/documents/session/user/join/{file_id}', {file_id: fileId});
+			url = OC.generateUrl('apps/richdocuments/session/user/join/{file_id}', {file_id: fileId});
 		}
 		$.post(
 			url,
@@ -364,7 +364,7 @@ var documentsMain = {
 	},
 
 	view : function(id){
-		OC.addScript('documents', 'viewer/viewer', function() {
+		OC.addScript('richdocuments', 'viewer/viewer', function() {
 			documentsMain.prepareGrid();
 			$(window).off('beforeunload');
 			$(window).off('unload');
@@ -396,7 +396,7 @@ var documentsMain = {
 		docElem.insertAfter('.documentslist .template');
 		docElem.show();
 		$.post(
-			OC.generateUrl('apps/documents/ajax/documents/create'),
+			OC.generateUrl('apps/richdocuments/ajax/documents/create'),
 			{ mimetype : mimetype },
 			function(response){
 				if (response && response.fileid){
@@ -414,7 +414,7 @@ var documentsMain = {
 	},
 
 	changeNick: function(memberId, name, node){
-		var url = OC.generateUrl('apps/documents/ajax/user/rename');
+		var url = OC.generateUrl('apps/richdocuments/ajax/user/rename');
 		$.ajax({
 			url: url,
 			type: "POST",
@@ -489,7 +489,7 @@ var documentsMain = {
 	},
 
 	loadDocument: function() {
-		var url = OC.generateUrl('apps/documents/load/{file_id}', {file_id: documentsMain.fileId});
+		var url = OC.generateUrl('apps/richdocuments/load/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
 			url,
 			{},
@@ -498,7 +498,7 @@ var documentsMain = {
 					if (result.message){
 						documentsMain.IU.notify(result.message);
 					}
-					documentsMain.onEditorShutdown(t('documents', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
+					documentsMain.onEditorShutdown(t('richdocuments', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
 					return;
 				}
 
@@ -511,7 +511,7 @@ var documentsMain = {
 	},
 
 	saveDocumentBack: function() {
-		var url = OC.generateUrl('apps/documents/save/{file_id}', {file_id: documentsMain.fileId});
+		var url = OC.generateUrl('apps/richdocuments/save/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
 				url,
 				{ basename : documentsMain.baseName },
@@ -520,7 +520,7 @@ var documentsMain = {
 						if (result.message){
 							documentsMain.IU.notify(result.message);
 						}
-						documentsMain.onEditorShutdown(t('documents', 'Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently.'));
+						documentsMain.onEditorShutdown(t('richdocuments', 'Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently.'));
 						return;
 					}
 				}
@@ -528,7 +528,7 @@ var documentsMain = {
 	},
 
 	closeDocument: function() {
-		var url = OC.generateUrl('apps/documents/close/{file_id}', {file_id: documentsMain.fileId});
+		var url = OC.generateUrl('apps/richdocuments/close/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
 				url,
 				{ basename : documentsMain.baseName }
@@ -536,7 +536,7 @@ var documentsMain = {
 	},
 
 	renameDocument: function(name) {
-		var url = OC.generateUrl('apps/documents/ajax/documents/rename/{file_id}', {file_id: documentsMain.fileId});
+		var url = OC.generateUrl('apps/richdocuments/ajax/documents/rename/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
 			url,
 			{ name : name },
@@ -592,9 +592,9 @@ var documentsMain = {
 	onTerminate: function(){
 		var url = '';
 		if (documentsMain.isGuest){
-			url = OC.generateUrl('apps/documents/ajax/user/disconnectGuest/{member_id}', {member_id: documentsMain.memberId});
+			url = OC.generateUrl('apps/richdocuments/ajax/user/disconnectGuest/{member_id}', {member_id: documentsMain.memberId});
 		} else {
-			url = OC.generateUrl('apps/documents/ajax/user/disconnect/{member_id}', {member_id: documentsMain.memberId});
+			url = OC.generateUrl('apps/richdocuments/ajax/user/disconnect/{member_id}', {member_id: documentsMain.memberId});
 		}
 		$.ajax({
 				type: "POST",
@@ -613,7 +613,7 @@ var documentsMain = {
 		if (documentsMain.isGuest){
 			return;
 		}
-		documentsMain.UI.showProgress(t('documents', 'Loading documents...'));
+		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents...'));
 		documentsMain.docs.documentGrid('render');
 		documentsMain.UI.hideProgress();
 	}

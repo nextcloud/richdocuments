@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,15 +9,15 @@
  * later.
  */
 
-namespace OCA\Documents\Db;
+namespace OCA\Richdocuments\Db;
 
-class Op extends \OCA\Documents\Db {
+class Op extends \OCA\Richdocuments\Db {
 
-	const DB_TABLE = '`*PREFIX*documents_op`';
+	const DB_TABLE = '`*PREFIX*richdocuments_op`';
 	
-	protected $tableName = '`*PREFIX*documents_op`';
+	protected $tableName = '`*PREFIX*richdocuments_op`';
 	
-	protected $insertStatement = 'INSERT INTO `*PREFIX*documents_op` (`es_id`, `optype`, `member`, `opspec`) VALUES (?, ?, ?, ?)';
+	protected $insertStatement = 'INSERT INTO `*PREFIX*richdocuments_op` (`es_id`, `optype`, `member`, `opspec`) VALUES (?, ?, ?, ?)';
 
 	public static function addOpsArray($esId, $memberId, $ops){
 		$opObj = new Op();

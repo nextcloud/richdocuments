@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -11,7 +11,7 @@
  */
 
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 \OCP\JSON::checkAppEnabled('documents');
 
@@ -33,8 +33,8 @@ if (isset($_GET['t'])) {
 			}
 			$tmpl->assign('hasPassword', true);
 		} else {
-			\OCP\Util::addStyle( 'documents', '3rdparty/webodf/dojo-app');
-			\OCP\Util::addScript('documents', 'documents');
+			\OCP\Util::addStyle( 'richdocuments', '3rdparty/webodf/dojo-app');
+			\OCP\Util::addScript('richdocuments', 'documents');
 			if ($file->getFileId()){
 				$session = new Db\Session();
 				$session->loadBy('file_id', $file->getFileId());

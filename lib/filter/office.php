@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - RichDocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Documents\Filter;
+namespace OCA\Richdocuments\Filter;
 
 class Office {
 	const NATIVE_MIMETYPE = 'application/vnd.oasis.opendocument.text';
@@ -55,14 +55,14 @@ class Office {
 		$this->readSpec = $mimeSpec['read'];
 		$this->writeSpec = $mimeSpec['write'];
 		
-		\OCA\Documents\Filter::add($mimeSpec['write']['target'], $this);
+		\OCA\Richdocuments\Filter::add($mimeSpec['write']['target'], $this);
 	}
 
 	public function read($data){
 		return array(
 			'mimetype' => $this->readSpec['target'],
 			'content' => 
-				\OCA\Documents\Converter::convert(
+				\OCA\Richdocuments\Converter::convert(
 						$data['content'], 
 						$this->readSpec['format'],
 						$this->readSpec['extension']
@@ -74,7 +74,7 @@ class Office {
 		return array(
 			'mimetype' => $this->writeSpec['target'],
 			'content' => 
-				\OCA\Documents\Converter::convert(
+				\OCA\Richdocuments\Converter::convert(
 						$data['content'], 
 						$this->writeSpec['format'],
 						$this->writeSpec['extension']

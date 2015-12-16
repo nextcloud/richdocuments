@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,17 +9,17 @@
  * later.
  */
 
-namespace OCA\Documents\Controller;
+namespace OCA\Richdocuments\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http;
 use \OCP\AppFramework\Http\JSONResponse;
 
-use \OCA\Documents\Db;
-use \OCA\Documents\File;
-use \OCA\Documents\Helper;
-use OCA\Documents\Filter;
+use \OCA\Richdocuments\Db;
+use \OCA\Richdocuments\File;
+use \OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Filter;
 use \OC\Files\View;
 
 class BadRequestException extends \Exception {
@@ -219,7 +219,7 @@ class SessionController extends Controller{
 				if ($this->uid){
 					$view = new View('/' . $this->uid . '/files');
 		
-					$dir = \OC::$server->getConfig()->getUserValue($this->uid, 'documents', 'save_path', '');
+					$dir = \OC::$server->getConfig()->getUserValue($this->uid, 'richdocuments', 'save_path', '');
 					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
 				} else {
 					throw $e;

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <info>
-	<id>documents</id>
+	<id>richdocuments</id>
 	<name>Collabora Online Development Edition</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
@@ -13,7 +13,6 @@
 		<owncloud min-version="8.1" max-version="9.0" />
 	</dependencies>
 	<public>
-		<documents>public.php</documents>
+		<richdocuments>public.php</richdocuments>
 	</public>
-	<ocsid>168711</ocsid>
 </info>

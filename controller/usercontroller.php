@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,13 +10,13 @@
  */
 
 
-namespace OCA\Documents\Controller;
+namespace OCA\Richdocuments\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http\JSONResponse;
 
-use \OCA\Documents\Db;
+use \OCA\Richdocuments\Db;
 
 class UserController extends Controller {
 	

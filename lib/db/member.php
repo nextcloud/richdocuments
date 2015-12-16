@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,7 +10,7 @@
  * later.
  */
 
-namespace OCA\Documents\Db;
+namespace OCA\Richdocuments\Db;
 
 /**
  * @method boolean getIsGuest()
@@ -19,24 +19,24 @@ namespace OCA\Documents\Db;
  * @method int getStatus()
  */
 
-class Member extends \OCA\Documents\Db{
+class Member extends \OCA\Richdocuments\Db{
 
-	const DB_TABLE = '`*PREFIX*documents_member`';
+	const DB_TABLE = '`*PREFIX*richdocuments_member`';
 
 	const ACTIVITY_THRESHOLD = 90; // 1.5 Minutes
 	
 	const MEMBER_STATUS_ACTIVE = 1;
 	const MEMBER_STATUS_INACTIVE = 2;
 	
-	protected $tableName  = '`*PREFIX*documents_member`';
+	protected $tableName  = '`*PREFIX*richdocuments_member`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*documents_member` (`es_id`, `uid`, `color`, `last_activity`, `is_guest`, `token`)
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_member` (`es_id`, `uid`, `color`, `last_activity`, `is_guest`, `token`)
 			VALUES (?, ?, ?, ?, ?, ?)';
 	
-	protected $loadStatement = 'SELECT * FROM `*PREFIX*documents_member` WHERE `member_id`= ?';
+	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_member` WHERE `member_id`= ?';
 
 	public static function getGuestPostfix(){
-		return '(' . \OC::$server->getL10n('documents')->t('guest') . ')';
+		return '(' . \OC::$server->getL10n('richdocuments')->t('guest') . ')';
 	}
 
 

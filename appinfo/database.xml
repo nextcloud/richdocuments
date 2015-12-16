@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*documents_session</name>
+		<name>*dbprefix*richdocuments_session</name>
 		<declaration>
 			
 			<field>
@@ -43,7 +43,7 @@
 			</field>
 			
 			<index>
-				<name>documents_session_ei_idx</name>
+				<name>richdocuments_session_ei_idx</name>
 				<primary>true</primary>
 				<unique>true</unique>
 				<field>
@@ -56,7 +56,7 @@
 	</table>
 	
 	<table>
-		<name>*dbprefix*documents_member</name>
+		<name>*dbprefix*richdocuments_member</name>
 		<declaration>
 			
 			<field>
@@ -119,7 +119,7 @@
 	</table>
 		
 	<table>
-		<name>*dbprefix*documents_op</name>
+		<name>*dbprefix*richdocuments_op</name>
 		<declaration>
 			
 			<field>
@@ -162,7 +162,7 @@
 			</field>
 			
 			<index>
-				<name>seq_pKey</name>
+				<name>richdocs_seq_pKey</name>
 				<primary>true</primary>
 				<field>
 					<name>seq</name>
@@ -170,7 +170,7 @@
 				</field>
 			</index>
 			<index>
-				<name>documents_op_eis_idx</name>
+				<name>richdocuments_op_eis_idx</name>
 				<unique>true</unique>
 				<field>
 					<name>es_id</name>
@@ -185,7 +185,7 @@
 		</declaration>
 	</table>
 	<table>
-		<name>*dbprefix*documents_invite</name>
+		<name>*dbprefix*richdocuments_invite</name>
 		<declaration>
 			
 			<field>
@@ -218,7 +218,7 @@
 		</declaration>
 	</table>
 	<table>
-		<name>*dbprefix*documents_revisions</name>
+		<name>*dbprefix*richdocuments_revisions</name>
 		<declaration>
 			
 			<field>
@@ -259,7 +259,7 @@
 			</field>
 			
 			<index>
-				<name>documents_rev_eis_idx</name>
+				<name>richdocuments_rev_eis_idx</name>
 				<unique>true</unique>
 				<field>
 					<name>es_id</name>

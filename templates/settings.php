@@ -1,5 +1,5 @@
 <?php
-script('documents', 'settings');
+script('richdocuments', 'settings');
 ?>
 <div id="documents" class="section">
 	<h2><?php p($l->t('Documents')) ?></h2>

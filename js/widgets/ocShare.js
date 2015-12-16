@@ -5,7 +5,7 @@ define("owncloud/widgets/ocShare",
 			return declare("OcShare", [_WidgetBase, _TemplatedMixin], {
 				templateString: '<div class="dijit" style="float:left;margin-top:3px">'
 						+ '<button id="odf-invite" class="drop icon-share svg" data-dojo-attach-event="onclick: showDropdown">' +
-						t('documents', 'Share') +
+						t('richdocuments', 'Share') +
 						'</button></div>',
 				postCreate: function () {
 					this.inherited(arguments);
@@ -21,7 +21,7 @@ define("owncloud/widgets/ocShare",
 							var target = OC.Share.showLink;
 							OC.Share.showLink = function () {
 								var r = target.apply(this, arguments);
-								$('#linkText').val($('#linkText').val().replace('index.php/s/', 'public.php?service=documents&t='));
+								$('#linkText').val($('#linkText').val().replace('index.php/s/', 'public.php?service=richdocuments&t='));
 								return r;
 							};
 						})();

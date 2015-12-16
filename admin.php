@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
-use \OCA\Documents\AppInfo\Application;
+use \OCA\Richdocuments\AppInfo\Application;
 
 $app = new Application();
-$response = $app->getContainer()->query('\OCA\Documents\Controller\SettingsController')->adminIndex();
+$response = $app->getContainer()->query('\OCA\Richdocuments\Controller\SettingsController')->adminIndex();
 return $response->render();
 

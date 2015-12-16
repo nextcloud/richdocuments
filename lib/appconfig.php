@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2015 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,12 +9,12 @@
  * later.
  */
  
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 use \OCP\IConfig;
 
  class AppConfig{
- 	private $appName = 'documents';
+ 	private $appName = 'richdocuments';
 	private $defaults = [
 		'converter' => 'off',
 		'converter_url' => 'http://localhost:16080',
