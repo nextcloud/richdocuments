@@ -4,7 +4,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
-  - hhvm
+#  - hhvm
   - 7
 
 env:
@@ -18,6 +18,7 @@ branches:
     - master
     - /^stable\d+(\.\d+)?$/
 
+sudo: true
 before_install:
   - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/before_install.sh
   - bash ./before_install.sh richdocuments $CORE_BRANCH $DB
@@ -41,8 +42,8 @@ matrix:
       env: DB=mysql
     - php: 5.4
       env: DB=pgsql
-    - php: 5.4
-      env: DB=oracle
-  allow_failures:
-    - php: hhvm
+#    - php: 5.4
+#      env: DB=oracle
+#  allow_failures:
+#    - php: hhvm
   fast_finish: true
