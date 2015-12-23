@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Frank Karlitschek
  * @copyright 2013-2014 Frank Karlitschek frank@owncloud.org
@@ -22,7 +22,7 @@
  */
 
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 class Storage {
 	public static $MIMETYPE_LIBREOFFICE_WORDPROCESSOR = array(

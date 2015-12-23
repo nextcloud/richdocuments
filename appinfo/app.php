@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Frank Karlitschek
  * @copyright 2013-2014 Frank Karlitschek karlitschek@kde.org
@@ -21,23 +21,23 @@
  *
  */
 
-namespace OCA\Documents\AppInfo;
+namespace OCA\Richdocuments\AppInfo;
 
-use OCA\Documents\Filter\Office;
-use OCA\Documents\Config;
+use OCA\Richdocuments\Filter\Office;
+use OCA\Richdocuments\Config;
 
 $app = new Application();
 $c = $app->getContainer();
 
-\OCP\App::registerAdmin('documents', 'admin');
-\OCP\App::registerPersonal('documents', 'personal');
+\OCP\App::registerAdmin('richdocuments', 'admin');
+\OCP\App::registerPersonal('richdocuments', 'personal');
 
 $navigationEntry = function () use ($c) {
 	return [
-		'id' => 'documents_index',
+		'id' => 'richdocuments_index',
 		'order' => 2,
-		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('documents.document.index'),
-		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('documents', 'documents.svg'),
+		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('richdocuments.document.index'),
+		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('richdocuments', 'documents.svg'),
 		'name' => $c->query('L10N')->t('Collabora Online Development Edition')
 	];
 };
@@ -49,7 +49,7 @@ if (isset($request->server['REQUEST_URI'])) {
 	$url = $request->server['REQUEST_URI'];
 
 	if (preg_match('%index.php/apps/files(/.*)?%', $url)) {
-		\OCP\Util::addScript('documents', 'viewer/viewer');
+		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
 	}
 }
 
@@ -311,4 +311,4 @@ if ($c->query('AppConfig')->isConverterEnabled()){
 }
 
 //Listen to delete file signal
-\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Documents\Storage", "onDelete");
+\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Richdocuments\Storage", "onDelete");

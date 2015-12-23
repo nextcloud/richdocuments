@@ -11,10 +11,10 @@
 	<!-- filters for code coverage -->
 	<filter>
 		<whitelist>
-			<directory suffix=".php">../../documents</directory>
+			<directory suffix=".php">../../richdocuments</directory>
 			<exclude>
-				<directory suffix=".php">../../documents/l10n</directory>
-				<directory suffix=".php">../../documents/tests</directory>
+				<directory suffix=".php">../../richdocuments/l10n</directory>
+				<directory suffix=".php">../../richdocuments/tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>

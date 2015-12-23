@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,10 +10,10 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
-use \OCA\Documents\AppInfo\Application;
+use \OCA\Richdocuments\AppInfo\Application;
 
 $app = new Application();
-$response = $app->getContainer()->query('\OCA\Documents\Controller\SettingsController')->personalIndex();
+$response = $app->getContainer()->query('\OCA\Richdocuments\Controller\SettingsController')->personalIndex();
 return $response->render();

@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -20,7 +20,7 @@
  * 
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 use \OC\Files\View;
 
@@ -190,7 +190,7 @@ class File {
 		
 		$mimetype = $this->ownerView->getMimeType($this->path);
 		if (!Filter::isSupportedMimetype($mimetype)){
-			throw new \Exception( $this->path . ' is ' . $mimetype . ' and is not supported by Documents app');
+			throw new \Exception( $this->path . ' is ' . $mimetype . ' and is not supported by RichDocuments app');
 		}
 	}
 	

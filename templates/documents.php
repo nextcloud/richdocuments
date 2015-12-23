@@ -1,9 +1,9 @@
 <?php
-style( 'documents', 'share' );
-style( 'documents', 'style' );
-style( 'documents', '3rdparty/webodf/dojo-app' );
-script('documents', 'share');
-script('documents', 'documents');
+style( 'richdocuments', 'share' );
+style( 'richdocuments', 'style' );
+style( 'richdocuments', '3rdparty/webodf/dojo-app' );
+script('richdocuments', 'share');
+script('richdocuments', 'documents');
 script('files', 'file-upload');
 script('files', 'jquery.iframe-transport');
 script('files', 'jquery.fileupload');

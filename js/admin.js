@@ -13,9 +13,9 @@ $(document).ready(function(){
 				data.url = $('#docs_url').val();
 			}
 			
-			OC.msg.startAction('#documents-admin-msg', t('documents', 'Saving...'));
+			OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving...'));
 			$.post(
-					OC.filePath('documents', 'ajax', 'admin.php'), 
+					OC.filePath('richdocuments', 'ajax', 'admin.php'), 
 					data,
 					documentsSettings.afterSave
 			);

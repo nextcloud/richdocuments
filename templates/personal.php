@@ -1,5 +1,5 @@
 <?php
-script('documents', 'personal');
+script('richdocuments', 'personal');
 ?>
 <div class="section" id="documents-personal">
 	<h2><?php p($l->t('Documents')); ?></h2>

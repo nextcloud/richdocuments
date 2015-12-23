@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,7 +9,7 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 /**
  * Generic DB class 
@@ -49,7 +49,7 @@ abstract class Db {
 	/**
 	 * Get single record by primary key
 	 * @param int $value primary key value
-	 * @return \OCA\Documents\Db
+	 * @return \OCA\Richdocuments\Db
 	 */
 	public function load($value){
 		if (!is_array($value)){
@@ -69,7 +69,7 @@ abstract class Db {
 	 * Get single record matching condition
 	 * @param string $field for WHERE condition
 	 * @param mixed $value matching value(s)
-	 * @return \OCA\Documents\Db
+	 * @return \OCA\Richdocuments\Db
 	 * @throws Exception
 	 */
 	public function loadBy($field, $value){

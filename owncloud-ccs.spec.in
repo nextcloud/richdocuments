@@ -39,23 +39,23 @@ Requires:       cloudsuite
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/srv/www/htdocs/owncloud/apps/documents
-tar cf - . | (cd %{buildroot}/srv/www/htdocs/owncloud/apps/documents && tar xf -)
+mkdir -p %{buildroot}/srv/www/htdocs/owncloud/apps/richdocuments
+tar cf - . | (cd %{buildroot}/srv/www/htdocs/owncloud/apps/richdocuments && tar xf -)
 
 %files
-/srv/www/htdocs/owncloud/apps/documents
+/srv/www/htdocs/owncloud/apps/richdocuments
 
 %post
 
 chown -R wwwrun:www /srv/www/htdocs/owncloud/apps
-su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ app:enable documents" wwwrun
+su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ app:enable richdocuments" wwwrun
 getent group loolwww >/dev/null || groupadd -r loolwww
 usermod -a -G loolwww wwwrun
 usermod -a -G loolwww lool
-mkdir -p /srv/www/htdocs/owncloud/apps/documents/documents-tmp
-chown wwwrun:loolwww /srv/www/htdocs/owncloud/apps/documents/documents-tmp
-chmod g+ws /srv/www/htdocs/owncloud/apps/documents/documents-tmp
-chmod o-rwx /srv/www/htdocs/owncloud/apps/documents/documents-tmp
+mkdir -p /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
+chown wwwrun:loolwww /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
+chmod g+ws /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
+chmod o-rwx /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
 systemctl restart apache2.service
 
 %changelog

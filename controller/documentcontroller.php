@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,7 +9,7 @@
  * later.
  */
 
-namespace OCA\Documents\Controller;
+namespace OCA\Richdocuments\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
@@ -19,13 +19,13 @@ use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
 
-use \OCA\Documents\Db;
-use \OCA\Documents\Helper;
-use \OCA\Documents\Storage;
-use \OCA\Documents\Download;
-use \OCA\Documents\DownloadResponse;
-use \OCA\Documents\File;
-use OCA\Documents\Genesis;
+use \OCA\Richdocuments\Db;
+use \OCA\Richdocuments\Helper;
+use \OCA\Richdocuments\Storage;
+use \OCA\Richdocuments\Download;
+use \OCA\Richdocuments\DownloadResponse;
+use \OCA\Richdocuments\File;
+use OCA\Richdocuments\Genesis;
 use \OC\Files\View;
 
 class DocumentController extends Controller{
@@ -49,12 +49,12 @@ class DocumentController extends Controller{
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		\OC::$server->getNavigationManager()->setActiveEntry( 'documents_index' );
+		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
-		$response = new TemplateResponse('documents', 'documents', [
+		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
-			'useUnstable' => 		$this->settings->getAppValue('documents', 'unstable', 'false'),
-			'savePath' => 			$this->settings->getUserValue($this->uid, 'documents', 'save_path', '/'),
+			'useUnstable' => 		$this->settings->getAppValue('richdocuments', 'unstable', 'false'),
+			'savePath' => 			$this->settings->getUserValue($this->uid, 'richdocuments', 'save_path', '/'),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
@@ -240,7 +240,7 @@ class DocumentController extends Controller{
 		$fullPath = '/files' . $path;
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
 		if ($fileInfo){
-			if($fileInfo->getMimeType() !== \OCA\Documents\Filter\Office::NATIVE_MIMETYPE){
+			if($fileInfo->getMimeType() !== \OCA\Richdocuments\Filter\Office::NATIVE_MIMETYPE){
 				$file = new File($fileInfo->getId());
 				$genesis = new Genesis($file);
 				$fullPath = $genesis->getPath();

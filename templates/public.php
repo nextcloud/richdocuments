@@ -1,5 +1,5 @@
 <?php
-style( 'documents', 'style' );
+style( 'richdocuments', 'style' );
 ?>
 <div id="notification-container">
 	<div id="notification" style="display: none;"></div>

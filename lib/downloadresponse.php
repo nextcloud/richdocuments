@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,7 +9,7 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 use \OCP\AppFramework\Http;
 use \OCP\IRequest;
@@ -44,7 +44,7 @@ class DownloadResponse extends \OCP\AppFramework\Http\Response {
 		$this->ETag = $info['etag'];
 		
 		$content = $this->view->file_get_contents($this->path);
-		$data = \OCA\Documents\Filter::read($content, $info['mimetype']);
+		$data = \OCA\Richdocuments\Filter::read($content, $info['mimetype']);
 		$size = strlen($data['content']);
 		
 		

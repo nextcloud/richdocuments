@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,11 +10,11 @@
  * later.
  */
 
-namespace OCA\Documents;
+namespace OCA\Richdocuments;
 
 class Helper {
 
-	const APP_ID = 'documents';
+	const APP_ID = 'richdocuments';
 
 	public static function getNewFileName($view, $path, $prepend = ' '){
 		$fileNum = 1;
@@ -162,12 +162,12 @@ class Helper {
 		if (empty($cmd)){
 			\OC::$server->getLogger()->warn(
 				'Pure configuration issue. Missing open office binary that is mandatory for conversion.',
-				['app' => 'documents']
+				['app' => 'richdocuments']
 				
 			);
 			\OC::$server->getLogger()->debug(
 				'If openoffice or libreoffice is already installed please specify the path to it using preview_libreoffice_path config. Refer to admin manual for details.',
-				['app' => 'documents']
+				['app' => 'richdocuments']
 				
 			);
 			throw new \RuntimeException('Missing open office binary that is mandatory for conversion.');

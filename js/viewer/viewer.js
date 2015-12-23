@@ -60,7 +60,7 @@ var odfViewer = {
 					OC.PERMISSION_UPDATE,
 					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
-					t('documents', 'Edit')
+					t('richdocuments', 'Edit')
 			);
 			OCA.Files.fileActions.setDefault(mimeReadWrite, 'Edit');
 		}
@@ -78,7 +78,7 @@ var odfViewer = {
 
 	onEdit : function(fileName, context){
 		var fileId = context.$file.attr('data-id');
-		window.location = OC.generateUrl('apps/documents/index#{file_id}', {file_id: fileId});
+		window.location = OC.generateUrl('apps/richdocuments/index#{file_id}', {file_id: fileId});
 	},
 
 	onView: function(filename, context) {
@@ -119,7 +119,7 @@ $(document).ready(function() {
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
 		$.get(
-			OC.filePath('documents', 'ajax', 'mimes.php'),
+			OC.filePath('richdocuments', 'ajax', 'mimes.php'),
 			{},
 			odfViewer.register
 		);

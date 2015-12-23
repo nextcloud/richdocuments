@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,7 +9,7 @@
  * later.
  */
 
-namespace OCA\Documents\Controller;
+namespace OCA\Richdocuments\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
@@ -17,9 +17,9 @@ use \OCP\IL10N;
 use \OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 
-use OCA\Documents\AppConfig;
-use OCA\Documents\Converter;
-use OCA\Documents\Filter;
+use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Converter;
+use OCA\Richdocuments\Filter;
 
 class SettingsController extends Controller{
 	

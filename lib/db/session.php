@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Documents App
+ * ownCloud - Richdocuments App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -10,11 +10,11 @@
  * later.
  */
 
-namespace OCA\Documents\Db;
+namespace OCA\Richdocuments\Db;
 
 use OCP\Security\ISecureRandom;
 
-use OCA\Documents\Filter;
+use OCA\Richdocuments\Filter;
 
 /**
  *  Session management
@@ -26,29 +26,29 @@ use OCA\Documents\Filter;
  * @method string getGenesisHash()
  * 
  */
-class Session extends \OCA\Documents\Db {
+class Session extends \OCA\Richdocuments\Db {
 
 	/**
 	 * DB table
 	 */
-	const DB_TABLE = '`*PREFIX*documents_session`';
-	protected $tableName  = '`*PREFIX*documents_session`';
+	const DB_TABLE = '`*PREFIX*richdocuments_session`';
+	protected $tableName  = '`*PREFIX*richdocuments_session`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*documents_session` (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`)
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_session` (`es_id`, `genesis_url`, `genesis_hash`, `owner`, `file_id`)
 			VALUES (?, ?, ?, ?, ?)';
 	
-	protected $loadStatement = 'SELECT * FROM `*PREFIX*documents_session` WHERE `es_id`= ?';
+	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_session` WHERE `es_id`= ?';
 
 	/**
 	 * Start a editing session or return an existing one
 	 * @param string $uid of the user starting a session
-	 * @param \OCA\Documents\File $file - file object
+	 * @param \OCA\Richdocuments\File $file - file object
 	 * @return array
 	 * @throws \Exception
 	 */
 	public static function start($uid, $file){
 		// Create a directory to store genesis
-		$genesis = new \OCA\Documents\Genesis($file);
+		$genesis = new \OCA\Richdocuments\Genesis($file);
 
 		$oldSession = new Session();
 		$oldSession->loadBy('file_id', $file->getFileId());
@@ -72,8 +72,8 @@ class Session extends \OCA\Documents\Db {
 					->getData()
 		;
 		
-		$memberColor = \OCA\Documents\Helper::getMemberColor($uid);
-		$member = new \OCA\Documents\Db\Member([
+		$memberColor = \OCA\Richdocuments\Helper::getMemberColor($uid);
+		$member = new \OCA\Richdocuments\Db\Member([
 			$sessionData['es_id'], 
 			$uid,
 			$memberColor,
@@ -95,11 +95,11 @@ class Session extends \OCA\Documents\Db {
 		}
 
 		$displayName = $file->isPublicShare() 
-			? $uid . ' ' . \OCA\Documents\Db\Member::getGuestPostfix() 
+			? $uid . ' ' . \OCA\Richdocuments\Db\Member::getGuestPostfix()
 			: \OC::$server->getUserSession()->getUser()->getDisplayName($uid)
 		;
 		$userId = $file->isPublicShare() ? $displayName : \OC::$server->getUserSession()->getUser()->getUID();
-		$op = new \OCA\Documents\Db\Op();
+		$op = new \OCA\Richdocuments\Db\Op();
 		$op->addMember(
 					$sessionData['es_id'],
 					$sessionData['member_id'],
@@ -119,17 +119,17 @@ class Session extends \OCA\Documents\Db {
 		$session = new Session();
 		$session->deleteBy('es_id', $esId);
 		
-		$member = new \OCA\Documents\Db\Member();
+		$member = new \OCA\Richdocuments\Db\Member();
 		$member->deleteBy('es_id', $esId);
 		
-		$op= new \OCA\Documents\Db\Op();
+		$op= new \OCA\Richdocuments\Db\Op();
 		$op->deleteBy('es_id', $esId);
 	}
 	
 	
 	public function syncOps($memberId, $currentHead, $clientHead, $clientOps){
 		$hasOps = count($clientOps)>0;
-		$op = new \OCA\Documents\Db\Op();
+		$op = new \OCA\Richdocuments\Db\Op();
 		
 		// TODO handle the case ($currentHead == "") && ($seqHead != "")
 		if ($clientHead == $currentHead) {
@@ -137,7 +137,7 @@ class Session extends \OCA\Documents\Db {
 			if ($hasOps) {
 				// incoming ops without conflict
 				// Add incoming ops, respond with a new head
-				$newHead = \OCA\Documents\Db\Op::addOpsArray($this->getEsId(), $memberId, $clientOps);
+				$newHead = \OCA\Richdocuments\Db\Op::addOpsArray($this->getEsId(), $memberId, $clientOps);
 				$result = array(
 						'result' => 'added',
 						'head_seq' => $newHead ? $newHead : $currentHead
@@ -169,7 +169,7 @@ class Session extends \OCA\Documents\Db {
 	
 	public function updateGenesisHash($esId, $genesisHash){
 		return $this->execute(
-			'UPDATE `*PREFIX*documents_session` SET `genesis_hash`=? WHERE `es_id`=?',
+			'UPDATE `*PREFIX*richdocuments_session` SET `genesis_hash`=? WHERE `es_id`=?',
 			array(
 				$genesisHash, $esId
 			)
@@ -180,7 +180,7 @@ class Session extends \OCA\Documents\Db {
 		$result = $this->execute('
 			SELECT `s`.*, COUNT(`m`.`member_id`) AS `users`
 			FROM ' . $this->tableName . ' AS `s`
-			LEFT JOIN `*PREFIX*documents_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
+			LEFT JOIN `*PREFIX*richdocuments_member` AS `m` ON `s`.`es_id`=`m`.`es_id`
 				AND `m`.`status`=' . Db\Member::MEMBER_STATUS_ACTIVE . '
 				AND `m`.`uid` != ?
 			WHERE `s`.`es_id` = ?
