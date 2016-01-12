@@ -194,6 +194,16 @@ var documentsMain = {
 				iframe.find('#tb_toolbar-up_item_close').click(function() {
 					documentsMain.onClose();
 				});
+				var frameWindow = $('#loleafletframe')[0].contentWindow;
+				(function() {
+					cloudSuiteOnClick = frameWindow.onClick;
+					frameWindow.onClick = function() {
+						fileName = encodeURIComponent(title.substr(0, title.lastIndexOf('.')) || title);
+						frameWindow.map.options.doc = fileName;
+						cloudSuiteOnClick.apply(this, arguments);
+						frameWindow.map.options.doc = documentsMain.url;
+					};
+				})();
 			});
 		},
 
