@@ -143,13 +143,15 @@ class DocumentController extends Controller{
 			);
 		}
 
-		$content = $view->file_get_contents($path);
-
-		// copy; the first user gets a predictable filename so that cloudsuite
-		// uses the tile cache, others get tempnam
 		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . 'ccs-' . $fileId;
-		if (file_exists($filename))
-			$filename = tempnam(dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH, 'ccs-' . $fileId . '-');
+		if (file_exists($filename)) {
+		    return array(
+		        'status' => 'success', 'filename' => $filename,
+		        'basename' => basename($filename)
+		    );
+                }
+
+		$content = $view->file_get_contents($path);
 
 		file_put_contents($filename, $content);
 
