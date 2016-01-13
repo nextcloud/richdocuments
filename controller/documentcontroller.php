@@ -29,21 +29,21 @@ use OCA\Richdocuments\Genesis;
 use \OC\Files\View;
 
 class DocumentController extends Controller{
-	
+
 	private $uid;
 	private $l10n;
 	private $settings;
-	
+
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
-	
+
 	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -72,7 +72,7 @@ class DocumentController extends Controller{
 
 		return $response;
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -100,17 +100,17 @@ class DocumentController extends Controller{
 		}
 
 		$path = Helper::getNewFileName($view, $dir . '/' . $basename);
-		
+
 		$content = '';
 		if (class_exists('\OC\Files\Type\TemplateManager')){
 			$manager = \OC_Helper::getFileTemplateManager();
 			$content = $manager->getTemplate($mimetype);
 		}
-		
+
 		if (!$content){
 			$content = file_get_contents(dirname(__DIR__) . self::ODT_TEMPLATE_PATH);
 		}
-		
+
 		if ($content && $view->file_put_contents($path, $content)){
 			$info = $view->getFileInfo($path);
 			$response =  array(
@@ -143,13 +143,15 @@ class DocumentController extends Controller{
 			);
 		}
 
-		$content = $view->file_get_contents($path);
-
-		// copy; the first user gets a predictable filename so that cloudsuite
-		// uses the tile cache, others get tempnam
 		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . 'ccs-' . $fileId;
-		if (file_exists($filename))
-			$filename = tempnam(dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH, 'ccs-' . $fileId . '-');
+		if (file_exists($filename)) {
+		    return array(
+		        'status' => 'success', 'filename' => $filename,
+		        'basename' => basename($filename)
+		    );
+                }
+
+		$content = $view->file_get_contents($path);
 
 		file_put_contents($filename, $content);
 
@@ -222,11 +224,11 @@ class DocumentController extends Controller{
 	public function serve($esId){
 		$session = new Db\Session();
 		$session->load($esId);
-		
+
 		$filename = $session->getGenesisUrl() ? $session->getGenesisUrl() : '';
 		return new DownloadResponse($this->request, $session->getOwner(), $filename);
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -236,7 +238,7 @@ class DocumentController extends Controller{
 			$response->setStatus(Http::STATUS_BAD_REQUEST);
 			return $response;
 		}
-		
+
 		$fullPath = '/files' . $path;
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
 		if ($fileInfo){
@@ -248,7 +250,7 @@ class DocumentController extends Controller{
 		}
 		return new DownloadResponse($this->request, $this->uid, $fullPath);
 	}
-	
+
 
 	/**
 	 * @NoAdminRequired
@@ -295,13 +297,13 @@ class DocumentController extends Controller{
 		usort($documents, function($a, $b){
 			return @$b['mtime']-@$a['mtime'];
 		});
-		
+
 		$session = new Db\Session();
 		$sessions = $session->getCollectionBy('file_id', $fileIds);
 
 		$members = array();
 		$member = new Db\Member();
-		foreach ($sessions as $session) {			
+		foreach ($sessions as $session) {
 			$members[$session['es_id']] = $member->getActiveCollection($session['es_id']);
 		}
 

@@ -92,7 +92,7 @@ var odfViewer = {
 	    var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
 		'file_path=' + context.dir + '/' + filename +
 		'&host=' + 'ws://' + window.location.hostname + ':9980' +
-		'&edit=' + 'false' +
+		'&permission=' + 'view' +
 		'&timestamp=' + '';
 
 	    var frame = '<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:fixed;top:46px;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';

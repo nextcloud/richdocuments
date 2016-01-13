@@ -182,7 +182,7 @@ var documentsMain = {
 			var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
 				'file_path=' + documentsMain.url +
 				'&host=' + 'ws://' + window.location.hostname + ':9980' +
-				'&edit=' + 'false' +
+				'&permission=' + 'view' +
 				'&timestamp=' + '';
 
 			var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups allow-modals"/>';
