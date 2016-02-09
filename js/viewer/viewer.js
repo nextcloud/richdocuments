@@ -89,7 +89,7 @@ var odfViewer = {
 	    // TODO call something like in the onEdit case; or do we want
 		// view-only at all?
 	    /*
-	    var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
+	    var viewer = window.location.protocol + '//' + window.location.host + '/loleaflet/dist/loleaflet.html?' +
 		'file_path=' + context.dir + '/' + filename +
 		'&host=' + 'ws://' + window.location.hostname + ':9980' +
 		'&permission=' + 'view' +
