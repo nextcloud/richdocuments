@@ -26,7 +26,6 @@ BuildArch:      noarch
 Requires:       owncloud
 Requires:       loolwsd
 Requires:       loleaflet
-Requires:       cloudsuite
 
 %description
 
