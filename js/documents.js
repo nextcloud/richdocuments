@@ -179,7 +179,7 @@ var documentsMain = {
 			$(document.body).prepend(documentsMain.UI.container);
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
-			var viewer = window.location.protocol + '//' + window.location.host + '/cloudsuite/cloudsuite.html?' +
+			var viewer = window.location.protocol + '//' + window.location.host + '/loleaflet/dist/loleaflet.html?' +
 				'file_path=' + documentsMain.url +
 				'&host=' + 'ws://' + window.location.hostname + ':9980' +
 				'&permission=' + 'view' +
