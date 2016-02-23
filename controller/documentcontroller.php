@@ -209,7 +209,11 @@ class DocumentController extends Controller{
 
 		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . $basename;
 
-		unlink($filename);
+		// remove temp file only when all edit instances are closed
+		$stat = stat($filename);
+		if ($stat['nlink'] == 1){
+			unlink($filename);
+		}
 
 		return array(
 			'status' => 'success'
