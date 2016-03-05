@@ -22,18 +22,18 @@ use OCA\Richdocuments\Converter;
 use OCA\Richdocuments\Filter;
 
 class SettingsController extends Controller{
-	
+
 	private $userId;
 	private $l10n;
 	private $appConfig;
-	
+
 	public function __construct($appName, IRequest $request, IL10N $l10n, AppConfig $appConfig, $userId){
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -43,47 +43,48 @@ class SettingsController extends Controller{
 			'mimes' => Filter::getAll()
 		);
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
 	public function personalIndex(){
 		return new TemplateResponse(
-			$this->appName, 
+			$this->appName,
 			'personal',
 			[ 'save_path' => $this->appConfig->getUserValue($this->userId, 'save_path') ],
 			'blank'
 		);
 	}
-	
+
 	/**
 	 * @NoCSRFRequired
 	 */
 	public function settingsIndex(){
 		return new TemplateResponse(
-			$this->appName, 
+			$this->appName,
 			'settings',
 			[ 'unstable' => $this->appConfig->getAppValue('unstable') ],
 			'blank'
 		);
 	}
-	
+
 	/**
 	 * @NoCSRFRequired
 	 */
 	public function adminIndex(){
 		return new TemplateResponse(
-			$this->appName, 
+			$this->appName,
 			'admin',
 			[
 				'converter' => $this->appConfig->getAppValue('converter'),
+				'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
 				'converter_url' => $this->appConfig->getAppValue('converter_url'),
 			],
 			'blank'
 		);
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -95,7 +96,7 @@ class SettingsController extends Controller{
 		if (\OC\Files\Filesystem::file_exists($savePath) === false ){
 			$status = \OC\Files\Filesystem::mkdir($savePath);
 		}
-		
+
 		if ($status){
 			$this->appConfig->setUserValue($this->userId, 'save_path', $savePath);
 			$response = array(
@@ -112,33 +113,37 @@ class SettingsController extends Controller{
 		}
 		return $response;
 	}
-	
+
 	public function setUnstable($unstable){
 		if (!is_null($unstable)){
 			$this->appConfig->setAppValue('unstable', $unstable);
 		}
 		return array('status' => 'success');
 	}
-	
-	public function setConverter($converter, $url){
+
+	public function setConverter($converter, $wopi_url, $url){
 		if (!is_null($converter)){
 			$this->appConfig->setAppValue('converter', $converter);
 		}
-	
+
+		if (!is_null($wopi_url)){
+			$this->appConfig->setAppValue('wopi_url', $wopi_url);
+		}
+
 		if (!is_null($url)){
 			$this->appConfig->setAppValue('converter_url', $url);
 		}
-		
+
 		$response = array(
 			'status' => 'success',
 			'data' => array('message' => (string) $this->l10n->t('Saved'))
 		);
-		
+
 		$currentConverter = $this->appConfig->getAppValue('converter');
 		if ($currentConverter == 'external'){
 			if (!Converter::checkConnection()){
 				\OC::$server->getLogger()->warning(
-					'Bad response from Format Filter Server', 
+					'Bad response from Format Filter Server',
 					['app' => $this->appName]
 				);
 					$response = array(
@@ -150,7 +155,7 @@ class SettingsController extends Controller{
 		} elseif ($currentConverter === 'local') {
 			try {
 				if (!Converter::testConversion()){
-					$response = array( 
+					$response = array(
 						'status' => 'error',
 						'data'=>
 						array('message' => (string) $this->l10n->t('Conversion failed. Check log for details.') )
@@ -163,7 +168,7 @@ class SettingsController extends Controller{
 				);
 			}
 		}
-		
+
 		return $response;
 	}
 }

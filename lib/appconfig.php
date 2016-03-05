@@ -8,7 +8,7 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  */
- 
+
 namespace OCA\Richdocuments;
 
 use \OCP\IConfig;
@@ -18,15 +18,16 @@ use \OCP\IConfig;
 	private $defaults = [
 		'converter' => 'off',
 		'converter_url' => 'http://localhost:16080',
-		'unstable' => 'false'
+		'unstable' => 'false',
+		'wopi_url' => 'htpp://localhost'
 	];
-	
+
 	private $config;
-	
+
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
-	
+
 	/**
 	 * Can we convert anything to odt?
 	 * @return bool
@@ -34,7 +35,7 @@ use \OCP\IConfig;
 	public function isConverterEnabled(){
 		return $this->getAppValue('converter') !== 'off';
 	}
-	
+
 	/**
 	 * Get a value by key
 	 * @param string $key
@@ -57,7 +58,7 @@ use \OCP\IConfig;
 	public function setAppValue($key, $value) {
 		return $this->config->setAppValue($this->appName, $key, $value);
 	}
-	
+
 	/**
 	 * Get a value by key for a user
 	 * @param string $userId
@@ -83,4 +84,4 @@ use \OCP\IConfig;
 		return $this->config->setAppValue($userId, $this->appName, $key, $value);
 	}
  }
- 
+
