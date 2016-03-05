@@ -13,7 +13,7 @@ script('files', 'jquery.fileupload');
 		<li class="add-document">
 			<a class="icon-add add-odt svg" target="_blank" href="">
 				<label><?php p($l->t('New Document')) ?></label>
-			</a> 
+			</a>
 			<a class="icon-add add-ods svg" target="_blank" href="">
 				<label><?php p($l->t('New Spreadsheet')) ?></label>
 			</a>
@@ -50,6 +50,7 @@ script('files', 'jquery.fileupload');
 		</li>
 	</ul>
 </div>
+<input type="hidden" id="wopi-ulr" name="wopi-url" value="<?php p($_['wopi_url']) ?>" />
 <input type="hidden" id="webodf-unstable" value="<?php p($_['useUnstable']) ?>" />
 <?php if ($_['enable_previews']): ?>
 <input type="hidden" id="previews_enabled" value="<?php p($_['enable_previews']) ?>" />
