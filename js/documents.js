@@ -179,22 +179,28 @@ var documentsMain = {
 			$(document.body).prepend(documentsMain.UI.container);
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
-			var viewer = window.location.protocol + '//' + window.location.host + '/loleaflet/dist/loleaflet.html?' +
-				'file_path=' + documentsMain.url +
-				'&host=' + 'ws://' + window.location.hostname + ':9980' +
-				'&permission=' + 'view' +
-				'&timestamp=' + '';
 
-			var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups allow-modals"/>';
+			// TODO. wopiurl = get from discovery xml
+			var wopiurl = $('#wopi-url').val() + '/loleaflet/dist/loleaflet.html';
+			var wopisrc = documentsMain.url;
+			var action = wopiurl + '?' + wopisrc;
+			var token = oc_requesttoken;
 
+			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + action + '" method="post">' +
+				   '<input name="access_token" value="' + token + '" type="hidden"/></form>';
+			var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;"/>';
+
+			$('#mainContainer').append(form);
 			$('#mainContainer').append(frame);
 			documentsMain.overlay.documentOverlay('hide');
 			$('#loleafletframe').load(function(){
-				var iframe = $('#loleafletframe').contents();
+				// avoid Blocked a frame with origin different domains
+
+				/*var iframe = $('#loleafletframe').contents();
 				iframe.find('#tb_toolbar-up_item_close').click(function() {
 					documentsMain.onClose();
-				});
-				var frameWindow = $('#loleafletframe')[0].contentWindow;
+				});*/
+				/*var frameWindow = $('#loleafletframe')[0].contentWindow;
 				(function() {
 					cloudSuiteOnClick = frameWindow.onClick;
 					frameWindow.onClick = function() {
@@ -203,8 +209,9 @@ var documentsMain = {
 						cloudSuiteOnClick.apply(this, arguments);
 						frameWindow.map.options.doc = documentsMain.url;
 					};
-				})();
+				})();*/
 			});
+			$('#loleafletform').submit();
 		},
 
 		hideEditor : function(){
@@ -499,25 +506,12 @@ var documentsMain = {
 	},
 
 	loadDocument: function() {
-		var url = OC.generateUrl('apps/richdocuments/load/{file_id}', {file_id: documentsMain.fileId});
-		$.post(
-			url,
-			{},
-			function(result) {
-				if (result && result.status === 'error') {
-					if (result.message){
-						documentsMain.IU.notify(result.message);
-					}
-					documentsMain.onEditorShutdown(t('richdocuments', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
-					return;
-				}
-
-				documentsMain.url = 'file://' + result.filename;
-				documentsMain.baseName = result.basename;
-
-				documentsMain.UI.showEditor(documentsMain.fileName);
-			}
-		);
+		// Provides access to information about a file and allows
+		// for file-level operations.
+		// HTTP://server/<...>/wopi*/files/<id>
+		var url = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/documents/wopi/files/{file_id}', {file_id: documentsMain.fileId}, false);
+		documentsMain.url = 'WOPISrc=' + encodeURIComponent(url);
+		documentsMain.UI.showEditor(documentsMain.fileName);
 	},
 
 	saveDocumentBack: function() {

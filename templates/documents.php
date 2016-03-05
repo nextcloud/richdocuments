@@ -50,7 +50,7 @@ script('files', 'jquery.fileupload');
 		</li>
 	</ul>
 </div>
-<input type="hidden" id="wopi-ulr" name="wopi-url" value="<?php p($_['wopi_url']) ?>" />
+<input type="hidden" id="wopi-url" name="wopi-url" value="<?php p($_['wopi_url']) ?>" />
 <input type="hidden" id="webodf-unstable" value="<?php p($_['useUnstable']) ?>" />
 <?php if ($_['enable_previews']): ?>
 <input type="hidden" id="previews_enabled" value="<?php p($_['enable_previews']) ?>" />
