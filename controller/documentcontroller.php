@@ -25,23 +25,26 @@ use \OCA\Richdocuments\Storage;
 use \OCA\Richdocuments\Download;
 use \OCA\Richdocuments\DownloadResponse;
 use \OCA\Richdocuments\File;
-use OCA\Richdocuments\Genesis;
+use \OCA\Richdocuments\Genesis;
 use \OC\Files\View;
+use \OCP\ICacheFactory;
 
 class DocumentController extends Controller{
 
 	private $uid;
 	private $l10n;
 	private $settings;
+	private $cache;
 
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
 
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid){
+	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid, ICacheFactory $cache){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
+		$this->cache = $cache->create($appName);
 	}
 
 	/**
@@ -62,13 +65,17 @@ class DocumentController extends Controller{
 		]);
 
 		$policy = new ContentSecurityPolicy();
-+		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $this->settings->getAppValue('richdocuments', 'wopi_url'));
-+		$policy->addAllowedFrameDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $this->settings->getAppValue('richdocuments', 'wopi_url'));
+		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $this->settings->getAppValue('richdocuments', 'wopi_url'));
+		$policy->addAllowedFrameDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $this->settings->getAppValue('richdocuments', 'wopi_url'));
 		$policy->addAllowedConnectDomain('ws://' . $_SERVER['SERVER_NAME'] . ':9980');
 		$policy->addAllowedImageDomain('*');
 		$policy->allowInlineScript(true);
 		$policy->addAllowedFontDomain('data:');
 		$response->setContentSecurityPolicy($policy);
+
+		if(is_null($this->cache->get('discovery.xml'))) {
+			// TODO GET http://domain/hosting/discovery
+		}
 
 		return $response;
 	}
