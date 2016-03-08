@@ -28,6 +28,7 @@ use \OCA\Richdocuments\File;
 use \OCA\Richdocuments\Genesis;
 use \OC\Files\View;
 use \OCP\ICacheFactory;
+use \OCP\ILogger;
 
 class DocumentController extends Controller{
 
@@ -35,16 +36,18 @@ class DocumentController extends Controller{
 	private $l10n;
 	private $settings;
 	private $cache;
+	private $logger;
 
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
 
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid, ICacheFactory $cache){
+	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
 		$this->cache = $cache->create($appName);
+		$this->logger = $logger;
 	}
 
 	/**
@@ -54,6 +57,7 @@ class DocumentController extends Controller{
 	public function index(){
 		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
+		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
 		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
 			'useUnstable' => 		$this->settings->getAppValue('richdocuments', 'unstable', 'false'),
@@ -61,20 +65,54 @@ class DocumentController extends Controller{
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
-			'wopi_url' => 			$this->settings->getAppValue('richdocuments', 'wopi_url'),
+			'wopi_url' => 			$wopiRemote,
 		]);
 
 		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $this->settings->getAppValue('richdocuments', 'wopi_url'));
-		$policy->addAllowedFrameDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $this->settings->getAppValue('richdocuments', 'wopi_url'));
+		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $wopiRemote);
+		$policy->addAllowedFrameDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $wopiRemote);
 		$policy->addAllowedConnectDomain('ws://' . $_SERVER['SERVER_NAME'] . ':9980');
 		$policy->addAllowedImageDomain('*');
 		$policy->allowInlineScript(true);
 		$policy->addAllowedFontDomain('data:');
 		$response->setContentSecurityPolicy($policy);
+		$discovery = $this->cache->get('discovery.xml');
 
-		if(is_null($this->cache->get('discovery.xml'))) {
-			// TODO GET http://domain/hosting/discovery
+		if(is_null($discovery)) {
+			if (($parts = parse_url($wopiRemote))) {
+				// Provides access to information about the capabilities of a WOPI client
+				// and the mechanisms for invoking those abilities through URIs.
+				// HTTP://server/hosting/discovery
+				$wopiDiscovery = sprintf(
+					"%s%s%s%s",
+					isset($parts['scheme']) ? $parts['scheme'] . "://" : '',
+					isset($parts['host']) ? $parts['host'] : '',
+					isset($parts['port']) ? ":" . $parts['port'] : '',
+					"/hosting/discovery" );
+
+				try {
+					$wopiClient = \OC::$server->getHTTPClientService()->newClient();
+					$xml = $wopiClient->get($wopiDiscovery)->getBody();
+					if ($xml) {
+						$loadEntities = libxml_disable_entity_loader(true);
+						$data = simplexml_load_string($xml);
+						libxml_disable_entity_loader($loadEntities);
+						if ($data !== false) {
+							// default ttl
+							$this->cache->set('discovery.xml', $xml);
+						}
+						else {
+							$this->logger->error('failure discovery.xml not well-formed XML string');
+						}
+					}
+					else {
+						$this->logger->error('failure response discovery.xml');
+					}
+				} catch (\Exception $e) {
+					$this->logger->error(
+						sprintf('Error getting discovery.xml: %s', $e->getMessage()));
+				}
+			}
 		}
 
 		return $response;

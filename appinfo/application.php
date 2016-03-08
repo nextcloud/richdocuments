@@ -49,7 +49,8 @@ class Application extends App {
 				$c->query('CoreConfig'),
 				$c->query('L10N'),
 				$c->query('UserId'),
-				$c->query('ICacheFactory')
+				$c->query('ICacheFactory'),
+				$c->query('Logger')
 			);
 		});
 		$container->registerService('SettingsController', function($c) {
