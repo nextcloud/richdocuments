@@ -274,4 +274,53 @@
 		</declaration>
 	</table>
 	
+	<table>
+		<name>*dbprefix*richdocuments_wopi</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<comments>Unique per token</comments>
+			</field>
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<length>64</length>
+				<comments>UserId - a textual user identifier (unique?)</comments>
+			</field>
+			<field>
+				<name>fileid</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>4</length>
+				<comments>The unique ID of the file authorized</comments>
+			</field>
+			<field>
+				<name>path</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>512</length>
+				<comments>Relative to storage e.g. /welcome.odt</comments>
+			</field>
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+				<comments>File access token</comments>
+			</field>
+			<field>
+				<name>expiry</name>
+				<type>integer</type>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<comments>Expiration time of the token</comments>
+			</field>
+		</declaration>
+	</table>
 </database>

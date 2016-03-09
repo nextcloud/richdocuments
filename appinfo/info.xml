@@ -4,7 +4,7 @@
 	<name>Collabora Online Development Edition</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
-	<version>0.12.0</version>
+	<version>0.13.0</version>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<bugs>https://www.collaboraoffice.com/</bugs>
 	<repository type="git">git://gerrit.libreoffice.org/online.git</repository>
