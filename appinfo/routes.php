@@ -36,6 +36,10 @@ $application->registerRoutes($this, [
 		['name' => 'document#localLoad', 'url' => 'load/{fileId}', 'verb' => 'POST'],
 		['name' => 'document#localSave', 'url' => 'save/{fileId}', 'verb' => 'POST'],
 		['name' => 'document#localClose', 'url' => 'close/{fileId}', 'verb' => 'POST'],
+		//documents - for WOPI access
+		['name' => 'document#wopiGetToken', 'url' => 'wopi/token/{fileId}', 'verb' => 'GET'],
+		['name' => 'document#wopiGetFile', 'url' => 'wopi/files/{fileId}/contents', 'verb' => 'GET'],
+		['name' => 'document#wopiPutFile', 'url' => 'wopi/files/{fileId}/contents', 'verb' => 'POST'],
 		//settings
 		['name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'],
 		['name' => 'settings#setUnstable', 'url' => 'ajax/config/unstable', 'verb' => 'POST'],
