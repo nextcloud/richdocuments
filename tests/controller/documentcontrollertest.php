@@ -16,10 +16,12 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 	private $l10n;
 	private $settings;
+	private $cache;
+	private $logger;
 	private $uid = 'jack_the_documents_tester';
 	private $password = 'password';
 	private $controller;
-	
+
 	public function setUp(){
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
@@ -33,14 +35,24 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock()
 		;
+		$this->cache = $this->getMockBuilder('\OCP\ICacheFactory')
+			->disableOriginalConstructor()
+			->getMock()
+		;
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock()
+		;
 		$this->controller = new DocumentController(
 			$this->appName,
 			$this->request,
 			$this->settings,
 			$this->l10n,
-			$this->uid
+			$this->uid,
+			$this->cache,
+			$this->logger
 		);
-		
+
 		$userManager = \OC::$server->getUserManager();
 		$userSession = \OC::$server->getUserSession();
 		if (!$userManager->userExists($this->uid)){

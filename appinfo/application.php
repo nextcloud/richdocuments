@@ -22,21 +22,21 @@ use \OCA\Richdocuments\AppConfig;
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
 		parent::__construct('richdocuments', $urlParams);
-		
+
 		$container = $this->getContainer();
-		
+
 		/**
 		 * Controllers
 		 */
 		$container->registerService('UserController', function($c) {
 			return new UserController(
-				$c->query('AppName'), 
+				$c->query('AppName'),
 				$c->query('Request')
 			);
 		});
 		$container->registerService('SessionController', function($c) {
 			return new SessionController(
-				$c->query('AppName'), 
+				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('Logger'),
 				$c->query('UserId')
@@ -44,29 +44,31 @@ class Application extends App {
 		});
 		$container->registerService('DocumentController', function($c) {
 			return new DocumentController(
-				$c->query('AppName'), 
+				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('CoreConfig'),
 				$c->query('L10N'),
-				$c->query('UserId')
+				$c->query('UserId'),
+				$c->query('ICacheFactory'),
+				$c->query('Logger')
 			);
 		});
 		$container->registerService('SettingsController', function($c) {
 			return new SettingsController(
-				$c->query('AppName'), 
+				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('L10N'),
 				$c->query('AppConfig'),
 				$c->query('UserId')
 			);
 		});
-		
+
 		$container->registerService('AppConfig', function($c) {
 			return new AppConfig(
 				$c->query('CoreConfig')
 			);
 		});
-		
+
 		/**
 		 * Core
 		 */
@@ -83,6 +85,9 @@ class Application extends App {
 			$user = $c->query('ServerContainer')->getUserSession()->getUser();
 			$uid = is_null($user) ? '' : $user->getUID();
 			return $uid;
+		});
+		$container->registerService('ICacheFactory', function($c) {
+			return $c->query('ServerContainer')->getMemCacheFactory();
 		});
 	}
 }
