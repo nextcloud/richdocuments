@@ -51,6 +51,51 @@ class DocumentController extends Controller{
 	}
 
 	/**
+	 * @param \SimpleXMLElement $discovery
+	 * @param string $mimetype
+	 * @param string $action
+	 */
+	private function getWopiSrcUrl($discovery, $mimetype, $action) {
+		if(is_null($discovery) || $discovery == false) {
+			return null;
+		}
+
+		$result = $discovery->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action[@name=\'%s\']', $mimetype, $action));
+		if ($result && count($result) > 0) {
+			return (string)$result[0]['urlsrc'];
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param string $wopiDiscovery
+	 */
+	private function requestDiscovery($wopiDiscovery) {
+		try {
+			$wopiClient = \OC::$server->getHTTPClientService()->newClient();
+			$xmlBody = $wopiClient->get($wopiDiscovery)->getBody();
+			if ($xmlBody) {
+				$loadEntities = libxml_disable_entity_loader(true);
+				$data = simplexml_load_string($xmlBody);
+				libxml_disable_entity_loader($loadEntities);
+				if ($data !== false) {
+					$this->cache->set('discovery.xml', $xmlBody, 3600);
+				}
+				else {
+					$this->logger->debug('failure discovery.xml not well-formed XML string');
+				}
+			}
+			else {
+				$this->logger->debug('failure response discovery.xml');
+			}
+		} catch (\Exception $e) {
+			$this->logger->debug(
+				sprintf('Error getting discovery.xml: %s', $e->getMessage()));
+		}
+	}
+
+	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
@@ -89,29 +134,7 @@ class DocumentController extends Controller{
 					isset($parts['host']) ? $parts['host'] : '',
 					isset($parts['port']) ? ":" . $parts['port'] : '',
 					"/hosting/discovery" );
-
-				try {
-					$wopiClient = \OC::$server->getHTTPClientService()->newClient();
-					$xml = $wopiClient->get($wopiDiscovery)->getBody();
-					if ($xml) {
-						$loadEntities = libxml_disable_entity_loader(true);
-						$data = simplexml_load_string($xml);
-						libxml_disable_entity_loader($loadEntities);
-						if ($data !== false) {
-							// default ttl
-							$this->cache->set('discovery.xml', $xml);
-						}
-						else {
-							$this->logger->error('failure discovery.xml not well-formed XML string');
-						}
-					}
-					else {
-						$this->logger->error('failure response discovery.xml');
-					}
-				} catch (\Exception $e) {
-					$this->logger->error(
-						sprintf('Error getting discovery.xml: %s', $e->getMessage()));
-				}
+				$this->requestDiscovery($wopiDiscovery);
 			}
 		}
 
@@ -393,6 +416,10 @@ class DocumentController extends Controller{
 	 */
 	public function listAll(){
 		$found = Storage::getDocuments();
+		$data = $this->cache->get('discovery.xml');
+		$loadEntities = libxml_disable_entity_loader(true);
+		$discovery = simplexml_load_string($data);
+		libxml_disable_entity_loader($loadEntities);
 
 		$fileIds = array();
 		$documents = array();
@@ -404,6 +431,7 @@ class DocumentController extends Controller{
 			}
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
 			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
+			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery, $document['mimetype'], 'edit');
 			$fileIds[] = $document['fileid'];
 		}
 

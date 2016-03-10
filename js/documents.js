@@ -30,6 +30,7 @@ $.widget('oc.documentGrid', {
 		a.css('background-image', 'url("'+document.icon+'")')
 			.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}))
 			.attr('original-title', document.path)
+			.attr('urlsrc', document.urlsrc)
 			.find('label').text(document.name)
 		;
 
@@ -190,12 +191,12 @@ var documentsMain = {
 						return;
 					}
 
-					//TODO: Get WOPISrc from the discovery XML.
+					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc');
 					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}/contents?access_token={token}',
 										 {file_id: documentsMain.fileId, token: encodeURIComponent(result.token)});
 					documentsMain.url = window.location.protocol + '//' + window.location.host + url;
 
-					var viewer = window.location.protocol + '//' + window.location.host + '/loleaflet/dist/loleaflet.html?' +
+					var viewer = urlsrc +
 						'file_path=' + encodeURIComponent(documentsMain.url) +
 						'&host=' + 'ws://' + window.location.hostname + ':9980' +
 						'&permission=' + 'view' +
@@ -715,6 +716,12 @@ $(document).ready(function() {
 		event.preventDefault();
 
 		if (documentsMain.isEditorMode){
+			return;
+		}
+
+		var item = $(this).find('a');
+		if (item.attr('urlsrc') === undefined) {
+			OC.Notification.showTemporary(t('richdocuments', 'Failed to open ' + item.attr('original-title') + ', file not supported.'));
 			return;
 		}
 
