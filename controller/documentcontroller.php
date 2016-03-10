@@ -266,6 +266,70 @@ class DocumentController extends Controller{
 	}
 
 	/**
+	 * Generates and returns an access token for a given fileId.
+	 * Only for authenticated users!
+	 */
+	public function wopiGetToken($fileId){
+		\OC::$server->getLogger()->debug('Generating WOPI Token for file {fileId}.', [ 'app' => $this->appName, 'fileId' => $fileId ]);
+
+		$row = new Db\Wopi();
+		$token = $row->generateFileToken($fileId);
+
+		// Return the token.
+		return array(
+			'status' => 'success',
+			'token' => $token
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * Given an access token and a fileId, returns the contents of the file.
+	 * Expects a valid token in access_token parameter.
+	 */
+	public function wopiGetFile($fileId){
+		$token = $this->request->getParam('access_token');
+
+		\OC::$server->getLogger()->debug('Getting contents of file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+
+		$row = new Db\Wopi();
+		$row->loadBy('token', $token);
+
+		//TODO: Support X-WOPIMaxExpectedSize header.
+		$res = $row->getPathForToken($fileId, $token);
+		return new DownloadResponse($this->request, $res['user'], $res['path']);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * Given an access token and a fileId, replaces the files with the request body.
+	 * Expects a valid token in access_token parameter.
+	 */
+	public function wopiPutFile($fileId){
+		$token = $this->request->getParam('access_token');
+
+		\OC::$server->getLogger()->debug('Putting contents of file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+
+		$row = new Db\Wopi();
+		$row->loadBy('token', $token);
+
+		$res = $row->getPathForToken($token);
+		$view = new \OC\Files\View('/' . $res['user'] . '/');
+
+		// Read the contents of the file from the POST body and store.
+		$content = file_get_contents('php://input');
+		$view->file_put_contents($res['path'], $content);
+
+		return array(
+			'status' => 'success'
+		);
+	}
+
+	/**
 	 * @NoAdminRequired
 	 * @PublicPage
 	 * Process partial/complete file download

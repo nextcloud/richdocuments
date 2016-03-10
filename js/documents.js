@@ -180,27 +180,38 @@ var documentsMain = {
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
 
-			// TODO. wopiurl = get from discovery xml
-			var wopiurl = $('#wopi-url').val() + '/loleaflet/dist/loleaflet.html';
-			var wopisrc = documentsMain.url;
-			var action = wopiurl + '?' + wopisrc;
-			var token = oc_requesttoken;
+			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: documentsMain.fileId }),
+				  function (result) {
+					if (!result || result.status === 'error') {
+						if (result && result.message){
+							documentsMain.IU.notify(result.message);
+						}
+						documentsMain.onEditorShutdown(t('richdocuments', 'Failed to aquire access token. Please re-login and try again.'));
+						return;
+					}
 
-			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + action + '" method="post">' +
-				   '<input name="access_token" value="' + token + '" type="hidden"/></form>';
-			var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;"/>';
+					//TODO: Get WOPISrc from the discovery XML.
+					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}/contents?access_token={token}',
+										 {file_id: documentsMain.fileId, token: encodeURIComponent(result.token)});
+					documentsMain.url = window.location.protocol + '//' + window.location.host + url;
 
-			$('#mainContainer').append(form);
-			$('#mainContainer').append(frame);
+					var viewer = window.location.protocol + '//' + window.location.host + '/loleaflet/dist/loleaflet.html?' +
+						'file_path=' + encodeURIComponent(documentsMain.url) +
+						'&host=' + 'ws://' + window.location.hostname + ':9980' +
+						'&permission=' + 'view' +
+						'&timestamp=' + '';
+
+					var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups allow-modals"/>';
+					$('#mainContainer').append(frame);
+				  });
+
 			documentsMain.overlay.documentOverlay('hide');
 			$('#loleafletframe').load(function(){
-				// avoid Blocked a frame with origin different domains
-
-				/*var iframe = $('#loleafletframe').contents();
+				var iframe = $('#loleafletframe').contents();
 				iframe.find('#tb_toolbar-up_item_close').click(function() {
 					documentsMain.onClose();
-				});*/
-				/*var frameWindow = $('#loleafletframe')[0].contentWindow;
+				});
+				var frameWindow = $('#loleafletframe')[0].contentWindow;
 				(function() {
 					cloudSuiteOnClick = frameWindow.onClick;
 					frameWindow.onClick = function() {
@@ -209,9 +220,8 @@ var documentsMain = {
 						cloudSuiteOnClick.apply(this, arguments);
 						frameWindow.map.options.doc = documentsMain.url;
 					};
-				})();*/
+				})();
 			});
-			$('#loleafletform').submit();
 		},
 
 		hideEditor : function(){
@@ -506,11 +516,6 @@ var documentsMain = {
 	},
 
 	loadDocument: function() {
-		// Provides access to information about a file and allows
-		// for file-level operations.
-		// HTTP://server/<...>/wopi*/files/<id>
-		var url = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/documents/wopi/files/{file_id}', {file_id: documentsMain.fileId}, false);
-		documentsMain.url = 'WOPISrc=' + encodeURIComponent(url);
 		documentsMain.UI.showEditor(documentsMain.fileName);
 	},
 
