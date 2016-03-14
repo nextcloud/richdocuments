@@ -1,5 +1,5 @@
 #
-# spec file for package owncloud-ccs
+# spec file for package owncloud-collabora-online
 #
 # Copyright (c) 2015 Collabora
 #
@@ -15,13 +15,13 @@
 
 # See also http://en.opensuse.org/openSUSE:Specfile_guidelines
 
-Name:           owncloud-ccs
+Name:           owncloud-collabora-online
 Version:        @PACKAGE_VERSION@
 Release:        0
 Vendor:         Collabora
 Summary:        Collabora CloudSuite plugin for ownCloud
 License:        MPL
-Source0:        owncloud-ccs-@PACKAGE_VERSION@.tar.gz
+Source0:        owncloud-collabora-online-@PACKAGE_VERSION@.tar.gz
 BuildArch:      noarch
 Requires:       owncloud
 Requires:       loolwsd
