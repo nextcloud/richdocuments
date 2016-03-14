@@ -18,7 +18,6 @@ use \OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 
 use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\Converter;
 use OCA\Richdocuments\Filter;
 
 class SettingsController extends Controller{
@@ -77,9 +76,7 @@ class SettingsController extends Controller{
 			$this->appName,
 			'admin',
 			[
-				'converter' => $this->appConfig->getAppValue('converter'),
 				'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
-				'converter_url' => $this->appConfig->getAppValue('converter_url'),
 			],
 			'blank'
 		);
@@ -121,53 +118,15 @@ class SettingsController extends Controller{
 		return array('status' => 'success');
 	}
 
-	public function setConverter($converter, $wopi_url, $url){
-		if (!is_null($converter)){
-			$this->appConfig->setAppValue('converter', $converter);
-		}
-
+	public function setSettings($wopi_url){
 		if (!is_null($wopi_url)){
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
-		}
-
-		if (!is_null($url)){
-			$this->appConfig->setAppValue('converter_url', $url);
 		}
 
 		$response = array(
 			'status' => 'success',
 			'data' => array('message' => (string) $this->l10n->t('Saved'))
 		);
-
-		$currentConverter = $this->appConfig->getAppValue('converter');
-		if ($currentConverter == 'external'){
-			if (!Converter::checkConnection()){
-				\OC::$server->getLogger()->warning(
-					'Bad response from Format Filter Server',
-					['app' => $this->appName]
-				);
-					$response = array(
-						'status' => 'error',
-						'data'=>
-						array('message' => (string) $this->l10n->t('Format filter server is down or misconfigured') )
-					);
-			}
-		} elseif ($currentConverter === 'local') {
-			try {
-				if (!Converter::testConversion()){
-					$response = array(
-						'status' => 'error',
-						'data'=>
-						array('message' => (string) $this->l10n->t('Conversion failed. Check log for details.') )
-					);
-				}
-			} catch (\Exception $e){
-				$response = array(
-					'status' => 'error',
-					'data'=> array('message' => $e->getMessage())
-				);
-			}
-		}
 
 		return $response;
 	}

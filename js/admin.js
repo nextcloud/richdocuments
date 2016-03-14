@@ -6,13 +6,8 @@ $(document).ready(function(){
 		save : function() {
 			$('#docs_apply').attr('disabled', true);
 			var data = {
-				converter : $('[name="docs_converter"]:checked').val(),
 				wopi_url  : $('#wopi_url').val()
 			};
-
-			if (data.converter === 'external'){
-				data.url = $('#docs_url').val();
-			}
 
 			OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving...'));
 			$.post(
@@ -28,8 +23,5 @@ $(document).ready(function(){
 		}
 	};
 
-	$('#docs_converter_external, #docs_converter_local, #docs_converter_off').on('click', function(){
-		$('#docs_extra').toggle($('[name="docs_converter"]:checked').val() === 'external');
-	});
 	$('#docs_apply').on('click', documentsSettings.save);
 });

@@ -380,11 +380,9 @@ class DocumentController extends Controller{
 		$fullPath = '/files' . $path;
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
 		if ($fileInfo){
-			if($fileInfo->getMimeType() !== \OCA\Richdocuments\Filter\Office::NATIVE_MIMETYPE){
-				$file = new File($fileInfo->getId());
-				$genesis = new Genesis($file);
-				$fullPath = $genesis->getPath();
-			}
+			$file = new File($fileInfo->getId());
+			$genesis = new Genesis($file);
+			$fullPath = $genesis->getPath();
 		}
 		return new DownloadResponse($this->request, $this->uid, $fullPath);
 	}
