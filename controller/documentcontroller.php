@@ -105,7 +105,6 @@ class DocumentController extends Controller{
 		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
 		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
-			'useUnstable' => 		$this->settings->getAppValue('richdocuments', 'unstable', 'false'),
 			'savePath' => 			$this->settings->getUserValue($this->uid, 'richdocuments', 'save_path', '/'),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),

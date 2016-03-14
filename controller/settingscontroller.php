@@ -63,7 +63,6 @@ class SettingsController extends Controller{
 		return new TemplateResponse(
 			$this->appName,
 			'settings',
-			[ 'unstable' => $this->appConfig->getAppValue('unstable') ],
 			'blank'
 		);
 	}
@@ -109,13 +108,6 @@ class SettingsController extends Controller{
 				);
 		}
 		return $response;
-	}
-
-	public function setUnstable($unstable){
-		if (!is_null($unstable)){
-			$this->appConfig->setAppValue('unstable', $unstable);
-		}
-		return array('status' => 'success');
 	}
 
 	public function setSettings($wopi_url){

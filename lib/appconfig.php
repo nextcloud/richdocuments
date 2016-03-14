@@ -16,8 +16,7 @@ use \OCP\IConfig;
  class AppConfig{
  	private $appName = 'richdocuments';
 	private $defaults = [
-		'unstable' => 'false',
-		'wopi_url' => 'htpp://localhost'
+		'wopi_url' => 'http://localhost'
 	];
 
 	private $config;
