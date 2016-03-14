@@ -340,11 +340,13 @@ class DocumentController extends Controller{
 		$row = new Db\Wopi();
 		$row->loadBy('token', $token);
 
-		$res = $row->getPathForToken($token);
+		$res = $row->getPathForToken($fileId, $token);
 		$view = new \OC\Files\View('/' . $res['user'] . '/');
 
 		// Read the contents of the file from the POST body and store.
 		$content = file_get_contents('php://input');
+		\OC::$server->getLogger()->debug('Putting {size} bytes.', [ 'app' => $this->appName, 'size' => strlen($content) ]);
+
 		$view->file_put_contents($res['path'], $content);
 
 		return array(
