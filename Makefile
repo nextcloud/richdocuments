@@ -1,9 +1,9 @@
-VERSION=1.0.7
+VERSION=0.9.0
 
 .PHONY: dist
-dist: owncloud-ccs.spec
-	rm -rf owncloud-ccs-$(VERSION)
-	mkdir owncloud-ccs-$(VERSION)
+dist: owncloud-collabora-online.spec
+	rm -rf owncloud-collabora-online-$(VERSION)
+	mkdir owncloud-collabora-online-$(VERSION)
 	tar cf -  *.php \
                 appinfo \
                 assets \
@@ -17,10 +17,10 @@ dist: owncloud-ccs.spec
                 l10n \
                 lib \
                 templates \
-                | ( cd owncloud-ccs-$(VERSION) && tar xf - )
-	tar cfz owncloud-ccs-$(VERSION).tar.gz owncloud-ccs-$(VERSION)
-	rm -rf owncloud-ccs-$(VERSION)
+                | ( cd owncloud-collabora-online-$(VERSION) && tar xf - )
+	tar cfz owncloud-collabora-online-$(VERSION).tar.gz owncloud-collabora-online-$(VERSION)
+	rm -rf owncloud-collabora-online-$(VERSION)
 
-owncloud-ccs.spec: owncloud-ccs.spec.in Makefile
-	sed -e 's/@PACKAGE_VERSION@/$(VERSION)/g' <owncloud-ccs.spec.in >owncloud-ccs.spec
+owncloud-collabora-online.spec: owncloud-collabora-online.spec.in Makefile
+	sed -e 's/@PACKAGE_VERSION@/$(VERSION)/g' <owncloud-collabora-online.spec.in >owncloud-collabora-online.spec
 

@@ -37,7 +37,7 @@ $navigationEntry = function () use ($c) {
 		'order' => 2,
 		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('richdocuments.document.index'),
 		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('richdocuments', 'documents.svg'),
-		'name' => $c->query('L10N')->t('Collabora Online Development Edition')
+		'name' => $c->query('L10N')->t('Collabora Online')
 	];
 };
 $c->getServer()->getNavigationManager()->add($navigationEntry);

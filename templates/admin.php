@@ -1,8 +1,8 @@
 <?php
 script('richdocuments', 'admin');
 ?>
-<div class="section" id="documents">
-	<h2><?php p($l->t('Documents')) ?></h2>
+<div class="section" id="richdocuments">
+	<h2><?php p($l->t('Collabora Online')) ?></h2>
 	<div id="wopi_client">
 		<input type="text" name="wopi_url" id="wopi_url" value="<?php p($_['wopi_url'])?>" style="width:250px;">
 		<br /><em><?php p($l->t('WOPI Client')) ?></em>
