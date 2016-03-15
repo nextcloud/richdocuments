@@ -26,7 +26,7 @@ class Helper {
 
 		return $path;
 	}
-	
+
 	public static function getArrayValueByKey($array, $key, $default=''){
 		if (array_key_exists($key, $array)){
 			return $array[$key];
@@ -140,40 +140,6 @@ class Helper {
 		$dG = str_pad(dechex(round($dG)), 2, "0", STR_PAD_LEFT);
 		$dB = str_pad(dechex(round($dB)), 2, "0", STR_PAD_LEFT);
 		return $dR.$dG.$dB;
-	}
-	
-	public static function findOpenOffice(){
-		$config = \OC::$server->getConfig();
-		$cmd = '';
-		if (is_string($config->getSystemValue('preview_libreoffice_path', null))){
-			$cmd = $config->getSystemValue('preview_libreoffice_path', null);
-		}
-
-		$whichLibreOffice = shell_exec('which libreoffice');
-		if ($cmd === '' && !empty($whichLibreOffice)){
-			$cmd = 'libreoffice';
-		}
-
-		$whichOpenOffice = shell_exec('which openoffice');
-		if ($cmd === '' && !empty($whichOpenOffice)){
-			$cmd = 'openoffice';
-		}
-		
-		if (empty($cmd)){
-			\OC::$server->getLogger()->warn(
-				'Pure configuration issue. Missing open office binary that is mandatory for conversion.',
-				['app' => 'richdocuments']
-				
-			);
-			\OC::$server->getLogger()->debug(
-				'If openoffice or libreoffice is already installed please specify the path to it using preview_libreoffice_path config. Refer to admin manual for details.',
-				['app' => 'richdocuments']
-				
-			);
-			throw new \RuntimeException('Missing open office binary that is mandatory for conversion.');
-		}
-		
-		return $cmd;
 	}
 
 }

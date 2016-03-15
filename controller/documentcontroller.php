@@ -105,7 +105,6 @@ class DocumentController extends Controller{
 		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
 		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
-			'useUnstable' => 		$this->settings->getAppValue('richdocuments', 'unstable', 'false'),
 			'savePath' => 			$this->settings->getUserValue($this->uid, 'richdocuments', 'save_path', '/'),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
@@ -380,11 +379,9 @@ class DocumentController extends Controller{
 		$fullPath = '/files' . $path;
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
 		if ($fileInfo){
-			if($fileInfo->getMimeType() !== \OCA\Richdocuments\Filter\Office::NATIVE_MIMETYPE){
-				$file = new File($fileInfo->getId());
-				$genesis = new Genesis($file);
-				$fullPath = $genesis->getPath();
-			}
+			$file = new File($fileInfo->getId());
+			$genesis = new Genesis($file);
+			$fullPath = $genesis->getPath();
 		}
 		return new DownloadResponse($this->request, $this->uid, $fullPath);
 	}

@@ -16,24 +16,13 @@ use \OCP\IConfig;
  class AppConfig{
  	private $appName = 'richdocuments';
 	private $defaults = [
-		'converter' => 'off',
-		'converter_url' => 'http://localhost:16080',
-		'unstable' => 'false',
-		'wopi_url' => 'htpp://localhost'
+		'wopi_url' => 'http://localhost'
 	];
 
 	private $config;
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;
-	}
-
-	/**
-	 * Can we convert anything to odt?
-	 * @return bool
-	 */
-	public function isConverterEnabled(){
-		return $this->getAppValue('converter') !== 'off';
 	}
 
 	/**
