@@ -197,8 +197,8 @@ var documentsMain = {
 					documentsMain.url = window.location.protocol + '//' + window.location.host + url;
 
 					var viewer = urlsrc +
-						'file_path=' + encodeURIComponent(documentsMain.url) +
-						'&host=' + 'ws://' + window.location.hostname + ':9980' +
+						'WOPISrc=' + encodeURIComponent(documentsMain.url) +
+						'&host=' + $('#wopi-url').val() +
 						'&permission=' + 'view' +
 						'&timestamp=' + '';
 
