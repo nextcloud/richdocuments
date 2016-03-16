@@ -103,38 +103,47 @@ class DocumentController extends Controller{
 		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+		if (($parts = parse_url($wopiRemote))) {
+			// Provides access to information about the capabilities of a WOPI client
+			// and the mechanisms for invoking those abilities through URIs.
+			// HTTP://server/hosting/discovery
+			$wopiDiscovery = sprintf(
+				"%s%s%s%s",
+				isset($parts['scheme']) ? $parts['scheme'] . "://" : '',
+				isset($parts['host']) ? $parts['host'] : "",
+				isset($parts['port']) ? ":" . $parts['port'] : "",
+				"/hosting/discovery" );
+			$webSocket = sprintf(
+				"%s%s%s",
+				"ws://",
+				isset($parts['host']) ? $parts['host'] : "",
+				isset($parts['port']) ? ":" . $parts['port'] : "");
+		}
+		else {
+			$wopiRemote = null;
+		}
+
 		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
 			'savePath' => 			$this->settings->getUserValue($this->uid, 'richdocuments', 'save_path', '/'),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
-			'wopi_url' => 			$wopiRemote,
+			'wopi_url' => 			$webSocket,
 		]);
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedScriptDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $wopiRemote);
 		$policy->addAllowedFrameDomain('\'self\' http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js http://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.min.js \'unsafe-eval\' ' . $wopiRemote);
-		$policy->addAllowedConnectDomain('ws://' . $_SERVER['SERVER_NAME'] . ':9980');
+		$policy->addAllowedConnectDomain($webSocket);
 		$policy->addAllowedImageDomain('*');
 		$policy->allowInlineScript(true);
 		$policy->addAllowedFontDomain('data:');
 		$response->setContentSecurityPolicy($policy);
-		$discovery = $this->cache->get('discovery.xml');
 
-		if(is_null($discovery)) {
-			if (($parts = parse_url($wopiRemote))) {
-				// Provides access to information about the capabilities of a WOPI client
-				// and the mechanisms for invoking those abilities through URIs.
-				// HTTP://server/hosting/discovery
-				$wopiDiscovery = sprintf(
-					"%s%s%s%s",
-					isset($parts['scheme']) ? $parts['scheme'] . "://" : '',
-					isset($parts['host']) ? $parts['host'] : '',
-					isset($parts['port']) ? ":" . $parts['port'] : '',
-					"/hosting/discovery" );
-				$this->requestDiscovery($wopiDiscovery);
-			}
+		$discovery = $this->cache->get('discovery.xml');
+		if(is_null($discovery) && isset($wopiDiscovery)) {
+			$this->requestDiscovery($wopiDiscovery);
 		}
 
 		return $response;
