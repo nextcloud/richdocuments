@@ -110,23 +110,24 @@ class DocumentController extends Controller{
 			try {
 				$wopiClient = \OC::$server->getHTTPClientService()->newClient();
 				$xmlBody = $wopiClient->get($wopiDiscovery)->getBody();
-				if (!$xmlBody) {
-					return $this->responseError('failure body content', $wopiRemote);
-				}
 			}
 			catch (\Exception $e) {
 				return $this->responseError($e->getMessage(), $wopiRemote);
 			}
-		}
 
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = simplexml_load_string($xmlBody);
-		libxml_disable_entity_loader($loadEntities);
-		if ($data !== false) {
-			$this->cache->set('discovery.xml', $xmlBody, 3600);
-		}
-		else {
-			return $this->responseError('failure discovery.xml not well-formed XML string', $wopiRemote);
+			if (!$xmlBody) {
+				return $this->responseError('failure body content', $wopiRemote);
+			}
+
+			$loadEntities = libxml_disable_entity_loader(true);
+			$data = simplexml_load_string($xmlBody);
+			libxml_disable_entity_loader($loadEntities);
+			if ($data !== false) {
+				$this->cache->set('discovery.xml', $xmlBody, 3600);
+			}
+			else {
+				return $this->responseError('failure discovery.xml not well-formed XML string', $wopiRemote);
+			}
 		}
 
 		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );

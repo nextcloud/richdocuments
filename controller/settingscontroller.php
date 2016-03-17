@@ -115,6 +115,9 @@ class SettingsController extends Controller{
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
 		}
 
+		$richMemCache = \OC::$server->getMemCacheFactory()->create('richdocuments');
+		$richMemCache->clear('discovery.xml');
+
 		$response = array(
 			'status' => 'success',
 			'data' => array('message' => (string) $this->l10n->t('Saved'))
