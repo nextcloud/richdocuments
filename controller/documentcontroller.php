@@ -68,31 +68,10 @@ class DocumentController extends Controller{
 		return null;
 	}
 
-	/**
-	 * @param string $wopiDiscovery
-	 */
-	private function requestDiscovery($wopiDiscovery) {
-		try {
-			$wopiClient = \OC::$server->getHTTPClientService()->newClient();
-			$xmlBody = $wopiClient->get($wopiDiscovery)->getBody();
-			if ($xmlBody) {
-				$loadEntities = libxml_disable_entity_loader(true);
-				$data = simplexml_load_string($xmlBody);
-				libxml_disable_entity_loader($loadEntities);
-				if ($data !== false) {
-					$this->cache->set('discovery.xml', $xmlBody, 3600);
-				}
-				else {
-					$this->logger->debug('failure discovery.xml not well-formed XML string');
-				}
-			}
-			else {
-				$this->logger->debug('failure response discovery.xml');
-			}
-		} catch (\Exception $e) {
-			$this->logger->debug(
-				sprintf('Error getting discovery.xml: %s', $e->getMessage()));
-		}
+	private function responseError($message, $hint = ''){
+		$errors = array('errors' => array(array('error' => $message, 'hint' => $hint)));
+		$response = new TemplateResponse('', 'error', $errors, 'error');
+		return $response;
 	}
 
 	/**
@@ -100,8 +79,6 @@ class DocumentController extends Controller{
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
-		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
 		if (($parts = parse_url($wopiRemote))) {
 			// Provides access to information about the capabilities of a WOPI client
@@ -120,9 +97,40 @@ class DocumentController extends Controller{
 				isset($parts['port']) ? ":" . $parts['port'] : "");
 		}
 		else {
-			$wopiRemote = null;
+			return $this->responseError('Invalid Collabora Libre Office Online', $wopiRemote);
 		}
 
+		$memcache = \OC::$server->getMemCacheFactory();
+		if (!$memcache->isAvailable()) {
+			return $this->responseError('MemCache is not enabled', $wopiRemote);
+		}
+
+		$discovery = $this->cache->get('discovery.xml');
+		if (is_null($discovery)) {
+			try {
+				$wopiClient = \OC::$server->getHTTPClientService()->newClient();
+				$xmlBody = $wopiClient->get($wopiDiscovery)->getBody();
+				if (!$xmlBody) {
+					return $this->responseError('failure body content', $wopiRemote);
+				}
+			}
+			catch (\Exception $e) {
+				return $this->responseError($e->getMessage(), $wopiRemote);
+			}
+		}
+
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data = simplexml_load_string($xmlBody);
+		libxml_disable_entity_loader($loadEntities);
+		if ($data !== false) {
+			$this->cache->set('discovery.xml', $xmlBody, 3600);
+		}
+		else {
+			return $this->responseError('failure discovery.xml not well-formed XML string', $wopiRemote);
+		}
+
+		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
+		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
 			'savePath' => 			$this->settings->getUserValue($this->uid, 'richdocuments', 'save_path', '/'),
@@ -140,11 +148,6 @@ class DocumentController extends Controller{
 		$policy->allowInlineScript(true);
 		$policy->addAllowedFontDomain('data:');
 		$response->setContentSecurityPolicy($policy);
-
-		$discovery = $this->cache->get('discovery.xml');
-		if(is_null($discovery) && isset($wopiDiscovery)) {
-			$this->requestDiscovery($wopiDiscovery);
-		}
 
 		return $response;
 	}
