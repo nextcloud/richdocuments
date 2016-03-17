@@ -24,8 +24,7 @@ License:        MPL
 Source0:        owncloud-collabora-online-@PACKAGE_VERSION@.tar.gz
 BuildArch:      noarch
 Requires:       owncloud
-Requires:       loolwsd
-Requires:       loleaflet
+Requires:       php5-apcu
 
 %description
 
