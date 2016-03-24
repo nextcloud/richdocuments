@@ -301,6 +301,7 @@ class DocumentController extends Controller{
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * Generates and returns an access token for a given fileId.
 	 * Only for authenticated users!
 	 */
@@ -314,6 +315,42 @@ class DocumentController extends Controller{
 		return array(
 			'status' => 'success',
 			'token' => $token
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * Returns general info about a file.
+	 */
+	public function wopiCheckFileInfo($fileId){
+		$token = $this->request->getParam('access_token');
+
+		\OC::$server->getLogger()->debug('Getting info about file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+
+		$row = new Db\Wopi();
+		$row->loadBy('token', $token);
+
+		$res = $row->getPathForToken($fileId, $token);
+		if ($res == false || http_response_code() != 200)
+		{
+			return false;
+		}
+
+		$view = new \OC\Files\View('/' . $res['user'] . '/');
+		$info = $view->getFileInfo($res['path']);
+
+		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
+
+		$baseFileName = $info['name'];
+		$size = $info['size'];
+
+		return array(
+			'BaseFileName' => $baseFileName,
+			'Size' => $size,
+			//'DownloadUrl' => '',
+			//'FileUrl' => '',
 		);
 	}
 

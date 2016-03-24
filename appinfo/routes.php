@@ -38,6 +38,7 @@ $application->registerRoutes($this, [
 		['name' => 'document#localClose', 'url' => 'close/{fileId}', 'verb' => 'POST'],
 		//documents - for WOPI access
 		['name' => 'document#wopiGetToken', 'url' => 'wopi/token/{fileId}', 'verb' => 'GET'],
+		['name' => 'document#wopiCheckFileInfo', 'url' => 'wopi/files/{fileId}', 'verb' => 'GET'],
 		['name' => 'document#wopiGetFile', 'url' => 'wopi/files/{fileId}/contents', 'verb' => 'GET'],
 		['name' => 'document#wopiPutFile', 'url' => 'wopi/files/{fileId}/contents', 'verb' => 'POST'],
 		//settings

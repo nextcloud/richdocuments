@@ -192,7 +192,7 @@ var documentsMain = {
 					}
 
 					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc');
-					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}/contents?access_token={token}',
+					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}?access_token={token}',
 										 {file_id: documentsMain.fileId, token: encodeURIComponent(result.token)});
 					documentsMain.url = window.location.protocol + '//' + window.location.host + url;
 
