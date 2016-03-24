@@ -321,6 +321,38 @@ class DocumentController extends Controller{
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * Returns general info about a file.
+	 */
+	public function wopiCheckFileInfo($fileId){
+		$token = $this->request->getParam('access_token');
+
+		\OC::$server->getLogger()->debug('Getting info about file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+
+		$row = new Db\Wopi();
+		$row->loadBy('token', $token);
+
+		$res = $row->getPathForToken($fileId, $token);
+
+		$view = new \OC\Files\View('/' . $res['user'] . '/');
+		$info = $view->getFileInfo($res['path']);
+
+		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
+
+		$baseFileName = $info['name'];
+		$size = $info['size'];
+
+		return array(
+			'BaseFileName' => $baseFileName,
+			'Size' => $size,
+			//'DownloadUrl' => '',
+			//'FileUrl' => '',
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
 	 * Given an access token and a fileId, returns the contents of the file.
 	 * Expects a valid token in access_token parameter.
 	 */
