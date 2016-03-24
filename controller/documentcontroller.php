@@ -301,6 +301,7 @@ class DocumentController extends Controller{
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * Generates and returns an access token for a given fileId.
 	 * Only for authenticated users!
 	 */
@@ -332,6 +333,10 @@ class DocumentController extends Controller{
 		$row->loadBy('token', $token);
 
 		$res = $row->getPathForToken($fileId, $token);
+		if ($res == false || http_response_code() != 200)
+		{
+			return false;
+		}
 
 		$view = new \OC\Files\View('/' . $res['user'] . '/');
 		$info = $view->getFileInfo($res['path']);

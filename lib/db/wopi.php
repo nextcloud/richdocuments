@@ -40,10 +40,21 @@ class Wopi extends \OCA\Richdocuments\Db{
 	 * Returns the token.
 	 */
 	public function generateFileToken($fileId){
-		$user = \OC_User::getUser();
-		$view = new \OC\Files\View('/' . $user . '/');
-		$path = $view->getPath($fileId);
 
+		// Get the FS view of the current user.
+		$view = \OC\Files\Filesystem::getView();
+		// Get the virtual path (if the file is shared).
+		$path = $view->getPath($fileId);
+		if (!$view->is_file($path) || !$view->isUpdatable($path)) {
+			throw new \Exception('Invalid fileId.');
+		}
+
+		// Figure out the real owner, if not us.
+		$user = $view->getOwner($path);
+		// Create a view into the owner's FS.
+		$view = new \OC\Files\View('/' . $user . '/');
+		// Find the real path.
+		$path = $view->getPath($fileId);
 		if (!$view->is_file($path)) {
 			throw new \Exception('Invalid fileId.');
 		}
@@ -80,12 +91,24 @@ class Wopi extends \OCA\Richdocuments\Db{
 		$wopi = new Wopi();
 		$row = $wopi->loadBy('token', $token)->getData();
 		\OC::$server->getLogger()->debug('Loaded WOPI Token record: {row}.', [ 'row' => $row ]);
+		if (count($row) == 0)
+		{
+			// Invalid token.
+			http_response_code(401);
+			return false;
+		}
 
 		//TODO: validate.
-		if ($row['expiry'] > time() || $row['fileid'] !== $fileId){
+		if ($row['expiry'] > time()){
 			// Expired token!
+			//http_response_code(404);
 			//$wopi->deleteBy('id', $row['id']);
 			//return false;
+		}
+		if ($row['fileid'] !== $fileId){
+			// File unknown / user unauthorized (for the requested file).
+			http_response_code(404);
+			return false;
 		}
 
 		$user = $row['uid'];
