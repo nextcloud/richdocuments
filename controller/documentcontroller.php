@@ -92,12 +92,12 @@ class DocumentController extends Controller{
 				"/hosting/discovery" );
 			$webSocket = sprintf(
 				"%s%s%s",
-				"ws://",
+				"wss://",
 				isset($parts['host']) ? $parts['host'] : "",
 				isset($parts['port']) ? ":" . $parts['port'] : "");
 		}
 		else {
-			return $this->responseError('Invalid Collabora Libre Office Online', $wopiRemote);
+			return $this->responseError('Invalid Collabora Online', $wopiRemote);
 		}
 
 		$memcache = \OC::$server->getMemCacheFactory();

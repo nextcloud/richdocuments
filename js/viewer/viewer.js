@@ -85,26 +85,6 @@ var odfViewer = {
 	    var attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls';
 
 	    FileList.setViewerMode(true);
-
-	    // TODO call something like in the onEdit case; or do we want
-		// view-only at all?
-	    /*
-	    var viewer = window.location.protocol + '//' + window.location.host + '/loleaflet/dist/loleaflet.html?' +
-		'file_path=' + context.dir + '/' + filename +
-		'&host=' + 'ws://' + window.location.hostname + ':9980' +
-		'&permission=' + 'view' +
-		'&timestamp=' + '';
-
-	    var frame = '<iframe id="loleafletframe" style="width:100%;height:100%;display:block;position:fixed;top:46px;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups"/>';
-	    $(attachTo).append(frame);
-
-	    $('#loleafletframe').load(function(){
-		var iframe = $('#loleafletframe').contents();
-		iframe.find('#tb_toolbar-up_item_close').click(function() {
-		    odfViewer.onClose();
-		});
-	    });
-	    */
 	},
 
 	onClose: function() {
