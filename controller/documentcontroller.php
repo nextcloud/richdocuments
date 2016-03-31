@@ -39,7 +39,6 @@ class DocumentController extends Controller{
 	private $logger;
 
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
-	const CLOUDSUITE_TMP_PATH = '/documents-tmp/';
 
 	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
 		parent::__construct($appName, $request);
@@ -204,100 +203,6 @@ class DocumentController extends Controller{
 			);
 		}
 		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * Copy the file to a temporary location that is shared between the
-	 * cloudsuite server part and owncloud.
-	 */
-	public function localLoad($fileId){
-		$view = \OC\Files\Filesystem::getView();
-		$path = $view->getPath($fileId);
-
-		if (!$view->is_file($path)) {
-			return array(
-				'status' => 'error',
-				'message' => (string) $this->l10n->t('Unable to copy document for CloudSuite access.')
-			);
-		}
-
-		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . 'ccs-' . $fileId;
-		if (file_exists($filename)) {
-		    return array(
-		        'status' => 'success', 'filename' => $filename,
-		        'basename' => basename($filename)
-		    );
-                }
-
-		$content = $view->file_get_contents($path);
-
-		file_put_contents($filename, $content);
-
-		// set the needed attribs
-		chmod($filename, 0660);
-		$modified = $view->filemtime($path);
-		if ($modified !== false)
-			touch($filename, $modified);
-
-		return array(
-		    'status' => 'success', 'filename' => $filename,
-		    'basename' => basename($filename)
-		);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * Copy the file to a temporary location that is shared between the
-	 * cloudsuite server part and owncloud.
-	 */
-	public function localSave($fileId){
-		// get really just the basename for the case somebody tries to trick us
-		$basename = basename($this->request->post['basename']);
-
-		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . $basename;
-
-		$view = \OC\Files\Filesystem::getView();
-		$path = $view->getPath($fileId);
-
-		if (!is_file($filename) || !$view->is_file($path)) {
-			return array(
-				'status' => 'error',
-				'message' => (string) $this->l10n->t('Unable to copy the document back from CloudSuite.')
-			);
-		}
-
-		$content = file_get_contents($filename);
-
-		$view->file_put_contents($path, $content);
-
-		return array(
-			'status' => 'success'
-		);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * Remove the temporary local copy of the document.
-	 */
-	public function localClose($fileId){
-		// get really just the basename for the case somebody tries to trick us
-		$basename = basename($this->request->post['basename']);
-
-		$filename = dirname(__DIR__) . self::CLOUDSUITE_TMP_PATH . $basename;
-
-		// remove temp file only when all edit instances are closed
-		$stat = stat($filename);
-		if ($stat['nlink'] == 1){
-			unlink($filename);
-		}
-
-		return array(
-			'status' => 'success'
-		);
 	}
 
 	/**
