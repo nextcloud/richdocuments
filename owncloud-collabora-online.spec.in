@@ -47,13 +47,6 @@ tar cf - . | (cd %{buildroot}/srv/www/htdocs/owncloud/apps/richdocuments && tar 
 
 chown -R wwwrun:www /srv/www/htdocs/owncloud/apps
 su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ app:enable richdocuments" wwwrun
-getent group loolwww >/dev/null || groupadd -r loolwww
-usermod -a -G loolwww wwwrun
-usermod -a -G loolwww lool
-mkdir -p /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
-chown wwwrun:loolwww /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
-chmod g+ws /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
-chmod o-rwx /srv/www/htdocs/owncloud/apps/richdocuments/documents-tmp
 systemctl restart apache2.service
 
 %changelog

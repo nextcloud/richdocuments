@@ -32,10 +32,6 @@ $application->registerRoutes($this, [
 		['name' => 'document#rename', 'url' => 'ajax/documents/rename/{fileId}', 'verb' => 'POST'],
 		['name' => 'document#listAll', 'url' => 'ajax/documents/list', 'verb' => 'GET'],
 		['name' => 'document#download', 'url' => 'ajax/download.php', 'verb' => 'GET'],
-		//documents - for CloudSuite access
-		['name' => 'document#localLoad', 'url' => 'load/{fileId}', 'verb' => 'POST'],
-		['name' => 'document#localSave', 'url' => 'save/{fileId}', 'verb' => 'POST'],
-		['name' => 'document#localClose', 'url' => 'close/{fileId}', 'verb' => 'POST'],
 		//documents - for WOPI access
 		['name' => 'document#wopiGetToken', 'url' => 'wopi/token/{fileId}', 'verb' => 'GET'],
 		['name' => 'document#wopiCheckFileInfo', 'url' => 'wopi/files/{fileId}', 'verb' => 'GET'],
