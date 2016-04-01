@@ -199,29 +199,22 @@ var documentsMain = {
 					var viewer = urlsrc +
 						'WOPISrc=' + encodeURIComponent(documentsMain.url) +
 						'&host=' + $('#wopi-url').val() +
-						'&permission=' + 'view' +
-						'&timestamp=' + '';
+			                        '&filename=' + title +
+					        '&permission=' + 'view' +
+			                        '&timestamp=' + '' +
+			                        '&closebutton=1';
 
 					var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups allow-modals"/>';
 					$('#mainContainer').append(frame);
 
 					$('#loleafletframe').load(function(){
 						documentsMain.overlay.documentOverlay('hide');
-						var iframe = $('#loleafletframe').contents();
-						iframe.find('#tb_toolbar-up_item_close').click(function() {
-						documentsMain.onClose();
+						window.addEventListener('message', function(e){
+							if (e.data === 'close') {
+								documentsMain.onClose();
+							}
+						});
 					});
-					var frameWindow = $('#loleafletframe')[0].contentWindow;
-					(function() {
-						cloudSuiteOnClick = frameWindow.onClick;
-						frameWindow.onClick = function() {
-							fileName = encodeURIComponent(title.substr(0, title.lastIndexOf('.')) || title);
-							frameWindow.map.options.doc = fileName;
-							cloudSuiteOnClick.apply(this, arguments);
-							frameWindow.map.options.doc = documentsMain.url;
-						};
-					})();
-				});
 			});
 		},
 
