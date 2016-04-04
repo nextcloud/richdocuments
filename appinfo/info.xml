@@ -4,7 +4,7 @@
 	<name>Collabora Online</name>
 	<description>An ownCloud app to work with office documents</description>
 	<licence>AGPL</licence>
-	<version>0.9.1</version>
+	<version>0.14.0</version>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<bugs>https://github.com/owncloud/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/owncloud/richdocuments.git</repository>
