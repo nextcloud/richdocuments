@@ -48,6 +48,7 @@ tar cf - . | (cd %{buildroot}/srv/www/htdocs/owncloud/apps/richdocuments && tar 
 %post
 
 chown -R wwwrun:www /srv/www/htdocs/owncloud/apps
+su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ config:system:set --value='\OC\Memcache\APCu' memcache.local" wwwrun
 su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ app:enable richdocuments" wwwrun
 systemctl restart apache2.service
 
