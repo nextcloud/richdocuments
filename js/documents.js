@@ -192,21 +192,22 @@ var documentsMain = {
 					}
 
 					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc');
-					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}?access_token={token}',
-										 {file_id: documentsMain.fileId, token: encodeURIComponent(result.token)});
+					var token = encodeURIComponent(result.token);
+					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
 					documentsMain.url = window.location.protocol + '//' + window.location.host + url;
 
-					var viewer = urlsrc +
-						'WOPISrc=' + encodeURIComponent(documentsMain.url) +
-						'&host=' + $('#wopi-url').val() +
-			                        '&title=' + title +
-					        '&permission=' + 'view' +
-			                        '&timestamp=' + '' +
-			                        '&closebutton=1';
+					var wopisrc = encodeURIComponent(documentsMain.url);
+					var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">' +
+						   '<input name="WOPISrc" value="' + wopisrc + '" type="hidden"/>' +
+						   '<input name="title" value="' + title + '" type="hidden"/>' +
+						   '<input name="permission" value="view" type="hidden"/>' +
+						   '<input name="timestamp" value="" type="hidden"/>' +
+						   '<input name="closebutton" value="1" type="hidden"/>' +
+						   '<input name="access_token" value="' + token + '" type="hidden"/></form>';
+					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;"/>';
 
-					var frame = '<iframe id="loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" src="' + viewer + '"  sandbox="allow-scripts allow-same-origin allow-popups allow-modals"/>';
+					$('#mainContainer').append(form);
 					$('#mainContainer').append(frame);
-
 					$('#loleafletframe').load(function(){
 						documentsMain.overlay.documentOverlay('hide');
 						window.addEventListener('message', function(e){
@@ -215,6 +216,8 @@ var documentsMain = {
 							}
 						});
 					});
+
+					$('#loleafletform').submit();
 			});
 		},
 
