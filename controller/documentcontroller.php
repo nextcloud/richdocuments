@@ -89,9 +89,13 @@ class DocumentController extends Controller{
 				isset($parts['host']) ? $parts['host'] : "",
 				isset($parts['port']) ? ":" . $parts['port'] : "",
 				"/hosting/discovery" );
+			$webSocketProtocol = "ws://";
+			if ($parts['scheme'] == "https") {
+				$webSocketProtocol = "wss://";
+			}
 			$webSocket = sprintf(
 				"%s%s%s",
-				"wss://",
+				$webSocketProtocol,
 				isset($parts['host']) ? $parts['host'] : "",
 				isset($parts['port']) ? ":" . $parts['port'] : "");
 		}
