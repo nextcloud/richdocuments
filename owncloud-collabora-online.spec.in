@@ -47,10 +47,12 @@ tar cf - . | (cd %{buildroot}/srv/www/htdocs/owncloud/apps/richdocuments && tar 
 
 %post
 
+IP=`/sbin/ifconfig | awk '/inet addr/{print substr($2,6)}' | grep -v 127.0.0.1 | head -1`
 chown -R wwwrun:www /srv/www/htdocs/owncloud/apps
 su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ upgrade" wwwrun
 su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ config:system:set --value='\OC\Memcache\APCu' memcache.local" wwwrun
 su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ app:enable richdocuments" wwwrun
+su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ config:app:set --value='http://$IP:9980' richdocuments wopi_url" wwwrun
 su -s /bin/bash -c "php /srv/www/htdocs/owncloud/occ maintenance:mode --off" wwwrun
 systemctl restart apache2.service
 
