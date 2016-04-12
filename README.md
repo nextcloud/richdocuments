@@ -28,4 +28,10 @@ You need to configure the WOPI Client URL, which is where the LibreOffice Online
 
     occ config:app:set --value='https://<hostname or IP address>:<port>' richdocuments wopi_url
 
-Default port is 9980. If loolwsd was compiled without SSL (like in the [CODE VM](https://collaboraoffice.com/code/)), you have to write `http` instead of `https`.
+Default port is 9980. If loolwsd was compiled without SSL (like in the [CODE VM](https://collaboraoffice.com/code/)), you have to write `http` instead of `https`. If you use SSL, and you get the following error:
+
+    cURL error 60: SSL certificate problem: self signed certificate in certificate chain
+
+You have to add the CA cert manually to ownCloud trusted cert storage:
+
+    cat ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt
