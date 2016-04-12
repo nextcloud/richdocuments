@@ -100,12 +100,12 @@ class DocumentController extends Controller{
 				isset($parts['port']) ? ":" . $parts['port'] : "");
 		}
 		else {
-			return $this->responseError('Invalid Collabora Online', $wopiRemote);
+			return $this->responseError($this->l10n->t('Collabora Online: Invalid URL "%s".', array($wopiRemote)), $this->l10n->t('Please ask your administrator to check the Collabora Online server setting.'));
 		}
 
 		$memcache = \OC::$server->getMemCacheFactory();
 		if (!$memcache->isAvailable()) {
-			return $this->responseError('MemCache is not enabled', $wopiRemote);
+			return $this->responseError($this->l10n->t('Collabora Online: You need a memcache for the correct functionality.'), $this->l10n->t('Please ask your administrator to install php5-apcu, add "\'memcache.local\' => \'\\OC\\Memcache\\APCu\'," to owncloud/config/config.php, and restart the webserver.'));
 		}
 
 		$discovery = $this->cache->get('discovery.xml');
@@ -115,11 +115,27 @@ class DocumentController extends Controller{
 				$xmlBody = $wopiClient->get($wopiDiscovery)->getBody();
 			}
 			catch (\Exception $e) {
-				return $this->responseError($e->getMessage(), $wopiRemote);
+				$error_message = $e->getMessage();
+				if (preg_match('/^cURL error ([0-9]*):/', $error_message, $matches)) {
+					$admin_check = $this->l10n->t('Please ask your administrator to check the Collabora Online server setting. The exact error message was: ') . $error_message;
+
+					$curl_error = $matches[1];
+					switch ($curl_error) {
+					case '1':
+						return $this->responseError($this->l10n->t('Collabora Online: The protocol specified in "%s" is not allowed.', array($wopiRemote)), $admin_check);
+					case '3':
+						return $this->responseError($this->l10n->t('Collabora Online: Malformed URL "%s".', array($wopiRemote)), $admin_check);
+					case '6':
+						return $this->responseError($this->l10n->t('Collabora Online: Cannot resolve the host "%s".', array($wopiRemote)), $admin_check);
+					case '60':
+						return $this->responseError($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add CollaboraCloudSuiteCA_ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/CollaboraCloudSuiteCA_ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
+					}
+				}
+				return $this->responseError($this->l10n->t('Collabora Online unknown error: ') . $error_message);
 			}
 
 			if (!$xmlBody) {
-				return $this->responseError('failure body content', $wopiRemote);
+				return $this->responseError($this->l10n->t('Collabora Online: Unable to read discovery.xml from "%s".', array($wopiRemote)), $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote)));
 			}
 
 			$loadEntities = libxml_disable_entity_loader(true);
@@ -129,7 +145,7 @@ class DocumentController extends Controller{
 				$this->cache->set('discovery.xml', $xmlBody, 3600);
 			}
 			else {
-				return $this->responseError('failure discovery.xml not well-formed XML string', $wopiRemote);
+				return $this->responseError($this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)), $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote)));
 			}
 		}
 
