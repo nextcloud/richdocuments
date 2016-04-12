@@ -312,9 +312,6 @@ var documentsMain = {
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
 		documentsMain.overlay.documentOverlay('show');
-		$(window).on('beforeunload', function(){
-			return t('richdocuments', "Leaving this page in Editor mode might cause unsaved data. It is recommended to use 'Close' button instead.");
-		});
 		$(window).on("unload", documentsMain.onTerminate);
 	},
 
