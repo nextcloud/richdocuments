@@ -30,7 +30,20 @@ use \OC\Files\View;
 use \OCP\ICacheFactory;
 use \OCP\ILogger;
 
-class DocumentController extends Controller{
+class ResponseException extends \Exception {
+	private $hint;
+
+	public function __construct($description, $hint = '') {
+		parent::__construct($description);
+		$this->hint = $hint;
+	}
+
+	public function getHint() {
+		return $this->hint;
+	}
+}
+
+class DocumentController extends Controller {
 
 	private $uid;
 	private $l10n;
@@ -54,12 +67,12 @@ class DocumentController extends Controller{
 	 * @param string $mimetype
 	 * @param string $action
 	 */
-	private function getWopiSrcUrl($discovery, $mimetype, $action) {
-		if(is_null($discovery) || $discovery == false) {
+	private function getWopiSrcUrl($discovery_parsed, $mimetype, $action) {
+		if(is_null($discovery_parsed) || $discovery_parsed == false) {
 			return null;
 		}
 
-		$result = $discovery->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action[@name=\'%s\']', $mimetype, $action));
+		$result = $discovery_parsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action[@name=\'%s\']', $mimetype, $action));
 		if ($result && count($result) > 0) {
 			return (string)$result[0]['urlsrc'];
 		}
@@ -73,6 +86,58 @@ class DocumentController extends Controller{
 		return $response;
 	}
 
+	/** Return the content of discovery.xml - either from cache, or download it.
+	 */
+	private function getDiscovery(){
+		\OC::$server->getLogger()->debug('getDiscovery(): Getting discovery.xml from the cache.');
+
+		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+
+		// Provides access to information about the capabilities of a WOPI client
+		// and the mechanisms for invoking those abilities through URIs.
+		$wopiDiscovery = $wopiRemote . '/hosting/discovery';
+
+		// Read the memcached value (if the memcache is installed)
+		$discovery = $this->cache->get('discovery.xml');
+
+		if (is_null($discovery)) {
+			$contact_admin = $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote));
+
+			try {
+				$wopiClient = \OC::$server->getHTTPClientService()->newClient();
+				$discovery = $wopiClient->get($wopiDiscovery)->getBody();
+			}
+			catch (\Exception $e) {
+				$error_message = $e->getMessage();
+				if (preg_match('/^cURL error ([0-9]*):/', $error_message, $matches)) {
+					$admin_check = $this->l10n->t('Please ask your administrator to check the Collabora Online server setting. The exact error message was: ') . $error_message;
+
+					$curl_error = $matches[1];
+					switch ($curl_error) {
+					case '1':
+						throw new ResponseException($this->l10n->t('Collabora Online: The protocol specified in "%s" is not allowed.', array($wopiRemote)), $admin_check);
+					case '3':
+						throw new ResponseException($this->l10n->t('Collabora Online: Malformed URL "%s".', array($wopiRemote)), $admin_check);
+					case '6':
+						throw new ResponseException($this->l10n->t('Collabora Online: Cannot resolve the host "%s".', array($wopiRemote)), $admin_check);
+					case '60':
+						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add CollaboraCloudSuiteCA_ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/CollaboraCloudSuiteCA_ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
+					}
+				}
+				throw new ResponseException($this->l10n->t('Collabora Online unknown error: ') . $error_message, $contact_admin);
+			}
+
+			if (!$discovery) {
+				throw new ResponseException($this->l10n->t('Collabora Online: Unable to read discovery.xml from "%s".', array($wopiRemote)), $contact_admin);
+			}
+
+			\OC::$server->getLogger()->debug('Storing the discovery.xml to the cache.');
+			$this->cache->set('discovery.xml', $discovery, 3600);
+		}
+
+		return $discovery;
+	}
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -80,15 +145,6 @@ class DocumentController extends Controller{
 	public function index(){
 		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
 		if (($parts = parse_url($wopiRemote))) {
-			// Provides access to information about the capabilities of a WOPI client
-			// and the mechanisms for invoking those abilities through URIs.
-			// HTTP://server/hosting/discovery
-			$wopiDiscovery = sprintf(
-				"%s%s%s%s",
-				isset($parts['scheme']) ? $parts['scheme'] . "://" : '',
-				isset($parts['host']) ? $parts['host'] : "",
-				isset($parts['port']) ? ":" . $parts['port'] : "",
-				"/hosting/discovery" );
 			$webSocketProtocol = "ws://";
 			if ($parts['scheme'] == "https") {
 				$webSocketProtocol = "wss://";
@@ -101,52 +157,6 @@ class DocumentController extends Controller{
 		}
 		else {
 			return $this->responseError($this->l10n->t('Collabora Online: Invalid URL "%s".', array($wopiRemote)), $this->l10n->t('Please ask your administrator to check the Collabora Online server setting.'));
-		}
-
-		$memcache = \OC::$server->getMemCacheFactory();
-		if (!$memcache->isAvailable()) {
-			return $this->responseError($this->l10n->t('Collabora Online: You need a memcache for the correct functionality.'), $this->l10n->t('Please ask your administrator to install php5-apcu, add "\'memcache.local\' => \'\\OC\\Memcache\\APCu\'," to owncloud/config/config.php, and restart the webserver.'));
-		}
-
-		$discovery = $this->cache->get('discovery.xml');
-		if (is_null($discovery)) {
-			try {
-				$wopiClient = \OC::$server->getHTTPClientService()->newClient();
-				$xmlBody = $wopiClient->get($wopiDiscovery)->getBody();
-			}
-			catch (\Exception $e) {
-				$error_message = $e->getMessage();
-				if (preg_match('/^cURL error ([0-9]*):/', $error_message, $matches)) {
-					$admin_check = $this->l10n->t('Please ask your administrator to check the Collabora Online server setting. The exact error message was: ') . $error_message;
-
-					$curl_error = $matches[1];
-					switch ($curl_error) {
-					case '1':
-						return $this->responseError($this->l10n->t('Collabora Online: The protocol specified in "%s" is not allowed.', array($wopiRemote)), $admin_check);
-					case '3':
-						return $this->responseError($this->l10n->t('Collabora Online: Malformed URL "%s".', array($wopiRemote)), $admin_check);
-					case '6':
-						return $this->responseError($this->l10n->t('Collabora Online: Cannot resolve the host "%s".', array($wopiRemote)), $admin_check);
-					case '60':
-						return $this->responseError($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add CollaboraCloudSuiteCA_ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/CollaboraCloudSuiteCA_ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
-					}
-				}
-				return $this->responseError($this->l10n->t('Collabora Online unknown error: ') . $error_message);
-			}
-
-			if (!$xmlBody) {
-				return $this->responseError($this->l10n->t('Collabora Online: Unable to read discovery.xml from "%s".', array($wopiRemote)), $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote)));
-			}
-
-			$loadEntities = libxml_disable_entity_loader(true);
-			$data = simplexml_load_string($xmlBody);
-			libxml_disable_entity_loader($loadEntities);
-			if ($data !== false) {
-				$this->cache->set('discovery.xml', $xmlBody, 3600);
-			}
-			else {
-				return $this->responseError($this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)), $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote)));
-			}
 		}
 
 		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
@@ -390,10 +400,24 @@ class DocumentController extends Controller{
 	 */
 	public function listAll(){
 		$found = Storage::getDocuments();
-		$data = $this->cache->get('discovery.xml');
-		$loadEntities = libxml_disable_entity_loader(true);
-		$discovery = simplexml_load_string($data);
-		libxml_disable_entity_loader($loadEntities);
+
+		$discovery_parsed = null;
+		try {
+			$discovery = $this->getDiscovery();
+
+			$loadEntities = libxml_disable_entity_loader(true);
+			$discovery_parsed = simplexml_load_string($discovery);
+			libxml_disable_entity_loader($loadEntities);
+
+			if ($discovery_parsed === false) {
+				$this->cache->remove('discovery.xml');
+
+				return responseError($this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)), $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote)));
+			}
+		}
+		catch (ResponseException $e) {
+			return $this->responseError($e->getMessage(), $e->getHint());
+		}
 
 		$fileIds = array();
 		$documents = array();
@@ -405,7 +429,7 @@ class DocumentController extends Controller{
 			}
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
 			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
-			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery, $document['mimetype'], 'edit');
+			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
 			$fileIds[] = $document['fileid'];
 		}
 
