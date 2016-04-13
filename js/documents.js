@@ -154,7 +154,6 @@ var documentsMain = {
 	ready :false,
 	fileName: null,
 	baseName: null,
-	url: null,
 	canShare : false,
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 
@@ -191,23 +190,31 @@ var documentsMain = {
 						return;
 					}
 
-					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc');
-					var token = encodeURIComponent(result.token);
-					var url = OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
-					documentsMain.url = window.location.protocol + '//' + window.location.host + url;
+					// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+					var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
+					var wopisrc = encodeURIComponent(wopiurl);
 
-					var wopisrc = encodeURIComponent(documentsMain.url);
+					// urlsrc - the URL from discovery.xml that we access for the particular
+					// document; we add various parameters to that
+					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc') +
+						"WOPISrc=" + wopisrc +
+						"&title=" + encodeURIComponent(title) +
+						"&closebutton=1";
+
+					// access_token - must be passed via a form post
+					var access_token = encodeURIComponent(result.token);
+
+					// form to post the access token for WOPISrc
 					var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">' +
-						   '<input name="WOPISrc" value="' + wopisrc + '" type="hidden"/>' +
-						   '<input name="title" value="' + title + '" type="hidden"/>' +
-						   '<input name="permission" value="view" type="hidden"/>' +
-						   '<input name="timestamp" value="" type="hidden"/>' +
-						   '<input name="closebutton" value="1" type="hidden"/>' +
-						   '<input name="access_token" value="' + token + '" type="hidden"/></form>';
+						'<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
+
+					// iframe that contains the Collabora Online
 					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;"/>';
 
 					$('#mainContainer').append(form);
 					$('#mainContainer').append(frame);
+
+					// handler for the 'Close' button - we have enabled it via closebutton=1
 					$('#loleafletframe').load(function(){
 						documentsMain.overlay.documentOverlay('hide');
 						window.addEventListener('message', function(e){
@@ -217,6 +224,7 @@ var documentsMain = {
 						});
 					});
 
+					// submit that
 					$('#loleafletform').submit();
 			});
 		},
