@@ -194,8 +194,10 @@ var documentsMain = {
 					var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
 					var wopisrc = encodeURIComponent(wopiurl);
 
-					// urlsrc - the URL from discovery.xml that we access for the particular
-					// document; we add various parameters to that
+					// urlsrc - the URL from discovery xml that we access for the particular
+					// document; we add various parameters to that.
+					// The discovery is available at
+					//   https://<loolwsd-server>:9980/hosting/discovery
 					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc') +
 						"WOPISrc=" + wopisrc +
 						"&title=" + encodeURIComponent(title) +
