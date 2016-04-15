@@ -5,9 +5,7 @@ $.widget('oc.documentGrid', {
 		context : '.documentslist',
 		documents : {},
 		sessions : {},
-		members : {},
-		errorMessage : '',
-		errorHint : ''
+		members : {}
 	},
 
 	_create : function (){
@@ -86,14 +84,14 @@ $.widget('oc.documentGrid', {
 				if (!result || result.status === 'error') {
 					documentsMain.loadError = true;
 					if (result && result.message) {
-						that.options.errorMessage = result.message;
+						documentsMain.loadErrorMessage = result.message;
 					}
 					else {
-						that.options.errorMessage = t('richdocuments', 'Failed to load the document, please contact your administrator.');
+						documentsMain.loadErrorMessage = t('richdocuments', 'Failed to load the document, please contact your administrator.');
 					}
 
 					if (result && result.hint) {
-						that.options.errorHint = result.hint;
+						documentsMain.loadErrorHint = result.hint;
 					}
 				}
 				else {
@@ -121,8 +119,8 @@ $.widget('oc.documentGrid', {
 
 		if (documentsMain.loadError) {
 			$(this.options.context).after('<div id="errormessage">'
-				+ '<p>' + this.options.errorMessage + '</p><p>'
-				+ this.options.errorHint
+				+ '<p>' + documentsMain.loadErrorMessage + '</p><p>'
+				+ documentsMain.loadErrorHint
 				+ '</p></div>'
 			);
 			return;
@@ -182,6 +180,8 @@ var documentsMain = {
 	baseName: null,
 	canShare : false,
 	loadError : false,
+	loadErrorMessage : '',
+	loadErrorHint : '',
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 
 	UI : {
@@ -200,6 +200,11 @@ var documentsMain = {
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
+			}
+
+			if (documentsMain.loadError) {
+				documentsMain.onEditorShutdown(t('richdocuments', documentsMain.loadErrorMessage + '\n' + documentsMain.loadErrorHint));
+				return;
 			}
 
 			$(document.body).addClass("claro");
@@ -337,7 +342,7 @@ var documentsMain = {
 
 		documentsMain.show();
 
-		if (fileId && !documentMain.loadError) {
+		if (fileId) {
 			documentsMain.overlay.documentOverlay('show');
 			documentsMain.prepareSession();
 			documentsMain.joinSession(fileId);
