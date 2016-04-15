@@ -120,6 +120,8 @@ class DocumentController extends Controller {
 						throw new ResponseException($this->l10n->t('Collabora Online: Malformed URL "%s".', array($wopiRemote)), $admin_check);
 					case '6':
 						throw new ResponseException($this->l10n->t('Collabora Online: Cannot resolve the host "%s".', array($wopiRemote)), $admin_check);
+					case '7':
+						throw new ResponseException($this->l10n->t('Collabora Online: Cannot connect to the host "%s".', array($wopiRemote)), $admin_check);
 					case '60':
 						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add CollaboraCloudSuiteCA_ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/CollaboraCloudSuiteCA_ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
 					}
@@ -144,7 +146,7 @@ class DocumentController extends Controller {
 	 */
 	public function index(){
 		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
-		if (($parts = parse_url($wopiRemote))) {
+		if (($parts = parse_url($wopiRemote)) && isset($parts['scheme']) && isset($parts['host'])) {
 			$webSocketProtocol = "ws://";
 			if ($parts['scheme'] == "https") {
 				$webSocketProtocol = "wss://";
@@ -152,7 +154,7 @@ class DocumentController extends Controller {
 			$webSocket = sprintf(
 				"%s%s%s",
 				$webSocketProtocol,
-				isset($parts['host']) ? $parts['host'] : "",
+				$parts['host'],
 				isset($parts['port']) ? ":" . $parts['port'] : "");
 		}
 		else {
@@ -411,12 +413,21 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
+				$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
 
-				return responseError($this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)), $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote)));
+				return array(
+					'status' => 'error',
+					'message' => $this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)),
+					'hint' => $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote))
+				);
 			}
 		}
 		catch (ResponseException $e) {
-			return $this->responseError($e->getMessage(), $e->getHint());
+			return array(
+				'status' => 'error',
+				'message' => $e->getMessage(),
+				'hint' => $e->getHint()
+			);
 		}
 
 		$fileIds = array();

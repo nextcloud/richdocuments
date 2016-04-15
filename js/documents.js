@@ -5,7 +5,9 @@ $.widget('oc.documentGrid', {
 		context : '.documentslist',
 		documents : {},
 		sessions : {},
-		members : {}
+		members : {},
+		errorMessage : '',
+		errorHint : ''
 	},
 
 	_create : function (){
@@ -80,10 +82,25 @@ $.widget('oc.documentGrid', {
 		var that = this;
 		var def = new $.Deferred();
 		$.getJSON(OC.generateUrl('apps/richdocuments/ajax/documents/list'))
-			.done(function (data) {
-				that.options.documents = data.documents;
-				that.options.sessions = data.sessions;
-				that.options.members = data.members;
+			.done(function (result) {
+				if (!result || result.status === 'error') {
+					documentsMain.loadError = true;
+					if (result && result.message) {
+						that.options.errorMessage = result.message;
+					}
+					else {
+						that.options.errorMessage = t('richdocuments', 'Failed to load the document, please contact your administrator.');
+					}
+
+					if (result && result.hint) {
+						that.options.errorHint = result.hint;
+					}
+				}
+				else {
+					that.options.documents = result.documents;
+					that.options.sessions = result.sessions;
+					that.options.members = result.members;
+				}
 				def.resolve();
 			})
 			.fail(function(data){
@@ -101,6 +118,15 @@ $.widget('oc.documentGrid', {
 		;
 
 		$(this.options.context + ' .document:not(.template,.progress)').remove();
+
+		if (documentsMain.loadError) {
+			$(this.options.context).after('<div id="errormessage">'
+				+ '<p>' + this.options.errorMessage + '</p><p>'
+				+ this.options.errorHint
+				+ '</p></div>'
+			);
+			return;
+		}
 
 		$.each(documents, function(i, document){
 			hasDocuments = true;
@@ -155,6 +181,7 @@ var documentsMain = {
 	fileName: null,
 	baseName: null,
 	canShare : false,
+	loadError : false,
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 
 	UI : {
@@ -181,7 +208,7 @@ var documentsMain = {
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
 
 			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: documentsMain.fileId }),
-				  function (result) {
+				function (result) {
 					if (!result || result.status === 'error') {
 						if (result && result.message){
 							documentsMain.IU.notify(result.message);
@@ -310,7 +337,7 @@ var documentsMain = {
 
 		documentsMain.show();
 
-		if (fileId){
+		if (fileId && !documentMain.loadError) {
 			documentsMain.overlay.documentOverlay('show');
 			documentsMain.prepareSession();
 			documentsMain.joinSession(fileId);
