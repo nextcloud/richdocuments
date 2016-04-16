@@ -222,11 +222,38 @@ class DocumentController extends Controller {
 			$content = file_get_contents(dirname(__DIR__) . self::ODT_TEMPLATE_PATH);
 		}
 
+		$discovery_parsed = null;
+		try {
+			$discovery = $this->getDiscovery();
+
+			$loadEntities = libxml_disable_entity_loader(true);
+			$discovery_parsed = simplexml_load_string($discovery);
+			libxml_disable_entity_loader($loadEntities);
+
+			if ($discovery_parsed === false) {
+				$this->cache->remove('discovery.xml');
+				$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+
+				return array(
+					'status' => 'error',
+					'message' => $this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)),
+					'hint' => $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote))
+				);
+			}
+		}
+		catch (ResponseException $e) {
+			return array(
+				'status' => 'error',
+				'message' => $e->getMessage()
+			);
+		}
+
 		if ($content && $view->file_put_contents($path, $content)){
 			$info = $view->getFileInfo($path);
 			$response =  array(
 				'status' => 'success',
-				'fileid' => $info['fileid']
+				'fileid' => $info['fileid'],
+				'urlsrc' => $this->getWopiSrcUrl($discovery_parsed, $mimetype, 'edit')
 			);
 		} else {
 			$response =  array(
