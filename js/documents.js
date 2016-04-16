@@ -463,6 +463,8 @@ var documentsMain = {
 			{ mimetype : mimetype },
 			function(response){
 				if (response && response.fileid){
+					docElem.attr('data-id', response.fileid);
+					docElem.find('a').attr('urlsrc', response.urlsrc);
 					documentsMain.prepareSession();
 					documentsMain.joinSession(response.fileid);
 				} else {
