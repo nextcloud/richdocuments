@@ -1,10 +1,10 @@
-VERSION=0.14.0
+VERSION=0.15.0
 
 .PHONY: dist
-dist: owncloud-collabora-online.spec
+dist: owncloud-collabora-online.spec info.xml
 	rm -rf owncloud-collabora-online-$(VERSION)
 	mkdir owncloud-collabora-online-$(VERSION)
-	tar cf -  *.php \
+	tar cf - --exclude appinfo/info.xml.in *.php \
                 appinfo \
                 assets \
                 controller \
@@ -24,3 +24,5 @@ dist: owncloud-collabora-online.spec
 owncloud-collabora-online.spec: owncloud-collabora-online.spec.in Makefile
 	sed -e 's/@PACKAGE_VERSION@/$(VERSION)/g' <owncloud-collabora-online.spec.in >owncloud-collabora-online.spec
 
+info.xml: appinfo/info.xml.in Makefile
+	sed -e 's/@PACKAGE_VERSION@/$(VERSION)/g' <appinfo/info.xml.in >appinfo/info.xml
