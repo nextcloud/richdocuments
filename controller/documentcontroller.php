@@ -244,7 +244,8 @@ class DocumentController extends Controller {
 		catch (ResponseException $e) {
 			return array(
 				'status' => 'error',
-				'message' => $e->getMessage()
+				'message' => $e->getMessage(),
+				'hint' => $e->getHint()
 			);
 		}
 
