@@ -29,6 +29,7 @@ $.widget('oc.documentGrid', {
 		docElem.removeClass('template').attr('data-id', document.fileid);
 		a.css('background-image', 'url("'+document.icon+'")')
 			.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}))
+			.attr('title', document.path)
 			.attr('original-title', document.path)
 			.attr('urlsrc', document.urlsrc)
 			.find('label').text(document.name)
