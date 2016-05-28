@@ -256,7 +256,8 @@ class DocumentController extends Controller {
 			$response =  array(
 				'status' => 'success',
 				'fileid' => $info['fileid'],
-				'urlsrc' => $this->getWopiSrcUrl($discovery_parsed, $mimetype, 'edit')
+				'urlsrc' => $this->getWopiSrcUrl($discovery_parsed, $mimetype, 'edit'),
+				'lolang' => $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')
 			);
 		} else {
 			$response =  array(
@@ -471,6 +472,7 @@ class DocumentController extends Controller {
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
 			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
 			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
+			$documents[$key]['lolang'] = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
 			$fileIds[] = $document['fileid'];
 		}
 
