@@ -32,6 +32,7 @@ $.widget('oc.documentGrid', {
 			.attr('title', document.path)
 			.attr('original-title', document.path)
 			.attr('urlsrc', document.urlsrc)
+			.attr('lolang', document.lolang)
 			.find('label').text(document.name)
 		;
 
@@ -234,6 +235,7 @@ var documentsMain = {
 					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc') +
 						"WOPISrc=" + wopisrc +
 						"&title=" + encodeURIComponent(title) +
+						"&lang=" + $('li[data-id='+ documentsMain.fileId +']>a').attr('lolang') +
 						"&closebutton=1";
 
 					// access_token - must be passed via a form post
@@ -466,6 +468,7 @@ var documentsMain = {
 				if (response && response.fileid){
 					docElem.attr('data-id', response.fileid);
 					docElem.find('a').attr('urlsrc', response.urlsrc);
+					docElem.find('a').attr('lolang', response.lolang);
 					documentsMain.prepareSession();
 					documentsMain.joinSession(response.fileid);
 				} else {
