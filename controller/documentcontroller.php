@@ -463,6 +463,7 @@ class DocumentController extends Controller {
 
 		$fileIds = array();
 		$documents = array();
+		$lolang = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
 		foreach ($found as $key=>$document) {
 			if (is_object($document)){
 				$documents[] = $document->getData();
@@ -472,7 +473,7 @@ class DocumentController extends Controller {
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
 			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
 			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
-			$documents[$key]['lolang'] = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
+			$documents[$key]['lolang'] = $lolang;
 			$fileIds[] = $document['fileid'];
 		}
 
