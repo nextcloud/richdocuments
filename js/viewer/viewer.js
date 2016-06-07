@@ -78,7 +78,13 @@ var odfViewer = {
 
 	onEdit : function(fileName, context){
 		var fileId = context.$file.attr('data-id');
-		window.location = OC.generateUrl('apps/richdocuments/index#{file_id}', {file_id: fileId});
+		var fileDir = context.dir;
+
+		if (fileDir) {
+			window.location = OC.generateUrl('apps/richdocuments/index#{file_id}_{dir}', {file_id: fileId, dir: fileDir});
+		} else {
+			window.location = OC.generateUrl('apps/richdocuments/index#{file_id}', {file_id: fileId});
+		}
 	},
 
 	onView: function(filename, context) {
