@@ -185,6 +185,7 @@ var documentsMain = {
 	loadErrorMessage : '',
 	loadErrorHint : '',
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
+	returnToDir : null, // directory where we started from in the 'Files' app
 
 	UI : {
 		/* Editor wrapper HTML */
@@ -340,7 +341,12 @@ var documentsMain = {
 
 		} else {
 			// Does anything indicate that we need to autostart a session?
-			fileId = parent.location.hash.replace(/\W*/g, '');
+			fileId = parent.location.hash.replace(/^\W*/, '');
+
+			if (fileId.indexOf('_') >= 0) {
+				documentsMain.returnToDir = unescape(fileId.replace(/^[^_]*_/, ''));
+				fileId = fileId.replace(/_.*/, '');
+			}
 		}
 
 		documentsMain.show();
@@ -637,7 +643,12 @@ var documentsMain = {
 		documentsMain.UI.hideEditor();
 		documentsMain.closeDocument();
 		$('#ocToolbar').remove();
-		documentsMain.show();
+
+		if (documentsMain.returnToDir) {
+			window.location = OC.generateUrl('apps/files?dir={dir}', {dir: documentsMain.returnToDir});
+		} else {
+			documentsMain.show();
+		}
 	},
 
 	onTerminate: function(){
