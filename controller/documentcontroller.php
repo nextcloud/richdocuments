@@ -123,7 +123,7 @@ class DocumentController extends Controller {
 					case '7':
 						throw new ResponseException($this->l10n->t('Collabora Online: Cannot connect to the host "%s".', array($wopiRemote)), $admin_check);
 					case '60':
-						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add CollaboraCloudSuiteCA_ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/CollaboraCloudSuiteCA_ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
+						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
 					}
 				}
 				throw new ResponseException($this->l10n->t('Collabora Online unknown error: ') . $error_message, $contact_admin);
@@ -463,6 +463,7 @@ class DocumentController extends Controller {
 
 		$fileIds = array();
 		$documents = array();
+		$lolang = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
 		foreach ($found as $key=>$document) {
 			if (is_object($document)){
 				$documents[] = $document->getData();
@@ -472,7 +473,7 @@ class DocumentController extends Controller {
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
 			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
 			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
-			$documents[$key]['lolang'] = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
+			$documents[$key]['lolang'] = $lolang;
 			$fileIds[] = $document['fileid'];
 		}
 
