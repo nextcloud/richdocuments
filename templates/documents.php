@@ -1,7 +1,6 @@
 <?php
 style( 'richdocuments', 'share' );
 style( 'richdocuments', 'style' );
-style( 'richdocuments', '3rdparty/webodf/dojo-app' );
 script('richdocuments', 'share');
 script('richdocuments', 'documents');
 script('files', 'file-upload');
