@@ -140,6 +140,70 @@ class DocumentController extends Controller {
 		return $discovery;
 	}
 
+	/** Prepare document(s) structure
+	 */
+	private function prepareDocuments($rawDocuments){
+		$discovery_parsed = null;
+		try {
+			$discovery = $this->getDiscovery();
+
+			$loadEntities = libxml_disable_entity_loader(true);
+			$discovery_parsed = simplexml_load_string($discovery);
+			libxml_disable_entity_loader($loadEntities);
+
+			if ($discovery_parsed === false) {
+				$this->cache->remove('discovery.xml');
+				$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+
+				return array(
+					'status' => 'error',
+					'message' => $this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)),
+					'hint' => $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote))
+				);
+			}
+		}
+		catch (ResponseException $e) {
+			return array(
+				'status' => 'error',
+				'message' => $e->getMessage(),
+				'hint' => $e->getHint()
+			);
+		}
+
+		$fileIds = array();
+		$documents = array();
+		$lolang = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
+		foreach ($rawDocuments as $key=>$document) {
+			if (is_object($document)){
+				$documents[] = $document->getData();
+			} else {
+				$documents[$key] = $document;
+			}
+			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
+			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
+			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
+			$documents[$key]['lolang'] = $lolang;
+			$fileIds[] = $document['fileid'];
+		}
+
+		usort($documents, function($a, $b){
+			return @$b['mtime']-@$a['mtime'];
+		});
+
+		$session = new Db\Session();
+		$sessions = $session->getCollectionBy('file_id', $fileIds);
+
+		$members = array();
+		$member = new Db\Member();
+		foreach ($sessions as $session) {
+			$members[$session['es_id']] = $member->getActiveCollection($session['es_id']);
+		}
+
+		return array(
+			'status' => 'success', 'documents' => $documents,'sessions' => $sessions,'members' => $members
+		);
+	}
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -428,70 +492,22 @@ class DocumentController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * Get file information about single document with fileId
+	 */
+	public function get($fileId){
+	        $documents = array();
+		$documents[0] = Storage::getDocumentById($fileId);
+
+		return $this->prepareDocuments($documents);
+	}
+
+
+	/**
+	 * @NoAdminRequired
 	 * lists the documents the user has access to (including shared files, once the code in core has been fixed)
 	 * also adds session and member info for these files
 	 */
 	public function listAll(){
-		$found = Storage::getDocuments();
-
-		$discovery_parsed = null;
-		try {
-			$discovery = $this->getDiscovery();
-
-			$loadEntities = libxml_disable_entity_loader(true);
-			$discovery_parsed = simplexml_load_string($discovery);
-			libxml_disable_entity_loader($loadEntities);
-
-			if ($discovery_parsed === false) {
-				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
-
-				return array(
-					'status' => 'error',
-					'message' => $this->l10n->t('Collabora Online: discovery.xml from "%s" is not a well-formed XML string.', array($wopiRemote)),
-					'hint' => $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote))
-				);
-			}
-		}
-		catch (ResponseException $e) {
-			return array(
-				'status' => 'error',
-				'message' => $e->getMessage(),
-				'hint' => $e->getHint()
-			);
-		}
-
-		$fileIds = array();
-		$documents = array();
-		$lolang = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
-		foreach ($found as $key=>$document) {
-			if (is_object($document)){
-				$documents[] = $document->getData();
-			} else {
-				$documents[$key] = $document;
-			}
-			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
-			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
-			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
-			$documents[$key]['lolang'] = $lolang;
-			$fileIds[] = $document['fileid'];
-		}
-
-		usort($documents, function($a, $b){
-			return @$b['mtime']-@$a['mtime'];
-		});
-
-		$session = new Db\Session();
-		$sessions = $session->getCollectionBy('file_id', $fileIds);
-
-		$members = array();
-		$member = new Db\Member();
-		foreach ($sessions as $session) {
-			$members[$session['es_id']] = $member->getActiveCollection($session['es_id']);
-		}
-
-		return array(
-			'status' => 'success', 'documents' => $documents,'sessions' => $sessions,'members' => $members
-		);
+		return $this->prepareDocuments(Storage::getDocuments());
 	}
 }

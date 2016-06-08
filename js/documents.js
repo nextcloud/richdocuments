@@ -12,9 +12,9 @@ $.widget('oc.documentGrid', {
 
 	},
 
-	render : function(){
+	render : function(fileId){
 		var that = this;
-		jQuery.when(this._load())
+		jQuery.when(this._load(fileId))
 			.then(function(){
 				that._render();
 			});
@@ -78,10 +78,17 @@ $.widget('oc.documentGrid', {
 		}
 	},
 
-	_load : function (){
+	_load : function (fileId){
 		var that = this;
 		var def = new $.Deferred();
-		$.getJSON(OC.generateUrl('apps/richdocuments/ajax/documents/list'))
+		var url = 'apps/richdocuments/ajax/documents/list';
+		var dataObj = {};
+		if (fileId){
+			url = 'apps/richdocuments/ajax/documents/get/{fileId}';
+			dataObj = { fileId: fileId };
+		}
+
+		$.getJSON(OC.generateUrl(url, dataObj))
 			.done(function (result) {
 				if (!result || result.status === 'error') {
 					documentsMain.loadError = true;
@@ -349,7 +356,7 @@ var documentsMain = {
 			}
 		}
 
-		documentsMain.show();
+		documentsMain.show(fileId);
 
 		if (fileId) {
 			documentsMain.overlay.documentOverlay('show');
@@ -671,12 +678,12 @@ var documentsMain = {
 		}
 	},
 
-	show: function(){
+	show: function(fileId){
 		if (documentsMain.isGuest){
 			return;
 		}
 		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents...'));
-		documentsMain.docs.documentGrid('render');
+		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
 	}
 };

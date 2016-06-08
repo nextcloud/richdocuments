@@ -72,6 +72,26 @@ class Storage {
 		return $list;
 	}
 
+	public static function getDocumentById($fileId){
+		$root = \OC::$server->getUserFolder();
+		$ret = array();
+
+		// If type of fileId is a string, then it
+		// doesn't work for shared documents, lets cast to int everytime
+		$document = $root->getById((int)$fileId)[0];
+		if ($document === null){
+			error_log('File with file id, ' . $fileId . ', not found');
+			return $ret;
+		}
+
+		$ret['mimetype'] = $document->getMimeType();
+		$ret['path'] = $root->getRelativePath($document->getPath());
+		$ret['name'] = $document->getName();
+		$ret['fileid'] = $fileId;
+
+		return $ret;
+	}
+
 	public static function resolvePath($fileId){
 		$list = array_filter(
 				self::searchDocuments(),
