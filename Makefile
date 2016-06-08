@@ -9,6 +9,7 @@ dist: owncloud-collabora-online.spec info.xml
                 assets \
                 controller \
                 css/style.css \
+                css/share.css \
                 img \
                 js/*.js \
                 js/3rdparty/resources \
