@@ -254,7 +254,7 @@ var documentsMain = {
 						'<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
 
 					// iframe that contains the Collabora Online
-					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;"/>';
+					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" onload="this.contentWindow.focus()"/>';
 
 					$('#mainContainer').append(form);
 					$('#mainContainer').append(frame);
