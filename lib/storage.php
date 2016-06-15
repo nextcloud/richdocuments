@@ -139,11 +139,29 @@ class Storage {
 		Db\Session::cleanUp($session->getEsId());
 	}
 
+	private static function processDocuments($rawDocuments){
+		$documents = array();
+		foreach($rawDocuments as $rawDocument){
+			$document = array(
+				'fileid' => $rawDocument->getId(),
+				'path' => $rawDocument->getInternalPath(),
+				'name' => $rawDocument->getName(),
+				'mimetype' => $rawDocument->getMimetype()
+				);
+
+			array_push($documents, $document);
+		}
+
+		return $documents;
+	}
+
 	protected static function searchDocuments(){
 		$documents = array();
 		foreach (self::getSupportedMimetypes() as $mime){
-			$documents = array_merge($documents, \OCP\Files::searchByMime($mime));
+			$rawDocuments = \OCP\Files::searchByMime($mime);
+			$documents = array_merge($documents, self::processDocuments($rawDocuments));
 		}
+
 		return $documents;
 	}
 
