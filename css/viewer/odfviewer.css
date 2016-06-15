@@ -8,3 +8,15 @@
   -moz-box-shadow: 0px 4px 10px #000;
   -webkit-box-shadow: 0px 4px 10px #000;
 }
+
+.icon-filetype-document{
+  background-image: url('../../../../core/img/filetypes/x-office-document.svg')
+}
+
+.icon-filetype-spreadsheet{
+  background-image: url('../../../../core/img/filetypes/x-office-spreadsheet.svg');
+}
+
+.icon-filetype-presentation{
+  background-image: url('../../../../core/img/filetypes/x-office-presentation.svg');
+}
