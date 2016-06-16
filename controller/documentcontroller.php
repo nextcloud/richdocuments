@@ -255,11 +255,15 @@ class DocumentController extends Controller {
 	 */
 	public function create(){
 		$mimetype = $this->request->post['mimetype'];
+		$filename = $this->request->post['filename'];
+		$dir = $this->request->post['dir'];
 
 		$view = new View('/' . $this->uid . '/files');
-		$dir = $this->settings->getUserValue($this->uid, $this->appName, 'save_path', '/');
-		if (!$view->is_dir($dir)){
-			$dir = '/';
+		if (!$dir){
+			$dir = $this->settings->getUserValue($this->uid, $this->appName, 'save_path', '/');
+			if (!$view->is_dir($dir)){
+				$dir = '/';
+			}
 		}
 
 		$basename = $this->l10n->t('New Document.odt');
@@ -276,7 +280,11 @@ class DocumentController extends Controller {
 				break;
 		}
 
-		$path = Helper::getNewFileName($view, $dir . '/' . $basename);
+		if (!$filename){
+			$path = Helper::getNewFileName($view, $dir . '/' . $basename);
+		} else {
+			$path = $dir . '/' . $filename;
+		}
 
 		$content = '';
 		if (class_exists('\OC\Files\Type\TemplateManager')){
@@ -321,7 +329,8 @@ class DocumentController extends Controller {
 				'status' => 'success',
 				'fileid' => $info['fileid'],
 				'urlsrc' => $this->getWopiSrcUrl($discovery_parsed, $mimetype, 'edit'),
-				'lolang' => $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')
+				'lolang' => $this->settings->getUserValue($this->uid, 'core', 'lang', 'en'),
+				'data' => \OCA\Files\Helper::formatFileInfo($info)
 			);
 		} else {
 			$response =  array(

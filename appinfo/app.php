@@ -49,6 +49,7 @@ if (isset($request->server['REQUEST_URI'])) {
 
 	if (preg_match('%index.php/apps/files(/.*)?%', $url)) {
 		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
+		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
 	}
 }
 
