@@ -45,14 +45,16 @@ class Wopi extends \OCA\Richdocuments\Db{
 		$view = \OC\Files\Filesystem::getView();
 		// Get the virtual path (if the file is shared).
 		$path = $view->getPath($fileId);
+
 		if (!$view->is_file($path) || !$view->isUpdatable($path)) {
 			throw new \Exception('Invalid fileId.');
 		}
 
 		// Figure out the real owner, if not us.
 		$user = $view->getOwner($path);
-		// Create a view into the owner's FS.
-		$view = new \OC\Files\View('/' . $user . '/');
+
+ 		// Create a view into the owner's FS.
+		$view = new \OC\Files\View('/' . $user . '/files');
 		// Find the real path.
 		$path = $view->getPath($fileId);
 		if (!$view->is_file($path)) {
@@ -63,8 +65,8 @@ class Wopi extends \OCA\Richdocuments\Db{
 					\OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 					\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
-		\OC::$server->getLogger()->debug('Issuing token for {user} file {fileId}: {token}',
-										 [ 'user' => $user, 'fileId' => $fileId, 'token' => $token ]);
+		\OC::$server->getLogger()->debug('Issuing token for {user} file {fileId}, path {path}: {token}',
+										 [ 'user' => $user, 'fileId' => $fileId, 'path' => $path, 'token' => $token ]);
 
 		$wopi = new \OCA\Richdocuments\Db\Wopi([
 			$user,
@@ -112,7 +114,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 		}
 
 		$user = $row['uid'];
-		$view = new \OC\Files\View('/' . $user . '/');
+		$view = new \OC\Files\View('/' . $user . '/files');
 		$path = $row['path'];
 
 		if (!$view->is_file($path)) {

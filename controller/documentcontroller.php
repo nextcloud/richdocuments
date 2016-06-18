@@ -379,7 +379,7 @@ class DocumentController extends Controller {
 			return false;
 		}
 
-		$view = new \OC\Files\View('/' . $res['user'] . '/');
+		$view = new \OC\Files\View('/' . $res['user'] . '/files');
 		$info = $view->getFileInfo($res['path']);
 
 		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
@@ -412,7 +412,7 @@ class DocumentController extends Controller {
 
 		//TODO: Support X-WOPIMaxExpectedSize header.
 		$res = $row->getPathForToken($fileId, $token);
-		return new DownloadResponse($this->request, $res['user'], $res['path']);
+		return new DownloadResponse($this->request, $res['user'], '/files' . $res['path']);
 	}
 
 	/**
@@ -431,13 +431,20 @@ class DocumentController extends Controller {
 		$row->loadBy('token', $token);
 
 		$res = $row->getPathForToken($fileId, $token);
-		$view = new \OC\Files\View('/' . $res['user'] . '/');
+		$root = '/' . $res['user'] . '/files';
+		$view = new \OC\Files\View($root);
 
 		// Read the contents of the file from the POST body and store.
-		$content = file_get_contents('php://input');
+		$content = fopen('php://input', 'r');
 		\OC::$server->getLogger()->debug('Putting {size} bytes.', [ 'app' => $this->appName, 'size' => strlen($content) ]);
 
+		// Setup the FS which is needed to emit hooks (versioning).
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($res['user'], $root);
+
 		$view->file_put_contents($res['path'], $content);
+
+		\OC_Util::tearDownFS();
 
 		return array(
 			'status' => 'success'
