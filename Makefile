@@ -1,4 +1,4 @@
-VERSION=0.15.3
+VERSION=0.16.0
 
 .PHONY: dist
 dist: owncloud-collabora-online.spec info.xml

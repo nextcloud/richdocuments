@@ -287,10 +287,16 @@
 				<comments>Unique per token</comments>
 			</field>
 			<field>
-				<name>uid</name>
+				<name>owner_uid</name>
 				<type>text</type>
 				<length>64</length>
-				<comments>UserId - a textual user identifier (unique?)</comments>
+				<comments>Document owner UserId - a textual user identifier (unique?)</comments>
+			</field>
+			<field>
+				<name>editor_uid</name>
+				<type>text</type>
+				<length>64</length>
+				<comments>Document editor's UserId, can be different from uid if shared</comments>
 			</field>
 			<field>
 				<name>fileid</name>
