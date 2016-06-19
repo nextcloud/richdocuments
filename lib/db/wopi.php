@@ -29,8 +29,8 @@ class Wopi extends \OCA\Richdocuments\Db{
 
 	protected $tableName  = '`*PREFIX*richdocuments_wopi`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`uid`, `fileid`, `path`, `token`, `expiry`)
-			VALUES (?, ?, ?, ?, ?)';
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`owner_uid`, `editor_uid`, `fileid`, `path`, `token`, `expiry`)
+			VALUES (?, ?, ?, ?, ?, ?)';
 
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_wopi` WHERE `token`= ?';
 
@@ -51,25 +51,28 @@ class Wopi extends \OCA\Richdocuments\Db{
 		}
 
 		// Figure out the real owner, if not us.
-		$user = $view->getOwner($path);
+		$owner = $view->getOwner($path);
 
  		// Create a view into the owner's FS.
-		$view = new \OC\Files\View('/' . $user . '/files');
+		$view = new \OC\Files\View('/' . $owner . '/files');
 		// Find the real path.
 		$path = $view->getPath($fileId);
 		if (!$view->is_file($path)) {
 			throw new \Exception('Invalid fileId.');
 		}
 
+		$editor = \OC::$server->getUserSession()->getUser()->getUID();
+
 		$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32,
 					\OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 					\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
-		\OC::$server->getLogger()->debug('Issuing token for {user} file {fileId}, path {path}: {token}',
-										 [ 'user' => $user, 'fileId' => $fileId, 'path' => $path, 'token' => $token ]);
+		\OC::$server->getLogger()->debug('Issuing token for {editor} file {fileId} owned by {owner}, path {path}: {token}',
+										 [ 'owner' => $owner, 'editor' => $editor, 'fileId' => $fileId, 'path' => $path, 'token' => $token ]);
 
 		$wopi = new \OCA\Richdocuments\Db\Wopi([
-			$user,
+			$owner,
+			$editor,
 			$fileId,
 			$path,
 			$token,
@@ -113,14 +116,15 @@ class Wopi extends \OCA\Richdocuments\Db{
 			return false;
 		}
 
-		$user = $row['uid'];
-		$view = new \OC\Files\View('/' . $user . '/files');
+		$owner = $row['owner_uid'];
+		$view = new \OC\Files\View('/' . $owner . '/files');
 		$path = $row['path'];
 
 		if (!$view->is_file($path)) {
 			throw new \Exception('Invalid file path.');
 		}
 
-		return array('user' => $user, 'path' => $path);
+		$editor = $row['editor_uid'];
+		return array('owner' => $owner, 'editor' => $editor, 'path' => $path);
 	}
 }
