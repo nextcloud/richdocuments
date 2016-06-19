@@ -50,7 +50,6 @@ class DocumentController extends Controller {
 	private $settings;
 	private $cache;
 	private $logger;
-
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 
 	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
@@ -431,16 +430,29 @@ class DocumentController extends Controller {
 		$row->loadBy('token', $token);
 
 		$res = $row->getPathForToken($fileId, $token);
-		$root = '/' . $res['user'] . '/files';
+
+		// Log-in as the user to regiser the change under her name.
+		$userid = $res['user'];
+		$users = \OC::$server->getUserManager()->search($userid, 1, 0);
+		if (count($users) > 0)
+		{
+			$user = array_shift($users);
+			if (strcasecmp($user->getUID(),$userid) === 0)
+			{
+				\OC::$server->getUserSession()->setUser($user);
+			}
+		}
+
+		$root = '/' . $userid . '/files';
 		$view = new \OC\Files\View($root);
 
 		// Read the contents of the file from the POST body and store.
 		$content = fopen('php://input', 'r');
-		\OC::$server->getLogger()->debug('Putting {size} bytes.', [ 'app' => $this->appName, 'size' => strlen($content) ]);
+		\OC::$server->getLogger()->debug('Putting {size} bytes.', [ 'app' => $this->appName ]);
 
 		// Setup the FS which is needed to emit hooks (versioning).
 		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($res['user'], $root);
+		\OC_Util::setupFS($userid, $root);
 
 		$view->file_put_contents($res['path'], $content);
 
