@@ -574,23 +574,6 @@ var documentsMain = {
 		documentsMain.UI.showEditor(documentsMain.fileName);
 	},
 
-	saveDocumentBack: function() {
-		var url = OC.generateUrl('apps/richdocuments/save/{file_id}', {file_id: documentsMain.fileId});
-		$.post(
-				url,
-				{ basename : documentsMain.baseName },
-				function(result) {
-					if (result && result.status === 'error') {
-						if (result.message){
-							documentsMain.IU.notify(result.message);
-						}
-						documentsMain.onEditorShutdown(t('richdocuments', 'Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently.'));
-						return;
-					}
-				}
-			  );
-	},
-
 	renameDocument: function(name) {
 		var url = OC.generateUrl('apps/richdocuments/ajax/documents/rename/{file_id}', {file_id: documentsMain.fileId});
 		$.post(
