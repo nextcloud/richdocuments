@@ -35,7 +35,6 @@
     "No connection to server. Trying to reconnect." : "Nessuna connessione al server. Riprova a connetterti.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Caricamento del documento non riuscito. Controlla se è aperto con un editor esterno. Ciò può anche significare che sia stato rimosso dalla condivisione o che sia stato eliminato recentemente.",
     "Save" : "Salva",
-    "Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently." : "Salvataggio del documento non riuscito. Controlla se è aperto con un editor esterno. Ciò può anche significare che sia stato rimosso dalla condivisione o che sia stato eliminato recentemente.",
     "Loading documents..." : "Caricamento documenti...",
     "'.' is an invalid file name." : "'.' non è un nome file valido.",
     "File name cannot be empty." : "Il nome del file non può essere vuoto.",

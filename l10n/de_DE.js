@@ -38,7 +38,6 @@ OC.L10N.register(
     "No connection to server. Trying to reconnect." : "Keine Verbindung zum Server. Es wird versucht diese wiederherzustellen.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Es ist ein Fehler beim Laden dieses Dokumentes aufgetreten. Bitte überprüfen Sie, ob diese Datei mit einem externen Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder vor kurzem gelöscht wurde.",
     "Save" : "Speichern",
-    "Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently." : "Es ist ein Fehler beim Laden dieses Dokumentes aufgetreten. Bitte überprüfen Sie, ob diese Datei mit einem externen Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder vor kurzem gelöscht wurde.",
     "Loading documents..." : "Lade Dokumente…",
     "'.' is an invalid file name." : "'.' ist kein gültiger Dateiname.",
     "File name cannot be empty." : "Der Dateiname darf nicht leer sein.",

@@ -38,7 +38,6 @@ OC.L10N.register(
     "No connection to server. Trying to reconnect." : "Нет связи с сервером. Попытка переподключения.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Не удалось загрузить документ. Пожалуйста проверьте, открывается ли он внешним редактором. Это так же может означать, что к нему недавно убрали общий доступ или удалили.",
     "Save" : "Сохранить",
-    "Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently." : "Не удалось сохранить этот документ. Пожалуйста проверьте, сохраняется ли он во внешнем редакторе. Это так же может означать, что к нему недавно убрали общий доступ или удалили.",
     "Loading documents..." : "Загрузка документов...",
     "'.' is an invalid file name." : "'.' - неправильное имя файла.",
     "File name cannot be empty." : "Имя файла не может быть пустым.",

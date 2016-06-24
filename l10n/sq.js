@@ -35,7 +35,6 @@ OC.L10N.register(
     "No connection to server. Trying to reconnect." : "Pa lidhje me shërbyesin. Po provohet të rilidhet.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "S’u arrit të ngarkohej ky dokument. Ju lutemi, shihni nëse mund të hapet me një përpunues të jashtëm. Kjo mundet edhe të thotë se për të mund të jetë ndalur ndarja me të tjerët ose të jetë fshirë tani së fundi.",
     "Save" : "Ruaje",
-    "Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently." : "S’u arrit të ruhej ky dokument. Ju lutemi, shihni nëse mund të ruhet me një përpunues të jashtëm. Kjo mundet edhe të thotë se për të mund të jetë ndalur ndarja me të tjerët ose të jetë fshirë tani së fundi..",
     "Loading documents..." : "Po ngarkohen dokumente…",
     "'.' is an invalid file name." : "'.' është emër i pavlefshëm kartele.",
     "File name cannot be empty." : "Emri i kartelës s’mund të jetë i zbrazët.",

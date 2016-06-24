@@ -36,7 +36,6 @@
     "No connection to server. Trying to reconnect." : "אין תקשורת לשרת. מנסה להתחבר מחדש.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "טעינת המסמך נכשלה. יש לבדוק אם אפשר לפתוח את המסמך בעורך חיצוני. התופעה יכולה להעיד גם על כך שבוטל השיתוף של המסמך או על כך שהמסמך נמחק לאחרונה.",
     "Save" : "שמירה",
-    "Failed to save this document. Please check if it can be saved with an external editor. This might also mean it has been unshared or deleted recently." : "שמירת המסמך נכשלה. יש לבדוק אם אפשר לשמור את המסמך בעורך חיצוני. התופעה יכולה להעיד גם על כך שבוטל השיתוף של המסמך או על כך שהמסמך נמחק לאחרונה.",
     "Loading documents..." : "המסמך בטעינה...",
     "'.' is an invalid file name." : "'.' הנו שם לא חוקי.",
     "File name cannot be empty." : "שם קובץ אינו יכול להיות ריק",
