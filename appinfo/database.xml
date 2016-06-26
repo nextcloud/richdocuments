@@ -306,6 +306,14 @@
 				<comments>The unique ID of the file authorized</comments>
 			</field>
 			<field>
+				<name>version</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<length>4</length>
+				<comments>Authorized version, if any, of given fileid</comments>
+			</field>
+			<field>
 				<name>path</name>
 				<type>text</type>
 				<notnull>true</notnull>

@@ -346,10 +346,19 @@ class DocumentController extends Controller {
 	 * Only for authenticated users!
 	 */
 	public function wopiGetToken($fileId){
-		\OC::$server->getLogger()->debug('Generating WOPI Token for file {fileId}.', [ 'app' => $this->appName, 'fileId' => $fileId ]);
+		$arr = explode('_', $fileId, 2);
+		$version = '0';
+		if (count($arr) == 2) {
+			$fileId = $arr[0];
+			$version = $arr[1];
+		}
+
+		\OC::$server->getLogger()->debug('Generating WOPI Token for file {fileId}, version {version}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version ]);
+
+
 
 		$row = new Db\Wopi();
-		$token = $row->generateFileToken($fileId);
+		$token = $row->generateFileToken($fileId, $version);
 
 		// Return the token.
 		return array(
@@ -367,12 +376,19 @@ class DocumentController extends Controller {
 	public function wopiCheckFileInfo($fileId){
 		$token = $this->request->getParam('access_token');
 
-		\OC::$server->getLogger()->debug('Getting info about file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+		$arr = explode('_', $fileId, 2);
+		$version = '0';
+		if (count($arr) == 2) {
+			$fileId = $arr[0];
+			$version = $arr[1];
+		}
+
+		\OC::$server->getLogger()->debug('Getting info about file {fileId}, version {version} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version, 'token' => $token ]);
 
 		$row = new Db\Wopi();
 		$row->loadBy('token', $token);
 
-		$res = $row->getPathForToken($fileId, $token);
+		$res = $row->getPathForToken($fileId, $version, $token);
 		if ($res == false || http_response_code() != 200)
 		{
 			return false;
@@ -389,6 +405,7 @@ class DocumentController extends Controller {
 		return array(
 			'BaseFileName' => $baseFileName,
 			'Size' => $size,
+			'Version' => $version
 			//'DownloadUrl' => '',
 			//'FileUrl' => '',
 		);
@@ -404,13 +421,51 @@ class DocumentController extends Controller {
 	public function wopiGetFile($fileId){
 		$token = $this->request->getParam('access_token');
 
-		\OC::$server->getLogger()->debug('Getting contents of file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+		$arr = explode('_', $fileId, 2);
+		$version = '0';
+		if (count($arr) == 2) {
+			$fileId = $arr[0];
+			$version = $arr[1];
+		}
+
+		\OC::$server->getLogger()->debug('Getting contents of file {fileId}, version {version} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version, 'token' => $token ]);
 
 		$row = new Db\Wopi();
 		$row->loadBy('token', $token);
 
 		//TODO: Support X-WOPIMaxExpectedSize header.
-		$res = $row->getPathForToken($fileId, $token);
+		$res = $row->getPathForToken($fileId, $version, $token);
+
+		// If some previous version is requested, fetch it from Files_Version app
+		if ($version !== '0') {
+			\OCP\JSON::checkAppEnabled('files_versions');
+
+			// Login as this user
+			$editorid = $res['editor'];
+			$users = \OC::$server->getUserManager()->search($editorid, 1, 0);
+			if (count($users) > 0)
+			{
+				$user = array_shift($users);
+				if (strcasecmp($user->getUID(),$editorid) === 0)
+				{
+					\OC::$server->getUserSession()->setUser($user);
+				}
+			}
+
+			\OCP\JSON::checkLoggedIn();
+
+			// Setup the FS
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($editorid, '/' . $editorid . '/files');
+
+			list($owner_uid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
+			$versionName = '/files_versions/' . $filename . '.v' . $version;
+
+			\OC_Util::tearDownFS();
+
+			return new DownloadResponse($this->request, $owner_uid, $versionName);
+		}
+
 		return new DownloadResponse($this->request, $res['owner'], '/files' . $res['path']);
 	}
 
@@ -424,12 +479,27 @@ class DocumentController extends Controller {
 	public function wopiPutFile($fileId){
 		$token = $this->request->getParam('access_token');
 
-		\OC::$server->getLogger()->debug('Putting contents of file {fileId} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'token' => $token ]);
+		$arr = explode('_', $fileId, 2);
+		$version = '0';
+		if (count($arr) == 2) {
+			$fileId = $arr[0];
+			$version = $arr[1];
+		}
+
+		// Changing a previous version of the file is not possible
+		// Ignore WOPI put if such a request is encountered
+		if ($version !== '0') {
+			return array(
+				'status' => 'success'
+			);
+		}
+
+		\OC::$server->getLogger()->debug('Putting contents of file {fileId}, version {version} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version, 'token' => $token ]);
 
 		$row = new Db\Wopi();
 		$row->loadBy('token', $token);
 
-		$res = $row->getPathForToken($fileId, $token);
+		$res = $row->getPathForToken($fileId, $version, $token);
 
 		// Log-in as the user to regiser the change under her name.
 		$editorid = $res['editor'];
@@ -525,7 +595,7 @@ class DocumentController extends Controller {
 	 * Get file information about single document with fileId
 	 */
 	public function get($fileId){
-	        $documents = array();
+		$documents = array();
 		$documents[0] = Storage::getDocumentById($fileId);
 
 		return $this->prepareDocuments($documents);
