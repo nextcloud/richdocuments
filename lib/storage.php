@@ -146,7 +146,8 @@ class Storage {
 				'fileid' => $rawDocument->getId(),
 				'path' => $rawDocument->getInternalPath(),
 				'name' => $rawDocument->getName(),
-				'mimetype' => $rawDocument->getMimetype()
+				'mimetype' => $rawDocument->getMimetype(),
+				'mtime' => $rawDocument->getMTime()
 				);
 
 			array_push($documents, $document);
