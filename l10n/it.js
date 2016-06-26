@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Chiedi al tuo amministratore di aggiungere ca-chain.cert.pem al ca-bundle.crt di ownCloud, ad esempio \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . Il messaggio di errore esatto era:",
     "Collabora Online unknown error: " : "Errore sconosciuto di Collabora Online:",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: impossibile leggere il file discovery.xml da \"%s\".",
+    "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: discovery.xml da \"%s\" non è una stringa XML corretta.",
     "Collabora Online: Invalid URL \"%s\"." : "Collabora Online: URL \"%s\" non valido.",
     "Please ask your administrator to check the Collabora Online server setting." : "Chiedi al tuo amministratore di controllare le impostazioni del server Collabora Online.",
     "New Document.odt" : "Nuovo documento.odt",
