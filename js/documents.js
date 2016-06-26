@@ -213,7 +213,7 @@ var documentsMain = {
 			}
 
 			if (documentsMain.loadError) {
-				documentsMain.onEditorShutdown(t('richdocuments', documentsMain.loadErrorMessage + '\n' + documentsMain.loadErrorHint));
+				documentsMain.onEditorShutdown(documentsMain.loadErrorMessage + '\n' + documentsMain.loadErrorHint);
 				return;
 			}
 
