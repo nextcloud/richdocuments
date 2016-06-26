@@ -33,12 +33,11 @@ if (isset($_GET['t'])) {
 			}
 			$tmpl->assign('hasPassword', true);
 		} else {
-			\OCP\Util::addStyle( 'richdocuments', '3rdparty/webodf/dojo-app');
 			\OCP\Util::addScript('richdocuments', 'documents');
 			if ($file->getFileId()){
 				$session = new Db\Session();
 				$session->loadBy('file_id', $file->getFileId());
-				
+
 				if ($session->getEsId()){
 					$member = new Db\Member();
 					$members = $member->getCollectionBy('es_id', $session->getEsId());
