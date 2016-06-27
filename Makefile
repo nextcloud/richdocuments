@@ -8,12 +8,9 @@ dist: owncloud-collabora-online.spec info.xml
                 appinfo \
                 assets \
                 controller \
-                css/style.css \
-                css/share.css \
-                css/viewer/odfviewer.css \
+                css \
                 img \
-                js/*.js \
-                js/viewer \
+                js \
                 l10n \
                 lib \
                 templates \
