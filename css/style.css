@@ -215,6 +215,13 @@
     margin: 0 0;
 }
 
+/* For close button image */
+#revPanelHeader img{
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+
 .loleaflet-font{
     font-family: "Segoe UI", Tahoma, Arial, Helvetica, sans-serif !important;
 }

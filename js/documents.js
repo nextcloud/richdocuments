@@ -208,6 +208,7 @@ var documentsMain = {
 			'<div id="revPanelHeader">' +
 			'<h2>Revision History</h2>' +
 			'<span>{{filename}}</span>' +
+			'<a class="closeButton"><img src={{closeButtonUrl}} width="22px" height="22px"></a>' +
 			'</div>' +
 			'<div id="revisionsContainer" class="loleaflet-font">' +
 			'<ul></ul>' +
@@ -250,7 +251,6 @@ var documentsMain = {
 					  var urlsrc = $('li[data-id='+ fileId.replace(/_.*/, '') +']>a').attr('urlsrc') +
 						  "WOPISrc=" + wopisrc +
 					      "&title=" + encodeURIComponent(title) +
-						  "&closebutton=1" +
 						  "&permission=readonly";
 
 					  // access_token - must be passed via a form post
@@ -265,19 +265,17 @@ var documentsMain = {
 
 					  $('#revViewer').append(form);
 					  $('#revViewer').append(frame);
-					  // handler for the 'Close' button - we have enabled it via closebutton=1
-					  $('#loleafletframe_viewer').load(function(){
-						  window.addEventListener('message', function(e){
-							  if (e.data === 'close') {
-								  documentsMain.onCloseViewer();
-							  }
-						  });
-					  });
 
 					  // submit that
 					  $('#loleafletform_viewer').submit();
 					  documentsMain.isViewerMode = true;
 				  });
+
+			// for closing revision mode
+			$('#revPanelHeader .closeButton').click(function(e) {
+				e.preventDefault();
+				documentsMain.onCloseViewer();
+			});
 		},
 
 		addRevision: function(fileId, version, relativeTimestamp, documentPath) {
@@ -335,7 +333,8 @@ var documentsMain = {
 			var revHistoryContainerTemplate = Handlebars.compile(documentsMain.UI.revHistoryContainerTemplate);
 			var revHistoryContainer = revHistoryContainerTemplate({
 				filename: documentsMain.fileName,
-				moreVersionsLabel: t('richdocuments', 'More versions...')
+				moreVersionsLabel: t('richdocuments', 'More versions...'),
+				closeButtonUrl: OC.imagePath('core', 'actions/close')
 			});
 			$(document.body).prepend(revHistoryContainer);
 
