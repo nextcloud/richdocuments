@@ -13,9 +13,7 @@ dist: owncloud-collabora-online.spec info.xml
                 css/viewer/odfviewer.css \
                 img \
                 js/*.js \
-                js/3rdparty/resources \
                 js/viewer \
-                js/widgets \
                 l10n \
                 lib \
                 templates \
