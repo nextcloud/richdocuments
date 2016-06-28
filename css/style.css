@@ -198,7 +198,8 @@
 	top: 45px;
 	bottom: 0;
 	box-sizing: border-box;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 /* Title */
