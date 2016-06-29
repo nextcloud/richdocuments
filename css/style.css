@@ -180,6 +180,80 @@
 	bottom: 0;
 }
 
+#revViewerContainer{
+	position: absolute;
+	width: 85%;
+	z-index: 600;
+	background-color: #ddd !important;
+	top: 45px;
+	bottom: 0;
+}
+
+#revPanelContainer{
+	position: absolute;
+	width: 15%;
+	z-index: 600;
+	background-color: #efefef !important;
+	right: 0;
+	top: 45px;
+	bottom: 0;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+/* Title */
+#revPanelHeader{
+    height: 69px;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+#revPanelHeader h2{
+    margin: 0 0;
+}
+
+/* For close button image */
+#revPanelHeader img{
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+
+.loleaflet-font{
+    font-family: "Segoe UI", Tahoma, Arial, Helvetica, sans-serif !important;
+}
+
+#revisionsContainer{
+    list-style: none;
+}
+
+#revisionsContainer li{
+    width: 100%;
+    cursor: default;
+    height: 45px;
+    float: left;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+#revisionsContainer a{
+    padding-left: 15px;
+}
+
+#revisionsContainer li:hover, #revisionsContainer li.active{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#show-more-versions{
+    width: 100%;
+    padding: 10px;
+}
+
 #documents-overlay,  #documents-overlay-below{
     position: fixed;
     top: 45px;
@@ -189,7 +263,7 @@
     filter:alpha(opacity=60);
     opacity: .6;
     z-index: 1000;
-	background-color: #fff;
+    background-color: #fff;
 }
 
 #documents-overlay-below{

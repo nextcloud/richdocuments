@@ -1,4 +1,4 @@
-VERSION=1.0.0
+VERSION=1.1.0
 
 .PHONY: dist
 dist: owncloud-collabora-online.spec info.xml
@@ -13,9 +13,7 @@ dist: owncloud-collabora-online.spec info.xml
                 css/viewer/odfviewer.css \
                 img \
                 js/*.js \
-                js/3rdparty/resources \
                 js/viewer \
-                js/widgets \
                 l10n \
                 lib \
                 templates \

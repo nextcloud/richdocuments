@@ -141,12 +141,14 @@ class Storage {
 
 	private static function processDocuments($rawDocuments){
 		$documents = array();
+		$view = \OC\Files\Filesystem::getView();
 		foreach($rawDocuments as $rawDocument){
 			$document = array(
 				'fileid' => $rawDocument->getId(),
-				'path' => $rawDocument->getInternalPath(),
+				'path' => $view->getPath($rawDocument->getId()),
 				'name' => $rawDocument->getName(),
-				'mimetype' => $rawDocument->getMimetype()
+				'mimetype' => $rawDocument->getMimetype(),
+				'mtime' => $rawDocument->getMTime()
 				);
 
 			array_push($documents, $document);

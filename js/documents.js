@@ -180,7 +180,8 @@ $.widget('oc.documentOverlay', {
 });
 
 var documentsMain = {
-	isEditormode : false,
+	isEditorMode : false,
+	isViewerMode: false,
 	isGuest : false,
 	memberId : false,
 	esId : false,
@@ -199,11 +200,171 @@ var documentsMain = {
 		container : '<div id="mainContainer" class="claro">' +
 					'</div>',
 
+		viewContainer: '<div id="revViewerContainer" class="claro">' +
+					   '<div id="revViewer"></div>' +
+					   '</div>',
+
+		revHistoryContainerTemplate: '<div id="revPanelContainer" class="loleaflet-font">' +
+			'<div id="revPanelHeader">' +
+			'<h2>Revision History</h2>' +
+			'<span>{{filename}}</span>' +
+			'<a class="closeButton"><img src={{closeButtonUrl}} width="22px" height="22px"></a>' +
+			'</div>' +
+			'<div id="revisionsContainer" class="loleaflet-font">' +
+			'<ul></ul>' +
+			'</div>' +
+			'<input type="button" id="show-more-versions" class="loleaflet-font" value="{{moreVersionsLabel}}" />' +
+			'</div>',
+
+		revHistoryItemTemplate: '<li>' +
+			'<a href="{{downloadUrl}}" class="downloadVersion"><img src="{{downloadIconUrl}}" />' +
+			'<a class="versionPreview"><span class="versiondate has-tooltip" title="{{relativeTimestamp}}">{{formattedTimestamp}}</span></a>' +
+			'</a>' +
+			'</li>',
+
 		/* Previous window title */
 		mainTitle : '',
+		/* Number of revisions already loaded */
+		revisionsStart: 0,
 
 		init : function(){
 			documentsMain.UI.mainTitle = $('title').text();
+		},
+
+		showViewer: function(fileId, title){
+			// remove previous viewer, if open, and set a new one
+			if (documentsMain.isViewerMode) {
+				$('#revViewer').remove();
+				$('#revViewerContainer').prepend($('<div id="revViewer">'));
+			}
+
+			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: fileId }),
+				  function (result) {
+					  // WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+					  var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
+					  var wopisrc = encodeURIComponent(wopiurl);
+
+					  // urlsrc - the URL from discovery xml that we access for the particular
+					  // document; we add various parameters to that.
+					  // The discovery is available at
+					  //   https://<loolwsd-server>:9980/hosting/discovery
+					  var urlsrc = $('li[data-id='+ fileId.replace(/_.*/, '') +']>a').attr('urlsrc') +
+						  "WOPISrc=" + wopisrc +
+					      "&title=" + encodeURIComponent(title) +
+						  "&permission=readonly";
+
+					  // access_token - must be passed via a form post
+					  var access_token = encodeURIComponent(result.token);
+
+					  // form to post the access token for WOPISrc
+					  var form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">' +
+						  '<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
+
+					  // iframe that contains the Collabora Online Viewer
+					  var frame = '<iframe id="loleafletframe_viewer" name= "loleafletframe_viewer" style="width:100%;height:100%;position:absolute;"/>';
+
+					  $('#revViewer').append(form);
+					  $('#revViewer').append(frame);
+
+					  // submit that
+					  $('#loleafletform_viewer').submit();
+					  documentsMain.isViewerMode = true;
+				  });
+
+			// for closing revision mode
+			$('#revPanelHeader .closeButton').click(function(e) {
+				e.preventDefault();
+				documentsMain.onCloseViewer();
+			});
+		},
+
+		addRevision: function(fileId, version, relativeTimestamp, documentPath) {
+			var formattedTimestamp = OC.Util.formatDate(parseInt(version) * 1000);
+			var fileName = documentsMain.fileName.substring(0, documentsMain.fileName.indexOf('.'));
+			var downloadUrl;
+			if (version === 0) {
+				formattedTimestamp = t('richdocuments', 'Latest revision');
+				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
+				fileId = fileId.replace(/_.*/, '');
+			} else {
+				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
+				                             {file: documentPath, revision: version});
+				fileId = fileId + '_' + version;
+			}
+
+			var revHistoryItemTemplate = Handlebars.compile(documentsMain.UI.revHistoryItemTemplate);
+			var html = revHistoryItemTemplate({
+				downloadUrl: downloadUrl,
+				downloadIconUrl: OC.imagePath('core', 'actions/download'),
+				relativeTimestamp: relativeTimestamp,
+				formattedTimestamp: formattedTimestamp
+			});
+
+			html = $(html).attr('data-fileid', fileId)
+				          .attr('data-title', fileName + ' - ' + formattedTimestamp);
+			$('#revisionsContainer ul').append(html);
+		},
+
+		fetchAndFillRevisions: function(documentPath) {
+			// fill #rev-history with file versions
+			$.get(OC.generateUrl('apps/files_versions/ajax/getVersions.php?source={documentPath}&start={start}',
+			                     { documentPath: documentPath, start: documentsMain.UI.revisionsStart }),
+				  function(result) {
+					  for(var key in result.data.versions) {
+						  documentsMain.UI.addRevision(documentsMain.fileId,
+						                               result.data.versions[key].version,
+						                               result.data.versions[key].humanReadableTimestamp,
+						                               documentPath);
+					  }
+
+					  // owncloud only gives 5 version at max in one go
+					  documentsMain.UI.revisionsStart += 5;
+
+					  if (result.data.endReached) {
+						  // Remove 'More versions' button
+						  $('#show-more-versions').addClass('hidden');
+					  }
+				  });
+		},
+
+		showRevHistory: function(documentPath) {
+			$(document.body).prepend(documentsMain.UI.viewContainer);
+
+			var revHistoryContainerTemplate = Handlebars.compile(documentsMain.UI.revHistoryContainerTemplate);
+			var revHistoryContainer = revHistoryContainerTemplate({
+				filename: documentsMain.fileName,
+				moreVersionsLabel: t('richdocuments', 'More versions...'),
+				closeButtonUrl: OC.imagePath('core', 'actions/close')
+			});
+			$(document.body).prepend(revHistoryContainer);
+
+			documentsMain.UI.revisionsStart = 0;
+
+			// append current document first
+			documentsMain.UI.addRevision(documentsMain.fileId, 0, t('richdocuments', 'Just now'), documentPath);
+
+			// add "Show more versions" button
+			$('#show-more-versions').click(function(e) {
+				e.preventDefault();
+				documentsMain.UI.fetchAndFillRevisions(documentPath);
+			});
+
+			// fake click to load first 5 versions
+			$('#show-more-versions').click();
+
+			// make these revisions clickable/attach functionality
+			$('#revisionsContainer').on('click', '.versionPreview', function(e) {
+				e.preventDefault();
+				documentsMain.UI.showViewer(e.currentTarget.parentElement.dataset.fileid,
+				                            e.currentTarget.parentElement.dataset.title);
+
+				// mark only current <li> as active
+				$(e.currentTarget.parentElement.parentElement).find('li').removeClass('active');
+				$(e.currentTarget.parentElement).addClass('active');
+			});
+
+			// fake click on first revision (i.e current revision)
+			$('#revisionsContainer li').first().find('.versionPreview').click();
 		},
 
 		showEditor : function(title){
@@ -239,7 +400,7 @@ var documentsMain = {
 					// urlsrc - the URL from discovery xml that we access for the particular
 					// document; we add various parameters to that.
 					// The discovery is available at
-					//   https://<loolwsd-server>:9980/hosting/discovery
+					//	 https://<loolwsd-server>:9980/hosting/discovery
 					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc') +
 						"WOPISrc=" + wopisrc +
 						"&title=" + encodeURIComponent(title) +
@@ -263,8 +424,13 @@ var documentsMain = {
 					$('#loleafletframe').load(function(){
 						documentsMain.overlay.documentOverlay('hide');
 						window.addEventListener('message', function(e){
+							if (documentsMain.isViewerMode) {
+								return;
+							}
 							if (e.data === 'close') {
 								documentsMain.onClose();
+							} else if (e.data === 'rev-history') {
+								documentsMain.UI.showRevHistory($('li[data-id=' + documentsMain.fileId + ']>a').attr('original-title'));
 							}
 						});
 					});
@@ -612,7 +778,7 @@ var documentsMain = {
 	},
 
 
-	onClose: function() {
+	onClose: function(force) {
 		if (!documentsMain.isEditorMode){
 			return;
 		}
@@ -625,11 +791,19 @@ var documentsMain = {
 		documentsMain.UI.hideEditor();
 		$('#ocToolbar').remove();
 
-		if (documentsMain.returnToDir) {
+		if (!force && documentsMain.returnToDir) {
 			window.location = OC.generateUrl('apps/files?dir={dir}', {dir: documentsMain.returnToDir});
 		} else {
 			documentsMain.show();
 		}
+	},
+
+	onCloseViewer: function() {
+		$('#revPanelContainer').remove();
+		$('#revViewerContainer').remove();
+		documentsMain.isViewerMode = false;
+
+		$('#loleafletframe').focus();
 	},
 
 	onTerminate: function(){

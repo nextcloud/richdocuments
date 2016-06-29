@@ -29,20 +29,23 @@ class Wopi extends \OCA\Richdocuments\Db{
 
 	protected $tableName  = '`*PREFIX*richdocuments_wopi`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`owner_uid`, `editor_uid`, `fileid`, `path`, `token`, `expiry`)
-			VALUES (?, ?, ?, ?, ?, ?)';
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`owner_uid`, `editor_uid`, `fileid`, `version`, `path`, `token`, `expiry`)
+			VALUES (?, ?, ?, ?, ?, ?, ?)';
 
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_wopi` WHERE `token`= ?';
 
 	/*
-	 * Given a fileId, generates a token
+	 * Given a fileId and version, generates a token
 	 * and stores in the database.
+	 * version is 0 if current version of fileId is requested, otherwise
+	 * its the version number as stored by files_version app
 	 * Returns the token.
 	 */
-	public function generateFileToken($fileId){
+	public function generateFileToken($fileId, $version){
 
 		// Get the FS view of the current user.
 		$view = \OC\Files\Filesystem::getView();
+
 		// Get the virtual path (if the file is shared).
 		$path = $view->getPath($fileId);
 
@@ -67,13 +70,14 @@ class Wopi extends \OCA\Richdocuments\Db{
 					\OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 					\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
-		\OC::$server->getLogger()->debug('Issuing token for {editor} file {fileId} owned by {owner}, path {path}: {token}',
-										 [ 'owner' => $owner, 'editor' => $editor, 'fileId' => $fileId, 'path' => $path, 'token' => $token ]);
+		\OC::$server->getLogger()->debug('Issuing token for {editor} file {fileId}, version {version} owned by {owner}, path {path}: {token}',
+		[ 'owner' => $owner, 'editor' => $editor, 'fileId' => $fileId, 'version' => $version, 'path' => $path, 'token' => $token ]);
 
 		$wopi = new \OCA\Richdocuments\Db\Wopi([
 			$owner,
 			$editor,
 			$fileId,
+			$version,
 			$path,
 			$token,
 			time() + self::TOKEN_LIFETIME_SECONDS
@@ -91,7 +95,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 	 * constructs and validates the path.
 	 * Returns the path, if valid, else false.
 	 */
-	public function getPathForToken($fileId, $token){
+	public function getPathForToken($fileId, $version, $token){
 
 		$wopi = new Wopi();
 		$row = $wopi->loadBy('token', $token)->getData();
@@ -110,7 +114,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 			//$wopi->deleteBy('id', $row['id']);
 			//return false;
 		}
-		if ($row['fileid'] !== $fileId){
+		if ($row['fileid'] !== $fileId || $row['version'] !== $version){
 			// File unknown / user unauthorized (for the requested file).
 			http_response_code(404);
 			return false;
