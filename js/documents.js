@@ -80,7 +80,6 @@ $.widget('oc.documentGrid', {
 
 	_load : function (fileId){
 		var that = this;
-		var def = new $.Deferred();
 		var url = 'apps/richdocuments/ajax/documents/list';
 		var dataObj = {};
 		if (fileId){
@@ -88,7 +87,7 @@ $.widget('oc.documentGrid', {
 			dataObj = { fileId: fileId };
 		}
 
-		$.getJSON(OC.generateUrl(url, dataObj))
+		return $.getJSON(OC.generateUrl(url, dataObj))
 			.done(function (result) {
 				if (!result || result.status === 'error') {
 					documentsMain.loadError = true;
@@ -108,12 +107,10 @@ $.widget('oc.documentGrid', {
 					that.options.sessions = result.sessions;
 					that.options.members = result.members;
 				}
-				def.resolve();
 			})
 			.fail(function(data){
 				console.log(t('richdocuments','Failed to load documents.'));
 			});
-		return def;
 	},
 
 	_render : function (data){
