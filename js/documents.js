@@ -17,6 +17,7 @@ $.widget('oc.documentGrid', {
 		jQuery.when(this._load(fileId))
 			.then(function(){
 				that._render();
+				documentsMain.renderComplete = true;
 			});
 	},
 
@@ -80,7 +81,6 @@ $.widget('oc.documentGrid', {
 
 	_load : function (fileId){
 		var that = this;
-		var def = new $.Deferred();
 		var url = 'apps/richdocuments/ajax/documents/list';
 		var dataObj = {};
 		if (fileId){
@@ -88,7 +88,7 @@ $.widget('oc.documentGrid', {
 			dataObj = { fileId: fileId };
 		}
 
-		$.getJSON(OC.generateUrl(url, dataObj))
+		return $.getJSON(OC.generateUrl(url, dataObj))
 			.done(function (result) {
 				if (!result || result.status === 'error') {
 					documentsMain.loadError = true;
@@ -108,12 +108,10 @@ $.widget('oc.documentGrid', {
 					that.options.sessions = result.sessions;
 					that.options.members = result.members;
 				}
-				def.resolve();
 			})
 			.fail(function(data){
 				console.log(t('richdocuments','Failed to load documents.'));
 			});
-		return def;
 	},
 
 	_render : function (data){
@@ -192,6 +190,7 @@ var documentsMain = {
 	loadError : false,
 	loadErrorMessage : '',
 	loadErrorHint : '',
+	renderComplete: false, // false till page is rendered with all required data about the document(s)
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 	returnToDir : null, // directory where we started from in the 'Files' app
 
@@ -375,6 +374,12 @@ var documentsMain = {
 
 			if (documentsMain.loadError) {
 				documentsMain.onEditorShutdown(documentsMain.loadErrorMessage + '\n' + documentsMain.loadErrorHint);
+				return;
+			}
+
+			if (!documentsMain.renderComplete) {
+				setTimeout(function() { documentsMain.UI.showEditor(title); }, 500);
+				console.log('Waiting for page to render ...');
 				return;
 			}
 
