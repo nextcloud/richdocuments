@@ -1,4 +1,4 @@
-/*globals $,OC,fileDownloadPath,t,document,odf,alert,require,dojo,runtime */
+/*globals $,OC,fileDownloadPath,t,document,odf,alert,require,dojo,runtime,Handlebars */
 
 $.widget('oc.documentGrid', {
 	options : {
