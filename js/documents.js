@@ -405,7 +405,8 @@ var documentsMain = {
 						"WOPISrc=" + wopisrc +
 						"&title=" + encodeURIComponent(title) +
 						"&lang=" + $('li[data-id='+ documentsMain.fileId +']>a').attr('lolang') +
-						"&closebutton=1";
+						"&closebutton=1" +
+						"&revisionhistory=1";
 
 					// access_token - must be passed via a form post
 					var access_token = encodeURIComponent(result.token);
