@@ -13,6 +13,7 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "Asiakirjan lataaminen epäonnistui, ole yhteydessä ylläpitoon.",
     "Failed to load documents." : "Virhe ladattaessa dokumentteja.",
     "No documents were found. Upload or create a document to get started!" : "Asiakirjoja ei löytynyt. Lähetä tai luo asiakirja aloittaaksesi!",
+    "More versions..." : "Lisää versioita...",
     "No connection to server. Trying to reconnect." : "Ei yhteyttä palvelimeen. Yritetään yhdistää uudelleen.",
     "Save" : "Tallenna",
     "Loading documents..." : "Ladataan asiakirjoja...",

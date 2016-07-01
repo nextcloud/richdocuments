@@ -25,6 +25,7 @@
     "Failed to load the document, please contact your administrator." : "Не удалось загрузить документ, пожалуйста обратитесь к вашему администратору.",
     "Failed to load documents." : "Не удалось загрузить документы.",
     "No documents were found. Upload or create a document to get started!" : "Документы не найдены. Чтобы начать, загрузите или создайте документ!",
+    "More versions..." : "Ещё версии...",
     "Failed to aquire access token. Please re-login and try again." : "Не удалось получить токен доступа. Пожалуйста перевойдите и попробуйте ещё раз.",
     "No connection to server. Trying to reconnect." : "Нет связи с сервером. Попытка переподключения.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Не удалось загрузить документ. Пожалуйста проверьте, открывается ли он внешним редактором. Это так же может означать, что к нему недавно убрали общий доступ или удалили.",

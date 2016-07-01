@@ -27,6 +27,7 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "A dokumentum betöltése sikertelen, forduljon a rendszergazdához.",
     "Failed to load documents." : "A dokumentum betőltése sikertelen",
     "No documents were found. Upload or create a document to get started!" : "Itt nincs semmi. Töltsön fel, vagy hozzon létre egy dokumentumot!",
+    "More versions..." : "További változatok...",
     "Failed to aquire access token. Please re-login and try again." : "Nem sikerült megszerezni a hozzáférési tokent. Jelentkezzen be újra, és próbálkozzon ismét.",
     "No connection to server. Trying to reconnect." : "Nincs kapcsolat a kiszolgálóval. Újra próbálunk csatlakozni.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Nem sikerült betölteni ezt a dokumentumot. Ellenőrizze, hogy egy külső szerkesztővel megnyitható-e. Az is lehet, hogy időközben törölték vagy a megosztását visszavonták.",

@@ -25,6 +25,7 @@
     "Failed to load the document, please contact your administrator." : "Echec lors du chargement du document, merci de contacter votre administrateur.",
     "Failed to load documents." : "Échec du chargement des documents.",
     "No documents were found. Upload or create a document to get started!" : "Aucun document n’a été trouvé. Veuillez en créer un nouveau ou en importer un existant afin de commencer !",
+    "More versions..." : "Plus de versions...",
     "Failed to aquire access token. Please re-login and try again." : "Impossible de récupérer le jeton d'accès. Merci de vous reconnectez et ré-essayez.",
     "No connection to server. Trying to reconnect." : "Aucune connexion au serveur. Tentative de reconnexion en cours.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Impossible de charger ce document. Merci de vérifier s'il peut être ouvert avec un éditeur externe. Cela peut aussi dire qu'il n'est plus partagé ou qu'il a été supprimé récemment.",

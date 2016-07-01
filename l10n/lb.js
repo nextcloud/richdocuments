@@ -27,6 +27,7 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "D'Dokument konnt net geluede ginn, w.e.g. kontaktéier däin Administrateur.",
     "Failed to load documents." : "D'Dokumenter konnten net geluede ginn.",
     "No documents were found. Upload or create a document to get started!" : "Et goufe keng Dokumenter fonnt. Lued der erop oder erstell en Dokument fir unzefänken!",
+    "More versions..." : "Méi Versiounen...",
     "Failed to aquire access token. Please re-login and try again." : "Den Zougang Token konnt net erreecht ginn. W.e.g. logg dech nach emol an a versich et nach emol.",
     "No connection to server. Trying to reconnect." : "Keng Verbindung zum Server. Eng nei Verbindung gëtt probéiert.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Dëst Dokument konnt net geluede ginn. W.e.g. kuck op et mat engem externen Editorprogramm opgemaach ka ginn. Dëst kann och bedeiten dass et viru kuerzem geläscht oder net méi mat dir gedeelt gouf.",

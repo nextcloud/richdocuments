@@ -25,6 +25,7 @@
     "Failed to load the document, please contact your administrator." : "Fehler beim Laden des Dokumentes, bitte kontaktiere deinen Administrator.",
     "Failed to load documents." : "Das Laden der Dokumente ist fehlgeschlagen.",
     "No documents were found. Upload or create a document to get started!" : "Keine Dokumente gefunden. Bitte lade zu Beginn Dokumente hoch, oder erstelle ein Dokument!",
+    "More versions..." : "Weitere Versionen…",
     "Failed to aquire access token. Please re-login and try again." : "Fehler beim Erwerben des Tokens. Bitte neu anmelden und nochmals versuchen.",
     "No connection to server. Trying to reconnect." : "Keine Verbindung zum Server. Es wird versucht diese wiederherzustellen.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Es ist ein Fehler beim Laden dieses Dokumentes aufgetreten. Bitte überprüfe, ob diese Datei mit einem externen Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder vor kurzem gelöscht wurde.",
