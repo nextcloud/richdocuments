@@ -249,7 +249,8 @@ var documentsMain = {
 					  //   https://<loolwsd-server>:9980/hosting/discovery
 					  var urlsrc = $('li[data-id='+ fileId.replace(/_.*/, '') +']>a').attr('urlsrc') +
 						  "WOPISrc=" + wopisrc +
-					      "&title=" + encodeURIComponent(title) +
+						  "&title=" + encodeURIComponent(title) +
+						  "&lang=" + $('li[data-id='+ fileId.replace(/_.*/, '') +']>a').attr('lolang') +
 						  "&permission=readonly";
 
 					  // access_token - must be passed via a form post
