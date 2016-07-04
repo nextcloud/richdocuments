@@ -216,7 +216,7 @@ var documentsMain = {
 			'</div>',
 
 		revHistoryItemTemplate: '<li>' +
-			'<a href="{{downloadUrl}}" class="downloadVersion"><img src="{{downloadIconUrl}}" />' +
+			'<a href="{{downloadUrl}}" class="downloadVersion has-tooltip" title="Download"><img src="{{downloadIconUrl}}" />' +
 			'<a class="versionPreview"><span class="versiondate has-tooltip" title="{{relativeTimestamp}}">{{formattedTimestamp}}</span></a>' +
 			'</a>' +
 			'</li>',
