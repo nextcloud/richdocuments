@@ -30,6 +30,7 @@
     "Just now" : "เมื่อสักครู่",
     "Failed to aquire access token. Please re-login and try again." : "ล้มเหลวที่จะได้รับโทเค็นการเข้าถึง โปรดเข้าสู่ระบบและลองอีกครั้ง",
     "No connection to server. Trying to reconnect." : "ไม่มีการเชื่อมต่อไปยังเซิร์ฟเวอร์ กำลังพยายามเชื่อมต่อใหม่",
+    "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "ไม่สามารถโหลดเอกสารนี้ โปรดตรวจสอบว่าสามารถเปิดด้วยโปรแกรมแก้ไขอื่นๆได้หรือไม่ นอกจากนี้อาจเป็นไปได้ว่าการแชร์ถูกยกเลิกหรือถูกลบเมื่อเร็วๆ นี้",
     "Save" : "บันทึก",
     "Loading documents..." : "กำลังโหลดเอกสาร ...",
     "'.' is an invalid file name." : "'.' เป็นชื่อไฟล์ที่ไม่ถูกต้อง",
