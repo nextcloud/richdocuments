@@ -241,12 +241,21 @@
     padding: 10px 0;
 }
 
+#revisionsContainer li:first-child .restoreVersion{
+    display: none;
+}
+
 #revisionsContainer a{
     padding-left: 15px;
 }
 
 #revisionsContainer li:hover, #revisionsContainer li.active{
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.restoreVersion{
+    position: absolute;
+    right: 15px;
 }
 
 #show-more-versions{
