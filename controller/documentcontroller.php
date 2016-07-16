@@ -469,23 +469,11 @@ class DocumentController extends Controller {
 		if ($version !== '0') {
 			\OCP\JSON::checkAppEnabled('files_versions');
 
-			// Login as this user
-			$editorid = $res['editor'];
-			$users = \OC::$server->getUserManager()->search($editorid, 1, 0);
-			if (count($users) > 0)
-			{
-				$user = array_shift($users);
-				if (strcasecmp($user->getUID(),$editorid) === 0)
-				{
-					\OC::$server->getUserSession()->setUser($user);
-				}
-			}
-
-			\OCP\JSON::checkLoggedIn();
+			$ownerid = $res['owner'];
 
 			// Setup the FS
 			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($editorid, '/' . $editorid . '/files');
+			\OC_Util::setupFS($ownerid, '/' . $ownerid . '/files');
 
 			list($owner_uid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
 			$versionName = '/files_versions/' . $filename . '.v' . $version;
