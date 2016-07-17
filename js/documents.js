@@ -393,7 +393,7 @@ var documentsMain = {
 				function (result) {
 					if (!result || result.status === 'error') {
 						if (result && result.message){
-							documentsMain.IU.notify(result.message);
+							documentsMain.UI.notify(result.message);
 						}
 						documentsMain.onEditorShutdown(t('richdocuments', 'Failed to aquire access token. Please re-login and try again.'));
 						return;
@@ -755,7 +755,7 @@ var documentsMain = {
 			function(result) {
 				if (result && result.status === 'error') {
 					if (result.message){
-						documentsMain.IU.notify(result.message);
+						documentsMain.UI.notify(result.message);
 					}
 					return;
 				}
