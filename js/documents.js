@@ -218,6 +218,7 @@ var documentsMain = {
 		revHistoryItemTemplate: '<li>' +
 			'<a href="{{downloadUrl}}" class="downloadVersion has-tooltip" title="Download"><img src="{{downloadIconUrl}}" />' +
 			'<a class="versionPreview"><span class="versiondate has-tooltip" title="{{relativeTimestamp}}">{{formattedTimestamp}}</span></a>' +
+			'<a href="{{restoreUrl}}" class="restoreVersion"><img src="{{restoreIconUrl}}" />' +
 			'</a>' +
 			'</li>',
 
@@ -281,7 +282,7 @@ var documentsMain = {
 		addRevision: function(fileId, version, relativeTimestamp, documentPath) {
 			var formattedTimestamp = OC.Util.formatDate(parseInt(version) * 1000);
 			var fileName = documentsMain.fileName.substring(0, documentsMain.fileName.indexOf('.'));
-			var downloadUrl;
+			var downloadUrl, restoreUrl;
 			if (version === 0) {
 				formattedTimestamp = t('richdocuments', 'Latest revision');
 				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
@@ -290,12 +291,16 @@ var documentsMain = {
 				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
 				                             {file: documentPath, revision: version});
 				fileId = fileId + '_' + version;
+				restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
+				                             {file: documentPath, revision: version});
 			}
 
 			var revHistoryItemTemplate = Handlebars.compile(documentsMain.UI.revHistoryItemTemplate);
 			var html = revHistoryItemTemplate({
 				downloadUrl: downloadUrl,
 				downloadIconUrl: OC.imagePath('core', 'actions/download'),
+				restoreUrl: restoreUrl,
+				restoreIconUrl: OC.imagePath('core', 'actions/history'),
 				relativeTimestamp: relativeTimestamp,
 				formattedTimestamp: formattedTimestamp
 			});
@@ -363,6 +368,42 @@ var documentsMain = {
 				$(e.currentTarget.parentElement).addClass('active');
 			});
 
+			$('#revisionsContainer').on('click', '.restoreVersion', function(e) {
+				e.preventDefault();
+
+				// close the viewer
+				documentsMain.onCloseViewer();
+
+				// close the editor
+				documentsMain.UI.hideEditor();
+
+				// If there are changes in the opened editor, we need to wait
+				// for sometime before these changes can be saved and a revision is created for it,
+				// before restoring to requested version.
+				documentsMain.overlay.documentOverlay('show');
+				setTimeout(function() {
+					// restore selected version
+					$.ajax({
+						type: 'GET',
+						url: e.currentTarget.href,
+						success: function(response) {
+							if (response.status === 'error') {
+								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
+							}
+
+							// generate file id with returnToDir information in it, if any
+							var fileid = e.currentTarget.parentElement.dataset.fileid.replace(/_.*/, '') +
+							    (documentsMain.returnToDir ? '_' + documentsMain.returnToDir : '');
+
+							// load the file again, it should get reverted now
+							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: fileid});
+							window.location.reload();
+							documentsMain.overlay.documentOverlay('hide');
+						}
+					});
+				}, 1000);
+			});
+
 			// fake click on first revision (i.e current revision)
 			$('#revisionsContainer li').first().find('.versionPreview').click();
 		},
@@ -393,7 +434,7 @@ var documentsMain = {
 				function (result) {
 					if (!result || result.status === 'error') {
 						if (result && result.message){
-							documentsMain.IU.notify(result.message);
+							documentsMain.UI.notify(result.message);
 						}
 						documentsMain.onEditorShutdown(t('richdocuments', 'Failed to aquire access token. Please re-login and try again.'));
 						return;
@@ -755,7 +796,7 @@ var documentsMain = {
 			function(result) {
 				if (result && result.status === 'error') {
 					if (result.message){
-						documentsMain.IU.notify(result.message);
+						documentsMain.UI.notify(result.message);
 					}
 					return;
 				}
@@ -785,7 +826,7 @@ var documentsMain = {
 	},
 
 
-	onClose: function(force) {
+	onClose: function() {
 		if (!documentsMain.isEditorMode){
 			return;
 		}
@@ -798,7 +839,7 @@ var documentsMain = {
 		documentsMain.UI.hideEditor();
 		$('#ocToolbar').remove();
 
-		if (!force && documentsMain.returnToDir) {
+		if (documentsMain.returnToDir) {
 			window.location = OC.generateUrl('apps/files?dir={dir}', {dir: documentsMain.returnToDir});
 		} else {
 			documentsMain.show();
@@ -806,9 +847,12 @@ var documentsMain = {
 	},
 
 	onCloseViewer: function() {
+		$('#revisionsContainer *').off();
+
 		$('#revPanelContainer').remove();
 		$('#revViewerContainer').remove();
 		documentsMain.isViewerMode = false;
+		documentsMain.UI.revisionsStart = 0;
 
 		$('#loleafletframe').focus();
 	},

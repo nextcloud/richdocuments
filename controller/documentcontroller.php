@@ -79,6 +79,37 @@ class DocumentController extends Controller {
 		return null;
 	}
 
+	/**
+	 * Log the user with given $userid.
+	 * This function should only be used from public controller methods where no
+	 * existing session exists, for example, when loolwsd is directly calling a
+	 * public method with its own access token. After validating the access
+	 * token, and retrieving the correct user with help of access token, it can
+	 * be set as current user with help of this method.
+	 *
+	 * @param string $userid
+	 */
+	private function loginUser($userid) {
+		$users = \OC::$server->getUserManager()->search($userid, 1, 0);
+		if (count($users) > 0) {
+			$user = array_shift($users);
+			if (strcasecmp($user->getUID(), $userid) === 0) {
+				// clear the existing sessions, if any
+				\OC::$server->getSession()->close();
+
+				// initialize a dummy memory session
+				$session = new \OC\Session\Memory('');
+				// wrap it
+				$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
+				$session = $cryptoWrapper->wrapSession($session);
+				// set our session
+				\OC::$server->setSession($session);
+
+				\OC::$server->getUserSession()->setUser($user);
+			}
+		}
+	}
+
 	private function responseError($message, $hint = ''){
 		$errors = array('errors' => array(array('error' => $message, 'hint' => $hint)));
 		$response = new TemplateResponse('', 'error', $errors, 'error');
@@ -355,8 +386,6 @@ class DocumentController extends Controller {
 
 		\OC::$server->getLogger()->debug('Generating WOPI Token for file {fileId}, version {version}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version ]);
 
-
-
 		$row = new Db\Wopi();
 		$token = $row->generateFileToken($fileId, $version);
 
@@ -440,23 +469,11 @@ class DocumentController extends Controller {
 		if ($version !== '0') {
 			\OCP\JSON::checkAppEnabled('files_versions');
 
-			// Login as this user
-			$editorid = $res['editor'];
-			$users = \OC::$server->getUserManager()->search($editorid, 1, 0);
-			if (count($users) > 0)
-			{
-				$user = array_shift($users);
-				if (strcasecmp($user->getUID(),$editorid) === 0)
-				{
-					\OC::$server->getUserSession()->setUser($user);
-				}
-			}
-
-			\OCP\JSON::checkLoggedIn();
+			$ownerid = $res['owner'];
 
 			// Setup the FS
 			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($editorid, '/' . $editorid . '/files');
+			\OC_Util::setupFS($ownerid, '/' . $ownerid . '/files');
 
 			list($owner_uid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
 			$versionName = '/files_versions/' . $filename . '.v' . $version;
@@ -503,15 +520,11 @@ class DocumentController extends Controller {
 
 		// Log-in as the user to regiser the change under her name.
 		$editorid = $res['editor'];
-		$users = \OC::$server->getUserManager()->search($editorid, 1, 0);
-		if (count($users) > 0)
-		{
-			$user = array_shift($users);
-			if (strcasecmp($user->getUID(),$editorid) === 0)
-			{
-				\OC::$server->getUserSession()->setUser($user);
-			}
-		}
+		// This call is made from loolwsd, so we need to initialize the
+		// session before we can make the user who opened the document
+		// login. This is necessary to make activity app register the
+		// change made to this file under this user's (editorid) name.
+		$this->loginUser($editorid);
 
 		// Set up the filesystem view for the owner (where the file actually is).
 		$userid = $res['owner'];
@@ -529,6 +542,9 @@ class DocumentController extends Controller {
 		$view->file_put_contents($res['path'], $content);
 
 		\OC_Util::tearDownFS();
+
+		// clear any session created before
+		\OC::$server->getSession()->close();
 
 		return array(
 			'status' => 'success'
