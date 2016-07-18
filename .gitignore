@@ -3,6 +3,5 @@ webodf/*
 build/*
 online
 loolvm
-appinfo/info.xml
 *.spec
 *.tar.gz

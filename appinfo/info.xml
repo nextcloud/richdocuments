@@ -2,9 +2,9 @@
 <info>
 	<id>richdocuments</id>
 	<name>Collabora Online</name>
-	<description>An ownCloud app to work with office documents</description>
+	<description>Collabora Online allows you to to work with all kind office documents interactively direct in your browser.</description>
 	<licence>AGPL</licence>
-	<version>@PACKAGE_VERSION@</version>
+	<version>1.1.0</version>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<bugs>https://github.com/owncloud/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/owncloud/richdocuments.git</repository>
