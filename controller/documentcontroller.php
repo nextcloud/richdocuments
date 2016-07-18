@@ -423,17 +423,23 @@ class DocumentController extends Controller {
 			return false;
 		}
 
+		// Login the user to see his mount locations
+		$this->loginUser($res['owner']);
+
 		$view = new \OC\Files\View('/' . $res['owner'] . '/files');
 		$info = $view->getFileInfo($res['path']);
 
+		// Close the session created for user login
+		\OC::$server->getSession()->close();
+
+		if (!$info) {
+			http_response_code(404);
+			return false;
+		}
 		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
-
-		$baseFileName = $info['name'];
-		$size = $info['size'];
-
 		return array(
-			'BaseFileName' => $baseFileName,
-			'Size' => $size,
+			'BaseFileName' => $info['name'],
+			'Size' => $info['size'],
 			'Version' => $version
 			//'DownloadUrl' => '',
 			//'FileUrl' => '',
@@ -464,6 +470,9 @@ class DocumentController extends Controller {
 
 		//TODO: Support X-WOPIMaxExpectedSize header.
 		$res = $row->getPathForToken($fileId, $version, $token);
+
+		// Login the user to see his mount locations
+		$this->loginUser($res['owner']);
 
 		// If some previous version is requested, fetch it from Files_Version app
 		if ($version !== '0') {

@@ -120,15 +120,6 @@ class Wopi extends \OCA\Richdocuments\Db{
 			return false;
 		}
 
-		$owner = $row['owner_uid'];
-		$view = new \OC\Files\View('/' . $owner . '/files');
-		$path = $row['path'];
-
-		if (!$view->is_file($path)) {
-			throw new \Exception('Invalid file path.');
-		}
-
-		$editor = $row['editor_uid'];
-		return array('owner' => $owner, 'editor' => $editor, 'path' => $path);
+		return array('owner' => $row['owner_uid'], 'editor' => $row['editor_uid'], 'path' => $row['path']);
 	}
 }
