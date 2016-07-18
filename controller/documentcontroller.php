@@ -470,29 +470,32 @@ class DocumentController extends Controller {
 
 		//TODO: Support X-WOPIMaxExpectedSize header.
 		$res = $row->getPathForToken($fileId, $version, $token);
+		$ownerid = $res['owner'];
 
 		// Login the user to see his mount locations
-		$this->loginUser($res['owner']);
+		$this->loginUser($ownerid);
 
+		$filename = '';
 		// If some previous version is requested, fetch it from Files_Version app
 		if ($version !== '0') {
 			\OCP\JSON::checkAppEnabled('files_versions');
-
-			$ownerid = $res['owner'];
 
 			// Setup the FS
 			\OC_Util::tearDownFS();
 			\OC_Util::setupFS($ownerid, '/' . $ownerid . '/files');
 
-			list($owner_uid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
-			$versionName = '/files_versions/' . $filename . '.v' . $version;
+			list($ownerid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
+			$filename = '/files_versions/' . $filename . '.v' . $version;
 
 			\OC_Util::tearDownFS();
-
-			return new DownloadResponse($this->request, $owner_uid, $versionName);
+		} else {
+			$filename = '/files' . $res['path'];
 		}
 
-		return new DownloadResponse($this->request, $res['owner'], '/files' . $res['path']);
+		// Close the session created for user login
+		\OC::$server->getSession()->close();
+
+		return new DownloadResponse($this->request, $ownerid, $filename);
 	}
 
 	/**
