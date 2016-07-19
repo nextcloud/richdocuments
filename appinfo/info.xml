@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info>
 	<id>richdocuments</id>
-	<name>Collabora Online</name>
+	<name>Office</name>
 	<description>Collabora Online allows you to to work with all kinds of office documents directly in your browser.</description>
 	<licence>AGPL</licence>
 	<version>1.1.2</version>
