@@ -43,15 +43,14 @@ $navigationEntry = function () use ($c) {
 $c->getServer()->getNavigationManager()->add($navigationEntry);
 
 //Script for registering file actions
-$request = \OC::$server->getRequest();
-if (isset($request->server['REQUEST_URI'])) {
-	$url = $request->server['REQUEST_URI'];
-
-	if (preg_match('%index.php/apps/files(/.*)?%', $url)) {
+$eventDispatcher = \OC::$server->getEventDispatcher();
+$eventDispatcher->addListener(
+	'OCA\Files::loadAdditionalScripts',
+	function() {
 		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
 		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
 	}
-}
+);
 
 //Listen to delete file signal
 \OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Richdocuments\Storage", "onDelete");
