@@ -28,6 +28,7 @@
     "Latest revision" : "Крайняя ревизия",
     "More versions..." : "Ещё версии...",
     "Just now" : "Прямо сейчас",
+    "Failed to revert the document to older version" : "Не удалось вернуть документ к старой версии",
     "Failed to aquire access token. Please re-login and try again." : "Не удалось получить токен доступа. Пожалуйста перевойдите и попробуйте ещё раз.",
     "No connection to server. Trying to reconnect." : "Нет связи с сервером. Попытка переподключения.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Не удалось загрузить документ. Пожалуйста проверьте, открывается ли он внешним редактором. Это так же может означать, что к нему недавно убрали общий доступ или удалили.",
