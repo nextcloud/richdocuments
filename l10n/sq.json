@@ -28,6 +28,7 @@
     "Latest revision" : "Rishikimi më i ri",
     "More versions..." : "Më shumë versione…",
     "Just now" : "Mu tani",
+    "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",
     "Failed to aquire access token. Please re-login and try again." : "S’u arrit marrja e token-it të hyrjeve. Ju lutemi, ribëni hyrjen dhe riprovoni.",
     "No connection to server. Trying to reconnect." : "Pa lidhje me shërbyesin. Po provohet të rilidhet.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "S’u arrit të ngarkohej ky dokument. Ju lutemi, shihni nëse mund të hapet me një përpunues të jashtëm. Kjo mundet edhe të thotë se për të mund të jetë ndalur ndarja me të tjerët ose të jetë fshirë tani së fundi.",

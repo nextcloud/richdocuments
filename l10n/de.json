@@ -28,6 +28,7 @@
     "Latest revision" : "Letzte Revision",
     "More versions..." : "Weitere Versionen…",
     "Just now" : "Gerade ebend",
+    "Failed to revert the document to older version" : "Fehler beim Zurüclsetzen des Dokumentes auf eine ältere Version",
     "Failed to aquire access token. Please re-login and try again." : "Fehler beim Erwerben des Tokens. Bitte neu anmelden und nochmals versuchen.",
     "No connection to server. Trying to reconnect." : "Keine Verbindung zum Server. Es wird versucht diese wiederherzustellen.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Es ist ein Fehler beim Laden dieses Dokumentes aufgetreten. Bitte überprüfe, ob diese Datei mit einem externen Editor geöffnet werden kann. Dies könnte auch bedeuten, dass die Datei nicht mehr geteilt wird oder vor kurzem gelöscht wurde.",
