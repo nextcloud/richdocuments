@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora ออนไลน์",
     "Please contact the \"%s\" administrator." : "กรุณาติดต่อผู้ดูแลระบบ \"%s\"",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "โปรดสอบถามผู้ดูแลระบบเพื่อตรวจสอบการตั้งค่าเซิร์ฟเวอร์ Collabora ออนไลน์ แต่ข้อผิดพลาดที่มีแน่นอนคือ:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora ออนไลน์: โปรโตคอล \"%s\" ไม่ได้รับอนุญาต",
@@ -84,6 +83,7 @@
     "Edit" : "แก้ไข",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "guest" : "ผู้เยี่ยมชม",
+    "Collabora Online" : "Collabora ออนไลน์",
     "Collabora Online server" : "เซิร์ฟเวอร์ Collabora ออนไลน์",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (และพอร์ต) ของเซิร์ฟเวอร์ Collabora ออนไลน์ นั้นระบุฟังก์ชั่นการแก้ไขไคลเอนต์ WOPI",
     "Apply" : "นำไปใช้",

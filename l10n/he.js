@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora מקוון",
     "Please contact the \"%s\" administrator." : "יש ליצור קשר עם מנהל \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "יש ליצור קשר עם מנהל המערכת לבדוק את הגדרות שרת Collabora המקוון. השגיאה המדוייקת הייתה:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora מקוון: הפרוטוקול המצויין ב- \"%s\" אסור.",
@@ -87,6 +86,7 @@ OC.L10N.register(
     "Edit" : "עריכה",
     "Could not create file" : "יצירת הקובץ נכשלה",
     "guest" : "אורח",
+    "Collabora Online" : "Collabora מקוון",
     "Collabora Online server" : "שרת Collabora מקוון",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "נתיב (ושער גישה - פורט) של שרת Collabora מקוון שמספק את תכונת העריכה כלקוח WOPI.",
     "Apply" : "הפעלה",

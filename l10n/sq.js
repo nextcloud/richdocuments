@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "Please contact the \"%s\" administrator." : "Ju lutemi, lidhuni me përgjegjësin e \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Ju lutemi, kërkojini përgjegjësit tuaj të kontrollojë rregullimet për shërbyesin Collabora Online. Mesazhi i gabimit qe: ",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: Protokolli i dhënë te \"%s\" nuk është i lejuar.",
@@ -87,6 +86,7 @@ OC.L10N.register(
     "Edit" : "Përpunoni",
     "Could not create file" : "Kartela s’u krijua dot",
     "guest" : "vizitor",
+    "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Shërbyes Collabora Online",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL-ja (dhe porta) e shërbyesit Collabora Online që ofron funksione përpunimi si klient WOPI.",
     "Apply" : "Zbatoje",

@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora Online",
     "Please contact the \"%s\" administrator." : "管理者 \"%s\" に問い合わせてください。",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Collabora Online の管理者にサーバー設定を確認するようお願いしてください。抽出したログは次の通り：",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "コラボラオンライン：プロトコルで指示された \"%s\" は、許可されていません。",
@@ -84,6 +83,7 @@
     "Edit" : "編集",
     "Could not create file" : "ファイルを作成できませんでした",
     "guest" : "ゲスト",
+    "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "コラボラ オンライン サーバー",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "WOPI クライアントで編集できる機能を提供するコラボラ オンライン サーバーのURL(とポート)",
     "Apply" : "適用",

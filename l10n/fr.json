@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora en ligne",
     "Please contact the \"%s\" administrator." : "Merci de contacter l'administrateur de \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Merci de demander à votre administrateur de vérifier les paramètres du serveur Collabora. Le message d'erreur exact est : ",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora en ligne : Le protocole spécifié dans \"%s\" n'est pas autorisé.",
@@ -84,6 +83,7 @@
     "Edit" : "Éditer",
     "Could not create file" : "Impossible de créer le fichier",
     "guest" : "invité",
+    "Collabora Online" : "Collabora en ligne",
     "Collabora Online server" : "Serveur Collabora en ligne",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Adresse (et port) du serveur Collabora en ligne qui fourni la fonctionnalité d'édition comme un client WOPI.",
     "Apply" : "Appliquer",

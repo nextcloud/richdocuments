@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora en linha",
     "Please contact the \"%s\" administrator." : "Mercé de contactar l'administrator de \"%s\".",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora en linha : Lo protocòl especificat dins \"%s\" es pas autorizat.",
     "Collabora Online unknown error: " : "Collabora en linha, error desconeguda : ",
@@ -71,6 +70,7 @@ OC.L10N.register(
     "Edit" : "Modificar",
     "Could not create file" : "Impossible de crear lo fichièr",
     "guest" : "convidat",
+    "Collabora Online" : "Collabora en linha",
     "Collabora Online server" : "Servidor Collabora en linha",
     "Apply" : "Aplicar",
     "Upload (max. %s)" : "Mandadís (max. %s)",

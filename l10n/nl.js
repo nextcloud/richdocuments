@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "Please contact the \"%s\" administrator." : "Neem contact op met de \"%s\" beheerder.",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Vraag uw beheerder om de Collabora Online server instellingen te controleren. De exacte foutmelding was:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: Het protocol opgegeven in \"%s\" is niet toegestaan.",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Latest revision" : "Laatste revisie",
     "More versions..." : "Meer versies...",
     "Just now" : "Zopas",
+    "Failed to revert the document to older version" : "Kon het document niet terugdraaien naar een vorige versie",
     "Failed to aquire access token. Please re-login and try again." : "Niet gelukt om toegangstoken te krijgen. Log opnieuw in en probeer het nogmaals.",
     "No connection to server. Trying to reconnect." : "Geen verbinding met de server. Bezig te verbinden.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Kon dit document niet laden. Controleer of het met een externe tekstverwerker te openen is. Het kan ook zijn dat het document niet meer gedeeld wordt of dat het recent verwijderd is.",
@@ -86,6 +86,7 @@ OC.L10N.register(
     "Edit" : "Bewerk",
     "Could not create file" : "Kon bestand niet creëren",
     "guest" : "gast",
+    "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Collabora Online server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (en poort) van de Collabora Online server die de bewerkingsfunctie als WOPI client biedt.",
     "Apply" : "Toepassen",

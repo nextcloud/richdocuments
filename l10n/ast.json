@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora en llínea",
     "Please contact the \"%s\" administrator." : "Por favor contauta col alministrador \"%s\"",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Por favor, pregunte al so alministrador pa comprobar la configuración del servidor Collabora en llínea . El mensaxe d'erru esactu foi:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora en llínea: El protocolu especificáu en \"%s\" nun s'almite.",
@@ -84,6 +83,7 @@
     "Edit" : "Editar",
     "Could not create file" : "Nun pudo crease'l ficheru",
     "guest" : "invitáu",
+    "Collabora Online" : "Collabora en llínea",
     "Collabora Online server" : "Sirvidor de Collabora en llínea",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL ( y puertu ) del servidor Collabora en llínea qu'apurre la funcionalidad d'edición como un veceru WOPI.",
     "Apply" : "Aplicar",

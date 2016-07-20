@@ -1,7 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office" : "Escritório",
     "Please contact the \"%s\" administrator." : "Por favor entre em contato com o administrador \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Por favor, pergunte ao seu administrador para verificar a configuração do servidor Collabora Online. A mensagem de erro exata foi:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: O protocolo especificado em \"%s\" não é permitido.",
@@ -87,6 +87,7 @@ OC.L10N.register(
     "Edit" : "Editar",
     "Could not create file" : "Não foi possível criar o arquivo",
     "guest" : "convidado",
+    "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Servidor Collabora Online",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (e porta) do servidor Collabora Online que fornece a funcionalidade de edição como um cliente WOPI.",
     "Apply" : "Aplicar",
