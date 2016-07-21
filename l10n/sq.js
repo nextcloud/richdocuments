@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "Zyrë",
     "Please contact the \"%s\" administrator." : "Ju lutemi, lidhuni me përgjegjësin e \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Ju lutemi, kërkojini përgjegjësit tuaj të kontrollojë rregullimet për shërbyesin Collabora Online. Mesazhi i gabimit qe: ",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: Protokolli i dhënë te \"%s\" nuk është i lejuar.",

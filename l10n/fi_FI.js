@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "Toimisto",
     "New Document.odt" : "Uusi asiakirja.odt",
     "New Spreadsheet.ods" : "Uusi taulukko.ods",
     "New Presentation.odp" : "Uusi esitys.odp",

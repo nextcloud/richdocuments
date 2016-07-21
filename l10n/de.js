@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "Büro",
     "Please contact the \"%s\" administrator." : "Bitte kontaktiere deinen \"%s\"-Administrator.",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Bitte frage deinen Administrator zur Prüfung der Collabora Online Servereinstellungen. Die genaue Fehlermeldung war:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: Das spezifizierte Protokoll unter \"%s\" ist nicht erlaubt.",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "Oficina",
     "Please contact the \"%s\" administrator." : "Por favor contauta col alministrador \"%s\"",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Por favor, pregunte al so alministrador pa comprobar la configuración del servidor Collabora en llínea . El mensaxe d'erru esactu foi:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora en llínea: El protocolu especificáu en \"%s\" nun s'almite.",
@@ -29,6 +30,7 @@ OC.L10N.register(
     "Latest revision" : "Cabera revisión",
     "More versions..." : "Más versiones...",
     "Just now" : "Agora mesmu",
+    "Failed to revert the document to older version" : "Fallu al tornar el documentu a la versión más antigua",
     "Failed to aquire access token. Please re-login and try again." : "Nun se pudo adquirir el token d'accesu . Por favor, empecipia sesión y vuelve intentalo .",
     "No connection to server. Trying to reconnect." : "Nun hai conexón col sirvidor. Intentando reconeutar.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Nun pudo cargase esti documentu . Por favor, compruebe si puede abrilo con un editor esternu . Tamién pue ser que yá nun se comparta o se desaniciara de recién.",

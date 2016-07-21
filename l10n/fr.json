@@ -1,4 +1,5 @@
 { "translations": {
+    "Office" : "Bureau",
     "Please contact the \"%s\" administrator." : "Merci de contacter l'administrateur de \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Merci de demander à votre administrateur de vérifier les paramètres du serveur Collabora. Le message d'erreur exact est : ",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora en ligne : Le protocole spécifié dans \"%s\" n'est pas autorisé.",
@@ -27,6 +28,7 @@
     "Latest revision" : "Dernière révision",
     "More versions..." : "Plus de versions...",
     "Just now" : "À l'instant",
+    "Failed to revert the document to older version" : "Impossible de restaurer le fichier à son ancienne version",
     "Failed to aquire access token. Please re-login and try again." : "Impossible de récupérer le jeton d'accès. Merci de vous reconnectez et ré-essayez.",
     "No connection to server. Trying to reconnect." : "Aucune connexion au serveur. Tentative de reconnexion en cours.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Impossible de charger ce document. Merci de vérifier s'il peut être ouvert avec un éditeur externe. Cela peut aussi dire qu'il n'est plus partagé ou qu'il a été supprimé récemment.",
