@@ -1,7 +1,4 @@
 tests/clover.xml
-webodf/*
-build/*
-online
-loolvm
 *.spec
 *.tar.gz
+richdocuments.zip
