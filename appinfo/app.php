@@ -36,7 +36,7 @@ $navigationEntry = function () use ($c) {
 		'id' => 'richdocuments_index',
 		'order' => 2,
 		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('richdocuments.document.index'),
-		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('richdocuments', 'documents.svg'),
+		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('richdocuments', 'app.svg'),
 		'name' => $c->query('L10N')->t('Office')
 	];
 };
