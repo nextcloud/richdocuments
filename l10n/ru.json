@@ -1,4 +1,5 @@
 { "translations": {
+    "Office" : "Офис",
     "Please contact the \"%s\" administrator." : "Пожалуйста свяжитесь с администратором \"%s\".",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Пожалйста попросите вашего администратора проверить настройки сервера Collabora Online. Конкретное сообщение об ошибке было такое: ",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: Протокол, указанный в \"%s\", недопустим.",
