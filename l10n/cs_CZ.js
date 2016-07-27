@@ -30,6 +30,7 @@ OC.L10N.register(
     "Latest revision" : "Poslední revize",
     "More versions..." : "Více verzí...",
     "Just now" : "Právě teď",
+    "Failed to revert the document to older version" : "Nepodařilo se obnovit starší verzi dokumentu",
     "Failed to aquire access token. Please re-login and try again." : "Chyba získání přístupového tokenu. Zkuste se znovu přihlásit a zopakovat pokus.",
     "No connection to server. Trying to reconnect." : "Ztráta připojení k serveru. Zkouším znovu.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Nepodařilo se otevřít tento dokument. Prosím zkontrolujte, zda je možné jej otevřít externím editorem. Může to také znamenat, že již není sdílen nebo byl nedávno odstraněn.",
