@@ -153,7 +153,7 @@ class DocumentController extends Controller {
 					case '7':
 						throw new ResponseException($this->l10n->t('Collabora Online: Cannot connect to the host "%s".', array($wopiRemote)), $admin_check);
 					case '60':
-						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add ca-chain.cert.pem to the ownCloud\'s ca-bundle.crt, for example "cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
+						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example "cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
 					}
 				}
 				throw new ResponseException($this->l10n->t('Collabora Online unknown error: ') . $error_message, $contact_admin);
