@@ -6,7 +6,6 @@
     "Collabora Online: Cannot resolve the host \"%s\"." : "コラボラ オンライン：ホスト \"%s\" を正引きできません。",
     "Collabora Online: Cannot connect to the host \"%s\"." : "コラボラ オンライン：ホスト \"%s\" に接続できません。",
     "Collabora Online: SSL certificate is not installed." : "コラボラ オンライン：SSL証明書がインストールされていません。",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "ownCloudの ca-bundle.crt に ca-chain.cert.pem を追加するように管理者にお願いしてください。例えば、\"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" のようにします。抽出したエラーログは次の通りです：",
     "Collabora Online unknown error: " : "コラボラ オンライン 不明なエラー：",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "コラボラ オンライン：\"%s\" から discovery.xml を読み出せません。",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "コラボラ オンライン：discovery.xml の中の \"%s\" は、正しい XML 文字列ではありません。",

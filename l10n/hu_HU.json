@@ -6,7 +6,6 @@
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: A gépnév nem feloldható: „%s”.",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: Nem sikerült csatlakozni a következőhöz: „%s”.",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: Nincs telepítve az SSL-tanúsítvány.",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Kérje meg a rendszergazdát, hogy adja a ca-chain.cert.pem fájlt az ownCloud ca-bundle.crt fájljához, például: „cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt”. A pontos hibaüzenet a következő:",
     "Collabora Online unknown error: " : "Collabora Online ismeretlen hiba:",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: Nem sikerült letölteni a discovery.xml fájlt a „%s” URL-ről.",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: A „%s” URL-ről letöltött discovery.xml nem jól formázott XML.",

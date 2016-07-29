@@ -9,7 +9,6 @@ OC.L10N.register(
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora en llínea: nun puede resolvese l'agospiu \"%s\".",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora en llínea: nun puede conectáse al agospiu \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora en llínea: el certificáu SSL nun ta instaláu.",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Por favor entrugue al so alministrador p'amestar ca-chain.cert.pem al ca-bundle.crt d'ownCloud, por exemplu \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . El mensaxe esactu d'erru foi: ",
     "Collabora Online unknown error: " : "Collabora en llínea fallu desconocíu:",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora en llínea: Incapaz de lleer discovery.xml desde \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora en llínea: discovery.xml de \"%s\" nun ye una cadena de XML correuta.",

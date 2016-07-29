@@ -7,7 +7,6 @@
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: Host \"%s\" kann nicht aufgelöst werden.",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: Zum Host \"%s\" kann keine Verbindung aufgebaut werden.",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: SSL-Zertifikat ist nicht installiert.",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Bitte deinen Administrator die ca-chain.cert.pem zum ownCloud ca-bundle.crt hinzuzufügen. Z.B. \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\". Die genaue Fehlermeldung war:",
     "Collabora Online unknown error: " : "Collabora Online unbekannter Fehler: ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: Fehler beim Lesen der discovery.xml von \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: discovery.xml von \"%s\" ist nicht korrekt als XML-Zeichenfolge formatiert.",

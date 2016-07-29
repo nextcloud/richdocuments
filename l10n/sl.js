@@ -9,7 +9,6 @@ OC.L10N.register(
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: ni mogoče razrešiti gostitelja \"%s\".",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: ni se mogoče povezati z gostiteljem \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: potrdilo SSL ni nameščeno.",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Prišlo je do napake nalaganja potrdila. V datoteko ownCloud ca-bundle.crt je treba dodati vpis potrdila ca-chain.cert.pem na primer \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\". V kolikor tega ne morete storiti sami, stopite v stik s skrbnikom. Celotno sporočilo napake je: ",
     "Collabora Online unknown error: " : "Collabora Online: neznana napaka: ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: ni mogoče prebrati datoteke discovery.xml iz \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: v zapisu datoteke discovery.xml iz \"%s\" je napačno oblikovan niz XML.",

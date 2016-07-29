@@ -9,7 +9,6 @@ OC.L10N.register(
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: S’kapet dot streha \"%s\".",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: S’lidhet dot te streha \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: S’ka dëshmi SSL të instaluar.",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Ju lutemi, kërkojini përgjegjësit tuaj të shtojë ca-chain.cert.pem te ca-bundle.crt e vetë ownCloud-it, për shembull \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . Mesazhi i gabimit qe: ",
     "Collabora Online unknown error: " : "Gabim i panjohur i Collabora Online: ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: S’arrihet të lexohet discovery.xml prej \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: discovery.xml prej \"%s\" s’është varg XML i ndërtuar si duhet.",

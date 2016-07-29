@@ -9,7 +9,6 @@ OC.L10N.register(
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: Kan host \"%s\" niet bepalen.",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: Kan niet verbinden met host \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: het SSL certificaat is niet geïnstalleerd.",
-    "Please ask your administrator to add ca-chain.cert.pem to the ownCloud's ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . The exact error message was: " : "Vraag uw beheerder om ca-chain.cert.pem toe te voegen aan ownCloud's ca-bundle.crt, bijvoorbeeld \"cat /etc/loolwsd/ca-chain.cert.pem >> owncloud/resources/config/ca-bundle.crt\" . De exacte foutmelding was: ",
     "Collabora Online unknown error: " : "Collabora Online onbekende fout: ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: Kan discovery.xml niet lezen van \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: discovery.xml van \"%s\" is geen goed geformuleerde XML string.",
