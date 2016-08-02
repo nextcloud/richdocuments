@@ -7,6 +7,7 @@
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: \"%s\" makinesi çözümlenemedi.",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: \"%s\" makinesine bağlanılamadı.",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: SSL sertifikası yüklü değil.",
+    "Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . The exact error message was: " : "Lütfen sistem yöneticinizden ca-chain.cert.pem'i ownCloud'un ca-bundle.crt dosyasına eklemesini isteyin, örneğin \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" komutu kullanılabilir. Tam hata mesajı şöyle:",
     "Collabora Online unknown error: " : "Collabora Online bilinemeyen hatası:",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: \"%s\" üzerindeki discovery.xml dosyası okunamadı.",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: \"%s\" üzerindeki discovery.xml dosyası geçerli XML biçiminde değil.",
