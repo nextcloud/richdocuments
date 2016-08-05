@@ -7,6 +7,7 @@
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora en ligne : Impossible de résoudre le nom d'hôte \"%s\".",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora en ligne : Impossible de se connecter à l'hôte \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora en ligne : Le certificat SSL n'est pas installé.",
+    "Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . The exact error message was: " : "Merci de demander à votre administrateur d'ajouter ca-chain.cert.pem dans ca-bundle.crt, par exemple \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\". Le message d'erreur exact est : ",
     "Collabora Online unknown error: " : "Collabora en ligne, erreur inconnue : ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora en ligne : Impossible de lire discovery.xml depuis \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora en ligne : discovery.xml depuis \"%s\" n'est pas une chaine XML bien formée.",
