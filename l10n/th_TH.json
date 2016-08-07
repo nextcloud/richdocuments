@@ -1,4 +1,5 @@
 { "translations": {
+    "Office" : "สำนักงาน",
     "Please contact the \"%s\" administrator." : "กรุณาติดต่อผู้ดูแลระบบ \"%s\"",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "โปรดสอบถามผู้ดูแลระบบเพื่อตรวจสอบการตั้งค่าเซิร์ฟเวอร์ Collabora ออนไลน์ แต่ข้อผิดพลาดที่มีแน่นอนคือ:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora ออนไลน์: โปรโตคอล \"%s\" ไม่ได้รับอนุญาต",
@@ -6,6 +7,7 @@
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora ออนไลน์: ไม่สามารถแก้ไขโฮสต์ \"%s\"",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora ออนไลน์: ไม่สามารถเชื่อมต่อไปยังโฮสต์ \"%s\"",
     "Collabora Online: SSL certificate is not installed." : "Collabora ออนไลน์: ไม่ได้ติดตั้งใบรับรอง SSL",
+    "Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . The exact error message was: " : "โปรดสอบถามผู้ดูแลระบบของคุณเพื่อเพิ่ม ca-chain.cert.pem ไปที่ ca-bundle.crt ตัวอย่างเช่น \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" แต่มีข้อผิดพลาดที่แน่นอนคือ:",
     "Collabora Online unknown error: " : "Collabora ออนไลน์ตรวจพบข้อผิดพลาดที่ไม่รู้จัก:",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora ออนไลน์: ไม่สามารถอ่านไฟล์ discovery.xml จาก \"%s\"",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora ออนไลน์: discovery.xml จาก \"%s\" เป็นสตริง XML ที่ไม่ถูกต้อง",
@@ -26,6 +28,7 @@
     "Latest revision" : "การแก้ไขล่าสุด",
     "More versions..." : "รุ่นอื่นๆ ...",
     "Just now" : "เมื่อสักครู่",
+    "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Failed to aquire access token. Please re-login and try again." : "ล้มเหลวที่จะได้รับโทเค็นการเข้าถึง โปรดเข้าสู่ระบบและลองอีกครั้ง",
     "No connection to server. Trying to reconnect." : "ไม่มีการเชื่อมต่อไปยังเซิร์ฟเวอร์ กำลังพยายามเชื่อมต่อใหม่",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "ไม่สามารถโหลดเอกสารนี้ โปรดตรวจสอบว่าสามารถเปิดด้วยโปรแกรมแก้ไขอื่นๆได้หรือไม่ นอกจากนี้อาจเป็นไปได้ว่าการแชร์ถูกยกเลิกหรือถูกลบเมื่อเร็วๆ นี้",
