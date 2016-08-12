@@ -121,7 +121,7 @@ $(document).ready(function() {
 
 			newFileMenu.addMenuEntry({
 				id: 'add-odt',
-				displayName: 'Document',
+				displayName: t('richdocuments', 'Document'),
 				templateName: 'New Document.odt',
 				iconClass: 'icon-filetype-document',
 				fileType: 'x-office-document',
@@ -132,7 +132,7 @@ $(document).ready(function() {
 
 			newFileMenu.addMenuEntry({
 				id: 'add-ods',
-				displayName: 'Spreadsheet',
+				displayName: t('richdocuments', 'Spreadsheet'),
 				templateName: 'New Spreadsheet.ods',
 				iconClass: 'icon-filetype-spreadsheet',
 				fileType: 'x-office-spreadsheet',
@@ -143,7 +143,7 @@ $(document).ready(function() {
 
 			newFileMenu.addMenuEntry({
 				id: 'add-odp',
-				displayName: 'Presentation',
+				displayName: t('richdocuments', 'Presentation'),
 				templateName: 'New Presentation.odp',
 				iconClass: 'icon-filetype-presentation',
 				fileType: 'x-office-presentation',
