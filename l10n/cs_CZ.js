@@ -9,6 +9,7 @@ OC.L10N.register(
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: Nelze nalézt host \"%s\".",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: Nelze se připojit k hostu \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: SSL certifikát není nainstalován.",
+    "Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . The exact error message was: " : "Požádejte prosím administrátora ať přidá ca-chain.cert.pem do ca-bundle.crt souboru, například pomocí \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . Přesné znění chyby bylo:",
     "Collabora Online unknown error: " : "Collabora Online neznámý chyba: ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: Nelze načíst discovery.xml z \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: discovery.xml z \"%s\" není správně formátovaný XML řetězec.",
