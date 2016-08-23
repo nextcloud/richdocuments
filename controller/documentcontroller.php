@@ -438,11 +438,15 @@ class DocumentController extends Controller {
 			http_response_code(404);
 			return false;
 		}
+
+		$editorName = \OC::$server->getUserManager()->get($res['editor'])->getDisplayName();
 		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
 		return array(
 			'BaseFileName' => $info['name'],
 			'Size' => $info['size'],
-			'Version' => $version
+			'Version' => $version,
+			'UserId' => $res['editor'],
+			'UserFriendlyName' => $editorName
 			//'DownloadUrl' => '',
 			//'FileUrl' => '',
 		);
