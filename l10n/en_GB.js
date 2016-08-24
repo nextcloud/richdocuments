@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "Office",
     "Please contact the \"%s\" administrator." : "Please contact the \"%s\" administrator.",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Please ask your administrator to check the Collabora Online server setting. The exact error message was: ",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: The protocol specified in \"%s\" is not allowed.",
@@ -8,6 +9,7 @@ OC.L10N.register(
     "Collabora Online: Cannot resolve the host \"%s\"." : "Collabora Online: Cannot resolve the host \"%s\".",
     "Collabora Online: Cannot connect to the host \"%s\"." : "Collabora Online: Cannot connect to the host \"%s\".",
     "Collabora Online: SSL certificate is not installed." : "Collabora Online: SSL certificate is not installed.",
+    "Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . The exact error message was: " : "Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example \"cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt\" . The exact error message was: ",
     "Collabora Online unknown error: " : "Collabora Online unknown error: ",
     "Collabora Online: Unable to read discovery.xml from \"%s\"." : "Collabora Online: Unable to read discovery.xml from \"%s\".",
     "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string." : "Collabora Online: discovery.xml from \"%s\" is not a well-formed XML string.",
@@ -28,6 +30,7 @@ OC.L10N.register(
     "Latest revision" : "Latest revision",
     "More versions..." : "More versions...",
     "Just now" : "Just now",
+    "Failed to revert the document to older version" : "Failed to revert the document to older version",
     "Failed to aquire access token. Please re-login and try again." : "Failed to aquire access token. Please re-login and try again.",
     "No connection to server. Trying to reconnect." : "No connection to server. Trying to reconnect.",
     "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently." : "Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.",
@@ -82,6 +85,9 @@ OC.L10N.register(
     "Email sent" : "Email sent",
     "Warning" : "Warning",
     "Edit" : "Edit",
+    "Document" : "Document",
+    "Spreadsheet" : "Spreadsheet",
+    "Presentation" : "Presentation",
     "Could not create file" : "Could not create file",
     "guest" : "guest",
     "Collabora Online" : "Collabora Online",
