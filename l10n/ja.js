@@ -84,6 +84,7 @@ OC.L10N.register(
     "Email sent" : "メールを送信しました",
     "Warning" : "警告",
     "Edit" : "編集",
+    "Document" : "ドキュメント",
     "Could not create file" : "ファイルを作成できませんでした",
     "guest" : "ゲスト",
     "Collabora Online" : "Collabora Online",
