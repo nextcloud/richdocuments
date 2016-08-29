@@ -31,6 +31,10 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock()
 		;
+		$this->appConfig = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock()
+		;
 		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
 			->getMock()
@@ -47,6 +51,7 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			$this->appName,
 			$this->request,
 			$this->settings,
+			$this->appConfig,
 			$this->l10n,
 			$this->uid,
 			$this->cache,
