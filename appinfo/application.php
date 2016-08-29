@@ -47,6 +47,7 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('CoreConfig'),
+				$c->query('AppConfig'),
 				$c->query('L10N'),
 				$c->query('UserId'),
 				$c->query('ICacheFactory'),

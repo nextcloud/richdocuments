@@ -48,15 +48,17 @@ class DocumentController extends Controller {
 	private $uid;
 	private $l10n;
 	private $settings;
+	private $appConfig;
 	private $cache;
 	private $logger;
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 
-	public function __construct($appName, IRequest $request, IConfig $settings, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
+	public function __construct($appName, IRequest $request, IConfig $settings, IConfig $appConfig, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
 		$this->settings = $settings;
+		$this->appConfig = $appConfig;
 		$this->cache = $cache->create($appName);
 		$this->logger = $logger;
 	}
@@ -121,7 +123,7 @@ class DocumentController extends Controller {
 	private function getDiscovery(){
 		\OC::$server->getLogger()->debug('getDiscovery(): Getting discovery.xml from the cache.');
 
-		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+		$wopiRemote = $this->appConfig->getAppValue('wopi_url');
 
 		// Provides access to information about the capabilities of a WOPI client
 		// and the mechanisms for invoking those abilities through URIs.
@@ -183,7 +185,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+				$wopiRemote = $this->appConfig->getAppValue('wopi_url');
 
 				return array(
 					'status' => 'error',
@@ -239,7 +241,7 @@ class DocumentController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+		$wopiRemote = $this->appConfig->getAppValue('wopi_url');
 		if (($parts = parse_url($wopiRemote)) && isset($parts['scheme']) && isset($parts['host'])) {
 			$webSocketProtocol = "ws://";
 			if ($parts['scheme'] == "https") {
@@ -336,7 +338,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->settings->getAppValue('richdocuments', 'wopi_url');
+				$wopiRemote = $this->appConfig->getAppValue('wopi_url');
 
 				return array(
 					'status' => 'error',
