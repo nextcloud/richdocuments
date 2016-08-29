@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "オフィス",
     "Please contact the \"%s\" administrator." : "管理者 \"%s\" に問い合わせてください。",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Collabora Online の管理者にサーバー設定を確認するようお願いしてください。抽出したログは次の通り：",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "コラボラオンライン：プロトコルで指示された \"%s\" は、許可されていません。",
@@ -85,6 +86,8 @@ OC.L10N.register(
     "Warning" : "警告",
     "Edit" : "編集",
     "Document" : "ドキュメント",
+    "Spreadsheet" : "スプレッドシート",
+    "Presentation" : "プレゼンテーション",
     "Could not create file" : "ファイルを作成できませんでした",
     "guest" : "ゲスト",
     "Collabora Online" : "Collabora Online",
