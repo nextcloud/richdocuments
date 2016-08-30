@@ -447,8 +447,6 @@ class DocumentController extends Controller {
 			'Version' => $version,
 			'UserId' => $res['editor'],
 			'UserFriendlyName' => $editorName
-			//'DownloadUrl' => '',
-			//'FileUrl' => '',
 		);
 	}
 
