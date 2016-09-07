@@ -951,6 +951,13 @@ FileList.isFileNameValid = function (name) {
 	return true;
 }
 
+FileList.setViewerMode = function(){
+};
+FileList.findFile = function(fileName){
+	fullPath = escapeHTML(FileList.getCurrentDirectory + '/' + fileName);
+	return !!$('.documentslist .document:not(.template,.progress) a[original-title="' + fullPath + '"]').length
+}
+
 $(document).ready(function() {
 
 	if (!OCA.Files) {
@@ -992,6 +999,10 @@ $(document).ready(function() {
 	$('.add-document').on('click', '.add-odt', documentsMain.onCreateODT);
 	$('.add-document').on('click', '.add-ods', documentsMain.onCreateODS);
 	$('.add-document').on('click', '.add-odp', documentsMain.onCreateODP);
+
+	OC.Upload._isReceivedSharedFile = function () {
+		return false;
+	}
 
 	var file_upload_start = $('#file_upload_start');
 	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {

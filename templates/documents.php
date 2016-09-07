@@ -4,7 +4,6 @@ style( 'richdocuments', 'style' );
 script('richdocuments', 'share');
 script('richdocuments', 'documents');
 script('files', 'file-upload');
-script('files', 'jquery.iframe-transport');
 script('files', 'jquery.fileupload');
 ?>
 <div id="documents-content">
