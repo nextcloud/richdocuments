@@ -261,7 +261,6 @@ class DocumentController extends Controller {
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 		$response = new TemplateResponse('richdocuments', 'documents', [
 			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
-			'savePath' => 			$this->settings->getUserValue($this->uid, 'richdocuments', 'save_path', '/'),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
@@ -292,10 +291,7 @@ class DocumentController extends Controller {
 
 		$view = new View('/' . $this->uid . '/files');
 		if (!$dir){
-			$dir = $this->settings->getUserValue($this->uid, $this->appName, 'save_path', '/');
-			if (!$view->is_dir($dir)){
-				$dir = '/';
-			}
+			$dir = '/';
 		}
 
 		$basename = $this->l10n->t('New Document.odt');

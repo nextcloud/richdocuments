@@ -44,19 +44,6 @@ class SettingsController extends Controller{
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function personalIndex(){
-		return new TemplateResponse(
-			$this->appName,
-			'personal',
-			[ 'save_path' => $this->appConfig->getUserValue($this->userId, 'save_path') ],
-			'blank'
-		);
-	}
-
-	/**
 	 * @NoCSRFRequired
 	 */
 	public function settingsIndex(){
@@ -79,35 +66,6 @@ class SettingsController extends Controller{
 			],
 			'blank'
 		);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 */
-	public function savePersonal($savePath){
-		if (is_null($savePath)){
-			$savePath = '/';
-		}
-		$status = true;
-		if (\OC\Files\Filesystem::file_exists($savePath) === false ){
-			$status = \OC\Files\Filesystem::mkdir($savePath);
-		}
-
-		if ($status){
-			$this->appConfig->setUserValue($this->userId, 'save_path', $savePath);
-			$response = array(
-				'status' => 'success',
-				'data' => array('message'=> $this->l10n->t('Directory saved successfully.'))
-			);
-		} else {
-				$response = array(
-					'status' => 'error',
-					'data' => array(
-							'message'=> $this->l10n->t('An error occurred while changing directory.')
-					)
-				);
-		}
-		return $response;
 	}
 
 	public function setSettings($wopi_url){
