@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 	var documentsSettings = {
 		save : function() {
-			$('#docs_apply').attr('disabled', true);
+			$('#wopi_apply').attr('disabled', true);
 			var data = {
 				wopi_url  : $('#wopi_url').val()
 			};
@@ -18,10 +18,10 @@ $(document).ready(function(){
 		},
 
 		afterSave : function(response){
-			$('#docs_apply').attr('disabled', false);
+			$('#wopi_apply').attr('disabled', false);
 			OC.msg.finishedAction('#documents-admin-msg', response);
 		}
 	};
 
-	$('#docs_apply').on('click', documentsSettings.save);
+	$('#wopi_apply').on('click', documentsSettings.save);
 });
