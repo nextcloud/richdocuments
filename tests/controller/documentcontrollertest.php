@@ -31,7 +31,7 @@ class DocumentControllerTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock()
 		;
-		$this->appConfig = $this->getMockBuilder('\OCP\IConfig')
+		$this->appConfig = $this->getMockBuilder('\OCA\Richdocuments\AppConfig')
 			->disableOriginalConstructor()
 			->getMock()
 		;
