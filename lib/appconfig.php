@@ -13,8 +13,8 @@ namespace OCA\Richdocuments;
 
 use \OCP\IConfig;
 
- class AppConfig{
- 	private $appName = 'richdocuments';
+class AppConfig{
+	private $appName = 'richdocuments';
 	private $defaults = [
 		'wopi_url' => 'https://localhost:9980'
 	];
@@ -73,4 +73,3 @@ use \OCP\IConfig;
 		return $this->config->setAppValue($userId, $this->appName, $key, $value);
 	}
  }
-

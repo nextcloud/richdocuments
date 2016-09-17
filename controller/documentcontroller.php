@@ -19,6 +19,7 @@ use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
 
+use \OCA\Richdocuments\AppConfig;
 use \OCA\Richdocuments\Db;
 use \OCA\Richdocuments\Helper;
 use \OCA\Richdocuments\Storage;
@@ -53,7 +54,7 @@ class DocumentController extends Controller {
 	private $logger;
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 
-	public function __construct($appName, IRequest $request, IConfig $settings, IConfig $appConfig, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
+	public function __construct($appName, IRequest $request, IConfig $settings, AppConfig $appConfig, IL10N $l10n, $uid, ICacheFactory $cache, ILogger $logger){
 		parent::__construct($appName, $request);
 		$this->uid = $uid;
 		$this->l10n = $l10n;
