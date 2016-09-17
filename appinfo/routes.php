@@ -39,7 +39,6 @@ $application->registerRoutes($this, [
 		['name' => 'document#wopiGetFile', 'url' => 'wopi/files/{fileId}/contents', 'verb' => 'GET'],
 		['name' => 'document#wopiPutFile', 'url' => 'wopi/files/{fileId}/contents', 'verb' => 'POST'],
 		//settings
-		['name' => 'settings#savePersonal', 'url' => 'ajax/personal.php', 'verb' => 'POST'],
 		['name' => 'settings#setSettings', 'url' => 'ajax/admin.php', 'verb' => 'POST'],
 		['name' => 'settings#getSupportedMimes', 'url' => 'ajax/mimes.php', 'verb' => 'GET'],
 	]

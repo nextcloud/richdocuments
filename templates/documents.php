@@ -35,7 +35,6 @@ script('files', 'jquery.fileupload');
 					<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" id="requesttoken" />
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)" />
-					<input type="hidden" name="dir" value="<?php p($_['savePath']) ?>" id="dir" />
 					<input type="file" id="file_upload_start" name='files[]' />
 					<a href="#" class="icon-upload upload svg">
 					<label><?php p($l->t('Upload')) ?></label></a>

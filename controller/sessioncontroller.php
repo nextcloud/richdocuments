@@ -36,7 +36,7 @@ class BadRequestException extends \Exception {
 }
 
 class SessionController extends Controller{
-	
+
 	protected $uid;
 	protected $logger;
 	protected $shareToken;
@@ -46,21 +46,21 @@ class SessionController extends Controller{
 		$this->uid = $uid;
 		$this->logger = $logger;
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 * @PublicPage
 	 */
 	public function joinAsGuest($token, $name){
 		$uid = substr($name, 0, 16);
-		
+
 		try {
 			$file = File::getByShareToken($token);
 			if ($file->isPasswordProtected() && !$file->checkPassword('')){
 				throw new \Exception('Not authorized');
 			}
 
-			$response = array_merge( 
+			$response = array_merge(
 				Db\Session::start($uid, $file),
 				[ 'status'=>'success' ]
 			);
@@ -68,10 +68,10 @@ class SessionController extends Controller{
 			$this->logger->warning('Starting a session failed. Reason: ' . $e->getMessage(), ['app' => $this->appName]);
 			$response = [ 'status'=>'error' ];
 		}
-		
+
 		return $response;
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 * @PublicPage
@@ -80,7 +80,7 @@ class SessionController extends Controller{
 		$this->shareToken = $this->request->getParam('token');
 		return $this->poll($command, $args);
 	}
-	
+
 	/**
 	 * Store the document content to its origin
 	 * @NoAdminRequired
@@ -90,7 +90,7 @@ class SessionController extends Controller{
 		$this->shareToken = $this->request->getParam('token');
 		return $this->save();
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -98,7 +98,7 @@ class SessionController extends Controller{
 		try {
 			$view = \OC\Files\Filesystem::getView();
 			$path = $view->getPath($fileId);
-			
+
 			if ($view->isUpdatable($path)) {
 				$file = new File($fileId);
 				$response = Db\Session::start($this->uid, $file);
@@ -109,7 +109,7 @@ class SessionController extends Controller{
 					'id' => $fileId
 				];
 			}
-			$response = array_merge( 
+			$response = array_merge(
 					$response,
 					[ 'status'=>'success' ]
 			);
@@ -117,10 +117,10 @@ class SessionController extends Controller{
 			$this->logger->warning('Starting a session failed. Reason: ' . $e->getMessage(), [ 'app' => $this->appName ]);
 			$response = [ 'status'=>'error' ];
 		}
-		
+
 		return $response;
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 */
@@ -130,21 +130,21 @@ class SessionController extends Controller{
 		try{
 			$esId = isset($args['es_id']) ? $args['es_id'] : null;
 			$session = $this->loadSession($esId);
-	
+
 			$memberId = isset($args['member_id']) ? $args['member_id'] : null;
 			$member = $this->loadMember($memberId);
 
 			$this->validateSession($session);
-	
+
 			switch ($command){
 				case 'sync_ops':
 					$seqHead = (string) isset($args['seq_head']) ? $args['seq_head'] : null;
 					if (!is_null($seqHead)){
 						$ops = isset($args['client_ops']) ? $args['client_ops'] : [];
-						
+
 						$op = new Db\Op();
 						$currentHead = $op->getHeadSeq($esId);
-				
+
 						try {
 							$member->updateActivity($memberId);
 						} catch (\Exception $e){
@@ -180,7 +180,7 @@ class SessionController extends Controller{
 		}
 		return $response;
 	}
-	
+
 	/**
 	 * Store the document content to its origin
 	 * @NoAdminRequired
@@ -190,13 +190,13 @@ class SessionController extends Controller{
 		try {
 			$esId = $this->request->server['HTTP_WEBODF_SESSION_ID'];
 			$session = $this->loadSession($esId);
-			
+
 			$memberId = $this->request->server['HTTP_WEBODF_MEMBER_ID'];
 			$currentMember = $this->loadMember($memberId, $esId);
-			
+
 			// Extra info for future usage
 			// $sessionRevision = $this->request->server['HTTP_WEBODF_SESSION_REVISION'];
-			
+
 			//NB ouch! New document content is passed as an input stream content
 			$stream = fopen('php://input','r');
 			if (!$stream){
@@ -210,7 +210,7 @@ class SessionController extends Controller{
 				} else {
 					$file = new File($session->getFileId());
 				}
-				
+
 				$view = $file->getOwnerView(true);
 				$path = $file->getPath(true);
 			} catch (\Exception $e){
@@ -218,14 +218,14 @@ class SessionController extends Controller{
 				//Sorry, but for guests it would be lost :(
 				if ($this->uid){
 					$view = new View('/' . $this->uid . '/files');
-		
-					$dir = \OC::$server->getConfig()->getUserValue($this->uid, 'richdocuments', 'save_path', '');
+
+					$dir = '/';
 					$path = Helper::getNewFileName($view, $dir . 'New Document.odt');
 				} else {
 					throw $e;
 				}
 			}
-			
+
 			$member = new Db\Member();
 			$members = $member->getActiveCollection($esId);
 			$memberIds = array_map(
@@ -234,25 +234,25 @@ class SessionController extends Controller{
 				},
 				$members
 			);
-			
+
 			// Active users except current user
 			$memberCount = count($memberIds) - 1;
-			
+
 			if ($view->file_exists($path)){
 				$currentHash = $view->hash('sha1', $path, false);
-				
+
 				if (!Helper::isVersionsEnabled() && $currentHash !== $session->getGenesisHash()){
 					// Original file was modified externally. Save to a new one
 					$path = Helper::getNewFileName($view, $path, '-conflict');
 				}
-				
+
 				$mimetype = $view->getMimeType($path);
 			} else {
 				$mimetype = Storage::MIMETYPE_LIBREOFFICE_WORDPROCESSOR;
 			}
-			
+
 			$data = Filter::write($content, $mimetype);
-			
+
 			if ($view->file_put_contents($path, $data['content'])){
 				// Not a last user
 				if ($memberCount>0){
@@ -263,7 +263,7 @@ class SessionController extends Controller{
 					// Last user. Kill session data
 					Db\Session::cleanUp($esId);
 				}
-				
+
 				$view->touch($path);
 			}
 			$response->setData(['status'=>'success']);
@@ -275,7 +275,7 @@ class SessionController extends Controller{
 
 		return $response;
 	}
-	
+
 	protected function validateSession($session){
 		try {
 			if (is_null($this->shareToken)) {
@@ -292,12 +292,12 @@ class SessionController extends Controller{
 			throw $ex;
 		}
 	}
-	
+
 	protected function loadSession($esId){
 		if (!$esId){
 			throw new \Exception('Session id can not be empty');
 		}
-		
+
 		$session = new Db\Session();
 		$session->load($esId);
 		if (!$session->getEsId()){
@@ -305,7 +305,7 @@ class SessionController extends Controller{
 		}
 		return $session;
 	}
-	
+
 	protected function loadMember($memberId, $expectedEsId = null){
 		if (!$memberId){
 			throw new \Exception('Member id can not be empty');
