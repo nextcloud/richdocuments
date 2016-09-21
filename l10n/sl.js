@@ -50,7 +50,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Uporabniki, skupine ali zunanji uporabniki ...",
     "Share" : "Souporaba",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Souporaba z uporabniki, ki so na drugih oblakih ownCloud s povezavo uporabnik@domena.si/owncloud",
-    "Share link" : "Omogoči souporabo prek povezave",
+    "Share link" : "Povezava za souporabo",
     "The public link will expire no later than {days} days after it is created" : "Javna povezava bo potekla {days} dni po ustvarjanju.",
     "Link" : "Povezava",
     "Password protect" : "Zaščiti z geslom",
