@@ -60,7 +60,7 @@ OC.L10N.register(
     "Email link to person" : "Enviar enlace por correo electrónico a una persona",
     "Send" : "Enviar",
     "Set expiration date" : "Establecer fecha de caducidad",
-    "Expiration" : "Expira en:",
+    "Expiration" : "Vencimiento",
     "Expiration date" : "Fecha de caducidad",
     "An error occured. Please try again" : "Ocurrió un error. Por favor, reinténtelo nuevamente.",
     "Adding user..." : "Añadiendo usuario...",
