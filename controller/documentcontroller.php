@@ -67,16 +67,18 @@ class DocumentController extends Controller {
 	/**
 	 * @param \SimpleXMLElement $discovery
 	 * @param string $mimetype
-	 * @param string $action
 	 */
-	private function getWopiSrcUrl($discovery_parsed, $mimetype, $action) {
+	private function getWopiSrcUrl($discovery_parsed, $mimetype) {
 		if(is_null($discovery_parsed) || $discovery_parsed == false) {
 			return null;
 		}
 
-		$result = $discovery_parsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action[@name=\'%s\']', $mimetype, $action));
+		$result = $discovery_parsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
-			return (string)$result[0]['urlsrc'];
+			return array(
+				'urlsrc' => (string)$result[0]['urlsrc'],
+				'action' => (string)$result[0]['name']
+			);
 		}
 
 		return null;
@@ -214,7 +216,9 @@ class DocumentController extends Controller {
 			}
 			$documents[$key]['icon'] = preg_replace('/\.png$/', '.svg', \OCP\Template::mimetype_icon($document['mimetype']));
 			$documents[$key]['hasPreview'] = \OC::$server->getPreviewManager()->isMimeSupported($document['mimetype']);
-			$documents[$key]['urlsrc'] = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype'], 'edit');
+			$ret = $this->getWopiSrcUrl($discovery_parsed, $document['mimetype']);
+			$documents[$key]['urlsrc'] = $ret['urlsrc'];
+			$documents[$key]['action'] = $ret['action'];
 			$documents[$key]['lolang'] = $lolang;
 			$fileIds[] = $document['fileid'];
 		}
@@ -354,10 +358,12 @@ class DocumentController extends Controller {
 
 		if ($content && $view->file_put_contents($path, $content)){
 			$info = $view->getFileInfo($path);
+			$ret = $this->getWopiSrcUrl($discovery_parsed, $mimetype);
 			$response =  array(
 				'status' => 'success',
 				'fileid' => $info['fileid'],
-				'urlsrc' => $this->getWopiSrcUrl($discovery_parsed, $mimetype, 'edit'),
+				'urlsrc' => $ret['urlsrc'],
+				'action' => $ret['action'],
 				'lolang' => $this->settings->getUserValue($this->uid, 'core', 'lang', 'en'),
 				'data' => \OCA\Files\Helper::formatFileInfo($info)
 			);
