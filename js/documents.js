@@ -33,6 +33,7 @@ $.widget('oc.documentGrid', {
 			.attr('title', document.path)
 			.attr('original-title', document.path)
 			.attr('urlsrc', document.urlsrc)
+			.attr('action', document.action)
 			.attr('lolang', document.lolang)
 			.find('label').text(document.name)
 		;
@@ -408,7 +409,7 @@ var documentsMain = {
 			$('#revisionsContainer li').first().find('.versionPreview').click();
 		},
 
-		showEditor : function(title){
+		showEditor : function(title, action){
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
@@ -420,7 +421,7 @@ var documentsMain = {
 			}
 
 			if (!documentsMain.renderComplete) {
-				setTimeout(function() { documentsMain.UI.showEditor(title); }, 500);
+				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 500);
 				console.log('Waiting for page to render ...');
 				return;
 			}
@@ -454,6 +455,9 @@ var documentsMain = {
 						"&lang=" + $('li[data-id='+ documentsMain.fileId +']>a').attr('lolang') +
 						"&closebutton=1" +
 						"&revisionhistory=1";
+					if (action === "view") {
+						urlsrc += "&permission=readonly";
+					}
 
 					// access_token - must be passed via a form post
 					var access_token = encodeURIComponent(result.token);
@@ -785,7 +789,8 @@ var documentsMain = {
 	},
 
 	loadDocument: function() {
-		documentsMain.UI.showEditor(documentsMain.fileName);
+		var action = $('li[data-id='+ documentsMain.fileId +']>a').attr('action');
+		documentsMain.UI.showEditor(documentsMain.fileName, action);
 	},
 
 	renameDocument: function(name) {
