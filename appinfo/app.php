@@ -29,7 +29,6 @@ $app = new Application();
 $c = $app->getContainer();
 
 \OCP\App::registerAdmin('richdocuments', 'admin');
-\OCP\App::registerPersonal('richdocuments', 'personal');
 
 $navigationEntry = function () use ($c) {
 	return [
