@@ -17,10 +17,9 @@ var documentsSettings = {
 
 	saveGroups: function(groups) {
 		var data = {
-			'edit_groups': groups.join('|')
+			'edit_groups': groups
 		};
 
-		console.log('posting to setSettings');
 		$.post(
 			OC.filePath('richdocuments', 'ajax', 'admin.php'),
 			data
@@ -40,14 +39,6 @@ var documentsSettings = {
 		} else {
 			$('.edit-groups-enable').attr('checked', null);
 		}
-
-		$.get(
-			OC.generateUrl('/settings/users/users'),
-			{ limit: 1, pattern: 'admin' },
-			function(result) {
-				console.log(result);
-			}
-		);
 	},
 
 	initialize: function() {
@@ -57,12 +48,6 @@ var documentsSettings = {
 		$(document).on('change', '#edit_group_select', function() {
 			var element = $(this).parent().find('input.edit-groups-enable');
 			var groups = $(this).val();
-			if (groups && groups !== '') {
-				groups = groups.split('|');
-			} else {
-				groups = [];
-			}
-
 			documentsSettings.saveGroups(groups);
 		});
 
