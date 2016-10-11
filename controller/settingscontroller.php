@@ -63,14 +63,19 @@ class SettingsController extends Controller{
 			'admin',
 			[
 				'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+				'edit_groups' => $this->appConfig->getAppValue('edit_groups')
 			],
 			'blank'
 		);
 	}
 
-	public function setSettings($wopi_url){
+	public function setSettings($wopi_url, $edit_groups){
 		if (!is_null($wopi_url)){
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
+		}
+
+		if (!is_null($edit_groups)){
+			$this->appConfig->setAppValue('edit_groups', $edit_groups);
 		}
 
 		$richMemCache = \OC::$server->getMemCacheFactory()->create('richdocuments');
