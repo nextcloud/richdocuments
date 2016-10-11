@@ -269,7 +269,8 @@ class DocumentController extends Controller {
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
-			'wopi_url' => 			$webSocket,
+			'wopi_url' =>			$webSocket,
+			'edit_groups' =>		$this->appConfig->getAppValue('edit_groups')
 		]);
 
 		$policy = new ContentSecurityPolicy();
