@@ -33,13 +33,21 @@ var documentsSettings = {
 	},
 
 	initEditGroups: function() {
-		var groups = $('#edit_group_select').val().split('|');
-		if (groups.length) {
+		var groups = $('#edit_group_select').val();
+		if (groups !== '') {
 			OC.Settings.setupGroupsSelect($('#edit_group_select'));
 			$('.edit-groups-enable').attr('checked', 'checked');
 		} else {
 			$('.edit-groups-enable').attr('checked', null);
 		}
+
+		$.get(
+			OC.generateUrl('/settings/users/users'),
+			{ limit: 1, pattern: 'admin' },
+			function(result) {
+				console.log(result);
+			}
+		);
 	},
 
 	initialize: function() {

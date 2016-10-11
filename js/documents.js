@@ -17,6 +17,31 @@ $.widget('oc.documentGrid', {
 		jQuery.when(this._load(fileId))
 			.then(function(){
 				that._render();
+
+				if (!documentsMain.isGuest) {
+					$.ajax({
+						url: OC.generateUrl('/settings/users/users'),
+						type: 'get',
+						data: { limit: 1, pattern: OC.currentUser },
+						async: false,
+						success: function(result) {
+							var editGroups = $('#edit_groups').val();
+							documentsMain.canEdit = (editGroups === '');
+							if (!documentsMain.canEdit && result.length >= 1) {
+								for (var idx in result[0].groups) {
+									if (editGroups.indexOf(result[0].groups[idx]) !== -1) {
+										documentsMain.canEdit = true;
+										break;
+									}
+								}
+							}
+						},
+						error: function() {
+							console.log('Error fetching information about current user.');
+						}
+					});
+				}
+
 				documentsMain.renderComplete = true;
 			});
 	},
@@ -188,6 +213,7 @@ var documentsMain = {
 	fileName: null,
 	baseName: null,
 	canShare : false,
+	canEdit: false,
 	loadError : false,
 	loadErrorMessage : '',
 	loadErrorHint : '',
@@ -455,7 +481,7 @@ var documentsMain = {
 						"&lang=" + $('li[data-id='+ documentsMain.fileId +']>a').attr('lolang') +
 						"&closebutton=1" +
 						"&revisionhistory=1";
-					if (action === "view") {
+					if (!documentsMain.canEdit || action === "view") {
 						urlsrc += "&permission=readonly";
 					}
 
