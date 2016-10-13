@@ -51,5 +51,13 @@ $eventDispatcher->addListener(
 	}
 );
 
+if (class_exists('\OC\Files\Type\TemplateManager')) {
+    $manager = \OC_Helper::getFileTemplateManager();
+
+    $manager->registerTemplate('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'apps/richdocuments/assets/docxtemplate.docx');
+    $manager->registerTemplate('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'apps/richdocuments/assets/xlsxtemplate.xlsx');
+    $manager->registerTemplate('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'apps/richdocuments/assets/pptxtemplate.pptx');
+}
+
 //Listen to delete file signal
 \OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Richdocuments\Storage", "onDelete");

@@ -26,6 +26,13 @@ var documentsSettings = {
 		);
 	},
 
+	saveDocFormat: function(format) {
+		$.post(
+			OC.filePath('richdocuments', 'ajax', 'admin.php'),
+			{ 'doc_format': format }
+		);
+	},
+
 	afterSave : function(response){
 		$('#wopi_apply').attr('disabled', false);
 		OC.msg.finishedAction('#documents-admin-msg', response);
@@ -44,6 +51,11 @@ var documentsSettings = {
 	initialize: function() {
 		$('#wopi_apply').on('click', documentsSettings.save);
 		documentsSettings.initEditGroups();
+
+		$(document).on('change', '.doc-format-ooxml', function() {
+			var ooxml = this.checked;
+			documentsSettings.saveDocFormat(ooxml ? 'ooxml' : 'odf');
+		});
 
 		$(document).on('change', '#edit_group_select', function() {
 			var element = $(this).parent().find('input.edit-groups-enable');
