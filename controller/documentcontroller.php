@@ -121,12 +121,42 @@ class DocumentController extends Controller {
 		return $response;
 	}
 
+    /**
+     * Return the original wopi url or test wopi url
+     * This depends on whether current user is the member of one of the groups
+     * mentioned in settings in which case different wopi url (aka
+     * test_wopi_url) is used
+     */
+     private function getWopiUrl() {
+         $wopiurl = $this->appConfig->getAppValue('wopi_url');
+
+         $user = \OC::$server->getUserSession()->getUser()->getUID();
+         $testgroups = array_filter(explode('|', $this->appConfig->getAppValue('test_server_groups')));
+         \OC::$server->getLogger()->debug('Testgroups are {testgroups}', [
+             'app' => $this->appName,
+             'testgroups' => $testgroups
+         ]);
+         foreach ($testgroups as $testgroup) {
+             $test = \OC::$server->getGroupManager()->get($testgroup);
+             if (sizeof($test->searchUsers($user)) > 0) {
+                 \OC::$server->getLogger()->debug('User {user} found in {group}', [
+                     'app' => $this->appName,
+                     'user' => $user,
+                     'group' => $testgroup
+                 ]);
+                 return $this->appConfig->getAppValue('test_wopi_url');
+             }
+         }
+
+         return $wopiurl;
+     }
+
 	/** Return the content of discovery.xml - either from cache, or download it.
 	 */
 	private function getDiscovery(){
 		\OC::$server->getLogger()->debug('getDiscovery(): Getting discovery.xml from the cache.');
 
-		$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+		$wopiRemote = $this->getWopiUrl();
 
 		// Provides access to information about the capabilities of a WOPI client
 		// and the mechanisms for invoking those abilities through URIs.
@@ -188,7 +218,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+				$wopiRemote = $this->getWopiUrl();
 
 				return array(
 					'status' => 'error',
@@ -246,7 +276,7 @@ class DocumentController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+		$wopiRemote = $this->getWopiUrl();
 		if (($parts = parse_url($wopiRemote)) && isset($parts['scheme']) && isset($parts['host'])) {
 			$webSocketProtocol = "ws://";
 			if ($parts['scheme'] == "https") {
@@ -350,7 +380,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+				$wopiRemote = $this->getWopiUrl();
 
 				return array(
 					'status' => 'error',
