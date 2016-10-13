@@ -292,16 +292,22 @@ class DocumentController extends Controller {
 			return $this->responseError($this->l10n->t('Collabora Online: Invalid URL "%s".', array($wopiRemote)), $this->l10n->t('Please ask your administrator to check the Collabora Online server setting.'));
 		}
 
+		$user = \OC::$server->getUserSession()->getUser();
+		$usergroups = array_filter(\OC::$server->getGroupManager()->getUserGroupIds($user));
+		$usergroups = join('|', $usergroups);
+		\OC::$server->getLogger()->debug('User is in groups: {groups}', [ 'app' => $this->appName, 'groups' => $usergroups ]);
+
 		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 		$response = new TemplateResponse('richdocuments', 'documents', [
-			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
+			'enable_previews' =>		$this->settings->getSystemValue('enable_previews', true),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
-			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
+			'allowShareWithLink' =>		$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
 			'wopi_url' =>			$webSocket,
 			'edit_groups' =>		$this->appConfig->getAppValue('edit_groups'),
-			'doc_format' =>			$this->appConfig->getAppValue('doc_format')
+			'doc_format' =>			$this->appConfig->getAppValue('doc_format'),
+			'usergroups' =>			$usergroups
 		]);
 
 		$policy = new ContentSecurityPolicy();
