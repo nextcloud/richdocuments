@@ -10,6 +10,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Δεν έχετε άδεια να μετονομάσετε αυτό το έγγραφο",
     "Saved" : "Αποθηκεύτηκαν",
     "Saving..." : "Γίνεται αποθήκευση...",
+    "All" : "Όλα",
     "Failed to load documents." : "Αποτυχία φόρτωσης εγγράφων.",
     "No documents were found. Upload or create a document to get started!" : "Δεν βρέθηκαν έγγραφα. Μεταφορτώστε ή δημιουργήστε ένα έγγραφο για να αρχίσετε!",
     "Latest revision" : "Τελευταία αναθεώρηση",

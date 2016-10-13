@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "ドキュメント名を変更する権限がありません",
     "Saved" : "保存されました",
     "Saving..." : "保存中...",
+    "All" : "すべて",
     "Failed to load the document, please contact your administrator." : "このドキュメントの読み込みに失敗しました。管理者に問い合わせてください。",
     "Failed to load documents." : "ドキュメントのロードに失敗しました。",
     "No documents were found. Upload or create a document to get started!" : "ドキュメントはありません。アップロードもしくは新規に作成してください！",

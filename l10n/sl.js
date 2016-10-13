@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ...",
     "Saved" : "Shranjeno",
     "Saving..." : "Poteka shranjevanje ...",
+    "All" : "Vse",
     "Failed to load the document, please contact your administrator." : "Nalaganje dokumenta je spodletelo. Stopite v stik s skrbnikom.",
     "Failed to load documents." : "Nalaganje dokumentov je spodletelo.",
     "No documents were found. Upload or create a document to get started!" : "Ni najdenih dokumentov. Ustvarite ga ali pa pošljite obstoječega v oblak.",

@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Du har ikke tilladelse til at omdøbe dette dokument",
     "Saved" : "Gemt",
     "Saving..." : "Gemmer...",
+    "All" : "Alle",
     "Failed to load the document, please contact your administrator." : "Der opstod et problem ved indlæsning af dokumentet, kontakt venligst din administrator.",
     "Failed to load documents." : "Kunne ikke hente dokumenterne. ",
     "No documents were found. Upload or create a document to get started!" : "Der blev ikke fundet nogle dokumenter. Upload eller opret et dokument for at komme igang",

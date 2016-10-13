@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Bu belgeyi adlandırmak için izniniz yok.",
     "Saved" : "Kaydedildi",
     "Saving..." : "Kaydediliyor...",
+    "All" : "Tümü",
     "Failed to load the document, please contact your administrator." : "Belge yüklenemedi, lütfen sistem yöneticinizle görüşün.",
     "Failed to load documents." : "Belgeler yüklenemedi.",
     "No documents were found. Upload or create a document to get started!" : "Hiçbir belge bulunamadı. Lütfen bir belge yükleyin veya oluşturun!",

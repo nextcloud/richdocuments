@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Vous n'avez pas les droits suffisants pour renommer ce document",
     "Saved" : "Sauvegardé",
     "Saving..." : "Enregistrement...",
+    "All" : "Tout",
     "Failed to load the document, please contact your administrator." : "Echec lors du chargement du document, merci de contacter votre administrateur.",
     "Failed to load documents." : "Échec du chargement des documents.",
     "No documents were found. Upload or create a document to get started!" : "Aucun document n’a été trouvé. Veuillez en créer un nouveau ou en importer un existant afin de commencer !",

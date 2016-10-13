@@ -18,6 +18,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Вам бракує прав на зміну імені цього документу",
     "Saved" : "Збережено",
     "Saving..." : "Збереження...",
+    "All" : "Всі",
     "Failed to load documents." : "Не вдалося завантажити документи.",
     "No documents were found. Upload or create a document to get started!" : "Документів не знайдено. Завантажте або створіть новий документ для початку!",
     "Latest revision" : "Остання ревізія",

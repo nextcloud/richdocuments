@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "Nun tienes permisu pa camudar de nome a esti documentu",
     "Saved" : "Guardáu",
     "Saving..." : "Guardando...",
+    "All" : "Toos",
     "Failed to load the document, please contact your administrator." : "Nun pudo cargase'l documentu , por favor, póngase en contactu col so alministrador .",
     "Failed to load documents." : "Fallu al cargar los documentos.",
     "No documents were found. Upload or create a document to get started!" : "Nun s'alcontrarón documentos. ¡Xubi o crea un documentu pa entamar!",

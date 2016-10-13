@@ -22,6 +22,7 @@ OC.L10N.register(
     "You don't have permission to rename this document" : "You don't have permission to rename this document",
     "Saved" : "Saved",
     "Saving..." : "Saving...",
+    "All" : "All",
     "Failed to load the document, please contact your administrator." : "Failed to load the document, please contact your administrator.",
     "Failed to load documents." : "Failed to load documents.",
     "No documents were found. Upload or create a document to get started!" : "No documents were found. Upload or create a document to get started!",
