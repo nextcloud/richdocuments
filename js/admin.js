@@ -72,10 +72,6 @@ var documentsSettings = {
 		var testserver = $(document).find('#test_wopi_url').val();
 
 		if (groups === '' || testserver === '') {
-			$(document).find('label[for="test_server_group_select"]').hide();
-			$(document).find('label[for="test_wopi_url"]').hide();
-			$(document).find('#test_wopi_url').hide();
-			$(document).find('#test_wopi_apply').hide();
 			$('.test-server-enable').attr('checked', null);
 		} else {
 			OC.Settings.setupGroupsSelect($('#test_server_group_select'));
@@ -94,22 +90,14 @@ var documentsSettings = {
 			var $select = page.find('#test_server_group_select');
 			$select.val('');
 
+			page.find('#test-server-section').toggleClass('hidden', !this.checked);
 			if (this.checked) {
-				page.find('label[for="test_server_group_select"]').show();
-				page.find('label[for="test_wopi_url"]').show();
-				page.find('#test_wopi_apply').show();
-				page.find('#test_wopi_url').show();
-
 				OC.Settings.setupGroupsSelect($select, {
 					placeholder: t('core', 'None')
 				});
 			} else {
-				page.find('label[for="test_server_group_select"]').hide();
-				page.find('label[for="test_wopi_url"]').hide();
-				page.find('#test_wopi_apply').hide();
-				page.find('#test_wopi_url').val('');
-				page.find('#test_wopi_url').hide();
 				$select.select2('destroy');
+				page.find('#test_wopi_url').val('');
 
 				documentsSettings.saveTestWopi('', '');
 			}
