@@ -712,6 +712,21 @@ var documentsMain = {
 		documentsMain.create('application/vnd.oasis.opendocument.presentation');
 	},
 
+	onCreateDOCX: function(event){
+		event.preventDefault();
+		documentsMain.create('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+	},
+
+	onCreateXLSX: function(event){
+		event.preventDefault();
+		documentsMain.create('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+	},
+
+	onCreatePPTX: function(event){
+		event.preventDefault();
+		documentsMain.create('application/vnd.openxmlformats-officedocument.presentationml.presentation');
+	},
+
 	create: function(mimetype){
 		var docElem = $('.documentslist .template').clone();
 		docElem.removeClass('template');
@@ -970,7 +985,7 @@ FileList.generatePreviewUrl = function(urlSpec) {
 	urlSpec.y = Math.ceil(urlSpec.y);
 	urlSpec.forceIcon = 0;
 	return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-}
+};
 
 FileList.isFileNameValid = function (name) {
 	var trimmedName = name.trim();
@@ -980,14 +995,14 @@ FileList.isFileNameValid = function (name) {
 		throw t('files', 'File name cannot be empty.');
 	}
 	return true;
-}
+};
 
 FileList.setViewerMode = function(){
 };
 FileList.findFile = function(fileName){
 	fullPath = escapeHTML(FileList.getCurrentDirectory + '/' + fileName);
-	return !!$('.documentslist .document:not(.template,.progress) a[original-title="' + fullPath + '"]').length
-}
+	return !!$('.documentslist .document:not(.template,.progress) a[original-title="' + fullPath + '"]').length;
+};
 
 $(document).ready(function() {
 
@@ -1030,10 +1045,13 @@ $(document).ready(function() {
 	$('.add-document').on('click', '.add-odt', documentsMain.onCreateODT);
 	$('.add-document').on('click', '.add-ods', documentsMain.onCreateODS);
 	$('.add-document').on('click', '.add-odp', documentsMain.onCreateODP);
+	$('.add-document').on('click', '.add-docx', documentsMain.onCreateDOCX);
+	$('.add-document').on('click', '.add-xlsx', documentsMain.onCreateXLSX);
+	$('.add-document').on('click', '.add-pptx', documentsMain.onCreatePPTX);
 
 	OC.Upload._isReceivedSharedFile = function () {
 		return false;
-	}
+	};
 
 	var file_upload_start = $('#file_upload_start');
 	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {

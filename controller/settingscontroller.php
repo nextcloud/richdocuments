@@ -44,6 +44,16 @@ class SettingsController extends Controller{
 	}
 
 	/**
+	 * @NoAdminRequired
+	 */
+	public function getSettings() {
+		return array(
+			'doc_format' => $this->appConfig->getAppValue('doc_format'),
+			'wopi_url' => $this->appConfig->getAppValue('wopi_url')
+		);
+	}
+
+	/**
 	 * @NoCSRFRequired
 	 */
 	public function settingsIndex(){
@@ -63,19 +73,24 @@ class SettingsController extends Controller{
 			'admin',
 			[
 				'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
-				'edit_groups' => $this->appConfig->getAppValue('edit_groups')
+				'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
+				'doc_format' => $this->appConfig->getAppValue('doc_format')
 			],
 			'blank'
 		);
 	}
 
-	public function setSettings($wopi_url, $edit_groups){
+	public function setSettings($wopi_url, $edit_groups, $doc_format){
 		if (!is_null($wopi_url)){
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
 		}
 
 		if (!is_null($edit_groups)){
 			$this->appConfig->setAppValue('edit_groups', $edit_groups);
+		}
+
+		if (!is_null($doc_format)){
+			$this->appConfig->setAppValue('doc_format', $doc_format);
 		}
 
 		$richMemCache = \OC::$server->getMemCacheFactory()->create('richdocuments');

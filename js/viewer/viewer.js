@@ -96,6 +96,88 @@ var odfViewer = {
 	onClose: function() {
 		FileList.setViewerMode(false);
 		$('#loleafletframe').remove();
+	},
+
+	registerFilesMenu: function(response) {
+		var ooxml = response.doc_format === 'ooxml';
+
+		var docExt, spreadsheetExt, presentationExt;
+		var docMime, spreadsheetMime, presentationMime;
+		if (ooxml) {
+			docExt = 'docx';
+			spreadsheetExt = 'xlsx';
+			presentationExt = 'pptx';
+			docMime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+			spreadsheetMime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+			presentationMime =	'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+		} else {
+			docExt = 'odt';
+			spreadsheetExt = 'ods';
+			presentationExt = 'odp';
+			docMime = 'application/vnd.oasis.opendocument.text';
+			spreadsheetMime = 'application/vnd.oasis.opendocument.spreadsheet';
+			presentationMime = 'application/vnd.oasis.opendocument.presentation';
+		}
+
+		(function(OCA){
+			OCA.FilesLOMenu = {
+				attach: function(newFileMenu) {
+					var self = this;
+
+					newFileMenu.addMenuEntry({
+						id: 'add-' + docExt,
+						displayName: t('richdocuments', 'Document'),
+						templateName: 'New Document.' + docExt,
+						iconClass: 'icon-filetype-document',
+						fileType: 'x-office-document',
+						actionHandler: function(filename) {
+							self._createDocument(docMime, filename);
+						}
+					});
+
+					newFileMenu.addMenuEntry({
+						id: 'add-' + spreadsheetExt,
+						displayName: t('richdocuments', 'Spreadsheet'),
+						templateName: 'New Spreadsheet.' + spreadsheetExt,
+						iconClass: 'icon-filetype-spreadsheet',
+						fileType: 'x-office-spreadsheet',
+						actionHandler: function(filename) {
+							self._createDocument(spreadsheetMime, filename);
+						}
+					});
+
+					newFileMenu.addMenuEntry({
+						id: 'add-' + presentationExt,
+						displayName: t('richdocuments', 'Presentation'),
+						templateName: 'New Presentation.' + presentationExt,
+						iconClass: 'icon-filetype-presentation',
+						fileType: 'x-office-presentation',
+						actionHandler: function(filename) {
+							self._createDocument(presentationMime, filename);
+						}
+					});
+				},
+
+				_createDocument: function(mimetype, filename) {
+					OCA.Files.Files.isFileNameValid(filename);
+					filename = FileList.getUniqueName(filename);
+
+					$.post(
+						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
+						{ mimetype : mimetype, filename: filename, dir: $('#dir').val() },
+						function(response){
+							if (response && response.status === 'success'){
+								FileList.add(response.data, {animate: true, scrollTo: true});
+							} else {
+								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'));
+							}
+						}
+					);
+				}
+			};
+		})(OCA);
+
+		OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu);
 	}
 };
 
@@ -109,67 +191,13 @@ $(document).ready(function() {
 			{},
 			odfViewer.register
 		);
+
+		$.get(
+			OC.filePath('richdocuments', 'ajax', 'settings.php'),
+			{},
+			odfViewer.registerFilesMenu
+		);
 	}
 
 	$('#odf_close').live('click', odfViewer.onClose);
 });
-
-(function(OCA){
-	OCA.FilesLOMenu = {
-		attach: function(newFileMenu) {
-			var self = this;
-
-			newFileMenu.addMenuEntry({
-				id: 'add-odt',
-				displayName: t('richdocuments', 'Document'),
-				templateName: 'New Document.odt',
-				iconClass: 'icon-filetype-document',
-				fileType: 'x-office-document',
-				actionHandler: function(filename) {
-					self._createDocument('application/vnd.oasis.opendocument.text', filename);
-				}
-			});
-
-			newFileMenu.addMenuEntry({
-				id: 'add-ods',
-				displayName: t('richdocuments', 'Spreadsheet'),
-				templateName: 'New Spreadsheet.ods',
-				iconClass: 'icon-filetype-spreadsheet',
-				fileType: 'x-office-spreadsheet',
-				actionHandler: function(filename) {
-					self._createDocument('application/vnd.oasis.opendocument.spreadsheet', filename);
-				}
-			});
-
-			newFileMenu.addMenuEntry({
-				id: 'add-odp',
-				displayName: t('richdocuments', 'Presentation'),
-				templateName: 'New Presentation.odp',
-				iconClass: 'icon-filetype-presentation',
-				fileType: 'x-office-presentation',
-				actionHandler: function(filename) {
-					self._createDocument('application/vnd.oasis.opendocument.presentation', filename);
-				}
-			});
-		},
-
-		_createDocument: function(mimetype, filename) {
-			OCA.Files.Files.isFileNameValid(filename);
-			filename = FileList.getUniqueName(filename);
-
-			$.post(
-				OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-				{ mimetype : mimetype, filename: filename, dir: $('#dir').val() },
-				function(response){
-					if (response && response.status === 'success'){
-						FileList.add(response.data, {animate: true, scrollTo: true});
-					} else {
-						OC.dialogs.alert(response.data.message, t('core', 'Could not create file'));
-					}
-				}
-			);
-		}
-	};
-})(OCA);
-
-OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu);

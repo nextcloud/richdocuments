@@ -270,7 +270,8 @@ class DocumentController extends Controller {
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
 			'wopi_url' =>			$webSocket,
-			'edit_groups' =>		$this->appConfig->getAppValue('edit_groups')
+			'edit_groups' =>		$this->appConfig->getAppValue('edit_groups'),
+			'doc_format' =>			$this->appConfig->getAppValue('doc_format')
 		]);
 
 		$policy = new ContentSecurityPolicy();
@@ -307,6 +308,15 @@ class DocumentController extends Controller {
 				break;
 			case 'application/vnd.oasis.opendocument.presentation':
 				$basename = $this->l10n->t('New Presentation.odp');
+				break;
+			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+				$basename = $this->l10n->t('New Document.docx');
+				break;
+			case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+				$basename = $this->l10n->t('New Spreadsheet.xlsx');
+				break;
+			case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+				$basename = $this->l10n->t('New Presentation.pptx');
 				break;
 			default:
 				// to be safe

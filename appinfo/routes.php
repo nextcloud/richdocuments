@@ -41,5 +41,6 @@ $application->registerRoutes($this, [
 		//settings
 		['name' => 'settings#setSettings', 'url' => 'ajax/admin.php', 'verb' => 'POST'],
 		['name' => 'settings#getSupportedMimes', 'url' => 'ajax/mimes.php', 'verb' => 'GET'],
+		['name' => 'settings#getSettings', 'url' => 'ajax/settings.php', 'verb' => 'GET'],
 	]
 ]);
