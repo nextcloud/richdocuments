@@ -19,8 +19,16 @@ $.widget('oc.documentGrid', {
 				that._render();
 
 				if (!documentsMain.isGuest) {
-					var editGroups = $('#edit_groups').val().split('|');
-					var usergroups = $('#usergroups').val().split('|');
+					var editGroups = $('#edit_groups').val()
+					    .split('|')
+					    .filter(function(e) {
+						    return e.length !== 0;
+					    });
+					var usergroups = $('#usergroups').val()
+					    .split('|')
+					    .filter(function(e) {
+						    return e.length !== 0;
+					    });
 					documentsMain.canEdit = (editGroups.length === 0);
 					if (!documentsMain.canEdit && usergroups.length >= 1) {
 						for (var idx in usergroups) {
