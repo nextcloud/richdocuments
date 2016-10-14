@@ -19,27 +19,17 @@ $.widget('oc.documentGrid', {
 				that._render();
 
 				if (!documentsMain.isGuest) {
-					$.ajax({
-						url: OC.generateUrl('/settings/users/users'),
-						type: 'get',
-						data: { limit: 1, pattern: OC.currentUser },
-						async: false,
-						success: function(result) {
-							var editGroups = $('#edit_groups').val();
-							documentsMain.canEdit = (editGroups === '');
-							if (!documentsMain.canEdit && result.length >= 1) {
-								for (var idx in result[0].groups) {
-									if (editGroups.indexOf(result[0].groups[idx]) !== -1) {
-										documentsMain.canEdit = true;
-										break;
-									}
-								}
+					var editGroups = $('#edit_groups').val().split('|');
+					var usergroups = $('#usergroups').val().split('|');
+					documentsMain.canEdit = (editGroups.length === 0);
+					if (!documentsMain.canEdit && usergroups.length >= 1) {
+						for (var idx in usergroups) {
+							if (editGroups.indexOf(usergroups[idx]) !== -1) {
+								documentsMain.canEdit = true;
+								break;
 							}
-						},
-						error: function() {
-							console.log('Error fetching information about current user.');
 						}
-					});
+					}
 				}
 
 				documentsMain.renderComplete = true;

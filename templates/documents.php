@@ -53,3 +53,4 @@ script('files', 'jquery.fileupload');
 <?php endif; ?>
 <input type="hidden" name="allowShareWithLink" id="allowShareWithLink" value="<?php p($_['allowShareWithLink']) ?>" />
 <input type="hidden" name="edit_groups" id="edit_groups" value="<?php p($_['edit_groups']) ?>" />
+<input type="hidden" name="usergroups" id="usergroups" value="<?php p($_['usergroups']) ?>" />

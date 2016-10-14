@@ -49,7 +49,9 @@ class SettingsController extends Controller{
 	public function getSettings() {
 		return array(
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
-			'wopi_url' => $this->appConfig->getAppValue('wopi_url')
+			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+			'test_wopi_url' => $this->appConfig->getAppValue('test_wopi_url'),
+			'test_server_groups' => $this->appConfig->getAppValue('test_server_groups')
 		);
 	}
 
@@ -74,13 +76,15 @@ class SettingsController extends Controller{
 			[
 				'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
 				'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
-				'doc_format' => $this->appConfig->getAppValue('doc_format')
+				'doc_format' => $this->appConfig->getAppValue('doc_format'),
+				'test_wopi_url' => $this->appConfig->getAppValue('test_wopi_url'),
+				'test_server_groups' => $this->appConfig->getAppValue('test_server_groups')
 			],
 			'blank'
 		);
 	}
 
-	public function setSettings($wopi_url, $edit_groups, $doc_format){
+	public function setSettings($wopi_url, $edit_groups, $doc_format, $test_wopi_url, $test_server_groups){
 		if (!is_null($wopi_url)){
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
 		}
@@ -91,6 +95,14 @@ class SettingsController extends Controller{
 
 		if (!is_null($doc_format)){
 			$this->appConfig->setAppValue('doc_format', $doc_format);
+		}
+
+		if (!is_null($test_wopi_url)){
+			$this->appConfig->setAppValue('test_wopi_url', $test_wopi_url);
+		}
+
+		if (!is_null($test_server_groups)){
+			$this->appConfig->setAppValue('test_server_groups', $test_server_groups);
 		}
 
 		$richMemCache = \OC::$server->getMemCacheFactory()->create('richdocuments');

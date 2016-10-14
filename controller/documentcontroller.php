@@ -121,12 +121,42 @@ class DocumentController extends Controller {
 		return $response;
 	}
 
+    /**
+     * Return the original wopi url or test wopi url
+     * This depends on whether current user is the member of one of the groups
+     * mentioned in settings in which case different wopi url (aka
+     * test_wopi_url) is used
+     */
+     private function getWopiUrl() {
+         $wopiurl = $this->appConfig->getAppValue('wopi_url');
+
+         $user = \OC::$server->getUserSession()->getUser()->getUID();
+         $testgroups = array_filter(explode('|', $this->appConfig->getAppValue('test_server_groups')));
+         \OC::$server->getLogger()->debug('Testgroups are {testgroups}', [
+             'app' => $this->appName,
+             'testgroups' => $testgroups
+         ]);
+         foreach ($testgroups as $testgroup) {
+             $test = \OC::$server->getGroupManager()->get($testgroup);
+             if (sizeof($test->searchUsers($user)) > 0) {
+                 \OC::$server->getLogger()->debug('User {user} found in {group}', [
+                     'app' => $this->appName,
+                     'user' => $user,
+                     'group' => $testgroup
+                 ]);
+                 return $this->appConfig->getAppValue('test_wopi_url');
+             }
+         }
+
+         return $wopiurl;
+     }
+
 	/** Return the content of discovery.xml - either from cache, or download it.
 	 */
 	private function getDiscovery(){
 		\OC::$server->getLogger()->debug('getDiscovery(): Getting discovery.xml from the cache.');
 
-		$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+		$wopiRemote = $this->getWopiUrl();
 
 		// Provides access to information about the capabilities of a WOPI client
 		// and the mechanisms for invoking those abilities through URIs.
@@ -188,7 +218,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+				$wopiRemote = $this->getWopiUrl();
 
 				return array(
 					'status' => 'error',
@@ -246,7 +276,7 @@ class DocumentController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+		$wopiRemote = $this->getWopiUrl();
 		if (($parts = parse_url($wopiRemote)) && isset($parts['scheme']) && isset($parts['host'])) {
 			$webSocketProtocol = "ws://";
 			if ($parts['scheme'] == "https") {
@@ -262,16 +292,22 @@ class DocumentController extends Controller {
 			return $this->responseError($this->l10n->t('Collabora Online: Invalid URL "%s".', array($wopiRemote)), $this->l10n->t('Please ask your administrator to check the Collabora Online server setting.'));
 		}
 
+		$user = \OC::$server->getUserSession()->getUser();
+		$usergroups = array_filter(\OC::$server->getGroupManager()->getUserGroupIds($user));
+		$usergroups = join('|', $usergroups);
+		\OC::$server->getLogger()->debug('User is in groups: {groups}', [ 'app' => $this->appName, 'groups' => $usergroups ]);
+
 		\OC::$server->getNavigationManager()->setActiveEntry( 'richdocuments_index' );
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize("/");
 		$response = new TemplateResponse('richdocuments', 'documents', [
-			'enable_previews' => 		$this->settings->getSystemValue('enable_previews', true),
+			'enable_previews' =>		$this->settings->getSystemValue('enable_previews', true),
 			'uploadMaxFilesize' =>		$maxUploadFilesize,
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
-			'allowShareWithLink' => 	$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
+			'allowShareWithLink' =>		$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
 			'wopi_url' =>			$webSocket,
 			'edit_groups' =>		$this->appConfig->getAppValue('edit_groups'),
-			'doc_format' =>			$this->appConfig->getAppValue('doc_format')
+			'doc_format' =>			$this->appConfig->getAppValue('doc_format'),
+			'usergroups' =>			$usergroups
 		]);
 
 		$policy = new ContentSecurityPolicy();
@@ -350,7 +386,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->appConfig->getAppValue('wopi_url');
+				$wopiRemote = $this->getWopiUrl();
 
 				return array(
 					'status' => 'error',
