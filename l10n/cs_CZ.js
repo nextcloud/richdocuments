@@ -93,6 +93,7 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (a port) Collabora Online serveru, který poskytuje funkce úprav jako WOPI klient.",
     "Apply" : "Použít",
+    "Enable edit for specific groups" : "Povolit úpravy pouze vybraným skupinám",
     "New Document" : "Nový dokument",
     "New Spreadsheet" : "Nová tabulka",
     "New Presentation" : "Nová prezentace",

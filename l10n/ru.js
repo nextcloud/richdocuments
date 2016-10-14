@@ -93,6 +93,7 @@ OC.L10N.register(
     "Collabora Online server" : "Сервер Collabora Online",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (и порт) сервера Collabora Online, который предоставляет возможность редактирования, как клиент WOPI.",
     "Apply" : "Применить",
+    "Enable edit for specific groups" : "Включить редактирование только для этих групп",
     "New Document" : "Новый документ",
     "New Spreadsheet" : "Новая таблица",
     "New Presentation" : "Новая презентация",
