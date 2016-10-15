@@ -18,6 +18,8 @@ OC.L10N.register(
     "New Document.odt" : "Nieuw Document.odt",
     "New Spreadsheet.ods" : "Nieuw werkblad.ods",
     "New Presentation.odp" : "Nieuw presentatie.odp",
+    "New Document.docx" : "Nieuw Document.docx",
+    "New Presentation.pptx" : "Nieuwe presentatie.pptx",
     "Can't create document" : "Kan document niet creëren",
     "You don't have permission to rename this document" : "U hebt niet de autorisatie om die document te hernoemen",
     "Saved" : "Bewaard",
