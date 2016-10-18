@@ -479,9 +479,33 @@ class DocumentController extends Controller {
 		$this->loginUser($res['editor']);
 		$view = new \OC\Files\View('/' . $res['editor'] . '/files');
 		$info = $view->getFileInfo($res['path']);
+		$updatable = (bool)$view->isUpdatable($res['path']);
 
+		\OC::$server->getLogger()->debug('File with {fileid} has updatable set to {updatable}', [ 'app' => $this->appName, 'fileid' => $fileId, 'updatable' => $updatable ]);
 		// Close the session created for user login
 		\OC::$server->getSession()->close();
+
+		// Check if the editor (user who is accessing) is in editable group
+		$editorUid = \OC::$server->getUserManager()->get($res['editor'])->getUID();
+		$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
+
+		// UserCanWrite only if
+		// 1. No edit groups are set or
+		// 2. if they are set, it is in one of the edit groups
+		if ($updatable && count($editGroups) > 0) {
+			$updatable = false;
+			foreach($editGroups as $editGroup) {
+				$editorGroup = \OC::$server->getGroupManager()->get($editGroup);
+				if (sizeof($editorGroup->searchUsers($editorUid)) > 0) {
+					\OC::$server->getLogger()->debug("Editor {editor} is in edit group {group}", [
+						'app' => $this->appName,
+						'editor' => $editorUid,
+						'group' => $editGroup
+					]);
+					$updatable = true;
+				}
+			}
+		}
 
 		if (!$info) {
 			http_response_code(404);
@@ -489,13 +513,13 @@ class DocumentController extends Controller {
 		}
 
 		$editorName = \OC::$server->getUserManager()->get($res['editor'])->getDisplayName();
-		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
 		return array(
 			'BaseFileName' => $info['name'],
 			'Size' => $info['size'],
 			'Version' => $version,
 			'UserId' => $res['editor'],
-			'UserFriendlyName' => $editorName
+			'UserFriendlyName' => $editorName,
+			'UserCanWrite' => $updatable
 		);
 	}
 
