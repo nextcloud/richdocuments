@@ -49,7 +49,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 		// Get the virtual path (if the file is shared).
 		$path = $view->getPath($fileId);
 
-		if (!$view->is_file($path) || !$view->isUpdatable($path)) {
+		if (!$view->is_file($path)) {
 			throw new \Exception('Invalid fileId.');
 		}
 

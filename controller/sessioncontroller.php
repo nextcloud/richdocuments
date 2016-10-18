@@ -99,16 +99,9 @@ class SessionController extends Controller{
 			$view = \OC\Files\Filesystem::getView();
 			$path = $view->getPath($fileId);
 
-			if ($view->isUpdatable($path)) {
-				$file = new File($fileId);
-				$response = Db\Session::start($this->uid, $file);
-			} else {
-				$info = $view->getFileInfo($path);
-				$response = [
-					'permissions' => $info['permissions'],
-					'id' => $fileId
-				];
-			}
+			$file = new File($fileId);
+			$response = Db\Session::start($this->uid, $file);
+
 			$response = array_merge(
 					$response,
 					[ 'status'=>'success' ]

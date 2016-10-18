@@ -18,6 +18,7 @@ $.widget('oc.documentGrid', {
 			.then(function(){
 				that._render();
 
+				// TODO: Handle all of this logic by sending UserCanWrite: false to loolwsd
 				if (!documentsMain.isGuest) {
 					var editGroups = $('#edit_groups').val()
 					    .split('|')
@@ -658,6 +659,7 @@ var documentsMain = {
 
 			documentsMain.esId = response.es_id;
 			documentsMain.memberId = response.member_id;
+			documentsMain.canEdit = response.permissions & OC.PERMISSION_UPDATE;
 
 			documentsMain.loadDocument();
 
