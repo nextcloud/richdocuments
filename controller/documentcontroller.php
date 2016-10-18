@@ -476,9 +476,8 @@ class DocumentController extends Controller {
 		}
 
 		// Login the user to see his mount locations
-		$this->loginUser($res['owner']);
-
-		$view = new \OC\Files\View('/' . $res['owner'] . '/files');
+		$this->loginUser($res['editor']);
+		$view = new \OC\Files\View('/' . $res['editor'] . '/files');
 		$info = $view->getFileInfo($res['path']);
 
 		// Close the session created for user login
