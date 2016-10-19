@@ -321,6 +321,13 @@
 				<comments>Relative to storage e.g. /welcome.odt</comments>
 			</field>
 			<field>
+				<name>canwrite</name>
+				<type>boolean</type>
+				<default>false</default>
+				<notnull>true</notnull>
+				<comments>Can make changes to this file</comments>
+			</field>
+			<field>
 				<name>token</name>
 				<type>text</type>
 				<default></default>

@@ -450,8 +450,41 @@ class DocumentController extends Controller {
 
 		\OC::$server->getLogger()->debug('Generating WOPI Token for file {fileId}, version {version}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version ]);
 
+		$view = \OC\Files\Filesystem::getView();
+		$path = $view->getPath($fileId);
+		$updatable = (bool)$view->isUpdatable($path);
+
+		// Check if the editor (user who is accessing) is in editable group
+		// UserCanWrite only if
+		// 1. No edit groups are set or
+		// 2. if they are set, it is in one of the edit groups
+		$editorUid = \OC::$server->getUserSession()->getUser()->getUID();
+		$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
+		if ($updatable && count($editGroups) > 0) {
+			$updatable = false;
+			foreach($editGroups as $editGroup) {
+				$editorGroup = \OC::$server->getGroupManager()->get($editGroup);
+				if (sizeof($editorGroup->searchUsers($editorUid)) > 0) {
+					\OC::$server->getLogger()->debug("Editor {editor} is in edit group {group}", [
+						'app' => $this->appName,
+						'editor' => $editorUid,
+						'group' => $editGroup
+					]);
+					$updatable = true;
+				}
+			}
+		}
+
+		// If token is for some versioned file
+		if ($version !== '0') {
+			\OC::$server->getLogger()->debug('setting updatable to false');
+			$updatable = false;
+		}
+
+		\OC::$server->getLogger()->debug('File with {fileid} has updatable set to {updatable}', [ 'app' => $this->appName, 'fileid' => $fileId, 'updatable' => $updatable ]);
+
 		$row = new Db\Wopi();
-		$token = $row->generateFileToken($fileId, $version);
+		$token = $row->generateFileToken($fileId, $version, $updatable);
 
 		// Return the token.
 		return array(
@@ -491,33 +524,8 @@ class DocumentController extends Controller {
 		$this->loginUser($res['editor']);
 		$view = \OC\Files\Filesystem::getView();
 		$info = $view->getFileInfo($res['path']);
-		$updatable = (bool)$view->isUpdatable($res['path']);
-
-		\OC::$server->getLogger()->debug('File with {fileid} has updatable set to {updatable}', [ 'app' => $this->appName, 'fileid' => $fileId, 'updatable' => $updatable ]);
 
 		$this->logoutUser();
-
-		// Check if the editor (user who is accessing) is in editable group
-		$editorUid = \OC::$server->getUserManager()->get($res['editor'])->getUID();
-		$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
-
-		// UserCanWrite only if
-		// 1. No edit groups are set or
-		// 2. if they are set, it is in one of the edit groups
-		if ($updatable && count($editGroups) > 0) {
-			$updatable = false;
-			foreach($editGroups as $editGroup) {
-				$editorGroup = \OC::$server->getGroupManager()->get($editGroup);
-				if (sizeof($editorGroup->searchUsers($editorUid)) > 0) {
-					\OC::$server->getLogger()->debug("Editor {editor} is in edit group {group}", [
-						'app' => $this->appName,
-						'editor' => $editorUid,
-						'group' => $editGroup
-					]);
-					$updatable = true;
-				}
-			}
-		}
 
 		if (!$info) {
 			http_response_code(404);
@@ -531,7 +539,7 @@ class DocumentController extends Controller {
 			'Version' => $version,
 			'UserId' => $res['editor'],
 			'UserFriendlyName' => $editorName,
-			'UserCanWrite' => $updatable
+			'UserCanWrite' => $res['canwrite'] ? 'true' : 'false'
 		);
 	}
 
@@ -599,20 +607,18 @@ class DocumentController extends Controller {
 			$version = $arr[1];
 		}
 
-		// Changing a previous version of the file is not possible
-		// Ignore WOPI put if such a request is encountered
-		if ($version !== '0') {
-			return array(
-				'status' => 'success'
-			);
-		}
-
 		\OC::$server->getLogger()->debug('Putting contents of file {fileId}, version {version} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version, 'token' => $token ]);
 
 		$row = new Db\Wopi();
 		$row->loadBy('token', $token);
 
 		$res = $row->getPathForToken($fileId, $version, $token);
+		if (!$res['canwrite']) {
+			return array(
+				'status' => 'error',
+				'message' => 'Permission denied'
+			);
+		}
 
 		// Log-in as the user to regiser the change under her name.
 		$editorid = $res['editor'];
@@ -621,15 +627,6 @@ class DocumentController extends Controller {
 		// login. This is necessary to make activity app register the
 		// change made to this file under this user's (editorid) name.
 		$this->loginUser($editorid);
-		$view = \OC\Files\Filesystem::getView();
-		if (!$view->isUpdatable($res['path'])) {
-			\OC::$server->getLogger()->debug('User {editor} has no permission to change the file {fileId}.', [
-				'app' => $this->appName,
-				'fileId' => $fileId,
-				'editor' => $editorid
-			]);
-			return;
-		}
 
 		// Set up the filesystem view for the owner (where the file actually is).
 		$userid = $res['owner'];
