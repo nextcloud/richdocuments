@@ -95,6 +95,8 @@ class DocumentController extends Controller {
 	 * @param string $userid
 	 */
 	private function loginUser($userid) {
+		\OC_Util::tearDownFS();
+
 		$users = \OC::$server->getUserManager()->search($userid, 1, 0);
 		if (count($users) > 0) {
 			$user = array_shift($users);
@@ -113,6 +115,18 @@ class DocumentController extends Controller {
 				\OC::$server->getUserSession()->setUser($user);
 			}
 		}
+
+		\OC_Util::setupFS();
+	}
+
+	/**
+	 * Log out the current user
+	 * This is helpful when we are artifically logged in as someone
+	 */
+	private function logoutUser() {
+		\OC_Util::tearDownFS();
+
+		\OC::$server->getSession()->close();
 	}
 
 	private function responseError($message, $hint = ''){
@@ -475,13 +489,13 @@ class DocumentController extends Controller {
 
 		// Login the user to see his mount locations
 		$this->loginUser($res['editor']);
-		$view = new \OC\Files\View('/' . $res['editor'] . '/files');
+		$view = \OC\Files\Filesystem::getView();
 		$info = $view->getFileInfo($res['path']);
 		$updatable = (bool)$view->isUpdatable($res['path']);
 
 		\OC::$server->getLogger()->debug('File with {fileid} has updatable set to {updatable}', [ 'app' => $this->appName, 'fileid' => $fileId, 'updatable' => $updatable ]);
-		// Close the session created for user login
-		\OC::$server->getSession()->close();
+
+		$this->logoutUser();
 
 		// Check if the editor (user who is accessing) is in editable group
 		$editorUid = \OC::$server->getUserManager()->get($res['editor'])->getUID();
@@ -555,10 +569,6 @@ class DocumentController extends Controller {
 		if ($version !== '0') {
 			\OCP\JSON::checkAppEnabled('files_versions');
 
-			// Setup the FS
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($ownerid, '/' . $ownerid . '/files');
-
 			list($ownerid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
 			$filename = '/files_versions/' . $filename . '.v' . $version;
 
@@ -567,8 +577,7 @@ class DocumentController extends Controller {
 			$filename = '/files' . $res['path'];
 		}
 
-		// Close the session created for user login
-		\OC::$server->getSession()->close();
+		$this->logoutUser();
 
 		return new DownloadResponse($this->request, $ownerid, $filename);
 	}
@@ -612,6 +621,15 @@ class DocumentController extends Controller {
 		// login. This is necessary to make activity app register the
 		// change made to this file under this user's (editorid) name.
 		$this->loginUser($editorid);
+		$view = \OC\Files\Filesystem::getView();
+		if (!$view->isUpdatable($res['path'])) {
+			\OC::$server->getLogger()->debug('User {editor} has no permission to change the file {fileId}.', [
+				'app' => $this->appName,
+				'fileId' => $fileId,
+				'editor' => $editorid
+			]);
+			return;
+		}
 
 		// Set up the filesystem view for the owner (where the file actually is).
 		$userid = $res['owner'];
@@ -628,10 +646,7 @@ class DocumentController extends Controller {
 
 		$view->file_put_contents($res['path'], $content);
 
-		\OC_Util::tearDownFS();
-
-		// clear any session created before
-		\OC::$server->getSession()->close();
+		$this->logoutUser();
 
 		return array(
 			'status' => 'success'
