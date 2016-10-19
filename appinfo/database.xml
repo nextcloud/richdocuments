@@ -7,7 +7,7 @@
 	<table>
 		<name>*dbprefix*richdocuments_session</name>
 		<declaration>
-			
+
 			<field>
 				<name>es_id</name>
 				<type>text</type>
@@ -41,7 +41,7 @@
 				<length>64</length>
 				<comments>oC user who created the session</comments>
 			</field>
-			
+
 			<index>
 				<name>richdocuments_session_ei_idx</name>
 				<primary>true</primary>
@@ -51,14 +51,14 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
-			
+
 		</declaration>
 	</table>
-	
+
 	<table>
 		<name>*dbprefix*richdocuments_member</name>
 		<declaration>
-			
+
 			<field>
 				<name>member_id</name>
 				<type>integer</type>
@@ -114,14 +114,14 @@
 				<unsigned>true</unsigned>
 				<length>1</length>
 			</field>
-			
+
 		</declaration>
 	</table>
-		
+
 	<table>
 		<name>*dbprefix*richdocuments_op</name>
 		<declaration>
-			
+
 			<field>
 				<name>seq</name>
 				<type>integer</type>
@@ -160,7 +160,7 @@
 				<notnull>false</notnull>
 				<comments>json-string</comments>
 			</field>
-			
+
 			<index>
 				<name>richdocs_seq_pKey</name>
 				<primary>true</primary>
@@ -181,13 +181,13 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
-			
+
 		</declaration>
 	</table>
 	<table>
 		<name>*dbprefix*richdocuments_invite</name>
 		<declaration>
-			
+
 			<field>
 				<name>es_id</name>
 				<type>text</type>
@@ -214,13 +214,13 @@
 				<unsigned>true</unsigned>
 				<length>4</length>
 			</field>
-			
+
 		</declaration>
 	</table>
 	<table>
 		<name>*dbprefix*richdocuments_revisions</name>
 		<declaration>
-			
+
 			<field>
 				<name>es_id</name>
 				<type>text</type>
@@ -257,7 +257,7 @@
 				<notnull>true</notnull>
 				<comments>used to lookup revision in documents folder of member, eg hash.odt</comments>
 			</field>
-			
+
 			<index>
 				<name>richdocuments_rev_eis_idx</name>
 				<unique>true</unique>
@@ -270,10 +270,10 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
-			
+
 		</declaration>
 	</table>
-	
+
 	<table>
 		<name>*dbprefix*richdocuments_wopi</name>
 		<declaration>
@@ -335,6 +335,15 @@
 				<length>4</length>
 				<comments>Expiration time of the token</comments>
 			</field>
+
+			<index>
+				<name>richdocuments_wopi_token_idx</name>
+				<unique>true</unique>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 	</table>
 </database>
