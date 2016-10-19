@@ -624,7 +624,7 @@ class DocumentController extends Controller {
 
 		// Setup the FS which is needed to emit hooks (versioning).
 		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($userid, $root);
+		\OC_Util::setupFS($userid);
 
 		$view->file_put_contents($res['path'], $content);
 
