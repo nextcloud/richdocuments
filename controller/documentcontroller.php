@@ -95,6 +95,8 @@ class DocumentController extends Controller {
 	 * @param string $userid
 	 */
 	private function loginUser($userid) {
+		\OC_Util::tearDownFS();
+
 		$users = \OC::$server->getUserManager()->search($userid, 1, 0);
 		if (count($users) > 0) {
 			$user = array_shift($users);
@@ -113,6 +115,18 @@ class DocumentController extends Controller {
 				\OC::$server->getUserSession()->setUser($user);
 			}
 		}
+
+		\OC_Util::setupFS();
+	}
+
+	/**
+	 * Log out the current user
+	 * This is helpful when we are artifically logged in as someone
+	 */
+	private function logoutUser() {
+		\OC_Util::tearDownFS();
+
+		\OC::$server->getSession()->close();
 	}
 
 	private function responseError($message, $hint = ''){
@@ -305,9 +319,7 @@ class DocumentController extends Controller {
 			'uploadMaxHumanFilesize' =>	\OCP\Util::humanFileSize($maxUploadFilesize),
 			'allowShareWithLink' =>		$this->settings->getAppValue('core', 'shareapi_allow_links', 'yes'),
 			'wopi_url' =>			$webSocket,
-			'edit_groups' =>		$this->appConfig->getAppValue('edit_groups'),
-			'doc_format' =>			$this->appConfig->getAppValue('doc_format'),
-			'usergroups' =>			$usergroups
+			'doc_format' =>			$this->appConfig->getAppValue('doc_format')
 		]);
 
 		$policy = new ContentSecurityPolicy();
@@ -438,8 +450,41 @@ class DocumentController extends Controller {
 
 		\OC::$server->getLogger()->debug('Generating WOPI Token for file {fileId}, version {version}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version ]);
 
+		$view = \OC\Files\Filesystem::getView();
+		$path = $view->getPath($fileId);
+		$updatable = (bool)$view->isUpdatable($path);
+
+		// Check if the editor (user who is accessing) is in editable group
+		// UserCanWrite only if
+		// 1. No edit groups are set or
+		// 2. if they are set, it is in one of the edit groups
+		$editorUid = \OC::$server->getUserSession()->getUser()->getUID();
+		$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
+		if ($updatable && count($editGroups) > 0) {
+			$updatable = false;
+			foreach($editGroups as $editGroup) {
+				$editorGroup = \OC::$server->getGroupManager()->get($editGroup);
+				if (sizeof($editorGroup->searchUsers($editorUid)) > 0) {
+					\OC::$server->getLogger()->debug("Editor {editor} is in edit group {group}", [
+						'app' => $this->appName,
+						'editor' => $editorUid,
+						'group' => $editGroup
+					]);
+					$updatable = true;
+				}
+			}
+		}
+
+		// If token is for some versioned file
+		if ($version !== '0') {
+			\OC::$server->getLogger()->debug('setting updatable to false');
+			$updatable = false;
+		}
+
+		\OC::$server->getLogger()->debug('File with {fileid} has updatable set to {updatable}', [ 'app' => $this->appName, 'fileid' => $fileId, 'updatable' => $updatable ]);
+
 		$row = new Db\Wopi();
-		$token = $row->generateFileToken($fileId, $version);
+		$token = $row->generateFileToken($fileId, $version, $updatable);
 
 		// Return the token.
 		return array(
@@ -476,13 +521,11 @@ class DocumentController extends Controller {
 		}
 
 		// Login the user to see his mount locations
-		$this->loginUser($res['owner']);
-
-		$view = new \OC\Files\View('/' . $res['owner'] . '/files');
+		$this->loginUser($res['editor']);
+		$view = \OC\Files\Filesystem::getView();
 		$info = $view->getFileInfo($res['path']);
 
-		// Close the session created for user login
-		\OC::$server->getSession()->close();
+		$this->logoutUser();
 
 		if (!$info) {
 			http_response_code(404);
@@ -490,13 +533,13 @@ class DocumentController extends Controller {
 		}
 
 		$editorName = \OC::$server->getUserManager()->get($res['editor'])->getDisplayName();
-		\OC::$server->getLogger()->debug('File info: {info}.', [ 'app' => $this->appName, 'info' => $info ]);
 		return array(
 			'BaseFileName' => $info['name'],
 			'Size' => $info['size'],
 			'Version' => $version,
 			'UserId' => $res['editor'],
-			'UserFriendlyName' => $editorName
+			'UserFriendlyName' => $editorName,
+			'UserCanWrite' => $res['canwrite'] ? 'true' : 'false'
 		);
 	}
 
@@ -534,10 +577,6 @@ class DocumentController extends Controller {
 		if ($version !== '0') {
 			\OCP\JSON::checkAppEnabled('files_versions');
 
-			// Setup the FS
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($ownerid, '/' . $ownerid . '/files');
-
 			list($ownerid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
 			$filename = '/files_versions/' . $filename . '.v' . $version;
 
@@ -546,8 +585,7 @@ class DocumentController extends Controller {
 			$filename = '/files' . $res['path'];
 		}
 
-		// Close the session created for user login
-		\OC::$server->getSession()->close();
+		$this->logoutUser();
 
 		return new DownloadResponse($this->request, $ownerid, $filename);
 	}
@@ -569,20 +607,18 @@ class DocumentController extends Controller {
 			$version = $arr[1];
 		}
 
-		// Changing a previous version of the file is not possible
-		// Ignore WOPI put if such a request is encountered
-		if ($version !== '0') {
-			return array(
-				'status' => 'success'
-			);
-		}
-
 		\OC::$server->getLogger()->debug('Putting contents of file {fileId}, version {version} by token {token}.', [ 'app' => $this->appName, 'fileId' => $fileId, 'version' => $version, 'token' => $token ]);
 
 		$row = new Db\Wopi();
 		$row->loadBy('token', $token);
 
 		$res = $row->getPathForToken($fileId, $version, $token);
+		if (!$res['canwrite']) {
+			return array(
+				'status' => 'error',
+				'message' => 'Permission denied'
+			);
+		}
 
 		// Log-in as the user to regiser the change under her name.
 		$editorid = $res['editor'];
@@ -603,14 +639,11 @@ class DocumentController extends Controller {
 
 		// Setup the FS which is needed to emit hooks (versioning).
 		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($userid, $root);
+		\OC_Util::setupFS($userid);
 
 		$view->file_put_contents($res['path'], $content);
 
-		\OC_Util::tearDownFS();
-
-		// clear any session created before
-		\OC::$server->getSession()->close();
+		$this->logoutUser();
 
 		return array(
 			'status' => 'success'

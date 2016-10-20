@@ -29,8 +29,8 @@ class Wopi extends \OCA\Richdocuments\Db{
 
 	protected $tableName  = '`*PREFIX*richdocuments_wopi`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`owner_uid`, `editor_uid`, `fileid`, `version`, `path`, `token`, `expiry`)
-			VALUES (?, ?, ?, ?, ?, ?, ?)';
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`owner_uid`, `editor_uid`, `fileid`, `version`, `path`, `canwrite`, `token`, `expiry`)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_wopi` WHERE `token`= ?';
 
@@ -41,7 +41,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 	 * its the version number as stored by files_version app
 	 * Returns the token.
 	 */
-	public function generateFileToken($fileId, $version){
+	public function generateFileToken($fileId, $version, $updatable){
 
 		// Get the FS view of the current user.
 		$view = \OC\Files\Filesystem::getView();
@@ -49,7 +49,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 		// Get the virtual path (if the file is shared).
 		$path = $view->getPath($fileId);
 
-		if (!$view->is_file($path) || !$view->isUpdatable($path)) {
+		if (!$view->is_file($path)) {
 			throw new \Exception('Invalid fileId.');
 		}
 
@@ -79,6 +79,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 			$fileId,
 			$version,
 			$path,
+			$updatable,
 			$token,
 			time() + self::TOKEN_LIFETIME_SECONDS
 		]);
@@ -120,6 +121,11 @@ class Wopi extends \OCA\Richdocuments\Db{
 			return false;
 		}
 
-		return array('owner' => $row['owner_uid'], 'editor' => $row['editor_uid'], 'path' => $row['path']);
+		return array(
+			'owner' => $row['owner_uid'],
+			'editor' => $row['editor_uid'],
+			'path' => $row['path'],
+			'canwrite' => $row['canwrite']
+		);
 	}
 }

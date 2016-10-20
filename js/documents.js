@@ -17,29 +17,6 @@ $.widget('oc.documentGrid', {
 		jQuery.when(this._load(fileId))
 			.then(function(){
 				that._render();
-
-				if (!documentsMain.isGuest) {
-					var editGroups = $('#edit_groups').val()
-					    .split('|')
-					    .filter(function(e) {
-						    return e.length !== 0;
-					    });
-					var usergroups = $('#usergroups').val()
-					    .split('|')
-					    .filter(function(e) {
-						    return e.length !== 0;
-					    });
-					documentsMain.canEdit = (editGroups.length === 0);
-					if (!documentsMain.canEdit && usergroups.length >= 1) {
-						for (var idx in usergroups) {
-							if (editGroups.indexOf(usergroups[idx]) !== -1) {
-								documentsMain.canEdit = true;
-								break;
-							}
-						}
-					}
-				}
-
 				documentsMain.renderComplete = true;
 			});
 	},
@@ -658,6 +635,7 @@ var documentsMain = {
 
 			documentsMain.esId = response.es_id;
 			documentsMain.memberId = response.member_id;
+			documentsMain.canEdit = response.permissions & OC.PERMISSION_UPDATE;
 
 			documentsMain.loadDocument();
 
