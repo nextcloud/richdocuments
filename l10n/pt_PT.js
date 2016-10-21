@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Office" : "Escritório",
     "Please contact the \"%s\" administrator." : "Por favor contacte o \"%s\" administrador.",
     "Please ask your administrator to check the Collabora Online server setting. The exact error message was: " : "Por favor solicite ao administrador que verifique a definição do servidor Collabora Online. A mensagem de erro exata foi:",
     "Collabora Online: The protocol specified in \"%s\" is not allowed." : "Collabora Online: O protocolo especificado em \"%s\" não é permitido.",
@@ -16,6 +17,8 @@ OC.L10N.register(
     "New Document.odt" : "Novo Documento.odt",
     "New Spreadsheet.ods" : "Nova Folhadecalculo.ods",
     "New Presentation.odp" : "Nova Apresentacao.odp",
+    "New Document.docx" : "Novo Documento.docx",
+    "New Spreadsheet.xlsx" : "Nova Folhadecalculo.xlsx",
     "Can't create document" : "Não é possível criar o documento",
     "You don't have permission to rename this document" : "Não tem permissão para renomear este documento",
     "Saved" : "Guardado",
@@ -82,6 +85,9 @@ OC.L10N.register(
     "Email sent" : "Mensagem de correio eletrónico enviada",
     "Warning" : "Aviso",
     "Edit" : "Editar",
+    "Document" : "Documento",
+    "Spreadsheet" : "Folha de Cálculo",
+    "Presentation" : "Apresentação",
     "Could not create file" : "Não pôde criar ficheiro",
     "guest" : "convidado",
     "Collabora Online" : "Collabora Online",
