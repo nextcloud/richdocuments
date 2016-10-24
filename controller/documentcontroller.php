@@ -137,12 +137,25 @@ class DocumentController extends Controller {
 
     /**
      * Return the original wopi url or test wopi url
-     * This depends on whether current user is the member of one of the groups
-     * mentioned in settings in which case different wopi url (aka
-     * test_wopi_url) is used
      */
-     private function getWopiUrl() {
-         $wopiurl = $this->appConfig->getAppValue('wopi_url');
+	private function getWopiUrl($tester) {
+		$wopiurl = '';
+		if ($tester) {
+			$wopiurl = $this->appConfig->getAppValue('test_wopi_url');
+		} else {
+			$wopiurl = $this->appConfig->getAppValue('wopi_url');
+		}
+
+		return $wopiurl;
+	}
+
+	/**
+     * Return true if the currently logged in user is a tester.
+     * This depends on whether current user is the member of one of the groups
+     * mentioned in settings (test_server_groups)
+     */
+     private function isTester() {
+		 $tester = false;
 
          $user = \OC::$server->getUserSession()->getUser()->getUID();
          $testgroups = array_filter(explode('|', $this->appConfig->getAppValue('test_server_groups')));
@@ -158,11 +171,13 @@ class DocumentController extends Controller {
                      'user' => $user,
                      'group' => $testgroup
                  ]);
-                 return $this->appConfig->getAppValue('test_wopi_url');
+
+				 $tester = true;
+				 break;
              }
          }
 
-         return $wopiurl;
+         return $tester;
      }
 
 	/** Return the content of discovery.xml - either from cache, or download it.
@@ -170,14 +185,18 @@ class DocumentController extends Controller {
 	private function getDiscovery(){
 		\OC::$server->getLogger()->debug('getDiscovery(): Getting discovery.xml from the cache.');
 
-		$wopiRemote = $this->getWopiUrl();
-
+		$tester = $this->isTester();
+		$wopiRemote = $this->getWopiUrl($tester);
+		$discoveryKey = 'discovery.xml';
+		if ($tester) {
+			$discoveryKey = 'discovery.xml_test';
+		}
 		// Provides access to information about the capabilities of a WOPI client
 		// and the mechanisms for invoking those abilities through URIs.
 		$wopiDiscovery = $wopiRemote . '/hosting/discovery';
 
 		// Read the memcached value (if the memcache is installed)
-		$discovery = $this->cache->get('discovery.xml');
+		$discovery = $this->cache->get($discoveryKey);
 
 		if (is_null($discovery)) {
 			$contact_admin = $this->l10n->t('Please contact the "%s" administrator.', array($wopiRemote));
@@ -212,8 +231,8 @@ class DocumentController extends Controller {
 				throw new ResponseException($this->l10n->t('Collabora Online: Unable to read discovery.xml from "%s".', array($wopiRemote)), $contact_admin);
 			}
 
-			\OC::$server->getLogger()->debug('Storing the discovery.xml to the cache.');
-			$this->cache->set('discovery.xml', $discovery, 3600);
+			\OC::$server->getLogger()->debug('Storing the discovery.xml under key ' . $discoveryKey . ' to the cache.');
+			$this->cache->set($discoveryKey, $discovery, 3600);
 		}
 
 		return $discovery;
@@ -232,7 +251,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->getWopiUrl();
+				$wopiRemote = $this->getWopiUrl($this->isTester());
 
 				return array(
 					'status' => 'error',
@@ -290,7 +309,7 @@ class DocumentController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index(){
-		$wopiRemote = $this->getWopiUrl();
+		$wopiRemote = $this->getWopiUrl($this->isTester());
 		if (($parts = parse_url($wopiRemote)) && isset($parts['scheme']) && isset($parts['host'])) {
 			$webSocketProtocol = "ws://";
 			if ($parts['scheme'] == "https") {
@@ -398,7 +417,7 @@ class DocumentController extends Controller {
 
 			if ($discovery_parsed === false) {
 				$this->cache->remove('discovery.xml');
-				$wopiRemote = $this->getWopiUrl();
+				$wopiRemote = $this->getWopiUrl($this->isTester());
 
 				return array(
 					'status' => 'error',
