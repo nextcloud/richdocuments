@@ -540,8 +540,8 @@ class DocumentController extends Controller {
 		}
 
 		// Login the user to see his mount locations
-		$this->loginUser($res['editor']);
-		$view = \OC\Files\Filesystem::getView();
+		$this->loginUser($res['owner']);
+		$view = new \OC\Files\View('/' . $res['owner'] . '/files');
 		$info = $view->getFileInfo($res['path']);
 
 		$this->logoutUser();
