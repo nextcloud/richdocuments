@@ -503,7 +503,8 @@ class DocumentController extends Controller {
 		\OC::$server->getLogger()->debug('File with {fileid} has updatable set to {updatable}', [ 'app' => $this->appName, 'fileid' => $fileId, 'updatable' => $updatable ]);
 
 		$row = new Db\Wopi();
-		$token = $row->generateFileToken($fileId, $version, $updatable);
+		$serverHost = $this->request->getServerProtocol() . '://' . $this->request->getServerHost();
+		$token = $row->generateFileToken($fileId, $version, $updatable, $serverHost);
 
 		// Return the token.
 		return array(
@@ -543,7 +544,6 @@ class DocumentController extends Controller {
 		$this->loginUser($res['owner']);
 		$view = new \OC\Files\View('/' . $res['owner'] . '/files');
 		$info = $view->getFileInfo($res['path']);
-
 		$this->logoutUser();
 
 		if (!$info) {
@@ -558,7 +558,8 @@ class DocumentController extends Controller {
 			'Version' => $version,
 			'UserId' => $res['editor'],
 			'UserFriendlyName' => $editorName,
-			'UserCanWrite' => $res['canwrite'] ? 'true' : 'false'
+			'UserCanWrite' => $res['canwrite'] ? 'true' : 'false',
+			'PostMessageOrigin' => $res['server_host']
 		);
 	}
 

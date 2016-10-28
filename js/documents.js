@@ -473,23 +473,49 @@ var documentsMain = {
 					$('#mainContainer').append(form);
 					$('#mainContainer').append(frame);
 
-					// handler for the 'Close' button - we have enabled it via closebutton=1
+					// Listen for App_LoadingStatus as soon as possible
+					$('#loleafletframe').ready(function() {
+						var editorInitListener = function(e) {
+							var msg = JSON.parse(e.data);
+							if (msg.MessageId === 'App_LoadingStatus') {
+								window.removeEventListener('message', editorInitListener, false);
+							}
+						};
+						window.addEventListener('message', editorInitListener, false);
+					});
+
 					$('#loleafletframe').load(function(){
-						documentsMain.overlay.documentOverlay('hide');
+						// And start listening to incoming post messages
 						window.addEventListener('message', function(e){
 							if (documentsMain.isViewerMode) {
 								return;
 							}
-							if (e.data === 'close') {
+
+							try {
+								var msg = JSON.parse(e.data).MessageId;
+							} catch(exc) {
+								msg = e.data;
+							}
+							if (msg === 'UI_Close' || msg === 'close') {
 								documentsMain.onClose();
-							} else if (e.data === 'rev-history') {
+							} else if (msg === 'rev-history') {
 								documentsMain.UI.showRevHistory($('li[data-id=' + documentsMain.fileId + ']>a').attr('original-title'));
 							}
 						});
+
+						// Tell the LOOL iframe that we are ready now
+						documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
+
+						// LOOL Iframe is ready, turn off our overlay
+						// This should ideally be taken off when we receive App_LoadingStatus, but
+						// for backward compatibility with older lool, lets keep it here till we decide
+						// to break older lools
+						documentsMain.overlay.documentOverlay('hide');
 					});
 
 					// submit that
 					$('#loleafletform').submit();
+
 			});
 		},
 
@@ -584,6 +610,18 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
+	},
+
+	WOPIPostMessage: function(iframe, msgId, values) {
+		if (iframe) {
+			var msg = {
+				'MessageId': msgId,
+				'SendTime': Date.now(),
+				'Values': values
+			};
+
+			iframe.contentWindow.postMessage(JSON.stringify(msg), '*');
+		}
 	},
 
 	prepareSession : function(){

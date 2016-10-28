@@ -328,6 +328,13 @@
 				<comments>Can make changes to this file</comments>
 			</field>
 			<field>
+				<name>server_host</name>
+				<type>text</type>
+				<default>localhost</default>
+				<notnull>true</notnull>
+				<comments>Host from which token generation request originated</comments>
+			</field>
+			<field>
 				<name>token</name>
 				<type>text</type>
 				<default></default>
