@@ -478,8 +478,6 @@ var documentsMain = {
 						var editorInitListener = function(e) {
 							var msg = JSON.parse(e.data);
 							if (msg.MessageId === 'App_LoadingStatus') {
-								// LOOL Iframe is ready, turn off our overlay
-								documentsMain.overlay.documentOverlay('hide');
 								window.removeEventListener('message', editorInitListener, false);
 							}
 						};
@@ -493,16 +491,26 @@ var documentsMain = {
 								return;
 							}
 
-							var msg = JSON.parse(e.data);
-							if (msg.MessageId === 'UI_Close') {
+							try {
+								var msg = JSON.parse(e.data).MessageId;
+							} catch(exc) {
+								msg = e.data;
+							}
+							if (msg === 'UI_Close' || msg === 'close') {
 								documentsMain.onClose();
-							} else if (msg.MessageId === 'rev-history') {
+							} else if (msg === 'rev-history') {
 								documentsMain.UI.showRevHistory($('li[data-id=' + documentsMain.fileId + ']>a').attr('original-title'));
 							}
 						});
 
 						// Tell the LOOL iframe that we are ready now
 						documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
+
+						// LOOL Iframe is ready, turn off our overlay
+						// This should ideally be taken off when we receive App_LoadingStatus, but
+						// for backward compatibility with older lool, lets keep it here till we decide
+						// to break older lools
+						documentsMain.overlay.documentOverlay('hide');
 					});
 
 					// submit that
