@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can't create document" : "לא ניתן ליצור מסמך",
     "You don't have permission to rename this document" : "אין לך הרשאות לשנות את שם המשמך",
     "Saved" : "נשמר",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "נשמר עם שגיאה: Collabora Online צריך להשתמש באותו פרוטוקול של ההתקנה בשרת.",
     "Saving..." : "שמירה…",
     "None" : "כלום",
     "All" : "הכל",

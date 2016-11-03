@@ -22,6 +22,7 @@
     "Can't create document" : "Impedido de criar documentos",
     "You don't have permission to rename this document" : "Você não tem permissão para renomear este documento",
     "Saved" : "Salvo",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvo com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
     "Saving..." : "Salvando...",
     "None" : "Nenhum",
     "All" : "Todos",

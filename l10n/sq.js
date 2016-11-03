@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can't create document" : "S’krijohet dot dokumenti",
     "You don't have permission to rename this document" : "Nuk keni leje të riemërtoni këtë dokument",
     "Saved" : "U ruajt",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
     "Saving..." : "Po ruhet …",
     "None" : "Asnjë",
     "All" : "Krejt",

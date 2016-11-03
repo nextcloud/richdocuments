@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can't create document" : "Impossibile creare il documento",
     "You don't have permission to rename this document" : "Non hai i permessi per rinominare questo documento",
     "Saved" : "Salvato",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvato con errore: Collabora Online dovrebbe utilizzare lo stesso protocollo dell'installazione del server.",
     "Saving..." : "Salvataggio in corso...",
     "None" : "Nessuno",
     "All" : "Tutti",

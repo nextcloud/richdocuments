@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can't create document" : "Nelze vytvořit dokument",
     "You don't have permission to rename this document" : "Nemáte oprávnění pro přejmenování tohoto souboru",
     "Saved" : "Uloženo",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uloženo s chybou: Collabora Online by měla používat stejný protokol jako instalovaný server.",
     "Saving..." : "Ukládám...",
     "None" : "Žádné",
     "All" : "Vše",
