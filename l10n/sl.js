@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can't create document" : "Dokumenta ni mogoče ustvariti",
     "You don't have permission to rename this document" : "Ni ustreznih dovoljenj za preimenovanje tega dokumenta ...",
     "Saved" : "Shranjeno",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Shranjeno z napako: strežnik Collabora mora uporabljati enak protokol kot nameščeni strežnik.",
     "Saving..." : "Poteka shranjevanje ...",
     "None" : "Brez",
     "All" : "Vse",
