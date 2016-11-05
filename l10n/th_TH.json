@@ -22,6 +22,7 @@
     "Can't create document" : "ไม่สามารถสร้างเอกสารได้",
     "You don't have permission to rename this document" : "คุณไม่ได้รับอนุญาตให้เปลี่ยนชื่อเอกสารนี้",
     "Saved" : "บันทึกแล้ว",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
     "Saving..." : "กำลังบันทึกข้อมูล...",
     "None" : "ไม่มี",
     "All" : "ทั้งหมด",
