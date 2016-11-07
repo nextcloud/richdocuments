@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can't create document" : "Kan document niet creëren",
     "You don't have permission to rename this document" : "U hebt niet de autorisatie om die document te hernoemen",
     "Saved" : "Bewaard",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Opgeslagen met een fout: Collabora Online moet hetzelfde protocol gebruiken als de serverinstallatie.",
     "Saving..." : "Opslaan",
     "None" : "Geen",
     "All" : "Alle",
