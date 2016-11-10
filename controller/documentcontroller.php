@@ -558,7 +558,7 @@ class DocumentController extends Controller {
 			'Version' => $version,
 			'UserId' => $res['editor'],
 			'UserFriendlyName' => $editorName,
-			'UserCanWrite' => $res['canwrite'] ? 'true' : 'false',
+			'UserCanWrite' => $res['canwrite'] ? true : false,
 			'PostMessageOrigin' => $res['server_host']
 		);
 	}
