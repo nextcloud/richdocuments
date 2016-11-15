@@ -13,6 +13,7 @@
 	<category>integration</category>
 	<dependencies>
 		<owncloud min-version="8.2" max-version="9.2" />
+		<nextcloud min-version="9" max-version="11" />
 	</dependencies>
 	<public>
 		<richdocuments>public.php</richdocuments>
