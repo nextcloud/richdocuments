@@ -53,7 +53,6 @@
     "Share with users or groups …" : "Поделиться с пользователями или группами ...",
     "Share with users, groups or remote users …" : "Поделиться с пользователями, группами или удаленными пользователями ...",
     "Share" : "Общий доступ",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поделиться с людьми на других серверах ownCloud используя формат username@example.com/owncloud",
     "Share link" : "Поделиться ссылкой",
     "The public link will expire no later than {days} days after it is created" : "Срок действия публичной ссылки истекает не позже чем через {days} дней после её создания",
     "Link" : "Ссылка",

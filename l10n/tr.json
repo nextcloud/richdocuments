@@ -49,7 +49,6 @@
     "Share with users or groups …" : "Kullanıcı ve gruplarla paylaş...",
     "Share with users, groups or remote users …" : "Kullanıcılar, gruplar veya uzak kullanıcılarla paylaş ...",
     "Share" : "Paylaş",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "kullanıcı@example.com/owncloud şeklinde diğer ownCloud kullanan diğer kullanıcılarla paylaş",
     "Share link" : "Paylaşma bağlantısı",
     "The public link will expire no later than {days} days after it is created" : "Herkese açık bağlantı, oluşturulduktan en geç {days} gün sonra sona erecek",
     "Link" : "Bağlantı",

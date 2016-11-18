@@ -53,7 +53,6 @@
     "Share with users or groups …" : "ユーザーもしくはグループと共有 ...",
     "Share with users, groups or remote users …" : "ユーザー、グループもしくはリモートユーザーと共有 ...",
     "Share" : "共有",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "次の形式で指定して他のownCloudのユーザーと、共有",
     "Share link" : "URLで共有",
     "The public link will expire no later than {days} days after it is created" : "URLによる共有は、作成してから {days} 日以内に有効期限切れになります",
     "Link" : "リンク",

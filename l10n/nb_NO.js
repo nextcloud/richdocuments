@@ -48,7 +48,6 @@ OC.L10N.register(
     "Share with users or groups …" : "Del med brukere eller grupper ...",
     "Share with users, groups or remote users …" : "Del med brukere, grupper eller eksterne brukere ...",
     "Share" : "Delt ressurs",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med personer på andre ownCloud-installasjoner med syntaksen brukernavn@example.com/owncloud",
     "Share link" : "Del lenke",
     "The public link will expire no later than {days} days after it is created" : "Den offentlige lenken vil utløpe senest {days} dager etter at den lages",
     "Link" : "Lenke",

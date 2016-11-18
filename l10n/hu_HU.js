@@ -48,7 +48,6 @@ OC.L10N.register(
     "Share with users or groups …" : "Megosztás felhasználókkal vagy csoportokkal ...",
     "Share with users, groups or remote users …" : "Megosztás felhasználókkal, csoportokkal vagy távoli felhasználókkal ...",
     "Share" : "Megosztás",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Megosztás más ownCloud szerverekkel, a következő formátum használatával felhasználó@példa.hu/owncloud",
     "Share link" : "Megosztás hivatkozással",
     "The public link will expire no later than {days} days after it is created" : "A nyilvános hivatkozás érvényessége legkorábban {days} nappal a létrehozása után jár csak le",
     "Link" : "Hivatkozás",

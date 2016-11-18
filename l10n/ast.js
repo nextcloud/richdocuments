@@ -51,7 +51,6 @@ OC.L10N.register(
     "Share with users or groups …" : "Compartir con usuarios o grupos",
     "Share with users, groups or remote users …" : "Compartir con usuarios, grupos o usuarios remotos",
     "Share" : "Compartir",
-    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartir con xente d'otros ownClouds usando la sintaxis usuariu@exemplu.com/owncloud",
     "Share link" : "Compartir enllaz",
     "The public link will expire no later than {days} days after it is created" : "L'enllaz públicu va caducar enantes de {days} díes dende la so creación",
     "Link" : "Enllaz",
