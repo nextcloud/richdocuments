@@ -55,6 +55,7 @@ OC.L10N.register(
     "Share with users or groups …" : "Ndajeni me përdorues ose grupe …",
     "Share with users, groups or remote users …" : "Ndajeni me përdorues, grupe ose përdorues të largët …",
     "Share" : "Ndaje",
+    "Share with people on other servers using their Federated Cloud ID username@example.com/owncloud" : "Ndani me persona të tjerë në shërbyes të tjerë duke përdorur ID-në e tyre të Resë së Federuar të llojit username@example.com/owncloud",
     "Share link" : "Lidhje ndarjesh",
     "The public link will expire no later than {days} days after it is created" : "Lidhja publike do të skadojë jo më vonë se {days} ditë pas krijimit të saj",
     "Link" : "Lidhje",
