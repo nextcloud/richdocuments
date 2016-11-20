@@ -600,8 +600,6 @@ class DocumentController extends Controller {
 
 			list($ownerid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
 			$filename = '/files_versions/' . $filename . '.v' . $version;
-
-			\OC_Util::tearDownFS();
 		} else {
 			$filename = '/files' . $res['path'];
 		}
