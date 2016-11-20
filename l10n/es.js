@@ -55,6 +55,7 @@ OC.L10N.register(
     "Share with users or groups …" : "Compartir con usuarios o grupos...",
     "Share with users, groups or remote users …" : "Comparte con usuarios, grupos o usuarios remotos...",
     "Share" : "Compartir",
+    "Share with people on other servers using their Federated Cloud ID username@example.com/owncloud" : "Compartir con gente en otros servidores usando su Cloud ID Federado\nusername@example.com/owncloud",
     "Share link" : "Compartir enlace",
     "The public link will expire no later than {days} days after it is created" : "El vínculo público no expirará antes de {days} desde que se creó",
     "Link" : "Enlace",
