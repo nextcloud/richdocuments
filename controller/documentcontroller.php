@@ -165,7 +165,7 @@ class DocumentController extends Controller {
          ]);
          foreach ($testgroups as $testgroup) {
              $test = \OC::$server->getGroupManager()->get($testgroup);
-             if (sizeof($test->searchUsers($user)) > 0) {
+             if ($test !== null && sizeof($test->searchUsers($user)) > 0) {
                  \OC::$server->getLogger()->debug('User {user} found in {group}', [
                      'app' => $this->appName,
                      'user' => $user,
