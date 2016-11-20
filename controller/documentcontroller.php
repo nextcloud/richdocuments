@@ -483,13 +483,14 @@ class DocumentController extends Controller {
 			$updatable = false;
 			foreach($editGroups as $editGroup) {
 				$editorGroup = \OC::$server->getGroupManager()->get($editGroup);
-				if (sizeof($editorGroup->searchUsers($editorUid)) > 0) {
+				if ($editorGroup !== null && sizeof($editorGroup->searchUsers($editorUid)) > 0) {
 					\OC::$server->getLogger()->debug("Editor {editor} is in edit group {group}", [
 						'app' => $this->appName,
 						'editor' => $editorUid,
 						'group' => $editGroup
 					]);
 					$updatable = true;
+					break;
 				}
 			}
 		}
