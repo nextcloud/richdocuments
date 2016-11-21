@@ -55,6 +55,7 @@ OC.L10N.register(
     "Share with users or groups …" : "Delen met gebruikers of groepen ...",
     "Share with users, groups or remote users …" : "Delen met gebruikers, groepen of externe gebruikers ...",
     "Share" : "Deel",
+    "Share with people on other servers using their Federated Cloud ID username@example.com/owncloud" : "Delen met mensen op andere ownClouds via hun gefedereerde Clou ID gebruikersnaam@voorbeeld.org/owncloud",
     "Share link" : "Deel link",
     "The public link will expire no later than {days} days after it is created" : "De openbare link vervalt niet eerder dan {days} dagen na het aanmaken",
     "Link" : "Link",
