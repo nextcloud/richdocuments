@@ -53,6 +53,7 @@
     "Share with users or groups …" : "Поделиться с пользователями или группами ...",
     "Share with users, groups or remote users …" : "Поделиться с пользователями, группами или удаленными пользователями ...",
     "Share" : "Общий доступ",
+    "Share with people on other servers using their Federated Cloud ID username@example.com/owncloud" : "Предоставить доступ людям на других серверах, используя их идентификатор в федерации облачных хранилищ username@example.com/owncloud",
     "Share link" : "Поделиться ссылкой",
     "The public link will expire no later than {days} days after it is created" : "Срок действия публичной ссылки истекает не позже чем через {days} дней после её создания",
     "Link" : "Ссылка",

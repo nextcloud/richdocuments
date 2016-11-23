@@ -55,6 +55,7 @@ OC.L10N.register(
     "Share with users or groups …" : "Souporaba z uporabniki ali s skupinami ...",
     "Share with users, groups or remote users …" : "Uporabniki, skupine ali zunanji uporabniki ...",
     "Share" : "Souporaba",
+    "Share with people on other servers using their Federated Cloud ID username@example.com/owncloud" : "Souporaba z uporabniki drugih oblakov ownCloud je mogoča s povezavo uporabnik@domena.si/owncloud",
     "Share link" : "Povezava za souporabo",
     "The public link will expire no later than {days} days after it is created" : "Javna povezava bo potekla {days} dni po ustvarjanju.",
     "Link" : "Povezava",
