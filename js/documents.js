@@ -343,7 +343,7 @@ var documentsMain = {
 				moreVersionsLabel: t('richdocuments', 'More versions...'),
 				closeButtonUrl: OC.imagePath('core', 'actions/close')
 			});
-			$(document.body).prepend(revHistoryContainer);
+			$('#revViewerContainer').prepend(revHistoryContainer);
 
 			documentsMain.UI.revisionsStart = 0;
 
