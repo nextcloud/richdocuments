@@ -190,9 +190,9 @@
 }
 
 #revViewer{
-    position: relative;
-    margin-right: 250px;
-    height: 100%;
+        position: relative;
+        margin-right: 250px;
+        height: 100%;
 }
 
 #revPanelContainer{
@@ -253,6 +253,11 @@
 
 #revisionsContainer a{
     padding-left: 15px;
+    opacity: 0.5;
+}
+
+#revisionsContainer a:hover{
+    opacity: 1;
 }
 
 #revisionsContainer li:hover, #revisionsContainer li.active{

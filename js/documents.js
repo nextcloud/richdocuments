@@ -218,9 +218,9 @@ var documentsMain = {
 			'</div>',
 
 		revHistoryItemTemplate: '<li>' +
-			'<a href="{{downloadUrl}}" class="downloadVersion has-tooltip" title="Download"><img src="{{downloadIconUrl}}" />' +
+			'<a href="{{downloadUrl}}" class="downloadVersion has-tooltip" title="' + t('richdocuments', 'Download this revision') + '"><img src="{{downloadIconUrl}}" />' +
 			'<a class="versionPreview"><span class="versiondate has-tooltip" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span></a>' +
-			'<a href="{{restoreUrl}}" class="restoreVersion"><img src="{{restoreIconUrl}}" />' +
+			'<a href="{{restoreUrl}}" class="restoreVersion has-tooltip" title="' + t('richdocuments', 'Restore this revision') + '"><img src="{{restoreIconUrl}}" />' +
 			'</a>' +
 			'</li>',
 
