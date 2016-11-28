@@ -182,16 +182,22 @@
 
 #revViewerContainer{
 	position: absolute;
-	width: 85%;
+	width: 100%;
 	z-index: 600;
 	background-color: #ddd !important;
 	top: 45px;
 	bottom: 0;
 }
 
+#revViewer{
+        position: relative;
+        margin-right: 250px;
+        height: 100%;
+}
+
 #revPanelContainer{
-	position: absolute;
-	width: 15%;
+	position: fixed;
+	width: 250px;
 	z-index: 600;
 	background-color: #efefef !important;
 	right: 0;
@@ -247,6 +253,11 @@
 
 #revisionsContainer a{
     padding-left: 15px;
+    opacity: 0.5;
+}
+
+#revisionsContainer a:hover{
+    opacity: 1;
 }
 
 #revisionsContainer li:hover, #revisionsContainer li.active{
