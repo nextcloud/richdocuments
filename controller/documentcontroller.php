@@ -592,14 +592,20 @@ class DocumentController extends Controller {
 
 		// Login the user to see his mount locations
 		$this->loginUser($ownerid);
+		$view = new \OC\Files\View('/' . $res['owner'] . '/files');
+		$info = $view->getFileInfo($res['path']);
+
+		if (!$info) {
+			http_response_code(404);
+			return false;
+		}
 
 		$filename = '';
 		// If some previous version is requested, fetch it from Files_Version app
 		if ($version !== '0') {
 			\OCP\JSON::checkAppEnabled('files_versions');
 
-			list($ownerid, $filename) = \OCA\Files_Versions\Storage::getUidAndFilename($res['path']);
-			$filename = '/files_versions/' . $filename . '.v' . $version;
+			$filename = '/files_versions/' . $info['name'] . '.v' . $version;
 		} else {
 			$filename = '/files' . $res['path'];
 		}
