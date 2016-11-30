@@ -31,6 +31,8 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "Не удалось загрузить документ, пожалуйста обратитесь к вашему администратору.",
     "Failed to load documents." : "Не удалось загрузить документы.",
     "No documents were found. Upload or create a document to get started!" : "Документы не найдены. Чтобы начать, загрузите или создайте документ!",
+    "Download this revision" : "Скачать эту ревизию",
+    "Restore this revision" : "Восстановить эту ревизию",
     "Latest revision" : "Крайняя ревизия",
     "More versions..." : "Ещё версии...",
     "Just now" : "Прямо сейчас",

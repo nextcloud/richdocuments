@@ -29,6 +29,8 @@
     "Failed to load the document, please contact your administrator." : "Errro al cargar el documento, por favor contacte con su administrador.",
     "Failed to load documents." : "Error al cargar los documentos.",
     "No documents were found. Upload or create a document to get started!" : "No se encontraron documentos. ¡Suba o cree un documento para comenzar!",
+    "Download this revision" : "Descargar esta revisión",
+    "Restore this revision" : "Restaurar esta revisión",
     "Latest revision" : "Ultima revisión",
     "More versions..." : "Más versiones...",
     "Just now" : "Ahora",

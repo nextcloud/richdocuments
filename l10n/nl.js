@@ -31,6 +31,8 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "Kon document niet laden, neem contact op met de beheerder.",
     "Failed to load documents." : "Kon documenten niet laden.",
     "No documents were found. Upload or create a document to get started!" : "Geen documenten gevonden. Upload of maak een document om  te starten!",
+    "Download this revision" : "Download deze revisie",
+    "Restore this revision" : "Herstel deze revisie",
     "Latest revision" : "Laatste revisie",
     "More versions..." : "Meer versies...",
     "Just now" : "Zopas",

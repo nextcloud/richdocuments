@@ -31,6 +31,8 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "S’u arrit të ngarkohej dokumenti, ju lutemi, lidhuni me përgjegjësin tuaj.",
     "Failed to load documents." : "Dështoi në ngarkim dokumentesh.",
     "No documents were found. Upload or create a document to get started!" : "S’u gjetën dokumente. Ngarkoni ose krijoni një dokument që t’ia fillohet!",
+    "Download this revision" : "Shkarkoje këtë rishikim",
+    "Restore this revision" : "Rikthe këtë rishikim",
     "Latest revision" : "Rishikimi më i ri",
     "More versions..." : "Më shumë versione…",
     "Just now" : "Mu tani",

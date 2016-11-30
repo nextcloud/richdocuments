@@ -31,6 +31,8 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "Nalaganje dokumenta je spodletelo. Stopite v stik s skrbnikom.",
     "Failed to load documents." : "Nalaganje dokumentov je spodletelo.",
     "No documents were found. Upload or create a document to get started!" : "Ni najdenih dokumentov. Ustvarite ga ali pa pošljite obstoječega v oblak.",
+    "Download this revision" : "Prejmi predelavo",
+    "Restore this revision" : "Obnovi predelavo",
     "Latest revision" : "Najnovejša predelava",
     "More versions..." : "Več različic ...",
     "Just now" : "Ravnokar",

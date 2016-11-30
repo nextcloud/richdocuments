@@ -31,6 +31,8 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "Fehler beim Laden des Dokumentes, bitte kontaktieren Sie Ihren Administrator.",
     "Failed to load documents." : "Das Laden der Dokumente ist fehlgeschlagen.",
     "No documents were found. Upload or create a document to get started!" : "Keine Dokumente gefunden. Bitte laden Sie zu Beginn Dokumente hoch, oder erstellen Sie ein Dokument!",
+    "Download this revision" : "Diese Revision herunterladen",
+    "Restore this revision" : "Diese Revision wiederherstellen",
     "Latest revision" : "Letzte Revision",
     "More versions..." : "Weitere Versionen…",
     "Just now" : "Gerade ebend",
