@@ -29,6 +29,8 @@
     "Failed to load the document, please contact your administrator." : "ไม่สามารถโหลดเอกสารโปรดติดต่อผู้ดูแลระบบ",
     "Failed to load documents." : "ไม่สามารถโหลดเอกสาร",
     "No documents were found. Upload or create a document to get started!" : "ยังไม่มีเอกสารเลย คุณสามารถเริ่มต้นอัพโหลดหรือสร้างเอกสารได้เลย!",
+    "Download this revision" : "ดาวน์โหลดการแก้ไขนี้",
+    "Restore this revision" : "กู้คืนการแก้ไขนี้",
     "Latest revision" : "การแก้ไขล่าสุด",
     "More versions..." : "รุ่นอื่นๆ ...",
     "Just now" : "เมื่อสักครู่",
