@@ -31,6 +31,8 @@ OC.L10N.register(
     "Failed to load the document, please contact your administrator." : "Caricamento del documento non riuscito, contatta il tuo amministratore.",
     "Failed to load documents." : "Caricamento documenti non riuscito.",
     "No documents were found. Upload or create a document to get started!" : "Nessun documento trovato. Carica o crea un documento per iniziare!",
+    "Download this revision" : "Scarica questa revisione",
+    "Restore this revision" : "Ripristina questa revisione",
     "Latest revision" : "Ultima revisione",
     "More versions..." : "Altre versioni...",
     "Just now" : "In questo istante",
