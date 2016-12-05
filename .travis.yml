@@ -27,7 +27,7 @@ before_install:
   - ./occ app:list
 
 script:
-  - cd apps/$APP_NAME/
+   - cd apps/$APP_NAME/
 
    # Test the app
    - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '1' ]; then find . -name \*.php -exec php -l \"{}\" \;; fi"
