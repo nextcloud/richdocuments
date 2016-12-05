@@ -7,6 +7,7 @@ php:
 env:
   global:
     - CORE_BRANCH=master
+    - APP_NAME=richdocuments
   matrix:
     - DB=sqlite
 
