@@ -7,13 +7,12 @@
 	<licence>AGPL</licence>
 	<version>1.1.15</version>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
-	<bugs>https://github.com/owncloud/richdocuments/issues</bugs>
-	<repository type="git">https://github.com/owncloud/richdocuments.git</repository>
+	<bugs>https://github.com/nextcloud/richdocuments/issues</bugs>
+	<repository type="git">https://github.com/nextcloud/richdocuments.git</repository>
 	<category>office</category>
 	<category>integration</category>
 	<dependencies>
-		<owncloud min-version="8.2" max-version="9.2" />
-		<nextcloud min-version="9" max-version="11" />
+		<nextcloud min-version="11" max-version="11" />
 	</dependencies>
 	<documentation>
 		<admin>https://nextcloud.com/collaboraonline/</admin>
@@ -23,5 +22,4 @@
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-app.png</screenshot>
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png</screenshot>
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png</screenshot>
-	<ocsid>174727</ocsid>
 </info>
