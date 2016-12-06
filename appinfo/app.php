@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - Richdocuments App
  *
@@ -23,23 +22,7 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
-use OCA\Richdocuments\Config;
-
-$app = new Application();
-$c = $app->getContainer();
-
 \OCP\App::registerAdmin('richdocuments', 'admin');
-
-$navigationEntry = function () use ($c) {
-	return [
-		'id' => 'richdocuments_index',
-		'order' => 2,
-		'href' => $c->query('ServerContainer')->getURLGenerator()->linkToRoute('richdocuments.document.index'),
-		'icon' => $c->query('ServerContainer')->getURLGenerator()->imagePath('richdocuments', 'app.svg'),
-		'name' => $c->query('L10N')->t('Office')
-	];
-};
-$c->getServer()->getNavigationManager()->add($navigationEntry);
 
 //Script for registering file actions
 $eventDispatcher = \OC::$server->getEventDispatcher();
@@ -59,5 +42,5 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
     $manager->registerTemplate('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'apps/richdocuments/assets/pptxtemplate.pptx');
 }
 
-//Listen to delete file signal
+// Listen to delete file signal
 \OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Richdocuments\Storage", "onDelete");

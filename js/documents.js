@@ -8,10 +8,6 @@ $.widget('oc.documentGrid', {
 		members : {}
 	},
 
-	_create : function (){
-
-	},
-
 	render : function(fileId){
 		var that = this;
 		jQuery.when(this._load(fileId))
@@ -19,65 +15,6 @@ $.widget('oc.documentGrid', {
 				that._render();
 				documentsMain.renderComplete = true;
 			});
-	},
-
-	add : function(document) {
-		var docElem = $(this.options.context + ' .template').clone(),
-			a = docElem.find('a')
-		;
-
-		//Fill an element
-		docElem.removeClass('template').attr('data-id', document.fileid);
-		a.css('background-image', 'url("'+document.icon+'")')
-			.attr('href', OC.generateUrl('apps/files/download{file}',{file:document.path}))
-			.attr('title', document.path)
-			.attr('original-title', document.path)
-			.attr('urlsrc', document.urlsrc)
-			.attr('action', document.action)
-			.attr('lolang', document.lolang)
-			.find('label').text(document.name)
-		;
-
-		docElem.appendTo(this.options.context).show();
-
-		//Preview
-		var previewURL,
-			urlSpec = {
-			file : document.path.replace(/^\/\//, '/'),
-			x : 200,
-			y : 200,
-			c : document.etag,
-			forceIcon : 0
-		};
-
-		if ( $('#isPublic').length ) {
-			urlSpec.t = $('#dirToken').val();
-		}
-
-		if (!urlSpec.x) {
-			urlSpec.x = $('#filestable').data('preview-x');
-		}
-		if (!urlSpec.y) {
-			urlSpec.y = $('#filestable').data('preview-y');
-		}
-		urlSpec.y *= window.devicePixelRatio;
-		urlSpec.x *= window.devicePixelRatio;
-
-		previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-		previewURL = previewURL.replace('(', '%28').replace(')', '%29');
-
-		if ( $('#previews_enabled').length && document.hasPreview) {
-			var img = new Image();
-			img.onload = function(){
-				var ready = function (node){
-					return function(path){
-						node.css('background-image', 'url("'+ path +'")');
-					};
-				}(a);
-				ready(previewURL);
-			};
-			img.src = previewURL;
-		}
 	},
 
 	_load : function (fileId){
@@ -108,6 +45,8 @@ $.widget('oc.documentGrid', {
 					that.options.documents = result.documents;
 					that.options.sessions = result.sessions;
 					that.options.members = result.members;
+					documentsMain.urlsrc = result.documents[0].urlsrc;
+					documentsMain.fullPath = result.documents[0].path;
 				}
 			})
 			.fail(function(data){
@@ -132,33 +71,6 @@ $.widget('oc.documentGrid', {
 				+ '</p></div>'
 			);
 			return;
-		}
-
-		$.each(documents, function(i, document){
-			hasDocuments = true;
-			that.add(document);
-		});
-
-		$.each(sessions, function(i, session){
-			if (members[session.es_id].length > 0) {
-				var docElem = $(that.options.context + ' .document[data-id="'+session.file_id+'"]');
-				if (docElem.length > 0) {
-					docElem.attr('data-esid', session.es_id);
-					docElem.find('label').after('<img class="svg session-active" src="'+OC.imagePath('core','places/contacts-dark')+'">');
-					docElem.addClass('session');
-				} else {
-					console.log('Could not find file '+session.file_id+' for session '+session.es_id);
-				}
-			}
-		});
-
-		if (!hasDocuments){
-			$(this.options.context).before('<div id="emptycontent">'
-				+ t('richdocuments', 'No documents were found. Upload or create a document to get started!')
-				+ '</div>'
-			);
-		} else {
-			$('#emptycontent').remove();
 		}
 	}
 });
@@ -250,10 +162,10 @@ var documentsMain = {
 					  // document; we add various parameters to that.
 					  // The discovery is available at
 					  //   https://<loolwsd-server>:9980/hosting/discovery
-					  var urlsrc = $('li[data-id='+ fileId.replace(/_.*/, '') +']>a').attr('urlsrc') +
+					  var urlsrc = documentsMain.urlsrc +
 						  "WOPISrc=" + wopisrc +
 						  "&title=" + encodeURIComponent(title) +
-						  "&lang=" + $('li[data-id='+ fileId.replace(/_.*/, '') +']>a').attr('lolang') +
+						  "&lang=" + OC.getLocale() +
 						  "&permission=readonly";
 
 					  // access_token - must be passed via a form post
@@ -410,7 +322,7 @@ var documentsMain = {
 			$('#revisionsContainer li').first().find('.versionPreview').click();
 		},
 
-		showEditor : function(title, action){
+		showEditor : function(title, fileId, action){
 			if (documentsMain.isGuest){
 				// !Login page mess wih WebODF toolbars
 				$(document.body).attr('id', 'body-user');
@@ -432,7 +344,7 @@ var documentsMain = {
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
 
-			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: documentsMain.fileId }),
+			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: fileId }),
 				function (result) {
 					if (!result || result.status === 'error') {
 						if (result && result.message){
@@ -450,10 +362,10 @@ var documentsMain = {
 					// document; we add various parameters to that.
 					// The discovery is available at
 					//	 https://<loolwsd-server>:9980/hosting/discovery
-					var urlsrc = $('li[data-id='+ documentsMain.fileId +']>a').attr('urlsrc') +
+					var urlsrc = documentsMain.urlsrc +
 						"WOPISrc=" + wopisrc +
 						"&title=" + encodeURIComponent(title) +
-						"&lang=" + $('li[data-id='+ documentsMain.fileId +']>a').attr('lolang') +
+						"&lang=" + OC.getLocale() +
 						"&closebutton=1" +
 						"&revisionhistory=1";
 					if (!documentsMain.canEdit || action === "view") {
@@ -468,7 +380,7 @@ var documentsMain = {
 						'<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
 
 					// iframe that contains the Collabora Online
-					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" onload="this.contentWindow.focus()"/>';
+					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" />';
 
 					$('#mainContainer').append(form);
 					$('#mainContainer').append(frame);
@@ -499,7 +411,7 @@ var documentsMain = {
 							if (msg === 'UI_Close' || msg === 'close') {
 								documentsMain.onClose();
 							} else if (msg === 'rev-history') {
-								documentsMain.UI.showRevHistory($('li[data-id=' + documentsMain.fileId + ']>a').attr('original-title'));
+								documentsMain.UI.showRevHistory(documentsMain.fullPath);
 							}
 						});
 
@@ -555,19 +467,6 @@ var documentsMain = {
 
 		hideProgress : function(){
 			$('.documentslist .progress').hide();
-		},
-
-		showLostConnection : function(){
-			$('#memberList .memberListButton').css({opacity : 0.3});
-			$('#ocToolbar').children(':not(#document-title)').hide();
-			$('<div id="connection-lost"></div>').prependTo('#memberList');
-			$('<div id="warning-connection-lost">' + t('richdocuments', 'No connection to server. Trying to reconnect.') +'<img src="'+ OC.imagePath('core', 'loading-dark.gif') +'" alt="" /></div>').prependTo('#ocToolbar');
-		},
-
-		hideLostConnection : function() {
-			$('#connection-lost,#warning-connection-lost').remove();
-			$('#ocToolbar').children(':not(#document-title,#saving-document)').show();
-			$('#memberList .memberListButton').css({opacity : 1});
 		},
 
 		notify : function(message){
@@ -630,11 +529,6 @@ var documentsMain = {
 		$(window).on("unload", documentsMain.onTerminate);
 	},
 
-	prepareGrid : function(){
-		documentsMain.isEditorMode = false;
-		documentsMain.overlay.documentOverlay('hide');
-	},
-
 	initSession: function(response) {
 		if(response && (response.id && !response.es_id)){
 			return documentsMain.view(response.id);
@@ -655,13 +549,6 @@ var documentsMain = {
 			return;
 		}
 
-		var pollUrl = documentsMain.isGuest
-				? OC.generateUrl('apps/richdocuments/session/guest/poll/{token}', {'token' : $("[name='document']").val()})
-				: OC.generateUrl('apps/richdocuments/session/user/poll'),
-			saveUrl = documentsMain.isGuest
-				? OC.generateUrl('apps/richdocuments/session/guest/save/{token}', {'token' : $("[name='document']").val()})
-				: OC.generateUrl('apps/richdocuments/session/user/save')
-				;
 		documentsMain.canShare = !documentsMain.isGuest
 				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
 
@@ -675,7 +562,7 @@ var documentsMain = {
 			documentsMain.memberId = response.member_id;
 			documentsMain.canEdit = response.permissions & OC.PERMISSION_UPDATE;
 
-			documentsMain.loadDocument();
+			documentsMain.loadDocument(response);
 
 			if (documentsMain.isGuest){
 				$('#odf-close').text(t('richdocuments', 'Save') );
@@ -702,7 +589,6 @@ var documentsMain = {
 
 	view : function(id){
 		OC.addScript('richdocuments', 'viewer/viewer', function() {
-			documentsMain.prepareGrid();
 			$(window).off('beforeunload');
 			$(window).off('unload');
 			var path = $('li[data-id='+ id +']>a').attr('href');
@@ -711,160 +597,8 @@ var documentsMain = {
 		});
 	},
 
-	onCreateODT: function(event){
-		event.preventDefault();
-		documentsMain.create('application/vnd.oasis.opendocument.text');
-	},
-
-	onCreateODS: function(event){
-		event.preventDefault();
-		documentsMain.create('application/vnd.oasis.opendocument.spreadsheet');
-	},
-
-	onCreateODP: function(event){
-		event.preventDefault();
-		documentsMain.create('application/vnd.oasis.opendocument.presentation');
-	},
-
-	onCreateDOCX: function(event){
-		event.preventDefault();
-		documentsMain.create('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-	},
-
-	onCreateXLSX: function(event){
-		event.preventDefault();
-		documentsMain.create('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	},
-
-	onCreatePPTX: function(event){
-		event.preventDefault();
-		documentsMain.create('application/vnd.openxmlformats-officedocument.presentationml.presentation');
-	},
-
-	create: function(mimetype){
-		var docElem = $('.documentslist .template').clone();
-		docElem.removeClass('template');
-		docElem.addClass('document');
-		docElem.insertAfter('.documentslist .template');
-		docElem.show();
-		$.post(
-			OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-			{ mimetype : mimetype },
-			function(response){
-				if (response && response.fileid){
-					docElem.attr('data-id', response.fileid);
-					docElem.find('a').attr('urlsrc', response.urlsrc);
-					docElem.find('a').attr('lolang', response.lolang);
-					documentsMain.prepareSession();
-					documentsMain.joinSession(response.fileid);
-				} else {
-					if (response && response.message){
-						documentsMain.UI.notify(response.message);
-					}
-					documentsMain.show();
-				}
-			}
-
-		);
-	},
-
-	changeNick: function(memberId, name, node){
-		var url = OC.generateUrl('apps/richdocuments/ajax/user/rename');
-		$.ajax({
-			url: url,
-			type: "POST",
-			data: JSON.stringify({
-				name : name,
-				memberId : memberId
-			}),
-			contentType: 'application/json; charset=utf-8',
-			dataType:"json",
-			success: function(result) {
-				if (result && result.status === 'error') {
-					if (result.message){
-						documentsMain.UI.notify(result.message);
-					}
-					return;
-				}
-			}
-		});
-	},
-
-	onNickChange: function(memberId, fullNameNode){
-		if (!documentsMain.isGuest || memberId !== documentsMain.memberId){
-			return;
-		}
-		if ($(fullNameNode.parentNode).children('input').length !== 0){
-			return;
-		}
-
-		var input = $('<input type="text"/>').val($(fullNameNode).attr('fullname'));
-		$(fullNameNode.parentNode).append(input);
-		$(fullNameNode).hide();
-
-		input.on('blur', function(){
-			var newName = input.val();
-			if (!newName || newName === name) {
-				input.tipsy('hide');
-				input.remove();
-				$(fullNameNode).show();
-				return;
-			}
-			else {
-				try {
-					input.tipsy('hide');
-					input.removeClass('error');
-					input.tipsy('hide');
-					input.remove();
-					$(fullNameNode).show();
-					documentsMain.changeNick(memberId, newName, fullNameNode);
-				}
-				catch (error) {
-					input.attr('title', error);
-					input.tipsy({gravity: 'n', trigger: 'manual'});
-					input.tipsy('show');
-					input.addClass('error');
-				}
-			}
-		});
-		input.on('keyup', function(event){
-			if (event.keyCode === 27) {
-				// cancel by putting in an empty value
-				$(this).val('');
-				$(this).blur();
-				event.preventDefault();
-			}
-			if (event.keyCode === 13) {
-				$(this).blur();
-				event.preventDefault();
-			}
-		});
-		input.focus();
-		input.selectRange(0, name.length);
-	},
-
-	loadDocument: function() {
-		var action = $('li[data-id='+ documentsMain.fileId +']>a').attr('action');
-		documentsMain.UI.showEditor(documentsMain.fileName, action);
-	},
-
-	renameDocument: function(name) {
-		var url = OC.generateUrl('apps/richdocuments/ajax/documents/rename/{file_id}', {file_id: documentsMain.fileId});
-		$.post(
-			url,
-			{ name : name },
-			function(result) {
-				if (result && result.status === 'error') {
-					if (result.message){
-						documentsMain.UI.notify(result.message);
-					}
-					return;
-				}
-				documentsMain.fileName = name;
-				$('title').text(documentsMain.UI.mainTitle + '| ' + name);
-				$('#document-title').text(name);
-			}
-		);
+	loadDocument: function(response) {
+		documentsMain.UI.showEditor(response.title, response.file_id, 'write');
 	},
 
 	onEditorShutdown : function (message){
@@ -878,7 +612,6 @@ var documentsMain = {
 			} else {
 				setTimeout(OC.Notification.hide, 7000);
 			}
-			documentsMain.prepareGrid();
 			documentsMain.UI.hideEditor();
 
 			documentsMain.show();
@@ -1037,48 +770,6 @@ $(document).ready(function() {
 
 	$('li.document a').tipsy({fade: true, live: true});
 
-	$('.documentslist').on('click', 'li:not(.add-document)', function(event) {
-		event.preventDefault();
-
-		if (documentsMain.isEditorMode){
-			return;
-		}
-
-		var item = $(this).find('a');
-		if (item.attr('urlsrc') === undefined) {
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to open ' + item.attr('original-title') + ', file not supported.'));
-			return;
-		}
-
-		documentsMain.prepareSession();
-		if ($(this).attr('data-id')){
-			documentsMain.joinSession($(this).attr('data-id'));
-		}
-	});
-
-	$('.add-document').on('click', '.add-odt', documentsMain.onCreateODT);
-	$('.add-document').on('click', '.add-ods', documentsMain.onCreateODS);
-	$('.add-document').on('click', '.add-odp', documentsMain.onCreateODP);
-	$('.add-document').on('click', '.add-docx', documentsMain.onCreateDOCX);
-	$('.add-document').on('click', '.add-xlsx', documentsMain.onCreateXLSX);
-	$('.add-document').on('click', '.add-pptx', documentsMain.onCreatePPTX);
-
-	OC.Upload._isReceivedSharedFile = function () {
-		return false;
-	};
-
-	var file_upload_start = $('#file_upload_start');
-	if (typeof supportAjaxUploadWithProgress !== 'undefined' && supportAjaxUploadWithProgress()) {
-		file_upload_start.on('fileuploadstart', function(e, data) {
-			$('#upload').addClass('icon-loading');
-			$('.add-document .upload').css({opacity:0});
-		});
-	}
-	file_upload_start.on('fileuploaddone', function(){
-		$('#upload').removeClass('icon-loading');
-		$('.add-document .upload').css({opacity:0.7});
-		documentsMain.show();
-	});
 
 	documentsMain.onStartup();
 });

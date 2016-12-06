@@ -1,12 +1,3 @@
-/* IE 8 fixes */
-.ie8 .document label {
-	background-color: #fff;
-}
-.ie8 .add-document .upload {
-	margin-top: 5px;
-}
-/* end IE 8 fixes */
-
 #editor {
 	box-shadow: none !important;
 }
@@ -26,49 +17,6 @@
 	float: left;
 	margin: 14px;
 	vertical-align: top;
-}
-
-.add-document a {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	height: 46px;
-	width: 200px;
-	background-repeat: no-repeat;
-	background-size: 32px;
-	background-position: 3%;
-}
-
-.add-document .add-odt,
-.add-document .add-ods,
-.add-document .add-odp,
-.add-document .upload {
-	opacity: .7;
-	border: 1px solid #e8e8e8;
-}
-.add-document .upload {
-	margin-top: 12px;
-}
-.add-document .add-odt:hover,
-.add-document .add-ods:hover,
-.add-document .add-odp:hover,
-.add-document .add-odt:focus,
-.add-document .add-ods:focus,
-.add-document .add-odp:focus,
-.add-document #upload:hover .upload,
-.add-document .upload:focus {
-	opacity: 1;
-	border: 1px solid #818181;
-}
-
-.add-document label {
-	position: absolute;
-	bottom: 10px;
-	width: 100%;
-	font-weight: normal;
-	text-align: center;
 }
 
 .documentslist .progress{
