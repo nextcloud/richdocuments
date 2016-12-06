@@ -1,10 +1,6 @@
 <?php
-style( 'richdocuments', 'share' );
 style( 'richdocuments', 'style' );
-script('richdocuments', 'share');
 script('richdocuments', 'documents');
-script('files', 'file-upload');
-script('files', 'jquery.fileupload');
 ?>
 <div id="documents-content">
 	<ul class="documentslist">

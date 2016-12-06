@@ -136,7 +136,6 @@ class Storage {
 			}
 		}
 
-		Db\Session::cleanUp($session->getEsId());
 	}
 
 	private static function processDocuments($rawDocuments){

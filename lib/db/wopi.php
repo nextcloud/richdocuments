@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - Richdocuments App
  *
@@ -14,11 +13,6 @@ namespace OCA\Richdocuments\Db;
 
 use \OCA\Richdocuments\Download;
 use \OCA\Richdocuments\DownloadResponse;
-
-/**
- * @method string generateFileToken()
- * @method string getPathForToken()
- */
 
 class Wopi extends \OCA\Richdocuments\Db{
 

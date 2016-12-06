@@ -1,0 +1,117 @@
+<?php
+/**
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+namespace OCA\Richdocuments\WOPI;
+
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Http\Client\IClientService;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\Notification\IApp;
+
+class DiscoveryManager {
+	/** @var IClientService */
+	private $clientService;
+	/** @var ISimpleFolder */
+	private $appData;
+	/** @var IConfig */
+	private $config;
+	/** @var IL10N */
+	private $l10n;
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	/**
+	 * @param IClientService $clientService
+	 * @param IAppData $appData
+	 * @param IConfig $config
+	 * @param IL10N $l10n
+	 * @param ITimeFactory $timeFactory
+	 */
+	public function __construct(IClientService $clientService,
+								IAppData $appData,
+								IConfig $config,
+								IL10N $l10n,
+								ITimeFactory $timeFactory) {
+		$this->clientService = $clientService;
+		try {
+			$this->appData = $appData->getFolder('richdocuments');
+		} catch (NotFoundException $e) {
+			$this->appData = $appData->newFolder('richdocuments');
+		}
+		$this->config = $config;
+		$this->l10n = $l10n;
+		$this->timeFactory = $timeFactory;
+	}
+
+	public function get() {
+		// First check if there is a local valid discovery file
+		try {
+			$file = $this->appData->getFile('discovery.xml');
+			$decodedFile = json_decode($file->getContent(), true);
+			if($decodedFile['timestamp'] + 3600 > $this->timeFactory->getTime()) {
+				return $decodedFile['data'];
+			}
+		} catch (NotFoundException $e) {
+			$file = $this->appData->newFile('discovery.xml');
+		}
+
+		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		$wopiDiscovery = $remoteHost . '/hosting/discovery';
+
+		$client = $this->clientService->newClient();
+		try {
+			$response = $client->get($wopiDiscovery);
+		} catch (\Exception $e) {
+			$error_message = $e->getMessage();
+			if (preg_match('/^cURL error ([0-9]*):/', $error_message, $matches)) {
+				$admin_check = $this->l10n->t('Please ask your administrator to check the Collabora Online server setting. The exact error message was: ') . $error_message;
+
+				$curl_error = $matches[1];
+				switch ($curl_error) {
+					case '1':
+						throw new ResponseException($this->l10n->t('Collabora Online: The protocol specified in "%s" is not allowed.', array($wopiRemote)), $admin_check);
+					case '3':
+						throw new ResponseException($this->l10n->t('Collabora Online: Malformed URL "%s".', array($wopiRemote)), $admin_check);
+					case '6':
+						throw new ResponseException($this->l10n->t('Collabora Online: Cannot resolve the host "%s".', array($wopiRemote)), $admin_check);
+					case '7':
+						throw new ResponseException($this->l10n->t('Collabora Online: Cannot connect to the host "%s".', array($wopiRemote)), $admin_check);
+					case '60':
+						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example "cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
+				}
+			}
+			throw new ResponseException($this->l10n->t('Collabora Online unknown error: ') . $error_message, $contact_admin);
+		}
+
+		$responseBody = $response->getBody();
+		$file->putContent(
+			json_encode([
+				'data' => $responseBody,
+				'timestamp' => $this->timeFactory->getTime(),
+			])
+		);
+		return $responseBody;
+	}
+}

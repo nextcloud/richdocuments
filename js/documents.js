@@ -18,40 +18,11 @@ $.widget('oc.documentGrid', {
 	},
 
 	_load : function (fileId){
-		var that = this;
-		var url = 'apps/richdocuments/ajax/documents/list';
-		var dataObj = {};
-		if (fileId){
-			url = 'apps/richdocuments/ajax/documents/get/{fileId}';
-			dataObj = { fileId: fileId };
-		}
-
-		return $.getJSON(OC.generateUrl(url, dataObj))
-			.done(function (result) {
-				if (!result || result.status === 'error') {
-					documentsMain.loadError = true;
-					if (result && result.message) {
-						documentsMain.loadErrorMessage = result.message;
-					}
-					else {
-						documentsMain.loadErrorMessage = t('richdocuments', 'Failed to load the document, please contact your administrator.');
-					}
-
-					if (result && result.hint) {
-						documentsMain.loadErrorHint = result.hint;
-					}
-				}
-				else {
-					that.options.documents = result.documents;
-					that.options.sessions = result.sessions;
-					that.options.members = result.members;
-					documentsMain.urlsrc = result.documents[0].urlsrc;
-					documentsMain.fullPath = result.documents[0].path;
-				}
-			})
-			.fail(function(data){
-				console.log(t('richdocuments','Failed to load documents.'));
-			});
+		var url = OC.generateUrl('apps/richdocuments/wopi/token/{file_id}', {file_id: fileId});
+		$.get(
+			url,
+			documentsMain.initSession
+		);
 	},
 
 	_render : function (data){
@@ -152,39 +123,36 @@ var documentsMain = {
 				$('#revViewerContainer').prepend($('<div id="revViewer">'));
 			}
 
-			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: fileId }),
-				  function (result) {
-					  // WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-					  var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
-					  var wopisrc = encodeURIComponent(wopiurl);
+			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
+			var wopisrc = encodeURIComponent(wopiurl);
 
-					  // urlsrc - the URL from discovery xml that we access for the particular
-					  // document; we add various parameters to that.
-					  // The discovery is available at
-					  //   https://<loolwsd-server>:9980/hosting/discovery
-					  var urlsrc = documentsMain.urlsrc +
-						  "WOPISrc=" + wopisrc +
-						  "&title=" + encodeURIComponent(title) +
-						  "&lang=" + OC.getLocale() +
-						  "&permission=readonly";
+			// urlsrc - the URL from discovery xml that we access for the particular
+			// document; we add various parameters to that.
+			// The discovery is available at
+			//   https://<loolwsd-server>:9980/hosting/discovery
+			var urlsrc = documentsMain.urlsrc +
+			  "WOPISrc=" + wopisrc +
+			  "&title=" + encodeURIComponent(title) +
+			  "&lang=" + OC.getLocale() +
+			  "&permission=readonly";
 
-					  // access_token - must be passed via a form post
-					  var access_token = encodeURIComponent(result.token);
+			// access_token - must be passed via a form post
+			var access_token = encodeURIComponent(documentsMain.token);
 
-					  // form to post the access token for WOPISrc
-					  var form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">' +
-						  '<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
+			// form to post the access token for WOPISrc
+			var form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">' +
+			  '<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
 
-					  // iframe that contains the Collabora Online Viewer
-					  var frame = '<iframe id="loleafletframe_viewer" name= "loleafletframe_viewer" style="width:100%;height:100%;position:absolute;"/>';
+			// iframe that contains the Collabora Online Viewer
+			var frame = '<iframe id="loleafletframe_viewer" name= "loleafletframe_viewer" style="width:100%;height:100%;position:absolute;"/>';
 
-					  $('#revViewer').append(form);
-					  $('#revViewer').append(frame);
+			$('#revViewer').append(form);
+			$('#revViewer').append(frame);
 
-					  // submit that
-					  $('#loleafletform_viewer').submit();
-					  documentsMain.isViewerMode = true;
-				  });
+			// submit that
+			$('#loleafletform_viewer').submit();
+			documentsMain.isViewerMode = true;
 
 			// for closing revision mode
 			$('#revPanelHeader .closeButton').click(function(e) {
@@ -344,91 +312,81 @@ var documentsMain = {
 
 			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
 
-			$.get(OC.generateUrl('apps/richdocuments/wopi/token/{fileId}', { fileId: fileId }),
-				function (result) {
-					if (!result || result.status === 'error') {
-						if (result && result.message){
-							documentsMain.UI.notify(result.message);
-						}
-						documentsMain.onEditorShutdown(t('richdocuments', 'Failed to aquire access token. Please re-login and try again.'));
+
+			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
+			var wopisrc = encodeURIComponent(wopiurl);
+
+			// urlsrc - the URL from discovery xml that we access for the particular
+			// document; we add various parameters to that.
+			// The discovery is available at
+			//	 https://<loolwsd-server>:9980/hosting/discovery
+			var urlsrc = documentsMain.urlsrc +
+				"WOPISrc=" + wopisrc +
+				"&title=" + encodeURIComponent(title) +
+				"&lang=" + OC.getLocale() +
+				"&closebutton=1" +
+				"&revisionhistory=1";
+			if (!documentsMain.canEdit || action === "view") {
+				urlsrc += "&permission=readonly";
+			}
+
+			// access_token - must be passed via a form post
+			var access_token = encodeURIComponent(documentsMain.token);
+
+			// form to post the access token for WOPISrc
+			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">' +
+				'<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
+
+			// iframe that contains the Collabora Online
+			var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" />';
+
+			$('#mainContainer').append(form);
+			$('#mainContainer').append(frame);
+
+			// Listen for App_LoadingStatus as soon as possible
+			$('#loleafletframe').ready(function() {
+				var editorInitListener = function(e) {
+					var msg = JSON.parse(e.data);
+					if (msg.MessageId === 'App_LoadingStatus') {
+						window.removeEventListener('message', editorInitListener, false);
+					}
+				};
+				window.addEventListener('message', editorInitListener, false);
+			});
+
+			$('#loleafletframe').load(function(){
+				// And start listening to incoming post messages
+				window.addEventListener('message', function(e){
+					if (documentsMain.isViewerMode) {
 						return;
 					}
 
-					// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-					var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
-					var wopisrc = encodeURIComponent(wopiurl);
-
-					// urlsrc - the URL from discovery xml that we access for the particular
-					// document; we add various parameters to that.
-					// The discovery is available at
-					//	 https://<loolwsd-server>:9980/hosting/discovery
-					var urlsrc = documentsMain.urlsrc +
-						"WOPISrc=" + wopisrc +
-						"&title=" + encodeURIComponent(title) +
-						"&lang=" + OC.getLocale() +
-						"&closebutton=1" +
-						"&revisionhistory=1";
-					if (!documentsMain.canEdit || action === "view") {
-						urlsrc += "&permission=readonly";
+					try {
+						var msg = JSON.parse(e.data).MessageId;
+					} catch(exc) {
+						msg = e.data;
 					}
+					if (msg === 'UI_Close' || msg === 'close') {
+						documentsMain.onClose();
+					} else if (msg === 'rev-history') {
+						documentsMain.UI.showRevHistory(documentsMain.fullPath);
+					}
+				});
 
-					// access_token - must be passed via a form post
-					var access_token = encodeURIComponent(result.token);
+				// Tell the LOOL iframe that we are ready now
+				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
 
-					// form to post the access token for WOPISrc
-					var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">' +
-						'<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
-
-					// iframe that contains the Collabora Online
-					var frame = '<iframe id="loleafletframe" name= "loleafletframe" allowfullscreen style="width:100%;height:100%;position:absolute;" />';
-
-					$('#mainContainer').append(form);
-					$('#mainContainer').append(frame);
-
-					// Listen for App_LoadingStatus as soon as possible
-					$('#loleafletframe').ready(function() {
-						var editorInitListener = function(e) {
-							var msg = JSON.parse(e.data);
-							if (msg.MessageId === 'App_LoadingStatus') {
-								window.removeEventListener('message', editorInitListener, false);
-							}
-						};
-						window.addEventListener('message', editorInitListener, false);
-					});
-
-					$('#loleafletframe').load(function(){
-						// And start listening to incoming post messages
-						window.addEventListener('message', function(e){
-							if (documentsMain.isViewerMode) {
-								return;
-							}
-
-							try {
-								var msg = JSON.parse(e.data).MessageId;
-							} catch(exc) {
-								msg = e.data;
-							}
-							if (msg === 'UI_Close' || msg === 'close') {
-								documentsMain.onClose();
-							} else if (msg === 'rev-history') {
-								documentsMain.UI.showRevHistory(documentsMain.fullPath);
-							}
-						});
-
-						// Tell the LOOL iframe that we are ready now
-						documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
-
-						// LOOL Iframe is ready, turn off our overlay
-						// This should ideally be taken off when we receive App_LoadingStatus, but
-						// for backward compatibility with older lool, lets keep it here till we decide
-						// to break older lools
-						documentsMain.overlay.documentOverlay('hide');
-					});
-
-					// submit that
-					$('#loleafletform').submit();
-
+				// LOOL Iframe is ready, turn off our overlay
+				// This should ideally be taken off when we receive App_LoadingStatus, but
+				// for backward compatibility with older lool, lets keep it here till we decide
+				// to break older lools
+				documentsMain.overlay.documentOverlay('hide');
 			});
+
+			// submit that
+			$('#loleafletform').submit();
+
 		},
 
 		hideEditor : function(){
@@ -445,16 +403,6 @@ var documentsMain = {
 				$(document.body).removeClass('claro');
 				$('title').text(documentsMain.UI.mainTitle);
 			});
-		},
-
-		showSave : function (){
-			$('#odf-close').hide();
-			$('#saving-document').show();
-		},
-
-		hideSave : function(){
-			$('#saving-document').hide();
-			$('#odf-close').show();
 		},
 
 		showProgress : function(message){
@@ -479,25 +427,12 @@ var documentsMain = {
 		var fileId;
 		documentsMain.UI.init();
 
-		if (!OC.currentUser){
-			documentsMain.isGuest = true;
+		// Does anything indicate that we need to autostart a session?
+		fileId = parent.location.hash.replace(/^\W*/, '');
 
-			if ($("[name='document']").val()){
-				$(documentsMain.toolbar).appendTo('#header');
-				documentsMain.prepareSession();
-				documentsMain.joinSession(
-					$("[name='document']").val()
-				);
-			}
-
-		} else {
-			// Does anything indicate that we need to autostart a session?
-			fileId = parent.location.hash.replace(/^\W*/, '');
-
-			if (fileId.indexOf('_') >= 0) {
-				documentsMain.returnToDir = unescape(fileId.replace(/^[^_]*_/, ''));
-				fileId = fileId.replace(/_.*/, '');
-			}
+		if (fileId.indexOf('_') >= 0) {
+			documentsMain.returnToDir = unescape(fileId.replace(/^[^_]*_/, ''));
+			fileId = fileId.replace(/_.*/, '');
 		}
 
 		documentsMain.show(fileId);
@@ -505,7 +440,6 @@ var documentsMain = {
 		if (fileId) {
 			documentsMain.overlay.documentOverlay('show');
 			documentsMain.prepareSession();
-			documentsMain.joinSession(fileId);
 		}
 
 		documentsMain.ready = true;
@@ -530,14 +464,14 @@ var documentsMain = {
 	},
 
 	initSession: function(response) {
-		if(response && (response.id && !response.es_id)){
-			return documentsMain.view(response.id);
-		}
+		documentsMain.urlsrc = response.documents[0].urlsrc;
+		documentsMain.fullPath = response.documents[0].path;
+		documentsMain.token = response.documents[0].token;
 
 		$('footer,nav').hide();
 		$(documentsMain.toolbar).appendTo('#header');
 
-		if (!response || !response.status || response.status==='error'){
+		if (!response) {
 			documentsMain.onEditorShutdown(t('richdocuments', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
 			return;
 		}
@@ -558,9 +492,8 @@ var documentsMain = {
 			documentsMain.fileId = response.file_id;
 			documentsMain.fileName = response.title;
 
-			documentsMain.esId = response.es_id;
 			documentsMain.memberId = response.member_id;
-			documentsMain.canEdit = response.permissions & OC.PERMISSION_UPDATE;
+			documentsMain.canEdit = Boolean(response.permissions & OC.PERMISSION_UPDATE);
 
 			documentsMain.loadDocument(response);
 
@@ -569,22 +502,6 @@ var documentsMain = {
 				$('#odf-close').removeClass('icon-view-close');
 			}
 		});
-	},
-
-
-	joinSession: function(fileId) {
-		console.log('joining session '+fileId);
-		var url;
-		if (documentsMain.isGuest){
-			url = OC.generateUrl('apps/richdocuments/session/guest/join/{token}', {token: fileId});
-		} else {
-			url = OC.generateUrl('apps/richdocuments/session/user/join/{file_id}', {file_id: fileId});
-		}
-		$.post(
-			url,
-			{ name : $("[name='memberName']").val() },
-			documentsMain.initSession
-		);
 	},
 
 	view : function(id){
@@ -678,77 +595,6 @@ var documentsMain = {
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
 	}
-};
-
-//init
-var Files = Files || {
-	// FIXME: copy/pasted from Files.isFileNameValid, needs refactor into core
-	isFileNameValid:function (name) {
-		if (name === '.') {
-			throw t('files', '\'.\' is an invalid file name.');
-		} else if (name.length === 0) {
-			throw t('files', 'File name cannot be empty.');
-		}
-
-		// check for invalid characters
-		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
-		for (var i = 0; i < invalid_characters.length; i++) {
-			if (name.indexOf(invalid_characters[i]) !== -1) {
-				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
-			}
-		}
-		return true;
-	},
-
-	updateStorageStatistics: function(){}
-},
-FileList = FileList || {};
-
-FileList.getCurrentDirectory = function(){
-	return $('#dir').val() || '/';
-};
-
-FileList.highlightFiles = function(files, highlightFunction) {
-};
-
-FileList.findFile = function(filename) {
-	var documents = documentsMain.docs.documentGrid('option').documents;
-	return _.find(documents, function(aFile) {
-				return (aFile.name === filename);
-			}) || false;
-};
-
-FileList.generatePreviewUrl = function(urlSpec) {
-	urlSpec = urlSpec || {};
-	if (!urlSpec.x) {
-		urlSpec.x = 32;
-	}
-	if (!urlSpec.y) {
-		urlSpec.y = 32;
-	}
-	urlSpec.x *= window.devicePixelRatio;
-	urlSpec.y *= window.devicePixelRatio;
-	urlSpec.x = Math.ceil(urlSpec.x);
-	urlSpec.y = Math.ceil(urlSpec.y);
-	urlSpec.forceIcon = 0;
-	return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-};
-
-FileList.isFileNameValid = function (name) {
-	var trimmedName = name.trim();
-	if (trimmedName === '.'	|| trimmedName === '..') {
-		throw t('files', '"{name}" is an invalid file name.', {name: name});
-	} else if (trimmedName.length === 0) {
-		throw t('files', 'File name cannot be empty.');
-	}
-	return true;
-};
-
-FileList.setViewerMode = function(){
-};
-FileList.findFile = function(fileName){
-	fullPath = escapeHTML(FileList.getCurrentDirectory + '/' + fileName);
-	return !!$('.documentslist .document:not(.template,.progress) a[original-title="' + fullPath + '"]').length;
 };
 
 $(document).ready(function() {
