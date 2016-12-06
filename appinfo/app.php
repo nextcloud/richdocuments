@@ -22,8 +22,6 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
-\OCP\App::registerAdmin('richdocuments', 'admin');
-
 //Script for registering file actions
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(

@@ -55,35 +55,6 @@ class SettingsController extends Controller{
 		);
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 */
-	public function settingsIndex(){
-		return new TemplateResponse(
-			$this->appName,
-			'settings',
-			'blank'
-		);
-	}
-
-	/**
-	 * @NoCSRFRequired
-	 */
-	public function adminIndex(){
-		return new TemplateResponse(
-			$this->appName,
-			'admin',
-			[
-				'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
-				'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
-				'doc_format' => $this->appConfig->getAppValue('doc_format'),
-				'test_wopi_url' => $this->appConfig->getAppValue('test_wopi_url'),
-				'test_server_groups' => $this->appConfig->getAppValue('test_server_groups')
-			],
-			'blank'
-		);
-	}
-
 	public function setSettings($wopi_url, $edit_groups, $doc_format, $test_wopi_url, $test_server_groups){
 		$message = $this->l10n->t('Saved');
 
