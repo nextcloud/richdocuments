@@ -31,6 +31,13 @@ $eventDispatcher->addListener(
 		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
 	}
 );
+$eventDispatcher->addListener(
+	'OCA\Files_Sharing::loadAdditionalScripts',
+	function() {
+		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
+		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
+	}
+);
 
 if (class_exists('\OC\Files\Type\TemplateManager')) {
     $manager = \OC_Helper::getFileTemplateManager();

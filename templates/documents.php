@@ -1,3 +1,12 @@
+<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>">
+	var richdocuments_permissions = '<?php p($_['permissions']) ?>';
+	var richdocuments_title = '<?php p($_['title']) ?>';
+	var richdocuments_fileId = '<?php p($_['fileId']) ?>';
+	var richdocuments_token = '<?php p($_['token']) ?>';
+	var richdocuments_urlsrc = '<?php p($_['urlsrc']) ?>';
+	var richdocuments_path = '<?php p($_['path']) ?>';
+</script>
+
 <?php
 style( 'richdocuments', 'style' );
 script('richdocuments', 'documents');

@@ -64,60 +64,6 @@ class WopiController extends Controller {
 	}
 
 	/**
-	 * Generates and returns an access token for a given fileId
-	 *
-	 * @NoAdminRequired
-	 *
-	 * @param string $fileId
-	 * @return JSONResponse
-	 */
-	public function getToken($fileId) {
-		$arr = explode('_', $fileId, 2);
-		$version = '0';
-		if (count($arr) === 2) {
-			list($fileId, $version) = $arr;
-		}
-
-		try {
-			/** @var File $file */
-			$file = $this->rootFolder->getUserFolder($this->userId)->getById($fileId)[0];
-			$updatable = $file->isUpdateable();
-		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		}
-
-		// If token is for some versioned file
-		if ($version !== '0') {
-			$updatable = false;
-		}
-
-		$row = new Wopi();
-		$serverHost = $this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-		$token = $row->generateFileToken($fileId, $version, $updatable, $serverHost);
-
-		try {
-			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			/** @var File $file */
-			$file = $userFolder->getById($fileId)[0];
-			$sessionData['title'] = basename($file->getPath());
-			$sessionData['permissions'] = $file->getPermissions();
-			$sessionData['file_id'] = $file->getId();
-
-			$sessionData['documents'] = [
-				0 => [
-					'urlsrc' => $this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],
-					'path' => $file->getPath(),
-					'token' => $token,
-				],
-			];
-
-			return new JSONResponse($sessionData);
-		} catch (\Exception $e){
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		}
-	}
-
-	/**
 	 * Returns general info about a file.
 	 *
 	 * @NoAdminRequired
@@ -141,15 +87,19 @@ class WopiController extends Controller {
 
 		$res = $row->getPathForToken($fileId, $version, $token);
 		if ($res === false) {
-			return new JSONResponse();
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		// Login the user to see his mount locations
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($res['editor']);
+			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
 		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		if(!($file instanceof File)) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -158,8 +108,8 @@ class WopiController extends Controller {
 				'BaseFileName' => $file->getName(),
 				'Size' => $file->getSize(),
 				'Version' => $version,
-				'UserId' => $res['editor'],
-				'UserFriendlyName' => $this->userManager->get($res['editor'])->getDisplayName(),
+				'UserId' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
+				'UserFriendlyName' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
 				'UserCanWrite' => $res['canwrite'] ? true : false,
 				'PostMessageOrigin' => $res['server_host'],
 			]
@@ -192,7 +142,7 @@ class WopiController extends Controller {
 
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($res['editor']);
+			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
 			$response = new StreamResponse($file->fopen('rb'));
 			$response->addHeader('Content-Disposition', 'attachment');
@@ -202,8 +152,6 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 	}
-
-
 
 	/**
 	 * Given an access token and a fileId, replaces the files with the request body.
@@ -233,7 +181,7 @@ class WopiController extends Controller {
 
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($res['editor']);
+			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
 			$content = fopen('php://input', 'rb');
 			$file->putContent($content);

@@ -84,25 +84,7 @@ class DiscoveryManager {
 		try {
 			$response = $client->get($wopiDiscovery);
 		} catch (\Exception $e) {
-			$error_message = $e->getMessage();
-			if (preg_match('/^cURL error ([0-9]*):/', $error_message, $matches)) {
-				$admin_check = $this->l10n->t('Please ask your administrator to check the Collabora Online server setting. The exact error message was: ') . $error_message;
-
-				$curl_error = $matches[1];
-				switch ($curl_error) {
-					case '1':
-						throw new ResponseException($this->l10n->t('Collabora Online: The protocol specified in "%s" is not allowed.', array($wopiRemote)), $admin_check);
-					case '3':
-						throw new ResponseException($this->l10n->t('Collabora Online: Malformed URL "%s".', array($wopiRemote)), $admin_check);
-					case '6':
-						throw new ResponseException($this->l10n->t('Collabora Online: Cannot resolve the host "%s".', array($wopiRemote)), $admin_check);
-					case '7':
-						throw new ResponseException($this->l10n->t('Collabora Online: Cannot connect to the host "%s".', array($wopiRemote)), $admin_check);
-					case '60':
-						throw new ResponseException($this->l10n->t('Collabora Online: SSL certificate is not installed.'), $this->l10n->t('Please ask your administrator to add ca-chain.cert.pem to the ca-bundle.crt, for example "cat /etc/loolwsd/ca-chain.cert.pem >> <server-installation>/resources/config/ca-bundle.crt" . The exact error message was: ') . $error_message);
-				}
-			}
-			throw new ResponseException($this->l10n->t('Collabora Online unknown error: ') . $error_message, $contact_admin);
+			throw $e;
 		}
 
 		$responseBody = $response->getBody();

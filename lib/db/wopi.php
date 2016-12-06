@@ -23,63 +23,28 @@ class Wopi extends \OCA\Richdocuments\Db{
 
 	protected $tableName  = '`*PREFIX*richdocuments_wopi`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`owner_uid`, `editor_uid`, `fileid`, `version`, `path`, `canwrite`, `server_host`, `token`, `expiry`)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`fileid`, `owner_uid`, `editor_uid`, `version`, `canwrite`, `server_host`, `token`, `expiry`)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_wopi` WHERE `token`= ?';
 
-	/*
-	 * Given a fileId and version, generates a token
-	 * and stores in the database.
-	 * version is 0 if current version of fileId is requested, otherwise
-	 * its the version number as stored by files_version app
-	 * Returns the token.
-	 */
-	public function generateFileToken($fileId, $version, $updatable, $serverHost){
-
-		// Get the FS view of the current user.
-		$view = \OC\Files\Filesystem::getView();
-
-		// Get the virtual path (if the file is shared).
-		$path = $view->getPath($fileId);
-
-		if (!$view->is_file($path)) {
-			throw new \Exception('Invalid fileId.');
-		}
-
-		// Figure out the real owner, if not us.
-		$owner = $view->getOwner($path);
-
- 		// Create a view into the owner's FS.
-		$view = new \OC\Files\View('/' . $owner . '/files');
-		// Find the real path.
-		$path = $view->getPath($fileId);
-		if (!$view->is_file($path)) {
-			throw new \Exception('Invalid fileId.');
-		}
-
-		$editor = \OC::$server->getUserSession()->getUser()->getUID();
-
+	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost) {
 		$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32,
 					\OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 					\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
-		\OC::$server->getLogger()->debug('Issuing token for {editor} file {fileId}, version {version} owned by {owner}, path {path}: {token}',
-		[ 'owner' => $owner, 'editor' => $editor, 'fileId' => $fileId, 'version' => $version, 'path' => $path, 'token' => $token ]);
-
 		$wopi = new \OCA\Richdocuments\Db\Wopi([
+			$fileId,
 			$owner,
 			$editor,
-			$fileId,
 			$version,
-			$path,
 			$updatable,
 			$serverHost,
 			$token,
 			time() + self::TOKEN_LIFETIME_SECONDS
 		]);
 
-		if (!$wopi->insert()){
+		if (!$wopi->insert()) {
 			throw new \Exception('Failed to add wopi token into database');
 		}
 

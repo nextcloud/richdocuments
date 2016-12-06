@@ -18,11 +18,7 @@ $.widget('oc.documentGrid', {
 	},
 
 	_load : function (fileId){
-		var url = OC.generateUrl('apps/richdocuments/wopi/token/{file_id}', {file_id: fileId});
-		$.get(
-			url,
-			documentsMain.initSession
-		);
+		documentsMain.initSession();
 	},
 
 	_render : function (data){
@@ -65,7 +61,6 @@ var documentsMain = {
 	isEditorMode : false,
 	isViewerMode: false,
 	isGuest : false,
-	memberId : false,
 	esId : false,
 	ready :false,
 	fileName: null,
@@ -306,6 +301,7 @@ var documentsMain = {
 				console.log('Waiting for page to render ...');
 				return;
 			}
+			parent.postMessage('loading', '*');
 
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
@@ -428,7 +424,7 @@ var documentsMain = {
 		documentsMain.UI.init();
 
 		// Does anything indicate that we need to autostart a session?
-		fileId = parent.location.hash.replace(/^\W*/, '');
+		fileId = getURLParameter('fileid').replace(/^\W*/, '');
 
 		if (fileId.indexOf('_') >= 0) {
 			documentsMain.returnToDir = unescape(fileId.replace(/^[^_]*_/, ''));
@@ -460,42 +456,28 @@ var documentsMain = {
 	prepareSession : function(){
 		documentsMain.isEditorMode = true;
 		documentsMain.overlay.documentOverlay('show');
-		$(window).on("unload", documentsMain.onTerminate);
 	},
 
-	initSession: function(response) {
-		documentsMain.urlsrc = response.documents[0].urlsrc;
-		documentsMain.fullPath = response.documents[0].path;
-		documentsMain.token = response.documents[0].token;
+	initSession: function() {
+		documentsMain.urlsrc = richdocuments_urlsrc;
+		documentsMain.fullPath = richdocuments_path;
+		documentsMain.token = richdocuments_token;
 
 		$('footer,nav').hide();
 		$(documentsMain.toolbar).appendTo('#header');
 
-		if (!response) {
-			documentsMain.onEditorShutdown(t('richdocuments', 'Failed to load this document. Please check if it can be opened with an external editor. This might also mean it has been unshared or deleted recently.'));
-			return;
-		}
-
-		//Wait for 3 sec if editor is still loading
-		if (!documentsMain.ready){
-			setTimeout(function(){ documentsMain.initSession(response); }, 3000);
-			console.log('Waiting for the editor to start...');
-			return;
-		}
-
 		documentsMain.canShare = !documentsMain.isGuest
-				&& typeof OC.Share !== 'undefined' && response.permissions & OC.PERMISSION_SHARE;
+				&& typeof OC.Share !== 'undefined' && richdocuments_permissions & OC.PERMISSION_SHARE;
 
 		// fade out file list and show the cloudsuite
 		$('#content-wrapper').fadeOut('fast').promise().done(function() {
 
-			documentsMain.fileId = response.file_id;
-			documentsMain.fileName = response.title;
+			documentsMain.fileId = richdocuments_fileId;
+			documentsMain.fileName = richdocuments_title;
 
-			documentsMain.memberId = response.member_id;
-			documentsMain.canEdit = Boolean(response.permissions & OC.PERMISSION_UPDATE);
+			documentsMain.canEdit = Boolean(richdocuments_permissions & OC.PERMISSION_UPDATE);
 
-			documentsMain.loadDocument(response);
+			documentsMain.loadDocument(documentsMain.fileName, documentsMain.fileId);
 
 			if (documentsMain.isGuest){
 				$('#odf-close').text(t('richdocuments', 'Save') );
@@ -514,8 +496,8 @@ var documentsMain = {
 		});
 	},
 
-	loadDocument: function(response) {
-		documentsMain.UI.showEditor(response.title, response.file_id, 'write');
+	loadDocument: function(title, fileId) {
+		documentsMain.UI.showEditor(title, fileId, 'write');
 	},
 
 	onEditorShutdown : function (message){
@@ -537,9 +519,6 @@ var documentsMain = {
 
 
 	onClose: function() {
-		if (!documentsMain.isEditorMode){
-			return;
-		}
 		documentsMain.isEditorMode = false;
 		$(window).off('beforeunload');
 		$(window).off('unload');
@@ -549,11 +528,7 @@ var documentsMain = {
 		documentsMain.UI.hideEditor();
 		$('#ocToolbar').remove();
 
-		if (documentsMain.returnToDir) {
-			window.location = OC.generateUrl('apps/files?dir={dir}', {dir: documentsMain.returnToDir});
-		} else {
-			documentsMain.show();
-		}
+		parent.postMessage('close', '*');
 	},
 
 	onCloseViewer: function() {
@@ -565,26 +540,6 @@ var documentsMain = {
 		documentsMain.UI.revisionsStart = 0;
 
 		$('#loleafletframe').focus();
-	},
-
-	onTerminate: function(){
-		var url = '';
-		if (documentsMain.isGuest){
-			url = OC.generateUrl('apps/richdocuments/ajax/user/disconnectGuest/{member_id}', {member_id: documentsMain.memberId});
-		} else {
-			url = OC.generateUrl('apps/richdocuments/ajax/user/disconnect/{member_id}', {member_id: documentsMain.memberId});
-		}
-		$.ajax({
-				type: "POST",
-				url: url,
-				data: {esId: documentsMain.esId},
-				dataType: "json",
-				async: false // Should be sync to complete before the page is closed
-		});
-
-		if (documentsMain.isGuest){
-			$('footer,nav').show();
-		}
 	},
 
 	show: function(fileId){

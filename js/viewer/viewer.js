@@ -1,9 +1,6 @@
 /* globals FileList, OCA.Files.fileActions, oc_debug */
 var odfViewer = {
 	isDocuments : false,
-	supportedMimesReadOnly: [
-	],
-
 	supportedMimesReadWrite: [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
@@ -36,20 +33,14 @@ var odfViewer = {
 		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
 	],
 
-	register : function(response){
+	register : function() {
 		var i,
 			mimeReadOnly,
 			mimeReadWrite;
 
-		if (response && response.mimes){
-			jQuery.each(response.mimes, function(i, mime){
-				odfViewer.supportedMimesReadOnly.push(mime);
-				odfViewer.supportedMimesReadWrite.push(mime);
-			});
-		}
-		for (i = 0; i < odfViewer.supportedMimesReadOnly.length; ++i) {
-			mimeReadOnly = odfViewer.supportedMimesReadOnly[i];
-			OCA.Files.fileActions.register(mimeReadOnly, 'View', OC.PERMISSION_READ, '', odfViewer.onView);
+		for (i = 0; i < odfViewer.supportedMimesReadWrite.length; ++i) {
+			mimeReadOnly = odfViewer.supportedMimesReadWrite[i];
+			OCA.Files.fileActions.register(mimeReadOnly, 'View', OC.PERMISSION_READ, '', odfViewer.onEdit);
 			OCA.Files.fileActions.setDefault(mimeReadOnly, 'View');
 		}
 		for (i = 0; i < odfViewer.supportedMimesReadWrite.length; ++i) {
@@ -62,40 +53,82 @@ var odfViewer = {
 					odfViewer.onEdit,
 					t('richdocuments', 'Edit')
 			);
+			OCA.Files.fileActions.register(
+				mimeReadWrite,
+				'View',
+				OC.PERMISSION_READ,
+				OC.imagePath('core', 'actions/rename'),
+				odfViewer.onEdit,
+				t('richdocuments', 'View')
+			);
+			OCA.Files.fileActions.setDefault(mimeReadWrite, 'View');
 			OCA.Files.fileActions.setDefault(mimeReadWrite, 'Edit');
 		}
 	},
 
 	dispatch : function(filename){
-		if (odfViewer.supportedMimesReadWrite.indexOf(OCA.Files.fileActions.getCurrentMimeType()) !== -1
-			&& OCA.Files.fileActions.getCurrentPermissions() & OC.PERMISSION_UPDATE
-		){
-			odfViewer.onEdit(filename);
-		} else {
-			odfViewer.onView(filename);
+		odfViewer.onEdit(filename);
+	},
+
+	onEdit : function(fileName, context) {
+		if(context) {
+			var fileDir = context.dir;
+			var fileId = context.$file.attr('data-id');
 		}
-	},
 
-	onEdit : function(fileName, context){
-		var fileId = context.$file.attr('data-id');
-		var fileDir = context.dir;
-
-		if (fileDir) {
-			window.location = OC.generateUrl('apps/richdocuments/index#{file_id}_{dir}', {file_id: fileId, dir: fileDir});
+		var viewer;
+		if($('#isPublic').val() === '1') {
+			viewer = OC.generateUrl(
+				'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}',
+				{
+					shareToken: $('#sharingToken').val(),
+					fileName: fileName,
+					dir: fileDir,
+					requesttoken: OC.requestToken
+				}
+			);
 		} else {
-			window.location = OC.generateUrl('apps/richdocuments/index#{file_id}', {file_id: fileId});
+			viewer = OC.generateUrl(
+				'apps/richdocuments/index?fileId={fileId}_{dir}&requesttoken={requesttoken}',
+				{
+					fileId: fileId,
+					dir: fileDir,
+					requesttoken: OC.requestToken
+				}
+			);
 		}
+
+		if(context) {
+			FileList.setViewerMode(true);
+		}
+
+		var $iframe = $('<iframe id="richdocumentsframe" style="width:100%;height:100%;display:block;position:absolute;top:0;" src="'+viewer+'" />');
+		if ($('#isPublic').val()) {
+			// force the preview to adjust its height
+			$('#preview').append($iframe).css({height: '100%'});
+			$('body').css({height: '100%'});
+			$('#content').addClass('full-height');
+			$('footer').addClass('hidden');
+			$('#imgframe').addClass('hidden');
+			$('.directLink').addClass('hidden');
+			$('.directDownload').addClass('hidden');
+			$('#controls').addClass('hidden');
+			$('#content').addClass('loading');
+		} else {
+			$('#app-content').append($iframe);
+		}
+
+		$('#app-content #controls').addClass('hidden');
+		$('#app-content').append($iframe);
 	},
 
-	onView: function(filename, context) {
-	    var attachTo = odfViewer.isDocuments ? '#documents-content' : '#controls';
-
-	    FileList.setViewerMode(true);
-	},
 
 	onClose: function() {
-		FileList.setViewerMode(false);
-		$('#loleafletframe').remove();
+		if(typeof FileList !== "undefined") {
+			FileList.setViewerMode(false);
+		}
+		$('#app-content #controls').removeClass('hidden');
+		$('#richdocumentsframe').remove();
 	},
 
 	registerFilesMenu: function(response) {
@@ -186,11 +219,7 @@ $(document).ready(function() {
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
-		$.get(
-			OC.filePath('richdocuments', 'ajax', 'mimes.php'),
-			{},
-			odfViewer.register
-		);
+		odfViewer.register();
 
 		$.get(
 			OC.filePath('richdocuments', 'ajax', 'settings.php'),
@@ -198,6 +227,26 @@ $(document).ready(function() {
 			odfViewer.registerFilesMenu
 		);
 	}
+});
 
-	$('#odf_close').live('click', odfViewer.onClose);
+// FIXME: Hack for single public file view since it is not attached to the fileslist
+$(document).ready(function(){
+	// FIXME: FIlter compatible mime types
+	if ($('#isPublic').val() && odfViewer.supportedMimesReadWrite.indexOf($('#mimetype').val()) !== -1) {
+		odfViewer.onEdit($('#filename').val());
+	}
+});
+
+$(document).ready(function() {
+	var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+	var eventer = window[eventMethod];
+	var messageEvent = eventMethod == 'attachEvent' ? 'onmessage' : 'message';
+
+	eventer(messageEvent,function(e) {
+		if(e.data === 'close') {
+			odfViewer.onClose();
+		} else if(e.data === 'loading') {
+			$('#content').removeClass('loading');
+		}
+	}, false);
 });

@@ -70,26 +70,22 @@
 				<autoincrement>1</autoincrement>
 				<unsigned>true</unsigned>
 				<length>4</length>
-				<comments>Unique per token</comments>
 			</field>
 			<field>
 				<name>owner_uid</name>
 				<type>text</type>
 				<length>64</length>
-				<comments>Document owner UserId - a textual user identifier (unique?)</comments>
 			</field>
 			<field>
 				<name>editor_uid</name>
 				<type>text</type>
 				<length>64</length>
-				<comments>Document editor's UserId, can be different from uid if shared</comments>
 			</field>
 			<field>
 				<name>fileid</name>
 				<type>integer</type>
 				<notnull>true</notnull>
 				<length>4</length>
-				<comments>The unique ID of the file authorized</comments>
 			</field>
 			<field>
 				<name>version</name>
@@ -97,28 +93,18 @@
 				<notnull>true</notnull>
 				<default>0</default>
 				<length>4</length>
-				<comments>Authorized version, if any, of given fileid</comments>
-			</field>
-			<field>
-				<name>path</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>512</length>
-				<comments>Relative to storage e.g. /welcome.odt</comments>
 			</field>
 			<field>
 				<name>canwrite</name>
 				<type>boolean</type>
 				<default>false</default>
 				<notnull>true</notnull>
-				<comments>Can make changes to this file</comments>
 			</field>
 			<field>
 				<name>server_host</name>
 				<type>text</type>
 				<default>localhost</default>
 				<notnull>true</notnull>
-				<comments>Host from which token generation request originated</comments>
 			</field>
 			<field>
 				<name>token</name>
@@ -126,14 +112,12 @@
 				<default></default>
 				<notnull>true</notnull>
 				<length>32</length>
-				<comments>File access token</comments>
 			</field>
 			<field>
 				<name>expiry</name>
 				<type>integer</type>
 				<unsigned>true</unsigned>
 				<length>4</length>
-				<comments>Expiration time of the token</comments>
 			</field>
 
 			<index>
