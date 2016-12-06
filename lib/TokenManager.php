@@ -90,7 +90,7 @@ class TokenManager {
 
 		$row = new Wopi();
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-		$token = $row->generateFileToken($fileId, $file->getOwner()->getUID(), $this->userId, $version, $updatable, $serverHost);
+		$token = $row->generateFileToken($fileId, $file->getOwner()->getUID(), $this->userId, $version, (int)$updatable, $serverHost);
 
 		try {
 
