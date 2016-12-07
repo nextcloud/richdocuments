@@ -11,45 +11,38 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\WOPI\DiscoveryManager;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Files\IAppData;
 use \OCP\IRequest;
 use \OCP\IL10N;
-
 use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\Filter;
 
 class SettingsController extends Controller{
 	/** @var IL10N */
 	private $l10n;
 	/** @var AppConfig */
 	private $appConfig;
+	/** @var DiscoveryManager  */
+	private $discoveryManager;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
-	 * @param string $userId
+	 * @param DiscoveryManager $discoveryManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IL10N $l10n,
 								AppConfig $appConfig,
-								$userId) {
+								DiscoveryManager $discoveryManager) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 */
-	public function getSupportedMimes(){
-		return array(
-			'status' => 'success',
-			'mimes' => Filter::getAll()
-		);
+		$this->discoveryManager = $discoveryManager;
 	}
 
 	/**
@@ -65,7 +58,7 @@ class SettingsController extends Controller{
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
 
 			$colon = strpos($wopi_url, ':', 0);
-			if (\OC::$server->getRequest()->getServerProtocol() !== substr($wopi_url, 0, $colon)){
+			if ($this->request->getServerProtocol() !== substr($wopi_url, 0, $colon)){
 				$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
 			}
 		}
@@ -74,13 +67,12 @@ class SettingsController extends Controller{
 			$this->appConfig->setAppValue('doc_format', $doc_format);
 		}
 
-		$richMemCache = \OC::$server->getMemCacheFactory()->create('richdocuments');
-		$richMemCache->clear('discovery.xml');
+		$this->discoveryManager->refretch();
 
-		$response = array(
+		$response = [
 			'status' => 'success',
 			'data' => array('message' => (string) $message)
-		);
+		];
 
 		return new JSONResponse($response);
 	}

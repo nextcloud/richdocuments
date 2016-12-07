@@ -61,7 +61,6 @@ class DiscoveryManager {
 			$this->appData = $appData->newFolder('richdocuments');
 		}
 		$this->config = $config;
-		$this->l10n = $l10n;
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -74,7 +73,6 @@ class DiscoveryManager {
 				return $decodedFile['data'];
 			}
 		} catch (NotFoundException $e) {
-			$file = $this->appData->newFile('discovery.xml');
 		}
 
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
@@ -95,5 +93,9 @@ class DiscoveryManager {
 			])
 		);
 		return $responseBody;
+	}
+
+	public function refretch() {
+		$this->appData->getFile('discovery.xml')->delete();
 	}
 }
