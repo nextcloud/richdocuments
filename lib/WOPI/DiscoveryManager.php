@@ -96,6 +96,8 @@ class DiscoveryManager {
 	}
 
 	public function refretch() {
-		$this->appData->getFile('discovery.xml')->delete();
+		try {
+			$this->appData->getFile('discovery.xml')->delete();
+		} catch(\Exception $e) {}
 	}
 }
