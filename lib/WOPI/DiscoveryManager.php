@@ -73,6 +73,7 @@ class DiscoveryManager {
 				return $decodedFile['data'];
 			}
 		} catch (NotFoundException $e) {
+			$file = $this->appData->newFile('discovery.xml');
 		}
 
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
