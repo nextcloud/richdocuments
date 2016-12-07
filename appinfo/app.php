@@ -22,7 +22,8 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
-//Script for registering file actions
+use OC\Security\CSP\ContentSecurityPolicy;
+
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
@@ -45,6 +46,15 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
     $manager->registerTemplate('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'apps/richdocuments/assets/docxtemplate.docx');
     $manager->registerTemplate('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'apps/richdocuments/assets/xlsxtemplate.xlsx');
     $manager->registerTemplate('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'apps/richdocuments/assets/pptxtemplate.pptx');
+}
+
+// Whitelist the wopi URL for iframes, required for Firefox
+$wopiUrl = \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url');
+if ($wopiUrl !== '') {
+	$manager = \OC::$server->getContentSecurityPolicyManager();
+	$policy = new ContentSecurityPolicy();
+	$policy->addAllowedFrameDomain($wopiUrl);
+	$manager->addDefaultPolicy($policy);
 }
 
 // Listen to delete file signal
