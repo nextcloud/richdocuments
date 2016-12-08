@@ -33,7 +33,6 @@ OC.L10N.register(
     "Password" : "Пароль",
     "OK" : "ОК",
     "Guest %s" : "Гость %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Срок действия ссылки истек, либо ссылка никогда не существовала. Пожалуйста, обратитесь к человеку, который поделился ею, за подробностями.",
-    "You don't have permission to rename this document" : "У вас нет прав для переименования этого документа."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Срок действия ссылки истек, либо ссылка никогда не существовала. Пожалуйста, обратитесь к человеку, который поделился ею, за подробностями."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Password" : "Password",
     "OK" : "OK",
     "Guest %s" : "Guest %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "This link has expired or is incorrect. Please contact the person who shared it with you for details.",
-    "You don't have permission to rename this document" : "You don't have permission to rename this document"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "This link has expired or is incorrect. Please contact the person who shared it with you for details."
 },
 "nplurals=2; plural=(n != 1);");

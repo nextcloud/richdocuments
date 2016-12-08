@@ -31,7 +31,6 @@
     "Password" : "Contraseña",
     "OK" : "OK",
     "Guest %s" : "Invitado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted.",
-    "You don't have permission to rename this document" : "No tiene permiso para renombrar este documento"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

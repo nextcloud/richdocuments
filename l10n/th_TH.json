@@ -31,7 +31,6 @@
     "Password" : "รหัสผ่าน",
     "OK" : "ตกลง",
     "Guest %s" : "ผู้เยี่ยมชม %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "ลิงค์นี้ได้หมดอายุแล้วหรือไม่เคยมีอยู่ กรุณาติดต่อบุคคลที่แชร์กับคุณสำหรับรายละเอียด",
-    "You don't have permission to rename this document" : "คุณไม่ได้รับอนุญาตให้เปลี่ยนชื่อเอกสารนี้"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "ลิงค์นี้ได้หมดอายุแล้วหรือไม่เคยมีอยู่ กรุณาติดต่อบุคคลที่แชร์กับคุณสำหรับรายละเอียด"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

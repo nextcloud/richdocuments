@@ -31,7 +31,6 @@ OC.L10N.register(
     "Password" : "Kodeord",
     "OK" : "OK",
     "Guest %s" : "Gæst %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. ",
-    "You don't have permission to rename this document" : "Du har ikke tilladelse til at omdøbe dette dokument"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. "
 },
 "nplurals=2; plural=(n != 1);");

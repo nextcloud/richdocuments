@@ -31,7 +31,6 @@ OC.L10N.register(
     "Password" : "Heslo",
     "OK" : "OK",
     "Guest %s" : "Host %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Tento odkaz vypršel nebo neexistuje. Pro podrobnosti kontaktujte osobu, která jej s vámi sdílela.",
-    "You don't have permission to rename this document" : "Nemáte oprávnění pro přejmenování tohoto souboru"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Tento odkaz vypršel nebo neexistuje. Pro podrobnosti kontaktujte osobu, která jej s vámi sdílela."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

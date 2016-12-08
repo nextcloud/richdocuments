@@ -26,7 +26,6 @@ OC.L10N.register(
     "Password" : "Contraseña",
     "OK" : "Aceutar",
     "Guest %s" : "Invitáu %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esti enllaz caducó o enxamás esistió. Pa más detalles, contauta cola persona que lu compartió contigo.",
-    "You don't have permission to rename this document" : "Nun tienes permisu pa camudar de nome a esti documentu"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esti enllaz caducó o enxamás esistió. Pa más detalles, contauta cola persona que lu compartió contigo."
 },
 "nplurals=2; plural=(n != 1);");

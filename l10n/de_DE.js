@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Speichern",
     "Loading documents..." : "Lade Dokumente…",
     "Edit" : "Bearbeiten",
+    "View" : "Ansicht",
     "Document" : "Dokument",
     "Spreadsheet" : "Kalkulationstabelle",
     "Presentation" : "Präsentation",
@@ -33,7 +34,6 @@ OC.L10N.register(
     "Password" : "Passwort",
     "OK" : "OK",
     "Guest %s" : "Gast %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktieren Sie für nähere Details die Person, die dieses Dokument mit Ihnen geteilt hat.",
-    "You don't have permission to rename this document" : "Sie haben nicht die erforderlichen Rechte, dieses Dokument umzubenennen."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dieser Link ist abgelaufen oder existierte niemals. Bitte kontaktieren Sie für nähere Details die Person, die dieses Dokument mit Ihnen geteilt hat."
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Password" : "Palavra-passe",
     "OK" : "OK",
     "Guest %s" : "Convidado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta hiperligação expirou ou nunca existiu. Para mais detalhes, por favor, contacte a pessoa que a partilhou consigo.",
-    "You don't have permission to rename this document" : "Não tem permissão para renomear este documento"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta hiperligação expirou ou nunca existiu. Para mais detalhes, por favor, contacte a pessoa que a partilhou consigo."
 },
 "nplurals=2; plural=(n != 1);");

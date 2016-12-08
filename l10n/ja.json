@@ -31,7 +31,6 @@
     "Password" : "パスワード",
     "OK" : "OK",
     "Guest %s" : "ゲスト %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "このリンクは期限が切れているか、すでに存在しません。詳細は、それを共有した方に連絡していください。",
-    "You don't have permission to rename this document" : "ドキュメント名を変更する権限がありません"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "このリンクは期限が切れているか、すでに存在しません。詳細は、それを共有した方に連絡していください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

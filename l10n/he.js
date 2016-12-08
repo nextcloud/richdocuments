@@ -31,7 +31,6 @@ OC.L10N.register(
     "Password" : "סיסמא",
     "OK" : "אישור",
     "Guest %s" : "אורח %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "קישור זה אינו תקף או לא קיים. יש ליצור קשר עם האדם, ששיתף את הקישור אתך, לפרטים.",
-    "You don't have permission to rename this document" : "אין לך הרשאות לשנות את שם המשמך"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "קישור זה אינו תקף או לא קיים. יש ליצור קשר עם האדם, ששיתף את הקישור אתך, לפרטים."
 },
 "nplurals=2; plural=(n != 1);");

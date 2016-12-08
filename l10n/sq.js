@@ -33,7 +33,6 @@ OC.L10N.register(
     "Password" : "Fjalëkalim",
     "OK" : "OK",
     "Guest %s" : "Vizitori %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Kjo lidhje ka skaduar ose s’ka ekzistuar kurrë. Ju lutemi, për hollësi, lidhuni me personin që e ndau atë me ju.",
-    "You don't have permission to rename this document" : "Nuk keni leje të riemërtoni këtë dokument"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Kjo lidhje ka skaduar ose s’ka ekzistuar kurrë. Ju lutemi, për hollësi, lidhuni me personin që e ndau atë me ju."
 },
 "nplurals=2; plural=(n != 1);");

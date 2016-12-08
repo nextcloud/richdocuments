@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Opslaan",
     "Loading documents..." : "Laden documenten...",
     "Edit" : "Bewerk",
+    "View" : "Bekijken",
     "Document" : "Document",
     "Spreadsheet" : "Werkblad",
     "Presentation" : "Presentatie",
@@ -33,7 +34,6 @@ OC.L10N.register(
     "Password" : "Wachtwoord",
     "OK" : "OK",
     "Guest %s" : "Gast %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details.",
-    "You don't have permission to rename this document" : "U hebt niet de autorisatie om die document te hernoemen"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details."
 },
 "nplurals=2; plural=(n != 1);");

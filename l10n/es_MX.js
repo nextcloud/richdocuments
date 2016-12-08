@@ -28,7 +28,6 @@ OC.L10N.register(
     "Password" : "Contraseña",
     "OK" : "Aceptar",
     "Guest %s" : "Invitado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted.",
-    "You don't have permission to rename this document" : "No tiene permiso para cambiar de nombre a este documento"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted."
 },
 "nplurals=2; plural=(n != 1);");

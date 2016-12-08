@@ -24,7 +24,6 @@
     "Password" : "Parola",
     "OK" : "Tamam",
     "Guest %s" : "Misafir %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin.",
-    "You don't have permission to rename this document" : "Bu belgeyi adlandırmak için izniniz yok."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Bu bağlantının süresi dolmuş veya hiç mevcut olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile iletişime geçin."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

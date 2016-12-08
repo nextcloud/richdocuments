@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Loading documents..." : "Laster dokumenter...",
     "Edit" : "Endre",
+    "View" : "Vis",
     "Document" : "Dokument",
     "Spreadsheet" : "Regneark",
     "Presentation" : "Presentasjon",
@@ -33,7 +34,6 @@ OC.L10N.register(
     "Password" : "Passord",
     "OK" : "OK",
     "Guest %s" : "Gjest %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Denne lenken er utgått eller har aldri eksistert. Kontakt personen som delte den med deg for detaljer.",
-    "You don't have permission to rename this document" : "Du har ikke tillatelse til å gi nytt navn til dette dokumentet"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Denne lenken er utgått eller har aldri eksistert. Kontakt personen som delte den med deg for detaljer."
 },
 "nplurals=2; plural=(n != 1);");
