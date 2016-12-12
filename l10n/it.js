@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Salva",
     "Loading documents..." : "Caricamento documenti in corso...",
     "Edit" : "Modifica",
+    "View" : "Visualizza",
     "Document" : "Documento",
     "Spreadsheet" : "Foglio elettronico",
     "Presentation" : "Presentazione",
