@@ -26,6 +26,7 @@ use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
 use \OCA\Richdocuments\Helper;
 use \OC\Files\View;
+use OCP\ISession;
 use OCP\Share\IManager;
 
 class DocumentController extends Controller {
@@ -43,6 +44,8 @@ class DocumentController extends Controller {
 	private $shareManager;
 	/** @var TokenManager */
 	private $tokenManager;
+	/** @var ISession */
+	private $session;
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -58,6 +61,7 @@ class DocumentController extends Controller {
 	 * @param IManager $shareManager
 	 * @param TokenManager $tokenManager
 	 * @param IRootFolder $rootFolder
+	 * @param ISession $session
 	 * @param string $UserId
 	 */
 	public function __construct($appName,
@@ -69,6 +73,7 @@ class DocumentController extends Controller {
 								IManager $shareManager,
 								TokenManager $tokenManager,
 								IRootFolder $rootFolder,
+								ISession $session,
 								$UserId) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
@@ -79,6 +84,7 @@ class DocumentController extends Controller {
 		$this->shareManager = $shareManager;
 		$this->tokenManager = $tokenManager;
 		$this->rootFolder = $rootFolder;
+		$this->session = $session;
 	}
 
 	/**
@@ -127,6 +133,15 @@ class DocumentController extends Controller {
 	public function publicPage($shareToken, $fileName) {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
+			// not authenticated ?
+			if($share->getPassword()){
+				if (!$this->session->exists('public_link_authenticated')
+					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
+				) {
+					throw new \Exception('Invalid password');
+				}
+			}
+
 			$node = $share->getNode();
 			if($node instanceof Folder) {
 				$item = $node->get($fileName);

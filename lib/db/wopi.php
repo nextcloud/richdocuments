@@ -84,7 +84,6 @@ class Wopi extends \OCA\Richdocuments\Db{
 		return array(
 			'owner' => $row['owner_uid'],
 			'editor' => $row['editor_uid'],
-			'path' => $row['path'],
 			'canwrite' => $row['canwrite'],
 			'server_host' => $row['server_host']
 		);

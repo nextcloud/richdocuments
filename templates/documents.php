@@ -19,8 +19,3 @@ script('richdocuments', 'documents');
 		</li>
 	</ul>
 </div>
-<input type="hidden" id="wopi-url" name="wopi-url" value="<?php p($_['wopi_url']) ?>" />
-<?php if ($_['enable_previews']): ?>
-<input type="hidden" id="previews_enabled" value="<?php p($_['enable_previews']) ?>" />
-<?php endif; ?>
-<input type="hidden" name="allowShareWithLink" id="allowShareWithLink" value="<?php p($_['allowShareWithLink']) ?>" />
