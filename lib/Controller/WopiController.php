@@ -35,32 +35,42 @@ use OCP\AppFramework\Http\StreamResponse;
 class WopiController extends Controller {
 	/** @var IRootFolder */
 	private $rootFolder;
-	/** @var string */
-	private $userId;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var Parser */
-	private $wopiParser;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IRootFolder $rootFolder
 	 * @param string $UserId
-	 * @param IUserManager $userManager
-	 * @param Parser $wopiParser
 	 */
 	public function __construct($appName,
 								$UserId,
 								IRequest $request,
-								IRootFolder $rootFolder,
-								IUserManager $userManager,
-								Parser $wopiParser) {
+								IRootFolder $rootFolder) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
-		$this->userId = $UserId;
-		$this->userManager = $userManager;
-		$this->wopiParser = $wopiParser;
+	}
+
+	/**
+	 * @param string $fileId
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function parseFileId($fileId) {
+		$arr = explode('_', $fileId, 2);
+		if (count($arr) === 2) {
+			list($fileId, $instanceId) = $arr;
+			$version = '0';
+		} else if (count($arr) === 3) {
+			list($fileId, $instanceId, $version) = $arr;
+		} else {
+			throw new \Exception('$fileId has not the expected format');
+		}
+
+		return [
+			$fileId,
+			$instanceId,
+			$version,
+		];
 	}
 
 	/**
@@ -76,11 +86,7 @@ class WopiController extends Controller {
 	public function checkFileInfo($fileId) {
 		$token = $this->request->getParam('access_token');
 
-		$arr = explode('_', $fileId, 2);
-		$version = '0';
-		if (count($arr) === 2) {
-			list($fileId, $version) = $arr;
-		}
+		list($fileId, , $version) = $this->parseFileId($fileId);
 
 		$row = new Wopi();
 		$row->loadBy('token', $token);
@@ -130,11 +136,7 @@ class WopiController extends Controller {
 	 */
 	public function getFile($fileId,
 							$access_token) {
-		$arr = explode('_', $fileId, 2);
-		$version = '0';
-		if (count($arr) === 2) {
-			list($fileId, $version) = $arr;
-		}
+		list($fileId, , $version) = $this->parseFileId($fileId);
 
 		$row = new Wopi();
 		$row->loadBy('token', $access_token);
@@ -165,12 +167,9 @@ class WopiController extends Controller {
 	 * @param string $access_token
 	 * @return JSONResponse
 	 */
-	public function putFile($fileId, $access_token) {
-		$arr = explode('_', $fileId, 2);
-		$version = '0';
-		if (count($arr) === 2) {
-			list($fileId, $version) = $arr;
-		}
+	public function putFile($fileId,
+							$access_token) {
+		list($fileId, , $version) = $this->parseFileId($fileId);
 
 		$row = new Wopi();
 		$row->loadBy('token', $access_token);

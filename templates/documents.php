@@ -5,6 +5,7 @@
 	var richdocuments_token = '<?php p($_['token']) ?>';
 	var richdocuments_urlsrc = '<?php p($_['urlsrc']) ?>';
 	var richdocuments_path = '<?php p($_['path']) ?>';
+	var instanceId = '<?php p($_['instanceId']) ?>';
 </script>
 
 <?php
