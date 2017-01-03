@@ -108,6 +108,7 @@ class DocumentController extends Controller {
 				'token' => $token,
 				'urlsrc' => $urlSrc,
 				'path' => '/',
+				'instanceId' => $this->settings->getSystemValue('instanceid'),
 			];
 
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
@@ -157,6 +158,7 @@ class DocumentController extends Controller {
 					'token' => $token,
 					'urlsrc' => $urlSrc,
 					'path' => '/',
+					'instanceId' => $this->settings->getSystemValue('instanceid'),
 				];
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
