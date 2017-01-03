@@ -133,7 +133,7 @@
 	width: 100%;
 	z-index: 600;
 	background-color: #ddd !important;
-	top: 45px;
+	top: 0px;
 	bottom: 0;
 }
 
@@ -149,7 +149,7 @@
 	z-index: 600;
 	background-color: #efefef !important;
 	right: 0;
-	top: 45px;
+	top: 0px;
 	bottom: 0;
 	box-sizing: border-box;
 	overflow-x: hidden;
