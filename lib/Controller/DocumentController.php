@@ -104,7 +104,7 @@ class DocumentController extends Controller {
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
-				'fileId' => $item->getId(),
+				'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
 				'token' => $token,
 				'urlsrc' => $urlSrc,
 				'path' => '/',
@@ -153,7 +153,7 @@ class DocumentController extends Controller {
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $item->getName(),
-					'fileId' => $item->getId(),
+					'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
 					'token' => $token,
 					'urlsrc' => $urlSrc,
 					'path' => '/',
@@ -233,7 +233,7 @@ class DocumentController extends Controller {
 			$ret = $this->wopiParser->getUrlSrc($mimetype);
 			$response =  array(
 				'status' => 'success',
-				'fileid' => $info['fileid'],
+				'fileid' => $info['fileid'] . '_' . $this->settings->getSystemValue('instanceid'),
 				'urlsrc' => $ret['urlsrc'],
 				'action' => $ret['action'],
 				'lolang' => $this->settings->getUserValue($this->uid, 'core', 'lang', 'en'),
