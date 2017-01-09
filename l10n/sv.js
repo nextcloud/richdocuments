@@ -15,7 +15,7 @@ OC.L10N.register(
     "Document" : "Dokument",
     "Spreadsheet" : "Kalkylblad",
     "Presentation" : "Presentation",
-    "Could not create file" : "Kan ej skapa fil",
+    "Could not create file" : "Kunde inte skapa fil",
     "New Document.odt" : "Nytt Dokument.odt",
     "New Spreadsheet.ods" : "Nytt Kalkylblad.ods",
     "New Presentation.odp" : "Ny Presentation.odp",
