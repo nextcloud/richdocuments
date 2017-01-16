@@ -2,6 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving..." : "Ukládám...",
+    "Download this revision" : "Stáhnout tuto revizi",
+    "Restore this revision" : "Obnovit tuto revizi",
     "Latest revision" : "Poslední revize",
     "More versions..." : "Více verzí...",
     "Just now" : "Právě teď",
@@ -9,6 +11,7 @@ OC.L10N.register(
     "Save" : "Uložit",
     "Loading documents..." : "Nahrávám dokumenty ...",
     "Edit" : "Upravit",
+    "View" : "Zobrazit",
     "Document" : "Dokument",
     "Spreadsheet" : "Tabulka",
     "Presentation" : "Prezentace",
