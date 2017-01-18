@@ -239,7 +239,7 @@ class DocumentController extends Controller {
 				'fileid' => $info['fileid'] . '_' . $this->settings->getSystemValue('instanceid'),
 				'urlsrc' => $ret['urlsrc'],
 				'action' => $ret['action'],
-				'lolang' => $lolang;
+				'lolang' => $lolang,
 				'data' => \OCA\Files\Helper::formatFileInfo($info)
 			);
 		} else {
