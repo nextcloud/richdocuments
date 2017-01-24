@@ -12,7 +12,7 @@
 	<category>office</category>
 	<category>integration</category>
 	<dependencies>
-		<nextcloud min-version="11" max-version="11" />
+		<nextcloud min-version="12" max-version="12" />
 	</dependencies>
 	<documentation>
 		<admin>https://nextcloud.com/collaboraonline/</admin>
