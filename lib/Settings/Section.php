@@ -24,16 +24,22 @@
 namespace OCA\Richdocuments\Settings;
 
 use OCP\IL10N;
-use OCP\Settings\ISection;
+use OCP\IURLGenerator;
+use OCP\Settings\IIconSection;
 
-class Section implements ISection {
+class Section implements IIconSection {
 	/** @var IL10N */
 	private $l;
+	/** @var IURLGenerator */
+	private $url;
+
 	/**
 	 * @param IL10N $l
+	 * @param IURLGenerator $url
 	 */
-	public function __construct(IL10N $l) {
+	public function __construct(IL10N $l, IURLGenerator $url) {
 		$this->l = $l;
+		$this->url = $url;
 	}
 	/**
 	 * {@inheritdoc}
@@ -52,5 +58,12 @@ class Section implements ISection {
 	 */
 	public function getPriority() {
 		return 75;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getIcon() {
+		return $this->url->imagePath('richdocuments', 'app-dark.svg');
 	}
 }
