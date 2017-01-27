@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "保存",
     "Loading documents..." : "ドキュメントを読込中...",
     "Edit" : "編集",
+    "View" : "表示",
     "Document" : "ドキュメント",
     "Spreadsheet" : "スプレッドシート",
     "Presentation" : "プレゼンテーション",
