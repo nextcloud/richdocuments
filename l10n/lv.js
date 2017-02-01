@@ -20,13 +20,16 @@ OC.L10N.register(
     "New Spreadsheet.ods" : "Juans Spreadsheet.ods",
     "New Presentation.odp" : "Jauns Presentation.odp",
     "New Document.docx" : "Jauns Dokuments.docx",
+    "New Spreadsheet.xlsx" : "Jauns Spreadsheet.xlsx",
     "New Presentation.pptx" : "Jauna Prezentācija.pptx",
+    "Can't create document" : "Nevar izveidot dokumentu",
     "Saved" : "Saglabāts",
     "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Collabora Online serveris",
     "Apply" : "Apstiprināt",
     "Wrong password. Please retry." : "Nepareiza paroli. Lūdzu mēģiniet vēlreiz.",
     "Password" : "Parole",
-    "OK" : "Labi"
+    "OK" : "Labi",
+    "Guest %s" : "Viesis %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
