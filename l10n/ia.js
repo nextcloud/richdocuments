@@ -15,7 +15,7 @@ OC.L10N.register(
     "Document" : "Documento",
     "Spreadsheet" : "Folios de labor",
     "Presentation" : "Presentation",
-    "Could not create file" : "Il non poteva crear le file",
+    "Could not create file" : "Impossibile crear le file",
     "New Document.odt" : "Nove-Documento.odt",
     "New Spreadsheet.ods" : "Nove-Folio-de-Labor.ods",
     "New Presentation.odp" : "Nove-Presentation.odp",
