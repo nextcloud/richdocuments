@@ -28,6 +28,7 @@
     "Wrong password. Please retry." : "Nepareiza paroli. Lūdzu mēģiniet vēlreiz.",
     "Password" : "Parole",
     "OK" : "Labi",
-    "Guest %s" : "Viesis %s"
+    "Guest %s" : "Viesis %s",
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Šai saitei ir beidzies derīguma termiņš vai arī tas nekad nav bijis. Lūdzu, sazinieties ar personu, kura to koplieto ar jums sīkākai informācijai."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
