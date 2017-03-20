@@ -4,7 +4,7 @@ var documentsSettings = {
 	save : function() {
 		$('#wopi_apply').attr('disabled', true);
 		var data = {
-			wopi_url  : $('#wopi_url').val()
+			wopi_url  : $('#wopi_url').val().replace(/\/$/, '')
 		};
 
 		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving...'));

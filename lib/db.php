@@ -12,23 +12,23 @@
 namespace OCA\Richdocuments;
 
 /**
- * Generic DB class 
+ * Generic DB class
  */
 
 abstract class Db {
-	
+
 	protected $data;
-	
+
 	protected $tableName;
-	
+
 	protected $insertStatement;
-	
+
 	protected $loadStatement;
-	
+
 	public function __construct($data = array()){
 		$this->setData($data);
 	}
-	
+
 	/**
 	 * Insert current object data into database
 	 * @return mixed
@@ -37,7 +37,7 @@ abstract class Db {
 		$result = $this->execute($this->insertStatement);
 		return $result;
 	}
-	
+
 	/**
 	 * Get id of the recently inserted record
 	 * @return mixed
@@ -45,7 +45,7 @@ abstract class Db {
 	public function getLastInsertId(){
 		return \OC::$server->getDatabaseConnection()->lastInsertId($this->tableName);
 	}
-	
+
 	/**
 	 * Get single record by primary key
 	 * @param int $value primary key value
@@ -55,7 +55,7 @@ abstract class Db {
 		if (!is_array($value)){
 			$value = array($value);
 		}
-		
+
 		$result = $this->execute($this->loadStatement, $value);
 		$data = $result->fetch();
 		if (!is_array($data)){
@@ -64,7 +64,7 @@ abstract class Db {
 		$this->data = $data;
 		return $this;
 	}
-	
+
 	/**
 	 * Get single record matching condition
 	 * @param string $field for WHERE condition
@@ -80,12 +80,12 @@ abstract class Db {
 		$data = $result->fetchAll();
 		if (!is_array($data) || !count($data)){
 			$this->data = array();
-		} elseif (count($data)!=1) {
+		} elseif (count($data) !== 1) {
 			throw new Exception('Duplicate ' . $value . ' for the filed ' . $field);
 		} else {
 			$this->data = $data[0];
 		}
-		
+
 		return $this;
 	}
 
@@ -108,7 +108,7 @@ abstract class Db {
 			$this->execute('DELETE FROM ' . $this->tableName . ' WHERE ' . $stmt, $value);
 		}
 	}
-	
+
 	/**
 	 * Get all records from the table
 	 * @return array
@@ -121,7 +121,7 @@ abstract class Db {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Get array of matching records
 	 * @param string $field for WHERE condition
@@ -141,14 +141,14 @@ abstract class Db {
 			$stmt = $this->buildInQuery($field, $value);
 			$result = $this->execute('SELECT * FROM ' . $this->tableName . ' WHERE '. $stmt , $value);
 		}
-		
+
 		$data = $result->fetchAll();
 		if (!is_array($data)){
 			$data = array();
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Get object data
 	 * @return Array
@@ -156,7 +156,7 @@ abstract class Db {
 	public function getData(){
 		return $this->data;
 	}
-	
+
 	/**
 	 * Set object data
 	 * @param array $data
@@ -164,17 +164,17 @@ abstract class Db {
 	public function setData($data){
 		$this->data = $data;
 	}
-	
+
 	/**
 	 * Check if there are any data in current object
-	 * @return bool 
+	 * @return bool
 	 */
 	public function hasData(){
 		return count($this->data)>0;
 	}
-	
+
 	/**
-	 * Build placeholders for the query with variable input data 
+	 * Build placeholders for the query with variable input data
 	 * @param string $field field name
 	 * @param Array $array data
 	 * @return String `field` IN (?, ?...) placeholders matching the number of elements in array
@@ -185,17 +185,17 @@ abstract class Db {
 		$stmt = implode(', ', $placeholders);
 		return '`' . $field . '` IN ('  . $stmt . ')';
 	}
-	
+
 	/**
 	 * Execute a query on database
 	 * @param string $statement query to be executed
-	 * @param mixed $args value(s) for the query. 
+	 * @param mixed $args value(s) for the query.
 	 * If omited the query will be run on the current object $data
 	 * @return mixed (array/false)
 	 */
 	protected function execute($statement, $args = null){
 		$query = \OC::$server->getDatabaseConnection()->prepare($statement);
-		
+
 		if (!is_null($args)){
 			$result = $query->execute($args);
 		} elseif (count($this->data)){
@@ -203,10 +203,10 @@ abstract class Db {
 		} else {
 			$result = $query->execute();
 		}
-		
+
 		return $result ? $query : false;
 	}
-	
+
 	public function __call($name, $arguments){
 		if (substr($name, 0, 3) === 'get'){
 			$requestedProperty = substr($name, 3);

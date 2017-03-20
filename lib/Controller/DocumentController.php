@@ -233,12 +233,13 @@ class DocumentController extends Controller {
 		if ($content && $view->file_put_contents($path, $content)) {
 			$info = $view->getFileInfo($path);
 			$ret = $this->wopiParser->getUrlSrc($mimetype);
+			$lolang = strtolower(str_replace('_', '-', $this->settings->getUserValue($this->uid, 'core', 'lang', 'en')));
 			$response =  array(
 				'status' => 'success',
 				'fileid' => $info['fileid'] . '_' . $this->settings->getSystemValue('instanceid'),
 				'urlsrc' => $ret['urlsrc'],
 				'action' => $ret['action'],
-				'lolang' => $this->settings->getUserValue($this->uid, 'core', 'lang', 'en'),
+				'lolang' => $lolang,
 				'data' => \OCA\Files\Helper::formatFileInfo($info)
 			);
 		} else {
