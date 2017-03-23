@@ -123,6 +123,16 @@ var odfViewer = {
 
 		$('#app-content #controls').addClass('hidden');
 		$('#app-content').append($iframe);
+
+		$.ajax({type: 'GET', url: OC.filePath('richdocuments', 'ajax', 'generate.php'), data: {id: context.$file.attr('data-id')}, async: false, success: function(result) {
+			if(result.status=="success"){
+				var $chatroom = $('<iframe id="chatroom" data-chatroom-password="'+result.password+'" data-chatroom-title="'+fileName+'" data-chatroom-name="'+result.name+'" hidden />');
+				$('#app-content').append($chatroom);
+			}
+
+		}, error: function(xhr, textStatus, errorThrown){
+			password=errorThrown;
+		}});
 	},
 
 
@@ -132,6 +142,7 @@ var odfViewer = {
 		}
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
+		$('#chatroom').remove();
 	},
 
 	registerFilesMenu: function() {
