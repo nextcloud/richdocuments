@@ -124,15 +124,24 @@ var odfViewer = {
 		$('#app-content #controls').addClass('hidden');
 		$('#app-content').append($iframe);
 
-		$.ajax({type: 'GET', url: OC.filePath('richdocuments', 'ajax', 'generate.php'), data: {id: context.$file.attr('data-id')}, async: false, success: function(result) {
-			if(result.status=="success"){
-				var $chatroom = $('<iframe id="chatroom" data-chatroom-password="'+result.password+'" data-chatroom-title="'+fileName+'" data-chatroom-name="'+result.name+'" hidden />');
-				$('#app-content').append($chatroom);
+		$.ajax({type: 'GET',
+			url: OC.filePath('richdocuments', 'ajax', 'generate.php'),
+			data: {id: context.$file.attr('data-id')},
+			async: false, success: function(result) {
+				if(result.status=="success"){
+					var $chatroom = $('<div />');
+					$chatroom.attr('id','chatroom');
+					$chatroom.data('chatroom-password',result.password);
+					$chatroom.data('chatroom-name',result.name);
+					$chatroom.data('chatroom-title',fileName);
+					$('#app-content').append($chatroom);
+				} else {
+					console.log(result.message);
+				}
+			}, error: function(xhr, textStatus, errorThrown){
+				console.log(errorThrown);
 			}
-
-		}, error: function(xhr, textStatus, errorThrown){
-			password=errorThrown;
-		}});
+		});
 	},
 
 

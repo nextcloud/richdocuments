@@ -256,35 +256,33 @@ class DocumentController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function generate($id) {
-		if((!empty($id))) {
-			$view = \OC\Files\Filesystem::getView();
-			try {
-				$path = $view->getPath($id);
-				if ($view->is_file($path) && $view->isReadable($path)) {
-					$secret = \OC::$server->getConfig()->getSystemValue("secret");
-					$instanceID = \OC::$server->getConfig()->getSystemValue("instanceid");
-					$chatRoomPassword = hash('sha512', "chatroom-password".$instanceID.$secret.$id);
-					$chatRoomName = hash('sha512', "chatroom-name".$instanceID.$secret.$id);
-					return  array(
-						'status' => 'success','password' => $chatRoomPassword,'name' => $chatRoomName
-					);
-				} else {
-					return  array(
-						'status' => 'unauthorised'
-					);
-				}
 
-			} catch (\Exception $e) {
-				return  array(
-					'status' => 'unauthorised'
-				);
-			}
-
+		if (empty($id)) {
+			return  array(
+				'status' => 'error',
+				'message' => 'no id received');
 		}
-		return  array(
-			'status' => 'no id received'
-		);
-
+		$view = \OC\Files\Filesystem::getView();
+		try {
+			$path = $view->getPath($id);
+			if ($view->is_file($path) && $view->isReadable($path)) {
+				$secret = \OC::$server->getConfig()->getSystemValue('secret');
+				$instanceID = \OC::$server->getConfig()->getSystemValue('instanceid');
+				$chatRoomPassword = hash('sha512', 'chatroom-password'.$instanceID.$secret.$id);
+				$chatRoomName = hash('sha512','chatroom-name'.$instanceID.$secret.$id);
+				return  array(
+					'status' => 'success',
+					'password' => $chatRoomPassword,
+					'name' => $chatRoomName);
+			} else {
+				return  array(
+					'status' => 'error',
+					'message' => 'user unauthorised to view file');
+			}
+		} catch (\Exception $e) {
+			return  array(
+				'status' => 'error',
+				'message' => 'user unauthorised to view file');
+		}
 	}
-
 }
