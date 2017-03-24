@@ -184,6 +184,9 @@ class WopiController extends Controller {
 			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
 			$content = fopen('php://input', 'rb');
+			// Setup the FS which is needed to emit hooks (versioning).
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($res['owner']);
 			$file->putContent($content);
 			return new JSONResponse();
 		} catch (\Exception $e) {
