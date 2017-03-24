@@ -127,8 +127,9 @@ var odfViewer = {
 		$.ajax({type: 'GET',
 			url: OC.filePath('richdocuments', 'ajax', 'generate.php'),
 			data: {id: context.$file.attr('data-id')},
-			async: false, success: function(result) {
-				if(result.status=="success"){
+			async: false,
+			success: function(result) {
+				if(result.status==='success'){
 					var $chatroom = $('<div />');
 					$chatroom.attr('id','chatroom');
 					$chatroom.data('chatroom-password',result.password);

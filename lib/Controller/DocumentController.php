@@ -260,7 +260,8 @@ class DocumentController extends Controller {
 		if (empty($id)) {
 			return  array(
 				'status' => 'error',
-				'message' => 'no id received');
+				'message' => 'no id received'
+			);
 		}
 		$view = \OC\Files\Filesystem::getView();
 		try {
@@ -273,16 +274,19 @@ class DocumentController extends Controller {
 				return  array(
 					'status' => 'success',
 					'password' => $chatRoomPassword,
-					'name' => $chatRoomName);
+					'name' => $chatRoomName
+				);
 			} else {
 				return  array(
 					'status' => 'error',
-					'message' => 'user unauthorised to view file');
+					'message' => 'user unauthorised to view file'
+				);
 			}
 		} catch (\Exception $e) {
 			return  array(
 				'status' => 'error',
-				'message' => 'user unauthorised to view file');
+				'message' => 'user unauthorised to view file'
+			);
 		}
 	}
 }
