@@ -7,9 +7,11 @@ OC.L10N.register(
     "Latest revision" : "Última revisión",
     "More versions..." : "Más versiones...",
     "Just now" : "Justo ahora",
+    "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a la versión anterior",
     "Save" : "Guardar",
     "Loading documents..." : "Cargando documentos...",
     "Edit" : "Editar",
+    "View" : "Ver",
     "Document" : "Documento",
     "Spreadsheet" : "Hoja de cálculo",
     "Presentation" : "Presentación",
@@ -30,6 +32,6 @@ OC.L10N.register(
     "Password" : "Contraseña",
     "OK" : "OK",
     "Guest %s" : "Invitado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este enlace caducó o nunca existió. Para más detalles, sírvase contactar a la persona que lo compartió con usted."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta liga ha expirado o nunca existió. Favor de contactar a la presona que lo compartió con usted para más detalles."
 },
 "nplurals=2; plural=(n != 1);");
