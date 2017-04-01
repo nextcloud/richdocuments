@@ -24,6 +24,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Nueva Presentación.pptx",
     "Can't create document" : "No es posible crear el documento",
     "Saved" : "Guardado",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalacion del servidor.",
     "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Servidor Collabora Online",
     "Apply" : "Aplicar",
