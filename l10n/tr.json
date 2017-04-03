@@ -22,7 +22,7 @@
     "New Presentation.pptx" : "Yeni Sunum.pptx",
     "Can't create document" : "Belge oluşturulamadı",
     "Saved" : "Kaydedildi",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sorunlu olarak kaydedildi: Collabora Online sunucu ile aynı iletişim kuralını kullanmalıdır.",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sorunlu olarak kaydedildi: Collabora Online sunucuda kurulu olan iletişim kuralını kullanmalıdır.",
     "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Collabora Online sunucusu",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Bir WOPI istemcisi olarak düzenleme işlevi sağlayan Collabora Onlie sunucusunun adresi (ve kapı numarası).",
