@@ -107,7 +107,7 @@ class DocumentController extends Controller {
 				'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
 				'token' => $token,
 				'urlsrc' => $urlSrc,
-				'path' => '/',
+				'path' => $folder->getRelativePath($item->getPath()),
 				'instanceId' => $this->settings->getSystemValue('instanceid'),
 			];
 
