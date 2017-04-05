@@ -129,7 +129,7 @@ var documentsMain = {
 			var urlsrc = documentsMain.urlsrc +
 			  "WOPISrc=" + wopisrc +
 			  "&title=" + encodeURIComponent(title) +
-			  "&lang=" + OC.getLocale() +
+			  "&lang=" + OC.getLocale().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
 			  "&permission=readonly";
 
 			// access_token - must be passed via a form post
@@ -320,7 +320,7 @@ var documentsMain = {
 			var urlsrc = documentsMain.urlsrc +
 				"WOPISrc=" + wopisrc +
 				"&title=" + encodeURIComponent(title) +
-				"&lang=" + OC.getLocale() +
+				"&lang=" + OC.getLocale().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
 				"&closebutton=1" +
 				"&revisionhistory=1";
 			if (!documentsMain.canEdit || action === "view") {
