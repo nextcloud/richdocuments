@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving..." : "Desant...",
     "Download this revision" : "Baixa aquesta revisió",
+    "Restore this revision" : "Restaura aquesta revisió",
     "Latest revision" : "Última revisió",
     "More versions..." : "Més versions...",
     "Just now" : "Ara mateix",
