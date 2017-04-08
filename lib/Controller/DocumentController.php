@@ -21,6 +21,7 @@ use OCP\Files\Node;
 use \OCP\IRequest;
 use \OCP\IConfig;
 use \OCP\IL10N;
+use \OCP\ILogger;
 use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
@@ -38,6 +39,8 @@ class DocumentController extends Controller {
 	private $settings;
 	/** @var AppConfig */
 	private $appConfig;
+	/** @var ILogger */
+	private $logger;
 	/** @var Parser */
 	private $wopiParser;
 	/** @var IManager */
@@ -74,7 +77,8 @@ class DocumentController extends Controller {
 								TokenManager $tokenManager,
 								IRootFolder $rootFolder,
 								ISession $session,
-								$UserId) {
+								$UserId,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
 		$this->l10n = $l10n;
@@ -85,6 +89,7 @@ class DocumentController extends Controller {
 		$this->tokenManager = $tokenManager;
 		$this->rootFolder = $rootFolder;
 		$this->session = $session;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -118,6 +123,19 @@ class DocumentController extends Controller {
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$params = [
+				'remoteAddr' => $this->request->getRemoteAddress(),
+				'requestID' => $this->request->getId(),
+				'debugMode' => $this->settings->getSystemValue('debug'),
+				'errorClass' => get_class($e),
+				'errorCode' => $e->getCode(),
+				'errorMsg' => $e->getMessage(),
+				'file' => $e->getFile(),
+				'line' => $e->getLine(),
+				'trace' => $e->getTraceAsString()
+			];
+			return new TemplateResponse('core', 'exception', $params, 'guest');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
@@ -169,6 +187,19 @@ class DocumentController extends Controller {
 				return $response;
 			}
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$params = [
+				'remoteAddr' => $this->request->getRemoteAddress(),
+				'requestID' => $this->request->getId(),
+				'debugMode' => $this->settings->getSystemValue('debug'),
+				'errorClass' => get_class($e),
+				'errorCode' => $e->getCode(),
+				'errorMsg' => $e->getMessage(),
+				'file' => $e->getFile(),
+				'line' => $e->getLine(),
+				'trace' => $e->getTraceAsString()
+			];
+			return new TemplateResponse('core', 'exception', $params, 'guest');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
