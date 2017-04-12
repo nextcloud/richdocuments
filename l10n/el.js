@@ -32,7 +32,7 @@ OC.L10N.register(
     "Use OOXML by default for new files" : "Χρήση OOXML από προεπιλογή για τα νέα αρχεία",
     "Wrong password. Please retry." : "Λανθασμένος κωδικός πρόσβασης. Παρακαλώ προσπαθήστε ξανά.",
     "Password" : "Κωδικός πρόσβασης",
-    "OK" : "ΟΚ",
+    "OK" : "Εντάξει",
     "Guest %s" : "Επισκέπτης %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Αυτός ο σύνδεσμος έχει λήξει ή δεν υπήρξε ποτέ. Παρακαλώ επικοινωνήστε με το άτομο που το διαμοιράστηκε μαζί σας για λεπτομέρειες."
 },
