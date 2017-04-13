@@ -1,7 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Lagrer...",
+    "Saving..." : "Lagrer…",
     "Download this revision" : "Last ned denne versjonen",
     "Restore this revision" : "Gjenopprett denne versjonen",
     "Latest revision" : "Siste versjon",
