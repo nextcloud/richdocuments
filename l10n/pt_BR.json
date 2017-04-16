@@ -1,6 +1,6 @@
 { "translations": {
     "Saving..." : "Salvando...",
-    "Download this revision" : "Baixar esta revusão",
+    "Download this revision" : "Baixar esta revisão",
     "Restore this revision" : "Restaurar esta revisão",
     "Latest revision" : "Última revisão",
     "More versions..." : "Mais versões...",
@@ -15,12 +15,12 @@
     "Presentation" : "Apresentação",
     "Could not create file" : "Não foi possível criar o arquivo",
     "New Document.odt" : "Novo Documento.odt",
-    "New Spreadsheet.ods" : "Novo Planilhadecalculo.ods",
+    "New Spreadsheet.ods" : "Novo Planilha.ods",
     "New Presentation.odp" : "Nova Apresentação.odp",
     "New Document.docx" : "Novo Documento.docx",
     "New Spreadsheet.xlsx" : "Nova Planilha.xlsx",
     "New Presentation.pptx" : "Nova Apresentação.pptx",
-    "Can't create document" : "Impedido de criar documentos",
+    "Can't create document" : "Não foi possível criar o documento",
     "Saved" : "Salvo",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvo com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
     "Collabora Online" : "Collabora Online",
@@ -32,6 +32,6 @@
     "Password" : "Senha",
     "OK" : "OK",
     "Guest %s" : "Convidado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este link expirou ou nunca existiu. Por favor faça contato com a pessoa que compartilhou este link com você para maiores detalhes."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este link expirou ou nunca existiu. Por favor contacte a pessoa que compartilhou este link com você para maiores detalhes."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
