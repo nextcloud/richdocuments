@@ -2,6 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving..." : "Gemmer...",
+    "Download this revision" : "Hent denne revision",
+    "Restore this revision" : "Gendan denne revision",
     "Latest revision" : "Seneste revision",
     "More versions..." : "Flere versioner...",
     "Just now" : "Lige nu",
@@ -9,6 +11,7 @@ OC.L10N.register(
     "Save" : "Gem",
     "Loading documents..." : "Henter dokumenter...",
     "Edit" : "Redigér",
+    "View" : "Vis",
     "Document" : "Dokument",
     "Spreadsheet" : "Regneark",
     "Presentation" : "Præsentation",
