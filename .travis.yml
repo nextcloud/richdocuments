@@ -19,7 +19,7 @@ branches:
 sudo: true
 before_install:
   - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
-  - bash ./before_install.sh $APP_NAME $CORE_BRANCH $DB
+  - . ./before_install.sh $APP_NAME $CORE_BRANCH $DB
 
   # Add some output debugging information
   - cd ../server
