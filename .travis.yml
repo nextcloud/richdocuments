@@ -61,5 +61,5 @@ matrix:
     - php: 5.6
       env: DB=mysql;JSTESTS=1
   allow_failures:
-    - env: DB=mysql;CODECHECK=2
+    - env: DB=mysql;CODECHECK=1
   fast_finish: true
