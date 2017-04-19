@@ -1,7 +1,7 @@
 /* globals FileList, OCA.Files.fileActions, oc_debug */
 var odfViewer = {
 	isDocuments : false,
-	supportedMimesReadWrite: [
+	supportedMimes: [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.oasis.opendocument.graphics',
@@ -38,34 +38,19 @@ var odfViewer = {
 
 	register : function() {
 		var i,
-			mimeReadOnly,
-			mimeReadWrite;
+		    mime;
 
-		for (i = 0; i < odfViewer.supportedMimesReadWrite.length; ++i) {
-			mimeReadOnly = odfViewer.supportedMimesReadWrite[i];
-			OCA.Files.fileActions.register(mimeReadOnly, 'View', OC.PERMISSION_READ, '', odfViewer.onEdit);
-			OCA.Files.fileActions.setDefault(mimeReadOnly, 'View');
-		}
-		for (i = 0; i < odfViewer.supportedMimesReadWrite.length; ++i) {
-			mimeReadWrite = odfViewer.supportedMimesReadWrite[i];
+		for (i = 0; i < odfViewer.supportedMimes.length; ++i) {
+			mime = odfViewer.supportedMimes[i];
 			OCA.Files.fileActions.register(
-					mimeReadWrite,
+				    mime,
 					'Edit',
-					OC.PERMISSION_UPDATE,
+				    OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
 					t('richdocuments', 'Edit')
 			);
-			OCA.Files.fileActions.register(
-				mimeReadWrite,
-				'View',
-				OC.PERMISSION_READ,
-				OC.imagePath('core', 'actions/rename'),
-				odfViewer.onEdit,
-				t('richdocuments', 'View')
-			);
-			OCA.Files.fileActions.setDefault(mimeReadWrite, 'View');
-			OCA.Files.fileActions.setDefault(mimeReadWrite, 'Edit');
+			OCA.Files.fileActions.setDefault(mime, 'Edit');
 		}
 	},
 
@@ -230,7 +215,7 @@ $(document).ready(function() {
 // FIXME: Hack for single public file view since it is not attached to the fileslist
 $(document).ready(function(){
 	// FIXME: FIlter compatible mime types
-	if ($('#isPublic').val() && odfViewer.supportedMimesReadWrite.indexOf($('#mimetype').val()) !== -1) {
+	if ($('#isPublic').val() && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
 		odfViewer.onEdit($('#filename').val());
 	}
 });
