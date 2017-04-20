@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Saglabāt",
     "Loading documents..." : "Ielādē dokumentus...",
     "Edit" : "Rediģēt",
-    "View" : "Skats",
     "Document" : "Dokuments",
     "Spreadsheet" : "Izklājlapa",
     "Presentation" : "Prezentācija",

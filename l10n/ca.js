@@ -10,7 +10,6 @@ OC.L10N.register(
     "Save" : "Desar",
     "Loading documents..." : "S'estan carregant els documents...",
     "Edit" : "Editar",
-    "View" : "Visualitza",
     "Document" : "Document",
     "Presentation" : "Presentació",
     "Could not create file" : "No s'ha pogut crear el fitxer",

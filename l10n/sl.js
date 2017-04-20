@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Shrani",
     "Loading documents..." : "Nalaganje dokumentov ...",
     "Edit" : "Uredi",
-    "View" : "Pogled",
     "Document" : "Dokument",
     "Spreadsheet" : "Preglednica",
     "Presentation" : "Predstavitev",

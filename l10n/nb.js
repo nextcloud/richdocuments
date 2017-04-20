@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Loading documents..." : "Laster dokumenter…",
     "Edit" : "Endre",
-    "View" : "Vis",
     "Document" : "Dokument",
     "Spreadsheet" : "Regneark",
     "Presentation" : "Presentasjon",

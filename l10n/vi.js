@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Loading documents..." : "Tải tài liệu ...",
     "Edit" : "Sửa",
-    "View" : "Xem",
     "Document" : "Tài liệu",
     "Spreadsheet" : "Bảng tính",
     "Presentation" : "Trình bày",

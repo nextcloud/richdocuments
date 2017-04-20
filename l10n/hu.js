@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Mentés",
     "Loading documents..." : "Dokumentumok betöltése...",
     "Edit" : "Szerkesztés",
-    "View" : "Megtekintés",
     "Document" : "Dokumentum",
     "Spreadsheet" : "Munkafüzet",
     "Presentation" : "Bemutató",

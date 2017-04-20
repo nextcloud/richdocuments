@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Ruaje",
     "Loading documents..." : "Po ngarkohen dokumente…",
     "Edit" : "Përpunoni",
-    "View" : "Shiko",
     "Document" : "Dokument",
     "Spreadsheet" : "Fletëllogaritje",
     "Presentation" : "Paraqitje",

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Gem",
     "Loading documents..." : "Henter dokumenter...",
     "Edit" : "Redigér",
-    "View" : "Vis",
     "Document" : "Dokument",
     "Spreadsheet" : "Regneark",
     "Presentation" : "Præsentation",

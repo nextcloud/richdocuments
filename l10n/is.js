@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Vista",
     "Loading documents..." : "Hleð inn skjölum...",
     "Edit" : "Breyta",
-    "View" : "Skoða",
     "Document" : "Skjal",
     "Spreadsheet" : "Töflureiknisskjal",
     "Presentation" : "Kynning",

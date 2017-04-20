@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Spara",
     "Loading documents..." : "Laddar dokument...",
     "Edit" : "Ändra",
-    "View" : "Läs",
     "Document" : "Dokument",
     "Spreadsheet" : "Kalkylblad",
     "Presentation" : "Presentation",

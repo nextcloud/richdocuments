@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Kaydet",
     "Loading documents..." : "Belgeler yükleniyor...",
     "Edit" : "Düzenle",
-    "View" : "Görünüm",
     "Document" : "Belge",
     "Spreadsheet" : "Çalışma Sayfası",
     "Presentation" : "Sunum",

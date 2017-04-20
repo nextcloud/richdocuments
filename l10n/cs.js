@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Uložit",
     "Loading documents..." : "Nahrávám dokumenty ...",
     "Edit" : "Upravit",
-    "View" : "Zobrazit",
     "Document" : "Dokument",
     "Spreadsheet" : "Tabulka",
     "Presentation" : "Prezentace",

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "Loading documents..." : "Ladataan asiakirjoja...",
     "Edit" : "Muokkaa",
-    "View" : "Näytä",
     "Document" : "Asiakirja",
     "Spreadsheet" : "Taulukko",
     "Presentation" : "Esitys",

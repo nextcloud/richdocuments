@@ -9,7 +9,6 @@ OC.L10N.register(
     "Save" : "Uložiť",
     "Loading documents..." : "Nahrávam dokumenty...",
     "Edit" : "Upraviť",
-    "View" : "Prezerať",
     "Could not create file" : "Nemožno vytvoriť súbor",
     "Can't create document" : "Nedá sa vytvoriť dokument",
     "Saved" : "Uložené",

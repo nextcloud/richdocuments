@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "保存",
     "Loading documents..." : "载入文档...",
     "Edit" : "编辑",
-    "View" : "查看",
     "Document" : "文档",
     "Spreadsheet" : "表格",
     "Presentation" : "幻灯片",

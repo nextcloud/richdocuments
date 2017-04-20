@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Opslaan",
     "Loading documents..." : "Laden documenten...",
     "Edit" : "Bewerk",
-    "View" : "Bekijken",
     "Document" : "Document",
     "Spreadsheet" : "Werkblad",
     "Presentation" : "Presentatie",

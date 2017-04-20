@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Сохранить",
     "Loading documents..." : "Загрузка документов...",
     "Edit" : "Редактировать",
-    "View" : "Просмотр",
     "Document" : "Документ",
     "Spreadsheet" : "Таблица",
     "Presentation" : "Презентация",

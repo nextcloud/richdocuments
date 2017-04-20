@@ -11,7 +11,6 @@ OC.L10N.register(
     "Save" : "Αποθήκευση",
     "Loading documents..." : "Φόρτωση εγγράφων...",
     "Edit" : "Επεξεργασία",
-    "View" : "Προβολή",
     "Document" : "Έγγραφο",
     "Spreadsheet" : "Λογιστικό φύλλο",
     "Presentation" : "Παρουσίαση",
