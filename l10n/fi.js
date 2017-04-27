@@ -27,6 +27,6 @@ OC.L10N.register(
     "Password" : "Salasana",
     "OK" : "OK",
     "Guest %s" : "Vieras %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Linkki on vanhentunut tai se ei ole ollutkaan toimiva. Ota yhteyttä henkilöön jolta sait linkin saadaksesi lisätietoja."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Linkki on vanhentunut tai se ei ole ollutkaan toimiva. Ota yhteyttä henkilöön, jolta sait linkin saadaksesi lisätietoja."
 },
 "nplurals=2; plural=(n != 1);");
