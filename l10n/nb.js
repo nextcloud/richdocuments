@@ -23,7 +23,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Ny presentasjon.pptx",
     "Can't create document" : "Kan ikke opprette dokument",
     "Saved" : "Lagret",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som serverinstallasjonen.",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som tjenerinstallasjonen.",
     "Collabora Online" : "Collabora Online",
     "Collabora Online server" : "Collabora Online-tjener",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (og port) for Collabora Online-tjeneren som tilbyr redigeringsfunksjonaliteten som en WOPI-klient.",
