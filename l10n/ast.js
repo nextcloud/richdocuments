@@ -4,7 +4,7 @@ OC.L10N.register(
     "Saving..." : "Guardando...",
     "Latest revision" : "Cabera revisión",
     "More versions..." : "Más versiones...",
-    "Just now" : "Agora mesmu",
+    "Just now" : "Agora mesmo",
     "Failed to revert the document to older version" : "Fallu al tornar el documentu a la versión más antigua",
     "Save" : "Guardar",
     "Loading documents..." : "Cargando los documentos...",

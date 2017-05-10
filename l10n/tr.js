@@ -32,7 +32,7 @@ OC.L10N.register(
     "Wrong password. Please retry." : "Parola hatalı. Lütfen yeniden deneyin.",
     "Password" : "Parola",
     "OK" : "Tamam",
-    "Guest %s" : "Ziyaretçi %s",
+    "Guest %s" : "Konuk %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Bu bağlantının süresi dolmuş ya da hiç var olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile görüşün."
 },
 "nplurals=2; plural=(n > 1);");
