@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments;
 
 use OC\Share\Constants;
+use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\Files\File;
@@ -64,12 +65,7 @@ class TokenManager {
 	 * @throws \Exception
 	 */
 	public function getToken($fileId, $shareToken = null) {
-		$arr = explode('_', $fileId, 2);
-		$version = '0';
-		if (count($arr) === 2) {
-			list($fileId, $version) = $arr;
-		}
-
+		list($fileId,, $version) = Helper::parseFileId($fileId);
 		// if the user is not logged-in do use the sharers storage
 		if($shareToken !== null) {
 			/** @var File $file */

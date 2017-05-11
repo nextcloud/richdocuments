@@ -118,7 +118,7 @@ var documentsMain = {
 			}
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}_{instanceId}', {file_id: fileId, instanceId: instanceId});
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
 			var wopisrc = encodeURIComponent(wopiurl);
 
 			// urlsrc - the URL from discovery xml that we access for the particular
@@ -162,7 +162,6 @@ var documentsMain = {
 			if (version === 0) {
 				formattedTimestamp = t('richdocuments', 'Latest revision');
 				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
-				fileId = fileId.replace(/_.*/, '');
 			} else {
 				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
 				                             {file: documentPath, revision: version});
