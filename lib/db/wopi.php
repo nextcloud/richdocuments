@@ -56,7 +56,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 	 * constructs and validates the path.
 	 * Returns the path, if valid, else false.
 	 */
-	public function getPathForToken($fileId, $version, $token){
+	public function getPathForToken($fileId, $token){
 
 		$wopi = new Wopi();
 		$row = $wopi->loadBy('token', $token)->getData();
@@ -74,11 +74,6 @@ class Wopi extends \OCA\Richdocuments\Db{
 			//http_response_code(404);
 			//$wopi->deleteBy('id', $row['id']);
 			//return false;
-		}
-		if ($row['fileid'] !== $fileId || $row['version'] !== $version){
-			// File unknown / user unauthorized (for the requested file).
-			http_response_code(404);
-			return false;
 		}
 
 		return array(
