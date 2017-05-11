@@ -72,7 +72,6 @@ var documentsMain = {
 	loadErrorHint : '',
 	renderComplete: false, // false till page is rendered with all required data about the document(s)
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
-	returnToDir : null, // directory where we started from in the 'Files' app
 
 	UI : {
 		/* Editor wrapper HTML */
@@ -268,12 +267,8 @@ var documentsMain = {
 								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
 							}
 
-							// generate file id with returnToDir information in it, if any
-							var fileid = e.currentTarget.parentElement.dataset.fileid.replace(/_.*/, '') +
-							    (documentsMain.returnToDir ? '_' + documentsMain.returnToDir : '');
-
 							// load the file again, it should get reverted now
-							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: fileid});
+							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: e.currentTarget.parentElement.dataset.fileid});
 							window.location.reload();
 							documentsMain.overlay.documentOverlay('hide');
 						}
@@ -425,11 +420,6 @@ var documentsMain = {
 
 		// Does anything indicate that we need to autostart a session?
 		fileId = getURLParameter('fileid').replace(/^\W*/, '');
-
-		if (fileId.indexOf('_') >= 0) {
-			documentsMain.returnToDir = unescape(fileId.replace(/^[^_]*_/, ''));
-			fileId = fileId.replace(/_.*/, '');
-		}
 
 		documentsMain.show(fileId);
 

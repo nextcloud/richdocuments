@@ -77,7 +77,7 @@ var odfViewer = {
 			);
 		} else {
 			viewer = OC.generateUrl(
-				'apps/richdocuments/index?fileId={fileId}_{dir}&requesttoken={requesttoken}',
+				'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
 				{
 					fileId: fileId,
 					dir: fileDir,
