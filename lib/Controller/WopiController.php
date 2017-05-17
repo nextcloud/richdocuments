@@ -21,7 +21,9 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OC\Files\View;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -51,29 +53,6 @@ class WopiController extends Controller {
 	}
 
 	/**
-	 * @param string $fileId
-	 * @return array
-	 * @throws \Exception
-	 */
-	private function parseFileId($fileId) {
-		$arr = explode('_', $fileId, 2);
-		if (count($arr) === 2) {
-			list($fileId, $instanceId) = $arr;
-			$version = '0';
-		} else if (count($arr) === 3) {
-			list($fileId, $instanceId, $version) = $arr;
-		} else {
-			throw new \Exception('$fileId has not the expected format');
-		}
-
-		return [
-			$fileId,
-			$instanceId,
-			$version,
-		];
-	}
-
-	/**
 	 * Returns general info about a file.
 	 *
 	 * @NoAdminRequired
@@ -86,12 +65,9 @@ class WopiController extends Controller {
 	public function checkFileInfo($fileId) {
 		$token = $this->request->getParam('access_token');
 
-		list($fileId, , $version) = $this->parseFileId($fileId);
-
-		$row = new Wopi();
-		$row->loadBy('token', $token);
-
-		$res = $row->getPathForToken($fileId, $version, $token);
+		list($fileId, , $version) = Helper::parseFileId($fileId);
+		$db = new Wopi();
+		$res = $db->getPathForToken($fileId, $token);
 		if ($res === false) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -136,18 +112,32 @@ class WopiController extends Controller {
 	 */
 	public function getFile($fileId,
 							$access_token) {
-		list($fileId, , $version) = $this->parseFileId($fileId);
-
+		list($fileId, , $version) = Helper::parseFileId($fileId);
 		$row = new Wopi();
 		$row->loadBy('token', $access_token);
-
-		$res = $row->getPathForToken($fileId, $version, $access_token);
-
+		$res = $row->getPathForToken($fileId, $access_token);
 		try {
 			/** @var File $file */
 			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
-			$response = new StreamResponse($file->fopen('rb'));
+
+			if ($version !== '0')
+			{
+				$view = new View('/' . $res['owner'] . '/files');
+				$relPath = $view->getRelativePath($file->getPath());
+				$versionPath = '/files_versions/' . $relPath . '.v' . $version;
+				$view = new View('/' . $res['owner']);
+				if ($view->file_exists($versionPath)){
+					$response = new StreamResponse($view->fopen($versionPath, 'rb'));
+				}
+				else {
+					$response->setStatus(Http::STATUS_NOT_FOUND);
+				}
+			}
+			else
+			{
+				$response = new StreamResponse($file->fopen('rb'));
+			}
 			$response->addHeader('Content-Disposition', 'attachment');
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
@@ -169,12 +159,12 @@ class WopiController extends Controller {
 	 */
 	public function putFile($fileId,
 							$access_token) {
-		list($fileId, , $version) = $this->parseFileId($fileId);
+		list($fileId, , $version) = Helper::parseFileId($fileId);
 
 		$row = new Wopi();
 		$row->loadBy('token', $access_token);
 
-		$res = $row->getPathForToken($fileId, $version, $access_token);
+		$res = $row->getPathForToken($fileId, $access_token);
 		if (!$res['canwrite']) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}

@@ -72,7 +72,6 @@ var documentsMain = {
 	loadErrorHint : '',
 	renderComplete: false, // false till page is rendered with all required data about the document(s)
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
-	returnToDir : null, // directory where we started from in the 'Files' app
 
 	UI : {
 		/* Editor wrapper HTML */
@@ -119,7 +118,7 @@ var documentsMain = {
 			}
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}_{instanceId}', {file_id: fileId, instanceId: instanceId});
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
 			var wopisrc = encodeURIComponent(wopiurl);
 
 			// urlsrc - the URL from discovery xml that we access for the particular
@@ -163,7 +162,6 @@ var documentsMain = {
 			if (version === 0) {
 				formattedTimestamp = t('richdocuments', 'Latest revision');
 				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
-				fileId = fileId.replace(/_.*/, '');
 			} else {
 				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
 				                             {file: documentPath, revision: version});
@@ -268,12 +266,8 @@ var documentsMain = {
 								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
 							}
 
-							// generate file id with returnToDir information in it, if any
-							var fileid = e.currentTarget.parentElement.dataset.fileid.replace(/_.*/, '') +
-							    (documentsMain.returnToDir ? '_' + documentsMain.returnToDir : '');
-
 							// load the file again, it should get reverted now
-							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: fileid});
+							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: e.currentTarget.parentElement.dataset.fileid});
 							window.location.reload();
 							documentsMain.overlay.documentOverlay('hide');
 						}
@@ -425,11 +419,6 @@ var documentsMain = {
 
 		// Does anything indicate that we need to autostart a session?
 		fileId = getURLParameter('fileid').replace(/^\W*/, '');
-
-		if (fileId.indexOf('_') >= 0) {
-			documentsMain.returnToDir = unescape(fileId.replace(/^[^_]*_/, ''));
-			fileId = fileId.replace(/_.*/, '');
-		}
 
 		documentsMain.show(fileId);
 
