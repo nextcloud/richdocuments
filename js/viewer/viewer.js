@@ -147,7 +147,7 @@ var odfViewer = {
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + docExt,
-						displayName: t('richdocuments', 'Document'),
+						displayName: t('richdocuments', 'New Document'),
 						templateName: 'New Document.' + docExt,
 						iconClass: 'icon-filetype-document',
 						fileType: 'x-office-document',
@@ -158,7 +158,7 @@ var odfViewer = {
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + spreadsheetExt,
-						displayName: t('richdocuments', 'Spreadsheet'),
+						displayName: t('richdocuments', 'New Spreadsheet'),
 						templateName: 'New Spreadsheet.' + spreadsheetExt,
 						iconClass: 'icon-filetype-spreadsheet',
 						fileType: 'x-office-spreadsheet',
@@ -169,7 +169,7 @@ var odfViewer = {
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + presentationExt,
-						displayName: t('richdocuments', 'Presentation'),
+						displayName: t('richdocuments', 'New Presentation'),
 						templateName: 'New Presentation.' + presentationExt,
 						iconClass: 'icon-filetype-presentation',
 						fileType: 'x-office-presentation',
