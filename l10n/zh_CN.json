@@ -21,7 +21,7 @@
     "New Presentation.pptx" : "新幻灯.pptx",
     "Can't create document" : "无法创建文档",
     "Saved" : "已保存",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "保存时出错：在线协作应使用与服务器安装相同的协议。",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "保存时出错：在线协作应使用与服务器安装相同的协议。",
     "Collabora Online" : "在线协作",
     "Collabora Online server" : "在线协作服务器",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "类WOPI客户端提供编辑功能在线协作服务器的网址URL (端口) ",

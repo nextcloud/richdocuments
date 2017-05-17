@@ -29,7 +29,7 @@ OC.L10N.register(
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Bir WOPI istemcisi olarak düzenleme işlevi sağlayan Collabora Onlie sunucusunun adresi (ve kapı numarası).",
     "Apply" : "Uygula",
     "Use OOXML by default for new files" : "Yeni dosyalar için varsayılan olarak OOXML kullanılsın",
-    "Wrong password. Please retry." : "Parola hatalı. Lütfen yeniden deneyin.",
+    "Wrong password. Please retry." : "Parola yanlış. Lütfen yeniden deneyin.",
     "Password" : "Parola",
     "OK" : "Tamam",
     "Guest %s" : "Konuk %s",
