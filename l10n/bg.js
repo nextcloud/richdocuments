@@ -8,8 +8,6 @@ OC.L10N.register(
     "Save" : "Запазване",
     "Loading documents..." : "Зареждане на документите...",
     "Edit" : "Редакция",
-    "Document" : "Документ",
-    "Presentation" : "Презентация",
     "Could not create file" : "Несупешно създаване на файла.",
     "New Document.odt" : "Нов Документ.odt",
     "New Document.docx" : "Нов Документ.docx",

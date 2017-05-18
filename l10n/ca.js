@@ -10,8 +10,6 @@ OC.L10N.register(
     "Save" : "Desar",
     "Loading documents..." : "S'estan carregant els documents...",
     "Edit" : "Editar",
-    "Document" : "Document",
-    "Presentation" : "Presentació",
     "Could not create file" : "No s'ha pogut crear el fitxer",
     "New Document.odt" : "Nou Document.odt",
     "New Presentation.odp" : "Nova Presentació.odp",
