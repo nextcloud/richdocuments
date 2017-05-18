@@ -1,3 +1,6 @@
+**1.11.27**
+- Bug: Fix revision history
+
 **1.1.25.1**
 - Bug: Fix height for revision history viewer
 - Bug: Set the correct language tag expected by JS
