@@ -1,3 +1,6 @@
+**1.12.27**
+- Bug: Fix revision history
+
 **1.1.26**
 - Bug: Set the correct language tag expected by JS
 - Bug: Replace trailing slash of WOPI URL
