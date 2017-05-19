@@ -11,6 +11,8 @@ OC.L10N.register(
     "Save" : "Zapisz",
     "Loading documents..." : "Ładowanie dokumentów...",
     "Edit" : "Edytuj",
+    "New Spreadsheet" : "Nowy Arkusz Kalkulacyjny",
+    "New Presentation" : "Nowa Prezentacja",
     "Could not create file" : "Nie można utworzyć pliku",
     "New Document.odt" : "Nowy Dokument.odt",
     "New Spreadsheet.ods" : "Nowy Arkusz.ods",
