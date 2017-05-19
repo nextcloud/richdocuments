@@ -119,8 +119,8 @@ var odfViewer = {
 		$('#richdocumentsframe').remove();
 	},
 
-	registerFilesMenu: function() {
-		var ooxml = false;
+	registerFilesMenu: function(response) {
+		var ooxml = response.doc_format === 'ooxml';
 
 		var docExt, spreadsheetExt, presentationExt;
 		var docMime, spreadsheetMime, presentationMime;
@@ -208,7 +208,12 @@ $(document).ready(function() {
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
 		odfViewer.register();
-		odfViewer.registerFilesMenu();
+
+		$.get(
+			OC.filePath('richdocuments', 'ajax', 'settings.php'),
+			{},
+			odfViewer.registerFilesMenu
+		);
 	}
 });
 
