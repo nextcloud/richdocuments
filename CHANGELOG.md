@@ -1,3 +1,7 @@
+**1.11.28**
+- Bug: Allow full screen
+- Updated screenshots
+
 **1.11.27**
 - Bug: Fix revision history
 
