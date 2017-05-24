@@ -22,7 +22,7 @@ In your Nextcloud, simply navigate to »Apps«, choose the category »Office & t
 The developers of the [Nextcloud VM](https://github.com/nextcloud/vm) has made a [script](https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora.sh) that you can use.
 Please remember to check the the variables in the script to suit your config before you run it, though it should work out of the box on all Ubuntu servers from 16.04 an upwards.
 
-The only thing you must have prepared before you run the script is to setup a DNS record to a new domain that you will host Collabora on (office.domain.com for example) and point that your server. SSL is included with Let's Encrypt.
+The only thing you must have prepared before you run the script is to have SSL (https://) on your Nextcloud domain and to setup a DNS record to a new domain that you will host Collabora on (office.domain.com for example) and point that your server. SSL is set up with Let's Encrypt.
 
 To get the script, please type the folloing command: `wget https://github.com/nextcloud/vm/blob/master/apps/collabora.sh` and then run the script with `sudo bash nextant.sh`.
 
