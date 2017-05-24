@@ -1,3 +1,6 @@
+**1.12.29**
+- Bug: fix undefined instanceId
+
 **1.12.28**
 - Bug: Allow full screen
 - Updated screenshots
