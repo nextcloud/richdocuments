@@ -23,6 +23,7 @@ class Helper {
 		$arr = explode('_', $fileId);
 		if (count($arr) === 1) {
 			$fileId = $arr[0];
+			$instanceId = '';
 			$version = '0';
 		} else if (count($arr) === 2) {
 			list($fileId, $instanceId) = $arr;
