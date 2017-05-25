@@ -46,6 +46,18 @@ class SettingsController extends Controller{
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getSettings() {
+		return new JSONResponse([
+			'doc_format' => $this->appConfig->getAppValue('doc_format'),
+			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+		]);
+	}
+
+	/**
 	 * @param string $wopi_url
 	 * @param string $doc_format
 	 * @return JSONResponse
