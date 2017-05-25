@@ -116,12 +116,16 @@ class DocumentController extends Controller {
 				'instanceId' => $this->settings->getSystemValue('instanceid'),
 			];
 
-			// Update the current file to be accessible with system public shared key
-			$owner = $item->getOwner()->getUID();
-			$absPath = '/' . $owner . '/' .  $item->getInternalPath();
-			$accessList = \OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
-			$accessList['public'] = true;
-			\OC::$server->getEncryptionManager()->getEncryptionModule()->update($absPath, $owner, $accessList);
+			$encryptionManager = \OC::$server->getEncryptionManager();
+			if ($encryptionManager->isEnabled())
+			{
+				// Update the current file to be accessible with system public shared key
+				$owner = $item->getOwner()->getUID();
+				$absPath = '/' . $owner . '/' .  $item->getInternalPath();
+				$accessList = \OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
+				$accessList['public'] = true;
+				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
+			}
 
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 			$policy = new ContentSecurityPolicy();
