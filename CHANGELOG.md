@@ -1,3 +1,6 @@
+**1.11.31**
+- Bug: Guard encryption support
+
 **1.11.30**
 - Feature: Support opening encrypted files
 - Bug: Respect OOXML settings again
