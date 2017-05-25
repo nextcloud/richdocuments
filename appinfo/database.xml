@@ -121,7 +121,7 @@
 			</field>
 
 			<index>
-				<name>richdocuments_wopi_token_idx</name>
+				<name>rd_wopi_token_idx</name>
 				<unique>true</unique>
 				<field>
 					<name>token</name>
