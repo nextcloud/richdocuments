@@ -92,7 +92,7 @@ class WopiController extends Controller {
 				'Version' => $version,
 				'UserId' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
 				'OwnerId' => $res['owner'],
-				'UserFriendlyName' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
+				'UserFriendlyName' => $res['editor'] !== '' ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
 				'UserCanWrite' => $res['canwrite'] ? true : false,
 				'PostMessageOrigin' => $res['server_host'],
 			]
