@@ -1,5 +1,10 @@
+**1.11.30**
+- Feature: Support opening encrypted files
+- Bug: Respect OOXML settings again
+- Bug: Register the change under user’s name when saving the document
+
 **1.11.29**
-- Bug: fix undefined instanceId
+- Bug: Fix undefined instanceId
 
 **1.11.28**
 - Bug: Allow full screen
