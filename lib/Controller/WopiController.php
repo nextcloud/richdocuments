@@ -120,7 +120,7 @@ class WopiController extends Controller {
 			/** @var File $file */
 			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
-
+			\OC_User::setIncognitoMode(true);
 			if ($version !== '0')
 			{
 				$view = new View('/' . $res['owner'] . '/files');
