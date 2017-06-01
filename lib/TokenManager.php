@@ -72,6 +72,7 @@ class TokenManager {
 			$rootFolder = $this->rootFolder;
 			$share = $this->shareManager->getShareByToken($shareToken);
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
+			$owneruid = $share->getShareOwner();
 		} else {
 			try {
 				/** @var File $file */
@@ -83,10 +84,13 @@ class TokenManager {
 		}
 		/** @var File $file */
 		$file = $rootFolder->getById($fileId)[0];
-
+		// If its a public share, use the owner from the share, otherwise check the file object
+		if (is_null($owneruid)) {
+			$owneruid = $file->getOwner()->getUID();
+		}
 		$row = new Wopi();
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-		$token = $row->generateFileToken($fileId, $file->getOwner()->getUID(), $this->userId, $version, (int)$updatable, $serverHost);
+		$token = $row->generateFileToken($fileId, $owneruid, $this->userId, $version, (int)$updatable, $serverHost);
 
 		try {
 
