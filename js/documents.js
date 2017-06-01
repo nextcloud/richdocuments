@@ -213,7 +213,7 @@ var documentsMain = {
 			var revHistoryContainerTemplate = Handlebars.compile(documentsMain.UI.revHistoryContainerTemplate);
 			var revHistoryContainer = revHistoryContainerTemplate({
 				filename: documentsMain.fileName,
-				moreVersionsLabel: t('richdocuments', 'More versions...'),
+				moreVersionsLabel: t('richdocuments', 'More versions…'),
 				closeButtonUrl: OC.imagePath('core', 'actions/close')
 			});
 			$('#revViewerContainer').prepend(revHistoryContainer);
@@ -292,7 +292,7 @@ var documentsMain = {
 
 			if (!documentsMain.renderComplete) {
 				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 500);
-				console.log('Waiting for page to render ...');
+				console.log('Waiting for page to render…');
 				return;
 			}
 			parent.postMessage('loading', '*');
@@ -535,7 +535,7 @@ var documentsMain = {
 		if (documentsMain.isGuest){
 			return;
 		}
-		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents...'));
+		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…'));
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
 	}
