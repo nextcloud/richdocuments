@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Gordetzen...",
-    "More versions..." : "Bertsio gehiago...",
+    "Saving…" : "Gordetzen...",
+    "More versions…" : "Bertsio gehiago...",
     "Save" : "Gorde",
-    "Loading documents..." : "Dokumentuak kargatzen...",
+    "Loading documents…" : "Dokumentuak kargatzen...",
     "Edit" : "Editatu",
     "Could not create file" : "Ezin izan da fitxategia sortu",
     "Can't create document" : "Ezin da dokumentua sortu",

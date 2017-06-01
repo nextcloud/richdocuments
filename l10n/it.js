@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Salvataggio in corso...",
+    "Saving…" : "Salvataggio in corso...",
     "Download this revision" : "Scarica questa revisione",
     "Restore this revision" : "Ripristina questa revisione",
     "Latest revision" : "Ultima revisione",
-    "More versions..." : "Altre versioni...",
+    "More versions…" : "Altre versioni...",
     "Just now" : "In questo istante",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",
     "Save" : "Salva",
-    "Loading documents..." : "Caricamento documenti in corso...",
+    "Loading documents…" : "Caricamento documenti in corso...",
     "Edit" : "Modifica",
     "New Document" : "Nuovo documento",
     "New Spreadsheet" : "Nuovo foglio elettronico",

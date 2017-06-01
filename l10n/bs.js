@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Spremanje...",
-    "More versions..." : "Više verzija...",
+    "Saving…" : "Spremanje...",
+    "More versions…" : "Više verzija...",
     "Save" : "Spremi",
-    "Loading documents..." : "Učitavanje dokumenata...",
+    "Loading documents…" : "Učitavanje dokumenata...",
     "Edit" : "Izmjeni",
     "Could not create file" : "Datoteku nije moguće kreirati",
     "Can't create document" : "Nemoguće kreirati dokument",

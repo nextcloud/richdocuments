@@ -1,8 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "កំពុង​រក្សាទុក",
-    "More versions..." : "កំណែ​ច្រើន​ទៀត...",
+    "Saving…" : "កំពុង​រក្សាទុក",
+    "More versions…" : "កំណែ​ច្រើន​ទៀត...",
     "Save" : "រក្សាទុក",
     "Edit" : "កែប្រែ",
     "Saved" : "បាន​រក្សាទុក",

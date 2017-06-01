@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "جاري الحفظ...",
-    "More versions..." : "المزيد من الإصدارات",
+    "Saving…" : "جاري الحفظ...",
+    "More versions…" : "المزيد من الإصدارات",
     "Save" : "حفظ",
-    "Loading documents..." : "يتم تحميل المستند ...",
+    "Loading documents…" : "يتم تحميل المستند ...",
     "Edit" : "تعديل",
     "Could not create file" : "لا يستطيع انشاء ملف ",
     "Saved" : "تم الحفظ",

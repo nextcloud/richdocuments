@@ -1,8 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Պահում եմ...",
-    "More versions..." : "Ավել տարբերակներ...",
+    "Saving…" : "Պահում եմ...",
+    "More versions…" : "Ավել տարբերակներ...",
     "Save" : "Պահել",
     "Edit" : "Խմբագրել",
     "Could not create file" : "Չկարողացա ստեղծել ֆայլը",

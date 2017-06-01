@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "儲存中...",
-    "More versions..." : "更多版本…",
+    "Saving…" : "儲存中...",
+    "More versions…" : "更多版本…",
     "Save" : "儲存",
-    "Loading documents..." : "讀取文件中...",
+    "Loading documents…" : "讀取文件中...",
     "Edit" : "編輯",
     "Could not create file" : "無法建立檔案",
     "Can't create document" : "無法建立文件",

@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Tallennetaan...",
+    "Saving…" : "Tallennetaan...",
     "Download this revision" : "Lataa tämä versio",
     "Restore this revision" : "Palauta tähän versioon",
     "Latest revision" : "Viimeisin versio",
-    "More versions..." : "Lisää versioita...",
+    "More versions…" : "Lisää versioita...",
     "Just now" : "Juuri nyt",
     "Failed to revert the document to older version" : "Asiakirjan palauttaminen aikaisempaan versioon epäonnistui",
     "Save" : "Tallenna",
-    "Loading documents..." : "Ladataan asiakirjoja...",
+    "Loading documents…" : "Ladataan asiakirjoja...",
     "Edit" : "Muokkaa",
     "New Document" : "Uusi asiakirja",
     "New Spreadsheet" : "Uusi taulukko",

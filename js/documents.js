@@ -201,7 +201,7 @@ var documentsMain = {
 					  documentsMain.UI.revisionsStart += 5;
 
 					  if (result.data.endReached) {
-						  // Remove 'More versions' button
+						  // Remove 'More versions…utton
 						  $('#show-more-versions').addClass('hidden');
 					  }
 				  });
@@ -213,7 +213,7 @@ var documentsMain = {
 			var revHistoryContainerTemplate = Handlebars.compile(documentsMain.UI.revHistoryContainerTemplate);
 			var revHistoryContainer = revHistoryContainerTemplate({
 				filename: documentsMain.fileName,
-				moreVersionsLabel: t('richdocuments', 'More versions…'),
+				moreVersionsLabel: t('richdocuments', 'More versions…,
 				closeButtonUrl: OC.imagePath('core', 'actions/close')
 			});
 			$('#revViewerContainer').prepend(revHistoryContainer);
@@ -535,7 +535,7 @@ var documentsMain = {
 		if (documentsMain.isGuest){
 			return;
 		}
-		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…'));
+		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…);
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
 	}

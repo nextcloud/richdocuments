@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Se salvează...",
-    "More versions..." : "Mai multe versiuni...",
+    "Saving…" : "Se salvează...",
+    "More versions…" : "Mai multe versiuni...",
     "Save" : "Salvează",
-    "Loading documents..." : "Se incarcă documentele...",
+    "Loading documents…" : "Se incarcă documentele...",
     "Edit" : "Editează",
     "Could not create file" : "Nu s-a putut crea fisierul",
     "Can't create document" : "Nu se poate crea documentul",

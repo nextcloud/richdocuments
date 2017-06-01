@@ -1,8 +1,8 @@
 { "translations": {
-    "Saving..." : "Spremanje...",
-    "More versions..." : "Više verzija...",
+    "Saving…" : "Spremanje...",
+    "More versions…" : "Više verzija...",
     "Save" : "Spremi",
-    "Loading documents..." : "Učitavanje dokumenata...",
+    "Loading documents…" : "Učitavanje dokumenata...",
     "Edit" : "Uređivanje",
     "Could not create file" : "Datoteku nije moguće kreirati",
     "Can't create document" : "Dokument nije moguće kreirati",

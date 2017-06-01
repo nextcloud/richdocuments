@@ -1,11 +1,11 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Salvestamine...",
-    "More versions..." : "Rohkem versioone...",
+    "Saving…" : "Salvestamine...",
+    "More versions…" : "Rohkem versioone...",
     "Just now" : "Kohe",
     "Save" : "Salvesta",
-    "Loading documents..." : "Laadin dokumente...",
+    "Loading documents…" : "Laadin dokumente...",
     "Edit" : "Muuda",
     "Could not create file" : "Ei suuda luua faili",
     "New Presentation.pptx" : "Uus esitlus.pptx",

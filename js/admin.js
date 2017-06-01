@@ -7,7 +7,7 @@ var documentsSettings = {
 			wopi_url  : $('#wopi_url').val().replace(/\/$/, '')
 		};
 
-		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…'));
+		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…);
 		$.post(
 			OC.filePath('richdocuments', 'ajax', 'admin.php'),
 			data,

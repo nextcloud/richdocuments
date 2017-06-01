@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Saxlama...",
-    "More versions..." : "Əlavə versiyalar",
+    "Saving…" : "Saxlama...",
+    "More versions…" : "Əlavə versiyalar",
     "Save" : "Saxla",
-    "Loading documents..." : "Sənədlər yüklənir...",
+    "Loading documents…" : "Sənədlər yüklənir...",
     "Edit" : "Dəyişiklik et",
     "Could not create file" : "Faylı yaratmaq olmur",
     "Can't create document" : "Sənədi yaratmaq mümkün olmadı",

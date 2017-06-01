@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Gemmer...",
+    "Saving…" : "Gemmer...",
     "Download this revision" : "Hent denne revision",
     "Restore this revision" : "Gendan denne revision",
     "Latest revision" : "Seneste revision",
-    "More versions..." : "Flere versioner...",
+    "More versions…" : "Flere versioner...",
     "Just now" : "Lige nu",
     "Failed to revert the document to older version" : "Det lykkedes ikke at gendanne dokumentet, til en ældre version",
     "Save" : "Gem",
-    "Loading documents..." : "Henter dokumenter...",
+    "Loading documents…" : "Henter dokumenter...",
     "Edit" : "Redigér",
     "Could not create file" : "Kunne ikke oprette fil",
     "New Document.odt" : "Nyt dokument.odt",

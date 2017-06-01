@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "保存中...",
+    "Saving…" : "保存中...",
     "Download this revision" : "下载此修订版本",
     "Restore this revision" : "恢复此修订版本",
     "Latest revision" : "最新版本",
-    "More versions..." : "更多版本...",
+    "More versions…" : "更多版本...",
     "Just now" : "刚刚",
     "Failed to revert the document to older version" : "文件回滚旧版本失败",
     "Save" : "保存",
-    "Loading documents..." : "载入文档...",
+    "Loading documents…" : "载入文档...",
     "Edit" : "编辑",
     "Could not create file" : "不能创建文件",
     "New Document.odt" : "新建文档.odt",

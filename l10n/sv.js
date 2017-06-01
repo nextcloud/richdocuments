@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Sparar...",
+    "Saving…" : "Sparar...",
     "Download this revision" : "Ladda ned denna granskning",
     "Restore this revision" : "Återställ denna granskning",
     "Latest revision" : "Senaste granskningen",
-    "More versions..." : "Fler versioner...",
+    "More versions…" : "Fler versioner...",
     "Just now" : "Just nu",
     "Failed to revert the document to older version" : "Misslyckades att återställa dokumentet till en tidigare version",
     "Save" : "Spara",
-    "Loading documents..." : "Laddar dokument...",
+    "Loading documents…" : "Laddar dokument...",
     "Edit" : "Ändra",
     "New Document" : "Nytt Dokument",
     "New Spreadsheet" : "Nytt Kalkylblad",

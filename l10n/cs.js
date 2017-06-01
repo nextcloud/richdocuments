@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Ukládám...",
+    "Saving…" : "Ukládám...",
     "Download this revision" : "Stáhnout tuto revizi",
     "Restore this revision" : "Obnovit tuto revizi",
     "Latest revision" : "Poslední revize",
-    "More versions..." : "Více verzí...",
+    "More versions…" : "Více verzí...",
     "Just now" : "Právě teď",
     "Failed to revert the document to older version" : "Nepodařilo se obnovit starší verzi dokumentu",
     "Save" : "Uložit",
-    "Loading documents..." : "Nahrávám dokumenty ...",
+    "Loading documents…" : "Nahrávám dokumenty ...",
     "Edit" : "Upravit",
     "New Document" : "Nový dokument",
     "New Spreadsheet" : "Nová tabulka",

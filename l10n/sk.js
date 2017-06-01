@@ -1,13 +1,13 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Ukladám...",
+    "Saving…" : "Ukladám...",
     "Download this revision" : "Stiahnúť túto revíziu",
     "Restore this revision" : "Obnoviť túto revíziu",
     "Latest revision" : "Posledná revízia",
-    "More versions..." : "Viac verzií...",
+    "More versions…" : "Viac verzií...",
     "Save" : "Uložiť",
-    "Loading documents..." : "Nahrávam dokumenty...",
+    "Loading documents…" : "Nahrávam dokumenty...",
     "Edit" : "Upraviť",
     "Could not create file" : "Nemožno vytvoriť súbor",
     "Can't create document" : "Nedá sa vytvoriť dokument",

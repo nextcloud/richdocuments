@@ -1,15 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving..." : "Po ruhet …",
+    "Saving…" : "Po ruhet …",
     "Download this revision" : "Shkarkoje këtë rishikim",
     "Restore this revision" : "Rikthe këtë rishikim",
     "Latest revision" : "Rishikimi më i ri",
-    "More versions..." : "Më shumë versione…",
+    "More versions…" : "Më shumë versione…",
     "Just now" : "Mu tani",
     "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",
     "Save" : "Ruaje",
-    "Loading documents..." : "Po ngarkohen dokumente…",
+    "Loading documents…" : "Po ngarkohen dokumente…",
     "Edit" : "Përpunoni",
     "Could not create file" : "Kartela s’u krijua dot",
     "New Document.odt" : "Dokument.odt i ri",
