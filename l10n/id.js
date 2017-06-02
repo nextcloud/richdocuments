@@ -1,10 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Menyimpan...",
-    "More versions…" : "Versi lebih...",
     "Save" : "Simpan",
-    "Loading documents…" : "Memuat dokumen...",
     "Edit" : "Sunting",
     "Could not create file" : "Tidak dapat membuat berkas",
     "Can't create document" : "Tidak dapat membuat dokumen",

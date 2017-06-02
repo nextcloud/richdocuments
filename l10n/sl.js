@@ -1,15 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Poteka shranjevanje ...",
     "Download this revision" : "Prejmi predelavo",
     "Restore this revision" : "Obnovi predelavo",
     "Latest revision" : "Najnovejša predelava",
-    "More versions…" : "Več različic ...",
     "Just now" : "Ravnokar",
     "Failed to revert the document to older version" : "Povrnitev dokumenta na starejšo različico je spodletela.",
     "Save" : "Shrani",
-    "Loading documents…" : "Nalaganje dokumentov ...",
     "Edit" : "Uredi",
     "Could not create file" : "Ni mogoče ustvariti datoteke",
     "New Document.odt" : "nov_dokument.odt",

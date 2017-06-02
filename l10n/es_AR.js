@@ -1,10 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Guardando...",
-    "More versions…" : "Más versiones...",
     "Save" : "Guardar",
-    "Loading documents…" : "Cargando documentos...",
     "Edit" : "Editar",
     "Could not create file" : "No se pudo crear el archivo",
     "Can't create document" : "No es posible crear el documento",

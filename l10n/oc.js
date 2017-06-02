@@ -1,12 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Enregistrament...",
     "Latest revision" : "Darrièra version",
-    "More versions…" : "Mai de versions...",
     "Just now" : "Ara",
     "Save" : "Enregistrar",
-    "Loading documents…" : "Cargament dels documents...",
     "Edit" : "Modificar",
     "Could not create file" : "Impossible de crear lo fichièr",
     "New Document.odt" : "Document Novèl.odt",

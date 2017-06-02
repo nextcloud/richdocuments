@@ -1,15 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Γίνεται αποθήκευση...",
     "Download this revision" : "Λήψη αυτής της αναθεώρησης",
     "Restore this revision" : "Επαναφορά αυτή της αναθεώρησης",
     "Latest revision" : "Τελευταία αναθεώρηση",
-    "More versions…" : "Περισσότερες εκδόσεις...",
     "Just now" : "Μόλις τώρα",
     "Failed to revert the document to older version" : "Αποτυχία επαναφοράς εγγράφου σε παλιότερη έκδοση",
     "Save" : "Αποθήκευση",
-    "Loading documents…" : "Φόρτωση εγγράφων...",
     "Edit" : "Επεξεργασία",
     "New Document" : "Νέο έγγραφο",
     "New Spreadsheet" : "Νέο λογιστικό φύλλο",

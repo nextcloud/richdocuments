@@ -1,15 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Kaydediliyor...",
     "Download this revision" : "Bu sürümü indir",
     "Restore this revision" : "Bu sürümü geri yükle",
     "Latest revision" : "Son sürüm",
-    "More versions…" : "Diğer sürümler...",
     "Just now" : "Şimdi",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Save" : "Kaydet",
-    "Loading documents…" : "Belgeler yükleniyor...",
     "Edit" : "Düzenle",
     "New Document" : "Yeni Belge",
     "New Spreadsheet" : "Yeni Hesap Tablosu",

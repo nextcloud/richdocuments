@@ -1,15 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Saglabā...",
     "Download this revision" : "Lejupielādēt šo pārlaboto izdevumu",
     "Restore this revision" : "Atjaunot šo versiju",
     "Latest revision" : "Pēdējā versija",
-    "More versions…" : "Vairāk versiju...",
     "Just now" : "Tagad",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Save" : "Saglabāt",
-    "Loading documents…" : "Ielādē dokumentus...",
     "Edit" : "Rediģēt",
     "Could not create file" : "Neizdevās izveidot datni",
     "New Document.odt" : "Jauns Dokuments.odt",

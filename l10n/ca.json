@@ -1,12 +1,9 @@
 { "translations": {
-    "Saving…" : "Desant...",
     "Download this revision" : "Baixa aquesta revisió",
     "Restore this revision" : "Restaura aquesta revisió",
     "Latest revision" : "Última revisió",
-    "More versions…" : "Més versions...",
     "Just now" : "Ara mateix",
     "Save" : "Desar",
-    "Loading documents…" : "S'estan carregant els documents...",
     "Edit" : "Editar",
     "Could not create file" : "No s'ha pogut crear el fitxer",
     "New Document.odt" : "Nou Document.odt",

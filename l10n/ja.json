@@ -1,13 +1,10 @@
 { "translations": {
-    "Saving…" : "保存中...",
     "Download this revision" : "このリビジョンをダウンロード",
     "Restore this revision" : "このリビジョンを復元",
     "Latest revision" : "最新バージョン",
-    "More versions…" : "他のバージョン...",
     "Just now" : "今",
     "Failed to revert the document to older version" : "以前のバージョンに戻すことに失敗しました。",
     "Save" : "保存",
-    "Loading documents…" : "ドキュメントを読込中...",
     "Edit" : "編集",
     "Could not create file" : "ファイルを作成できませんでした",
     "New Document.odt" : "新規 Document.odt",

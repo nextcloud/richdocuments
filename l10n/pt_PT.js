@@ -1,12 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "A guardar...",
     "Latest revision" : "Última revisão",
-    "More versions…" : "Mais versões...",
     "Just now" : "Agora mesmo",
     "Save" : "Guardar",
-    "Loading documents…" : "A carregar os documentos ...",
     "Edit" : "Editar",
     "Could not create file" : "Não pôde criar ficheiro",
     "New Document.odt" : "Novo Documento.odt",

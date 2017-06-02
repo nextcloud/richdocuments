@@ -1,10 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "در حال ذخیره سازی...",
-    "More versions…" : "نسخه های بیشتر",
     "Save" : "ذخیره",
-    "Loading documents…" : "در حال بارگذاری اسناد...",
     "Edit" : "ویرایش",
     "Could not create file" : "امکان ایجاد فایل وجود ندارد",
     "Can't create document" : "امکان ایجاد این سند وجود ندارد",

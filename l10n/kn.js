@@ -1,10 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "﻿ಉಳಿಸಲಾಗುತ್ತಿದೆ ...",
-    "More versions…" : "ಇನ್ನಷ್ಟು ಆವೃತ್ತಿಗಳು ...",
     "Save" : "﻿ಉಳಿಸಿ",
-    "Loading documents…" : "ದಾಖಲೆಗಳನ್ನು ಹೊಂದಿಸಲಾಗುತ್ತಿದೆ...",
     "Edit" : "ಸಂಪಾದಿಸು",
     "Could not create file" : "﻿ಕಡತ ರಚಿಸಲಾಗಲಿಲ್ಲ",
     "Can't create document" : "ದಾಖಲೆಯನ್ನು ಸೃಷ್ಟಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",

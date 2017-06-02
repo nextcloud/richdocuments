@@ -1,15 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "저장 중...",
     "Download this revision" : "이 리비전 다운로드",
     "Restore this revision" : "이 리비전 복원",
     "Latest revision" : "최신 리비전",
-    "More versions…" : "더 많은 버전...",
     "Just now" : "지금",
     "Failed to revert the document to older version" : "문서를 이전 버전으로 되돌릴 수 없음",
     "Save" : "저장",
-    "Loading documents…" : "문서 불러오는 중...",
     "Edit" : "편집",
     "Could not create file" : "파일을 만들 수 없음",
     "New Document.odt" : "새 문서.odt",

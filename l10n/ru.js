@@ -1,15 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Сохранение...",
     "Download this revision" : "Скачать эту ревизию",
     "Restore this revision" : "Восстановить эту ревизию",
     "Latest revision" : "Крайняя ревизия",
-    "More versions…" : "Ещё версии...",
     "Just now" : "Прямо сейчас",
     "Failed to revert the document to older version" : "Не удалось вернуть документ к старой версии",
     "Save" : "Сохранить",
-    "Loading documents…" : "Загрузка документов...",
     "Edit" : "Редактировать",
     "New Document" : "Новый документ",
     "New Spreadsheet" : "Новая таблица",
