@@ -1,12 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Opslaan...",
     "Download this revision" : "Download deze revisie",
     "Restore this revision" : "Herstel deze revisie",
     "Latest revision" : "Laatste revisie",
+    "More versions…" : "Meer versies...",
     "Just now" : "Zopas",
     "Failed to revert the document to older version" : "Kon het document niet terugdraaien naar een vorige versie",
     "Save" : "Opslaan",
+    "Loading documents…" : "Documenten laden...",
     "Edit" : "Bewerk",
     "New Document" : "Nieuw document",
     "New Spreadsheet" : "Nieuw werkblad",

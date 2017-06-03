@@ -1,12 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Speichere…",
     "Download this revision" : "Diese Revision herunterladen",
     "Restore this revision" : "Diese Revision wiederherstellen",
-    "Latest revision" : "Letzte Revision",
+    "Latest revision" : "Neueste Revision",
+    "More versions…" : "Weitere Versionen…",
     "Just now" : "Gerade eben",
     "Failed to revert the document to older version" : "Fehler beim Zurücksetzen des Dokumentes auf eine ältere Version",
     "Save" : "Speichern",
+    "Loading documents…" : "Lade Dokumente…",
     "Edit" : "Bearbeiten",
     "New Document" : "Neues Dokument",
     "New Spreadsheet" : "Neue Tabelle",
@@ -30,6 +33,6 @@ OC.L10N.register(
     "Password" : "Passwort",
     "OK" : "OK",
     "Guest %s" : "Gast %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dieser Link ist abgelaufen oder hat nie existiert. Bitte kontaktiere die Person, die ihn mit dir geteilt hat, für Details."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dieser Link ist abgelaufen oder existierte niemals. Für weitere Details kontaktier bitte denjenigen, der das Dokument mit Dir geteilt hat."
 },
 "nplurals=2; plural=(n != 1);");
