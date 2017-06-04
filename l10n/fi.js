@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Tallennetaan...",
     "Download this revision" : "Lataa tämä versio",
     "Restore this revision" : "Palauta tähän versioon",
     "Latest revision" : "Viimeisin versio",
