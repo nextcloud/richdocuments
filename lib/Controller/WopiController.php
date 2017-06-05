@@ -180,10 +180,9 @@ class WopiController extends Controller {
 
 			// Set the user to register the change under his name
 			$editor = \OC::$server->getUserManager()->get($res['editor']);
-			if (is_null($editor)) {
-				throw new \OC\User\NoUserException("User " . $res['editor'] . "not found.");
-			}
-			\OC::$server->getUserSession()->setUser($editor);
+			if (!is_null($editor)) {
+                            \OC::$server->getUserSession()->setUser($editor);
+                        }
 
 			$file->putContent($content);
 			return new JSONResponse();
