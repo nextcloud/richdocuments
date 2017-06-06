@@ -1,3 +1,9 @@
+**1.11.32**
+- Bug: Show Display Name of user, not its uid in userlist
+- Bug: Do not throw exception when user not found. It might be a public link share.
+- Bug: Use the file owner from the share object, if available. Fixes #85.
+- Bug: Shorter db index name. Fixes #54.
+
 **1.11.31**
 - Bug: Guard encryption support
 
