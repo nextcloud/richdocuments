@@ -38,6 +38,9 @@ class WopiController extends Controller {
 	/** @var IRootFolder */
 	private $rootFolder;
 
+	// Signifies LOOL that document has been changed externally in this storage
+	const LOOL_STATUS_DOC_CHANGED = 1010;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -95,6 +98,7 @@ class WopiController extends Controller {
 				'UserFriendlyName' => $res['editor'] !== '' ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
 				'UserCanWrite' => $res['canwrite'] ? true : false,
 				'PostMessageOrigin' => $res['server_host'],
+				'LastModifiedTime' => Helper::toISO8601($file->getMtime())
 			]
 		);
 	}
@@ -169,10 +173,23 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+
+
 		try {
 			/** @var File $file */
 			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
+
+			$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
+			if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
+				\OC::$server->getLogger()->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
+					'headerTime' => $wopiHeaderTime,
+					'storageTime' => Helper::toISO8601($file->getMtime())
+				]);
+				// Tell WOPI client about this conflict.
+				return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+			}
+
 			$content = fopen('php://input', 'rb');
 			// Setup the FS which is needed to emit hooks (versioning).
 			\OC_Util::tearDownFS();
@@ -181,11 +198,11 @@ class WopiController extends Controller {
 			// Set the user to register the change under his name
 			$editor = \OC::$server->getUserManager()->get($res['editor']);
 			if (!is_null($editor)) {
-                            \OC::$server->getUserSession()->setUser($editor);
-                        }
+				\OC::$server->getUserSession()->setUser($editor);
+			}
 
 			$file->putContent($content);
-			return new JSONResponse();
+			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMtime())]);
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
