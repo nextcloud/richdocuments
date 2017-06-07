@@ -1,13 +1,16 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Įrašoma…",
     "Download this revision" : "Atsisiųsti šį poversijį",
     "Restore this revision" : "Atkurti šį poversijį",
     "Latest revision" : "Paskiausias poversijis",
+    "More versions…" : "Daugiau versijų…",
     "Just now" : "Ką tik",
     "Failed to revert the document to older version" : "Nepavyko sugrąžinti dokumentą į senesnę versiją",
     "Save" : "Įrašyti",
     "Edit" : "Redaguoti",
+    "New Document" : "Naujas dokumentas",
     "Could not create file" : "Nepavyko sukurti failo",
     "New Document.odt" : "Naujas dokumentas.odt",
     "New Spreadsheet.ods" : "Nauja skaičiuoklė.ods",
