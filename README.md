@@ -18,7 +18,7 @@ Find out more about Nextcloud and Collabora Online, and how to setup an server h
 
 In your Nextcloud, simply navigate to »Apps«, choose the category »Office & text«, find the Collabora Online app and enable it. Then open the administrator settings, navigate to the »Collabora Online« tab and specify your Collabora Online server.
 
-### Scripted installation (Ubuntu), Server + Nextclod app
+### Scripted installation (Ubuntu), Server + Nextcloud app
 The developers of the [Nextcloud VM](https://github.com/nextcloud/vm) has made a [script](https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora.sh) that you can use.
 Please remember to check the the variables in the script to suit your config before you run it, though it should work out of the box on all Ubuntu servers from 16.04 an upwards.
 
