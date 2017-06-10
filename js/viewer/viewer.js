@@ -14,7 +14,6 @@ var odfViewer = {
 		'application/msword',
 		'application/rtf',
 		'text/rtf',
-		'text/plain',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 		'application/vnd.ms-word.document.macroEnabled.12',
