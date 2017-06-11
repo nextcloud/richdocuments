@@ -9,6 +9,7 @@ OC.L10N.register(
     "Just now" : "In questo istante",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",
     "Save" : "Salva",
+    "Loading documents…" : "Caricamento documenti in corso...",
     "Edit" : "Modifica",
     "New Document" : "Nuovo documento",
     "New Spreadsheet" : "Nuovo foglio elettronico",
