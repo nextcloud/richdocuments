@@ -50,11 +50,13 @@ class TokenManager {
 								IManager $shareManager,
 								IURLGenerator $urlGenerator,
 								Parser $wopiParser,
+								AppConfig $appConfig,
 								$UserId) {
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->wopiParser = $wopiParser;
+		$this->appConfig = $appConfig;
 		$this->userId = $UserId;
 	}
 
@@ -79,6 +81,22 @@ class TokenManager {
 				/** @var File $file */
 				$rootFolder = $this->rootFolder->getUserFolder($this->userId);
 				$updatable = $rootFolder->isUpdateable();
+				// Check if the editor (user who is accessing) is in editable group
+				// UserCanWrite only if
+				// 1. No edit groups are set or
+				// 2. if they are set, it is in one of the edit groups
+				$editorUid = \OC::$server->getUserSession()->getUser()->getUID();
+				$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
+				if ($updatable && count($editGroups) > 0) {
+					$updatable = false;
+					foreach($editGroups as $editGroup) {
+						 $editorGroup = \OC::$server->getGroupManager()->get($editGroup);
+						 if ($editorGroup !== null && sizeof($editorGroup->searchUsers($editorUid)) > 0) {
+							$updatable = true;
+							break;
+						 }
+					}
+				}
 			} catch (\Exception $e) {
 				throw $e;
 			}

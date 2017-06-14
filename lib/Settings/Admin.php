@@ -49,8 +49,6 @@ class Admin implements ISettings {
 				'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url'),
 				'edit_groups' => $this->config->getAppValue('richdocuments', 'edit_groups'),
 				'doc_format' => $this->config->getAppValue('richdocuments', 'doc_format'),
-				'test_wopi_url' => $this->config->getAppValue('richdocuments', 'test_wopi_url'),
-				'test_server_groups' => $this->config->getAppValue('richdocuments', 'test_server_groups')
 			],
 			'blank'
 		);
