@@ -52,17 +52,20 @@ class SettingsController extends Controller{
 	 */
 	public function getSettings() {
 		return new JSONResponse([
-			'doc_format' => $this->appConfig->getAppValue('doc_format'),
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
+			'doc_format' => $this->appConfig->getAppValue('doc_format'),
 		]);
 	}
 
 	/**
 	 * @param string $wopi_url
+	 * @param string $edit_groups
 	 * @param string $doc_format
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
+								$edit_groups,
 								$doc_format){
 		$message = $this->l10n->t('Saved');
 
@@ -73,6 +76,10 @@ class SettingsController extends Controller{
 			if ($this->request->getServerProtocol() !== substr($wopi_url, 0, $colon)){
 				$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
 			}
+		}
+
+		if ($edit_groups !== null){
+			$this->appConfig->setAppValue('edit_groups', $edit_groups);
 		}
 
 		if ($doc_format !== null) {
