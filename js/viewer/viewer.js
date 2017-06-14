@@ -14,7 +14,6 @@ var odfViewer = {
 		'application/msword',
 		'application/rtf',
 		'text/rtf',
-		'text/plain',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 		'application/vnd.ms-word.document.macroEnabled.12',
@@ -109,7 +108,6 @@ var odfViewer = {
 		$('#app-content #controls').addClass('hidden');
 		$('#app-content').append($iframe);
 	},
-
 
 	onClose: function() {
 		if(typeof FileList !== "undefined") {
@@ -207,6 +205,14 @@ $(document).ready(function() {
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
+		// check if texteditor app is enabled and loaded...
+		if (_.isUndefined(OCA.Files_Texteditor)) {
+			// it is not, so we do open text files with this app too.
+			odfViewer.supportedMimes.push('text/plain');
+		}
+
+		// notice: when changing 'supportedMimes' interactively (e.g. dev console),
+		// register() needs to be re-run to re-register the fileActions.
 		odfViewer.register();
 
 		$.get(
@@ -219,7 +225,7 @@ $(document).ready(function() {
 
 // FIXME: Hack for single public file view since it is not attached to the fileslist
 $(document).ready(function(){
-	// FIXME: FIlter compatible mime types
+	// FIXME: Filter compatible mime types
 	if ($('#isPublic').val() && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
 		odfViewer.onEdit($('#filename').val());
 	}
