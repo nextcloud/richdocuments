@@ -1,3 +1,9 @@
+**1.11.33**
+- Feature: Restore 'Enable edit for specific groups' feature, fixes #66
+- Feature: Only edit textfiles with Collabora Online, when texteditorapp is disabled
+- Feature: Include support for X-LOOL-WOPI-Timestamp
+- Bug: Undefined variable 'owneruid'
+
 **1.11.32**
 - Bug: Show Display Name of user, not its uid in userlist
 - Bug: Do not throw exception when user not found. It might be a public link share.
