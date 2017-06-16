@@ -1,10 +1,13 @@
 { "translations": {
+    "Saving…" : "Er að vista ...",
     "Download this revision" : "Sækja þessa útgáfu",
     "Restore this revision" : "Endurheimta þessa útgáfu",
     "Latest revision" : "Núverandi útgáfa",
+    "More versions…" : "Fleiri útgáfur…",
     "Just now" : "Í þessum töluðu orðum",
     "Failed to revert the document to older version" : "Mistókst að endurheimta skjalið sem eldri útgáfu",
     "Save" : "Vista",
+    "Loading documents…" : "Hleð inn skjölum...",
     "Edit" : "Breyta",
     "New Document" : "Nýtt skjal",
     "New Spreadsheet" : "Nýtt töflureiknisskjal",
