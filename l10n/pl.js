@@ -35,4 +35,4 @@ OC.L10N.register(
     "Guest %s" : "Gość %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Ten link już wygasł lub nigdy nie istniał. Proszę skontaktuj się z osobą, która udostępniła ci go, aby uzyskać szczegółowe informacje."
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

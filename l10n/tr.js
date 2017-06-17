@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Kaydediliyor...",
+    "All" : "Tümü",
     "Download this revision" : "Bu sürümü indir",
     "Restore this revision" : "Bu sürümü geri yükle",
     "Latest revision" : "Son sürüm",
@@ -28,6 +29,7 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online sunucusu",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Bir WOPI istemcisi olarak düzenleme işlevi sağlayan Collabora Onlie sunucusunun adresi (ve kapı numarası).",
     "Apply" : "Uygula",
+    "Enable edit for specific groups" : "Düzenlemeyi yalnız belirli gruplar için etkinleştir",
     "Use OOXML by default for new files" : "Yeni dosyalar için varsayılan olarak OOXML kullanılsın",
     "Wrong password. Please retry." : "Parola yanlış. Lütfen yeniden deneyin.",
     "Password" : "Parola",
