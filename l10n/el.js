@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Γίνεται αποθήκευση...",
+    "All" : "'Ολα",
     "Download this revision" : "Λήψη αυτής της αναθεώρησης",
     "Restore this revision" : "Επαναφορά αυτή της αναθεώρησης",
     "Latest revision" : "Τελευταία αναθεώρηση",
