@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Zapisywanie...",
+    "All" : "Wszystko",
     "Download this revision" : "Ściągnij tę rewizję",
     "Restore this revision" : "Przywróć tę rewizję",
     "Latest revision" : "Ostatnia rewizja",
@@ -28,6 +29,7 @@ OC.L10N.register(
     "Collabora Online server" : "Serwer Collabora Online",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Adres URL (i port) serwera Collabora Online, który dostarcza funkcjonalność edycji jako WOPI klient",
     "Apply" : "Zastosuj",
+    "Enable edit for specific groups" : "Włącz edycję tylko dla określonych grup",
     "Use OOXML by default for new files" : "Użyj domyślnie dla nowych plików OOXML",
     "Wrong password. Please retry." : "Złe hasło. Spróbuj ponownie.",
     "Password" : "Hasło",
