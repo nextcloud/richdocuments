@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Gemmer...",
+    "All" : "Alle",
     "Download this revision" : "Hent denne revision",
     "Restore this revision" : "Gendan denne revision",
     "Latest revision" : "Seneste revision",
