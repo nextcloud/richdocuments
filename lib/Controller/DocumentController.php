@@ -142,7 +142,7 @@ class DocumentController extends Controller {
 	 * @return TemplateResponse
 	 * @throws \Exception
 	 */
-	public function publicPage($shareToken, $fileName) {
+	public function publicPage($shareToken, $fileName, $dir) {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
@@ -156,7 +156,7 @@ class DocumentController extends Controller {
 
 			$node = $share->getNode();
 			if($node instanceof Folder) {
-				$item = $node->get($fileName);
+				$item = $node->get($dir.'/'.$fileName);
 			} else {
 				$item = $node;
 			}
