@@ -9,6 +9,7 @@ OC.L10N.register(
     "Just now" : "Ką tik",
     "Failed to revert the document to older version" : "Nepavyko sugrąžinti dokumentą į senesnę versiją",
     "Save" : "Įrašyti",
+    "Loading documents…" : "Įkeliami dokumentai…",
     "Edit" : "Redaguoti",
     "New Document" : "Naujas dokumentas",
     "Could not create file" : "Nepavyko sukurti failo",
