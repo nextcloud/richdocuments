@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "All" : "Të gjitha",
     "Download this revision" : "Shkarkoje këtë rishikim",
     "Restore this revision" : "Rikthe këtë rishikim",
     "Latest revision" : "Rishikimi më i ri",
