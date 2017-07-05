@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Er að vista ...",
+    "All" : "Allt",
     "Download this revision" : "Sækja þessa útgáfu",
     "Restore this revision" : "Endurheimta þessa útgáfu",
     "Latest revision" : "Núverandi útgáfa",
@@ -28,6 +29,7 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online þjónn",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL-slóð (og gátt) Collabora Online þjónsins sem gefur út breytingaeigindi sem WOPI-biðlari.",
     "Apply" : "Virkja",
+    "Enable edit for specific groups" : "Leyfa breytingar fyrir sérstaka hópa",
     "Use OOXML by default for new files" : "Nota OOXML sjálfgefið fyrir nýjar skrár",
     "Wrong password. Please retry." : "Rangt lykilorð. Reyndu aftur.",
     "Password" : "Lykilorð",
