@@ -29,6 +29,7 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (og port) i Collabora  Online serveren, der giver redigeringsfunktionalitet som en WOPI klient.",
     "Apply" : "Anvend",
+    "Enable edit for specific groups" : "Aktivér ret for specifikke grupper",
     "Use OOXML by default for new files" : "Brug OOXML for standard for nye filer.",
     "Wrong password. Please retry." : "Forkert kodeord. Prøv igen.",
     "Password" : "Kodeord",

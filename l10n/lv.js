@@ -1,6 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Saglabā...",
+    "All" : "Visi",
     "Download this revision" : "Lejupielādēt šo pārlaboto izdevumu",
     "Restore this revision" : "Atjaunot šo versiju",
     "Latest revision" : "Pēdējā versija",
