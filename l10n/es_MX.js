@@ -35,6 +35,6 @@ OC.L10N.register(
     "Password" : "Contraseña",
     "OK" : "OK",
     "Guest %s" : "Invitado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta liga ha expirado o nunca existió. Favor de contactar a la presona que lo compartió con usted para más detalles."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta liga ha expirado o nunca existió. Por favor de contacta a la persona que lo compartió contigo para más detalles."
 },
 "nplurals=2; plural=(n != 1);");
