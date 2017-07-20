@@ -1,6 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "儲存中...",
+    "All" : "全部",
     "Save" : "儲存",
     "Edit" : "編輯",
     "Could not create file" : "無法建立檔案",
