@@ -66,11 +66,11 @@ var odfViewer = {
 		var viewer;
 		if($('#isPublic').val() === '1') {
 			viewer = OC.generateUrl(
-				'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&dir={dir}',
+				'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
 				{
 					shareToken: $('#sharingToken').val(),
 					fileName: fileName,
-					dir: fileDir,
+					fileId: fileId,
 					requesttoken: OC.requestToken
 				}
 			);
