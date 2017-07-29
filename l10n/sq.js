@@ -13,6 +13,7 @@ OC.L10N.register(
     "Loading documents…" : "Duke ngarkuar dokumentat...",
     "Edit" : "Përpunoni",
     "New Document" : "Dokument i Ri",
+    "New Spreadsheet" : "Spreadsheet i ri",
     "New Presentation" : "Prezantim i Ri",
     "Could not create file" : "Kartela s’u krijua dot",
     "New Document.odt" : "Dokument.odt i ri",
