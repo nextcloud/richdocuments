@@ -1,3 +1,7 @@
+**1.12.34**
+- Bug: Fix editing publicly shared documents
+- Bug: Delete creator/last modifier name from document templates
+
 **1.12.33**
 - Feature: Restore 'Enable edit for specific groups' feature, fixes #66
 - Feature: Only edit textfiles with Collabora Online, when texteditorapp is disabled
