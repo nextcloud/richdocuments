@@ -12,6 +12,8 @@ OC.L10N.register(
     "Loading documents…" : "Įkeliami dokumentai…",
     "Edit" : "Redaguoti",
     "New Document" : "Naujas dokumentas",
+    "New Spreadsheet" : "Nauja skaičiuoklė",
+    "New Presentation" : "Nauja pateiktis",
     "Could not create file" : "Nepavyko sukurti failo",
     "New Document.odt" : "Naujas dokumentas.odt",
     "New Spreadsheet.ods" : "Nauja skaičiuoklė.ods",
