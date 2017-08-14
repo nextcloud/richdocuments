@@ -1,6 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Salvestamine...",
+    "All" : "Kõik",
     "Just now" : "Kohe",
     "Save" : "Salvesta",
     "Edit" : "Muuda",
