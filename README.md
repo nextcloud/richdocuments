@@ -18,7 +18,7 @@ Find out more about Nextcloud and Collabora Online, and how to setup an server h
 
 In your Nextcloud, simply navigate to »Apps«, choose the category »Office & text«, find the Collabora Online app and enable it. Then open the administrator settings, navigate to the »Collabora Online« tab and specify your Collabora Online server.
 
-### Nextcloud versions
+### Nextcloud/Collabora Online relation
 
 For the latest information about the Collabora Online and Nextcloud releases, please visit the [Apps page of Collabora](https://apps.nextcloud.com/apps/richdocuments).
 
