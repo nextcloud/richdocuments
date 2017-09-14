@@ -20,7 +20,9 @@ In your Nextcloud, simply navigate to »Apps«, choose the category »Office & t
 
 ### Nextcloud/Collabora Online relation
 
-For the latest information about the Collabora Online and Nextcloud releases, please visit the [Apps page of Collabora](https://apps.nextcloud.com/apps/richdocuments).
+For the latest information about the Collabora Online and Nextcloud releases, please visit the:
+
+[Apps page of Collabora](https://apps.nextcloud.com/apps/richdocuments).
 
 ### Scripted installation (Ubuntu), Server + Nextcloud app
 The developers of the [Nextcloud VM](https://github.com/nextcloud/vm) has made a [script](https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora.sh) that you can use.
