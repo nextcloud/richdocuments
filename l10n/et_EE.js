@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving…" : "Salvestamine...",
     "All" : "Kõik",
+    "More versions…" : "Rohkem versioone...",
     "Just now" : "Kohe",
     "Save" : "Salvesta",
     "Edit" : "Muuda",
