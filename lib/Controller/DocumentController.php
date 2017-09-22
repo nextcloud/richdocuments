@@ -94,7 +94,7 @@ class DocumentController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 *
+	 * @NoCSRFRequired
 	 * @param string $fileId
 	 * @return TemplateResponse
 	 */
