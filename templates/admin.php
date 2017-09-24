@@ -15,4 +15,16 @@ script('richdocuments', 'admin');
 	<br/>
     <input type="checkbox" class="doc-format-ooxml" id="doc_format_ooxml_enable-richdocuments" <?php p($_['doc_format'] === 'ooxml' ? 'checked' : '') ?> />
     <label for="doc_format_ooxml_enable-richdocuments"><?php p($l->t('Use OOXML by default for new files')) ?></label>
+	<br/>
+	<input type="checkbox" id="enable_external_apps_cb-richdocuments" <?php p($_['external_apps'] !== '' ? 'checked' : '') ?> />
+    <label for="enable_external_apps_cb-richdocuments"><?php p($l->t('Enable access for external apps')) ?></label>
+	<div id="enable-external-apps-section" class="indent <?php if ($_['external_apps'] == '') p('hidden') ?>" >
+	    <div id="external-apps-section">
+	       <input type="hidden" id="external-apps-raw" name="external-apps-raw" value="<?php p($_['external_apps']) ?>">
+	    </div>
+
+	    <button type="button" id="external-apps-save-button"><?php p($l->t('Save')) ?></button>
+	    <button type="button" id="external-apps-add-button"><?php p($l->t('Add')) ?></button>
+	    <span id="enable-external-apps-section-msg" class="msg"></span>
+	</div>
 </div>

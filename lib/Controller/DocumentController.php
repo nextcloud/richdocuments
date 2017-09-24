@@ -93,6 +93,66 @@ class DocumentController extends Controller {
 	}
 
 	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * Returns the access_token and urlsrc for WOPI access for given $fileId
+	 * Requests is accepted only when a secret_token is provided set by admin in
+	 * settings page
+	 *
+	 * @param string $fileId
+	 * @return access_token, urlsrc
+	 */
+	public function extAppGetData($fileId) {
+		$secretToken = $this->request->getParam('secret_token');
+		$apps = array_filter(explode(',', $this->appConfig->getAppValue('external_apps')));
+		foreach($apps as $app) {
+			if ($app !== '') {
+				if ($secretToken === $app) {
+					$appName = explode(':', $app);
+					\OC::$server->getLogger()->debug('External app "{extApp}" authenticated; issuing access token for fileId {fileId}', [
+						'app' => $this->appName,
+						'extApp' => $appName[0],
+						'fileId' => $fileId
+					]);
+					try {
+						$folder = $this->rootFolder->getUserFolder($this->uid);
+						$item = $folder->getById($fileId)[0];
+						if(!($item instanceof Node)) {
+							throw new \Exception();
+						}
+						list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
+						return array(
+							'status' => 'success',
+							'urlsrc' => $urlSrc,
+							'token' => $token
+						);
+					} catch (\Exception $e) {
+						$this->logger->logException($e, ['app'=>'richdocuments']);
+						$params = [
+							'remoteAddr' => $this->request->getRemoteAddress(),
+							'requestID' => $this->request->getId(),
+							'debugMode' => $this->settings->getSystemValue('debug'),
+							'errorClass' => get_class($e),
+							'errorCode' => $e->getCode(),
+							'errorMsg' => $e->getMessage(),
+							'file' => $e->getFile(),
+							'line' => $e->getLine(),
+							'trace' => $e->getTraceAsString()
+						];
+						return new TemplateResponse('core', 'exception', $params, 'guest');
+					}
+				}
+			}
+
+			return array(
+				'status' => 'error',
+				'message' => 'Permission denied'
+			);
+		}
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $fileId
