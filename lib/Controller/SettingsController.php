@@ -66,7 +66,8 @@ class SettingsController extends Controller{
 	 */
 	public function setSettings($wopi_url,
 								$edit_groups,
-								$doc_format){
+	                            $doc_format,
+	                            $external_apps){
 		$message = $this->l10n->t('Saved');
 
 		if ($wopi_url !== null){
@@ -84,6 +85,10 @@ class SettingsController extends Controller{
 
 		if ($doc_format !== null) {
 			$this->appConfig->setAppValue('doc_format', $doc_format);
+		}
+
+		if ($external_apps !== null) {
+			$this->appConfig->setAppValue('external_apps', $external_apps);
 		}
 
 		$this->discoveryManager->refretch();
