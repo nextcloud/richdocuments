@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Opslaan...",
+    "Saving..." : "Opslaan…",
     "All" : "Alle",
     "Download this revision" : "Download deze revisie",
     "Restore this revision" : "Herstel deze revisie",
@@ -31,6 +32,8 @@ OC.L10N.register(
     "Apply" : "Toepassen",
     "Enable edit for specific groups" : "Schakel bewerken in voor bepaalde groepen",
     "Use OOXML by default for new files" : "Gebruik standaard OOXML voor nieuwe bestanden",
+    "Enable access for external apps" : "Toegang vanuit externe apps toestaan",
+    "Add" : "Toevoegen",
     "Wrong password. Please retry." : "Onjuist wachtwoord. Probeer opnieuw.",
     "Password" : "Wachtwoord",
     "OK" : "OK",
