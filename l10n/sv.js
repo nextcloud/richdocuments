@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Sparar...",
+    "Saving..." : "Sparar...",
     "All" : "Alla",
     "Download this revision" : "Ladda ned denna granskning",
     "Restore this revision" : "Återställ denna granskning",
@@ -31,6 +32,8 @@ OC.L10N.register(
     "Apply" : "Tillämpa",
     "Enable edit for specific groups" : "Aktivera ändring för specifika grupper",
     "Use OOXML by default for new files" : "Använd OOXML som standard för nya filer",
+    "Enable access for external apps" : "Aktivera åtkomst för externa appar",
+    "Add" : "Lägg till",
     "Wrong password. Please retry." : "Fel lösenord. Försök igen.",
     "Password" : "Lösenord",
     "OK" : "OK",

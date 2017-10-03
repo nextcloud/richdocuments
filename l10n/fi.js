@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Tallennetaan...",
+    "Saving..." : "Tallennetaan...",
     "All" : "Kaikki",
     "Download this revision" : "Lataa tämä versio",
     "Restore this revision" : "Palauta tähän versioon",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Apply" : "Toteuta",
     "Enable edit for specific groups" : "Salli muokkaus tietyille ryhmille",
     "Use OOXML by default for new files" : "Käytä OOXML:ää oletuksena uusille tiedostoille",
+    "Add" : "Lisää",
     "Wrong password. Please retry." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",
     "OK" : "OK",
