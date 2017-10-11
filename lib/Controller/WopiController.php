@@ -31,12 +31,15 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\AppFramework\Http\StreamResponse;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -45,14 +48,17 @@ class WopiController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IRootFolder $rootFolder
+	 * @param IURLGenerator $urlGenerator
 	 * @param string $UserId
 	 */
 	public function __construct($appName,
 								$UserId,
 								IRequest $request,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder,
+								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -96,6 +102,9 @@ class WopiController extends Controller {
 				'UserId' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
 				'OwnerId' => $res['owner'],
 				'UserFriendlyName' => $res['editor'] !== '' ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
+				'UserExtraInfo' => [
+					'avatar' => $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $res['editor'], 'size' => 512]),
+				],
 				'UserCanWrite' => $res['canwrite'] ? true : false,
 				'PostMessageOrigin' => $res['server_host'],
 				'LastModifiedTime' => Helper::toISO8601($file->getMtime())
