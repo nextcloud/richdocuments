@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Shranjevanje...",
     "Download this revision" : "Prejmi predelavo",
     "Restore this revision" : "Obnovi predelavo",
     "Latest revision" : "Najnovejša predelava",
