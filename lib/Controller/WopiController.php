@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016-2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,35 +24,51 @@ namespace OCA\Richdocuments\Controller;
 use OC\Files\View;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Helper;
-use OCA\Richdocuments\WOPI\Parser;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IRequest;
-use OCP\IUserManager;
+use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
+use OCP\IUserManager;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var IConfig */
+	private $config;
+	/** @var IUserManager */
+	private $userManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
 
 	/**
 	 * @param string $appName
+	 * @param string $UserId
 	 * @param IRequest $request
 	 * @param IRootFolder $rootFolder
-	 * @param string $UserId
+	 * @param IURLGenerator $urlGenerator
+	 * @param IConfig $config
+	 * @param IUserManager $userManager
 	 */
 	public function __construct($appName,
 								$UserId,
 								IRequest $request,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder,
+								IURLGenerator $urlGenerator,
+								IConfig $config,
+								IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
+		$this->urlGenerator = $urlGenerator;
+		$this->config = $config;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -88,19 +104,31 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		return new JSONResponse(
-			[
-				'BaseFileName' => $file->getName(),
-				'Size' => $file->getSize(),
-				'Version' => $version,
-				'UserId' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
-				'OwnerId' => $res['owner'],
-				'UserFriendlyName' => $res['editor'] !== '' ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
-				'UserCanWrite' => $res['canwrite'] ? true : false,
-				'PostMessageOrigin' => $res['server_host'],
-				'LastModifiedTime' => Helper::toISO8601($file->getMtime())
-			]
-		);
+		$response = [
+			'BaseFileName' => $file->getName(),
+			'Size' => $file->getSize(),
+			'Version' => $version,
+			'UserId' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
+			'OwnerId' => $res['owner'],
+			'UserFriendlyName' => $res['editor'] !== '' ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
+			'UserExtraInfo' => [
+			],
+			'UserCanWrite' => $res['canwrite'] ? true : false,
+			'PostMessageOrigin' => $res['server_host'],
+			'LastModifiedTime' => Helper::toISO8601($file->getMtime())
+		];
+
+		$serverVersion = $this->config->getSystemValue('version');
+		if (version_compare($serverVersion, '13', '>=')) {
+			$user = $this->userManager->get($res['editor']);
+			if($user !== null) {
+				if($user->getAvatarImage(32) !== null) {
+					$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $res['editor'], 'size' => 32]);
+				}
+			}
+		}
+
+		return new JSONResponse($response);
 	}
 
 	/**
