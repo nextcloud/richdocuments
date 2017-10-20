@@ -353,13 +353,25 @@ var documentsMain = {
 					}
 
 					try {
-						var msg = JSON.parse(e.data).MessageId;
+						var msg = JSON.parse(e.data);
+						var msgId = msg.MessageId;
+						var args = msg.Values;
+						var deprecated = !!args.Deprecated;
 					} catch(exc) {
-						msg = e.data;
+						msgId = e.data;
 					}
-					if (msg === 'UI_Close' || msg === 'close') {
+
+					if (msgId === 'UI_Close' || msgId === 'close' /* deprecated */) {
+						// If a postmesage API is deprecated, we must ignore it and wait for the standard postmessage
+						// (or it might already have been fired)
+						if (deprecated)
+							return;
+
 						documentsMain.onClose();
-					} else if (msg === 'rev-history') {
+					} else if (msgId === 'UI_FileVersions' || msgId === 'rev-history' /* deprecated */) {
+						if (deprecated)
+							return;
+
 						documentsMain.UI.showRevHistory(documentsMain.fullPath);
 					}
 				});
