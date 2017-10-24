@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Mentés...",
+    "Saving..." : "Mentés...",
     "All" : "Mind",
     "Download this revision" : "Jelen verzió letöltése",
     "Restore this revision" : "Jelen verzió visszaállítása",
