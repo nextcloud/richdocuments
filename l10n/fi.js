@@ -32,6 +32,7 @@ OC.L10N.register(
     "Apply" : "Toteuta",
     "Enable edit for specific groups" : "Salli muokkaus tietyille ryhmille",
     "Use OOXML by default for new files" : "Käytä OOXML:ää oletuksena uusille tiedostoille",
+    "Enable access for external apps" : "Salli pääsy ulkoisten sovellusten osalta",
     "Add" : "Lisää",
     "Wrong password. Please retry." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",
