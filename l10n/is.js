@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Er að vista ...",
+    "Saving..." : "Er að vista ...",
     "All" : "Allt",
     "Download this revision" : "Sækja þessa útgáfu",
     "Restore this revision" : "Endurheimta þessa útgáfu",
@@ -31,6 +32,8 @@ OC.L10N.register(
     "Apply" : "Virkja",
     "Enable edit for specific groups" : "Leyfa breytingar fyrir sérstaka hópa",
     "Use OOXML by default for new files" : "Nota OOXML sjálfgefið fyrir nýjar skrár",
+    "Enable access for external apps" : "Virkja fyrir utanaðkomandi forrit",
+    "Add" : "Bæta við",
     "Wrong password. Please retry." : "Rangt lykilorð. Reyndu aftur.",
     "Password" : "Lykilorð",
     "OK" : "Í lagi",
