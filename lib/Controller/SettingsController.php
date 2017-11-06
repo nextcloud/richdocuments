@@ -53,6 +53,7 @@ class SettingsController extends Controller{
 	public function getSettings() {
 		return new JSONResponse([
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
 		]);
@@ -61,11 +62,13 @@ class SettingsController extends Controller{
 	/**
 	 * @param string $wopi_url
 	 * @param string $edit_groups
+	 * @param string $use_groups
 	 * @param string $doc_format
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
 								$edit_groups,
+	                            $use_groups,
 	                            $doc_format,
 	                            $external_apps){
 		$message = $this->l10n->t('Saved');
@@ -81,6 +84,10 @@ class SettingsController extends Controller{
 
 		if ($edit_groups !== null){
 			$this->appConfig->setAppValue('edit_groups', $edit_groups);
+		}
+
+		if ($use_groups !== null){
+			$this->appConfig->setAppValue('use_groups', $use_groups);
 		}
 
 		if ($doc_format !== null) {

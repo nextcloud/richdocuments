@@ -23,6 +23,16 @@
 namespace OCA\Richdocuments\AppInfo;
 
 use OC\Security\CSP\ContentSecurityPolicy;
+use OCA\Richdocuments\PermissionManager;
+
+$currentUser = \OC::$server->getUserSession()->getUser();
+if($currentUser !== null) {
+	/** @var PermissionManager $permissionManager */
+	$permissionManager = \OC::$server->query(PermissionManager::class);
+	if(!$permissionManager->isEnabledForUser($currentUser)) {
+		return;
+	}
+}
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
