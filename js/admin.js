@@ -40,15 +40,11 @@ var documentsSettings = {
 		);
 	},
 
-	saveGroups: function(groups) {
-		var data = {
-			'edit_groups': groups
-		};
-
+	saveGroups: function(data) {
 		$.post(
 			OC.filePath('richdocuments', 'ajax', 'admin.php'),
 			data
-			);
+		);
 	},
 
 	saveDocFormat: function(format) {
@@ -80,14 +76,23 @@ var documentsSettings = {
 		OC.msg.finishedAction('#enable-external-apps-section-msg', response);
 	},
 
-	initEditGroups: function() {
-		var groups = $('#edit_group_select').val();
+	initGroups: function() {
+		var selectorPrefixes = [
+			'edit',
+			'use'
+		];
+
+		for (i = 0; i < selectorPrefixes.length; i++) {
+			var selectorPrefix = selectorPrefixes[i];
+
+			var groups = $('#' + selectorPrefix + '_group_select').val();
 			if (groups !== '') {
-				OC.Settings.setupGroupsSelect($('#edit_group_select'));
-					$('.edit-groups-enable').attr('checked', 'checked');
+				OC.Settings.setupGroupsSelect($('#' + selectorPrefix + '_group_select'));
+				$('.' + selectorPrefix + '-groups-enable').attr('checked', 'checked');
 			} else {
-				$('.edit-groups-enable').attr('checked', null);
+				$('.' + selectorPrefix + '-groups-enable').attr('checked', null);
 			}
+		}
 	},
 
 	initExternalApps: function() {
@@ -106,7 +111,7 @@ var documentsSettings = {
 	},
 
 	initialize: function() {
-		documentsSettings.initEditGroups();
+		documentsSettings.initGroups();
 		documentsSettings.initExternalApps();
 
 		$('#wopi_apply').on('click', documentsSettings.save);
@@ -189,7 +194,7 @@ var documentsSettings = {
 		$(document).on('change', '#edit_group_select', function() {
 			var element = $(this).parent().find('input.edit-groups-enable');
 			var groups = $(this).val();
-				documentsSettings.saveGroups(groups);
+				documentsSettings.saveGroups({edit_groups: groups});
 		});
 
 		$(document).on('change', '.edit-groups-enable', function() {
@@ -199,6 +204,27 @@ var documentsSettings = {
 			if (this.checked) {
 				OC.Settings.setupGroupsSelect($select, {
 				placeholder: t('core', 'All')
+				});
+			} else {
+				$select.select2('destroy');
+			}
+
+			$select.change();
+		});
+
+		$(document).on('change', '#use_group_select', function() {
+			var element = $(this).parent().find('input.use-groups-enable');
+			var groups = $(this).val();
+			documentsSettings.saveGroups({use_groups: groups});
+		});
+
+		$(document).on('change', '.use-groups-enable', function() {
+			var $select = $(this).parent().find('#use_group_select');
+			$select.val('');
+
+			if (this.checked) {
+				OC.Settings.setupGroupsSelect($select, {
+					placeholder: t('core', 'All')
 				});
 			} else {
 				$select.select2('destroy');
