@@ -28,7 +28,6 @@
     "Collabora Online server" : "Serveur Collabora en ligne",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Adresse (et port) du serveur Collabora en ligne qui fourni la fonctionnalité d'édition comme un client WOPI.",
     "Apply" : "Appliquer",
-    "Enable edit for specific groups" : "Activer les modifications pour certains groupes",
     "Use OOXML by default for new files" : "Utiliser le format OOXML par défaut pour les nouveaux fichiers",
     "Enable access for external apps" : "Activer l'accès depuis des applications externes",
     "Add" : "Ajouter",

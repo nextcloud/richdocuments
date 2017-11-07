@@ -30,7 +30,6 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online сервер",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Адреса (и порт) Collabora Online сервера који омогућава функционалност измене као WOPI клијент.",
     "Apply" : "Примени",
-    "Enable edit for specific groups" : "Дозволи измењивање за одређене групе",
     "Use OOXML by default for new files" : "Користи OOXML као подразумевани за нове фајлове",
     "Enable access for external apps" : "Дозволи приступ за спољне апликације",
     "Add" : "Додај",

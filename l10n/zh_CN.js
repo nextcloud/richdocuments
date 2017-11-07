@@ -29,7 +29,6 @@ OC.L10N.register(
     "Collabora Online server" : "在线协作服务器",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "类WOPI客户端提供编辑功能在线协作服务器的网址URL (端口) ",
     "Apply" : "应用",
-    "Enable edit for specific groups" : "为特定组群开启编辑功能",
     "Use OOXML by default for new files" : "为新文件默认使用面向对象XML",
     "Wrong password. Please retry." : "密码错误，请重新尝试。",
     "Password" : "密码",

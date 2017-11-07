@@ -30,7 +30,6 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online Server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (und Port) des Collabora Online Servers, der als WOPI-Client die Bearbeitungsfunktionalität bereitstellt.",
     "Apply" : "Anwenden",
-    "Enable edit for specific groups" : "Bearbeitung für bestimmte Gruppen aktivieren",
     "Use OOXML by default for new files" : "OOXML als Standard für neue Dateien nutzen",
     "Enable access for external apps" : "Zugriff auf experimentelle Apps aktivieren",
     "Add" : "Hinzufügen",

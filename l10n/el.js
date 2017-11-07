@@ -30,7 +30,6 @@ OC.L10N.register(
     "Collabora Online server" : "Διακομιστής Collabora Online",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Η URL (και η θύρα) του διακομιστή Collabora Online που παρέχει την δυνατότητα επεξεργασίας ως πελάτης WOPI.",
     "Apply" : "Εφαρμογή",
-    "Enable edit for specific groups" : "Ενεργοποίηση επεξεργασίας για καθορισμένες ομάδες",
     "Use OOXML by default for new files" : "Χρήση OOXML από προεπιλογή για τα νέα αρχεία",
     "Wrong password. Please retry." : "Εσφαλμένο συνθηματικό. Παρακαλώ προσπαθήστε ξανά.",
     "Password" : "Συνθηματικό",

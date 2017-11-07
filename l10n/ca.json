@@ -28,7 +28,6 @@
     "Collabora Online server" : "servidor en línia",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Servidor URL (i port) que proporciona la funcionalitat d'edició com a client WOPI.",
     "Apply" : "Aplica",
-    "Enable edit for specific groups" : "Habilita l'edició per a grups específics",
     "Use OOXML by default for new files" : "Utilitzeu XML per defecte per a fitxers nous",
     "Enable access for external apps" : "Activa l'accés a les aplicacions externes",
     "Add" : "Add",

@@ -28,7 +28,6 @@
     "Collabora Online server" : "Collabora Online -palvelin",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL-osoite (ja portti) Collabora Online -palvelimelle, joka tarjoaa mukkaustoiminnot WOPI-asiakkaana.",
     "Apply" : "Toteuta",
-    "Enable edit for specific groups" : "Salli muokkaus tietyille ryhmille",
     "Use OOXML by default for new files" : "Käytä OOXML:ää oletuksena uusille tiedostoille",
     "Enable access for external apps" : "Salli pääsy ulkoisten sovellusten osalta",
     "Add" : "Lisää",

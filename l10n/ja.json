@@ -28,7 +28,6 @@
     "Collabora Online server" : "コラボラ オンライン サーバー",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "WOPI クライアントで編集できる機能を提供するコラボラ オンライン サーバーのURL(とポート)",
     "Apply" : "適用",
-    "Enable edit for specific groups" : "特定のグループの編集を有効にする",
     "Use OOXML by default for new files" : "新しいファイルでは、デフォルトでOOXMLを使用する",
     "Wrong password. Please retry." : "パスワードが間違っています。もう一度入力してください。",
     "Password" : "パスワード",
