@@ -30,6 +30,8 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online kiszolgáló",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "A Collabora Online kiszolgáló URL-je (és portja), amely WOPI-ügyfélként lehetővé teszi a szerkesztés funkciót.",
     "Apply" : "Alkalmaz",
+    "Restrict usage to specific groups" : "Használat korlátozása csoportra",
+    "Restrict edit to specific groups" : "Szerkesztés korlátozása csoportra",
     "Use OOXML by default for new files" : "OOXML használata alapértelmezettként az új fájlokhoz",
     "Enable access for external apps" : "Külső alkalmazások hozzáférésének engedélyezése",
     "Add" : "Hozzáadás",
