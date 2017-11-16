@@ -373,6 +373,26 @@ var documentsMain = {
 							return;
 
 						documentsMain.UI.showRevHistory(documentsMain.fullPath);
+					} else if (msgId === 'UI_SaveAs') {
+						// TODO it's not possible to enter the
+						// filename into the OC.dialogs.filepicker; so
+						// it will be necessary to use an own tree
+						// view or something :-(
+						//OC.dialogs.filepicker(t('richdocuments', 'Save As'),
+						//      function(val) {
+						//              console.log(val);
+						//              documentsMain.WOPIPostMessage($('#loleafletframe')[0], Action_SaveAs', {'Filename': val});
+						//      }, false, null, true);
+						OC.dialogs.prompt(t('richdocuments', 'Please enter filename to which this document should be stored.'),
+						                  t('richdocuments', 'Save As'),
+						                  function(result, value) {
+							                  if (result === true) {
+								                  documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_SaveAs', {'Filename': value});
+							                  }
+						                  },
+						                  true,
+						                  t('richdocuments', 'New filename'),
+						                  false);
 					}
 				});
 
