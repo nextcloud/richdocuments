@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OC\Files\View;
+use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Controller;
@@ -42,6 +43,8 @@ class WopiController extends Controller {
 	private $urlGenerator;
 	/** @var IConfig */
 	private $config;
+	/** @var ITokenManager */
+	private $tokenManager;
 	/** @var IUserManager */
 	private $userManager;
 
@@ -55,6 +58,7 @@ class WopiController extends Controller {
 	 * @param IRootFolder $rootFolder
 	 * @param IURLGenerator $urlGenerator
 	 * @param IConfig $config
+	 * @param ITokenManager $tokenManager
 	 * @param IUserManager $userManager
 	 */
 	public function __construct($appName,
@@ -63,11 +67,13 @@ class WopiController extends Controller {
 								IRootFolder $rootFolder,
 								IURLGenerator $urlGenerator,
 								IConfig $config,
+								TokenManager $tokenManager,
 								IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
+		$this->tokenManager = $tokenManager;
 		$this->userManager = $userManager;
 	}
 
@@ -114,6 +120,7 @@ class WopiController extends Controller {
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $res['canwrite'] ? true : false,
+			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : false,
 			'PostMessageOrigin' => $res['server_host'],
 			'LastModifiedTime' => Helper::toISO8601($file->getMtime())
 		];
@@ -192,6 +199,7 @@ class WopiController extends Controller {
 	public function putFile($fileId,
 							$access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
+		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
 		$row = new Wopi();
 		$row->loadBy('token', $access_token);
@@ -201,21 +209,55 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-
-
 		try {
 			/** @var File $file */
 			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
 			$file = $userFolder->getById($fileId)[0];
 
-			$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
-			if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
-				\OC::$server->getLogger()->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
-					'headerTime' => $wopiHeaderTime,
-					'storageTime' => Helper::toISO8601($file->getMtime())
-				]);
-				// Tell WOPI client about this conflict.
-				return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+			if ($isPutRelative) {
+				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
+				$suggested = iconv('utf-7', 'utf-8', $suggested);
+
+				$path = '';
+				if ($suggested[0] === '.') {
+					$path = dirname($file->getPath()) . '/New File' . $suggested;
+				}
+				else if ($suggested[0] !== '/') {
+					$path = dirname($file->getPath()) . '/' . $suggested;
+				}
+				else {
+					$path = $userFolder->getPath() . $suggested;
+				}
+
+				if ($path === '') {
+					return array(
+						'status' => 'error',
+						'message' => 'Cannot create the file'
+					);
+				}
+
+				$root = \OC::$server->getRootFolder();
+
+				// create the folder first
+				if (!$root->nodeExists(dirname($path))) {
+					$root->newFolder(dirname($path));
+				}
+
+				// create a unique new file
+				$path = $root->getNonExistingName($path);
+				$root->newFile($path);
+				$file = $root->get($path);
+			}
+			else {
+				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
+				if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
+					\OC::$server->getLogger()->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
+						'headerTime' => $wopiHeaderTime,
+						'storageTime' => Helper::toISO8601($file->getMtime())
+					]);
+					// Tell WOPI client about this conflict.
+					return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+				}
 			}
 
 			$content = fopen('php://input', 'rb');
@@ -230,9 +272,41 @@ class WopiController extends Controller {
 			}
 
 			$file->putContent($content);
-			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMtime())]);
+
+			if ($isPutRelative) {
+				// generate a token for the new file (the user still has to be
+				// logged in)
+				$serverHost = $this->request->getServerProtocol() . '://' . $this->request->getServerHost();
+				list(, $wopiToken) = $this->tokenManager->getToken($file->getId());
+
+				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
+				$url = \OC::$server->getURLGenerator()->getAbsoluteURL($wopi);
+
+				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+			}
+			else {
+				return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMtime())]);
+			}
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * Given an access token and a fileId, replaces the files with the request body.
+	 * Expects a valid token in access_token parameter.
+	 * Just actually routes to the PutFile, the implementation of PutFile
+	 * handles both saving and saving as.* Given an access token and a fileId, replaces the files with the request body.
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $fileId
+	 * @param string $access_token
+	 * @return JSONResponse
+	 */
+	public function putRelativeFile($fileId,
+					$access_token) {
+		return $this->putFile($fileId, $access_token);
 	}
 }

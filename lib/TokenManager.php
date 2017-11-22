@@ -76,7 +76,7 @@ class TokenManager {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
 			$owneruid = $share->getShareOwner();
-		} else {
+		} else if (!is_null($this->userId)) {
 			try {
 				/** @var File $file */
 				$rootFolder = $this->rootFolder->getUserFolder($this->userId);
@@ -100,6 +100,11 @@ class TokenManager {
 			} catch (\Exception $e) {
 				throw $e;
 			}
+		} else {
+			// no active user login while generating the token
+			// this is required during WopiPutRelativeFile
+			$rootFolder = $this->rootFolder;
+			$updatable = true;
 		}
 		/** @var File $file */
 		$file = $rootFolder->getById($fileId)[0];
