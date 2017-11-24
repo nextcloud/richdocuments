@@ -10,6 +10,8 @@ OC.L10N.register(
     "More versions…" : "Flere versjoner...",
     "Just now" : "Akkurat nå",
     "Failed to revert the document to older version" : "Klarte ikke å gå tilbeke til eldre versjon av dokumentet",
+    "Save As" : "Lagre som",
+    "New filename" : "Nytt filnavn",
     "Save" : "Lagre",
     "Loading documents…" : "Laster dokumenter...",
     "Edit" : "Rediger",

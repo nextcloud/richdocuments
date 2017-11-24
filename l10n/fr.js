@@ -10,6 +10,8 @@ OC.L10N.register(
     "More versions…" : "Plus de versions...",
     "Just now" : "À l'instant",
     "Failed to revert the document to older version" : "Impossible de restaurer le fichier à son ancienne version",
+    "Save As" : "Enregistrer sous",
+    "New filename" : "Nouveau nom de fichier",
     "Save" : "Enregistrer",
     "Loading documents…" : "Chargement des documents...",
     "Edit" : "Éditer",
