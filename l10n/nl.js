@@ -10,6 +10,8 @@ OC.L10N.register(
     "More versions…" : "Meer versies...",
     "Just now" : "Zopas",
     "Failed to revert the document to older version" : "Kon het document niet terugdraaien naar een vorige versie",
+    "Save As" : "Opslaan als",
+    "New filename" : "Nieuwe bestandsnaam",
     "Save" : "Opslaan",
     "Loading documents…" : "Documenten laden...",
     "Edit" : "Bewerk",
