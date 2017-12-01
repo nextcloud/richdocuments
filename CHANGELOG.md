@@ -1,3 +1,18 @@
+**1.12.38 and 1.12.39**
+- Bug: fix z-index issue on Nextcloud 13 beta
+
+**1.12.37**
+- Feature: Add support for PutRelativeFile for Save As.
+
+**1.12.36**
+- Feature: Add avatar to UserExtraInfo (from NC 13)
+- Feature: Start listening for standard post messages and ignore deprecated ones
+- Feature: Add option to enable the app only for users in a specific group
+- Updated translations
+
+**1.12.35**
+- Feature: Support for external apps. External apps can now generate a secret token to access richdocuments public API.
+
 **1.12.34**
 - Bug: Fix editing publicly shared documents
 - Bug: Delete creator/last modifier name from document templates
