@@ -10,6 +10,8 @@ OC.L10N.register(
     "More versions…" : "Viac verzií...",
     "Just now" : "Práve teraz",
     "Failed to revert the document to older version" : "Nepodarilo sa obnoviť staršiu verziu dokumentu",
+    "Save As" : "Uložiť ako",
+    "New filename" : "Nový názov súboru",
     "Save" : "Uložiť",
     "Loading documents…" : "Načítavanie dokumentov...",
     "Edit" : "Upraviť",
