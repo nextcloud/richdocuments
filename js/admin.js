@@ -64,7 +64,7 @@ var documentsSettings = {
 			'external_apps': externalAppsData
 		};
 
-		OC.msg.startAction('#enable-external-apps-section-msg', t('richdocuments', 'Saving...'));
+		OC.msg.startAction('#enable-external-apps-section-msg', t('richdocuments', 'Saving…'));
 		$.post(
 			OC.filePath('richdocuments', 'ajax', 'admin.php'),
 			data,
