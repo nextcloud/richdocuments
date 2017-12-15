@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "保存中...",
-    "Saving..." : "保存中...",
     "All" : "すべて",
     "Download this revision" : "このリビジョンをダウンロード",
     "Restore this revision" : "このリビジョンを復元",

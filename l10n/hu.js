@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Mentés...",
-    "Saving..." : "Mentés...",
     "All" : "Mind",
     "Download this revision" : "Jelen verzió letöltése",
     "Restore this revision" : "Jelen verzió visszaállítása",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "További változatok...",
     "Just now" : "Épp most",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",
-    "Please enter filename to which this document should be stored." : "Kérlek adj meg egy fájlnevet a mentéshez.",
     "Save As" : "Mentés másként",
     "New filename" : "Új fájlnév",
     "Save" : "Mentés",

@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Gemmer...",
-    "Saving..." : "Gemmer...",
     "All" : "Alle",
     "Download this revision" : "Hent denne revision",
     "Restore this revision" : "Gendan denne revision",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "Flere versioner...",
     "Just now" : "Lige nu",
     "Failed to revert the document to older version" : "Det lykkedes ikke at gendanne dokumentet, til en ældre version",
-    "Please enter filename to which this document should be stored." : "Indtast venligst et filnavn som dokumentet skal gemmes under.",
     "Save As" : "Gem som",
     "New filename" : "Nyt filnavn",
     "Save" : "Gem",

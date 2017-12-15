@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Ukládání…",
-    "Saving..." : "Ukládání...",
     "All" : "Vše",
     "Download this revision" : "Stáhnout tuto revizi",
     "Restore this revision" : "Obnovit tuto revizi",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "Více verzí…",
     "Just now" : "Právě teď",
     "Failed to revert the document to older version" : "Nepodařilo se obnovit starší verzi dokumentu",
-    "Please enter filename to which this document should be stored." : "Prosím, zadejte jméno, pod kterým má být dokument uložen.",
     "Save As" : "Uložit jako",
     "New filename" : "Jméno souboru",
     "Save" : "Uložit",

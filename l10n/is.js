@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Er að vista ...",
-    "Saving..." : "Er að vista ...",
     "All" : "Allt",
     "Download this revision" : "Sækja þessa útgáfu",
     "Restore this revision" : "Endurheimta þessa útgáfu",
@@ -10,6 +9,8 @@ OC.L10N.register(
     "More versions…" : "Fleiri útgáfur…",
     "Just now" : "Í þessum töluðu orðum",
     "Failed to revert the document to older version" : "Mistókst að endurheimta skjalið sem eldri útgáfu",
+    "Save As" : "Vista sem",
+    "New filename" : "Nýtt skráarheiti",
     "Save" : "Vista",
     "Loading documents…" : "Hleð inn skjölum...",
     "Edit" : "Breyta",

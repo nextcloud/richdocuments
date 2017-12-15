@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Saving…",
-    "Saving..." : "Saving...",
     "All" : "All",
     "Download this revision" : "Download this revision",
     "Restore this revision" : "Restore this revision",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "More versions…",
     "Just now" : "Just now",
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
-    "Please enter filename to which this document should be stored." : "Please enter filename to which this document should be stored.",
     "Save As" : "Save As",
     "New filename" : "New filename",
     "Save" : "Save",

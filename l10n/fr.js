@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Enregistrement…",
-    "Saving..." : "Enregistrement en cours…",
     "All" : "Tout",
     "Download this revision" : "Télécharger cette révision",
     "Restore this revision" : "Restaurer cette révision",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "Plus de versions...",
     "Just now" : "À l'instant",
     "Failed to revert the document to older version" : "Impossible de restaurer le fichier à son ancienne version",
-    "Please enter filename to which this document should be stored." : "Merci de saisir le nom de fichier dans lequel ce document doit être enregistré.",
     "Save As" : "Enregistrer sous",
     "New filename" : "Nouveau nom de fichier",
     "Save" : "Enregistrer",

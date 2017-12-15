@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Kaydediliyor...",
-    "Saving..." : "Kaydediliyor...",
     "All" : "Tümü",
     "Download this revision" : "Bu sürümü indir",
     "Restore this revision" : "Bu sürümü geri yükle",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "Diğer sürümler...",
     "Just now" : "Şimdi",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
-    "Please enter filename to which this document should be stored." : "Bu belgenin kaydedilmesi için bir dosya adı yazın.",
     "Save As" : "Farklı Kaydet",
     "New filename" : "Yeni dosya adı",
     "Save" : "Kaydet",

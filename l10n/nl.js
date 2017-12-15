@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Opslaan...",
-    "Saving..." : "Opslaan…",
     "All" : "Alle",
     "Download this revision" : "Download deze revisie",
     "Restore this revision" : "Herstel deze revisie",

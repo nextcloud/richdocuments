@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Ukladanie...",
-    "Saving..." : "Ukladanie...",
     "All" : "Všetko",
     "Download this revision" : "Stiahnúť túto revíziu",
     "Restore this revision" : "Obnoviť túto revíziu",

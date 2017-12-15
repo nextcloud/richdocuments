@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Lagrer…",
-    "Saving..." : "Lagrer",
     "All" : "Alle",
     "Download this revision" : "Last ned denne versjonen",
     "Restore this revision" : "Gjenopprett denne versjonen",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "Flere versjoner…",
     "Just now" : "Akkurat nå",
     "Failed to revert the document to older version" : "Klarte ikke å gå tilbeke til eldre versjon av dokumentet",
-    "Please enter filename to which this document should be stored." : "Oppgi et filnavn du ønsker å lagre dokumentet som.",
     "Save As" : "Lagre som",
     "New filename" : "Nytt filnavn",
     "Save" : "Lagre",

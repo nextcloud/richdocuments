@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "S'està desant ...",
-    "Saving..." : "Desant...",
     "All" : "Tots",
     "Download this revision" : "Baixa aquesta revisió",
     "Restore this revision" : "Restaura aquesta revisió",

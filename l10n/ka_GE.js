@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "მიმდინარეობს შენახვა…",
-    "Saving..." : "მიმდინარეობს შენახვა…",
     "All" : "ყველა",
     "Download this revision" : "ამ რევიზიის ჩამოტვირთვა",
     "Restore this revision" : "ამ რევიზიის აღდგენა",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "More versions…" : "მეტი ვერსია…",
     "Just now" : "ამ წამს",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
-    "Please enter filename to which this document should be stored." : "შეიყვანეთ ფაილის სახელი რომლითაც უნდა დამახსოვრდეს ეს დოკუმენტი.",
     "Save As" : "შენახვა როგორც",
     "New filename" : "ახალი ფაილის სახელი",
     "Save" : "შენახვა",
