@@ -9,6 +9,7 @@ OC.L10N.register(
     "More versions…" : "More versions…",
     "Just now" : "Just now",
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
+    "Please enter the filename to store the document as." : "Please enter the filename to store the document as.",
     "Save As" : "Save As",
     "New filename" : "New filename",
     "Save" : "Save",

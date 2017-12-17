@@ -9,6 +9,7 @@ OC.L10N.register(
     "More versions…" : "További változatok...",
     "Just now" : "Épp most",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",
+    "Please enter the filename to store the document as." : "Kérlek add meg, hogy milyen néven legyen tárolva a dokumentum.",
     "Save As" : "Mentés másként",
     "New filename" : "Új fájlnév",
     "Save" : "Mentés",

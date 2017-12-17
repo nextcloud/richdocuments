@@ -9,6 +9,7 @@ OC.L10N.register(
     "More versions…" : "Diğer sürümler...",
     "Just now" : "Şimdi",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
+    "Please enter the filename to store the document as." : "Lütfen belgenin kaydedileceği adı yazın.",
     "Save As" : "Farklı Kaydet",
     "New filename" : "Yeni dosya adı",
     "Save" : "Kaydet",
