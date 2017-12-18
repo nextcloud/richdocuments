@@ -9,6 +9,7 @@ OC.L10N.register(
     "More versions…" : "Још верзија…",
     "Just now" : "Управо сад",
     "Failed to revert the document to older version" : "Грешка у враћању документа на старију верзију",
+    "Please enter the filename to store the document as." : "Унесите име фајла како желите да документ буде сачуван.",
     "Save As" : "Сачувај као",
     "New filename" : "Ново име фајла",
     "Save" : "Сачувај",
