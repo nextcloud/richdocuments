@@ -9,6 +9,7 @@ OC.L10N.register(
     "More versions…" : "მეტი ვერსია…",
     "Just now" : "ამ წამს",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
+    "Please enter the filename to store the document as." : "დოკუმენტის შესანახად გთხოვთ შეიყვანოთ ფაილის სახელი.",
     "Save As" : "შენახვა როგორც",
     "New filename" : "ახალი ფაილის სახელი",
     "Save" : "შენახვა",
