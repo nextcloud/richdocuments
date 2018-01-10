@@ -60,7 +60,6 @@ $.widget('oc.documentOverlay', {
 var documentsMain = {
 	isEditorMode : false,
 	isViewerMode: false,
-	esId : false,
 	ready :false,
 	fileName: null,
 	baseName: null,
