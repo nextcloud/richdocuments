@@ -60,8 +60,6 @@ $.widget('oc.documentOverlay', {
 var documentsMain = {
 	isEditorMode : false,
 	isViewerMode: false,
-	isGuest : false,
-	esId : false,
 	ready :false,
 	fileName: null,
 	baseName: null,
@@ -280,11 +278,6 @@ var documentsMain = {
 		},
 
 		showEditor : function(title, fileId, action){
-			if (documentsMain.isGuest){
-				// !Login page mess wih WebODF toolbars
-				$(document.body).attr('id', 'body-user');
-			}
-
 			if (documentsMain.loadError) {
 				documentsMain.onEditorShutdown(documentsMain.loadErrorMessage + '\n' + documentsMain.loadErrorHint);
 				return;
@@ -412,12 +405,6 @@ var documentsMain = {
 		},
 
 		hideEditor : function(){
-			if (documentsMain.isGuest){
-				// !Login page mess wih WebODF toolbars
-				$(document.body).attr('id', 'body-login');
-				$('footer,nav').show();
-			}
-
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
 				$('#mainContainer').remove();
@@ -487,8 +474,7 @@ var documentsMain = {
 		$('footer,nav').hide();
 		$(documentsMain.toolbar).appendTo('#header');
 
-		documentsMain.canShare = !documentsMain.isGuest
-				&& typeof OC.Share !== 'undefined' && richdocuments_permissions & OC.PERMISSION_SHARE;
+		documentsMain.canShare = typeof OC.Share !== 'undefined' && richdocuments_permissions & OC.PERMISSION_SHARE;
 
 		// fade out file list and show the cloudsuite
 		$('#content-wrapper').fadeOut('fast').promise().done(function() {
@@ -499,11 +485,6 @@ var documentsMain = {
 			documentsMain.canEdit = Boolean(richdocuments_permissions & OC.PERMISSION_UPDATE);
 
 			documentsMain.loadDocument(documentsMain.fileName, documentsMain.fileId);
-
-			if (documentsMain.isGuest){
-				$('#odf-close').text(t('richdocuments', 'Save') );
-				$('#odf-close').removeClass('icon-view-close');
-			}
 		});
 	},
 
@@ -564,9 +545,6 @@ var documentsMain = {
 	},
 
 	show: function(fileId){
-		if (documentsMain.isGuest){
-			return;
-		}
 		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…'));
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();

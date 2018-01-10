@@ -66,6 +66,3 @@ if ($wopiUrl !== '') {
 	$policy->addAllowedFrameDomain($wopiUrl);
 	$manager->addDefaultPolicy($policy);
 }
-
-// Listen to delete file signal
-\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Richdocuments\Storage", "onDelete");
