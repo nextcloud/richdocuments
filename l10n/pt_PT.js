@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Latest revision" : "Última revisão",
     "Just now" : "Agora mesmo",
-    "Save" : "Guardar",
     "Edit" : "Editar",
     "Could not create file" : "Não pôde criar ficheiro",
     "New Document.odt" : "Novo Documento.odt",
@@ -17,6 +16,7 @@ OC.L10N.register(
     "Collabora Online server" : "servidor Collabora Online",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (e porto) do servidor Collabora Online que fornece a funcionalidade de edição como cliente WOPI.",
     "Apply" : "Aplicar",
+    "Save" : "Guardar",
     "Wrong password. Please retry." : "Senha errada. Por favor, tente de novo.",
     "Password" : "Palavra-passe",
     "OK" : "OK",

@@ -1,12 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Spremi",
     "Edit" : "Uređivanje",
     "Could not create file" : "Datoteku nije moguće kreirati",
     "Can't create document" : "Dokument nije moguće kreirati",
     "Saved" : "Spremljeno",
     "Apply" : "Potvrda",
+    "Save" : "Spremi",
     "Wrong password. Please retry." : "Pogrešna lozinka. Molimo pokušajte ponovno",
     "Password" : "Lozinka",
     "OK" : "OK",

@@ -1,12 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Salvează",
     "Edit" : "Editează",
     "Could not create file" : "Nu s-a putut crea fisierul",
     "Can't create document" : "Nu se poate crea documentul",
     "Saved" : "Salvat",
     "Apply" : "Aplică",
+    "Save" : "Salvează",
     "Wrong password. Please retry." : "Parolă incorectă. Te rugăm reîncearcă.",
     "Password" : "Parolă",
     "OK" : "OK",

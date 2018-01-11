@@ -1,12 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Konservi",
     "Edit" : "Redakti",
     "Could not create file" : "Ne povis kreiĝi dosiero",
     "Can't create document" : "Ne povas kreiĝi dokumento",
     "Saved" : "Konservita",
     "Apply" : "Apliki",
+    "Save" : "Konservi",
     "Wrong password. Please retry." : "La pasvorto malĝustas. Bonvolu reprovi.",
     "Password" : "Pasvorto",
     "OK" : "Akcepti",

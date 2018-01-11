@@ -1,12 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Gorde",
     "Edit" : "Editatu",
     "Could not create file" : "Ezin izan da fitxategia sortu",
     "Can't create document" : "Ezin da dokumentua sortu",
     "Saved" : "Gordeta",
     "Apply" : "Aplikatu",
+    "Save" : "Gorde",
     "Wrong password. Please retry." : "Pasahitz okerra. Saiatu berriro.",
     "Password" : "Pasahitza",
     "OK" : "Ados",

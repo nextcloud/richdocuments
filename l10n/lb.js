@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Späicheren",
     "Edit" : "Änneren",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
     "New Document.odt" : "Neit Dokument.odt",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online Server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "D'URL (an de Port) vum Collabora Online Server, déi d'Editing Funktioun als WOPI Client liwwert.",
     "Apply" : "Uwenden",
+    "Save" : "Späicheren",
     "Wrong password. Please retry." : "Falscht Passwuert. W.e.g. probéier nach eemol.",
     "Password" : "Passwuert",
     "OK" : "OK",
