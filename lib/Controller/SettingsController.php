@@ -64,13 +64,16 @@ class SettingsController extends Controller{
 	 * @param string $edit_groups
 	 * @param string $use_groups
 	 * @param string $doc_format
+	 * @param string $external_apps
+	 * @param string $canonical_webroot
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
-								$edit_groups,
+	                            $edit_groups,
 	                            $use_groups,
 	                            $doc_format,
-	                            $external_apps){
+	                            $external_apps,
+	                            $canonical_webroot) {
 		$message = $this->l10n->t('Saved');
 
 		if ($wopi_url !== null){
@@ -96,6 +99,10 @@ class SettingsController extends Controller{
 
 		if ($external_apps !== null) {
 			$this->appConfig->setAppValue('external_apps', $external_apps);
+		}
+
+		if ($canonical_webroot !== null) {
+			$this->appConfig->setAppValue('canonical_webroot', $canonical_webroot);
 		}
 
 		$this->discoveryManager->refretch();
