@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.6
   - 7
 
 env:
@@ -50,15 +49,15 @@ matrix:
 
 matrix:
   include:
-    - php: 5.6
+    - php: 7
       env: DB=mysql
-    - php: 5.6
+    - php: 7
       env: DB=pgsql
-    - php: 5.6
+    - php: 7
       env: DB=mysql;CODECHECK=1
-    - php: 5.6
+    - php: 7
       env: DB=mysql;CODECHECK=2
-    - php: 5.6
+    - php: 7
       env: DB=mysql;JSTESTS=1
   allow_failures:
     - env: DB=mysql;CODECHECK=1
