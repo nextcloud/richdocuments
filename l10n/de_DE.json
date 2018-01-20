@@ -26,6 +26,7 @@
     "Saved" : "Gespeichert",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mit Fehler gespeichert: Collabora Online sollte das gleiche Protokoll wie die Server-Installation nutzen.",
     "Collabora Online" : "Collabora Online",
+    "Open documentation" : "Dokumentation öffnen",
     "Collabora Online server" : "Collabora Online Server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (und Port) des Collabora Online Servers, der als WOPI-Client die Bearbeitungsfunktionalität bereitstellt.",
     "Apply" : "Anwenden",
