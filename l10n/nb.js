@@ -28,6 +28,7 @@ OC.L10N.register(
     "Saved" : "Lagret",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som tjenerinstallasjonen.",
     "Collabora Online" : "Collabora Online",
+    "Open documentation" : "Åpne dokumentasjonen",
     "Collabora Online server" : "Collabora Online-tjener",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (og port) for den nettbaserte Collabora-tjeneren som tilbyr redigeringsfunksjonaliteten som en WOPI-klient.",
     "Apply" : "Bruk",
