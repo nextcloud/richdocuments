@@ -28,6 +28,7 @@ OC.L10N.register(
     "Saved" : "저장됨",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
     "Collabora Online" : "Collabora Online",
+    "Open documentation" : "문서 열기",
     "Collabora Online server" : "Collabora Online 서버",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "문서 편집 기능을 WOPI 클라이언트로 제공하는 Collabora Online 서버의 URL 및 포트입니다.",
     "Apply" : "적용",
