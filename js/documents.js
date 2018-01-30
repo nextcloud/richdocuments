@@ -105,7 +105,7 @@ var documentsMain = {
 		revisionsStart: 0,
 
 		init : function(){
-			documentsMain.UI.mainTitle = $('title').text();
+			documentsMain.UI.mainTitle = parent.document.title;
 		},
 
 		showViewer: function(fileId, title){
@@ -293,8 +293,7 @@ var documentsMain = {
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
 
-			$('title').text(title + ' - ' + documentsMain.UI.mainTitle);
-
+			parent.document.title = title + ' - ' + documentsMain.UI.mainTitle;
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
 			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
@@ -410,7 +409,7 @@ var documentsMain = {
 				$('#mainContainer').remove();
 				$('#content-wrapper').fadeIn('fast');
 				$(document.body).removeClass('claro');
-				$('title').text(documentsMain.UI.mainTitle);
+				parent.document.title = documentsMain.UI.mainTitle;
 			});
 		},
 
@@ -530,6 +529,7 @@ var documentsMain = {
 		documentsMain.UI.hideEditor();
 		$('#ocToolbar').remove();
 
+		parent.document.title = documentsMain.UI.mainTitle;
 		parent.postMessage('close', '*');
 	},
 
