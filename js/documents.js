@@ -118,7 +118,7 @@ var documentsMain = {
 		revisionsStart: 0,
 
 		init : function(){
-			documentsMain.UI.mainTitle = $('title').text();
+			documentsMain.UI.mainTitle = parent.document.title;
 		},
 
 		showViewer: function(fileId, title){
@@ -242,7 +242,7 @@ var documentsMain = {
 				$('#mainContainer').remove();
 				$('#content-wrapper').fadeIn('fast');
 				$(document.body).removeClass('claro');
-				$('title').text(documentsMain.UI.mainTitle);
+				parent.document.title = documentsMain.UI.mainTitle;
 			});
 		},
 
@@ -362,6 +362,7 @@ var documentsMain = {
 		documentsMain.UI.hideEditor();
 		$('#ocToolbar').remove();
 
+		parent.document.title = documentsMain.UI.mainTitle;
 		parent.postMessage('close', '*');
 	},
 

@@ -7,7 +7,7 @@ OC.L10N.register(
     "Saved" : "Disimpan",
     "Apply" : "Terapkan",
     "Save" : "Simpan",
-    "Wrong password. Please retry." : "Sandi salah. Silakan ulangi.",
+    "Wrong password. Please retry." : "Kata sandi salah. Silakan ulangi.",
     "Password" : "Kata Sandi",
     "OK" : "Oke",
     "Guest %s" : "Pengunjung %s",

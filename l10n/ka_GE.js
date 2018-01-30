@@ -28,6 +28,7 @@ OC.L10N.register(
     "Saved" : "შენახულია",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
     "Collabora Online" : "Collabora Online",
+    "Open documentation" : "ღია დოკუმენტაცია",
     "Collabora Online server" : "Collabora Online სერვერი",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (და პორტი) Collabora Online სერვერისა რომელიც უზრუნველყოფს WOPI client-ის მაგვარ ცვლილების ფუნქციონალს.",
     "Apply" : "გამოყენება",
