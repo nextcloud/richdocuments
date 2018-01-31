@@ -1,3 +1,6 @@
+.rd-settings-documentation {
+    max-width: 50em;
+};
 #richdocuments h2 {
 	display: inline-block;
 }

@@ -174,6 +174,7 @@ class DocumentController extends Controller {
 				'urlsrc' => $urlSrc,
 				'path' => $folder->getRelativePath($item->getPath()),
 				'instanceId' => $this->settings->getSystemValue('instanceid'),
+				'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 			];
 
 			$encryptionManager = \OC::$server->getEncryptionManager();
