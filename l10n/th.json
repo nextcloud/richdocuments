@@ -1,9 +1,6 @@
 { "translations": {
     "Download this revision" : "ดาวน์โหลดการแก้ไขนี้",
     "Restore this revision" : "กู้คืนการแก้ไขนี้",
-    "Latest revision" : "การแก้ไขล่าสุด",
-    "Just now" : "เมื่อสักครู่",
-    "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Edit" : "แก้ไข",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "New Document.odt" : "เอกสารใหม่.odt",

@@ -3,9 +3,6 @@ OC.L10N.register(
     {
     "Download this revision" : "Discargar iste revision",
     "Restore this revision" : "Restaura iste revision",
-    "Latest revision" : "Revision plus recente",
-    "Just now" : "Justo ora",
-    "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",
     "Edit" : "Modificar",
     "Could not create file" : "Impossibile crear le file",
     "New Document.odt" : "Nove-Documento.odt",

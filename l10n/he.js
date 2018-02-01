@@ -1,9 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Latest revision" : "גרסה אחרונה",
-    "Just now" : "ממש עכשיו",
-    "Failed to revert the document to older version" : "נכשל באחזור המסמך לגרסה קודמת",
     "Edit" : "עריכה",
     "Could not create file" : "יצירת הקובץ נכשלה",
     "New Document.odt" : "Document.odt חדש",

@@ -3,9 +3,6 @@ OC.L10N.register(
     {
     "Download this revision" : "Tải xuống bản sửa đổi này",
     "Restore this revision" : "Khôi phục lại bản sửa đổi này",
-    "Latest revision" : "Phiên bản mới nhất",
-    "Just now" : "Ngay bây giờ",
-    "Failed to revert the document to older version" : "Không thể hoàn nguyên tài liệu sang phiên bản cũ hơn",
     "Edit" : "Sửa",
     "New Document" : "Văn bảng mới",
     "New Spreadsheet" : "Bảng tính mới",

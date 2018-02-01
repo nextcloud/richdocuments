@@ -3,9 +3,6 @@ OC.L10N.register(
     {
     "Download this revision" : "Изтегли тази ревизия",
     "Restore this revision" : "Възстановяване на редакцията",
-    "Latest revision" : "Последна редакция",
-    "Just now" : "Току-що",
-    "Failed to revert the document to older version" : "Неуспешно възстановяване на документа към по-стара версия",
     "Edit" : "Редакция",
     "New Document" : "Нов документ",
     "New Spreadsheet" : "Нова електронна таблица",
