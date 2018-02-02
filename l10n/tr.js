@@ -34,6 +34,8 @@ OC.L10N.register(
     "Enable access for external apps" : "Dış uygulamalara erişilebilsin",
     "Save" : "Kaydet",
     "Add" : "Ekle",
+    "Use Canonical webroot" : "Yinelenen kök klasörü kullanılsın",
+    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Birden çok olması durumunda Collabora tarafından kullanılacak yinelenen web kök klasörü. En az kısıtlaması olanı kullanın. Örnek: Kopyanın kök klasörüne Shibbolet kullanılarak ve kullanılmadan erişiliyorsa Shibbolize olmayan bir web kök klasörü kullanın. Bu kopya için yalnız bir web kök klasörü kullanılıyorsa bu ayarı yok sayabilirsiniz.",
     "Wrong password. Please retry." : "Parola yanlış. Lütfen yeniden deneyin.",
     "Password" : "Parola",
     "OK" : "Tamam",

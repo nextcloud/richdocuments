@@ -34,6 +34,8 @@ OC.L10N.register(
     "Enable access for external apps" : "Дозволи приступ за спољне апликације",
     "Save" : "Сачувај",
     "Add" : "Додај",
+    "Use Canonical webroot" : "Користи канонски облик веб корена",
+    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "У случају да их има више, канонски облик веб корена који ће Collabora да користи. Унесите онај са најмање ограничења. Нпр. користите веб корен који не садржи Shibboleth ако се инстанци може приступити и преко Shibboleth-а и без њега. Можете да прескочите ово подешавање ако постоји само један веб корен који инстанца користи.",
     "Wrong password. Please retry." : "Погрешна лозинка. Покушајте поново.",
     "Password" : "Лозинка",
     "OK" : "У реду",
