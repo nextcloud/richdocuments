@@ -34,6 +34,8 @@ OC.L10N.register(
     "Enable access for external apps" : "დართეთ წვდომა გარე აპლიკაციებზე",
     "Save" : "შენახვა",
     "Add" : "დამატება",
+    "Use Canonical webroot" : "კანონიკური ვებრუტის მოხმარება",
+    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "კანონიკური ვებრუტი, იმ შემთხვევაში თუ ერთზე მეტია Collabora-ს მოქმედებისთვის. მოგვაწოდეთ ერთ-ერთი ყველაზე ნაკლები შეზღუდვებით. მაგ.: გამოიყენეთ არა-შიბოლიზირებული ვებრუტი თუ ამ ინსტანციაზე წვდომა ექნება შიბოლიზირებულ და არა-შიბოლიზირებულ ვებრუტებს. იმ შემთხვევაში, თუ ინსტანციაზე მხოლოდ ერთ ვებრუტს აქვს წვდომა, შეგიძლიათ არ მიაქციოთ ამ პარამეტრს ყურადღება.",
     "Wrong password. Please retry." : "არასწორი პაროლი სცადეთ ახლიდან.",
     "Password" : "პაროლი",
     "OK" : "დიახ",
