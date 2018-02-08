@@ -128,9 +128,189 @@ var documentsMain = {
 				$('#revViewerContainer').prepend($('<div id="revViewer">'));
 			}
 
-			var ocurl = documentsMain._generateDocKey(fileId);
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-			var wopiurl = window.location.protocol + '//' + window.location.host + ocurl;
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
+			var wopisrc = encodeURIComponent(wopiurl);
+
+			// urlsrc - the URL from discovery xml that we access for the particular
+			// document; we add various parameters to that.
+			// The discovery is available at
+			//   https://<loolwsd-server>:9980/hosting/discovery
+			var urlsrc = documentsMain.urlsrc +
+			  "WOPISrc=" + wopisrc +
+			  "&title=" + encodeURIComponent(title) +
+			  "&lang=" + OC.getLocale().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
+			  "&permission=readonly";
+
+			// access_token - must be passed via a form post
+			var access_token = encodeURIComponent(documentsMain.token);
+
+			// form to post the access token for WOPISrc
+			var form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">' +
+			  '<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
+
+			// iframe that contains the Collabora Online Viewer
+			var frame = '<iframe id="loleafletframe_viewer" name= "loleafletframe_viewer" style="width:100%;height:100%;position:absolute;"/>';
+
+			$('#revViewer').append(form);
+			$('#revViewer').append(frame);
+
+			// submit that
+			$('#loleafletform_viewer').submit();
+			documentsMain.isViewerMode = true;
+
+			// for closing revision mode
+			$('#revPanelHeader .closeButton').click(function(e) {
+				e.preventDefault();
+				documentsMain.onCloseViewer();
+			});
+		},
+
+		addRevision: function(fileId, version, relativeTimestamp, documentPath) {
+			var formattedTimestamp = OC.Util.formatDate(parseInt(version) * 1000);
+			var fileName = documentsMain.fileName.substring(0, documentsMain.fileName.indexOf('.'));
+			var downloadUrl, restoreUrl;
+			if (version === 0) {
+				formattedTimestamp = t('richdocuments', 'Latest revision');
+				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
+			} else {
+				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
+				                             {file: documentPath, revision: version});
+				fileId = fileId + '_' + version;
+				restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
+				                             {file: documentPath, revision: version});
+			}
+
+			var revHistoryItemTemplate = Handlebars.compile(documentsMain.UI.revHistoryItemTemplate);
+			var html = revHistoryItemTemplate({
+				downloadUrl: downloadUrl,
+				downloadIconUrl: OC.imagePath('core', 'actions/download'),
+				restoreUrl: restoreUrl,
+				restoreIconUrl: OC.imagePath('core', 'actions/history'),
+				relativeTimestamp: relativeTimestamp,
+				formattedTimestamp: formattedTimestamp
+			});
+
+			html = $(html).attr('data-fileid', fileId)
+				          .attr('data-title', fileName + ' - ' + formattedTimestamp);
+			$('#revisionsContainer ul').append(html);
+		},
+
+		fetchAndFillRevisions: function(documentPath) {
+			// fill #rev-history with file versions
+			$.get(OC.generateUrl('apps/files_versions/ajax/getVersions.php?source={documentPath}&start={start}',
+			                     { documentPath: documentPath, start: documentsMain.UI.revisionsStart }),
+				  function(result) {
+					  for(var key in result.data.versions) {
+						  documentsMain.UI.addRevision(documentsMain.fileId,
+						                               result.data.versions[key].version,
+						                               result.data.versions[key].humanReadableTimestamp,
+						                               documentPath);
+					  }
+
+					  // owncloud only gives 5 version at max in one go
+					  documentsMain.UI.revisionsStart += 5;
+
+					  if (result.data.endReached) {
+						  // Remove 'More versions' button
+						  $('#show-more-versions').addClass('hidden');
+					  }
+				  });
+		},
+
+		showRevHistory: function(documentPath) {
+			$(document.body).prepend(documentsMain.UI.viewContainer);
+
+			var revHistoryContainerTemplate = Handlebars.compile(documentsMain.UI.revHistoryContainerTemplate);
+			var revHistoryContainer = revHistoryContainerTemplate({
+				filename: documentsMain.fileName,
+				moreVersionsLabel: t('richdocuments', 'More versions…'),
+				closeButtonUrl: OC.imagePath('core', 'actions/close')
+			});
+			$('#revViewerContainer').prepend(revHistoryContainer);
+
+			documentsMain.UI.revisionsStart = 0;
+
+			// append current document first
+			documentsMain.UI.addRevision(documentsMain.fileId, 0, t('richdocuments', 'Just now'), documentPath);
+
+			// add "Show more versions" button
+			$('#show-more-versions').click(function(e) {
+				e.preventDefault();
+				documentsMain.UI.fetchAndFillRevisions(documentPath);
+			});
+
+			// fake click to load first 5 versions
+			$('#show-more-versions').click();
+
+			// make these revisions clickable/attach functionality
+			$('#revisionsContainer').on('click', '.versionPreview', function(e) {
+				e.preventDefault();
+				documentsMain.UI.showViewer(e.currentTarget.parentElement.dataset.fileid,
+				                            e.currentTarget.parentElement.dataset.title);
+
+				// mark only current <li> as active
+				$(e.currentTarget.parentElement.parentElement).find('li').removeClass('active');
+				$(e.currentTarget.parentElement).addClass('active');
+			});
+
+			$('#revisionsContainer').on('click', '.restoreVersion', function(e) {
+				e.preventDefault();
+
+				// close the viewer
+				documentsMain.onCloseViewer();
+
+				// close the editor
+				documentsMain.UI.hideEditor();
+
+				// If there are changes in the opened editor, we need to wait
+				// for sometime before these changes can be saved and a revision is created for it,
+				// before restoring to requested version.
+				documentsMain.overlay.documentOverlay('show');
+				setTimeout(function() {
+					// restore selected version
+					$.ajax({
+						type: 'GET',
+						url: e.currentTarget.href,
+						success: function(response) {
+							if (response.status === 'error') {
+								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
+							}
+
+							// load the file again, it should get reverted now
+							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: e.currentTarget.parentElement.dataset.fileid});
+							window.location.reload();
+							documentsMain.overlay.documentOverlay('hide');
+						}
+					});
+				}, 1000);
+			});
+
+			// fake click on first revision (i.e current revision)
+			$('#revisionsContainer li').first().find('.versionPreview').click();
+		},
+
+		showEditor : function(title, fileId, action){
+			if (documentsMain.loadError) {
+				documentsMain.onEditorShutdown(documentsMain.loadErrorMessage + '\n' + documentsMain.loadErrorHint);
+				return;
+			}
+
+			if (!documentsMain.renderComplete) {
+				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 500);
+				console.log('Waiting for page to render…');
+				return;
+			}
+			parent.postMessage('loading', '*');
+
+			$(document.body).addClass("claro");
+			$(document.body).prepend(documentsMain.UI.container);
+
+			parent.document.title = title + ' - ' + documentsMain.UI.mainTitle;
+
+			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
+			var wopisrc = encodeURIComponent(wopiurl);
 
 			// urlsrc - the URL from discovery xml that we access for the particular
 			// document; we add various parameters to that.
