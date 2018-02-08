@@ -25,6 +25,7 @@
     "Collabora Online server" : "在线协作服务器",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "类WOPI客户端提供编辑功能在线协作服务器的网址URL (端口) ",
     "Apply" : "应用",
+    "Restrict edit to specific groups" : "限制特定小组的编辑权限",
     "Use OOXML by default for new files" : "为新文件默认使用面向对象XML",
     "Save" : "保存",
     "Add" : "添加",
