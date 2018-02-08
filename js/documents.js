@@ -70,6 +70,8 @@ var documentsMain = {
 	loadErrorHint : '',
 	renderComplete: false, // false till page is rendered with all required data about the document(s)
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
+	$deferredVersionRestoreAck: null,
+	wopiClientFeatures: null,
 
 	// generates docKey for given fileId
 	_generateDocKey: function(wopiFileId) {
@@ -260,30 +262,31 @@ var documentsMain = {
 				// close the viewer
 				documentsMain.onCloseViewer();
 
-				// close the editor
-				documentsMain.UI.hideEditor();
+				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_VersionRestore', {Status: 'Pre_Restore'});
 
-				// If there are changes in the opened editor, we need to wait
-				// for sometime before these changes can be saved and a revision is created for it,
-				// before restoring to requested version.
-				documentsMain.overlay.documentOverlay('show');
-				setTimeout(function() {
-					// restore selected version
-					$.ajax({
-						type: 'GET',
-						url: e.currentTarget.href,
-						success: function(response) {
-							if (response.status === 'error') {
-								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
+				documentsMain.$deferredVersionRestoreAck = $.Deferred();
+				jQuery.when(documentsMain.$deferredVersionRestoreAck).
+					done(function(args) {
+						// restore selected version
+						$.ajax({
+							type: 'GET',
+							url: e.currentTarget.href,
+							success: function(response) {
+								if (response.status === 'error') {
+									documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
+								}
+
+								// load the file again, it should get reverted now
+								window.location.reload();
+								documentsMain.overlay.documentOverlay('hide');
 							}
-
-							// load the file again, it should get reverted now
-							window.location = OC.generateUrl('apps/richdocuments/index#{fileid}', {fileid: e.currentTarget.parentElement.dataset.fileid});
-							window.location.reload();
-							documentsMain.overlay.documentOverlay('hide');
-						}
+						});
 					});
-				}, 1000);
+
+				// resolve the deferred object immediately if client doesn't support version states
+				if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+					documentsMain.$deferredVersionRestoreAck.resolve();
+				}
 			});
 
 			// fake click on first revision (i.e current revision)
@@ -344,6 +347,7 @@ var documentsMain = {
 				var editorInitListener = function(e) {
 					var msg = JSON.parse(e.data);
 					if (msg.MessageId === 'App_LoadingStatus') {
+						documentsMain.wopiClientFeatures = msg.Values.Features;
 						window.removeEventListener('message', editorInitListener, false);
 					}
 				};
@@ -398,6 +402,17 @@ var documentsMain = {
 						                  true,
 						                  t('richdocuments', 'New filename'),
 						                  false);
+					} else if (msgId === 'App_VersionRestore') {
+						if (!documentsMain.$deferredVersionRestoreAck)
+						{
+							console.warn('No version restore deferred object found.');
+							return;
+						}
+
+						if (args.Status === 'Pre_Restore_Ack') {
+							// user instructed to restore the version
+							documentsMain.$deferredVersionRestoreAck.resolve();
+						}
 					}
 				});
 
