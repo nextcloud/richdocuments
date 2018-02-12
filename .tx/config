@@ -4,6 +4,6 @@ lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_
 
 [nextcloud.richdocuments]
 file_filter = <lang>/richdocuments.po
-source_file = templates/richdocuments.pot
+source_file = translationfiles/templates/richdocuments.pot
 source_lang = en
 type = PO

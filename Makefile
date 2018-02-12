@@ -21,7 +21,7 @@ appstore:
 	--exclude=composer.json \
 	--exclude=composer.lock \
 	--exclude=composer.phar \
-	--exclude=l10n/.tx \
+	--exclude=.tx \
 	--exclude=l10n/no-php \
 	--exclude=Makefile \
 	--exclude=nbproject \
