@@ -5,6 +5,8 @@ OC.L10N.register(
     "All" : "Kaikki",
     "Download this revision" : "Lataa tämä versio",
     "Restore this revision" : "Palauta tähän versioon",
+    "More versions…" : "Lisää versioita…",
+    "Just now" : "Juuri nyt",
     "Please enter the filename to store the document as." : "Anna tiedostonimi, jolla asiakirja tallennetaan.",
     "Save As" : "Tallenna nimellä",
     "New filename" : "Uusi tiedostonimi",

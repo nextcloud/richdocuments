@@ -5,6 +5,7 @@ OC.L10N.register(
     "All" : "Alle",
     "Download this revision" : "Download deze revisie",
     "Restore this revision" : "Herstel deze revisie",
+    "Just now" : "Zojuist",
     "Please enter the filename to store the document as." : "Geef de bestandsnaam op waaromnder het document moet worden opgeslagen.",
     "Save As" : "Opslaan als",
     "New filename" : "Nieuwe bestandsnaam",
