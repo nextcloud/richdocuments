@@ -120,7 +120,7 @@ class WopiController extends Controller {
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $res['canwrite'] ? true : false,
-			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : false,
+			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : is_null($res['editor']),
 			'PostMessageOrigin' => $res['server_host'],
 			'LastModifiedTime' => Helper::toISO8601($file->getMtime())
 		];
