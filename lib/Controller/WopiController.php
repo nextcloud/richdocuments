@@ -114,9 +114,9 @@ class WopiController extends Controller {
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
 			'Version' => $version,
-			'UserId' => $res['editor'] !== '' ? $res['editor'] : 'Guest user',
+			'UserId' => !is_null($res['editor']) ? $res['editor'] : 'guest',
 			'OwnerId' => $res['owner'],
-			'UserFriendlyName' => $res['editor'] !== '' ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
+			'UserFriendlyName' => !is_null($res['editor']) ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $res['canwrite'] ? true : false,
