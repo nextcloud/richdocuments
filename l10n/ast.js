@@ -5,6 +5,8 @@ OC.L10N.register(
     "All" : "Too",
     "Download this revision" : "Baxar esta revisión",
     "Restore this revision" : "Restaurar esta revisión",
+    "More versions…" : "Más versiones..",
+    "Just now" : "Xusto agora",
     "Loading documents…" : "Cargando documentos...",
     "Edit" : "Editar",
     "New Document" : "Documentu nuevu",
