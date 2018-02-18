@@ -53,8 +53,8 @@ class SettingsController extends Controller{
 	public function getSettings() {
 		return new JSONResponse([
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
-			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
+			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
 		]);
 	}

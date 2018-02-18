@@ -51,6 +51,7 @@ class Admin implements ISettings {
 				'use_groups' => $this->config->getAppValue('richdocuments', 'use_groups'),
 				'doc_format' => $this->config->getAppValue('richdocuments', 'doc_format'),
 				'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
+				'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 			],
 			'blank'
 		);
