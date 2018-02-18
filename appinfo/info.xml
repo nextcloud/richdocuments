@@ -5,7 +5,7 @@
 	<summary>Edit office documents directly in your browser.</summary>
 	<description>This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</description>
 	<version>2.0.1</version>
-	<licence>AGPL</licence>
+	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<documentation>
 		<user>https://nextcloud.com/collaboraonline/</user>
