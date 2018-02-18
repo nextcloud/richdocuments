@@ -2,8 +2,7 @@
 <info>
 	<id>richdocuments</id>
 	<name>Collabora Online</name>
-	<description>Collabora Online allows you to to work with all kinds of office documents directly in your browser. This application requires Collabora Cloudsuite to be installed on one of your servers, please read the documentation to learn more about that.</description>
-	<summary>Edit office documents directly in your browser.</summary>
+	<summary>Edit office documents directly in your browser. This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</summary>
 	<licence>AGPL</licence>
 	<version>2.0.1</version>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
