@@ -503,7 +503,7 @@ var documentsMain = {
 
 		documentsMain.canShare = typeof OC.Share !== 'undefined' && richdocuments_permissions & OC.PERMISSION_SHARE;
 
-		// fade out file list and show the cloudsuite
+		// fade out file list and show the document
 		$('#content-wrapper').fadeOut('fast').promise().done(function() {
 
 			documentsMain.fileId = richdocuments_fileId;
