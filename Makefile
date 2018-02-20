@@ -8,6 +8,7 @@ appstore_dir=$(build_dir)/appstore
 source_dir=$(build_dir)/source
 package_name=$(app_name)
 cert_dir=$(HOME)/.nextcloud/certificates
+occ=$(CURDIR)/../core/occ
 
 appstore:
 	mkdir -p $(sign_dir)
@@ -31,6 +32,7 @@ appstore:
 	--exclude=vendor/bin \
 	$(project_dir) $(sign_dir)
 	@echo "Signing…"
+	$(occ) integrity:sign-app --privateKey=$(cert_dir)/$(app_name).key --certificate=$(cert_dir)/$(app_name).crt --path=$(sign_dir)/$(app_name)
 	tar -czf $(build_dir)/$(app_name).tar.gz \
 		-C $(sign_dir) $(app_name)
 	openssl dgst -sha512 -sign $(cert_dir)/$(app_name).key $(build_dir)/$(app_name).tar.gz | openssl base64
