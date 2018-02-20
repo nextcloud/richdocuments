@@ -7,6 +7,9 @@
 	<version>2.0.2</version>
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
+	<types>
+		<prevent_group_restriction/>
+	</types>
 	<documentation>
 		<user>https://nextcloud.com/collaboraonline/</user>
 		<admin>https://nextcloud.com/collaboraonline/</admin>
@@ -22,11 +25,8 @@
 	<dependencies>
 		<nextcloud min-version="12" max-version="13" />
 	</dependencies>
-	<types>
-		<prevent_group_restriction/>
-	</types>
 	<settings>
-		<admin>\OCA\Richdocuments\Settings\Admin</admin>
+		<admin>OCA\Richdocuments\Settings\Admin</admin>
 		<admin-section>OCA\Richdocuments\Settings\Section</admin-section>
 	</settings>
 </info>
