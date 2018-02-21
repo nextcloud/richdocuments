@@ -401,7 +401,12 @@ var documentsMain = {
 						                  },
 						                  true,
 						                  t('richdocuments', 'New filename'),
-						                  false);
+						                  false).then(function() {
+							                var $dialog = $('.oc-dialog:visible');
+							                var $buttons = $dialog.find('button');
+							                $buttons.eq(0).text(t('richdocuments', 'Cancel'));
+							                $buttons.eq(1).text(t('richdocuments', 'Save'));
+							                });
 					} else if (msgId === 'App_VersionRestore') {
 						if (!documentsMain.$deferredVersionRestoreAck)
 						{
