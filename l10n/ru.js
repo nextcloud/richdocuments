@@ -38,6 +38,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Разрешить доступ внешним приложениям",
     "Save" : "Сохранить",
     "Add" : "Добавить",
+    "Use Canonical webroot" : "Использовать каноническое расположение корневого каталога web",
     "Wrong password. Please retry." : "Неправильный пароль. Повторите попытку.",
     "Password" : "Пароль",
     "OK" : "ОК",
