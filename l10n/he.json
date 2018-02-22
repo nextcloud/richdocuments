@@ -1,4 +1,5 @@
 { "translations": {
+    "Save" : "שמירה",
     "Edit" : "עריכה",
     "Could not create file" : "יצירת הקובץ נכשלה",
     "New Document.odt" : "Document.odt חדש",
@@ -15,7 +16,6 @@
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "נתיב (ושער גישה - פורט) של שרת Collabora מקוון שמספק את תכונת העריכה כלקוח WOPI.",
     "Apply" : "הפעלה",
     "Use OOXML by default for new files" : "השתמש ב- OOXML כברירת מחדל לקבצים חדשים",
-    "Save" : "שמירה",
     "Wrong password. Please retry." : "סיסמא שגויה. נא לנסות שוב",
     "Password" : "סיסמא",
     "OK" : "אישור",

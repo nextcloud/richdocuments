@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Save" : "Enregistrar",
     "Edit" : "Modificar",
     "Could not create file" : "Impossible de crear lo fichièr",
     "New Document.odt" : "Document Novèl.odt",
@@ -9,7 +10,6 @@ OC.L10N.register(
     "Collabora Online" : "Collabora en linha",
     "Collabora Online server" : "Servidor Collabora en linha",
     "Apply" : "Aplicar",
-    "Save" : "Enregistrar",
     "Wrong password. Please retry." : "Senhal erronèu. Mercé de tornar ensajar.",
     "Password" : "Senhal",
     "OK" : "D'acòrdi",

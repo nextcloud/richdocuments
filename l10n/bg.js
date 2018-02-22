@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Download this revision" : "Изтегли тази ревизия",
     "Restore this revision" : "Възстановяване на редакцията",
+    "Save" : "Запазване",
     "Edit" : "Редакция",
     "New Document" : "Нов документ",
     "New Spreadsheet" : "Нова електронна таблица",
@@ -20,7 +21,6 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Online сървър",
     "Apply" : "Приложи",
     "Use OOXML by default for new files" : "Използвай OOXML по подразбиране за нови файлове",
-    "Save" : "Запазване",
     "Wrong password. Please retry." : "Грешна парола. Опитай пак.",
     "Password" : "Парола",
     "OK" : "ОК",

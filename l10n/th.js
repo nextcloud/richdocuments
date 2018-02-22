@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Download this revision" : "ดาวน์โหลดการแก้ไขนี้",
     "Restore this revision" : "กู้คืนการแก้ไขนี้",
+    "Save" : "บันทึก",
     "Edit" : "แก้ไข",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "New Document.odt" : "เอกสารใหม่.odt",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (และพอร์ต) ของเซิร์ฟเวอร์ Collabora ออนไลน์ นั้นระบุฟังก์ชั่นการแก้ไขไคลเอนต์ WOPI",
     "Apply" : "นำไปใช้",
     "Use OOXML by default for new files" : "ใช้ OOXML เป็นค่าเริ่มต้นสำหรับไฟล์ใหม่",
-    "Save" : "บันทึก",
     "Wrong password. Please retry." : "รหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง",
     "Password" : "รหัสผ่าน",
     "OK" : "ตกลง",

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Download this revision" : "Discargar iste revision",
     "Restore this revision" : "Restaura iste revision",
+    "Save" : "Salveguardar",
     "Edit" : "Modificar",
     "Could not create file" : "Impossibile crear le file",
     "New Document.odt" : "Nove-Documento.odt",
@@ -19,7 +20,6 @@ OC.L10N.register(
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (e porta) del servitor Collabora Online que provide le functionalitate de edition como un cliente WOPI",
     "Apply" : "Applicar",
     "Use OOXML by default for new files" : "Usar OOXML per predefinition pro nove files",
-    "Save" : "Salveguardar",
     "Wrong password. Please retry." : "Contrasigno errate. Pro favor essaya de novo.",
     "Password" : "Contrasigno",
     "OK" : "Ok",

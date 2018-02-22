@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Save" : "Зберегти",
     "Edit" : "Редагувати",
     "Could not create file" : "Не вдалося створити файл",
     "New Document.odt" : "Новий документ.odt",
@@ -9,7 +10,6 @@ OC.L10N.register(
     "Can't create document" : "Неможливо створити документ",
     "Saved" : "Збережено",
     "Apply" : "Застосувати",
-    "Save" : "Зберегти",
     "Wrong password. Please retry." : "Невірний пароль. Будь ласка, спробуйте ще раз.",
     "Password" : "Пароль",
     "OK" : "OK",

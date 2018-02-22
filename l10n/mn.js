@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saving…" : "хадаглаж байна...",
     "Download this revision" : "Энэ хувилбарыг татаж авах",
     "Restore this revision" : "Энэ хувилбарыг сэргээх",
+    "Save" : "хадгалах",
     "Loading documents…" : "Документ ачаалж байна ...",
     "Edit" : "засварлах",
     "New Document" : "шинэ документ",
@@ -23,7 +24,6 @@ OC.L10N.register(
     "Collabora Online server" : "Collabora Онлайн сервер",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "WOPI клиент нь засварлах боломжийг олгодог Collabora Online серверийн URL (болон порт).",
     "Apply" : "хэрэглэх",
-    "Save" : "хадгалах",
     "Wrong password. Please retry." : "нууц үг алдаатай байна. дахин оролдоно уу",
     "Password" : "нууц үг",
     "OK" : "ок"
