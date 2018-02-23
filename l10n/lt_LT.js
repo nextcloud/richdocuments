@@ -11,6 +11,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Įveskite naują pavadinimą, kuriuo bus saugomas dokumentas.",
     "Save As" : "Įrašyti kaip",
     "New filename" : "Naujas failo pavadinimas",
+    "Cancel" : "Atsisakyti",
     "Save" : "Įrašyti",
     "Loading documents…" : "Įkeliami dokumentai…",
     "Edit" : "Redaguoti",

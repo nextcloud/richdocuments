@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Bitte den Dateinamen angeben, unter welchem dieses Dokument gespeichert werden soll.",
     "Save As" : "Speichern als",
     "New filename" : "Neuer Dateiname",
+    "Cancel" : "Abbrechen",
     "Save" : "Speichern",
     "Loading documents…" : "Lade Dokumente…",
     "Edit" : "Bearbeiten",
