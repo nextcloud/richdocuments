@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Унесите име фајла како желите да документ буде сачуван.",
     "Save As" : "Сачувај као",
     "New filename" : "Ново име фајла",
+    "Cancel" : "Одустани",
     "Save" : "Сачувај",
     "Loading documents…" : "Учитавање докумената…",
     "Edit" : "Уреди",
