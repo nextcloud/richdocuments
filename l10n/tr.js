@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Lütfen belgenin kaydedileceği adı yazın.",
     "Save As" : "Farklı Kaydet",
     "New filename" : "Yeni dosya adı",
+    "Cancel" : "İptal",
     "Save" : "Kaydet",
     "Loading documents…" : "Belgeler yükleniyor...",
     "Edit" : "Düzenle",
