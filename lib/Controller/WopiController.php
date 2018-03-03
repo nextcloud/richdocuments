@@ -116,7 +116,7 @@ class WopiController extends Controller {
 			'Version' => $version,
 			'UserId' => !is_null($res['editor']) ? $res['editor'] : 'guest',
 			'OwnerId' => $res['owner'],
-			'UserFriendlyName' => !is_null($res['editor']) ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
+			'UserFriendlyName' => !is_null($res['editor']) ? \OC_User::getDisplayName($res['editor']) : $res['guest_displayname'],
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $res['canwrite'] ? true : false,
