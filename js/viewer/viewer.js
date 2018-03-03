@@ -63,6 +63,37 @@ var odfViewer = {
 			var fileId = context.$file.attr('data-id');
 		}
 
+		// Handle guest user
+		if (window.top.oc_current_user == null && getCookie("guestUser") == "") {
+			$('#content').remove();
+					
+			var text = document.createElement('div');
+			$(text).attr('style', 'margin: 0 auto; margin-top: 100px; text-align: center;');
+			
+			var para = t('richdocuments', 'Please choose your nickname to continue as guest user.');
+			text.innerHTML = para;
+			
+
+			var div = document.createElement('div');
+			$(div).attr('style', 'margin: 0 auto;width:195px;');
+			var nick = '<input type="text" placeholder="'+t('richdocuments','Nickname')+'" id="nickname" style="border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">';
+			var btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:-3px" type="button" id="btn" type="button" value="'+ t('richdocuments','Set')+'">';
+			div.innerHTML = nick + btn;
+			
+			
+			
+			$('#content-wrapper').prepend(div);
+			$('#content-wrapper').prepend(text);
+			$('#nickname').keyup(function(event) {
+				if (event.which === 13) {
+					setCookie();
+				}
+			});
+			$('#btn').click(setCookie);
+			$('#preview').hide();
+			return;
+		}
+
 		var viewer;
 		if($('#isPublic').val() === '1') {
 			viewer = OC.generateUrl(
@@ -199,6 +230,34 @@ var odfViewer = {
 		OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu);
 	}
 };
+
+// set cookie with user specified name
+function setCookie() {
+	var username = $('#nickname').val();
+
+	if (username != "") {
+		document.cookie = "guestUser=" + encodeURIComponent(username) + "; path=/";
+	}
+
+	location.reload(true);
+}
+
+// Return value of cookie cname, if not set return ""
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 $(document).ready(function() {
 	if ( typeof OCA !== 'undefined'

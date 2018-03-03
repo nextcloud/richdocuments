@@ -23,12 +23,12 @@ class Wopi extends \OCA\Richdocuments\Db{
 
 	protected $tableName  = '`*PREFIX*richdocuments_wopi`';
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`fileid`, `owner_uid`, `editor_uid`, `version`, `canwrite`, `server_host`, `token`, `expiry`)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`fileid`, `owner_uid`, `editor_uid`, `guest_displayname`, `version`, `canwrite`, `server_host`, `token`, `expiry`)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
 	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_wopi` WHERE `token`= ?';
 
-	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost) {
+	public function generateFileToken($fileId, $owner, $editor, $guest_name, $version, $updatable, $serverHost) {
 		$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32,
 					\OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 					\OCP\Security\ISecureRandom::CHAR_DIGITS);
@@ -37,6 +37,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 			$fileId,
 			$owner,
 			$editor,
+			$guest_name,
 			$version,
 			$updatable,
 			$serverHost,
@@ -79,6 +80,7 @@ class Wopi extends \OCA\Richdocuments\Db{
 		return array(
 			'owner' => $row['owner_uid'],
 			'editor' => $row['editor_uid'],
+			'guest_displayname' => $row['guest_displayname'],
 			'canwrite' => $row['canwrite'],
 			'server_host' => $row['server_host']
 		);
