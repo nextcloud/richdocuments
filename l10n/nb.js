@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Oppgi et filnavn du ønsker å lagre dokumentet som.",
     "Save As" : "Lagre som",
     "New filename" : "Nytt filnavn",
+    "Cancel" : "Avbryt",
     "Save" : "Lagre",
     "Loading documents…" : "Laster dokumenter…",
     "Edit" : "Rediger",

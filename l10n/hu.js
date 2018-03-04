@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Kérlek add meg, hogy milyen néven legyen tárolva a dokumentum.",
     "Save As" : "Mentés másként",
     "New filename" : "Új fájlnév",
+    "Cancel" : "Mégsem",
     "Save" : "Mentés",
     "Loading documents…" : "Dokumentumok betöltése",
     "Edit" : "Szerkesztés",

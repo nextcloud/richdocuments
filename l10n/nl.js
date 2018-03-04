@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Geef de bestandsnaam op waaromnder het document moet worden opgeslagen.",
     "Save As" : "Opslaan als",
     "New filename" : "Nieuwe bestandsnaam",
+    "Cancel" : "Annuleren",
     "Save" : "Opslaan",
     "Loading documents…" : "Documenten laden...",
     "Edit" : "Bewerk",

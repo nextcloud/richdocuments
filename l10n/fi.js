@@ -10,6 +10,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Anna tiedostonimi, jolla asiakirja tallennetaan.",
     "Save As" : "Tallenna nimellä",
     "New filename" : "Uusi tiedostonimi",
+    "Cancel" : "Peru",
     "Save" : "Tallenna",
     "Loading documents…" : "Ladataan asiakirjoja...",
     "Edit" : "Muokkaa",
