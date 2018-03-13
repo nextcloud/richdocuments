@@ -12,6 +12,7 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Vänligen ange ett filnamn att spara dokumentet som.",
     "Save As" : "Spara Som",
     "New filename" : "Nytt filnamn",
+    "Cancel" : "Avbryt",
     "Save" : "Spara",
     "Loading documents…" : "Laddar dokument...",
     "Edit" : "Ändra",
