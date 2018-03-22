@@ -11,10 +11,7 @@
 
 namespace OCA\Richdocuments\Db;
 
-use \OCA\Richdocuments\Download;
-use \OCA\Richdocuments\DownloadResponse;
-
-class Wopi extends \OCA\Richdocuments\Db{
+class Wopi extends DbBase {
 
 	const DB_TABLE = '`*PREFIX*richdocuments_wopi`';
 

@@ -9,13 +9,13 @@
  * later.
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Richdocuments\Db;
 
 /**
  * Generic DB class
  */
 
-abstract class Db {
+abstract class DbBase {
 
 	protected $data;
 
