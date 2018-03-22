@@ -29,18 +29,5 @@ use OCP\AppFramework\IAppContainer;
 class Application extends App  {
 	public function __construct (array $urlParams = array()) {
 		parent::__construct('richdocuments', $urlParams);
-		$container = $this->getContainer();
-		$container->registerService(
-			DiscoveryManager::class,
-			function(IAppContainer $container) {
-				return new DiscoveryManager(
-					$container->getServer()->getHTTPClientService(),
-					$container->getServer()->getAppDataDir('richdocuments'),
-					$container->getServer()->getConfig(),
-					$container->getServer()->getL10N('richdocuments'),
-					new TimeFactory()
-				);
-			}
-		);
 	}
 }
