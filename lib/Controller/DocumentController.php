@@ -249,6 +249,7 @@ class DocumentController extends Controller {
 					'urlsrc' => $urlSrc,
 					'path' => '/',
 					'instanceId' => $this->settings->getSystemValue('instanceid'),
+					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 				];
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
