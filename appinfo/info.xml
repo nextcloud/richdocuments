@@ -23,7 +23,7 @@
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png</screenshot>
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="12" max-version="13" />
+		<nextcloud min-version="12" max-version="14" />
 	</dependencies>
 	<settings>
 		<admin>OCA\Richdocuments\Settings\Admin</admin>
