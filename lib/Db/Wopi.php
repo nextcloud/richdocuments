@@ -1,83 +1,85 @@
 <?php
 /**
- * ownCloud - Richdocuments App
+ * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Ashod Nakashian
- * @copyright 2016 Ashod Nakashian ashod.nakashian@collabora.co.uk
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * This file is licensed under the Affero General Public License version 3 or
- * later.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\Richdocuments\Db;
 
-class Wopi extends DbBase {
+use OCP\AppFramework\Db\Entity;
 
-	const DB_TABLE = '`*PREFIX*richdocuments_wopi`';
+/**
+ * Class WopiEntity
+ *
+ * @package OCA\Richdocuments\Db
+ *
+ * @method void setOwnerUid(string $uid)
+ * @method string getOwnerUid()
+ * @method void setEditorUid(string $uid)
+ * @method string getEditorUid()
+ * @method void setFileid(int $fileid)
+ * @method int getFileid()
+ * @method void setVersion(int $version)
+ * @method int getVersion()
+ * @method void setCanwrite(bool $canwrite)
+ * @method bool getCanwrite()
+ * @method void setServerHost(string $host)
+ * @method string getServerHost()
+ * @method void setToken(string $token)
+ * @method string getToken()
+ * @method void setExpiry(int $expiry)
+ * @method int getExpiry()
+ */
+class Wopi extends Entity {
+	/** @var string */
+	protected $ownerUid;
 
-	// Tokens expire after this many seconds (not defined by WOPI specs).
-	const TOKEN_LIFETIME_SECONDS = 1800;
+	/** @var string */
+	protected $editorUid;
 
-	protected $tableName  = '`*PREFIX*richdocuments_wopi`';
+	/** @var int */
+	protected $fileid;
 
-	protected $insertStatement  = 'INSERT INTO `*PREFIX*richdocuments_wopi` (`fileid`, `owner_uid`, `editor_uid`, `version`, `canwrite`, `server_host`, `token`, `expiry`)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+	/** @var int */
+	protected $version;
 
-	protected $loadStatement = 'SELECT * FROM `*PREFIX*richdocuments_wopi` WHERE `token`= ?';
+	/** @var bool */
+	protected $canwrite;
 
-	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost) {
-		$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32,
-					\OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
-					\OCP\Security\ISecureRandom::CHAR_DIGITS);
+	/** @var string */
+	protected $serverHost;
 
-		$wopi = new \OCA\Richdocuments\Db\Wopi([
-			$fileId,
-			$owner,
-			$editor,
-			$version,
-			$updatable,
-			$serverHost,
-			$token,
-			time() + self::TOKEN_LIFETIME_SECONDS
-		]);
+	/** @var string */
+	protected $token;
 
-		if (!$wopi->insert()) {
-			throw new \Exception('Failed to add wopi token into database');
-		}
+	/** @var int */
+	protected $expiry;
 
-		return $token;
+	public function __construct() {
+		$this->addType('owner_uid', 'string');
+		$this->addType('editor_uid', 'string');
+		$this->addType('fileid', 'int');
+		$this->addType('version', 'int');
+		$this->addType('canwrite', 'bool');
+		$this->addType('server_host', 'string');
+		$this->addType('token', 'string');
+		$this->addType('expiry', 'int');
 	}
 
-	/*
-	 * Given a token, validates it and
-	 * constructs and validates the path.
-	 * Returns the path, if valid, else false.
-	 */
-	public function getPathForToken($fileId, $token){
-
-		$wopi = new Wopi();
-		$row = $wopi->loadBy('token', $token)->getData();
-		\OC::$server->getLogger()->debug('Loaded WOPI Token record: {row}.', [ 'row' => $row ]);
-		if (count($row) === 0)
-		{
-			// Invalid token.
-			http_response_code(401);
-			return false;
-		}
-
-		//TODO: validate.
-		if ($row['expiry'] > time()){
-			// Expired token!
-			//http_response_code(404);
-			//$wopi->deleteBy('id', $row['id']);
-			//return false;
-		}
-
-		return array(
-			'owner' => $row['owner_uid'],
-			'editor' => $row['editor_uid'],
-			'canwrite' => $row['canwrite'],
-			'server_host' => $row['server_host']
-		);
-	}
 }
