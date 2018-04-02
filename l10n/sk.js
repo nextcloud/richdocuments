@@ -5,6 +5,7 @@ OC.L10N.register(
     "All" : "Všetko",
     "Download this revision" : "Stiahnúť túto revíziu",
     "Restore this revision" : "Obnoviť túto revíziu",
+    "More versions…" : "Viac verzií…",
     "Just now" : "Práve teraz",
     "Save As" : "Uložiť ako",
     "New filename" : "Nový názov súboru",
