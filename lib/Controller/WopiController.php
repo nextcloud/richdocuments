@@ -22,10 +22,12 @@
 namespace OCA\Richdocuments\Controller;
 
 use OC\Files\View;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
@@ -43,10 +45,12 @@ class WopiController extends Controller {
 	private $urlGenerator;
 	/** @var IConfig */
 	private $config;
-	/** @var ITokenManager */
+	/** @var TokenManager */
 	private $tokenManager;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var WopiMapper */
+	private $wopiMapper;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -58,8 +62,9 @@ class WopiController extends Controller {
 	 * @param IRootFolder $rootFolder
 	 * @param IURLGenerator $urlGenerator
 	 * @param IConfig $config
-	 * @param ITokenManager $tokenManager
+	 * @param TokenManager $tokenManager
 	 * @param IUserManager $userManager
+	 * @param WopiMapper $wopiMapper
 	 */
 	public function __construct($appName,
 								$UserId,
@@ -68,13 +73,15 @@ class WopiController extends Controller {
 								IURLGenerator $urlGenerator,
 								IConfig $config,
 								TokenManager $tokenManager,
-								IUserManager $userManager) {
+								IUserManager $userManager,
+								WopiMapper $wopiMapper) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->tokenManager = $tokenManager;
 		$this->userManager = $userManager;
+		$this->wopiMapper = $wopiMapper;
 	}
 
 	/**
@@ -91,16 +98,17 @@ class WopiController extends Controller {
 		$token = $this->request->getParam('access_token');
 
 		list($fileId, , $version) = Helper::parseFileId($fileId);
-		$db = new Wopi();
-		$res = $db->getPathForToken($fileId, $token);
-		if ($res === false) {
+
+		try {
+			$wopi = $this->wopiMapper->getPathForToken($token);
+		} catch (DoesNotExistException $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		// Login the user to see his mount locations
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 			$file = $userFolder->getById($fileId)[0];
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -114,23 +122,23 @@ class WopiController extends Controller {
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
 			'Version' => $version,
-			'UserId' => !is_null($res['editor']) ? $res['editor'] : 'guest',
-			'OwnerId' => $res['owner'],
-			'UserFriendlyName' => !is_null($res['editor']) ? \OC_User::getDisplayName($res['editor']) : 'Guest user',
+			'UserId' => !is_null($wopi->getEditorUid()) ? $wopi->getEditorUid() : 'guest',
+			'OwnerId' => $wopi->getOwnerUid(),
+			'UserFriendlyName' => !is_null($wopi->getEditorUid()) ? \OC_User::getDisplayName($wopi->getEditorUid()) : 'Guest user',
 			'UserExtraInfo' => [
 			],
-			'UserCanWrite' => $res['canwrite'] ? true : false,
-			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : is_null($res['editor']),
-			'PostMessageOrigin' => $res['server_host'],
+			'UserCanWrite' => $wopi->getCanwrite(),
+			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : is_null($wopi->getEditorUid()),
+			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMtime())
 		];
 
 		$serverVersion = $this->config->getSystemValue('version');
 		if (version_compare($serverVersion, '13', '>=')) {
-			$user = $this->userManager->get($res['editor']);
+			$user = $this->userManager->get($wopi->getEditorUid());
 			if($user !== null) {
 				if($user->getAvatarImage(32) !== null) {
-					$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $res['editor'], 'size' => 32]);
+					$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 				}
 			}
 		}
@@ -152,20 +160,23 @@ class WopiController extends Controller {
 	public function getFile($fileId,
 							$access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
-		$row = new Wopi();
-		$row->loadBy('token', $access_token);
-		$res = $row->getPathForToken($fileId, $access_token);
+
+		$wopi = $this->wopiMapper->getPathForToken($access_token);
+
+		if ((int)$fileId !== $wopi->getFileid()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 			$file = $userFolder->getById($fileId)[0];
 			\OC_User::setIncognitoMode(true);
-			if ($version !== '0')
-			{
-				$view = new View('/' . $res['owner'] . '/files');
+			if ($version !== '0') {
+				$view = new View('/' . $wopi->getOwnerUid() . '/files');
 				$relPath = $view->getRelativePath($file->getPath());
 				$versionPath = '/files_versions/' . $relPath . '.v' . $version;
-				$view = new View('/' . $res['owner']);
+				$view = new View('/' . $wopi->getOwnerUid());
 				if ($view->file_exists($versionPath)){
 					$response = new StreamResponse($view->fopen($versionPath, 'rb'));
 				}
@@ -201,17 +212,14 @@ class WopiController extends Controller {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
-		$row = new Wopi();
-		$row->loadBy('token', $access_token);
-
-		$res = $row->getPathForToken($fileId, $access_token);
-		if (!$res['canwrite']) {
+		$wopi = $this->wopiMapper->getPathForToken($access_token);
+		if (!$wopi->getCanwrite()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($res['owner']);
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 			$file = $userFolder->getById($fileId)[0];
 
 			if ($isPutRelative) {
@@ -263,10 +271,10 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 			// Setup the FS which is needed to emit hooks (versioning).
 			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($res['owner']);
+			\OC_Util::setupFS($wopi->getOwnerUid());
 
 			// Set the user to register the change under his name
-			$editor = \OC::$server->getUserManager()->get($res['editor']);
+			$editor = \OC::$server->getUserManager()->get($wopi->getEditorUid());
 			if (!is_null($editor)) {
 				\OC::$server->getUserSession()->setUser($editor);
 			}

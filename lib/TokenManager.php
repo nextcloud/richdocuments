@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments;
 
 use OC\Share\Constants;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\WOPI\Parser;
@@ -39,25 +40,36 @@ class TokenManager {
 	private $urlGenerator;
 	/** @var Parser */
 	private $wopiParser;
+	/** @var AppConfig */
+	private $appConfig;
+	/** @var string */
+	private $userId;
+	/** @var WopiMapper */
+	private $wopiMapper;
 
 	/**
 	 * @param IRootFolder $rootFolder
 	 * @param IManager $shareManager
 	 * @param IURLGenerator $urlGenerator
+	 * @param Parser $wopiParser
+	 * @param AppConfig $appConfig
 	 * @param string $UserId
+	 * @param WopiMapper $wopiMapper
 	 */
 	public function __construct(IRootFolder $rootFolder,
 								IManager $shareManager,
 								IURLGenerator $urlGenerator,
 								Parser $wopiParser,
 								AppConfig $appConfig,
-								$UserId) {
+								$UserId,
+								WopiMapper $wopiMapper) {
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->wopiParser = $wopiParser;
 		$this->appConfig = $appConfig;
 		$this->userId = $UserId;
+		$this->wopiMapper = $wopiMapper;
 	}
 
 	/**
@@ -112,15 +124,14 @@ class TokenManager {
 		if (is_null($owneruid)) {
 			$owneruid = $file->getOwner()->getUID();
 		}
-		$row = new Wopi();
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-		$token = $row->generateFileToken($fileId, $owneruid, $this->userId, $version, (int)$updatable, $serverHost);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $this->userId, $version, (int)$updatable, $serverHost);
 
 		try {
 
 			return [
 				$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],
-				$token,
+				$wopi->getToken(),
 			];
 		} catch (\Exception $e){
 			throw $e;
