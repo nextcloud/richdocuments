@@ -162,6 +162,11 @@ class WopiController extends Controller {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
 		$wopi = $this->wopiMapper->getPathForToken($access_token);
+
+		if ((int)$fileId !== $wopi->getFileid()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		try {
 			/** @var File $file */
 			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
