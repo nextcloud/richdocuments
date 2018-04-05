@@ -103,7 +103,10 @@ class WopiMapper extends Mapper {
 		$row = $result->fetch();
 		$result->closeCursor();
 
-		$this->logger->debug('Loaded WOPI Token record: {row}.', [ 'row' => $row ]);
+		$this->logger->debug('Loaded WOPI Token record: {row}.', [
+			'row' => $row,
+			'app' => 'richdocuments'
+		]);
 		if ($row === false) {
 			throw new DoesNotExistException('Could not find token.');
 		}
