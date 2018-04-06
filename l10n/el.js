@@ -8,6 +8,8 @@ OC.L10N.register(
     "Latest revision" : "Τελευταία αναθεώρηση",
     "More versions…" : "Περισσότερες εκδόσεις...",
     "Just now" : "Μόλις τώρα",
+    "Failed to revert the document to older version" : "Αποτυχία επαναφοράς του εγγράφου σε παλαιότερη έκδοση",
+    "Please enter the filename to store the document as." : "Παρακαλούμε εισαγάγετε το όνομα αρχείου για να αποθηκεύσετε το έγγραφο ως.",
     "Save As" : "Αποθήκευση ως",
     "New filename" : "Νέο όνομα αρχείου",
     "Cancel" : "Ακύρωση",
