@@ -78,7 +78,7 @@ class TokenManager {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getToken($fileId, $shareToken = null) {
+	public function getToken($fileId, $shareToken = null, $editoruid = null) {
 		list($fileId,, $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		// if the user is not logged-in do use the sharers storage
@@ -90,20 +90,19 @@ class TokenManager {
 			$owneruid = $share->getShareOwner();
 		} else if (!is_null($this->userId)) {
 			try {
-				/** @var File $file */
-				$rootFolder = $this->rootFolder->getUserFolder($this->userId);
+				$editoruid = $this->userId;
+				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
 				$updatable = $rootFolder->isUpdateable();
 				// Check if the editor (user who is accessing) is in editable group
 				// UserCanWrite only if
 				// 1. No edit groups are set or
 				// 2. if they are set, it is in one of the edit groups
-				$editorUid = \OC::$server->getUserSession()->getUser()->getUID();
 				$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
 				if ($updatable && count($editGroups) > 0) {
 					$updatable = false;
 					foreach($editGroups as $editGroup) {
 						 $editorGroup = \OC::$server->getGroupManager()->get($editGroup);
-						 if ($editorGroup !== null && sizeof($editorGroup->searchUsers($editorUid)) > 0) {
+						 if ($editorGroup !== null && sizeof($editorGroup->searchUsers($editoruid)) > 0) {
 							$updatable = true;
 							break;
 						 }
@@ -115,6 +114,9 @@ class TokenManager {
 		} else {
 			// no active user login while generating the token
 			// this is required during WopiPutRelativeFile
+			if (is_null($editoruid)) {
+				\OC::$server->getLogger()->warning('Generating token for SaveAs without editoruid');
+			}
 			$rootFolder = $this->rootFolder;
 			$updatable = true;
 		}
@@ -125,7 +127,7 @@ class TokenManager {
 			$owneruid = $file->getOwner()->getUID();
 		}
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $this->userId, $version, (int)$updatable, $serverHost);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost);
 
 		try {
 
