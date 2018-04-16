@@ -30,6 +30,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
 use OCP\Share\IManager;
+use OCP\IL10N;
 
 class TokenManager {
 	/** @var IRootFolder */
@@ -46,6 +47,8 @@ class TokenManager {
 	private $userId;
 	/** @var WopiMapper */
 	private $wopiMapper;
+	/** @var IL10N */
+	private $trans;
 
 	/**
 	 * @param IRootFolder $rootFolder
@@ -55,6 +58,7 @@ class TokenManager {
 	 * @param AppConfig $appConfig
 	 * @param string $UserId
 	 * @param WopiMapper $wopiMapper
+	 * @param IL10N $trans
 	 */
 	public function __construct(IRootFolder $rootFolder,
 								IManager $shareManager,
@@ -62,12 +66,14 @@ class TokenManager {
 								Parser $wopiParser,
 								AppConfig $appConfig,
 								$UserId,
-								WopiMapper $wopiMapper) {
+								WopiMapper $wopiMapper,
+								IL10N $trans) {
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->wopiParser = $wopiParser;
 		$this->appConfig = $appConfig;
+		$this->trans = $trans;
 		$this->userId = $UserId;
 		$this->wopiMapper = $wopiMapper;
 	}
@@ -125,7 +131,14 @@ class TokenManager {
 			$owneruid = $file->getOwner()->getUID();
 		}
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $this->userId, $version, (int)$updatable, $serverHost);
+
+		if (is_null($this->userId) && isset($_COOKIE['guestUser'])) {
+			$guest_name = $this->trans->t('Guest: %s', $_COOKIE['guestUser']);
+		} else {
+			$guest_name = NULL;
+		}
+
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $this->userId, $version, (int)$updatable, $serverHost, $guest_name);
 
 		try {
 
