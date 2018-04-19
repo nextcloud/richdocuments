@@ -434,6 +434,8 @@ var documentsMain = {
 			// submit that
 			$('#loleafletform').submit();
 
+			OC.Util.History.addOnPopStateHandler(_.bind(documentsMain.onClose));
+			OC.Util.History.pushState();
 		},
 
 		hideEditor : function(){
