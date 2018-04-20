@@ -115,6 +115,8 @@ var odfViewer = {
 		}
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
+
+		OC.Util.History.replaceState();
 	},
 
 	registerFilesMenu: function(response) {
