@@ -39,4 +39,4 @@ OC.L10N.register(
     "Guest %s" : "Svečias %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Šios nuorodos laikas pasibaigė, arba jos niekada nebuvo. Išsamesnei informacijai, prašome susisiekti su asmeniu kuris pradėjo bendrinti šią nuorodą su jumis."
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 1 : (n%10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 3 : n % 1 != 0 ? 4);");

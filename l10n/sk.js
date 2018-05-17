@@ -42,4 +42,4 @@ OC.L10N.register(
     "Guest %s" : "Hosť %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Tento odkaz vyexpiroval, alebo neexistuje. Pre podrobnosti kontaktujte osobu, ktorá ho s vami sprístupňovala."
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n % 1 == 0 ? 4: n==1 ? 1: n % 1 == 0 && n>=2 && n<=4 ? 3);");
