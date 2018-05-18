@@ -47,4 +47,4 @@ OC.L10N.register(
     "Guest %s" : "სტუმარი %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "ამ ბმულს ვადა გაუვიდა, ან არც არსებობდა. დეტალებისთვის გთხოვთ დაუკავშირდეთ პიროვნებას, ვინც გაგიზიარათ ეს."
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");
