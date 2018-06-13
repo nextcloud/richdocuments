@@ -18,7 +18,67 @@ $.widget('oc.documentGrid', {
 	},
 
 	_load : function (fileId){
+		// Handle guest user case (let users which are able to write set their name)
+		if (window.top.oc_current_user == null && this._getGuestNameCookie() == ''
+				&& (richdocuments_permissions & OC.PERMISSION_UPDATE)) {
+			$('#documentslist').remove();
+
+			var text = document.createElement('div');
+			$(text).attr('style', 'margin: 0 auto; margin-top: 100px; text-align: center;');
+
+			var para = t('richdocuments', 'Please choose your nickname to continue as guest user.');
+			text.innerHTML = para;
+
+
+			var div = document.createElement('div');
+			$(div).attr('style', 'margin: 0 auto; width: 195px;');
+			var nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">';
+			var btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('richdocuments', 'Set') + '">';
+			div.innerHTML = nick + btn;
+
+			$('#documents-content').prepend(div);
+			$('#documents-content').prepend(text);
+			var that = this;
+			$('#nickname').keyup(function(event) {
+				if (event.which === 13) {
+					that._setGuestNameCookie();
+				}
+			});
+			$('#btn').click(that._setGuestNameCookie);
+			$('#preview').hide();
+			// return such that the editor rendering is skipped. The (parent) page
+			// will be reloaded with the cookie set when the user submits the form.
+			return;
+		}
+
+		// standard case, render the editor
 		documentsMain.initSession();
+	},
+
+	_getGuestNameCookie: function() {
+	    var name = 'guestUser=';
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var cookieArr = decodedCookie.split(';');
+	    for (var i = 0; i < cookieArr.length; i++) {
+	        var c = cookieArr[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }
+	    return '';
+	},
+
+	_setGuestNameCookie: function() {
+		var username = $('#nickname').val();
+
+		if (username != '') {
+			document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/';
+		}
+
+		location.reload(true);
 	},
 
 	_render : function (data){

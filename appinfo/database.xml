@@ -82,6 +82,11 @@
 				<length>64</length>
 			</field>
 			<field>
+				<name>guest_displayname</name>
+				<type>text</type>
+				<length>64</length>
+			</field>
+			<field>
 				<name>fileid</name>
 				<type>integer</type>
 				<notnull>true</notnull>

@@ -45,6 +45,8 @@ use OCP\AppFramework\Db\Entity;
  * @method string getToken()
  * @method void setExpiry(int $expiry)
  * @method int getExpiry()
+ * @method void setGuestDisplayname(string $token)
+ * @method string getGuestDisplayname()
  */
 class Wopi extends Entity {
 	/** @var string */
@@ -71,6 +73,9 @@ class Wopi extends Entity {
 	/** @var int */
 	protected $expiry;
 
+	/** @var string */
+	protected $guestDisplayname;
+
 	public function __construct() {
 		$this->addType('owner_uid', 'string');
 		$this->addType('editor_uid', 'string');
@@ -80,6 +85,7 @@ class Wopi extends Entity {
 		$this->addType('server_host', 'string');
 		$this->addType('token', 'string');
 		$this->addType('expiry', 'int');
+		$this->addType('guest_displayname', 'string');
 	}
 
 }

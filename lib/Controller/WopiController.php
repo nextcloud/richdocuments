@@ -124,7 +124,7 @@ class WopiController extends Controller {
 			'Version' => $version,
 			'UserId' => !is_null($wopi->getEditorUid()) ? $wopi->getEditorUid() : 'guest',
 			'OwnerId' => $wopi->getOwnerUid(),
-			'UserFriendlyName' => !is_null($wopi->getEditorUid()) ? \OC_User::getDisplayName($wopi->getEditorUid()) : 'Guest user',
+			'UserFriendlyName' => !is_null($wopi->getEditorUid()) ? \OC_User::getDisplayName($wopi->getEditorUid()) : $wopi->getGuestDisplayname(),
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $wopi->getCanwrite(),
