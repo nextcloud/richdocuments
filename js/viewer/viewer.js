@@ -89,7 +89,7 @@ var odfViewer = {
 			FileList.setViewerMode(true);
 		}
 
-		var $iframe = $('<iframe id="richdocumentsframe" allowfullscreen style="width:100%;height:100%;display:block;position:absolute;top:0;z-index:60;" src="'+viewer+'" />');
+		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen style="width:100%;height:100%;display:block;position:absolute;top:0;z-index:60;" src="'+viewer+'" />');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
 			$('#preview').append($iframe).css({height: '100%'});
