@@ -5,13 +5,16 @@ OC.L10N.register(
     "All" : "Vše",
     "Download this revision" : "Stáhnout tuto revizi",
     "Restore this revision" : "Obnovit tuto revizi",
+    "Latest revision" : "Nejnovější revize",
     "More versions…" : "Více verzí…",
     "Just now" : "Právě teď",
+    "Failed to revert the document to older version" : "Nepodařilo se vrátit dokument do podoby starší verze",
+    "Please enter the filename to store the document as." : "Zadejte název souboru ve kterém dokument uchovávat.",
     "Save As" : "Uložit jako",
-    "New filename" : "Jméno souboru",
+    "New filename" : "Název souboru",
     "Cancel" : "Storno",
     "Save" : "Uložit",
-    "Loading documents…" : "Nahrávám dokumenty...",
+    "Loading documents…" : "Nahrávají se dokumenty…",
     "Edit" : "Upravit",
     "New Document" : "Nový dokument",
     "New Spreadsheet" : "Nová tabulka",
@@ -27,6 +30,7 @@ OC.L10N.register(
     "Saved" : "Uloženo",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uloženo s chybou: Collabora Online by měla používat stejný protokol jako instalovaný server.",
     "Collabora Online" : "Collabora Online",
+    "Edit office documents directly in your browser." : "Upravujte dokumenty přímo ve webovém prohlížeči",
     "Open documentation" : "Otevřít dokumentaci",
     "Collabora Online server" : "Collabora Online server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (a port) Collabora Online serveru, který poskytuje funkce úprav jako WOPI klient.",
@@ -42,4 +46,4 @@ OC.L10N.register(
     "Guest %s" : "Host %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Tento odkaz vypršel nebo neexistuje. Pro podrobnosti kontaktujte osobu, která jej s vámi sdílela."
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

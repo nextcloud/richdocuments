@@ -30,6 +30,8 @@ OC.L10N.register(
     "Saved" : "Saved",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation.",
     "Collabora Online" : "Collabora Online",
+    "Edit office documents directly in your browser." : "Edit office documents directly in your browser.",
+    "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.",
     "Open documentation" : "Open documentation",
     "Collabora Online server" : "Collabora Online server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client.",

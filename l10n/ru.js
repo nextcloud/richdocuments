@@ -6,7 +6,7 @@ OC.L10N.register(
     "Download this revision" : "Скачать эту ревизию",
     "Restore this revision" : "Восстановить эту ревизию",
     "Latest revision" : "Последние изменения",
-    "More versions…" : "Больше версий...",
+    "More versions…" : "Больше версий…",
     "Just now" : "Прямо сейчас",
     "Failed to revert the document to older version" : "Не удалось вернуть документ к старой версии",
     "Please enter the filename to store the document as." : "Задайте имя файла для сохранения этого документа.",

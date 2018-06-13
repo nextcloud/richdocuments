@@ -24,4 +24,4 @@ OC.L10N.register(
     "Guest %s" : "אורח %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "קישור זה אינו תקף או לא קיים. יש ליצור קשר עם האדם, ששיתף את הקישור אתך, לפרטים."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -364,6 +364,10 @@ var documentsMain = {
 				console.log('Waiting for page to render…');
 				return;
 			}
+
+			OC.Util.History.addOnPopStateHandler(_.bind(documentsMain.onClose));
+			OC.Util.History.pushState();
+
 			parent.postMessage('loading', '*');
 
 			$(document.body).addClass("claro");
@@ -493,7 +497,6 @@ var documentsMain = {
 
 			// submit that
 			$('#loleafletform').submit();
-
 		},
 
 		hideEditor : function(){
@@ -610,7 +613,6 @@ var documentsMain = {
 			documentsMain.show();
 			$('footer,nav').show();
 	},
-
 
 	onClose: function() {
 		documentsMain.isEditorMode = false;

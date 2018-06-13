@@ -28,6 +28,8 @@
     "Saved" : "Kaydedildi",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sorunlu olarak kaydedildi: Collabora Online sunucuda kurulu olan iletişim kuralını kullanmalıdır.",
     "Collabora Online" : "Collabora Online",
+    "Edit office documents directly in your browser." : "Bu uygulama ofis belgelerinin doğrudan web tarayıcı üzerinde düzenlenebilmesini sağlar.",
+    "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Bu uygulama bir Collabora Online sunucusuna (WOPI İstemcisi) bağlanabilir. Nextcloud WOPI sunucusudur. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Open documentation" : "Belgeleri aç",
     "Collabora Online server" : "Collabora Online sunucusu",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Bir WOPI istemcisi olarak düzenleme işlevi sağlayan Collabora Onlie sunucusunun adresi (ve kapı numarası).",

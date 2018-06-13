@@ -107,22 +107,6 @@ var odfViewer = {
 
 		$('#app-content #controls').addClass('hidden');
 		$('#app-content').append($iframe);
-		window.location.assign(window.location.href + '#richdocuments');
-
-		window.addEventListener('hashchange', function(e) {
-			// handle double hash (eg: ##richdocuments)
-			var hash = window.location.hash.replace(/#/g, '');
-			// unload
-			if (hash !== 'richdocuments') {
-				odfViewer.onClose();
-			}
-			// load
-			else if (hash === 'richdocuments' && $('#richdocumentsframe').length === 0) {
-				$('#app-content #controls').addClass('hidden');
-				$('#app-navigation').addClass('hidden');
-				$('#app-content').append($iframe);
-			}
-		});
 	},
 
 	onClose: function() {
@@ -131,6 +115,8 @@ var odfViewer = {
 		}
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
+
+		OC.Util.History.replaceState();
 	},
 
 	registerFilesMenu: function(response) {

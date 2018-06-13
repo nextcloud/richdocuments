@@ -223,6 +223,10 @@ class WopiController extends Controller {
 			$file = $userFolder->getById($fileId)[0];
 
 			if ($isPutRelative) {
+				// the new file needs to be installed in the current user dir
+				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
+				$file = $userFolder->getById($fileId)[0];
+
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = iconv('utf-7', 'utf-8', $suggested);
 
@@ -271,7 +275,11 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 			// Setup the FS which is needed to emit hooks (versioning).
 			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($wopi->getOwnerUid());
+			if (!$isPutRelative) {
+				\OC_Util::setupFS($wopi->getOwnerUid());
+			} else {
+				\OC_Util::setupFS($wopi->getEditorUid());
+			}
 
 			// Set the user to register the change under his name
 			$editor = \OC::$server->getUserManager()->get($wopi->getEditorUid());
@@ -285,7 +293,7 @@ class WopiController extends Controller {
 				// generate a token for the new file (the user still has to be
 				// logged in)
 				$serverHost = $this->request->getServerProtocol() . '://' . $this->request->getServerHost();
-				list(, $wopiToken) = $this->tokenManager->getToken($file->getId());
+				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
 
 				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 				$url = \OC::$server->getURLGenerator()->getAbsoluteURL($wopi);

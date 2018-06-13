@@ -44,5 +44,5 @@
     "OK" : "დიახ",
     "Guest %s" : "სტუმარი %s",
     "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "ამ ბმულს ვადა გაუვიდა, ან არც არსებობდა. დეტალებისთვის გთხოვთ დაუკავშირდეთ პიროვნებას, ვინც გაგიზიარათ ეს."
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }
