@@ -3,6 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "Speichere…",
     "All" : "Alle",
+    "Please choose your nickname to continue as guest user." : "Bitte wählen Sie Ihren Spitznamen und fahren Sie als Gastbenutzer fort.",
+    "Nickname" : "Spitzname",
+    "Set" : "Setzen",
     "Download this revision" : "Diese Revision herunterladen",
     "Restore this revision" : "Diese Revision wiederherstellen",
     "Latest revision" : "Neueste Revision",
@@ -30,6 +33,7 @@ OC.L10N.register(
     "Saved" : "Gespeichert",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mit Fehler gespeichert: Collabora Online sollte das gleiche Protokoll wie die Server-Installation nutzen.",
     "Collabora Online" : "Collabora Online",
+    "Guest: %s" : "Gast: %s",
     "Edit office documents directly in your browser." : "Bearbeiten Sie Office-Dokumente direkt in Ihrem Browser",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Diese Anwendung kann sich mit einem Collabora Online Server (WOPI Client) verbinden. Nextcloud ist der WOPI Host. Bitte lesen Sie die Dokumentation, um mehr darüber zu erfahren.",
     "Open documentation" : "Dokumentation öffnen",

@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Saving…" : "Ukládání…",
     "All" : "Vše",
+    "Nickname" : "Přezdívka",
+    "Set" : "Nastavit",
     "Download this revision" : "Stáhnout tuto revizi",
     "Restore this revision" : "Obnovit tuto revizi",
     "Latest revision" : "Nejnovější revize",

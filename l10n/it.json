@@ -1,6 +1,9 @@
 { "translations": {
     "Saving…" : "Salvataggio in corso...",
     "All" : "Tutti",
+    "Please choose your nickname to continue as guest user." : "Scegli il tuo pseudonimo per continuare come ospite.",
+    "Nickname" : "Pseudonimo",
+    "Set" : "Imposta",
     "Download this revision" : "Scarica questa revisione",
     "Restore this revision" : "Ripristina questa revisione",
     "Latest revision" : "Ultima revisione",
@@ -28,6 +31,7 @@
     "Saved" : "Salvato",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvato con errore: Collabora Online dovrebbe utilizzare lo stesso protocollo dell'installazione del server.",
     "Collabora Online" : "Collabora Online",
+    "Guest: %s" : "Ospite: %s",
     "Edit office documents directly in your browser." : "Modifca i documenti di ufficio direttamente nel tuo browser.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Questa applicazione può collegare un server Collabora Online (client WOPI). Nextcloud è l'host WOPI. Leggi la documentazione per scoprire ulteriori informazioni.",
     "Open documentation" : "Apri la documentazione",
