@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Saving…" : "Γίνεται αποθήκευση...",
     "All" : "'Ολα",
+    "Nickname" : "Παρατσούκλι",
+    "Set" : "Ορισμός",
     "Download this revision" : "Λήψη αυτής της αναθεώρησης",
     "Restore this revision" : "Επαναφορά αυτή της αναθεώρησης",
     "Latest revision" : "Τελευταία αναθεώρηση",
