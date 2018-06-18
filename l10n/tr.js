@@ -3,6 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "Kaydediliyor...",
     "All" : "Tümü",
+    "Please choose your nickname to continue as guest user." : "Konuk kullanıcı olarak devam etmek için bir takma ad seçin.",
+    "Nickname" : "Takma Ad",
+    "Set" : "Ayarla",
     "Download this revision" : "Bu sürümü indir",
     "Restore this revision" : "Bu sürümü geri yükle",
     "Latest revision" : "Son sürüm",
@@ -30,6 +33,7 @@ OC.L10N.register(
     "Saved" : "Kaydedildi",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sorunlu olarak kaydedildi: Collabora Online sunucuda kurulu olan iletişim kuralını kullanmalıdır.",
     "Collabora Online" : "Collabora Online",
+    "Guest: %s" : "Konuk: %s",
     "Edit office documents directly in your browser." : "Bu uygulama ofis belgelerinin doğrudan web tarayıcı üzerinde düzenlenebilmesini sağlar.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Bu uygulama bir Collabora Online sunucusuna (WOPI İstemcisi) bağlanabilir. Nextcloud WOPI sunucusudur. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Open documentation" : "Belgeleri aç",
