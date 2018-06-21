@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Saving…" : "Enregistrement…",
     "All" : "Tout",
+    "Please choose your nickname to continue as guest user." : "Veuillez choisir votre surnom pour continuer en tant qu'utilisateur invité.",
+    "Nickname" : "Surnom",
     "Download this revision" : "Télécharger cette révision",
     "Restore this revision" : "Restaurer cette révision",
     "Latest revision" : "Dernière version",
@@ -30,6 +32,7 @@ OC.L10N.register(
     "Saved" : "Sauvegardé",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sauvegardé avec une erreur : Collabora Online devrait utiliser le même protocole que lors de l'installation du serveur.",
     "Collabora Online" : "Collabora en ligne",
+    "Guest: %s" : "Invité : %s",
     "Open documentation" : "Voir la documentation",
     "Collabora Online server" : "Serveur Collabora en ligne",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "Adresse (et port) du serveur Collabora en ligne qui fourni la fonctionnalité d'édition comme un client WOPI.",

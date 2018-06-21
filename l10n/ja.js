@@ -6,7 +6,7 @@ OC.L10N.register(
     "Download this revision" : "このリビジョンをダウンロード",
     "Restore this revision" : "このリビジョンを復元",
     "Save" : "保存",
-    "Loading documents…" : "ドキュメントを読込中...",
+    "Loading documents…" : "ドキュメントを読み込み中...",
     "Edit" : "編集",
     "New Document" : "新しいドキュメント",
     "New Spreadsheet" : "新しいスプレッドシート",
