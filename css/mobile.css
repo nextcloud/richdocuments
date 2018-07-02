@@ -1,0 +1,9 @@
+@media only screen and (max-width: 768px) {
+	#header {
+		display: none !important;
+	}
+
+	#content-wrapper {
+		padding-top: 0;
+	}
+}

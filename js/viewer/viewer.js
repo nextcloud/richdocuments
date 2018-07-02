@@ -89,6 +89,7 @@ var odfViewer = {
 			FileList.setViewerMode(true);
 		}
 
+		OC.addStyle('richdocuments', 'mobile');
 		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen style="width:100%;height:100%;display:block;position:absolute;top:0;z-index:60;" src="'+viewer+'" />');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
@@ -113,6 +114,7 @@ var odfViewer = {
 		if(typeof FileList !== "undefined") {
 			FileList.setViewerMode(false);
 		}
+		$('link[href="' + OC.addStyle.loaded.pop() + '"]').remove();
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
 
