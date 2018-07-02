@@ -1,6 +1,8 @@
 { "translations": {
     "Saving…" : "保存中...",
     "All" : "すべて",
+    "Please choose your nickname to continue as guest user." : "ゲストユーザーとして続けるにはニックネームを選択してください。",
+    "Nickname" : "ニックネーム",
     "Download this revision" : "このリビジョンをダウンロード",
     "Restore this revision" : "このリビジョンを復元",
     "Save" : "保存",

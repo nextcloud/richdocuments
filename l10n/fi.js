@@ -3,6 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "Tallennetaan...",
     "All" : "Kaikki",
+    "Please choose your nickname to continue as guest user." : "Valitse nimimerkki jatkaaksesi vieraskäyttäjänä.",
+    "Nickname" : "Nimimerkki",
+    "Set" : "Aseta",
     "Download this revision" : "Lataa tämä versio",
     "Restore this revision" : "Palauta tähän versioon",
     "More versions…" : "Lisää versioita…",
@@ -28,6 +31,8 @@ OC.L10N.register(
     "Saved" : "Tallennettu",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
     "Collabora Online" : "Collabora Online",
+    "Guest: %s" : "Vieras: %s",
+    "Edit office documents directly in your browser." : "Muokkaa asiakirjoja suoraan selaimessasi.",
     "Collabora Online server" : "Collabora Online -palvelin",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL-osoite (ja portti) Collabora Online -palvelimelle, joka tarjoaa mukkaustoiminnot WOPI-asiakkaana.",
     "Apply" : "Toteuta",
