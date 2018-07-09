@@ -24,7 +24,6 @@ namespace OCA\Richdocuments\Controller;
 use OC\Files\View;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TokenManager;
-use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -136,16 +135,14 @@ class WopiController extends Controller {
 			'UserCanWrite' => $wopi->getCanwrite(),
 			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : is_null($wopi->getEditorUid()),
 			'PostMessageOrigin' => $wopi->getServerHost(),
-			'LastModifiedTime' => Helper::toISO8601($file->getMtime())
+			'LastModifiedTime' => Helper::toISO8601($file->getMTime())
 		];
 
 		$serverVersion = $this->config->getSystemValue('version');
 		if (version_compare($serverVersion, '13', '>=')) {
 			$user = $this->userManager->get($wopi->getEditorUid());
-			if($user !== null) {
-				if($user->getAvatarImage(32) !== null) {
-					$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
-				}
+			if($user !== null && $user->getAvatarImage(32) !== null) {
+				$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 			}
 		}
 
@@ -187,7 +184,7 @@ class WopiController extends Controller {
 					$response = new StreamResponse($view->fopen($versionPath, 'rb'));
 				}
 				else {
-					$response->setStatus(Http::STATUS_NOT_FOUND);
+					return new JSONResponse([], Http::STATUS_NOT_FOUND);
 				}
 			}
 			else
@@ -215,7 +212,7 @@ class WopiController extends Controller {
 	 */
 	public function putFile($fileId,
 							$access_token) {
-		list($fileId, , $version) = Helper::parseFileId($fileId);
+		list($fileId, ,) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
 		$wopi = $this->wopiMapper->getPathForToken($access_token);
@@ -236,7 +233,6 @@ class WopiController extends Controller {
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = iconv('utf-7', 'utf-8', $suggested);
 
-				$path = '';
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
 				}
@@ -248,10 +244,10 @@ class WopiController extends Controller {
 				}
 
 				if ($path === '') {
-					return array(
+					return new JSONResponse([
 						'status' => 'error',
 						'message' => 'Cannot create the file'
-					);
+					]);
 				}
 
 				$root = \OC::$server->getRootFolder();
@@ -271,7 +267,7 @@ class WopiController extends Controller {
 				if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 						'headerTime' => $wopiHeaderTime,
-						'storageTime' => Helper::toISO8601($file->getMtime())
+						'storageTime' => Helper::toISO8601($file->getMTime())
 					]);
 					// Tell WOPI client about this conflict.
 					return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
@@ -298,7 +294,6 @@ class WopiController extends Controller {
 			if ($isPutRelative) {
 				// generate a token for the new file (the user still has to be
 				// logged in)
-				$serverHost = $this->request->getServerProtocol() . '://' . $this->request->getServerHost();
 				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
 
 				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
@@ -306,9 +301,8 @@ class WopiController extends Controller {
 
 				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
 			}
-			else {
-				return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMtime())]);
-			}
+
+			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
