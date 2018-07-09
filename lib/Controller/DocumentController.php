@@ -14,10 +14,13 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\WOPI\Parser;
 use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use \OCP\IRequest;
 use \OCP\IConfig;
 use \OCP\IL10N;
@@ -289,11 +292,24 @@ class DocumentController extends Controller {
 	 */
 	public function create($mimetype,
 						   $filename,
-						   $dir){
+						   $dir = '/'){
 
-		$view = new View('/' . $this->uid . '/files');
-		if (!$dir){
-			$dir = '/';
+		$root = $this->rootFolder->getUserFolder($this->uid);
+		try {
+			/** @var Folder $folder */
+			$folder = $root->get($dir);
+		} catch (NotFoundException $e) {
+			return new JSONResponse([
+					'status' => 'error',
+					'message' => $this->l10n->t('Can\'t create document')
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		if (!($folder instanceof Folder)) {
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => $this->l10n->t('Can\'t create document')
+			], Http::STATUS_BAD_REQUEST);
 		}
 
 		$basename = $this->l10n->t('New Document.odt');
@@ -320,9 +336,23 @@ class DocumentController extends Controller {
 		}
 
 		if (!$filename){
-			$path = Helper::getNewFileName($view, $dir . '/' . $basename);
-		} else {
-			$path = $dir . '/' . $filename;
+			$filename = Helper::getNewFileName($folder, $basename);
+		}
+
+		if ($folder->nodeExists($filename)) {
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => $this->l10n->t('Document already exists')
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		try {
+			$file = $folder->newFile($filename);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => $this->l10n->t('Not allowed to create document')
+			], Http::STATUS_BAD_REQUEST);
 		}
 
 		$content = '';
@@ -335,20 +365,19 @@ class DocumentController extends Controller {
 			$content = file_get_contents(dirname(__DIR__) . self::ODT_TEMPLATE_PATH);
 		}
 
-		if ($content && $view->file_put_contents($path, $content)) {
-			$info = $view->getFileInfo($path);
-			$ret = $this->wopiParser->getUrlSrc($mimetype);
-			$response =  array(
+		if ($content) {
+			$file->putContent($content);
+
+			return new JSONResponse([
 				'status' => 'success',
-				'data' => \OCA\Files\Helper::formatFileInfo($info)
-			);
-		} else {
-			$response =  array(
-				'status' => 'error',
-				'message' => (string) $this->l10n->t('Can\'t create document')
-			);
+				'data' => \OCA\Files\Helper::formatFileInfo($file->getFileInfo())
+			]);
 		}
 
-		return $response;
+
+		return new JSONResponse([
+			'status' => 'error',
+			'message' => $this->l10n->t('Can\'t create document')
+		]);
 	}
 }
