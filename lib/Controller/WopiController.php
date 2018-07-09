@@ -33,6 +33,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
@@ -51,6 +52,8 @@ class WopiController extends Controller {
 	private $userManager;
 	/** @var WopiMapper */
 	private $wopiMapper;
+	/** @var ILogger */
+	private $logger;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -65,6 +68,7 @@ class WopiController extends Controller {
 	 * @param TokenManager $tokenManager
 	 * @param IUserManager $userManager
 	 * @param WopiMapper $wopiMapper
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
 								$UserId,
@@ -74,7 +78,8 @@ class WopiController extends Controller {
 								IConfig $config,
 								TokenManager $tokenManager,
 								IUserManager $userManager,
-								WopiMapper $wopiMapper) {
+								WopiMapper $wopiMapper,
+								ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
@@ -82,6 +87,7 @@ class WopiController extends Controller {
 		$this->tokenManager = $tokenManager;
 		$this->userManager = $userManager;
 		$this->wopiMapper = $wopiMapper;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -263,7 +269,7 @@ class WopiController extends Controller {
 			else {
 				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
 				if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
-					\OC::$server->getLogger()->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
+					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 						'headerTime' => $wopiHeaderTime,
 						'storageTime' => Helper::toISO8601($file->getMtime())
 					]);
@@ -282,7 +288,7 @@ class WopiController extends Controller {
 			}
 
 			// Set the user to register the change under his name
-			$editor = \OC::$server->getUserManager()->get($wopi->getEditorUid());
+			$editor = $this->userManager->get($wopi->getEditorUid());
 			if (!is_null($editor)) {
 				\OC::$server->getUserSession()->setUser($editor);
 			}
@@ -296,7 +302,7 @@ class WopiController extends Controller {
 				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
 
 				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
-				$url = \OC::$server->getURLGenerator()->getAbsoluteURL($wopi);
+				$url = $this->urlGenerator->getAbsoluteURL($wopi);
 
 				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
 			}

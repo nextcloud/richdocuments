@@ -66,6 +66,7 @@ class DocumentController extends Controller {
 	 * @param IRootFolder $rootFolder
 	 * @param ISession $session
 	 * @param string $UserId
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -110,7 +111,7 @@ class DocumentController extends Controller {
 			if ($app !== '') {
 				if ($secretToken === $app) {
 					$appName = explode(':', $app);
-					\OC::$server->getLogger()->debug('External app "{extApp}" authenticated; issuing access token for fileId {fileId}', [
+					$this->logger->debug('External app "{extApp}" authenticated; issuing access token for fileId {fileId}', [
 						'app' => $this->appName,
 						'extApp' => $appName[0],
 						'fileId' => $fileId
