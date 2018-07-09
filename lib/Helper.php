@@ -13,6 +13,7 @@ namespace OCA\Richdocuments;
 
 use \DateTime;
 use \DateTimeZone;
+use OCP\Files\Folder;
 
 class Helper {
 	const APP_ID = 'richdocuments';
@@ -58,14 +59,14 @@ class Helper {
 		return false;
 	}
 
-	public static function getNewFileName($view, $path, $prepend = ' '){
+	public static function getNewFileName(Folder $folder, $filename) {
 		$fileNum = 1;
 
-		while ($view->file_exists($path)){
-			$fileNum += 1;
-			$path = preg_replace('/(\.|' . $prepend . '\(\d+\)\.)([^.]*)$/', $prepend . '(' . $fileNum . ').$2', $path);
-		};
+		while ($folder->nodeExists($filename)) {
+			$fileNum++;
+			$filename = preg_replace('/(\.| \(\d+\)\.)([^.]*)$/', ' (' . $fileNum . ').$2', $filename);
+		}
 
-		return $path;
+		return $filename;
 	}
 }
