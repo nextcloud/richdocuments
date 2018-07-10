@@ -135,4 +135,43 @@
 			</index>
 		</declaration>
 	</table>
+
+	<table>
+		<name>*dbprefix*richdocuments_direct</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<length>64</length>
+			</field>
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<length>64</length>
+			</field>
+			<field>
+				<name>fileid</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<index>
+				<name>rd_direct_token_idx</name>
+				<unique>true</unique>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
+	</table>
 </database>
