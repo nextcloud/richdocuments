@@ -27,7 +27,10 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
 class Application extends App  {
+
+	const APPNAME = 'richdocuments';
+
 	public function __construct (array $urlParams = array()) {
-		parent::__construct('richdocuments', $urlParams);
+		parent::__construct(self::APPNAME, $urlParams);
 	}
 }
