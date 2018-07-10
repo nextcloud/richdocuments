@@ -220,9 +220,15 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		// Unless the editor is empty (public link) we modify the files as the current editor
+		$editor = $wopi->getEditorUid();
+		if ($editor === null) {
+			$editor = $wopi->getOwnerUid();
+		}
+
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
+			$userFolder = $this->rootFolder->getUserFolder($editor);
 			$file = $userFolder->getById($fileId)[0];
 
 			if ($isPutRelative) {
@@ -275,13 +281,6 @@ class WopiController extends Controller {
 			}
 
 			$content = fopen('php://input', 'rb');
-			// Setup the FS which is needed to emit hooks (versioning).
-			\OC_Util::tearDownFS();
-			if (!$isPutRelative) {
-				\OC_Util::setupFS($wopi->getOwnerUid());
-			} else {
-				\OC_Util::setupFS($wopi->getEditorUid());
-			}
 
 			// Set the user to register the change under his name
 			$editor = $this->userManager->get($wopi->getEditorUid());
