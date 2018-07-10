@@ -30,6 +30,8 @@ OC.L10N.register(
     "New Document.docx" : "Novo Documento.docx",
     "New Spreadsheet.xlsx" : "Nova Planilha.xlsx",
     "New Presentation.pptx" : "Nova Apresentação.pptx",
+    "Document already exists" : "Documento já existe",
+    "Not allowed to create document" : "Não é permitido criar documento",
     "Saved" : "Salvo",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvo com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
     "Collabora Online" : "Collabora Online",
