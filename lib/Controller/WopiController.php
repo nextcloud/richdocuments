@@ -37,6 +37,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\IUserManager;
+use OCP\IUserSession;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
@@ -53,6 +54,8 @@ class WopiController extends Controller {
 	private $wopiMapper;
 	/** @var ILogger */
 	private $logger;
+	/** @var IUserSession */
+	private $userSession;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -78,7 +81,8 @@ class WopiController extends Controller {
 								TokenManager $tokenManager,
 								IUserManager $userManager,
 								WopiMapper $wopiMapper,
-								ILogger $logger) {
+								ILogger $logger,
+								IUserSession $userSession) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
@@ -87,6 +91,7 @@ class WopiController extends Controller {
 		$this->userManager = $userManager;
 		$this->wopiMapper = $wopiMapper;
 		$this->logger = $logger;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -285,7 +290,7 @@ class WopiController extends Controller {
 			// Set the user to register the change under his name
 			$editor = $this->userManager->get($wopi->getEditorUid());
 			if (!is_null($editor)) {
-				\OC::$server->getUserSession()->setUser($editor);
+				$this->userSession->setUser($editor);
 			}
 
 			$file->putContent($content);
