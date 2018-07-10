@@ -8,7 +8,7 @@ $.widget('oc.documentGrid', {
 		members : {}
 	},
 
-	render : function(fileId){
+	render : function(fileId) {
 		var that = this;
 		jQuery.when(this._load(fileId))
 			.then(function(){
@@ -17,7 +17,7 @@ $.widget('oc.documentGrid', {
 			});
 	},
 
-	_load : function (fileId){
+	_load : function(fileId) {
 		// Handle guest user case (let users which are able to write set their name)
 		if (window.top.oc_current_user == null && this._getGuestNameCookie() == ''
 				&& (richdocuments_permissions & OC.PERMISSION_UPDATE)) {
@@ -56,19 +56,19 @@ $.widget('oc.documentGrid', {
 	},
 
 	_getGuestNameCookie: function() {
-	    var name = 'guestUser=';
-	    var decodedCookie = decodeURIComponent(document.cookie);
-	    var cookieArr = decodedCookie.split(';');
-	    for (var i = 0; i < cookieArr.length; i++) {
-	        var c = cookieArr[i];
-	        while (c.charAt(0) == ' ') {
-	            c = c.substring(1);
-	        }
-	        if (c.indexOf(name) == 0) {
-	            return c.substring(name.length, c.length);
-	        }
-	    }
-	    return '';
+		var name = 'guestUser=';
+		var decodedCookie = decodeURIComponent(document.cookie);
+		var cookieArr = decodedCookie.split(';');
+		for (var i = 0; i < cookieArr.length; i++) {
+			var c = cookieArr[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return '';
 	},
 
 	_setGuestNameCookie: function() {
@@ -81,7 +81,7 @@ $.widget('oc.documentGrid', {
 		location.reload(true);
 	},
 
-	_render : function (data){
+	_render : function(data) {
 		var that = this,
 			documents = data && data.documents || this.options.documents,
 			sessions = data && data.sessions || this.options.sessions,
@@ -152,8 +152,8 @@ var documentsMain = {
 					'</div>',
 
 		viewContainer: '<div id="revViewerContainer" class="claro">' +
-					   '<div id="revViewer"></div>' +
-					   '</div>',
+						'<div id="revViewer"></div>' +
+						'</div>',
 
 		revHistoryContainerTemplate: '<div id="revPanelContainer" class="loleaflet-font">' +
 			'<div id="revPanelHeader">' +
@@ -199,10 +199,10 @@ var documentsMain = {
 			// The discovery is available at
 			//   https://<loolwsd-server>:9980/hosting/discovery
 			var urlsrc = documentsMain.urlsrc +
-			  "WOPISrc=" + wopisrc +
-			  "&title=" + encodeURIComponent(title) +
-			  "&lang=" + OC.getLocale().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
-			  "&permission=readonly";
+				"WOPISrc=" + wopisrc +
+				"&title=" + encodeURIComponent(title) +
+				"&lang=" + OC.getLocale().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
+				"&permission=readonly";
 
 			// access_token - must be passed via a form post
 			var access_token = encodeURIComponent(documentsMain.token);
@@ -237,10 +237,14 @@ var documentsMain = {
 				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
 			} else {
 				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
-				                             {file: documentPath, revision: version});
+					{
+						file: documentPath, revision: version
+					});
 				fileId = fileId + '_' + version;
 				restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
-				                             {file: documentPath, revision: version});
+					{
+						file: documentPath, revision: version
+					});
 			}
 
 			var revHistoryItemTemplate = Handlebars.compile(documentsMain.UI.revHistoryItemTemplate);
@@ -254,30 +258,36 @@ var documentsMain = {
 			});
 
 			html = $(html).attr('data-fileid', fileId)
-				          .attr('data-title', fileName + ' - ' + formattedTimestamp);
+				.attr('data-title', fileName + ' - ' + formattedTimestamp);
 			$('#revisionsContainer ul').append(html);
 		},
 
 		fetchAndFillRevisions: function(documentPath) {
 			// fill #rev-history with file versions
 			$.get(OC.generateUrl('apps/files_versions/ajax/getVersions.php?source={documentPath}&start={start}',
-			                     { documentPath: documentPath, start: documentsMain.UI.revisionsStart }),
-				  function(result) {
-					  for(var key in result.data.versions) {
-						  documentsMain.UI.addRevision(documentsMain.fileId,
-						                               result.data.versions[key].version,
-						                               result.data.versions[key].humanReadableTimestamp,
-						                               documentPath);
-					  }
+				{
+					documentPath: documentPath,
+					start: documentsMain.UI.revisionsStart
+				}),
+				function(result) {
+					for(var key in result.data.versions) {
+						documentsMain.UI.addRevision(
+							documentsMain.fileId,
+							result.data.versions[key].version,
+							result.data.versions[key].humanReadableTimestamp,
+							documentPath
+						);
+					}
 
-					  // owncloud only gives 5 version at max in one go
-					  documentsMain.UI.revisionsStart += 5;
+					// owncloud only gives 5 version at max in one go
+					documentsMain.UI.revisionsStart += 5;
 
-					  if (result.data.endReached) {
-						  // Remove 'More versions' button
-						  $('#show-more-versions').addClass('hidden');
-					  }
-				  });
+					if (result.data.endReached) {
+						// Remove 'More versions' button
+						$('#show-more-versions').addClass('hidden');
+					}
+				}
+			);
 		},
 
 		showRevHistory: function(documentPath) {
@@ -308,8 +318,10 @@ var documentsMain = {
 			// make these revisions clickable/attach functionality
 			$('#revisionsContainer').on('click', '.versionPreview', function(e) {
 				e.preventDefault();
-				documentsMain.UI.showViewer(e.currentTarget.parentElement.dataset.fileid,
-				                            e.currentTarget.parentElement.dataset.title);
+				documentsMain.UI.showViewer(
+					e.currentTarget.parentElement.dataset.fileid,
+					e.currentTarget.parentElement.dataset.title
+				);
 
 				// mark only current <li> as active
 				$(e.currentTarget.parentElement.parentElement).find('li').removeClass('active');
@@ -456,24 +468,25 @@ var documentsMain = {
 						//              console.log(val);
 						//              documentsMain.WOPIPostMessage($('#loleafletframe')[0], Action_SaveAs', {'Filename': val});
 						//      }, false, null, true);
-						OC.dialogs.prompt(t('richdocuments', 'Please enter the filename to store the document as.'),
-						                  t('richdocuments', 'Save As'),
-						                  function(result, value) {
-							                  if (result === true && value) {
-								                  documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_SaveAs', {'Filename': value});
-							                  }
-						                  },
-						                  true,
-						                  t('richdocuments', 'New filename'),
-						                  false).then(function() {
-							                var $dialog = $('.oc-dialog:visible');
-							                var $buttons = $dialog.find('button');
-							                $buttons.eq(0).text(t('richdocuments', 'Cancel'));
-							                $buttons.eq(1).text(t('richdocuments', 'Save'));
-							                });
+						OC.dialogs.prompt(
+							t('richdocuments', 'Please enter the filename to store the document as.'),
+							t('richdocuments', 'Save As'),
+							function(result, value) {
+								if (result === true && value) {
+									documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_SaveAs', {'Filename': value});
+								}
+							},
+							true,
+							t('richdocuments', 'New filename'),
+							false
+						).then(function() {
+							var $dialog = $('.oc-dialog:visible');
+							var $buttons = $dialog.find('button');
+							$buttons.eq(0).text(t('richdocuments', 'Cancel'));
+							$buttons.eq(1).text(t('richdocuments', 'Save'));
+						});
 					} else if (msgId === 'App_VersionRestore') {
-						if (!documentsMain.$deferredVersionRestoreAck)
-						{
+						if (!documentsMain.$deferredVersionRestoreAck) {
 							console.warn('No version restore deferred object found.');
 							return;
 						}
