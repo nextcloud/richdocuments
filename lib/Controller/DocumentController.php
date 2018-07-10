@@ -29,9 +29,9 @@ use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
 use \OCA\Richdocuments\Helper;
-use \OC\Files\View;
 use OCP\ISession;
 use OCP\Share\IManager;
+use OC\Files\Type\TemplateManager;
 
 class DocumentController extends Controller {
 	/** @var string */
@@ -44,8 +44,6 @@ class DocumentController extends Controller {
 	private $appConfig;
 	/** @var ILogger */
 	private $logger;
-	/** @var Parser */
-	private $wopiParser;
 	/** @var IManager */
 	private $shareManager;
 	/** @var TokenManager */
@@ -63,7 +61,6 @@ class DocumentController extends Controller {
 	 * @param IConfig $settings
 	 * @param AppConfig $appConfig
 	 * @param IL10N $l10n
-	 * @param Parser $wopiParser
 	 * @param IManager $shareManager
 	 * @param TokenManager $tokenManager
 	 * @param IRootFolder $rootFolder
@@ -76,7 +73,6 @@ class DocumentController extends Controller {
 								IConfig $settings,
 								AppConfig $appConfig,
 								IL10N $l10n,
-								Parser $wopiParser,
 								IManager $shareManager,
 								TokenManager $tokenManager,
 								IRootFolder $rootFolder,
@@ -88,7 +84,6 @@ class DocumentController extends Controller {
 		$this->l10n = $l10n;
 		$this->settings = $settings;
 		$this->appConfig = $appConfig;
-		$this->wopiParser = $wopiParser;
 		$this->shareManager = $shareManager;
 		$this->tokenManager = $tokenManager;
 		$this->rootFolder = $rootFolder;
@@ -111,48 +106,46 @@ class DocumentController extends Controller {
 		$secretToken = $this->request->getParam('secret_token');
 		$apps = array_filter(explode(',', $this->appConfig->getAppValue('external_apps')));
 		foreach($apps as $app) {
-			if ($app !== '') {
-				if ($secretToken === $app) {
-					$appName = explode(':', $app);
-					$this->logger->debug('External app "{extApp}" authenticated; issuing access token for fileId {fileId}', [
-						'app' => $this->appName,
-						'extApp' => $appName[0],
-						'fileId' => $fileId
-					]);
-					try {
-						$folder = $this->rootFolder->getUserFolder($this->uid);
-						$item = $folder->getById($fileId)[0];
-						if(!($item instanceof Node)) {
-							throw new \Exception();
-						}
-						list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
-						return array(
-							'status' => 'success',
-							'urlsrc' => $urlSrc,
-							'token' => $token
-						);
-					} catch (\Exception $e) {
-						$this->logger->logException($e, ['app'=>'richdocuments']);
-						$params = [
-							'remoteAddr' => $this->request->getRemoteAddress(),
-							'requestID' => $this->request->getId(),
-							'debugMode' => $this->settings->getSystemValue('debug'),
-							'errorClass' => get_class($e),
-							'errorCode' => $e->getCode(),
-							'errorMsg' => $e->getMessage(),
-							'file' => $e->getFile(),
-							'line' => $e->getLine(),
-							'trace' => $e->getTraceAsString()
-						];
-						return new TemplateResponse('core', 'exception', $params, 'guest');
+			if ($app !== '' && $secretToken === $app) {
+				$appName = explode(':', $app);
+				$this->logger->debug('External app "{extApp}" authenticated; issuing access token for fileId {fileId}', [
+					'app' => $this->appName,
+					'extApp' => $appName[0],
+					'fileId' => $fileId
+				]);
+				try {
+					$folder = $this->rootFolder->getUserFolder($this->uid);
+					$item = $folder->getById($fileId)[0];
+					if(!($item instanceof Node)) {
+						throw new \Exception();
 					}
+					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
+					return [
+						'status' => 'success',
+						'urlsrc' => $urlSrc,
+						'token' => $token
+					];
+				} catch (\Exception $e) {
+					$this->logger->logException($e, ['app'=>'richdocuments']);
+					$params = [
+						'remoteAddr' => $this->request->getRemoteAddress(),
+						'requestID' => $this->request->getId(),
+						'debugMode' => $this->settings->getSystemValue('debug'),
+						'errorClass' => get_class($e),
+						'errorCode' => $e->getCode(),
+						'errorMsg' => $e->getMessage(),
+						'file' => $e->getFile(),
+						'line' => $e->getLine(),
+						'trace' => $e->getTraceAsString()
+					];
+					return new TemplateResponse('core', 'exception', $params, 'guest');
 				}
 			}
 
-			return array(
+			return [
 				'status' => 'error',
 				'message' => 'Permission denied'
-			);
+			];
 		}
 	}
 
@@ -356,7 +349,7 @@ class DocumentController extends Controller {
 		}
 
 		$content = '';
-		if (class_exists('\OC\Files\Type\TemplateManager')){
+		if (class_exists(TemplateManager::class)){
 			$manager = \OC_Helper::getFileTemplateManager();
 			$content = $manager->getTemplate($mimetype);
 		}

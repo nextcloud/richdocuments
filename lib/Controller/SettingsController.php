@@ -14,7 +14,6 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Files\IAppData;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use OCA\Richdocuments\AppConfig;
@@ -109,7 +108,7 @@ class SettingsController extends Controller{
 
 		$response = [
 			'status' => 'success',
-			'data' => array('message' => (string) $message)
+			'data' => ['message' => $message]
 		];
 
 		return new JSONResponse($response);
