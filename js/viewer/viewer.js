@@ -90,7 +90,17 @@ var odfViewer = {
 		}
 
 		OC.addStyle('richdocuments', 'mobile');
-		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen style="width:100%;height:100%;display:block;position:absolute;top:0;z-index:60;" src="'+viewer+'" />');
+		var $button = $('<div class="richdocuments-sharing"><div class="icon-shared-white"></div></div>');
+		$('.header-right').prepend($button);
+		$button.on('click', function() {
+			if ($('#app-content').hasClass('with-app-sidebar')) {
+				OC.Apps.hideAppSidebar();
+				return;
+			}
+			FileList.showDetailsView(fileName, 'shareTabView');
+		});
+		$('#app-navigation').addClass('hidden');
+		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
 			$('#preview').append($iframe).css({height: '100%'});
@@ -117,6 +127,8 @@ var odfViewer = {
 		$('link[href="' + OC.addStyle.loaded.pop() + '"]').remove();
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
+		$('#app-navigation').removeClass('hidden');
+		$('.richdocuments-sharing').remove();
 
 		OC.Util.History.replaceState();
 	},
