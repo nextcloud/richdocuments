@@ -28,6 +28,8 @@
     "New Document.docx" : "Nuevo Documento.docx",
     "New Spreadsheet.xlsx" : "Nueva Hoja de cálculo.xlsx",
     "New Presentation.pptx" : "Nueva Presentación.pptx",
+    "Document already exists" : "El documento ya existe",
+    "Not allowed to create document" : "No está permitido crear el documento",
     "Saved" : "Guardado",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvado con errores: Collabora Online debe usar el mismo protocolo que el instalado en el servidor.",
     "Collabora Online" : "Collabora Online",

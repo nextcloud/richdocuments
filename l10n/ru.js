@@ -30,6 +30,8 @@ OC.L10N.register(
     "New Document.docx" : "Новый документ.docx",
     "New Spreadsheet.xlsx" : "Новая таблица.xlsx",
     "New Presentation.pptx" : "Новая презентация.pptx",
+    "Document already exists" : "Документ уже существует",
+    "Not allowed to create document" : "Создание документа не разрешено",
     "Saved" : "Сохранено",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Сохранено с ошибкой: В Collabra Online должен использоваться тот же протокол, что в установке сервера.",
     "Collabora Online" : "Collabora Online",
