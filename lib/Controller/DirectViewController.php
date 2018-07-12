@@ -27,7 +27,9 @@ use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -78,7 +80,7 @@ class DirectViewController extends Controller {
 			$direct = $this->directMapper->getBytoken($token);
 		} catch (DoesNotExistException $e) {
 			//TODO show 404
-			throw new \Exception('NOPE!');
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		try {
@@ -107,7 +109,7 @@ class DirectViewController extends Controller {
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
-			throw $e;
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 	}
