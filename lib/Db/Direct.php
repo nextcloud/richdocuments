@@ -32,6 +32,8 @@ use OCP\AppFramework\Db\Entity;
  * @method string getUid()
  * @method void setFileid(int $fileid)
  * @method int getFileid()
+ * @method void setTimestamp(int $timestamp)
+ * @method int getTimestamp()
  */
 class Direct extends Entity {
 	/** @var string */
@@ -43,9 +45,13 @@ class Direct extends Entity {
 	/** @var int */
 	protected $fileid;
 
+	/** @var int */
+	protected $timestamp;
+
 	public function __construct() {
 		$this->addType('token', 'string');
 		$this->addType('uid', 'string');
 		$this->addType('fileid', 'int');
+		$this->addType('timestamp', 'int');
 	}
 }

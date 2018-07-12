@@ -25,19 +25,29 @@ namespace OCA\Richdocuments\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class DirectMapper extends Mapper {
 
+	/** @var int Limetime of a token is 10 minutes */
+	const tokenLifeTime = 600;
+
 	/** @var ISecureRandom */
 	protected $random;
 
-	public function __construct(IDBConnection $db, ISecureRandom $random) {
+	/**@var ITimeFactory */
+	protected $timeFactory;
+
+	public function __construct(IDBConnection $db,
+								ISecureRandom $random,
+								ITimeFactory $timeFactory) {
 		parent::__construct($db, 'richdocuments_direct', Direct::class);
 
 		$this->random = $random;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -50,6 +60,7 @@ class DirectMapper extends Mapper {
 		$direct->setUid($uid);
 		$direct->setFileid($fileid);
 		$direct->setToken($this->random->generate(64, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER));
+		$direct->setTimestamp($this->timeFactory->getTime());
 
 		$direct = $this->insert($direct);
 		return $direct;
@@ -59,7 +70,7 @@ class DirectMapper extends Mapper {
 	 * @param string $token
 	 * @return Direct
 	 */
-	public function getBytoken($token) {
+	public function getByToken($token) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('richdocuments_direct')
@@ -74,6 +85,13 @@ class DirectMapper extends Mapper {
 			throw new DoesNotExistException('Could not find token.');
 		}
 
-		return Direct::fromRow($row);
+		$direct = Direct::fromRow($row);
+
+		if (($direct->getTimestamp() + self::tokenLifeTime) < $this->timeFactory->getTime()) {
+			$this->delete($direct);
+			throw new DoesNotExistException('Could not find token.');
+		}
+
+		return $direct;
 	}
 }

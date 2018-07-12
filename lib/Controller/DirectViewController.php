@@ -77,7 +77,7 @@ class DirectViewController extends Controller {
 	 */
 	public function show($token) {
 		try {
-			$direct = $this->directMapper->getBytoken($token);
+			$direct = $this->directMapper->getByToken($token);
 		} catch (DoesNotExistException $e) {
 			//TODO show 404
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
