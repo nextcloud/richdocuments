@@ -163,12 +163,28 @@
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
+			<field>
+				<name>timestamp</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+				<default>0</default>
+			</field>
 
 			<index>
 				<name>rd_direct_token_idx</name>
 				<unique>true</unique>
 				<field>
 					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>rd_direct_timestamp_idx</name>
+				<unique>false</unique>
+				<field>
+					<name>timestamp</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
