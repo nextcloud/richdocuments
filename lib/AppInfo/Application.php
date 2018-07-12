@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
@@ -32,5 +33,7 @@ class Application extends App  {
 
 	public function __construct (array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
+
+		$this->getContainer()->registerCapability(Capabilities::class);
 	}
 }
