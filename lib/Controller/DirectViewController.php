@@ -83,6 +83,9 @@ class DirectViewController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
+		// Delete the token. They are for 1 time use only
+		$this->directMapper->delete($direct);
+
 		try {
 			$folder = $this->rootFolder->getUserFolder($direct->getUid());
 			$item = $folder->getById($direct->getFileid())[0];
