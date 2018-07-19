@@ -30,6 +30,8 @@ OC.L10N.register(
     "New Document.docx" : "New Document.docx",
     "New Spreadsheet.xlsx" : "New Spreadsheet.xlsx",
     "New Presentation.pptx" : "New Presentation.pptx",
+    "Document already exists" : "Документ већ постоји",
+    "Not allowed to create document" : "Недозвољено креирање докумената",
     "Saved" : "Сачувано",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Сачувану уз грешку: Collabora Online би требало да користи исти протокол као и серверска инсталација.",
     "Collabora Online" : "Collabora Online",
