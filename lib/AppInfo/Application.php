@@ -23,9 +23,13 @@ namespace OCA\Richdocuments\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OCA\Richdocuments\Capabilities;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
+use OCA\Richdocuments\Preview\MSExcel;
+use OCA\Richdocuments\Preview\MSWord;
+use OCA\Richdocuments\Preview\OOXML;
+use OCA\Richdocuments\Preview\OpenDocument;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
+use OCP\IPreview;
 
 class Application extends App  {
 
@@ -35,5 +39,31 @@ class Application extends App  {
 		parent::__construct(self::APPNAME, $urlParams);
 
 		$this->getContainer()->registerCapability(Capabilities::class);
+	}
+
+	public function registerProvider() {
+		$container = $this->getContainer();
+
+		/** @var IPreview $previewManager */
+		$previewManager = $container->query(IPreview::class);
+
+		$previewManager->registerProvider('/application\/vnd.ms-excel/', function() use ($container) {
+			return $container->query(MSExcel::class);
+		});
+
+		$previewManager->registerProvider('/application\/msword/', function() use ($container) {
+			return $container->query(MSWord::class);
+		});
+
+		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', function() use ($container) {
+			return $container->query(OOXML::class);
+		});
+
+		// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider: calling manager registerProvider:');
+		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function() use ($container) {
+			// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider lambda. OpenDocument::class=' . OpenDocument::class);
+			return $container->query(OpenDocument::class);
+		});
+
 	}
 }

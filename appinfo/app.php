@@ -66,3 +66,6 @@ if ($wopiUrl !== '') {
 	$policy->addAllowedFrameDomain($wopiUrl);
 	$manager->addDefaultPolicy($policy);
 }
+
+$app = new Application();
+$app->registerProvider();
