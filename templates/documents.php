@@ -7,6 +7,7 @@
 	var richdocuments_path = '<?php p($_['path']) ?>';
 	var instanceId = '<?php p($_['instanceId']) ?>';
 	var richdocuments_canonical_webroot = '<?php p($_['canonical_webroot']) ?>';
+	var richdocuments_directEdit = <?php isset($_['direct']) ? p('true') : p('false') ?>;
 </script>
 
 <?php
