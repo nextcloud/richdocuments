@@ -33,6 +33,10 @@ return [
 
 		//Mobile access
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],
+
+		//assets
+		['name' => 'assets#create', 'url' => 'assets', 'verb' => 'POST'],
+		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['name' => 'OCS#create', 'url' => '/api/v1/document', 'verb' => 'POST'],
