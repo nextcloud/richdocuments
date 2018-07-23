@@ -488,7 +488,7 @@ var documentsMain = {
 					} else if (msgId === 'UI_InsertGraphic') {
 						OC.dialogs.filepicker(t('files', 'Insert Graphic'), function(path, type) {
 							if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
-							var filename = path.substring(path.lastIndexOf('/') + 1);
+								var filename = path.substring(path.lastIndexOf('/') + 1);
 								$.ajax({
 									type: 'GET',
 									url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'shares?' +
@@ -503,7 +503,7 @@ var documentsMain = {
 									}
 								});
 							}
-						}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true,);
+						}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE);
 					} else if (msgId === 'App_VersionRestore') {
 						if (!documentsMain.$deferredVersionRestoreAck) {
 							console.warn('No version restore deferred object found.');
