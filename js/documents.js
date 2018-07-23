@@ -485,6 +485,25 @@ var documentsMain = {
 							$buttons.eq(0).text(t('richdocuments', 'Cancel'));
 							$buttons.eq(1).text(t('richdocuments', 'Save'));
 						});
+					} else if (msgId === 'UI_InsertGraphic') {
+						OC.dialogs.filepicker(t('files', 'Insert Graphic'), function(path, type) {
+							if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
+							var filename = path.substring(path.lastIndexOf('/') + 1);
+								$.ajax({
+									type: 'GET',
+									url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'shares?' +
+									OC.buildQueryString({format: 'json', path: path})
+								}).done(function(link) {
+									if (link.ocs.data.length > 0) {
+										documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_InsertGraphic', {
+											filename: filename,
+											url:link.ocs.data[0].url + '/download'});
+									} else {
+										OC.dialogs.alert('Please share your file first', t('lool', 'Error file not shared'));
+									}
+								});
+							}
+						}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true,);
 					} else if (msgId === 'App_VersionRestore') {
 						if (!documentsMain.$deferredVersionRestoreAck) {
 							console.warn('No version restore deferred object found.');
