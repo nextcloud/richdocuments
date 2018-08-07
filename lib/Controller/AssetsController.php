@@ -102,6 +102,9 @@ class AssetsController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
+		// Clear the assets so we can only fetch it once
+		$this->assetMapper->delete($asset);
+
 		$userFolder = $this->rootFolder->getUserFolder($asset->getUid());
 		$nodes = $userFolder->getById($asset->getFileid());
 
