@@ -30,6 +30,9 @@ use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
 class AssetMapper extends Mapper {
+	/** @var int Limetime of a token is 10 minutes */
+	const tokenLifeTime = 600;
+
 	/** @var ISecureRandom */
 	private $random;
 
@@ -80,6 +83,14 @@ class AssetMapper extends Mapper {
 			throw new DoesNotExistException('No asset for token found');
 		}
 
-		return Asset::fromRow($data);
+		$asset = Asset::fromRow($data);
+
+		// Check the token lifetime
+		if ($asset->getTimestamp() + self::tokenLifeTime < $this->time->getTime()) {
+			$this->delete($asset);
+			throw new DoesNotExistException('No asset for token found');
+		}
+
+		return $asset;
 	}
 }
