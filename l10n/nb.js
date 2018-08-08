@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Saving…" : "Lagrer…",
     "All" : "Alle",
+    "Nickname" : "Kallenavn",
+    "Set" : "Sett",
     "Download this revision" : "Last ned denne versjonen",
     "Restore this revision" : "Gjenopprett denne versjonen",
     "Latest revision" : "Siste versjon",
