@@ -17,6 +17,7 @@ OC.L10N.register(
     "New filename" : "Yeni dosya adı",
     "Cancel" : "İptal",
     "Save" : "Kaydet",
+    "Insert Graphic" : "Çizelge Ekle",
     "Loading documents…" : "Belgeler yükleniyor...",
     "Edit" : "Düzenle",
     "New Document" : "Yeni Belge",
