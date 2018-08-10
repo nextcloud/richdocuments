@@ -99,6 +99,7 @@ var odfViewer = {
 			}
 			FileList.showDetailsView(fileName, 'shareTabView');
 		});
+		$('.searchbox').hide();
 		$('#app-navigation').addClass('hidden');
 		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
 		if ($('#isPublic').val()) {
@@ -129,6 +130,7 @@ var odfViewer = {
 		$('#richdocumentsframe').remove();
 		$('#app-navigation').removeClass('hidden');
 		$('.richdocuments-sharing').remove();
+		$('.searchbox').show();
 
 		OC.Util.History.replaceState();
 	},
