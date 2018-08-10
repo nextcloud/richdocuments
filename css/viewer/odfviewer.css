@@ -21,11 +21,17 @@
   background-image: url('../../../../core/img/filetypes/x-office-presentation.svg');
 }
 
-.richdocuments-sharing .icon-shared-white {
-  display:inline-block;
+.richdocuments-sharing .icon-shared {
+  display: inline-block;
   width: 16px;
   height: 16px;
   padding: 16px;
+  opacity: 0.6;
+}
+
+.richdocuments-sharing .icon-shared:hover,
+.richdocuments-sharing .icon-shared:focus {
+  opacity: 1;
 }
 
 #richdocumentsframe {
