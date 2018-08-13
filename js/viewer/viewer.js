@@ -90,17 +90,7 @@ var odfViewer = {
 		}
 
 		OC.addStyle('richdocuments', 'mobile');
-		var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
-		$('.header-right').prepend($button);
-		$button.on('click', function() {
-			if (!$('#app-sidebar').hasClass('disappear') || $('#app-content').hasClass('with-app-sidebar')) {
-				OC.Apps.hideAppSidebar();
-				return;
-			}
-			FileList.showDetailsView(fileName, 'shareTabView');
-		});
-		$('.searchbox').hide();
-		$('#app-navigation').addClass('hidden');
+
 		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
@@ -115,6 +105,19 @@ var odfViewer = {
 			$('#content').addClass('loading');
 		} else {
 			$('#app-content').append($iframe);
+			if ($('header').length) {
+				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
+				$('.header-right').prepend($button);
+				$button.on('click', function() {
+					if (!$('#app-sidebar').hasClass('disappear') || $('#app-content').hasClass('with-app-sidebar')) {
+						OC.Apps.hideAppSidebar();
+						return;
+					}
+					FileList.showDetailsView(fileName, 'shareTabView');
+				});
+				$('.searchbox').hide();
+				$('#app-navigation').addClass('hidden');
+			}
 		}
 
 		$('#app-content #controls').addClass('hidden');
