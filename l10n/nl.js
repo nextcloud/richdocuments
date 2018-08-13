@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving…" : "Opslaan...",
     "All" : "Alle",
+    "Please choose your nickname to continue as guest user." : "Kies je schuilnaam om verder te gaan als gastgebruiker",
     "Nickname" : "Roepnaam",
     "Set" : "Instellen",
     "Download this revision" : "Download deze revisie",
@@ -16,6 +17,7 @@ OC.L10N.register(
     "New filename" : "Nieuwe bestandsnaam",
     "Cancel" : "Annuleren",
     "Save" : "Opslaan",
+    "Insert Graphic" : "Invoegen grafiek",
     "Loading documents…" : "Documenten laden...",
     "Edit" : "Bewerk",
     "New Document" : "Nieuw document",
