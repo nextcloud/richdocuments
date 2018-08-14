@@ -90,7 +90,8 @@ var odfViewer = {
 		}
 
 		OC.addStyle('richdocuments', 'mobile');
-		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen style="width:100%;height:100%;display:block;position:absolute;top:0;z-index:60;" src="'+viewer+'" />');
+
+		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
 			$('#preview').append($iframe).css({height: '100%'});
@@ -104,6 +105,19 @@ var odfViewer = {
 			$('#content').addClass('loading');
 		} else {
 			$('#app-content').append($iframe);
+			if ($('header').length) {
+				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
+				$('.header-right').prepend($button);
+				$button.on('click', function() {
+					if (!$('#app-sidebar').hasClass('disappear') || $('#app-content').hasClass('with-app-sidebar')) {
+						OC.Apps.hideAppSidebar();
+						return;
+					}
+					FileList.showDetailsView(fileName, 'shareTabView');
+				});
+				$('.searchbox').hide();
+				$('#app-navigation').addClass('hidden');
+			}
 		}
 
 		$('#app-content #controls').addClass('hidden');
@@ -117,6 +131,9 @@ var odfViewer = {
 		$('link[href="' + OC.addStyle.loaded.pop() + '"]').remove();
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
+		$('#app-navigation').removeClass('hidden');
+		$('.richdocuments-sharing').remove();
+		$('.searchbox').show();
 
 		OC.Util.History.replaceState();
 	},

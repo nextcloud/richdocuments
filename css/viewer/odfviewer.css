@@ -20,3 +20,26 @@
 .icon-filetype-presentation{
   background-image: url('../../../../core/img/filetypes/x-office-presentation.svg');
 }
+
+.richdocuments-sharing .icon-shared {
+  display: block;
+  width: 16px;
+  height: 16px;
+  padding: 16px;
+  opacity: 0.6;
+}
+
+.richdocuments-sharing .icon-shared:hover,
+.richdocuments-sharing .icon-shared:focus {
+  opacity: 1;
+}
+
+#richdocumentsframe {
+  background-color: #fff;
+  width:100%;
+  height:100%;
+  display:block;
+  position:absolute;
+  top:0;
+  z-index:60;
+}
