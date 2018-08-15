@@ -17,6 +17,7 @@ OC.L10N.register(
     "New filename" : "Ново име фајла",
     "Cancel" : "Одустани",
     "Save" : "Сачувај",
+    "Insert Graphic" : "Убаци графику",
     "Loading documents…" : "Учитавање докумената…",
     "Edit" : "Уреди",
     "New Document" : "Нови документ",
