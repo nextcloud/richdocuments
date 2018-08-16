@@ -66,6 +66,7 @@ class AssetsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 *
 	 * @param string $path
 	 * @return JSONResponse
