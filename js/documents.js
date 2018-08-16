@@ -507,9 +507,7 @@ var documentsMain = {
 										path: path
 									}
 								}).done(function(resp) {
-									documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_InsertGraphic', {
-											filename: filename,
-											url: resp.url});
+									documentsMain.postAsset(filename, resp.url);
 								});
 							}
 						}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE);
@@ -684,7 +682,14 @@ var documentsMain = {
 		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…'));
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
-	}
+	},
+
+	postAsset: function(filename, url) {
+		documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_InsertGraphic', {
+			filename: filename,
+			url: url
+		});
+	},
 };
 
 $(document).ready(function() {
@@ -700,6 +705,12 @@ $(document).ready(function() {
 	}
 
 	window.Files = FileList;
+
+	if (!OCA.RichDocuments) {
+		OCA.RichDocuments = {};
+	}
+
+	OCA.RichDocuments.documentsMain = documentsMain;
 
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
