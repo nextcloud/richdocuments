@@ -492,7 +492,7 @@ var documentsMain = {
 								$.ajax({
 									type: 'POST',
 									url: OC.linkTo('richdocuments', 'assets'),
-									content: {
+									data: {
 										path: path
 									}
 								}).done(function(resp) {
