@@ -450,6 +450,8 @@ var documentsMain = {
 					if (window.RichDocumentsMobileInterface) {
 						if (msgId === 'UI_Close') {
 							window.RichDocumentsMobileInterface.close();
+						} else if (msgId === 'UI_InsertGraphic') {
+							window.RichDocumentsMobileInterface.insertGraphic();
 						}
 
 						return;
