@@ -446,6 +446,15 @@ var documentsMain = {
 						msgId = e.data;
 					}
 
+					// Check for webview handler
+					if (window.RichDocumentsMobileInterface) {
+						if (msgId === 'UI_Close') {
+							window.RichDocumentsMobileInterface.close();
+						}
+
+						return;
+					}
+
 					if (msgId === 'UI_Close' || msgId === 'close' /* deprecated */) {
 						// If a postmesage API is deprecated, we must ignore it and wait for the standard postmessage
 						// (or it might already have been fired)
