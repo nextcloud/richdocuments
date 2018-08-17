@@ -355,7 +355,7 @@ class DocumentController extends Controller {
 		}
 
 		if (!$content){
-			$content = file_get_contents(dirname(__DIR__) . self::ODT_TEMPLATE_PATH);
+			$content = file_get_contents(dirname(dirname(__DIR__)) . self::ODT_TEMPLATE_PATH);
 		}
 
 		if ($content) {
