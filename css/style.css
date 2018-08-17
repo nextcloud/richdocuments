@@ -520,3 +520,7 @@ document p{
 .oc-dialog .oc-dialog-buttonrow .cancel {
 	float:left;
 }
+
+#documents-content {
+	margin: 0px auto;
+}
