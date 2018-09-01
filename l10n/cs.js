@@ -17,6 +17,7 @@ OC.L10N.register(
     "New filename" : "Název souboru",
     "Cancel" : "Storno",
     "Save" : "Uložit",
+    "Insert Graphic" : "Vložit grafiku",
     "Loading documents…" : "Nahrávají se dokumenty…",
     "Edit" : "Upravit",
     "New Document" : "Nový dokument",
