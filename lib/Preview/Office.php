@@ -24,39 +24,43 @@ namespace OCA\Richdocuments\Preview;
 use OC\Preview\Provider;
 use \GuzzleHttp\Client;
 use \GuzzleHttp\Post\PostFile;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 
 abstract class Office extends Provider {
+
+	/** @var IClientService */
+	private $clientService;
+
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IClientService $clientService, IConfig $config) {
+		$this->clientService = $clientService;
+		$this->config = $config;
+	}
+
+	private function getWopiURL(): string {
+		return $this->config->getAppValue('richdocuments', 'wopi_url');
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		// \OC::$server->getLogger()->debug('==== getThumbnail: ' . $path);
-		$data = $fileview->file_get_contents($path);
+		$stream = $fileview->fopen($path, 'r');
 
-		$client = new Client(['base_uri' => 'http://localhost:9980/', 'timeout' => 2.0]);
-
-		$request = $client->createRequest('POST', 'http://localhost:9980/lool/convert-to/png',
-			[
-				'body' =>
-					[
-						new PostFile($path, $data)
-					]
-
-			]);
-		$response = $client->send($request);
-/*
-		$headers = $response->getHeaders();
-
-		foreach ($headers as $key => $value) {
-			$concatvalue = '';
-			foreach ($value as $vvalue) {
-				$concatvalue = $concatvalue . $vvalue;
-			}
-			// \OC::$server->getLogger()->debug('==== response: ' . $key . ': ' . $concatvalue);
+		$client = $this->clientService->newClient();
+		try {
+		$response = $client->post($this->getWopiURL() . '/lool/convert-to/png', [
+			'timeout' => 2.0,
+			'body' => $stream
+		]);
+		} catch (\Exception $e) {
+			return false;
 		}
 
-		\OC::$server->getLogger()->debug('==== response body type: ' . gettype($response->getBody()));
-*/
 		$image = new \OC_Image();
 		$image->loadFromData($response->getBody());
 
