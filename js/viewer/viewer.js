@@ -133,6 +133,7 @@ var odfViewer = {
 		$('#richdocumentsframe').remove();
 		$('#app-navigation').removeClass('hidden');
 		$('.richdocuments-sharing').remove();
+		$('#richdocuments-avatars').remove();
 		$('.searchbox').show();
 
 		OC.Util.History.replaceState();

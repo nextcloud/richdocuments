@@ -187,22 +187,24 @@ var documentsMain = {
 
 			//Add the avatar toolbar if possible
 			var headerRight = parent.$('#header .header-right');
-			headerRight.prepend($('<div id="richdocument-avatars">'));
+			headerRight.prepend($('<div id="richdocuments-avatars">'));
 		},
 
 		renderAvatars: function() {
-			var avatardiv = parent.$('#header .header-right #richdocument-avatars');
-
-			// Empty div
-			while (avatardiv.firstChild) {
-				avatardiv.removeChild(avatardiv.firstChild);
-			}
+			var avatardiv = parent.$('#header .header-right #richdocuments-avatars');
+			avatardiv.empty();
 
 			// Add new avatars
 			this.views.forEach(function(view, viewId) {
-				var avatar = $('<div data-user="' + view.UserId + '" class="richdocuments-avatar">' + view.UserId + '</div>');
-				avatardiv.append(avatar);
+				if (view.UserId === parent.OC.currentUser) {
+					return;
+				}
+				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserId + '" data-user="' + view.UserId + '"></div></div>');
+				var avatar = avatarContainer.find('.avatar');
+				avatardiv.append(avatarContainer);
 				$(avatar).avatar(view.UserId, 32);
+				$(avatar).tooltip({placement: 'bottom'});
+				$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
 			});
 		},
 
