@@ -452,8 +452,9 @@ var documentsMain = {
 							window.RichDocumentsMobileInterface.close();
 						} else if (msgId === 'UI_InsertGraphic') {
 							window.RichDocumentsMobileInterface.insertGraphic();
+						} else if (msgId === 'UI_Share') {
+							window.RichDocumentsMobileInterface.share();
 						}
-
 						return;
 					}
 
