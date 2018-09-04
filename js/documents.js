@@ -200,7 +200,9 @@ var documentsMain = {
 
 			// Add new avatars
 			this.views.forEach(function(view, viewId) {
-				avatardiv.append($('<div class="richdocuments-avatar">' + view.UserId + '</div>'));
+				var avatar = $('<div data-user="' + view.UserId + '" class="richdocuments-avatar">' + view.UserId + '</div>');
+				avatardiv.append(avatar);
+				$(avatar).avatar(view.UserId, 32);
 			});
 		},
 
