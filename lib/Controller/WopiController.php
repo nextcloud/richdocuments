@@ -140,7 +140,9 @@ class WopiController extends Controller {
 			'UserCanWrite' => $wopi->getCanwrite(),
 			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : is_null($wopi->getEditorUid()),
 			'PostMessageOrigin' => $wopi->getServerHost(),
-			'LastModifiedTime' => Helper::toISO8601($file->getMTime())
+			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
+			'EnableInsertRemoteImage' => true,
+			'EnableShare' => true,
 		];
 
 		$serverVersion = $this->config->getSystemValue('version');
