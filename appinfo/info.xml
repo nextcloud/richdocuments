@@ -8,9 +8,9 @@
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
-		<prevent_group_restriction/>
 		<filesystem/>
 		<dav/>
+		<prevent_group_restriction/>
 	</types>
 	<documentation>
 		<user>https://nextcloud.com/collaboraonline/</user>
