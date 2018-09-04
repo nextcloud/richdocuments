@@ -8,6 +8,8 @@
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
+		<filesystem/>
+		<dav/>
 		<prevent_group_restriction/>
 	</types>
 	<documentation>
