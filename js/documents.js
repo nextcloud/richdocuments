@@ -179,8 +179,33 @@ var documentsMain = {
 		/* Number of revisions already loaded */
 		revisionsStart: 0,
 
+		/* Views: people currently editing the file */
+		views: [],
+
 		init : function(){
 			documentsMain.UI.mainTitle = parent.document.title;
+
+			//Add the avatar toolbar if possible
+			var headerRight = parent.$('#header .header-right');
+			headerRight.prepend($('<div id="richdocuments-avatars">'));
+		},
+
+		renderAvatars: function() {
+			var avatardiv = parent.$('#header .header-right #richdocuments-avatars');
+			avatardiv.empty();
+
+			// Add new avatars
+			this.views.forEach(function(view, viewId) {
+				if (view.UserId === parent.OC.currentUser) {
+					return;
+				}
+				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserId + '" data-user="' + view.UserId + '"></div></div>');
+				var avatar = avatarContainer.find('.avatar');
+				avatardiv.append(avatarContainer);
+				$(avatar).avatar(view.UserId, 32);
+				$(avatar).tooltip({placement: 'bottom'});
+				$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+			});
 		},
 
 		showViewer: function(fileId, title){
@@ -522,11 +547,28 @@ var documentsMain = {
 							// user instructed to restore the version
 							documentsMain.$deferredVersionRestoreAck.resolve();
 						}
+					} else if (msgId === 'View_Added') {
+						documentsMain.UI.views[args.ViewId] = args;
+						documentsMain.UI.renderAvatars();
+					} else if (msgId === 'View_Removed') {
+						index = documentsMain.UI.views.indexOf(args.ViewId);
+						if (index > -1) {
+							documentsMain.UI.views.splice(index, 1);
+						}
+						documentsMain.UI.renderAvatars();
+					} else if (msgId === 'Get_Views_Resp') {
+						args.forEach(function(view) {
+							documentsMain.UI.views[view.ViewId] = view;
+						});
+						documentsMain.UI.renderAvatars();
 					}
 				});
 
 				// Tell the LOOL iframe that we are ready now
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
+
+				// Ask for all the participants
+				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Get_Views', {});
 
 				// LOOL Iframe is ready, turn off our overlay
 				// This should ideally be taken off when we receive App_LoadingStatus, but
