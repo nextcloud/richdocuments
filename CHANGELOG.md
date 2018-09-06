@@ -1,3 +1,6 @@
+**2.0.12**
+- Made new file names translatable
+
 **1.12.38 and 1.12.39**
 - Bug: fix z-index issue on Nextcloud 13 beta
 
