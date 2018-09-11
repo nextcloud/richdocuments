@@ -1,14 +1,14 @@
 # Templates
 
 Often users will use the same templates. This documents describes the flow and
-API's that will eventually come into place.
+APIs that will eventually come into place.
 
 ## Template location
 
 There are two kind of templates:
 
 1. system wide templates
-2. user defined tempaltes
+2. user defined templates
 
 Both should be simple template files and preview for them should be obtained using
 the preview API. The richdocuments works as a preview provider so it should provide
@@ -27,11 +27,11 @@ appdata. But since it will also work on 13 we have no real alternative.
 There are a few special templates that are shipped with the app. The empty
 files. They should always be available.
 
-### User defined tempaltes
+### User defined templates
 
 In the Collabora user settings the user can select a folder from where to load
 templates. This can be any folder the user has access to. So users can share template
-folders among eachother.
+folders among each other.
 
 ## API
 
@@ -39,11 +39,11 @@ folders among eachother.
 
 Send a GET to:
 
-`<server>/ocs/v2.php/apps/richdocuemnts/api/v1/templates/<type>`
+`<server>/ocs/v2.php/apps/richdocuments/api/v1/templates/<type>`
 
 Here type can be:
 
-* docuemnt
+* document
 * spreadsheet
 * presentation
 
@@ -52,13 +52,13 @@ This returns a list of templates with
 * id
 * name
 * link to preview
-* extention
+* extension
 
 ### Template previews
 
 Send a GET to:
 
-`<server>/apps/richdocuemnts/templates/<id>`
+`<server>/apps/richdocuments/templates/<id>`
 
 Where `id` is the id of the template obtained in the listing. This returns back
 an image (jpeg or png). For displaying.
@@ -67,10 +67,10 @@ an image (jpeg or png). For displaying.
 
 Send a POST to
 
-`<server>/ocs/v2.php/apps/richdocuemnts/api/v1/templates/new`
+`<server>/ocs/v2.php/apps/richdocuments/api/v1/templates/new`
 
 with:
-* `path`: the full path relative to the user where to create the document
+* `path`: the full path relative to the user where to create the document, including new file name
 * `template`: the template id you want to create
 
 ## Web frontend
