@@ -483,6 +483,18 @@ var documentsMain = {
 						return;
 					}
 
+					// iOS webkit fallback
+					if (window.webkit.messageHandlers.RichDocumentsMobileInterface) {
+						if (msgId === 'UI_Close') {
+							window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('close');
+						} else if (msgId === 'UI_InsertGraphic') {
+							window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('insertGraphic');
+						} else if (msgId === 'UI_Share') {
+							window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('share');
+						}
+						return;
+					}
+
 					if (msgId === 'UI_Close' || msgId === 'close' /* deprecated */) {
 						// If a postmesage API is deprecated, we must ignore it and wait for the standard postmessage
 						// (or it might already have been fired)
