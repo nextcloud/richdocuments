@@ -30,6 +30,7 @@
     "New Spreadsheet.xlsx" : "Nieuw werkblad.xlsx",
     "New Presentation.pptx" : "Nieuwe presentatie.pptx",
     "Document already exists" : "Document bestaat al",
+    "Not allowed to create document" : "Niet toegestaan om document te creëren",
     "Saved" : "Bewaard",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Opgeslagen met een fout: Collabora Online moet hetzelfde protocol gebruiken als de serverinstallatie.",
     "Collabora Online" : "Collabora Online",
