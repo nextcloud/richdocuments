@@ -484,7 +484,9 @@ var documentsMain = {
 					}
 
 					// iOS webkit fallback
-					if (window.webkit.messageHandlers.RichDocumentsMobileInterface) {
+					if (window.webkit
+						&& window.webkit.messageHandlers
+						&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
 						if (msgId === 'UI_Close') {
 							window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('close');
 						} else if (msgId === 'UI_InsertGraphic') {
