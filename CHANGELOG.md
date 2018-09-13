@@ -1,3 +1,6 @@
+**2.0.13**
+- Strip the service root prefixes in the Collabora Online wopi_url
+
 **2.0.12**
 - Made new file names translatable
 
