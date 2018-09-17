@@ -103,6 +103,8 @@ class DirectViewController extends Controller {
 				'instanceId' => $this->config->getSystemValue('instanceid'),
 				'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 				'direct' => true,
+				'EnableInsertRemoteImage' => true,
+                'EnableShare' => true,
 			];
 
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
