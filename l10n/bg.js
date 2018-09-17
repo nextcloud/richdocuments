@@ -25,6 +25,6 @@ OC.L10N.register(
     "Password" : "Парола",
     "OK" : "ОК",
     "Guest %s" : "Гост %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Този линк е изтекъл или никога не е съществувал. Моля, свържи се с човекът, който го е споделил с теб."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Връзката е изтекла или никога не е съществувала. Моля, свържи се с човекът, който го е споделил с вас."
 },
 "nplurals=2; plural=(n != 1);");
