@@ -24,21 +24,19 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
-use OC\AppFramework\Utility\TimeFactory;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\IPreview;
 
-class Application extends App  {
+class Application extends App {
 
 	const APPNAME = 'richdocuments';
 
-	public function __construct (array $urlParams = array()) {
+	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
 
 		$this->getContainer()->registerCapability(Capabilities::class);

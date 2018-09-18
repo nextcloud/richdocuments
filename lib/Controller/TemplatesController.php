@@ -56,18 +56,18 @@ class TemplatesController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param L10N $l10n
-	 * @param TemplateManager $templateManager
+	 * @param TemplateManager $manager
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IL10N $l10n,
-								TemplateManager $templateManager) {
+								TemplateManager $manager) {
 		parent::__construct($appName, $request);
 
-		$this->appName = $appName;
-		$this->request = $request;
-		$this->l10n    = $l10n;
-		$this->manager = $templateManager;
+		$this->appName         = $appName;
+		$this->request         = $request;
+		$this->l10n            = $l10n;
+		$this->manager = $manager;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class TemplatesController extends Controller {
 	 */
 	public function getPreview(string $templateName) {
 		try {
-			$template = $this->manager->get($templateName);
+			$template = $this->templateManager->get($templateName);
 
 			//return DataDisplayResponse($template->getPreview(), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		} catch (NotFoundException $e) {
@@ -115,7 +115,7 @@ class TemplatesController extends Controller {
 
 				unlink($files['tmp_name'][0]);
 
-				$template = $this->manager->add($templateName, $templateFile);
+				$template = $this->templateManager->add($templateName, $templateFile);
 
 				return new JSONResponse(
 					['data' => ['data' => $template]],
@@ -138,7 +138,7 @@ class TemplatesController extends Controller {
 	 */
 	public function delete(string $templateName) {
 		try {
-			$manager->delete($templateName);
+			$this->templateManager->delete($templateName);
 
 			return new JSONResponse(
 				['data' => ['status' => 'success']],

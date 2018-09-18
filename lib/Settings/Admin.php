@@ -25,9 +25,7 @@ namespace OCA\Richdocuments\Settings;
 
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
@@ -37,13 +35,17 @@ class Admin implements ISettings {
 
 	/** @var TemplateManager */
 	private $templateManager;
+
 	/**
+	 * Admin template settings
+	 *
+	 * @param string $appName
 	 * @param IConfig $config
 	 * @param TemplateManager $templateManager
 	 */
 	public function __construct(IConfig $config,
 								TemplateManager $templateManager) {
-		$this->config = $config;
+		$this->config          = $config;
 		$this->templateManager = $templateManager;
 	}
 	/**
@@ -54,13 +56,13 @@ class Admin implements ISettings {
 			'richdocuments',
 			'admin',
 			[
-				'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url'),
-				'edit_groups' => $this->config->getAppValue('richdocuments', 'edit_groups'),
-				'use_groups' => $this->config->getAppValue('richdocuments', 'use_groups'),
-				'doc_format' => $this->config->getAppValue('richdocuments', 'doc_format'),
-				'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
+				'wopi_url'          => $this->config->getAppValue('richdocuments', 'wopi_url'),
+				'edit_groups'       => $this->config->getAppValue('richdocuments', 'edit_groups'),
+				'use_groups'        => $this->config->getAppValue('richdocuments', 'use_groups'),
+				'doc_format'        => $this->config->getAppValue('richdocuments', 'doc_format'),
+				'external_apps'     => $this->config->getAppValue('richdocuments', 'external_apps'),
 				'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
-				'templates' => $this->templateManager->getGlobals(),
+				'templates'         => $this->templateManager->getGlobals()
 			],
 			'blank'
 		);

@@ -274,26 +274,29 @@ function initTemplateManager() {
 		add: function (e, data) {
 			// submit on file selection
 			data.submit();
-			console.log(e, data)
+			inputElmt.disabled = true;
+			buttonElmt.className = 'icon-loading-small';
 		},
 
 		submit: function(e, data) {
-
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
 			});
 		},
 
-        done: function(e, data) {
+        success: function(e, data) {
 			inputElmt.disabled = false;
 			buttonElmt.className = 'icon-add';
-			console.log(e, data)
 		},
 		
 		fail: function(e, data) {
-			inputElmt.disabled = false;
 			buttonElmt.className = 'icon-add';
-			console.log(e, data)
+			buttonElmt.textContent = t('richdocuments', 'An error occured');
+			// TODO: add error message from server
+			setTimeout(function() {
+				inputElmt.disabled = false;
+				buttonElmt.textContent = '';
+			}, 2000)
 		}
     });
 }

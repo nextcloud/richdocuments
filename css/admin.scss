@@ -16,6 +16,10 @@
 			margin: -6px;
 			margin-left: 10px;
 			opacity: .5;
+			white-space: nowrap;
+			line-height: 44px;
+			padding-left: 44px;
+			font-size: 16px;
 			&:hover,
 			&:focus,
 			&:active {

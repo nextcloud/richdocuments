@@ -1,6 +1,8 @@
 <?php
 style('richdocuments', 'admin');
 script('richdocuments', 'admin');
+script('files', 'jquery.fileupload');
+
 /** @var array $_ */
 ?>
 <div class="section" id="richdocuments">
@@ -50,3 +52,32 @@ script('richdocuments', 'admin');
 		<p class="rd-settings-documentation"><em><?php p($l->t('Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')) ?></em></p>
 	</div>
 </div>
+<form class="section" id="richdocuments-templates" method="post" action="/template/">
+	<input class="hidden-visually" id="add-template" type="file" />
+	<h2>
+		<?php p($l->t('Global templates')) ?>
+		<label for="add-template" class="icon-add" title="<?php p($l->t('Add a new template')); ?>"></label>
+	</h2>
+	<?php if (!empty($_['templates'])) { ?>
+		<ul>
+			<?php foreach ($_['templates'] as $template) {?>
+				<li>
+					<figure>
+						<figcaption><?php p($l->t('description')) ?></figcaption>
+					</figure>
+					<div>
+						<a href="#" class="icon-delete"></a>
+					</div>
+				</li>
+			<?php } ?>
+		</ul>
+	<?php } else { ?>
+		<div id="emptycontent">
+			<div class="icon-file"></div>
+			<h2>
+				<?php p($l->t('No templates defined.')); ?>
+			</h2>
+			<label for="add-template"><?php p($l->t('Add a new one?')); ?></label>
+		</div>
+	<?php } ?>
+</form>
