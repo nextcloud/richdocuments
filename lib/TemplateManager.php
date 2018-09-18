@@ -174,13 +174,13 @@ class TemplateManager {
 	public function delete(string $templateName) {
 		try {
 			$template = $this->folder->getFile($templateName);
-			$template->delete();
+			// $template->delete();
 			return  1;
 		} catch (NotFoundException $e) {
 			$templateDir = $this->getUserTemplateDir();
 			try {
 				$templateFile = $templateDir->get($templateName);
-				$templateFile->delete();
+				// $templateFile->delete();
 				return  2;
 			} catch (NotFoundException $e) {
 				throw new NotFoundException($e);
@@ -237,7 +237,7 @@ class TemplateManager {
 	private function formatNodeReturn($template): array{
 		return [
 			'name'    => $template->getName(),
-			'preview' => 'https://dev.skjnldsv.com/remote.php/webdav/Images/2gctzk0ijmg11.jpg',
+			'preview' => $this->urlGenerator->linkToRoute('richdocuments.templates.getPreview', ['templateName' => $template->getName()]),
 			'ext'     => $this->flipTypes[$template->getMimeType()],
 			'etag'    => $template->getETag(),
 			'delete' => $this->urlGenerator->linkToRoute('richdocuments.templates.delete', ['templateName' => $template->getName()]),
