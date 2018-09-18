@@ -113,10 +113,10 @@ class TemplateManager {
 	}
 
 	/**
-	 * Get template info
+	 * Get template file/node
 	 *
 	 * @param string $templateName
-	 * @return array
+	 * @return ISimpleFile/Node
 	 */
 	public function get(string $templateName) {
 		try {
@@ -132,7 +132,8 @@ class TemplateManager {
 			}
 		}
 
-		return $this->formatNodeReturn($templateFile);
+		return $templateFile;
+		// return $this->formatNodeReturn($templateFile);
 	}
 
 	/**
@@ -161,7 +162,7 @@ class TemplateManager {
 		}
 		$template->putContent($templateFile);
 
-		return $this->get($templateName);
+		return $this->formatNodeReturn($this->get($templateName));
 	}
 
 	/**
@@ -174,19 +175,17 @@ class TemplateManager {
 	public function delete(string $templateName) {
 		try {
 			$template = $this->folder->getFile($templateName);
-			// $template->delete();
-			return  1;
+			$template->delete();
 		} catch (NotFoundException $e) {
 			$templateDir = $this->getUserTemplateDir();
 			try {
 				$templateFile = $templateDir->get($templateName);
-				// $templateFile->delete();
-				return  2;
+				$templateFile->delete();
 			} catch (NotFoundException $e) {
 				throw new NotFoundException($e);
 			}
 		}
-		return 0;
+		return true;
 	}
 
 	/**
