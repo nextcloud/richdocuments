@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -95,7 +96,7 @@ class TemplatesController extends Controller {
 		bool $forceIcon = true,
 		string $mode = 'fill') {
 
-		if ($template === '' || $x === 0 || $y === 0) {
+		if ($templateName === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

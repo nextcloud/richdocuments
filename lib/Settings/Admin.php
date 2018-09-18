@@ -39,7 +39,6 @@ class Admin implements ISettings {
 	/**
 	 * Admin template settings
 	 *
-	 * @param string $appName
 	 * @param IConfig $config
 	 * @param TemplateManager $manager
 	 */

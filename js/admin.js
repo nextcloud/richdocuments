@@ -274,7 +274,7 @@ function appendTemplateFromData(data) {
 	template.querySelector('figcaption').textContent = data.name;
 	template.querySelector('.delete-template').href = data.delete;
 
-	document.querySelector('#richdocuments-templates > ul').appendChild(template)
+	document.querySelector('#richdocuments-templates > ul').appendChild(template);
 }
 
 /**
@@ -283,7 +283,7 @@ function appendTemplateFromData(data) {
 function initTemplateManager() {
 	var inputElmt = document.querySelector('#add-template');
 	var buttonElmt = document.querySelector('.icon-add');
-	var deleteElmts = document.querySelectorAll('.delete-template')
+	var deleteElmts = document.querySelectorAll('.delete-template');
 
 	deleteElmts.forEach(function(elmt) {
 		elmt.addEventListener('click', function(event) {
@@ -311,11 +311,11 @@ function initTemplateManager() {
 					setTimeout(function() {
 						elmt.classList.add('icon-delete');
 						elmt.textContent = '';
-					}, 2000)
-				})
+					}, 2000);
+				});
 			}
-		})
-	})
+		});
+	});
 
 	// fileupload plugin
 	$('#richdocuments-templates').fileupload({
@@ -340,7 +340,7 @@ function initTemplateManager() {
 			inputElmt.disabled = false;
 			buttonElmt.className = 'icon-add';
 			// add template to dom
-			appendTemplateFromData(e.data)
+			appendTemplateFromData(e.data);
 		},
 		
 		fail: function(e, data) {
@@ -351,7 +351,7 @@ function initTemplateManager() {
 			setTimeout(function() {
 				inputElmt.disabled = false;
 				buttonElmt.textContent = '';
-			}, 2000)
+			}, 2000);
 		}
     });
 }

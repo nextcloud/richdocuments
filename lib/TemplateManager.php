@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments;
 
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -116,7 +117,7 @@ class TemplateManager {
 	 * Get template file/node
 	 *
 	 * @param string $templateName
-	 * @return ISimpleFile/Node
+	 * @return ISimpleFile|Node
 	 */
 	public function get(string $templateName) {
 		try {
@@ -169,21 +170,14 @@ class TemplateManager {
 	 * Delete a template to the global template folder
 	 *
 	 * @param string $templateName
-	 * @param string $templateFile
 	 * @return void
 	 */
 	public function delete(string $templateName) {
 		try {
-			$template = $this->folder->getFile($templateName);
+			$template = $this->get($templateName);
 			$template->delete();
 		} catch (NotFoundException $e) {
-			$templateDir = $this->getUserTemplateDir();
-			try {
-				$templateFile = $templateDir->get($templateName);
-				$templateFile->delete();
-			} catch (NotFoundException $e) {
-				throw new NotFoundException($e);
-			}
+			throw new NotFoundException($e);
 		}
 		return true;
 	}
@@ -230,7 +224,7 @@ class TemplateManager {
 	/**
 	 * Format template file for json return object
 	 *
-	 * @param ISimpleFile/Node $template
+	 * @param ISimpleFile|Node $template
 	 * @return array
 	 */
 	private function formatNodeReturn($template): array{
