@@ -1,0 +1,43 @@
+.rd-settings-documentation {
+    max-width: 50em;
+};
+#richdocuments,
+#richdocuments-templates {
+	// inline buttons on section headers
+	> h2 {
+		display: inline-flex;
+		align-items: center;
+
+		.icon-info,
+		.icon-add,
+		.icon-loading-small {
+			width: 44px;
+			height: 44px;
+			margin: -6px;
+			margin-left: 10px;
+			opacity: .5;
+			&:hover,
+			&:focus,
+			&:active {
+				opacity: .7;
+			}
+		}
+	}
+}
+
+#richdocuments-templates {
+	> input {
+		// feedback for keyboard navigation
+		&:hover,
+		&:focus,
+		&:active {
+			+ h2 .icon-add,
+			+ h2 .icon-loading-small {
+				opacity: .7;
+			}
+			+ #emptycontent label {
+				color: var(--color-text-light);
+			}
+		}
+	}
+}

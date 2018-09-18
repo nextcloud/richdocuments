@@ -1,12 +1,26 @@
 <?php
 /**
- * ownCloud - Richdocuments App
+ * @copyright Copyright (c) 2013-2014 Victor Dubiniuk <victor.dubiniuk@gmail.com>
  *
- * @author Victor Dubiniuk
- * @copyright 2013-2014 Victor Dubiniuk victor.dubiniuk@gmail.com
+ * @author Victor Dubiniuk <victor.dubiniuk@gmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * This file is licensed under the Affero General Public License version 3 or
- * later.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 namespace OCA\Richdocuments\AppInfo;
@@ -37,8 +51,15 @@ return [
 		//assets
 		['name' => 'assets#create', 'url' => 'assets', 'verb' => 'POST'],
 		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
+		
+		// templates
+		['name' => 'templates#getPreview', 'url' => '/template/{templateName}', 'verb' => 'GET'],
+		['name' => 'templates#add', 'url' => '/template', 'verb' => 'POST'],
+		['name' => 'templates#delete', 'url' => '/template/{templateName}', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
 		['name' => 'OCS#create', 'url' => '/api/v1/document', 'verb' => 'POST'],
+		['name' => 'OCS#getTemplates', 'url' => '/api/v1/templates/{type}', 'verb' => 'GET'],
+		['name' => 'OCS#createFromTemplate', 'url' => '/api/v1/templates/new', 'verb' => 'POST']
 	],
 ];

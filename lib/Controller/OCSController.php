@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -90,5 +91,23 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
 		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $type The template id
+	 */
+	public function getTemplates(string $type) {
+
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $path Where to create the document
+	 * @param int $template The template id
+	 */
+	public function createFromTemplate(string $path, int $template) {
 	}
 }

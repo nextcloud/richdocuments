@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Settings;
 
+use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -30,13 +31,20 @@ use OCP\IL10N;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
+
 	/** @var IConfig */
 	private $config;
+
+	/** @var TemplateManager */
+	private $templateManager;
 	/**
 	 * @param IConfig $config
+	 * @param TemplateManager $templateManager
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config,
+								TemplateManager $templateManager) {
 		$this->config = $config;
+		$this->templateManager = $templateManager;
 	}
 	/**
 	 * @return TemplateResponse
@@ -52,6 +60,7 @@ class Admin implements ISettings {
 				'doc_format' => $this->config->getAppValue('richdocuments', 'doc_format'),
 				'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
 				'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
+				'templates' => $this->templateManager->getGlobals(),
 			],
 			'blank'
 		);

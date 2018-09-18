@@ -262,6 +262,43 @@ var documentsSettings = {
 	}
 };
 
+function initTemplateManager() {
+	var inputElmt = document.querySelector('#add-template');
+	var buttonElmt = document.querySelector('.icon-add');
+
+	$('#richdocuments-templates').fileupload({
+		dataType: 'json',
+		url: OC.generateUrl(OC.linkTo('richdocuments', 'template')),
+		type: 'POST',
+
+		add: function (e, data) {
+			// submit on file selection
+			data.submit();
+			console.log(e, data)
+		},
+
+		submit: function(e, data) {
+
+			data.formData = _.extend(data.formData || {}, {
+				requesttoken: OC.requestToken
+			});
+		},
+
+        done: function(e, data) {
+			inputElmt.disabled = false;
+			buttonElmt.className = 'icon-add';
+			console.log(e, data)
+		},
+		
+		fail: function(e, data) {
+			inputElmt.disabled = false;
+			buttonElmt.className = 'icon-add';
+			console.log(e, data)
+		}
+    });
+}
+
 $(document).ready(function(){
 	documentsSettings.initialize();
+	initTemplateManager();
 });
