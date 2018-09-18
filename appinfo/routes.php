@@ -53,7 +53,7 @@ return [
 		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
 		
 		// templates
-		['name' => 'templates#getPreview', 'url' => '/template/{templateName}', 'verb' => 'GET'],
+		['name' => 'templates#getPreview', 'url' => '/template/preview/{templateName}', 'verb' => 'GET'],
 		['name' => 'templates#add', 'url' => '/template', 'verb' => 'POST'],
 		['name' => 'templates#delete', 'url' => '/template/{templateName}', 'verb' => 'DELETE'],
 	],

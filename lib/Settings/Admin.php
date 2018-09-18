@@ -34,19 +34,19 @@ class Admin implements ISettings {
 	private $config;
 
 	/** @var TemplateManager */
-	private $templateManager;
+	private $manager;
 
 	/**
 	 * Admin template settings
 	 *
 	 * @param string $appName
 	 * @param IConfig $config
-	 * @param TemplateManager $templateManager
+	 * @param TemplateManager $manager
 	 */
 	public function __construct(IConfig $config,
-								TemplateManager $templateManager) {
-		$this->config          = $config;
-		$this->templateManager = $templateManager;
+								TemplateManager $manager) {
+		$this->config  = $config;
+		$this->manager = $manager;
 	}
 	/**
 	 * @return TemplateResponse
@@ -62,7 +62,7 @@ class Admin implements ISettings {
 				'doc_format'        => $this->config->getAppValue('richdocuments', 'doc_format'),
 				'external_apps'     => $this->config->getAppValue('richdocuments', 'external_apps'),
 				'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
-				'templates'         => $this->templateManager->getGlobals()
+				'templates'         => $this->manager->getGlobals()
 			],
 			'blank'
 		);

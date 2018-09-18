@@ -265,7 +265,38 @@ var documentsSettings = {
 function initTemplateManager() {
 	var inputElmt = document.querySelector('#add-template');
 	var buttonElmt = document.querySelector('.icon-add');
+	var deleteElmts = document.querySelectorAll('.delete-template')
 
+	deleteElmts.forEach(function(elmt) {
+		elmt.addEventListener('click', function(event) {
+			event.preventDefault();
+			if (event.target.className.indexOf('loading') === -1 && elmt.textContent === '') {
+				var remote = event.target.href;
+				elmt.classList.add('icon-loading');
+				elmt.classList.remove('icon-delete');
+
+				// send request
+				$.ajax({
+					url: remote,
+					type: 'DELETE',
+				})
+				.done(function() {
+					// Remove template
+					elmt.parentElement.remove();
+				})
+				.fail(function(e) {
+					elmt.textContent = t('richdocuments', 'Error');
+					elmt.classList.remove('icon-loading');
+					setTimeout(function() {
+						elmt.classList.add('icon-delete');
+						elmt.textContent = '';
+					}, 2000)
+				})
+			}
+		})
+	})
+
+	
 	$('#richdocuments-templates').fileupload({
 		dataType: 'json',
 		url: OC.generateUrl(OC.linkTo('richdocuments', 'template')),

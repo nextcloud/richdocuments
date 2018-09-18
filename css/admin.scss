@@ -44,4 +44,55 @@
 			}
 		}
 	}
+	ul {
+		display: flex;
+		li {
+			$size: 150px;
+			border-radius: var(--border-radius);
+			border: 1px solid var(--color-border);
+			margin: 10px;
+			position: relative;
+			figure {
+				display: flex;
+				flex-direction: column;
+				width: $size;
+				margin: 10px;
+				img {
+					width: $size;
+					height: $size;
+					background-color: var(--color-background-dark);
+				}
+			}
+			.delete-cover,
+			.delete-template {
+				width: $size;
+				height: $size;
+				top: 0;
+				left: 0;
+				position: absolute;
+				margin: 10px;
+				opacity: 0;
+				transition: opacity 250ms ease-in-out;
+				z-index: 3;
+				line-height: $size;
+				text-align: center;
+				font-size: 20px;
+				// text is set as bg
+				color: var(--color-background-darker);
+			}
+			.delete-cover {
+				// bg is set as color
+				background-color: var(--color-text-lighter);
+				z-index: 2;
+			}
+			&:hover .delete-template,
+			.delete-template:focus,
+			.delete-template.icon-loading {
+				opacity: 1;
+				+ .delete-cover {
+					opacity: .5;
+				}
+			}
+		}
+	}
 }

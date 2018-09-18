@@ -25,6 +25,8 @@ namespace OCA\Richdocuments;
 
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
@@ -119,27 +121,18 @@ class TemplateManager {
 	public function get(string $templateName) {
 		try {
 			// is this a global template ?
-			$template = $this->folder->getFile($templateName);
+			$templateFile = $this->folder->getFile($templateName);
 		} catch (NotFoundException $e) {
-			// user defined template dir?
-			$templateDirID = $this->config->getUserValue($this->userId, $this->appName, 'template_dir', false);
+			$templateDir = $this->getUserTemplateDir();
+			// finally get the template file
 			try {
-				$templateDir = $this->userFolder->getById($templateDirID);
+				$templateFile = $templateDir->get($templateName);
 			} catch (NotFoundException $e) {
-				// fallback to default template dir
-				try {
-					$templateDir = $this->userFolder->get('Templates');
-					$template    = $templateDir;
-				} catch (NotFoundException $e) {
-					return new NotFoundException();
-				}
+				throw new NotFoundException($e);
 			}
 		}
 
-		var_dump($template);
-
-		return true;
-
+		return $this->formatNodeReturn($templateFile);
 	}
 
 	/**
@@ -149,11 +142,7 @@ class TemplateManager {
 		$templateFiles = $this->folder->getDirectoryListing();
 
 		return array_map(function (ISimpleFile $templateFile) {
-			return [
-				'name'    => $templateFile->getName(),
-				'preview' => $this->urlGenerator->linkToRoute('richdocuments.templates.getPreview', ['templateName' => $templateFile->getName()]),
-				'ext'     => $this->flipTypes[$templateFile->getMimeType()]
-			];
+			return $this->formatNodeReturn($templateFile);
 		}, $templateFiles);
 	}
 
@@ -172,11 +161,36 @@ class TemplateManager {
 		}
 		$template->putContent($templateFile);
 
-		return $this->getGlobals;
+		return $this->get($templateName);
 	}
 
 	/**
-	 * Flip tplTypes to retrieve types by mime
+	 * Delete a template to the global template folder
+	 *
+	 * @param string $templateName
+	 * @param string $templateFile
+	 * @return void
+	 */
+	public function delete(string $templateName) {
+		try {
+			$template = $this->folder->getFile($templateName);
+			// $template->delete();
+			return  1;
+		} catch (NotFoundException $e) {
+			$templateDir = $this->getUserTemplateDir();
+			try {
+				$templateFile = $templateDir->get($templateName);
+				// $templateFile->delete();
+				return  2;
+			} catch (NotFoundException $e) {
+				throw new NotFoundException($e);
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * Flip $tplTypes to retrieve types by mime
 	 *
 	 * @return array
 	 */
@@ -188,5 +202,45 @@ class TemplateManager {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get the user template directory
+	 *
+	 * @return Node
+	 * @throws NotFoundException
+	 */
+	private function getUserTemplateDir(): Node {
+		// has the user manually set a directory as the default template dir ?
+		$templateDirID = $this->config->getUserValue($this->userId, $this->appName, 'template_dir', false);
+
+		if ($templateDirID !== false) {
+			$templateDir = $this->userFolder->getById($templateDirID);
+		} else {
+			// fallback to default template dir
+			try {
+				$templateDir = $this->userFolder->get('Templates');
+			} catch (NotFoundException $e) {
+				throw new NotFoundException($e);
+			}
+		}
+
+		return $templateDir;
+	}
+
+	/**
+	 * Format template file for json return object
+	 *
+	 * @param ISimpleFile/Node $template
+	 * @return array
+	 */
+	private function formatNodeReturn($template): array{
+		return [
+			'name'    => $template->getName(),
+			'preview' => 'https://dev.skjnldsv.com/remote.php/webdav/Images/2gctzk0ijmg11.jpg',
+			'ext'     => $this->flipTypes[$template->getMimeType()],
+			'etag'    => $template->getETag(),
+			'delete' => $this->urlGenerator->linkToRoute('richdocuments.templates.delete', ['templateName' => $template->getName()]),
+		];
 	}
 }

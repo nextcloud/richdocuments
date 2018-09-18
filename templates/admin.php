@@ -61,13 +61,13 @@ script('files', 'jquery.fileupload');
 	<?php if (!empty($_['templates'])) { ?>
 		<ul>
 			<?php foreach ($_['templates'] as $template) {?>
-				<li>
+				<li data-id="<?php p($template['name']) ?>">
 					<figure>
-						<figcaption><?php p($l->t('description')) ?></figcaption>
+						<img src="<?php p($template['preview']) ?>" alt="<?php p($l->t('template preview')) ?>" />
+						<figcaption><?php p($template['name']) ?></figcaption>
 					</figure>
-					<div>
-						<a href="#" class="icon-delete"></a>
-					</div>
+					<a href="<?php p($template['delete']) ?>" class="delete-template icon-delete"></a>
+					<div class="delete-cover"></div>
 				</li>
 			<?php } ?>
 		</ul>

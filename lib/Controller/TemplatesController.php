@@ -26,10 +26,12 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Files\Node;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IRequest;
 use OC\Files\Filesystem;
 
@@ -47,6 +49,9 @@ class TemplatesController extends Controller {
 	/** @var TemplateManager */
 	private $manager;
 
+	/** @var IPreview */
+	private $preview;
+
 	/** @var int Max template size */
 	private $maxSize = 20 * 1024 * 1024;
 
@@ -57,17 +62,20 @@ class TemplatesController extends Controller {
 	 * @param IRequest $request
 	 * @param L10N $l10n
 	 * @param TemplateManager $manager
+	 * @param IPreview $preview
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IL10N $l10n,
-								TemplateManager $manager) {
+								TemplateManager $manager,
+								IPreview $preview) {
 		parent::__construct($appName, $request);
 
-		$this->appName         = $appName;
-		$this->request         = $request;
-		$this->l10n            = $l10n;
+		$this->appName = $appName;
+		$this->request = $request;
+		$this->l10n    = $l10n;
 		$this->manager = $manager;
+		$this->preview = $preview;
 	}
 
 	/**
@@ -77,16 +85,27 @@ class TemplatesController extends Controller {
 	 * Get preview for a specific template
 	 *
 	 * @param string $templateName The template id
-	 * @return DataDisplayResponse|NotFoundResponse
+	 * @return DataResponse
+	 * @throws NotFoundResponse
 	 */
-	public function getPreview(string $templateName) {
-		try {
-			$template = $this->templateManager->get($templateName);
+	public function getPreview(string $templateName,
+		int $x = 32,
+		int $y = 32,
+		bool $a = false,
+		bool $forceIcon = true,
+		string $mode = 'fill') {
 
-			//return DataDisplayResponse($template->getPreview(), Http::STATUS_OK, ['Content-Type' => 'image/png']);
-		} catch (NotFoundException $e) {
-			return new NotFoundResponse();
+		if ($template === '' || $x === 0 || $y === 0) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
+
+		try {
+			$template = $this->manager->get($templateName);
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		return $this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode);
 	}
 
 	/**
@@ -94,7 +113,7 @@ class TemplatesController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function add() {
+	public function add(): JSONResponse {
 		$files = $this->request->getUploadedFile('files');
 
 		if (!is_null($files)) {
@@ -115,10 +134,10 @@ class TemplatesController extends Controller {
 
 				unlink($files['tmp_name'][0]);
 
-				$template = $this->templateManager->add($templateName, $templateFile);
+				$template = $this->manager->add($templateName, $templateFile);
 
 				return new JSONResponse(
-					['data' => ['data' => $template]],
+					['data' => $template],
 					Http::STATUS_CREATED
 				);
 			}
@@ -136,9 +155,9 @@ class TemplatesController extends Controller {
 	 * @param string $templateName
 	 * @return JSONResponse
 	 */
-	public function delete(string $templateName) {
+	public function delete(string $templateName): JSONResponse {
 		try {
-			$this->templateManager->delete($templateName);
+			$this->manager->delete($templateName);
 
 			return new JSONResponse(
 				['data' => ['status' => 'success']],
@@ -150,5 +169,43 @@ class TemplatesController extends Controller {
 				Http::STATUS_NOT_FOUND
 			);
 		}
+	}
+
+	/**
+	 * @param Node $node
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
+	 * @return DataResponse|FileDisplayResponse
+	 */
+	private function fetchPreview(
+		Node $node,
+		int $x,
+		int $y,
+		bool $a = false,
+		bool $forceIcon = true,
+		string $mode): Http\Response {
+
+		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+		if (!$node->isReadable()) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$f        = $this->preview->getPreview($node, $x, $y, !$a, $mode);
+			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
+			$response->cacheFor(3600 * 24);
+
+			return $response;
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 	}
 }
