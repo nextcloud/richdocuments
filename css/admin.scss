@@ -48,19 +48,23 @@
 		display: flex;
 		li {
 			$size: 150px;
+			$space: 10px;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
-			margin: 10px;
+			margin: $space;
 			position: relative;
 			figure {
 				display: flex;
 				flex-direction: column;
 				width: $size;
-				margin: 10px;
+				margin: $space;
 				img {
 					width: $size;
 					height: $size;
 					background-color: var(--color-background-dark);
+				}
+				figcaption {
+					margin-top: $space;
 				}
 			}
 			.delete-cover,
@@ -70,13 +74,14 @@
 				top: 0;
 				left: 0;
 				position: absolute;
-				margin: 10px;
+				margin: $space;
 				opacity: 0;
 				transition: opacity 250ms ease-in-out;
 				z-index: 3;
 				line-height: $size;
 				text-align: center;
 				font-size: 20px;
+				background-size: 24px;
 				// text is set as bg
 				color: var(--color-background-darker);
 			}

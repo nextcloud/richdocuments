@@ -60,8 +60,16 @@ script('files', 'jquery.fileupload');
 	</h2>
 	<?php if (!empty($_['templates'])) { ?>
 		<ul>
+			<li class="hidden template-model">
+				<figure>
+					<img src="" alt="<?php p($l->t('template preview')) ?>" />
+					<figcaption></figcaption>
+				</figure>
+				<a href="" class="delete-template icon-delete"></a>
+				<div class="delete-cover"></div>
+			</li>
 			<?php foreach ($_['templates'] as $template) {?>
-				<li data-id="<?php p($template['name']) ?>">
+				<li>
 					<figure>
 						<img src="<?php p($template['preview']) ?>" alt="<?php p($l->t('template preview')) ?>" />
 						<figcaption><?php p($template['name']) ?></figcaption>

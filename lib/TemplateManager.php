@@ -174,13 +174,13 @@ class TemplateManager {
 	public function delete(string $templateName) {
 		try {
 			$template = $this->folder->getFile($templateName);
-			// $template->delete();
+			$template->delete();
 			return  1;
 		} catch (NotFoundException $e) {
 			$templateDir = $this->getUserTemplateDir();
 			try {
 				$templateFile = $templateDir->get($templateName);
-				// $templateFile->delete();
+				$templateFile->delete();
 				return  2;
 			} catch (NotFoundException $e) {
 				throw new NotFoundException($e);

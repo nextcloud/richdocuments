@@ -262,6 +262,24 @@ var documentsSettings = {
 	}
 };
 
+/**
+ * Append a new template to the dom
+ * 
+ * @param {Object} data the template data from the template controller response
+ */
+function appendTemplateFromData(data) {
+	var template = document.querySelector('.template-model');
+	template.className = '';
+	template.querySelector('img').src = data.preview;
+	template.querySelector('figcaption').textContent = data.name;
+	template.querySelector('.delete-template').href = data.delete;
+
+	document.querySelector('#richdocuments-templates > ul').appendChild(template)
+}
+
+/**
+ * Init the upload manager and the delete template handler
+ */
 function initTemplateManager() {
 	var inputElmt = document.querySelector('#add-template');
 	var buttonElmt = document.querySelector('.icon-add');
@@ -270,6 +288,8 @@ function initTemplateManager() {
 	deleteElmts.forEach(function(elmt) {
 		elmt.addEventListener('click', function(event) {
 			event.preventDefault();
+
+			// ensure no request is in progress
 			if (event.target.className.indexOf('loading') === -1 && elmt.textContent === '') {
 				var remote = event.target.href;
 				elmt.classList.add('icon-loading');
@@ -281,10 +301,11 @@ function initTemplateManager() {
 					type: 'DELETE',
 				})
 				.done(function() {
-					// Remove template
+					// remove template
 					elmt.parentElement.remove();
 				})
 				.fail(function(e) {
+					// failure, show warning
 					elmt.textContent = t('richdocuments', 'Error');
 					elmt.classList.remove('icon-loading');
 					setTimeout(function() {
@@ -296,7 +317,7 @@ function initTemplateManager() {
 		})
 	})
 
-	
+	// fileupload plugin
 	$('#richdocuments-templates').fileupload({
 		dataType: 'json',
 		url: OC.generateUrl(OC.linkTo('richdocuments', 'template')),
@@ -318,9 +339,12 @@ function initTemplateManager() {
         success: function(e, data) {
 			inputElmt.disabled = false;
 			buttonElmt.className = 'icon-add';
+			// add template to dom
+			appendTemplateFromData(e.data)
 		},
 		
 		fail: function(e, data) {
+			// failure, show warning
 			buttonElmt.className = 'icon-add';
 			buttonElmt.textContent = t('richdocuments', 'An error occured');
 			// TODO: add error message from server
