@@ -63,21 +63,21 @@ class TemplateManager {
 	private $previewManager;
 
 	/** Accepted templates mime types */
-	const MIME_DOCUMENTS = [
-		'a', 'b', 'c'
+	const MIMES_DOCUMENTS = [
+		'application/vnd.oasis.opendocument.text'
 	];
-	const MIME_SHEETS = [
-		'aa', 'bb', 'cc'
+	const MIMES_SHEETS = [
+		'application/vnd.oasis.opendocument.spreadsheet'
 	];
-	const MIME_PRESENTATIONS = [
-		'aaa', 'bbb', 'ccc'
+	const MIMES_PRESENTATIONS = [
+		'application/vnd.oasis.opendocument.presentation'
 	];
 
 	/** @var array Template mime types match */
 	static public $tplTypes = [
-		'document'     => self::MIME_DOCUMENTS,
-		'sheet'        => self::MIME_SHEETS,
-		'presentation' => self::MIME_PRESENTATIONS
+		'document'     => self::MIMES_DOCUMENTS,
+		'spreadsheet'  => self::MIMES_SHEETS,
+		'presentation' => self::MIMES_PRESENTATIONS
 	];
 
 	/**
@@ -92,12 +92,12 @@ class TemplateManager {
 	 * @param IPreview $previewManager
 	 */
 	public function __construct(string $appName,
-		string $userId,
-		IConfig $config,
-		Factory $appDataFactory,
-		IURLGenerator $urlGenerator,
-		IRootFolder $rootFolder,
-		IPreview $previewManager) {
+								string $userId,
+								IConfig $config,
+								Factory $appDataFactory,
+								IURLGenerator $urlGenerator,
+								IRootFolder $rootFolder,
+								IPreview $previewManager) {
 		$this->appName        = $appName;
 		$this->userId         = $userId;
 		$this->config         = $config;
@@ -172,8 +172,8 @@ class TemplateManager {
 		$system = $this->getSystem();
 		$user   = $this->getUser();
 
-		return array_filter(array_merge($user, $system), function ($template) {
-			$template['ext'] === $type;
+		return array_filter(array_merge($user, $system), function ($template) use ($type) {
+			return $template['ext'] === $type;
 		});
 	}
 
@@ -220,9 +220,8 @@ class TemplateManager {
 	 */
 	private function flipTypes(): array{
 		$result = array();
-		foreach ($this::$tplTypes as $type => &$mime) {
-			$mime   = array_fill_keys($mime, $type);
-			$result = array_merge($result, $mime);
+		foreach ($this::$tplTypes as $type => $mime) {
+			$result = array_merge($result, array_fill_keys($mime, $type));
 		}
 
 		return $result;
@@ -262,7 +261,7 @@ class TemplateManager {
 		return [
 			'name'    => $template->getName(),
 			'preview' => $this->urlGenerator->linkToRoute('richdocuments.templates.getPreview', ['templateName' => $template->getName()]),
-			'ext'     => $this->flipTypes[$template->getMimeType()],
+			'ext'     => $this->flipTypes()[$template->getMimeType()],
 			'etag'    => $template->getETag(),
 			'delete'  => $this->urlGenerator->linkToRoute('richdocuments.templates.delete', ['templateName' => $template->getName()])
 		];

@@ -110,7 +110,7 @@ class TemplatesController extends Controller {
 		}
 
 		if ($template instanceof ISimpleFile) {
-			return new DataResponse([], Http::STATUS_NO_CONTENT);
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		return $this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode);
