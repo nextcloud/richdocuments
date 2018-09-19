@@ -24,6 +24,8 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\TemplateManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -34,6 +36,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class OCSController extends \OCP\AppFramework\OCSController {
+
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -46,32 +49,52 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct($appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								$userId,
-								DirectMapper $directMapper,
-								IURLGenerator $urlGenerator) {
+	/** @var TemplateManager */
+	private $manager;
+
+	/**
+	 * OCS controller
+	 *
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param IRootFolder $rootFolder
+	 * @param string $userId
+	 * @param DirectMapper $directMapper
+	 * @param IURLGenerator $urlGenerator
+	 * @param TemplateManager $manager
+	 */
+	public function __construct(string $appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		string $userId,
+		DirectMapper $directMapper,
+		IURLGenerator $urlGenerator,
+		TemplateManager $manager) {
 		parent::__construct($appName, $request);
 
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
+		$this->rootFolder   = $rootFolder;
+		$this->userId       = $userId;
 		$this->directMapper = $directMapper;
 		$this->urlGenerator = $urlGenerator;
+		$this->manager      = $manager;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
+	 * Init an editing session
+	 *
 	 * @param int $fileId
+	 * @return DataResponse
+	 * @throws OCSNotFoundException|OCSBadRequestException
 	 */
-	public function create($fileId) {
+	public function create(int $fileId): DataResponse {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$nodes = $userFolder->getById($fileId);
+			$nodes      = $userFolder->getById($fileId);
 
 			if ($nodes === []) {
-				throw new NotFoundException();
+				throw new OCSNotFoundException();
 			}
 
 			$node = $nodes[0];
@@ -80,7 +103,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			}
 
 			//TODO check if we can even edit this file with collabora
-			
+
 			$direct = $this->directMapper->newDirect($this->userId, $fileId);
 
 			return new DataResponse([
@@ -96,10 +119,17 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string $type The template id
+	 * @param string $type The template type
+	 * @return DataResponse
+	 * @throws Exception OCSBadRequestException
 	 */
-	public function getTemplates(string $type) {
+	public function getTemplates(string $type): DataResponse {
+		if (in_array($type, array_keys($this->manager::$tplTypes))) {
+			$templates = $this->manager->getAll($type);
 
+			return new DataResponse($templates);
+		}
+		throw new OCSBadRequestException('Wrong type');
 	}
 
 	/**

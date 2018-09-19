@@ -164,6 +164,20 @@ class TemplateManager {
 	}
 
 	/**
+	 * Get all templates
+	 *
+	 * @return array
+	 */
+	public function getAll(string $type = 'document'): array{
+		$system = $this->getSystem();
+		$user   = $this->getUser();
+
+		return array_filter(array_merge($user, $system), function ($template) {
+			$template['ext'] === $type;
+		});
+	}
+
+	/**
 	 * Add a template to the global template folder
 	 *
 	 * @param string $templateName

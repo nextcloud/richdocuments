@@ -33,6 +33,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -59,7 +60,7 @@ class TemplatesController extends Controller {
 	private $maxSize = 20 * 1024 * 1024;
 
 	/**
-	 * Controller
+	 * Templates controller
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
@@ -106,6 +107,10 @@ class TemplatesController extends Controller {
 			$template = $this->manager->get($templateName);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		if ($template instanceof ISimpleFile) {
+			return new DataResponse([], Http::STATUS_NO_CONTENT);
 		}
 
 		return $this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode);
