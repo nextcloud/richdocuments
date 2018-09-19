@@ -71,7 +71,7 @@ script('files', 'jquery.fileupload');
 			<?php foreach ($_['templates'] as $template) {?>
 				<li>
 					<figure>
-						<img src="<?php p($template['preview']) ?>" alt="<?php p($l->t('template preview')) ?>" />
+						<img src="<?php p($template['preview']) ?>?y=297&x=210" alt="<?php p($l->t('template preview')) ?>" />
 						<figcaption><?php p($template['name']) ?></figcaption>
 					</figure>
 					<a href="<?php p($template['delete']) ?>" class="delete-template icon-delete"></a>

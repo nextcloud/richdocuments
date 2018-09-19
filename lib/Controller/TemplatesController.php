@@ -92,8 +92,8 @@ class TemplatesController extends Controller {
 	 * @throws NotFoundResponse
 	 */
 	public function getPreview(string $templateName,
-		int $x = 32,
-		int $y = 32,
+		int $x = 150,
+		int $y = 150,
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill') {
