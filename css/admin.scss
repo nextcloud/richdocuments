@@ -1,6 +1,6 @@
 .rd-settings-documentation {
-    max-width: 50em;
-};
+	max-width: 50em;
+}
 #richdocuments,
 #richdocuments-templates {
 	// inline buttons on section headers
@@ -15,7 +15,7 @@
 			height: 44px;
 			margin: -6px;
 			margin-left: 10px;
-			opacity: .5;
+			opacity: 0.5;
 			white-space: nowrap;
 			line-height: 44px;
 			padding-left: 44px;
@@ -23,7 +23,7 @@
 			&:hover,
 			&:focus,
 			&:active {
-				opacity: .7;
+				opacity: 0.7;
 			}
 		}
 	}
@@ -37,10 +37,11 @@
 		&:active {
 			+ h2 .icon-add,
 			+ h2 .icon-loading-small {
-				opacity: .7;
+				opacity: 0.7;
 			}
 			+ #emptycontent label {
-				color: var(--color-text-light);
+				color: nc-lighten($color-main-text, 15%);		// 12&13 fallback
+				color: $color-text-light;
 			}
 		}
 	}
@@ -51,8 +52,9 @@
 			$size: 150px;
 			$sizeY: $size / 210 * 297;
 			$space: 10px;
-			border-radius: var(--border-radius);
-			border: 1px solid var(--color-border);
+			border-radius: 3px;						// 12&13 fallback
+			border-radius: $border-radius;
+			border: 1px solid $color-border;		// 12&13 fallback
 			margin: $space;
 			position: relative;
 			figure {
@@ -63,7 +65,8 @@
 				img {
 					width: $size;
 					height: $sizeY;
-					background-color: var(--color-background-dark);
+					background-color: nc-darken($color-main-background, 7%);	// 12&13 fallback
+					background-color: $color-background-dark;
 				}
 				figcaption {
 					margin-top: $space;
@@ -85,11 +88,13 @@
 				font-size: 20px;
 				background-size: 24px;
 				// text is set as bg
-				color: var(--color-background-darker);
+				color: nc-darken($color-main-background, 14%);			// 12&13 fallback
+				color: $color-background-darker;
 			}
 			.delete-cover {
 				// bg is set as color
-				background-color: var(--color-text-lighter);
+				background-color: nc-lighten($color-main-text, 30%);	// 12&13 fallback
+				background-color: $color-text-lighter;
 				z-index: 2;
 			}
 			&:hover .delete-template,
@@ -97,7 +102,7 @@
 			.delete-template.icon-loading {
 				opacity: 1;
 				+ .delete-cover {
-					opacity: .5;
+					opacity: 0.5;
 				}
 			}
 		}
