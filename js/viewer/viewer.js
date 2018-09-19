@@ -253,7 +253,6 @@ var odfViewer = {
 								}];
 			
 								$('#template-picker').ocdialog({
-									width: 500,
 									closeOnEscape: true,
 									modal: true,
 									buttons: buttonlist
