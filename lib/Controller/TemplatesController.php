@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -27,6 +28,7 @@ use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\Node;
@@ -189,7 +191,7 @@ class TemplatesController extends Controller {
 		bool $forceIcon = true,
 		string $mode): Http\Response {
 
-		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
+		if (!($node instanceof Node) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		if (!$node->isReadable()) {

@@ -1,4 +1,5 @@
 <?php
+declare (strict_types = 1);
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -23,7 +24,6 @@
 
 namespace OCA\Richdocuments;
 
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -92,12 +92,12 @@ class TemplateManager {
 	 * @param IPreview $previewManager
 	 */
 	public function __construct(string $appName,
-								string $userId,
-								IConfig $config,
-								Factory $appDataFactory,
-								IURLGenerator $urlGenerator,
-								IRootFolder $rootFolder,
-								IPreview $previewManager) {
+		string $userId,
+		IConfig $config,
+		Factory $appDataFactory,
+		IURLGenerator $urlGenerator,
+		IRootFolder $rootFolder,
+		IPreview $previewManager) {
 		$this->appName        = $appName;
 		$this->userId         = $userId;
 		$this->config         = $config;
@@ -114,7 +114,7 @@ class TemplateManager {
 	}
 
 	/**
-	 * Get template file/node
+	 * Get template ISimpleFile|Node
 	 *
 	 * @param string $templateName
 	 * @return ISimpleFile|Node
@@ -129,21 +129,36 @@ class TemplateManager {
 			try {
 				$templateFile = $templateDir->get($templateName);
 			} catch (NotFoundException $e) {
-				throw new NotFoundException($e);
+				throw new NotFoundException($e->getMessage());
 			}
 		}
 
 		return $templateFile;
-		// return $this->formatNodeReturn($templateFile);
 	}
 
 	/**
 	 * Get all global templates
+	 *
+	 * @return array
 	 */
-	public function getGlobals() {
+	public function getSystem(): array{
 		$templateFiles = $this->folder->getDirectoryListing();
 
 		return array_map(function (ISimpleFile $templateFile) {
+			return $this->formatNodeReturn($templateFile);
+		}, $templateFiles);
+	}
+
+	/**
+	 * Get all user templates
+	 *
+	 * @return array
+	 */
+	public function getUser(): array{
+		$templateDir   = $this->getUserTemplateDir();
+		$templateFiles = $templateDir->getDirectoryListing();
+
+		return array_map(function (Node $templateFile) {
 			return $this->formatNodeReturn($templateFile);
 		}, $templateFiles);
 	}
@@ -153,9 +168,9 @@ class TemplateManager {
 	 *
 	 * @param string $templateName
 	 * @param string $templateFile
-	 * @return void
+	 * @return array
 	 */
-	public function add(string $templateName, string $templateFile) {
+	public function add(string $templateName, string $templateFile): array{
 		try {
 			$template = $this->folder->getFile($templateName);
 		} catch (NotFoundException $e) {
@@ -170,15 +185,17 @@ class TemplateManager {
 	 * Delete a template to the global template folder
 	 *
 	 * @param string $templateName
-	 * @return void
+	 * @return boolean
+	 * @throws NotFoundException
 	 */
-	public function delete(string $templateName) {
+	public function delete(string $templateName): bool {
 		try {
 			$template = $this->get($templateName);
 			$template->delete();
 		} catch (NotFoundException $e) {
-			throw new NotFoundException($e);
+			throw new NotFoundException($e->getMessage());
 		}
+
 		return true;
 	}
 
@@ -214,7 +231,7 @@ class TemplateManager {
 			try {
 				$templateDir = $this->userFolder->get('Templates');
 			} catch (NotFoundException $e) {
-				throw new NotFoundException($e);
+				throw new NotFoundException($e->getMessage());
 			}
 		}
 
@@ -233,7 +250,7 @@ class TemplateManager {
 			'preview' => $this->urlGenerator->linkToRoute('richdocuments.templates.getPreview', ['templateName' => $template->getName()]),
 			'ext'     => $this->flipTypes[$template->getMimeType()],
 			'etag'    => $template->getETag(),
-			'delete' => $this->urlGenerator->linkToRoute('richdocuments.templates.delete', ['templateName' => $template->getName()]),
+			'delete'  => $this->urlGenerator->linkToRoute('richdocuments.templates.delete', ['templateName' => $template->getName()])
 		];
 	}
 }

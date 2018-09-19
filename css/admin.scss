@@ -46,8 +46,10 @@
 	}
 	ul {
 		display: flex;
+		flex-wrap: wrap;
 		li {
 			$size: 150px;
+			$sizeY: $size / 210 * 297;
 			$space: 10px;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
@@ -60,7 +62,7 @@
 				margin: $space;
 				img {
 					width: $size;
-					height: $size;
+					height: $sizeY;
 					background-color: var(--color-background-dark);
 				}
 				figcaption {
@@ -70,7 +72,7 @@
 			.delete-cover,
 			.delete-template {
 				width: $size;
-				height: $size;
+				height: $sizeY;
 				top: 0;
 				left: 0;
 				position: absolute;
@@ -78,7 +80,7 @@
 				opacity: 0;
 				transition: opacity 250ms ease-in-out;
 				z-index: 3;
-				line-height: $size;
+				line-height: $sizeY;
 				text-align: center;
 				font-size: 20px;
 				background-size: 24px;
