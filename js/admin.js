@@ -268,14 +268,58 @@ var documentsSettings = {
  * @param {Object} data the template data from the template controller response
  */
 function appendTemplateFromData(data) {
-	var template = document.querySelector('.template-model');
+	var template = document.querySelector('.template-model').cloneNode(true);
 	template.className = '';
 	template.querySelector('img').src = data.preview;
 	template.querySelector('figcaption').textContent = data.name;
 	template.querySelector('.delete-template').href = data.delete;
 
 	document.querySelector('#richdocuments-templates > ul').appendChild(template);
-}
+	template.querySelector('.delete-template').addEventListener('click', deleteTemplate);
+};
+
+/**
+ * Delete template event handler
+ * 
+ * @param {Event} event 
+ */
+function deleteTemplate(event) {
+	event.preventDefault();
+	var emptyElmt = document.querySelector('#richdocuments-templates #emptycontent');
+	var tplListElmt = document.querySelector('#richdocuments-templates > ul');
+	var elmt = event.target;
+
+	// ensure no request is in progress
+	if (elmt.className.indexOf('loading') === -1 && elmt.textContent === '') {
+		var remote = event.target.href;
+		elmt.classList.add('icon-loading');
+		elmt.classList.remove('icon-delete');
+
+		// send request
+		$.ajax({
+			url: remote,
+			type: 'DELETE',
+		})
+		.done(function() {
+			// remove template
+			elmt.parentElement.remove();
+			// is list empty? Only the default template is left
+			if (tplListElmt.querySelectorAll('li').length === 1) {
+				tplListElmt.classList.add('hidden');
+				emptyElmt.classList.remove('hidden');
+			}
+		})
+		.fail(function(e) {
+			// failure, show warning
+			elmt.textContent = t('richdocuments', 'Error');
+			elmt.classList.remove('icon-loading');
+			setTimeout(function() {
+				elmt.classList.add('icon-delete');
+				elmt.textContent = '';
+			}, 2000);
+		});
+	}
+};
 
 /**
  * Init the upload manager and the delete template handler
@@ -284,37 +328,11 @@ function initTemplateManager() {
 	var inputElmt = document.querySelector('#add-template');
 	var buttonElmt = document.querySelector('.icon-add');
 	var deleteElmts = document.querySelectorAll('.delete-template');
+	var emptyElmt = document.querySelector('#richdocuments-templates #emptycontent');
+	var tplListElmt = document.querySelector('#richdocuments-templates > ul');
 
 	deleteElmts.forEach(function(elmt) {
-		elmt.addEventListener('click', function(event) {
-			event.preventDefault();
-
-			// ensure no request is in progress
-			if (event.target.className.indexOf('loading') === -1 && elmt.textContent === '') {
-				var remote = event.target.href;
-				elmt.classList.add('icon-loading');
-				elmt.classList.remove('icon-delete');
-
-				// send request
-				$.ajax({
-					url: remote,
-					type: 'DELETE',
-				})
-				.done(function() {
-					// remove template
-					elmt.parentElement.remove();
-				})
-				.fail(function(e) {
-					// failure, show warning
-					elmt.textContent = t('richdocuments', 'Error');
-					elmt.classList.remove('icon-loading');
-					setTimeout(function() {
-						elmt.classList.add('icon-delete');
-						elmt.textContent = '';
-					}, 2000);
-				});
-			}
-		});
+		elmt.addEventListener('click', deleteTemplate);
 	});
 
 	// fileupload plugin
@@ -341,6 +359,8 @@ function initTemplateManager() {
 			buttonElmt.className = 'icon-add';
 			// add template to dom
 			appendTemplateFromData(e.data);
+			tplListElmt.classList.remove('hidden');
+			emptyElmt.classList.add('hidden');
 		},
 		
 		fail: function(e, data) {

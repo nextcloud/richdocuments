@@ -40,6 +40,7 @@ $eventDispatcher->addListener(
 	function() {
 		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
 		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
+		\OCP\Util::addStyle('richdocuments', 'templatePicker');
 	}
 );
 $eventDispatcher->addListener(
@@ -47,6 +48,7 @@ $eventDispatcher->addListener(
 	function() {
 		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
 		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
+		\OCP\Util::addStyle('richdocuments', 'templatePicker');
 	}
 );
 

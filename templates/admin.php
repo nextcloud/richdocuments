@@ -58,34 +58,31 @@ script('files', 'jquery.fileupload');
 		<?php p($l->t('Global templates')) ?>
 		<label for="add-template" class="icon-add" title="<?php p($l->t('Add a new template')); ?>"></label>
 	</h2>
-	<?php if (!empty($_['templates'])) { ?>
-		<ul>
-			<li class="hidden template-model">
+	<div id="emptycontent" class="<?php p(empty($_['templates'])?:'hidden') ?>">
+		<div class="icon-file"></div>
+		<h2>
+			<?php p($l->t('No templates defined.')); ?>
+		</h2>
+		<label for="add-template"><?php p($l->t('Add a new one?')); ?></label>
+	</div>
+	<ul class="<?php p(!empty($_['templates'])?:'hidden') ?>">
+		<li class="hidden template-model">
+			<figure>
+				<img src="" alt="<?php p($l->t('template preview')) ?>" />
+				<figcaption></figcaption>
+			</figure>
+			<a href="" class="delete-template icon-delete"></a>
+			<div class="delete-cover"></div>
+		</li>
+		<?php foreach ($_['templates'] as $template) {?>
+			<li>
 				<figure>
-					<img src="" alt="<?php p($l->t('template preview')) ?>" />
-					<figcaption></figcaption>
+					<img src="<?php p($template['preview']) ?>?y=297&x=210" alt="<?php p($l->t('template preview')) ?>" />
+					<figcaption><?php p($template['name']) ?></figcaption>
 				</figure>
-				<a href="" class="delete-template icon-delete"></a>
+				<a href="<?php p($template['delete']) ?>" class="delete-template icon-delete"></a>
 				<div class="delete-cover"></div>
 			</li>
-			<?php foreach ($_['templates'] as $template) {?>
-				<li>
-					<figure>
-						<img src="<?php p($template['preview']) ?>?y=297&x=210" alt="<?php p($l->t('template preview')) ?>" />
-						<figcaption><?php p($template['name']) ?></figcaption>
-					</figure>
-					<a href="<?php p($template['delete']) ?>" class="delete-template icon-delete"></a>
-					<div class="delete-cover"></div>
-				</li>
-			<?php } ?>
-		</ul>
-	<?php } else { ?>
-		<div id="emptycontent">
-			<div class="icon-file"></div>
-			<h2>
-				<?php p($l->t('No templates defined.')); ?>
-			</h2>
-			<label for="add-template"><?php p($l->t('Add a new one?')); ?></label>
-		</div>
-	<?php } ?>
+		<?php } ?>
+	</ul>
 </form>

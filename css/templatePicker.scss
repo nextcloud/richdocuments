@@ -1,0 +1,63 @@
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+ 
+ #template-picker {
+	.template-container:not(.hidden) {
+		display: flex;
+		flex-wrap: wrap;
+		a {
+			$size: 150px;
+			$sizeY: $size / 210 * 297;
+			$space: 10px;
+			border-radius: 3px;						// 12&13 fallback
+			border-radius: $border-radius;
+			border: 1px solid $color-border;		// 12&13 fallback
+			margin: $space;
+			position: relative;
+
+			&:hover, 
+			&:focus {
+				border-color: $color-primary-element;	// 12&13 fallback
+			}
+
+			> span {
+				display: flex;
+				flex-direction: column;
+				width: $size;
+				margin: $space;
+				cursor: pointer;
+				> img,
+				> span {
+					width: $size;
+					height: $sizeY;
+					background-color: nc-darken($color-main-background, 7%);	// 12&13 fallback
+					background-color: $color-background-dark;
+					background-size: 24px;
+				}
+				> h2 {
+					margin-top: $space;
+					font-size: inherit;
+				}
+			}
+		}
+	}
+}
