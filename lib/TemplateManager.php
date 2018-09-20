@@ -155,12 +155,16 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function getUser(): array{
-		$templateDir   = $this->getUserTemplateDir();
-		$templateFiles = $templateDir->getDirectoryListing();
+		try {
+			$templateDir   = $this->getUserTemplateDir();
+			$templateFiles = $templateDir->getDirectoryListing();
 
-		return array_map(function (Node $templateFile) {
-			return $this->formatNodeReturn($templateFile);
-		}, $templateFiles);
+			return array_map(function (Node $templateFile) {
+				return $this->formatNodeReturn($templateFile);
+			}, $templateFiles);
+		} catch(NotFoundException $e) {
+			return [];
+		}
 	}
 
 	/**
