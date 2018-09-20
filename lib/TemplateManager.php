@@ -176,9 +176,9 @@ class TemplateManager {
 		$system = $this->getSystem();
 		$user   = $this->getUser();
 
-		return array_filter(array_merge($user, $system), function ($template) use ($type) {
+		return array_values(array_filter(array_merge($user, $system), function ($template) use ($type) {
 			return $template['ext'] === $type;
-		});
+		}));
 	}
 
 	/**
