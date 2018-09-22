@@ -2,6 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Shranjevanje...",
+    "All" : "Vse",
+    "Nickname" : "Vzdevek",
     "Download this revision" : "Prejmi predelavo",
     "Restore this revision" : "Obnovi predelavo",
     "Save" : "Shrani",
