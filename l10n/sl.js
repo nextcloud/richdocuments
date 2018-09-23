@@ -27,6 +27,6 @@ OC.L10N.register(
     "Password" : "Geslo",
     "OK" : "V redu",
     "Guest %s" : "Gost %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Povezava je pretekla ali pa ni nikoli obstajala. Za več podrobnosti stopite v stik z osebo, ki naj bi vam jo poslala."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Povezava je potekla ali pa ni nikoli obstajala. Za več podrobnosti stopite v stik z osebo, ki naj bi vam jo poslala."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
