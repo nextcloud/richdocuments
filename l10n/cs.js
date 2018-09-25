@@ -24,7 +24,7 @@ OC.L10N.register(
     "New Spreadsheet" : "Nová tabulka",
     "New Presentation" : "Nová prezentace",
     "Could not create file" : "Nepodařilo se vytvořit soubor",
-    "Can't create document" : "Nelze vytvořit dokument",
+    "Can't create document" : "Dokument se nedaří vytvořit",
     "New Document.odt" : "Dokument.odt",
     "New Spreadsheet.ods" : "Tabulka.ods",
     "New Presentation.odp" : "Prezentace.odp",
