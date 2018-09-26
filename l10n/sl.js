@@ -6,6 +6,7 @@ OC.L10N.register(
     "Nickname" : "Vzdevek",
     "Download this revision" : "Prejmi predelavo",
     "Restore this revision" : "Obnovi predelavo",
+    "Cancel" : "Prekliči",
     "Save" : "Shrani",
     "Edit" : "Uredi",
     "Could not create file" : "Ni mogoče ustvariti datoteke",
