@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Download this revision" : "Изтегли тази ревизия",
     "Restore this revision" : "Възстановяване на редакцията",
+    "Cancel" : "Отказ",
     "Save" : "Запазване",
     "Edit" : "Редакция",
     "New Document" : "Нов документ",
