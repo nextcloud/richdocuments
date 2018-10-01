@@ -48,7 +48,7 @@
     "Add" : "Adicionar",
     "Use Canonical webroot" : "Use o webroot canônico",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Webroot canônico, no caso de haver múltiplos, para o Collabora usar. Forneça um com menos restrições. Por exemplo: use webroot não shibbolizado se esta instância for acessada por webroots shibbolizados e não shibbolizados. Você pode ignorar essa configuração se apenas uma webroot for usada para acessar esta instância.",
-    "Wrong password. Please retry." : "Senha errada. Por favor tente novamente.",
+    "Wrong password. Please retry." : "Senha incorreta. Tente novamente.",
     "Password" : "Senha",
     "OK" : "OK",
     "Guest %s" : "Convidado %s",
