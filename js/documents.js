@@ -429,8 +429,12 @@ var documentsMain = {
 				var editorInitListener = function(e) {
 					var msg = JSON.parse(e.data);
 					if (msg.MessageId === 'App_LoadingStatus') {
-						documentsMain.wopiClientFeatures = msg.Values.Features;
-						window.removeEventListener('message', editorInitListener, false);
+						if (msg.Values.Status === "Frame_Ready" ) {
+							documentsMain.wopiClientFeatures = msg.Values.Features;
+						} else if (msg.Values.Status === "Document_Loaded" ) {
+							documentsMain.overlay.documentOverlay('hide');
+							window.removeEventListener('message', editorInitListener, false);
+						}
 					}
 				};
 				window.addEventListener('message', editorInitListener, false);
@@ -569,12 +573,6 @@ var documentsMain = {
 
 				// Ask for all the participants
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Get_Views', {});
-
-				// LOOL Iframe is ready, turn off our overlay
-				// This should ideally be taken off when we receive App_LoadingStatus, but
-				// for backward compatibility with older lool, lets keep it here till we decide
-				// to break older lools
-				documentsMain.overlay.documentOverlay('hide');
 			});
 
 			// submit that
