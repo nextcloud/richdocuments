@@ -16,6 +16,7 @@ OC.L10N.register(
     "New filename" : "Nýtt skráarheiti",
     "Cancel" : "Hætta við",
     "Save" : "Vista",
+    "Insert Graphic" : "Setja inn myndefni",
     "Loading documents…" : "Hleð inn skjölum...",
     "Edit" : "Breyta",
     "New Document" : "Nýtt skjal",
