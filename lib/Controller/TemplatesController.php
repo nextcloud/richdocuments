@@ -219,6 +219,5 @@ class TemplatesController extends Controller {
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
-
 	}
 }
