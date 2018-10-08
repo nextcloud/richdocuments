@@ -24,6 +24,7 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
+use OC\Files\Type\Detection;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
@@ -44,6 +45,14 @@ class Application extends App {
 
 	public function registerProvider() {
 		$container = $this->getContainer();
+
+		// Register mimetypes
+		/** @var Detection $detector */
+		$detector = $container->query(\OCP\Files\IMimeTypeDetector::class);
+		$detector->getAllMappings();
+		$detector->registerType('ott','application/vnd.oasis.opendocument.text-template');
+		$detector->registerType('ots', 'application/vnd.oasis.opendocument.spreadsheet-template');
+		$detector->registerType('otp', 'application/vnd.oasis.opendocument.presentation-template');
 
 		/** @var IPreview $previewManager */
 		$previewManager = $container->query(IPreview::class);
