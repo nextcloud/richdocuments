@@ -61,13 +61,13 @@ class TemplateManager {
 
 	/** Accepted templates mime types */
 	const MIMES_DOCUMENTS = [
-		'application/vnd.oasis.opendocument.text'
+		'application/vnd.oasis.opendocument.text-template'
 	];
 	const MIMES_SHEETS = [
-		'application/vnd.oasis.opendocument.spreadsheet'
+		'application/vnd.oasis.opendocument.spreadsheet-template'
 	];
 	const MIMES_PRESENTATIONS = [
-		'application/vnd.oasis.opendocument.presentation'
+		'application/vnd.oasis.opendocument.presentation-template'
 	];
 
 	/** @var array Template mime types match */
@@ -191,7 +191,7 @@ class TemplateManager {
 		$system = $this->getSystem();
 		$user   = $this->getUser();
 
-		return array_values(array_filter(array_merge($user, $system), function ($template) use ($type) {
+		return array_values(array_filter(array_merge($user, $system), function (File $template) use ($type) {
 			return $template['ext'] === $type;
 		}));
 	}
@@ -293,14 +293,14 @@ class TemplateManager {
 	 * @param File $template
 	 * @return array
 	 */
-	private function formatNodeReturn($template) {
+	private function formatNodeReturn(File $template) {
 		return [
 			'id'      => $template->getId(),
 			'name'    => $template->getName(),
-			'preview' => $this->urlGenerator->linkToRoute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
-			'ext'     => $this->flipTypes()[$template->getMimeType()],
+			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
+			'type'    => $this->flipTypes()[$template->getMimeType()],
 			'etag'    => $template->getETag(),
-			'delete'  => $this->urlGenerator->linkToRoute('richdocuments.templates.delete', ['fileId' => $template->getId()])
+			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()])
 		];
 	}
 }
