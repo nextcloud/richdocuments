@@ -62,7 +62,6 @@ class WopiController extends Controller {
 
 	/**
 	 * @param string $appName
-	 * @param string $UserId
 	 * @param IRequest $request
 	 * @param IRootFolder $rootFolder
 	 * @param IURLGenerator $urlGenerator
@@ -73,7 +72,6 @@ class WopiController extends Controller {
 	 * @param ILogger $logger
 	 */
 	public function __construct($appName,
-								$UserId,
 								IRequest $request,
 								IRootFolder $rootFolder,
 								IURLGenerator $urlGenerator,

@@ -25,7 +25,6 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\TemplateManager;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -121,10 +120,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $type The template type
 	 * @return DataResponse
-	 * @throws Exception OCSBadRequestException
+	 * @throws OCSBadRequestException
 	 */
 	public function getTemplates(string $type): DataResponse {
-		if (in_array($type, array_keys($this->manager::$tplTypes))) {
+		if (array_key_exists($type, TemplateManager::$tplTypes)) {
 			$templates = $this->manager->getAll($type);
 
 			return new DataResponse($templates);
