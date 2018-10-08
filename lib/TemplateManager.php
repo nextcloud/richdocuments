@@ -80,8 +80,8 @@ class TemplateManager {
 	 * @param IRootFolder $rootFolder
 	 * @param IPreview $previewManager
 	 */
-	public function __construct(string $appName,
-								string $userId,
+	public function __construct($appName,
+								$userId,
 								IConfig $config,
 								Factory $appDataFactory,
 								IURLGenerator $urlGenerator,
@@ -131,6 +131,10 @@ class TemplateManager {
 		throw new NotFoundException();
 	}
 
+	/**
+	 * @param File[] $templates
+	 * @return File[]
+	 */
 	private function filterTemplates($templates) {
 		return array_filter($templates, function (Node $templateFile) {
 			if (!($templateFile instanceof File)) {
@@ -155,6 +159,9 @@ class TemplateManager {
 		return $this->filterTemplates($templateFiles);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getSystemFormatted() {
 		$templates = $this->getSystem();
 
@@ -166,7 +173,7 @@ class TemplateManager {
 	/**
 	 * Get all user templates
 	 *
-	 * @return array
+	 * @return File[]
 	 */
 	public function getUser() {
 		try {
@@ -179,6 +186,9 @@ class TemplateManager {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getUserFormatted() {
 		$templates = $this->getUser();
 
@@ -270,6 +280,10 @@ class TemplateManager {
 	 * @throws NotFoundException
 	 */
 	private function getUserTemplateDir() {
+		if ($this->userId === null) {
+			throw new NotFoundException('userId not set');
+		}
+
 		// has the user manually set a directory as the default template dir ?
 		$templateDirID = $this->config->getUserValue($this->userId, $this->appName, 'template_dir', false);
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
@@ -316,5 +330,20 @@ class TemplateManager {
 			'etag'    => $template->getEtag(),
 			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()])
 		];
+	}
+
+	public function isTemplate($fileId) {
+		$system = $this->getSystem();
+		$user = $this->getUser();
+		/** @var File[] $all */
+		$all = array_merge($system, $user);
+
+		foreach ($all as $template) {
+			if ($template->getId() === $fileId) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

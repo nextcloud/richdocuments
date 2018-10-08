@@ -143,5 +143,25 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param int $template The template id
 	 */
 	public function createFromTemplate(string $path, int $template) {
+		if (!$this->manager->isTemplate($template)) {
+			throw new OCSBadRequestException('Invalid template provided');
+		}
+
+		// TODO use actual path
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$name = $userFolder->getNonExistingName('new document.odt');
+		$file = $userFolder->newFile($name);
+
+		try {
+			$direct = $this->directMapper->newDirect($this->userId, $template, $file->getId());
+
+			return new DataResponse([
+				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+					'token' => $direct->getToken()
+				])
+			]);
+		} catch (NotFoundException $e) {
+			throw new OCSNotFoundException();
+		}
 	}
 }

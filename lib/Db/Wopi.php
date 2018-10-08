@@ -91,7 +91,11 @@ class Wopi extends Entity {
 		$this->addType('token', 'string');
 		$this->addType('expiry', 'int');
 		$this->addType('guest_displayname', 'string');
-		$this->addType('template_destination', 'int');
+		$this->addType('templateDestination', 'int');
+	}
+
+	public function isTemplateToken() {
+		return $this->getTemplateDestination() !== 0 && $this->getTemplateDestination() !== null;
 	}
 
 }

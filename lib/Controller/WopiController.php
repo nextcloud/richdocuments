@@ -23,6 +23,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OC\Files\View;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Controller;
@@ -56,6 +57,8 @@ class WopiController extends Controller {
 	private $logger;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var TemplateManager */
+	private $templateManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -70,6 +73,8 @@ class WopiController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param WopiMapper $wopiMapper
 	 * @param ILogger $logger
+	 * @param IUserSession $userSession
+	 * @param TemplateManager $templateManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -80,7 +85,8 @@ class WopiController extends Controller {
 								IUserManager $userManager,
 								WopiMapper $wopiMapper,
 								ILogger $logger,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								TemplateManager $templateManager) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
@@ -90,6 +96,7 @@ class WopiController extends Controller {
 		$this->wopiMapper = $wopiMapper;
 		$this->logger = $logger;
 		$this->userSession = $userSession;
+		$this->templateManager = $templateManager;
 	}
 
 	/**
@@ -100,26 +107,31 @@ class WopiController extends Controller {
 	 * @PublicPage
 	 *
 	 * @param string $fileId
+	 * @param string $access_token
 	 * @return JSONResponse
+	 * @throws \OCP\Files\InvalidPathException
+	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function checkFileInfo($fileId) {
-		$token = $this->request->getParam('access_token');
-
+	public function checkFileInfo($fileId, $access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
 		try {
-			$wopi = $this->wopiMapper->getPathForToken($token);
+			$wopi = $this->wopiMapper->getPathForToken($access_token);
 		} catch (DoesNotExistException $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		// Login the user to see his mount locations
-		try {
-			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
-			$file = $userFolder->getById($fileId)[0];
-		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		if ($wopi->isTemplateToken()) {
+			$file = $this->templateManager->get($wopi->getFileid());
+		} else {
+			// Login the user to see his mount locations
+			try {
+				/** @var File $file */
+				$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
+				$file = $userFolder->getById($fileId)[0];
+			} catch (\Exception $e) {
+				return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			}
 		}
 
 		if(!($file instanceof File)) {
@@ -143,12 +155,9 @@ class WopiController extends Controller {
 			'EnableShare' => true,
 		];
 
-		$serverVersion = $this->config->getSystemValue('version');
-		if (version_compare($serverVersion, '13', '>=')) {
-			$user = $this->userManager->get($wopi->getEditorUid());
-			if($user !== null && $user->getAvatarImage(32) !== null) {
-				$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
-			}
+		$user = $this->userManager->get($wopi->getEditorUid());
+		if($user !== null && $user->getAvatarImage(32) !== null) {
+			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 		}
 
 		return new JSONResponse($response);
@@ -173,6 +182,15 @@ class WopiController extends Controller {
 
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		// Template is just returned as there is no version logic
+		if ($wopi->isTemplateToken()) {
+			$file = $this->templateManager->get($wopi->getFileid());
+			$response = new StreamResponse($file->fopen('rb'));
+			$response->addHeader('Content-Disposition', 'attachment');
+			$response->addHeader('Content-Type', 'application/octet-stream');
+			return $response;
 		}
 
 		try {

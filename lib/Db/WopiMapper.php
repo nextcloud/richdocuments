@@ -56,7 +56,7 @@ class WopiMapper extends Mapper {
 	/**
 	 * @param int $fileId
 	 * @param string $owner
-	 * @param string$editor
+	 * @param string $editor
 	 * @param int $version
 	 * @param bool $updatable
 	 * @param string $serverHost
