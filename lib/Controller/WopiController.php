@@ -345,6 +345,76 @@ class WopiController extends Controller {
 	 */
 	public function putRelativeFile($fileId,
 					$access_token) {
-		return $this->putFile($fileId, $access_token);
+		list($fileId, ,) = Helper::parseFileId($fileId);
+		$wopi = $this->wopiMapper->getPathForToken($access_token);
+
+		if (!$wopi->getCanwrite()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		// Unless the editor is empty (public link) we modify the files as the current editor
+		$editor = $wopi->getEditorUid();
+		if ($editor === null) {
+			$editor = $wopi->getOwnerUid();
+		}
+
+		try {
+			// the new file needs to be installed in the current user dir
+			$userFolder = $this->rootFolder->getUserFolder($editor);
+
+			if ($wopi->isTemplateToken()) {
+				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
+			} else {
+				$file = $userFolder->getById($fileId)[0];
+
+				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
+				$suggested = iconv('utf-7', 'utf-8', $suggested);
+
+				if ($suggested[0] === '.') {
+					$path = dirname($file->getPath()) . '/New File' . $suggested;
+				} else if ($suggested[0] !== '/') {
+					$path = dirname($file->getPath()) . '/' . $suggested;
+				} else {
+					$path = $userFolder->getPath() . $suggested;
+				}
+
+				if ($path === '') {
+					return new JSONResponse([
+						'status' => 'error',
+						'message' => 'Cannot create the file'
+					]);
+				}
+
+				// create the folder first
+				if (!$this->rootFolder->nodeExists(dirname($path))) {
+					$this->rootFolder->newFolder(dirname($path));
+				}
+
+				// create a unique new file
+				$path = $this->rootFolder->getNonExistingName($path);
+				$file = $this->rootFolder->newFile($path);
+			}
+
+			$content = fopen('php://input', 'rb');
+
+			// Set the user to register the change under his name
+			$editor = $this->userManager->get($wopi->getEditorUid());
+			if (!is_null($editor)) {
+				$this->userSession->setUser($editor);
+			}
+
+			$file->putContent($content);
+
+			// generate a token for the new file (the user still has to be
+			// logged in)
+			list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
+
+			$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
+			$url = $this->urlGenerator->getAbsoluteURL($wopi);
+
+			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 }
