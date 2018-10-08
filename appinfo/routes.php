@@ -53,9 +53,9 @@ return [
 		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
 		
 		// templates
-		['name' => 'templates#getPreview', 'url' => '/template/preview/{templateName}', 'verb' => 'GET'],
+		['name' => 'templates#getPreview', 'url' => '/template/preview/{fileId}', 'verb' => 'GET'],
 		['name' => 'templates#add', 'url' => '/template', 'verb' => 'POST'],
-		['name' => 'templates#delete', 'url' => '/template/{templateName}', 'verb' => 'DELETE'],
+		['name' => 'templates#delete', 'url' => '/template/{fileId}', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
 		['name' => 'OCS#create', 'url' => '/api/v1/document', 'verb' => 'POST'],

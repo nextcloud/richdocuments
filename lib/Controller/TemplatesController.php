@@ -88,23 +88,28 @@ class TemplatesController extends Controller {
 	 *
 	 * Get preview for a specific template
 	 *
-	 * @param string $templateName The template id
+	 * @param int $fileId The template id
+	 * @param int $x
+	 * @param int $y
+	 * @param bool $a
+	 * @param bool $forceIcon
+	 * @param string $mode
 	 * @return DataResponse
 	 * @throws NotFoundResponse
 	 */
-	public function getPreview(string $templateName,
-		int $x = 150,
-		int $y = 150,
-		bool $a = false,
-		bool $forceIcon = true,
-		string $mode = 'fill') {
+	public function getPreview($fileId,
+		$x = 150,
+		$y = 150,
+		$a = false,
+		$forceIcon = true,
+		$mode = 'fill') {
 
-		if ($templateName === '' || $x === 0 || $y === 0) {
+		if ($fileId === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
-			$template = $this->manager->get($templateName);
+			$template = $this->manager->get($fileId);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -121,7 +126,7 @@ class TemplatesController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function add(): JSONResponse {
+	public function add() {
 		$files = $this->request->getUploadedFile('files');
 
 		if (!is_null($files)) {
@@ -160,12 +165,12 @@ class TemplatesController extends Controller {
 	/**
 	 * Delete a global template
 	 *
-	 * @param string $templateName
+	 * @param int $fileId
 	 * @return JSONResponse
 	 */
-	public function delete(string $templateName): JSONResponse {
+	public function delete($fileId) {
 		try {
-			$this->manager->delete($templateName);
+			$this->manager->delete($fileId);
 
 			return new JSONResponse(
 				['data' => ['status' => 'success']],
