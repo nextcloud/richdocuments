@@ -28,6 +28,7 @@ use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -126,7 +127,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		if (array_key_exists($type, TemplateManager::$tplTypes)) {
 			$templates = $this->manager->getAll($type);
 
-			return new DataResponse($templates);
+			$data = array_map(function(File $file) {
+				return $this->manager->formatNodeReturn($file);
+			}, $templates);
+
+			return new DataResponse($data);
 		}
 		throw new OCSBadRequestException('Wrong type');
 	}

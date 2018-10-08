@@ -29,8 +29,6 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IURLGenerator;
@@ -49,12 +47,6 @@ class TemplateManager {
 
 	/** @var IURLGenerator */
 	private $urlGenerator;
-
-	/** @var ISimpleFolder */
-	private $folder;
-
-	/** @var Folder */
-	private $userFolder;
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -111,11 +103,6 @@ class TemplateManager {
 		} catch (NotFoundException $e) {
 			$appData->newFolder('templates');
 		}
-
-
-		$this->userFolder     = $rootFolder->getUserFolder($userId);
-
-
 	}
 
 	/**
@@ -144,21 +131,36 @@ class TemplateManager {
 		throw new NotFoundException();
 	}
 
+	private function filterTemplates($templates) {
+		return array_filter($templates, function (Node $templateFile) {
+			if (!($templateFile instanceof File)) {
+				return false;
+			}
+
+			//Todo validate mimetypes etc
+
+			return true;
+		});
+	}
+
 	/**
 	 * Get all global templates
 	 *
-	 * @return array
+	 * @return File[]
 	 */
 	public function getSystem() {
 		$folder = $this->getSystemTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
-		return array_filter(array_map(function (Node $templateFile) {
-			if ($templateFile instanceof File) {
-				return $this->formatNodeReturn($templateFile);
-			}
-			return null;
-		}, $templateFiles));
+		return $this->filterTemplates($templateFiles);
+	}
+
+	public function getSystemFormatted() {
+		$templates = $this->getSystem();
+
+		return array_map(function(File $file) {
+			return $this->formatNodeReturn($file);
+		}, $templates);
 	}
 
 	/**
@@ -171,28 +173,40 @@ class TemplateManager {
 			$templateDir   = $this->getUserTemplateDir();
 			$templateFiles = $templateDir->getDirectoryListing();
 
-			return array_filter(array_map(function (Node $templateFile) {
-				if ($templateFile instanceof File) {
-					return $this->formatNodeReturn($templateFile);
-				}
-				return null;
-			}, $templateFiles));
+			return $this->filterTemplates($templateFiles);
 		} catch(NotFoundException $e) {
 			return [];
 		}
 	}
 
+	public function getUserFormatted() {
+		$templates = $this->getUser();
+
+		return array_map(function(File $file) {
+			return $this->formatNodeReturn($file);
+		}, $templates);
+	}
+
 	/**
 	 * Get all templates
 	 *
-	 * @return array
+	 * @return File[]
 	 */
 	public function getAll($type = 'document'): array{
 		$system = $this->getSystem();
 		$user   = $this->getUser();
 
+		if (!array_key_exists($type, self::$tplTypes)) {
+			return [];
+		}
+
 		return array_values(array_filter(array_merge($user, $system), function (File $template) use ($type) {
-			return $template['ext'] === $type;
+			foreach (self::$tplTypes[$type] as $mime) {
+				if ($template->getMimeType() === $mime) {
+					return true;
+				}
+			}
+			return false;
 		}));
 	}
 
@@ -293,13 +307,13 @@ class TemplateManager {
 	 * @param File $template
 	 * @return array
 	 */
-	private function formatNodeReturn(File $template) {
+	public function formatNodeReturn(File $template) {
 		return [
 			'id'      => $template->getId(),
 			'name'    => $template->getName(),
 			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'    => $this->flipTypes()[$template->getMimeType()],
-			'etag'    => $template->getETag(),
+			'etag'    => $template->getEtag(),
 			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()])
 		];
 	}
