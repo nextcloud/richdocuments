@@ -628,7 +628,7 @@ var documentsMain = {
 		documentsMain.UI.init();
 
 		// Does anything indicate that we need to autostart a session?
-		fileId = getURLParameter('fileid').replace(/^\W*/, '');
+		fileId = getURLParameter('fileId').replace(/^\W*/, '');
 
 		documentsMain.show(fileId);
 
