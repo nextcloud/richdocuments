@@ -140,7 +140,7 @@ var documentsMain = {
 			if (!richdocuments_canonical_webroot.startsWith('/'))
 				richdocuments_canonical_webroot = '/' + richdocuments_canonical_webroot;
 
-			ocurl = ocurl.replace(OC.webroot, richdocuments_canonical_webroot);
+			ocurl = ocurl.replace(OC.getRootPath(), richdocuments_canonical_webroot);
 		}
 
 		return ocurl;
