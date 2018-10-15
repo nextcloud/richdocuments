@@ -155,25 +155,6 @@ var documentsMain = {
 						'<div id="revViewer"></div>' +
 						'</div>',
 
-		revHistoryContainerTemplate: '<div id="revPanelContainer" class="loleaflet-font">' +
-			'<div id="revPanelHeader">' +
-			'<h2>Revision History</h2>' +
-			'<span>{{filename}}</span>' +
-			'<a class="closeButton"><img src={{closeButtonUrl}} width="22px" height="22px"></a>' +
-			'</div>' +
-			'<div id="revisionsContainer" class="loleaflet-font">' +
-			'<ul></ul>' +
-			'</div>' +
-			'<input type="button" id="show-more-versions" class="loleaflet-font" value="{{moreVersionsLabel}}" />' +
-			'</div>',
-
-		revHistoryItemTemplate: '<li>' +
-			'<a href="{{downloadUrl}}" class="downloadVersion has-tooltip" title="' + t('richdocuments', 'Download this revision') + '"><img src="{{downloadIconUrl}}" />' +
-			'<a class="versionPreview"><span class="versiondate has-tooltip" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span></a>' +
-			'<a href="{{restoreUrl}}" class="restoreVersion has-tooltip" title="' + t('richdocuments', 'Restore this revision') + '"><img src="{{restoreIconUrl}}" />' +
-			'</a>' +
-			'</li>',
-
 		/* Previous window title */
 		mainTitle : '',
 		/* Number of revisions already loaded */
@@ -272,12 +253,13 @@ var documentsMain = {
 					});
 			}
 
-			var revHistoryItemTemplate = Handlebars.compile(documentsMain.UI.revHistoryItemTemplate);
-			var html = revHistoryItemTemplate({
+			var html = OCA.RichDocuments.Templates.revHistoryItem({
 				downloadUrl: downloadUrl,
 				downloadIconUrl: OC.imagePath('core', 'actions/download'),
+				downloadTXT: t('richdocuments', 'Download this revision'),
 				restoreUrl: restoreUrl,
 				restoreIconUrl: OC.imagePath('core', 'actions/history'),
+				restoreTXT: t('richdocuments', 'Restore this revision'),
 				relativeTimestamp: relativeTimestamp,
 				formattedTimestamp: formattedTimestamp
 			});
@@ -318,8 +300,7 @@ var documentsMain = {
 		showRevHistory: function(documentPath) {
 			$(document.body).prepend(documentsMain.UI.viewContainer);
 
-			var revHistoryContainerTemplate = Handlebars.compile(documentsMain.UI.revHistoryContainerTemplate);
-			var revHistoryContainer = revHistoryContainerTemplate({
+			var revHistoryContainer = OCA.RichDocuments.Templates.revHistoryContainer({
 				filename: documentsMain.fileName,
 				moreVersionsLabel: t('richdocuments', 'More versions…'),
 				closeButtonUrl: OC.imagePath('core', 'actions/close')
