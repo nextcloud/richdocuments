@@ -1,3 +1,18 @@
+**3.0.0
+- Bug: use editor to save the user (fixes #184)
+- Bug: allow creation of OOXML files if app not in default location (fixes #118)
+- Bug: center public edit name
+
+- Fixes: Do not use deprecated OC.webroot
+- Fixes: Move to compiled handlebars tempalte to be strict CSP compatible
+- Fixes: Do not show building of the interface
+
+- Feature: Allow inserting images directly from Nextcloud
+- Feature: Add sharing button to header
+- Feature: Use Collabora as a preview provider
+- Feature: Show editors in Nextcloud header
+
+
 **1.12.38 and 1.12.39**
 - Bug: fix z-index issue on Nextcloud 13 beta
 
