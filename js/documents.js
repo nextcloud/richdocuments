@@ -744,10 +744,6 @@ $(document).ready(function() {
 
 	window.Files = FileList;
 
-	if (!OCA.RichDocuments) {
-		OCA.RichDocuments = {};
-	}
-
 	OCA.RichDocuments.documentsMain = documentsMain;
 
 	documentsMain.docs = $('.documentslist').documentGrid();
@@ -758,3 +754,9 @@ $(document).ready(function() {
 
 	documentsMain.onStartup();
 });
+
+(function() {
+	if (!OCA.RichDocuments) {
+		OCA.RichDocuments = {};
+	}
+})();
