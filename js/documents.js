@@ -613,7 +613,7 @@ var documentsMain = {
 
 		documentsMain.show(fileId);
 
-		if (fileId) {
+		if (fileId && Number.isInteger(Number(fileId))) {
 			documentsMain.overlay.documentOverlay('show');
 			documentsMain.prepareSession();
 		}
