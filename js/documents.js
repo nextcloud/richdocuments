@@ -543,12 +543,17 @@ var documentsMain = {
 							documentsMain.$deferredVersionRestoreAck.resolve();
 						}
 					} else if (msgId === 'View_Added') {
-						documentsMain.UI.views[args.ViewId] = args;
+						documentsMain.UI.views.push(args);
 						documentsMain.UI.renderAvatars();
 					} else if (msgId === 'View_Removed') {
-						index = documentsMain.UI.views.indexOf(args.ViewId);
-						if (index > -1) {
-							documentsMain.UI.views.splice(index, 1);
+						var view = $.grep(documentsMain.UI.views, function(element, index) {
+							return element.ViewId === args.ViewId;
+						});
+						if (view.length === 1) {
+							index = documentsMain.UI.views.indexOf(view[0]);
+							if (index > -1) {
+								documentsMain.UI.views.splice(index, 1);
+							}
 						}
 						documentsMain.UI.renderAvatars();
 					} else if (msgId === 'Get_Views_Resp') {
