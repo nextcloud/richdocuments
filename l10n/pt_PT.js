@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "A guardar...",
     "All" : "Todos",
+    "Latest revision" : "Última revisão",
     "Download this revision" : "Transferir esta revisão",
     "Restore this revision" : "Restaurar esta revisão",
-    "Latest revision" : "Última revisão",
     "More versions…" : "Mais versões...",
     "Just now" : "Agora mesmo",
     "Failed to revert the document to older version" : "Falha ao reverter este documento para versão anterior",

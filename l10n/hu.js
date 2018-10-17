@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "Mentés...",
     "All" : "Mind",
+    "Latest revision" : "Legújabb verzió",
     "Download this revision" : "Jelen verzió letöltése",
     "Restore this revision" : "Jelen verzió visszaállítása",
-    "Latest revision" : "Legújabb verzió",
     "More versions…" : "További változatok...",
     "Just now" : "Épp most",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",

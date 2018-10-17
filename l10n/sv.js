@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "Sparar...",
     "All" : "Alla",
+    "Latest revision" : "Senaste version",
     "Download this revision" : "Ladda ned denna granskning",
     "Restore this revision" : "Återställ denna granskning",
-    "Latest revision" : "Senaste version",
     "More versions…" : "Mer versioner...",
     "Just now" : "Just nu",
     "Failed to revert the document to older version" : "Misslyckades att återställa dokumentet till en äldre version",

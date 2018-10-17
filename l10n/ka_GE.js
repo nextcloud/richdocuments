@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Saving…" : "მიმდინარეობს შენახვა…",
     "All" : "ყველა",
+    "Latest revision" : "ბოლო გადასინჯვა",
     "Download this revision" : "ამ რევიზიის ჩამოტვირთვა",
     "Restore this revision" : "ამ რევიზიის აღდგენა",
-    "Latest revision" : "ბოლო გადასინჯვა",
     "More versions…" : "მეტი გადასინჯვები…",
     "Just now" : "ახლა",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
