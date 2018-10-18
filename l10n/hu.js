@@ -14,6 +14,7 @@ OC.L10N.register(
     "New filename" : "Új fájlnév",
     "Cancel" : "Mégsem",
     "Save" : "Mentés",
+    "Insert Graphic" : "Ábra beillesztése",
     "Loading documents…" : "Dokumentumok betöltése",
     "Edit" : "Szerkesztés",
     "New Document" : "Új dokumentum",
