@@ -1,3 +1,7 @@
+**3.0.1
+- Fixes: Do not show loading spinner overlay public page if we need a username
+- Fixes: Do not duplicate avatars in the top overlay
+
 **3.0.0
 - Bug: use editor to save the user (fixes #184)
 - Bug: allow creation of OOXML files if app not in default location (fixes #118)
