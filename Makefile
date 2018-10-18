@@ -8,7 +8,7 @@ appstore_dir=$(build_dir)/appstore
 source_dir=$(build_dir)/source
 package_name=$(app_name)
 cert_dir=$(HOME)/.nextcloud/certificates
-occ=$(CURDIR)/../core/occ
+occ=$(CURDIR)/../../occ
 
 handlebars-templates:
 	handlebars -n OCA.RichDocuments.Templates js/templates/ -f js/templates.js
