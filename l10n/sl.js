@@ -8,6 +8,7 @@ OC.L10N.register(
     "Restore this revision" : "Obnovi predelavo",
     "Cancel" : "Prekliči",
     "Save" : "Shrani",
+    "Loading documents…" : "Poteka nalaganje dokumentov ...",
     "Edit" : "Uredi",
     "Could not create file" : "Ni mogoče ustvariti datoteke",
     "Can't create document" : "Dokumenta ni mogoče ustvariti",
