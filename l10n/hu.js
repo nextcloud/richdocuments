@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving…" : "Mentés...",
     "All" : "Mind",
+    "Nickname" : "Becenév",
     "Latest revision" : "Legújabb verzió",
     "Download this revision" : "Jelen verzió letöltése",
     "Restore this revision" : "Jelen verzió visszaállítása",
@@ -28,6 +29,7 @@ OC.L10N.register(
     "New Document.docx" : "Új dokumentum.docx",
     "New Spreadsheet.xlsx" : "Új munkafüzet.xlsx",
     "New Presentation.pptx" : "Új bemutató.pptx",
+    "Document already exists" : "A dokumentum már létezik",
     "Saved" : "Elmentve!",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mentve hibával: a Collabora Online-t ugyanazon protokollon kellene használni, mint a telepített szervert.",
     "Collabora Online" : "Collabora Online",
