@@ -29,6 +29,7 @@ return [
 	'routes' => [
 		//documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
+		['name' => 'document#template', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 		['name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'],
 

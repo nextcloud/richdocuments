@@ -61,6 +61,7 @@ var odfViewer = {
 		if(context) {
 			var fileDir = context.dir;
 			var fileId = context.fileId || context.$file.attr('data-id');
+			var templateId = context.templateId;
 		}
 
 		var viewer;
@@ -75,14 +76,27 @@ var odfViewer = {
 				}
 			);
 		} else {
-			viewer = OC.generateUrl(
-				'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
-				{
-					fileId: fileId,
-					dir: fileDir,
-					requesttoken: OC.requestToken
-				}
-			);
+			// We are dealing with a template
+			if (typeof(templateId) !== 'undefined') {
+				viewer = OC.generateUrl(
+					'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
+					{
+						templateId: templateId,
+						fileName: fileName,
+						dir: fileDir,
+						requesttoken: OC.requestToken
+					}
+				);
+			} else {
+				viewer = OC.generateUrl(
+					'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
+					{
+						fileId: fileId,
+						dir: fileDir,
+						requesttoken: OC.requestToken
+					}
+				);
+			}
 		}
 
 		if(context) {
@@ -223,23 +237,11 @@ var odfViewer = {
 					OCA.Files.Files.isFileNameValid(filename);
 					filename = FileList.getUniqueName(filename);
 
-					// TODO: use templateId to create the file from the template
-					console.log('TODO: Create a new file from template ' + templateId);
-					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype : mimetype, filename: filename, dir: $('#dir').val() },
-						function(response){
-							if (response && response.status === 'success'){
-								FileList.add(response.data, {animate: true, scrollTo: true});
-								odfViewer.onEdit(filename, {
-									fileId: response.data.id,
-									fileDir: $('#dir').val()
-								});
-							} else {
-								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'));
-							}
-						}
-					);
+					odfViewer.onEdit(filename, {
+						fileId: -1,
+						dir: $('#dir').val(),
+						templateId: templateId
+					});
 				},
 
 				_openTemplatePicker: function(type, mimetype, filename) {
