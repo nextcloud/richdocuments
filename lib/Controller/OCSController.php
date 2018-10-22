@@ -147,9 +147,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			throw new OCSBadRequestException('Invalid template provided');
 		}
 
+		$info = pathinfo($path);
+
 		// TODO use actual path
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
-		$name = $userFolder->getNonExistingName('new document.odt');
+		$folder = $userFolder->get($info['dirname']);
+		$name = $folder->getNonExistingName($info['basename']);
 		$file = $userFolder->newFile($name);
 
 		try {
