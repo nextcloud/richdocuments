@@ -60,7 +60,7 @@ var odfViewer = {
 	onEdit : function(fileName, context) {
 		if(context) {
 			var fileDir = context.dir;
-			var fileId = context.$file.attr('data-id');
+			var fileId = context.fileId || context.$file.attr('data-id');
 		}
 
 		var viewer;
@@ -231,6 +231,10 @@ var odfViewer = {
 						function(response){
 							if (response && response.status === 'success'){
 								FileList.add(response.data, {animate: true, scrollTo: true});
+								odfViewer.onEdit(filename, {
+									fileId: response.data.id,
+									fileDir: $('#dir').val()
+								});
 							} else {
 								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'));
 							}
