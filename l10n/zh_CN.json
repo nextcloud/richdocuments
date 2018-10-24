@@ -33,6 +33,6 @@
     "Password" : "密码",
     "OK" : "确定",
     "Guest %s" : "访客 %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "该链接已失效或不存在。详情请联系文件分享者。"
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "该链接已失效或不存在。详情请联系文件共享者。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
