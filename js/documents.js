@@ -527,7 +527,7 @@ var documentsMain = {
 								var filename = path.substring(path.lastIndexOf('/') + 1);
 								$.ajax({
 									type: 'POST',
-									url: OC.linkTo('richdocuments', 'assets'),
+									url: OC.generateUrl('apps/richdocuments/assets'),
 									data: {
 										path: path
 									}
