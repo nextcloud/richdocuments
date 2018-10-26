@@ -180,12 +180,14 @@ var documentsMain = {
 				if (view.UserId === parent.OC.currentUser) {
 					return;
 				}
-				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserId + '" data-user="' + view.UserId + '"></div></div>');
+				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
 				var avatar = avatarContainer.find('.avatar');
 				avatardiv.append(avatarContainer);
 				$(avatar).avatar(view.UserId, 32);
 				$(avatar).tooltip({placement: 'bottom'});
-				$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+				if (parent.OC.currentUser !== null && view.UserId !== '') {
+					$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+				}
 			});
 		},
 
