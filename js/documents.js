@@ -185,7 +185,7 @@ var documentsMain = {
 			avatardiv.empty();
 			var users = [];
 			// Add new avatars
-			for (var viewId in this.views) { 
+			for (var viewId in this.views) {
 				var view = this.views[viewId];
 				if (view.UserId === parent.OC.currentUser) {
 					continue;
@@ -253,139 +253,70 @@ console.log(view);
 			documentsMain.isViewerMode = true;
 
 			// for closing revision mode
-			$('#revPanelHeader .closeButton').click(function(e) {
+			$('#revViewerContainer .closeButton').click(function(e) {
 				e.preventDefault();
 				documentsMain.onCloseViewer();
 			});
 		},
 
-		addRevision: function(fileId, version, relativeTimestamp, documentPath) {
-			var formattedTimestamp = OC.Util.formatDate(parseInt(version) * 1000);
-			var fileName = documentsMain.fileName.substring(0, documentsMain.fileName.indexOf('.'));
-			var downloadUrl, restoreUrl;
-			if (version === 0) {
-				formattedTimestamp = t('richdocuments', 'Latest revision');
-				downloadUrl = OC.generateUrl('apps/files/download'+ documentPath);
-			} else {
-				downloadUrl = OC.generateUrl('apps/files_versions/download.php?file={file}&revision={revision}',
-					{
-						file: documentPath, revision: version
-					});
-				fileId = fileId + '_' + version;
-				restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
-					{
-						file: documentPath, revision: version
-					});
-			}
-
-			var html = OCA.RichDocuments.Templates.revHistoryItem({
-				downloadUrl: downloadUrl,
-				downloadIconUrl: OC.imagePath('core', 'actions/download'),
-				downloadTXT: t('richdocuments', 'Download this revision'),
-				restoreUrl: restoreUrl,
-				restoreIconUrl: OC.imagePath('core', 'actions/history'),
-				restoreTXT: t('richdocuments', 'Restore this revision'),
-				relativeTimestamp: relativeTimestamp,
-				formattedTimestamp: formattedTimestamp
-			});
-
-			html = $(html).attr('data-fileid', fileId)
-				.attr('data-title', fileName + ' - ' + formattedTimestamp);
-			$('#revisionsContainer ul').append(html);
-		},
-
-		fetchAndFillRevisions: function(documentPath) {
-			// fill #rev-history with file versions
-			$.get(OC.generateUrl('apps/files_versions/ajax/getVersions.php?source={documentPath}&start={start}',
-				{
-					documentPath: documentPath,
-					start: documentsMain.UI.revisionsStart
-				}),
-				function(result) {
-					for(var key in result.data.versions) {
-						documentsMain.UI.addRevision(
-							documentsMain.fileId,
-							result.data.versions[key].version,
-							result.data.versions[key].humanReadableTimestamp,
-							documentPath
-						);
-					}
-
-					// owncloud only gives 5 version at max in one go
-					documentsMain.UI.revisionsStart += 5;
-
-					if (result.data.endReached) {
-						// Remove 'More versions' button
-						$('#show-more-versions').addClass('hidden');
-					}
-				}
-			);
-		},
-
 		showRevHistory: function(documentPath) {
+			// TODO: make sure this also works if using the sidebar with the share icon and navigating to versions then
+			parent.FileList.showDetailsView(documentsMain.fileName, 'versionsTabView');
+
 			$(document.body).prepend(documentsMain.UI.viewContainer);
+			var closeButton = $('<button class="icon-close closeButton" title="' + parent.t('richdocuments', 'Close version preview') + '"/>');
+			$('#revViewerContainer').prepend(closeButton);
 
-			var revHistoryContainer = OCA.RichDocuments.Templates.revHistoryContainer({
-				filename: documentsMain.fileName,
-				moreVersionsLabel: t('richdocuments', 'More versions…'),
-				closeButtonUrl: OC.imagePath('core', 'actions/close'),
-				revisionHistoryLabel: t('richdocuments', 'Revision History')
-			});
-			$('#revViewerContainer').prepend(revHistoryContainer);
 
-			documentsMain.UI.revisionsStart = 0;
-
-			// append current document first
-			documentsMain.UI.addRevision(documentsMain.fileId, 0, t('richdocuments', 'Just now'), documentPath);
-
-			// add "Show more versions" button
-			$('#show-more-versions').click(function(e) {
+			$(parent.document.querySelector('#app-sidebar')).on('click', '.preview-container', function (e) {
+				console.log(e);
 				e.preventDefault();
-				documentsMain.UI.fetchAndFillRevisions(documentPath);
-			});
-
-			// fake click to load first 5 versions
-			$('#show-more-versions').click();
-
-			// make these revisions clickable/attach functionality
-			$('#revisionsContainer').on('click', '.versionPreview', function(e) {
-				e.preventDefault();
+				var version = e.currentTarget.parentElement.parentElement.dataset.revision;
+				var fileId = documentsMain.fileId + '_' + version;
+				var title = documentsMain.fileName + ' - ' + version;
 				documentsMain.UI.showViewer(
-					e.currentTarget.parentElement.dataset.fileid,
-					e.currentTarget.parentElement.dataset.title
+					fileId, title
 				);
 
 				// mark only current <li> as active
-				$(e.currentTarget.parentElement.parentElement).find('li').removeClass('active');
-				$(e.currentTarget.parentElement).addClass('active');
+				$(e.currentTarget.parentElement.parentElement.parentElement).find('li').removeClass('active');
+				$(e.currentTarget.parentElement.parentElement).addClass('active');
 			});
 
-			$('#revisionsContainer').on('click', '.restoreVersion', function(e) {
+			$(parent.document.querySelector('#app-sidebar')).on('click', '.revertVersion', function(e) {
 				e.preventDefault();
+				e.stopPropagation();
 
 				// close the viewer
 				documentsMain.onCloseViewer();
 
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_VersionRestore', {Status: 'Pre_Restore'});
 
+				var version = e.currentTarget.parentElement.parentElement.dataset.revision;
+				var restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
+					{
+						file: documentPath, revision: version
+					});
 				documentsMain.$deferredVersionRestoreAck = $.Deferred();
 				jQuery.when(documentsMain.$deferredVersionRestoreAck).
-					done(function(args) {
-						// restore selected version
-						$.ajax({
-							type: 'GET',
-							url: e.currentTarget.href,
-							success: function(response) {
-								if (response.status === 'error') {
-									documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
-								}
-
-								// load the file again, it should get reverted now
-								window.location.reload();
-								documentsMain.overlay.documentOverlay('hide');
+				done(function(args) {
+					// restore selected version
+					$.ajax({
+						type: 'GET',
+						url: restoreUrl,
+						success: function(response) {
+							if (response.status === 'error') {
+								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
 							}
-						});
+
+							// load the file again, it should get reverted now
+							window.location = $(parent.document.querySelector('#richdocumentsframe')).attr('src');
+							documentsMain.overlay.documentOverlay('hide');
+
+							parent.OC.Apps.hideAppSidebar();
+						}
 					});
+				});
 
 				// resolve the deferred object immediately if client doesn't support version states
 				if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
@@ -393,8 +324,15 @@ console.log(view);
 				}
 			});
 
-			// fake click on first revision (i.e current revision)
-			$('#revisionsContainer li').first().find('.versionPreview').click();
+			// Load current revision
+			// TODO: add entry to versions
+			var fileId = documentsMain.fileId + '_' + 0;
+			var title = documentsMain.fileName + ' - ' + 0;
+			documentsMain.UI.showViewer(
+				fileId, title
+			);
+
+			return;
 		},
 
 		showEditor : function(title, fileId, action){

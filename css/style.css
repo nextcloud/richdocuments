@@ -139,7 +139,6 @@
 
 #revViewer{
         position: relative;
-        margin-right: 250px;
         height: 100%;
 }
 
@@ -156,70 +155,20 @@
 	overflow-y: auto;
 }
 
-/* Title */
-#revPanelHeader{
-    height: 69px;
-    border-bottom: 1px solid #ddd;
-    margin: 0 0;
-    box-sizing: border-box;
-    padding-left: 15px;
-    padding-top: 15px;
-}
-
-#revPanelHeader h2{
-    margin: 0 0;
-}
 
 /* For close button image */
-#revPanelHeader img{
-    position: absolute;
-    right: 5px;
-    top: 10px;
+#revViewerContainer .closeButton {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 20px;
+	height: 24px;
+	z-index: 1;
+	border: none;
 }
 
 .loleaflet-font{
     font-family: "Segoe UI", Tahoma, Arial, Helvetica, sans-serif !important;
-}
-
-#revisionsContainer{
-    list-style: none;
-}
-
-#revisionsContainer li{
-    width: 100%;
-    cursor: default;
-    height: 45px;
-    float: left;
-    border-bottom: 1px solid #ddd;
-    box-sizing: border-box;
-    padding: 10px 0;
-}
-
-#revisionsContainer li:first-child .restoreVersion{
-    display: none;
-}
-
-#revisionsContainer a{
-    padding-left: 15px;
-    opacity: 0.5;
-}
-
-#revisionsContainer a:hover{
-    opacity: 1;
-}
-
-#revisionsContainer li:hover, #revisionsContainer li.active{
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.restoreVersion{
-    position: absolute;
-    right: 15px;
-}
-
-#show-more-versions{
-    width: 100%;
-    padding: 10px;
 }
 
 #documents-overlay, #documents-overlay-below{
