@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IURLGenerator;
 use OC\Files\AppData\Factory;
@@ -51,6 +52,9 @@ class TemplateManager {
 	/** @var IRootFolder */
 	private $rootFolder;
 
+	/** @var IL10N */
+	private $l;
+
 	/** Accepted templates mime types */
 	const MIMES_DOCUMENTS = [
 		'application/vnd.oasis.opendocument.text-template'
@@ -69,6 +73,18 @@ class TemplateManager {
 		'presentation' => self::MIMES_PRESENTATIONS
 	];
 
+	const EMPTY_TEMPLATE_ID_TYPE = [
+		-1 => 'document',
+		-2 => 'spreadsheet',
+		-3 => 'presentation',
+	];
+	const EMPTY_TEMPLATE_TYPE_ID = [
+		'document'     => -1,
+		'spreadsheet'  => -2,
+		'presentation' => -3,
+	];
+
+
 	/**
 	 * Template manager
 	 *
@@ -78,14 +94,16 @@ class TemplateManager {
 	 * @param Factory $appDataFactory
 	 * @param IURLGenerator $urlGenerator
 	 * @param IRootFolder $rootFolder
-	 * @param IPreview $previewManager
+	 * @param IL10N $l
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function __construct($appName,
 								$userId,
 								IConfig $config,
 								Factory $appDataFactory,
 								IURLGenerator $urlGenerator,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder,
+								IL10N $l) {
 		$this->appName        = $appName;
 		$this->userId         = $userId;
 		$this->config         = $config;
@@ -103,6 +121,13 @@ class TemplateManager {
 		} catch (NotFoundException $e) {
 			$appData->newFolder('templates');
 		}
+		try {
+			$appData->getFolder('empty_templates');
+		} catch (NotFoundException $e) {
+			$appData->newFolder('empty_templates');
+		}
+
+		$this->l = $l;
 	}
 
 	/**
@@ -112,6 +137,15 @@ class TemplateManager {
 	 * @return File
 	 */
 	public function get($fileId) {
+		// is this a global template ?
+		$files = $this->getEmptyTemplateDir()->getDirectoryListing();
+
+		foreach ($files as $file) {
+			if ($file->getId() === $fileId) {
+				return $file;
+			}
+		}
+
 		// is this a global template ?
 		$files = $this->getSystemTemplateDir()->getDirectoryListing();
 
@@ -135,9 +169,13 @@ class TemplateManager {
 	 * @param File[] $templates
 	 * @return File[]
 	 */
-	private function filterTemplates($templates) {
-		return array_filter($templates, function (Node $templateFile) {
+	private function filterTemplates($templates, $type) {
+		return array_filter($templates, function (Node $templateFile) use ($type) {
 			if (!($templateFile instanceof File)) {
+				return false;
+			}
+
+			if (!in_array($templateFile->getMimeType(), self::$tplTypes[$type])) {
 				return false;
 			}
 
@@ -147,27 +185,57 @@ class TemplateManager {
 		});
 	}
 
+	private function getEmpty($type) {
+		$folder = $this->getEmptyTemplateDir();
+
+		$templateFiles = $folder->getDirectoryListing();
+
+		if ($templateFiles === []) {
+			// Empty so lets copy over the basic templates
+			$templates = [
+				'document.ott',
+				'spreadsheet.ots',
+				'presentation.otp',
+			];
+
+			foreach ($templates as $template) {
+				$file = $folder->newFile($template);
+				$file->putContent(file_get_contents('../assets/' . $template));
+				$templateFiles[] = $file;
+			}
+		}
+
+		return $this->filterTemplates($templateFiles, $type);
+	}
+
 	/**
 	 * Get all global templates
 	 *
 	 * @return File[]
 	 */
-	public function getSystem() {
+	public function getSystem($type) {
 		$folder = $this->getSystemTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
-		return $this->filterTemplates($templateFiles);
+		return $this->filterTemplates($templateFiles, $type);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getSystemFormatted() {
-		$templates = $this->getSystem();
+	public function getSystemFormatted($type) {
+		$empty = $this->getEmpty($type);
+		$system = $this->getSystem($type);
 
-		return array_map(function(File $file) {
+		$emptyFormatted = array_map(function(File $file) {
+			return $this->formatEmpty($file);
+		}, $empty);
+
+		$systemFormatted = array_map(function(File $file) {
 			return $this->formatNodeReturn($file);
-		}, $templates);
+		}, $system);
+
+		return array_merge($emptyFormatted, $systemFormatted);
 	}
 
 	/**
@@ -175,12 +243,12 @@ class TemplateManager {
 	 *
 	 * @return File[]
 	 */
-	public function getUser() {
+	public function getUser($type) {
 		try {
 			$templateDir   = $this->getUserTemplateDir();
 			$templateFiles = $templateDir->getDirectoryListing();
 
-			return $this->filterTemplates($templateFiles);
+			return $this->filterTemplates($templateFiles, $type);
 		} catch(NotFoundException $e) {
 			return [];
 		}
@@ -189,8 +257,8 @@ class TemplateManager {
 	/**
 	 * @return array
 	 */
-	public function getUserFormatted() {
-		$templates = $this->getUser();
+	public function getUserFormatted($type) {
+		$templates = $this->getUser($type);
 
 		return array_map(function(File $file) {
 			return $this->formatNodeReturn($file);
@@ -202,7 +270,7 @@ class TemplateManager {
 	 *
 	 * @return File[]
 	 */
-	public function getAll($type = 'document'): array{
+	public function getAll($type = 'document') {
 		$system = $this->getSystem();
 		$user   = $this->getUser();
 
@@ -218,6 +286,17 @@ class TemplateManager {
 			}
 			return false;
 		}));
+	}
+
+	public function getAllFormatted($type) {
+		if (!array_key_exists($type, self::$tplTypes)) {
+			return [];
+		}
+
+		$system = $this->getSystemFormatted($type);
+		$user   = $this->getUserFormatted($type);
+
+		return array_merge($system, $user);
 	}
 
 	/**
@@ -316,6 +395,15 @@ class TemplateManager {
 	}
 
 	/**
+	 * @return Folder
+	 */
+	private function getEmptyTemplateDir() {
+		return $this->rootFolder->get('appdata_' . $this->config->getSystemValue('instanceid', null))
+			->get('richdocuments')
+			->get('empty_templates');
+	}
+
+	/**
 	 * Format template file for json return object
 	 *
 	 * @param File $template
@@ -327,7 +415,6 @@ class TemplateManager {
 			'name'    => $template->getName(),
 			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'    => $this->flipTypes()[$template->getMimeType()],
-			'etag'    => $template->getEtag(),
 			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()])
 		];
 	}
@@ -345,5 +432,14 @@ class TemplateManager {
 		}
 
 		return false;
+	}
+
+	public function formatEmpty(File $template) {
+		return [
+			'id'      => $template->getId(),
+			'name'    => $this->l->t('Empty'),
+			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
+			'type'    => $this->flipTypes()[$template->getMimeType()],
+		];
 	}
 }

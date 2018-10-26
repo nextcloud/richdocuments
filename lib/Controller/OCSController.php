@@ -125,13 +125,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	public function getTemplates(string $type): DataResponse {
 		if (array_key_exists($type, TemplateManager::$tplTypes)) {
-			$templates = $this->manager->getAll($type);
-
-			$data = array_map(function(File $file) {
-				return $this->manager->formatNodeReturn($file);
-			}, $templates);
-
-			return new DataResponse($data);
+			$templates = $this->manager->getAllFormatted($type);
+			return new DataResponse($templates);
 		}
 		throw new OCSBadRequestException('Wrong type');
 	}

@@ -195,10 +195,10 @@ class TemplatesController extends Controller {
 	 */
 	private function fetchPreview(
 		Node $node,
-		int $x,
-		int $y,
-		bool $a = false,
-		bool $forceIcon = true,
+		$x,
+		$y,
+		$a = false,
+		$forceIcon = true,
 		string $mode): Http\Response {
 
 		if (!($node instanceof Node) || (!$forceIcon && !$this->preview->isAvailable($node))) {
