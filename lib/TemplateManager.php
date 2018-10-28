@@ -169,13 +169,13 @@ class TemplateManager {
 	 * @param File[] $templates
 	 * @return File[]
 	 */
-	private function filterTemplates($templates, $type) {
+	private function filterTemplates($templates, $type = null) {
 		return array_filter($templates, function (Node $templateFile) use ($type) {
 			if (!($templateFile instanceof File)) {
 				return false;
 			}
 
-			if (!in_array($templateFile->getMimeType(), self::$tplTypes[$type])) {
+			if ($type !== null && !in_array($templateFile->getMimeType(), self::$tplTypes[$type])) {
 				return false;
 			}
 
@@ -185,7 +185,7 @@ class TemplateManager {
 		});
 	}
 
-	private function getEmpty($type) {
+	private function getEmpty($type = null) {
 		$folder = $this->getEmptyTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
@@ -213,7 +213,7 @@ class TemplateManager {
 	 *
 	 * @return File[]
 	 */
-	public function getSystem($type) {
+	public function getSystem($type = null) {
 		$folder = $this->getSystemTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
@@ -243,7 +243,7 @@ class TemplateManager {
 	 *
 	 * @return File[]
 	 */
-	public function getUser($type) {
+	public function getUser($type = null) {
 		try {
 			$templateDir   = $this->getUserTemplateDir();
 			$templateFiles = $templateDir->getDirectoryListing();

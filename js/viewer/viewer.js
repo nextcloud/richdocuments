@@ -285,12 +285,8 @@ var odfViewer = {
 						var $dlg = $tmpl.octemplate({
 							dialog_name: 'template-picker',
 							dialog_title: t('richdocuments','Select template'),
-							default_name: t('richdocuments','Empty file')
 						});
 
-						$dlg[0].querySelector('.default').onclick = function() {
-							$dlg[0].dataset.templateId = undefined;
-						};
 						// create templates list
 						var templates = _.values(data)
 						templates.forEach(function(template) {
