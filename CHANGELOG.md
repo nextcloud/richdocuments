@@ -1,3 +1,9 @@
+**3.0.2
+- Fixes: Only show document overlay when document is fully loaded (#283)
+- Fixes: Generate assertUrl link with generateurl, so it also works in subfolder installations (#288)
+- Fixes: Show displayname on avatar hover (#289)
+- Fixes: Do not clear assets on HEAD request (#290)
+
 **3.0.1
 - Fixes: Do not show loading spinner overlay public page if we need a username
 - Fixes: Do not duplicate avatars in the top overlay
