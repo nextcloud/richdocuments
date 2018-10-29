@@ -446,8 +446,7 @@ var documentsMain = {
 							if (window.webkit
 								&& window.webkit.messageHandlers
 								&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
-									window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('documentLoaded');
-								}
+								window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('documentLoaded');
 							}
 						}
 					}
