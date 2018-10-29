@@ -1,6 +1,7 @@
 { "translations": {
     "Saving…" : "Er að vista ...",
     "All" : "Allt",
+    "Please choose your nickname to continue as guest user." : "Veldu þér stuttnefni/gælunafn til að halda áfram sem gestanotandi.",
     "Nickname" : "Stuttnefni",
     "Set" : "Setja",
     "Latest revision" : "Nýjasta útgáfa",
@@ -34,6 +35,8 @@
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Vistað með villu: Collabora Online ætti að nota sama samskiptamáta og uppsetning þjónsins.",
     "Collabora Online" : "Collabora Online",
     "Guest: %s" : "Gestanotandi: %s",
+    "Edit office documents directly in your browser." : "Breyttu skrifstofuskjölum beint í vafranum þínum.",
+    "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Þetta forrit getur tengst Collabora Online þjóni (WOPI-biðlari). Nextcloud er þá WOPI-hýsill. Lestu hjálparskjölin til að fræðast meira um allt þetta.",
     "Open documentation" : "Opna hjálparskjöl",
     "Collabora Online server" : "Collabora Online þjónn",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL-slóð (og gátt) Collabora Online þjónsins sem gefur út breytingaeigindi sem WOPI-biðlari.",
