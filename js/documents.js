@@ -618,7 +618,7 @@ var documentsMain = {
 
 		documentsMain.show(fileId);
 
-		if (fileId && Number.isInteger(Number(fileId))) {
+		if (fileId && Number.isInteger(Number(fileId)) && $('#nickname').length === 0) {
 			documentsMain.overlay.documentOverlay('show');
 			documentsMain.prepareSession();
 		}
