@@ -436,6 +436,19 @@ var documentsMain = {
 						} else if (msg.Values.Status === "Document_Loaded" ) {
 							documentsMain.overlay.documentOverlay('hide');
 							window.removeEventListener('message', editorInitListener, false);
+
+							// Forward to mobile handler
+							if (window.RichDocumentsMobileInterface) {
+								window.RichDocumentsMobileInterface.documentLoaded();
+							}
+
+							// iOS webkit fallback
+							if (window.webkit
+								&& window.webkit.messageHandlers
+								&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
+									window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('documentLoaded');
+								}
+							}
 						}
 					}
 				};
