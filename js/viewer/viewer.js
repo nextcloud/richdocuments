@@ -92,6 +92,7 @@ var odfViewer = {
 		OC.addStyle('richdocuments', 'mobile');
 
 		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
+		$('body').css('overscroll-behavior-y', 'none');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
 			$('#preview').append($iframe).css({height: '100%'});
