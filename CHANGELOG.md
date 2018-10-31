@@ -1,3 +1,8 @@
+**3.03
+- Added: Notify clients when page is fully loaded (#291)
+- Fixed: Do not show spinner if we nickname chose is visible (#293)
+- Fixed:  Disable the vertical swipe to reload gesture (#295)
+
 **3.0.2
 - Fixes: Only show document overlay when document is fully loaded (#283)
 - Fixes: Generate assertUrl link with generateurl, so it also works in subfolder installations (#288)
