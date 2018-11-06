@@ -41,7 +41,7 @@ abstract class Office extends Provider {
 		$this->config = $config;
 	}
 
-	private function getWopiURL(): string {
+	private function getWopiURL() {
 		return $this->config->getAppValue('richdocuments', 'wopi_url');
 	}
 
