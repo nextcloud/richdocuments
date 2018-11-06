@@ -1,3 +1,6 @@
+**3.0.4
+- Fixed: Make php5.6 compatible again (#297)
+
 **3.03
 - Added: Notify clients when page is fully loaded (#291)
 - Fixed: Do not show spinner if we nickname chose is visible (#293)
