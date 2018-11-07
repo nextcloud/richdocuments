@@ -1,5 +1,5 @@
+sudo: true
 language: php
-
 php:
   - 7
 
@@ -15,7 +15,6 @@ branches:
     - master
     - /^stable\d+(\.\d+)?$/
 
-sudo: true
 before_install:
   - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
   - . ./before_install.sh $APP_NAME $CORE_BRANCH $DB
@@ -27,42 +26,32 @@ before_install:
   - ./occ app:list
 
 script:
-   - cd apps/$APP_NAME/
+  - cd apps/$APP_NAME/
 
-   # Test the app
-   - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '1' ]; then find . -name \*.php -exec php -l \"{}\" \;; fi"
-   - cd ../../
-   - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '1' ]; then ./occ app:check-code $APP_NAME -c private -c strong-comparison; fi"
-   - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '2' ]; then ./occ app:check-code $APP_NAME -c deprecation; fi"
-   - cd apps/$APP_NAME/
+  # Test the app
+  - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '1' ]; then find . -name \*.php -exec php -l \"{}\" \;; fi"
+  - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '1' ]; then ../../occ app:check-code $APP_NAME -c deprecation; fi"
+  - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' = '2' ]; then ../../occ app:check-code $APP_NAME -c private -c strong-comparison; fi"
 
-   # Run phpunit tests
-   - cd tests/
-   - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' != '1' -a '$CODECHECK' != '2' ]; then phpunit --configuration phpunit.xml; fi"
+  # Run phpunit tests
+  - cd tests/
+  - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' != '1' -a '$CODECHECK' != '3' ]; then phpunit --configuration phpunit.xml; fi"
 
-   # Create coverage report
-   - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' != '1' -a '$CODECHECK' != '2' ]; then wget https://scrutinizer-ci.com/ocular.phar; fi"
-   - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' != '1' -a '$CODECHECK' != '2' ]; then php ocular.phar code-coverage:upload --format=php-clover clover.xml; fi"
-   - cd ../
-
-matrix:
+  # Create coverage report
+  - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' != '1' -a '$CODECHECK' != '2' ]; then wget https://scrutinizer-ci.com/ocular.phar; fi"
+  - sh -c "if [ '$JSTESTS' != '1' -a '$CODECHECK' != '1' -a '$CODECHECK' != '2' ]; then php ocular.phar code-coverage:upload --format=php-clover clover.xml; fi"
+  - cd ../
 
 matrix:
   include:
-    - php: 7
-      env: "DB=sqlite CORE_BRANCH=stable12"
-    - php: 7
-      env: "DB=sqlite CORE_BRANCH=stable13"
-    - php: 7
-      env: DB=mysql
-    - php: 7
-      env: DB=pgsql
-    - php: 7
-      env: DB=mysql;CODECHECK=1
-    - php: 7
-      env: DB=mysql;CODECHECK=2
-    - php: 7
-      env: DB=mysql;JSTESTS=1
-  allow_failures:
+    - env: DB=sqlite;CORE_BRANCH=stable12
+    - env: DB=sqlite;CORE_BRANCH=stable13
+    - env: DB=mysql
+    - env: DB=pgsql
     - env: DB=mysql;CODECHECK=1
+    - env: DB=mysql;CODECHECK=2
+    - env: DB=mysql;CODECHECK=3
+    - env: DB=mysql;JSTESTS=1
+  allow_failures:
+    - env: DB=mysql;CODECHECK=2
   fast_finish: true
