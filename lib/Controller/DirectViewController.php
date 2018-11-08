@@ -92,7 +92,7 @@ class DirectViewController extends Controller {
 			if(!($item instanceof Node)) {
 				throw new \Exception();
 			}
-			list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
+			list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid());
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
