@@ -200,7 +200,7 @@ class TemplateManager {
 
 			foreach ($templates as $template) {
 				$file = $folder->newFile($template);
-				$file->putContent(file_get_contents('../assets/' . $template));
+				$file->putContent(file_get_contents(__DIR__ . '/../assets/' . $template));
 				$templateFiles[] = $file;
 			}
 		}
