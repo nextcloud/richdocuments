@@ -420,10 +420,11 @@ class TemplateManager {
 	}
 
 	public function isTemplate($fileId) {
+		$empty = $this->getEmpty();
 		$system = $this->getSystem();
 		$user = $this->getUser();
 		/** @var File[] $all */
-		$all = array_merge($system, $user);
+		$all = array_merge($empty, $system, $user);
 
 		foreach ($all as $template) {
 			if ($template->getId() === $fileId) {
