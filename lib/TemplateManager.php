@@ -364,11 +364,11 @@ class TemplateManager {
 		}
 
 		// has the user manually set a directory as the default template dir ?
-		$templateDirID = $this->config->getUserValue($this->userId, $this->appName, 'template_dir', false);
+		$templateDirPath = $this->config->getUserValue($this->userId, $this->appName, 'templateFolder', false);
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
-		if ($templateDirID !== false) {
-			$templateDir = $userFolder->getById($templateDirID);
+		if ($templateDirPath !== false) {
+			$templateDir = $userFolder->get($templateDirPath);
 		} else {
 			// fallback to default template dir
 			try {
