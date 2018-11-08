@@ -223,7 +223,7 @@ class TemplateManager {
 	/**
 	 * @return array
 	 */
-	public function getSystemFormatted($type) {
+	public function getSystemFormatted($type = null) {
 		$empty = $this->getEmpty($type);
 		$system = $this->getSystem($type);
 
