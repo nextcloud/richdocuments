@@ -40,13 +40,6 @@ use OCP\IRequest;
 use OC\Files\Filesystem;
 
 class TemplatesController extends Controller {
-
-	/** @var string */
-	protected $appName;
-
-	/** @var IRequest */
-	protected $request;
-
 	/** @var IL10N */
 	private $l10n;
 
@@ -68,7 +61,7 @@ class TemplatesController extends Controller {
 	 * @param TemplateManager $manager
 	 * @param IPreview $preview
 	 */
-	public function __construct(string $appName,
+	public function __construct($appName,
 								IRequest $request,
 								IL10N $l10n,
 								TemplateManager $manager,
