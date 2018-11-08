@@ -30,6 +30,14 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
+	private $config;
+	private $userId;
+
+	public function __construct(IConfig $config, $userId) {
+		$this->config = $config;
+		$this->userId = $userId;
+	}
+
 	/**
 	 * @return TemplateResponse
 	 */
@@ -37,7 +45,9 @@ class Personal implements ISettings {
 		return new TemplateResponse(
 			'richdocuments',
 			'personal',
-			[],
+			[
+				'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
+			],
 			'blank'
 		);
 	}

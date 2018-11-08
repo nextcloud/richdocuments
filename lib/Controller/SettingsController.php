@@ -17,31 +17,43 @@ use OCP\AppFramework\Http\JSONResponse;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use OCA\Richdocuments\AppConfig;
+use OCP\IConfig;
+use OCP\PreConditionNotMetException;
 
 class SettingsController extends Controller{
 	/** @var IL10N */
 	private $l10n;
 	/** @var AppConfig */
 	private $appConfig;
+	/** @var IConfig */
+	private $config;
 	/** @var DiscoveryManager  */
 	private $discoveryManager;
+	/** @var string */
+	private $userId;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
+	 * @param IConfig $config
 	 * @param DiscoveryManager $discoveryManager
+	 * @param string $userId
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IL10N $l10n,
 								AppConfig $appConfig,
-								DiscoveryManager $discoveryManager) {
+								IConfig $config,
+								DiscoveryManager $discoveryManager,
+								$userId) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
+		$this->config = $config;
 		$this->discoveryManager = $discoveryManager;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -112,5 +124,34 @@ class SettingsController extends Controller{
 		];
 
 		return new JSONResponse($response);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param $key
+	 * @param $value
+	 * @return JSONResponse
+	 */
+	public function setPersonalSettings($templateFolder) {
+		$message = $this->l10n->t('Saved');
+		$status = 'success';
+
+		if ($templateFolder !== null){
+			try {
+				$this->config->setUserValue($this->userId, 'richdocuments', 'templateFolder', $templateFolder);
+			} catch (PreConditionNotMetException $e) {
+				$message = $this->l10n->t('Error when saving');
+				$status = 'error';
+			}
+		}
+
+		$response = [
+			'status' => $status,
+			'data' => ['message' => $message]
+		];
+
+		return new JSONResponse($response);
+
 	}
 }
