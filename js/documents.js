@@ -161,7 +161,7 @@ var documentsMain = {
 		revisionsStart: 0,
 
 		/* Views: people currently editing the file */
-		views: [],
+		views: {},
 
 		init : function(){
 			documentsMain.UI.mainTitle = parent.document.title;
@@ -174,9 +174,10 @@ var documentsMain = {
 		renderAvatars: function() {
 			var avatardiv = parent.$('#header .header-right #richdocuments-avatars');
 			avatardiv.empty();
-
+			var users = [];
 			// Add new avatars
-			this.views.forEach(function(view, viewId) {
+			for (var viewId in this.views) { 
+				var view = this.views[viewId];
 				if (view.UserId === parent.OC.currentUser) {
 					return;
 				}
@@ -188,7 +189,7 @@ var documentsMain = {
 				if (parent.OC.currentUser !== null && view.UserId !== '') {
 					$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
 				}
-			});
+			};
 		},
 
 		showViewer: function(fileId, title){
@@ -561,18 +562,10 @@ var documentsMain = {
 							documentsMain.$deferredVersionRestoreAck.resolve();
 						}
 					} else if (msgId === 'View_Added') {
-						documentsMain.UI.views.push(args);
+						documentsMain.UI.views[args.ViewId] = args;
 						documentsMain.UI.renderAvatars();
 					} else if (msgId === 'View_Removed') {
-						var view = $.grep(documentsMain.UI.views, function(element, index) {
-							return element.ViewId === args.ViewId;
-						});
-						if (view.length === 1) {
-							index = documentsMain.UI.views.indexOf(view[0]);
-							if (index > -1) {
-								documentsMain.UI.views.splice(index, 1);
-							}
-						}
+						delete documentsMain.UI.views[args.ViewId];
 						documentsMain.UI.renderAvatars();
 					} else if (msgId === 'Get_Views_Resp') {
 						args.forEach(function(view) {
