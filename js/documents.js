@@ -184,21 +184,25 @@ var documentsMain = {
 				if (view.UserId !== "" && users.indexOf(view.UserId) > -1) {
 					continue;
 				}
+				var userName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
+console.log(view);
 				users.push(view.UserId);
 				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
 				var avatar = avatarContainer.find('.avatar');
 				avatardiv.append(avatarContainer);
-				$(avatar).avatar(view.UserId, 32);
 				if (view.ReadOnly === '1') {
-					var userName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
 					avatarContainer.addClass('read-only');
 					$(avatar).attr('title', userName + ' ' + t('richdocuments', '(read only)'));
+				} else {
+					$(avatar).attr('title', userName);
 				}
-				$(avatar).tooltip({placement: 'bottom'});
+
+				$(avatar).avatar(view.UserId, 32);
 				if (parent.OC.currentUser !== null && view.UserId !== '') {
 					$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
 				}
 			};
+			parent.$('.richdocuments-avatar .avatar').tooltip({placement: 'bottom', container: '#header'});
 		},
 
 		showViewer: function(fileId, title){
