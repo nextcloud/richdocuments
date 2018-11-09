@@ -83,6 +83,11 @@ class TemplateManager {
 		'spreadsheet'  => -2,
 		'presentation' => -3,
 	];
+	const TYPE_EXTENTION = [
+		'document'     => 'odt',
+		'spreadsheet'  => 'ods',
+		'presentation' => 'odp',
+	];
 
 
 	/**
@@ -415,7 +420,8 @@ class TemplateManager {
 			'name'    => $template->getName(),
 			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'    => $this->flipTypes()[$template->getMimeType()],
-			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()])
+			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
+			'ext'     => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
 		];
 	}
 
@@ -440,6 +446,7 @@ class TemplateManager {
 			'id'      => $template->getId(),
 			'name'    => $this->l->t('Empty'),
 			'type'    => $this->flipTypes()[$template->getMimeType()],
+			'ext'     => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
 		];
 	}
 }
