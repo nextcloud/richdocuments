@@ -189,6 +189,11 @@ var documentsMain = {
 				var avatar = avatarContainer.find('.avatar');
 				avatardiv.append(avatarContainer);
 				$(avatar).avatar(view.UserId, 32);
+				if (view.ReadOnly === '1') {
+					var userName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
+					avatarContainer.addClass('read-only');
+					$(avatar).attr('title', userName + ' ' + t('richdocuments', '(read only)'));
+				}
 				$(avatar).tooltip({placement: 'bottom'});
 				if (parent.OC.currentUser !== null && view.UserId !== '') {
 					$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
