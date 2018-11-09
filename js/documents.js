@@ -179,8 +179,12 @@ var documentsMain = {
 			for (var viewId in this.views) { 
 				var view = this.views[viewId];
 				if (view.UserId === parent.OC.currentUser) {
-					return;
+					continue;
 				}
+				if (view.UserId !== "" && users.indexOf(view.UserId) > -1) {
+					continue;
+				}
+				users.push(view.UserId);
 				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
 				var avatar = avatarContainer.find('.avatar');
 				avatardiv.append(avatarContainer);
