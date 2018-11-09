@@ -439,7 +439,6 @@ class TemplateManager {
 		return [
 			'id'      => $template->getId(),
 			'name'    => $this->l->t('Empty'),
-			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'    => $this->flipTypes()[$template->getMimeType()],
 		];
 	}
