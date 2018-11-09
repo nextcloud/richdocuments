@@ -416,12 +416,12 @@ class TemplateManager {
 	 */
 	public function formatNodeReturn(File $template) {
 		return [
-			'id'      => $template->getId(),
-			'name'    => $template->getName(),
-			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
-			'type'    => $this->flipTypes()[$template->getMimeType()],
-			'delete'  => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
-			'ext'     => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
+			'id'        => $template->getId(),
+			'name'      => $template->getName(),
+			'preview'   => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
+			'type'      => $this->flipTypes()[$template->getMimeType()],
+			'delete'    => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
+			'extension' => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
 		];
 	}
 
@@ -443,10 +443,10 @@ class TemplateManager {
 
 	public function formatEmpty(File $template) {
 		return [
-			'id'      => $template->getId(),
-			'name'    => $this->l->t('Empty'),
-			'type'    => $this->flipTypes()[$template->getMimeType()],
-			'ext'     => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
+			'id'        => $template->getId(),
+			'name'      => $this->l->t('Empty'),
+			'type'      => $this->flipTypes()[$template->getMimeType()],
+			'extension' => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
 		];
 	}
 }
