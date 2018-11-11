@@ -6,6 +6,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Escolha um apelido para continuar como convidado.",
     "Nickname" : "Apelido",
     "Set" : "Definir",
+    "Guest" : "Convidado",
+    "(read only)" : "(somente leitura)",
     "Latest revision" : "Revisão mais recente",
     "Download this revision" : "Baixar esta revisão",
     "Restore this revision" : "Restaurar esta revisão",
