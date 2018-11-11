@@ -447,9 +447,7 @@ console.log(view);
 					if (msg.MessageId === 'App_LoadingStatus') {
 						if (msg.Values.Status === "Frame_Ready" ) {
 							documentsMain.wopiClientFeatures = msg.Values.Features;
-						} else if (msg.Values.Status === "Document_Loaded" ) {
 							documentsMain.overlay.documentOverlay('hide');
-							window.removeEventListener('message', editorInitListener, false);
 
 							// Forward to mobile handler
 							if (window.RichDocumentsMobileInterface) {
@@ -462,6 +460,8 @@ console.log(view);
 								&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
 								window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('documentLoaded');
 							}
+						} else if (msg.Values.Status === "Document_Loaded" ) {
+							window.removeEventListener('message', editorInitListener, false);
 						}
 					}
 				};
