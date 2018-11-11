@@ -6,6 +6,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Bitte wählen Sie Ihren Spitznamen und fahren Sie als Gastbenutzer fort.",
     "Nickname" : "Spitzname",
     "Set" : "Setzen",
+    "Guest" : "Gast",
+    "(read only)" : "(schreibgeschützt)",
     "Latest revision" : "Neueste Revision",
     "Download this revision" : "Diese Revision herunterladen",
     "Restore this revision" : "Diese Revision wiederherstellen",
