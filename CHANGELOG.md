@@ -1,3 +1,9 @@
+**3.0.5
+- Fixed: Pass UID for direct tokens (#301)
+- Fixed: Do not show nextcloud bar on small screens (#306)
+- Fixed: Avatar improvements for editing users (#304)
+- Fixed: show password overlay properly (#308)
+
 **3.0.4
 - Fixed: Make php5.6 compatible again (#297)
 
