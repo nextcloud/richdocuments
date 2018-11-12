@@ -6,6 +6,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Veldu þér stuttnefni/gælunafn til að halda áfram sem gestanotandi.",
     "Nickname" : "Stuttnefni",
     "Set" : "Setja",
+    "Guest" : "Gestur",
+    "(read only)" : "(skrifvarið)",
     "Latest revision" : "Nýjasta útgáfa",
     "Download this revision" : "Sækja þessa útgáfu",
     "Restore this revision" : "Endurheimta þessa útgáfu",
