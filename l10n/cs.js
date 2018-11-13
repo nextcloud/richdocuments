@@ -6,6 +6,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Zvolte si svou přezdívku a pokračujte jako host.",
     "Nickname" : "Přezdívka",
     "Set" : "Nastavit",
+    "Guest" : "Host",
+    "(read only)" : "(pouze pro čtení)",
     "Latest revision" : "Nejnovější revize",
     "Download this revision" : "Stáhnout tuto revizi",
     "Restore this revision" : "Obnovit tuto revizi",
