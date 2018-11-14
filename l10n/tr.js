@@ -6,6 +6,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Konuk kullanıcı olarak devam etmek için bir takma ad seçin.",
     "Nickname" : "Takma Ad",
     "Set" : "Ayarla",
+    "Guest" : "Konuk",
+    "(read only)" : "(salt okunur)",
     "Latest revision" : "Son sürüm",
     "Download this revision" : "Bu sürümü indir",
     "Restore this revision" : "Bu sürümü geri yükle",
