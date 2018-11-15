@@ -66,7 +66,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function __construct(string $appName,
 		IRequest $request,
 		IRootFolder $rootFolder,
-		string $userId,
+		$userId,
 		DirectMapper $directMapper,
 		IURLGenerator $urlGenerator,
 		TemplateManager $manager) {
@@ -88,7 +88,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @return DataResponse
 	 * @throws OCSNotFoundException|OCSBadRequestException
 	 */
-	public function create(int $fileId): DataResponse {
+	public function create($fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			$nodes      = $userFolder->getById($fileId);
@@ -123,7 +123,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function getTemplates(string $type): DataResponse {
+	public function getTemplates($type) {
 		if (array_key_exists($type, TemplateManager::$tplTypes)) {
 			$templates = $this->manager->getAllFormatted($type);
 			return new DataResponse($templates);
@@ -137,14 +137,13 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param string $path Where to create the document
 	 * @param int $template The template id
 	 */
-	public function createFromTemplate(string $path, int $template) {
+	public function createFromTemplate($path, $template) {
 		if (!$this->manager->isTemplate($template)) {
 			throw new OCSBadRequestException('Invalid template provided');
 		}
 
 		$info = pathinfo($path);
 
-		// TODO use actual path
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$folder = $userFolder->get($info['dirname']);
 		$name = $folder->getNonExistingName($info['basename']);
