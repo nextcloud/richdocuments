@@ -155,6 +155,12 @@ class WopiController extends Controller {
 			'EnableShare' => true,
 		];
 
+		if ($wopi->isTemplateToken()) {
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
+			$file = $userFolder->getById($wopi->getTemplateDestination())[0];
+			$response['TemplateSaveAs'] = $file->getName();
+		}
+
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if($user !== null && $user->getAvatarImage(32) !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
