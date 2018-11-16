@@ -147,7 +147,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$folder = $userFolder->get($info['dirname']);
 		$name = $folder->getNonExistingName($info['basename']);
-		$file = $userFolder->newFile($name);
+		$file = $folder->newFile($name);
 
 		try {
 			$direct = $this->directMapper->newDirect($this->userId, $template, $file->getId());
