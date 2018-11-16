@@ -138,6 +138,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @param int $template The template id
 	 */
 	public function createFromTemplate($path, $template) {
+		if ($path === null || $template === null) {
+			throw new OCSBadRequestException('path and template must be set');
+		}
+
 		if (!$this->manager->isTemplate($template)) {
 			throw new OCSBadRequestException('Invalid template provided');
 		}
