@@ -6,6 +6,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Одаберите надимак да наставите као гост-корисник.",
     "Nickname" : "Надимак",
     "Set" : "Постави",
+    "Guest" : "Гост",
+    "(read only)" : "(само за читање)",
     "Latest revision" : "Последња ревизија",
     "Download this revision" : "Скини ову ревизију",
     "Restore this revision" : "Поврати ову ревизију",
