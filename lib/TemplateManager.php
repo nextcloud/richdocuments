@@ -135,6 +135,10 @@ class TemplateManager {
 		$this->l = $l;
 	}
 
+	public function setUserId($userId) {
+		$this->userId = $userId;
+	}
+
 	/**
 	 * Get template ISimpleFile|Node
 	 *

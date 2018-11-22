@@ -122,6 +122,7 @@ class WopiController extends Controller {
 		}
 
 		if ($wopi->isTemplateToken()) {
+			$this->templateManager->setUserId($wopi->getOwnerUid());
 			$file = $this->templateManager->get($wopi->getFileid());
 		} else {
 			// Login the user to see his mount locations
@@ -192,6 +193,7 @@ class WopiController extends Controller {
 
 		// Template is just returned as there is no version logic
 		if ($wopi->isTemplateToken()) {
+			$this->templateManager->setUserId($wopi->getOwnerUid());
 			$file = $this->templateManager->get($wopi->getFileid());
 			$response = new StreamResponse($file->fopen('rb'));
 			$response->addHeader('Content-Disposition', 'attachment');
@@ -369,6 +371,7 @@ class WopiController extends Controller {
 			$userFolder = $this->rootFolder->getUserFolder($editor);
 
 			if ($wopi->isTemplateToken()) {
+				$this->templateManager->setUserId($wopi->getOwnerUid());
 				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
 			} else {
 				$file = $userFolder->getById($fileId)[0];
