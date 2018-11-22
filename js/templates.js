@@ -3,7 +3,9 @@
 templates['revHistoryContainer'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "<div id=\"revPanelContainer\" class=\"loleaflet-font\">\n	<div id=\"revPanelHeader\">\n		<h2>Revision History</h2>\n		<span>"
+  return "<div id=\"revPanelContainer\" class=\"loleaflet-font\">\n	<div id=\"revPanelHeader\">\n		<h2>"
+    + alias4(((helper = (helper = helpers.revisionHistoryLabel || (depth0 != null ? depth0.revisionHistoryLabel : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"revisionHistoryLabel","hash":{},"data":data}) : helper)))
+    + "</h2>\n		<span>"
     + alias4(((helper = (helper = helpers.filename || (depth0 != null ? depth0.filename : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"filename","hash":{},"data":data}) : helper)))
     + "</span>\n		<a class=\"closeButton\"><img src="
     + alias4(((helper = (helper = helpers.closeButtonUrl || (depth0 != null ? depth0.closeButtonUrl : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"closeButtonUrl","hash":{},"data":data}) : helper)))

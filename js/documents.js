@@ -319,7 +319,8 @@ console.log(view);
 			var revHistoryContainer = OCA.RichDocuments.Templates.revHistoryContainer({
 				filename: documentsMain.fileName,
 				moreVersionsLabel: t('richdocuments', 'More versions…'),
-				closeButtonUrl: OC.imagePath('core', 'actions/close')
+				closeButtonUrl: OC.imagePath('core', 'actions/close'),
+				revisionHistoryLabel: t('richdocuments', 'Revision History')
 			});
 			$('#revViewerContainer').prepend(revHistoryContainer);
 
