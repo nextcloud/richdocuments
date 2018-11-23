@@ -285,7 +285,6 @@ var documentsMain = {
 
 		addVersionSidebarEvents: function() {
 			var self = this;
-			console.log(parent.document.querySelector('#app-sidebar'));
 			var showVersionPreview = function (e) {
 				e.preventDefault();
 				self.loadRevViewerContainer();
@@ -305,10 +304,11 @@ var documentsMain = {
 				$(element).addClass('active');
 			};
 
-			$(parent.document.querySelector('#app-sidebar')).on('click', '.preview-container', showVersionPreview);
-			$(parent.document.querySelector('#app-sidebar')).on('click', '.downloadVersion', showVersionPreview);
+			$(parent.document.querySelector('#content')).on('click', '#app-sidebar .preview-container', showVersionPreview);
+			$(parent.document.querySelector('#content')).on('click', '#app-sidebar .downloadVersion', showVersionPreview);
 
-			$(parent.document.querySelector('#app-sidebar')).on('click', '.revertVersion', function(e) {
+			// Use mousedown event to overwrite behavior of the versions app
+			$(parent.document.querySelector('#content')).on('mousedown', '#app-sidebar .revertVersion', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 
