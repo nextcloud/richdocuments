@@ -318,17 +318,19 @@ var documentsMain = {
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_VersionRestore', {Status: 'Pre_Restore'});
 
 				var version = e.currentTarget.parentElement.parentElement.dataset.revision;
-				var restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
-					{
-						file: documentPath, revision: version
-					});
+				var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + parent.OC.getCurrentUser().uid
+					+ '/versions/' + documentsMain.originalFileId + '/' + version;
+
 				documentsMain.$deferredVersionRestoreAck = $.Deferred();
 				jQuery.when(documentsMain.$deferredVersionRestoreAck).
 				done(function(args) {
 					// restore selected version
 					$.ajax({
-						type: 'GET',
+						type: 'MOVE',
 						url: restoreUrl,
+						headers: {
+							Destination: OC.linkToRemote('dav') + '/versions/' + parent.OC.getCurrentUser().uid + '/restore/target'
+						},
 						success: function(response) {
 							if (response.status === 'error') {
 								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
@@ -339,6 +341,9 @@ var documentsMain = {
 							documentsMain.overlay.documentOverlay('hide');
 
 							parent.OC.Apps.hideAppSidebar();
+						},
+						error: function() {
+							documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
 						}
 					});
 				});
