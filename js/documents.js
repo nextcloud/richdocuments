@@ -270,7 +270,6 @@ var documentsMain = {
 		showRevHistory: function(documentPath) {
 			// TODO: make sure this also works if using the sidebar with the share icon and navigating to versions then
 			parent.FileList.showDetailsView(documentsMain.fileName, 'versionsTabView');
-			this.addVersionSidebarEvents();
 			this.loadRevViewerContainer();
 			// Load current revision
 			// TODO: add entry to versions
@@ -304,11 +303,11 @@ var documentsMain = {
 				$(element).addClass('active');
 			};
 
-			$(parent.document.querySelector('#content')).on('click', '#app-sidebar .preview-container', showVersionPreview);
-			$(parent.document.querySelector('#content')).on('click', '#app-sidebar .downloadVersion', showVersionPreview);
+			$(parent.document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', showVersionPreview);
+			$(parent.document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', showVersionPreview);
 
 			// Use mousedown event to overwrite behavior of the versions app
-			$(parent.document.querySelector('#content')).on('mousedown', '#app-sidebar .revertVersion', function(e) {
+			$(parent.document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 
@@ -353,6 +352,12 @@ var documentsMain = {
 					documentsMain.$deferredVersionRestoreAck.resolve();
 				}
 			});
+		},
+
+		removeVersionSidebarEvents: function() {
+			$(parent.document.querySelector('#content')).off('click.revisions');
+			$(parent.document.querySelector('#content')).off('click.revisions');
+			$(parent.document.querySelector('#content')).off('mousedown.revisions');
 		},
 
 		showEditor : function(title, fileId, action){
@@ -695,6 +700,7 @@ var documentsMain = {
 
 		parent.document.title = documentsMain.UI.mainTitle;
 		parent.postMessage('close', '*');
+		this.removeVersionSidebarEvents();
 	},
 
 	onCloseViewer: function() {
