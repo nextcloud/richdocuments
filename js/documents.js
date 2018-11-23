@@ -178,6 +178,7 @@ var documentsMain = {
 			//Add the avatar toolbar if possible
 			var headerRight = parent.$('#header .header-right');
 			headerRight.prepend($('<div id="richdocuments-avatars">'));
+			this.addVersionSidebarEvents();
 		},
 
 		renderAvatars: function() {
@@ -194,7 +195,6 @@ var documentsMain = {
 					continue;
 				}
 				var userName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
-console.log(view);
 				users.push(view.UserId);
 				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
 				var avatar = avatarContainer.find('.avatar');
@@ -259,19 +259,41 @@ console.log(view);
 			});
 		},
 
+		loadRevViewerContainer: function() {
+			if(!$('revViewerContainer').length) {
+				$(document.body).prepend(documentsMain.UI.viewContainer);
+				var closeButton = $('<button class="icon-close closeButton" title="' + parent.t('richdocuments', 'Close version preview') + '"/>');
+				$('#revViewerContainer').prepend(closeButton);
+			}
+		},
+
 		showRevHistory: function(documentPath) {
 			// TODO: make sure this also works if using the sidebar with the share icon and navigating to versions then
 			parent.FileList.showDetailsView(documentsMain.fileName, 'versionsTabView');
+			this.addVersionSidebarEvents();
+			this.loadRevViewerContainer();
+			// Load current revision
+			// TODO: add entry to versions
+			var fileId = documentsMain.fileId + '_' + 0;
+			var title = documentsMain.fileName + ' - ' + 0;
+			documentsMain.UI.showViewer(
+				fileId, title
+			);
 
-			$(document.body).prepend(documentsMain.UI.viewContainer);
-			var closeButton = $('<button class="icon-close closeButton" title="' + parent.t('richdocuments', 'Close version preview') + '"/>');
-			$('#revViewerContainer').prepend(closeButton);
+			return;
+		},
 
-
-			$(parent.document.querySelector('#app-sidebar')).on('click', '.preview-container', function (e) {
-				console.log(e);
+		addVersionSidebarEvents: function() {
+			var self = this;
+			console.log(parent.document.querySelector('#app-sidebar'));
+			var showVersionPreview = function (e) {
 				e.preventDefault();
-				var version = e.currentTarget.parentElement.parentElement.dataset.revision;
+				self.loadRevViewerContainer();
+				var element = e.currentTarget.parentElement.parentElement;
+				if ($(e.currentTarget).hasClass('downloadVersion')) {
+					element = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
+				}
+				var version = element.dataset.revision;
 				var fileId = documentsMain.fileId + '_' + version;
 				var title = documentsMain.fileName + ' - ' + version;
 				documentsMain.UI.showViewer(
@@ -279,9 +301,12 @@ console.log(view);
 				);
 
 				// mark only current <li> as active
-				$(e.currentTarget.parentElement.parentElement.parentElement).find('li').removeClass('active');
-				$(e.currentTarget.parentElement.parentElement).addClass('active');
-			});
+				$(element.parentElement).find('li').removeClass('active');
+				$(element).addClass('active');
+			};
+
+			$(parent.document.querySelector('#app-sidebar')).on('click', '.preview-container', showVersionPreview);
+			$(parent.document.querySelector('#app-sidebar')).on('click', '.downloadVersion', showVersionPreview);
 
 			$(parent.document.querySelector('#app-sidebar')).on('click', '.revertVersion', function(e) {
 				e.preventDefault();
@@ -323,16 +348,6 @@ console.log(view);
 					documentsMain.$deferredVersionRestoreAck.resolve();
 				}
 			});
-
-			// Load current revision
-			// TODO: add entry to versions
-			var fileId = documentsMain.fileId + '_' + 0;
-			var title = documentsMain.fileName + ' - ' + 0;
-			documentsMain.UI.showViewer(
-				fileId, title
-			);
-
-			return;
 		},
 
 		showEditor : function(title, fileId, action){
@@ -587,6 +602,7 @@ console.log(view);
 		if (fileId && Number.isInteger(Number(fileId)) && $('#nickname').length === 0) {
 			documentsMain.overlay.documentOverlay('show');
 			documentsMain.prepareSession();
+			documentsMain.originalFileId = fileId;
 		}
 
 		documentsMain.ready = true;
