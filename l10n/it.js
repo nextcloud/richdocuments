@@ -12,6 +12,7 @@ OC.L10N.register(
     "Download this revision" : "Scarica questa revisione",
     "Restore this revision" : "Ripristina questa revisione",
     "More versions…" : "Altre versioni...",
+    "Revision History" : "Cronologia delle revisioni",
     "Just now" : "In questo istante",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",
     "Please enter the filename to store the document as." : "Digita il nome del file con cui memorizzare il documento.",

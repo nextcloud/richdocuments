@@ -12,6 +12,7 @@ OC.L10N.register(
     "Download this revision" : "Jelen verzió letöltése",
     "Restore this revision" : "Jelen verzió visszaállítása",
     "More versions…" : "További változatok...",
+    "Revision History" : "Korábbi verziók",
     "Just now" : "Épp most",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",
     "Please enter the filename to store the document as." : "Kérlek add meg, hogy milyen néven legyen tárolva a dokumentum.",
