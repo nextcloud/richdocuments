@@ -12,6 +12,7 @@ OC.L10N.register(
     "Download this revision" : "Bu sürümü indir",
     "Restore this revision" : "Bu sürümü geri yükle",
     "More versions…" : "Diğer sürümler…",
+    "Revision History" : "Sürüm Geçmişi",
     "Just now" : "Şimdi",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Please enter the filename to store the document as." : "Lütfen belgenin kaydedileceği adı yazın.",
