@@ -12,6 +12,7 @@ OC.L10N.register(
     "Download this revision" : "Stáhnout tuto revizi",
     "Restore this revision" : "Obnovit tuto revizi",
     "More versions…" : "Více verzí…",
+    "Revision History" : "Historie revizí",
     "Just now" : "Právě teď",
     "Failed to revert the document to older version" : "Nepodařilo se vrátit dokument do podoby starší verze",
     "Please enter the filename to store the document as." : "Zadejte název souboru ve kterém dokument uchovávat.",
