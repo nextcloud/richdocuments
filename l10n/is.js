@@ -12,6 +12,7 @@ OC.L10N.register(
     "Download this revision" : "Sækja þessa útgáfu",
     "Restore this revision" : "Endurheimta þessa útgáfu",
     "More versions…" : "Fleiri útgáfur…",
+    "Revision History" : "Breytingaskrá",
     "Just now" : "Í þessum töluðu orðum",
     "Failed to revert the document to older version" : "Mistókst að endurheimta skjalið sem eldri útgáfu",
     "Please enter the filename to store the document as." : "Settu inn skráarheiti til að geyma þetta skjal undir.",
