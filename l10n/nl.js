@@ -12,6 +12,7 @@ OC.L10N.register(
     "Download this revision" : "Download deze revisie",
     "Restore this revision" : "Herstel deze revisie",
     "More versions…" : "Meer versies...",
+    "Revision History" : "Revisie geschiedenis",
     "Just now" : "Zojuist",
     "Failed to revert the document to older version" : "Kon het document niet terugdraaien naar een vorige versie",
     "Please enter the filename to store the document as." : "Geef de bestandsnaam op waaromnder het document moet worden opgeslagen.",
