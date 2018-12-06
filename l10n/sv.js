@@ -41,7 +41,7 @@ OC.L10N.register(
     "Collabora Online" : "Collabora Online",
     "Guest: %s" : "Gäst: %s",
     "Edit office documents directly in your browser." : "Redigera dokument direkt i din webbläsare.",
-    "Open documentation" : "Öppna dokumentation",
+    "Open documentation" : "Öppna dokumentationen",
     "Collabora Online server" : "Collabora Online server",
     "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "URL (och port) av Collabora Online-servern som ger redigeringsfunktioner som WOPI klient.",
     "Apply" : "Tillämpa",
