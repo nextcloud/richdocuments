@@ -110,11 +110,12 @@ var odfViewer = {
 				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
 				$('.header-right').prepend($button);
 				$button.on('click', function() {
-					if (!$('#app-sidebar').hasClass('disappear') || $('#app-content').hasClass('with-app-sidebar')) {
+					if ($('#app-sidebar').is(':visible')) {
 						OC.Apps.hideAppSidebar();
 						return;
 					}
 					FileList.showDetailsView(fileName, 'shareTabView');
+					OC.Apps.showAppSidebar();
 				});
 				$('.searchbox').hide();
 				$('#app-navigation').addClass('hidden');
