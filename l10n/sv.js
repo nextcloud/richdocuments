@@ -50,6 +50,7 @@ OC.L10N.register(
     "Use OOXML by default for new files" : "Använd OOXML som standard för nya filer",
     "Enable access for external apps" : "Aktivera åtkomst för externa appar",
     "Add" : "Lägg till",
+    "Use Canonical webroot" : "Använd Canonical webroot",
     "Wrong password. Please retry." : "Fel lösenord. Försök igen.",
     "Password" : "Lösenord",
     "OK" : "OK",
