@@ -75,14 +75,15 @@ class Capabilities implements ICapability {
 					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 					'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 				],
-				'collabora' => $collaboraCapabilities !== null ? $collaboraCapabilities : [],
-				'direct_editing' => $collaboraCapabilities !== null // TODO: true if version >= 4.0 if version is available
+				'collabora' => $collaboraCapabilities,
+				'direct_editing' => false, //TODO: fix once proper capability is available
+				'templates' => false, //TODO: fix once proper capability is available
 			],
 		];
 	}
 
 	/**
-	 * @return array|null
+	 * @return array
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	private function getCollaboraCapabilities() {
@@ -102,7 +103,7 @@ class Capabilities implements ICapability {
 		try {
 			$response = $client->get($capabilitiesEndpoint);
 		} catch (\Exception $e) {
-			return null;
+			return [];
 		}
 
 		$responseBody = $response->getBody();
