@@ -11,7 +11,7 @@ $(function () {
 		this.templateSelectButton.addEventListener('click', function() {
 			OC.dialogs.filepicker(t('richdocuments', 'Select a personal template folder'), function(datapath, returntype) {
 				self.updateSetting(datapath);
-			}, false, ['httpd/unix-directory'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE);
+			}, false, 'httpd/unix-directory', true, OC.dialogs.FILEPICKER_TYPE_CHOOSE);
 		});
 
 		this.templateResetButton.addEventListener('click', this.resetSettings.bind(this));
