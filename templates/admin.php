@@ -8,7 +8,7 @@ script('richdocuments', 'admin');
 		<?php p($l->t('Collabora Online')) ?>
 		<a target="_blank" rel="noreferrer" class="icon-info"
 			title="<?php p($l->t('Open documentation'));?>"
-			href="https://github.com/nextcloud/richdocuments/wiki"></a>
+			href="https://nextcloud.github.io/richdocuments/app_settings"></a>
 	</h2>
 	
 	<br/>
