@@ -1,3 +1,8 @@
+**3.0.6
+- Added: NC16 compatibility
+- Fixed: Translations
+- Fixed: NC15 grid view toggle overlay
+
 **3.0.5
 - Fixed: Pass UID for direct tokens (#301)
 - Fixed: Do not show nextcloud bar on small screens (#306)
