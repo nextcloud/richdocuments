@@ -128,6 +128,7 @@ var odfViewer = {
 	onClose: function() {
 		if(typeof FileList !== "undefined") {
 			FileList.setViewerMode(false);
+			FileList.reload();
 		}
 		$('link[href="' + OC.addStyle.loaded.pop() + '"]').remove();
 		$('#app-content #controls').removeClass('hidden');
