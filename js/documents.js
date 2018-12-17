@@ -283,81 +283,106 @@ var documentsMain = {
 		},
 
 		addVersionSidebarEvents: function() {
-			var self = this;
-			var showVersionPreview = function (e) {
-				e.preventDefault();
-				self.loadRevViewerContainer();
-				var element = e.currentTarget.parentElement.parentElement;
-				if ($(e.currentTarget).hasClass('downloadVersion')) {
-					element = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
-				}
-				var version = element.dataset.revision;
-				var fileId = documentsMain.fileId + '_' + version;
-				var title = documentsMain.fileName + ' - ' + version;
-				documentsMain.UI.showViewer(
-					fileId, title
-				);
-
-				// mark only current <li> as active
-				$(element.parentElement).find('li').removeClass('active');
-				$(element).addClass('active');
-			};
-
-			$(parent.document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', showVersionPreview);
-			$(parent.document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', showVersionPreview);
-
+			$(parent.document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', this.showVersionPreview.bind(this));
+			$(parent.document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', this.showVersionPreview.bind(this));
 			// Use mousedown event to overwrite behavior of the versions app
-			$(parent.document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-
-				// close the viewer
-				documentsMain.onCloseViewer();
-
-				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_VersionRestore', {Status: 'Pre_Restore'});
-
-				var version = e.currentTarget.parentElement.parentElement.dataset.revision;
-				var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + parent.OC.getCurrentUser().uid
-					+ '/versions/' + documentsMain.originalFileId + '/' + version;
-
-				documentsMain.$deferredVersionRestoreAck = $.Deferred();
-				jQuery.when(documentsMain.$deferredVersionRestoreAck).
-				done(function(args) {
-					// restore selected version
-					$.ajax({
-						type: 'MOVE',
-						url: restoreUrl,
-						headers: {
-							Destination: OC.linkToRemote('dav') + '/versions/' + parent.OC.getCurrentUser().uid + '/restore/target'
-						},
-						success: function(response) {
-							if (response.status === 'error') {
-								documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
-							}
-
-							// load the file again, it should get reverted now
-							window.location = $(parent.document.querySelector('#richdocumentsframe')).attr('src');
-							documentsMain.overlay.documentOverlay('hide');
-
-							parent.OC.Apps.hideAppSidebar();
-						},
-						error: function() {
-							documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
-						}
-					});
-				});
-
-				// resolve the deferred object immediately if client doesn't support version states
-				if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
-					documentsMain.$deferredVersionRestoreAck.resolve();
-				}
-			});
+			$(parent.document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', this.restoreVersion.bind(this));
 		},
 
 		removeVersionSidebarEvents: function() {
 			$(parent.document.querySelector('#content')).off('click.revisions');
 			$(parent.document.querySelector('#content')).off('click.revisions');
 			$(parent.document.querySelector('#content')).off('mousedown.revisions');
+		},
+
+		showVersionPreview: function (e) {
+			e.preventDefault();
+			documentsMain.UI.loadRevViewerContainer();
+			var element = e.currentTarget.parentElement.parentElement;
+			if ($(e.currentTarget).hasClass('downloadVersion')) {
+				element = e.currentTarget.parentElement.parentElement.parentElement.parentElement;
+			}
+			var version = element.dataset.revision;
+			var fileId = documentsMain.fileId + '_' + version;
+			var title = documentsMain.fileName + ' - ' + version;
+			documentsMain.UI.showViewer(
+				fileId, title
+			);
+
+			// mark only current <li> as active
+			$(element.parentElement).find('li').removeClass('active');
+			$(element).addClass('active');
+		},
+
+		restoreVersion: function(e) {
+			var self = this;
+			e.preventDefault();
+			e.stopPropagation();
+
+			documentsMain.onCloseViewer();
+
+			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_VersionRestore', {Status: 'Pre_Restore'});
+
+			var version = e.currentTarget.parentElement.parentElement.dataset.revision;
+
+			documentsMain.$deferredVersionRestoreAck = $.Deferred();
+			jQuery.when(documentsMain.$deferredVersionRestoreAck).done(function(args) {
+				var nextcloudVersion = parseInt(parent.oc_config.version.split('.')[0]);
+				if (nextcloudVersion < 15) {
+					self._restoreAjax(version);
+				} else {
+					self._restoreDAV(version)
+				}
+			});
+
+			// resolve the deferred object immediately if client doesn't support version states
+			if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+				documentsMain.$deferredVersionRestoreAck.resolve();
+			}
+
+			return false;
+		},
+
+		_restoreSuccess: function(response) {
+			if (response.status === 'error') {
+				documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
+			}
+
+			// load the file again, it should get reverted now
+			window.location = $(parent.document.querySelector('#richdocumentsframe')).attr('src');
+			documentsMain.overlay.documentOverlay('hide');
+			parent.OC.Apps.hideAppSidebar();
+		},
+
+		_restoreError: function() {
+			documentsMain.UI.notify(t('richdocuments', 'Failed to revert the document to older version'));
+		},
+
+		_restoreDAV: function(version) {
+			var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + parent.OC.getCurrentUser().uid
+				+ '/versions/' + documentsMain.originalFileId + '/' + version;
+			$.ajax({
+				type: 'MOVE',
+				url: restoreUrl,
+				headers: {
+					Destination: OC.linkToRemote('dav') + '/versions/' + parent.OC.getCurrentUser().uid + '/restore/target'
+				},
+				success: this._restoreSuccess,
+				error: this._restoreError
+			});
+		},
+
+		_restoreAjax: function(version) {
+			var restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
+					{
+						file: documentsMain.fullPath, revision: version
+					});
+			$.ajax({
+				type: 'GET',
+				url: restoreUrl,
+				success: this._restoreSuccess,
+				error: this._restoreError
+			});
 		},
 
 		showEditor : function(title, fileId, action){
@@ -700,7 +725,7 @@ var documentsMain = {
 
 		parent.document.title = documentsMain.UI.mainTitle;
 		parent.postMessage('close', '*');
-		this.removeVersionSidebarEvents();
+		this.UI.removeVersionSidebarEvents();
 	},
 
 	onCloseViewer: function() {
@@ -710,6 +735,7 @@ var documentsMain = {
 		$('#revViewerContainer').remove();
 		documentsMain.isViewerMode = false;
 		documentsMain.UI.revisionsStart = 0;
+		parent.$('#versionsTabView .active').removeClass('active');
 
 		$('#loleafletframe').focus();
 	},
