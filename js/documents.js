@@ -219,6 +219,8 @@ var documentsMain = {
 			if (documentsMain.isViewerMode) {
 				$('#revViewer').remove();
 				$('#revViewerContainer').prepend($('<div id="revViewer">'));
+			} else {
+				this.addCurrentVersion();
 			}
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
@@ -295,6 +297,12 @@ var documentsMain = {
 			$(parent.document.querySelector('#content')).off('mousedown.revisions');
 		},
 
+		addCurrentVersion: function() {
+			var preview = OC.MimeType.getIconUrl(parent.OCA.Files.App.fileList._currentFileModel.get('mimetype'));
+			parent.$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="0" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n' +
+				'<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>');
+		},
+
 		showVersionPreview: function (e) {
 			e.preventDefault();
 			documentsMain.UI.loadRevViewerContainer();
@@ -310,7 +318,7 @@ var documentsMain = {
 			);
 
 			// mark only current <li> as active
-			$(element.parentElement).find('li').removeClass('active');
+			$(element.parentElement.parentElement).find('li').removeClass('active');
 			$(element).addClass('active');
 		},
 
@@ -736,7 +744,7 @@ var documentsMain = {
 		documentsMain.isViewerMode = false;
 		documentsMain.UI.revisionsStart = 0;
 		parent.$('#versionsTabView .active').removeClass('active');
-
+		parent.$('#versionsTabView #currentVersion').remove();
 		$('#loleafletframe').focus();
 	},
 

@@ -66,3 +66,6 @@
   padding-left: 12px;
 }
 
+#currentVersion li {
+  border-bottom: 1px solid rgba(100,100,100,.1);
+}
