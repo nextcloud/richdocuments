@@ -23,19 +23,48 @@
 
 namespace OCA\Richdocuments;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Capabilities\ICapability;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	/** @var IConfig */
+	private $config;
+	/** @var IClientService */
+	private $clientService;
+	/** @var ITimeFactory */
+	private $timeFactory;
+	/** @var ISimpleFolder */
+	private $appData;
 
-	public function __construct(IURLGenerator $urlGenerator) {
-		$this->urlGenerator = $urlGenerator;
+	/**
+	 * Capabilities constructor.
+	 *
+	 * @param IConfig $config
+	 * @param IClientService $clientService
+	 * @param IAppData $appData
+	 * @param ITimeFactory $timeFactory
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function __construct(IConfig $config, IClientService $clientService, IAppData $appData, ITimeFactory $timeFactory) {
+		$this->config = $config;
+		$this->clientService = $clientService;
+		try {
+			$this->appData = $appData->getFolder('richdocuments');
+		} catch (NotFoundException $e) {
+			$this->appData = $appData->newFolder('richdocuments');
+		}
+		$this->timeFactory = $timeFactory;
 	}
 
 	public function getCapabilities() {
+		$collaboraCapabilities = $this->getCollaboraCapabilities();
 		return [
 			'richdocuments' => [
 				'mimetypes' => [
@@ -46,8 +75,44 @@ class Capabilities implements ICapability {
 					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 					'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 				],
+				'collabora' => $collaboraCapabilities,
+				'direct_editing' => false, //TODO: fix once proper capability is available
+				'templates' => false, //TODO: fix once proper capability is available
 			],
 		];
 	}
 
+	/**
+	 * @return array
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	private function getCollaboraCapabilities() {
+		try {
+			$file = $this->appData->getFile('capabilities.json');
+			$decodedFile = \json_decode($file->getContent(), true);
+			if($decodedFile['timestamp'] + 3600 > $this->timeFactory->getTime()) {
+				return \json_decode($decodedFile['data'], true);
+			}
+		} catch (NotFoundException $e) {
+			$file = $this->appData->newFile('capabilities.json');
+		}
+		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		$capabilitiesEndpoint = $remoteHost . '/hosting/capabilities';
+
+		$client = $this->clientService->newClient();
+		try {
+			$response = $client->get($capabilitiesEndpoint);
+		} catch (\Exception $e) {
+			return [];
+		}
+
+		$responseBody = $response->getBody();
+		$file->putContent(
+			\json_encode([
+				'data' => $responseBody,
+				'timestamp' => $this->timeFactory->getTime(),
+			])
+		);
+		return \json_decode($responseBody, true);
+	}
 }
