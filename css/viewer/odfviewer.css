@@ -55,3 +55,17 @@
 .richdocuments-avatar.read-only {
   opacity: 0.8;
 }
+
+#versionsTabView li {
+  padding-left: 15px;
+  margin-left: -15px;
+}
+
+#versionsTabView li.active {
+  border-left: 3px solid var(--color-primary, #000);
+  padding-left: 12px;
+}
+
+#currentVersion li {
+  border-bottom: 1px solid rgba(100,100,100,.1);
+}
