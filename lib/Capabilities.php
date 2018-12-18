@@ -77,7 +77,7 @@ class Capabilities implements ICapability {
 				],
 				'collabora' => $collaboraCapabilities,
 				'direct_editing' => false, //TODO: fix once proper capability is available
-				'templates' => false, //TODO: fix once proper capability is available
+				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) ? : false,
 			],
 		];
 	}
