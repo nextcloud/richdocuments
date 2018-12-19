@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Settings;
 
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -32,9 +33,11 @@ class Personal implements ISettings {
 
 	private $config;
 	private $userId;
+	private $capabilities;
 
-	public function __construct(IConfig $config, $userId) {
+	public function __construct(IConfig $config, Capabilities $capabilities, $userId) {
 		$this->config = $config;
+		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
 		$this->userId = $userId;
 	}
 
@@ -42,20 +45,25 @@ class Personal implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		return new TemplateResponse(
-			'richdocuments',
-			'personal',
-			[
-				'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
-			],
-			'blank'
-		);
+		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
+			return new TemplateResponse(
+				'richdocuments',
+				'personal',
+				[
+					'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
+				],
+				'blank'
+			);
+		}
 	}
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'richdocuments';
+		// Only show the personal section if templates are available
+		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
+			return 'richdocuments';
+		}
 	}
 	/**
 	 * @return int whether the form should be rather on the top or bottom of

@@ -52,6 +52,7 @@ script('files', 'jquery.fileupload');
 		<p class="rd-settings-documentation"><em><?php p($l->t('Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')) ?></em></p>
 	</div>
 </div>
+<?php if ($_['templatesAvailable'] === true) { ?>
 <form class="section" id="richdocuments-templates" method="post" action="/template/">
 	<input class="hidden-visually" id="add-template" type="file" />
 	<h2>
@@ -86,3 +87,4 @@ script('files', 'jquery.fileupload');
 		<?php } ?>
 	</ul>
 </form>
+<?php } ?>

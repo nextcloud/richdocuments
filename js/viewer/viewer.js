@@ -189,7 +189,11 @@ var odfViewer = {
 						iconClass: 'icon-filetype-document',
 						fileType: 'x-office-document',
 						actionHandler: function(filename) {
-							self._openTemplatePicker('document', docMime, filename);
+							if (oc_capabilities.richdocuments.templates) {
+								self._openTemplatePicker('document', docMime, filename);
+							} else {
+								self._createDocument(docMime, filename);
+							}
 						}
 					});
 
@@ -200,7 +204,11 @@ var odfViewer = {
 						iconClass: 'icon-filetype-spreadsheet',
 						fileType: 'x-office-spreadsheet',
 						actionHandler: function(filename) {
-							self._openTemplatePicker('spreadsheet', spreadsheetMime, filename);
+							if (oc_capabilities.richdocuments.templates) {
+								self._openTemplatePicker('spreadsheet', spreadsheetMime, filename);
+							} else {
+								self._createDocument(spreadsheetMime, filename);
+							}
 						}
 					});
 
@@ -211,7 +219,11 @@ var odfViewer = {
 						iconClass: 'icon-filetype-presentation',
 						fileType: 'x-office-presentation',
 						actionHandler: function(filename) {
-							self._openTemplatePicker('presentation', presentationMime, filename);
+							if (oc_capabilities.richdocuments.templates) {
+								self._openTemplatePicker('presentation', presentationMime, filename);
+							} else {
+								self._createDocument(presentationMime, filename);
+							}
 						}
 					});
 				},

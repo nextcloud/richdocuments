@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Settings;
 
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -36,16 +37,22 @@ class Admin implements ISettings {
 	/** @var TemplateManager */
 	private $manager;
 
+	/** @var array */
+	private $capabilities;
+
 	/**
 	 * Admin template settings
 	 *
 	 * @param IConfig $config
 	 * @param TemplateManager $manager
+	 * @param Capabilities $capabilities
 	 */
 	public function __construct(IConfig $config,
-								TemplateManager $manager) {
+								TemplateManager $manager,
+								Capabilities $capabilities) {
 		$this->config  = $config;
 		$this->manager = $manager;
+		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
 	}
 	/**
 	 * @return TemplateResponse
@@ -55,13 +62,14 @@ class Admin implements ISettings {
 			'richdocuments',
 			'admin',
 			[
-				'wopi_url'          => $this->config->getAppValue('richdocuments', 'wopi_url'),
-				'edit_groups'       => $this->config->getAppValue('richdocuments', 'edit_groups'),
-				'use_groups'        => $this->config->getAppValue('richdocuments', 'use_groups'),
-				'doc_format'        => $this->config->getAppValue('richdocuments', 'doc_format'),
-				'external_apps'     => $this->config->getAppValue('richdocuments', 'external_apps'),
-				'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
-				'templates'         => $this->manager->getSystemFormatted()
+				'wopi_url'           => $this->config->getAppValue('richdocuments', 'wopi_url'),
+				'edit_groups'        => $this->config->getAppValue('richdocuments', 'edit_groups'),
+				'use_groups'         => $this->config->getAppValue('richdocuments', 'use_groups'),
+				'doc_format'         => $this->config->getAppValue('richdocuments', 'doc_format'),
+				'external_apps'      => $this->config->getAppValue('richdocuments', 'external_apps'),
+				'canonical_webroot'  => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
+				'templates'          => $this->manager->getSystemFormatted(),
+				'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates']
 			],
 			'blank'
 		);
