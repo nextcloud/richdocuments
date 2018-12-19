@@ -2,8 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "хадаглаж байна...",
-    "Download this revision" : "Энэ хувилбарыг татаж авах",
-    "Restore this revision" : "Энэ хувилбарыг сэргээх",
     "Save" : "хадгалах",
     "Loading documents…" : "Документ ачаалж байна ...",
     "Edit" : "засварлах",

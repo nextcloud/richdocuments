@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "保存中",
     "All" : "全部",
-    "Download this revision" : "下载此修订版本",
-    "Restore this revision" : "恢复此修订版本",
     "Save As" : "另存为",
     "New filename" : "新文件名",
     "Save" : "保存",

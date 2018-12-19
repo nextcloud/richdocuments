@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "저장 중…",
     "All" : "모두",
-    "Download this revision" : "이 리비전 다운로드",
-    "Restore this revision" : "이 리비전 복원",
     "Please enter the filename to store the document as." : "문서를 저장할 파일 이름을 입력하십시오.",
     "Save As" : "다른 이름으로 저장",
     "New filename" : "새 파일 이름",

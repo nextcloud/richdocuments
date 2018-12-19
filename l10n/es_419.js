@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "Guardando...",
     "All" : "Todos",
-    "Download this revision" : "Descargar esta revisión",
-    "Restore this revision" : "Restaurar esta revisión",
     "Please enter the filename to store the document as." : "Por favor ingresa el nombre del archivo con el cual almacenar el documento",
     "Save As" : "Guardar Como",
     "New filename" : "Nuevo nombredearchivo",

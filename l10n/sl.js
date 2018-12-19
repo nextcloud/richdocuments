@@ -4,8 +4,6 @@ OC.L10N.register(
     "Saving…" : "Shranjevanje...",
     "All" : "Vse",
     "Nickname" : "Vzdevek",
-    "Download this revision" : "Prejmi predelavo",
-    "Restore this revision" : "Obnovi predelavo",
     "Cancel" : "Prekliči",
     "Save" : "Shrani",
     "Loading documents…" : "Poteka nalaganje dokumentov ...",

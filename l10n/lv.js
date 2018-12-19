@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "Saglabā...",
     "All" : "Visi",
-    "Download this revision" : "Lejupielādēt šo pārlaboto izdevumu",
-    "Restore this revision" : "Atjaunot šo versiju",
     "Save" : "Saglabāt",
     "Edit" : "Rediģēt",
     "Could not create file" : "Neizdevās izveidot datni",

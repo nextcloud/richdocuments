@@ -1,8 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Download this revision" : "Tải xuống bản sửa đổi này",
-    "Restore this revision" : "Khôi phục lại bản sửa đổi này",
     "Save" : "Lưu",
     "Edit" : "Sửa",
     "New Document" : "Văn bảng mới",

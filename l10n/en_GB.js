@@ -3,11 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "Saving…",
     "All" : "All",
-    "Latest revision" : "Latest revision",
-    "Download this revision" : "Download this revision",
-    "Restore this revision" : "Restore this revision",
-    "More versions…" : "More versions…",
-    "Just now" : "Just now",
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
     "Please enter the filename to store the document as." : "Please enter the filename to store the document as.",
     "Save As" : "Save As",

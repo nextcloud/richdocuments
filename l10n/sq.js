@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "Duke u ruajtur...",
     "All" : "Të gjitha",
-    "Download this revision" : "Shkarkoje këtë rishikim",
-    "Restore this revision" : "Rikthe këtë rishikim",
     "Save" : "Ruaje",
     "Loading documents…" : "Duke ngarkuar dokumentat...",
     "Edit" : "Përpunoni",

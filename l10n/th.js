@@ -1,8 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Download this revision" : "ดาวน์โหลดการแก้ไขนี้",
-    "Restore this revision" : "กู้คืนการแก้ไขนี้",
     "Save" : "บันทึก",
     "Edit" : "แก้ไข",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",

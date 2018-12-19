@@ -1,8 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Download this revision" : "Изтегли тази ревизия",
-    "Restore this revision" : "Възстановяване на редакцията",
     "Cancel" : "Отказ",
     "Save" : "Запазване",
     "Edit" : "Редакция",

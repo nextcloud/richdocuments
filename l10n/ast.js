@@ -3,10 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "Guardando...",
     "All" : "Too",
-    "Download this revision" : "Baxar esta revisión",
-    "Restore this revision" : "Restaurar esta revisión",
-    "More versions…" : "Más versiones..",
-    "Just now" : "Xusto agora",
     "Save" : "Guardar",
     "Loading documents…" : "Cargando documentos...",
     "Edit" : "Editar",

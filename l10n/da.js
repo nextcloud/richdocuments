@@ -3,8 +3,6 @@ OC.L10N.register(
     {
     "Saving…" : "Gemmer...",
     "All" : "Alle",
-    "Download this revision" : "Hent denne revision",
-    "Restore this revision" : "Gendan denne revision",
     "Save As" : "Gem som",
     "New filename" : "Nyt filnavn",
     "Save" : "Gem",
