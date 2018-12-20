@@ -1,3 +1,8 @@
+**3.1.0
+- Added: Template picker (if supported by COOL)
+- Added: Mobile editing support capability
+- Added: Version integration with the Nextcloud sidebar
+
 **3.0.6
 - Added: NC16 compatibility
 - Fixed: Translations
