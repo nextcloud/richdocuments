@@ -24,6 +24,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -52,13 +53,17 @@ class DirectViewController extends Controller {
 	/** @var AppConfig */
 	private $appConfig;
 
+	/** @var TemplateManager */
+	private $templateManager;
+
 	public function __construct($appName,
 								IRequest $request,
 								IRootFolder $rootFolder,
 								TokenManager $tokenManager,
 								DirectMapper $directMapper,
 								IConfig $config,
-								AppConfig $appConfig) {
+								AppConfig $appConfig,
+								TemplateManager $templateManager) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
@@ -66,6 +71,7 @@ class DirectViewController extends Controller {
 		$this->directMapper = $directMapper;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
+		$this->templateManager = $templateManager;
 	}
 
 	/**
@@ -86,20 +92,44 @@ class DirectViewController extends Controller {
 		// Delete the token. They are for 1 time use only
 		$this->directMapper->delete($direct);
 
-		try {
-			$folder = $this->rootFolder->getUserFolder($direct->getUid());
-			$item = $folder->getById($direct->getFileid())[0];
-			if(!($item instanceof Node)) {
-				throw new \Exception();
+		$folder = $this->rootFolder->getUserFolder($direct->getUid());
+		if ($this->templateManager->isTemplate($direct->getFileid())) {
+			$item = $this->templateManager->get($direct->getFileid());
+			if ($direct->getTemplateDestination() === 0 || $direct->getTemplateDestination() === null) {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			}
-			list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid());
+
+			try {
+				list($urlSrc, $token) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination());
+			} catch (\Exception $e) {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			}
+
+			$relativePath = '/new.odt';
+
+		} else {
+			try {
+				$item = $folder->getById($direct->getFileid())[0];
+				if(!($item instanceof Node)) {
+					throw new \Exception();
+				}
+
+				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid());
+			} catch (\Exception $e) {
+				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			}
+
+			$relativePath = $folder->getRelativePath($item->getPath());
+		}
+
+		try {
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
 				'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
 				'token' => $token,
 				'urlsrc' => $urlSrc,
-				'path' => $folder->getRelativePath($item->getPath()),
+				'path' => $relativePath,
 				'instanceId' => $this->config->getSystemValue('instanceid'),
 				'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 				'direct' => true,

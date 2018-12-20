@@ -23,6 +23,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OC\Files\View;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Controller;
@@ -56,13 +57,14 @@ class WopiController extends Controller {
 	private $logger;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var TemplateManager */
+	private $templateManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
 
 	/**
 	 * @param string $appName
-	 * @param string $UserId
 	 * @param IRequest $request
 	 * @param IRootFolder $rootFolder
 	 * @param IURLGenerator $urlGenerator
@@ -71,9 +73,10 @@ class WopiController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param WopiMapper $wopiMapper
 	 * @param ILogger $logger
+	 * @param IUserSession $userSession
+	 * @param TemplateManager $templateManager
 	 */
 	public function __construct($appName,
-								$UserId,
 								IRequest $request,
 								IRootFolder $rootFolder,
 								IURLGenerator $urlGenerator,
@@ -82,7 +85,8 @@ class WopiController extends Controller {
 								IUserManager $userManager,
 								WopiMapper $wopiMapper,
 								ILogger $logger,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								TemplateManager $templateManager) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
@@ -92,6 +96,7 @@ class WopiController extends Controller {
 		$this->wopiMapper = $wopiMapper;
 		$this->logger = $logger;
 		$this->userSession = $userSession;
+		$this->templateManager = $templateManager;
 	}
 
 	/**
@@ -102,26 +107,32 @@ class WopiController extends Controller {
 	 * @PublicPage
 	 *
 	 * @param string $fileId
+	 * @param string $access_token
 	 * @return JSONResponse
+	 * @throws \OCP\Files\InvalidPathException
+	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function checkFileInfo($fileId) {
-		$token = $this->request->getParam('access_token');
-
+	public function checkFileInfo($fileId, $access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
 		try {
-			$wopi = $this->wopiMapper->getPathForToken($token);
+			$wopi = $this->wopiMapper->getPathForToken($access_token);
 		} catch (DoesNotExistException $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		// Login the user to see his mount locations
-		try {
-			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
-			$file = $userFolder->getById($fileId)[0];
-		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		if ($wopi->isTemplateToken()) {
+			$this->templateManager->setUserId($wopi->getOwnerUid());
+			$file = $this->templateManager->get($wopi->getFileid());
+		} else {
+			// Login the user to see his mount locations
+			try {
+				/** @var File $file */
+				$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
+				$file = $userFolder->getById($fileId)[0];
+			} catch (\Exception $e) {
+				return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			}
 		}
 
 		if(!($file instanceof File)) {
@@ -145,12 +156,15 @@ class WopiController extends Controller {
 			'EnableShare' => true,
 		];
 
-		$serverVersion = $this->config->getSystemValue('version');
-		if (version_compare($serverVersion, '13', '>=')) {
-			$user = $this->userManager->get($wopi->getEditorUid());
-			if($user !== null && $user->getAvatarImage(32) !== null) {
-				$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
-			}
+		if ($wopi->isTemplateToken()) {
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
+			$file = $userFolder->getById($wopi->getTemplateDestination())[0];
+			$response['TemplateSaveAs'] = $file->getName();
+		}
+
+		$user = $this->userManager->get($wopi->getEditorUid());
+		if($user !== null && $user->getAvatarImage(32) !== null) {
+			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 		}
 
 		return new JSONResponse($response);
@@ -175,6 +189,16 @@ class WopiController extends Controller {
 
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		// Template is just returned as there is no version logic
+		if ($wopi->isTemplateToken()) {
+			$this->templateManager->setUserId($wopi->getOwnerUid());
+			$file = $this->templateManager->get($wopi->getFileid());
+			$response = new StreamResponse($file->fopen('rb'));
+			$response->addHeader('Content-Disposition', 'attachment');
+			$response->addHeader('Content-Type', 'application/octet-stream');
+			return $response;
 		}
 
 		try {
@@ -329,6 +353,77 @@ class WopiController extends Controller {
 	 */
 	public function putRelativeFile($fileId,
 					$access_token) {
-		return $this->putFile($fileId, $access_token);
+		list($fileId, ,) = Helper::parseFileId($fileId);
+		$wopi = $this->wopiMapper->getPathForToken($access_token);
+
+		if (!$wopi->getCanwrite()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		// Unless the editor is empty (public link) we modify the files as the current editor
+		$editor = $wopi->getEditorUid();
+		if ($editor === null) {
+			$editor = $wopi->getOwnerUid();
+		}
+
+		try {
+			// the new file needs to be installed in the current user dir
+			$userFolder = $this->rootFolder->getUserFolder($editor);
+
+			if ($wopi->isTemplateToken()) {
+				$this->templateManager->setUserId($wopi->getOwnerUid());
+				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
+			} else {
+				$file = $userFolder->getById($fileId)[0];
+
+				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
+				$suggested = iconv('utf-7', 'utf-8', $suggested);
+
+				if ($suggested[0] === '.') {
+					$path = dirname($file->getPath()) . '/New File' . $suggested;
+				} else if ($suggested[0] !== '/') {
+					$path = dirname($file->getPath()) . '/' . $suggested;
+				} else {
+					$path = $userFolder->getPath() . $suggested;
+				}
+
+				if ($path === '') {
+					return new JSONResponse([
+						'status' => 'error',
+						'message' => 'Cannot create the file'
+					]);
+				}
+
+				// create the folder first
+				if (!$this->rootFolder->nodeExists(dirname($path))) {
+					$this->rootFolder->newFolder(dirname($path));
+				}
+
+				// create a unique new file
+				$path = $this->rootFolder->getNonExistingName($path);
+				$file = $this->rootFolder->newFile($path);
+			}
+
+			$content = fopen('php://input', 'rb');
+
+			// Set the user to register the change under his name
+			$editor = $this->userManager->get($wopi->getEditorUid());
+			if (!is_null($editor)) {
+				$this->userSession->setUser($editor);
+			}
+
+			$file->putContent($content);
+
+			// generate a token for the new file (the user still has to be
+			// logged in)
+			list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
+
+			$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
+			$url = $this->urlGenerator->getAbsoluteURL($wopi);
+
+			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 }

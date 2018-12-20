@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,56 +29,41 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
-class Admin implements ISettings {
+class Personal implements ISettings {
 
-	/** @var IConfig */
 	private $config;
-
-	/** @var TemplateManager */
-	private $manager;
-
-	/** @var array */
+	private $userId;
 	private $capabilities;
 
-	/**
-	 * Admin template settings
-	 *
-	 * @param IConfig $config
-	 * @param TemplateManager $manager
-	 * @param Capabilities $capabilities
-	 */
-	public function __construct(IConfig $config,
-								TemplateManager $manager,
-								Capabilities $capabilities) {
-		$this->config  = $config;
-		$this->manager = $manager;
+	public function __construct(IConfig $config, Capabilities $capabilities, $userId) {
+		$this->config = $config;
 		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
+		$this->userId = $userId;
 	}
+
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		return new TemplateResponse(
-			'richdocuments',
-			'admin',
-			[
-				'wopi_url'           => $this->config->getAppValue('richdocuments', 'wopi_url'),
-				'edit_groups'        => $this->config->getAppValue('richdocuments', 'edit_groups'),
-				'use_groups'         => $this->config->getAppValue('richdocuments', 'use_groups'),
-				'doc_format'         => $this->config->getAppValue('richdocuments', 'doc_format'),
-				'external_apps'      => $this->config->getAppValue('richdocuments', 'external_apps'),
-				'canonical_webroot'  => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
-				'templates'          => $this->manager->getSystemFormatted(),
-				'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates']
-			],
-			'blank'
-		);
+		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
+			return new TemplateResponse(
+				'richdocuments',
+				'personal',
+				[
+					'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
+				],
+				'blank'
+			);
+		}
 	}
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'richdocuments';
+		// Only show the personal section if templates are available
+		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
+			return 'richdocuments';
+		}
 	}
 	/**
 	 * @return int whether the form should be rather on the top or bottom of

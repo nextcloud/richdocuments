@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,9 +24,11 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -33,6 +36,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class OCSController extends \OCP\AppFramework\OCSController {
+
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -45,32 +49,52 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct($appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								$userId,
-								DirectMapper $directMapper,
-								IURLGenerator $urlGenerator) {
+	/** @var TemplateManager */
+	private $manager;
+
+	/**
+	 * OCS controller
+	 *
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param IRootFolder $rootFolder
+	 * @param string $userId
+	 * @param DirectMapper $directMapper
+	 * @param IURLGenerator $urlGenerator
+	 * @param TemplateManager $manager
+	 */
+	public function __construct(string $appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		$userId,
+		DirectMapper $directMapper,
+		IURLGenerator $urlGenerator,
+		TemplateManager $manager) {
 		parent::__construct($appName, $request);
 
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
+		$this->rootFolder   = $rootFolder;
+		$this->userId       = $userId;
 		$this->directMapper = $directMapper;
 		$this->urlGenerator = $urlGenerator;
+		$this->manager      = $manager;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
+	 * Init an editing session
+	 *
 	 * @param int $fileId
+	 * @return DataResponse
+	 * @throws OCSNotFoundException|OCSBadRequestException
 	 */
 	public function create($fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$nodes = $userFolder->getById($fileId);
+			$nodes      = $userFolder->getById($fileId);
 
 			if ($nodes === []) {
-				throw new NotFoundException();
+				throw new OCSNotFoundException();
 			}
 
 			$node = $nodes[0];
@@ -79,8 +103,58 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			}
 
 			//TODO check if we can even edit this file with collabora
-			
+
 			$direct = $this->directMapper->newDirect($this->userId, $fileId);
+
+			return new DataResponse([
+				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+					'token' => $direct->getToken()
+				])
+			]);
+		} catch (NotFoundException $e) {
+			throw new OCSNotFoundException();
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $type The template type
+	 * @return DataResponse
+	 * @throws OCSBadRequestException
+	 */
+	public function getTemplates($type) {
+		if (array_key_exists($type, TemplateManager::$tplTypes)) {
+			$templates = $this->manager->getAllFormatted($type);
+			return new DataResponse($templates);
+		}
+		throw new OCSBadRequestException('Wrong type');
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $path Where to create the document
+	 * @param int $template The template id
+	 */
+	public function createFromTemplate($path, $template) {
+		if ($path === null || $template === null) {
+			throw new OCSBadRequestException('path and template must be set');
+		}
+
+		if (!$this->manager->isTemplate($template)) {
+			throw new OCSBadRequestException('Invalid template provided');
+		}
+
+		$info = pathinfo($path);
+
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$folder = $userFolder->get($info['dirname']);
+		$name = $folder->getNonExistingName($info['basename']);
+		$file = $folder->newFile($name);
+
+		try {
+			$direct = $this->directMapper->newDirect($this->userId, $template, $file->getId());
 
 			return new DataResponse([
 				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [

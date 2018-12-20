@@ -1,6 +1,8 @@
 <?php
 style('richdocuments', 'admin');
 script('richdocuments', 'admin');
+script('files', 'jquery.fileupload');
+
 /** @var array $_ */
 ?>
 <div class="section" id="richdocuments">
@@ -50,3 +52,39 @@ script('richdocuments', 'admin');
 		<p class="rd-settings-documentation"><em><?php p($l->t('Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')) ?></em></p>
 	</div>
 </div>
+<?php if ($_['templatesAvailable'] === true) { ?>
+<form class="section" id="richdocuments-templates" method="post" action="/template/">
+	<input class="hidden-visually" id="add-template" type="file" />
+	<h2>
+		<?php p($l->t('Global templates')) ?>
+		<label for="add-template" class="icon-add" title="<?php p($l->t('Add a new template')); ?>"></label>
+	</h2>
+	<div id="emptycontent" class="<?php p(empty($_['templates'])?:'hidden') ?>">
+		<div class="icon-file"></div>
+		<h2>
+			<?php p($l->t('No templates defined.')); ?>
+		</h2>
+		<label for="add-template"><?php p($l->t('Add a new one?')); ?></label>
+	</div>
+	<ul class="<?php p(!empty($_['templates'])?:'hidden') ?>">
+		<li class="hidden template-model">
+			<figure>
+				<img src="" alt="<?php p($l->t('template preview')) ?>" />
+				<figcaption></figcaption>
+			</figure>
+			<a href="" class="delete-template icon-delete"></a>
+			<div class="delete-cover"></div>
+		</li>
+		<?php foreach ($_['templates'] as $template) {?>
+			<li>
+				<figure>
+					<img src="<?php p($template['preview']) ?>?y=297&x=210" alt="<?php p($l->t('template preview')) ?>" />
+					<figcaption><?php p($template['name']) ?></figcaption>
+				</figure>
+				<a href="<?php p($template['delete']) ?>" class="delete-template icon-delete"></a>
+				<div class="delete-cover"></div>
+			</li>
+		<?php } ?>
+	</ul>
+</form>
+<?php } ?>

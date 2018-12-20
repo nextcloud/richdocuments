@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,27 +18,26 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\Richdocuments\AppInfo;
 
-use OC\AppFramework\Utility\TimeFactory;
+use OC\Files\Type\Detection;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\IPreview;
 
-class Application extends App  {
+class Application extends App {
 
 	const APPNAME = 'richdocuments';
 
-	public function __construct (array $urlParams = array()) {
+	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
 
 		$this->getContainer()->registerCapability(Capabilities::class);
@@ -43,6 +45,14 @@ class Application extends App  {
 
 	public function registerProvider() {
 		$container = $this->getContainer();
+
+		// Register mimetypes
+		/** @var Detection $detector */
+		$detector = $container->query(\OCP\Files\IMimeTypeDetector::class);
+		$detector->getAllMappings();
+		$detector->registerType('ott','application/vnd.oasis.opendocument.text-template');
+		$detector->registerType('ots', 'application/vnd.oasis.opendocument.spreadsheet-template');
+		$detector->registerType('otp', 'application/vnd.oasis.opendocument.presentation-template');
 
 		/** @var IPreview $previewManager */
 		$previewManager = $container->query(IPreview::class);

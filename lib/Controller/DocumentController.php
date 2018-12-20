@@ -52,8 +52,11 @@ class DocumentController extends Controller {
 	private $session;
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var \OCA\Richdocuments\TemplateManager */
+	private $templateManager;
 
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
+
 
 	/**
 	 * @param string $appName
@@ -78,7 +81,8 @@ class DocumentController extends Controller {
 								IRootFolder $rootFolder,
 								ISession $session,
 								$UserId,
-								ILogger $logger) {
+								ILogger $logger,
+								\OCA\Richdocuments\TemplateManager $templateManager) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
 		$this->l10n = $l10n;
@@ -89,6 +93,7 @@ class DocumentController extends Controller {
 		$this->rootFolder = $rootFolder;
 		$this->session = $session;
 		$this->logger = $logger;
+		$this->templateManager = $templateManager;
 	}
 
 	/**
@@ -222,6 +227,54 @@ class DocumentController extends Controller {
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param int $templateId
+	 * @param string $fileName
+	 * @param string $dir
+	 * @return TemplateResponse
+	 */
+	public function template($templateId, $fileName, $dir) {
+		if (!$this->templateManager->isTemplate($templateId)) {
+			return new TemplateResponse('core', '403', [], 'guest');
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($this->uid);
+		try {
+			$folder = $userFolder->get($dir);
+		} catch (NotFoundException $e) {
+			return new TemplateResponse('core', '403', [], 'guest');
+		}
+
+		if ((!$folder instanceof Folder)) {
+			return new TemplateResponse('core', '403', [], 'guest');
+		}
+
+		$file = $folder->newFile($fileName);
+
+		$template = $this->templateManager->get($templateId);
+		list($urlSrc, $token) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
+
+		$params = [
+			'permissions' => $template->getPermissions(),
+			'title' => $template->getName(),
+			'fileId' => $template->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+			'token' => $token,
+			'urlsrc' => $urlSrc,
+			'path' => $userFolder->getRelativePath($file->getPath()),
+			'instanceId' => $this->settings->getSystemValue('instanceid'),
+			'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
+		];
+
+		$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('wopi_url')));
+		$policy->allowInlineScript(true);
+		$response->setContentSecurityPolicy($policy);
+		return $response;
 	}
 
 	/**

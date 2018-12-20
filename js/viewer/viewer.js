@@ -60,7 +60,8 @@ var odfViewer = {
 	onEdit : function(fileName, context) {
 		if(context) {
 			var fileDir = context.dir;
-			var fileId = context.$file.attr('data-id');
+			var fileId = context.fileId || context.$file.attr('data-id');
+			var templateId = context.templateId;
 		}
 
 		var viewer;
@@ -75,14 +76,27 @@ var odfViewer = {
 				}
 			);
 		} else {
-			viewer = OC.generateUrl(
-				'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
-				{
-					fileId: fileId,
-					dir: fileDir,
-					requesttoken: OC.requestToken
-				}
-			);
+			// We are dealing with a template
+			if (typeof(templateId) !== 'undefined') {
+				viewer = OC.generateUrl(
+					'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
+					{
+						templateId: templateId,
+						fileName: fileName,
+						dir: fileDir,
+						requesttoken: OC.requestToken
+					}
+				);
+			} else {
+				viewer = OC.generateUrl(
+					'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
+					{
+						fileId: fileId,
+						dir: fileDir,
+						requesttoken: OC.requestToken
+					}
+				);
+			}
 		}
 
 		if(context) {
@@ -175,7 +189,11 @@ var odfViewer = {
 						iconClass: 'icon-filetype-document',
 						fileType: 'x-office-document',
 						actionHandler: function(filename) {
-							self._createDocument(docMime, filename);
+							if (oc_capabilities.richdocuments.templates) {
+								self._openTemplatePicker('document', docMime, filename);
+							} else {
+								self._createDocument(docMime, filename);
+							}
 						}
 					});
 
@@ -186,7 +204,11 @@ var odfViewer = {
 						iconClass: 'icon-filetype-spreadsheet',
 						fileType: 'x-office-spreadsheet',
 						actionHandler: function(filename) {
-							self._createDocument(spreadsheetMime, filename);
+							if (oc_capabilities.richdocuments.templates) {
+								self._openTemplatePicker('spreadsheet', spreadsheetMime, filename);
+							} else {
+								self._createDocument(spreadsheetMime, filename);
+							}
 						}
 					});
 
@@ -197,7 +219,11 @@ var odfViewer = {
 						iconClass: 'icon-filetype-presentation',
 						fileType: 'x-office-presentation',
 						actionHandler: function(filename) {
-							self._createDocument(presentationMime, filename);
+							if (oc_capabilities.richdocuments.templates) {
+								self._openTemplatePicker('presentation', presentationMime, filename);
+							} else {
+								self._createDocument(presentationMime, filename);
+							}
 						}
 					});
 				},
@@ -217,6 +243,83 @@ var odfViewer = {
 							}
 						}
 					);
+				},
+
+				_createDocumentFromTemplate: function(templateId, mimetype, filename) {
+					OCA.Files.Files.isFileNameValid(filename);
+					filename = FileList.getUniqueName(filename);
+
+					odfViewer.onEdit(filename, {
+						fileId: -1,
+						dir: $('#dir').val(),
+						templateId: templateId
+					});
+				},
+
+				_openTemplatePicker: function(type, mimetype, filename) {
+					var self = this;
+					$.ajax({
+						url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2)  + type,
+						dataType: 'json'
+					}).then(function(response) {
+						self._buildTemplatePicker(response.ocs.data)
+							.then(function() {
+								var buttonlist = [{
+									text: t('core', 'Cancel'),
+									classes: 'cancel',
+									click: function() {
+										$(this).ocdialog('close');
+									}
+								}, {
+									text: t('core', 'Create'),
+									classes: 'primary',
+									click: function() {
+										var templateId = this.dataset.templateId;
+										self._createDocumentFromTemplate(templateId, mimetype, filename);
+										$(this).ocdialog('close');
+									}
+								}];
+			
+								$('#template-picker').ocdialog({
+									closeOnEscape: true,
+									modal: true,
+									buttons: buttonlist
+								});
+							})
+					})
+				},
+
+				_buildTemplatePicker: function(data) {
+					var self = this;
+					return $.get(OC.filePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
+						$tmpl = $(tmpl);
+						// init template picker
+						var $dlg = $tmpl.octemplate({
+							dialog_name: 'template-picker',
+							dialog_title: t('richdocuments','Select template'),
+						});
+
+						// create templates list
+						var templates = _.values(data)
+						templates.forEach(function(template) {
+							self._appendTemplateFromData($dlg[0], template);
+						})
+						
+						$('body').append($dlg);
+					})
+				},
+
+				_appendTemplateFromData: function(dlg, data) {
+					var self = this;
+					var template = dlg.querySelector('.template-model').cloneNode(true);
+					template.className = '';
+					template.querySelector('img').src = data.preview;
+					template.querySelector('h2').textContent = data.name;
+					template.onclick = function() {
+						dlg.dataset.templateId = data.id;
+					};
+				
+					dlg.querySelector('.template-container').appendChild(template);
 				}
 			};
 		})(OCA);
