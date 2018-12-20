@@ -76,7 +76,7 @@ class Capabilities implements ICapability {
 					'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 				],
 				'collabora' => $collaboraCapabilities,
-				'direct_editing' => false, //TODO: fix once proper capability is available
+				'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ? : false,
 				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) ? : false,
 			],
 		];
