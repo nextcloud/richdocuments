@@ -6,6 +6,8 @@
     "Set" : "Definir",
     "Guest" : "Convidado",
     "(read only)" : "(somente leitura)",
+    "Close version preview" : "Fechar a pré-visualização da versão",
+    "Current version" : "Versão atual",
     "Failed to revert the document to older version" : "Falha ao reverter para uma versão mais antiga",
     "Please enter the filename to store the document as." : "Entre com o nome do arquivo a salvar.",
     "Save As" : "Salvar Como",

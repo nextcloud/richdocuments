@@ -8,6 +8,8 @@ OC.L10N.register(
     "Set" : "Imposta",
     "Guest" : "Ospite",
     "(read only)" : "(sola lettura)",
+    "Close version preview" : "Chiudi anteprima della versione",
+    "Current version" : "Versione attuale",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",
     "Please enter the filename to store the document as." : "Digita il nome del file con cui memorizzare il documento.",
     "Save As" : "Salva come",
