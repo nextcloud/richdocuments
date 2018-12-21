@@ -8,6 +8,8 @@ OC.L10N.register(
     "Set" : "Ayarla",
     "Guest" : "Konuk",
     "(read only)" : "(salt okunur)",
+    "Close version preview" : "Sürüm ön izlemesini kapat",
+    "Current version" : "Geçerli sürüm",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Please enter the filename to store the document as." : "Lütfen belgenin kaydedileceği adı yazın.",
     "Save As" : "Farklı Kaydet",
