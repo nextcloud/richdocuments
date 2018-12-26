@@ -25,6 +25,7 @@ OC.L10N.register(
     "New Document.docx" : "Νέο Έγγραφο.docx",
     "New Spreadsheet.xlsx" : "Νέο Λογιστικό Φύλλο.xlsx",
     "New Presentation.pptx" : "Νέα Παρουσίαση.pptx",
+    "Document already exists" : "Το έγγραφο υπάρχει ήδη",
     "Saved" : "Αποθηκεύτηκαν",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Αποθήκευση με σφάλμα: Το Collabora Online πρέπει να χρησιμοποιήσει το ίδιο πρωτόκολλο με την εγκατάσταση του διακομιστή.",
     "Collabora Online" : "Collabora Online",
