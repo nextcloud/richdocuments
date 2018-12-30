@@ -11,6 +11,7 @@ OC.L10N.register(
     "New Spreadsheet" : "Нова електронна таблица",
     "New Presentation" : "Нова презентация",
     "Could not create file" : "Несупешно създаване на файла.",
+    "Create" : "Създай",
     "Select template" : "Избор на шаблон",
     "Can't create document" : "Неуспешно създаване на документ",
     "New Document.odt" : "Нов Документ.odt",
