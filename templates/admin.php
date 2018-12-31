@@ -12,7 +12,7 @@ script('files', 'jquery.fileupload');
 			title="<?php p($l->t('Open documentation'));?>"
 			href="https://nextcloud.github.io/richdocuments/app_settings"></a>
 	</h2>
-	
+
 	<br/>
 	<label for="wopi_url"><?php p($l->t('Collabora Online server')) ?></label>
 	<input type="text" name="wopi_url" id="wopi_url" value="<?php p($_['wopi_url'])?>" style="width: 300px; display: block;">

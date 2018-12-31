@@ -117,6 +117,18 @@ $.widget('oc.documentOverlay', {
 	}
 });
 
+/**
+ * Type definitions for WOPI Post message objects
+ *
+ * @typedef {Object} View
+ * @property {Number} ViewId
+ * @property {string} UserName
+ * @property {string} UserId
+ * @property {Number} Color
+ * @property {Boolean} ReadOnly
+ * @property {Boolean} IsCurrentView
+ */
+
 // Polyfill for Number.isInteger
 // FIXME: Remove once Nextcloud 15 is the minimum required version
 // since es6-shim is shipped for that
@@ -176,42 +188,89 @@ var documentsMain = {
 			documentsMain.UI.mainTitle = parent.document.title;
 
 			//Add the avatar toolbar if possible
+			var avatarList = $('<div id="richdocuments-avatars">');
+			avatarList.on('click', function() {
+				parent.$('#editors-menu').toggle();
+			});
 			var headerRight = parent.$('#header .header-right');
-			headerRight.prepend($('<div id="richdocuments-avatars">'));
+			headerRight.prepend(avatarList);
+
 			this.addVersionSidebarEvents();
+		},
+
+		/**
+		 * @param {View} view
+		 * @private
+		 */
+		_userEntry: function(view) {
+			var entry = $('<li></li>');
+			entry.append(this._avatarForView(view));
+
+			var label = $('<div class="label"></div>');
+			label.text(view.UserName);
+			if (view.ReadOnly === '1') {
+				label.text(view.UserName + ' ' + t('richdocuments', '(read only)'));
+
+			}
+			label.click(function() {
+				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {ViewId: view.ViewId, Follow: true});
+			});
+			entry.append(label);
+
+			if (view.ReadOnly !== '1' && !view.IsCurrentView) {
+				var removeButton = $('<div class="icon-close" title="Remove user"/>');
+				removeButton.click(function() {
+					documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_RemoveView', {ViewId: view.ViewId});
+				});
+				entry.append(removeButton)
+			}
+			return entry;
+		},
+
+		_avatarForView: function(view) {
+			var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
+			var avatar = avatarContainer.find('.avatar');
+			if (view.ReadOnly === '1') {
+				avatarContainer.addClass('read-only');
+				$(avatar).attr('title', view.UserName + ' ' + t('richdocuments', '(read only)'));
+			} else {
+				$(avatar).attr('title', view.UserName);
+			}
+			$(avatar).avatar(view.UserId, 32);
+			if (parent.OC.currentUser !== null && view.UserId !== '') {
+				//$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+			}
+			return avatarContainer;
 		},
 
 		renderAvatars: function() {
 			var avatardiv = parent.$('#header .header-right #richdocuments-avatars');
 			avatardiv.empty();
+			var popover = $('<div id="editors-menu" class="menu"><ul></ul></div>');
+
 			var users = [];
 			// Add new avatars
+			var i = 0;
 			for (var viewId in this.views) {
+				/**
+				 * @type {View}
+				 */
 				var view = this.views[viewId];
+				view.UserName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
+				popover.find('ul').append(this._userEntry(view))
+
 				if (view.UserId === parent.OC.currentUser) {
 					continue;
 				}
 				if (view.UserId !== "" && users.indexOf(view.UserId) > -1) {
 					continue;
 				}
-				var userName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
 				users.push(view.UserId);
-				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
-				var avatar = avatarContainer.find('.avatar');
-				avatardiv.append(avatarContainer);
-				if (view.ReadOnly === '1') {
-					avatarContainer.addClass('read-only');
-					$(avatar).attr('title', userName + ' ' + t('richdocuments', '(read only)'));
-				} else {
-					$(avatar).attr('title', userName);
-				}
-
-				$(avatar).avatar(view.UserId, 32);
-				if (parent.OC.currentUser !== null && view.UserId !== '') {
-					$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+				if (i++ < 3) {
+					avatardiv.append(this._avatarForView(view));
 				}
 			};
-			parent.$('.richdocuments-avatar .avatar').tooltip({placement: 'bottom', container: '#header'});
+			avatardiv.append(popover)
 		},
 
 		showViewer: function(fileId, title){
