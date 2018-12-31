@@ -1,6 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Gordetzen...",
+    "All" : "Denak",
     "Nickname" : "Ezizena",
     "Set" : "Ezarri",
     "Close version preview" : "Itxi bertsioaren aurrebista",
@@ -11,10 +13,13 @@ OC.L10N.register(
     "Edit" : "Editatu",
     "Could not create file" : "Ezin izan da fitxategia sortu",
     "Can't create document" : "Ezin da dokumentua sortu",
+    "Not allowed to create document" : "Ez duzu baimenik dokumentua sortzeko",
     "Saved" : "Gordeta",
+    "Collabora Online" : "Collabora Online",
     "Guest: %s" : "Gonbidatua: %s",
     "Open documentation" : "Ireki dokumentazioa ",
     "Apply" : "Aplikatu",
+    "Add" : "Gehitu",
     "Wrong password. Please retry." : "Pasahitz okerra. Saiatu berriro.",
     "Password" : "Pasahitza",
     "OK" : "Ados",
