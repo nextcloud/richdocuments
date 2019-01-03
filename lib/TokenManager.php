@@ -131,7 +131,12 @@ class TokenManager {
 		$file = $rootFolder->getById($fileId)[0];
 		// If its a public share, use the owner from the share, otherwise check the file object
 		if (is_null($owneruid)) {
-			$owneruid = $file->getOwner()->getUID();
+			$owner = $file->getOwner();
+			if (is_null($owner)) {
+				$owneruid = $editoruid;
+			} else {
+				$owneruid = $owner->getUID();
+			}
 		}
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
 
