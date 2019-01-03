@@ -133,6 +133,7 @@ class TokenManager {
 		if (is_null($owneruid)) {
 			$owner = $file->getOwner();
 			if (is_null($owner)) {
+				// Editor UID instead of owner UID in case owner is null e.g. group folders
 				$owneruid = $editoruid;
 			} else {
 				$owneruid = $owner->getUID();
