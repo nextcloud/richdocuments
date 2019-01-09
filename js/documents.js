@@ -213,7 +213,9 @@ var documentsMain = {
 
 			}
 			label.click(function() {
+				parent.$('#editors-menu').find('li').removeClass('active');
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {ViewId: view.ViewId, Follow: true});
+				entry.addClass('active');
 			});
 			entry.append(label);
 
@@ -227,9 +229,17 @@ var documentsMain = {
 			return entry;
 		},
 
+		/**
+		 * @param {View} view
+		 * @returns {jQuery|HTMLElement}
+		 * @private
+		 */
 		_avatarForView: function(view) {
 			var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
 			var avatar = avatarContainer.find('.avatar');
+			avatar.css({'border-color': view.Color,
+				'border-width':'2px',
+				'border-style':'solid'});
 			if (view.ReadOnly === '1') {
 				avatarContainer.addClass('read-only');
 				$(avatar).attr('title', view.UserName + ' ' + t('richdocuments', '(read only)'));
@@ -246,7 +256,7 @@ var documentsMain = {
 		renderAvatars: function() {
 			var avatardiv = parent.$('#header .header-right #richdocuments-avatars');
 			avatardiv.empty();
-			var popover = $('<div id="editors-menu" class="menu"><ul></ul></div>');
+			var popover = $('<div id="editors-menu" class="popovermenu menu-center"><ul></ul></div>');
 
 			var users = [];
 			// Add new avatars
@@ -270,6 +280,15 @@ var documentsMain = {
 					avatardiv.append(this._avatarForView(view));
 				}
 			};
+
+			var followCurrentEditor = $('<li><div class="label">' + t('richdocuments', 'Follow current editor') + '</div></li>');
+			followCurrentEditor.click(function() {
+				popover.find('li.active').removeClass('active');
+				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {Follow: true});
+				followCurrentEditor.addClass('active');
+			});
+			popover.find('ul').append(followCurrentEditor);
+
 			avatardiv.append(popover)
 		},
 
