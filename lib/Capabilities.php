@@ -97,6 +97,9 @@ class Capabilities implements ICapability {
 			$file = $this->appData->newFile('capabilities.json');
 		}
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		if ($remoteHost === '') {
+			return [];
+		}
 		$capabilitiesEndpoint = $remoteHost . '/hosting/capabilities';
 
 		$client = $this->clientService->newClient();
