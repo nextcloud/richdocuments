@@ -343,11 +343,17 @@ $(document).ready(function() {
 		// register() needs to be re-run to re-register the fileActions.
 		odfViewer.register();
 
-		$.get(
-			OC.filePath('richdocuments', 'ajax', 'settings.php'),
-			{},
-			odfViewer.registerFilesMenu
-		);
+		var getSettings = $.get(OC.filePath('richdocuments', 'ajax', 'settings.php'));
+		var getCapabilities = $.Deferred().resolve();
+
+		if (typeof oc_capabilities === 'undefined') {
+			getCapabilities = $.get(OC.linkToOCS('cloud', 2) + 'capabilities?format=json', function (data) {
+				oc_capabilities = data.ocs.data.capabilities;
+				console.log(oc_capabilities);
+			})
+		}
+		$.when(getSettings, getCapabilities).done(odfViewer.registerFilesMenu)
+
 	}
 });
 
