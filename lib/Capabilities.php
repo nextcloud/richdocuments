@@ -104,7 +104,12 @@ class Capabilities implements ICapability {
 
 		$client = $this->clientService->newClient();
 		try {
-			$response = $client->get($capabilitiesEndpoint);
+			$response = $client->get(
+				$capabilitiesEndpoint,
+				[
+					'timeout' => 5,
+				]
+			);
 		} catch (\Exception $e) {
 			return [];
 		}
