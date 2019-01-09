@@ -1,3 +1,9 @@
+**3.1.1
+- Fixed: Capabilities fetching when no url is entered
+- Fixed: Capabilities timeout of 5 seconds
+- Fixed: NC13 compatibility due to missing js capabilities
+- Changed: Updated translations
+
 **3.1.0
 - Added: Template picker (if supported by COOL)
 - Added: Mobile editing support capability
