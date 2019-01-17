@@ -349,10 +349,11 @@ $(document).ready(function() {
 		if (typeof oc_capabilities === 'undefined') {
 			getCapabilities = $.get(OC.linkToOCS('cloud', 2) + 'capabilities?format=json', function (data) {
 				oc_capabilities = data.ocs.data.capabilities;
-				console.log(oc_capabilities);
 			})
 		}
-		$.when(getSettings, getCapabilities).done(odfViewer.registerFilesMenu)
+		$.when(getSettings, getCapabilities).done(function(settings, capabilities) {
+			odfViewer.registerFilesMenu(settings[0]);
+		})
 
 	}
 });
