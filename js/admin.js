@@ -366,7 +366,7 @@ function initTemplateManager() {
 		fail: function(e, data) {
 			// failure, show warning
 			buttonElmt.className = 'icon-add';
-			buttonElmt.textContent = t('richdocuments', 'An error occured');
+			buttonElmt.textContent = t('richdocuments', 'An error occurred');
 			// TODO: add error message from server
 			setTimeout(function() {
 				inputElmt.disabled = false;
