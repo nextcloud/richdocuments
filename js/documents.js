@@ -596,9 +596,6 @@ var documentsMain = {
 
 				// Tell the LOOL iframe that we are ready now
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
-
-				// Ask for all the participants
-				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Get_Views', {});
 			});
 
 			// submit that
