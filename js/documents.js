@@ -184,13 +184,21 @@ var documentsMain = {
 		/* Views: people currently editing the file */
 		views: {},
 
+		followingEditor: false,
+
+		following: null,
+
 		init : function(){
 			documentsMain.UI.mainTitle = parent.document.title;
 
 			//Add the avatar toolbar if possible
 			var avatarList = $('<div id="richdocuments-avatars">');
-			avatarList.on('click', function() {
+			avatarList.on('click', function(e) {
+				e.stopPropagation();
 				parent.$('#editors-menu').toggle();
+			});
+			$(parent.document).on('click', function(e) {
+				parent.$('#editors-menu').hide();
 			});
 			var headerRight = parent.$('#header .header-right');
 			headerRight.prepend(avatarList);
@@ -212,11 +220,14 @@ var documentsMain = {
 				label.text(view.UserName + ' ' + t('richdocuments', '(read only)'));
 
 			}
-			label.click(function() {
-				parent.$('#editors-menu').find('li').removeClass('active');
-				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {ViewId: view.ViewId, Follow: true});
-				entry.addClass('active');
+			label.click(function(event) {
+				event.stopPropagation();
+				documentsMain.UI.followView(view);
 			});
+			if (this.following === view.ViewId) {
+				parent.$('#editors-menu').find('li').removeClass('active');
+				entry.addClass('active');
+			}
 			entry.append(label);
 
 			if (view.ReadOnly !== '1' && !view.IsCurrentView) {
@@ -280,16 +291,29 @@ var documentsMain = {
 					avatardiv.append(this._avatarForView(view));
 				}
 			};
-
-			var followCurrentEditor = $('<li><div class="label">' + t('richdocuments', 'Follow current editor') + '</div></li>');
-			followCurrentEditor.click(function() {
-				popover.find('li.active').removeClass('active');
-				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {Follow: true});
-				followCurrentEditor.addClass('active');
+			var followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>');
+			followCurrentEditor.click(function(event) {
+				event.stopPropagation();
+				documentsMain.UI.followCurrentEditor();
 			});
+			if (this.followingEditor) {
+				popover.find('li.active').removeClass('active');
+				followCurrentEditor.find('.checkbox').prop('checked', true);
+			}
 			popover.find('ul').append(followCurrentEditor);
-
 			avatardiv.append(popover)
+		},
+		followCurrentEditor: function(event) {
+			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {Follow: true});
+			this.following = null;
+			this.followingEditor = true;
+			this.renderAvatars();
+		},
+		followView: function(view) {
+			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {ViewId: view.ViewId, Follow: true});
+			documentsMain.UI.following = view.ViewId;
+			documentsMain.UI.followingEditor = false;
+			documentsMain.UI.renderAvatars();
 		},
 
 		showViewer: function(fileId, title){
@@ -668,6 +692,18 @@ var documentsMain = {
 						args.forEach(function(view) {
 							documentsMain.UI.views[view.ViewId] = view;
 						});
+						documentsMain.UI.renderAvatars();
+					} else if (msgId === 'FollowUser_Changed') {
+						if (args.IsFollowEditor) {
+							documentsMain.UI.followingEditor = true;
+						} else {
+							documentsMain.UI.followingEditor = false;
+						}
+						if (args.IsFollowUser) {
+							documentsMain.UI.following = args.FollowedViewId
+						} else {
+							documentsMain.UI.following = null;
+						}
 						documentsMain.UI.renderAvatars();
 					}
 				});
