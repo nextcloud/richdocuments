@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Sparar...",
     "All" : "Alla",
     "Error" : "Fel",
-    "An error occured" : "Ett fel inträffade",
     "Please choose your nickname to continue as guest user." : "Välj ett smeknamn för att fortsätta som gästanvändare.",
     "Nickname" : "Smeknamn",
     "Set" : "Sätt",

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Ukládání…",
     "All" : "Vše",
     "Error" : "Chyba",
-    "An error occured" : "Došlo k chybě",
     "Please choose your nickname to continue as guest user." : "Zvolte si svou přezdívku a pokračujte jako host.",
     "Nickname" : "Přezdívka",
     "Set" : "Nastavit",

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Konservante...",
     "All" : "Ĉiuj",
     "Error" : "Eraro",
-    "An error occured" : "Eraro okazis",
     "Please choose your nickname to continue as guest user." : "Bv. elekti vian kromnomon por daŭrigi kiel gasto.",
     "Nickname" : "Kromnomo",
     "Set" : "Uzi",

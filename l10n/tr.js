@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Kaydediliyor...",
     "All" : "Tümü",
     "Error" : "Hata",
-    "An error occured" : "Bir sorun çıktı",
     "Please choose your nickname to continue as guest user." : "Konuk kullanıcı olarak devam etmek için bir takma ad seçin.",
     "Nickname" : "Takma Ad",
     "Set" : "Ayarla",

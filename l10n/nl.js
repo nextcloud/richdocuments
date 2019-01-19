@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Opslaan...",
     "All" : "Alle",
     "Error" : "Fout",
-    "An error occured" : "Er trad een fout op",
     "Please choose your nickname to continue as guest user." : "Kies je schuilnaam om verder te gaan als gastgebruiker",
     "Nickname" : "Roepnaam",
     "Set" : "Instellen",

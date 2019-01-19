@@ -1,10 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Gardando",
+    "Saving…" : "Gardando…",
     "All" : "Todo",
     "Error" : "Erro",
-    "An error occured" : "Produciuse un erro",
     "Please choose your nickname to continue as guest user." : "Escolla o seu alcume para continuar como usuario convidado.",
     "Nickname" : "Alcume",
     "Set" : "Estabelecer",

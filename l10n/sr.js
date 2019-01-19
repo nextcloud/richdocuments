@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Снимам…",
     "All" : "Све",
     "Error" : "Грешка",
-    "An error occured" : "Дошло је до грешке",
     "Please choose your nickname to continue as guest user." : "Одаберите надимак да наставите као гост-корисник.",
     "Nickname" : "Надимак",
     "Set" : "Постави",

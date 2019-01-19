@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "保存中",
     "All" : "全部",
     "Error" : "错误",
-    "An error occured" : "发生错误",
     "Nickname" : "昵称",
     "Save As" : "另存为",
     "New filename" : "新文件名",

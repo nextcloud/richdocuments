@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saving…" : "Enregistrement…",
     "All" : "Tout",
     "Error" : "Erreur",
-    "An error occured" : "Une erreur est survenue",
     "Please choose your nickname to continue as guest user." : "Veuillez choisir votre surnom pour continuer en tant qu'utilisateur invité.",
     "Nickname" : "Surnom",
     "Set" : "Utiliser",
