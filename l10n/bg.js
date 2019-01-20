@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Error" : "Грешка",
+    "An error occurred" : "Възникна грешка",
     "Current version" : "Текуща версия",
     "Cancel" : "Отказ",
     "Save" : "Запазване",
