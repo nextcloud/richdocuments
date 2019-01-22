@@ -4,7 +4,7 @@ OC.L10N.register(
     "Saving…" : "S'està desant ...",
     "All" : "Tots",
     "Save As" : "Desa com a",
-    "Save" : "Desar",
+    "Save" : "Desa",
     "Loading documents…" : "S'estan carregant els documents...",
     "Edit" : "Editar",
     "New Document" : "Nou document",

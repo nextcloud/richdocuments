@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saving…" : "Guardando…",
     "All" : "Todo",
     "Error" : "Error",
+    "An error occurred" : "Ha ocurrido un error",
     "Please choose your nickname to continue as guest user." : "Por favor, escoge tu alias para continuar como usuario invitado.",
     "Nickname" : "Alias",
     "Set" : "Guardar",
