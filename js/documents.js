@@ -117,6 +117,18 @@ $.widget('oc.documentOverlay', {
 	}
 });
 
+/**
+ * Type definitions for WOPI Post message objects
+ *
+ * @typedef {Object} View
+ * @property {Number} ViewId
+ * @property {string} UserName
+ * @property {string} UserId
+ * @property {Number} Color
+ * @property {Boolean} ReadOnly
+ * @property {Boolean} IsCurrentView
+ */
+
 // Polyfill for Number.isInteger
 // FIXME: Remove once Nextcloud 15 is the minimum required version
 // since es6-shim is shipped for that
@@ -172,46 +184,136 @@ var documentsMain = {
 		/* Views: people currently editing the file */
 		views: {},
 
+		followingEditor: false,
+
+		following: null,
+
 		init : function(){
 			documentsMain.UI.mainTitle = parent.document.title;
 
 			//Add the avatar toolbar if possible
+			var avatarList = $('<div id="richdocuments-avatars">');
+			avatarList.on('click', function(e) {
+				e.stopPropagation();
+				parent.$('#editors-menu').toggle();
+			});
+			$(parent.document).on('click', function(e) {
+				parent.$('#editors-menu').hide();
+			});
 			var headerRight = parent.$('#header .header-right');
-			headerRight.prepend($('<div id="richdocuments-avatars">'));
+			headerRight.prepend(avatarList);
+
 			this.addVersionSidebarEvents();
+		},
+
+		/**
+		 * @param {View} view
+		 * @private
+		 */
+		_userEntry: function(view) {
+			var entry = $('<li></li>');
+			entry.append(this._avatarForView(view));
+
+			var label = $('<div class="label"></div>');
+			label.text(view.UserName);
+			if (view.ReadOnly === '1') {
+				label.text(view.UserName + ' ' + t('richdocuments', '(read only)'));
+
+			}
+			label.click(function(event) {
+				event.stopPropagation();
+				documentsMain.UI.followView(view);
+			});
+			if (this.following === view.ViewId) {
+				parent.$('#editors-menu').find('li').removeClass('active');
+				entry.addClass('active');
+			}
+			entry.append(label);
+
+			if (view.ReadOnly !== '1' && !view.IsCurrentView) {
+				var removeButton = $('<div class="icon-close" title="Remove user"/>');
+				removeButton.click(function() {
+					documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_RemoveView', {ViewId: view.ViewId});
+				});
+				entry.append(removeButton)
+			}
+			return entry;
+		},
+
+		/**
+		 * @param {View} view
+		 * @returns {jQuery|HTMLElement}
+		 * @private
+		 */
+		_avatarForView: function(view) {
+			var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
+			var avatar = avatarContainer.find('.avatar');
+			avatar.css({'border-color': view.Color,
+				'border-width':'2px',
+				'border-style':'solid'});
+			if (view.ReadOnly === '1') {
+				avatarContainer.addClass('read-only');
+				$(avatar).attr('title', view.UserName + ' ' + t('richdocuments', '(read only)'));
+			} else {
+				$(avatar).attr('title', view.UserName);
+			}
+			$(avatar).avatar(view.UserId, 32);
+			if (parent.OC.currentUser !== null && view.UserId !== '') {
+				//$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+			}
+			return avatarContainer;
 		},
 
 		renderAvatars: function() {
 			var avatardiv = parent.$('#header .header-right #richdocuments-avatars');
 			avatardiv.empty();
+			var popover = $('<div id="editors-menu" class="popovermenu menu-center"><ul></ul></div>');
+
 			var users = [];
 			// Add new avatars
+			var i = 0;
 			for (var viewId in this.views) {
+				/**
+				 * @type {View}
+				 */
 				var view = this.views[viewId];
+				view.UserName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
+				popover.find('ul').append(this._userEntry(view))
+
 				if (view.UserId === parent.OC.currentUser) {
 					continue;
 				}
 				if (view.UserId !== "" && users.indexOf(view.UserId) > -1) {
 					continue;
 				}
-				var userName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest');
 				users.push(view.UserId);
-				var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + view.UserId + '"></div></div>');
-				var avatar = avatarContainer.find('.avatar');
-				avatardiv.append(avatarContainer);
-				if (view.ReadOnly === '1') {
-					avatarContainer.addClass('read-only');
-					$(avatar).attr('title', userName + ' ' + t('richdocuments', '(read only)'));
-				} else {
-					$(avatar).attr('title', userName);
-				}
-
-				$(avatar).avatar(view.UserId, 32);
-				if (parent.OC.currentUser !== null && view.UserId !== '') {
-					$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
+				if (i++ < 3) {
+					avatardiv.append(this._avatarForView(view));
 				}
 			};
-			parent.$('.richdocuments-avatar .avatar').tooltip({placement: 'bottom', container: '#header'});
+			var followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>');
+			followCurrentEditor.click(function(event) {
+				event.stopPropagation();
+				documentsMain.UI.followCurrentEditor();
+			});
+			if (this.followingEditor) {
+				popover.find('li.active').removeClass('active');
+				followCurrentEditor.find('.checkbox').prop('checked', true);
+			}
+			popover.find('ul').append(followCurrentEditor);
+			avatardiv.append(popover)
+		},
+		followCurrentEditor: function(event) {
+			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {Follow: true});
+			this.following = null;
+			this.followingEditor = true;
+			this.renderAvatars();
+		},
+		followView: function(view) {
+			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {ViewId: view.ViewId, Follow: true});
+			documentsMain.UI.following = view.ViewId;
+			documentsMain.UI.followingEditor = false;
+			documentsMain.UI.renderAvatars();
 		},
 
 		showViewer: function(fileId, title){
@@ -590,6 +692,18 @@ var documentsMain = {
 						args.forEach(function(view) {
 							documentsMain.UI.views[view.ViewId] = view;
 						});
+						documentsMain.UI.renderAvatars();
+					} else if (msgId === 'FollowUser_Changed') {
+						if (args.IsFollowEditor) {
+							documentsMain.UI.followingEditor = true;
+						} else {
+							documentsMain.UI.followingEditor = false;
+						}
+						if (args.IsFollowUser) {
+							documentsMain.UI.following = args.FollowedViewId
+						} else {
+							documentsMain.UI.following = null;
+						}
 						documentsMain.UI.renderAvatars();
 					}
 				});
