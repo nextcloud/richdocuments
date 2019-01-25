@@ -1,44 +1,44 @@
-**3.1.1
+**3.1.1**
 - Fixed: Capabilities fetching when no url is entered
 - Fixed: Capabilities timeout of 5 seconds
 - Fixed: NC13 compatibility due to missing js capabilities
 - Changed: Updated translations
 
-**3.1.0
+**3.1.0**
 - Added: Template picker (if supported by COOL)
 - Added: Mobile editing support capability
 - Added: Version integration with the Nextcloud sidebar
 
-**3.0.6
+**3.0.6**
 - Added: NC16 compatibility
 - Fixed: Translations
 - Fixed: NC15 grid view toggle overlay
 
-**3.0.5
+**3.0.5**
 - Fixed: Pass UID for direct tokens (#301)
 - Fixed: Do not show nextcloud bar on small screens (#306)
 - Fixed: Avatar improvements for editing users (#304)
 - Fixed: show password overlay properly (#308)
 
-**3.0.4
+**3.0.4**
 - Fixed: Make php5.6 compatible again (#297)
 
-**3.03
+**3.03**
 - Added: Notify clients when page is fully loaded (#291)
 - Fixed: Do not show spinner if we nickname chose is visible (#293)
 - Fixed:  Disable the vertical swipe to reload gesture (#295)
 
-**3.0.2
+**3.0.2**
 - Fixes: Only show document overlay when document is fully loaded (#283)
 - Fixes: Generate assertUrl link with generateurl, so it also works in subfolder installations (#288)
 - Fixes: Show displayname on avatar hover (#289)
 - Fixes: Do not clear assets on HEAD request (#290)
 
-**3.0.1
+**3.0.1**
 - Fixes: Do not show loading spinner overlay public page if we need a username
 - Fixes: Do not duplicate avatars in the top overlay
 
-**3.0.0
+**3.0.0**
 - Bug: use editor to save the user (fixes #184)
 - Bug: allow creation of OOXML files if app not in default location (fixes #118)
 - Bug: center public edit name
