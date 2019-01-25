@@ -206,6 +206,47 @@ var documentsMain = {
 			this.addVersionSidebarEvents();
 		},
 
+		_addHeaderFileActions: function() {
+			parent.OC.unregisterMenu(parent.$('#richdocuments-actions .icon-more'), parent.$('#richdocuments-actions-menu'));
+			parent.$('#richdocuments-actions').remove();
+			var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>');
+			var actions = actionsContainer.find('#richdocuments-actions-menu').empty();
+
+			var context = {
+				'$file': parent.OCA.Files.App.fileList.$el.find('[data-id=' + documentsMain.originalFileId + ']'),
+				fileActions: parent.OCA.Files.App.fileList.fileActions,
+				fileList: parent.OCA.Files.App.fileList,
+				fileInfoModel: parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName)
+			};
+
+			var isFavorite = function(fileInfo) {
+				return fileInfo.get('tags') && fileInfo.get('tags').indexOf(parent.OC.TAG_FAVORITE) >= 0;
+			};
+			var $favorite = $('<li><a></a></li>').click(function(e) {
+				$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small');
+				parent.OCA.Files.App.fileList.fileActions.actions.all.Favorite.action(documentsMain.fileName, context)
+			});
+			if (isFavorite(context.fileInfoModel)) {
+				$favorite.find('a').text(t('files', 'Remove from favorites'));
+				$favorite.find('a').addClass('icon-starred');
+			} else {
+				$favorite.find('a').text(t('files', 'Add to favorites'));
+				$favorite.find('a').addClass('icon-star-dark');
+			}
+
+			var $info = $('<li><a class="icon-info">Details</a></li>').click(function() {
+				parent.OCA.Files.App.fileList.fileActions.actions.all.Details.action(documentsMain.fileName, context)
+				parent.OC.hideMenus();
+			});
+			var $download = $('<li><a class="icon-download">Download</a></li>').click(function() {
+				parent.OCA.Files.App.fileList.fileActions.actions.all.Download.action(documentsMain.fileName, context)
+				parent.OC.hideMenus();
+			});
+			actions.append($favorite).append($info).append($download);
+			actionsContainer.insertAfter(parent.$('#header .richdocuments-sharing'));
+			parent.OC.registerMenu(parent.$('#richdocuments-actions .icon-more'), parent.$('#richdocuments-actions-menu'), false, true);
+		},
+
 		/**
 		 * @param {View} view
 		 * @private
@@ -798,6 +839,15 @@ var documentsMain = {
 			documentsMain.canEdit = Boolean(richdocuments_permissions & OC.PERMISSION_UPDATE);
 
 			documentsMain.loadDocument(documentsMain.fileName, documentsMain.fileId);
+			if (parent.OCA.Files.App) {
+				parent.OCA.Files.App.fileList._updateDetailsView(documentsMain.fileName, false);
+				var fileModel = parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName);
+				fileModel.on('change', function () {
+					documentsMain.UI._addHeaderFileActions();
+				});
+				documentsMain.UI._addHeaderFileActions();
+
+			}
 		});
 	},
 
