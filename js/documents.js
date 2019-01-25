@@ -149,6 +149,7 @@ var documentsMain = {
 	loadError : false,
 	loadErrorMessage : '',
 	loadErrorHint : '',
+	fileModel: null,
 	renderComplete: false, // false till page is rendered with all required data about the document(s)
 	toolbar : '<div id="ocToolbar"><div id="ocToolbarInside"></div><span id="toolbar" class="claro"></span></div>',
 	$deferredVersionRestoreAck: null,
@@ -611,6 +612,10 @@ var documentsMain = {
 							}
 						} else if (msg.Values.Status === "Document_Loaded" ) {
 							window.removeEventListener('message', editorInitListener, false);
+							if (parent.OCA.Files.App) {
+								parent.OCA.Files.App.fileList.reload();
+								documentsMain.getFileModel();
+							}
 						}
 					}
 				};
@@ -839,15 +844,6 @@ var documentsMain = {
 			documentsMain.canEdit = Boolean(richdocuments_permissions & OC.PERMISSION_UPDATE);
 
 			documentsMain.loadDocument(documentsMain.fileName, documentsMain.fileId);
-			if (parent.OCA.Files.App) {
-				parent.OCA.Files.App.fileList._updateDetailsView(documentsMain.fileName, false);
-				var fileModel = parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName);
-				fileModel.on('change', function () {
-					documentsMain.UI._addHeaderFileActions();
-				});
-				documentsMain.UI._addHeaderFileActions();
-
-			}
 		});
 	},
 
@@ -859,6 +855,20 @@ var documentsMain = {
 			odfViewer.isDocuments = true;
 			odfViewer.onView(path);
 		});
+	},
+
+	getFileModel: function() {
+		parent.OCA.Files.App.fileList._updateDetailsView(documentsMain.fileName, false);
+		var fileModel = parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName);
+		if (fileModel) {
+			documentsMain.fileModel = fileModel;
+			fileModel.on('change', function () {
+				documentsMain.UI._addHeaderFileActions();
+			});
+			documentsMain.UI._addHeaderFileActions();
+		} else {
+			setTimeout(documentsMain.getFileModel, 500);
+		}
 	},
 
 	loadDocument: function(title, fileId) {
