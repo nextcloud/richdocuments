@@ -10,6 +10,7 @@ OC.L10N.register(
     "Set" : "Nastavit",
     "(read only)" : "(pouze pro čtení)",
     "Guest" : "Host",
+    "Follow current editor" : "Následovat stávající editor",
     "Close version preview" : "Zavřít náhled verze",
     "Current version" : "Stávající verze",
     "Failed to revert the document to older version" : "Nepodařilo se vrátit dokument do podoby starší verze",

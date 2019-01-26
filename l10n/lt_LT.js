@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving…" : "Įrašoma…",
     "Error" : "Klaida",
+    "An error occurred" : "Įvyko klaida",
     "Please choose your nickname to continue as guest user." : "Norėdami tęsti kaip svečias, pasirinkite savo slapyvardį.",
     "Nickname" : "Slapyvardis",
     "Set" : "Nustatyti",
@@ -36,8 +37,10 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Įrašyta su klaida: Collabora Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
     "Error when saving" : "Klaida įrašant",
     "File is too big" : "Failas yra per didelis",
+    "Invalid file provided" : "Pateiktas neteisingas failas",
     "Template not found" : "Šablonas nerastas",
     "Collabora Online" : "Collabora Online",
+    "Empty" : "Tuščias",
     "Guest: %s" : "Svečias: %s",
     "Edit office documents directly in your browser." : "Redaguokite raštinės dokumentus tiesiogiai savo naršyklėje.",
     "Open documentation" : "Atverti dokumentaciją",

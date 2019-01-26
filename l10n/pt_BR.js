@@ -10,6 +10,7 @@ OC.L10N.register(
     "Set" : "Definir",
     "(read only)" : "(somente leitura)",
     "Guest" : "Convidado",
+    "Follow current editor" : "Seguir o editor atual",
     "Close version preview" : "Fechar a pré-visualização da versão",
     "Current version" : "Versão atual",
     "Failed to revert the document to older version" : "Falha ao reverter para uma versão mais antiga",
