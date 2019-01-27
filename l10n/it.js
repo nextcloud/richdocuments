@@ -10,6 +10,7 @@ OC.L10N.register(
     "Set" : "Imposta",
     "(read only)" : "(sola lettura)",
     "Guest" : "Ospite",
+    "Follow current editor" : "Segui l'autore attuale",
     "Close version preview" : "Chiudi anteprima della versione",
     "Current version" : "Versione attuale",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",

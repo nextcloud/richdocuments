@@ -10,6 +10,7 @@ OC.L10N.register(
     "Set" : "Ayarla",
     "(read only)" : "(salt okunur)",
     "Guest" : "Konuk",
+    "Follow current editor" : "Geçerli düzenleyici kullanılsın",
     "Close version preview" : "Sürüm ön izlemesini kapat",
     "Current version" : "Geçerli sürüm",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
