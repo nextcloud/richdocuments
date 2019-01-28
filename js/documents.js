@@ -658,7 +658,7 @@ var documentsMain = {
 							$buttons.eq(1).text(t('richdocuments', 'Save'));
 						});
 					} else if (msgId === 'UI_InsertGraphic') {
-						parent.OC.dialogs.filepicker(t('richdocuments', 'Insert Graphic'), function(path, type) {
+						parent.OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: oc_defaults.name }), function(path, type) {
 							if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
 								var filename = path.substring(path.lastIndexOf('/') + 1);
 								$.ajax({
