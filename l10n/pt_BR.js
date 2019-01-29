@@ -19,7 +19,6 @@ OC.L10N.register(
     "New filename" : "Novo nome de arquivo",
     "Cancel" : "Cancelar",
     "Save" : "Salvar",
-    "Insert Graphic" : "Inserir Gráfico",
     "Loading documents…" : "Carregando documentos...",
     "Select a personal template folder" : "Selecione uma pasta de modelos pessoais",
     "Edit" : "Editar",

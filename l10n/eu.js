@@ -9,7 +9,6 @@ OC.L10N.register(
     "Save As" : "Gorde honela",
     "Cancel" : "Utzi",
     "Save" : "Gorde",
-    "Insert Graphic" : "Txertatu grafikoa",
     "Edit" : "Editatu",
     "Could not create file" : "Ezin izan da fitxategia sortu",
     "Can't create document" : "Ezin da dokumentua sortu",

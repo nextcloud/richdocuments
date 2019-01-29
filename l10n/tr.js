@@ -19,7 +19,6 @@ OC.L10N.register(
     "New filename" : "Yeni dosya adı",
     "Cancel" : "İptal",
     "Save" : "Kaydet",
-    "Insert Graphic" : "Çizelge Ekle",
     "Loading documents…" : "Belgeler yükleniyor...",
     "Select a personal template folder" : "Bir kişisel kalıp klasörü seçin",
     "Edit" : "Düzenle",

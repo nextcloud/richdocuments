@@ -14,7 +14,6 @@ OC.L10N.register(
     "New filename" : "Nytt filnavn",
     "Cancel" : "Avbryt",
     "Save" : "Lagre",
-    "Insert Graphic" : "Sett inn grafikk",
     "Loading documents…" : "Laster dokumenter…",
     "Edit" : "Rediger",
     "New Document" : "Nytt dokument",

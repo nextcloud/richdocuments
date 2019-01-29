@@ -11,7 +11,6 @@ OC.L10N.register(
     "New filename" : "Νέο όνομα αρχείου",
     "Cancel" : "Ακύρωση",
     "Save" : "Αποθήκευση",
-    "Insert Graphic" : "Εισαγωγή γραφικού",
     "Loading documents…" : "Φόρτωση εγγράφων...",
     "Edit" : "Επεξεργασία",
     "New Document" : "Νέο έγγραφο",

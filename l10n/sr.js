@@ -19,7 +19,6 @@ OC.L10N.register(
     "New filename" : "Ново име фајла",
     "Cancel" : "Одустани",
     "Save" : "Сачувај",
-    "Insert Graphic" : "Убаци графику",
     "Loading documents…" : "Учитавање докумената…",
     "Select a personal template folder" : "Одаберите личну фасциклу за шаблоне",
     "Edit" : "Уреди",

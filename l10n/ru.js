@@ -14,7 +14,6 @@ OC.L10N.register(
     "New filename" : "Новое имя файла",
     "Cancel" : "Отмена",
     "Save" : "Сохранить",
-    "Insert Graphic" : "Вставить изображение",
     "Loading documents…" : "Загрузка документов…",
     "Edit" : "Редактировать",
     "New Document" : "Новый документ",
