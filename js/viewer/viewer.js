@@ -1,4 +1,16 @@
 /* globals FileList, OCA.Files.fileActions, oc_debug */
+
+var url = new URL(window.location);
+var type = url.searchParams.get("richdocuments_create");
+var filename = url.searchParams.get("richdocuments_filename");
+
+var Preload = {
+	create: {
+		type: type,
+		filename: filename,
+	}
+};
+
 var odfViewer = {
 	isDocuments : false,
 	supportedMimes: [
@@ -57,6 +69,18 @@ var odfViewer = {
 		odfViewer.onEdit(filename);
 	},
 
+	getNewDocumentFromTemplateUrl: function(templateId, fileName, fileDir, fillWithTemplate) {
+		return OC.generateUrl(
+			'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
+			{
+				templateId: templateId,
+				fileName: fileName,
+				dir: fileDir,
+				requesttoken: OC.requestToken
+			}
+		);
+	},
+
 	onEdit : function(fileName, context) {
 		if(context) {
 			var fileDir = context.dir;
@@ -78,15 +102,7 @@ var odfViewer = {
 		} else {
 			// We are dealing with a template
 			if (typeof(templateId) !== 'undefined') {
-				viewer = OC.generateUrl(
-					'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
-					{
-						templateId: templateId,
-						fileName: fileName,
-						dir: fileDir,
-						requesttoken: OC.requestToken
-					}
-				);
+				viewer = this.getNewDocumentFromTemplateUrl(templateId, fileName, fileDir);
 			} else {
 				viewer = OC.generateUrl(
 					'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
@@ -257,7 +273,6 @@ var odfViewer = {
 				_createDocumentFromTemplate: function(templateId, mimetype, filename) {
 					OCA.Files.Files.isFileNameValid(filename);
 					filename = FileList.getUniqueName(filename);
-
 					odfViewer.onEdit(filename, {
 						fileId: -1,
 						dir: $('#dir').val(),
@@ -288,7 +303,7 @@ var odfViewer = {
 										$(this).ocdialog('close');
 									}
 								}];
-			
+
 								$('#template-picker').ocdialog({
 									closeOnEscape: true,
 									modal: true,
@@ -313,7 +328,7 @@ var odfViewer = {
 						templates.forEach(function(template) {
 							self._appendTemplateFromData($dlg[0], template);
 						})
-						
+
 						$('body').append($dlg);
 					})
 				},
@@ -327,13 +342,35 @@ var odfViewer = {
 					template.onclick = function() {
 						dlg.dataset.templateId = data.id;
 					};
-				
+
 					dlg.querySelector('.template-container').appendChild(template);
 				}
 			};
 		})(OCA);
 
 		OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu);
+
+		// Open the template picker if there was a create parameter detected on load
+		if (!!(Preload.create && Preload.create.type && Preload.create.filename)) {
+			var mimetype;
+			var ext;
+			switch (type) {
+				case 'document':
+					mimetype = docMime;
+					ext = docExt;
+					break;
+				case 'spreadsheet':
+					mimetype = spreadsheetMime;
+					ext = spreadsheetExt;
+					break;
+				case 'presentation':
+					mimetype = presentationMime;
+					ext = presentationExt;
+					break;
+			}
+			OCA.FilesLOMenu._openTemplatePicker(Preload.create.type, mimetype, Preload.create.filename + '.' + ext);
+		}
+
 	}
 };
 

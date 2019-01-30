@@ -703,6 +703,9 @@ var documentsMain = {
 							$buttons.eq(0).text(t('richdocuments', 'Cancel'));
 							$buttons.eq(1).text(t('richdocuments', 'Save'));
 						});
+					} else if (msgId === 'UI_CreateFile') {
+						documentsMain.UI.createNewFile(args.DocumentType);
+
 					} else if (msgId === 'UI_InsertGraphic') {
 						parent.OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: oc_defaults.name }), function(path, type) {
 							if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
@@ -762,6 +765,32 @@ var documentsMain = {
 			$('#loleafletform').submit();
 		},
 
+		/* Ask for a new filename and open the files app in a new tab
+		 * the parameters richdocuments_create and richdocuments_filename are
+		 * parsed by viewer.js and open a template picker in the new tab
+		 */
+		createNewFile: function(type) {
+			parent.OC.dialogs.prompt(
+				t('richdocuments', 'Please enter the filename for the new document'),
+				t('richdocuments', 'Save As'),
+				function(result, value) {
+					if (result === true && value) {
+						var dir = parent.$('#dir').val();
+						var url = OC.generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value));
+						var win = window.open(url, '_blank');
+					}
+				},
+				true,
+				t('richdocuments', 'New filename'),
+				false
+			).then(function() {
+				var $dialog = parent.$('.oc-dialog:visible');
+				var $buttons = $dialog.find('button');
+				$buttons.eq(0).text(t('richdocuments', 'Cancel'));
+				$buttons.eq(1).text(t('richdocuments', 'Create a new document'));
+			});
+		},
+
 		hideEditor : function(){
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
@@ -806,6 +835,7 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
+		parent.OCA.Files.App.fileList.reload();
 	},
 
 	WOPIPostMessage: function(iframe, msgId, values) {
