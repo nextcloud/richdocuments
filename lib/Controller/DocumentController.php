@@ -260,7 +260,7 @@ class DocumentController extends Controller {
 
 		$params = [
 			'permissions' => $template->getPermissions(),
-			'title' => $template->getName(),
+			'title' => $fileName,
 			'fileId' => $template->getId() . '_' . $this->settings->getSystemValue('instanceid'),
 			'token' => $token,
 			'urlsrc' => $urlSrc,

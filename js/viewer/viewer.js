@@ -151,6 +151,7 @@ var odfViewer = {
 		$('#app-navigation').removeClass('hidden');
 		$('.richdocuments-sharing').remove();
 		$('#richdocuments-avatars').remove();
+		$('#richdocuments-actions').remove();
 		$('.searchbox').show();
 
 		if ($('#isPublic').val()) {
