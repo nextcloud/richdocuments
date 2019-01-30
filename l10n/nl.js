@@ -19,6 +19,7 @@ OC.L10N.register(
     "New filename" : "Nieuwe bestandsnaam",
     "Cancel" : "Annuleren",
     "Save" : "Opslaan",
+    "Insert from {name}" : "Voeg in uit {name} ",
     "Loading documents…" : "Documenten laden...",
     "Select a personal template folder" : "Selecteer een persoonlijke sjablonenmap",
     "Edit" : "Bewerk",

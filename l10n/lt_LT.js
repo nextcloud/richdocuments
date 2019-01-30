@@ -17,6 +17,7 @@ OC.L10N.register(
     "New filename" : "Naujas failo pavadinimas",
     "Cancel" : "Atsisakyti",
     "Save" : "Įrašyti",
+    "Insert from {name}" : "Įterpti iš {name}",
     "Loading documents…" : "Įkeliami dokumentai…",
     "Edit" : "Redaguoti",
     "New Document" : "Naujas dokumentas",

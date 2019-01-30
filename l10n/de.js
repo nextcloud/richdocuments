@@ -19,6 +19,7 @@ OC.L10N.register(
     "New filename" : "Neuer Dateiname",
     "Cancel" : "Abbrechen",
     "Save" : "Speichern",
+    "Insert from {name}" : "Einfügen von {name}",
     "Loading documents…" : "Lade Dokumente…",
     "Select a personal template folder" : "Persönlichen Vorlagenordner auswählen",
     "Edit" : "Bearbeiten",

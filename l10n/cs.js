@@ -19,6 +19,7 @@ OC.L10N.register(
     "New filename" : "Název souboru",
     "Cancel" : "Storno",
     "Save" : "Uložit",
+    "Insert from {name}" : "Vložit z {name}",
     "Loading documents…" : "Nahrávají se dokumenty…",
     "Select a personal template folder" : "Vyberte složku s osobní šablonou",
     "Edit" : "Upravit",
