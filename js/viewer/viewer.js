@@ -153,6 +153,14 @@ var odfViewer = {
 		$('#richdocuments-avatars').remove();
 		$('.searchbox').show();
 
+		if ($('#isPublic').val()) {
+			$('#content').removeClass('full-height');
+			$('footer').removeClass('hidden');
+			$('#imgframe').removeClass('hidden');
+			$('.directLink').removeClass('hidden');
+			$('.directDownload').removeClass('hidden');
+		}
+
 		OC.Util.History.replaceState();
 	},
 
