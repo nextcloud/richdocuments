@@ -18,6 +18,7 @@ OC.L10N.register(
     "New filename" : "Nytt filnamn",
     "Cancel" : "Avbryt",
     "Save" : "Spara",
+    "Insert from {name}" : "Infoga från {name}",
     "Loading documents…" : "Laddar dokument...",
     "Select a personal template folder" : "Välj en personlig mallmapp",
     "Edit" : "Ändra",
