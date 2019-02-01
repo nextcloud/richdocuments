@@ -1,11 +1,14 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saving…" : "Запазване",
+    "All" : "Всички",
     "Error" : "Грешка",
     "An error occurred" : "Възникна грешка",
     "Current version" : "Текуща версия",
     "Cancel" : "Отказ",
     "Save" : "Запазване",
+    "Create a new document" : "Нов документ",
     "Edit" : "Редакция",
     "New Document" : "Нов документ",
     "New Spreadsheet" : "Нова електронна таблица",
