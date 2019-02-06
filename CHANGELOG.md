@@ -1,3 +1,18 @@
+**3.2.0**
+- Added: File actions menu in the header
+- Added: Handle UI_CreateFile post message
+- Added: Handle unreachable collabora instance
+- Added: Load capabilities in a background job
+- Fixed: Pass proper response to registerFilesMenu
+- Fixed: Translation for Insert images
+- Fixed: Remove language settings from templates
+- Fixed: Better wording for the image file picker
+- Fixed: Use first template if none is selected
+- Fixed: Proper scroll behaviour on Nextcloud 14/15
+- Fixed: Create new text documents from within collabora
+- Fixed: Use proper templates on old collabora versions
+- Fixed: Convert nextcloud locale to BCP47 languages tag correctly
+
 **3.1.1**
 - Fixed: Capabilities fetching when no url is entered
 - Fixed: Capabilities timeout of 5 seconds
