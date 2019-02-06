@@ -13,6 +13,7 @@ var Preload = {
 
 var odfViewer = {
 	isDocuments : false,
+	nextcloudVersion: 0,
 	supportedMimes: [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
@@ -48,6 +49,7 @@ var odfViewer = {
 	],
 
 	register : function() {
+		odfViewer.nextcloudVersion = parseInt(oc_config.version.split('.')[0]);
 		var i,
 		    mime;
 
@@ -135,8 +137,13 @@ var odfViewer = {
 			$('#controls').addClass('hidden');
 			$('#content').addClass('loading');
 		} else {
+			if (odfViewer.nextcloudVersion < 14) {
+				$iframe.css('height', '100%');
+				$('#app-content').css('overflow', 'hidden');
+			} else {
+				$('body').css('overflow', 'hidden');
+			}
 			$('#app-content').append($iframe);
-			$('body').css('overflow', 'hidden');
 			if ($('header').length) {
 				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
 				$('.header-right').prepend($button);
@@ -169,7 +176,11 @@ var odfViewer = {
 		$('#richdocuments-avatars').remove();
 		$('#richdocuments-actions').remove();
 		$('.searchbox').show();
-		$('body').css('overflow', 'auto')
+		if (odfViewer.nextcloudVersion < 14) {
+			$('#app-content').css('overflow', 'auto');
+		} else {
+			$('body').css('overflow', 'auto');
+		}
 
 		if ($('#isPublic').val()) {
 			$('#content').removeClass('full-height');
