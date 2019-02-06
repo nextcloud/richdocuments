@@ -136,6 +136,7 @@ var odfViewer = {
 			$('#content').addClass('loading');
 		} else {
 			$('#app-content').append($iframe);
+			$('body').css('overflow', 'hidden');
 			if ($('header').length) {
 				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
 				$('.header-right').prepend($button);
@@ -153,7 +154,6 @@ var odfViewer = {
 		}
 
 		$('#app-content #controls').addClass('hidden');
-		$('#app-content').append($iframe);
 	},
 
 	onClose: function() {
@@ -169,6 +169,7 @@ var odfViewer = {
 		$('#richdocuments-avatars').remove();
 		$('#richdocuments-actions').remove();
 		$('.searchbox').show();
+		$('body').css('overflow', 'auto')
 
 		if ($('#isPublic').val()) {
 			$('#content').removeClass('full-height');
