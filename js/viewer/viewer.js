@@ -342,6 +342,9 @@ var odfViewer = {
 					template.onclick = function() {
 						dlg.dataset.templateId = data.id;
 					};
+					if (!dlg.dataset.templateId) {
+						dlg.dataset.templateId = data.id;
+					}
 
 					dlg.querySelector('.template-container').appendChild(template);
 				}
