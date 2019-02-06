@@ -775,6 +775,9 @@ var documentsMain = {
 				t('richdocuments', 'Save As'),
 				function(result, value) {
 					if (result === true && value) {
+						if (type === 'text') {
+							type = 'document';
+						}
 						var dir = parent.$('#dir').val();
 						var url = OC.generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value));
 						var win = window.open(url, '_blank');
