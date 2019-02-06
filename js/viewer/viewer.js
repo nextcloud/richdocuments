@@ -122,6 +122,12 @@ var odfViewer = {
 		OC.addStyle('richdocuments', 'mobile');
 
 		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
+		$.get(viewer, function() {
+			$iframe.src = viewer;
+		}) .fail(function() {
+			odfViewer.onClose();
+			OC.Notification.showTemporary('Failed to load Collabora online - please try again later');
+		});
 		$('body').css('overscroll-behavior-y', 'none');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
