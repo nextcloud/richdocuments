@@ -11,6 +11,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -31,6 +32,8 @@ class SettingsController extends Controller{
 	private $discoveryManager;
 	/** @var string */
 	private $userId;
+	/** @var CapabilitiesService */
+	private $capabilitiesService;
 
 	/**
 	 * @param string $appName
@@ -47,13 +50,15 @@ class SettingsController extends Controller{
 								AppConfig $appConfig,
 								IConfig $config,
 								DiscoveryManager $discoveryManager,
-								$userId) {
+								$userId,
+								CapabilitiesService $capabilitiesService) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
 		$this->config = $config;
 		$this->discoveryManager = $discoveryManager;
 		$this->userId = $userId;
+		$this->capabilitiesService = $capabilitiesService;
 	}
 
 	/**
@@ -117,6 +122,7 @@ class SettingsController extends Controller{
 		}
 
 		$this->discoveryManager->refretch();
+		$this->capabilitiesService->refretch();
 
 		$response = [
 			'status' => 'success',
