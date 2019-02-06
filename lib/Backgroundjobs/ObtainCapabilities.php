@@ -24,6 +24,7 @@
 namespace OCA\Richdocuments\Backgroundjobs;
 
 use OC\BackgroundJob\TimedJob;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
@@ -32,64 +33,16 @@ use OCP\IConfig;
 
 class ObtainCapabilities extends TimedJob {
 
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
-	/** @var ISimpleFolder */
-	private $appData;
+	/** @var CapabilitiesService */
+	private $capabilitiesService;
 
-	public function __construct(IConfig $config, IClientService $clientService, IAppData $appData) {
-		$this->config = $config;
-		$this->clientService = $clientService;
-		try {
-			$this->appData = $appData->getFolder('richdocuments');
-		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
-		}
+	public function __construct(CapabilitiesService $capabilitiesService) {
+		$this->capabilitiesService = $capabilitiesService;
 
 		$this->setInterval(60*60);
 	}
 
 	protected function run($argument) {
-		try {
-			$file = $this->appData->getFile('capabilities.json');
-		} catch (NotFoundException $e) {
-			$file = $this->appData->newFile('capabilities.json');
-		}
-
-		$capabilties = $this->renewCapabilities();
-		$file->putContent(json_encode($capabilties));
+		$this->capabilitiesService->refretch();
 	}
-
-	private function renewCapabilities() {
-		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
-		if ($remoteHost === '') {
-			return [];
-		}
-		$capabilitiesEndpoint = $remoteHost . '/hosting/capabilities';
-
-		$client = $this->clientService->newClient();
-		try {
-			$response = $client->get(
-				$capabilitiesEndpoint,
-				[
-					'timeout' => 5,
-				]
-			);
-		} catch (\Exception $e) {
-			return [];
-		}
-
-		$responseBody = $response->getBody();
-		$ret = \json_decode($responseBody, true);
-
-		if (!is_array($ret)) {
-			return [];
-		}
-
-		return $ret;
-	}
-
-
 }
