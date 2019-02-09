@@ -5,6 +5,7 @@ OC.L10N.register(
     "All" : "Alle",
     "Save As" : "Gem som",
     "New filename" : "Nyt filnavn",
+    "Cancel" : "Annuller",
     "Save" : "Gem",
     "Create a new document" : "Opret nyt dokument",
     "Loading documents…" : "Henter dokumenter...",
