@@ -612,7 +612,7 @@ var documentsMain = {
 							}
 						} else if (msg.Values.Status === "Document_Loaded" ) {
 							window.removeEventListener('message', editorInitListener, false);
-							if (parent.OCA.Files.App) {
+							if (parent.OCA.Files.App.fileList.reload) {
 								parent.OCA.Files.App.fileList.reload();
 								documentsMain.getFileModel();
 							}
@@ -838,7 +838,9 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
-		parent.OCA.Files.App.fileList.reload();
+		if (parent && parent.OCA.Files.App.fileList.reload) {
+			parent.OCA.Files.App.fileList.reload();
+		}
 	},
 
 	WOPIPostMessage: function(iframe, msgId, values) {
