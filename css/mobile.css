@@ -10,4 +10,9 @@
 	#content {
 		padding-top: 0;
 	}
+
+	#richdocumentsframe {
+		height: 100vh;
+	}
+
 }
