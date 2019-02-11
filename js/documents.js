@@ -949,6 +949,7 @@ var documentsMain = {
 		documentsMain.UI.revisionsStart = 0;
 		parent.$('#versionsTabView .active').removeClass('active');
 		parent.$('#versionsTabView #currentVersion').remove();
+		parent.OC.Apps.hideAppSidebar();
 		$('#loleafletframe').focus();
 	},
 
