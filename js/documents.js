@@ -442,7 +442,7 @@ var documentsMain = {
 		},
 
 		addCurrentVersion: function() {
-			var preview = OC.MimeType.getIconUrl(parent.OCA.Files.App.fileList._currentFileModel.get('mimetype'));
+			var preview = OC.MimeType.getIconUrl(documentsMain.fileModel.get('mimetype'));
 			parent.$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="0" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n' +
 				'<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>');
 		},
