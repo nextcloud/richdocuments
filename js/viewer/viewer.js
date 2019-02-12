@@ -1,13 +1,19 @@
 /* globals FileList, OCA.Files.fileActions, oc_debug */
 
-var url = new URL(window.location);
-var type = url.searchParams.get("richdocuments_create");
-var filename = url.searchParams.get("richdocuments_filename");
+function getSearchParam(name){
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	if (results === null){
+		return null;
+	}
+	return decodeURI(results[1]) || 0;
+}
 
+var preload_type = getSearchParam('richdocuments_create');
+var preload_filename = getSearchParam('richdocuments_filename');
 var Preload = {
 	create: {
-		type: type,
-		filename: filename,
+		type: preload_type,
+		filename: preload_filename,
 	}
 };
 
@@ -375,7 +381,7 @@ var odfViewer = {
 		if (!!(Preload.create && Preload.create.type && Preload.create.filename)) {
 			var mimetype;
 			var ext;
-			switch (type) {
+			switch (Preload.create.type) {
 				case 'document':
 					mimetype = docMime;
 					ext = docExt;
