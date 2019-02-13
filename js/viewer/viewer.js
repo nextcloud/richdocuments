@@ -319,7 +319,7 @@ var odfViewer = {
 										$(this).ocdialog('close');
 									}
 								}, {
-									text: t('core', 'Create'),
+									text: t('richdocuments', 'Create'),
 									classes: 'primary',
 									click: function() {
 										var templateId = this.dataset.templateId;
