@@ -10,9 +10,6 @@ package_name=$(app_name)
 cert_dir=$(HOME)/.nextcloud/certificates
 occ=$(CURDIR)/../../occ
 
-handlebars-templates:
-	handlebars -n OCA.RichDocuments.Templates js/templates/ -f js/templates.js
-
 appstore:
 	mkdir -p $(sign_dir)
 	rsync -a \
