@@ -10,10 +10,14 @@ package_name=$(app_name)
 cert_dir=$(HOME)/.nextcloud/certificates
 occ=$(CURDIR)/../../occ
 
-appstore:
+clean:
+	rm -fr $(build_dir)
+
+appstore: clean
 	mkdir -p $(sign_dir)
 	rsync -a \
 	--exclude=.git \
+	--exclude=.github \
 	--exclude=build \
 	--exclude=.gitignore \
 	--exclude=.travis.yml \
