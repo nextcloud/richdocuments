@@ -19,13 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
  #template-picker {
 	.template-container:not(.hidden) {
 		display: flex;
 		flex-wrap: wrap;
 		a {
-			$size: 150px;
+			$size: 170px;
 			$sizeY: $size / 210 * 297;
 			$space: 10px;
 			border-radius: 3px;						// 12&13 fallback
@@ -34,7 +34,7 @@
 			margin: $space;
 			position: relative;
 
-			&:hover, 
+			&:hover,
 			&:focus {
 				border-color: $color-primary-element;	// 12&13 fallback
 			}
