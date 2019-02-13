@@ -71,7 +71,7 @@ OC.L10N.register(
     "template preview" : "претпреглед шаблона",
     "Select a template directory" : "Одаберите директоријум за шаблоне",
     "Remove personal template folder" : "Уклони личну фасциклу за шаблоне",
-    "Templates inside of this directory will be added to the template selector of Collabora online." : "Шаблони унутар овог директоријума ће бити додати у Collabora-ин одабирач шаблона.",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони унутар овог директоријума ће бити додати у Collabora-ин одабирач шаблона.",
     "Wrong password. Please retry." : "Погрешна лозинка. Покушајте поново.",
     "Password" : "Лозинка",
     "OK" : "У реду",

@@ -134,7 +134,7 @@ var odfViewer = {
 			$iframe.src = viewer;
 		}) .fail(function() {
 			odfViewer.onClose();
-			OC.Notification.showTemporary('Failed to load Collabora online - please try again later');
+			OC.Notification.showTemporary('Failed to load Collabora Online - please try again later');
 		});
 		$('body').css('overscroll-behavior-y', 'none');
 		if ($('#isPublic').val()) {

@@ -71,7 +71,7 @@ OC.L10N.register(
     "template preview" : "náhled šablony",
     "Select a template directory" : "Vyberte složku se šablonou",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
-    "Templates inside of this directory will be added to the template selector of Collabora online." : "Šablony v této složce budou přidány do výběru šablon v Collabora online.",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony v této složce budou přidány do výběru šablon v Collabora Online.",
     "Wrong password. Please retry." : "Nesprávné heslo. Zkuste to znovu.",
     "Password" : "Heslo",
     "OK" : "OK",
