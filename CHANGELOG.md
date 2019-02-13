@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.2.1
+
+### Fixed
+- Fix issues with mobile editing
+- Restore IE11 compatibility
+- Hide sidebar when closing the version viewer
+- Fix issue when fetching the file model
+- Scale Collabora frame to 100% height on mobile
+
 ## 3.2.0
 - Added: File actions menu in the header
 - Added: Handle UI_CreateFile post message
