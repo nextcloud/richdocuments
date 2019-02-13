@@ -39,16 +39,14 @@ $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
 		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
-		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
-		\OCP\Util::addStyle('richdocuments', 'templatePicker');
+		\OCP\Util::addStyle('richdocuments', 'viewer');
 	}
 );
 $eventDispatcher->addListener(
 	'OCA\Files_Sharing::loadAdditionalScripts',
 	function() {
 		\OCP\Util::addScript('richdocuments', 'viewer/viewer');
-		\OCP\Util::addStyle('richdocuments', 'viewer/odfviewer');
-		\OCP\Util::addStyle('richdocuments', 'templatePicker');
+		\OCP\Util::addStyle('richdocuments', 'viewer');
 	}
 );
 
