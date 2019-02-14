@@ -69,6 +69,7 @@
     "template preview" : "anteprima dei modelli",
     "Select a template directory" : "Seleziona una cartella dei modelli",
     "Remove personal template folder" : "Rimuovi la cartella dei modelli personali",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "I modelli all'interno di questa cartella saranno aggiunti al selettore dei modelli di Collabora Online.",
     "Wrong password. Please retry." : "Password errata. Riprova.",
     "Password" : "Password",
     "OK" : "OK",

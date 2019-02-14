@@ -69,6 +69,7 @@
     "template preview" : "previsualización de plantillas",
     "Select a template directory" : "Selecciona un directorio de plantillas",
     "Remove personal template folder" : "Elimina la carpeta personal de plantillas",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas en este directorio se añadirán al selector de plantillas de Collabora Online.",
     "Wrong password. Please retry." : "Contraseña incorrecta. Inténtelo de nuevo.",
     "Password" : "Contraseña",
     "OK" : "OK",
