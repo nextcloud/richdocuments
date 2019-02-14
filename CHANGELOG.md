@@ -8,6 +8,7 @@
 - Hide sidebar when closing the version viewer
 - Fix issue when fetching the file model
 - Scale Collabora frame to 100% height on mobile
+- Updated translations and fix issues with untranslated text
 
 ## 3.2.0
 - Added: File actions menu in the header
