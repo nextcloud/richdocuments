@@ -71,7 +71,6 @@ OC.L10N.register(
     "template preview" : "Sjabloonvoorbeeld",
     "Select a template directory" : "Selecteer een sjablonendirectory",
     "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
-    "Templates inside of this directory will be added to the template selector of Collabora online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora online sjablonenkiezer.",
     "Wrong password. Please retry." : "Onjuist wachtwoord. Probeer opnieuw.",
     "Password" : "Wachtwoord",
     "OK" : "OK",

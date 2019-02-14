@@ -68,7 +68,6 @@ OC.L10N.register(
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
     "Remove personal template folder" : "Ta bort personlig mallmapp",
-    "Templates inside of this directory will be added to the template selector of Collabora online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora online.",
     "Wrong password. Please retry." : "Fel lösenord. Försök igen.",
     "Password" : "Lösenord",
     "OK" : "OK",

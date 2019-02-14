@@ -71,7 +71,6 @@ OC.L10N.register(
     "template preview" : "sablonelőnézet",
     "Select a template directory" : "Válasszon sablonkönyvtárat",
     "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
-    "Templates inside of this directory will be added to the template selector of Collabora online." : "Az ebben a mappában levő sablonok hozzá lesznek adva a Collabora Online sablonválasztójához.",
     "Wrong password. Please retry." : "Hibás jelszó. Próbálkozzon újra!",
     "Password" : "Jelszó",
     "OK" : "OK",
