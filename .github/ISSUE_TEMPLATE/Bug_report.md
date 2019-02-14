@@ -40,7 +40,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Version of the richdocuments app**
 
-**Version of Collabora online**
+**Version of Collabora Online**
 
 
 <details>
