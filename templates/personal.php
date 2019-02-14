@@ -12,6 +12,6 @@ script('richdocuments', 'personal');
 		<button id="templateSelectButton"><span class="icon-folder" title="<?php p($l->t('Select a personal template folder')); ?>" data-toggle="tooltip"></span></button>
 		<button id="templateResetButton"><span  class="icon-delete" title="<?php p($l->t('Remove personal template folder')); ?>" data-toggle="tooltip"></span></button>
 	</p>
-	<p><em><?php p($l->t('Templates inside of this directory will be added to the template selector of Collabora online.')); ?></em></p>
+	<p><em><?php p($l->t('Templates inside of this directory will be added to the template selector of Collabora Online.')); ?></em></p>
 	</div>
 </div>
