@@ -71,6 +71,7 @@ OC.L10N.register(
     "template preview" : "visualização do modelo",
     "Select a template directory" : "Selecionar um diretório de modelos",
     "Remove personal template folder" : "Remover a pasta de modelos pessoais",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online.",
     "Wrong password. Please retry." : "Senha incorreta. Tente novamente.",
     "Password" : "Senha",
     "OK" : "OK",
