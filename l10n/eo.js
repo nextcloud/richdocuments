@@ -71,6 +71,7 @@ OC.L10N.register(
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
     "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“.",
     "Wrong password. Please retry." : "La pasvorto malĝustas. Bonvolu reprovi.",
     "Password" : "Pasvorto",
     "OK" : "Akcepti",
