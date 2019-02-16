@@ -176,6 +176,10 @@ var documentsMain = {
 			return parent.OCA.Files.FileList;
 		}
 		return null;
+    },
+
+	getLanguage: function() {
+		return OC.getLanguage ? OC.getLanguage() : OC.getLocale();
 	},
 
 	UI : {
@@ -388,7 +392,7 @@ var documentsMain = {
 			var urlsrc = documentsMain.urlsrc +
 				"WOPISrc=" + wopisrc +
 				"&title=" + encodeURIComponent(title) +
-				"&lang=" + OC.getLocale().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
+				"&lang=" + documentsMain.getLanguage().replace('_', '-') + // loleaflet expects a BCP47 language tag syntax
 				"&permission=readonly";
 
 			// access_token - must be passed via a form post
@@ -580,7 +584,7 @@ var documentsMain = {
 			var urlsrc = documentsMain.urlsrc +
 				"WOPISrc=" + wopisrc +
 				"&title=" + encodeURIComponent(title) +
-				"&lang=" + OC.getLocale().replace(/^([a-z]{2}).*_([A-Z]{2})$/, function(match, p1, p2) {return p1 + '-' + p2.toLowerCase();}) + // loleaflet expects a BCP47 language tag syntax
+				"&lang=" + documentsMain.getLanguage().replace(/^([a-z]{2}).*_([A-Z]{2})$/, function(match, p1, p2) {return p1 + '-' + p2.toLowerCase();}) + // loleaflet expects a BCP47 language tag syntax
 				"&closebutton=1" +
 				"&revisionhistory=1";
 			if (!documentsMain.canEdit || action === "view") {
