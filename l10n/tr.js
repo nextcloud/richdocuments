@@ -71,6 +71,7 @@ OC.L10N.register(
     "template preview" : "kalıp önizleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek.",
     "Wrong password. Please retry." : "Parola yanlış. Lütfen yeniden deneyin.",
     "Password" : "Parola",
     "OK" : "Tamam",

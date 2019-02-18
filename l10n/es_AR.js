@@ -2,6 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saving…" : "Guardando...",
+    "Please choose your nickname to continue as guest user." : "Por favor, elija su apodo para continuar como usuario invitado.",
+    "Nickname" : "Apodo",
     "Save" : "Guardar",
     "Loading documents…" : "Cargando documentos...",
     "Edit" : "Editar",
