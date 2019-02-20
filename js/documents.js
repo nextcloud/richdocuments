@@ -19,7 +19,7 @@ $.widget('oc.documentGrid', {
 
 	_load : function(fileId) {
 		// Handle guest user case (let users which are able to write set their name)
-		if (!richdocuments_directEdit && window.top.oc_current_user == null && this._getGuestNameCookie() == ''
+		if (!richdocuments_directEdit && window.parent.oc_current_user == null && this._getGuestNameCookie() == ''
 				&& (richdocuments_permissions & OC.PERMISSION_UPDATE)) {
 			$('#documentslist').remove();
 
