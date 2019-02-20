@@ -168,6 +168,16 @@ var documentsMain = {
 		return ocurl;
 	},
 
+	getFileList: function() {
+		if (parent.OCA.Files.App) {
+			return parent.OCA.Files.App.FileList;
+		}
+		if (parent.OCA.Files.FileList) {
+			return parent.OCA.Files.FileList;
+		}
+		return null;
+	},
+
 	UI : {
 		/* Editor wrapper HTML */
 		container : '<div id="mainContainer" class="claro">' +
@@ -612,8 +622,8 @@ var documentsMain = {
 							}
 						} else if (msg.Values.Status === "Document_Loaded" ) {
 							window.removeEventListener('message', editorInitListener, false);
-							if (parent.OCA.Files.App.fileList.reload) {
-								parent.OCA.Files.App.fileList.reload();
+							if (documentsMain.getFileList()) {
+								documentsMain.getFileList().reload();
 								documentsMain.getFileModel();
 							}
 						}
@@ -838,8 +848,8 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
-		if (parent && parent.OCA.Files.App.fileList.reload) {
-			parent.OCA.Files.App.fileList.reload();
+		if (parent && documentsMain.getFileList() !== null) {
+			documentsMain.getFileList().reload();	
 		}
 	},
 
