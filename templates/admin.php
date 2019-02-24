@@ -18,7 +18,7 @@ script('files', 'jquery.fileupload');
 	<input type="text" name="wopi_url" id="wopi_url" value="<?php p($_['wopi_url'])?>" style="width: 300px; display: block;">
 	<em><?php p($l->t('URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client.')) ?></em>
 	<br/>
-	<input type="checkbox" class="checkbox" id="disable_certificate_verification" <?php p($_['disable_certificate_verification'] !== '' ? 'checked' : '') ?> />
+	<input type="checkbox" class="checkbox" id="disable_certificate_verification" <?php p($_['disable_certificate_verification'] === 'yes' ? 'checked' : '') ?> />
 	<label for="disable_certificate_verification"><?php p($l->t('Disable certificate verification (insecure)')) ?></label>
 	<div>
 		<em><?php p($l->t('Enable if your Collabora Online server uses a self signed certificate')) ?></em>
