@@ -69,6 +69,7 @@ class SettingsController extends Controller{
 	public function getSettings() {
 		return new JSONResponse([
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification'),
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
 			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
@@ -77,6 +78,7 @@ class SettingsController extends Controller{
 
 	/**
 	 * @param string $wopi_url
+	 * @param string $disable_certificate_verification
 	 * @param string $edit_groups
 	 * @param string $use_groups
 	 * @param string $doc_format
@@ -85,6 +87,7 @@ class SettingsController extends Controller{
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
+	                            $disable_certificate_verification,
 	                            $edit_groups,
 	                            $use_groups,
 	                            $doc_format,
@@ -99,6 +102,13 @@ class SettingsController extends Controller{
 			if ($this->request->getServerProtocol() !== substr($wopi_url, 0, $colon)){
 				$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
 			}
+		}
+
+		if ($disable_certificate_verification !== null) {
+			$this->appConfig->setAppValue(
+				'disable_certificate_verification',
+				$disable_certificate_verification === 'true' ? 'yes' : ''
+			);
 		}
 
 		if ($edit_groups !== null){
