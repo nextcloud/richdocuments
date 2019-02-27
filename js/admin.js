@@ -338,7 +338,7 @@ function initTemplateManager() {
 	// fileupload plugin
 	$('#richdocuments-templates').fileupload({
 		dataType: 'json',
-		url: OC.generateUrl(OC.linkTo('richdocuments', 'template')),
+		url: OC.generateUrl('apps/richdocuments/template'),
 		type: 'POST',
 
 		add: function (e, data) {
