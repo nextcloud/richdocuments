@@ -14,6 +14,8 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use \OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -59,6 +61,24 @@ class SettingsController extends Controller{
 		$this->discoveryManager = $discoveryManager;
 		$this->userId = $userId;
 		$this->capabilitiesService = $capabilitiesService;
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @throws \Exception
+	 */
+	public function checkSettings() {
+		try {
+			$response = $this->discoveryManager->fetchFromRemote();
+		} catch (\Exception $e) {
+			return new DataResponse([
+				'status' => $e->getCode(),
+				'message' => $e->getMessage()
+			], $e->getCode());
+		}
+
+		return new DataResponse();
 	}
 
 	/**
