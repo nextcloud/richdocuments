@@ -976,7 +976,7 @@ var documentsMain = {
 
 		parent.document.title = documentsMain.UI.mainTitle;
 		parent.postMessage('close', '*');
-		this.UI.removeVersionSidebarEvents();
+		documentsMain.UI.removeVersionSidebarEvents();
 	},
 
 	onCloseViewer: function() {
