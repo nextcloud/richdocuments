@@ -212,9 +212,6 @@ var documentsMain = {
 				e.stopPropagation();
 				parent.$('#editors-menu').toggle();
 			});
-			$(parent.document).on('click', function(e) {
-				parent.$('#editors-menu').hide();
-			});
 			var headerRight = parent.$('#header .header-right');
 			headerRight.prepend(avatarList);
 
