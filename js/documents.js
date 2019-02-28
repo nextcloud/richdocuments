@@ -623,7 +623,12 @@ var documentsMain = {
 			// Listen for App_LoadingStatus as soon as possible
 			$('#loleafletframe').ready(function() {
 				var editorInitListener = function(e) {
-					var msg = JSON.parse(e.data);
+					var msg = {};
+					try {
+						msg = JSON.parse(e.data);
+					} catch (e) {
+						return;
+					}
 					if (msg.MessageId === 'App_LoadingStatus') {
 						if (msg.Values.Status === "Frame_Ready" ) {
 							documentsMain.wopiClientFeatures = msg.Values.Features;
