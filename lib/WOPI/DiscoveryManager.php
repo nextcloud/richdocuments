@@ -28,7 +28,6 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\Notification\IApp;
 
 class DiscoveryManager {
 	/** @var IClientService */
@@ -80,11 +79,13 @@ class DiscoveryManager {
 		$wopiDiscovery = $remoteHost . '/hosting/discovery';
 
 		$client = $this->clientService->newClient();
-		try {
-			$response = $client->get($wopiDiscovery);
-		} catch (\Exception $e) {
-			throw $e;
+		$options = [];
+
+		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+			$options['verify'] = false;
 		}
+
+		$response = $client->get($wopiDiscovery, $options);
 
 		$responseBody = $response->getBody();
 		$file->putContent(

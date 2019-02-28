@@ -27,10 +27,11 @@ var documentsSettings = {
 	},
 
 	save : function() {
-		$('#wopi_apply').attr('disabled', true);
+		$('#wopi_apply, #disable_certificate_verification').attr('disabled', true);
 		var data = {
-			wopi_url  : $('#wopi_url').val().replace(/\/$/, '')
-		};
+			wopi_url: $('#wopi_url').val().replace(/\/$/, ''),
+			disable_certificate_verification: document.getElementById('disable_certificate_verification').checked
+		}
 
 		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…'));
 		$.post(
@@ -55,7 +56,7 @@ var documentsSettings = {
 	},
 
 	afterSave : function(response){
-		$('#wopi_apply').attr('disabled', false);
+		$('#wopi_apply, #disable_certificate_verification').attr('disabled', false);
 		OC.msg.finishedAction('#documents-admin-msg', response);
 	},
 

@@ -22,9 +22,6 @@
 namespace OCA\Richdocuments\Preview;
 
 use OC\Preview\Provider;
-use \GuzzleHttp\Client;
-use \GuzzleHttp\Post\PostFile;
-use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 
@@ -52,26 +49,20 @@ abstract class Office extends Provider {
 		$stream = $fileview->fopen($path, 'r');
 
 		$client = $this->clientService->newClient();
+		$options = ['timeout' => 10];
+
+		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+			$options['verify'] = false;
+		}
+
+		if (version_compare($this->config->getSystemValue('version'), '14.0.0.0', '<')) {
+			$options['body'] = new \GuzzleHttp\Post\PostFile($path, $stream); // Since we upgraded guzzle in NC14 we have to do some dark magic here
+		} else {
+			$options['multipart'] = ['name' => $path, 'contents' => $stream];
+		}
+
 		try {
-			// Since we upgraded guzzle in NC14 we have to do some dark magic here
-			if (version_compare($this->config->getSystemValue('version'), '14.0.0.0', '<')) {
-				$response = $client->post($this->getWopiURL() . '/lool/convert-to/png', [
-					'timeout' => 10.0,
-					'body' => [
-						new PostFile($path, $stream),
-					],
-				]);
-			} else {
-				$response = $client->post($this->getWopiURL() . '/lool/convert-to/png', [
-					'timeout' => 10.0,
-					'multipart' => [
-						[
-							'name' => $path,
-							'contents' => $stream,
-						]
-					],
-				]);
-			}
+			$response = $client->post($this->getWopiURL(). '/lool/convert-to/png', $options);
 		} catch (\Exception $e) {
 			return false;
 		}

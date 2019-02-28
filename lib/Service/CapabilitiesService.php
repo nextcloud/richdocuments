@@ -67,13 +67,14 @@ class CapabilitiesService {
 		$capabilitiesEndpoint = $remoteHost . '/hosting/capabilities';
 
 		$client = $this->clientService->newClient();
+		$options = ['timeout' => 5];
+
+		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+			$options['verify'] = false;
+		}
+
 		try {
-			$response = $client->get(
-				$capabilitiesEndpoint,
-				[
-					'timeout' => 5,
-				]
-			);
+			$response = $client->get($capabilitiesEndpoint, $options);
 		} catch (\Exception $e) {
 			return [];
 		}
