@@ -923,16 +923,18 @@ var documentsMain = {
 	},
 
 	getFileModel: function() {
-		parent.OCA.Files.App.fileList._updateDetailsView(documentsMain.fileName, false);
-		var fileModel = parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName);
-		if (fileModel) {
-			documentsMain.fileModel = fileModel;
-			fileModel.on('change', function () {
+		if (documentsMain.getFileList()) {
+			documentsMain.getFileList()._updateDetailsView(documentsMain.fileName, false);
+			var fileModel = documentsMain.getFileList().getModelForFile(documentsMain.fileName);
+			if (fileModel) {
+				documentsMain.fileModel = fileModel;
+				fileModel.on('change', function () {
+					documentsMain.UI._addHeaderFileActions();
+				});
 				documentsMain.UI._addHeaderFileActions();
-			});
-			documentsMain.UI._addHeaderFileActions();
-		} else {
-			setTimeout(documentsMain.getFileModel, 500);
+			} else {
+				setTimeout(documentsMain.getFileModel, 500);
+			}
 		}
 	},
 
