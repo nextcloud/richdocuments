@@ -313,7 +313,7 @@ var documentsMain = {
 			} else {
 				$(avatar).attr('title', view.UserName);
 			}
-			$(avatar).avatar(view.UserId, 32);
+			$(avatar).avatar(view.UserId, 32, undefined, true, undefined, view.UserName);
 			if (parent.OC.currentUser !== null && view.UserId !== '') {
 				//$(avatar).contactsMenu(view.UserId, 0, avatarContainer);
 			}
@@ -348,16 +348,23 @@ var documentsMain = {
 				}
 			};
 			var followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>');
-			followCurrentEditor.click(function(event) {
+			followCurrentEditor.find('label').click(function(event) {
 				event.stopPropagation();
-				documentsMain.UI.followCurrentEditor();
+				if (documentsMain.UI.followingEditor) {
+					documentsMain.UI.followReset();
+				} else {
+					documentsMain.UI.followCurrentEditor();
+				}
 			});
-			if (this.followingEditor) {
-				popover.find('li.active').removeClass('active');
-				followCurrentEditor.find('.checkbox').prop('checked', true);
-			}
+			followCurrentEditor.find('.checkbox').prop('checked', documentsMain.UI.followingEditor);
 			popover.find('ul').append(followCurrentEditor);
 			avatardiv.append(popover)
+		},
+		followReset: function(event) {
+			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {Follow: false});
+			this.following = null;
+			this.followingEditor = false;
+			this.renderAvatars();
 		},
 		followCurrentEditor: function(event) {
 			documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_FollowUser', {Follow: true});
