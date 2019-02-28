@@ -170,10 +170,10 @@ var documentsMain = {
 
 	getFileList: function() {
 		if (parent.OCA.Files.App) {
-			return parent.OCA.Files.App.FileList;
+			return parent.OCA.Files.App.fileList;
 		}
-		if (parent.OCA.Files.FileList) {
-			return parent.OCA.Files.FileList;
+		if (parent.OCA.Sharing.PublicApp) {
+			return parent.OCA.Sharing.PublicApp.fileList;
 		}
 		return null;
     },
