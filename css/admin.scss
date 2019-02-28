@@ -1,6 +1,25 @@
 .rd-settings-documentation {
 	max-width: 50em;
 }
+
+#richdocuments {
+	input[name="wopi_url"] {
+		width: 300px;
+	}
+	#use_group_select, #edit_group_select {
+		width: 200px; display: block;
+	}
+	p {
+		margin-bottom: 15px;
+	}
+	#s2id_use_group_select,
+	#s2id_edit_group_select {
+		margin-left: 18px;
+		margin-top: -4px;
+		width: 300px !important;
+	}
+}
+
 #richdocuments,
 #richdocuments-templates {
 	// inline buttons on section headers
