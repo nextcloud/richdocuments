@@ -872,7 +872,7 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
-		if (parent && documentsMain.getFileList() !== null) {
+		if (parent && documentsMain.getFileList() !== null && typeof documentsMain.getFileList() !== 'undefined') {
 			documentsMain.getFileList().reload();
 			parent.document.title = documentsMain.documentTitle + ' - ' + documentsMain.UI.mainTitle;
 		}
