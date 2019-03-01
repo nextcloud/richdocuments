@@ -212,9 +212,6 @@ var documentsMain = {
 				e.stopPropagation();
 				parent.$('#editors-menu').toggle();
 			});
-			$(parent.document).on('click', function(e) {
-				parent.$('#editors-menu').hide();
-			});
 			var headerRight = parent.$('#header .header-right');
 			headerRight.prepend(avatarList);
 
@@ -463,14 +460,16 @@ var documentsMain = {
 		},
 
 		addCurrentVersion: function() {
-			var preview = OC.MimeType.getIconUrl(documentsMain.fileModel.get('mimetype'));
-			parent.$('#versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n' +
-				'<div><a class="downloadVersion"><span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="1551294326000"></span></div></div></li></ul>');
-			parent.$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n' +
-				'<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>');
-			parent.$('.live-relative-timestamp').each(function() {
-				$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)));
-			});
+			if (documentsMain.fileModel) {
+				var preview = OC.MimeType.getIconUrl(documentsMain.fileModel.get('mimetype'));
+				parent.$('#versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n' +
+					'<div><a class="downloadVersion"><span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="1551294326000"></span></div></div></li></ul>');
+				parent.$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n' +
+					'<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>');
+				parent.$('.live-relative-timestamp').each(function() {
+					$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)));
+				});
+			}
 		},
 
 		showVersionPreview: function (e) {
@@ -624,7 +623,12 @@ var documentsMain = {
 			// Listen for App_LoadingStatus as soon as possible
 			$('#loleafletframe').ready(function() {
 				var editorInitListener = function(e) {
-					var msg = JSON.parse(e.data);
+					var msg = {};
+					try {
+						msg = JSON.parse(e.data);
+					} catch (e) {
+						return;
+					}
 					if (msg.MessageId === 'App_LoadingStatus') {
 						if (msg.Values.Status === "Frame_Ready" ) {
 							documentsMain.wopiClientFeatures = msg.Values.Features;
@@ -924,16 +928,18 @@ var documentsMain = {
 	},
 
 	getFileModel: function() {
-		parent.OCA.Files.App.fileList._updateDetailsView(documentsMain.fileName, false);
-		var fileModel = parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName);
-		if (fileModel) {
-			documentsMain.fileModel = fileModel;
-			fileModel.on('change', function () {
+		if (documentsMain.getFileList()) {
+			documentsMain.getFileList()._updateDetailsView(documentsMain.fileName, false);
+			var fileModel = documentsMain.getFileList().getModelForFile(documentsMain.fileName);
+			if (fileModel) {
+				documentsMain.fileModel = fileModel;
+				fileModel.on('change', function () {
+					documentsMain.UI._addHeaderFileActions();
+				});
 				documentsMain.UI._addHeaderFileActions();
-			});
-			documentsMain.UI._addHeaderFileActions();
-		} else {
-			setTimeout(documentsMain.getFileModel, 500);
+			} else {
+				setTimeout(documentsMain.getFileModel, 500);
+			}
 		}
 	},
 
@@ -970,7 +976,7 @@ var documentsMain = {
 
 		parent.document.title = documentsMain.UI.mainTitle;
 		parent.postMessage('close', '*');
-		this.UI.removeVersionSidebarEvents();
+		documentsMain.UI.removeVersionSidebarEvents();
 	},
 
 	onCloseViewer: function() {
