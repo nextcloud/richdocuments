@@ -929,7 +929,7 @@ var documentsMain = {
 
 	getFileModel: function() {
 		if (documentsMain.getFileList()) {
-			documentsMain.getFileList()._updateDetailsView(documentsMain.fileName, false);
+			documentsMain.getFileList().scrollTo([documentsMain.fileName, '']);
 			var fileModel = documentsMain.getFileList().getModelForFile(documentsMain.fileName);
 			if (fileModel) {
 				documentsMain.fileModel = fileModel;
