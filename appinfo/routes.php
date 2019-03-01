@@ -46,6 +46,7 @@ return [
 		['name' => 'settings#setPersonalSettings', 'url' => 'ajax/personal.php', 'verb' => 'POST'],
 		['name' => 'settings#setSettings', 'url' => 'ajax/admin.php', 'verb' => 'POST'],
 		['name' => 'settings#getSettings', 'url' => 'ajax/settings.php', 'verb' => 'GET'],
+		['name' => 'settings#checkSettings', 'url' => 'settings/check', 'verb' => 'GET'],
 
 		//Mobile access
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],

@@ -75,17 +75,7 @@ class DiscoveryManager {
 			$file = $this->appData->newFile('discovery.xml');
 		}
 
-		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
-		$wopiDiscovery = $remoteHost . '/hosting/discovery';
-
-		$client = $this->clientService->newClient();
-		$options = [];
-
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-			$options['verify'] = false;
-		}
-
-		$response = $client->get($wopiDiscovery, $options);
+		$response = $this->fetchFromRemote();
 
 		$responseBody = $response->getBody();
 		$file->putContent(
@@ -95,6 +85,28 @@ class DiscoveryManager {
 			])
 		);
 		return $responseBody;
+	}
+
+	/**
+	 * @return \OCP\Http\Client\IResponse
+	 * @throws \Exception
+	 */
+	public function fetchFromRemote() {
+		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		$wopiDiscovery = $remoteHost . '/hosting/discovery';
+
+		$client = $this->clientService->newClient();
+		$options = ['timeout' => 5];
+
+		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+			$options['verify'] = false;
+		}
+
+		try {
+			return $client->get($wopiDiscovery, $options);
+		} catch (\Exception $e) {
+			throw $e;
+		}
 	}
 
 	public function refretch() {
