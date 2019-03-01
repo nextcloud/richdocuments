@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.2.2
+
+## Added
+- Add option to disable certificate validation
+
+## Fixed
+- Fix various errors when interacting with the files app
+- Show last saved version in the version sidebar
+- Make sure the window title is set properly
+- Improve admin settings layout
+- Allow to uncheck follow current user
+- Fix template previews
+- Use Nextcloud language instead of locale
+
 ## 3.2.1
 
 ### Fixed
