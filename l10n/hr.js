@@ -30,8 +30,6 @@ OC.L10N.register(
     "Collabora Online" : "Collabora Online",
     "Empty" : "Prazno",
     "Guest: %s" : "Gost: %s",
-    "Open documentation" : "Otvori dokumentaciju",
-    "Collabora Online server" : "Collabora Online poslužitelj",
     "Apply" : "Potvrda",
     "Restrict usage to specific groups" : "Ograničite uporabu na određene grupe",
     "Add" : "Dodajte",

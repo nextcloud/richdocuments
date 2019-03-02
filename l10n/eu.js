@@ -16,7 +16,6 @@ OC.L10N.register(
     "Saved" : "Gordeta",
     "Collabora Online" : "Collabora Online",
     "Guest: %s" : "Gonbidatua: %s",
-    "Open documentation" : "Ireki dokumentazioa ",
     "Apply" : "Aplikatu",
     "Add" : "Gehitu",
     "Wrong password. Please retry." : "Pasahitz okerra. Saiatu berriro.",

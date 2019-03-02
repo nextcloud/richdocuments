@@ -44,8 +44,6 @@ OC.L10N.register(
     "Empty" : "Tuščias",
     "Guest: %s" : "Svečias: %s",
     "Edit office documents directly in your browser." : "Redaguokite raštinės dokumentus tiesiogiai savo naršyklėje.",
-    "Open documentation" : "Atverti dokumentaciją",
-    "Collabora Online server" : "Collabora Online serveris",
     "Apply" : "Taikyti",
     "Add" : "Pridėti",
     "Global templates" : "Visuotiniai šablonai",

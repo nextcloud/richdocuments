@@ -17,8 +17,6 @@
     "Saved" : "хадгалагдсан",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
     "Collabora Online" : "онлайн Collabora ",
-    "Collabora Online server" : "Collabora Онлайн сервер",
-    "URL (and port) of the Collabora Online server that provides the editing functionality as a WOPI client." : "WOPI клиент нь засварлах боломжийг олгодог Collabora Online серверийн URL (болон порт).",
     "Apply" : "хэрэглэх",
     "Wrong password. Please retry." : "нууц үг алдаатай байна. дахин оролдоно уу",
     "Password" : "нууц үг",
