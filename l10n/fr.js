@@ -56,6 +56,7 @@ OC.L10N.register(
     "Apply" : "Appliquer",
     "Restrict usage to specific groups" : "Limiter l'utilisation à certains groupes",
     "Restrict edit to specific groups" : "Limiter l'édition à certains groupes",
+    "Advanced Settings" : "Paramètres avancés",
     "Enable access for external apps" : "Activer l'accès depuis des applications externes",
     "Add" : "Ajouter",
     "Use Canonical webroot" : "Utiliser la racine web canonique",
