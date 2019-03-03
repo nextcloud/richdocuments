@@ -169,6 +169,9 @@ var documentsMain = {
 	},
 
 	getFileList: function() {
+		if (window === parent) {
+			return null;
+		}
 		if (parent.OCA.Files.App) {
 			return parent.OCA.Files.App.fileList;
 		}
