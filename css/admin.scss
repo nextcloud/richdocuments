@@ -81,7 +81,7 @@
 				flex-direction: column;
 				width: $size;
 				margin: $space;
-				img {
+				img, .templatePlaceholder {
 					width: $size;
 					height: $sizeY;
 					background-color: nc-darken($color-main-background, 7%);	// 12&13 fallback
