@@ -1011,17 +1011,13 @@ var documentsMain = {
 
 $(document).ready(function() {
 
-	if (!OCA.Files) {
-		OCA.Files = {};
-		OCA.Files.App = {};
-		OCA.Files.App.fileList = FileList;
+	if (!OCA.RichDocuments) {
+		OCA.RichDocuments = {};
 	}
 
 	if (!OC.Share) {
 		OC.Share = {};
 	}
-
-	window.Files = FileList;
 
 	OCA.RichDocuments.documentsMain = documentsMain;
 
@@ -1033,9 +1029,3 @@ $(document).ready(function() {
 
 	documentsMain.onStartup();
 });
-
-(function() {
-	if (!OCA.RichDocuments) {
-		OCA.RichDocuments = {};
-	}
-})();
