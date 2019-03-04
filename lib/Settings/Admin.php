@@ -68,6 +68,7 @@ class Admin implements ISettings {
 				'doc_format'         => $this->config->getAppValue('richdocuments', 'doc_format'),
 				'external_apps'      => $this->config->getAppValue('richdocuments', 'external_apps'),
 				'canonical_webroot'  => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
+				'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification'),
 				'templates'          => $this->manager->getSystemFormatted(),
 				'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates']
 			],
