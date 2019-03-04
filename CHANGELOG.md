@@ -1,11 +1,19 @@
 # Changelog
 
+## 3.2.3
+
+### Fixed
+- Check properly if we are in direct editing
+- Fix undefined index log warnings
+- Fix multipart data when requesting reviews
+- Handle UI_Share postmessage from collabora
+
 ## 3.2.2
 
-## Added
+### Added
 - Add option to disable certificate validation
 
-## Fixed
+### Fixed
 - Fix various errors when interacting with the files app
 - Show last saved version in the version sidebar
 - Make sure the window title is set properly
