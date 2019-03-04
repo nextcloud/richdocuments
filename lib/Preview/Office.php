@@ -58,7 +58,7 @@ abstract class Office extends Provider {
 		if (version_compare($this->config->getSystemValue('version'), '14.0.0.0', '<')) {
 			$options['body'] = new \GuzzleHttp\Post\PostFile($path, $stream); // Since we upgraded guzzle in NC14 we have to do some dark magic here
 		} else {
-			$options['multipart'] = ['name' => $path, 'contents' => $stream];
+			$options['multipart'] = [['name' => $path, 'contents' => $stream]];
 		}
 
 		try {
