@@ -713,6 +713,11 @@ var documentsMain = {
 							return;
 
 						documentsMain.UI.showRevHistory(documentsMain.fullPath);
+					} else if (msgId === 'UI_Share') {
+						if (documentsMain.getFileList()) {
+							documentsMain.getFileList().showDetailsView(documentsMain.fileName, 'shareTabView');
+							parent.OC.Apps.showAppSidebar();
+						}
 					} else if (msgId === 'UI_SaveAs') {
 						// TODO it's not possible to enter the
 						// filename into the OC.dialogs.filepicker; so
