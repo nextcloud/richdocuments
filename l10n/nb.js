@@ -38,6 +38,7 @@ OC.L10N.register(
     "Apply" : "Bruk",
     "Restrict usage to specific groups" : "Begrens bruk til gitte grupper",
     "Restrict edit to specific groups" : "Begrens redigering til gitte brupper",
+    "Advanced Settings" : "Avanserte innstillinger",
     "Enable access for external apps" : "Aktiver tilgang for eksterne apper",
     "Add" : "Legg til",
     "Use Canonical webroot" : "Bruk Canonical web-rot",
