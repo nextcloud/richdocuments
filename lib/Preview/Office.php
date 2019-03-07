@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments\Preview;
 
 use OC\Preview\Provider;
+use OCA\Richdocuments\Capabilities;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 
@@ -33,13 +34,24 @@ abstract class Office extends Provider {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IClientService $clientService, IConfig $config) {
+	/** @var array */
+	private $capabilitites;
+
+	public function __construct(IClientService $clientService, IConfig $config, Capabilities $capabilities) {
 		$this->clientService = $clientService;
 		$this->config = $config;
+		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'];
 	}
 
 	private function getWopiURL() {
 		return $this->config->getAppValue('richdocuments', 'wopi_url');
+	}
+
+	public function isAvailable(\OCP\Files\FileInfo $file) {
+		if (isset($this->capabilitites['collabora']['convert-to'])) {
+			return $this->capabilitites['collabora']['convert-to'];
+		}
+		return false;
 	}
 
 	/**
