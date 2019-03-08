@@ -242,21 +242,23 @@ var documentsMain = {
 				parent.OCA.Files.App.fileList.fileActions.actions.all.Favorite.action(documentsMain.fileName, context)
 			});
 			if (isFavorite(context.fileInfoModel)) {
-				$favorite.find('a').text(t('files', 'Remove from favorites'));
+				$favorite.find('a').text(parent.t('files', 'Remove from favorites'));
 				$favorite.find('a').addClass('icon-starred');
 			} else {
-				$favorite.find('a').text(t('files', 'Add to favorites'));
+				$favorite.find('a').text(parent.t('files', 'Add to favorites'));
 				$favorite.find('a').addClass('icon-star-dark');
 			}
 
-			var $info = $('<li><a class="icon-info">Details</a></li>').click(function() {
-				parent.OCA.Files.App.fileList.fileActions.actions.all.Details.action(documentsMain.fileName, context)
+			var $info = $('<li><a class="icon-info"></a></li>').click(function() {
+				documentsMain.getFileList().fileActions.actions.all.Details.action(documentsMain.fileName, context)
 				parent.OC.hideMenus();
 			});
+			$info.find('a').text(parent.t('files', 'Details'));
 			var $download = $('<li><a class="icon-download">Download</a></li>').click(function() {
-				parent.OCA.Files.App.fileList.fileActions.actions.all.Download.action(documentsMain.fileName, context)
+				documentsMain.getFileList().fileActions.actions.all.Download.action(documentsMain.fileName, context)
 				parent.OC.hideMenus();
 			});
+			$download.find('a').text(parent.t('files', 'Download'));
 			actions.append($favorite).append($info).append($download);
 			actionsContainer.insertAfter(parent.$('#header .richdocuments-sharing'));
 			parent.OC.registerMenu(parent.$('#richdocuments-actions .icon-more'), parent.$('#richdocuments-actions-menu'), false, true);
