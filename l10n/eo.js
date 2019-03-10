@@ -10,6 +10,8 @@ OC.L10N.register(
     "Set" : "Uzi",
     "Remove from favorites" : "Forigi el pliŝataĵoj",
     "Add to favorites" : "Aldoni al pliŝataĵoj",
+    "Details" : "Detaloj",
+    "Download" : "Elŝuti",
     "(read only)" : "(nurlega)",
     "Guest" : "Gasto",
     "Follow current editor" : "Sekvi la aktualan redaktanton",

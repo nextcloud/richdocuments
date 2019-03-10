@@ -10,6 +10,8 @@ OC.L10N.register(
     "Set" : "Setzen",
     "Remove from favorites" : "Aus den Favoriten entfernen",
     "Add to favorites" : "Zu Favoriten hinzufügen",
+    "Details" : "Details",
+    "Download" : "Herunterladen",
     "(read only)" : "(schreibgeschützt)",
     "Guest" : "Gast",
     "Follow current editor" : "Dem aktuellen Bearbeiter folgen",

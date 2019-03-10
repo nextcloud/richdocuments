@@ -10,6 +10,8 @@ OC.L10N.register(
     "Set" : "Ayarla",
     "Remove from favorites" : "Sık Kullanılanlardan Çıkar",
     "Add to favorites" : "Sık Kullanılanlara Ekle",
+    "Details" : "Ayrıntılar",
+    "Download" : "İndir",
     "(read only)" : "(salt okunur)",
     "Guest" : "Konuk",
     "Follow current editor" : "Geçerli düzenleyici kullanılsın",
