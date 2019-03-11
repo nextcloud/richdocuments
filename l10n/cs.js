@@ -10,6 +10,8 @@ OC.L10N.register(
     "Set" : "Nastavit",
     "Remove from favorites" : "Odebrat z oblíbených",
     "Add to favorites" : "Přidat do oblíbených",
+    "Details" : "Podrobnosti",
+    "Download" : "Stáhnout",
     "(read only)" : "(pouze pro čtení)",
     "Guest" : "Host",
     "Follow current editor" : "Následovat stávající editor",

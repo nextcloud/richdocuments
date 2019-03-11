@@ -56,6 +56,7 @@
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online est une puissante suite bureautique en ligne basée sur LibreOffice avec édition collaborative. Elle prend en charge tous les principaux documents, formats de feuille de calcul et de présentation, et fonctionne avec tous les navigateurs modernes.",
     "URL (and Port) of Collabora Online-server" : "URL (et port) su serveur Collabora Online",
     "Apply" : "Appliquer",
+    "Collabora Online requires a seperate server acting as a WOPI-Client to provide editing capabilities." : "\"Collabora Online\" nécessite un serveur distinct agissant en tant que client WOPI pour fournir des fonctionnalités d'édition.",
     "Disable certificate verification (insecure)" : "Désactiver la vérification du certificat (non sur)",
     "Enable if your Collabora Online server uses a self signed certificate" : "Activer si votre serveur Collabora Online utilise un certificat auto-signé",
     "Restrict usage to specific groups" : "Limiter l'utilisation à certains groupes",
