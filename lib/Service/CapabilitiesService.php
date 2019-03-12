@@ -25,6 +25,7 @@ namespace OCA\Richdocuments\Service;
 
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -48,15 +49,29 @@ class CapabilitiesService {
 		}
 	}
 
-	public function refretch() {
+	private function getFile() {
 		try {
 			$file = $this->appData->getFile('capabilities.json');
 		} catch (NotFoundException $e) {
 			$file = $this->appData->newFile('capabilities.json');
+			$file->putContent(json_encode([]));
 		}
 
+		return $file;
+	}
+
+	public function clear() {
+		$file = $this->getFile();
+		$file->putContent(json_encode([]));
+	}
+
+	public function refretch() {
 		$capabilties = $this->renewCapabilities();
-		$file->putContent(json_encode($capabilties));
+
+		if ($capabilties !== []) {
+			$file = $this->getFile();
+			$file->putContent(json_encode($capabilties));
+		}
 	}
 
 	private function renewCapabilities() {

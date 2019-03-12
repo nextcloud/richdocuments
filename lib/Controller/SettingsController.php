@@ -152,6 +152,8 @@ class SettingsController extends Controller{
 		}
 
 		$this->discoveryManager->refretch();
+
+		$this->capabilitiesService->clear();
 		$this->capabilitiesService->refretch();
 
 		$response = [
