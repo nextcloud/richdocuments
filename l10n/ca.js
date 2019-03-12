@@ -29,6 +29,7 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "S'ha desat amb error: hauria d'utilitzar el mateix protocol que la instal·lació del servidor.",
     "Collabora Online" : "Col·labora Online",
     "Apply" : "Aplica",
+    "Advanced Settings" : "Paràmetres avançats",
     "Enable access for external apps" : "Activa l'accés a les aplicacions externes",
     "Add" : "Afegeix",
     "Wrong password. Please retry." : "Contrasenya incorrecta. Intenteu-ho de nou.",
