@@ -141,8 +141,8 @@ class TokenManager {
 		}
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
 
-		if (is_null($this->userId) && isset($_COOKIE['guestUser'])) {
-			$guest_name = $this->trans->t('Guest: %s', $_COOKIE['guestUser']);
+		if ($this->userId === null && isset($_COOKIE['guestUser'])) {
+			$guest_name = $this->trans->t('Guest: %s', \OC_Util::sanitizeHTML($_COOKIE['guestUser']));
 		} else {
 			$guest_name = NULL;
 		}

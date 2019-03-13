@@ -31,8 +31,8 @@ $.widget('oc.documentGrid', {
 
 
 			var div = document.createElement('div');
-			$(div).attr('style', 'margin: 0 auto; width: 195px;');
-			var nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">';
+			$(div).attr('style', 'margin: 0 auto; width: 250px; display: flex;');
+			var nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="flex-grow: 1; border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">';
 			var btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('richdocuments', 'Set') + '">';
 			div.innerHTML = nick + btn;
 
