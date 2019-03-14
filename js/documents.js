@@ -228,10 +228,10 @@ var documentsMain = {
 			var actions = actionsContainer.find('#richdocuments-actions-menu').empty();
 
 			var context = {
-				'$file': parent.OCA.Files.App.fileList.$el.find('[data-id=' + documentsMain.originalFileId + ']'),
-				fileActions: parent.OCA.Files.App.fileList.fileActions,
-				fileList: parent.OCA.Files.App.fileList,
-				fileInfoModel: parent.OCA.Files.App.fileList.getModelForFile(documentsMain.fileName)
+				'$file': documentsMain.getFileList().$el.find('[data-id=' + documentsMain.originalFileId + ']').first(),
+				fileActions: documentsMain.getFileList().fileActions,
+				fileList: documentsMain.getFileList(),
+				fileInfoModel: documentsMain.getFileModel()
 			};
 
 			var isFavorite = function(fileInfo) {
@@ -239,7 +239,8 @@ var documentsMain = {
 			};
 			var $favorite = $('<li><a></a></li>').click(function(e) {
 				$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small');
-				parent.OCA.Files.App.fileList.fileActions.actions.all.Favorite.action(documentsMain.fileName, context)
+				documentsMain.getFileList().fileActions.triggerAction('Favorite', documentsMain.getFileModel(), documentsMain.getFileList());
+				documentsMain.getFileModel().trigger('change', documentsMain.getFileModel());
 			});
 			if (isFavorite(context.fileInfoModel)) {
 				$favorite.find('a').text(parent.t('files', 'Remove from favorites'));
@@ -938,14 +939,27 @@ var documentsMain = {
 	},
 
 	getFileModel: function() {
+		if (documentsMain.getFileList() && documentsMain.getFileList()._detailsView && documentsMain.getFileList()._detailsView.getFileInfo()) {
+			if (documentsMain.fileModel && documentsMain.fileModel !== documentsMain.getFileList()._detailsView.getFileInfo()) {
+				documentsMain.fileModel = documentsMain.getFileList()._detailsView.getFileInfo();
+				documentsMain.fileModel.on('change', function () {
+					documentsMain.UI._addHeaderFileActions();
+				});
+			}
+		}
+
+		if (documentsMain.fileModel) {
+			return documentsMain.fileModel;
+		}
 		if (documentsMain.getFileList()) {
 			documentsMain.getFileList().scrollTo([documentsMain.fileName, '']);
 			var fileModel = documentsMain.getFileList().getModelForFile(documentsMain.fileName);
+
 			if (fileModel) {
-				documentsMain.fileModel = fileModel;
 				fileModel.on('change', function () {
 					documentsMain.UI._addHeaderFileActions();
 				});
+				documentsMain.fileModel = fileModel;
 				documentsMain.UI._addHeaderFileActions();
 			} else {
 				setTimeout(documentsMain.getFileModel, 500);
@@ -1031,7 +1045,7 @@ $(document).ready(function() {
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
 
-	$('li.document a').tipsy({fade: true, live: true});
+	$('li.document a').tooltip({fade: true, live: true});
 
 
 	documentsMain.onStartup();
