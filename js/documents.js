@@ -240,7 +240,7 @@ var documentsMain = {
 			var $favorite = $('<li><a></a></li>').click(function(e) {
 				$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small');
 				documentsMain.getFileList().fileActions.triggerAction('Favorite', documentsMain.getFileModel(), documentsMain.getFileList());
-				//documentsMain.getFileList().fileActions.actions.all.Favorite.action(documentsMain.fileName, context)
+				documentsMain.getFileModel().trigger('change', documentsMain.getFileModel());
 			});
 			if (isFavorite(context.fileInfoModel)) {
 				$favorite.find('a').text(parent.t('files', 'Remove from favorites'));
@@ -939,12 +939,22 @@ var documentsMain = {
 	},
 
 	getFileModel: function() {
+		if (documentsMain.getFileList() && documentsMain.getFileList()._detailsView && documentsMain.getFileList()._detailsView.getFileInfo()) {
+			if (documentsMain.fileModel && documentsMain.fileModel !== documentsMain.getFileList()._detailsView.getFileInfo()) {
+				documentsMain.fileModel = documentsMain.getFileList()._detailsView.getFileInfo();
+				documentsMain.fileModel.on('change', function () {
+					documentsMain.UI._addHeaderFileActions();
+				});
+			}
+		}
+
 		if (documentsMain.fileModel) {
 			return documentsMain.fileModel;
 		}
 		if (documentsMain.getFileList()) {
 			documentsMain.getFileList().scrollTo([documentsMain.fileName, '']);
 			var fileModel = documentsMain.getFileList().getModelForFile(documentsMain.fileName);
+
 			if (fileModel) {
 				fileModel.on('change', function () {
 					documentsMain.UI._addHeaderFileActions();
