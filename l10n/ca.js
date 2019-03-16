@@ -1,7 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "S'està desant ...",
+    "Saving…" : "S'està desant...",
     "All" : "Tots",
     "Error" : "Error",
     "An error occurred" : "S'ha produït un error",
@@ -27,7 +27,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Nova Presentació.pptx",
     "Saved" : "Desat",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "S'ha desat amb error: hauria d'utilitzar el mateix protocol que la instal·lació del servidor.",
-    "Collabora Online" : "Col·labora Online",
+    "Collabora Online" : "Collabora Online",
     "Apply" : "Aplica",
     "Advanced Settings" : "Paràmetres avançats",
     "Enable access for external apps" : "Activa l'accés a les aplicacions externes",
