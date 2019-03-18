@@ -129,7 +129,7 @@ var odfViewer = {
 
 		OC.addStyle('richdocuments', 'mobile');
 
-		var $iframe = $('<iframe id="richdocumentsframe" scrolling="no" allowfullscreen src="'+viewer+'" />');
+		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="'+viewer+'" />');
 		$.get(OC.generateUrl('/apps/richdocuments/settings/check'), function() {
 			$iframe.src = viewer;
 		}) .fail(function() {

@@ -413,7 +413,7 @@ var documentsMain = {
 			  '<input name="access_token" value="' + access_token + '" type="hidden"/></form>';
 
 			// iframe that contains the Collabora Online Viewer
-			var frame = '<iframe id="loleafletframe_viewer" name= "loleafletframe_viewer" style="width:100%;height:100%;position:absolute;"/>';
+			var frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" nonce="' + btoa(OC.requestToken) + '" style="width:100%;height:100%;position:absolute;"/>';
 
 			$('#revViewer').append(form);
 			$('#revViewer').append(frame);
