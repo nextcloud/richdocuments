@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.2.4
+
+### Fixed
+
+- Only update capabilities on successfull fetch
+- Increase timeout when fetching capabilities
+- Fix translations on file actions
+- Only try to generate previews if convert-to is available
+- Trigger favorite action properly
+- Set proper nonce on the outer iframe
+- Fix guest name input
+
 ## 3.2.3
 
 ### Fixed
