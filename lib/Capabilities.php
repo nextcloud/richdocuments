@@ -34,6 +34,44 @@ use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
 
+	const MIMETYPES = [
+		'application/vnd.oasis.opendocument.text',
+		'application/vnd.oasis.opendocument.spreadsheet',
+		'application/vnd.oasis.opendocument.graphics',
+		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.lotus-wordpro',
+		'application/vnd.visio',
+		'application/vnd.wordperfect',
+		'application/msonenote',
+		'application/msword',
+		'application/rtf',
+		'text/rtf',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+		'application/vnd.ms-word.document.macroEnabled.12',
+		'application/vnd.ms-word.template.macroEnabled.12',
+		'application/vnd.ms-excel',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+		'application/vnd.ms-excel.sheet.macroEnabled.12',
+		'application/vnd.ms-excel.template.macroEnabled.12',
+		'application/vnd.ms-excel.addin.macroEnabled.12',
+		'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+		'application/vnd.ms-powerpoint',
+		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		'application/vnd.openxmlformats-officedocument.presentationml.template',
+		'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+		'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+		'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+		'application/vnd.ms-powerpoint.template.macroEnabled.12',
+		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
+	];
+
+	const MIMETYPES_OPTIONAL = [
+		'image/svg+xml',
+		'application/pdf'
+	];
+
 	/** @var ISimpleFolder */
 	private $appData;
 
@@ -55,14 +93,8 @@ class Capabilities implements ICapability {
 		$collaboraCapabilities = $this->getCollaboraCapabilities();
 		return [
 			'richdocuments' => [
-				'mimetypes' => [
-					'application/vnd.oasis.opendocument.text',
-					'application/vnd.oasis.opendocument.spreadsheet',
-					'application/vnd.oasis.opendocument.presentation',
-					'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-					'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-				],
+				'mimetypes' => self::MIMETYPES,
+				'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 				'collabora' => $collaboraCapabilities,
 				'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ? : false,
 				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) ? : false,
