@@ -29,6 +29,7 @@ OC.L10N.register(
     "Template not found" : "Шаблонът не е открит",
     "Collabora Online" : "Collabora Online",
     "Apply" : "Приложи",
+    "Advanced Settings" : "Допълнителни настройки",
     "Add a new template" : "Добавяне на шаблон",
     "No templates defined." : "Няма дефинирани шаблони.",
     "Add a new one?" : "Добавяне на нов шаблон?",
