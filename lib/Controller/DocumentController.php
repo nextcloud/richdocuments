@@ -133,17 +133,9 @@ class DocumentController extends Controller {
 				} catch (\Exception $e) {
 					$this->logger->logException($e, ['app'=>'richdocuments']);
 					$params = [
-						'remoteAddr' => $this->request->getRemoteAddress(),
-						'requestID' => $this->request->getId(),
-						'debugMode' => $this->settings->getSystemValue('debug'),
-						'errorClass' => get_class($e),
-						'errorCode' => $e->getCode(),
-						'errorMsg' => $e->getMessage(),
-						'file' => $e->getFile(),
-						'line' => $e->getLine(),
-						'trace' => $e->getTraceAsString()
+						'errors' => [['error' => $e->getMessage()]]
 					];
-					return new TemplateResponse('core', 'exception', $params, 'guest');
+					return new TemplateResponse('core', 'error', $params, 'guest');
 				}
 			}
 
@@ -213,17 +205,9 @@ class DocumentController extends Controller {
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
 			$params = [
-				'remoteAddr' => $this->request->getRemoteAddress(),
-				'requestID' => $this->request->getId(),
-				'debugMode' => $this->settings->getSystemValue('debug'),
-				'errorClass' => get_class($e),
-				'errorCode' => $e->getCode(),
-				'errorMsg' => $e->getMessage(),
-				'file' => $e->getFile(),
-				'line' => $e->getLine(),
-				'trace' => $e->getTraceAsString()
+				'errors' => [['error' => $e->getMessage()]]
 			];
-			return new TemplateResponse('core', 'exception', $params, 'guest');
+			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
@@ -326,17 +310,9 @@ class DocumentController extends Controller {
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
 			$params = [
-				'remoteAddr' => $this->request->getRemoteAddress(),
-				'requestID' => $this->request->getId(),
-				'debugMode' => $this->settings->getSystemValue('debug'),
-				'errorClass' => get_class($e),
-				'errorCode' => $e->getCode(),
-				'errorMsg' => $e->getMessage(),
-				'file' => $e->getFile(),
-				'line' => $e->getLine(),
-				'trace' => $e->getTraceAsString()
+				'errors' => [['error' => $e->getMessage()]]
 			];
-			return new TemplateResponse('core', 'exception', $params, 'guest');
+			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
