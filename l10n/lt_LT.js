@@ -7,6 +7,8 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Norėdami tęsti kaip svečias, pasirinkite savo slapyvardį.",
     "Nickname" : "Slapyvardis",
     "Set" : "Nustatyti",
+    "Remove from favorites" : "Pašalinti iš svarbiausių",
+    "Add to favorites" : "Pridėti prie svarbiausių",
     "(read only)" : "(tik skaitymui)",
     "Guest" : "Svečias",
     "Close version preview" : "Užverti versijos peržiūrą",

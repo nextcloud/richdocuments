@@ -1,6 +1,7 @@
 { "translations": {
     "Saving…" : "Guardando...",
     "All" : "Todos",
+    "Error" : "Error",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Please enter the filename to store the document as." : "Por favor ingresa el nombre del archivo con el cual almacenar el documento",
     "Save As" : "Guardar Como",
