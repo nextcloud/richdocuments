@@ -4,61 +4,6 @@
 	<create>true</create>
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
-	<table>
-		<name>*dbprefix*richdocuments_member</name>
-		<declaration>
-
-			<field>
-				<name>member_id</name>
-				<type>integer</type>
-				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<unsigned>true</unsigned>
-				<length>4</length>
-				<comments>Unique per user and session</comments>
-			</field>
-			<field>
-				<name>uid</name>
-				<type>text</type>
-				<length>64</length>
-			</field>
-			<field>
-				<name>color</name>
-				<type>text</type>
-				<length>32</length>
-			</field>
-			<field>
-				<name>last_activity</name>
-				<type>integer</type>
-				<unsigned>true</unsigned>
-				<length>4</length>
-			</field>
-			<field>
-				<name>is_guest</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>1</length>
-			</field>
-			<field>
-				<name>token</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>32</length>
-			</field>
-			<field>
-				<name>status</name>
-				<type>integer</type>
-				<default>1</default>
-				<notnull>true</notnull>
-				<unsigned>true</unsigned>
-				<length>1</length>
-			</field>
-
-		</declaration>
-	</table>
 
 	<table>
 		<name>*dbprefix*richdocuments_wopi</name>
