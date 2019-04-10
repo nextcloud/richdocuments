@@ -99,7 +99,16 @@ class TokenManager {
 			try {
 				$editoruid = $this->userId;
 				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
-				$updatable = $rootFolder->isUpdateable();
+
+				$files = $rootFolder->getById((int)$fileId);
+				$updatable = false;
+				foreach ($files as $file) {
+					if ($file->isUpdateable()) {
+						$updatable = true;
+						break;
+					}
+				}
+
 				// Check if the editor (user who is accessing) is in editable group
 				// UserCanWrite only if
 				// 1. No edit groups are set or
@@ -163,8 +172,7 @@ class TokenManager {
 	public function getTokenForTemplate(File $file, $userId, $templateDestination) {
 		$owneruid = $userId;
 		$editoruid = $userId;
-		$rootFolder = $this->rootFolder->getUserFolder($editoruid);
-		$updatable = $rootFolder->isUpdateable();
+		$updatable = $file->isUpdateable();
 		// Check if the editor (user who is accessing) is in editable group
 		// UserCanWrite only if
 		// 1. No edit groups are set or
