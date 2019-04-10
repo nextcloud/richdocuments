@@ -30,6 +30,7 @@ use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
+use OCA\Richdocuments\Preview\Pdf;
 use OCP\AppFramework\App;
 use OCP\IPreview;
 
@@ -73,6 +74,10 @@ class Application extends App {
 		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function() use ($container) {
 			// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider lambda. OpenDocument::class=' . OpenDocument::class);
 			return $container->query(OpenDocument::class);
+		});
+
+		$previewManager->registerProvider('/application\/pdf/', function() use ($container) {
+			return $container->query(Pdf::class);
 		});
 
 	}
