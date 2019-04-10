@@ -393,6 +393,7 @@ var odfViewer = {
 };
 
 $(document).ready(function() {
+	// register file actions and menu
 	if ( typeof OCA !== 'undefined'
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
@@ -408,27 +409,19 @@ $(document).ready(function() {
 		odfViewer.register();
 
 		$.get(OC.filePath('richdocuments', 'ajax', 'settings.php')).done(function(settings) {
-			odfViewer.registerFilesMenu(settings[0]);
+			odfViewer.registerFilesMenu(settings);
 		})
 
 	}
-});
 
-// FIXME: Hack for single public file view since it is not attached to the fileslist
-$(document).ready(function(){
-	// FIXME: Filter compatible mime types
+	// Open documents if a public page is opened for a supported mimetype
 	if ($('#isPublic').val() && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
 		odfViewer.onEdit($('#filename').val());
 	}
-});
 
-$(document).ready(function() {
-	var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-	var eventer = window[eventMethod];
-	var messageEvent = eventMethod == 'attachEvent' ? 'onmessage' : 'message';
-
-	eventer(messageEvent,function(e) {
-		if(e.data === 'close') {
+	// listen to message from the viewer for closing/loading actions
+	window.addEventListener('message', function(e) {
+		if (e.data === 'close') {
 			odfViewer.onClose();
 		} else if(e.data === 'loading') {
 			$('#content').removeClass('loading');
