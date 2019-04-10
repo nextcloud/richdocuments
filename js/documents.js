@@ -514,12 +514,7 @@ var documentsMain = {
 
 			documentsMain.$deferredVersionRestoreAck = $.Deferred();
 			jQuery.when(documentsMain.$deferredVersionRestoreAck).done(function(args) {
-				var nextcloudVersion = parseInt(parent.oc_config.version.split('.')[0]);
-				if (nextcloudVersion < 15) {
-					self._restoreAjax(version);
-				} else {
-					self._restoreDAV(version)
-				}
+				self._restoreDAV(version)
 			});
 
 			// resolve the deferred object immediately if client doesn't support version states
@@ -554,19 +549,6 @@ var documentsMain = {
 				headers: {
 					Destination: OC.linkToRemote('dav') + '/versions/' + parent.OC.getCurrentUser().uid + '/restore/target'
 				},
-				success: this._restoreSuccess,
-				error: this._restoreError
-			});
-		},
-
-		_restoreAjax: function(version) {
-			var restoreUrl = OC.generateUrl('apps/files_versions/ajax/rollbackVersion.php?file={file}&revision={revision}',
-					{
-						file: documentsMain.fullPath, revision: version
-					});
-			$.ajax({
-				type: 'GET',
-				url: restoreUrl,
 				success: this._restoreSuccess,
 				error: this._restoreError
 			});

@@ -149,12 +149,7 @@ var odfViewer = {
 			$('#controls').addClass('hidden');
 			$('#content').addClass('loading');
 		} else {
-			if (odfViewer.nextcloudVersion < 14) {
-				$iframe.css('height', '100%');
-				$('#app-content').css('overflow', 'hidden');
-			} else {
-				$('body').css('overflow', 'hidden');
-			}
+			$('body').css('overflow', 'hidden');
 			$('#app-content').append($iframe);
 			if ($('header').length) {
 				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
@@ -188,11 +183,7 @@ var odfViewer = {
 		$('#richdocuments-avatars').remove();
 		$('#richdocuments-actions').remove();
 		$('.searchbox').show();
-		if (odfViewer.nextcloudVersion < 14) {
-			$('#app-content').css('overflow', 'auto');
-		} else {
-			$('body').css('overflow', 'auto');
-		}
+		$('body').css('overflow', 'auto');
 
 		if ($('#isPublic').val()) {
 			$('#content').removeClass('full-height');
@@ -416,15 +407,7 @@ $(document).ready(function() {
 		// register() needs to be re-run to re-register the fileActions.
 		odfViewer.register();
 
-		var getSettings = $.get(OC.filePath('richdocuments', 'ajax', 'settings.php'));
-		var getCapabilities = $.Deferred().resolve();
-
-		if (typeof oc_capabilities === 'undefined') {
-			getCapabilities = $.get(OC.linkToOCS('cloud', 2) + 'capabilities?format=json', function (data) {
-				oc_capabilities = data.ocs.data.capabilities;
-			})
-		}
-		$.when(getSettings, getCapabilities).done(function(settings, capabilities) {
+		$.get(OC.filePath('richdocuments', 'ajax', 'settings.php')).done(function(settings) {
 			odfViewer.registerFilesMenu(settings[0]);
 		})
 
