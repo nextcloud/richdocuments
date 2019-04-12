@@ -154,6 +154,7 @@ class WopiController extends Controller {
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
 			'EnableInsertRemoteImage' => true,
 			'EnableShare' => true,
+			'HideUserList' => 'desktop'
 		];
 
 		if ($wopi->isTemplateToken()) {
