@@ -94,6 +94,7 @@ class TokenManager {
 			$rootFolder = $this->rootFolder;
 			$share = $this->shareManager->getShareByToken($shareToken);
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
+			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
 		} else if (!is_null($this->userId)) {
 			try {
@@ -156,7 +157,7 @@ class TokenManager {
 			$guest_name = NULL;
 		}
 
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name, 0, $hideDownload);
 
 		try {
 
