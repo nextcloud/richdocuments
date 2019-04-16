@@ -30,6 +30,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
@@ -37,13 +38,17 @@ class Capabilities implements ICapability {
 	/** @var ISimpleFolder */
 	private $appData;
 
+	/** @var IL10N */
+	private $l10n;
+
 	/**
 	 * Capabilities constructor.
 	 *
 	 * @param IAppData $appData
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function __construct(IAppData $appData) {
+	public function __construct(IAppData $appData, IL10N $l10n) {
+		$this->l10n = $l10n;
 		try {
 			$this->appData = $appData->getFolder('richdocuments');
 		} catch (NotFoundException $e) {
@@ -66,6 +71,7 @@ class Capabilities implements ICapability {
 				'collabora' => $collaboraCapabilities,
 				'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ? : false,
 				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) ? : false,
+				'productName' => isset($collaboraCapabilities['productName']) ? : $this->l10n->t('Collabora Online'),
 			],
 		];
 	}
