@@ -81,6 +81,9 @@ class Wopi extends Entity {
 	/** @var int */
 	protected $templateDestination;
 
+	/** @var bool */
+	protected $hideDownload;
+
 	public function __construct() {
 		$this->addType('owner_uid', 'string');
 		$this->addType('editor_uid', 'string');
@@ -92,6 +95,7 @@ class Wopi extends Entity {
 		$this->addType('expiry', 'int');
 		$this->addType('guest_displayname', 'string');
 		$this->addType('templateDestination', 'int');
+		$this->addType('hide_download', 'bool');
 	}
 
 	public function isTemplateToken() {
