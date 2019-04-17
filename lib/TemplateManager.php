@@ -73,6 +73,18 @@ class TemplateManager {
 		'presentation' => self::MIMES_PRESENTATIONS
 	];
 
+	public const TYPE_EXTENTION = [
+		'document'     => 'odt',
+		'spreadsheet'  => 'ods',
+		'presentation' => 'odp'
+	];
+
+	public const TYPE_EXTENSION_OOXML = [
+		'document'     => 'docx',
+		'spreadsheet'  => 'xlsx',
+		'presentation' => 'pptx'
+	];
+
 	const EMPTY_TEMPLATE_ID_TYPE = [
 		-1 => 'document',
 		-2 => 'spreadsheet',
@@ -82,11 +94,6 @@ class TemplateManager {
 		'document'     => -1,
 		'spreadsheet'  => -2,
 		'presentation' => -3,
-	];
-	const TYPE_EXTENTION = [
-		'document'     => 'odt',
-		'spreadsheet'  => 'ods',
-		'presentation' => 'odp',
 	];
 
 
@@ -419,13 +426,15 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function formatNodeReturn(File $template) {
+		$ooxml = $this->config->getAppValue($this->appName, 'doc_format', '') === 'ooxml';
+		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id'        => $template->getId(),
 			'name'      => $template->getName(),
 			'preview'   => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'      => $this->flipTypes()[$template->getMimeType()],
 			'delete'    => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
-			'extension' => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
+			'extension' => $ooxml ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}
 
@@ -446,11 +455,13 @@ class TemplateManager {
 	}
 
 	public function formatEmpty(File $template) {
+		$ooxml = $this->config->getAppValue($this->appName, 'doc_format', '') === 'ooxml';
+		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id'        => $template->getId(),
 			'name'      => $this->l->t('Empty'),
 			'type'      => $this->flipTypes()[$template->getMimeType()],
-			'extension' => self::TYPE_EXTENTION[$this->flipTypes()[$template->getMimeType()]],
+			'extension' => $ooxml ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}
 }
