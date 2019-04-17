@@ -20,40 +20,8 @@ var Preload = {
 var odfViewer = {
 	isDocuments : false,
 	nextcloudVersion: 0,
-	supportedMimes: [
-		'application/vnd.oasis.opendocument.text',
-		'application/vnd.oasis.opendocument.spreadsheet',
-		'application/vnd.oasis.opendocument.graphics',
-		'application/vnd.oasis.opendocument.presentation',
-		'application/vnd.lotus-wordpro',
-		'image/svg+xml',
-		'application/vnd.visio',
-		'application/vnd.wordperfect',
-		'application/msonenote',
-		'application/msword',
-		'application/rtf',
-		'text/rtf',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-		'application/vnd.ms-word.document.macroEnabled.12',
-		'application/vnd.ms-word.template.macroEnabled.12',
-		'application/vnd.ms-excel',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-		'application/vnd.ms-excel.sheet.macroEnabled.12',
-		'application/vnd.ms-excel.template.macroEnabled.12',
-		'application/vnd.ms-excel.addin.macroEnabled.12',
-		'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-		'application/vnd.ms-powerpoint',
-		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		'application/vnd.openxmlformats-officedocument.presentationml.template',
-		'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-		'application/vnd.ms-powerpoint.addin.macroEnabled.12',
-		'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
-		'application/vnd.ms-powerpoint.template.macroEnabled.12',
-		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
-	],
-
+	supportedMimes: oc_capabilities.richdocuments.mimetypes.concat(oc_capabilities.richdocuments.mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: oc_capabilities.richdocuments.mimetypesNoDefaultOpen,
 	register : function() {
 		odfViewer.nextcloudVersion = parseInt(oc_config.version.split('.')[0]);
 		var i,
@@ -67,9 +35,11 @@ var odfViewer = {
 				    OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
-					t('richdocuments', 'Edit')
+					t('richdocuments', 'Edit with Collabora online')
 			);
-			OCA.Files.fileActions.setDefault(mime, 'Edit');
+			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1) {
+				OCA.Files.fileActions.setDefault(mime, 'Edit with Collabora online');
+			}
 		}
 	},
 
