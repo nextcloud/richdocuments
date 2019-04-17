@@ -23,23 +23,27 @@
 
 namespace OCA\Richdocuments\Settings;
 
+use OCA\Richdocuments\Capabilities;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class Section implements IIconSection {
 	/** @var IL10N */
-	private $l;
+	private $l10n;
 	/** @var IURLGenerator */
 	private $url;
+	/** @var Capabilities */
+	private $capabilitites;
 
 	/**
 	 * @param IL10N $l
 	 * @param IURLGenerator $url
 	 */
-	public function __construct(IL10N $l, IURLGenerator $url) {
-		$this->l = $l;
+	public function __construct(IL10N $l10n, IURLGenerator $url, Capabilities $capabilities) {
+		$this->l10n = $l10n;
 		$this->url = $url;
+		$this->capabilitites = $capabilities;
 	}
 	/**
 	 * {@inheritdoc}
@@ -51,7 +55,11 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getName() {
-		return $this->l->t('Collabora Online');
+		$capabilitites = $this->capabilitites->getCapabilities();
+		if (isset($capabilitites['richdocuments']['productName'])) {
+			return $capabilitites['richdocuments']['productName'];
+		}
+		return $this->l10n->t('Collabora Online');
 	}
 	/**
 	 * {@inheritdoc}
