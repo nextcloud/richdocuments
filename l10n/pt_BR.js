@@ -28,6 +28,8 @@ OC.L10N.register(
     "Create a new document" : "Criar um novo documento",
     "Loading documents…" : "Carregando documentos...",
     "Select a personal template folder" : "Selecione uma pasta de modelos pessoais",
+    "Edit with Collabora online" : "Editar com Collabora online",
+    "Failed to load {productName} - please try again later" : "Falha ao carregar {productName} - tente novamente mais tarde",
     "New Document" : "Novo Documento",
     "New Spreadsheet" : "Nova Planilha",
     "New Presentation" : "Nova Apresentação",
