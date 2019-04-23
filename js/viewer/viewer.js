@@ -26,19 +26,19 @@ var odfViewer = {
 		odfViewer.nextcloudVersion = parseInt(oc_config.version.split('.')[0]);
 		var i,
 		    mime;
-
+		var editActionName = 'Edit with ' + oc_capabilities.richdocuments.productName;
 		for (i = 0; i < odfViewer.supportedMimes.length; ++i) {
 			mime = odfViewer.supportedMimes[i];
 			OCA.Files.fileActions.register(
 				    mime,
-					'Edit',
+				    editActionName,
 				    OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
-					t('richdocuments', 'Edit with Collabora online')
+					t('richdocuments', 'Edit with {productName}', { productName: oc_capabilities.richdocuments.productName })
 			);
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1) {
-				OCA.Files.fileActions.setDefault(mime, 'Edit with Collabora online');
+				OCA.Files.fileActions.setDefault(mime, editActionName);
 			}
 		}
 	},
