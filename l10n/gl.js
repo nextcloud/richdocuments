@@ -28,6 +28,7 @@ OC.L10N.register(
     "Create a new document" : "Crear un documento novo",
     "Loading documents…" : "Cargando documentos...",
     "Select a personal template folder" : "Seleccione un cartafol de modelos persoais",
+    "Edit with {productName}" : "Editar con {productName}",
     "Failed to load {productName} - please try again later" : "Produciuse un fallo ao cargar {productName}; ténteo máis tarde",
     "New Document" : "Novo documento",
     "New Spreadsheet" : "Nova folla de cálculo",

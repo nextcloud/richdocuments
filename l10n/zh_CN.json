@@ -26,6 +26,7 @@
     "Create a new document" : "新建文档",
     "Loading documents…" : "载入文档...",
     "Select a personal template folder" : "选择个人模板文件夹",
+    "Edit with {productName}" : "使用{productName}编辑",
     "Failed to load {productName} - please try again later" : "加载 {productName} 失败 - 请稍后重试",
     "New Document" : "新建文档",
     "New Spreadsheet" : "新建表格",

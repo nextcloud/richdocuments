@@ -28,6 +28,7 @@ OC.L10N.register(
     "Create a new document" : "Neues Dokument erstellen",
     "Loading documents…" : "Lade Dokumente…",
     "Select a personal template folder" : "Persönlichen Vorlagenordner auswählen",
+    "Edit with {productName}" : "Mit {productName} bearbeiten",
     "Failed to load {productName} - please try again later" : "{productName} konnte nicht geladen werden - Bitte versuche es später noch einmal",
     "New Document" : "Neues Dokument",
     "New Spreadsheet" : "Neue Tabelle",

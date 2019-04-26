@@ -28,6 +28,7 @@ OC.L10N.register(
     "Create a new document" : "Yeni belge oluştur",
     "Loading documents…" : "Belgeler yükleniyor...",
     "Select a personal template folder" : "Bir kişisel kalıp klasörü seçin",
+    "Edit with {productName}" : "{productName} ile düzenle",
     "Failed to load {productName} - please try again later" : "{productName} yüklenemedi - lütfen daha sonra yeniden deneyin",
     "New Document" : "Yeni Belge",
     "New Spreadsheet" : "Yeni Hesap Tablosu",
