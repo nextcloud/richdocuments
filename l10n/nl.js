@@ -28,6 +28,8 @@ OC.L10N.register(
     "Create a new document" : "Creëer een nieuw document",
     "Loading documents…" : "Documenten laden...",
     "Select a personal template folder" : "Selecteer een persoonlijke sjablonenmap",
+    "Edit with {productName}" : "Bewerken met {productName}",
+    "Failed to load {productName} - please try again later" : "Kon  {productName} niet laden - probeer het later opnieuw",
     "New Document" : "Nieuw document",
     "New Spreadsheet" : "Nieuw werkblad",
     "New Presentation" : "Nieuwe presentatie",
