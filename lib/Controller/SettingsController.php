@@ -13,6 +13,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
+use OCA\Richdocuments\WOPI\Parser;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -32,6 +33,8 @@ class SettingsController extends Controller{
 	private $config;
 	/** @var DiscoveryManager  */
 	private $discoveryManager;
+	/** @var Parser */
+	private $wopiParser;
 	/** @var string */
 	private $userId;
 	/** @var CapabilitiesService */
@@ -44,7 +47,9 @@ class SettingsController extends Controller{
 	 * @param AppConfig $appConfig
 	 * @param IConfig $config
 	 * @param DiscoveryManager $discoveryManager
+	 * @param Parser $wopiParser
 	 * @param string $userId
+	 * @param CapabilitiesService $capabilitiesService
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -52,6 +57,7 @@ class SettingsController extends Controller{
 								AppConfig $appConfig,
 								IConfig $config,
 								DiscoveryManager $discoveryManager,
+								Parser $wopiParser,
 								$userId,
 								CapabilitiesService $capabilitiesService) {
 		parent::__construct($appName, $request);
@@ -59,6 +65,7 @@ class SettingsController extends Controller{
 		$this->appConfig = $appConfig;
 		$this->config = $config;
 		$this->discoveryManager = $discoveryManager;
+		$this->wopiParser = $wopiParser;
 		$this->userId = $userId;
 		$this->capabilitiesService = $capabilitiesService;
 	}
@@ -89,6 +96,7 @@ class SettingsController extends Controller{
 	public function getSettings() {
 		return new JSONResponse([
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+			'public_wopi_url' => $this->appConfig->getAppValue('public_wopi_url'),
 			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification'),
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
 			'use_groups' => $this->appConfig->getAppValue('use_groups'),
@@ -117,11 +125,6 @@ class SettingsController extends Controller{
 
 		if ($wopi_url !== null){
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
-
-			$colon = strpos($wopi_url, ':', 0);
-			if ($this->request->getServerProtocol() !== substr($wopi_url, 0, $colon)){
-				$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
-			}
 		}
 
 		if ($disable_certificate_verification !== null) {
@@ -152,6 +155,22 @@ class SettingsController extends Controller{
 		}
 
 		$this->discoveryManager->refretch();
+		try {
+			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
+			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {
+				// XXX Works, but probably better to strip trailing '/hosting/capabilities'
+				$public_wopi_url = $capaUrlSrc['urlsrc'];
+				if ($public_wopi_url !== null) {
+					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
+					$colon = strpos($public_wopi_url, ':', 0);
+					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)){
+						$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
+					}
+				}
+			}
+		} catch (\Exception $e){
+			// Ignore
+		}
 
 		$this->capabilitiesService->clear();
 		$this->capabilitiesService->refretch();

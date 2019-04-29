@@ -198,7 +198,7 @@ class DocumentController extends Controller {
 
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 			$policy = new ContentSecurityPolicy();
-			$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('wopi_url')));
+			$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
 			$policy->allowInlineScript(true);
 			$response->setContentSecurityPolicy($policy);
 			return $response;
@@ -255,7 +255,7 @@ class DocumentController extends Controller {
 
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('wopi_url')));
+		$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
 		$policy->allowInlineScript(true);
 		$response->setContentSecurityPolicy($policy);
 		return $response;
@@ -302,7 +302,7 @@ class DocumentController extends Controller {
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 				$policy = new ContentSecurityPolicy();
-				$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('wopi_url')));
+				$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
 				$policy->allowInlineScript(true);
 				$response->setContentSecurityPolicy($policy);
 				return $response;

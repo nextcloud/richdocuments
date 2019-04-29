@@ -62,14 +62,14 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
 
 }
 
-// Whitelist the wopi URL for iframes, required for Firefox
-$wopiUrl = \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url');
-if ($wopiUrl !== '') {
+// Whitelist the public wopi URL for iframes, required for Firefox
+$publicWopiUrl = \OC::$server->getConfig()->getAppValue('richdocuments', 'public_wopi_url');
+if ($publicWopiUrl !== '') {
 	$manager = \OC::$server->getContentSecurityPolicyManager();
 	$policy = new ContentSecurityPolicy();
-	$policy->addAllowedFrameDomain($wopiUrl);
+	$policy->addAllowedFrameDomain($publicWopiUrl);
 	if (method_exists($policy, 'addAllowedFormActionDomain')) {
-		$policy->addAllowedFormActionDomain($wopiUrl);
+		$policy->addAllowedFormActionDomain($publicWopiUrl);
 	}
 	$manager->addDefaultPolicy($policy);
 }
