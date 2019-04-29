@@ -665,6 +665,9 @@ var documentsMain = {
 						} else if (msg.Values.Status === "Timeout") {
 							// Timeout - no response from the editor
 							documentsMain.onClose();
+							parent.OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
+								{ productName: oc_capabilities.richdocuments.productName}
+							));
 						}
 					}
 				};
