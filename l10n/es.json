@@ -26,6 +26,8 @@
     "Create a new document" : "Crear nuevo documento",
     "Loading documents…" : "Cargando documentos...",
     "Select a personal template folder" : "Selecciona una carpeta de plantillas personales",
+    "Edit with {productName}" : "Editar con {productName}",
+    "Failed to load {productName} - please try again later" : "Fallo al cargar {productName}. Por favor, inténtalo de nuevo más tarde",
     "New Document" : "Nuevo documento",
     "New Spreadsheet" : "Nueva hoja de cálculo",
     "New Presentation" : "Nueva presentación",
