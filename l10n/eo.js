@@ -28,6 +28,7 @@ OC.L10N.register(
     "Create a new document" : "Krei novan dokumenton",
     "Loading documents…" : "Ŝargante dokumentojn...",
     "Select a personal template folder" : "Elektu dosierujon de personaj ŝablonoj",
+    "Edit with {productName}" : "Modifi per {productName}",
     "Failed to load {productName} - please try again later" : "Malsukceso ŝargi „{productName}“ — bv. reprovi poste",
     "New Document" : "Nova dokumento",
     "New Spreadsheet" : "Nova kalkultabelo",
