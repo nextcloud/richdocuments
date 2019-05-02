@@ -141,6 +141,7 @@ Number.isInteger = Number.isInteger || function(value) {
 var documentsMain = {
 	isEditorMode : false,
 	isViewerMode: false,
+	isFrameReady: false,
 	ready :false,
 	fileName: null,
 	baseName: null,
@@ -619,6 +620,7 @@ var documentsMain = {
 					}
 					if (msg.MessageId === 'App_LoadingStatus') {
 						if (msg.Values.Status === "Frame_Ready" ) {
+							documentsMain.isFrameReady = true;
 							documentsMain.wopiClientFeatures = msg.Values.Features;
 							documentsMain.overlay.documentOverlay('hide');
 
@@ -638,10 +640,27 @@ var documentsMain = {
 							if (documentsMain.getFileList()) {
 								documentsMain.getFileModel();
 							}
+						} else if (msg.Values.Status === "Failed") {
+							// Loading failed but editor shows the error
+							documentsMain.isFrameReady = true;
+							documentsMain.overlay.documentOverlay('hide');
+						} else if (msg.Values.Status === "Timeout") {
+							// Timeout - no response from the editor
+							documentsMain.onClose();
+							parent.OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
+								{ productName: oc_capabilities.richdocuments.productName}
+							));
 						}
 					}
 				};
 				window.addEventListener('message', editorInitListener, false);
+
+				// In case of editor inactivity
+				setTimeout(function() {
+					if (!documentsMain.isFrameReady) {
+						editorInitListener({data: "{\"MessageId\": \"App_LoadingStatus\", \"Values\": {\"Status\": \"Timeout\"}}"})
+					}
+				}, 15000);
 			});
 
 			$('#loleafletframe').load(function(){
