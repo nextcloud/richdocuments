@@ -25,7 +25,7 @@
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png</screenshot>
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="13" max-version="16" />
+		<nextcloud min-version="15" max-version="16" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>

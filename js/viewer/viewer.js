@@ -119,12 +119,7 @@ var odfViewer = {
 			$('#controls').addClass('hidden');
 			$('#content').addClass('loading');
 		} else {
-			if (odfViewer.nextcloudVersion < 14) {
-				$iframe.css('height', '100%');
-				$('#app-content').css('overflow', 'hidden');
-			} else {
-				$('body').css('overflow', 'hidden');
-			}
+			$('body').css('overflow', 'hidden');
 			$('#app-content').append($iframe);
 			if ($('header').length) {
 				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
@@ -158,11 +153,7 @@ var odfViewer = {
 		$('#richdocuments-avatars').remove();
 		$('#richdocuments-actions').remove();
 		$('.searchbox').show();
-		if (odfViewer.nextcloudVersion < 14) {
-			$('#app-content').css('overflow', 'auto');
-		} else {
-			$('body').css('overflow', 'auto');
-		}
+		$('body').css('overflow', 'auto');
 
 		if ($('#isPublic').val()) {
 			$('#content').removeClass('full-height');
@@ -372,6 +363,7 @@ var odfViewer = {
 };
 
 $(document).ready(function() {
+	// register file actions and menu
 	if ( typeof OCA !== 'undefined'
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
@@ -386,36 +378,20 @@ $(document).ready(function() {
 		// register() needs to be re-run to re-register the fileActions.
 		odfViewer.register();
 
-		var getSettings = $.get(OC.filePath('richdocuments', 'ajax', 'settings.php'));
-		var getCapabilities = $.Deferred().resolve();
-
-		if (typeof oc_capabilities === 'undefined') {
-			getCapabilities = $.get(OC.linkToOCS('cloud', 2) + 'capabilities?format=json', function (data) {
-				oc_capabilities = data.ocs.data.capabilities;
-			})
-		}
-		$.when(getSettings, getCapabilities).done(function(settings, capabilities) {
-			odfViewer.registerFilesMenu(settings[0]);
+		$.get(OC.filePath('richdocuments', 'ajax', 'settings.php')).done(function(settings) {
+			odfViewer.registerFilesMenu(settings);
 		})
 
 	}
-});
 
-// FIXME: Hack for single public file view since it is not attached to the fileslist
-$(document).ready(function(){
-	// FIXME: Filter compatible mime types
+	// Open documents if a public page is opened for a supported mimetype
 	if ($('#isPublic').val() && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
 		odfViewer.onEdit($('#filename').val());
 	}
-});
 
-$(document).ready(function() {
-	var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-	var eventer = window[eventMethod];
-	var messageEvent = eventMethod == 'attachEvent' ? 'onmessage' : 'message';
-
-	eventer(messageEvent,function(e) {
-		if(e.data === 'close') {
+	// listen to message from the viewer for closing/loading actions
+	window.addEventListener('message', function(e) {
+		if (e.data === 'close') {
 			odfViewer.onClose();
 		} else if(e.data === 'loading') {
 			$('#content').removeClass('loading');
