@@ -16,6 +16,7 @@
     "Close version preview" : "Chiudi anteprima della versione",
     "Current version" : "Versione attuale",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Connessione a {productName} non riuscita. Riprova più tardi o contatta l'amministratore del tuo server.",
     "Please enter the filename to store the document as." : "Digita il nome del file con cui memorizzare il documento.",
     "Save As" : "Salva come",
     "New filename" : "Nuovo nome file",

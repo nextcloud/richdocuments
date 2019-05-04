@@ -18,6 +18,7 @@ OC.L10N.register(
     "Close version preview" : "Sürüm ön izlemesini kapat",
     "Current version" : "Geçerli sürüm",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} bağlantısı kurulurken bir sorun çıktı. Lütfen daha sonra yeniden deneyin ya da yönetici ile görüşün.",
     "Please enter the filename to store the document as." : "Lütfen belgenin kaydedileceği adı yazın.",
     "Save As" : "Farklı Kaydet",
     "New filename" : "Yeni dosya adı",

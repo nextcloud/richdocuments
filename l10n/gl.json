@@ -16,6 +16,7 @@
     "Close version preview" : "Pechar a vista previa da versión",
     "Current version" : "Versión actual",
     "Failed to revert the document to older version" : "Produciuse un fallos ao reverter o documento cara a versión anterior",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Produciuse un fallo ao conectar con {productName}. Ténteo de novo máis tarde ou contacte co administrador do seu servidor.",
     "Please enter the filename to store the document as." : "Introduza o nome do ficheiro para almacenar o documento como.",
     "Save As" : "Gardar como",
     "New filename" : "Novo nome de ficheiro",
