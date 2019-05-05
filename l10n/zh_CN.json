@@ -16,6 +16,7 @@
     "Close version preview" : "关闭版本预览",
     "Current version" : "当前版本",
     "Failed to revert the document to older version" : "文档回滚旧版本失败",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "连接到{productName}失败。请稍后重试或联系您的服务器管理员。",
     "Please enter the filename to store the document as." : "请输入要保存文档的文件名",
     "Save As" : "另存为",
     "New filename" : "新文件名",

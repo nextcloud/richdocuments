@@ -18,6 +18,7 @@ OC.L10N.register(
     "Close version preview" : "Malfermi antaŭrigardon",
     "Current version" : "Nuna versio",
     "Failed to revert the document to older version" : "Ne eblis revenigi la dokumenton al antaŭa versio",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Malsukceso konekti al {productName} — bv. reprovi poste aŭ kontakti vian servilan administranton.",
     "Please enter the filename to store the document as." : "Bv. entajpi la dosiernomon de la konservota dokumento.",
     "Save As" : "Konservi kiel",
     "New filename" : "Nova dosiernomo",
