@@ -73,13 +73,13 @@ class TemplateManager {
 		'presentation' => self::MIMES_PRESENTATIONS
 	];
 
-	public const TYPE_EXTENTION = [
+	const TYPE_EXTENTION = [
 		'document'     => 'odt',
 		'spreadsheet'  => 'ods',
 		'presentation' => 'odp'
 	];
 
-	public const TYPE_EXTENSION_OOXML = [
+	const TYPE_EXTENSION_OOXML = [
 		'document'     => 'docx',
 		'spreadsheet'  => 'xlsx',
 		'presentation' => 'pptx'
