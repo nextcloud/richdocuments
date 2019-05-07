@@ -157,7 +157,9 @@ class WopiController extends Controller {
 			'HideUserList' => 'desktop',
 			'DisablePrint' => $wopi->getHideDownload(),
 			'DisableExport' => $wopi->getHideDownload(),
-			'DisableCopy' => $wopi->getHideDownload()
+			'DisableCopy' => $wopi->getHideDownload(),
+			'HideExportOption' => $wopi->getHideDownload(),
+			'HidePrintOption' => $wopi->getHideDownload()
 		];
 
 		if ($wopi->isTemplateToken()) {

@@ -1,4 +1,19 @@
 # Changelog
+## 3.3.0
+
+### Added
+
+- Use product name from collabora capabilities
+- Add hide download support for share links
+- Use collabora to generate PDF previews
+- Better mimetype handling for mobile editing
+
+### Fixed
+
+- Set timeout for editor inactivity
+- Set proper extension when creating ooxml files from templates
+- Do not open SVG files with collabora by default
+- Hide collabora user list on desktop browsers
 
 ## 3.2.4
 
