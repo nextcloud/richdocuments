@@ -1,4 +1,10 @@
 # Changelog
+
+## 3.3.1
+
+### Fixed
+- Bug fix for syntax error on PHP 7.0
+
 ## 3.3.0
 
 ### Added
