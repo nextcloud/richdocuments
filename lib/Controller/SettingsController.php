@@ -75,7 +75,7 @@ class SettingsController extends Controller{
 			return new DataResponse([
 				'status' => $e->getCode(),
 				'message' => $e->getMessage()
-			], $e->getCode());
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		return new DataResponse();
