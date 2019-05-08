@@ -88,6 +88,7 @@ class TokenManager {
 	public function getToken($fileId, $shareToken = null, $editoruid = null) {
 		list($fileId,, $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
+		$hideDownload = false;
 		// if the user is not logged-in do use the sharers storage
 		if($shareToken !== null) {
 			/** @var File $file */
