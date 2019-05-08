@@ -70,7 +70,10 @@ class Capabilities implements ICapability {
 
 	const MIMETYPES_OPTIONAL = [
 		'image/svg+xml',
-		'application/pdf'
+		'application/pdf',
+		'text/plain',
+		'text/csv',
+		'text/spreadsheet'
 	];
 
 	/** @var ISimpleFolder */
