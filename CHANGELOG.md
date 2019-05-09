@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.2
+
+### Fixed
+- Use valid HTTP status codes
+- Fix undefined variable when creating tokens
+
 ## 3.3.1
 
 ### Fixed
