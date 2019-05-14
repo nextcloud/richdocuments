@@ -16,6 +16,7 @@
     "Close version preview" : "Zavřít náhled verze",
     "Current version" : "Stávající verze",
     "Failed to revert the document to older version" : "Nepodařilo se vrátit dokument do podoby starší verze",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepodařilo se připojit k {productName}. Zkuste to prosím znovu později nebo se obraťte na správce serveru.",
     "Please enter the filename to store the document as." : "Zadejte název souboru ve kterém dokument uchovávat.",
     "Save As" : "Uložit jako",
     "New filename" : "Název souboru",
