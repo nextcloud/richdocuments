@@ -1,5 +1,13 @@
 # Changelog
 
+
+## 3.3.3
+
+### Fixed
+- Avoid scrolling if iframe is visible
+- Return proper product name if it is provided
+- Fix searching in groups with other user backends
+
 ## 3.3.2
 
 ### Fixed
