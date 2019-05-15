@@ -28,7 +28,9 @@ use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IL10N;
 
@@ -49,6 +51,10 @@ class TokenManager {
 	private $wopiMapper;
 	/** @var IL10N */
 	private $trans;
+	/** @var IUserManager */
+	private $userManager;
+	/** @var IGroupManager */
+	private $groupManager;
 
 	/**
 	 * @param IRootFolder $rootFolder
@@ -67,7 +73,9 @@ class TokenManager {
 								AppConfig $appConfig,
 								$UserId,
 								WopiMapper $wopiMapper,
-								IL10N $trans) {
+								IL10N $trans,
+								IUserManager $userManager,
+								IGroupManager $groupManager) {
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
@@ -76,6 +84,8 @@ class TokenManager {
 		$this->trans = $trans;
 		$this->userId = $UserId;
 		$this->wopiMapper = $wopiMapper;
+		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -116,11 +126,12 @@ class TokenManager {
 				// 1. No edit groups are set or
 				// 2. if they are set, it is in one of the edit groups
 				$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
-				if ($updatable && count($editGroups) > 0) {
+				$editorUser = $this->userManager->get($editoruid);
+				if ($updatable && count($editGroups) > 0 && $editorUser) {
 					$updatable = false;
 					foreach($editGroups as $editGroup) {
-						 $editorGroup = \OC::$server->getGroupManager()->get($editGroup);
-						 if ($editorGroup !== null && sizeof($editorGroup->searchUsers($editoruid)) > 0) {
+						 $editorGroup = $this->groupManager->get($editGroup);
+						 if ($editorGroup !== null && $editorGroup->inGroup($editorUser)) {
 							$updatable = true;
 							break;
 						 }
@@ -180,11 +191,12 @@ class TokenManager {
 		// 1. No edit groups are set or
 		// 2. if they are set, it is in one of the edit groups
 		$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
-		if ($updatable && count($editGroups) > 0) {
+		$editorUser = $this->userManager->get($editoruid);
+		if ($updatable && count($editGroups) > 0 && $editorUser) {
 			$updatable = false;
 			foreach($editGroups as $editGroup) {
-				$editorGroup = \OC::$server->getGroupManager()->get($editGroup);
-				if ($editorGroup !== null && sizeof($editorGroup->searchUsers($editoruid)) > 0) {
+				$editorGroup = $this->groupManager->get($editGroup);
+				if ($editorGroup !== null && $editorGroup->inGroup($editorUser)) {
 					$updatable = true;
 					break;
 				}
