@@ -340,6 +340,7 @@ class WopiController extends Controller {
 
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'richdocuments']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
