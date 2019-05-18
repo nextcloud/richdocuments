@@ -18,6 +18,7 @@ OC.L10N.register(
     "Close version preview" : "Cerrar previsualización de la versión",
     "Current version" : "Versión actual",
     "Failed to revert the document to older version" : "Fallo al revertir el documento a la versión anterior",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Fallo al conectar con (productName). Por favor vuelva a intentarlo más tarde o contacte con su administrador del servidor.",
     "Please enter the filename to store the document as." : "Por favor, introduce el nombre de archivo con el que guardar el documento.",
     "Save As" : "Guardar como",
     "New filename" : "Nuevo nombre de archivo",
