@@ -59,7 +59,7 @@ abstract class Office extends Provider {
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$fileInfo = $fileview->getFileInfo($path);
-		if (!$fileInfo) {
+		if (!$fileInfo || $fileInfo->getSize() === 0) {
 			return false;
 		}
 
