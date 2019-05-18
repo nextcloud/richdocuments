@@ -58,7 +58,18 @@ abstract class Office extends Provider {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$stream = $fileview->fopen($path, 'r');
+		$fileInfo = $fileview->getFileInfo($path);
+		if (!$fileInfo) {
+			return false;
+		}
+
+		$useTempFile = $fileInfo->isEncrypted() || !$fileInfo->getStorage()->isLocal();
+		if ($useTempFile) {
+			$fileName = $fileview->toTmpFile($path);
+			$stream = fopen($fileName, 'r');
+		} else {
+			$stream = $fileview->fopen($path, 'r');
+		}
 
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 10];
