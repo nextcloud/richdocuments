@@ -288,7 +288,7 @@ class DocumentController extends Controller {
 				$item = $node;
 			}
 			if ($item instanceof Node) {
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken);
+				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $item->getName(),

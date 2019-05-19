@@ -139,11 +139,12 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
 			'Version' => $version,
-			'UserId' => !is_null($wopi->getEditorUid()) ? $wopi->getEditorUid() : 'guest',
+			'UserId' => !is_null($wopi->getEditorUid()) ? $wopi->getEditorUid() : $guestUserId,
 			'OwnerId' => $wopi->getOwnerUid(),
 			'UserFriendlyName' => !is_null($wopi->getEditorUid()) ? \OC_User::getDisplayName($wopi->getEditorUid()) : $wopi->getGuestDisplayname(),
 			'UserExtraInfo' => [
