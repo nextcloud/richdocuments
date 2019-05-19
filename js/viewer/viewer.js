@@ -145,7 +145,7 @@ var odfViewer = {
 			FileList.setViewerMode(false);
 			FileList.reload();
 		}
-		$('link[href="' + OC.addStyle.loaded.pop() + '"]').remove();
+		$('link[href*="richdocuments/css/mobile"]').remove();
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
 		$('#app-navigation').removeClass('hidden');
