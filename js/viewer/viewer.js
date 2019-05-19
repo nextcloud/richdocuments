@@ -20,13 +20,13 @@ var Preload = {
 var odfViewer = {
 	isDocuments : false,
 	nextcloudVersion: 0,
-	supportedMimes: oc_capabilities.richdocuments.mimetypes.concat(oc_capabilities.richdocuments.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: oc_capabilities.richdocuments.mimetypesNoDefaultOpen,
+	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	register : function() {
-		odfViewer.nextcloudVersion = parseInt(oc_config.version.split('.')[0]);
+		odfViewer.nextcloudVersion = parseInt(OC.config.version.split('.')[0]);
 		var i,
 		    mime;
-		var editActionName = 'Edit with ' + oc_capabilities.richdocuments.productName;
+		var editActionName = 'Edit with ' + OC.getCapabilities().richdocuments.productName;
 		for (i = 0; i < odfViewer.supportedMimes.length; ++i) {
 			mime = odfViewer.supportedMimes[i];
 			OCA.Files.fileActions.register(
@@ -35,7 +35,7 @@ var odfViewer = {
 				    OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 					OC.imagePath('core', 'actions/rename'),
 					odfViewer.onEdit,
-					t('richdocuments', 'Edit with {productName}', { productName: oc_capabilities.richdocuments.productName })
+					t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			);
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1) {
 				OCA.Files.fileActions.setDefault(mime, editActionName);
@@ -104,7 +104,7 @@ var odfViewer = {
 			$iframe.src = viewer;
 		}) .fail(function() {
 			odfViewer.onClose();
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', {productName: oc_capabilities.richdocuments.productName || 'Collabora Online'}));
+			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', {productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online'}));
 		});
 		$('body').css('overscroll-behavior-y', 'none');
 		if ($('#isPublic').val()) {
@@ -199,7 +199,7 @@ var odfViewer = {
 						iconClass: 'icon-filetype-document',
 						fileType: 'x-office-document',
 						actionHandler: function(filename) {
-							if (oc_capabilities.richdocuments.templates) {
+							if (OC.getCapabilities().richdocuments.templates) {
 								self._openTemplatePicker('document', docMime, filename);
 							} else {
 								self._createDocument(docMime, filename);
@@ -214,7 +214,7 @@ var odfViewer = {
 						iconClass: 'icon-filetype-spreadsheet',
 						fileType: 'x-office-spreadsheet',
 						actionHandler: function(filename) {
-							if (oc_capabilities.richdocuments.templates) {
+							if (OC.getCapabilities().richdocuments.templates) {
 								self._openTemplatePicker('spreadsheet', spreadsheetMime, filename);
 							} else {
 								self._createDocument(spreadsheetMime, filename);
@@ -229,7 +229,7 @@ var odfViewer = {
 						iconClass: 'icon-filetype-presentation',
 						fileType: 'x-office-presentation',
 						actionHandler: function(filename) {
-							if (oc_capabilities.richdocuments.templates) {
+							if (OC.getCapabilities().richdocuments.templates) {
 								self._openTemplatePicker('presentation', presentationMime, filename);
 							} else {
 								self._createDocument(presentationMime, filename);
