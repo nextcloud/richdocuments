@@ -208,18 +208,20 @@ var documentsMain = {
 		following: null,
 
 		init : function(){
-			documentsMain.UI.mainTitle = parent.document.title;
+			if (!richdocuments_directEdit && parent.$('#richdocuments-avatars').length === 0) {
+				documentsMain.UI.mainTitle = parent.document.title;
 
-			//Add the avatar toolbar if possible
-			var avatarList = $('<div id="richdocuments-avatars">');
-			avatarList.on('click', function(e) {
-				e.stopPropagation();
-				parent.$('#editors-menu').toggle();
-			});
-			var headerRight = parent.$('#header .header-right');
-			headerRight.prepend(avatarList);
+				//Add the avatar toolbar if possible
+				var avatarList = $('<div id="richdocuments-avatars">');
+				avatarList.on('click', function (e) {
+					e.stopPropagation();
+					parent.$('#editors-menu').toggle();
+				});
+				var headerRight = parent.$('#header .header-right');
+				headerRight.prepend(avatarList);
 
-			this.addVersionSidebarEvents();
+				this.addVersionSidebarEvents();
+			}
 		},
 
 		_addHeaderFileActions: function() {
