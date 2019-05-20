@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.3.4
+
+### Fixed
+- Don't generate preview for empty files
+- Copy file to temp file for encrypted / object storage
+- Remove ghost avatars #462
+- Use "Guestname (Guest)" so that names are more distinguishable
+- Use actual user id if a logged in user browses a public share link
+- Improved logging
+- Replace deprecated javascript calls
 
 ## 3.3.3
 
