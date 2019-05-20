@@ -25,6 +25,7 @@ use OC\Preview\Provider;
 use OCA\Richdocuments\Capabilities;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\ILogger;
 
 abstract class Office extends Provider {
 
@@ -37,10 +38,14 @@ abstract class Office extends Provider {
 	/** @var array */
 	private $capabilitites;
 
-	public function __construct(IClientService $clientService, IConfig $config, Capabilities $capabilities) {
+	/** @var ILogger */
+	private $logger;
+
+	public function __construct(IClientService $clientService, IConfig $config, Capabilities $capabilities, ILogger $logger) {
 		$this->clientService = $clientService;
 		$this->config = $config;
 		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'];
+		$this->logger = $logger;
 	}
 
 	private function getWopiURL() {
@@ -72,6 +77,11 @@ abstract class Office extends Provider {
 		try {
 			$response = $client->post($this->getWopiURL(). '/lool/convert-to/png', $options);
 		} catch (\Exception $e) {
+			$this->logger->logException($e, [
+				'message' => 'Failed to convert file to preview',
+				'level' => ILogger::INFO,
+				'app' => 'richdocuments',
+			]);
 			return false;
 		}
 

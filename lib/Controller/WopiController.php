@@ -131,6 +131,7 @@ class WopiController extends Controller {
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 				$file = $userFolder->getById($fileId)[0];
 			} catch (\Exception $e) {
+				$this->logger->logException($e, ['app' => 'richdocuments']);
 				return new JSONResponse([], Http::STATUS_FORBIDDEN);
 			}
 		}
@@ -233,6 +234,7 @@ class WopiController extends Controller {
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 	}
@@ -341,6 +343,7 @@ class WopiController extends Controller {
 
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -430,6 +433,7 @@ class WopiController extends Controller {
 
 			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
