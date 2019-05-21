@@ -31,7 +31,6 @@ OC.L10N.register(
     "Not allowed to create document" : "Создание документа не разрешено",
     "Saved" : "Сохранено",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Сохранено с ошибкой: В Collabra Online должен использоваться тот же протокол, что в установке сервера.",
-    "Guest: %s" : "Гость: %s",
     "Edit office documents directly in your browser." : "Редактирование офисных документов непосредственно в браузере.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Приложение может устанавливать соединение с сервером Collabora Online (является WOPI-клиентом), а Nextcloud является  WOPI-узлом. Обратитесь к документации для получения дополнительных сведений.",
     "Apply" : "Применить",

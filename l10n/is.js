@@ -51,7 +51,6 @@ OC.L10N.register(
     "Invalid file provided" : "Ógild skrá gefin",
     "Template not found" : "Sniðmát fannst ekki",
     "Empty" : "Tómt",
-    "Guest: %s" : "Gestanotandi: %s",
     "Edit office documents directly in your browser." : "Breyttu skrifstofuskjölum beint í vafranum þínum.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Þetta forrit getur tengst Collabora Online þjóni (WOPI-biðlari). Nextcloud er þá WOPI-hýsill. Lestu hjálparskjölin til að fræðast meira um allt þetta.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online er öflugur vöndull vinnuforrita byggður á LibreOffice og er með hópvinnslueiginleikum sem styðja við skráasnið allra helstu gerða skjala, töflureikna og kynninga, auk þess að virka í öllum nútímalegum vöfrum.",

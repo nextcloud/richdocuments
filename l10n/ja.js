@@ -54,7 +54,6 @@ OC.L10N.register(
     "Invalid file provided" : "無効なファイルが提供されました",
     "Template not found" : "テンプレートが見つかりません",
     "Empty" : "空",
-    "Guest: %s" : "ゲスト%s",
     "Edit office documents directly in your browser." : "ブラウザで直接オフィス文書を編集する。",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "このアプリケーションは、Collabora Onlineサーバー（WOPIクライアント）に接続できます。 NextcloudはWOPIホストです。それについてもっと学ぶためにドキュメントを読んでください。",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online は、オンラインで共同編集できるLibreOfficeベースのオフィススイートです。メジャーなドキュメントやスプレッドシート、プレゼンテーションファイルのフォーマットに対応し、最近の全てのブラウザーで動かすことができます。",

@@ -52,7 +52,6 @@
     "Invalid file provided" : "提供了无效文件",
     "Template not found" : "未找到模板",
     "Empty" : "空",
-    "Guest: %s" : "访客：%s",
     "Edit office documents directly in your browser." : "在您的浏览器中直接编辑办公文档。",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "此应用可连接到一台Collabora Online服务器（WOPI客户端）。NextCloud则是WOPI主机。更详细信息请阅读文档。",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online在线协作是一款强大的基于LibreOffice的具有协作编辑功能的在线办公套件，它支持所有主流的文档、表格和胶片文件格式，可在所有现代浏览器上使用。",

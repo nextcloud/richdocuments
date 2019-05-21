@@ -54,7 +54,6 @@ OC.L10N.register(
     "Invalid file provided" : "הקובץ שסופק שגוי",
     "Template not found" : "התבנית לא נמצאה",
     "Empty" : "ריק",
-    "Guest: %s" : "אורח: %s",
     "Edit office documents directly in your browser." : "עריכת מסמכי Office ישירות בדפדפן שלך.",
     "Apply" : "הפעלה",
     "Restrict usage to specific groups" : "הגבלת השימוש לקבוצות מסוימות",

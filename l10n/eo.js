@@ -54,7 +54,6 @@ OC.L10N.register(
     "Invalid file provided" : "Nevalida dosiero provizita",
     "Template not found" : "Ŝablono ne trovita",
     "Empty" : "Malplena",
-    "Guest: %s" : "Gasto: %s",
     "Edit office documents directly in your browser." : "Redaktu oficejajn dokumentojn senpere en via retumilo.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Tiu ĉi aplikaĵo povas konekti al servilo „Collabora Online“ (WOPI-kliento). Nextcloud estas la WOPI-gastiganto. Bv. legi la dokumentaron por scii pli pri tio.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online estas reta oficeja programaro, bazita sur LibreOffice, kiu subtenas kunlaboran redakton, ĉiujn ĉefajn dosiertipojn de dokumentoj, kalkultabeloj kaj lumbildaj prezentoj. Ĝi funkcias kun ĉiuj nunaj retumiloj.",

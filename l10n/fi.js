@@ -48,7 +48,6 @@ OC.L10N.register(
     "File is too big" : "Tiedosto on liian suuri",
     "Template not found" : "Mallipohjaa ei löytynyt",
     "Empty" : "Tyhjä",
-    "Guest: %s" : "Vieras: %s",
     "Edit office documents directly in your browser." : "Muokkaa asiakirjoja suoraan selaimessasi.",
     "Apply" : "Toteuta",
     "Restrict usage to specific groups" : "Rajoita käyttö tiettyihin ryhmiin",

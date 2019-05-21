@@ -51,7 +51,6 @@ OC.L10N.register(
     "Invalid file provided" : "Érvénytelen fájl lett megadva",
     "Template not found" : "A sablon nem található",
     "Empty" : "Üres",
-    "Guest: %s" : "Vendég: %s",
     "Edit office documents directly in your browser." : "Office dokumentum szerkesztése közvetlenül a böngésződben.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Ez az alkalmazás egy Collabora Online kiszolgálóhoz (WOPI ügyfélhez) tud kapcsolódni. A Nextcloud a WOPI kiszolgáló. További információkért olvasd el a dokumentációt.",
     "Apply" : "Alkalmaz",

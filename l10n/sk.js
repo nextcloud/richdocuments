@@ -24,7 +24,6 @@ OC.L10N.register(
     "Document already exists" : "Dokument už existuje",
     "Saved" : "Uložené",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uložené s chybou: Collabora Online by mala používať rovnaký protokol ako nainštalovaný server.",
-    "Guest: %s" : "Hosť: %s",
     "Apply" : "Aplikovať",
     "Restrict usage to specific groups" : "Obmedziť používanie pre konkrétne skupiny",
     "Restrict edit to specific groups" : "Obmedziť úpravy pre konkrétne skupiny",

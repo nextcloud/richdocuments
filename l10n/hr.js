@@ -28,7 +28,6 @@ OC.L10N.register(
     "Saved" : "Spremljeno",
     "File is too big" : "Datoteka je prevelika",
     "Empty" : "Prazno",
-    "Guest: %s" : "Gost: %s",
     "Apply" : "Potvrda",
     "Restrict usage to specific groups" : "Ograničite uporabu na određene grupe",
     "Add" : "Dodajte",
