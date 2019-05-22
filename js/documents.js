@@ -292,7 +292,7 @@ var documentsMain = {
 			}
 			entry.append(label);
 
-			if (view.ReadOnly !== '1' && !view.IsCurrentView) {
+			if (documentsMain.canEdit && !view.IsCurrentView) {
 				var removeButton = $('<div class="icon-close" title="Remove user"/>');
 				removeButton.click(function() {
 					documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_RemoveView', {ViewId: view.ViewId});
