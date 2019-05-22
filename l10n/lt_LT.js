@@ -9,6 +9,7 @@ OC.L10N.register(
     "Set" : "Nustatyti",
     "Remove from favorites" : "Pašalinti iš svarbiausių",
     "Add to favorites" : "Pridėti prie svarbiausių",
+    "Download" : "Atsisiųsti",
     "(read only)" : "(tik skaitymui)",
     "Guest" : "Svečias",
     "Close version preview" : "Užverti versijos peržiūrą",

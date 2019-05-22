@@ -52,6 +52,7 @@
     "Invalid file provided" : "Fichier non valide",
     "Template not found" : "Modèle non trouvé",
     "Empty" : "Vide",
+    "%s (Guest)" : "%s (Invité)",
     "Edit office documents directly in your browser." : "Modifier des documents Office directement dans votre navigateur.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Cette application peut se connecter à un serveur Collabora Online (WOPI Client). Nextcloud est l'Hôte WOPI. Pour plus d'information, veuillez lire la documentation.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online est une puissante suite bureautique en ligne basée sur LibreOffice avec édition collaborative. Elle prend en charge tous les principaux documents, formats de feuille de calcul et de présentation, et fonctionne avec tous les navigateurs modernes.",
