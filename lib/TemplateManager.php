@@ -26,6 +26,7 @@ namespace OCA\Richdocuments;
 
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -112,7 +113,7 @@ class TemplateManager {
 	public function __construct($appName,
 								$userId,
 								IConfig $config,
-								Factory $appDataFactory,
+								IAppData $appData,
 								IURLGenerator $urlGenerator,
 								IRootFolder $rootFolder,
 								IL10N $l) {
@@ -122,24 +123,29 @@ class TemplateManager {
 		$this->rootFolder     = $rootFolder;
 		$this->urlGenerator   = $urlGenerator;
 
+
+		$this->appData = $appData;
+		$this->createAppDataFolders();
+
+		$this->l = $l;
+	}
+
+	private function createAppDataFolders() {
 		/*
 		 * Init the appdata folder
 		 * We need an actual folder for the fileid and previews.
 		 * TODO: Fix this at some point
 		 */
-		$appData = $appDataFactory->get($appName);
 		try {
-			$appData->getFolder('templates');
+			$this->appData->getFolder('templates');
 		} catch (NotFoundException $e) {
-			$appData->newFolder('templates');
+			$this->appData->newFolder('templates');
 		}
 		try {
-			$appData->getFolder('empty_templates');
+			$this->appData->getFolder('empty_templates');
 		} catch (NotFoundException $e) {
-			$appData->newFolder('empty_templates');
+			$this->appData->newFolder('empty_templates');
 		}
-
-		$this->l = $l;
 	}
 
 	public function setUserId($userId) {
@@ -222,6 +228,19 @@ class TemplateManager {
 		}
 
 		return $this->filterTemplates($templateFiles, $type);
+	}
+
+	/**
+	 * Remove empty_templates in appdata and recreate it from the apps templates
+	 */
+	public function updateEmptyTemplates() {
+		try {
+			$folder = $this->getEmptyTemplateDir();
+			$folder->delete();
+		} catch (NotFoundException $e) {
+		}
+		$this->appData->newFolder('empty_templates');
+		$this->getEmpty();
 	}
 
 	/**
