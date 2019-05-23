@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.5
+
+### Fixed
+- Only allow closing other views with write permissions
+
 ## 3.3.4
 
 ### Fixed
