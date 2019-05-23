@@ -76,6 +76,12 @@
 				<length>4</length>
 			</field>
 			<field>
+				<name>template_id</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
+			<field>
 				<name>hide_download</name>
 				<type>boolean</type>
 				<default>false</default>
@@ -159,7 +165,12 @@
 				<notnull>false</notnull>
 				<length>4</length>
 			</field>
-
+			<field>
+				<name>template_id</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
 			<index>
 				<name>rd_direct_token_idx</name>
 				<unique>true</unique>

@@ -38,6 +38,8 @@ class CapabilitiesService {
 	private $clientService;
 	/** @var ISimpleFolder */
 	private $appData;
+	/** @var array */
+	private $capabilities;
 
 	public function __construct(IConfig $config, IClientService $clientService, IAppData $appData) {
 		$this->config = $config;
@@ -47,6 +49,34 @@ class CapabilitiesService {
 		} catch (NotFoundException $e) {
 			$this->appData = $appData->newFolder('richdocuments');
 		}
+	}
+
+
+	public function getCapabilities() {
+		if ($this->capabilities) {
+			return $this->capabilities;
+		}
+		try {
+			$file = $this->appData->getFile('capabilities.json');
+			$decodedFile = \json_decode($file->getContent(), true);
+		} catch (NotFoundException $e) {
+			return [];
+		}
+
+		if (!is_array($decodedFile)) {
+			return [];
+		}
+		$this->capabilities = $decodedFile;
+
+		return $this->capabilities;
+	}
+
+	public function hasTemplateSaveAs() {
+		return $this->getCapabilities()['hasTemplateSaveAs'] ?? false;
+	}
+
+	public function hasTemplateSource() {
+		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}
 
 	private function getFile() {
@@ -103,4 +133,5 @@ class CapabilitiesService {
 
 		return $ret;
 	}
+
 }
