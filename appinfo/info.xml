@@ -30,6 +30,11 @@
 	<background-jobs>
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>
 	</background-jobs>
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Richdocuments\Migration\UpdateEmptyTemplates</step>
+		</post-migration>
+	</repair-steps>
 	<settings>
 		<admin>OCA\Richdocuments\Settings\Admin</admin>
 		<admin-section>OCA\Richdocuments\Settings\Section</admin-section>
