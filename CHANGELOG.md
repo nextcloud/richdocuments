@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.6
+
+### Fixed
+- Ship new empty presentation template
+- Add migration step to replace empty templates after upgrade 
+
 ## 3.3.5
 
 ### Fixed
