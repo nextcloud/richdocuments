@@ -690,7 +690,10 @@ var documentsMain = {
 						} else if (msgId === 'UI_Share') {
 							window.RichDocumentsMobileInterface.share();
 						}
-						return;
+						// Fallback to web UI for SaveAs
+						if (msgId !== 'UI_SaveAs') {
+							return;
+						}
 					}
 
 					// iOS webkit fallback
@@ -704,7 +707,10 @@ var documentsMain = {
 						} else if (msgId === 'UI_Share') {
 							window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('share');
 						}
-						return;
+						// Fallback to web UI for SaveAs
+						if (msgId !== 'UI_SaveAs') {
+							return;
+						}
 					}
 
 					if (msgId === 'UI_Close' || msgId === 'close' /* deprecated */) {
@@ -725,15 +731,7 @@ var documentsMain = {
 							parent.OC.Apps.showAppSidebar();
 						}
 					} else if (msgId === 'UI_SaveAs') {
-						// TODO it's not possible to enter the
-						// filename into the OC.dialogs.filepicker; so
-						// it will be necessary to use an own tree
-						// view or something :-(
-						//OC.dialogs.filepicker(t('richdocuments', 'Save As'),
-						//      function(val) {
-						//              console.log(val);
-						//              documentsMain.WOPIPostMessage($('#loleafletframe')[0], Action_SaveAs', {'Filename': val});
-						//      }, false, null, true);
+						// TODO Move to file picker dialog with input field
 						OC.dialogs.prompt(
 							t('richdocuments', 'Please enter the filename to store the document as.'),
 							t('richdocuments', 'Save As'),
