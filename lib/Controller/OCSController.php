@@ -146,7 +146,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			throw new OCSBadRequestException('Invalid template provided');
 		}
 
-		$info = pathinfo($path);
+		$info = $this->mb_pathinfo($path);
 
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$folder = $userFolder->get($info['dirname']);
@@ -164,5 +164,23 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
 		}
+	}
+
+	private function mb_pathinfo($filepath) {
+		$result = [];
+		preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',$filepath,$matches);
+		if($matches[1]) {
+			$result['dirname'] = $matches[1];
+		}
+		if($matches[2]) {
+			$result['basename'] = $matches[2];
+		}
+		if($matches[5]) {
+			$result['extension'] = $matches[5];
+		}
+		if($matches[3]) {
+			$result['filename'] = $matches[3];
+		}
+		return $result;
 	}
 }
