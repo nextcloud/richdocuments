@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.7
+
+### Fixed
+- Implement new Views_List message
+- Allow accessing the Save As web UI on mobile
+- Allow UTF8 characters in filenames when creating documents from mobile
+
 ## 3.3.6
 
 ### Fixed
