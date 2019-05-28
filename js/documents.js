@@ -778,12 +778,19 @@ var documentsMain = {
 							documentsMain.$deferredVersionRestoreAck.resolve();
 						}
 					} else if (msgId === 'View_Added') {
+						if (deprecated)
+							return;
+
 						documentsMain.UI.views[args.ViewId] = args;
 						documentsMain.UI.renderAvatars();
 					} else if (msgId === 'View_Removed') {
+						if (deprecated)
+							return;
+
 						delete documentsMain.UI.views[args.ViewId];
 						documentsMain.UI.renderAvatars();
-					} else if (msgId === 'Get_Views_Resp') {
+					} else if (msgId === 'Get_Views_Resp' || msgId === 'Views_List') {
+						documentsMain.UI.views = {};
 						args.forEach(function(view) {
 							documentsMain.UI.views[view.ViewId] = view;
 						});
