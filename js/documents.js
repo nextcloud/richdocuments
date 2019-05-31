@@ -730,6 +730,11 @@ var documentsMain = {
 							documentsMain.getFileList().showDetailsView(documentsMain.fileName, 'shareTabView');
 							parent.OC.Apps.showAppSidebar();
 						}
+					} else if (msgId === 'File_Rename') {
+						documentsMain.fileModel = null;
+						documentsMain.fileName = args.NewName;
+						documentsMain.getFileList().reload();
+						parent.OC.Apps.hideAppSidebar();
 					} else if (msgId === 'UI_SaveAs') {
 						// TODO Move to file picker dialog with input field
 						OC.dialogs.prompt(

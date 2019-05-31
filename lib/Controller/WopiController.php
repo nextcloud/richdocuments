@@ -140,20 +140,23 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		$isPublic = $wopi->getEditorUid() === null;
 		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
 			'Version' => $version,
-			'UserId' => !is_null($wopi->getEditorUid()) ? $wopi->getEditorUid() : $guestUserId,
+			'UserId' => !$isPublic ? $wopi->getEditorUid() : $guestUserId,
 			'OwnerId' => $wopi->getOwnerUid(),
-			'UserFriendlyName' => !is_null($wopi->getEditorUid()) ? \OC_User::getDisplayName($wopi->getEditorUid()) : $wopi->getGuestDisplayname(),
+			'UserFriendlyName' => !$isPublic ? \OC_User::getDisplayName($wopi->getEditorUid()) : $wopi->getGuestDisplayname(),
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $wopi->getCanwrite(),
-			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() ? true : is_null($wopi->getEditorUid()),
+			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() || $isPublic,
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
+			'SupportsRename' => true,
+			'UserCanRename' => !$isPublic,
 			'EnableInsertRemoteImage' => true,
 			'EnableShare' => true,
 			'HideUserList' => 'desktop',
@@ -254,6 +257,7 @@ class WopiController extends Controller {
 							$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
+		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		$wopi = $this->wopiMapper->getPathForToken($access_token);
 		if (!$wopi->getCanwrite()) {
@@ -307,8 +311,7 @@ class WopiController extends Controller {
 				$path = $root->getNonExistingName($path);
 				$root->newFile($path);
 				$file = $root->get($path);
-			}
-			else {
+			} else {
 				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
 				if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
@@ -365,6 +368,7 @@ class WopiController extends Controller {
 					$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
 		$wopi = $this->wopiMapper->getPathForToken($access_token);
+		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		if (!$wopi->getCanwrite()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -383,6 +387,42 @@ class WopiController extends Controller {
 			if ($wopi->isTemplateToken()) {
 				$this->templateManager->setUserId($wopi->getOwnerUid());
 				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
+			} else if ($isRenameFile) {
+				// the new file needs to be installed in the current user dir
+				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
+				$file = $userFolder->getById($fileId)[0];
+
+				$suggested = $this->request->getHeader('X-WOPI-RequestedName');
+
+				$suggested = iconv('utf-7', 'utf-8', $suggested) . '.' . $file->getExtension();
+
+				if ($suggested[0] === '.') {
+					$path = dirname($file->getPath()) . '/New File' . $suggested;
+				}
+				else if ($suggested[0] !== '/') {
+					$path = dirname($file->getPath()) . '/' . $suggested;
+				}
+				else {
+					$path = $userFolder->getPath() . $suggested;
+				}
+
+				if ($path === '') {
+					return new JSONResponse([
+						'status' => 'error',
+						'message' => 'Cannot rename the file'
+					]);
+				}
+
+				$root = \OC::$server->getRootFolder();
+
+				// create the folder first
+				if (!$root->nodeExists(dirname($path))) {
+					$root->newFolder(dirname($path));
+				}
+
+				// create a unique new file
+				$path = $root->getNonExistingName($path);
+				$file = $file->move($path);
 			} else {
 				$file = $userFolder->getById($fileId)[0];
 

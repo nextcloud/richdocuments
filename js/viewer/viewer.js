@@ -129,7 +129,8 @@ var odfViewer = {
 						OC.Apps.hideAppSidebar();
 						return;
 					}
-					FileList.showDetailsView(fileName, 'shareTabView');
+					var frameFilename = $('#richdocumentsframe')[0].contentWindow.documentsMain.fileName;
+					FileList.showDetailsView(frameFilename ? frameFilename : fileName, 'shareTabView');
 					OC.Apps.showAppSidebar();
 				});
 				$('.searchbox').hide();
