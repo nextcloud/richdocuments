@@ -107,6 +107,8 @@ var odfViewer = {
 			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', {productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online'}));
 		});
 		$('body').css('overscroll-behavior-y', 'none');
+		var viewport = document.querySelector("meta[name=viewport]");
+		viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
 		if ($('#isPublic').val()) {
 			// force the preview to adjust its height
 			$('#preview').append($iframe).css({height: '100%'});
