@@ -58,13 +58,19 @@ class TemplateManager {
 
 	/** Accepted templates mime types */
 	const MIMES_DOCUMENTS = [
-		'application/vnd.oasis.opendocument.text-template'
+		'application/vnd.oasis.opendocument.text-template',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+		'application/msword'
 	];
 	const MIMES_SHEETS = [
-		'application/vnd.oasis.opendocument.spreadsheet-template'
+		'application/vnd.oasis.opendocument.spreadsheet-template',
+		'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+		'application/vnd.ms-excel'
 	];
 	const MIMES_PRESENTATIONS = [
-		'application/vnd.oasis.opendocument.presentation-template'
+		'application/vnd.oasis.opendocument.presentation-template',
+		'application/vnd.openxmlformats-officedocument.presentationml.template',
+		'application/vnd.ms-powerpoint'
 	];
 
 	/** @var array Template mime types match */
