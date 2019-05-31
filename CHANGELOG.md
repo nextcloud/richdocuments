@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.3.8
+
+### Fixed
+- Fix UI rescaling in webkit
+- Fix scrolling behavior on webkit
+- Implement support for file renaming
+- Allow to use MS Office template formats
+
 ## 3.3.7
 
 ### Fixed
