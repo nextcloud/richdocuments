@@ -915,7 +915,7 @@ var documentsMain = {
 		}
 		// Forward to mobile handler
 		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] !== 'undefined') {
-			window.RichDocumentsMobileInterface[messageName](message);
+			window.RichDocumentsMobileInterface[messageName](attributes);
 		}
 
 		// iOS webkit fallback
