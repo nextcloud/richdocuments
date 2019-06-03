@@ -626,17 +626,7 @@ var documentsMain = {
 							documentsMain.wopiClientFeatures = msg.Values.Features;
 							documentsMain.overlay.documentOverlay('hide');
 
-							// Forward to mobile handler
-							if (window.RichDocumentsMobileInterface) {
-								window.RichDocumentsMobileInterface.documentLoaded();
-							}
-
-							// iOS webkit fallback
-							if (window.webkit
-								&& window.webkit.messageHandlers
-								&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
-								window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('documentLoaded');
-							}
+							documentsMain.callMobileMessage('documentLoaded');
 						} else if (msg.Values.Status === "Document_Loaded" ) {
 							window.removeEventListener('message', editorInitListener, false);
 							if (documentsMain.getFileList()) {
@@ -735,6 +725,7 @@ var documentsMain = {
 						documentsMain.fileName = args.NewName;
 						documentsMain.getFileList().reload();
 						parent.OC.Apps.hideAppSidebar();
+						documentsMain.callMobileMessage('fileRename', args);
 					} else if (msgId === 'UI_SaveAs') {
 						// TODO Move to file picker dialog with input field
 						OC.dialogs.prompt(
@@ -911,6 +902,27 @@ var documentsMain = {
 			};
 
 			iframe.contentWindow.postMessage(JSON.stringify(msg), '*');
+		}
+	},
+
+	callMobileMessage: function(messageName, attributes) {
+		var message = messageName;
+		if (typeof attributes !== 'undefined') {
+			message = {
+				MessageName: messageName,
+				Values: attributes
+			}
+		}
+		// Forward to mobile handler
+		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] !== 'undefined') {
+			window.RichDocumentsMobileInterface[messageName](message);
+		}
+
+		// iOS webkit fallback
+		if (window.webkit
+			&& window.webkit.messageHandlers
+			&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
+			window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage(message);
 		}
 	},
 
