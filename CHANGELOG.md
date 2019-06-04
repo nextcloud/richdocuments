@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.9
+
+### Fixed
+- Pass file renaming message to mobile apps
+- Only allow view removal for file owners
+- Allow clients to trigger Grab_Focus
+
 ## 3.3.8
 
 ### Fixed
