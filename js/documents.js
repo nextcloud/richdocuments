@@ -1041,6 +1041,10 @@ var documentsMain = {
 			url: url
 		});
 	},
+
+	postGrabFocus: function() {
+		documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Grab_Focus');
+	}
 };
 
 $(document).ready(function() {
