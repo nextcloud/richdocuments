@@ -292,7 +292,9 @@ var documentsMain = {
 			}
 			entry.append(label);
 
-			if (documentsMain.canEdit && !view.IsCurrentView) {
+			var fileModel = documentsMain.getFileModel();
+			var isFileOwner = documentsMain.getFileModel() && typeof documentsMain.getFileModel().get('shareOwner') === 'undefined';
+			if (documentsMain.canEdit && isFileOwner && !view.IsCurrentView) {
 				var removeButton = $('<div class="icon-close" title="Remove user"/>');
 				removeButton.click(function() {
 					documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_RemoveView', {ViewId: view.ViewId});
