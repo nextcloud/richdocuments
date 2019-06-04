@@ -628,7 +628,17 @@ var documentsMain = {
 							documentsMain.wopiClientFeatures = msg.Values.Features;
 							documentsMain.overlay.documentOverlay('hide');
 
-							documentsMain.callMobileMessage('documentLoaded');
+							// Forward to mobile handler
+							if (window.RichDocumentsMobileInterface) {
+								window.RichDocumentsMobileInterface.documentLoaded();
+							}
+
+							// iOS webkit fallback
+							if (window.webkit
+								&& window.webkit.messageHandlers
+								&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
+								window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage('documentLoaded');
+							}
 						} else if (msg.Values.Status === "Document_Loaded" ) {
 							window.removeEventListener('message', editorInitListener, false);
 							if (documentsMain.getFileList()) {
