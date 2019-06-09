@@ -77,7 +77,7 @@ OC.L10N.register(
     "Add a new template" : "Yeni kalıp ekle",
     "No templates defined." : "Herhangi bir kalıp tanımlanmamış.",
     "Add a new one?" : "Yeni bir kalıp eklemek ister misiniz?",
-    "template preview" : "kalıp önizleme",
+    "template preview" : "kalıp ön izleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek.",
