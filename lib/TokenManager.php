@@ -95,7 +95,7 @@ class TokenManager {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getToken($fileId, $shareToken = null, $editoruid = null) {
+	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
 		list($fileId,, $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
@@ -169,7 +169,7 @@ class TokenManager {
 			$guest_name = NULL;
 		}
 
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name, 0, $hideDownload);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name, 0, $hideDownload, $direct);
 
 		try {
 
@@ -182,7 +182,7 @@ class TokenManager {
 		}
 	}
 
-	public function getTokenForTemplate(File $file, $userId, $templateDestination) {
+	public function getTokenForTemplate(File $file, $userId, $templateDestination, $direct = false) {
 		$owneruid = $userId;
 		$editoruid = $userId;
 		$updatable = $file->isUpdateable();
@@ -205,7 +205,7 @@ class TokenManager {
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
-		$wopi = $this->wopiMapper->generateFileToken($file->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, $templateDestination);
+		$wopi = $this->wopiMapper->generateFileToken($file->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, $templateDestination, $direct);
 
 		return [
 			$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],

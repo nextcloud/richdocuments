@@ -100,7 +100,7 @@ class DirectViewController extends Controller {
 			}
 
 			try {
-				list($urlSrc, $token) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination());
+				list($urlSrc, $token) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
 			} catch (\Exception $e) {
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			}
@@ -114,7 +114,7 @@ class DirectViewController extends Controller {
 					throw new \Exception();
 				}
 
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid());
+				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			}

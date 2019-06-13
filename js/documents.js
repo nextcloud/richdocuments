@@ -683,6 +683,17 @@ var documentsMain = {
 						msgId = e.data;
 					}
 
+					if (msgId === 'Download_As') {
+						console.log('download for ' + args.Type + '.  Use this url: ' + args.URL);
+						if (
+							window.RichDocumentsMobileInterface ||
+							(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+						) {
+							documentsMain.callMobileMessage('downloadAs', args);
+							return;
+						}
+					}
+
 					// Check for webview handler
 					if (window.RichDocumentsMobileInterface) {
 						if (msgId === 'UI_Close') {
@@ -926,7 +937,7 @@ var documentsMain = {
 			}
 		}
 		// Forward to mobile handler
-		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] !== 'undefined') {
+		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] === 'function') {
 			window.RichDocumentsMobileInterface[messageName](attributes);
 		}
 

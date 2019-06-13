@@ -164,7 +164,8 @@ class WopiController extends Controller {
 			'DisableExport' => $wopi->getHideDownload(),
 			'DisableCopy' => $wopi->getHideDownload(),
 			'HideExportOption' => $wopi->getHideDownload(),
-			'HidePrintOption' => $wopi->getHideDownload()
+			'HidePrintOption' => $wopi->getHideDownload(),
+			'DownloadAsPostMessage' => $wopi->getDirect(),
 		];
 
 		if ($wopi->isTemplateToken()) {
