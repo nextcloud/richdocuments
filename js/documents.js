@@ -820,6 +820,15 @@ var documentsMain = {
 
 				// Tell the LOOL iframe that we are ready now
 				documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Host_PostmessageReady', {});
+
+				// Hide buttons when using the mobile app integration
+				if (
+					window.RichDocumentsMobileInterface ||
+					(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+				) {
+					documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Hide_Button', {id: 'fullscreen'});
+					documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Hide_Menu_Item', {id: 'fullscreen'});
+				}
 			});
 
 			// submit that
