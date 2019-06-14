@@ -692,6 +692,19 @@ var documentsMain = {
 							documentsMain.callMobileMessage('downloadAs', args);
 							return;
 						}
+					} else if (msgId === 'File_Rename') {
+						documentsMain.fileModel = null;
+						documentsMain.fileName = args.NewName;
+						if (
+							window.RichDocumentsMobileInterface ||
+							(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+						) {
+							documentsMain.callMobileMessage('fileRename', args);
+						} else {
+							documentsMain.getFileList().reload();
+							parent.OC.Apps.hideAppSidebar();
+						}
+						return;
 					}
 
 					// Check for webview handler
@@ -743,12 +756,6 @@ var documentsMain = {
 							documentsMain.getFileList().showDetailsView(documentsMain.fileName, 'shareTabView');
 							parent.OC.Apps.showAppSidebar();
 						}
-					} else if (msgId === 'File_Rename') {
-						documentsMain.fileModel = null;
-						documentsMain.fileName = args.NewName;
-						documentsMain.getFileList().reload();
-						parent.OC.Apps.hideAppSidebar();
-						documentsMain.callMobileMessage('fileRename', args);
 					} else if (msgId === 'UI_SaveAs') {
 						// TODO Move to file picker dialog with input field
 						OC.dialogs.prompt(
@@ -938,7 +945,7 @@ var documentsMain = {
 		}
 		// Forward to mobile handler
 		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] === 'function') {
-			window.RichDocumentsMobileInterface[messageName](attributes);
+			window.RichDocumentsMobileInterface[messageName](JSON.stringify(attributes));
 		}
 
 		// iOS webkit fallback
