@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.10
+
+### Fixed
+- Hide full screen button in mobile apps
+- Implement message for supporting download as / print in mobile apps
+
 ## 3.3.9
 
 ### Fixed
