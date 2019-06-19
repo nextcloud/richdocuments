@@ -644,6 +644,14 @@ var documentsMain = {
 							if (documentsMain.getFileList()) {
 								documentsMain.getFileModel();
 							}
+							// Hide buttons when using the mobile app integration
+							if (
+								window.RichDocumentsMobileInterface ||
+								(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+							) {
+								documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Hide_Button', {id: 'fullscreen'});
+								documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Hide_Menu_Item', {id: 'fullscreen'});
+							}
 						} else if (msg.Values.Status === "Failed") {
 							// Loading failed but editor shows the error
 							documentsMain.isFrameReady = true;
