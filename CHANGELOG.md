@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.11
+
+### Fixed
+- Fix different wopisrc for the same file with loadbalanced collabora instances
+
 ## 3.3.10
 
 ### Fixed
