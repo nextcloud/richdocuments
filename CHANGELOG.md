@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.12
+
+### Fixed
+- Fix regression from 3.3.11 without URL rewriting
+
 ## 3.3.11
 
 ### Fixed
