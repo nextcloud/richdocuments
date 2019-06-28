@@ -158,7 +158,7 @@ var documentsMain = {
 
 	// generates docKey for given fileId
 	_generateDocKey: function(wopiFileId) {
-		var ocurl = OC.generateUrl('/index.php/apps/richdocuments/wopi/files/{file_id}', {file_id: wopiFileId});
+		var ocurl = OC.getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + wopiFileId;
 		if (richdocuments_canonical_webroot) {
 			if (!richdocuments_canonical_webroot.startsWith('/'))
 				richdocuments_canonical_webroot = '/' + richdocuments_canonical_webroot;
@@ -398,7 +398,7 @@ var documentsMain = {
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
 			// index.php is forced here to avoid different wopi srcs for the same document
-			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('/index.php/apps/richdocuments/wopi/files/{file_id}', {file_id: fileId});
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + fileId;
 			var wopisrc = encodeURIComponent(wopiurl);
 
 			// urlsrc - the URL from discovery xml that we access for the particular
@@ -584,7 +584,7 @@ var documentsMain = {
 			parent.document.title = documentsMain.documentTitle + ' - ' + documentsMain.UI.mainTitle;
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-			var wopiurl = window.location.protocol + '//' + window.location.host + OC.generateUrl('/index.php/apps/richdocuments/wopi/files/{file_id}', {file_id: documentsMain.fileId});
+			var wopiurl = window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId;
 			var wopisrc = encodeURIComponent(wopiurl);
 
 			// urlsrc - the URL from discovery xml that we access for the particular
