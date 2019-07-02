@@ -18,6 +18,7 @@ OC.L10N.register(
     "Close version preview" : "Sluiten voorbeeldversie",
     "Current version" : "Huidige versie",
     "Failed to revert the document to older version" : "Kon het document niet terugdraaien naar een vorige versie",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Verbinding met {productName} misukt. Probeer het later opnieuw or neem contact op met de beheerder.",
     "Please enter the filename to store the document as." : "Geef de bestandsnaam op waaronder het document moet worden opgeslagen.",
     "Save As" : "Opslaan als",
     "New filename" : "Nieuwe bestandsnaam",
