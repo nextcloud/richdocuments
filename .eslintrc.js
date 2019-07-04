@@ -11,6 +11,8 @@ module.exports = {
 		n: true,
 		OC: true,
 		OCA: true,
+		'$': true,
+		'_': true,
 		Vue: true,
 		VueRouter: true
 	},
@@ -27,6 +29,12 @@ module.exports = {
 	],
 	plugins: ['vue', 'node'],
 	rules: {
+		// TODO: remove when all fixed
+		'no-unused-vars': 'warn',
+		'no-mixed-operators': 'warn',
+		'camelcase': 'warn',
+		'no-global-assign': 'warn',
+
 		// space before function ()
 		'space-before-function-paren': ['error', 'never'],
 		// curly braces always space
