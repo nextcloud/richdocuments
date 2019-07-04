@@ -1,10 +1,4 @@
-function getSearchParam(name) {
-	var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
-	if (results === null) {
-		return null
-	}
-	return decodeURI(results[1]) || 0
-}
+import { getSearchParam } from './helpers/url'
 
 var preloadType = getSearchParam('richdocuments_create')
 var preloadFilename = getSearchParam('richdocuments_filename')
