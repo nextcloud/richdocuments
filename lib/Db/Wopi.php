@@ -87,6 +87,15 @@ class Wopi extends Entity {
 	/** @var bool */
 	protected $direct;
 
+	/** @var bool */
+	protected $isRemoteToken;
+
+	/** @var string */
+	protected $remoteServer;
+
+	/** @var string */
+	protected $remoteServerToken;
+
 	public function __construct() {
 		$this->addType('owner_uid', 'string');
 		$this->addType('editor_uid', 'string');

@@ -56,7 +56,11 @@ export default {
 	},
 
 	initAfterReady() {
-		documentsMain = document.getElementById('richdocumentsframe').contentWindow.documentsMain
+		try {
+			documentsMain = document.getElementById('richdocumentsframe').contentWindow.documentsMain
+		} catch (e) {
+			console.debug('[FilesAppIntegration] failed to access documentsMain')
+		}
 	},
 
 	close() {

@@ -64,7 +64,7 @@ class WopiMapper extends Mapper {
 	 * @param int $templateDestination
 	 * @return Wopi
 	 */
-	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname, $templateDestination = 0, $hideDownload = false, $direct = false) {
+	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname, $templateDestination = 0, $hideDownload = false, $direct = false, $isRemoteToken = false) {
 		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 
 		$wopi = Wopi::fromParams([
@@ -79,7 +79,8 @@ class WopiMapper extends Mapper {
 			'guestDisplayname' => $guestDisplayname,
 			'templateDestination' => $templateDestination,
 			'hideDownload' => $hideDownload,
-			'direct' => $direct
+			'direct' => $direct,
+			'isRemoteToken' => $isRemoteToken
 		]);
 
 		/** @var Wopi $wopi */
@@ -89,6 +90,13 @@ class WopiMapper extends Mapper {
 	}
 
 	/**
+	 * @deprecated
+	 * @param $token
+	 */
+	public function getPathForToken($token) {
+		return $this->getWopiForToken($token);
+	}
+	/**
 	 * Given a token, validates it and
 	 * constructs and validates the path.
 	 * Returns the path, if valid, else false.
@@ -97,7 +105,7 @@ class WopiMapper extends Mapper {
 	 * @throws DoesNotExistException
 	 * @return Wopi
 	 */
-	public function getPathForToken($token) {
+	public function getWopiForToken($token) {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')

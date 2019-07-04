@@ -29,6 +29,7 @@ return [
 	'routes' => [
 		//documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
+		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
 		['name' => 'document#template', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 		['name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'],
@@ -54,7 +55,7 @@ return [
 		//assets
 		['name' => 'assets#create', 'url' => 'assets', 'verb' => 'POST'],
 		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
-		
+
 		// templates
 		['name' => 'templates#getPreview', 'url' => '/template/preview/{fileId}', 'verb' => 'GET'],
 		['name' => 'templates#add', 'url' => '/template', 'verb' => 'POST'],
@@ -63,6 +64,11 @@ return [
 	'ocs' => [
 		['name' => 'OCS#create', 'url' => '/api/v1/document', 'verb' => 'POST'],
 		['name' => 'OCS#getTemplates', 'url' => '/api/v1/templates/{type}', 'verb' => 'GET'],
-		['name' => 'OCS#createFromTemplate', 'url' => '/api/v1/templates/new', 'verb' => 'POST']
+		['name' => 'OCS#createFromTemplate', 'url' => '/api/v1/templates/new', 'verb' => 'POST'],
+
+		['name' => 'Federation#index', 'url' => '/api/v1/federation', 'verb' => 'GET'],
+		['name' => 'Federation#remoteWopiToken', 'url' => '/api/v1/federation', 'verb' => 'POST'],
+		['name' => 'Federation#remoteDirectToken', 'url' => '/api/v1/federation/direct', 'verb' => 'POST'],
+
 	],
 ];

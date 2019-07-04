@@ -116,7 +116,7 @@ class WopiController extends Controller {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
 		try {
-			$wopi = $this->wopiMapper->getPathForToken($access_token);
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		} catch (DoesNotExistException $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -199,7 +199,7 @@ class WopiController extends Controller {
 							$access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
-		$wopi = $this->wopiMapper->getPathForToken($access_token);
+		$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -262,7 +262,7 @@ class WopiController extends Controller {
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
-		$wopi = $this->wopiMapper->getPathForToken($access_token);
+		$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		if (!$wopi->getCanwrite()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -370,7 +370,7 @@ class WopiController extends Controller {
 	public function putRelativeFile($fileId,
 					$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
-		$wopi = $this->wopiMapper->getPathForToken($access_token);
+		$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		if (!$wopi->getCanwrite()) {

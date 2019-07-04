@@ -24,6 +24,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -52,6 +53,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var TemplateManager */
 	private $manager;
 
+	/** @var FederationService */
+	private $federationService;
+
 	/**
 	 * OCS controller
 	 *
@@ -69,7 +73,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$userId,
 		DirectMapper $directMapper,
 		IURLGenerator $urlGenerator,
-		TemplateManager $manager) {
+		TemplateManager $manager,
+		FederationService $federationService
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder   = $rootFolder;
@@ -77,6 +83,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$this->directMapper = $directMapper;
 		$this->urlGenerator = $urlGenerator;
 		$this->manager      = $manager;
+		$this->federationService = $federationService;
 	}
 
 	/**
@@ -102,9 +109,29 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
 
-			//TODO check if we can even edit this file with collabora
+			/**
+			 * Open file from remote collabora
+			 */
+			if ($node->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
+				$remote = $node->getStorage()->getRemote();
+				$remoteCollabora = $this->federationService->getRemoteDirectToken($remote);
+				if ($remoteCollabora !== '') {
+					$wopi = $this->tokenManager->getRemoteToken($item);
+					$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
+						'&remoteServer=' . $wopi->getServerHost() .
+						'&remoteServerToken=' . $wopi->getToken();
+					if ($item->getInternalPath() !== '') {
+						$url .= '&filePath=' . $item->getInternalPath();
+					}
+					$response = new RedirectResponse($url);
+					$response->addHeader('X-Frame-Options', 'ALLOW');
+					return $response;
+				}
+			}
 
+			//TODO check if we can even edit this file with collabora
 			$direct = $this->directMapper->newDirect($this->userId, $fileId);
+			// TODO: convert to remote token if needed
 
 			return new DataResponse([
 				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [

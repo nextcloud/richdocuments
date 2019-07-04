@@ -28,9 +28,11 @@ use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use OCP\IL10N;
 use OCP\Util;
@@ -96,7 +98,7 @@ class TokenManager {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
+	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false, $isRemoteToken = false) {
 		list($fileId,, $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
@@ -173,13 +175,14 @@ class TokenManager {
 			$guest_name = NULL;
 		}
 
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name, 0, $hideDownload, $direct);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name, 0, $hideDownload, $direct, $isRemoteToken);
 
 		try {
 
 			return [
 				$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],
 				$wopi->getToken(),
+				$wopi
 			];
 		} catch (\Exception $e){
 			throw $e;
@@ -215,5 +218,18 @@ class TokenManager {
 			$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],
 			$wopi->getToken(),
 		];
+	}
+
+	/**
+	 * @param Node $node
+	 * @return Wopi
+	 */
+	public function getRemoteToken(Node $node) {
+		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, null, false, true);
+		$wopi->setIsRemoteToken(true);
+		$wopi->setRemoteServer($node->getStorage()->getRemote());
+
+		$this->wopiMapper->update($wopi);
+		return $wopi;
 	}
 }
