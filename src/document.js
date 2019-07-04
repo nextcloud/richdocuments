@@ -122,15 +122,6 @@ $.widget('oc.documentOverlay', {
  * @property {Boolean} IsCurrentView
  */
 
-// Polyfill for Number.isInteger
-// FIXME: Remove once Nextcloud 15 is the minimum required version
-// since es6-shim is shipped for that
-Number.isInteger = Number.isInteger || function(value) {
-	return typeof value === 'number'
-		&& isFinite(value)
-		&& Math.floor(value) === value
-}
-
 var documentsMain = {
 	isEditorMode: false,
 	isViewerMode: false,
