@@ -12,7 +12,7 @@
 
 <?php
 style( 'richdocuments', 'style' );
-script('richdocuments', 'documents');
+script('richdocuments', 'document');
 ?>
 <div id="documents-content">
 	<ul class="documentslist">
