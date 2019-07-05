@@ -1,5 +1,7 @@
-import { getRootPath } from 'nextcloud-server/dist/router'
 import { languageToBCP47 } from './helpers'
+
+const getRootPath = OC.getRootPath
+
 /* TODO: move to one object */
 /* global richdocuments_directEdit richdocuments_fileId richdocuments_urlsrc richdocuments_token richdocuments_path richdocuments_permissions richdocuments_title getURLParameter richdocuments_canonical_webroot */
 

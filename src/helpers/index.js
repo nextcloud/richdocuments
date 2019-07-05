@@ -20,11 +20,9 @@
  *
  */
 
-import { getLanguage } from 'nextcloud-server/dist/l10n'
-
 const languageToBCP47 = () => {
 	// loleaflet expects a BCP47 language tag syntax
-	return getLanguage()
+	return OC.getLanguage()
 		.replace(/^([a-z]{2}).*_([A-Z]{2})$/, (match, p1, p2) => p1 + '-' + p2.toLowerCase())
 }
 
