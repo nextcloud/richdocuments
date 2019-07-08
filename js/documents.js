@@ -580,9 +580,6 @@ var documentsMain = {
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
 
-			documentsMain.documentTitle = title;
-			parent.document.title = documentsMain.documentTitle + ' - ' + documentsMain.UI.mainTitle;
-
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
 			var wopiurl = window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId;
 			var wopisrc = encodeURIComponent(wopiurl);
@@ -926,10 +923,6 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
-		if (parent && documentsMain.getFileList() !== null && typeof documentsMain.getFileList() !== 'undefined') {
-			documentsMain.getFileList().reload();
-			parent.document.title = documentsMain.documentTitle + ' - ' + documentsMain.UI.mainTitle;
-		}
 	},
 
 	WOPIPostMessage: function(iframe, msgId, values) {

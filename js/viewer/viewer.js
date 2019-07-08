@@ -95,6 +95,7 @@ var odfViewer = {
 
 		if(context) {
 			FileList.setViewerMode(true);
+			FileList.setPageTitle(fileName);
 		}
 
 		OC.addStyle('richdocuments', 'mobile');
@@ -147,6 +148,7 @@ var odfViewer = {
 		if(typeof FileList !== "undefined") {
 			FileList.setViewerMode(false);
 			FileList.reload();
+			FileList.setPageTitle();
 		}
 		$('link[href*="richdocuments/css/mobile"]').remove();
 		$('#app-content #controls').removeClass('hidden');
