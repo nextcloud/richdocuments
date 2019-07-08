@@ -1,116 +1,47 @@
 import { getRootUrl } from 'nextcloud-router'
-import { getRequestToken } from 'nextcloud-auth'
+import { getRequestToken, getCurrentUser } from 'nextcloud-auth'
 import { languageToBCP47 } from './helpers'
+import { getGuestNameCookie, setGuestNameCookie, shouldAskForGuestName } from './helpers/guestName'
 
 /* TODO: move to one object */
 /* global richdocuments_directEdit richdocuments_fileId richdocuments_urlsrc richdocuments_token richdocuments_path richdocuments_permissions richdocuments_title getURLParameter richdocuments_canonical_webroot */
 
-$.widget('oc.documentGrid', {
-	options: {
-		context: '.documentslist',
-		documents: {},
-		sessions: {},
-		members: {}
-	},
+const showLoadingIndicator = () => document.getElementById('loadingContainer').classList.add('icon-loading')
+const hideLoadingIndicator = () => document.getElementById('loadingContainer').classList.remove('icon-loading')
 
-	render: function(fileId) {
-		var that = this
-		$.when(this._load(fileId))
-			.then(function() {
-				that._render()
-				documentsMain.renderComplete = true
-			})
-	},
+showLoadingIndicator()
 
-	_load: function(fileId) {
-		// Handle guest user case (let users which are able to write set their name)
-		if (!richdocuments_directEdit && window.parent.oc_current_user === null && this._getGuestNameCookie() === ''
-				&& (richdocuments_permissions & OC.PERMISSION_UPDATE)) {
-			$('#documentslist').remove()
-
-			var text = document.createElement('div')
-			$(text).attr('style', 'margin: 0 auto; margin-top: 100px; text-align: center;')
-
-			var para = t('richdocuments', 'Please choose your nickname to continue as guest user.')
-			text.innerHTML = para
-
-			var div = document.createElement('div')
-			$(div).attr('style', 'margin: 0 auto; width: 250px; display: flex;')
-			var nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="flex-grow: 1; border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">'
-			var btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('richdocuments', 'Set') + '">'
-			div.innerHTML = nick + btn
-
-			$('#documents-content').prepend(div)
-			$('#documents-content').prepend(text)
-			var that = this
-			$('#nickname').keyup(function(event) {
-				if (event.which === 13) {
-					that._setGuestNameCookie()
-				}
-			})
-			$('#btn').click(that._setGuestNameCookie)
-			$('#preview').hide()
-			// return such that the editor rendering is skipped. The (parent) page
-			// will be reloaded with the cookie set when the user submits the form.
-			return
-		}
-
-		// standard case, render the editor
-		documentsMain.initSession()
-	},
-
-	_getGuestNameCookie: function() {
-		var name = 'guestUser='
-		var decodedCookie = decodeURIComponent(document.cookie)
-		var cookieArr = decodedCookie.split(';')
-		for (var i = 0; i < cookieArr.length; i++) {
-			var c = cookieArr[i]
-			while (c.charAt(0) === ' ') {
-				c = c.substring(1)
-			}
-			if (c.indexOf(name) === 0) {
-				return c.substring(name.length, c.length)
-			}
-		}
-		return ''
-	},
-
-	_setGuestNameCookie: function() {
-		var username = $('#nickname').val()
-
-		if (username !== '') {
-			document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
-		}
-
-		location.reload(true)
-	},
-
-	_render: function(data) {
-		$(this.options.context + ' .document:not(.template,.progress)').remove()
-
-		if (documentsMain.loadError) {
-			$(this.options.context).after('<div id="errormessage">'
-				+ '<p>' + documentsMain.loadErrorMessage + '</p><p>'
-				+ documentsMain.loadErrorHint
-				+ '</p></div>'
-			)
-
-		}
-	}
-})
-
-$.widget('oc.documentOverlay', {
-	options: {
-		parent: 'document.body'
-	},
+$.widget('oc.guestNamePicker', {
 	_create: function() {
-		$(this.element).hide().appendTo(document.body)
-	},
-	show: function() {
-		$(this.element).fadeIn('fast')
-	},
-	hide: function() {
-		$(this.element).fadeOut('fast')
+		hideLoadingIndicator()
+
+		var text = document.createElement('div')
+		$(text).attr('style', 'margin: 0 auto; margin-top: 100px; text-align: center;')
+
+		var para = t('richdocuments', 'Please choose your nickname to continue as guest user.')
+		text.innerHTML = para
+
+		var div = document.createElement('div')
+		$(div).attr('style', 'margin: 0 auto; width: 250px; display: flex;')
+		var nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="flex-grow: 1; border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">'
+		var btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('richdocuments', 'Set') + '">'
+		div.innerHTML = nick + btn
+
+		$('#documents-content').prepend(div)
+		$('#documents-content').prepend(text)
+		var that = this
+		const setGuestNameSubmit = () => {
+			var username = $('#nickname').val()
+			setGuestNameCookie(username)
+			window.location.reload(true)
+		}
+
+		$('#nickname').keyup(function(event) {
+			if (event.which === 13) {
+				setGuestNameSubmit()
+			}
+		})
+		$('#btn').click(() => setGuestNameSubmit())
 	}
 })
 
@@ -126,7 +57,7 @@ $.widget('oc.documentOverlay', {
  * @property {Boolean} IsCurrentView
  */
 
-var documentsMain = {
+const documentsMain = {
 	isEditorMode: false,
 	isViewerMode: false,
 	isFrameReady: false,
@@ -519,7 +450,6 @@ var documentsMain = {
 
 			// load the file again, it should get reverted now
 			window.location = $(parent.document.querySelector('#richdocumentsframe')).attr('src')
-			documentsMain.overlay.documentOverlay('hide')
 			parent.OC.Apps.hideAppSidebar()
 		},
 
@@ -528,13 +458,13 @@ var documentsMain = {
 		},
 
 		_restoreDAV: function(version) {
-			var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + parent.OC.getCurrentUser().uid
+			var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + getCurrentUser().uid
 				+ '/versions/' + documentsMain.originalFileId + '/' + version
 			$.ajax({
 				type: 'MOVE',
 				url: restoreUrl,
 				headers: {
-					Destination: OC.linkToRemote('dav') + '/versions/' + parent.OC.getCurrentUser().uid + '/restore/target'
+					Destination: OC.linkToRemote('dav') + '/versions/' + getCurrentUser().uid + '/restore/target'
 				},
 				success: this._restoreSuccess,
 				error: this._restoreError
@@ -557,6 +487,7 @@ var documentsMain = {
 			OC.Util.History.pushState()
 
 			parent.postMessage('loading', '*')
+			hideLoadingIndicator()
 
 			$(document.body).addClass('claro')
 			$(document.body).prepend(documentsMain.UI.container)
@@ -605,7 +536,6 @@ var documentsMain = {
 						if (msg.Values.Status === 'Frame_Ready') {
 							documentsMain.isFrameReady = true
 							documentsMain.wopiClientFeatures = msg.Values.Features
-							documentsMain.overlay.documentOverlay('hide')
 
 							// Forward to mobile handler
 							if (window.RichDocumentsMobileInterface) {
@@ -634,7 +564,6 @@ var documentsMain = {
 						} else if (msg.Values.Status === 'Failed') {
 							// Loading failed but editor shows the error
 							documentsMain.isFrameReady = true
-							documentsMain.overlay.documentOverlay('hide')
 						} else if (msg.Values.Status === 'Timeout') {
 							// Timeout - no response from the editor
 							documentsMain.onClose()
@@ -866,18 +795,6 @@ var documentsMain = {
 			})
 		},
 
-		showProgress: function(message) {
-			if (!message) {
-				message = '&nbsp;'
-			}
-			$('.documentslist .progress div').text(message)
-			$('.documentslist .progress').show()
-		},
-
-		hideProgress: function() {
-			$('.documentslist .progress').hide()
-		},
-
 		notify: function(message) {
 			OC.Notification.show(message)
 			setTimeout(OC.Notification.hide, 10000)
@@ -891,10 +808,7 @@ var documentsMain = {
 		// Does anything indicate that we need to autostart a session?
 		fileId = getURLParameter('fileId').replace(/^\W*/, '')
 
-		documentsMain.show(fileId)
-
 		if (fileId && Number.isInteger(Number(fileId)) && $('#nickname').length === 0) {
-			documentsMain.overlay.documentOverlay('show')
 			documentsMain.prepareSession()
 			documentsMain.originalFileId = fileId
 		}
@@ -937,7 +851,6 @@ var documentsMain = {
 
 	prepareSession: function() {
 		documentsMain.isEditorMode = true
-		documentsMain.overlay.documentOverlay('show')
 	},
 
 	initSession: function() {
@@ -1008,7 +921,6 @@ var documentsMain = {
 		}
 		documentsMain.UI.hideEditor()
 
-		documentsMain.show()
 		$('footer,nav').show()
 	},
 
@@ -1040,11 +952,6 @@ var documentsMain = {
 		$('#loleafletframe').focus()
 	},
 
-	show: function(fileId) {
-		documentsMain.docs.documentGrid('render', fileId)
-		documentsMain.UI.hideProgress()
-	},
-
 	postAsset: function(filename, url) {
 		documentsMain.WOPIPostMessage($('#loleafletframe')[0], 'Action_InsertGraphic', {
 			filename: filename,
@@ -1069,11 +976,12 @@ $(document).ready(function() {
 
 	OCA.RichDocuments.documentsMain = documentsMain
 
-	documentsMain.docs = $('.documentslist').documentGrid()
-	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay()
-	documentsMain.overlay.hide()
-
-	$('li.document a').tooltip({ fade: true, live: true })
+	if (shouldAskForGuestName()) {
+		$('#documents-content').guestNamePicker()
+	} else {
+		documentsMain.initSession()
+	}
+	documentsMain.renderComplete = true
 
 	var viewport = document.querySelector('meta[name=viewport]')
 	viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
