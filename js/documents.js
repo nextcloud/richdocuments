@@ -567,7 +567,7 @@ var documentsMain = {
 			}
 
 			if (!documentsMain.renderComplete) {
-				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 500);
+				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 10);
 				console.log('Waiting for page to render…');
 				return;
 			}
