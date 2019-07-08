@@ -1,6 +1,6 @@
+import { getRootUrl } from 'nextcloud-router'
+import { getRequestToken } from 'nextcloud-auth'
 import { languageToBCP47 } from './helpers'
-
-const getRootPath = OC.getRootPath
 
 /* TODO: move to one object */
 /* global richdocuments_directEdit richdocuments_fileId richdocuments_urlsrc richdocuments_token richdocuments_path richdocuments_permissions richdocuments_title getURLParameter richdocuments_canonical_webroot */
@@ -146,11 +146,11 @@ var documentsMain = {
 
 	// generates docKey for given fileId
 	_generateDocKey: function(wopiFileId) {
-		var ocurl = getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + wopiFileId
+		var ocurl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + wopiFileId
 		if (richdocuments_canonical_webroot) {
 			if (!richdocuments_canonical_webroot.startsWith('/')) { richdocuments_canonical_webroot = '/' + richdocuments_canonical_webroot }
 
-			ocurl = ocurl.replace(getRootPath(), richdocuments_canonical_webroot)
+			ocurl = ocurl.replace(getRootUrl(), richdocuments_canonical_webroot)
 		}
 
 		return ocurl
@@ -380,7 +380,7 @@ var documentsMain = {
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
 			// index.php is forced here to avoid different wopi srcs for the same document
-			var wopiurl = window.location.protocol + '//' + window.location.host + getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + fileId
+			var wopiurl = window.location.protocol + '//' + window.location.host + getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + fileId
 			var wopisrc = encodeURIComponent(wopiurl)
 
 			// urlsrc - the URL from discovery xml that we access for the particular
@@ -401,7 +401,7 @@ var documentsMain = {
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/></form>'
 
 			// iframe that contains the Collabora Online Viewer
-			var frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" nonce="' + btoa(OC.requestToken) + '" style="width:100%;height:100%;position:absolute;"/>'
+			var frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
 
 			$('#revViewer').append(form)
 			$('#revViewer').append(frame)
@@ -562,7 +562,7 @@ var documentsMain = {
 			$(document.body).prepend(documentsMain.UI.container)
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-			var wopiurl = window.location.protocol + '//' + window.location.host + getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId
+			var wopiurl = window.location.protocol + '//' + window.location.host + getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId
 			var wopisrc = encodeURIComponent(wopiurl)
 
 			// urlsrc - the URL from discovery xml that we access for the particular
