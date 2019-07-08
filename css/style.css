@@ -25,10 +25,6 @@ body {
 	vertical-align: top;
 }
 
-.documentslist .progress{
-	border: 1px solid #e8e8e8;
-}
-
 .documentslist .progress div{
 	margin-top: 144px;
 	text-align: center;
@@ -52,7 +48,6 @@ body {
 	width: 200px;
 	background-repeat: no-repeat;
 	background-size: 200px;
-	border: 1px solid #e8e8e8;
 }
 .document a:hover {
 	border: 1px solid #818181;

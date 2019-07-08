@@ -1074,7 +1074,6 @@ var documentsMain = {
 	},
 
 	show: function(fileId){
-		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…'));
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
 	},
