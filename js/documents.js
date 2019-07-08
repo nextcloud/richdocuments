@@ -1105,6 +1105,7 @@ $(document).ready(function() {
 
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
+	documentsMain.overlay.hide();
 
 	$('li.document a').tooltip({fade: true, live: true});
 
