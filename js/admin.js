@@ -125,12 +125,12 @@ var documentsSettings = {
 		documentsSettings.initGroups();
 		documentsSettings.initExternalApps();
 
+		var page = $('#richdocuments');
+
 		$('#wopi_apply').on('click', documentsSettings.save);
 
 				// destroy or create app name and token fields depending on whether the checkbox is on or off
 		$(document).on('change', '#enable_external_apps_cb-richdocuments', function() {
-			var page = $(this).parent();
-
 			page.find('#enable-external-apps-section').toggleClass('hidden', !this.checked);
 			if (this.checked) {
 				var app1 = documentsSettings._createExtApp();
@@ -143,8 +143,7 @@ var documentsSettings = {
 		});
 
 		$(document).on('click', '.external-apps-gen-token-button', function() {
-			var appSection = $(this).parent();
-			var appToken = appSection.find('.external-apps-token');
+			var appToken = page.find('.external-apps-token');
 
 			// generate a random string
 			var len = 3;
@@ -187,8 +186,8 @@ var documentsSettings = {
 		});
 
 		$(document).on('click', '#test_wopi_apply', function() {
-			var groups = $(this).parent().find('#test_server_group_select').val();
-			var testserver = $(this).parent().find('#test_wopi_url').val();
+			var groups = page.find('#test_server_group_select').val();
+			var testserver = page.find('#test_wopi_url').val();
 
 			if (groups !== '' && testserver !== '') {
 				documentsSettings.saveTestWopi(groups, testserver);
@@ -203,13 +202,13 @@ var documentsSettings = {
 		});
 
 		$(document).on('change', '#edit_group_select', function() {
-			var element = $(this).parent().find('input.edit-groups-enable');
+			var element = page.find('input.edit-groups-enable');
 			var groups = $(this).val();
 				documentsSettings.saveGroups({edit_groups: groups});
 		});
 
 		$(document).on('change', '.edit-groups-enable', function() {
-			var $select = $(this).parent().find('#edit_group_select');
+			var $select = page.find('#edit_group_select');
 			$select.val('');
 
 			if (this.checked) {
@@ -224,13 +223,13 @@ var documentsSettings = {
 		});
 
 		$(document).on('change', '#use_group_select', function() {
-			var element = $(this).parent().find('input.use-groups-enable');
+			var element = page.find('input.use-groups-enable');
 			var groups = $(this).val();
 			documentsSettings.saveGroups({use_groups: groups});
 		});
 
 		$(document).on('change', '.use-groups-enable', function() {
-			var $select = $(this).parent().find('#use_group_select');
+			var $select = page.find('#use_group_select');
 			$select.val('');
 
 			if (this.checked) {
@@ -245,8 +244,6 @@ var documentsSettings = {
 		});
 
 		$(document).on('change', '#enable_canonical_webroot_cb-richdocuments', function() {
-			var page = $(this).parent();
-
 			page.find('#enable-canonical-webroot-section').toggleClass('hidden', !this.checked);
 			if (!this.checked) {
 				documentsSettings.saveWebroot('');
