@@ -142,13 +142,15 @@ class WopiController extends Controller {
 
 		$isPublic = $wopi->getEditorUid() === null;
 		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
+		$user = $this->userManager->get($wopi->getEditorUid());
+		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
 			'Version' => $version,
 			'UserId' => !$isPublic ? $wopi->getEditorUid() : $guestUserId,
 			'OwnerId' => $wopi->getOwnerUid(),
-			'UserFriendlyName' => !$isPublic ? \OC_User::getDisplayName($wopi->getEditorUid()) : $wopi->getGuestDisplayname(),
+			'UserFriendlyName' => $userDisplayName,
 			'UserExtraInfo' => [
 			],
 			'UserCanWrite' => $wopi->getCanwrite(),
@@ -314,7 +316,7 @@ class WopiController extends Controller {
 				$file = $root->get($path);
 			} else {
 				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
-				if (!is_null($wopiHeaderTime) && $wopiHeaderTime != Helper::toISO8601($file->getMTime())) {
+				if (!is_null($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime())) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 						'headerTime' => $wopiHeaderTime,
 						'storageTime' => Helper::toISO8601($file->getMTime())

@@ -26,6 +26,7 @@ use OCA\Richdocuments\Capabilities;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Image;
 
 abstract class Office extends Provider {
 
@@ -96,7 +97,7 @@ abstract class Office extends Provider {
 			return false;
 		}
 
-		$image = new \OC_Image();
+		$image = new Image();
 		$image->loadFromData($response->getBody());
 
 		if ($image->valid()) {

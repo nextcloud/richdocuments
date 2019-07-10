@@ -33,6 +33,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IL10N;
+use OCP\Util;
 
 class TokenManager {
 	/** @var IRootFolder */
@@ -164,7 +165,7 @@ class TokenManager {
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
 
 		if ($this->userId === null && isset($_COOKIE['guestUser']) && $_COOKIE['guestUser'] !== '') {
-			$guest_name = $this->trans->t('%s (Guest)', \OC_Util::sanitizeHTML($_COOKIE['guestUser']));
+			$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($_COOKIE['guestUser']));
 		} else {
 			$guest_name = NULL;
 		}
