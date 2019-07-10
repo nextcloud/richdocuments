@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.13
+
+### Fixed
+- Improve loading time when opening documents
+- Fix admin settings not saving properly
+
 ## 3.3.12
 
 ### Fixed
