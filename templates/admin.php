@@ -48,9 +48,9 @@ script('files', 'jquery.fileupload');
 		<label for="doc_format_ooxml_enable-richdocuments"><?php p($l->t('Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files')) ?></label>
 	</p>
 	<p>
-	<input type="checkbox" class="checkbox" id="enable_external_apps_cb-richdocuments" <?php p($_['external_apps'] != '' ? 'checked' : '') ?> />
+	<input type="checkbox" class="checkbox" id="enable_external_apps_cb-richdocuments" <?php p($_['external_apps'] !== '' ? 'checked' : '') ?> />
 	<label for="enable_external_apps_cb-richdocuments"><?php p($l->t('Enable access for external apps')) ?></label>
-	<div id="enable-external-apps-section" class="indent <?php if ($_['external_apps'] == '') p('hidden') ?>" >
+	<div id="enable-external-apps-section" class="indent <?php if ($_['external_apps'] === '') p('hidden') ?>" >
 		<div id="external-apps-section">
 			<input type="hidden" id="external-apps-raw" name="external-apps-raw" value="<?php p($_['external_apps']) ?>">
 		</div>
@@ -61,9 +61,9 @@ script('files', 'jquery.fileupload');
 	</div>
 	</p>
 	<p>
-	<input type="checkbox" class="checkbox" id="enable_canonical_webroot_cb-richdocuments" <?php p($_['canonical_webroot'] != '' ? 'checked' : '') ?> />
+	<input type="checkbox" class="checkbox" id="enable_canonical_webroot_cb-richdocuments" <?php p($_['canonical_webroot'] !== '' ? 'checked' : '') ?> />
 	<label for="enable_canonical_webroot_cb-richdocuments"><?php p($l->t('Use Canonical webroot')) ?></label>
-	<div id="enable-canonical-webroot-section" class="indent <?php if ($_['canonical_webroot'] == '') p('hidden') ?>" >
+	<div id="enable-canonical-webroot-section" class="indent <?php if ($_['canonical_webroot'] === '') p('hidden') ?>" >
 		<input type="text" id="canonical-webroot" name="canonical-webroot-name" value="<?php p($_['canonical_webroot']) ?>">
 		<br/>
 		<p class="rd-settings-documentation"><em><?php p($l->t('Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')) ?></em></p>
