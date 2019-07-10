@@ -20,6 +20,7 @@ var Preload = {
 var odfViewer = {
 	isDocuments : false,
 	nextcloudVersion: 0,
+	receivedLoading: false,
 	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	register : function() {
@@ -65,6 +66,7 @@ var odfViewer = {
 			var fileId = context.fileId || context.$file.attr('data-id');
 			var templateId = context.templateId;
 		}
+		odfViewer.receivedLoading = false;
 
 		var viewer;
 		if($('#isPublic').val() === '1') {
@@ -95,17 +97,21 @@ var odfViewer = {
 
 		if(context) {
 			FileList.setViewerMode(true);
+			FileList.setPageTitle(fileName);
+			FileList.showMask();
 		}
 
 		OC.addStyle('richdocuments', 'mobile');
 
 		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="'+viewer+'" />');
-		$.get(OC.generateUrl('/apps/richdocuments/settings/check'), function() {
-			$iframe.src = viewer;
-		}) .fail(function() {
-			odfViewer.onClose();
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', {productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online'}));
-		});
+		odfViewer.loadingTimeout = setTimeout(function() {
+			if (!odfViewer.receivedLoading) {
+				odfViewer.onClose();
+				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', {productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online'}));
+			}
+		}, 15000);
+		$iframe.src = viewer;
+
 		$('body').css('overscroll-behavior-y', 'none');
 		var viewport = document.querySelector("meta[name=viewport]");
 		viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
@@ -123,6 +129,7 @@ var odfViewer = {
 		} else {
 			$('body').css('overflow', 'hidden');
 			$('#app-content').append($iframe);
+			$iframe.hide();
 			if ($('header').length) {
 				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>');
 				$('.header-right').prepend($button);
@@ -136,7 +143,6 @@ var odfViewer = {
 					OC.Apps.showAppSidebar();
 				});
 				$('.searchbox').hide();
-				$('#app-navigation').addClass('hidden');
 			}
 		}
 
@@ -144,14 +150,16 @@ var odfViewer = {
 	},
 
 	onClose: function() {
+		clearTimeout(odfViewer.loadingTimeout)
 		if(typeof FileList !== "undefined") {
 			FileList.setViewerMode(false);
 			FileList.reload();
+			FileList.setPageTitle();
 		}
+		odfViewer.receivedLoading = false;
 		$('link[href*="richdocuments/css/mobile"]').remove();
 		$('#app-content #controls').removeClass('hidden');
 		$('#richdocumentsframe').remove();
-		$('#app-navigation').removeClass('hidden');
 		$('.richdocuments-sharing').remove();
 		$('#richdocuments-avatars').remove();
 		$('#richdocuments-actions').remove();
@@ -397,7 +405,10 @@ $(document).ready(function() {
 		if (e.data === 'close') {
 			odfViewer.onClose();
 		} else if(e.data === 'loading') {
+			odfViewer.receivedLoading = true;
+			$('#richdocumentsframe').show();
 			$('#content').removeClass('loading');
+			FileList.hideMask();
 		}
 	}, false);
 });

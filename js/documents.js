@@ -567,7 +567,7 @@ var documentsMain = {
 			}
 
 			if (!documentsMain.renderComplete) {
-				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 500);
+				setTimeout(function() { documentsMain.UI.showEditor(title, action); }, 10);
 				console.log('Waiting for page to render…');
 				return;
 			}
@@ -579,9 +579,6 @@ var documentsMain = {
 
 			$(document.body).addClass("claro");
 			$(document.body).prepend(documentsMain.UI.container);
-
-			documentsMain.documentTitle = title;
-			parent.document.title = documentsMain.documentTitle + ' - ' + documentsMain.UI.mainTitle;
 
 			// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
 			var wopiurl = window.location.protocol + '//' + window.location.host + OC.getRootPath() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId;
@@ -926,10 +923,6 @@ var documentsMain = {
 		}
 
 		documentsMain.ready = true;
-		if (parent && documentsMain.getFileList() !== null && typeof documentsMain.getFileList() !== 'undefined') {
-			documentsMain.getFileList().reload();
-			parent.document.title = documentsMain.documentTitle + ' - ' + documentsMain.UI.mainTitle;
-		}
 	},
 
 	WOPIPostMessage: function(iframe, msgId, values) {
@@ -1081,7 +1074,6 @@ var documentsMain = {
 	},
 
 	show: function(fileId){
-		documentsMain.UI.showProgress(t('richdocuments', 'Loading documents…'));
 		documentsMain.docs.documentGrid('render', fileId);
 		documentsMain.UI.hideProgress();
 	},
@@ -1112,6 +1104,7 @@ $(document).ready(function() {
 
 	documentsMain.docs = $('.documentslist').documentGrid();
 	documentsMain.overlay = $('<div id="documents-overlay" class="icon-loading"></div><div id="documents-overlay-below" class="icon-loading-dark"></div>').documentOverlay();
+	documentsMain.overlay.hide();
 
 	$('li.document a').tooltip({fade: true, live: true});
 
