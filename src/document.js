@@ -479,7 +479,7 @@ const documentsMain = {
 
 			if (!documentsMain.renderComplete) {
 				setTimeout(function() { documentsMain.UI.showEditor(title, action) }, 10)
-				console.log('Waiting for page to render…')
+				console.debug('Waiting for page to render…')
 				return
 			}
 
