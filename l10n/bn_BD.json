@@ -1,0 +1,8 @@
+{ "translations": {
+    "Save" : "সংরক্ষণ",
+    "Can't create document" : "ডকুমেন্ট তৈরী করা যাবেনা",
+    "Saved" : "সংরক্ষণ করা হলো",
+    "Password" : "কূটশব্দ",
+    "OK" : "তথাস্তু"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
