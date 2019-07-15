@@ -9,7 +9,7 @@
 			"role": "Developer"
 		}
 	],
-	"license": "agpl",
+	"license": "AGPL-3.0-or-later",
 	"private": true,
 	"scripts": {
 		"dev": "NODE_ENV=development webpack --config webpack.dev.js",
