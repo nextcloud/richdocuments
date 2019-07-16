@@ -1,5 +1,8 @@
 tests/clover.xml
+node_modules/
+js/
 *.spec
 *.tar.gz
 richdocuments.zip
 build/
+vendor/

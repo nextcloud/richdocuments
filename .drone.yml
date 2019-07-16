@@ -1,0 +1,92 @@
+kind: pipeline
+name: compatibility
+steps:
+  - name: compatibility
+    image: nextcloudci/php7.0:php7.0-19
+    environment:
+      APP_NAME: richdocuments
+      CORE_BRANCH: stable15
+      DB: sqlite
+    commands:
+      - composer install
+      - bash ./tests/drone-server-setup.sh $APP_NAME $CORE_BRANCH $DB
+      - cd ../server
+      - ./occ app:check-code $APP_NAME -c strong-comparison
+      # TODO: disabled until we have a proper api in the server for static calls
+      - ./occ app:check-code $APP_NAME -c deprecation || true
+trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+    - push
+---
+kind: pipeline
+name: syntax
+steps:
+  - name: syntax-php7.0
+    image: nextcloudci/php7.0:php7.0-19
+    commands:
+      - composer install
+      - ./vendor/bin/parallel-lint --exclude ./vendor/ .
+  - name: syntax-php7.1
+    image: nextcloudci/php7.1:php7.1-15
+    commands:
+      - composer install
+      - ./vendor/bin/parallel-lint --exclude ./vendor/ .
+  - name: syntax-php7.2
+    image: nextcloudci/php7.2:php7.2-9
+    commands:
+      - composer install
+      - ./vendor/bin/parallel-lint --exclude ./vendor/ .
+  - name: syntax-php7.3
+    image: nextcloudci/php7.3:php7.3-2
+    commands:
+      - composer install
+      - ./vendor/bin/parallel-lint --exclude ./vendor/ .
+trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+    - push
+---
+kind: pipeline
+name: frontend
+steps:
+  - name: eslint
+    image: node:lts-alpine
+    commands:
+      - npm install
+      - npm run lint
+  - name: stylelint
+    image: node:lts-alpine
+    commands:
+      - npm install
+      - npm run stylelint
+  - name: build
+    image: node:lts-alpine
+    commands:
+      - npm install
+      - npm run build
+trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+    - push
+---
+kind: pipeline
+name: jest
+steps:
+  - name: jest
+    image: node:lts-alpine
+    commands:
+      - npm install
+      - npm run test
+trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+    - push

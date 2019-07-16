@@ -41,6 +41,7 @@ body {
 	margin-top: 128px;
 	width: 32px;
 }
+
 .document a {
 	display: block;
 	position: relative;
@@ -49,9 +50,11 @@ body {
 	background-repeat: no-repeat;
 	background-size: 200px;
 }
+
 .document a:hover {
 	border: 1px solid #818181;
 }
+
 .document label {
 	background: rgba(255, 255, 255, 0.7);
 	position: absolute;
@@ -107,6 +110,7 @@ body {
 	border: none;
 	opacity: .5;
 }
+
 #odf-close.icon-close {
 	height: 23px;
 	width: 23px;
@@ -124,9 +128,16 @@ body {
 	position: absolute;
 	width:100%;
 	z-index: 500;
-	background-color: #ddd !important;
 	top: 0px;
 	bottom: 0;
+}
+
+#loadingContainer.icon-loading {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 600;
+	background-color: var(--color-main-background);
 }
 
 #revViewerContainer{
@@ -139,8 +150,8 @@ body {
 }
 
 #revViewer{
-        position: relative;
-        height: 100%;
+	position: relative;
+	height: 100%;
 }
 
 #revPanelContainer{
@@ -169,26 +180,26 @@ body {
 }
 
 .loleaflet-font{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
 }
 
 #documents-overlay, #documents-overlay-below{
-    position: fixed;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    filter:alpha(opacity=60);
-    opacity: .6;
-    z-index: 1000;
-    background-color: #fff;
+	position: fixed;
+	top: 0px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	filter:alpha(opacity=60);
+	opacity: .6;
+	z-index: 1000;
+	background-color: #fff;
 }
 
 #documents-overlay-below{
 	right: 72px;
 	top: 0px;
-    filter:alpha(opacity=100);
-    opacity: 1;
+	filter:alpha(opacity=100);
+	opacity: 1;
 	background:#fff;
 	z-index: 999;
 }
@@ -200,7 +211,7 @@ body {
 	margin-bottom: -110px;padding:0;
 	cursor:pointer; overflow:hidden;
 	font-size:1em;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
+	-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)'; filter:alpha(opacity=0); opacity:0;
 	z-index:20;
 }
 
@@ -261,12 +272,11 @@ body {
 .webodfeditor-memberListButton span {
 	display: block;
 	border-radius: 3px;
-	display: block;
 	margin: auto;
 }
 
 .webodfeditor-memberListButton img{
-    border: 0 none !important;
+	border: 0 none !important;
 }
 
 .webodfeditor-memberListButton input{
@@ -307,6 +317,7 @@ body {
 	margin-top: 2px !important;
 	margin-left:3px;
 }
+
 #toolbar > span.dijit{
 	margin-left: 0;
 }
@@ -316,8 +327,8 @@ body {
 }
 
 #toolbar > .dijitComboBox .dijitInputInner{
-vertical-align: middle;
-line-height: 1.7em;
+	vertical-align: middle;
+	line-height: 1.7em;
 }
 
 #container {
@@ -340,9 +351,6 @@ editinfo > div.editInfoMarker {
 	padding: 0 5px;
 }
 
-editinfo > div.editInfoMarker:hover {
-}
-
 .dijitToolbar{
 	min-height: 31px;
 	line-height: 1em;
@@ -353,7 +361,7 @@ editinfo > div.editInfoMarker:hover {
 }
 
 .dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
-margin-top: -1px;
+	margin-top: -1px;
 }
 
 .claro .dijitComboBox .dijitInputInner{
@@ -367,8 +375,11 @@ margin-top: -1px;
 
 /* part of dojo.css */
 .dojoTabular {border-collapse: collapse; border-spacing: 0; border: 1px solid #ccc; margin: 0 1.5em;}
+
 .dojoTabular th {text-align: center; font-weight: bold;}
+
 .dojoTabular thead,.dojoTabular tfoot {background-color: #efefef; border: 1px solid #ccc; border-width: 1px 0;}
+
 .dojoTabular th,.dojoTabular td {padding: 0.25em 0.5em;}
 
 document p{
@@ -394,41 +405,52 @@ document p{
 	-ms-user-select: initial;
 	user-select: initial;
 }
+
 .oc-dialog .fileexists .conflict .message {
 	color: #e9322d;
 }
+
 .oc-dialog .fileexists table {
 	width: 100%;
 }
+
 .oc-dialog .fileexists th {
 	padding-left: 0;
 	padding-right: 0;
 }
+
 .oc-dialog .fileexists th input[type='checkbox'] {
 	margin-right: 3px;
 }
+
 .oc-dialog .fileexists th:first-child {
 	width: 230px;
 }
+
 .oc-dialog .fileexists th label {
 	font-weight: normal;
 	color:black;
 }
+
 .oc-dialog .fileexists th .count {
 	margin-left: 3px;
 }
+
 .oc-dialog .fileexists .conflicts .template {
 	display: none;
 }
+
 .oc-dialog .fileexists .conflict {
 	width: 100%;
 	height: 85px;
 }
+
 .oc-dialog .fileexists .conflict .filename {
 	color:#777;
 	word-break: break-all;
 	clear: left;
 }
+
 .oc-dialog .fileexists .icon {
 	width: 64px;
 	height: 64px;
@@ -437,36 +459,45 @@ document p{
 	background-size: 64px 64px;
 	float: left;
 }
+
 .oc-dialog .fileexists .replacement {
 	float: left;
 	width: 230px;
 }
+
 .oc-dialog .fileexists .original {
 	float: left;
 	width: 230px;
 }
+
 .oc-dialog .fileexists .conflicts {
 	overflow-y:scroll;
 	max-height: 225px;
 }
+
 .oc-dialog .fileexists .conflict input[type='checkbox'] {
 	float: left;
 }
+
 .oc-dialog .fileexists #allfileslabel {
 	float:right;
 }
+
 .oc-dialog .fileexists #allfiles {
 	vertical-align: bottom;
 	position: relative;
 	top: -3px;
 }
+
 .oc-dialog .fileexists #allfiles + span{
 	vertical-align: bottom;
 }
+
 .oc-dialog .oc-dialog-buttonrow {
 	width:100%;
 	text-align:right;
 }
+
 .oc-dialog .oc-dialog-buttonrow .cancel {
 	float:left;
 }

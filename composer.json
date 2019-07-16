@@ -1,0 +1,17 @@
+{
+    "name": "nextcloud/richdocuments",
+    "type": "project",
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "christophwurst/nextcloud": "^15.0",
+        "jakub-onderka/php-parallel-lint": "^1.0.0"
+    },
+    "license": "AGPLv3",
+    "authors": [
+        {
+            "name": "Julius Härtl",
+            "email": "jus@bitgrid.net"
+        }
+    ],
+    "require": {}
+}

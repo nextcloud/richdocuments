@@ -12,13 +12,7 @@
 
 <?php
 style( 'richdocuments', 'style' );
-script('richdocuments', 'documents');
+script('richdocuments', 'document');
 ?>
-<div id="documents-content">
-	<ul class="documentslist">
-		<li class="progress icon-loading"><div><?php p($l->t('Loading documents…')); ?></div></li>
-		<li class="document template" data-id="" style="display:none;">
-			<a target="_blank" href=""><label></label></a>
-		</li>
-	</ul>
-</div>
+<div id="loadingContainer" class="icon-loading"></div>
+<div id="documents-content"></div>
