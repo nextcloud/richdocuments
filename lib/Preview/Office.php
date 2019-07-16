@@ -54,8 +54,8 @@ abstract class Office extends Provider {
 	}
 
 	public function isAvailable(\OCP\Files\FileInfo $file) {
-		if (isset($this->capabilitites['collabora']['convert-to'])) {
-			return $this->capabilitites['collabora']['convert-to'];
+		if (isset($this->capabilitites['collabora']['convert-to']['available'])) {
+			return (bool)$this->capabilitites['collabora']['convert-to']['available'];
 		}
 		return false;
 	}
