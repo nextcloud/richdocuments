@@ -1,10 +1,10 @@
 { "translations": {
-    "Save" : "Enregistrar",
-    "Could not create file" : "Impossible de crear lo fichièr",
     "Collabora Online" : "Collabora en linha",
     "Can't create document" : "Impossible de crear lo document",
     "New Document.odt" : "Document Novèl.odt",
     "Saved" : "Enregistrat",
+    "Save" : "Enregistrar",
+    "Could not create file" : "Impossible de crear lo fichièr",
     "Apply" : "Aplicar",
     "Wrong password. Please retry." : "Senhal erronèu. Mercé de tornar ensajar.",
     "Password" : "Senhal",

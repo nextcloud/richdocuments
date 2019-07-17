@@ -1,9 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saved" : "Պահված",
     "Save" : "Պահել",
     "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
-    "Saved" : "Պահված",
     "Wrong password. Please retry." : "Գաղտնաբառը սխալ է: Կրկին փորձիր:",
     "Password" : "Գաղտնաբառ",
     "OK" : "Լավ",

@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "﻿ಉಳಿಸಿ",
-    "Could not create file" : "﻿ಕಡತ ರಚಿಸಲಾಗಲಿಲ್ಲ",
     "Can't create document" : "ದಾಖಲೆಯನ್ನು ಸೃಷ್ಟಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Saved" : "﻿ಉಳಿಸಿದ",
+    "Save" : "﻿ಉಳಿಸಿ",
+    "Could not create file" : "﻿ಕಡತ ರಚಿಸಲಾಗಲಿಲ್ಲ",
     "Wrong password. Please retry." : "ತಪ್ಪಾದ ಗುಪ್ತಪದ. ಮರುಪ್ರಯತ್ನಿಸಿ.",
     "Password" : "ಗುಪ್ತಪದ",
     "OK" : "ಸರಿ",

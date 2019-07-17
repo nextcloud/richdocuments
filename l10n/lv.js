@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "Saglabā...",
-    "All" : "Visi",
-    "Save" : "Saglabāt",
-    "Could not create file" : "Neizdevās izveidot datni",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "Nevar izveidot dokumentu",
     "New Document.odt" : "Jauns Dokuments.odt",
@@ -14,6 +10,10 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Jauns Spreadsheet.xlsx",
     "New Presentation.pptx" : "Jauna Prezentācija.pptx",
     "Saved" : "Saglabāts",
+    "Saving…" : "Saglabā...",
+    "All" : "Visi",
+    "Save" : "Saglabāt",
+    "Could not create file" : "Neizdevās izveidot datni",
     "Apply" : "Apstiprināt",
     "Wrong password. Please retry." : "Nepareiza paroli. Lūdzu mēģiniet vēlreiz.",
     "Password" : "Parole",

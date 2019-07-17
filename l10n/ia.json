@@ -1,6 +1,4 @@
 { "translations": {
-    "Save" : "Salveguardar",
-    "Could not create file" : "Impossibile crear le file",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "Non pote crear le documento",
     "New Document.odt" : "Nove-Documento.odt",
@@ -11,6 +9,8 @@
     "New Presentation.pptx" : "Nove-Presentation.pptx",
     "Saved" : "Salveguardate",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation.",
+    "Save" : "Salveguardar",
+    "Could not create file" : "Impossibile crear le file",
     "Apply" : "Applicar",
     "Wrong password. Please retry." : "Contrasigno errate. Pro favor essaya de novo.",
     "Password" : "Contrasigno",

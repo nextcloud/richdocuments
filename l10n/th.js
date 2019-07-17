@@ -1,8 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "บันทึก",
-    "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Collabora Online" : "Collabora ออนไลน์",
     "Can't create document" : "ไม่สามารถสร้างเอกสารได้",
     "New Document.odt" : "เอกสารใหม่.odt",
@@ -13,6 +11,8 @@ OC.L10N.register(
     "New Presentation.pptx" : "งานนำเสนอใหม่.pptx",
     "Saved" : "บันทึกแล้ว",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
+    "Save" : "บันทึก",
+    "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Apply" : "นำไปใช้",
     "Wrong password. Please retry." : "รหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง",
     "Password" : "รหัสผ่าน",

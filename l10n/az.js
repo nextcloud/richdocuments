@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Saxla",
-    "Could not create file" : "Faylı yaratmaq olmur",
     "Can't create document" : "Sənədi yaratmaq mümkün olmadı",
     "Saved" : "Saxlanıldı",
+    "Save" : "Saxla",
+    "Could not create file" : "Faylı yaratmaq olmur",
     "Wrong password. Please retry." : "Yalnış şifrə. Xahiş olunur təkrarlayasınız.",
     "Password" : "Şifrə",
     "OK" : "Oldu",

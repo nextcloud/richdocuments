@@ -1,12 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Saving…" : "хадаглаж байна...",
-    "Save" : "хадгалах",
-    "New Document" : "шинэ документ",
-    "New Spreadsheet" : "шинэ хүснэгт",
-    "New Presentation" : "шинэ танилцуулга",
-    "Could not create file" : "Файл үүсгэж чадсангүй",
     "Collabora Online" : "онлайн Collabora ",
     "Can't create document" : "Документ үүсгэх боломжгүй байна",
     "New Document.odt" : "шинэ доккумент.odt",
@@ -17,8 +11,13 @@ OC.L10N.register(
     "New Presentation.pptx" : "Шинэ танилцуулга.pptx",
     "Saved" : "хадгалагдсан",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
+    "Saving…" : "хадаглаж байна...",
+    "Save" : "хадгалах",
+    "New Document" : "шинэ документ",
+    "New Spreadsheet" : "шинэ хүснэгт",
+    "New Presentation" : "шинэ танилцуулга",
+    "Could not create file" : "Файл үүсгэж чадсангүй",
     "Apply" : "хэрэглэх",
-    "Loading documents…" : "Документ ачаалж байна ...",
     "Wrong password. Please retry." : "нууц үг алдаатай байна. дахин оролдоно уу",
     "Password" : "нууц үг",
     "OK" : "ок"

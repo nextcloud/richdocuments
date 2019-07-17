@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Simpan",
-    "Could not create file" : "Tidak dapat membuat berkas",
     "Can't create document" : "Tidak dapat membuat dokumen",
     "Saved" : "Disimpan",
+    "Save" : "Simpan",
+    "Could not create file" : "Tidak dapat membuat berkas",
     "Apply" : "Terapkan",
     "Wrong password. Please retry." : "Kata sandi salah. Silakan ulangi.",
     "Password" : "Kata Sandi",

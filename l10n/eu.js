@@ -1,6 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Collabora Online" : "Collabora Online",
+    "Can't create document" : "Ezin da dokumentua sortu",
+    "Not allowed to create document" : "Ez duzu baimenik dokumentua sortzeko",
+    "Saved" : "Gordeta",
     "Saving…" : "Gordetzen...",
     "All" : "Denak",
     "Nickname" : "Ezizena",
@@ -10,10 +14,6 @@ OC.L10N.register(
     "Cancel" : "Utzi",
     "Save" : "Gorde",
     "Could not create file" : "Ezin izan da fitxategia sortu",
-    "Collabora Online" : "Collabora Online",
-    "Can't create document" : "Ezin da dokumentua sortu",
-    "Not allowed to create document" : "Ez duzu baimenik dokumentua sortzeko",
-    "Saved" : "Gordeta",
     "Apply" : "Aplikatu",
     "Add" : "Gehitu",
     "Wrong password. Please retry." : "Pasahitz okerra. Saiatu berriro.",

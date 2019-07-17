@@ -1,12 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Can't create document" : "無法建立文件",
+    "Saved" : "已儲存",
     "Saving…" : "儲存中...",
     "All" : "全部",
     "Save" : "儲存",
     "Could not create file" : "無法建立檔案",
-    "Can't create document" : "無法建立文件",
-    "Saved" : "已儲存",
     "Apply" : "套用",
     "Wrong password. Please retry." : "密碼錯誤，請重新嘗試。",
     "Password" : "密碼",

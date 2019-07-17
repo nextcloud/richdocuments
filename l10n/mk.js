@@ -1,10 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Сними",
-    "Could not create file" : "Не множам да креирам датотека",
     "Can't create document" : "Не можам да креирам документ",
     "Saved" : "Снимено",
+    "Save" : "Сними",
+    "Could not create file" : "Не множам да креирам датотека",
     "Wrong password. Please retry." : "Погрешна лозинка. Обиди се повторно.",
     "Password" : "Лозинка",
     "OK" : "Во ред",

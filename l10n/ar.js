@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saved" : "تم الحفظ",
     "Error" : "خطأ",
     "An error occurred" : "طرأ هناك خطأ",
     "Details" : "التفاصيل",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Save" : "حفظ",
     "Create a new document" : "أنشئ مستندا جديدا",
     "Could not create file" : "لا يستطيع انشاء ملف ",
-    "Saved" : "تم الحفظ",
     "Advanced Settings" : "الإعدادات المتقدمة",
     "Wrong password. Please retry." : "كلمة مرور خاطئة. يرجى إعادة المحاولة",
     "Password" : "كلمة السر",

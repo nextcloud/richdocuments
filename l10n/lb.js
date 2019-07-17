@@ -1,14 +1,14 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Save" : "Späicheren",
-    "Could not create file" : "De Fichier konnt net erstallt ginn",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "D'Dokument kann net erstallt ginn",
     "New Document.odt" : "Neit Dokument.odt",
     "New Spreadsheet.ods" : "Neien Spreadsheet.ods",
     "New Presentation.odp" : "Nei Presentatioun.odp",
     "Saved" : "Gespäichert",
+    "Save" : "Späicheren",
+    "Could not create file" : "De Fichier konnt net erstallt ginn",
     "Apply" : "Uwenden",
     "Wrong password. Please retry." : "Falscht Passwuert. W.e.g. probéier nach eemol.",
     "Password" : "Passwuert",

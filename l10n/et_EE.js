@@ -1,13 +1,13 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Can't create document" : "Ei suuda dokumenti luua",
+    "New Presentation.pptx" : "Uus esitlus.pptx",
+    "Saved" : "Salvestatud",
     "Saving…" : "Salvestamine...",
     "All" : "Kõik",
     "Save" : "Salvesta",
     "Could not create file" : "Ei suuda luua faili",
-    "Can't create document" : "Ei suuda dokumenti luua",
-    "New Presentation.pptx" : "Uus esitlus.pptx",
-    "Saved" : "Salvestatud",
     "Apply" : "Rakenda",
     "Wrong password. Please retry." : "Vale parool. Palun proovi uuesti.",
     "Password" : "Parool",
