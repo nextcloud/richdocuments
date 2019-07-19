@@ -948,9 +948,17 @@ var documentsMain = {
 				Values: attributes
 			}
 		}
+		var attributesString = null;
+		try {
+			attributesString = JSON.stringify(attributes);
+		} catch(e) {}
 		// Forward to mobile handler
 		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] === 'function') {
-			window.RichDocumentsMobileInterface[messageName](JSON.stringify(attributes));
+			if (attributesString === null) {
+				window.RichDocumentsMobileInterface[messageName]();
+			} else {
+				window.RichDocumentsMobileInterface[messageName](attributesString);
+			}
 		}
 
 		// iOS webkit fallback
