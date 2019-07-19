@@ -183,6 +183,7 @@ class DocumentController extends Controller {
 				'path' => $folder->getRelativePath($item->getPath()),
 				'instanceId' => $this->settings->getSystemValue('instanceid'),
 				'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
+				'userId' => $this->uid
 			];
 
 			$encryptionManager = \OC::$server->getEncryptionManager();
@@ -251,6 +252,7 @@ class DocumentController extends Controller {
 			'path' => $userFolder->getRelativePath($file->getPath()),
 			'instanceId' => $this->settings->getSystemValue('instanceid'),
 			'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
+			'userId' => $this->uid
 		];
 
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');

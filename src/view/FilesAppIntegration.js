@@ -1,0 +1,447 @@
+/*
+ * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+import Config from '../services/config'
+
+let documentsMain = null
+const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
+
+export default {
+
+	fileModel: null,
+	/* Views: people currently editing the file */
+	views: {},
+
+	followingEditor: false,
+
+	following: null,
+
+	init({ fileName, fileId, sendPostMessage }) {
+		this.fileName = fileName
+		this.fileId = fileId
+		this.sendPostMessage = sendPostMessage
+
+		if (typeof this.getFileList() !== 'undefined') {
+			this.getFileModel()
+		}
+
+		const headerRight = document.querySelector('#header .header-right')
+		const richdocumentsHeader = document.createElement('div')
+		richdocumentsHeader.id = 'richdocuments-header'
+		headerRight.insertBefore(richdocumentsHeader, headerRight.firstChild)
+
+		this._addAvatarList()
+		if (!isPublic) {
+			this._addHeaderShareButton()
+			this._addHeaderFileActions()
+			this.addVersionSidebarEvents()
+		}
+	},
+
+	initAfterReady() {
+		documentsMain = document.getElementById('richdocumentsframe').contentWindow.documentsMain
+	},
+
+	close() {
+		this.fileModel = null
+		if (!isPublic) {
+			this.removeVersionSidebarEvents()
+		}
+		$('#richdocuments-header').remove()
+	},
+
+	share() {
+		if (isPublic) {
+			console.error('[FilesAppIntegration] Sharing is not supported')
+		}
+		FileList.showDetailsView(this.fileName, 'shareTabView')
+		OC.Apps.showAppSidebar()
+	},
+
+	insertGraphic(callback) {
+		if (isPublic) {
+			console.error('[FilesAppIntegration] insertGraphic is not supported')
+		}
+		OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: OC.theme.name }), function(path, type) {
+			if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
+				const filename = path.substring(path.lastIndexOf('/') + 1)
+				$.ajax({
+					type: 'POST',
+					url: OC.generateUrl('apps/richdocuments/assets'),
+					data: {
+						path: path
+					}
+				}).done(function(resp) {
+					callback(filename, resp.url)
+				})
+			}
+		}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
+	},
+
+	getFileList() {
+		if (OCA.Files.App) {
+			return OCA.Files.App.fileList
+		}
+		if (OCA.Sharing.PublicApp) {
+			return OCA.Sharing.PublicApp.fileList
+		}
+		return null
+	},
+
+	getFileModel() {
+		if (this.fileModel !== null) {
+			return this.fileModel
+		}
+		this.getFileList()._updateDetailsView(this.fileName, false)
+		this.fileModel = this.getFileList().getModelForFile(this.fileName)
+
+		if (this.fileModel !== null) {
+			this.fileModel.on('change', () => {
+				this._addHeaderFileActions()
+			})
+		}
+
+		return this.fileModel
+	},
+
+	setViews(views) {
+		this.views = {}
+		views.forEach((view) => {
+			this.views[view.ViewId] = view
+		})
+		this.renderAvatars()
+	},
+
+	followReset(event) {
+		this.sendPostMessage('Action_FollowUser', { Follow: false })
+		this.following = null
+		this.followingEditor = false
+		this.renderAvatars()
+	},
+	followCurrentEditor(event) {
+		this.sendPostMessage('Action_FollowUser', { Follow: true })
+		this.following = null
+		this.followingEditor = true
+		this.renderAvatars()
+	},
+	followView(view) {
+		this.sendPostMessage('Action_FollowUser', { ViewId: view.ViewId, Follow: true })
+		this.following = view.ViewId
+		this.followingEditor = false
+		this.renderAvatars()
+	},
+
+	_addAvatarList() {
+		// Add the avatar toolbar if possible
+		const avatarList = $('<div id="richdocuments-avatars">')
+		avatarList.on('click', function(e) {
+			e.stopPropagation()
+			$('#editors-menu').toggle()
+		})
+		$('#richdocuments-header').append(avatarList)
+	},
+
+	_addHeaderShareButton() {
+		if ($('header').length) {
+			var $button = $('<div id="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
+			$('#richdocuments-header').append($button)
+			$button.on('click', () => {
+				if (!$('#app-sidebar').is(':visible')) {
+					return this.share()
+				}
+				OC.Apps.hideAppSidebar()
+			})
+			$('.searchbox').hide()
+		}
+	},
+
+	_addHeaderFileActions() {
+		console.debug('[FilesAppIntegration] Adding header file actions')
+		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
+		$('#richdocuments-actions').remove()
+		var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
+		var actions = actionsContainer.find('#richdocuments-actions-menu').empty()
+
+		var context = {
+			'$file': this.getFileList().$el.find('[data-id=' + this.originalFileId + ']').first(),
+			fileActions: this.getFileList().fileActions,
+			fileList: this.getFileList(),
+			fileInfoModel: this.getFileModel()
+		}
+
+		const isFavorite = function(fileInfo) {
+			return fileInfo.get('tags') && fileInfo.get('tags').indexOf(OC.TAG_FAVORITE) >= 0
+		}
+		const $favorite = $('<li><a></a></li>').click((event) => {
+			$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small')
+			this.getFileList().fileActions.triggerAction('Favorite', this.getFileModel(), this.getFileList())
+			this.getFileModel().trigger('change', this.getFileModel())
+		})
+		if (isFavorite(context.fileInfoModel)) {
+			$favorite.find('a').text(t('files', 'Remove from favorites'))
+			$favorite.find('a').addClass('icon-starred')
+		} else {
+			$favorite.find('a').text(t('files', 'Add to favorites'))
+			$favorite.find('a').addClass('icon-star-dark')
+		}
+
+		var $info = $('<li><a class="icon-info"></a></li>').click(() => {
+			this.getFileList().fileActions.actions.all.Details.action(this.fileName, context)
+			OC.hideMenus()
+		})
+		$info.find('a').text(t('files', 'Details'))
+		var $download = $('<li><a class="icon-download">Download</a></li>').click(() => {
+			this.getFileList().fileActions.actions.all.Download.action(this.fileName, context)
+			OC.hideMenus()
+		})
+		$download.find('a').text(t('files', 'Download'))
+		actions.append($favorite).append($info).append($download)
+		$('#richdocuments-header').append(actionsContainer)
+		OC.registerMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'), false, true)
+	},
+
+	/**
+	 * @param {View} view
+	 * @private
+	 */
+	_userEntry: function(view) {
+		var entry = $('<li></li>')
+		entry.append(this._avatarForView(view))
+
+		var label = $('<div class="label"></div>')
+		label.text(view.UserName)
+		if (view.ReadOnly === '1') {
+			label.text(view.UserName + ' ' + t('richdocuments', '(read only)'))
+
+		}
+		label.click((event) => {
+			event.stopPropagation()
+			this.followView(view)
+		})
+		if (this.following === view.ViewId) {
+			$('#editors-menu').find('li').removeClass('active')
+			entry.addClass('active')
+		}
+		entry.append(label)
+
+		var isFileOwner = !isPublic && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
+		if (documentsMain.canEdit && isFileOwner && !view.IsCurrentView) {
+			var removeButton = $('<div class="icon-close" title="Remove user"/>')
+			removeButton.click(() => {
+				this.sendPostMessage('Action_RemoveView', { ViewId: view.ViewId })
+			})
+			entry.append(removeButton)
+		}
+		return entry
+	},
+
+	/**
+	 * @param {View} view
+	 * @returns {$|HTMLElement}
+	 * @private
+	 */
+	_avatarForView: function(view) {
+		const userId = (view.UserId === '') ? view.UserName : view.UserId
+		var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + userId + '"></div></div>')
+		var avatar = avatarContainer.find('.avatar')
+		avatar.css({ 'border-color': view.Color,
+			'border-width': '2px',
+			'border-style': 'solid' })
+		if (view.ReadOnly === '1') {
+			avatarContainer.addClass('read-only')
+			$(avatar).attr('title', view.UserName + ' ' + t('richdocuments', '(read only)'))
+		} else {
+			$(avatar).attr('title', view.UserName)
+		}
+
+		$(avatar).avatar(userId, 32, undefined, true, undefined, view.UserName)
+		return avatarContainer
+	},
+
+	renderAvatars: function() {
+		var avatardiv = $('#header .header-right #richdocuments-avatars')
+		avatardiv.empty()
+		var popover = $('<div id="editors-menu" class="popovermenu menu-center"><ul></ul></div>')
+
+		var users = []
+		// Add new avatars
+		var i = 0
+		for (var viewId in this.views) {
+			/**
+			 * @type {View}
+			 */
+			var view = this.views[viewId]
+			view.UserName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest')
+			popover.find('ul').append(this._userEntry(view))
+
+			if (view.UserId === OC.currentUser) {
+				continue
+			}
+			if (view.UserId !== '' && users.indexOf(view.UserId) > -1) {
+				continue
+			}
+			users.push(view.UserId)
+			if (i++ < 3) {
+				avatardiv.append(this._avatarForView(view))
+			}
+		}
+		var followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>')
+		followCurrentEditor.find('label').click((event) => {
+			event.stopPropagation()
+			if (this.followingEditor) {
+				this.followReset()
+			} else {
+				this.followCurrentEditor()
+			}
+		})
+		followCurrentEditor.find('.checkbox').prop('checked', this.followingEditor)
+		popover.find('ul').append(followCurrentEditor)
+		avatardiv.append(popover)
+	},
+
+	addVersionSidebarEvents() {
+		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', this.showVersionPreview.bind(this))
+		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
+		$(document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', this.restoreVersion.bind(this))
+	},
+
+	removeVersionSidebarEvents() {
+		$(document.querySelector('#content')).off('click.revisions')
+		$(document.querySelector('#content')).off('click.revisions')
+		$(document.querySelector('#content')).off('mousedown.revisions')
+	},
+
+	addCurrentVersion() {
+		if (this.getFileModel()) {
+			const preview = OC.MimeType.getIconUrl(this.getFileModel().get('mimetype'))
+			const mtime = this.getFileModel().get('mtime')
+			$('#versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
+				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + '<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span></div></div></li></ul>')
+			$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
+				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>')
+			$('.live-relative-timestamp').each(function() {
+				$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)))
+			})
+		}
+	},
+
+	showRevHistory() {
+		FileList.showDetailsView(this.fileName, 'versionsTabView')
+		this.addCurrentVersion()
+	},
+
+	showVersionPreview: function(e) {
+		e.preventDefault()
+		var element = e.currentTarget.parentElement.parentElement
+		if ($(e.currentTarget).hasClass('downloadVersion')) {
+			element = e.currentTarget.parentElement.parentElement.parentElement.parentElement
+		}
+		var version = element.dataset.revision
+		var fileId = this.fileId
+		var title = this.fileName
+		console.debug('[FilesAppIntegration] showVersionPreview', version, fileId, title)
+		this.sendPostMessage('Action_loadRevViewer', { fileId, title, version })
+		$(element.parentElement.parentElement).find('li').removeClass('active')
+		$(element).addClass('active')
+	},
+
+	restoreVersion: function(e) {
+		var self = this
+		e.preventDefault()
+		e.stopPropagation()
+
+		documentsMain.onCloseViewer()
+
+		this.sendPostMessage('Host_VersionRestore', { Status: 'Pre_Restore' })
+
+		var version = e.currentTarget.parentElement.parentElement.dataset.revision
+
+		documentsMain.$deferredVersionRestoreAck = $.Deferred()
+		$.when(documentsMain.$deferredVersionRestoreAck).done(function(args) {
+			self._restoreDAV(version)
+		})
+
+		// resolve the deferred object immediately if client doesn't support version states
+		if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+			documentsMain.$deferredVersionRestoreAck.resolve()
+		}
+
+		return false
+	},
+
+	_restoreSuccess: function(response) {
+		if (response.status === 'error') {
+			OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
+		}
+
+		// load the file again, it should get reverted now
+		window.location = $(parent.document.querySelector('#richdocumentsframe')).attr('src')
+		parent.OC.Apps.hideAppSidebar()
+	},
+
+	_restoreError: function() {
+		OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
+	},
+
+	_restoreDAV: function(version) {
+		var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + Config.get('userId')
+			+ '/versions/' + this.fileId + '/' + version
+		$.ajax({
+			type: 'MOVE',
+			url: restoreUrl,
+			headers: {
+				Destination: OC.linkToRemote('dav') + '/versions/' + Config.get('userId') + '/restore/target'
+			},
+			success: this._restoreSuccess,
+			error: this._restoreError
+		})
+	},
+
+	/* Ask for a new filename and open the files app in a new tab
+	 * the parameters richdocuments_create and richdocuments_filename are
+	 * parsed by viewer.js and open a template picker in the new tab
+	 */
+	createNewFile: function(type) {
+		OC.dialogs.prompt(
+			t('richdocuments', 'Please enter the filename for the new document'),
+			t('richdocuments', 'Save As'),
+			function(result, value) {
+				if (result === true && value) {
+					if (type === 'text') {
+						type = 'document'
+					}
+					var dir = parent.$('#dir').val()
+					var url = OC.generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
+					window.open(url, '_blank')
+				}
+			},
+			true,
+			t('richdocuments', 'New filename'),
+			false
+		).then(function() {
+			var $dialog = parent.$('.oc-dialog:visible')
+			var $buttons = $dialog.find('button')
+			$buttons.eq(0).text(t('richdocuments', 'Cancel'))
+			$buttons.eq(1).text(t('richdocuments', 'Create a new document'))
+		})
+	}
+}
