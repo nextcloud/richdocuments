@@ -182,6 +182,49 @@ class SettingsController extends Controller{
 		return new JSONResponse($response);
 	}
 
+	public function updateWatermarkSettings($settings = []) {
+		$supportedOptions = [
+			'watermark_text',
+			'watermark_enabled',
+			'watermark_shareAll',
+			'watermark_shareRead',
+			'watermark_linkSecure',
+			'watermark_linkRead',
+			'watermark_linkAll',
+			'watermark_linkTags',
+			'watermark_linkTagsList',
+			'watermark_allGroups',
+			'watermark_allGroupsList',
+			'watermark_allTags',
+			'watermark_allTagsList',
+		];
+		$message = $this->l10n->t('Saved');
+
+		$watermarkSettings = $settings['watermark'];
+		foreach ($watermarkSettings as $key => $value) {
+			$fullKey = 'watermark_' . $key;
+			if (in_array($fullKey, $supportedOptions) !== true) {
+				return new JSONResponse([
+					'status' => 'error',
+					'data' => ['message' => $this->l10n->t('Invalid config key') . ' ' . $fullKey]
+				], Http::STATUS_BAD_REQUEST);
+			}
+			$value = $value === true ? 'yes' : $value;
+			$value = $value === false ? 'no' : $value;
+			if (AppConfig::APP_SETTING_TYPES[$fullKey] === 'array') {
+				$value = implode(',', $value);
+			}
+			$this->appConfig->setAppValue($fullKey, $value);
+		}
+
+		$response = [
+			'status' => 'success',
+			'data' => ['message' => $message]
+		];
+
+		return new JSONResponse($response);
+	}
+
 	/**
 	 * @NoAdminRequired
 	 *

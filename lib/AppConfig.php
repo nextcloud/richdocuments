@@ -16,8 +16,19 @@ use \OCP\IConfig;
 
 class AppConfig{
 	private $defaults = [
-		'wopi_url' => 'https://localhost:9980'
+		'wopi_url' => 'https://localhost:9980',
+		'watermark_text' => '{userId}',
+		'watermark_allGroupsList' => [],
+		'watermark_allTagsList' => [],
+		'watermark_linkTagsList' => [],
+
 	];
+
+	const APP_SETTING_TYPES = [
+			'watermark_allGroupsList' => 'array',
+			'watermark_allTagsList' => 'array',
+			'watermark_linkTagsList' => 'array'
+		];
 
 	/** @var IConfig */
 	private $config;
@@ -40,6 +51,18 @@ class AppConfig{
 	}
 
 	/**
+	 * @param $key
+	 * @return array
+	 */
+	public function getAppValueArray($key) {
+		$value = $this->config->getAppValue(Application::APPNAME, $key, []);
+		if (self::APP_SETTING_TYPES[$key] === 'array') {
+			$value = $value !== '' ? explode(',', $value) : [];
+		}
+		return $value;
+	}
+
+	/**
 	 * Set a value by key
 	 * @param string $key
 	 * @param string $value
@@ -48,4 +71,20 @@ class AppConfig{
 	public function setAppValue($key, $value) {
 		$this->config->setAppValue(Application::APPNAME, $key, $value);
 	}
+
+	/**
+	 * Get all app settings
+	 * @return array
+	 */
+	public function getAppSettings() {
+		$result = [];
+		$keys = $this->config->getAppKeys('richdocuments');
+		foreach ($keys as $key) {
+			$value = $this->getAppValueArray($key);
+			$value = $value === 'yes' ? true : $value;
+			$result[$key] = $value === 'no' ? false : $value;
+		}
+		return $result;
+	}
+
  }

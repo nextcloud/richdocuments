@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Settings;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -33,6 +34,9 @@ class Admin implements ISettings {
 
 	/** @var IConfig */
 	private $config;
+
+	/** @var AppConfig */
+	private $appConfig;
 
 	/** @var TemplateManager */
 	private $manager;
@@ -48,9 +52,11 @@ class Admin implements ISettings {
 	 * @param Capabilities $capabilities
 	 */
 	public function __construct(IConfig $config,
+								AppConfig $appConfig,
 								TemplateManager $manager,
 								Capabilities $capabilities) {
 		$this->config  = $config;
+		$this->appConfig = $appConfig;
 		$this->manager = $manager;
 		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
 	}
@@ -70,7 +76,8 @@ class Admin implements ISettings {
 				'canonical_webroot'  => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 				'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification'),
 				'templates'          => $this->manager->getSystemFormatted(),
-				'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates']
+				'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'],
+				'settings' => $this->appConfig->getAppSettings(),
 			],
 			'blank'
 		);
@@ -91,4 +98,5 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 0;
 	}
+
 }
