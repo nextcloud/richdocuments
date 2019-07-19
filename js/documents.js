@@ -711,6 +711,9 @@ var documentsMain = {
 							parent.OC.Apps.hideAppSidebar();
 						}
 						return;
+					} else if (msgId === 'UI_Paste') {
+						documentsMain.callMobileMessage('paste');
+						return;
 					}
 
 					// Check for webview handler
