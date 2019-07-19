@@ -71,6 +71,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Aktywuj dostęp dla zewnętrznych aplikacji",
     "Add" : "Dodaj",
     "Use Canonical webroot" : "Użyj webroot Canonical",
+    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Webroot Canonical, w przypadku gdy jest ich kilka do użycia przez Collabora. Wprowadź ten z najmniejszą liczbą ograniczeń. Przykład: Użyj webroot bezszyboletowy jeżeli dostęp do tej instancji mają zarówno webroot szyboletowy, jak i webroot bezszyboletowy . Możesz zignorować to ustawienie, jeżeli tylko jeden webroot jest używany do dostępu do tej instancji.",
     "Global templates" : "Szablony globalne",
     "Add a new template" : "Dodaj nowy szablon",
     "No templates defined." : "Nie zdefiniowano szablonów.",
