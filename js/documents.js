@@ -954,7 +954,7 @@ var documentsMain = {
 		} catch(e) {}
 		// Forward to mobile handler
 		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] === 'function') {
-			if (attributesString === null) {
+			if (attributesString === null || typeof attributesString === 'undefined') {
 				window.RichDocumentsMobileInterface[messageName]();
 			} else {
 				window.RichDocumentsMobileInterface[messageName](attributesString);
