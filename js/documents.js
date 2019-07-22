@@ -711,6 +711,9 @@ var documentsMain = {
 							parent.OC.Apps.hideAppSidebar();
 						}
 						return;
+					} else if (msgId === 'UI_Paste') {
+						documentsMain.callMobileMessage('paste');
+						return;
 					}
 
 					// Check for webview handler
@@ -945,9 +948,17 @@ var documentsMain = {
 				Values: attributes
 			}
 		}
+		var attributesString = null;
+		try {
+			attributesString = JSON.stringify(attributes);
+		} catch(e) {}
 		// Forward to mobile handler
 		if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] === 'function') {
-			window.RichDocumentsMobileInterface[messageName](JSON.stringify(attributes));
+			if (attributesString === null || typeof attributesString === 'undefined') {
+				window.RichDocumentsMobileInterface[messageName]();
+			} else {
+				window.RichDocumentsMobileInterface[messageName](attributesString);
+			}
 		}
 
 		// iOS webkit fallback
