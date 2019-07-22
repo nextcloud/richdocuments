@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.14
+
+### Fixed
+- Pass paste postmessage from collabora to mobile apps
+- Fix preview generation on Nextcloud 17 
+
 ## 3.3.13
 
 ### Fixed
