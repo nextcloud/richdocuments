@@ -28,6 +28,8 @@ if (preloadOpen) {
 	}
 }
 
+const isDownloadHidden = document.getElementById('hideDownload') && document.getElementById('hideDownload').value === 'true'
+
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
 const odfViewer = {
@@ -43,12 +45,12 @@ const odfViewer = {
 			OCA.Files.fileActions.register(
 				mime,
 				EDIT_ACTION_NAME,
-				OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
+				0,
 				OC.imagePath('core', 'actions/rename'),
 				this.onEdit,
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
-			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1) {
+			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
 			}
 		}
@@ -392,6 +394,7 @@ const odfViewer = {
 	}
 }
 
+window.OCA.RichDocuments = {}
 $(document).ready(function() {
 	// register file actions and menu
 	if (typeof OCA !== 'undefined'
