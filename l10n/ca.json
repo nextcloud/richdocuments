@@ -38,7 +38,7 @@
     "Failed to revert the document to older version" : "No s'ha pogut tornar el document a la versió anterior",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "No s'ha pogut connectar amb {productName}. Si us plau, torneu-ho a provar més tard o poseu-vos en contacte amb l'administrador del vostre servidor.",
     "Please enter the filename to store the document as." : "Si us plau, introduïu el nom del fitxer per emmagatzemar el document.",
-    "Save As" : "Desa com a",
+    "Save As" : "Anomena i desa",
     "New filename" : "Nou nom de fitxer",
     "Cancel" : "Cancel·la",
     "Save" : "Desa",
