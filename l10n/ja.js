@@ -18,6 +18,7 @@ OC.L10N.register(
     "Invalid file provided" : "無効なファイルが提供されました",
     "Template not found" : "テンプレートが見つかりません",
     "Empty" : "空",
+    "%s (Guest)" : "%s(人のゲスト)",
     "Edit office documents directly in your browser." : "ブラウザで直接オフィス文書を編集する。",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "このアプリケーションは、Collabora Onlineサーバー（WOPIクライアント）に接続できます。 NextcloudはWOPIホストです。それについてもっと学ぶためにドキュメントを読んでください。",
     "Saving…" : "保存中...",
