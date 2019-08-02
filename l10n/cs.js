@@ -49,6 +49,7 @@ OC.L10N.register(
     "Create a new document" : "Vytvořit nový dokument",
     "Select a personal template folder" : "Vyberte složku s osobní šablonou",
     "Edit with {productName}" : "Upravit pomocí {productName}",
+    "Failed to load {productName} - please try again later" : "Nepodařilo se načíst {productName} – zkuste to prosím znovu později.",
     "New Document" : "Nový dokument",
     "New Spreadsheet" : "Nová tabulka",
     "New Presentation" : "Nová prezentace",
