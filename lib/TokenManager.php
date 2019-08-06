@@ -108,7 +108,7 @@ class TokenManager {
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
 			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
-		} else if (!is_null($this->userId)) {
+		} else if ($this->userId !== null) {
 			try {
 				$editoruid = $this->userId;
 				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
@@ -142,12 +142,15 @@ class TokenManager {
 				throw $e;
 			}
 		} else {
+			$rootFolder = $this->rootFolder;
 			// no active user login while generating the token
 			// this is required during WopiPutRelativeFile
 			if (is_null($editoruid)) {
 				\OC::$server->getLogger()->warning('Generating token for SaveAs without editoruid');
+			} else {
+				// Make sure we use the user folder if available since fetching all files by id from the root might be expensive
+				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
 			}
-			$rootFolder = $this->rootFolder;
 			$updatable = true;
 		}
 		/** @var File $file */
