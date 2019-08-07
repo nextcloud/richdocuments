@@ -1,4 +1,5 @@
-sudo: true
+sudo: required
+dist: trusty
 language: php
 php:
   - 7.1
@@ -12,6 +13,17 @@ env:
     - "DB=mysql TEST=lint"
     - "DB=mysql TEST=checker"
     - "DB=mysql TEST=phpunit"
+
+addons:
+  postgresql: "9.5"
+  apt:
+    packages:
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+
+services:
+  - postgresql
 
 matrix:
   include:
