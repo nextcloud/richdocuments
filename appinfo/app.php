@@ -68,6 +68,9 @@ if ($wopiUrl !== '') {
 	$manager = \OC::$server->getContentSecurityPolicyManager();
 	$policy = new ContentSecurityPolicy();
 	$policy->addAllowedFrameDomain($wopiUrl);
+	if (method_exists($policy, 'addAllowedFormActionDomain')) {
+		$policy->addAllowedFormActionDomain($wopiUrl);
+	}
 	$manager->addDefaultPolicy($policy);
 }
 
