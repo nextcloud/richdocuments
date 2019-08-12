@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.15
+
+### Fixed
+- Check for file in editor folder only when available
+- Add check to only open one document at a time
+
 ## 3.3.14
 
 ### Fixed
