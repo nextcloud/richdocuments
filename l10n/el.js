@@ -14,6 +14,7 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Αποθήκευση με σφάλμα: Το Collabora Online πρέπει να χρησιμοποιήσει το ίδιο πρωτόκολλο με την εγκατάσταση του διακομιστή.",
     "Saving…" : "Γίνεται αποθήκευση...",
     "All" : "'Ολα",
+    "An error occurred" : "Παρουσιάστηκε σφάλμα",
     "Nickname" : "Παρατσούκλι",
     "Set" : "Ορισμός",
     "Failed to revert the document to older version" : "Αποτυχία επαναφοράς του εγγράφου σε παλαιότερη έκδοση",
