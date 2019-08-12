@@ -6,6 +6,8 @@ daysUntilClose: 7
 exemptLabels:
   - enhancement
   - bug
+  - "1. to develop"
+  - "2. developing"
 # Label to use when marking an issue as stale
 staleLabel: wontfix
 # Comment to post when marking an issue as stale. Set to `false` to disable
