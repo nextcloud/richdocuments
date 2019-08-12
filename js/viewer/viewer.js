@@ -21,6 +21,7 @@ var odfViewer = {
 	isDocuments : false,
 	nextcloudVersion: 0,
 	receivedLoading: false,
+	open: false,
 	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	register : function() {
@@ -61,6 +62,10 @@ var odfViewer = {
 	},
 
 	onEdit : function(fileName, context) {
+		if (odfViewer.open) {
+			return;
+		}
+		odfViewer.open = true;
 		if(context) {
 			var fileDir = context.dir;
 			var fileId = context.fileId || context.$file.attr('data-id');
@@ -150,6 +155,7 @@ var odfViewer = {
 	},
 
 	onClose: function() {
+		odfViewer.open = false;
 		clearTimeout(odfViewer.loadingTimeout)
 		if(typeof FileList !== "undefined") {
 			FileList.setViewerMode(false);
