@@ -20,8 +20,6 @@
  *
  */
 
-import Config from '../services/config'
-
 let documentsMain = null
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
@@ -365,37 +363,39 @@ export default {
 	},
 
 	restoreVersion: function(e) {
-		var self = this
 		e.preventDefault()
 		e.stopPropagation()
 
-		documentsMain.onCloseViewer()
-
 		this.sendPostMessage('Host_VersionRestore', { Status: 'Pre_Restore' })
 
-		var version = e.currentTarget.parentElement.parentElement.dataset.revision
+		const version = e.currentTarget.parentElement.parentElement.dataset.revision
 
-		documentsMain.$deferredVersionRestoreAck = $.Deferred()
-		$.when(documentsMain.$deferredVersionRestoreAck).done(function(args) {
-			self._restoreDAV(version)
-		})
-
-		// resolve the deferred object immediately if client doesn't support version states
-		if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
-			documentsMain.$deferredVersionRestoreAck.resolve()
+		this._restoreVersionCallback = () => {
+			this._restoreDAV(version)
+			this._restoreVersionCallback = null
 		}
 
 		return false
+	},
+
+	restoreVersionExecute() {
+		if (this._restoreVersionCallback !== null) {
+			this._restoreVersionCallback()
+		}
+	},
+
+	restoreVersionAbort() {
+		this._restoreVersionCallback = null
 	},
 
 	_restoreSuccess: function(response) {
 		if (response.status === 'error') {
 			OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
 		}
-
-		// load the file again, it should get reverted now
-		window.location = $(parent.document.querySelector('#richdocumentsframe')).attr('src')
-		parent.OC.Apps.hideAppSidebar()
+		// Reload the document frame to get the new file
+		// TODO: ideally we should have a post messsage that can be sent to collabora to just reload the file once the restore is finished
+		document.getElementById('richdocumentsframe').src = document.getElementById('richdocumentsframe').src
+		OC.Apps.hideAppSidebar()
 	},
 
 	_restoreError: function() {
@@ -403,16 +403,16 @@ export default {
 	},
 
 	_restoreDAV: function(version) {
-		var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + Config.get('userId')
+		var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + OC.getCurrentUser().uid
 			+ '/versions/' + this.fileId + '/' + version
 		$.ajax({
 			type: 'MOVE',
 			url: restoreUrl,
 			headers: {
-				Destination: OC.linkToRemote('dav') + '/versions/' + Config.get('userId') + '/restore/target'
+				Destination: OC.linkToRemote('dav') + '/versions/' + OC.getCurrentUser().uid + '/restore/target'
 			},
-			success: this._restoreSuccess,
-			error: this._restoreError
+			success: this._restoreSuccess.bind(this),
+			error: this._restoreError.bind(this)
 		})
 	},
 

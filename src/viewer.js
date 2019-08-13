@@ -100,7 +100,9 @@ const odfViewer = {
 		FilesAppIntegration.init({
 			fileName,
 			fileId,
-			sendPostMessage: (msgId, values) => PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+			sendPostMessage: (msgId, values) => {
+				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+			}
 		})
 	},
 
@@ -389,6 +391,11 @@ $(document).ready(function() {
 		case 'UI_FileVersions':
 		case 'rev-history':
 			FilesAppIntegration.showRevHistory()
+			break
+		case 'App_VersionRestore':
+			if (args.Status === 'Pre_Restore_Ack') {
+				FilesAppIntegration.restoreVersionExecute()
+			}
 			break
 		}
 

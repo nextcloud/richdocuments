@@ -249,15 +249,17 @@ const documentsMain = {
 								)
 							}
 							break
-						case 'App_VersionRestore':
-							if (!documentsMain.$deferredVersionRestoreAck) {
-								console.warn('No version restore deferred object found.')
+						case 'Host_VersionRestore':
+							// resolve the deferred object immediately if client doesn't support version states
+							if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+								console.error('No version support')
+								// Not forwarding message to collabora
 								return
 							}
+							documentsMain.onCloseViewer()
 							break
-						case 'Pre_Restore_Ack':
-							// user instructed to restore the version
-							documentsMain.$deferredVersionRestoreAck.resolve()
+						case 'App_VersionRestore':
+							// Status = Pre_Restore_Ack -> Ready to restore version
 							break
 						default:
 							return
@@ -312,6 +314,9 @@ const documentsMain = {
 						documentsMain.UI.showViewer(
 							documentsMain.fileId, documentsMain.title
 						)
+						break
+					case 'RD_Version_Restored':
+						$('#loleafletform_viewer').submit()
 						break
 					default:
 						console.debug('[document] Unhandled post message', parsed)
