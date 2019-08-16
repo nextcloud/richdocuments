@@ -24,6 +24,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
@@ -31,6 +32,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -72,6 +74,7 @@ class DirectViewController extends Controller {
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->templateManager = $templateManager;
+		$this->federationService = \OC::$server->query(FederationService::class);
 	}
 
 	/**
@@ -85,12 +88,14 @@ class DirectViewController extends Controller {
 		try {
 			$direct = $this->directMapper->getByToken($token);
 		} catch (DoesNotExistException $e) {
-			//TODO show 404
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
 
 		// Delete the token. They are for 1 time use only
-		$this->directMapper->delete($direct);
+		//$this->directMapper->delete($direct);
 
 		$folder = $this->rootFolder->getUserFolder($direct->getUid());
 		if ($this->templateManager->isTemplate($direct->getFileid())) {
@@ -114,9 +119,33 @@ class DirectViewController extends Controller {
 					throw new \Exception();
 				}
 
+				/**
+				 * Open file from remote collabora
+				 */
+				if ($item->getFileInfo()->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
+					$remote = $item->getStorage()->getRemote();
+					$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
+					if ($remoteCollabora !== '') {
+						$wopi = $this->tokenManager->getRemoteTokenFromDirect($item, $direct->getUid());
+						$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
+							'&remoteServer=' . $wopi->getServerHost() .
+							'&remoteServerToken=' . $wopi->getToken();
+						if ($item->getInternalPath() !== '') {
+							$url .= '&filePath=' . $item->getInternalPath();
+						}
+						$response = new RedirectResponse($url);
+						$response->addHeader('X-Frame-Options', 'ALLOW');
+						return $response;
+					} else {
+						$this->logger->warning('Failed to connect to remote collabora instance for ' . $item->getId());
+					}
+				}
 				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+				$params = [
+					'errors' => [['error' => $e->getMessage()]]
+				];
+				return new TemplateResponse('core', 'error', $params, 'guest');
 			}
 
 			$relativePath = $folder->getRelativePath($item->getPath());
@@ -142,7 +171,10 @@ class DirectViewController extends Controller {
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
 
 	}

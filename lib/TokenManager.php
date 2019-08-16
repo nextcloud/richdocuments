@@ -232,4 +232,19 @@ class TokenManager {
 		$this->wopiMapper->update($wopi);
 		return $wopi;
 	}
+
+	/**
+	 * @param Node $node
+	 * @return Wopi
+	 */
+	public function getRemoteTokenFromDirect(Node $node, $editorUid) {
+		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, $editorUid, true, true);
+		$wopi->setIsRemoteToken(true);
+		$wopi->setRemoteServer($node->getStorage()->getRemote());
+
+		$this->wopiMapper->update($wopi);
+		return $wopi;
+	}
+
+
 }

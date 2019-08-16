@@ -109,29 +109,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
 
-			/**
-			 * Open file from remote collabora
-			 */
-			if ($node->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
-				$remote = $node->getStorage()->getRemote();
-				$remoteCollabora = $this->federationService->getRemoteDirectToken($remote);
-				if ($remoteCollabora !== '') {
-					$wopi = $this->tokenManager->getRemoteToken($item);
-					$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
-						'&remoteServer=' . $wopi->getServerHost() .
-						'&remoteServerToken=' . $wopi->getToken();
-					if ($item->getInternalPath() !== '') {
-						$url .= '&filePath=' . $item->getInternalPath();
-					}
-					$response = new RedirectResponse($url);
-					$response->addHeader('X-Frame-Options', 'ALLOW');
-					return $response;
-				}
-			}
-
-			//TODO check if we can even edit this file with collabora
 			$direct = $this->directMapper->newDirect($this->userId, $fileId);
-			// TODO: convert to remote token if needed
 
 			return new DataResponse([
 				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [

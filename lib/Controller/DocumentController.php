@@ -170,6 +170,47 @@ class DocumentController extends Controller {
 	}
 
 	/**
+	 * Redirect to the files app with proper CSP headers set for federated editing
+	 *
+	 * This is a workaround since we cannot set a nonce for allowing dynamic URLs in the richdocument iframe
+	 *
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function open($fileId) {
+		try {
+			$folder = $this->rootFolder->getUserFolder($this->uid);
+			$item = $folder->getById($fileId)[0];
+			if (!($item instanceof Node)) {
+				throw new \Exception();
+			}
+
+			if ($item->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
+				$remote = $item->getStorage()->getRemote();
+				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
+				if ($remoteCollabora !== '') {
+					$dir = $item->getInternalPath() === '' ? '/' : $item->getInternalPath();
+					$url = '/index.php/apps/files?dir=' . $dir .
+						'&richdocuments_open=' . $item->getName() .
+						'&richdocuments_fileId=' . $fileId .
+						'&richdocuments_remote_access=' . $remote;
+					return new RedirectResponse($url);
+				}
+				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
+			}
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
+		}
+
+		return new TemplateResponse('core', '403', [], 'guest');
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $fileId
@@ -199,6 +240,8 @@ class DocumentController extends Controller {
 					$response = new RedirectResponse($url);
 					$response->addHeader('X-Frame-Options', 'ALLOW');
 					return $response;
+				} else {
+					$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
 				}
 			}
 			list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());

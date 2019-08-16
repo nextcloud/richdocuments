@@ -9,10 +9,22 @@ const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
 })
 
-const Preload = {
-	create: {
+const preloadCreate = getSearchParam('richdocuments_create')
+const preloadOpen = getSearchParam('richdocuments_open')
+const Preload = {}
+
+if (preloadCreate) {
+	Preload.create = {
 		type: getSearchParam('richdocuments_create'),
 		filename: getSearchParam('richdocuments_filename')
+	}
+}
+
+if (preloadOpen) {
+	Preload.open = {
+		filename: preloadOpen,
+		id: getSearchParam('richdocuments_fileId'),
+		dir: getSearchParam('dir')
 	}
 }
 
@@ -65,6 +77,47 @@ const odfViewer = {
 			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
 		}
 
+		/**
+		 * We need to reload the page to set a proper CSP if the file is federated
+		 * and the reload didn't happen for the exact same file
+		 */
+		const canAccessCSP = (url, callback) => {
+			let canEmbed = false
+			let frame = document.createElement('iframe')
+			frame.setAttribute('src', url)
+			frame.setAttribute('onload', () => {
+				canEmbed = true
+			})
+			document.body.appendChild(frame)
+			setTimeout(() => {
+				if (!canEmbed) {
+					callback()
+				}
+				document.body.removeChild(frame)
+			}, 50)
+
+		}
+
+		const reloadForFederationCSP = (fileName) => {
+			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
+			const fileModel = FileList.getModelForFile(fileName)
+			const shareOwnerId = fileModel.get('shareOwnerId')
+			if (typeof shareOwnerId !== 'undefined') {
+				const lastIndex = shareOwnerId.lastIndexOf('@')
+				// only redirect if remote file, not opened though reload and csp blocks the request
+				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileModel.get('id') !== preloadId) {
+					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/status.php', () => {
+						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
+					})
+				}
+			}
+			return false
+		}
+
+		if (context) {
+			reloadForFederationCSP(fileName)
+		}
+
 		OC.addStyle('richdocuments', 'mobile')
 
 		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
@@ -97,12 +150,14 @@ const odfViewer = {
 		}
 
 		$('#app-content #controls').addClass('hidden')
-		FilesAppIntegration.init({
-			fileName,
-			fileId,
-			sendPostMessage: (msgId, values) => {
-				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
-			}
+		setTimeout(() => {
+			FilesAppIntegration.init({
+				fileName,
+				fileId,
+				sendPostMessage: (msgId, values) => {
+					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+				}
+			})
 		})
 	},
 
@@ -321,6 +376,14 @@ const odfViewer = {
 			OCA.FilesLOMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
 		}
 
+		if (Preload.open) {
+			FileList.$fileList.one('updated', function() {
+				odfViewer.onEdit(Preload.open.filename, {
+					fileId: Preload.open.id,
+					dir: document.getElementById('dir').value
+				})
+			})
+		}
 	}
 }
 

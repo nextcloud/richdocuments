@@ -85,7 +85,7 @@ class Application extends App {
 
 	}
 
-	public function updateCSP() {
+	public function updateCSP(): void {
 		$container = $this->getContainer();
 
 		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
@@ -111,7 +111,7 @@ class Application extends App {
 			$trustedServers = $container->query(TrustedServers::class);
 			/** @var FederationService $federationService */
 			$federationService = $container->query(FederationService::class);
-			$remoteAccess = \OC::$server->getRequest()->getParam('richdocuments_remote_access');
+			$remoteAccess = $container->getServer()->getRequest()->getParam('richdocuments_remote_access');
 
 			if ($remoteAccess && $trustedServers->isTrustedServer($remoteAccess)) {
 				$remoteCollabora = $federationService->getRemoteCollaboraURL($remoteAccess);

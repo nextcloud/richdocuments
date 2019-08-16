@@ -28,6 +28,7 @@ use OCA\Federation\TrustedServers;
 use OCP\AppFramework\QueryException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\ILogger;
 
 class FederationService {
@@ -41,8 +42,8 @@ class FederationService {
 	/** @var TrustedServers */
 	private $trustedServers;
 
-	public function __construct(ICache $cache, IClientService $clientService, ILogger $logger) {
-		$this->cache = $cache;
+	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger) {
+		$this->cache = $cacheFactory->createLocal('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		try {
