@@ -435,7 +435,7 @@ class DocumentController extends Controller {
 				$remoteWopi = $this->federationService->getRemoteFileDetails($remoteServer, $remoteServerToken);
 
 				$uid = $remoteWopi['editorUid'] . '@' . $remoteServer;
-				$wopi->setEditorUid($remoteWopi['editorUid']);
+				$wopi->setEditorUid($shareToken);
 				$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi['canwrite']);
 				$wopi->setRemoteServer($remoteServer);
 				$wopi->setRemoteServerToken($remoteServerToken);

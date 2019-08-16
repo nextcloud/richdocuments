@@ -100,12 +100,12 @@ const odfViewer = {
 
 		const reloadForFederationCSP = (fileName) => {
 			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
-			const fileModel = FileList.getModelForFile(fileName)
-			const shareOwnerId = fileModel.get('shareOwnerId')
+			const fileModel = FileList.findFile(fileName)
+			const shareOwnerId = fileModel.shareOwnerId
 			if (typeof shareOwnerId !== 'undefined') {
 				const lastIndex = shareOwnerId.lastIndexOf('@')
 				// only redirect if remote file, not opened though reload and csp blocks the request
-				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileModel.get('id') !== preloadId) {
+				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileModel.id !== preloadId) {
 					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/status.php', () => {
 						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
 					})

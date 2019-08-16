@@ -26,6 +26,7 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Helper;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -181,6 +182,28 @@ class WopiController extends Controller {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 		}
 
+		if ($wopi->getRemoteServer() !== '') {
+			$remoteUserId = $wopi->getGuestDisplayname();
+			// TODO: extract from here to reuse
+			// https://github.com/nextcloud/server/blob/5b604eaeaba7d5ee5dd12a92f37c9e8e7519c9c2/apps/federatedfilesharing/lib/Notifier.phpcd
+			$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
+			$response['UserFriendlyName'] = $cloudID->getDisplayId();
+			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => 32]);
+			$addressBookEntries = \OC::$server->getContactsManager()->search($cloudID->getId(), ['CLOUD']);
+			foreach ($addressBookEntries as $entry) {
+				if (isset($entry['CLOUD'])) {
+					foreach ($entry['CLOUD'] as $cloudID) {
+						if ($cloudID === $cloudID->getId()) {
+							$response['UserFriendlyName'] = $entry['FN'];
+							break;
+						}
+					}
+				}
+			}
+
+
+		}
+
 		return new JSONResponse($response);
 	}
 
@@ -269,7 +292,7 @@ class WopiController extends Controller {
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();
-		if ($editor === null) {
+		if ($editor === null || $wopi->getRemoteServer() !== '') {
 			$editor = $wopi->getOwnerUid();
 		}
 
@@ -379,7 +402,7 @@ class WopiController extends Controller {
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();
-		if ($editor === null) {
+		if ($editor === null || $wopi->getRemoteServer() !== '') {
 			$editor = $wopi->getOwnerUid();
 		}
 
