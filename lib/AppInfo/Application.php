@@ -25,12 +25,15 @@
 namespace OCA\Richdocuments\AppInfo;
 
 use OC\Files\Type\Detection;
+use OC\Security\CSP\ContentSecurityPolicy;
+use OCA\Federation\TrustedServers;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
+use OCA\Richdocuments\Service\FederationService;
 use OCP\AppFramework\App;
 use OCP\IPreview;
 
@@ -80,5 +83,43 @@ class Application extends App {
 			return $container->query(Pdf::class);
 		});
 
+	}
+
+	public function updateCSP() {
+		$container = $this->getContainer();
+
+		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
+		$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url') : $publicWopiUrl;
+		$cspManager = $container->getServer()->getContentSecurityPolicyManager();
+		$policy = new ContentSecurityPolicy();
+		if ($publicWopiUrl !== '') {
+			$policy->addAllowedFrameDomain($publicWopiUrl);
+			if (method_exists($policy, 'addAllowedFormActionDomain')) {
+				$policy->addAllowedFormActionDomain($publicWopiUrl);
+			}
+		}
+
+		/**
+		 * Dynamically add CSP for federated editing
+		 */
+		$path = '';
+		try {
+			$path = $container->getServer()->getRequest()->getPathInfo();
+		} catch (\Exception $e) {}
+		if (strpos($path, '/apps/files') === 0) {
+			/** @var TrustedServers $trustedServers */
+			$trustedServers = $container->query(TrustedServers::class);
+			/** @var FederationService $federationService */
+			$federationService = $container->query(FederationService::class);
+			$remoteAccess = \OC::$server->getRequest()->getParam('richdocuments_remote_access');
+
+			if ($remoteAccess && $trustedServers->isTrustedServer($remoteAccess)) {
+				$remoteCollabora = $federationService->getRemoteCollaboraURL($remoteAccess);
+				$policy->addAllowedFrameDomain($remoteAccess);
+				$policy->addAllowedFrameDomain($remoteCollabora);
+			}
+		}
+
+		$cspManager->addDefaultPolicy($policy);
 	}
 }
