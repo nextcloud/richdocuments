@@ -291,6 +291,7 @@ class WopiController extends Controller {
 		}
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
+		// TODO: properly access the file though the share token for remote files
 		$editor = $wopi->getEditorUid();
 		if ($editor === null || $wopi->getRemoteServer() !== '') {
 			$editor = $wopi->getOwnerUid();
