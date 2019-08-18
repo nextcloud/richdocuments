@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.3.15
+
+### Fixed
+- Check for file in editor folder only when available
+- Add check to only open one document at a time
+
+## 3.3.14
+
+### Fixed
+- Pass paste postmessage from collabora to mobile apps
+- Fix preview generation on Nextcloud 17 
+
 ## 3.3.13
 
 ### Fixed
