@@ -183,28 +183,30 @@ class WopiController extends Controller {
 		}
 
 		if ($wopi->getRemoteServer() !== '') {
-			$remoteUserId = $wopi->getGuestDisplayname();
-			// TODO: extract from here to reuse
-			// https://github.com/nextcloud/server/blob/5b604eaeaba7d5ee5dd12a92f37c9e8e7519c9c2/apps/federatedfilesharing/lib/Notifier.phpcd
-			$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
-			$response['UserFriendlyName'] = $cloudID->getDisplayId();
-			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => 32]);
-			$addressBookEntries = \OC::$server->getContactsManager()->search($cloudID->getId(), ['CLOUD']);
-			foreach ($addressBookEntries as $entry) {
-				if (isset($entry['CLOUD'])) {
-					foreach ($entry['CLOUD'] as $cloudID) {
-						if ($cloudID === $cloudID->getId()) {
-							$response['UserFriendlyName'] = $entry['FN'];
-							break;
-						}
-					}
-				}
-			}
-
-
+			$response = $this->setFederationFileInfo($wopi, $response);
 		}
 
 		return new JSONResponse($response);
+	}
+
+	private function setFederationFileInfo($wopi, $response) {
+		$remoteUserId = $wopi->getGuestDisplayname();
+		$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
+		$response['UserFriendlyName'] = $cloudID->getDisplayId();
+		$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => 32]);
+		$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
+		$addressBookEntries = \OC::$server->getContactsManager()->search($cleanCloudId, ['CLOUD']);
+		foreach ($addressBookEntries as $entry) {
+			if (isset($entry['CLOUD'])) {
+				foreach ($entry['CLOUD'] as $cloudID) {
+					if ($cloudID === $cleanCloudId) {
+						$response['UserFriendlyName'] = $entry['FN'];
+						break;
+					}
+				}
+			}
+		}
+		return $response;
 	}
 
 	/**
