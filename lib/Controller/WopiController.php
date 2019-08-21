@@ -22,16 +22,17 @@
 namespace OCA\Richdocuments\Controller;
 
 use OC\Files\View;
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Helper;
-use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -40,6 +41,7 @@ use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
@@ -60,6 +62,8 @@ class WopiController extends Controller {
 	private $userSession;
 	/** @var TemplateManager */
 	private $templateManager;
+	/** @var IManager */
+	private $shareManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -77,17 +81,20 @@ class WopiController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param TemplateManager $templateManager
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								IURLGenerator $urlGenerator,
-								IConfig $config,
-								TokenManager $tokenManager,
-								IUserManager $userManager,
-								WopiMapper $wopiMapper,
-								ILogger $logger,
-								IUserSession $userSession,
-								TemplateManager $templateManager) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		IURLGenerator $urlGenerator,
+		IConfig $config,
+		TokenManager $tokenManager,
+		IUserManager $userManager,
+		WopiMapper $wopiMapper,
+		ILogger $logger,
+		IUserSession $userSession,
+		TemplateManager $templateManager,
+		IManager $shareManager
+	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
@@ -98,6 +105,7 @@ class WopiController extends Controller {
 		$this->logger = $logger;
 		$this->userSession = $userSession;
 		$this->templateManager = $templateManager;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -128,9 +136,7 @@ class WopiController extends Controller {
 		} else {
 			// Login the user to see his mount locations
 			try {
-				/** @var File $file */
-				$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
-				$file = $userFolder->getById($fileId)[0];
+				$file = $this->getFileForWopiToken($wopi);
 			} catch (\Exception $e) {
 				$this->logger->logException($e, ['app' => 'richdocuments']);
 				return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -292,18 +298,7 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		// Unless the editor is empty (public link) we modify the files as the current editor
-		// TODO: properly access the file though the share token for remote files
-		$editor = $wopi->getEditorUid();
-		if ($editor === null || $wopi->getRemoteServer() !== '') {
-			$editor = $wopi->getOwnerUid();
-		}
-
 		try {
-			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($editor);
-			$file = $userFolder->getById($fileId)[0];
-
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
@@ -329,20 +324,19 @@ class WopiController extends Controller {
 					]);
 				}
 
-				$root = \OC::$server->getRootFolder();
-
 				// create the folder first
-				if (!$root->nodeExists(dirname($path))) {
-					$root->newFolder(dirname($path));
+				if (!$this->rootFolder->nodeExists(dirname($path))) {
+					$this->rootFolder->newFolder(dirname($path));
 				}
 
 				// create a unique new file
-				$path = $root->getNonExistingName($path);
-				$root->newFile($path);
-				$file = $root->get($path);
+				$path = $this->rootFolder->getNonExistingName($path);
+				$this->rootFolder->newFile($path);
+				$file = $this->rootFolder->get($path);
 			} else {
+				$file = $this->getFileForWopiToken($wopi);
 				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
-				if (!is_null($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime())) {
+				if ($wopiHeaderTime !== null && $wopiHeaderTime !== Helper::toISO8601($file->getMTime())) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 						'headerTime' => $wopiHeaderTime,
 						'storageTime' => Helper::toISO8601($file->getMTime())
@@ -505,5 +499,36 @@ class WopiController extends Controller {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * @param Wopi $wopi
+	 * @return File|Folder|\OCP\Files\Node|null
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Share\Exceptions\ShareNotFound
+	 */
+	private function getFileForWopiToken(Wopi $wopi) {
+		$file = null;
+
+		if ($wopi->getRemoteServer() !== '') {
+			$share = $this->shareManager->getShareByToken($wopi->getEditorUid());
+			$node = $share->getNode();
+			if ($node instanceof Folder) {
+				$file = $node->getById($wopi->getFileid())[0];
+			} else {
+				$file = $node;
+			}
+		} else {
+			// Unless the editor is empty (public link) we modify the files as the current editor
+			// TODO: add related share token to the wopi table so we can obtain the
+			$editor = $wopi->getEditorUid();
+			if ($editor === null) {
+				$editor = $wopi->getOwnerUid();
+			}
+
+			$userFolder = $this->rootFolder->getUserFolder($editor);
+			$file = $userFolder->getById($wopi->getFileid())[0];
+		}
+		return $file;
 	}
 }
