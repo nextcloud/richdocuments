@@ -190,7 +190,8 @@ class DocumentController extends Controller {
 				$remote = $item->getStorage()->getRemote();
 				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
 				if ($remoteCollabora !== '') {
-					$dir = $item->getInternalPath() === '' ? '/' : $item->getInternalPath();
+					$fullPath = explode('/', $item->getPath());
+					$dir = implode('/', array_slice($fullPath, 3, -1));
 					$url = '/index.php/apps/files?dir=' . $dir .
 						'&richdocuments_open=' . $item->getName() .
 						'&richdocuments_fileId=' . $fileId .
