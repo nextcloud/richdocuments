@@ -95,7 +95,7 @@ class DirectViewController extends Controller {
 		}
 
 		// Delete the token. They are for 1 time use only
-		//$this->directMapper->delete($direct);
+		$this->directMapper->delete($direct);
 
 		$folder = $this->rootFolder->getUserFolder($direct->getUid());
 		if ($this->templateManager->isTemplate($direct->getFileid())) {
