@@ -33,7 +33,11 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -41,6 +45,7 @@ use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 class WopiController extends Controller {
@@ -118,32 +123,28 @@ class WopiController extends Controller {
 	 * @param string $fileId
 	 * @param string $access_token
 	 * @return JSONResponse
-	 * @throws \OCP\Files\InvalidPathException
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function checkFileInfo($fileId, $access_token) {
-		list($fileId, , $version) = Helper::parseFileId($fileId);
-
 		try {
+			list($fileId, , $version) = Helper::parseFileId($fileId);
+
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-		} catch (DoesNotExistException $e) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		}
-
-		if ($wopi->isTemplateToken()) {
-			$this->templateManager->setUserId($wopi->getOwnerUid());
-			$file = $this->templateManager->get($wopi->getFileid());
-		} else {
-			// Login the user to see his mount locations
-			try {
+			if ($wopi->isTemplateToken()) {
+				$this->templateManager->setUserId($wopi->getOwnerUid());
+				$file = $this->templateManager->get($wopi->getFileid());
+			} else {
 				$file = $this->getFileForWopiToken($wopi);
-			} catch (\Exception $e) {
-				$this->logger->logException($e, ['app' => 'richdocuments']);
-				return new JSONResponse([], Http::STATUS_FORBIDDEN);
 			}
-		}
-
-		if(!($file instanceof File)) {
+			if(!($file instanceof File)) {
+				throw new NotFoundException('No valid file found for ' . $fileId);
+			}
+		} catch (NotFoundException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments', '']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -225,6 +226,9 @@ class WopiController extends Controller {
 	 * @param string $fileId
 	 * @param string $access_token
 	 * @return Http\Response
+	 * @throws DoesNotExistException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	public function getFile($fileId,
 							$access_token) {
@@ -286,6 +290,7 @@ class WopiController extends Controller {
 	 * @param string $fileId
 	 * @param string $access_token
 	 * @return JSONResponse
+	 * @throws DoesNotExistException
 	 */
 	public function putFile($fileId,
 							$access_token) {
@@ -350,7 +355,7 @@ class WopiController extends Controller {
 
 			// Set the user to register the change under his name
 			$editor = $this->userManager->get($wopi->getEditorUid());
-			if (!is_null($editor)) {
+			if ($editor !== null) {
 				$this->userSession->setUser($editor);
 			}
 
@@ -386,6 +391,7 @@ class WopiController extends Controller {
 	 * @param string $fileId
 	 * @param string $access_token
 	 * @return JSONResponse
+	 * @throws DoesNotExistException
 	 */
 	public function putRelativeFile($fileId,
 					$access_token) {
@@ -419,10 +425,10 @@ class WopiController extends Controller {
 
 				$suggested = iconv('utf-7', 'utf-8', $suggested) . '.' . $file->getExtension();
 
-				if ($suggested[0] === '.') {
+				if (strpos($suggested, '.') === 0) {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
 				}
-				else if ($suggested[0] !== '/') {
+				else if (strpos($suggested, '/') !== 0) {
 					$path = dirname($file->getPath()) . '/' . $suggested;
 				}
 				else {
@@ -436,15 +442,13 @@ class WopiController extends Controller {
 					]);
 				}
 
-				$root = \OC::$server->getRootFolder();
-
 				// create the folder first
-				if (!$root->nodeExists(dirname($path))) {
-					$root->newFolder(dirname($path));
+				if (!$this->rootFolder->nodeExists(dirname($path))) {
+					$this->rootFolder->newFolder(dirname($path));
 				}
 
 				// create a unique new file
-				$path = $root->getNonExistingName($path);
+				$path = $this->rootFolder->getNonExistingName($path);
 				$file = $file->move($path);
 			} else {
 				$file = $userFolder->getById($fileId)[0];
@@ -481,7 +485,7 @@ class WopiController extends Controller {
 
 			// Set the user to register the change under his name
 			$editor = $this->userManager->get($wopi->getEditorUid());
-			if (!is_null($editor)) {
+			if ($editor !== null) {
 				$this->userSession->setUser($editor);
 			}
 
@@ -503,9 +507,9 @@ class WopiController extends Controller {
 
 	/**
 	 * @param Wopi $wopi
-	 * @return File|Folder|\OCP\Files\Node|null
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Share\Exceptions\ShareNotFound
+	 * @return File|Folder|Node|null
+	 * @throws NotFoundException
+	 * @throws ShareNotFound
 	 */
 	private function getFileForWopiToken(Wopi $wopi) {
 		$file = null;
