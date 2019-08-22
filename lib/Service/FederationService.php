@@ -25,7 +25,13 @@ namespace OCA\Richdocuments\Service;
 
 
 use OCA\Federation\TrustedServers;
+use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
+use OCA\Richdocuments\TokenManager;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\QueryException;
+use OCP\Files\File;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -41,11 +47,14 @@ class FederationService {
 	private $logger;
 	/** @var TrustedServers */
 	private $trustedServers;
+	/** @var TokenManager */
+	private $tokenManager;
 
-	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger) {
+	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager) {
 		$this->cache = $cacheFactory->createLocal('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
+		$this->tokenManager = $tokenManager;
 		try {
 			$this->trustedServers = \OC::$server->query( \OCA\Federation\TrustedServers::class);
 		} catch (QueryException $e) {}
@@ -111,6 +120,35 @@ class FederationService {
 			return $data['ocs']['data'];
 		} catch (\Throwable $e) {
 			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+		}
+		return null;
+	}
+
+	/**
+	 * @param File $item
+	 * @return string|null
+	 * @throws NotFoundException
+	 * @throws InvalidPathException
+	 */
+	public function getRemoteRedirectURL(File $item, $direct = null) {
+		if ($item->getStorage()->instanceOfStorage(SharingExternalStorage::class)) {
+			$remote = $item->getStorage()->getRemote();
+			$remoteCollabora = $this->getRemoteCollaboraURL($remote);
+			if ($remoteCollabora !== '') {
+				if ($direct === null) {
+					$wopi = $this->tokenManager->getRemoteToken($item);
+				} else {
+					$wopi = $this->tokenManager->getRemoteTokenFromDirect($item, $direct->getUid());
+				}
+				$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
+					'&remoteServer=' . $wopi->getServerHost() .
+					'&remoteServerToken=' . $wopi->getToken();
+				if ($item->getInternalPath() !== '') {
+					$url .= '&filePath=' . $item->getInternalPath();
+				}
+				return $url;
+			}
+			throw new NotFoundException('Failed to connect to remote collabora instance for ' . $item->getId());
 		}
 		return null;
 	}

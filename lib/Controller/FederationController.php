@@ -22,28 +22,39 @@
  */
 namespace OCA\Richdocuments\Controller;
 
-
+use OCP\AppFramework\Db\DoesNotExistException;
+use \OCP\AppFramework\OCSController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 
-class FederationController extends \OCP\AppFramework\OCSController {
+class FederationController extends OCSController {
 
 	/** @var IConfig */
 	private $config;
 
+	/** @var WopiMapper */
+	private $wopiMapper;
+
+	/** @var IManager */
+	private $shareManager;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		IConfig $config,
-		WopiMapper $wopiMapper
+		WopiMapper $wopiMapper,
+		IManager $shareManager
 	) {
 		parent::__construct($appName, $request);
 		$this->config   = $config;
 		$this->wopiMapper = $wopiMapper;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -67,7 +78,7 @@ class FederationController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param $token
 	 * @return DataResponse
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException
+	 * @throws DoesNotExistException
 	 */
 	public function remoteWopiToken($token) {
 		$wopi = $this->wopiMapper->getWopiForToken($token);
@@ -81,41 +92,5 @@ class FederationController extends \OCP\AppFramework\OCSController {
 			'guestDisplayname' => $wopi->getGuestDisplayname()
 		]);
 	}
-
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * Check the file info of a remote accessing a file
-	 *
-	 * this is used to make sure we respect reshares of federated shares with the
-	 * applied permissions and also have information about the actual editor
-	 *
-	 * @param $shareToken
-	 * @param $filePath
-	 * @return DataResponse
-	 * @throws OCSNotFoundException
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Share\Exceptions\ShareNotFound
-	 */
-	private function remoteDirectToken($shareToken, $filePath) {
-		$this->shareManager = \OC::$server->getShareManager();
-		try {
-			$share = $this->shareManager->getShareByToken($shareToken);
-			$file = $share->getNode()->get($filePath);
-			//TODO check if we can even edit this file with collabora
-			$direct = $this->directMapper->newDirect($this->userId, $file);
-			// TODO: convert to remote token if needed
-
-			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
-					'token' => $direct->getToken()
-				])
-			]);
-		} catch (NotFoundException $e) {
-			throw new OCSNotFoundException();
-		}
-	}
-
 
 }

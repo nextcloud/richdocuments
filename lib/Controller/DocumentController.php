@@ -20,7 +20,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Constants;
+use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -114,7 +116,7 @@ class DocumentController extends Controller {
 	 * settings page
 	 *
 	 * @param string $fileId
-	 * @return access_token, urlsrc
+	 * @return array access_token, urlsrc
 	 */
 	public function extAppGetData($fileId) {
 		$secretToken = $this->request->getParam('secret_token');
@@ -147,12 +149,11 @@ class DocumentController extends Controller {
 					return new TemplateResponse('core', 'error', $params, 'guest');
 				}
 			}
-
-			return [
-				'status' => 'error',
-				'message' => 'Permission denied'
-			];
 		}
+		return [
+			'status' => 'error',
+			'message' => 'Permission denied'
+		];
 	}
 
 	/**
@@ -171,9 +172,7 @@ class DocumentController extends Controller {
 
 	/**
 	 * Redirect to the files app with proper CSP headers set for federated editing
-	 *
 	 * This is a workaround since we cannot set a nonce for allowing dynamic URLs in the richdocument iframe
-	 *
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -182,17 +181,17 @@ class DocumentController extends Controller {
 		try {
 			$folder = $this->rootFolder->getUserFolder($this->uid);
 			$item = $folder->getById($fileId)[0];
-			if (!($item instanceof Node)) {
-				throw new \Exception();
+			if (!($item instanceof File)) {
+				throw new \Exception('Node is not a file');
 			}
 
 			if ($item->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
 				$remote = $item->getStorage()->getRemote();
 				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
 				if ($remoteCollabora !== '') {
-					$fullPath = explode('/', $item->getPath());
-					$dir = implode('/', array_slice($fullPath, 3, -1));
-					$url = '/index.php/apps/files?dir=' . $dir .
+					$absolute = $item->getParent()->getPath();
+					$relative = $folder->getRelativePath($absolute);
+					$url = '/index.php/apps/files?dir=' . $relative .
 						'&richdocuments_open=' . $item->getName() .
 						'&richdocuments_fileId=' . $fileId .
 						'&richdocuments_remote_access=' . $remote;
@@ -221,30 +220,18 @@ class DocumentController extends Controller {
 		try {
 			$folder = $this->rootFolder->getUserFolder($this->uid);
 			$item = $folder->getById($fileId)[0];
-			if(!($item instanceof Node)) {
+			if(!($item instanceof File)) {
 				throw new \Exception();
 			}
-			/**
-			 * Open file from remote collabora
-			 */
-			if ($item->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
-				$remote = $item->getStorage()->getRemote();
-				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
-				if ($remoteCollabora !== '') {
-					$wopi = $this->tokenManager->getRemoteToken($item);
-					$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
-						'&remoteServer=' . $wopi->getServerHost() .
-						'&remoteServerToken=' . $wopi->getToken();
-					if ($item->getInternalPath() !== '') {
-						$url .= '&filePath=' . $item->getInternalPath();
-					}
-					$response = new RedirectResponse($url);
-					$response->addHeader('X-Frame-Options', 'ALLOW');
-					return $response;
-				} else {
-					$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
-				}
+
+			/** Open file from remote collabora */
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($item);
+			if ($federatedUrl !== null) {
+				$response = new RedirectResponse($federatedUrl);
+				$response->addHeader('X-Frame-Options', 'ALLOW');
+				return $response;
 			}
+
 			list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
 			$params = [
 				'permissions' => $item->getPermissions(),
@@ -311,7 +298,7 @@ class DocumentController extends Controller {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
 
-		if ((!$folder instanceof Folder)) {
+		if (!$folder instanceof Folder) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
 
@@ -403,17 +390,12 @@ class DocumentController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $shareToken
-	 * @param string $remoteWopiToken
+	 * @param $remoteServer
+	 * @param $remoteServerToken
+	 * @param null $filePath
 	 * @return TemplateResponse
-	 * @throws \Exception
 	 */
-	// TODO: we need to use the file apth instead of the file id, since the id is not available on remote servers
 	public function remote($shareToken, $remoteServer, $remoteServerToken, $filePath = null) {
-		$manager = \OC::$server->getContentSecurityPolicyManager();
-		$policy = new \OC\Security\CSP\ContentSecurityPolicy();
-		$policy->addAllowedFrameAncestorDomain('https://*');
-		$manager->addDefaultPolicy($policy);
-
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
@@ -434,15 +416,7 @@ class DocumentController extends Controller {
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $shareToken, $this->uid);
 
 				$remoteWopi = $this->federationService->getRemoteFileDetails($remoteServer, $remoteServerToken);
-
-				$uid = $remoteWopi['editorUid'] . '@' . $remoteServer;
-				$wopi->setEditorUid($shareToken);
-				$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi['canwrite']);
-				$wopi->setRemoteServer($remoteServer);
-				$wopi->setRemoteServerToken($remoteServerToken);
-				$wopi->setGuestDisplayname($uid);
-				$mapper = \OC::$server->query(WopiMapper::class);
-				$mapper->update($wopi);
+				$this->tokenManager->updateToRemoteToken($wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi);
 
 				$permissions = $share->getPermissions();
 				if (!$remoteWopi['canwrite']) {
@@ -458,13 +432,14 @@ class DocumentController extends Controller {
 					'path' => '/',
 					'instanceId' => $this->settings->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
-					'userId' => $uid
+					'userId' => $remoteWopi['editorUid'] . '@' . $remoteServer
 				];
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 				$policy = new ContentSecurityPolicy();
 				$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('wopi_url')));
 				$policy->allowInlineScript(true);
+				$policy->addAllowedFrameAncestorDomain('https://*');
 				$response->setContentSecurityPolicy($policy);
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
@@ -487,6 +462,8 @@ class DocumentController extends Controller {
 	 * @param string $filename
 	 * @param string $dir
 	 * @return JSONResponse
+	 * @throws NotPermittedException
+	 * @throws GenericFileException
 	 */
 	public function create($mimetype,
 						   $filename,

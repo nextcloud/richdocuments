@@ -189,6 +189,17 @@ class TokenManager {
 		}
 	}
 
+	public function updateToRemoteToken(Wopi $wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi) {
+		$uid = $remoteWopi['editorUid'] . '@' . $remoteServer;
+		$wopi->setEditorUid($shareToken);
+		$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi['canwrite']);
+		$wopi->setRemoteServer($remoteServer);
+		$wopi->setRemoteServerToken($remoteServerToken);
+		$wopi->setGuestDisplayname($uid);
+		$this->wopiMapper->update($wopi);
+		return $wopi;
+	}
+
 	public function getTokenForTemplate(File $file, $userId, $templateDestination, $direct = false) {
 		$owneruid = $userId;
 		$editoruid = $userId;

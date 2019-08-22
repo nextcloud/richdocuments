@@ -36,6 +36,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -58,14 +59,20 @@ class DirectViewController extends Controller {
 	/** @var TemplateManager */
 	private $templateManager;
 
-	public function __construct($appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								TokenManager $tokenManager,
-								DirectMapper $directMapper,
-								IConfig $config,
-								AppConfig $appConfig,
-								TemplateManager $templateManager) {
+	/** @var FederationService */
+	private $federationService;
+
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		TokenManager $tokenManager,
+		DirectMapper $directMapper,
+		IConfig $config,
+		AppConfig $appConfig,
+		TemplateManager $templateManager,
+		FederationService $federationService
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
@@ -74,7 +81,7 @@ class DirectViewController extends Controller {
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->templateManager = $templateManager;
-		$this->federationService = \OC::$server->query(FederationService::class);
+		$this->federationService = $federationService;
 	}
 
 	/**
@@ -83,6 +90,8 @@ class DirectViewController extends Controller {
 	 * @PublicPage
 	 *
 	 * @param string $token
+	 * @return JSONResponse|RedirectResponse|TemplateResponse
+	 * @throws NotFoundException
 	 */
 	public function show($token) {
 		try {
@@ -119,27 +128,14 @@ class DirectViewController extends Controller {
 					throw new \Exception();
 				}
 
-				/**
-				 * Open file from remote collabora
-				 */
-				if ($item->getFileInfo()->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
-					$remote = $item->getStorage()->getRemote();
-					$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
-					if ($remoteCollabora !== '') {
-						$wopi = $this->tokenManager->getRemoteTokenFromDirect($item, $direct->getUid());
-						$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
-							'&remoteServer=' . $wopi->getServerHost() .
-							'&remoteServerToken=' . $wopi->getToken();
-						if ($item->getInternalPath() !== '') {
-							$url .= '&filePath=' . $item->getInternalPath();
-						}
-						$response = new RedirectResponse($url);
-						$response->addHeader('X-Frame-Options', 'ALLOW');
-						return $response;
-					} else {
-						$this->logger->warning('Failed to connect to remote collabora instance for ' . $item->getId());
-					}
+				/** Open file from remote collabora */
+				$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
+				if ($federatedUrl !== null) {
+					$response = new RedirectResponse($federatedUrl);
+					$response->addHeader('X-Frame-Options', 'ALLOW');
+					return $response;
 				}
+
 				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
 				$params = [
