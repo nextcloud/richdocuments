@@ -135,6 +135,13 @@ class TemplatesController extends Controller {
 					);
 				}
 
+				if (!$this->manager->isValidTemplateMime($files['type'][0])) {
+					return new JSONResponse(
+						['data' => ['message' => $this->l10n->t('Only template files can be uploaded')]],
+						Http::STATUS_BAD_REQUEST
+					);
+				}
+
 				$templateName = $files['name'][0];
 				$templateFile = file_get_contents($files['tmp_name'][0]);
 

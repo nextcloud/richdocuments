@@ -203,13 +203,7 @@ class TemplateManager {
 				return false;
 			}
 
-			if ($type !== null && !in_array($templateFile->getMimeType(), self::$tplTypes[$type])) {
-				return false;
-			}
-
-			//Todo validate mimetypes etc
-
-			return true;
+			return $this->isValidTemplateMime($templateFile->getMimeType(), $type);
 		});
 	}
 
@@ -488,5 +482,20 @@ class TemplateManager {
 			'type'      => $this->flipTypes()[$template->getMimeType()],
 			'extension' => $ooxml ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
+	}
+
+	public function isValidTemplateMime($mime, $type = null) {
+		if ($type === null) {
+			$allMimes = array_merge(self::$tplTypes['document'], self::$tplTypes['spreadsheet'], self::$tplTypes['presentation']);
+			if (!in_array($mime, $allMimes)) {
+				return false;
+			}
+		}
+
+		if ($type !== null && !in_array($mime, self::$tplTypes[$type])) {
+			return false;
+		}
+
+		return true;
 	}
 }
