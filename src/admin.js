@@ -351,7 +351,7 @@ function initTemplateManager() {
 			})
 		},
 
-		success: function(e, data) {
+		success: function(e) {
 			inputElmt.disabled = false
 			buttonElmt.className = 'icon-add'
 			// add template to dom
@@ -363,8 +363,7 @@ function initTemplateManager() {
 		fail: function(e, data) {
 			// failure, show warning
 			buttonElmt.className = 'icon-add'
-			buttonElmt.textContent = t('richdocuments', 'An error occurred')
-			// TODO: add error message from server
+			buttonElmt.textContent = t('richdocuments', 'An error occurred') + ': ' + data.jqXHR.responseJSON.data.message
 			setTimeout(function() {
 				inputElmt.disabled = false
 				buttonElmt.textContent = ''
