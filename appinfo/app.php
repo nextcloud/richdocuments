@@ -63,7 +63,8 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
 }
 
 // Whitelist the public wopi URL for iframes, required for Firefox
-$publicWopiUrl = \OC::$server->getConfig()->getAppValue('richdocuments', 'public_wopi_url');
+$publicWopiUrl = \OC::$server->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
+$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url') : $publicWopiUrl;
 if ($publicWopiUrl !== '') {
 	$manager = \OC::$server->getContentSecurityPolicyManager();
 	$policy = new ContentSecurityPolicy();
