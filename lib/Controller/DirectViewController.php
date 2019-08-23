@@ -138,7 +138,7 @@ class DirectViewController extends Controller {
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 			$policy = new ContentSecurityPolicy();
 			$policy->allowInlineScript(true);
-			$policy->addAllowedFrameDomain($this->appConfig->getAppValue('wopi_url'));
+			$policy->addAllowedFrameDomain($this->appConfig->getAppValue('public_wopi_url'));
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
