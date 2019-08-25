@@ -13,6 +13,7 @@
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvato con errore: Collabora Online dovrebbe utilizzare lo stesso protocollo dell'installazione del server.",
     "Error when saving" : "Errore durante il salvataggio",
     "File is too big" : "Il file è troppo grande",
+    "Only template files can be uploaded" : "Possono essere caricati solo i file di modello",
     "Invalid file provided" : "File fornito non valido ",
     "Template not found" : "Modello non trovato",
     "Empty" : "Vuoto",

@@ -15,6 +15,7 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Opgeslagen met een fout: Collabora Online moet hetzelfde protocol gebruiken als de serverinstallatie.",
     "Error when saving" : "Fout bij opslaan",
     "File is too big" : "Bestand te groot",
+    "Only template files can be uploaded" : "Er kunnen alleen sjabloonbestanden worden geüploaded",
     "Invalid file provided" : "Ongeldig bestand aangeleverd",
     "Template not found" : "Sjabloon niet gevonden",
     "Empty" : "Leeg",
