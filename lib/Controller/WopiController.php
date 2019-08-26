@@ -194,9 +194,9 @@ class WopiController extends Controller {
 				'userId' => $wopi->getEditorUid(),
 				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
 				'themingName' => \OC::$server->getThemingDefaults()->getName(),
-				'themingName' => \OC::$server->getThemingDefaults()->getName(),
+
 			];
-			$watermarkTemplate = $this->config->getAppValue('richdocuments', 'watermark_text', '{userId}');
+			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
 			$response['WatermarkText'] = preg_replace_callback('/{(.+?)}/', function($matches) use ($replacements)
 			{
 				return $replacements[$matches[1]];
@@ -236,21 +236,21 @@ class WopiController extends Controller {
 	}
 
 	private function shouldWatermark($isPublic, $userId, $fileId, Wopi $wopi) {
-		if ($this->config->getAppValue('richdocuments', 'watermark_enabled', 'no') === 'no') {
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no') === 'no') {
 			return false;
 		}
 
 		if ($isPublic) {
-			if ($this->config->getAppValue('richdocuments', 'watermark_linkAll', 'no') === 'yes') {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no') === 'yes') {
 				return true;
 			}
-			if ($this->config->getAppValue('richdocuments', 'watermark_linkRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
 				return true;
 			}
-			if ($this->config->getAppValue('richdocuments', 'watermark_linkSecure', 'no') === 'yes' && $wopi->getHideDownload()) {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no') === 'yes' && $wopi->getHideDownload()) {
 				return true;
 			}
-			if ($this->config->getAppValue('richdocuments', 'watermark_linkTags', 'no') === 'yes') {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no') === 'yes') {
 				$tags = $this->appConfig->getAppValueArray('watermark_linkTagsList');
 				$fileTags = \OC::$server->getSystemTagObjectMapper()->getTagIdsForObjects([$fileId], 'files')[$fileId];
 				foreach ($fileTags as $tagId) {
@@ -260,14 +260,14 @@ class WopiController extends Controller {
 				}
 			}
 		} else {
-			if ($this->config->getAppValue('richdocuments', 'watermark_shareAll', 'no') === 'yes') {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
 				return true;
 			}
-			if ($this->config->getAppValue('richdocuments', 'watermark_shareRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
 				return true;
 			}
 		}
-		if ($this->config->getAppValue('richdocuments', 'watermark_allGroups', 'no') === 'yes') {
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no') === 'yes') {
 			$groups = $this->appConfig->getAppValueArray('watermark_allGroupsList');
 			foreach ($groups as $group) {
 				if (\OC::$server->getGroupManager()->isInGroup($userId, $group)) {
@@ -275,7 +275,7 @@ class WopiController extends Controller {
 				}
 			}
 		}
-		if ($this->config->getAppValue('richdocuments', 'watermark_allTags', 'no') === 'yes') {
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no') === 'yes') {
 			$tags = $this->appConfig->getAppValueArray('watermark_allTagsList');
 			$fileTags = \OC::$server->getSystemTagObjectMapper()->getTagIdsForObjects([$fileId], 'files');
 			foreach ($fileTags as $tagId) {

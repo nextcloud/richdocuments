@@ -14,7 +14,8 @@ namespace OCA\Richdocuments;
 use OCA\Richdocuments\AppInfo\Application;
 use \OCP\IConfig;
 
-class AppConfig{
+class AppConfig {
+
 	private $defaults = [
 		'wopi_url' => 'https://localhost:9980',
 		'watermark_text' => '{userId}',
@@ -23,6 +24,8 @@ class AppConfig{
 		'watermark_linkTagsList' => [],
 
 	];
+
+	const WATERMARK_APP_NAMESPACE = 'files';
 
 	const APP_SETTING_TYPES = [
 			'watermark_allGroupsList' => 'array',
@@ -37,6 +40,13 @@ class AppConfig{
 		$this->config = $config;
 	}
 
+	public function getAppNamespace($key) {
+		if (strpos($key, 'watermark_') === 0) {
+			return self::WATERMARK_APP_NAMESPACE;
+		}
+		return Application::APPNAME;
+	}
+
 	/**
 	 * Get a value by key
 	 * @param string $key
@@ -47,7 +57,7 @@ class AppConfig{
 		if (array_key_exists($key, $this->defaults)){
 			$defaultValue = $this->defaults[$key];
 		}
-		return $this->config->getAppValue(Application::APPNAME, $key, $defaultValue);
+		return $this->config->getAppValue($this->getAppNamespace($key), $key, $defaultValue);
 	}
 
 	/**
@@ -55,7 +65,7 @@ class AppConfig{
 	 * @return array
 	 */
 	public function getAppValueArray($key) {
-		$value = $this->config->getAppValue(Application::APPNAME, $key, []);
+		$value = $this->config->getAppValue($this->getAppNamespace($key), $key, []);
 		if (self::APP_SETTING_TYPES[$key] === 'array') {
 			$value = $value !== '' ? explode(',', $value) : [];
 		}
@@ -69,7 +79,7 @@ class AppConfig{
 	 * @return void
 	 */
 	public function setAppValue($key, $value) {
-		$this->config->setAppValue(Application::APPNAME, $key, $value);
+		$this->config->setAppValue($this->getAppNamespace($key), $key, $value);
 	}
 
 	/**
@@ -78,11 +88,20 @@ class AppConfig{
 	 */
 	public function getAppSettings() {
 		$result = [];
-		$keys = $this->config->getAppKeys('richdocuments');
+		$keys = $this->config->getAppKeys(Application::APPNAME);
 		foreach ($keys as $key) {
 			$value = $this->getAppValueArray($key);
 			$value = $value === 'yes' ? true : $value;
 			$result[$key] = $value === 'no' ? false : $value;
+		}
+
+		$keys = $this->config->getAppKeys(self::WATERMARK_APP_NAMESPACE);
+		foreach ($keys as $key) {
+			if (strpos($key, 'watermark_') === 0) {
+				$value = $this->getAppValueArray($key);
+				$value = $value === 'yes' ? true : $value;
+				$result[$key] = $value === 'no' ? false : $value;
+			}
 		}
 		return $result;
 	}
