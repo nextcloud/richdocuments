@@ -15,6 +15,7 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salvado con errores: Collabora Online debe usar el mismo protocolo que el instalado en el servidor.",
     "Error when saving" : "Error al guardar",
     "File is too big" : "El archivo es demasiado grande",
+    "Only template files can be uploaded" : "Solo se pueden subir plantillas de archivos",
     "Invalid file provided" : "Archivo proporcionado inválido",
     "Template not found" : "Plantilla no guardada",
     "Empty" : "Vacío",

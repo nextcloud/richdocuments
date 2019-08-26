@@ -13,6 +13,7 @@
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "S'ha desat amb error: Collabora Online hauria de fer servir el mateix protocol que la instal·lació del servidor.",
     "Error when saving" : "S'ha produït un error mentre es desava",
     "File is too big" : "El fitxer és massa gran",
+    "Only template files can be uploaded" : "Només es poden carregar fitxers de plantilles",
     "Invalid file provided" : "El fitxer proporcionat no és vàlid",
     "Template not found" : "No s'ha trobat la plantilla",
     "Empty" : "Buit",
