@@ -1,3 +1,4 @@
+
 /*
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
@@ -20,19 +21,33 @@
  *
  */
 
-import { getLanguage } from 'nextcloud-l10n'
+class ConfigService {
+    private values: {[name: string]: string}
+    constructor () {
+        this.values = {}
+        this.loadFromGlobal('userId')
+        this.loadFromGlobal('urlsrc')
+        this.loadFromGlobal('directEdit')
+        this.loadFromGlobal('permissions')
+        this.loadFromGlobal('instanceId')
 
-const languageToBCP47 = () => {
-	// loleaflet expects a BCP47 language tag syntax
-	return getLanguage()
-		.replace(/^([a-z]{2}).*_([A-Z]{2})$/, (match, p1, p2) => p1 + '-' + p2.toLowerCase())
+    }
+    loadFromGlobal(key: string) {
+        // @ts-ignore
+        this.values[key] = window['richdocuments_' + key]
+    }
+    update(key: string, value: string) {
+        // @ts-ignore
+        this.values[key] = value
+    }
+    get(key: string) {
+        if (typeof this.values[key] === 'undefined') {
+            this.loadFromGlobal(key)
+        }
+        return this.values[key]
+    }
 }
 
-const getNextcloudVersion = () => {
-	return parseInt(OC.config.version.split('.')[0])
-}
+const Config = new ConfigService()
 
-export {
-	languageToBCP47,
-	getNextcloudVersion
-}
+export default Config

@@ -1,112 +1,85 @@
-import { getSearchParam } from './helpers/url'
+import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile, getSearchParam } from './helpers/url'
+import PostMessageService from './services/postMessage'
+import Config from './services/config'
+import Types from './helpers/types'
+import FilesAppIntegration from './view/FilesAppIntegration'
 
-var preloadType = getSearchParam('richdocuments_create')
-var preloadFilename = getSearchParam('richdocuments_filename')
-var Preload = {
+const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
+const PostMessages = new PostMessageService({
+	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
+})
+
+const Preload = {
 	create: {
-		type: preloadType,
-		filename: preloadFilename
+		type: getSearchParam('richdocuments_create'),
+		filename: getSearchParam('richdocuments_filename')
 	}
 }
 
-var odfViewer = {
-	isDocuments: false,
-	nextcloudVersion: 0,
+const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
+
+const odfViewer = {
+
+	open: false,
 	receivedLoading: false,
 	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
-	register: function() {
-		odfViewer.nextcloudVersion = parseInt(OC.config.version.split('.')[0])
-		var i, mime
-		var editActionName = 'Edit with ' + OC.getCapabilities().richdocuments.productName
-		for (i = 0; i < odfViewer.supportedMimes.length; ++i) {
-			mime = odfViewer.supportedMimes[i]
+
+	register() {
+		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
+		for (let mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
 				mime,
-				editActionName,
+				EDIT_ACTION_NAME,
 				OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 				OC.imagePath('core', 'actions/rename'),
-				odfViewer.onEdit,
+				this.onEdit,
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1) {
-				OCA.Files.fileActions.setDefault(mime, editActionName)
+				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
 			}
 		}
 	},
 
-	dispatch: function(filename) {
-		odfViewer.onEdit(filename)
-	},
-
-	getNewDocumentFromTemplateUrl: function(templateId, fileName, fileDir, fillWithTemplate) {
-		return OC.generateUrl(
-			'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
-			{
-				templateId: templateId,
-				fileName: fileName,
-				dir: fileDir,
-				requesttoken: OC.requestToken
-			}
-		)
-	},
-
 	onEdit: function(fileName, context) {
+		if (odfViewer.open === true) {
+			return
+		}
+		odfViewer.open = true
 		if (context) {
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-		}
-		odfViewer.receivedLoading = false
-
-		var viewer
-		if ($('#isPublic').val() === '1') {
-			viewer = OC.generateUrl(
-				'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
-				{
-					shareToken: $('#sharingToken').val(),
-					fileName: fileName,
-					fileId: fileId,
-					requesttoken: OC.requestToken
-				}
-			)
-		} else {
-			// We are dealing with a template
-			if (typeof (templateId) !== 'undefined') {
-				viewer = this.getNewDocumentFromTemplateUrl(templateId, fileName, fileDir)
-			} else {
-				viewer = OC.generateUrl(
-					'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
-					{
-						fileId: fileId,
-						dir: fileDir,
-						requesttoken: OC.requestToken
-					}
-				)
-			}
-		}
-
-		if (context) {
 			FileList.setViewerMode(true)
 			FileList.setPageTitle(fileName)
 			FileList.showMask()
 		}
+		odfViewer.receivedLoading = false
+
+		let documentUrl = getDocumentUrlForFile(fileDir, fileId)
+		if (isPublic) {
+			documentUrl = getDocumentUrlForPublicFile(fileName, fileId)
+		}
+		if (typeof (templateId) !== 'undefined') {
+			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
+		}
 
 		OC.addStyle('richdocuments', 'mobile')
 
-		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + viewer + '" />')
+		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(function() {
 			if (!odfViewer.receivedLoading) {
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
 			}
 		}, 15000)
-		$iframe.src = viewer
+		$iframe.src = documentUrl
 
 		$('body').css('overscroll-behavior-y', 'none')
 		var viewport = document.querySelector('meta[name=viewport]')
 		viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
-		if ($('#isPublic').val()) {
+		if (isPublic) {
 			// force the preview to adjust its height
 			$('#preview').append($iframe).css({ height: '100%' })
 			$('body').css({ height: '100%' })
@@ -121,42 +94,45 @@ var odfViewer = {
 			$('body').css('overflow', 'hidden')
 			$('#app-content').append($iframe)
 			$iframe.hide()
-			if ($('header').length) {
-				var $button = $('<div class="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
-				$('.header-right').prepend($button)
-				$button.on('click', function() {
-					if ($('#app-sidebar').is(':visible')) {
-						OC.Apps.hideAppSidebar()
-						return
-					}
-					var frameFilename = $('#richdocumentsframe')[0].contentWindow.documentsMain.fileName
-					FileList.showDetailsView(frameFilename || fileName, 'shareTabView')
-					OC.Apps.showAppSidebar()
-				})
-				$('.searchbox').hide()
-			}
 		}
 
 		$('#app-content #controls').addClass('hidden')
+		FilesAppIntegration.init({
+			fileName,
+			fileId,
+			sendPostMessage: (msgId, values) => {
+				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+			}
+		})
+	},
+
+	onReceiveLoading() {
+		odfViewer.receivedLoading = true
+		$('#richdocumentsframe').show()
+		$('html, body').scrollTop(0)
+		$('#content').removeClass('loading')
+		if (typeof FileList !== 'undefined') {
+			FileList.hideMask()
+		}
+		FilesAppIntegration.initAfterReady()
 	},
 
 	onClose: function() {
+		odfViewer.open = false
 		clearTimeout(odfViewer.loadingTimeout)
 		if (typeof FileList !== 'undefined') {
 			FileList.setViewerMode(false)
 			FileList.reload()
+			// FileList.scrollTo()
 		}
 		odfViewer.receivedLoading = false
 		$('link[href*="richdocuments/css/mobile"]').remove()
 		$('#app-content #controls').removeClass('hidden')
 		$('#richdocumentsframe').remove()
-		$('.richdocuments-sharing').remove()
-		$('#richdocuments-avatars').remove()
-		$('#richdocuments-actions').remove()
 		$('.searchbox').show()
 		$('body').css('overflow', 'auto')
 
-		if ($('#isPublic').val()) {
+		if (isPublic) {
 			$('#content').removeClass('full-height')
 			$('footer').removeClass('hidden')
 			$('#imgframe').removeClass('hidden')
@@ -165,75 +141,64 @@ var odfViewer = {
 		}
 
 		OC.Util.History.replaceState()
+		location.hash = ''
+
+		FilesAppIntegration.close()
 	},
 
 	registerFilesMenu: function(response) {
-		var ooxml = response.doc_format === 'ooxml'
+		Config.update('ooxml', response.doc_format === 'ooxml')
 
-		var docExt, spreadsheetExt, presentationExt
-		var docMime, spreadsheetMime, presentationMime
-		if (ooxml) {
-			docExt = 'docx'
-			spreadsheetExt = 'xlsx'
-			presentationExt = 'pptx'
-			docMime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-			spreadsheetMime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-			presentationMime =	'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-		} else {
-			docExt = 'odt'
-			spreadsheetExt = 'ods'
-			presentationExt = 'odp'
-			docMime = 'application/vnd.oasis.opendocument.text'
-			spreadsheetMime = 'application/vnd.oasis.opendocument.spreadsheet'
-			presentationMime = 'application/vnd.oasis.opendocument.presentation'
-		}
-
-		(function(OCA) {
+		const registerFilesMenu = (OCA) => {
 			OCA.FilesLOMenu = {
 				attach: function(newFileMenu) {
 					var self = this
+					const ooxml = Config.get('ooxml')
+					const document = Types.getFileType('document', ooxml)
+					const spreadsheet = Types.getFileType('spreadsheet', ooxml)
+					const presentation = Types.getFileType('presentation', ooxml)
 
 					newFileMenu.addMenuEntry({
-						id: 'add-' + docExt,
+						id: 'add-' + document.extension,
 						displayName: t('richdocuments', 'New Document'),
-						templateName: t('richdocuments', 'New Document') + '.' + docExt,
+						templateName: t('richdocuments', 'New Document') + '.' + document.extension,
 						iconClass: 'icon-filetype-document',
 						fileType: 'x-office-document',
 						actionHandler: function(filename) {
 							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('document', docMime, filename)
+								self._openTemplatePicker('document', document.mime, filename)
 							} else {
-								self._createDocument(docMime, filename)
+								self._createDocument(document.mime, filename)
 							}
 						}
 					})
 
 					newFileMenu.addMenuEntry({
-						id: 'add-' + spreadsheetExt,
+						id: 'add-' + spreadsheet.extension,
 						displayName: t('richdocuments', 'New Spreadsheet'),
-						templateName: t('richdocuments', 'New Spreadsheet') + '.' + spreadsheetExt,
+						templateName: t('richdocuments', 'New Spreadsheet') + '.' + spreadsheet.extension,
 						iconClass: 'icon-filetype-spreadsheet',
 						fileType: 'x-office-spreadsheet',
 						actionHandler: function(filename) {
 							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('spreadsheet', spreadsheetMime, filename)
+								self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 							} else {
-								self._createDocument(spreadsheetMime, filename)
+								self._createDocument(spreadsheet.mime, filename)
 							}
 						}
 					})
 
 					newFileMenu.addMenuEntry({
-						id: 'add-' + presentationExt,
+						id: 'add-' + presentation.extension,
 						displayName: t('richdocuments', 'New Presentation'),
-						templateName: t('richdocuments', 'New Presentation') + '.' + presentationExt,
+						templateName: t('richdocuments', 'New Presentation') + '.' + presentation.extension,
 						iconClass: 'icon-filetype-presentation',
 						fileType: 'x-office-presentation',
 						actionHandler: function(filename) {
 							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('presentation', presentationMime, filename)
+								self._openTemplatePicker('presentation', presentation.mime, filename)
 							} else {
-								self._createDocument(presentationMime, filename)
+								self._createDocument(presentation.mime, filename)
 							}
 						}
 					})
@@ -259,11 +224,22 @@ var odfViewer = {
 				_createDocumentFromTemplate: function(templateId, mimetype, filename) {
 					OCA.Files.Files.isFileNameValid(filename)
 					filename = FileList.getUniqueName(filename)
-					odfViewer.onEdit(filename, {
-						fileId: -1,
-						dir: $('#dir').val(),
-						templateId: templateId
-					})
+					$.post(
+						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
+						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
+						function(response) {
+							if (response && response.status === 'success') {
+								FileList.add(response.data, { animate: false, scrollTo: false })
+								odfViewer.onEdit(filename, {
+									fileId: -1,
+									dir: $('#dir').val(),
+									templateId: templateId
+								})
+							} else {
+								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
+							}
+						}
+					)
 				},
 
 				_openTemplatePicker: function(type, mimetype, filename) {
@@ -334,29 +310,15 @@ var odfViewer = {
 					dlg.querySelector('.template-container').appendChild(template)
 				}
 			}
-		})(OCA)
+		}
+		registerFilesMenu(OCA)
 
 		OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu)
 
 		// Open the template picker if there was a create parameter detected on load
 		if (Preload.create && Preload.create.type && Preload.create.filename) {
-			var mimetype
-			var ext
-			switch (Preload.create.type) {
-			case 'document':
-				mimetype = docMime
-				ext = docExt
-				break
-			case 'spreadsheet':
-				mimetype = spreadsheetMime
-				ext = spreadsheetExt
-				break
-			case 'presentation':
-				mimetype = presentationMime
-				ext = presentationExt
-				break
-			}
-			OCA.FilesLOMenu._openTemplatePicker(Preload.create.type, mimetype, Preload.create.filename + '.' + ext)
+			const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
+			OCA.FilesLOMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
 		}
 
 	}
@@ -369,34 +331,95 @@ $(document).ready(function() {
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
 		// check if texteditor app is enabled and loaded...
-		if (_.isUndefined(OCA.Files_Texteditor)) {
-			// it is not, so we do open text files with this app too.
+		if (typeof OCA.Files_Texteditor === 'undefined' && typeof OCA.Text === 'undefined') {
 			odfViewer.supportedMimes.push('text/plain')
 		}
-
-		// notice: when changing 'supportedMimes' interactively (e.g. dev console),
-		// register() needs to be re-run to re-register the fileActions.
 		odfViewer.register()
 
 		$.get(OC.filePath('richdocuments', 'ajax', 'settings.php')).done(function(settings) {
+			// TODO: move ooxml setting to capabilities so we don't need this request
 			odfViewer.registerFilesMenu(settings)
 		})
 
 	}
 
 	// Open documents if a public page is opened for a supported mimetype
-	if ($('#isPublic').val() && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
-		odfViewer.onEdit($('#filename').val())
+	if (isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
+		odfViewer.onEdit(document.getElementById('filename').value)
 	}
 
-	// listen to message from the viewer for closing/loading actions
-	window.addEventListener('message', function(e) {
-		if (e.data === 'close') {
+	PostMessages.registerPostMessageHandler(({ parsed }) => {
+		console.debug('[viewer] Received post message', parsed)
+		const { msgId, args, deprecated } = parsed
+		if (deprecated) { return }
+
+		switch (msgId) {
+		case 'loading':
+			odfViewer.onReceiveLoading()
+			break
+		case 'App_LoadingStatus':
+			if (args.Status === 'Timeout') {
+				odfViewer.onClose()
+				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
+					{ productName: OC.getCapabilities().richdocuments.productName }
+				))
+			}
+			break
+		case 'UI_Share':
+			FilesAppIntegration.share()
+			break
+		case 'UI_CreateFile':
+			FilesAppIntegration.createNewFile(args.DocumentType)
+			break
+		case 'UI_InsertGraphic':
+			FilesAppIntegration.insertGraphic((filename, url) => {
+				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'postAsset', { FileName: filename, Url: url })
+			})
+			break
+		case 'File_Rename':
+			FileList.reload()
+			OC.Apps.hideAppSidebar()
+			FilesAppIntegration.fileName = args.NewName
+			break
+		case 'close':
 			odfViewer.onClose()
-		} else if (e.data === 'loading') {
-			odfViewer.receivedLoading = true
-			$('#content').removeClass('loading')
-			FileList.hideMask()
+			break
+		case 'Get_Views_Resp':
+		case 'Views_List':
+			FilesAppIntegration.setViews(args)
+			break
+		case 'UI_FileVersions':
+		case 'rev-history':
+			FilesAppIntegration.showRevHistory()
+			break
+		case 'App_VersionRestore':
+			if (args.Status === 'Pre_Restore_Ack') {
+				FilesAppIntegration.restoreVersionExecute()
+			}
+			break
 		}
-	}, false)
+
+		// legacy view handling
+		if (msgId === 'View_Added') {
+			FilesAppIntegration.views[args.ViewId] = args
+			FilesAppIntegration.renderAvatars()
+		} else if (msgId === 'View_Removed') {
+			delete FilesAppIntegration.views[args.ViewId]
+			FilesAppIntegration.renderAvatars()
+		} else if (msgId === 'FollowUser_Changed') {
+			if (args.IsFollowEditor) {
+				FilesAppIntegration.followingEditor = true
+			} else {
+				FilesAppIntegration.followingEditor = false
+			}
+			if (args.IsFollowUser) {
+				FilesAppIntegration.following = args.FollowedViewId
+			} else {
+				FilesAppIntegration.following = null
+			}
+			FilesAppIntegration.renderAvatars()
+		}
+
+	})
+	window.FilesAppIntegration = FilesAppIntegration
 })

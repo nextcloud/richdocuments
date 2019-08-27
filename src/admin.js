@@ -202,7 +202,6 @@ var documentsSettings = {
 		})
 
 		$(document).on('change', '#edit_group_select', function() {
-			var element = page.find('input.edit-groups-enable')
 			var groups = $(this).val()
 			documentsSettings.saveGroups({ edit_groups: groups })
 		})
@@ -223,7 +222,6 @@ var documentsSettings = {
 		})
 
 		$(document).on('change', '#use_group_select', function() {
-			var element = page.find('input.use-groups-enable')
 			var groups = $(this).val()
 			documentsSettings.saveGroups({ use_groups: groups })
 		})

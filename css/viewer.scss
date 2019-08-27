@@ -79,6 +79,7 @@
 
 #richdocuments-avatars {
 	position: relative;
+	right: -15px;
 
 	& > .richdocuments-avatar {
 		float: right;
@@ -93,13 +94,18 @@
 	}
 }
 
-#richdocuments-actions {
-	position: relative;
-	.icon-more {
+#richdocuments-header {
+	display: flex;
+	& > div .icon-shared,
+	& > div .icon-more {
 		display: block;
-		width: 50px;
+		min-width: 50px;
 		height: 50px;
 	}
+}
+
+#richdocuments-actions {
+	position: relative;
 	li {
 		white-space: nowrap;
 		a.icon-loading-small:after {

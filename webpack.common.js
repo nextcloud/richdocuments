@@ -49,6 +49,11 @@ module.exports = {
 				exclude: /node_modules/
 			},
 			{
+				test: /\.tsx?$/,
+				use: 'ts-loader',
+				exclude: /node_modules/
+			},
+			{
 				test: /\.(png|jpg|gif|svg)$/,
 				loader: 'url-loader'
 			}
@@ -61,6 +66,6 @@ module.exports = {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js'
 		},
-		extensions: ['*', '.js', '.vue', '.json']
+		extensions: ['*', '.js', '.vue', '.json', '.tsx']
 	}
 };

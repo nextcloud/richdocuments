@@ -20,8 +20,7 @@
  *
  */
 
-/* global richdocuments_permissions */
-
+import Config from './../services/config'
 import { getCurrentUser } from 'nextcloud-auth'
 import mobile from './mobile'
 
@@ -50,8 +49,9 @@ const setGuestNameCookie = function(username) {
 const shouldAskForGuestName = () => {
 	return !mobile.isDirectEditing()
 		&& getCurrentUser().uid === null
+		&& Config.get('userId') === ''
 		&& getGuestNameCookie() === ''
-		&& (richdocuments_permissions & OC.PERMISSION_UPDATE)
+		&& (Config.get('permissions') & OC.PERMISSION_UPDATE)
 }
 
 export {
