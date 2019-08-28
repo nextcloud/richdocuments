@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Can't create document" : "Не можам да креирам документ",
     "Saved" : "Снимено",
-    "Add to favorites" : "Додади во фаворити",
     "Save" : "Сними",
+    "Add to favorites" : "Додади во фаворити",
     "Could not create file" : "Не множам да креирам датотека",
     "Wrong password. Please retry." : "Погрешна лозинка. Обиди се повторно.",
     "Password" : "Лозинка",
