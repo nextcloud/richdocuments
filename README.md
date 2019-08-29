@@ -24,6 +24,16 @@ For the latest information about the Collabora Online and Nextcloud releases, pl
 
 [Apps page of Collabora](https://apps.nextcloud.com/apps/richdocuments).
 
+### Federated editing / Global Scale
+Collaborative editing of federated documents requires richdocuments version 3.4 on all involved servers. Besides that the following conditions must be met:
+
+- Make sure the remote server is added as a trusted server
+- Allow any domain to embed Collabora Online in a frame:
+  `<frame_ancestors>https://*</frame_ancestors>` must be set in loolwsd.xml
+
+**Note:** Due to our content security policy we cannot open a document on a remote instance without reloading the page to allow Nextcloud embedding the remote collabora instance in a frame.
+
+
 ### Scripted installation (Ubuntu), Server + Nextcloud app
 The developers of the [Nextcloud VM](https://github.com/nextcloud/vm) has made a [script](https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora.sh) that you can use.
 Please remember to check the variables in the script to suit your config before you run it, though it should work out of the box on all Ubuntu servers from 16.04 an upwards.
