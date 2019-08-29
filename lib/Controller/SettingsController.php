@@ -158,8 +158,7 @@ class SettingsController extends Controller{
 		try {
 			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
 			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {
-				// XXX Works, but probably better to strip trailing '/hosting/capabilities'
-				$public_wopi_url = $capaUrlSrc['urlsrc'];
+				$public_wopi_url = str_replace('/hosting/capabilities', '', $capaUrlSrc['urlsrc']);
 				if ($public_wopi_url !== null) {
 					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
 					$colon = strpos($public_wopi_url, ':', 0);
