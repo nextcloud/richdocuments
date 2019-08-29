@@ -87,6 +87,25 @@
 				<default>false</default>
 				<notnull>true</notnull>
 			</field>
+			<field>
+				<name>is_remote_token</name>
+				<type>boolean</type>
+				<default>false</default>
+				<notnull>true</notnull>
+			</field>
+			<field>
+				<name>remote_server</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+			</field>
+			<field>
+				<name>remote_server_token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
 
 			<index>
 				<name>rd_wopi_token_idx</name>

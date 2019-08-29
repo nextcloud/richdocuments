@@ -37,6 +37,14 @@ export default {
 		this.fileName = fileName
 		this.fileId = fileId
 		this.sendPostMessage = sendPostMessage
+	},
+
+	initAfterReady() {
+		try {
+			documentsMain = document.getElementById('richdocumentsframe').contentWindow.documentsMain
+		} catch (e) {
+			console.debug('[FilesAppIntegration] failed to access documentsMain')
+		}
 
 		if (typeof this.getFileList() !== 'undefined') {
 			this.getFileModel()
@@ -53,10 +61,6 @@ export default {
 			this._addHeaderFileActions()
 			this.addVersionSidebarEvents()
 		}
-	},
-
-	initAfterReady() {
-		documentsMain = document.getElementById('richdocumentsframe').contentWindow.documentsMain
 	},
 
 	close() {

@@ -22,7 +22,6 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
-use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\Richdocuments\PermissionManager;
 
 $currentUser = \OC::$server->getUserSession()->getUser();
@@ -62,18 +61,6 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
 
 }
 
-// Whitelist the public wopi URL for iframes, required for Firefox
-$publicWopiUrl = \OC::$server->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
-$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url') : $publicWopiUrl;
-if ($publicWopiUrl !== '') {
-	$manager = \OC::$server->getContentSecurityPolicyManager();
-	$policy = new ContentSecurityPolicy();
-	$policy->addAllowedFrameDomain($publicWopiUrl);
-	if (method_exists($policy, 'addAllowedFormActionDomain')) {
-		$policy->addAllowedFormActionDomain($publicWopiUrl);
-	}
-	$manager->addDefaultPolicy($policy);
-}
-
 $app = new Application();
 $app->registerProvider();
+$app->updateCSP();

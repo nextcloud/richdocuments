@@ -24,6 +24,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -52,6 +53,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var TemplateManager */
 	private $manager;
 
+	/** @var FederationService */
+	private $federationService;
+
 	/**
 	 * OCS controller
 	 *
@@ -69,7 +73,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$userId,
 		DirectMapper $directMapper,
 		IURLGenerator $urlGenerator,
-		TemplateManager $manager) {
+		TemplateManager $manager,
+		FederationService $federationService
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder   = $rootFolder;
@@ -77,6 +83,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$this->directMapper = $directMapper;
 		$this->urlGenerator = $urlGenerator;
 		$this->manager      = $manager;
+		$this->federationService = $federationService;
 	}
 
 	/**
@@ -101,8 +108,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			if ($node instanceof Folder) {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
-
-			//TODO check if we can even edit this file with collabora
 
 			$direct = $this->directMapper->newDirect($this->userId, $fileId);
 

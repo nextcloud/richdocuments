@@ -24,6 +24,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
@@ -31,9 +32,11 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -56,14 +59,20 @@ class DirectViewController extends Controller {
 	/** @var TemplateManager */
 	private $templateManager;
 
-	public function __construct($appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								TokenManager $tokenManager,
-								DirectMapper $directMapper,
-								IConfig $config,
-								AppConfig $appConfig,
-								TemplateManager $templateManager) {
+	/** @var FederationService */
+	private $federationService;
+
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IRootFolder $rootFolder,
+		TokenManager $tokenManager,
+		DirectMapper $directMapper,
+		IConfig $config,
+		AppConfig $appConfig,
+		TemplateManager $templateManager,
+		FederationService $federationService
+	) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
@@ -72,6 +81,7 @@ class DirectViewController extends Controller {
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->templateManager = $templateManager;
+		$this->federationService = $federationService;
 	}
 
 	/**
@@ -80,13 +90,17 @@ class DirectViewController extends Controller {
 	 * @PublicPage
 	 *
 	 * @param string $token
+	 * @return JSONResponse|RedirectResponse|TemplateResponse
+	 * @throws NotFoundException
 	 */
 	public function show($token) {
 		try {
 			$direct = $this->directMapper->getByToken($token);
 		} catch (DoesNotExistException $e) {
-			//TODO show 404
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
 
 		// Delete the token. They are for 1 time use only
@@ -114,9 +128,20 @@ class DirectViewController extends Controller {
 					throw new \Exception();
 				}
 
+				/** Open file from remote collabora */
+				$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
+				if ($federatedUrl !== null) {
+					$response = new RedirectResponse($federatedUrl);
+					$response->addHeader('X-Frame-Options', 'ALLOW');
+					return $response;
+				}
+
 				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+				$params = [
+					'errors' => [['error' => $e->getMessage()]]
+				];
+				return new TemplateResponse('core', 'error', $params, 'guest');
 			}
 
 			$relativePath = $folder->getRelativePath($item->getPath());
@@ -142,7 +167,10 @@ class DirectViewController extends Controller {
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
 
 	}
