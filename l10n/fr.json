@@ -42,6 +42,7 @@
     "(read only)" : "(lecture seule)",
     "Guest" : "Invité",
     "Follow current editor" : "Suivre le dernier auteur",
+    "Last saved version" : "Dernière version enregistrée",
     "Current version" : "Version courante",
     "Failed to revert the document to older version" : "Impossible de restaurer le fichier à son ancienne version",
     "Please enter the filename for the new document" : "Veuillez saisir le nom du nouveau document",

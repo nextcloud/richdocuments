@@ -44,6 +44,7 @@ OC.L10N.register(
     "(read only)" : "(només de lectura)",
     "Guest" : "Convidat",
     "Follow current editor" : "Segueix l'editor actual",
+    "Last saved version" : "Darrera versió desada",
     "Current version" : "Versió actual",
     "Failed to revert the document to older version" : "No s'ha pogut tornar el document a la versió anterior",
     "Please enter the filename for the new document" : "Si us plau, introduïu el nom del fitxer pel nou document",
