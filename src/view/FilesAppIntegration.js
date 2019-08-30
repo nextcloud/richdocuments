@@ -20,7 +20,6 @@
  *
  */
 
-let documentsMain = null
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
 export default {
@@ -40,12 +39,6 @@ export default {
 	},
 
 	initAfterReady() {
-		try {
-			documentsMain = document.getElementById('richdocumentsframe').contentWindow.documentsMain
-		} catch (e) {
-			console.debug('[FilesAppIntegration] failed to access documentsMain')
-		}
-
 		if (typeof this.getFileList() !== 'undefined') {
 			this.getFileModel()
 		}
@@ -245,8 +238,9 @@ export default {
 		}
 		entry.append(label)
 
-		var isFileOwner = !isPublic && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
-		if (documentsMain.canEdit && isFileOwner && !view.IsCurrentView) {
+		const isFileOwner = !isPublic && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
+		const canEdit = this.getFileModel() && !!(this.getFileModel().get('permissions') & OC.PERMISSION_UPDATE)
+		if (isFileOwner && canEdit && !view.IsCurrentView) {
 			var removeButton = $('<div class="icon-close" title="Remove user"/>')
 			removeButton.click(() => {
 				this.sendPostMessage('Action_RemoveView', { ViewId: view.ViewId })
