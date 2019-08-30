@@ -44,6 +44,7 @@ OC.L10N.register(
     "(read only)" : "(läsbehörighet)",
     "Guest" : "Gäst",
     "Follow current editor" : "Följ nuvarande redaktör",
+    "Last saved version" : "Senast sparad version",
     "Current version" : "Aktuell version",
     "Failed to revert the document to older version" : "Misslyckades att återställa dokumentet till en äldre version",
     "Please enter the filename for the new document" : "Ange ett filnamn för det nya dokumentet",
