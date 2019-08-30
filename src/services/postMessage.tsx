@@ -91,8 +91,11 @@ export default class PostMessageService {
 	}
 
 	private handlePostMessage(data: any) {
+		const parsed = PostMessageService.parsePostMessage(data);
+		if (typeof parsed === 'undefined') {
+			return
+		}
 		this.postMessageHandlers.forEach((fn: Function): void => {
-			const parsed = PostMessageService.parsePostMessage(data);
 			if (parsed.deprecated) {
 				console.debug('PostMessageService.handlePostMessage', 'Ignoring deprecated post message', parsed.msgId)
 				return;
