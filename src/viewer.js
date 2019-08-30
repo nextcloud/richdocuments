@@ -303,6 +303,11 @@ const odfViewer = {
 						url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2) + type,
 						dataType: 'json'
 					}).then(function(response) {
+						if (response.ocs.data.length === 1) {
+							const { id } = response.ocs.data[0]
+							self._createDocumentFromTemplate(id, mimetype, filename)
+							return
+						}
 						self._buildTemplatePicker(response.ocs.data)
 							.then(function() {
 								var buttonlist = [{
