@@ -23,6 +23,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OC\Files\View;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -55,6 +56,8 @@ class WopiController extends Controller {
 	private $urlGenerator;
 	/** @var IConfig */
 	private $config;
+	/** @var AppConfig */
+	private $appConfig;
 	/** @var TokenManager */
 	private $tokenManager;
 	/** @var IUserManager */
@@ -92,6 +95,7 @@ class WopiController extends Controller {
 		IRootFolder $rootFolder,
 		IURLGenerator $urlGenerator,
 		IConfig $config,
+		AppConfig $appConfig,
 		TokenManager $tokenManager,
 		IUserManager $userManager,
 		WopiMapper $wopiMapper,
@@ -104,6 +108,7 @@ class WopiController extends Controller {
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
+		$this->appConfig = $appConfig;
 		$this->tokenManager = $tokenManager;
 		$this->userManager = $userManager;
 		$this->wopiMapper = $wopiMapper;
@@ -184,6 +189,20 @@ class WopiController extends Controller {
 			$response['TemplateSaveAs'] = $file->getName();
 		}
 
+		if ($this->shouldWatermark($isPublic, $wopi->getEditorUid(), $fileId, $wopi)) {
+			$replacements = [
+				'userId' => $wopi->getEditorUid(),
+				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
+				'themingName' => \OC::$server->getThemingDefaults()->getName(),
+
+			];
+			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
+			$response['WatermarkText'] = preg_replace_callback('/{(.+?)}/', function($matches) use ($replacements)
+			{
+				return $replacements[$matches[1]];
+			}, $watermarkTemplate);
+		}
+
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if($user !== null && $user->getAvatarImage(32) !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
@@ -214,6 +233,59 @@ class WopiController extends Controller {
 			}
 		}
 		return $response;
+	}
+
+	private function shouldWatermark($isPublic, $userId, $fileId, Wopi $wopi) {
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no') === 'no') {
+			return false;
+		}
+
+		if ($isPublic) {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no') === 'yes') {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no') === 'yes' && $wopi->getHideDownload()) {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no') === 'yes') {
+				$tags = $this->appConfig->getAppValueArray('watermark_linkTagsList');
+				$fileTags = \OC::$server->getSystemTagObjectMapper()->getTagIdsForObjects([$fileId], 'files')[$fileId];
+				foreach ($fileTags as $tagId) {
+					if (in_array($tagId, $tags, true)) {
+						return true;
+					}
+				}
+			}
+		} else {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
+				return true;
+			}
+		}
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no') === 'yes') {
+			$groups = $this->appConfig->getAppValueArray('watermark_allGroupsList');
+			foreach ($groups as $group) {
+				if (\OC::$server->getGroupManager()->isInGroup($userId, $group)) {
+					return true;
+				}
+			}
+		}
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no') === 'yes') {
+			$tags = $this->appConfig->getAppValueArray('watermark_allTagsList');
+			$fileTags = \OC::$server->getSystemTagObjectMapper()->getTagIdsForObjects([$fileId], 'files');
+			foreach ($fileTags as $tagId) {
+				if (in_array($tagId, $tags)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
