@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.4.0 - unreleased
+
+### Added
+
+- Federated document editing
+- Watermarking
+
+### Fixed
+- General frontend refactoring to fix flaws in files app integration and performance issues
+- Check for type when uploading a template
+- Use proper public url instead of regular wopi endpoint to fix issues in locked down environments
+- Open file directly if only one template is available
+
 ## 3.3.15
 
 ### Fixed
