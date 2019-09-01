@@ -15,6 +15,7 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "保存时出错：在线协作应使用与服务器安装相同的协议。",
     "Error when saving" : "保存时出错",
     "File is too big" : "文件太大",
+    "Only template files can be uploaded" : "只有模板文件能够上传",
     "Invalid file provided" : "提供了无效文件",
     "Template not found" : "未找到模板",
     "Empty" : "空",
