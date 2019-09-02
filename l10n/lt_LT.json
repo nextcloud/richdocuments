@@ -11,6 +11,7 @@
     "Not allowed to create document" : "Neleidžiama sukurti dokumentą",
     "Saved" : "Įrašyta",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Įrašyta su klaida: Collabora Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
+    "Invalid config key" : "Neteisingas konfigūracijos raktas",
     "Error when saving" : "Klaida įrašant",
     "File is too big" : "Failas yra per didelis",
     "Invalid file provided" : "Pateiktas neteisingas failas",
