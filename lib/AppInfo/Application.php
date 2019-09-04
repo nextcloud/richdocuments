@@ -106,7 +106,7 @@ class Application extends App {
 		try {
 			$path = $container->getServer()->getRequest()->getPathInfo();
 		} catch (\Exception $e) {}
-		if (strpos($path, '/apps/files') === 0) {
+		if (strpos($path, '/apps/files') === 0 && $container->getServer()->getAppManager()->isEnabledForUser('federation')) {
 			/** @var TrustedServers $trustedServers */
 			$trustedServers = $container->query(TrustedServers::class);
 			/** @var FederationService $federationService */
