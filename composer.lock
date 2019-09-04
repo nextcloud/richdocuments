@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73ca5818c235c48b12ffe717a3b0c703",
+    "content-hash": "eef7026bb3e131d706c37bdcad714dc6",
     "packages": [],
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud",
-            "version": "v15.0.7",
+            "version": "v16.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "22175a6ec85f8aeb289c47206a8775401ca02979"
+                "reference": "473d2ee4a81d2649b7c22f79ba5ff52d5474d831"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/22175a6ec85f8aeb289c47206a8775401ca02979",
-                "reference": "22175a6ec85f8aeb289c47206a8775401ca02979",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/473d2ee4a81d2649b7c22f79ba5ff52d5474d831",
+                "reference": "473d2ee4a81d2649b7c22f79ba5ff52d5474d831",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "15.0.0-dev"
+                    "dev-master": "16.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -41,7 +41,7 @@
                 }
             ],
             "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
-            "time": "2019-04-25T13:34:40+00:00"
+            "time": "2019-09-03T07:47:04+00:00"
         },
         {
             "name": "jakub-onderka/php-parallel-lint",
@@ -97,12 +97,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "a53a6f855cbff7edb078f87c72bb808c89443a00"
+                "reference": "ea693fa060702164985511acc3ceb5389c9ac761"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a53a6f855cbff7edb078f87c72bb808c89443a00",
-                "reference": "a53a6f855cbff7edb078f87c72bb808c89443a00",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ea693fa060702164985511acc3ceb5389c9ac761",
+                "reference": "ea693fa060702164985511acc3ceb5389c9ac761",
                 "shasum": ""
             },
             "conflict": {
@@ -137,8 +137,8 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=7,<7.67|>=8,<8.6.16|>=8.7,<8.7.1",
-                "drupal/drupal": ">=7,<7.67|>=8,<8.6.16|>=8.7,<8.7.1",
+                "drupal/core": ">=7,<7.67|>=8,<8.6.16|>=8.7,<8.7.1|>8.7.3,<8.7.5",
+                "drupal/drupal": ">=7,<7.67|>=8,<8.6.16|>=8.7,<8.7.1|>8.7.3,<8.7.5",
                 "erusev/parsedown": "<1.7.2",
                 "ezsystems/ezplatform-admin-ui": ">=1.3,<1.3.5|>=1.4,<1.4.4",
                 "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.13.1|>=6,<6.7.9.1|>=6.8,<6.13.5.1|>=7,<7.2.4.1|>=7.3,<7.3.2.1",
@@ -205,7 +205,7 @@
                 "silverstripe/userforms": "<3",
                 "simple-updates/phpwhois": "<=1",
                 "simplesamlphp/saml2": "<1.10.6|>=2,<2.3.8|>=3,<3.1.4",
-                "simplesamlphp/simplesamlphp": "<1.15.2|>=1.16,<1.16.3",
+                "simplesamlphp/simplesamlphp": "<1.17.3",
                 "simplesamlphp/simplesamlphp-module-infocard": "<1.0.1",
                 "slim/slim": "<2.6",
                 "smarty/smarty": "<3.1.33",
@@ -299,12 +299,12 @@
             "authors": [
                 {
                     "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "role": "maintainer"
+                    "role": "maintainer",
+                    "email": "ocramius@gmail.com"
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-06-25T10:37:35+00:00"
+            "time": "2019-07-18T15:17:58+00:00"
         }
     ],
     "aliases": [],
