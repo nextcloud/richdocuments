@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.4.1
+
+### Fixed
+
+- Fix compatibility with PHP 7.0
+- Fix bug when federation app was disabled
+
 ## 3.4.0
 
 ### Added
