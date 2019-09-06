@@ -85,7 +85,7 @@ class Application extends App {
 
 	}
 
-	public function updateCSP(): void {
+	public function updateCSP() {
 		$container = $this->getContainer();
 
 		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
