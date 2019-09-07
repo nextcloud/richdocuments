@@ -28,7 +28,7 @@ OC.L10N.register(
     "All" : "Alle",
     "Error" : "Fout",
     "An error occurred" : "Er trad een fout op",
-    "Please choose your nickname to continue as guest user." : "Kies aub. je schuilnaam om verder te gaan als gastgebruiker",
+    "Please choose your nickname to continue as guest user." : "Kies alstublieft je schuilnaam om verder te gaan als gastgebruiker",
     "Nickname" : "Roepnaam",
     "Set" : "Instellen",
     "Close version preview" : "Sluiten voorbeeldversie",
