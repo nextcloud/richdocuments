@@ -22,7 +22,7 @@
 
 <template>
 	<multiselect v-model="inputValObjects"
-		:options="Object.values(groups)" :options-limit="5"
+		:options="groupsArray" :options-limit="5"
 		:placeholder="label"
 		track-by="id"
 		label="displayname"
@@ -65,12 +65,15 @@ export default {
 	data() {
 		return {
 			inputValObjects: [],
-			groups: []
+			groups: {}
 		}
 	},
 	computed: {
 		id() {
 			return 'settings-select-group-' + this.uuid
+		},
+		groupsArray() {
+			return Object.values(this.groups)
 		}
 	},
 	watch: {
@@ -104,15 +107,14 @@ export default {
 		},
 		asyncFindGroup(query) {
 			query = typeof query === 'string' ? encodeURI(query) : ''
-			return axios.get(OC.linkToOCS(`cloud/groups/details?search=${query}&limit=1`, 2))
+			return axios.get(OC.linkToOCS(`cloud/groups/details?search=${query}&limit=10`, 2))
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.groups).length > 0) {
 						response.data.ocs.data.groups.forEach((element) => {
 							if (typeof this.groups[element.id] === 'undefined') {
-								this.groups[element.id] = element
+								this.$set(this.groups, element.id, element)
 							}
 						})
-
 						return true
 					}
 					return false
