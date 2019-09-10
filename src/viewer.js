@@ -38,6 +38,7 @@ const odfViewer = {
 	receivedLoading: false,
 	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
+	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain'],
 
 	register() {
 		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
@@ -415,7 +416,9 @@ $(document).ready(function() {
 	}
 
 	// Open documents if a public page is opened for a supported mimetype
-	if (isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1) {
+	const isSupportedMime = isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1
+	const showSecureView = isPublic && isDownloadHidden && odfViewer.hideDownloadMimes.indexOf($('#mimetype').val()) !== -1
+	if (isSupportedMime || showSecureView) {
 		odfViewer.onEdit(document.getElementById('filename').value)
 	}
 
