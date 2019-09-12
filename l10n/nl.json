@@ -21,6 +21,8 @@
     "%s (Guest)" : "%s (Gast)",
     "Edit office documents directly in your browser." : "Bewerk kantoorbestanden rechtstreeks in je browser.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Deze applicatie kan verbinden met een Collabora Online server (WOPI Client). Nextcloud is de WOPI Host. Lees de documentatie voor meer informatie hierover.",
+    "Secure view enables you to secure documents by embedding a watermark" : "Beveiligd kijken laat je documenten beveiligen door een watermerk toe te voegen ",
+    "Supported placeholders: {userId}, {date}" : "Ondersteunde reserveringsafbeelding: {userId}, {date}",
     "No results" : "Geen resultaten",
     "Saving…" : "Opslaan...",
     "All" : "Alle",
