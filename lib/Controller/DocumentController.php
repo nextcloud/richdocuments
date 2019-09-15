@@ -36,6 +36,7 @@ use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
 use \OCA\Richdocuments\Helper;
 use OCP\ISession;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OC\Files\Type\TemplateManager;
 
@@ -444,6 +445,8 @@ class DocumentController extends Controller {
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
+		} catch (ShareNotFound $e) {
+			return new TemplateResponse('core', '404', [], 'guest');
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
 			$params = [
