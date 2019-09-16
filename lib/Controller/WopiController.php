@@ -261,7 +261,10 @@ class WopiController extends Controller {
 			}
 		} else {
 			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
-				return true;
+				$files = $this->rootFolder->getUserFolder($userId)->getById($fileId);
+				if (count($files) !== 0 && $files[0]->getOwner()->getUID() !== $userId) {
+					return true;
+				}
 			}
 			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareRead', 'no') === 'yes' && !$wopi->getCanwrite()) {
 				return true;
@@ -277,9 +280,9 @@ class WopiController extends Controller {
 		}
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no') === 'yes') {
 			$tags = $this->appConfig->getAppValueArray('watermark_allTagsList');
-			$fileTags = \OC::$server->getSystemTagObjectMapper()->getTagIdsForObjects([$fileId], 'files');
+			$fileTags = \OC::$server->getSystemTagObjectMapper()->getTagIdsForObjects([$fileId], 'files')[$fileId];
 			foreach ($fileTags as $tagId) {
-				if (in_array($tagId, $tags)) {
+				if (in_array($tagId, $tags, true)) {
 					return true;
 				}
 			}
