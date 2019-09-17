@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.4.2
+
+### Fixed
+- Remove unneeded logging
+- Restore IE11 compatibility
+- Fix group selector in settings
+- Use Collabora for secure view of images
+- Update dependencies
+
 ## 3.4.1
 
 ### Fixed
