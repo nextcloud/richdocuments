@@ -23,6 +23,8 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Invité)",
     "Edit office documents directly in your browser." : "Modifier des documents Office directement dans votre navigateur.",
     "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Cette application peut se connecter à un serveur Collabora Online (WOPI Client). Nextcloud est l'Hôte WOPI. Pour plus d'information, veuillez lire la documentation.",
+    "Secure view enables you to secure documents by embedding a watermark" : "La vue sécurisée vous permet de protéger les documents en intégrant un filigrane",
+    "Supported placeholders: {userId}, {date}" : "Substituts possibles : {userId}, {date}",
     "No results" : "Aucun résultat",
     "Saving…" : "Enregistrement…",
     "All" : "Tout",
