@@ -3,7 +3,7 @@
 	<id>richdocuments</id>
 	<name>Collabora Online</name>
 	<summary>Edit office documents directly in your browser.</summary>
-	<description>This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</description>
+	<description>This application can connect to a Collabora Online (or other) server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</description>
 	<version>3.4.2</version>
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
