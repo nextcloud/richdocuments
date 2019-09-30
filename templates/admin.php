@@ -18,7 +18,7 @@ script('files', 'jquery.fileupload');
 		<input type="text" name="wopi_url" id="wopi_url" placeholder="https://office.example.org:9980" value="<?php p($_['wopi_url'])?>"><button type="button" id="wopi_apply"><?php p($l->t('Apply')) ?></button>
 		<span id="documents-admin-msg" class="msg"></span>
 		<br />
-		<em><?php p($l->t('Collabora Online requires a seperate server acting as a WOPI-Client to provide editing capabilities.')) ?></em>
+		<em><?php p($l->t('Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.')) ?></em>
 	</p>
 	<p>
 		<input type="checkbox" class="checkbox" id="disable_certificate_verification" <?php p($_['disable_certificate_verification'] === 'yes' ? 'checked' : '') ?> />
