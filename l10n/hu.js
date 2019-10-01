@@ -19,7 +19,6 @@ OC.L10N.register(
     "Template not found" : "A sablon nem található",
     "Empty" : "Üres",
     "Edit office documents directly in your browser." : "Office dokumentum szerkesztése közvetlenül a böngésződben.",
-    "This application can connect to a Collabora Online server (WOPI Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Ez az alkalmazás egy Collabora Online kiszolgálóhoz (WOPI ügyfélhez) tud kapcsolódni. A Nextcloud a WOPI kiszolgáló. További információkért olvasd el a dokumentációt.",
     "Saving…" : "Mentés...",
     "All" : "Mind",
     "Error" : "Hiba",
