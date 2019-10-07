@@ -148,6 +148,9 @@ class WopiController extends Controller {
 		} catch (NotFoundException $e) {
 			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments', '']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (DoesNotExistException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments', '']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
