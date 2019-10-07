@@ -62,7 +62,7 @@ const odfViewer = {
 			return
 		}
 		odfViewer.open = true
-		let fileList = FileList
+		let fileList = null
 		if (context) {
 			fileList = context.fileList
 			var fileDir = context.dir

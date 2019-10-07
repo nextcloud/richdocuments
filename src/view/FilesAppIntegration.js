@@ -119,6 +119,9 @@ export default {
 		if (this.fileModel !== null) {
 			return this.fileModel
 		}
+		if (!this.getFileList()) {
+			return null
+		}
 		this.getFileList()._updateDetailsView(this.fileName, false)
 		this.fileModel = this.getFileList().getModelForFile(this.fileName)
 
