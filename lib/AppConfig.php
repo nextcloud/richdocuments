@@ -66,7 +66,7 @@ class AppConfig {
 	 */
 	public function getAppValueArray($key) {
 		$value = $this->config->getAppValue($this->getAppNamespace($key), $key, []);
-		if (isset(self::APP_SETTING_TYPES[$key]) && self::APP_SETTING_TYPES[$key] === 'array') {
+		if (array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array') {
 			$value = $value !== '' ? explode(',', $value) : [];
 		}
 		return $value;
