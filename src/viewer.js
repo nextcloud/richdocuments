@@ -62,13 +62,15 @@ const odfViewer = {
 			return
 		}
 		odfViewer.open = true
+		let fileList = FileList
 		if (context) {
+			fileList = context.fileList
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-			FileList.setViewerMode(true)
-			FileList.setPageTitle(fileName)
-			FileList.showMask()
+			context.fileList.setViewerMode(true)
+			context.fileList.setPageTitle(fileName)
+			context.fileList.showMask()
 		}
 		odfViewer.receivedLoading = false
 
@@ -103,7 +105,7 @@ const odfViewer = {
 
 		const reloadForFederationCSP = (fileName) => {
 			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
-			const fileModel = FileList.findFile(fileName)
+			const fileModel = fileList.findFile(fileName)
 			const shareOwnerId = fileModel.shareOwnerId
 			if (typeof shareOwnerId !== 'undefined') {
 				const lastIndex = shareOwnerId.lastIndexOf('@')
@@ -157,6 +159,7 @@ const odfViewer = {
 			FilesAppIntegration.init({
 				fileName,
 				fileId,
+				fileList,
 				sendPostMessage: (msgId, values) => {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				}
@@ -169,20 +172,12 @@ const odfViewer = {
 		$('#richdocumentsframe').show()
 		$('html, body').scrollTop(0)
 		$('#content').removeClass('loading')
-		if (typeof FileList !== 'undefined') {
-			FileList.hideMask()
-		}
 		FilesAppIntegration.initAfterReady()
 	},
 
 	onClose: function() {
 		odfViewer.open = false
 		clearTimeout(odfViewer.loadingTimeout)
-		if (typeof FileList !== 'undefined') {
-			FileList.setViewerMode(false)
-			FileList.reload()
-			// FileList.scrollTo()
-		}
 		odfViewer.receivedLoading = false
 		$('link[href*="richdocuments/css/mobile"]').remove()
 		$('#app-content #controls').removeClass('hidden')
