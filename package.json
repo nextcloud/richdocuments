@@ -29,7 +29,7 @@
 		"nextcloud-l10n": "0.1.1",
 		"nextcloud-router": "0.0.9",
 		"nextcloud-server": "^0.15.10",
-		"nextcloud-vue": "^0.12.4",
+		"nextcloud-vue": "^0.12.5",
 		"vue": "^2.6.10"
 	},
 	"browserslist": [
