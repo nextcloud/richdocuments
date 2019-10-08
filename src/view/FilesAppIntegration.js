@@ -25,6 +25,9 @@ const isPublic = document.getElementById('isPublic') && document.getElementById(
 export default {
 
 	fileModel: null,
+
+	fileList: FileList,
+
 	/* Views: people currently editing the file */
 	views: {},
 
@@ -32,15 +35,17 @@ export default {
 
 	following: null,
 
-	init({ fileName, fileId, sendPostMessage }) {
+	init({ fileName, fileId, sendPostMessage, fileList }) {
 		this.fileName = fileName
 		this.fileId = fileId
+		this.fileList = fileList
 		this.sendPostMessage = sendPostMessage
 	},
 
 	initAfterReady() {
 		if (typeof this.getFileList() !== 'undefined') {
 			this.getFileModel()
+			this.getFileList().hideMask()
 		}
 
 		const headerRight = document.querySelector('#header .header-right')
@@ -57,6 +62,10 @@ export default {
 	},
 
 	close() {
+		if (this.getFileList()) {
+			this.getFileList().setViewerMode(false)
+			this.getFileList().reload()
+		}
 		this.fileModel = null
 		if (!isPublic) {
 			this.removeVersionSidebarEvents()
@@ -65,10 +74,11 @@ export default {
 	},
 
 	share() {
-		if (isPublic) {
+		if (isPublic || !this.getFileList()) {
 			console.error('[FilesAppIntegration] Sharing is not supported')
+			return
 		}
-		FileList.showDetailsView(this.fileName, 'shareTabView')
+		this.getFileList().showDetailsView(this.fileName, 'shareTabView')
 		OC.Apps.showAppSidebar()
 	},
 
@@ -93,6 +103,9 @@ export default {
 	},
 
 	getFileList() {
+		if (this.fileList) {
+			return this.fileList
+		}
 		if (OCA.Files.App) {
 			return OCA.Files.App.fileList
 		}
@@ -105,6 +118,9 @@ export default {
 	getFileModel() {
 		if (this.fileModel !== null) {
 			return this.fileModel
+		}
+		if (!this.getFileList()) {
+			return null
 		}
 		this.getFileList()._updateDetailsView(this.fileName, false)
 		this.fileModel = this.getFileList().getModelForFile(this.fileName)
@@ -341,8 +357,11 @@ export default {
 	},
 
 	showRevHistory() {
-		FileList.showDetailsView(this.fileName, 'versionsTabView')
-		this.addCurrentVersion()
+		if (this.getFileList()) {
+			this.getFileList()
+				.showDetailsView(this.fileName, 'versionsTabView')
+			this.addCurrentVersion()
+		}
 	},
 
 	showVersionPreview: function(e) {
