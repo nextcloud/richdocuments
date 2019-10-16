@@ -5,7 +5,7 @@
 	var richdocuments_token = '<?php p($_['token']) ?>';
 	var richdocuments_urlsrc = '<?php p($_['urlsrc']) ?>';
 	var richdocuments_path = '<?php p($_['path']) ?>';
-	var richdocuments_userId = '<?php p($_['userId']) ?>';
+	var richdocuments_userId = <?php isset($_['userId']) ? p('\'' . $_['userId'] . '\'') : p('null') ?>;
 	var richdocuments_instanceId = '<?php p($_['instanceId']) ?>';
 	var richdocuments_canonical_webroot = '<?php p($_['canonical_webroot']) ?>';
 	var richdocuments_directEdit = <?php isset($_['direct']) ? p('true') : p('false') ?>;

@@ -609,7 +609,12 @@ class WopiController extends Controller {
 			}
 
 			$userFolder = $this->rootFolder->getUserFolder($editor);
-			$file = $userFolder->getById($wopi->getFileid())[0];
+			$files = $userFolder->getById($wopi->getFileid());
+			if (isset($files[0]) && $files[0] instanceof File) {
+				$file = $files[0];
+			} else {
+				throw new NotFoundException();
+			}
 		}
 		return $file;
 	}
