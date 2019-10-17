@@ -23,7 +23,7 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Гость)",
     "Edit office documents directly in your browser." : "Редактирование офисных документов непосредственно в браузере.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Приложение может устанавливать соединение с сервером Collabora Online (или другим сервером) (является WOPI-подобным клиентом), а Nextcloud является WOPI-узлом. Обратитесь к документации для получения дополнительных сведений.",
-    "Secure view enables you to secure documents by embedding a watermark" : "Безопасный просмотр позволяет защищать ваши документы путем встраивания водяного знака",
+    "Secure view enables you to secure documents by embedding a watermark" : "Безопасный просмотр позволяет защищать документы  добавлением водяных знаков",
     "Supported placeholders: {userId}, {date}" : "Поддерживаемые заполнители: {userId}, {date}",
     "No results" : "Нет результатов",
     "Saving…" : "Сохранение…",
