@@ -533,15 +533,7 @@ class DocumentController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
-		$content = '';
-		if (class_exists(TemplateManager::class)){
-			$manager = \OC_Helper::getFileTemplateManager();
-			$content = $manager->getTemplate($mimetype);
-		}
-
-		if (!$content){
-			$content = file_get_contents(dirname(dirname(__DIR__)) . self::ODT_TEMPLATE_PATH);
-		}
+		$content = file_get_contents(dirname(dirname(__DIR__)) . self::ODT_TEMPLATE_PATH);
 
 		if ($content) {
 			$file->putContent($content);
