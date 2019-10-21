@@ -65,14 +65,14 @@ class Capabilities implements ICapability {
 		'application/vnd.ms-powerpoint.addin.macroEnabled.12',
 		'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
 		'application/vnd.ms-powerpoint.template.macroEnabled.12',
-		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
+		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+		'text/csv'
 	];
 
 	const MIMETYPES_OPTIONAL = [
 		'image/svg+xml',
 		'application/pdf',
 		'text/plain',
-		'text/csv',
 		'text/spreadsheet'
 	];
 
