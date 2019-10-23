@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.4.3
+
+## Fixed
+- Update translations
+- Bump dependencies
+- Always open CSV files with collabora (#671)
+- Do not use template shipped by core (#670)
+- Fix undefined index warning (#652)
+- Check key before accessing (#645)
+- Move file list access to files app integration (#651)
+- Lower log level if the token does not exist (#653)
+
 ## 3.4.2
 
 ### Fixed
