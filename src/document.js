@@ -214,7 +214,8 @@ const documentsMain = {
 				// In case of editor inactivity
 				setTimeout(function() {
 					if (!documentsMain.isFrameReady) {
-						editorInitListener({ data: '{"MessageId": "App_LoadingStatus", "Values": {"Status": "Timeout"}}' })
+						const message = { 'MessageId': 'App_LoadingStatus', 'Values': { 'Status': 'Timeout' } }
+						editorInitListener({ data: JSON.stringify(message), parsed: message })
 					}
 				}, 15000)
 			})
