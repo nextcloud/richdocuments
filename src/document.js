@@ -457,6 +457,7 @@ $(document).ready(function() {
 	OCA.RichDocuments.documentsMain = documentsMain
 
 	if (shouldAskForGuestName()) {
+		PostMessages.sendPostMessage('parent', 'loading')
 		$('#documents-content').guestNamePicker()
 	} else {
 		documentsMain.initSession()

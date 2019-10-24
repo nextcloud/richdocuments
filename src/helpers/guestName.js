@@ -49,7 +49,7 @@ const setGuestNameCookie = function(username) {
 const shouldAskForGuestName = () => {
 	return !mobile.isDirectEditing()
 		&& getCurrentUser().uid === null
-		&& Config.get('userId') === ''
+		&& Config.get('userId') === null
 		&& getGuestNameCookie() === ''
 		&& (Config.get('permissions') & OC.PERMISSION_UPDATE)
 }
