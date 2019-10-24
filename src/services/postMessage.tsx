@@ -92,7 +92,7 @@ export default class PostMessageService {
 
 	private handlePostMessage(data: any) {
 		const parsed = PostMessageService.parsePostMessage(data);
-		if (typeof parsed === 'undefined') {
+		if (typeof parsed === 'undefined' || parsed === null) {
 			return
 		}
 		this.postMessageHandlers.forEach((fn: Function): void => {
