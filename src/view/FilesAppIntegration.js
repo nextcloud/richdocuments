@@ -275,9 +275,12 @@ export default {
 		const userId = (view.UserId === '') ? view.UserName : view.UserId
 		var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + userId + '"></div></div>')
 		var avatar = avatarContainer.find('.avatar')
-		avatar.css({ 'border-color': view.Color,
+
+		avatar.css({
+			'border-color': '#' + ('000000' + Number(view.Color).toString(16)).substr(-6),
 			'border-width': '2px',
-			'border-style': 'solid' })
+			'border-style': 'solid'
+		})
 		if (view.ReadOnly === '1') {
 			avatarContainer.addClass('read-only')
 			$(avatar).attr('title', view.UserName + ' ' + t('richdocuments', '(read only)'))
