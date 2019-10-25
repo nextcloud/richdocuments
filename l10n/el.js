@@ -16,6 +16,7 @@ OC.L10N.register(
     "Saving…" : "Γίνεται αποθήκευση...",
     "All" : "'Ολα",
     "An error occurred" : "Παρουσιάστηκε σφάλμα",
+    "Please choose your nickname to continue as guest user." : "Παρακαλώ διάλεξε το ψευδώνυμό σου ώστε να συνεχίσεις ως επισκέπτης.",
     "Nickname" : "Παρατσούκλι",
     "Set" : "Ορισμός",
     "Please enter the filename to store the document as." : "Παρακαλούμε εισαγάγετε το όνομα αρχείου για να αποθηκεύσετε το έγγραφο ως.",
