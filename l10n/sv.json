@@ -61,7 +61,7 @@
     "Select template" : "Välj mall",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Kunde inte ansluta till {productName}. Försök igen eller kontakta systemadministratören.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online är en kraftfull LibreOffice-baserad onlinelösning med gemensamredigering. Stöder alla dokument-, kalkylarks- och presentations-filformat och fungerar i alla moderna webbläsare.",
-    "URL (and Port) of Collabora Online-server" : "URL (och port) till Collabora Online-server",
+    "URL (and Port) of Collabora Online-server" : "Webbadress (och port) till Collabora Online-server",
     "Apply" : "Tillämpa",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online kräver en separat server som agerar WOPI-klient och tillhandahåller redigeringsmöjligheter. ",
     "Disable certificate verification (insecure)" : "Använd inte certifikatsverifiering (osäkert)",
