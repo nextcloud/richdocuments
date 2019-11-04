@@ -26,7 +26,7 @@ OC.L10N.register(
     "Secure view enables you to secure documents by embedding a watermark" : "Sekuriga vido ebligas sekurigi dokumenton per enkorpigo de filigrano",
     "Supported placeholders: {userId}, {date}" : "Subtenitaj lokukupiloj:  {userId}, {date}",
     "No results" : "Neniu rezulto",
-    "Saving…" : "Konservante...",
+    "Saving…" : "Konservado...",
     "All" : "Ĉiuj",
     "Error" : "Eraro",
     "An error occurred" : "Eraro okazis",
