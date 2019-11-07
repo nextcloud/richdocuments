@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.4.4
+
+## Fixed
+- Fix issue when creating files from templates
+- Make sure files are properly opened after creation
+
+
 ## 3.4.3
 
 ## Fixed
