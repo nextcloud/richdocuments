@@ -286,7 +286,8 @@ const odfViewer = {
 								odfViewer.onEdit(filename, {
 									fileId: -1,
 									dir: $('#dir').val(),
-									templateId: templateId
+									templateId: templateId,
+									fileList: FileList
 								})
 							} else {
 								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
@@ -383,7 +384,8 @@ const odfViewer = {
 			FileList.$fileList.one('updated', function() {
 				odfViewer.onEdit(Preload.open.filename, {
 					fileId: Preload.open.id,
-					dir: document.getElementById('dir').value
+					dir: document.getElementById('dir').value,
+					fileList: FileList
 				})
 			})
 		}
