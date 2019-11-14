@@ -34,6 +34,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -46,6 +47,7 @@ use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Lock\LockedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
@@ -437,7 +439,14 @@ class WopiController extends Controller {
 				$this->userSession->setUser($editor);
 			}
 
-			$file->putContent($content);
+			try {
+				$this->retryOperation(function () use ($file, $content){
+					return $file->putContent($content);
+				});
+			} catch (LockedException $e) {
+				$this->logger->logException($e);
+				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
 
 			if ($isPutRelative) {
 				// generate a token for the new file (the user still has to be
@@ -567,7 +576,13 @@ class WopiController extends Controller {
 				$this->userSession->setUser($editor);
 			}
 
-			$file->putContent($content);
+			try {
+				$this->retryOperation(function () use ($file, $content){
+					return $file->putContent($content);
+				});
+			} catch (LockedException $e) {
+				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
 
 			// generate a token for the new file (the user still has to be
 			// logged in)
@@ -581,6 +596,29 @@ class WopiController extends Controller {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * Retry operation if a LockedException occurred
+	 * Other exceptions will still be thrown
+	 * @param callable $operation
+	 * @throws LockedException
+	 * @throws GenericFileException
+	 */
+	private function retryOperation(callable $operation) {
+		for ($i = 0; $i < 5; $i++) {
+			try {
+				if ($operation() !== false) {
+					return;
+				}
+			} catch (LockedException $e) {
+				if ($i === 4) {
+					throw $e;
+				}
+				usleep(500000);
+			}
+		}
+		throw new GenericFileException('Operation failed after multiple retries');
 	}
 
 	/**
