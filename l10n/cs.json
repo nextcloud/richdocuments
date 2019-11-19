@@ -20,6 +20,7 @@
     "Empty" : "Prázdná",
     "%s (Guest)" : "%s (host)",
     "Edit office documents directly in your browser." : "Upravujte dokumenty přímo ve webovém prohlížeči",
+    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Tato aplikace se dokáže připojit ke Collabora Online (nebo jinému) serveru (jako WOPI Client). Nextcloud se chová jako WOPI Host. Prosím projděte si dokumentaci k tomuto tématu.",
     "Secure view enables you to secure documents by embedding a watermark" : "Zabezpečené zobrazení umožňuje zabezpečit dokumenty vložením vodoznaku",
     "Supported placeholders: {userId}, {date}" : "Podporované výplně: {userId}, {date}",
     "No results" : "Žádné výsledky",
