@@ -233,7 +233,7 @@ class DocumentController extends Controller {
 				return $response;
 			}
 
-			list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
+			list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId());
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
@@ -287,7 +287,7 @@ class DocumentController extends Controller {
 	 * @throws NotPermittedException
 	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public function template($templateId, $fileName, $dir) {
+	public function createFromTemplate($templateId, $fileName, $dir) {
 		if (!$this->templateManager->isTemplate($templateId)) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
@@ -311,7 +311,7 @@ class DocumentController extends Controller {
 		$params = [
 			'permissions' => $template->getPermissions(),
 			'title' => $fileName,
-			'fileId' => $template->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+			'fileId' => $template->getId() . '-' . $file->getId() . '_' . $this->settings->getSystemValue('instanceid'),
 			'token' => $token,
 			'urlsrc' => $urlSrc,
 			'path' => $userFolder->getRelativePath($file->getPath()),

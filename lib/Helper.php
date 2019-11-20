@@ -25,6 +25,7 @@ class Helper {
 	 */
 	public static function parseFileId($fileId) {
 		$arr = explode('_', $fileId);
+		$templateId = null;
 		if (count($arr) === 1) {
 			$fileId = $arr[0];
 			$instanceId = '';
@@ -38,10 +39,15 @@ class Helper {
 			throw new \Exception('$fileId has not the expected format');
 		}
 
+		if (strpos($fileId, '-') !== false) {
+			list($fileId, $templateId) = explode('/', $fileId);
+		}
+
 		return [
 			$fileId,
 			$instanceId,
 			$version,
+			$templateId
 		];
 	}
 
