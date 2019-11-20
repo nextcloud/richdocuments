@@ -169,10 +169,13 @@ class TokenManager {
 		}
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
 
-		if ($this->userId === null && isset($_COOKIE['guestUser']) && $_COOKIE['guestUser'] !== '') {
-			$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($_COOKIE['guestUser']));
-		} else {
-			$guest_name = NULL;
+		$guest_name = NULL;
+		if ($this->userId === null) {
+			if (isset($_COOKIE['guestUser']) && $_COOKIE['guestUser'] !== '') {
+				$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($_COOKIE['guestUser']));
+			} else {
+				$guest_name = $this->trans->t('Anonymous guest');
+			}
 		}
 
 		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, (int)$updatable, $serverHost, $guest_name, 0, $hideDownload, $direct, $isRemoteToken);
