@@ -642,7 +642,9 @@ class WopiController extends Controller {
 			// Unless the editor is empty (public link) we modify the files as the current editor
 			// TODO: add related share token to the wopi table so we can obtain the
 			$editor = $wopi->getEditorUid();
-			if ($editor === null) {
+
+			// Use the actual file owner no editor is available
+			if ($editor === null || $wopi->getGuestDisplayname() === null) {
 				$editor = $wopi->getOwnerUid();
 			}
 
@@ -651,7 +653,7 @@ class WopiController extends Controller {
 			if (isset($files[0]) && $files[0] instanceof File) {
 				$file = $files[0];
 			} else {
-				throw new NotFoundException();
+				throw new NotFoundException('No valid file found for wopi token');
 			}
 		}
 		return $file;
