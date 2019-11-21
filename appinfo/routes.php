@@ -32,7 +32,7 @@ return [
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
 		['name' => 'document#open', 'url' => 'open', 'verb' => 'GET'],
 
-		['name' => 'document#template', 'url' => 'indexTemplate', 'verb' => 'GET'],
+		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 		['name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'],
 
