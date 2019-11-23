@@ -21,6 +21,7 @@ OC.L10N.register(
     "Template not found" : "Nie znaleziono szablonu",
     "Empty" : "Pusty",
     "%s (Guest)" : "%s (Gość)",
+    "Anonymous guest" : "Anonimowy gość",
     "Edit office documents directly in your browser." : "Edytuj dokumenty bezpośrednio w Twojej przeglądarce",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Ta aplikacja może łączyć się z serwerem Collabora Online (lub innym klientem WOPI-like). Nextcloud jest hostem WOPI. Proszę przeczytać dokumentację, aby dowiedzieć się więcej na ten temat.",
     "Secure view enables you to secure documents by embedding a watermark" : "Bezpieczny widok pozwala zabezpieczyć dokumenty poprzez osadzenie znaku wodnego",

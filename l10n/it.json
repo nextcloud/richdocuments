@@ -19,6 +19,7 @@
     "Template not found" : "Modello non trovato",
     "Empty" : "Vuoto",
     "%s (Guest)" : "%s (Ospite)",
+    "Anonymous guest" : "Ospite anonimo",
     "Edit office documents directly in your browser." : "Modifca i documenti di ufficio direttamente nel tuo browser.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Questa applicazione può collegare un server Collabora Online (o altro) (client tipo WOPI). Nextcloud è l'host WOPI. Leggi la documentazione per scoprire ulteriori informazioni.",
     "Secure view enables you to secure documents by embedding a watermark" : "Vista sicura ti permette di proteggere i documenti dall'integrazione di un watermark",
