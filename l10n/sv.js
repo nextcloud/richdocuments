@@ -21,6 +21,7 @@ OC.L10N.register(
     "Template not found" : "Mallen kunde inte hittas",
     "Empty" : "Tom",
     "%s (Guest)" : "%s (Gäst)",
+    "Anonymous guest" : "Anonym gäst",
     "Edit office documents directly in your browser." : "Redigera dokument direkt i din webbläsare.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Den här appen kan ansluta till en Collabora Online (eller annan) -server (WOPI-klient).\nNextcloud är WOPI-värden. För mer information se dokumentationen.",
     "Secure view enables you to secure documents by embedding a watermark" : "Med säker vy kan du säkra dokument genom att bädda in ett vattenstämpel",
