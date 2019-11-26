@@ -1,15 +1,26 @@
 # Changelog
 
+## 3.4.5
+
+### Fixed
+- Retry putContent operation if locked
+- Include locale in the loleaflet lang parameter
+- Make sure files created from the same template have a different WOPI file id
+- Always use the owner file owner to access for share links
+- Make sure Firefox doesn't navigate out of the current directory
+- Dependency bumps
+
+
 ## 3.4.4
 
-## Fixed
+### Fixed
 - Fix issue when creating files from templates
 - Make sure files are properly opened after creation
 
 
 ## 3.4.3
 
-## Fixed
+### Fixed
 - Update translations
 - Bump dependencies
 - Always open CSV files with collabora (#671)
