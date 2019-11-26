@@ -194,7 +194,6 @@ const odfViewer = {
 		}
 
 		OC.Util.History.replaceState()
-		location.hash = ''
 
 		FilesAppIntegration.close()
 	},
