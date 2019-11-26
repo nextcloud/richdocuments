@@ -19,6 +19,7 @@
     "Template not found" : "Kalıp bulunamadı",
     "Empty" : "Boş",
     "%s (Guest)" : "%s (Konuk)",
+    "Anonymous guest" : "Anonim konuk",
     "Edit office documents directly in your browser." : "Bu uygulama ofis belgelerinin doğrudan web tarayıcı üzerinde düzenlenebilmesini sağlar.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Bu uygulama ile bir Collabora Online (ya da diğer) sunucu ile bağlantı kurulabilir (WOPI benzeri istemci). Nextcloud WOPI sunucusudur. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Secure view enables you to secure documents by embedding a watermark" : "Güvenli görünüm belgelere bir filigran ekleyerek korumanızı sağlar",

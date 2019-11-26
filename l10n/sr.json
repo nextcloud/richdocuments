@@ -19,6 +19,7 @@
     "Template not found" : "Шаблон није нађен",
     "Empty" : "Празно",
     "%s (Guest)" : "%s (Гост)",
+    "Anonymous guest" : "Анонимни гост",
     "Edit office documents directly in your browser." : "Мењајте канцеларијска документа директно у веб читачу.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Ова апликација може да се повеже са Collabora Online (или другим) сервером (WOPI клијент). Некстклауд је WOPI домаћин. Прочитајте документацију да сазнате више.",
     "Secure view enables you to secure documents by embedding a watermark" : "Безбедни преглед омогућава да обезбедите документе тако што ћете им убацити водени жиг",
