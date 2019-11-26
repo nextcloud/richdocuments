@@ -21,11 +21,31 @@
  */
 
 import { getLanguage, getLocale } from 'nextcloud-l10n'
+import { parse } from 'bcp-47'
 
 const languageToBCP47 = () => {
 	// loleaflet expects a BCP47 language tag syntax
-	return (getLanguage() + '-' + getLocale())
-		.replace(/^([a-z]{2}).*_([A-Z]{2})$/, (match, p1, p2) => p1 + '-' + p2.toLowerCase())
+	let language = getLanguage().replace(/^([a-z]{2}).*-([A-Z]{2})$/, (match, p1, p2) => p1)
+	let locale = getLocale().replace(/^([a-z]{2}).*_([A-Z]{2})$/, (match, p1, p2) => p2.toLowerCase())
+	let variant = null
+
+	// special handling for formal german
+	if (getLanguage() === 'de-DE') {
+		language = 'de'
+		variant = 'formal'
+	}
+
+	let tag = language + '-' + locale
+	if (variant !== null) {
+		tag += '-' + variant
+	}
+	const parsed = parse(tag)
+	if (parsed.language !== null && parsed.region !== null) {
+		return tag
+	}
+
+	return getLanguage()
+
 }
 
 const getNextcloudVersion = () => {
