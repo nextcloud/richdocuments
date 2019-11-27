@@ -21,6 +21,7 @@ OC.L10N.register(
     "Template not found" : "No s'ha trobat la plantilla",
     "Empty" : "Buit",
     "%s (Guest)" : "%s (Convidat)",
+    "Anonymous guest" : "Convidat anònim",
     "Edit office documents directly in your browser." : "Editeu documents d'ofimàtica directament des del vostre navegador.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Aquesta aplicació es pot connectar a un servidor Collabora Online (o un altre) (client semblant a WOPI). Nextcloud és l'amfitrió de WOPI. Llegiu la documentació per obtenir-ne més informació.",
     "Secure view enables you to secure documents by embedding a watermark" : "La vista segura us permet protegir documents incrustant-hi una marca d'aigua.",
