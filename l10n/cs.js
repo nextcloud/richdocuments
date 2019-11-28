@@ -12,7 +12,7 @@ OC.L10N.register(
     "Document already exists" : "Dokument už existuje",
     "Not allowed to create document" : "Nemáte oprávnění k vytvoření dokumentu",
     "Saved" : "Uloženo",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uloženo s chybou: Collabora Online by měla používat stejný protokol jako instalovaný server.",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uloženo s chybou: Collabora Online by mělo používat stejný protokol jako instalovaný server.",
     "Invalid config key" : "Neplatný klíč nastavení",
     "Error when saving" : "Chyba při ukládání",
     "File is too big" : "Soubor je příliš velký",
@@ -91,6 +91,6 @@ OC.L10N.register(
     "Password" : "Heslo",
     "OK" : "OK",
     "Guest %s" : "Host %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Tento odkaz vypršel nebo neexistuje. Pro podrobnosti kontaktujte osobu, která jej s vámi sdílela."
+    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Platnost tohoto odkazu skončila nebo nikdy neexistoval. Pro podrobnosti se obraťte na osobu, která vám ho nasdílela."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
