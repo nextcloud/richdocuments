@@ -19,6 +19,7 @@
     "Template not found" : "未找到模板",
     "Empty" : "空",
     "%s (Guest)" : "%s（访客）",
+    "Anonymous guest" : "匿名访客",
     "Edit office documents directly in your browser." : "在您的浏览器中直接编辑办公文档。",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "此应用可连接到一台在线（或其他）服务器（类WOPI客户端）。NextCloud则是WOPI主机。更详细信息请阅读文档。",
     "Secure view enables you to secure documents by embedding a watermark" : "安全查看允许您植入水印来保护文档",
