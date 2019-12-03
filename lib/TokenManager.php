@@ -167,6 +167,11 @@ class TokenManager {
 				$owneruid = $owner->getUID();
 			}
 		}
+
+		// force read operation to trigger possible audit logging
+		$fp = $file->fopen('r');
+		fclose($fp);
+
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
 
 		$guest_name = NULL;
