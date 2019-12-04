@@ -16,6 +16,8 @@ OC.L10N.register(
     "Nickname" : "Vzdevek",
     "Cancel" : "Prekliči",
     "Save" : "Shrani",
+    "Details" : "Podrobnosti",
+    "Download" : "Prejmi",
     "New Document" : "Nov dokument",
     "New Spreadsheet" : "Nova preglednica",
     "New Presentation" : "Nova predstavitev",
