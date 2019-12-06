@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.6
+
+### Added
+- Force read operation to trigger audit log when issuing a token
+- Nextcloud 18 compatibility
+
 ## 3.4.5
 
 ### Fixed

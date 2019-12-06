@@ -61,6 +61,6 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
 
 }
 
-$app = new Application();
+$app = \OC::$server->query(Application::class);
 $app->registerProvider();
 $app->updateCSP();
