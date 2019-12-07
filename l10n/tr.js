@@ -27,7 +27,7 @@ OC.L10N.register(
     "Secure view enables you to secure documents by embedding a watermark" : "Güvenli görünüm belgelere bir filigran ekleyerek korumanızı sağlar",
     "Supported placeholders: {userId}, {date}" : "Desteklenen kodlar: {userId}, {date}",
     "No results" : "Herhangi bir sonuç bulunamadı",
-    "Saving…" : "Kaydediliyor...",
+    "Saving…" : "Kaydediliyor …",
     "All" : "Tümü",
     "Error" : "Hata",
     "An error occurred" : "Bir sorun çıktı",
