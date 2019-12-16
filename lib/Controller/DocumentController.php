@@ -306,13 +306,13 @@ class DocumentController extends Controller {
 		$file = $folder->newFile($fileName);
 
 		$template = $this->templateManager->get($templateId);
-		list($urlSrc, $token) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
+		list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
 
 		$params = [
 			'permissions' => $template->getPermissions(),
 			'title' => $fileName,
-			'fileId' => $template->getId() . '-' . $file->getId() . '_' . $this->settings->getSystemValue('instanceid'),
-			'token' => $token,
+			'fileId' => $wopi->getFileid() . '_' . $this->settings->getSystemValue('instanceid'),
+			'token' => $wopi->getToken(),
 			'urlsrc' => $urlSrc,
 			'path' => $userFolder->getRelativePath($file->getPath()),
 			'instanceId' => $this->settings->getSystemValue('instanceid'),

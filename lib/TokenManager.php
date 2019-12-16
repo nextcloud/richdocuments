@@ -25,6 +25,7 @@ use OC\Share\Constants;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -58,6 +59,8 @@ class TokenManager {
 	private $userManager;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var CapabilitiesService */
+	private $capabilitiesService;
 
 	/**
 	 * @param IRootFolder $rootFolder
@@ -73,6 +76,7 @@ class TokenManager {
 								IManager $shareManager,
 								IURLGenerator $urlGenerator,
 								Parser $wopiParser,
+								CapabilitiesService $capabilitiesService,
 								AppConfig $appConfig,
 								$UserId,
 								WopiMapper $wopiMapper,
@@ -83,6 +87,7 @@ class TokenManager {
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->wopiParser = $wopiParser;
+		$this->capabilitiesService = $capabilitiesService;
 		$this->appConfig = $appConfig;
 		$this->trans = $trans;
 		$this->userId = $UserId;
@@ -188,7 +193,7 @@ class TokenManager {
 		try {
 
 			return [
-				$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],
+				$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'], // url src might not be found ehre
 				$wopi->getToken(),
 				$wopi
 			];
@@ -208,10 +213,18 @@ class TokenManager {
 		return $wopi;
 	}
 
-	public function getTokenForTemplate(File $file, $userId, $templateDestination, $direct = false) {
+	public function getTokenForTemplate(File $templateFile, $userId, $targetFileId) {
 		$owneruid = $userId;
 		$editoruid = $userId;
-		$updatable = $file->isUpdateable();
+		$rootFolder = $this->rootFolder->getUserFolder($editoruid);
+		/** @var File $targetFile */
+		$targetFile = $rootFolder->getById($targetFileId);
+		$targetFile = $targetFile[0] ?? null;
+		if (!$targetFile) {
+			// TODO: Exception
+			return null;
+		}
+		$updatable = $targetFile->isUpdateable();
 		// Check if the editor (user who is accessing) is in editable group
 		// UserCanWrite only if
 		// 1. No edit groups are set or
@@ -231,11 +244,16 @@ class TokenManager {
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
-		$wopi = $this->wopiMapper->generateFileToken($file->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, $templateDestination, $direct);
+		if ($this->capabilitiesService->hasTemplateSource()) {
+			$wopi = $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, 0, false, $templateFile->getId());
+		} else {
+			// Legacy way of creating new documents from a template
+			$wopi = $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, $targetFile->getId());
+		}
 
 		return [
-			$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'],
-			$wopi->getToken(),
+			$this->wopiParser->getUrlSrc($templateFile->getMimeType())['urlsrc'],
+			$wopi
 		];
 	}
 

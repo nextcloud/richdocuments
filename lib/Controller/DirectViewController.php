@@ -114,7 +114,7 @@ class DirectViewController extends Controller {
 			}
 
 			try {
-				list($urlSrc, $token) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
+				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination());
 			} catch (\Exception $e) {
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			}
@@ -136,7 +136,7 @@ class DirectViewController extends Controller {
 					return $response;
 				}
 
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
+				list($urlSrc, $wopi) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid());
 			} catch (\Exception $e) {
 				$params = [
 					'errors' => [['error' => $e->getMessage()]]
@@ -151,8 +151,8 @@ class DirectViewController extends Controller {
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
-				'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
-				'token' => $token,
+				'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
+				'token' => $wopi->getToken(),
 				'urlsrc' => $urlSrc,
 				'path' => $relativePath,
 				'instanceId' => $this->config->getSystemValue('instanceid'),

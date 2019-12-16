@@ -208,6 +208,16 @@ class WopiController extends Controller {
 			}, $watermarkTemplate);
 		}
 
+		/**
+		 * New approach for generating files from templates by creating an empty file
+		 * and providing an URL which returns the actual templyte
+		 */
+		if ($wopi->hasTemplateId()) {
+			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
+			$templateUrl = $this->urlGenerator->getAbsoluteURL($templateUrl);
+			$response['TemplateSource'] = $templateUrl;
+		}
+
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if($user !== null && $user->getAvatarImage(32) !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
@@ -383,12 +393,29 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		// Unless the editor is empty (public link) we modify the files as the current editor
+		$editor = $wopi->getEditorUid();
+		if ($editor === null) {
+			$editor = $wopi->getOwnerUid();
+		}
+
 		try {
+			/** @var File $file */
+			$userFolder = $this->rootFolder->getUserFolder($editor);
+			$file = $userFolder->getById($fileId);
+			if (count($file) === 0) {
+				return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			}
+			$file = $file[0];
+
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
-				$file = $userFolder->getById($fileId)[0];
-
+				$file = $userFolder->getById($fileId);
+				if (count($file) === 0) {
+					return new JSONResponse([], Http::STATUS_NOT_FOUND);
+				}
+				$file = $file[0];
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = iconv('utf-7', 'utf-8', $suggested);
 
@@ -421,10 +448,10 @@ class WopiController extends Controller {
 			} else {
 				$file = $this->getFileForWopiToken($wopi);
 				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
-				if ($wopiHeaderTime !== null && $wopiHeaderTime !== Helper::toISO8601($file->getMTime())) {
+				if ($wopiHeaderTime !== null && $wopiHeaderTime != Helper::toISO8601($file->getMTime() ?? 0)) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 						'headerTime' => $wopiHeaderTime,
-						'storageTime' => Helper::toISO8601($file->getMTime())
+						'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
 					]);
 					// Tell WOPI client about this conflict.
 					return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
@@ -538,7 +565,11 @@ class WopiController extends Controller {
 				$path = $this->rootFolder->getNonExistingName($path);
 				$file = $file->move($path);
 			} else {
-				$file = $userFolder->getById($fileId)[0];
+				$file = $userFolder->getById($fileId);
+				if (count($file) === 0) {
+					return new JSONResponse([], Http::STATUS_NOT_FOUND);
+				}
+				$file = $file[0];
 
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = iconv('utf-7', 'utf-8', $suggested);
@@ -657,5 +688,39 @@ class WopiController extends Controller {
 			}
 		}
 		return $file;
+	}
+
+	/**
+	 * Endpoint to return the template file that is requested by collabora to create a new document
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param $fileId
+	 * @param $access_token
+	 * @return JSONResponse|StreamResponse
+	 */
+	public function getTemplate($fileId, $access_token) {
+		try {
+			$wopi = $this->wopiMapper->getPathForToken($access_token);
+		} catch (DoesNotExistException $e) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		if ((int)$fileId !== $wopi->getTemplateId()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$this->templateManager->setUserId($wopi->getOwnerUid());
+			$file = $this->templateManager->get($wopi->getTemplateId());
+			$response = new StreamResponse($file->fopen('rb'));
+			$response->addHeader('Content-Disposition', 'attachment');
+			$response->addHeader('Content-Type', 'application/octet-stream');
+			return $response;
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getTemplate failed']);
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 }

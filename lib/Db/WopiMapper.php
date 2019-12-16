@@ -64,7 +64,7 @@ class WopiMapper extends Mapper {
 	 * @param int $templateDestination
 	 * @return Wopi
 	 */
-	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname, $templateDestination = 0, $hideDownload = false, $direct = false, $isRemoteToken = false) {
+	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname, $templateDestination = 0, $hideDownload = false, $templateId = 0) {
 		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 
 		$wopi = Wopi::fromParams([
@@ -78,9 +78,8 @@ class WopiMapper extends Mapper {
 			'expiry' => $this->timeFactory->getTime() + self::TOKEN_LIFETIME_SECONDS,
 			'guestDisplayname' => $guestDisplayname,
 			'templateDestination' => $templateDestination,
-			'hideDownload' => $hideDownload,
-			'direct' => $direct,
-			'isRemoteToken' => $isRemoteToken
+			'templateId' => $templateId,
+			'hideDownload' => $hideDownload
 		]);
 
 		/** @var Wopi $wopi */
