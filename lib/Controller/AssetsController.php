@@ -24,6 +24,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\AssetMapper;
+use OCA\Richdocuments\Service\UserScopeService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -55,12 +56,14 @@ class AssetsController extends Controller {
 								AssetMapper $assetMapper,
 								IRootFolder $rootFolder,
 								$userId,
+								UserScopeService $userScopeService,
 								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 
 		$this->assetMapper = $assetMapper;
 		$this->rootFolder = $rootFolder;
 		$this->userId = $userId;
+		$this->userScopeService = $userScopeService;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -81,7 +84,7 @@ class AssetsController extends Controller {
 		}
 
 		$asset = $this->assetMapper->newAsset($this->userId, $node->getId());
-		
+
 		return new JSONResponse([
 			'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.assets.get', [
 				'token' => $asset->getToken(),
@@ -109,6 +112,8 @@ class AssetsController extends Controller {
 			$this->assetMapper->delete($asset);
 		}
 
+
+		$this->userScopeService->setUserScope($asset->getUid());
 		$userFolder = $this->rootFolder->getUserFolder($asset->getUid());
 		$nodes = $userFolder->getById($asset->getFileid());
 

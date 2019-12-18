@@ -25,6 +25,7 @@ use OC\Files\View;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCA\Richdocuments\Helper;
@@ -46,7 +47,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -68,12 +68,12 @@ class WopiController extends Controller {
 	private $wopiMapper;
 	/** @var ILogger */
 	private $logger;
-	/** @var IUserSession */
-	private $userSession;
 	/** @var TemplateManager */
 	private $templateManager;
 	/** @var IManager */
 	private $shareManager;
+	/** @var UserScopeService */
+	private $userScopeService;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -88,7 +88,6 @@ class WopiController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param WopiMapper $wopiMapper
 	 * @param ILogger $logger
-	 * @param IUserSession $userSession
 	 * @param TemplateManager $templateManager
 	 */
 	public function __construct(
@@ -102,9 +101,9 @@ class WopiController extends Controller {
 		IUserManager $userManager,
 		WopiMapper $wopiMapper,
 		ILogger $logger,
-		IUserSession $userSession,
 		TemplateManager $templateManager,
-		IManager $shareManager
+		IManager $shareManager,
+		UserScopeService $userScopeService
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -115,9 +114,9 @@ class WopiController extends Controller {
 		$this->userManager = $userManager;
 		$this->wopiMapper = $wopiMapper;
 		$this->logger = $logger;
-		$this->userSession = $userSession;
 		$this->templateManager = $templateManager;
 		$this->shareManager = $shareManager;
+		$this->userScopeService = $userScopeService;
 	}
 
 	/**
@@ -434,10 +433,7 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 
 			// Set the user to register the change under his name
-			$editor = $this->userManager->get($wopi->getEditorUid());
-			if ($editor !== null) {
-				$this->userSession->setUser($editor);
-			}
+			$this->userScopeService->setUserScope($wopi->getEditorUid());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){
@@ -571,10 +567,7 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 
 			// Set the user to register the change under his name
-			$editor = $this->userManager->get($wopi->getEditorUid());
-			if ($editor !== null) {
-				$this->userSession->setUser($editor);
-			}
+			$this->userScopeService->setUserScope($wopi->getEditorUid());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){
