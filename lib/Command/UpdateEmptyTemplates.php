@@ -22,39 +22,39 @@
  */
 
 
-namespace OCA\RichDocuments\Migration;
+namespace OCA\RichDocuments\Command;
 
 use OCA\Richdocuments\TemplateManager;
-use OCP\Migration\IRepairStep;
-use OCP\Migration\IOutput;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateEmptyTemplates implements IRepairStep {
-
+class UpdateEmptyTemplates extends Command {
 
 	/** @var TemplateManager */
 	private $templateManager;
 
 	public function __construct(TemplateManager $templateManager) {
 		$this->templateManager = $templateManager;
+		parent::__construct();
 	}
 
-	/*
-	 * @inheritdoc
-	 */
-	public function getName() {
-		return 'Update empty template files';
+	protected function configure() {
+		$this
+			->setName('richdocuments:update-empty-templates')
+			->setDescription('Update empty template files');
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function run(IOutput $output) {
+	protected function execute(InputInterface $input, OutputInterface $output) {
 		try {
 			$this->templateManager->updateEmptyTemplates();
+			$output->writeln('<info>Empty template files were updated</info>');
 		} catch (\Exception $e) {
-			$output->warning('Failed to update templates');
-			$output->warning($e->getMessage());
-			$output->warning($e->getTraceAsString());
+			$output->writeln('<error>Failed to update templates</error>');
+			$output->writeln($e->getMessage());
+			$output->writeln($e->getTraceAsString());
 		}
 	}
+
 }
