@@ -73,11 +73,11 @@ class FederationService {
 			$response = $client->get($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation?format=json', ['timeout' => 5]);
 			$data = \json_decode($response->getBody(), true);
 			$remoteCollabora = $data['ocs']['data']['wopi_url'];
-			$this->cache->get('richdocuments_remote/' . $remote, $remoteCollabora, 3600);
+			$this->cache->set('richdocuments_remote/' . $remote, $remoteCollabora, 3600);
 			return $remoteCollabora;
 		} catch (\Throwable $e) {
 			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
-			$this->cache->get('richdocuments_remote/' . $remote, '', 300);
+			$this->cache->set('richdocuments_remote/' . $remote, '', 300);
 		}
 		return '';
 	}
