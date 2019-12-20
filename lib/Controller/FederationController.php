@@ -23,6 +23,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use \OCP\AppFramework\OCSController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCP\AppFramework\Http\DataResponse;
@@ -82,6 +83,8 @@ class FederationController extends OCSController {
 	 */
 	public function remoteWopiToken($token) {
 		$wopi = $this->wopiMapper->getWopiForToken($token);
+		if (empty($wopi))
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		return new DataResponse([
 			'ownerUid' => $wopi->getOwnerUid(),
 			'editorUid' => $wopi->getEditorUid(),

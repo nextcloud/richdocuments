@@ -51,6 +51,7 @@ use OCP\AppFramework\Db\Entity;
  * @method int getTemplateDestination()
  * @method void setTemplateId(int $fileId)
  * @method int getTemplateId()
+ * @method getRemoteServer()
  */
 class Wopi extends Entity {
 	/** @var string */
