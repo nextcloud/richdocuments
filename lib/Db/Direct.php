@@ -36,6 +36,8 @@ use OCP\AppFramework\Db\Entity;
  * @method int getTimestamp()
  * @method void setTemplateDestination(int $fileId)
  * @method int getTemplateDestination()
+ * @method void setTemplateId(int $fileId)
+ * @method int getTemplateId()
  */
 class Direct extends Entity {
 	/** @var string */
@@ -53,11 +55,15 @@ class Direct extends Entity {
 	/** @var int */
 	protected $templateDestination;
 
+	/** @var int */
+	protected $templateId;
+
 	public function __construct() {
 		$this->addType('token', 'string');
 		$this->addType('uid', 'string');
 		$this->addType('fileid', 'int');
 		$this->addType('timestamp', 'int');
 		$this->addType('template_destination', 'int');
+		$this->addType('template_id', 'int');
 	}
 }
