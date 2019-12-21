@@ -34,7 +34,7 @@ class ConfigService {
     }
     loadFromGlobal(key: string) {
         // @ts-ignore
-        this.values[key] = window['richdocuments_' + key]
+        this.values[key] = window['wopi_' + key]
     }
     update(key: string, value: string) {
         // @ts-ignore

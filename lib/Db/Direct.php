@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments\Db;
+namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\Entity;
 

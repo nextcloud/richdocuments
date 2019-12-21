@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Collabora Online" : "Collabora en linha",
     "Can't create document" : "Impossible de crear lo document",

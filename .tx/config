@@ -2,8 +2,8 @@
 host = https://www.transifex.com
 lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja
 
-[nextcloud.richdocuments]
-file_filter = translationfiles/<lang>/richdocuments.po
-source_file = translationfiles/templates/richdocuments.pot
+[nextcloud.wopi]
+file_filter = translationfiles/<lang>/wopi.po
+source_file = translationfiles/templates/wopi.pot
 source_lang = en
 type = PO

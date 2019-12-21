@@ -21,10 +21,10 @@
  *
  */
 
-namespace OCA\Richdocuments\Backgroundjobs;
+namespace OCA\Wopi\Backgroundjobs;
 
 use OC\BackgroundJob\TimedJob;
-use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Wopi\Service\CapabilitiesService;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;

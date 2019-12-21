@@ -4,7 +4,7 @@ steps:
   - name: compatibility
     image: nextcloudci/php7.0:php7.0-19
     environment:
-      APP_NAME: richdocuments
+      APP_NAME: wopi
       CORE_BRANCH: stable15
       DB: sqlite
     commands:

@@ -1,8 +1,8 @@
 <?php
-style('richdocuments', 'admin');
-script('richdocuments', 'personal');
+style('wopi', 'admin');
+script('wopi', 'personal');
 ?>
-<div class="section" id="richdocuments">
+<div class="section" id="wopi">
 	<h2>
 		<?php p($l->t('Collabora Online')) ?>
 	</h2>

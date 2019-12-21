@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\Richdocuments\Hooks;
+namespace OCA\Wopi\Hooks;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
-use OCA\Richdocuments\Db\WopiLockMapper;
+use OCA\Wopi\Db\WopiLockMapper;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;

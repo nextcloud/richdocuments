@@ -19,14 +19,14 @@
  *
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Wopi;
 
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 
 class PermissionManager {
-	const APP_ID = 'richdocuments';
+	const APP_ID = 'wopi';
 	/** @var IConfig */
 	private $config;
 	/** @var IGroupManager */

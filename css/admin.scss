@@ -2,7 +2,7 @@
 	max-width: 50em;
 }
 
-#richdocuments {
+#wopi {
 	input[name='wopi_url'] {
 		width: 300px;
 	}
@@ -20,8 +20,8 @@
 	}
 }
 
-#richdocuments,
-#richdocuments-templates {
+#wopi,
+#wopi-templates {
 	// inline buttons on section headers
 	> h2 {
 		display: inline-flex;
@@ -48,7 +48,7 @@
 	}
 }
 
-#richdocuments-templates {
+#wopi-templates {
 	> input {
 		// feedback for keyboard navigation
 		&:hover,

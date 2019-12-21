@@ -7,7 +7,7 @@ php:
 env:
   global:
     - "CORE_BRANCH=master"
-    - "APP_NAME=richdocuments"
+    - "APP_NAME=wopi"
   matrix:
     - "DB=mysql TEST=lint"
     - "DB=mysql TEST=checker"

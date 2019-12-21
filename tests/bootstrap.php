@@ -9,5 +9,5 @@ require_once __DIR__.'/../../../lib/base.php';
 if(!class_exists('\PHPUnit\Framework\TestCase')) {
 	require_once('PHPUnit/Autoload.php');
 }
-\OC_App::loadApp('richdocuments');
+\OC_App::loadApp('wopi');
 OC_Hook::clear();

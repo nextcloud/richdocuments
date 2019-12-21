@@ -20,14 +20,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Richdocuments\Db;
+namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\Entity;
 
 /**
  * Class WopiEntity
  *
- * @package OCA\Richdocuments\Db
+ * @package OCA\Wopi\Db
  *
  * @method void setOwnerUid(string $uid)
  * @method string getOwnerUid()

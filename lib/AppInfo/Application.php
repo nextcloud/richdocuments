@@ -22,25 +22,25 @@
  *
  */
 
-namespace OCA\Richdocuments\AppInfo;
+namespace OCA\Wopi\AppInfo;
 
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\Federation\TrustedServers;
-use OCA\Richdocuments\Capabilities;
-use OCA\Richdocuments\Hooks\WopiLockHooks;
-use OCA\Richdocuments\Preview\MSExcel;
-use OCA\Richdocuments\Preview\MSWord;
-use OCA\Richdocuments\Preview\OOXML;
-use OCA\Richdocuments\Preview\OpenDocument;
-use OCA\Richdocuments\Preview\Pdf;
-use OCA\Richdocuments\Service\FederationService;
+use OCA\Wopi\Capabilities;
+use OCA\Wopi\Hooks\WopiLockHooks;
+use OCA\Wopi\Preview\MSExcel;
+use OCA\Wopi\Preview\MSWord;
+use OCA\Wopi\Preview\OOXML;
+use OCA\Wopi\Preview\OpenDocument;
+use OCA\Wopi\Preview\Pdf;
+use OCA\Wopi\Service\FederationService;
 use OCP\AppFramework\App;
 use OCP\IPreview;
 
 class Application extends App {
 
-	const APPNAME = 'richdocuments';
+	const APPNAME = 'wopi';
 
 	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
@@ -74,9 +74,9 @@ class Application extends App {
 			return $container->query(OOXML::class);
 		});
 
-		// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider: calling manager registerProvider:');
+		// \OC::$server->getLogger()->debug('==== Wopi Application registerProvider: calling manager registerProvider:');
 		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function() use ($container) {
-			// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider lambda. OpenDocument::class=' . OpenDocument::class);
+			// \OC::$server->getLogger()->debug('==== Wopi Application registerProvider lambda. OpenDocument::class=' . OpenDocument::class);
 			return $container->query(OpenDocument::class);
 		});
 
@@ -90,8 +90,8 @@ class Application extends App {
 	public function updateCSP() {
 		$container = $this->getContainer();
 
-		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
-		$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url') : $publicWopiUrl;
+		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('wopi', 'public_wopi_url', '');
+		$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('wopi', 'wopi_url') : $publicWopiUrl;
 		$cspManager = $container->getServer()->getContentSecurityPolicyManager();
 		$policy = new ContentSecurityPolicy();
 		if ($publicWopiUrl !== '') {
@@ -113,7 +113,7 @@ class Application extends App {
 			$trustedServers = $container->query(TrustedServers::class);
 			/** @var FederationService $federationService */
 			$federationService = $container->query(FederationService::class);
-			$remoteAccess = $container->getServer()->getRequest()->getParam('richdocuments_remote_access');
+			$remoteAccess = $container->getServer()->getRequest()->getParam('wopi_remote_access');
 
 			if ($remoteAccess && $trustedServers->isTrustedServer($remoteAccess)) {
 				$remoteCollabora = $federationService->getRemoteCollaboraURL($remoteAccess);

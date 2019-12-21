@@ -22,9 +22,9 @@
  */
 
 
-namespace OCA\Richdocuments\Command;
+namespace OCA\Wopi\Command;
 
-use OCA\Richdocuments\TemplateManager;
+use OCA\Wopi\TemplateManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,7 +42,7 @@ class UpdateEmptyTemplates extends Command {
 
 	protected function configure() {
 		$this
-			->setName('richdocuments:update-empty-templates')
+			->setName('wopi:update-empty-templates')
 			->setDescription('Update empty template files');
 	}
 

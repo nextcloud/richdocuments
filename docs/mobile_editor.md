@@ -5,7 +5,7 @@ This API is used to obtain a link for a document to load from mobile apps
 ## Creating the link
 
 ```
-<server>/ocs/v2.php/apps/richdocuments/api/v1/document
+<server>/ocs/v2.php/apps/wopi/api/v1/document
 ```
 
 A `POST` request to this endpoint with the `fileid` parameter will

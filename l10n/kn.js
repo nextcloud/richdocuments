@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Can't create document" : "ದಾಖಲೆಯನ್ನು ಸೃಷ್ಟಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Saved" : "﻿ಉಳಿಸಿದ",

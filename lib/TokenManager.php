@@ -19,14 +19,14 @@
  *
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Wopi;
 
 use OC\Share\Constants;
-use OCA\Richdocuments\Db\WopiMapper;
-use OCA\Richdocuments\Helper;
-use OCA\Richdocuments\Db\Wopi;
-use OCA\Richdocuments\Service\CapabilitiesService;
-use OCA\Richdocuments\WOPI\Parser;
+use OCA\Wopi\Db\WopiMapper;
+use OCA\Wopi\Helper;
+use OCA\Wopi\Db\Wopi;
+use OCA\Wopi\Service\CapabilitiesService;
+use OCA\Wopi\WOPI\Parser;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;

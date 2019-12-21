@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments\Db;
+namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
@@ -40,7 +40,7 @@ class AssetMapper extends Mapper {
 	private $time;
 
 	public function __construct(IDBConnection $db, ISecureRandom $random, ITimeFactory $timeFactory) {
-		parent::__construct($db, 'richdocuments_assets', Asset::class);
+		parent::__construct($db, 'wopi_assets', Asset::class);
 
 		$this->random = $random;
 		$this->time = $timeFactory;
@@ -71,7 +71,7 @@ class AssetMapper extends Mapper {
 	public function getAssetByToken($token) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('richdocuments_assets')
+			->from('wopi_assets')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
 
 		$cursor = $qb->execute();

@@ -24,12 +24,12 @@ import Config from './../services/config'
 
 const isDirectEditing = () => Config.get('directEdit')
 
-const isMobileInterfaceAvailable = () => window.RichDocumentsMobileInterface
-	|| (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
+const isMobileInterfaceAvailable = () => window.WopiMobileInterface
+	|| (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.WopiMobileInterface)
 
-const isMobileInterfaceOnIos = () => window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface
+const isMobileInterfaceOnIos = () => window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.WopiMobileInterface
 
-const isMobileInterfaceOnAndroid = () => window.RichDocumentsMobileInterface
+const isMobileInterfaceOnAndroid = () => window.WopiMobileInterface
 
 const callMobileMessage = (messageName, attributes) => {
 	console.debug('callMobileMessage', messageName, attributes)
@@ -47,19 +47,19 @@ const callMobileMessage = (messageName, attributes) => {
 		attributesString = null
 	}
 	// Forward to mobile handler
-	if (window.RichDocumentsMobileInterface && typeof window.RichDocumentsMobileInterface[messageName] === 'function') {
+	if (window.WopiMobileInterface && typeof window.WopiMobileInterface[messageName] === 'function') {
 		if (attributesString === null || typeof attributesString === 'undefined') {
-			window.RichDocumentsMobileInterface[messageName]()
+			window.WopiMobileInterface[messageName]()
 		} else {
-			window.RichDocumentsMobileInterface[messageName](attributesString)
+			window.WopiMobileInterface[messageName](attributesString)
 		}
 	}
 
 	// iOS webkit fallback
 	if (window.webkit
 		&& window.webkit.messageHandlers
-		&& window.webkit.messageHandlers.RichDocumentsMobileInterface) {
-		window.webkit.messageHandlers.RichDocumentsMobileInterface.postMessage(message)
+		&& window.webkit.messageHandlers.WopiMobileInterface) {
+		window.webkit.messageHandlers.WopiMobileInterface.postMessage(message)
 	}
 }
 

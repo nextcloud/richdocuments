@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Richdocuments\Controller;
+namespace OCA\Wopi\Controller;
 
-use OCA\Richdocuments\Db\DirectMapper;
-use OCA\Richdocuments\Service\FederationService;
-use OCA\Richdocuments\TemplateManager;
+use OCA\Wopi\Db\DirectMapper;
+use OCA\Wopi\Service\FederationService;
+use OCA\Wopi\TemplateManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -112,7 +112,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$direct = $this->directMapper->newDirect($this->userId, $fileId);
 
 			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+				'url' => $this->urlGenerator->linkToRouteAbsolute('wopi.directView.show', [
 					'token' => $direct->getToken()
 				])
 			]);
@@ -162,7 +162,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$direct = $this->directMapper->newDirect($this->userId, $template, $file->getId());
 
 			return new DataResponse([
-				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+				'url' => $this->urlGenerator->linkToRouteAbsolute('wopi.directView.show', [
 					'token' => $direct->getToken()
 				])
 			]);

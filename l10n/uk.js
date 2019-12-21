@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Can't create document" : "Неможливо створити документ",
     "New Document.odt" : "Новий документ.odt",

@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Wopi;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Capabilities\ICapability;
@@ -91,16 +91,16 @@ class Capabilities implements ICapability {
 	public function __construct(IAppData $appData, IL10N $l10n) {
 		$this->l10n = $l10n;
 		try {
-			$this->appData = $appData->getFolder('richdocuments');
+			$this->appData = $appData->getFolder('wopi');
 		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
+			$this->appData = $appData->newFolder('wopi');
 		}
 	}
 
 	public function getCapabilities() {
 		$collaboraCapabilities = $this->getCollaboraCapabilities();
 		return [
-			'richdocuments' => [
+			'wopi' => [
 				'mimetypes' => self::MIMETYPES,
 				'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 				'collabora' => $collaboraCapabilities,

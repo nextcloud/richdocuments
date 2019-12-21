@@ -6,7 +6,7 @@ Online document.
 ## Creating the asset
 
 ```
-<server>/apps/richdocuments/assets
+<server>/apps/wopi/assets
 ```
 
 A `POST` request to this endpoint with the `path` parameter will 

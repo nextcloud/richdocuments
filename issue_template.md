@@ -1,7 +1,7 @@
 <!--
 Thanks for reporting issues back to Nextcloud! This is the issue tracker of Nextcloud, if you have any support question please check out https://nextcloud.com/support
 
-This is the bug tracker for the richdocuments component. Find other components at https://github.com/nextcloud/
+This is the bug tracker for the wopi component. Find other components at https://github.com/nextcloud/
 
 For reporting potential security issues please see https://nextcloud.com/security/
 

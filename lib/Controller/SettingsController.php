@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Richdocuments App
+ * ownCloud - Wopi App
  *
  * @author Victor Dubiniuk
  * @copyright 2014 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,18 +9,18 @@
  * later.
  */
 
-namespace OCA\Richdocuments\Controller;
+namespace OCA\Wopi\Controller;
 
-use OCA\Richdocuments\Service\CapabilitiesService;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
-use OCA\Richdocuments\WOPI\Parser;
+use OCA\Wopi\Service\CapabilitiesService;
+use OCA\Wopi\WOPI\DiscoveryManager;
+use OCA\Wopi\WOPI\Parser;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use \OCP\IRequest;
 use \OCP\IL10N;
-use OCA\Richdocuments\AppConfig;
+use OCA\Wopi\AppConfig;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 
@@ -238,7 +238,7 @@ class SettingsController extends Controller{
 
 		if ($templateFolder !== null){
 			try {
-				$this->config->setUserValue($this->userId, 'richdocuments', 'templateFolder', $templateFolder);
+				$this->config->setUserValue($this->userId, 'wopi', 'templateFolder', $templateFolder);
 			} catch (PreConditionNotMetException $e) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';

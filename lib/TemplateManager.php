@@ -22,7 +22,7 @@ declare (strict_types = 1);
  *
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Wopi;
 
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -425,7 +425,7 @@ class TemplateManager {
 	 */
 	private function getSystemTemplateDir() {
 		return $this->rootFolder->get('appdata_' . $this->config->getSystemValue('instanceid', null))
-			->get('richdocuments')
+			->get('wopi')
 			->get('templates');
 	}
 
@@ -434,7 +434,7 @@ class TemplateManager {
 	 */
 	private function getEmptyTemplateDir() {
 		return $this->rootFolder->get('appdata_' . $this->config->getSystemValue('instanceid', null))
-			->get('richdocuments')
+			->get('wopi')
 			->get('empty_templates');
 	}
 
@@ -450,9 +450,9 @@ class TemplateManager {
 		return [
 			'id'        => $template->getId(),
 			'name'      => $template->getName(),
-			'preview'   => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
+			'preview'   => $this->urlGenerator->linkToRouteAbsolute('wopi.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'      => $this->flipTypes()[$template->getMimeType()],
-			'delete'    => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
+			'delete'    => $this->urlGenerator->linkToRouteAbsolute('wopi.templates.delete', ['fileId' => $template->getId()]),
 			'extension' => $ooxml ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}

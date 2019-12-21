@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Richdocuments\Migration;
+namespace OCA\Wopi\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
@@ -32,8 +32,8 @@ class Version030408Date20191220160721 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('richdocuments_locks')) {
-			$table = $schema->createTable('richdocuments_locks');
+		if (!$schema->hasTable('wopi_locks')) {
+			$table = $schema->createTable('wopi_locks');
 			$table->addColumn('id', 'string', [
 				'length' => 36,
 				'notnull' => true,
@@ -57,8 +57,8 @@ class Version030408Date20191220160721 extends SimpleMigrationStep {
 				'length' => 1024,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['valid_by'], 'richdocuments_locks_valid_by');
-			$table->addUniqueIndex(['file_id'], 'richdocuments_locks_file_id');
+			$table->addIndex(['valid_by'], 'wopi_locks_valid_by');
+			$table->addUniqueIndex(['file_id'], 'wopi_locks_file_id');
 		}
 
 		return $schema;

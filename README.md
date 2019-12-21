@@ -1,6 +1,6 @@
 # Collabora Online
-[![Build Status](https://scrutinizer-ci.com/g/nextcloud/richdocuments/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/richdocuments/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/richdocuments/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/richdocuments/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/nextcloud/wopi/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/wopi/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/wopi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/wopi/?branch=master)
 [![irc](https://img.shields.io/badge/IRC-%23nextcloud%20on%20freenode-orange.svg)](https://webchat.freenode.net/?channels=nextcloud)
 
 **A [Nextcloud](https://nextcloud.com) app integrating Collabora Online into your Nextcloud!**
@@ -24,10 +24,10 @@ In your Nextcloud, simply navigate to »Apps«, choose the category »Office & t
 
 For the latest information about the Collabora Online and Nextcloud releases, please visit the:
 
-[Apps page of Collabora](https://apps.nextcloud.com/apps/richdocuments).
+[Apps page of Collabora](https://apps.nextcloud.com/apps/wopi).
 
 ### Federated editing / Global Scale
-Collaborative editing of federated documents requires richdocuments version 3.4 on all involved servers. Besides that the following conditions must be met:
+Collaborative editing of federated documents requires wopi version 3.4 on all involved servers. Besides that the following conditions must be met:
 
 - Make sure the remote server is added as a trusted server
 - Allow any domain to embed Collabora Online in a frame:

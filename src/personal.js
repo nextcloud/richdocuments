@@ -9,7 +9,7 @@ $(function() {
 
 		var self = this
 		this.templateSelectButton.addEventListener('click', function() {
-			OC.dialogs.filepicker(t('richdocuments', 'Select a personal template folder'), function(datapath, returntype) {
+			OC.dialogs.filepicker(t('wopi', 'Select a personal template folder'), function(datapath, returntype) {
 				self.updateSetting(datapath)
 			}, false, 'httpd/unix-directory', true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
 		})
@@ -36,9 +36,9 @@ $(function() {
 	}
 
 	PersonalSettings.prototype._updateSetting = function(data, successCallback, errorCallback) {
-		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…'))
+		OC.msg.startAction('#documents-admin-msg', t('wopi', 'Saving…'))
 		var request = new XMLHttpRequest()
-		request.open('POST', OC.filePath('richdocuments', 'ajax', 'personal.php'), true)
+		request.open('POST', OC.filePath('wopi', 'ajax', 'personal.php'), true)
 		request.setRequestHeader('Content-Type', 'application/json')
 		request.setRequestHeader('requesttoken', OC.requestToken)
 		request.onload = function() {

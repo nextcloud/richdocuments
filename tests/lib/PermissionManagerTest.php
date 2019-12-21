@@ -19,9 +19,9 @@
  *
  */
 
-namespace Tests\Richdocuments;
+namespace Tests\Wopi;
 
-use OCA\Richdocuments\PermissionManager;
+use OCA\Wopi\PermissionManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -49,7 +49,7 @@ class PermissionManagerTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
+			->with('wopi', 'use_groups', '')
 			->willReturn('');
 
 		$this->assertTrue($this->permissionManager->isEnabledForUser($user));
@@ -66,7 +66,7 @@ class PermissionManagerTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
+			->with('wopi', 'use_groups', '')
 			->willReturn('Enabled1|Enabled2|Enabled3');
 
 		$this->groupManager
@@ -99,7 +99,7 @@ class PermissionManagerTest extends TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
+			->with('wopi', 'use_groups', '')
 			->willReturn('Enabled1|Enabled2|Enabled3');
 
 		$this->groupManager

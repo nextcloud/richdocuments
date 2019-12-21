@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Richdocuments\WOPI;
+namespace OCA\Wopi\WOPI;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
@@ -55,9 +55,9 @@ class DiscoveryManager {
 								ITimeFactory $timeFactory) {
 		$this->clientService = $clientService;
 		try {
-			$this->appData = $appData->getFolder('richdocuments');
+			$this->appData = $appData->getFolder('wopi');
 		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
+			$this->appData = $appData->newFolder('wopi');
 		}
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
@@ -92,13 +92,13 @@ class DiscoveryManager {
 	 * @throws \Exception
 	 */
 	public function fetchFromRemote() {
-		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		$remoteHost = $this->config->getAppValue('wopi', 'wopi_url');
 		$wopiDiscovery = $remoteHost . '/hosting/discovery';
 
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 5];
 
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+		if ($this->config->getAppValue('wopi', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
 		}
 

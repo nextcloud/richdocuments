@@ -6,24 +6,24 @@ import FilesAppIntegration from './view/FilesAppIntegration'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
-	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
+	FRAME_DOCUMENT: () => document.getElementById('wopiframe').contentWindow
 })
 
-const preloadCreate = getSearchParam('richdocuments_create')
-const preloadOpen = getSearchParam('richdocuments_open')
+const preloadCreate = getSearchParam('wopi_create')
+const preloadOpen = getSearchParam('wopi_open')
 const Preload = {}
 
 if (preloadCreate) {
 	Preload.create = {
-		type: getSearchParam('richdocuments_create'),
-		filename: getSearchParam('richdocuments_filename')
+		type: getSearchParam('wopi_create'),
+		filename: getSearchParam('wopi_filename')
 	}
 }
 
 if (preloadOpen) {
 	Preload.open = {
 		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId'),
+		id: getSearchParam('wopi_fileId'),
 		dir: getSearchParam('dir')
 	}
 }
@@ -36,12 +36,12 @@ const odfViewer = {
 
 	open: false,
 	receivedLoading: false,
-	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
+	supportedMimes: OC.getCapabilities().wopi.mimetypes.concat(OC.getCapabilities().wopi.mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: OC.getCapabilities().wopi.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain'],
 
 	register() {
-		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
+		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().wopi.productName
 		for (let mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
 				mime,
@@ -49,7 +49,7 @@ const odfViewer = {
 				0,
 				OC.imagePath('core', 'actions/rename'),
 				this.onEditNewWindow,
-				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
+				t('wopi', 'Edit with {productName}', { productName: OC.getCapabilities().wopi.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
@@ -117,7 +117,7 @@ const odfViewer = {
 				// only redirect if remote file, not opened though reload and csp blocks the request
 				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileModel.id !== preloadId) {
 					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/status.php', () => {
-						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
+						window.location = OC.generateUrl('/apps/wopi/open?fileId=' + fileId)
 					})
 				}
 			}
@@ -128,13 +128,13 @@ const odfViewer = {
 			reloadForFederationCSP(fileName)
 		}
 
-		OC.addStyle('richdocuments', 'mobile')
+		OC.addStyle('wopi', 'mobile')
 
-		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
+		var $iframe = $('<iframe id="wopiframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(function() {
 			if (!odfViewer.receivedLoading) {
 				odfViewer.onClose()
-				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
+				OC.Notification.showTemporary(t('wopi', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().wopi.productName || 'Collabora Online' }))
 			}
 		}, 15000)
 		$iframe.src = documentUrl
@@ -196,8 +196,8 @@ const odfViewer = {
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var url = window.location.href
 
-			url = updateURLParameter(url, 'richdocuments_fileId', fileId)
-			url = updateURLParameter(url, 'richdocuments_open', fileName)
+			url = updateURLParameter(url, 'wopi_fileId', fileId)
+			url = updateURLParameter(url, 'wopi_open', fileName)
 			url = updateURLParameter(url, 'fileid', null)
 			var win = window.open(url, '_blank')
 			if (win) {
@@ -210,7 +210,7 @@ const odfViewer = {
 
 	onReceiveLoading() {
 		odfViewer.receivedLoading = true
-		$('#richdocumentsframe').show()
+		$('#wopiframe').show()
 		$('html, body').scrollTop(0)
 		$('#content').removeClass('loading')
 		FilesAppIntegration.initAfterReady()
@@ -220,9 +220,9 @@ const odfViewer = {
 		odfViewer.open = false
 		clearTimeout(odfViewer.loadingTimeout)
 		odfViewer.receivedLoading = false
-		$('link[href*="richdocuments/css/mobile"]').remove()
+		$('link[href*="wopi/css/mobile"]').remove()
 		$('#app-content #controls').removeClass('hidden')
-		$('#richdocumentsframe').remove()
+		$('#wopiframe').remove()
 		$('.searchbox').show()
 		$('body').css('overflow', 'auto')
 
@@ -253,12 +253,12 @@ const odfViewer = {
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + document.extension,
-						displayName: t('richdocuments', 'New Document'),
-						templateName: t('richdocuments', 'New Document') + '.' + document.extension,
+						displayName: t('wopi', 'New Document'),
+						templateName: t('wopi', 'New Document') + '.' + document.extension,
 						iconClass: 'icon-filetype-document',
 						fileType: 'x-office-document',
 						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
+							if (OC.getCapabilities().wopi.templates) {
 								self._openTemplatePicker('document', document.mime, filename)
 							} else {
 								self._createDocument(document.mime, filename)
@@ -268,12 +268,12 @@ const odfViewer = {
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + spreadsheet.extension,
-						displayName: t('richdocuments', 'New Spreadsheet'),
-						templateName: t('richdocuments', 'New Spreadsheet') + '.' + spreadsheet.extension,
+						displayName: t('wopi', 'New Spreadsheet'),
+						templateName: t('wopi', 'New Spreadsheet') + '.' + spreadsheet.extension,
 						iconClass: 'icon-filetype-spreadsheet',
 						fileType: 'x-office-spreadsheet',
 						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
+							if (OC.getCapabilities().wopi.templates) {
 								self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 							} else {
 								self._createDocument(spreadsheet.mime, filename)
@@ -283,12 +283,12 @@ const odfViewer = {
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + presentation.extension,
-						displayName: t('richdocuments', 'New Presentation'),
-						templateName: t('richdocuments', 'New Presentation') + '.' + presentation.extension,
+						displayName: t('wopi', 'New Presentation'),
+						templateName: t('wopi', 'New Presentation') + '.' + presentation.extension,
 						iconClass: 'icon-filetype-presentation',
 						fileType: 'x-office-presentation',
 						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
+							if (OC.getCapabilities().wopi.templates) {
 								self._openTemplatePicker('presentation', presentation.mime, filename)
 							} else {
 								self._createDocument(presentation.mime, filename)
@@ -302,7 +302,7 @@ const odfViewer = {
 					filename = FileList.getUniqueName(filename)
 
 					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
+						OC.generateUrl('apps/wopi/ajax/documents/create'),
 						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
 						function(response) {
 							if (response && response.status === 'success') {
@@ -318,7 +318,7 @@ const odfViewer = {
 					OCA.Files.Files.isFileNameValid(filename)
 					filename = FileList.getUniqueName(filename)
 					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
+						OC.generateUrl('apps/wopi/ajax/documents/create'),
 						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
 						function(response) {
 							if (response && response.status === 'success') {
@@ -339,7 +339,7 @@ const odfViewer = {
 				_openTemplatePicker: function(type, mimetype, filename) {
 					var self = this
 					$.ajax({
-						url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2) + type,
+						url: OC.linkToOCS('apps/wopi/api/v1/templates', 2) + type,
 						dataType: 'json'
 					}).then(function(response) {
 						if (response.ocs.data.length === 1) {
@@ -356,7 +356,7 @@ const odfViewer = {
 										$(this).ocdialog('close')
 									}
 								}, {
-									text: t('richdocuments', 'Create'),
+									text: t('wopi', 'Create'),
 									classes: 'primary',
 									click: function() {
 										var templateId = this.dataset.templateId
@@ -376,12 +376,12 @@ const odfViewer = {
 
 				_buildTemplatePicker: function(data) {
 					var self = this
-					return $.get(OC.filePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
+					return $.get(OC.filePath('wopi', 'templates', 'templatePicker.html'), function(tmpl) {
 						var $tmpl = $(tmpl)
 						// init template picker
 						var $dlg = $tmpl.octemplate({
 							dialog_name: 'template-picker',
-							dialog_title: t('richdocuments', 'Select template')
+							dialog_title: t('wopi', 'Select template')
 						})
 
 						// create templates list
@@ -397,7 +397,7 @@ const odfViewer = {
 				_appendTemplateFromData: function(dlg, data) {
 					var template = dlg.querySelector('.template-model').cloneNode(true)
 					template.className = ''
-					template.querySelector('img').src = OC.generateUrl('apps/richdocuments/template/preview/' + data.id)
+					template.querySelector('img').src = OC.generateUrl('apps/wopi/template/preview/' + data.id)
 					template.querySelector('h2').textContent = data.name
 					template.onclick = function() {
 						dlg.dataset.templateId = data.id
@@ -432,7 +432,7 @@ const odfViewer = {
 	}
 }
 
-window.OCA.RichDocuments = {}
+window.OCA.Wopi = {}
 $(document).ready(function() {
 	// register file actions and menu
 	if (typeof OCA !== 'undefined'
@@ -445,7 +445,7 @@ $(document).ready(function() {
 		}
 		odfViewer.register()
 
-		$.get(OC.filePath('richdocuments', 'ajax', 'settings.php')).done(function(settings) {
+		$.get(OC.filePath('wopi', 'ajax', 'settings.php')).done(function(settings) {
 			// TODO: move ooxml setting to capabilities so we don't need this request
 			odfViewer.registerFilesMenu(settings)
 		})
@@ -471,8 +471,8 @@ $(document).ready(function() {
 		case 'App_LoadingStatus':
 			if (args.Status === 'Timeout') {
 				odfViewer.onClose()
-				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
-					{ productName: OC.getCapabilities().richdocuments.productName }
+				OC.Notification.showTemporary(t('wopi', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
+					{ productName: OC.getCapabilities().wopi.productName }
 				))
 			}
 			break

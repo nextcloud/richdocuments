@@ -21,12 +21,12 @@
  *
  */
 
-namespace OCA\Richdocuments\Service;
+namespace OCA\Wopi\Service;
 
 
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
-use OCA\Richdocuments\TokenManager;
+use OCA\Wopi\TokenManager;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Files\File;
@@ -51,7 +51,7 @@ class FederationService {
 	private $tokenManager;
 
 	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager) {
-		$this->cache = $cacheFactory->createLocal('richdocuments_remote/');
+		$this->cache = $cacheFactory->createLocal('wopi_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->tokenManager = $tokenManager;
@@ -65,19 +65,19 @@ class FederationService {
 			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
 			return '';
 		}
-		if ($remoteCollabora = $this->cache->get('richdocuments_remote/' . $remote)) {
+		if ($remoteCollabora = $this->cache->get('wopi_remote/' . $remote)) {
 			return $remoteCollabora;
 		}
 		try {
 			$client = $this->clientService->newClient();
-			$response = $client->get($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation?format=json', ['timeout' => 5]);
+			$response = $client->get($remote . '/ocs/v2.php/apps/wopi/api/v1/federation?format=json', ['timeout' => 5]);
 			$data = \json_decode($response->getBody(), true);
 			$remoteCollabora = $data['ocs']['data']['wopi_url'];
-			$this->cache->set('richdocuments_remote/' . $remote, $remoteCollabora, 3600);
+			$this->cache->set('wopi_remote/' . $remote, $remoteCollabora, 3600);
 			return $remoteCollabora;
 		} catch (\Throwable $e) {
 			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
-			$this->cache->set('richdocuments_remote/' . $remote, '', 300);
+			$this->cache->set('wopi_remote/' . $remote, '', 300);
 		}
 		return '';
 	}
@@ -88,7 +88,7 @@ class FederationService {
 		}
 		try {
 			$client = $this->clientService->newClient();
-			$response = $client->post($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation/direct?format=json', [
+			$response = $client->post($remote . '/ocs/v2.php/apps/wopi/api/v1/federation/direct?format=json', [
 				'timeout' => 5,
 				'body' => [
 					'shareToken' => $shareToken,
@@ -110,7 +110,7 @@ class FederationService {
 		}
 		try {
 			$client = $this->clientService->newClient();
-			$response = $client->post($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation?format=json', [
+			$response = $client->post($remote . '/ocs/v2.php/apps/wopi/api/v1/federation?format=json', [
 				'timeout' => 5,
 				'body' => [
 					'token' => $remoteToken
@@ -140,7 +140,7 @@ class FederationService {
 				} else {
 					$wopi = $this->tokenManager->getRemoteTokenFromDirect($item, $direct->getUid());
 				}
-				$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
+				$url = $remote . 'index.php/apps/wopi/remote?shareToken=' . $item->getStorage()->getToken() .
 					'&remoteServer=' . $wopi->getServerHost() .
 					'&remoteServerToken=' . $wopi->getToken();
 				if ($item->getInternalPath() !== '') {

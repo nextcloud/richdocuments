@@ -5,16 +5,16 @@
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
 		>
-	<testsuite name='ownCloud - Richdocuments App Tests'>
+	<testsuite name='ownCloud - Wopi App Tests'>
 		<directory suffix='test.php'>.</directory>
 	</testsuite>
 	<!-- filters for code coverage -->
 	<filter>
 		<whitelist>
-			<directory suffix=".php">../../richdocuments</directory>
+			<directory suffix=".php">../../wopi</directory>
 			<exclude>
-				<directory suffix=".php">../../richdocuments/l10n</directory>
-				<directory suffix=".php">../../richdocuments/tests</directory>
+				<directory suffix=".php">../../wopi/l10n</directory>
+				<directory suffix=".php">../../wopi/tests</directory>
 			</exclude>
 		</whitelist>
 	</filter>

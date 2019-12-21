@@ -38,7 +38,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Nextcloud version:**
 
-**Version of the richdocuments app**
+**Version of the wopi app**
 
 **Version of Collabora Online**
 

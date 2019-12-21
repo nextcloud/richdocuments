@@ -9,7 +9,7 @@ __webpack_nonce__ = btoa(OC.requestToken)
 // Correct the root of the app for chunk loading
 // OC.linkTo matches the apps folders
 // eslint-disable-next-line
-__webpack_public_path__ = OC.linkTo('richdocuments', 'js/')
+__webpack_public_path__ = OC.linkTo('wopi', 'js/')
 
 Vue.prototype.t = t
 Vue.prototype.n = n
@@ -56,9 +56,9 @@ const documentsSettings = {
 			disable_certificate_verification: document.getElementById('disable_certificate_verification').checked
 		}
 
-		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…'))
+		OC.msg.startAction('#documents-admin-msg', t('wopi', 'Saving…'))
 		$.post(
-			OC.filePath('richdocuments', 'ajax', 'admin.php'),
+			OC.filePath('wopi', 'ajax', 'admin.php'),
 			data,
 			documentsSettings.afterSave
 		)
@@ -66,14 +66,14 @@ const documentsSettings = {
 
 	saveGroups: function(data) {
 		$.post(
-			OC.filePath('richdocuments', 'ajax', 'admin.php'),
+			OC.filePath('wopi', 'ajax', 'admin.php'),
 			data
 		)
 	},
 
 	saveDocFormat: function(format) {
 		$.post(
-			OC.filePath('richdocuments', 'ajax', 'admin.php'),
+			OC.filePath('wopi', 'ajax', 'admin.php'),
 			{ 'doc_format': format }
 		)
 	},
@@ -88,9 +88,9 @@ const documentsSettings = {
 			'external_apps': externalAppsData
 		}
 
-		OC.msg.startAction('#enable-external-apps-section-msg', t('richdocuments', 'Saving…'))
+		OC.msg.startAction('#enable-external-apps-section-msg', t('wopi', 'Saving…'))
 		$.post(
-			OC.filePath('richdocuments', 'ajax', 'admin.php'),
+			OC.filePath('wopi', 'ajax', 'admin.php'),
 			data,
 			documentsSettings.afterSaveExternalApps
 		)
@@ -101,7 +101,7 @@ const documentsSettings = {
 			'canonical_webroot': value
 		}
 		$.post(
-			OC.filePath('richdocuments', 'ajax', 'admin.php'),
+			OC.filePath('wopi', 'ajax', 'admin.php'),
 			data
 		)
 	},
@@ -148,12 +148,12 @@ const documentsSettings = {
 		documentsSettings.initGroups()
 		documentsSettings.initExternalApps()
 
-		var page = $('#richdocuments')
+		var page = $('#wopi')
 
 		$('#wopi_apply').on('click', documentsSettings.save)
 
 		// destroy or create app name and token fields depending on whether the checkbox is on or off
-		$(document).on('change', '#enable_external_apps_cb-richdocuments', function() {
+		$(document).on('change', '#enable_external_apps_cb-wopi', function() {
 			page.find('#enable-external-apps-section').toggleClass('hidden', !this.checked)
 			if (this.checked) {
 				var app1 = documentsSettings._createExtApp()
@@ -264,7 +264,7 @@ const documentsSettings = {
 			$select.change()
 		})
 
-		$(document).on('change', '#enable_canonical_webroot_cb-richdocuments', function() {
+		$(document).on('change', '#enable_canonical_webroot_cb-wopi', function() {
 			page.find('#enable-canonical-webroot-section').toggleClass('hidden', !this.checked)
 			if (!this.checked) {
 				documentsSettings.saveWebroot('')
@@ -292,7 +292,7 @@ function appendTemplateFromData(data) {
 	template.querySelector('figcaption').textContent = data.name
 	template.querySelector('.delete-template').href = data.delete
 
-	document.querySelector('#richdocuments-templates > ul').appendChild(template)
+	document.querySelector('#wopi-templates > ul').appendChild(template)
 	template.querySelector('.delete-template').addEventListener('click', deleteTemplate)
 }
 
@@ -303,8 +303,8 @@ function appendTemplateFromData(data) {
  */
 function deleteTemplate(event) {
 	event.preventDefault()
-	var emptyElmt = document.querySelector('#richdocuments-templates #emptycontent')
-	var tplListElmt = document.querySelector('#richdocuments-templates > ul')
+	var emptyElmt = document.querySelector('#wopi-templates #emptycontent')
+	var tplListElmt = document.querySelector('#wopi-templates > ul')
 	var elmt = event.target
 
 	// ensure no request is in progress
@@ -329,7 +329,7 @@ function deleteTemplate(event) {
 			})
 			.fail(function(e) {
 			// failure, show warning
-				elmt.textContent = t('richdocuments', 'Error')
+				elmt.textContent = t('wopi', 'Error')
 				elmt.classList.remove('icon-loading')
 				setTimeout(function() {
 					elmt.classList.add('icon-delete')
@@ -346,17 +346,17 @@ function initTemplateManager() {
 	var inputElmt = document.querySelector('#add-template')
 	var buttonElmt = document.querySelector('.icon-add')
 	var deleteElmts = document.querySelectorAll('.delete-template')
-	var emptyElmt = document.querySelector('#richdocuments-templates #emptycontent')
-	var tplListElmt = document.querySelector('#richdocuments-templates > ul')
+	var emptyElmt = document.querySelector('#wopi-templates #emptycontent')
+	var tplListElmt = document.querySelector('#wopi-templates > ul')
 
 	deleteElmts.forEach(function(elmt) {
 		elmt.addEventListener('click', deleteTemplate)
 	})
 
 	// fileupload plugin
-	$('#richdocuments-templates').fileupload({
+	$('#wopi-templates').fileupload({
 		dataType: 'json',
-		url: OC.generateUrl('apps/richdocuments/template'),
+		url: OC.generateUrl('apps/wopi/template'),
 		type: 'POST',
 
 		add: function(e, data) {
@@ -384,7 +384,7 @@ function initTemplateManager() {
 		fail: function(e, data) {
 			// failure, show warning
 			buttonElmt.className = 'icon-add'
-			buttonElmt.textContent = t('richdocuments', 'An error occurred') + ': ' + data.jqXHR.responseJSON.data.message
+			buttonElmt.textContent = t('wopi', 'An error occurred') + ': ' + data.jqXHR.responseJSON.data.message
 			setTimeout(function() {
 				inputElmt.disabled = false
 				buttonElmt.textContent = ''

@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Can't create document" : "امکان ایجاد این سند وجود ندارد",
     "Saved" : "ذخیره شد",

@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Richdocuments\Db;
+namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -9,7 +9,7 @@ use OCP\IDBConnection;
 class WopiLockMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'richdocuments_locks');
+		parent::__construct($db, 'wopi_locks');
 	}
 
 	/**
@@ -20,7 +20,7 @@ class WopiLockMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-			->from('richdocuments_locks')
+			->from('wopi_locks')
 			->where(
 				$qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT))
 			);
@@ -40,7 +40,7 @@ class WopiLockMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-			->from('richdocuments_locks')
+			->from('wopi_locks')
 			->where($qb->expr()->lt('valid_by', $qb->createNamedParameter($validBy, IQueryBuilder::PARAM_INT)))
 			->setMaxResults($limit)
 			->setFirstResult($offset);

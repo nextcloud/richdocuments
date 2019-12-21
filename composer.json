@@ -1,5 +1,5 @@
 {
-    "name": "nextcloud/richdocuments",
+    "name": "nextcloud/wopi",
     "type": "project",
     "require-dev": {
         "roave/security-advisories": "dev-master",

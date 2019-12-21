@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Richdocuments App
+ * ownCloud - Wopi App
  *
  * @author Victor Dubiniuk
  * @copyright 2015 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,9 +9,9 @@
  * later.
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Wopi;
 
-use OCA\Richdocuments\AppInfo\Application;
+use OCA\Wopi\AppInfo\Application;
 use \OCP\IConfig;
 
 class AppConfig {

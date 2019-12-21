@@ -1,5 +1,5 @@
 <?php
-style( 'richdocuments', 'style' );
+style( 'wopi', 'style' );
 ?>
 <div id="notification-container">
 	<div id="notification" style="display: none;"></div>

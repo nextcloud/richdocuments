@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Richdocuments\Db;
+namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
@@ -47,7 +47,7 @@ class WopiMapper extends Mapper {
 								ISecureRandom $random,
 								ILogger $logger,
 								ITimeFactory $timeFactory) {
-		parent::__construct($db, 'richdocuments_wopi', Wopi::class);
+		parent::__construct($db, 'wopi_wopi', Wopi::class);
 
 		$this->random = $random;
 		$this->logger = $logger;
@@ -103,7 +103,7 @@ class WopiMapper extends Mapper {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('richdocuments_wopi')
+			->from('wopi_wopi')
 			->where(
 				$qb->expr()->eq('token', $qb->createNamedParameter($token))
 			);
@@ -113,7 +113,7 @@ class WopiMapper extends Mapper {
 
 		$this->logger->debug('Loaded WOPI Token record: {row}.', [
 			'row' => $row,
-			'app' => 'richdocuments'
+			'app' => 'wopi'
 		]);
 		if ($row === false) {
 			return null;
@@ -124,7 +124,7 @@ class WopiMapper extends Mapper {
 
 		if ($wopi->getExpiry() < $this->timeFactory->getTime()){
 			$qb = $this->db->getQueryBuilder();
-			$qb->delete('richdocuments_wopi')->where($qb->expr()->lt('expiry',
+			$qb->delete('wopi_wopi')->where($qb->expr()->lt('expiry',
 				$qb->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT)))->execute();
 			return null;
 		}

@@ -21,7 +21,7 @@
 	background-image: url('../../../core/img/filetypes/x-office-presentation.svg');
 }
 
-.richdocuments-sharing .icon-shared {
+.wopi-sharing .icon-shared {
 	display: block;
 	width: 16px;
 	height: 16px;
@@ -29,12 +29,12 @@
 	opacity: 0.6;
 }
 
-.richdocuments-sharing .icon-shared:hover,
-.richdocuments-sharing .icon-shared:focus {
+.wopi-sharing .icon-shared:hover,
+.wopi-sharing .icon-shared:focus {
 	opacity: 1;
 }
 
-#richdocumentsframe {
+#wopiframe {
 	background-color: #fff;
 	width:100%;
 	height: calc(100vh - 50px);
@@ -77,11 +77,11 @@
 	}
 }
 
-#richdocuments-avatars {
+#wopi-avatars {
 	position: relative;
 	right: -15px;
 
-	& > .richdocuments-avatar {
+	& > .wopi-avatar {
 		float: right;
 		border-radius: 50%;
 		margin: 8px;
@@ -94,7 +94,7 @@
 	}
 }
 
-#richdocuments-header {
+#wopi-header {
 	display: flex;
 	& > div .icon-shared,
 	& > div .icon-more {
@@ -104,7 +104,7 @@
 	}
 }
 
-#richdocuments-actions {
+#wopi-actions {
 	position: relative;
 	li {
 		white-space: nowrap;

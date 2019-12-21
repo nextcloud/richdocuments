@@ -21,10 +21,10 @@
  *
  */
 
-namespace OCA\Richdocuments\Settings;
+namespace OCA\Wopi\Settings;
 
-use OCA\Richdocuments\Capabilities;
-use OCA\Richdocuments\TemplateManager;
+use OCA\Wopi\Capabilities;
+use OCA\Wopi\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
@@ -37,7 +37,7 @@ class Personal implements ISettings {
 
 	public function __construct(IConfig $config, Capabilities $capabilities, $userId) {
 		$this->config = $config;
-		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
+		$this->capabilities = $capabilities->getCapabilities()['wopi'];
 		$this->userId = $userId;
 	}
 
@@ -47,10 +47,10 @@ class Personal implements ISettings {
 	public function getForm() {
 		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
 			return new TemplateResponse(
-				'richdocuments',
+				'wopi',
 				'personal',
 				[
-					'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
+					'templateFolder' => $this->config->getUserValue($this->userId, 'wopi', 'templateFolder', '')
 				],
 				'blank'
 			);
@@ -62,7 +62,7 @@ class Personal implements ISettings {
 	public function getSection() {
 		// Only show the personal section if templates are available
 		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
-			return 'richdocuments';
+			return 'wopi';
 		}
 	}
 	/**

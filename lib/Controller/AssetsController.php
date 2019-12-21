@@ -21,10 +21,10 @@
  *
  */
 
-namespace OCA\Richdocuments\Controller;
+namespace OCA\Wopi\Controller;
 
-use OCA\Richdocuments\Db\AssetMapper;
-use OCA\Richdocuments\Service\UserScopeService;
+use OCA\Wopi\Db\AssetMapper;
+use OCA\Wopi\Service\UserScopeService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -86,7 +86,7 @@ class AssetsController extends Controller {
 		$asset = $this->assetMapper->newAsset($this->userId, $node->getId());
 
 		return new JSONResponse([
-			'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.assets.get', [
+			'url' => $this->urlGenerator->linkToRouteAbsolute('wopi.assets.get', [
 				'token' => $asset->getToken(),
 			])
 		]);

@@ -35,7 +35,7 @@ const getSearchParam = (name) => {
 const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory }) => {
 	// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
 	// index.php is forced here to avoid different wopi srcs for the same document
-	const wopiurl = window.location.protocol + '//' + window.location.host + getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + fileId
+	const wopiurl = window.location.protocol + '//' + window.location.host + getRootUrl() + '/index.php/apps/wopi/wopi/files/' + fileId
 	console.debug('[getWopiUrl] ' + wopiurl)
 	const wopisrc = encodeURIComponent(wopiurl)
 
@@ -54,7 +54,7 @@ const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory }) =
 
 const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTemplate) => {
 	return OC.generateUrl(
-		'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
+		'apps/wopi/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
 		{
 			templateId: templateId,
 			fileName: fileName,
@@ -66,7 +66,7 @@ const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTempl
 
 const getDocumentUrlForPublicFile = (fileName, fileId) => {
 	return OC.generateUrl(
-		'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
+		'apps/wopi/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
 		{
 			shareToken: document.getElementById('sharingToken').value,
 			fileName: fileName,
@@ -78,7 +78,7 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 
 const getDocumentUrlForFile = (fileDir, fileId) => {
 	return OC.generateUrl(
-		'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
+		'apps/wopi/index?fileId={fileId}&requesttoken={requesttoken}',
 		{
 			fileId: fileId,
 			dir: fileDir,

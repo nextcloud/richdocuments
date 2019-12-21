@@ -24,11 +24,11 @@
 	<div class="section">
 		<h2>Secure view settings</h2>
 
-		<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
+		<p>{{ t('wopi', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
 		<settings-checkbox v-model="settings.watermark.enabled" label="Enable watermarking" hint=""
 			:disabled="updating" @input="update" />
 		<settings-input-text v-if="settings.watermark.enabled" v-model="settings.watermark.text" label="Watermark text"
-			:hint="t('richdocuments', 'Supported placeholders: {userId}, {date}')"
+			:hint="t('wopi', 'Supported placeholders: {userId}, {date}')"
 			:disabled="updating" @update="update" />
 		<div v-if="settings.watermark.enabled">
 			<settings-checkbox v-model="settings.watermark.allTags" label="Show watermark on tagged files" :disabled="updating"
@@ -132,7 +132,7 @@ export default {
 		update() {
 			this.updating = true
 			let settings = this.settings
-			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then((response) => {
+			axios.post(generateUrl('/apps/wopi/settings/watermark'), { settings }).then((response) => {
 				this.updating = false
 			}).catch((error) => {
 				this.updating = false

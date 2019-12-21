@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments\Db;
+namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
@@ -44,7 +44,7 @@ class DirectMapper extends Mapper {
 	public function __construct(IDBConnection $db,
 								ISecureRandom $random,
 								ITimeFactory $timeFactory) {
-		parent::__construct($db, 'richdocuments_direct', Direct::class);
+		parent::__construct($db, 'wopi_direct', Direct::class);
 
 		$this->random = $random;
 		$this->timeFactory = $timeFactory;
@@ -75,7 +75,7 @@ class DirectMapper extends Mapper {
 	public function getByToken($token) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('richdocuments_direct')
+			->from('wopi_direct')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
 
 		$cursor = $qb->execute();

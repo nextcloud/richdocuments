@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments\Service;
+namespace OCA\Wopi\Service;
 
 
 use OCP\IUserManager;

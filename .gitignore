@@ -3,6 +3,6 @@ node_modules/
 js/
 *.spec
 *.tar.gz
-richdocuments.zip
+wopi.zip
 build/
 vendor/

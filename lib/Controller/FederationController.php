@@ -20,12 +20,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Richdocuments\Controller;
+namespace OCA\Wopi\Controller;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use \OCP\AppFramework\OCSController;
-use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Wopi\Db\WopiMapper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\NotFoundException;
@@ -64,7 +64,7 @@ class FederationController extends OCSController {
 	 */
 	public function index() {
 		return new DataResponse([
-			'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url')
+			'wopi_url' => $this->config->getAppValue('wopi', 'wopi_url')
 		]);
 	}
 

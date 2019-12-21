@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Richdocuments\Preview;
+namespace OCA\Wopi\Preview;
 
 class MSWord extends Office {
 	/**

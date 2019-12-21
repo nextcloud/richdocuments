@@ -1,6 +1,6 @@
 # Makefile for building the project
 
-app_name=richdocuments
+app_name=wopi
 project_dir=$(CURDIR)/../$(app_name)
 build_dir=$(CURDIR)/build/artifacts
 sign_dir=$(build_dir)/sign

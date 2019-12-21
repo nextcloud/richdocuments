@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Richdocuments App
+ * ownCloud - Wopi App
  *
  * @author Victor Dubiniuk
  * @copyright 2013 Victor Dubiniuk victor.dubiniuk@gmail.com
@@ -9,14 +9,14 @@
  * later.
  */
 
-namespace OCA\Richdocuments;
+namespace OCA\Wopi;
 
 use \DateTime;
 use \DateTimeZone;
 use OCP\Files\Folder;
 
 class Helper {
-	const APP_ID = 'richdocuments';
+	const APP_ID = 'wopi';
 
 	/**
 	 * @param string $fileId

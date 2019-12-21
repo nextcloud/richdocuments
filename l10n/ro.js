@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Can't create document" : "Nu se poate crea documentul",
     "Saved" : "Salvat",

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Richdocuments\Migration;
+namespace OCA\Wopi\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
@@ -32,8 +32,8 @@ class Version030407Date20191220160355 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('richdocuments_wopi')) {
-			$table = $schema->createTable('richdocuments_wopi');
+		if (!$schema->hasTable('wopi_wopi')) {
+			$table = $schema->createTable('wopi_wopi');
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -112,8 +112,8 @@ class Version030407Date20191220160355 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['token'], 'rd_wopi_token_idx');
 		}
 
-		if (!$schema->hasTable('richdocuments_direct')) {
-			$table = $schema->createTable('richdocuments_direct');
+		if (!$schema->hasTable('wopi_direct')) {
+			$table = $schema->createTable('wopi_direct');
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -151,8 +151,8 @@ class Version030407Date20191220160355 extends SimpleMigrationStep {
 			$table->addIndex(['timestamp'], 'rd_direct_timestamp_idx');
 		}
 
-		if (!$schema->hasTable('richdocuments_assets')) {
-			$table = $schema->createTable('richdocuments_assets');
+		if (!$schema->hasTable('wopi_assets')) {
+			$table = $schema->createTable('wopi_assets');
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,

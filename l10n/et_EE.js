@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Can't create document" : "Ei suuda dokumenti luua",
     "New Presentation.pptx" : "Uus esitlus.pptx",

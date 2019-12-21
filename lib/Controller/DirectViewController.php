@@ -20,13 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Richdocuments\Controller;
+namespace OCA\Wopi\Controller;
 
-use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\Db\DirectMapper;
-use OCA\Richdocuments\Service\FederationService;
-use OCA\Richdocuments\TemplateManager;
-use OCA\Richdocuments\TokenManager;
+use OCA\Wopi\AppConfig;
+use OCA\Wopi\Db\DirectMapper;
+use OCA\Wopi\Service\FederationService;
+use OCA\Wopi\TemplateManager;
+use OCA\Wopi\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -161,7 +161,7 @@ class DirectViewController extends Controller {
 				'direct' => true,
 			];
 
-			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
+			$response = new TemplateResponse('wopi', 'documents', $params, 'empty');
 			$policy = new ContentSecurityPolicy();
 			$policy->allowInlineScript(true);
 			$policy->addAllowedFrameDomain($this->appConfig->getAppValue('public_wopi_url'));

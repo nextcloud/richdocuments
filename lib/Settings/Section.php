@@ -21,9 +21,9 @@
  *
  */
 
-namespace OCA\Richdocuments\Settings;
+namespace OCA\Wopi\Settings;
 
-use OCA\Richdocuments\Capabilities;
+use OCA\Wopi\Capabilities;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
@@ -49,15 +49,15 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getID() {
-		return 'richdocuments';
+		return 'wopi';
 	}
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getName() {
 		$capabilitites = $this->capabilitites->getCapabilities();
-		if (isset($capabilitites['richdocuments']['productName'])) {
-			return $capabilitites['richdocuments']['productName'];
+		if (isset($capabilitites['wopi']['productName'])) {
+			return $capabilitites['wopi']['productName'];
 		}
 		return $this->l10n->t('Collabora Online');
 	}
@@ -72,6 +72,6 @@ class Section implements IIconSection {
 	 * {@inheritdoc}
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('richdocuments', 'app-dark.svg');
+		return $this->url->imagePath('wopi', 'app-dark.svg');
 	}
 }

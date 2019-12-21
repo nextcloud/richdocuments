@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - Richdocuments App
+ * ownCloud - Wopi App
  *
  * @author Frank Karlitschek
  * @copyright 2013-2014 Frank Karlitschek karlitschek@kde.org
@@ -20,9 +20,9 @@
  *
  */
 
-namespace OCA\Richdocuments\AppInfo;
+namespace OCA\Wopi\AppInfo;
 
-use OCA\Richdocuments\PermissionManager;
+use OCA\Wopi\PermissionManager;
 
 $currentUser = \OC::$server->getUserSession()->getUser();
 if($currentUser !== null) {
@@ -37,15 +37,15 @@ $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
-		\OCP\Util::addScript('richdocuments', 'viewer');
-		\OCP\Util::addStyle('richdocuments', 'viewer');
+		\OCP\Util::addScript('wopi', 'viewer');
+		\OCP\Util::addStyle('wopi', 'viewer');
 	}
 );
 $eventDispatcher->addListener(
 	'OCA\Files_Sharing::loadAdditionalScripts',
 	function() {
-		\OCP\Util::addScript('richdocuments', 'viewer');
-		\OCP\Util::addStyle('richdocuments', 'viewer');
+		\OCP\Util::addScript('wopi', 'viewer');
+		\OCP\Util::addStyle('wopi', 'viewer');
 	}
 );
 

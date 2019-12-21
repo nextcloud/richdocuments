@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Saved" : "បាន​រក្សាទុក",
     "Save" : "រក្សាទុក",

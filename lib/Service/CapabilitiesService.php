@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments\Service;
+namespace OCA\Wopi\Service;
 
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -45,9 +45,9 @@ class CapabilitiesService {
 		$this->config = $config;
 		$this->clientService = $clientService;
 		try {
-			$this->appData = $appData->getFolder('richdocuments');
+			$this->appData = $appData->getFolder('wopi');
 		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
+			$this->appData = $appData->newFolder('wopi');
 		}
 	}
 
@@ -105,7 +105,7 @@ class CapabilitiesService {
 	}
 
 	private function renewCapabilities() {
-		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
+		$remoteHost = $this->config->getAppValue('wopi', 'wopi_url');
 		if ($remoteHost === '') {
 			return [];
 		}
@@ -114,7 +114,7 @@ class CapabilitiesService {
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 10];
 
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+		if ($this->config->getAppValue('wopi', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
 		}
 

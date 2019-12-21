@@ -27,12 +27,12 @@ $.widget('oc.guestNamePicker', {
 
 		const text = document.createElement('div')
 		text.setAttribute('style', 'margin: 0 auto; margin-top: 100px; text-align: center;')
-		text.innerHTML = t('richdocuments', 'Please choose your nickname to continue as guest user.')
+		text.innerHTML = t('wopi', 'Please choose your nickname to continue as guest user.')
 
 		const div = document.createElement('div')
 		div.setAttribute('style', 'margin: 0 auto; width: 250px; display: flex;')
-		const nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="flex-grow: 1; border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">'
-		const btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('richdocuments', 'Set') + '">'
+		const nick = '<input type="text" placeholder="' + t('wopi', 'Nickname') + '" id="nickname" style="flex-grow: 1; border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">'
+		const btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('wopi', 'Set') + '">'
 		div.innerHTML = nick + btn
 
 		$('#documents-content').prepend(div)
@@ -80,7 +80,7 @@ const documentsMain = {
 	// generates docKey for given fileId
 	_generateDocKey: function(wopiFileId) {
 		let canonicalWebroot = Config.get('canonical_webroot')
-		let ocurl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + wopiFileId
+		let ocurl = getRootUrl() + '/index.php/apps/wopi/wopi/files/' + wopiFileId
 		if (canonicalWebroot) {
 			if (!canonicalWebroot.startsWith('/')) {
 				canonicalWebroot = '/' + canonicalWebroot
@@ -136,7 +136,7 @@ const documentsMain = {
 		loadRevViewerContainer: function() {
 			if (!$('revViewerContainer').length) {
 				$(document.body).prepend(documentsMain.UI.viewContainer)
-				const closeButton = $('<button class="icon-close closeButton" title="' + t('richdocuments', 'Close version preview') + '"/>')
+				const closeButton = $('<button class="icon-close closeButton" title="' + t('wopi', 'Close version preview') + '"/>')
 				$('#revViewerContainer').prepend(closeButton)
 			}
 		},
@@ -326,21 +326,21 @@ const documentsMain = {
 					if (msgId === 'UI_SaveAs') {
 						// TODO Move to file picker dialog with input field
 						OC.dialogs.prompt(
-							t('richdocuments', 'Please enter the filename to store the document as.'),
-							t('richdocuments', 'Save As'),
+							t('wopi', 'Please enter the filename to store the document as.'),
+							t('wopi', 'Save As'),
 							function(result, value) {
 								if (result === true && value) {
 									PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { 'Filename': value })
 								}
 							},
 							true,
-							t('richdocuments', 'New filename'),
+							t('wopi', 'New filename'),
 							false
 						).then(function() {
 							var $dialog = $('.oc-dialog:visible')
 							var $buttons = $dialog.find('button')
-							$buttons.eq(0).text(t('richdocuments', 'Cancel'))
-							$buttons.eq(1).text(t('richdocuments', 'Save'))
+							$buttons.eq(0).text(t('wopi', 'Cancel'))
+							$buttons.eq(1).text(t('wopi', 'Save'))
 						})
 					}
 				})
@@ -447,15 +447,15 @@ const documentsMain = {
 
 $(document).ready(function() {
 
-	if (!OCA.RichDocuments) {
-		OCA.RichDocuments = {}
+	if (!OCA.Wopi) {
+		OCA.Wopi = {}
 	}
 
 	if (!OC.Share) {
 		OC.Share = {}
 	}
 
-	OCA.RichDocuments.documentsMain = documentsMain
+	OCA.Wopi.documentsMain = documentsMain
 
 	if (shouldAskForGuestName()) {
 		PostMessages.sendPostMessage('parent', 'loading')

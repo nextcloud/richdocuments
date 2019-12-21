@@ -305,7 +305,7 @@
 - Updated translations
 
 ## 1.12.35
-- Feature: Support for external apps. External apps can now generate a secret token to access richdocuments public API.
+- Feature: Support for external apps. External apps can now generate a secret token to access wopi public API.
 
 ## 1.12.34
 - Bug: Fix editing publicly shared documents
