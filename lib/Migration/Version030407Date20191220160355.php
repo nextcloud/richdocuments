@@ -109,7 +109,7 @@ class Version030407Date20191220160355 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['token'], 'rd_wopi_token_idx');
+			$table->addUniqueIndex(['token'], 'wopi_wopi_token_idx');
 		}
 
 		if (!$schema->hasTable('wopi_direct')) {
@@ -147,8 +147,8 @@ class Version030407Date20191220160355 extends SimpleMigrationStep {
 				'length' => 4,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['token'], 'rd_direct_token_idx');
-			$table->addIndex(['timestamp'], 'rd_direct_timestamp_idx');
+			$table->addUniqueIndex(['token'], 'wopi_direct_token_idx');
+			$table->addIndex(['timestamp'], 'wopi_direct_timestamp_idx');
 		}
 
 		if (!$schema->hasTable('wopi_assets')) {
@@ -178,8 +178,8 @@ class Version030407Date20191220160355 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['token'], 'rd_assets_token_idx');
-			$table->addUniqueIndex(['timestamp'], 'rd_assets_timestamp_idx');
+			$table->addUniqueIndex(['token'], 'wopi_assets_token_idx');
+			$table->addUniqueIndex(['timestamp'], 'wopi_assets_timestamp_idx');
 		}
 		return $schema;
 	}

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <info>
 	<id>wopi</id>
-	<name>Collabora Online</name>
+	<name>Wopi</name>
 	<summary>Edit office documents directly in your browser.</summary>
 	<description>This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</description>
-	<version>3.4.8</version>
+	<version>3.4.9</version>
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
