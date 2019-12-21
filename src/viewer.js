@@ -48,13 +48,18 @@ const odfViewer = {
 				EDIT_ACTION_NAME,
 				0,
 				OC.imagePath('core', 'actions/rename'),
-				this.onEdit,
+				this.onEditNewWindow,
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
 			}
 		}
+		$('header').click(function(e) {
+			if (odfViewer.open && $(e.target).closest('.header-right').length === 0) {
+				odfViewer.onClose()
+			}
+		})
 	},
 
 	onEdit: function(fileName, context) {
@@ -165,6 +170,42 @@ const odfViewer = {
 				}
 			})
 		})
+	},
+
+	onEditNewWindow: function(fileName, context) {
+		function updateURLParameter(url, param, paramVal) {
+			var newAdditionalURL = ''
+			var tempArray = url.split('?')
+			var baseURL = tempArray[0]
+			var additionalURL = tempArray[1]
+			var temp = ''
+			if (additionalURL) {
+				tempArray = additionalURL.split('&')
+				for (var i = 0; i < tempArray.length; i++) {
+					if (tempArray[i].split('=')[0] !== param) {
+						newAdditionalURL += temp + tempArray[i]
+						temp = '&'
+					}
+				}
+			}
+
+			var rowsTxt = paramVal ? temp + '' + param + '=' + encodeURIComponent(paramVal) : ''
+			return baseURL + '?' + newAdditionalURL + rowsTxt
+		}
+		if (context) {
+			var fileId = context.fileId || context.$file.attr('data-id')
+			var url = window.location.href
+
+			url = updateURLParameter(url, 'richdocuments_fileId', fileId)
+			url = updateURLParameter(url, 'richdocuments_open', fileName)
+			url = updateURLParameter(url, 'fileid', null)
+			var win = window.open(url, '_blank')
+			if (win) {
+				win.focus()
+			} else {
+				odfViewer.onEdit(fileName, context)
+			}
+		}
 	},
 
 	onReceiveLoading() {
