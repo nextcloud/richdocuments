@@ -134,7 +134,7 @@ const odfViewer = {
 		odfViewer.loadingTimeout = setTimeout(function() {
 			if (!odfViewer.receivedLoading) {
 				odfViewer.onClose()
-				OC.Notification.showTemporary(t('wopi', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().wopi.productName || 'Collabora Online' }))
+				OC.Notification.showTemporary(t('wopi', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().wopi.productName || 'Office Online' }))
 			}
 		}, 15000)
 		$iframe.src = documentUrl

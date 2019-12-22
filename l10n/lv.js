@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Nevar izveidot dokumentu",
     "New Document.odt" : "Jauns Dokuments.odt",
     "New Spreadsheet.ods" : "Juans Spreadsheet.ods",

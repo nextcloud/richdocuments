@@ -59,7 +59,7 @@ class Section implements IIconSection {
 		if (isset($capabilitites['wopi']['productName'])) {
 			return $capabilitites['wopi']['productName'];
 		}
-		return $this->l10n->t('Collabora Online');
+		return $this->l10n->t('Office Online');
 	}
 	/**
 	 * {@inheritdoc}

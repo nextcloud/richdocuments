@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora en linha",
+    "Office Online" : "Office en linha",
     "Can't create document" : "Impossible de crear lo document",
     "New Document.odt" : "Document Novèl.odt",
     "Saved" : "Enregistrat",

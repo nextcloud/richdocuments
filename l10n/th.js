@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora ออนไลน์",
+    "Office Online" : "Office ออนไลน์",
     "Can't create document" : "ไม่สามารถสร้างเอกสารได้",
     "New Document.odt" : "เอกสารใหม่.odt",
     "New Spreadsheet.ods" : "สเปรดชีตใหม่.ods",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "สเปรดชีตใหม่.xlsx",
     "New Presentation.pptx" : "งานนำเสนอใหม่.pptx",
     "Saved" : "บันทึกแล้ว",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Office ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
     "Save" : "บันทึก",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Apply" : "นำไปใช้",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Неуспешно създаване на документ",
     "New Document.odt" : "Нов Документ.odt",
     "New Spreadsheet.ods" : "Нова Електронна таблица.ods",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Cộng tác trực tuyến",
+    "Office Online" : "Cộng tác trực tuyến",
     "Can't create document" : "Không thể tạo tài liệu",
     "New Document.odt" : "Văn bảng mới.odt",
     "New Spreadsheet.ods" : "Bảng tính mới.ods",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Bảng tính mới.xlsx",
     "New Presentation.pptx" : "Trình bày mới.pptx",
     "Saved" : "Đã lưu",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Collabora Online nên sử dụng cùng một giao thức với máy chủ.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Office Online nên sử dụng cùng một giao thức với máy chủ.",
     "Save" : "Lưu",
     "New Document" : "Văn bảng mới",
     "New Spreadsheet" : "Bảng tính mới",

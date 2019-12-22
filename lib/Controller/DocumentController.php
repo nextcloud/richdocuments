@@ -198,7 +198,7 @@ class DocumentController extends Controller {
 						'&wopi_remote_access=' . $remote;
 					return new RedirectResponse($url);
 				}
-				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
+				$this->logger->warning('Failed to connect to remote Office instance for ' . $fileId);
 			}
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'wopi']);

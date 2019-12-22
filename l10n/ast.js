@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Nun pue crease'l documentu",
     "New Document.odt" : "Documentu.odt nuevu",
     "New Spreadsheet.ods" : "Fueya_de_cálculu.ods nueva",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Fueya_de_cálculu.xlsx nueva",
     "New Presentation.pptx" : "Presentación.pptx nueva",
     "Saved" : "Guardóse",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Guardóse con fallos: Office Online debería usar el mesmu protocolu que'l de la instalación del sirvidor.",
     "Saving…" : "Guardando...",
     "All" : "Too",
     "Save" : "Guardar",

@@ -62,7 +62,7 @@ class FederationService {
 
 	public function getRemoteCollaboraURL($remote) {
 		if ($this->trustedServers === null || !$this->trustedServers->isTrustedServer($remote)) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
+			$this->logger->info('Unable to determine Office URL of remote server ' . $remote . ' - Remote is not a trusted server');
 			return '';
 		}
 		if ($remoteCollabora = $this->cache->get('wopi_remote/' . $remote)) {
@@ -76,7 +76,7 @@ class FederationService {
 			$this->cache->set('wopi_remote/' . $remote, $remoteCollabora, 3600);
 			return $remoteCollabora;
 		} catch (\Throwable $e) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+			$this->logger->info('Unable to determine Office URL of remote server ' . $remote);
 			$this->cache->set('wopi_remote/' . $remote, '', 300);
 		}
 		return '';
@@ -98,14 +98,14 @@ class FederationService {
 			$data = \json_decode($response->getBody(), true);
 			return $data['ocs']['data'];
 		} catch (\Throwable $e) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+			$this->logger->info('Unable to determine Office URL of remote server ' . $remote);
 		}
 		return null;
 	}
 
 	public function getRemoteFileDetails($remote, $remoteToken) {
 		if ($this->trustedServers === null || !$this->trustedServers->isTrustedServer($remote)) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
+			$this->logger->info('Unable to determine Office URL of remote server ' . $remote . ' - Remote is not a trusted server');
 			return null;
 		}
 		try {
@@ -119,7 +119,7 @@ class FederationService {
 			$data = \json_decode($response->getBody(), true);
 			return $data['ocs']['data'];
 		} catch (\Throwable $e) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+			$this->logger->info('Unable to determine Office URL of remote server ' . $remote);
 		}
 		return null;
 	}
@@ -148,7 +148,7 @@ class FederationService {
 				}
 				return $url;
 			}
-			throw new NotFoundException('Failed to connect to remote collabora instance for ' . $item->getId());
+			throw new NotFoundException('Failed to connect to remote Office instance for ' . $item->getId());
 		}
 		return null;
 	}

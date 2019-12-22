@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Nedá sa vytvoriť dokument",
     "New Document.odt" : "Nový dokument.odt",
     "New Spreadsheet.ods" : "Nová tabuľka.ods",
@@ -11,7 +11,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Nová prezentácia.pptx",
     "Document already exists" : "Dokument už existuje",
     "Saved" : "Uložené",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uložené s chybou: Collabora Online by mala používať rovnaký protokol ako nainštalovaný server.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Uložené s chybou: Office Online by mala používať rovnaký protokol ako nainštalovaný server.",
     "Saving…" : "Ukladanie...",
     "All" : "Všetko",
     "Nickname" : "Prezývka",

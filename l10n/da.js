@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Kan ikke oprette dokument",
     "New Document.odt" : "Nyt dokument.odt",
     "New Spreadsheet.ods" : "Nyt regneark.ods",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Nyt regneark.xlsx",
     "New Presentation.pptx" : "Nyt præsentation.pptx",
     "Saved" : "Gemt",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Gemt med fejl: Office Online skal bruge samme protokol som server installationen.",
     "Saving…" : "Gemmer...",
     "All" : "Alle",
     "Save As" : "Gem som",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "დოკუმენტი ვერ შეიქმნა",
     "New Document.odt" : "ახალი დოკუმენტი.odt",
     "New Spreadsheet.ods" : "ახალი ცხრილი.ods",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "ახალი ცხრილი.xlsx",
     "New Presentation.pptx" : "ახალი პრეზენტაცია.pptx",
     "Saved" : "შენახულია",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Office Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
     "Saving…" : "მიმდინარეობს შენახვა…",
     "All" : "ყველა",
     "Please enter the filename to store the document as." : "დოკუმენტის შესანახად გთხოვთ შეიყვანოთ ფაილის სახელი.",
@@ -29,7 +29,7 @@ OC.L10N.register(
     "Enable access for external apps" : "დართეთ წვდომა გარე აპლიკაციებზე",
     "Add" : "დამატება",
     "Use Canonical webroot" : "კანონიკური ვებრუტის მოხმარება",
-    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "კანონიკური ვებრუტი, იმ შემთხვევაში თუ ერთზე მეტია Collabora-ს მოქმედებისთვის. მოგვაწოდეთ ერთ-ერთი ყველაზე ნაკლები შეზღუდვებით. მაგ.: გამოიყენეთ არა-შიბოლიზირებული ვებრუტი თუ ამ ინსტანციაზე წვდომა ექნება შიბოლიზირებულ და არა-შიბოლიზირებულ ვებრუტებს. იმ შემთხვევაში, თუ ინსტანციაზე მხოლოდ ერთ ვებრუტს აქვს წვდომა, შეგიძლიათ არ მიაქციოთ ამ პარამეტრს ყურადღება.",
+    "Canonical webroot, in case there are multiple, for Office to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "კანონიკური ვებრუტი, იმ შემთხვევაში თუ ერთზე მეტია Office-ს მოქმედებისთვის. მოგვაწოდეთ ერთ-ერთი ყველაზე ნაკლები შეზღუდვებით. მაგ.: გამოიყენეთ არა-შიბოლიზირებული ვებრუტი თუ ამ ინსტანციაზე წვდომა ექნება შიბოლიზირებულ და არა-შიბოლიზირებულ ვებრუტებს. იმ შემთხვევაში, თუ ინსტანციაზე მხოლოდ ერთ ვებრუტს აქვს წვდომა, შეგიძლიათ არ მიაქციოთ ამ პარამეტრს ყურადღება.",
     "Wrong password. Please retry." : "არასწორი პაროლი სცადეთ ახლიდან.",
     "Password" : "პაროლი",
     "OK" : "დიახ",

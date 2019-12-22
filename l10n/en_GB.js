@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Can't create document",
     "New Document.odt" : "New Document.odt",
     "New Spreadsheet.ods" : "New Spreadsheet.ods",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "New Spreadsheet.xlsx",
     "New Presentation.pptx" : "New Presentation.pptx",
     "Saved" : "Saved",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Saved with error: Office Online should use the same protocol as the server installation.",
     "Edit office documents directly in your browser." : "Edit office documents directly in your browser.",
     "Saving…" : "Saving…",
     "All" : "All",
@@ -31,7 +31,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Enable access for external apps",
     "Add" : "Add",
     "Use Canonical webroot" : "Use Canonical webroot",
-    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolised webroot if this instance is accessed by both shibbolised and non-shibbolised webroots. You can ignore this setting if only one webroot is used to access this instance.",
+    "Canonical webroot, in case there are multiple, for Office to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Canonical webroot, in case there are multiple, for Office to use. Provide the one with least restrictions. Eg: Use non-shibbolised webroot if this instance is accessed by both shibbolised and non-shibbolised webroots. You can ignore this setting if only one webroot is used to access this instance.",
     "Wrong password. Please retry." : "Incorrect password. Please try again.",
     "Password" : "Password",
     "OK" : "OK",

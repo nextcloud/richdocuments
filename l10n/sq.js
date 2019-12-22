@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "S’krijohet dot dokumenti",
     "New Document.odt" : "Dokument.odt i ri",
     "New Spreadsheet.ods" : "Fletëllogaritje.ods e re  ",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Fletëllogaritje.xlsx e re",
     "New Presentation.pptx" : "Prezantim.pptx i ri",
     "Saved" : "U ruajt",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "U ruajt me gabim: Office Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
     "Saving…" : "Duke u ruajtur...",
     "All" : "Të gjitha",
     "Save" : "Ruaje",

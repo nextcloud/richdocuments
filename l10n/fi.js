@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Asiakirjan luominen epäonnistui",
     "New Document.odt" : "Uusi asiakirja.odt",
     "New Spreadsheet.ods" : "Uusi taulukko.ods",
@@ -12,7 +12,7 @@ OC.L10N.register(
     "Document already exists" : "Asiakirja on jo olemassa",
     "Not allowed to create document" : "Asiakirjan luominen ei ole sallittu",
     "Saved" : "Tallennettu",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Office Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
     "Error when saving" : "Virhe tallentaessa",
     "File is too big" : "Tiedosto on liian suuri",
     "Template not found" : "Mallipohjaa ei löytynyt",

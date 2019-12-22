@@ -7,36 +7,33 @@ script('files', 'jquery.fileupload');
 ?>
 <div class="section" id="wopi">
 	<h2>
-		<?php p($l->t('Collabora Online')) ?>
+		<?php p($l->t('Office Online')) ?>
 	</h2>
 	<p>
-		<em><?php p($l->t('Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.')) ?></em>
-	</p>
-	<p>
-		<label for="wopi_url"><?php p($l->t('URL (and Port) of Collabora Online-server')) ?></label>
+		<label for="wopi_url"><?php p($l->t('URL (and Port) of Office Online-server')) ?></label>
 		<br />
 		<input type="text" name="wopi_url" id="wopi_url" placeholder="https://office.example.org:9980" value="<?php p($_['wopi_url'])?>"><button type="button" id="wopi_apply"><?php p($l->t('Apply')) ?></button>
 		<span id="documents-admin-msg" class="msg"></span>
 		<br />
-		<em><?php p($l->t('Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.')) ?></em>
+		<em><?php p($l->t('Office Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.')) ?></em>
 	</p>
 	<p>
 		<input type="checkbox" class="checkbox" id="disable_certificate_verification" <?php p($_['disable_certificate_verification'] === 'yes' ? 'checked' : '') ?> />
 		<label for="disable_certificate_verification"><?php p($l->t('Disable certificate verification (insecure)')) ?></label><br />
-		<em><?php p($l->t('Enable if your Collabora Online server uses a self signed certificate')) ?></em>
+		<em><?php p($l->t('Enable if your Office Online server uses a self signed certificate')) ?></em>
 	</p>
 	<p>
 		<input type="checkbox" class="use-groups-enable checkbox" id="use_groups_enable-wopi" />
 		<label for="use_groups_enable-wopi"><?php p($l->t('Restrict usage to specific groups')) ?></label>
 		<br/>
-		<em><?php p($l->t('Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it.')) ?></em><br />
+		<em><?php p($l->t('Office Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it.')) ?></em><br />
 		<input type="hidden" id="use_group_select" value="<?php p($_['use_groups'])?>" title="<?php p($l->t('All')); ?>">
 	</p>
 	<p>
 		<input type="checkbox" class="edit-groups-enable checkbox" id="edit_groups_enable-wopi" />
 		<label for="edit_groups_enable-wopi"><?php p($l->t('Restrict edit to specific groups')) ?></label>
 		<br/>
-		<em><?php p($l->t('All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.')) ?></em><br />
+		<em><?php p($l->t('All users can edit documents with Office Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.')) ?></em><br />
 		<input type="hidden" id="edit_group_select" value="<?php p($_['edit_groups'])?>" title="<?php p($l->t('All')); ?>">
 	</p>
 
@@ -66,7 +63,7 @@ script('files', 'jquery.fileupload');
 	<div id="enable-canonical-webroot-section" class="indent <?php if ($_['canonical_webroot'] === '') p('hidden') ?>" >
 		<input type="text" id="canonical-webroot" name="canonical-webroot-name" value="<?php p($_['canonical_webroot']) ?>">
 		<br/>
-		<p class="rd-settings-documentation"><em><?php p($l->t('Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')) ?></em></p>
+		<p class="rd-settings-documentation"><em><?php p($l->t('Canonical webroot, in case there are multiple, for Office to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')) ?></em></p>
 	</div>
 	</p>
 </div>

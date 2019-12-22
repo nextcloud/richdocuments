@@ -3,9 +3,10 @@
 	<id>wopi</id>
 	<name>Wopi</name>
 	<summary>Edit office documents directly in your browser.</summary>
-	<description>This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</description>
+	<description>This application can connect to a Microsoft Office Online Server (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.</description>
 	<version>3.4.9</version>
 	<licence>agpl</licence>
+	<author mail="info@roscomputing.com" homepage="https://roscomputing.com">RosComputing</author>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
 		<filesystem/>
@@ -14,16 +15,13 @@
 	</types>
 	<documentation>
 		<user>https://nextcloud.com/collaboraonline/</user>
-		<admin>https://github.com/nextcloud/wopi/wiki</admin>
+		<admin>https://github.com/nextcloud/richdocuments/wiki</admin>
 	</documentation>
 	<category>office</category>
 	<category>integration</category>
-    <website>https://collaboraoffice.com/</website>
+    <website>https://roscomputing.com/</website>
 	<bugs>https://github.com/roscomputing/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/roscomputing/richdocuments.git</repository>
-	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png</screenshot>
-	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png</screenshot>
-	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png</screenshot>
 	<dependencies>
 		<nextcloud min-version="15" max-version="18" />
 	</dependencies>

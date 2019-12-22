@@ -1,5 +1,5 @@
 { "translations": {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Ezin da dokumentua sortu",
     "Not allowed to create document" : "Ez duzu baimenik dokumentua sortzeko",
     "Saved" : "Gordeta",
@@ -27,7 +27,7 @@
     "template preview" : "txantiloiaren aurrebista",
     "Select a template directory" : "Hautatu txantiloien direktorioa",
     "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Direktorio honetako txantiloiak Collabora Online-ko txantiloi hautatzailera gehituko dira",
+    "Templates inside of this directory will be added to the template selector of Office Online." : "Direktorio honetako txantiloiak Office Online-ko txantiloi hautatzailera gehituko dira",
     "Wrong password. Please retry." : "Pasahitz okerra. Saiatu berriro.",
     "Password" : "Pasahitza",
     "OK" : "Ados",

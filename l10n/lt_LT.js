@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Nepavyksta sukurti dokumento",
     "New Document.odt" : "Naujas dokumentas.odt",
     "New Spreadsheet.ods" : "Nauja skaičiuoklė.ods",
@@ -12,7 +12,7 @@ OC.L10N.register(
     "Document already exists" : "Dokumentas jau yra",
     "Not allowed to create document" : "Neleidžiama sukurti dokumentą",
     "Saved" : "Įrašyta",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Įrašyta su klaida: Collabora Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Įrašyta su klaida: Office Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
     "Invalid config key" : "Neteisingas konfigūracijos raktas",
     "Error when saving" : "Klaida įrašant",
     "File is too big" : "Failas yra per didelis",

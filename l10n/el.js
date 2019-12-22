@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "Collabora Online",
+    "Office Online" : "Office Online",
     "Can't create document" : "Δεν είναι δυνατή η δημιουργία του εγγράφου",
     "New Document.odt" : "Νέο Έγγραφο.odt",
     "New Spreadsheet.ods" : "Νέο Λογιστικό Φύλλο.ods",
@@ -11,7 +11,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Νέα Παρουσίαση.pptx",
     "Document already exists" : "Το έγγραφο υπάρχει ήδη",
     "Saved" : "Αποθηκεύτηκαν",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Αποθήκευση με σφάλμα: Το Collabora Online πρέπει να χρησιμοποιήσει το ίδιο πρωτόκολλο με την εγκατάσταση του διακομιστή.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Αποθήκευση με σφάλμα: Το Office Online πρέπει να χρησιμοποιήσει το ίδιο πρωτόκολλο με την εγκατάσταση του διακομιστή.",
     "Only template files can be uploaded" : "Μόνο αρχεία προτύπων μπορούν να μεταφορτωθούν",
     "Saving…" : "Γίνεται αποθήκευση...",
     "All" : "'Ολα",

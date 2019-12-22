@@ -1,7 +1,7 @@
 OC.L10N.register(
     "wopi",
     {
-    "Collabora Online" : "онлайн Collabora ",
+    "Office Online" : "онлайн Office ",
     "Can't create document" : "Документ үүсгэх боломжгүй байна",
     "New Document.odt" : "шинэ доккумент.odt",
     "New Spreadsheet.ods" : "шинэ  хүснэгт.ods",
@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Шинэ Spreadsheet.xlsx",
     "New Presentation.pptx" : "Шинэ танилцуулга.pptx",
     "Saved" : "хадгалагдсан",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "алдааг хадгалсан: Office Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
     "Saving…" : "хадаглаж байна...",
     "Save" : "хадгалах",
     "New Document" : "шинэ документ",
