@@ -37,4 +37,9 @@
 		<personal>OCA\Wopi\Settings\Personal</personal>
 		<personal-section>OCA\Wopi\Settings\Section</personal-section>
 	</settings>
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Wopi\Migration\OldConfigRepairStep</step>
+		</post-migration>
+	</repair-steps>
 </info>

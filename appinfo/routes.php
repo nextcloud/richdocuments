@@ -64,6 +64,9 @@ return [
 		['name' => 'templates#getPreview', 'url' => '/template/preview/{fileId}', 'verb' => 'GET'],
 		['name' => 'templates#add', 'url' => '/template', 'verb' => 'POST'],
 		['name' => 'templates#delete', 'url' => '/template/{fileId}', 'verb' => 'DELETE'],
+
+		//backwards compatibility
+		['name' => 'page#editor', 'url' => '/editor', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['name' => 'OCS#create', 'url' => '/api/v1/document', 'verb' => 'POST'],

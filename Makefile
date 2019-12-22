@@ -34,6 +34,7 @@ appstore: clean
 	--exclude=phpunit*xml \
 	--exclude=tests \
 	--exclude=vendor/bin \
+	--exclude=node_modules \
 	$(project_dir) $(sign_dir)
 	@echo "Signing…"
 	$(occ) integrity:sign-app --privateKey=$(cert_dir)/$(app_name).key --certificate=$(cert_dir)/$(app_name).crt --path=$(sign_dir)/$(app_name)
