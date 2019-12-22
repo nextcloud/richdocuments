@@ -19,6 +19,7 @@ OC.L10N.register(
     "Template not found" : "No se encontró la plantilla",
     "Empty" : "Vacío",
     "Edit office documents directly in your browser." : "Edita archivos de office directamente en tu navegador.",
+    "No results" : "Sin resultados",
     "Saving…" : "Guardando...",
     "All" : "Todos",
     "Error" : "Error",

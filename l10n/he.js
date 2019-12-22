@@ -19,6 +19,7 @@ OC.L10N.register(
     "Template not found" : "התבנית לא נמצאה",
     "Empty" : "ריק",
     "Edit office documents directly in your browser." : "עריכת מסמכי Office ישירות בדפדפן שלך.",
+    "No results" : "אין תוצאות",
     "Saving…" : "מתבצעת שמירה…",
     "All" : "הכול",
     "Error" : "שגיאה",

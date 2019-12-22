@@ -1,0 +1,15 @@
+{ "translations": {
+    "Saved" : "Saqlangan",
+    "File is too big" : "Fayl juda katta",
+    "Invalid file provided" : "Berilgan fayl noto'g'ri",
+    "Saving…" : "Saqlanmoqda...",
+    "All" : "Hammasi",
+    "Error" : "Xato",
+    "Cancel" : "Bekor qilish",
+    "Save" : "Saqlash",
+    "Download" : "Yuklab oling",
+    "Add" : "Qo'shish",
+    "Password" : "Parol",
+    "OK" : "OK"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Template not found" : "A sablon nem található",
     "Empty" : "Üres",
     "Edit office documents directly in your browser." : "Office dokumentum szerkesztése közvetlenül a böngésződben.",
+    "No results" : "Nincs találat",
     "Saving…" : "Mentés...",
     "All" : "Mind",
     "Error" : "Hiba",
