@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Nytt Kalkylblad.xlsx",
     "New Presentation.pptx" : "Ny Presentation.pptx",
     "Document already exists" : "Dokumentet finns redan",
-    "Not allowed to create document" : "Ej tillåtet att skapa dokument",
+    "Not allowed to create document" : "Inte tillåtet att skapa dokument",
     "Saved" : "Sparad",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sparad med felmeddelande: Collabora Online bör använda samma protokoll som serverinstallationen.",
     "Invalid config key" : "Ogiltig konfigureringsnyckel",
