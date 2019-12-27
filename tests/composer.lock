@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38ca2fc61bdfd2287c881b8b466a1b73",
+    "content-hash": "4431e30b34e7cbf06a085f32ca6fef9b",
     "packages": [],
     "packages-dev": [
         {
@@ -506,16 +506,16 @@
         },
         {
             "name": "juliushaertl/nextcloud-behat",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/juliushaertl/nextcloud-behat.git",
-                "reference": "0e44501ee763a1a5710847bf4bc21918969706b2"
+                "reference": "51d09d5d204ec3ae1d0bf0b76db53444d0909f2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/juliushaertl/nextcloud-behat/zipball/0e44501ee763a1a5710847bf4bc21918969706b2",
-                "reference": "0e44501ee763a1a5710847bf4bc21918969706b2",
+                "url": "https://api.github.com/repos/juliushaertl/nextcloud-behat/zipball/51d09d5d204ec3ae1d0bf0b76db53444d0909f2a",
+                "reference": "51d09d5d204ec3ae1d0bf0b76db53444d0909f2a",
                 "shasum": ""
             },
             "require": {
@@ -545,7 +545,7 @@
                 }
             ],
             "description": "Behat context helpers for Nextcloud integration tests",
-            "time": "2019-12-27T15:16:16+00:00"
+            "time": "2019-12-27T15:55:03+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3365,9 +3365,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "juliushaertl/nextcloud-behat": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
