@@ -57,6 +57,9 @@ echo "Installing server"
 cd ../server
 bash $WORKDIR/tests/drone-server-install.sh $DB
 
+export OC_PASS=123456
+php occ user:add --password-from-env user1
+php occ user:add --password-from-env user2
 echo "Installing app: $APP_NAME"
 php occ app:enable $APP_NAME
 
