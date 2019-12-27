@@ -4,6 +4,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Assert;
 
 class FeatureContext implements Context
 {
@@ -103,8 +104,20 @@ class FeatureContext implements Context
 				'X-LOOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime']
 			]
 		];
-		$result = $client->post($this->baseUrl . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '/contents?access_token=' . $this->wopiToken, $options);
-		$this->checkFileInfoResult = json_decode($result->getBody()->getContents(), true);
+		try {
+			$result = $client->post($this->baseUrl . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '/contents?access_token=' . $this->wopiToken, $options);
+			$this->checkFileInfoResult = json_decode($result->getBody()->getContents(), true);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then /^the HTTP status code should be "([^"]*)"$/
+	 * @param int $statusCode
+	 */
+	public function theHTTPStatusCodeShouldBe($statusCode) {
+		Assert::assertEquals($statusCode, $this->response->getStatusCode());
 	}
 
 
