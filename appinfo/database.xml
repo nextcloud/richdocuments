@@ -38,6 +38,12 @@
 				<length>4</length>
 			</field>
 			<field>
+				<name>path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+			<field>
 				<name>version</name>
 				<type>integer</type>
 				<notnull>true</notnull>

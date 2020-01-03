@@ -392,16 +392,38 @@ class WopiController extends Controller {
 		}
 
 		try {
+
+			if (!$isPutRelative) {
+				try {
+					$file = $this->getFileForWopiToken($wopi);
+					$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
+
+					if ($wopiHeaderTime !== null && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
+						$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
+							'headerTime' => $wopiHeaderTime,
+							'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
+						]);
+						// Tell WOPI client about this conflict.
+						return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+					}
+				} catch (\Exception $e) {
+					$isPutRelative = true;
+				}
+			}
+
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
 				$file = $userFolder->getById($fileId);
 				if (count($file) === 0) {
-					return new JSONResponse([], Http::STATUS_NOT_FOUND);
+					//return new JSONResponse([], Http::STATUS_NOT_FOUND);
+					$file = $userFolder->newFile($fileId);
+					$suggested = $access_token . '.odt';
+				} else {
+					$file = $file[0];
+					$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
+					$suggested = iconv('utf-7', 'utf-8', $suggested);
 				}
-				$file = $file[0];
-				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = iconv('utf-7', 'utf-8', $suggested);
 
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
@@ -429,18 +451,6 @@ class WopiController extends Controller {
 				$path = $this->rootFolder->getNonExistingName($path);
 				$this->rootFolder->newFile($path);
 				$file = $this->rootFolder->get($path);
-			} else {
-				$file = $this->getFileForWopiToken($wopi);
-				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
-
-				if ($wopiHeaderTime !== null && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
-					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
-						'headerTime' => $wopiHeaderTime,
-						'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
-					]);
-					// Tell WOPI client about this conflict.
-					return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
-				}
 			}
 
 			$content = fopen('php://input', 'rb');
