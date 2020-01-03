@@ -24,7 +24,7 @@ OC.L10N.register(
     "Anonymous guest" : "Invitado anónimo",
     "Edit office documents directly in your browser." : "Edita documentos directamente en tu navegador.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Esta aplicación puede conectarse a un servidor de Collabora Online (u otro) servidor (cliente tipo WOPI). Nextcloud es el host WOPI. Por favor, lee la documentación para conocer más sobre esto.",
-    "Secure view enables you to secure documents by embedding a watermark" : "La vista segura permite asegurar documentos mediante la inserción de una marca de agua en ellos",
+    "Secure view enables you to secure documents by embedding a watermark" : "La vista segura permite garantizar documentos mediante la inserción de una marca de agua en ellos",
     "Supported placeholders: {userId}, {date}" : "Marcadores soportados: {userId}, {date}",
     "No results" : "No hay resultados",
     "Saving…" : "Guardando…",
