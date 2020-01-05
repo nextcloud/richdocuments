@@ -20,6 +20,7 @@ OC.L10N.register(
     "Empty" : "空",
     "%s (Guest)" : "%s(人のゲスト)",
     "Edit office documents directly in your browser." : "ブラウザで直接オフィス文書を編集する。",
+    "Secure view enables you to secure documents by embedding a watermark" : "セキュアビューによって透かしを埋め込んでドキュメントを保護できます",
     "No results" : "該当なし",
     "Saving…" : "保存中...",
     "All" : "すべて",
