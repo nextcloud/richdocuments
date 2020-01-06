@@ -9,6 +9,7 @@ OC.L10N.register(
     "New Document.docx" : "Нов Документ.docx",
     "New Spreadsheet.xlsx" : "Нов Документ.xlsx",
     "New Presentation.pptx" : "Нова Презентация.pptx",
+    "Document already exists" : "Документът вече съществува",
     "Saved" : "Запазване",
     "Error when saving" : "Грешка при записването",
     "File is too big" : "Файлът е твърде голям",
