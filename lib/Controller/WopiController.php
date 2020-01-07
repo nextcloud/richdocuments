@@ -444,9 +444,9 @@ class WopiController extends Controller {
 			}
 
 			$content = fopen('php://input', 'rb');
-
 			// Set the user to register the change under his name
 			$this->userScopeService->setUserScope($wopi->getEditorUid());
+			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getOwnerUid());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){
@@ -480,6 +480,8 @@ class WopiController extends Controller {
 	 * Expects a valid token in access_token parameter.
 	 * Just actually routes to the PutFile, the implementation of PutFile
 	 * handles both saving and saving as.* Given an access token and a fileId, replaces the files with the request body.
+	 *
+	 * FIXME Cleanup this code as is a lot of shared logic between putFile and putRelativeFile
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
@@ -582,9 +584,9 @@ class WopiController extends Controller {
 			}
 
 			$content = fopen('php://input', 'rb');
-
 			// Set the user to register the change under his name
 			$this->userScopeService->setUserScope($wopi->getEditorUid());
+			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getOwnerUid());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){

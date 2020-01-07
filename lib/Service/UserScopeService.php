@@ -52,4 +52,17 @@ class UserScopeService {
 		}
 		$this->userSession->setUser($user);
 	}
+
+	/**
+	 * Setup the FS which is needed to emit hooks
+	 *
+	 * This is required for versioning/activity as the legacy filesystem hooks
+	 * are not emitted if filesystem operations are executed though \OCP\Files\Node\File
+	 *
+	 * @param string $owner
+	 */
+	public function setFilesystemScope(string $owner): void {
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($owner);
+	}
 }
