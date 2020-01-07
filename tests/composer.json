@@ -1,0 +1,10 @@
+{
+  "require-dev": {
+    "phpunit/phpunit": "~8.0",
+    "behat/behat": "^3.0",
+    "guzzlehttp/guzzle": "~6.0",
+    "jarnaiz/behat-junit-formatter": "^1.3",
+    "sabre/dav": "^4.0",
+    "juliushaertl/nextcloud-behat": "^0.1.0"
+  }
+}
