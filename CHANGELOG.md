@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.5.1
+
+### Fixed
+- Fix issue when shared files were not creating activity/version entries
+- Fix bug on public share links
+- Dependency bumps
+
 ## 3.5.0
 
 ### Added
