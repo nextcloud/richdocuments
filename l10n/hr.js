@@ -21,6 +21,7 @@ OC.L10N.register(
     "Template not found" : "Predložak nije pronađen",
     "Empty" : "Prazno",
     "%s (Guest)" : "%s (gost)",
+    "Anonymous guest" : "Anoniman gost",
     "Edit office documents directly in your browser." : "Uređujte dokumente paketa Office izravno u svom pregledniku.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Ova se aplikacija može povezati s poslužiteljem Collabora Online (ili drugim) (WOPI ili sličan klijent). Nextcloud je domaćin za WOPI. Pročitajte dokumentaciju za više informacija.",
     "Secure view enables you to secure documents by embedding a watermark" : "Sigurno pregledavanje vam omogućuje da zaštitite dokumente ugradnjom vodenog žiga",
