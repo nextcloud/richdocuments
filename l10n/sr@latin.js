@@ -1,11 +1,17 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No results" : "Nema rezultata",
     "Error" : "Greška",
     "Cancel" : "Cancel",
     "Save" : "Save",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
+    "Details" : "Detalji",
+    "Download" : "Preuzmi",
+    "Guest" : "Gost",
+    "Create" : "Napravi",
+    "Select template" : "Odaberite šablon",
     "Add" : "Dodaj",
     "Password" : "Password",
     "OK" : "OK"
