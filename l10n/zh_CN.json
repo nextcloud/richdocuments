@@ -25,7 +25,7 @@
     "Secure view enables you to secure documents by embedding a watermark" : "安全查看允许您植入水印来保护文档",
     "Supported placeholders: {userId}, {date}" : "受支持的占位符：{userId}，{date}",
     "No results" : "无结果",
-    "Saving…" : "保存中",
+    "Saving…" : "正在保存…",
     "All" : "全部",
     "Error" : "错误",
     "An error occurred" : "发生了一个错误",
