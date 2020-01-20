@@ -16,6 +16,7 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "جزئیات",
     "Download" : "دانلود",
+    "Guest" : "مهمان",
     "Could not create file" : "امکان ایجاد فایل وجود ندارد",
     "Create" : "ایجاد کردن",
     "Apply" : "اعمال",

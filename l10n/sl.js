@@ -33,7 +33,7 @@ OC.L10N.register(
     "New Presentation" : "Nova predstavitev",
     "Could not create file" : "Datoteke ni mogoče ustvariti",
     "Create" : "Ustvari",
-    "Select template" : "IZbor predloge",
+    "Select template" : "Izbor predloge",
     "Apply" : "Uveljavi",
     "Add" : "Dodaj",
     "Wrong password. Please retry." : "Napačno geslo. Poskusite znova.",
