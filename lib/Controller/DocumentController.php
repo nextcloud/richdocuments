@@ -262,6 +262,9 @@ class DocumentController extends Controller {
 			$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
 			$policy->allowInlineScript(true);
 			$response->setContentSecurityPolicy($policy);
+			$response->addHeader('Cache-Control', 'no-cache, no-store');
+			$response->addHeader('Expires', '-1');
+			$response->addHeader('Pragma', 'no-cache');
 			return $response;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
