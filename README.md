@@ -49,12 +49,13 @@ The app can be built by using the provided Makefile by running:
 
     make
 
+To make appstore build run:
+
+    make appstore
+
+The archive is then located in build/artifacts.
+
 This requires the following things to be present:
 * make
-* which
+* npm
 * tar: for building the archive
-* curl: used if phpunit and composer are not installed to fetch them from the web
-
-The make command will install or update Composer dependencies.
-The archive is then located in build/artifacts/appstore.
-
