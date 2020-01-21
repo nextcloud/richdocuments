@@ -10,10 +10,15 @@ package_name=$(app_name)
 cert_dir=$(HOME)/.nextcloud/certificates
 occ=$(CURDIR)/../../occ
 
+all: build
+
+build:
+	npm run build
+
 clean:
 	rm -fr $(build_dir)
 
-appstore: clean
+appstore: clean build
 	mkdir -p $(sign_dir)
 	rsync -a \
 	--exclude=.git \
