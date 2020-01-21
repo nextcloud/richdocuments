@@ -194,6 +194,8 @@ class WopiController extends Controller {
 		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
+		if ($version === '0')
+			$version = (string)$file->getMTime();
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
