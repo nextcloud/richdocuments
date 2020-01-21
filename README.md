@@ -1,55 +1,60 @@
-# Collabora Online
-[![Build Status](https://scrutinizer-ci.com/g/nextcloud/wopi/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/wopi/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/wopi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/wopi/?branch=master)
-[![irc](https://img.shields.io/badge/IRC-%23nextcloud%20on%20freenode-orange.svg)](https://webchat.freenode.net/?channels=nextcloud)
+# Wopi
 
-**A [Nextcloud](https://nextcloud.com) app integrating Collabora Online into your Nextcloud!**
-
-![](https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png)
+This is an application for [Nextcloud](https://nextcloud.com) that allows you 
+to edit office documents in Microsoft office online server. 
+The application implements the api described on the page https://wopi.readthedocs.io/projects/wopirest/en/latest/. 
+List of implemented methods
+* FILE OPERATIONS
+  * CheckFileInfo
+  * GetFile
+  * Lock
+  * GetLock
+  * RefreshLock
+  * Unlock
+  * UnlockAndRelock
+  * PutFile
+  * PutRelativeFile
+  * RenameFile
 
 ## Installation
 
 ### Server
 
-You will need an working Collabora Online server to connect to.
-Find out more about Nextcloud and Collabora Online, and how to setup an server here: https://nextcloud.com/collaboraonline/
-
-Note: it is possible to use Collabora Online’s integration with re-compiled and/or re-branded backends.
+You will need an working Microsoft Office Online server to connect to.
+The office server must have access to the nextcloud server at the same 
+address at which the user accesses the nextcloud server.
 
 ### Nextcloud app
 
-In your Nextcloud, simply navigate to »Apps«, choose the category »Office & text«, find the Collabora Online app and enable it. Then open the administrator settings, navigate to the »Collabora Online« tab and specify your Collabora Online server.
+In your Nextcloud, simply navigate to »Apps«, choose the category »Office & text«, 
+find the Wopi app and enable it. Then open the administrator settings, 
+navigate to the »Office Online« tab and specify your Office Online server url.
 
-### Nextcloud/Collabora Online relation
+### Nextcloud/Wopi relation
 
-For the latest information about the Collabora Online and Nextcloud releases, please visit the:
+For the latest information about the Wopi and Nextcloud releases, please visit the:
 
-[Apps page of Collabora](https://apps.nextcloud.com/apps/wopi).
+[Apps page of Wopi](https://apps.nextcloud.com/apps/wopi).
 
 ### Federated editing / Global Scale
-Collaborative editing of federated documents requires wopi version 3.4 on all involved servers. Besides that the following conditions must be met:
+Collaborative editing of federated documents requires Wopi version 3.4 on all 
+involved servers. Besides that the following conditions must be met:
 
 - Make sure the remote server is added as a trusted server
-- Allow any domain to embed Collabora Online in a frame:
-  `<frame_ancestors>https://*</frame_ancestors>` must be set in loolwsd.xml
-
-**Note:** Due to our content security policy we cannot open a document on a remote instance without reloading the page to allow Nextcloud embedding the remote collabora instance in a frame.
 
 
-### Scripted installation (Ubuntu), Server + Nextcloud app
-The developers of the [Nextcloud VM](https://github.com/nextcloud/vm) has made a [script](https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora.sh) that you can use.
-Please remember to check the variables in the script to suit your config before you run it, though it should work out of the box on all Ubuntu servers from 16.04 an upwards.
+## Building the app
 
-The only thing you must have prepared before you run the script is to have SSL (https://) on your Nextcloud domain and to setup a DNS record to a new domain that you will host Collabora on (office.domain.com for example) and point that your server. SSL is set up with Let's Encrypt.
+The app can be built by using the provided Makefile by running:
 
-To get the script, please type the folloing command: `wget https://github.com/nextcloud/vm/blob/master/apps/collabora.sh` and then run the script with `sudo bash nextant.sh`.
+    make
 
-Please report any issues regarding the script in the [Nextcloud VM repo](https://github.com/nextcloud/vm/issues).
+This requires the following things to be present:
+* make
+* which
+* tar: for building the archive
+* curl: used if phpunit and composer are not installed to fetch them from the web
 
-## Support
+The make command will install or update Composer dependencies.
+The archive is then located in build/artifacts/appstore.
 
-- [Our Forum](https://help.nextcloud.com/c/support/collabora)
-
-Enterprise users who need a more reliable and scalable solution can take advantage of Nextcloud GmbH's optional support contract for Collabora Online. Find out more about Enterprise support for Collabora Online over here: https://nextcloud.com/enterprise/
-
-- [Request a quote](https://nextcloud.com/enterprise/buy/)
