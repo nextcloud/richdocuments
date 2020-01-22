@@ -467,7 +467,10 @@ class WopiController extends Controller {
 
 				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
 			}
-
+			if ($wopi->hasTemplateId()) {
+				$wopi->setTemplateId(null);
+				$this->wopiMapper->update($wopi);
+			}
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
