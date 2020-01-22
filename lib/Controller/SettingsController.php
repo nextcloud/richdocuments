@@ -168,7 +168,12 @@ class SettingsController extends Controller{
 				}
 			}
 		} catch (\Exception $e){
-			// Ignore
+			if ($wopi_url !== null) {
+				return new JSONResponse([
+					'status' => 'error',
+					'data' => ['message' => 'Failed to connect to the remote server']
+				], 500);
+			}
 		}
 
 		$this->capabilitiesService->clear();

@@ -49,21 +49,6 @@ const documentsSettings = {
 		return app1
 	},
 
-	save: function() {
-		$('#wopi_apply, #disable_certificate_verification').attr('disabled', true)
-		var data = {
-			wopi_url: $('#wopi_url').val().replace(/\/$/, ''),
-			disable_certificate_verification: document.getElementById('disable_certificate_verification').checked
-		}
-
-		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…'))
-		$.post(
-			OC.filePath('richdocuments', 'ajax', 'admin.php'),
-			data,
-			documentsSettings.afterSave
-		)
-	},
-
 	saveGroups: function(data) {
 		$.post(
 			OC.filePath('richdocuments', 'ajax', 'admin.php'),
@@ -76,11 +61,6 @@ const documentsSettings = {
 			OC.filePath('richdocuments', 'ajax', 'admin.php'),
 			{ 'doc_format': format }
 		)
-	},
-
-	afterSave: function(response) {
-		$('#wopi_apply, #disable_certificate_verification').attr('disabled', false)
-		OC.msg.finishedAction('#documents-admin-msg', response)
 	},
 
 	saveExternalApps: function(externalAppsData) {
@@ -148,9 +128,7 @@ const documentsSettings = {
 		documentsSettings.initGroups()
 		documentsSettings.initExternalApps()
 
-		var page = $('#richdocuments')
-
-		$('#wopi_apply').on('click', documentsSettings.save)
+		var page = $('#richdocuments-advanced')
 
 		// destroy or create app name and token fields depending on whether the checkbox is on or off
 		$(document).on('change', '#enable_external_apps_cb-richdocuments', function() {
@@ -206,17 +184,6 @@ const documentsSettings = {
 			// create a placeholder for adding new app
 			var app1 = documentsSettings._createExtApp()
 			$('#external-apps-section').append(app1)
-		})
-
-		$(document).on('click', '#test_wopi_apply', function() {
-			var groups = page.find('#test_server_group_select').val()
-			var testserver = page.find('#test_wopi_url').val()
-
-			if (groups !== '' && testserver !== '') {
-				documentsSettings.saveTestWopi(groups, testserver)
-			} else {
-				OC.msg.finishedError('#test-documents-admin-msg', 'Both fields required')
-			}
 		})
 
 		$(document).on('change', '.doc-format-ooxml', function() {
