@@ -86,7 +86,40 @@
 			</fieldset>
 		</div>
 
-		<div id="secure-view-settings" class="section">
+		<div v-if="isSetup" id="advanced-settings" class="section">
+			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
+			<settings-checkbox :value="isOoxml" label="Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" hint=""
+				:disabled="updating" @input="updateOoxml" />
+
+			<settings-checkbox :value="settings.use_groups !== null" label="Restrict usage to specific groups" hint="Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it."
+				:disabled="updating" @input="updateUseGroups">
+				<settings-select-group v-if="settings.use_groups !== null" v-model="settings.use_groups" label="Select groups"
+					class="option-inline" :disabled="updating" @input="updateUseGroups" />
+			</settings-checkbox>
+
+			<settings-checkbox :value="settings.edit_groups !== null" label="Restrict edit to specific groups" hint="All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents."
+				:disabled="updating" @input="updateEditGroups">
+				<settings-select-group v-if="settings.edit_groups !== null" v-model="settings.edit_groups" label="Select groups"
+					class="option-inline" :disabled="updating" @input="updateEditGroups" />
+			</settings-checkbox>
+
+			<settings-checkbox v-model="uiVisible.canonical_webroot" label="Use Canonical webroot" hint=""
+				:disabled="updating" @input="updateCanonicalWebroot">
+				<settings-input-text v-if="uiVisible.canonical_webroot" v-model="settings.canonical_webroot" label=""
+					:hint="t('richdocuments', 'Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')"
+					:disabled="updating" class="option-inline" @update="updateCanonicalWebroot" />
+			</settings-checkbox>
+
+			<settings-checkbox v-model="uiVisible.external_apps" label="Enable access for external apps" hint=""
+				:disabled="updating" @input="updateExternalApps">
+				<div v-if="uiVisible.external_apps">
+					<settings-external-apps class="option-inline" :external-apps="settings.external_apps" :disabled="updating"
+						@input="updateExternalApps" />
+				</div>
+			</settings-checkbox>
+		</div>
+
+		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure view settings') }}</h2>
 			<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
 			<settings-checkbox v-model="settings.watermark.enabled" label="Enable watermarking" hint=""
@@ -138,6 +171,7 @@ import SettingsCheckbox from './SettingsCheckbox'
 import SettingsInputText from './SettingsInputText'
 import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
+import SettingsExternalApps from './SettingsExternalApps'
 import { generateUrl } from 'nextcloud-router'
 
 const SERVER_STATE_OK = 0
@@ -151,7 +185,8 @@ export default {
 		SettingsInputText,
 		SettingsSelectTag,
 		SettingsSelectGroup,
-		Multiselect
+		Multiselect,
+		SettingsExternalApps
 	},
 	props: {
 		initial: {
@@ -166,6 +201,10 @@ export default {
 			updating: false,
 			groups: [],
 			tags: [],
+			uiVisible: {
+				canonical_webroot: false,
+				external_apps: false
+			},
 			settings: {
 				demoUrl: null,
 				wopi_url: null,
@@ -190,6 +229,12 @@ export default {
 	computed: {
 		demoServers() {
 			return this.initial.demo_servers
+		},
+		isSetup() {
+			return this.serverError === SERVER_STATE_OK
+		},
+		isOoxml() {
+			return this.settings.doc_format === 'ooxml'
 		}
 	},
 	beforeMount() {
@@ -207,6 +252,15 @@ export default {
 
 		}
 		Vue.set(this.settings, 'data', this.initial.settings)
+		if (this.settings.wopi_url === '') {
+			this.serverError = SERVER_STATE_CONNECTION_ERROR
+		}
+		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups.split('|'))
+		Vue.set(this.settings, 'use_groups', this.settings.use_groups.split('|'))
+
+		this.uiVisible.canonical_webroot = this.settings.canonical_webroot !== ''
+		this.uiVisible.external_apps = this.settings.external_apps !== ''
+
 		this.checkIfDemoServerIsActive()
 	},
 	methods: {
@@ -221,26 +275,77 @@ export default {
 				console.error(error)
 			})
 		},
-		async updateServer() {
-			const data = {
-				wopi_url: this.settings.wopi_url,
-				disable_certificate_verification: this.settings.disable_certificate_verification
+		async updateUseGroups(enabled) {
+			if (enabled) {
+				this.settings.use_groups = enabled === true ? [] : enabled
+			} else {
+				this.settings.use_groups = null
 			}
+			await this.updateSettings({
+				use_groups: this.settings.use_groups !== null ? this.settings.use_groups.join('|') : ''
+			})
+		},
+		async updateEditGroups(enabled) {
+			if (enabled) {
+				this.settings.edit_groups = enabled === true ? [] : enabled
+			} else {
+				this.settings.edit_groups = null
+			}
+			await this.updateSettings({
+				edit_groups: this.settings.edit_groups !== null ? this.settings.edit_groups.join('|') : ''
+			})
+		},
+		async updateCanonicalWebroot(canonicalWebroot) {
+			this.settings.canonical_webroot = (typeof canonicalWebroot === 'boolean') ? '' : canonicalWebroot
+			if (canonicalWebroot === true) {
+				return
+			}
+			await this.updateSettings({
+				canonical_webroot: this.settings.canonical_webroot
+			})
+		},
+		async updateExternalApps(externalApps) {
+			this.settings.external_apps = (typeof externalApps === 'boolean') ? '' : externalApps
+			if (externalApps === true) {
+				return
+			}
+			await this.updateSettings({
+				external_apps: this.settings.external_apps
+			})
+		},
+		async updateOoxml(enabled) {
+			this.settings.doc_format = enabled ? 'ooxml' : ''
+			await this.updateSettings({
+				doc_format: this.settings.doc_format
+			})
+		},
+		async updateServer() {
 			this.serverError = SERVER_STATE_LOADING
-			this.updating = true
-
 			try {
-				await axios.post(
-					OC.filePath('richdocuments', 'ajax', 'admin.php'),
-					data
-				)
+				await this.updateSettings({
+					wopi_url: this.settings.wopi_url,
+					disable_certificate_verification: this.settings.disable_certificate_verification
+				})
 				this.serverError = SERVER_STATE_OK
 			} catch (e) {
 				console.error(e)
 				this.serverError = SERVER_STATE_CONNECTION_ERROR
 			}
-			this.updating = false
 			this.checkIfDemoServerIsActive()
+		},
+		async updateSettings(data) {
+			this.updating = true
+			try {
+				const result = await axios.post(
+					OC.filePath('richdocuments', 'ajax', 'admin.php'),
+					data
+				)
+				this.updating = false
+				return result
+			} catch (e) {
+				this.updating = false
+				throw e
+			}
 		},
 		checkIfDemoServerIsActive() {
 			this.settings.demoUrl = this.initial.demo_servers.find((server) => server.demo_url === this.settings.wopi_url)
@@ -297,6 +402,8 @@ export default {
 
 	.option-inline {
 		margin-left: 25px;
-		margin-top: 10px;
+		&:not(.multiselect) {
+			margin-top: 10px;
+		}
 	}
 </style>
