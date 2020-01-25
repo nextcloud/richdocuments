@@ -28,17 +28,17 @@
 
 			<div v-if="settings.wopi_url !== ''">
 				<div v-if="serverError == 2" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">Could not establish connection to the Collabora Online server.</span>
+					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
 				</div>
 				<div v-else-if="serverError == 1" id="security-warning-state-failure">
-					<span class="icon icon-loading" /><span class="message">Settings new server</span>
+					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Setting new server') }}</span>
 				</div>
 				<div v-else id="security-warning-state-ok">
-					<span class="icon icon-checkmark-white" /><span class="message">Collabora Online server is reachable.</span>
+					<span class="icon icon-checkmark-white" /><span class="message">{{ t('richdocuments', 'Collabora Online server is reachable.') }}</span>
 				</div>
 			</div>
 			<div v-else id="security-warning-state-warning">
-				<span class="icon icon-error-white" /><span class="message">Please configure a Collabora Online server to start editing documents</span>
+				<span class="icon icon-error-white" /><span class="message">{{ t('richdocuments', 'Please configure a Collabora Online server to start editing documents') }}</span>
 			</div>
 
 			<fieldset>
@@ -46,14 +46,14 @@
 					<input id="customserver" v-model="serverMode" type="radio"
 						name="serverMode" value="custom" class="radio"
 						:disabled="updating">
-					<label for="customserver">Use your own server</label><br>
+					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
 						<em>{{ t('richdocuments', 'Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
 						<form @submit="updateServer">
 							<p>
-								<label for="wopi_url">URL (and Port) of Collabora Online-server</label><br>
+								<label for="wopi_url">{{ t('richdocuments', 'URL (and Port) of Collabora Online-server') }}</label><br>
 								<input id="wopi_url" v-model="settings.wopi_url" type="text"
 									:disabled="updating">
 								<input type="submit" value="Save" :disabled="updating"
@@ -104,29 +104,29 @@
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
-			<settings-checkbox :value="isOoxml" label="Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" hint=""
+			<settings-checkbox :value="isOoxml" :label="t('richdocuments', 'Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files')" hint=""
 				:disabled="updating" @input="updateOoxml" />
 
-			<settings-checkbox :value="settings.use_groups !== null" label="Restrict usage to specific groups" hint="Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it."
+			<settings-checkbox :value="settings.use_groups !== null" :label="t('richdocuments', 'Restrict usage to specific groups')" :hint="t('richdocuments', 'Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it.')"
 				:disabled="updating" @input="updateUseGroups">
-				<settings-select-group v-if="settings.use_groups !== null" v-model="settings.use_groups" label="Select groups"
+				<settings-select-group v-if="settings.use_groups !== null" v-model="settings.use_groups" :label="t('richdocuments', 'Select groups')"
 					class="option-inline" :disabled="updating" @input="updateUseGroups" />
 			</settings-checkbox>
 
-			<settings-checkbox :value="settings.edit_groups !== null" label="Restrict edit to specific groups" hint="All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents."
+			<settings-checkbox :value="settings.edit_groups !== null" :label="t('richdocuments', 'Restrict edit to specific groups')" hint="All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.')"
 				:disabled="updating" @input="updateEditGroups">
-				<settings-select-group v-if="settings.edit_groups !== null" v-model="settings.edit_groups" label="Select groups"
+				<settings-select-group v-if="settings.edit_groups !== null" v-model="settings.edit_groups" :label="t('richdocuments', 'Select groups')"
 					class="option-inline" :disabled="updating" @input="updateEditGroups" />
 			</settings-checkbox>
 
-			<settings-checkbox v-model="uiVisible.canonical_webroot" label="Use Canonical webroot" hint=""
+			<settings-checkbox v-model="uiVisible.canonical_webroot" :label="t('richdocuments', 'Use Canonical webroot')" hint=""
 				:disabled="updating" @input="updateCanonicalWebroot">
 				<settings-input-text v-if="uiVisible.canonical_webroot" v-model="settings.canonical_webroot" label=""
 					:hint="t('richdocuments', 'Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')"
 					:disabled="updating" class="option-inline" @update="updateCanonicalWebroot" />
 			</settings-checkbox>
 
-			<settings-checkbox v-model="uiVisible.external_apps" label="Enable access for external apps" hint=""
+			<settings-checkbox v-model="uiVisible.external_apps" :label="t('richdocuments', 'Enable access for external apps')" hint=""
 				:disabled="updating" @input="updateExternalApps">
 				<div v-if="uiVisible.external_apps">
 					<settings-external-apps class="option-inline" :external-apps="settings.external_apps" :disabled="updating"
@@ -138,41 +138,41 @@
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure view settings') }}</h2>
 			<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
-			<settings-checkbox v-model="settings.watermark.enabled" label="Enable watermarking" hint=""
+			<settings-checkbox v-model="settings.watermark.enabled" :label="t('richdocuments', 'Enable watermarking')" hint=""
 				:disabled="updating" @input="update" />
 			<settings-input-text v-if="settings.watermark.enabled" v-model="settings.watermark.text" label="Watermark text"
 				:hint="t('richdocuments', 'Supported placeholders: {userId}, {date}')"
 				:disabled="updating" @update="update" />
 			<div v-if="settings.watermark.enabled">
-				<settings-checkbox v-model="settings.watermark.allTags" label="Show watermark on tagged files" :disabled="updating"
+				<settings-checkbox v-model="settings.watermark.allTags" :label="t('richdocuments', 'Show watermark on tagged files')" :disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allTags" class="checkbox-details">
-					<settings-select-tag v-model="settings.watermark.allTagsList" label="Select tags to enforce watermarking" @input="update" />
+					<settings-select-tag v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
-				<settings-checkbox v-model="settings.watermark.allGroups" label="Show watermark for users of groups" :disabled="updating"
+				<settings-checkbox v-model="settings.watermark.allGroups" :label="t('richdocuments', 'Show watermark for users of groups')" :disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allGroups" class="checkbox-details">
-					<settings-select-group v-model="settings.watermark.allGroupsList" label="Select tags to enforce watermarking" @input="update" />
+					<settings-select-group v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
-				<settings-checkbox v-model="settings.watermark.shareAll" label="Show watermark for all shares" hint=""
+				<settings-checkbox v-model="settings.watermark.shareAll" :label="t('richdocuments', 'Show watermark for all shares')" hint=""
 					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.shareAll" v-model="settings.watermark.shareRead" label="Show watermark for read only shares"
+				<settings-checkbox v-if="!settings.watermark.shareAll" v-model="settings.watermark.shareRead" :label="t('richdocuments', 'Show watermark for read only shares')"
 					hint=""
 					:disabled="updating" @input="update" />
 
 				<h3>Link shares</h3>
-				<settings-checkbox v-model="settings.watermark.linkAll" label="Show watermark for all link shares" hint=""
+				<settings-checkbox v-model="settings.watermark.linkAll" :label="t('richdocuments', 'Show watermark for all link shares')" hint=""
 					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkSecure" label="Show watermark for download hidden shares"
+				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkSecure" :label="t('richdocuments', 'Show watermark for download hidden shares')"
 					hint=""
 					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkRead" label="Show watermark for read only link shares"
+				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkRead" :label="t('richdocuments', 'Show watermark for read only link shares')"
 					hint=""
 					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkTags" label="Show watermark on link shares with specific system tags"
+				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkTags" :label="t('richdocuments', 'Show watermark on link shares with specific system tags')"
 					:disabled="updating" @input="update" />
 				<p v-if="!settings.watermark.linkAll && settings.watermark.linkTags" class="checkbox-details">
-					<settings-select-tag v-model="settings.watermark.linkTagsList" label="Select tags to enforce watermarking" @input="update" />
+					<settings-select-tag v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
 			</div>
 		</div>
