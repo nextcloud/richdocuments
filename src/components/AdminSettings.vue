@@ -71,15 +71,31 @@
 				<div>
 					<input id="demoserver" v-model="serverMode" type="radio"
 						name="serverMode" value="demo" class="radio"
-						:disabled="updating">
-					<label for="demoserver">Use a demo server</label><br>
-					<div class="option-inline">
-						<p><em>{{ t('richdocuments', 'You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try.') }}</em></p>
-						<p>
+						:disabled="updating" @input="fetchDemoServers">
+					<label for="demoserver">{{ t('richdocuments', 'Use a demo server') }}</label><br>
+					<p class="option-inline">
+						<em>{{ t('richdocuments', 'You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try.') }}</em>
+					</p>
+					<div v-if="serverMode === 'demo'" class="option-inline">
+						<p v-if="demoServers === null">
+							{{ t('richdocuments', 'Loading available demo servers …') }}
+						</p>
+						<p v-else-if="demoServers.length > 0">
 							<multiselect v-if="serverMode === 'demo'" v-model="settings.demoUrl" :custom-label="demoServerLabel"
 								track-by="demo_url" label="demo_url" placeholder="Select a demo server"
 								:options="demoServers" :searchable="false" :allow-empty="false"
 								:disabled="updating" @input="setDemoServer" />
+						</p>
+						<p v-else>
+							{{ t('richdocuments', 'No available demo servers found.') }}
+						</p>
+
+						<p v-if="settings.demoUrl">
+							<em>
+								{{ t('richdocuments', 'Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online.') }}<br>
+								<a :href="settings.demoUrl.provider_url" target="_blank" rel="noreferrer noopener"
+									class="external">{{ providerDescription }}</a>
+							</em>
 						</p>
 					</div>
 				</div>
@@ -196,8 +212,9 @@ export default {
 	},
 	data() {
 		return {
-			serverMode: 'custom',
+			serverMode: '',
 			serverError: SERVER_STATE_OK,
+			demoServers: null,
 			updating: false,
 			groups: [],
 			tags: [],
@@ -227,8 +244,8 @@ export default {
 		}
 	},
 	computed: {
-		demoServers() {
-			return this.initial.demo_servers
+		providerDescription() {
+			return t('richdocuments', 'Contact {0} to get an own installation.', [this.settings.demoUrl.provider_name])
 		},
 		isSetup() {
 			return this.serverError === SERVER_STATE_OK
@@ -261,9 +278,18 @@ export default {
 		this.uiVisible.canonical_webroot = this.settings.canonical_webroot !== ''
 		this.uiVisible.external_apps = this.settings.external_apps !== ''
 
+		this.demoServers = this.initial.demo_servers
 		this.checkIfDemoServerIsActive()
 	},
 	methods: {
+		async fetchDemoServers() {
+			try {
+				const result = await axios.get(generateUrl('/apps/richdocuments/settings/demo'))
+				this.demoServers = result.data
+			} catch (e) {
+				this.demoServers = []
+			}
+		},
 		update() {
 			this.updating = true
 			let settings = this.settings
@@ -271,7 +297,7 @@ export default {
 				this.updating = false
 			}).catch((error) => {
 				this.updating = false
-				OC.Notification.showTemporary('Failed to save settings')
+				OC.Notification.showTemporary(t('richdocuments', 'Failed to save settings'))
 				console.error(error)
 			})
 		},
@@ -348,7 +374,10 @@ export default {
 			}
 		},
 		checkIfDemoServerIsActive() {
-			this.settings.demoUrl = this.initial.demo_servers.find((server) => server.demo_url === this.settings.wopi_url)
+			this.settings.demoUrl = this.demoServers.find((server) => server.demo_url === this.settings.wopi_url)
+			if (this.settings.wopi_url !== '') {
+				this.serverMode = 'custom'
+			}
 			if (this.settings.demoUrl) {
 				this.serverMode = 'demo'
 			}

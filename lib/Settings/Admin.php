@@ -25,9 +25,9 @@ namespace OCA\Richdocuments\Settings;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
@@ -45,8 +45,8 @@ class Admin implements ISettings {
 	/** @var array */
 	private $capabilities;
 
-	/** @var IClientService */
-	private $clientService;
+	/** @var DemoService */
+	private $demoService;
 
 	/**
 	 * Admin template settings
@@ -60,13 +60,13 @@ class Admin implements ISettings {
 		AppConfig $appConfig,
 		TemplateManager $manager,
 		Capabilities $capabilities,
-		IClientService $clientService
+		DemoService $demoService
 	) {
 		$this->config  = $config;
 		$this->appConfig = $appConfig;
 		$this->manager = $manager;
 		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
-		$this->clientService = $clientService;
+		$this->demoService = $demoService;
 	}
 	/**
 	 * @return TemplateResponse
@@ -89,7 +89,7 @@ class Admin implements ISettings {
 					'templates'          => $this->manager->getSystemFormatted(),
 					'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'],
 					'settings' => $this->appConfig->getAppSettings(),
-					'demo_servers' => $this->fetchDemoServers()
+					'demo_servers' => $this->demoService->fetchDemoServers()
 				]
 			],
 			'blank'
@@ -110,14 +110,6 @@ class Admin implements ISettings {
 	 */
 	public function getPriority() {
 		return 0;
-	}
-
-	private function fetchDemoServers() {
-		// FIXME: add caching
-		$demoServerList = 'http://col.la/nextclouddemoservers';
-		$client = $this->clientService->newClient();
-		$response = $client->get($demoServerList);
-		return json_decode($response->getBody(), true)['servers'] ?? [];
 	}
 
 }
