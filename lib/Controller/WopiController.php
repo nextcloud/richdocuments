@@ -656,7 +656,7 @@ class WopiController extends Controller {
 			$editor = $wopi->getEditorUid();
 
 			// Use the actual file owner no editor is available
-			if ($editor === null || $wopi->getGuestDisplayname() === null) {
+			if ($editor === null || $wopi->getGuestDisplayname() !== null) {
 				$editor = $wopi->getOwnerUid();
 			}
 
