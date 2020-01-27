@@ -26,7 +26,7 @@
 			<h2>Collabora Online</h2>
 			<p>{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}</p>
 
-			<div v-if="settings.wopi_url !== ''">
+			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
 				<div v-if="serverError == 2" id="security-warning-state-failure">
 					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
 				</div>
@@ -374,8 +374,8 @@ export default {
 			}
 		},
 		checkIfDemoServerIsActive() {
-			this.settings.demoUrl = this.demoServers.find((server) => server.demo_url === this.settings.wopi_url)
-			if (this.settings.wopi_url !== '') {
+			this.settings.demoUrl = this.demoServers ? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url) : null
+			if (this.settings.wopi_url && this.settings.wopi_url !== '') {
 				this.serverMode = 'custom'
 			}
 			if (this.settings.demoUrl) {
