@@ -272,11 +272,11 @@ export default {
 		if (this.settings.wopi_url === '') {
 			this.serverError = SERVER_STATE_CONNECTION_ERROR
 		}
-		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups.split('|'))
-		Vue.set(this.settings, 'use_groups', this.settings.use_groups.split('|'))
+		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
+		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
 
-		this.uiVisible.canonical_webroot = this.settings.canonical_webroot !== ''
-		this.uiVisible.external_apps = this.settings.external_apps !== ''
+		this.uiVisible.canonical_webroot = !!(this.settings.canonical_webroot && this.settings.canonical_webroot !== '')
+		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')
 
 		this.demoServers = this.initial.demo_servers
 		this.checkIfDemoServerIsActive()
