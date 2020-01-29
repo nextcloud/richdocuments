@@ -36,6 +36,7 @@ const odfViewer = {
 
 	open: false,
 	receivedLoading: false,
+	isCollaboraConfigured: typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0,
 	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain'],
@@ -58,6 +59,22 @@ const odfViewer = {
 	},
 
 	onEdit: function(fileName, context) {
+		if (!odfViewer.isCollaboraConfigured) {
+			const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
+			const installHint = OC.isUserAdmin()
+				? `<a href="${setupUrl}">Collabora Online is not setup yet. <br />Click here to configure your own server or connect to a demo server.</a>`
+				: t('richdocuments', 'Collabora Online is not setup yet. Please contact your administrator.')
+
+			if (OCP.Toast) {
+				OCP.Toast.error(installHint, {
+					isHTML: true,
+					timeout: 0
+				})
+			} else {
+				OC.Notification.showHtml(installHint)
+			}
+			return
+		}
 		if (odfViewer.open === true) {
 			return
 		}
