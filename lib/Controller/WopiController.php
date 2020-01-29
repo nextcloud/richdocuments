@@ -446,7 +446,7 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 			// Set the user to register the change under his name
 			$this->userScopeService->setUserScope($wopi->getEditorUid());
-			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getOwnerUid());
+			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){
@@ -586,7 +586,7 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 			// Set the user to register the change under his name
 			$this->userScopeService->setUserScope($wopi->getEditorUid());
-			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getOwnerUid());
+			$this->userScopeService->setFilesystemScope($wopi->getEditorUid());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){
@@ -653,14 +653,7 @@ class WopiController extends Controller {
 		} else {
 			// Unless the editor is empty (public link) we modify the files as the current editor
 			// TODO: add related share token to the wopi table so we can obtain the
-			$editor = $wopi->getEditorUid();
-
-			// Use the actual file owner no editor is available
-			if ($editor === null || $wopi->getGuestDisplayname() !== null) {
-				$editor = $wopi->getOwnerUid();
-			}
-
-			$userFolder = $this->rootFolder->getUserFolder($editor);
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getUserForFileAccess());
 			$files = $userFolder->getById($wopi->getFileid());
 			if (isset($files[0]) && $files[0] instanceof File) {
 				$file = $files[0];

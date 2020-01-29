@@ -126,4 +126,12 @@ class Wopi extends Entity {
 		return $this->getTemplateId() !== 0 && $this->getTemplateId() !== null;
 	}
 
+	public function isGuest() {
+		return $this->getGuestDisplayname() !== null;
+	}
+
+	public function getUserForFileAccess() {
+		return $this->isGuest() ? $this->getOwnerUid() : $this->getEditorUid();
+	}
+
 }
