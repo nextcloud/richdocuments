@@ -391,6 +391,10 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		// Set the user to register the change under his name
+		$this->userScopeService->setUserScope($wopi->getEditorUid());
+		$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
+
 		try {
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
@@ -444,9 +448,6 @@ class WopiController extends Controller {
 			}
 
 			$content = fopen('php://input', 'rb');
-			// Set the user to register the change under his name
-			$this->userScopeService->setUserScope($wopi->getEditorUid());
-			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
 
 			try {
 				$this->retryOperation(function () use ($file, $content){
