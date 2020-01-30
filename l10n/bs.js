@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Can't create document" : "Nemoguće kreirati dokument",
     "Saved" : "Spremljeno",
-    "All" : "Sve",
+    "Description" : "Opis",
     "Error" : "Greška",
     "Nickname" : "Nadimak",
     "Cancel" : "Otkaži",
@@ -13,7 +13,6 @@ OC.L10N.register(
     "Download" : "Preuzmi",
     "Could not create file" : "Datoteku nije moguće kreirati",
     "Create" : "Ustvari",
-    "Add" : "Dodaj",
     "Wrong password. Please retry." : "Pogrešna lozinka. Molim pokušajte ponovo",
     "Password" : "Lozinka",
     "OK" : "OK",

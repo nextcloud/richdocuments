@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "All" : "ھەممىسى",
     "Error" : "خاتالىق",
     "Nickname" : "تەخەللۇس",
     "Cancel" : "ۋاز كەچ",
@@ -10,7 +9,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Download" : "چۈشۈر",
     "Create" : "قۇر",
-    "Add" : "قوش",
     "Password" : "ئىم",
     "OK" : "جەزملە"
 },

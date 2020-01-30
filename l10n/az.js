@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "Can't create document" : "Sənədi yaratmaq mümkün olmadı",
     "Saved" : "Saxlanıldı",
-    "All" : "Hamısı",
+    "Advanced settings" : "İrəliləmiş quraşdırmalar",
+    "Select groups" : "Qrupları seç",
+    "Description" : "Açıqlanma",
     "Error" : "Səhv",
     "Cancel" : "Dayandır",
     "Save" : "Saxla",
@@ -13,7 +15,6 @@ OC.L10N.register(
     "Download" : "Yüklə",
     "Could not create file" : "Faylı yaratmaq olmur",
     "Create" : "Yarat",
-    "Add" : "Əlavə etmək",
     "Wrong password. Please retry." : "Yalnış şifrə. Xahiş olunur təkrarlayasınız.",
     "Password" : "Şifrə",
     "OK" : "Oldu",

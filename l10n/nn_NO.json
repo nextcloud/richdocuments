@@ -2,7 +2,6 @@
     "Saved" : "Lagra",
     "File is too big" : "Fila er for stor",
     "Invalid file provided" : "Ugyldig fil",
-    "All" : "Alle",
     "Error" : "Feil",
     "Nickname" : "Kallenamn",
     "Cancel" : "Avbryt",
@@ -12,8 +11,6 @@
     "Details" : "Detaljar",
     "Download" : "Last ned",
     "Create" : "Lag",
-    "Apply" : "Anvend",
-    "Add" : "Legg til",
     "Password" : "Passord",
     "OK" : "Greitt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

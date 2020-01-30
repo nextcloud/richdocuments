@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Description" : "Opis",
     "No results" : "Nema rezultata",
     "Error" : "Greška",
     "Cancel" : "Cancel",
@@ -12,7 +13,6 @@ OC.L10N.register(
     "Guest" : "Gost",
     "Create" : "Napravi",
     "Select template" : "Odaberite šablon",
-    "Add" : "Dodaj",
     "Password" : "Password",
     "OK" : "OK"
 },

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "File is too big" : "ගොනුව විශාල වැඩියි",
     "Invalid file provided" : "ඔබ තේරූ ගොනුව වැරදි",
-    "All" : "සියල්ල",
     "Error" : "දෝෂයක්",
     "Nickname" : "පටබැඳි නම",
     "Cancel" : "අවලංගු කරන්න",
@@ -12,7 +11,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Download" : "බාන්න",
     "Create" : "තනන්න",
-    "Add" : "එක් කරන්න",
     "Password" : "මුර පදය",
     "OK" : "හරි"
 },

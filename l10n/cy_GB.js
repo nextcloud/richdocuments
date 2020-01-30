@@ -2,8 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saved" : "Wedi'u cadw",
+    "Description" : "Disgrifiad",
     "No results" : "Dim canlyniadau",
-    "All" : "Popeth",
     "Error" : "Gwall",
     "An error occurred" : "Digwyddodd gwall",
     "Nickname" : "Llysenw",
@@ -14,7 +14,6 @@ OC.L10N.register(
     "Details" : "Manylion",
     "Download" : "Llwytho i lawr",
     "Create" : "Creu",
-    "Add" : "Ychwanegu",
     "Password" : "Cyfrinair",
     "OK" : "Iawn"
 },

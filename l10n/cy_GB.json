@@ -1,7 +1,7 @@
 { "translations": {
     "Saved" : "Wedi'u cadw",
+    "Description" : "Disgrifiad",
     "No results" : "Dim canlyniadau",
-    "All" : "Popeth",
     "Error" : "Gwall",
     "An error occurred" : "Digwyddodd gwall",
     "Nickname" : "Llysenw",
@@ -12,7 +12,6 @@
     "Details" : "Manylion",
     "Download" : "Llwytho i lawr",
     "Create" : "Creu",
-    "Add" : "Ychwanegu",
     "Password" : "Cyfrinair",
     "OK" : "Iawn"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"

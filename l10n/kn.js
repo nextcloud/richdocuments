@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Can't create document" : "ದಾಖಲೆಯನ್ನು ಸೃಷ್ಟಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Saved" : "﻿ಉಳಿಸಿದ",
-    "All" : "﻿ಎಲ್ಲಾ",
     "Error" : "﻿ತಪ್ಪಾಗಿದೆ",
     "Cancel" : "﻿ರದ್ದು",
     "Save" : "﻿ಉಳಿಸಿ",
@@ -12,7 +11,6 @@ OC.L10N.register(
     "Download" : "ಪ್ರತಿಯನ್ನು ಸ್ಥಳೀಯವಾಗಿ ಉಳಿಸಿಕೊಳ್ಳಿ",
     "Could not create file" : "﻿ಕಡತ ರಚಿಸಲಾಗಲಿಲ್ಲ",
     "Create" : "ಸೃಷ್ಟಿಸಿ",
-    "Add" : "﻿ಸೇರಿಸಿ",
     "Wrong password. Please retry." : "ತಪ್ಪಾದ ಗುಪ್ತಪದ. ಮರುಪ್ರಯತ್ನಿಸಿ.",
     "Password" : "ಗುಪ್ತಪದ",
     "OK" : "ಸರಿ",

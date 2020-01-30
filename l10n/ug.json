@@ -1,5 +1,4 @@
 { "translations": {
-    "All" : "ھەممىسى",
     "Error" : "خاتالىق",
     "Nickname" : "تەخەللۇس",
     "Cancel" : "ۋاز كەچ",
@@ -8,7 +7,6 @@
     "Add to favorites" : "Add to favorites",
     "Download" : "چۈشۈر",
     "Create" : "قۇر",
-    "Add" : "قوش",
     "Password" : "ئىم",
     "OK" : "جەزملە"
 },"pluralForm" :"nplurals=1; plural=0;"

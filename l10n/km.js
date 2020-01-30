@@ -2,7 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saved" : "បាន​រក្សាទុក",
-    "All" : "ទាំងអស់",
+    "Description" : "ការ​អធិប្បាយ",
     "Error" : "កំហុស",
     "Cancel" : "បោះបង់",
     "Save" : "រក្សាទុក",
@@ -11,8 +11,6 @@ OC.L10N.register(
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Download" : "ទាញយក",
     "Create" : "បង្កើត",
-    "Apply" : "អនុវត្ត",
-    "Add" : "បញ្ចូល",
     "Wrong password. Please retry." : "ខុស​ពាក្យ​សម្ងាត់។ សូម​ព្យាយាម​ម្ដង​ទៀត។",
     "Password" : "ពាក្យសម្ងាត់",
     "OK" : "ព្រម",

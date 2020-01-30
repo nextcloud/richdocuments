@@ -4,7 +4,8 @@ OC.L10N.register(
     "Can't create document" : "ডকুমেন্ট তৈরী করা যাবেনা",
     "Saved" : "সংরক্ষণ করা হলো",
     "File is too big" : "ফাইল খুব বড়",
-    "All" : "সবাই",
+    "Select groups" : "গ্রুপ নির্ধারণ",
+    "Description" : "বিবরণ",
     "Error" : "সমস্যা",
     "Nickname" : "ছদ্মনাম",
     "Cancel" : "বাতির",
@@ -14,7 +15,6 @@ OC.L10N.register(
     "Details" : "বিসতারিত",
     "Download" : "ডাউনলোড",
     "Create" : "তৈরী কর",
-    "Add" : "যোগ করুন",
     "Password" : "কূটশব্দ",
     "OK" : "তথাস্তু"
 },

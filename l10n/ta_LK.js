@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "All" : "எல்லாம்",
     "Error" : "வழு",
     "Nickname" : "பட்டப்பெயர்",
     "Cancel" : "இரத்து செய்க",
@@ -11,7 +10,6 @@ OC.L10N.register(
     "Details" : "விவரங்கள்",
     "Download" : "பதிவிறக்குக",
     "Create" : "உருவாக்குக",
-    "Add" : "சேர்க்க",
     "Password" : "கடவுச்சொல்",
     "OK" : "சரி "
 },

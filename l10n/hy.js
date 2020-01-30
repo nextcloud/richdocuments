@@ -12,7 +12,6 @@ OC.L10N.register(
     "Download" : "Ներբեռնել",
     "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
     "Create" : "Ստեղծել",
-    "Add" : "Ավելացնել",
     "Wrong password. Please retry." : "Գաղտնաբառը սխալ է: Կրկին փորձիր:",
     "Password" : "Գաղտնաբառ",
     "OK" : "Լավ",

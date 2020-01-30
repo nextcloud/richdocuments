@@ -6,7 +6,6 @@ OC.L10N.register(
     "Save" : "Save",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
-    "Add" : "Add",
     "Password" : "Password",
     "OK" : "OK"
 },
