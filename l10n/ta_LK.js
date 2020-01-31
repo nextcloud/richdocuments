@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Description" : "விவரிப்பு",
     "Error" : "வழு",
     "Nickname" : "பட்டப்பெயர்",
     "Cancel" : "இரத்து செய்க",

@@ -4,6 +4,8 @@ OC.L10N.register(
     "Saved" : "Lagra",
     "File is too big" : "Fila er for stor",
     "Invalid file provided" : "Ugyldig fil",
+    "Select groups" : "Vel grupper",
+    "Description" : "Skildring",
     "Error" : "Feil",
     "Nickname" : "Kallenamn",
     "Cancel" : "Avbryt",

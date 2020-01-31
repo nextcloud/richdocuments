@@ -28,6 +28,7 @@ OC.L10N.register(
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online nécessite un serveur distinct agissant en tant que client WOPI pour fournir les fonctionnalités d'édition.",
     "URL (and Port) of Collabora Online-server" : "URL (et port) su serveur Collabora Online",
     "Disable certificate verification (insecure)" : "Désactiver la vérification du certificat (non sur)",
+    "No available demo servers found." : "Aucun serveur de démo disponible.",
     "Advanced settings" : "Paramètres avancés",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Utiliser par défaut Office Open XML (OOXML) au lieu de OpenDocument Format (ODF) pour les nouveaux fichiers",
     "Restrict usage to specific groups" : "Limiter l'utilisation à certains groupes",

@@ -13,6 +13,8 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Collabora Online nên sử dụng cùng một giao thức với máy chủ.",
     "File is too big" : "Tệp quá lớn",
     "Invalid file provided" : "File không hợp lệ",
+    "Select groups" : "Chọn nhóm",
+    "Description" : "Mô tả",
     "No results" : "Không có kết quả",
     "Error" : "Lỗi",
     "Nickname" : "Biệt danh",

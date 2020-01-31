@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saved" : "Պահված",
+    "Description" : "Նկարագրություն",
     "Error" : "Սխալ",
     "Nickname" : "Մականուն",
     "Cancel" : "ընդհատել",
