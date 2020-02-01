@@ -22,6 +22,7 @@ OC.L10N.register(
     "Guest" : "مهمان",
     "Could not create file" : "امکان ایجاد فایل وجود ندارد",
     "Create" : "ایجاد کردن",
+    "Select template" : "الگو را انتخاب کنید",
     "Wrong password. Please retry." : "رمز اشتباه. لطفاً مجددا تکرار فرمایید.",
     "Password" : "گذرواژه",
     "OK" : "تایید",

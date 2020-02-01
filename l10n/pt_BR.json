@@ -27,7 +27,7 @@
     "Setting new server" : "Configurando um novo servidor",
     "Collabora Online server is reachable." : "Servidor Collabora Online está pronto.",
     "Please configure a Collabora Online server to start editing documents" : "Configure o servidor Collabora Online para iniciar a edição de documentos",
-    "Use your own server" : "usar seu próprio servidor",
+    "Use your own server" : "Usar seu próprio servidor",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "O Collabora Online requer um servidor separado que atue como um cliente do tipo WOPI para fornecer recursos de edição.",
     "URL (and Port) of Collabora Online-server" : "URL (e porta) do servidor Collabora Online",
     "Disable certificate verification (insecure)" : "Desativar a verificação do certificado (inseguro)",
