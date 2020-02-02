@@ -41,6 +41,21 @@ This will make sure the assets is added to the document.
 
 ### share()
 
-opens the share sidebar for the current file
+opens the share sidebar or dialog for the current file
 
+### documentLoaded()
+
+This method is called once the Collabora has loaded and can take over the loading screen
+
+### paste()
+
+This is triggered to enable integrating applications passing though the clipboard content properly
+
+### fileRename()
+
+Notifies the integrating application that the current file has been renamed.
+
+### downloadAs()
+
+Hands over the link to download a file to the integrating application
 

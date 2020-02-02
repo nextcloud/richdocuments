@@ -1,0 +1,15 @@
+site_name: Collabora Online in Nextcloud
+nav:
+    - Home: index.md
+    - Installation guide: install.md
+    - App settings: app_settings.md
+    - templates.md
+    - API reference:
+        - api_templates.md
+        - mobile_editor.md
+        - asset_api.md
+        - mobile_flow.md
+    - Troubleshooting: issues.md
+theme: readthedocs
+extra_css: 
+    - custom.css
