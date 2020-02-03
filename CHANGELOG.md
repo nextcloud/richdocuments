@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.5.2
+
+### Fixed
+- Fix filesystem setup that caused save issues all over the place
+- Do not try to recreate a file from a template more than once
+- Do not open PDF files by default
+- Dependency bumps
+
 ## 3.5.1
 
 ### Fixed
