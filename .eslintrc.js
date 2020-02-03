@@ -11,7 +11,6 @@ module.exports = {
 		n: true,
 		OC: true,
 		OCA: true,
-		OCP: true,
 		'$': true,
 		'_': true,
 		Vue: true,
