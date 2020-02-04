@@ -55,6 +55,7 @@
     "Show watermark for all shares" : "Mostra la filigrana per tutte le condivisioni",
     "Show watermark for read only shares" : "Mostra la filigrana per condivisioni in sola lettura",
     "Show watermark for all link shares" : "Mostra la filigrana per tutte le condivisioni con collegamento",
+    "Show watermark for download hidden shares" : "Mostra la filigrana per lo scaricamento di condivisioni nascoste",
     "Show watermark for read only link shares" : "Mostra la filigrana per condivisioni con collegamento in sola lettura",
     "Show watermark on link shares with specific system tags" : "Mostra la filigrana su tutte le condivisioni con collegamento con etichette di sistema specifiche",
     "Contact {0} to get an own installation." : "Contatta {0} per ottenere la tua installazione.",
