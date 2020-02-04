@@ -61,7 +61,7 @@ class UserScopeService {
 	 *
 	 * @param string $owner
 	 */
-	public function setFilesystemScope(string $owner): void {
+	public function setFilesystemScope(string $owner) {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($owner);
 	}
