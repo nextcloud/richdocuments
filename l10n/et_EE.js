@@ -11,6 +11,7 @@ OC.L10N.register(
     "Description" : "Kirjeldus",
     "No results" : "Vasteid ei leitud",
     "Error" : "Viga",
+    "An error occurred" : "Tekkis tõrge",
     "Nickname" : "Hüüdnimi",
     "Cancel" : "Loobu",
     "Save" : "Salvesta",
