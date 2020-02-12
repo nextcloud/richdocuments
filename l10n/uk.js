@@ -22,6 +22,7 @@ OC.L10N.register(
     "Add to favorites" : "Додати до обраного",
     "Details" : "Деталі",
     "Download" : "Завантажити",
+    "Guest" : "Гість",
     "New Document" : "Новий документ",
     "New Spreadsheet" : "Нова таблиця",
     "New Presentation" : "Нова презентація",
