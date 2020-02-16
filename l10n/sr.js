@@ -25,6 +25,8 @@ OC.L10N.register(
     "Edit office documents directly in your browser." : "Мењајте канцеларијска документа директно у веб читачу.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Ова апликација може да се повеже са Collabora Online (или другим) сервером (WOPI клијент). Некстклауд је WOPI домаћин. Прочитајте документацију да сазнате више.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online је моћни канцеларијски пакет базиран на LibreOffice-у са могућношћу заједничком уређивања. Подржани су сви главни типови  формата фајлова докумената, табела и презентација, а ради из свих модерних веб читача.",
+    "Could not establish connection to the Collabora Online server." : "Не могу да успоставим везу са Collabora Online сервером",
+    "Setting new server" : "Постављање новог сервера",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online захтева посебан сервер који се понаша као WOPI-Client да бисте добили могућност уређивања.",
     "URL (and Port) of Collabora Online-server" : "Адреса (и порт) Collabora Online сервера",
     "Disable certificate verification (insecure)" : "Искључи проверу сертификата (небезбедно)",
