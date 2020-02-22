@@ -23,7 +23,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Invitado)",
     "Anonymous guest" : "Invitado anónimo",
     "Edit office documents directly in your browser." : "Edita documentos directamente en tu navegador.",
-    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Esta aplicación puede conectarse a un servidor de Collabora Online (u otro) servidor (cliente tipo WOPI). Nextcloud es el host WOPI. Por favor, lee la documentación para conocer más sobre esto.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online es una potente suite de ofimática basada en LibreOffice con edición colaborativa y que soporta todos los principales formatos de documentos, hojas de cálculo y presentaciones; funciona con todos los navegadores modernos.",
     "Could not establish connection to the Collabora Online server." : "No se puede establecer conexión con el servidor de Collabora Online.",
     "Setting new server" : "Configurar nuevo servidor ",

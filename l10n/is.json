@@ -21,7 +21,6 @@
     "%s (Guest)" : "%s (gestur)",
     "Anonymous guest" : "Nafnlaus gestur",
     "Edit office documents directly in your browser." : "Breyttu skrifstofuskjölum beint í vafranum þínum.",
-    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Þetta forrit getur tengst Collabora Online (eða öðrum slíkum) þjóni (WOPI-líkur biðlari). Nextcloud er þá WOPI-hýsill. Lestu hjálparskjölin til að fræðast meira um allt þetta.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online er öflugur vöndull vinnuforrita byggður á LibreOffice og er með hópvinnslueiginleikum sem styðja við skráasnið allra helstu gerða skjala, töflureikna og kynninga, auk þess að virka í öllum nútímalegum vöfrum.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online krefst þess að sérstakur þjónn vinni sem WOPI-líkur biðlari svo hægt sé að breyta skjölum.",
     "URL (and Port) of Collabora Online-server" : "URL-slóð (og gátt) Collabora Online þjónsins",

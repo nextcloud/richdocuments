@@ -23,7 +23,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Επισκέπτης)",
     "Anonymous guest" : "Ανώνυμος επισκέπτης",
     "Edit office documents directly in your browser." : "Επεξεργσία εγγράφων απευθείας στον φυλλομετρητή σας.",
-    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Η εφαρμογή μπορεί να συνδεθεί στο Collabora (ή άλλο) διακομιστή (WOPI-like Client). Το Nextcloud είναι ένας WOPI Host. Παρακαλώ διαβάστε την τεκμηρίωση για περισσότερα σχετικά.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Το Collabora Online είναι μια σουίτα εφαρμογών γραφείου βασισμένο στο LibreOffice με συνατότητα συνεργατικής επεξεργασίας, η οποία υποστηρίζει όλα τα σημαντικά έγγραφα, υπολογιστικά φύλλα και αρχείων παρουσίασης και συνεργάζεται με όλα τα σύγχρονα προγράμματα περιήγησης.",
     "Could not establish connection to the Collabora Online server." : "Αδυναμία σύνδεσης με τον διακομιστή Collabora Online.",
     "Setting new server" : "Ρύθμιση νέου διακομιστή",

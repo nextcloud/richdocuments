@@ -23,7 +23,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Gonbidatua)",
     "Anonymous guest" : "Gonbidatu anonimoa",
     "Edit office documents directly in your browser." : "Editatu bulegoko dokumentuak nabigatzailean bertan.",
-    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Aplikazio hau Collabora Online (edo beste) zerbitzari batera konektatu daiteke (WOPI moduko bezeroa). Irakurri dokumentazioa gehiago jakiteko.",
     "URL (and Port) of Collabora Online-server" : "Collabora Online zerbitzariaren URL (eta ataka)",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Select groups" : "Hautatu taldeak",

@@ -20,7 +20,6 @@
     "Empty" : "Пустой",
     "%s (Guest)" : "%s (Гость)",
     "Edit office documents directly in your browser." : "Редактирование офисных документов непосредственно в браузере.",
-    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Приложение может устанавливать соединение с сервером Collabora Online (или другим сервером) (является WOPI-подобным клиентом), а Nextcloud является WOPI-узлом. Обратитесь к документации для получения дополнительных сведений.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online - это мощный офисный пакет на основе LibreOffice с возможностью совместного редактирования, который поддерживает все основные форматы файлов документов, электронных таблиц и презентаций и работает во всех современных браузерах.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Для работы Collabora Online требуется отдельный сервер, выступающий в роли WOPI-подобного клиента для обеспечения возможностей редактирования.",
     "URL (and Port) of Collabora Online-server" : "URL-адрес (и порт) сервера документов Collabora Online",

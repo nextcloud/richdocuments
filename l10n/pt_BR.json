@@ -21,7 +21,6 @@
     "%s (Guest)" : "%s (Convidado)",
     "Anonymous guest" : "Convidado anônimo",
     "Edit office documents directly in your browser." : "Edite documentos de escritório diretamente no navegador.",
-    "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that." : "Este aplicativo pode se conectar a um servidor Collabora Online ou outro cliente semelhante ao WOPI). Nextcloud é o anfitrião WOPI. Por favor, leia a documentação para saber mais sobre isso.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "O Collabora Online é um poderoso pacote de escritório online baseado no LibreOffice com edição colaborativa, que suporta os principais documentos, formatos de arquivo de planilhas e apresentações e funciona em conjunto com todos os navegadores modernos.",
     "Could not establish connection to the Collabora Online server." : "Não foi possível conectar com o servidor Collabora Online.",
     "Setting new server" : "Configurando um novo servidor",
