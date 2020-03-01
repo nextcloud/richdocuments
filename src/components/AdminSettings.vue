@@ -31,7 +31,7 @@
 					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
 				</div>
 				<div v-else-if="serverError == 1" id="security-warning-state-failure">
-					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Setting new server') }}</span>
+					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Setting up a new server') }}</span>
 				</div>
 				<div v-else id="security-warning-state-ok">
 					<span class="icon icon-checkmark-white" /><span class="message">{{ t('richdocuments', 'Collabora Online server is reachable.') }}</span>
