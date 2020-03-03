@@ -25,7 +25,6 @@ OC.L10N.register(
     "Edit office documents directly in your browser." : "Уредете ги документите директно во вашиот прелистувач.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online е моќна онлајн LibreOffice базирана апликација со заедничко уредување, која ги поддржува сите поголеми формати на документи, формати на датотеки со табели и презентации и работи со сите модерни прелистувачи.\n ",
     "Could not establish connection to the Collabora Online server." : "Не може да се воспостави конекција со Collabora Online серверот.",
-    "Setting new server" : "Поставување на нов сервер",
     "Collabora Online server is reachable." : "Collabora Online серверот е достапен.",
     "Please configure a Collabora Online server to start editing documents" : "Конфигурирајте го Collabora Online серверот за да можете да уредувате документи",
     "Use your own server" : "Користете сопствен сервер",

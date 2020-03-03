@@ -25,7 +25,6 @@ OC.L10N.register(
     "Edit office documents directly in your browser." : "مستند اداری را مستقیماً در مرورگر خود ویرایش کردن.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online یک مجموعه اداری آنلاین قدرتمند مبتنی بر LibreOffice است که دارای ویرایش کردن مشترک است و از کلیه مستند اصلی ، صفحات گسترده و قالب های ارائه فایل پشتیبانی می کند و در کنار همه مرورگر مدرن کار می کند.",
     "Could not establish connection to the Collabora Online server." : "اتصال به سرور Collabora آنلاین برقرار نشد.",
-    "Setting new server" : "تنظیم سرور جدید",
     "Collabora Online server is reachable." : "سرور آنلاین Collabora قابل دسترسی است.",
     "Please configure a Collabora Online server to start editing documents" : "لطفاً برای شروع ویرایش کردن مستند ، سرور Collabora Online را پیکربندی کنید",
     "Use your own server" : "از سرور خود استفاده کنید",
