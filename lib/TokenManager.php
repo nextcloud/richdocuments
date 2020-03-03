@@ -21,9 +21,7 @@
 
 namespace OCA\Richdocuments;
 
-use OC\Share\Constants;
 use OCA\Richdocuments\Db\WopiMapper;
-use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\Parser;
@@ -33,7 +31,6 @@ use OCP\Files\Node;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
-use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use OCP\IL10N;
 use OCP\Util;
@@ -61,6 +58,8 @@ class TokenManager {
 	private $groupManager;
 	/** @var CapabilitiesService */
 	private $capabilitiesService;
+	/** @var Helper */
+	private $helper;
 
 	/**
 	 * @param IRootFolder $rootFolder
@@ -72,17 +71,20 @@ class TokenManager {
 	 * @param WopiMapper $wopiMapper
 	 * @param IL10N $trans
 	 */
-	public function __construct(IRootFolder $rootFolder,
-								IManager $shareManager,
-								IURLGenerator $urlGenerator,
-								Parser $wopiParser,
-								CapabilitiesService $capabilitiesService,
-								AppConfig $appConfig,
-								$UserId,
-								WopiMapper $wopiMapper,
-								IL10N $trans,
-								IUserManager $userManager,
-								IGroupManager $groupManager) {
+	public function __construct(
+		IRootFolder $rootFolder,
+		IManager $shareManager,
+		IURLGenerator $urlGenerator,
+		Parser $wopiParser,
+		CapabilitiesService $capabilitiesService,
+		AppConfig $appConfig,
+		$UserId,
+		WopiMapper $wopiMapper,
+		IL10N $trans,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		Helper $helper
+	) {
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
@@ -94,6 +96,7 @@ class TokenManager {
 		$this->wopiMapper = $wopiMapper;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -181,7 +184,7 @@ class TokenManager {
 
 		$guest_name = null;
 		if ($this->userId === null) {
-			if (isset($_COOKIE['guestUser']) && $_COOKIE['guestUser'] !== '') {
+			if ($guest_name = $this->helper->getGuestName()) {
 				$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($_COOKIE['guestUser']));
 			} else {
 				$guest_name = $this->trans->t('Anonymous guest');

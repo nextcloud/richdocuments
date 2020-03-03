@@ -16,7 +16,13 @@ use \DateTimeZone;
 use OCP\Files\Folder;
 
 class Helper {
-	const APP_ID = 'richdocuments';
+
+	/** @var string|null */
+	private $userId;
+
+	public function __construct($userId) {
+		$this->userId = $userId;
+	}
 
 	/**
 	 * @param string $fileId
@@ -75,4 +81,12 @@ class Helper {
 
 		return $filename;
 	}
+
+	public function getGuestName() {
+		if ($this->userId !== null || !isset($_COOKIE['guestUser']) || $_COOKIE['guestUser'] === '') {
+			return null;
+		}
+		return $_COOKIE['guestUser'];
+	}
+
 }
