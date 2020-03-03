@@ -82,6 +82,39 @@ class FeatureContext implements Context
 	}
 
 	/**
+	 * @Then a guest opens the share link as :user
+	 */
+	public function aGuestOpensTheShareLinkAs($user)
+	{
+		if (count($this->lastShareData->data->element) > 0){
+			$token = $this->lastShareData->data[0]->token;
+		} else {
+			$token = $this->lastShareData->data->token;
+		}
+
+		$cookieJar = \GuzzleHttp\Cookie\CookieJar::fromArray([
+			'guestUser' => $user
+		], 'localhost');
+
+
+		// 	public function publicPage($shareToken, $fileName, $fileId) {
+		$client = new Client();
+		$result = $client->get($this->baseUrl . 'index.php/apps/richdocuments/public?shareToken=' . $token, array_merge($this->getWebOptions(), [
+			'cookies' => $cookieJar
+		]));
+		$contents = $result->getBody()->getContents();
+		$re = '/var richdocuments_([A-z]+) = (.*);/m';
+		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
+		$result = [];
+		foreach ($matches as $match) {
+			$result[$match[1]] = str_replace("'", "", $match[2]);
+		}
+
+		$this->fileId = $result['fileId'];
+		$this->wopiToken = $result['token'];
+	}
+
+	/**
 	 * @Then Collabora fetches checkFileInfo
 	 */
 	public function collaboraFetchesCheckfileinfo() {
