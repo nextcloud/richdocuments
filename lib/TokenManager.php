@@ -185,7 +185,7 @@ class TokenManager {
 		$guest_name = null;
 		if ($this->userId === null) {
 			if ($guest_name = $this->helper->getGuestName()) {
-				$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($_COOKIE['guestUser']));
+				$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($guest_name));
 			} else {
 				$guest_name = $this->trans->t('Anonymous guest');
 			}
