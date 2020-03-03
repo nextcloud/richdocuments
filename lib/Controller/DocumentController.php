@@ -359,17 +359,21 @@ class DocumentController extends Controller {
 				$item = $node;
 			}
 			if ($item instanceof Node) {
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $item->getName(),
 					'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
-					'token' => $token,
-					'urlsrc' => $urlSrc,
 					'path' => '/',
 					'instanceId' => $this->settings->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
+					'userId' => $this->uid,
 				];
+
+				if ($this->uid !== null || (isset($_COOKIE['guestUser']) && $_COOKIE['guestUser'] !== '')) {
+					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+					$params['token'] = $token;
+					$params['urlsrc'] = $urlSrc;
+				}
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 				$policy = new ContentSecurityPolicy();
