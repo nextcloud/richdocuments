@@ -101,6 +101,9 @@ class Wopi extends Entity {
 	/** @var string */
 	protected $remoteServerToken;
 
+	/** @var string */
+	protected $share;
+
 	public function __construct() {
 		$this->addType('owner_uid', 'string');
 		$this->addType('editor_uid', 'string');
@@ -115,7 +118,6 @@ class Wopi extends Entity {
 		$this->addType('templateId', 'int');
 		$this->addType('hide_download', 'bool');
 		$this->addType('direct', 'bool');
-
 	}
 
 	public function isTemplateToken() {
@@ -131,6 +133,9 @@ class Wopi extends Entity {
 	}
 
 	public function getUserForFileAccess() {
+		if ($this->share !== null) {
+			return $this->getOwnerUid();
+		}
 		return $this->isGuest() ? $this->getOwnerUid() : $this->getEditorUid();
 	}
 
