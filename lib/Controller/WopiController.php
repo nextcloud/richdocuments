@@ -548,8 +548,9 @@ class WopiController extends Controller {
 	public function putFile($fileId,
 							$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
-		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
-		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
+		$override = $this->request->getHeader('X-WOPI-Override');
+		$isPut = ($override === 'PUT');
+		$result = new JSONResponse([], Http::STATUS_OK);
 
 		$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		if (empty($wopi) || !$wopi->getCanwrite()) {
@@ -559,51 +560,43 @@ class WopiController extends Controller {
 		if (empty($file)) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
-		try {
-			if ($isPutRelative) {
-				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = iconv('utf-7', 'utf-8', $suggested);
 
-				if ($suggested[0] === '.') {
-					$path = dirname($file->getPath()) . '/New File' . $suggested;
+		$lck = $this->request->getHeader('X-WOPI-Lock');
+		$fLock = $this->lockMapper->find($fileId);
+		if ($isPut) {
+			if (!empty($fLock))
+			{
+				if ($fLock->getValue() !== $lck)
+				{
+					$result->setStatus(Http::STATUS_CONFLICT);
+					$result->addHeader('X-WOPI-Lock', $fLock->getValue());
 				}
-				else if ($suggested[0] !== '/') {
-					$path = dirname($file->getPath()) . '/' . $suggested;
-				}
-				else {
-					$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
-					$path = $userFolder->getPath() . $suggested;
-				}
-
-				if ($path === '') {
-					return new JSONResponse([
-						'status' => 'error',
-						'message' => 'Cannot create the file'
-					]);
-				}
-
-				// create the folder first
-				if (!$this->rootFolder->nodeExists(dirname($path))) {
-					$this->rootFolder->newFolder(dirname($path));
-				}
-
-				// create a unique new file
-				$path = $this->rootFolder->getNonExistingName($path);
-				$this->rootFolder->newFile($path);
-				$file = $this->rootFolder->get($path);
-			} else {
-				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
-
-				if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
-					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
-						'headerTime' => $wopiHeaderTime,
-						'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
-					]);
-					// Tell WOPI client about this conflict.
-					return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+			}
+			else
+			{
+				if ($file->getSize() > 0)
+				{
+					$result->setStatus(Http::STATUS_CONFLICT);
+					$result->addHeader('X-WOPI-Lock', '');
 				}
 			}
 
+			$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
+			if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
+				$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
+					'headerTime' => $wopiHeaderTime,
+					'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
+				]);
+				// Tell WOPI client about this conflict.
+				return new JSONResponse(['LOOLStatusCode' => self::LOOL_STATUS_DOC_CHANGED], Http::STATUS_CONFLICT);
+			}
+		}
+		else {
+			$result->setStatus(Http::STATUS_NOT_IMPLEMENTED);
+		}
+		if ($result->getStatus() !== Http::STATUS_OK)
+			return $result;
+		try {
 			$content = fopen('php://input', 'rb');
 
 			// Set the user to register the change under his name
@@ -617,18 +610,6 @@ class WopiController extends Controller {
 				$this->logger->logException($e);
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
-
-			if ($isPutRelative) {
-				// generate a token for the new file (the user still has to be
-				// logged in)
-				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
-
-				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
-				$url = $this->urlGenerator->getAbsoluteURL($wopi);
-
-				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
-			}
-
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
@@ -688,7 +669,7 @@ class WopiController extends Controller {
 					{
 						$result = new JSONResponse([], Http::STATUS_CONFLICT);
 						$result->addHeader('X-WOPI-Lock', $fLock->getValue());
-						return result;
+						return $result;
 					}
 					$suggested = $this->request->getHeader('X-WOPI-RequestedName');
 
@@ -712,6 +693,7 @@ class WopiController extends Controller {
 					// create a unique new file
 					$path = $this->rootFolder->getNonExistingName($path);
 					$file = $file->move($path);
+					return new JSONResponse([], Http::STATUS_OK);
 				} else {
 					$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 					$relative = $this->request->getHeader('X-WOPI-RelativeTarget');
@@ -788,8 +770,8 @@ class WopiController extends Controller {
 
 			$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 			$url = $this->urlGenerator->getAbsoluteURL($wopi);
-
-			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+			$editUrl = $this->urlGenerator->getAbsoluteURL('index.php/apps/richdocuments/edit/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid'));
+			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url, 'HostEditUrl' => $editUrl, 'HostViewUrl' => $editUrl ], Http::STATUS_OK);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);

@@ -43,7 +43,7 @@ export default {
 	},
 
 	initAfterReady() {
-		if (typeof this.getFileList() !== 'undefined') {
+		if (this.getFileList()) {
 			this.getFileModel()
 			this.getFileList().hideMask()
 		}
@@ -106,10 +106,10 @@ export default {
 		if (this.fileList) {
 			return this.fileList
 		}
-		if (OCA.Files.App) {
+		if (OCA.Files && OCA.Files.App) {
 			return OCA.Files.App.fileList
 		}
-		if (OCA.Sharing.PublicApp) {
+		if (OCA.Sharing && OCA.Sharing.PublicApp) {
 			return OCA.Sharing.PublicApp.fileList
 		}
 		return null
@@ -172,7 +172,7 @@ export default {
 	},
 
 	_addHeaderShareButton() {
-		if ($('header').length) {
+		if ($('header').length && this.getFileList()) {
 			var $button = $('<div id="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
 			$('#richdocuments-header').append($button)
 			$button.on('click', () => {
@@ -189,6 +189,9 @@ export default {
 		console.debug('[FilesAppIntegration] Adding header file actions')
 		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
 		$('#richdocuments-actions').remove()
+		if (!this.getFileList()) {
+			return
+		}
 		var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
 		var actions = actionsContainer.find('#richdocuments-actions-menu').empty()
 

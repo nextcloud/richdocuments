@@ -10,7 +10,7 @@ const PostMessages = new PostMessageService({
 })
 
 const preloadCreate = getSearchParam('richdocuments_create')
-const preloadOpen = getSearchParam('richdocuments_open')
+const preloadOpen = getSearchParam('richdocuments_open') || Config.get('title')
 const Preload = {}
 
 if (preloadCreate) {
@@ -23,7 +23,7 @@ if (preloadCreate) {
 if (preloadOpen) {
 	Preload.open = {
 		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId'),
+		id: getSearchParam('richdocuments_fileId') || Config.get('fileId'),
 		dir: getSearchParam('dir')
 	}
 }
@@ -48,7 +48,7 @@ const odfViewer = {
 				EDIT_ACTION_NAME,
 				0,
 				OC.imagePath('core', 'actions/rename'),
-				this.onEditNewWindow,
+				this.onEdit,
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
@@ -63,28 +63,14 @@ const odfViewer = {
 	},
 
 	onEdit: function(fileName, context) {
-		if (odfViewer.open === true) {
-			return
-		}
-		odfViewer.open = true
 		let fileList = null
 		if (context) {
-			fileList = context.fileList
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-			context.fileList.setViewerMode(true)
-			context.fileList.setPageTitle(fileName)
-			context.fileList.showMask()
-		}
-		odfViewer.receivedLoading = false
-
-		let documentUrl = getDocumentUrlForFile(fileDir, fileId)
-		if (isPublic) {
-			documentUrl = getDocumentUrlForPublicFile(fileName, fileId)
-		}
-		if (typeof (templateId) !== 'undefined') {
-			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
+			if (context.fileList) {
+				fileList = context.fileList
+			}
 		}
 
 		/**
@@ -124,9 +110,38 @@ const odfViewer = {
 			return false
 		}
 
-		if (context) {
+		if (context && fileList) {
 			reloadForFederationCSP(fileName)
 		}
+
+		let documentUrl = getDocumentUrlForFile(fileId)
+		if (isPublic) {
+			documentUrl = getDocumentUrlForPublicFile(fileName, fileId)
+		} else if (typeof (templateId) !== 'undefined') {
+			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
+		} else if (context && context.fileList) {
+			let url = OC.generateUrl('apps/richdocuments/edit/{fileId}',
+				{
+					fileId: fileId
+				})
+			let win = window.open(url, '_blank')
+			if (win) {
+				win.focus()
+			} else {
+				window.location = url
+			}
+			return
+		}
+		if (fileList) {
+			fileList.setViewerMode(true)
+			fileList.setPageTitle(fileName)
+			fileList.showMask()
+		}
+		if (odfViewer.open === true) {
+			return
+		}
+		odfViewer.open = true
+		odfViewer.receivedLoading = false
 
 		OC.addStyle('richdocuments', 'mobile')
 
@@ -170,42 +185,6 @@ const odfViewer = {
 				}
 			})
 		})
-	},
-
-	onEditNewWindow: function(fileName, context) {
-		function updateURLParameter(url, param, paramVal) {
-			var newAdditionalURL = ''
-			var tempArray = url.split('?')
-			var baseURL = tempArray[0]
-			var additionalURL = tempArray[1]
-			var temp = ''
-			if (additionalURL) {
-				tempArray = additionalURL.split('&')
-				for (var i = 0; i < tempArray.length; i++) {
-					if (tempArray[i].split('=')[0] !== param) {
-						newAdditionalURL += temp + tempArray[i]
-						temp = '&'
-					}
-				}
-			}
-
-			var rowsTxt = paramVal ? temp + '' + param + '=' + encodeURIComponent(paramVal) : ''
-			return baseURL + '?' + newAdditionalURL + rowsTxt
-		}
-		if (context) {
-			var fileId = context.fileId || context.$file.attr('data-id')
-			var url = window.location.href
-
-			url = updateURLParameter(url, 'richdocuments_fileId', fileId)
-			url = updateURLParameter(url, 'richdocuments_open', fileName)
-			url = updateURLParameter(url, 'fileid', null)
-			var win = window.open(url, '_blank')
-			if (win) {
-				win.focus()
-			} else {
-				odfViewer.onEdit(fileName, context)
-			}
-		}
 	},
 
 	onReceiveLoading() {
@@ -457,6 +436,11 @@ $(document).ready(function() {
 	const showSecureView = isPublic && isDownloadHidden && odfViewer.hideDownloadMimes.indexOf($('#mimetype').val()) !== -1
 	if (isSupportedMime || showSecureView) {
 		odfViewer.onEdit(document.getElementById('filename').value)
+	} else if (Preload.open && !(OCA && OCA.Files)) {
+		odfViewer.onEdit(Preload.open.filename, {
+			fileId: Preload.open.id,
+			dir: Preload.open.filename
+		})
 	}
 
 	PostMessages.registerPostMessageHandler(({ parsed }) => {

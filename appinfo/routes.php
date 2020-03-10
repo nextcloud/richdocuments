@@ -31,6 +31,7 @@ return [
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
 		['name' => 'document#open', 'url' => 'open', 'verb' => 'GET'],
+		['name' => 'document#edit', 'url' => 'edit/{fileId}', 'verb' => 'GET'],
 
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
