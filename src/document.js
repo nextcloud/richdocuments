@@ -197,7 +197,7 @@ const documentsMain = {
 						PostMessages.unregisterPostMessageHandler(editorInitListener)
 
 						// Hide buttons when using the mobile app integration
-						if (isDirectEditing) {
+						if (isDirectEditing()) {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Button', { id: 'fullscreen' })
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'fullscreen' })
 						}

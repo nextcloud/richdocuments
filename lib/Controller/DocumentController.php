@@ -279,6 +279,40 @@ class DocumentController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @param string $fileId
+	 * @return RedirectResponse|TemplateResponse
+	 */
+	public function edit($fileId) {
+		try {
+			$folder = $this->rootFolder->getUserFolder($this->uid);
+			$item = $folder->getById($fileId)[0];
+			if(!($item instanceof File)) {
+				throw new \Exception();
+			}
+
+			$params = [
+				'title' => $item->getName(),
+				'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid')
+			];
+
+			$response = new TemplateResponse('wopi', 'edit', $params);
+			$policy = new ContentSecurityPolicy();
+			$policy->addAllowedFrameDomain('\'self\'');
+			$response->setContentSecurityPolicy($policy);
+			return $response;
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'wopi']);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
 	 *
 	 * Create a new file from a template
 	 *

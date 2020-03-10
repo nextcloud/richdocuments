@@ -23,9 +23,10 @@
 
 namespace OCA\Wopi\Settings;
 
-use OCA\Wopi\AppConfig;
-use OCA\Wopi\Capabilities;
-use OCA\Wopi\TemplateManager;
+use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Service\DemoService;
+use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
@@ -44,6 +45,9 @@ class Admin implements ISettings {
 	/** @var array */
 	private $capabilities;
 
+	/** @var DemoService */
+	private $demoService;
+
 	/**
 	 * Admin template settings
 	 *
@@ -51,33 +55,42 @@ class Admin implements ISettings {
 	 * @param TemplateManager $manager
 	 * @param Capabilities $capabilities
 	 */
-	public function __construct(IConfig $config,
-								AppConfig $appConfig,
-								TemplateManager $manager,
-								Capabilities $capabilities) {
+	public function __construct(
+		IConfig $config,
+		AppConfig $appConfig,
+		TemplateManager $manager,
+		Capabilities $capabilities,
+		DemoService $demoService
+	) {
 		$this->config  = $config;
 		$this->appConfig = $appConfig;
 		$this->manager = $manager;
-		$this->capabilities = $capabilities->getCapabilities()['wopi'];
+		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
+		$this->demoService = $demoService;
 	}
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		$demoServers = [];
+
 		return new TemplateResponse(
 			'wopi',
 			'admin',
 			[
-				'wopi_url'           => $this->config->getAppValue('wopi', 'wopi_url'),
-				'edit_groups'        => $this->config->getAppValue('wopi', 'edit_groups'),
-				'use_groups'         => $this->config->getAppValue('wopi', 'use_groups'),
-				'doc_format'         => $this->config->getAppValue('wopi', 'doc_format'),
-				'external_apps'      => $this->config->getAppValue('wopi', 'external_apps'),
-				'canonical_webroot'  => $this->config->getAppValue('wopi', 'canonical_webroot'),
-				'disable_certificate_verification' => $this->config->getAppValue('wopi', 'disable_certificate_verification'),
-				'templates'          => $this->manager->getSystemFormatted(),
-				'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'],
-				'settings' => $this->appConfig->getAppSettings(),
+				'settings' => [
+					'wopi_url'           => $this->config->getAppValue('richdocuments', 'wopi_url'),
+					'edit_groups'        => $this->config->getAppValue('richdocuments', 'edit_groups'),
+					'use_groups'         => $this->config->getAppValue('richdocuments', 'use_groups'),
+					'doc_format'         => $this->config->getAppValue('richdocuments', 'doc_format'),
+					'external_apps'      => $this->config->getAppValue('richdocuments', 'external_apps'),
+					'canonical_webroot'  => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
+					'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') !== '',
+					'templates'          => $this->manager->getSystemFormatted(),
+					'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'],
+					'settings' => $this->appConfig->getAppSettings(),
+					'demo_servers' => $this->demoService->fetchDemoServers()
+				]
 			],
 			'blank'
 		);

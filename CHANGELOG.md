@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.5.1
+
+### Fixed
+- Fix issue when shared files were not creating activity/version entries
+- Fix bug on public share links
+- Dependency bumps
+
+## 3.5.0
+
+### Added
+
+- Implement support for TemplateSource file creation method
+- Add occ command to update template files
+
+### Fixed
+
+- Fix inserting images with groupfolders that have ACL configured
+- Fix setting cache values when editing federated (@xklonx)
+- Dependency bumps
+
 ## 3.4.6
 
 ### Added

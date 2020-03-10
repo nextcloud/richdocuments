@@ -1,0 +1,15 @@
+default:
+    autoload:
+        '': '%paths.base%/../features/bootstrap'
+    suites:
+        default:
+            paths:
+                - '%paths.base%/../features'
+            contexts:
+                - FeatureContext:
+                    baseUrl: 'http://localhost:8080'
+
+    extensions:
+        jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+            filename: report.xml
+            outputDir: '%paths.base%/../output/'

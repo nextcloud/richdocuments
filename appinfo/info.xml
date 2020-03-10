@@ -4,7 +4,7 @@
 	<name>Wopi</name>
 	<summary>Edit office documents directly in your browser.</summary>
 	<description>This application can connect to a Microsoft Office Online Server (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Application settings are in the Office Online section.</description>
-	<version>3.4.10</version>
+	<version>3.5.1</version>
 	<licence>agpl</licence>
 	<author mail="info@roscomputing.com" homepage="https://roscomputing.com">RosComputing</author>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
@@ -19,7 +19,7 @@
 	<bugs>https://github.com/roscomputing/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/roscomputing/richdocuments.git</repository>
 	<dependencies>
-		<nextcloud min-version="15" max-version="18" />
+		<nextcloud min-version="15" max-version="19" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Wopi\Backgroundjobs\ObtainCapabilities</job>

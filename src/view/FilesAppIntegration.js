@@ -43,7 +43,7 @@ export default {
 	},
 
 	initAfterReady() {
-		if (typeof this.getFileList() !== 'undefined') {
+		if (this.getFileList()) {
 			this.getFileModel()
 			this.getFileList().hideMask()
 		}
@@ -106,10 +106,10 @@ export default {
 		if (this.fileList) {
 			return this.fileList
 		}
-		if (OCA.Files.App) {
+		if (OCA.Files && OCA.Files.App) {
 			return OCA.Files.App.fileList
 		}
-		if (OCA.Sharing.PublicApp) {
+		if (OCA.Sharing && OCA.Sharing.PublicApp) {
 			return OCA.Sharing.PublicApp.fileList
 		}
 		return null
@@ -172,9 +172,9 @@ export default {
 	},
 
 	_addHeaderShareButton() {
-		if ($('header').length) {
-			var $button = $('<div id="wopi-sharing"><a class="icon-shared icon-white"></a></div>')
-			$('#wopi-header').append($button)
+		if ($('header').length && this.getFileList()) {
+			var $button = $('<div id="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
+			$('#richdocuments-header').append($button)
 			$button.on('click', () => {
 				if (!$('#app-sidebar').is(':visible')) {
 					return this.share()
@@ -187,10 +187,13 @@ export default {
 
 	_addHeaderFileActions() {
 		console.debug('[FilesAppIntegration] Adding header file actions')
-		OC.unregisterMenu($('#wopi-actions .icon-more'), $('#wopi-actions-menu'))
-		$('#wopi-actions').remove()
-		var actionsContainer = $('<div id="wopi-actions"><div class="icon-more icon-white"></div><ul id="wopi-actions-menu" class="popovermenu"></ul></div>')
-		var actions = actionsContainer.find('#wopi-actions-menu').empty()
+		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
+		$('#richdocuments-actions').remove()
+		if (!this.getFileList()) {
+			return
+		}
+		var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
+		var actions = actionsContainer.find('#richdocuments-actions-menu').empty()
 
 		var context = {
 			'$file': this.getFileList().$el.find('[data-id=' + this.originalFileId + ']').first(),

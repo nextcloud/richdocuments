@@ -9,8 +9,8 @@ const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('wopiframe').contentWindow
 })
 
-const preloadCreate = getSearchParam('wopi_create')
-const preloadOpen = getSearchParam('wopi_open')
+const preloadCreate = getSearchParam('richdocuments_create')
+const preloadOpen = getSearchParam('richdocuments_open') || Config.get('title')
 const Preload = {}
 
 if (preloadCreate) {
@@ -23,7 +23,7 @@ if (preloadCreate) {
 if (preloadOpen) {
 	Preload.open = {
 		filename: preloadOpen,
-		id: getSearchParam('wopi_fileId'),
+		id: getSearchParam('richdocuments_fileId') || Config.get('fileId'),
 		dir: getSearchParam('dir')
 	}
 }
@@ -36,9 +36,10 @@ const odfViewer = {
 
 	open: false,
 	receivedLoading: false,
-	supportedMimes: OC.getCapabilities().wopi.mimetypes.concat(OC.getCapabilities().wopi.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: OC.getCapabilities().wopi.mimetypesNoDefaultOpen,
-	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain'],
+	isCollaboraConfigured: typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0,
+	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
+	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
 	register() {
 		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().wopi.productName
@@ -48,8 +49,8 @@ const odfViewer = {
 				EDIT_ACTION_NAME,
 				0,
 				OC.imagePath('core', 'actions/rename'),
-				this.onEditNewWindow,
-				t('wopi', 'Edit with {productName}', { productName: OC.getCapabilities().wopi.productName })
+				this.onEdit,
+				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
@@ -63,28 +64,30 @@ const odfViewer = {
 	},
 
 	onEdit: function(fileName, context) {
-		if (odfViewer.open === true) {
+		if (!odfViewer.isCollaboraConfigured) {
+			const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
+			const installHint = OC.isUserAdmin()
+				? `<a href="${setupUrl}">Collabora Online is not setup yet. <br />Click here to configure your own server or connect to a demo server.</a>`
+				: t('richdocuments', 'Collabora Online is not setup yet. Please contact your administrator.')
+
+			if (OCP.Toast) {
+				OCP.Toast.error(installHint, {
+					isHTML: true,
+					timeout: 0
+				})
+			} else {
+				OC.Notification.showHtml(installHint)
+			}
 			return
 		}
-		odfViewer.open = true
 		let fileList = null
 		if (context) {
-			fileList = context.fileList
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-			context.fileList.setViewerMode(true)
-			context.fileList.setPageTitle(fileName)
-			context.fileList.showMask()
-		}
-		odfViewer.receivedLoading = false
-
-		let documentUrl = getDocumentUrlForFile(fileDir, fileId)
-		if (isPublic) {
-			documentUrl = getDocumentUrlForPublicFile(fileName, fileId)
-		}
-		if (typeof (templateId) !== 'undefined') {
-			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
+			if (context.fileList) {
+				fileList = context.fileList
+			}
 		}
 
 		/**
@@ -124,11 +127,40 @@ const odfViewer = {
 			return false
 		}
 
-		if (context) {
+		if (context && fileList) {
 			reloadForFederationCSP(fileName)
 		}
 
-		OC.addStyle('wopi', 'mobile')
+		let documentUrl = getDocumentUrlForFile(fileId)
+		if (isPublic) {
+			documentUrl = getDocumentUrlForPublicFile(fileName, fileId)
+		} else if (typeof (templateId) !== 'undefined') {
+			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
+		} else if (context && context.fileList) {
+			let url = OC.generateUrl('apps/richdocuments/edit/{fileId}',
+				{
+					fileId: fileId
+				})
+			let win = window.open(url, '_blank')
+			if (win) {
+				win.focus()
+			} else {
+				window.location = url
+			}
+			return
+		}
+		if (fileList) {
+			fileList.setViewerMode(true)
+			fileList.setPageTitle(fileName)
+			fileList.showMask()
+		}
+		if (odfViewer.open === true) {
+			return
+		}
+		odfViewer.open = true
+		odfViewer.receivedLoading = false
+
+		OC.addStyle('richdocuments', 'mobile')
 
 		var $iframe = $('<iframe id="wopiframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(function() {
@@ -170,42 +202,6 @@ const odfViewer = {
 				}
 			})
 		})
-	},
-
-	onEditNewWindow: function(fileName, context) {
-		function updateURLParameter(url, param, paramVal) {
-			var newAdditionalURL = ''
-			var tempArray = url.split('?')
-			var baseURL = tempArray[0]
-			var additionalURL = tempArray[1]
-			var temp = ''
-			if (additionalURL) {
-				tempArray = additionalURL.split('&')
-				for (var i = 0; i < tempArray.length; i++) {
-					if (tempArray[i].split('=')[0] !== param) {
-						newAdditionalURL += temp + tempArray[i]
-						temp = '&'
-					}
-				}
-			}
-
-			var rowsTxt = paramVal ? temp + '' + param + '=' + encodeURIComponent(paramVal) : ''
-			return baseURL + '?' + newAdditionalURL + rowsTxt
-		}
-		if (context) {
-			var fileId = context.fileId || context.$file.attr('data-id')
-			var url = window.location.href
-
-			url = updateURLParameter(url, 'wopi_fileId', fileId)
-			url = updateURLParameter(url, 'wopi_open', fileName)
-			url = updateURLParameter(url, 'fileid', null)
-			var win = window.open(url, '_blank')
-			if (win) {
-				win.focus()
-			} else {
-				odfViewer.onEdit(fileName, context)
-			}
-		}
 	},
 
 	onReceiveLoading() {
@@ -453,10 +449,15 @@ $(document).ready(function() {
 	}
 
 	// Open documents if a public page is opened for a supported mimetype
-	const isSupportedMime = isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1
+	const isSupportedMime = isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1 && odfViewer.excludeMimeFromDefaultOpen.indexOf($('#mimetype').val()) === -1
 	const showSecureView = isPublic && isDownloadHidden && odfViewer.hideDownloadMimes.indexOf($('#mimetype').val()) !== -1
 	if (isSupportedMime || showSecureView) {
 		odfViewer.onEdit(document.getElementById('filename').value)
+	} else if (Preload.open && !(OCA && OCA.Files)) {
+		odfViewer.onEdit(Preload.open.filename, {
+			fileId: Preload.open.id,
+			dir: Preload.open.filename
+		})
 	}
 
 	PostMessages.registerPostMessageHandler(({ parsed }) => {

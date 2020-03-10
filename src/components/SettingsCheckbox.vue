@@ -21,12 +21,15 @@
   -->
 
 <template>
-	<p>
+	<div class="settings-entry">
 		<input :id="id" type="checkbox" class="checkbox"
 			:checked="inputVal" :disabled="disabled" @change="$emit('input', $event.target.checked)">
 		<label :for="id">{{ label }}</label><br>
 		<em v-if="hint !== ''">{{ hint }}</em>
-	</p>
+		<div>
+			<slot />
+		</div>
+	</div>
 </template>
 
 <script>
@@ -74,5 +77,7 @@ export default {
 </script>
 
 <style scoped>
-
+	.settings-entry {
+		padding-bottom: 15px;
+	}
 </style>

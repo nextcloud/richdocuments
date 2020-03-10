@@ -76,12 +76,11 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 	)
 }
 
-const getDocumentUrlForFile = (fileDir, fileId) => {
+const getDocumentUrlForFile = (fileId) => {
 	return OC.generateUrl(
 		'apps/wopi/index?fileId={fileId}&requesttoken={requesttoken}',
 		{
 			fileId: fileId,
-			dir: fileDir,
 			requesttoken: OC.requestToken
 		})
 }

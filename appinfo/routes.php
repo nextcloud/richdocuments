@@ -31,6 +31,7 @@ return [
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
 		['name' => 'document#open', 'url' => 'open', 'verb' => 'GET'],
+		['name' => 'document#edit', 'url' => 'edit/{fileId}', 'verb' => 'GET'],
 
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
@@ -52,6 +53,7 @@ return [
 		['name' => 'settings#getSettings', 'url' => 'ajax/settings.php', 'verb' => 'GET'],
 		['name' => 'settings#updateWatermarkSettings', 'url' => 'settings/watermark', 'verb' => 'POST'],
 		['name' => 'settings#checkSettings', 'url' => 'settings/check', 'verb' => 'GET'],
+		['name' => 'settings#demoServers', 'url' => 'settings/demo', 'verb' => 'GET'],
 
 		//Mobile access
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],
