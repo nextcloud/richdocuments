@@ -53,6 +53,7 @@ return [
 		['name' => 'settings#getSettings', 'url' => 'ajax/settings.php', 'verb' => 'GET'],
 		['name' => 'settings#updateWatermarkSettings', 'url' => 'settings/watermark', 'verb' => 'POST'],
 		['name' => 'settings#checkSettings', 'url' => 'settings/check', 'verb' => 'GET'],
+		['name' => 'settings#demoServers', 'url' => 'settings/demo', 'verb' => 'GET'],
 
 		//Mobile access
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],

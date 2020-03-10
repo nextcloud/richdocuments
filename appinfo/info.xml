@@ -4,7 +4,7 @@
 	<name>Collabora Online</name>
 	<summary>Edit office documents directly in your browser.</summary>
 	<description>This application can connect to a Microsoft Office Online Server (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Application settings are in the Office Online section.</description>
-	<version>3.4.10</version>
+	<version>3.5.1</version>
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
@@ -21,7 +21,7 @@
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png</screenshot>
 	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="15" max-version="18" />
+		<nextcloud min-version="15" max-version="19" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>

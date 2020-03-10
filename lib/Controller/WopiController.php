@@ -561,6 +561,10 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		// Set the user to register the change under his name
+		$this->userScopeService->setUserScope($wopi->getEditorUid());
+		$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
+
 		$lck = $this->request->getHeader('X-WOPI-Lock');
 		$fLock = $this->lockMapper->find($fileId);
 		if ($isPut) {
@@ -599,8 +603,6 @@ class WopiController extends Controller {
 		try {
 			$content = fopen('php://input', 'rb');
 
-			// Set the user to register the change under his name
-			$this->userScopeService->setUserScope($wopi->getEditorUid());
 			$this->lockHooks->setLockBypass(true);
 			try {
 				$this->retryOperation(function () use ($file, $content){
@@ -609,6 +611,11 @@ class WopiController extends Controller {
 			} catch (LockedException $e) {
 				$this->logger->logException($e);
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
+
+			if ($wopi->hasTemplateId()) {
+				$wopi->setTemplateId(null);
+				$this->wopiMapper->update($wopi);
 			}
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (\Exception $e) {
@@ -622,6 +629,8 @@ class WopiController extends Controller {
 	 * Expects a valid token in access_token parameter.
 	 * Just actually routes to the PutFile, the implementation of PutFile
 	 * handles both saving and saving as.* Given an access token and a fileId, replaces the files with the request body.
+	 *
+	 * FIXME Cleanup this code as is a lot of shared logic between putFile and putRelativeFile
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
@@ -752,9 +761,9 @@ class WopiController extends Controller {
 			}
 
 			$content = fopen('php://input', 'rb');
-
 			// Set the user to register the change under his name
 			$this->userScopeService->setUserScope($wopi->getEditorUid());
+			$this->userScopeService->setFilesystemScope($wopi->getEditorUid());
 			$this->lockHooks->setLockBypass(true);
 			try {
 				$this->retryOperation(function () use ($file, $content){
@@ -825,14 +834,7 @@ class WopiController extends Controller {
 		} else {
 			// Unless the editor is empty (public link) we modify the files as the current editor
 			// TODO: add related share token to the wopi table so we can obtain the
-			$editor = $wopi->getEditorUid();
-
-			// Use the actual file owner no editor is available
-			if ($editor === null) {
-				$editor = $wopi->getOwnerUid();
-			}
-
-			$userFolder = $this->rootFolder->getUserFolder($editor);
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getUserForFileAccess());
 			$files = $userFolder->getById($wopi->getFileid());
 			if (isset($files[0]) && $files[0] instanceof File) {
 				$file = $files[0];
