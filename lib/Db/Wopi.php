@@ -116,7 +116,7 @@ class Wopi extends Entity {
 		$this->addType('templateId', 'int');
 		$this->addType('hide_download', 'bool');
 		$this->addType('direct', 'bool');
-
+		$this->addType('is_remote_token', 'bool');
 	}
 
 	public function isTemplateToken() {
