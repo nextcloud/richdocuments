@@ -103,20 +103,22 @@ class Wopi extends Entity {
 	protected $remoteServerToken;
 
 	public function __construct() {
-		$this->addType('owner_uid', 'string');
-		$this->addType('editor_uid', 'string');
+		$this->addType('ownerUid', 'string');
+		$this->addType('editorUid', 'string');
 		$this->addType('fileid', 'int');
 		$this->addType('version', 'int');
 		$this->addType('canwrite', 'bool');
-		$this->addType('server_host', 'string');
+		$this->addType('serverHost', 'string');
 		$this->addType('token', 'string');
 		$this->addType('expiry', 'int');
-		$this->addType('guest_displayname', 'string');
+		$this->addType('guestDisplayname', 'string');
 		$this->addType('templateDestination', 'int');
 		$this->addType('templateId', 'int');
-		$this->addType('hide_download', 'bool');
+		$this->addType('hideDownload', 'bool');
 		$this->addType('direct', 'bool');
-		$this->addType('is_remote_token', 'bool');
+		$this->addType('isRemoteToken', 'bool');
+		$this->addType('remoteServer', 'string');
+		$this->addType('remoteServerToken', 'string');
 	}
 
 	public function isTemplateToken() {
