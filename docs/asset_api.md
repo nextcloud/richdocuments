@@ -20,7 +20,7 @@ The return is json:
 }
 ```
 
-The `assetUrl` has to be send to the Collabora Online server using the
+The `assetUrl` has to be send to the Office Online server using the
 postMessage API.
 
 ## Fetching an asset

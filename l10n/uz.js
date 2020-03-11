@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Saved" : "Saqlangan",
     "File is too big" : "Fayl juda katta",

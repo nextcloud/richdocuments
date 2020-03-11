@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Richdocuments\Service;
+namespace OCA\Wopi\Service;
 
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
@@ -43,7 +43,7 @@ class DemoService {
 	}
 
 	public function fetchDemoServers($refresh = false) {
-		$servers = $this->cache->get('richdocuments-demo');
+		$servers = $this->cache->get('wopi-demo');
 		if (!$refresh) {
 			return json_decode($servers, true);
 		}
@@ -55,7 +55,7 @@ class DemoService {
 		} catch (\Exception $e) {
 			$servers = [];
 		}
-		$this->cache->set('richdocuments-demo', json_encode($servers));
+		$this->cache->set('wopi-demo', json_encode($servers));
 		return $servers;
 	}
 

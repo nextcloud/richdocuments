@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "File is too big" : "ගොනුව විශාල වැඩියි",
     "Invalid file provided" : "ඔබ තේරූ ගොනුව වැරදි",

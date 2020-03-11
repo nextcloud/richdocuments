@@ -11,10 +11,10 @@
 
 namespace OCA\Wopi\Controller;
 
-use OCA\Richdocuments\Service\CapabilitiesService;
-use OCA\Richdocuments\Service\DemoService;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
-use OCA\Richdocuments\WOPI\Parser;
+use OCA\Wopi\Service\CapabilitiesService;
+use OCA\Wopi\Service\DemoService;
+use OCA\Wopi\WOPI\DiscoveryManager;
+use OCA\Wopi\WOPI\Parser;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -174,17 +174,12 @@ class SettingsController extends Controller{
 		$this->discoveryManager->refretch();
 		$this->capabilitiesService->clear();
 		try {
-			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
-			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {
-				$public_wopi_url = str_replace('/hosting/capabilities', '', $capaUrlSrc['urlsrc']);
-				if ($public_wopi_url !== null) {
-					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
-					$colon = strpos($public_wopi_url, ':', 0);
-					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)){
-						$message = $this->l10n->t('Saved with error: Office Online should use the same protocol as the server installation.');
-					}
-				}
+			$this->wopiParser->getParsed();
+			$colon = strpos($wopi_url, ':', 0);
+			if ($this->request->getServerProtocol() !== substr($wopi_url, 0, $colon)){
+				$message = $this->l10n->t('Saved with error: Office Online should use the same protocol as the server installation.');
 			}
+			$this->appConfig->setAppValue('public_wopi_url', $wopi_url);
 		} catch (\Exception $e){
 			if ($wopi_url !== null) {
 				return new JSONResponse([

@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Nueva HojaDeCálculo.xlsx",
     "New Presentation.pptx" : "Nueva Presentación.pptx",
     "Saved" : "Guardado",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalacion del servidor.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Guardado con error: Office Online debería usar el mismo protocolo que la instalacion del servidor.",
     "File is too big" : "El archivo es demasiado grande.",
     "Invalid file provided" : "Archivo proporcionado inválido",
     "Empty" : "Vacío",

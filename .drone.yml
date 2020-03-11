@@ -87,7 +87,7 @@ steps:
     - name: nextcloud
       image: nextcloudci/php7.3:php7.3-5
       environment:
-          APP_NAME: richdocuments
+          APP_NAME: wopi
           CORE_BRANCH: master
           DB: sqlite
       commands:

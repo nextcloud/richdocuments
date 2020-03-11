@@ -9,8 +9,8 @@ const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('wopiframe').contentWindow
 })
 
-const preloadCreate = getSearchParam('richdocuments_create')
-const preloadOpen = getSearchParam('richdocuments_open') || Config.get('title')
+const preloadCreate = getSearchParam('wopi_create')
+const preloadOpen = getSearchParam('wopi_open') || Config.get('title')
 const Preload = {}
 
 if (preloadCreate) {
@@ -23,7 +23,7 @@ if (preloadCreate) {
 if (preloadOpen) {
 	Preload.open = {
 		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId') || Config.get('fileId'),
+		id: getSearchParam('wopi_fileId') || Config.get('fileId'),
 		dir: getSearchParam('dir')
 	}
 }
@@ -36,9 +36,9 @@ const odfViewer = {
 
 	open: false,
 	receivedLoading: false,
-	isCollaboraConfigured: typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0,
-	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
+	isCollaboraConfigured: typeof OC.getCapabilities().wopi.configured,
+	supportedMimes: OC.getCapabilities().wopi.mimetypes.concat(OC.getCapabilities().wopi.mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: OC.getCapabilities().wopi.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
 	register() {
@@ -50,7 +50,7 @@ const odfViewer = {
 				0,
 				OC.imagePath('core', 'actions/rename'),
 				this.onEdit,
-				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
+				t('wopi', 'Edit with {productName}', { productName: OC.getCapabilities().wopi.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
@@ -65,10 +65,10 @@ const odfViewer = {
 
 	onEdit: function(fileName, context) {
 		if (!odfViewer.isCollaboraConfigured) {
-			const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
+			const setupUrl = OC.generateUrl('/settings/admin/wopi')
 			const installHint = OC.isUserAdmin()
-				? `<a href="${setupUrl}">Collabora Online is not setup yet. <br />Click here to configure your own server or connect to a demo server.</a>`
-				: t('richdocuments', 'Collabora Online is not setup yet. Please contact your administrator.')
+				? `<a href="${setupUrl}">Office Online is not setup yet. <br />Click here to configure.</a>`
+				: t('wopi', 'Office Online is not setup yet. Please contact your administrator.')
 
 			if (OCP.Toast) {
 				OCP.Toast.error(installHint, {
@@ -137,7 +137,7 @@ const odfViewer = {
 		} else if (typeof (templateId) !== 'undefined') {
 			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
 		} else if (context && context.fileList) {
-			let url = OC.generateUrl('apps/richdocuments/edit/{fileId}',
+			let url = OC.generateUrl('apps/wopi/edit/{fileId}',
 				{
 					fileId: fileId
 				})
@@ -160,7 +160,7 @@ const odfViewer = {
 		odfViewer.open = true
 		odfViewer.receivedLoading = false
 
-		OC.addStyle('richdocuments', 'mobile')
+		OC.addStyle('wopi', 'mobile')
 
 		var $iframe = $('<iframe id="wopiframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(function() {

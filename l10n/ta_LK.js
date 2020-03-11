@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Description" : "விவரிப்பு",
     "Error" : "வழு",

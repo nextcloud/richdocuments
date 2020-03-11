@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Error" : "Памылка",
     "Cancel" : "Cancel",

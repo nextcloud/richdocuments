@@ -4,7 +4,7 @@ OC_PATH=../../../
 OCC=${OC_PATH}occ
 SCENARIO_TO_RUN=$1
 HIDE_OC_LOGS=$2
-APP_NAME=richdocuments
+APP_NAME=wopi
 
 INSTALLED=$($OCC status | grep installed: | cut -d " " -f 5)
 
@@ -29,8 +29,8 @@ echo $PHPPID
 
 
 #export BEHAT_PARAMS="context[parameters][base_url]=https://nextcloud.local.dev.bitgrid.net"
-$OCC config:app:set richdocuments wopi_url --value="http://collabora:9980"
-$OCC config:app:set richdocuments public_wopi_url --value="http://collabora:9980"
+$OCC config:app:set wopi wopi_url --value="http://collabora:9980"
+$OCC config:app:set wopi public_wopi_url --value="http://collabora:9980"
 
 
 vendor/bin/behat

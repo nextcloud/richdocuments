@@ -5,7 +5,7 @@
 
 Send a GET to:
 
-`<server>/ocs/v2.php/apps/richdocuments/api/v1/templates/<type>`
+`<server>/ocs/v2.php/apps/wopi/api/v1/templates/<type>`
 
 Here type can be:
 
@@ -24,7 +24,7 @@ This returns a list of templates with
 
 Send a GET to:
 
-`<server>/apps/richdocuments/templates/<id>`
+`<server>/apps/wopi/templates/<id>`
 
 Where `id` is the id of the template obtained in the listing. This returns back
 an image (jpeg or png). For displaying.
@@ -33,7 +33,7 @@ an image (jpeg or png). For displaying.
 
 Send a POST to
 
-`<server>/ocs/v2.php/apps/richdocuments/api/v1/templates/new`
+`<server>/ocs/v2.php/apps/wopi/api/v1/templates/new`
 
 with:
 * `path`: the full path relative to the user where to create the document, including new file name

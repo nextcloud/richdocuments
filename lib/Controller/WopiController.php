@@ -779,7 +779,7 @@ class WopiController extends Controller {
 
 			$wopi = 'index.php/apps/wopi/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 			$url = $this->urlGenerator->getAbsoluteURL($wopi);
-			$editUrl = $this->urlGenerator->getAbsoluteURL('index.php/apps/richdocuments/edit/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid'));
+			$editUrl = $this->urlGenerator->getAbsoluteURL('index.php/apps/wopi/edit/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid'));
 			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url, 'HostEditUrl' => $editUrl, 'HostViewUrl' => $editUrl ], Http::STATUS_OK);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'wopi', 'message' => 'putRelativeFile failed']);

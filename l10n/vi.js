@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Bảng tính mới.xlsx",
     "New Presentation.pptx" : "Trình bày mới.pptx",
     "Saved" : "Đã lưu",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Collabora Online nên sử dụng cùng một giao thức với máy chủ.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Office Online nên sử dụng cùng một giao thức với máy chủ.",
     "File is too big" : "Tệp quá lớn",
     "Invalid file provided" : "File không hợp lệ",
     "Select groups" : "Chọn nhóm",

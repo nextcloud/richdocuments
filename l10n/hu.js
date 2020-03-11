@@ -24,7 +24,7 @@ OC.L10N.register(
     "Select groups" : "Csoportok kiválasztása",
     "Restrict edit to specific groups" : "Szerkesztés korlátozása csoportra",
     "Use Canonical webroot" : "Egyszerűsített webroot használata",
-    "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "A rövidített webroot-ok közül, ha több van, azt használd ami a legkevesebb megkötést  adja. Pl: ha van shibbolizált és nem shibbolizált elérés a nem shibbolizáltat válaszd. Ezt a beállítást figyelmen kívül hagyhatod, ha a webroot-odat csak egyféle módon lehet elérni.",
+    "Canonical webroot, in case there are multiple, for Office to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "A rövidített webroot-ok közül, ha több van, azt használd ami a legkevesebb megkötést  adja. Pl: ha van shibbolizált és nem shibbolizált elérés a nem shibbolizáltat válaszd. Ezt a beállítást figyelmen kívül hagyhatod, ha a webroot-odat csak egyféle módon lehet elérni.",
     "Enable access for external apps" : "Külső alkalmazások hozzáférésének engedélyezése",
     "Failed to save settings" : "A beállítások mentése sikertelen",
     "Description" : "Leírás",

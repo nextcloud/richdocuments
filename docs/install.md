@@ -1,26 +1,26 @@
 
 
 # Getting started in 3 steps
-We'll describe how to get Collabora Online running on your server and how to integrate it into your Nextcloud using the docker image Nextcloud and Collabora built.
+We'll describe how to get Office Online running on your server and how to integrate it into your Nextcloud using the docker image Nextcloud and Collabora built.
 
 # Requirements
 To install it the following dependencies are required:
 
 - A host that can run a Docker container
-- A subdomain or a second domain that the Collabora Online server can run on
+- A subdomain or a second domain that the Office Online server can run on
 - An Apache server with some enabled modules (NGINX instructions in a blog here)
-- A valid SSL certificate for the domain that Collabora Online should run on
+- A valid SSL certificate for the domain that Office Online should run on
 - A valid SSL certificate for your Nextcloud
 
 Note: This guide does NOT cover self-signed certificates. If you use a self-signed certificate then you're mostly on your own ;-)
 
-## Install the Collabora Online server
+## Install the Office Online server
 
 ### Setup using docker
 
 The [collabora/code](https://hub.docker.com/r/collabora/code/) Docker image can be installed to any x86-64 host (e.g. on Linux and Windows 10), and it is fully configurable. For more information about setup and configuration for deployment, please read the [CODE Docker page](https://www.collaboraoffice.com/code/docker/). If you want to try it out quickly, you can set up CODE docker image with file sharing integration in less than 5 minutes in a very basic way, following these instructions: [quick tryout with ownCloud](https://www.collaboraoffice.com/code/quick-tryout-owncloud-docker/) or [quick tryout with Nextcloud](https://www.collaboraoffice.com/code/quick-tryout-nextcloud-docker/).
 
-The following steps will download the Collabora Online docker, make sure to replace "cloud.nextcloud.com" with the host that your own Nextcloud runs on. Also make sure to escape all dots with double backslashes (\), since this string will be evaluated as a regular expression (and your bash 'eats' the first backslash.) If you want to use the docker container with more than one Nextcloud, you'll need to use 'domain=cloud\\.nextcloud\\.com\|second\\.nexcloud\\.com' instead. (All hosts are separated by \|.)
+The following steps will download the Office Online docker, make sure to replace "cloud.nextcloud.com" with the host that your own Nextcloud runs on. Also make sure to escape all dots with double backslashes (\), since this string will be evaluated as a regular expression (and your bash 'eats' the first backslash.) If you want to use the docker container with more than one Nextcloud, you'll need to use 'domain=cloud\\.nextcloud\\.com\|second\\.nexcloud\\.com' instead. (All hosts are separated by \|.)
 
     docker pull collabora/code
     docker run -t -d -p 127.0.0.1:9980:9980 \
@@ -118,10 +118,10 @@ After configuring these do restart your apache using /etc/init.d/apache2 restart
 ## Configure the app in Nextcloud
 
 Go to the Apps section and choose "Office & text"
-Install the "Collabora Online app"
-Admin -> Collabora Online -> Specify the server you have setup before (e.g. "https://office.nextcloud.com")
+Install the "Office Online app"
+Admin -> Office Online -> Specify the server you have setup before (e.g. "https://office.nextcloud.com")
 
-Congratulations, your Nextcloud has Collabora Online Office integrated!
+Congratulations, your Nextcloud has Office Online Office integrated!
 
 ## Updating the docker image
 
@@ -135,8 +135,8 @@ List docker images:
 
     docker ps
 
-from the output you can glean the Container ID of your Collabora Online docker image.
-stop and remove the Collabora Online docker image:
+from the output you can glean the Container ID of your Office Online docker image.
+stop and remove the Office Online docker image:
 
     docker stop CONTAINER_ID
     docker rm CONTAINER_ID

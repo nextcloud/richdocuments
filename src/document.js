@@ -117,7 +117,7 @@ const documentsMain = {
 			const form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/></form>'
 
-			// iframe that contains the Collabora Online Viewer
+			// iframe that contains the Office Online Viewer
 			const frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
 
 			$('#revViewer').append(form)
@@ -166,7 +166,7 @@ const documentsMain = {
 			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/></form>'
 
-			// iframe that contains the Collabora Online
+			// iframe that contains the Office Online
 			var frame = '<iframe id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen style="width:100%;height:100%;position:absolute;" />'
 
 			$('#mainContainer').append(form)

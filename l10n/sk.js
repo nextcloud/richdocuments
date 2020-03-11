@@ -11,7 +11,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Nová prezentácia.pptx",
     "Document already exists" : "Dokument už existuje",
     "Saved" : "Uložené",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uložené s chybou: Collabora Online by mala používať rovnaký protokol ako nainštalovaný server.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Uložené s chybou: Office Online by mala používať rovnaký protokol ako nainštalovaný server.",
     "File is too big" : "Súbor je príliš veľký",
     "Invalid file provided" : "Zadaný neplatný súbor",
     "Empty" : "Prázdny",

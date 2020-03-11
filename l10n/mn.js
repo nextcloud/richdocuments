@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Шинэ Spreadsheet.xlsx",
     "New Presentation.pptx" : "Шинэ танилцуулга.pptx",
     "Saved" : "хадгалагдсан",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "алдааг хадгалсан: Office Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
     "File is too big" : "Файлын хэмжээ хэт их байна",
     "Invalid file provided" : "Буруу файл байна",
     "Advanced settings" : "Нарийвчилсан тохиргоо",

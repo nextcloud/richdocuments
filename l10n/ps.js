@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "File is too big" : "د فایل وزن ډېر دی",
     "Invalid file provided" : "فایل روغ نه دی",

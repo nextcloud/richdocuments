@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Saved" : "Bewaar",
     "File is too big" : "Lêer is te groot",

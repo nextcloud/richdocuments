@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Nyt regneark.xlsx",
     "New Presentation.pptx" : "Nyt præsentation.pptx",
     "Saved" : "Gemt",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Gemt med fejl: Office Online skal bruge samme protokol som server installationen.",
     "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
     "Empty" : "Tom",

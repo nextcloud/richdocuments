@@ -40,7 +40,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Version of the wopi app**
 
-**Version of Collabora Online**
+**Version of Office Online**
 
 
 <details>

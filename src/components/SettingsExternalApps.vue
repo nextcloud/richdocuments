@@ -24,7 +24,7 @@
 	<div>
 		<ul>
 			<li v-for="token in tokens" :key="token.token">
-				<input v-model="token.description" type="text" :placeholder="t('richdocuments', 'Description')"
+				<input v-model="token.description" type="text" :placeholder="t('wopi', 'Description')"
 					:disabled="disabled">
 				<input class="token" type="text" disabled
 					:value="token.token">
@@ -33,7 +33,7 @@
 			</li>
 		</ul>
 		<button :disabled="disabled" @click="addNewToken">
-			{{ t('richdocuments', 'Add new token') }}
+			{{ t('wopi', 'Add new token') }}
 		</button>
 		<input type="button" value="Save" :disabled="disabled"
 			@click="updateTokens">

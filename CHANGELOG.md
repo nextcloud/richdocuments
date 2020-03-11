@@ -333,7 +333,7 @@
 
 ## 1.12.33
 - Feature: Restore 'Enable edit for specific groups' feature, fixes #66
-- Feature: Only edit textfiles with Collabora Online, when texteditorapp is disabled
+- Feature: Only edit textfiles with Office Online, when texteditorapp is disabled
 - Feature: Include support for X-LOOL-WOPI-Timestamp
 - Bug: Undefined variable 'owneruid'
 

@@ -23,6 +23,7 @@
 
 namespace OCA\Wopi;
 
+use OCA\Wopi\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Capabilities\ICapability;
 use OCP\Files\IAppData;
@@ -76,6 +77,9 @@ class Capabilities implements ICapability {
 		'text/spreadsheet'
 	];
 
+	/** @var AppConfig */
+	private $config;
+
 	/** @var ISimpleFolder */
 	private $appData;
 
@@ -86,15 +90,18 @@ class Capabilities implements ICapability {
 	 * Capabilities constructor.
 	 *
 	 * @param IAppData $appData
+	 * @param IL10N $l10n
+	 * @param AppConfig $appConfig
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function __construct(IAppData $appData, IL10N $l10n) {
+	public function __construct(IAppData $appData, IL10N $l10n, IConfig $config) {
 		$this->l10n = $l10n;
 		try {
 			$this->appData = $appData->getFolder('wopi');
 		} catch (NotFoundException $e) {
 			$this->appData = $appData->newFolder('wopi');
 		}
+		$this->config = $config;
 	}
 
 	public function getCapabilities() {
@@ -103,6 +110,7 @@ class Capabilities implements ICapability {
 			'wopi' => [
 				'mimetypes' => self::MIMETYPES,
 				'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
+				'configured' => $this->config->getAppValue(Application::APPNAME, 'wopi_url', '') !== '',
 				'collabora' => $collaboraCapabilities,
 				'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ? : false,
 				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ? : false,

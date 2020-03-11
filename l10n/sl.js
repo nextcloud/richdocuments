@@ -10,7 +10,7 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "preglednica.xlsx",
     "New Presentation.pptx" : "predstavitev.pptx",
     "Saved" : "Shranjeno",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Shranjeno z napako: strežnik Collabora mora uporabljati enak protokol kot nameščeni strežnik.",
+    "Saved with error: Office Online should use the same protocol as the server installation." : "Shranjeno z napako: strežnik Office mora uporabljati enak protokol kot nameščeni strežnik.",
     "File is too big" : "Datoteka je prevelika",
     "Invalid file provided" : "Predložena je neveljavna datoteka",
     "Empty" : "Prazno",

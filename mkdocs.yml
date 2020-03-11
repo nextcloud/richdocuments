@@ -1,4 +1,4 @@
-site_name: Collabora Online in Nextcloud
+site_name: Office Online in Nextcloud
 nav:
     - Home: index.md
     - Installation guide: install.md
@@ -11,5 +11,5 @@ nav:
         - mobile_flow.md
     - Troubleshooting: issues.md
 theme: readthedocs
-extra_css: 
+extra_css:
     - custom.css

@@ -35,4 +35,4 @@ folders among each other.
 
 ### Replacing empty templates
 
-Empty template files can be replaced the existing files in `appdata_[instanceid]/richdocuments/empty_templates/`. The files can be reverted to the templates shipped with the release by running the  `occ richdocuments:update-empty-templates` command.
+Empty template files can be replaced the existing files in `appdata_[instanceid]/wopi/empty_templates/`. The files can be reverted to the templates shipped with the release by running the  `occ wopi:update-empty-templates` command.

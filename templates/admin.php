@@ -8,7 +8,7 @@ script('files', 'jquery.fileupload');
 <div id="admin-vue" data-initial="<?php p(json_encode($_['settings'], true)); ?>"></div>
 
 <?php if ($_['settings']['templatesAvailable'] === true) { ?>
-<form class="section" id="richdocuments-templates" method="post" action="/template/">
+<form class="section" id="wopi-templates" method="post" action="/template/">
 	<input class="hidden-visually" id="add-template" type="file" />
 	<h2>
 		<?php p($l->t('Global templates')) ?>

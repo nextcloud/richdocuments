@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "richdocuments",
+    "wopi",
     {
     "Description" : "Keterangan",
     "Error" : "Ralat",
