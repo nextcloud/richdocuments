@@ -683,16 +683,7 @@ class WopiController extends Controller {
 					$suggested = $this->request->getHeader('X-WOPI-RequestedName');
 
 					$suggested = iconv('utf-7', 'utf-8', $suggested) . '.' . $file->getExtension();
-
-					if (strpos($suggested, '.') === 0) {
-						$path = dirname($file->getPath()) . '/New File' . $suggested;
-					}
-					else if (strpos($suggested, '/') !== 0) {
-						$path = dirname($file->getPath()) . '/' . $suggested;
-					}
-					else {
-						$path = $userFolder->getPath() . $suggested;
-					}
+					$path = dirname($file->getPath()) . '/' . $suggested;
 
 					// create the folder first
 					if (!$this->rootFolder->nodeExists(dirname($path))) {
@@ -709,41 +700,24 @@ class WopiController extends Controller {
 					if (!empty($suggested) && !empty($relative)){
 						return new JSONResponse([], Http::STATUS_NOT_IMPLEMENTED);
 					}
+					$fileName = iconv('utf-7', 'utf-8', !empty($suggested) ? $suggested : $relative);
+					if ($fileName[0] === '.') {
+						$path = dirname($file->getPath()) . '/' . pathinfo($file->getName(), PATHINFO_FILENAME) . $fileName;
+					} else if ($fileName[0] !== '/') {
+						$path = dirname($file->getPath()) . '/' . $fileName;
+					} else {
+						$path = $userFolder->getPath() . $fileName;
+					}
+					// create the folder first
+					if (!$this->rootFolder->nodeExists(dirname($path))) {
+						$this->rootFolder->newFolder(dirname($path));
+					}
 					if (!empty($suggested)){
-						$suggested = iconv('utf-7', 'utf-8', $suggested);
-
-						if ($suggested[0] === '.') {
-							$path = dirname($file->getPath()) . '/New File' . $suggested;
-						} else if ($suggested[0] !== '/') {
-							$path = dirname($file->getPath()) . '/' . $suggested;
-						} else {
-							$path = $userFolder->getPath() . $suggested;
-						}
-
-						// create the folder first
-						if (!$this->rootFolder->nodeExists(dirname($path))) {
-							$this->rootFolder->newFolder(dirname($path));
-						}
-
 						// create a unique new file
 						$path = $this->rootFolder->getNonExistingName($path);
 						$file = $this->rootFolder->newFile($path);
 					}
 					if (!empty($relative)){
-						$relative = iconv('utf-7', 'utf-8', $relative);
-
-						if ($relative[0] === '.') {
-							$path = dirname($file->getPath()) . '/New File' . $relative;
-						} else if ($relative[0] !== '/') {
-							$path = dirname($file->getPath()) . '/' . $relative;
-						} else {
-							$path = $userFolder->getPath() . $relative;
-						}
-
-						// create the folder first
-						if (!$this->rootFolder->nodeExists(dirname($path))) {
-							$this->rootFolder->newFolder(dirname($path));
-						}
 						if ($this->rootFolder->nodeExists($path)){
 							if ($this->request->getHeader('X-WOPI-OverwriteRelativeTarget') === 'true')
 								$file = $this->rootFolder->get($path);

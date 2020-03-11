@@ -24,12 +24,12 @@
 namespace OCA\Richdocuments\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
-class AssetMapper extends Mapper {
+class AssetMapper extends QBMapper {
 	/** @var int Limetime of a token is 10 minutes */
 	const tokenLifeTime = 600;
 
