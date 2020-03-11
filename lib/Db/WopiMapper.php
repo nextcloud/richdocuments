@@ -23,14 +23,14 @@
 namespace OCA\Wopi\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
-class WopiMapper extends Mapper {
+class WopiMapper extends QBMapper {
 	// Tokens expire after this many seconds (not defined by WOPI specs).
 	const TOKEN_LIFETIME_SECONDS = 1800;
 
