@@ -34,7 +34,16 @@ class ConfigService {
     }
     loadFromGlobal(key: string) {
         // @ts-ignore
-        this.values[key] = window['richdocuments_' + key]
+		let val = $('#richdocuments_' + key).val()
+		if (typeof val === 'undefined')
+			val = null
+		if (val === 'true')
+			val = true
+		if (val === 'false')
+			val = false
+		if (typeof val === 'string')
+			val = unescape(val)
+        this.values[key] = val
     }
     update(key: string, value: string) {
         // @ts-ignore

@@ -300,6 +300,7 @@ class DocumentController extends Controller {
 			$response = new TemplateResponse('wopi', 'edit', $params);
 			$policy = new ContentSecurityPolicy();
 			$policy->addAllowedFrameDomain('\'self\'');
+			$policy->allowInlineScript(true);
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
