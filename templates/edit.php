@@ -1,10 +1,7 @@
-<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>">
-	var wopi_title = '<?php p($_['title']) ?>';
-	var wopi_fileId = '<?php p($_['fileId']) ?>';
-</script>
-
 <?php
 style( 'wopi', 'viewer' );
 script('wopi', 'viewer');
 ?>
+<input type="hidden" value="<?php p($_['title']) ?>" id="wopi_title" />
+<input type="hidden" value="<?php p($_['fileId']) ?>" id="wopi_fileId" />
 <div id="app-content"></div>
