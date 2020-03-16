@@ -11,10 +11,8 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TokenManager;
-use OCA\Richdocuments\WOPI\Parser;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -63,6 +61,8 @@ class DocumentController extends Controller {
 	private $templateManager;
 	/** @var FederationService */
 	private $federationService;
+	/** @var Helper */
+	private $helper;
 
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 
@@ -92,7 +92,8 @@ class DocumentController extends Controller {
 		$UserId,
 		ILogger $logger,
 		\OCA\Richdocuments\TemplateManager $templateManager,
-		FederationService $federationService
+		FederationService $federationService,
+		Helper $helper
 	) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
@@ -106,6 +107,7 @@ class DocumentController extends Controller {
 		$this->logger = $logger;
 		$this->templateManager = $templateManager;
 		$this->federationService = $federationService;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -359,17 +361,21 @@ class DocumentController extends Controller {
 				$item = $node;
 			}
 			if ($item instanceof Node) {
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $item->getName(),
 					'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
-					'token' => $token,
-					'urlsrc' => $urlSrc,
 					'path' => '/',
 					'instanceId' => $this->settings->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
+					'userId' => $this->uid,
 				];
+
+				if ($this->uid !== null || ($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE) === 0 || $this->helper->getGuestName() !== null) {
+					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+					$params['token'] = $token;
+					$params['urlsrc'] = $urlSrc;
+				}
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
 				$policy = new ContentSecurityPolicy();
