@@ -28,6 +28,7 @@ OC.L10N.register(
     "New Presentation" : "Нова презентація",
     "Could not create file" : "Не вдалося створити файл",
     "Create" : "Створити",
+    "Select template" : "Оберіть шаблон",
     "Wrong password. Please retry." : "Невірний пароль. Будь ласка, спробуйте ще раз.",
     "Password" : "Пароль",
     "OK" : "OK",
