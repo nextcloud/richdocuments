@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.5.3
+
+### Fixed
+- Hardening check for edit permissions when editing though iOS/Android
+- Fix editing though public share links as logged in users
+- Fix issues with setting the language properly in Collabora Online
+- Dependency bumps
+
 ## 3.5.2
 
 ### Fixed
