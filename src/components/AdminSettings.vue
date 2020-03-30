@@ -114,7 +114,7 @@ export default {
 	},
 	beforeMount() {
 		for (let key in this.initial) {
-			if (!this.initial.hasOwnProperty(key)) {
+			if (!Object.property.hasOwnProperty.call(this.initial, key)) {
 				continue
 			}
 
