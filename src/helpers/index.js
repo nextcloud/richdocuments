@@ -23,9 +23,30 @@
 import { getLanguage, getLocale } from 'nextcloud-l10n'
 
 const languageToBCP47 = () => {
+	let language = getLanguage().replace(/_/g, '-')
+	let locale = getLocale()
+
+	// German formal should just be treated as 'de'
+	if (language === 'de-DE') {
+		language = 'de'
+	}
+	// special case where setting the bc47 region depending on the locale setting makes sense
+	const whitelist = {
+		de: {
+			'de_CH': 'de-CH',
+			'gsw': 'de-CH',
+			'gsw_CH': 'de-CH'
+		}
+	}
+	const matchingWhitelist = whitelist[language]
+	if (typeof matchingWhitelist !== 'undefined' && typeof matchingWhitelist[locale] !== 'undefined') {
+		return matchingWhitelist[locale]
+	}
+
 	// loleaflet expects a BCP47 language tag syntax
-	return (getLanguage() + '-' + getLocale())
-		.replace(/^([a-z]{2}).*_([A-Z]{2})$/, (match, p1, p2) => p1 + '-' + p2.toLowerCase())
+	// when a the nextcloud language constist of two parts we sent both
+	// as the region is then provided by the language setting
+	return language
 }
 
 const getNextcloudVersion = () => {
