@@ -20,7 +20,7 @@
  *
  */
 
-import { getRootUrl } from 'nextcloud-router'
+import { getRootUrl } from '@nextcloud/router'
 import { languageToBCP47 } from './index'
 import Config from './../services/config'
 

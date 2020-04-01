@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import axios from 'nextcloud-axios'
-import Multiselect from 'nextcloud-vue/dist/Components/Multiselect'
+import axios from '@nextcloud/axios'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 let uuid = 0
 export default {

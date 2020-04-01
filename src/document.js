@@ -1,5 +1,5 @@
-import { getRootUrl } from 'nextcloud-router'
-import { getRequestToken } from 'nextcloud-auth'
+import { getRootUrl } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config'
 import { setGuestNameCookie, shouldAskForGuestName } from './helpers/guestName'
 

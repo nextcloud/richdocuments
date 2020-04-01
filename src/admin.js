@@ -1,4 +1,3 @@
-/* global OC, $ */
 import Vue from 'vue'
 import AdminSettings from './components/AdminSettings'
 import '../css/admin.scss'
