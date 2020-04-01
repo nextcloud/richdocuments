@@ -7,6 +7,17 @@
 
 ![](https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png)
 
+
+## Development setup
+
+Just clone this repo into your apps directory ([Nextcloud server](https://github.com/nextcloud/server#running-master-checkouts) installation needed). Additionally, [npm](https://www.npmjs.com/) and [Node.js](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies and building the frontend code.
+
+Once npm and Node.js are installed, this can be done by running:
+```bash
+npm ci
+npm run dev
+```
+
 ## Installation
 
 ### Server
