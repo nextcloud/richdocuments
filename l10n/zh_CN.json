@@ -24,6 +24,7 @@
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "本应用程序可以连接到 Collabora Online（或其他）服务器（类似 WOPI 的客户端）。 Nextcloud 是WOPI 主机。请阅读文档以了解更多信息。\n\n您也可以从 **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** 和 **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** 商店下载 Collabora Office 应用程序来离线编辑文档。",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online在线协作是一款强大的基于LibreOffice的具有协作编辑功能的在线办公套件，它支持所有主流的文档、表格和胶片文件格式，可在所有现代浏览器上使用。",
     "Could not establish connection to the Collabora Online server." : "无法建立与 Collabora Online 服务器的连接。",
+    "Setting up a new server" : "设置新服务器",
     "Collabora Online server is reachable." : "在线协作服务器可达。",
     "Please configure a Collabora Online server to start editing documents" : "请配置在线协作服务器以开始编辑文档",
     "Use your own server" : "使用您的自有服务器",
