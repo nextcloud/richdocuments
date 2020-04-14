@@ -17,6 +17,7 @@ OC.L10N.register(
     "Description" : "Mô tả",
     "No results" : "Không có kết quả",
     "Error" : "Lỗi",
+    "An error occurred" : "Có lỗi đã xảy ra",
     "Nickname" : "Biệt danh",
     "Cancel" : "Hủy bỏ",
     "Save" : "Lưu",
