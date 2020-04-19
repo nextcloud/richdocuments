@@ -24,6 +24,7 @@ OC.L10N.register(
     "Anonymous guest" : "Gonbidatu anonimoa",
     "Edit office documents directly in your browser." : "Editatu bulegoko dokumentuak nabigatzailean bertan.",
     "URL (and Port) of Collabora Online-server" : "Collabora Online zerbitzariaren URL (eta ataka)",
+    "Use a demo server" : "Erabili demo zerbitzari bat",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Select groups" : "Hautatu taldeak",
     "Secure view enables you to secure documents by embedding a watermark" : "Ikuspegi seguruak dokumentuak ur-marka bat txertatuz segurtatzeko aukera ematen dizu.",
