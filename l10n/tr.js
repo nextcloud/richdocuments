@@ -99,7 +99,7 @@ OC.L10N.register(
     "Could not create file" : "Dosya oluşturulamadı",
     "Create" : "Ekle",
     "Select template" : "Kalıp seçin",
-    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} bağlantısı kurulurken bir sorun çıktı. Lütfen daha sonra yeniden deneyin ya da yönetici ile görüşün.",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} bağlantısı kurulurken bir sorun çıktı. Lütfen daha sonra yeniden deneyin ya da BT yöneticiniz ile görüşün.",
     "Global templates" : "Genel kalıplar",
     "Add a new template" : "Yeni kalıp ekle",
     "No templates defined." : "Herhangi bir kalıp tanımlanmamış.",
