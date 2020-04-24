@@ -51,7 +51,7 @@
 						<em>{{ t('richdocuments', 'Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
-						<form @submit="updateServer">
+						<form @submit.prevent.stop="updateServer">
 							<p>
 								<label for="wopi_url">{{ t('richdocuments', 'URL (and Port) of Collabora Online-server') }}</label><br>
 								<input id="wopi_url" v-model="settings.wopi_url" type="text"
@@ -231,7 +231,7 @@ export default {
 	data() {
 		return {
 			serverMode: '',
-			serverError: SERVER_STATE_OK,
+			serverError: Object.values(OC.getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
 			demoServers: null,
 			approvedDemoModal: false,
 			updating: false,
