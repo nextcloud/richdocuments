@@ -341,6 +341,10 @@ const documentsMain = {
 							var $buttons = $dialog.find('button')
 							$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 							$buttons.eq(1).text(t('richdocuments', 'Save'))
+							var nameInput = $dialog.find('input')[0]
+							nameInput.value = documentsMain.fileName
+							nameInput.selectionStart = 0
+							nameInput.selectionEnd = documentsMain.fileName.lastIndexOf('.')
 						})
 					}
 				})
