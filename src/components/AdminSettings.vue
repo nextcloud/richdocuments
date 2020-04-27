@@ -113,9 +113,9 @@
 					<li>{{ t('richdocuments', 'The users documents will not be retained by a third party after their session completes except in exceptional circumstances. By using the service, the user gives permission for Collabora engineers to exceptionally use such document data, solely for the purpose of providing, optimizing and improving Collabora Online. Such document data will remain confidential to Collabora and/or any third party providing a demo server.') }}</li>
 				</ul>
 				<p>{{ t('richdocuments', 'At the first use and after an update, each user will get the warning, explaining all the above.') }}</p>
-				<input type="button" class="primary" :value="t('richdocuments', 'Use the demo server')"
+				<input type="button" class="primary" :value="t('richdocuments', 'I agree, and use the demo server')"
 					@click="approvedDemoModal=true">
-				<input type="button" :value="t('richdocuments', 'Setup your own server')" @click="serverMode = 'custom'">
+				<input type="button" :value="t('richdocuments', 'I will setup my own server')" @click="serverMode = 'custom'">
 			</div>
 		</modal>
 
