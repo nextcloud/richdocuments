@@ -21,23 +21,11 @@
  *
  */
 
-const getFileType = (document, ooxml) => {
-	let documentTypes = {
-		document: {
-			extension: 'odt',
-			mime: 'application/vnd.oasis.opendocument.text'
-		},
-		spreadsheet: {
-			extension: 'ods',
-			mime: 'application/vnd.oasis.opendocument.spreadsheet'
-		},
-		presentation: {
-			extension: 'odp',
-			mime: 'application/vnd.oasis.opendocument.presentation'
-		}
-	}
+const ooxml = OC.getCapabilities()['richdocuments']['config']['doc_format'] === 'ooxml'
+
+const getFileTypes = () => {
 	if (ooxml) {
-		documentTypes = {
+		return {
 			document: {
 				extension: 'docx',
 				mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -52,9 +40,27 @@ const getFileType = (document, ooxml) => {
 			}
 		}
 	}
-	return documentTypes[document]
+	return {
+		document: {
+			extension: 'odt',
+			mime: 'application/vnd.oasis.opendocument.text'
+		},
+		spreadsheet: {
+			extension: 'ods',
+			mime: 'application/vnd.oasis.opendocument.spreadsheet'
+		},
+		presentation: {
+			extension: 'odp',
+			mime: 'application/vnd.oasis.opendocument.presentation'
+		}
+	}
+}
+
+const getFileType = (document) => {
+	return getFileTypes()[document]
 }
 
 export default {
+	getFileTypes,
 	getFileType
 }

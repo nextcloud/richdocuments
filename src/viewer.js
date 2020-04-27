@@ -85,9 +85,11 @@ const odfViewer = {
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-			context.fileList.setViewerMode(true)
-			context.fileList.setPageTitle(fileName)
-			context.fileList.showMask()
+			if (context.fileList) {
+				context.fileList.setViewerMode(true)
+				context.fileList.setPageTitle(fileName)
+				context.fileList.showMask()
+			}
 		}
 		odfViewer.receivedLoading = false
 
@@ -215,17 +217,15 @@ const odfViewer = {
 		FilesAppIntegration.close()
 	},
 
-	registerFilesMenu: function(response) {
-		Config.update('ooxml', response.doc_format === 'ooxml')
+	registerFilesMenu: function() {
 
 		const registerFilesMenu = (OCA) => {
 			OCA.FilesLOMenu = {
 				attach: function(newFileMenu) {
 					var self = this
-					const ooxml = Config.get('ooxml')
-					const document = Types.getFileType('document', ooxml)
-					const spreadsheet = Types.getFileType('spreadsheet', ooxml)
-					const presentation = Types.getFileType('presentation', ooxml)
+					const document = Types.getFileType('document')
+					const spreadsheet = Types.getFileType('spreadsheet')
+					const presentation = Types.getFileType('presentation')
 
 					newFileMenu.addMenuEntry({
 						id: 'add-' + document.extension,
@@ -408,7 +408,15 @@ const odfViewer = {
 	}
 }
 
-window.OCA.RichDocuments = {}
+const settings = OC.getCapabilities()['richdocuments']['config'] || {}
+Config.update('ooxml', settings['doc_format'] === 'ooxml')
+
+window.OCA.RichDocuments = {
+	config: {
+		create: Types.getFileTypes()
+	}
+}
+
 $(document).ready(function() {
 	// register file actions and menu
 	if (typeof OCA !== 'undefined'
@@ -420,12 +428,7 @@ $(document).ready(function() {
 			odfViewer.supportedMimes.push('text/plain')
 		}
 		odfViewer.register()
-
-		$.get(OC.filePath('richdocuments', 'ajax', 'settings.php')).done(function(settings) {
-			// TODO: move ooxml setting to capabilities so we don't need this request
-			odfViewer.registerFilesMenu(settings)
-		})
-
+		odfViewer.registerFilesMenu()
 	}
 
 	// Open documents if a public page is opened for a supported mimetype

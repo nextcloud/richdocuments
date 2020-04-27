@@ -81,6 +81,8 @@ class Capabilities implements ICapability {
 
 	/** @var IL10N */
 	private $l10n;
+	/** @var AppConfig */
+	private $config;
 
 	/**
 	 * Capabilities constructor.
@@ -88,8 +90,9 @@ class Capabilities implements ICapability {
 	 * @param IAppData $appData
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function __construct(IAppData $appData, IL10N $l10n) {
+	public function __construct(IAppData $appData, IL10N $l10n, AppConfig $config) {
 		$this->l10n = $l10n;
+		$this->config = $config;
 		try {
 			$this->appData = $appData->getFolder('richdocuments');
 		} catch (NotFoundException $e) {
@@ -107,6 +110,14 @@ class Capabilities implements ICapability {
 				'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ? : false,
 				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ? : false,
 				'productName' => isset($collaboraCapabilities['productName']) ? $collaboraCapabilities['productName'] : $this->l10n->t('Collabora Online'),
+				'config' => [
+					'wopi_url' => $this->config->getAppValue('wopi_url'),
+					'public_wopi_url' => $this->config->getAppValue('public_wopi_url'),
+					'disable_certificate_verification' => $this->config->getAppValue('disable_certificate_verification'),
+					'edit_groups' => $this->config->getAppValue('edit_groups'),
+					'use_groups' => $this->config->getAppValue('use_groups'),
+					'doc_format' => $this->config->getAppValue('doc_format'),
+				]
 			],
 		];
 	}
