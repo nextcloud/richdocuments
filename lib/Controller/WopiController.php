@@ -208,7 +208,7 @@ class WopiController extends Controller {
 
 		/**
 		 * New approach for generating files from templates by creating an empty file
-		 * and providing an URL which returns the actual templyte
+		 * and providing an URL which returns the actual template
 		 */
 		if ($wopi->hasTemplateId()) {
 			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
