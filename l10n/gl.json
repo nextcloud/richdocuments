@@ -39,7 +39,7 @@
     "Advanced settings" : "Axustes avanzados",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Empregue o formato Office Open XML (OOXML) no canto do formato OpenDocument (ODF) como predeterminado para novos ficheiros",
     "Restrict usage to specific groups" : "Restrinxir o uso a grupos específicos",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está activado para todos os usuarios de xeito predeterminado. Cando esta configuración estea activa, só os membros dos grupos especificados poden empregalo.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está activado, por omisión, para todos os usuarios. Cando esta configuración estea activa, só os membros dos grupos especificados poden empregalo.",
     "Select groups" : "Seleccionar grupos",
     "Restrict edit to specific groups" : "Restrinxir a edición a grupos específicos",
     "Use Canonical webroot" : "Usar a raíz web canónica",
