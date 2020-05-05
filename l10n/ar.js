@@ -23,6 +23,7 @@ OC.L10N.register(
     "Create a new document" : "أنشئ مستندا جديدا",
     "Could not create file" : "لا يستطيع انشاء ملف ",
     "Create" : "إنشاء",
+    "Select template" : "حدد قالب",
     "Wrong password. Please retry." : "كلمة مرور خاطئة. يرجى إعادة المحاولة",
     "Password" : "كلمة السر",
     "OK" : "تم",
