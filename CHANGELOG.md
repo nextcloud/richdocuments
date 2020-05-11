@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.6.0
+
+### Added
+- Add demo server selector and show hint about that when Collabora is not setup
+
+### Fixed
+- Fix filesystem setup that caused save issues all over the place
+- Do not try to recreate a file from a template more than once
+- Do not open PDF files by default
+- Dependency bumps
+
 ## 3.5.1
 
 ### Fixed
