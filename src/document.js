@@ -342,6 +342,8 @@ const documentsMain = {
 							$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 							$buttons.eq(1).text(t('richdocuments', 'Save'))
 							var nameInput = $dialog.find('input')[0]
+							nameInput.style.minWidth = '250px'
+							nameInput.style.maxWidth = '400px'
 							nameInput.value = documentsMain.fileName
 							nameInput.selectionStart = 0
 							nameInput.selectionEnd = documentsMain.fileName.lastIndexOf('.')
