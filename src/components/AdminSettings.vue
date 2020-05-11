@@ -51,7 +51,7 @@
 						<em>{{ t('richdocuments', 'Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
-						<form @submit="updateServer">
+						<form @submit.prevent.stop="updateServer">
 							<p>
 								<label for="wopi_url">{{ t('richdocuments', 'URL (and Port) of Collabora Online-server') }}</label><br>
 								<input id="wopi_url" v-model="settings.wopi_url" type="text"
@@ -101,6 +101,23 @@
 				</div>
 			</fieldset>
 		</div>
+
+		<modal v-if="serverMode === 'demo' && !approvedDemoModal" @close="serverMode = 'custom'">
+			<div class="modal__content">
+				<p>{{ t('richdocuments', 'Please make sure you understand that the following will happen if you set up the Collabora Online demo.') }}</p>
+				<ul>
+					<li>{{ t('richdocuments', 'The service will send users documents to Collabora and/or third party demo servers.') }}</li>
+					<li>{{ t('richdocuments', 'This service is not intended for production use, hence the documents will show tile watermarks.') }}</li>
+					<li>{{ t('richdocuments', 'The demo service may be under heavy load, and its performance is not representative in any way of the performance of an on-premise installation.') }}</li>
+					<li>{{ t('richdocuments', 'These servers are used for testing and development, and may run test versions of the software. As such they may crash, burn, and re-start without warning.') }}</li>
+					<li>{{ t('richdocuments', 'The users documents will not be retained by a third party after their session completes except in exceptional circumstances. By using the service, the user gives permission for Collabora engineers to exceptionally use such document data, solely for the purpose of providing, optimizing and improving Collabora Online. Such document data will remain confidential to Collabora and/or any third party providing a demo server.') }}</li>
+				</ul>
+				<p>{{ t('richdocuments', 'At the first use and after an update, each user will get the warning, explaining all the above.') }}</p>
+				<input type="button" class="primary" :value="t('richdocuments', 'I agree, and use the demo server')"
+					@click="approvedDemoModal=true">
+				<input type="button" :value="t('richdocuments', 'I will setup my own server')" @click="serverMode = 'custom'">
+			</div>
+		</modal>
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
@@ -181,7 +198,7 @@
 
 <script>
 import Vue from 'vue'
-import { Multiselect } from 'nextcloud-vue'
+import { Multiselect, Modal } from 'nextcloud-vue'
 import axios from 'nextcloud-axios'
 import SettingsCheckbox from './SettingsCheckbox'
 import SettingsInputText from './SettingsInputText'
@@ -202,7 +219,8 @@ export default {
 		SettingsSelectTag,
 		SettingsSelectGroup,
 		Multiselect,
-		SettingsExternalApps
+		SettingsExternalApps,
+		Modal
 	},
 	props: {
 		initial: {
@@ -213,8 +231,9 @@ export default {
 	data() {
 		return {
 			serverMode: '',
-			serverError: SERVER_STATE_OK,
+			serverError: Object.values(OC.getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
 			demoServers: null,
+			approvedDemoModal: false,
 			updating: false,
 			groups: [],
 			tags: [],
@@ -380,6 +399,7 @@ export default {
 			}
 			if (this.settings.demoUrl) {
 				this.serverMode = 'demo'
+				this.approvedDemoModal = true
 			}
 		},
 		demoServerLabel(server) {
@@ -433,6 +453,26 @@ export default {
 		margin-left: 25px;
 		&:not(.multiselect) {
 			margin-top: 10px;
+		}
+	}
+
+	.modal__content {
+		margin: 20px;
+		overflow: scroll;
+		max-width: 600px;
+
+		ul {
+			margin-bottom: 15px;
+		}
+
+		li {
+			list-style: disc;
+			padding: 3px;
+			margin-left: 20px;
+		}
+
+		button {
+			float: right;
 		}
 	}
 </style>
