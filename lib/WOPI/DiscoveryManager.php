@@ -98,9 +98,7 @@ class DiscoveryManager {
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 5];
 
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-			$options['verify'] = false;
-		}
+		$options['verify'] = $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === '';
 
 		try {
 			return $client->get($wopiDiscovery, $options);
