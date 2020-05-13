@@ -36,6 +36,8 @@
     "Loading available demo servers …" : "Chargement des serveurs de démo disponibles …",
     "No available demo servers found." : "Aucun serveur de démo disponible.",
     "Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online." : "Les documents ouverts avec le serveur de démonstration seront envoyés à un serveur tiers.\nN'utilisez cette fonction que pour évaluer Collabora Online.",
+    "I agree, and use the demo server" : "J'accepte et utilise un serveur de démo",
+    "I will setup my own server" : "Je vais installer mon propre serveur",
     "Advanced settings" : "Paramètres avancés",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Utiliser par défaut Office Open XML (OOXML) au lieu de OpenDocument Format (ODF) pour les nouveaux fichiers",
     "Restrict usage to specific groups" : "Limiter l'utilisation à certains groupes",
