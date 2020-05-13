@@ -1,34 +1,17 @@
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile, getSearchParam } from './helpers/url'
 import PostMessageService from './services/postMessage'
 import Config from './services/config'
+import Preload from './services/preload'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
 import '../css/viewer.scss'
 import { splitPath } from './helpers'
+import NewFileMenu from './view/NewFileMenu'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
 })
-
-const preloadCreate = getSearchParam('richdocuments_create')
-const preloadOpen = getSearchParam('richdocuments_open')
-const Preload = {}
-
-if (preloadCreate) {
-	Preload.create = {
-		type: getSearchParam('richdocuments_create'),
-		filename: getSearchParam('richdocuments_filename')
-	}
-}
-
-if (preloadOpen) {
-	Preload.open = {
-		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId'),
-		dir: getSearchParam('dir')
-	}
-}
 
 const isDownloadHidden = document.getElementById('hideDownload') && document.getElementById('hideDownload').value === 'true'
 
@@ -216,195 +199,6 @@ const odfViewer = {
 
 		FilesAppIntegration.close()
 	},
-
-	registerFilesMenu: function() {
-
-		const registerFilesMenu = (OCA) => {
-			OCA.FilesLOMenu = {
-				attach: function(newFileMenu) {
-					var self = this
-					const document = Types.getFileType('document')
-					const spreadsheet = Types.getFileType('spreadsheet')
-					const presentation = Types.getFileType('presentation')
-
-					newFileMenu.addMenuEntry({
-						id: 'add-' + document.extension,
-						displayName: t('richdocuments', 'New Document'),
-						templateName: t('richdocuments', 'New Document') + '.' + document.extension,
-						iconClass: 'icon-filetype-document',
-						fileType: 'x-office-document',
-						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('document', document.mime, filename)
-							} else {
-								self._createDocument(document.mime, filename)
-							}
-						}
-					})
-
-					newFileMenu.addMenuEntry({
-						id: 'add-' + spreadsheet.extension,
-						displayName: t('richdocuments', 'New Spreadsheet'),
-						templateName: t('richdocuments', 'New Spreadsheet') + '.' + spreadsheet.extension,
-						iconClass: 'icon-filetype-spreadsheet',
-						fileType: 'x-office-spreadsheet',
-						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
-							} else {
-								self._createDocument(spreadsheet.mime, filename)
-							}
-						}
-					})
-
-					newFileMenu.addMenuEntry({
-						id: 'add-' + presentation.extension,
-						displayName: t('richdocuments', 'New Presentation'),
-						templateName: t('richdocuments', 'New Presentation') + '.' + presentation.extension,
-						iconClass: 'icon-filetype-presentation',
-						fileType: 'x-office-presentation',
-						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('presentation', presentation.mime, filename)
-							} else {
-								self._createDocument(presentation.mime, filename)
-							}
-						}
-					})
-				},
-
-				_createDocument: function(mimetype, filename) {
-					OCA.Files.Files.isFileNameValid(filename)
-					filename = FileList.getUniqueName(filename)
-
-					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype: mimetype, filename: filename, dir: document.getElementById('dir').value },
-						function(response) {
-							if (response && response.status === 'success') {
-								FileList.add(response.data, { animate: true, scrollTo: true })
-							} else {
-								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
-							}
-						}
-					)
-				},
-
-				_createDocumentFromTemplate: function(templateId, mimetype, filename) {
-					OCA.Files.Files.isFileNameValid(filename)
-					filename = FileList.getUniqueName(filename)
-					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype: mimetype, filename: filename, dir: document.getElementById('dir').value },
-						function(response) {
-							if (response && response.status === 'success') {
-								FileList.add(response.data, { animate: false, scrollTo: false })
-								const path = document.getElementById('dir').value + '/' + filename
-								OCA.RichDocuments.openWithTemplate({
-									fileId: -1,
-									path,
-									templateId: templateId
-								})
-							} else {
-								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
-							}
-						}
-					)
-				},
-
-				_openTemplatePicker: function(type, mimetype, filename) {
-					var self = this
-					$.ajax({
-						url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2) + type,
-						dataType: 'json'
-					}).then(function(response) {
-						if (response.ocs.data.length === 1) {
-							const { id } = response.ocs.data[0]
-							self._createDocumentFromTemplate(id, mimetype, filename)
-							return
-						}
-						self._buildTemplatePicker(response.ocs.data)
-							.then(function() {
-								var buttonlist = [{
-									text: t('core', 'Cancel'),
-									classes: 'cancel',
-									click: function() {
-										$(this).ocdialog('close')
-									}
-								}, {
-									text: t('richdocuments', 'Create'),
-									classes: 'primary',
-									click: function() {
-										var templateId = this.dataset.templateId
-										self._createDocumentFromTemplate(templateId, mimetype, filename)
-										$(this).ocdialog('close')
-									}
-								}]
-
-								$('#template-picker').ocdialog({
-									closeOnEscape: true,
-									modal: true,
-									buttons: buttonlist
-								})
-							})
-					})
-				},
-
-				_buildTemplatePicker: function(data) {
-					var self = this
-					return $.get(OC.filePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
-						var $tmpl = $(tmpl)
-						// init template picker
-						var $dlg = $tmpl.octemplate({
-							dialog_name: 'template-picker',
-							dialog_title: t('richdocuments', 'Select template')
-						})
-
-						// create templates list
-						var templates = _.values(data)
-						templates.forEach(function(template) {
-							self._appendTemplateFromData($dlg[0], template)
-						})
-
-						$('body').append($dlg)
-					})
-				},
-
-				_appendTemplateFromData: function(dlg, data) {
-					var template = dlg.querySelector('.template-model').cloneNode(true)
-					template.className = ''
-					template.querySelector('img').src = OC.generateUrl('apps/richdocuments/template/preview/' + data.id)
-					template.querySelector('h2').textContent = data.name
-					template.onclick = function() {
-						dlg.dataset.templateId = data.id
-					}
-					if (!dlg.dataset.templateId) {
-						dlg.dataset.templateId = data.id
-					}
-
-					dlg.querySelector('.template-container').appendChild(template)
-				}
-			}
-		}
-		registerFilesMenu(OCA)
-
-		OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu)
-
-		// Open the template picker if there was a create parameter detected on load
-		if (Preload.create && Preload.create.type && Preload.create.filename) {
-			const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
-			OCA.FilesLOMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
-		}
-
-		if (Preload.open) {
-			FileList.$fileList.one('updated', function() {
-				odfViewer.onEdit(Preload.open.filename, {
-					fileId: Preload.open.id,
-					dir: document.getElementById('dir').value
-				})
-			})
-		}
-	}
 }
 
 const settings = OC.getCapabilities()['richdocuments']['config'] || {}
@@ -448,7 +242,22 @@ $(document).ready(function() {
 		}
 
 		odfViewer.registerFileActions()
-		odfViewer.registerFilesMenu()
+		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
+	}
+
+	// Open the template picker if there was a create parameter detected on load
+	if (Preload.create && Preload.create.type && Preload.create.filename) {
+		const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
+		NewFileMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
+	}
+
+	if (Preload.open) {
+		FileList.$fileList.one('updated', function() {
+			odfViewer.onEdit(Preload.open.filename, {
+				fileId: Preload.open.id,
+				dir: document.getElementById('dir').value
+			})
+		})
 	}
 
 	// Open documents if a public page is opened for a supported mimetype
