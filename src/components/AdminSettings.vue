@@ -71,11 +71,29 @@
 				<div>
 					<input id="demoserver" v-model="serverMode" type="radio"
 						name="serverMode" value="demo" class="radio"
-						:disabled="updating" @input="fetchDemoServers">
+						:disabled="updating || hasHostErrors" @input="fetchDemoServers">
 					<label for="demoserver">{{ t('richdocuments', 'Use a demo server') }}</label><br>
 					<p class="option-inline">
 						<em>{{ t('richdocuments', 'You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try.') }}</em>
 					</p>
+					<div v-if="hasHostErrors" class="option-inline-emphasized">
+						<p>{{ t('richdocuments', 'Your NextCloud setup is not capable of connecting to the demo servers because;') }}</p>
+						<ul>
+							<li v-if="hostErrors[0]">
+								{{ t('richdocuments', 'it is a local setup (localhost)') }}
+							</li>
+							<li v-if="hostErrors[1]">
+								{{ t('richdocuments', 'it uses an insecure protocol (http)') }}
+							</li>
+							<li v-if="hostErrors[2]">
+								{{ t('richdocuments', 'it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)') }}
+							</li>
+						</ul><br>
+						<p>
+							{{ t('richdocuments', 'For use cases like this, we offer instructions for a') }} <a title="Quick tryout with Nextcloud docker" href="https://www.collaboraoffice.com/code/quick-tryout-nextcloud-docker/" target="_blank"
+								rel="noopener" class="external">{{ t('richdocuments', 'Quick tryout with Nextcloud docker.') }}</a>
+						</p>
+					</div>
 					<div v-if="serverMode === 'demo'" class="option-inline">
 						<p v-if="demoServers === null">
 							{{ t('richdocuments', 'Loading available demo servers …') }}
@@ -232,6 +250,7 @@ export default {
 		return {
 			serverMode: '',
 			serverError: Object.values(OC.getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
+			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			approvedDemoModal: false,
 			updating: false,
@@ -271,6 +290,9 @@ export default {
 		},
 		isOoxml() {
 			return this.settings.doc_format === 'ooxml'
+		},
+		hasHostErrors() {
+			return this.hostErrors.some(x => x)
 		}
 	},
 	beforeMount() {
@@ -453,6 +475,24 @@ export default {
 		margin-left: 25px;
 		&:not(.multiselect) {
 			margin-top: 10px;
+		}
+	}
+
+	.option-inline-emphasized {
+		margin-left: 25px;
+		&:not(.multiselect) {
+			margin-top: 10px;
+			font-style: italic;
+		}
+
+		ul {
+			margin-bottom: 15px;
+		}
+
+		li {
+			list-style: disc;
+			padding: 3px;
+			margin-left: 20px;
 		}
 	}
 
