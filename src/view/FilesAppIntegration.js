@@ -56,9 +56,10 @@ export default {
 	},
 
 	initAfterReady() {
-		if (this.handlers.initAfterReady && !this.handlers.initAfterReady()) {
+		if (this.handlers.initAfterReady && this.handlers.initAfterReady(this)) {
 			return
 		}
+
 		if (typeof this.getFileList() !== 'undefined') {
 			this.getFileModel()
 			this.getFileList().hideMask()
@@ -79,6 +80,10 @@ export default {
 	},
 
 	close() {
+		if (this.handlers.close && this.handlers.close(this)) {
+			return
+		}
+
 		if (this.getFileList()) {
 			this.getFileList().setViewerMode(false)
 			this.getFileList().reload()
@@ -91,12 +96,28 @@ export default {
 	},
 
 	share() {
+		if (this.handlers.share && this.handlers.share(this)) {
+			return
+		}
+
 		if (isPublic || !this.getFileList()) {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
 		this.getFileList().showDetailsView(this.fileName, 'shareTabView')
 		OC.Apps.showAppSidebar()
+	},
+
+	rename(newName) {
+		this.fileName = newName
+
+		if (this.handlers.rename && this.handlers.rename(this)) {
+			return
+		}
+		if (this.getFileList()) {
+			this.getFileList().reload()
+			OC.Apps.hideAppSidebar()
+		}
 	},
 
 	insertGraphic(callback) {
@@ -377,6 +398,10 @@ export default {
 	},
 
 	showRevHistory() {
+		if (this.handlers.showRevHistory && this.handlers.showRevHistory(this)) {
+			return
+		}
+
 		if (this.getFileList()) {
 			this.getFileList()
 				.showDetailsView(this.fileName, 'versionsTabView')
