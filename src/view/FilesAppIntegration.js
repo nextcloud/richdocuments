@@ -106,10 +106,10 @@ export default {
 		if (this.fileList) {
 			return this.fileList
 		}
-		if (OCA.Files.App) {
+		if (OCA.Files && OCA.Files.App) {
 			return OCA.Files.App.fileList
 		}
-		if (OCA.Sharing.PublicApp) {
+		if (OCA.Sharing && OCA.Sharing.PublicApp) {
 			return OCA.Sharing.PublicApp.fileList
 		}
 		return null

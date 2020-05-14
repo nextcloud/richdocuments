@@ -6,6 +6,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = {
 	entry: {
 		viewer: path.join(__dirname, 'src', 'viewer.js'),
+		files: path.join(__dirname, 'src', 'files.js'),
 		document: path.join(__dirname, 'src', 'document.js'),
 		admin: path.join(__dirname, 'src', 'admin.js'),
 		personal: path.join(__dirname, 'src', 'personal.js'),

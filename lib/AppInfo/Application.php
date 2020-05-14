@@ -34,7 +34,9 @@ use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\FederationService;
+use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IPreview;
 
 class Application extends App {
@@ -43,6 +45,12 @@ class Application extends App {
 
 	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
+
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
+		$eventDispatcher->addListener(LoadViewer::class, function () {
+			\OCP\Util::addScript('richdocuments', 'viewer');
+		});
 
 		$this->getContainer()->registerCapability(Capabilities::class);
 	}
@@ -93,6 +101,7 @@ class Application extends App {
 		$cspManager = $container->getServer()->getContentSecurityPolicyManager();
 		$policy = new ContentSecurityPolicy();
 		if ($publicWopiUrl !== '') {
+			$policy->addAllowedFrameDomain('\'self\'');
 			$policy->addAllowedFrameDomain($publicWopiUrl);
 			if (method_exists($policy, 'addAllowedFormActionDomain')) {
 				$policy->addAllowedFormActionDomain($publicWopiUrl);
