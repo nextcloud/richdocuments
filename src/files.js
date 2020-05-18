@@ -208,21 +208,23 @@ window.OCA.RichDocuments = {
 	config: {
 		create: Types.getFileTypes()
 	},
-	open: ({ path, fileId, shareOwnerId }) => {
+	open: ({ path, fileId, shareOwnerId, fileList }) => {
 		const [dir, file] = splitPath(path)
 		odfViewer.onEdit(file, {
 			fileId,
 			dir,
-			shareOwnerId
+			shareOwnerId,
+			fileList
 		})
 	},
-	openWithTemplate: ({ path, fileId, templateId, shareOwnerId }) => {
+	openWithTemplate: ({ path, fileId, templateId, shareOwnerId, fileList }) => {
 		const [dir, file] = splitPath(path)
 		odfViewer.onEdit(file, {
 			fileId,
 			dir,
 			templateId,
-			shareOwnerId
+			shareOwnerId,
+			fileList
 		})
 	},
 	FilesAppIntegration: {
