@@ -45,7 +45,6 @@ $eventDispatcher->addListener(
 	'OCA\Files_Sharing::loadAdditionalScripts',
 	function() {
 		\OCP\Util::addScript('richdocuments', 'viewer');
-		\OCP\Util::addStyle('richdocuments', 'viewer');
 	}
 );
 

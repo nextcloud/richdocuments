@@ -28,15 +28,14 @@
 			$size: 170px;
 			$sizeY: $size / 210 * 297;
 			$space: 10px;
-			border-radius: 3px;						// 12&13 fallback
-			border-radius: $border-radius;
-			border: 1px solid $color-border;		// 12&13 fallback
+			border-radius: var(--border-radius);
+			border: 1px solid var(--color-border);
 			margin: $space;
 			position: relative;
 
 			&:hover,
 			&:focus {
-				border-color: $color-primary-element;	// 12&13 fallback
+				border-color: var(--color-primary-element);
 			}
 
 			> span {
@@ -49,8 +48,7 @@
 				> span {
 					width: $size;
 					height: $sizeY;
-					background-color: nc-darken($color-main-background, 7%);	// 12&13 fallback
-					background-color: $color-background-dark;
+					background-color: var(--color-background-dark);
 					background-size: 24px;
 				}
 				> h2 {

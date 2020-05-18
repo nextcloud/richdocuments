@@ -1,5 +1,4 @@
 <?php
-style('richdocuments', 'admin');
 script('richdocuments', 'personal');
 ?>
 <div class="section" id="richdocuments">

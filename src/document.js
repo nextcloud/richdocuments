@@ -11,6 +11,8 @@ import {
 } from './helpers/mobile'
 import { getWopiUrl } from './helpers/url'
 
+import '../css/document.scss'
+
 const PostMessages = new PostMessageService({
 	parent: window.parent,
 	loolframe: () => document.getElementById('loleafletframe').contentWindow

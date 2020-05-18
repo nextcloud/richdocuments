@@ -12,7 +12,6 @@
 </script>
 
 <?php
-style( 'richdocuments', 'style' );
 script('richdocuments', 'document');
 ?>
 <div id="loadingContainer" class="icon-loading"></div>
