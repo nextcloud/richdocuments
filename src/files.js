@@ -1,4 +1,4 @@
-import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile, getSearchParam } from './helpers/url'
+import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
 import PostMessageService from './services/postMessage'
 import Config from './services/config'
 import Preload from './services/preload'
@@ -197,7 +197,7 @@ const odfViewer = {
 		OC.Util.History.replaceState()
 
 		FilesAppIntegration.close()
-	},
+	}
 }
 
 const settings = OC.getCapabilities()['richdocuments']['config'] || {}
