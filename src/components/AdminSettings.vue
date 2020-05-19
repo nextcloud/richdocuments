@@ -69,6 +69,18 @@
 					</div>
 				</div>
 				<div>
+					<input id="builtinserver" v-model="serverMode" type="radio"
+						name="serverMode" value="builtin" class="radio"
+						:disabled="updating || !CODEInstalled" @click="setBuiltinServer">
+					<label for="builtinserver">{{ t('richdocuments', 'Use the built-in testing server') }}</label><br>
+					<p v-if="CODEInstalled" class="option-inline">
+						<em>{{ t('richdocuments', 'This installation has a built-in Collabora Online with limited capabilities for testing') }}</em>
+					</p>
+					<p v-else class="option-inline">
+						<em>{{ t('richdocuments', 'This installation does not have a built-in Collabora Online test server') }}</em>
+					</p>
+				</div>
+				<div>
 					<input id="demoserver" v-model="serverMode" type="radio"
 						name="serverMode" value="demo" class="radio"
 						:disabled="updating || hasHostErrors" @input="fetchDemoServers">
@@ -252,6 +264,7 @@ export default {
 			serverError: Object.values(OC.getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
+			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
 			approvedDemoModal: false,
 			updating: false,
 			groups: [],
@@ -416,12 +429,15 @@ export default {
 		},
 		checkIfDemoServerIsActive() {
 			this.settings.demoUrl = this.demoServers ? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url) : null
+			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + OC.generateUrl('/apps/richdocumentscode/proxy.php?req=') : null
 			if (this.settings.wopi_url && this.settings.wopi_url !== '') {
 				this.serverMode = 'custom'
 			}
 			if (this.settings.demoUrl) {
 				this.serverMode = 'demo'
 				this.approvedDemoModal = true
+			} else if (this.settings.CODEUrl && this.settings.CODEUrl === this.settings.wopi_url) {
+				this.serverMode = 'builtin'
 			}
 		},
 		demoServerLabel(server) {
@@ -429,6 +445,11 @@ export default {
 		},
 		async setDemoServer(server) {
 			this.settings.wopi_url = server.demo_url
+			this.settings.disable_certificate_verification = false
+			await this.updateServer()
+		},
+		async setBuiltinServer() {
+			this.settings.wopi_url = this.settings.CODEUrl
 			this.settings.disable_certificate_verification = false
 			await this.updateServer()
 		}
