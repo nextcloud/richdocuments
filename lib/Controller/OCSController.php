@@ -173,7 +173,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	private function mb_pathinfo($filepath) {
 		$result = [];
-		preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',$filepath,$matches);
+		preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', ltrim('/' . $filepath), $matches);
 		if($matches[1]) {
 			$result['dirname'] = $matches[1];
 		}
