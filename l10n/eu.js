@@ -27,6 +27,7 @@ OC.L10N.register(
     "Use your own server" : "Erabili zure zerbitzaria",
     "URL (and Port) of Collabora Online-server" : "Collabora Online zerbitzariaren URL (eta ataka)",
     "Use a demo server" : "Erabili demo zerbitzari bat",
+    "I will setup my own server" : "Nire zerbitzaria konfiguratuko dut",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Restrict usage to specific groups" : "Baimendu erabilpena talde jakin batzuei",
     "Select groups" : "Hautatu taldeak",
