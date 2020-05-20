@@ -1,3 +1,5 @@
+import '../css/admin.scss'
+
 $(function() {
 
 	$('[data-toggle="tooltip"]').tooltip()

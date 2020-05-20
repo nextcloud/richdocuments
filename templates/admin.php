@@ -1,5 +1,4 @@
 <?php
-style('richdocuments', 'admin');
 script('richdocuments', 'admin');
 script('files', 'jquery.fileupload');
 

@@ -1,6 +1,7 @@
 /* global OC, $ */
 import Vue from 'vue'
 import AdminSettings from './components/AdminSettings'
+import '../css/admin.scss'
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line

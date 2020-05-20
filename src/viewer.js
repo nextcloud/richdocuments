@@ -3,6 +3,7 @@ import PostMessageService from './services/postMessage'
 import Config from './services/config'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
+import '../css/viewer.scss'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
