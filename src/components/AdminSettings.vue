@@ -429,7 +429,7 @@ export default {
 		},
 		checkIfDemoServerIsActive() {
 			this.settings.demoUrl = this.demoServers ? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url) : null
-			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + OC.generateUrl('/apps/richdocumentscode/proxy.php?req=') : null
+			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + OC.filePath('richdocumentscode', '', '') + 'proxy.php?req=' : null
 			if (this.settings.wopi_url && this.settings.wopi_url !== '') {
 				this.serverMode = 'custom'
 			}
