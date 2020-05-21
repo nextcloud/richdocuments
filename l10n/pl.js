@@ -116,11 +116,6 @@ OC.L10N.register(
     "template preview" : "podgląd szablonu",
     "Select a template directory" : "Wybierz katalog szablonów",
     "Remove personal template folder" : "Usuń własny katalog szablonów",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Szablony wewnątrz tego katalogu zostaną dodane do wyboru szablonów w Collabora Online.",
-    "Wrong password. Please retry." : "Złe hasło. Spróbuj ponownie.",
-    "Password" : "Hasło",
-    "OK" : "OK",
-    "Guest %s" : "Gość %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Ten link wygasł lub nigdy nie istniał. Aby uzyskać szczegółowe informacje, skontaktuj się z osobą, która Ci go udostępniła."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Szablony wewnątrz tego katalogu zostaną dodane do wyboru szablonów w Collabora Online."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

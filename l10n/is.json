@@ -81,11 +81,6 @@
     "template preview" : "forskoðun sniðmáts",
     "Select a template directory" : "Veldu möppu undir sniðmát",
     "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sniðmátum inni í þessari möppu verður bætt í sniðmátaval Collabora Online.",
-    "Wrong password. Please retry." : "Rangt lykilorð. Reyndu aftur.",
-    "Password" : "Lykilorð",
-    "OK" : "Í lagi",
-    "Guest %s" : "Gestanotandi %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Tengillinn er útrunninn eða var aldrei til. Hafðu samband við þann sem deildi honum með þer til að fá nánari upplýsingar."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sniðmátum inni í þessari möppu verður bætt í sniðmátaval Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

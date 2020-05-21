@@ -14,8 +14,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "বিসতারিত",
     "Download" : "ডাউনলোড",
-    "Create" : "তৈরী কর",
-    "Password" : "কূটশব্দ",
-    "OK" : "তথাস্তু"
+    "Create" : "তৈরী কর"
 },
 "nplurals=2; plural=(n != 1);");

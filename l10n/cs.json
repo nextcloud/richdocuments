@@ -114,11 +114,6 @@
     "template preview" : "náhled šablony",
     "Select a template directory" : "Vyberte adresář se šablonou",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony nacházející se v tomto adresáři budou přidány do výběru šablon v Collabora Online.",
-    "Wrong password. Please retry." : "Nesprávné heslo. Zkuste to znovu.",
-    "Password" : "Heslo",
-    "OK" : "OK",
-    "Guest %s" : "Host %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Platnost tohoto odkazu skončila nebo nikdy neexistoval. Pro podrobnosti se obraťte na osobu, která vám ho nasdílela."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony nacházející se v tomto adresáři budou přidány do výběru šablon v Collabora Online."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

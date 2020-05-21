@@ -10,8 +10,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "விவரங்கள்",
     "Download" : "பதிவிறக்குக",
-    "Create" : "உருவாக்குக",
-    "Password" : "கடவுச்சொல்",
-    "OK" : "சரி "
+    "Create" : "உருவாக்குக"
 },
 "nplurals=2; plural=(n != 1);");

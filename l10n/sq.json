@@ -32,11 +32,6 @@
     "New Presentation" : "Prezantim i Ri",
     "Could not create file" : "Kartela s’u krijua dot",
     "Create" : "Krijo",
-    "Select template" : "Zgjidh shabllonin",
-    "Wrong password. Please retry." : "Fjalëkalim gabuar. Ju lutemi, riprovoni.",
-    "Password" : "Fjalëkalim",
-    "OK" : "OK",
-    "Guest %s" : "Vizitori %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Kjo lidhje ka skaduar ose s’ka ekzistuar kurrë. Ju lutemi, për hollësi, lidhuni me personin që e ndau atë me ju."
+    "Select template" : "Zgjidh shabllonin"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

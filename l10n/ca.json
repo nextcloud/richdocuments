@@ -81,11 +81,6 @@
     "template preview" : "visualització prèvia de la plantilla",
     "Select a template directory" : "Selecciona un directori de plantilles",
     "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les plantilles d’aquest directori s’afegiran al selector de plantilles de Collabora Online.",
-    "Wrong password. Please retry." : "Contrasenya incorrecta. Si us plau, torneu-ho a provar.",
-    "Password" : "Contrasenya",
-    "OK" : "D'acord",
-    "Guest %s" : "Convidat %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Aquest enllaç ha caducat o no ha existit mai. Si us plau, contacteu amb la persona que us l'ha compartit per obtenir més informació."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les plantilles d’aquest directori s’afegiran al selector de plantilles de Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

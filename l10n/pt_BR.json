@@ -114,11 +114,6 @@
     "template preview" : "visualização do modelo",
     "Select a template directory" : "Selecionar um diretório de modelos",
     "Remove personal template folder" : "Remover a pasta de modelos pessoais",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online.",
-    "Wrong password. Please retry." : "Senha incorreta. Tente novamente.",
-    "Password" : "Senha",
-    "OK" : "OK",
-    "Guest %s" : "Convidado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Este link expirou ou nunca existiu. Por favor contacte a pessoa que compartilhou este link com você para maiores detalhes."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

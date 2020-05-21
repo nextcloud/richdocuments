@@ -24,11 +24,6 @@
     "Guest" : "Invitato",
     "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",
     "Could not create file" : "Impossibile crear le file",
-    "Create" : "Crear",
-    "Wrong password. Please retry." : "Contrasigno errate. Pro favor essaya de novo.",
-    "Password" : "Contrasigno",
-    "OK" : "Ok",
-    "Guest %s" : "Hospite %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Iste ligamine ha expirate o nunquam existeva. Per favor, contacta le persona qui compartiva lo con te pro detalios."
+    "Create" : "Crear"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -11,8 +11,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "බාන්න",
-    "Create" : "තනන්න",
-    "Password" : "මුර පදය",
-    "OK" : "හරි"
+    "Create" : "තනන්න"
 },
 "nplurals=2; plural=(n != 1);");

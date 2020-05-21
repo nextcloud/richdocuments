@@ -32,9 +32,6 @@ OC.L10N.register(
     "New Spreadsheet" : "шинэ хүснэгт",
     "New Presentation" : "шинэ танилцуулга",
     "Could not create file" : "Файл үүсгэж чадсангүй",
-    "Create" : "Үүсгэх",
-    "Wrong password. Please retry." : "нууц үг алдаатай байна. дахин оролдоно уу",
-    "Password" : "нууц үг",
-    "OK" : "ок"
+    "Create" : "Үүсгэх"
 },
 "nplurals=2; plural=(n != 1);");

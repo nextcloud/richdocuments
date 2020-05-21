@@ -29,11 +29,6 @@ OC.L10N.register(
     "New Spreadsheet" : "สเปรดชีตใหม่",
     "New Presentation" : "งานนำเสนอใหม่",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
-    "Create" : "สร้าง",
-    "Wrong password. Please retry." : "รหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง",
-    "Password" : "รหัสผ่าน",
-    "OK" : "ตกลง",
-    "Guest %s" : "ผู้เยี่ยมชม %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "ลิงค์นี้ได้หมดอายุแล้วหรือไม่เคยมีอยู่ กรุณาติดต่อบุคคลที่แชร์กับคุณสำหรับรายละเอียด"
+    "Create" : "สร้าง"
 },
 "nplurals=1; plural=0;");

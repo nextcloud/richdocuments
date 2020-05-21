@@ -77,11 +77,6 @@ OC.L10N.register(
     "template preview" : "テンプレートプレビュー",
     "Select a template directory" : "テンプレートディレクトリィを選択する",
     "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。",
-    "Wrong password. Please retry." : "パスワードが間違っています。もう一度入力してください。",
-    "Password" : "パスワード",
-    "OK" : "OK",
-    "Guest %s" : "ゲスト %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "このリンクは期限が切れているか、すでに存在しません。詳細は、それを共有した方に連絡していください。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。"
 },
 "nplurals=1; plural=0;");

@@ -9,8 +9,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "چۈشۈر",
-    "Create" : "قۇر",
-    "Password" : "ئىم",
-    "OK" : "جەزملە"
+    "Create" : "قۇر"
 },
 "nplurals=1; plural=0;");

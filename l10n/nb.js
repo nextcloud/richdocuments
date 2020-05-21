@@ -50,11 +50,6 @@ OC.L10N.register(
     "New Presentation" : "Ny presentasjon",
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
-    "Select template" : "Velg mal",
-    "Wrong password. Please retry." : "Feil passord. Prøv igjen.",
-    "Password" : "Passord",
-    "OK" : "OK",
-    "Guest %s" : "Gjest %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Denne lenken er utgått eller har aldri eksistert. Kontakt personen som delte den med deg for detaljer."
+    "Select template" : "Velg mal"
 },
 "nplurals=2; plural=(n != 1);");

@@ -84,11 +84,6 @@ OC.L10N.register(
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
     "Remove personal template folder" : "Ta bort personlig mallmapp",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online.",
-    "Wrong password. Please retry." : "Fel lösenord. Försök igen.",
-    "Password" : "Lösenord",
-    "OK" : "OK",
-    "Guest %s" : "Gäst %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Länken har löpt ut eller aldrig existerat. Kontakta personen som delade den med dig för ytterligare detaljer."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

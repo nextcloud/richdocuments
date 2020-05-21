@@ -14,8 +14,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detaljar",
     "Download" : "Last ned",
-    "Create" : "Lag",
-    "Password" : "Passord",
-    "OK" : "Greitt"
+    "Create" : "Lag"
 },
 "nplurals=2; plural=(n != 1);");

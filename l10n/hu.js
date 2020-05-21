@@ -66,11 +66,6 @@ OC.L10N.register(
     "Add a new one?" : "Hozzáad egy újat?",
     "template preview" : "sablonelőnézet",
     "Select a template directory" : "Válasszon sablonkönyvtárat",
-    "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
-    "Wrong password. Please retry." : "Hibás jelszó. Próbálkozzon újra!",
-    "Password" : "Jelszó",
-    "OK" : "OK",
-    "Guest %s" : "Vendég: %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Ez a link vagy lejárt vagy sohasem létezett. Kérdezze meg azt, aki megosztotta Önnel ezt a linket."
+    "Remove personal template folder" : "Személyes sablonmappa eltávolítása"
 },
 "nplurals=2; plural=(n != 1);");

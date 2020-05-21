@@ -14,11 +14,6 @@
     "Details" : "Detalhs",
     "Download" : "Telecargar",
     "Could not create file" : "Impossible de crear lo fichièr",
-    "Create" : "Crear",
-    "Wrong password. Please retry." : "Senhal erronèu. Mercé de tornar ensajar.",
-    "Password" : "Senhal",
-    "OK" : "D'acòrdi",
-    "Guest %s" : "Convidat %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Aqueste ligam a expirat o a pas jamai existit. Per mai de detalhs, contactatz la persona qu'a partejat aqueste ligam amb vos."
+    "Create" : "Crear"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

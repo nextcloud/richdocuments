@@ -22,11 +22,6 @@ OC.L10N.register(
     "New Spreadsheet" : "Neit Aarbechtsblat",
     "New Presentation" : "Nei Präsentatioun",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
-    "Create" : "Erstellen",
-    "Wrong password. Please retry." : "Falscht Passwuert. W.e.g. probéier nach eemol.",
-    "Password" : "Passwuert",
-    "OK" : "OK",
-    "Guest %s" : "Gaascht %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dëse Link ass ofgelaf oder huet ni existéiert. W.e.g. kontaktéier d'Persoun déi en mat der gedeelt huet fir Detailer."
+    "Create" : "Erstellen"
 },
 "nplurals=2; plural=(n != 1);");

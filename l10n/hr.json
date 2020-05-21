@@ -105,11 +105,6 @@
     "template preview" : "pretpregled predloška",
     "Select a template directory" : "Odaberi direktorij predložaka",
     "Remove personal template folder" : "Ukloni osobnu mapu predložaka",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predlošci unutar ove mape bit će dodani u birač predložaka platforme Collabora Online.",
-    "Wrong password. Please retry." : "Pogrešna zaporke. Pokušajte ponovno.",
-    "Password" : "Zaporka",
-    "OK" : "U redu",
-    "Guest %s" : "Gost %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Ova poveznica je istekla ili nikad nije postojala. Za više se informacija obratite osobi koja ju je s vama podijelila."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predlošci unutar ove mape bit će dodani u birač predložaka platforme Collabora Online."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

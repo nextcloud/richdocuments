@@ -40,11 +40,6 @@
     "New Presentation" : "Ny Præsentation",
     "Could not create file" : "Kunne ikke oprette fil",
     "Create" : "Opret",
-    "Select template" : "Vælg model",
-    "Wrong password. Please retry." : "Forkert kodeord. Prøv igen.",
-    "Password" : "Kodeord",
-    "OK" : "OK",
-    "Guest %s" : "Gæst %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dette link er uløbet eller har aldrig eksisteret. Kontakt venligst personen der delte linket for yderligere detaljer. "
+    "Select template" : "Vælg model"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

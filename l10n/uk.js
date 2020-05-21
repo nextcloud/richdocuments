@@ -67,11 +67,6 @@ OC.L10N.register(
     "template preview" : "перегляд шаблону",
     "Select a template directory" : "Виберіть теку для шаблонів",
     "Remove personal template folder" : "Вилучити теку з власними шаблонами",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цій теці буде додано до вибору шаблонів у Collabora Online",
-    "Wrong password. Please retry." : "Невірний пароль. Будь ласка, спробуйте ще раз.",
-    "Password" : "Пароль",
-    "OK" : "Гаразд",
-    "Guest %s" : "Гість %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Термін дії цього посилання вичерпано, або воно ніколи не існувало. Будь ласка, зверніться до особи, що поділилася нею, за подробицями."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цій теці буде додано до вибору шаблонів у Collabora Online"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

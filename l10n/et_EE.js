@@ -21,11 +21,6 @@ OC.L10N.register(
     "Details" : "Üksikasjad",
     "Download" : "Lae alla",
     "Could not create file" : "Ei suuda luua faili",
-    "Create" : "Loo",
-    "Wrong password. Please retry." : "Vale parool. Palun proovi uuesti.",
-    "Password" : "Parool",
-    "OK" : "OK",
-    "Guest %s" : "Külaline %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "See link on aegunud või seda pole kunagi eksisteerinud. Palun võta ühendust inimesega, kes selle sulle jagas."
+    "Create" : "Loo"
 },
 "nplurals=2; plural=(n != 1);");

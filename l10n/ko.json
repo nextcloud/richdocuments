@@ -41,11 +41,6 @@
     "New Presentation" : "새 프레젠테이션",
     "Could not create file" : "파일을 만들 수 없음",
     "Create" : "생성",
-    "Select template" : "템플릿 선택",
-    "Wrong password. Please retry." : "암호가 잘못되었습니다. 다시 시도하십시오.",
-    "Password" : "암호",
-    "OK" : "확인",
-    "Guest %s" : "손님 %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "이 링크는 만료되었거나 존재하지 않았습니다. 이 링크를 공유한 사람에게 문의하십시오."
+    "Select template" : "템플릿 선택"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -41,11 +41,6 @@ OC.L10N.register(
     "New Spreadsheet" : "ახალი ცხრილი",
     "New Presentation" : "ახალი პრეზენტაცია",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
-    "Create" : "შექმნა",
-    "Wrong password. Please retry." : "არასწორი პაროლი სცადეთ ახლიდან.",
-    "Password" : "პაროლი",
-    "OK" : "დიახ",
-    "Guest %s" : "სტუმარი %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "ამ ბმულს ვადა გაუვიდა, ან არც არსებობდა. დეტალებისთვის გთხოვთ დაუკავშირდეთ პიროვნებას, ვინც გაგიზიარათ ეს."
+    "Create" : "შექმნა"
 },
 "nplurals=2; plural=(n!=1);");

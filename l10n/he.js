@@ -79,11 +79,6 @@ OC.L10N.register(
     "template preview" : "תצוגה מקדימה של תבנית",
     "Select a template directory" : "בחירת תיקיית תבניות",
     "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online.",
-    "Wrong password. Please retry." : "סיסמא שגויה. נא לנסות שוב",
-    "Password" : "סיסמא",
-    "OK" : "אישור",
-    "Guest %s" : "אורח %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "קישור זה אינו תקף או לא קיים. יש ליצור קשר עם האדם, ששיתף את הקישור אתך, לפרטים."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

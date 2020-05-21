@@ -116,11 +116,6 @@ OC.L10N.register(
     "template preview" : "Vista previa do modelo",
     "Select a template directory" : "Seleccionar un directorio de modelos",
     "Remove personal template folder" : "Retirar o cartafol de modelos persoais",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña.",
-    "Wrong password. Please retry." : "Contrasinal incorrecto. Ténteo de novo.",
-    "Password" : "Contrasinal",
-    "OK" : "Aceptar",
-    "Guest %s" : "Convidado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta ligazón caducou ou xa non existe. Póñase en contacto coa persoa que o compartiu con vostede para obter máis información."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña."
 },
 "nplurals=2; plural=(n != 1);");

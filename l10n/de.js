@@ -116,11 +116,6 @@ OC.L10N.register(
     "template preview" : "Vorlagen-Vorschau",
     "Select a template directory" : "Vorlagenverzeichnis auswählen",
     "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt",
-    "Wrong password. Please retry." : "Falsches Passwort. Bitte versuche es noch einmal.",
-    "Password" : "Passwort",
-    "OK" : "OK",
-    "Guest %s" : "Gast %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Dieser Link ist abgelaufen oder existierte niemals. Für weitere Details kontaktier bitte denjenigen, der das Dokument mit Dir geteilt hat."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt"
 },
 "nplurals=2; plural=(n != 1);");

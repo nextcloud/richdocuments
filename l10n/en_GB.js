@@ -43,11 +43,6 @@ OC.L10N.register(
     "New Presentation" : "New Presentation",
     "Could not create file" : "Could not create file",
     "Create" : "Create",
-    "Select template" : "Select template",
-    "Wrong password. Please retry." : "Incorrect password. Please try again.",
-    "Password" : "Password",
-    "OK" : "OK",
-    "Guest %s" : "Guest %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "This link has expired or is incorrect. Please contact the person who shared it with you for details."
+    "Select template" : "Select template"
 },
 "nplurals=2; plural=(n != 1);");

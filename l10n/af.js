@@ -16,8 +16,6 @@ OC.L10N.register(
     "Add to favorites" : "Voeg by gunstelinge",
     "Details" : "Besonderhede",
     "Download" : "Laai af",
-    "Create" : "Skep",
-    "Password" : "Wagwoord",
-    "OK" : "Goed"
+    "Create" : "Skep"
 },
 "nplurals=2; plural=(n != 1);");

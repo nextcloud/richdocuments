@@ -8,8 +8,6 @@ OC.L10N.register(
     "Cancel" : "Bekor qilish",
     "Save" : "Saqlash",
     "Saving…" : "Saqlanmoqda...",
-    "Download" : "Yuklab oling",
-    "Password" : "Parol",
-    "OK" : "OK"
+    "Download" : "Yuklab oling"
 },
 "nplurals=1; plural=0;");

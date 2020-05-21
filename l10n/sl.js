@@ -46,6 +46,7 @@ OC.L10N.register(
     "Last saved version" : "Zadnja shranjena različica",
     "Current version" : "Trenutna različica",
     "Failed to revert the document to older version" : "Povrnitev dokumenta na starejšo različico je spodletela.",
+    "Please enter the filename for the new document" : "Vpisati je treba ime datoteke novega dokumenta",
     "Create a new document" : "Ustvari nov dokument",
     "New Document" : "Nov dokument",
     "New Spreadsheet" : "Nova preglednica",
@@ -59,11 +60,6 @@ OC.L10N.register(
     "Add a new one?" : "Ali želite dodati novo?",
     "template preview" : "predogled predloge",
     "Select a template directory" : "Izbor mape predlog",
-    "Remove personal template folder" : "Odstrani osebno mapo predlog",
-    "Wrong password. Please retry." : "Napačno geslo. Poskusite znova.",
-    "Password" : "Geslo",
-    "OK" : "V redu",
-    "Guest %s" : "Gost %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Povezava je potekla ali pa ni nikoli obstajala. Za več podrobnosti stopite v stik z osebo, ki naj bi vam jo poslala."
+    "Remove personal template folder" : "Odstrani osebno mapo predlog"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

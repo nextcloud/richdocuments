@@ -40,11 +40,6 @@
     "Add a new template" : "Добавяне на шаблон",
     "No templates defined." : "Няма дефинирани шаблони.",
     "Add a new one?" : "Добавяне на нов шаблон?",
-    "Select a template directory" : "Изберете директория за шаблоните",
-    "Wrong password. Please retry." : "Грешна парола. Опитай пак.",
-    "Password" : "Парола",
-    "OK" : "ОК",
-    "Guest %s" : "Гост %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Връзката е изтекла или никога не е съществувала. Моля, свържи се с човекът, който го е споделил с вас."
+    "Select a template directory" : "Изберете директория за шаблоните"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

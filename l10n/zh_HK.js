@@ -11,8 +11,6 @@ OC.L10N.register(
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "下載",
-    "Create" : "新增",
-    "Password" : "密碼",
-    "OK" : "確定"
+    "Create" : "新增"
 },
 "nplurals=1; plural=0;");

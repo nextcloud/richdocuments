@@ -107,11 +107,6 @@ OC.L10N.register(
     "template preview" : "模板预览",
     "Select a template directory" : "选择模板目录",
     "Remove personal template folder" : "移除个人模板文件夹",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目录中的模板将被添加到Collabora Online的模板选择器。",
-    "Wrong password. Please retry." : "密码错误。请重试。",
-    "Password" : "密码",
-    "OK" : "确定",
-    "Guest %s" : "访客 %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "该链接已失效或不存在。详情请联系文件共享者。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目录中的模板将被添加到Collabora Online的模板选择器。"
 },
 "nplurals=1; plural=0;");

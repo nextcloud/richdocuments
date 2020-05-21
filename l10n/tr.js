@@ -116,11 +116,6 @@ OC.L10N.register(
     "template preview" : "kalıp ön izleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek.",
-    "Wrong password. Please retry." : "Parola yanlış. Lütfen yeniden deneyin.",
-    "Password" : "Parola",
-    "OK" : "Tamam",
-    "Guest %s" : "Konuk %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Bu bağlantının süresi dolmuş ya da hiç var olmamış. Lütfen ayrıntılar için paylaşımı yapan kişi ile görüşün."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek."
 },
 "nplurals=2; plural=(n > 1);");

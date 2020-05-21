@@ -80,11 +80,6 @@
     "template preview" : "txantiloiaren aurrebista",
     "Select a template directory" : "Hautatu txantiloien direktorioa",
     "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Direktorio honetako txantiloiak Collabora Online-ko txantiloi hautatzailera gehituko dira",
-    "Wrong password. Please retry." : "Pasahitz okerra. Saiatu berriro.",
-    "Password" : "Pasahitza",
-    "OK" : "Ados",
-    "Guest %s" : "Gonbidatua %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Lotura hau iraungi da edo ez da inoiz existitu. Mesedez zurekin partekatu zuen pertsonarekin harremanetan jarri zehaztasun gehiago izateko."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Direktorio honetako txantiloiak Collabora Online-ko txantiloi hautatzailera gehituko dira"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

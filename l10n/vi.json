@@ -30,11 +30,6 @@
     "New Spreadsheet" : "Bảng tính mới",
     "New Presentation" : "Trình bày mới",
     "Could not create file" : "Không thể tạo file",
-    "Create" : "Tạo mới",
-    "Wrong password. Please retry." : "Mật khẩu không đúng. Vui lòng thử lại.",
-    "Password" : "Mật khẩu",
-    "OK" : "Chấp nhận",
-    "Guest %s" : "Khách %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Liên kết này đã hết hạn hoặc không tồn tại. Vui lòng liên hệ với người đã chia sẻ nó để biết chi tiết."
+    "Create" : "Tạo mới"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

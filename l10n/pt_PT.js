@@ -40,11 +40,6 @@ OC.L10N.register(
     "New Presentation" : "Nova Apresentação",
     "Could not create file" : "Não pôde criar ficheiro",
     "Create" : "Criar",
-    "Select template" : "Seleccionar modelo",
-    "Wrong password. Please retry." : "Senha errada. Por favor, tente de novo.",
-    "Password" : "Palavra-passe",
-    "OK" : "OK",
-    "Guest %s" : "Convidado %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esta hiperligação expirou ou nunca existiu. Para mais detalhes, por favor, contacte a pessoa que a partilhou consigo."
+    "Select template" : "Seleccionar modelo"
 },
 "nplurals=2; plural=(n != 1);");

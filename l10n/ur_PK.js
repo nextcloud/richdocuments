@@ -7,8 +7,6 @@ OC.L10N.register(
     "Save" : "حفظ",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
-    "Download" : "ڈاؤن لوڈ",
-    "Password" : "پاسورڈ",
-    "OK" : "اوکے"
+    "Download" : "ڈاؤن لوڈ"
 },
 "nplurals=2; plural=(n != 1);");

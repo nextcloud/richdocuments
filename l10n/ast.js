@@ -32,11 +32,6 @@ OC.L10N.register(
     "New Spreadsheet" : "Fueya nueva de cálculu",
     "New Presentation" : "Presentación nueva",
     "Could not create file" : "Nun pudo crease'l ficheru",
-    "Create" : "Crear",
-    "Wrong password. Please retry." : "Contraseña incorreuta. Volvi tentalo, por favor.",
-    "Password" : "Contraseña",
-    "OK" : "Aceutar",
-    "Guest %s" : "Convidáu/ada %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "Esti enllaz caducó o enxamás nun esistió. Pa más detalles, contauta cola persona que lu compartió contigo."
+    "Create" : "Crear"
 },
 "nplurals=2; plural=(n != 1);");

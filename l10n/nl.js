@@ -116,11 +116,6 @@ OC.L10N.register(
     "template preview" : "Sjabloonvoorbeeld",
     "Select a template directory" : "Selecteer een sjablonendirectory",
     "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer.",
-    "Wrong password. Please retry." : "Onjuist wachtwoord. Probeer opnieuw.",
-    "Password" : "Wachtwoord",
-    "OK" : "OK",
-    "Guest %s" : "Gast %s",
-    "This link has been expired or is never existed. Please contact the person who shared it with you for details." : "De link is vervallen of heeft nooit bestaan. Neem contact op met de persoon die het deelde voor de details."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer."
 },
 "nplurals=2; plural=(n != 1);");
