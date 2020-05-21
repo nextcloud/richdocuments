@@ -77,7 +77,7 @@
 						<em>{{ t('richdocuments', 'You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try.') }}</em>
 					</p>
 					<div v-if="hasHostErrors" class="option-inline-emphasized">
-						<p>{{ t('richdocuments', 'Your NextCloud setup is not capable of connecting to the demo servers because:') }}</p>
+						<p>{{ t('richdocuments', 'Your Nextcloud setup is not capable of connecting to the demo servers because:') }}</p>
 						<ul>
 							<li v-if="hostErrors[0]">
 								{{ t('richdocuments', 'it is a local setup (localhost)') }}
