@@ -23,6 +23,7 @@
 		"test:coverage": "NODE_ENV=test jest --coverage"
 	},
 	"dependencies": {
+		"@nextcloud/vue": "^2.0.0",
 		"eslint-plugin-nextcloud": "^0.3.0",
 		"nextcloud-auth": "0.0.3",
 		"nextcloud-axios": "^0.2.0",
