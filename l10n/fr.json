@@ -33,6 +33,7 @@
     "Disable certificate verification (insecure)" : "Désactiver la vérification du certificat (non sur)",
     "Use a demo server" : "Utiliser un serveur de démo",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Vous pouvez utiliser un serveur de démonstration fourni par Collabora ou un autre fournisseur de service pour tester Collabora Online.",
+    "it uses an insecure protocol (http)" : "il utilise un protocole non sécurisé (http)",
     "Loading available demo servers …" : "Chargement des serveurs de démo disponibles …",
     "No available demo servers found." : "Aucun serveur de démo disponible.",
     "Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online." : "Les documents ouverts avec le serveur de démonstration seront envoyés à un serveur tiers.\nN'utilisez cette fonction que pour évaluer Collabora Online.",
