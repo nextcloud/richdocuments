@@ -56,8 +56,7 @@
 								<label for="wopi_url">{{ t('richdocuments', 'URL (and Port) of Collabora Online-server') }}</label><br>
 								<input id="wopi_url" v-model="settings.wopi_url" type="text"
 									:disabled="updating">
-								<input type="submit" value="Save" :disabled="updating"
-									@click="updateServer"><br>
+								<input type="submit" value="Save" :disabled="updating"><br>
 							</p>
 							<p>
 								<input id="disable_certificate_verification" v-model="settings.disable_certificate_verification" type="checkbox"
