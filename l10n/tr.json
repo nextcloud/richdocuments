@@ -33,6 +33,7 @@
     "Disable certificate verification (insecure)" : "Sertifika doğrulaması devre dışı bırakılsın (güvenli değil)",
     "Use a demo server" : "Bir tanıtım sunucusu kullanın",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora ve diğer hizmet sağlayıcıları tarafından sunulan bir tanıtım sunucusu ile Collabora Online platformunu deneyebilirsiniz.",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Nextcloud kurulumunuzun şu nedenle tanıtım sunucularına bağlanma özelliği yok:",
     "it is a local setup (localhost)" : "bu bir yerel kurulum (localhost)",
     "it uses an insecure protocol (http)" : "güvenli olmayan bir iletişim kuralı kullanılıyor (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "İnternet üzerinden erişilemiyor (güvenlik duvarı ya da kapı numarası yönlendirmesi sorunu olabilir)",

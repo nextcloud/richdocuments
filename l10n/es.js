@@ -35,6 +35,7 @@ OC.L10N.register(
     "Disable certificate verification (insecure)" : "Desactivar la verificación de certificados (inseguro)",
     "Use a demo server" : "Use un servidor demo",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Puede emplear un servidor demo propicio nado por Collabora y otros proveedores de servicio para realizar una prueba de Collabora Online.",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Tu Nextcloud no es capaz de conectar a los servidores demo porque:",
     "it is a local setup (localhost)" : "es un ajuste local (localhost)",
     "it uses an insecure protocol (http)" : "utiliza un protocolo inseguro (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "es inalcanzable desde Internet (posiblemente debido a un cortafuegos, o falta de reenvío de puertos)",

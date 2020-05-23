@@ -35,6 +35,7 @@ OC.L10N.register(
     "Disable certificate verification (insecure)" : "Απενεργοποίηση πιστοποιητικού επαλήθευσης (μη ασφαλές)",
     "Use a demo server" : "Χρήση δοκιμαστικού δακομιστή",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Μπορείτε να χρησιμοποιήσετε δοκιμαστικό διακομιστή που παρέχεται από την Collabora και άλλες υπηρεσίες παρόχων δίνοντας μια ευκαιρία στην Collabora Online.",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Η εγκατάσταση του NextCloud σας δεν μπορεί να συνδεθεί με τους διακομιστές δοκιμών επειδή:",
     "it is a local setup (localhost)" : "περιέχει ρυθμίσεις μόνο τοπικής εγκατάστασης (localhost)",
     "it uses an insecure protocol (http)" : "χρησιμοποιεί μη ασφαλές πρωτόκολλο επικοινωνίας (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "δεν είναι προσβάσιμο από το Διαδίκτυο (πιθανώς λόγω τείχους προστασίας ή δεν είναι προσβάσιμη η θύρα επικοινωνίας)",

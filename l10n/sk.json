@@ -33,6 +33,7 @@
     "Disable certificate verification (insecure)" : "Zakázať overenie certifikátu (nezabezpečené)",
     "Use a demo server" : "Použíť demo server",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Môžete použiť demo server poskytovaný Collaborou a ďalšími poskytovateľmi služby vyskúšania Collabora Online.",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Vaše nastavenie NextCloud sa nemôže pripojiť k demo serverom, pretože:",
     "it is a local setup (localhost)" : "je to lokálne nastavenie (localhost)",
     "it uses an insecure protocol (http)" : "používa nezabezpečený protokol (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedostupný z internetu (pravdepodobne kvôli bráne firewall alebo chybe v presmerovaní brány)",

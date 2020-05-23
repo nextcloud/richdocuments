@@ -35,6 +35,7 @@ OC.L10N.register(
     "Disable certificate verification (insecure)" : "Neověřovat certifikát (nezabezpečené)",
     "Use a demo server" : "Použít demo server",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Můžete využít demo server provozovaný Collabora a dalšími poskytovateli služeb a vyzkoušet si tak Collabora Online.",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Vámi využívaná instance Nextcloud se nemůže připojit k demo serverům protože:",
     "it is a local setup (localhost)" : "je místní (localhost)",
     "it uses an insecure protocol (http)" : "používá nezabezpečený protokol (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedostupné z Internetu (možná kvůli bráně firewall, nebo chybí přesměrování portů)",
