@@ -96,7 +96,7 @@ class DiscoveryManager {
 		$wopiDiscovery = $remoteHost . '/hosting/discovery';
 
 		$client = $this->clientService->newClient();
-		$options = ['timeout' => 5];
+		$options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
 
 		$options['verify'] = $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === '';
 

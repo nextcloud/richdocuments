@@ -94,7 +94,6 @@ steps:
           - bash ./tests/drone-server-setup.sh $APP_NAME $CORE_BRANCH $DB
           - cd ../server
           - ./occ app:enable $APP_NAME
-          - ./occ config:system:set allow_local_remote_servers --value 1
           - cd apps/$APP_NAME
 
           # Run integration tests

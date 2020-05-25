@@ -112,7 +112,7 @@ class CapabilitiesService {
 		$capabilitiesEndpoint = $remoteHost . '/hosting/capabilities';
 
 		$client = $this->clientService->newClient();
-		$options = ['timeout' => 10];
+		$options = ['timeout' => 10, 'nextcloud' => ['allow_local_address' => true]];
 
 		$options['verify'] = $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === '';
 
