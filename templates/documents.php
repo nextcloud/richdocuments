@@ -14,5 +14,5 @@
 <?php
 script('richdocuments', 'document');
 ?>
-<div id="loadingContainer" class="icon-loading"></div>
+<div id="loadingContainer"></div>
 <div id="documents-content"></div>

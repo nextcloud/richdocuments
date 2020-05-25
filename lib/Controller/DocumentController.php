@@ -217,12 +217,19 @@ class DocumentController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param string $fileId
+	 * @param string|null $path
 	 * @return RedirectResponse|TemplateResponse
 	 */
-	public function index($fileId) {
+	public function index($fileId, $path = null) {
 		try {
 			$folder = $this->rootFolder->getUserFolder($this->uid);
-			$item = $folder->getById($fileId)[0];
+
+			if ($path !== null) {
+				$item = $folder->get($path);
+			} else {
+				$item = $folder->getById($fileId)[0];
+			}
+
 			if(!($item instanceof File)) {
 				throw new \Exception();
 			}
