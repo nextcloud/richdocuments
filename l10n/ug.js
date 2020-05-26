@@ -6,9 +6,9 @@ OC.L10N.register(
     "Nickname" : "تەخەللۇس",
     "Cancel" : "ۋاز كەچ",
     "Save" : "ساقلا",
+    "Create" : "قۇر",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
-    "Download" : "چۈشۈر",
-    "Create" : "قۇر"
+    "Download" : "چۈشۈر"
 },
 "nplurals=1; plural=0;");

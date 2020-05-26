@@ -37,6 +37,12 @@ OC.L10N.register(
     "New filename" : "Nytt filnavn",
     "Cancel" : "Avbryt",
     "Save" : "Lagre",
+    "New Document" : "Nytt dokument",
+    "New Spreadsheet" : "Nytt regneark",
+    "New Presentation" : "Ny presentasjon",
+    "Could not create file" : "Klarte ikke å opprette fil",
+    "Create" : "Ny",
+    "Select template" : "Velg mal",
     "Saving…" : "Lagrer…",
     "Remove from favorites" : "Fjern fra favoritter",
     "Add to favorites" : "Legg til i favoritter",
@@ -44,12 +50,6 @@ OC.L10N.register(
     "Download" : "Last ned",
     "(read only)" : "(kun lese)",
     "Guest" : "Gjest",
-    "Failed to revert the document to older version" : "Klarte ikke å gå tilbeke til eldre versjon av dokumentet",
-    "New Document" : "Nytt dokument",
-    "New Spreadsheet" : "Nytt regneark",
-    "New Presentation" : "Ny presentasjon",
-    "Could not create file" : "Klarte ikke å opprette fil",
-    "Create" : "Ny",
-    "Select template" : "Velg mal"
+    "Failed to revert the document to older version" : "Klarte ikke å gå tilbeke til eldre versjon av dokumentet"
 },
 "nplurals=2; plural=(n != 1);");

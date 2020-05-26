@@ -8,9 +8,9 @@ OC.L10N.register(
     "Nickname" : "暱稱",
     "Cancel" : "取消",
     "Save" : "儲存",
+    "Create" : "新增",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
-    "Download" : "下載",
-    "Create" : "新增"
+    "Download" : "下載"
 },
 "nplurals=1; plural=0;");

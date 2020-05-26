@@ -10,10 +10,10 @@ OC.L10N.register(
     "Nickname" : "ছদ্মনাম",
     "Cancel" : "বাতির",
     "Save" : "সংরক্ষণ",
+    "Create" : "তৈরী কর",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "বিসতারিত",
-    "Download" : "ডাউনলোড",
-    "Create" : "তৈরী কর"
+    "Download" : "ডাউনলোড"
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,17 +21,17 @@ OC.L10N.register(
     "Nickname" : "Nomatu",
     "Cancel" : "Encaboxar",
     "Save" : "Guardar",
+    "New Document" : "Documentu nuevu",
+    "New Spreadsheet" : "Fueya nueva de cálculu",
+    "New Presentation" : "Presentación nueva",
+    "Could not create file" : "Nun pudo crease'l ficheru",
+    "Create" : "Crear",
     "Saving…" : "Guardando...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalles",
     "Download" : "Baxar",
     "Guest" : "Convidáu/ada",
-    "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya",
-    "New Document" : "Documentu nuevu",
-    "New Spreadsheet" : "Fueya nueva de cálculu",
-    "New Presentation" : "Presentación nueva",
-    "Could not create file" : "Nun pudo crease'l ficheru",
-    "Create" : "Crear"
+    "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya"
 },
 "nplurals=2; plural=(n != 1);");

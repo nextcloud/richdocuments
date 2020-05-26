@@ -21,17 +21,17 @@ OC.L10N.register(
     "Nickname" : "Biệt danh",
     "Cancel" : "Hủy bỏ",
     "Save" : "Lưu",
+    "New Document" : "Văn bảng mới",
+    "New Spreadsheet" : "Bảng tính mới",
+    "New Presentation" : "Trình bày mới",
+    "Could not create file" : "Không thể tạo file",
+    "Create" : "Tạo mới",
     "Saving…" : "Đang lưu...",
     "Remove from favorites" : "Xóa khỏi ưa thích",
     "Add to favorites" : "Thêm vào ưa thích",
     "Details" : "Thông tin",
     "Download" : "Tải về",
     "Guest" : "Khách",
-    "Failed to revert the document to older version" : "Không thể hoàn nguyên tài liệu sang phiên bản cũ hơn",
-    "New Document" : "Văn bảng mới",
-    "New Spreadsheet" : "Bảng tính mới",
-    "New Presentation" : "Trình bày mới",
-    "Could not create file" : "Không thể tạo file",
-    "Create" : "Tạo mới"
+    "Failed to revert the document to older version" : "Không thể hoàn nguyên tài liệu sang phiên bản cũ hơn"
 },
 "nplurals=1; plural=0;");

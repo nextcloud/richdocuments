@@ -6,9 +6,9 @@ OC.L10N.register(
     "Nickname" : "Nama Samaran",
     "Cancel" : "Batal",
     "Save" : "Simpan",
+    "Create" : "Buat",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
-    "Download" : "Muat turun",
-    "Create" : "Buat"
+    "Download" : "Muat turun"
 },
 "nplurals=1; plural=0;");

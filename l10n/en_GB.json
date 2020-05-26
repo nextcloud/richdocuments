@@ -29,18 +29,18 @@
     "New filename" : "New filename",
     "Cancel" : "Cancel",
     "Save" : "Save",
+    "New Document" : "New Document",
+    "New Spreadsheet" : "New Spreadsheet",
+    "New Presentation" : "New Presentation",
+    "Could not create file" : "Could not create file",
+    "Create" : "Create",
+    "Select template" : "Select template",
     "Saving…" : "Saving…",
     "Remove from favorites" : "Remove from favourites",
     "Add to favorites" : "Add to favourites",
     "Details" : "Details",
     "Download" : "Download",
     "Guest" : "Guest",
-    "Failed to revert the document to older version" : "Failed to revert the document to older version",
-    "New Document" : "New Document",
-    "New Spreadsheet" : "New Spreadsheet",
-    "New Presentation" : "New Presentation",
-    "Could not create file" : "Could not create file",
-    "Create" : "Create",
-    "Select template" : "Select template"
+    "Failed to revert the document to older version" : "Failed to revert the document to older version"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

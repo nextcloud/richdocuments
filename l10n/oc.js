@@ -11,11 +11,11 @@ OC.L10N.register(
     "Nickname" : "Escais",
     "Cancel" : "Anullar",
     "Save" : "Enregistrar",
+    "Could not create file" : "Impossible de crear lo fichièr",
+    "Create" : "Crear",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalhs",
-    "Download" : "Telecargar",
-    "Could not create file" : "Impossible de crear lo fichièr",
-    "Create" : "Crear"
+    "Download" : "Telecargar"
 },
 "nplurals=2; plural=(n > 1);");

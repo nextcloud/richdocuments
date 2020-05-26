@@ -20,15 +20,15 @@ OC.L10N.register(
     "Nickname" : "ชื่อเล่น",
     "Cancel" : "ยกเลิก",
     "Save" : "บันทึก",
-    "Remove from favorites" : "Remove from favorites",
-    "Add to favorites" : "Add to favorites",
-    "Details" : "รายละเอียด",
-    "Download" : "ดาวน์โหลด",
-    "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "New Document" : "เอกสารใหม่",
     "New Spreadsheet" : "สเปรดชีตใหม่",
     "New Presentation" : "งานนำเสนอใหม่",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
-    "Create" : "สร้าง"
+    "Create" : "สร้าง",
+    "Remove from favorites" : "Remove from favorites",
+    "Add to favorites" : "Add to favorites",
+    "Details" : "รายละเอียด",
+    "Download" : "ดาวน์โหลด",
+    "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า"
 },
 "nplurals=1; plural=0;");
