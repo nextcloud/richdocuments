@@ -18,8 +18,25 @@ const PostMessages = new PostMessageService({
 	loolframe: () => document.getElementById('loleafletframe').contentWindow
 })
 
-const showLoadingIndicator = () => document.getElementById('loadingContainer').classList.add('icon-loading')
-const hideLoadingIndicator = () => document.getElementById('loadingContainer').classList.remove('icon-loading')
+const showLoadingIndicator = () => {
+	if (OC.appswebroots.richdocumentscode && Config.get('urlsrc').indexOf('proxy.php') >= 0) {
+		var url = Config.get('urlsrc').substr(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
+		$.get(url + '?status').done(function(val) {
+			if (val && val.status && val.status === 'starting') {
+				document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
+				document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Built-in CODE Server is starting up shortly, please wait.')
+			}
+		})
+	} else {
+		document.getElementById('loadingContainer').classList.add('icon-loading')
+	}
+}
+
+const hideLoadingIndicator = () => {
+	document.getElementById('loadingContainer').classList.remove('icon-loading')
+	document.getElementById('proxyLoadingIcon').classList.remove('icon-loading-small')
+	document.getElementById('proxyLoadingMessage').textContent = ''
+}
 
 showLoadingIndicator()
 
@@ -219,7 +236,7 @@ const documentsMain = {
 						const message = { 'MessageId': 'App_LoadingStatus', 'Values': { 'Status': 'Timeout' } }
 						editorInitListener({ data: JSON.stringify(message), parsed: message })
 					}
-				}, 15000)
+				}, 45000)
 			})
 
 			$('#loleafletframe').load(function() {
