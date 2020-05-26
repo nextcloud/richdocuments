@@ -71,12 +71,12 @@
 					<input id="builtinserver" v-model="serverMode" type="radio"
 						name="serverMode" value="builtin" class="radio"
 						:disabled="updating || !CODEInstalled" @click="setBuiltinServer">
-					<label for="builtinserver">{{ t('richdocuments', 'Use the built-in testing server') }}</label><br>
+					<label for="builtinserver">{{ t('richdocuments', 'Use the built in CODE - Collabora Online Development Edition') }}</label><br>
 					<p v-if="CODEInstalled" class="option-inline">
-						<em>{{ t('richdocuments', 'This installation has a built-in Collabora Online with limited capabilities for testing') }}</em>
+						<em>{{ t('richdocuments', 'easy, just a bit slower than a normal server, and of course not with the usual excellent scalability, but fine for testing or personal use or small teams.') }}</em>
 					</p>
 					<p v-else class="option-inline">
-						<em>{{ t('richdocuments', 'This installation does not have a built-in Collabora Online test server') }}</em>
+						<em>{{ t('richdocuments', 'This installation does not have a built in server') }}</em>
 					</p>
 				</div>
 				<div>
