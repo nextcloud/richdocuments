@@ -140,6 +140,19 @@ body {
 	background-color: var(--color-main-background);
 }
 
+#proxyLoadingContainer {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: var(--color-main-background);
+}
+
+#proxyLoadingMessage {
+	position: relative;
+	margin-top: 10px;
+}
+
 #revViewerContainer{
 	position: absolute;
 	width: 100%;
