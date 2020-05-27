@@ -90,7 +90,9 @@ class Admin implements ISettings {
 					'templatesAvailable' => array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'],
 					'settings' => $this->appConfig->getAppSettings(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
-					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE'])
+					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
+					'os_family' => PHP_OS_FAMILY,
+					'platform' => php_uname('m')
 				]
 			],
 			'blank'
