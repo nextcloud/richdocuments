@@ -62,3 +62,4 @@ if (class_exists('\OC\Files\Type\TemplateManager')) {
 $app = \OC::$server->query(Application::class);
 $app->registerProvider();
 $app->updateCSP();
+$app->checkAndEnableCODEServer();
