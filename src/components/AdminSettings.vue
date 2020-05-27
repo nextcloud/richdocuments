@@ -27,7 +27,11 @@
 			<p>{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}</p>
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
-				<div v-if="serverError == 2" id="security-warning-state-failure">
+				<div v-if="serverError == 2 && isNginx && serverMode === 'builtin'" id="security-warning-state-failure">
+					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: ') }}<a title="Connecting Collabora Online Single Click with Nginx" href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/" target="_blank"
+						rel="noopener" class="external">{{ t('richdocuments', 'Connecting Collabora Online Single Click with Nginx') }}</a></span>
+				</div>
+				<div v-else-if="serverError == 2" id="security-warning-state-failure">
 					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
 				</div>
 				<div v-else-if="serverError == 1" id="security-warning-state-failure">
@@ -264,6 +268,7 @@ export default {
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
+			isNginx: false,
 			approvedDemoModal: false,
 			updating: false,
 			groups: [],
@@ -332,6 +337,10 @@ export default {
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')
 
 		this.demoServers = this.initial.demo_servers
+
+		if (this.initial.web_server && this.initial.web_server.length > 0) {
+			this.isNginx = this.initial.web_server.indexOf('nginx') !== -1
+		}
 		this.checkIfDemoServerIsActive()
 	},
 	methods: {
