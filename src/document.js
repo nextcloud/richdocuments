@@ -18,21 +18,57 @@ const PostMessages = new PostMessageService({
 	loolframe: () => document.getElementById('loleafletframe').contentWindow
 })
 
-const showLoadingIndicator = () => {
-	if (OC.appswebroots.richdocumentscode && Config.get('urlsrc').indexOf('proxy.php') >= 0) {
-		var url = Config.get('urlsrc').substr(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
-		$.get(url + '?status').done(function(val) {
-			if (val && val.status && val.status === 'starting') {
+var checkingProxyStatus = false
+
+const checkProxyStatus = () => {
+	checkingProxyStatus = true
+	var url = Config.get('urlsrc').substr(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
+	$.get(url + '?status').done(function(val) {
+		if (val && val.status && val.status !== 'OK') {
+			if (val.status === 'starting' || val.status === 'stopped') {
 				document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
 				document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Built-in CODE Server is starting up shortly, please wait.')
+			} else if (val.status === 'restarting') {
+				document.getElementById('proxyLoadingIcon').classList.add('icon-loading-small')
+				document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Built-in CODE Server is restarting, please wait.')
+			} else if (val.status === 'error') {
+				if (val.error === 'appimage_missing') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server.')
+				} else if (val.error === 'chmod_failed' || val.error === 'appimage_not_executable') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Unable to make the AppImage executable, please setup a standalone server.')
+				} else if (val.error === 'exec_disabled') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Exec disabled in PHP, please enable it, or setup a standalone server.')
+				} else if (val.error === 'not_linux' || val.error === 'not_x86_64') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on x86-64 Linux, please setup a standalone server.')
+				}
+
+				// probably not even worth re-trying
+				return
 			}
-		})
+
+			// retry...
+			setTimeout(function() { checkProxyStatus() }, 100)
+			return
+		}
+
+		checkingProxyStatus = false
+	})
+}
+
+const showLoadingIndicator = () => {
+	if (OC.appswebroots.richdocumentscode && Config.get('urlsrc').indexOf('proxy.php') >= 0) {
+		checkProxyStatus()
 	} else {
 		document.getElementById('loadingContainer').classList.add('icon-loading')
 	}
 }
 
 const hideLoadingIndicator = () => {
+	if (checkingProxyStatus) {
+		setTimeout(function() { hideLoadingIndicator() }, 100)
+		return
+	}
+
 	document.getElementById('loadingContainer').classList.remove('icon-loading')
 	document.getElementById('proxyLoadingIcon').classList.remove('icon-loading-small')
 	document.getElementById('proxyLoadingMessage').textContent = ''
