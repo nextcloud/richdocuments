@@ -80,8 +80,10 @@
 						<em>{{ t('richdocuments', 'easy, just a bit slower than a normal server, and of course not with the usual excellent scalability, but fine for testing or personal use or small teams.') }}</em>
 					</p>
 					<p v-else class="option-inline">
-						<em>{{ t('richdocuments', 'This installation does not have ') }}<a title="Built-in CODE Server App" :href="appUrl" target="_blank"
-							rel="noopener" class="external">{{ t('richdocuments', 'a built in server') }}</a></em>
+						<em>
+							{{ t('richdocuments', 'This installation does not have a built in server.') }}
+							<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the app store.') }}</a>
+						</em>
 					</p>
 				</div>
 				<div>
