@@ -71,7 +71,7 @@
 						</form>
 					</div>
 				</div>
-				<div>
+				<div v-if="CODECompatible">
 					<input id="builtinserver" v-model="serverMode" type="radio"
 						name="serverMode" value="builtin" class="radio"
 						:disabled="updating || !CODEInstalled" @click="setBuiltinServer">
@@ -80,7 +80,10 @@
 						<em>{{ t('richdocuments', 'easy, just a bit slower than a normal server, and of course not with the usual excellent scalability, but fine for testing or personal use or small teams.') }}</em>
 					</p>
 					<p v-else class="option-inline">
-						<em>{{ t('richdocuments', 'This installation does not have a built in server') }}</em>
+						<em>
+							{{ t('richdocuments', 'This installation does not have a built in server.') }}
+							<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the app store.') }}</a>
+						</em>
 					</p>
 				</div>
 				<div>
@@ -268,7 +271,9 @@ export default {
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
+			CODECompatible: true,
 			isNginx: false,
+			appUrl: OC.generateUrl('/settings/apps/app-bundles/richdocumentscode'),
 			approvedDemoModal: false,
 			updating: false,
 			groups: [],
@@ -340,6 +345,12 @@ export default {
 
 		if (this.initial.web_server && this.initial.web_server.length > 0) {
 			this.isNginx = this.initial.web_server.indexOf('nginx') !== -1
+		}
+		if (this.initial.os_family && this.initial.os_family.length > 0) {
+			this.CODECompatible = this.CODECompatible && this.initial.os_family === 'Linux'
+		}
+		if (this.initial.platform && this.initial.platform.length > 0) {
+			this.CODECompatible = this.CODECompatible && this.initial.platform === 'x86_64'
 		}
 		this.checkIfDemoServerIsActive()
 	},
