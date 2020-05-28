@@ -25,6 +25,8 @@
     "Collabora Online server is reachable." : "שרת ה־Collabora Online זמין.",
     "Please configure a Collabora Online server to start editing documents" : "נא להגדיר שרת Collabora Online כדי להתחיל לערוך מסמכים",
     "Use your own server" : "להשתמש בשרת משלך",
+    "URL (and Port) of Collabora Online-server" : "כתובת (ופתחה) של שרת Collabora מקוון",
+    "Disable certificate verification (insecure)" : "השבתת אימות אישור אבטחה (פרוץ)",
     "Advanced settings" : "הגדרות מתקדמות",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "שימוש ב־Office Open XML (OOXML) במקום ב־OpenDocument Format (ODF) כבררת מחדל לקבצים חדשים",
     "Restrict usage to specific groups" : "הגבלת השימוש לקבוצות מסוימות",
