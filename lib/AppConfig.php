@@ -17,7 +17,7 @@ use \OCP\IConfig;
 class AppConfig {
 
 	private $defaults = [
-		'wopi_url' => 'https://localhost:9980',
+		'wopi_url' => '',
 		'watermark_text' => '{userId}',
 		'watermark_allGroupsList' => [],
 		'watermark_allTagsList' => [],
