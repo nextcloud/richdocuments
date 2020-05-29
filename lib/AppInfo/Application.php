@@ -42,9 +42,6 @@ use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IPreview;
 
-
-
-
 class Application extends App {
 
 	const APPNAME = 'richdocuments';
@@ -138,34 +135,34 @@ class Application extends App {
 		$cspManager->addDefaultPolicy($policy);
 	}
 
-    public function checkAndEnableCODEServer() {
-	    // Supported only on Linux OS, and x86_64 platform
-        if (PHP_OS_FAMILY !== 'Linux' || php_uname('m') !== 'x86_64')
-            return;
+	public function checkAndEnableCODEServer() {
+		// Supported only on Linux OS, and x86_64 platform
+		if (PHP_OS_FAMILY !== 'Linux' || php_uname('m') !== 'x86_64')
+			return;
 
-        if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser('richdocumentscode')) {
-            $appConfig = $this->getContainer()->query(AppConfig::class);
-            $wopi_url = $appConfig->getAppValue('wopi_url');
+		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser('richdocumentscode')) {
+			$appConfig = $this->getContainer()->query(AppConfig::class);
+			$wopi_url = $appConfig->getAppValue('wopi_url');
 
-            // Check if we have the wopi_url set currently
-            if ($wopi_url !== null && $wopi_url !== '') {
-                return;
-            }
+			// Check if we have the wopi_url set currently
+			if ($wopi_url !== null && $wopi_url !== '') {
+				return;
+			}
 
-            $urlGenerator = \OC::$server->getURLGenerator();
-            $relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
-            $absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
-            $wopi_url = $absoluteUrl . '?req=';
+			$urlGenerator = \OC::$server->getURLGenerator();
+			$relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
+			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
+			$wopi_url = $absoluteUrl . '?req=';
 
-            $appConfig->setAppValue('wopi_url', $wopi_url);
-            $appConfig->setAppValue('disable_certificate_verification', 'yes');
+			$appConfig->setAppValue('wopi_url', $wopi_url);
+			$appConfig->setAppValue('disable_certificate_verification', 'yes');
 
-            $discoveryManager = $this->getContainer()->query(DiscoveryManager::class);
-            $capabilitiesService = $this->getContainer()->query(CapabilitiesService::class);
+			$discoveryManager = $this->getContainer()->query(DiscoveryManager::class);
+			$capabilitiesService = $this->getContainer()->query(CapabilitiesService::class);
 
-            $discoveryManager->refretch();
-            $capabilitiesService->clear();
-            $capabilitiesService->refretch();
-        }
-    }
+			$discoveryManager->refretch();
+			$capabilitiesService->clear();
+			$capabilitiesService->refretch();
+		}
+	}
 }
