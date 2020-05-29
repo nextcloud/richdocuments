@@ -10,6 +10,7 @@ OC.L10N.register(
     "Description" : "Deskrisi",
     "No results" : "Tidak ada hasil",
     "Error" : "Kesalahan",
+    "An error occurred" : "Terjadi kesalahan",
     "Nickname" : "Nama panggilan",
     "Cancel" : "Membatalkan",
     "Save" : "Simpan",
