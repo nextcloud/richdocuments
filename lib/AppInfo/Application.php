@@ -46,6 +46,20 @@ class Application extends App {
 
 	const APPNAME = 'richdocuments';
 
+	/**
+	 * Strips the path and query parameters from the URL.
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	private function domainOnly($url) {
+		$parsed_url = parse_url($url);
+		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+		$host	= isset($parsed_url['host']) ? $parsed_url['host'] : '';
+		$port	= isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		return "$scheme$host$port";
+	}
+
 	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
 
@@ -105,9 +119,9 @@ class Application extends App {
 		$policy = new ContentSecurityPolicy();
 		if ($publicWopiUrl !== '') {
 			$policy->addAllowedFrameDomain('\'self\'');
-			$policy->addAllowedFrameDomain($publicWopiUrl);
+			$policy->addAllowedFrameDomain($this->domainOnly($publicWopiUrl));
 			if (method_exists($policy, 'addAllowedFormActionDomain')) {
-				$policy->addAllowedFormActionDomain($publicWopiUrl);
+				$policy->addAllowedFormActionDomain($this->domainOnly($publicWopiUrl));
 			}
 		}
 
