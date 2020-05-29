@@ -54,6 +54,11 @@ class CapabilitiesService {
 
 	public function getCapabilities() {
 		if ($this->capabilities) {
+            $isCODEInstalled = $this->getContainer()->getServer()->getAppManager()->isEnabledForUser('richdocumentscode');
+            $isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
+            if($isCODEInstalled && $isCODEEnabled && count($this->capabilities) === 0) {
+                $this->refretch();
+            }
 			return $this->capabilities;
 		}
 		try {
