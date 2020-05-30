@@ -35,8 +35,6 @@ OC.L10N.register(
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online vyžaduje samostatný server fungujúci ako WOPI klient, poskytúci možnosti úprav.",
     "URL (and Port) of Collabora Online-server" : "URL (a Port) Collabora Online-servera",
     "Disable certificate verification (insecure)" : "Zakázať overenie certifikátu (nezabezpečené)",
-    "Use the built in CODE - Collabora Online Development Edition" : "Použite zabudovanú verziu v CODE - Collabora Online Development Edition",
-    "easy, just a bit slower than a normal server, and of course not with the usual excellent scalability, but fine for testing or personal use or small teams." : "ľahké, len o niečo pomalšie ako normálny server a samozrejme nie s obvyklou vynikajúcou škálovateľnosťou, ale vhodné na testovanie alebo na osobné použitie alebo malé tímy.",
     "Use a demo server" : "Použíť demo server",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Môžete použiť demo server poskytovaný Collaborou a ďalšími poskytovateľmi služby vyskúšania Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Vaše nastavenie NextCloud sa nemôže pripojiť k demo serverom, pretože:",

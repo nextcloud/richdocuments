@@ -35,8 +35,6 @@ OC.L10N.register(
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online düzenleme özelliklerinin kullanılabilmesi için WOPI benzeri istemci olarak çalışacak ayrı bir sunucu gereklidir.",
     "URL (and Port) of Collabora Online-server" : "Collabora Online sunucusunun adresi (ve kapı numarası)",
     "Disable certificate verification (insecure)" : "Sertifika doğrulaması devre dışı bırakılsın (güvenli değil)",
-    "Use the built in CODE - Collabora Online Development Edition" : "İç CODE kullanılsın - Collabora Online Development Edition",
-    "easy, just a bit slower than a normal server, and of course not with the usual excellent scalability, but fine for testing or personal use or small teams." : "kolay, ancak normal sunucudan biraz daha yavaş ve normal kullanımdaki harika ölçeklenebilirlik olmadan.. Ancak deneme, kişisel kullanım ve küçük ekipler için yeterli.",
     "Use a demo server" : "Bir tanıtım sunucusu kullanın",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora ve diğer hizmet sağlayıcıları tarafından sunulan bir tanıtım sunucusu ile Collabora Online platformunu deneyebilirsiniz.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Nextcloud kurulumunuzun şu nedenle tanıtım sunucularına bağlanma özelliği yok:",

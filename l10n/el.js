@@ -35,8 +35,6 @@ OC.L10N.register(
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Ο Collabora Online χρειάζεται ξεχωριστό διακομιστή ως WOPI-like Client για να παρέχει δυνατότητες επεξεργασίας.",
     "URL (and Port) of Collabora Online-server" : "Η URL (και Πόρτα) του Collabora Online-διακομιστή",
     "Disable certificate verification (insecure)" : "Απενεργοποίηση πιστοποιητικού επαλήθευσης (μη ασφαλές)",
-    "Use the built in CODE - Collabora Online Development Edition" : "Χρήση του ενσωματωμένου CODE - Collabora Online Development Edition",
-    "easy, just a bit slower than a normal server, and of course not with the usual excellent scalability, but fine for testing or personal use or small teams." : "λίγο πιο αργό από έναν κανονικό διακομιστή και φυσικά όχι με τη συνήθη εξαιρετική επεκτασιμότητα, αλλά καλό για δοκιμές ή προσωπική χρήση ή μικρές ομάδες.",
     "Use a demo server" : "Χρήση δοκιμαστικού δακομιστή",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Μπορείτε να χρησιμοποιήσετε δοκιμαστικό διακομιστή που παρέχεται από την Collabora και άλλες υπηρεσίες παρόχων δίνοντας μια ευκαιρία στην Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Η εγκατάσταση του NextCloud σας δεν μπορεί να συνδεθεί με τους διακομιστές δοκιμών επειδή:",
