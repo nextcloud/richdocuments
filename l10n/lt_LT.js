@@ -29,6 +29,7 @@ OC.L10N.register(
     "it uses an insecure protocol (http)" : "ji naudoja nesaugų protokolą (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "ji yra nepasiekiama iš interneto (galimai, dėl užkardos ar neperadresuotų prievadų)",
     "Loading available demo servers …" : "Įkeliami prieinami demonstraciniai serveriai…",
+    "No available demo servers found." : "Nerasta jokių prieinamų demonstracinių serverių.",
     "I will setup my own server" : "Aš nusistatysiu asmeninį serverį",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Select groups" : "Pasirinkti grupes",
