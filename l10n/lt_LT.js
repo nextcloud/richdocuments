@@ -59,6 +59,7 @@ OC.L10N.register(
     "New Presentation" : "Nauja pateiktis",
     "Could not create file" : "Nepavyko sukurti failo",
     "Create" : "Sukurti",
+    "Select template" : "Pasirinkite šabloną",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepavyko prisijungti prie {productName}. Vėliau bandykite dar kartą arba susisiekite su savo serverio administratoriumi.",
     "Saving…" : "Įrašoma…",
     "Insert from {name}" : "Įterpti iš {name}",
