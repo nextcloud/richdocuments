@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.7.0
+
+### Added
+- Add support for built-in CODE server
+- Inform user about web server configuration issues
+- Document templates: use only one sans-serif font family
+- Viewer integration
+
+### Fixed
+- Fix CSP violation when collabora server has so-called 'service root'
+- Allow connecting to local addresses
+- Avoid duplicate save requests
+- Avoid additional HTTP request on the files app
+- Reduce requests for loaded CSS files
+- Fix certificate validation handling
+- Be more robust on paths that don't start with a slash
+- Bring back IE11 support
+
 ## 3.6.0
 
 ### Added
