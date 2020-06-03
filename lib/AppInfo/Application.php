@@ -35,6 +35,7 @@ use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\CODEStatusService;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
@@ -167,6 +168,24 @@ class Application extends App {
 			$relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
 			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
 			$wopi_url = $absoluteUrl . '?req=';
+
+            $CODEStatusService = $this->getContainer()->query(CODEStatusService::class);
+            $statusResponse = $CODEStatusService->checkCODEProxyStatus($wopi_url);
+
+            if (count($statusResponse) === 0) {
+                \OC::$server->getLogger()->error('Error while checking proxy.php status. Empty array returned.');
+            }
+            $CODEStatus = $statusResponse['status'] ?? null;
+            $statusERROR = $statusResponse['error'] ?? null;
+
+            if ($CODEStatus === null) {
+                \OC::$server->getLogger()->error('CODE proxy status should never be null');
+                return;
+            }
+            if ($statusERROR !== null) {
+                \OC::$server->getLogger()->error('CODE proxy status error: ' . $statusERROR);
+                return;
+            }
 
 			$appConfig->setAppValue('wopi_url', $wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');
