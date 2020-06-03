@@ -79,12 +79,18 @@
 					<p v-if="CODEInstalled" class="option-inline">
 						<em>{{ t('richdocuments', 'Easy to install, for personal use or for small teams. A bit slower than a standalone server and without the advanced scalability features.') }}</em>
 					</p>
-					<p v-else class="option-inline">
-						<em>
-							{{ t('richdocuments', 'This installation does not have a built in server.') }}
-							<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the app store.') }}</a>
-						</em>
-					</p>
+					<div v-else>
+						<p class="option-inline">
+							<em>
+								{{ t('richdocuments', 'This installation does not have a built in server.') }}
+								<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the app store.') }}</a>
+							</em>
+						</p>
+						<p class="option-inline-emphasized">
+							{{ t('richdocuments', 'If the installation from the app store fails, you can still do that manually using this command:') }}
+							<tt>php -d memory_limit=512M occ app:install richdocumentscode</tt>
+						</p>
+					</div>
 				</div>
 				<div>
 					<input id="demoserver" v-model="serverMode" type="radio"
