@@ -77,7 +77,7 @@
 						:disabled="updating || !CODEInstalled" @click="setBuiltinServer">
 					<label for="builtinserver">{{ t('richdocuments', 'Use the built-in CODE - Collabora Online Development Edition') }}</label><br>
 					<p v-if="CODEInstalled" class="option-inline">
-						<em>{{ t('richdocuments', 'Easy to install, for personal use or for small teams. A bit slower than a standalone server and without the advanced scalability features.') }}</em>
+						<em>{{ t('richdocuments', 'Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features.') }}</em>
 					</p>
 					<p v-else class="option-inline">
 						<em>
