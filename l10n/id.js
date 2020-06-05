@@ -7,6 +7,7 @@ OC.L10N.register(
     "Invalid file provided" : "Berkas yang diberikan tidak sah",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Select groups" : "Pilih grup",
+    "Failed to save settings" : "Gagal simpan setelan",
     "Description" : "Deskrisi",
     "No results" : "Tidak ada hasil",
     "Error" : "Kesalahan",

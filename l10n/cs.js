@@ -36,7 +36,6 @@ OC.L10N.register(
     "URL (and Port) of Collabora Online-server" : "URL adresa (včetně portu) serveru Collabora Online",
     "Disable certificate verification (insecure)" : "Neověřovat certifikát (nezabezpečené)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Použít vestavěné CODE – Collabora Online Development Edition",
-    "Easy to install, for personal use or for small teams. A bit slower than a standalone server and without the advanced scalability features." : "Snadná instalace, pro osobní použití nebo malé týmy. O něco málo pomalejší, než samostatný server bez funkcí pro pokročilé škálování výkonu.",
     "This installation does not have a built in server." : "Tato instalace nedisponuje vestavěným serverem.",
     "Install it from the app store." : "Nainstalujte ji z katalogu aplikací.",
     "Use a demo server" : "Použít demo server",
