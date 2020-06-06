@@ -11,4 +11,4 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Download" : "چۈشۈر"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=(n != 1);");
