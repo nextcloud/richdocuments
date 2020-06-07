@@ -19,6 +19,7 @@ OC.L10N.register(
     "Template not found" : "Predloge ni mogoče najti",
     "Empty" : "Prazno",
     "Anonymous guest" : "Brezimni gost",
+    "Use a demo server" : "Uporabi preizkusni strežnik",
     "Advanced settings" : "Napredne nastavitve",
     "Select groups" : "Izbor skupin",
     "Restrict edit to specific groups" : "Omeji urejanje na določene skupine",
