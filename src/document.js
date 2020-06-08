@@ -40,6 +40,10 @@ const checkProxyStatus = () => {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Exec disabled in PHP, please enable it, or setup a standalone server.')
 				} else if (val.error === 'not_linux' || val.error === 'not_x86_64') {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on x86-64 Linux, please setup a standalone server.')
+				} else if (val.error === 'no_fontconfig') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: The fontconfig library is not installed on your server, please install it or setup a standalone server.')
+				} else {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Cannot start the Collabora Online Built-in server, please setup a standalone one.')
 				}
 
 				// probably not even worth re-trying
