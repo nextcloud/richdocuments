@@ -50,7 +50,7 @@ const odfViewer = {
 			OCA.Files.fileActions.register(
 				mime,
 				EDIT_ACTION_NAME,
-				0,
+				OC.PERMISSION_READ,
 				OC.imagePath('core', 'actions/rename'),
 				this.onEdit,
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
