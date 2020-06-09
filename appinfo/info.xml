@@ -20,12 +20,14 @@ You can also edit your documents off-line with the Collabora Office app from the
 	</documentation>
 	<category>office</category>
 	<category>integration</category>
-    <website>https://collaboraoffice.com/</website>
+	<website>https://collaboraoffice.com/</website>
 	<bugs>https://github.com/nextcloud/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/richdocuments.git</repository>
-	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png</screenshot>
-	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png</screenshot>
-	<screenshot>https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png</screenshot>
+	<screenshot small-thumbnail="https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-for-thumbnail.jpg">https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-1.png</screenshot>
+	<screenshot>https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-2.png</screenshot>
+	<screenshot>https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-3.png</screenshot>
+	<screenshot>https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-4.png</screenshot>
+	<screenshot>https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-5.png</screenshot>
 	<dependencies>
 		<nextcloud min-version="15" max-version="20" />
 	</dependencies>
