@@ -16,6 +16,10 @@ Note: This guide does NOT cover self-signed certificates. If you use a self-sign
 
 ## Install the Collabora Online server
 
+### Setup using the built-in CODE server
+
+Install the [Collabora Online - Built-in CODE Server](https://apps.nextcloud.com/apps/richdocumentscode) app from your Nextclouds apps management. This app provides a built-in server with all of the document editing features of Collabora Online. Easy to install, for personal use or for small teams. It is a bit slower than a standalone server and without the advanced scalability features.
+
 ### Setup using docker
 
 The [collabora/code](https://hub.docker.com/r/collabora/code/) Docker image can be installed to any x86-64 host (e.g. on Linux and Windows 10), and it is fully configurable. For more information about setup and configuration for deployment, please read the [CODE Docker page](https://www.collaboraoffice.com/code/docker/). If you want to try it out quickly, you can set up CODE docker image with file sharing integration in less than 5 minutes in a very basic way, following these instructions: [quick tryout with Nextcloud](https://www.collaboraoffice.com/code/quick-tryout-nextcloud-docker/).
