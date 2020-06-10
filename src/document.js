@@ -42,6 +42,8 @@ const checkProxyStatus = () => {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on x86-64 Linux, please setup a standalone server.')
 				} else if (val.error === 'no_fontconfig') {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: The fontconfig library is not installed on your server, please install it or setup a standalone server.')
+				} else if (val.error === 'no_glibc') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on glibc-based Linux, please setup a standalone server.')
 				} else {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Cannot start the Collabora Online Built-in server, please setup a standalone one.')
 				}
