@@ -95,6 +95,8 @@ OC.L10N.register(
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Chyba: Aplikáciu AppImage nie je možné spustiť. Nastavte samostatný server.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Chyba: Spustenie bolo v PHP zakázané, povoľte ho alebo nastavte samostatný server.",
     "Error: Not running on x86-64 Linux, please setup a standalone server." : "Chyba: Nebeží na Linuxe x86-64, nastavte samostatný server.",
+    "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Chyba:  Na vašom serveri nie je nainštalovaná knižnica fontconfig. Nainštalujte ju alebo nastavte samostatný server.",
+    "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Chyba: Nie je možné spustiť zabudovaný server Collabora Online, nastavte samostatný server.",
     "Please choose your nickname to continue as guest user." : "Zadajte svoju prezývku a pokračujte ako hosť.",
     "Nickname" : "Prezývka",
     "Set" : "Nastaviť",
