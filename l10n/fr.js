@@ -96,6 +96,7 @@ OC.L10N.register(
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Erreur : L’exécution est désactivée dans PHP, veuillez l'activer, ou créer un serveur autonome.",
     "Error: Not running on x86-64 Linux, please setup a standalone server." : "Erreur : Ne fonctionne pas sous Linux x86-64, veuillez créer un serveur autonome.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Erreur : La bibliothèque fontconfig n’est pas installée sur votre serveur, veuillez l’installer ou configurer un serveur autonome.",
+    "Error: Not running on glibc-based Linux, please setup a standalone server." : "Erreur : Ne fonctionne pas sur Linux basé sur glibc, veuillez configurer un serveur autonome.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Erreur : Impossible de démarrer le serveur intégré Collabora Online, veuillez configurer un serveur autonome.",
     "Please choose your nickname to continue as guest user." : "Veuillez choisir votre surnom pour continuer en tant qu'utilisateur invité.",
     "Nickname" : "Surnom",
