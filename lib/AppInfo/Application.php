@@ -164,25 +164,25 @@ class Application extends App {
 				return;
 			}
 
-            $CODEStatusService = $this->getContainer()->query(CODEStatusService::class);
-            $statusResponse = $CODEStatusService->checkCODEProxyStatus();
+			$CODEStatusService = $this->getContainer()->query(CODEStatusService::class);
+			$statusResponse = $CODEStatusService->checkCODEProxyStatus();
 
-            if (count($statusResponse) === 0) {
-                \OC::$server->getLogger()->error('Error while checking proxy.php status. Empty array returned.');
-            }
-            $CODEStatus = $statusResponse['status'] ?? null;
-            $statusERROR = $statusResponse['error'] ?? null;
+			if (count($statusResponse) === 0) {
+				\OC::$server->getLogger()->error('Error while checking proxy.php status. Empty array returned.');
+			}
+			$CODEStatus = $statusResponse['status'] ?? null;
+			$statusERROR = $statusResponse['error'] ?? null;
 
-            if ($CODEStatus === null) {
-                \OC::$server->getLogger()->error('CODE proxy status should never be null');
-                return;
-            }
-            if ($statusERROR !== null) {
-                \OC::$server->getLogger()->error('CODE proxy status error: ' . $statusERROR);
-                return;
-            }
+			if ($CODEStatus === null) {
+				\OC::$server->getLogger()->error('CODE proxy status should never be null');
+				return;
+			}
+			if ($statusERROR !== null) {
+				\OC::$server->getLogger()->error('CODE proxy status error: ' . $statusERROR);
+				return;
+			}
 
-            $wopi_url = $CODEStatusService->getCODEUrl();
+			$wopi_url = $CODEStatusService->getCODEUrl();
 
 			$appConfig->setAppValue('wopi_url', $wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');

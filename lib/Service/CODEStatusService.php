@@ -29,54 +29,54 @@ use OCP\IConfig;
 
 class CODEStatusService {
 
-    /** @var IConfig */
-    private $config;
-    /** @var IClientService */
-    private $clientService;
+	/** @var IConfig */
+	private $config;
+	/** @var IClientService */
+	private $clientService;
 
-    public function __construct(IConfig $config, IClientService $clientService) {
-        $this->config = $config;
-        $this->clientService = $clientService;
-    }
+	public function __construct(IConfig $config, IClientService $clientService) {
+		$this->config = $config;
+		$this->clientService = $clientService;
+	}
 
-    public function checkCODEProxyStatus() {
-        $remoteHost = $this->getCODEUrl();
-        // This makes sense only if wopi_url is set to proxy.php location
-        if ($remoteHost === '' || strpos($remoteHost, 'proxy.php?req=') === false) {
-            \OC::$server->getLogger()->error('CODE Invalid wopi url');
-            return [];
-        }
-        $remoteHost = substr($remoteHost, 0, strpos($remoteHost, '?'));
-        $statusEndpoint = $remoteHost . '?status';
+	public function checkCODEProxyStatus() {
+		$remoteHost = $this->getCODEUrl();
+		// This makes sense only if wopi_url is set to proxy.php location
+		if ($remoteHost === '' || strpos($remoteHost, 'proxy.php?req=') === false) {
+			\OC::$server->getLogger()->error('CODE Invalid wopi url');
+			return [];
+		}
+		$remoteHost = substr($remoteHost, 0, strpos($remoteHost, '?'));
+		$statusEndpoint = $remoteHost . '?status';
 
-        $client = $this->clientService->newClient();
-        $options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
+		$client = $this->clientService->newClient();
+		$options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
 
-        $options['verify'] = false;
+		$options['verify'] = false;
 
-        try {
-            $response = $client->get($statusEndpoint, $options);
-        } catch (\Exception $e) {
-            \OC::$server->getLogger()->error('CODE proxy status check exception: ' . $e->getMessage());
-            return [];
-        }
+		try {
+			$response = $client->get($statusEndpoint, $options);
+		} catch (\Exception $e) {
+			\OC::$server->getLogger()->error('CODE proxy status check exception: ' . $e->getMessage());
+			return [];
+		}
 
-        $responseBody = $response->getBody();
-        $ret = \json_decode($responseBody, true);
+		$responseBody = $response->getBody();
+		$ret = \json_decode($responseBody, true);
 
-        if (!is_array($ret)) {
-            \OC::$server->getLogger()->error('CODE proxy status response is not valid JSON');
-            return [];
-        }
+		if (!is_array($ret)) {
+			\OC::$server->getLogger()->error('CODE proxy status response is not valid JSON');
+			return [];
+		}
 
-        return $ret;
-    }
+		return $ret;
+	}
 
-    public function getCODEUrl() {
-        $urlGenerator = \OC::$server->getURLGenerator();
-        $relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
-        $absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
-        $wopi_url = $absoluteUrl . '?req=';
-        return $wopi_url;
-    }
+	public function getCODEUrl() {
+		$urlGenerator = \OC::$server->getURLGenerator();
+		$relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
+		$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
+		$wopi_url = $absoluteUrl . '?req=';
+		return $wopi_url;
+	}
 }
