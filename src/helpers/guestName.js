@@ -21,7 +21,7 @@
  */
 
 import Config from './../services/config'
-import { getCurrentUser } from 'nextcloud-auth'
+import { getCurrentUser } from '@nextcloud/auth'
 import mobile from './mobile'
 
 const getGuestNameCookie = function() {

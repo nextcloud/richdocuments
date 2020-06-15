@@ -240,14 +240,15 @@
 
 <script>
 import Vue from 'vue'
-import { Multiselect, Modal } from 'nextcloud-vue'
-import axios from 'nextcloud-axios'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
+import axios from '@nextcloud/axios'
 import SettingsCheckbox from './SettingsCheckbox'
 import SettingsInputText from './SettingsInputText'
 import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
 import SettingsExternalApps from './SettingsExternalApps'
-import { generateUrl } from 'nextcloud-router'
+import { generateUrl } from '@nextcloud/router'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -325,7 +326,7 @@ export default {
 	},
 	beforeMount() {
 		for (let key in this.initial.settings) {
-			if (!this.initial.settings.hasOwnProperty(key)) {
+			if (!Object.prototype.hasOwnProperty.call(this.initial.settings, key)) {
 				continue
 			}
 

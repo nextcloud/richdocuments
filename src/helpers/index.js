@@ -20,7 +20,7 @@
  *
  */
 
-import { getLanguage, getLocale } from 'nextcloud-l10n'
+import { getLanguage, getLocale } from '@nextcloud/l10n'
 
 const languageToBCP47 = () => {
 	let language = getLanguage().replace(/_/g, '-')

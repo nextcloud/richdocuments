@@ -1,5 +1,5 @@
-import { getRootUrl } from 'nextcloud-router'
-import { getRequestToken } from 'nextcloud-auth'
+import { getRootUrl } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config'
 import { setGuestNameCookie, shouldAskForGuestName } from './helpers/guestName'
 
@@ -9,7 +9,7 @@ import {
 	isDirectEditing,
 	isMobileInterfaceAvailable
 } from './helpers/mobile'
-import { getWopiUrl } from './helpers/url'
+import { getWopiUrl, getSearchParam } from './helpers/url'
 
 import '../css/document.scss'
 
@@ -434,7 +434,7 @@ const documentsMain = {
 		var fileId
 
 		// Does anything indicate that we need to autostart a session?
-		fileId = window.getURLParameter('fileId').replace(/^\W*/, '')
+		fileId = (getSearchParam('fileId') || '').replace(/^\W*/, '')
 
 		if (fileId && Number.isInteger(Number(fileId)) && $('#nickname').length === 0) {
 			documentsMain.isEditorMode = true
