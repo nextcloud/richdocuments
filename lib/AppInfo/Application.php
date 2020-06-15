@@ -164,13 +164,8 @@ class Application extends App {
 				return;
 			}
 
-			$urlGenerator = \OC::$server->getURLGenerator();
-			$relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
-			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
-			$wopi_url = $absoluteUrl . '?req=';
-
             $CODEStatusService = $this->getContainer()->query(CODEStatusService::class);
-            $statusResponse = $CODEStatusService->checkCODEProxyStatus($wopi_url);
+            $statusResponse = $CODEStatusService->checkCODEProxyStatus();
 
             if (count($statusResponse) === 0) {
                 \OC::$server->getLogger()->error('Error while checking proxy.php status. Empty array returned.');
@@ -186,6 +181,8 @@ class Application extends App {
                 \OC::$server->getLogger()->error('CODE proxy status error: ' . $statusERROR);
                 return;
             }
+
+            $wopi_url = $CODEStatusService->getCODEUrl();
 
 			$appConfig->setAppValue('wopi_url', $wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');

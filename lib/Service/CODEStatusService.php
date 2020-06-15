@@ -39,8 +39,8 @@ class CODEStatusService {
         $this->clientService = $clientService;
     }
 
-    public function checkCODEProxyStatus($wopi_url) {
-        $remoteHost = $wopi_url;
+    public function checkCODEProxyStatus() {
+        $remoteHost = $this->getCODEUrl();
         // This makes sense only if wopi_url is set to proxy.php location
         if ($remoteHost === '' || strpos($remoteHost, 'proxy.php?req=') === false) {
             \OC::$server->getLogger()->error('CODE Invalid wopi url');
@@ -72,4 +72,11 @@ class CODEStatusService {
         return $ret;
     }
 
+    public function getCODEUrl() {
+        $urlGenerator = \OC::$server->getURLGenerator();
+        $relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
+        $absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
+        $wopi_url = $absoluteUrl . '?req=';
+        return $wopi_url;
+    }
 }
