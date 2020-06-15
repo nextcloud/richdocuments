@@ -19,7 +19,7 @@
 	<bugs>https://github.com/roscomputing/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/roscomputing/richdocuments.git</repository>
 	<dependencies>
-		<nextcloud min-version="15" max-version="19" />
+		<nextcloud min-version="15" max-version="20" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Wopi\Backgroundjobs\ObtainCapabilities</job>
