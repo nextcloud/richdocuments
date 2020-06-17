@@ -206,6 +206,10 @@ class WopiController extends Controller {
 			}, $watermarkTemplate);
 		}
 
+		if ($this->shouldOverrideUIDefaults()) {
+			$response['UIDefaults'] = $this->getUIDefaults();
+		}
+
 		/**
 		 * New approach for generating files from templates by creating an empty file
 		 * and providing an URL which returns the actual template
@@ -246,6 +250,30 @@ class WopiController extends Controller {
 			}
 		}
 		return $response;
+	}
+
+	private function shouldOverrideUIDefaults() {
+		try {
+			$uidefaults = $this->appConfig->getAppValue('uidefaults');
+			if ($uidefaults) {
+				$uidefaults = json_decode($uidefaults, true);
+				return $uidefaults['enabled'];
+			}
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	private function getUIDefaults() {
+		try {
+			$uidefaults = $this->appConfig->getAppValue('uidefaults');
+			if ($uidefaults) {
+				$uidefaults = json_decode($uidefaults, true);
+				return $uidefaults;
+			}
+		} catch (\Exception $e) {
+			return null;
+		}
 	}
 
 	private function shouldWatermark($isPublic, $userId, $fileId, Wopi $wopi) {

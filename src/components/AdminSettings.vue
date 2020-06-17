@@ -193,6 +193,29 @@
 				</div>
 			</settings-checkbox>
 		</div>
+		<div v-if="isSetup" id="ui-defaults" class="section">
+			<h2>{{ t('richdocuments', 'UI Defaults') }}</h2>
+			<settings-checkbox v-model="settings.uidefaults.enabled" :label="t('richdocuments', 'Override UI Defaults')" hint=""
+				:disabled="updating" @input="updateUIDefaults" />
+			<div v-if="settings.uidefaults.enabled">
+				<p>{{ t('richdocuments', 'You can choose to show/hide these UI elements at the start of the document. Further changes during editing will be remembered by cookies throughout the session.') }}</p>
+				<h3>{{ t('richdocuments', 'Writer') }}</h3>
+				<settings-checkbox v-model="settings.uidefaults.text.ShowSidebarDefault" :label="t('richdocuments', 'Show Sidebar')" hint=""
+					:disabled="updating" @input="updateUIDefaults" />
+				<settings-checkbox v-model="settings.uidefaults.text.ShowRulerDefault" :label="t('richdocuments', 'Show Ruler')" hint=""
+					:disabled="updating" @input="updateUIDefaults" />
+				<settings-checkbox v-model="settings.uidefaults.text.ShowStatusbarDefault" :label="t('richdocuments', 'Show Statusbar')" hint=""
+					:disabled="updating" @input="updateUIDefaults" />
+				<h3>{{ t('richdocuments', 'Spreadsheet') }}</h3>
+				<settings-checkbox v-model="settings.uidefaults.spreadsheet.ShowSidebarDefault" :label="t('richdocuments', 'Show Sidebar')" hint=""
+					:disabled="updating" @input="updateUIDefaults" />
+				<h3>{{ t('richdocuments', 'Presentation') }}</h3>
+				<settings-checkbox v-model="settings.uidefaults.presentation.ShowSidebarDefault" :label="t('richdocuments', 'Show Sidebar')" hint=""
+					:disabled="updating" @input="updateUIDefaults" />
+				<settings-checkbox v-model="settings.uidefaults.presentation.ShowStatusbarDefault" :label="t('richdocuments', 'Show Statusbar')" hint=""
+					:disabled="updating" @input="updateUIDefaults" />
+			</div>
+		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure view settings') }}</h2>
@@ -306,6 +329,21 @@ export default {
 					allTags: false,
 					allTagsList: [],
 					text: ''
+				},
+				uidefaults: {
+					enabled: false,
+					text: {
+						ShowSidebarDefault: true,
+						ShowRulerDefault: true,
+						ShowStatusbarDefault: true
+					},
+					spreadsheet: {
+						ShowSidebarDefault: true
+					},
+					presentation: {
+						ShowSidebarDefault: true,
+						ShowStatusbarDefault: true
+					}
 				}
 			}
 		}
@@ -330,6 +368,10 @@ export default {
 				continue
 			}
 
+			if (key === 'uidefaults') {
+				continue
+			}
+
 			let [ parent, setting ] = key.split('_')
 			if (parent === 'watermark') {
 				Vue.set(this.settings[parent], setting, this.initial.settings[key])
@@ -337,6 +379,10 @@ export default {
 				Vue.set(this.settings, key, this.initial.settings[key])
 			}
 
+		}
+		var uiDefaults = this.initial.settings['uidefaults']
+		if (uiDefaults) {
+			Vue.set(this.settings, 'uidefaults', JSON.parse(uiDefaults))
 		}
 		Vue.set(this.settings, 'data', this.initial.settings)
 		if (this.settings.wopi_url === '') {
@@ -374,6 +420,17 @@ export default {
 			this.updating = true
 			let settings = this.settings
 			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then((response) => {
+				this.updating = false
+			}).catch((error) => {
+				this.updating = false
+				OC.Notification.showTemporary(t('richdocuments', 'Failed to save settings'))
+				console.error(error)
+			})
+		},
+		updateUIDefaults() {
+			this.updating = true
+			let settings = this.settings
+			axios.post(generateUrl('/apps/richdocuments/settings/uidefaults'), { settings }).then((response) => {
 				this.updating = false
 			}).catch((error) => {
 				this.updating = false

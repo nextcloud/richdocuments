@@ -248,6 +248,23 @@ class SettingsController extends Controller{
 		return new JSONResponse($response);
 	}
 
+	public function updateUIDefaults($settings =[ ]) {
+		try {
+			$uiDefaults = $settings['uidefaults'];
+			$this->appConfig->setAppValue('uidefaults', json_encode($uiDefaults));
+		} catch (\Exception $e) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => ['message' => 'Failed to save the settings']
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		return new JSONResponse([
+			'status' => 'success',
+			'data' => ['message' => $this->l10n->t('Saved')]
+		]);
+	}
+
 	/**
 	 * @NoAdminRequired
 	 *
