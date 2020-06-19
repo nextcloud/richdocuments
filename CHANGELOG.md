@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.7.1
+
+
+### Fixed
+
+* [#1010](https://github.com/nextcloud/richdocuments/pull/1010) Advise installation via 'occ' if it fails from the web interface. @kendy
+* [#1015](https://github.com/nextcloud/richdocuments/pull/1015) String update for built-in CODE option @mrkara
+* [#1017](https://github.com/nextcloud/richdocuments/pull/1017) Handling of a new error state from proxy.php?status. @kendy
+* [#1020](https://github.com/nextcloud/richdocuments/pull/1020) Check for read permission on the file actions @juliushaertl
+* [#1022](https://github.com/nextcloud/richdocuments/pull/1022) Update install.md @juliushaertl
+* [#1024](https://github.com/nextcloud/richdocuments/pull/1024) Update screenshots @timar
+* [#1026](https://github.com/nextcloud/richdocuments/pull/1026) New error state to handle - running on non-glibc based Linux. @kendy
+* [#885](https://github.com/nextcloud/richdocuments/pull/885) Move to @nextcloud packages @juliushaertl
+* [#1038](https://github.com/nextcloud/richdocuments/pull/1038) Fix issues with Nextcloud 15/16 @juliushaertl
+
+
 ## 3.7.0
 
 ### Added
