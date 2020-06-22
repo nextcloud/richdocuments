@@ -36,7 +36,7 @@ OC.L10N.register(
     "URL (and Port) of Collabora Online-server" : "Collabora Online sunucusunun adresi (ve kapı numarası)",
     "Disable certificate verification (insecure)" : "Sertifika doğrulaması devre dışı bırakılsın (güvenli değil)",
     "Use the built-in CODE - Collabora Online Development Edition" : "İç CODE kullanılsın - Collabora Online Development Edition",
-    "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Evde ya da küçük ekipler ile kullanım için kurulumu kolaydır. Bağımsız bir sunucudan biraz daha yavaştır ve gelişmiş ölçeklenebilirlik özellikleri yoktur.",
+    "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Kişisel ya da küçük ekipler için kurması ve kullanması kolaydır. Bağımsız bir sunucudan biraz daha yavaştır ve gelişmiş ölçeklenebilirlik özellikleri yoktur.",
     "This installation does not have a built in server." : "Bu kurulumda bir iç sunucu yok.",
     "Install it from the app store." : "Uygulama mağazasından kur.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Uygulama mağazasından kurulum yapılamazsa, şu komutu kullanarak el ile kurulum yapabilirsiniz:",
