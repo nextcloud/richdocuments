@@ -39,6 +39,7 @@ use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
+use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IPreview;
 
@@ -63,11 +64,16 @@ class Application extends App {
 	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
 
-		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
-		$eventDispatcher->addListener(LoadViewer::class, function () {
-			\OCP\Util::addScript('richdocuments', 'viewer');
-		});
+		try {
+			/** @var IEventDispatcher $eventDispatcher */
+			$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
+			if (class_exists(LoadViewer::class)) {
+				$eventDispatcher->addListener(LoadViewer::class, function () {
+					\OCP\Util::addScript('richdocuments', 'viewer');
+				});
+			}
+		} catch (QueryException $e) {
+		}
 
 		$this->getContainer()->registerCapability(Capabilities::class);
 	}
