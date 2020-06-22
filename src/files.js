@@ -145,7 +145,7 @@ const odfViewer = {
 			reloadForFederationCSP(fileName)
 		}
 
-		OC.addStyle('richdocuments', 'mobile')
+		$('head').append($('<link rel="stylesheet" type="text/css" href="' + OC.filePath('richdocuments', 'css', 'mobile.css') + '"/>'))
 
 		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(function() {
