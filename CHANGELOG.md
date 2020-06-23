@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.2
+
+### Fixed
+
+* [#1052](ttps://github.com/nextcloud/richdocuments/pull/1052) Fix regression caused documents to not load
+
 ## 3.7.1
 
 
