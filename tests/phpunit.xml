@@ -5,8 +5,8 @@
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
 		>
-	<testsuite name='ownCloud - Richdocuments App Tests'>
-		<directory suffix='test.php'>.</directory>
+	<testsuite name='Richdocuments App Tests'>
+		<directory suffix='.php'>./lib</directory>
 	</testsuite>
 	<!-- filters for code coverage -->
 	<filter>

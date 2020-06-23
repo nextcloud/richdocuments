@@ -25,17 +25,19 @@ use OCA\Richdocuments\PermissionManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PermissionManagerTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockBuilder */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockBuilder */
+	/** @var IGroupManager|MockObject */
 	private $groupManager;
 	/** @var PermissionManager */
 	private $permissionManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -43,7 +45,7 @@ class PermissionManagerTest extends TestCase {
 	}
 
 	public function testIsEnabledForUserEnabledNoRestrictions() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockBuilder $user */
+		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 
 		$this->config
@@ -56,7 +58,7 @@ class PermissionManagerTest extends TestCase {
 	}
 
 	public function testIsEnabledForUserEnabledNotInGroup() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockBuilder $user */
+		/** @var IUser|MockBuilder $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -89,7 +91,7 @@ class PermissionManagerTest extends TestCase {
 	}
 
 	public function testIsEnabledForUserEnabledInGroup() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockBuilder $user */
+		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
