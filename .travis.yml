@@ -4,13 +4,13 @@ language: php
 php:
   - 7.2
   - 7.3
+  - 7.4
 env:
   global:
     - "CORE_BRANCH=master"
     - "APP_NAME=richdocuments"
   matrix:
     - "DB=mysql TEST=lint"
-    - "DB=mysql TEST=checker"
     - "DB=mysql TEST=phpunit"
 
 addons:
@@ -36,8 +36,6 @@ matrix:
     env: "DB=sqlite"
   - php: 7.2
     env: "DB=pgsql"
-  allow_failures:
-  - env: "DB=mysql TEST=checker"
   fast_finish: true
 
 branches:
@@ -61,7 +59,6 @@ script:
   # Test the app
   - if [ "$TEST" == 'lint' ]; then find . -name \*.php -exec php -l "{}" \;; fi
   - if [ "$TEST" == 'lint' ]; then ../../occ app:check-code $APP_NAME -c deprecation; fi
-  - if [ "$TEST" == 'checker' ]; then ../../occ app:check-code $APP_NAME -c private -c strong-comparison; fi
 
   # Run phpunit tests
   - cd tests/
