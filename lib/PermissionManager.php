@@ -21,12 +21,13 @@
 
 namespace OCA\Richdocuments;
 
+use OCA\Richdocuments\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 
 class PermissionManager {
-	const APP_ID = 'richdocuments';
+
 	/** @var IConfig */
 	private $config;
 	/** @var IGroupManager */
@@ -47,7 +48,7 @@ class PermissionManager {
 	}
 
 	public function isEnabledForUser(IUser $user) {
-		$enabledForGroups = $this->config->getAppValue(self::APP_ID, 'use_groups', '');
+		$enabledForGroups = $this->config->getAppValue(Application::APPNAME, 'use_groups', '');
 		if($enabledForGroups === '') {
 			return true;
 		}
