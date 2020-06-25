@@ -10,7 +10,6 @@ env:
     - "CORE_BRANCH=master"
     - "APP_NAME=richdocuments"
   matrix:
-    - "DB=mysql TEST=lint"
     - "DB=mysql TEST=phpunit"
 
 addons:
