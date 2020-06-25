@@ -14,6 +14,7 @@ OC.L10N.register(
     "File is too big" : "Tệp quá lớn",
     "Invalid file provided" : "File không hợp lệ",
     "Select groups" : "Chọn nhóm",
+    "Failed to save settings" : "Lưu cấu hình thất bại",
     "Description" : "Mô tả",
     "No results" : "Không có kết quả",
     "Error" : "Lỗi",
