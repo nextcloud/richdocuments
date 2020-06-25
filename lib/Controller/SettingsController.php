@@ -147,7 +147,7 @@ class SettingsController extends Controller{
 		if ($disable_certificate_verification !== null) {
 			$this->appConfig->setAppValue(
 				'disable_certificate_verification',
-				$disable_certificate_verification === 'true' ? 'yes' : ''
+				$disable_certificate_verification === true ? 'yes' : ''
 			);
 		}
 
