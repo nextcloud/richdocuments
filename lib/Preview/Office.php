@@ -82,7 +82,9 @@ abstract class Office extends Provider {
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 10];
 
-		$options['verify'] = $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === '';
+		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+			$options['verify'] = false;
+		}
 
 		$options['multipart'] = [['name' => $path, 'contents' => $stream]];
 
