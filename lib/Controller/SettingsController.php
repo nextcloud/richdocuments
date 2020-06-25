@@ -114,7 +114,7 @@ class SettingsController extends Controller{
 		return new JSONResponse([
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
 			'public_wopi_url' => $this->appConfig->getAppValue('public_wopi_url'),
-			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification'),
+			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification') === 'yes',
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
 			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
