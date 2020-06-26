@@ -6,11 +6,21 @@ namespace OCA\Richdocuments\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use OCP\Migration\IOutput;
 
-class Version2060Date20200302132145 extends SimpleMigrationStep
-{
+/**
+ * Auto-generated migration step: Please modify to your needs!
+ */
+class Version030702Date20200626072306 extends SimpleMigrationStep {
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	}
 
 	/**
 	 * @param IOutput $output
@@ -18,8 +28,7 @@ class Version2060Date20200302132145 extends SimpleMigrationStep
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options)
-	{
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
@@ -78,4 +87,11 @@ class Version2060Date20200302132145 extends SimpleMigrationStep
 		return $schema;
 	}
 
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	}
 }
