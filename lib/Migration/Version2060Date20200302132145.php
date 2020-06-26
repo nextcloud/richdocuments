@@ -9,71 +9,27 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version2060Date20200302132145 extends SimpleMigrationStep {
+class Version2060Date20200302132145 extends SimpleMigrationStep
+{
 
-    /**
-     * @param IOutput $output
-     * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-     * @param array $options
-     * @return null|ISchemaWrapper
-     */
-    public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-        /** @var ISchemaWrapper $schema */
-        $schema = $schemaClosure();
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return null|ISchemaWrapper
+	 */
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options)
+	{
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
 
-        $table = $schema->getTable('richdocuments_wopi');
+		$table = $schema->getTable('richdocuments_wopi');
+		$table->addColumn('share', 'string', [
+			'notnull' => false,
+			'length' => 64
+		]);
 
-        if(!$table->hasColumn('template_id')) {
-            $table->addColumn('template_id', 'integer', [
-                'notnull' => false,
-                'length' => 4,
-            ]);
-        }
-
-        if(!$table->hasColumn('hide_download')) {
-            $table->addColumn('hide_download', 'boolean', [
-                'notnull' => true,
-                'default' => false,
-            ]);
-        }
-
-        if(!$table->hasColumn('share')) {
-            $table->addColumn('share', 'string', [
-                'notnull' => false,
-                'length' => 64
-            ]);
-        }
-
-        if(!$table->hasColumn('direct')) {
-            $table->addColumn('direct', 'boolean', [
-                'notnull' => true,
-                'default' => false,
-            ]);
-        }
-        if(!$table->hasColumn('is_remote_token')) {
-            $table->addColumn('is_remote_token', 'boolean', [
-                'notnull' => true,
-                'default' => false,
-            ]);
-        }
-
-        if(!$table->hasColumn('remote_server')) {
-            $table->addColumn('remote_server', 'string', [
-                'notnull' => true,
-                'default' => '',
-            ]);
-
-        }
-        if(!$table->hasColumn('remote_server_token')) {
-            $table->addColumn('remote_server_token', 'string', [
-                'notnull' => true,
-                'length' => 32,
-                'default' => '',
-            ]);
-        }
-
-
-        return $schema;
-    }
+		return $schema;
+	}
 
 }
