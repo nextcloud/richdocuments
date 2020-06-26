@@ -1,10 +1,18 @@
 # Changelog
 
+## 3.7.3
+
+### Fixed
+* [#1023](https://github.com/nextcloud/richdocuments/pull/1023) Fix saving 'disable certificate verification' @CySlider
+* [#1059](https://github.com/nextcloud/richdocuments/pull/1059) Fix issue with custom trusted certificates not being applied
+* [#1061](https://github.com/nextcloud/richdocuments/pull/1061) Fix not found error when opening share links with edit permission
+ 
+
 ## 3.7.2
 
 ### Fixed
 
-* [#1052](ttps://github.com/nextcloud/richdocuments/pull/1052) Fix regression caused documents to not load
+* [#1052](https://github.com/nextcloud/richdocuments/pull/1052) Fix regression caused documents to not load
 
 ## 3.7.1
 
