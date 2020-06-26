@@ -43,6 +43,8 @@ branches:
     - /^stable\d+(\.\d+)?$/
 
 before_install:
+  - echo "extension = libzip.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini 
+  - echo "extension = gd.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini 
   - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
   - . ./before_install.sh $APP_NAME $CORE_BRANCH $DB
 
