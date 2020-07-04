@@ -1,10 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Saved" : "Enrolet",
     "File is too big" : "Re vraz eo an teuliad",
     "Invalid file provided" : "An teuliad roet n'eo ket unan aotreet",
     "Error" : "Fazi",
     "Cancel" : "Arrest",
+    "Save" : "Entilañ",
     "Remove from favorites" : "Diverkañañ eus ar pennrolloù",
     "Add to favorites" : "Ouzhpennañ er pennrolloù",
     "Details" : "Munudoù",
