@@ -262,6 +262,10 @@ const documentsMain = {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Button', { id: 'fullscreen' })
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'fullscreen' })
 						}
+						if (!(Config.get('permissions') & OC.PERMISSION_SHARE)) {
+							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'shareas' })
+						}
+
 						break
 					case 'Failed':
 						// Loading failed but editor shows the error
