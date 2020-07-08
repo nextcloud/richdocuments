@@ -26,7 +26,7 @@ export default {
 
 	fileModel: null,
 
-	fileList: FileList,
+	fileList: undefined,
 
 	/* Views: people currently editing the file */
 	views: {},
@@ -35,6 +35,15 @@ export default {
 
 	following: null,
 
+	handlers: {},
+
+	startLoading() {
+		if (this.getFileList()) {
+			this.getFileList().setViewerMode(true)
+			this.getFileList().showMask()
+		}
+	},
+
 	init({ fileName, fileId, sendPostMessage, fileList }) {
 		this.fileName = fileName
 		this.fileId = fileId
@@ -42,10 +51,18 @@ export default {
 		this.sendPostMessage = sendPostMessage
 	},
 
+	registerHandler(event, callback) {
+		this.handlers[event] = callback
+	},
+
 	initAfterReady() {
+		if (this.handlers.initAfterReady && !this.handlers.initAfterReady()) {
+			return
+		}
 		if (typeof this.getFileList() !== 'undefined') {
 			this.getFileModel()
 			this.getFileList().hideMask()
+			this.getFileList().setPageTitle(this.fileName)
 		}
 
 		const headerRight = document.querySelector('#header .header-right')
