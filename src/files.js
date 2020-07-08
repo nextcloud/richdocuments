@@ -4,6 +4,7 @@ import Config from './services/config'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
 import '../css/viewer.scss'
+import { splitPath } from './helpers'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
@@ -44,7 +45,7 @@ const odfViewer = {
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
-	register() {
+	registerFileActions() {
 		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
 		for (let mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
@@ -52,7 +53,11 @@ const odfViewer = {
 				EDIT_ACTION_NAME,
 				OC.PERMISSION_READ,
 				OC.imagePath('core', 'actions/rename'),
-				this.onEdit,
+				(fileName, context) => {
+					const fileModel = context.fileList.findFile(fileName)
+					const shareOwnerId = fileModel.shareOwnerId
+					return this.onEdit(fileName, { ...context, shareOwnerId })
+				},
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
@@ -82,18 +87,12 @@ const odfViewer = {
 			return
 		}
 		odfViewer.open = true
-		let fileList = null
 		if (context) {
-			fileList = context.fileList
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-			if (context.fileList) {
-				context.fileList.setViewerMode(true)
-				context.fileList.setPageTitle(fileName)
-				context.fileList.showMask()
-			}
 		}
+		FilesAppIntegration.startLoading()
 		odfViewer.receivedLoading = false
 
 		let documentUrl = getDocumentUrlForFile(fileDir, fileId)
@@ -125,14 +124,12 @@ const odfViewer = {
 
 		}
 
-		const reloadForFederationCSP = (fileName) => {
+		const reloadForFederationCSP = (fileName, shareOwnerId) => {
 			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
-			const fileModel = fileList.findFile(fileName)
-			const shareOwnerId = fileModel.shareOwnerId
 			if (typeof shareOwnerId !== 'undefined') {
 				const lastIndex = shareOwnerId.lastIndexOf('@')
 				// only redirect if remote file, not opened though reload and csp blocks the request
-				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileModel.id !== preloadId) {
+				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileId !== preloadId) {
 					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/status.php', () => {
 						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
 					})
@@ -142,7 +139,7 @@ const odfViewer = {
 		}
 
 		if (context) {
-			reloadForFederationCSP(fileName)
+			reloadForFederationCSP(fileName, context.shareOwnerId)
 		}
 
 		$('head').append($('<link rel="stylesheet" type="text/css" href="' + OC.filePath('richdocuments', 'css', 'mobile.css') + '"/>'))
@@ -181,7 +178,6 @@ const odfViewer = {
 			FilesAppIntegration.init({
 				fileName,
 				fileId,
-				fileList,
 				sendPostMessage: (msgId, values) => {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				}
@@ -283,7 +279,7 @@ const odfViewer = {
 
 					$.post(
 						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
+						{ mimetype: mimetype, filename: filename, dir: document.getElementById('dir').value },
 						function(response) {
 							if (response && response.status === 'success') {
 								FileList.add(response.data, { animate: true, scrollTo: true })
@@ -299,15 +295,15 @@ const odfViewer = {
 					filename = FileList.getUniqueName(filename)
 					$.post(
 						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
+						{ mimetype: mimetype, filename: filename, dir: document.getElementById('dir').value },
 						function(response) {
 							if (response && response.status === 'success') {
 								FileList.add(response.data, { animate: false, scrollTo: false })
-								odfViewer.onEdit(filename, {
+								const path = document.getElementById('dir').value + '/' + filename
+								OCA.RichDocuments.openWithTemplate({
 									fileId: -1,
-									dir: $('#dir').val(),
-									templateId: templateId,
-									fileList: FileList
+									path,
+									templateId: templateId
 								})
 							} else {
 								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
@@ -404,8 +400,7 @@ const odfViewer = {
 			FileList.$fileList.one('updated', function() {
 				odfViewer.onEdit(Preload.open.filename, {
 					fileId: Preload.open.id,
-					dir: document.getElementById('dir').value,
-					fileList: FileList
+					dir: document.getElementById('dir').value
 				})
 			})
 		}
@@ -418,6 +413,23 @@ Config.update('ooxml', settings['doc_format'] === 'ooxml')
 window.OCA.RichDocuments = {
 	config: {
 		create: Types.getFileTypes()
+	},
+	open: ({ path, fileId, shareOwnerId }) => {
+		const [dir, file] = splitPath(path)
+		odfViewer.onEdit(file, {
+			fileId,
+			dir,
+			shareOwnerId
+		})
+	},
+	openWithTemplate: ({ path, fileId, templateId, shareOwnerId }) => {
+		const [dir, file] = splitPath(path)
+		odfViewer.onEdit(file, {
+			fileId,
+			dir,
+			templateId,
+			shareOwnerId
+		})
 	}
 }
 
@@ -432,8 +444,8 @@ $(document).ready(function() {
 			odfViewer.supportedMimes.push('text/plain')
 		}
 
+		odfViewer.registerFileActions()
 		odfViewer.registerFilesMenu()
-		odfViewer.register()
 	}
 
 	// Open documents if a public page is opened for a supported mimetype
