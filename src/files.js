@@ -161,6 +161,7 @@ const odfViewer = {
 			FilesAppIntegration.init({
 				fileName,
 				fileId,
+				fileList: context.fileList,
 				sendPostMessage: (msgId, values) => {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				}
