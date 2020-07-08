@@ -62,8 +62,8 @@ export default {
 
 		if (typeof this.getFileList() !== 'undefined') {
 			this.getFileModel()
-			this.getFileList().hideMask()
-			this.getFileList().setPageTitle(this.fileName)
+			this.getFileList().hideMask && this.getFileList().hideMask()
+			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
 
 		const headerRight = document.querySelector('#header .header-right')
@@ -224,6 +224,10 @@ export default {
 	},
 
 	_addHeaderFileActions() {
+		if (!this.getFileList().$el) {
+			console.error('[FilesAppIntegration] Failed to register file actions due to missing $el dependency')
+			return
+		}
 		console.debug('[FilesAppIntegration] Adding header file actions')
 		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
 		$('#richdocuments-actions').remove()
