@@ -5,6 +5,7 @@ OC.L10N.register(
     "File is too big" : "Re vraz eo an teuliad",
     "Invalid file provided" : "An teuliad roet n'eo ket unan aotreet",
     "Description" : "Diskrivadur",
+    "No results" : "Disoc'h ebet",
     "Error" : "Fazi",
     "Cancel" : "Arrest",
     "Save" : "Entilañ",
