@@ -9,6 +9,7 @@ OC.L10N.register(
     "Error" : "Fazi",
     "Cancel" : "Arrest",
     "Save" : "Entilañ",
+    "Create" : "Krouiñ",
     "Remove from favorites" : "Diverkañañ eus ar pennrolloù",
     "Add to favorites" : "Ouzhpennañ er pennrolloù",
     "Details" : "Munudoù",
