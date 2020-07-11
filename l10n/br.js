@@ -10,6 +10,7 @@ OC.L10N.register(
     "Cancel" : "Arrest",
     "Save" : "Entilañ",
     "Create" : "Krouiñ",
+    "Select template" : "Choaz ur stumm skouer",
     "Remove from favorites" : "Diverkañañ eus ar pennrolloù",
     "Add to favorites" : "Ouzhpennañ er pennrolloù",
     "Details" : "Munudoù",
