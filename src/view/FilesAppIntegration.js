@@ -225,7 +225,7 @@ export default {
 	},
 
 	_addHeaderFileActions() {
-		if (!this.getFileList().$el) {
+		if (!this.getFileList() || !this.getFileList().$el) {
 			console.error('[FilesAppIntegration] Failed to register file actions due to missing $el dependency')
 			return
 		}
