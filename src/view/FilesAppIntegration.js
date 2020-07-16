@@ -161,7 +161,7 @@ export default {
 	},
 
 	getFileModel() {
-		if (this.fileModel !== null) {
+		if (this.fileModel) {
 			return this.fileModel
 		}
 		if (!this.getFileList()) {
