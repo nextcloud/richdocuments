@@ -35,15 +35,15 @@ The following two methods are exposed in order to manually trigger the Collabora
 Params requires the following properties:
 - fileId: (string) internal file id
 - path: (string) full path to the file
-- shareOwnerId: (string) uid of share owner for shared files
-- fileList: (object) optional file list object (see limitations below when not passing it)
+- fileModel: (OCA.Files.FileInfoModel) model of the file that will be opened
+- fileList: (object) optional file list object
 
 
 ```javascript
 OCA.RichDocuments.open({
 	fileId: 1234,
 	path: '/path/to/file.odt',
-	shareOwnerId: 'admin@nextcloud',
+	fileModel: new OCA.Files.FileInfoModel({...})
     fileList: FileList
 })
 ```
@@ -55,15 +55,27 @@ OCA.RichDocuments.open({
 Params requires the following properties:
 - fileId: (string) internal file id
 - path: (string) full path to the file
-- shareOwnerId: (string) uid of share owner for shared files
-- fileList: (object) optional file list object (see limitations below when not passing it)
 - templateId: (string) file id of the template
+- fileModel: (OCA.Files.FileInfoModel) model of the file that will be opened
+- fileList: (object) optional file list object
 
 ```javascript
 OCA.RichDocuments.openWithTemplate({
 	fileId: -1,
 	path: '/path/to/file.odt,
-	templateId: templateId
+	templateId: templateId,
+    fileModel: new OCA.Files.FileInfoModel({...})
+})
+```
+
+Changes to the fileModel should be propagated by triggering a backbone `change` event:
+
+```javascript
+window.OCA.RichDocuments.FilesAppIntegration.registerHandler('actionFavorite', (filesAppIntegration) => {
+    // custom logic here
+    // make sure to trigger a change on the file info model object like this:
+    filesAppIntegration.getFileModel().trigger('change', newFileModel)
+    return true
 })
 ```
 
@@ -80,6 +92,11 @@ The following handlers are currently supported:
 - share: will be called before the default share action is triggered
 - rename: will be called before the default rename action is triggered (the new filename is available as a property of the filesAppIntegration parameter)
 - showRevHistory: will be called before the default show revision history action is triggered
+
+In addition, the following handlers can be used to overwrite the handling of file actions that are rendered in the Nextcloud header bar:
+- actionDetails
+- actionDownload
+- actionFavorite
 
 The filesAppIntegration parameter can be used to extract the current context of the edited file. The following properties are available for that:
 - fileName
