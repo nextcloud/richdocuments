@@ -39,15 +39,16 @@ export default {
 
 	startLoading() {
 		if (this.getFileList()) {
-			this.getFileList().setViewerMode(true)
-			this.getFileList().showMask()
+			this.getFileList().setViewerMode && this.getFileList().setViewerMode(true)
+			this.getFileList().showMask && this.getFileList().showMask()
 		}
 	},
 
-	init({ fileName, fileId, sendPostMessage, fileList }) {
+	init({ fileName, fileId, sendPostMessage, fileList, fileModel }) {
 		this.fileName = fileName
 		this.fileId = fileId
 		this.fileList = fileList
+		this.fileModel = fileModel
 		this.sendPostMessage = sendPostMessage
 	},
 
@@ -60,7 +61,7 @@ export default {
 			return
 		}
 
-		if (typeof this.getFileList() !== 'undefined') {
+		if (this.getFileList()) {
 			this.getFileModel()
 			this.getFileList().hideMask && this.getFileList().hideMask()
 			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
@@ -85,8 +86,8 @@ export default {
 		}
 
 		if (this.getFileList()) {
-			this.getFileList().setViewerMode(false)
-			this.getFileList().reload()
+			this.getFileList().setViewerMode && this.getFileList().setViewerMode(false)
+			this.getFileList().reload && this.getFileList().reload()
 		}
 		this.fileModel = null
 		if (!isPublic) {
@@ -115,7 +116,7 @@ export default {
 			return
 		}
 		if (this.getFileList()) {
-			this.getFileList().reload()
+			this.getFileList().reload && this.getFileList().reload()
 			OC.Apps.hideAppSidebar()
 		}
 	},
@@ -160,10 +161,10 @@ export default {
 		if (!this.getFileList()) {
 			return null
 		}
-		this.getFileList()._updateDetailsView(this.fileName, false)
+		this.getFileList()._updateDetailsView && this.getFileList()._updateDetailsView(this.fileName, false)
 		this.fileModel = this.getFileList().getModelForFile(this.fileName)
 
-		if (this.fileModel !== null) {
+		if (this.fileModel && this.fileModel.on) {
 			this.fileModel.on('change', () => {
 				this._addHeaderFileActions()
 			})
