@@ -50,6 +50,12 @@ export default {
 		this.fileList = fileList
 		this.fileModel = fileModel
 		this.sendPostMessage = sendPostMessage
+
+		if (this.fileModel && this.fileModel.on) {
+			this.fileModel.on('change', () => {
+				this._addHeaderFileActions()
+			})
+		}
 	},
 
 	registerHandler(event, callback) {
@@ -105,7 +111,7 @@ export default {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
-		this.getFileList().showDetailsView(this.fileName, 'shareTabView')
+		this.getFileList().showDetailsView && this.getFileList().showDetailsView(this.fileName, 'shareTabView')
 		OC.Apps.showAppSidebar()
 	},
 
@@ -225,32 +231,31 @@ export default {
 	},
 
 	_addHeaderFileActions() {
-		if (!this.getFileList() || !this.getFileList().$el) {
-			console.error('[FilesAppIntegration] Failed to register file actions due to missing $el dependency')
-			return
-		}
 		console.debug('[FilesAppIntegration] Adding header file actions')
 		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
 		$('#richdocuments-actions').remove()
 		var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
 		var actions = actionsContainer.find('#richdocuments-actions-menu').empty()
 
-		var context = {
-			'$file': this.getFileList().$el.find('[data-id=' + this.originalFileId + ']').first(),
+		var getContext = () => ({
+			'$file': this.getFileList().$el ? this.getFileList().$el.find('[data-id=' + this.fileId + ']').first() : null,
 			fileActions: this.getFileList().fileActions,
 			fileList: this.getFileList(),
 			fileInfoModel: this.getFileModel()
-		}
+		})
 
 		const isFavorite = function(fileInfo) {
 			return fileInfo.get('tags') && fileInfo.get('tags').indexOf(OC.TAG_FAVORITE) >= 0
 		}
 		const $favorite = $('<li><a></a></li>').click((event) => {
 			$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small')
+			if (this.handlers.actionFavorite && this.handlers.actionFavorite(this)) {
+				return
+			}
 			this.getFileList().fileActions.triggerAction('Favorite', this.getFileModel(), this.getFileList())
 			this.getFileModel().trigger('change', this.getFileModel())
 		})
-		if (isFavorite(context.fileInfoModel)) {
+		if (isFavorite(this.getFileModel())) {
 			$favorite.find('a').text(t('files', 'Remove from favorites'))
 			$favorite.find('a').addClass('icon-starred')
 		} else {
@@ -259,12 +264,18 @@ export default {
 		}
 
 		var $info = $('<li><a class="icon-info"></a></li>').click(() => {
-			this.getFileList().fileActions.actions.all.Details.action(this.fileName, context)
+			if (this.handlers.actionDetails && this.handlers.actionDetails(this)) {
+				return
+			}
+			this.getFileList().fileActions.actions.all.Details.action(this.fileName, getContext())
 			OC.hideMenus()
 		})
 		$info.find('a').text(t('files', 'Details'))
 		var $download = $('<li><a class="icon-download">Download</a></li>').click(() => {
-			this.getFileList().fileActions.actions.all.Download.action(this.fileName, context)
+			if (this.handlers.actionDownload && this.handlers.actionDownload(this)) {
+				return
+			}
+			this.getFileList().fileActions.actions.all.Download.action(this.fileName, getContext())
 			OC.hideMenus()
 		})
 		$download.find('a').text(t('files', 'Download'))
