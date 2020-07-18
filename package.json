@@ -73,7 +73,7 @@
 		"stylelint-config-recommended-scss": "^4.2.0",
 		"stylelint-scss": "^3.18.0",
 		"stylelint-webpack-plugin": "^2.1.0",
-		"ts-loader": "^7.0.5",
+		"ts-loader": "^8.0.1",
 		"typescript": "^3.9.6",
 		"url-loader": "^4.1.0",
 		"vue-jest": "^3.0.6",
