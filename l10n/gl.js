@@ -85,7 +85,7 @@ OC.L10N.register(
     "Contact {0} to get an own installation." : "Póñase en contacto con {0} para obter unha instalación propia.",
     "Failed to save settings" : "Produciuse un fallo ao gardar os axustes",
     "Description" : "Descrición",
-    "Add new token" : "Engadir unha nova testemuña",
+    "Add new token" : "Engadir un novo testemuño",
     "No results" : "Sen resultados",
     "Error" : "Erro",
     "An error occurred" : "Produciuse un erro",
