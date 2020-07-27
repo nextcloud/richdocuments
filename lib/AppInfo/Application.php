@@ -157,7 +157,7 @@ class Application extends App {
 
 	public function checkAndEnableCODEServer() {
 		// Supported only on Linux OS, and x86_64 platform
-		if (PHP_OS_FAMILY !== 'Linux' || php_uname('m') !== 'x86_64')
+		if (!defined('PHP_OS_FAMILY') || constant('PHP_OS_FAMILY') !== 'Linux' || php_uname('m') !== 'x86_64')
 			return;
 
 		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser('richdocumentscode')) {
