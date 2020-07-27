@@ -391,20 +391,24 @@ export default {
 		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', this.restoreVersion.bind(this))
+		$(document.querySelector('#content')).on('click.revisionsTab', '#app-sidebar [data-tabid=versionsTabView]', this.addCurrentVersion.bind(this))
 	},
 
 	removeVersionSidebarEvents() {
 		$(document.querySelector('#content')).off('click.revisions')
 		$(document.querySelector('#content')).off('click.revisions')
 		$(document.querySelector('#content')).off('mousedown.revisions')
+		$(document.querySelector('#content')).off('click.revisionsTab')
 	},
 
 	addCurrentVersion() {
+		$('#lastSavedVersion').remove()
+		$('#currentVersion').remove()
 		if (this.getFileModel()) {
 			const preview = OC.MimeType.getIconUrl(this.getFileModel().get('mimetype'))
 			const mtime = this.getFileModel().get('mtime')
 			$('#versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + '<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span></div></div></li></ul>')
+				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + '<br /><span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span></div></div></li></ul>')
 			$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
 				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>')
 			$('.live-relative-timestamp').each(function() {
