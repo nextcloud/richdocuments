@@ -311,7 +311,7 @@ export default {
 		const isFileOwner = !isPublic && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
 		const canEdit = this.getFileModel() && !!(this.getFileModel().get('permissions') & OC.PERMISSION_UPDATE)
 		if (isFileOwner && canEdit && !view.IsCurrentView) {
-			var removeButton = $('<div class="icon-close" title="Remove user"/>')
+			var removeButton = $('<div class="icon-close" title="' + t('richdocuments', 'Remove user') + '"/>')
 			removeButton.click(() => {
 				this.sendPostMessage('Action_RemoveView', { ViewId: view.ViewId })
 			})
