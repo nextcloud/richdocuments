@@ -124,6 +124,7 @@ OC.L10N.register(
     "Details" : "Details",
     "Download" : "Herunterladen",
     "(read only)" : "(schreibgeschützt)",
+    "Remove user" : "Benutzer entfernen",
     "Guest" : "Gast",
     "Follow current editor" : "Dem aktuellen Bearbeiter folgen",
     "Last saved version" : "Letzte gespeicherte Version",
