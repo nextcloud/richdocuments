@@ -124,6 +124,7 @@ OC.L10N.register(
     "Details" : "Podrobnosti",
     "Download" : "Stáhnout",
     "(read only)" : "(pouze pro čtení)",
+    "Remove user" : "Odebrat uživatele",
     "Guest" : "Host",
     "Follow current editor" : "Následovat stávající editor",
     "Last saved version" : "Poslední uložená verze",
