@@ -304,6 +304,9 @@ $(document).ready(function() {
 		case 'File_Rename':
 			FilesAppIntegration.rename(args.NewName)
 			break
+		case 'Action_Save_Resp':
+			FilesAppIntegration.saveAs()
+			break
 		case 'close':
 			odfViewer.onClose()
 			break
