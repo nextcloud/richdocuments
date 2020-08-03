@@ -102,6 +102,17 @@ export default {
 		$('#richdocuments-header').remove()
 	},
 
+	saveAs() {
+		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
+			return
+		}
+
+		if (this.getFileList()) {
+			this.getFileList()
+				.reload()
+		}
+	},
+
 	share() {
 		if (this.handlers.share && this.handlers.share(this)) {
 			return

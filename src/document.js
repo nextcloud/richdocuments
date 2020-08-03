@@ -395,7 +395,7 @@ const documentsMain = {
 							t('richdocuments', 'Save As'),
 							function(result, value) {
 								if (result === true && value) {
-									PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { 'Filename': value })
+									PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true })
 								}
 							},
 							true,
