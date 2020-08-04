@@ -138,22 +138,31 @@ export default {
 		}
 	},
 
-	insertGraphic(callback) {
+	insertGraphic(insertFile) {
 		if (isPublic) {
 			console.error('[FilesAppIntegration] insertGraphic is not supported')
 		}
+
+		const insertFileFromPath = (path) => {
+			const filename = path.substring(path.lastIndexOf('/') + 1)
+			$.ajax({
+				type: 'POST',
+				url: OC.generateUrl('apps/richdocuments/assets'),
+				data: {
+					path: path
+				}
+			}).done(function(resp) {
+				insertFile(filename, resp.url)
+			})
+		}
+
+		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath: insertFileFromPath })) {
+			return
+		}
+
 		OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: OC.theme.name }), function(path, type) {
 			if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
-				const filename = path.substring(path.lastIndexOf('/') + 1)
-				$.ajax({
-					type: 'POST',
-					url: OC.generateUrl('apps/richdocuments/assets'),
-					data: {
-						path: path
-					}
-				}).done(function(resp) {
-					callback(filename, resp.url)
-				})
+				insertFileFromPath(path)
 			}
 		}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
 	},
