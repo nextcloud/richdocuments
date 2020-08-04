@@ -89,9 +89,13 @@ The following handlers are currently supported:
 
 - initAfterReady: will be called once the Collabora frame has been loaded
 - close: will be called after the Collabora view has been closed
+- saveAs: will be called on a save_as response by collabora
 - share: will be called before the default share action is triggered
 - rename: will be called before the default rename action is triggered (the new filename is available as a property of the filesAppIntegration parameter)
 - showRevHistory: will be called before the default show revision history action is triggered
+- insertGraphic: will be called when an image from the Nextcloud storage should be inserted
+  - Arguments
+    - insertFileFromPath(path): Callback to trigger the actual inserting of the graphic from an absolute file path
 
 In addition, the following handlers can be used to overwrite the handling of file actions that are rendered in the Nextcloud header bar:
 - actionDetails
@@ -101,6 +105,10 @@ In addition, the following handlers can be used to overwrite the handling of fil
 The filesAppIntegration parameter can be used to extract the current context of the edited file. The following properties are available for that:
 - fileName
 - fileId
+
+The callback function of each handler will be called with the following parameters:
+- filesAppIntegration: current instance of the filesAppIntegration object
+- arguments (optional): see list of supported handlers for details
 
 The following code shows an example on how to register the different handlers:
 
@@ -132,6 +140,12 @@ The following code shows an example on how to register the different handlers:
 		console.debug('called showRevHistory', filesAppIntegration)
 		return false
 	})
+
+    OCA.RichDocuments.FilesAppIntegration.registerHandler('insertGraphic', (filesAppIntegration, { insertFileFromPath }) => {
+        const path = prompt('Enter a file path', '')
+        insertFileFromPath(path)
+        return true
+    })
 
 })()
 ```
