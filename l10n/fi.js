@@ -63,6 +63,7 @@ OC.L10N.register(
     "Details" : "Yksityiskohdat",
     "Download" : "Lataa",
     "(read only)" : "(vain luku)",
+    "Remove user" : "Poista käyttäjä",
     "Guest" : "Vieras",
     "Last saved version" : "Viimeisin tallennettu versio",
     "Current version" : "Nykyinen versio",
