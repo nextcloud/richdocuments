@@ -76,7 +76,7 @@ OC.L10N.register(
     "Current version" : "Uneko bertsioa",
     "Failed to revert the document to older version" : "Huts egin du dokumentua aurreko bertsiora leheneratzean",
     "Please enter the filename for the new document" : "Sartu dokumentu berriaren fitxategi-izena",
-    "Create a new document" : "Sortu dokumentu berri bat",
+    "Create a new document" : "Sortu dokumentu berria",
     "Global templates" : "Txantiloi orokorrak",
     "Add a new template" : "Gehitu txantiloi berri bat",
     "No templates defined." : "Ez da txantiloirik definitu.",

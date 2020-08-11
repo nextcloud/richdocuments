@@ -124,6 +124,7 @@ OC.L10N.register(
     "Details" : "Ayrıntılar",
     "Download" : "İndir",
     "(read only)" : "(salt okunur)",
+    "Remove user" : "Kullanıcıyı kaldır",
     "Guest" : "Konuk",
     "Follow current editor" : "Geçerli düzenleyici kullanılsın",
     "Last saved version" : "Kaydedilmiş son sürüm",
