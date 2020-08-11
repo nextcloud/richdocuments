@@ -389,7 +389,7 @@ export default {
 				continue
 			}
 			users.push(view.UserId)
-			if (i++ < 3) {
+			if (i++ < 4) {
 				avatardiv.append(this._avatarForView(view))
 			}
 		}
