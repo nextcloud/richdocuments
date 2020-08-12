@@ -74,15 +74,16 @@ export default {
 		}
 
 		const headerRight = document.querySelector('#header .header-right')
-		const richdocumentsHeader = document.createElement('div')
-		richdocumentsHeader.id = 'richdocuments-header'
-		headerRight.insertBefore(richdocumentsHeader, headerRight.firstChild)
-
-		this._addAvatarList()
-		if (!isPublic) {
-			this._addHeaderShareButton()
-			this._addHeaderFileActions()
-			this.addVersionSidebarEvents()
+		if (!document.getElementById('richdocuments-header')) {
+			const richdocumentsHeader = document.createElement('div')
+			richdocumentsHeader.id = 'richdocuments-header'
+			headerRight.insertBefore(richdocumentsHeader, headerRight.firstChild)
+			this._addAvatarList()
+			if (!isPublic) {
+				this._addHeaderShareButton()
+				this._addHeaderFileActions()
+				this.addVersionSidebarEvents()
+			}
 		}
 	},
 
