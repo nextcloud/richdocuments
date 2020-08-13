@@ -124,6 +124,7 @@ OC.L10N.register(
     "Details" : "Λεπτομέρειες",
     "Download" : "Λήψη",
     "(read only)" : "(μόνο για ανάγνωση)",
+    "Remove user" : "Αφαίρεση χρήστη",
     "Guest" : "Επισκέπτης",
     "Follow current editor" : "Ακολουθήστε τη τρέχουσα έκδοση",
     "Last saved version" : "Τελευταία αποθηκευμένη έκδοση",
