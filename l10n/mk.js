@@ -88,7 +88,7 @@ OC.L10N.register(
     "Remove from favorites" : "Отстрани од фаворити",
     "Add to favorites" : "Додади во фаворити",
     "Details" : "Детали",
-    "Download" : "Превземи",
+    "Download" : "Преземи",
     "(read only)" : "(Само читај)",
     "Guest" : "Гостин",
     "Follow current editor" : "Следи го моменталниот уредник",
