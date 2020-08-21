@@ -62,9 +62,11 @@ class FederationController extends OCSController {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		return new DataResponse([
+		$response = new DataResponse([
 			'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url')
 		]);
+		$response->setHeaders(['X-Frame-Options' => 'ALLOW']);
+		return $response;
 	}
 
 	/**
