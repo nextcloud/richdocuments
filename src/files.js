@@ -257,17 +257,11 @@ $(document).ready(function() {
 
 	// Open the template picker if there was a create parameter detected on load
 	if (Preload.create && Preload.create.type && Preload.create.filename) {
-		const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
-		NewFileMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
+		FilesAppIntegration.preloadCreate()
 	}
 
 	if (Preload.open) {
-		FileList.$fileList.one('updated', function() {
-			odfViewer.onEdit(Preload.open.filename, {
-				fileId: Preload.open.id,
-				dir: document.getElementById('dir').value
-			})
-		})
+		FilesAppIntegration.preloadOpen()
 	}
 
 	// Open documents if a public page is opened for a supported mimetype

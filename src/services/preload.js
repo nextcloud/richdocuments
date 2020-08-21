@@ -36,8 +36,7 @@ if (preloadCreate) {
 if (preloadOpen) {
 	Preload.open = {
 		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId'),
-		dir: getSearchParam('dir')
+		id: getSearchParam('richdocuments_fileId')
 	}
 }
 

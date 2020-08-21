@@ -20,6 +20,12 @@
  *
  */
 
+import Preload from '../services/preload'
+import { splitPath } from '../helpers'
+import Types from '../helpers/types'
+import Config from '../services/config'
+import NewFileMenu from './NewFileMenu'
+
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
 export default {
@@ -519,11 +525,19 @@ export default {
 		})
 	},
 
-	/* Ask for a new filename and open the files app in a new tab
+	/**
+	 * Called when a new file creation has been triggered from collabora
+	 *
+	 * Ask for a new filename and open the files app in a new tab
 	 * the parameters richdocuments_create and richdocuments_filename are
-	 * parsed by viewer.js and open a template picker in the new tab
+	 * parsed by viewer.js and open a template picker in the new tab with
+	 * FilesAppIntegration.preloadCreate
 	 */
 	createNewFile: function(type) {
+		if (this.handlers.createNewFile && this.handlers.createNewFile(this, { type: type })) {
+			return
+		}
+
 		OC.dialogs.prompt(
 			t('richdocuments', 'Please enter the filename for the new document'),
 			t('richdocuments', 'Save As'),
@@ -546,5 +560,41 @@ export default {
 			$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 			$buttons.eq(1).text(t('richdocuments', 'Create a new document'))
 		})
+	},
+
+	/**
+	 * Automaically open a document on page load
+	 */
+	preloadOpen: function() {
+		if (this.handlers.preloadOpen && this.handlers.preloadOpen(this)) {
+			return
+		}
+
+		const fileId = Preload.open.id
+		const path = Preload.open.filename
+		setTimeout(function() {
+			window.FileList.$fileList.one('updated', function() {
+				const [, file] = splitPath(path)
+				const fileModel = FileList.getModelForFile(file)
+				OCA.RichDocuments.open({ path, fileId, fileModel: fileModel, fileList: window.FileList })
+			})
+		}, 250)
+	},
+
+	/**
+	 * Automaically open a template picker on page load
+	 */
+	preloadCreate: function() {
+		if (this.handlers.preloadCreate && this.handlers.preloadCreate(this)) {
+			return
+		}
+
+		setTimeout(function() {
+			window.FileList.$fileList.one('updated', function() {
+				const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
+				NewFileMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
+			})
+		}, 250)
 	}
+
 }
