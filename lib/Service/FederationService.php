@@ -60,10 +60,14 @@ class FederationService {
 		} catch (QueryException $e) {}
 	}
 
+	/**
+	 * @param $remote
+	 * @return string
+	 * @throws \Exception
+	 */
 	public function getRemoteCollaboraURL($remote) {
 		if ($this->trustedServers === null || !$this->trustedServers->isTrustedServer($remote)) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
-			return '';
+			throw new \Exception('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
 		}
 		if ($remoteCollabora = $this->cache->get('richdocuments_remote/' . $remote)) {
 			return $remoteCollabora;
