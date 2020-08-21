@@ -102,11 +102,14 @@ const NewFileMenu = {
 			function(response) {
 				if (response && response.status === 'success') {
 					FileList.add(response.data, { animate: false, scrollTo: false })
+					const fileModel = FileList.getModelForFile(filename)
 					const path = document.getElementById('dir').value + '/' + filename
 					OCA.RichDocuments.openWithTemplate({
 						fileId: -1,
 						path,
-						templateId: templateId
+						templateId: templateId,
+						fileList: window.FileList,
+						fileModel
 					})
 				} else {
 					OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
