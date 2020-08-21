@@ -194,9 +194,10 @@ class DocumentController extends Controller {
 				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
 				if ($remoteCollabora !== '') {
 					$absolute = $item->getParent()->getPath();
-					$relative = $folder->getRelativePath($absolute);
-					$url = '/index.php/apps/files?dir=' . $relative .
-						'&richdocuments_open=' . $item->getName() .
+					$relativeFolderPath = $folder->getRelativePath($absolute);
+					$relativeFilePath = $folder->getRelativePath($item->getPath());
+					$url = '/index.php/apps/files/?dir=' . $relativeFolderPath .
+						'&richdocuments_open=' . $relativeFilePath .
 						'&richdocuments_fileId=' . $fileId .
 						'&richdocuments_remote_access=' . $remote;
 
