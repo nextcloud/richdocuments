@@ -11,6 +11,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Events\BeforeFederationRedirectEvent;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TokenManager;
 use \OCP\AppFramework\Controller;
@@ -198,6 +199,15 @@ class DocumentController extends Controller {
 						'&richdocuments_open=' . $item->getName() .
 						'&richdocuments_fileId=' . $fileId .
 						'&richdocuments_remote_access=' . $remote;
+
+						$event = new BeforeFederationRedirectEvent(
+							$item, $relative, $remote
+						);
+						$eventDispatcher = \OC::$server->getEventDispatcher();
+						$eventDispatcher->dispatch(BeforeFederationRedirectEvent::class, $event);
+						if ($event->getRedirectUrl()) {
+							$url = $event->getRedirectUrl();
+						}
 					return new RedirectResponse($url);
 				}
 				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
