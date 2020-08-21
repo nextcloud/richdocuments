@@ -93,27 +93,31 @@ const odfViewer = {
 		const canAccessCSP = (url, callback) => {
 			let canEmbed = false
 			let frame = document.createElement('iframe')
-			frame.setAttribute('src', url)
-			frame.setAttribute('onload', () => {
+			frame.style.display = 'none'
+			frame.onload = () => {
 				canEmbed = true
-			})
+			}
 			document.body.appendChild(frame)
+			frame.setAttribute('src', url)
 			setTimeout(() => {
 				if (!canEmbed) {
 					callback()
 				}
 				document.body.removeChild(frame)
-			}, 50)
+			}, 1000)
 
 		}
 
+		// FIXME: Once Nextcloud 16 is minimum requirement we can just pass the allowed domains to initial state
+		// to check then if they are set properly
 		const reloadForFederationCSP = (fileName, shareOwnerId) => {
 			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
 			if (typeof shareOwnerId !== 'undefined') {
 				const lastIndex = shareOwnerId.lastIndexOf('@')
 				// only redirect if remote file, not opened though reload and csp blocks the request
 				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileId !== preloadId) {
-					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/status.php', () => {
+					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/ocs/v2.php/apps/richdocuments/api/v1/federation', () => {
+						console.debug('Cannot load federated instance though CSP, navigating to ', OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId))
 						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
 					})
 				}
