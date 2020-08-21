@@ -393,7 +393,7 @@ class WopiController extends Controller {
 		}
 
 		// Set the user to register the change under his name
-		$this->userScopeService->setUserScope($wopi->getEditorUid());
+		$this->userScopeService->setUserScope($wopi->getUserForFileAccess());
 		$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
 
 		try {
