@@ -266,6 +266,10 @@ const documentsMain = {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'shareas' })
 						}
 
+						if (Config.get('userId') === null) {
+							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
+						}
+
 						break
 					case 'Failed':
 						// Loading failed but editor shows the error
