@@ -93,6 +93,7 @@ OC.L10N.register(
     "Details" : "詳細",
     "Download" : "ダウンロード",
     "(read only)" : "（読込専用）",
+    "Remove user" : "ユーザーを削除",
     "Guest" : "ゲスト",
     "Follow current editor" : "現在のエディターをフォローする",
     "Last saved version" : "最新保存バージョン",
