@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.7.4
+
+* Nextcloud 20 compatibility
+* [#1055](https://github.com/nextcloud/richdocuments/pull/1055) Fix migrations for missing table columns @SamKer
+* [#1077](https://github.com/nextcloud/richdocuments/pull/1077) Hide sharing menu if no share permission is set @juliushaertl
+* [#1078](https://github.com/nextcloud/richdocuments/pull/1078) Hide revision history menu on public pages @juliushaertl
+* [#1095](https://github.com/nextcloud/richdocuments/pull/1095) Make 'Remove user' label localizable @timar
+* [#1111](https://github.com/nextcloud/richdocuments/pull/1111) Updated presentation template. @kendy
+
+
 ## 3.7.3
 
 ### Fixed
