@@ -31,7 +31,7 @@
     "Please configure a Collabora Online server to start editing documents" : "Skonfiguruj serwer Collabora Online, aby rozpocząć edycję dokumentów",
     "Use your own server" : "Użyj własnego serwera",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online wymaga osobnego serwera działającego jako klient WOPI-like, aby umożliwić edycję.",
-    "URL (and Port) of Collabora Online-server" : "URL (oraz Port) serwera Collabora Online",
+    "URL (and Port) of Collabora Online-server" : "Adres URL (oraz Port) serwera Collabora Online",
     "Disable certificate verification (insecure)" : "Wyłącz weryfikację certyfikatu (niebezpieczne)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Użyj wbudowanego CODE - Collabora Online Development Edition",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Łatwy w instalacji, do użytku domowego lub w małych grupach. Nieco wolniejszy niż autonomiczny serwer i bez zaawansowanych funkcji skalowalności.",
