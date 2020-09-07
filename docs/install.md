@@ -119,11 +119,26 @@ Afterward, configure one VirtualHost properly to proxy the traffic. For security
 			
 After configuring these do restart your apache using /etc/init.d/apache2 restart.
 
-## Configure the app in Nextcloud
+## Configure the app
+
+You can configure the app either from within Nextcloud itself, or from the
+commandline. The latter facilitates automated setup, e.g. via Ansible.
+
+### Configure the app in Nextcloud
 
 Go to the Apps section and choose "Office & text"
 Install the "Collabora Online app"
 Admin -> Collabora Online -> Specify the server you have setup before (e.g. "https://office.nextcloud.com")
+
+Congratulations, your Nextcloud has Collabora Online Office integrated!
+
+### Configure the app from the commandline
+
+From a shell running in the Nextcloud root directory, run the following `occ`
+commands, substituting the server url you've setup (e.g. "https://office.nextcloud.com"):
+
+	./occ config:app:set --value ${SERVER_URL} richdocuments wopi_url
+	./occ richdocuments:activate-config
 
 Congratulations, your Nextcloud has Collabora Online Office integrated!
 
