@@ -158,7 +158,8 @@ class Application extends App {
 	public function checkAndEnableCODEServer() {
 		// Supported only on Linux OS, and x86_64 & ARM64 platforms
 		$supportedArchs = array('x86_64', 'aarch64');
-		if (PHP_OS_FAMILY !== 'Linux' || !in_array(php_uname('m'), $supportedArchs))
+		$osFamily = PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS;
+		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs))
 			return;
 
 		$CODEAppID = (php_uname('m') === 'x86_64') ? 'richdocumentscode' : 'richdocumentscode_arm64';
