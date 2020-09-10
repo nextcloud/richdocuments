@@ -91,7 +91,7 @@ class Admin implements ISettings {
 					'settings' => $this->appConfig->getAppSettings(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
-					'os_family' => PHP_OS_FAMILY,
+					'os_family' => PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS,
 					'platform' => php_uname('m')
 				]
 			],
