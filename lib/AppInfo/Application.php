@@ -156,11 +156,15 @@ class Application extends App {
 	}
 
 	public function checkAndEnableCODEServer() {
-		// Supported only on Linux OS, and x86_64 platform
-		if (PHP_OS_FAMILY !== 'Linux' || php_uname('m') !== 'x86_64')
+		// Supported only on Linux OS, and x86_64 & ARM64 platforms
+		$supportedArchs = array('x86_64', 'aarch64');
+		$osFamily = PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS;
+		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs))
 			return;
 
-		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser('richdocumentscode')) {
+		$CODEAppID = (php_uname('m') === 'x86_64') ? 'richdocumentscode' : 'richdocumentscode_arm64';
+
+		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser($CODEAppID)) {
 			$appConfig = $this->getContainer()->query(AppConfig::class);
 			$wopi_url = $appConfig->getAppValue('wopi_url');
 
@@ -170,7 +174,7 @@ class Application extends App {
 			}
 
 			$urlGenerator = \OC::$server->getURLGenerator();
-			$relativeUrl = $urlGenerator->linkTo('richdocumentscode', '') . 'proxy.php';
+			$relativeUrl = $urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
 			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
 			$wopi_url = $absoluteUrl . '?req=';
 
