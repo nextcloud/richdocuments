@@ -357,7 +357,11 @@ export default {
 			this.CODECompatible = this.CODECompatible && this.initial.os_family === 'Linux'
 		}
 		if (this.initial.platform && this.initial.platform.length > 0) {
-			this.CODECompatible = this.CODECompatible && this.initial.platform === 'x86_64'
+			const supportedArchs = ['x86_64', 'aarch64']
+			this.CODECompatible = this.CODECompatible && supportedArchs.includes(this.initial.platform)
+		}
+		if (this.initial.platform && this.initial.platform === 'aarch64') {
+			this.appUrl = OC.generateUrl('/settings/apps/app-bundles/richdocumentscode_arm64')
 		}
 		this.checkIfDemoServerIsActive()
 	},
