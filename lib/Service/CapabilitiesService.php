@@ -54,7 +54,9 @@ class CapabilitiesService {
 
 	public function getCapabilities() {
 		if ($this->capabilities) {
-            $isCODEInstalled = $this->getContainer()->getServer()->getAppManager()->isEnabledForUser('richdocumentscode');
+            $isARM64 = php_uname('m') === 'aarch64';
+            $CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
+            $isCODEInstalled = $this->getContainer()->getServer()->getAppManager()->isEnabledForUser($CODEAppID);
             $isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
             if($isCODEInstalled && $isCODEEnabled && count($this->capabilities) === 0) {
                 $this->refretch();
