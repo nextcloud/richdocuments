@@ -88,7 +88,7 @@
 						</p>
 						<p class="option-inline-emphasized">
 							{{ t('richdocuments', 'If the installation from the app store fails, you can still do that manually using this command:') }}
-							<tt>php -d memory_limit=512M occ app:install richdocumentscode</tt>
+							<tt>php -d memory_limit=512M occ app:install {{ CODEAppID }}</tt>
 						</p>
 					</div>
 				</div>
@@ -279,6 +279,7 @@ export default {
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
 			CODECompatible: true,
+			CODEAppID: 'richdocumentscode',
 			isNginx: false,
 			appUrl: OC.generateUrl('/settings/apps/app-bundles/richdocumentscode'),
 			approvedDemoModal: false,
@@ -362,6 +363,8 @@ export default {
 		}
 		if (this.initial.platform && this.initial.platform === 'aarch64') {
 			this.appUrl = OC.generateUrl('/settings/apps/app-bundles/richdocumentscode_arm64')
+			this.CODEInstalled = 'richdocumentscode_arm64' in OC.appswebroots
+			this.CODEAppID = 'richdocumentscode_arm64'
 		}
 		this.checkIfDemoServerIsActive()
 	},
@@ -459,7 +462,7 @@ export default {
 		},
 		checkIfDemoServerIsActive() {
 			this.settings.demoUrl = this.demoServers ? this.demoServers.find((server) => server.demo_url === this.settings.wopi_url) : null
-			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + OC.filePath('richdocumentscode', '', '') + 'proxy.php?req=' : null
+			this.settings.CODEUrl = this.CODEInstalled ? window.location.protocol + '//' + window.location.host + OC.filePath(this.CODEAppID, '', '') + 'proxy.php?req=' : null
 			if (this.settings.wopi_url && this.settings.wopi_url !== '') {
 				this.serverMode = 'custom'
 			}
