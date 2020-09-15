@@ -38,10 +38,8 @@ const checkProxyStatus = () => {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Unable to make the AppImage executable, please setup a standalone server.')
 				} else if (val.error === 'exec_disabled') {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Exec disabled in PHP, please enable it, or setup a standalone server.')
-				} else if (val.error === 'not_linux' || val.error === 'not_x86_64') {
-					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on x86-64 Linux, please setup a standalone server or the correct version of Collabora Online Built-in server for your platform.')
-				} else if (val.error === 'not_linux' || val.error === 'not_aarch64') {
-					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on ARM64 Linux, please setup a standalone server or the correct version of Collabora Online Built-in server for your platform.')
+				} else if (val.error === 'not_linux' || val.error === 'not_x86_64' || val.error === 'not_aarch64') {
+					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server.')
 				} else if (val.error === 'no_fontconfig') {
 					document.getElementById('proxyLoadingMessage').textContent = t('richdocuments', 'Error: The fontconfig library is not installed on your server, please install it or setup a standalone server.')
 				} else if (val.error === 'no_glibc') {
