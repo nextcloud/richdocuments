@@ -22,6 +22,7 @@ OC.L10N.register(
     "Description" : "Descripción",
     "No results" : "No hay resultados",
     "Error" : "Error",
+    "An error occurred" : "Se presentó un error",
     "Nickname" : "Apodo",
     "Please enter the filename to store the document as." : "Por favor ingresa el nombre del archivo con el cual almacenar el documento",
     "Save As" : "Guardar Como",
