@@ -92,6 +92,7 @@
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Erro: non se atopa a AppImage, volva instalar o servidor incorporado Collabora Online.",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Erro: non foi posíbel executar a AppImage, configure un servidor independente.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Erro: a execución está desactivada en PHP, actívea ou configure un servidor independente.",
+    "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Erro: non se está a executar en Linux x86-64 ou ARM64 (aarch64), configure un servidor independente.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Erro: a biblioteca fontconfig non está instalada no servidor, instálea ou configure un servidor independente.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Erro: non se está a executar en Linux baseado en glibc, configure un servidor independente.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Erro: non é posíbel iniciar o servidor incorporado Collabora Online, configure un independente.",

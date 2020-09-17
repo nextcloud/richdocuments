@@ -92,6 +92,7 @@
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Chyba: Nedaří se nalézt AppImage – prosíme přeinstalujte vestavěný server Collabora Online.",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Chyba: Nedaří se nastavit AppImage jako spustitelné – prosím nastavte samostatný server.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Chyba: Spouštění je v PHP zakázáno – prosím povolte to, nebo nastavte samostatný server.",
+    "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Chyba: Není spuštěno na x86-64 nebo ARM64 (aarch64) Linux – prosím nastavte samostatný server.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Chyba: na vámi využívaném serveru není nainstalovaná softwarová knihovna fontconfig. Prosím zařiďte její instalaci nebo nastavení samostatného serveru pro tento účel.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Chyba: Není provozováno na linuxovém systému, založeném na knihovně glibc – prosím nastavte samostatný server.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Chyba: Není možné spustit vestavěný server Collabora Online – prosím nastavte samostatný.",
