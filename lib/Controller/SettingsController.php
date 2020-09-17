@@ -236,7 +236,7 @@ class SettingsController extends Controller{
 			if (is_bool($value)) {
 				$parsedValue = $value ? 'yes' : 'no';
 			}
-			$appSettingsType = isset(AppConfig::APP_SETTING_TYPES[$fullKey]) ? AppConfig::APP_SETTING_TYPES[$fullKey] : 'string';
+			$appSettingsType = array_key_exists($fullKey, AppConfig::APP_SETTING_TYPES) ? AppConfig::APP_SETTING_TYPES[$fullKey] : 'string';
 			if ($appSettingsType === 'array') {
 				$parsedValue = implode(',', $value);
 			}
