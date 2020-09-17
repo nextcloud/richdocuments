@@ -232,12 +232,15 @@ class SettingsController extends Controller{
 					'data' => ['message' => $this->l10n->t('Invalid config key') . ' ' . $fullKey]
 				], Http::STATUS_BAD_REQUEST);
 			}
-			$value = $value === true ? 'yes' : $value;
-			$value = $value === false ? 'no' : $value;
-			if (AppConfig::APP_SETTING_TYPES[$fullKey] === 'array') {
-				$value = implode(',', $value);
+			$parsedValue = $value;
+			if (is_bool($value)) {
+				$parsedValue = $value ? 'yes' : 'no';
 			}
-			$this->appConfig->setAppValue($fullKey, $value);
+			$appSettingsType = array_key_exists($fullKey, AppConfig::APP_SETTING_TYPES) ? AppConfig::APP_SETTING_TYPES[$fullKey] : 'string';
+			if ($appSettingsType === 'array') {
+				$parsedValue = implode(',', $value);
+			}
+			$this->appConfig->setAppValue($fullKey, $parsedValue);
 		}
 
 		$response = [

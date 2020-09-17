@@ -94,7 +94,6 @@ OC.L10N.register(
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Σφάλμα: Δεν είναι δυνατή η εύρεση του AppImage, εγκαταστήστε ξανά τον ενσωματωμένο διακομιστή Collabora Online.",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Σφάλμα: Δεν είναι δυνατή η εκτέλεση του AppImage, ρυθμίστε έναν αυτόνομο διακομιστή.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Σφάλμα: Το Exec απενεργοποιήθηκε στην PHP, ενεργοποιήστε το ή ρυθμίστε έναν αυτόνομο διακομιστή.",
-    "Error: Not running on x86-64 Linux, please setup a standalone server." : "Σφάλμα: Δεν εκτελείται σε Linux x86-64, ρυθμίστε έναν αυτόνομο διακομιστή.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Σφάλμα: Η βιβλιοθήκη fontconfig δεν είναι εγκατεστημένη στον διακομιστή σας, εγκαταστήστε την ή εγκαταστήστε έναν αυτόνομο διακομιστή.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Σφάλμα: Δεν εκτελείται σε Linux που βασίζεται σε glibc, παρακαλούμε ρυθμίστε έναν αυτόνομο διακομιστή.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Σφάλμα: Δεν είναι δυνατή η έναρξη του ενσωματωμένου διακομιστή Collabora Online, ρυθμίστε έναν αυτόνομο.",
