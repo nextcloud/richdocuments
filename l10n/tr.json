@@ -92,6 +92,7 @@
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Hata: AppImage bulunamadı. Lütfen Collabora Online iç sunucusunu yeniden kurun.",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Hata: AppImage yütürülebilir yapılamadı. Lütfen ayrı bir sunucu kurun.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Hata: PHP üzerinde Exec devre dışı bırakılmış. Lütfen etkinleştirin ya da ayrı bir sunucu kurun.",
+    "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Hata: x86-64 ya da ARM64 (aarch64) Linux üzerinde çalışmıyor. Lütfen ayrı bir sunucu kurun.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Hata: Sunucunuzda fontconfig kitaplığı kurulu değil. Lütfen etkinleştirin ya da ayrı bir sunucu kurun.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Hata: glibc temelli Linux üzerinde çalışmıyor. Lütfen ayrı bir sunucu kurun.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Hata: Collabora Online iç sunucusu başlatılamadı. Lütfen ayrı bir sunucu kurun.",
