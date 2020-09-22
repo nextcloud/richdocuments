@@ -259,7 +259,7 @@ class TokenManager {
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
 		if ($this->capabilitiesService->hasTemplateSource()) {
-			$wopi = $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, 0, false, false, false, $templateFile->getId());
+			$wopi = $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, 0, false, $direct, false, $templateFile->getId());
 		} else {
 			// Legacy way of creating new documents from a template
 			$wopi = $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, (int)$updatable, $serverHost, null, $targetFile->getId(), $direct);
