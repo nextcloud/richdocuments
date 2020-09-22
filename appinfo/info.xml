@@ -29,7 +29,7 @@ You can also edit your documents off-line with the Collabora Office app from the
 	<screenshot>https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-4.png</screenshot>
 	<screenshot>https://www.collaboraoffice.com/nextcloud/co/collabora-online-screenshot-5.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="15" max-version="20" />
+		<nextcloud min-version="15" max-version="21" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>
