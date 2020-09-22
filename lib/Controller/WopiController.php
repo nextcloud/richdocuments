@@ -218,7 +218,7 @@ class WopiController extends Controller {
 		}
 
 		$user = $this->userManager->get($wopi->getEditorUid());
-		if($user !== null && $user->getAvatarImage(32) !== null) {
+		if($user !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 		}
 
