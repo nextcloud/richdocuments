@@ -123,6 +123,7 @@ OC.L10N.register(
     "Details" : "Pojedinosti",
     "Download" : "Preuzmi",
     "(read only)" : "(samo za čitanje)",
+    "Remove user" : "Ukloni korisnika",
     "Guest" : "Gost",
     "Follow current editor" : "Slijedi trenutni uređivač",
     "Last saved version" : "Posljednja spremljena verzija",
