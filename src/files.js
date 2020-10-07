@@ -72,6 +72,13 @@ const odfViewer = {
 		}
 		odfViewer.open = true
 		if (context) {
+			if (context.$file.attr('data-mounttype') === 'external-session') {
+				OCP.Toast.error(t('richdocuments', 'Opening the file is not supported, since the credentials for the external storage are not available without a session'), {
+					timeout: 0
+				})
+				odfViewer.open = false
+				return
+			}
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
