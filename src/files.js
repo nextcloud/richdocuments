@@ -191,6 +191,7 @@ const odfViewer = {
 
 	onReceiveLoading() {
 		odfViewer.receivedLoading = true
+		$('#richdocumentsframe').prop('title', 'Collabora Online');
 		$('#richdocumentsframe').show()
 		$('html, body').scrollTop(0)
 		$('#content').removeClass('loading')
