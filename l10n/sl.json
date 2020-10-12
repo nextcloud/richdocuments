@@ -40,6 +40,8 @@
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedosegljiva prek interneta (požarni zid, posredovanje vrat ...).",
     "Loading available demo servers …" : "Poteka nalaganje razpoložljivih preizkusnih strežnikov ...",
     "No available demo servers found." : "Ni zaznanih razpoložljivih preizkusnih strežnikov.",
+    "I agree, and use the demo server" : "Se strinjam z uporabo preizkusnega strežnika",
+    "I will setup my own server" : "Nastaviti nameravam svoj strežnik",
     "Advanced settings" : "Napredne nastavitve",
     "Select groups" : "Izbor skupin",
     "Restrict edit to specific groups" : "Omeji urejanje na določene skupine",
