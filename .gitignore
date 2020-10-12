@@ -1,4 +1,5 @@
 tests/clover.xml
+.idea
 node_modules/
 js/
 *.spec

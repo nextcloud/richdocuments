@@ -56,31 +56,6 @@ trigger:
     - push
 ---
 kind: pipeline
-name: frontend
-steps:
-  - name: eslint
-    image: node:lts-alpine
-    commands:
-      - npm ci
-      - npm run lint
-  - name: stylelint
-    image: node:lts-alpine
-    commands:
-      - npm ci
-      - npm run stylelint
-  - name: build
-    image: node:lts-alpine
-    commands:
-      - npm ci
-      - npm run build
-trigger:
-  branch:
-    - master
-  event:
-    - pull_request
-    - push
----
-kind: pipeline
 name: integration
 
 steps:
