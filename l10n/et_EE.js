@@ -6,6 +6,7 @@ OC.L10N.register(
     "Saved" : "Salvestatud",
     "File is too big" : "Fail on liiga suur",
     "Invalid file provided" : "Vigane fail",
+    "Empty" : "Tühi",
     "Advanced settings" : "Lisavalikud",
     "Select groups" : "Vali grupid",
     "Description" : "Kirjeldus",
@@ -21,6 +22,7 @@ OC.L10N.register(
     "Remove from favorites" : "Eemalda lemmikutest",
     "Add to favorites" : "Lisa lemmikutesse",
     "Details" : "Üksikasjad",
-    "Download" : "Lae alla"
+    "Download" : "Lae alla",
+    "Guest" : "Külaline"
 },
 "nplurals=2; plural=(n != 1);");
