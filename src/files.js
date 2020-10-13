@@ -1,33 +1,17 @@
-import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile, getSearchParam } from './helpers/url'
+import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
 import PostMessageService from './services/postMessage'
 import Config from './services/config'
+import Preload from './services/preload'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
 import '../css/viewer.scss'
+import { splitPath } from './helpers'
+import NewFileMenu from './view/NewFileMenu'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
 })
-
-const preloadCreate = getSearchParam('richdocuments_create')
-const preloadOpen = getSearchParam('richdocuments_open')
-const Preload = {}
-
-if (preloadCreate) {
-	Preload.create = {
-		type: getSearchParam('richdocuments_create'),
-		filename: getSearchParam('richdocuments_filename')
-	}
-}
-
-if (preloadOpen) {
-	Preload.open = {
-		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId'),
-		dir: getSearchParam('dir')
-	}
-}
 
 const isDownloadHidden = document.getElementById('hideDownload') && document.getElementById('hideDownload').value === 'true'
 
@@ -44,7 +28,7 @@ const odfViewer = {
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
-	register() {
+	registerFileActions() {
 		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
 		for (let mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
@@ -52,7 +36,11 @@ const odfViewer = {
 				EDIT_ACTION_NAME,
 				OC.PERMISSION_READ,
 				OC.imagePath('core', 'actions/rename'),
-				this.onEdit,
+				(fileName, context) => {
+					const fileModel = context.fileList.findFile(fileName)
+					const shareOwnerId = fileModel.shareOwnerId
+					return this.onEdit(fileName, { ...context, shareOwnerId })
+				},
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
@@ -82,18 +70,12 @@ const odfViewer = {
 			return
 		}
 		odfViewer.open = true
-		let fileList = null
 		if (context) {
-			fileList = context.fileList
 			var fileDir = context.dir
 			var fileId = context.fileId || context.$file.attr('data-id')
 			var templateId = context.templateId
-			if (context.fileList) {
-				context.fileList.setViewerMode(true)
-				context.fileList.setPageTitle(fileName)
-				context.fileList.showMask()
-			}
 		}
+		FilesAppIntegration.startLoading()
 		odfViewer.receivedLoading = false
 
 		let documentUrl = getDocumentUrlForFile(fileDir, fileId)
@@ -111,29 +93,31 @@ const odfViewer = {
 		const canAccessCSP = (url, callback) => {
 			let canEmbed = false
 			let frame = document.createElement('iframe')
-			frame.setAttribute('src', url)
-			frame.setAttribute('onload', () => {
+			frame.style.display = 'none'
+			frame.onload = () => {
 				canEmbed = true
-			})
+			}
 			document.body.appendChild(frame)
+			frame.setAttribute('src', url)
 			setTimeout(() => {
 				if (!canEmbed) {
 					callback()
 				}
 				document.body.removeChild(frame)
-			}, 50)
+			}, 1000)
 
 		}
 
-		const reloadForFederationCSP = (fileName) => {
+		// FIXME: Once Nextcloud 16 is minimum requirement we can just pass the allowed domains to initial state
+		// to check then if they are set properly
+		const reloadForFederationCSP = (fileName, shareOwnerId) => {
 			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
-			const fileModel = fileList.findFile(fileName)
-			const shareOwnerId = fileModel.shareOwnerId
 			if (typeof shareOwnerId !== 'undefined') {
 				const lastIndex = shareOwnerId.lastIndexOf('@')
 				// only redirect if remote file, not opened though reload and csp blocks the request
-				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileModel.id !== preloadId) {
-					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/status.php', () => {
+				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileId !== preloadId) {
+					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/ocs/v2.php/apps/richdocuments/api/v1/federation', () => {
+						console.debug('Cannot load federated instance though CSP, navigating to ', OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId))
 						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
 					})
 				}
@@ -142,7 +126,7 @@ const odfViewer = {
 		}
 
 		if (context) {
-			reloadForFederationCSP(fileName)
+			reloadForFederationCSP(fileName, context.shareOwnerId)
 		}
 
 		$('head').append($('<link rel="stylesheet" type="text/css" href="' + OC.filePath('richdocuments', 'css', 'mobile.css') + '"/>'))
@@ -181,7 +165,8 @@ const odfViewer = {
 			FilesAppIntegration.init({
 				fileName,
 				fileId,
-				fileList,
+				fileList: context ? context.fileList : undefined,
+				fileModel: context ? context.fileModel : undefined,
 				sendPostMessage: (msgId, values) => {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				}
@@ -219,196 +204,6 @@ const odfViewer = {
 		OC.Util.History.replaceState()
 
 		FilesAppIntegration.close()
-	},
-
-	registerFilesMenu: function() {
-
-		const registerFilesMenu = (OCA) => {
-			OCA.FilesLOMenu = {
-				attach: function(newFileMenu) {
-					var self = this
-					const document = Types.getFileType('document')
-					const spreadsheet = Types.getFileType('spreadsheet')
-					const presentation = Types.getFileType('presentation')
-
-					newFileMenu.addMenuEntry({
-						id: 'add-' + document.extension,
-						displayName: t('richdocuments', 'New Document'),
-						templateName: t('richdocuments', 'New Document') + '.' + document.extension,
-						iconClass: 'icon-filetype-document',
-						fileType: 'x-office-document',
-						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('document', document.mime, filename)
-							} else {
-								self._createDocument(document.mime, filename)
-							}
-						}
-					})
-
-					newFileMenu.addMenuEntry({
-						id: 'add-' + spreadsheet.extension,
-						displayName: t('richdocuments', 'New Spreadsheet'),
-						templateName: t('richdocuments', 'New Spreadsheet') + '.' + spreadsheet.extension,
-						iconClass: 'icon-filetype-spreadsheet',
-						fileType: 'x-office-spreadsheet',
-						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
-							} else {
-								self._createDocument(spreadsheet.mime, filename)
-							}
-						}
-					})
-
-					newFileMenu.addMenuEntry({
-						id: 'add-' + presentation.extension,
-						displayName: t('richdocuments', 'New Presentation'),
-						templateName: t('richdocuments', 'New Presentation') + '.' + presentation.extension,
-						iconClass: 'icon-filetype-presentation',
-						fileType: 'x-office-presentation',
-						actionHandler: function(filename) {
-							if (OC.getCapabilities().richdocuments.templates) {
-								self._openTemplatePicker('presentation', presentation.mime, filename)
-							} else {
-								self._createDocument(presentation.mime, filename)
-							}
-						}
-					})
-				},
-
-				_createDocument: function(mimetype, filename) {
-					OCA.Files.Files.isFileNameValid(filename)
-					filename = FileList.getUniqueName(filename)
-
-					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
-						function(response) {
-							if (response && response.status === 'success') {
-								FileList.add(response.data, { animate: true, scrollTo: true })
-							} else {
-								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
-							}
-						}
-					)
-				},
-
-				_createDocumentFromTemplate: function(templateId, mimetype, filename) {
-					OCA.Files.Files.isFileNameValid(filename)
-					filename = FileList.getUniqueName(filename)
-					$.post(
-						OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-						{ mimetype: mimetype, filename: filename, dir: $('#dir').val() },
-						function(response) {
-							if (response && response.status === 'success') {
-								FileList.add(response.data, { animate: false, scrollTo: false })
-								odfViewer.onEdit(filename, {
-									fileId: -1,
-									dir: $('#dir').val(),
-									templateId: templateId,
-									fileList: FileList
-								})
-							} else {
-								OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
-							}
-						}
-					)
-				},
-
-				_openTemplatePicker: function(type, mimetype, filename) {
-					var self = this
-					$.ajax({
-						url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2) + type,
-						dataType: 'json'
-					}).then(function(response) {
-						if (response.ocs.data.length === 1) {
-							const { id } = response.ocs.data[0]
-							self._createDocumentFromTemplate(id, mimetype, filename)
-							return
-						}
-						self._buildTemplatePicker(response.ocs.data)
-							.then(function() {
-								var buttonlist = [{
-									text: t('core', 'Cancel'),
-									classes: 'cancel',
-									click: function() {
-										$(this).ocdialog('close')
-									}
-								}, {
-									text: t('richdocuments', 'Create'),
-									classes: 'primary',
-									click: function() {
-										var templateId = this.dataset.templateId
-										self._createDocumentFromTemplate(templateId, mimetype, filename)
-										$(this).ocdialog('close')
-									}
-								}]
-
-								$('#template-picker').ocdialog({
-									closeOnEscape: true,
-									modal: true,
-									buttons: buttonlist
-								})
-							})
-					})
-				},
-
-				_buildTemplatePicker: function(data) {
-					var self = this
-					return $.get(OC.filePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
-						var $tmpl = $(tmpl)
-						// init template picker
-						var $dlg = $tmpl.octemplate({
-							dialog_name: 'template-picker',
-							dialog_title: t('richdocuments', 'Select template')
-						})
-
-						// create templates list
-						var templates = _.values(data)
-						templates.forEach(function(template) {
-							self._appendTemplateFromData($dlg[0], template)
-						})
-
-						$('body').append($dlg)
-					})
-				},
-
-				_appendTemplateFromData: function(dlg, data) {
-					var template = dlg.querySelector('.template-model').cloneNode(true)
-					template.className = ''
-					template.querySelector('img').src = OC.generateUrl('apps/richdocuments/template/preview/' + data.id)
-					template.querySelector('h2').textContent = data.name
-					template.onclick = function() {
-						dlg.dataset.templateId = data.id
-					}
-					if (!dlg.dataset.templateId) {
-						dlg.dataset.templateId = data.id
-					}
-
-					dlg.querySelector('.template-container').appendChild(template)
-				}
-			}
-		}
-		registerFilesMenu(OCA)
-
-		OC.Plugins.register('OCA.Files.NewFileMenu', OCA.FilesLOMenu)
-
-		// Open the template picker if there was a create parameter detected on load
-		if (Preload.create && Preload.create.type && Preload.create.filename) {
-			const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
-			OCA.FilesLOMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
-		}
-
-		if (Preload.open) {
-			FileList.$fileList.one('updated', function() {
-				odfViewer.onEdit(Preload.open.filename, {
-					fileId: Preload.open.id,
-					dir: document.getElementById('dir').value,
-					fileList: FileList
-				})
-			})
-		}
 	}
 }
 
@@ -418,6 +213,30 @@ Config.update('ooxml', settings['doc_format'] === 'ooxml')
 window.OCA.RichDocuments = {
 	config: {
 		create: Types.getFileTypes()
+	},
+	open: ({ path, fileId, fileModel, fileList = {} }) => {
+		const [dir, file] = splitPath(path)
+		odfViewer.onEdit(file, {
+			fileId,
+			dir,
+			shareOwnerId: fileModel.get('shareOwnerId'),
+			fileList,
+			fileModel
+		})
+	},
+	openWithTemplate: ({ path, fileId, templateId, fileModel, fileList = {} }) => {
+		const [dir, file] = splitPath(path)
+		odfViewer.onEdit(file, {
+			fileId,
+			dir,
+			templateId,
+			shareOwnerId: fileModel.get('shareOwnerId'),
+			fileList,
+			fileModel
+		})
+	},
+	FilesAppIntegration: {
+		registerHandler: FilesAppIntegration.registerHandler.bind(FilesAppIntegration)
 	}
 }
 
@@ -432,8 +251,17 @@ $(document).ready(function() {
 			odfViewer.supportedMimes.push('text/plain')
 		}
 
-		odfViewer.registerFilesMenu()
-		odfViewer.register()
+		odfViewer.registerFileActions()
+		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
+	}
+
+	// Open the template picker if there was a create parameter detected on load
+	if (Preload.create && Preload.create.type && Preload.create.filename) {
+		FilesAppIntegration.preloadCreate()
+	}
+
+	if (Preload.open) {
+		FilesAppIntegration.preloadOpen()
 	}
 
 	// Open documents if a public page is opened for a supported mimetype
@@ -472,9 +300,10 @@ $(document).ready(function() {
 			})
 			break
 		case 'File_Rename':
-			FileList.reload()
-			OC.Apps.hideAppSidebar()
-			FilesAppIntegration.fileName = args.NewName
+			FilesAppIntegration.rename(args.NewName)
+			break
+		case 'Action_Save_Resp':
+			FilesAppIntegration.saveAs()
 			break
 		case 'close':
 			odfViewer.onClose()
@@ -516,5 +345,4 @@ $(document).ready(function() {
 		}
 
 	})
-	window.FilesAppIntegration = FilesAppIntegration
 })

@@ -124,8 +124,15 @@
 	padding-left: 12px;
 }
 
-#currentVersion li {
+#currentVersion li,
+#lastSavedVersion li {
 	border-bottom: 1px solid rgba(100,100,100,.1);
+
+	.version-container .downloadVersion {
+		display: flex;
+		flex-direction: column;
+		margin-left: 12px;
+	}
 }
 
 @import 'templatePicker';

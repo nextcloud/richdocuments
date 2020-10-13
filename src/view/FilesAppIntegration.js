@@ -20,13 +20,19 @@
  *
  */
 
+import Preload from '../services/preload'
+import { splitPath } from '../helpers'
+import Types from '../helpers/types'
+import Config from '../services/config'
+import NewFileMenu from './NewFileMenu'
+
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
 export default {
 
 	fileModel: null,
 
-	fileList: FileList,
+	fileList: undefined,
 
 	/* Views: people currently editing the file */
 	views: {},
@@ -35,36 +41,66 @@ export default {
 
 	following: null,
 
-	init({ fileName, fileId, sendPostMessage, fileList }) {
+	handlers: {},
+
+	startLoading() {
+		if (this.getFileList()) {
+			this.getFileList().setViewerMode && this.getFileList().setViewerMode(true)
+			this.getFileList().showMask && this.getFileList().showMask()
+		}
+	},
+
+	init({ fileName, fileId, sendPostMessage, fileList, fileModel }) {
 		this.fileName = fileName
 		this.fileId = fileId
 		this.fileList = fileList
+		this.fileModel = fileModel
 		this.sendPostMessage = sendPostMessage
+
+		if (this.fileModel && this.fileModel.on) {
+			this.fileModel.on('change', () => {
+				this._addHeaderFileActions()
+			})
+		}
+	},
+
+	registerHandler(event, callback) {
+		this.handlers[event] = callback
 	},
 
 	initAfterReady() {
-		if (typeof this.getFileList() !== 'undefined') {
+		if (this.handlers.initAfterReady && this.handlers.initAfterReady(this)) {
+			return
+		}
+
+		if (this.getFileList()) {
 			this.getFileModel()
-			this.getFileList().hideMask()
+			this.getFileList().hideMask && this.getFileList().hideMask()
+			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
 
 		const headerRight = document.querySelector('#header .header-right')
-		const richdocumentsHeader = document.createElement('div')
-		richdocumentsHeader.id = 'richdocuments-header'
-		headerRight.insertBefore(richdocumentsHeader, headerRight.firstChild)
-
-		this._addAvatarList()
-		if (!isPublic) {
-			this._addHeaderShareButton()
-			this._addHeaderFileActions()
-			this.addVersionSidebarEvents()
+		if (!document.getElementById('richdocuments-header')) {
+			const richdocumentsHeader = document.createElement('div')
+			richdocumentsHeader.id = 'richdocuments-header'
+			headerRight.insertBefore(richdocumentsHeader, headerRight.firstChild)
+			this._addAvatarList()
+			if (!isPublic) {
+				this._addHeaderShareButton()
+				this._addHeaderFileActions()
+				this.addVersionSidebarEvents()
+			}
 		}
 	},
 
 	close() {
+		if (this.handlers.close && this.handlers.close(this)) {
+			return
+		}
+
 		if (this.getFileList()) {
-			this.getFileList().setViewerMode(false)
-			this.getFileList().reload()
+			this.getFileList().setViewerMode && this.getFileList().setViewerMode(false)
+			this.getFileList().reload && this.getFileList().reload()
 		}
 		this.fileModel = null
 		if (!isPublic) {
@@ -73,31 +109,67 @@ export default {
 		$('#richdocuments-header').remove()
 	},
 
+	saveAs() {
+		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
+			return
+		}
+
+		if (this.getFileList()) {
+			this.getFileList()
+				.reload()
+		}
+	},
+
 	share() {
+		if (this.handlers.share && this.handlers.share(this)) {
+			return
+		}
+
 		if (isPublic || !this.getFileList()) {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
-		this.getFileList().showDetailsView(this.fileName, 'shareTabView')
+		this.getFileList().showDetailsView && this.getFileList().showDetailsView(this.fileName, 'shareTabView')
 		OC.Apps.showAppSidebar()
 	},
 
-	insertGraphic(callback) {
+	rename(newName) {
+		this.fileName = newName
+
+		if (this.handlers.rename && this.handlers.rename(this)) {
+			return
+		}
+		if (this.getFileList()) {
+			this.getFileList().reload && this.getFileList().reload()
+			OC.Apps.hideAppSidebar()
+		}
+	},
+
+	insertGraphic(insertFile) {
 		if (isPublic) {
 			console.error('[FilesAppIntegration] insertGraphic is not supported')
 		}
+
+		const insertFileFromPath = (path) => {
+			const filename = path.substring(path.lastIndexOf('/') + 1)
+			$.ajax({
+				type: 'POST',
+				url: OC.generateUrl('apps/richdocuments/assets'),
+				data: {
+					path: path
+				}
+			}).done(function(resp) {
+				insertFile(filename, resp.url)
+			})
+		}
+
+		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath: insertFileFromPath })) {
+			return
+		}
+
 		OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: OC.theme.name }), function(path, type) {
 			if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
-				const filename = path.substring(path.lastIndexOf('/') + 1)
-				$.ajax({
-					type: 'POST',
-					url: OC.generateUrl('apps/richdocuments/assets'),
-					data: {
-						path: path
-					}
-				}).done(function(resp) {
-					callback(filename, resp.url)
-				})
+				insertFileFromPath(path)
 			}
 		}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
 	},
@@ -116,16 +188,16 @@ export default {
 	},
 
 	getFileModel() {
-		if (this.fileModel !== null) {
+		if (this.fileModel) {
 			return this.fileModel
 		}
 		if (!this.getFileList()) {
 			return null
 		}
-		this.getFileList()._updateDetailsView(this.fileName, false)
+		this.getFileList()._updateDetailsView && this.getFileList()._updateDetailsView(this.fileName, false)
 		this.fileModel = this.getFileList().getModelForFile(this.fileName)
 
-		if (this.fileModel !== null) {
+		if (this.fileModel && this.fileModel.on) {
 			this.fileModel.on('change', () => {
 				this._addHeaderFileActions()
 			})
@@ -192,22 +264,25 @@ export default {
 		var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
 		var actions = actionsContainer.find('#richdocuments-actions-menu').empty()
 
-		var context = {
-			'$file': this.getFileList().$el.find('[data-id=' + this.originalFileId + ']').first(),
+		var getContext = () => ({
+			'$file': this.getFileList().$el ? this.getFileList().$el.find('[data-id=' + this.fileId + ']').first() : null,
 			fileActions: this.getFileList().fileActions,
 			fileList: this.getFileList(),
 			fileInfoModel: this.getFileModel()
-		}
+		})
 
 		const isFavorite = function(fileInfo) {
 			return fileInfo.get('tags') && fileInfo.get('tags').indexOf(OC.TAG_FAVORITE) >= 0
 		}
 		const $favorite = $('<li><a></a></li>').click((event) => {
 			$favorite.find('a').removeClass('icon-starred').removeClass('icon-star-dark').addClass('icon-loading-small')
+			if (this.handlers.actionFavorite && this.handlers.actionFavorite(this)) {
+				return
+			}
 			this.getFileList().fileActions.triggerAction('Favorite', this.getFileModel(), this.getFileList())
 			this.getFileModel().trigger('change', this.getFileModel())
 		})
-		if (isFavorite(context.fileInfoModel)) {
+		if (isFavorite(this.getFileModel())) {
 			$favorite.find('a').text(t('files', 'Remove from favorites'))
 			$favorite.find('a').addClass('icon-starred')
 		} else {
@@ -216,12 +291,18 @@ export default {
 		}
 
 		var $info = $('<li><a class="icon-info"></a></li>').click(() => {
-			this.getFileList().fileActions.actions.all.Details.action(this.fileName, context)
+			if (this.handlers.actionDetails && this.handlers.actionDetails(this)) {
+				return
+			}
+			this.getFileList().fileActions.actions.all.Details.action(this.fileName, getContext())
 			OC.hideMenus()
 		})
 		$info.find('a').text(t('files', 'Details'))
 		var $download = $('<li><a class="icon-download">Download</a></li>').click(() => {
-			this.getFileList().fileActions.actions.all.Download.action(this.fileName, context)
+			if (this.handlers.actionDownload && this.handlers.actionDownload(this)) {
+				return
+			}
+			this.getFileList().fileActions.actions.all.Download.action(this.fileName, getContext())
 			OC.hideMenus()
 		})
 		$download.find('a').text(t('files', 'Download'))
@@ -315,7 +396,7 @@ export default {
 				continue
 			}
 			users.push(view.UserId)
-			if (i++ < 3) {
+			if (i++ < 4) {
 				avatardiv.append(this._avatarForView(view))
 			}
 		}
@@ -337,20 +418,24 @@ export default {
 		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', this.restoreVersion.bind(this))
+		$(document.querySelector('#content')).on('click.revisionsTab', '#app-sidebar [data-tabid=versionsTabView]', this.addCurrentVersion.bind(this))
 	},
 
 	removeVersionSidebarEvents() {
 		$(document.querySelector('#content')).off('click.revisions')
 		$(document.querySelector('#content')).off('click.revisions')
 		$(document.querySelector('#content')).off('mousedown.revisions')
+		$(document.querySelector('#content')).off('click.revisionsTab')
 	},
 
 	addCurrentVersion() {
+		$('#lastSavedVersion').remove()
+		$('#currentVersion').remove()
 		if (this.getFileModel()) {
 			const preview = OC.MimeType.getIconUrl(this.getFileModel().get('mimetype'))
 			const mtime = this.getFileModel().get('mtime')
 			$('#versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + '<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span></div></div></li></ul>')
+				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + '<br /><span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span></div></div></li></ul>')
 			$('#versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
 				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>')
 			$('.live-relative-timestamp').each(function() {
@@ -360,6 +445,10 @@ export default {
 	},
 
 	showRevHistory() {
+		if (this.handlers.showRevHistory && this.handlers.showRevHistory(this)) {
+			return
+		}
+
 		if (this.getFileList()) {
 			this.getFileList()
 				.showDetailsView(this.fileName, 'versionsTabView')
@@ -436,11 +525,19 @@ export default {
 		})
 	},
 
-	/* Ask for a new filename and open the files app in a new tab
+	/**
+	 * Called when a new file creation has been triggered from collabora
+	 *
+	 * Ask for a new filename and open the files app in a new tab
 	 * the parameters richdocuments_create and richdocuments_filename are
-	 * parsed by viewer.js and open a template picker in the new tab
+	 * parsed by viewer.js and open a template picker in the new tab with
+	 * FilesAppIntegration.preloadCreate
 	 */
 	createNewFile: function(type) {
+		if (this.handlers.createNewFile && this.handlers.createNewFile(this, { type: type })) {
+			return
+		}
+
 		OC.dialogs.prompt(
 			t('richdocuments', 'Please enter the filename for the new document'),
 			t('richdocuments', 'Save As'),
@@ -463,5 +560,41 @@ export default {
 			$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 			$buttons.eq(1).text(t('richdocuments', 'Create a new document'))
 		})
+	},
+
+	/**
+	 * Automaically open a document on page load
+	 */
+	preloadOpen: function() {
+		if (this.handlers.preloadOpen && this.handlers.preloadOpen(this)) {
+			return
+		}
+
+		const fileId = Preload.open.id
+		const path = Preload.open.filename
+		setTimeout(function() {
+			window.FileList.$fileList.one('updated', function() {
+				const [, file] = splitPath(path)
+				const fileModel = FileList.getModelForFile(file)
+				OCA.RichDocuments.open({ path, fileId, fileModel: fileModel, fileList: window.FileList })
+			})
+		}, 250)
+	},
+
+	/**
+	 * Automaically open a template picker on page load
+	 */
+	preloadCreate: function() {
+		if (this.handlers.preloadCreate && this.handlers.preloadCreate(this)) {
+			return
+		}
+
+		setTimeout(function() {
+			window.FileList.$fileList.one('updated', function() {
+				const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
+				NewFileMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
+			})
+		}, 250)
 	}
+
 }

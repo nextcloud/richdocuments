@@ -29,7 +29,7 @@ const getSearchParam = (name) => {
 	if (results === null) {
 		return null
 	}
-	return decodeURI(results[1]) || 0
+	return decodeURI(results[1]) || ''
 }
 
 const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory }) => {

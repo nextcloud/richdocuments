@@ -53,7 +53,14 @@ const getNextcloudVersion = () => {
 	return parseInt(OC.config.version.split('.')[0])
 }
 
+const splitPath = (path) => {
+	const fileName = path.split('\\').pop().split('/').pop()
+	const directory = path.substr(0, (path.length - fileName.length - 1))
+	return [ directory, fileName ]
+}
+
 export {
 	languageToBCP47,
-	getNextcloudVersion
+	getNextcloudVersion,
+	splitPath
 }

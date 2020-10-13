@@ -161,6 +161,7 @@ class WopiController extends Controller {
 		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
+		$isVersion = $version !== '0';
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
@@ -174,10 +175,10 @@ class WopiController extends Controller {
 			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() || $isPublic,
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
-			'SupportsRename' => true,
-			'UserCanRename' => !$isPublic,
+			'SupportsRename' => !$isVersion,
+			'UserCanRename' => !$isPublic && !$isVersion,
 			'EnableInsertRemoteImage' => true,
-			'EnableShare' => true,
+			'EnableShare' => $file->isShareable() && !$isVersion,
 			'HideUserList' => 'desktop',
 			'DisablePrint' => $wopi->getHideDownload(),
 			'DisableExport' => $wopi->getHideDownload(),
@@ -392,7 +393,7 @@ class WopiController extends Controller {
 		}
 
 		// Set the user to register the change under his name
-		$this->userScopeService->setUserScope($wopi->getEditorUid());
+		$this->userScopeService->setUserScope($wopi->getUserForFileAccess());
 		$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
 
 		try {
