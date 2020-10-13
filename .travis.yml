@@ -3,7 +3,6 @@ dist: trusty
 language: php
 php:
   - 7.3
-  - 7.4
 env:
   global:
     - "CORE_BRANCH=master"
