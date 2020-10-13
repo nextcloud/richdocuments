@@ -161,7 +161,7 @@ class DirectViewController extends Controller {
 				'direct' => true,
 			];
 
-			$response = new TemplateResponse('richdocuments', 'documents', $params, 'empty');
+			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$policy = new ContentSecurityPolicy();
 			$policy->allowInlineScript(true);
 			$policy->addAllowedFrameDomain($this->appConfig->getAppValue('public_wopi_url'));
