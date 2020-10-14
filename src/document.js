@@ -362,6 +362,8 @@ const documentsMain = {
 							callMobileMessage('insertGraphic')
 						} else if (msgId === 'UI_Share') {
 							callMobileMessage('share')
+						} else if (msgId === 'UI_Hyperlink') {
+							callMobileMessage('hyperlink', args)
 						}
 						// Fallback to web UI for SaveAs, otherwise ignore other post messages
 						if (msgId !== 'UI_SaveAs') {
@@ -422,6 +424,12 @@ const documentsMain = {
 
 				// Tell the LOOL iframe that we are ready now
 				PostMessages.sendWOPIPostMessage('loolframe', 'Host_PostmessageReady', {})
+
+				// In the mobile apps, don't let Collabora Online handle the
+				// hyperlinks, instead do that in the apps
+				if (isMobileInterfaceAvailable()) {
+					PostMessages.sendWOPIPostMessage('loolframe', 'Disable_Default_UIAction', { action: 'UI_Hyperlink', disable: true })
+				}
 			})
 
 			// submit that
