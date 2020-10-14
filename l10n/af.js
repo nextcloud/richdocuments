@@ -11,11 +11,11 @@ OC.L10N.register(
     "Nickname" : "Bynaam",
     "Cancel" : "Kanselleer",
     "Save" : "Stoor",
-    "Create" : "Skep",
     "Saving…" : "Bewaar…",
     "Remove from favorites" : "Verwyder uit gunstelinge",
     "Add to favorites" : "Voeg by gunstelinge",
     "Details" : "Besonderhede",
-    "Download" : "Laai af"
+    "Download" : "Laai af",
+    "Create" : "Skep"
 },
 "nplurals=2; plural=(n != 1);");

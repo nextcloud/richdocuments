@@ -10,10 +10,10 @@ OC.L10N.register(
     "Nickname" : "Kallenamn",
     "Cancel" : "Avbryt",
     "Save" : "Lagra",
-    "Create" : "Lag",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detaljar",
-    "Download" : "Last ned"
+    "Download" : "Last ned",
+    "Create" : "Lag"
 },
 "nplurals=2; plural=(n != 1);");

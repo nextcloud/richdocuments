@@ -21,17 +21,17 @@ OC.L10N.register(
     "Nickname" : "Товч нэр",
     "Cancel" : "болиулах",
     "Save" : "хадгалах",
-    "New Document" : "шинэ документ",
-    "New Spreadsheet" : "шинэ хүснэгт",
-    "New Presentation" : "шинэ танилцуулга",
-    "Could not create file" : "Файл үүсгэж чадсангүй",
-    "Create" : "Үүсгэх",
     "Saving…" : "хадаглаж байна...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Дэлгэрэнгүй",
     "Download" : "Татах",
     "Guest" : "Зочин",
-    "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо"
+    "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
+    "New Document" : "шинэ документ",
+    "New Spreadsheet" : "шинэ хүснэгт",
+    "New Presentation" : "шинэ танилцуулга",
+    "Could not create file" : "Файл үүсгэж чадсангүй",
+    "Create" : "Үүсгэх"
 },
 "nplurals=2; plural=(n != 1);");

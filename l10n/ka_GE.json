@@ -28,17 +28,17 @@
     "New filename" : "ახალი ფაილის სახელი",
     "Cancel" : "უარყოფა",
     "Save" : "შენახვა",
-    "New Document" : "ახალი დოკუმენტი",
-    "New Spreadsheet" : "ახალი ცხრილი",
-    "New Presentation" : "ახალი პრეზენტაცია",
-    "Could not create file" : "ფაილი ვერ შეიქმნა",
-    "Create" : "შექმნა",
     "Saving…" : "მიმდინარეობს შენახვა…",
     "Remove from favorites" : "რჩეულებიდან ამოშლა",
     "Add to favorites" : "რჩეულებში დამატება",
     "Details" : "დეტალები",
     "Download" : "ჩამოტვირთვა",
     "Guest" : "სტუმარი",
-    "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა"
+    "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
+    "New Document" : "ახალი დოკუმენტი",
+    "New Spreadsheet" : "ახალი ცხრილი",
+    "New Presentation" : "ახალი პრეზენტაცია",
+    "Could not create file" : "ფაილი ვერ შეიქმნა",
+    "Create" : "შექმნა"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

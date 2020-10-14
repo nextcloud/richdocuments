@@ -22,14 +22,14 @@ OC.L10N.register(
     "Nickname" : "Iesauka",
     "Cancel" : "Atcelt",
     "Save" : "Saglabāt",
-    "Could not create file" : "Neizdevās izveidot datni",
-    "Create" : "Izveidot",
     "Saving…" : "Saglabā...",
     "Remove from favorites" : "Noņemt no izlases",
     "Add to favorites" : "Pievienot izlasei",
     "Details" : "Detaļas",
     "Download" : "Lejupielādēt",
     "Guest" : "Viesis",
-    "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju"
+    "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
+    "Could not create file" : "Neizdevās izveidot datni",
+    "Create" : "Izveidot"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

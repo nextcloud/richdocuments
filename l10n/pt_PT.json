@@ -26,18 +26,18 @@
     "New filename" : "Novo Nome de Ficheiro",
     "Cancel" : "Cancelar",
     "Save" : "Guardar",
-    "New Document" : "Novo Documento",
-    "New Spreadsheet" : "Nova Folha de Cálculo",
-    "New Presentation" : "Nova Apresentação",
-    "Could not create file" : "Não pôde criar ficheiro",
-    "Create" : "Criar",
-    "Select template" : "Seleccionar modelo",
     "Saving…" : "A guardar...",
     "Remove from favorites" : "Remover de favoritos",
     "Add to favorites" : "Adicionar aos favoritos",
     "Details" : "Detalhes",
     "Download" : "Transferir",
     "Guest" : "Convidado",
-    "Failed to revert the document to older version" : "Falha ao reverter este documento para versão anterior"
+    "Failed to revert the document to older version" : "Falha ao reverter este documento para versão anterior",
+    "New Document" : "Novo Documento",
+    "New Spreadsheet" : "Nova Folha de Cálculo",
+    "New Presentation" : "Nova Apresentação",
+    "Could not create file" : "Não pôde criar ficheiro",
+    "Create" : "Criar",
+    "Select template" : "Seleccionar modelo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

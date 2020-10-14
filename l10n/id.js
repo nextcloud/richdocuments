@@ -15,13 +15,13 @@ OC.L10N.register(
     "Nickname" : "Nama panggilan",
     "Cancel" : "Membatalkan",
     "Save" : "Simpan",
-    "Could not create file" : "Tidak dapat membuat berkas",
-    "Create" : "Buat",
-    "Select template" : "Pilih template",
     "Saving…" : "Menyimpan...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Tambah ke favorit",
     "Details" : "Detil",
-    "Download" : "Unduh"
+    "Download" : "Unduh",
+    "Could not create file" : "Tidak dapat membuat berkas",
+    "Create" : "Buat",
+    "Select template" : "Pilih template"
 },
 "nplurals=1; plural=0;");

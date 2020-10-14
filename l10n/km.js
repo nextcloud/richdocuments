@@ -6,10 +6,10 @@ OC.L10N.register(
     "Error" : "កំហុស",
     "Cancel" : "បោះបង់",
     "Save" : "រក្សាទុក",
-    "Create" : "បង្កើត",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "ព័ត៌មាន​លម្អិត",
-    "Download" : "ទាញយក"
+    "Download" : "ទាញយក",
+    "Create" : "បង្កើត"
 },
 "nplurals=1; plural=0;");

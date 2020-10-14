@@ -29,17 +29,17 @@ OC.L10N.register(
     "New filename" : "Nuevo nombredearchivo",
     "Cancel" : "Cancelar",
     "Save" : "Guardar",
-    "New Document" : "Nuevo Documento",
-    "New Spreadsheet" : "Nueva Hoja de cálculo",
-    "New Presentation" : "Nueva Presentación",
-    "Could not create file" : "No fue posible crear el archivo",
-    "Create" : "Crear",
     "Saving…" : "Guardando...",
     "Remove from favorites" : "Eliminar de favoritos",
     "Add to favorites" : "Agregar a tus favoritos",
     "Details" : "Detalles",
     "Download" : "Descargar",
     "Guest" : "Invitado",
-    "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a la versión anterior"
+    "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a la versión anterior",
+    "New Document" : "Nuevo Documento",
+    "New Spreadsheet" : "Nueva Hoja de cálculo",
+    "New Presentation" : "Nueva Presentación",
+    "Could not create file" : "No fue posible crear el archivo",
+    "Create" : "Crear"
 },
 "nplurals=2; plural=(n != 1);");

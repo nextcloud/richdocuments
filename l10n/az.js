@@ -9,11 +9,11 @@ OC.L10N.register(
     "Error" : "Səhv",
     "Cancel" : "Dayandır",
     "Save" : "Saxla",
-    "Could not create file" : "Faylı yaratmaq olmur",
-    "Create" : "Yarat",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
-    "Download" : "Yüklə"
+    "Download" : "Yüklə",
+    "Could not create file" : "Faylı yaratmaq olmur",
+    "Create" : "Yarat"
 },
 "nplurals=2; plural=(n != 1);");

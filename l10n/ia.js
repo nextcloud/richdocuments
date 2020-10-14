@@ -18,14 +18,14 @@ OC.L10N.register(
     "Nickname" : "Pseudonymo",
     "Cancel" : "Cancellar",
     "Save" : "Salveguardar",
-    "Could not create file" : "Impossibile crear le file",
-    "Create" : "Crear",
     "Saving…" : "Salveguardante...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalios",
     "Download" : "Discargar",
     "Guest" : "Invitato",
-    "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian"
+    "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",
+    "Could not create file" : "Impossibile crear le file",
+    "Create" : "Crear"
 },
 "nplurals=2; plural=(n != 1);");

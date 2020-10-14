@@ -16,13 +16,13 @@ OC.L10N.register(
     "Nickname" : "Hüüdnimi",
     "Cancel" : "Loobu",
     "Save" : "Salvesta",
-    "Could not create file" : "Ei suuda luua faili",
-    "Create" : "Loo",
     "Saving…" : "Salvestamine...",
     "Remove from favorites" : "Eemalda lemmikutest",
     "Add to favorites" : "Lisa lemmikutesse",
     "Details" : "Üksikasjad",
     "Download" : "Lae alla",
-    "Guest" : "Külaline"
+    "Guest" : "Külaline",
+    "Could not create file" : "Ei suuda luua faili",
+    "Create" : "Loo"
 },
 "nplurals=2; plural=(n != 1);");
