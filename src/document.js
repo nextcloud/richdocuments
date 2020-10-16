@@ -353,7 +353,7 @@ const documentsMain = {
 						if (msgId === 'File_Rename') {
 							return callMobileMessage('fileRename', args)
 						} else if (msgId === 'UI_Paste') {
-							documentsMain.callMobileMessage('paste')
+							callMobileMessage('paste')
 							return
 						}
 						if (msgId === 'UI_Close') {
