@@ -41,7 +41,7 @@ const odfViewer = {
 					const shareOwnerId = fileModel.shareOwnerId
 					return this.onEdit(fileName, { ...context, shareOwnerId })
 				},
-				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName })
+				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
