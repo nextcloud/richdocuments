@@ -80,6 +80,46 @@ const hideLoadingIndicator = () => {
 	document.getElementById('proxyLoadingMessage').textContent = ''
 }
 
+const generateCSSVarTokens = () => {
+	/* NC versus COOL */
+	var cssVarMap = {
+		'--color-main-text': '--co-color-main-text',
+		'--color-main-background': '--co-body-bg',
+		'--color-primary-text': '--co-primary-text',
+		'--color-primary-element': '--co-primary-element:--co-text-accent',
+		'--color-primary-element-light': '--co-primary-element-light',
+		'--color-error': '--co-color-error',
+		'--color-warning': '--co-color-warning',
+		'--color-success': '--co-color-success',
+		'--border-radius': '--co-border-radius',
+		'--border-radius-large': '--co-border-radius-large',
+		'--color-background-hover': '--co-background-hover',
+		'--color-background-dark': '--co-background-dark',
+		'--color-text-light': '--co-text-light',
+		'--color-text-lighter': '--co-text-lighter',
+		'--color-loading-light': '--co-loading-light',
+		'--color-loading-dark': '--co-loading-dark',
+		'--color-box-shadow': '--co-box-shadow',
+		'--color-border': '--co-border',
+		'--color-border-dark': '--co-border-dark',
+		'--border-radius-pill': '--co-border-radius-pill'
+	}
+	var str = ''
+	for (var cssVarKey in cssVarMap) {
+		var cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
+		if (!cStyle) {
+			// try suffix -dark instead
+			cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey + '-dark')
+		}
+		if (!cStyle) continue // skip if it is not set
+		var varNames = cssVarMap[cssVarKey].split(':')
+		for (var i = 0; i < varNames.length; ++i) {
+			str += varNames[i] + '=' + cStyle + ';'
+		}
+	}
+	return str
+}
+
 showLoadingIndicator()
 
 $.widget('oc.guestNamePicker', {
@@ -177,7 +217,8 @@ const documentsMain = {
 			// form to post the access token for WOPISrc
 			const form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
-				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/></form>'
+				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/'
+				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
 
 			// iframe that contains the Collabora Online Viewer
 			const frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
@@ -227,7 +268,8 @@ const documentsMain = {
 			// form to post the access token for WOPISrc
 			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
-				+ '<input name="ui_defaults" value="TextRuler=true;TextStatusbar=true;TextSidebar=true;PresentationSidebar=true;PresentationStatusbar=true;SpreadsheetSidebar=true" type="hidden"/></form>'
+				+ '<input name="ui_defaults" value="TextRuler=true;TextStatusbar=false;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=false;SpreadsheetSidebar=false" type="hidden"/>'
+				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
 
 			// iframe that contains the Collabora Online
 			var frame = '<iframe id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen style="width:100%;height:100%;position:absolute;" />'
