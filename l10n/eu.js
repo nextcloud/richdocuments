@@ -91,6 +91,7 @@ OC.L10N.register(
     "Details" : "Xehetasunak",
     "Download" : "Deskargatu",
     "(read only)" : "(irakurtzeko soilik)",
+    "Remove user" : "Kendu erabiltzailea",
     "Guest" : "Gonbidatua",
     "Follow current editor" : "Jarraitu uneko editorea",
     "Last saved version" : "Gordetako azken bertsioa",
