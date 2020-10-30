@@ -87,6 +87,7 @@ OC.L10N.register(
     "Error" : "Napaka",
     "An error occurred" : "Prišlo je do napake.",
     "Built-in CODE Server is restarting, please wait." : "Vgrajen strežnik CODE se ponovno zaganja. Počakajte ...",
+    "Please choose your nickname to continue as guest user." : "Izberite vzdevek gosta pred povezavo v oblak",
     "Nickname" : "Vzdevek",
     "Set" : "Nastavi",
     "Close version preview" : "Zapri predogled različice",
