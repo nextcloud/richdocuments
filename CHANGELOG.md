@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.7.6
+
+### Added
+* [#1211](https://github.com/nextcloud/richdocuments/pull/1211) Passing some UI Defaults to loleaflet frame @merttumer
+
+### Fixed
+* [#1198](https://github.com/nextcloud/richdocuments/pull/1198) Use correct call to notify mobile @eszkadev
+* [#1210](https://github.com/nextcloud/richdocuments/pull/1210) Fix escaping for edit with message @gary-kim
+
+
 ## 3.7.5
 
 ### Added
