@@ -73,7 +73,7 @@
 		"stylelint": "^13.7.2",
 		"stylelint-config-recommended-scss": "^4.2.0",
 		"stylelint-scss": "^3.18.0",
-		"stylelint-webpack-plugin": "^2.1.0",
+		"stylelint-webpack-plugin": "^2.1.1",
 		"ts-loader": "^8.0.7",
 		"typescript": "^4.0.3",
 		"url-loader": "^4.1.1",
