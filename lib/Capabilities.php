@@ -42,6 +42,7 @@ class Capabilities implements ICapability {
 		'application/vnd.oasis.opendocument.presentation',
 		'application/vnd.lotus-wordpro',
 		'application/vnd.visio',
+		'application/vnd.ms-visio.drawing',
 		'application/vnd.wordperfect',
 		'application/msonenote',
 		'application/msword',
