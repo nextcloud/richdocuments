@@ -65,7 +65,7 @@ class ActivateConfig extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		try {
-			$this->discoveryManager->refretch();
+			$this->discoveryManager->refetch();
 			$this->capabilitiesService->clear();
 			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
 			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {

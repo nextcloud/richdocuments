@@ -169,7 +169,7 @@ class SettingsController extends Controller{
 			$this->appConfig->setAppValue('canonical_webroot', $canonical_webroot);
 		}
 
-		$this->discoveryManager->refretch();
+		$this->discoveryManager->refetch();
 		$this->capabilitiesService->clear();
 		try {
 			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
