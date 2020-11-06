@@ -94,7 +94,7 @@ OC.L10N.register(
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Error: no se puede encontrar la AppImage. Por favor, reinstala el servidor Collabora Online incorporado.",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Error: No se puede hacer ejecutable la AppImage. Por favor, configura un servidor independiente.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Error: ejecutable desactivado en PHP. Por favor, actívalo o configura un servidor independiente.",
-    "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Error: No se está ejecutando en un Linux x86-64 o ARM64 (aarch64). Por favor, configura un servidor independiente.",
+    "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Error: No se está ejecutando en un Linux x86-64 o ARM64 (aarch64). Por favor, por en marcha un servidor independiente.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Error: La librería fontconfig no está instalada en su servidor. Por favor, instálala o configura un servidor independiente.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Error: No se está ejecutando en un sistema basado en glibc Linux. Por favor, configura un servidor independiente.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Error: No se iniciar el el servidor Collabora Online incorporado. Por favor, configura un servidor independiente.",
