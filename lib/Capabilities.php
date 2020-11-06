@@ -23,15 +23,9 @@
 
 namespace OCA\Richdocuments;
 
-use OCP\AppFramework\Utility\ITimeFactory;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Capabilities\ICapability;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\Http\Client\IClientService;
-use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
 
@@ -77,69 +71,43 @@ class Capabilities implements ICapability {
 		'text/spreadsheet'
 	];
 
-	/** @var ISimpleFolder */
-	private $appData;
-
 	/** @var IL10N */
 	private $l10n;
 	/** @var AppConfig */
 	private $config;
+	/** @var CapabilitiesService */
+	private $capabilitiesService;
 
-	/**
-	 * Capabilities constructor.
-	 *
-	 * @param IAppData $appData
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function __construct(IAppData $appData, IL10N $l10n, AppConfig $config) {
+	private $capabilities = null;
+
+	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService) {
 		$this->l10n = $l10n;
 		$this->config = $config;
-		try {
-			$this->appData = $appData->getFolder('richdocuments');
-		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
-		}
+		$this->capabilitiesService = $capabilitiesService;
 	}
 
 	public function getCapabilities() {
-		$collaboraCapabilities = $this->getCollaboraCapabilities();
-		return [
-			'richdocuments' => [
-				'mimetypes' => self::MIMETYPES,
-				'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
-				'collabora' => $collaboraCapabilities,
-				'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ? : false,
-				'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ? : false,
-				'productName' => isset($collaboraCapabilities['productName']) ? $collaboraCapabilities['productName'] : $this->l10n->t('Collabora Online'),
-				'config' => [
-					'wopi_url' => $this->config->getAppValue('wopi_url'),
-					'public_wopi_url' => $this->config->getAppValue('public_wopi_url'),
-					'disable_certificate_verification' => $this->config->getAppValue('disable_certificate_verification'),
-					'edit_groups' => $this->config->getAppValue('edit_groups'),
-					'use_groups' => $this->config->getAppValue('use_groups'),
-					'doc_format' => $this->config->getAppValue('doc_format'),
-				]
-			],
-		];
-	}
-
-	/**
-	 * TODO: use CapabilitiesService
-	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	private function getCollaboraCapabilities() {
-		try {
-			$file = $this->appData->getFile('capabilities.json');
-			$decodedFile = \json_decode($file->getContent(), true);
-		} catch (NotFoundException $e) {
-			return [];
+		if (!$this->capabilities) {
+			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
+			$this->capabilities = [
+				'richdocuments' => [
+					'mimetypes' => self::MIMETYPES,
+					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
+					'collabora' => $collaboraCapabilities,
+					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
+					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
+					'productName' => isset($collaboraCapabilities['productName']) ? $collaboraCapabilities['productName'] : $this->l10n->t('Collabora Online'),
+					'config' => [
+						'wopi_url' => $this->config->getAppValue('wopi_url'),
+						'public_wopi_url' => $this->config->getAppValue('public_wopi_url'),
+						'disable_certificate_verification' => $this->config->getAppValue('disable_certificate_verification'),
+						'edit_groups' => $this->config->getAppValue('edit_groups'),
+						'use_groups' => $this->config->getAppValue('use_groups'),
+						'doc_format' => $this->config->getAppValue('doc_format'),
+					]
+				],
+			];
 		}
-
-		if (!is_array($decodedFile)) {
-			return [];
-		}
-
-		return $decodedFile;
+		return $this->capabilities;
 	}
 }

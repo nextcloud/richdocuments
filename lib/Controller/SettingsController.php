@@ -20,8 +20,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\Http\Client\IClientService;
-use OCP\ICache;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use OCA\Richdocuments\AppConfig;
@@ -195,7 +193,7 @@ class SettingsController extends Controller{
 		}
 
 		$this->capabilitiesService->clear();
-		$this->capabilitiesService->refretch();
+		$this->capabilitiesService->refetch();
 
 		$response = [
 			'status' => 'success',

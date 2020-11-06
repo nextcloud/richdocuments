@@ -23,11 +23,10 @@
 
 namespace OCA\Richdocuments\Service;
 
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 
 class CapabilitiesService {
@@ -36,44 +35,39 @@ class CapabilitiesService {
 	private $config;
 	/** @var IClientService */
 	private $clientService;
-	/** @var ISimpleFolder */
-	private $appData;
+	/** @var ICache */
+	private $cache;
+	/** @var IAppManager */
+	private $appManager;
+
 	/** @var array */
 	private $capabilities;
 
-	public function __construct(IConfig $config, IClientService $clientService, IAppData $appData) {
+
+	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager) {
 		$this->config = $config;
 		$this->clientService = $clientService;
-		try {
-			$this->appData = $appData->getFolder('richdocuments');
-		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
-		}
+		$this->cache = $cacheFactory->createDistributed('richdocuments');
+		$this->appManager = $appManager;
 	}
 
-
 	public function getCapabilities() {
-		if ($this->capabilities) {
-            $isARM64 = php_uname('m') === 'aarch64';
-            $CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
-            $isCODEInstalled = $this->getContainer()->getServer()->getAppManager()->isEnabledForUser($CODEAppID);
-            $isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
-            if($isCODEInstalled && $isCODEEnabled && count($this->capabilities) === 0) {
-                $this->refretch();
-            }
-			return $this->capabilities;
-		}
-		try {
-			$file = $this->appData->getFile('capabilities.json');
-			$decodedFile = \json_decode($file->getContent(), true);
-		} catch (NotFoundException $e) {
-			return [];
+		if (!$this->capabilities) {
+			$this->capabilities = $this->cache->get('capabilities');
 		}
 
-		if (!is_array($decodedFile)) {
+		$isARM64 = php_uname('m') === 'aarch64';
+		$CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
+		$isCODEInstalled = $this->appManager->isEnabledForUser($CODEAppID);
+		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
+		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && count($this->capabilities) === 0;
+		if($this->capabilities === null || $shouldRecheckCODECapabilities) {
+			$this->refetch();
+		}
+
+		if (!is_array($this->capabilities)) {
 			return [];
 		}
-		$this->capabilities = $decodedFile;
 
 		return $this->capabilities;
 	}
@@ -86,32 +80,11 @@ class CapabilitiesService {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}
 
-	private function getFile() {
-		try {
-			$file = $this->appData->getFile('capabilities.json');
-		} catch (NotFoundException $e) {
-			$file = $this->appData->newFile('capabilities.json');
-			$file->putContent(json_encode([]));
-		}
-
-		return $file;
-	}
-
 	public function clear() {
-		$file = $this->getFile();
-		$file->putContent(json_encode([]));
+		$this->cache->remove('capabilities');
 	}
 
-	public function refretch() {
-		$capabilties = $this->renewCapabilities();
-
-		if ($capabilties !== []) {
-			$file = $this->getFile();
-			$file->putContent(json_encode($capabilties));
-		}
-	}
-
-	private function renewCapabilities() {
+	public function refetch() {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		if ($remoteHost === '') {
 			return [];
@@ -127,18 +100,19 @@ class CapabilitiesService {
 
 		try {
 			$response = $client->get($capabilitiesEndpoint, $options);
+			$responseBody = $response->getBody();
+			$capabilities = \json_decode($responseBody, true);
+
+			if (!is_array($capabilities)) {
+				$capabilities = [];
+			}
+
+
 		} catch (\Exception $e) {
-			return [];
+			$capabilities = [];
 		}
 
-		$responseBody = $response->getBody();
-		$ret = \json_decode($responseBody, true);
-
-		if (!is_array($ret)) {
-			return [];
-		}
-
-		return $ret;
+		$this->capabilities = $capabilities;
+		$this->cache->set('capabilities', $capabilities, 3600);
 	}
-
 }

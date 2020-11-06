@@ -186,7 +186,7 @@ class Application extends App {
 
 			$discoveryManager->refretch();
 			$capabilitiesService->clear();
-			$capabilitiesService->refretch();
+			$capabilitiesService->refetch();
 		}
 	}
 }
