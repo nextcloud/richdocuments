@@ -268,7 +268,7 @@ const documentsMain = {
 			// form to post the access token for WOPISrc
 			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
-				+ '<input name="ui_defaults" value="TextRuler=true;TextStatusbar=false;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=false;SpreadsheetSidebar=false" type="hidden"/>'
+				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
 
 			// iframe that contains the Collabora Online
