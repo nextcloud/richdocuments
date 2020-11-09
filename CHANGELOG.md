@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.7.7
+
+### Added
+
+* [#1220](https://github.com/nextcloud/richdocuments/pull/1220) Support opening visio files @timar
+* [#1221](https://github.com/nextcloud/richdocuments/pull/1221) Add close method for mobile app integration @juliushaertl
+
+### Fixed
+
+* [#1222](https://github.com/nextcloud/richdocuments/pull/1222) Adjust ui_defaults do be the same across different document types @juliushaertl
+* [#1226](https://github.com/nextcloud/richdocuments/pull/1226) Move Collabora endpoint caching to distributed cache @juliushaertl
+
 ## 3.7.6
 
 ### Added
