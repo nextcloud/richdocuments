@@ -137,7 +137,7 @@ const odfViewer = {
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
 			}
-		}, 15000)
+		}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl
 
 		$('body').css('overscroll-behavior-y', 'none')
