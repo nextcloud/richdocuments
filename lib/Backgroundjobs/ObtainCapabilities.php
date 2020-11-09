@@ -25,11 +25,6 @@ namespace OCA\Richdocuments\Backgroundjobs;
 
 use OC\BackgroundJob\TimedJob;
 use OCA\Richdocuments\Service\CapabilitiesService;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\Http\Client\IClientService;
-use OCP\IConfig;
 
 class ObtainCapabilities extends TimedJob {
 
@@ -43,6 +38,6 @@ class ObtainCapabilities extends TimedJob {
 	}
 
 	protected function run($argument) {
-		$this->capabilitiesService->refretch();
+		$this->capabilitiesService->refetch();
 	}
 }

@@ -21,70 +21,45 @@
 
 namespace OCA\Richdocuments\WOPI;
 
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IL10N;
 
 class DiscoveryManager {
+
 	/** @var IClientService */
 	private $clientService;
-	/** @var ISimpleFolder */
-	private $appData;
+	/** @var ICache */
+	private $cache;
 	/** @var IConfig */
 	private $config;
-	/** @var IL10N */
-	private $l10n;
-	/** @var ITimeFactory */
-	private $timeFactory;
 
-	/**
-	 * @param IClientService $clientService
-	 * @param IAppData $appData
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param ITimeFactory $timeFactory
-	 */
+	/** @var string */
+	private $discovery;
+
 	public function __construct(IClientService $clientService,
-								IAppData $appData,
-								IConfig $config,
-								IL10N $l10n,
-								ITimeFactory $timeFactory) {
+								ICacheFactory $cacheFactory,
+								IConfig $config) {
 		$this->clientService = $clientService;
-		try {
-			$this->appData = $appData->getFolder('richdocuments');
-		} catch (NotFoundException $e) {
-			$this->appData = $appData->newFolder('richdocuments');
-		}
+		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->config = $config;
-		$this->timeFactory = $timeFactory;
 	}
 
 	public function get() {
-		// First check if there is a local valid discovery file
-		try {
-			$file = $this->appData->getFile('discovery.xml');
-			$decodedFile = json_decode($file->getContent(), true);
-			if($decodedFile['timestamp'] + 3600 > $this->timeFactory->getTime()) {
-				return $decodedFile['data'];
-			}
-		} catch (NotFoundException $e) {
-			$file = $this->appData->newFile('discovery.xml');
+		if ($this->discovery) {
+			return $this->discovery;
 		}
 
-		$response = $this->fetchFromRemote();
+		$this->discovery = $this->cache->get('discovery');
+		if (!$this->discovery) {
+			$response = $this->fetchFromRemote();
+			$responseBody = $response->getBody();
+			$this->discovery = $responseBody;
+			$this->cache->set('discovery', $this->discovery, 3600);
+		}
 
-		$responseBody = $response->getBody();
-		$file->putContent(
-			json_encode([
-				'data' => $responseBody,
-				'timestamp' => $this->timeFactory->getTime(),
-			])
-		);
-		return $responseBody;
+		return $this->discovery;
 	}
 
 	/**
@@ -109,9 +84,8 @@ class DiscoveryManager {
 		}
 	}
 
-	public function refretch() {
-		try {
-			$this->appData->getFile('discovery.xml')->delete();
-		} catch(\Exception $e) {}
+	public function refetch() {
+		$this->cache->remove('discovery');
+		$this->discovery = null;
 	}
 }
