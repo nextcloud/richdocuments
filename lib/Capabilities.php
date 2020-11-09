@@ -104,6 +104,8 @@ class Capabilities implements ICapability {
 						'edit_groups' => $this->config->getAppValue('edit_groups'),
 						'use_groups' => $this->config->getAppValue('use_groups'),
 						'doc_format' => $this->config->getAppValue('doc_format'),
+						'timeout' => $this->config->getAppValue('timeout'),
+
 					]
 				],
 			];
