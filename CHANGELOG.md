@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.8
+
+### Added
+
+* [#1237](https://github.com/nextcloud/richdocuments/pull/1237) Make frame loading timeout configurable through occ
+
 ## 3.7.7
 
 ### Added
