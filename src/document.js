@@ -560,6 +560,20 @@ const documentsMain = {
 		$('#loleafletframe').focus()
 	},
 
+	/**
+	 * Called by mobile clients to properly end the COOL session
+	 *
+	 * @public
+	 */
+	close: function() {
+		documentsMain.onClose()
+	},
+
+	/**
+	 * Called by mobile clients post a selected graphic to COOL
+	 *
+	 * @public
+	 */
 	postAsset: function(filename, url) {
 		PostMessages.sendWOPIPostMessage('loolframe', 'Action_InsertGraphic', {
 			filename: filename,
@@ -567,6 +581,11 @@ const documentsMain = {
 		})
 	},
 
+	/**
+	 * Called by mobile clients to indicate that their app got back to an active state
+	 *
+	 * @public
+	 */
 	postGrabFocus: function() {
 		PostMessages.sendWOPIPostMessage('loolframe', 'Grab_Focus')
 	}
