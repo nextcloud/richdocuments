@@ -195,10 +195,13 @@ class WopiController extends Controller {
 		}
 
 		if ($this->shouldWatermark($isPublic, $wopi->getEditorUid(), $fileId, $wopi)) {
+			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : "";
 			$replacements = [
 				'userId' => $wopi->getEditorUid(),
 				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
 				'themingName' => \OC::$server->getThemingDefaults()->getName(),
+				'userDisplayName' => $userDisplayName,
+				'email' => $email,
 
 			];
 			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
