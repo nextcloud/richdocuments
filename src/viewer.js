@@ -1,6 +1,7 @@
 import Office from './view/Office'
+import { getCapabilities } from '@nextcloud/capabilities'
 
-const supportedMimes = 	OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen)
+const supportedMimes = 	getCapabilities().richdocuments.mimetypes
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	// Only use it outside the files app for now

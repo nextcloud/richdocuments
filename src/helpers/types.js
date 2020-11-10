@@ -20,8 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getCapabilities } from '@nextcloud/capabilities'
 
-const ooxml = OC.getCapabilities()['richdocuments']['config']['doc_format'] === 'ooxml'
+const ooxml = getCapabilities()['richdocuments']['config']['doc_format'] === 'ooxml'
 
 const getFileTypes = () => {
 	if (ooxml) {

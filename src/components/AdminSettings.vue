@@ -249,6 +249,7 @@ import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
 import SettingsExternalApps from './SettingsExternalApps'
 import { generateUrl } from '@nextcloud/router'
+import { getCapabilities } from '@nextcloud/capabilities'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -274,7 +275,7 @@ export default {
 	data() {
 		return {
 			serverMode: '',
-			serverError: Object.values(OC.getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
+			serverError: Object.values(getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
