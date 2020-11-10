@@ -21,6 +21,7 @@
  */
 
 import Types from '../helpers/types'
+import { getCapabilities } from '@nextcloud/capabilities'
 
 /** @type OC.Plugin */
 const NewFileMenu = {
@@ -37,7 +38,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-document',
 			fileType: 'x-office-document',
 			actionHandler: function(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('document', document.mime, filename)
 				} else {
 					self._createDocument(document.mime, filename)
@@ -52,7 +53,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-spreadsheet',
 			fileType: 'x-office-spreadsheet',
 			actionHandler: function(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 				} else {
 					self._createDocument(spreadsheet.mime, filename)
@@ -67,7 +68,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-presentation',
 			fileType: 'x-office-presentation',
 			actionHandler: function(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('presentation', presentation.mime, filename)
 				} else {
 					self._createDocument(presentation.mime, filename)
