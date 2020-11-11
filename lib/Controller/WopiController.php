@@ -225,7 +225,7 @@ class WopiController extends Controller {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 		}
 
-		if ($wopi->getRemoteServer() !== '') {
+		if (!empty($wopi->getRemoteServer())) {
 			$response = $this->setFederationFileInfo($wopi, $response);
 		}
 
@@ -511,7 +511,7 @@ class WopiController extends Controller {
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();
-		if ($editor === null || $wopi->getRemoteServer() !== '') {
+		if ($editor === null || !empty($wopi->getRemoteServer())) {
 			$editor = $wopi->getOwnerUid();
 		}
 
@@ -650,7 +650,7 @@ class WopiController extends Controller {
 	private function getFileForWopiToken(Wopi $wopi) {
 		$file = null;
 
-		if ($wopi->getRemoteServer() !== '') {
+		if (!empty($wopi->getRemoteServer())) {
 			$share = $this->shareManager->getShareByToken($wopi->getEditorUid());
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
