@@ -157,7 +157,7 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$isPublic = $wopi->getEditorUid() === null;
+		$isPublic = empty($wopi->getEditorUid());
 		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
