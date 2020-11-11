@@ -49,12 +49,14 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'length' => 4,
 			]);
 			$table->addColumn('version', 'integer', [
-				'notnull' => true,
+				//'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 			]);
 			$table->addColumn('canwrite', 'boolean', [
-				'notnull' => true,
+				//'notnull' => true,
+				'notnull' => false,
 				'default' => false,
 			]);
 			$table->addColumn('server_host', 'string', [
@@ -62,7 +64,8 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'default' => 'localhost',
 			]);
 			$table->addColumn('token', 'string', [
-				'notnull' => true,
+				//'notnull' => true,
+				'notnull' => false,
 				'length' => 32,
 				'default' => '',
 			]);
@@ -80,23 +83,28 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'length' => 4,
 			]);
 			$table->addColumn('hide_download', 'boolean', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'default' => false,
 			]);
 			$table->addColumn('direct', 'boolean', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'default' => false,
 			]);
 			$table->addColumn('is_remote_token', 'boolean', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'default' => false,
 			]);
 			$table->addColumn('remote_server', 'string', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'default' => '',
 			]);
 			$table->addColumn('remote_server_token', 'string', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'length' => 32,
 				'default' => '',
 			]);
@@ -125,7 +133,8 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'length' => 4,
 			]);
 			$table->addColumn('timestamp', 'integer', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 				'unsigned' => true,
@@ -164,7 +173,8 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 			$table->addColumn('timestamp', 'integer', [
-				'notnull' => true,
+				// 'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 				'unsigned' => true,
