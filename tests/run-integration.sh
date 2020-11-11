@@ -20,7 +20,7 @@ fi
 composer install
 composer dump-autoload
 
-curl -v http://collabora:9980/hosting/capabilities
+curl -v http://localhost:9980/hosting/capabilities
 
 PORT=8080
 php -S localhost:$PORT -t $OC_PATH &
@@ -29,8 +29,8 @@ echo $PHPPID
 
 
 #export BEHAT_PARAMS="context[parameters][base_url]=https://nextcloud.local.dev.bitgrid.net"
-$OCC config:app:set richdocuments wopi_url --value="http://collabora:9980"
-$OCC config:app:set richdocuments public_wopi_url --value="http://collabora:9980"
+$OCC config:app:set richdocuments wopi_url --value="http://localhost:9980"
+$OCC config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
 
 
 vendor/bin/behat
