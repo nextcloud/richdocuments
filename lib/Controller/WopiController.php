@@ -171,7 +171,7 @@ class WopiController extends Controller {
 			'UserFriendlyName' => $userDisplayName,
 			'UserExtraInfo' => [
 			],
-			'UserCanWrite' => $wopi->getCanwrite(),
+			'UserCanWrite' => (bool)$wopi->getCanwrite(),
 			'UserCanNotWriteRelative' => \OC::$server->getEncryptionManager()->isEnabled() || $isPublic,
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
