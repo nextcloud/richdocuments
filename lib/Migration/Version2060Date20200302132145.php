@@ -24,10 +24,12 @@ class Version2060Date20200302132145 extends SimpleMigrationStep
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('richdocuments_wopi');
-		$table->addColumn('share', 'string', [
-			'notnull' => false,
-			'length' => 64
-		]);
+		if (!$table->hasColumn('share')) {
+			$table->addColumn('share', 'string', [
+				'notnull' => false,
+				'length' => 64
+			]);
+		}
 
 		return $schema;
 	}
