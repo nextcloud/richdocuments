@@ -72,7 +72,6 @@ OC.L10N.register(
     "Secure view settings" : "Veilig bekijken instellingen",
     "Secure view enables you to secure documents by embedding a watermark" : "Beveiligd kijken laat je documenten beveiligen door een watermerk toe te voegen ",
     "Enable watermarking" : "Inschakelen watermerken",
-    "Supported placeholders: {userId}, {date}" : "Ondersteunde reserveringsafbeelding: {userId}, {date}",
     "Show watermark on tagged files" : "Toon watermerk voor gemarkeerde bestanden",
     "Select tags to enforce watermarking" : "Selecteer markering om watermerken af te dwingen",
     "Show watermark for users of groups" : "Toon watermerk voor gebruikers of groepen",

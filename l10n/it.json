@@ -70,7 +70,6 @@
     "Secure view settings" : "Impostazioni di visualizzazione sicure",
     "Secure view enables you to secure documents by embedding a watermark" : "Vista sicura ti permette di proteggere i documenti dall'integrazione di un watermark",
     "Enable watermarking" : "Abilita la filigrana",
-    "Supported placeholders: {userId}, {date}" : "Segnaposti supportati: {userid}, {date}",
     "Show watermark on tagged files" : "Mostra la filigrana sui file etichettati",
     "Select tags to enforce watermarking" : "Seleziona le etichette per applicare la filigrana",
     "Show watermark for users of groups" : "Mostra la filigrana per gli utenti di gruppi",

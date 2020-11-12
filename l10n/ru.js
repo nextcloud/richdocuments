@@ -72,7 +72,6 @@ OC.L10N.register(
     "Secure view settings" : "Параметры безопасного просмотра",
     "Secure view enables you to secure documents by embedding a watermark" : "Безопасный просмотр позволяет защищать документы добавлением водяного знака.",
     "Enable watermarking" : "Добавлять водяной знак при просмотре",
-    "Supported placeholders: {userId}, {date}" : "Поддерживаемые заполнители: {userId}, {date}",
     "Show watermark on tagged files" : "Использовать для файлов с присвоенными метками",
     "Select tags to enforce watermarking" : "Выберите метки, при наличии которых будет показан водяной знак",
     "Show watermark for users of groups" : "Использовать для пользователей указанных групп",

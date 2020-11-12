@@ -72,7 +72,6 @@ OC.L10N.register(
     "Secure view settings" : "Ajustes de la vista segura",
     "Secure view enables you to secure documents by embedding a watermark" : "La vista segura permite garantizar documentos mediante la inserción de una marca de agua en ellos",
     "Enable watermarking" : "Habilitar marcas de agua",
-    "Supported placeholders: {userId}, {date}" : "Marcadores soportados: {userId}, {date}",
     "Show watermark on tagged files" : "Mostrar marcas de agua en los archivos etiquetados",
     "Select tags to enforce watermarking" : "Seleccionar etiquetas para forzar las marcas de agua",
     "Show watermark for users of groups" : "Mostrar marcas de agua para usuarios de grupos",

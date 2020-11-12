@@ -72,7 +72,6 @@ OC.L10N.register(
     "Secure view settings" : "Ασφαλείς ρυθμίσεις προβολής",
     "Secure view enables you to secure documents by embedding a watermark" : "Η ασφαλής προβολή σάς επιτρέπει να ασφαλίζετε έγγραφα, ενσωματώνοντας ένα υδατογράφημα",
     "Enable watermarking" : "Ενεργοποίηση υδατογραφήματος",
-    "Supported placeholders: {userId}, {date}" : "Υποστηριζόμενες δεσμεύσεις: {userId}, {date}",
     "Show watermark on tagged files" : "Εμφάνιση υδατογραφήματος σε αρχεία με ετικέτα",
     "Select tags to enforce watermarking" : "Επιλέξτε ετικέτες για υποχρεωτικό υδατογράφημα",
     "Show watermark for users of groups" : "Εμφάνιση υδατογραφήματος για χρήστες ή ομάδες",

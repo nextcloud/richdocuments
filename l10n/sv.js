@@ -38,7 +38,6 @@ OC.L10N.register(
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Kanonisk webbrot, om det finns flera kommer Collabora Online använda denna. Ange den med minst antal restriktioner. T ex använd icke-shibbolethiserad webbrot om instansen kan användas av både med och utan Shibboleth.\nDu kan ignorera denna inställning om det endast finns en webbrot till instansen.",
     "Enable access for external apps" : "Aktivera åtkomst för externa appar",
     "Secure view enables you to secure documents by embedding a watermark" : "Med säker vy kan du säkra dokument genom att bädda in en vattenstämpel",
-    "Supported placeholders: {userId}, {date}" : "Platshållare som stöds: {userId}, {date}",
     "Failed to save settings" : "Kunde inte spara inställningarna",
     "Description" : "Beskrivning",
     "No results" : "Inga resultat",

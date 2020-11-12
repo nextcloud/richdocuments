@@ -52,7 +52,6 @@ OC.L10N.register(
     "Secure view settings" : "セキュリティビュー設定",
     "Secure view enables you to secure documents by embedding a watermark" : "セキュアビューによって透かしを埋め込んでドキュメントを保護できます",
     "Enable watermarking" : "透かしを有効",
-    "Supported placeholders: {userId}, {date}" : "サポートされているプレースフォルダー: {userId}, {date}",
     "Show watermark on tagged files" : "タグで指定しているファイルに透かしを表示",
     "Select tags to enforce watermarking" : "透かしを強制するタグを選択",
     "Show watermark for users of groups" : "グループのユーザーに透かしを表示",

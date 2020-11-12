@@ -45,7 +45,6 @@
     "Secure view settings" : "Параметри за безбеден преглед",
     "Secure view enables you to secure documents by embedding a watermark" : "Безбеден преглед ви овозможува да обезбедите документи со вметнување воден жиг",
     "Enable watermarking" : "Овозможи воден печат",
-    "Supported placeholders: {userId}, {date}" : "Поддржани резервирани места: {userId}, {date}",
     "Show watermark on tagged files" : "Прикажи го водениот жиг на означени датотеки",
     "Select tags to enforce watermarking" : "Изберете ознаки за да се додаваат водени печати на датотеките",
     "Show watermark for users of groups" : "Прикажи воден жиг за корисници на групи",

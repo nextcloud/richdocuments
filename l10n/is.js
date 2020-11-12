@@ -37,7 +37,6 @@ OC.L10N.register(
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Sameinuð vefrót (aðalvefrót - canonical webroot), í því tilfelli þegar þær eru margar, vefrótin sem Collabora ætti að nota. Gefðu upp þá sem er með minnstar takmarkanir. Dæmi: Notaðu vefrót sem ekki styðst við Shibboleth (non-shibbolized webroot) ef þetta tilvik gefur aðgang bæði til shibbolized og non-shibbolized vefróta. Þú getur hunsað þessa stillingu ef aðeins ein vefrót er notuð til aðgangs að þessu tilviki.",
     "Enable access for external apps" : "Virkja aðgang fyrir utanaðkomandi forrit",
     "Secure view enables you to secure documents by embedding a watermark" : "Örugg sýn gerir þér kleift að verja skjöl með því að græða vatnsmerki í þau",
-    "Supported placeholders: {userId}, {date}" : "Studdar frátökubreytur: {userId}, {date}",
     "Failed to save settings" : "Mistókst að vista stillingar",
     "Description" : "Lýsing",
     "No results" : "Engar niðurstöður",

@@ -72,7 +72,6 @@ OC.L10N.register(
     "Secure view settings" : "Nastavitve varnega pogleda",
     "Secure view enables you to secure documents by embedding a watermark" : "Varni pogled omogoči zaščito dokumentov z vodnim žigom",
     "Enable watermarking" : "Omogoči vodni žig",
-    "Supported placeholders: {userId}, {date}" : "Podprti ročniki: {userId}, {date}",
     "Show watermark on tagged files" : "Pokaži vodni žig na označenih datotekah",
     "Select tags to enforce watermarking" : "Izbor oznak za vodni žig",
     "Show watermark for users of groups" : "Pokaži vodni žig za uporabnike skupine",

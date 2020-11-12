@@ -36,7 +36,6 @@ OC.L10N.register(
     "Secure view settings" : "Saugaus rodinio nustatymai",
     "Secure view enables you to secure documents by embedding a watermark" : "Saugusis rodinys leidžia jums apsaugoti dokumentus įterpiant vandenženklį",
     "Enable watermarking" : "Įjungti vandenženklių darymą",
-    "Supported placeholders: {userId}, {date}" : "Palaikomi vietaženkliai: {userId}, {date}",
     "Show watermark on tagged files" : "Rodyti vandenženklį ant failų su žymėmis",
     "Failed to save settings" : "Nepavyko įrašyti nustatymų",
     "Description" : "Aprašas",

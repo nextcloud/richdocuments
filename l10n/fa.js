@@ -48,7 +48,6 @@ OC.L10N.register(
     "Secure view settings" : "تنظیمات نمای ایمن",
     "Secure view enables you to secure documents by embedding a watermark" : "نمای ایمن شما را قادر می سازد با تعبیه یک علامت سفید اسناد را ایمن کنید",
     "Enable watermarking" : "علامت گذاری را فعال کنید",
-    "Supported placeholders: {userId}, {date}" : "متغیرهایی های پشتیبانی شده: {شناسه}، {تاریخ}",
     "Show watermark on tagged files" : "علامت علامت را در پرونده های نشان شده نشان دهید",
     "Select tags to enforce watermarking" : "برچسب ها را برای اجرای علامت چاپ انتخاب کنید",
     "Show watermark for users of groups" : "نمایش علامت برای کاربران گروه ها",

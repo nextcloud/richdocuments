@@ -37,7 +37,6 @@ OC.L10N.register(
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Normigitan retservila radiko, se estas pluraj, por uzi kun Collabora. Entajpu tiun, kiu havas malplejajn limigojn. Ekzemple: uzu la neŝiboletigan retservilan radikon, se tiun servilon oni atingas kaj per ŝiboletiga kaj per neŝiboletiga retservila radiko (Ŝiboleto estas servo de ununura ensaluto). Vi povas ignori tiun agordon, se estas nur unu retservila radiko en tiu ĉi servilo.",
     "Enable access for external apps" : "Ebligi aliron el eksteraj aplikaĵoj",
     "Secure view enables you to secure documents by embedding a watermark" : "Sekuriga vido ebligas sekurigi dokumenton per enkorpigo de filigrano",
-    "Supported placeholders: {userId}, {date}" : "Subtenitaj lokukupiloj:  {userId}, {date}",
     "Failed to save settings" : "Konservo de agordoj malsukcesis",
     "Description" : "Priskribo",
     "No results" : "Neniu rezulto",

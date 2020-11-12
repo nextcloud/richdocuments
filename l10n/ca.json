@@ -70,7 +70,6 @@
     "Secure view settings" : "Configuració de la visualització segura",
     "Secure view enables you to secure documents by embedding a watermark" : "La vista segura us permet protegir documents incrustant-hi una marca d'aigua",
     "Enable watermarking" : "Habilita la marca d'aigua",
-    "Supported placeholders: {userId}, {date}" : "Marcatges compatibles: {userId}, {date}",
     "Show watermark on tagged files" : "Mostra la marca d’aigua als fitxers etiquetats",
     "Select tags to enforce watermarking" : "Seleccioneu etiquetes per fer aparèixer la marca d'aigua",
     "Show watermark for users of groups" : "Mostra la marca d’aigua per als usuaris dels grups",

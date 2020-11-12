@@ -72,7 +72,6 @@ OC.L10N.register(
     "Secure view settings" : "安全视图设置",
     "Secure view enables you to secure documents by embedding a watermark" : "安全查看允许您植入水印来保护文档",
     "Enable watermarking" : "启用水印功能",
-    "Supported placeholders: {userId}, {date}" : "受支持的占位符：{userId}，{date}",
     "Show watermark on tagged files" : "在已打标签的文件上显示水印",
     "Select tags to enforce watermarking" : "选择标签以强制打水印",
     "Show watermark for users of groups" : "为分组的用户显示标签",

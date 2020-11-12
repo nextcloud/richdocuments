@@ -64,7 +64,6 @@ OC.L10N.register(
     "Use Canonical webroot" : "Erabili Canonical webroot-a",
     "Enable access for external apps" : "Gaitu kanpoko aplikazioentzako sarbidea",
     "Secure view enables you to secure documents by embedding a watermark" : "Ikuspegi seguruak dokumentuak ur-marka bat txertatuz segurtatzeko aukera ematen dizu.",
-    "Supported placeholders: {userId}, {date}" : "Onartutako leku markak: {userId}, {date}",
     "Failed to save settings" : "Huts egin du ezarpenak gordetzean",
     "Description" : "Deskribapena",
     "Add new token" : "Gehitu token berria",

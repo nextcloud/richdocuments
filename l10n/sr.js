@@ -38,7 +38,6 @@ OC.L10N.register(
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "У случају да их има више, канонски облик веб корена који ће Collabora да користи. Унесите онај са најмање ограничења. Нпр. користите веб корен који не садржи Shibboleth ако се инстанци може приступити и преко Shibboleth-а и без њега. Можете да прескочите ово подешавање ако постоји само један веб корен који инстанца користи.",
     "Enable access for external apps" : "Дозволи приступ за спољне апликације",
     "Secure view enables you to secure documents by embedding a watermark" : "Безбедни преглед омогућава да обезбедите документе тако што ћете им убацити водени жиг",
-    "Supported placeholders: {userId}, {date}" : "Подржана резервисана места: {userId}, {date}",
     "Failed to save settings" : "Грешка приликом чувања поставки",
     "Description" : "Опис",
     "No results" : "Нема резултата",
