@@ -36,6 +36,12 @@ const languageToBCP47 = () => {
 			'de_CH': 'de-CH',
 			'gsw': 'de-CH',
 			'gsw_CH': 'de-CH'
+		},
+		fr: {
+			'fr_CH': 'fr-CH'
+		},
+		it: {
+			'it_CH': 'it-CH'
 		}
 	}
 	const matchingWhitelist = whitelist[language]
