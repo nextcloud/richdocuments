@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.7.9
+
+## Fixed
+
+* [#1238](https://github.com/nextcloud/richdocuments/pull/1238) Move to @nextcloud/capabilities and only register default mime types for viewer
+* [#1239](https://github.com/nextcloud/richdocuments/pull/1239) Fix compatibility to oracle as a database
+* [#1240](https://github.com/nextcloud/richdocuments/pull/1240) Add two more useful placeholders for watermark text @timar
+* [#1242](https://github.com/nextcloud/richdocuments/pull/1242) Add French (Switzerland) and Italian (Switzerland) as special case @timar
+* [#1243](https://github.com/nextcloud/richdocuments/pull/1243) Add migration to bigint columns
+* [#1244](https://github.com/nextcloud/richdocuments/pull/1244) Do not fail if capabilities have not been fetched for the built-in server
+
+
 ## 3.7.8
 
 ### Added
