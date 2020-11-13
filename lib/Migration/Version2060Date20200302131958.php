@@ -29,7 +29,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('owner_uid', 'string', [
@@ -46,12 +46,12 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('fileid', 'integer', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('version', 'integer', [
 				//'notnull' => true,
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('canwrite', 'boolean', [
@@ -71,16 +71,16 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('expiry', 'integer', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('template_destination', 'integer', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('template_id', 'integer', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('hide_download', 'boolean', [
 				// 'notnull' => true,
@@ -117,7 +117,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('token', 'string', [
@@ -130,22 +130,22 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('fileid', 'integer', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('timestamp', 'integer', [
 				// 'notnull' => true,
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('template_destination', 'integer', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('template_id', 'integer', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'rd_direct_token_idx');
@@ -157,7 +157,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			$table->addColumn('id', 'integer', [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('uid', 'string', [
@@ -166,7 +166,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('fileid', 'integer', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('token', 'string', [
 				'notnull' => false,
@@ -175,7 +175,7 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 			$table->addColumn('timestamp', 'integer', [
 				// 'notnull' => true,
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 				'unsigned' => true,
 			]);

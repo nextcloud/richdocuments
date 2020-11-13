@@ -26,7 +26,7 @@ class Version30704Date20200626072306 extends SimpleMigrationStep {
 		if (!$table->hasColumn('template_id')) {
 			$table->addColumn('template_id', 'integer', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 		}
 
