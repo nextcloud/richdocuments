@@ -35,8 +35,9 @@ You can also edit your documents off-line with the Collabora Office app from the
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>
 	</background-jobs>
 	<commands>
-		<command>OCA\Richdocuments\Command\UpdateEmptyTemplates</command>
 		<command>OCA\Richdocuments\Command\ActivateConfig</command>
+		<command>OCA\Richdocuments\Command\ConvertToBigInt</command>
+		<command>OCA\Richdocuments\Command\UpdateEmptyTemplates</command>
 	</commands>
 	<settings>
 		<admin>OCA\Richdocuments\Settings\Admin</admin>

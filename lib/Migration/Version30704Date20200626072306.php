@@ -24,9 +24,9 @@ class Version30704Date20200626072306 extends SimpleMigrationStep {
 		$table = $schema->getTable('richdocuments_wopi');
 
 		if (!$table->hasColumn('template_id')) {
-			$table->addColumn('template_id', 'integer', [
+			$table->addColumn('template_id', 'bigint', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 		}
 

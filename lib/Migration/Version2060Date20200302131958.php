@@ -26,10 +26,10 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('richdocuments_wopi')) {
 			$table = $schema->createTable('richdocuments_wopi');
-			$table->addColumn('id', 'integer', [
+			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('owner_uid', 'string', [
@@ -44,14 +44,14 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('fileid', 'integer', [
+			$table->addColumn('fileid', 'bigint', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
-			$table->addColumn('version', 'integer', [
+			$table->addColumn('version', 'bigint', [
 				//'notnull' => true,
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('canwrite', 'boolean', [
@@ -69,18 +69,18 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'length' => 32,
 				'default' => '',
 			]);
-			$table->addColumn('expiry', 'integer', [
+			$table->addColumn('expiry', 'bigint', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
-			$table->addColumn('template_destination', 'integer', [
+			$table->addColumn('template_destination', 'bigint', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
-			$table->addColumn('template_id', 'integer', [
+			$table->addColumn('template_id', 'bigint', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('hide_download', 'boolean', [
 				// 'notnull' => true,
@@ -114,10 +114,10 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('richdocuments_direct')) {
 			$table = $schema->createTable('richdocuments_direct');
-			$table->addColumn('id', 'integer', [
+			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('token', 'string', [
@@ -128,24 +128,24 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('fileid', 'integer', [
+			$table->addColumn('fileid', 'bigint', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
-			$table->addColumn('timestamp', 'integer', [
+			$table->addColumn('timestamp', 'bigint', [
 				// 'notnull' => true,
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 				'unsigned' => true,
 			]);
-			$table->addColumn('template_destination', 'integer', [
+			$table->addColumn('template_destination', 'bigint', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
-			$table->addColumn('template_id', 'integer', [
+			$table->addColumn('template_id', 'bigint', [
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'rd_direct_token_idx');
@@ -154,28 +154,28 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('richdocuments_assets')) {
 			$table = $schema->createTable('richdocuments_assets');
-			$table->addColumn('id', 'integer', [
+			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'unsigned' => true,
 			]);
 			$table->addColumn('uid', 'string', [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('fileid', 'integer', [
+			$table->addColumn('fileid', 'bigint', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 			]);
 			$table->addColumn('token', 'string', [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('timestamp', 'integer', [
+			$table->addColumn('timestamp', 'bigint', [
 				// 'notnull' => true,
 				'notnull' => false,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 				'unsigned' => true,
 			]);
