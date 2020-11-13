@@ -60,7 +60,7 @@ class CapabilitiesService {
 		$CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
 		$isCODEInstalled = $this->appManager->isEnabledForUser($CODEAppID);
 		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
-		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && count($this->capabilities) === 0;
+		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
 		if($this->capabilities === null || $shouldRecheckCODECapabilities) {
 			$this->refetch();
 		}
