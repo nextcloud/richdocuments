@@ -72,6 +72,7 @@ OC.L10N.register(
     "Secure view settings" : "Nastavenie zabezpečeného zobrazenia",
     "Secure view enables you to secure documents by embedding a watermark" : "Zabezpečené zobrazenie umožňuje zabezpečiť dokumenty vložením vodoznaku",
     "Enable watermarking" : "Povoliť vodoznak",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Podporované zástupné označenia: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Zobraziť vodoznak v označených súboroch",
     "Select tags to enforce watermarking" : "Vyberte štítky na vynútenie vodoznaku",
     "Show watermark for users of groups" : "Zobraziť vodoznak pre používateľov skupín",

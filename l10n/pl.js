@@ -72,6 +72,7 @@ OC.L10N.register(
     "Secure view settings" : "Bezpieczne ustawienia widoku",
     "Secure view enables you to secure documents by embedding a watermark" : "Bezpieczny widok pozwala zabezpieczyć dokumenty poprzez osadzenie znaku wodnego",
     "Enable watermarking" : "Włącz znak wodny",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Obsługiwane symbole zastępcze: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Pokaż znak wodny na oznaczonych plikach",
     "Select tags to enforce watermarking" : "Wybierz etykiety, aby wymusić znak wodny",
     "Show watermark for users of groups" : "Pokaż znak wodny dla użytkowników grup",

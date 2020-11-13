@@ -72,6 +72,7 @@ OC.L10N.register(
     "Secure view settings" : "Güvenli görüntüleme ayarları",
     "Secure view enables you to secure documents by embedding a watermark" : "Güvenli görünüm belgelere bir filigran ekleyerek korumanızı sağlar",
     "Enable watermarking" : "Filigran kullanılsın",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Desteklenen kodlar: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Etiketlenmiş dosyalarda filigran görüntülensin",
     "Select tags to enforce watermarking" : "Filigran kullanılacak etiketleri seçin",
     "Show watermark for users of groups" : "Kullanıcı gruplarında filigran görüntülensin",

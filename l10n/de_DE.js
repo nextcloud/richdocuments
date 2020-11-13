@@ -72,6 +72,7 @@ OC.L10N.register(
     "Secure view settings" : "Einstellungen für \"Secure View\"",
     "Secure view enables you to secure documents by embedding a watermark" : "Sichere Ansicht ermöglicht Ihnen Dokumente durch Einbettung eines Wasserzeichens abzusichern.",
     "Enable watermarking" : "Wasserzeichen aktivieren",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Unterstützte Platzhalter: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Wasserzeichen für Dateien mit Schlagworten anzeigen",
     "Select tags to enforce watermarking" : "Schlagworte für das Erzwingen von Wasserzeichen auswählen",
     "Show watermark for users of groups" : "Wasserzeichen für Benutzer von Gruppen anzeigen",

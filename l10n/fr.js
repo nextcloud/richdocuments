@@ -72,6 +72,7 @@ OC.L10N.register(
     "Secure view settings" : "Paramètres de la vue sécurisée",
     "Secure view enables you to secure documents by embedding a watermark" : "La vue sécurisée vous permet de protéger les documents en intégrant un filigrane",
     "Enable watermarking" : "Activer le filigrane",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Balises possibles : {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Visualiser le filigrane des fichiers étiquetés",
     "Select tags to enforce watermarking" : "Sélectionner des étiquettes pour appliquer le filigrane",
     "Show watermark for users of groups" : "Afficher le filigrane pour les utilisateurs de groupes",
