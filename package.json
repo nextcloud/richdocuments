@@ -28,7 +28,7 @@
 		"@nextcloud/capabilities": "^1.0.2",
 		"@nextcloud/l10n": "^1.4.1",
 		"@nextcloud/router": "^1.2.0",
-		"@nextcloud/vue": "^2.7.0",
+		"@nextcloud/vue": "^3.2.0",
 		"vue": "^2.6.12"
 	},
 	"browserslist": [
