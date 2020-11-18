@@ -424,18 +424,16 @@ class TemplateManager {
 	 * @return Folder
 	 */
 	private function getSystemTemplateDir() {
-		return $this->rootFolder->get('appdata_' . $this->config->getSystemValue('instanceid', null))
-			->get('richdocuments')
-			->get('templates');
+		$path = 'appdata_' . $this->config->getSystemValue('instanceid', null) . '/richdocuments/templates';
+		return $this->rootFolder->get($path);
 	}
 
 	/**
 	 * @return Folder
 	 */
 	private function getEmptyTemplateDir() {
-		return $this->rootFolder->get('appdata_' . $this->config->getSystemValue('instanceid', null))
-			->get('richdocuments')
-			->get('empty_templates');
+		$path = 'appdata_' . $this->config->getSystemValue('instanceid', null) . '/richdocuments/empty_templates';
+		return $this->rootFolder->get($path);
 	}
 
 	/**
