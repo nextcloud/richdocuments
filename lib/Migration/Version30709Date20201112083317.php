@@ -50,8 +50,8 @@ class Version30709Date20201112083317 extends SimpleMigrationStep {
 		$column = $table->getColumn($column);
 		$isAutoIncrement = $column->getAutoincrement();
 		$isAutoIncrementOnSqlite = $this->isSqlite && $isAutoIncrement;
-		if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
-			$column->setType(Type::getType(Types::BIGINT));
+		if ($column->getType()->getName() !== Type::BIGINT && !$isAutoIncrementOnSqlite) {
+			$column->setType(Type::getType(Type::BIGINT));
 			$column->setOptions(['length' => 20]);
 			$column->setUnsigned(true);
 		}
