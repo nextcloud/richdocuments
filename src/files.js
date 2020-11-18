@@ -7,7 +7,6 @@ import FilesAppIntegration from './view/FilesAppIntegration'
 import '../css/viewer.scss'
 import { splitPath } from './helpers'
 import NewFileMenu from './view/NewFileMenu'
-import { getCapabilities } from '@nextcloud/capabilities'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
@@ -23,14 +22,14 @@ const odfViewer = {
 	open: false,
 	receivedLoading: false,
 	isCollaboraConfigured: (
-		(getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
-		|| (typeof getCapabilities().richdocuments.collabora === 'object' && getCapabilities().richdocuments.collabora.length !== 0)),
-	supportedMimes: getCapabilities().richdocuments.mimetypes.concat(getCapabilities().richdocuments.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: getCapabilities().richdocuments.mimetypesNoDefaultOpen,
+		(OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
+		|| (typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0)),
+	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
 	registerFileActions() {
-		const EDIT_ACTION_NAME = 'Edit with ' + getCapabilities().richdocuments.productName
+		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
 		for (let mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
 				mime,
@@ -42,7 +41,7 @@ const odfViewer = {
 					const shareOwnerId = fileModel.shareOwnerId
 					return this.onEdit(fileName, { ...context, shareOwnerId })
 				},
-				t('richdocuments', 'Edit with {productName}', { productName: getCapabilities().richdocuments.productName }, undefined, { escape: false })
+				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
@@ -136,9 +135,9 @@ const odfViewer = {
 		odfViewer.loadingTimeout = setTimeout(function() {
 			if (!odfViewer.receivedLoading) {
 				odfViewer.onClose()
-				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: getCapabilities().richdocuments.productName || 'Collabora Online' }))
+				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
 			}
-		}, (getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+		}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl
 
 		$('body').css('overscroll-behavior-y', 'none')
@@ -208,7 +207,7 @@ const odfViewer = {
 	}
 }
 
-const settings = getCapabilities()['richdocuments']['config'] || {}
+const settings = OC.getCapabilities()['richdocuments']['config'] || {}
 Config.update('ooxml', settings['doc_format'] === 'ooxml')
 
 window.OCA.RichDocuments = {
@@ -285,7 +284,7 @@ $(document).ready(function() {
 			if (args.Status === 'Timeout') {
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
-					{ productName: getCapabilities().richdocuments.productName }
+					{ productName: OC.getCapabilities().richdocuments.productName }
 				))
 			}
 			break
