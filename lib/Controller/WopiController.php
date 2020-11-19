@@ -353,15 +353,23 @@ class WopiController extends Controller {
 				$versionPath = '/files_versions/' . $relPath . '.v' . $version;
 				$view = new View('/' . $wopi->getOwnerUid());
 				if ($view->file_exists($versionPath)){
-					$response = new StreamResponse($view->fopen($versionPath, 'rb'));
+					$info = $view->getFileInfo($versionPath);
+					if ($info->getSize() === 0) {
+						$response = new Http\Response();
+					} else {
+						$response = new StreamResponse($view->fopen($versionPath, 'rb'));
+					}
 				}
 				else {
 					return new JSONResponse([], Http::STATUS_NOT_FOUND);
 				}
 			}
-			else
-			{
-				$response = new StreamResponse($file->fopen('rb'));
+			else {
+				if ($file->getSize() === 0) {
+					$response = new Http\Response();
+				} else {
+					$response = new StreamResponse($file->fopen('rb'));
+				}
 			}
 			$response->addHeader('Content-Disposition', 'attachment');
 			$response->addHeader('Content-Type', 'application/octet-stream');
