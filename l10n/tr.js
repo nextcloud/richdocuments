@@ -98,7 +98,7 @@ OC.L10N.register(
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Hata: Sunucunuzda fontconfig kitaplığı kurulu değil. Lütfen etkinleştirin ya da ayrı bir sunucu kurun.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Hata: glibc temelli Linux üzerinde çalışmıyor. Lütfen ayrı bir sunucu kurun.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Hata: Collabora Online iç sunucusu başlatılamadı. Lütfen ayrı bir sunucu kurun.",
-    "Please choose your nickname to continue as guest user." : "Konuk kullanıcı olarak devam etmek için bir takma ad seçin.",
+    "Please choose your nickname to continue as guest user." : "Konuk kullanıcı olarak kullanmayı sürdürmek için bir takma ad seçin.",
     "Nickname" : "Takma Ad",
     "Set" : "Ayarla",
     "Close version preview" : "Sürüm ön izlemesini kapat",
