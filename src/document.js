@@ -105,17 +105,21 @@ const generateCSSVarTokens = () => {
 		'--border-radius-pill': '--co-border-radius-pill'
 	}
 	var str = ''
-	for (var cssVarKey in cssVarMap) {
-		var cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
-		if (!cStyle) {
-			// try suffix -dark instead
-			cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey + '-dark')
+	try {
+		for (var cssVarKey in cssVarMap) {
+			var cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
+			if (!cStyle) {
+				// try suffix -dark instead
+				cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey + '-dark')
+			}
+			if (!cStyle) continue // skip if it is not set
+			var varNames = cssVarMap[cssVarKey].split(':')
+			for (var i = 0; i < varNames.length; ++i) {
+				str += varNames[i] + '=' + cStyle + ';'
+			}
 		}
-		if (!cStyle) continue // skip if it is not set
-		var varNames = cssVarMap[cssVarKey].split(':')
-		for (var i = 0; i < varNames.length; ++i) {
-			str += varNames[i] + '=' + cStyle + ';'
-		}
+	} catch (e) {
+		// Skip extracting css vars if we cannot access parent
 	}
 	return str
 }
