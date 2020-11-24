@@ -77,6 +77,35 @@ class DiscoveryManager {
 			$options['verify'] = false;
 		}
 
+		// first load with proxy can take some time - increase timeout in that case
+		$usesProxy = false;
+		$proxyPos = strrpos($wopiDiscovery, 'proxy.php');
+		if ($proxyPos === false)
+			$usesProxy = false;
+		else
+			$usesProxy = true;
+
+		if ($usesProxy === true) {
+			$statusUrl = substr($wopiDiscovery, 0, $proxyPos);
+			$statusUrl = $statusUrl . 'proxy.php?status';
+
+			try {
+				$response = $client->get($statusUrl, $options);
+
+				if ($response->getStatusCode() === 200) {
+					$body = json_decode($response->getBody(), true);
+
+					if ($body['status'] === 'starting'
+						|| $body['status'] === 'stopped'
+						|| $body['status'] === 'restarting') {
+						$options['timeout'] = 180;
+					}
+				}
+			} catch (\Exception $e) {
+				// ignore
+			}
+		}
+
 		try {
 			return $client->get($wopiDiscovery, $options);
 		} catch (\Exception $e) {
