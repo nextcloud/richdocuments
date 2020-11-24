@@ -205,7 +205,7 @@ class Application extends App {
 			$discoveryManager = $this->getContainer()->query(DiscoveryManager::class);
 			$capabilitiesService = $this->getContainer()->query(CapabilitiesService::class);
 
-			$discoveryManager->refretch();
+			$discoveryManager->refetch();
 			$capabilitiesService->clear();
 			$capabilitiesService->refetch();
 		}
