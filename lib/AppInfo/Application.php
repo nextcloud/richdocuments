@@ -41,6 +41,7 @@ use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\GlobalScale\IConfig;
 use OCP\IPreview;
 
 class Application extends App {
@@ -139,20 +140,40 @@ class Application extends App {
 			$path = $container->getServer()->getRequest()->getPathInfo();
 		} catch (\Exception $e) {}
 		if (strpos($path, '/apps/files') === 0 && $container->getServer()->getAppManager()->isEnabledForUser('federation')) {
-			/** @var TrustedServers $trustedServers */
-			$trustedServers = $container->query(TrustedServers::class);
 			/** @var FederationService $federationService */
-			$federationService = $container->query(FederationService::class);
+			$federationService = \OC::$server->query(FederationService::class);
+
+			// Always add trusted servers on global scale
+			/** @var IConfig $globalScale */
+			$globalScale = $container->query(IConfig::class);
+			if ($globalScale->isGlobalScaleEnabled()) {
+				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
+				foreach ($trustedList as $server) {
+					$this->addTrustedRemote($policy, $server);
+				}
+			}
 			$remoteAccess = $container->getServer()->getRequest()->getParam('richdocuments_remote_access');
 
-			if ($remoteAccess && $trustedServers->isTrustedServer($remoteAccess)) {
-				$remoteCollabora = $federationService->getRemoteCollaboraURL($remoteAccess);
-				$policy->addAllowedFrameDomain($remoteAccess);
-				$policy->addAllowedFrameDomain($remoteCollabora);
+			if ($remoteAccess && $federationService->isTrustedRemote($remoteAccess)) {
+				$this->addTrustedRemote($policy, $remoteAccess);
 			}
 		}
 
 		$cspManager->addDefaultPolicy($policy);
+	}
+
+	private function addTrustedRemote($policy, $url) {
+		/** @var FederationService $federationService */
+		$federationService = \OC::$server->query(FederationService::class);
+		try {
+			$remoteCollabora = $federationService->getRemoteCollaboraURL($url);
+			$policy->addAllowedFrameDomain($url);
+			$policy->addAllowedFrameDomain($remoteCollabora);
+		} catch (\Exception $e) {
+			// We can ignore this exception for adding predefined domains to the CSP as it it would then just
+			// reload the page to set a proper allowed frame domain if we don't have a fixed list of trusted
+			// remotes in a global scale scenario
+		}
 	}
 
 	public function checkAndEnableCODEServer() {
