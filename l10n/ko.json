@@ -7,6 +7,8 @@
     "New Document.docx" : "새 문서.docx",
     "New Spreadsheet.xlsx" : "새 스프레드시트.xlsx",
     "New Presentation.pptx" : "새 프레젠테이션.pptx",
+    "Document already exists" : "문서가 이미 존재합니다",
+    "Not allowed to create document" : "문서 생성이 허용되지 않았습니다",
     "Saved" : "저장됨",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
     "File is too big" : "파일이 너무 큼",
@@ -35,6 +37,7 @@
     "Add to favorites" : "즐겨찾기에 추가",
     "Details" : "세부사항",
     "Download" : "다운로드",
+    "(read only)" : "(읽기 전용)",
     "Guest" : "손님",
     "Failed to revert the document to older version" : "문서를 이전 버전으로 되돌릴 수 없음",
     "New Document" : "새 문서",
@@ -42,6 +45,10 @@
     "New Presentation" : "새 프레젠테이션",
     "Could not create file" : "파일을 만들 수 없음",
     "Create" : "생성",
-    "Select template" : "템플릿 선택"
+    "Select template" : "템플릿 선택",
+    "Global templates" : "전역 템플릿",
+    "Add a new template" : "새 템플릿 추가",
+    "template preview" : "템플릿 미리보기",
+    "Select a template directory" : "템플릿 디렉터리 선택"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
