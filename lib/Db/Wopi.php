@@ -52,7 +52,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setTemplateId(int $fileId)
  * @method int getTemplateId()
  */
-class Wopi extends Entity {
+class Wopi extends Entity implements \JsonSerializable {
 	/** @var string */
 	protected $ownerUid;
 
@@ -149,6 +149,10 @@ class Wopi extends Entity {
 
 	public function getDirect() {
 		return (bool)$this->direct;
+	}
+
+	public function jsonSerialize() {
+		return get_object_vars($this);
 	}
 
 }

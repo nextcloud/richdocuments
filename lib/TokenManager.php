@@ -224,6 +224,9 @@ class TokenManager {
 		$wopi->setRemoteServerToken($remoteServerToken);
 		$wopi->setGuestDisplayname($uid);
 		$this->wopiMapper->update($wopi);
+
+		$this->logger->debug('Upgraded WOPI token to remote {wopi}', ['wopi' => $wopi]);
+
 		return $wopi;
 	}
 
@@ -279,8 +282,10 @@ class TokenManager {
 		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, null, false, true);
 		$wopi->setIsRemoteToken(true);
 		$wopi->setRemoteServer($node->getStorage()->getRemote());
-
 		$this->wopiMapper->update($wopi);
+
+		\OC::$server->getLogger()->debug('Get remote WOPI token {wopi}', ['wopi' => $wopi]);
+
 		return $wopi;
 	}
 

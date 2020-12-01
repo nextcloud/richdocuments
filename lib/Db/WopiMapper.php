@@ -85,8 +85,12 @@ class WopiMapper extends Mapper {
 			'share' => $share
 		]);
 
+		$this->logger->debug('Attempt to generate WOPI token {wopi}', ['wopi' => $wopi]);
+
 		/** @var Wopi $wopi */
 		$wopi = $this->insert($wopi);
+
+		$this->logger->debug('Generated WOPI token {wopi}', ['wopi' => $wopi]);
 
 		return $wopi;
 	}

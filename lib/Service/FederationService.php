@@ -188,8 +188,10 @@ class FederationService {
 	 */
 	public function getRemoteRedirectURL(File $item, $direct = null) {
 		if ($item->getStorage()->instanceOfStorage(SharingExternalStorage::class)) {
+			\OC::$server->getLogger()->debug('Storage is external shared storage, attempt to generate remote token');
 			$remote = $item->getStorage()->getRemote();
 			$remoteCollabora = $this->getRemoteCollaboraURL($remote);
+			\OC::$server->getLogger()->debug('Fetched remote collabora url: ' . $remoteCollabora);
 			if ($remoteCollabora !== '') {
 				if ($direct === null) {
 					$wopi = $this->tokenManager->getRemoteToken($item);
