@@ -202,7 +202,7 @@ class DocumentController extends Controller {
 						'&richdocuments_remote_access=' . $remote;
 
 						$event = new BeforeFederationRedirectEvent(
-							$item, $relative, $remote
+							$item, $relativeFolderPath, $remote
 						);
 						$eventDispatcher = \OC::$server->getEventDispatcher();
 						$eventDispatcher->dispatch(BeforeFederationRedirectEvent::class, $event);
