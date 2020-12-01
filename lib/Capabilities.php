@@ -91,6 +91,7 @@ class Capabilities implements ICapability {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
 			$this->capabilities = [
 				'richdocuments' => [
+					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
 					'mimetypes' => self::MIMETYPES,
 					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 					'collabora' => $collaboraCapabilities,
