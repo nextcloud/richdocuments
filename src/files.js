@@ -21,6 +21,7 @@ const odfViewer = {
 
 	open: false,
 	receivedLoading: false,
+	isProxyStarting: false,
 	isCollaboraConfigured: (
 		(OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
 		|| (typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0)),
@@ -132,13 +133,14 @@ const odfViewer = {
 		$('head').append($('<link rel="stylesheet" type="text/css" href="' + OC.filePath('richdocuments', 'css', 'mobile.css') + '"/>'))
 
 		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
-		odfViewer.loadingTimeout = setTimeout(function() {
-			if (!odfViewer.receivedLoading) {
-				odfViewer.onClose()
-				OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
-			}
-		}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+		odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
+			(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl
+
+		if ((OC.appswebroots.richdocumentscode || OC.appswebroots.richdocumentscode_arm64)
+			&& OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') >= 0) {
+			odfViewer.checkProxyStatus()
+		}
 
 		$('body').css('overscroll-behavior-y', 'none')
 		var viewport = document.querySelector('meta[name=viewport]')
@@ -204,6 +206,36 @@ const odfViewer = {
 		OC.Util.History.replaceState()
 
 		FilesAppIntegration.close()
+	},
+
+	onTimeout: function() {
+		if (!odfViewer.receivedLoading && !odfViewer.isProxyStarting) {
+			odfViewer.onClose()
+			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
+		} else if (!odfViewer.receivedLoading) {
+			odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
+				(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+		}
+	},
+
+	checkProxyStatus: function() {
+		var wopiUrl = OC.getCapabilities().richdocuments.config.wopi_url
+		var url = wopiUrl.substr(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
+		$.get(url + '?status').done(function(result) {
+			if (result && result.status) {
+				if (result.status === 'OK' || result.status === 'error') {
+					odfViewer.isProxyStarting = false
+				} else if (result.status === 'starting'
+					|| result.status === 'stopped'
+					|| result.status === 'restarting') {
+					odfViewer.isProxyStarting = true
+
+					setTimeout(function() {
+						odfViewer.checkProxyStatus()
+					}, 1000)
+				}
+			}
+		})
 	}
 }
 
