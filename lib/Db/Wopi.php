@@ -96,10 +96,10 @@ class Wopi extends Entity {
 	protected $isRemoteToken;
 
 	/** @var string */
-	protected $remoteServer = '';
+	protected $remoteServer;
 
 	/** @var string */
-	protected $remoteServerToken = '';
+	protected $remoteServerToken;
 
 	/** @var string */
 	protected $share;
