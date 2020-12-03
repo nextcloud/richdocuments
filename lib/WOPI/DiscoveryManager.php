@@ -77,6 +77,9 @@ class DiscoveryManager {
 			$options['verify'] = false;
 		}
 
+		if ($this->isProxyStarting($wopiDiscovery))
+			$options['timeout'] = 180;
+
 		try {
 			return $client->get($wopiDiscovery, $options);
 		} catch (\Exception $e) {
@@ -87,5 +90,47 @@ class DiscoveryManager {
 	public function refetch() {
 		$this->cache->remove('discovery');
 		$this->discovery = null;
+	}
+
+	/**
+	 * @return boolean indicating if proxy.php is in initialize or false otherwise
+	 */
+	private function isProxyStarting($url) {
+		$usesProxy = false;
+		$proxyPos = strrpos($url, 'proxy.php');
+		if ($proxyPos === false)
+			$usesProxy = false;
+		else
+			$usesProxy = true;
+
+		if ($usesProxy === true) {
+			$statusUrl = substr($url, 0, $proxyPos);
+			$statusUrl = $statusUrl . 'proxy.php?status';
+
+			$client = $this->clientService->newClient();
+			$options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
+
+			if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
+				$options['verify'] = false;
+			}
+
+			try {
+				$response = $client->get($statusUrl, $options);
+
+				if ($response->getStatusCode() === 200) {
+					$body = json_decode($response->getBody(), true);
+
+					if ($body['status'] === 'starting'
+						|| $body['status'] === 'stopped'
+						|| $body['status'] === 'restarting') {
+						return true;
+					}
+				}
+			} catch (\Exception $e) {
+				// ignore
+			}
+		}
+
+		return false;
 	}
 }
