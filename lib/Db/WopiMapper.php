@@ -82,6 +82,8 @@ class WopiMapper extends Mapper {
 			'direct' => $direct,
 			'isRemoteToken' => $isRemoteToken,
 			'templateId' => $templateId,
+			'remoteServer' => '',
+			'remoteServerToken' => '',
 			'share' => $share
 		]);
 

@@ -196,7 +196,7 @@ class FederationService {
 				} else {
 					$wopi = $this->tokenManager->getRemoteTokenFromDirect($item, $direct->getUid());
 				}
-				$url = $remote . 'index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
+				$url = rtrim($remote, '') . '/index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
 					'&remoteServer=' . $wopi->getServerHost() .
 					'&remoteServerToken=' . $wopi->getToken();
 				if ($item->getInternalPath() !== '') {
