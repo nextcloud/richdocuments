@@ -188,18 +188,24 @@ class Application extends App {
 		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser($CODEAppID)) {
 			$appConfig = $this->getContainer()->query(AppConfig::class);
 			$wopi_url = $appConfig->getAppValue('wopi_url');
+			$isCODEEnabled = strpos($wopi_url, 'proxy.php?req=') !== false;
 
-			// Check if we have the wopi_url set currently
-			if ($wopi_url !== null && $wopi_url !== '') {
+			// Check if we have the wopi_url set to custom currently
+			if ($wopi_url !== null && $wopi_url !== '' && $isCODEEnabled === false) {
 				return;
 			}
 
 			$urlGenerator = \OC::$server->getURLGenerator();
 			$relativeUrl = $urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
 			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
-			$wopi_url = $absoluteUrl . '?req=';
+			$new_wopi_url = $absoluteUrl . '?req=';
 
-			$appConfig->setAppValue('wopi_url', $wopi_url);
+			// Check if the wopi url needs to be updated
+			if ($isCODEEnabled && $wopi_url === $new_wopi_url) {
+				return;
+			}
+
+			$appConfig->setAppValue('wopi_url', $new_wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');
 
 			$discoveryManager = $this->getContainer()->query(DiscoveryManager::class);
