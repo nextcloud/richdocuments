@@ -194,6 +194,12 @@ class SettingsController extends Controller{
 
 		$this->capabilitiesService->clear();
 		$this->capabilitiesService->refetch();
+		if ($this->capabilitiesService->getCapabilities() === []) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => ['message' => 'Failed to connect to the remote server', 'hint' => 'missing_capabilities']
+			], 500);
+		}
 
 		$response = [
 			'status' => 'success',
