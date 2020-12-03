@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.7.11
+
+* [#1256](https://github.com/nextcloud/richdocuments/pull/1256) Adapt built-in CODE url on host address change @mrkara
+* [#1269](https://github.com/nextcloud/richdocuments/pull/1269) Increase timeout if proxy is starting @eszkadev
+* [#1277](https://github.com/nextcloud/richdocuments/pull/1277) Check proxy status on timeout @eszkadev
+* [#1278](https://github.com/nextcloud/richdocuments/pull/1278) Fix possible issues with remote editing
+* [#989](https://github.com/nextcloud/richdocuments/pull/989) Show hint about missing capabilities endpoint connection
+
 ## 3.7.10
 
 * [#1257](https://github.com/nextcloud/richdocuments/pull/1257) Try to obtain the appdata folder in 1 go @rullzer
