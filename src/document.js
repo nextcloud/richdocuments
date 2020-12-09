@@ -467,6 +467,10 @@ const documentsMain = {
 							nameInput.selectionStart = 0
 							nameInput.selectionEnd = documentsMain.fileName.lastIndexOf('.')
 						})
+					} else if (msgId === 'Action_Save_Resp') {
+						if (args.success && args.fileName) {
+							documentsMain.fileName = args.fileName
+						}
 					}
 				})
 
