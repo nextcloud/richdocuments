@@ -91,6 +91,7 @@
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Pogreška: nije moguće pronaći AppImage, ponovno instalirajte ugrađeni poslužitelj aplikacije Collabora Online.",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Pogreška: nije moguće stvoriti izvršnu datoteku za AppImage, postavite samostalni poslužitelj.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Pogreška: izvršna datoteka je onemogućena u PHP-u, omogućite je ili postavite samostalni poslužitelj.",
+    "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Pogreška: ne upotrebljava se na arhitekturi x86-64 ili ARM64 (aarch64) Linux, postavite samostalni poslužitelj.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Pogreška: na poslužitelju nije instalirana biblioteka fontconfig, instalirajte je ili postavite samostalni poslužitelj.",
     "Error: Not running on glibc-based Linux, please setup a standalone server." : "Pogreška: ne upotrebljava se Linux temeljen na glibcu, postavite samostalni poslužitelj.",
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Pogreška: nije moguće pokrenuti ugrađeni poslužitelj aplikacije Collabora Online, postavite samostalni poslužitelj.",
