@@ -93,7 +93,7 @@ OC.L10N.register(
     "New Document" : "Нов Документ",
     "New Spreadsheet" : "Нова Табела",
     "New Presentation" : "Нова Презентација",
-    "Could not create file" : "Не множе да се креира датотека",
+    "Could not create file" : "Не може да се креира датотека",
     "Create" : "Креирај",
     "Select template" : "Избери шаблон",
     "Global templates" : "Глобални шаблони",
