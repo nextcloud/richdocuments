@@ -45,7 +45,7 @@
 		"@babel/preset-env": "^7.12.10",
 		"@nextcloud/eslint-config": "^2.1.0",
 		"@nextcloud/eslint-plugin": "^1.5.0",
-		"@vue/test-utils": "^1.1.1",
+		"@vue/test-utils": "^1.1.2",
 		"acorn": "^8.0.4",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-eslint": "^10.1.0",
