@@ -25,7 +25,7 @@ npm run dev
 You will need an working Collabora Online server to connect to.
 Find out more about Nextcloud and Collabora Online, and how to setup an server here: https://nextcloud.com/collaboraonline/
 
-Note: it is possible to use Collabora Online’s integration with re-compiled and/or re-branded backends.
+Note: it is possible to use Collabora Online’s integration with re-compiled and/or re-branded backends. This app may work with other WOPI Edtiors such as LibreOffice Online but it is not tested.
 
 ### Nextcloud app
 
