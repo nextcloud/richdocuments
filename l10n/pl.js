@@ -125,7 +125,7 @@ OC.L10N.register(
     "Current version" : "Obecna wersja",
     "Failed to revert the document to older version" : "Nie udało się przywrócić dokumentu do wcześniejszej wersji",
     "Please enter the filename for the new document" : "Podaj nazwę pliku dla nowego dokumentu",
-    "Create a new document" : "Stwórz nowy dokument",
+    "Create a new document" : "Utwórz nowy dokument",
     "New Document" : "Nowy Dokument",
     "New Spreadsheet" : "Nowy Arkusz Kalkulacyjny",
     "New Presentation" : "Nowa Prezentacja",
