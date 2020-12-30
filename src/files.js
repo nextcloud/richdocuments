@@ -52,7 +52,7 @@ const odfViewer = {
 
 	onEdit: function(fileName, context) {
 		if (!odfViewer.isCollaboraConfigured) {
-			const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
+			const setupUrl = OC.generateUrl('/index.php/settings/admin/richdocuments')
 			const installHint = OC.isUserAdmin()
 				? `<a href="${setupUrl}">Collabora Online is not setup yet. <br />Click here to configure your own server or connect to a demo server.</a>`
 				: t('richdocuments', 'Collabora Online is not setup yet. Please contact your administrator.')
