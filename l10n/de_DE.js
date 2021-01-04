@@ -113,7 +113,7 @@ OC.L10N.register(
     "Select a personal template folder" : "Persönlichen Vorlagenordner auswählen",
     "Saving…" : "Speichere…",
     "Insert from {name}" : "Einfügen von {name}",
-    "Remove from favorites" : "Aus Favoriten entfernen",
+    "Remove from favorites" : "Von Favoriten entfernen",
     "Add to favorites" : "Zu Favoriten hinzufügen",
     "Details" : "Details",
     "Download" : "Herunterladen",
