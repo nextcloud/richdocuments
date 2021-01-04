@@ -197,6 +197,13 @@ class TokenManager {
 		if ($this->userId === null) {
 			if ($guest_name = $this->helper->getGuestName()) {
 				$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($guest_name));
+				$cut = 56;
+				while (mb_strlen($guest_name) >= 64) {
+					$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML(
+						mb_substr($guest_name, 0, $cut)
+					));
+					$cut -= 5;
+				}
 			} else {
 				$guest_name = $this->trans->t('Anonymous guest');
 			}
