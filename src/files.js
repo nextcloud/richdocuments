@@ -291,7 +291,9 @@ $(document).ready(function() {
 		}
 
 		odfViewer.registerFileActions()
-		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
+		if (isPublic) {
+			OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
+		}
 	}
 
 	// Open the template picker if there was a create parameter detected on load

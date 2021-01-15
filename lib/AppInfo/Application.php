@@ -36,11 +36,14 @@ use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
+use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\TemplateFileCreator;
 use OCP\GlobalScale\IConfig;
 use OCP\IPreview;
 
@@ -114,6 +117,34 @@ class Application extends App {
 		$previewManager->registerProvider('/application\/pdf/', function() use ($container) {
 			return $container->query(Pdf::class);
 		});
+
+		/** @var ITemplateManager $templateManager */
+		$templateManager = \OC::$server->query(ITemplateManager::class);
+
+		$templateManager->registerTemplateProvider(CollaboraTemplateProvider::class);
+
+		$odtType = new TemplateFileCreator('richdocuments', 'New document', '.odt');
+		$odtType->addMimetype('application/vnd.oasis.opendocument.text');
+		$odtType->addMimetype('application/vnd.oasis.opendocument.document-template');
+		$odtType->setIconClass('icon-filetype-document');
+		$odtType->setRatio(21/29.7);
+		$templateManager->registerTemplateFileCreator($odtType);
+
+		$odsType = new TemplateFileCreator('richdocuments', 'New spreadsheet', '.ods');
+		$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet');
+		$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet-template');
+		$odsType->setIconClass('icon-filetype-spreadsheet');
+		$odsType->setRatio(16/9);
+		$templateManager->registerTemplateFileCreator($odsType);
+
+		$odpType = new TemplateFileCreator('richdocuments', 'New presentation', '.odp');
+		$odpType->addMimetype('application/vnd.oasis.opendocument.presentation');
+		$odpType->addMimetype('application/vnd.oasis.opendocument.presentation-template');
+		$odpType->setIconClass('icon-filetype-presentation');
+		$odpType->setRatio(16/9);
+		$templateManager->registerTemplateFileCreator($odpType);
+
+
 
 	}
 
