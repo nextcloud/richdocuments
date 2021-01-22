@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.7.12
+
+* [#1178](https://github.com/nextcloud/richdocuments/pull/1178) Show error if trying to open a file on session credential based external storage @juliushaertl
+* [#1279](https://github.com/nextcloud/richdocuments/pull/1279) Actually mark wopi entity fields as updated @juliushaertl
+* [#1284](https://github.com/nextcloud/richdocuments/pull/1284) Rename document on save as success @eszkadev
+* [#1303](https://github.com/nextcloud/richdocuments/pull/1303) Cut of guest names so they fit into the database @nickvergessen
+* [#1305](https://github.com/nextcloud/richdocuments/pull/1305) Properly trim trailing slashes from the remote url @juliushaertl
+* [#941](https://github.com/nextcloud/richdocuments/pull/941) Be fair about compatiblity of this module @mmaridev
+* Update dependencies
+
 ## 3.7.11
 
 * [#1256](https://github.com/nextcloud/richdocuments/pull/1256) Adapt built-in CODE url on host address change @mrkara
