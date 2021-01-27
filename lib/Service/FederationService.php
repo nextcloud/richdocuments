@@ -172,10 +172,12 @@ class FederationService {
 					'token' => $remoteToken
 				]
 			]);
-			$data = \json_decode($response->getBody(), true);
+			$responseBody = $response->getBody();
+			$data = \json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
+			$this->logger->debug('Reveived remote file details for ' . $remoteToken . ' from ' . $remote . ': ' . $responseBody);
 			return $data['ocs']['data'];
 		} catch (\Throwable $e) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+			$this->logger->error('Unable to fetch remote file details for ' . $remoteToken . ' from ' . $remote, ['exception' => $e]);
 		}
 		return null;
 	}
