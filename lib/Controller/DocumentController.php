@@ -444,6 +444,9 @@ class DocumentController extends Controller {
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $shareToken, $this->uid);
 
 				$remoteWopi = $this->federationService->getRemoteFileDetails($remoteServer, $remoteServerToken);
+				if ($remoteWopi === null) {
+					throw new \Exception('Invalid remote file details for ' . $remoteServerToken);
+				}
 				$this->tokenManager->updateToRemoteToken($wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi);
 
 				$permissions = $share->getPermissions();
