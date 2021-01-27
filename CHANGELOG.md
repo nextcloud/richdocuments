@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.13
+
+* [#1326](https://github.com/nextcloud/richdocuments/pull/1326) Do not update CSP on calls to files_sharing @rullzer
+* [#1327](https://github.com/nextcloud/richdocuments/pull/1327) Handle errors when fetching remote file info more gracefully @juliushaertl
+* [#1329](https://github.com/nextcloud/richdocuments/pull/1329) Move federation cache to a distributed one @juliushaertl
+
 ## 3.7.12
 
 * [#1178](https://github.com/nextcloud/richdocuments/pull/1178) Show error if trying to open a file on session credential based external storage @juliushaertl
