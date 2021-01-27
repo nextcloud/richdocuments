@@ -149,6 +149,9 @@ class Application extends App {
 			if ($globalScale->isGlobalScaleEnabled()) {
 				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
 				foreach ($trustedList as $server) {
+					if (strpos($server, 'http://') !== 0 && strpos($server, 'https://') !== 0) {
+						$server = \OC::$server->getRequest()->getServerProtocol() . '://' . $server;
+					}
 					$this->addTrustedRemote($policy, $server);
 				}
 			}
