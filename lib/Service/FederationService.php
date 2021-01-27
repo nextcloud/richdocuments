@@ -54,7 +54,7 @@ class FederationService {
 	private $tokenManager;
 
 	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, IConfig $config) {
-		$this->cache = $cacheFactory->createLocal('richdocuments_remote/');
+		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->tokenManager = $tokenManager;
