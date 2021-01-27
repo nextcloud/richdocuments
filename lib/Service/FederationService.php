@@ -173,7 +173,7 @@ class FederationService {
 				]
 			]);
 			$responseBody = $response->getBody();
-			$data = \json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
+			$data = \json_decode($responseBody, true, 512);
 			$this->logger->debug('Reveived remote file details for ' . $remoteToken . ' from ' . $remote . ': ' . $responseBody);
 			return $data['ocs']['data'];
 		} catch (\Throwable $e) {
