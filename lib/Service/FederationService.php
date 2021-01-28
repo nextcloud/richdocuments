@@ -84,7 +84,7 @@ class FederationService {
 			$this->cache->set('richdocuments_remote/' . $remote, $remoteCollabora, 3600);
 			return $remoteCollabora;
 		} catch (\Throwable $e) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote, ['exception' => $e]);
 			$this->cache->set('richdocuments_remote/' . $remote, '', 300);
 		}
 		return '';
@@ -154,7 +154,7 @@ class FederationService {
 			$data = \json_decode($response->getBody(), true);
 			return $data['ocs']['data'];
 		} catch (\Throwable $e) {
-			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote);
+			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote, ['exception' => $e]);
 		}
 		return null;
 	}
