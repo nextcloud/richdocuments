@@ -26,7 +26,8 @@ namespace OCA\RichDocuments\Command;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
+use OC\DB\Connection;
+use OCP\DB\Types;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
@@ -42,7 +43,7 @@ class ConvertToBigInt extends Command {
 	/**
 	 * @param IDBConnection $connection
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(Connection $connection) {
 		$this->connection = $connection;
 		parent::__construct();
 	}
