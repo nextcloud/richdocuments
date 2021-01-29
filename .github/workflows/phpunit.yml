@@ -44,10 +44,10 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:8.5.2
+          tools: phpunit:8.5.14
           extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite
           coverage: none
 
@@ -111,10 +111,10 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:8.5.2
+          tools: phpunit:8.5.14
           extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
           coverage: none
 
@@ -180,10 +180,10 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: phpunit:8.5.2
+          tools: phpunit:8.5.14
           extensions: mbstring, iconv, fileinfo, intl, pgsql, pdo_pgsql
           coverage: none
 
@@ -248,7 +248,7 @@ jobs:
         with:
           php-version: "${{ matrix.php-versions }}"
           extensions: mbstring, iconv, fileinfo, intl, oci8
-          tools: phpunit:8.5.2
+          tools: phpunit:8.5.14
           coverage: none
 
       - name: Set up PHPUnit
