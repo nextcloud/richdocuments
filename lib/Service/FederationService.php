@@ -78,7 +78,8 @@ class FederationService {
 		if (!$this->isTrustedRemote($remote)) {
 			throw new \Exception('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
 		}
-		if ($remoteCollabora = $this->cache->get('richdocuments_remote/' . $remote)) {
+		$remoteCollabora = $this->cache->get('richdocuments_remote/' . $remote);
+		if ($remoteCollabora !== null) {
 			return $remoteCollabora;
 		}
 		try {
