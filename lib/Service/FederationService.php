@@ -70,6 +70,11 @@ class FederationService {
 	 * @throws \Exception
 	 */
 	public function getRemoteCollaboraURL($remote) {
+		// If no protocol is provided we default to https
+		if (strpos($remote, 'http://') !== 0 && strpos($remote, 'https://') !== 0) {
+			$remote = 'https://' . $remote;
+		}
+
 		if (!$this->isTrustedRemote($remote)) {
 			throw new \Exception('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
 		}
