@@ -24,11 +24,13 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
+use OC\EventDispatcher\SymfonyAdapter;
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\Federation\TrustedServers;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
@@ -36,47 +38,104 @@ use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
+use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
-use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\TemplateFileCreator;
 use OCP\GlobalScale\IConfig;
 use OCP\IPreview;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 
-	const APPNAME = 'richdocuments';
-
-	/**
-	 * Strips the path and query parameters from the URL.
-	 *
-	 * @param string $url
-	 * @return string
-	 */
-	private function domainOnly($url) {
-		$parsed_url = parse_url($url);
-		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-		$host	= isset($parsed_url['host']) ? $parsed_url['host'] : '';
-		$port	= isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
-		return "$scheme$host$port";
-	}
+	public const APPNAME = 'richdocuments';
 
 	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
+		$this->getContainer()->registerCapability(Capabilities::class);
+	}
 
-		try {
-			/** @var IEventDispatcher $eventDispatcher */
-			$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
-			if (class_exists(LoadViewer::class)) {
-				$eventDispatcher->addListener(LoadViewer::class, function () {
-					\OCP\Util::addScript('richdocuments', 'viewer');
-				});
+
+	public function register(IRegistrationContext $context): void {
+		$context->registerTemplateProvider(CollaboraTemplateProvider::class);
+		$context->registerCapability(Capabilities::class);
+	}
+
+	public function boot(IBootContext $context): void {
+		$currentUser = \OC::$server->getUserSession()->getUser();
+		if($currentUser !== null) {
+			/** @var PermissionManager $permissionManager */
+			$permissionManager = \OC::$server->query(PermissionManager::class);
+			if(!$permissionManager->isEnabledForUser($currentUser)) {
+				return;
 			}
-		} catch (QueryException $e) {
 		}
 
-		$this->getContainer()->registerCapability(Capabilities::class);
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
+		$eventDispatcher->addListener(LoadViewer::class, function () {
+			\OCP\Util::addScript('richdocuments', 'viewer');
+		});
+
+		$context->injectFn(function(ITemplateManager $templateManager) {
+			$templateManager->registerTemplateFileCreator(function () {
+				$odtType = new TemplateFileCreator('richdocuments', 'New document', '.odt');
+				$odtType->addMimetype('application/vnd.oasis.opendocument.text');
+				$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
+				$odtType->setIconClass('icon-filetype-document');
+				$odtType->setRatio(21/29.7);
+				return $odtType;
+			});
+			$templateManager->registerTemplateFileCreator(function () {
+				$odsType = new TemplateFileCreator('richdocuments', 'New spreadsheet', '.ods');
+				$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet');
+				$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet-template');
+				$odsType->setIconClass('icon-filetype-spreadsheet');
+				$odsType->setRatio(16/9);
+				return $odsType;
+			});
+			$templateManager->registerTemplateFileCreator(function () {
+				$odpType = new TemplateFileCreator('richdocuments', 'New presentation', '.odp');
+				$odpType->addMimetype('application/vnd.oasis.opendocument.presentation');
+				$odpType->addMimetype('application/vnd.oasis.opendocument.presentation-template');
+				$odpType->setIconClass('icon-filetype-presentation');
+				$odpType->setRatio(16/9);
+				return $odpType;
+			});
+		});
+
+		$context->injectFn(function (SymfonyAdapter $eventDispatcher) {
+			$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts',
+				function() {
+					\OCP\Util::addScript('richdocuments', 'files');
+				}
+			);
+			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts',
+				function() {
+					\OCP\Util::addScript('richdocuments', 'files');
+				}
+			);
+
+			if (class_exists('\OC\Files\Type\TemplateManager')) {
+				$manager = \OC_Helper::getFileTemplateManager();
+
+				$manager->registerTemplate('application/vnd.openxmlformats-officedocument.wordprocessingml.document', dirname(__DIR__) . '/assets/docxtemplate.docx');
+				$manager->registerTemplate('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', dirname(__DIR__) . '/assets/xlsxtemplate.xlsx');
+				$manager->registerTemplate('application/vnd.openxmlformats-officedocument.presentationml.presentation', dirname(__DIR__) . '/assets/pptxtemplate.pptx');
+				$manager->registerTemplate('application/vnd.oasis.opendocument.presentation', dirname(__DIR__) . '/assets/template.odp');
+				$manager->registerTemplate('application/vnd.oasis.opendocument.text', dirname(__DIR__) . '/assets/template.odt');
+				$manager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', dirname(__DIR__) . '/assets/template.ods');
+			}
+
+			$this->registerProvider();
+			$this->updateCSP();
+			$this->checkAndEnableCODEServer();
+		});
 	}
 
 	public function registerProvider() {
@@ -114,7 +173,6 @@ class Application extends App {
 		$previewManager->registerProvider('/application\/pdf/', function() use ($container) {
 			return $container->query(Pdf::class);
 		});
-
 	}
 
 	public function updateCSP() {
@@ -215,5 +273,19 @@ class Application extends App {
 			$capabilitiesService->clear();
 			$capabilitiesService->refetch();
 		}
+	}
+
+	/**
+	 * Strips the path and query parameters from the URL.
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	private function domainOnly($url) {
+		$parsed_url = parse_url($url);
+		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+		$host	= isset($parsed_url['host']) ? $parsed_url['host'] : '';
+		$port	= isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		return "$scheme$host$port";
 	}
 }

@@ -4,30 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73ca5818c235c48b12ffe717a3b0c703",
+    "content-hash": "75520cba04bcdd341ddd74fb8bfb97da",
     "packages": [],
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud",
-            "version": "v15.0.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "22175a6ec85f8aeb289c47206a8775401ca02979"
+                "reference": "66d307aadf7334296c57afc0e7b9ef588cf4f2a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/22175a6ec85f8aeb289c47206a8775401ca02979",
-                "reference": "22175a6ec85f8aeb289c47206a8775401ca02979",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/66d307aadf7334296c57afc0e7b9ef588cf4f2a9",
+                "reference": "66d307aadf7334296c57afc0e7b9ef588cf4f2a9",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.3 || ~8.0.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "15.0.0-dev"
+                    "dev-master": "21.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -41,7 +42,11 @@
                 }
             ],
             "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
-            "time": "2019-04-25T13:34:40+00:00"
+            "support": {
+                "issues": "https://github.com/ChristophWurst/nextcloud_composer/issues",
+                "source": "https://github.com/ChristophWurst/nextcloud_composer/tree/master"
+            },
+            "time": "2021-01-29T02:16:34+00:00"
         },
         {
             "name": "jakub-onderka/php-parallel-lint",
@@ -310,10 +315,12 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "christophwurst/nextcloud": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }

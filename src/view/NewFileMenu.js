@@ -32,8 +32,8 @@ const NewFileMenu = {
 
 		newFileMenu.addMenuEntry({
 			id: 'add-' + document.extension,
-			displayName: t('richdocuments', 'New Document'),
-			templateName: t('richdocuments', 'New Document') + '.' + document.extension,
+			displayName: t('richdocuments', 'New document'),
+			templateName: t('richdocuments', 'New document') + '.' + document.extension,
 			iconClass: 'icon-filetype-document',
 			fileType: 'x-office-document',
 			actionHandler: function(filename) {
@@ -47,8 +47,8 @@ const NewFileMenu = {
 
 		newFileMenu.addMenuEntry({
 			id: 'add-' + spreadsheet.extension,
-			displayName: t('richdocuments', 'New Spreadsheet'),
-			templateName: t('richdocuments', 'New Spreadsheet') + '.' + spreadsheet.extension,
+			displayName: t('richdocuments', 'New spreadsheet'),
+			templateName: t('richdocuments', 'New spreadsheet') + '.' + spreadsheet.extension,
 			iconClass: 'icon-filetype-spreadsheet',
 			fileType: 'x-office-spreadsheet',
 			actionHandler: function(filename) {
@@ -62,8 +62,8 @@ const NewFileMenu = {
 
 		newFileMenu.addMenuEntry({
 			id: 'add-' + presentation.extension,
-			displayName: t('richdocuments', 'New Presentation'),
-			templateName: t('richdocuments', 'New Presentation') + '.' + presentation.extension,
+			displayName: t('richdocuments', 'New presentation'),
+			templateName: t('richdocuments', 'New presentation') + '.' + presentation.extension,
 			iconClass: 'icon-filetype-presentation',
 			fileType: 'x-office-presentation',
 			actionHandler: function(filename) {
