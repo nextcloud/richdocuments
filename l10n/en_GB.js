@@ -38,9 +38,6 @@ OC.L10N.register(
     "Download" : "Download",
     "Guest" : "Guest",
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
-    "New Document" : "New Document",
-    "New Spreadsheet" : "New Spreadsheet",
-    "New Presentation" : "New Presentation",
     "Could not create file" : "Could not create file",
     "Create" : "Create",
     "Select template" : "Select template"

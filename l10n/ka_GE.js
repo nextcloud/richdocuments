@@ -37,9 +37,6 @@ OC.L10N.register(
     "Download" : "ჩამოტვირთვა",
     "Guest" : "სტუმარი",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
-    "New Document" : "ახალი დოკუმენტი",
-    "New Spreadsheet" : "ახალი ცხრილი",
-    "New Presentation" : "ახალი პრეზენტაცია",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
     "Create" : "შექმნა"
 },

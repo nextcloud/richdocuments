@@ -28,9 +28,6 @@ OC.L10N.register(
     "Download" : "Baxar",
     "Guest" : "Convidáu/ada",
     "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya",
-    "New Document" : "Documentu nuevu",
-    "New Spreadsheet" : "Fueya nueva de cálculu",
-    "New Presentation" : "Presentación nueva",
     "Could not create file" : "Nun pudo crease'l ficheru",
     "Create" : "Crear"
 },

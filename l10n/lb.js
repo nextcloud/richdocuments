@@ -18,9 +18,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detailer",
     "Download" : "Eroflueden",
-    "New Document" : "Neit Dokument",
-    "New Spreadsheet" : "Neit Aarbechtsblat",
-    "New Presentation" : "Nei Präsentatioun",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
     "Create" : "Erstellen"
 },

@@ -35,9 +35,6 @@ OC.L10N.register(
     "Download" : "Transferir",
     "Guest" : "Convidado",
     "Failed to revert the document to older version" : "Falha ao reverter este documento para versão anterior",
-    "New Document" : "Novo Documento",
-    "New Spreadsheet" : "Nova Folha de Cálculo",
-    "New Presentation" : "Nova Apresentação",
     "Could not create file" : "Não pôde criar ficheiro",
     "Create" : "Criar",
     "Select template" : "Seleccionar modelo"

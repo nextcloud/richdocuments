@@ -28,9 +28,6 @@ OC.L10N.register(
     "Download" : "Татах",
     "Guest" : "Зочин",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
-    "New Document" : "шинэ документ",
-    "New Spreadsheet" : "шинэ хүснэгт",
-    "New Presentation" : "шинэ танилцуулга",
     "Could not create file" : "Файл үүсгэж чадсангүй",
     "Create" : "Үүсгэх"
 },

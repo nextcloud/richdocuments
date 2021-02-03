@@ -50,9 +50,6 @@ OC.L10N.register(
     "Details" : "รายละเอียด",
     "Download" : "ดาวน์โหลด",
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
-    "New Document" : "เอกสารใหม่",
-    "New Spreadsheet" : "สเปรดชีตใหม่",
-    "New Presentation" : "งานนำเสนอใหม่",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง"
 },
