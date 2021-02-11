@@ -438,6 +438,9 @@ const documentsMain = {
 					case 'RD_Version_Restored':
 						$('#loleafletform_viewer').submit()
 						break
+					case 'File_Rename':
+						documentsMain.fileName = args.NewName
+						break
 					default:
 						console.debug('[document] Unhandled post message', parsed)
 					}
