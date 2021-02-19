@@ -10,6 +10,7 @@ OC.L10N.register(
     "Save" : "සුරකින්න",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
+    "Details" : "විස්තර",
     "Download" : "බාන්න",
     "Create" : "තනන්න"
 },
