@@ -48,7 +48,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:8.5.14
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd, zip
           coverage: none
 
       - name: Set up PHPUnit
@@ -115,7 +115,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:8.5.14
-          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql
+          extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql, gd, zip
           coverage: none
 
       - name: Set up PHPUnit
@@ -184,7 +184,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:8.5.14
-          extensions: mbstring, iconv, fileinfo, intl, pgsql, pdo_pgsql
+          extensions: mbstring, iconv, fileinfo, intl, pgsql, pdo_pgsql, gd, zip
           coverage: none
 
       - name: Set up PHPUnit
