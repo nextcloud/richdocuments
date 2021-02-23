@@ -38,9 +38,25 @@ const odfViewer = {
 				OC.PERMISSION_READ,
 				OC.imagePath('core', 'actions/rename'),
 				(fileName, context) => {
+					if (context?.fileId) {
+						OCA.Files.App.fileList.filesClient.getFileInfo(context.dir + '/' + fileName).then((status, fileInfo) => {
+							const fileModel = context.fileList.findFile(fileName)
+							const shareOwnerId = fileModel?.shareOwnerId || fileInfo?.shareOwnerId
+							context.fileId = fileInfo.id
+							return this.onEdit(fileName, {
+								...context,
+								shareOwnerId
+							})
+						})
+						return
+					}
+
 					const fileModel = context.fileList.findFile(fileName)
 					const shareOwnerId = fileModel?.shareOwnerId
-					return this.onEdit(fileName, { ...context, shareOwnerId })
+					return this.onEdit(fileName, {
+						...context,
+						shareOwnerId
+					})
 				},
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
 			)
