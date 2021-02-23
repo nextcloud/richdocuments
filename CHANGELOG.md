@@ -1,4 +1,8 @@
 # Changelog
+## 4.0.0
+
+* [#1317](https://github.com/nextcloud/richdocuments/pull/1317) Nextcloud 21 compatibility @juliushaertl
+* [#1353](https://github.com/nextcloud/richdocuments/pull/1353) Apply new file name after rename @eszkadev
 
 ## 3.7.14
 
