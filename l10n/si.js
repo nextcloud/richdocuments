@@ -2,6 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "File is too big" : "ගොනුව ඉතා විශාලයි",
+    "Empty" : "හිස්",
+    "Install it from the app store." : "යෙදුම් ගබඩාවෙන් එය ස්ථාපනය කරන්න.",
     "Description" : "විස්තරය",
     "No results" : "ප්‍රතිථල නැත",
     "Error" : "දෝෂය",
