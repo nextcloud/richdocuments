@@ -11,6 +11,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Events\BeforeFederationRedirectEvent;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
@@ -210,7 +211,14 @@ class DocumentController extends Controller {
 				return $response;
 			}
 
-			list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId());
+			$templateFile = $this->templateManager->getTemplateSource($item->getId());
+			if ($templateFile) {
+				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $this->uid, $item->getId());
+				$token = $wopi->getToken();
+			} else {
+				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId());
+			}
+
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
@@ -575,6 +583,7 @@ class DocumentController extends Controller {
 		}
 
 		if (!$content){
+			// FIXME: see if this is used,
 			$content = file_get_contents(dirname(dirname(__DIR__)) . self::ODT_TEMPLATE_PATH);
 		}
 
