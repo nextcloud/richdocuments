@@ -24,6 +24,8 @@ declare (strict_types = 1);
 
 namespace OCA\Richdocuments;
 
+use OCA\Richdocuments\AppInfo\Application;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -31,15 +33,13 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\IURLGenerator;
-use OC\Files\AppData\Factory;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 class TemplateManager {
-
-	/** @var string */
-	protected $appName;
 
 	/** @var string */
 	protected $userId;
@@ -55,6 +55,15 @@ class TemplateManager {
 
 	/** @var IL10N */
 	private $l;
+
+	/** @var IDBConnection */
+	private $db;
+
+	/** @var IAppData */
+	private $appData;
+
+	/** @var LoggerInterface */
+	private $logger;
 
 	/** Accepted templates mime types */
 	const MIMES_DOCUMENTS = [
@@ -97,39 +106,27 @@ class TemplateManager {
 		'presentation' => 'pptx',
 	];
 
-	/**
-	 * Template manager
-	 *
-	 * @param string $appName
-	 * @param string $userId
-	 * @param IConfig $config
-	 * @param Factory $appDataFactory
-	 * @param IURLGenerator $urlGenerator
-	 * @param IRootFolder $rootFolder
-	 * @param IL10N $l
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function __construct($appName,
-								$userId,
-								IConfig $config,
-								IAppData $appData,
-								IURLGenerator $urlGenerator,
-								IRootFolder $rootFolder,
-								IL10N $l) {
-		$this->appName        = $appName;
-		$this->userId         = $userId;
-		$this->config         = $config;
-		$this->rootFolder     = $rootFolder;
-		$this->urlGenerator   = $urlGenerator;
-
-
+	public function __construct(
+		$userId,
+		IConfig $config,
+		IAppData $appData,
+		IURLGenerator $urlGenerator,
+		IRootFolder $rootFolder,
+		IL10N $l,
+		IDBConnection $connection,
+		LoggerInterface $logger
+	) {
+		$this->userId = $userId;
+		$this->config = $config;
+		$this->rootFolder = $rootFolder;
+		$this->urlGenerator = $urlGenerator;
+		$this->db = $connection;
+		$this->logger = $logger;
 		$this->appData = $appData;
-		$this->createAppDataFolders();
-
 		$this->l = $l;
 	}
 
-	private function createAppDataFolders() {
+	private function ensureAppDataFolders() {
 		/*
 		 * Init the appdata folder
 		 * We need an actual folder for the fileid and previews.
@@ -200,7 +197,7 @@ class TemplateManager {
 		});
 	}
 
-	private function getEmpty($type = null) {
+	public function getEmpty($type = null) {
 		$folder = $this->getEmptyTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
@@ -228,6 +225,7 @@ class TemplateManager {
 	 * Remove empty_templates in appdata and recreate it from the apps templates
 	 */
 	public function updateEmptyTemplates() {
+		$this->ensureAppDataFolders();
 		try {
 			$folder = $this->getEmptyTemplateDir();
 			$folder->delete();
@@ -393,7 +391,7 @@ class TemplateManager {
 		}
 
 		// has the user manually set a directory as the default template dir ?
-		$templateDirPath = $this->config->getUserValue($this->userId, $this->appName, 'templateFolder', false);
+		$templateDirPath = $this->config->getUserValue($this->userId, Application::APPNAME, 'templateFolder', false);
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		if ($templateDirPath !== false) {
@@ -418,6 +416,7 @@ class TemplateManager {
 	 * @return Folder
 	 */
 	private function getSystemTemplateDir() {
+		$this->ensureAppDataFolders();
 		$path = 'appdata_' . $this->config->getSystemValue('instanceid', null) . '/richdocuments/templates';
 		return $this->rootFolder->get($path);
 	}
@@ -426,6 +425,7 @@ class TemplateManager {
 	 * @return Folder
 	 */
 	private function getEmptyTemplateDir() {
+		$this->ensureAppDataFolders();
 		$path = 'appdata_' . $this->config->getSystemValue('instanceid', null) . '/richdocuments/empty_templates';
 		return $this->rootFolder->get($path);
 	}
@@ -437,7 +437,7 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function formatNodeReturn(File $template) {
-		$ooxml = $this->config->getAppValue($this->appName, 'doc_format', '') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id'        => $template->getId(),
@@ -466,7 +466,7 @@ class TemplateManager {
 	}
 
 	public function formatEmpty(File $template) {
-		$ooxml = $this->config->getAppValue($this->appName, 'doc_format', '') === 'ooxml';
+		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
 			'id'        => $template->getId(),
@@ -489,5 +489,80 @@ class TemplateManager {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Return default content for empty files of a given filename by file extension
+	 */
+	public function getEmptyFileContent(string $extension): string {
+		$supportedExtensions = ['odt', 'ods', 'odp', 'odg', 'docx', 'xlsx', 'pptx'];
+		$emptyPath = __DIR__ . '/../emptyTemplates/template.' . $extension;
+
+		if (in_array($extension, $supportedExtensions, true) && file_exists($emptyPath)) {
+			return file_get_contents($emptyPath);
+		}
+
+		return '';
+	}
+
+	public function isSupportedTemplateSource(string $extension): bool {
+		$supportedExtensions = ['ott', 'otg', 'otp', 'ots'];
+		return in_array($extension, $supportedExtensions, true);
+	}
+
+	public function setTemplateSource(int $fileId, int $templateId): void {
+		try {
+			$query = $this->db->getQueryBuilder();
+			$query->insert('richdocuments_template')
+				->values([
+					'userid' => $query->createNamedParameter($this->userId),
+					'fileid' => $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT),
+					'templateid' => $query->createNamedParameter($templateId, IQueryBuilder::PARAM_INT),
+					'timestamp' => $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT)
+				]);
+			$query->executeStatement();
+		} catch (Throwable $e) {
+			$this->logger->warning('Could not store template source', ['exception' => $e]);
+			// Ignore failure and proceed with empty template
+		}
+	}
+
+	public function getTemplateSource(int $fileId): ?File {
+		$templateId = 0;
+		try {
+			$query = $this->db->getQueryBuilder();
+			$query->select('templateid')
+				->from('richdocuments_template')
+				->where($query->expr()->eq('userid', $query->createNamedParameter($this->userId)))
+				->andWhere($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			$result = $query->executeQuery();
+			$templateId = (int)$result->fetchOne();
+
+			$query->delete('richdocuments_template')
+				->where($query->expr()->eq('userid', $query->createNamedParameter($this->userId)))
+				->andWhere($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			$query->executeStatement();
+		} catch (Throwable $e) {
+			// Ignore failure and proceed with empty template
+			$this->logger->warning('Could not retrieve template source', ['exception' => $e]);
+			return null;
+		}
+
+		if ($templateId !== 0) {
+			try {
+				$template = $this->get($templateId);
+			} catch (NotFoundException $e) {
+				$userFolder = $this->rootFolder->getUserFolder($this->userId);
+				try {
+					$template = $userFolder->getById($templateId);
+				} catch (NotFoundException $e) {
+					$this->logger->warning('Could not retrieve template source file', ['exception' => $e]);
+					return null;
+				}
+			}
+			return $template;
+		}
+
+		return null;
 	}
 }
