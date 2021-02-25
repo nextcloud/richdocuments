@@ -47,7 +47,7 @@ class DemoService {
 		if (!$refresh) {
 			return json_decode($servers, true);
 		}
-		$demoServerList = 'http://col.la/nextclouddemoservers';
+		$demoServerList = 'https://col.la/nextclouddemoservers';
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->get($demoServerList);
