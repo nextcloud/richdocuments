@@ -196,12 +196,27 @@ class WopiController extends Controller {
 
 		if ($this->shouldWatermark($isPublic, $wopi->getEditorUid(), $fileId, $wopi)) {
 			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : "";
+			if (!empty($_SERVER['HTTP_CLIENT_IP']))   
+			  {
+			    $ipAddr = $_SERVER['HTTP_CLIENT_IP'];
+			  }
+			//whether ip is from proxy
+			elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))  
+			  {
+			    $ipAddr = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			  }
+			//whether ip is from remote address
+			else
+			  {
+			    $ipAddr = $_SERVER['REMOTE_ADDR'];
+			  }			
 			$replacements = [
 				'userId' => $wopi->getEditorUid(),
 				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
 				'themingName' => \OC::$server->getThemingDefaults()->getName(),
 				'userDisplayName' => $userDisplayName,
 				'email' => $email,
+				'ipAddr' => $ipAddr,
 
 			];
 			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
