@@ -34,6 +34,8 @@ export default {
 
 	fileList: undefined,
 
+	filePath: undefined,
+
 	/* Views: people currently editing the file */
 	views: {},
 
@@ -50,10 +52,11 @@ export default {
 		}
 	},
 
-	init({ fileName, fileId, sendPostMessage, fileList, fileModel }) {
+	init({ fileName, fileId, filePath, sendPostMessage, fileList, fileModel }) {
 		this.fileName = fileName
 		this.fileId = fileId
 		this.fileList = fileList
+		this.filePath = filePath
 		this.fileModel = fileModel
 		this.sendPostMessage = sendPostMessage
 
@@ -595,6 +598,16 @@ export default {
 				NewFileMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
 			})
 		}, 250)
+	},
+
+	loggingContext: function() {
+		return {
+			currentUser: OC.getCurrentUser()?.uid,
+			file: {
+				fileId: this.fileId,
+				filePath: (this.filePath ?? '') + '/' + this.fileName
+			}
+		}
 	}
 
 }
