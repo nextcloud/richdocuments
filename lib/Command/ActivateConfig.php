@@ -77,10 +77,12 @@ class ActivateConfig extends Command {
 			$this->capabilitiesService->clear();
 			$this->capabilitiesService->refetch();
 			$output->writeln('<info>Activated any config changes</info>');
+			return 0;
 		} catch (\Exception $e) {
 			$output->writeln('<error>Failed to activate any config changes</error>');
 			$output->writeln($e->getMessage());
 			$output->writeln($e->getTraceAsString());
+			return 1;
 		}
 	}
 
