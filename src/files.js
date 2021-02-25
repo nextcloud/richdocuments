@@ -1,3 +1,4 @@
+import { emit } from '@nextcloud/event-bus'
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
 import PostMessageService from './services/postMessage'
 import Config from './services/config'
@@ -199,11 +200,15 @@ const odfViewer = {
 			FilesAppIntegration.init({
 				fileName,
 				fileId,
+				filePath: fileDir,
 				fileList: context ? context.fileList : undefined,
 				fileModel: context ? context.fileModel : undefined,
 				sendPostMessage: (msgId, values) => {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				}
+			})
+			emit('richdocuments:file-open:started', {
+				...FilesAppIntegration.loggingContext()
 			})
 		})
 	},
@@ -242,6 +247,10 @@ const odfViewer = {
 
 	onTimeout: function() {
 		if (!odfViewer.receivedLoading && !odfViewer.isProxyStarting) {
+			emit('richdocuments:file-open:failed', {
+				reason: 'timeout',
+				...FilesAppIntegration.loggingContext()
+			})
 			odfViewer.onClose()
 			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
 		} else if (!odfViewer.receivedLoading) {
@@ -346,8 +355,25 @@ $(document).ready(function() {
 		case 'loading':
 			odfViewer.onReceiveLoading()
 			break
+		case 'Action_Load_Resp':
+			if (!args.success) {
+				emit('richdocuments:file-open:failed', {
+					reason: 'collabora',
+					collaboraResponse: args,
+					...FilesAppIntegration.loggingContext()
+				})
+			} else {
+				emit('richdocuments:file-open:succeeded', {
+					...FilesAppIntegration.loggingContext()
+				})
+			}
+			break
 		case 'App_LoadingStatus':
 			if (args.Status === 'Timeout') {
+				emit('richdocuments:file-open:failed', {
+					reason: 'timeout',
+					...FilesAppIntegration.loggingContext()
+				})
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
 					{ productName: OC.getCapabilities().richdocuments.productName }
