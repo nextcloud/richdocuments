@@ -50,10 +50,12 @@ class UpdateEmptyTemplates extends Command {
 		try {
 			$this->templateManager->updateEmptyTemplates();
 			$output->writeln('<info>Empty template files were updated</info>');
+			return 0;
 		} catch (\Exception $e) {
 			$output->writeln('<error>Failed to update templates</error>');
 			$output->writeln($e->getMessage());
 			$output->writeln($e->getTraceAsString());
+			return 1;
 		}
 	}
 
