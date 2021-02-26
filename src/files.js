@@ -38,8 +38,17 @@ const odfViewer = {
 				OC.PERMISSION_READ,
 				OC.imagePath('core', 'actions/rename'),
 				(fileName, context) => {
-					if (context?.fileId) {
-						OCA.Files.App.fileList.filesClient.getFileInfo(context.dir + '/' + fileName).then((status, fileInfo) => {
+					// Workaround since the new template frontend doesn't pass
+					// the full context yet nor the filelist contains the element
+					// at the point when the action is triggered.
+					// This will be fixed by https://github.com/nextcloud/server/pull/25797
+					// but this should be kept for backward compatibility for now
+					if (!context?.$file) {
+						if (context?.fileList) {
+							context.fileList.setViewerMode(true)
+						}
+						const filePath = (context.dir === '/' ? '/' : context.dir + '/') + fileName
+						OCA.Files.App.fileList.filesClient.getFileInfo(filePath).then((status, fileInfo) => {
 							const fileModel = context.fileList.findFile(fileName)
 							const shareOwnerId = fileModel?.shareOwnerId || fileInfo?.shareOwnerId
 							context.fileId = fileInfo.id
