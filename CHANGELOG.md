@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.7.15
+
+* [#1339](https://github.com/nextcloud/richdocuments/pull/1339) Open file after creating from template
+* [#1355](https://github.com/nextcloud/richdocuments/pull/1355) Apply new file name after rename
+* [#1383](https://github.com/nextcloud/richdocuments/pull/1383) use https for fetching the demo servers
+* [#1384](https://github.com/nextcloud/richdocuments/pull/1384) Add proper return values to occ commands
+
+
 ## 3.7.14
 
 * [#1331](https://github.com/nextcloud/richdocuments/pull/1331) Log the exception so we know what is actually failing @rullzer
