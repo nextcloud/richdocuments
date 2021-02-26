@@ -1,4 +1,10 @@
 # Changelog
+## 4.0.1
+
+* [#1385](https://github.com/nextcloud/richdocuments/pull/1385) Fix opening files after creating them from a template
+* [#1378](https://github.com/nextcloud/richdocuments/pull/1378) Use https for fetching the demo servers
+* [#1382](https://github.com/nextcloud/richdocuments/pull/1382) Add proper return values to occ commands
+
 ## 4.0.0
 
 * [#1317](https://github.com/nextcloud/richdocuments/pull/1317) Nextcloud 21 compatibility @juliushaertl
