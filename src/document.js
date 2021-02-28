@@ -83,8 +83,6 @@ const hideLoadingIndicator = () => {
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
 	var cssVarMap = {
-		'--color-main-text': '--co-color-main-text',
-		'--color-main-background': '--co-body-bg',
 		'--color-primary-text': '--co-primary-text',
 		'--color-primary-element': '--co-primary-element:--co-text-accent',
 		'--color-primary-element-light': '--co-primary-element-light',
@@ -93,10 +91,6 @@ const generateCSSVarTokens = () => {
 		'--color-success': '--co-color-success',
 		'--border-radius': '--co-border-radius',
 		'--border-radius-large': '--co-border-radius-large',
-		'--color-background-hover': '--co-background-hover',
-		'--color-background-dark': '--co-background-dark',
-		'--color-text-light': '--co-text-light',
-		'--color-text-lighter': '--co-text-lighter',
 		'--color-loading-light': '--co-loading-light',
 		'--color-loading-dark': '--co-loading-dark',
 		'--color-box-shadow': '--co-box-shadow',
