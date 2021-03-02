@@ -406,7 +406,6 @@ class WopiController extends Controller {
 							$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
-		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		if (!$wopi->getCanwrite()) {
