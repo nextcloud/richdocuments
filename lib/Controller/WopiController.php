@@ -731,11 +731,8 @@ class WopiController extends Controller {
 
 	/**
 	 * Check if the encryption module uses a master key.
-	 *
-	 * @return bool
 	 */
-	private function isMasterKeyEnabled()
-	{
+	private function isMasterKeyEnabled(): bool {
 		try {
 			$util = \OC::$server->query(\OCA\Encryption\Util::class);
 			return $util->isMasterKeyEnabled();
