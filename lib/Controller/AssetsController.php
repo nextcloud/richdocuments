@@ -29,8 +29,8 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -126,8 +126,9 @@ class AssetsController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new FileDisplayResponse($node, Http::STATUS_OK, [
-			'Content-Type' => $node->getMimeType()
-		]);
+		$response = new StreamResponse($node->fopen('rb'));
+		$response->addHeader('Content-Disposition', 'attachment');
+		$response->addHeader('Content-Type', 'application/octet-stream');
+		return $response;
 	}
 }
