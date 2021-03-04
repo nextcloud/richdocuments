@@ -37,6 +37,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IRequest;
 
 class FederationService {
 
@@ -52,13 +53,16 @@ class FederationService {
 	private $config;
 	/** @var TokenManager */
 	private $tokenManager;
+	/** @var IRequest */
+	private $request;
 
-	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, IConfig $config) {
+	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, IConfig $config, IRequest $request) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->tokenManager = $tokenManager;
 		$this->config = $config;
+		$this->request = $request;
 		try {
 			$this->trustedServers = \OC::$server->query( \OCA\Federation\TrustedServers::class);
 		} catch (QueryException $e) {}
@@ -108,7 +112,7 @@ class FederationService {
 
 		$domain = $this->getDomainWithoutPort($domainWithPort);
 
-		$trustedList = $this->config->getSystemValue('gs.trustedHosts', []);
+		$trustedList = array_merge($this->config->getSystemValue('gs.trustedHosts', []), [$this->request->getServerHost()]);
 		if (!is_array($trustedList)) {
 			return false;
 		}
