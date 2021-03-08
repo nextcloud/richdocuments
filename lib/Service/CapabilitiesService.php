@@ -89,7 +89,7 @@ class CapabilitiesService {
 		if ($remoteHost === '') {
 			return [];
 		}
-		$capabilitiesEndpoint = $remoteHost . '/hosting/capabilities';
+		$capabilitiesEndpoint = rtrim($remoteHost, '/') . '/hosting/capabilities';
 
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 45, 'nextcloud' => ['allow_local_address' => true]];

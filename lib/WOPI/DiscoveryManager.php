@@ -68,7 +68,7 @@ class DiscoveryManager {
 	 */
 	public function fetchFromRemote() {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
-		$wopiDiscovery = $remoteHost . '/hosting/discovery';
+		$wopiDiscovery = rtrim($remoteHost, '/') . '/hosting/discovery';
 
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 45, 'nextcloud' => ['allow_local_address' => true]];
