@@ -356,10 +356,10 @@ $(document).ready(function() {
 			odfViewer.onReceiveLoading()
 			break
 		case 'Action_Load_Resp':
-			if (!args.success) {
+			if (!args?.success) {
 				emit('richdocuments:file-open:failed', {
 					reason: 'collabora',
-					collaboraResponse: args,
+					collaboraResponse: parsed?.args?.errorMsg,
 					...FilesAppIntegration.loggingContext()
 				})
 			} else {
