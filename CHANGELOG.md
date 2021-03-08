@@ -1,4 +1,15 @@
 # Changelog
+
+## 4.0.2
+
+* [#1374](https://github.com/nextcloud/richdocuments/pull/1374) Make sure that the same host remote is always considered as trusted
+* [#1394](https://github.com/nextcloud/richdocuments/pull/1394) Improve dark theme experience @mwalbeck
+* [#1396](https://github.com/nextcloud/richdocuments/pull/1396) Avoid determination of document editor in per-user-encryption setups @marioklump
+* [#1397](https://github.com/nextcloud/richdocuments/pull/1397) Emit events on frontend states
+* [#1401](https://github.com/nextcloud/richdocuments/pull/1401) Assets: Use octet-stream and attachment instead of allowing to inline display
+* [#1412](https://github.com/nextcloud/richdocuments/pull/1412) Trim duplicate trailing slashes in wopi url
+* [#1414](https://github.com/nextcloud/richdocuments/pull/1414) Add docs and sharingToken to the events
+
 ## 4.0.1
 
 * [#1385](https://github.com/nextcloud/richdocuments/pull/1385) Fix opening files after creating them from a template
