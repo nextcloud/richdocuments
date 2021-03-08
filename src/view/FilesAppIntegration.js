@@ -604,6 +604,7 @@ export default {
 		return {
 			currentUser: OC.getCurrentUser()?.uid,
 			file: {
+				sharingToken: document.getElementById('sharingToken')?.value,
 				fileId: this.fileId,
 				filePath: (this.filePath ?? '') + '/' + this.fileName
 			}

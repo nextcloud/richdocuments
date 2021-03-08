@@ -289,7 +289,7 @@ const documentsMain = {
 						if (!parsed.args.success) {
 							emit('richdocuments:wopi-load:failed', {
 								reason: 'collabora',
-								collaboraResponse: parsed.args.errorMsg,
+								collaboraResponse: parsed?.args?.errorMsg,
 								wopiFileId: fileId
 							})
 						}

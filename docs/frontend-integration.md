@@ -149,3 +149,90 @@ The following code shows an example on how to register the different handlers:
 
 })()
 ```
+
+## Events
+
+Events are emitted through the `@nextcloud/event-bus` for the different document loading states.
+
+### Files app scope
+
+When Collabora files are opened through the files app integration (either in the files app or on public share pages), the following events will be emitted to be able to track document opening progress and its success or failure state.
+
+```
+subscribe('richdocuments:file-open:started', data => console.error('richdocuments:file-open:started', data))
+subscribe('richdocuments:file-open:succeeded', data => console.error('richdocuments:file-open:succeeded', data))
+subscribe('richdocuments:file-open:failed', data => console.error('richdocuments:file-open:failed', data))
+```
+
+Event names:
+- richdocuments:file-open:started
+- richdocuments:file-open:succeeded
+- richdocuments:file-open:failed
+
+Data properties:
+
+
+- currentUser (string|null): user id of the currently logged-in user
+- file (object)
+	- fileId (integer|undefined): undefined for single public shares, otherwise the file id is available
+	- filePath (string): "/testfile.odt"
+	- sharingToken (string|undefined): Optional sharing token when opened on a public share link
+- reason (string): Only for a failed event, timeout|collabora
+- collaboraResponse (object); Optional when reason is collabora
+
+Example succeeded event data:
+```
+{
+  "currentUser": "admin",
+  "file": {
+    "fileId": "204",
+    "filePath": "/test.odt",
+    "sharingToken": undefined
+  }
+}
+```
+
+Example failed event data:
+```
+{
+  "reason": "collabora",
+  "collaboraResponse": "WOPI::GetFile failed: []",
+  "currentUser": "admin",
+  "file": {
+    "fileId": "204",
+    "filePath": "/test.odt",
+    "sharingToken": undefined
+  }
+}
+```
+
+### Document scope
+
+The event in the document scope is also emitted on direct editing through mobile apps, as there the files app integration is not available.
+
+```
+subscribe('richdocuments:wopi-load:started', data => console.error('richdocuments:wopi-load:started', data))
+subscribe('richdocuments:wopi-load:succeeded', data => console.error('richdocuments:wopi-load:succeeded', data))
+subscribe('richdocuments:wopi-load:failed', data => console.error('richdocuments:wopi-load:failed', data))
+```
+
+Event names:
+- richdocuments:wopi-load:started
+- richdocuments:wopi-load:succeeded
+- richdocuments:wopi-load:failed
+
+Data properties:
+
+- wopiFileId (string): file id constructed to be used by Collabora for the WOPI access
+- reason (string): Only for a failed event, timeout|collabora
+- collaboraResponse (string): Optional when failure reason is collabora
+
+
+Example failed event data:
+```
+{
+  "reason": "collabora",
+  "collaboraResponse": "WOPI::GetFile failed: []",
+  "wopiFileId": "288_oct9lk1km6wy"
+}
+```
