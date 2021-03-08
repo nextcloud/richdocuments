@@ -1,3 +1,4 @@
+import { emit } from '@nextcloud/event-bus'
 import { getRootUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config'
@@ -275,12 +276,27 @@ const documentsMain = {
 			$('#mainContainer').append(form)
 			$('#mainContainer').append(frame)
 
+			emit('richdocuments:wopi-load:started', {
+				wopiFileId: fileId
+			})
 			// Listen for App_LoadingStatus as soon as possible
 			$('#loleafletframe').ready(function() {
 				const editorInitListener = ({ parsed, data }) => {
 					console.debug('[document] editorInitListener: Received post message ', parsed)
 					const { msgId, args } = parsed
 
+					if (msgId === 'Action_Load_Resp') {
+						if (!parsed.args.success) {
+							emit('richdocuments:wopi-load:failed', {
+								reason: 'collabora',
+								collaboraResponse: parsed?.args?.errorMsg,
+								wopiFileId: fileId
+							})
+						}
+						if (!isDirectEditing()) {
+							PostMessages.sendPostMessage('parent', data)
+						}
+					}
 					if (msgId !== 'App_LoadingStatus') {
 						return
 					}
@@ -312,10 +328,18 @@ const documentsMain = {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
 						}
 
+						emit('richdocuments:wopi-load:succeeded', {
+							wopiFileId: fileId
+						})
 						break
 					case 'Failed':
 						// Loading failed but editor shows the error
 						documentsMain.isFrameReady = true
+						emit('richdocuments:wopi-load:failed', {
+							reason: 'collabora',
+							collaboraResponse: 'App_LoadingStatus Failed',
+							wopiFileId: fileId
+						})
 						break
 					}
 				}
