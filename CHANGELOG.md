@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.7.16
+
+* [#1399](https://github.com/nextcloud/richdocuments/pull/1399) Improve dark theme experience
+* [#1402](https://github.com/nextcloud/richdocuments/pull/1402) Assets: Use octet-stream and attachment instead of allowing to inline display
+* [#1404](https://github.com/nextcloud/richdocuments/pull/1404) Avoid determination of document editor in per-user-encryption setups
+* [#1407](https://github.com/nextcloud/richdocuments/pull/1407) Make sure that the same host remote is always considered as trusted
+* [#1413](https://github.com/nextcloud/richdocuments/pull/1413) Emit events on frontend failure states
+* [#1415](https://github.com/nextcloud/richdocuments/pull/1415) Trim duplicate trailing slashes in wopi url
+
 ## 3.7.15
 
 * [#1339](https://github.com/nextcloud/richdocuments/pull/1339) Open file after creating from template
