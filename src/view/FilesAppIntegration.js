@@ -438,9 +438,9 @@ export default {
 			const preview = OC.MimeType.getIconUrl(this.getFileModel().get('mimetype'))
 			const mtime = this.getFileModel().get('mtime')
 			$('.tab.versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + '<br /><span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span></div></div></li></ul>')
+				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + ' (<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span>)</div></div></li></ul>')
 			$('.tab.versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version') + '</a></div></div></li></ul>')
+				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version (unsaved changes)') + '</a></div></div></li></ul>')
 			$('.live-relative-timestamp').each(function() {
 				$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)))
 			})
