@@ -397,6 +397,8 @@ const documentsMain = {
 						case 'App_VersionRestore':
 							// Status = Pre_Restore_Ack -> Ready to restore version
 							break
+						case 'UI_Share':
+							break
 						default:
 							return
 						}
