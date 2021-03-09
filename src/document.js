@@ -220,7 +220,7 @@ const documentsMain = {
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
 
 			// iframe that contains the Collabora Online Viewer
-			const frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
+			const frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" allowfullscreen nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
 
 			$('#revViewer').append(form)
 			$('#revViewer').append(frame)
