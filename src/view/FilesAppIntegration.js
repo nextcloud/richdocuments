@@ -417,7 +417,14 @@ export default {
 		avatardiv.append(popover)
 	},
 
+	_originalOnClickRevertVersion: null,
+
 	addVersionSidebarEvents() {
+		const versionTabView = OCA.Files.App.fileList._detailsView._tabViews.find(t => t.el.id === 'versionsTabView')
+		if (versionTabView) {
+			this._originalOnClickRevertVersion = versionTabView._onClickRevertVersion
+			OCA.Files.App.fileList._detailsView._tabViews.find(t => t.el.id === 'versionsTabView')._onClickRevertVersion = () => {}
+		}
 		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .preview-container', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('click.revisions', '#app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('mousedown.revisions', '#app-sidebar .revertVersion', this.restoreVersion.bind(this))
@@ -425,6 +432,10 @@ export default {
 	},
 
 	removeVersionSidebarEvents() {
+		const versionTabView = OCA.Files.App.fileList._detailsView._tabViews.find(t => t.el.id === 'versionsTabView')
+		if (versionTabView) {
+			versionTabView._onClickRevertVersion = this._originalOnClickRevertVersion
+		}
 		$(document.querySelector('#content')).off('click.revisions')
 		$(document.querySelector('#content')).off('click.revisions')
 		$(document.querySelector('#content')).off('mousedown.revisions')
