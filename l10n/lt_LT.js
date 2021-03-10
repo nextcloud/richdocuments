@@ -63,7 +63,6 @@ OC.L10N.register(
     "(read only)" : "(tik skaitymui)",
     "Guest" : "Svečias",
     "Last saved version" : "Paskutinė įrašyta versija",
-    "Current version" : "Dabartinė versija",
     "Failed to revert the document to older version" : "Nepavyko sugrąžinti dokumentą į senesnę versiją",
     "Please enter the filename for the new document" : "Įveskite naujo dokumento failo pavadinimą",
     "Create a new document" : "Sukurti naują dokumentą",

@@ -19,7 +19,6 @@ OC.L10N.register(
     "Details" : "التفاصيل",
     "Download" : "تنزيل",
     "Guest" : "ضيف",
-    "Current version" : "الإصدار الحالي",
     "Create a new document" : "أنشئ مستندا جديدا",
     "Could not create file" : "لا يستطيع انشاء ملف ",
     "Create" : "إنشاء",

@@ -60,7 +60,6 @@ OC.L10N.register(
     "Remove user" : "Poista käyttäjä",
     "Guest" : "Vieras",
     "Last saved version" : "Viimeisin tallennettu versio",
-    "Current version" : "Nykyinen versio",
     "Failed to revert the document to older version" : "Asiakirjan palauttaminen aikaisempaan versioon epäonnistui",
     "Please enter the filename for the new document" : "Anna tiedostonimi uudelle asiakirjalle",
     "Create a new document" : "Luo uusi asiakirja",

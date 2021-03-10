@@ -50,7 +50,6 @@ OC.L10N.register(
     "Guest" : "Гість",
     "Follow current editor" : "Слідкувати за поточним дописувачем",
     "Last saved version" : "Остання збережена версія",
-    "Current version" : "Поточна версія",
     "Failed to revert the document to older version" : "Не вдалося повернутися до старішої версії",
     "Please enter the filename for the new document" : "Будь ласка, зазначте ім'я файлу нового документу",
     "Create a new document" : "Створити новий документ",

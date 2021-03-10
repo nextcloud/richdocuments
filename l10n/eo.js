@@ -65,7 +65,6 @@ OC.L10N.register(
     "Guest" : "Gasto",
     "Follow current editor" : "Sekvi la aktualan redaktanton",
     "Last saved version" : "Lasta konservita versio",
-    "Current version" : "Nuna versio",
     "Failed to revert the document to older version" : "Ne eblis revenigi la dokumenton al antaŭa versio",
     "Please enter the filename for the new document" : "Bv. entajpi la dosiernomon por la nova dokumento",
     "Create a new document" : "Krei novan dokumenton",

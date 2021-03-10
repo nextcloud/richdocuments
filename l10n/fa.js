@@ -87,7 +87,6 @@ OC.L10N.register(
     "Guest" : "مهمان",
     "Follow current editor" : "ویرایش کردن فعلی را دنبال کنید",
     "Last saved version" : "آخرین نسخه ذخیره شده",
-    "Current version" : "نسخه فعلی",
     "Failed to revert the document to older version" : "بازگرداندن مستند به نسخه قدیمی تر انجام نشد",
     "Please enter the filename for the new document" : "لطفا نام مستند جدید را وارد کنید",
     "Create a new document" : "مستند جدید ایجاد شده",

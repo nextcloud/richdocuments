@@ -93,7 +93,6 @@ OC.L10N.register(
     "Guest" : "ゲスト",
     "Follow current editor" : "現在のエディターをフォローする",
     "Last saved version" : "最新保存バージョン",
-    "Current version" : "現在のバージョン",
     "Failed to revert the document to older version" : "以前のバージョンに戻すことに失敗しました。",
     "Please enter the filename for the new document" : "新しい文書のファイル名を入力してください.",
     "Create a new document" : "新しい文書を作成する",

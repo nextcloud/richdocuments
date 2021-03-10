@@ -30,7 +30,6 @@ OC.L10N.register(
     "Details" : "Подробности",
     "Download" : "Свали",
     "Guest" : "Гост",
-    "Current version" : "Текуща версия",
     "Failed to revert the document to older version" : "Неуспешно възстановяване на документа към по-стара версия",
     "Create a new document" : "Нов документ",
     "Could not create file" : "Несупешно създаване на файла.",

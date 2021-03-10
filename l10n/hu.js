@@ -57,7 +57,6 @@ OC.L10N.register(
     "Guest" : "Vendég",
     "Follow current editor" : "Az aktuális szerkesztő követése",
     "Last saved version" : "Utoljára mentett verzió",
-    "Current version" : "Aktuális verzió",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",
     "Please enter the filename for the new document" : "Adja meg az új dokumentum fájlnevét",
     "Create a new document" : "Dokumentum létrehozása",

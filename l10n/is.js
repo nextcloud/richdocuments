@@ -65,7 +65,6 @@ OC.L10N.register(
     "Guest" : "Gestur",
     "Follow current editor" : "Fylgjast með núverandi skrifara",
     "Last saved version" : "Síðasta vistaða útgáfa",
-    "Current version" : "Fyrirliggjandi útgáfa",
     "Failed to revert the document to older version" : "Mistókst að endurheimta skjalið sem eldri útgáfu",
     "Please enter the filename for the new document" : "Settu inn skráarheiti fyrir nýja skjalið",
     "Create a new document" : "Búa til nýtt skjal",

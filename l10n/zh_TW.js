@@ -122,7 +122,6 @@ OC.L10N.register(
     "Guest" : "訪客",
     "Follow current editor" : "跟隨目前編輯者",
     "Last saved version" : "上次儲存的版本",
-    "Current version" : "目前版本",
     "Failed to revert the document to older version" : "無法將文件還原為舊版",
     "Please enter the filename for the new document" : "請輸入新文件的檔案名稱",
     "Create a new document" : "建立新文件",

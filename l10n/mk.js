@@ -86,7 +86,6 @@ OC.L10N.register(
     "Guest" : "Гостин",
     "Follow current editor" : "Следи го моменталниот уредник",
     "Last saved version" : "Последна зачувана верзија",
-    "Current version" : "Моментална верзија",
     "Failed to revert the document to older version" : "Неуспешно враќање на документот во постара верзија",
     "Please enter the filename for the new document" : "Внесете име на новиот документ",
     "Create a new document" : "Креирај нов документ",

@@ -122,7 +122,6 @@ OC.L10N.register(
     "Guest" : "Host",
     "Follow current editor" : "Následovat stávající editor",
     "Last saved version" : "Poslední uložená verze",
-    "Current version" : "Stávající verze",
     "Failed to revert the document to older version" : "Nepodařilo se vrátit dokument do podoby starší verze",
     "Please enter the filename for the new document" : "Zadejte název souboru pro nový dokument",
     "Create a new document" : "Vytvořit nový dokument",
