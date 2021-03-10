@@ -42,7 +42,7 @@ OC.L10N.register(
     "If the installation from the app store fails, you can still do that manually using this command:" : "Als de installatie vanuit de app store mislukt, kun je dat nog steeds handmatig doen met deze opdracht:",
     "Use a demo server" : "Gebruik een demo server",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Je kunt een door Collabora en andere service providers geleverde demo server proberen om Collabora Online te testen.",
-    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Jouw Nextcloud kan niet verbinden met de demo servers want:",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Je Nextcloud kan niet verbinden met de demo servers want:",
     "it is a local setup (localhost)" : "het is een lokale inrichting (localhost)",
     "it uses an insecure protocol (http)" : "het gebruikt een onveilig protocol (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "het is niet bereikbaar vanaf het internet (mogelijk vanwege een firewall of het ontbreken van port forwarding)",
