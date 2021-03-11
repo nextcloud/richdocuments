@@ -106,7 +106,7 @@ class TokenManager {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false, $isRemoteToken = false) {
+	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
@@ -209,7 +209,7 @@ class TokenManager {
 			}
 		}
 
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guest_name, 0, $hideDownload, $direct, $isRemoteToken, 0, $shareToken);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guest_name, 0, $hideDownload, $direct, 0, $shareToken);
 
 		try {
 
@@ -223,8 +223,17 @@ class TokenManager {
 		}
 	}
 
-	public function updateToRemoteToken(Wopi $wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi) {
-		$uid = $remoteWopi['editorUid'] . '@' . $remoteServer;
+	/**
+	 * @param Wopi $wopi
+	 * @param $shareToken
+	 * @param $remoteServer
+	 * @param $remoteServerToken
+	 * @param $remoteWopi
+	 * @return Wopi
+	 */
+	public function updateToFederationToken(Wopi $wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi) {
+		// $wopi->setTokenType(Wopi::TOKEN_TYPE_REMOTE_*);
+		$uid = $remoteWopi['editorUid'] ? ($remoteWopi['editorUid'] . '@' . $remoteServer) : null;
 		$wopi->setEditorUid($shareToken);
 		$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi['canwrite']);
 		$wopi->setRemoteServer($remoteServer);
@@ -283,10 +292,10 @@ class TokenManager {
 	 * @return Wopi
 	 */
 	public function getRemoteToken(Node $node) {
-		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, null, false, true);
+		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, null, false);
 		$wopi->setIsRemoteToken(true);
 		$wopi->setRemoteServer($node->getStorage()->getRemote());
-
+		$wopi->setTokenType(Wopi::TOKEN_TYPE_REMOTE_USER);
 		$this->wopiMapper->update($wopi);
 		return $wopi;
 	}
@@ -296,10 +305,10 @@ class TokenManager {
 	 * @return Wopi
 	 */
 	public function getRemoteTokenFromDirect(Node $node, $editorUid) {
-		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, $editorUid, true, true);
+		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, $editorUid, true);
 		$wopi->setIsRemoteToken(true);
 		$wopi->setRemoteServer($node->getStorage()->getRemote());
-
+		$wopi->setTokenType(Wopi::TOKEN_TYPE_REMOTE_USER);
 		$this->wopiMapper->update($wopi);
 		return $wopi;
 	}

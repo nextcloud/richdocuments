@@ -51,8 +51,35 @@ use OCP\AppFramework\Db\Entity;
  * @method int getTemplateDestination()
  * @method void setTemplateId(int $fileId)
  * @method int getTemplateId()
+ * @method void setShare(string $token)
  */
 class Wopi extends Entity {
+
+	/**
+	 * WOPI token to open a file as a user on the current instance
+	 */
+	const TOKEN_TYPE_USER = 0;
+
+	/**
+	 * WOPI token to open a file as a guest on the current instance
+	 */
+	const TOKEN_TYPE_GUEST = 1;
+
+	/**
+	 * WOPI token to open a file as a user from a federated instane
+	 */
+	const TOKEN_TYPE_REMOTE_USER = 2;
+
+	/**
+	 * WOPI token to open a file as a guest from a federated instane
+	 */
+	const TOKEN_TYPE_REMOTE_GUEST = 3;
+
+	/*
+	 * Temporary token that is used to share the opener details to a federated instance
+	 */
+	const TOKEN_TYPE_FEDERATION = 4;
+
 	/** @var string */
 	protected $ownerUid;
 
@@ -92,9 +119,6 @@ class Wopi extends Entity {
 	/** @var bool */
 	protected $direct;
 
-	/** @var bool */
-	protected $isRemoteToken;
-
 	/** @var string */
 	protected $remoteServer;
 
@@ -103,6 +127,9 @@ class Wopi extends Entity {
 
 	/** @var string */
 	protected $share;
+
+	/** @var int */
+	protected $tokenType = 0;
 
 	public function __construct() {
 		$this->addType('owner_uid', 'string');
@@ -118,6 +145,7 @@ class Wopi extends Entity {
 		$this->addType('templateId', 'int');
 		$this->addType('hide_download', 'bool');
 		$this->addType('direct', 'bool');
+		$this->addType('tokenType', 'int');
 	}
 
 	public function isTemplateToken() {
@@ -129,7 +157,7 @@ class Wopi extends Entity {
 	}
 
 	public function isGuest() {
-		return $this->getGuestDisplayname() !== null;
+		return $this->getTokenType() === Wopi::TOKEN_TYPE_GUEST || Wopi::TOKEN_TYPE_REMOTE_GUEST;
 	}
 
 	public function getUserForFileAccess() {
