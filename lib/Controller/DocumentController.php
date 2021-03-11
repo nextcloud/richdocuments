@@ -457,7 +457,7 @@ class DocumentController extends Controller {
 				if ($remoteWopi === null) {
 					throw new \Exception('Invalid remote file details for ' . $remoteServerToken);
 				}
-				$this->tokenManager->updateToRemoteToken($wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi);
+				$this->tokenManager->updateToFederationToken($wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi);
 
 				$permissions = $share->getPermissions();
 				if (!$remoteWopi['canwrite']) {
