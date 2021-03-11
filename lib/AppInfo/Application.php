@@ -27,7 +27,6 @@ namespace OCA\Richdocuments\AppInfo;
 use OC\EventDispatcher\SymfonyAdapter;
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
-use OCA\Federation\TrustedServers;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\PermissionManager;
@@ -48,7 +47,8 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\TemplateFileCreator;
-use OCP\GlobalScale\IConfig;
+use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IPreview;
 
 class Application extends App implements IBootstrap {
@@ -82,27 +82,45 @@ class Application extends App implements IBootstrap {
 			\OCP\Util::addScript('richdocuments', 'viewer');
 		});
 
-		$context->injectFn(function(ITemplateManager $templateManager) {
-			$templateManager->registerTemplateFileCreator(function () {
-				$odtType = new TemplateFileCreator('richdocuments', 'New document', '.odt');
+		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config) {
+			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
+			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
+				$odtType = new TemplateFileCreator('richdocuments', $l10n->t('New document'), ($ooxml ? '.docx' : '.odt'));
+				if ($ooxml) {
+					$odtType->addMimetype('application/msword');
+					$odtType->addMimetype('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+				} else {
+					$odtType->addMimetype('application/vnd.oasis.opendocument.text');
+					$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
+				}
 				$odtType->addMimetype('application/vnd.oasis.opendocument.text');
 				$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
 				$odtType->setIconClass('icon-filetype-document');
 				$odtType->setRatio(21/29.7);
 				return $odtType;
 			});
-			$templateManager->registerTemplateFileCreator(function () {
-				$odsType = new TemplateFileCreator('richdocuments', 'New spreadsheet', '.ods');
-				$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet');
-				$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet-template');
+			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
+				$odsType = new TemplateFileCreator('richdocuments', $l10n->t('New spreadsheet'), ($ooxml ? '.xslx' : '.ods'));
+				if ($ooxml) {
+					$odsType->addMimetype('application/vnd.ms-excel');
+					$odsType->addMimetype('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				} else {
+					$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet');
+					$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet-template');
+				}
 				$odsType->setIconClass('icon-filetype-spreadsheet');
 				$odsType->setRatio(16/9);
 				return $odsType;
 			});
-			$templateManager->registerTemplateFileCreator(function () {
-				$odpType = new TemplateFileCreator('richdocuments', 'New presentation', '.odp');
-				$odpType->addMimetype('application/vnd.oasis.opendocument.presentation');
-				$odpType->addMimetype('application/vnd.oasis.opendocument.presentation-template');
+			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
+				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New presentation'), ($ooxml ? '.pptx' : '.odp'));
+				if ($ooxml) {
+					$odpType->addMimetype('application/vnd.ms-powerpoint');
+					$odpType->addMimetype('application/vnd.openxmlformats-officedocument.presentationml.presentation');
+				} else {
+					$odpType->addMimetype('application/vnd.oasis.opendocument.presentation');
+					$odpType->addMimetype('application/vnd.oasis.opendocument.presentation-template');
+				}
 				$odpType->setIconClass('icon-filetype-presentation');
 				$odpType->setRatio(16/9);
 				return $odpType;
