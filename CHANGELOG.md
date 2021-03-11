@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.7.17
+
+* [#1417](https://github.com/nextcloud/richdocuments/pull/1417) Fix version restore
+* [#1419](https://github.com/nextcloud/richdocuments/pull/1419) Pass through UI_Share message if used in the version viewer
+* [#1426](https://github.com/nextcloud/richdocuments/pull/1426) Allow revision viewer to enter full screen
+
+
 ## 3.7.16
 
 * [#1399](https://github.com/nextcloud/richdocuments/pull/1399) Improve dark theme experience
