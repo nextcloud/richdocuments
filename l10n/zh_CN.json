@@ -120,6 +120,7 @@
     "Guest" : "访客",
     "Follow current editor" : "跟踪当前编辑器",
     "Last saved version" : "最近保存版本",
+    "Current version (unsaved changes)" : "当前版本 (未保存的更改)",
     "Failed to revert the document to older version" : "文档回滚旧版本失败",
     "Please enter the filename for the new document" : "请输入新建文档的文件名",
     "Create a new document" : "新建文档",
