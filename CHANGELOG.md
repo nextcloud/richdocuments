@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.0.3
+
+* [#1416](https://github.com/nextcloud/richdocuments/pull/1416) Pass through UI_Share message if used in the version viewer
+* [#1418](https://github.com/nextcloud/richdocuments/pull/1418) Allow revision viewer to enter full screen
+* [#1422](https://github.com/nextcloud/richdocuments/pull/1422) Properly handle ooxml with the new template mechanism
+
+
 ## 4.0.2
 
 * [#1374](https://github.com/nextcloud/richdocuments/pull/1374) Make sure that the same host remote is always considered as trusted
