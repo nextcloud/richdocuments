@@ -26,12 +26,15 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -119,6 +122,50 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
 		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @param $shareToken
+	 * @param $path
+	 * @param $password
+	 * @param $guestName
+	 * @param null $remoteUserHost
+	 * @param null $remoteUserToken
+	 * @return DataResponse
+	 * @throws NotFoundException
+	 * @throws OCSForbiddenException
+	 * @throws \OCP\Share\Exceptions\ShareNotFound
+	 */
+	public function createPublic(string $shareToken, string $path = '', string $password = null, string $guestName = null, $remoteUserHost = null, $remoteUserToken = null) {
+		if ($remoteUserHost && $remoteUserToken) {
+			// may be optional depending on the requirements
+			// fetch user details from remote host
+		}
+		$this->shareManager = \OC::$server->getShareManager();
+		$share = $this->shareManager->getShareByToken($shareToken);
+		if ($share->getPassword()) {
+			if (!$this->shareManager->checkPassword($share, $password)) {
+				throw new OCSForbiddenException();
+			}
+		}
+		$node = $share->getNode();
+		if ($node instanceof Folder) {
+			try {
+				$node = $node->get($path);
+			} catch (NotFoundException $e) {
+				throw new OCSForbiddenException();
+			}
+		}
+
+		// create new direct token and link with either $guestName or remote user info
+		$direct = $this->directMapper->newDirect( - );
+
+		return new DataResponse([
+			'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+				'token' => $direct->getToken()
+			])
+		]);
 	}
 
 	/**
