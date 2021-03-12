@@ -47,6 +47,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\TemplateFileCreator;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -220,8 +221,8 @@ class Application extends App implements IBootstrap {
 			$federationService = \OC::$server->query(FederationService::class);
 
 			// Always add trusted servers on global scale
-			/** @var IConfig $globalScale */
-			$globalScale = $container->query(IConfig::class);
+			/** @var GlobalScaleConfig $globalScale */
+			$globalScale = $container->query(GlobalScaleConfig::class);
 			if ($globalScale->isGlobalScaleEnabled()) {
 				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
 				foreach ($trustedList as $server) {
