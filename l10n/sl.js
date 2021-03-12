@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Nov dokument",
+    "New spreadsheet" : "Nova preglednica",
+    "New presentation" : "Nova predstavitev",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "Dokumenta ni mogoče ustvariti",
     "New Document.odt" : "dokument.odt",
@@ -125,9 +128,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Povrnitev dokumenta na starejšo različico je spodletela.",
     "Please enter the filename for the new document" : "Vpisati je treba ime datoteke novega dokumenta",
     "Create a new document" : "Ustvari nov dokument",
-    "New document" : "Nov dokument",
-    "New spreadsheet" : "Nova preglednica",
-    "New presentation" : "Nova predstavitev",
     "Could not create file" : "Datoteke ni mogoče ustvariti",
     "Create" : "Ustvari",
     "Select template" : "Izbor predloge",

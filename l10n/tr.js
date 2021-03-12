@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Yeni belge",
+    "New spreadsheet" : "Yeni hesap tablosu",
+    "New presentation" : "Yeni sunum",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "Belge oluşturulamadı",
     "New Document.odt" : "Yeni Belge.odt",
@@ -125,9 +128,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Please enter the filename for the new document" : "Lütfen yeni belgenin dosya adını yazın",
     "Create a new document" : "Yeni belge oluştur",
-    "New document" : "Yeni belge",
-    "New spreadsheet" : "Yeni hesap tablosu",
-    "New presentation" : "Yeni sunum",
     "Could not create file" : "Dosya oluşturulamadı",
     "Create" : "Ekle",
     "Select template" : "Kalıp seçin",

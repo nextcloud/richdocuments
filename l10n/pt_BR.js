@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Novo documento",
+    "New spreadsheet" : "Nova planilha",
+    "New presentation" : "Nova apresentação",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "Não foi possível criar o documento",
     "New Document.odt" : "Novo Documento.odt",
@@ -126,9 +129,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Falha ao reverter para uma versão mais antiga",
     "Please enter the filename for the new document" : "Digite um nome para o novo documento",
     "Create a new document" : "Criar um novo documento",
-    "New document" : "Novo documento",
-    "New spreadsheet" : "Nova planilha",
-    "New presentation" : "Nova apresentação",
     "Could not create file" : "Não foi possível criar o arquivo",
     "Create" : "Criar",
     "Select template" : "Selecionar um modelo",

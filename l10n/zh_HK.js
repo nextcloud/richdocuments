@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "新文字文件",
+    "New spreadsheet" : "新試算表",
+    "New presentation" : "新簡報",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "無法建立文件",
     "New Document.odt" : "新文字文件.odt",
@@ -126,9 +129,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "無法將文件還原為舊版",
     "Please enter the filename for the new document" : "請輸入新文件的檔案名稱",
     "Create a new document" : "建立新文件",
-    "New document" : "新文字文件",
-    "New spreadsheet" : "新試算表",
-    "New presentation" : "新簡報",
     "Could not create file" : "無法建立檔案",
     "Create" : "建立",
     "Select template" : "選擇範本",
