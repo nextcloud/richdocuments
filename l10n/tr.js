@@ -125,6 +125,7 @@ OC.L10N.register(
     "Guest" : "Konuk",
     "Follow current editor" : "Geçerli düzenleyici kullanılsın",
     "Last saved version" : "Kaydedilmiş son sürüm",
+    "Current version (unsaved changes)" : "Güncel versiyon (kayıt edilmemiş değişiklikler)",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Please enter the filename for the new document" : "Lütfen yeni belgenin dosya adını yazın",
     "Create a new document" : "Yeni belge oluştur",

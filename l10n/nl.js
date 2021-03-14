@@ -125,6 +125,7 @@ OC.L10N.register(
     "Guest" : "Gast",
     "Follow current editor" : "Volg de huidige editor",
     "Last saved version" : "Laatste bewaarde versie",
+    "Current version (unsaved changes)" : "Huidige versie (niet opgeslagen wijzigingen)",
     "Failed to revert the document to older version" : "Kon het document niet terugdraaien naar een vorige versie",
     "Please enter the filename for the new document" : "Geef de bestandsnaam op voor het nieuwe document",
     "Create a new document" : "Creëer een nieuw document",
