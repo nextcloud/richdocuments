@@ -77,7 +77,7 @@ OC.L10N.register(
     "Enable watermarking" : "啟用水印",
     "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "支援的佔位字串：{userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "在已標記的檔案上顯示水印",
-    "Select tags to enforce watermarking" : "選取要強制加上水印的標籤",
+    "Select tags to enforce watermarking" : "選擇要強制加上水印的標籤",
     "Show watermark for users of groups" : "對群組用戶顯示水印",
     "Show watermark for all shares" : "對所有分享顯示水印",
     "Show watermark for read only shares" : "對唯讀分享顯示水印",
@@ -113,7 +113,7 @@ OC.L10N.register(
     "Edit with {productName}" : "使用 {productName} 編輯",
     "Failed to load {productName} - please try again later" : "載入 {productName} 失敗，請稍後再試",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
-    "Select a personal template folder" : "選取個人範本資料夾",
+    "Select a personal template folder" : "選擇個人範本資料夾",
     "Saving…" : "儲存中...",
     "Insert from {name}" : "從 {name} 插入",
     "Remove from favorites" : "從最愛中移除",
@@ -137,8 +137,8 @@ OC.L10N.register(
     "No templates defined." : "未定義範本。",
     "Add a new one?" : "加入新的？",
     "template preview" : "範本預覽",
-    "Select a template directory" : "選取範本目錄",
+    "Select a template directory" : "選擇範本目錄",
     "Remove personal template folder" : "移除個人範本資料夾",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選取器中。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選擇器中。"
 },
 "nplurals=1; plural=0;");
