@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.4
+
+* [#1443](https://github.com/nextcloud/richdocuments/pull/1443) Use correct config for GS info
+
 ## 4.0.3
 
 * [#1416](https://github.com/nextcloud/richdocuments/pull/1416) Pass through UI_Share message if used in the version viewer
