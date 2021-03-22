@@ -220,8 +220,8 @@ class Application extends App implements IBootstrap {
 			$federationService = \OC::$server->query(FederationService::class);
 
 			// Always add trusted servers on global scale
-			/** @var IConfig $globalScale */
-			$globalScale = $container->query(IConfig::class);
+			/** @var \OCP\GlobalScale\IConfig $globalScale */
+			$globalScale = $container->query(\OCP\GlobalScale\IConfig::class);
 			if ($globalScale->isGlobalScaleEnabled()) {
 				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
 				foreach ($trustedList as $server) {
