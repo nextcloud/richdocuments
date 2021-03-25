@@ -1,6 +1,6 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
+const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 
 
 module.exports = {
@@ -47,7 +47,10 @@ module.exports = {
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
-				exclude: /node_modules/
+				exclude: BabelLoaderExcludeNodeModulesExcept([
+					'@nextcloud/dialogs',
+					'@nextcloud/event-bus'
+				]),
 			},
 			{
 				test: /\.tsx?$/,
