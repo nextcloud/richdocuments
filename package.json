@@ -33,7 +33,7 @@
 		"vue": "^2.6.12"
 	},
 	"browserslist": [
-		"extends browserslist-config-nextcloud"
+		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
 		"node": ">=10.0.0"
