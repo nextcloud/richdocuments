@@ -8,9 +8,17 @@ module.exports = {
 		$: true,
 		_: true,
 		Vue: true,
-		VueRouter: true
+		VueRouter: true,
 	},
 	extends: [
 		'@nextcloud',
 	],
+	settings: {
+		'import/resolver': {
+			node: {
+				paths: ['src'],
+				extensions: ['.js', '.vue', '.ts', '.tsx'],
+			},
+		},
+	},
 }

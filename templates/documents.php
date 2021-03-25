@@ -12,7 +12,7 @@
 </script>
 
 <?php
-script('richdocuments', 'document');
+script('richdocuments', 'richdocuments-document');
 ?>
 <div id="loadingContainer"></div>
 <div id="proxyLoadingContainer">
