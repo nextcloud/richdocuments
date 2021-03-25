@@ -200,7 +200,7 @@
 			<settings-checkbox v-model="settings.watermark.enabled" :label="t('richdocuments', 'Enable watermarking')" hint=""
 				:disabled="updating" @input="update" />
 			<settings-input-text v-if="settings.watermark.enabled" v-model="settings.watermark.text" label="Watermark text"
-				:hint="t('richdocuments', 'Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}')"
+				:hint="t('richdocuments', 'Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}, {ipAddr}')"
 				:disabled="updating" @update="update" />
 			<div v-if="settings.watermark.enabled">
 				<settings-checkbox v-model="settings.watermark.allTags" :label="t('richdocuments', 'Show watermark on tagged files')" :disabled="updating"
