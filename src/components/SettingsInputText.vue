@@ -24,9 +24,14 @@
 	<form @submit.prevent="">
 		<div class="input-wrapper">
 			<label :for="id">{{ label }}</label>
-			<input :id="id" type="text" :value="inputVal"
-				:disabled="disabled" @input="$emit('input', $event.target.value)">
-			<input type="submit" class="icon-confirm" value=""
+			<input :id="id"
+				type="text"
+				:value="inputVal"
+				:disabled="disabled"
+				@input="$emit('input', $event.target.value)">
+			<input type="submit"
+				class="icon-confirm"
+				value=""
 				@click="$emit('update', inputVal)">
 		</div>
 		<p v-if="hint !== ''" class="hint">
@@ -42,40 +47,40 @@ export default {
 	props: {
 		label: {
 			type: String,
-			required: true
+			required: true,
 		},
 		hint: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		value: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		disabled: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
-			inputVal: this.value
+			inputVal: this.value,
 		}
 	},
 	computed: {
 		id() {
 			return 'settings-input-text-' + this.uuid
-		}
+		},
 	},
 	watch: {
 		value(newVal) {
 			this.inputVal = this.value
-		}
+		},
 	},
-	beforeCreate: function() {
+	beforeCreate() {
 		this.uuid = uuid.toString()
 		uuid += 1
-	}
+	},
 }
 </script>
 
@@ -86,12 +91,15 @@ export default {
 		width: 100%;
 		max-width: 400px;
 	}
+
 	label {
 		width: 100%;
 	}
+
 	input[type=text] {
 		flex-grow: 1;
 	}
+
 	.hint {
 		color: var(--color-text-lighter);
 	}

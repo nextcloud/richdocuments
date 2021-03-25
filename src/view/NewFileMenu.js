@@ -24,8 +24,8 @@ import Types from '../helpers/types'
 
 /** @type OC.Plugin */
 const NewFileMenu = {
-	attach: function(newFileMenu) {
-		var self = this
+	attach(newFileMenu) {
+		const self = this
 		const document = Types.getFileType('document')
 		const spreadsheet = Types.getFileType('spreadsheet')
 		const presentation = Types.getFileType('presentation')
@@ -36,13 +36,13 @@ const NewFileMenu = {
 			templateName: t('richdocuments', 'New document') + '.' + document.extension,
 			iconClass: 'icon-filetype-document',
 			fileType: 'x-office-document',
-			actionHandler: function(filename) {
+			actionHandler(filename) {
 				if (OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('document', document.mime, filename)
 				} else {
 					self._createDocument(document.mime, filename)
 				}
-			}
+			},
 		})
 
 		newFileMenu.addMenuEntry({
@@ -51,13 +51,13 @@ const NewFileMenu = {
 			templateName: t('richdocuments', 'New spreadsheet') + '.' + spreadsheet.extension,
 			iconClass: 'icon-filetype-spreadsheet',
 			fileType: 'x-office-spreadsheet',
-			actionHandler: function(filename) {
+			actionHandler(filename) {
 				if (OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 				} else {
 					self._createDocument(spreadsheet.mime, filename)
 				}
-			}
+			},
 		})
 
 		newFileMenu.addMenuEntry({
@@ -66,23 +66,23 @@ const NewFileMenu = {
 			templateName: t('richdocuments', 'New presentation') + '.' + presentation.extension,
 			iconClass: 'icon-filetype-presentation',
 			fileType: 'x-office-presentation',
-			actionHandler: function(filename) {
+			actionHandler(filename) {
 				if (OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('presentation', presentation.mime, filename)
 				} else {
 					self._createDocument(presentation.mime, filename)
 				}
-			}
+			},
 		})
 	},
 
-	_createDocument: function(mimetype, filename) {
+	_createDocument(mimetype, filename) {
 		OCA.Files.Files.isFileNameValid(filename)
 		filename = FileList.getUniqueName(filename)
 
 		$.post(
 			OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-			{ mimetype: mimetype, filename: filename, dir: document.getElementById('dir').value },
+			{ mimetype, filename, dir: document.getElementById('dir').value },
 			function(response) {
 				if (response && response.status === 'success') {
 					FileList.add(response.data, { animate: true, scrollTo: true })
@@ -93,12 +93,12 @@ const NewFileMenu = {
 		)
 	},
 
-	_createDocumentFromTemplate: function(templateId, mimetype, filename) {
+	_createDocumentFromTemplate(templateId, mimetype, filename) {
 		OCA.Files.Files.isFileNameValid(filename)
 		filename = FileList.getUniqueName(filename)
 		$.post(
 			OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-			{ mimetype: mimetype, filename: filename, dir: document.getElementById('dir').value },
+			{ mimetype, filename, dir: document.getElementById('dir').value },
 			function(response) {
 				if (response && response.status === 'success') {
 					FileList.add(response.data, { animate: false, scrollTo: false })
@@ -107,9 +107,9 @@ const NewFileMenu = {
 					OCA.RichDocuments.openWithTemplate({
 						fileId: -1,
 						path,
-						templateId: templateId,
+						templateId,
 						fileList: window.FileList,
-						fileModel
+						fileModel,
 					})
 				} else {
 					OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
@@ -118,11 +118,11 @@ const NewFileMenu = {
 		)
 	},
 
-	_openTemplatePicker: function(type, mimetype, filename) {
-		var self = this
+	_openTemplatePicker(type, mimetype, filename) {
+		const self = this
 		$.ajax({
 			url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2) + type,
-			dataType: 'json'
+			dataType: 'json',
 		}).then(function(response) {
 			if (response.ocs.data.length === 1) {
 				const { id } = response.ocs.data[0]
@@ -131,43 +131,43 @@ const NewFileMenu = {
 			}
 			self._buildTemplatePicker(response.ocs.data)
 				.then(function() {
-					var buttonlist = [{
+					const buttonlist = [{
 						text: t('core', 'Cancel'),
 						classes: 'cancel',
-						click: function() {
+						click() {
 							$(this).ocdialog('close')
-						}
+						},
 					}, {
 						text: t('richdocuments', 'Create'),
 						classes: 'primary',
-						click: function() {
-							var templateId = this.dataset.templateId
+						click() {
+							const templateId = this.dataset.templateId
 							self._createDocumentFromTemplate(templateId, mimetype, filename)
 							$(this).ocdialog('close')
-						}
+						},
 					}]
 
 					$('#template-picker').ocdialog({
 						closeOnEscape: true,
 						modal: true,
-						buttons: buttonlist
+						buttons: buttonlist,
 					})
 				})
 		})
 	},
 
-	_buildTemplatePicker: function(data) {
-		var self = this
+	_buildTemplatePicker(data) {
+		const self = this
 		return $.get(OC.filePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
-			var $tmpl = $(tmpl)
+			const $tmpl = $(tmpl)
 			// init template picker
-			var $dlg = $tmpl.octemplate({
+			const $dlg = $tmpl.octemplate({
 				dialog_name: 'template-picker',
-				dialog_title: t('richdocuments', 'Select template')
+				dialog_title: t('richdocuments', 'Select template'),
 			})
 
 			// create templates list
-			var templates = _.values(data)
+			const templates = _.values(data)
 			templates.forEach(function(template) {
 				self._appendTemplateFromData($dlg[0], template)
 			})
@@ -176,8 +176,8 @@ const NewFileMenu = {
 		})
 	},
 
-	_appendTemplateFromData: function(dlg, data) {
-		var template = dlg.querySelector('.template-model').cloneNode(true)
+	_appendTemplateFromData(dlg, data) {
+		const template = dlg.querySelector('.template-model').cloneNode(true)
 		template.className = ''
 		template.querySelector('img').src = OC.generateUrl('apps/richdocuments/template/preview/' + data.id)
 		template.querySelector('h2').textContent = data.name
@@ -189,7 +189,7 @@ const NewFileMenu = {
 		}
 
 		dlg.querySelector('.template-container').appendChild(template)
-	}
+	},
 }
 
 export default NewFileMenu

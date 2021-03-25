@@ -24,9 +24,13 @@
 	<div>
 		<ul>
 			<li v-for="token in tokens" :key="token.token">
-				<input v-model="token.description" type="text" :placeholder="t('richdocuments', 'Description')"
+				<input v-model="token.description"
+					type="text"
+					:placeholder="t('richdocuments', 'Description')"
 					:disabled="disabled">
-				<input class="token" type="text" disabled
+				<input class="token"
+					type="text"
+					disabled
 					:value="token.token">
 				<button class="icon icon-history" :disabled="disabled" @click="regenerateToken(token)" />
 				<button class="icon icon-close" :disabled="disabled" @click="removeToken(token)" />
@@ -35,7 +39,9 @@
 		<button :disabled="disabled" @click="addNewToken">
 			{{ t('richdocuments', 'Add new token') }}
 		</button>
-		<input type="button" value="Save" :disabled="disabled"
+		<input type="button"
+			value="Save"
+			:disabled="disabled"
 			@click="updateTokens">
 	</div>
 </template>
@@ -46,7 +52,7 @@ const generateRandomToken = () => {
 	const array = new Uint32Array(len)
 	window.crypto.getRandomValues(array)
 	let random = ''
-	for (var i = 0; i < len; ++i) {
+	for (let i = 0; i < len; ++i) {
 		random += array[i].toString(36)
 	}
 	return random
@@ -60,7 +66,7 @@ const appsStringToArray = (apps) => {
 		const data = item.split(':')
 		return {
 			description: data[0],
-			token: data[1]
+			token: data[1],
 		}
 	})
 }
@@ -76,16 +82,16 @@ export default {
 	props: {
 		externalApps: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		disabled: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
-			tokens: []
+			tokens: [],
 		}
 	},
 	beforeMount() {
@@ -95,7 +101,7 @@ export default {
 		addNewToken() {
 			this.tokens.push({
 				description: '',
-				token: generateRandomToken()
+				token: generateRandomToken(),
 			})
 		},
 		removeToken(token) {
@@ -106,8 +112,8 @@ export default {
 		},
 		regenerateToken(token) {
 			token.token = generateRandomToken()
-		}
-	}
+		},
+	},
 }
 </script>
 
@@ -115,6 +121,7 @@ export default {
 	li {
 		display: flex;
 	}
+
 	.token {
 		width: 200px;
 		background-color: #fff;

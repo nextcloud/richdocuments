@@ -1,14 +1,14 @@
 import { emit } from '@nextcloud/event-bus'
 import { getRootUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
-import Config from './services/config'
+import Config from './services/config.tsx'
 import { setGuestNameCookie, shouldAskForGuestName } from './helpers/guestName'
 
-import PostMessageService from './services/postMessage'
+import PostMessageService from './services/postMessage.tsx'
 import {
 	callMobileMessage,
 	isDirectEditing,
-	isMobileInterfaceAvailable
+	isMobileInterfaceAvailable,
 } from './helpers/mobile'
 import { getWopiUrl, getSearchParam } from './helpers/url'
 
@@ -16,14 +16,14 @@ import '../css/document.scss'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,
-	loolframe: () => document.getElementById('loleafletframe').contentWindow
+	loolframe: () => document.getElementById('loleafletframe').contentWindow,
 })
 
-var checkingProxyStatus = false
+let checkingProxyStatus = false
 
 const checkProxyStatus = () => {
 	checkingProxyStatus = true
-	var url = Config.get('urlsrc').substr(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
+	const url = Config.get('urlsrc').substr(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
 	$.get(url + '?status').done(function(val) {
 		if (val && val.status && val.status !== 'OK') {
 			if (val.status === 'starting' || val.status === 'stopped') {
@@ -83,7 +83,7 @@ const hideLoadingIndicator = () => {
 
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
-	var cssVarMap = {
+	const cssVarMap = {
 		'--color-primary-text': '--co-primary-text',
 		'--color-primary-element': '--co-primary-element:--co-text-accent',
 		'--color-primary-element-light': '--co-primary-element-light',
@@ -97,19 +97,19 @@ const generateCSSVarTokens = () => {
 		'--color-box-shadow': '--co-box-shadow',
 		'--color-border': '--co-border',
 		'--color-border-dark': '--co-border-dark',
-		'--border-radius-pill': '--co-border-radius-pill'
+		'--border-radius-pill': '--co-border-radius-pill',
 	}
-	var str = ''
+	let str = ''
 	try {
-		for (var cssVarKey in cssVarMap) {
-			var cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
+		for (const cssVarKey in cssVarMap) {
+			let cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
 			if (!cStyle) {
 				// try suffix -dark instead
 				cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey + '-dark')
 			}
 			if (!cStyle) continue // skip if it is not set
-			var varNames = cssVarMap[cssVarKey].split(':')
-			for (var i = 0; i < varNames.length; ++i) {
+			const varNames = cssVarMap[cssVarKey].split(':')
+			for (let i = 0; i < varNames.length; ++i) {
 				str += varNames[i] + '=' + cStyle + ';'
 			}
 		}
@@ -122,7 +122,7 @@ const generateCSSVarTokens = () => {
 showLoadingIndicator()
 
 $.widget('oc.guestNamePicker', {
-	_create: function() {
+	_create() {
 		hideLoadingIndicator()
 
 		const text = document.createElement('div')
@@ -149,7 +149,7 @@ $.widget('oc.guestNamePicker', {
 			}
 		})
 		$('#btn').click(() => setGuestNameSubmit())
-	}
+	},
 })
 
 /**
@@ -178,7 +178,7 @@ const documentsMain = {
 	wopiClientFeatures: null,
 
 	// generates docKey for given fileId
-	_generateDocKey: function(wopiFileId) {
+	_generateDocKey(wopiFileId) {
 		let canonicalWebroot = Config.get('canonical_webroot')
 		let ocurl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + wopiFileId
 		if (canonicalWebroot) {
@@ -201,7 +201,7 @@ const documentsMain = {
 						+ '<div id="revViewer"></div>'
 						+ '</div>',
 
-		showViewer: function(fileId, title) {
+		showViewer(fileId, title) {
 			// remove previous viewer, if open, and set a new one
 			if (documentsMain.isViewerMode) {
 				$('#revViewer').remove()
@@ -235,7 +235,7 @@ const documentsMain = {
 			})
 		},
 
-		loadRevViewerContainer: function() {
+		loadRevViewerContainer() {
 			if (!$('revViewerContainer').length) {
 				$(document.body).prepend(documentsMain.UI.viewContainer)
 				const closeButton = $('<button class="icon-close closeButton" title="' + t('richdocuments', 'Close version preview') + '"/>')
@@ -243,7 +243,7 @@ const documentsMain = {
 			}
 		},
 
-		showEditor: function(title, fileId, action) {
+		showEditor(title, fileId, action) {
 			if (!documentsMain.renderComplete) {
 				setTimeout(function() { documentsMain.UI.showEditor(title, fileId, action) }, 10)
 				console.debug('Waiting for page to render…')
@@ -262,22 +262,22 @@ const documentsMain = {
 			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: true, revisionHistory: !!Config.get('userId') })
 
 			// access_token - must be passed via a form post
-			var accessToken = encodeURIComponent(documentsMain.token)
+			const accessToken = encodeURIComponent(documentsMain.token)
 
 			// form to post the access token for WOPISrc
-			var form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
+			const form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
 
 			// iframe that contains the Collabora Online
-			var frame = '<iframe id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen style="width:100%;height:100%;position:absolute;" />'
+			const frame = '<iframe id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen style="width:100%;height:100%;position:absolute;" />'
 
 			$('#mainContainer').append(form)
 			$('#mainContainer').append(frame)
 
 			emit('richdocuments:wopi-load:started', {
-				wopiFileId: fileId
+				wopiFileId: fileId,
 			})
 			// Listen for App_LoadingStatus as soon as possible
 			$('#loleafletframe').ready(function() {
@@ -290,7 +290,7 @@ const documentsMain = {
 							emit('richdocuments:wopi-load:failed', {
 								reason: 'collabora',
 								collaboraResponse: parsed?.args?.errorMsg,
-								wopiFileId: fileId
+								wopiFileId: fileId,
 							})
 						}
 						if (!isDirectEditing()) {
@@ -329,7 +329,7 @@ const documentsMain = {
 						}
 
 						emit('richdocuments:wopi-load:succeeded', {
-							wopiFileId: fileId
+							wopiFileId: fileId,
 						})
 						break
 					case 'Failed':
@@ -338,7 +338,7 @@ const documentsMain = {
 						emit('richdocuments:wopi-load:failed', {
 							reason: 'collabora',
 							collaboraResponse: 'App_LoadingStatus Failed',
-							wopiFileId: fileId
+							wopiFileId: fileId,
 						})
 						break
 					}
@@ -349,7 +349,7 @@ const documentsMain = {
 				// In case of editor inactivity
 				setTimeout(function() {
 					if (!documentsMain.isFrameReady) {
-						const message = { 'MessageId': 'App_LoadingStatus', 'Values': { 'Status': 'Timeout' } }
+						const message = { MessageId: 'App_LoadingStatus', Values: { Status: 'Timeout' } }
 						editorInitListener({ data: JSON.stringify(message), parsed: message })
 					}
 				}, 45000)
@@ -359,7 +359,7 @@ const documentsMain = {
 				const ViewerToLool = [
 					'Action_FollowUser',
 					'Host_VersionRestore',
-					'Action_RemoveView'
+					'Action_RemoveView',
 				]
 				PostMessages.registerPostMessageHandler(({ parsed, data }) => {
 					console.debug('[document] Received post message ', parsed)
@@ -479,11 +479,11 @@ const documentsMain = {
 							t('richdocuments', 'New filename'),
 							false
 						).then(function() {
-							var $dialog = $('.oc-dialog:visible')
-							var $buttons = $dialog.find('button')
+							const $dialog = $('.oc-dialog:visible')
+							const $buttons = $dialog.find('button')
 							$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 							$buttons.eq(1).text(t('richdocuments', 'Save'))
-							var nameInput = $dialog.find('input')[0]
+							const nameInput = $dialog.find('input')[0]
 							nameInput.style.minWidth = '250px'
 							nameInput.style.maxWidth = '400px'
 							nameInput.value = documentsMain.fileName
@@ -511,21 +511,19 @@ const documentsMain = {
 			$('#loleafletform').submit()
 		},
 
-		hideEditor: function() {
+		hideEditor() {
 			// Fade out editor
 			$('#mainContainer').fadeOut('fast', function() {
 				$('#mainContainer').remove()
 				$('#content-wrapper').fadeIn('fast')
 				$(document.body).removeClass('claro')
 			})
-		}
+		},
 	},
 
-	onStartup: function() {
-		var fileId
-
+	onStartup() {
 		// Does anything indicate that we need to autostart a session?
-		fileId = (getSearchParam('fileId') || '').replace(/^\W*/, '')
+		const fileId = (getSearchParam('fileId') || '').replace(/^\W*/, '')
 
 		if (fileId && Number.isInteger(Number(fileId)) && $('#nickname').length === 0) {
 			documentsMain.isEditorMode = true
@@ -535,7 +533,7 @@ const documentsMain = {
 		documentsMain.ready = true
 	},
 
-	initSession: function() {
+	initSession() {
 		documentsMain.urlsrc = Config.get('urlsrc')
 		documentsMain.fullPath = Config.get('path')
 		documentsMain.token = Config.get('token')
@@ -551,11 +549,11 @@ const documentsMain = {
 		})
 	},
 
-	loadDocument: function(title, fileId) {
+	loadDocument(title, fileId) {
 		documentsMain.UI.showEditor(title, fileId, 'write')
 	},
 
-	onEditorShutdown: function(message) {
+	onEditorShutdown(message) {
 		OC.Notification.show(message)
 
 		$(window).off('beforeunload')
@@ -570,7 +568,7 @@ const documentsMain = {
 		$('footer,nav').show()
 	},
 
-	onClose: function() {
+	onClose() {
 		documentsMain.isEditorMode = false
 		$(window).off('beforeunload')
 		$(window).off('unload')
@@ -581,7 +579,7 @@ const documentsMain = {
 		PostMessages.sendPostMessage('parent', 'close', '*')
 	},
 
-	onCloseViewer: function() {
+	onCloseViewer() {
 		$('#revisionsContainer *').off()
 
 		$('#revPanelContainer').remove()
@@ -596,19 +594,21 @@ const documentsMain = {
 	 *
 	 * @public
 	 */
-	close: function() {
+	close() {
 		documentsMain.onClose()
 	},
 
 	/**
 	 * Called by mobile clients post a selected graphic to COOL
 	 *
+	 * @param {string} filename the file name
+	 * @param {string} url the url
 	 * @public
 	 */
-	postAsset: function(filename, url) {
+	postAsset(filename, url) {
 		PostMessages.sendWOPIPostMessage('loolframe', 'Action_InsertGraphic', {
-			filename: filename,
-			url: url
+			filename,
+			url,
 		})
 	},
 
@@ -617,9 +617,9 @@ const documentsMain = {
 	 *
 	 * @public
 	 */
-	postGrabFocus: function() {
+	postGrabFocus() {
 		PostMessages.sendWOPIPostMessage('loolframe', 'Grab_Focus')
-	}
+	},
 }
 
 $(document).ready(function() {
@@ -642,7 +642,7 @@ $(document).ready(function() {
 	}
 	documentsMain.renderComplete = true
 
-	var viewport = document.querySelector('meta[name=viewport]')
+	const viewport = document.querySelector('meta[name=viewport]')
 	viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
 
 	documentsMain.onStartup()

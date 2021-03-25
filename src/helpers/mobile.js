@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -20,7 +20,7 @@
  *
  */
 
-import Config from './../services/config'
+import Config from './../services/config.tsx'
 
 const isDirectEditing = () => Config.get('directEdit')
 
@@ -37,7 +37,7 @@ const callMobileMessage = (messageName, attributes) => {
 	if (typeof attributes !== 'undefined') {
 		message = {
 			MessageName: messageName,
-			Values: attributes
+			Values: attributes,
 		}
 	}
 	let attributesString = null
@@ -65,7 +65,7 @@ const callMobileMessage = (messageName, attributes) => {
 
 export default {
 	isDirectEditing,
-	callMobileMessage
+	callMobileMessage,
 }
 
 export {
@@ -73,5 +73,5 @@ export {
 	callMobileMessage,
 	isMobileInterfaceAvailable,
 	isMobileInterfaceOnAndroid,
-	isMobileInterfaceOnIos
+	isMobileInterfaceOnIos,
 }

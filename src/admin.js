@@ -20,7 +20,7 @@ const element = document.getElementById('admin-vue')
 
 /* eslint-disable-next-line no-new */
 new Vue({
-	render: h => h(AdminSettings, { props: { initial: JSON.parse(element.dataset.initial) } })
+	render: h => h(AdminSettings, { props: { initial: JSON.parse(element.dataset.initial) } }),
 }).$mount('#admin-vue')
 
 /**
@@ -29,7 +29,7 @@ new Vue({
  * @param {Object} data the template data from the template controller response
  */
 function appendTemplateFromData(data) {
-	var template = document.querySelector('.template-model').cloneNode(true)
+	const template = document.querySelector('.template-model').cloneNode(true)
 	template.className = ''
 	template.querySelector('img').src = data.preview
 	template.querySelector('figcaption').textContent = data.name
@@ -42,24 +42,24 @@ function appendTemplateFromData(data) {
 /**
  * Delete template event handler
  *
- * @param {Event} event
+ * @param {Event} event the button click event
  */
 function deleteTemplate(event) {
 	event.preventDefault()
-	var emptyElmt = document.querySelector('#richdocuments-templates #emptycontent')
-	var tplListElmt = document.querySelector('#richdocuments-templates > ul')
-	var elmt = event.target
+	const emptyElmt = document.querySelector('#richdocuments-templates #emptycontent')
+	const tplListElmt = document.querySelector('#richdocuments-templates > ul')
+	const elmt = event.target
 
 	// ensure no request is in progress
 	if (elmt.className.indexOf('loading') === -1 && elmt.textContent === '') {
-		var remote = event.target.href
+		const remote = event.target.href
 		elmt.classList.add('icon-loading')
 		elmt.classList.remove('icon-delete')
 
 		// send request
 		$.ajax({
 			url: remote,
-			type: 'DELETE'
+			type: 'DELETE',
 		})
 			.done(function() {
 			// remove template
@@ -86,11 +86,11 @@ function deleteTemplate(event) {
  * Init the upload manager and the delete template handler
  */
 function initTemplateManager() {
-	var inputElmt = document.querySelector('#add-template')
-	var buttonElmt = document.querySelector('.icon-add')
-	var deleteElmts = document.querySelectorAll('.delete-template')
-	var emptyElmt = document.querySelector('#richdocuments-templates #emptycontent')
-	var tplListElmt = document.querySelector('#richdocuments-templates > ul')
+	const inputElmt = document.querySelector('#add-template')
+	const buttonElmt = document.querySelector('.icon-add')
+	const deleteElmts = document.querySelectorAll('.delete-template')
+	const emptyElmt = document.querySelector('#richdocuments-templates #emptycontent')
+	const tplListElmt = document.querySelector('#richdocuments-templates > ul')
 
 	deleteElmts.forEach(function(elmt) {
 		elmt.addEventListener('click', deleteTemplate)
@@ -102,20 +102,20 @@ function initTemplateManager() {
 		url: OC.generateUrl('apps/richdocuments/template'),
 		type: 'POST',
 
-		add: function(e, data) {
+		add(e, data) {
 			// submit on file selection
 			data.submit()
 			inputElmt.disabled = true
 			buttonElmt.className = 'icon-loading-small'
 		},
 
-		submit: function(e, data) {
+		submit(e, data) {
 			data.formData = _.extend(data.formData || {}, {
-				requesttoken: OC.requestToken
+				requesttoken: OC.requestToken,
 			})
 		},
 
-		success: function(e) {
+		success(e) {
 			inputElmt.disabled = false
 			buttonElmt.className = 'icon-add'
 			// add template to dom
@@ -124,7 +124,7 @@ function initTemplateManager() {
 			emptyElmt.classList.add('hidden')
 		},
 
-		fail: function(e, data) {
+		fail(e, data) {
 			// failure, show warning
 			buttonElmt.className = 'icon-add'
 			buttonElmt.textContent = t('richdocuments', 'An error occurred') + ': ' + data.jqXHR.responseJSON.data.message
@@ -132,7 +132,7 @@ function initTemplateManager() {
 				inputElmt.disabled = false
 				buttonElmt.textContent = ''
 			}, 2000)
-		}
+		},
 	})
 }
 

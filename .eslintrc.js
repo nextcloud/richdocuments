@@ -10,15 +10,15 @@ module.exports = {
 		Vue: true,
 		VueRouter: true,
 	},
-	extends: [
-		'@nextcloud',
-	],
 	settings: {
 		'import/resolver': {
 			node: {
 				paths: ['src'],
-				extensions: ['.js', '.vue', '.ts', '.tsx'],
+				extensions: ['.js', '.vue'],
 			},
 		},
 	},
+	extends: [
+		'@nextcloud',
+	],
 }

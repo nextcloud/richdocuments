@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -29,14 +29,14 @@ const Preload = {}
 if (preloadCreate) {
 	Preload.create = {
 		type: getSearchParam('richdocuments_create'),
-		filename: getSearchParam('richdocuments_filename')
+		filename: getSearchParam('richdocuments_filename'),
 	}
 }
 
 if (preloadOpen) {
 	Preload.open = {
 		filename: preloadOpen,
-		id: getSearchParam('richdocuments_fileId')
+		id: getSearchParam('richdocuments_fileId'),
 	}
 }
 

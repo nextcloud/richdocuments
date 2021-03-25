@@ -21,17 +21,21 @@
   -->
 
 <template>
-	<multiselect v-model="inputValObjects"
-		:options="groupsArray" :options-limit="5"
+	<Multiselect v-model="inputValObjects"
+		:options="groupsArray"
+		:options-limit="5"
 		:placeholder="label"
 		track-by="id"
 		label="displayname"
-		class="multiselect-vue" :multiple="true"
-		:close-on-select="false" :tag-width="60"
-		:disabled="disabled" @input="update"
+		class="multiselect-vue"
+		:multiple="true"
+		:close-on-select="false"
+		:tag-width="60"
+		:disabled="disabled"
+		@input="update"
 		@search-change="asyncFindGroup">
 		<span slot="noResult">{{ t('settings', 'No results') }}</span>
-	</multiselect>
+	</Multiselect>
 </template>
 
 <script>
@@ -42,30 +46,30 @@ let uuid = 0
 export default {
 	name: 'SettingsSelectGroup',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		label: {
 			type: String,
-			required: true
+			required: true,
 		},
 		hint: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		value: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		disabled: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
 			inputValObjects: [],
-			groups: {}
+			groups: {},
 		}
 	},
 	computed: {
@@ -74,14 +78,14 @@ export default {
 		},
 		groupsArray() {
 			return Object.values(this.groups)
-		}
+		},
 	},
 	watch: {
 		value(newVal) {
 			this.inputValObjects = this.getValueObject()
-		}
+		},
 	},
-	created: function() {
+	created() {
 		this.uuid = uuid.toString()
 		uuid += 1
 		this.asyncFindGroup('').then((result) => {
@@ -94,8 +98,8 @@ export default {
 				(id) => {
 					if (typeof this.groups[id] === 'undefined') {
 						return {
-							id: id,
-							displayname: id
+							id,
+							displayname: id,
 						}
 					}
 					return this.groups[id]
@@ -121,7 +125,7 @@ export default {
 				}).catch((error) => {
 					this.$emit('error', error)
 				})
-		}
-	}
+		},
+	},
 }
 </script>

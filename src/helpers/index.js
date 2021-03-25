@@ -24,7 +24,7 @@ import { getLanguage, getLocale } from '@nextcloud/l10n'
 
 const languageToBCP47 = () => {
 	let language = getLanguage().replace(/_/g, '-')
-	let locale = getLocale()
+	const locale = getLocale()
 
 	// German formal should just be treated as 'de'
 	if (language === 'de-DE') {
@@ -33,16 +33,16 @@ const languageToBCP47 = () => {
 	// special case where setting the bc47 region depending on the locale setting makes sense
 	const whitelist = {
 		de: {
-			'de_CH': 'de-CH',
-			'gsw': 'de-CH',
-			'gsw_CH': 'de-CH'
+			de_CH: 'de-CH',
+			gsw: 'de-CH',
+			gsw_CH: 'de-CH',
 		},
 		fr: {
-			'fr_CH': 'fr-CH'
+			fr_CH: 'fr-CH',
 		},
 		it: {
-			'it_CH': 'it-CH'
-		}
+			it_CH: 'it-CH',
+		},
 	}
 	const matchingWhitelist = whitelist[language]
 	if (typeof matchingWhitelist !== 'undefined' && typeof matchingWhitelist[locale] !== 'undefined') {
@@ -62,11 +62,11 @@ const getNextcloudVersion = () => {
 const splitPath = (path) => {
 	const fileName = path.split('\\').pop().split('/').pop()
 	const directory = path.substr(0, (path.length - fileName.length - 1))
-	return [ directory, fileName ]
+	return [directory, fileName]
 }
 
 export {
 	languageToBCP47,
 	getNextcloudVersion,
-	splitPath
+	splitPath,
 }

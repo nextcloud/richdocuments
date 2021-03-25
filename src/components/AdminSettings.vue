@@ -28,8 +28,11 @@
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
 				<div v-if="serverError == 2 && isNginx && serverMode === 'builtin'" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: ') }}<a title="Connecting Collabora Online Single Click with Nginx" href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/" target="_blank"
-						rel="noopener" class="external">{{ t('richdocuments', 'Connecting Collabora Online Single Click with Nginx') }}</a></span>
+					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: ') }}<a title="Connecting Collabora Online Single Click with Nginx"
+						href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/"
+						target="_blank"
+						rel="noopener"
+						class="external">{{ t('richdocuments', 'Connecting Collabora Online Single Click with Nginx') }}</a></span>
 				</div>
 				<div v-else-if="serverError == 2" id="security-warning-state-failure">
 					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
@@ -47,8 +50,12 @@
 
 			<fieldset>
 				<div>
-					<input id="customserver" v-model="serverMode" type="radio"
-						name="serverMode" value="custom" class="radio"
+					<input id="customserver"
+						v-model="serverMode"
+						type="radio"
+						name="serverMode"
+						value="custom"
+						class="radio"
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
@@ -58,13 +65,19 @@
 						<form @submit.prevent.stop="updateServer">
 							<p>
 								<label for="wopi_url">{{ t('richdocuments', 'URL (and Port) of Collabora Online-server') }}</label><br>
-								<input id="wopi_url" v-model="settings.wopi_url" type="text"
+								<input id="wopi_url"
+									v-model="settings.wopi_url"
+									type="text"
 									:disabled="updating">
 								<input type="submit" value="Save" :disabled="updating"><br>
 							</p>
 							<p>
-								<input id="disable_certificate_verification" v-model="settings.disable_certificate_verification" type="checkbox"
-									class="checkbox" :disabled="updating" @change="updateServer">
+								<input id="disable_certificate_verification"
+									v-model="settings.disable_certificate_verification"
+									type="checkbox"
+									class="checkbox"
+									:disabled="updating"
+									@change="updateServer">
 								<label for="disable_certificate_verification">{{ t('richdocuments', 'Disable certificate verification (insecure)') }}</label><br>
 								<em>{{ t('Enable if your Collabora Online server uses a self signed certificate') }}</em>
 							</p>
@@ -72,9 +85,14 @@
 					</div>
 				</div>
 				<div v-if="CODECompatible">
-					<input id="builtinserver" v-model="serverMode" type="radio"
-						name="serverMode" value="builtin" class="radio"
-						:disabled="updating || !CODEInstalled" @click="setBuiltinServer">
+					<input id="builtinserver"
+						v-model="serverMode"
+						type="radio"
+						name="serverMode"
+						value="builtin"
+						class="radio"
+						:disabled="updating || !CODEInstalled"
+						@click="setBuiltinServer">
 					<label for="builtinserver">{{ t('richdocuments', 'Use the built-in CODE - Collabora Online Development Edition') }}</label><br>
 					<p v-if="CODEInstalled" class="option-inline">
 						<em>{{ t('richdocuments', 'Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features.') }}</em>
@@ -93,9 +111,14 @@
 					</div>
 				</div>
 				<div>
-					<input id="demoserver" v-model="serverMode" type="radio"
-						name="serverMode" value="demo" class="radio"
-						:disabled="updating || hasHostErrors" @input="fetchDemoServers">
+					<input id="demoserver"
+						v-model="serverMode"
+						type="radio"
+						name="serverMode"
+						value="demo"
+						class="radio"
+						:disabled="updating || hasHostErrors"
+						@input="fetchDemoServers">
 					<label for="demoserver">{{ t('richdocuments', 'Use a demo server') }}</label><br>
 					<p class="option-inline">
 						<em>{{ t('richdocuments', 'You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try.') }}</em>
@@ -114,8 +137,11 @@
 							</li>
 						</ul><br>
 						<p>
-							{{ t('richdocuments', 'For use cases like this, we offer instructions for a') }} <a title="Quick tryout with Nextcloud docker" href="https://www.collaboraoffice.com/code/quick-tryout-nextcloud-docker/" target="_blank"
-								rel="noopener" class="external">{{ t('richdocuments', 'Quick tryout with Nextcloud docker.') }}</a>
+							{{ t('richdocuments', 'For use cases like this, we offer instructions for a') }} <a title="Quick tryout with Nextcloud docker"
+								href="https://www.collaboraoffice.com/code/quick-tryout-nextcloud-docker/"
+								target="_blank"
+								rel="noopener"
+								class="external">{{ t('richdocuments', 'Quick tryout with Nextcloud docker.') }}</a>
 						</p>
 					</div>
 					<div v-if="serverMode === 'demo'" class="option-inline">
@@ -123,10 +149,17 @@
 							{{ t('richdocuments', 'Loading available demo servers …') }}
 						</p>
 						<p v-else-if="demoServers.length > 0">
-							<multiselect v-if="serverMode === 'demo'" v-model="settings.demoUrl" :custom-label="demoServerLabel"
-								track-by="demo_url" label="demo_url" placeholder="Select a demo server"
-								:options="demoServers" :searchable="false" :allow-empty="false"
-								:disabled="updating" @input="setDemoServer" />
+							<Multiselect v-if="serverMode === 'demo'"
+								v-model="settings.demoUrl"
+								:custom-label="demoServerLabel"
+								track-by="demo_url"
+								label="demo_url"
+								placeholder="Select a demo server"
+								:options="demoServers"
+								:searchable="false"
+								:allow-empty="false"
+								:disabled="updating"
+								@input="setDemoServer" />
 						</p>
 						<p v-else>
 							{{ t('richdocuments', 'No available demo servers found.') }}
@@ -135,7 +168,9 @@
 						<p v-if="settings.demoUrl">
 							<em>
 								{{ t('richdocuments', 'Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online.') }}<br>
-								<a :href="settings.demoUrl.provider_url" target="_blank" rel="noreferrer noopener"
+								<a :href="settings.demoUrl.provider_url"
+									target="_blank"
+									rel="noreferrer noopener"
 									class="external">{{ providerDescription }}</a>
 							</em>
 						</p>
@@ -144,7 +179,7 @@
 			</fieldset>
 		</div>
 
-		<modal v-if="serverMode === 'demo' && !approvedDemoModal" @close="serverMode = 'custom'">
+		<Modal v-if="serverMode === 'demo' && !approvedDemoModal" @close="serverMode = 'custom'">
 			<div class="modal__content">
 				<p>{{ t('richdocuments', 'Please make sure you understand that the following will happen if you set up the Collabora Online demo.') }}</p>
 				<ul>
@@ -155,83 +190,142 @@
 					<li>{{ t('richdocuments', 'The users documents will not be retained by a third party after their session completes except in exceptional circumstances. By using the service, the user gives permission for Collabora engineers to exceptionally use such document data, solely for the purpose of providing, optimizing and improving Collabora Online. Such document data will remain confidential to Collabora and/or any third party providing a demo server.') }}</li>
 				</ul>
 				<p>{{ t('richdocuments', 'At the first use and after an update, each user will get the warning, explaining all the above.') }}</p>
-				<input type="button" class="primary" :value="t('richdocuments', 'I agree, and use the demo server')"
+				<input type="button"
+					class="primary"
+					:value="t('richdocuments', 'I agree, and use the demo server')"
 					@click="approvedDemoModal=true">
 				<input type="button" :value="t('richdocuments', 'I will setup my own server')" @click="serverMode = 'custom'">
 			</div>
-		</modal>
+		</Modal>
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
-			<settings-checkbox :value="isOoxml" :label="t('richdocuments', 'Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files')" hint=""
-				:disabled="updating" @input="updateOoxml" />
+			<SettingsCheckbox :value="isOoxml"
+				:label="t('richdocuments', 'Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files')"
+				hint=""
+				:disabled="updating"
+				@input="updateOoxml" />
 
-			<settings-checkbox :value="settings.use_groups !== null" :label="t('richdocuments', 'Restrict usage to specific groups')" :hint="t('richdocuments', 'Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it.')"
-				:disabled="updating" @input="updateUseGroups">
-				<settings-select-group v-if="settings.use_groups !== null" v-model="settings.use_groups" :label="t('richdocuments', 'Select groups')"
-					class="option-inline" :disabled="updating" @input="updateUseGroups" />
-			</settings-checkbox>
+			<SettingsCheckbox :value="settings.use_groups !== null"
+				:label="t('richdocuments', 'Restrict usage to specific groups')"
+				:hint="t('richdocuments', 'Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it.')"
+				:disabled="updating"
+				@input="updateUseGroups">
+				<SettingsSelectGroup v-if="settings.use_groups !== null"
+					v-model="settings.use_groups"
+					:label="t('richdocuments', 'Select groups')"
+					class="option-inline"
+					:disabled="updating"
+					@input="updateUseGroups" />
+			</SettingsCheckbox>
 
-			<settings-checkbox :value="settings.edit_groups !== null" :label="t('richdocuments', 'Restrict edit to specific groups')" hint="All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.')"
-				:disabled="updating" @input="updateEditGroups">
-				<settings-select-group v-if="settings.edit_groups !== null" v-model="settings.edit_groups" :label="t('richdocuments', 'Select groups')"
-					class="option-inline" :disabled="updating" @input="updateEditGroups" />
-			</settings-checkbox>
+			<SettingsCheckbox :value="settings.edit_groups !== null"
+				:label="t('richdocuments', 'Restrict edit to specific groups')"
+				hint="All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.')"
+				:disabled="updating"
+				@input="updateEditGroups">
+				<SettingsSelectGroup v-if="settings.edit_groups !== null"
+					v-model="settings.edit_groups"
+					:label="t('richdocuments', 'Select groups')"
+					class="option-inline"
+					:disabled="updating"
+					@input="updateEditGroups" />
+			</SettingsCheckbox>
 
-			<settings-checkbox v-model="uiVisible.canonical_webroot" :label="t('richdocuments', 'Use Canonical webroot')" hint=""
-				:disabled="updating" @input="updateCanonicalWebroot">
-				<settings-input-text v-if="uiVisible.canonical_webroot" v-model="settings.canonical_webroot" label=""
+			<SettingsCheckbox v-model="uiVisible.canonical_webroot"
+				:label="t('richdocuments', 'Use Canonical webroot')"
+				hint=""
+				:disabled="updating"
+				@input="updateCanonicalWebroot">
+				<SettingsInputText v-if="uiVisible.canonical_webroot"
+					v-model="settings.canonical_webroot"
+					label=""
 					:hint="t('richdocuments', 'Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.')"
-					:disabled="updating" class="option-inline" @update="updateCanonicalWebroot" />
-			</settings-checkbox>
+					:disabled="updating"
+					class="option-inline"
+					@update="updateCanonicalWebroot" />
+			</SettingsCheckbox>
 
-			<settings-checkbox v-model="uiVisible.external_apps" :label="t('richdocuments', 'Enable access for external apps')" hint=""
-				:disabled="updating" @input="updateExternalApps">
+			<SettingsCheckbox v-model="uiVisible.external_apps"
+				:label="t('richdocuments', 'Enable access for external apps')"
+				hint=""
+				:disabled="updating"
+				@input="updateExternalApps">
 				<div v-if="uiVisible.external_apps">
-					<settings-external-apps class="option-inline" :external-apps="settings.external_apps" :disabled="updating"
+					<SettingsExternalApps class="option-inline"
+						:external-apps="settings.external_apps"
+						:disabled="updating"
 						@input="updateExternalApps" />
 				</div>
-			</settings-checkbox>
+			</SettingsCheckbox>
 		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure view settings') }}</h2>
 			<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
-			<settings-checkbox v-model="settings.watermark.enabled" :label="t('richdocuments', 'Enable watermarking')" hint=""
-				:disabled="updating" @input="update" />
-			<settings-input-text v-if="settings.watermark.enabled" v-model="settings.watermark.text" label="Watermark text"
+			<SettingsCheckbox v-model="settings.watermark.enabled"
+				:label="t('richdocuments', 'Enable watermarking')"
+				hint=""
+				:disabled="updating"
+				@input="update" />
+			<SettingsInputText v-if="settings.watermark.enabled"
+				v-model="settings.watermark.text"
+				label="Watermark text"
 				:hint="t('richdocuments', 'Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}')"
-				:disabled="updating" @update="update" />
+				:disabled="updating"
+				@update="update" />
 			<div v-if="settings.watermark.enabled">
-				<settings-checkbox v-model="settings.watermark.allTags" :label="t('richdocuments', 'Show watermark on tagged files')" :disabled="updating"
+				<SettingsCheckbox v-model="settings.watermark.allTags"
+					:label="t('richdocuments', 'Show watermark on tagged files')"
+					:disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allTags" class="checkbox-details">
-					<settings-select-tag v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<SettingsSelectTag v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
-				<settings-checkbox v-model="settings.watermark.allGroups" :label="t('richdocuments', 'Show watermark for users of groups')" :disabled="updating"
+				<SettingsCheckbox v-model="settings.watermark.allGroups"
+					:label="t('richdocuments', 'Show watermark for users of groups')"
+					:disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allGroups" class="checkbox-details">
-					<settings-select-group v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<SettingsSelectGroup v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
-				<settings-checkbox v-model="settings.watermark.shareAll" :label="t('richdocuments', 'Show watermark for all shares')" hint=""
-					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.shareAll" v-model="settings.watermark.shareRead" :label="t('richdocuments', 'Show watermark for read only shares')"
+				<SettingsCheckbox v-model="settings.watermark.shareAll"
+					:label="t('richdocuments', 'Show watermark for all shares')"
 					hint=""
-					:disabled="updating" @input="update" />
+					:disabled="updating"
+					@input="update" />
+				<SettingsCheckbox v-if="!settings.watermark.shareAll"
+					v-model="settings.watermark.shareRead"
+					:label="t('richdocuments', 'Show watermark for read only shares')"
+					hint=""
+					:disabled="updating"
+					@input="update" />
 
 				<h3>Link shares</h3>
-				<settings-checkbox v-model="settings.watermark.linkAll" :label="t('richdocuments', 'Show watermark for all link shares')" hint=""
-					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkSecure" :label="t('richdocuments', 'Show watermark for download hidden shares')"
+				<SettingsCheckbox v-model="settings.watermark.linkAll"
+					:label="t('richdocuments', 'Show watermark for all link shares')"
 					hint=""
-					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkRead" :label="t('richdocuments', 'Show watermark for read only link shares')"
+					:disabled="updating"
+					@input="update" />
+				<SettingsCheckbox v-if="!settings.watermark.linkAll"
+					v-model="settings.watermark.linkSecure"
+					:label="t('richdocuments', 'Show watermark for download hidden shares')"
 					hint=""
-					:disabled="updating" @input="update" />
-				<settings-checkbox v-if="!settings.watermark.linkAll" v-model="settings.watermark.linkTags" :label="t('richdocuments', 'Show watermark on link shares with specific system tags')"
-					:disabled="updating" @input="update" />
+					:disabled="updating"
+					@input="update" />
+				<SettingsCheckbox v-if="!settings.watermark.linkAll"
+					v-model="settings.watermark.linkRead"
+					:label="t('richdocuments', 'Show watermark for read only link shares')"
+					hint=""
+					:disabled="updating"
+					@input="update" />
+				<SettingsCheckbox v-if="!settings.watermark.linkAll"
+					v-model="settings.watermark.linkTags"
+					:label="t('richdocuments', 'Show watermark on link shares with specific system tags')"
+					:disabled="updating"
+					@input="update" />
 				<p v-if="!settings.watermark.linkAll && settings.watermark.linkTags" class="checkbox-details">
-					<settings-select-tag v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<SettingsSelectTag v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
 			</div>
 		</div>
@@ -263,18 +357,18 @@ export default {
 		SettingsSelectGroup,
 		Multiselect,
 		SettingsExternalApps,
-		Modal
+		Modal,
 	},
 	props: {
 		initial: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
 			serverMode: '',
-			serverError: Object.values(OC.getCapabilities()['richdocuments'].collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
+			serverError: Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
@@ -288,7 +382,7 @@ export default {
 			tags: [],
 			uiVisible: {
 				canonical_webroot: false,
-				external_apps: false
+				external_apps: false,
 			},
 			settings: {
 				demoUrl: null,
@@ -306,9 +400,9 @@ export default {
 					allGroupsList: [],
 					allTags: false,
 					allTagsList: [],
-					text: ''
-				}
-			}
+					text: '',
+				},
+			},
 		}
 	},
 	computed: {
@@ -323,15 +417,15 @@ export default {
 		},
 		hasHostErrors() {
 			return this.hostErrors.some(x => x)
-		}
+		},
 	},
 	beforeMount() {
-		for (let key in this.initial.settings) {
+		for (const key in this.initial.settings) {
 			if (!Object.prototype.hasOwnProperty.call(this.initial.settings, key)) {
 				continue
 			}
 
-			let [ parent, setting ] = key.split('_')
+			const [parent, setting] = key.split('_')
 			if (parent === 'watermark') {
 				Vue.set(this.settings[parent], setting, this.initial.settings[key])
 			} else {
@@ -379,7 +473,7 @@ export default {
 		},
 		update() {
 			this.updating = true
-			let settings = this.settings
+			const settings = this.settings
 			axios.post(generateUrl('/apps/richdocuments/settings/watermark'), { settings }).then((response) => {
 				this.updating = false
 			}).catch((error) => {
@@ -395,7 +489,7 @@ export default {
 				this.settings.use_groups = null
 			}
 			await this.updateSettings({
-				use_groups: this.settings.use_groups !== null ? this.settings.use_groups.join('|') : ''
+				use_groups: this.settings.use_groups !== null ? this.settings.use_groups.join('|') : '',
 			})
 		},
 		async updateEditGroups(enabled) {
@@ -405,7 +499,7 @@ export default {
 				this.settings.edit_groups = null
 			}
 			await this.updateSettings({
-				edit_groups: this.settings.edit_groups !== null ? this.settings.edit_groups.join('|') : ''
+				edit_groups: this.settings.edit_groups !== null ? this.settings.edit_groups.join('|') : '',
 			})
 		},
 		async updateCanonicalWebroot(canonicalWebroot) {
@@ -414,7 +508,7 @@ export default {
 				return
 			}
 			await this.updateSettings({
-				canonical_webroot: this.settings.canonical_webroot
+				canonical_webroot: this.settings.canonical_webroot,
 			})
 		},
 		async updateExternalApps(externalApps) {
@@ -423,13 +517,13 @@ export default {
 				return
 			}
 			await this.updateSettings({
-				external_apps: this.settings.external_apps
+				external_apps: this.settings.external_apps,
 			})
 		},
 		async updateOoxml(enabled) {
 			this.settings.doc_format = enabled ? 'ooxml' : ''
 			await this.updateSettings({
-				doc_format: this.settings.doc_format
+				doc_format: this.settings.doc_format,
 			})
 		},
 		async updateServer() {
@@ -437,7 +531,7 @@ export default {
 			try {
 				await this.updateSettings({
 					wopi_url: this.settings.wopi_url,
-					disable_certificate_verification: this.settings.disable_certificate_verification
+					disable_certificate_verification: this.settings.disable_certificate_verification,
 				})
 				this.serverError = SERVER_STATE_OK
 			} catch (e) {
@@ -488,8 +582,8 @@ export default {
 			this.settings.wopi_url = this.settings.CODEUrl
 			this.settings.disable_certificate_verification = false
 			await this.updateServer()
-		}
-	}
+		},
+	},
 }
 </script>
 
@@ -497,6 +591,7 @@ export default {
 	p {
 		margin-bottom: 15px;
 	}
+
 	p.checkbox-details {
 		margin-left: 25px;
 		margin-top: -10px;
