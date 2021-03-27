@@ -125,6 +125,7 @@ OC.L10N.register(
     "Guest" : "Invitado",
     "Follow current editor" : "Seguir al editor actual",
     "Last saved version" : "Última versión guardada",
+    "Current version (unsaved changes)" : "Versión actual (cambios no guardados)",
     "Failed to revert the document to older version" : "Fallo al revertir el documento a la versión anterior",
     "Please enter the filename for the new document" : "Por favor ingresa el nombre del archivo para el nuevo documento",
     "Create a new document" : "Crear nuevo documento",
