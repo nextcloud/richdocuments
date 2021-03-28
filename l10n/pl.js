@@ -86,7 +86,7 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Pokaż znak wodny dla linków udostępnień tylko do odczytu",
     "Show watermark on link shares with specific system tags" : "Pokaż znak wodny na linku udostępnień z określonymi etykietami systemowymi",
     "Contact {0} to get an own installation." : "Skontaktuj się z {0}, aby uzyskać własną instalację.",
-    "Failed to save settings" : "Ustawienia nie zostały zapisane",
+    "Failed to save settings" : "Nie udało się zapisać ustawień",
     "Description" : "Opis",
     "Add new token" : "Dodaj nowy token",
     "No results" : "Brak wyników",
