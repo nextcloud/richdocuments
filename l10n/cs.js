@@ -67,7 +67,7 @@ OC.L10N.register(
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Použít pro nové soubory jako výchozí Office Open XML (OOXML) namísto OpenDocument Format (ODF)",
     "Restrict usage to specific groups" : "Omezit použití na konkrétní skupiny",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Ve výchozím stavu je Collabora Online zapnuté pro všechny uživatele. Pokud je toto nastavení aktivní, mohou Collabora Online používat jen členové zadaných skupin.",
-    "Select groups" : "Vyberte skupiny",
+    "Select groups" : "Vybrat skupiny",
     "Restrict edit to specific groups" : "Omezit úpravy pro konkrétní skupiny",
     "Use Canonical webroot" : "Použít úplný popis umístění kořene webu",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Úplný popis umístění kořene webu, kterou má Collabora použít v případě, že je jich více. Použijte tu s nejméně omezeními. Např. použijte popis umístění kořene bez podpory Shibboleth pokud tato instance podporuje oba přístupy. Tuto volbu můžete ignorovat v případě, že existuje pouze jedna kořenová složka pro přístup.",

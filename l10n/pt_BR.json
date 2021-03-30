@@ -81,7 +81,7 @@
     "Show watermark for read only shares" : "Mostrar marca d'água para compartilhamentos somente leitura",
     "Show watermark for all link shares" : "Mostrar marca d'água para todos os links de compartilhamento",
     "Show watermark for download hidden shares" : "Mostrar marca d'água para compartilhamentos ocultos de download",
-    "Show watermark for read only link shares" : "Mostrar marca d'água para compartilhamentos de link somente leitura",
+    "Show watermark for read only link shares" : "Mostrar marca d'água para compartilhamentos por link somente leitura",
     "Show watermark on link shares with specific system tags" : "Mostrar marca d'água em links de compartilhamento com rótulos específicos",
     "Contact {0} to get an own installation." : "Contacte {0} para obter sua própria instalação.",
     "Failed to save settings" : "Erro ao salvar configurações",
