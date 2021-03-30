@@ -42,6 +42,7 @@
 		"@babel/core": "^7.13.14",
 		"@babel/eslint-parser": "^7.13.14",
 		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
+		"@babel/plugin-transform-modules-commonjs": "^7.13.8",
 		"@babel/plugin-transform-runtime": "^7.13.10",
 		"@babel/preset-env": "^7.13.12",
 		"@nextcloud/browserslist-config": "^2.1.0",
