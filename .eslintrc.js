@@ -7,16 +7,6 @@ module.exports = {
 		OCP: true,
 		$: true,
 		_: true,
-		Vue: true,
-		VueRouter: true,
-	},
-	settings: {
-		'import/resolver': {
-			node: {
-				paths: ['src'],
-				extensions: ['.js', '.vue'],
-			},
-		},
 	},
 	extends: [
 		'@nextcloud',
