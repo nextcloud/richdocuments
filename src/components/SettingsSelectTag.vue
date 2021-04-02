@@ -21,20 +21,24 @@
   -->
 
 <template>
-	<multiselect v-model="inputValObjects"
-		:options="tags" :options-limit="5"
+	<Multiselect v-model="inputValObjects"
+		:options="tags"
+		:options-limit="5"
 		:placeholder="label"
 		track-by="id"
 		:custom-label="tagLabel"
-		class="multiselect-vue" :multiple="true"
-		:close-on-select="false" :tag-width="60"
-		:disabled="disabled" @input="update"
+		class="multiselect-vue"
+		:multiple="true"
+		:close-on-select="false"
+		:tag-width="60"
+		:disabled="disabled"
+		@input="update"
 		@search-change="asyncFind">
 		<span slot="noResult">{{ t('settings', 'No results') }}</span>
 		<template #option="scope">
 			{{ tagLabel(scope.option) }}
 		</template>
-	</multiselect>
+	</Multiselect>
 </template>
 
 <script>
@@ -66,7 +70,7 @@ const xmlToJson = (xml) => {
 				obj[nodeName] = xmlToJson(item)
 			} else {
 				if (typeof obj[nodeName].push === 'undefined') {
-					var old = obj[nodeName]
+					const old = obj[nodeName]
 					obj[nodeName] = []
 					obj[nodeName].push(old)
 				}
@@ -88,11 +92,11 @@ const parseXml = (xml) => {
 }
 
 const xmlToTagList = (xml) => {
-	let json = xmlToJson(parseXml(xml))
-	let list = json['d:multistatus']['d:response']
-	let result = []
-	for (let index in list) {
-		let tag = list[index]['d:propstat']
+	const json = xmlToJson(parseXml(xml))
+	const list = json['d:multistatus']['d:response']
+	const result = []
+	for (const index in list) {
+		const tag = list[index]['d:propstat']
 
 		if (tag['d:status']['#text'] !== 'HTTP/1.1 200 OK') {
 			continue
@@ -102,7 +106,7 @@ const xmlToTagList = (xml) => {
 			displayName: tag['d:prop']['oc:display-name']['#text'],
 			canAssign: tag['d:prop']['oc:can-assign']['#text'] === 'true',
 			userAssignable: tag['d:prop']['oc:user-assignable']['#text'] === 'true',
-			userVisible: tag['d:prop']['oc:user-visible']['#text'] === 'true'
+			userVisible: tag['d:prop']['oc:user-visible']['#text'] === 'true',
 		})
 	}
 	return result
@@ -121,7 +125,7 @@ const searchTags = function() {
 						<oc:user-assignable />
 						<oc:can-assign />
 					  </d:prop>
-					</d:propfind>`
+					</d:propfind>`,
 	}).then((response) => {
 		return xmlToTagList(response.data)
 	})
@@ -131,43 +135,43 @@ let uuid = 0
 export default {
 	name: 'SettingsSelectTag',
 	components: {
-		Multiselect
+		Multiselect,
 	},
 	props: {
 		label: {
 			type: String,
-			required: true
+			required: true,
 		},
 		hint: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		value: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		disabled: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
 			inputValObjects: [],
-			tags: []
+			tags: [],
 		}
 	},
 	computed: {
 		id() {
 			return 'settings-input-text-' + this.uuid
-		}
+		},
 	},
 	watch: {
 		value(newVal) {
 			this.inputValObjects = this.getValueObject()
-		}
+		},
 	},
-	beforeCreate: function() {
+	beforeCreate() {
 		this.uuid = uuid.toString()
 		uuid += 1
 		searchTags().then((result) => {
@@ -194,7 +198,7 @@ export default {
 				return `${displayName} (restricted)`
 			}
 			return displayName
-		}
-	}
+		},
+	},
 }
 </script>

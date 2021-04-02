@@ -79,7 +79,7 @@ class Application extends App implements IBootstrap {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
 		$eventDispatcher->addListener(LoadViewer::class, function () {
-			\OCP\Util::addScript('richdocuments', 'viewer');
+			\OCP\Util::addScript('richdocuments', 'richdocuments-viewer');
 		});
 
 		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config) {
@@ -130,12 +130,12 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(function (SymfonyAdapter $eventDispatcher) {
 			$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts',
 				function() {
-					\OCP\Util::addScript('richdocuments', 'files');
+					\OCP\Util::addScript('richdocuments', 'richdocuments-files');
 				}
 			);
 			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts',
 				function() {
-					\OCP\Util::addScript('richdocuments', 'files');
+					\OCP\Util::addScript('richdocuments', 'richdocuments-files');
 				}
 			);
 

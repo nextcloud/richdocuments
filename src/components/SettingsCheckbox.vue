@@ -22,8 +22,12 @@
 
 <template>
 	<div class="settings-entry">
-		<input :id="id" type="checkbox" class="checkbox"
-			:checked="inputVal" :disabled="disabled" @change="$emit('input', $event.target.checked)">
+		<input :id="id"
+			type="checkbox"
+			class="checkbox"
+			:checked="inputVal"
+			:disabled="disabled"
+			@change="$emit('input', $event.target.checked)">
 		<label :for="id">{{ label }}</label><br>
 		<em v-if="hint !== ''">{{ hint }}</em>
 		<div>
@@ -39,40 +43,40 @@ export default {
 	props: {
 		label: {
 			type: String,
-			required: true
+			required: true,
 		},
 		hint: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		value: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		disabled: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {
-			inputVal: this.value
+			inputVal: this.value,
 		}
 	},
 	computed: {
 		id() {
 			return 'settings-checkbox-' + this.uuid
-		}
+		},
 	},
 	watch: {
 		value(newVal) {
 			this.inputVal = this.value
-		}
+		},
 	},
-	beforeCreate: function() {
+	beforeCreate() {
 		this.uuid = uuid.toString()
 		uuid += 1
-	}
+	},
 }
 </script>
 

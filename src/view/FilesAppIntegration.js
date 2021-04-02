@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -23,7 +23,7 @@
 import Preload from '../services/preload'
 import { splitPath } from '../helpers'
 import Types from '../helpers/types'
-import Config from '../services/config'
+import Config from '../services/config.tsx'
 import NewFileMenu from './NewFileMenu'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
@@ -159,14 +159,14 @@ export default {
 				type: 'POST',
 				url: OC.generateUrl('apps/richdocuments/assets'),
 				data: {
-					path: path
-				}
+					path,
+				},
 			}).done(function(resp) {
 				insertFile(filename, resp.url)
 			})
 		}
 
-		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath: insertFileFromPath })) {
+		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath })) {
 			return
 		}
 
@@ -248,7 +248,7 @@ export default {
 
 	_addHeaderShareButton() {
 		if ($('header').length) {
-			var $button = $('<div id="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
+			const $button = $('<div id="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
 			$('#richdocuments-header').append($button)
 			$button.on('click', () => {
 				if (!$('#app-sidebar').is(':visible')) {
@@ -264,14 +264,14 @@ export default {
 		console.debug('[FilesAppIntegration] Adding header file actions')
 		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
 		$('#richdocuments-actions').remove()
-		var actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
-		var actions = actionsContainer.find('#richdocuments-actions-menu').empty()
+		const actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
+		const actions = actionsContainer.find('#richdocuments-actions-menu').empty()
 
-		var getContext = () => ({
-			'$file': this.getFileList().$el ? this.getFileList().$el.find('[data-id=' + this.fileId + ']').first() : null,
+		const getContext = () => ({
+			$file: this.getFileList().$el ? this.getFileList().$el.find('[data-id=' + this.fileId + ']').first() : null,
 			fileActions: this.getFileList().fileActions,
 			fileList: this.getFileList(),
-			fileInfoModel: this.getFileModel()
+			fileInfoModel: this.getFileModel(),
 		})
 
 		const isFavorite = function(fileInfo) {
@@ -293,7 +293,7 @@ export default {
 			$favorite.find('a').addClass('icon-star-dark')
 		}
 
-		var $info = $('<li><a class="icon-info"></a></li>').click(() => {
+		const $info = $('<li><a class="icon-info"></a></li>').click(() => {
 			if (this.handlers.actionDetails && this.handlers.actionDetails(this)) {
 				return
 			}
@@ -301,7 +301,7 @@ export default {
 			OC.hideMenus()
 		})
 		$info.find('a').text(t('files', 'Details'))
-		var $download = $('<li><a class="icon-download">Download</a></li>').click(() => {
+		const $download = $('<li><a class="icon-download">Download</a></li>').click(() => {
 			if (this.handlers.actionDownload && this.handlers.actionDownload(this)) {
 				return
 			}
@@ -315,14 +315,15 @@ export default {
 	},
 
 	/**
-	 * @param {View} view
+	 * @param {View} view the view
+	 * @returns {$|HTMLElement}
 	 * @private
 	 */
-	_userEntry: function(view) {
-		var entry = $('<li></li>')
+	_userEntry(view) {
+		const entry = $('<li></li>')
 		entry.append(this._avatarForView(view))
 
-		var label = $('<div class="label"></div>')
+		const label = $('<div class="label"></div>')
 		label.text(view.UserName)
 		if (view.ReadOnly === '1') {
 			label.text(view.UserName + ' ' + t('richdocuments', '(read only)'))
@@ -341,7 +342,7 @@ export default {
 		const isFileOwner = !isPublic && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
 		const canEdit = this.getFileModel() && !!(this.getFileModel().get('permissions') & OC.PERMISSION_UPDATE)
 		if (isFileOwner && canEdit && !view.IsCurrentView) {
-			var removeButton = $('<div class="icon-close" title="' + t('richdocuments', 'Remove user') + '"/>')
+			const removeButton = $('<div class="icon-close" title="' + t('richdocuments', 'Remove user') + '"/>')
 			removeButton.click(() => {
 				this.sendPostMessage('Action_RemoveView', { ViewId: view.ViewId })
 			})
@@ -351,19 +352,19 @@ export default {
 	},
 
 	/**
-	 * @param {View} view
+	 * @param {View} view the view
 	 * @returns {$|HTMLElement}
 	 * @private
 	 */
-	_avatarForView: function(view) {
+	_avatarForView(view) {
 		const userId = (view.UserId === '') ? view.UserName : view.UserId
-		var avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + userId + '"></div></div>')
-		var avatar = avatarContainer.find('.avatar')
+		const avatarContainer = $('<div class="richdocuments-avatar"><div class="avatar" title="' + view.UserName + '" data-user="' + userId + '"></div></div>')
+		const avatar = avatarContainer.find('.avatar')
 
 		avatar.css({
-			'border-color': '#' + ('000000' + Number(view.Color).toString(16)).substr(-6),
-			'border-width': '2px',
-			'border-style': 'solid'
+			borderColor: '#' + ('000000' + Number(view.Color).toString(16)).substr(-6),
+			borderWidth: '2px',
+			borderStyle: 'solid',
 		})
 		if (view.ReadOnly === '1') {
 			avatarContainer.addClass('read-only')
@@ -376,19 +377,19 @@ export default {
 		return avatarContainer
 	},
 
-	renderAvatars: function() {
-		var avatardiv = $('#header .header-right #richdocuments-avatars')
+	renderAvatars() {
+		const avatardiv = $('#header .header-right #richdocuments-avatars')
 		avatardiv.empty()
-		var popover = $('<div id="editors-menu" class="popovermenu menu-center"><ul></ul></div>')
+		const popover = $('<div id="editors-menu" class="popovermenu menu-center"><ul></ul></div>')
 
-		var users = []
+		const users = []
 		// Add new avatars
-		var i = 0
-		for (var viewId in this.views) {
+		let i = 0
+		for (const viewId in this.views) {
 			/**
 			 * @type {View}
 			 */
-			var view = this.views[viewId]
+			const view = this.views[viewId]
 			view.UserName = view.UserName !== '' ? view.UserName : t('richdocuments', 'Guest')
 			popover.find('ul').append(this._userEntry(view))
 
@@ -403,7 +404,7 @@ export default {
 				avatardiv.append(this._avatarForView(view))
 			}
 		}
-		var followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>')
+		const followCurrentEditor = $('<li><input type="checkbox" class="checkbox" /><label class="label">' + t('richdocuments', 'Follow current editor') + '</label></li>')
 		followCurrentEditor.find('label').click((event) => {
 			event.stopPropagation()
 			if (this.followingEditor) {
@@ -459,22 +460,22 @@ export default {
 		}
 	},
 
-	showVersionPreview: function(e) {
+	showVersionPreview(e) {
 		e.preventDefault()
-		var element = e.currentTarget.parentElement.parentElement
+		let element = e.currentTarget.parentElement.parentElement
 		if ($(e.currentTarget).hasClass('downloadVersion')) {
 			element = e.currentTarget.parentElement.parentElement.parentElement.parentElement
 		}
-		var version = element.dataset.revision
-		var fileId = this.fileId
-		var title = this.fileName
+		const version = element.dataset.revision
+		const fileId = this.fileId
+		const title = this.fileName
 		console.debug('[FilesAppIntegration] showVersionPreview', version, fileId, title)
 		this.sendPostMessage('Action_loadRevViewer', { fileId, title, version })
 		$(element.parentElement.parentElement).find('li').removeClass('active')
 		$(element).addClass('active')
 	},
 
-	restoreVersion: function(e) {
+	restoreVersion(e) {
 		e.preventDefault()
 		e.stopPropagation()
 
@@ -500,7 +501,7 @@ export default {
 		this._restoreVersionCallback = null
 	},
 
-	_restoreSuccess: function(response) {
+	_restoreSuccess(response) {
 		if (response.status === 'error') {
 			OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
 		}
@@ -510,21 +511,21 @@ export default {
 		OC.Apps.hideAppSidebar()
 	},
 
-	_restoreError: function() {
+	_restoreError() {
 		OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
 	},
 
-	_restoreDAV: function(version) {
-		var restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + OC.getCurrentUser().uid
+	_restoreDAV(version) {
+		const restoreUrl = OC.linkToRemoteBase('dav') + '/versions/' + OC.getCurrentUser().uid
 			+ '/versions/' + this.fileId + '/' + version
 		$.ajax({
 			type: 'MOVE',
 			url: restoreUrl,
 			headers: {
-				Destination: OC.linkToRemote('dav') + '/versions/' + OC.getCurrentUser().uid + '/restore/target'
+				Destination: OC.linkToRemote('dav') + '/versions/' + OC.getCurrentUser().uid + '/restore/target',
 			},
 			success: this._restoreSuccess.bind(this),
-			error: this._restoreError.bind(this)
+			error: this._restoreError.bind(this),
 		})
 	},
 
@@ -535,9 +536,11 @@ export default {
 	 * the parameters richdocuments_create and richdocuments_filename are
 	 * parsed by viewer.js and open a template picker in the new tab with
 	 * FilesAppIntegration.preloadCreate
+	 *
+	 * @param {string} type the file type
 	 */
-	createNewFile: function(type) {
-		if (this.handlers.createNewFile && this.handlers.createNewFile(this, { type: type })) {
+	createNewFile(type) {
+		if (this.handlers.createNewFile && this.handlers.createNewFile(this, { type })) {
 			return
 		}
 
@@ -549,8 +552,8 @@ export default {
 					if (type === 'text') {
 						type = 'document'
 					}
-					var dir = parent.$('#dir').val()
-					var url = OC.generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
+					const dir = parent.$('#dir').val()
+					const url = OC.generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
 					window.open(url, '_blank')
 				}
 			},
@@ -558,8 +561,8 @@ export default {
 			t('richdocuments', 'New filename'),
 			false
 		).then(function() {
-			var $dialog = parent.$('.oc-dialog:visible')
-			var $buttons = $dialog.find('button')
+			const $dialog = parent.$('.oc-dialog:visible')
+			const $buttons = $dialog.find('button')
 			$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 			$buttons.eq(1).text(t('richdocuments', 'Create a new document'))
 		})
@@ -568,7 +571,7 @@ export default {
 	/**
 	 * Automaically open a document on page load
 	 */
-	preloadOpen: function() {
+	preloadOpen() {
 		if (this.handlers.preloadOpen && this.handlers.preloadOpen(this)) {
 			return
 		}
@@ -579,7 +582,7 @@ export default {
 			window.FileList.$fileList.one('updated', function() {
 				const [, file] = splitPath(path)
 				const fileModel = FileList.getModelForFile(file)
-				OCA.RichDocuments.open({ path, fileId, fileModel: fileModel, fileList: window.FileList })
+				OCA.RichDocuments.open({ path, fileId, fileModel, fileList: window.FileList })
 			})
 		}, 250)
 	},
@@ -587,7 +590,7 @@ export default {
 	/**
 	 * Automaically open a template picker on page load
 	 */
-	preloadCreate: function() {
+	preloadCreate() {
 		if (this.handlers.preloadCreate && this.handlers.preloadCreate(this)) {
 			return
 		}
@@ -600,15 +603,15 @@ export default {
 		}, 250)
 	},
 
-	loggingContext: function() {
+	loggingContext() {
 		return {
 			currentUser: OC.getCurrentUser()?.uid,
 			file: {
 				sharingToken: document.getElementById('sharingToken')?.value,
 				fileId: this.fileId,
-				filePath: (this.filePath ?? '') + '/' + this.fileName
-			}
+				filePath: (this.filePath ?? '') + '/' + this.fileName,
+			},
 		}
-	}
+	},
 
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -22,10 +22,10 @@
 
 import { getRootUrl } from '@nextcloud/router'
 import { languageToBCP47 } from './index'
-import Config from './../services/config'
+import Config from './../services/config.tsx'
 
 const getSearchParam = (name) => {
-	var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
+	const results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
 	if (results === null) {
 		return null
 	}
@@ -56,10 +56,10 @@ const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTempl
 	return OC.generateUrl(
 		'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
 		{
-			templateId: templateId,
-			fileName: fileName,
+			templateId,
+			fileName,
 			dir: fileDir,
-			requesttoken: OC.requestToken
+			requesttoken: OC.requestToken,
 		}
 	)
 }
@@ -69,9 +69,9 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 		'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
 		{
 			shareToken: document.getElementById('sharingToken').value,
-			fileName: fileName,
-			fileId: fileId,
-			requesttoken: OC.requestToken
+			fileName,
+			fileId,
+			requesttoken: OC.requestToken,
 		}
 	)
 }
@@ -80,9 +80,9 @@ const getDocumentUrlForFile = (fileDir, fileId) => {
 	return OC.generateUrl(
 		'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
 		{
-			fileId: fileId,
+			fileId,
 			dir: fileDir,
-			requesttoken: OC.requestToken
+			requesttoken: OC.requestToken,
 		})
 }
 
@@ -92,5 +92,5 @@ export {
 
 	getDocumentUrlFromTemplate,
 	getDocumentUrlForPublicFile,
-	getDocumentUrlForFile
+	getDocumentUrlForFile,
 }

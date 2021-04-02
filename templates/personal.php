@@ -1,5 +1,5 @@
 <?php
-script('richdocuments', 'personal');
+script('richdocuments', 'richdocuments-personal');
 ?>
 <div class="section" id="richdocuments">
 	<h2>

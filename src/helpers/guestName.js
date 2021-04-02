@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -20,16 +20,16 @@
  *
  */
 
-import Config from './../services/config'
+import Config from './../services/config.tsx'
 import { getCurrentUser } from '@nextcloud/auth'
 import mobile from './mobile'
 
 const getGuestNameCookie = function() {
-	var name = 'guestUser='
-	var decodedCookie = decodeURIComponent(document.cookie)
-	var cookieArr = decodedCookie.split(';')
-	for (var i = 0; i < cookieArr.length; i++) {
-		var c = cookieArr[i]
+	const name = 'guestUser='
+	const decodedCookie = decodeURIComponent(document.cookie)
+	const cookieArr = decodedCookie.split(';')
+	for (let i = 0; i < cookieArr.length; i++) {
+		let c = cookieArr[i]
 		while (c.charAt(0) === ' ') {
 			c = c.substring(1)
 		}
@@ -57,5 +57,5 @@ const shouldAskForGuestName = () => {
 export {
 	getGuestNameCookie,
 	setGuestNameCookie,
-	shouldAskForGuestName
+	shouldAskForGuestName,
 }

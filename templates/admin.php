@@ -1,5 +1,5 @@
 <?php
-script('richdocuments', 'admin');
+script('richdocuments', 'richdocuments-admin');
 script('files', 'jquery.fileupload');
 
 /** @var array $_ */

@@ -1,7 +1,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
-import PostMessageService from './services/postMessage'
-import Config from './services/config'
+import PostMessageService from './services/postMessage.tsx'
+import Config from './services/config.tsx'
 import Preload from './services/preload'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
@@ -11,7 +11,7 @@ import NewFileMenu from './view/NewFileMenu'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
-	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
+	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow,
 })
 
 const isDownloadHidden = document.getElementById('hideDownload') && document.getElementById('hideDownload').value === 'true'
@@ -32,7 +32,7 @@ const odfViewer = {
 
 	registerFileActions() {
 		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
-		for (let mime of odfViewer.supportedMimes) {
+		for (const mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
 				mime,
 				EDIT_ACTION_NAME,
@@ -55,7 +55,7 @@ const odfViewer = {
 							context.fileId = fileInfo.id
 							return this.onEdit(fileName, {
 								...context,
-								shareOwnerId
+								shareOwnerId,
 							})
 						})
 						return
@@ -65,7 +65,7 @@ const odfViewer = {
 					const shareOwnerId = fileModel?.shareOwnerId
 					return this.onEdit(fileName, {
 						...context,
-						shareOwnerId
+						shareOwnerId,
 					})
 				},
 				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
@@ -76,7 +76,11 @@ const odfViewer = {
 		}
 	},
 
-	onEdit: function(fileName, context) {
+	onEdit(fileName, context) {
+		let fileDir
+		let fileId
+		let templateId
+
 		if (!odfViewer.isCollaboraConfigured) {
 			const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
 			const installHint = OC.isUserAdmin()
@@ -86,7 +90,7 @@ const odfViewer = {
 			if (OCP.Toast) {
 				OCP.Toast.error(installHint, {
 					isHTML: true,
-					timeout: 0
+					timeout: 0,
 				})
 			} else {
 				OC.Notification.showHtml(installHint)
@@ -100,14 +104,14 @@ const odfViewer = {
 		if (context) {
 			if (context?.$file?.attr('data-mounttype') === 'external-session') {
 				OCP.Toast.error(t('richdocuments', 'Opening the file is not supported, since the credentials for the external storage are not available without a session'), {
-					timeout: 0
+					timeout: 0,
 				})
 				odfViewer.open = false
 				return
 			}
-			var fileDir = context.dir
-			var fileId = context.fileId || context.$file?.attr('data-id')
-			var templateId = context.templateId
+			fileDir = context.dir
+			fileId = context.fileId || context.$file?.attr('data-id')
+			templateId = context.templateId
 		}
 		FilesAppIntegration.startLoading()
 		odfViewer.receivedLoading = false
@@ -123,10 +127,13 @@ const odfViewer = {
 		/**
 		 * We need to reload the page to set a proper CSP if the file is federated
 		 * and the reload didn't happen for the exact same file
+		 *
+		 * @param {string} url the url
+		 * @param {Function} callback to be run after reload is complete
 		 */
 		const canAccessCSP = (url, callback) => {
 			let canEmbed = false
-			let frame = document.createElement('iframe')
+			const frame = document.createElement('iframe')
 			frame.style.display = 'none'
 			frame.onload = () => {
 				canEmbed = true
@@ -165,7 +172,7 @@ const odfViewer = {
 
 		$('head').append($('<link rel="stylesheet" type="text/css" href="' + OC.filePath('richdocuments', 'css', 'mobile.css') + '"/>'))
 
-		var $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
+		const $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
 			(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl
@@ -176,7 +183,7 @@ const odfViewer = {
 		}
 
 		$('body').css('overscroll-behavior-y', 'none')
-		var viewport = document.querySelector('meta[name=viewport]')
+		const viewport = document.querySelector('meta[name=viewport]')
 		viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
 		if (isPublic) {
 			// force the preview to adjust its height
@@ -205,10 +212,10 @@ const odfViewer = {
 				fileModel: context ? context.fileModel : undefined,
 				sendPostMessage: (msgId, values) => {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
-				}
+				},
 			})
 			emit('richdocuments:file-open:started', {
-				...FilesAppIntegration.loggingContext()
+				...FilesAppIntegration.loggingContext(),
 			})
 		})
 	},
@@ -222,7 +229,7 @@ const odfViewer = {
 		FilesAppIntegration.initAfterReady()
 	},
 
-	onClose: function() {
+	onClose() {
 		odfViewer.open = false
 		clearTimeout(odfViewer.loadingTimeout)
 		odfViewer.receivedLoading = false
@@ -245,11 +252,11 @@ const odfViewer = {
 		FilesAppIntegration.close()
 	},
 
-	onTimeout: function() {
+	onTimeout() {
 		if (!odfViewer.receivedLoading && !odfViewer.isProxyStarting) {
 			emit('richdocuments:file-open:failed', {
 				reason: 'timeout',
-				...FilesAppIntegration.loggingContext()
+				...FilesAppIntegration.loggingContext(),
 			})
 			odfViewer.onClose()
 			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
@@ -259,9 +266,9 @@ const odfViewer = {
 		}
 	},
 
-	checkProxyStatus: function() {
-		var wopiUrl = OC.getCapabilities().richdocuments.config.wopi_url
-		var url = wopiUrl.substr(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
+	checkProxyStatus() {
+		const wopiUrl = OC.getCapabilities().richdocuments.config.wopi_url
+		const url = wopiUrl.substr(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 		$.get(url + '?status').done(function(result) {
 			if (result && result.status) {
 				if (result.status === 'OK' || result.status === 'error') {
@@ -277,15 +284,15 @@ const odfViewer = {
 				}
 			}
 		})
-	}
+	},
 }
 
-const settings = OC.getCapabilities()['richdocuments']['config'] || {}
-Config.update('ooxml', settings['doc_format'] === 'ooxml')
+const settings = OC.getCapabilities().richdocuments.config || {}
+Config.update('ooxml', settings.doc_format === 'ooxml')
 
 window.OCA.RichDocuments = {
 	config: {
-		create: Types.getFileTypes()
+		create: Types.getFileTypes(),
 	},
 	open: ({ path, fileId, fileModel, fileList = {} }) => {
 		const [dir, file] = splitPath(path)
@@ -294,7 +301,7 @@ window.OCA.RichDocuments = {
 			dir,
 			shareOwnerId: fileModel.get('shareOwnerId'),
 			fileList,
-			fileModel
+			fileModel,
 		})
 	},
 	openWithTemplate: ({ path, fileId, templateId, fileModel, fileList = {} }) => {
@@ -305,12 +312,12 @@ window.OCA.RichDocuments = {
 			templateId,
 			shareOwnerId: fileModel.get('shareOwnerId'),
 			fileList,
-			fileModel
+			fileModel,
 		})
 	},
 	FilesAppIntegration: {
-		registerHandler: FilesAppIntegration.registerHandler.bind(FilesAppIntegration)
-	}
+		registerHandler: FilesAppIntegration.registerHandler.bind(FilesAppIntegration),
+	},
 }
 
 $(document).ready(function() {
@@ -360,11 +367,11 @@ $(document).ready(function() {
 				emit('richdocuments:file-open:failed', {
 					reason: 'collabora',
 					collaboraResponse: parsed?.args?.errorMsg,
-					...FilesAppIntegration.loggingContext()
+					...FilesAppIntegration.loggingContext(),
 				})
 			} else {
 				emit('richdocuments:file-open:succeeded', {
-					...FilesAppIntegration.loggingContext()
+					...FilesAppIntegration.loggingContext(),
 				})
 			}
 			break
@@ -372,7 +379,7 @@ $(document).ready(function() {
 			if (args.Status === 'Timeout') {
 				emit('richdocuments:file-open:failed', {
 					reason: 'timeout',
-					...FilesAppIntegration.loggingContext()
+					...FilesAppIntegration.loggingContext(),
 				})
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
