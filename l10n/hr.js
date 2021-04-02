@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Novi dokument",
+    "New spreadsheet" : "Nova proračunska tablica",
+    "New presentation" : "Nova prezentacija",
     "Collabora Online" : "Collabora Online",
     "Can't create document" : "Dokument nije moguće stvoriti",
     "New Document.odt" : "Novi Dokument.odt",
@@ -122,6 +125,7 @@ OC.L10N.register(
     "Guest" : "Gost",
     "Follow current editor" : "Slijedi trenutni uređivač",
     "Last saved version" : "Posljednja spremljena verzija",
+    "Current version (unsaved changes)" : "Trenutačna inačica (nespremljene promjene)",
     "Failed to revert the document to older version" : "Vraćanje dokumenta na stariju verziju nije uspjelo",
     "Please enter the filename for the new document" : "Unesite naziv datoteke za novi dokument",
     "Create a new document" : "Stvori novi dokument",
