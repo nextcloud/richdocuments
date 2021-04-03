@@ -100,7 +100,7 @@ class Application extends App implements IBootstrap {
 				return $odtType;
 			});
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
-				$odsType = new TemplateFileCreator('richdocuments', $l10n->t('New spreadsheet'), ($ooxml ? '.xslx' : '.ods'));
+				$odsType = new TemplateFileCreator('richdocuments', $l10n->t('New spreadsheet'), ($ooxml ? '.xlsx' : '.ods'));
 				if ($ooxml) {
 					$odsType->addMimetype('application/vnd.ms-excel');
 					$odsType->addMimetype('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
