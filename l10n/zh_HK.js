@@ -114,7 +114,7 @@ OC.L10N.register(
     "Failed to load {productName} - please try again later" : "載入 {productName} 失敗，請稍後再試",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
     "Select a personal template folder" : "選擇個人範本資料夾",
-    "Saving…" : "儲存中。。。",
+    "Saving…" : "儲存中...",
     "Insert from {name}" : "從 {name} 插入",
     "Remove from favorites" : "從最愛中移除",
     "Add to favorites" : "新增最愛",
