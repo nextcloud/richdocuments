@@ -112,14 +112,19 @@ export default {
 		$('#richdocuments-header').remove()
 	},
 
-	saveAs() {
+	saveAs(newName) {
 		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
 			return
+		}
+
+		if (newName) {
+			this.fileName = newName
 		}
 
 		if (this.getFileList()) {
 			this.getFileList()
 				.reload()
+			OC.Apps.hideAppSidebar()
 		}
 	},
 
