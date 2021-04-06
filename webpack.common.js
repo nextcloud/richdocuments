@@ -49,7 +49,11 @@ module.exports = {
 				loader: 'babel-loader',
 				exclude: BabelLoaderExcludeNodeModulesExcept([
 					'@nextcloud/dialogs',
-					'@nextcloud/event-bus'
+					'@nextcloud/event-bus',
+					'@nextcloud/vue',
+					'semver',
+					'vue-resize',
+					'v-tooltip'
 				]),
 			},
 			{
