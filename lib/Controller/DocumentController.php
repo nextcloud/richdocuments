@@ -31,6 +31,7 @@ use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\ILogger;
 use \OCP\AppFramework\Http\ContentSecurityPolicy;
+use \OCP\AppFramework\Http\FeaturePolicy;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
 use \OCA\Richdocuments\Helper;
@@ -175,6 +176,22 @@ class DocumentController extends Controller {
 	}
 
 	/**
+	 * Setup policy headers for the response
+	 */
+	private function setupPolicy($response) {
+		$wopiDomain = $this->domainOnly($this->appConfig->getAppValue('public_wopi_url'));
+
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedFrameDomain($wopiDomain);
+		$policy->allowInlineScript(true);
+		$response->setContentSecurityPolicy($policy);
+
+		$featurePolicy = new FeaturePolicy();
+		$featurePolicy->addAllowedFullScreenDomain($wopiDomain);
+		$response->setFeaturePolicy($featurePolicy);
+	}
+
+	/**
 	 * Redirect to the files app with proper CSP headers set for federated editing
 	 * This is a workaround since we cannot set a nonce for allowing dynamic URLs in the richdocument iframe
 	 *
@@ -278,10 +295,7 @@ class DocumentController extends Controller {
 			}
 
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-			$policy = new ContentSecurityPolicy();
-			$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
-			$policy->allowInlineScript(true);
-			$response->setContentSecurityPolicy($policy);
+			$this->setupPolicy($response);
 			return $response;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
@@ -344,10 +358,7 @@ class DocumentController extends Controller {
 		];
 
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
-		$policy->allowInlineScript(true);
-		$response->setContentSecurityPolicy($policy);
+		$this->setupPolicy($response);
 		return $response;
 	}
 
@@ -396,10 +407,7 @@ class DocumentController extends Controller {
 				}
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-				$policy = new ContentSecurityPolicy();
-				$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('public_wopi_url')));
-				$policy->allowInlineScript(true);
-				$response->setContentSecurityPolicy($policy);
+				$this->setupPolicy($response);
 				return $response;
 			}
 		} catch (\Exception $e) {
@@ -467,11 +475,15 @@ class DocumentController extends Controller {
 				];
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
+				$remoteWopi = $this->domainOnly($this->appConfig->getAppValue('wopi_url'));
 				$policy = new ContentSecurityPolicy();
-				$policy->addAllowedFrameDomain($this->domainOnly($this->appConfig->getAppValue('wopi_url')));
+				$policy->addAllowedFrameDomain($remoteWopi);
 				$policy->allowInlineScript(true);
 				$policy->addAllowedFrameAncestorDomain('https://*');
 				$response->setContentSecurityPolicy($policy);
+				$featurePolicy = new FeaturePolicy();
+				$featurePolicy->addAllowedFullScreenDomain($remoteWopi);
+				$response->setFeaturePolicy($featurePolicy);
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
