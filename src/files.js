@@ -363,6 +363,8 @@ $(document).ready(function() {
 		}
 	}
 
+	OC.MimeType._mimeTypeIcons['application/vnd.oasis.opendocument.graphics'] = OC.imagePath('richdocuments', 'x-office-draw')
+
 	// Open the template picker if there was a create parameter detected on load
 	if (Preload.create && Preload.create.type && Preload.create.filename) {
 		FilesAppIntegration.preloadCreate()

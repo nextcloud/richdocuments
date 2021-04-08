@@ -72,37 +72,30 @@ class TemplateManager {
 		'application/vnd.openxmlformats-officedocument.presentationml.template',
 		'application/vnd.ms-powerpoint'
 	];
+	const MIMES_DRAWINGS = [
+		'application/vnd.oasis.opendocument.graphics-template',
+	];
 
 	/** @var array Template mime types match */
 	static public $tplTypes = [
 		'document'     => self::MIMES_DOCUMENTS,
 		'spreadsheet'  => self::MIMES_SHEETS,
-		'presentation' => self::MIMES_PRESENTATIONS
+		'presentation' => self::MIMES_PRESENTATIONS,
+		'drawing'      => self::MIMES_DRAWINGS,
 	];
 
 	const TYPE_EXTENTION = [
 		'document'     => 'odt',
 		'spreadsheet'  => 'ods',
-		'presentation' => 'odp'
+		'presentation' => 'odp',
+		'drawing'      => 'odg',
 	];
 
 	const TYPE_EXTENSION_OOXML = [
 		'document'     => 'docx',
 		'spreadsheet'  => 'xlsx',
-		'presentation' => 'pptx'
+		'presentation' => 'pptx',
 	];
-
-	const EMPTY_TEMPLATE_ID_TYPE = [
-		-1 => 'document',
-		-2 => 'spreadsheet',
-		-3 => 'presentation',
-	];
-	const EMPTY_TEMPLATE_TYPE_ID = [
-		'document'     => -1,
-		'spreadsheet'  => -2,
-		'presentation' => -3,
-	];
-
 
 	/**
 	 * Template manager
@@ -218,6 +211,7 @@ class TemplateManager {
 				'document.ott',
 				'spreadsheet.ots',
 				'presentation.otp',
+				'drawing.otg',
 			];
 
 			foreach ($templates as $template) {
@@ -451,7 +445,7 @@ class TemplateManager {
 			'preview'   => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type'      => $this->flipTypes()[$template->getMimeType()],
 			'delete'    => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
-			'extension' => $ooxml ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
+			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}
 
@@ -478,13 +472,13 @@ class TemplateManager {
 			'id'        => $template->getId(),
 			'name'      => $this->l->t('Empty'),
 			'type'      => $this->flipTypes()[$template->getMimeType()],
-			'extension' => $ooxml ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
+			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}
 
 	public function isValidTemplateMime($mime, $type = null) {
 		if ($type === null) {
-			$allMimes = array_merge(self::$tplTypes['document'], self::$tplTypes['spreadsheet'], self::$tplTypes['presentation']);
+			$allMimes = array_merge(self::$tplTypes['document'], self::$tplTypes['spreadsheet'], self::$tplTypes['presentation'], self::$tplTypes['drawing']);
 			if (!in_array($mime, $allMimes)) {
 				return false;
 			}

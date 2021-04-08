@@ -53,10 +53,12 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 	public function getCustomTemplates(string $mimetype): array {
 		if (in_array($mimetype, TemplateManager::MIMES_DOCUMENTS)) {
 			$type = 'document';
-		} else if (in_array($mimetype, TemplateManager::MIMES_SHEETS)) {
+		} elseif (in_array($mimetype, TemplateManager::MIMES_SHEETS)) {
 			$type = 'spreadsheet';
-		} else if (in_array($mimetype, TemplateManager::MIMES_PRESENTATIONS)) {
+		} elseif (in_array($mimetype, TemplateManager::MIMES_PRESENTATIONS)) {
 			$type = 'presentation';
+		} elseif (in_array($mimetype, TemplateManager::MIMES_DRAWINGS)) {
+			$type = 'drawing';
 		} else {
 			return [];
 		}

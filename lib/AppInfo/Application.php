@@ -84,7 +84,10 @@ class Application extends App implements IBootstrap {
 			\OCP\Util::addScript('richdocuments', 'richdocuments-viewer');
 		});
 
-		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config) {
+		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService) {
+			if (empty($capabilitiesService->getCapabilities())) {
+				return;
+			}
 			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
 				$odtType = new TemplateFileCreator('richdocuments', $l10n->t('New document'), ($ooxml ? '.docx' : '.odt'));
@@ -125,6 +128,18 @@ class Application extends App implements IBootstrap {
 				$odpType->setRatio(16/9);
 				return $odpType;
 			});
+
+			if (!$capabilitiesService->hasDrawSupport()) {
+				return;
+			}
+			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
+				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New graphic'), '.odg');
+				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
+				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
+				$odpType->setIconClass('icon-filetype-draw');
+				$odpType->setRatio(16/9);
+				return $odpType;
+			});
 		});
 
 		$context->injectFn(function (SymfonyAdapter $eventDispatcher) {
@@ -158,14 +173,6 @@ class Application extends App implements IBootstrap {
 
 	public function registerProvider() {
 		$container = $this->getContainer();
-
-		// Register mimetypes
-		/** @var Detection $detector */
-		$detector = $container->query(\OCP\Files\IMimeTypeDetector::class);
-		$detector->getAllMappings();
-		$detector->registerType('ott','application/vnd.oasis.opendocument.text-template');
-		$detector->registerType('ots', 'application/vnd.oasis.opendocument.spreadsheet-template');
-		$detector->registerType('otp', 'application/vnd.oasis.opendocument.presentation-template');
 
 		/** @var IPreview $previewManager */
 		$previewManager = $container->query(IPreview::class);
