@@ -93,8 +93,6 @@ class Application extends App implements IBootstrap {
 					$odtType->addMimetype('application/vnd.oasis.opendocument.text');
 					$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
 				}
-				$odtType->addMimetype('application/vnd.oasis.opendocument.text');
-				$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
 				$odtType->setIconClass('icon-filetype-document');
 				$odtType->setRatio(21/29.7);
 				return $odtType;
