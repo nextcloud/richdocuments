@@ -125,6 +125,14 @@ class Application extends App implements IBootstrap {
 				$odpType->setRatio(16/9);
 				return $odpType;
 			});
+			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
+				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New graphic'), '.odg');
+				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
+				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
+				$odpType->setIconClass('icon-filetype-draw');
+				$odpType->setRatio(16/9);
+				return $odpType;
+			});
 		});
 
 		$context->injectFn(function (SymfonyAdapter $eventDispatcher) {
@@ -163,9 +171,11 @@ class Application extends App implements IBootstrap {
 		/** @var Detection $detector */
 		$detector = $container->query(\OCP\Files\IMimeTypeDetector::class);
 		$detector->getAllMappings();
+		$detector->registerType('odg', 'application/vnd.oasis.opendocument.graphics');
 		$detector->registerType('ott','application/vnd.oasis.opendocument.text-template');
 		$detector->registerType('ots', 'application/vnd.oasis.opendocument.spreadsheet-template');
 		$detector->registerType('otp', 'application/vnd.oasis.opendocument.presentation-template');
+		$detector->registerType('otg','application/vnd.oasis.opendocument.graphics-template');
 
 		/** @var IPreview $previewManager */
 		$previewManager = $container->query(IPreview::class);

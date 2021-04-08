@@ -34,6 +34,7 @@ class Capabilities implements ICapability {
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.oasis.opendocument.graphics',
 		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.oasis.opendocument.graphics',
 		'application/vnd.lotus-wordpro',
 		'application/vnd.visio',
 		'application/vnd.ms-visio.drawing',
