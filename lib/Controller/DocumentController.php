@@ -186,9 +186,11 @@ class DocumentController extends Controller {
 		$policy->allowInlineScript(true);
 		$response->setContentSecurityPolicy($policy);
 
-		$featurePolicy = new FeaturePolicy();
-		$featurePolicy->addAllowedFullScreenDomain($wopiDomain);
-		$response->setFeaturePolicy($featurePolicy);
+		if (class_exists(FeaturePolicy::class)) {
+			$featurePolicy = new FeaturePolicy();
+			$featurePolicy->addAllowedFullScreenDomain($wopiDomain);
+			$response->setFeaturePolicy($featurePolicy);
+		}
 	}
 
 	/**
@@ -481,9 +483,11 @@ class DocumentController extends Controller {
 				$policy->allowInlineScript(true);
 				$policy->addAllowedFrameAncestorDomain('https://*');
 				$response->setContentSecurityPolicy($policy);
-				$featurePolicy = new FeaturePolicy();
-				$featurePolicy->addAllowedFullScreenDomain($remoteWopi);
-				$response->setFeaturePolicy($featurePolicy);
+				if (class_exists(FeaturePolicy::class)) {
+					$featurePolicy = new FeaturePolicy();
+					$featurePolicy->addAllowedFullScreenDomain($remoteWopi);
+					$response->setFeaturePolicy($featurePolicy);
+				}
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
