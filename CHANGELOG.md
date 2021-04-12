@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.18
+
+* [#1456](https://github.com/nextcloud/richdocuments/pull/1456) Add @nextcloud/dialogs and @nextcloud/event-bus to babel
+* [#1467](https://github.com/nextcloud/richdocuments/pull/1467) Reload file name for share feature after Save As
+* [#1469](https://github.com/nextcloud/richdocuments/pull/1469) Setup FeaturePolicy to allow fullscreen
+
 ## 3.7.17
 
 * [#1417](https://github.com/nextcloud/richdocuments/pull/1417) Fix version restore
