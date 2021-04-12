@@ -521,14 +521,14 @@ class DocumentController extends Controller {
 		} catch (NotFoundException $e) {
 			return new JSONResponse([
 					'status' => 'error',
-					'message' => $this->l10n->t('Can\'t create document')
+					'message' => $this->l10n->t('Cannot create document')
 			], Http::STATUS_BAD_REQUEST);
 		}
 
 		if (!($folder instanceof Folder)) {
 			return new JSONResponse([
 				'status' => 'error',
-				'message' => $this->l10n->t('Can\'t create document')
+				'message' => $this->l10n->t('Cannot create document')
 			], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -597,7 +597,7 @@ class DocumentController extends Controller {
 
 		return new JSONResponse([
 			'status' => 'error',
-			'message' => $this->l10n->t('Can\'t create document')
+			'message' => $this->l10n->t('Cannot create document')
 		]);
 	}
 }
