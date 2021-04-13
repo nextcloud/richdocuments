@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Can't create document" : "Nemoguće kreirati dokument",
     "Saved" : "Spremljeno",
     "Description" : "Opis",
     "Error" : "Greška",

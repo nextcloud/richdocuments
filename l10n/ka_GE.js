@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "დოკუმენტი ვერ შეიქმნა",
     "New Document.odt" : "ახალი დოკუმენტი.odt",
     "New Spreadsheet.ods" : "ახალი ცხრილი.ods",
     "New Presentation.odp" : "ახალი პრეზენტაცია.odp",

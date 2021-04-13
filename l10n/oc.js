@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora en linha",
-    "Can't create document" : "Impossible de crear lo document",
     "New Document.odt" : "Document Novèl.odt",
     "Saved" : "Enregistrat",
     "Advanced settings" : "Paramètres avançats",

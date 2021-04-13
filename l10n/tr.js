@@ -5,7 +5,6 @@ OC.L10N.register(
     "New spreadsheet" : "Yeni hesap tablosu",
     "New presentation" : "Yeni sunum",
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "Belge oluşturulamadı",
     "New Document.odt" : "Yeni Belge.odt",
     "New Spreadsheet.ods" : "Yeni Çalışma Sayfası.ods",
     "New Presentation.odp" : "Yeni Sunum.odp",

@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Уредување на документи",
-    "Can't create document" : "Не можам да креирам документ",
     "New Document.odt" : "New Document.odt",
     "New Spreadsheet.ods" : "Нова Табела.ods",
     "New Presentation.odp" : "Нова Презентација.odp",

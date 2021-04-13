@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Can't create document" : "Sənədi yaratmaq mümkün olmadı",
     "Saved" : "Saxlanıldı",
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Select groups" : "Qrupları seç",

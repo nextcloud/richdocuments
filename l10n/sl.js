@@ -5,7 +5,6 @@ OC.L10N.register(
     "New spreadsheet" : "Nova preglednica",
     "New presentation" : "Nova predstavitev",
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "Dokumenta ni mogoče ustvariti",
     "New Document.odt" : "dokument.odt",
     "New Spreadsheet.ods" : "preglednica.ods",
     "New Presentation.odp" : "predstavitev.odp",

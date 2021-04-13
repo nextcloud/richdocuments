@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Can't create document" : "ডকুমেন্ট তৈরী করা যাবেনা",
     "Saved" : "সংরক্ষণ করা হলো",
     "File is too big" : "ফাইল খুব বড়",
     "Select groups" : "গ্রুপ নির্ধারণ",

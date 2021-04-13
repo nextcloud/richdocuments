@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "文書を生成することができません",
     "New Document.odt" : "新規 Document.odt",
     "New Spreadsheet.ods" : "新規 Spreadsheet.ods",
     "New Presentation.odp" : "新規 Presentation.odp",

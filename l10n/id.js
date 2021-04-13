@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Can't create document" : "Tidak dapat membuat dokumen",
     "Saved" : "Disimpan",
     "File is too big" : "Berkas terlalu besar",
     "Invalid file provided" : "Berkas yang diberikan tidak sah",

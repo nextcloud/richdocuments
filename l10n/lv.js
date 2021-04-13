@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "Nevar izveidot dokumentu",
     "New Document.odt" : "Jauns Dokuments.odt",
     "New Spreadsheet.ods" : "Juans Spreadsheet.ods",
     "New Presentation.odp" : "Jauns Presentation.odp",
