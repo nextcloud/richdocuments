@@ -25,19 +25,18 @@ import { getCurrentUser } from '@nextcloud/auth'
 import mobile from './mobile'
 
 const getGuestNameCookie = function() {
-	var name = 'guestUser='
-	var decodedCookie = decodeURIComponent(document.cookie)
-	var cookieArr = decodedCookie.split(';')
-	for (var i = 0; i < cookieArr.length; i++) {
-		var c = cookieArr[i]
-		while (c.charAt(0) === ' ') {
-			c = c.substring(1)
-		}
-		if (c.indexOf(name) === 0) {
-			return c.substring(name.length, c.length)
-		}
-	}
-	return ''
+	const name = 'guestUser='
+	const matchedCookie = document.cookie.split(';')
+		.map((cookie) => {
+			try {
+				return decodeURIComponent(cookie.trim())
+			} catch (e) {
+				return cookie.trim()
+			}
+		}).find((cookie) => {
+			return cookie.indexOf(name) === 0
+		})
+	return matchedCookie ? matchedCookie.substring(name.length) : ''
 }
 
 const setGuestNameCookie = function(username) {
