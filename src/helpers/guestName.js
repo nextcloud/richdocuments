@@ -26,18 +26,17 @@ import mobile from './mobile'
 
 const getGuestNameCookie = function() {
 	const name = 'guestUser='
-	const decodedCookie = decodeURIComponent(document.cookie)
-	const cookieArr = decodedCookie.split(';')
-	for (let i = 0; i < cookieArr.length; i++) {
-		let c = cookieArr[i]
-		while (c.charAt(0) === ' ') {
-			c = c.substring(1)
-		}
-		if (c.indexOf(name) === 0) {
-			return c.substring(name.length, c.length)
-		}
-	}
-	return ''
+	const matchedCookie = document.cookie.split(';')
+		.map((cookie) => {
+			try {
+				return decodeURIComponent(cookie.trim())
+			} catch (e) {
+				return cookie.trim()
+			}
+		}).find((cookie) => {
+			return cookie.indexOf(name) === 0
+		})
+	return matchedCookie ? matchedCookie.substring(name.length) : ''
 }
 
 const setGuestNameCookie = function(username) {
