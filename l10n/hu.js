@@ -5,6 +5,7 @@ OC.L10N.register(
     "New spreadsheet" : "Új munkafüzet",
     "New presentation" : "Új bemutató",
     "Collabora Online" : "Collabora Online",
+    "Cannot create document" : "A dokumentum nem hozható létre",
     "New Document.odt" : "Új dokumentum.odt",
     "New Spreadsheet.ods" : "Új munkafüzet.ods",
     "New Presentation.odp" : "Új bemutató.odp",
