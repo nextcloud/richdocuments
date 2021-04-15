@@ -267,6 +267,9 @@ class DocumentController extends Controller {
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
 				$response->addHeader('X-Frame-Options', 'ALLOW');
+				$csp = new ContentSecurityPolicy();
+				$csp->addAllowedFrameAncestorDomain('*');
+				$response->setContentSecurityPolicy($csp);
 				return $response;
 			}
 
@@ -479,7 +482,7 @@ class DocumentController extends Controller {
 				$policy = new ContentSecurityPolicy();
 				$policy->addAllowedFrameDomain($remoteWopi);
 				$policy->allowInlineScript(true);
-				$policy->addAllowedFrameAncestorDomain('https://*');
+				$policy->addAllowedFrameAncestorDomain('*');
 				$response->setContentSecurityPolicy($policy);
 				$featurePolicy = new FeaturePolicy();
 				$featurePolicy->addAllowedFullScreenDomain($remoteWopi);

@@ -134,6 +134,9 @@ class DirectViewController extends Controller {
 				if ($federatedUrl !== null) {
 					$response = new RedirectResponse($federatedUrl);
 					$response->addHeader('X-Frame-Options', 'ALLOW');
+					$csp = new ContentSecurityPolicy();
+					$csp->addAllowedFrameAncestorDomain('*');
+					$response->setContentSecurityPolicy($csp);
 					return $response;
 				}
 

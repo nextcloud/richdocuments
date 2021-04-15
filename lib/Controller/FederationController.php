@@ -23,6 +23,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\OCSController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCP\AppFramework\Http\DataResponse;
@@ -65,6 +66,9 @@ class FederationController extends OCSController {
 		$response = new DataResponse([
 			'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url')
 		]);
+		$csp = new ContentSecurityPolicy();
+		$csp->addAllowedFrameAncestorDomain('*');
+		$response->setContentSecurityPolicy($csp);
 		$response->setHeaders(['X-Frame-Options' => 'ALLOW']);
 		return $response;
 	}
