@@ -95,6 +95,7 @@ OC.L10N.register(
     "Guest" : "Gonbidatua",
     "Follow current editor" : "Jarraitu uneko editorea",
     "Last saved version" : "Gordetako azken bertsioa",
+    "Current version (unsaved changes)" : "Uneko bertsioa (gorde gabeko aldaketak)",
     "Failed to revert the document to older version" : "Huts egin du dokumentua aurreko bertsiora leheneratzean",
     "Please enter the filename for the new document" : "Sartu dokumentu berriaren fitxategi-izena",
     "Create a new document" : "Sortu dokumentu berria",
