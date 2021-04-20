@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.7.19
+
+* [#1489](https://github.com/nextcloud/richdocuments/pull/1489) Improve parsing of guest name cookie @juliushaertl
+
 ## 3.7.18
 
 * [#1456](https://github.com/nextcloud/richdocuments/pull/1456) Add @nextcloud/dialogs and @nextcloud/event-bus to babel
