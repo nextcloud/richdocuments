@@ -124,6 +124,7 @@ OC.L10N.register(
     "Guest" : "Gost",
     "Follow current editor" : "Sledi trenutnemu uredniku",
     "Last saved version" : "Zadnja shranjena različica",
+    "Current version (unsaved changes)" : "Trenutna različica (neshranjene spremembe)",
     "Failed to revert the document to older version" : "Povrnitev dokumenta na starejšo različico je spodletela.",
     "Please enter the filename for the new document" : "Vpisati je treba ime datoteke novega dokumenta",
     "Create a new document" : "Ustvari nov dokument",

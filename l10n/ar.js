@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "مستند جديد",
+    "New spreadsheet" : "جدول بيانات جديد",
+    "New presentation" : "عرض تقديمي جديد",
     "Saved" : "تم الحفظ",
     "File is too big" : "الملف كبير جدا",
     "Invalid file provided" : "تم تقديم ملف غير صالح",
