@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.x-dev@">
+  <file src="lib/AppConfig.php">
+    <InvalidArgument occurrences="1">
+      <code>[]</code>
+    </InvalidArgument>
+    <InvalidReturnStatement occurrences="1">
+      <code>$value</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+    <RedundantCondition occurrences="1">
+      <code>array_key_exists($key, self::APP_SETTING_TYPES) &amp;&amp; self::APP_SETTING_TYPES[$key] === 'array'</code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/AppInfo/Application.php">
+    <MissingDependency occurrences="18">
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$this-&gt;getContainer()</code>
+      <code>$this-&gt;getContainer()</code>
+      <code>$this-&gt;getContainer()</code>
+      <code>$this-&gt;getContainer()</code>
+      <code>$this-&gt;getContainer()</code>
+      <code>MSExcel</code>
+      <code>MSWord</code>
+      <code>OOXML</code>
+      <code>OpenDocument</code>
+      <code>Pdf</code>
+    </MissingDependency>
+    <UndefinedClass occurrences="4">
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="5">
+      <code>$detector</code>
+      <code>$detector</code>
+      <code>$detector</code>
+      <code>$detector</code>
+      <code>$detector</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/Backgroundjobs/ObtainCapabilities.php">
+    <UndefinedClass occurrences="1">
+      <code>TimedJob</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Capabilities.php">
+    <UndefinedClass occurrences="1">
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/ActivateConfig.php">
+    <UndefinedClass occurrences="1">
+      <code>Command</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/ConvertToBigInt.php">
+    <UndefinedClass occurrences="1">
+      <code>Command</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/UpdateEmptyTemplates.php">
+    <UndefinedClass occurrences="1">
+      <code>Command</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Controller/AssetsController.php">
+    <MissingDependency occurrences="4">
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+    </MissingDependency>
+    <UndefinedThisPropertyFetch occurrences="1">
+      <code>$this-&gt;userScopeService</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="lib/Controller/DirectViewController.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$item-&gt;getId()</code>
+    </InvalidScalarArgument>
+    <MissingDependency occurrences="3">
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Controller/DocumentController.php">
+    <InvalidCatch occurrences="1"/>
+    <InvalidReturnStatement occurrences="1">
+      <code>new TemplateResponse('core', 'error', $params, 'guest')</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+    <InvalidScalarArgument occurrences="5">
+      <code>$fileId</code>
+      <code>$item-&gt;getId()</code>
+      <code>$item-&gt;getId()</code>
+      <code>$item-&gt;getId()</code>
+      <code>$node-&gt;getId()</code>
+    </InvalidScalarArgument>
+    <MissingDependency occurrences="9">
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>BeforeFederationRedirectEvent</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+      <code>ShareNotFound</code>
+    </MissingDependency>
+    <RedundantCondition occurrences="1">
+      <code>$app !== ''</code>
+    </RedundantCondition>
+    <UndefinedClass occurrences="4">
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OCA\Files_Sharing\External\Storage</code>
+      <code>\OC_Helper</code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>getRemote</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Controller/OCSController.php">
+    <MissingDependency occurrences="4">
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Controller/SettingsController.php">
+    <RedundantCondition occurrences="1">
+      <code>$public_wopi_url !== null</code>
+    </RedundantCondition>
+    <TooManyArguments occurrences="1">
+      <code>new NotFoundResponse([])</code>
+    </TooManyArguments>
+  </file>
+  <file src="lib/Controller/TemplatesController.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;fetchPreview($template, $x, $y, $a, $forceIcon, $mode)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>DataResponse</code>
+    </InvalidReturnType>
+    <InvalidThrow occurrences="1">
+      <code>NotFoundResponse</code>
+    </InvalidThrow>
+    <MismatchingDocblockParamType occurrences="1">
+      <code>L10N</code>
+    </MismatchingDocblockParamType>
+    <TypeDoesNotContainType occurrences="1">
+      <code>!($node instanceof Node)</code>
+    </TypeDoesNotContainType>
+    <UndefinedClass occurrences="1">
+      <code>Filesystem</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="1">
+      <code>L10N</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/Controller/WopiController.php">
+    <MissingDependency occurrences="14">
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+      <code>ShareNotFound</code>
+    </MissingDependency>
+    <UndefinedClass occurrences="6">
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC</code>
+      <code>\OC_User</code>
+      <code>\OC_User</code>
+    </UndefinedClass>
+    <UndefinedMagicMethod occurrences="2">
+      <code>getRemoteServer</code>
+      <code>getRemoteServer</code>
+    </UndefinedMagicMethod>
+  </file>
+  <file src="lib/Events/BeforeFederationRedirectEvent.php">
+    <UndefinedClass occurrences="1">
+      <code>Event</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Helper.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$time</code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/Migration/Version2060Date20200302131958.php">
+    <UndefinedDocblockClass occurrences="40">
+      <code>$schema-&gt;createTable('richdocuments_assets')</code>
+      <code>$schema-&gt;createTable('richdocuments_direct')</code>
+      <code>$schema-&gt;createTable('richdocuments_wopi')</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/Migration/Version2060Date20200302132145.php">
+    <UndefinedDocblockClass occurrences="3">
+      <code>$schema-&gt;getTable('richdocuments_wopi')</code>
+      <code>$table</code>
+      <code>$table</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/Migration/Version30704Date20200626072306.php">
+    <UndefinedDocblockClass occurrences="15">
+      <code>$schema-&gt;getTable('richdocuments_wopi')</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+      <code>$table</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/Migration/Version30709Date20201111104147.php">
+    <UndefinedDocblockClass occurrences="2">
+      <code>$schema-&gt;getTable($tableName)</code>
+      <code>$table</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="lib/Preview/MSExcel.php">
+    <MissingDependency occurrences="1">
+      <code>Office</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Preview/MSWord.php">
+    <MissingDependency occurrences="1">
+      <code>Office</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Preview/OOXML.php">
+    <MissingDependency occurrences="1">
+      <code>Office</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Preview/Office.php">
+    <UndefinedClass occurrences="1">
+      <code>Provider</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Preview/OpenDocument.php">
+    <MissingDependency occurrences="1">
+      <code>Office</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Preview/Pdf.php">
+    <MissingDependency occurrences="1">
+      <code>Office</code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Service/FederationService.php">
+    <TooFewArguments occurrences="1">
+      <code>getRemoteCollaboraURL</code>
+    </TooFewArguments>
+    <TypeDoesNotContainType occurrences="1">
+      <code>is_array($trustedList)</code>
+    </TypeDoesNotContainType>
+    <UndefinedClass occurrences="2">
+      <code>SharingExternalStorage</code>
+      <code>\OC</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="2">
+      <code>$this-&gt;trustedServers</code>
+      <code>TrustedServers</code>
+    </UndefinedDocblockClass>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>getRemote</code>
+      <code>getToken</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Service/UserScopeService.php">
+    <UndefinedClass occurrences="1">
+      <code>\OC_Util</code>
+    </UndefinedClass>
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;userManager</code>
+      <code>$this-&gt;userSession</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="2">
+      <code>$this-&gt;userManager</code>
+      <code>$this-&gt;userSession</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="lib/Settings/Personal.php">
+    <InvalidNullableReturnType occurrences="2">
+      <code>TemplateResponse</code>
+      <code>string</code>
+    </InvalidNullableReturnType>
+  </file>
+  <file src="lib/Template/CollaboraTemplateProvider.php">
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/TemplateManager.php">
+    <MissingDependency occurrences="5">
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+    </MissingDependency>
+    <UndefinedThisPropertyFetch occurrences="2">
+      <code>$this-&gt;appData</code>
+      <code>$this-&gt;appData</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="lib/TokenManager.php">
+    <InvalidScalarArgument occurrences="2">
+      <code>$node-&gt;getId()</code>
+      <code>$node-&gt;getId()</code>
+    </InvalidScalarArgument>
+    <MissingDependency occurrences="4">
+      <code>$this-&gt;rootFolder</code>
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+    </MissingDependency>
+    <NullArgument occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </NullArgument>
+    <UndefinedClass occurrences="1">
+      <code>\OC</code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod occurrences="3">
+      <code>$targetFile</code>
+      <code>getRemote</code>
+      <code>getRemote</code>
+    </UndefinedInterfaceMethod>
+    <UndefinedMagicMethod occurrences="2">
+      <code>setRemoteServer</code>
+      <code>setRemoteServerToken</code>
+    </UndefinedMagicMethod>
+  </file>
+  <file src="lib/WOPI/Parser.php">
+    <RedundantCondition occurrences="1">
+      <code>$result &amp;&amp; count($result) &gt; 0</code>
+    </RedundantCondition>
+  </file>
+</files>
