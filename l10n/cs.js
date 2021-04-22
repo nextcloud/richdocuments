@@ -5,6 +5,7 @@ OC.L10N.register(
     "New spreadsheet" : "Nová tabulka",
     "New presentation" : "Nová prezentace",
     "Collabora Online" : "Collabora Online",
+    "Cannot create document" : "Dokument se nedaří vytvořit",
     "New Document.odt" : "Dokument.odt",
     "New Spreadsheet.ods" : "Tabulka.ods",
     "New Presentation.odp" : "Prezentace.odp",
