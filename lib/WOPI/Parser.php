@@ -39,9 +39,14 @@ class Parser {
 	 */
 	public function getUrlSrc($mimetype) {
 		$discovery = $this->discoveryManager->get();
-		$loadEntities = libxml_disable_entity_loader(true);
-		$discoveryParsed = simplexml_load_string($discovery);
-		libxml_disable_entity_loader($loadEntities);
+		if (\PHP_VERSION_ID < 80000) {
+			$loadEntities = libxml_disable_entity_loader(true);
+			$discoveryParsed = simplexml_load_string($discovery);
+			libxml_disable_entity_loader($loadEntities);
+		} else {
+			$discoveryParsed = simplexml_load_string($discovery);
+		}
+
 
 		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
