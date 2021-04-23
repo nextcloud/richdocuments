@@ -23,6 +23,7 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
@@ -34,10 +35,12 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IRequest;
 
 class DirectViewController extends Controller {
@@ -62,6 +65,9 @@ class DirectViewController extends Controller {
 	/** @var FederationService */
 	private $federationService;
 
+	/** @var ILogger */
+	private $logger;
+
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -71,7 +77,8 @@ class DirectViewController extends Controller {
 		IConfig $config,
 		AppConfig $appConfig,
 		TemplateManager $templateManager,
-		FederationService $federationService
+		FederationService $federationService,
+		ILogger $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -82,6 +89,7 @@ class DirectViewController extends Controller {
 		$this->appConfig = $appConfig;
 		$this->templateManager = $templateManager;
 		$this->federationService = $federationService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -108,6 +116,12 @@ class DirectViewController extends Controller {
 		// Delete the token. They are for 1 time use only
 		$this->directMapper->delete($direct);
 
+		// Direct token for share link
+		if (!empty($direct->getShare())) {
+			return $this->showPublicShare($direct);
+		}
+
+
 		$folder = $this->rootFolder->getUserFolder($direct->getUid());
 		if ($this->templateManager->isTemplate($direct->getFileid())) {
 			$item = $this->templateManager->get($direct->getFileid());
@@ -116,7 +130,6 @@ class DirectViewController extends Controller {
 			}
 
 			try {
-
 				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
 			} catch (\Exception $e) {
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -175,6 +188,66 @@ class DirectViewController extends Controller {
 			];
 			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
+
+	}
+
+	public function showPublicShare(Direct $direct) {
+		try {
+			$share = \OC::$server->getShareManager()->getShareByToken($direct->getShare());
+
+			$node = $share->getNode();
+			if ($node instanceof Folder) {
+				$nodes = $node->getById($direct->getFileid());
+				$node = array_shift($nodes);
+				if ($node === null) {
+					throw new NotFoundException();
+				}
+			}
+
+			// Handle opening a share link that originates from a remote instance
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($node, $direct, $share);
+			if ($federatedUrl !== null) {
+				$response = new RedirectResponse($federatedUrl);
+				$response->addHeader('X-Frame-Options', 'ALLOW');
+				return $response;
+			}
+
+			$this->settings = \OC::$server->getConfig();
+			if ($node instanceof Node) {
+				$params = [
+					'permissions' => $share->getPermissions(),
+					'title' => $node->getName(),
+					'fileId' => $node->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+					'path' => '/',
+					'instanceId' => $this->settings->getSystemValue('instanceid'),
+					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
+					'userId' => null,
+					'direct' => true
+				];
+
+				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
+				if (!empty($direct->getInitiatorHost())) {
+					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
+				}
+				$params['token'] = $token;
+				$params['urlsrc'] = $urlSrc;
+
+				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
+				$policy = new ContentSecurityPolicy();
+				$policy->allowInlineScript(true);
+				$policy->addAllowedFrameDomain($this->appConfig->getAppValue('public_wopi_url'));
+				$response->setContentSecurityPolicy($policy);
+				return $response;
+			}
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
+		}
+
+		return new TemplateResponse('core', '403', [], 'guest');
 
 	}
 }

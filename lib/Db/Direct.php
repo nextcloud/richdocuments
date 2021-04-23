@@ -58,6 +58,15 @@ class Direct extends Entity {
 	/** @var int */
 	protected $templateId;
 
+	/** @var string */
+	protected $share;
+
+	/** @var string */
+	protected $initiatorHost;
+
+	/** @var string */
+	protected $initiatorToken;
+
 	public function __construct() {
 		$this->addType('token', 'string');
 		$this->addType('uid', 'string');
@@ -65,5 +74,8 @@ class Direct extends Entity {
 		$this->addType('timestamp', 'int');
 		$this->addType('template_destination', 'int');
 		$this->addType('template_id', 'int');
+		$this->addType('share', 'string');
+		$this->addType('initiator_host', 'string');
+		$this->addType('initiator_token', 'string');
 	}
 }
