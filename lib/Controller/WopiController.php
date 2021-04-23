@@ -26,6 +26,7 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -76,6 +77,8 @@ class WopiController extends Controller {
 	private $shareManager;
 	/** @var UserScopeService */
 	private $userScopeService;
+	/** @var FederationService */
+	private $federationService;
 	/** @var IEncryptionManager */
 	private $encryptionManager;
 
@@ -112,6 +115,7 @@ class WopiController extends Controller {
 		TemplateManager $templateManager,
 		IShareManager $shareManager,
 		UserScopeService $userScopeService,
+		FederationService $federationService,
 		IEncryptionManager $encryptionManager
 	) {
 		parent::__construct($appName, $request);
@@ -126,6 +130,7 @@ class WopiController extends Controller {
 		$this->templateManager = $templateManager;
 		$this->shareManager = $shareManager;
 		$this->userScopeService = $userScopeService;
+		$this->federationService = $federationService;
 		$this->encryptionManager = $encryptionManager;
 	}
 
@@ -157,10 +162,10 @@ class WopiController extends Controller {
 				throw new NotFoundException('No valid file found for ' . $fileId);
 			}
 		} catch (NotFoundException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments', '']);
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (DoesNotExistException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments', '']);
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
@@ -179,8 +184,7 @@ class WopiController extends Controller {
 			'UserId' => !$isPublic ? $wopi->getEditorUid() : $guestUserId,
 			'OwnerId' => $wopi->getOwnerUid(),
 			'UserFriendlyName' => $userDisplayName,
-			'UserExtraInfo' => [
-			],
+			'UserExtraInfo' => [],
 			'UserCanWrite' => (bool)$wopi->getCanwrite(),
 			'UserCanNotWriteRelative' => $this->encryptionManager->isEnabled() || $isPublic,
 			'PostMessageOrigin' => $wopi->getServerHost(),
@@ -198,7 +202,12 @@ class WopiController extends Controller {
 			'DownloadAsPostMessage' => $wopi->getDirect(),
 		];
 
-		if ($wopi->isTemplateToken()) {
+		if ($wopi->hasTemplateId()) {
+			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
+			$templateUrl = $this->urlGenerator->getAbsoluteURL($templateUrl);
+			$response['TemplateSource'] = $templateUrl;
+		} elseif ($wopi->isTemplateToken()) {
+			// FIXME: Remove backward compatibility layer once TemplateSource is available in all supported Collabora versions
 			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 			$file = $userFolder->getById($wopi->getTemplateDestination())[0];
 			$response['TemplateSaveAs'] = $file->getName();
@@ -212,7 +221,6 @@ class WopiController extends Controller {
 				'themingName' => \OC::$server->getThemingDefaults()->getName(),
 				'userDisplayName' => $userDisplayName,
 				'email' => $email,
-
 			];
 			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
 			$response['WatermarkText'] = preg_replace_callback('/{(.+?)}/', function ($matches) use ($replacements) {
@@ -220,45 +228,58 @@ class WopiController extends Controller {
 			}, $watermarkTemplate);
 		}
 
-		/**
-		 * New approach for generating files from templates by creating an empty file
-		 * and providing an URL which returns the actual template
-		 */
-		if ($wopi->hasTemplateId()) {
-			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
-			$templateUrl = $this->urlGenerator->getAbsoluteURL($templateUrl);
-			$response['TemplateSource'] = $templateUrl;
-		}
-
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if($user !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
 		}
 
-		if (!empty($wopi->getRemoteServer())) {
+		if ($wopi->isRemoteToken()) {
 			$response = $this->setFederationFileInfo($wopi, $response);
 		}
 
 		return new JSONResponse($response);
 	}
 
-	private function setFederationFileInfo($wopi, $response) {
-		$remoteUserId = $wopi->getGuestDisplayname();
-		$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
-		$response['UserFriendlyName'] = $cloudID->getDisplayId();
-		$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => 32]);
-		$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
-		$addressBookEntries = \OC::$server->getContactsManager()->search($cleanCloudId, ['CLOUD']);
-		foreach ($addressBookEntries as $entry) {
-			if (isset($entry['CLOUD'])) {
-				foreach ($entry['CLOUD'] as $cloudID) {
-					if ($cloudID === $cleanCloudId) {
-						$response['UserFriendlyName'] = $entry['FN'];
-						break;
+
+	private function setFederationFileInfo(Wopi $wopi, $response) {
+		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER) {
+			$remoteUserId = $wopi->getGuestDisplayname();
+			$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
+			$response['UserId'] = $cloudID->getDisplayId();
+			$response['UserFriendlyName'] = $cloudID->getDisplayId();
+			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => 32]);
+			$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
+			$addressBookEntries = \OC::$server->getContactsManager()->search($cleanCloudId, ['CLOUD']);
+			foreach ($addressBookEntries as $entry) {
+				if (isset($entry['CLOUD'])) {
+					foreach ($entry['CLOUD'] as $cloudID) {
+						if ($cloudID === $cleanCloudId) {
+							$response['UserFriendlyName'] = $entry['FN'];
+							break;
+						}
 					}
 				}
 			}
+		} else if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST) {
+			$response['UserId'] = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		}
+
+
+		$initiator = $this->federationService->getRemoteFileDetails($wopi->getRemoteServer(), $wopi->getRemoteServerToken());
+		if ($initiator !== null) {
+			if ($initiator->hasTemplateId()) {
+				$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . $initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
+				$response['TemplateSource'] = $templateUrl;
+			}
+			if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER) {
+				$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/32';
+			}
+			if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST && $initiator->getEditorUid()) {
+				$response['UserFriendlyName'] = $initiator->getGuestDisplayname() . ' (Guest)';
+				$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/32';
+			}
+		}
+
 		return $response;
 	}
 
@@ -534,7 +555,7 @@ class WopiController extends Controller {
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();
-		if ($editor === null || !empty($wopi->getRemoteServer())) {
+		if ($editor === null || !$wopi->isRemoteToken()) {
 			$editor = $wopi->getOwnerUid();
 		}
 
@@ -673,8 +694,8 @@ class WopiController extends Controller {
 	private function getFileForWopiToken(Wopi $wopi) {
 		$file = null;
 
-		if (!empty($wopi->getRemoteServer())) {
-			$share = $this->shareManager->getShareByToken($wopi->getEditorUid());
+		if (!empty($wopi->getShare())) {
+			$share = $this->shareManager->getShareByToken($wopi->getShare());
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
 				$file = $node->getById($wopi->getFileid())[0];

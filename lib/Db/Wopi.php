@@ -43,6 +43,12 @@ use OCP\AppFramework\Db\Entity;
  * @method string getServerHost()
  * @method void setToken(string $token)
  * @method string getToken()
+ * @method void setTokenType(int $tokenType)
+ * @method int getTokenType()
+ * @method void setRemoteServer(string $remoteServer)
+ * @method string getRemoteServer()
+ * @method void setRemoteServerToken(string $remoteToken)
+ * @method string getRemoteServerToken()
  * @method void setExpiry(int $expiry)
  * @method int getExpiry()
  * @method void setGuestDisplayname(string $token)
@@ -52,8 +58,10 @@ use OCP\AppFramework\Db\Entity;
  * @method void setTemplateId(int $fileId)
  * @method int getTemplateId()
  * @method void setShare(string $token)
+ * @method string getShare()
+ * @method static Wopi fromParams(array $params)
  */
-class Wopi extends Entity {
+class Wopi extends Entity implements \JsonSerializable {
 
 	/**
 	 * WOPI token to open a file as a user on the current instance
@@ -66,19 +74,19 @@ class Wopi extends Entity {
 	const TOKEN_TYPE_GUEST = 1;
 
 	/**
-	 * WOPI token to open a file as a user from a federated instane
+	 * WOPI token to open a file as a user from a federated instance
 	 */
 	const TOKEN_TYPE_REMOTE_USER = 2;
 
 	/**
-	 * WOPI token to open a file as a guest from a federated instane
+	 * WOPI token to open a file as a guest from a federated instance
 	 */
 	const TOKEN_TYPE_REMOTE_GUEST = 3;
 
 	/*
-	 * Temporary token that is used to share the opener details to a federated instance
+	 * Temporary token that is used to share the initiator details to the source instance
 	 */
-	const TOKEN_TYPE_FEDERATION = 4;
+	const TOKEN_TYPE_INITIATOR = 4;
 
 	/** @var string */
 	protected $ownerUid;
@@ -157,18 +165,18 @@ class Wopi extends Entity {
 	}
 
 	public function isGuest() {
-		return $this->getTokenType() === Wopi::TOKEN_TYPE_GUEST || Wopi::TOKEN_TYPE_REMOTE_GUEST;
+		return $this->getTokenType() === Wopi::TOKEN_TYPE_GUEST || $this->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST;
+	}
+
+	public function isRemoteToken() {
+		return $this->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER || $this->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST;
 	}
 
 	public function getUserForFileAccess() {
-		if ($this->share !== null) {
+		if ($this->share !== null || $this->tokenType === self::TOKEN_TYPE_REMOTE_USER || $this->tokenType === self::TOKEN_TYPE_REMOTE_GUEST) {
 			return $this->getOwnerUid();
 		}
 		return $this->isGuest() ? $this->getOwnerUid() : $this->getEditorUid();
-	}
-
-	public function getCanwrite() {
-		return (bool)$this->canwrite;
 	}
 
 	public function getHideDownload() {
@@ -179,4 +187,18 @@ class Wopi extends Entity {
 		return (bool)$this->direct;
 	}
 
+	public function jsonSerialize() {
+		$properties = get_object_vars($this);
+		$reflection = new \ReflectionClass($this);
+		$json = [];
+		foreach ($properties as $property => $value) {
+			if (strpos($property, '_') !== 0 && $reflection->hasProperty($property)) {
+				$propertyReflection = $reflection->getProperty($property);
+				if (!$propertyReflection->isPrivate()) {
+					$json[$property] = $this->getter($property);
+				}
+			}
+		}
+		return $json;
+	}
 }

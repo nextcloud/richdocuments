@@ -194,56 +194,6 @@ class DocumentController extends Controller {
 	}
 
 	/**
-	 * Redirect to the files app with proper CSP headers set for federated editing
-	 * This is a workaround since we cannot set a nonce for allowing dynamic URLs in the richdocument iframe
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function open($fileId) {
-		try {
-			$folder = $this->rootFolder->getUserFolder($this->uid);
-			$item = $folder->getById($fileId)[0];
-			if (!($item instanceof File)) {
-				throw new \Exception('Node is not a file');
-			}
-
-			if ($item->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
-				$remote = $item->getStorage()->getRemote();
-				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
-				if ($remoteCollabora !== '') {
-					$absolute = $item->getParent()->getPath();
-					$relativeFolderPath = $folder->getRelativePath($absolute);
-					$relativeFilePath = $folder->getRelativePath($item->getPath());
-					$url = '/index.php/apps/files/?dir=' . $relativeFolderPath .
-						'&richdocuments_open=' . $relativeFilePath .
-						'&richdocuments_fileId=' . $fileId .
-						'&richdocuments_remote_access=' . $remote;
-
-						$event = new BeforeFederationRedirectEvent(
-							$item, $relativeFolderPath, $remote
-						);
-						$eventDispatcher = \OC::$server->getEventDispatcher();
-						$eventDispatcher->dispatch(BeforeFederationRedirectEvent::class, $event);
-						if ($event->getRedirectUrl()) {
-							$url = $event->getRedirectUrl();
-						}
-					return new RedirectResponse($url);
-				}
-				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
-			}
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
-			$params = [
-				'errors' => [['error' => $e->getMessage()]]
-			];
-			return new TemplateResponse('core', 'error', $params, 'guest');
-		}
-
-		return new TemplateResponse('core', '403', [], 'guest');
-	}
-
-	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $fileId
@@ -264,7 +214,10 @@ class DocumentController extends Controller {
 				throw new \Exception();
 			}
 
-			/** Open file from remote collabora */
+			/**
+			 * Open file on source instance if it is originating from a federated share
+			 * The generated url will result in {@link remote()}
+			 */
 			$federatedUrl = $this->federationService->getRemoteRedirectURL($item);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
@@ -306,8 +259,6 @@ class DocumentController extends Controller {
 			];
 			return new TemplateResponse('core', 'error', $params, 'guest');
 		}
-
-		return new TemplateResponse('core', '403', [], 'guest');
 	}
 
 	/**
@@ -344,7 +295,6 @@ class DocumentController extends Controller {
 		$template = $this->templateManager->get($templateId);
 		list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
 
-		$wopiFileId = $template->getId() . '-' . $file->getId() . '_' . $this->settings->getSystemValue('instanceid');
 		$wopiFileId = $wopi->getFileid() . '_' . $this->settings->getSystemValue('instanceid');
 
 		$params = [
@@ -370,7 +320,7 @@ class DocumentController extends Controller {
 	 *
 	 * @param string $shareToken
 	 * @param string $fileName
-	 * @return TemplateResponse
+	 * @return TemplateResponse|RedirectResponse
 	 * @throws \Exception
 	 */
 	public function publicPage($shareToken, $fileName, $fileId) {
@@ -390,6 +340,12 @@ class DocumentController extends Controller {
 				$item = $node->getById($fileId)[0];
 			} else {
 				$item = $node;
+			}
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($item, null, $share);
+			if ($federatedUrl !== null) {
+				$response = new RedirectResponse($federatedUrl);
+				$response->addHeader('X-Frame-Options', 'ALLOW');
+				return $response;
 			}
 			if ($item instanceof Node) {
 				$params = [
@@ -424,6 +380,58 @@ class DocumentController extends Controller {
 	}
 
 	/**
+	 * Redirect to the files app with proper CSP headers set for federated editing
+	 * This is a workaround since we cannot set a nonce for allowing dynamic URLs in the richdocument iframe
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function openRemoteFile($fileId) {
+		try {
+			$folder = $this->rootFolder->getUserFolder($this->uid);
+			$item = $folder->getById($fileId)[0];
+			if (!($item instanceof File)) {
+				throw new \Exception('Node is not a file');
+			}
+
+			if ($item->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
+				$remote = $item->getStorage()->getRemote();
+				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
+				if ($remoteCollabora !== '') {
+					$absolute = $item->getParent()->getPath();
+					$relativeFolderPath = $folder->getRelativePath($absolute);
+					$relativeFilePath = $folder->getRelativePath($item->getPath());
+					$url = '/index.php/apps/files/?dir=' . $relativeFolderPath .
+						'&richdocuments_open=' . $relativeFilePath .
+						'&richdocuments_fileId=' . $fileId .
+						'&richdocuments_remote_access=' . $remote;
+
+					$event = new BeforeFederationRedirectEvent(
+						$item, $relativeFolderPath, $remote
+					);
+					$eventDispatcher = \OC::$server->getEventDispatcher();
+					$eventDispatcher->dispatch(BeforeFederationRedirectEvent::class, $event);
+					if ($event->getRedirectUrl()) {
+						$url = $event->getRedirectUrl();
+					}
+					return new RedirectResponse($url);
+				}
+				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
+			}
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$params = [
+				'errors' => [['error' => $e->getMessage()]]
+			];
+			return new TemplateResponse('core', 'error', $params, 'guest');
+		}
+
+		return new TemplateResponse('core', '403', [], 'guest');
+	}
+
+	/**
+	 * Open file on Source instance with token from Initiator instance
+	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
@@ -457,10 +465,10 @@ class DocumentController extends Controller {
 				if ($remoteWopi === null) {
 					throw new \Exception('Invalid remote file details for ' . $remoteServerToken);
 				}
-				$this->tokenManager->updateToFederationToken($wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi);
+				$this->tokenManager->upgradeToRemoteToken($wopi, $remoteWopi, $shareToken, $remoteServer, $remoteServerToken);
 
 				$permissions = $share->getPermissions();
-				if (!$remoteWopi['canwrite']) {
+				if (!$remoteWopi->getCanwrite()) {
 					$permissions = $permissions & ~ Constants::PERMISSION_UPDATE;
 				}
 
@@ -473,7 +481,7 @@ class DocumentController extends Controller {
 					'path' => '/',
 					'instanceId' => $this->settings->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
-					'userId' => $remoteWopi['editorUid'] . '@' . $remoteServer
+					'userId' => $remoteWopi->getEditorUid() ? ($remoteWopi->getEditorUid() . '@' . $remoteServer) : null,
 				];
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');

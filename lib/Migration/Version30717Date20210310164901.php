@@ -28,6 +28,27 @@ class Version30717Date20210310164901 extends SimpleMigrationStep {
 			$table->dropColumn('is_remote_token');
 		}
 
+		$table = $schema->getTable('richdocuments_direct');
+
+		if (!$table->hasColumn('share')) {
+			$table->addColumn('share', 'string', [
+				'notnull' => false,
+				'length' => 64
+			]);
+		}
+		if (!$table->hasColumn('initiator_host')) {
+			$table->addColumn('initiator_host', 'string', [
+				'notnull' => false,
+				'length' => 255
+			]);
+		}
+		if (!$table->hasColumn('initiator_token')) {
+			$table->addColumn('initiator_token', 'string', [
+				'notnull' => false,
+				'length' => 64
+			]);
+		}
+
 		return $schema;
 	}
 
