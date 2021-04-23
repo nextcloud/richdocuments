@@ -100,7 +100,9 @@ class DirectViewController extends Controller {
 			$params = [
 				'errors' => [['error' => $e->getMessage()]]
 			];
-			return new TemplateResponse('core', 'error', $params, 'guest');
+			$response = new TemplateResponse('core', 'error', $params, 'guest');
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
 		}
 
 		// Delete the token. They are for 1 time use only
