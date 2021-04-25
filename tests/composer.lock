@@ -555,12 +555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/juliushaertl/nextcloud-behat.git",
-                "reference": "7cf3e1105fc1eef5f9b96da394742dd29180143b"
+                "reference": "baafbc7ecb41a8c612fe4d093c5c5ba86e4c4580"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/juliushaertl/nextcloud-behat/zipball/7cf3e1105fc1eef5f9b96da394742dd29180143b",
-                "reference": "7cf3e1105fc1eef5f9b96da394742dd29180143b",
+                "url": "https://api.github.com/repos/juliushaertl/nextcloud-behat/zipball/baafbc7ecb41a8c612fe4d093c5c5ba86e4c4580",
+                "reference": "baafbc7ecb41a8c612fe4d093c5c5ba86e4c4580",
                 "shasum": ""
             },
             "require": {
@@ -599,7 +599,7 @@
                 "issues": "https://github.com/juliushaertl/nextcloud-behat/issues",
                 "source": "https://github.com/juliushaertl/nextcloud-behat/tree/v0.2.0"
             },
-            "time": "2021-04-22T20:47:15+00:00"
+            "time": "2021-04-26T10:24:16+00:00"
         },
         {
             "name": "myclabs/deep-copy",

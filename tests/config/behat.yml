@@ -3,6 +3,8 @@ default:
     '': '%paths.base%/../features/bootstrap'
   suites:
     default:
+      filters:
+        tags: ~@known-failure-ci
       paths:
         - '%paths.base%/../features'
       contexts:

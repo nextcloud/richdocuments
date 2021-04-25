@@ -59,4 +59,20 @@ class FederationContext implements Context {
 		);
 	}
 
+	/**
+	 * @Given /^share the file "([^"]*)" with permission ([0-9]+) as a federated share to "([^"]*)" on "([^"]*)"$/
+	 */
+	public function shareTheFileAsAFederatedShareWithPerission($file, $permissions, $user, $remote) {
+		$table = new TableNode([
+			['path', $file],
+			['shareType', 6],
+			['shareWith', $user . '@' . $this->serverContext->getServer($remote) . '/'],
+			['permissions', $permissions]
+		]);
+		$this->sharingContext->asCreatingAShareWith(
+			$this->serverContext->getAuth()[0],
+			$table
+		);
+	}
+
 }

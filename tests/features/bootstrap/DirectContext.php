@@ -29,6 +29,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use GuzzleHttp\Client;
 use JuliusHaertl\NextcloudBehat\Context\FilesContext;
 use JuliusHaertl\NextcloudBehat\Context\ServerContext;
+use JuliusHaertl\NextcloudBehat\Context\SharingContext;
 use PHPUnit\Framework\Assert;
 
 class DirectContext implements Context {
@@ -38,6 +39,8 @@ class DirectContext implements Context {
 	private $filesContext;
 	/** @var WopiContext */
 	private $wopiContext;
+	/** @var SharingContext */
+	private $sharingContext;
 
 	/** @var string|null */
 	private $directEditingLink;
@@ -48,6 +51,7 @@ class DirectContext implements Context {
 		$this->serverContext = $environment->getContext(ServerContext::class);
 		$this->filesContext = $environment->getContext(FilesContext::class);
 		$this->wopiContext = $environment->getContext(WopiContext::class);
+		$this->sharingContext = $environment->getContext(SharingContext::class);
 	}
 
 	/**
@@ -56,6 +60,30 @@ class DirectContext implements Context {
 	public function userOpensThroughDirectEditing($user, $filePath) {
 		$this->serverContext->usingWebAsUser($user);
 		$this->requestDirectEditingLink($user, $filePath);
+		$this->handleDirectEditingLink();
+	}
+
+	/**
+	 * @When /^User "([^"]*)" opens the last share link through direct editing$/
+	 */
+	public function userOpensTheLastShareLinkThroughDirectEditing($user) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestPublicDirectEditingLink($user, $shareToken);
+		$this->handleDirectEditingLink();
+	}
+
+	/**
+	 * @When /^User "([^"]*)" opens the file "([^"]*)" in the last share link through direct editing$/
+	 */
+	public function userOpensTheFileInTheLastShareLinkThroughDirectEditing($user, $path) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestPublicDirectEditingLink($user, $shareToken, $path);
+		$this->handleDirectEditingLink();
+	}
+
+	private function handleDirectEditingLink() {
 		$this->serverContext->assertHttpStatusCode(200);
 		$data = $this->serverContext->getOCSResponseData();
 		$this->directEditingLink = $data['url'];
@@ -84,6 +112,7 @@ class DirectContext implements Context {
 		Assert::assertEquals(200, $response->getStatusCode());
 	}
 
+
 	/**
 	 * @Given /^the direct editing link is only valid once$/
 	 */
@@ -96,6 +125,7 @@ class DirectContext implements Context {
 	}
 
 	private function openDirectEditingLink() {
+		// FIXME: track and assert redirect urls
 		if (!$this->directEditingLink) {
 			throw new \Exception('No existing direct editing link found to be checked');
 		}
@@ -122,5 +152,13 @@ class DirectContext implements Context {
 		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/document', [ 'fileId' => $fileId ]);
 	}
 
+	private function requestPublicDirectEditingLink($user, $token, $filePath = null, $password = null) {
+		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/share', [
+			'shareTokenSourceInstance' => $this->serverContext->getBaseUrl(),
+			'shareToken' => $token,
+			'path' => $filePath,
+			'password' => $password
+		]);
+	}
 
 }
