@@ -250,8 +250,10 @@ const documentsMain = {
 				return
 			}
 
-			OC.Util.History.addOnPopStateHandler(_.bind(documentsMain.onClose))
-			OC.Util.History.pushState()
+			if (!isDirectEditing()) {
+				OC.Util.History.addOnPopStateHandler(_.bind(documentsMain.onClose))
+				OC.Util.History.pushState()
+			}
 
 			PostMessages.sendPostMessage('parent', 'loading')
 			hideLoadingIndicator()
