@@ -30,6 +30,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class FederationController extends OCSController {
 
@@ -42,17 +44,27 @@ class FederationController extends OCSController {
 	/** @var WopiMapper */
 	private $wopiMapper;
 
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		IConfig $config,
 		ILogger $logger,
-		WopiMapper $wopiMapper
+		WopiMapper $wopiMapper,
+		IUserManager $userManager,
+		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
 		$this->config   = $config;
 		$this->logger = $logger;
 		$this->wopiMapper = $wopiMapper;
+		$this->userManager = $userManager;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -84,32 +96,54 @@ class FederationController extends OCSController {
 	 */
 	public function remoteWopiToken($token): DataResponse {
 		try {
-			$wopi = $this->wopiMapper->getWopiForToken($token);
-			$user = \OC::$server->getUserManager()->get($wopi->getEditorUid());
-			if($user !== null) {
-				$wopi->setGuestDisplayname($user->getDisplayName());
+			$initiatorWopi = $this->wopiMapper->getWopiForToken($token);
+			if (empty($initiatorWopi->getEditorUid()) && !empty($initiatorWopi->getRemoteServer()) && !empty($initiatorWopi->getRemoteServerToken())) {
+				$client = \OC::$server->getHTTPClientService()->newClient();
+				$response = $client->post(
+					rtrim($initiatorWopi->getRemoteServer(), '/') . '/ocs/v2.php/apps/richdocuments/api/v1/federation/user?format=json',
+					[ 'body' => [ 'token' => $initiatorWopi->getRemoteServerToken() ], 'timeout' => 10 ]
+				);
+				$initiatorUser = \json_decode($response->getBody(), true)['ocs']['data'];
+				$initiatorWopi->setGuestDisplayname($initiatorUser['displayName']);
+			} else {
+				$user = $this->userManager->get($initiatorWopi->getEditorUid());
+				if($user !== null) {
+					$initiatorWopi->setGuestDisplayname($user->getDisplayName());
+				}
 			}
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' returned');
-			return new DataResponse($wopi);
+			return new DataResponse($initiatorWopi);
 		} catch (DoesNotExistException $e) {
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . 'not found');
 			throw new OCSNotFoundException();
 		}
 	}
 
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @OCSRoute POST /api/v1/federation/user
+	 *
+	 * Return user details for a initiator user that will be used by remote instances
+	 * to provide Collabora with the users avatar/displayname for guests on share links
+	 * if the session was created through a direct link of a public share
+	 *
+	 * @param $token
+	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 */
 	public function initiatorUser($token): DataResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
-			$user = \OC::$server->getUserManager()->get($wopi->getEditorUid());
+			$user = $this->userManager->get($wopi->getEditorUid());
 			if($user !== null) {
 				$wopi->setGuestDisplayname($user->getDisplayName());
 			}
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . ' returned');
 			return new DataResponse([
-				'initiatorHost' => '',
-				'userId' => '',
-				'displayName' => '',
-				'avatar' => ''
+				'userId' => $user->getUID(),
+				'displayName' => $user->getDisplayName(),
+				'avatar' => $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => WopiController::WOPI_AVATAR_SIZE])
 			]);
 		} catch (DoesNotExistException $e) {
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . 'not found');

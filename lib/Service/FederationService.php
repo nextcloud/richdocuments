@@ -28,6 +28,7 @@ use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\QueryException;
@@ -91,7 +92,7 @@ class FederationService {
 		}
 		try {
 			$client = $this->clientService->newClient();
-			$response = $client->get($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation?format=json', ['timeout' => 5]);
+			$response = $client->get($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation?format=json', ['timeout' => 30]);
 			$data = \json_decode($response->getBody(), true);
 			$remoteCollabora = $data['ocs']['data']['wopi_url'];
 			$this->cache->set('richdocuments_remote/' . $remote, $remoteCollabora, 3600);
@@ -168,7 +169,7 @@ class FederationService {
 			$this->logger->debug('COOL-Federation-Source: Fetching remote file details from ' . $remote . ' for token ' . $remoteToken);
 			$client = $this->clientService->newClient();
 			$response = $client->post($remote . '/ocs/v2.php/apps/richdocuments/api/v1/federation?format=json', [
-				'timeout' => 5,
+				'timeout' => 30,
 				'body' => [
 					'token' => $remoteToken
 				]
@@ -179,7 +180,7 @@ class FederationService {
 			$this->cache->set($cacheKey, $data['ocs']['data']);
 			return Wopi::fromParams($data['ocs']['data']);
 		} catch (\Throwable $e) {
-			$this->logger->error('COOL-Federation-Source: Unable to fetch remote file details for ' . $remoteToken . ' from ' . $remote, ['exception' => $e]);
+			$this->logger->logException($e, ['message' => 'COOL-Federation-Source: Unable to fetch remote file details for ' . $remoteToken . ' from ' . $remote ]);
 		}
 		return null;
 	}
@@ -204,12 +205,12 @@ class FederationService {
 			$initiatorServer = $wopi->getServerHost();
 			$initiatorToken = $wopi->getToken();
 
-			if ($direct) {
-				//$wopi->setRemoteServer($direct->getInitiatorHost());
-				//$wopi->setRemoteServerToken($direct->getInitiatorToken());
-				// FIXME: the direct token might have a different originator when a share link originating on a federated stoarge is opened
-				// editor uid is null since we don't fetch it from the initiator of direct so @{link remoteWopiToken()} fails
-				// Currently there is no mapping from the initiator user data to the source then
+			/**
+			 * If the request to open a file originates from a direct token we might need to fetch the initiator user details when the initiator wopi token is accessed
+			 * as the user might origin on a 3rd instance
+			 */
+			if ($direct && !empty($direct->getInitiatorHost()) && !empty($direct->getInitiatorToken())) {
+				$this->tokenManager->extendWithInitiatorUserToken($wopi, $direct->getInitiatorHost(), $direct->getInitiatorToken());
 			}
 
 			$url = rtrim($remote, '/') . '/index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .

@@ -207,9 +207,7 @@ Feature: Direct editing
     And Collabora fetches checkFileInfo
     And Collabora fetches and receives the following in the checkFileInfo response
       | BaseFileName     | document-reshare-fed-link.odt |
-      | UserFriendlyName | Anonymous guest               |
-      # FIXME: Known issue as of right now as we do not fetch the initiator user yet
-      # | UserFriendlyName | user3-displayname (Guest)       |
+      | UserFriendlyName | user3-displayname (Guest)       |
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
