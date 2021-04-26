@@ -225,9 +225,11 @@ class TokenManager {
 
 		$remoteTokenType = $remoteWopi->getEditorUid() !== null ? Wopi::TOKEN_TYPE_REMOTE_USER : Wopi::TOKEN_TYPE_REMOTE_GUEST;
 		$wopi->setTokenType($remoteTokenType);
-		if ($remoteTokenType === Wopi::TOKEN_TYPE_REMOTE_USER) {
-			$wopi->setGuestDisplayname($remoteWopi->getEditorUid() . '@' . $remoteServer);
-		}
+		$wopi->setGuestDisplayname(
+			$remoteTokenType === Wopi::TOKEN_TYPE_REMOTE_USER ?
+				$remoteWopi->getEditorUid() . '@' . $remoteServer :
+				$remoteWopi->getGuestDisplayname()
+		);
 		$wopi->setShare($shareToken);
 		$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi->getCanwrite());
 		$wopi->setHideDownload($wopi->getHideDownload() || $remoteWopi->getHideDownload());
@@ -300,6 +302,13 @@ class TokenManager {
 		}
 
 		return $this->wopiMapper->generateInitiatorToken($this->userId, $sourceServer);
+	}
+
+	public function extendWithInitiatorUserToken(Wopi $wopi, string $initiatorUserHost, string $initiatorUserToken): Wopi {
+		$wopi->setRemoteServer($initiatorUserHost);
+		$wopi->setRemoteServerToken($initiatorUserToken);
+		$this->wopiMapper->update($wopi);
+		return $wopi;
 	}
 
 }

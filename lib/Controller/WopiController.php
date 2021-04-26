@@ -85,6 +85,8 @@ class WopiController extends Controller {
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
 
+	const WOPI_AVATAR_SIZE = 32;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -230,7 +232,7 @@ class WopiController extends Controller {
 
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if($user !== null) {
-			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => 32]);
+			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => self::WOPI_AVATAR_SIZE]);
 		}
 
 		if ($wopi->isRemoteToken()) {
@@ -242,12 +244,14 @@ class WopiController extends Controller {
 
 
 	private function setFederationFileInfo(Wopi $wopi, $response) {
+		$response['UserId'] = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
+
 		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER) {
 			$remoteUserId = $wopi->getGuestDisplayname();
 			$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
 			$response['UserId'] = $cloudID->getDisplayId();
 			$response['UserFriendlyName'] = $cloudID->getDisplayId();
-			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => 32]);
+			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => self::WOPI_AVATAR_SIZE]);
 			$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
 			$addressBookEntries = \OC::$server->getContactsManager()->search($cleanCloudId, ['CLOUD']);
 			foreach ($addressBookEntries as $entry) {
@@ -260,24 +264,20 @@ class WopiController extends Controller {
 					}
 				}
 			}
-		} else if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST) {
-			$response['UserId'] = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 		}
 
-
 		$initiator = $this->federationService->getRemoteFileDetails($wopi->getRemoteServer(), $wopi->getRemoteServerToken());
-		if ($initiator !== null) {
-			if ($initiator->hasTemplateId()) {
-				$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . $initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
-				$response['TemplateSource'] = $templateUrl;
-			}
-			if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER) {
-				$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/32';
-			}
-			if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST && $initiator->getEditorUid()) {
-				$response['UserFriendlyName'] = $initiator->getGuestDisplayname() . ' (Guest)';
-				$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/32';
-			}
+		if ($initiator === null) {
+			return $response;
+		}
+
+		$response['UserFriendlyName'] = $initiator->getGuestDisplayname() . ' (Guest)';
+		if ($initiator->hasTemplateId()) {
+			$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . $initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
+			$response['TemplateSource'] = $templateUrl;
+		}
+		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER || ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST && $initiator->getEditorUid())) {
+			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/'. self::WOPI_AVATAR_SIZE;
 		}
 
 		return $response;

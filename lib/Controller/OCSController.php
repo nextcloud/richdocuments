@@ -156,7 +156,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 					'path' => $path,
 					'password' => $password
 				],
-				'timeout' => 5
+				'timeout' => 30
 			]);
 			$url = \json_decode($response->getBody(), true)['ocs']['data']['url'];
 

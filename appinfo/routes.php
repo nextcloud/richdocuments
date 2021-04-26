@@ -75,5 +75,6 @@ return [
 
 		['name' => 'Federation#index', 'url' => '/api/v1/federation', 'verb' => 'GET'],
 		['name' => 'Federation#remoteWopiToken', 'url' => '/api/v1/federation', 'verb' => 'POST'],
+		['name' => 'Federation#initiatorUser', 'url' => '/api/v1/federation/user', 'verb' => 'POST'],
 	],
 ];
