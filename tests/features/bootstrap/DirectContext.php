@@ -154,7 +154,7 @@ class DirectContext implements Context {
 
 	private function requestPublicDirectEditingLink($user, $token, $filePath = null, $password = null) {
 		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/share', [
-			'shareTokenSourceInstance' => $this->serverContext->getBaseUrl(),
+			'host' => $this->serverContext->getBaseUrl(),
 			'shareToken' => $token,
 			'path' => $filePath,
 			'password' => $password
