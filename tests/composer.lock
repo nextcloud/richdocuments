@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b74ac12f4ae07518f9f53568fdcc35d",
+    "content-hash": "760f6509837b9216c491cd0e1fc414f9",
     "packages": [],
     "packages-dev": [
         {
@@ -551,7 +551,7 @@
         },
         {
             "name": "juliushaertl/nextcloud-behat",
-            "version": "v0.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/juliushaertl/nextcloud-behat.git",
@@ -573,6 +573,7 @@
                 "nextcloud/coding-standard": "^0.5.0",
                 "vimeo/psalm": "^4.3"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -597,7 +598,7 @@
             "description": "Behat context helpers for Nextcloud integration tests",
             "support": {
                 "issues": "https://github.com/juliushaertl/nextcloud-behat/issues",
-                "source": "https://github.com/juliushaertl/nextcloud-behat/tree/v0.2.0"
+                "source": "https://github.com/juliushaertl/nextcloud-behat/tree/master"
             },
             "time": "2021-04-26T10:24:16+00:00"
         },
@@ -4738,7 +4739,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "juliushaertl/nextcloud-behat": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
