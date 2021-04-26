@@ -18,7 +18,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         databases: ['sqlite']
         server-versions: ['master']
         scenarios: ['wopi', 'direct', 'federation']
@@ -84,7 +84,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         databases: ['mysql']
         server-versions: ['master']
         scenarios: ['wopi', 'direct', 'federation']
@@ -157,7 +157,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         databases: ['pgsql']
         server-versions: ['master']
         scenarios: ['wopi', 'direct', 'federation']
@@ -232,7 +232,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         databases: ['oci']
         server-versions: ['master']
         scenarios: ['wopi', 'direct', 'federation']
