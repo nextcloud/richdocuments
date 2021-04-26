@@ -128,27 +128,25 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Generate a direct editing link for a file in a public share to open with the current user
 	 *
-	 * If
-	 *
 	 * @NoAdminRequired
 	 * @throws OCSForbiddenException
 	 */
 	public function createPublic(
-		string $shareTokenSourceInstance = null,
 		string $shareToken,
+		string $host = null,
 		string $path = '',
 		string $password = null
 	): DataResponse {
-		if ($shareTokenSourceInstance) {
-			$remoteCollabora = $this->federationService->getRemoteCollaboraURL($shareTokenSourceInstance);
+		if ($host) {
+			$remoteCollabora = $this->federationService->getRemoteCollaboraURL($host);
 			if ($remoteCollabora === '') {
 				throw new OCSNotFoundException('Failed to connect to remote collabora instance.');
 			}
 
-			$wopi = $this->tokenManager->newInitiatorToken($shareTokenSourceInstance, null, $shareToken, true, $this->userId);
+			$wopi = $this->tokenManager->newInitiatorToken($host, null, $shareToken, true, $this->userId);
 
 			$client = \OC::$server->getHTTPClientService()->newClient();
-			$response = $client->post(rtrim($shareTokenSourceInstance, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
+			$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
 				'body' => [
 					'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
 					'initiatorToken' => $wopi->getToken(),
