@@ -113,6 +113,10 @@ class CapabilitiesService {
 		}
 
 		$this->capabilities = $capabilities;
-		$this->cache->set('capabilities', $capabilities, 3600);
+		$ttl = 3600;
+		if (count($capabilities) === 0)
+			$ttl = 60;
+
+		$this->cache->set('capabilities', $capabilities, $ttl);
 	}
 }
