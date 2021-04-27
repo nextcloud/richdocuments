@@ -703,6 +703,9 @@ class WopiController extends Controller {
 				$file = $node;
 			}
 		} else {
+			// Group folders requires an active user to be set in order to apply the proper acl permissions as for anonymous requests it requires share permissions for read access
+			// https://github.com/nextcloud/groupfolders/blob/e281b1e4514cf7ef4fb2513fb8d8e433b1727eb6/lib/Mount/MountProvider.php#L169
+			$this->userScopeService->setUserScope($wopi->getEditorUid());
 			// Unless the editor is empty (public link) we modify the files as the current editor
 			// TODO: add related share token to the wopi table so we can obtain the
 			$userFolder = $this->rootFolder->getUserFolder($wopi->getUserForFileAccess());
