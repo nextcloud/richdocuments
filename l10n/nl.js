@@ -5,6 +5,7 @@ OC.L10N.register(
     "New spreadsheet" : "Nieuw werkblad",
     "New presentation" : "Nieuwe presentatie",
     "Collabora Online" : "Collabora Online",
+    "Cannot create document" : "Kan document niet creëren",
     "New Document.odt" : "Nieuw Document.odt",
     "New Spreadsheet.ods" : "Nieuw werkblad.ods",
     "New Presentation.odp" : "Nieuw presentatie.odp",

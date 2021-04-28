@@ -20,7 +20,7 @@ OC.L10N.register(
     "Error when saving" : "Błąd podczas zapisu",
     "File is too big" : "Plik jest za duży",
     "Only template files can be uploaded" : "Można przesyłać tylko pliki szablonów",
-    "Invalid file provided" : "Wskazano niewłaściwy plik",
+    "Invalid file provided" : "Podano nieprawidłowy plik",
     "Template not found" : "Nie znaleziono szablonu",
     "Empty" : "Pusty",
     "%s (Guest)" : "%s (Gość)",
