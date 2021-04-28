@@ -18,11 +18,12 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['8.0']
         databases: ['sqlite']
         server-versions: ['master']
+        scenarios: ['wopi', 'direct', 'federation']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
     services:
       collabora:
@@ -53,7 +54,7 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:8.5.14
@@ -71,13 +72,10 @@ jobs:
           mkdir data
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
-          export OC_PASS=123456
-          ./occ user:add --password-from-env user1
-          ./occ user:add --password-from-env user2
 
-      - name: Run WOPI integration tests
+      - name: Run ${{ matrix.scenarios }} integration tests
         working-directory: apps/${{ env.APP_NAME }}
-        run: cd tests && bash run-integration.sh
+        run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature
 
   mysql:
     runs-on: ubuntu-latest
@@ -86,11 +84,12 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['8.0']
         databases: ['mysql']
         server-versions: ['master']
+        scenarios: ['wopi', 'direct', 'federation']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
     services:
       mysql:
@@ -128,7 +127,7 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:8.5.14
@@ -146,13 +145,10 @@ jobs:
           mkdir data
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
-          export OC_PASS=123456
-          ./occ user:add --password-from-env user1
-          ./occ user:add --password-from-env user2
 
-      - name: Run WOPI integration tests
+      - name: Run ${{ matrix.scenarios }} integration tests
         working-directory: apps/${{ env.APP_NAME }}
-        run: cd tests && bash run-integration.sh
+        run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature
 
   pgsql:
     runs-on: ubuntu-latest
@@ -161,11 +157,12 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         databases: ['pgsql']
         server-versions: ['master']
+        scenarios: ['wopi', 'direct', 'federation']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
     services:
       postgres:
@@ -205,7 +202,7 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:8.5.14
@@ -223,13 +220,10 @@ jobs:
           mkdir data
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
-          export OC_PASS=123456
-          ./occ user:add --password-from-env user1
-          ./occ user:add --password-from-env user2
 
-      - name: Run WOPI integration tests
+      - name: Run ${{ matrix.scenarios }} integration tests
         working-directory: apps/${{ env.APP_NAME }}
-        run: cd tests && bash run-integration.sh
+        run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature
 
   oci:
     runs-on: ubuntu-latest
@@ -238,11 +232,12 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['8.0']
         databases: ['oci']
         server-versions: ['master']
+        scenarios: ['wopi', 'direct', 'federation']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
     services:
       oracle:
@@ -277,7 +272,7 @@ jobs:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: "shivammathur/setup-php@v2"
+        uses: shivammathur/setup-php@v2
         with:
           php-version: "${{ matrix.php-versions }}"
           extensions: mbstring, iconv, fileinfo, intl, oci8, gd, zip
@@ -294,10 +289,7 @@ jobs:
           ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=autotest --database-pass=owncloud --admin-user admin --admin-pass password
           php -f index.php
           ./occ app:enable --force ${{ env.APP_NAME }}
-          export OC_PASS=123456
-          ./occ user:add --password-from-env user1
-          ./occ user:add --password-from-env user2
 
-      - name: Run WOPI integration tests
+      - name: Run ${{ matrix.scenarios }} integration tests
         working-directory: apps/${{ env.APP_NAME }}
-        run: cd tests && bash run-integration.sh
+        run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature

@@ -30,7 +30,7 @@ return [
 		//documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
-		['name' => 'document#open', 'url' => 'open', 'verb' => 'GET'],
+		['name' => 'document#openRemoteFile', 'url' => 'open', 'verb' => 'GET'],
 
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
@@ -67,13 +67,14 @@ return [
 		['name' => 'templates#delete', 'url' => '/template/{fileId}', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
-		['name' => 'OCS#create', 'url' => '/api/v1/document', 'verb' => 'POST'],
+		['name' => 'OCS#createDirect', 'url' => '/api/v1/document', 'verb' => 'POST'],
+		['name' => 'OCS#createPublic', 'url' => '/api/v1/share', 'verb' => 'POST'],
+		['name' => 'OCS#createPublicFromInitiator', 'url' => '/api/v1/direct/share/initiator', 'verb' => 'POST'],
 		['name' => 'OCS#getTemplates', 'url' => '/api/v1/templates/{type}', 'verb' => 'GET'],
 		['name' => 'OCS#createFromTemplate', 'url' => '/api/v1/templates/new', 'verb' => 'POST'],
 
 		['name' => 'Federation#index', 'url' => '/api/v1/federation', 'verb' => 'GET'],
 		['name' => 'Federation#remoteWopiToken', 'url' => '/api/v1/federation', 'verb' => 'POST'],
-		['name' => 'Federation#remoteDirectToken', 'url' => '/api/v1/federation/direct', 'verb' => 'POST'],
-
+		['name' => 'Federation#initiatorUser', 'url' => '/api/v1/federation/user', 'verb' => 'POST'],
 	],
 ];

@@ -45,6 +45,7 @@ class WopiContext implements Context {
 	private $fileId;
 	private $fileIds = [];
 	private $wopiToken;
+	private $checkFileInfoResult;
 
 	public function __construct()
 	{
@@ -112,11 +113,15 @@ class WopiContext implements Context {
 
 
 	/**
-	 * @Given /^Collabora receives the following in the checkFileInfo response$/
+	 * @Given /^Collabora fetches and receives the following in the checkFileInfo response$/
 	 */
 	public function collaboraReceivesTheFollowingInTheCheckFileInfoResponse(TableNode $table) {
+		$this->collaboraFetchesCheckfileinfo();
 		foreach ($table->getRows() as $row) {
-			Assert::assertEquals((string)$row[1], (string)$this->checkFileInfoResult[$row[0]]);
+			$key = $row[0];
+			$actual = $this->checkFileInfoResult[$key];
+			$expected = $row[1];
+			Assert::assertEquals((string)$expected, (string)$actual, $key . ' does not match the expected value');
 		}
 	}
 

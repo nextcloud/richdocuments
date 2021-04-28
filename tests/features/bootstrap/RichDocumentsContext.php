@@ -97,23 +97,35 @@ class RichDocumentsContext implements Context
 	/**
 	 * @Then a guest opens the share link as :guestName
 	 */
-	public function aGuestOpensTheShareLinkAs($user = null)
+	public function aGuestOpensTheShareLinkAs($guestName = null)
 	{
-		$this->serverContext->usingWebAsUser(null);
+		$this->openTheShareLink(null, $guestName);
+	}
+
+	/**
+	 * @Then the user opens the share link
+	 */
+	public function aUserOpensTheShareLink()
+	{
+		$this->openTheShareLink($this->serverContext->getAuth()[0], null);
+	}
+
+	private function openTheShareLink($userId = null, $guestName = null, $fileId = null) {
+		$this->serverContext->usingWebAsUser($userId);
 		$token = $this->sharingContext->getLastShareData()['token'];
 
 		$cookieJar = new \GuzzleHttp\Cookie\CookieJar();
-		if ($user) {
+		if ($guestName) {
 			$domain = parse_url($this->currentServer ?? $this->serverContext->getBaseUrl(), PHP_URL_HOST);
 			$cookieJar = \GuzzleHttp\Cookie\CookieJar::fromArray([
-				'guestUser' => $user
+				'guestUser' => $guestName
 			], $domain);
 		}
 
 		$client = new Client();
 		$result = $client->get(
-			$this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/public?shareToken=' . $token,
-			array_merge($this->serverContext->getWebOptions(), ['cookies' => $cookieJar]));
+			$this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/public?shareToken=' . $token . ($fileId ? '&fileId=' . $fileId : ''),
+			array_merge($this->serverContext->getWebOptions(), $userId ? [] : ['cookies' => $cookieJar]));
 		$contents = $result->getBody()->getContents();
 		$re = '/var richdocuments_([A-z]+) = (.*);/m';
 		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
@@ -123,6 +135,35 @@ class RichDocumentsContext implements Context
 		}
 
 		$this->wopiContext->setWopiParameters($this->serverContext->getBaseUrl(), $params['fileId'], $params['token']);
+	}
+
+	/**
+	 * @Given /^a guest opens the file "([^"]*)" of the shared link$/
+	 */
+	public function aGuestOpensTheFileOfTheSharedLink($file) {
+		$this->openTheShareLink(null, null, $this->getFileIdInLastShare($file));
+	}
+
+	/**
+	 * @Given /^a guest opens the file "([^"]*)" of the shared link as "([^"]*)"$/
+	 */
+	public function aGuestOpensTheFileOfTheSharedLinkWithGuestName($file, $guestName) {
+		$this->openTheShareLink(null, $guestName, $this->getFileIdInLastShare($file));
+	}
+
+	/**
+	 * @Given /^User "([^"]*)" opens the file "([^"]*)" of the shared link$/
+	 */
+	public function userOpensTheFileOfTheSharedLink($user, $file) {
+		$this->openTheShareLink($user, null, $this->getFileIdInLastShare($file));
+	}
+
+	private function getFileIdInLastShare($file) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$davClient = $this->filesContext->getPublicSabreClient($shareToken);
+		$path = $file;
+		$result = $davClient->propFind($path, ['{http://owncloud.org/ns}fileid']);
+		return $result['{http://owncloud.org/ns}fileid'];
 	}
 
 }
