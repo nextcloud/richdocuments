@@ -29,7 +29,7 @@ document:
 | Parameter | Type | Description | Example |
 |---|---|---|---|
 | shareToken | string | Share token of the public share link | Qf5toz6JD7Tn7eD |
-| host | string (optional) | Desc | http://cloud.example.com |
+| host | string (optional) | Base URL of the Nextcloud isntance the share link is located on | http://cloud.example.com |
 | path | string (optional) | Path to the file in case the share link is a directory | /path/to/file.odt |
 | password | string (optional) | Optional password to gain access to the share | secret |
 
