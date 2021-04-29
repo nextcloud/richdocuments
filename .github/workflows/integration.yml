@@ -61,10 +61,6 @@ jobs:
           extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, gd, zip
           coverage: none
 
-      - name: Set up PHPUnit
-        working-directory: apps/${{ env.APP_NAME }}
-        run: composer i
-
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
@@ -133,10 +129,6 @@ jobs:
           tools: phpunit
           extensions: mbstring, iconv, fileinfo, intl, mysql, pdo_mysql, gd, zip
           coverage: none
-
-      - name: Set up PHPUnit
-        working-directory: apps/${{ env.APP_NAME }}
-        run: composer i
 
       - name: Set up Nextcloud
         env:
@@ -209,10 +201,6 @@ jobs:
           extensions: mbstring, iconv, fileinfo, intl, pgsql, pdo_pgsql, gd, zip
           coverage: none
 
-      - name: Set up PHPUnit
-        working-directory: apps/${{ env.APP_NAME }}
-        run: composer i
-
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
@@ -278,10 +266,6 @@ jobs:
           extensions: mbstring, iconv, fileinfo, intl, oci8, gd, zip
           tools: phpunit:8.5.2
           coverage: none
-
-      - name: Set up PHPUnit
-        working-directory: apps/${{ env.APP_NAME }}
-        run: composer i
 
       - name: Set up Nextcloud
         run: |
