@@ -23,45 +23,56 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use \OCP\AppFramework\OCSController;
+use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IRequest;
-use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Share\IManager;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class FederationController extends OCSController {
 
 	/** @var IConfig */
 	private $config;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var WopiMapper */
 	private $wopiMapper;
 
-	/** @var IManager */
-	private $shareManager;
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		IConfig $config,
+		ILogger $logger,
 		WopiMapper $wopiMapper,
-		IManager $shareManager
+		IUserManager $userManager,
+		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
 		$this->config   = $config;
+		$this->logger = $logger;
 		$this->wopiMapper = $wopiMapper;
-		$this->shareManager = $shareManager;
+		$this->userManager = $userManager;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @OCSRoute GET /api/v1/federation
 	 */
-	public function index() {
+	public function index(): DataResponse {
 		$response = new DataResponse([
 			'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url')
 		]);
@@ -72,6 +83,7 @@ class FederationController extends OCSController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @OCSRoute POST /api/v1/federation
 	 *
 	 * Check the file info of a remote accessing a file
 	 *
@@ -82,17 +94,61 @@ class FederationController extends OCSController {
 	 * @return DataResponse
 	 * @throws DoesNotExistException
 	 */
-	public function remoteWopiToken($token) {
-		$wopi = $this->wopiMapper->getWopiForToken($token);
-		return new DataResponse([
-			'ownerUid' => $wopi->getOwnerUid(),
-			'editorUid' => $wopi->getEditorUid(),
-			'canwrite' => $wopi->getCanwrite(),
-			'hideDownload' => $wopi->getHideDownload(),
-			'direct' => $wopi->getDirect(),
-			'serverHost' => $wopi->getServerHost(),
-			'guestDisplayname' => $wopi->getGuestDisplayname()
-		]);
+	public function remoteWopiToken($token): DataResponse {
+		try {
+			$initiatorWopi = $this->wopiMapper->getWopiForToken($token);
+			if (empty($initiatorWopi->getEditorUid()) && !empty($initiatorWopi->getRemoteServer()) && !empty($initiatorWopi->getRemoteServerToken())) {
+				$client = \OC::$server->getHTTPClientService()->newClient();
+				$response = $client->post(
+					rtrim($initiatorWopi->getRemoteServer(), '/') . '/ocs/v2.php/apps/richdocuments/api/v1/federation/user?format=json',
+					[ 'body' => [ 'token' => $initiatorWopi->getRemoteServerToken() ], 'timeout' => 10 ]
+				);
+				$initiatorUser = \json_decode($response->getBody(), true)['ocs']['data'];
+				$initiatorWopi->setGuestDisplayname($initiatorUser['displayName']);
+			} else {
+				$user = $this->userManager->get($initiatorWopi->getEditorUid());
+				if($user !== null) {
+					$initiatorWopi->setGuestDisplayname($user->getDisplayName());
+				}
+			}
+			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' returned');
+			return new DataResponse($initiatorWopi);
+		} catch (DoesNotExistException $e) {
+			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . 'not found');
+			throw new OCSNotFoundException();
+		}
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @OCSRoute POST /api/v1/federation/user
+	 *
+	 * Return user details for a initiator user that will be used by remote instances
+	 * to provide Collabora with the users avatar/displayname for guests on share links
+	 * if the session was created through a direct link of a public share
+	 *
+	 * @param $token
+	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 */
+	public function initiatorUser($token): DataResponse {
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($token);
+			$user = $this->userManager->get($wopi->getEditorUid());
+			if($user !== null) {
+				$wopi->setGuestDisplayname($user->getDisplayName());
+			}
+			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . ' returned');
+			return new DataResponse([
+				'userId' => $user->getUID(),
+				'displayName' => $user->getDisplayName(),
+				'avatar' => $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => WopiController::WOPI_AVATAR_SIZE])
+			]);
+		} catch (DoesNotExistException $e) {
+			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . 'not found');
+			throw new OCSNotFoundException();
+		}
 	}
 
 }

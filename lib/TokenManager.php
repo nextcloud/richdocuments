@@ -21,6 +21,7 @@
 
 namespace OCA\Richdocuments;
 
+use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\CapabilitiesService;
@@ -33,6 +34,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IL10N;
+use OCP\Share\IShare;
 use OCP\Util;
 
 class TokenManager {
@@ -61,16 +63,6 @@ class TokenManager {
 	/** @var Helper */
 	private $helper;
 
-	/**
-	 * @param IRootFolder $rootFolder
-	 * @param IManager $shareManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param Parser $wopiParser
-	 * @param AppConfig $appConfig
-	 * @param string $UserId
-	 * @param WopiMapper $wopiMapper
-	 * @param IL10N $trans
-	 */
 	public function __construct(
 		IRootFolder $rootFolder,
 		IManager $shareManager,
@@ -106,7 +98,7 @@ class TokenManager {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false, $isRemoteToken = false) {
+	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
@@ -191,25 +183,24 @@ class TokenManager {
 		$fp = $file->fopen('r');
 		fclose($fp);
 
-		$serverHost = $this->urlGenerator->getAbsoluteURL('/');//$this->request->getServerProtocol() . '://' . $this->request->getServerHost();
+		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
-		$guest_name = null;
+		$guestName = null;
 		if ($this->userId === null) {
-			if ($guest_name = $this->helper->getGuestName()) {
-				$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML($guest_name));
+			if ($guestName = $this->helper->getGuestName()) {
+				$guestName = $this->trans->t('%s (Guest)', Util::sanitizeHTML($guestName));
 				$cut = 56;
-				while (mb_strlen($guest_name) >= 64) {
-					$guest_name = $this->trans->t('%s (Guest)', Util::sanitizeHTML(
-						mb_substr($guest_name, 0, $cut)
+				while (mb_strlen($guestName) >= 64) {
+					$guestName = $this->trans->t('%s (Guest)', Util::sanitizeHTML(
+						mb_substr($guestName, 0, $cut)
 					));
 					$cut -= 5;
 				}
 			} else {
-				$guest_name = $this->trans->t('Anonymous guest');
+				$guestName = $this->trans->t('Anonymous guest');
 			}
 		}
-
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guest_name, 0, $hideDownload, $direct, $isRemoteToken, 0, $shareToken);
+		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
 
 		try {
 
@@ -223,13 +214,36 @@ class TokenManager {
 		}
 	}
 
-	public function updateToRemoteToken(Wopi $wopi, $shareToken, $remoteServer, $remoteServerToken, $remoteWopi) {
-		$uid = $remoteWopi['editorUid'] . '@' . $remoteServer;
-		$wopi->setEditorUid($shareToken);
-		$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi['canwrite']);
+	/**
+	 * This method is receiving the results from the TOKEN_TYPE_FEDERATION generated on the opener server
+	 * that is created in {@link newInitiatorToken}
+	 */
+	public function upgradeToRemoteToken(Wopi $wopi, Wopi $remoteWopi, string $shareToken, string $remoteServer, string $remoteServerToken): Wopi {
+		if ($remoteWopi->getTokenType() !== Wopi::TOKEN_TYPE_INITIATOR) {
+			return $wopi;
+		}
+
+		$remoteTokenType = $remoteWopi->getEditorUid() !== null ? Wopi::TOKEN_TYPE_REMOTE_USER : Wopi::TOKEN_TYPE_REMOTE_GUEST;
+		$wopi->setTokenType($remoteTokenType);
+		$wopi->setGuestDisplayname(
+			$remoteTokenType === Wopi::TOKEN_TYPE_REMOTE_USER ?
+				$remoteWopi->getEditorUid() . '@' . $remoteServer :
+				$remoteWopi->getGuestDisplayname()
+		);
+		$wopi->setShare($shareToken);
+		$wopi->setCanwrite($wopi->getCanwrite() && $remoteWopi->getCanwrite());
+		$wopi->setHideDownload($wopi->getHideDownload() || $remoteWopi->getHideDownload());
 		$wopi->setRemoteServer($remoteServer);
 		$wopi->setRemoteServerToken($remoteServerToken);
-		$wopi->setGuestDisplayname($uid);
+		$this->wopiMapper->update($wopi);
+		return $wopi;
+	}
+
+	public function upgradeFromDirectInitiator(Direct $direct, Wopi $wopi) {
+		$wopi->setTokenType(Wopi::TOKEN_TYPE_REMOTE_GUEST);
+		$wopi->setEditorUid(null);
+		$wopi->setRemoteServer($direct->getInitiatorHost());
+		$wopi->setRemoteServerToken($direct->getInitiatorToken());
 		$this->wopiMapper->update($wopi);
 		return $wopi;
 	}
@@ -278,31 +292,23 @@ class TokenManager {
 		];
 	}
 
-	/**
-	 * @param Node $node
-	 * @return Wopi
-	 */
-	public function getRemoteToken(Node $node) {
-		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, null, false, true);
-		$wopi->setIsRemoteToken(true);
-		$wopi->setRemoteServer($node->getStorage()->getRemote());
+	public function newInitiatorToken($sourceServer, Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
+		if ($node !== null) {
+			list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), $shareToken, $userId, $direct);
+			$wopi->setServerHost($sourceServer);
+			$wopi->setTokenType(Wopi::TOKEN_TYPE_INITIATOR);
+			$this->wopiMapper->update($wopi);
+			return $wopi;
+		}
 
+		return $this->wopiMapper->generateInitiatorToken($this->userId, $sourceServer);
+	}
+
+	public function extendWithInitiatorUserToken(Wopi $wopi, string $initiatorUserHost, string $initiatorUserToken): Wopi {
+		$wopi->setRemoteServer($initiatorUserHost);
+		$wopi->setRemoteServerToken($initiatorUserToken);
 		$this->wopiMapper->update($wopi);
 		return $wopi;
 	}
-
-	/**
-	 * @param Node $node
-	 * @return Wopi
-	 */
-	public function getRemoteTokenFromDirect(Node $node, $editorUid) {
-		list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), null, $editorUid, true, true);
-		$wopi->setIsRemoteToken(true);
-		$wopi->setRemoteServer($node->getStorage()->getRemote());
-
-		$this->wopiMapper->update($wopi);
-		return $wopi;
-	}
-
 
 }

@@ -64,7 +64,7 @@ class WopiMapper extends Mapper {
 	 * @param int $templateDestination
 	 * @return Wopi
 	 */
-	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname, $templateDestination = 0, $hideDownload = false, $direct = false, $isRemoteToken = false, $templateId = 0, $share = null) {
+	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname = null, $templateDestination = 0, $hideDownload = false, $direct = false, $templateId = 0, $share = null) {
 		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 
 		$wopi = Wopi::fromParams([
@@ -80,11 +80,29 @@ class WopiMapper extends Mapper {
 			'templateDestination' => $templateDestination,
 			'hideDownload' => $hideDownload,
 			'direct' => $direct,
-			'isRemoteToken' => $isRemoteToken,
 			'templateId' => $templateId,
 			'remoteServer' => '',
 			'remoteServerToken' => '',
-			'share' => $share
+			'share' => $share,
+			'tokenType' => $guestDisplayname === null ? Wopi::TOKEN_TYPE_USER : Wopi::TOKEN_TYPE_GUEST
+		]);
+
+		/** @var Wopi $wopi */
+		$wopi = $this->insert($wopi);
+
+		return $wopi;
+	}
+
+	public function generateInitiatorToken($uid, $remoteServer) {
+		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+
+		$wopi = Wopi::fromParams([
+			'fileid' => 0,
+			'editorUid' => $uid,
+			'token' => $token,
+			'expiry' => $this->timeFactory->getTime() + self::TOKEN_LIFETIME_SECONDS,
+			'remoteServer' => $remoteServer,
+			'tokenType' => Wopi::TOKEN_TYPE_INITIATOR
 		]);
 
 		/** @var Wopi $wopi */

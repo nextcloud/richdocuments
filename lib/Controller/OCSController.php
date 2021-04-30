@@ -26,15 +26,20 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
+use OCA\Richdocuments\TokenManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Share\IManager;
 
 class OCSController extends \OCP\AppFramework\OCSController {
 
@@ -53,20 +58,15 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var TemplateManager */
 	private $manager;
 
+	/** @var TokenManager */
+	private $tokenManager;
+
+	/** @var IManager */
+	private $shareManager;
+
 	/** @var FederationService */
 	private $federationService;
 
-	/**
-	 * OCS controller
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IRootFolder $rootFolder
-	 * @param string $userId
-	 * @param DirectMapper $directMapper
-	 * @param IURLGenerator $urlGenerator
-	 * @param TemplateManager $manager
-	 */
 	public function __construct(string $appName,
 		IRequest $request,
 		IRootFolder $rootFolder,
@@ -74,6 +74,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		DirectMapper $directMapper,
 		IURLGenerator $urlGenerator,
 		TemplateManager $manager,
+		TokenManager $tokenManager,
+		IManager $shareManager,
 		FederationService $federationService
 	) {
 		parent::__construct($appName, $request);
@@ -83,19 +85,21 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$this->directMapper = $directMapper;
 		$this->urlGenerator = $urlGenerator;
 		$this->manager      = $manager;
+		$this->tokenManager = $tokenManager;
+		$this->shareManager = $shareManager;
 		$this->federationService = $federationService;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
-	 * Init an editing session
+	 * Init a direct editing session
 	 *
 	 * @param int $fileId
 	 * @return DataResponse
 	 * @throws OCSNotFoundException|OCSBadRequestException
 	 */
-	public function create($fileId) {
+	public function createDirect($fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			$nodes      = $userFolder->getById($fileId);
@@ -119,6 +123,93 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
 		}
+	}
+
+	/**
+	 * Generate a direct editing link for a file in a public share to open with the current user
+	 *
+	 * @NoAdminRequired
+	 * @throws OCSForbiddenException
+	 */
+	public function createPublic(
+		string $shareToken,
+		string $host = null,
+		string $path = '',
+		string $password = null
+	): DataResponse {
+		if ($host) {
+			$remoteCollabora = $this->federationService->getRemoteCollaboraURL($host);
+			if ($remoteCollabora === '') {
+				throw new OCSNotFoundException('Failed to connect to remote collabora instance.');
+			}
+
+			$wopi = $this->tokenManager->newInitiatorToken($host, null, $shareToken, true, $this->userId);
+
+			$client = \OC::$server->getHTTPClientService()->newClient();
+			$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
+				'body' => [
+					'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
+					'initiatorToken' => $wopi->getToken(),
+					'shareToken' => $shareToken,
+					'path' => $path,
+					'password' => $password
+				],
+				'timeout' => 30
+			]);
+			$url = \json_decode($response->getBody(), true)['ocs']['data']['url'];
+
+			return new DataResponse([
+				'url' => $url,
+			]);
+		}
+
+		$share = $this->shareManager->getShareByToken($shareToken);
+		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
+			throw new OCSForbiddenException();
+		}
+
+		$node = $share->getNode();
+		if ($node instanceof Folder) {
+			$node = $node->get($path);
+		}
+		$direct = $this->directMapper->newDirect($this->userId, $node->getId(), 0, $shareToken);
+
+		return new DataResponse([
+			'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+				'token' => $direct->getToken()
+			])
+		]);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @throws OCSForbiddenException
+	 */
+	public function createPublicFromInitiator(
+		string $initiatorServer,
+		string $initiatorToken,
+		string $shareToken,
+		string $path = '',
+		string $password = null
+	): DataResponse {
+		$share = $this->shareManager->getShareByToken($shareToken);
+		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
+			throw new OCSForbiddenException();
+		}
+
+		$node = $share->getNode();
+		if ($node instanceof Folder) {
+			$node = $node->get($path);
+		}
+
+		$direct = $this->directMapper->newDirect(null, $node->getId(), null, $shareToken, $initiatorServer, $initiatorToken);
+
+		return new DataResponse([
+			'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
+				'token' => $direct->getToken()
+			])
+		]);
 	}
 
 	/**

@@ -139,7 +139,7 @@ class Application extends App {
 		try {
 			$path = $container->getServer()->getRequest()->getPathInfo();
 		} catch (\Exception $e) {}
-		if (strpos($path, '/apps/files/') === 0 && $container->getServer()->getAppManager()->isEnabledForUser('federation')) {
+		if ((strpos($path, '/apps/files/') === 0 || strpos($path, '/s/') === 0) && $container->getServer()->getAppManager()->isEnabledForUser('federation')) {
 			/** @var FederationService $federationService */
 			$federationService = \OC::$server->query(FederationService::class);
 
