@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.8.0
+
+* [#1516](https://github.com/nextcloud/richdocuments/pull/1516) Enhanced federated editing for global scale setups
+
 ## 3.7.19
 
 * [#1489](https://github.com/nextcloud/richdocuments/pull/1489) Improve parsing of guest name cookie @juliushaertl
