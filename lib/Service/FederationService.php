@@ -41,6 +41,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Share\IShare;
 
 class FederationService {
@@ -59,14 +60,17 @@ class FederationService {
 	private $tokenManager;
 	/** @var IRequest */
 	private $request;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
-	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, IConfig $config, IRequest $request) {
+	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, IConfig $config, IRequest $request, IURLGenerator $urlGenerator) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->tokenManager = $tokenManager;
 		$this->config = $config;
 		$this->request = $request;
+		$this->urlGenerator = $urlGenerator;
 		try {
 			$this->trustedServers = \OC::$server->query( \OCA\Federation\TrustedServers::class);
 		} catch (QueryException $e) {}
@@ -202,7 +206,7 @@ class FederationService {
 			$shareToken = $share ? $share->getToken() : null;
 
 			$wopi = $this->tokenManager->newInitiatorToken($remote, $item, $shareToken, ($direct !== null), ($direct ? $direct->getUid() : null));
-			$initiatorServer = $wopi->getServerHost();
+			$initiatorServer = $this->urlGenerator->getAbsoluteURL('/');
 			$initiatorToken = $wopi->getToken();
 
 			/**
