@@ -236,3 +236,13 @@ Example failed event data:
   "wopiFileId": "288_oct9lk1km6wy"
 }
 ```
+
+### WOPI PostMessages
+
+Collabora Online emits various post messages which are catched and handled by the Collabora Online
+Integration app. Postmessages which are sent from the WOPI host (Collabora) to the editor (
+Nextcloud) are also exposed through the Nextcloud event bus under the `richdocuments:wopi-post`
+event name. For details on the post messages see
+the [Collabora Online PostMessage API documentation](WOPI host to editor).
+
+

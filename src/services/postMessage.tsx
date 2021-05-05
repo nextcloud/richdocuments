@@ -19,6 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import { emit } from "@nextcloud/event-bus"
+
 type MessageEventSource = Window | MessagePort | ServiceWorker;
 
 export interface WopiPost {
@@ -95,6 +98,14 @@ export default class PostMessageService {
 		if (typeof parsed === 'undefined' || parsed === null) {
 			return
 		}
+
+		try {
+			const wopiPostMessage = JSON.parse(data)
+			if (typeof wopiPostMessage === 'object' && wopiPostMessage !== null) {
+				emit('richdocuments:wopi-post', wopiPostMessage)
+			}
+		} catch (e) {}
+
 		this.postMessageHandlers.forEach((fn: Function): void => {
 			if (parsed.deprecated) {
 				console.debug('PostMessageService.handlePostMessage', 'Ignoring deprecated post message', parsed.msgId)
