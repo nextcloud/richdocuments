@@ -63,19 +63,30 @@ const odfViewer = {
 
 	onEdit: function(fileName, context) {
 		if (!odfViewer.isCollaboraConfigured) {
-			const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
-			const installHint = OC.isUserAdmin()
-				? `<a href="${setupUrl}">Collabora Online is not setup yet. <br />Click here to configure your own server or connect to a demo server.</a>`
-				: t('richdocuments', 'Collabora Online is not setup yet. Please contact your administrator.')
+			$.get(OC.linkToOCS('cloud') + '/capabilities?format=json').then(
+				e => {
+					if ((OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
+						|| (typeof e.ocs.data.capabilities.richdocuments.collabora === 'object'
+						&& e.ocs.data.capabilities.richdocuments.collabora.length !== 0)) {
+						odfViewer.isCollaboraConfigured = true
+						odfViewer.onEdit(fileName, context)
+					} else {
+						const setupUrl = OC.generateUrl('/settings/admin/richdocuments')
+						const installHint = OC.isUserAdmin()
+							? `<a href="${setupUrl}">Collabora Online is not setup yet. <br />Click here to configure your own server or connect to a demo server.</a>`
+							: t('richdocuments', 'Collabora Online is not setup yet. Please contact your administrator.')
 
-			if (OCP.Toast) {
-				OCP.Toast.error(installHint, {
-					isHTML: true,
-					timeout: 0
-				})
-			} else {
-				OC.Notification.showHtml(installHint)
-			}
+						if (OCP.Toast) {
+							OCP.Toast.error(installHint, {
+								isHTML: true,
+								timeout: 0
+							})
+						} else {
+							OC.Notification.showHtml(installHint)
+						}
+					}
+				}
+			)
 			return
 		}
 		if (odfViewer.open === true) {
