@@ -14,6 +14,16 @@ const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow
 })
 
+// Workaround for Safari to resize the iframe to the proper height
+// as 100vh is not the proper viewport height there
+const handleResize = () => {
+	document.getElementById('richdocumentsframe').style.maxHeight = (window.innerHeight - 60) + 'px'
+}
+window.addEventListener('resize', handleResize)
+if (window && window.visualViewport) {
+	visualViewport.addEventListener('resize', handleResize)
+}
+
 const isDownloadHidden = document.getElementById('hideDownload') && document.getElementById('hideDownload').value === 'true'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
