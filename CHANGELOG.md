@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.1.0
+
+* [#1512](https://github.com/nextcloud/richdocuments/pull/1512) Enhanced federated editing
+* [#1446](https://github.com/nextcloud/richdocuments/pull/1446) Setup FeaturePolicy to allow fullscreen @eszkadev
+* [#1459](https://github.com/nextcloud/richdocuments/pull/1459) Reload file name for share feature after Save As @eszkadev
+* [#1465](https://github.com/nextcloud/richdocuments/pull/1465) Fix OOXML template extension @tiredofit
+* [#1471](https://github.com/nextcloud/richdocuments/pull/1471) Fix duplicate document templates
+* [#1485](https://github.com/nextcloud/richdocuments/pull/1485) L10n: Unify spelling @Valdnet
+* [#1488](https://github.com/nextcloud/richdocuments/pull/1488) Improve parsing of guest name cookie
+* [#1501](https://github.com/nextcloud/richdocuments/pull/1501) Add federation/direct editing tests
+* [#1502](https://github.com/nextcloud/richdocuments/pull/1502) Do not use libxml_disable_entity_loader on PHP 8 or later
+* [#1513](https://github.com/nextcloud/richdocuments/pull/1513) Don't cache empty capabilities @eszkadev
+* [#1514](https://github.com/nextcloud/richdocuments/pull/1514) Work around safari having a inproper 100vh value
+* [#1517](https://github.com/nextcloud/richdocuments/pull/1517) Use proper initiator url
+* [#1528](https://github.com/nextcloud/richdocuments/pull/1528) Emit WOPI postmessages through the nextcloud event bus
+
 ## 4.0.4
 
 * [#1443](https://github.com/nextcloud/richdocuments/pull/1443) Use correct config for GS info
