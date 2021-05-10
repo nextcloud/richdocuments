@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.8.1
+
+* [#1529](https://github.com/nextcloud/richdocuments/pull/1529) Don't cache empty capabilities
+* [#1530](https://github.com/nextcloud/richdocuments/pull/1530) Emit WOPI postmessages through the nextcloud event bus
+* [#1540](https://github.com/nextcloud/richdocuments/pull/1540) Work around safari having a inproper 100vh value
+
+
 ## 3.8.0
 
 * [#1516](https://github.com/nextcloud/richdocuments/pull/1516) Enhanced federated editing for global scale setups
