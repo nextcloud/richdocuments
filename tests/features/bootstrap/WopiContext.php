@@ -128,34 +128,42 @@ class WopiContext implements Context {
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is "([^"]*)"$/
 	 */
-	public function checkfileinfoIs($arg1, $arg2)
+	public function checkfileinfoIs($key, $value)
 	{
-		\PHPUnit\Framework\Assert::assertEquals($arg2, $this->checkFileInfoResult[$arg1]);
+		\PHPUnit\Framework\Assert::assertEquals($value, $this->checkFileInfoResult[$key]);
 	}
 
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" matches "([^"]*)"$/
 	 */
-	public function checkfileinfoMatches($arg1, $arg2)
+	public function checkfileinfoMatches($key, $regex)
 	{
-		\PHPUnit\Framework\Assert::assertRegExp($arg2, $this->checkFileInfoResult[$arg1]);
+		\PHPUnit\Framework\Assert::assertRegExp($regex, $this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is true$/
 	 */
-	public function checkfileinfoIsTrue($arg1)
+	public function checkfileinfoIsTrue($key)
 	{
-		\PHPUnit\Framework\Assert::assertTrue($this->checkFileInfoResult[$arg1]);
+		\PHPUnit\Framework\Assert::assertTrue($this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is false$/
 	 */
-	public function checkfileinfoIsFalse($arg1)
+	public function checkfileinfoIsFalse($key)
 	{
-		\PHPUnit\Framework\Assert::assertFalse($this->checkFileInfoResult[$arg1]);
+		\PHPUnit\Framework\Assert::assertFalse($this->checkFileInfoResult[$key]);
+	}
+
+	/**
+	 * @Then /^checkFileInfo "([^"]*)" is not set/
+	 */
+	public function checkfileinfoIsNotSet($key)
+	{
+		\PHPUnit\Framework\Assert::assertArrayNotHasKey($key, $this->checkFileInfoResult);
 	}
 
 	/**
