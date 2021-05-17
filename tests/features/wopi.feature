@@ -257,3 +257,15 @@ Feature: WOPI
     And checkFileInfo "UserCanWrite" is false
     And Collabora downoads the file and it is equal to "./../assets/template.odt"
 
+
+  Scenario: Create a new wopi token from a template for a user and open it
+    Given as user "user1"
+    And user "user1" fetches the document template list
+    And user "user1" creates a new file "/file.odt" from a template
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | file.odt          |
+      | OwnerId          | user1             |
+      | UserId           | user1             |
+      | UserFriendlyName | user1-displayname |
+    And checkFileInfo "UserCanWrite" is true
+    And TemplateSource is set

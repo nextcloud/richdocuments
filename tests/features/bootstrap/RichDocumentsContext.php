@@ -24,10 +24,10 @@ class RichDocumentsContext implements Context
 	public $currentServer;
 	public $fileId;
 	public $wopiToken;
-	/**
-	 * @var array List of opened file ids in order to compare opening accross instances
-	 */
+	/** @var array List of opened file ids in order to compare opening accross instances*/
 	private $fileIds = [];
+	/** @var array List of templates fetched for a given file type */
+	private $templates = [];
 
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
@@ -68,18 +68,7 @@ class RichDocumentsContext implements Context
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
 			). '/';
 		}
-		$contents = $result->getBody()->getContents();
-		$re = '/var richdocuments_([A-z]+) = (.*);/m';
-		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
-		$result = [];
-		foreach ($matches as $match) {
-			$result[$match[1]] = str_replace("'", "", $match[2]);
-		}
-
-		$this->fileIds[] = $result['fileId'];
-		$this->fileId = $result['fileId'];
-		$this->wopiToken = $result['token'];
-		$this->wopiContext->setWopiParameters($this->currentServer, $this->fileId, $this->wopiToken);
+		$this->extractRichdocumentsFrontendContext($result);
 
 		Assert::assertNotEmpty($this->fileId);
 		Assert::assertNotEmpty($this->wopiToken);
@@ -126,15 +115,7 @@ class RichDocumentsContext implements Context
 		$result = $client->get(
 			$this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/public?shareToken=' . $token . ($fileId ? '&fileId=' . $fileId : ''),
 			array_merge($this->serverContext->getWebOptions(), $userId ? [] : ['cookies' => $cookieJar]));
-		$contents = $result->getBody()->getContents();
-		$re = '/var richdocuments_([A-z]+) = (.*);/m';
-		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
-		$params = [];
-		foreach ($matches as $match) {
-			$params[$match[1]] = str_replace("'", "", $match[2]);
-		}
-
-		$this->wopiContext->setWopiParameters($this->serverContext->getBaseUrl(), $params['fileId'], $params['token']);
+		$this->extractRichdocumentsFrontendContext($result);
 	}
 
 	/**
@@ -166,4 +147,72 @@ class RichDocumentsContext implements Context
 		return $result['{http://owncloud.org/ns}fileid'];
 	}
 
+	/**
+	 * @Given /^user "([^"]*)" fetches the (document|spreadsheet|presentation) template list$/
+	 */
+	public function userFetchesTheTemplateList($user, $type) {
+		$this->serverContext->sendOCSRequest('GET', '/apps/richdocuments/api/v1/templates/' . $type);
+		$this->templates = $this->serverContext->getOCSResponseData();
+	}
+
+	/**
+	 * @Given /^user "([^"]*)" creates a new file "([^"]*)" from a template$/
+	 */
+	public function userCreatesANewFileFromATemplate($user, $file) {
+		$template = $this->templates[0];
+		$this->serverContext->usingWebAsUser($user);
+
+		$client = new Client();
+		$query = [
+			'templateId' => $template['id'],
+			'fileName' => basename($file),
+			'dir' => dirname($file),
+		];
+		$result = $client->get(
+			$this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/indexTemplate',
+			array_merge(
+				$this->serverContext->getWebOptions(),
+				[
+					'query' => $query,
+					'allow_redirects' => [
+						'track_redirects' => true
+					]
+				]
+			)
+		);
+		$redirects = $result->getHeader('X-Guzzle-Redirect-History');
+		$lastServer = array_pop($redirects);
+		if ($lastServer) {
+			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://'. parse_url($lastServer, PHP_URL_HOST)  . (
+				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
+				). '/';
+		}
+		$this->extractRichdocumentsFrontendContext($result);
+
+		Assert::assertNotEmpty($this->fileId);
+		Assert::assertNotEmpty($this->wopiToken);
+	}
+
+
+	/**
+	 * @Given /^TemplateSource is set$/
+	 */
+	public function templatesourceIsSet() {
+		$this->wopiContext->checkfileinfoMatches('TemplateSource', '%wopi/template/' . $this->templates[0]['id'] . '\\?access_token%');
+	}
+
+	private function extractRichdocumentsFrontendContext($response) {
+		$contents = $response->getBody()->getContents();
+		$re = '/var richdocuments_([A-z]+) = (.*);/m';
+		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
+		$result = [];
+		foreach ($matches as $match) {
+			$result[$match[1]] = str_replace("'", "", $match[2]);
+		}
+
+		$this->fileIds[] = $result['fileId'];
+		$this->fileId = $result['fileId'];
+		$this->wopiToken = $result['token'];
+		$this->wopiContext->setWopiParameters($this->currentServer, $this->fileId, $this->wopiToken);
+	}
 }
