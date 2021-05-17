@@ -269,3 +269,52 @@ Feature: WOPI
       | UserFriendlyName | user1-displayname |
     And checkFileInfo "UserCanWrite" is true
     And TemplateSource is set
+
+
+  Scenario: Save as
+    Given as user "user1"
+    And User "user1" uploads file "./../assets/template.odt" to "/file-origin.odt"
+    Then User "user1" opens "/file-origin.odt"
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | file-origin.odt          |
+      | OwnerId          | user1             |
+      | UserId           | user1             |
+      | UserFriendlyName | user1-displayname |
+    And checkFileInfo "UserCanWrite" is true
+    And Collabora saves the content of "./../assets/template.ods" as "saveas.odt"
+    And the WOPI HTTP status code should be "200"
+
+    Then User "user1" opens "/saveas.odt"
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | saveas.odt         |
+      | OwnerId          | user1             |
+      | UserId           | user1             |
+      | UserFriendlyName | user1-displayname |
+    And Collabora downloads the file
+    And Collabora downoads the file and it is equal to "./../assets/template.ods"
+
+  Scenario: Save as different user
+    Given as user "user1"
+    And User "user1" uploads file "./../assets/template.odt" to "/file-origin.odt"
+    And as "user1" create a share with
+      | path        | /file-origin.odt |
+      | shareType   | 0                |
+      | shareWith   | user2            |
+      | permissions | 31               |
+    Then User "user2" opens "/file-origin.odt"
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | file-origin.odt    |
+      | OwnerId          | user1             |
+      | UserId           | user2             |
+      | UserFriendlyName | user2-displayname |
+    And Collabora saves the content of "./../assets/template.ods" as "/saveas.odt"
+    And the WOPI HTTP status code should be "200"
+
+    Then User "user2" opens "/saveas.odt"
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | saveas.odt         |
+      | OwnerId          | user2             |
+      | UserId           | user2             |
+      | UserFriendlyName | user2-displayname |
+    And Collabora downloads the file
+    And Collabora downoads the file and it is equal to "./../assets/template.ods"
