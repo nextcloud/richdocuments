@@ -267,4 +267,26 @@ class WopiContext implements Context {
 		Assert::assertNotEquals($current, $previous);
 	}
 
+
+	/**
+	 * @Given /^Collabora saves the content of "([^"]*)" as "([^"]*)"$/
+	 */
+	public function collaboraSavesTheFileAs($source, $newName) {
+		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$client = new Client();
+		$options = [
+			'body' => $file,
+			'headers' => [
+				'X-LOOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'],
+				'X-WOPI-SuggestedTarget' => $newName,
+				'X-WOPI-Override' => 'PUT_RELATIVE',
+			]
+		];
+		try {
+			$this->response = $client->post($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '?access_token=' . $this->wopiToken, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
 }
