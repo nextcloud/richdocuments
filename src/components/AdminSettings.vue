@@ -101,7 +101,7 @@
 						<p class="option-inline">
 							<em>
 								{{ t('richdocuments', 'This installation does not have a built in server.') }}
-								<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the app store.') }}</a>
+								<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the App Store.') }}</a>
 							</em>
 						</p>
 						<p class="option-inline-emphasized">
