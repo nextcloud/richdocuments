@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.1.1
+
+* [#1546](https://github.com/nextcloud/richdocuments/pull/1546) Fix wrong parameters set when creating a file from a template id @juliushaertl
+* [#1559](https://github.com/nextcloud/richdocuments/pull/1559) Fix PutRelativeFile as non-owner @juliushaertl
+* [#1544](https://github.com/nextcloud/richdocuments/pull/1544) Retry to check if Collabora is configured @eszkadev
+
+
 ## 4.1.0
 
 * [#1512](https://github.com/nextcloud/richdocuments/pull/1512) Enhanced federated editing
