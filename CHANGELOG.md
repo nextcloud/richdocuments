@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.8.2
+
+* [#1550](https://github.com/nextcloud/richdocuments/pull/1550) Fix wrong parameters set when creating a file from a template id
+* [#1564](https://github.com/nextcloud/richdocuments/pull/1564) Fix PutRelativeFile as non-owner
+* [#1549](https://github.com/nextcloud/richdocuments/pull/1549) Retry to check if Collabora is configured
+
+
 ## 3.8.1
 
 * [#1529](https://github.com/nextcloud/richdocuments/pull/1529) Don't cache empty capabilities
