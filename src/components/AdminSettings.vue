@@ -101,11 +101,11 @@
 						<p class="option-inline">
 							<em>
 								{{ t('richdocuments', 'This installation does not have a built in server.') }}
-								<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the app store.') }}</a>
+								<a :href="appUrl" target="_blank">{{ t('richdocuments', 'Install it from the App Store.') }}</a>
 							</em>
 						</p>
 						<p class="option-inline-emphasized">
-							{{ t('richdocuments', 'If the installation from the app store fails, you can still do that manually using this command:') }}
+							{{ t('richdocuments', 'If the installation from the App Store fails, you can still do that manually using this command:') }}
 							<tt>php -d memory_limit=512M occ app:install {{ CODEAppID }}</tt>
 						</p>
 					</div>
