@@ -41,8 +41,6 @@ OC.L10N.register(
     "Use the built-in CODE - Collabora Online Development Edition" : "Usar CODE (Collabora Online Development Edition) incorporado",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Fácil de instalar para uso doméstico o de pequeños equipos. Un poco más lento que un servidor independiente y sin las características avanzadas de escalabilidad.",
     "This installation does not have a built in server." : "Esta instalación no tiene un servidor incorporado.",
-    "Install it from the app store." : "Instálalo desde la tienda de apps.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Si no funciona la instalación desde la App Store, todavía puede realizar un proceso manual con este comando:",
     "Use a demo server" : "Use un servidor demo",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Puede emplear un servidor demo propicio nado por Collabora y otros proveedores de servicio para realizar una prueba de Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Tu Nextcloud no es capaz de conectar a los servidores demo porque:",

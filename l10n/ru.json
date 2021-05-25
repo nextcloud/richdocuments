@@ -39,8 +39,6 @@
     "Use the built-in CODE - Collabora Online Development Edition" : "Использовать встраиваемый сервер CODE (Collabora Online Development Edition)",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Простой в установке вариант, предназначенный для использования дома или в небольших группах. Производительность несколько ниже, чем в варианте использования отдельного сервера, а также отсутствуют возможности для масштабирования.",
     "This installation does not have a built in server." : "Отсутствует модуль встраиваемого сервера CODE. ",
-    "Install it from the app store." : "Установите его из магазина приложений.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Если при установке из магазина приложений произошла ошибка, возможно выполнить выполнить установку при помощи выполнения следующей команды:",
     "Use a demo server" : "Использовать демонстрационный сервер",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Для знакомства с Collabora Online возможно использовать демонстрационный сервер, предоставленный компаний Collabora или другими провайдерами.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Используемое развёртывание сервера Nextcloud не может быть использовано для подключения к демонстрационным серверам: ",

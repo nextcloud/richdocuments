@@ -41,8 +41,6 @@ OC.L10N.register(
     "Use the built-in CODE - Collabora Online Development Edition" : "Erabili aplikazioak dakarren CODE (Collabora Online Development Edition)",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Instalatzeko erraza, etxeko erabilera edo talde txikientzat. Zerbitzari autonomo bat baino pixka bat motelagoa eta eskalagarritasun aukera aurreraturik gabe.",
     "This installation does not have a built in server." : "Instalazio honek ez dakar zerbitzari barneraturik.",
-    "Install it from the app store." : "Instalatu aplikazioen biltegitik.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Aplikazioen biltegitik instalatzeak huts egiten badu, eskuz egin dezakezu komando hau erabiliz:",
     "Use a demo server" : "Erabili demo zerbitzari bat",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora Online probatzeko, Collaborak eta beste batzuek eskaintzen duten probako zerbitzari bat erabil dezakezu.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Zure Nextcloud konfigurazioa ez da gai probako zerbitzariarekin konektatzeko, honengatik:",

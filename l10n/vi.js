@@ -40,8 +40,6 @@ OC.L10N.register(
     "Use the built-in CODE - Collabora Online Development Edition" : "Sử dụng CODE được tích hợp sẵn - Collabora Online Development Edition",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Dễ dàng cài đặt, sử dụng cho gia đình hoặc nhóm nhỏ. Chậm hơn một chút so với máy chủ độc lập và không có các tính năng nâng cao về khả năng mở rộng",
     "This installation does not have a built in server." : "Cài đặt này không có ở máy chủ tích hợp sẵn",
-    "Install it from the app store." : "Cài đặt nó từ cửa hàng ứng dụng.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Nếu quá trình cài đặt từ cửa hàng ứng dụng không thành công, bạn vẫn có thể thực hiện việc đó theo cách thủ công bằng lệnh sau:",
     "Use a demo server" : "Sử dụng máy chủ demo",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Bạn có thể sử dụng máy chủ demo do Collabora và các nhà cung cấp dịch vụ khác cung cấp để dùng thử Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Thiết lập vWorkspace của bạn không thể kết nối với máy chủ demo vì:",

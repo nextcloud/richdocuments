@@ -21,7 +21,6 @@
     "Setting up a new server" : "Asetetaan uusi palvelin",
     "Use your own server" : "Käytä omaa palvelinta",
     "Disable certificate verification (insecure)" : "Poista käytöstä varmenteen varmistus (turvaton)",
-    "Install it from the app store." : "Lataa sovelluskaupasta.",
     "Use a demo server" : "Käytä demopalvelinta",
     "Loading available demo servers …" : "Ladataan saatavilla olevia demopalvelimia…",
     "No available demo servers found." : "Saatavilla olevia demopalvelimia ei löytynyt.",

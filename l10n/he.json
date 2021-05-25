@@ -29,8 +29,6 @@
     "Use the built-in CODE - Collabora Online Development Edition" : "להשתמש ב־CODE‏ - Collabora Online Development Edition (מהדורת המפתחים) המובנה",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "קלה להתקנה, לשימוש ביתי או לצוותים קטנים. מעט אטית יותר משרת עצמאי וללא יכולות ההתגמשות המתקדמות.",
     "This installation does not have a built in server." : "להתקנה זו אין שרת מובנה.",
-    "Install it from the app store." : "להתקין אותו מחנות היישומונים.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "אם ההתקנה מחנות היישומונים נכשלת, עדיין ניתן להתקין ידנית באמצעות הפקודה:",
     "Use a demo server" : "להשתמש בשרת הדגמה",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "ניתן להשתמש בשרת הדגמה שמסופק על ידי Collabora וספקי שירות אחרים כדי להתנסות ב־Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "תצורת ה־Nextcloud שלך אינה יכולה להתחבר לשרתי ההדגמה:",

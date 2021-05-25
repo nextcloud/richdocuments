@@ -41,8 +41,6 @@ OC.L10N.register(
     "Use the built-in CODE - Collabora Online Development Edition" : "ビルトイン CODE を使う - Collabora Online Development Edition ",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "インストールが簡単で、家庭での使用や少人数での使用に適しています。スタンドアロン型のサーバーに比べてやや遅く、高度なスケーラビリティ機能もありません。",
     "This installation does not have a built in server." : "本インストールにはビルトインサーバーが用意されていません。",
-    "Install it from the app store." : "app storeからインストール",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "App Storeからのインストールに失敗した場合でも、このコマンドを使って手動でインストールすることができます。",
     "Use a demo server" : "デモサーバーを使用",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora Online を試すには、 Collabora または 他のサービスプロバイダーが提供するデモサーバーを使用できます。",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Nextcloud は、次の理由によりデモサーバーに接続できません:",

@@ -39,8 +39,6 @@
     "Use the built-in CODE - Collabora Online Development Edition" : "使用内建的在线协作开发版 (CODE)",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "易于安装，适合家庭或小团体使用。但比独立服务器慢一点，且没有高级可伸缩性功能。",
     "This installation does not have a built in server." : "此安装没有内置服务器。",
-    "Install it from the app store." : "从应用商店安装。",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "如果从应用商店安装失败，您仍然可以使用以下命令手动进行安装：",
     "Use a demo server" : "使用演示服务器",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "您可以使用由 Collabora 及其他服务提供商提供的演示服务器来试用在线协作服务。",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "您的 Nextcloud 无法连接到演示服务器，因为：",

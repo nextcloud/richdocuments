@@ -39,8 +39,6 @@
     "Use the built-in CODE - Collabora Online Development Edition" : "Uporabi vgrajen paket CODE – razvojno različico Collabora Online ",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Enostavna namestitev za domačo rabo in delo v manjših skupinah. Deluje malce počasneje od samostojnega strežnika in brez naprednih prilagodljivih možnosti.",
     "This installation does not have a built in server." : "Ta namestitev ne vključuje tudi vgrajenega strežnika.",
-    "Install it from the app store." : "Namestite program iz trgovine.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Če namestitev programa iz trgovine spodleti, ga je vedno mogoče namestiti ročno z ukazom:",
     "Use a demo server" : "Uporabi preizkusni strežnik",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Uporabite lahko preizkusni strežnik, ki ga omogoča Collabora in drugi ponudniki za preizkušanje spletnega pisarniškega paketa.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Povezava okolja Nextcloud s preizkusnimi strežniki ni mogoča, ker:",
