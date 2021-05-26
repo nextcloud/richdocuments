@@ -41,6 +41,8 @@ OC.L10N.register(
     "Use the built-in CODE - Collabora Online Development Edition" : "İç CODE kullanılsın - Collabora Online Development Edition",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Kişisel ya da küçük ekipler için kurması ve kullanması kolaydır. Bağımsız bir sunucudan biraz daha yavaştır ve gelişmiş ölçeklenebilirlik özellikleri yoktur.",
     "This installation does not have a built in server." : "Bu kurulumda bir iç sunucu yok.",
+    "Install it from the App Store." : "Uygulama Mağazasından kur.",
+    "If the installation from the App Store fails, you can still do that manually using this command:" : "Uygulama Mağazasından kurulum yapılamazsa, şu komutu kullanarak el ile kurulum yapabilirsiniz:",
     "Use a demo server" : "Bir tanıtım sunucusu kullanın",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora ve diğer hizmet sağlayıcıları tarafından sunulan bir tanıtım sunucusu ile Collabora Online platformunu deneyebilirsiniz.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Nextcloud kurulumunuzun şu nedenle tanıtım sunucularına bağlanma özelliği yok:",
