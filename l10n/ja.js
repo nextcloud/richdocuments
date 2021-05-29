@@ -25,7 +25,7 @@ OC.L10N.register(
     "Empty" : "空",
     "%s (Guest)" : "%s(人のゲスト)",
     "Anonymous guest" : "匿名ゲスト",
-    "Edit office documents directly in your browser." : "ブラウザで直接オフィス文書を編集する。",
+    "Edit office documents directly in your browser." : "ブラウザーで直接オフィス文書を編集する。",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "このアプリケーションは、Collabora Online（または他の）サーバー（WOPIのようなクライアント）に接続できます。 NextcloudはWOPIホストです。詳細については、ドキュメントをお読みください。\n\nまた、**[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)**  や **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** ストアからCollaboraOfficeアプリを使用してオフラインでドキュメントを編集することもできます。 ",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online は、オンラインで共同編集できるLibreOfficeベースのオフィススイートです。メジャーなドキュメントやスプレッドシート、プレゼンテーションファイルのフォーマットに対応し、最近の全てのブラウザーで動かすことができます。",
     "Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: " : "Collabora Onlineサーバーへの接続を確立できませんでした。Webサーバーの設定が不足していることが原因かもしれません。詳細については、以下をご覧ください。",
