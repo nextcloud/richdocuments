@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.2
+
+* Nextcloud 22 compatibility
+
 ## 4.1.1
 
 * [#1546](https://github.com/nextcloud/richdocuments/pull/1546) Fix wrong parameters set when creating a file from a template id @juliushaertl
