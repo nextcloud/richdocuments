@@ -53,7 +53,7 @@ OC.L10N.register(
     "Quick tryout with Nextcloud docker." : "Rychle vyzkoušet pomocí Nextcloud docker.",
     "Loading available demo servers …" : "Načítání dostupných demo serverů…",
     "No available demo servers found." : "Nejsou k dispozici žádné demo servery.",
-    "Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online." : "Dokumenty otevřené pomocí nastaveného demo serveru budou odeslány třetí straně. Toto použijte pouze pro vyzkoušení Collabora Online.",
+    "Documents opened with the demo server configured will be sent to a 3rd party server. Only use this for evaluating Collabora Online." : "Dokumenty otevřené pomocí nastaveného demo serveru tím budou odeslány na server třetí strany. Proto toto použijte pouze pro vyzkoušení si Collabora Online.",
     "Please make sure you understand that the following will happen if you set up the Collabora Online demo." : "Ujistěte se, že rozumíte tomu, co se bude dít pokud nastavíte Collabora Online demo.",
     "The service will send users documents to Collabora and/or third party demo servers." : "Služba bude posílat dokumenty uživatelů na demo servery společnosti Collabora a/nebo třetích stran.",
     "This service is not intended for production use, hence the documents will show tile watermarks." : "Tato služba není míněna pro produkční použití, proto na dokumentech budou zobrazovány vodoznaky.",
