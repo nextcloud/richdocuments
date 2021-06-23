@@ -1,7 +1,11 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Uusi dokumentti",
+    "New spreadsheet" : "Uusi laskentataulukko",
+    "New presentation" : "Uusi esitys",
     "Collabora Online" : "Collabora Online",
+    "Cannot create document" : "Dokumentin luonti epäonnistui",
     "New Document.odt" : "Uusi asiakirja.odt",
     "New Spreadsheet.ods" : "Uusi taulukko.ods",
     "New Presentation.odp" : "Uusi esitys.odp",
@@ -22,6 +26,7 @@ OC.L10N.register(
     "Edit office documents directly in your browser." : "Muokkaa asiakirjoja suoraan selaimessasi.",
     "Setting up a new server" : "Asetetaan uusi palvelin",
     "Use your own server" : "Käytä omaa palvelinta",
+    "URL (and Port) of Collabora Online-server" : "Collabora Online-palvelimen URL (ja portti)",
     "Disable certificate verification (insecure)" : "Poista käytöstä varmenteen varmistus (turvaton)",
     "Use a demo server" : "Käytä demopalvelinta",
     "Loading available demo servers …" : "Ladataan saatavilla olevia demopalvelimia…",
