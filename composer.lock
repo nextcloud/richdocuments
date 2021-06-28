@@ -97,16 +97,16 @@
         },
         {
             "name": "psalm/phar",
-            "version": "4.7.3",
+            "version": "4.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/phar.git",
-                "reference": "eff44deec44175700382fdc0f3bdeb99aaec1b61"
+                "reference": "ce0856e5c28a78382d1fa4e1a11cf9aac6292231"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phar/zipball/eff44deec44175700382fdc0f3bdeb99aaec1b61",
-                "reference": "eff44deec44175700382fdc0f3bdeb99aaec1b61",
+                "url": "https://api.github.com/repos/psalm/phar/zipball/ce0856e5c28a78382d1fa4e1a11cf9aac6292231",
+                "reference": "ce0856e5c28a78382d1fa4e1a11cf9aac6292231",
                 "shasum": ""
             },
             "require": {
@@ -126,9 +126,9 @@
             "description": "Composer-based Psalm Phar",
             "support": {
                 "issues": "https://github.com/psalm/phar/issues",
-                "source": "https://github.com/psalm/phar/tree/4.7.3"
+                "source": "https://github.com/psalm/phar/tree/4.8.1"
             },
-            "time": "2021-05-24T04:13:35+00:00"
+            "time": "2021-06-21T02:02:58+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -355,5 +355,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
