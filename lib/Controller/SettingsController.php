@@ -111,6 +111,7 @@ class SettingsController extends Controller{
 	public function getSettings() {
 		return new JSONResponse([
 			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+			'wopi_allowlist' => $this->appConfig->getAppValue('wopi_allowlist'),
 			'public_wopi_url' => $this->appConfig->getAppValue('public_wopi_url'),
 			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification') === 'yes',
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
@@ -130,6 +131,7 @@ class SettingsController extends Controller{
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
+	                            $wopi_allowlist,
 	                            $disable_certificate_verification,
 	                            $edit_groups,
 	                            $use_groups,
@@ -140,6 +142,10 @@ class SettingsController extends Controller{
 
 		if ($wopi_url !== null){
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
+		}
+
+		if ($wopi_allowlist !== null){
+			$this->appConfig->setAppValue('wopi_allowlist', $wopi_allowlist);
 		}
 
 		if ($disable_certificate_verification !== null) {
