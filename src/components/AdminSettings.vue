@@ -258,6 +258,12 @@
 						@input="updateExternalApps" />
 				</div>
 			</SettingsCheckbox>
+
+			<SettingsInputText v-model="settings.wopi_allowlist"
+				label="Allow list for WOPI requests"
+				:hint="t('richdocuments', 'List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests ot the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24')"
+				:disabled="updating"
+				@update="updateWopiAllowlist" />
 		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
@@ -518,6 +524,11 @@ export default {
 			}
 			await this.updateSettings({
 				external_apps: this.settings.external_apps,
+			})
+		},
+		async updateWopiAllowlist(allowlist) {
+			await this.updateSettings({
+				wopi_allowlist: allowlist,
 			})
 		},
 		async updateOoxml(enabled) {
