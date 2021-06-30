@@ -261,7 +261,7 @@
 
 			<SettingsInputText v-model="settings.wopi_allowlist"
 				label="Allow list for WOPI requests"
-				:hint="t('richdocuments', 'List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests ot the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24')"
+				:hint="t('richdocuments', 'List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24')"
 				:disabled="updating"
 				@update="updateWopiAllowlist" />
 		</div>
