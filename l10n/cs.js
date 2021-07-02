@@ -72,6 +72,7 @@ OC.L10N.register(
     "Use Canonical webroot" : "Použít úplný popis umístění kořene webu",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Úplný popis umístění kořene webu, kterou má Collabora použít v případě, že je jich více. Použijte tu s nejméně omezeními. Např. použijte popis umístění kořene bez podpory Shibboleth pokud tato instance podporuje oba přístupy. Tuto volbu můžete ignorovat v případě, že existuje pouze jedna kořenová složka pro přístup.",
     "Enable access for external apps" : "Povolit přístup pro externí aplikace",
+    "List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24" : "Seznam IPV4 a IPV6 adres a podsítí, ze kterých umožníte provádět požadavky WOPI koncových bodů. Pokud není zadán seznam povolených, budou umožněni všichni hostitelé. Např. 10.0.0.20,10.0.4.0/24",
     "Secure view settings" : "Nastavení zabezpečeného zobrazení",
     "Secure view enables you to secure documents by embedding a watermark" : "Zabezpečené zobrazení umožňuje zabezpečit dokumenty vložením vodoznaku",
     "Enable watermarking" : "Zapnout opatřování vodoznaky",

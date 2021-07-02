@@ -72,6 +72,7 @@ OC.L10N.register(
     "Use Canonical webroot" : "Canonical-Webroot verwenden",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Canonical-Webroot für Collabora verwenden, falls es mehrere gibt. Verwende den mit den wenigsten Einschränkungen. Beispiel: Verwende einen Webroot ohne Shibboleth, falls der Webroot mit und ohne Shibboleth verwendet wirde. Wird auf diese Instanz nur über ein Webroot zugegriffen, so kann diese Einstellung ignoriert werden.",
     "Enable access for external apps" : "Zugriff auf externe Apps aktivieren",
+    "List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24" : "Liste der IPV4- und IPv6-IP-Adressen und -Subnetze, die Anfragen an die WOPI-Endpunkte ausführen dürfen. Wenn keine Erlaubnis-Liste angegeben ist, werden alle Hosts zugelassen. Z.B. 10.0.0.20,10.0.4.0/24",
     "Secure view settings" : "Einstellungen für \"Secure View\"",
     "Secure view enables you to secure documents by embedding a watermark" : "Die sichere Ansicht ermöglicht Ihnen, Dokumente durch Einbettung eines Wasserzeichens abzusichern.",
     "Enable watermarking" : "Wasserzeichen aktivieren",
