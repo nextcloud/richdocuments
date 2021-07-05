@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.2.1
+
+* [#1655](https://github.com/nextcloud/richdocuments/pull/1655) Keep DownloadAsPostMessage when "saving as" documents @mikekaganski
+* [#1663](https://github.com/nextcloud/richdocuments/pull/1663) Throttle on invalid share tokens @LukasReschke
+* [#1664](https://github.com/nextcloud/richdocuments/pull/1664) Check for share token permissions @juliushaertl
+* [#1674](https://github.com/nextcloud/richdocuments/pull/1674) L10n: Change to uppercase @Valdnet
+
+
+## 4.2.0
+
+* [#1638](https://github.com/nextcloud/richdocuments/pull/1638) Fix opening files when groupfolder ACL has revoked share permissions @juliushaertl
+* [#1640](https://github.com/nextcloud/richdocuments/pull/1640) Allow to limit wopi requests to specific source hosts @juliushaertl
+* [#1642](https://github.com/nextcloud/richdocuments/pull/1642) L10n: Correct a typo @Valdnet
+
 ## 4.1.2
 
 * Nextcloud 22 compatibility
