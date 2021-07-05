@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.0
+
+* [#1638](https://github.com/nextcloud/richdocuments/pull/1638) Fix opening files when groupfolder ACL has revoked share permissions @juliushaertl
+* [#1640](https://github.com/nextcloud/richdocuments/pull/1640) Allow to limit wopi requests to specific source hosts @juliushaertl
+* [#1642](https://github.com/nextcloud/richdocuments/pull/1642) L10n: Correct a typo @Valdnet
+
 ## 4.1.2
 
 * Nextcloud 22 compatibility
