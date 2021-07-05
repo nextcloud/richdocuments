@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.8.3
+
+* [#1639](https://github.com/nextcloud/richdocuments/pull/1639) Fix opening files when groupfolder ACL has revoked share permissions
+* [#1641](https://github.com/nextcloud/richdocuments/pull/1641) Allow to limit wopi requests to specific source hosts
+
+
 ## 3.8.2
 
 * [#1550](https://github.com/nextcloud/richdocuments/pull/1550) Fix wrong parameters set when creating a file from a template id
