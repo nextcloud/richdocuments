@@ -509,7 +509,7 @@ class WopiController extends Controller {
 			if ($isPutRelative) {
 				// generate a token for the new file (the user still has to be
 				// logged in)
-				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
+				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
 				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 				$url = $this->urlGenerator->getAbsoluteURL($wopi);
@@ -650,7 +650,7 @@ class WopiController extends Controller {
 
 			// generate a token for the new file (the user still has to be
 			// logged in)
-			list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid());
+			list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
 			$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 			$url = $this->urlGenerator->getAbsoluteURL($wopi);
