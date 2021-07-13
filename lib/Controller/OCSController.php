@@ -39,6 +39,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 class OCSController extends \OCP\AppFramework\OCSController {
@@ -184,6 +185,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=richdocumentsCreatePublicFromInitiator)
 	 * @throws OCSForbiddenException
 	 */
 	public function createPublicFromInitiator(
@@ -193,9 +195,18 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $path = '',
 		string $password = null
 	): DataResponse {
-		$share = $this->shareManager->getShareByToken($shareToken);
+		try {
+			$share = $this->shareManager->getShareByToken($shareToken);
+		} catch (ShareNotFound $ex) {
+			$response = new DataResponse([], HTTP::STATUS_NOT_FOUND);
+			$response->throttle();
+			return $response;
+		}
+
 		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
-			throw new OCSForbiddenException();
+			$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		}
 
 		$node = $share->getNode();

@@ -35,29 +35,6 @@
       <code>OpenDocument</code>
       <code>Pdf</code>
     </MissingDependency>
-    <UndefinedClass occurrences="4">
-      <code>\OC</code>
-      <code>\OC</code>
-      <code>\OC</code>
-      <code>\OC</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="5">
-      <code>$detector</code>
-      <code>$detector</code>
-      <code>$detector</code>
-      <code>$detector</code>
-      <code>$detector</code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="lib/Backgroundjobs/ObtainCapabilities.php">
-    <UndefinedClass occurrences="1">
-      <code>TimedJob</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Capabilities.php">
-    <UndefinedClass occurrences="1">
-      <code>\OC</code>
-    </UndefinedClass>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass occurrences="1">
@@ -124,9 +101,7 @@
     <RedundantCondition occurrences="1">
       <code>$app !== ''</code>
     </RedundantCondition>
-    <UndefinedClass occurrences="4">
-      <code>\OC</code>
-      <code>\OC</code>
+    <UndefinedClass occurrences="2">
       <code>\OCA\Files_Sharing\External\Storage</code>
       <code>\OC_Helper</code>
     </UndefinedClass>
@@ -135,11 +110,13 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Controller/OCSController.php">
-    <MissingDependency occurrences="4">
+    <InvalidCatch occurrences="1"/>
+    <MissingDependency occurrences="5">
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>IRootFolder</code>
       <code>IRootFolder</code>
+      <code>ShareNotFound</code>
     </MissingDependency>
   </file>
   <file src="lib/Controller/SettingsController.php">
@@ -166,9 +143,6 @@
     <TypeDoesNotContainType occurrences="1">
       <code>!($node instanceof Node)</code>
     </TypeDoesNotContainType>
-    <UndefinedClass occurrences="1">
-      <code>Filesystem</code>
-    </UndefinedClass>
     <UndefinedDocblockClass occurrences="1">
       <code>L10N</code>
     </UndefinedDocblockClass>
@@ -190,18 +164,10 @@
       <code>IRootFolder</code>
       <code>ShareNotFound</code>
     </MissingDependency>
-    <UndefinedClass occurrences="6">
-      <code>\OC</code>
-      <code>\OC</code>
-      <code>\OC</code>
-      <code>\OC</code>
+    <UndefinedClass occurrences="2">
       <code>\OC_User</code>
       <code>\OC_User</code>
     </UndefinedClass>
-    <UndefinedMagicMethod occurrences="2">
-      <code>getRemoteServer</code>
-      <code>getRemoteServer</code>
-    </UndefinedMagicMethod>
   </file>
   <file src="lib/Events/BeforeFederationRedirectEvent.php">
     <UndefinedClass occurrences="1">
@@ -212,82 +178,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$time</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="lib/Migration/Version2060Date20200302131958.php">
-    <UndefinedDocblockClass occurrences="40">
-      <code>$schema-&gt;createTable('richdocuments_assets')</code>
-      <code>$schema-&gt;createTable('richdocuments_direct')</code>
-      <code>$schema-&gt;createTable('richdocuments_wopi')</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="lib/Migration/Version2060Date20200302132145.php">
-    <UndefinedDocblockClass occurrences="3">
-      <code>$schema-&gt;getTable('richdocuments_wopi')</code>
-      <code>$table</code>
-      <code>$table</code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="lib/Migration/Version30704Date20200626072306.php">
-    <UndefinedDocblockClass occurrences="15">
-      <code>$schema-&gt;getTable('richdocuments_wopi')</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-      <code>$table</code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="lib/Migration/Version30709Date20201111104147.php">
-    <UndefinedDocblockClass occurrences="2">
-      <code>$schema-&gt;getTable($tableName)</code>
-      <code>$table</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/Preview/MSExcel.php">
     <MissingDependency occurrences="1">
@@ -304,11 +194,6 @@
       <code>Office</code>
     </MissingDependency>
   </file>
-  <file src="lib/Preview/Office.php">
-    <UndefinedClass occurrences="1">
-      <code>Provider</code>
-    </UndefinedClass>
-  </file>
   <file src="lib/Preview/OpenDocument.php">
     <MissingDependency occurrences="1">
       <code>Office</code>
@@ -320,15 +205,11 @@
     </MissingDependency>
   </file>
   <file src="lib/Service/FederationService.php">
-    <TooFewArguments occurrences="1">
-      <code>getRemoteCollaboraURL</code>
-    </TooFewArguments>
     <TypeDoesNotContainType occurrences="1">
       <code>is_array($trustedList)</code>
     </TypeDoesNotContainType>
-    <UndefinedClass occurrences="2">
+    <UndefinedClass occurrences="1">
       <code>SharingExternalStorage</code>
-      <code>\OC</code>
     </UndefinedClass>
     <UndefinedDocblockClass occurrences="2">
       <code>$this-&gt;trustedServers</code>
@@ -378,8 +259,7 @@
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/TokenManager.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$node-&gt;getId()</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$node-&gt;getId()</code>
     </InvalidScalarArgument>
     <MissingDependency occurrences="4">
@@ -388,22 +268,12 @@
       <code>IRootFolder</code>
       <code>IRootFolder</code>
     </MissingDependency>
-    <NullArgument occurrences="2">
-      <code>null</code>
+    <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <UndefinedClass occurrences="1">
-      <code>\OC</code>
-    </UndefinedClass>
-    <UndefinedInterfaceMethod occurrences="3">
+    <UndefinedInterfaceMethod occurrences="1">
       <code>$targetFile</code>
-      <code>getRemote</code>
-      <code>getRemote</code>
     </UndefinedInterfaceMethod>
-    <UndefinedMagicMethod occurrences="2">
-      <code>setRemoteServer</code>
-      <code>setRemoteServerToken</code>
-    </UndefinedMagicMethod>
   </file>
   <file src="lib/WOPI/Parser.php">
     <RedundantCondition occurrences="1">
