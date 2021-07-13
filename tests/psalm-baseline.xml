@@ -262,11 +262,12 @@
     <InvalidScalarArgument occurrences="1">
       <code>$node-&gt;getId()</code>
     </InvalidScalarArgument>
-    <MissingDependency occurrences="4">
+    <MissingDependency occurrences="5">
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>IRootFolder</code>
       <code>IRootFolder</code>
+      <code>ShareNotFound</code>
     </MissingDependency>
     <NullArgument occurrences="1">
       <code>null</code>
