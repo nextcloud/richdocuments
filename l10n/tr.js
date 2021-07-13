@@ -72,6 +72,7 @@ OC.L10N.register(
     "Use Canonical webroot" : "Yinelenen kök klasörü kullanılsın",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Birden çok olması durumunda Collabora tarafından kullanılacak yinelenen web kök klasörü. En az kısıtlaması olanı kullanın. Örnek: Kopyanın kök klasörüne Shibbolet kullanılarak ve kullanılmadan erişiliyorsa Shibbolize olmayan bir web kök klasörü kullanın. Bu kopya için yalnız bir web kök klasörü kullanılıyorsa bu ayarı yok sayabilirsiniz.",
     "Enable access for external apps" : "Dış uygulamalara erişilebilsin",
+    "List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24" : "WOPI uç noktalarının isteklerini gerçekleştirmesine izin verilen IPV4 ve IPV6 IP adreslerinin ve alt ağların listesi. İzin verilenler listesi yoksa, tüm adreslere izin verilir. Örnek: 10.0.0.20,10.0.4.0/24",
     "Secure view settings" : "Güvenli görüntüleme ayarları",
     "Secure view enables you to secure documents by embedding a watermark" : "Güvenli görünüm belgelere bir filigran ekleyerek korumanızı sağlar",
     "Enable watermarking" : "Filigran kullanılsın",
