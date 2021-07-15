@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "S’krijohet dot dokumenti",
     "New Document.odt" : "Dokument.odt i ri",
     "New Spreadsheet.ods" : "Fletëllogaritje.ods e re  ",
     "New Presentation.odp" : "Prezantim.odp i ri",
@@ -29,9 +28,6 @@ OC.L10N.register(
     "Download" : "Shkarko",
     "Guest" : "I ftuar",
     "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",
-    "New Document" : "Dokument i Ri",
-    "New Spreadsheet" : "Spreadsheet i ri",
-    "New Presentation" : "Prezantim i Ri",
     "Could not create file" : "Kartela s’u krijua dot",
     "Create" : "Krijo",
     "Select template" : "Zgjidh shabllonin"

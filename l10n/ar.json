@@ -1,4 +1,7 @@
 { "translations": {
+    "New document" : "مستند جديد",
+    "New spreadsheet" : "جدول بيانات جديد",
+    "New presentation" : "عرض تقديمي جديد",
     "Saved" : "تم الحفظ",
     "File is too big" : "الملف كبير جدا",
     "Invalid file provided" : "تم تقديم ملف غير صالح",
@@ -17,7 +20,6 @@
     "Details" : "التفاصيل",
     "Download" : "تنزيل",
     "Guest" : "ضيف",
-    "Current version" : "الإصدار الحالي",
     "Create a new document" : "أنشئ مستندا جديدا",
     "Could not create file" : "لا يستطيع انشاء ملف ",
     "Create" : "إنشاء",

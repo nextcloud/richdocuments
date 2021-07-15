@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Can't create document" : "Ei suuda dokumenti luua",
     "New Presentation.pptx" : "Uus esitlus.pptx",
     "Saved" : "Salvestatud",
     "File is too big" : "Fail on liiga suur",

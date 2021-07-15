@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Can't create document" : "ದಾಖಲೆಯನ್ನು ಸೃಷ್ಟಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "Saved" : "﻿ಉಳಿಸಿದ",
     "Error" : "﻿ತಪ್ಪಾಗಿದೆ",
     "Cancel" : "﻿ರದ್ದು",

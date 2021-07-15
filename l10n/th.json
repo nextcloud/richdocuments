@@ -1,6 +1,5 @@
 { "translations": {
     "Collabora Online" : "Collabora ออนไลน์",
-    "Can't create document" : "ไม่สามารถสร้างเอกสารได้",
     "New Document.odt" : "เอกสารใหม่.odt",
     "New Spreadsheet.ods" : "สเปรดชีตใหม่.ods",
     "New Presentation.odp" : "งานนำเสนอใหม่.odp",
@@ -33,8 +32,6 @@
     "Disable certificate verification (insecure)" : "ปิดใช้งานการตรวจสอบใบรับรอง (ไม่ปลอดภัย)",
     "Use the built-in CODE - Collabora Online Development Edition" : "ใช้ built-in CODE - Collabora Online Development Edition",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "ติดตั้งง่ายสำหรับใช้ในบ้านหรือกลุ่มเล็ก ๆ ช้ากว่าเซิร์ฟเวอร์แบบสแตนด์อโลนเล็กน้อยและไม่รองรับคุณสมบัติการขยายระบบในอนาคต",
-    "Install it from the app store." : "ติดตั้งจาก app store",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "หากติดตั้งจาก app store ล้มเหลว คุณยังสามารถทำได้ด้วยตนเองโดยใช้คำสั่งนี้:",
     "Use a demo server" : "ใช้ Demo Server",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Select groups" : "เลือกกลุ่ม",
@@ -48,9 +45,6 @@
     "Details" : "รายละเอียด",
     "Download" : "ดาวน์โหลด",
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
-    "New Document" : "เอกสารใหม่",
-    "New Spreadsheet" : "สเปรดชีตใหม่",
-    "New Presentation" : "งานนำเสนอใหม่",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง"
 },"pluralForm" :"nplurals=1; plural=0;"
