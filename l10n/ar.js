@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "مستند جديد",
+    "New spreadsheet" : "جدول بيانات جديد",
+    "New presentation" : "عرض تقديمي جديد",
     "Saved" : "تم الحفظ",
     "File is too big" : "الملف كبير جدا",
     "Invalid file provided" : "تم تقديم ملف غير صالح",
@@ -19,7 +22,6 @@ OC.L10N.register(
     "Details" : "التفاصيل",
     "Download" : "تنزيل",
     "Guest" : "ضيف",
-    "Current version" : "الإصدار الحالي",
     "Create a new document" : "أنشئ مستندا جديدا",
     "Could not create file" : "لا يستطيع انشاء ملف ",
     "Create" : "إنشاء",

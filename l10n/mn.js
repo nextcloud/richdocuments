@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "онлайн Collabora ",
-    "Can't create document" : "Документ үүсгэх боломжгүй байна",
     "New Document.odt" : "шинэ доккумент.odt",
     "New Spreadsheet.ods" : "шинэ  хүснэгт.ods",
     "New Presentation.odp" : "шинэ танилцуулга.odp",
@@ -28,9 +27,6 @@ OC.L10N.register(
     "Download" : "Татах",
     "Guest" : "Зочин",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
-    "New Document" : "шинэ документ",
-    "New Spreadsheet" : "шинэ хүснэгт",
-    "New Presentation" : "шинэ танилцуулга",
     "Could not create file" : "Файл үүсгэж чадсангүй",
     "Create" : "Үүсгэх"
 },

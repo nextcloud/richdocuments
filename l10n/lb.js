@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "D'Dokument kann net erstallt ginn",
     "New Document.odt" : "Neit Dokument.odt",
     "New Spreadsheet.ods" : "Neien Spreadsheet.ods",
     "New Presentation.odp" : "Nei Presentatioun.odp",
@@ -18,9 +17,6 @@ OC.L10N.register(
     "Add to favorites" : "Add to favorites",
     "Details" : "Detailer",
     "Download" : "Eroflueden",
-    "New Document" : "Neit Dokument",
-    "New Spreadsheet" : "Neit Aarbechtsblat",
-    "New Presentation" : "Nei Präsentatioun",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
     "Create" : "Erstellen"
 },

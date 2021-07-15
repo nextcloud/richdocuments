@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "문서를 만들 수 없음",
     "New Document.odt" : "새 문서.odt",
     "New Spreadsheet.ods" : "새 스프레드시트.ods",
     "New Presentation.odp" : "새 프레젠테이션.odp",
@@ -42,9 +41,6 @@ OC.L10N.register(
     "(read only)" : "(읽기 전용)",
     "Guest" : "손님",
     "Failed to revert the document to older version" : "문서를 이전 버전으로 되돌릴 수 없음",
-    "New Document" : "새 문서",
-    "New Spreadsheet" : "새 스프레드시트",
-    "New Presentation" : "새 프레젠테이션",
     "Could not create file" : "파일을 만들 수 없음",
     "Create" : "생성",
     "Select template" : "템플릿 선택",

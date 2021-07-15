@@ -2,7 +2,6 @@ OC.L10N.register(
     "richdocuments",
     {
     "Collabora Online" : "Collabora Online",
-    "Can't create document" : "Kan ikke opprette dokument",
     "New Document.odt" : "Nytt dokument.odt",
     "New Spreadsheet.ods" : "Nytt regneark.ods",
     "New Presentation.odp" : "Ny presentasjon.odp",
@@ -45,9 +44,6 @@ OC.L10N.register(
     "(read only)" : "(kun lese)",
     "Guest" : "Gjest",
     "Failed to revert the document to older version" : "Klarte ikke å gå tilbeke til eldre versjon av dokumentet",
-    "New Document" : "Nytt dokument",
-    "New Spreadsheet" : "Nytt regneark",
-    "New Presentation" : "Ny presentasjon",
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
     "Select template" : "Velg mal"
