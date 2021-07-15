@@ -32,6 +32,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -169,6 +170,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			throw new OCSForbiddenException();
 		}
 
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			throw new OCSForbiddenException();
+		}
+
 		$node = $share->getNode();
 		if ($node instanceof Folder) {
 			$node = $node->get($path);
@@ -212,6 +217,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$node = $share->getNode();
 		if ($node instanceof Folder) {
 			$node = $node->get($path);
+		}
+
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		$direct = $this->directMapper->newDirect(null, $node->getId(), null, $shareToken, $initiatorServer, $initiatorToken);

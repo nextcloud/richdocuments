@@ -335,6 +335,10 @@ class DocumentController extends Controller {
 				}
 			}
 
+			if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+				return new TemplateResponse('core', '403', [], 'guest');
+			}
+
 			$node = $share->getNode();
 			if($node instanceof Folder) {
 				$item = $node->getById($fileId)[0];
@@ -451,6 +455,10 @@ class DocumentController extends Controller {
 				) {
 					throw new \Exception('Invalid password');
 				}
+			}
+
+			if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+				return new TemplateResponse('core', '403', [], 'guest');
 			}
 
 			$node = $share->getNode();

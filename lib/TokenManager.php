@@ -26,12 +26,15 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\Parser;
+use OCP\Constants;
 use OCP\Files\File;
+use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\IL10N;
 use OCP\Share\IShare;
@@ -107,6 +110,11 @@ class TokenManager {
 			/** @var File $file */
 			$rootFolder = $this->rootFolder;
 			$share = $this->shareManager->getShareByToken($shareToken);
+
+			if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+				throw new ShareNotFound();
+			}
+
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
 			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
@@ -202,16 +210,11 @@ class TokenManager {
 		}
 		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
 
-		try {
-
-			return [
-				$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'], // url src might not be found ehre
-				$wopi->getToken(),
-				$wopi
-			];
-		} catch (\Exception $e) {
-			throw $e;
-		}
+		return [
+			$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'], // url src might not be found ehre
+			$wopi->getToken(),
+			$wopi
+		];
 	}
 
 	/**
