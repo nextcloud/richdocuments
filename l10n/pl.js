@@ -141,6 +141,11 @@ OC.L10N.register(
     "Select a template directory" : "Wybierz katalog szablonów",
     "Remove personal template folder" : "Usuń własny katalog szablonów",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Szablony wewnątrz tego katalogu zostaną dodane do wyboru szablonów w Collabora Online.",
-    "Can't create document" : "Nie można utworzyć dokumentu"
+    "Install it from the app store." : "Zainstaluj ze sklepu z aplikacjami.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Jeśli instalacja ze sklepu z aplikacjami nie powiedzie się, nadal możesz to zrobić ręcznie, używając tego polecenia:",
+    "Current version" : "Obecna wersja",
+    "New Document" : "Nowy Dokument",
+    "New Spreadsheet" : "Nowy arkusz kalkulacyjny",
+    "New Presentation" : "Nowa prezentacja"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

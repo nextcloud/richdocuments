@@ -1,7 +1,11 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Naujas dokumentas",
+    "New spreadsheet" : "Nauja skaičiuoklė",
+    "New presentation" : "Nauja pateiktis",
     "Collabora Online" : "Collabora Online",
+    "Cannot create document" : "Nepavyksta sukurti dokumento",
     "New Document.odt" : "Naujas dokumentas.odt",
     "New Spreadsheet.ods" : "Nauja skaičiuoklė.ods",
     "New Presentation.odp" : "Nauja pateiktis.odp",
