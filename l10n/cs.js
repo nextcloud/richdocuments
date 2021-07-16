@@ -140,6 +140,12 @@ OC.L10N.register(
     "template preview" : "náhled šablony",
     "Select a template directory" : "Vyberte adresář se šablonou",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony nacházející se v tomto adresáři budou přidány do výběru šablon v Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony nacházející se v tomto adresáři budou přidány do výběru šablon v Collabora Online.",
+    "Install it from the app store." : "Nainstalujte ji z katalogu aplikací.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Instalace z katalogu aplikací se nezdařila. Pořád to ještě ale můžete udělat ručně pomocí tohoto příkazu:",
+    "Current version" : "Stávající verze",
+    "New Document" : "Nový dokument",
+    "New Spreadsheet" : "Nová tabulka",
+    "New Presentation" : "Nová prezentace"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
