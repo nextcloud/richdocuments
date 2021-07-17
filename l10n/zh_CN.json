@@ -138,6 +138,12 @@
     "template preview" : "模板预览",
     "Select a template directory" : "选择模板目录",
     "Remove personal template folder" : "移除个人模板文件夹",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目录中的模板将被添加到在线协作的模板选择器。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目录中的模板将被添加到在线协作的模板选择器。",
+    "Install it from the app store." : "从应用商店安装它。",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "如果从应用商店安装失败，你依旧可以使用这条命令手动安装：",
+    "Current version" : "当前版本",
+    "New Document" : "新文档",
+    "New Spreadsheet" : "新表格",
+    "New Presentation" : "新幻灯片"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

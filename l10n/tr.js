@@ -140,6 +140,12 @@ OC.L10N.register(
     "template preview" : "kalıp ön izleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek.",
+    "Install it from the app store." : "Uygulama mağazasından kur.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Uygulama mağazasından kurulum yapılamazsa, şu komutu kullanarak el ile kurulum yapabilirsiniz:",
+    "Current version" : "Geçerli sürüm",
+    "New Document" : "Yeni belge",
+    "New Spreadsheet" : "Yeni hesap tablosu",
+    "New Presentation" : "Yeni sunum"
 },
 "nplurals=2; plural=(n > 1);");

@@ -140,6 +140,12 @@ OC.L10N.register(
     "template preview" : "範本預覽",
     "Select a template directory" : "選取範本目錄",
     "Remove personal template folder" : "移除個人範本資料夾",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選取器中。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選取器中。",
+    "Install it from the app store." : "從應用程式商店安裝它。",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "若從應用程式商店安裝失敗，您仍然可以使用此指令手動安裝：",
+    "Current version" : "目前版本",
+    "New Document" : "新文件",
+    "New Spreadsheet" : "新試算表",
+    "New Presentation" : "新簡報"
 },
 "nplurals=1; plural=0;");
