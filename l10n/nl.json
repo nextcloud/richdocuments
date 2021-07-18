@@ -138,6 +138,12 @@
     "template preview" : "Sjabloonvoorbeeld",
     "Select a template directory" : "Selecteer een sjablonendirectory",
     "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer.",
+    "Install it from the app store." : "Installeer vanuit de app store.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Als de installatie vanuit de app store mislukt, kun je dat nog steeds handmatig doen met deze opdracht:",
+    "Current version" : "Huidige versie",
+    "New Document" : "Nieuw document",
+    "New Spreadsheet" : "Nieuw werkblad",
+    "New Presentation" : "Nieuwe presentatie"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
