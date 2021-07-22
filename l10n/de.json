@@ -138,6 +138,12 @@
     "template preview" : "Vorlagen-Vorschau",
     "Select a template directory" : "Vorlagenverzeichnis auswählen",
     "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt",
+    "Install it from the app store." : "Installiere es aus dem App Store.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Sollte die Installation aus dem App Store fehlschlagen, kannst Du manuell mit folgendem Befehl installieren:",
+    "Current version" : "Aktuelle Version",
+    "New Document" : "Neues Dokument",
+    "New Spreadsheet" : "Neue Tabelle",
+    "New Presentation" : "Neue Präsentation"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
