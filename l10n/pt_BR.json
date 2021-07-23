@@ -45,7 +45,6 @@
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Você pode usar um servidor de demonstração fornecido pela Collabora e outros fornecedores para experimentar o Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Sua configuração do Nextcloud não é capaz de se conectar aos servidores de demonstração porque:",
     "it is a local setup (localhost)" : "é uma configuração local (localhost)",
-    "it uses an insecure protocol (http)" : "usa um protocolo inseguro (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "inacessível a partir da Internet (possivelmente por causa de um firewall ou falta de encaminhamento de porta)",
     "For use cases like this, we offer instructions for a" : "Para casos de uso como este, oferecemos instruções para um",
     "Quick tryout with Nextcloud docker." : "Teste rápido com o docker Nextcloud.",
@@ -137,6 +136,7 @@
     "template preview" : "visualização do modelo",
     "Select a template directory" : "Selecionar um diretório de modelos",
     "Remove personal template folder" : "Remover a pasta de modelos pessoais",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online.",
+    "it uses an insecure protocol (http)" : "usa um protocolo inseguro (http)"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

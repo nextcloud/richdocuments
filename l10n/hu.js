@@ -45,7 +45,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "A Collabora és más szolgáltatók által biztosított demo szervert használhatja arra, hogy kipróbálja a Collabora Online szolgáltatást.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "A Nextcloud telepítése nem képes csatlakozni a demo szerverekhez, mert:",
     "it is a local setup (localhost)" : "ez egy helyi beállítás (localhost)",
-    "it uses an insecure protocol (http)" : "egy nem biztonságos protokollt (http) használ",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "elérhetetlen az internetről (valószínűleg tűzfal vagy a port továbbítás hiánya miatt)",
     "For use cases like this, we offer instructions for a" : "Ilyen használati esetekhez útmutatásokat kínálunk a",
     "Quick tryout with Nextcloud docker." : "Gyors próba a Nextcloud dockerrel.",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "template preview" : "sablonelőnézet",
     "Select a template directory" : "Válasszon sablonkönyvtárat",
     "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtárban található sablonok hozzáadódnak a Collabora Online sablonválasztójához."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtárban található sablonok hozzáadódnak a Collabora Online sablonválasztójához.",
+    "it uses an insecure protocol (http)" : "egy nem biztonságos protokollt (http) használ"
 },
 "nplurals=2; plural=(n != 1);");

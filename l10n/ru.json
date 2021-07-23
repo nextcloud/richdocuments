@@ -43,7 +43,6 @@
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Для знакомства с Collabora Online возможно использовать демонстрационный сервер, предоставленный компаний Collabora или другими провайдерами.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Используемое развёртывание сервера Nextcloud не может быть использовано для подключения к демонстрационным серверам: ",
     "it is a local setup (localhost)" : "локальная установка (localhost).",
-    "it uses an insecure protocol (http)" : "используется небезопасный протокол http.",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "недоступность из интернета (брандмауэр или неверная настройка переадресации портов).",
     "For use cases like this, we offer instructions for a" : "Для таких случаев подготовлены следующие инструкции:",
     "Quick tryout with Nextcloud docker." : "Быстрая установка с использованием Nextcloud docker. ",
@@ -135,6 +134,7 @@
     "template preview" : "Предпросмотр шаблона",
     "Select a template directory" : "Папка шаблонов документов",
     "Remove personal template folder" : "Удалить папку с личными шаблонами",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоны, расположенные в этой папке, будут доступны для выбора при создании документов Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоны, расположенные в этой папке, будут доступны для выбора при создании документов Collabora Online.",
+    "it uses an insecure protocol (http)" : "используется небезопасный протокол http."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -45,7 +45,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Uporabite lahko preizkusni strežnik, ki ga omogoča Collabora in drugi ponudniki za preizkušanje spletnega pisarniškega paketa.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Povezava okolja Nextcloud s preizkusnimi strežniki ni mogoča, ker:",
     "it is a local setup (localhost)" : "je namestitev krajevna (localhost),",
-    "it uses an insecure protocol (http)" : "uporablja ne-varni protokol (http),",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedosegljiva prek interneta (požarni zid, posredovanje vrat ...).",
     "For use cases like this, we offer instructions for a" : "Za uporabo na tak način so na voljo navodila za",
     "Quick tryout with Nextcloud docker." : "Hitri preizkus v okolju Nextcloud docker.",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "template preview" : "predogled predloge",
     "Select a template directory" : "Izbor mape predlog",
     "Remove personal template folder" : "Odstrani osebno mapo predlog",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online.",
+    "it uses an insecure protocol (http)" : "uporablja ne-varni protokol (http),"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

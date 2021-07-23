@@ -45,7 +45,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Pode usar un servidor de demostración proporcionado por Collabora e outros provedores de servizos para probar o Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "A súa configuración do Nextcloud non é quen de conectarse aos servidores de demostración porque:",
     "it is a local setup (localhost)" : "é un axuste local (localhost)",
-    "it uses an insecure protocol (http)" : "usa un protocolo inseguro (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "non é acadabel dende a Internet (posíbelmente por unha devasa ou a falta de reenvío de portos)",
     "For use cases like this, we offer instructions for a" : "Para casos como este, ofrecemos instrucións para un",
     "Quick tryout with Nextcloud docker." : "Proba rápida co Nextcloud docker.",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "template preview" : "Vista previa do modelo",
     "Select a template directory" : "Seleccionar un directorio de modelos",
     "Remove personal template folder" : "Retirar o cartafol de modelos persoais",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña.",
+    "it uses an insecure protocol (http)" : "usa un protocolo inseguro (http)"
 },
 "nplurals=2; plural=(n != 1);");

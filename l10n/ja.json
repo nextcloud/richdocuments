@@ -43,7 +43,6 @@
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora Online を試すには、 Collabora または 他のサービスプロバイダーが提供するデモサーバーを使用できます。",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Nextcloud は、次の理由によりデモサーバーに接続できません:",
     "it is a local setup (localhost)" : "ローカル(localhost)でのセットアップです",
-    "it uses an insecure protocol (http)" : "セキュリティで保護されていないプロトコル (http) を使用しています",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "インターネットから到達できません(ファイアウォールまたはポート転送が足りてないのが原因である可能性があります)",
     "For use cases like this, we offer instructions for a" : "このようなユースケースについては、私たちは次のような手順を提供します。",
     "Quick tryout with Nextcloud docker." : "Nextcloudのdockerを使って簡単に試す。",
@@ -124,6 +123,7 @@
     "template preview" : "テンプレートプレビュー",
     "Select a template directory" : "テンプレートディレクトリィを選択する",
     "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。",
+    "it uses an insecure protocol (http)" : "セキュリティで保護されていないプロトコル (http) を使用しています"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
