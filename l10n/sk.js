@@ -47,7 +47,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Môžete použiť demo server poskytovaný Collaborou a ďalšími poskytovateľmi služby vyskúšania Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Vaše nastavenie NextCloud sa nemôže pripojiť k demo serverom, pretože:",
     "it is a local setup (localhost)" : "je to lokálne nastavenie (localhost)",
-    "it uses an insecure protocol (http)" : "používa nezabezpečený protokol (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedostupný z internetu (pravdepodobne kvôli bráne firewall alebo chybe v presmerovaní brány)",
     "For use cases like this, we offer instructions for a" : "Pre takéto prípady použitia ponúkame pokyny pre",
     "Quick tryout with Nextcloud docker." : "Rýchla skúška s dokovacou stanicou Nextcloud.",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "template preview" : "náhľad šablóny",
     "Select a template directory" : "Vyberte priečinok šablón",
     "Remove personal template folder" : "Odstrániť osobný priečinok šablón",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablóny v tomto priečinku sa pridajú do výberu šablón Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablóny v tomto priečinku sa pridajú do výberu šablón Collabora Online.",
+    "it uses an insecure protocol (http)" : "používa nezabezpečený protokol (http)"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

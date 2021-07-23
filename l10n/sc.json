@@ -45,7 +45,6 @@
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Podes impreare unu serbidore demo frunidu dae Collabora e àteros frunidores de servìtzios pro proare Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Sa cunfiguratzione tua de Nextcloud non si podet connètere a is serbidores demo ca:",
     "it is a local setup (localhost)" : "est una cunfiguratzione locale (retzidore locale)",
-    "it uses an insecure protocol (http)" : "impreat unu protocollu non seguru (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "Non faghet a ddu cuntatare dae internet (forsis pro unu firewall, o ca mancat s'inoltru de portas)",
     "For use cases like this, we offer instructions for a" : "Pro casos de impreu che a custu, donamus inditos pro una",
     "Quick tryout with Nextcloud docker." : "Proa lestra cun s'automatizadore de cunsigna Nextcloud.",
@@ -125,6 +124,7 @@
     "template preview" : "anteprima de su modellu",
     "Select a template directory" : "Seletziona una cartella de is modellos",
     "Remove personal template folder" : "Boga sa cartella de is modellos personale",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online.",
+    "it uses an insecure protocol (http)" : "impreat unu protocollu non seguru (http)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
