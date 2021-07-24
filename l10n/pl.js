@@ -47,6 +47,7 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Możesz użyć serwera demonstracyjnego dostarczonego przez Collabora i innych usługodawców, aby wypróbować Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Twoja konfiguracja Nextcloud nie jest w stanie połączyć się z serwerami demonstracyjnymi, ponieważ:",
     "it is a local setup (localhost)" : "jest to konfiguracja lokalna (localhost)",
+    "it uses an insecure protocol (HTTP)" : "używa niezabezpieczonego protokołu (HTTP)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "jest nieosiągalny z Internetu (prawdopodobnie z powodu zapory ogniowej lub braku przekierowania portów)",
     "For use cases like this, we offer instructions for a" : "Do takich przypadków użycia, proponujemy instrukcje dotyczące",
     "Quick tryout with Nextcloud docker." : "Szybkie wypróbowanie przez docker Nextcloud.",
