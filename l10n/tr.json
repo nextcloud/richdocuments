@@ -45,6 +45,7 @@
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Collabora ve diğer hizmet sağlayıcıları tarafından sunulan bir tanıtım sunucusu ile Collabora Online platformunu deneyebilirsiniz.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Nextcloud kurulumunuzun şu nedenle tanıtım sunucularına bağlanma özelliği yok:",
     "it is a local setup (localhost)" : "bu bir yerel kurulum (localhost)",
+    "it uses an insecure protocol (HTTP)" : "güvenli olmayan bir iletişim kuralı kullanılıyor (HTTP)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "İnternet üzerinden erişilemiyor (güvenlik duvarı ya da kapı numarası yönlendirmesi sorunu olabilir)",
     "For use cases like this, we offer instructions for a" : "Bunun gibi durumlarda şunun için yönergelerimiz var",
     "Quick tryout with Nextcloud docker." : "Nextcloud docker ile hızlı deneme.",
