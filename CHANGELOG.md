@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.8.4
+
+* [#1666](https://github.com/nextcloud/richdocuments/pull/1666) Throttle on invalid share tokens
+* [#1667](https://github.com/nextcloud/richdocuments/pull/1667) Keep DownloadAsPostMessage when "saving as" documents
+* [#1668](https://github.com/nextcloud/richdocuments/pull/1668) Check for share token permissions
+* [#1671](https://github.com/nextcloud/richdocuments/pull/1671) l10n: Unify spelling
+
 ## 3.8.3
 
 * [#1639](https://github.com/nextcloud/richdocuments/pull/1639) Fix opening files when groupfolder ACL has revoked share permissions
