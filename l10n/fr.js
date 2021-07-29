@@ -1,6 +1,9 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Nouveau document",
+    "New spreadsheet" : "Nouvelle feuille de calcul",
+    "New presentation" : "Nouvelle présentation",
     "Collabora Online" : "Collabora en ligne",
     "New Document.odt" : "Nouveau Document.odt",
     "New Spreadsheet.ods" : "Nouvelle Feuille de Calcul.ods",
