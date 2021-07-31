@@ -135,6 +135,9 @@ OC.L10N.register(
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
     "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online.",
-    "it uses an insecure protocol (http)" : "il utilise un protocole non sécurisé (http)"
+    "it uses an insecure protocol (http)" : "il utilise un protocole non sécurisé (http)",
+    "New Document" : "Nouveau document",
+    "New Spreadsheet" : "Nouvelle feuille de calcul",
+    "New Presentation" : "Nouvelle présentation"
 },
 "nplurals=2; plural=(n > 1);");
