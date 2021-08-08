@@ -47,6 +47,7 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Puede emplear un servidor demo propicio nado por Collabora y otros proveedores de servicio para realizar una prueba de Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Tu Nextcloud no es capaz de conectar a los servidores demo porque:",
     "it is a local setup (localhost)" : "es un ajuste local (localhost)",
+    "it uses an insecure protocol (HTTP)" : "utiliza un protocolo inseguro (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "es inalcanzable desde Internet (posiblemente debido a un cortafuegos, o falta de reenvío de puertos)",
     "For use cases like this, we offer instructions for a" : "Para casos de uso como este, se ofrecen instrucciones para un",
     "Quick tryout with Nextcloud docker." : "Prueba rápida con Nextcloud docker.",
@@ -140,6 +141,12 @@ OC.L10N.register(
     "Select a template directory" : "Selecciona un directorio de plantillas",
     "Remove personal template folder" : "Elimina la carpeta personal de plantillas",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas en este directorio se añadirán al selector de plantillas de Collabora Online.",
-    "it uses an insecure protocol (http)" : "utiliza un protocolo inseguro (http)"
+    "Install it from the app store." : "Instálalo desde la tienda de apps.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Si no funciona la instalación desde la App Store, todavía puede realizar un proceso manual con este comando:",
+    "it uses an insecure protocol (http)" : "utiliza un protocolo inseguro (http)",
+    "Current version" : "Versión actual",
+    "New Document" : "Nuevo documento",
+    "New Spreadsheet" : "Nueva Hoja de cálculo",
+    "New Presentation" : "Nueva presentación"
 },
 "nplurals=2; plural=(n != 1);");
