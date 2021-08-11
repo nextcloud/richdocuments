@@ -81,6 +81,10 @@
 	position: relative;
 	right: -15px;
 
+	.header-right-richdocuments & {
+		right: 0;
+	}
+
 	& > .richdocuments-avatar {
 		float: right;
 		border-radius: 50%;
