@@ -131,6 +131,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * Generate a direct editing link for a file in a public share to open with the current user
 	 *
 	 * @NoAdminRequired
+	 * @BruteForceProtection(action=richdocumentsCreatePublic)
+	 * @PublicPage
 	 * @throws OCSForbiddenException
 	 */
 	public function createPublic(
@@ -165,13 +167,24 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			]);
 		}
 
-		$share = $this->shareManager->getShareByToken($shareToken);
+		try {
+			$share = $this->shareManager->getShareByToken($shareToken);
+		} catch (ShareNotFound $ex) {
+			$response = new DataResponse([], HTTP::STATUS_NOT_FOUND);
+			$response->throttle();
+			return $response;
+		}
+
 		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
-			throw new OCSForbiddenException();
+			$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		}
 
 		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
-			throw new OCSForbiddenException();
+			$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		}
 
 		$node = $share->getNode();
