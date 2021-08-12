@@ -24,29 +24,35 @@ import Config from './../services/config'
 import { getCurrentUser } from '@nextcloud/auth'
 import mobile from './mobile'
 
+let guestName = ''
+
 const getGuestNameCookie = function() {
-	const name = 'guestUser='
-	const matchedCookie = document.cookie.split(';')
-		.map((cookie) => {
-			try {
-				return decodeURIComponent(cookie.trim())
-			} catch (e) {
-				return cookie.trim()
-			}
-		}).find((cookie) => {
-			return cookie.indexOf(name) === 0
-		})
-	return matchedCookie ? matchedCookie.substring(name.length) : ''
+	if (guestName === '') {
+		const name = 'guestUser='
+		const matchedCookie = document.cookie.split(';')
+			.map((cookie) => {
+				try {
+					return decodeURIComponent(cookie.trim())
+				} catch (e) {
+					return cookie.trim()
+				}
+			}).find((cookie) => {
+				return cookie.indexOf(name) === 0
+			})
+		guestName = matchedCookie ? matchedCookie.substring(name.length) : ''
+	}
+	return guestName
 }
 
 const setGuestNameCookie = function(username) {
 	if (username !== '') {
 		document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
+		guestName = username
 	}
 }
 
 const shouldAskForGuestName = () => {
-	return !mobile.isDirectEditing()
+	return (!mobile.isDirectEditing() || Config.get('directGuest'))
 		&& (!getCurrentUser() || getCurrentUser()?.uid === '')
 		&& !Config.get('userId')
 		&& getGuestNameCookie() === ''

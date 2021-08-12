@@ -28,9 +28,9 @@ class ConfigService {
         this.loadFromGlobal('userId')
         this.loadFromGlobal('urlsrc')
         this.loadFromGlobal('directEdit')
+        this.loadFromGlobal('directGuest')
         this.loadFromGlobal('permissions')
         this.loadFromGlobal('instanceId')
-
     }
     loadFromGlobal(key: string) {
         // @ts-ignore
