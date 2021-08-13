@@ -21,11 +21,14 @@
 
 namespace OCA\Richdocuments;
 
+use InvalidArgumentException;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\Parser;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\ForbiddenException;
@@ -192,22 +195,7 @@ class TokenManager {
 		fclose($fp);
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-
-		$guestName = null;
-		if ($this->userId === null) {
-			if ($guestName = $this->helper->getGuestName()) {
-				$guestName = $this->trans->t('%s (Guest)', Util::sanitizeHTML($guestName));
-				$cut = 56;
-				while (mb_strlen($guestName) >= 64) {
-					$guestName = $this->trans->t('%s (Guest)', Util::sanitizeHTML(
-						mb_substr($guestName, 0, $cut)
-					));
-					$cut -= 5;
-				}
-			} else {
-				$guestName = $this->trans->t('Anonymous guest');
-			}
-		}
+		$guestName = $this->userId === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
 		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
 
 		return [
@@ -312,6 +300,34 @@ class TokenManager {
 		$wopi->setRemoteServerToken($initiatorUserToken);
 		$this->wopiMapper->update($wopi);
 		return $wopi;
+	}
+
+	public function prepareGuestName(string $guestName = null) {
+		if (empty($guestName)) {
+			return $this->trans->t('Anonymous guest');
+		}
+
+		$guestName = $this->trans->t('%s (Guest)', Util::sanitizeHTML($guestName));
+		$cut = 56;
+		while (mb_strlen($guestName) >= 64) {
+			$guestName = $this->trans->t('%s (Guest)', Util::sanitizeHTML(
+				mb_substr($guestName, 0, $cut)
+			));
+			$cut -= 5;
+		}
+
+		return $guestName;
+	}
+
+	/**
+	 * @param string $accessToken
+	 * @param string $guestName
+	 * @throws DoesNotExistException
+	 */
+	public function updateGuestName(string $accessToken, string $guestName) {
+		$wopi = $this->wopiMapper->getWopiForToken($accessToken);
+		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
+		$this->wopiMapper->update($wopi);
 	}
 
 }

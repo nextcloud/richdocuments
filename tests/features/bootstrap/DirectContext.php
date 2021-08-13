@@ -83,6 +83,46 @@ class DirectContext implements Context {
 		$this->handleDirectEditingLink();
 	}
 
+	/**
+	 * @When /^User "([^"]*)" opens the file "([^"]*)" in the last share link through direct editing from server "([^"]*)"$/
+	 */
+	public function userOpensTheFileInTheLastShareLinkThroughDirectEditingFromServer($user, $path, $host) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestPublicDirectEditingLink($user, $shareToken, $path, null, $this->serverContext->getServer($host));
+		$this->handleDirectEditingLink();
+	}
+
+	/**
+	 * @When /^User "([^"]*)" opens the file "([^"]*)" in the last share link through direct editing from server "([^"]*)" with password "([^"]*)"$/
+	 */
+	public function userOpensTheFileInTheLastShareLinkThroughDirectEditingFromServerWithPassword($user, $path, $host, $password) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestPublicDirectEditingLink($user, $shareToken, $path, $password, $this->serverContext->getServer($host));
+		$this->handleDirectEditingLink();
+	}
+
+	/**
+	 * @When /^User "([^"]*)" cannot open the file "([^"]*)" in the last share link through direct editing from server "([^"]*)" with password "([^"]*)"$/
+	 */
+	public function userCannotOpenTheFileInTheLastShareLinkThroughDirectEditingFromServerWithPassword($user, $path, $host, $password) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebAsUser($user);
+		$this->requestPublicDirectEditingLink($user, $shareToken, $path, $password, $this->serverContext->getServer($host));
+		$this->serverContext->assertHttpStatusCode(403);
+	}
+
+	/**
+	 * @When /^A guest opens the file "([^"]*)" in the last share link through direct editing$/
+	 */
+	public function aGuestOpensTheFileInTheLastShareLinkThroughDirectEditing($path) {
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->serverContext->usingWebasGuest();
+		$this->requestPublicDirectEditingLink(null, $shareToken, $path);
+		$this->handleDirectEditingLink();
+	}
+
 	private function handleDirectEditingLink() {
 		$this->serverContext->assertHttpStatusCode(200);
 		$data = $this->serverContext->getOCSResponseData();
@@ -152,13 +192,25 @@ class DirectContext implements Context {
 		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/document', [ 'fileId' => $fileId ]);
 	}
 
-	private function requestPublicDirectEditingLink($user, $token, $filePath = null, $password = null) {
-		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/share', [
-			'host' => $this->serverContext->getBaseUrl(),
+	/**
+	 * @param $user
+	 * @param $token
+	 * @param null $filePath
+	 * @param null $password
+	 * @param null $host
+	 */
+	private function requestPublicDirectEditingLink($user, $token, $filePath = null, $password = null, $host = null) {
+		// ServerContext currently does not support sending anonymous ocs requests
+		$options = $user ? [] : [ 'auth' => null ];
+		$data = [
 			'shareToken' => $token,
 			'path' => $filePath,
 			'password' => $password
-		]);
+		];
+		if ($host) {
+			$data['host'] = $host;
+		}
+		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/share', $data, $options);
 	}
 
 }

@@ -24,9 +24,12 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -150,16 +153,22 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$wopi = $this->tokenManager->newInitiatorToken($host, null, $shareToken, true, $this->userId);
 
 			$client = \OC::$server->getHTTPClientService()->newClient();
-			$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
-				'body' => [
-					'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
-					'initiatorToken' => $wopi->getToken(),
-					'shareToken' => $shareToken,
-					'path' => $path,
-					'password' => $password
-				],
-				'timeout' => 30
-			]);
+			try {
+				$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
+					'body' => [
+						'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
+						'initiatorToken' => $wopi->getToken(),
+						'shareToken' => $shareToken,
+						'path' => $path,
+						'password' => $password
+					],
+					'timeout' => 30
+				]);
+			} catch (\Exception $e) {
+				$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+				$response->throttle();
+				return $response;
+			}
 			$url = \json_decode($response->getBody(), true)['ocs']['data']['url'];
 
 			return new DataResponse([
@@ -243,6 +252,24 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				'token' => $direct->getToken()
 			])
 		]);
+	}
+
+	/**
+	 * Generate a direct editing link for a file in a public share to open with the current user
+	 *
+	 * @NoAdminRequired
+	 * @BruteForceProtection(action=richdocumentsCreatePublic)
+	 * @PublicPage
+	 */
+	public function updateGuestName(string $access_token, string $guestName): DataResponse {
+		try {
+			$this->tokenManager->updateGuestName($access_token, $guestName);
+			return new DataResponse([], Http::STATUS_OK);
+		} catch (DoesNotExistException $e) {
+			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
+		}
 	}
 
 	/**

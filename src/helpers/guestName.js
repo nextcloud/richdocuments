@@ -22,6 +22,8 @@
 
 import Config from './../services/config'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 import mobile from './mobile'
 
 let guestName = ''
@@ -44,11 +46,16 @@ const getGuestNameCookie = function() {
 	return guestName
 }
 
-const setGuestNameCookie = function(username) {
+const setGuestName = function(username) {
 	if (username !== '') {
-		document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
+		// document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
 		guestName = username
 	}
+	const accessToken = encodeURIComponent(Config.get('token'))
+	return axios.post(generateOcsUrl('apps/richdocuments/api/v1/wopi', 2) + 'guestname', {
+		access_token: accessToken,
+		guestName
+	})
 }
 
 const shouldAskForGuestName = () => {
@@ -61,6 +68,6 @@ const shouldAskForGuestName = () => {
 
 export {
 	getGuestNameCookie,
-	setGuestNameCookie,
+	setGuestName,
 	shouldAskForGuestName
 }

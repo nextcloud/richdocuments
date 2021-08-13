@@ -51,7 +51,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string getRemoteServerToken()
  * @method void setExpiry(int $expiry)
  * @method int getExpiry()
- * @method void setGuestDisplayname(string $token)
+ * @method void setGuestDisplayname(string $guestDisplayName)
  * @method string getGuestDisplayname()
  * @method void setTemplateDestination(int $fileId)
  * @method int getTemplateDestination()
