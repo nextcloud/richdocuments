@@ -2,7 +2,7 @@ import { emit } from '@nextcloud/event-bus'
 import { getRootUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
-import { setGuestNameCookie, shouldAskForGuestName } from './helpers/guestName'
+import { setGuestName, shouldAskForGuestName } from './helpers/guestName'
 
 import PostMessageService from './services/postMessage.tsx'
 import {
@@ -139,8 +139,13 @@ $.widget('oc.guestNamePicker', {
 		$('#documents-content').prepend(text)
 		const setGuestNameSubmit = () => {
 			const username = $('#nickname').val()
-			setGuestNameCookie(username)
-			window.location.reload(true)
+			div.remove()
+			text.innerText = ''
+			text.classList.add('icon-loading')
+			setGuestName(username).then(() => {
+				$('#documents-content').remove()
+				documentsMain.initSession()
+			})
 		}
 
 		$('#nickname').keyup(function(event) {

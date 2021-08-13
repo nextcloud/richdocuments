@@ -215,4 +215,14 @@ class RichDocumentsContext implements Context
 		$this->wopiToken = $result['token'];
 		$this->wopiContext->setWopiParameters($this->currentServer, $this->fileId, $this->wopiToken);
 	}
+
+	/**
+	 * @When /^the guest updates the display name to "([^"]*)"$/
+	 */
+	public function updateTheGuestDisplayName($displayName) {
+		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/wopi/guestname', [
+			'access_token' => $this->wopiContext->getWopiToken(),
+			'guestName' => $displayName,
+		], [ 'auth' => null ]);
+	}
 }

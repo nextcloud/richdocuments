@@ -129,7 +129,8 @@ Feature: Direct editing
     And Collabora fetches and receives the following in the checkFileInfo response
       | BaseFileName     | document-share-link.odt   |
       | OwnerId          | user1                     |
-      | UserFriendlyName | user2-displayname (Guest) |
+      | UserId           | user2                     |
+      | UserFriendlyName | user2-displayname         |
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../assets/template.ods"
@@ -151,8 +152,8 @@ Feature: Direct editing
     And Collabora fetches and receives the following in the checkFileInfo response
       | BaseFileName     | document-share-link.odt   |
       | OwnerId          | user1                     |
-      | UserFriendlyName | user2-displayname (Guest) |
-    And checkFileInfo "UserId" matches "/Guest-/"
+      | UserId           | user2                     |
+      | UserFriendlyName | user2-displayname         |
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../assets/template.ods"
     Then Collabora downoads the file and it is equal to "./../assets/template.odt"
@@ -174,12 +175,92 @@ Feature: Direct editing
     And Collabora fetches and receives the following in the checkFileInfo response
       | BaseFileName     | document-share-link.odt   |
       | OwnerId          | user1                     |
+      | UserId           | user2                     |
+      | UserFriendlyName | user2-displayname         |
+    And checkFileInfo "UserCanWrite" is true
+    And both Collabora files used the same file id
+    And Collabora can save the file with the content of "./../assets/template.ods"
+    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+
+  Scenario: Open a file in a shared folder of a share link with direct editing as writable as a guest
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" creates a folder "Folder"
+    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    When User "user1" opens "/Folder/document-share-link.odt" through direct editing
+    And Collabora fetches checkFileInfo
+    And as "user1" create a share with
+      | path        | /Folder/ |
+      | shareType   | 3        |
+    And Updating last share with
+      | permissions | 3       |
+    When A guest opens the file "/document-share-link.odt" in the last share link through direct editing
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | document-share-link.odt   |
+      | OwnerId          | user1                     |
+      | UserFriendlyName | Anonymous guest           |
+    When the guest updates the display name to "Random name"
+    And Collabora fetches checkFileInfo
+    And checkFileInfo "UserFriendlyName" is "Random name (Guest)"
+    And checkFileInfo "UserId" matches "/Guest-/"
+    And checkFileInfo "UserCanWrite" is true
+    And both Collabora files used the same file id
+    And Collabora can save the file with the content of "./../assets/template.ods"
+    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+
+  Scenario: Open a file in a shared folder of a share link with direct editing as writable as a remote user
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" creates a folder "Folder"
+    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    When User "user1" opens "/Folder/document-share-link.odt" through direct editing
+    And Collabora fetches checkFileInfo
+    And as "user1" create a share with
+      | path        | /Folder/ |
+      | shareType   | 3        |
+    And Updating last share with
+      | permissions | 3       |
+    Given on instance "serverB"
+    And as user "user2"
+    When User "user2" opens the file "/document-share-link.odt" in the last share link through direct editing from server "serverA"
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | document-share-link.odt   |
+      | OwnerId          | user1                     |
       | UserFriendlyName | user2-displayname (Guest) |
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../assets/template.ods"
     Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+
+  Scenario: Open a file in a shared folder of a share link with direct editing as writable as a remote user with password
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" creates a folder "Folder"
+    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    When User "user1" opens "/Folder/document-share-link.odt" through direct editing
+    And Collabora fetches checkFileInfo
+    And as "user1" create a share with
+      | path        | /Folder/ |
+      | shareType   | 3        |
+      | password    | mysecret |
+    And Updating last share with
+      | permissions | 3       |
+    Given on instance "serverB"
+    And as user "user2"
+    When User "user2" opens the file "/document-share-link.odt" in the last share link through direct editing from server "serverA" with password "mysecret"
+    And Collabora fetches and receives the following in the checkFileInfo response
+      | BaseFileName     | document-share-link.odt   |
+      | OwnerId          | user1                     |
+      | UserFriendlyName | user2-displayname (Guest) |
+    And checkFileInfo "UserId" matches "/Guest-/"
+    And checkFileInfo "UserCanWrite" is true
+    And both Collabora files used the same file id
+    And Collabora can save the file with the content of "./../assets/template.ods"
+    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+
+    And as user "user2"
+    When User "user2" cannot open the file "/document-share-link.odt" in the last share link through direct editing from server "serverA" with password "wrongpassword"
 
   @federation @known-failure-ci
   Scenario: Open a link that originates on a federated share through direct editing

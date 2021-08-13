@@ -360,11 +360,9 @@ class DocumentController extends Controller {
 					'userId' => $this->uid,
 				];
 
-				if ($this->uid !== null || ($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE) === 0 || $this->helper->getGuestName() !== null) {
-					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
-					$params['token'] = $token;
-					$params['urlsrc'] = $urlSrc;
-				}
+				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+				$params['token'] = $token;
+				$params['urlsrc'] = $urlSrc;
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$this->setupPolicy($response);

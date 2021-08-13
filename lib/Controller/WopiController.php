@@ -271,7 +271,7 @@ class WopiController extends Controller {
 			return $response;
 		}
 
-		$response['UserFriendlyName'] = $initiator->getGuestDisplayname() . ' (Guest)';
+		$response['UserFriendlyName'] = $this->tokenManager->prepareGuestName($initiator->getGuestDisplayname());
 		if ($initiator->hasTemplateId()) {
 			$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . $initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
 			$response['TemplateSource'] = $templateUrl;
