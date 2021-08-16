@@ -82,7 +82,15 @@ export default {
 			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
 
-		const headerRight = document.querySelector('#header .header-right')
+		let headerRight = document.querySelector('#header .header-right')
+		if (!headerRight) {
+			// there might not be a right header for links with hide download enabled
+			const header = document.querySelector('#header')
+			headerRight = document.createElement('div')
+			headerRight.classList.add('header-right')
+			headerRight.classList.add('header-right-richdocuments')
+			header.insertBefore(headerRight, null)
+		}
 		if (!document.getElementById('richdocuments-header')) {
 			const richdocumentsHeader = document.createElement('div')
 			richdocumentsHeader.id = 'richdocuments-header'
@@ -385,7 +393,7 @@ export default {
 	renderAvatars() {
 		const avatardiv = $('#header .header-right #richdocuments-avatars')
 		avatardiv.empty()
-		const popover = $('<div id="editors-menu" class="popovermenu menu-center"><ul></ul></div>')
+		const popover = $('<div id="editors-menu" class="popovermenu"><ul></ul></div>')
 
 		const users = []
 		// Add new avatars
