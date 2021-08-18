@@ -17,7 +17,10 @@ const PostMessages = new PostMessageService({
 // Workaround for Safari to resize the iframe to the proper height
 // as 100vh is not the proper viewport height there
 const handleResize = () => {
-	document.getElementById('richdocumentsframe').style.maxHeight = (window.innerHeight - 60) + 'px'
+	const frame = document.getElementById('richdocumentsframe')
+	if (frame) {
+		frame.style.maxHeight = (document.documentElement.clientHeight - 50) + 'px'
+	}
 }
 window.addEventListener('resize', handleResize)
 if (window && window.visualViewport) {
@@ -245,6 +248,7 @@ const odfViewer = {
 		odfViewer.receivedLoading = true
 		$('#richdocumentsframe').prop('title', 'Collabora Online')
 		$('#richdocumentsframe').show()
+		handleResize()
 		$('html, body').scrollTop(0)
 		$('#content').removeClass('loading')
 		FilesAppIntegration.initAfterReady()
