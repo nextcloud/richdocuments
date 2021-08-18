@@ -47,6 +47,7 @@
 #editors-menu {
 	min-width: 200px;
 	top: 50px;
+	z-index: 1600; // should be above #app-content(1000) and #talk-sidebar(1500)
 
 	ul li {
 		display: flex;
