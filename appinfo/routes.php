@@ -73,6 +73,8 @@ return [
 		['name' => 'OCS#getTemplates', 'url' => '/api/v1/templates/{type}', 'verb' => 'GET'],
 		['name' => 'OCS#createFromTemplate', 'url' => '/api/v1/templates/new', 'verb' => 'POST'],
 
+		['name' => 'OCS#updateGuestName', 'url' => '/api/v1/wopi/guestname', 'verb' => 'POST'],
+
 		['name' => 'Federation#index', 'url' => '/api/v1/federation', 'verb' => 'GET'],
 		['name' => 'Federation#remoteWopiToken', 'url' => '/api/v1/federation', 'verb' => 'POST'],
 		['name' => 'Federation#initiatorUser', 'url' => '/api/v1/federation/user', 'verb' => 'POST'],
