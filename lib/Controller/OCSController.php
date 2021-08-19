@@ -23,9 +23,9 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
+use GuzzleHttp\Exception\BadResponseException;
 use OCA\Richdocuments\Db\DirectMapper;
-use OCA\Richdocuments\Db\Wopi;
-use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -36,11 +36,10 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -72,6 +71,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var FederationService */
 	private $federationService;
 
+	/** @var ILogger */
+	private $logger;
+
 	public function __construct(string $appName,
 		IRequest $request,
 		IRootFolder $rootFolder,
@@ -81,7 +83,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		TemplateManager $manager,
 		TokenManager $tokenManager,
 		IManager $shareManager,
-		FederationService $federationService
+		FederationService $federationService,
+		ILogger $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -93,6 +96,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$this->tokenManager = $tokenManager;
 		$this->shareManager = $shareManager;
 		$this->federationService = $federationService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -164,10 +168,20 @@ class OCSController extends \OCP\AppFramework\OCSController {
 					],
 					'timeout' => 30
 				]);
-			} catch (\Exception $e) {
-				$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
-				$response->throttle();
-				return $response;
+			} catch (BadResponseException $e) {
+				$status = $e->getResponse()->getStatusCode();
+				if ($status === Http::STATUS_NOT_FOUND || $status === Http::STATUS_FORBIDDEN) {
+					$this->logger->debug('Failed to create link from initiator token. Remote denied access.');
+					$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+					$response->throttle();
+					return $response;
+				}
+
+				$this->logger->error('Failed to create link from initiator token. Unexpected status code ' . $status, ['exception' => $e]);
+				return new DataResponse([], HTTP::STATUS_INTERNAL_SERVER_ERROR);
+			} catch (Exception $e) {
+				$this->logger->error('Failed to create link from initiator token. Unexpected response.', ['exception' => $e]);
+				return new DataResponse([], HTTP::STATUS_INTERNAL_SERVER_ERROR);
 			}
 			$url = \json_decode($response->getBody(), true)['ocs']['data']['url'];
 
