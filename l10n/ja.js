@@ -123,7 +123,7 @@ OC.L10N.register(
     "No templates defined." : "テンプレートが定義されていません",
     "Add a new one?" : "新規追加",
     "template preview" : "テンプレートプレビュー",
-    "Select a template directory" : "テンプレートディレクトリィを選択する",
+    "Select a template directory" : "テンプレートディレクトリを選択する",
     "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。",
     "it uses an insecure protocol (http)" : "セキュリティで保護されていないプロトコル (http) を使用しています"
