@@ -66,6 +66,10 @@ class WopiContext implements Context {
 		return $this->serverContext->getBaseUrl();
 	}
 
+	public function getWopiToken() {
+		return $this->wopiToken;
+	}
+
 	public function setWopiParameters($server, $fileId, $accessToken) {
 		$this->currentServer = $server;
 		$this->fileId = $fileId;

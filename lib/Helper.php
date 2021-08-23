@@ -82,7 +82,7 @@ class Helper {
 		return $filename;
 	}
 
-	public function getGuestName() {
+	public function getGuestNameFromCookie() {
 		if ($this->userId !== null || !isset($_COOKIE['guestUser']) || $_COOKIE['guestUser'] === '') {
 			return null;
 		}

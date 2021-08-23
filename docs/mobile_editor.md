@@ -35,6 +35,7 @@ document:
 
 The returned xml or json will have an url to open in a webview.
 
-The user will join the session as a guest but with their user details provided by their own
-instance.
-
+The endpoint can be used with or without user credentials for the Nextcloud server. 
+For anonymous requests the webview will ask the user for a guest name on writable 
+files. When requesting a link as an authenticated user, the user will join the
+document as a guest but with their user details provided by their own instance. 

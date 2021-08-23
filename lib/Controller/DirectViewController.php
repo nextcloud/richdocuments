@@ -222,7 +222,8 @@ class DirectViewController extends Controller {
 					'instanceId' => $this->settings->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 					'userId' => null,
-					'direct' => true
+					'direct' => true,
+					'directGuest' => empty($direct->getUid()),
 				];
 
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $direct->getShare(), $direct->getUid(), true);

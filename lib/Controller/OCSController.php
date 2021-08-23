@@ -23,21 +23,23 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
+use GuzzleHttp\Exception\BadResponseException;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -69,6 +71,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var FederationService */
 	private $federationService;
 
+	/** @var ILogger */
+	private $logger;
+
 	public function __construct(string $appName,
 		IRequest $request,
 		IRootFolder $rootFolder,
@@ -78,7 +83,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		TemplateManager $manager,
 		TokenManager $tokenManager,
 		IManager $shareManager,
-		FederationService $federationService
+		FederationService $federationService,
+		ILogger $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -90,6 +96,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$this->tokenManager = $tokenManager;
 		$this->shareManager = $shareManager;
 		$this->federationService = $federationService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -131,6 +138,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * Generate a direct editing link for a file in a public share to open with the current user
 	 *
 	 * @NoAdminRequired
+	 * @BruteForceProtection(action=richdocumentsCreatePublic)
+	 * @PublicPage
 	 * @throws OCSForbiddenException
 	 */
 	public function createPublic(
@@ -148,16 +157,32 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$wopi = $this->tokenManager->newInitiatorToken($host, null, $shareToken, true, $this->userId);
 
 			$client = \OC::$server->getHTTPClientService()->newClient();
-			$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
-				'body' => [
-					'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
-					'initiatorToken' => $wopi->getToken(),
-					'shareToken' => $shareToken,
-					'path' => $path,
-					'password' => $password
-				],
-				'timeout' => 30
-			]);
+			try {
+				$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
+					'body' => [
+						'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
+						'initiatorToken' => $wopi->getToken(),
+						'shareToken' => $shareToken,
+						'path' => $path,
+						'password' => $password
+					],
+					'timeout' => 30
+				]);
+			} catch (BadResponseException $e) {
+				$status = $e->getResponse()->getStatusCode();
+				if ($status === Http::STATUS_NOT_FOUND || $status === Http::STATUS_FORBIDDEN) {
+					$this->logger->debug('Failed to create link from initiator token. Remote denied access.');
+					$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+					$response->throttle();
+					return $response;
+				}
+
+				$this->logger->error('Failed to create link from initiator token. Unexpected status code ' . $status, ['exception' => $e]);
+				return new DataResponse([], HTTP::STATUS_INTERNAL_SERVER_ERROR);
+			} catch (Exception $e) {
+				$this->logger->error('Failed to create link from initiator token. Unexpected response.', ['exception' => $e]);
+				return new DataResponse([], HTTP::STATUS_INTERNAL_SERVER_ERROR);
+			}
 			$url = \json_decode($response->getBody(), true)['ocs']['data']['url'];
 
 			return new DataResponse([
@@ -165,13 +190,24 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			]);
 		}
 
-		$share = $this->shareManager->getShareByToken($shareToken);
+		try {
+			$share = $this->shareManager->getShareByToken($shareToken);
+		} catch (ShareNotFound $ex) {
+			$response = new DataResponse([], HTTP::STATUS_NOT_FOUND);
+			$response->throttle();
+			return $response;
+		}
+
 		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
-			throw new OCSForbiddenException();
+			$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		}
 
 		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
-			throw new OCSForbiddenException();
+			$response = new DataResponse([], HTTP::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
 		}
 
 		$node = $share->getNode();
@@ -230,6 +266,24 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				'token' => $direct->getToken()
 			])
 		]);
+	}
+
+	/**
+	 * Generate a direct editing link for a file in a public share to open with the current user
+	 *
+	 * @NoAdminRequired
+	 * @BruteForceProtection(action=richdocumentsCreatePublic)
+	 * @PublicPage
+	 */
+	public function updateGuestName(string $access_token, string $guestName): DataResponse {
+		try {
+			$this->tokenManager->updateGuestName($access_token, $guestName);
+			return new DataResponse([], Http::STATUS_OK);
+		} catch (DoesNotExistException $e) {
+			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
+		}
 	}
 
 	/**
