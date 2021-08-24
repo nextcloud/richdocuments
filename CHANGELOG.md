@@ -1,5 +1,46 @@
 # Changelog
 
+## 4.2.2
+
+### Added
+
+- #1711 Allow guests to request a direct token for share links @juliushaertl
+
+### Fixed
+
+- #1707 Show avatar list if hide download is enabled @juliushaertl
+- #1710 Another attempt to fix height setting for Safari issues on iOS @juliushaertl
+- #1709 Give the avatar popover a proper z-index for public pages @juliushaertl
+
+### Dependencies
+
+- #1685 Bump @babel/core from 7.14.6 to 7.14.8 @dependabot[bot]
+- #1700 Bump vue-loader from 15.9.7 to 15.9.8 @dependabot[bot]
+- #1693 Bump sass from 1.36.0 to 1.37.0 @dependabot[bot]
+- #1676 Bump @babel/preset-env from 7.14.7 to 7.14.8 @dependabot[bot]
+- #1690 Bump eslint-plugin-vue from 7.14.0 to 7.15.0 @dependabot[bot]
+- #1697 Bump @babel/preset-env from 7.14.8 to 7.14.9 @dependabot[bot]
+- #1694 Bump eslint from 7.31.0 to 7.32.0 @dependabot[bot]
+- #1695 Bump webpack from 5.46.0 to 5.47.1 @dependabot[bot]
+- #1706 Bump @babel/plugin-transform-runtime from 7.14.5 to 7.15.0 @dependabot[bot]
+- #1691 Bump @nextcloud/webpack-vue-config from 4.0.3 to 4.1.0 @dependabot[bot]
+- #1702 Bump sass from 1.37.0 to 1.37.5 @dependabot[bot]
+- #1705 Bump @babel/core from 7.14.8 to 7.15.0 @dependabot[bot]
+- #1701 Bump eslint-plugin-vue from 7.15.0 to 7.15.1 @dependabot[bot]
+- #1715 Bump psalm/phar from 4.8.1 to 4.9.2 @dependabot[bot]
+- #1708 Bump webpack from 5.47.1 to 5.50.0 @dependabot[bot]
+- #1703 Bump @babel/plugin-transform-modules-commonjs from 7.14.5 to 7.15.0 @dependabot[bot]
+- #1712 Bump @babel/eslint-parser from 7.14.7 to 7.15.0 @dependabot[bot]
+- #1714 Bump @babel/preset-env from 7.14.9 to 7.15.0 @dependabot[bot]
+- #1713 Bump eslint-plugin-vue from 7.15.1 to 7.16.0 @dependabot[bot]
+- #1716 Bump eslint-plugin-import from 2.23.4 to 2.24.0 @dependabot[bot]
+- #1725 Bump psalm/phar from 4.9.2 to 4.9.3 @dependabot[bot]
+- #1723 Bump sass from 1.37.5 to 1.38.0 @dependabot[bot]
+- #1727 Bump webpack-cli from 4.7.2 to 4.8.0 @dependabot[bot]
+- #1726 Bump eslint-plugin-import from 2.24.0 to 2.24.1 @dependabot[bot]
+- #1724 Bump webpack from 5.50.0 to 5.51.1 @dependabot[bot]
+
+
 ## 4.2.1
 
 * [#1655](https://github.com/nextcloud/richdocuments/pull/1655) Keep DownloadAsPostMessage when "saving as" documents @mikekaganski
