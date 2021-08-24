@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.8.5
+
+### Added
+
+- #1721 Allow guests to request a direct token for share links
+
+### Fixed
+
+- #1720 Another attempt to fix height setting for Safari issues on iOS
+- #1718 Show avatar list if hide download is enabled
+- #1719 Give the avatar popover a proper z-index for public pages
+
+
 ## 3.8.4
 
 * [#1666](https://github.com/nextcloud/richdocuments/pull/1666) Throttle on invalid share tokens
