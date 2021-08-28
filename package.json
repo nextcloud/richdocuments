@@ -81,7 +81,7 @@
 		"stylelint-scss": "^3.20.1",
 		"stylelint-webpack-plugin": "^2.2.2",
 		"ts-loader": "^8.1.0",
-		"typescript": "^4.3.5",
+		"typescript": "^4.4.2",
 		"url-loader": "^4.1.1",
 		"vue-jest": "^3.0.7",
 		"vue-loader": "^15.9.8",
