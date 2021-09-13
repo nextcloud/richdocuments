@@ -222,7 +222,9 @@ const documentsMain = {
 			const form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/>'
-				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
+				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
+				+ '<input name="theme" value="nextcloud" type="hidden"/>'
+				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
 			const frame = '<iframe id="loleafletframe_viewer" name="loleafletframe_viewer" allowfullscreen nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
@@ -275,7 +277,9 @@ const documentsMain = {
 			const form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/>'
-				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/></form>'
+				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
+				+ '<input name="theme" value="nextcloud" type="hidden"/>'
+				+ '</form>'
 
 			// iframe that contains the Collabora Online
 			const frame = '<iframe id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen style="width:100%;height:100%;position:absolute;" />'
