@@ -409,7 +409,7 @@ class TemplateManager {
 			try {
 				$templateDir = $userFolder->get('Templates');
 			} catch (NotFoundException $e) {
-				throw new NotFoundException($e->getMessage());
+				throw new NotFoundException('Template directory not found');
 			}
 		}
 
