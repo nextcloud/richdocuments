@@ -20,6 +20,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use OCA\Richdocuments\AppConfig;
@@ -43,18 +44,9 @@ class SettingsController extends Controller{
 	private $capabilitiesService;
 	/** @var DemoService */
 	private $demoService;
+	/** @var ILogger */
+	private $logger;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param AppConfig $appConfig
-	 * @param IConfig $config
-	 * @param DiscoveryManager $discoveryManager
-	 * @param Parser $wopiParser
-	 * @param string $userId
-	 * @param CapabilitiesService $capabilitiesService
-	 */
 	public function __construct($appName,
 		IRequest $request,
 		IL10N $l10n,
@@ -62,9 +54,10 @@ class SettingsController extends Controller{
 		IConfig $config,
 		DiscoveryManager $discoveryManager,
 		Parser $wopiParser,
-		$userId,
 		CapabilitiesService $capabilitiesService,
-		DemoService $demoService
+		DemoService $demoService,
+		ILogger $logger,
+		$userId
 	) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
@@ -72,9 +65,10 @@ class SettingsController extends Controller{
 		$this->config = $config;
 		$this->discoveryManager = $discoveryManager;
 		$this->wopiParser = $wopiParser;
-		$this->userId = $userId;
 		$this->capabilitiesService = $capabilitiesService;
 		$this->demoService = $demoService;
+		$this->logger = $logger;
+		$this->userId = $userId;
 	}
 
 	/**
@@ -86,9 +80,10 @@ class SettingsController extends Controller{
 		try {
 			$response = $this->discoveryManager->fetchFromRemote();
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return new DataResponse([
 				'status' => $e->getCode(),
-				'message' => $e->getMessage()
+				'message' => 'Could not fetch discovery details'
 			], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
