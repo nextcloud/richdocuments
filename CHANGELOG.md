@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.2.3
+
+### Fixed
+
+- #1760 Unify error messages accross controllers
+- #1728 Prevent not-needed early loading of the richdocuments app
+
+### Other
+
+- Dependency updates
+
+
+
 ## 4.2.2
 
 ### Added
