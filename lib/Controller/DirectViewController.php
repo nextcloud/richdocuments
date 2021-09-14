@@ -105,10 +105,7 @@ class DirectViewController extends Controller {
 		try {
 			$direct = $this->directMapper->getByToken($token);
 		} catch (DoesNotExistException $e) {
-			$params = [
-				'errors' => [['error' => $e->getMessage()]]
-			];
-			$response = new TemplateResponse('core', 'error', $params, 'guest');
+			$response = $this->renderErrorPage('Failed to open the requested file.');
 			$response->setStatus(Http::STATUS_FORBIDDEN);
 			return $response;
 		}
@@ -154,10 +151,8 @@ class DirectViewController extends Controller {
 
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
-				$params = [
-					'errors' => [['error' => $e->getMessage()]]
-				];
-				return new TemplateResponse('core', 'error', $params, 'guest');
+				$this->logger->logException($e);
+				return $this->renderErrorPage('Failed to open the requested file.');
 			}
 
 			$relativePath = $folder->getRelativePath($item->getPath());
@@ -183,10 +178,8 @@ class DirectViewController extends Controller {
 			$response->setContentSecurityPolicy($policy);
 			return $response;
 		} catch (\Exception $e) {
-			$params = [
-				'errors' => [['error' => $e->getMessage()]]
-			];
-			return new TemplateResponse('core', 'error', $params, 'guest');
+			$this->logger->logException($e);
+			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
 
 	}
@@ -242,13 +235,17 @@ class DirectViewController extends Controller {
 			}
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
-			$params = [
-				'errors' => [['error' => $e->getMessage()]]
-			];
-			return new TemplateResponse('core', 'error', $params, 'guest');
+			$response = $this->renderErrorPage('Failed to open the requested file.');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
 
+	}
+
+	private function renderErrorPage($message) {
+		$params = [
+			'errors' => [['error' => $message]]
+		];
+		return new TemplateResponse('core', 'error', $params, 'guest');
 	}
 }
