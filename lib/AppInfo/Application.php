@@ -77,6 +77,14 @@ class Application extends App {
 		} catch (QueryException $e) {
 		}
 
+		$server = $this->getContainer()->getServer();
+		$this->getContainer()->registerService(WOPIMiddleware::class, function () use ($server) {
+			return new WOPIMiddleware(
+				$server->getConfig(),
+				$server->getRequest()
+			);
+		});
+
 		$this->getContainer()->registerCapability(Capabilities::class);
 		$this->getContainer()->registerMiddleWare(WOPIMiddleware::class);
 	}
