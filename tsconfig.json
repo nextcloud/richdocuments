@@ -6,7 +6,13 @@
 		"module": "es6",
 		"target": "es6",
 		"jsx": "react",
-		"allowJs": true
+		"allowJs": true,
+		"paths": {
+			"@nextcloud/event-bus": [
+				"./node_modules/@nextcloud/event-bus/dist/index.js",
+				"./node_modules/@nextcloud/event-bus/dist/lib/*"
+			]
+		}
 	},
 	"exclude": [
 		"node_modules",
