@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.8.6
+
+### Fixed
+
+- #1762 Unify error messages accross controllers
+- #1750 Register middleware as a service for ancient versions
+
+
 ## 3.8.5
 
 ### Added
