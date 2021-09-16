@@ -133,7 +133,7 @@
 								{{ t('richdocuments', 'it uses an insecure protocol (HTTP)') }}
 							</li>
 							<li v-if="hostErrors[2]">
-								{{ t('richdocuments', 'it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)') }}
+								{{ t('richdocuments', 'it is unreachable from the internet (possibly because of a firewall, or lack of port forwarding)') }}
 							</li>
 						</ul><br>
 						<p>
