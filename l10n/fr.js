@@ -44,7 +44,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Vous pouvez utiliser un serveur de démonstration fourni par Collabora ou un autre fournisseur de service pour tester Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Votre configuration de Nextcloud ne permet pas de se connecter aux serveurs de démo car :",
     "it is a local setup (localhost)" : "c'est une configuration locale (localhost)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "c'est inaccessible depuis l'Internet (possiblement à cause d'un pare-feu ou d'une absence de redirection de port)",
     "For use cases like this, we offer instructions for a" : "Pour les cas d'utilisation comme celui-là, nous proposons des instructions pour un",
     "Quick tryout with Nextcloud docker." : "Essai rapide avec Nextcloud sur docker",
     "Loading available demo servers …" : "Chargement des serveurs de démo disponibles …",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online.",
     "it uses an insecure protocol (http)" : "il utilise un protocole non sécurisé (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "c'est inaccessible depuis l'Internet (possiblement à cause d'un pare-feu ou d'une absence de redirection de port)",
     "New Document" : "Nouveau document",
     "New Spreadsheet" : "Nouvelle feuille de calcul",
     "New Presentation" : "Nouvelle présentation"

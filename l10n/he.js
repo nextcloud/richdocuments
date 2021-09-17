@@ -35,7 +35,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "ניתן להשתמש בשרת הדגמה שמסופק על ידי Collabora וספקי שירות אחרים כדי להתנסות ב־Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "תצורת ה־Nextcloud שלך אינה יכולה להתחבר לשרתי ההדגמה:",
     "it is a local setup (localhost)" : "כי מדובר בהתקנה מקומית בלבד (localhost)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "כי אין גישה אל העותק מהאינטרנט (כנראה בגלל חומת אש או שאין העברת פתחות)",
     "For use cases like this, we offer instructions for a" : "למקרים כאלו אנחנו מציעים הנחיות לטובת",
     "Quick tryout with Nextcloud docker." : "התנסות מהירה עם Nextcloud על Docker.",
     "Loading available demo servers …" : "שרתי ההדגמה הזמינים נטענים…",
@@ -93,6 +92,7 @@ OC.L10N.register(
     "Select a template directory" : "בחירת תיקיית תבניות",
     "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online.",
-    "it uses an insecure protocol (http)" : "כי נעשה שימוש בפרוטוקול פרוץ (http)"
+    "it uses an insecure protocol (http)" : "כי נעשה שימוש בפרוטוקול פרוץ (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "כי אין גישה אל העותק מהאינטרנט (כנראה בגלל חומת אש או שאין העברת פתחות)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
