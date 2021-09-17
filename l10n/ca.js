@@ -41,7 +41,6 @@ OC.L10N.register(
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Podeu utilitzar un servidor de demostració proporcionat per Collabora i altres proveïdors de serveis per fer la prova de Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "La configuració del Nextcloud no és capaç de connectar-se als servidors de demostració perquè:",
     "it is a local setup (localhost)" : "és una configuració local (localhost)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "és inaccessible des d'Internet (possiblement a causa d'un tallafocs, o la manca de reenviament de port)",
     "For use cases like this, we offer instructions for a" : "Per a casos com aquest, oferim instruccions per a un",
     "Quick tryout with Nextcloud docker." : "Prova ràpida amb un docker Nextcloud.",
     "Loading available demo servers …" : "S'estan carregant els servidors de demostració disponibles …",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Select a template directory" : "Selecciona un directori de plantilles",
     "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les plantilles d’aquest directori s’afegiran al selector de plantilles de Collabora Online.",
-    "it uses an insecure protocol (http)" : "utilitza un protocol insegur (http)"
+    "it uses an insecure protocol (http)" : "utilitza un protocol insegur (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "és inaccessible des d'Internet (possiblement a causa d'un tallafocs, o la manca de reenviament de port)"
 },
 "nplurals=2; plural=(n != 1);");

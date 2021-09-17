@@ -42,7 +42,6 @@
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "Bạn có thể sử dụng máy chủ demo do Collabora và các nhà cung cấp dịch vụ khác cung cấp để dùng thử Collabora Online.",
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Thiết lập vWorkspace của bạn không thể kết nối với máy chủ demo vì:",
     "it is a local setup (localhost)" : "nó là một thiết lập cục bộ (localhost)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "nó không thể truy cập được từ Internet (có thể do tường lửa hoặc thiếu cổng chuyển tiếp)",
     "For use cases like this, we offer instructions for a" : "Đối với các trường hợp sử dụng như thế này, chúng tôi cung cấp hướng dẫn cho",
     "Quick tryout with Nextcloud docker." : "Dùng thử nhanh với vWorkspace docker",
     "Loading available demo servers …" : "Đang tải các máy chủ demo có sẵn…",
@@ -134,6 +133,7 @@
     "Select a template directory" : "Chọn một thư mục mẫu",
     "Remove personal template folder" : "Xóa mẫu thư mục cá nhân",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Các mẫu bên trong của thư mục này được thêm vào bộ mẫu chọn của Collabora Online",
-    "it uses an insecure protocol (http)" : "nó sử dụng một giao thức không an toàn (http)"
+    "it uses an insecure protocol (http)" : "nó sử dụng một giao thức không an toàn (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "nó không thể truy cập được từ Internet (có thể do tường lửa hoặc thiếu cổng chuyển tiếp)"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
