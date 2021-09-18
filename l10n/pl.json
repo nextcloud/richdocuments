@@ -46,6 +46,7 @@
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Twoja konfiguracja Nextcloud nie jest w stanie połączyć się z serwerami demonstracyjnymi, ponieważ:",
     "it is a local setup (localhost)" : "jest to konfiguracja lokalna (localhost)",
     "it uses an insecure protocol (HTTP)" : "używa niezabezpieczonego protokołu (HTTP)",
+    "it is unreachable from the internet (possibly because of a firewall, or lack of port forwarding)" : "jest nieosiągalny z Internetu (prawdopodobnie z powodu zapory ogniowej lub braku przekierowania portów)",
     "For use cases like this, we offer instructions for a" : "Do takich przypadków użycia, proponujemy instrukcje dotyczące",
     "Quick tryout with Nextcloud docker." : "Szybkie wypróbowanie przez docker Nextcloud.",
     "Loading available demo servers …" : "Ładowanie dostępnych serwerów demonstracyjnych…",

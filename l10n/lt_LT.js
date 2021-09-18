@@ -40,6 +40,7 @@ OC.L10N.register(
     "Show watermark on tagged files" : "Rodyti vandenženklį ant failų su žymėmis",
     "Failed to save settings" : "Nepavyko įrašyti nustatymų",
     "Description" : "Aprašas",
+    "Add new token" : "Pridėti naują prieigos raktą",
     "No results" : "Rezultatų nėra",
     "Error" : "Klaida",
     "An error occurred" : "Įvyko klaida",
@@ -62,8 +63,10 @@ OC.L10N.register(
     "Details" : "Išsamiau",
     "Download" : "Atsisiųsti",
     "(read only)" : "(tik skaitymui)",
+    "Remove user" : "Šalinti naudotoją",
     "Guest" : "Svečias",
     "Last saved version" : "Paskutinė įrašyta versija",
+    "Current version (unsaved changes)" : "Dabartinė versija (neįrašyti pakeitimai)",
     "Failed to revert the document to older version" : "Nepavyko sugrąžinti dokumentą į senesnę versiją",
     "Please enter the filename for the new document" : "Įveskite naujo dokumento failo pavadinimą",
     "Create a new document" : "Sukurti naują dokumentą",
@@ -76,6 +79,10 @@ OC.L10N.register(
     "Add a new one?" : "Pridėti naują?",
     "template preview" : "šablono peržiūra",
     "it uses an insecure protocol (http)" : "ji naudoja nesaugų protokolą (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "ji yra nepasiekiama iš interneto (galimai, dėl užkardos ar neperadresuotų prievadų)"
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "ji yra nepasiekiama iš interneto (galimai, dėl užkardos ar neperadresuotų prievadų)",
+    "Current version" : "Dabartinė versija",
+    "New Document" : "Naujas dokumentas",
+    "New Spreadsheet" : "Nauja skaičiuoklė",
+    "New Presentation" : "Nauja pateiktis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

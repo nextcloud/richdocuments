@@ -46,6 +46,7 @@
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "您的 Nextcloud 設定無法連線到展示用伺服器，因為：",
     "it is a local setup (localhost)" : "這是本機設定（localhost)",
     "it uses an insecure protocol (HTTP)" : "使用了不安全的協定（HTTP）",
+    "it is unreachable from the internet (possibly because of a firewall, or lack of port forwarding)" : "無法透過互聯網聯繫到（可能是防火牆或缺少端口轉發的關繫）",
     "For use cases like this, we offer instructions for a" : "對於這類的使用案例，我們提供了有關",
     "Quick tryout with Nextcloud docker." : "使用 Nextcloud docker 快速試用。",
     "Loading available demo servers …" : "正在載入可用的展示用伺服器……",
