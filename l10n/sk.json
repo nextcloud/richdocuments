@@ -46,6 +46,7 @@
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "Vaše nastavenie NextCloud sa nemôže pripojiť k demo serverom, pretože:",
     "it is a local setup (localhost)" : "je to lokálne nastavenie (localhost)",
     "it uses an insecure protocol (HTTP)" : "používa nezabezpečený protokol (HTTP)",
+    "it is unreachable from the internet (possibly because of a firewall, or lack of port forwarding)" : "je nedostupný z internetu (pravdepodobne kvôli bráne firewall alebo chybe v presmerovaní portu)",
     "For use cases like this, we offer instructions for a" : "Pre takéto prípady použitia ponúkame pokyny pre",
     "Quick tryout with Nextcloud docker." : "Rýchla skúška s dokovacou stanicou Nextcloud.",
     "Loading available demo servers …" : "Načítavajú sa dostupné demo servery…",
