@@ -21,6 +21,14 @@
 	background-image: url('../img/x-office-presentation.svg');
 }
 
+.icon-collabora {
+  cursor: pointer;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .richdocuments-sharing .icon-shared {
 	display: block;
 	width: 16px;

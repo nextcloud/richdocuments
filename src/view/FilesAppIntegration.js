@@ -261,7 +261,8 @@ export default {
 
 	_addHeaderShareButton() {
 		if ($('header').length) {
-			const $button = $('<div id="richdocuments-sharing"><a class="icon-shared icon-white"></a></div>')
+			const isInverted = window.OCA.Theming.inverted
+			const $button = $('<div id="richdocuments-sharing"><a class="icon-collabora icon-shared ' + (isInverted ? 'icon-black' : 'icon-white') + '"></a></div>')
 			$('#richdocuments-header').append($button)
 			$button.on('click', () => {
 				if (!$('#app-sidebar').is(':visible')) {
@@ -277,7 +278,8 @@ export default {
 		console.debug('[FilesAppIntegration] Adding header file actions')
 		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
 		$('#richdocuments-actions').remove()
-		const actionsContainer = $('<div id="richdocuments-actions"><div class="icon-more icon-white"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
+		const isInverted = window.OCA.Theming.inverted
+		const actionsContainer = $('<div id="richdocuments-actions"><div class="icon-collabora icon-more ' + (isInverted ? 'icon-black' : 'icon-white') + '"></div><ul id="richdocuments-actions-menu" class="popovermenu"></ul></div>')
 		const actions = actionsContainer.find('#richdocuments-actions-menu').empty()
 
 		const getContext = () => ({
