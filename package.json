@@ -55,7 +55,7 @@
 		"acorn": "^8.5.0",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-eslint": "^10.1.0",
-		"babel-jest": "^27.2.0",
+		"babel-jest": "^27.2.4",
 		"babel-loader": "^8.2.2",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
 		"css-loader": "^4.3.0",
