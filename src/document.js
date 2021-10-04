@@ -98,6 +98,7 @@ const generateCSSVarTokens = () => {
 		'--color-border': '--co-border',
 		'--color-border-dark': '--co-border-dark',
 		'--border-radius-pill': '--co-border-radius-pill',
+		'--font-face': '--loleaflet-font',
 	}
 	let str = ''
 	try {
