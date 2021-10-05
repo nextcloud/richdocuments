@@ -393,7 +393,7 @@ class TemplateManager {
 	 * @return Folder
 	 * @throws NotFoundException
 	 */
-	private function getUserTemplateDir() {
+	public function getUserTemplateDir() {
 		if ($this->userId === null) {
 			throw new NotFoundException('userId not set');
 		}
