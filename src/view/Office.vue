@@ -32,6 +32,9 @@
 						:display-name="view.UserName"
 						:style="viewColor(view)" />
 				</div>
+				<Actions>
+					<ActionButton icon="icon-menu-sidebar" @click="share"></ActionButton>
+				</Actions>
 			</div>
 			<iframe id="collaboraframe" ref="documentFrame" :src="src" />
 		</div>
@@ -40,6 +43,8 @@
 
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
 import { getDocumentUrlForFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
@@ -54,6 +59,8 @@ export default {
 	name: 'Office',
 	components: {
 		Avatar,
+		Actions,
+		ActionButton,
 	},
 	props: {
 		filename: {
@@ -110,6 +117,9 @@ export default {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'postAsset', { FileName: filename, Url: url })
 				})
 				break
+			case 'UI_Share':
+				this.share()
+				break
 			}
 		})
 		this.load()
@@ -121,6 +131,11 @@ export default {
 			this.src = documentUrl
 			this.loading = true
 		},
+		async share() {
+			if (OCA.Files.Sidebar) {
+				OCA.Files.Sidebar.open(this.filename)
+			}
+		}
 	},
 }
 </script>
@@ -128,11 +143,13 @@ export default {
 	.header {
 		position: absolute;
 		right: 100px;
-		top: -50px;
+		top: 0;
+		z-index: 99999;
+		display: flex;
 
 		.avatars {
 			display: flex;
-			padding: 9px;
+			padding: 6px;
 
 			.avatardiv {
 				margin-left: -15px;
@@ -140,12 +157,16 @@ export default {
 			}
 
 		}
+
+		.icon-menu-sidebar {
+			background-image: var(--icon-menu-sidebar-000) !important;
+		}
 	}
 
 	#richdocuments-wrapper {
-		width: 100vw;
-		height: calc(100vh - 50px);
-		top: 50px;
+		width: 100%;
+		height: 100%;
+		top: 0;
 		left: 0;
 		position: absolute;
 		z-index: 100000;
