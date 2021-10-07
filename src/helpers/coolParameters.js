@@ -39,6 +39,7 @@ const generateCSSVarTokens = () => {
 	const cssVarMap = {
 		'--color-primary-text': '--co-primary-text',
 		'--color-primary-element': '--co-primary-element:--co-text-accent',
+		'--color-primary-light': '--co-primary-light',
 		'--color-primary-element-light': '--co-primary-element-light',
 		'--color-error': '--co-color-error',
 		'--color-warning': '--co-color-warning',
