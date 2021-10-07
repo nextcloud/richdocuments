@@ -22,7 +22,7 @@
 
 <template>
 	<transition name="fade" appear>
-		<div v-show="loading" id="richdocuments-wrapper">
+		<div v-show="!loading" id="richdocuments-wrapper">
 			<div class="header">
 				<!-- This is obviously not the way to go since it would require absolute positioning and therefore not be compatible with viewer actions/sidebar -->
 				<div class="avatars">
@@ -80,7 +80,7 @@ export default {
 	data() {
 		return {
 			src: null,
-			loading: false,
+			loading: true,
 			views: [],
 		}
 	},
@@ -103,6 +103,12 @@ export default {
 			if (deprecated) { return }
 
 			switch (msgId) {
+			case 'App_LoadingStatus':
+				if (args.Status === 'Frame_Ready') {
+					this.loading = false
+					this.$emit('update:loaded', true)
+				}
+				break
 			case 'loading':
 				break
 			case 'close':
@@ -127,9 +133,8 @@ export default {
 	methods: {
 		async load() {
 			const documentUrl = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
-			this.$emit('update:loaded', true)
-			this.src = documentUrl
 			this.loading = true
+			this.src = documentUrl
 		},
 		async share() {
 			if (OCA.Files.Sidebar) {
