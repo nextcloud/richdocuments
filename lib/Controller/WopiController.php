@@ -46,6 +46,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -81,6 +82,8 @@ class WopiController extends Controller {
 	private $federationService;
 	/** @var IEncryptionManager */
 	private $encryptionManager;
+	/** @var IGroupManager */
+	private $groupManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -118,7 +121,8 @@ class WopiController extends Controller {
 		IShareManager $shareManager,
 		UserScopeService $userScopeService,
 		FederationService $federationService,
-		IEncryptionManager $encryptionManager
+		IEncryptionManager $encryptionManager,
+		IGroupManager $groupManager
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -134,6 +138,7 @@ class WopiController extends Controller {
 		$this->userScopeService = $userScopeService;
 		$this->federationService = $federationService;
 		$this->encryptionManager = $encryptionManager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -233,6 +238,9 @@ class WopiController extends Controller {
 		$user = $this->userManager->get($wopi->getEditorUid());
 		if($user !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => self::WOPI_AVATAR_SIZE]);
+			if ($this->groupManager->isAdmin($wopi->getEditorUid())) {
+			   $response['UserExtraInfo']['is_admin'] = true;
+			}
 		} else {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => urlencode($wopi->getGuestDisplayname()), 'size' => self::WOPI_AVATAR_SIZE]);
 		}
