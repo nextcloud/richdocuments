@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 			group: null,
 			mimes: supportedMimes,
 			component: Office,
+			theme: 'light',
 		})
 	}
 })
