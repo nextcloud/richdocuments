@@ -186,9 +186,7 @@ class Application extends App implements IBootstrap {
 			return $container->query(OOXML::class);
 		});
 
-		// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider: calling manager registerProvider:');
 		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function() use ($container) {
-			// \OC::$server->getLogger()->debug('==== Richdocuments Application registerProvider lambda. OpenDocument::class=' . OpenDocument::class);
 			return $container->query(OpenDocument::class);
 		});
 
