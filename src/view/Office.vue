@@ -116,7 +116,7 @@ export default {
 	},
 	methods: {
 		async load() {
-			const documentUrl = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + this.filename
+			const documentUrl = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
 			this.$emit('update:loaded', true)
 			this.src = documentUrl
 			this.loading = true
