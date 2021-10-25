@@ -19,7 +19,8 @@ const PostMessages = new PostMessageService({
 const handleResize = () => {
 	const frame = document.getElementById('richdocumentsframe')
 	if (frame) {
-		frame.style.maxHeight = (document.documentElement.clientHeight - 50) + 'px'
+		const headerOffset = (window.innerWidth > 768) ? 50 : 0
+		frame.style.maxHeight = (document.documentElement.clientHeight - headerOffset) + 'px'
 	}
 }
 window.addEventListener('resize', handleResize)
