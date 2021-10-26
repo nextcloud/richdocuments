@@ -138,8 +138,12 @@ OC.L10N.register(
     "Select a template directory" : "Izbor mape predlog",
     "Remove personal template folder" : "Odstrani osebno mapo predlog",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online.",
+    "Install it from the app store." : "Namestite program iz trgovine.",
     "it uses an insecure protocol (http)" : "uporablja ne-varni protokol (http),",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedosegljiva prek interneta (požarni zid, posredovanje vrat ...).",
-    "New Spreadsheet" : "Nova preglednica"
+    "Current version" : "Trenutna različica",
+    "New Document" : "Nov dokument",
+    "New Spreadsheet" : "Nova preglednica",
+    "New Presentation" : "Nova predstavitev"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
