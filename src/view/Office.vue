@@ -33,7 +33,7 @@
 						:style="viewColor(view)" />
 				</div>
 				<Actions>
-					<ActionButton icon="icon-menu-sidebar" @click="share"></ActionButton>
+					<ActionButton icon="icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
 			<iframe id="collaboraframe" ref="documentFrame" :src="src" />
@@ -140,15 +140,15 @@ export default {
 			if (OCA.Files.Sidebar) {
 				OCA.Files.Sidebar.open(this.filename)
 			}
-		}
+		},
 	},
 }
 </script>
 <style lang="scss">
 	.header {
 		position: absolute;
-		right: 100px;
-		top: 0;
+		right: 44px;
+		top: 3px;
 		z-index: 99999;
 		display: flex;
 
