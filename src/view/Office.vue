@@ -30,6 +30,8 @@
 						:key="view.ViewId"
 						:user="view.UserId"
 						:display-name="view.UserName"
+						:show-user-status="false"
+						:show-user-status-compact="false"
 						:style="viewColor(view)" />
 				</div>
 				<Actions>
