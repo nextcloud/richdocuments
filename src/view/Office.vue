@@ -107,6 +107,12 @@ export default {
 			switch (msgId) {
 			case 'App_LoadingStatus':
 				if (args.Status === 'Frame_Ready') {
+					// defer showing the frame until collabora has finished also loading the document
+				}
+				if (args.Status === 'Document_Loaded') {
+					this.loading = false
+					this.$emit('update:loaded', true)
+				} else if (args.Status === 'Failed') {
 					this.loading = false
 					this.$emit('update:loaded', true)
 				}
