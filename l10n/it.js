@@ -48,6 +48,7 @@ OC.L10N.register(
     "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "La tua configurazione di Nextcloud non è in grado di collegarsi ai server dimostrativi poiché:",
     "it is a local setup (localhost)" : "è una configurazione locale (localhost)",
     "it uses an insecure protocol (HTTP)" : "utilizza un protocollo non sicuro (HTTP)",
+    "it is unreachable from the internet (possibly because of a firewall, or lack of port forwarding)" : "non è raggiungibile da internet (probabilmente a causa di un firewall, o mancanza di inoltro delle porte)",
     "For use cases like this, we offer instructions for a" : "Per i casi d'uso come questo, offriamo istruzioni per un",
     "Quick tryout with Nextcloud docker." : "Prova rapida con Nextcloud docker.",
     "Loading available demo servers …" : "Caricamento server dimostrativi disponibili…",
