@@ -11,6 +11,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Events\BeforeFederationRedirectEvent;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TokenManager;
@@ -18,6 +19,7 @@ use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -95,7 +97,8 @@ class DocumentController extends Controller {
 		ILogger $logger,
 		\OCA\Richdocuments\TemplateManager $templateManager,
 		FederationService $federationService,
-		Helper $helper
+		Helper $helper,
+		IInitialState $initialState
 	) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
@@ -110,6 +113,7 @@ class DocumentController extends Controller {
 		$this->templateManager = $templateManager;
 		$this->federationService = $federationService;
 		$this->helper = $helper;
+		$this->initialState = $initialState;
 	}
 
 	/**
@@ -187,6 +191,22 @@ class DocumentController extends Controller {
 		$response->setFeaturePolicy($featurePolicy);
 	}
 
+	private function provideDocumentInitialState(Wopi $wopi) {
+		$this->initialState->provideInitialState('wopi', $wopi);
+		$this->initialState->provideInitialState('uiDefaults', [
+			'UIMode' => 'classic'
+		]);
+
+		$config = \OC::$server->getConfig();
+		$logoSet = $config->getAppValue('theming', 'logoheaderMime', '') !== '';
+		if (!$logoSet) {
+			$logoSet = $config->getAppValue('theming', 'logoMime', '') !== '';
+		}
+		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
+			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
+			: false));
+	}
+
 	/**
 	 * @NoAdminRequired
 	 *
@@ -243,6 +263,7 @@ class DocumentController extends Controller {
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
 			}
 
+			$this->provideDocumentInitialState($wopi);
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$this->setupPolicy($response);
 			return $response;
@@ -300,6 +321,7 @@ class DocumentController extends Controller {
 			'userId' => $this->uid
 		];
 
+		$this->provideDocumentInitialState($wopi);
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 		$this->setupPolicy($response);
 		return $response;
@@ -353,10 +375,11 @@ class DocumentController extends Controller {
 					'userId' => $this->uid,
 				];
 
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params['token'] = $token;
 				$params['urlsrc'] = $urlSrc;
 
+				$this->provideDocumentInitialState($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$this->setupPolicy($response);
 				return $response;
@@ -475,6 +498,7 @@ class DocumentController extends Controller {
 					'userId' => $remoteWopi->getEditorUid() ? ($remoteWopi->getEditorUid() . '@' . $remoteServer) : null,
 				];
 
+				$this->provideDocumentInitialState($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$remoteWopi = $this->domainOnly($this->appConfig->getAppValue('wopi_url'));
 				$policy = new ContentSecurityPolicy();

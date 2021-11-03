@@ -20,11 +20,14 @@
  *
  */
 
+import { loadState } from '@nextcloud/initial-state'
+
 const getUIDefaults = () => {
+	const defaults = loadState('richdocuments', 'uiDefaults', {})
 	const statusBar = 'false'
 	const textRuler = 'false'
 	const sidebar = 'false'
-	const uiMode = 'classic' // or notebookbar
+	const uiMode = defaults.UIMode ?? 'classic' // or notebookbar
 
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
 	uiDefaults += 'TextSidebar=' + sidebar + ';TextStatusbar=' + statusBar + ';'
@@ -53,6 +56,7 @@ const generateCSSVarTokens = () => {
 		'--color-border-dark': '--co-border-dark',
 		'--border-radius-pill': '--co-border-radius-pill',
 		'--font-face': '--loleaflet-font',
+		'--image-logoheader': '--co-image-logo',
 	}
 	let str = ''
 	try {
@@ -70,6 +74,11 @@ const generateCSSVarTokens = () => {
 		}
 	} catch (e) {
 		// Skip extracting css vars if we cannot access parent
+	}
+
+	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
+	if (customLogo) {
+		str += ';--co-image-logo=url(' + customLogo.replace('?useSvg=1&', '?') + ');'
 	}
 	return str
 }
