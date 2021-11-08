@@ -72,22 +72,27 @@ class CapabilitiesService {
 		return $this->capabilities;
 	}
 
-	public function hasTemplateSaveAs() {
+	public function hasDrawSupport(): bool {
+		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
+		return version_compare($productVersion, '6.4.7', '>=');
+	}
+
+	public function hasTemplateSaveAs(): bool {
 		return $this->getCapabilities()['hasTemplateSaveAs'] ?? false;
 	}
 
-	public function hasTemplateSource() {
+	public function hasTemplateSource(): bool {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}
 
-	public function clear() {
+	public function clear(): void {
 		$this->cache->remove('capabilities');
 	}
 
-	public function refetch() {
+	public function refetch(): void {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		if ($remoteHost === '') {
-			return [];
+			return;
 		}
 		$capabilitiesEndpoint = rtrim($remoteHost, '/') . '/hosting/capabilities';
 

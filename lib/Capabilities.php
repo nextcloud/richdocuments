@@ -93,10 +93,18 @@ class Capabilities implements ICapability {
 	public function getCapabilities() {
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
+			$filteredMimetypes = self::MIMETYPES;
+			// If version is too old, draw is not supported
+			if (!$this->capabilitiesService->hasDrawSupport()) {
+				$filteredMimetypes = array_diff($filteredMimetypes, [
+					'application/vnd.oasis.opendocument.graphics',
+					'application/vnd.oasis.opendocument.graphics-flat-xml',
+				]);
+			}
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
-					'mimetypes' => self::MIMETYPES,
+					'mimetypes' => $filteredMimetypes,
 					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 					'collabora' => $collaboraCapabilities,
 					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
