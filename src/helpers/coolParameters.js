@@ -55,7 +55,7 @@ const generateCSSVarTokens = () => {
 		'--color-border': '--co-border',
 		'--color-border-dark': '--co-border-dark',
 		'--border-radius-pill': '--co-border-radius-pill',
-		'--font-face': '--loleaflet-font',
+		'--font-face': '--loleaflet-font:--mobile-font:--vex-font:--jquery-ui-font:--docs-font',
 		'--image-logoheader': '--co-image-logo',
 	}
 	let str = ''
