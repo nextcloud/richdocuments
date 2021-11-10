@@ -37,6 +37,9 @@
 				<div v-else-if="serverError == 1" id="security-warning-state-failure">
 					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Setting up a new server') }}</span>
 				</div>
+				<div v-else-if="serverError == 3" id="security-warning-state-failure">
+					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Collabora Online should use the same protocol as the server installation.') }}</span>
+				</div>
 				<div v-else id="security-warning-state-ok">
 					<span class="icon icon-checkmark-white" /><span class="message">{{ t('richdocuments', 'Collabora Online server is reachable.') }}</span>
 				</div>
@@ -259,6 +262,7 @@ import { generateUrl } from '@nextcloud/router'
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
 const SERVER_STATE_CONNECTION_ERROR = 2
+const PROTOCOL_MISMATCH = 3
 
 export default {
 	name: 'AdminSettings',
@@ -329,6 +333,16 @@ export default {
 		},
 		hasHostErrors() {
 			return this.hostErrors.some(x => x)
+		}
+	},
+	watch: {
+		'settings.wopi_url'(newVal, oldVal) {
+			if (newVal !== oldVal) {
+				const protocol = this.checkUrlProtocol(newVal)
+				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
+				if (protocol !== nextcloudProtocol) this.serverError = PROTOCOL_MISMATCH
+				else this.serverError = Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+			}
 		}
 	},
 	beforeMount() {
