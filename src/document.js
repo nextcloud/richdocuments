@@ -3,6 +3,7 @@ import { getRootUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName'
+import { getUIDefaults, generateCSSVarTokens } from './helpers/coolParameters'
 
 import PostMessageService from './services/postMessage.tsx'
 import {
@@ -79,45 +80,6 @@ const hideLoadingIndicator = () => {
 	document.getElementById('loadingContainer').classList.remove('icon-loading')
 	document.getElementById('proxyLoadingIcon').classList.remove('icon-loading-small')
 	document.getElementById('proxyLoadingMessage').textContent = ''
-}
-
-const generateCSSVarTokens = () => {
-	/* NC versus COOL */
-	const cssVarMap = {
-		'--color-primary-text': '--co-primary-text',
-		'--color-primary-element': '--co-primary-element:--co-text-accent',
-		'--color-primary-element-light': '--co-primary-element-light',
-		'--color-error': '--co-color-error',
-		'--color-warning': '--co-color-warning',
-		'--color-success': '--co-color-success',
-		'--border-radius': '--co-border-radius',
-		'--border-radius-large': '--co-border-radius-large',
-		'--color-loading-light': '--co-loading-light',
-		'--color-loading-dark': '--co-loading-dark',
-		'--color-box-shadow': '--co-box-shadow',
-		'--color-border': '--co-border',
-		'--color-border-dark': '--co-border-dark',
-		'--border-radius-pill': '--co-border-radius-pill',
-		'--font-face': '--loleaflet-font',
-	}
-	let str = ''
-	try {
-		for (const cssVarKey in cssVarMap) {
-			let cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
-			if (!cStyle) {
-				// try suffix -dark instead
-				cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey + '-dark')
-			}
-			if (!cStyle) continue // skip if it is not set
-			const varNames = cssVarMap[cssVarKey].split(':')
-			for (let i = 0; i < varNames.length; ++i) {
-				str += varNames[i] + '=' + cStyle + ';'
-			}
-		}
-	} catch (e) {
-		// Skip extracting css vars if we cannot access parent
-	}
-	return str
 }
 
 showLoadingIndicator()
@@ -222,7 +184,7 @@ const documentsMain = {
 			// form to post the access token for WOPISrc
 			const form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
-				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/>'
+				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
 				+ '<input name="theme" value="nextcloud" type="hidden"/>'
 				+ '</form>'
@@ -277,7 +239,7 @@ const documentsMain = {
 			// form to post the access token for WOPISrc
 			const form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
-				+ '<input name="ui_defaults" value="TextRuler=false;TextStatusbar=true;TextSidebar=false;PresentationSidebar=false;PresentationStatusbar=true;SpreadsheetSidebar=false" type="hidden"/>'
+				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
 				+ '<input name="theme" value="nextcloud" type="hidden"/>'
 				+ '</form>'

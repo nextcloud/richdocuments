@@ -22,7 +22,7 @@
 
 <template>
 	<transition name="fade" appear>
-		<div v-show="loading" id="richdocuments-wrapper">
+		<div v-show="!loading" id="richdocuments-wrapper">
 			<div class="header">
 				<!-- This is obviously not the way to go since it would require absolute positioning and therefore not be compatible with viewer actions/sidebar -->
 				<div class="avatars">
@@ -30,8 +30,13 @@
 						:key="view.ViewId"
 						:user="view.UserId"
 						:display-name="view.UserName"
+						:show-user-status="false"
+						:show-user-status-compact="false"
 						:style="viewColor(view)" />
 				</div>
+				<Actions>
+					<ActionButton icon="icon-menu-sidebar" @click="share" />
+				</Actions>
 			</div>
 			<iframe id="collaboraframe" ref="documentFrame" :src="src" />
 		</div>
@@ -40,8 +45,11 @@
 
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
-import { getDocumentUrlForFile } from '../helpers/url'
+import { basename, dirname } from 'path'
+import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration'
 
@@ -54,6 +62,8 @@ export default {
 	name: 'Office',
 	components: {
 		Avatar,
+		Actions,
+		ActionButton,
 	},
 	props: {
 		filename: {
@@ -73,7 +83,7 @@ export default {
 	data() {
 		return {
 			src: null,
-			loading: false,
+			loading: true,
 			views: [],
 		}
 	},
@@ -90,12 +100,38 @@ export default {
 		},
 	},
 	mounted() {
+		const fileList = OCA?.Files?.App?.getCurrentFileList()
+		FilesAppIntegration.init({
+			fileName: basename(this.filename),
+			fileId: this.fileid,
+			filePath: dirname(this.filename),
+			fileList,
+			fileModel: fileList?.getModelForFile(basename(this.filename)),
+			sendPostMessage: (msgId, values) => {
+				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+			},
+		})
 		PostMessages.registerPostMessageHandler(({ parsed }) => {
 			console.debug('[viewer] Received post message', parsed)
 			const { msgId, args, deprecated } = parsed
 			if (deprecated) { return }
 
 			switch (msgId) {
+			case 'App_LoadingStatus':
+				if (args.Status === 'Frame_Ready') {
+					// defer showing the frame until collabora has finished also loading the document
+					this.loading = false
+					this.$emit('update:loaded', true)
+					FilesAppIntegration.initAfterReady()
+				}
+				if (args.Status === 'Document_Loaded') {
+					this.loading = false
+					this.$emit('update:loaded', true)
+				} else if (args.Status === 'Failed') {
+					this.loading = false
+					this.$emit('update:loaded', true)
+				}
+				break
 			case 'loading':
 				break
 			case 'close':
@@ -110,16 +146,41 @@ export default {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'postAsset', { FileName: filename, Url: url })
 				})
 				break
+			case 'UI_CreateFile':
+				FilesAppIntegration.createNewFile(args.DocumentType)
+				break
+			case 'File_Rename':
+				FilesAppIntegration.rename(args.NewName)
+				break
+			case 'UI_FileVersions':
+			case 'rev-history':
+				FilesAppIntegration.showRevHistory()
+				break
+			case 'App_VersionRestore':
+				if (args.Status === 'Pre_Restore_Ack') {
+					FilesAppIntegration.restoreVersionExecute()
+				}
+				break
+			case 'UI_Share':
+				FilesAppIntegration.share()
+				break
 			}
 		})
 		this.load()
 	},
 	methods: {
 		async load() {
-			const documentUrl = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
-			this.$emit('update:loaded', true)
-			this.src = documentUrl
+			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
+			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
+			if (isPublic) {
+				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
+			}
 			this.loading = true
+		},
+		async share() {
+			if (OCA.Files.Sidebar) {
+				OCA.Files.Sidebar.open(this.filename)
+			}
 		},
 	},
 }
@@ -127,12 +188,14 @@ export default {
 <style lang="scss">
 	.header {
 		position: absolute;
-		right: 100px;
-		top: -50px;
+		right: 44px;
+		top: 3px;
+		z-index: 99999;
+		display: flex;
 
 		.avatars {
 			display: flex;
-			padding: 9px;
+			padding: 6px;
 
 			.avatardiv {
 				margin-left: -15px;
@@ -140,12 +203,16 @@ export default {
 			}
 
 		}
+
+		.icon-menu-sidebar {
+			background-image: var(--icon-menu-sidebar-000) !important;
+		}
 	}
 
 	#richdocuments-wrapper {
-		width: 100vw;
-		height: calc(100vh - 50px);
-		top: 50px;
+		width: 100%;
+		height: 100%;
+		top: 0;
 		left: 0;
 		position: absolute;
 		z-index: 100000;

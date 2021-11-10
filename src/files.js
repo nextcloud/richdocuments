@@ -14,12 +14,14 @@ const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow,
 })
 
+const isBrandedVersion = OC.getCapabilities().richdocuments.collabora.productVersion.split('.')[0] >= 21
+
 // Workaround for Safari to resize the iframe to the proper height
 // as 100vh is not the proper viewport height there
 const handleResize = () => {
 	const frame = document.getElementById('richdocumentsframe')
 	if (frame) {
-		const headerOffset = (window.innerWidth > 768) ? 50 : 0
+		const headerOffset = (!isBrandedVersion && window.innerWidth > 768) ? 50 : 0
 		frame.style.maxHeight = (document.documentElement.clientHeight - headerOffset) + 'px'
 	}
 }
@@ -223,7 +225,8 @@ const odfViewer = {
 			$('#content').addClass('loading')
 		} else {
 			$('body').css('overflow', 'hidden')
-			$('#app-content').append($iframe)
+			$('body').append($iframe)
+			$iframe.addClass('full')
 			$iframe.hide()
 		}
 
@@ -352,12 +355,6 @@ $(document).ready(function() {
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
-		// check if texteditor app is enabled and loaded...
-		if (typeof OCA.Files_Texteditor === 'undefined' && typeof OCA.Text === 'undefined') {
-			odfViewer.supportedMimes.push('text/plain')
-		}
-
-		odfViewer.registerFileActions()
 		if (isPublic) {
 			OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
 		}

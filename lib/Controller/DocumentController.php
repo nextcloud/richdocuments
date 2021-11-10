@@ -11,6 +11,8 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Events\BeforeFederationRedirectEvent;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TokenManager;
@@ -18,6 +20,7 @@ use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -46,7 +49,7 @@ class DocumentController extends Controller {
 	/** @var IL10N */
 	private $l10n;
 	/** @var IConfig */
-	private $settings;
+	private $config;
 	/** @var AppConfig */
 	private $appConfig;
 	/** @var ILogger */
@@ -63,28 +66,16 @@ class DocumentController extends Controller {
 	private $templateManager;
 	/** @var FederationService */
 	private $federationService;
-	/** @var Helper */
-	private $helper;
+	/** @var IInitialState */
+	private $initialState;
 
 	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $settings
-	 * @param AppConfig $appConfig
-	 * @param IL10N $l10n
-	 * @param IManager $shareManager
-	 * @param TokenManager $tokenManager
-	 * @param IRootFolder $rootFolder
-	 * @param ISession $session
-	 * @param string $UserId
-	 * @param ILogger $logger
-	 */
+
 	public function __construct(
 		$appName,
 		IRequest $request,
-		IConfig $settings,
+		IConfig $config,
 		AppConfig $appConfig,
 		IL10N $l10n,
 		IManager $shareManager,
@@ -95,12 +86,13 @@ class DocumentController extends Controller {
 		ILogger $logger,
 		\OCA\Richdocuments\TemplateManager $templateManager,
 		FederationService $federationService,
-		Helper $helper
+		Helper $helper,
+		IInitialState $initialState
 	) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
 		$this->l10n = $l10n;
-		$this->settings = $settings;
+		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->shareManager = $shareManager;
 		$this->tokenManager = $tokenManager;
@@ -109,7 +101,7 @@ class DocumentController extends Controller {
 		$this->logger = $logger;
 		$this->templateManager = $templateManager;
 		$this->federationService = $federationService;
-		$this->helper = $helper;
+		$this->initialState = $initialState;
 	}
 
 	/**
@@ -187,6 +179,20 @@ class DocumentController extends Controller {
 		$response->setFeaturePolicy($featurePolicy);
 	}
 
+	private function provideDocumentInitialState(Wopi $wopi) {
+		$this->initialState->provideInitialState('wopi', $wopi);
+		$this->initialState->provideInitialState('uiDefaults', [
+			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'classic')
+		]);
+		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
+		if (!$logoSet) {
+			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
+		}
+		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
+			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
+			: false));
+	}
+
 	/**
 	 * @NoAdminRequired
 	 *
@@ -223,11 +229,11 @@ class DocumentController extends Controller {
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => $item->getName(),
-				'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+				'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
 				'token' => $token,
 				'urlsrc' => $urlSrc,
 				'path' => $folder->getRelativePath($item->getPath()),
-				'instanceId' => $this->settings->getSystemValue('instanceid'),
+				'instanceId' => $this->config->getSystemValue('instanceid'),
 				'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 				'userId' => $this->uid
 			];
@@ -243,6 +249,7 @@ class DocumentController extends Controller {
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
 			}
 
+			$this->provideDocumentInitialState($wopi);
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$this->setupPolicy($response);
 			return $response;
@@ -286,7 +293,7 @@ class DocumentController extends Controller {
 		$template = $this->templateManager->get($templateId);
 		list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
 
-		$wopiFileId = $wopi->getFileid() . '_' . $this->settings->getSystemValue('instanceid');
+		$wopiFileId = $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid');
 
 		$params = [
 			'permissions' => $template->getPermissions(),
@@ -295,11 +302,12 @@ class DocumentController extends Controller {
 			'token' => $wopi->getToken(),
 			'urlsrc' => $urlSrc,
 			'path' => $userFolder->getRelativePath($file->getPath()),
-			'instanceId' => $this->settings->getSystemValue('instanceid'),
+			'instanceId' => $this->config->getSystemValue('instanceid'),
 			'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 			'userId' => $this->uid
 		];
 
+		$this->provideDocumentInitialState($wopi);
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 		$this->setupPolicy($response);
 		return $response;
@@ -346,17 +354,18 @@ class DocumentController extends Controller {
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $item->getName(),
-					'fileId' => $item->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+					'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
 					'path' => '/',
-					'instanceId' => $this->settings->getSystemValue('instanceid'),
+					'instanceId' => $this->config->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 					'userId' => $this->uid,
 				];
 
-				list($urlSrc, $token) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params['token'] = $token;
 				$params['urlsrc'] = $urlSrc;
 
+				$this->provideDocumentInitialState($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$this->setupPolicy($response);
 				return $response;
@@ -466,15 +475,16 @@ class DocumentController extends Controller {
 				$params = [
 					'permissions' => $permissions,
 					'title' => $node->getName(),
-					'fileId' => $node->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+					'fileId' => $node->getId() . '_' . $this->config->getSystemValue('instanceid'),
 					'token' => $token,
 					'urlsrc' => $urlSrc,
 					'path' => '/',
-					'instanceId' => $this->settings->getSystemValue('instanceid'),
+					'instanceId' => $this->config->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 					'userId' => $remoteWopi->getEditorUid() ? ($remoteWopi->getEditorUid() . '@' . $remoteServer) : null,
 				];
 
+				$this->provideDocumentInitialState($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$remoteWopi = $this->domainOnly($this->appConfig->getAppValue('wopi_url'));
 				$policy = new ContentSecurityPolicy();
