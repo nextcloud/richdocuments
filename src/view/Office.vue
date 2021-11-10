@@ -48,7 +48,8 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
-import { getDocumentUrlForFile } from '../helpers/url'
+import { basename, dirname } from 'path'
+import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration'
 
@@ -99,6 +100,17 @@ export default {
 		},
 	},
 	mounted() {
+		const fileList = OCA?.Files?.App?.getCurrentFileList()
+		FilesAppIntegration.init({
+			fileName: basename(this.filename),
+			fileId: this.fileid,
+			filePath: dirname(this.filename),
+			fileList,
+			fileModel: fileList?.getModelForFile(basename(this.filename)),
+			sendPostMessage: (msgId, values) => {
+				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+			},
+		})
 		PostMessages.registerPostMessageHandler(({ parsed }) => {
 			console.debug('[viewer] Received post message', parsed)
 			const { msgId, args, deprecated } = parsed
@@ -108,6 +120,9 @@ export default {
 			case 'App_LoadingStatus':
 				if (args.Status === 'Frame_Ready') {
 					// defer showing the frame until collabora has finished also loading the document
+					this.loading = false
+					this.$emit('update:loaded', true)
+					FilesAppIntegration.initAfterReady()
 				}
 				if (args.Status === 'Document_Loaded') {
 					this.loading = false
@@ -131,8 +146,23 @@ export default {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'postAsset', { FileName: filename, Url: url })
 				})
 				break
+			case 'UI_CreateFile':
+				FilesAppIntegration.createNewFile(args.DocumentType)
+				break
+			case 'File_Rename':
+				FilesAppIntegration.rename(args.NewName)
+				break
+			case 'UI_FileVersions':
+			case 'rev-history':
+				FilesAppIntegration.showRevHistory()
+				break
+			case 'App_VersionRestore':
+				if (args.Status === 'Pre_Restore_Ack') {
+					FilesAppIntegration.restoreVersionExecute()
+				}
+				break
 			case 'UI_Share':
-				this.share()
+				FilesAppIntegration.share()
 				break
 			}
 		})
@@ -140,9 +170,12 @@ export default {
 	},
 	methods: {
 		async load() {
-			const documentUrl = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
+			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
+			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
+			if (isPublic) {
+				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
+			}
 			this.loading = true
-			this.src = documentUrl
 		},
 		async share() {
 			if (OCA.Files.Sidebar) {

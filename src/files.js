@@ -355,12 +355,6 @@ $(document).ready(function() {
 		&& typeof OCA.Files !== 'undefined'
 		&& typeof OCA.Files.fileActions !== 'undefined'
 	) {
-		// check if texteditor app is enabled and loaded...
-		if (typeof OCA.Files_Texteditor === 'undefined' && typeof OCA.Text === 'undefined') {
-			odfViewer.supportedMimes.push('text/plain')
-		}
-
-		odfViewer.registerFileActions()
 		if (isPublic) {
 			OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
 		}
