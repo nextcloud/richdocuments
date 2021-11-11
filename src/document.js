@@ -3,7 +3,7 @@ import { getRootUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName'
-import { getUIDefaults, generateCSSVarTokens } from './helpers/coolParameters'
+import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters'
 
 import PostMessageService from './services/postMessage.tsx'
 import {
@@ -186,7 +186,7 @@ const documentsMain = {
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
-				+ '<input name="theme" value="nextcloud" type="hidden"/>'
+				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
@@ -241,7 +241,7 @@ const documentsMain = {
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
-				+ '<input name="theme" value="nextcloud" type="hidden"/>'
+				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online

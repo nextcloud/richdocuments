@@ -35,6 +35,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -44,6 +45,8 @@ use OCP\ILogger;
 use OCP\IRequest;
 
 class DirectViewController extends Controller {
+	use TDocumentInitialState;
+
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -68,12 +71,16 @@ class DirectViewController extends Controller {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IInitialState */
+	private $initialState;
+
 	public function __construct(
 		$appName,
 		IRequest $request,
 		IRootFolder $rootFolder,
 		TokenManager $tokenManager,
 		DirectMapper $directMapper,
+		IInitialState $initialState,
 		IConfig $config,
 		AppConfig $appConfig,
 		TemplateManager $templateManager,
@@ -85,6 +92,7 @@ class DirectViewController extends Controller {
 		$this->rootFolder = $rootFolder;
 		$this->tokenManager = $tokenManager;
 		$this->directMapper = $directMapper;
+		$this->initialState = $initialState;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->templateManager = $templateManager;
@@ -171,6 +179,7 @@ class DirectViewController extends Controller {
 				'direct' => true,
 			];
 
+			$this->provideDocumentInitialState($wopi);
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$policy = new ContentSecurityPolicy();
 			$policy->allowInlineScript(true);
@@ -226,6 +235,7 @@ class DirectViewController extends Controller {
 				$params['token'] = $token;
 				$params['urlsrc'] = $urlSrc;
 
+				$this->provideDocumentInitialState($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$policy = new ContentSecurityPolicy();
 				$policy->allowInlineScript(true);
@@ -235,7 +245,7 @@ class DirectViewController extends Controller {
 			}
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
-			$response = $this->renderErrorPage('Failed to open the requested file.');
+			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');

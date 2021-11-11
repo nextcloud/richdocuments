@@ -37,6 +37,10 @@ const getUIDefaults = () => {
 	return uiDefaults
 }
 
+const getCollaboraTheme = () => {
+	return loadState('richdocuments', 'theme', '')
+}
+
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
 	const cssVarMap = {
@@ -85,5 +89,6 @@ const generateCSSVarTokens = () => {
 
 export {
 	getUIDefaults,
+	getCollaboraTheme,
 	generateCSSVarTokens,
 }

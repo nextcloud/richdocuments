@@ -44,6 +44,8 @@ use OCP\Share\IManager;
 use OC\Files\Type\TemplateManager;
 
 class DocumentController extends Controller {
+	use TDocumentInitialState;
+
 	/** @var string */
 	private $uid;
 	/** @var IL10N */
@@ -177,20 +179,6 @@ class DocumentController extends Controller {
 		$featurePolicy = new FeaturePolicy();
 		$featurePolicy->addAllowedFullScreenDomain($wopiDomain);
 		$response->setFeaturePolicy($featurePolicy);
-	}
-
-	private function provideDocumentInitialState(Wopi $wopi) {
-		$this->initialState->provideInitialState('wopi', $wopi);
-		$this->initialState->provideInitialState('uiDefaults', [
-			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'classic')
-		]);
-		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
-		if (!$logoSet) {
-			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
-		}
-		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
-			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
-			: false));
 	}
 
 	/**
