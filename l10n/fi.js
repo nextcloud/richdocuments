@@ -4,6 +4,7 @@ OC.L10N.register(
     "New document" : "Uusi dokumentti",
     "New spreadsheet" : "Uusi laskentataulukko",
     "New presentation" : "Uusi esitys",
+    "New graphic" : "Uusi grafiikka",
     "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Dokumentin luonti epäonnistui",
     "New Document.odt" : "Uusi asiakirja.odt",
@@ -63,6 +64,7 @@ OC.L10N.register(
     "Remove user" : "Poista käyttäjä",
     "Guest" : "Vieras",
     "Last saved version" : "Viimeisin tallennettu versio",
+    "Current version (unsaved changes)" : "Nykyinen versio (tallentamattomia muutoksia)",
     "Failed to revert the document to older version" : "Asiakirjan palauttaminen aikaisempaan versioon epäonnistui",
     "Please enter the filename for the new document" : "Anna tiedostonimi uudelle asiakirjalle",
     "Create a new document" : "Luo uusi asiakirja",
@@ -75,6 +77,10 @@ OC.L10N.register(
     "Add a new one?" : "Lisätäänkö uusi?",
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
-    "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio"
+    "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
+    "Current version" : "Nykyinen versio",
+    "New Document" : "Uusi asiakirja",
+    "New Spreadsheet" : "Uusi taulukko",
+    "New Presentation" : "Uusi esitys"
 },
 "nplurals=2; plural=(n != 1);");
