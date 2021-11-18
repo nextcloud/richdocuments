@@ -22,9 +22,19 @@
 
 <template>
 	<transition name="fade" appear>
-		<div v-show="!loading" id="richdocuments-wrapper">
-			<div class="header">
-				<!-- This is obviously not the way to go since it would require absolute positioning and therefore not be compatible with viewer actions/sidebar -->
+		<div id="richdocuments-wrapper">
+			<div v-if="showLoadingIndicator" id="cool-loading-overlay" :class="{ debug: debug }">
+				<EmptyContent v-if="!error" icon="icon-loading">
+					Loading document
+				</EmptyContent>
+				<EmptyContent v-else icon="icon-error">
+					{{ t('richdocuments', 'Document loading failed') }}
+					<template #desc>
+						{{ errorMessage }}
+					</template>
+				</EmptyContent>
+			</div>
+			<div v-show="!useNativeHeader && showIframe" class="header">
 				<div class="avatars">
 					<Avatar v-for="view in avatarViews"
 						:key="view.ViewId"
@@ -38,7 +48,10 @@
 					<ActionButton icon="icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
-			<iframe id="collaboraframe" ref="documentFrame" :src="src" />
+			<iframe v-show="showIframe"
+				id="collaboraframe"
+				ref="documentFrame"
+				:src="src" />
 		</div>
 	</transition>
 </template>
@@ -47,16 +60,30 @@
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 import { basename, dirname } from 'path'
 import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration'
+import { checkProxyStatus } from '../services/collabora'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('collaboraframe').contentWindow,
 })
+
+const LOADING_STATE = {
+	LOADING: 0,
+	FRAME_READY: 1,
+	DOCUMENT_READY: 2,
+
+	FAILED: -1,
+}
+
+const LOADING_ERROR = {
+	PROXY_FAILED: 1,
+}
 
 export default {
 	name: 'Office',
@@ -64,6 +91,7 @@ export default {
 		Avatar,
 		Actions,
 		ActionButton,
+		EmptyContent,
 	},
 	props: {
 		filename: {
@@ -83,11 +111,15 @@ export default {
 	data() {
 		return {
 			src: null,
-			loading: true,
+			loading: LOADING_STATE.LOADING,
+			error: null,
 			views: [],
 		}
 	},
 	computed: {
+		useNativeHeader() {
+			return true
+		},
 		avatarViews() {
 			return this.views
 		},
@@ -98,9 +130,34 @@ export default {
 				'border-style': 'solid',
 			})
 		},
+		showIframe() {
+			return this.loading >= LOADING_STATE.FRAME_READY
+		},
+		showLoadingIndicator() {
+			return this.loading !== LOADING_STATE.DOCUMENT_READY
+		},
+		errorMessage() {
+			switch (this.error) {
+			case LOADING_ERROR.PROXY_FAILED:
+				return t('richdocuments', 'Starting the built-in CODE server failed')
+			default:
+				return t('richdocuments', 'Unknown error')
+			}
+		},
+		debug() {
+			return !!window.TESTING
+		},
 	},
-	mounted() {
-		const fileList = OCA?.Files?.App?.getCurrentFileList()
+	async mounted() {
+		try {
+			await checkProxyStatus()
+		} catch (e) {
+			this.error = LOADING_ERROR.PROXY_FAILED
+			this.loading = LOADING_STATE.FAILED
+			return
+		}
+
+		const fileList = OCA?.Files?.App?.getCurrentFileList?.()
 		FilesAppIntegration.init({
 			fileName: basename(this.filename),
 			fileId: this.fileid,
@@ -120,15 +177,14 @@ export default {
 			case 'App_LoadingStatus':
 				if (args.Status === 'Frame_Ready') {
 					// defer showing the frame until collabora has finished also loading the document
-					this.loading = false
+					this.loading = LOADING_STATE.FRAME_READY
 					this.$emit('update:loaded', true)
 					FilesAppIntegration.initAfterReady()
 				}
 				if (args.Status === 'Document_Loaded') {
-					this.loading = false
-					this.$emit('update:loaded', true)
+					this.loading = LOADING_STATE.DOCUMENT_READY
 				} else if (args.Status === 'Failed') {
-					this.loading = false
+					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
 				}
 				break
@@ -175,7 +231,7 @@ export default {
 			if (isPublic) {
 				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
 			}
-			this.loading = true
+			this.loading = LOADING_STATE.LOADING
 		},
 		async share() {
 			if (OCA.Files.Sidebar) {
@@ -186,16 +242,31 @@ export default {
 }
 </script>
 <style lang="scss">
+	#cool-loading-overlay {
+		border-top: 3px solid var(--color-primary-element);
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #fff;
+		&.debug {
+			opacity: .5;
+		}
+	}
+
 	.header {
 		position: absolute;
 		right: 44px;
 		top: 3px;
 		z-index: 99999;
 		display: flex;
+		background-color: #fff;
 
 		.avatars {
 			display: flex;
-			padding: 6px;
+			padding: 4px;
 
 			.avatardiv {
 				margin-left: -15px;
