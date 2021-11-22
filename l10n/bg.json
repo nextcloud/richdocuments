@@ -38,7 +38,7 @@
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online изисква отделен сървър, действащ като WOPI-подобен клиент, за да предостави възможности за редактиране.",
     "URL (and Port) of Collabora Online-server" : "URL (и порт) на Collabora Online-сървър",
     "Disable certificate verification (insecure)" : "Деактивиране на потвърждение на сертификата (несигурно)",
-    "Use the built-in CODE - Collabora Online Development Edition" : "Използвайте вградения КОД - Издание за разработка на Collabora Online",
+    "Use the built-in CODE - Collabora Online Development Edition" : "Използвайте вградения CODE/КОД/ - Издание за разработка на Collabora Online",
     "Easy to install, for home use or small groups. A bit slower than a standalone server and without the advanced scalability features." : "Лесен за инсталиране, за домашна употреба или малки групи. Малко по-бавен от самостоятелен сървър и без разширените функции за мащабируемост.",
     "This installation does not have a built in server." : "Тази инсталация няма вграден сървър.",
     "Install it from the App Store." : "Инсталирайте го от App Store.",
