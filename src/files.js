@@ -252,7 +252,6 @@ const odfViewer = {
 		odfViewer.receivedLoading = true
 		$('#richdocumentsframe').prop('title', 'Collabora Online')
 		$('#richdocumentsframe').show()
-		handleResize()
 		$('html, body').scrollTop(0)
 		$('#content').removeClass('loading')
 		FilesAppIntegration.initAfterReady()
@@ -395,6 +394,7 @@ $(document).ready(function() {
 					...FilesAppIntegration.loggingContext(),
 				})
 			} else {
+				handleResize()
 				emit('richdocuments:file-open:succeeded', {
 					...FilesAppIntegration.loggingContext(),
 				})
