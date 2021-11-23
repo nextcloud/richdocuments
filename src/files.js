@@ -373,9 +373,11 @@ $(document).ready(function() {
 	// Open documents if a public page is opened for a supported mimetype
 	const isSupportedMime = isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1 && odfViewer.excludeMimeFromDefaultOpen.indexOf($('#mimetype').val()) === -1
 	const showSecureView = isPublic && isDownloadHidden && odfViewer.hideDownloadMimes.indexOf($('#mimetype').val()) !== -1
-	if (isSupportedMime || showSecureView) {
-		odfViewer.onEdit(document.getElementById('filename').value)
+	if (!isSupportedMime && !showSecureView) {
+		return
 	}
+
+	odfViewer.onEdit(document.getElementById('filename').value)
 
 	PostMessages.registerPostMessageHandler(({ parsed }) => {
 		console.debug('[viewer] Received post message', parsed)
