@@ -32,7 +32,7 @@ trait TDocumentInitialState {
 
 	private function provideDocumentInitialState(Wopi $wopi): void {
 		$this->initialState->provideInitialState('wopi', $wopi);
-		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', ''));
+		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
 		$this->initialState->provideInitialState('uiDefaults', [
 			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'classic')
 		]);
