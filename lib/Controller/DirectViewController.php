@@ -26,6 +26,7 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Service\FederationService;
+use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
@@ -35,7 +36,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -45,7 +45,6 @@ use OCP\ILogger;
 use OCP\IRequest;
 
 class DirectViewController extends Controller {
-	use TDocumentInitialState;
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -71,7 +70,7 @@ class DirectViewController extends Controller {
 	/** @var ILogger */
 	private $logger;
 
-	/** @var IInitialState */
+	/** @var InitialStateService */
 	private $initialState;
 
 	public function __construct(
@@ -80,7 +79,7 @@ class DirectViewController extends Controller {
 		IRootFolder $rootFolder,
 		TokenManager $tokenManager,
 		DirectMapper $directMapper,
-		IInitialState $initialState,
+		InitialStateService $initialState,
 		IConfig $config,
 		AppConfig $appConfig,
 		TemplateManager $templateManager,
@@ -179,7 +178,7 @@ class DirectViewController extends Controller {
 				'direct' => true,
 			];
 
-			$this->provideDocumentInitialState($wopi);
+			$this->initialState->provideDocument($wopi);
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$policy = new ContentSecurityPolicy();
 			$policy->allowInlineScript(true);
@@ -235,7 +234,7 @@ class DirectViewController extends Controller {
 				$params['token'] = $token;
 				$params['urlsrc'] = $urlSrc;
 
-				$this->provideDocumentInitialState($wopi);
+				$this->initialState->provideDocument($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$policy = new ContentSecurityPolicy();
 				$policy->allowInlineScript(true);
