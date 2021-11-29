@@ -125,7 +125,7 @@ export default {
 			return
 		}
 		if (OCA.Files.Sidebar) {
-			OCA.Files.Sidebar.open(this.filename)
+			OCA.Files.Sidebar.open(this.filePath + '/' + this.fileName)
 		}
 	},
 

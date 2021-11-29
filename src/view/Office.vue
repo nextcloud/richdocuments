@@ -23,7 +23,9 @@
 <template>
 	<transition name="fade" appear>
 		<div id="richdocuments-wrapper">
-			<div v-if="showLoadingIndicator" id="cool-loading-overlay" :class="{ debug: debug }">
+			<div v-if="showLoadingIndicator"
+				id="cool-loading-overlay"
+				:class="{ debug: debug }">
 				<EmptyContent v-if="!error" icon="icon-loading">
 					{{ t('richdocuments', 'Loading {filename}…', { filename: basename }) }}
 					<template #desc>
