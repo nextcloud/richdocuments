@@ -25,12 +25,20 @@
 		<div id="richdocuments-wrapper">
 			<div v-if="showLoadingIndicator" id="cool-loading-overlay" :class="{ debug: debug }">
 				<EmptyContent v-if="!error" icon="icon-loading">
-					Loading document
+					{{ t('richdocuments', 'Loading {filename}…', { filename: basename }) }}
+					<template #desc>
+						<button @click="close">
+							{{ t('richdocuments', 'Cancel') }}
+						</button>
+					</template>
 				</EmptyContent>
 				<EmptyContent v-else icon="icon-error">
 					{{ t('richdocuments', 'Document loading failed') }}
 					<template #desc>
-						{{ errorMessage }}
+						{{ errorMessage }}<br><br>
+						<button @click="close">
+							{{ t('richdocuments', 'Close') }}
+						</button>
 					</template>
 				</EmptyContent>
 			</div>
@@ -61,13 +69,13 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { loadState } from '@nextcloud/initial-state'
 
 import { basename, dirname } from 'path'
 import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration'
-import { checkProxyStatus } from '../services/collabora'
-
+import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora'
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('collaboraframe').contentWindow,
@@ -77,12 +85,7 @@ const LOADING_STATE = {
 	LOADING: 0,
 	FRAME_READY: 1,
 	DOCUMENT_READY: 2,
-
 	FAILED: -1,
-}
-
-const LOADING_ERROR = {
-	PROXY_FAILED: 1,
 }
 
 export default {
@@ -112,11 +115,15 @@ export default {
 		return {
 			src: null,
 			loading: LOADING_STATE.LOADING,
+			loadingTimeout: null,
 			error: null,
 			views: [],
 		}
 	},
 	computed: {
+		basename() {
+			return basename(this.filename)
+		},
 		useNativeHeader() {
 			return true
 		},
@@ -137,11 +144,13 @@ export default {
 			return this.loading !== LOADING_STATE.DOCUMENT_READY
 		},
 		errorMessage() {
-			switch (this.error) {
+			switch (parseInt(this.error)) {
+			case LOADING_ERROR.COLLABORA_UNCONFIGURED:
+				return t('richdocuments', '{productName} is not configured', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
 			case LOADING_ERROR.PROXY_FAILED:
 				return t('richdocuments', 'Starting the built-in CODE server failed')
 			default:
-				return t('richdocuments', 'Unknown error')
+				return this.error
 			}
 		},
 		debug() {
@@ -150,9 +159,10 @@ export default {
 	},
 	async mounted() {
 		try {
+			await checkCollaboraConfiguration()
 			await checkProxyStatus()
 		} catch (e) {
-			this.error = LOADING_ERROR.PROXY_FAILED
+			this.error = e.message
 			this.loading = LOADING_STATE.FAILED
 			return
 		}
@@ -168,7 +178,37 @@ export default {
 				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 			},
 		})
-		PostMessages.registerPostMessageHandler(({ parsed }) => {
+		PostMessages.registerPostMessageHandler(this.postMessageHandler)
+		this.load()
+	},
+	beforeDestroy() {
+		PostMessages.unregisterPostMessageHandler(this.postMessageHandler)
+	},
+	methods: {
+		async load() {
+			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
+			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
+			if (isPublic) {
+				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
+			}
+			this.loading = LOADING_STATE.LOADING
+			this.loadingTimeout = setTimeout(() => {
+				console.error('FAILED')
+				this.loading = LOADING_STATE.FAILED
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
+			}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+		},
+		documentReady() {
+			this.loading = LOADING_STATE.DOCUMENT_READY
+			clearTimeout(this.loadingTimeout)
+		},
+		async share() {
+			FilesAppIntegration.share()
+		},
+		close() {
+			this.$parent.close()
+		},
+		postMessageHandler({ parsed }) {
 			console.debug('[viewer] Received post message', parsed)
 			const { msgId, args, deprecated } = parsed
 			if (deprecated) { return }
@@ -182,16 +222,24 @@ export default {
 					FilesAppIntegration.initAfterReady()
 				}
 				if (args.Status === 'Document_Loaded') {
-					this.loading = LOADING_STATE.DOCUMENT_READY
+					this.documentReady()
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
 				}
 				break
+			case 'Action_Load_Resp':
+				if (args.success) {
+					this.documentReady()
+				} else {
+					this.error = args.errorMsg
+					this.loading = LOADING_STATE.FAILED
+				}
+				break
 			case 'loading':
 				break
 			case 'close':
-				this.$parent.close()
+				this.close()
 				break
 			case 'Get_Views_Resp':
 			case 'Views_List':
@@ -218,24 +266,8 @@ export default {
 				}
 				break
 			case 'UI_Share':
-				FilesAppIntegration.share()
+				this.share()
 				break
-			}
-		})
-		this.load()
-	},
-	methods: {
-		async load() {
-			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
-			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
-			if (isPublic) {
-				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
-			}
-			this.loading = LOADING_STATE.LOADING
-		},
-		async share() {
-			if (OCA.Files.Sidebar) {
-				OCA.Files.Sidebar.open(this.filename)
 			}
 		},
 	},
@@ -253,6 +285,10 @@ export default {
 		background-color: #fff;
 		&.debug {
 			opacity: .5;
+		}
+
+		.empty-content p {
+			text-align: center;
 		}
 	}
 

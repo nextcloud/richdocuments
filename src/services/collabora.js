@@ -19,9 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import { getCapabilities } from '@nextcloud/capabilities'
 import axios from '@nextcloud/axios'
+import { getCapabilities } from '@nextcloud/capabilities'
+
+export const LOADING_ERROR = {
+	COLLABORA_UNCONFIGURED: 1,
+	PROXY_FAILED: 2,
+}
 
 export const isCollaboraConfigured = () => {
 	const collaboraCapabilities = getCapabilities()?.richdocuments?.collabora
@@ -33,14 +37,16 @@ export const isBuiltinCodeServerUsed = () => {
 	return richdocumentsCapabilities?.config?.wopi_url?.indexOf('proxy.php') !== -1
 }
 
-let proxyStatusCheckRetry = 0
-export const checkProxyStatus = async(_resolve, _reject) => {
-
+export const checkCollaboraConfiguration = async() => {
 	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
 	if (!wopiUrl) {
-		throw Error(t('richdocuments', 'Collabora is not configured'))
+		throw Error(LOADING_ERROR.COLLABORA_UNCONFIGURED)
 	}
+}
 
+let proxyStatusCheckRetry = 0
+export const checkProxyStatus = async(_resolve, _reject) => {
+	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
 	if (wopiUrl.indexOf('proxy.php') === -1) {
 		return true
 	}
