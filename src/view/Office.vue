@@ -22,9 +22,29 @@
 
 <template>
 	<transition name="fade" appear>
-		<div v-show="!loading" id="richdocuments-wrapper">
-			<div class="header">
-				<!-- This is obviously not the way to go since it would require absolute positioning and therefore not be compatible with viewer actions/sidebar -->
+		<div id="richdocuments-wrapper">
+			<div v-if="showLoadingIndicator"
+				id="cool-loading-overlay"
+				:class="{ debug: debug }">
+				<EmptyContent v-if="!error" icon="icon-loading">
+					{{ t('richdocuments', 'Loading {filename}…', { filename: basename }) }}
+					<template #desc>
+						<button @click="close">
+							{{ t('richdocuments', 'Cancel') }}
+						</button>
+					</template>
+				</EmptyContent>
+				<EmptyContent v-else icon="icon-error">
+					{{ t('richdocuments', 'Document loading failed') }}
+					<template #desc>
+						{{ errorMessage }}<br><br>
+						<button @click="close">
+							{{ t('richdocuments', 'Close') }}
+						</button>
+					</template>
+				</EmptyContent>
+			</div>
+			<div v-show="!useNativeHeader && showIframe" class="header">
 				<div class="avatars">
 					<Avatar v-for="view in avatarViews"
 						:key="view.ViewId"
@@ -38,7 +58,10 @@
 					<ActionButton icon="icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
-			<iframe id="collaboraframe" ref="documentFrame" :src="src" />
+			<iframe v-show="showIframe"
+				id="collaboraframe"
+				ref="documentFrame"
+				:src="src" />
 		</div>
 	</transition>
 </template>
@@ -47,16 +70,25 @@
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { loadState } from '@nextcloud/initial-state'
 
 import { basename, dirname } from 'path'
 import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration'
-
+import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora'
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('collaboraframe').contentWindow,
 })
+
+const LOADING_STATE = {
+	LOADING: 0,
+	FRAME_READY: 1,
+	DOCUMENT_READY: 2,
+	FAILED: -1,
+}
 
 export default {
 	name: 'Office',
@@ -64,6 +96,7 @@ export default {
 		Avatar,
 		Actions,
 		ActionButton,
+		EmptyContent,
 	},
 	props: {
 		filename: {
@@ -83,11 +116,19 @@ export default {
 	data() {
 		return {
 			src: null,
-			loading: true,
+			loading: LOADING_STATE.LOADING,
+			loadingTimeout: null,
+			error: null,
 			views: [],
 		}
 	},
 	computed: {
+		basename() {
+			return basename(this.filename)
+		},
+		useNativeHeader() {
+			return true
+		},
 		avatarViews() {
 			return this.views
 		},
@@ -98,9 +139,37 @@ export default {
 				'border-style': 'solid',
 			})
 		},
+		showIframe() {
+			return this.loading >= LOADING_STATE.FRAME_READY
+		},
+		showLoadingIndicator() {
+			return this.loading !== LOADING_STATE.DOCUMENT_READY
+		},
+		errorMessage() {
+			switch (parseInt(this.error)) {
+			case LOADING_ERROR.COLLABORA_UNCONFIGURED:
+				return t('richdocuments', '{productName} is not configured', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
+			case LOADING_ERROR.PROXY_FAILED:
+				return t('richdocuments', 'Starting the built-in CODE server failed')
+			default:
+				return this.error
+			}
+		},
+		debug() {
+			return !!window.TESTING
+		},
 	},
-	mounted() {
-		const fileList = OCA?.Files?.App?.getCurrentFileList()
+	async mounted() {
+		try {
+			await checkCollaboraConfiguration()
+			await checkProxyStatus()
+		} catch (e) {
+			this.error = e.message
+			this.loading = LOADING_STATE.FAILED
+			return
+		}
+
+		const fileList = OCA?.Files?.App?.getCurrentFileList?.()
 		FilesAppIntegration.init({
 			fileName: basename(this.filename),
 			fileId: this.fileid,
@@ -111,7 +180,37 @@ export default {
 				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 			},
 		})
-		PostMessages.registerPostMessageHandler(({ parsed }) => {
+		PostMessages.registerPostMessageHandler(this.postMessageHandler)
+		this.load()
+	},
+	beforeDestroy() {
+		PostMessages.unregisterPostMessageHandler(this.postMessageHandler)
+	},
+	methods: {
+		async load() {
+			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
+			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
+			if (isPublic) {
+				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
+			}
+			this.loading = LOADING_STATE.LOADING
+			this.loadingTimeout = setTimeout(() => {
+				console.error('FAILED')
+				this.loading = LOADING_STATE.FAILED
+				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
+			}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+		},
+		documentReady() {
+			this.loading = LOADING_STATE.DOCUMENT_READY
+			clearTimeout(this.loadingTimeout)
+		},
+		async share() {
+			FilesAppIntegration.share()
+		},
+		close() {
+			this.$parent.close()
+		},
+		postMessageHandler({ parsed }) {
 			console.debug('[viewer] Received post message', parsed)
 			const { msgId, args, deprecated } = parsed
 			if (deprecated) { return }
@@ -120,22 +219,29 @@ export default {
 			case 'App_LoadingStatus':
 				if (args.Status === 'Frame_Ready') {
 					// defer showing the frame until collabora has finished also loading the document
-					this.loading = false
+					this.loading = LOADING_STATE.FRAME_READY
 					this.$emit('update:loaded', true)
 					FilesAppIntegration.initAfterReady()
 				}
 				if (args.Status === 'Document_Loaded') {
-					this.loading = false
-					this.$emit('update:loaded', true)
+					this.documentReady()
 				} else if (args.Status === 'Failed') {
-					this.loading = false
+					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
+				}
+				break
+			case 'Action_Load_Resp':
+				if (args.success) {
+					this.documentReady()
+				} else {
+					this.error = args.errorMsg
+					this.loading = LOADING_STATE.FAILED
 				}
 				break
 			case 'loading':
 				break
 			case 'close':
-				this.$parent.close()
+				this.close()
 				break
 			case 'Get_Views_Resp':
 			case 'Views_List':
@@ -162,40 +268,43 @@ export default {
 				}
 				break
 			case 'UI_Share':
-				FilesAppIntegration.share()
+				this.share()
 				break
-			}
-		})
-		this.load()
-	},
-	methods: {
-		async load() {
-			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
-			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
-			if (isPublic) {
-				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
-			}
-			this.loading = true
-		},
-		async share() {
-			if (OCA.Files.Sidebar) {
-				OCA.Files.Sidebar.open(this.filename)
 			}
 		},
 	},
 }
 </script>
 <style lang="scss">
+	#cool-loading-overlay {
+		border-top: 3px solid var(--color-primary-element);
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		background-color: #fff;
+		&.debug {
+			opacity: .5;
+		}
+
+		.empty-content p {
+			text-align: center;
+		}
+	}
+
 	.header {
 		position: absolute;
 		right: 44px;
 		top: 3px;
 		z-index: 99999;
 		display: flex;
+		background-color: #fff;
 
 		.avatars {
 			display: flex;
-			padding: 6px;
+			padding: 4px;
 
 			.avatardiv {
 				margin-left: -15px;

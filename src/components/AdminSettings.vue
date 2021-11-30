@@ -23,8 +23,13 @@
 <template>
 	<div>
 		<div class="section">
-			<h2>Collabora Online</h2>
-			<p>{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}</p>
+			<h2>{{ productName }}</h2>
+			<p v-if="hasNextcloudBranding">
+				{{ t('richdocuments', 'Nextcloud Office is a powerful Collabora Online based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
+			</p>
+			<p v-else>
+				{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
+			</p>
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
 				<div v-if="serverError == 2 && isNginx && serverMode === 'builtin'" id="security-warning-state-failure">
@@ -62,6 +67,7 @@
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
+						<em>{{ t('richdocuments', 'Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities.') }}</em>
 						<em>{{ t('richdocuments', 'Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
@@ -211,7 +217,7 @@
 
 			<SettingsCheckbox :value="settings.use_groups !== null"
 				:label="t('richdocuments', 'Restrict usage to specific groups')"
-				:hint="t('richdocuments', 'Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it.')"
+				:hint="t('richdocuments', '{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it.', { productName })"
 				:disabled="updating"
 				@input="updateUseGroups">
 				<SettingsSelectGroup v-if="settings.use_groups !== null"
@@ -224,7 +230,7 @@
 
 			<SettingsCheckbox :value="settings.edit_groups !== null"
 				:label="t('richdocuments', 'Restrict edit to specific groups')"
-				hint="All users can edit documents with Collabora Online by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.')"
+				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.', { productName })"
 				:disabled="updating"
 				@input="updateEditGroups">
 				<SettingsSelectGroup v-if="settings.edit_groups !== null"
@@ -343,6 +349,8 @@
 
 <script>
 import Vue from 'vue'
+import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import axios from '@nextcloud/axios'
@@ -351,7 +359,6 @@ import SettingsInputText from './SettingsInputText'
 import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
 import SettingsExternalApps from './SettingsExternalApps'
-import { generateUrl } from '@nextcloud/router'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -377,6 +384,9 @@ export default {
 	},
 	data() {
 		return {
+			productName: loadState('richdocuments', 'productName', 'Nextcloud Office'),
+			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
+
 			serverMode: '',
 			serverError: Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],

@@ -27,6 +27,7 @@ namespace OCA\Richdocuments\AppInfo;
 use OC\EventDispatcher\SymfonyAdapter;
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
+use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
@@ -38,6 +39,7 @@ use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
+use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
@@ -77,12 +79,6 @@ class Application extends App implements IBootstrap {
 				return;
 			}
 		}
-
-		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
-		$eventDispatcher->addListener(LoadViewer::class, function () {
-			\OCP\Util::addScript('richdocuments', 'richdocuments-viewer');
-		});
 
 		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService) {
 			if (empty($capabilitiesService->getCapabilities())) {
@@ -142,17 +138,15 @@ class Application extends App implements IBootstrap {
 			});
 		});
 
-		$context->injectFn(function (SymfonyAdapter $eventDispatcher) {
-			$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts',
-				function() {
-					\OCP\Util::addScript('richdocuments', 'richdocuments-files');
-				}
-			);
-			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts',
-				function() {
-					\OCP\Util::addScript('richdocuments', 'richdocuments-files');
-				}
-			);
+		$context->injectFn(function (SymfonyAdapter $symfonyAdapter, IEventDispatcher $eventDispatcher, InitialStateService $initialStateService) {
+			$eventDispatcher->addListener(LoadViewer::class, function () use ($initialStateService) {
+				$initialStateService->provideCapabilities();
+				\OCP\Util::addScript('richdocuments', 'richdocuments-viewer');
+			});
+			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () use ($initialStateService) {
+				$initialStateService->provideCapabilities();
+				\OCP\Util::addScript('richdocuments', 'richdocuments-files');
+			});
 
 			if (class_exists('\OC\Files\Type\TemplateManager')) {
 				$manager = \OC_Helper::getFileTemplateManager();

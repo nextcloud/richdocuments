@@ -23,55 +23,59 @@
 
 namespace OCA\Richdocuments\Settings;
 
-use OCA\Richdocuments\Capabilities;
-use OCA\Richdocuments\TemplateManager;
+use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\InitialStateService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
+	/** @var IConfig Config */
 	private $config;
-	private $userId;
-	private $capabilities;
 
-	public function __construct(IConfig $config, Capabilities $capabilities, $userId) {
+	/** @var CapabilitiesService */
+	private $capabilitiesService;
+
+	/** @var InitialStateService */
+	private $initialState;
+
+	/** @var string */
+	private $userId;
+
+	public function __construct(IConfig $config, CapabilitiesService $capabilitiesService, InitialStateService $initialStateService, $userId) {
 		$this->config = $config;
-		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
+		$this->capabilitiesService = $capabilitiesService;
+		$this->initialState = $initialStateService;
 		$this->userId = $userId;
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
+	/** @psalm-suppress InvalidNullableReturnType */
 	public function getForm() {
-		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
-			return new TemplateResponse(
-				'richdocuments',
-				'personal',
-				[
-					'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
-				],
-				'blank'
-			);
+		if (!$this->capabilitiesService->hasTemplateSaveAs() && !$this->capabilitiesService->hasTemplateSource()) {
+			/** @psalm-suppress NullableReturnStatement */
+			return null;
 		}
+
+		$this->initialState->provideCapabilities();
+		return new TemplateResponse(
+			'richdocuments',
+			'personal',
+			[
+				'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
+			],
+			'blank'
+		);
 	}
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
+
 	public function getSection() {
-		// Only show the personal section if templates are available
-		if (array_key_exists('templates', $this->capabilities) && $this->capabilities['templates'] === true) {
-			return 'richdocuments';
+		if (!$this->capabilitiesService->hasTemplateSaveAs() && !$this->capabilitiesService->hasTemplateSource()) {
+			return null;
 		}
+
+		return 'richdocuments';
 	}
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * keep the server setting at the top, right after "server settings"
-	 */
+
 	public function getPriority() {
 		return 0;
 	}
