@@ -1,5 +1,31 @@
 # Changelog
 
+## 5.0.0
+
+### Added
+
+- Nextcloud 23 compatibility
+- #1761 Passing theming bits to COOL for nexcloud specific theming @lpranam
+- #1811 Support Flat ODF files @juliushaertl
+- #1470 Basic draw support @juliushaertl
+- #1820 UI rework @juliushaertl
+- #1867 Use native avatar list and adjust branding
+- #1774 Use native font stack in collabora @luka-nextcloud
+
+### Fixed
+
+- #1816 url-encode filename when constructing the iframe url for the viewer @lu-fennell
+- #1781 richdocumentsframe use 100% of mobile screen height @Andreas-Kainz
+- #1833 Show warning message on protocol mismatch with collabora @luka-nextcloud
+
+### Other
+
+- #1764 l10n: Spelling unification @Valdnet
+- #1792 Add default argument and type hints @juliushaertl
+- #1857 Update version on master @nickvergessen
+- #1855 Expose initial state when using direct editing as well @juliushaertl
+
+
 ## 4.2.3
 
 ### Fixed
