@@ -111,10 +111,15 @@ export default class PostMessageService {
 				console.debug('PostMessageService.handlePostMessage', 'Ignoring deprecated post message', parsed.msgId)
 				return;
 			}
-			fn({
-				data: data,
-				parsed
-			})
+			try {
+				fn({
+					data: data,
+					parsed
+				})
+			} catch (e) {
+				console.error('Error during post message handler', parsed, e)
+			}
+
 		})
 	}
 

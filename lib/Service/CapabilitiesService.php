@@ -23,11 +23,13 @@
 
 namespace OCA\Richdocuments\Service;
 
+use OCA\Richdocuments\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IL10N;
 
 class CapabilitiesService {
 
@@ -39,16 +41,19 @@ class CapabilitiesService {
 	private $cache;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var IL10N */
+	private $l10n;
 
 	/** @var array */
 	private $capabilities;
 
 
-	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager) {
+	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager, IL10N $l10n) {
 		$this->config = $config;
 		$this->clientService = $clientService;
 		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->appManager = $appManager;
+		$this->l10n = $l10n;
 	}
 
 	public function getCapabilities() {
@@ -72,6 +77,11 @@ class CapabilitiesService {
 		return $this->capabilities;
 	}
 
+	public function hasNextcloudBranding(): bool {
+		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
+		return version_compare($productVersion, '21.11', '>=');
+	}
+
 	public function hasDrawSupport(): bool {
 		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
 		return version_compare($productVersion, '6.4.7', '>=');
@@ -83,6 +93,16 @@ class CapabilitiesService {
 
 	public function hasTemplateSource(): bool {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
+	}
+
+	public function getProductName(): string {
+		$theme = $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud');
+
+		if (isset($this->capabilitites['productName']) && $theme !== 'nextcloud') {
+			return $this->capabilitites['productName'];
+		}
+
+		return $this->l10n->t('Nextcloud Office');
 	}
 
 	public function clear(): void {

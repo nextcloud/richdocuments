@@ -195,7 +195,7 @@ class WopiController extends Controller {
 			'UserCanRename' => !$isPublic && !$isVersion,
 			'EnableInsertRemoteImage' => true,
 			'EnableShare' => $file->isShareable() && !$isVersion,
-			'HideUserList' => 'desktop',
+			'HideUserList' => '',
 			'DisablePrint' => $wopi->getHideDownload(),
 			'DisableExport' => $wopi->getHideDownload(),
 			'DisableCopy' => $wopi->getHideDownload(),

@@ -37,10 +37,10 @@
 #richdocumentsframe {
 	background-color: #fff;
 	width:100%;
-	height: calc(100vh - 50px);
+	height: calc(100vh - 50px + 3px);
 	display:block;
 	position:absolute;
-	top:0;
+	top: -3px;
 	z-index:110;
 	&.full {
 		height: 100%;

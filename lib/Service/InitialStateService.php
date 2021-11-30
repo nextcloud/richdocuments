@@ -23,16 +23,54 @@
 
 declare(strict_types=1);
 
-namespace OCA\Richdocuments\Controller;
+namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 
-trait TDocumentInitialState {
+class InitialStateService {
 
-	private function provideDocumentInitialState(Wopi $wopi): void {
+	/** @var IInitialState */
+	private $initialState;
+
+	/** @var CapabilitiesService */
+	private $capabilitiesService;
+
+	/** @var IConfig */
+	private $config;
+
+	/** @var bool */
+	private $hasProvidedCapabilities = false;
+
+	public function __construct(
+		IInitialState $initialState,
+		CapabilitiesService $capabilitiesService,
+		IConfig $config
+	) {
+		$this->initialState = $initialState;
+		$this->capabilitiesService = $capabilitiesService;
+		$this->config = $config;
+	}
+
+	public function provideCapabilities(): void {
+		if ($this->hasProvidedCapabilities) {
+			return;
+		}
+
+		$this->initialState->provideInitialState('productName', $this->capabilitiesService->getProductName());
+		$this->initialState->provideInitialState('hasDrawSupport', $this->capabilitiesService->hasDrawSupport());
+		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
+
+		$this->hasProvidedCapabilities = true;
+	}
+
+	public function provideDocument(Wopi $wopi): void {
+		$this->provideCapabilities();
+
 		$this->initialState->provideInitialState('wopi', $wopi);
-		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', ''));
+		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
 		$this->initialState->provideInitialState('uiDefaults', [
 			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'classic')
 		]);
@@ -44,5 +82,4 @@ trait TDocumentInitialState {
 			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
 			: false));
 	}
-
 }

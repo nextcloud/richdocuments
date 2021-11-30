@@ -81,27 +81,6 @@ export default {
 			this.getFileList().hideMask && this.getFileList().hideMask()
 			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
-
-		let headerRight = document.querySelector('#header .header-right')
-		if (!headerRight) {
-			// there might not be a right header for links with hide download enabled
-			const header = document.querySelector('#header')
-			headerRight = document.createElement('div')
-			headerRight.classList.add('header-right')
-			headerRight.classList.add('header-right-richdocuments')
-			header.insertBefore(headerRight, null)
-		}
-		if (!document.getElementById('richdocuments-header')) {
-			const richdocumentsHeader = document.createElement('div')
-			richdocumentsHeader.id = 'richdocuments-header'
-			headerRight.insertBefore(richdocumentsHeader, headerRight.firstChild)
-			this._addAvatarList()
-			if (!isPublic) {
-				this._addHeaderShareButton()
-				this._addHeaderFileActions()
-				this.addVersionSidebarEvents()
-			}
-		}
 	},
 
 	close() {
@@ -145,8 +124,9 @@ export default {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
-		this.getFileList().showDetailsView && this.getFileList().showDetailsView(this.fileName, 'sharing')
-		OC.Apps.showAppSidebar()
+		if (OCA.Files.Sidebar) {
+			OCA.Files.Sidebar.open(this.filePath + '/' + this.fileName)
+		}
 	},
 
 	rename(newName) {
@@ -207,7 +187,7 @@ export default {
 		if (this.fileModel) {
 			return this.fileModel
 		}
-		if (!this.getFileList()) {
+		if (!this.getFileList() || !this.getFileList()?.getModelForFile() || !this.getFileList()._updateDetailsView) {
 			return null
 		}
 		this.getFileList()._updateDetailsView && this.getFileList()._updateDetailsView(this.fileName, false)
