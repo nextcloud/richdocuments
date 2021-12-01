@@ -67,8 +67,8 @@
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
-						<em>{{ t('richdocuments', 'Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities.') }}</em>
-						<em>{{ t('richdocuments', 'Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
+						<em>{{ t('richdocuments', 'Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities.') }}</em>
+						<em>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
 						<form @submit.prevent.stop="updateServer">
@@ -230,7 +230,7 @@
 
 			<SettingsCheckbox :value="settings.edit_groups !== null"
 				:label="t('richdocuments', 'Restrict edit to specific groups')"
-				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents.', { productName })"
+				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents.', { productName })"
 				:disabled="updating"
 				@input="updateEditGroups">
 				<SettingsSelectGroup v-if="settings.edit_groups !== null"
