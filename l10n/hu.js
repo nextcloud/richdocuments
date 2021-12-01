@@ -63,7 +63,6 @@ OC.L10N.register(
     "Advanced settings" : "Haladó beállítások",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Új fájlokhoz alapértelmezés szerint használja az Office Open XML (OOXML) formátumot az OpenDocument Format (ODF) helyett",
     "Restrict usage to specific groups" : "Használat korlátozása csoportra",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "A Collabora Online alapértelmezés szerint minden felhasználó számára engedélyezett. Amikor ez a beállítás aktív, csak a megadott csoportok tagjai használhatják.",
     "Select groups" : "Csoportok kiválasztása",
     "Restrict edit to specific groups" : "Szerkesztés korlátozása csoportra",
     "Use Canonical webroot" : "Egyszerűsített webroot használata",
@@ -87,6 +86,8 @@ OC.L10N.register(
     "Description" : "Leírás",
     "Add new token" : "Új token hozzáadása",
     "No results" : "Nincs találat",
+    "Cancel" : "Mégsem",
+    "Failed to load {productName} - please try again later" : "Nem sikerült betölteni a(z) {productName} terméket - próbálkozzon újra később",
     "Error" : "Hiba",
     "An error occurred" : "Hiba történt",
     "Built-in CODE Server is starting up shortly, please wait." : "A beépített CODE szerver hamarosan elindul, várjon.",
@@ -105,10 +106,8 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Kérlek add meg, hogy milyen néven legyen tárolva a dokumentum.",
     "Save As" : "Mentés másként",
     "New filename" : "Új fájlnév",
-    "Cancel" : "Mégsem",
     "Save" : "Mentés",
     "Edit with {productName}" : "Szerkesztés a következővel: {productName}",
-    "Failed to load {productName} - please try again later" : "Nem sikerült betölteni a(z) {productName} terméket - próbálkozzon újra később",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nem sikerült csatlakozni a következőhöz: {productName}. Kérjük, próbálkozzon újra később, vagy lépjen kapcsolatba a szerver rendszergazdájával.",
     "Select a personal template folder" : "Személyes sablonmappa választása",
     "Saving…" : "Mentés…",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "Install it from the app store." : "Telepítés az alkalmazástárból.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Ha az alkalmazástárból történő telepítés nem sikerül, akkor kézzel is megteheti, a következő paranccsal:",
     "it uses an insecure protocol (http)" : "egy nem biztonságos protokollt (http) használ",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "elérhetetlen az internetről (valószínűleg tűzfal vagy a port továbbítás hiánya miatt)"
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "elérhetetlen az internetről (valószínűleg tűzfal vagy a port továbbítás hiánya miatt)",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "A Collabora Online alapértelmezés szerint minden felhasználó számára engedélyezett. Amikor ez a beállítás aktív, csak a megadott csoportok tagjai használhatják."
 },
 "nplurals=2; plural=(n != 1);");

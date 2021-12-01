@@ -59,7 +59,6 @@
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Χρήση του Office Open XML (OOXML) αντί του OpenDocument Format (ODF) από προεπιλογή",
     "Restrict usage to specific groups" : "Περιορισμός χρήσης σε συγκεκριμένες ομάδες",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Το Collabora Online είναι ενεργοποιημένο από προεπιλογή για όλους τους χρήστες. Όταν ενεργοποιηθεί αυτή η επιλογή, μόνο οι χρήστες από συγκεκριμένες ομάδες θα έχουν πρόσβαση.",
     "Select groups" : "Επιλέξτε ομάδες",
     "Restrict edit to specific groups" : "Περιορισμός επεξεργασίας σε συγκεκριμένες ομάδες",
     "Use Canonical webroot" : "Χρήση του Canonical webroot",
@@ -83,6 +82,8 @@
     "Description" : "Περιγραφή",
     "Add new token" : "Προσθήκη νέου συνθηματικού",
     "No results" : "Κανένα αποτέλεσμα",
+    "Cancel" : "Ακύρωση",
+    "Failed to load {productName} - please try again later" : "Σφάλμα φόρτωσης {productName} - παρακαλώ δοκιμάστε ξανά εργότερα",
     "Error" : "Σφάλμα",
     "An error occurred" : "Παρουσιάστηκε σφάλμα",
     "Built-in CODE Server is starting up shortly, please wait." : "Ο ενσωματωμένος διακομιστής CODE ξεκινά σύντομα, παρακαλώ περιμένετε.",
@@ -101,10 +102,8 @@
     "Please enter the filename to store the document as." : "Παρακαλούμε εισαγάγετε το όνομα αρχείου για να αποθηκεύσετε το έγγραφο ως.",
     "Save As" : "Αποθήκευση ως",
     "New filename" : "Νέο όνομα αρχείου",
-    "Cancel" : "Ακύρωση",
     "Save" : "Αποθήκευση",
     "Edit with {productName}" : "Επεξεργασία με {productName}",
-    "Failed to load {productName} - please try again later" : "Σφάλμα φόρτωσης {productName} - παρακαλώ δοκιμάστε ξανά εργότερα",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Σφάλμα σύνδεσης στο {productName}. Παρακαλώ δοκιμάστε αργότερα ή επικοινωνήστε με τον διαχειριστή.",
     "Select a personal template folder" : "Επιλέξτε έναν φάκελο προσωπικών προτύπων",
     "Saving…" : "Γίνεται αποθήκευση...",
@@ -133,6 +132,7 @@
     "Remove personal template folder" : "Κατάργηση προσωπικού φακέλου προτύπων",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Τα πρότυπα σε αυτό τον κατάλογο θα συμπεριληφθούν στο Collabora Online.",
     "it uses an insecure protocol (http)" : "χρησιμοποιεί μη ασφαλές πρωτόκολλο επικοινωνίας (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "δεν είναι προσβάσιμο από το Διαδίκτυο (πιθανώς λόγω τείχους προστασίας ή δεν είναι προσβάσιμη η θύρα επικοινωνίας)"
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "δεν είναι προσβάσιμο από το Διαδίκτυο (πιθανώς λόγω τείχους προστασίας ή δεν είναι προσβάσιμη η θύρα επικοινωνίας)",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Το Collabora Online είναι ενεργοποιημένο από προεπιλογή για όλους τους χρήστες. Όταν ενεργοποιηθεί αυτή η επιλογή, μόνο οι χρήστες από συγκεκριμένες ομάδες θα έχουν πρόσβαση."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

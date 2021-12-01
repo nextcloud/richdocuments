@@ -4,8 +4,8 @@ OC.L10N.register(
     "Saved" : "Saqlangan",
     "File is too big" : "Fayl juda katta",
     "Invalid file provided" : "Berilgan fayl noto'g'ri",
-    "Error" : "Xato",
     "Cancel" : "Bekor qilish",
+    "Error" : "Xato",
     "Save" : "Saqlash",
     "Saving…" : "Saqlanmoqda...",
     "Download" : "Yuklab oling"

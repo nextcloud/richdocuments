@@ -56,7 +56,6 @@
     "Advanced settings" : "Paràmetres avançats",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Fes servir Office Open XML (OOXML) en lloc del format OpenDocument (ODF) per defecte per als fitxers nous",
     "Restrict usage to specific groups" : "Restringeix l’ús a grups específics",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online està activat per defecte per a tots els usuaris. Quan aquesta opció està activa, només els membres dels grups especificats poden utilitzar-la.",
     "Select groups" : "Selecciona els grups",
     "Restrict edit to specific groups" : "Restringeix l’edició a grups específics",
     "Use Canonical webroot" : "Fes servir webroot Canònic",
@@ -79,6 +78,8 @@
     "Description" : "Descripció",
     "Add new token" : "Afegeix un testimoni nou",
     "No results" : "Sense resultats",
+    "Cancel" : "Cancel·la",
+    "Failed to load {productName} - please try again later" : "No s'ha pogut carregar {productName} - si us plau, torneu-ho a provar més tard",
     "Error" : "Error",
     "An error occurred" : "S'ha produït un error",
     "Built-in CODE Server is starting up shortly, please wait." : "El servidor de CODE integrat s'està començant en breu, si us plau esperi.",
@@ -97,10 +98,8 @@
     "Please enter the filename to store the document as." : "Si us plau, introduïu el nom del fitxer per emmagatzemar el document.",
     "Save As" : "Anomena i desa",
     "New filename" : "Nou nom de fitxer",
-    "Cancel" : "Cancel·la",
     "Save" : "Desa",
     "Edit with {productName}" : "Edita amb {productName}",
-    "Failed to load {productName} - please try again later" : "No s'ha pogut carregar {productName} - si us plau, torneu-ho a provar més tard",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "No s'ha pogut connectar amb {productName}. Si us plau, torneu-ho a provar més tard o poseu-vos en contacte amb l'administrador del vostre servidor.",
     "Select a personal template folder" : "Seleccioneu una carpeta de plantilla personal",
     "Saving…" : "S'està desant…",
@@ -129,6 +128,7 @@
     "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les plantilles d’aquest directori s’afegiran al selector de plantilles de Collabora Online.",
     "it uses an insecure protocol (http)" : "utilitza un protocol insegur (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "és inaccessible des d'Internet (possiblement a causa d'un tallafocs, o la manca de reenviament de port)"
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "és inaccessible des d'Internet (possiblement a causa d'un tallafocs, o la manca de reenviament de port)",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online està activat per defecte per a tots els usuaris. Quan aquesta opció està activa, només els membres dels grups especificats poden utilitzar-la."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

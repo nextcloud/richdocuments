@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Saved" : "Պահված",
     "Description" : "Նկարագրություն",
+    "Cancel" : "ընդհատել",
     "Error" : "Սխալ",
     "Nickname" : "Մականուն",
-    "Cancel" : "ընդհատել",
     "Save" : "Պահել",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

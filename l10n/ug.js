@@ -2,9 +2,9 @@ OC.L10N.register(
     "richdocuments",
     {
     "Description" : "چۈشەندۈرۈش",
+    "Cancel" : "ۋاز كەچ",
     "Error" : "خاتالىق",
     "Nickname" : "تەخەللۇس",
-    "Cancel" : "ۋاز كەچ",
     "Save" : "ساقلا",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

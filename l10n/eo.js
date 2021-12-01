@@ -29,7 +29,6 @@ OC.L10N.register(
     "Advanced settings" : "Altanivela agordo",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Defaŭlte uzi dosiertipon „Office Open XML (OOXML)“ anstataŭ „OpenDocument (ODF)“ por novaj dokumentoj.",
     "Restrict usage to specific groups" : "Limigi uzon al certaj grupoj",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online uzeblas de ĉiuj uzantoj defaŭlte. Uzante tiun agordon, vi povas limigi al elektitaj grupoj.",
     "Select groups" : "Elekti grupojn",
     "Restrict edit to specific groups" : "Limigi redakton al certaj grupoj",
     "Use Canonical webroot" : "Uzi normigitan retservilan radikon",
@@ -39,6 +38,8 @@ OC.L10N.register(
     "Failed to save settings" : "Konservo de agordoj malsukcesis",
     "Description" : "Priskribo",
     "No results" : "Neniu rezulto",
+    "Cancel" : "Nuligi",
+    "Failed to load {productName} - please try again later" : "Malsukceso ŝargi „{productName}“ — bv. reprovi poste",
     "Error" : "Eraro",
     "An error occurred" : "Eraro okazis",
     "Please choose your nickname to continue as guest user." : "Bv. elekti vian kromnomon por daŭrigi kiel gasto.",
@@ -48,10 +49,8 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Bv. entajpi la dosiernomon de la konservota dokumento.",
     "Save As" : "Konservi kiel",
     "New filename" : "Nova dosiernomo",
-    "Cancel" : "Nuligi",
     "Save" : "Konservi",
     "Edit with {productName}" : "Modifi per {productName}",
-    "Failed to load {productName} - please try again later" : "Malsukceso ŝargi „{productName}“ — bv. reprovi poste",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Malsukceso konekti al {productName} — bv. reprovi poste aŭ kontakti vian servilan administranton.",
     "Select a personal template folder" : "Elektu dosierujon de personaj ŝablonoj",
     "Saving…" : "Konservado...",
@@ -77,6 +76,7 @@ OC.L10N.register(
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
     "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online uzeblas de ĉiuj uzantoj defaŭlte. Uzante tiun agordon, vi povas limigi al elektitaj grupoj."
 },
 "nplurals=2; plural=(n != 1);");

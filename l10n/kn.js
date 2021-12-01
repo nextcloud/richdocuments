@@ -2,8 +2,8 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saved" : "﻿ಉಳಿಸಿದ",
-    "Error" : "﻿ತಪ್ಪಾಗಿದೆ",
     "Cancel" : "﻿ರದ್ದು",
+    "Error" : "﻿ತಪ್ಪಾಗಿದೆ",
     "Save" : "﻿ಉಳಿಸಿ",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

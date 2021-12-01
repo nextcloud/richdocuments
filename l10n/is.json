@@ -27,7 +27,6 @@
     "Advanced settings" : "Ítarlegri valkostir",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Nota Office Open XML (OOXML) í stað OpenDocument Format (ODF) sjálfgefið fyrir nýjar skrár",
     "Restrict usage to specific groups" : "Takmarka notkun við tiltekna hópa",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online er sjálfgefið virkjað fyrir alla notendur. Þegar þessi stilling er virk, geta aðeins meðlimir tiltekinna hópa notað það.",
     "Select groups" : "Veldu hópa",
     "Restrict edit to specific groups" : "Takmarka breytingar við tiltekna hópa",
     "Use Canonical webroot" : "Nota sameinaða vefrót",
@@ -37,6 +36,8 @@
     "Failed to save settings" : "Mistókst að vista stillingar",
     "Description" : "Lýsing",
     "No results" : "Engar niðurstöður",
+    "Cancel" : "Hætta við",
+    "Failed to load {productName} - please try again later" : "Mistókst að hlaða inn {productName} - reyndu aftur síðar",
     "Error" : "Villa",
     "An error occurred" : "Villa kom upp",
     "Please choose your nickname to continue as guest user." : "Veldu þér stuttnefni/gælunafn til að halda áfram sem gestanotandi.",
@@ -46,10 +47,8 @@
     "Please enter the filename to store the document as." : "Settu inn skráarheiti til að geyma þetta skjal undir.",
     "Save As" : "Vista sem",
     "New filename" : "Nýtt skráarheiti",
-    "Cancel" : "Hætta við",
     "Save" : "Vista",
     "Edit with {productName}" : "Breyta með {productName}",
-    "Failed to load {productName} - please try again later" : "Mistókst að hlaða inn {productName} - reyndu aftur síðar",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Mistókst að tengjast við {productName} - reyndu aftur síðar eða hafðu samband við kerfisstjóra.",
     "Select a personal template folder" : "Veldu möppu fyrir eigin sniðmát",
     "Saving…" : "Er að vista ...",
@@ -75,6 +74,7 @@
     "template preview" : "forskoðun sniðmáts",
     "Select a template directory" : "Veldu möppu undir sniðmát",
     "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sniðmátum inni í þessari möppu verður bætt í sniðmátaval Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sniðmátum inni í þessari möppu verður bætt í sniðmátaval Collabora Online.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online er sjálfgefið virkjað fyrir alla notendur. Þegar þessi stilling er virk, geta aðeins meðlimir tiltekinna hópa notað það."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

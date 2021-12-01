@@ -38,7 +38,6 @@ OC.L10N.register(
     "Advanced settings" : "Напредни параметри",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Користи Office Open XML (OOXML) наместо OpenDocument Format (ODF) стандардно за нови документи",
     "Restrict usage to specific groups" : "Ограничи користење на одредени групи",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Стандардно за сите корисници е овозможена Collabora Online. Кога овој параметар е активен, само членови на одредени рупи можат да го користат.",
     "Select groups" : "Одбери групи",
     "Restrict edit to specific groups" : "Ограничи уредување на одредени групи",
     "Use Canonical webroot" : "Користи Canonical webroot",
@@ -60,6 +59,8 @@ OC.L10N.register(
     "Description" : "Опис",
     "Add new token" : "Додади нов токен",
     "No results" : "Нема резултати",
+    "Cancel" : "Откажи",
+    "Failed to load {productName} - please try again later" : "Неуспешно вчитување {productName} - обидете се повторно",
     "Error" : "Грешка",
     "An error occurred" : "Настана грешка",
     "Please choose your nickname to continue as guest user." : "Изберете го вашиот прекар за да продолжите како гостин.",
@@ -69,10 +70,8 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Напишете го името на документот за да го зачувате како такво.",
     "Save As" : "Зачувај како",
     "New filename" : "Ново име на датотеката",
-    "Cancel" : "Откажи",
     "Save" : "Зачувај",
     "Edit with {productName}" : "Измени со {productName}",
-    "Failed to load {productName} - please try again later" : "Неуспешно вчитување {productName} - обидете се повторно",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Неуспешно поврзување {productName} - обидете се повторно покасно или контактирајте го вашиот администратор.",
     "Select a personal template folder" : "Избери сопствен директориум за шаблони",
     "Saving…" : "Зачувува ...",
@@ -98,6 +97,7 @@ OC.L10N.register(
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
     "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Стандардно за сите корисници е овозможена Collabora Online. Кога овој параметар е активен, само членови на одредени рупи можат да го користат."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
