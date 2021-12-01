@@ -26,7 +26,6 @@ OC.L10N.register(
     "Advanced settings" : "Configuraciones avanzadas",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Usar Office Open XML (OOXML) en lugar del Formato de OpenDocument (ODF) por omisión para nuevos archivos",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está habilitado para todos los usuarios por omisión. Cuando esta configuración está activa, solo los miembros de grupos específicos la pueden usar. ",
     "Select groups" : "Seleccionar grupos",
     "Restrict edit to specific groups" : "Limitar edición a grupos específicos",
     "Use Canonical webroot" : "Usar el webroot Canonico",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Habilitar acceso para aplicaciones externas",
     "Description" : "Descripción",
     "No results" : "Sin resultados",
+    "Cancel" : "Cancelar",
     "Error" : "Error",
     "An error occurred" : "Se presentó un error",
     "Please choose your nickname to continue as guest user." : "Por favor elige tu apodo para continuar como un usuario invitado.",
@@ -43,7 +43,6 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Por favor ingresa el nombre del archivo con el cual almacenar el documento",
     "Save As" : "Guardar Como",
     "New filename" : "Nuevo nombre de archivo",
-    "Cancel" : "Cancelar",
     "Save" : "Guardar",
     "Select a personal template folder" : "Seleccionar la carpeta de plantillas personales",
     "Saving…" : "Guardando...",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "template preview" : "Vista previa de plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
     "Remove personal template folder" : "Eliminar la carpeta de plantillas personales",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está habilitado para todos los usuarios por omisión. Cuando esta configuración está activa, solo los miembros de grupos específicos la pueden usar. "
 },
 "nplurals=2; plural=(n != 1);");

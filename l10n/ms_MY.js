@@ -2,9 +2,9 @@ OC.L10N.register(
     "richdocuments",
     {
     "Description" : "Keterangan",
+    "Cancel" : "Batal",
     "Error" : "Ralat",
     "Nickname" : "Nama Samaran",
-    "Cancel" : "Batal",
     "Save" : "Simpan",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

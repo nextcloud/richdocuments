@@ -36,7 +36,6 @@
     "Advanced settings" : "تنظیمات پیشرفته",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "به طور پیش فرض برای پرونده های جدید از Office Open XML (OOXML) به جای OpenDocument Format (ODF) استفاده کنید",
     "Restrict usage to specific groups" : "محدود کردن استفاده در گروه های خاص",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online بصورت پیش فرض برای همه کاربران فعال شده است. هنگامی که این تنظیم فعال است ، فقط اعضای گروه های مشخص شده می توانند از آن استفاده کنند.",
     "Select groups" : "انتخاب گروه ها",
     "Restrict edit to specific groups" : "اجازه ویرایش را به گروه های خاصی محدود کنید",
     "Use Canonical webroot" : "از پارچه Canonical استفاده کنید",
@@ -59,6 +58,8 @@
     "Description" : "توضیحات",
     "Add new token" : "نشانه جدید افزودن",
     "No results" : "نتیجه ای یافت نشد",
+    "Cancel" : "لغو",
+    "Failed to load {productName} - please try again later" : "به بار {productName} در انجام نشد - لطفا بعدا دوباره امتحان کنید",
     "Error" : "خطا",
     "An error occurred" : "خطایی روی داد",
     "Please choose your nickname to continue as guest user." : "لطفاً نام خود را برای ادامه دادن به عنوان کاربر مهمان انتخاب کردن.",
@@ -68,10 +69,8 @@
     "Please enter the filename to store the document as." : "لطفاً نام پرونده را برای ذخیره مستند وارد کنید.",
     "Save As" : "ذخیره",
     "New filename" : "نام جدید",
-    "Cancel" : "لغو",
     "Save" : "ذخیره",
     "Edit with {productName}" : "ویرایش با {productName} در",
-    "Failed to load {productName} - please try again later" : "به بار {productName} در انجام نشد - لطفا بعدا دوباره امتحان کنید",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "برای متصل شدن به {productName} در شکست خورده است. لطفاً بعداً دوباره امتحان کنید یا با سرور مدیر خود تماس بگیرید.",
     "Select a personal template folder" : "یک پوشه قالب شخصی را انتخاب کنید",
     "Saving…" : "در حال ذخیره",
@@ -97,6 +96,7 @@
     "template preview" : "پیش نمایش الگو",
     "Select a template directory" : "یک فهرست مسیر را انتخاب کنید",
     "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "قالب های داخل این فهرست به مسیر الگوی Collabora Online افزودن."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "قالب های داخل این فهرست به مسیر الگوی Collabora Online افزودن.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online بصورت پیش فرض برای همه کاربران فعال شده است. هنگامی که این تنظیم فعال است ، فقط اعضای گروه های مشخص شده می توانند از آن استفاده کنند."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

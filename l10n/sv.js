@@ -30,7 +30,6 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Använd formatet Office Open XML (OOXML) istället för OpenDocument-formatet (ODF) för nya filer",
     "Restrict usage to specific groups" : "Begränsa användning till specifika grupper",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online är aktiverat för alla användare som skön. När den här inställningen är aktiv kan endast medlemmar i de angivna grupperna använda det.",
     "Select groups" : "Välj grupper",
     "Restrict edit to specific groups" : "Begränsa redigering till specifika grupper",
     "Use Canonical webroot" : "Använd Canonical webroot",
@@ -40,6 +39,8 @@ OC.L10N.register(
     "Failed to save settings" : "Kunde inte spara inställningarna",
     "Description" : "Beskrivning",
     "No results" : "Inga resultat",
+    "Cancel" : "Avbryt",
+    "Failed to load {productName} - please try again later" : "Kunde inte läsa in {productName} - vänligen försök igen senare",
     "Error" : "Fel",
     "An error occurred" : "Ett fel uppstod",
     "Please choose your nickname to continue as guest user." : "Välj ditt smeknamn för att fortsätta som gästanvändare.",
@@ -49,10 +50,8 @@ OC.L10N.register(
     "Please enter the filename to store the document as." : "Vänligen ange ett filnamn att spara dokumentet som.",
     "Save As" : "Spara Som",
     "New filename" : "Nytt filnamn",
-    "Cancel" : "Avbryt",
     "Save" : "Spara",
     "Edit with {productName}" : "Redigera med {productName}",
-    "Failed to load {productName} - please try again later" : "Kunde inte läsa in {productName} - vänligen försök igen senare",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Kunde inte ansluta till {productName}. Försök igen eller kontakta systemadministratören.",
     "Select a personal template folder" : "Välj en personlig mallmapp",
     "Saving…" : "Sparar...",
@@ -78,6 +77,7 @@ OC.L10N.register(
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
     "Remove personal template folder" : "Ta bort personlig mallmapp",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online är aktiverat för alla användare som skön. När den här inställningen är aktiv kan endast medlemmar i de angivna grupperna använda det."
 },
 "nplurals=2; plural=(n != 1);");

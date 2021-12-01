@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Description" : "Opis",
     "No results" : "Nema rezultata",
-    "Error" : "Greška",
     "Cancel" : "Cancel",
+    "Error" : "Greška",
     "Save" : "Save",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

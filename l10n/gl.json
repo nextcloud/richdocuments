@@ -60,7 +60,6 @@
     "Advanced settings" : "Axustes avanzados",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Empregue o formato Office Open XML (OOXML) no canto do formato OpenDocument (ODF) como predeterminado para novos ficheiros",
     "Restrict usage to specific groups" : "Restrinxir o uso a grupos específicos",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está activado, por omisión, para todos os usuarios. Cando esta configuración estea activa, só os membros dos grupos especificados poden empregalo.",
     "Select groups" : "Seleccionar grupos",
     "Restrict edit to specific groups" : "Restrinxir a edición a grupos específicos",
     "Use Canonical webroot" : "Usar a raíz web canónica",
@@ -84,6 +83,8 @@
     "Description" : "Descrición",
     "Add new token" : "Engadir un novo testemuño",
     "No results" : "Sen resultados",
+    "Cancel" : "Cancelar",
+    "Failed to load {productName} - please try again later" : "Produciuse un fallo ao cargar {productName}; ténteo máis adiante",
     "Error" : "Erro",
     "An error occurred" : "Produciuse un erro",
     "Built-in CODE Server is starting up shortly, please wait." : "O servidor CODE incorporado estará iniciado en breve. Agarde.",
@@ -102,10 +103,8 @@
     "Please enter the filename to store the document as." : "Introduza o nome do ficheiro para almacenar o documento como.",
     "Save As" : "Gardar como",
     "New filename" : "Novo nome de ficheiro",
-    "Cancel" : "Cancelar",
     "Save" : "Gardar",
     "Edit with {productName}" : "Editar con {productName}",
-    "Failed to load {productName} - please try again later" : "Produciuse un fallo ao cargar {productName}; ténteo máis adiante",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Produciuse un fallo ao conectar con {productName}. Ténteo de novo máis adiante ou contacte co administrador do seu servidor.",
     "Select a personal template folder" : "Seleccione un cartafol de modelos persoais",
     "Saving…" : "Gardando…",
@@ -135,6 +134,7 @@
     "Remove personal template folder" : "Retirar o cartafol de modelos persoais",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña.",
     "it uses an insecure protocol (http)" : "usa un protocolo inseguro (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "non é acadabel dende a Internet (posíbelmente por unha devasa ou a falta de reenvío de portos)"
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "non é acadabel dende a Internet (posíbelmente por unha devasa ou a falta de reenvío de portos)",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está activado, por omisión, para todos os usuarios. Cando esta configuración estea activa, só os membros dos grupos especificados poden empregalo."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

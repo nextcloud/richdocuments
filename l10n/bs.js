@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Saved" : "Spremljeno",
     "Description" : "Opis",
+    "Cancel" : "Otkaži",
     "Error" : "Greška",
     "Nickname" : "Nadimak",
-    "Cancel" : "Otkaži",
     "Save" : "Spremi",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
