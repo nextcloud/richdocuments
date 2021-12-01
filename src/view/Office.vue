@@ -27,7 +27,7 @@
 				id="cool-loading-overlay"
 				:class="{ debug: debug }">
 				<EmptyContent v-if="!error" icon="icon-loading">
-					{{ t('richdocuments', 'Loading {filename}…', { filename: basename }) }}
+					{{ t('richdocuments', 'Loading {filename} …', { filename: basename }) }}
 					<template #desc>
 						<button @click="close">
 							{{ t('richdocuments', 'Cancel') }}
