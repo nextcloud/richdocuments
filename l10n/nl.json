@@ -35,7 +35,6 @@
     "Collabora Online server is reachable." : "Collabora Online server is bereikbaar.",
     "Please configure a Collabora Online server to start editing documents" : "Configureer een Collabora Online server om documenten te bewerken",
     "Use your own server" : "Gebruik je eigen server",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online heefteen afzonderlijk server nodig die als WOPI-achige Client actief is om bewerkfuncties te kunnen leveren.",
     "URL (and Port) of Collabora Online-server" : "URL (en Poort) van de Collabora Online-server",
     "Disable certificate verification (insecure)" : "Uitschakelen certificaat verificatie (onveilig)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Gebruik de ingebouwde CODE - Collabora Online Development Edition",
@@ -139,15 +138,6 @@
     "template preview" : "Sjabloonvoorbeeld",
     "Select a template directory" : "Selecteer een sjablonendirectory",
     "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer.",
-    "Install it from the app store." : "Installeer vanuit de app store.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Als de installatie vanuit de app store mislukt, kun je dat nog steeds handmatig doen met deze opdracht:",
-    "it uses an insecure protocol (http)" : "het gebruikt een onveilig protocol (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "het is niet bereikbaar vanaf het internet (mogelijk vanwege een firewall of het ontbreken van port forwarding)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online is standaard voor alle gebruikers ingeschakeld. Als deze instelling actief is, kunnen alleen leden van de opgegeven groep het gebruiken.",
-    "Current version" : "Huidige versie",
-    "New Document" : "Nieuw document",
-    "New Spreadsheet" : "Nieuw werkblad",
-    "New Presentation" : "Nieuwe presentatie"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

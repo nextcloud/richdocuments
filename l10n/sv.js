@@ -24,7 +24,6 @@ OC.L10N.register(
     "Edit office documents directly in your browser." : "Redigera dokument direkt i din webbläsare.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Appen kan ansluta till en Collabora Online-server (eller annan WOPI-liknande-klient). Nextcloud är WOPI-värd. Läs mer i dokumentationen.\n\nDu kan också redigera dina dokument off-line med Collabora Office app från appbutikerna för **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** och **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)**.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online är en kraftfull LibreOffice-baserad onlinelösning med gemensamredigering. Stöder alla dokument-, kalkylarks- och presentations-filformat och fungerar i alla moderna webbläsare.",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online kräver en separat server som agerar WOPI-klient och tillhandahåller redigeringsmöjligheter. ",
     "URL (and Port) of Collabora Online-server" : "Webbadress (och port) till Collabora Online-server",
     "Disable certificate verification (insecure)" : "Använd inte certifikatsverifiering (osäkert)",
     "Advanced settings" : "Avancerade inställningar",
@@ -77,7 +76,6 @@ OC.L10N.register(
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
     "Remove personal template folder" : "Ta bort personlig mallmapp",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online.",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online är aktiverat för alla användare som skön. När den här inställningen är aktiv kan endast medlemmar i de angivna grupperna använda det."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

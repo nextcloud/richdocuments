@@ -25,7 +25,6 @@
     "Collabora Online server is reachable." : "سرور آنلاین Collabora قابل دسترسی است.",
     "Please configure a Collabora Online server to start editing documents" : "لطفاً برای شروع ویرایش کردن مستند ، سرور Collabora Online را پیکربندی کنید",
     "Use your own server" : "از سرور خود استفاده کنید",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online برای ارائه قابلیت های ویرایش به یک سرور مجزا که به عنوان مشتری WOPI مانند فعالیت می کند ، نیاز دارد.",
     "URL (and Port) of Collabora Online-server" : "URL (و پورت) سرور آنلاین Collabora",
     "Disable certificate verification (insecure)" : "غیرفعال کردن تأیید گواهینامه (ناامن)",
     "Use a demo server" : "از یک سرور نسخه ی نمایشی استفاده کنید",
@@ -96,7 +95,6 @@
     "template preview" : "پیش نمایش الگو",
     "Select a template directory" : "یک فهرست مسیر را انتخاب کنید",
     "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "قالب های داخل این فهرست به مسیر الگوی Collabora Online افزودن.",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online بصورت پیش فرض برای همه کاربران فعال شده است. هنگامی که این تنظیم فعال است ، فقط اعضای گروه های مشخص شده می توانند از آن استفاده کنند."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "قالب های داخل این فهرست به مسیر الگوی Collabora Online افزودن."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

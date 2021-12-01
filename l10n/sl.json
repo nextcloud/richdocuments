@@ -33,7 +33,6 @@
     "Collabora Online server is reachable." : "Strežnik Collabora Online je dosegljiv.",
     "Please configure a Collabora Online server to start editing documents" : "Nastavite strežnik Collabora Online za urejanje dokumentov.",
     "Use your own server" : "Uporabite svoj strežnik",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Strežnik Collabora Online zahteva za urejanje dokumentov povezavo z ločenim strežnikom, ki deluje kot odjemalec WOPI.",
     "URL (and Port) of Collabora Online-server" : "Naslov URL (in vrata) strežnika Collabora Online",
     "Disable certificate verification (insecure)" : "Onemogoči overjanje potrdil (ni varen način)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Uporabi vgrajen paket CODE – razvojno različico Collabora Online ",
@@ -134,14 +133,6 @@
     "template preview" : "predogled predloge",
     "Select a template directory" : "Izbor mape predlog",
     "Remove personal template folder" : "Odstrani osebno mapo predlog",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online.",
-    "Install it from the app store." : "Namestite program iz trgovine.",
-    "it uses an insecure protocol (http)" : "uporablja ne-varni protokol (http),",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedosegljiva prek interneta (požarni zid, posredovanje vrat ...).",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Paket Collabora Online je privzeto omogočen vsem uporabnikom. Ko je ta nastavitev dejavna lahko uporabljajo paket le člani določenih skupin.",
-    "Current version" : "Trenutna različica",
-    "New Document" : "Nov dokument",
-    "New Spreadsheet" : "Nova preglednica",
-    "New Presentation" : "Nova predstavitev"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -77,10 +77,6 @@ OC.L10N.register(
     "Add a new one?" : "Lisätäänkö uusi?",
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
-    "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
-    "Current version" : "Nykyinen versio",
-    "New Document" : "Uusi asiakirja",
-    "New Spreadsheet" : "Uusi taulukko",
-    "New Presentation" : "Uusi esitys"
+    "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio"
 },
 "nplurals=2; plural=(n != 1);");

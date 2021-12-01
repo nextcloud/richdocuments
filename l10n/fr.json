@@ -33,7 +33,6 @@
     "Collabora Online server is reachable." : "Le serveur Collabora Online est accessible",
     "Please configure a Collabora Online server to start editing documents" : "Veuillez configurer un serveur Collabora Online pour commencer la modification des documents",
     "Use your own server" : "Utiliser votre propre serveur",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online nécessite un serveur distinct agissant en tant que client WOPI pour fournir les fonctionnalités d'édition.",
     "URL (and Port) of Collabora Online-server" : "URL (et port) su serveur Collabora Online",
     "Disable certificate verification (insecure)" : "Désactiver la vérification du certificat (non sur)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Utilisez le CODE intégré - Collabora Online Development Edition",
@@ -134,12 +133,6 @@
     "template preview" : "Prévisualisation du modèle",
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
     "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online.",
-    "it uses an insecure protocol (http)" : "il utilise un protocole non sécurisé (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "c'est inaccessible depuis l'Internet (possiblement à cause d'un pare-feu ou d'une absence de redirection de port)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Par défaut Collabora Online est activé pour tous les utilisateurs. Quand ce paramètre est actif, seul les membres du groupe spécifié peuvent l'utiliser",
-    "New Document" : "Nouveau document",
-    "New Spreadsheet" : "Nouvelle feuille de calcul",
-    "New Presentation" : "Nouvelle présentation"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

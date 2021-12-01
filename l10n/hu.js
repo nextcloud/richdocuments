@@ -35,7 +35,6 @@ OC.L10N.register(
     "Collabora Online server is reachable." : "A Collabora Online szerver elérhető.",
     "Please configure a Collabora Online server to start editing documents" : "A dokumentumok szerkesztésének megkezdéséhez konfigurálja a Collabora Online szervert",
     "Use your own server" : "Saját kiszolgáló használata",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "A szerkesztési képességek biztosításához a Collabora Online-nak külön, WOPI-szerű kliensként működő szerverre van szüksége.",
     "URL (and Port) of Collabora Online-server" : "A Collabora Online kiszolgáló URL-je (és portja)",
     "Disable certificate verification (insecure)" : "A tanúsítvány ellenőrzés letiltása (nem biztonságos)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Használja a beépített CODE - Collabora Online Development Edition alkalmazást",
@@ -135,11 +134,6 @@ OC.L10N.register(
     "template preview" : "sablonelőnézet",
     "Select a template directory" : "Válasszon sablonkönyvtárat",
     "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtárban található sablonok hozzáadódnak a Collabora Online sablonválasztójához.",
-    "Install it from the app store." : "Telepítés az alkalmazástárból.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Ha az alkalmazástárból történő telepítés nem sikerül, akkor kézzel is megteheti, a következő paranccsal:",
-    "it uses an insecure protocol (http)" : "egy nem biztonságos protokollt (http) használ",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "elérhetetlen az internetről (valószínűleg tűzfal vagy a port továbbítás hiánya miatt)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "A Collabora Online alapértelmezés szerint minden felhasználó számára engedélyezett. Amikor ez a beállítás aktív, csak a megadott csoportok tagjai használhatják."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtárban található sablonok hozzáadódnak a Collabora Online sablonválasztójához."
 },
 "nplurals=2; plural=(n != 1);");

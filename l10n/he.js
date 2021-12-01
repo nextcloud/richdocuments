@@ -91,8 +91,6 @@ OC.L10N.register(
     "template preview" : "תצוגה מקדימה של תבנית",
     "Select a template directory" : "בחירת תיקיית תבניות",
     "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online.",
-    "it uses an insecure protocol (http)" : "כי נעשה שימוש בפרוטוקול פרוץ (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "כי אין גישה אל העותק מהאינטרנט (כנראה בגלל חומת אש או שאין העברת פתחות)"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

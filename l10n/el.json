@@ -32,7 +32,6 @@
     "Collabora Online server is reachable." : "Ο διακομιστής Collabora Online είναι διαθέσιμος.",
     "Please configure a Collabora Online server to start editing documents" : "Παρακαλώ ρυθμίστε τον διακομιστή Collabora Online για να ξεκινήσει η επεξεργασία εγγράφων",
     "Use your own server" : "Χρησιμοποιήστε τον διακομιστή σας",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Ο Collabora Online χρειάζεται ξεχωριστό διακομιστή ως WOPI-like Client για να παρέχει δυνατότητες επεξεργασίας.",
     "URL (and Port) of Collabora Online-server" : "Η URL (και Πόρτα) του Collabora Online-διακομιστή",
     "Disable certificate verification (insecure)" : "Απενεργοποίηση πιστοποιητικού επαλήθευσης (μη ασφαλές)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Χρήση του ενσωματωμένου CODE - Collabora Online Development Edition",
@@ -130,9 +129,6 @@
     "template preview" : "προεπισκόπηση πρότυπου",
     "Select a template directory" : "Επιλέξτε κατάλογο προτύπων",
     "Remove personal template folder" : "Κατάργηση προσωπικού φακέλου προτύπων",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Τα πρότυπα σε αυτό τον κατάλογο θα συμπεριληφθούν στο Collabora Online.",
-    "it uses an insecure protocol (http)" : "χρησιμοποιεί μη ασφαλές πρωτόκολλο επικοινωνίας (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "δεν είναι προσβάσιμο από το Διαδίκτυο (πιθανώς λόγω τείχους προστασίας ή δεν είναι προσβάσιμη η θύρα επικοινωνίας)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Το Collabora Online είναι ενεργοποιημένο από προεπιλογή για όλους τους χρήστες. Όταν ενεργοποιηθεί αυτή η επιλογή, μόνο οι χρήστες από συγκεκριμένες ομάδες θα έχουν πρόσβαση."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Τα πρότυπα σε αυτό τον κατάλογο θα συμπεριληφθούν στο Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

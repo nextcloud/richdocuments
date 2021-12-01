@@ -35,7 +35,6 @@ OC.L10N.register(
     "Collabora Online server is reachable." : "Сервер Collabora Online доступен.",
     "Please configure a Collabora Online server to start editing documents" : "Перед началом работы необходимо настроить сервер Collabora Online.",
     "Use your own server" : "Использовать собственный сервер",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Для работы Collabora Online требуется отдельный сервер, выступающий в роли WOPI-подобного клиента для обеспечения возможностей редактирования.",
     "URL (and Port) of Collabora Online-server" : "URL-адрес (и порт) сервера документов Collabora Online",
     "Disable certificate verification (insecure)" : "Отключить проверку сертификата (небезопасно)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Использовать встраиваемый сервер CODE (Collabora Online Development Edition)",
@@ -138,15 +137,6 @@ OC.L10N.register(
     "template preview" : "Предпросмотр шаблона",
     "Select a template directory" : "Папка шаблонов документов",
     "Remove personal template folder" : "Удалить папку с личными шаблонами",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоны, расположенные в этой папке, будут доступны для выбора при создании документов Collabora Online.",
-    "Install it from the app store." : "Установите его из магазина приложений.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Если при установке из магазина приложений произошла ошибка, возможно выполнить выполнить установку при помощи выполнения следующей команды:",
-    "it uses an insecure protocol (http)" : "используется небезопасный протокол http.",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "недоступность из интернета (брандмауэр или неверная настройка переадресации портов).",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online по умолчанию включен для всех пользователей. Когда этот параметр активен, его могут использовать только члены указанных групп.",
-    "Current version" : "Текущая версия",
-    "New Document" : "Новый документ",
-    "New Spreadsheet" : "Новая таблица",
-    "New Presentation" : "Новая презентация"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоны, расположенные в этой папке, будут доступны для выбора при создании документов Collabora Online."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -33,7 +33,6 @@
     "Collabora Online server is reachable." : "Servidor Collabora Online está pronto.",
     "Please configure a Collabora Online server to start editing documents" : "Configure o servidor Collabora Online para iniciar a edição de documentos",
     "Use your own server" : "Usar seu próprio servidor",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "O Collabora Online requer um servidor separado que atue como um cliente do tipo WOPI para fornecer recursos de edição.",
     "URL (and Port) of Collabora Online-server" : "URL (e porta) do servidor Collabora Online",
     "Disable certificate verification (insecure)" : "Desativar a verificação do certificado (inseguro)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Usar o CODE embutido - Edição de Desenvolvimento Collabora Online",
@@ -137,15 +136,6 @@
     "template preview" : "visualização do modelo",
     "Select a template directory" : "Selecionar um diretório de modelos",
     "Remove personal template folder" : "Remover a pasta de modelos pessoais",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online.",
-    "Install it from the app store." : "Instale da app store. ",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Se a instalação da app store falhar, você ainda pode fazer isso manualmente usando este comando: ",
-    "it uses an insecure protocol (http)" : "usa um protocolo inseguro (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "inacessível a partir da Internet (possivelmente por causa de um firewall ou falta de encaminhamento de porta)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "O Collabora Online está habilitado para todos os usuários por padrão. Quando esta configuração está ativa, somente os membros dos grupos especificados podem usá-la.",
-    "Current version" : "Versão Atual ",
-    "New Document" : "Novo Documento",
-    "New Spreadsheet" : "Nova Planilha ",
-    "New Presentation" : "Nova Apresentação "
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro desse diretório serão adicionados ao seletor de modelos do Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

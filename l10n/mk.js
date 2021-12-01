@@ -27,7 +27,6 @@ OC.L10N.register(
     "Collabora Online server is reachable." : "Collabora Online серверот е достапен.",
     "Please configure a Collabora Online server to start editing documents" : "Конфигурирајте го Collabora Online серверот за да можете да уредувате документи",
     "Use your own server" : "Користете сопствен сервер",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "За користење на Collabora Online, потребно е користење на различен сервер кој работи како WOPI-клиент за да овозможи услови за уредување на датотеки.",
     "URL (and Port) of Collabora Online-server" : "URL (и Порта) за Collabora Online-сервер",
     "Disable certificate verification (insecure)" : "Оневозможи валидација на сертификат (несигурно)",
     "Use a demo server" : "Користете демо сервер",
@@ -97,7 +96,6 @@ OC.L10N.register(
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
     "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online.",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Стандардно за сите корисници е овозможена Collabora Online. Кога овој параметар е активен, само членови на одредени рупи можат да го користат."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
