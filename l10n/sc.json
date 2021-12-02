@@ -33,7 +33,6 @@
     "Collabora Online server is reachable." : "Su serbidore Collabora Online si podet cuntatare.",
     "Please configure a Collabora Online server to start editing documents" : "Cunfigura unu serbidore Collabora Online pro cumintzare a modificare documentos",
     "Use your own server" : "Imprea su serbidore cosa tua",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online rechedet unu serbidore seberadu chi funtzionat comente unu cliente WOPI pro frunire possibilidade de modìfica.",
     "URL (and Port) of Collabora Online-server" : "URL (e porta) de su serbidore Collabora Online",
     "Disable certificate verification (insecure)" : "Disativa sa verìfica de tzertificados (non seguru)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Imprea CODE incorporadu - Collabora Online Development Edition",
@@ -136,15 +135,6 @@
     "template preview" : "anteprima de su modellu",
     "Select a template directory" : "Seletziona una cartella de is modellos",
     "Remove personal template folder" : "Boga sa cartella de is modellos personale",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online.",
-    "Install it from the app store." : "Installa·ddu dae sa butega de aplicatziones.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Si non faghet a dd'installare dae sa butega de aplicatziones, ddu podes fàghere a manos impreende custu cumandu:",
-    "it uses an insecure protocol (http)" : "impreat unu protocollu non seguru (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "Non faghet a ddu cuntatare dae internet (forsis pro unu firewall, o ca mancat s'inoltru de portas)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online est ativaducomente impostatzione predefinida pro totu is utentes. Candu est ativu, isceti sa gente de grupos ispetzìficos ddu podet impreare.",
-    "Current version" : "Versione atuale",
-    "New Document" : "Documentu nou",
-    "New Spreadsheet" : "Fògiu eletrònicu nou",
-    "New Presentation" : "Presentada noa"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

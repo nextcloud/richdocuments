@@ -23,7 +23,6 @@ OC.L10N.register(
     "%s (Guest)" : "%s (gasto)",
     "Edit office documents directly in your browser." : "Redaktu oficejajn dokumentojn senpere en via retumilo.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online estas reta oficeja programaro, bazita sur LibreOffice, kiu subtenas kunlaboran redakton, ĉiujn ĉefajn dosiertipojn de dokumentoj, kalkultabeloj kaj lumbildaj prezentoj. Ĝi funkcias kun ĉiuj nunaj retumiloj.",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online bezonas apartan servilon, kiu estas „WOPI“-kliento provizanta redaktan eblecon.",
     "URL (and Port) of Collabora Online-server" : "Retadreso (kaj pordo) de „Collabora Online“-servilo",
     "Disable certificate verification (insecure)" : "Ne kontroli atestilon (nesekura)",
     "Advanced settings" : "Altanivela agordo",
@@ -76,7 +75,6 @@ OC.L10N.register(
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
     "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“.",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online uzeblas de ĉiuj uzantoj defaŭlte. Uzante tiun agordon, vi povas limigi al elektitaj grupoj."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“."
 },
 "nplurals=2; plural=(n != 1);");

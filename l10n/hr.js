@@ -35,7 +35,6 @@ OC.L10N.register(
     "Collabora Online server is reachable." : "Moguće je pristupiti poslužitelju Collabora Online.",
     "Please configure a Collabora Online server to start editing documents" : "Konfigurirajte poslužitelj Collabora Online i počnite uređivati dokumente",
     "Use your own server" : "Upotrijebi vlastiti poslužitelj",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online zahtijeva poseban poslužitelj koji djeluje kao WOPI ili sličan klijent kako bi osigurao mogućnost uređivanja.",
     "URL (and Port) of Collabora Online-server" : "URL (i port) poslužitelja Collabora Online",
     "Disable certificate verification (insecure)" : "Onemogući provjeru vjerodajnice (nesigurno)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Upotrijebite ugrađeni CODE – Collabora Online Development Edition",
@@ -138,15 +137,6 @@ OC.L10N.register(
     "template preview" : "pretpregled predloška",
     "Select a template directory" : "Odaberi direktorij predložaka",
     "Remove personal template folder" : "Ukloni osobnu mapu predložaka",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predlošci unutar ove mape bit će dodani u birač predložaka platforme Collabora Online.",
-    "Install it from the app store." : "Instalirajte iz trgovine aplikacijama.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Ako instalacija iz trgovine aplikacijama ne uspije, možete izvesti ručnu instalaciju s pomoću sljedeće naredbe:",
-    "it uses an insecure protocol (http)" : "upotrebljava nesiguran protokol (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "ne može mu se pristupiti putem interneta (možda zbog vatrozida ili neprosljeđivanja portova)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online je prema zadanim postavkama omogućen za sve korisnike. Kad je ova postavka aktivna, mogu je koristiti samo pripadnici određenih grupa.",
-    "Current version" : "Trenutna verzija",
-    "New Document" : "Novi dokument",
-    "New Spreadsheet" : "Nova proračunska tablica",
-    "New Presentation" : "Nova prezentacija"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predlošci unutar ove mape bit će dodani u birač predložaka platforme Collabora Online."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -35,7 +35,6 @@ OC.L10N.register(
     "Collabora Online server is reachable." : "O servidor de Collabora Online é accesíbel.",
     "Please configure a Collabora Online server to start editing documents" : "Configure un servidor Collabora Online para comezar a editar documentos",
     "Use your own server" : "Usar o seu propio servidor",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online require un servidor separado que actúe como cliente WOPI para fornecer funcionalidades de edición.",
     "URL (and Port) of Collabora Online-server" : "URL (e porto) do servidor de Collabora Online",
     "Disable certificate verification (insecure)" : "Desactivar a verificación do certificado (isto non é seguro)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Usar o CODE - Collabora Online Development Edition incorporado",
@@ -134,9 +133,6 @@ OC.L10N.register(
     "template preview" : "Vista previa do modelo",
     "Select a template directory" : "Seleccionar un directorio de modelos",
     "Remove personal template folder" : "Retirar o cartafol de modelos persoais",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña.",
-    "it uses an insecure protocol (http)" : "usa un protocolo inseguro (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "non é acadabel dende a Internet (posíbelmente por unha devasa ou a falta de reenvío de portos)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está activado, por omisión, para todos os usuarios. Cando esta configuración estea activa, só os membros dos grupos especificados poden empregalo."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste directorio engádense ao selector de modelos do Collabora en liña."
 },
 "nplurals=2; plural=(n != 1);");

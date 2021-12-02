@@ -35,7 +35,6 @@ OC.L10N.register(
     "Collabora Online server is reachable." : "Collabora オンラインサーバーに接続可能です",
     "Please configure a Collabora Online server to start editing documents" : "ドキュメントの編集を開始するには、Collabora Onlineサーバーを設定してください。",
     "Use your own server" : "自分のサーバーを使用する",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Onlineには、編集機能を提供するためにWOPIのようにクライアントとして機能するサーバーが別途必要です。",
     "URL (and Port) of Collabora Online-server" : "Collabora OnlineサーバーのURL (とポート)。",
     "Disable certificate verification (insecure)" : "証明書の検証を無効化(安全ではありません)",
     "Use the built-in CODE - Collabora Online Development Edition" : "ビルトイン CODE を使う - Collabora Online Development Edition ",
@@ -138,15 +137,6 @@ OC.L10N.register(
     "template preview" : "テンプレートプレビュー",
     "Select a template directory" : "テンプレートディレクトリを選択する",
     "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。",
-    "Install it from the app store." : "App Storeからインストール",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "App Storeからのインストールに失敗した場合でも、このコマンドを使って手動でインストールすることができます。",
-    "it uses an insecure protocol (http)" : "セキュリティで保護されていないプロトコル (http) を使用しています",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "インターネットから到達できません(ファイアウォールまたはポート転送が足りてないのが原因である可能性があります)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Onlineサーバーはデフォルトで有効です。この設定を有効にした場合、指定したグループでしか利用する事ができません。",
-    "Current version" : "現在のバージョン",
-    "New Document" : "新規ドキュメント",
-    "New Spreadsheet" : "新規スプレッドシート",
-    "New Presentation" : "新規プレゼンテーション"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。"
 },
 "nplurals=1; plural=0;");

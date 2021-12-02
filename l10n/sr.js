@@ -24,7 +24,6 @@ OC.L10N.register(
     "Edit office documents directly in your browser." : "Мењајте канцеларијска документа директно у веб читачу.",
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online је моћни канцеларијски пакет базиран на LibreOffice-у са могућношћу заједничком уређивања. Подржани су сви главни типови  формата фајлова докумената, табела и презентација, а ради из свих модерних веб читача.",
     "Could not establish connection to the Collabora Online server." : "Не могу да успоставим везу са Collabora Online сервером",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online захтева посебан сервер који се понаша као WOPI-Client да бисте добили могућност уређивања.",
     "URL (and Port) of Collabora Online-server" : "Адреса (и порт) Collabora Online сервера",
     "Disable certificate verification (insecure)" : "Искључи проверу сертификата (небезбедно)",
     "Advanced settings" : "Напредне поставке",
@@ -77,7 +76,6 @@ OC.L10N.register(
     "template preview" : "претпреглед шаблона",
     "Select a template directory" : "Одаберите директоријум за шаблоне",
     "Remove personal template folder" : "Уклони личну фасциклу за шаблоне",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони унутар овог директоријума ће бити додати у Collabora-ин одабирач шаблона.",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online је укључена подразумевано за све кориснике. Када је ово подешавање укључено, само чланови означених група је могу користити."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони унутар овог директоријума ће бити додати у Collabora-ин одабирач шаблона."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
