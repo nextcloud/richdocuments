@@ -153,6 +153,16 @@ OC.L10N.register(
     "template preview" : "範本預覽",
     "Select a template directory" : "選取範本目錄",
     "Remove personal template folder" : "移除個人範本資料夾",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選取器中。"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選取器中。",
+    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online 需要獨立的伺服器作為類 WOPI 的客戶端來提供編輯功能。",
+    "Install it from the app store." : "從應用程式商店安裝它。",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "若從應用程式商店安裝失敗，您仍然可以使用此指令手動安裝：",
+    "it uses an insecure protocol (http)" : "使用了不安全的協定 (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "無法從網際網路存取（可能是因為防火牆，或是缺少連接埠轉發）",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online 預設對所有使用者啟用。當此設定啟用時，僅特定群組的使用者可以使用它。",
+    "Current version" : "目前版本",
+    "New Document" : "新文件",
+    "New Spreadsheet" : "新試算表",
+    "New Presentation" : "新簡報"
 },
 "nplurals=1; plural=0;");
