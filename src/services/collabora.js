@@ -20,7 +20,7 @@
  *
  */
 import axios from '@nextcloud/axios'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getAppCapabilities } from './capabilities'
 
 export const LOADING_ERROR = {
 	COLLABORA_UNCONFIGURED: 1,
@@ -28,25 +28,26 @@ export const LOADING_ERROR = {
 }
 
 export const isCollaboraConfigured = () => {
-	const collaboraCapabilities = getCapabilities()?.richdocuments?.collabora
+	const collaboraCapabilities = getAppCapabilities()?.richdocuments?.collabora
 	return isBuiltinCodeServerUsed() || collaboraCapabilities.length !== 0
 }
 
 export const isBuiltinCodeServerUsed = () => {
-	const richdocumentsCapabilities = getCapabilities()?.richdocuments
-	return richdocumentsCapabilities?.config?.wopi_url?.indexOf('proxy.php') !== -1
+	return getAppCapabilities()?.config?.wopi_url?.indexOf('proxy.php') !== -1
 }
 
 export const checkCollaboraConfiguration = async () => {
-	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
+	const wopiUrl = getAppCapabilities()?.config?.wopi_url
 	if (!wopiUrl) {
 		throw Error(LOADING_ERROR.COLLABORA_UNCONFIGURED)
 	}
+	console.debug('[richdocuments] Collabora validated')
 }
 
 let proxyStatusCheckRetry = 0
 export const checkProxyStatus = async (_resolve, _reject) => {
-	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
+	const capabilitites = await getAppCapabilities()
+	const wopiUrl = capabilitites?.config?.wopi_url
 	if (wopiUrl.indexOf('proxy.php') === -1) {
 		return true
 	}
@@ -83,4 +84,32 @@ export const checkProxyStatus = async (_resolve, _reject) => {
 	} else {
 		return new Promise(checkProxyStatusCallback)
 	}
+}
+
+export const validateCapabilities = async (coolUrl) => {
+	try {
+		await axios.get(`${coolUrl}/hosting/capabilities`)
+	} catch (e) {
+		console.error(e)
+		return false
+	}
+
+	return true
+}
+
+export const validateDiscovery = async (coolUrl) => {
+	try {
+		const discovery = await axios.get(`${coolUrl}/hosting/discovery`)
+		const parser = new DOMParser()
+		const xmlDoc = parser.parseFromString(discovery.data, 'text/xml')
+		const docUrl = Array.from(xmlDoc.getElementsByTagName('net-zone')[0].getElementsByTagName('action'))
+			.find(e => e.getAttribute('ext') === 'odt').getAttribute('urlsrc')
+		if (!docUrl.startsWith(this.settings.wopi_url)) {
+			return false
+		}
+	} catch (e) {
+		return false
+	}
+
+	return true
 }

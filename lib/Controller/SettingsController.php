@@ -162,6 +162,10 @@ class SettingsController extends Controller {
 			$this->appConfig->setAppValue('canonical_webroot', $canonical_webroot);
 		}
 
+		//if ($this->builtInProxyService->checkAndEnableCODEServer()) {
+		// FIXME: to implement
+		// }
+
 		try {
 			$output = new NullOutput();
 			$this->connectivityService->testDiscovery($output);

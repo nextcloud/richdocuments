@@ -94,8 +94,8 @@
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
-						<em>{{ t('richdocuments', 'Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities.') }}</em>
-						<em>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
+						<em v-if="hasNextcloudBranding">{{ t('richdocuments', 'Nextcloud Office requires a separate server running Collabora Online server to provide editing capabilities.') }}</em>
+						<em v-else>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
 						<form @submit.prevent.stop="updateServer">
@@ -424,6 +424,7 @@ import SettingsFontList from './SettingsFontList.vue'
 
 import '@nextcloud/dialogs/dist/index.css'
 import { getCallbackBaseUrl } from '../helpers/url.js'
+import { getAppCapabilities, fetchAppCapabilities } from '../services/capabilities.js'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -462,7 +463,6 @@ export default {
 		return {
 			productName: loadState('richdocuments', 'productName', 'Nextcloud Office'),
 			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
-
 			serverMode: '',
 			serverError: SERVER_STATE_LOADING,
 			errorMessage: null,
@@ -511,7 +511,7 @@ export default {
 			return t('richdocuments', 'Contact {0} to get an own installation.', [this.settings.demoUrl.provider_name])
 		},
 		isSetup() {
-			return this.serverError === SERVER_STATE_OK
+			return this.serverError === SERVER_STATE.OK
 		},
 		isOoxml() {
 			return this.settings.doc_format === 'ooxml'
@@ -540,8 +540,8 @@ export default {
 			if (newVal !== oldVal) {
 				const protocol = this.checkUrlProtocol(newVal)
 				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
-				if (protocol !== nextcloudProtocol) this.serverError = PROTOCOL_MISMATCH
-				else this.serverError = Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+				if (protocol !== nextcloudProtocol) this.serverError = SERVER_STATE.PROTOCOL_MISMATCH
+				else this.serverError = Object.values(getAppCapabilities().collabora).length > 0 ? SERVER_STATE.OK : SERVER_STATE.CONNECTION_ERROR
 			}
 		},
 		isSetup() {
@@ -564,7 +564,7 @@ export default {
 		}
 		Vue.set(this.settings, 'data', this.initial.settings)
 		if (this.settings.wopi_url === '') {
-			this.serverError = SERVER_STATE_CONNECTION_ERROR
+			this.serverError = SERVER_STATE.CONNECTION_ERROR
 		}
 		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
@@ -698,21 +698,25 @@ export default {
 			})
 		},
 		async updateServer() {
-			this.serverError = SERVER_STATE_LOADING
+			Vue.set(this, 'setupHints', [])
+
+			this.serverError = SERVER_STATE.LOADING
 			try {
 				await this.updateSettings({
 					wopi_url: this.settings.wopi_url,
 					disable_certificate_verification: this.settings.disable_certificate_verification,
 				})
-				this.serverError = SERVER_STATE_OK
+				await fetchAppCapabilities()
 			} catch (e) {
 				console.error(e)
 				this.serverError = SERVER_STATE_CONNECTION_ERROR
 				if (e.response.data.hint === 'missing_capabilities') {
 					showWarning('Could not connect to the /hosting/capabilities endpoint. Please check if your webserver configuration is up to date.')
 				}
+				return
 			}
 			this.checkIfDemoServerIsActive()
+			this.serverError = SERVER_STATE.OK
 		},
 		async updateSettings(data) {
 			this.errorMessage = null

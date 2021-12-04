@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments\WOPI;
 
 use Exception;
+use OCA\Richdocuments\Exception\InvalidDiscoveryException;
 use OCA\Richdocuments\Service\DiscoveryService;
 use Psr\Log\LoggerInterface;
 
@@ -52,6 +53,9 @@ class Parser {
 		$discovery = $this->discoveryService->get();
 		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
 		$discoveryParsed = simplexml_load_string($discovery);
+		if (!$discoveryParsed) {
+			throw new InvalidDiscoveryException('Invalid response for /hosting/discovery endpoint: Could not be parsed as XML');
+		}
 
 		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
@@ -62,6 +66,6 @@ class Parser {
 		}
 
 		$this->logger->error('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
-		throw new Exception('Could not find urlsrc for ' . $mimetype . ' in WOPI discovery response');
+		throw new InvalidDiscoveryException('Could not find urlsrc for ' . $mimetype . ' in WOPI discovery response');
 	}
 }

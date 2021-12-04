@@ -25,8 +25,11 @@ import '../css/filetypes.scss'
 
 import Office from './view/Office.vue'
 import { getCapabilities } from '@nextcloud/capabilities'
+import { fetchAppCapabilities } from './services/capabilities.js'
 
-const supportedMimes = getCapabilities().richdocuments.mimetypes
+fetchAppCapabilities()
+
+const supportedMimes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
 
 if (OCA.Viewer) {
 	OCA.Viewer.registerHandler({
@@ -42,7 +45,6 @@ if (OCA.Viewer) {
 // TODO: Viewer.openWith introduced with https://github.com/nextcloud/viewer/pull/1273
 //       This check can be replaced with `if(OCA.Viewer)` once NC 24 is EOL.
 if (OCA.Viewer.openWith && OCA?.Files?.fileActions) {
-	const supportedMimes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
 	const actionName = 'Edit with ' + getCapabilities().richdocuments.productName
 	const actionDisplayNameEdit = t('richdocuments', 'Edit with {productName}', { productName: getCapabilities().richdocuments.productName }, undefined, { escape: false })
 	const actionDisplayNameOpen = t('richdocuments', 'Open with {productName}', { productName: getCapabilities().richdocuments.productName }, undefined, { escape: false })

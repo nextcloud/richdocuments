@@ -86,13 +86,16 @@ import {
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
 import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
+import {
+	fetchAppCapabilities,
+	getAppCapabilities,
+} from '../services/capabilities.js'
 import { enableScrollLock, disableScrollLock } from '../helpers/safariFixer.js'
 import axios from '@nextcloud/axios'
 import {
 	generateUrl,
 	imagePath,
 } from '@nextcloud/router'
-import { getCapabilities } from '@nextcloud/capabilities'
 import {
 	generateCSSVarTokens,
 	getCollaboraTheme,
@@ -167,6 +170,7 @@ export default {
 				cssVariables: generateCSSVarTokens(),
 				theme: getCollaboraTheme(),
 			},
+			capabilitites: null,
 		}
 	},
 	computed: {
@@ -201,6 +205,7 @@ export default {
 			FRAME_DOCUMENT: () => document.getElementById(this.iframeId).contentWindow,
 		})
 		try {
+			await fetchAppCapabilities()
 			await checkCollaboraConfiguration()
 			await checkProxyStatus()
 		} catch (e) {
@@ -262,7 +267,7 @@ export default {
 				console.error('Document loading failed due to timeout: Please check for failing network requests')
 				this.loading = LOADING_STATE.FAILED
 				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
-			}, (getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+			}, (getAppCapabilities().config.timeout * 1000 || 15000))
 		},
 		sendPostMessage(msgId, values = {}) {
 			this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)

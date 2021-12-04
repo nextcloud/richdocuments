@@ -21,7 +21,9 @@
  *
  */
 
-const ooxml = OC.getCapabilities().richdocuments.config.doc_format === 'ooxml'
+import { getAppCapabilities } from '../services/capabilities'
+
+const ooxml = getAppCapabilities().config.doc_format === 'ooxml'
 
 const getFileTypes = () => {
 	if (ooxml) {
