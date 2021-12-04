@@ -56,18 +56,18 @@ export const checkProxyStatus = async(_resolve, _reject) => {
 
 	const checkProxyStatusCallback = async(resolve, reject) => {
 		const result = await axios.get(proxyStatusUrl)
-		if (!result || !result.status) {
+		if (!result || !result?.data?.status) {
 			reject('Failed to contact status endpoint')
 		}
 
-		if (result.status === 'OK') {
+		if (result.data.status === 'OK') {
 			return resolve(true)
 		}
-		if (result.status === 'error') {
+		if (result.data.status === 'error') {
 			return reject(t('richdocuments', 'Built-in CODE server failed to start'))
 		}
 
-		if (proxyStatusCheckRetry < 3 && (result.status === 'starting' || result.status === 'stopped' || result.status === 'restarting')) {
+		if (proxyStatusCheckRetry < 3 && (result.data.status === 'starting' || result.data.status === 'stopped' || result.data.status === 'restarting')) {
 			setTimeout(() => {
 				proxyStatusCheckRetry++
 				checkProxyStatus(resolve, reject)
