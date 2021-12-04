@@ -38,6 +38,8 @@
     "Collabora Online server is reachable." : "Il server Collabora Online è raggiungibile.",
     "Please configure a Collabora Online server to start editing documents" : "Configura un server Collabora Online per iniziare a modificare i documenti",
     "Use your own server" : "Utilizza il tuo server",
+    "Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities." : "Nextcloud Office richiede un server separato con installato Collabora Online per fornire le funzioni di modifica.",
+    "Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online richiede un server separato che agisca da client tipo WOPI per fornire le funzioni di modifica.",
     "URL (and Port) of Collabora Online-server" : "URL (e porta) del server di Collabora Online.",
     "Disable certificate verification (insecure)" : "Disabilità la verifica del certificato (non sicuro)",
     "Use the built-in CODE - Collabora Online Development Edition" : "Utilizza il CODE integrato - Collabora Online Development Edition",
@@ -71,6 +73,7 @@
     "{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "{productName} è attivo per tutti gli utenti in modo predefinito. Quando questa impostazione è attiva, solo i membri dei gruppi specificati possono usarlo.",
     "Select groups" : "Seleziona gruppi",
     "Restrict edit to specific groups" : "Limita la modifica a gruppi specifici",
+    "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents." : "Tutti gli utenti possono modificare documenti con {productName} in modo predefinito. Quando questa impostazione è attiva, solo i membri dei gruppi specificati possono modificare, mentre gli altri possono solo visualizzare i documenti.",
     "Use Canonical webroot" : "Usa webroot canonica",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "Webroot canonica che utilizzerà Collabora, in presenza di più webroot. Fornisci quella con minori restrizioni. Ad es.: usa una webroot senza shibboleth se l'accesso a questa istanza viene effettuato da webroot con e senza shibboleth. Puoi ignorare questa impostazione se viene utilizzata una sola webroot per accedere a questa istanza.",
     "Enable access for external apps" : "Abilita l'accesso per le applicazioni esterne",
@@ -93,6 +96,7 @@
     "Description" : "Descrizione",
     "Add new token" : "Aggiungi nuovo token",
     "No results" : "Nessun risultato",
+    "Loading {filename} …" : "Caricamento di {filename} …",
     "Cancel" : "Annulla",
     "Document loading failed" : "Caricamento del documento fallito",
     "Close" : "Chiudi",
@@ -147,6 +151,16 @@
     "template preview" : "anteprima dei modelli",
     "Select a template directory" : "Seleziona una cartella dei modelli",
     "Remove personal template folder" : "Rimuovi la cartella dei modelli personali",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "I modelli all'interno di questa cartella saranno aggiunti al selettore dei modelli di Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "I modelli all'interno di questa cartella saranno aggiunti al selettore dei modelli di Collabora Online.",
+    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online richiede un server separato che agisca da client tipo WOPI per fornire le funzioni di modifica.",
+    "Install it from the app store." : "Installalo dal negozio di applicazioni.",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Se l'installazione dal negozio delle applicazioni non riesce, puoi farlo manualmente utilizzando questo comando:",
+    "it uses an insecure protocol (http)" : "utilizza un protocollo non sicuro (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "non è raggiungibile da Internet (probabilmente a causa di un firewall, o mancanza di inoltro delle porte)",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online è attivo per tutti gli utenti in modo predefinito. Quando questa impostazione è attiva, solo i membri dei gruppi specificati possono utilizzarla.",
+    "Current version" : "Versione attuale",
+    "New Document" : "Nuovo documento",
+    "New Spreadsheet" : "Nuovo foglio elettronico",
+    "New Presentation" : "Nuova presentazione"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
