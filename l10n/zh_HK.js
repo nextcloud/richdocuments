@@ -15,7 +15,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "新演示文稿.pptx",
     "Document already exists" : "文件已存在",
     "Not allowed to create document" : "不允許建立文件",
-    "Saved" : "已儲存",
+    "Saved" : "已保存",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "儲存時發生錯誤：Collabora Online 應該使用與伺服器安裝相同的協定。",
     "Invalid config key" : "無效的設定鍵",
     "Error when saving" : "儲存時發生錯誤",
