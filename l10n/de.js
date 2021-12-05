@@ -149,6 +149,7 @@ OC.L10N.register(
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online benötigt einen separaten Server, der als WOPI-ähnlicher-Client fungiert, um Funktionen zum Bearbeiten bereitzustellen.",
     "Install it from the app store." : "Installiere es aus dem App Store",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Sollte die Installation aus dem App Store fehlschlagen, kannst Du die App manuell mit folgendem Befehl installieren:",
     "it uses an insecure protocol (http)" : "Es verwendet ein unsicheres Protokoll (http)",
     "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "Nicht erreichbar aus dem Internet (Vielleicht wegen einer Firewall oder falscher Port-Weiterleitung)",
     "New Document" : "Neues Textdokument",
