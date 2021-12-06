@@ -21,6 +21,8 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use GuzzleHttp\Exception\GuzzleException;
+use OCA\Richdocuments\Service\BuiltInProxyService;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -34,16 +36,20 @@ class DiscoveryManager {
 	private $cache;
 	/** @var IConfig */
 	private $config;
+	/** @var BuiltInProxyService */
+	private $builtInProxyService;
 
 	/** @var string */
 	private $discovery;
 
 	public function __construct(IClientService $clientService,
 								ICacheFactory $cacheFactory,
-								IConfig $config) {
+								IConfig $config,
+								BuiltInProxyService $builtInProxyService) {
 		$this->clientService = $clientService;
 		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->config = $config;
+		$this->builtInProxyService = $builtInProxyService;
 	}
 
 	public function get() {
@@ -64,7 +70,7 @@ class DiscoveryManager {
 
 	/**
 	 * @return \OCP\Http\Client\IResponse
-	 * @throws \Exception
+	 * @throws GuzzleException
 	 */
 	public function fetchFromRemote() {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
@@ -77,7 +83,7 @@ class DiscoveryManager {
 			$options['verify'] = false;
 		}
 
-		if ($this->isProxyStarting($wopiDiscovery))
+		if ($this->builtInProxyService->isProxyStarting($wopiDiscovery))
 			$options['timeout'] = 180;
 
 		try {
@@ -90,47 +96,5 @@ class DiscoveryManager {
 	public function refetch() {
 		$this->cache->remove('discovery');
 		$this->discovery = null;
-	}
-
-	/**
-	 * @return boolean indicating if proxy.php is in initialize or false otherwise
-	 */
-	private function isProxyStarting($url) {
-		$usesProxy = false;
-		$proxyPos = strrpos($url, 'proxy.php');
-		if ($proxyPos === false)
-			$usesProxy = false;
-		else
-			$usesProxy = true;
-
-		if ($usesProxy === true) {
-			$statusUrl = substr($url, 0, $proxyPos);
-			$statusUrl = $statusUrl . 'proxy.php?status';
-
-			$client = $this->clientService->newClient();
-			$options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
-
-			if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-				$options['verify'] = false;
-			}
-
-			try {
-				$response = $client->get($statusUrl, $options);
-
-				if ($response->getStatusCode() === 200) {
-					$body = json_decode($response->getBody(), true);
-
-					if ($body['status'] === 'starting'
-						|| $body['status'] === 'stopped'
-						|| $body['status'] === 'restarting') {
-						return true;
-					}
-				}
-			} catch (\Exception $e) {
-				// ignore
-			}
-		}
-
-		return false;
 	}
 }

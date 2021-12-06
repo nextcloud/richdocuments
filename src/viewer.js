@@ -22,9 +22,11 @@
  */
 
 import Office from './view/Office'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { fetchAppCapabilities, getAppCapabilities } from './services/capabilities'
 
-const supportedMimes = getCapabilities().richdocuments.mimetypes
+fetchAppCapabilities()
+
+const supportedMimes = getAppCapabilities().mimetypes
 
 document.addEventListener('DOMContentLoaded', function(event) {
 	if (OCA.Viewer) {

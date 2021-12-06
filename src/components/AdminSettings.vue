@@ -32,28 +32,31 @@
 			</p>
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
-				<div v-if="serverError == 2 && isNginx && serverMode === 'builtin'" id="security-warning-state-failure">
+				<div v-if="serverError === 0" class="server-setup-status server-setup-status--ok">
+					<span class="icon icon-checkmark-white" /><span class="message">{{ t('richdocuments', 'Collabora Online server is reachable.') }}</span>
+				</div>
+				<div v-else-if="serverError === 1" class="server-setup-status server-setup-status--pending">
+					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Validating server configuration') }}</span>
+				</div>
+				<div v-else-if="serverErrorMessage" class="server-setup-status server-setup-status--error">
+					<span class="icon icon-close-white" /><span class="message">{{ serverErrorMessage }}</span>
+				</div>
+
+				<div v-else-if="isNginx && serverMode === 'builtin'" class="server-setup-status server-setup-status--error">
 					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: ') }}<a title="Connecting Collabora Online Single Click with Nginx"
 						href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/"
 						target="_blank"
 						rel="noopener"
 						class="external">{{ t('richdocuments', 'Connecting Collabora Online Single Click with Nginx') }}</a></span>
 				</div>
-				<div v-else-if="serverError == 2" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
-				</div>
-				<div v-else-if="serverError == 1" id="security-warning-state-failure">
-					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Setting up a new server') }}</span>
-				</div>
-				<div v-else-if="serverError == 3" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Collabora Online should use the same protocol as the server installation.') }}</span>
-				</div>
-				<div v-else id="security-warning-state-ok">
-					<span class="icon icon-checkmark-white" /><span class="message">{{ t('richdocuments', 'Collabora Online server is reachable.') }}</span>
-				</div>
 			</div>
-			<div v-else id="security-warning-state-warning">
+			<div v-else class="server-setup-status server-setup-status--pending">
 				<span class="icon icon-error-white" /><span class="message">{{ t('richdocuments', 'Please configure a Collabora Online server to start editing documents') }}</span>
+			</div>
+			<div class="option-inline-emphasized">
+				<ul>
+					<li v-for="hint in setupHints" :key="hint">{{ hint }}</li>
+				</ul>
 			</div>
 
 			<fieldset>
@@ -67,8 +70,8 @@
 						:disabled="updating">
 					<label for="customserver">{{ t('richdocuments', 'Use your own server') }}</label><br>
 					<p class="option-inline">
-						<em>{{ t('richdocuments', 'Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities.') }}</em>
-						<em>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
+						<em v-if="hasNextcloudBranding">{{ t('richdocuments', 'Nextcloud Office requires a separate server running Collabora Online server to provide editing capabilities.') }}</em>
+						<em v-else>{{ t('richdocuments', 'Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities.') }}</em>
 					</p>
 					<div v-if="serverMode === 'custom'" class="option-inline">
 						<form @submit.prevent.stop="updateServer">
@@ -359,11 +362,18 @@ import SettingsInputText from './SettingsInputText'
 import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
 import SettingsExternalApps from './SettingsExternalApps'
+import {
+	fetchAppCapabilities,
+	getAppCapabilities,
+} from '../services/capabilities'
 
-const SERVER_STATE_OK = 0
-const SERVER_STATE_LOADING = 1
-const SERVER_STATE_CONNECTION_ERROR = 2
-const PROTOCOL_MISMATCH = 3
+const SERVER_STATE = {
+	OK: 0,
+	LOADING: 1,
+	CONNECTION_ERROR: 2,
+
+	PROTOCOL_MISMATCH: 99,
+}
 
 export default {
 	name: 'AdminSettings',
@@ -386,9 +396,9 @@ export default {
 		return {
 			productName: loadState('richdocuments', 'productName', 'Nextcloud Office'),
 			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
-
 			serverMode: '',
-			serverError: Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
+			serverError: Object.values(getAppCapabilities().collabora).length > 0 ? SERVER_STATE.OK : SERVER_STATE.CONNECTION_ERROR,
+			setupHints: [],
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
@@ -430,7 +440,7 @@ export default {
 			return t('richdocuments', 'Contact {0} to get an own installation.', [this.settings.demoUrl.provider_name])
 		},
 		isSetup() {
-			return this.serverError === SERVER_STATE_OK
+			return this.serverError === SERVER_STATE.OK
 		},
 		isOoxml() {
 			return this.settings.doc_format === 'ooxml'
@@ -438,14 +448,23 @@ export default {
 		hasHostErrors() {
 			return this.hostErrors.some(x => x)
 		},
+		serverErrorMessage() {
+			switch (this.serverError) {
+			case SERVER_STATE.CONNECTION_ERROR:
+				return t('richdocuments', 'Could not establish connection to the Collabora Online server.')
+			case SERVER_STATE.PROTOCOL_MISMATCH:
+				return t('richdocuments', 'Collabora Online should use the same protocol as the server installation.')
+			}
+			return null
+		},
 	},
 	watch: {
 		'settings.wopi_url'(newVal, oldVal) {
 			if (newVal !== oldVal) {
 				const protocol = this.checkUrlProtocol(newVal)
 				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
-				if (protocol !== nextcloudProtocol) this.serverError = PROTOCOL_MISMATCH
-				else this.serverError = Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+				if (protocol !== nextcloudProtocol) this.serverError = SERVER_STATE.PROTOCOL_MISMATCH
+				else this.serverError = Object.values(getAppCapabilities().collabora).length > 0 ? SERVER_STATE.OK : SERVER_STATE.CONNECTION_ERROR
 			}
 		},
 	},
@@ -465,7 +484,7 @@ export default {
 		}
 		Vue.set(this.settings, 'data', this.initial.settings)
 		if (this.settings.wopi_url === '') {
-			this.serverError = SERVER_STATE_CONNECTION_ERROR
+			this.serverError = SERVER_STATE.CONNECTION_ERROR
 		}
 		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
@@ -562,21 +581,23 @@ export default {
 			})
 		},
 		async updateServer() {
-			this.serverError = SERVER_STATE_LOADING
+			Vue.set(this, 'setupHints', [])
+
+			this.serverError = SERVER_STATE.LOADING
 			try {
 				await this.updateSettings({
 					wopi_url: this.settings.wopi_url,
 					disable_certificate_verification: this.settings.disable_certificate_verification,
 				})
-				this.serverError = SERVER_STATE_OK
+				await fetchAppCapabilities()
 			} catch (e) {
-				console.error(e)
-				this.serverError = SERVER_STATE_CONNECTION_ERROR
-				if (e.response.data.hint === 'missing_capabilities') {
-					OCP.Toast.warning('Could not connect to the /hosting/capabilities endpoint. Please check if your webserver configuration is up to date.')
-				}
+				console.error(e, e.response.data.data.hint)
+				this.serverError = SERVER_STATE.CONNECTION_ERROR
+				Vue.set(this, 'setupHints', e.response.data.data.hint)
+				return
 			}
 			this.checkIfDemoServerIsActive()
+			this.serverError = SERVER_STATE.OK
 		},
 		async updateSettings(data) {
 			this.updating = true
@@ -661,11 +682,30 @@ export default {
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	#security-warning-state-failure,
-	#security-warning-state-warning,
-	#security-warning-state-ok {
+	.server-setup-status {
 		margin-top: 10px;
 		margin-bottom: 20px;
+		display: flex;
+
+		span.icon {
+			width: 32px;
+			height: 32px;
+			background-position: center center;
+			display: inline-block;
+			border-radius: 50%;
+		}
+
+		span.message {
+			display: inline-block;
+			padding: 4px 12px;
+		}
+
+		&--ok .icon {
+			background-color: var(--color-success);
+		}
+		&--error .icon {
+			background-color: var(--color-error);
+		}
 	}
 
 	.option-inline {

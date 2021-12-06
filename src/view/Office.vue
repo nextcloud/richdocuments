@@ -77,7 +77,15 @@ import { basename, dirname } from 'path'
 import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration'
-import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora'
+import {
+	LOADING_ERROR,
+	checkCollaboraConfiguration,
+	checkProxyStatus,
+} from '../services/collabora'
+import {
+	fetchAppCapabilities,
+	getAppCapabilities,
+} from '../services/capabilities'
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('collaboraframe').contentWindow,
@@ -120,6 +128,7 @@ export default {
 			loadingTimeout: null,
 			error: null,
 			views: [],
+			capabilitites: null,
 		}
 	},
 	computed: {
@@ -161,6 +170,7 @@ export default {
 	},
 	async mounted() {
 		try {
+			await fetchAppCapabilities()
 			await checkCollaboraConfiguration()
 			await checkProxyStatus()
 		} catch (e) {
@@ -198,7 +208,7 @@ export default {
 				console.error('FAILED')
 				this.loading = LOADING_STATE.FAILED
 				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
-			}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+			}, (getAppCapabilities().config.timeout * 1000 || 15000))
 		},
 		documentReady() {
 			this.loading = LOADING_STATE.DOCUMENT_READY

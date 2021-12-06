@@ -21,25 +21,23 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use OCA\Richdocuments\Exception\InvalidDiscoveryException;
+use const PHP_VERSION_ID;
+
 class Parser {
 	/** @var DiscoveryManager */
 	private $discoveryManager;
 
-	/**
-	 * @param DiscoveryManager $discoveryManager
-	 */
 	public function __construct(DiscoveryManager $discoveryManager) {
 		$this->discoveryManager = $discoveryManager;
 	}
 
 	/**
-	 * @param $mimetype
-	 * @return array
-	 * @throws \Exception
+	 * @throws InvalidDiscoveryException
 	 */
-	public function getUrlSrc($mimetype) {
+	public function getUrlSrc(string $mimetype): array {
 		$discovery = $this->discoveryManager->get();
-		if (\PHP_VERSION_ID < 80000) {
+		if (PHP_VERSION_ID < 80000) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$discoveryParsed = simplexml_load_string($discovery);
 			libxml_disable_entity_loader($loadEntities);
@@ -47,6 +45,9 @@ class Parser {
 			$discoveryParsed = simplexml_load_string($discovery);
 		}
 
+		if (!$discoveryParsed) {
+			throw new InvalidDiscoveryException('Invalid response for /hosting/discovery endpoint: Could not be parsed as XML');
+		}
 
 		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
@@ -56,8 +57,6 @@ class Parser {
 			];
 		}
 
-		throw new \Exception('Could not find urlsrc in WOPI');
-
+		throw new InvalidDiscoveryException('Invalid response for /hosting/discovery endpoint: Could not find urlsrc in WOPI');
 	}
-
 }

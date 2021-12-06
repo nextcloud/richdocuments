@@ -7,6 +7,7 @@ import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
 import '../css/viewer.scss'
 import { splitPath } from './helpers'
+import { getAppCapabilities } from './services/capabilities'
 import NewFileMenu from './view/NewFileMenu'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
@@ -14,7 +15,7 @@ const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow,
 })
 
-const isBrandedVersion = OC.getCapabilities().richdocuments.collabora.productVersion.split('.')[0] >= 21
+const isBrandedVersion = getAppCapabilities().collabora.productVersion.split('.')[0] >= 21
 
 // Workaround for Safari to resize the iframe to the proper height
 // as 100vh is not the proper viewport height there
@@ -40,14 +41,14 @@ const odfViewer = {
 	receivedLoading: false,
 	isProxyStarting: false,
 	isCollaboraConfigured: (
-		(OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
-		|| (typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0)),
-	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
+		(getAppCapabilities().config.wopi_url.indexOf('proxy.php') !== -1)
+		|| (typeof getAppCapabilities().collabora === 'object' && getAppCapabilities().collabora.length !== 0)),
+	supportedMimes: getAppCapabilities().mimetypes.concat(getAppCapabilities().mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: getAppCapabilities().mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
 	registerFileActions() {
-		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
+		const EDIT_ACTION_NAME = 'Edit with ' + getAppCapabilities().productName
 		for (const mime of odfViewer.supportedMimes) {
 			OCA.Files.fileActions.register(
 				mime,
@@ -84,7 +85,7 @@ const odfViewer = {
 						shareOwnerId,
 					})
 				},
-				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
+				t('richdocuments', 'Edit with {productName}', { productName: getAppCapabilities().productName }, undefined, { escape: false })
 			)
 			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
 				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
@@ -100,7 +101,7 @@ const odfViewer = {
 		if (!odfViewer.isCollaboraConfigured) {
 			$.get(OC.linkToOCS('cloud') + '/capabilities?format=json').then(
 				e => {
-					if ((OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
+					if ((getAppCapabilities().config.wopi_url.indexOf('proxy.php') !== -1)
 						|| (typeof e.ocs.data.capabilities.richdocuments.collabora === 'object'
 						&& e.ocs.data.capabilities.richdocuments.collabora.length !== 0)) {
 						odfViewer.isCollaboraConfigured = true
@@ -201,11 +202,11 @@ const odfViewer = {
 
 		const $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
-			(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+			(getAppCapabilities().config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl
 
 		if ((OC.appswebroots.richdocumentscode || OC.appswebroots.richdocumentscode_arm64)
-			&& OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') >= 0) {
+			&& getAppCapabilities().config.wopi_url.indexOf('proxy.php') >= 0) {
 			odfViewer.checkProxyStatus()
 		}
 
@@ -287,15 +288,15 @@ const odfViewer = {
 				...FilesAppIntegration.loggingContext(),
 			})
 			odfViewer.onClose()
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
+			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: getAppCapabilities().productName || 'Collabora Online' }))
 		} else if (!odfViewer.receivedLoading) {
 			odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
-				(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+				(getAppCapabilities().config.timeout * 1000 || 15000))
 		}
 	},
 
 	checkProxyStatus() {
-		const wopiUrl = OC.getCapabilities().richdocuments.config.wopi_url
+		const wopiUrl = getAppCapabilities().config.wopi_url
 		const url = wopiUrl.substr(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 		$.get(url + '?status').done(function(result) {
 			if (result && result.status) {
@@ -315,7 +316,7 @@ const odfViewer = {
 	},
 }
 
-const settings = OC.getCapabilities().richdocuments.config || {}
+const settings = getAppCapabilities().config || {}
 Config.update('ooxml', settings.doc_format === 'ooxml')
 
 window.OCA.RichDocuments = {
@@ -410,7 +411,7 @@ $(document).ready(function() {
 				})
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
-					{ productName: OC.getCapabilities().richdocuments.productName }
+					{ productName: getAppCapabilities().productName }
 				))
 			}
 			break

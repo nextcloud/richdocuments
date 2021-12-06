@@ -104,7 +104,7 @@ class Capabilities implements ICapability {
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
-					'mimetypes' => $filteredMimetypes,
+					'mimetypes' => array_values($filteredMimetypes),
 					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 					'collabora' => $collaboraCapabilities,
 					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
@@ -118,7 +118,6 @@ class Capabilities implements ICapability {
 						'use_groups' => $this->config->getAppValue('use_groups'),
 						'doc_format' => $this->config->getAppValue('doc_format'),
 						'timeout' => $this->config->getAppValue('timeout'),
-
 					]
 				],
 			];

@@ -161,7 +161,6 @@ class Application extends App implements IBootstrap {
 
 			$this->registerProvider();
 			$this->updateCSP();
-			$this->checkAndEnableCODEServer();
 		});
 	}
 
@@ -250,47 +249,6 @@ class Application extends App implements IBootstrap {
 			// We can ignore this exception for adding predefined domains to the CSP as it it would then just
 			// reload the page to set a proper allowed frame domain if we don't have a fixed list of trusted
 			// remotes in a global scale scenario
-		}
-	}
-
-	public function checkAndEnableCODEServer() {
-		// Supported only on Linux OS, and x86_64 & ARM64 platforms
-		$supportedArchs = array('x86_64', 'aarch64');
-		$osFamily = PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS;
-		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs))
-			return;
-
-		$CODEAppID = (php_uname('m') === 'x86_64') ? 'richdocumentscode' : 'richdocumentscode_arm64';
-
-		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser($CODEAppID)) {
-			$appConfig = $this->getContainer()->query(AppConfig::class);
-			$wopi_url = $appConfig->getAppValue('wopi_url');
-			$isCODEEnabled = strpos($wopi_url, 'proxy.php?req=') !== false;
-
-			// Check if we have the wopi_url set to custom currently
-			if ($wopi_url !== null && $wopi_url !== '' && $isCODEEnabled === false) {
-				return;
-			}
-
-			$urlGenerator = \OC::$server->getURLGenerator();
-			$relativeUrl = $urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
-			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
-			$new_wopi_url = $absoluteUrl . '?req=';
-
-			// Check if the wopi url needs to be updated
-			if ($isCODEEnabled && $wopi_url === $new_wopi_url) {
-				return;
-			}
-
-			$appConfig->setAppValue('wopi_url', $new_wopi_url);
-			$appConfig->setAppValue('disable_certificate_verification', 'yes');
-
-			$discoveryManager = $this->getContainer()->query(DiscoveryManager::class);
-			$capabilitiesService = $this->getContainer()->query(CapabilitiesService::class);
-
-			$discoveryManager->refetch();
-			$capabilitiesService->clear();
-			$capabilitiesService->refetch();
 		}
 	}
 
