@@ -7,6 +7,7 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avançats",
     "Description" : "Descripcion",
     "Cancel" : "Anullar",
+    "Close" : "Tampar",
     "Error" : "Error",
     "Nickname" : "Escais",
     "Save" : "Enregistrar",
