@@ -68,7 +68,7 @@ class DocumentController extends Controller {
 	/** @var InitialStateService */
 	private $initialState;
 
-	const ODT_TEMPLATE_PATH = '/assets/odttemplate.odt';
+	const ODT_TEMPLATE_PATH = '/emptyTemplates/odttemplate.odt';
 
 
 	public function __construct(

@@ -8,7 +8,7 @@ Background:
   Scenario: Share a file by federation and open it
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document.odt"
     And share the file "/document.odt" as a federated share to "user2" on "serverB"
     When User "user1" opens "/document.odt"
     And Collabora fetches checkFileInfo
@@ -25,7 +25,7 @@ Background:
   Scenario: Share a file by federation and open it
     Given on instance "serverA"
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/reshare.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/reshare.odt"
     And share the file "/reshare.odt" as a federated share to "user2" on "serverB"
 
     Given on instance "serverB"
@@ -36,10 +36,10 @@ Background:
     And checkFileInfo "BaseFileName" is "reshare.odt"
     And checkFileInfo "UserCanWrite" is true
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
-    And Collabora saved the file with the content of "./../assets/template.ods"
+    Then the file is equal to "./../emptyTemplates/template.odt"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.ods"
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.ods"
+    Then the file is equal to "./../emptyTemplates/template.ods"
 
     Given on instance "serverA"
     Given as user "user1"
@@ -47,17 +47,17 @@ Background:
     And Collabora fetches checkFileInfo
     And checkFileInfo "BaseFileName" is "reshare.odt"
     And checkFileInfo "UserCanWrite" is true
-    Then the file is equal to "./../assets/template.ods"
-    And Collabora saved the file with the content of "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.ods"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.odt"
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
     And both Collabora files used the same file id
 
 
   Scenario: Share a file by federation and reshare it read-only
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-reshare-readonly.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-reshare-readonly.odt"
     And share the file "/file-reshare-readonly.odt" as a federated share to "user2" on "serverB"
 
     Given on instance "serverB"
@@ -67,8 +67,8 @@ Background:
     And Collabora fetches checkFileInfo
     And checkFileInfo "BaseFileName" is "file-reshare-readonly.odt"
     And checkFileInfo "UserCanWrite" is true
-    Then Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
     And as "user2" create a share with
       | path | /file-reshare-readonly.odt |
@@ -82,13 +82,13 @@ Background:
     And checkFileInfo "BaseFileName" is "file-reshare-readonly.odt"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.odt"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Share a file by federation and reshare it with write permissions
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-reshare-rw.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-reshare-rw.odt"
     And share the file "/file-reshare-rw.odt" as a federated share to "user2" on "serverB"
 
     Given on instance "serverB"
@@ -98,8 +98,8 @@ Background:
     And Collabora fetches checkFileInfo
     And checkFileInfo "BaseFileName" is "file-reshare-rw.odt"
     And checkFileInfo "UserCanWrite" is true
-    Then Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
     And as "user2" create a share with
       | path | /file-reshare-rw.odt |
@@ -113,14 +113,14 @@ Background:
     Then checkFileInfo "BaseFileName" is "file-reshare-rw.odt"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    And Collabora can save the file with the content of "./../assets/template.ods"
-    And Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @known-failure-ci
   Scenario: Share a file by federation and reshare it as a link
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-reshare-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-reshare-link.odt"
     And share the file "/file-reshare-link.odt" as a federated share to "user2" on "serverB"
     Then User "user1" opens "/file-reshare-link.odt"
     And Collabora fetches checkFileInfo
@@ -135,8 +135,8 @@ Background:
     And checkFileInfo "BaseFileName" is "file-reshare-link.odt"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    Then Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
     # This might fail curently due to using the same instance
     And as "user2" create a share with
@@ -153,5 +153,5 @@ Background:
     ## And checkFileInfo "OwnerId" is "user1"
     ## And both Collabora files used the same file id
     And checkFileInfo "UserCanWrite" is false
-    And Collabora downoads the file and it is equal to "./../assets/template.ods"
-    And Collabora can not save the file with the content of "./../assets/template.odt"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"

@@ -216,7 +216,7 @@ class TemplateManager {
 
 			foreach ($templates as $template) {
 				$file = $folder->newFile($template);
-				$file->putContent(file_get_contents(__DIR__ . '/../assets/' . $template));
+				$file->putContent(file_get_contents(__DIR__ . '/../emptyTemplates/' . $template));
 				$templateFiles[] = $file;
 			}
 		}

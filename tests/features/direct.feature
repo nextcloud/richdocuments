@@ -8,7 +8,7 @@ Feature: Direct editing
   Scenario: Open a file through direct editing
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document.odt"
     When User "user1" opens "/document.odt" through direct editing
     And Collabora fetches checkFileInfo
     Then checkFileInfo "BaseFileName" is "document.odt"
@@ -17,12 +17,12 @@ Feature: Direct editing
   Scenario: Open a shared file through direct editing
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document-shared.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-shared.odt"
     When User "user1" opens "/document-shared.odt" through direct editing
     And Collabora fetches checkFileInfo
     Then checkFileInfo "BaseFileName" is "document-shared.odt"
     And checkFileInfo "UserCanWrite" is true
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
     And as "user1" create a share with
       | path        | /document-shared.odt |
       | shareType   | 0                    |
@@ -35,18 +35,18 @@ Feature: Direct editing
     And checkFileInfo "BaseFileName" is "document-shared.odt"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.odt"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a reshared file through direct editing
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document-shared-reshare.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-shared-reshare.odt"
     When User "user1" opens "/document-shared-reshare.odt" through direct editing
     And Collabora fetches checkFileInfo
     Then checkFileInfo "BaseFileName" is "document-shared-reshare.odt"
     And checkFileInfo "UserCanWrite" is true
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
     And as "user1" create a share with
       | path        | /document-shared-reshare.odt |
       | shareType   | 0                            |
@@ -65,19 +65,19 @@ Feature: Direct editing
     And checkFileInfo "BaseFileName" is "document-shared-reshare.odt"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.odt"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @federation
   Scenario: Open a federated shared file through direct editing
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document-shared-federated.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-shared-federated.odt"
     When User "user1" opens "/document-shared-federated.odt" through direct editing
     And Collabora fetches checkFileInfo
     Then checkFileInfo "BaseFileName" is "document-shared-federated.odt"
     And checkFileInfo "UserCanWrite" is true
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
     And share the file "/document-shared-federated.odt" with permission 1 as a federated share to "user2" on "serverB"
     Given on instance "serverB"
     And as user "user2"
@@ -87,20 +87,20 @@ Feature: Direct editing
     And checkFileInfo "BaseFileName" is "document-shared-federated.odt"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.odt"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @federation
   Scenario: Open a file in a federated shared folder through direct editing
     Given on instance "serverA"
     And as user "user1"
     And User "user1" creates a folder "FederatedShareFolder"
-    And User "user1" uploads file "./../assets/template.odt" to "/FederatedShareFolder/document-shared-federated.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/FederatedShareFolder/document-shared-federated.odt"
     When User "user1" opens "/FederatedShareFolder/document-shared-federated.odt" through direct editing
     And Collabora fetches checkFileInfo
     Then checkFileInfo "BaseFileName" is "document-shared-federated.odt"
     And checkFileInfo "UserCanWrite" is true
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
     And share the file "/FederatedShareFolder" with permission 1 as a federated share to "user2" on "serverB"
     Given on instance "serverB"
     And as user "user2"
@@ -110,13 +110,13 @@ Feature: Direct editing
     And checkFileInfo "BaseFileName" is "document-shared-federated.odt"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.odt"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a share link with direct editing
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document-share-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-share-link.odt"
     When User "user1" opens "/document-share-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And as "user1" create a share with
@@ -133,15 +133,15 @@ Feature: Direct editing
       | UserFriendlyName | user2-displayname         |
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    And Collabora can save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
     And the direct editing link is only valid once
 
   Scenario: Open a file in a shared folder of a share link with direct editing as read only
     Given on instance "serverA"
     And as user "user1"
     And User "user1" creates a folder "Folder"
-    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/Folder/document-share-link.odt"
     When User "user1" opens "/Folder/document-share-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And as "user1" create a share with
@@ -155,14 +155,14 @@ Feature: Direct editing
       | UserId           | user2                     |
       | UserFriendlyName | user2-displayname         |
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.odt"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable
     Given on instance "serverA"
     And as user "user1"
     And User "user1" creates a folder "Folder"
-    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/Folder/document-share-link.odt"
     When User "user1" opens "/Folder/document-share-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And as "user1" create a share with
@@ -179,14 +179,14 @@ Feature: Direct editing
       | UserFriendlyName | user2-displayname         |
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    And Collabora can save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable as a guest
     Given on instance "serverA"
     And as user "user1"
     And User "user1" creates a folder "Folder"
-    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/Folder/document-share-link.odt"
     When User "user1" opens "/Folder/document-share-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And as "user1" create a share with
@@ -205,14 +205,14 @@ Feature: Direct editing
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    And Collabora can save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable as a remote user
     Given on instance "serverA"
     And as user "user1"
     And User "user1" creates a folder "Folder"
-    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/Folder/document-share-link.odt"
     When User "user1" opens "/Folder/document-share-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And as "user1" create a share with
@@ -230,14 +230,14 @@ Feature: Direct editing
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    And Collabora can save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable as a remote user with password
     Given on instance "serverA"
     And as user "user1"
     And User "user1" creates a folder "Folder"
-    And User "user1" uploads file "./../assets/template.odt" to "/Folder/document-share-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/Folder/document-share-link.odt"
     When User "user1" opens "/Folder/document-share-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And as "user1" create a share with
@@ -256,8 +256,8 @@ Feature: Direct editing
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    And Collabora can save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
     And as user "user2"
     When User "user2" cannot open the file "/document-share-link.odt" in the last share link through direct editing from server "serverA" with password "wrongpassword"
@@ -267,7 +267,7 @@ Feature: Direct editing
     Given user "user3" exists
     Given on instance "serverA"
     And as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/document-reshare-fed-link.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-reshare-fed-link.odt"
     When User "user1" opens "/document-reshare-fed-link.odt" through direct editing
     And Collabora fetches checkFileInfo
     And share the file "/document-reshare-fed-link.odt" with permission 31 as a federated share to "user2" on "serverB"
@@ -292,6 +292,6 @@ Feature: Direct editing
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
-    And Collabora can not save the file with the content of "./../assets/template.ods"
-    Then Collabora downoads the file and it is equal to "./../assets/template.odt"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
+    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
     And the direct editing link is only valid once
