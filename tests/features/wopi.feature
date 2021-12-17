@@ -6,7 +6,7 @@ Feature: WOPI
 
   Scenario: Create a new wopi token for a user and open it
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     Then User "user1" opens "/file.odt"
     And Collabora fetches checkFileInfo
     And Collabora fetches and receives the following in the checkFileInfo response
@@ -18,7 +18,7 @@ Feature: WOPI
 
   Scenario: Fetch checkFileInfo for public share link
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     And as "user1" create a share with
       | path      | /file.odt |
       | shareType | 3         |
@@ -29,15 +29,15 @@ Feature: WOPI
     And checkFileInfo "UserId" matches "/Guest-/"
     And checkFileInfo "OwnerId" is "user1"
     And checkFileInfo "UserCanWrite" is false
-    And Collabora saved the file with the content of "./../assets/template.ods"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.ods"
     And the WOPI HTTP status code should be "403"
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
 
   Scenario: Open a file in a folder shared by link
     Given as user "user1"
     And User "user1" creates a folder "NewFolder"
-    And User "user1" uploads file "./../assets/template.odt" to "/NewFolder/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/NewFolder/file.odt"
     And as "user1" create a share with
       | path      | /NewFolder |
       | shareType | 3          |
@@ -50,14 +50,14 @@ Feature: WOPI
       | UserCanWrite |          |
       | OwnerId      | user1    |
     And checkFileInfo "UserId" matches "/Guest-/"
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can not save the file with the content of "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
     Then both Collabora files used the same file id
 
   Scenario: Open a file in a folder shared by link with a guest name
     Given as user "user1"
     And User "user1" creates a folder "NewFolder"
-    And User "user1" uploads file "./../assets/template.odt" to "/NewFolder/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/NewFolder/file.odt"
     And as "user1" create a share with
       | path      | /NewFolder |
       | shareType | 3          |
@@ -71,14 +71,14 @@ Feature: WOPI
       | OwnerId          | user1             |
       | UserFriendlyName | Anonymous (Guest) |
     And checkFileInfo "UserId" matches "/Guest-/"
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can not save the file with the content of "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
     Then both Collabora files used the same file id
 
   Scenario: Open a file in a folder shared by link as the owner
     Given as user "user1"
     And User "user1" creates a folder "NewFolder"
-    And User "user1" uploads file "./../assets/template.odt" to "/NewFolder/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/NewFolder/file.odt"
     And as "user1" create a share with
       | path      | /NewFolder |
       | shareType | 3          |
@@ -90,13 +90,13 @@ Feature: WOPI
       | UserCanWrite |          |
       | OwnerId      | user1    |
       | UserId       | user1    |
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can not save the file with the content of "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
     Then both Collabora files used the same file id
 
   Scenario: Fetch checkFileInfo for public share link as the owner
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     And as "user1" create a share with
       | path        | /file.odt |
       | shareType   | 3         |
@@ -106,12 +106,12 @@ Feature: WOPI
       | UserCanWrite |          |
       | OwnerId      | user1    |
       | UserId       | user1    |
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can not save the file with the content of "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
 
   Scenario: Fetch checkFileInfo for public share link with download hidden
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     And as "user1" create a share with
       | path      | /file.odt |
       | shareType | 3         |
@@ -142,7 +142,7 @@ Feature: WOPI
 
   Scenario: Fetch checkFileInfo for public share link with write permission
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     And as "user1" create a share with
       | path      | /file.odt |
       | shareType | 3         |
@@ -156,27 +156,27 @@ Feature: WOPI
     And checkFileInfo "OwnerId" is "user1"
     And checkFileInfo "UserCanWrite" is true
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
-    And Collabora saved the file with the content of "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.odt"
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
 
   Scenario: Save a file as the owner
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     Then User "user1" opens "/file.odt"
     And Collabora fetches checkFileInfo
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
     And checkFileInfo "UserCanWrite" is true
-    And Collabora saved the file with the content of "./../assets/template.odt"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.odt"
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
 
 
   Scenario: Save a file as guest with write permissions
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
     And as "user1" create a share with
       | path      | /file.odt |
       | shareType | 3         |
@@ -191,15 +191,15 @@ Feature: WOPI
     And checkFileInfo "OwnerId" is "user1"
     And checkFileInfo "UserCanWrite" is true
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
-    And Collabora saved the file with the content of "./../assets/template.ods"
+    Then the file is equal to "./../emptyTemplates/template.odt"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.ods"
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.ods"
+    Then the file is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Create different WOPI file ids
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file1.odt"
-    And User "user1" uploads file "./../assets/template.odt" to "/file2.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file1.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file2.odt"
     Then User "user1" opens "/file1.odt"
     And Collabora fetches checkFileInfo
     Then User "user1" opens "/file2.odt"
@@ -208,7 +208,7 @@ Feature: WOPI
 
   Scenario: Open a shared file
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-readonly.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-readonly.odt"
     And as "user1" create a share with
       | path        | /file-readonly.odt |
       | shareType   | 0                  |
@@ -216,14 +216,14 @@ Feature: WOPI
       | permissions | 1                  |
     Then User "user2" opens "/file-readonly.odt"
     And Collabora fetches checkFileInfo
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
     And checkFileInfo "UserCanWrite" is false
-    And Collabora can not save the file with the content of "./../assets/template.ods"
+    And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
 
 
   Scenario: Open a shared file with write permissions
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-rw.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-rw.odt"
     And as "user1" create a share with
       | path        | /file-rw.odt |
       | shareType   | 0            |
@@ -232,13 +232,13 @@ Feature: WOPI
     Then User "user2" opens "/file-rw.odt"
     And Collabora fetches checkFileInfo
     And checkFileInfo "UserCanWrite" is true
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
-    And Collabora can save the file with the content of "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
   Scenario: Open a reshared file with read permissions
     Given user "user3" exists
     When as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-reshare-ro.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-reshare-ro.odt"
     And as "user1" create a share with
       | path        | /file-reshare-ro.odt |
       | shareType   | 0                    |
@@ -253,9 +253,9 @@ Feature: WOPI
     Then User "user3" opens "/file-reshare-ro.odt"
     And Collabora fetches checkFileInfo
     And Collabora downloads the file
-    Then the file is equal to "./../assets/template.odt"
+    Then the file is equal to "./../emptyTemplates/template.odt"
     And checkFileInfo "UserCanWrite" is false
-    And Collabora downoads the file and it is equal to "./../assets/template.odt"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
 
 
   Scenario: Create a new wopi token from a template for a user and open it
@@ -273,7 +273,7 @@ Feature: WOPI
 
   Scenario: Save as
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-origin.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-origin.odt"
     Then User "user1" opens "/file-origin.odt"
     And Collabora fetches and receives the following in the checkFileInfo response
       | BaseFileName     | file-origin.odt          |
@@ -281,7 +281,7 @@ Feature: WOPI
       | UserId           | user1             |
       | UserFriendlyName | user1-displayname |
     And checkFileInfo "UserCanWrite" is true
-    And Collabora saves the content of "./../assets/template.ods" as "saveas.odt"
+    And Collabora saves the content of "./../emptyTemplates/template.ods" as "saveas.odt"
     And the WOPI HTTP status code should be "200"
 
     Then User "user1" opens "/saveas.odt"
@@ -291,11 +291,11 @@ Feature: WOPI
       | UserId           | user1             |
       | UserFriendlyName | user1-displayname |
     And Collabora downloads the file
-    And Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Save as different user
     Given as user "user1"
-    And User "user1" uploads file "./../assets/template.odt" to "/file-origin.odt"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file-origin.odt"
     And as "user1" create a share with
       | path        | /file-origin.odt |
       | shareType   | 0                |
@@ -307,7 +307,7 @@ Feature: WOPI
       | OwnerId          | user1             |
       | UserId           | user2             |
       | UserFriendlyName | user2-displayname |
-    And Collabora saves the content of "./../assets/template.ods" as "/saveas.odt"
+    And Collabora saves the content of "./../emptyTemplates/template.ods" as "/saveas.odt"
     And the WOPI HTTP status code should be "200"
 
     Then User "user2" opens "/saveas.odt"
@@ -317,4 +317,4 @@ Feature: WOPI
       | UserId           | user2             |
       | UserFriendlyName | user2-displayname |
     And Collabora downloads the file
-    And Collabora downoads the file and it is equal to "./../assets/template.ods"
+    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
