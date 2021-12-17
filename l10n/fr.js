@@ -150,7 +150,6 @@ OC.L10N.register(
     "template preview" : "Prévisualisation du modèle",
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
     "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online nécessite un serveur distinct agissant comme un client de type WOPI pour fournir des capacités d'édition.",
     "Install it from the app store." : "Installez-le depuis l'App Store.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Si l'installation à partir de l'App Store échoue, vous pouvez toujours le faire manuellement à l'aide de cette commande :",
@@ -160,6 +159,7 @@ OC.L10N.register(
     "Current version" : "Version actuelle",
     "New Document" : "Nouveau document",
     "New Spreadsheet" : "Nouvelle feuille de calcul",
-    "New Presentation" : "Nouvelle présentation"
+    "New Presentation" : "Nouvelle présentation",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online."
 },
 "nplurals=2; plural=(n > 1);");

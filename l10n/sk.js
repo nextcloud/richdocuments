@@ -153,7 +153,6 @@ OC.L10N.register(
     "template preview" : "náhľad šablóny",
     "Select a template directory" : "Vyberte priečinok šablón",
     "Remove personal template folder" : "Odstrániť osobný priečinok šablón",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablóny v tomto priečinku sa pridajú do výberu šablón Collabora Online.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online vyžaduje samostatný server fungujúci ako WOPI klient, poskytúci možnosti úprav.",
     "Install it from the app store." : "Nainštalujte z obchodu s aplikáciami.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Ak zlyhá inštalácia z obchodu s aplikáciami, môžete to urobiť pomocou tohto príkazu:",
@@ -163,6 +162,7 @@ OC.L10N.register(
     "Current version" : "Aktuálna verzia",
     "New Document" : "Nový dokument",
     "New Spreadsheet" : "Nová tabuľka",
-    "New Presentation" : "Nová prezentácia"
+    "New Presentation" : "Nová prezentácia",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablóny v tomto priečinku sa pridajú do výberu šablón Collabora Online."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

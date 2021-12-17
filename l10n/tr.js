@@ -153,7 +153,6 @@ OC.L10N.register(
     "template preview" : "kalıp ön izleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online düzenleme özelliklerinin kullanılabilmesi için WOPI benzeri istemci olarak çalışacak ayrı bir sunucu gereklidir.",
     "Install it from the app store." : "Uygulama mağazasından kur.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Uygulama mağazasından kurulum yapılamazsa, şu komutu kullanarak el ile kurulum yapabilirsiniz:",
@@ -163,6 +162,7 @@ OC.L10N.register(
     "Current version" : "Geçerli sürüm",
     "New Document" : "Yeni belge",
     "New Spreadsheet" : "Yeni hesap tablosu",
-    "New Presentation" : "Yeni sunum"
+    "New Presentation" : "Yeni sunum",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek."
 },
 "nplurals=2; plural=(n > 1);");
