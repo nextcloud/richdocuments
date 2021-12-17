@@ -140,7 +140,7 @@ OC.L10N.register(
     "template preview" : "previsualización de plantillas",
     "Select a template directory" : "Selecciona un directorio de plantillas",
     "Remove personal template folder" : "Elimina la carpeta personal de plantillas",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas en este directorio se añadirán al selector de plantillas de Collabora Online.",
-    "it uses an insecure protocol (http)" : "utiliza un protocolo inseguro (http)"
+    "it uses an insecure protocol (http)" : "utiliza un protocolo inseguro (http)",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas en este directorio se añadirán al selector de plantillas de Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");
