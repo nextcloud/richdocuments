@@ -153,6 +153,7 @@ OC.L10N.register(
     "template preview" : "範本預覽",
     "Select a template directory" : "選擇範本目錄",
     "Remove personal template folder" : "移除個人範本資料夾",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "此目錄中的模板將會新增到 Nextcloud Office 的模板選擇器中。",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online 需要獨立的伺服器作為類 WOPI 的客戶端來提供編輯功能。",
     "Install it from the app store." : "從應用程式商店安裝。",
     "If the installation from the app store fails, you can still do that manually using this command:" : "若從應用程式商店安裝失敗，您仍然可以使用此指令手動安裝：",

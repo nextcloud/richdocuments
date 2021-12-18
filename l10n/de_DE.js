@@ -153,6 +153,7 @@ OC.L10N.register(
     "template preview" : "Vorlagen-Vorschau",
     "Select a template directory" : "Vorlagenverzeichnis auswählen",
     "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Nextcloud Office hinzugefügt.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online benötigt einen separaten Server, der als WOPI-ähnlicher-Client fungiert, um Bearbeitungsfunktionen bereitzustellen.",
     "Install it from the app store." : "Installieren Sie es aus dem App Store.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Sollte die Installation aus dem App Store fehlschlagen, können Sie dies manuell mit folgendem Befehl tun:",

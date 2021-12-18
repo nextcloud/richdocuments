@@ -153,6 +153,7 @@ OC.L10N.register(
     "template preview" : "podgląd szablonu",
     "Select a template directory" : "Wybierz katalog szablonów",
     "Remove personal template folder" : "Usuń własny katalog szablonów",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Szablony w tym katalogu zostaną dodane do selektora szablonów Nextcloud Office.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online wymaga osobnego serwera działającego jako klient WOPI-like, aby umożliwić edycję.",
     "Install it from the app store." : "Zainstaluj ze sklepu z aplikacjami.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Jeśli instalacja ze sklepu z aplikacjami nie powiedzie się, nadal możesz to zrobić ręcznie, używając tego polecenia:",
@@ -163,6 +164,6 @@ OC.L10N.register(
     "New Document" : "Nowy Dokument",
     "New Spreadsheet" : "Nowy arkusz kalkulacyjny",
     "New Presentation" : "Nowa prezentacja",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Szablony wewnątrz tego katalogu zostaną dodane do wyboru szablonów w Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Szablony w tym katalogu zostaną dodane do selektora szablonów Collabora Online."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

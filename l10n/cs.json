@@ -151,6 +151,7 @@
     "template preview" : "náhled šablony",
     "Select a template directory" : "Vyberte adresář se šablonou",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablony nacházející se v této složce budou přidány do výběru šablon v Nextcloud Office.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online potřebuje zvlášť server sloužící jako WOPI klient, poskytující možnosti upravování.",
     "Install it from the app store." : "Nainstalujte ji z katalogu aplikací.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Pokud se instalace z katalogu aplikací nezdaří, pořád ještě to můžete udělat ručně pomocí tohoto příkazu:",
