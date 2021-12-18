@@ -151,6 +151,7 @@
     "template preview" : "kalıp ön izleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Bu klasör içindeki kalıplar Nextcloud Office kalıp seçicisine eklenecek.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online düzenleme özelliklerinin kullanılabilmesi için WOPI benzeri istemci olarak çalışacak ayrı bir sunucu gereklidir.",
     "Install it from the app store." : "Uygulama mağazasından kur.",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Uygulama mağazasından kurulum yapılamazsa, şu komutu kullanarak el ile kurulum yapabilirsiniz:",

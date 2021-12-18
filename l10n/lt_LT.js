@@ -42,7 +42,10 @@ OC.L10N.register(
     "Description" : "Aprašas",
     "Add new token" : "Pridėti naują prieigos raktą",
     "No results" : "Rezultatų nėra",
+    "Loading {filename} …" : "Įkeliamas {filename}…",
     "Cancel" : "Atsisakyti",
+    "Document loading failed" : "Nepavyko įkelti dokumento",
+    "Close" : "Užverti",
     "Failed to load {productName} - please try again later" : "Nepavyko įkelti {productName} - vėliau bandykite dar kartą",
     "Error" : "Klaida",
     "An error occurred" : "Įvyko klaida",
@@ -77,6 +80,9 @@ OC.L10N.register(
     "Add a new template" : "Pridėti naują šabloną",
     "No templates defined." : "Neapibrėžtas joks šablonas.",
     "Add a new one?" : "Pridėti naują?",
-    "template preview" : "šablono peržiūra"
+    "template preview" : "šablono peržiūra",
+    "New Document" : "Naujas dokumentas",
+    "New Spreadsheet" : "Nauja skaičiuoklė",
+    "New Presentation" : "Nauja pateiktis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
