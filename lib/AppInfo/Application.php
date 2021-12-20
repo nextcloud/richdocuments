@@ -141,7 +141,7 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(function (SymfonyAdapter $symfonyAdapter, IEventDispatcher $eventDispatcher, InitialStateService $initialStateService) {
 			$eventDispatcher->addListener(LoadViewer::class, function () use ($initialStateService) {
 				$initialStateService->provideCapabilities();
-				\OCP\Util::addScript('richdocuments', 'richdocuments-viewer');
+				\OCP\Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
 			});
 			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () use ($initialStateService) {
 				$initialStateService->provideCapabilities();
