@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0.1
+
+### Fixed
+
+- #1922 Properly check proxy status when using built-in CODE server
+- #1920 Renames assets folder
+
 ## 5.0.0
 
 ### Added
