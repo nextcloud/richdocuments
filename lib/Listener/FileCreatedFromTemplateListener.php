@@ -34,6 +34,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\IConfig;
 
+/** @template-implements IEventListener<FileCreatedFromTemplateEvent>  */
 class FileCreatedFromTemplateListener implements IEventListener {
 
 	/** @var TemplateManager */
