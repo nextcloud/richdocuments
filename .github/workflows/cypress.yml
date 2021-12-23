@@ -1,0 +1,158 @@
+name: Cypress
+
+on: [push]
+
+env:
+  APP_NAME: richdocuments
+  CYPRESS_baseUrl: http://172.17.0.1:8081/index.php
+  CYPRESS_collaboraUrl: http://172.17.0.1:9980
+
+jobs:
+  cypress:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [14.x]
+        containers: [1, 2, 3, 4, 5]
+        php-versions: [ '7.4' ]
+        databases: [ 'sqlite' ]
+        server-versions: [ 'master' ]
+
+    name: runner ${{ matrix.containers }}
+
+    services:
+      collabora:
+        image: collabora/code
+        env:
+          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
+          aliasgroup1: 'http://172.17.0.1'
+        ports:
+          - "9980:9980"
+
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Set up npm7
+        run: npm i -g npm@7
+
+      - name: Checkout server
+        uses: actions/checkout@v2
+        with:
+          repository: nextcloud/server
+          ref: ${{ matrix.server-versions }}
+
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+      - name: Checkout viewer
+        uses: actions/checkout@v2
+        with:
+          repository: nextcloud/viewer
+          ref: ${{ matrix.server-versions }}
+          path: apps/viewer
+
+      - name: Checkout ${{ env.APP_NAME }}
+        uses: actions/checkout@v2
+        with:
+          path: apps/${{ env.APP_NAME }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd, apcu
+          ini-values:
+            apc.enable_cli=on
+          coverage: none
+
+      - name: Find Docker Host IP
+        uses: addnab/docker-run-action@v1
+        with:
+          image: alpine:latest
+          run: "apk update > /dev/null && apk add iproute2 > /dev/null && ip -4 route show default | cut -d' ' -f3"
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+          PHP_CLI_SERVER_WORKERS: 10
+        run: |
+          mkdir data
+          echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
+          php occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
+          php -f index.php
+          PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
+          export OC_PASS=1234561
+          php occ user:add --password-from-env user1
+          php occ user:add --password-from-env user2
+          php occ config:system:set force_language --value en
+          php occ app:enable --force viewer
+          php occ app:enable --force richdocuments
+          php occ app:list
+          php occ config:system:set trusted_domains 1 --value="172.17.0.1"
+
+          php occ config:app:set richdocuments wopi_url --value="http://localhost:9980"
+          php occ config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
+          php occ config:system:set allow_local_remote_servers --value true --type bool
+          php occ richdocuments:activate-config
+
+          curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
+
+          curl -v http://localhost:9980/ --output -
+          curl -v http://localhost:9980/hosting/discovery --output -
+          curl -v http://localhost:9980/hosting/capabilities --output -
+
+          cat data/nextcloud.log
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: npm install, build richdocuments in testing mode
+        working-directory: apps/richdocuments
+        run: |
+          npm ci
+          npm run dev
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          record: true
+          parallel: true
+          wait-on: '${{ env.CYPRESS_baseUrl }}'
+          working-directory: 'apps/${{ env.APP_NAME }}'
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Upload test failure screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Upload screenshots
+          path: apps/${{ env.APP_NAME }}/cypress/screenshots/
+          retention-days: 5
+
+      - name: Upload nextcloud logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Upload nextcloud log
+          path: data/nextcloud.log
+          retention-days: 5

@@ -17,6 +17,7 @@
 		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
+		"lint:cypress": "eslint --ext .js cypress",
 		"stylelint": "stylelint css/* src",
 		"stylelint:fix": "stylelint css/* src --fix",
 		"test": "NODE_ENV=test jest --passWithNoTests",
@@ -43,12 +44,16 @@
 		"npm": "^7.0.0 || ^8.0.0"
 	},
 	"devDependencies": {
+		"@cypress/browserify-preprocessor": "^3.0.2",
 		"@nextcloud/babel-config": "^1.0.0",
 		"@nextcloud/browserslist-config": "^2.3.0",
+		"@nextcloud/cypress": "^1.0.0-beta.2",
 		"@nextcloud/eslint-config": "^8.1.4",
 		"@nextcloud/stylelint-config": "^2.3.0",
 		"@nextcloud/webpack-vue-config": "^5.4.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
+		"cypress": "^12.2.0",
+		"eslint-plugin-cypress": "^2.12.1",
 		"ts-loader": "^9.4.2",
 		"typescript": "^4.9.4"
 	},
