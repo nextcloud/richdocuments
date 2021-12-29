@@ -1,5 +1,5 @@
 import '../css/filetypes.scss'
-import '../css/viewer.scss'
+import '../css/files.scss'
 
 import { emit } from '@nextcloud/event-bus'
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
