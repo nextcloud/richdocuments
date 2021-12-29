@@ -508,6 +508,8 @@ const documentsMain = {
 	},
 
 	initSession() {
+		PostMessages.sendPostMessage('parent', 'loading')
+
 		documentsMain.urlsrc = Config.get('urlsrc')
 		documentsMain.fullPath = Config.get('path')
 		documentsMain.token = Config.get('token')
@@ -609,7 +611,7 @@ $(document).ready(function() {
 	OCA.RichDocuments.documentsMain = documentsMain
 
 	if (shouldAskForGuestName()) {
-		PostMessages.sendPostMessage('parent', 'loading')
+		PostMessages.sendPostMessage('parent', 'NC_ShowNamePicker')
 		$('#documents-content').guestNamePicker()
 	} else {
 		documentsMain.initSession()

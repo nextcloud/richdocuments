@@ -210,7 +210,14 @@ export default {
 		close() {
 			this.$parent.close()
 		},
-		postMessageHandler({ parsed }) {
+		postMessageHandler({ parsed, data }) {
+			if (data === 'NC_ShowNamePicker') {
+				this.documentReady()
+				return
+			} else if (data === 'loading') {
+				this.loading = LOADING_STATE.LOADING
+				return
+			}
 			console.debug('[viewer] Received post message', parsed)
 			const { msgId, args, deprecated } = parsed
 			if (deprecated) { return }
