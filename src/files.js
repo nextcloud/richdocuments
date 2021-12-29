@@ -1,3 +1,6 @@
+import '../css/filetypes.scss'
+import '../css/files.scss'
+
 import { emit } from '@nextcloud/event-bus'
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
 import PostMessageService from './services/postMessage.tsx'
@@ -5,7 +8,6 @@ import Config from './services/config.tsx'
 import Preload from './services/preload'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
-import '../css/viewer.scss'
 import { splitPath } from './helpers'
 import NewFileMenu from './view/NewFileMenu'
 
