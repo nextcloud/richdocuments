@@ -21,6 +21,9 @@
  */
 
 import Types from '../helpers/types'
+import { createEmptyFile } from '../services/api'
+
+const isPublic = window.document.getElementById('isPublic')?.value === '1'
 
 /** @type OC.Plugin */
 const NewFileMenu = {
@@ -37,7 +40,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-document',
 			fileType: 'x-office-document',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (!isPublic && OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('document', document.mime, filename)
 				} else {
 					self._createDocument(document.mime, filename)
@@ -52,7 +55,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-spreadsheet',
 			fileType: 'x-office-spreadsheet',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (!isPublic && OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 				} else {
 					self._createDocument(spreadsheet.mime, filename)
@@ -67,7 +70,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-presentation',
 			fileType: 'x-office-presentation',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (!isPublic && OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('presentation', presentation.mime, filename)
 				} else {
 					self._createDocument(presentation.mime, filename)
@@ -80,17 +83,21 @@ const NewFileMenu = {
 		OCA.Files.Files.isFileNameValid(filename)
 		filename = FileList.getUniqueName(filename)
 
-		$.post(
-			OC.generateUrl('apps/richdocuments/ajax/documents/create'),
-			{ mimetype, filename, dir: document.getElementById('dir').value },
-			function(response) {
-				if (response && response.status === 'success') {
-					FileList.add(response.data, { animate: true, scrollTo: true })
-				} else {
-					OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
-				}
+		createEmptyFile(mimetype, filename).then((response) => {
+			if (response && response.status === 'success') {
+				FileList.add(response.data, { animate: true, scrollTo: true })
+				const fileModel = FileList.getModelForFile(filename)
+				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileModel.get('mimetype'), 'file', OC.PERMISSION_ALL)
+				fileAction.action(filename, {
+					$file: null,
+					dir: FileList.getCurrentDirectory(),
+					FileList,
+					fileActions: FileList.fileActions,
+				})
+			} else {
+				OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
 			}
-		)
+		})
 	},
 
 	_createDocumentFromTemplate(templateId, mimetype, filename) {

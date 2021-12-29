@@ -197,6 +197,24 @@ class TemplateManager {
 		});
 	}
 
+	public function getTemplateTypeForExtension(string $extension): ?string {
+		switch ($extension) {
+			case 'odt':
+			case 'docx':
+				return 'document';
+			case 'ods':
+			case 'xlsx':
+				return 'spreadsheet';
+			case 'odp':
+			case 'pptx':
+				return 'presentation';
+			case 'odg':
+				return 'drawing';
+		}
+
+		return null;
+	}
+
 	public function getEmpty($type = null) {
 		$folder = $this->getEmptyTemplateDir();
 

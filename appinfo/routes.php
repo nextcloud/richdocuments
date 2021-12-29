@@ -34,7 +34,6 @@ return [
 
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
-		['name' => 'document#create', 'url' => 'ajax/documents/create', 'verb' => 'POST'],
 
 		// external api access
 		['name' => 'document#extAppGetData', 'url' => '/ajax/extapp/data/{fileId}', 'verb' => 'POST'],
@@ -67,6 +66,8 @@ return [
 		['name' => 'templates#delete', 'url' => '/template/{fileId}', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
+		['name' => 'documentAPI#create', 'url' => '/api/v1/file', 'verb' => 'POST'],
+
 		['name' => 'OCS#createDirect', 'url' => '/api/v1/document', 'verb' => 'POST'],
 		['name' => 'OCS#createPublic', 'url' => '/api/v1/share', 'verb' => 'POST'],
 		['name' => 'OCS#createPublicFromInitiator', 'url' => '/api/v1/direct/share/initiator', 'verb' => 'POST'],

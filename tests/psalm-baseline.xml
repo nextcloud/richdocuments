@@ -59,6 +59,14 @@
       <code>IRootFolder</code>
     </MissingDependency>
   </file>
+  <file src="lib/Controller/DocumentAPIController.php">
+    <MissingDependency occurrences="1">
+      <code>IRootFolder</code>
+    </MissingDependency>
+    <UndefinedClass occurrences="1">
+      <code>\OCA\Files\Helper</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Controller/DocumentController.php">
     <InvalidScalarArgument occurrences="5">
       <code>$fileId</code>
@@ -67,8 +75,7 @@
       <code>$item-&gt;getId()</code>
       <code>$node-&gt;getId()</code>
     </InvalidScalarArgument>
-    <MissingDependency occurrences="8">
-      <code>$this-&gt;rootFolder</code>
+    <MissingDependency occurrences="7">
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
@@ -80,9 +87,8 @@
     <RedundantCondition occurrences="1">
       <code>$app !== ''</code>
     </RedundantCondition>
-    <UndefinedClass occurrences="2">
+    <UndefinedClass occurrences="1">
       <code>\OCA\Files_Sharing\External\Storage</code>
-      <code>\OC_Helper</code>
     </UndefinedClass>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getRemote</code>
