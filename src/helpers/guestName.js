@@ -48,7 +48,7 @@ const getGuestNameCookie = function() {
 
 const setGuestName = function(username) {
 	if (username !== '') {
-		// document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
+		document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
 		guestName = username
 	}
 	const accessToken = encodeURIComponent(Config.get('token'))
