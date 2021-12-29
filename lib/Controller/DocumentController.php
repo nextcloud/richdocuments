@@ -11,19 +11,16 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Events\BeforeFederationRedirectEvent;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use \OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -36,18 +33,14 @@ use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\FeaturePolicy;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
-use \OCA\Richdocuments\Helper;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
-use OC\Files\Type\TemplateManager;
 
 class DocumentController extends Controller {
 
 	/** @var string */
 	private $uid;
-	/** @var IL10N */
-	private $l10n;
 	/** @var IConfig */
 	private $config;
 	/** @var AppConfig */
@@ -62,36 +55,30 @@ class DocumentController extends Controller {
 	private $session;
 	/** @var IRootFolder */
 	private $rootFolder;
-	/** @var \OCA\Richdocuments\TemplateManager */
+	/** @var TemplateManager */
 	private $templateManager;
 	/** @var FederationService */
 	private $federationService;
 	/** @var InitialStateService */
 	private $initialState;
 
-	const ODT_TEMPLATE_PATH = '/emptyTemplates/odttemplate.odt';
-
-
 	public function __construct(
 		$appName,
 		IRequest $request,
 		IConfig $config,
 		AppConfig $appConfig,
-		IL10N $l10n,
 		IManager $shareManager,
 		TokenManager $tokenManager,
 		IRootFolder $rootFolder,
 		ISession $session,
 		$UserId,
 		ILogger $logger,
-		\OCA\Richdocuments\TemplateManager $templateManager,
+		TemplateManager $templateManager,
 		FederationService $federationService,
-		Helper $helper,
 		InitialStateService $initialState
 	) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
-		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->shareManager = $shareManager;
@@ -499,108 +486,6 @@ class DocumentController extends Controller {
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
-	}
-
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @param string $mimetype
-	 * @param string $filename
-	 * @param string $dir
-	 * @return JSONResponse
-	 * @throws NotPermittedException
-	 * @throws GenericFileException
-	 */
-	public function create($mimetype,
-						   $filename,
-						   $dir = '/'){
-
-		$root = $this->rootFolder->getUserFolder($this->uid);
-		try {
-			/** @var Folder $folder */
-			$folder = $root->get($dir);
-		} catch (NotFoundException $e) {
-			return new JSONResponse([
-					'status' => 'error',
-					'message' => $this->l10n->t('Cannot create document')
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		if (!($folder instanceof Folder)) {
-			return new JSONResponse([
-				'status' => 'error',
-				'message' => $this->l10n->t('Cannot create document')
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		$basename = $this->l10n->t('New Document.odt');
-		switch ($mimetype) {
-			case 'application/vnd.oasis.opendocument.spreadsheet':
-				$basename = $this->l10n->t('New Spreadsheet.ods');
-				break;
-			case 'application/vnd.oasis.opendocument.presentation':
-				$basename = $this->l10n->t('New Presentation.odp');
-				break;
-			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-				$basename = $this->l10n->t('New Document.docx');
-				break;
-			case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-				$basename = $this->l10n->t('New Spreadsheet.xlsx');
-				break;
-			case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-				$basename = $this->l10n->t('New Presentation.pptx');
-				break;
-			default:
-				// to be safe
-				$mimetype = 'application/vnd.oasis.opendocument.text';
-				break;
-		}
-
-		if (!$filename){
-			$filename = Helper::getNewFileName($folder, $basename);
-		}
-
-		if ($folder->nodeExists($filename)) {
-			return new JSONResponse([
-				'status' => 'error',
-				'message' => $this->l10n->t('Document already exists')
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		try {
-			$file = $folder->newFile($filename);
-		} catch (NotPermittedException $e) {
-			return new JSONResponse([
-				'status' => 'error',
-				'message' => $this->l10n->t('Not allowed to create document')
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		$content = '';
-		if (class_exists(TemplateManager::class)){
-			$manager = \OC_Helper::getFileTemplateManager();
-			$content = $manager->getTemplate($mimetype);
-		}
-
-		if (!$content){
-			// FIXME: see if this is used,
-			$content = file_get_contents(dirname(dirname(__DIR__)) . self::ODT_TEMPLATE_PATH);
-		}
-
-		if ($content) {
-			$file->putContent($content);
-
-			return new JSONResponse([
-				'status' => 'success',
-				'data' => \OCA\Files\Helper::formatFileInfo($file->getFileInfo())
-			]);
-		}
-
-
-		return new JSONResponse([
-			'status' => 'error',
-			'message' => $this->l10n->t('Cannot create document')
-		]);
 	}
 
 	private function renderErrorPage($message) {
