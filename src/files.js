@@ -2,6 +2,7 @@ import '../css/filetypes.scss'
 import '../css/files.scss'
 
 import $ from 'jquery'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { imagePath, generateOcsUrl, generateUrl, generateFilePath } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
@@ -288,7 +289,7 @@ const odfViewer = {
 				...FilesAppIntegration.loggingContext(),
 			})
 			odfViewer.onClose()
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
+			showError(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
 		} else if (!odfViewer.receivedLoading) {
 			odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
 				(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
@@ -410,7 +411,7 @@ $(document).ready(function() {
 					...FilesAppIntegration.loggingContext(),
 				})
 				odfViewer.onClose()
-				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
+				showError(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
 					{ productName: OC.getCapabilities().richdocuments.productName }
 				))
 			}
