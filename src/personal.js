@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import { generateFilePath } from '@nextcloud/router'
 import '../css/admin.scss'
 import { generateFilePath } from '@nextcloud/router'
 

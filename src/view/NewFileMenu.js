@@ -21,6 +21,7 @@
  */
 
 import $ from 'jquery'
+import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
 import Types from '../helpers/types'
 import { createEmptyFile } from '../services/api'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
