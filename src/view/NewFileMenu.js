@@ -20,6 +20,7 @@
  *
  */
 
+import $ from 'jquery'
 import Types from '../helpers/types'
 import { createEmptyFile } from '../services/api'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'

@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import { emit } from '@nextcloud/event-bus'
 import { getRootUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'

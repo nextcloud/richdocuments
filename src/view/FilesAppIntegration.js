@@ -23,6 +23,7 @@
 import { generateUrl, generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
+import $ from 'jquery'
 import Preload from '../services/preload'
 import { splitPath } from '../helpers'
 import Types from '../helpers/types'

@@ -1,6 +1,7 @@
 import '../css/filetypes.scss'
 import '../css/files.scss'
 
+import $ from 'jquery'
 import { emit } from '@nextcloud/event-bus'
 import { imagePath, generateOcsUrl, generateUrl, generateFilePath } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'

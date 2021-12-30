@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import AdminSettings from './components/AdminSettings'
