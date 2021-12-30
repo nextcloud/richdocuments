@@ -24,7 +24,7 @@ import Config from './../services/config.tsx'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import mobile from './mobile'
+import { isDirectEditing } from './mobile'
 
 let guestName = ''
 
@@ -59,7 +59,7 @@ const setGuestName = function(username) {
 }
 
 const shouldAskForGuestName = () => {
-	return (!mobile.isDirectEditing() || Config.get('directGuest'))
+	return (!isDirectEditing() || Config.get('directGuest'))
 		&& (!getCurrentUser() || getCurrentUser()?.uid === '')
 		&& !Config.get('userId')
 		&& getGuestNameCookie() === ''
