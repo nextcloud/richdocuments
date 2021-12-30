@@ -52,7 +52,7 @@ const setGuestName = function(username) {
 		guestName = username
 	}
 	const accessToken = encodeURIComponent(Config.get('token'))
-	return axios.post(generateOcsUrl('apps/richdocuments/api/v1/wopi', 2) + 'guestname', {
+	return axios.post(generateOcsUrl('apps/richdocuments/api/v1/wopi/guestname') + 'guestname', {
 		access_token: accessToken,
 		guestName,
 	})

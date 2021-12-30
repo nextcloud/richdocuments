@@ -113,7 +113,7 @@ export default {
 		},
 		asyncFindGroup(query) {
 			query = typeof query === 'string' ? encodeURI(query) : ''
-			return axios.get(generateOcsUrl(`cloud/groups/details?search=${query}&limit=10`, 2))
+			return axios.get(generateOcsUrl(`cloud/groups/details?search=${query}&limit=10`))
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.groups).length > 0) {
 						response.data.ocs.data.groups.forEach((element) => {
