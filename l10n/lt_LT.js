@@ -59,6 +59,7 @@ OC.L10N.register(
     "Save" : "Įrašyti",
     "Edit with {productName}" : "Taisyti naudojant {productName}",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepavyko prisijungti prie {productName}. Vėliau bandykite dar kartą arba susisiekite su savo serverio administratoriumi.",
+    "Select a personal template folder" : "Pasirinkti asmeninių šablonų aplanką",
     "Saving…" : "Įrašoma…",
     "Insert from {name}" : "Įterpti iš {name}",
     "Remove from favorites" : "Pašalinti iš mėgstamų",
@@ -81,6 +82,7 @@ OC.L10N.register(
     "No templates defined." : "Neapibrėžtas joks šablonas.",
     "Add a new one?" : "Pridėti naują?",
     "template preview" : "šablono peržiūra",
+    "Select a template directory" : "Pasirinkite šablonų katalogą",
     "New Document" : "Naujas dokumentas",
     "New Spreadsheet" : "Nauja skaičiuoklė",
     "New Presentation" : "Nauja pateiktis"
