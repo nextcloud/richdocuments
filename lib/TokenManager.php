@@ -22,6 +22,7 @@
 namespace OCA\Richdocuments;
 
 use InvalidArgumentException;
+use OC\Files\Filesystem;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Db\Wopi;
@@ -191,8 +192,11 @@ class TokenManager {
 		}
 
 		// force read operation to trigger possible audit logging
-		$fp = $file->fopen('r');
-		fclose($fp);
+		\OC_Hook::emit(
+			Filesystem::CLASSNAME,
+			Filesystem::signal_read,
+			[Filesystem::signal_param_path => $file->getPath()]
+		);
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 		$guestName = $this->userId === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
