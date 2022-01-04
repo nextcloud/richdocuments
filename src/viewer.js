@@ -28,14 +28,12 @@ import { getCapabilities } from '@nextcloud/capabilities'
 
 const supportedMimes = getCapabilities().richdocuments.mimetypes
 
-document.addEventListener('DOMContentLoaded', function(event) {
-	if (OCA.Viewer) {
-		OCA.Viewer.registerHandler({
-			id: 'richdocuments',
-			group: null,
-			mimes: supportedMimes,
-			component: Office,
-			theme: 'light',
-		})
-	}
-})
+if (OCA.Viewer) {
+	OCA.Viewer.registerHandler({
+		id: 'richdocuments',
+		group: null,
+		mimes: supportedMimes,
+		component: Office,
+		theme: 'light',
+	})
+}
