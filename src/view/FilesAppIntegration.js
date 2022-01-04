@@ -26,7 +26,7 @@ import moment from '@nextcloud/moment'
 import $ from 'jquery'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
-import { generateUrl, linkToRemoteBase } from '@nextcloud/router'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import Preload from '../services/preload'
 import { splitPath } from '../helpers'
 import Types from '../helpers/types'
@@ -522,13 +522,13 @@ export default {
 	},
 
 	_restoreDAV(version) {
-		const restoreUrl = linkToRemoteBase('dav') + '/versions/' + getCurrentUser().uid
+		const restoreUrl = this.linkToRemoteBase('dav') + '/versions/' + getCurrentUser().uid
 			+ '/versions/' + this.fileId + '/' + version
 		$.ajax({
 			type: 'MOVE',
 			url: restoreUrl,
 			headers: {
-				Destination: linkToRemoteBase('dav') + '/versions/' + getCurrentUser().uid + '/restore/target',
+				Destination: this.linkToRemoteBase('dav') + '/versions/' + getCurrentUser().uid + '/restore/target',
 			},
 			success: this._restoreSuccess.bind(this),
 			error: this._restoreError.bind(this),
@@ -618,6 +618,13 @@ export default {
 				filePath: (this.filePath ?? '') + '/' + this.fileName,
 			},
 		}
+	},
+
+	/**
+	 * TODO replace with the one of @nextcloud/router once it is exported again
+	 */
+	linkToRemoteBase(service) {
+		return getRootUrl() + '/remote.php/' + service
 	},
 
 }
