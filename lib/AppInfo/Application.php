@@ -196,6 +196,12 @@ class Application extends App implements IBootstrap {
 	public function updateCSP() {
 		$container = $this->getContainer();
 
+		// Do not apply CSP rules on WebDAV/OCS
+		// Ideally this could be a middleware running after the controller execution before rendering the result to only do it on page response
+		if ($container->getServer()->getRequest()->getScriptName() !== '/index.php') {
+			return;
+		}
+
 		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
 		$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url') : $publicWopiUrl;
 		$cspManager = $container->getServer()->getContentSecurityPolicyManager();
@@ -211,11 +217,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Dynamically add CSP for federated editing
 		 */
-		$path = '';
-		try {
-			$path = $container->getServer()->getRequest()->getPathInfo();
-		} catch (\Exception $e) {}
-		if ((strpos($path, '/apps/files/') === 0 || strpos($path, '/s/') === 0) && $container->getServer()->getAppManager()->isEnabledForUser('federation')) {
+		if ($container->getServer()->getAppManager()->isEnabledForUser('federation')) {
 			/** @var FederationService $federationService */
 			$federationService = \OC::$server->query(FederationService::class);
 
@@ -225,6 +227,7 @@ class Application extends App implements IBootstrap {
 			if ($globalScale->isGlobalScaleEnabled()) {
 				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
 				foreach ($trustedList as $server) {
+					$policy->addAllowedFrameDomain($server);
 					$this->addTrustedRemote($policy, $server);
 				}
 			}
@@ -239,8 +242,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function addTrustedRemote($policy, $url) {
-		/** @var FederationService $federationService */
-		$federationService = \OC::$server->query(FederationService::class);
+		$federationService = \OC::$server->get(FederationService::class);
 		try {
 			$remoteCollabora = $federationService->getRemoteCollaboraURL($url);
 			$policy->addAllowedFrameDomain($url);
