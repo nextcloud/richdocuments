@@ -453,7 +453,7 @@ class WopiController extends Controller {
 				}
 				$file = $file[0];
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = iconv('utf-7', 'utf-8', $suggested);
+				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
 
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
@@ -573,7 +573,7 @@ class WopiController extends Controller {
 
 				$suggested = $this->request->getHeader('X-WOPI-RequestedName');
 
-				$suggested = iconv('utf-7', 'utf-8', $suggested) . '.' . $file->getExtension();
+				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7') . '.' . $file->getExtension();
 
 				if (strpos($suggested, '.') === 0) {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
@@ -608,7 +608,7 @@ class WopiController extends Controller {
 				$file = $file[0];
 
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = iconv('utf-7', 'utf-8', $suggested);
+				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
 
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
