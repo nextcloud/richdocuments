@@ -136,7 +136,6 @@ OC.L10N.register(
     "Add a new one?" : "Nde boles agiùnghere unu nou?",
     "template preview" : "anteprima de su modellu",
     "Select a template directory" : "Seletziona una cartella de is modellos",
-    "Remove personal template folder" : "Boga sa cartella de is modellos personale",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online."
+    "Remove personal template folder" : "Boga sa cartella de is modellos personale"
 },
 "nplurals=2; plural=(n != 1);");

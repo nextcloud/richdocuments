@@ -68,7 +68,6 @@ OC.L10N.register(
     "Add a new one?" : "¿Agregar uno nuevo?",
     "template preview" : "Vista previa de plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
-    "Remove personal template folder" : "Eliminar la carpeta de plantillas personales",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
+    "Remove personal template folder" : "Eliminar la carpeta de plantillas personales"
 },
 "nplurals=2; plural=(n != 1);");

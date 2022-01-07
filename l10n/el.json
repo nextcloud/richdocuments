@@ -128,7 +128,6 @@
     "Add a new one?" : "Προσθήκη νέου;",
     "template preview" : "προεπισκόπηση πρότυπου",
     "Select a template directory" : "Επιλέξτε κατάλογο προτύπων",
-    "Remove personal template folder" : "Κατάργηση προσωπικού φακέλου προτύπων",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Τα πρότυπα σε αυτό τον κατάλογο θα συμπεριληφθούν στο Collabora Online."
+    "Remove personal template folder" : "Κατάργηση προσωπικού φακέλου προτύπων"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

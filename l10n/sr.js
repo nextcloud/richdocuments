@@ -75,7 +75,6 @@ OC.L10N.register(
     "Add a new one?" : "Додај нови?",
     "template preview" : "претпреглед шаблона",
     "Select a template directory" : "Одаберите директоријум за шаблоне",
-    "Remove personal template folder" : "Уклони личну фасциклу за шаблоне",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони унутар овог директоријума ће бити додати у Collabora-ин одабирач шаблона."
+    "Remove personal template folder" : "Уклони личну фасциклу за шаблоне"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

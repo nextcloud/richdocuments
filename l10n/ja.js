@@ -136,7 +136,6 @@ OC.L10N.register(
     "Add a new one?" : "新規追加",
     "template preview" : "テンプレートプレビュー",
     "Select a template directory" : "テンプレートディレクトリを選択する",
-    "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。"
+    "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する"
 },
 "nplurals=1; plural=0;");

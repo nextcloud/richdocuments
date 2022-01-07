@@ -153,17 +153,6 @@ OC.L10N.register(
     "template preview" : "náhled šablony",
     "Select a template directory" : "Vyberte adresář se šablonou",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
-    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablony nacházející se v této složce budou přidány do výběru šablon v Nextcloud Office.",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online potřebuje zvlášť server sloužící jako WOPI klient, poskytující možnosti upravování.",
-    "Install it from the app store." : "Nainstalujte ji z katalogu aplikací.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Pokud se instalace z katalogu aplikací nezdaří, pořád ještě to můžete udělat ručně pomocí tohoto příkazu:",
-    "it uses an insecure protocol (http)" : "používá nezabezpečený protokol (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "není dostupné z Internetu (možná kvůli bráně firewall, nebo chybí přesměrování portů)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Ve výchozím stavu je Collabora Online zapnuté pro všechny uživatele. Pokud je toto nastavení aktivní, mohou Collabora Online používat jen členové zadaných skupin.",
-    "Current version" : "Stávající verze",
-    "New Document" : "Nový dokument",
-    "New Spreadsheet" : "Nová tabulka",
-    "New Presentation" : "Nová prezentace",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony nacházející se v tomto adresáři budou přidány do výběru šablon v Collabora Online."
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablony nacházející se v této složce budou přidány do výběru šablon v Nextcloud Office."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

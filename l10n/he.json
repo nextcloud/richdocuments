@@ -88,7 +88,6 @@
     "Add a new one?" : "להוסיף אחת חדשה?",
     "template preview" : "תצוגה מקדימה של תבנית",
     "Select a template directory" : "בחירת תיקיית תבניות",
-    "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online."
+    "Remove personal template folder" : "הסרת תיקיית תבניות אישית"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

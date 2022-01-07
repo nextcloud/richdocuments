@@ -94,7 +94,6 @@
     "Add a new one?" : "یک مورد جدید افزودن؟",
     "template preview" : "پیش نمایش الگو",
     "Select a template directory" : "یک فهرست مسیر را انتخاب کنید",
-    "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "قالب های داخل این فهرست به مسیر الگوی Collabora Online افزودن."
+    "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

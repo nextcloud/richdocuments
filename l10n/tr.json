@@ -151,17 +151,6 @@
     "template preview" : "kalıp ön izleme",
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
-    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Bu klasör içindeki kalıplar Nextcloud Office kalıp seçicisine eklenecek.",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online düzenleme özelliklerinin kullanılabilmesi için WOPI benzeri istemci olarak çalışacak ayrı bir sunucu gereklidir.",
-    "Install it from the app store." : "Uygulama mağazasından kur.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Uygulama mağazasından kurulum yapılamazsa, şu komutu kullanarak el ile kurulum yapabilirsiniz:",
-    "it uses an insecure protocol (http)" : "güvenli olmayan bir iletişim kuralı kullanılıyor (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "İnternet üzerinden erişilemiyor (güvenlik duvarı ya da kapı numarası yönlendirmesi sorunu olabilir)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online, varsayılan olarak tüm kullanıcılar için etkinleştirilmiştir. Bu seçenek etkinleştirildiğinde, yalnız belirtilen grupların üyeleri kullanabilir.",
-    "Current version" : "Geçerli sürüm",
-    "New Document" : "Yeni belge",
-    "New Spreadsheet" : "Yeni hesap tablosu",
-    "New Presentation" : "Yeni sunum",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek."
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Bu klasör içindeki kalıplar Nextcloud Office kalıp seçicisine eklenecek."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

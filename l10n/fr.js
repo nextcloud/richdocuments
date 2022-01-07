@@ -149,17 +149,6 @@ OC.L10N.register(
     "Add a new one?" : "Ajouter un nouveau ?",
     "template preview" : "Prévisualisation du modèle",
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
-    "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online nécessite un serveur distinct agissant comme un client de type WOPI pour fournir des capacités d'édition.",
-    "Install it from the app store." : "Installez-le depuis l'App Store.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Si l'installation à partir de l'App Store échoue, vous pouvez toujours le faire manuellement à l'aide de cette commande :",
-    "it uses an insecure protocol (http)" : "il utilise un protocole non sécurisé (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "il est inaccessible depuis Internet (peut-être à cause d'un pare-feu ou d'un manque de redirection de port)",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online est par défaut activé pour tous les utilisateurs. Lorsque ce paramètre est actif, seuls les membres des groupes spécifiés peuvent l'utiliser.",
-    "Current version" : "Version actuelle",
-    "New Document" : "Nouveau document",
-    "New Spreadsheet" : "Nouvelle feuille de calcul",
-    "New Presentation" : "Nouvelle présentation",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online."
+    "Remove personal template folder" : "Supprimer le dossier personnel des modèles"
 },
 "nplurals=2; plural=(n > 1);");
