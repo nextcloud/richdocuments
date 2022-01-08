@@ -85,12 +85,6 @@
     "Add a new one?" : "Lägg till en ny?",
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
-    "Remove personal template folder" : "Ta bort personlig mallmapp",
-    "Install it from the app store." : "Installera det från app-butiken.",
-    "Current version" : "Aktuell version",
-    "New Document" : "Nytt dokument",
-    "New Spreadsheet" : "Nytt kalkylblad",
-    "New Presentation" : "Ny presentation",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online."
+    "Remove personal template folder" : "Ta bort personlig mallmapp"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

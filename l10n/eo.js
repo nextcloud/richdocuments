@@ -74,7 +74,6 @@ OC.L10N.register(
     "Add a new one?" : "Ĉu aldoni novan?",
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
-    "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“."
+    "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj"
 },
 "nplurals=2; plural=(n != 1);");

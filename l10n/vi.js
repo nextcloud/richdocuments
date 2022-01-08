@@ -137,7 +137,6 @@ OC.L10N.register(
     "Add a new one?" : "Thêm mới?",
     "template preview" : "xem trước mẫu",
     "Select a template directory" : "Chọn một thư mục mẫu",
-    "Remove personal template folder" : "Xóa mẫu thư mục cá nhân",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Các mẫu bên trong của thư mục này được thêm vào bộ mẫu chọn của Collabora Online"
+    "Remove personal template folder" : "Xóa mẫu thư mục cá nhân"
 },
 "nplurals=1; plural=0;");

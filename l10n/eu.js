@@ -144,10 +144,6 @@ OC.L10N.register(
     "Add a new one?" : "Berri bat gehitu?",
     "template preview" : "txantiloiaren aurrebista",
     "Select a template directory" : "Hautatu txantiloien direktorioa",
-    "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta",
-    "Current version" : "Uneko bertsioa",
-    "New Document" : "Dokumentu berria",
-    "New Presentation" : "Aurkezpen berria",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Direktorio honetako txantiloiak Collabora Online-ko txantiloi hautatzailera gehituko dira"
+    "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta"
 },
 "nplurals=2; plural=(n != 1);");

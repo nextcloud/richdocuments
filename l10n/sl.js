@@ -134,7 +134,6 @@ OC.L10N.register(
     "Add a new one?" : "Ali želite dodati novo?",
     "template preview" : "predogled predloge",
     "Select a template directory" : "Izbor mape predlog",
-    "Remove personal template folder" : "Odstrani osebno mapo predlog",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online."
+    "Remove personal template folder" : "Odstrani osebno mapo predlog"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -133,7 +133,6 @@ OC.L10N.register(
     "Add a new one?" : "Hozzáad egy újat?",
     "template preview" : "sablonelőnézet",
     "Select a template directory" : "Válasszon sablonkönyvtárat",
-    "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtárban található sablonok hozzáadódnak a Collabora Online sablonválasztójához."
+    "Remove personal template folder" : "Személyes sablonmappa eltávolítása"
 },
 "nplurals=2; plural=(n != 1);");

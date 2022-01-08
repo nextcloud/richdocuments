@@ -153,17 +153,6 @@ OC.L10N.register(
     "template preview" : "模板预览",
     "Select a template directory" : "选择模板目录",
     "Remove personal template folder" : "移除个人模板文件夹",
-    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "这个目录中的模板将被添加到 Nextcloud Office 的模板选择器中。",
-    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online 需要一台单独的服务器充当类似 WOPI 的客户机",
-    "Install it from the app store." : "从应用商店安装它",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "如果从应用商店安装失败，你依旧可以使用这条命令手动安装：",
-    "it uses an insecure protocol (http)" : "它使用了不安全的协议 (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "无法从 Internet 访问（可能是由于防火墙设置或缺少端口转发）",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "默认为所有用户开启 Collabora Online 。当激活此设置时，只有指定组的成员可以使用它。",
-    "Current version" : "当前版本",
-    "New Document" : "新文档",
-    "New Spreadsheet" : "新表格",
-    "New Presentation" : "新演示文档",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目录中的模板将被添加到在线协作的模板选择器。"
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "这个目录中的模板将被添加到 Nextcloud Office 的模板选择器中。"
 },
 "nplurals=1; plural=0;");

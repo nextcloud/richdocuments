@@ -33,7 +33,6 @@ OC.L10N.register(
     "Could not create file" : "No fue posible crear el archivo",
     "Create" : "Crear",
     "Select template" : "Seleccionar plantilla",
-    "Select a template directory" : "Seleccionar un directorio de plantillas",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
+    "Select a template directory" : "Seleccionar un directorio de plantillas"
 },
 "nplurals=2; plural=(n != 1);");

@@ -74,7 +74,6 @@ OC.L10N.register(
     "Add a new one?" : "Bæta við nýju?",
     "template preview" : "forskoðun sniðmáts",
     "Select a template directory" : "Veldu möppu undir sniðmát",
-    "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sniðmátum inni í þessari möppu verður bætt í sniðmátaval Collabora Online."
+    "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
