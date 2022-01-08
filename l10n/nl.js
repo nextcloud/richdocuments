@@ -152,6 +152,7 @@ OC.L10N.register(
     "Add a new one?" : "Nieuwe toevoegen?",
     "template preview" : "Sjabloonvoorbeeld",
     "Select a template directory" : "Selecteer een sjablonendirectory",
-    "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap"
+    "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Sjablonen in deze directory worden toegevoegd aan de Nextcloud Office sjablonenkiezer."
 },
 "nplurals=2; plural=(n != 1);");
