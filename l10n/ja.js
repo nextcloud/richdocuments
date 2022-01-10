@@ -88,6 +88,7 @@ OC.L10N.register(
     "Description" : "説明",
     "Add new token" : "新規トークンを追加",
     "No results" : "該当なし",
+    "Loading {filename} …" : "{filename}を読み込み中…",
     "Cancel" : "キャンセル",
     "Failed to load {productName} - please try again later" : "{productName} が読み込めませんでした - しばらく後でもう一度試してください",
     "Error" : "エラー",

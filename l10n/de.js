@@ -145,6 +145,11 @@ OC.L10N.register(
     "Add a new one?" : "Neue hinzufügen?",
     "template preview" : "Vorlagen-Vorschau",
     "Select a template directory" : "Vorlagenverzeichnis auswählen",
-    "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen"
+    "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "Sollte die Installation aus dem App Store fehlschlagen, kannst Du manuell mit folgendem Befehl installieren:",
+    "Current version" : "Aktuelle Version",
+    "New Document" : "Neues Textdokument",
+    "New Spreadsheet" : "Neue Kalkulationstabelle",
+    "New Presentation" : "Neue Präsentation"
 },
 "nplurals=2; plural=(n != 1);");
