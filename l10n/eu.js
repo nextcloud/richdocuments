@@ -144,6 +144,11 @@ OC.L10N.register(
     "Add a new one?" : "Berri bat gehitu?",
     "template preview" : "txantiloiaren aurrebista",
     "Select a template directory" : "Hautatu txantiloien direktorioa",
-    "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta"
+    "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta",
+    "Install it from the app store." : "Instalatu aplikazioen biltegitik.",
+    "Current version" : "Uneko bertsioa",
+    "New Document" : "Dokumentu berria",
+    "New Spreadsheet" : "Kalkulu-orri berria",
+    "New Presentation" : "Aurkezpen berria"
 },
 "nplurals=2; plural=(n != 1);");
