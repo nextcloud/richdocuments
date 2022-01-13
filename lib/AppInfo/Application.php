@@ -25,11 +25,15 @@
 namespace OCA\Richdocuments\AppInfo;
 
 use OC\EventDispatcher\SymfonyAdapter;
+use OC\Files\Filesystem;
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
+use OCA\Files_Sharing\SharedStorage;
+use OCA\Richdocuments\Flow\Operation;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Flow\StorageWrapper;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
@@ -43,16 +47,21 @@ use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
+use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
+use OCP\Util;
+use OCP\WorkflowEngine\Events\RegisterOperationsEvent;
+use OCP\WorkflowEngine\IManager;
 
 class Application extends App implements IBootstrap {
 
@@ -68,6 +77,8 @@ class Application extends App implements IBootstrap {
 		$context->registerTemplateProvider(CollaboraTemplateProvider::class);
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleWare(WOPIMiddleware::class);
+
+		Util::connectHook('OC_Filesystem', 'preSetup', $this, 'addStorageWrapper');
 	}
 
 	public function boot(IBootContext $context): void {
@@ -139,6 +150,11 @@ class Application extends App implements IBootstrap {
 		});
 
 		$context->injectFn(function (SymfonyAdapter $symfonyAdapter, IEventDispatcher $eventDispatcher, InitialStateService $initialStateService) {
+			// TODO: TO listener
+			$eventDispatcher->addListener(RegisterOperationsEvent::class, function ($event) {
+				/** @var RegisterOperationsEvent $event */
+				$event->registerOperation(\OC::$server->get(Operation::class));
+			});
 			$eventDispatcher->addListener(LoadViewer::class, function () use ($initialStateService) {
 				$initialStateService->provideCapabilities();
 				\OCP\Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
@@ -306,5 +322,29 @@ class Application extends App implements IBootstrap {
 		$host	= isset($parsed_url['host']) ? $parsed_url['host'] : '';
 		$port	= isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
 		return "$scheme$host$port";
+	}
+
+	/**
+	 * @internal
+	 * @param $mountPoint
+	 * @param IStorage $storage
+	 * @return StorageWrapper|IStorage
+	 */
+	public function addStorageWrapperCallback($mountPoint, IStorage $storage) {
+		if (!\OC::$CLI && !$storage->instanceOfStorage(SharedStorage::class)) {
+			/** @var Operation $operation */
+			$operation = $this->getContainer()->get(Operation::class);
+			return new StorageWrapper([
+				'storage' => $storage,
+				'mountPoint' => $mountPoint,
+				'operation' => $operation,
+			]);
+		}
+
+		return $storage;
+	}
+
+	public function addStorageWrapper() {
+		Filesystem::addStorageWrapper('office_secureview', [$this, 'addStorageWrapperCallback'], -10);
 	}
 }
