@@ -145,6 +145,8 @@
     "Select a template directory" : "Vorlagenverzeichnis auswählen",
     "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
     "If the installation from the app store fails, you can still do that manually using this command:" : "Sollte die Installation aus dem App Store fehlschlagen, kannst Du manuell mit folgendem Befehl installieren:",
+    "it uses an insecure protocol (http)" : "Es verwendet ein unsicheres Protokoll (http)",
+    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "Nicht erreichbar aus dem Internet (Vielleicht wegen einer Firewall oder falscher Port-Weiterleitung)",
     "Current version" : "Aktuelle Version",
     "New Document" : "Neues Textdokument",
     "New Spreadsheet" : "Neue Kalkulationstabelle",

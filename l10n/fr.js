@@ -23,6 +23,7 @@ OC.L10N.register(
     "Invalid file provided" : "Fichier non valide",
     "Template not found" : "Modèle non trouvé",
     "Nextcloud Office" : "Nextcloud Office",
+    "Office" : "Bureau",
     "Empty" : "Vide",
     "Anonymous guest" : "Invité anonyme",
     "%s (Guest)" : "%s (Invité)",
@@ -149,6 +150,11 @@ OC.L10N.register(
     "Add a new one?" : "Ajouter un nouveau ?",
     "template preview" : "Prévisualisation du modèle",
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
-    "Remove personal template folder" : "Supprimer le dossier personnel des modèles"
+    "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
+    "Install it from the app store." : "Installez-le depuis l'app store.",
+    "Current version" : "Version actuelle",
+    "New Document" : "Nouveau document",
+    "New Spreadsheet" : "Nouvelle feuille de calcul",
+    "New Presentation" : "Nouvelle présentation"
 },
 "nplurals=2; plural=(n > 1);");
