@@ -59,6 +59,12 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * Create a file from a public share link of a folder
+	 *
+	 * As the server template API for file creation is not available there, we need a dedicated API
+	 * in order to properly create files as public page visitors. This is being called in the new file
+	 * actions in src/view/NewFileMenu.js
+	 *
 	 * @NoAdminRequired
 	 * @PublicPage
 	 */
