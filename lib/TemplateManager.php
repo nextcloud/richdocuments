@@ -107,7 +107,7 @@ class TemplateManager {
 	];
 
 	public function __construct(
-		$userId,
+		?string $userId,
 		IConfig $config,
 		IAppData $appData,
 		IURLGenerator $urlGenerator,
@@ -144,7 +144,7 @@ class TemplateManager {
 		}
 	}
 
-	public function setUserId($userId) {
+	public function setUserId(?string $userId): void {
 		$this->userId = $userId;
 	}
 
