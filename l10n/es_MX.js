@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "Nuevo Documento.docx",
     "New Spreadsheet.xlsx" : "Nueva HojaDeCálculo.xlsx",
     "New Presentation.pptx" : "Nueva Presentación.pptx",
-    "Document already exists" : "El documento ya existe",
     "Not allowed to create document" : "No está permitido crear el documento",
     "Saved" : "Guardado",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor.",
@@ -68,6 +67,7 @@ OC.L10N.register(
     "Add a new one?" : "¿Agregar uno nuevo?",
     "template preview" : "Vista previa de plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
-    "Remove personal template folder" : "Eliminar la carpeta de plantillas personales"
+    "Remove personal template folder" : "Eliminar la carpeta de plantillas personales",
+    "Document already exists" : "El documento ya existe"
 },
 "nplurals=2; plural=(n != 1);");

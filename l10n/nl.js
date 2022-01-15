@@ -13,7 +13,6 @@ OC.L10N.register(
     "New Document.docx" : "Nieuw Document.docx",
     "New Spreadsheet.xlsx" : "Nieuw werkblad.xlsx",
     "New Presentation.pptx" : "Nieuwe presentatie.pptx",
-    "Document already exists" : "Document bestaat al",
     "Not allowed to create document" : "Niet toegestaan om document te creëren",
     "Saved" : "Bewaard",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Opgeslagen met een fout: Collabora Online moet hetzelfde protocol gebruiken als de serverinstallatie.",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "template preview" : "Sjabloonvoorbeeld",
     "Select a template directory" : "Selecteer een sjablonendirectory",
     "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
-    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Sjablonen in deze directory worden toegevoegd aan de Nextcloud Office sjablonenkiezer."
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Sjablonen in deze directory worden toegevoegd aan de Nextcloud Office sjablonenkiezer.",
+    "Document already exists" : "Document bestaat al"
 },
 "nplurals=2; plural=(n != 1);");

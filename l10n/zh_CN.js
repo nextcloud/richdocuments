@@ -13,7 +13,6 @@ OC.L10N.register(
     "New Document.docx" : "新建文档.docx",
     "New Spreadsheet.xlsx" : "新建表格.xlsx",
     "New Presentation.pptx" : "新建幻灯片.pptx",
-    "Document already exists" : "文档已存在",
     "Not allowed to create document" : "不允许创建文档",
     "Saved" : "已保存",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "保存时出错：在线协作应使用与服务器安装相同的协议。",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "template preview" : "模板预览",
     "Select a template directory" : "选择模板目录",
     "Remove personal template folder" : "移除个人模板文件夹",
-    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "这个目录中的模板将被添加到 Nextcloud Office 的模板选择器中。"
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "这个目录中的模板将被添加到 Nextcloud Office 的模板选择器中。",
+    "Document already exists" : "文档已存在"
 },
 "nplurals=1; plural=0;");

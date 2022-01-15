@@ -12,7 +12,6 @@ OC.L10N.register(
     "New Document.docx" : "新規 Document.docx",
     "New Spreadsheet.xlsx" : "新規 Spreadsheet.xlsx",
     "New Presentation.pptx" : "新規 Presentation.pptx",
-    "Document already exists" : "グループはすでに存在しています",
     "Not allowed to create document" : "文書を生成することは許可されていません",
     "Saved" : "保存しました",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "保存時にエラー：Collabora Onlineは、サーバーインストールと同じプロトコルを使用する必要があります。",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Add a new one?" : "新規追加",
     "template preview" : "テンプレートプレビュー",
     "Select a template directory" : "テンプレートディレクトリを選択する",
-    "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する"
+    "Remove personal template folder" : "個人用のテンプレートフォルダーを削除する",
+    "Document already exists" : "グループはすでに存在しています"
 },
 "nplurals=1; plural=0;");

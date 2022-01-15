@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "مستند.docx جدید",
     "New Spreadsheet.xlsx" : "صفحه گسترده جدید.xlsx",
     "New Presentation.pptx" : "ارائه جدید.pptx",
-    "Document already exists" : "مستند از قبل موجود است",
     "Not allowed to create document" : "مجاز به ایجاد مستند نیست",
     "Saved" : "ذخیره شد",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "ذخیره شده با خطا: Collabora آنلاین باید از همان پروتکل نصب سرور استفاده کند.",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Add a new one?" : "یک مورد جدید افزودن؟",
     "template preview" : "پیش نمایش الگو",
     "Select a template directory" : "یک فهرست مسیر را انتخاب کنید",
-    "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید"
+    "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید",
+    "Document already exists" : "مستند از قبل موجود است"
 },
 "nplurals=2; plural=(n > 1);");

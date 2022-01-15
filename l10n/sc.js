@@ -12,7 +12,6 @@ OC.L10N.register(
     "New Document.docx" : "Documentu nou.docx",
     "New Spreadsheet.xlsx" : "Fògiu eletrònicu nou.xlsx",
     "New Presentation.pptx" : "Presentatzione noa.pptx",
-    "Document already exists" : "Su documentu esistit giai",
     "Not allowed to create document" : "No est cunsentidu a creare su documentu",
     "Saved" : "Sarvadu",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sarvadu cun errore: Collabora Online diat dèpere impreare su pròpiu protocollu de s'installatzione de su serbidore.",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Add a new one?" : "Nde boles agiùnghere unu nou?",
     "template preview" : "anteprima de su modellu",
     "Select a template directory" : "Seletziona una cartella de is modellos",
-    "Remove personal template folder" : "Boga sa cartella de is modellos personale"
+    "Remove personal template folder" : "Boga sa cartella de is modellos personale",
+    "Document already exists" : "Su documentu esistit giai"
 },
 "nplurals=2; plural=(n != 1);");

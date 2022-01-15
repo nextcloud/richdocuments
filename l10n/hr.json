@@ -10,7 +10,6 @@
     "New Document.docx" : "Novi Dokument.docx",
     "New Spreadsheet.xlsx" : "Nova Proračunska tablica.xlsx",
     "New Presentation.pptx" : "Nova Prezentacija.pptx",
-    "Document already exists" : "Dokument već postoji",
     "Not allowed to create document" : "Nije dopušteno stvoriti dokument",
     "Saved" : "Spremljeno",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Spremljeno s pogreškom: Collabora Online treba koristiti isti protokol kao i instalacija poslužitelja.",
@@ -134,6 +133,7 @@
     "Add a new one?" : "Dodaj novi?",
     "template preview" : "pretpregled predloška",
     "Select a template directory" : "Odaberi direktorij predložaka",
-    "Remove personal template folder" : "Ukloni osobnu mapu predložaka"
+    "Remove personal template folder" : "Ukloni osobnu mapu predložaka",
+    "Document already exists" : "Dokument već postoji"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

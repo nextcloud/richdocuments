@@ -6,7 +6,6 @@
     "New Document.docx" : "Новий документ.docx",
     "New Spreadsheet.xlsx" : "Нова таблиця.xlsx",
     "New Presentation.pptx" : "Нова презентація.pptx",
-    "Document already exists" : "Документ уже існує",
     "Not allowed to create document" : "Не дозволено створювати документ",
     "Saved" : "Збережено",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
@@ -59,6 +58,7 @@
     "Add a new one?" : "Додати новий?",
     "template preview" : "перегляд шаблону",
     "Select a template directory" : "Виберіть теку для шаблонів",
-    "Remove personal template folder" : "Вилучити теку з власними шаблонами"
+    "Remove personal template folder" : "Вилучити теку з власними шаблонами",
+    "Document already exists" : "Документ уже існує"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
