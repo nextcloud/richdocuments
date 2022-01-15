@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "เอกสารใหม่.docx",
     "New Spreadsheet.xlsx" : "สเปรดชีตใหม่.xlsx",
     "New Presentation.pptx" : "งานนำเสนอใหม่.pptx",
-    "Document already exists" : "มีเอกสารอยู่แล้ว",
     "Not allowed to create document" : "ไม่ยอมให้สร้างเอกสาร",
     "Saved" : "บันทึกแล้ว",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
@@ -48,6 +47,7 @@ OC.L10N.register(
     "Download" : "ดาวน์โหลด",
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
-    "Create" : "สร้าง"
+    "Create" : "สร้าง",
+    "Document already exists" : "มีเอกสารอยู่แล้ว"
 },
 "nplurals=1; plural=0;");

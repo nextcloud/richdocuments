@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "Nou Document.docx",
     "New Spreadsheet.xlsx" : "Nou Full de Càlcul.xlsx",
     "New Presentation.pptx" : "Nova Presentació.pptx",
-    "Document already exists" : "El document ja existeix",
     "Not allowed to create document" : "No es permet crear un document",
     "Saved" : "S'ha desat",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "S'ha desat amb error: Collabora Online hauria de fer servir el mateix protocol que la instal·lació del servidor.",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Add a new one?" : "En voleu afegir una?",
     "template preview" : "visualització prèvia de la plantilla",
     "Select a template directory" : "Selecciona un directori de plantilles",
-    "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals"
+    "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals",
+    "Document already exists" : "El document ja existeix"
 },
 "nplurals=2; plural=(n != 1);");

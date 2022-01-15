@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "Нов Документ.docx",
     "New Spreadsheet.xlsx" : "Нова Табела.xlsx",
     "New Presentation.pptx" : "Нова Презентација.pptx",
-    "Document already exists" : "Документот веќе постои",
     "Not allowed to create document" : "Не е дозволено да се креира документ",
     "Saved" : "Зачувано",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Зачувано со грешка: Collabora Online треба да го користи истиот протокол како инсталација на серверот.",
@@ -95,6 +94,7 @@ OC.L10N.register(
     "Add a new one?" : "Додади нов?",
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
-    "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони"
+    "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
+    "Document already exists" : "Документот веќе постои"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "Nova dokumento.docx",
     "New Spreadsheet.xlsx" : "Nova kalkultabelo.xlsx",
     "New Presentation.pptx" : "Nova prezentaĵo.pptx",
-    "Document already exists" : "La dokumento jam ekzistas",
     "Not allowed to create document" : "Ne permesita krei dokumenton",
     "Saved" : "Konservita",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Konservita kun eraro: „Collabora Online“ devus uzi la saman protokolon kiel la servil-instalaĵo.",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Add a new one?" : "Ĉu aldoni novan?",
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
-    "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj"
+    "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
+    "Document already exists" : "La dokumento jam ekzistas"
 },
 "nplurals=2; plural=(n != 1);");

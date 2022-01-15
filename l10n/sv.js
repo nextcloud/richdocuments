@@ -13,7 +13,6 @@ OC.L10N.register(
     "New Document.docx" : "Nytt Dokument.docx",
     "New Spreadsheet.xlsx" : "Nytt Kalkylblad.xlsx",
     "New Presentation.pptx" : "Ny Presentation.pptx",
-    "Document already exists" : "Dokumentet finns redan",
     "Not allowed to create document" : "Inte tillåtet att skapa dokument",
     "Saved" : "Sparad",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sparad med felmeddelande: Collabora Online bör använda samma protokoll som serverinstallationen.",
@@ -87,6 +86,7 @@ OC.L10N.register(
     "Add a new one?" : "Lägg till en ny?",
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
-    "Remove personal template folder" : "Ta bort personlig mallmapp"
+    "Remove personal template folder" : "Ta bort personlig mallmapp",
+    "Document already exists" : "Dokumentet finns redan"
 },
 "nplurals=2; plural=(n != 1);");

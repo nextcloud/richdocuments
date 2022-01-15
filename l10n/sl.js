@@ -12,7 +12,6 @@ OC.L10N.register(
     "New Document.docx" : "dokument.docx",
     "New Spreadsheet.xlsx" : "preglednica.xlsx",
     "New Presentation.pptx" : "predstavitev.pptx",
-    "Document already exists" : "Dokument že obstaja",
     "Not allowed to create document" : "Ni dovoljeno ustvariti dokumenta",
     "Saved" : "Shranjeno",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Shranjeno z napako: strežnik Collabora mora uporabljati enak protokol kot nameščeni strežnik.",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add a new one?" : "Ali želite dodati novo?",
     "template preview" : "predogled predloge",
     "Select a template directory" : "Izbor mape predlog",
-    "Remove personal template folder" : "Odstrani osebno mapo predlog"
+    "Remove personal template folder" : "Odstrani osebno mapo predlog",
+    "Document already exists" : "Dokument že obstaja"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

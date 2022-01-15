@@ -13,7 +13,6 @@ OC.L10N.register(
     "New Document.docx" : "Uusi asiakirja.docx",
     "New Spreadsheet.xlsx" : "Uusi taulukko.xlsx",
     "New Presentation.pptx" : "Uusi esitys.pptx",
-    "Document already exists" : "Asiakirja on jo olemassa",
     "Not allowed to create document" : "Asiakirjan luominen ei ole sallittu",
     "Saved" : "Tallennettu",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
@@ -77,6 +76,7 @@ OC.L10N.register(
     "Add a new one?" : "Lisätäänkö uusi?",
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
-    "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio"
+    "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
+    "Document already exists" : "Asiakirja on jo olemassa"
 },
 "nplurals=2; plural=(n != 1);");

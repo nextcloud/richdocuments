@@ -12,7 +12,6 @@ OC.L10N.register(
     "New Document.docx" : "Văn bản mới.docx",
     "New Spreadsheet.xlsx" : "Bảng tính mới.xlsx",
     "New Presentation.pptx" : "Bản trình bày mới.pptx",
-    "Document already exists" : "Tài liệu đã tồn tại",
     "Not allowed to create document" : "Không cho phép tạo tài liệu",
     "Saved" : "Đã lưu",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Collabora Online nên sử dụng cùng một giao thức với máy chủ.",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Add a new one?" : "Thêm mới?",
     "template preview" : "xem trước mẫu",
     "Select a template directory" : "Chọn một thư mục mẫu",
-    "Remove personal template folder" : "Xóa mẫu thư mục cá nhân"
+    "Remove personal template folder" : "Xóa mẫu thư mục cá nhân",
+    "Document already exists" : "Tài liệu đã tồn tại"
 },
 "nplurals=1; plural=0;");

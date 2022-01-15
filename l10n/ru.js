@@ -12,7 +12,6 @@ OC.L10N.register(
     "New Document.docx" : "Новый документ.docx",
     "New Spreadsheet.xlsx" : "Новая таблица.xlsx",
     "New Presentation.pptx" : "Новая презентация.pptx",
-    "Document already exists" : "Документ уже существует",
     "Not allowed to create document" : "Создание документа не разрешено",
     "Saved" : "Сохранено",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Сохранено с ошибкой: В Collabra Online должен использоваться тот же протокол, что в установке сервера.",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Add a new one?" : "Добавить новый?",
     "template preview" : "Предпросмотр шаблона",
     "Select a template directory" : "Папка шаблонов документов",
-    "Remove personal template folder" : "Удалить папку с личными шаблонами"
+    "Remove personal template folder" : "Удалить папку с личными шаблонами",
+    "Document already exists" : "Документ уже существует"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

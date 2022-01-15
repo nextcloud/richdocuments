@@ -12,7 +12,6 @@ OC.L10N.register(
     "New Document.docx" : "Új dokumentum.docx",
     "New Spreadsheet.xlsx" : "Új munkafüzet.xlsx",
     "New Presentation.pptx" : "Új bemutató.pptx",
-    "Document already exists" : "A dokumentum már létezik",
     "Not allowed to create document" : "Dokumentum létrehozása nem engedélyezett",
     "Saved" : "Mentve",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mentve hibával: a Collabora Online-t ugyanazon protokollon kellene használni, mint a telepített szervert.",
@@ -133,6 +132,7 @@ OC.L10N.register(
     "Add a new one?" : "Hozzáad egy újat?",
     "template preview" : "sablonelőnézet",
     "Select a template directory" : "Válasszon sablonkönyvtárat",
-    "Remove personal template folder" : "Személyes sablonmappa eltávolítása"
+    "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
+    "Document already exists" : "A dokumentum már létezik"
 },
 "nplurals=2; plural=(n != 1);");

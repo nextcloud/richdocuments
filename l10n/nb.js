@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "Nytt dokument.docx",
     "New Spreadsheet.xlsx" : "Nytt regneark.xlsx",
     "New Presentation.pptx" : "Ny presentasjon.pptx",
-    "Document already exists" : "Dokumentet finnes allerede",
     "Not allowed to create document" : "Ingen tillatelse til å lage nytt dokument",
     "Saved" : "Lagret",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som serverinstallasjonen.",
@@ -46,6 +45,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Klarte ikke å gå tilbeke til eldre versjon av dokumentet",
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
-    "Select template" : "Velg mal"
+    "Select template" : "Velg mal",
+    "Document already exists" : "Dokumentet finnes allerede"
 },
 "nplurals=2; plural=(n != 1);");

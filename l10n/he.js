@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "מסמך חדש.docx",
     "New Spreadsheet.xlsx" : "גיליון נתונים חדש.xlsx",
     "New Presentation.pptx" : "מצגת חדשה.pptx",
-    "Document already exists" : "המסמך כבר קיים",
     "Not allowed to create document" : "אין הרשאה ליצור מסמך",
     "Saved" : "נשמר",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "נשמר עם שגיאה: Collabora Online צריך להשתמש באותו פרוטוקול של ההתקנה בשרת.",
@@ -90,6 +89,7 @@ OC.L10N.register(
     "Add a new one?" : "להוסיף אחת חדשה?",
     "template preview" : "תצוגה מקדימה של תבנית",
     "Select a template directory" : "בחירת תיקיית תבניות",
-    "Remove personal template folder" : "הסרת תיקיית תבניות אישית"
+    "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
+    "Document already exists" : "המסמך כבר קיים"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

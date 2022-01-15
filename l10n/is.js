@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Document.docx" : "Nýtt textaskjal.docx",
     "New Spreadsheet.xlsx" : "Nýr töflureiknir.xlsx",
     "New Presentation.pptx" : "Ný kynning.pptx",
-    "Document already exists" : "Skjal er þegar til staðar",
     "Not allowed to create document" : "Ekki heimilt að búa til skjal",
     "Saved" : "Vistað",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Vistað með villu: Collabora Online ætti að nota sama samskiptamáta og uppsetning þjónsins.",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Add a new one?" : "Bæta við nýju?",
     "template preview" : "forskoðun sniðmáts",
     "Select a template directory" : "Veldu möppu undir sniðmát",
-    "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát"
+    "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát",
+    "Document already exists" : "Skjal er þegar til staðar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
