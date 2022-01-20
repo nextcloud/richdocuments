@@ -13,6 +13,7 @@ OC.L10N.register(
     "New Document.docx" : "Dokumentu berria.docx",
     "New Spreadsheet.xlsx" : "Kalkulu-orri berria.xlsx",
     "New Presentation.pptx" : "Aurkezpen berria.pptx",
+    "File already exists" : "Badago izen bereko fitxategi bat",
     "Not allowed to create document" : "Ez duzu baimenik dokumentua sortzeko",
     "Saved" : "Gordeta",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Errorearekin gordeta: Collabora Onlinek zerbitzariko instalazioaren protokolo bera erabili beharko luke.",
