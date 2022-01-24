@@ -13,6 +13,7 @@ OC.L10N.register(
     "New Document.docx" : "Yeni belge.docx",
     "New Spreadsheet.xlsx" : "Yeni çalışma sayfası.xlsx",
     "New Presentation.pptx" : "Yeni sunum.pptx",
+    "File already exists" : "Dosya zaten var",
     "Not allowed to create document" : "Belge eklemeye izin verilmiyor",
     "Saved" : "Kaydedildi",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sorunlu olarak kaydedildi: Collabora Online sunucuda kurulu olan iletişim kuralını kullanmalıdır.",
