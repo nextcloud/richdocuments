@@ -93,6 +93,7 @@ OC.L10N.register(
     "Description" : "Deskribapena",
     "Add new token" : "Gehitu token berria",
     "No results" : "Emaitzarik ez",
+    "Loading {filename} …" : "{filename} kargatzen...",
     "Cancel" : "Utzi",
     "Document loading failed" : "Dokumentua kargatzeak huts egin du",
     "Close" : "Itxi",
