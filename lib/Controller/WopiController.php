@@ -485,7 +485,7 @@ class WopiController extends Controller {
 				$file = $this->getFileForWopiToken($wopi);
 				$wopiHeaderTime = $this->request->getHeader('X-LOOL-WOPI-Timestamp');
 
-				if ($wopiHeaderTime !== null && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
+				if (!empty($wopiHeaderTime) && $wopiHeaderTime !== Helper::toISO8601($file->getMTime() ?? 0)) {
 					$this->logger->debug('Document timestamp mismatch ! WOPI client says mtime {headerTime} but storage says {storageTime}', [
 						'headerTime' => $wopiHeaderTime,
 						'storageTime' => Helper::toISO8601($file->getMTime() ?? 0)
