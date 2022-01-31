@@ -96,10 +96,10 @@ class Capabilities implements ICapability {
 			$filteredMimetypes = self::MIMETYPES;
 			// If version is too old, draw is not supported
 			if (!$this->capabilitiesService->hasDrawSupport()) {
-				$filteredMimetypes = array_diff($filteredMimetypes, [
+				$filteredMimetypes = array_values(array_diff($filteredMimetypes, [
 					'application/vnd.oasis.opendocument.graphics',
 					'application/vnd.oasis.opendocument.graphics-flat-xml',
-				]);
+				]));
 			}
 			$this->capabilities = [
 				'richdocuments' => [
