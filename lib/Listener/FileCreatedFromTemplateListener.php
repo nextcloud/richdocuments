@@ -27,14 +27,11 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Listener;
 
 
-use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TemplateManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
-use OCP\IConfig;
 
-/** @template-implements IEventListener<FileCreatedFromTemplateEvent>  */
 class FileCreatedFromTemplateListener implements IEventListener {
 
 	/** @var TemplateManager */
