@@ -11,6 +11,7 @@
     "New Document.docx" : "Nový dokument.docx",
     "New Spreadsheet.xlsx" : "Nová tabuľka.xlsx",
     "New Presentation.pptx" : "Nová prezentácia.pptx",
+    "File already exists" : "Súbor už existuje",
     "Not allowed to create document" : "Nemáte povolenie vytvárať dokumenty",
     "Saved" : "Uložené",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uložené s chybou: Collabora Online by mala používať rovnaký protokol ako nainštalovaný server.",
