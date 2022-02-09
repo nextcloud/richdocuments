@@ -11,8 +11,11 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DemoService;
+use OCA\Richdocuments\Service\FontService;
+use OCA\Richdocuments\UploadException;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Richdocuments\WOPI\Parser;
 use \OCP\AppFramework\Controller;
@@ -26,8 +29,13 @@ use \OCP\IL10N;
 use OCA\Richdocuments\AppConfig;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
+use OCP\Util;
 
 class SettingsController extends Controller{
+	public const FONT_MIME_TYPES = [
+		'font/ttf',
+	];
+
 	/** @var IL10N */
 	private $l10n;
 	/** @var AppConfig */
@@ -46,6 +54,10 @@ class SettingsController extends Controller{
 	private $demoService;
 	/** @var ILogger */
 	private $logger;
+	/**
+	 * @var FontService
+	 */
+	private $fontService;
 
 	public function __construct($appName,
 		IRequest $request,
@@ -56,6 +68,7 @@ class SettingsController extends Controller{
 		Parser $wopiParser,
 		CapabilitiesService $capabilitiesService,
 		DemoService $demoService,
+		FontService $fontService,
 		ILogger $logger,
 		$userId
 	) {
@@ -69,6 +82,7 @@ class SettingsController extends Controller{
 		$this->demoService = $demoService;
 		$this->logger = $logger;
 		$this->userId = $userId;
+		$this->fontService = $fontService;
 	}
 
 	/**
@@ -283,5 +297,95 @@ class SettingsController extends Controller{
 
 		return new JSONResponse($response);
 
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getFontNames(): JSONResponse {
+		$response = $this->fontService->getFontFileNames();
+		return new JSONResponse($response);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $name
+	 * @return DataResponse
+	 */
+	public function getFontFile(string $name): DataResponse {
+		$fontFileContent = $this->fontService->getFontFile($name);
+		return new DataResponse($fontFileContent);
+	}
+
+	/**
+	 * @param string $name
+	 * @return DataResponse
+	 */
+	public function deleteFontFile(string $name): DataResponse {
+		$this->fontService->deleteFontFile($name);
+		return new DataResponse();
+	}
+
+	/**
+	 * @return JSONResponse
+	 */
+	public function uploadFontFile(): JSONResponse {
+		try {
+			$file = $this->getUploadedFile('fontfile');
+			if (isset($file['tmp_name'], $file['name'], $file['type'])) {
+				if (!in_array($file['type'], self::FONT_MIME_TYPES, true)) {
+					return new JSONResponse(['error' => 'Font type not supported'], Http::STATUS_BAD_REQUEST);
+				}
+				$newFileResource = fopen($file['tmp_name'], 'rb');
+				if ($newFileResource === false) {
+					throw new Exception('Could not read file');
+				}
+				$newFileName = $file['name'];
+				$uploadResult = $this->fontService->uploadFontFile($newFileName, $newFileResource);
+				return new JSONResponse($uploadResult);
+			}
+			return new JSONResponse(['error' => 'No uploaded file'], Http::STATUS_BAD_REQUEST);
+		} catch (Exception $e) {
+			$this->logger->error('Upload error', ['exception' => $e]);
+			return new JSONResponse(['error' => 'Upload error'], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param string $key
+	 * @return array
+	 * @throws UploadException
+	 */
+	private function getUploadedFile(string $key): array {
+		$file = $this->request->getUploadedFile($key);
+		$error = null;
+		$phpFileUploadErrors = [
+			UPLOAD_ERR_OK => $this->l10n->t('The file was uploaded'),
+			UPLOAD_ERR_INI_SIZE => $this->l10n->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
+			UPLOAD_ERR_FORM_SIZE => $this->l10n->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
+			UPLOAD_ERR_PARTIAL => $this->l10n->t('The file was only partially uploaded'),
+			UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
+			UPLOAD_ERR_NO_TMP_DIR => $this->l10n->t('Missing a temporary folder'),
+			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Could not write file to disk'),
+			UPLOAD_ERR_EXTENSION => $this->l10n->t('A PHP extension stopped the file upload'),
+		];
+
+		if (empty($file)) {
+			$error = $this->l10n->t('No file uploaded or file size exceeds maximum of %s', [Util::humanFileSize(Util::uploadLimit())]);
+		}
+		if (!empty($file) && array_key_exists('error', $file) && $file['error'] !== UPLOAD_ERR_OK) {
+			$error = $phpFileUploadErrors[$file['error']];
+		}
+		if ($error !== null) {
+			throw new UploadException($error);
+		}
+		return $file;
 	}
 }

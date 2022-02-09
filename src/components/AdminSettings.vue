@@ -273,6 +273,16 @@
 				:hint="t('richdocuments', 'List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24')"
 				:disabled="updating"
 				@update="updateWopiAllowlist" />
+
+			<SettingsInputFile
+				:label="t('richdocuments', 'Upload extra font file')"
+				:uploading="uploadingFont"
+				:mimetypes="fontMimes"
+				@change="uploadFont" />
+			<SettingsFontList
+				:fonts="settings.fonts"
+				:label="t('richdocuments', 'Available fonts')"
+				@deleted="onFontDeleted" />
 		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
@@ -355,11 +365,14 @@ import { showWarning } from '@nextcloud/dialogs'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import SettingsCheckbox from './SettingsCheckbox'
 import SettingsInputText from './SettingsInputText'
 import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
 import SettingsExternalApps from './SettingsExternalApps'
+import SettingsInputFile from './SettingsInputFile'
+import SettingsFontList from './SettingsFontList'
 
 import '@nextcloud/dialogs/styles/toast.scss'
 
@@ -367,6 +380,7 @@ const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
 const SERVER_STATE_CONNECTION_ERROR = 2
 const PROTOCOL_MISMATCH = 3
+const fontMimes = ['font/ttf']
 
 export default {
 	name: 'AdminSettings',
@@ -377,6 +391,8 @@ export default {
 		SettingsSelectGroup,
 		Multiselect,
 		SettingsExternalApps,
+		SettingsInputFile,
+		SettingsFontList,
 		Modal,
 	},
 	props: {
@@ -401,6 +417,8 @@ export default {
 			appUrl: generateUrl('/settings/apps/app-bundles/richdocumentscode'),
 			approvedDemoModal: false,
 			updating: false,
+			uploadingFont: false,
+			fontMimes,
 			groups: [],
 			tags: [],
 			uiVisible: {
@@ -425,6 +443,7 @@ export default {
 					allTagsList: [],
 					text: '',
 				},
+				fonts: [],
 			},
 		}
 	},
@@ -472,6 +491,7 @@ export default {
 		}
 		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
+		Vue.set(this.settings, 'fonts', this.initial.fonts ? this.initial.fonts : [])
 
 		this.uiVisible.canonical_webroot = !!(this.settings.canonical_webroot && this.settings.canonical_webroot !== '')
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')
@@ -638,6 +658,43 @@ export default {
 			}
 
 			return url.protocol
+		},
+		uploadFont(event) {
+			// TODO define font format list
+			const files = event.target.files
+			const file = files[0]
+			if (!fontMimes.includes(file.type)) {
+				showError(t('text', 'Font format not supported'))
+				return
+			}
+			this.uploadingFont = true
+
+			// Clear input to ensure that the change event will be emitted if
+			// the same file is picked again.
+			event.target.value = ''
+
+			const formData = new FormData()
+			formData.append('fontfile', file)
+			const url = generateUrl('/apps/richdocuments/settings/fonts')
+			axios.post(url, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			}).then((response) => {
+				// TODO reload font list
+				this.settings.fonts.push(file.name)
+			}).catch((error) => {
+				console.error(error)
+				showError(error?.response?.data?.error)
+			}).then(() => {
+				this.uploadingFont = false
+			})
+		},
+		onFontDeleted(name) {
+			const index = this.settings.fonts.indexOf(name)
+			if (index !== -1) {
+				this.settings.fonts.splice(index, 1)
+			}
 		},
 	},
 }
