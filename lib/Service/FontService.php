@@ -178,8 +178,10 @@ class FontService {
 
 			$overviewDir = $this->getFontOverviewAppDataDir();
 			$imageFileResource = $overviewDir->newFile($fontFile->getName() . '.png')->write();
-			imagepng($im, $imageFileResource);
-			imagedestroy($im);
+			if (is_resource($imageFileResource)) {
+				imagepng($im, $imageFileResource);
+				imagedestroy($im);
+			}
 		} catch (\Exception | \Throwable $e) {
 		}
 	}
