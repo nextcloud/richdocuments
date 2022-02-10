@@ -31,6 +31,7 @@
 				'loading-small': uploading,
 			}"
 			:disabled="uploading"
+			:title="buttonTitle"
 			@click="onUploadClick" />
 		<em v-if="hint !== ''">{{ hint }}</em>
 		<input :id="id"
@@ -51,6 +52,10 @@ export default {
 		label: {
 			type: String,
 			required: true,
+		},
+		buttonTitle: {
+			type: String,
+			default: '',
 		},
 		hint: {
 			type: String,
@@ -93,7 +98,7 @@ export default {
 
 <style scoped lang="scss">
 	.settings-entry {
-		padding: 15px 0 15px 0;
+		padding: 0 0 15px 0;
 		display: flex;
 		align-items: center;
 

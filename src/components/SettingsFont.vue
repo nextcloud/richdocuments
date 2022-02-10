@@ -31,6 +31,7 @@
 				'loading-small': disabled,
 			}"
 			:disabled="disabled"
+			:title="t('richdocuments', 'Delete this font')"
 			@click="onDeleteClick" />
 	</div>
 </template>

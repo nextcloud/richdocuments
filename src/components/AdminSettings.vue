@@ -273,9 +273,13 @@
 				:hint="t('richdocuments', 'List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24')"
 				:disabled="updating"
 				@update="updateWopiAllowlist" />
+		</div>
 
+		<div v-if="isSetup" id="font-settings" class="section">
+			<h2>{{ t('richdocuments', 'Extra fonts') }}</h2>
 			<SettingsInputFile
 				:label="t('richdocuments', 'Upload extra font file')"
+				:button-title="t('richdocuments', 'Upload a font file')"
 				:uploading="uploadingFont"
 				:mimetypes="fontMimes"
 				@change="uploadFont" />
