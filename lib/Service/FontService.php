@@ -24,20 +24,29 @@
 namespace OCA\Richdocuments\Service;
 
 
+use OCA\Richdocuments\AppInfo\Application;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICacheFactory;
 
 class FontService {
+	private const INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS = 3600;
 
 	/**
 	 * @var IAppData
 	 */
 	private $appData;
+	/**
+	 * @var \OCP\ICache
+	 */
+	private $cache;
 
-	public function __construct(IAppData $appData) {
+	public function __construct(IAppData $appData,
+								ICacheFactory $cacheFactory) {
 		$this->appData = $appData;
+		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
 	}
 
 	private function getFontAppDataDir(): ISimpleFolder {
@@ -53,13 +62,20 @@ class FontService {
 	 *
 	 */
 	public function getFontFileNames(): array {
-		$fontDir = $this->getFontAppDataDir();
-		return array_map(
-			function (ISimpleFile $f) use ($fontDir) {
-				return $f->getName();
-			},
-			$fontDir->getDirectoryListing()
-		);
+		$cacheKey = 'fontFileNames';
+		$cachedNames = $this->cache->get($cacheKey);
+		if ($cachedNames === null) {
+			$fontDir = $this->getFontAppDataDir();
+			$cachedNames = array_map(
+				function (ISimpleFile $f) use ($fontDir) {
+					return $f->getName();
+				},
+				$fontDir->getDirectoryListing()
+			);
+			$this->cache->set($cacheKey, $cachedNames, self::INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS);
+		}
+
+		return $cachedNames;
 	}
 
 	public function uploadFontFile(string $fileName, $newFileResource): array {
