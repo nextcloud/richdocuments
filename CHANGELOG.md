@@ -1,5 +1,28 @@
 # Changelog
 
+## 4.2.4
+
+### Added
+
+- #2013 add "is_admin" to extra info user data
+
+### Fixed
+
+- #1831 richdocumentsframe use 100% of mobile screen height
+- #1832 url-encode filename when constructing the iframe url for the viewer
+- #1849 Show warning message on protocol mismatch with collabora
+- #1946 Do not load template directories twice
+- #2034 Always add gs.trustedHosts to the CSP
+- #1974 Switch from iconv to mb_convert_encoding
+
+### Other
+
+- #1764 l10n: Spelling unification @Valdnet
+- #1774 Use native font stack in collabora @luka-nextcloud
+- #1765 make collabora icons inverted @luka-nextcloud
+- #1792 Add default argument and type hints @juliushaertl
+- #2011 Blank timestamp is equivalent to null
+
 ## 4.2.3
 
 ### Fixed
