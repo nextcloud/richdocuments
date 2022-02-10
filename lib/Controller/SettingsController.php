@@ -20,9 +20,11 @@ use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Richdocuments\WOPI\Parser;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Files\NotFoundException;
 use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -305,6 +307,7 @@ class SettingsController extends Controller{
 	 * @NoCSRFRequired
 	 *
 	 * @return JSONResponse
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFontNames(): JSONResponse {
 		$response = $this->fontService->getFontFileNames();
@@ -317,16 +320,49 @@ class SettingsController extends Controller{
 	 * @NoCSRFRequired
 	 *
 	 * @param string $name
-	 * @return DataResponse
+	 * @return DataDisplayResponse
+	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getFontFile(string $name): DataResponse {
-		$fontFileContent = $this->fontService->getFontFile($name);
-		return new DataResponse($fontFileContent);
+	public function getFontFile(string $name): DataDisplayResponse {
+		try {
+			$fontFileContent = $this->fontService->getFontFile($name);
+			return new DataDisplayResponse(
+				$fontFileContent,
+				Http::STATUS_OK,
+				['Content-Type' => 'font/ttf']
+			);
+		} catch (NotFoundException $e) {
+			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
+		}
+}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $name
+	 * @return DataDisplayResponse
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getFontFileOverview(string $name): DataDisplayResponse {
+		try {
+			$fontFileOverviewContent = $this->fontService->getFontFileOverview($name);
+			return new DataDisplayResponse(
+				$fontFileOverviewContent,
+				Http::STATUS_OK,
+				['Content-Type' => 'image/png']
+			);
+		} catch (NotFoundException $e) {
+			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
+		}
 	}
 
 	/**
 	 * @param string $name
 	 * @return DataResponse
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function deleteFontFile(string $name): DataResponse {
 		$this->fontService->deleteFontFile($name);

@@ -23,6 +23,7 @@
 <template>
 	<div class="settings-font">
 		<label>{{ name }}</label>
+		<img :src="overviewUrl" />
 		<button
 			:class="{
 				'icon-delete': true,
@@ -53,12 +54,18 @@ export default {
 		}
 	},
 	computed: {
+		overviewUrl() {
+			return generateUrl('/apps/richdocuments/settings/fonts/{name}/overview', {
+				name: this.name,
+			})
+		},
 	},
 	methods: {
 		onDeleteClick() {
-			console.debug('DELETE', this.name)
 			this.disabled = true
-			const url = generateUrl('/apps/richdocuments/settings/fonts/') + encodeURIComponent(this.name)
+			const url = generateUrl('/apps/richdocuments/settings/fonts/{name}', {
+				name: this.name,
+			})
 			axios.delete(url).then((response) => {
 				this.$emit('deleted')
 			}).catch((error) => {

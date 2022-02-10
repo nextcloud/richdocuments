@@ -49,6 +49,10 @@ class FontService {
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
 	}
 
+	/**
+	 * @return ISimpleFolder
+	 * @throws \OCP\Files\NotPermittedException
+	 */
 	private function getFontAppDataDir(): ISimpleFolder {
 		try {
 			return $this->appData->getFolder('fonts');
@@ -58,8 +62,22 @@ class FontService {
 	}
 
 	/**
+	 * @return ISimpleFolder
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	private function getFontOverviewAppDataDir(): ISimpleFolder {
+		try {
+			return $this->appData->getFolder('font-overviews');
+		} catch (NotFoundException $e) {
+			return $this->appData->newFolder('font-overviews');
+		}
+	}
+
+	/**
 	 * Get the list of available font files
 	 *
+	 * @return array
+	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFontFileNames(): array {
 		$cacheKey = 'fontFileNames';
@@ -78,23 +96,88 @@ class FontService {
 		return $cachedNames;
 	}
 
+	/**
+	 * @param string $fileName
+	 * @param $newFileResource
+	 * @return array
+	 * @throws \OCP\Files\NotPermittedException
+	 */
 	public function uploadFontFile(string $fileName, $newFileResource): array {
 		$fontDir = $this->getFontAppDataDir();
 		$newFile = $fontDir->newFile($fileName, $newFileResource);
+		$this->generateFontOverview($newFile);
 		return [
 			'size' => $newFile->getSize(),
 		];
 	}
 
+	/**
+	 * @param string $fileName
+	 * @return string
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 */
 	public function getFontFile(string $fileName): string {
 		$fontDir = $this->getFontAppDataDir();
 		return $fontDir->getFile($fileName)->getContent();
 	}
 
+	/**
+	 * @param string $fileName
+	 * @return string
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getFontFileOverview(string $fileName): string {
+		$fontDir = $this->getFontOverviewAppDataDir();
+		return $fontDir->getFile($fileName . '.png')->getContent();
+	}
+
+	/**
+	 * @param string $fileName
+	 * @return void
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 */
 	public function deleteFontFile(string $fileName): void {
 		$fontDir = $this->getFontAppDataDir();
 		if ($fontDir->fileExists($fileName)) {
 			$fontDir->getFile($fileName)->delete();
+		}
+
+		$overviewDir = $this->getFontOverviewAppDataDir();
+		if ($overviewDir->fileExists($fileName . '.png')) {
+			$overviewDir->getFile($fileName . '.png')->delete();
+		}
+	}
+
+	/**
+	 * @param ISimpleFile $fontFile
+	 * @return void
+	 */
+	private function generateFontOverview(ISimpleFile $fontFile): void {
+		try {
+			$color = [0, 0, 0];
+			$text = 'Lorem ipsum';
+
+			// we need a temp file because imagettftext can't read the font file from a resource
+			// but just a file path
+			$tmpFontFile = tmpfile();
+			$tmpFontFilePath = stream_get_meta_data($tmpFontFile)['uri'];
+			fwrite($tmpFontFile, $fontFile->getContent());
+			fflush($tmpFontFile);
+
+			$im = imagecreatetruecolor(250, 30);
+			$bg_color = imagecolorallocate($im, 255, 255, 255);
+			$font_color = imagecolorallocate($im, $color[0], $color[1], $color[2]);
+			imagefilledrectangle($im, 0, 0, 399, 29, $bg_color);
+			imagettftext($im, 20, 0, 10, 22, $font_color, $tmpFontFilePath, $text);
+
+			$overviewDir = $this->getFontOverviewAppDataDir();
+			$imageFileResource = $overviewDir->newFile($fontFile->getName() . '.png')->write();
+			imagepng($im, $imageFileResource);
+			imagedestroy($im);
+		} catch (\Exception | \Throwable $e) {
 		}
 	}
 }
