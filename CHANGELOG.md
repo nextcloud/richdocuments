@@ -1,5 +1,29 @@
 # Changelog
 
+## 5.0.2
+
+### Added
+
+- #1961 Expose guest avatar images through wopi
+- #2012 add "is_admin" to extra info user data
+
+### Fixed
+
+- #1947 Do not load template directories twice
+- #1948 Move filetype styles to separate css file and load it with viewer
+- #1960 Ensure that the guest name picker is shown on editable links
+- #1982 Use FileCreatedFromTemplateEvent to inject the already existing empty templates
+- #1973 Switch from iconv to mb_convert_encoding
+- #1962 Don't wait DOMContentLoaded to register the viewer handler
+- #2033 Always add gs.trustedHosts to the CSP
+- #2028 Fix frame absolute position in public file share
+
+### Other
+
+- #1935 Rename the app to Nextcloud Office
+- #2029 Avoid too specific psalm annotation
+- #2010 Blank timestamp is equivalent to null
+
 ## 5.0.1
 
 ### Fixed
