@@ -106,6 +106,7 @@ class FontService {
 		$fontDir = $this->getFontAppDataDir();
 		$newFile = $fontDir->newFile($fileName, $newFileResource);
 		$this->generateFontOverview($newFile);
+		$this->cache->remove('fontFileNames');
 		return [
 			'size' => $newFile->getSize(),
 		];
@@ -149,6 +150,8 @@ class FontService {
 		if ($overviewDir->fileExists($fileName . '.png')) {
 			$overviewDir->getFile($fileName . '.png')->delete();
 		}
+
+		$this->cache->remove('fontFileNames');
 	}
 
 	/**
