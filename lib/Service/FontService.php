@@ -174,7 +174,11 @@ class FontService {
 			$bg_color = imagecolorallocate($im, 255, 255, 255);
 			$font_color = imagecolorallocate($im, $color[0], $color[1], $color[2]);
 			imagefilledrectangle($im, 0, 0, 399, 29, $bg_color);
-			imagettftext($im, 20, 0, 10, 22, $font_color, $tmpFontFilePath, $text);
+			$ttfResult = imagettftext($im, 20, 0, 0, 22, $font_color, $tmpFontFilePath, $text);
+			// this happens with invalid ttf fonts
+			if ($ttfResult === false) {
+				return;
+			}
 
 			$overviewDir = $this->getFontOverviewAppDataDir();
 			$imageFileResource = $overviewDir->newFile($fontFile->getName() . '.png')->write();

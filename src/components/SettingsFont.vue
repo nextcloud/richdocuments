@@ -22,8 +22,8 @@
 
 <template>
 	<div class="settings-font">
-		<label>{{ name }}</label>
-		<img :src="overviewUrl" />
+		<label :title="name">{{ name }}</label>
+		<img :src="overviewUrl" :alt="t('richdocuments', 'No font overview')" />
 		<button
 			:class="{
 				'icon-delete': true,
@@ -85,8 +85,21 @@ export default {
 	display: flex;
 	align-items: center;
 
-	button {
+	label {
+		width: 250px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	button,
+	img {
 		margin-left: 15px;
+	}
+
+	img {
+		color: var(--color-text-maxcontrast);
+		width: 250px;
 	}
 }
 </style>

@@ -34,6 +34,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Util;
 
 class SettingsController extends Controller{
+	// TODO adapt overview generation if we add more font mimetypes
 	public const FONT_MIME_TYPES = [
 		'font/ttf',
 	];
