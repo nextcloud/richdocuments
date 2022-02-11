@@ -144,30 +144,31 @@ export default {
 	insertGraphic(insertFile) {
 		if (isPublic) {
 			console.error('[FilesAppIntegration] insertGraphic is not supported')
-		}
-
-		const insertFileFromPath = (path) => {
-			const filename = path.substring(path.lastIndexOf('/') + 1)
-			$.ajax({
-				type: 'POST',
-				url: OC.generateUrl('apps/richdocuments/assets'),
-				data: {
-					path,
-				},
-			}).done(function(resp) {
-				insertFile(filename, resp.url)
-			})
-		}
-
-		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath })) {
-			return
-		}
-
-		OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: OC.theme.name }), function(path, type) {
-			if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
-				insertFileFromPath(path)
+			OC.dialogs.alert(t('Can\'t insert image from cloud. Please try inserting a local image'), t('Insert Source Not Supported'), function() { }, false)
+		} else {
+			const insertFileFromPath = (path) => {
+				const filename = path.substring(path.lastIndexOf('/') + 1)
+				$.ajax({
+					type: 'POST',
+					url: OC.generateUrl('apps/richdocuments/assets'),
+					data: {
+						path,
+					},
+				}).done(function(resp) {
+					insertFile(filename, resp.url)
+				})
 			}
-		}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
+
+			if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath })) {
+				return
+			}
+
+			OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: OC.theme.name }), function(path, type) {
+				if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
+					insertFileFromPath(path)
+				}
+			}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
+		}
 	},
 
 	getFileList() {
