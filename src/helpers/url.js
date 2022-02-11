@@ -20,7 +20,7 @@
  *
  */
 
-import { getRootUrl } from '@nextcloud/router'
+import { getRootUrl, generateUrl } from '@nextcloud/router'
 import { languageToBCP47 } from './index'
 import Config from './../services/config.tsx'
 
@@ -53,7 +53,7 @@ const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory }) =
 }
 
 const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTemplate) => {
-	return OC.generateUrl(
+	return generateUrl(
 		'apps/richdocuments/indexTemplate?templateId={templateId}&fileName={fileName}&dir={dir}&requesttoken={requesttoken}',
 		{
 			templateId,
@@ -65,7 +65,7 @@ const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTempl
 }
 
 const getDocumentUrlForPublicFile = (fileName, fileId) => {
-	return OC.generateUrl(
+	return generateUrl(
 		'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
 		{
 			shareToken: document.getElementById('sharingToken').value,
@@ -77,7 +77,7 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 }
 
 const getDocumentUrlForFile = (fileDir, fileId) => {
-	return OC.generateUrl(
+	return generateUrl(
 		'apps/richdocuments/index?fileId={fileId}&requesttoken={requesttoken}',
 		{
 			fileId,

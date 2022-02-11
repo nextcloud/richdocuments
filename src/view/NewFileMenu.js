@@ -22,6 +22,7 @@
 
 import Types from '../helpers/types'
 import { createEmptyFile } from '../services/api'
+import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
 
 const isPublic = window.document.getElementById('isPublic')?.value === '1'
 
@@ -104,7 +105,7 @@ const NewFileMenu = {
 		OCA.Files.Files.isFileNameValid(filename)
 		filename = FileList.getUniqueName(filename)
 		$.post(
-			OC.generateUrl('apps/richdocuments/ajax/documents/create'),
+			generateUrl('apps/richdocuments/ajax/documents/create'),
 			{ mimetype, filename, dir: document.getElementById('dir').value },
 			function(response) {
 				if (response && response.status === 'success') {
@@ -128,7 +129,7 @@ const NewFileMenu = {
 	_openTemplatePicker(type, mimetype, filename) {
 		const self = this
 		$.ajax({
-			url: OC.linkToOCS('apps/richdocuments/api/v1/templates', 2) + type,
+			url: generateOcsUrl('apps/richdocuments/api/v1/templates', 2) + type,
 			dataType: 'json',
 		}).then(function(response) {
 			if (response.ocs.data.length === 1) {
@@ -165,7 +166,7 @@ const NewFileMenu = {
 
 	_buildTemplatePicker(data) {
 		const self = this
-		return $.get(OC.filePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
+		return $.get(generateFilePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
 			const $tmpl = $(tmpl)
 			// init template picker
 			const $dlg = $tmpl.octemplate({
@@ -186,7 +187,7 @@ const NewFileMenu = {
 	_appendTemplateFromData(dlg, data) {
 		const template = dlg.querySelector('.template-model').cloneNode(true)
 		template.className = ''
-		template.querySelector('img').src = OC.generateUrl('apps/richdocuments/template/preview/' + data.id)
+		template.querySelector('img').src = generateUrl('apps/richdocuments/template/preview/' + data.id)
 		template.querySelector('h2').textContent = data.name
 		template.onclick = function() {
 			dlg.dataset.templateId = data.id
