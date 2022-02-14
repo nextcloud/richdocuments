@@ -132,7 +132,7 @@ class Application extends App implements IBootstrap {
 				return;
 			}
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
-				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New graphic'), '.odg');
+				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New diagram'), '.odg');
 				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
 				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
 				$odpType->setIconClass('icon-filetype-draw');
