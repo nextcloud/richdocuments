@@ -4,7 +4,6 @@ OC.L10N.register(
     "New document" : "Uusi dokumentti",
     "New spreadsheet" : "Uusi laskentataulukko",
     "New presentation" : "Uusi esitys",
-    "New graphic" : "Uusi grafiikka",
     "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Dokumentin luonti epäonnistui",
     "New Document.odt" : "Uusi asiakirja.odt",
