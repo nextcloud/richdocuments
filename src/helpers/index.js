@@ -30,6 +30,12 @@ const languageToBCP47 = () => {
 	if (language === 'de-DE') {
 		language = 'de'
 	}
+
+	// es-419 should be mapped as this is not considered a valid locale string in COOL
+	if (language === 'es-419') {
+		language = 'es-MX'
+	}
+
 	// special case where setting the bc47 region depending on the locale setting makes sense
 	const whitelist = {
 		de: {
