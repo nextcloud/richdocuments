@@ -209,9 +209,7 @@ class Application extends App implements IBootstrap {
 		if ($publicWopiUrl !== '') {
 			$policy->addAllowedFrameDomain('\'self\'');
 			$policy->addAllowedFrameDomain($this->domainOnly($publicWopiUrl));
-			if (method_exists($policy, 'addAllowedFormActionDomain')) {
-				$policy->addAllowedFormActionDomain($this->domainOnly($publicWopiUrl));
-			}
+			$policy->addAllowedFormActionDomain($this->domainOnly($publicWopiUrl));
 		}
 
 		/**
