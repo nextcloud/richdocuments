@@ -4,6 +4,7 @@ OC.L10N.register(
     "New document" : "Yeni belge",
     "New spreadsheet" : "Yeni çalışma sayfası",
     "New presentation" : "Yeni sunum",
+    "New diagram" : "Yeni şema",
     "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Belge oluşturulamadı",
     "New Document.odt" : "Yeni belge.odt",

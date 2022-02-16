@@ -4,6 +4,7 @@ OC.L10N.register(
     "New document" : "Neues Dokument",
     "New spreadsheet" : "Neue Tabelle",
     "New presentation" : "Neue Präsentation",
+    "New diagram" : "Neues Diagramm",
     "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Dokument kann nicht erstellt werden",
     "New Document.odt" : "Neues Dokument.odt",
