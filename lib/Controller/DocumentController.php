@@ -180,6 +180,7 @@ class DocumentController extends Controller {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain($wopiDomain);
 		$policy->allowInlineScript(true);
+		$policy->addAllowedFormActionDomain($wopiDomain);
 		$response->setContentSecurityPolicy($policy);
 
 		$featurePolicy = new FeaturePolicy();
