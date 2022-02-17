@@ -86,6 +86,7 @@ class SettingsController extends Controller{
 		$this->logger = $logger;
 		$this->userId = $userId;
 		$this->fontService = $fontService;
+		$this->request = $request;
 	}
 
 	/**
@@ -307,12 +308,19 @@ class SettingsController extends Controller{
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return JSONResponse
+	 * @return JSONResponse|DataResponse
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getFontNames(): JSONResponse {
-		$response = $this->fontService->getFontFileNames();
-		return new JSONResponse($response);
+	public function getFontNames() {
+		$fileNames = $this->fontService->getFontFileNames();
+		$etag = md5(implode('/', $fileNames));
+		$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
+		if ($ifNoneMatchHeader && $ifNoneMatchHeader === $etag) {
+			return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
+		}
+		$response = new JSONResponse($fileNames);
+		$response->addHeader('Etag', $etag);
+		return $response;
 	}
 
 	/**
@@ -321,16 +329,22 @@ class SettingsController extends Controller{
 	 * @NoCSRFRequired
 	 *
 	 * @param string $name
-	 * @return DataDisplayResponse
+	 * @return DataDisplayResponse|DataResponse
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getFontFile(string $name): DataDisplayResponse {
+	public function getFontFile(string $name) {
 		try {
-			$fontFileContent = $this->fontService->getFontFile($name);
+			$fontFile = $this->fontService->getFontFile($name);
+			$etag = $fontFile->getETag();
+			$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
+			if ($ifNoneMatchHeader && $ifNoneMatchHeader === $etag) {
+				return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
+			}
+
 			return new DataDisplayResponse(
-				$fontFileContent,
+				$fontFile->getContent(),
 				Http::STATUS_OK,
-				['Content-Type' => 'font/ttf']
+				['Content-Type' => $fontFile->getMimeType(), 'Etag' => $etag]
 			);
 		} catch (NotFoundException $e) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);

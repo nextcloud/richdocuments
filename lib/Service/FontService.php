@@ -118,9 +118,9 @@ class FontService {
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function getFontFile(string $fileName): string {
+	public function getFontFile(string $fileName): ISimpleFile {
 		$fontDir = $this->getFontAppDataDir();
-		return $fontDir->getFile($fileName)->getContent();
+		return $fontDir->getFile($fileName);
 	}
 
 	/**
