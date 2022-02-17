@@ -18,9 +18,9 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['7.4']
         databases: ['sqlite']
-        server-versions: ['master']
+        server-versions: ['stable20']
         scenarios: ['wopi', 'direct', 'federation']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
@@ -80,9 +80,9 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['7.4']
         databases: ['mysql']
-        server-versions: ['master']
+        server-versions: ['stable20']
         scenarios: ['wopi', 'direct', 'federation']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
@@ -149,9 +149,9 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['7.4']
         databases: ['pgsql']
-        server-versions: ['master']
+        server-versions: ['stable20']
         scenarios: ['wopi', 'direct', 'federation']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
@@ -220,9 +220,9 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['7.4']
         databases: ['oci']
-        server-versions: ['master']
+        server-versions: ['stable20']
         scenarios: ['wopi', 'direct', 'federation']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
