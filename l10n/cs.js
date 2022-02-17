@@ -151,7 +151,7 @@ OC.L10N.register(
     "No templates defined." : "Nebyla určena žádná šablona.",
     "Add a new one?" : "Přidat novou?",
     "template preview" : "náhled šablony",
-    "Select a template directory" : "Vyberte adresář se šablonou",
+    "Select a template directory" : "Vyberte složku se šablonami",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablony nacházející se v této složce budou přidány do výběru šablon v Nextcloud Office.",
     "Document already exists" : "Dokument už existuje",
