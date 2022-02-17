@@ -30,6 +30,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IURLGenerator;
 
 class FontService {
 	private const INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS = 3600;
@@ -42,11 +44,23 @@ class FontService {
 	 * @var \OCP\ICache
 	 */
 	private $cache;
+	/**
+	 * @var IURLGenerator
+	 */
+	private $url;
+	/**
+	 * @var IConfig
+	 */
+	private $config;
 
 	public function __construct(IAppData $appData,
-								ICacheFactory $cacheFactory) {
+								ICacheFactory $cacheFactory,
+								IURLGenerator $url,
+								IConfig $config) {
 		$this->appData = $appData;
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
+		$this->url = $url;
+		$this->config = $config;
 	}
 
 	/**
@@ -79,21 +93,66 @@ class FontService {
 	 * @return array
 	 * @throws \OCP\Files\NotPermittedException
 	 */
+	public function getFontFiles(): array {
+		$cacheKey = 'fontFiles';
+		$cachedFiles = $this->cache->get($cacheKey);
+		if ($cachedFiles === null) {
+			$fontDir = $this->getFontAppDataDir();
+			$cachedFiles = $fontDir->getDirectoryListing();
+			$this->cache->set($cacheKey, $cachedFiles, self::INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS);
+		}
+
+		return $cachedFiles;
+	}
+
+	/**
+	 * Get the list of available font file names
+	 *
+	 * @return array
+	 * @throws \OCP\Files\NotPermittedException
+	 */
 	public function getFontFileNames(): array {
 		$cacheKey = 'fontFileNames';
 		$cachedNames = $this->cache->get($cacheKey);
 		if ($cachedNames === null) {
-			$fontDir = $this->getFontAppDataDir();
+			$files = $this->getFontFiles();
 			$cachedNames = array_map(
-				function (ISimpleFile $f) use ($fontDir) {
+				function (ISimpleFile $f) {
 					return $f->getName();
 				},
-				$fontDir->getDirectoryListing()
+				$files
 			);
 			$this->cache->set($cacheKey, $cachedNames, self::INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS);
 		}
 
 		return $cachedNames;
+	}
+
+	/**
+	 * Get the formatted list of available fonts
+	 *
+	 * @param array $fontFiles
+	 * @return array
+	 */
+	public function getFontList(array $fontFiles): array {
+		$url = $this->url;
+		$list = array_map(
+			function (ISimpleFile $f) use ($url) {
+				return [
+					'font' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
+					'lastModified' => $f->getMTime(),
+					'size' => $f->getSize(),
+				];
+			},
+			$fontFiles
+		);
+
+		$instanceName = $this->config->getAppValue('theming', 'name');
+		return [
+			'kind' => 'font-list',
+			'server' => $instanceName . ' (' . $this->url->getBaseUrl() . ')',
+			'fonts' => $list,
+		];
 	}
 
 	/**
@@ -114,7 +173,7 @@ class FontService {
 
 	/**
 	 * @param string $fileName
-	 * @return string
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 */

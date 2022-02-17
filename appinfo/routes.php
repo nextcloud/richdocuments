@@ -53,6 +53,7 @@ return [
 		['name' => 'settings#checkSettings', 'url' => 'settings/check', 'verb' => 'GET'],
 		['name' => 'settings#demoServers', 'url' => 'settings/demo', 'verb' => 'GET'],
 		['name' => 'settings#getFontNames', 'url' => 'settings/fonts', 'verb' => 'GET'],
+		['name' => 'settings#getJsonFontList', 'url' => 'settings/fonts.json', 'verb' => 'GET'],
 		['name' => 'settings#getFontFile', 'url' => 'settings/fonts/{name}', 'verb' => 'GET'],
 		['name' => 'settings#getFontFileOverview', 'url' => 'settings/fonts/{name}/overview', 'verb' => 'GET'],
 		['name' => 'settings#deleteFontFile', 'url' => 'settings/fonts/{name}', 'verb' => 'DELETE'],

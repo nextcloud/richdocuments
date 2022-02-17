@@ -25,6 +25,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -319,6 +320,34 @@ class SettingsController extends Controller{
 			return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
 		}
 		$response = new JSONResponse($fileNames);
+		$response->addHeader('Etag', $etag);
+		return $response;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return JSONResponse|DataResponse
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getJsonFontList() {
+		$files = $this->fontService->getFontFiles();
+		$etags = array_map(
+			function (ISimpleFile $f) {
+				return $f->getETag();
+			},
+			$files
+		);
+		$etag = md5(implode(',', $etags));
+		$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
+		if ($ifNoneMatchHeader && $ifNoneMatchHeader === $etag) {
+			return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
+		}
+
+		$fontList = $this->fontService->getFontList($files);
+		$response = new JSONResponse($fontList);
 		$response->addHeader('Etag', $etag);
 		return $response;
 	}
