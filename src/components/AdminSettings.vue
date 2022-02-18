@@ -383,7 +383,11 @@ const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
 const SERVER_STATE_CONNECTION_ERROR = 2
 const PROTOCOL_MISMATCH = 3
-const fontMimes = ['font/ttf']
+const fontMimes = [
+	'font/ttf',
+	'font/opentype',
+	'application/vnd.oasis.opendocument.formula-template',
+]
 
 export default {
 	name: 'AdminSettings',
@@ -667,7 +671,7 @@ export default {
 			const files = event.target.files
 			const file = files[0]
 			if (!fontMimes.includes(file.type)) {
-				showError(t('text', 'Font format not supported'))
+				showError(t('richdocuments', 'Font format not supported ({mime})', { mime: file.type }))
 				return
 			}
 			this.uploadingFont = true
