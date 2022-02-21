@@ -32,8 +32,7 @@ const getUIDefaults = () => {
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
 	uiDefaults += 'TextSidebar=' + sidebar + ';TextStatusbar=' + statusBar + ';'
 	uiDefaults += 'PresentationSidebar=' + sidebar + ';PresentationStatusbar=' + statusBar + ';'
-	// Spreadsheet status bar is necessary as the sheet switcher is contained in it
-	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=true;'
+	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=' + statusBar + ';'
 	uiDefaults += 'UIMode=' + uiMode + ';'
 	return uiDefaults
 }
