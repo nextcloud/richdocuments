@@ -60,8 +60,6 @@ const generateCSSVarTokens = () => {
 		'--color-border': '--co-border',
 		'--color-border-dark': '--co-border-dark',
 		'--border-radius-pill': '--co-border-radius-pill',
-		'--font-face': '--loleaflet-font:--mobile-font:--vex-font:--jquery-ui-font:--docs-font',
-		'--image-logoheader': '--co-image-logo',
 	}
 	let str = ''
 	try {
@@ -74,7 +72,7 @@ const generateCSSVarTokens = () => {
 			if (!cStyle) continue // skip if it is not set
 			const varNames = cssVarMap[cssVarKey].split(':')
 			for (let i = 0; i < varNames.length; ++i) {
-				str += varNames[i] + '=' + cStyle + ';'
+				str += varNames[i] + '=' + cStyle.trim() + ';'
 			}
 		}
 	} catch (e) {
@@ -83,7 +81,7 @@ const generateCSSVarTokens = () => {
 
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
-		str += ';--co-image-logo=url(' + customLogo.replace('?useSvg=1&', '?') + ');'
+		str += ';--nc-custom-logo=' + encodeURIComponent(customLogo) + ');'
 	}
 	return str
 }
