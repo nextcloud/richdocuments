@@ -80,7 +80,7 @@ const generateCSSVarTokens = () => {
 
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
-		str += ';--nc-custom-logo=' + encodeURIComponent(customLogo) + ');'
+		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
 	}
 	return str
 }
