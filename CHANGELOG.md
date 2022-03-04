@@ -1,5 +1,16 @@
 # Changelog
 
+## 5.0.3
+
+### Added
+
+- Change wording from "New graphic" to "New diagram" [#2046](https://api.github.com/repos/nextcloud/richdocuments/pulls/2046)
+
+### Fixed
+
+- Adapt branding css variables [#2072](https://api.github.com/repos/nextcloud/richdocuments/pulls/2072)
+- 🐛 Fix CSP violation when Nextcloud server has so-called 'service root' [#2067](https://api.github.com/repos/nextcloud/richdocuments/pulls/2067)
+
 ## 5.0.2
 
 ### Added
