@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.5
+
+- Fix CSP violation when Nextcloud server has so-called 'service root' ([#2056](https://github.com/nextcloud/richdocuments/pull/2056))
+
 ## 4.2.4
 
 ### Added
