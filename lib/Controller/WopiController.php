@@ -28,6 +28,7 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\UserScopeService;
+use OCA\Richdocuments\Service\WatermarkService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
@@ -122,7 +123,8 @@ class WopiController extends Controller {
 		UserScopeService $userScopeService,
 		FederationService $federationService,
 		IEncryptionManager $encryptionManager,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		WatermarkService $watermarkService
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -139,6 +141,7 @@ class WopiController extends Controller {
 		$this->federationService = $federationService;
 		$this->encryptionManager = $encryptionManager;
 		$this->groupManager = $groupManager;
+		$this->watermarkService = $watermarkService;
 	}
 
 	/**
@@ -207,6 +210,7 @@ class WopiController extends Controller {
 			'HideExportOption' => $wopi->getHideDownload(),
 			'HidePrintOption' => $wopi->getHideDownload(),
 			'DownloadAsPostMessage' => $wopi->getDirect(),
+			...$this->watermarkService->getWopiParams($wopi)
 		];
 
 		if ($wopi->hasTemplateId()) {
@@ -218,21 +222,6 @@ class WopiController extends Controller {
 			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 			$file = $userFolder->getById($wopi->getTemplateDestination())[0];
 			$response['TemplateSaveAs'] = $file->getName();
-		}
-
-		if ($this->shouldWatermark($isPublic, $wopi->getEditorUid(), $fileId, $wopi)) {
-			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : "";
-			$replacements = [
-				'userId' => $wopi->getEditorUid(),
-				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
-				'themingName' => \OC::$server->getThemingDefaults()->getName(),
-				'userDisplayName' => $userDisplayName,
-				'email' => $email,
-			];
-			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
-			$response['WatermarkText'] = preg_replace_callback('/{(.+?)}/', function ($matches) use ($replacements) {
-				return $replacements[$matches[1]];
-			}, $watermarkTemplate);
 		}
 
 		$user = $this->userManager->get($wopi->getEditorUid());
