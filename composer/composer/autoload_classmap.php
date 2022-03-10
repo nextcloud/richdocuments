@@ -73,6 +73,7 @@ return array(
     'OCA\\Richdocuments\\Service\\InitialStateService' => $baseDir . '/../lib/Service/InitialStateService.php',
     'OCA\\Richdocuments\\Service\\RemoteService' => $baseDir . '/../lib/Service/RemoteService.php',
     'OCA\\Richdocuments\\Service\\UserScopeService' => $baseDir . '/../lib/Service/UserScopeService.php',
+    'OCA\\Richdocuments\\Service\\WatermarkService' => $baseDir . '/../lib/Service/WatermarkService.php',
     'OCA\\Richdocuments\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\Richdocuments\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\Richdocuments\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',

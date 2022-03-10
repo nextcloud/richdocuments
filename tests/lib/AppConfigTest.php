@@ -30,10 +30,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AppConfigTest extends TestCase {
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var AppConfig */
-	private $appConfig;
+	private IConfig|MockObject $config;
+	private IConfig|MockObject $appManager;
+	private AppConfig $appConfig;
 
 	public function setUp(): void {
 		parent::setUp();

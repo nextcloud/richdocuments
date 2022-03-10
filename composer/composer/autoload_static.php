@@ -88,6 +88,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Service\\InitialStateService' => __DIR__ . '/..' . '/../lib/Service/InitialStateService.php',
         'OCA\\Richdocuments\\Service\\RemoteService' => __DIR__ . '/..' . '/../lib/Service/RemoteService.php',
         'OCA\\Richdocuments\\Service\\UserScopeService' => __DIR__ . '/..' . '/../lib/Service/UserScopeService.php',
+        'OCA\\Richdocuments\\Service\\WatermarkService' => __DIR__ . '/..' . '/../lib/Service/WatermarkService.php',
         'OCA\\Richdocuments\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\Richdocuments\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\Richdocuments\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',

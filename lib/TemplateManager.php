@@ -26,6 +26,7 @@ declare(strict_types = 1);
 namespace OCA\Richdocuments;
 
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Db\Wopi;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -602,5 +603,26 @@ class TemplateManager {
 		}
 
 		return null;
+	}
+
+	public function getWopiParams(Wopi $wopi): array {
+		if ($wopi->hasTemplateId()) {
+			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
+			$templateUrl = $this->urlGenerator->getAbsoluteURL($templateUrl);
+			return [
+				'TemplateSource' => $templateUrl
+			];
+		}
+
+		if ($wopi->isTemplateToken()) {
+			// FIXME: Remove backward compatibility layer once TemplateSource is available in all supported Collabora versions
+			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
+			$file = $userFolder->getById($wopi->getTemplateDestination())[0];
+			return [
+				'TemplateSaveAs' => $file->getName()
+			];
+		}
+
+		return [];
 	}
 }

@@ -98,3 +98,9 @@ class OC_Util {
 	public static function setupFS(?string $user);
 	public static function tearDownFS();
 }
+
+namespace OCA\Encryption {
+	abstract class Util {
+		public function isMasterKeyEnabled(): bool;
+	}
+}

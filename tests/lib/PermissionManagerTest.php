@@ -84,6 +84,30 @@ class PermissionManagerTest extends TestCase {
 			[[], [], true],
 		];
 	}
+	
+	public function testIsEnabledForUserEnabledNotInGroup() {
+		/** @var IUser|MockBuilder $user */
+		$user = $this->createMock(IUser::class);
+
+		$this->appConfig
+			->expects($this->once())
+			->method('getUseGroups')
+			->willReturn(['Enabled1', 'Enabled2', 'Enabled3']);
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->willReturn($user);
+
+		$this->groupManager
+			->expects(self::any())
+			->method('getUserGroupIds')
+			->willReturnCallback(function ($user) {
+				return [];
+			});
+
+		$this->assertFalse($this->permissionManager->isEnabledForUser('TestUser'));
+	}
 
 	/** @dataProvider dataGroupMatchGroups */
 	public function testEditGroups($editGroups, $userGroups, $result): void {
@@ -132,6 +156,15 @@ class PermissionManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->willReturn($userGroups);
+		$this->groupManager
+			->expects(self::any())
+			->method('isInGroup')
+			->willReturnCallback(function ($user, $group) {
+				if ($user === 'TestUser' && $group === 'Enabled2') {
+					return true;
+				}
+				return false;
+			});
 
 		$canEdit = $this->permissionManager->userCanEdit('user1');
 		$isLocked = $this->permissionManager->userIsFeatureLocked('user1');

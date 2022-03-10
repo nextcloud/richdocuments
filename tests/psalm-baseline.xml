@@ -73,18 +73,6 @@
       <code>NotFoundResponse</code>
     </InvalidThrow>
   </file>
-  <file src="lib/Controller/WopiController.php">
-    <NullArgument>
-      <code>null</code>
-    </NullArgument>
-    <TypeDoesNotContainType>
-      <code><![CDATA[$path === '']]></code>
-    </TypeDoesNotContainType>
-    <UndefinedInterfaceMethod>
-      <code>putContent</code>
-      <code>putContent</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/Helper.php">
     <InvalidScalarArgument>
       <code>$time</code>
