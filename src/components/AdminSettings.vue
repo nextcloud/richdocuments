@@ -361,6 +361,8 @@ import SettingsSelectTag from './SettingsSelectTag'
 import SettingsSelectGroup from './SettingsSelectGroup'
 import SettingsExternalApps from './SettingsExternalApps'
 
+import '@nextcloud/dialogs/styles/toast.scss'
+
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
 const SERVER_STATE_CONNECTION_ERROR = 2
@@ -586,7 +588,15 @@ export default {
 					generateFilePath('richdocuments', 'ajax', 'admin.php'),
 					data
 				)
+
 				this.updating = false
+
+				const { message } = result?.data?.data || {}
+
+				if (message && message.length > 0) {
+					showWarning(message)
+				}
+
 				return result
 			} catch (e) {
 				this.updating = false
