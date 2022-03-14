@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .rd-settings-documentation {
 	max-width: 50em;
 }
@@ -65,7 +67,7 @@
 		flex-wrap: wrap;
 		li {
 			$size: 150px;
-			$sizeY: $size / 210 * 297;
+			$sizeY: math.div($size, 210) * 297;
 			$space: 10px;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
