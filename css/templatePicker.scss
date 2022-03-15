@@ -20,13 +20,15 @@
  *
  */
 
+ @use "sass:math";
+
 #template-picker {
 	.template-container:not(.hidden) {
 		display: flex;
 		flex-wrap: wrap;
 		a {
 			$size: 170px;
-			$sizeY: $size / 210 * 297;
+			$sizeY: math.div($size, 210) * 297;
 			$space: 10px;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
