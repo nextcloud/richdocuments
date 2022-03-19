@@ -190,7 +190,7 @@ export default {
 		if (this.fileModel) {
 			return this.fileModel
 		}
-		if (!this.getFileList() || !this.getFileList()?.getModelForFile() || !this.getFileList()._updateDetailsView) {
+		if (!this.getFileList() || !this.getFileList()?.getModelForFile(this.fileName) || !this.getFileList()._updateDetailsView) {
 			return null
 		}
 		this.getFileList()._updateDetailsView && this.getFileList()._updateDetailsView(this.fileName, false)
