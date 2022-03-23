@@ -27,6 +27,7 @@ namespace OCA\Richdocuments\AppInfo;
 use OC\EventDispatcher\SymfonyAdapter;
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
+use OCA\Federation\TrustedServers;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
@@ -210,6 +211,23 @@ class Application extends App implements IBootstrap {
 			$policy->addAllowedFrameDomain('\'self\'');
 			$policy->addAllowedFrameDomain($this->domainOnly($publicWopiUrl));
 			$policy->addAllowedFormActionDomain($this->domainOnly($publicWopiUrl));
+		}
+
+		/**
+		 * Dynamically add federated instances to the CSP whitelist
+		 */
+
+		// Do not operate if in a GS context
+		/** @var \OCP\GlobalScale\IConfig $globalScale */
+		$globalScale = $container->query(\OCP\GlobalScale\IConfig::class);
+		if (!$globalScale->isGlobalScaleEnabled()) {
+			/** @var TrustedServers $TrustedServers */
+			$TrustedServers = $container->query(\OCA\Federation\TrustedServers::class);
+			$federatedServers = $TrustedServers->getServers();
+			foreach ($federatedServers as $server) {
+				$policy->addAllowedFrameDomain($server['url']);
+				$this->addTrustedRemote($policy, $server['url']);
+			}
 		}
 
 		/**
