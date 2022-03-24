@@ -134,7 +134,7 @@ export default {
 		},
 		viewColor() {
 			return view => ({
-				'border-color': '#' + ('000000' + Number(view.Color).toString(16)).substr(-6),
+				'border-color': '#' + ('000000' + Number(view.Color).toString(16)).slice(-6),
 				'border-width': '2px',
 				'border-style': 'solid',
 			})

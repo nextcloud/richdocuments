@@ -183,8 +183,8 @@ const odfViewer = {
 			if (typeof shareOwnerId !== 'undefined') {
 				const lastIndex = shareOwnerId.lastIndexOf('@')
 				// only redirect if remote file, not opened though reload and csp blocks the request
-				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileId !== preloadId) {
-					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/ocs/v2.php/apps/richdocuments/api/v1/federation', () => {
+				if (shareOwnerId.slice(lastIndex).indexOf('/') !== -1 && fileId !== preloadId) {
+					canAccessCSP('https://' + shareOwnerId.slice(lastIndex) + '/ocs/v2.php/apps/richdocuments/api/v1/federation', () => {
 						console.debug('Cannot load federated instance though CSP, navigating to ', generateUrl('/apps/richdocuments/open?fileId=' + fileId))
 						window.location = generateUrl('/apps/richdocuments/open?fileId=' + fileId)
 					})
@@ -296,7 +296,7 @@ const odfViewer = {
 
 	checkProxyStatus() {
 		const wopiUrl = OC.getCapabilities().richdocuments.config.wopi_url
-		const url = wopiUrl.substr(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
+		const url = wopiUrl.slice(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 		$.get(url + '?status').done(function(result) {
 			if (result && result.status) {
 				if (result.status === 'OK' || result.status === 'error') {

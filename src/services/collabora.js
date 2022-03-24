@@ -51,7 +51,7 @@ export const checkProxyStatus = async(_resolve, _reject) => {
 		return true
 	}
 
-	const url = wopiUrl.substr(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
+	const url = wopiUrl.slice(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 	const proxyStatusUrl = url + '?status'
 
 	const checkProxyStatusCallback = async(resolve, reject) => {

@@ -360,7 +360,7 @@ export default {
 		const avatar = avatarContainer.find('.avatar')
 
 		avatar.css({
-			borderColor: '#' + ('000000' + Number(view.Color).toString(16)).substr(-6),
+			borderColor: '#' + ('000000' + Number(view.Color).toString(16)).slice(-6),
 			borderWidth: '2px',
 			borderStyle: 'solid',
 		})
