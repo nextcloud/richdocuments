@@ -15,17 +15,15 @@ use \OCP\AppFramework\Controller;
 use \OCP\IL10N;
 use \OCP\IRequest;
 use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\UploadException;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -45,81 +43,37 @@ class SettingsController extends Controller {
 		'application/vnd.ms-opentype',
 	];
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var AppConfig */
-	private $appConfig;
-	/** @var IConfig */
-	private $config;
-	/** @var DiscoveryManager  */
-	private $discoveryManager;
-	/** @var Parser */
-	private $wopiParser;
-	/** @var string */
-	private $userId;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var DemoService */
-	private $demoService;
-	/** @var LoggerInterface */
-	private $logger;
-	/**
-	 * @var FontService
-	 */
-	private $fontService;
-
-	public function __construct($appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IL10N $l10n,
-		AppConfig $appConfig,
-		IConfig $config,
-		DiscoveryManager $discoveryManager,
-		Parser $wopiParser,
-		CapabilitiesService $capabilitiesService,
-		DemoService $demoService,
-		FontService $fontService,
-		LoggerInterface $logger,
-		$userId
+		private IL10N $l10n,
+		private AppConfig $appConfig,
+		private IConfig $config,
+		private ConnectivityService $connectivityService,
+		private Parser $wopiParser,
+		private DemoService $demoService,
+		private FontService $fontService,
+		private LoggerInterface $logger,
+		private ?string $userId
 	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->appConfig = $appConfig;
-		$this->config = $config;
-		$this->discoveryManager = $discoveryManager;
-		$this->wopiParser = $wopiParser;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->demoService = $demoService;
-		$this->logger = $logger;
-		$this->userId = $userId;
-		$this->fontService = $fontService;
-		$this->request = $request;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @throws \Exception
 	 */
-	public function checkSettings() {
-		try {
-			$response = $this->discoveryManager->fetchFromRemote();
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return new DataResponse([
-				'status' => $e->getCode(),
-				'message' => 'Could not fetch discovery details'
-			], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-
-		return new DataResponse();
+	public function checkSettings(): DataResponse {
+		$this->connectivityService->verifyConnection();
+		return new DataResponse($this->connectivityService->getStatus());
 	}
 
-	public function demoServers() {
+	public function demoServers(): DataResponse {
 		$demoServers = $this->demoService->fetchDemoServers(true);
 		if (count($demoServers) > 0) {
 			return new DataResponse($demoServers);
 		}
-		return new NotFoundResponse();
+		return new DataResponse([], Http::STATUS_NOT_FOUND);
 	}
 
 	/**
@@ -194,44 +148,31 @@ class SettingsController extends Controller {
 			$this->appConfig->setAppValue('canonical_webroot', $canonical_webroot);
 		}
 
-		$this->discoveryManager->refetch();
-		$this->capabilitiesService->clear();
-		try {
-			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
-			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {
-				$public_wopi_url = str_replace('/hosting/capabilities', '', $capaUrlSrc['urlsrc']);
-				if ($public_wopi_url !== null) {
-					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
-					$colon = strpos($public_wopi_url, ':', 0);
-					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)) {
-						$message = $this->l10n->t('Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server.');
-					}
-				}
-			}
-		} catch (\Exception $e) {
-			if ($wopi_url !== null) {
-				return new JSONResponse([
-					'status' => 'error',
-					'data' => ['message' => 'Failed to connect to the remote server']
-				], 500);
-			}
+		$this->connectivityService->verifyConnection(true);
+
+		$publicUrl = $this->wopiParser->getDetectedPublicUrl();
+		if ($publicUrl) {
+			$this->appConfig->setAppValue('public_wopi_url', $publicUrl);
+			$this->connectivityService->verifyConnection(true);
 		}
 
-		$this->capabilitiesService->clear();
-		$this->capabilitiesService->refetch();
-		if ($this->capabilitiesService->getCapabilities() === []) {
+		if (!$this->connectivityService->isDiscoveryReachable()) {
 			return new JSONResponse([
 				'status' => 'error',
-				'data' => ['message' => 'Failed to connect to the remote server', 'hint' => 'missing_capabilities']
+				'data' => [
+					'message' => 'Failed to connect to the remote server',
+					'status' => $this->connectivityService->getStatus(),]
 			], 500);
 		}
 
-		$response = [
+		return new JSONResponse([
 			'status' => 'success',
-			'data' => ['message' => $message]
-		];
-
-		return new JSONResponse($response);
+			'data' => [
+				'discovery' => $this->wopiParser->getUrlSrc('application/vnd.oasis.opendocument.text')['urlsrc'],
+				'message' => $message,
+				'status' => $this->connectivityService->getStatus(),
+			]
+		]);
 	}
 
 	public function updateWatermarkSettings($settings = []) {

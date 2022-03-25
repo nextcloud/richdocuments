@@ -23,61 +23,74 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\App\IAppManager;
+use OCP\Files\IAppData;
 use OCP\Http\Client\IClientService;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\PreConditionNotMetException;
 use Psr\Log\LoggerInterface;
 
-class CapabilitiesService {
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
-	/** @var ICache */
-	private $cache;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var LoggerInterface */
-	private $logger;
+class CapabilitiesService extends BaseRemoteService {
+	private IAppManager $appManager;
+	private IL10N $l10n;
 
-	/** @var array */
-	private $capabilities;
+	public function clear(): void {
+		$this->clearCache('capabilities');
+	}
 
 
-	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager, IL10N $l10n, LoggerInterface $logger) {
+	public function __construct(IAppData $appData, IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager, IL10N $l10n, LoggerInterface $logger) {
+		parent::__construct(
+			$appData,
+			$clientService,
+			$config,
+			$logger,
+			$cacheFactory
+		);
 		$this->config = $config;
 		$this->clientService = $clientService;
-		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
 		$this->logger = $logger;
 	}
 
-	public function getCapabilities() {
-		if (!$this->capabilities) {
-			$this->capabilities = $this->cache->get('capabilities');
+	public function getCapabilities(): array {
+		return $this->getCache('capabilities') ?? [];
+	}
+
+	/**
+	 * @throws PreConditionNotMetException When there is no server configured
+	 * @throws Exception When the request fails
+	 */
+	public function fetch(): void {
+		$capabilitiesEndpoint = $this->getRemoteUrl('/hosting/capabilities');
+		if (!$capabilitiesEndpoint) {
+			throw new PreConditionNotMetException('Not configured');
 		}
 
-		$isARM64 = php_uname('m') === 'aarch64';
-		$CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
-		$isCODEInstalled = $this->appManager->isEnabledForUser($CODEAppID);
-		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
-		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
-		if ($this->capabilities === null || $shouldRecheckCODECapabilities) {
-			$this->refetch();
+		$client = $this->clientService->newClient();
+
+		try {
+			$startTime = microtime(true);
+			$response = $client->get($capabilitiesEndpoint, $this->getRequestOptions());
+			$duration = round(((microtime(true) - $startTime)), 3);
+			$this->logger->info('Fetched capabilities endpoint from ' . $capabilitiesEndpoint. ' in ' . $duration . ' seconds');
+			$responseBody = $response->getBody();
+			$capabilities = \json_decode($responseBody, true);
+
+			if (!is_array($capabilities)) {
+				throw new \InvalidArgumentException('Capabilities didn\'t return an array');
+			}
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to fetch the Collabora capabilities endpoint: ' . $e->getMessage(), [ 'exception' => $e ]);
+			throw $e;
 		}
 
-		if (!is_array($this->capabilities)) {
-			return [];
-		}
-
-		return $this->capabilities;
+		$this->setCache('capabilities', $capabilities);
 	}
 
 	public function hasNextcloudBranding(): bool {
@@ -122,48 +135,5 @@ class CapabilitiesService {
 		}
 
 		return false;
-	}
-
-	public function clear(): void {
-		$this->cache->remove('capabilities');
-	}
-
-	public function refetch(): void {
-		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
-		if ($remoteHost === '') {
-			return;
-		}
-		$capabilitiesEndpoint = rtrim($remoteHost, '/') . '/hosting/capabilities';
-
-		$client = $this->clientService->newClient();
-		$options = ['timeout' => 45, 'nextcloud' => ['allow_local_address' => true]];
-
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-			$options['verify'] = false;
-		}
-
-		try {
-			$startTime = microtime(true);
-			$response = $client->get($capabilitiesEndpoint, $options);
-			$duration = round(((microtime(true) - $startTime)), 3);
-			$this->logger->info('Fetched capabilities endpoint from ' . $capabilitiesEndpoint. ' in ' . $duration . ' seconds');
-			$responseBody = $response->getBody();
-			$capabilities = \json_decode($responseBody, true);
-
-			if (!is_array($capabilities)) {
-				$capabilities = [];
-			}
-		} catch (\Exception $e) {
-			$this->logger->error('Failed to fetch the Collabora capabilities endpoint: ' . $e->getMessage(), [ 'exception' => $e ]);
-			$capabilities = [];
-		}
-
-		$this->capabilities = $capabilities;
-		$ttl = 3600;
-		if (count($capabilities) === 0) {
-			$ttl = 60;
-		}
-
-		$this->cache->set('capabilities', $capabilities, $ttl);
 	}
 }

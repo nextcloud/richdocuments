@@ -28,7 +28,7 @@ You can also edit your documents off-line with the Collabora Office app from the
 		<nextcloud min-version="28" max-version="28"/>
 	</dependencies>
 	<background-jobs>
-		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>
+		<job>OCA\Richdocuments\Backgroundjobs\CheckConnectivity</job>
 		<job>OCA\Richdocuments\Backgroundjobs\Cleanup</job>
 	</background-jobs>
 	<commands>

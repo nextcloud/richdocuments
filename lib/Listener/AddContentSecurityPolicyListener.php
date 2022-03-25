@@ -52,6 +52,11 @@ class AddContentSecurityPolicyListener implements IEventListener {
 		$policy->addAllowedFrameDomain("'self'");
 		$policy->addAllowedFrameDomain("nc:");
 
+		// Allow the admin page settings to request the entered endpoint for checking connectivity
+		if ($this->isSettingsPage()) {
+			$policy->addAllowedConnectDomain("*");
+		}
+
 		foreach ($this->config->getDomainList() as $url) {
 			$policy->addAllowedFrameDomain($url);
 			$policy->addAllowedFormActionDomain($url);
@@ -65,5 +70,9 @@ class AddContentSecurityPolicyListener implements IEventListener {
 	private function isPageLoad(): bool {
 		$scriptNameParts = explode('/', $this->request->getScriptName());
 		return end($scriptNameParts) === 'index.php';
+	}
+
+	private function isSettingsPage(): bool {
+		return str_starts_with($this->request->getPathInfo(), '/settings/admin/richdocuments');
 	}
 }

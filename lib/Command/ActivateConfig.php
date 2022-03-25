@@ -25,33 +25,19 @@
 namespace OCA\Richdocuments\Command;
 
 use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\Service\CapabilitiesService;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
+use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\WOPI\Parser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ActivateConfig extends Command {
-	/** @var AppConfig */
-	private $appConfig;
-
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	/** @var DiscoveryManager  */
-	private $discoveryManager;
-
-	/** @var Parser */
-	private $wopiParser;
-
-	public function __construct(AppConfig $appConfig, CapabilitiesService $capabilitiesService, DiscoveryManager $discoveryManager, Parser $wopiParser) {
+	public function __construct(
+		private AppConfig $appConfig,
+		private ConnectivityService $connectivityService,
+		private Parser $wopiParser
+	) {
 		parent::__construct();
-
-		$this->appConfig = $appConfig;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->discoveryManager = $discoveryManager;
-		$this->wopiParser = $wopiParser;
 	}
 
 	protected function configure() {
@@ -62,17 +48,13 @@ class ActivateConfig extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		try {
-			$this->discoveryManager->refetch();
-			$this->capabilitiesService->clear();
-			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
-			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {
-				$public_wopi_url = str_replace('/hosting/capabilities', '', $capaUrlSrc['urlsrc']);
-				if ($public_wopi_url !== null) {
-					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
-				}
+			$this->connectivityService->verifyConnection(true);
+			$publicUrl = $this->wopiParser->getDetectedPublicUrl();
+			if ($publicUrl) {
+				$this->appConfig->setAppValue('public_wopi_url', $publicUrl);
+				$this->connectivityService->verifyConnection(true);
+
 			}
-			$this->capabilitiesService->clear();
-			$this->capabilitiesService->refetch();
 			$output->writeln('<info>Activated any config changes</info>');
 			return 0;
 		} catch (\Exception $e) {

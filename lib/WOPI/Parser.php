@@ -21,22 +21,15 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use OCA\Richdocuments\Service\DiscoveryService;
 use Psr\Log\LoggerInterface;
 
 class Parser {
-	/** @var DiscoveryManager */
-	private $discoveryManager;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * @param DiscoveryManager $discoveryManager
-	 * @param LoggerInterface $logger
-	 */
-	public function __construct(DiscoveryManager $discoveryManager, LoggerInterface $logger) {
-		$this->discoveryManager = $discoveryManager;
-		$this->logger = $logger;
+	public function __construct(
+		private DiscoveryService $discoveryService,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -45,7 +38,7 @@ class Parser {
 	 * @throws \Exception
 	 */
 	public function getUrlSrc($mimetype) {
-		$discovery = $this->discoveryManager->get();
+		$discovery = $this->discoveryService->get();
 		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
 		if (\PHP_VERSION_ID < 80000) {
 			$loadEntities = libxml_disable_entity_loader(true);
@@ -54,7 +47,6 @@ class Parser {
 		} else {
 			$discoveryParsed = simplexml_load_string($discovery);
 		}
-
 
 		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
@@ -66,5 +58,18 @@ class Parser {
 
 		$this->logger->error('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
 		throw new \Exception('Could not find urlsrc in WOPI');
+	}
+
+	public function getDetectedPublicUrl(): ?string {
+		try {
+			$urlSrc = $this->getUrlSrc('Capabilities');
+			if (is_array($urlSrc) && $urlSrc['action'] === 'getinfo') {
+				$urlSrc = $urlSrc['urlsrc'] ?? null;
+				return $urlSrc ? str_replace('/hosting/capabilities', '', $urlSrc) : null;
+			}
+		} catch (\Exception $e) {
+		}
+
+		return null;
 	}
 }

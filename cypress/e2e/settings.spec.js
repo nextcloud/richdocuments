@@ -24,6 +24,20 @@ const collaboraUrl = Cypress.env('collaboraUrl')
 
 describe('Office admin settings', function() {
 
+	let randUser
+
+	before(function() {
+		cy.createRandomUser().then(user => {
+			randUser = user
+			cy.login(user)
+			cy.uploadFile(user, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
+		})
+	})
+
+	beforeEach(function() {
+		cy.login(randUser)
+	})
+
 	beforeEach(function() {
 		cy.login(new User('admin', 'admin'))
 		cy.visit('/settings/admin/richdocuments')
@@ -31,6 +45,10 @@ describe('Office admin settings', function() {
 		  method: 'POST',
 		  url: '/index.php/apps/richdocuments/ajax/admin.php',
 		}).as('updateSettings')
+		cy.intercept({
+			method: 'GET',
+			url: collaboraUrl + '/**',
+		}).as('officeServer')
 	})
 
 	it('Error for invalid url', function() {
@@ -45,11 +63,21 @@ describe('Office admin settings', function() {
 			.clear()
 			.type((usesHttps ? 'https' : 'http') + '://invalid.example.com{enter}')
 		cy.wait('@updateSettings').its('response.statusCode').should('equal', 500)
-		cy.get('#security-warning-state-failure .message')
+		cy.get('.notecard').first()
 			.scrollIntoView()
 			.should('be.visible')
 			.should('contain.text', 'Could not establish connection to the Collabora Online server.')
 		cy.screenshot()
+
+		cy.login(randUser)
+		cy.visit('/apps/files', {
+			onBeforeLoad(win) {
+				cy.spy(win, 'postMessage').as('postMessage')
+			},
+		})
+		cy.openFile('document.odt')
+		cy.waitForViewer()
+		cy.waitForCollabora()
 	})
 
 	it('Opens settings and configure a valid url', function() {
@@ -64,7 +92,8 @@ describe('Office admin settings', function() {
 			.clear()
 			.type(collaboraUrl + '{enter}')
 		cy.wait('@updateSettings').its('response.statusCode').should('equal', 200)
-		cy.get('#security-warning-state-ok .message')
+		cy.wait('@officeServer').its('response.statusCode').should('equal', 200)
+		cy.get('.notecard').first()
 			.scrollIntoView()
 			.should('be.visible')
 			.should('contain.text', 'Collabora Online server is reachable.')

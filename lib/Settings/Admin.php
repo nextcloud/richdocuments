@@ -76,6 +76,7 @@ class Admin implements ISettings {
 
 	public function getForm() {
 		$this->initialState->provideCapabilities();
+		$this->initialState->provideSettings();
 		return new TemplateResponse(
 			'richdocuments',
 			'admin',

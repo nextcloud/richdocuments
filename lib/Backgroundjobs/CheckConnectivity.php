@@ -23,20 +23,20 @@
 
 namespace OCA\Richdocuments\Backgroundjobs;
 
-use OC\BackgroundJob\TimedJob;
-use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\ConnectivityService;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 
-class ObtainCapabilities extends TimedJob {
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	public function __construct(CapabilitiesService $capabilitiesService) {
-		$this->capabilitiesService = $capabilitiesService;
-
+class CheckConnectivity extends TimedJob {
+	public function __construct(
+		protected ITimeFactory $timeFactory,
+		protected ConnectivityService $connectivityService
+	) {
+		parent::__construct($timeFactory);
 		$this->setInterval(60 * 60);
 	}
 
 	protected function run($argument) {
-		$this->capabilitiesService->refetch();
+		$this->connectivityService->verifyConnection();
 	}
 }

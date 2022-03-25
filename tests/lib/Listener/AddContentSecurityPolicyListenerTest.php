@@ -79,6 +79,10 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 			$this->request,
 			$this->config,
 		);
+
+		$this->request->expects($this->any())
+			->method('getPathInfo')
+			->willReturn('/apps/files');
 	}
 
 	private function getMergedPolicy(): ContentSecurityPolicy {

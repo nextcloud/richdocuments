@@ -27,6 +27,7 @@ namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\WOPI\Parser;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -37,9 +38,11 @@ class InitialStateService {
 
 	public function __construct(
 		private IInitialState $initialState,
+		private ConnectivityService $connectivityService,
 		private CapabilitiesService $capabilitiesService,
 		private IURLGenerator $urlGenerator,
 		private Defaults $themingDefaults,
+		private Parser $parser,
 		private IConfig $config,
 		private ?string $userId,
 	) {
@@ -102,5 +105,15 @@ class InitialStateService {
 		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
 			$this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo())
 			: false));
+	}
+	
+	public function provideSettings(): void {
+		$sampleBrowserUrl = null;
+		try {
+			$sampleBrowserUrl = $this->parser->getUrlSrc('application/vnd.oasis.opendocument.text')['urlsrc'] ?? null;
+		} catch (\Throwable $e) {
+		}
+		$this->initialState->provideInitialState('discovery', $sampleBrowserUrl);
+		$this->initialState->provideInitialState('connectivityStatus', $this->connectivityService->getStatus());
 	}
 }
