@@ -200,7 +200,9 @@ class Application extends App implements IBootstrap {
 
 		// Do not apply CSP rules on WebDAV/OCS
 		// Ideally this could be a middleware running after the controller execution before rendering the result to only do it on page response
-		if (!str_ends_with($container->getServer()->getRequest()->getScriptName(), '/index.php')) {
+		$script_name_parts = explode('/', $container->getServer()->getRequest()->getScriptName());
+		$script_file = end($script_name_parts);
+		if ($script_file !== 'index.php') {
 			return;
 		}
 
