@@ -91,16 +91,29 @@ jobs:
           npm ci
           npm run build
 
+      - name: Check Krankerl config
+        id: krankerl
+        uses: andstor/file-existence-action@v1
+        with:
+          files: ${{ env.APP_NAME }}/krankerl.toml
+
       - name: Install Krankerl
+        if: steps.krankerl.outputs.files_exists == 'true'
         run: |
           wget https://github.com/ChristophWurst/krankerl/releases/download/v0.13.0/krankerl_0.13.0_amd64.deb
           sudo dpkg -i krankerl_0.13.0_amd64.deb
 
-      - name: Package ${{ env.APP_NAME }} ${{ env.APP_VERSION }}
-        # Try krankerl, fallback to makefile
+      - name: Package ${{ env.APP_NAME }} ${{ env.APP_VERSION }} with krankerl
+        if: steps.krankerl.outputs.files_exists == 'true'
         run: |
           cd ${{ env.APP_NAME }}
-          krankerl package || make appstore
+          krankerl package
+
+      - name: Package ${{ env.APP_NAME }} ${{ env.APP_VERSION }} with makefile
+        if: steps.krankerl.outputs.files_exists != 'true'
+        run: |
+          cd ${{ env.APP_NAME }}
+          make appstore
 
       - name: Checkout server ${{ fromJSON(steps.appinfo.outputs.result).nextcloud.min-version }}
         continue-on-error: true
