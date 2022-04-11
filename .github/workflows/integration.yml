@@ -30,7 +30,7 @@ jobs:
         image: collabora/code
         env:
           extra_params: '--o:ssl.enable=false'
-          domain: nextcloud
+          aliasgroup1: 'http://nextcloud'
         ports:
           - "9980:9980"
 
@@ -103,7 +103,7 @@ jobs:
         image: collabora/code
         env:
           extra_params: '--o:ssl.enable=false'
-          domain: nextcloud
+          aliasgroup1: 'http://nextcloud'
         ports:
           - "9980:9980"
 
@@ -178,7 +178,7 @@ jobs:
         image: collabora/code
         env:
           extra_params: '--o:ssl.enable=false'
-          domain: nextcloud
+          aliasgroup1: 'http://nextcloud'
         ports:
           - "9980:9980"
 
@@ -248,7 +248,7 @@ jobs:
         image: collabora/code
         env:
           extra_params: '--o:ssl.enable=false'
-          domain: nextcloud
+          aliasgroup1: 'http://nextcloud'
         ports:
           - "9980:9980"
 
