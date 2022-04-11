@@ -1,5 +1,40 @@
 # Changelog
 
+## 6.0.0-beta.1
+
+### Added
+
+- Expose guest avatar images through wopi @juliushaertl [#1883](https://github.com/nextcloud/richdocuments/pull/1883)
+- add "is_admin" to extra info user data @hcvcastro [#1810](https://github.com/nextcloud/richdocuments/pull/1810)
+- Change wording from "New graphic" to "New diagram" @juliushaertl [#2031](https://github.com/nextcloud/richdocuments/pull/2031)
+
+### Fixed
+
+- Properly check proxy status @juliushaertl [#1900](https://github.com/nextcloud/richdocuments/pull/1900)
+- Add addScript viewer dependency @juliushaertl [#1937](https://github.com/nextcloud/richdocuments/pull/1937)
+- Do not load template directories twice @juliushaertl [#1794](https://github.com/nextcloud/richdocuments/pull/1794)
+- Move filetype styles to separate css file and load it with viewer @juliushaertl [#1938](https://github.com/nextcloud/richdocuments/pull/1938)
+- Ensure that the guest name picker is shown on editable links @juliushaertl [#1945](https://github.com/nextcloud/richdocuments/pull/1945)
+- Don't wait DOMContentLoaded to register the viewer handler @eneiluj [#1959](https://github.com/nextcloud/richdocuments/pull/1959)
+- Switch from iconv to mb_convert_encoding @Keessaus [#1967](https://github.com/nextcloud/richdocuments/pull/1967)
+- Use FileCreatedFromTemplateEvent to inject the already existing empty templates @juliushaertl [#1377](https://github.com/nextcloud/richdocuments/pull/1377)
+- Avoid too specific psalm annotation @juliushaertl [#2015](https://github.com/nextcloud/richdocuments/pull/2015)
+- Fix frame absolute position in public file share @eneiluj [#2014](https://github.com/nextcloud/richdocuments/pull/2014)
+- Always add gs.trustedHosts to the CSP @juliushaertl [#1977](https://github.com/nextcloud/richdocuments/pull/1977)
+- Map es-419 to es-MX @juliushaertl [#2054](https://github.com/nextcloud/richdocuments/pull/2054)
+- 🐛 Fix CSP violation when Nextcloud server has so-called 'service root' @ldidry [#2051](https://github.com/nextcloud/richdocuments/pull/2051)
+- Do not hide speadsheet statusbar by default @juliushaertl [#2053](https://github.com/nextcloud/richdocuments/pull/2053)
+- Adapt branding css variables @juliushaertl [#2069](https://github.com/nextcloud/richdocuments/pull/2069)
+- Fix: missing settings messages @vinicius73 [#2095](https://github.com/nextcloud/richdocuments/pull/2095)
+- Allow MS Office template file extensions for TemplateSource usage @juliushaertl [#2110](https://github.com/nextcloud/richdocuments/pull/2110)
+
+### Other
+
+- Replace deprecated OC functions by @nextcloud/* npm pkgs ones @eneiluj [#2036](https://github.com/nextcloud/richdocuments/pull/2036)
+- fix: template.odg file must be real odg file @merttumer [#2127](https://github.com/nextcloud/richdocuments/pull/2127)
+- Update dependencies
+
+
 ## 4.2.3
 
 ### Fixed
