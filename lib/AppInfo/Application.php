@@ -229,6 +229,7 @@ class Application extends App implements IBootstrap {
 				foreach ($trustedList as $server) {
 					$policy->addAllowedFrameDomain($server);
 					$this->addTrustedRemote($policy, $server);
+					$policy->addAllowedFormActionDomain($server);
 				}
 			}
 			$remoteAccess = $container->getServer()->getRequest()->getParam('richdocuments_remote_access');
