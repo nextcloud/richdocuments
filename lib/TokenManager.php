@@ -322,7 +322,9 @@ class TokenManager {
 	/**
 	 * @param string $accessToken
 	 * @param string $guestName
-	 * @throws DoesNotExistException
+	 * @return void
+	 * @throws Exceptions\ExpiredTokenException
+	 * @throws Exceptions\UnknownTokenException
 	 */
 	public function updateGuestName(string $accessToken, string $guestName) {
 		$wopi = $this->wopiMapper->getWopiForToken($accessToken);

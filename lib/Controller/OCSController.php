@@ -26,6 +26,8 @@ namespace OCA\Richdocuments\Controller;
 use Exception;
 use GuzzleHttp\Exception\BadResponseException;
 use OCA\Richdocuments\Db\DirectMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
@@ -279,8 +281,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		try {
 			$this->tokenManager->updateGuestName($access_token, $guestName);
 			return new DataResponse([], Http::STATUS_OK);
-		} catch (DoesNotExistException $e) {
+		} catch (UnknownTokenException $e) {
 			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle();
+			return $response;
+		} catch (ExpiredTokenException $e) {
+			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);
 			$response->throttle();
 			return $response;
 		}

@@ -25,6 +25,8 @@ use OC\Files\View;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\UserScopeService;
@@ -32,6 +34,7 @@ use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\TokenExpiredException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
@@ -171,9 +174,12 @@ class WopiController extends Controller {
 		} catch (NotFoundException $e) {
 			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		} catch (DoesNotExistException $e) {
+		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -359,15 +365,26 @@ class WopiController extends Controller {
 	 * @param string $fileId
 	 * @param string $access_token
 	 * @return Http\Response
-	 * @throws DoesNotExistException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws LockedException
 	 */
 	public function getFile($fileId,
 							$access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
-		$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		} catch (UnknownTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
 
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
@@ -431,14 +448,25 @@ class WopiController extends Controller {
 	 * @param string $fileId
 	 * @param string $access_token
 	 * @return JSONResponse
-	 * @throws DoesNotExistException
 	 */
 	public function putFile($fileId,
 							$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
-		$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		} catch (UnknownTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		if (!$wopi->getCanwrite()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -555,8 +583,20 @@ class WopiController extends Controller {
 	 */
 	public function putRelativeFile($fileId,
 					$access_token) {
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		} catch (UnknownTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		list($fileId, ,) = Helper::parseFileId($fileId);
-		$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		if (!$wopi->getCanwrite()) {
@@ -742,8 +782,10 @@ class WopiController extends Controller {
 	public function getTemplate($fileId, $access_token) {
 		try {
 			$wopi = $this->wopiMapper->getPathForToken($access_token);
-		} catch (DoesNotExistException $e) {
+		} catch (UnknownTokenException $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (ExpiredTokenException $e) {
+			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 
 		if ((int)$fileId !== $wopi->getTemplateId()) {

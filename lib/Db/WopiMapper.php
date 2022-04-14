@@ -22,7 +22,9 @@
  */
 namespace OCA\Richdocuments\Db;
 
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
+use OCP\AppFramework\Db\TokenExpiredException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
@@ -114,20 +116,26 @@ class WopiMapper extends Mapper {
 	}
 
 	/**
+	 *
 	 * @deprecated
 	 * @param $token
+	 * @return Wopi
+	 * @throws ExpiredTokenException
+	 * @throws UnknownTokenException
 	 */
 	public function getPathForToken($token) {
 		return $this->getWopiForToken($token);
 	}
+
 	/**
 	 * Given a token, validates it and
 	 * constructs and validates the path.
 	 * Returns the path, if valid, else false.
 	 *
 	 * @param string $token
-	 * @throws DoesNotExistException
 	 * @return Wopi
+	 * @throws UnknownTokenException
+	 * @throws ExpiredTokenException
 	 */
 	public function getWopiForToken($token) {
 
@@ -146,18 +154,14 @@ class WopiMapper extends Mapper {
 			'app' => 'richdocuments'
 		]);
 		if ($row === false) {
-			throw new DoesNotExistException('Could not find token.');
+			throw new UnknownTokenException('Could not find token.');
 		}
 
 		/** @var Wopi $wopi */
 		$wopi = Wopi::fromRow($row);
 
-		//TODO: validate.
-		if ($wopi->getExpiry() > $this->timeFactory->getTime()){
-			// Expired token!
-			//http_response_code(404);
-			//$wopi->deleteBy('id', $row['id']);
-			//return false;
+		if ($wopi->getExpiry() < $this->timeFactory->getTime()){
+			throw new ExpiredTokenException('Provided token is expired.');
 		}
 
 		return $wopi;
