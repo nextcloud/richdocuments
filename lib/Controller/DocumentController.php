@@ -212,6 +212,7 @@ class DocumentController extends Controller {
 				'title' => $item->getName(),
 				'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
 				'token' => $token,
+				'token_ttl' => $wopi->getExpiry(),
 				'urlsrc' => $urlSrc,
 				'path' => $folder->getRelativePath($item->getPath()),
 				'instanceId' => $this->config->getSystemValue('instanceid'),
@@ -281,6 +282,7 @@ class DocumentController extends Controller {
 			'title' => $fileName,
 			'fileId' => $wopiFileId,
 			'token' => $wopi->getToken(),
+			'token_ttl' => $wopi->getExpiry(),
 			'urlsrc' => $urlSrc,
 			'path' => $userFolder->getRelativePath($file->getPath()),
 			'instanceId' => $this->config->getSystemValue('instanceid'),
@@ -344,6 +346,7 @@ class DocumentController extends Controller {
 
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params['token'] = $token;
+				$params['token_ttl'] = $wopi->getExpiry();
 				$params['urlsrc'] = $urlSrc;
 
 				$this->initialState->provideDocument($wopi);
@@ -458,6 +461,7 @@ class DocumentController extends Controller {
 					'title' => $node->getName(),
 					'fileId' => $node->getId() . '_' . $this->config->getSystemValue('instanceid'),
 					'token' => $token,
+					'token_ttl' => $wopi->getExpiry(),
 					'urlsrc' => $urlSrc,
 					'path' => '/',
 					'instanceId' => $this->config->getSystemValue('instanceid'),
