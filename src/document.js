@@ -178,12 +178,14 @@ const documentsMain = {
 
 			const urlsrc = getWopiUrl({ fileId, title, readOnly: true })
 
-			// access_token - must be passed via a form post
+			// access_token & access_token_ttl - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)
+			const accessTokenTtl = encodeURIComponent(documentsMain.tokenTtl)
 
 			// form to post the access token for WOPISrc
 			const form = '<form id="loleafletform_viewer" name="loleafletform_viewer" target="loleafletframe_viewer" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
+				+ '<input name="access_token_ttl" value="' + accessTokenTtl + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
 				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
@@ -235,10 +237,12 @@ const documentsMain = {
 
 			// access_token - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)
+			const accessTokenTtl = encodeURIComponent(documentsMain.tokenTtl)
 
 			// form to post the access token for WOPISrc
 			const form = '<form id="loleafletform" name="loleafletform" target="loleafletframe" action="' + urlsrc + '" method="post">'
 				+ '<input name="access_token" value="' + accessToken + '" type="hidden"/>'
+				+ '<input name="access_token_ttl" value="' + accessTokenTtl + '" type="hidden"/>'
 				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
 				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
@@ -513,6 +517,7 @@ const documentsMain = {
 		documentsMain.urlsrc = Config.get('urlsrc')
 		documentsMain.fullPath = Config.get('path')
 		documentsMain.token = Config.get('token')
+		documentsMain.tokenTtl = Config.get('token_ttl') * 1000
 		documentsMain.fileId = Config.get('fileId')
 		documentsMain.fileName = Config.get('title')
 		documentsMain.canEdit = Boolean(Config.get('permissions') & OC.PERMISSION_UPDATE)
