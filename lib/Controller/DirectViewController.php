@@ -171,6 +171,7 @@ class DirectViewController extends Controller {
 				'title' => $item->getName(),
 				'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
 				'token' => $wopi->getToken(),
+				'token_ttl' => $wopi->getExpiry(),
 				'urlsrc' => $urlSrc,
 				'path' => $relativePath,
 				'instanceId' => $this->config->getSystemValue('instanceid'),
@@ -232,6 +233,7 @@ class DirectViewController extends Controller {
 					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 				}
 				$params['token'] = $token;
+				$params['token_ttl'] = $wopi->getExpiry();
 				$params['urlsrc'] = $urlSrc;
 
 				$this->initialState->provideDocument($wopi);

@@ -30,8 +30,10 @@ use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
 class WopiMapper extends Mapper {
-	// Tokens expire after this many seconds (not defined by WOPI specs).
-	const TOKEN_LIFETIME_SECONDS = 1800;
+	// Tokens expire after this many seconds.
+	// 10 hours is the recommended value on the spec doc:
+	// https://docs.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/concepts#access_token_ttl
+	const TOKEN_LIFETIME_SECONDS = 36000;
 
 	/** @var ISecureRandom */
 	private $random;
