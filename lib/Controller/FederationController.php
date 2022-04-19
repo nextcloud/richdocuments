@@ -22,7 +22,10 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\TokenExpiredException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -113,8 +116,11 @@ class FederationController extends OCSController {
 			}
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' returned');
 			return new DataResponse($initiatorWopi);
-		} catch (DoesNotExistException $e) {
+		} catch (UnknownTokenException $e) {
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . 'not found');
+			throw new OCSNotFoundException();
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' is expired');
 			throw new OCSNotFoundException();
 		}
 	}
@@ -130,7 +136,7 @@ class FederationController extends OCSController {
 	 *
 	 * @param $token
 	 * @return DataResponse
-	 * @throws DoesNotExistException
+	 * @throws OCSNotFoundException
 	 */
 	public function initiatorUser($token): DataResponse {
 		try {
@@ -145,8 +151,11 @@ class FederationController extends OCSController {
 				'displayName' => $user->getDisplayName(),
 				'avatar' => $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => WopiController::WOPI_AVATAR_SIZE])
 			]);
-		} catch (DoesNotExistException $e) {
+		} catch (UnknownTokenException $e) {
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . 'not found');
+			throw new OCSNotFoundException();
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . ' is expired.');
 			throw new OCSNotFoundException();
 		}
 	}
