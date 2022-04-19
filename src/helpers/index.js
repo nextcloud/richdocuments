@@ -67,7 +67,7 @@ const getNextcloudVersion = () => {
 
 const splitPath = (path) => {
 	const fileName = path.split('\\').pop().split('/').pop()
-	const directory = path.substr(0, (path.length - fileName.length - 1))
+	const directory = path.slice(0, -fileName.length - 1)
 	return [directory, fileName]
 }
 

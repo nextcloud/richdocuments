@@ -24,7 +24,7 @@ let checkingProxyStatus = false
 
 const checkProxyStatus = () => {
 	checkingProxyStatus = true
-	const url = Config.get('urlsrc').substr(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
+	const url = Config.get('urlsrc').slice(0, Config.get('urlsrc').indexOf('proxy.php') + 'proxy.php'.length)
 	$.get(url + '?status').done(function(val) {
 		if (val && val.status && val.status !== 'OK') {
 			if (val.status === 'starting' || val.status === 'stopped') {
