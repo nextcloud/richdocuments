@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 OC_PATH=../../../
 OCC=${OC_PATH}occ
 SCENARIO_TO_RUN=$1
@@ -34,6 +36,7 @@ else
 	COOL_CONTAINER=$(docker run -t -d -p 9980:9980 -e "domain=localhost" -e "extra_params=--o:ssl.enable=false" collabora/code)
 fi;
 
+curl --fail http://localhost:$PORT_COOL/hosting/capabilities
 
 
 
