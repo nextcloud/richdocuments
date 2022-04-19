@@ -136,7 +136,7 @@ class Application extends App implements IBootstrap {
 				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
 				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
 				$odpType->setIconClass('icon-filetype-draw');
-				$odpType->setRatio(16/9);
+				$odpType->setRatio(1);
 				return $odpType;
 			});
 		});
