@@ -24,9 +24,9 @@ namespace OCA\Richdocuments\Db;
 
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
-use OCP\AppFramework\Db\TokenExpiredException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
@@ -165,5 +165,23 @@ class WopiMapper extends Mapper {
 		}
 
 		return $wopi;
+	}
+
+	/**
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return int[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getExpiredTokenIds(?int $limit = null, ?int $offset = null)
+	{
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id')
+			->from('richdocuments_wopi')
+			->where($qb->expr()->lt('expiry', $qb->createNamedParameter(time() - 60, IQueryBuilder::PARAM_INT)))
+			->setFirstResult($offset)
+			->setMaxResults($limit);
+
+		return array_column($qb->executeQuery()->fetchAll(), 'id');
 	}
 }
