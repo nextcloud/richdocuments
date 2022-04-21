@@ -26,11 +26,10 @@ namespace OCA\Richdocuments\Service;
 
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\Wopi;
-use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TokenManager;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
@@ -38,7 +37,6 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -54,8 +52,8 @@ class FederationService {
 	private $logger;
 	/** @var TrustedServers */
 	private $trustedServers;
-	/** @var IConfig */
-	private $config;
+	/** @var AppConfig */
+	private $appConfig;
 	/** @var TokenManager */
 	private $tokenManager;
 	/** @var IRequest */
@@ -63,12 +61,12 @@ class FederationService {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, IConfig $config, IRequest $request, IURLGenerator $urlGenerator) {
+	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, AppConfig $appConfig, IRequest $request, IURLGenerator $urlGenerator) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
 		$this->tokenManager = $tokenManager;
-		$this->config = $config;
+		$this->appConfig = $appConfig;
 		$this->request = $request;
 		$this->urlGenerator = $urlGenerator;
 		try {
@@ -114,13 +112,13 @@ class FederationService {
 			$domainWithPort = parse_url($domainWithPort, PHP_URL_HOST) . ($port ? ':' . $port : '');
 		}
 
-		if ($this->trustedServers !== null && $this->trustedServers->isTrustedServer($domainWithPort)) {
+		if ($this->appConfig->isTrustedDomainAllowedForFederation() && $this->trustedServers !== null && $this->trustedServers->isTrustedServer($domainWithPort)) {
 			return true;
 		}
 
 		$domain = $this->getDomainWithoutPort($domainWithPort);
 
-		$trustedList = array_merge($this->config->getSystemValue('gs.trustedHosts', []), [$this->request->getServerHost()]);
+		$trustedList = array_merge($this->appConfig->getTrustedDomains(), [$this->request->getServerHost()]);
 		if (!is_array($trustedList)) {
 			return false;
 		}
