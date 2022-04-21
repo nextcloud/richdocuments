@@ -139,9 +139,8 @@ class FontService {
 		$list = array_map(
 			function (ISimpleFile $f) use ($url) {
 				return [
-					'font' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
-					'lastModified' => $f->getMTime(),
-					'size' => $f->getSize(),
+					'uri' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
+					'stamp' => $f->getETag(),
 				];
 			},
 			$fontFiles
@@ -149,7 +148,7 @@ class FontService {
 
 		$instanceName = $this->config->getAppValue('theming', 'name');
 		return [
-			'kind' => 'font-list',
+			'kind' => 'fontconfiguration',
 			'server' => $instanceName . ' (' . $this->url->getBaseUrl() . ')',
 			'fonts' => $list,
 		];
