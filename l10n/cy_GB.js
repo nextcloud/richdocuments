@@ -5,6 +5,7 @@ OC.L10N.register(
     "Description" : "Disgrifiad",
     "No results" : "Dim canlyniadau",
     "Cancel" : "Diddymu",
+    "Close" : "Cau",
     "Error" : "Gwall",
     "An error occurred" : "Digwyddodd gwall",
     "Nickname" : "Llysenw",

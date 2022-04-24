@@ -4,6 +4,7 @@ OC.L10N.register(
     "Description" : "Opis",
     "No results" : "Nema rezultata",
     "Cancel" : "Cancel",
+    "Close" : "Zatvori",
     "Error" : "Greška",
     "Save" : "Save",
     "Remove from favorites" : "Remove from favorites",

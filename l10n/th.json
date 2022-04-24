@@ -6,6 +6,7 @@
     "New Document.docx" : "เอกสารใหม่.docx",
     "New Spreadsheet.xlsx" : "สเปรดชีตใหม่.xlsx",
     "New Presentation.pptx" : "งานนำเสนอใหม่.pptx",
+    "File already exists" : "มีไฟล์นี้อยู่แล้ว",
     "Not allowed to create document" : "ไม่ยอมให้สร้างเอกสาร",
     "Saved" : "บันทึกแล้ว",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
@@ -15,6 +16,7 @@
     "Only template files can be uploaded" : "สามารถอัพโหลดได้เฉพาะไฟล์เทมเพลท",
     "Invalid file provided" : "ระบุไฟล์ไม่ถูกต้อง",
     "Template not found" : "ไม่พบเทมเพลท",
+    "Office" : "สำนักงาน",
     "Empty" : "ว่างเปล่า",
     "Anonymous guest" : "ผู้มาเยือน ไม่แสดงตัวตน",
     "%s (Guest)" : "%s (ผู้มาเยือน)",
@@ -35,8 +37,11 @@
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Select groups" : "เลือกกลุ่ม",
     "Description" : "รายละเอียด",
+    "No results" : "ไม่มีผลลัพธ์",
     "Cancel" : "ยกเลิก",
+    "Close" : "ปิด",
     "Error" : "ข้อผิดพลาด",
+    "An error occurred" : "เกิดข้อผิดพลาด",
     "Nickname" : "ชื่อเล่น",
     "Save" : "บันทึก",
     "Remove from favorites" : "ลบ รายการโปรด",
@@ -46,6 +51,11 @@
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง",
-    "Document already exists" : "มีเอกสารอยู่แล้ว"
+    "Document already exists" : "มีเอกสารอยู่แล้ว",
+    "Install it from the app store." : "ติดตั้งจาก app store",
+    "If the installation from the app store fails, you can still do that manually using this command:" : "หากติดตั้งจาก app store ล้มเหลว คุณยังสามารถทำได้ด้วยตนเองโดยใช้คำสั่งนี้:",
+    "New Document" : "เอกสารใหม่",
+    "New Spreadsheet" : "สเปรดชีตใหม่",
+    "New Presentation" : "งานนำเสนอใหม่"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

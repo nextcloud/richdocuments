@@ -10,6 +10,7 @@ OC.L10N.register(
     "Select groups" : "Wiel Gruppen äus",
     "Description" : "Beschreiwung",
     "Cancel" : "Ofbriechen",
+    "Close" : "Zoumaachen",
     "Error" : "Fehler",
     "Nickname" : "Spëtznumm",
     "Save" : "Späicheren",
@@ -18,6 +19,9 @@ OC.L10N.register(
     "Details" : "Detailer",
     "Download" : "Eroflueden",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
-    "Create" : "Erstellen"
+    "Create" : "Erstellen",
+    "New Document" : "Neit Dokument",
+    "New Spreadsheet" : "Neit Aarbechtsblat",
+    "New Presentation" : "Nei Präsentatioun"
 },
 "nplurals=2; plural=(n != 1);");

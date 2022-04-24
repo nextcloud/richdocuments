@@ -8,11 +8,13 @@ OC.L10N.register(
     "New Document.docx" : "Nytt dokument.docx",
     "New Spreadsheet.xlsx" : "Nytt regneark.xlsx",
     "New Presentation.pptx" : "Ny presentasjon.pptx",
+    "File already exists" : "Filen finnes allerede",
     "Not allowed to create document" : "Ingen tillatelse til å lage nytt dokument",
     "Saved" : "Lagret",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som serverinstallasjonen.",
     "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Ugyldig fil oppgitt",
+    "Office" : "Office",
     "Empty" : "Tom",
     "Edit office documents directly in your browser." : "Rediger Office-dokumenter i nettleseren din.",
     "Advanced settings" : "Avanserte innstillinger",
@@ -26,6 +28,7 @@ OC.L10N.register(
     "Description" : "Beskrivelse",
     "No results" : "Ingen resultater",
     "Cancel" : "Avbryt",
+    "Close" : "Lukk",
     "Error" : "Feil",
     "An error occurred" : "En feil oppstod",
     "Please choose your nickname to continue as guest user." : "Vennligst velg et kallenavn for å fortsette som gjestebruker.",
@@ -46,6 +49,9 @@ OC.L10N.register(
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
     "Select template" : "Velg mal",
-    "Document already exists" : "Dokumentet finnes allerede"
+    "Document already exists" : "Dokumentet finnes allerede",
+    "New Document" : "Nytt dokument",
+    "New Spreadsheet" : "Nytt regneark",
+    "New Presentation" : "Ny presentasjon"
 },
 "nplurals=2; plural=(n != 1);");

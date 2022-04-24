@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "File already exists" : "Fișierul există deja",
     "Saved" : "Salvat",
     "File is too big" : "Fișierul este prea mare",
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
@@ -9,6 +10,7 @@ OC.L10N.register(
     "Description" : "Descriere",
     "No results" : "Niciun rezultat",
     "Cancel" : "Anulează",
+    "Close" : "Închide",
     "Error" : "Eroare",
     "Nickname" : "Pseudonim",
     "Save" : "Salvează",
@@ -18,6 +20,7 @@ OC.L10N.register(
     "Details" : "Detalii",
     "Download" : "Descărcare",
     "Could not create file" : "Nu s-a putut crea fisierul",
-    "Create" : "Creează"
+    "Create" : "Creează",
+    "Select template" : "Selectează șablon"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

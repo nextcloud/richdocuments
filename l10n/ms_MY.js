@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Description" : "Keterangan",
     "Cancel" : "Batal",
+    "Close" : "Tutup",
     "Error" : "Ralat",
     "Nickname" : "Nama Samaran",
     "Save" : "Simpan",

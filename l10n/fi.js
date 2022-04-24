@@ -12,6 +12,7 @@ OC.L10N.register(
     "New Document.docx" : "Uusi asiakirja.docx",
     "New Spreadsheet.xlsx" : "Uusi taulukko.xlsx",
     "New Presentation.pptx" : "Uusi esitys.pptx",
+    "File already exists" : "Tiedosto on jo olemassa",
     "Not allowed to create document" : "Asiakirjan luominen ei ole sallittu",
     "Saved" : "Tallennettu",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "File is too big" : "Tiedosto on liian suuri",
     "Invalid file provided" : "Määritetty virheellinen tiedosto",
     "Template not found" : "Mallipohjaa ei löytynyt",
+    "Office" : "Toimisto",
     "Empty" : "Tyhjä",
     "Anonymous guest" : "Anonyymi vieras",
     "%s (Guest)" : "%s (vieras)",
@@ -40,6 +42,7 @@ OC.L10N.register(
     "Add new token" : "Lisää uusi poletti",
     "No results" : "Ei tuloksia",
     "Cancel" : "Peru",
+    "Close" : "Sulje",
     "Failed to load {productName} - please try again later" : "Ei voitu ladata {productName} - yritä myöhemmin uudelleen",
     "Error" : "Virhe",
     "An error occurred" : "Tapahtui virhe",
@@ -76,6 +79,11 @@ OC.L10N.register(
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
-    "Document already exists" : "Asiakirja on jo olemassa"
+    "Document already exists" : "Asiakirja on jo olemassa",
+    "Install it from the app store." : "Lataa sovelluskaupasta.",
+    "Current version" : "Nykyinen versio",
+    "New Document" : "Uusi asiakirja",
+    "New Spreadsheet" : "Uusi taulukko",
+    "New Presentation" : "Uusi esitys"
 },
 "nplurals=2; plural=(n != 1);");
