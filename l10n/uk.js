@@ -8,6 +8,7 @@ OC.L10N.register(
     "New Document.docx" : "Новий документ.docx",
     "New Spreadsheet.xlsx" : "Нова таблиця.xlsx",
     "New Presentation.pptx" : "Нова презентація.pptx",
+    "File already exists" : "Файл вже існує",
     "Not allowed to create document" : "Не дозволено створювати документ",
     "Saved" : "Збережено",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Можна завантажити лише шаблони файлів",
     "Invalid file provided" : "Надано невірний файл",
     "Template not found" : "Шаблон не знайдено",
+    "Office" : "Офіс",
     "Empty" : "Порожньо",
     "Anonymous guest" : "Анонімний гість",
     "%s (Guest)" : "%s (гість)",
@@ -28,6 +30,7 @@ OC.L10N.register(
     "Add new token" : "Додати новий токен",
     "No results" : "Немає результатів",
     "Cancel" : "Скасувати",
+    "Close" : "закрити",
     "Failed to load {productName} - please try again later" : "Неможливо завантажити {productName} - спробуйте пізніше",
     "Error" : "Помилка",
     "An error occurred" : "Виникла помилка",
@@ -61,6 +64,11 @@ OC.L10N.register(
     "template preview" : "перегляд шаблону",
     "Select a template directory" : "Виберіть теку для шаблонів",
     "Remove personal template folder" : "Вилучити теку з власними шаблонами",
-    "Document already exists" : "Документ уже існує"
+    "Document already exists" : "Документ уже існує",
+    "Current version" : "Поточна версія",
+    "New Document" : "Новий документ",
+    "New Spreadsheet" : "Нова таблиця",
+    "New Presentation" : "Нова презентація",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цій теці буде додано до вибору шаблонів у Collabora Online"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

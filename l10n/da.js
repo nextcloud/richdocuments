@@ -8,10 +8,12 @@ OC.L10N.register(
     "New Document.docx" : "Nyt dokument.docx",
     "New Spreadsheet.xlsx" : "Nyt regneark.xlsx",
     "New Presentation.pptx" : "Nyt præsentation.pptx",
+    "File already exists" : "Filen findes allerede",
     "Saved" : "Gemt",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen.",
     "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
+    "Office" : "Kontor",
     "Empty" : "Tom",
     "Advanced settings" : "Avancerede indstillinger",
     "Restrict usage to specific groups" : "Brugen begrænset til bestemte grupper",
@@ -22,6 +24,7 @@ OC.L10N.register(
     "Description" : "Beskrivelse",
     "No results" : "Ingen resultater",
     "Cancel" : "Annuller",
+    "Close" : "Luk",
     "Error" : "Fejl",
     "An error occurred" : "Der var en fejl",
     "Nickname" : "Kaldenavn",
@@ -38,6 +41,9 @@ OC.L10N.register(
     "Create a new document" : "Opret nyt dokument",
     "Could not create file" : "Kunne ikke oprette fil",
     "Create" : "Opret",
-    "Select template" : "Vælg model"
+    "Select template" : "Vælg model",
+    "New Document" : "Nyt Dokument",
+    "New Spreadsheet" : "Nyt Regneark",
+    "New Presentation" : "Ny Præsentation"
 },
 "nplurals=2; plural=(n != 1);");

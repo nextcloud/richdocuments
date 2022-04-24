@@ -6,10 +6,12 @@
     "New Document.docx" : "New Document.docx",
     "New Spreadsheet.xlsx" : "New Spreadsheet.xlsx",
     "New Presentation.pptx" : "New Presentation.pptx",
+    "File already exists" : "File already exists",
     "Saved" : "Saved",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation.",
     "File is too big" : "File is too big",
     "Invalid file provided" : "Invalid file provided",
+    "Office" : "Office",
     "Empty" : "Empty",
     "Edit office documents directly in your browser." : "Edit office documents directly in your browser.",
     "Advanced settings" : "Advanced settings",
@@ -22,6 +24,7 @@
     "Description" : "Description",
     "No results" : "No results",
     "Cancel" : "Cancel",
+    "Close" : "Close",
     "Error" : "Error",
     "Nickname" : "Nickname",
     "Please enter the filename to store the document as." : "Please enter the filename to store the document as.",
@@ -37,6 +40,9 @@
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
     "Could not create file" : "Could not create file",
     "Create" : "Create",
-    "Select template" : "Select template"
+    "Select template" : "Select template",
+    "New Document" : "New Document",
+    "New Spreadsheet" : "New Spreadsheet",
+    "New Presentation" : "New Presentation"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

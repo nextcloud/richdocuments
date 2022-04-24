@@ -6,6 +6,7 @@ OC.L10N.register(
     "Select groups" : "Qrupları seç",
     "Description" : "Açıqlanma",
     "Cancel" : "Dayandır",
+    "Close" : "Bağla",
     "Error" : "Səhv",
     "Save" : "Saxla",
     "Remove from favorites" : "Remove from favorites",

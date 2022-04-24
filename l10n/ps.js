@@ -4,6 +4,7 @@ OC.L10N.register(
     "File is too big" : "د فایل وزن ډېر دی",
     "Invalid file provided" : "فایل روغ نه دی",
     "Cancel" : "پرېښول",
+    "Close" : "بندول",
     "Error" : "شسیب",
     "Save" : "ساتل",
     "Remove from favorites" : "له نښو ويستل",

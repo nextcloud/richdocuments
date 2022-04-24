@@ -18,6 +18,7 @@ OC.L10N.register(
     "Description" : "Descripción",
     "No results" : "Sin resultados",
     "Cancel" : "Cancelar",
+    "Close" : "Cerrar",
     "Error" : "Error",
     "An error occurred" : "Ocurrió un error",
     "Please choose your nickname to continue as guest user." : "Por favor, elija su apodo para continuar como usuario invitado.",
@@ -33,6 +34,10 @@ OC.L10N.register(
     "Could not create file" : "No fue posible crear el archivo",
     "Create" : "Crear",
     "Select template" : "Seleccionar plantilla",
-    "Select a template directory" : "Seleccionar un directorio de plantillas"
+    "Select a template directory" : "Seleccionar un directorio de plantillas",
+    "New Document" : "Nuevo Documento",
+    "New Spreadsheet" : "Nueva Hoja de cálculo",
+    "New Presentation" : "Nueva Presentación",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

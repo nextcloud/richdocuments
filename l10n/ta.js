@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Description" : "விவரிப்பு",
     "Cancel" : "இரத்து செய்க",
+    "Close" : "மூடுக",
     "Error" : "வழு",
     "Nickname" : "பட்டப்பெயர்",
     "Save" : "சேமிக்க ",

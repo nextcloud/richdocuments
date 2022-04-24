@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Description" : "چۈشەندۈرۈش",
     "Cancel" : "ۋاز كەچ",
+    "Close" : "ياپ",
     "Error" : "خاتالىق",
     "Nickname" : "تەخەللۇس",
     "Save" : "ساقلا",

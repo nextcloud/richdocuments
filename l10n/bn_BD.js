@@ -6,6 +6,7 @@ OC.L10N.register(
     "Select groups" : "গ্রুপ নির্ধারণ",
     "Description" : "বিবরণ",
     "Cancel" : "বাতির",
+    "Close" : "বন্ধ",
     "Error" : "সমস্যা",
     "Nickname" : "ছদ্মনাম",
     "Save" : "সংরক্ষণ",
