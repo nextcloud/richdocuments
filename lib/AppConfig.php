@@ -16,6 +16,10 @@ use \OCP\IConfig;
 
 class AppConfig {
 
+	public const FEDERATION_USE_TRUSTED_DOMAINS = 'federation_use_trusted_domains';
+
+	public const SYSTEM_GS_TRUSTED_HOSTS = 'gs.trustedHosts';
+
 	private $defaults = [
 		'wopi_url' => '',
 		'timeout' => 15,
@@ -105,6 +109,20 @@ class AppConfig {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Returns a list of trusted domains from the gs.trustedHosts config
+	 */
+	public function getTrustedDomains(): array {
+		return $this->config->getSystemValue(self::SYSTEM_GS_TRUSTED_HOSTS, []);
+	}
+
+	/**
+	 * Returns if federation trusted domains should be always allowed for federated editing
+	 */
+	public function isTrustedDomainAllowedForFederation(): bool {
+		return $this->config->getAppValue(Application::APPNAME, self::FEDERATION_USE_TRUSTED_DOMAINS, 'no') === 'yes';
 	}
 
  }
