@@ -37,3 +37,9 @@ Collabora by default only allows embedding from the same remote that the initial
 Assuming gs1.example.com and gs2.example.com are Nextcloud servers:
 
 	coolconfig set net.frame_ancestors "*.example.com"
+
+## Trusted hosts
+
+By default, trusted hosts of Nextcloud will not be allowed for federated editing. This can be enabled through the following app config value:
+
+	occ config:app:set richdocuments federation_use_trusted_domains --value="yes"
