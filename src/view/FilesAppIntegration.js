@@ -84,6 +84,10 @@ export default {
 			this.getFileList().hideMask && this.getFileList().hideMask()
 			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
+
+		if (!isPublic) {
+			this.addVersionSidebarEvents()
+		}
 	},
 
 	close() {
@@ -417,6 +421,8 @@ export default {
 	},
 
 	addVersionSidebarEvents() {
+		// eslint-disable-next-line
+		console.log('addVersionSidebarEvents')
 		$(document.querySelector('#content')).on('click.revisions', '.app-sidebar .preview-container', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('click.revisions', '.app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
 		$(document.querySelector('#content')).on('mousedown.revisions', '.app-sidebar .revertVersion', this.restoreVersion.bind(this))
