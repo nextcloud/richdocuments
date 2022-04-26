@@ -21,7 +21,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use OC\Files\View;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -87,6 +87,8 @@ class WopiController extends Controller {
 	private $encryptionManager;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IVersionManager */
+	private $versionManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -125,7 +127,8 @@ class WopiController extends Controller {
 		UserScopeService $userScopeService,
 		FederationService $federationService,
 		IEncryptionManager $encryptionManager,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		IVersionManager $versionManager
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -142,6 +145,7 @@ class WopiController extends Controller {
 		$this->federationService = $federationService;
 		$this->encryptionManager = $encryptionManager;
 		$this->groupManager = $groupManager;
+		$this->versionManager = $versionManager;
 	}
 
 	/**
@@ -159,6 +163,7 @@ class WopiController extends Controller {
 	 */
 	public function checkFileInfo($fileId, $access_token) {
 		try {
+
 			list($fileId, , $version) = Helper::parseFileId($fileId);
 
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
@@ -406,20 +411,11 @@ class WopiController extends Controller {
 			$file = $userFolder->getById($fileId)[0];
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
-				$view = new View('/' . $wopi->getOwnerUid() . '/files');
-				$relPath = $view->getRelativePath($file->getPath());
-				$versionPath = '/files_versions/' . $relPath . '.v' . $version;
-				$view = new View('/' . $wopi->getOwnerUid());
-				if ($view->file_exists($versionPath)){
-					$info = $view->getFileInfo($versionPath);
-					if ($info->getSize() === 0) {
-						$response = new Http\Response();
-					} else {
-						$response = new StreamResponse($view->fopen($versionPath, 'rb'));
-					}
-				}
-				else {
-					return new JSONResponse([], Http::STATUS_NOT_FOUND);
+				$info = $this->versionManager->getVersionFile($userFolder->getOwner(), $file, $version);
+				if ($info->getSize() === 0) {
+					$response = new Http\Response();
+				} else {
+					$response = new StreamResponse($info->fopen('rb'));
 				}
 			}
 			else {
