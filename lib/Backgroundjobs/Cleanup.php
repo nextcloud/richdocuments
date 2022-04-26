@@ -32,7 +32,7 @@ class Cleanup extends TimedJob {
 
 	/** @var IDBConnection */
 	private $db;
-	/** @var $wopiMapper */
+	/** @var WopiMapper $wopiMapper */
 	private $wopiMapper;
 
 	public function __construct(IDBConnection $db, WopiMapper $wopiMapper) {
