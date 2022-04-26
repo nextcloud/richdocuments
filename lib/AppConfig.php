@@ -27,7 +27,7 @@ class AppConfig {
 		'watermark_allGroupsList' => [],
 		'watermark_allTagsList' => [],
 		'watermark_linkTagsList' => [],
-
+		'token_ttl' => 36000, // 10 hours
 	];
 
 	const WATERMARK_APP_NAMESPACE = 'files';
