@@ -287,6 +287,14 @@
 				:fonts="settings.fonts"
 				:label="t('richdocuments', 'Available fonts')"
 				@deleted="onFontDeleted" />
+			<em>
+				{{ fontHint }}
+			</em>
+			<em>
+				<pre>
+					{{ fontXmlHint }}
+				</pre>
+			</em>
 		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
@@ -426,6 +434,7 @@ export default {
 			updating: false,
 			uploadingFont: false,
 			fontMimes,
+			fontHintUrl: window.location.protocol + '//' + window.location.host + generateUrl('/apps/richdocuments/settings/fonts.json'),
 			groups: [],
 			tags: [],
 			uiVisible: {
@@ -466,6 +475,18 @@ export default {
 		},
 		hasHostErrors() {
 			return this.hostErrors.some(x => x)
+		},
+		fontHint() {
+			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically.',
+				{ url: this.fontHintUrl }
+			)
+		},
+		fontXmlHint() {
+			return `
+<remote_font_config>
+	<url desc="URL of optional JSON file that lists fonts to be included in Online" type="string" default="">${this.fontHintUrl}</url>
+</remote_font_config>
+			`
 		},
 	},
 	watch: {

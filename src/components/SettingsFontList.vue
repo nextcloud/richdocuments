@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="settings-entry">
+	<div class="settings-entry font-list-settings">
 		<b>{{ label }}</b>
 		<SettingsFont v-for="name in sortedFonts"
 			:key="name"
@@ -71,7 +71,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	label {
-		padding: 15px 0 15px 0;
-	}
+label {
+	padding: 15px 0 15px 0;
+}
+
+.font-list-settings {
+	margin-bottom: 16px
+}
 </style>
