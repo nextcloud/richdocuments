@@ -207,10 +207,10 @@ export default {
 		if (this.fileModel) {
 			return this.fileModel
 		}
-		if (!this.getFileList()) {
+		if (!this.getFileList() || !this.getFileList().getModelForFile || !this.getFileList()._updateDetailsView) {
 			return null
 		}
-		this.getFileList()._updateDetailsView && this.getFileList()._updateDetailsView(this.fileName, false)
+		this.getFileList()._updateDetailsView(this.fileName, false)
 		this.fileModel = this.getFileList().getModelForFile(this.fileName)
 
 		if (this.fileModel && this.fileModel.on) {
