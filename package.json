@@ -71,7 +71,7 @@
 		"eslint-plugin-vue": "^7.20.0",
 		"eslint-webpack-plugin": "^2.6.0",
 		"file-loader": "^6.2.0",
-		"jest": "^27.5.1",
+		"jest": "^28.0.3",
 		"jest-environment-jsdom-fourteen": "^1.0.1",
 		"jest-serializer-vue": "^2.0.2",
 		"node-polyfill-webpack-plugin": "^1.1.4",
