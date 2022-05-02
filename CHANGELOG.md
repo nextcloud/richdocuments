@@ -1,12 +1,19 @@
 # Changelog
 
-## 6.0.0-beta.1
+## 6.0.0
+
+
+
+## 6.0.0
 
 ### Added
 
 - Expose guest avatar images through wopi @juliushaertl [#1883](https://github.com/nextcloud/richdocuments/pull/1883)
 - add "is_admin" to extra info user data @hcvcastro [#1810](https://github.com/nextcloud/richdocuments/pull/1810)
 - Change wording from "New graphic" to "New diagram" @juliushaertl [#2031](https://github.com/nextcloud/richdocuments/pull/2031)
+- Created a minimal otg file @Ezinnem [#2130](https://github.com/nextcloud/richdocuments/pull/2130)
+- Adjust template preview ratio [#2154](https://github.com/nextcloud/richdocuments/pull/2154)
+- Compatibility with Nextcloud 24
 
 ### Fixed
 
@@ -27,9 +34,11 @@
 - Adapt branding css variables @juliushaertl [#2069](https://github.com/nextcloud/richdocuments/pull/2069)
 - Fix: missing settings messages @vinicius73 [#2095](https://github.com/nextcloud/richdocuments/pull/2095)
 - Allow MS Office template file extensions for TemplateSource usage @juliushaertl [#2110](https://github.com/nextcloud/richdocuments/pull/2110)
-
-### Other
-
+- Fixes CSP on Nextcloud installations not on root directory @Raudius [#2126](https://github.com/nextcloud/richdocuments/pull/2126)
+- Add app config to enable trusted domain list usage [#2163](https://github.com/nextcloud/richdocuments/pull/2163)
+- Add gs.trustedHosts to form-action csp [#2160](https://github.com/nextcloud/richdocuments/pull/2160)
+- Let integration tests pass again @juliushaertl [#2141](https://github.com/nextcloud/richdocuments/pull/2141)
+- Keep mime-type indices consecutive. [#2174](https://github.com/nextcloud/richdocuments/pull/2174)
 - Replace deprecated OC functions by @nextcloud/* npm pkgs ones @eneiluj [#2036](https://github.com/nextcloud/richdocuments/pull/2036)
 - fix: template.odg file must be real odg file @merttumer [#2127](https://github.com/nextcloud/richdocuments/pull/2127)
 - Update dependencies
