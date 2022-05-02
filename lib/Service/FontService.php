@@ -94,15 +94,8 @@ class FontService {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function getFontFiles(): array {
-		$cacheKey = 'fontFiles';
-		$cachedFiles = $this->cache->get($cacheKey);
-		if ($cachedFiles === null) {
-			$fontDir = $this->getFontAppDataDir();
-			$cachedFiles = $fontDir->getDirectoryListing();
-			$this->cache->set($cacheKey, $cachedFiles, self::INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS);
-		}
-
-		return $cachedFiles;
+		$fontDir = $this->getFontAppDataDir();
+		return $fontDir->getDirectoryListing();
 	}
 
 	/**
