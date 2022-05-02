@@ -9,6 +9,7 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Close" : "Lukk",
     "Error" : "Feil",
+    "An error occurred" : "Det oppstod ein feil.",
     "Nickname" : "Kallenamn",
     "Set" : "Sett",
     "Save" : "Lagra",
