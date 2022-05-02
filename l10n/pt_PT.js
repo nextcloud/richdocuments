@@ -12,6 +12,7 @@ OC.L10N.register(
     "New Document.docx" : "Novo Documento.docx",
     "New Spreadsheet.xlsx" : "Nova Folhadecalculo.xlsx",
     "New Presentation.pptx" : "Nova Apresentação",
+    "File already exists" : "O ficheiro já existe",
     "Not allowed to create document" : "Não está autorizado a criar o documento",
     "Saved" : "Guardado",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gravado com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
@@ -21,6 +22,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Só podem ser carregados modelos",
     "Invalid file provided" : "Fornecido ficheiro inválido",
     "Template not found" : "O modelo não foi encontrado",
+    "Office" : "Escritório",
     "Empty" : "Vazio",
     "Anonymous guest" : "Convidado anónimo",
     "%s (Guest)" : "%s (Convidado)",
@@ -38,6 +40,7 @@ OC.L10N.register(
     "Description" : "Descrição",
     "No results" : "Sem resultados",
     "Cancel" : "Cancelar",
+    "Close" : "Fechar",
     "Error" : "Erro",
     "An error occurred" : "Ocorreu um erro",
     "Nickname" : "Alcunha",
@@ -64,6 +67,9 @@ OC.L10N.register(
     "Add a new template" : "Adicionar novo modelo",
     "No templates defined." : "Sem modelos definidos",
     "Add a new one?" : "Adicionar novo?",
-    "Document already exists" : "O documento já existe"
+    "Document already exists" : "O documento já existe",
+    "New Document" : "Novo Documento",
+    "New Spreadsheet" : "Nova Folha de Cálculo",
+    "New Presentation" : "Nova Apresentação"
 },
 "nplurals=2; plural=(n != 1);");

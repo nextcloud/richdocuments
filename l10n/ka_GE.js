@@ -8,6 +8,7 @@ OC.L10N.register(
     "New Document.docx" : "ახალი დოკუმენტი.docx",
     "New Spreadsheet.xlsx" : "ახალი ცხრილი.xlsx",
     "New Presentation.pptx" : "ახალი პრეზენტაცია.pptx",
+    "File already exists" : "ფაილი უკვე არსებობს",
     "Saved" : "შენახულია",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
     "File is too big" : "ფაილი ზედმეტად დიდია",
@@ -23,6 +24,7 @@ OC.L10N.register(
     "Description" : "აღწერილობა",
     "No results" : "შედეგები არაა",
     "Cancel" : "უარყოფა",
+    "Close" : "დახურვა",
     "Error" : "შეცდომა",
     "Nickname" : "ნიკნეიმი",
     "Please enter the filename to store the document as." : "დოკუმენტის შესანახად გთხოვთ შეიყვანოთ ფაილის სახელი.",
@@ -37,6 +39,9 @@ OC.L10N.register(
     "Guest" : "სტუმარი",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
-    "Create" : "შექმნა"
+    "Create" : "შექმნა",
+    "New Document" : "ახალი დოკუმენტი",
+    "New Spreadsheet" : "ახალი ცხრილი",
+    "New Presentation" : "ახალი პრეზენტაცია"
 },
 "nplurals=2; plural=(n!=1);");

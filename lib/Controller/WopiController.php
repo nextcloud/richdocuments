@@ -208,7 +208,7 @@ class WopiController extends Controller {
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
 			'SupportsRename' => !$isVersion,
 			'UserCanRename' => !$isPublic && !$isVersion,
-			'EnableInsertRemoteImage' => true,
+			'EnableInsertRemoteImage' => !$isPublic,
 			'EnableShare' => $file->isShareable() && !$isVersion,
 			'HideUserList' => '',
 			'DisablePrint' => $wopi->getHideDownload(),

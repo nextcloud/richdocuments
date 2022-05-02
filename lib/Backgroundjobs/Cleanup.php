@@ -32,6 +32,7 @@ class Cleanup extends TimedJob {
 
 	/** @var IDBConnection */
 	private $db;
+
 	/** @var $wopiMapper */
 	private $wopiMapper;
 

@@ -8,6 +8,7 @@ OC.L10N.register(
     "New Document.docx" : "Нов Документ.docx",
     "New Spreadsheet.xlsx" : "Нова Табела.xlsx",
     "New Presentation.pptx" : "Нова Презентација.pptx",
+    "File already exists" : "Датотека веќе постои",
     "Not allowed to create document" : "Не е дозволено да се креира документ",
     "Saved" : "Зачувано",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Зачувано со грешка: Collabora Online треба да го користи истиот протокол како инсталација на серверот.",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Само датотеки со шаблони можат да се прикачат",
     "Invalid file provided" : "Доставена е невалидна датотека",
     "Template not found" : "Шаблонот не е пронајден",
+    "Office" : "Канцеларија",
     "Empty" : "Празно",
     "Anonymous guest" : "Анонимен гостин",
     "%s (Guest)" : "%s (Гостин)",
@@ -58,6 +60,7 @@ OC.L10N.register(
     "Add new token" : "Додади нов токен",
     "No results" : "Нема резултати",
     "Cancel" : "Откажи",
+    "Close" : "Затвори",
     "Failed to load {productName} - please try again later" : "Неуспешно вчитување {productName} - обидете се повторно",
     "Error" : "Грешка",
     "An error occurred" : "Настана грешка",
@@ -95,6 +98,13 @@ OC.L10N.register(
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
     "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
-    "Document already exists" : "Документот веќе постои"
+    "Document already exists" : "Документот веќе постои",
+    "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "За користење на Collabora Online, потребно е користење на различен сервер кој работи како WOPI-клиент за да овозможи услови за уредување на датотеки.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Стандардно за сите корисници е овозможена Collabora Online. Кога овој параметар е активен, само членови на одредени рупи можат да го користат.",
+    "Current version" : "Моментална верзија",
+    "New Document" : "Нов Документ",
+    "New Spreadsheet" : "Нова Табела",
+    "New Presentation" : "Нова Презентација",
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

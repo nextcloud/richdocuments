@@ -17,6 +17,7 @@ OC.L10N.register(
     "Description" : "Тодорхойлолт",
     "No results" : "Үр дүн байхгүй",
     "Cancel" : "болиулах",
+    "Close" : "Хаах",
     "Error" : "Алдаа",
     "Nickname" : "Товч нэр",
     "Save" : "хадгалах",
@@ -28,6 +29,9 @@ OC.L10N.register(
     "Guest" : "Зочин",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
     "Could not create file" : "Файл үүсгэж чадсангүй",
-    "Create" : "Үүсгэх"
+    "Create" : "Үүсгэх",
+    "New Document" : "шинэ документ",
+    "New Spreadsheet" : "шинэ хүснэгт",
+    "New Presentation" : "шинэ танилцуулга"
 },
 "nplurals=2; plural=(n != 1);");

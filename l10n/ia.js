@@ -14,6 +14,7 @@ OC.L10N.register(
     "Advanced settings" : "Configurationes avantiate",
     "Description" : "Description",
     "Cancel" : "Cancellar",
+    "Close" : "Clauder",
     "Error" : "Error",
     "Nickname" : "Pseudonymo",
     "Save" : "Salveguardar",

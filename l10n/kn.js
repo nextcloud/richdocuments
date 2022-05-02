@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "﻿ಉಳಿಸಿದ",
     "Cancel" : "﻿ರದ್ದು",
+    "Close" : "ಮುಚ್ಚು",
     "Error" : "﻿ತಪ್ಪಾಗಿದೆ",
     "Save" : "﻿ಉಳಿಸಿ",
     "Remove from favorites" : "Remove from favorites",
