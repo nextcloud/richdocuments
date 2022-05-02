@@ -56,6 +56,8 @@ use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
@@ -86,8 +88,6 @@ class WopiController extends Controller {
 	private $encryptionManager;
 	/** @var IGroupManager */
 	private $groupManager;
-	/** @var IVersionManager */
-	private $versionManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -108,7 +108,9 @@ class WopiController extends Controller {
 	 * @param TemplateManager $templateManager
 	 * @param IShareManager $shareManager
 	 * @param UserScopeService $userScopeService
+	 * @param FederationService $federationService
 	 * @param IEncryptionManager $encryptionManager
+	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
 		$appName,
@@ -126,8 +128,7 @@ class WopiController extends Controller {
 		UserScopeService $userScopeService,
 		FederationService $federationService,
 		IEncryptionManager $encryptionManager,
-		IGroupManager $groupManager,
-		IVersionManager $versionManager
+		IGroupManager $groupManager
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -144,7 +145,6 @@ class WopiController extends Controller {
 		$this->federationService = $federationService;
 		$this->encryptionManager = $encryptionManager;
 		$this->groupManager = $groupManager;
-		$this->versionManager = $versionManager;
 	}
 
 	/**
@@ -410,7 +410,8 @@ class WopiController extends Controller {
 			$file = $userFolder->getById($fileId)[0];
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
-				$info = $this->versionManager->getVersionFile($userFolder->getOwner(), $file, $version);
+				$versionManager = \OC::$server->get(IVersionManager::class);
+				$info = $versionManager->getVersionFile($userFolder->getOwner(), $file, $version);
 				if ($info->getSize() === 0) {
 					$response = new Http\Response();
 				} else {
@@ -430,6 +431,9 @@ class WopiController extends Controller {
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'Version manager could not be found when trying to restore file. Versioning app disabled?']);
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
