@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.2.6
+
+### Fixed
+
+- Add gs.trustedHosts to form-action csp [#2176](https://github.com/nextcloud/richdocuments/pull/2176)
+- Add app config to enable trusted domain list usage [#2165](https://github.com/nextcloud/richdocuments/pull/2165)
+- Fixes CSP on Nextcloud installations not on root directory [#2144](https://github.com/nextcloud/richdocuments/pull/2144)
+
 ## 4.2.5
 
 - Fix CSP violation when Nextcloud server has so-called 'service root' ([#2056](https://github.com/nextcloud/richdocuments/pull/2056))
