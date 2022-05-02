@@ -21,7 +21,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use OC\Files\View;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -34,7 +34,6 @@ use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\TokenExpiredException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
@@ -57,6 +56,8 @@ use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
@@ -107,7 +108,9 @@ class WopiController extends Controller {
 	 * @param TemplateManager $templateManager
 	 * @param IShareManager $shareManager
 	 * @param UserScopeService $userScopeService
+	 * @param FederationService $federationService
 	 * @param IEncryptionManager $encryptionManager
+	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
 		$appName,
@@ -159,6 +162,7 @@ class WopiController extends Controller {
 	 */
 	public function checkFileInfo($fileId, $access_token) {
 		try {
+
 			list($fileId, , $version) = Helper::parseFileId($fileId);
 
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
@@ -406,20 +410,12 @@ class WopiController extends Controller {
 			$file = $userFolder->getById($fileId)[0];
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
-				$view = new View('/' . $wopi->getOwnerUid() . '/files');
-				$relPath = $view->getRelativePath($file->getPath());
-				$versionPath = '/files_versions/' . $relPath . '.v' . $version;
-				$view = new View('/' . $wopi->getOwnerUid());
-				if ($view->file_exists($versionPath)){
-					$info = $view->getFileInfo($versionPath);
-					if ($info->getSize() === 0) {
-						$response = new Http\Response();
-					} else {
-						$response = new StreamResponse($view->fopen($versionPath, 'rb'));
-					}
-				}
-				else {
-					return new JSONResponse([], Http::STATUS_NOT_FOUND);
+				$versionManager = \OC::$server->get(IVersionManager::class);
+				$info = $versionManager->getVersionFile($userFolder->getOwner(), $file, $version);
+				if ($info->getSize() === 0) {
+					$response = new Http\Response();
+				} else {
+					$response = new StreamResponse($info->fopen('rb'));
 				}
 			}
 			else {
@@ -435,6 +431,9 @@ class WopiController extends Controller {
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'Version manager could not be found when trying to restore file. Versioning app disabled?']);
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
