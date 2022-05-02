@@ -1,5 +1,20 @@
 # Changelog
 
+## 5.0.4
+
+### Added
+
+- Adjust template preview ratio [#2155](https://github.com/nextcloud/richdocuments/pull/2155)
+
+### Fixed
+
+- Fixes CSP on Nextcloud installations not on root directory [#2143](https://github.com/nextcloud/richdocuments/pull/2143)
+- Allow MS Office template file extensions for TemplateSource usage [#2121](https://github.com/nextcloud/richdocuments/pull/2121)
+- Add gs.trustedHosts to form-action csp [#2159](https://github.com/nextcloud/richdocuments/pull/2159)
+- Add app config to enable trusted domain list usage [#2164](https://github.com/nextcloud/richdocuments/pull/2164)
+- fix: template.odg file must be real odg file [#2128](https://github.com/nextcloud/richdocuments/pull/2128)
+- Keep mime-type indices consecutive. @rotdrop [#2007](https://github.com/nextcloud/richdocuments/pull/2007)
+
 ## 5.0.3
 
 ### Added
