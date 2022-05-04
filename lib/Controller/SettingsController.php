@@ -25,6 +25,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ILogger;
 use \OCP\IRequest;
@@ -337,7 +338,7 @@ class SettingsController extends Controller{
 	public function getJsonFontList() {
 		$files = $this->fontService->getFontFiles();
 		$etags = array_map(
-			function (ISimpleFile $f) {
+			static function (ISimpleFile $f) {
 				return $f->getETag();
 			},
 			$files
@@ -427,14 +428,14 @@ class SettingsController extends Controller{
 				}
 				$newFileResource = fopen($file['tmp_name'], 'rb');
 				if ($newFileResource === false) {
-					throw new Exception('Could not read file');
+					throw new UploadException('Could not read file');
 				}
 				$newFileName = $file['name'];
 				$uploadResult = $this->fontService->uploadFontFile($newFileName, $newFileResource);
 				return new JSONResponse($uploadResult);
 			}
 			return new JSONResponse(['error' => 'No uploaded file'], Http::STATUS_BAD_REQUEST);
-		} catch (Exception $e) {
+		} catch (UploadException | NotPermittedException $e) {
 			$this->logger->error('Upload error', ['exception' => $e]);
 			return new JSONResponse(['error' => 'Upload error'], Http::STATUS_BAD_REQUEST);
 		}
@@ -460,13 +461,10 @@ class SettingsController extends Controller{
 		];
 
 		if (empty($file)) {
-			$error = $this->l10n->t('No file uploaded or file size exceeds maximum of %s', [Util::humanFileSize(Util::uploadLimit())]);
+			throw new UploadException($this->l10n->t('No file uploaded or file size exceeds maximum of %s', [Util::humanFileSize(Util::uploadLimit())]));
 		}
 		if (!empty($file) && array_key_exists('error', $file) && $file['error'] !== UPLOAD_ERR_OK) {
-			$error = $phpFileUploadErrors[$file['error']];
-		}
-		if ($error !== null) {
-			throw new UploadException($error);
+			throw new UploadException($phpFileUploadErrors[$file['error']]);
 		}
 		return $file;
 	}

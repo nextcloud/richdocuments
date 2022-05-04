@@ -110,7 +110,7 @@ class FontService {
 		if ($cachedNames === null) {
 			$files = $this->getFontFiles();
 			$cachedNames = array_map(
-				function (ISimpleFile $f) {
+				static function (ISimpleFile $f) {
 					return $f->getName();
 				},
 				$files
@@ -130,7 +130,7 @@ class FontService {
 	public function getFontList(array $fontFiles): array {
 		$url = $this->url;
 		$list = array_map(
-			function (ISimpleFile $f) use ($url) {
+			static function (ISimpleFile $f) use ($url) {
 				return [
 					'uri' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
 					'stamp' => $f->getETag(),
@@ -238,6 +238,9 @@ class FontService {
 				imagedestroy($im);
 			}
 		} catch (\Exception | \Throwable $e) {
+			// do nothing if there was any kind of error during overview generation
+			// the /apps/richdocuments/settings/fonts/FILE_NAME/overview request will fail with 404
+			// in the UI and display a fallback message
 		}
 	}
 }
