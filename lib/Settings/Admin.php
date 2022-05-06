@@ -26,6 +26,7 @@ namespace OCA\Richdocuments\Settings;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DemoService;
+use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -51,6 +52,10 @@ class Admin implements ISettings {
 
 	/** @var InitialStateService */
 	private $initialState;
+	/**
+	 * @var FontService
+	 */
+	private $fontService;
 
 	public function __construct(
 		IConfig             $config,
@@ -58,6 +63,7 @@ class Admin implements ISettings {
 		TemplateManager     $manager,
 		CapabilitiesService $capabilitiesService,
 		DemoService         $demoService,
+		FontService 		$fontService,
 		InitialStateService $initialStateService
 	) {
 		$this->config  = $config;
@@ -66,6 +72,7 @@ class Admin implements ISettings {
 		$this->capabilitiesService = $capabilitiesService;
 		$this->demoService = $demoService;
 		$this->initialState = $initialStateService;
+		$this->fontService = $fontService;
 	}
 
 	public function getForm() {
@@ -89,7 +96,8 @@ class Admin implements ISettings {
 					'demo_servers' => $this->demoService->fetchDemoServers(),
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
 					'os_family' => PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS,
-					'platform' => php_uname('m')
+					'platform' => php_uname('m'),
+					'fonts' => $this->fontService->getFontFileNames(),
 				],
 			],
 			'blank'

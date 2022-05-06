@@ -11,23 +11,38 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DemoService;
+use OCA\Richdocuments\Service\FontService;
+use OCA\Richdocuments\UploadException;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Richdocuments\WOPI\Parser;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use OCA\Richdocuments\AppConfig;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
+use OCP\Util;
 
 class SettingsController extends Controller{
+	// TODO adapt overview generation if we add more font mimetypes
+	public const FONT_MIME_TYPES = [
+		'font/ttf',
+		'font/opentype',
+		'application/vnd.oasis.opendocument.formula-template',
+	];
+
 	/** @var IL10N */
 	private $l10n;
 	/** @var AppConfig */
@@ -46,6 +61,10 @@ class SettingsController extends Controller{
 	private $demoService;
 	/** @var ILogger */
 	private $logger;
+	/**
+	 * @var FontService
+	 */
+	private $fontService;
 
 	public function __construct($appName,
 		IRequest $request,
@@ -56,6 +75,7 @@ class SettingsController extends Controller{
 		Parser $wopiParser,
 		CapabilitiesService $capabilitiesService,
 		DemoService $demoService,
+		FontService $fontService,
 		ILogger $logger,
 		$userId
 	) {
@@ -69,6 +89,8 @@ class SettingsController extends Controller{
 		$this->demoService = $demoService;
 		$this->logger = $logger;
 		$this->userId = $userId;
+		$this->fontService = $fontService;
+		$this->request = $request;
 	}
 
 	/**
@@ -283,5 +305,167 @@ class SettingsController extends Controller{
 
 		return new JSONResponse($response);
 
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return JSONResponse|DataResponse
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getFontNames() {
+		$fileNames = $this->fontService->getFontFileNames();
+		$etag = md5(implode('/', $fileNames));
+		$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
+		if ($ifNoneMatchHeader && $ifNoneMatchHeader === $etag) {
+			return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
+		}
+		$response = new JSONResponse($fileNames);
+		$response->addHeader('Etag', $etag);
+		return $response;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return JSONResponse|DataResponse
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getJsonFontList() {
+		$files = $this->fontService->getFontFiles();
+		$etags = array_map(
+			static function (ISimpleFile $f) {
+				return $f->getETag();
+			},
+			$files
+		);
+		$etag = md5(implode(',', $etags));
+		$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
+		if ($ifNoneMatchHeader && $ifNoneMatchHeader === $etag) {
+			return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
+		}
+
+		$fontList = $this->fontService->getFontList($files);
+		$response = new JSONResponse($fontList);
+		$response->addHeader('Etag', $etag);
+		return $response;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $name
+	 * @return DataDisplayResponse|DataResponse
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getFontFile(string $name) {
+		try {
+			$fontFile = $this->fontService->getFontFile($name);
+			$etag = $fontFile->getETag();
+			$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
+			if ($ifNoneMatchHeader && $ifNoneMatchHeader === $etag) {
+				return new DataResponse([], HTTP::STATUS_NOT_MODIFIED);
+			}
+
+			return new DataDisplayResponse(
+				$fontFile->getContent(),
+				Http::STATUS_OK,
+				['Content-Type' => $fontFile->getMimeType(), 'Etag' => $etag]
+			);
+		} catch (NotFoundException $e) {
+			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
+		}
+}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $name
+	 * @return DataDisplayResponse
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function getFontFileOverview(string $name): DataDisplayResponse {
+		try {
+			$fontFileOverviewContent = $this->fontService->getFontFileOverview($name);
+			return new DataDisplayResponse(
+				$fontFileOverviewContent,
+				Http::STATUS_OK,
+				['Content-Type' => 'image/png']
+			);
+		} catch (NotFoundException $e) {
+			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * @param string $name
+	 * @return DataResponse
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 */
+	public function deleteFontFile(string $name): DataResponse {
+		$this->fontService->deleteFontFile($name);
+		return new DataResponse();
+	}
+
+	/**
+	 * @return JSONResponse
+	 */
+	public function uploadFontFile(): JSONResponse {
+		try {
+			$file = $this->getUploadedFile('fontfile');
+			if (isset($file['tmp_name'], $file['name'], $file['type'])) {
+				if (!in_array($file['type'], self::FONT_MIME_TYPES, true)) {
+					return new JSONResponse(['error' => 'Font type not supported'], Http::STATUS_BAD_REQUEST);
+				}
+				$newFileResource = fopen($file['tmp_name'], 'rb');
+				if ($newFileResource === false) {
+					throw new UploadException('Could not read file');
+				}
+				$newFileName = $file['name'];
+				$uploadResult = $this->fontService->uploadFontFile($newFileName, $newFileResource);
+				return new JSONResponse($uploadResult);
+			}
+			return new JSONResponse(['error' => 'No uploaded file'], Http::STATUS_BAD_REQUEST);
+		} catch (UploadException | NotPermittedException $e) {
+			$this->logger->error('Upload error', ['exception' => $e]);
+			return new JSONResponse(['error' => 'Upload error'], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param string $key
+	 * @return array
+	 * @throws UploadException
+	 */
+	private function getUploadedFile(string $key): array {
+		$file = $this->request->getUploadedFile($key);
+		$error = null;
+		$phpFileUploadErrors = [
+			UPLOAD_ERR_OK => $this->l10n->t('The file was uploaded'),
+			UPLOAD_ERR_INI_SIZE => $this->l10n->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
+			UPLOAD_ERR_FORM_SIZE => $this->l10n->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
+			UPLOAD_ERR_PARTIAL => $this->l10n->t('The file was only partially uploaded'),
+			UPLOAD_ERR_NO_FILE => $this->l10n->t('No file was uploaded'),
+			UPLOAD_ERR_NO_TMP_DIR => $this->l10n->t('Missing a temporary folder'),
+			UPLOAD_ERR_CANT_WRITE => $this->l10n->t('Could not write file to disk'),
+			UPLOAD_ERR_EXTENSION => $this->l10n->t('A PHP extension stopped the file upload'),
+		];
+
+		if (empty($file)) {
+			throw new UploadException($this->l10n->t('No file uploaded or file size exceeds maximum of %s', [Util::humanFileSize(Util::uploadLimit())]));
+		}
+		if (!empty($file) && array_key_exists('error', $file) && $file['error'] !== UPLOAD_ERR_OK) {
+			throw new UploadException($phpFileUploadErrors[$file['error']]);
+		}
+		return $file;
 	}
 }
