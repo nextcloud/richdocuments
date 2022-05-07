@@ -16,6 +16,7 @@
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gravado com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
     "Invalid config key" : "Chave da configuração inválida",
     "Error when saving" : "Erro ao guardar",
+    "The file was uploaded" : "O ficheiro foi carregado",
     "File is too big" : "O ficheiro é demasiado grande",
     "Only template files can be uploaded" : "Só podem ser carregados modelos",
     "Invalid file provided" : "Fornecido ficheiro inválido",

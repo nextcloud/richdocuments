@@ -11,6 +11,7 @@ OC.L10N.register(
     "File already exists" : "Yá esiste'l ficheru",
     "Saved" : "Guardóse",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor.",
+    "The file was uploaded" : "Xubióse'l ficheru",
     "File is too big" : "El ficheru ye pergrande",
     "Invalid file provided" : "Apurrióse un ficheru non válidu",
     "Office" : "Oficina",

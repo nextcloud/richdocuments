@@ -19,6 +19,7 @@ OC.L10N.register(
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Αποθήκευση με σφάλμα: Το Collabora Online πρέπει να χρησιμοποιήσει το ίδιο πρωτόκολλο με την εγκατάσταση του διακομιστή.",
     "Invalid config key" : "Μη έγκυρο κλειδί ρυθμίσεων",
     "Error when saving" : "Σφάλμα κατά την αποθήκευση",
+    "The file was uploaded" : "Το αρχείο μεταφορτώθηκε",
     "File is too big" : "Το αρχείο είναι πολύ μεγάλο",
     "Only template files can be uploaded" : "Μόνο αρχεία προτύπων μπορούν να μεταφορτωθούν",
     "Invalid file provided" : "Έχει δοθεί μη έγκυρο αρχείο",
