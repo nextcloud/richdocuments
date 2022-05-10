@@ -30,6 +30,7 @@ OC.L10N.register(
     "Add to favorites" : "Tambah ke favorit",
     "Details" : "Detil",
     "Download" : "Unduh",
+    "Guest" : "Tamu",
     "Could not create file" : "Tidak dapat membuat berkas",
     "Create" : "Buat",
     "Select template" : "Pilih template"
