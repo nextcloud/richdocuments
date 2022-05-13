@@ -1,13 +1,20 @@
 {
 	"compilerOptions": {
 		"outDir": "./dist/",
-		"sourceMap": true,
+		"sourceMap": false,
 		"noImplicitAny": true,
 		"module": "es6",
-		"target": "es6",
+		"target": "es5",
 		"jsx": "react",
+		"paths": {
+			"@nextcloud/event-bus": [
+				"./node_modules/@nextcloud/event-bus/dist/index.js",
+				"./node_modules/@nextcloud/event-bus/dist/lib/*"
+			]
+		},
 		"allowJs": true
 	},
+	"include": ["src/**/*.tsx"],
 	"exclude": [
 		"node_modules",
 		"vendor"
