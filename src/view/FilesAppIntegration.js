@@ -81,6 +81,10 @@ export default {
 			this.getFileList().hideMask && this.getFileList().hideMask()
 			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
+
+		if (!isPublic) {
+			this.addVersionSidebarEvents()
+		}
 	},
 
 	close() {
