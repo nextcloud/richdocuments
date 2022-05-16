@@ -58,7 +58,7 @@
 					<ActionButton icon="icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
-			<iframe v-show="showIframe"
+			<iframe :style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				id="collaboraframe"
 				ref="documentFrame"
 				:src="src" />
