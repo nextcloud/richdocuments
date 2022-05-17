@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.0.5
+
+### Fixed
+
+- Use visibility instead of display to have the iframe already allocate the size [#2217](https://github.com/nextcloud/richdocuments/pull/2217)
+- Disable remote image insertion on public links [#2203](https://github.com/nextcloud/richdocuments/pull/2203)
+- File history fix behaviour in group folders @Raudius [#2172](https://github.com/nextcloud/richdocuments/pull/2172)
+- When getFileList function returns null, getFileModel function returns… [#2213](https://github.com/nextcloud/richdocuments/pull/2213)
+- File revision history fix @Raudius [#2198](https://github.com/nextcloud/richdocuments/pull/2198)
+
 ## 5.0.4
 
 ### Added
