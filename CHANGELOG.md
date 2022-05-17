@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.7
+
+- Disable remote image insertion on public links @juliushaertl
+- Fixed file revision history behaviour in group folders @Raudius 
+- Minor fixes to enable debugging @gokaysatir
+
 ## 4.2.6
 
 ### Fixed
