@@ -337,6 +337,11 @@ export default {
 		flex-direction: column;
 		background-color: var(--color-main-background);
 		transition: opacity .25s;
+
+		.viewer & {
+			height: 100vh;
+			top: -50px;
+		}
 	}
 
 	iframe {
