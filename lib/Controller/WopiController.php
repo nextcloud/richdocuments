@@ -23,6 +23,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Helper;
@@ -42,6 +43,11 @@ use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Lock\ILock;
+use OCP\Files\Lock\ILockManager;
+use OCP\Files\Lock\LockContext;
+use OCP\Files\Lock\NoLockProviderException;
+use OCP\Files\Lock\OwnerLockedException;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -52,6 +58,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
+use OCP\PreConditionNotMetException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerExceptionInterface;
@@ -86,6 +93,7 @@ class WopiController extends Controller {
 	private $encryptionManager;
 	/** @var IGroupManager */
 	private $groupManager;
+	private ILockManager $lockManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	const LOOL_STATUS_DOC_CHANGED = 1010;
@@ -126,7 +134,8 @@ class WopiController extends Controller {
 		UserScopeService $userScopeService,
 		FederationService $federationService,
 		IEncryptionManager $encryptionManager,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		ILockManager $lockManager
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -143,6 +152,7 @@ class WopiController extends Controller {
 		$this->federationService = $federationService;
 		$this->encryptionManager = $encryptionManager;
 		$this->groupManager = $groupManager;
+		$this->lockManager = $lockManager;
 	}
 
 	/**
@@ -212,6 +222,7 @@ class WopiController extends Controller {
 			'HideExportOption' => $wopi->getHideDownload(),
 			'HidePrintOption' => $wopi->getHideDownload(),
 			'DownloadAsPostMessage' => $wopi->getDirect(),
+			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 		];
 
 		if ($wopi->hasTemplateId()) {
@@ -508,7 +519,7 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 
 			try {
-				$this->retryOperation(function () use ($file, $content){
+				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content){
 					return $file->putContent($content);
 				});
 			} catch (LockedException $e) {
@@ -553,10 +564,36 @@ class WopiController extends Controller {
 	 * @return JSONResponse
 	 * @throws DoesNotExistException
 	 */
-	public function putRelativeFile($fileId,
-					$access_token) {
-		list($fileId, ,) = Helper::parseFileId($fileId);
-		$wopi = $this->wopiMapper->getWopiForToken($access_token);
+	public function postFile(string $fileId, string $access_token): JSONResponse {
+		try {
+			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
+			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
+			list($fileId, ,) = Helper::parseFileId($fileId);
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		} catch (DoesNotExistException $e) {
+			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'richdocuments']);
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		switch ($wopiOverride) {
+			case 'LOCK':
+				return $this->lock($wopi, $wopiLock);
+			case 'UNLOCK':
+				return $this->unlock($wopi, $wopiLock);
+			case 'REFRESH_LOCK':
+				return $this->refreshLock($wopi, $wopiLock);
+			case 'GET_LOCK':
+				return $this->getLock($wopi, $wopiLock);
+			case 'RENAME_FILE':
+				break; //FIXME: Move to function
+			default:
+				break; //FIXME: Move to function and add error for unsupported method
+		}
+
+
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		if (!$wopi->getCanwrite()) {
@@ -651,7 +688,7 @@ class WopiController extends Controller {
 			$this->userScopeService->setFilesystemScope($wopi->getEditorUid());
 
 			try {
-				$this->retryOperation(function () use ($file, $content){
+				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content){
 					return $file->putContent($content);
 				});
 			} catch (LockedException $e) {
@@ -669,6 +706,80 @@ class WopiController extends Controller {
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	private function lock(Wopi $wopi, string $lock): JSONResponse {
+		try {
+			$lock = $this->lockManager->lock(new LockContext(
+				$this->getFileForWopiToken($wopi),
+				ILock::TYPE_APP,
+				Application::APPNAME
+			));
+			return new JSONResponse();
+		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		} catch (OwnerLockedException $e) {
+			return new JSONResponse([], Http::STATUS_LOCKED);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+	private function unlock(Wopi $wopi, string $lock): JSONResponse {
+		try {
+			$this->lockManager->unlock(new LockContext(
+				$this->getFileForWopiToken($wopi),
+				ILock::TYPE_APP,
+				Application::APPNAME
+			));
+			return new JSONResponse();
+		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	private function refreshLock(Wopi $wopi, string $lock): JSONResponse {
+		try {
+			$lock = $this->lockManager->lock(new LockContext(
+				$this->getFileForWopiToken($wopi),
+				ILock::TYPE_APP,
+				Application::APPNAME
+			));
+			return new JSONResponse();
+		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		} catch (OwnerLockedException $e) {
+			return new JSONResponse([], Http::STATUS_LOCKED);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	private function getLock(Wopi $wopi, string $lock): JSONResponse {
+		$locks = $this->lockManager->getLocks($wopi->getFileid());
+		return new JSONResponse();
+	}
+
+	/**
+	 * @throws NotFoundException
+	 * @throws GenericFileException
+	 * @throws LockedException
+	 * @throws ShareNotFound
+	 */
+	protected function wrappedFilesystemOperation(Wopi $wopi, callable $filesystemOperation): void {
+		$retryOperation = function () use ($filesystemOperation) {
+			$this->retryOperation($filesystemOperation);
+		};
+		try {
+			$this->lockManager->runInScope(new LockContext(
+				$this->getFileForWopiToken($wopi),
+				ILock::TYPE_APP,
+				Application::APPNAME
+			), $retryOperation);
+		} catch (NoLockProviderException $e) {
+			$retryOperation();
 		}
 	}
 
