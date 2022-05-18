@@ -33,6 +33,7 @@
 		"@nextcloud/moment": "^1.2.1",
 		"@nextcloud/router": "^1.2.0",
 		"@nextcloud/vue": "^5.3.1",
+		"jquery": "^3.6.0",
 		"vue": "^2.6.14"
 	},
 	"browserslist": [
