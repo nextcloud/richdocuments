@@ -1,7 +1,15 @@
 # Changelog
 
-## 6.0.0
+## 6.1.0
 
+### Added
+- Added support for file locking @juliushaertl [#2104](https://github.com/nextcloud/richdocuments/pull/2104)
+
+### Fixed
+- Optimised audit triggering @juliushaertl [#1957](https://github.com/nextcloud/richdocuments/pull/1957)
+- Fixed viewer styling @juliushaertl [#2221](https://github.com/nextcloud/richdocuments/pull/2221) [#2212](https://github.com/nextcloud/richdocuments/pull/2212)
+- Disabled remote image insertion on public links @juliushaertl [#2175](https://github.com/nextcloud/richdocuments/pull/2175)
+- Fixed file revision behaviour on group folders @Raudius [#2172](https://github.com/nextcloud/richdocuments/pull/2197)
 
 
 ## 6.0.0
