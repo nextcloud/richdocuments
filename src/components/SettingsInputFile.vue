@@ -68,7 +68,7 @@ export default {
 		mimetypes: {
 			type: Array,
 			default: () => ['*'],
-		}
+		},
 	},
 	data() {
 		return {

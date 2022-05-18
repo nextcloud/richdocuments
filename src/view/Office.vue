@@ -58,9 +58,9 @@
 					<ActionButton icon="icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
-			<iframe :style="{visibility: showIframe ? 'visible' : 'hidden' }"
-				id="collaboraframe"
+			<iframe id="collaboraframe"
 				ref="documentFrame"
+				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				:src="src" />
 		</div>
 	</transition>
