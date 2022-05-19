@@ -28,6 +28,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Utils;
 use JuliusHaertl\NextcloudBehat\Context\FilesContext;
 use JuliusHaertl\NextcloudBehat\Context\ServerContext;
 use PHPUnit\Framework\Assert;
@@ -92,7 +93,7 @@ class WopiContext implements Context {
 	 */
 	public function collaboraPuts($source)
 	{
-		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$file = Utils::streamFor(fopen($source, 'r'));
 		$client = new Client();
 		$options = [
 			'body' => $file,
@@ -276,7 +277,7 @@ class WopiContext implements Context {
 	 * @Given /^Collabora saves the content of "([^"]*)" as "([^"]*)"$/
 	 */
 	public function collaboraSavesTheFileAs($source, $newName) {
-		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$file = Utils::streamFor(fopen($source, 'r'));
 		$client = new Client();
 		$options = [
 			'body' => $file,
