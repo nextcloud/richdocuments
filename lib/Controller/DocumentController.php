@@ -11,7 +11,6 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use OCA\Richdocuments\Events\BeforeFederationRedirectEvent;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TokenManager;
 use \OCP\AppFramework\Controller;
@@ -361,53 +360,6 @@ class DocumentController extends Controller {
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 				$this->setupPolicy($response);
 				return $response;
-			}
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
-			return $this->renderErrorPage('Failed to open the requested file.');
-		}
-
-		return new TemplateResponse('core', '403', [], 'guest');
-	}
-
-	/**
-	 * Redirect to the files app with proper CSP headers set for federated editing
-	 * This is a workaround since we cannot set a nonce for allowing dynamic URLs in the richdocument iframe
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-	public function openRemoteFile($fileId) {
-		try {
-			$folder = $this->rootFolder->getUserFolder($this->uid);
-			$item = $folder->getById($fileId)[0];
-			if (!($item instanceof File)) {
-				throw new \Exception('Node is not a file');
-			}
-
-			if ($item->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
-				$remote = $item->getStorage()->getRemote();
-				$remoteCollabora = $this->federationService->getRemoteCollaboraURL($remote);
-				if ($remoteCollabora !== '') {
-					$absolute = $item->getParent()->getPath();
-					$relativeFolderPath = $folder->getRelativePath($absolute);
-					$relativeFilePath = $folder->getRelativePath($item->getPath());
-					$url = '/index.php/apps/files/?dir=' . $relativeFolderPath .
-						'&richdocuments_open=' . $relativeFilePath .
-						'&richdocuments_fileId=' . $fileId .
-						'&richdocuments_remote_access=' . $remote;
-
-					$event = new BeforeFederationRedirectEvent(
-						$item, $relativeFolderPath, $remote
-					);
-					$eventDispatcher = \OC::$server->getEventDispatcher();
-					$eventDispatcher->dispatch(BeforeFederationRedirectEvent::class, $event);
-					if ($event->getRedirectUrl()) {
-						$url = $event->getRedirectUrl();
-					}
-					return new RedirectResponse($url);
-				}
-				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
 			}
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
