@@ -26,10 +26,9 @@ namespace OCA\Richdocuments\AppInfo;
 
 use OC\EventDispatcher\SymfonyAdapter;
 use OC\Files\Type\Detection;
-use OC\Security\CSP\ContentSecurityPolicy;
-use OCA\Federation\TrustedServers;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Listener\CSPListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
@@ -38,7 +37,6 @@ use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\CapabilitiesService;
-use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
@@ -52,6 +50,7 @@ use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
+use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 
 class Application extends App implements IBootstrap {
 
@@ -59,7 +58,6 @@ class Application extends App implements IBootstrap {
 
 	public function __construct(array $urlParams = array()) {
 		parent::__construct(self::APPNAME, $urlParams);
-		$this->getContainer()->registerCapability(Capabilities::class);
 	}
 
 
@@ -67,6 +65,7 @@ class Application extends App implements IBootstrap {
 		$context->registerTemplateProvider(CollaboraTemplateProvider::class);
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleWare(WOPIMiddleware::class);
+		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -152,7 +151,6 @@ class Application extends App implements IBootstrap {
 			}
 
 			$this->registerProvider();
-			$this->updateCSP();
 			$this->checkAndEnableCODEServer();
 		});
 	}
@@ -194,85 +192,6 @@ class Application extends App implements IBootstrap {
 		});
 	}
 
-	public function updateCSP() {
-		$container = $this->getContainer();
-
-		// Do not apply CSP rules on WebDAV/OCS
-		// Ideally this could be a middleware running after the controller execution before rendering the result to only do it on page response
-		$scriptNameParts = explode('/', $container->getServer()->getRequest()->getScriptName());
-		$scriptFile = end($scriptNameParts);
-		if ($scriptFile !== 'index.php') {
-			return;
-		}
-
-		$publicWopiUrl = $container->getServer()->getConfig()->getAppValue('richdocuments', 'public_wopi_url', '');
-		$publicWopiUrl = $publicWopiUrl === '' ? \OC::$server->getConfig()->getAppValue('richdocuments', 'wopi_url') : $publicWopiUrl;
-		$cspManager = $container->getServer()->getContentSecurityPolicyManager();
-		$policy = new ContentSecurityPolicy();
-		if ($publicWopiUrl !== '') {
-			$policy->addAllowedFrameDomain('\'self\'');
-			$policy->addAllowedFrameDomain($this->domainOnly($publicWopiUrl));
-			$policy->addAllowedFormActionDomain($this->domainOnly($publicWopiUrl));
-		}
-
-		/**
-		 * Dynamically add federated instances to the CSP whitelist
-		 */
-
-		// Do not operate if in a GS context
-		/** @var \OCP\GlobalScale\IConfig $globalScale */
-		$globalScale = $container->query(\OCP\GlobalScale\IConfig::class);
-		if (!$globalScale->isGlobalScaleEnabled()) {
-			/** @var TrustedServers $TrustedServers */
-			$TrustedServers = $container->query(\OCA\Federation\TrustedServers::class);
-			$federatedServers = $TrustedServers->getServers();
-			foreach ($federatedServers as $server) {
-				$policy->addAllowedFrameDomain($server['url']);
-				$this->addTrustedRemote($policy, $server['url']);
-			}
-		}
-
-		/**
-		 * Dynamically add CSP for federated editing
-		 */
-		if ($container->getServer()->getAppManager()->isEnabledForUser('federation')) {
-			/** @var FederationService $federationService */
-			$federationService = \OC::$server->query(FederationService::class);
-
-			// Always add trusted servers on global scale
-			/** @var \OCP\GlobalScale\IConfig $globalScale */
-			$globalScale = $container->query(\OCP\GlobalScale\IConfig::class);
-			if ($globalScale->isGlobalScaleEnabled()) {
-				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
-				foreach ($trustedList as $server) {
-					$policy->addAllowedFrameDomain($server);
-					$this->addTrustedRemote($policy, $server);
-					$policy->addAllowedFormActionDomain($server);
-				}
-			}
-			$remoteAccess = $container->getServer()->getRequest()->getParam('richdocuments_remote_access');
-
-			if ($remoteAccess && $federationService->isTrustedRemote($remoteAccess)) {
-				$this->addTrustedRemote($policy, $remoteAccess);
-			}
-		}
-
-		$cspManager->addDefaultPolicy($policy);
-	}
-
-	private function addTrustedRemote($policy, $url) {
-		$federationService = \OC::$server->get(FederationService::class);
-		try {
-			$remoteCollabora = $federationService->getRemoteCollaboraURL($url);
-			$policy->addAllowedFrameDomain($url);
-			$policy->addAllowedFrameDomain($remoteCollabora);
-		} catch (\Exception $e) {
-			// We can ignore this exception for adding predefined domains to the CSP as it it would then just
-			// reload the page to set a proper allowed frame domain if we don't have a fixed list of trusted
-			// remotes in a global scale scenario
-		}
-	}
-
 	public function checkAndEnableCODEServer() {
 		// Supported only on Linux OS, and x86_64 & ARM64 platforms
 		$supportedArchs = array('x86_64', 'aarch64');
@@ -312,19 +231,5 @@ class Application extends App implements IBootstrap {
 			$capabilitiesService->clear();
 			$capabilitiesService->refetch();
 		}
-	}
-
-	/**
-	 * Strips the path and query parameters from the URL.
-	 *
-	 * @param string $url
-	 * @return string
-	 */
-	private function domainOnly($url) {
-		$parsed_url = parse_url($url);
-		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-		$host	= isset($parsed_url['host']) ? $parsed_url['host'] : '';
-		$port	= isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
-		return "$scheme$host$port";
 	}
 }
