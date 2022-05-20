@@ -29,8 +29,6 @@ use \OCP\IRequest;
 use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\ILogger;
-use \OCP\AppFramework\Http\ContentSecurityPolicy;
-use \OCP\AppFramework\Http\FeaturePolicy;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCA\Richdocuments\AppConfig;
 use \OCA\Richdocuments\Helper;
@@ -40,6 +38,8 @@ use OCP\Share\IManager;
 use OC\Files\Type\TemplateManager;
 
 class DocumentController extends Controller {
+	use DocumentTrait;
+
 	/** @var string */
 	private $uid;
 	/** @var IL10N */
@@ -157,37 +157,6 @@ class DocumentController extends Controller {
 	}
 
 	/**
-	 * Strips the path and query parameters from the URL.
-	 *
-	 * @param string $url
-	 * @return string
-	 */
-	private function domainOnly($url) {
-		$parsed_url = parse_url($url);
-		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-		$host   = isset($parsed_url['host']) ? $parsed_url['host'] : '';
-		$port   = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
-		return "$scheme$host$port";
-	}
-
-	/**
-	 * Setup policy headers for the response
-	 */
-	private function setupPolicy($response) {
-		$wopiDomain = $this->domainOnly($this->appConfig->getAppValue('public_wopi_url'));
-
-		$policy = new ContentSecurityPolicy();
-		$policy->addAllowedFrameDomain($wopiDomain);
-		$policy->allowInlineScript(true);
-		$policy->addAllowedFormActionDomain($wopiDomain);
-		$response->setContentSecurityPolicy($policy);
-
-		$featurePolicy = new FeaturePolicy();
-		$featurePolicy->addAllowedFullScreenDomain($wopiDomain);
-		$response->setFeaturePolicy($featurePolicy);
-	}
-
-	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $fileId
@@ -244,7 +213,7 @@ class DocumentController extends Controller {
 			}
 
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-			$this->setupPolicy($response);
+			$this->applyPolicies($response);
 			return $response;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app'=>'richdocuments']);
@@ -301,7 +270,7 @@ class DocumentController extends Controller {
 		];
 
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-		$this->setupPolicy($response);
+		$this->applyPolicies($response);
 		return $response;
 	}
 
@@ -358,7 +327,7 @@ class DocumentController extends Controller {
 				$params['urlsrc'] = $urlSrc;
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-				$this->setupPolicy($response);
+				$this->applyPolicies($response);
 				return $response;
 			}
 		} catch (\Exception $e) {
@@ -429,16 +398,7 @@ class DocumentController extends Controller {
 				];
 
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-				$remoteWopi = $this->domainOnly($this->appConfig->getAppValue('wopi_url'));
-				$policy = new ContentSecurityPolicy();
-				$policy->addAllowedFrameDomain($remoteWopi);
-				$policy->allowInlineScript(true);
-				$policy->addAllowedFrameAncestorDomain('https://*');
-				$response->setContentSecurityPolicy($policy);
-				$featurePolicy = new FeaturePolicy();
-				$featurePolicy->addAllowedFullScreenDomain($remoteWopi);
-				$response->setFeaturePolicy($featurePolicy);
-				$response->addHeader('X-Frame-Options', 'ALLOW');
+				$this->applyPolicies($response);
 				return $response;
 			}
 		} catch (ShareNotFound $e) {
