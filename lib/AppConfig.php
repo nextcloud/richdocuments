@@ -134,5 +134,4 @@ class AppConfig {
 	public function getCollaboraUrlInternal(): string {
 		return $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
 	}
-
- }
+}
