@@ -21,18 +21,14 @@
 
 namespace OCA\Richdocuments;
 
-use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\Parser;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\Constants;
 use OCP\Files\File;
-use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IGroupManager;
@@ -41,7 +37,6 @@ use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\IL10N;
-use OCP\Share\IShare;
 use OCP\Util;
 
 class TokenManager {
@@ -122,7 +117,7 @@ class TokenManager {
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
 			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
-		} else if ($this->userId !== null) {
+		} elseif ($this->userId !== null) {
 			try {
 				$editoruid = $this->userId;
 				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
@@ -176,7 +171,6 @@ class TokenManager {
 					}
 				}
 			}
-
 		}
 		/** @var File $file */
 		$file = $rootFolder->getById($fileId)[0];
@@ -263,7 +257,7 @@ class TokenManager {
 		$editorUser = $this->userManager->get($editoruid);
 		if ($updatable && count($editGroups) > 0 && $editorUser) {
 			$updatable = false;
-			foreach($editGroups as $editGroup) {
+			foreach ($editGroups as $editGroup) {
 				$editorGroup = $this->groupManager->get($editGroup);
 				if ($editorGroup !== null && $editorGroup->inGroup($editorUser)) {
 					$updatable = true;
@@ -335,5 +329,4 @@ class TokenManager {
 		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
 		$this->wopiMapper->update($wopi);
 	}
-
 }

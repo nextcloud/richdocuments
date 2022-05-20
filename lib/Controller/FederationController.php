@@ -25,7 +25,6 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\TokenExpiredException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -63,7 +62,7 @@ class FederationController extends OCSController {
 		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
-		$this->config   = $config;
+		$this->config = $config;
 		$this->logger = $logger;
 		$this->wopiMapper = $wopiMapper;
 		$this->userManager = $userManager;
@@ -110,7 +109,7 @@ class FederationController extends OCSController {
 				$initiatorWopi->setGuestDisplayname($initiatorUser['displayName']);
 			} else {
 				$user = $this->userManager->get($initiatorWopi->getEditorUid());
-				if($user !== null) {
+				if ($user !== null) {
 					$initiatorWopi->setGuestDisplayname($user->getDisplayName());
 				}
 			}
@@ -142,7 +141,7 @@ class FederationController extends OCSController {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
 			$user = $this->userManager->get($wopi->getEditorUid());
-			if($user !== null) {
+			if ($user !== null) {
 				$wopi->setGuestDisplayname($user->getDisplayName());
 			}
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . ' returned');
@@ -159,5 +158,4 @@ class FederationController extends OCSController {
 			throw new OCSNotFoundException();
 		}
 	}
-
 }

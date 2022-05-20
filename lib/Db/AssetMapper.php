@@ -31,7 +31,7 @@ use OCP\Security\ISecureRandom;
 
 class AssetMapper extends Mapper {
 	/** @var int Limetime of a token is 10 minutes */
-	const tokenLifeTime = 600;
+	public const tokenLifeTime = 600;
 
 	/** @var ISecureRandom */
 	private $random;

@@ -15,7 +15,6 @@ use OCA\Richdocuments\AppInfo\Application;
 use \OCP\IConfig;
 
 class AppConfig {
-
 	public const FEDERATION_USE_TRUSTED_DOMAINS = 'federation_use_trusted_domains';
 
 	public const SYSTEM_GS_TRUSTED_HOSTS = 'gs.trustedHosts';
@@ -30,13 +29,13 @@ class AppConfig {
 		'token_ttl' => 36000, // 10 hours
 	];
 
-	const WATERMARK_APP_NAMESPACE = 'files';
+	public const WATERMARK_APP_NAMESPACE = 'files';
 
-	const APP_SETTING_TYPES = [
-			'watermark_allGroupsList' => 'array',
-			'watermark_allTagsList' => 'array',
-			'watermark_linkTagsList' => 'array'
-		];
+	public const APP_SETTING_TYPES = [
+		'watermark_allGroupsList' => 'array',
+		'watermark_allTagsList' => 'array',
+		'watermark_linkTagsList' => 'array'
+	];
 
 	/** @var IConfig */
 	private $config;
@@ -59,7 +58,7 @@ class AppConfig {
 	 */
 	public function getAppValue($key) {
 		$defaultValue = null;
-		if (array_key_exists($key, $this->defaults)){
+		if (array_key_exists($key, $this->defaults)) {
 			$defaultValue = $this->defaults[$key];
 		}
 		return $this->config->getAppValue($this->getAppNamespace($key), $key, $defaultValue);
@@ -124,5 +123,4 @@ class AppConfig {
 	public function isTrustedDomainAllowedForFederation(): bool {
 		return $this->config->getAppValue(Application::APPNAME, self::FEDERATION_USE_TRUSTED_DOMAINS, 'no') === 'yes';
 	}
-
- }
+}

@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Behat\Behat\Context\Context;
@@ -9,8 +10,7 @@ use JuliusHaertl\NextcloudBehat\Context\ServerContext;
 use JuliusHaertl\NextcloudBehat\Context\SharingContext;
 use PHPUnit\Framework\Assert;
 
-class RichDocumentsContext implements Context
-{
+class RichDocumentsContext implements Context {
 
 	/** @var ServerContext */
 	private $serverContext;
@@ -41,8 +41,7 @@ class RichDocumentsContext implements Context
 	/**
 	 * @When User :user opens :file
 	 */
-	public function userOpens($user, $file)
-	{
+	public function userOpens($user, $file) {
 		$this->serverContext->usingWebAsUser($user);
 		$davClient = $this->filesContext->getSabreClient($user);
 		$path = $this->filesContext->makeSabrePath($user, $file);
@@ -78,24 +77,21 @@ class RichDocumentsContext implements Context
 	/**
 	 * @Then a guest opens the share link
 	 */
-	public function aGuestOpensTheShareLink()
-	{
+	public function aGuestOpensTheShareLink() {
 		$this->aGuestOpensTheShareLinkAs();
 	}
 
 	/**
 	 * @Then a guest opens the share link as :guestName
 	 */
-	public function aGuestOpensTheShareLinkAs($guestName = null)
-	{
+	public function aGuestOpensTheShareLinkAs($guestName = null) {
 		$this->openTheShareLink(null, $guestName);
 	}
 
 	/**
 	 * @Then the user opens the share link
 	 */
-	public function aUserOpensTheShareLink()
-	{
+	public function aUserOpensTheShareLink() {
 		$this->openTheShareLink($this->serverContext->getAuth()[0], null);
 	}
 

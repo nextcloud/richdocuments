@@ -12,7 +12,9 @@
 		"roave/security-advisories": "dev-master",
 		"christophwurst/nextcloud": "dev-master",
 		"jakub-onderka/php-parallel-lint": "^1.0.0",
-		"psalm/phar": "^4.7"
+		"psalm/phar": "^4.7",
+		"friendsofphp/php-cs-fixer": "^3.8",
+		"nextcloud/coding-standard": "^1.0"
 	},
 	"license": "AGPLv3",
 	"authors": [
@@ -24,6 +26,8 @@
 	"scripts": {
 		"lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
 		"psalm": "psalm.phar",
-		"psalm:fix": "psalm.phar --alter --issues=InvalidReturnType,InvalidNullableReturnType,MismatchingDocblockParamType,MismatchingDocblockReturnType,MissingParamType,InvalidFalsableReturnType"
+		"psalm:fix": "psalm.phar --alter --issues=InvalidReturnType,InvalidNullableReturnType,MismatchingDocblockParamType,MismatchingDocblockReturnType,MissingParamType,InvalidFalsableReturnType",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"cs:fix": "php-cs-fixer fix"
 	}
 }

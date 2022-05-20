@@ -36,10 +36,10 @@ class Helper {
 			$fileId = $arr[0];
 			$instanceId = '';
 			$version = '0';
-		} else if (count($arr) === 2) {
+		} elseif (count($arr) === 2) {
 			list($fileId, $instanceId) = $arr;
 			$version = '0';
-		} else if (count($arr) === 3) {
+		} elseif (count($arr) === 3) {
 			list($fileId, $instanceId, $version) = $arr;
 		} else {
 			throw new \Exception('$fileId has not the expected format');
@@ -61,12 +61,12 @@ class Helper {
 	 * WOPI helper function to convert to ISO 8601 round-trip format.
 	 * @param integer $time Must be seconds since unix epoch
 	 */
-	public static function toISO8601($time)
-	{
+	public static function toISO8601($time) {
 		// TODO: Be more precise and don't ignore milli, micro seconds ?
 		$datetime = DateTime::createFromFormat('U', $time, new DateTimeZone('UTC'));
-		if ($datetime)
+		if ($datetime) {
 			return $datetime->format('Y-m-d\TH:i:s.u\Z');
+		}
 
 		return false;
 	}
@@ -88,5 +88,4 @@ class Helper {
 		}
 		return $_COOKIE['guestUser'];
 	}
-
 }

@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
-
 use OCA\Richdocuments\TemplateManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;

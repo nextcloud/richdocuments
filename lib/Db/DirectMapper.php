@@ -28,12 +28,11 @@ use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class DirectMapper extends Mapper {
 
 	/** @var int Limetime of a token is 10 minutes */
-	const tokenLifeTime = 600;
+	public const tokenLifeTime = 600;
 
 	/** @var ISecureRandom */
 	protected $random;

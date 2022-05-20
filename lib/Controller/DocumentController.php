@@ -27,7 +27,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use \OCP\IRequest;
 use \OCP\IConfig;
-use \OCP\IL10N;
 use \OCP\ILogger;
 use \OCP\AppFramework\Http\ContentSecurityPolicy;
 use \OCP\AppFramework\Http\FeaturePolicy;
@@ -105,7 +104,7 @@ class DocumentController extends Controller {
 	public function extAppGetData($fileId) {
 		$secretToken = $this->request->getParam('secret_token');
 		$apps = array_filter(explode(',', $this->appConfig->getAppValue('external_apps')));
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			if ($app !== '' && $secretToken === $app) {
 				$appName = explode(':', $app);
 				$this->logger->debug('External app "{extApp}" authenticated; issuing access token for fileId {fileId}', [
@@ -116,7 +115,7 @@ class DocumentController extends Controller {
 				try {
 					$folder = $this->rootFolder->getUserFolder($this->uid);
 					$item = $folder->getById($fileId)[0];
-					if(!($item instanceof Node)) {
+					if (!($item instanceof Node)) {
 						throw new \Exception();
 					}
 					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
@@ -126,7 +125,7 @@ class DocumentController extends Controller {
 						'token' => $token
 					];
 				} catch (\Exception $e) {
-					$this->logger->logException($e, ['app'=>'richdocuments']);
+					$this->logger->logException($e, ['app' => 'richdocuments']);
 				}
 			}
 		}
@@ -145,8 +144,8 @@ class DocumentController extends Controller {
 	private function domainOnly($url) {
 		$parsed_url = parse_url($url);
 		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-		$host   = isset($parsed_url['host']) ? $parsed_url['host'] : '';
-		$port   = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		$host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+		$port = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
 		return "$scheme$host$port";
 	}
 
@@ -184,7 +183,7 @@ class DocumentController extends Controller {
 				$item = $folder->getById($fileId)[0];
 			}
 
-			if(!($item instanceof File)) {
+			if (!($item instanceof File)) {
 				throw new \Exception();
 			}
 
@@ -221,8 +220,7 @@ class DocumentController extends Controller {
 			];
 
 			$encryptionManager = \OC::$server->getEncryptionManager();
-			if ($encryptionManager->isEnabled())
-			{
+			if ($encryptionManager->isEnabled()) {
 				// Update the current file to be accessible with system public shared key
 				$owner = $item->getOwner()->getUID();
 				$absPath = '/' . $owner . '/' .  $item->getInternalPath();
@@ -236,7 +234,7 @@ class DocumentController extends Controller {
 			$this->setupPolicy($response);
 			return $response;
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
@@ -309,7 +307,7 @@ class DocumentController extends Controller {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
-			if($share->getPassword()){
+			if ($share->getPassword()) {
 				if (!$this->session->exists('public_link_authenticated')
 					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
 				) {
@@ -322,7 +320,7 @@ class DocumentController extends Controller {
 			}
 
 			$node = $share->getNode();
-			if($node instanceof Folder) {
+			if ($node instanceof Folder) {
 				$item = $node->getById($fileId)[0];
 			} else {
 				$item = $node;
@@ -355,7 +353,7 @@ class DocumentController extends Controller {
 				return $response;
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 
@@ -402,7 +400,7 @@ class DocumentController extends Controller {
 				$this->logger->warning('Failed to connect to remote collabora instance for ' . $fileId);
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 
@@ -425,7 +423,7 @@ class DocumentController extends Controller {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
-			if($share->getPassword()){
+			if ($share->getPassword()) {
 				if (!$this->session->exists('public_link_authenticated')
 					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
 				) {
@@ -486,7 +484,7 @@ class DocumentController extends Controller {
 		} catch (ShareNotFound $e) {
 			return new TemplateResponse('core', '404', [], 'guest');
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 

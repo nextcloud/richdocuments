@@ -23,7 +23,6 @@
 
 namespace OCA\Richdocuments\Service;
 
-
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;

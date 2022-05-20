@@ -212,5 +212,4 @@ class DirectContext implements Context {
 		}
 		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/share', $data, $options);
 	}
-
 }

@@ -57,7 +57,5 @@ class Parser {
 		}
 
 		throw new \Exception('Could not find urlsrc in WOPI');
-
 	}
-
 }

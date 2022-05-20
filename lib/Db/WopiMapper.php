@@ -139,7 +139,6 @@ class WopiMapper extends Mapper {
 	 * @throws ExpiredTokenException
 	 */
 	public function getWopiForToken($token) {
-
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('richdocuments_wopi')
@@ -161,7 +160,7 @@ class WopiMapper extends Mapper {
 		/** @var Wopi $wopi */
 		$wopi = Wopi::fromRow($row);
 
-		if ($wopi->getExpiry() < $this->timeFactory->getTime()){
+		if ($wopi->getExpiry() < $this->timeFactory->getTime()) {
 			throw new ExpiredTokenException('Provided token is expired.');
 		}
 

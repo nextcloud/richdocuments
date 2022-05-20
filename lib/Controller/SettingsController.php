@@ -11,7 +11,6 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use Exception;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\FontService;
@@ -35,7 +34,7 @@ use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 
-class SettingsController extends Controller{
+class SettingsController extends Controller {
 	// TODO adapt overview generation if we add more font mimetypes
 	public const FONT_MIME_TYPES = [
 		'font/ttf',
@@ -148,20 +147,20 @@ class SettingsController extends Controller{
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
-	                            $wopi_allowlist,
-	                            $disable_certificate_verification,
-	                            $edit_groups,
-	                            $use_groups,
-	                            $doc_format,
-	                            $external_apps,
-	                            $canonical_webroot) {
+								$wopi_allowlist,
+								$disable_certificate_verification,
+								$edit_groups,
+								$use_groups,
+								$doc_format,
+								$external_apps,
+								$canonical_webroot) {
 		$message = $this->l10n->t('Saved');
 
-		if ($wopi_url !== null){
+		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
 		}
 
-		if ($wopi_allowlist !== null){
+		if ($wopi_allowlist !== null) {
 			$this->appConfig->setAppValue('wopi_allowlist', $wopi_allowlist);
 		}
 
@@ -172,11 +171,11 @@ class SettingsController extends Controller{
 			);
 		}
 
-		if ($edit_groups !== null){
+		if ($edit_groups !== null) {
 			$this->appConfig->setAppValue('edit_groups', $edit_groups);
 		}
 
-		if ($use_groups !== null){
+		if ($use_groups !== null) {
 			$this->appConfig->setAppValue('use_groups', $use_groups);
 		}
 
@@ -201,12 +200,12 @@ class SettingsController extends Controller{
 				if ($public_wopi_url !== null) {
 					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
 					$colon = strpos($public_wopi_url, ':', 0);
-					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)){
+					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)) {
 						$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
 					}
 				}
 			}
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			if ($wopi_url !== null) {
 				return new JSONResponse([
 					'status' => 'error',
@@ -289,7 +288,7 @@ class SettingsController extends Controller{
 		$message = $this->l10n->t('Saved');
 		$status = 'success';
 
-		if ($templateFolder !== null){
+		if ($templateFolder !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'templateFolder', $templateFolder);
 			} catch (PreConditionNotMetException $e) {
@@ -304,7 +303,6 @@ class SettingsController extends Controller{
 		];
 
 		return new JSONResponse($response);
-
 	}
 
 	/**
@@ -381,7 +379,7 @@ class SettingsController extends Controller{
 		} catch (NotFoundException $e) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
 		}
-}
+	}
 
 	/**
 	 * @NoAdminRequired
