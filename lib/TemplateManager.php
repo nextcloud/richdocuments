@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types = 1);
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -66,43 +67,43 @@ class TemplateManager {
 	private $logger;
 
 	/** Accepted templates mime types */
-	const MIMES_DOCUMENTS = [
+	public const MIMES_DOCUMENTS = [
 		'application/vnd.oasis.opendocument.text-template',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 		'application/msword'
 	];
-	const MIMES_SHEETS = [
+	public const MIMES_SHEETS = [
 		'application/vnd.oasis.opendocument.spreadsheet-template',
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
 		'application/vnd.ms-excel'
 	];
-	const MIMES_PRESENTATIONS = [
+	public const MIMES_PRESENTATIONS = [
 		'application/vnd.oasis.opendocument.presentation-template',
 		'application/vnd.openxmlformats-officedocument.presentationml.template',
 		'application/vnd.ms-powerpoint'
 	];
-	const MIMES_DRAWINGS = [
+	public const MIMES_DRAWINGS = [
 		'application/vnd.oasis.opendocument.graphics-template',
 	];
 
 	/** @var array Template mime types match */
-	static public $tplTypes = [
-		'document'     => self::MIMES_DOCUMENTS,
-		'spreadsheet'  => self::MIMES_SHEETS,
+	public static $tplTypes = [
+		'document' => self::MIMES_DOCUMENTS,
+		'spreadsheet' => self::MIMES_SHEETS,
 		'presentation' => self::MIMES_PRESENTATIONS,
-		'drawing'      => self::MIMES_DRAWINGS,
+		'drawing' => self::MIMES_DRAWINGS,
 	];
 
-	const TYPE_EXTENTION = [
-		'document'     => 'odt',
-		'spreadsheet'  => 'ods',
+	public const TYPE_EXTENTION = [
+		'document' => 'odt',
+		'spreadsheet' => 'ods',
 		'presentation' => 'odp',
-		'drawing'      => 'odg',
+		'drawing' => 'odg',
 	];
 
-	const TYPE_EXTENSION_OOXML = [
-		'document'     => 'docx',
-		'spreadsheet'  => 'xlsx',
+	public const TYPE_EXTENSION_OOXML = [
+		'document' => 'docx',
+		'spreadsheet' => 'xlsx',
 		'presentation' => 'pptx',
 	];
 
@@ -272,11 +273,11 @@ class TemplateManager {
 		$empty = $this->getEmpty($type);
 		$system = $this->getSystem($type);
 
-		$emptyFormatted = array_map(function(File $file) {
+		$emptyFormatted = array_map(function (File $file) {
 			return $this->formatEmpty($file);
 		}, $empty);
 
-		$systemFormatted = array_map(function(File $file) {
+		$systemFormatted = array_map(function (File $file) {
 			return $this->formatNodeReturn($file);
 		}, $system);
 
@@ -290,11 +291,11 @@ class TemplateManager {
 	 */
 	public function getUser($type = null) {
 		try {
-			$templateDir   = $this->getUserTemplateDir();
+			$templateDir = $this->getUserTemplateDir();
 			$templateFiles = $templateDir->getDirectoryListing();
 
 			return $this->filterTemplates($templateFiles, $type);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return [];
 		}
 	}
@@ -305,7 +306,7 @@ class TemplateManager {
 	public function getUserFormatted($type) {
 		$templates = $this->getUser($type);
 
-		return array_map(function(File $file) {
+		return array_map(function (File $file) {
 			return $this->formatNodeReturn($file);
 		}, $templates);
 	}
@@ -317,7 +318,7 @@ class TemplateManager {
 	 */
 	public function getAll($type = 'document') {
 		$system = $this->getSystem();
-		$user   = $this->getUser();
+		$user = $this->getUser();
 
 		if (!array_key_exists($type, self::$tplTypes)) {
 			return [];
@@ -339,7 +340,7 @@ class TemplateManager {
 		}
 
 		$system = $this->getSystemFormatted($type);
-		$user   = $this->getUserFormatted($type);
+		$user = $this->getUserFormatted($type);
 
 		return array_merge($system, $user);
 	}
@@ -458,11 +459,11 @@ class TemplateManager {
 		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
-			'id'        => $template->getId(),
-			'name'      => $template->getName(),
-			'preview'   => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
-			'type'      => $this->flipTypes()[$template->getMimeType()],
-			'delete'    => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
+			'id' => $template->getId(),
+			'name' => $template->getName(),
+			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
+			'type' => $this->flipTypes()[$template->getMimeType()],
+			'delete' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
 			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}
@@ -487,9 +488,9 @@ class TemplateManager {
 		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
-			'id'        => $template->getId(),
-			'name'      => $this->l->t('Empty'),
-			'type'      => $this->flipTypes()[$template->getMimeType()],
+			'id' => $template->getId(),
+			'name' => $this->l->t('Empty'),
+			'type' => $this->flipTypes()[$template->getMimeType()],
 			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
 		];
 	}

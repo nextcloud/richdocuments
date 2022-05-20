@@ -66,7 +66,7 @@ class Admin implements ISettings {
 		FontService 		$fontService,
 		InitialStateService $initialStateService
 	) {
-		$this->config  = $config;
+		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->manager = $manager;
 		$this->capabilitiesService = $capabilitiesService;
@@ -82,15 +82,15 @@ class Admin implements ISettings {
 			'admin',
 			[
 				'settings' => [
-					'wopi_url'           => $this->config->getAppValue('richdocuments', 'wopi_url'),
-					'wopi_allowlist'     => $this->config->getAppValue('richdocuments', 'wopi_allowlist'),
-					'edit_groups'        => $this->config->getAppValue('richdocuments', 'edit_groups'),
-					'use_groups'         => $this->config->getAppValue('richdocuments', 'use_groups'),
-					'doc_format'         => $this->config->getAppValue('richdocuments', 'doc_format'),
-					'external_apps'      => $this->config->getAppValue('richdocuments', 'external_apps'),
-					'canonical_webroot'  => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
+					'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url'),
+					'wopi_allowlist' => $this->config->getAppValue('richdocuments', 'wopi_allowlist'),
+					'edit_groups' => $this->config->getAppValue('richdocuments', 'edit_groups'),
+					'use_groups' => $this->config->getAppValue('richdocuments', 'use_groups'),
+					'doc_format' => $this->config->getAppValue('richdocuments', 'doc_format'),
+					'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
+					'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 					'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === 'yes',
-					'templates'          => $this->manager->getSystemFormatted(),
+					'templates' => $this->manager->getSystemFormatted(),
 					'templatesAvailable' => $this->capabilitiesService->hasTemplateSaveAs() || $this->capabilitiesService->hasTemplateSource(),
 					'settings' => $this->appConfig->getAppSettings(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
@@ -111,5 +111,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 0;
 	}
-
 }

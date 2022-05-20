@@ -40,7 +40,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class DocumentAPIController extends \OCP\AppFramework\OCSController {
-
 	private $rootFolder;
 	private $shareManager;
 	private $templateManager;

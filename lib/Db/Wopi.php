@@ -66,27 +66,27 @@ class Wopi extends Entity implements \JsonSerializable {
 	/**
 	 * WOPI token to open a file as a user on the current instance
 	 */
-	const TOKEN_TYPE_USER = 0;
+	public const TOKEN_TYPE_USER = 0;
 
 	/**
 	 * WOPI token to open a file as a guest on the current instance
 	 */
-	const TOKEN_TYPE_GUEST = 1;
+	public const TOKEN_TYPE_GUEST = 1;
 
 	/**
 	 * WOPI token to open a file as a user from a federated instance
 	 */
-	const TOKEN_TYPE_REMOTE_USER = 2;
+	public const TOKEN_TYPE_REMOTE_USER = 2;
 
 	/**
 	 * WOPI token to open a file as a guest from a federated instance
 	 */
-	const TOKEN_TYPE_REMOTE_GUEST = 3;
+	public const TOKEN_TYPE_REMOTE_GUEST = 3;
 
 	/*
 	 * Temporary token that is used to share the initiator details to the source instance
 	 */
-	const TOKEN_TYPE_INITIATOR = 4;
+	public const TOKEN_TYPE_INITIATOR = 4;
 
 	/** @var string */
 	protected $ownerUid;

@@ -98,9 +98,9 @@ class WopiController extends Controller {
 	private ILockManager $lockManager;
 
 	// Signifies LOOL that document has been changed externally in this storage
-	const LOOL_STATUS_DOC_CHANGED = 1010;
+	public const LOOL_STATUS_DOC_CHANGED = 1010;
 
-	const WOPI_AVATAR_SIZE = 32;
+	public const WOPI_AVATAR_SIZE = 32;
 
 	/**
 	 * @param string $appName
@@ -172,7 +172,6 @@ class WopiController extends Controller {
 	 */
 	public function checkFileInfo($fileId, $access_token) {
 		try {
-
 			list($fileId, , $version) = Helper::parseFileId($fileId);
 
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
@@ -182,7 +181,7 @@ class WopiController extends Controller {
 			} else {
 				$file = $this->getFileForWopiToken($wopi);
 			}
-			if(!($file instanceof File)) {
+			if (!($file instanceof File)) {
 				throw new NotFoundException('No valid file found for ' . $fileId);
 			}
 		} catch (NotFoundException $e) {
@@ -257,10 +256,10 @@ class WopiController extends Controller {
 		}
 
 		$user = $this->userManager->get($wopi->getEditorUid());
-		if($user !== null) {
+		if ($user !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => self::WOPI_AVATAR_SIZE]);
 			if ($this->groupManager->isAdmin($wopi->getEditorUid())) {
-			   $response['UserExtraInfo']['is_admin'] = true;
+				$response['UserExtraInfo']['is_admin'] = true;
 			}
 		} else {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => urlencode($wopi->getGuestDisplayname()), 'size' => self::WOPI_AVATAR_SIZE]);
@@ -428,8 +427,7 @@ class WopiController extends Controller {
 				} else {
 					$response = new StreamResponse($info->fopen('rb'));
 				}
-			}
-			else {
+			} else {
 				if ($file->getSize() === 0) {
 					$response = new Http\Response();
 				} else {
@@ -461,7 +459,7 @@ class WopiController extends Controller {
 	 */
 	public function putFile($fileId,
 							$access_token) {
-		list($fileId, ,) = Helper::parseFileId($fileId);
+		list($fileId, , ) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
 		try {
@@ -505,11 +503,9 @@ class WopiController extends Controller {
 
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				}
-				else if ($suggested[0] !== '/') {
+				} elseif ($suggested[0] !== '/') {
 					$path = dirname($file->getPath()) . '/' . $suggested;
-				}
-				else {
+				} else {
 					$path = $userFolder->getPath() . $suggested;
 				}
 
@@ -546,7 +542,7 @@ class WopiController extends Controller {
 			$content = fopen('php://input', 'rb');
 
 			try {
-				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content){
+				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content) {
 					return $file->putContent($content);
 				});
 			} catch (LockedException $e) {
@@ -595,7 +591,7 @@ class WopiController extends Controller {
 		try {
 			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
 			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
-			list($fileId, ,) = Helper::parseFileId($fileId);
+			list($fileId, , ) = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
@@ -643,7 +639,7 @@ class WopiController extends Controller {
 			if ($wopi->isTemplateToken()) {
 				$this->templateManager->setUserId($wopi->getOwnerUid());
 				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
-			} else if ($isRenameFile) {
+			} elseif ($isRenameFile) {
 				// the new file needs to be installed in the current user dir
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
 				$file = $userFolder->getById($fileId)[0];
@@ -654,11 +650,9 @@ class WopiController extends Controller {
 
 				if (strpos($suggested, '.') === 0) {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				}
-				else if (strpos($suggested, '/') !== 0) {
+				} elseif (strpos($suggested, '/') !== 0) {
 					$path = dirname($file->getPath()) . '/' . $suggested;
-				}
-				else {
+				} else {
 					$path = $userFolder->getPath() . $suggested;
 				}
 
@@ -689,7 +683,7 @@ class WopiController extends Controller {
 
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				} else if ($suggested[0] !== '/') {
+				} elseif ($suggested[0] !== '/') {
 					$path = dirname($file->getPath()) . '/' . $suggested;
 				} else {
 					$path = $userFolder->getPath() . $suggested;
@@ -718,7 +712,7 @@ class WopiController extends Controller {
 			$this->userScopeService->setFilesystemScope($wopi->getEditorUid());
 
 			try {
-				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content){
+				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content) {
 					return $file->putContent($content);
 				});
 			} catch (LockedException $e) {

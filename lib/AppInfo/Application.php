@@ -25,9 +25,7 @@
 namespace OCA\Richdocuments\AppInfo;
 
 use OC\EventDispatcher\SymfonyAdapter;
-use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
-use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
@@ -57,7 +55,6 @@ use OCP\IL10N;
 use OCP\IPreview;
 
 class Application extends App implements IBootstrap {
-
 	public const APPNAME = 'richdocuments';
 
 	public function __construct(array $urlParams = array()) {
@@ -75,15 +72,15 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		$currentUser = \OC::$server->getUserSession()->getUser();
-		if($currentUser !== null) {
+		if ($currentUser !== null) {
 			/** @var PermissionManager $permissionManager */
 			$permissionManager = \OC::$server->query(PermissionManager::class);
-			if(!$permissionManager->isEnabledForUser($currentUser)) {
+			if (!$permissionManager->isEnabledForUser($currentUser)) {
 				return;
 			}
 		}
 
-		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService) {
+		$context->injectFn(function (ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService) {
 			if (empty($capabilitiesService->getCapabilities())) {
 				return;
 			}
@@ -98,7 +95,7 @@ class Application extends App implements IBootstrap {
 					$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
 				}
 				$odtType->setIconClass('icon-filetype-document');
-				$odtType->setRatio(21/29.7);
+				$odtType->setRatio(21 / 29.7);
 				return $odtType;
 			});
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
@@ -111,7 +108,7 @@ class Application extends App implements IBootstrap {
 					$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet-template');
 				}
 				$odsType->setIconClass('icon-filetype-spreadsheet');
-				$odsType->setRatio(16/9);
+				$odsType->setRatio(16 / 9);
 				return $odsType;
 			});
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
@@ -124,7 +121,7 @@ class Application extends App implements IBootstrap {
 					$odpType->addMimetype('application/vnd.oasis.opendocument.presentation-template');
 				}
 				$odpType->setIconClass('icon-filetype-presentation');
-				$odpType->setRatio(16/9);
+				$odpType->setRatio(16 / 9);
 				return $odpType;
 			});
 
@@ -174,23 +171,23 @@ class Application extends App implements IBootstrap {
 		/** @var IPreview $previewManager */
 		$previewManager = $container->query(IPreview::class);
 
-		$previewManager->registerProvider('/application\/vnd.ms-excel/', function() use ($container) {
+		$previewManager->registerProvider('/application\/vnd.ms-excel/', function () use ($container) {
 			return $container->query(MSExcel::class);
 		});
 
-		$previewManager->registerProvider('/application\/msword/', function() use ($container) {
+		$previewManager->registerProvider('/application\/msword/', function () use ($container) {
 			return $container->query(MSWord::class);
 		});
 
-		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', function() use ($container) {
+		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', function () use ($container) {
 			return $container->query(OOXML::class);
 		});
 
-		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function() use ($container) {
+		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function () use ($container) {
 			return $container->query(OpenDocument::class);
 		});
 
-		$previewManager->registerProvider('/application\/pdf/', function() use ($container) {
+		$previewManager->registerProvider('/application\/pdf/', function () use ($container) {
 			return $container->query(Pdf::class);
 		});
 	}
@@ -261,8 +258,9 @@ class Application extends App implements IBootstrap {
 		// Supported only on Linux OS, and x86_64 & ARM64 platforms
 		$supportedArchs = array('x86_64', 'aarch64');
 		$osFamily = PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS;
-		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs))
+		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs)) {
 			return;
+		}
 
 		$CODEAppID = (php_uname('m') === 'x86_64') ? 'richdocumentscode' : 'richdocumentscode_arm64';
 
@@ -307,8 +305,8 @@ class Application extends App implements IBootstrap {
 	private function domainOnly($url) {
 		$parsed_url = parse_url($url);
 		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-		$host	= isset($parsed_url['host']) ? $parsed_url['host'] : '';
-		$port	= isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		$host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+		$port = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
 		return "$scheme$host$port";
 	}
 }

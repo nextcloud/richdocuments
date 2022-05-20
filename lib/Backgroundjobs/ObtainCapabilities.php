@@ -34,7 +34,7 @@ class ObtainCapabilities extends TimedJob {
 	public function __construct(CapabilitiesService $capabilitiesService) {
 		$this->capabilitiesService = $capabilitiesService;
 
-		$this->setInterval(60*60);
+		$this->setInterval(60 * 60);
 	}
 
 	protected function run($argument) {

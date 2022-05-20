@@ -22,4 +22,5 @@
  */
 namespace OCA\Richdocuments\Exceptions;
 
-class ExpiredTokenException extends \Exception {}
+class ExpiredTokenException extends \Exception {
+}

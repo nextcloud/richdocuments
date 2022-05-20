@@ -39,7 +39,7 @@ class Cleanup extends TimedJob {
 		$this->db = $db;
 		$this->wopiMapper = $wopiMapper;
 
-		$this->setInterval(60*60);
+		$this->setInterval(60 * 60);
 	}
 
 	protected function run($argument) {
@@ -51,11 +51,9 @@ class Cleanup extends TimedJob {
 
 		// Expired WOPI access tokens
 		$this->cleanUpWopiTokens();
-
 	}
 
-	private function cleanUpWopiTokens()
-	{
+	private function cleanUpWopiTokens() {
 		$tokenIds = $this->wopiMapper->getExpiredTokenIds(1000);
 		$query = $this->db->getQueryBuilder();
 		$query->delete('richdocuments_wopi')

@@ -66,7 +66,6 @@ class Version30704Date20200626072306 extends SimpleMigrationStep {
 				'notnull' => false,
 				'default' => '',
 			]);
-
 		}
 		if (!$table->hasColumn('remote_server_token')) {
 			$table->addColumn('remote_server_token', 'string', [

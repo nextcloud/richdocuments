@@ -48,8 +48,7 @@ class WopiContext implements Context {
 	private $wopiToken;
 	private $checkFileInfoResult;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->downloadedFile = tempnam(sys_get_temp_dir(), 'downloadedFile');
 	}
 
@@ -91,8 +90,7 @@ class WopiContext implements Context {
 	/**
 	 * @Then /^Collabora saved the file with the content of "([^"]*)"$/
 	 */
-	public function collaboraPuts($source)
-	{
+	public function collaboraPuts($source) {
 		$file = Utils::streamFor(fopen($source, 'r'));
 		$client = new Client();
 		$options = [
@@ -133,8 +131,7 @@ class WopiContext implements Context {
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is "([^"]*)"$/
 	 */
-	public function checkfileinfoIs($key, $value)
-	{
+	public function checkfileinfoIs($key, $value) {
 		\PHPUnit\Framework\Assert::assertEquals($value, $this->checkFileInfoResult[$key]);
 	}
 
@@ -142,32 +139,28 @@ class WopiContext implements Context {
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" matches "([^"]*)"$/
 	 */
-	public function checkfileinfoMatches($key, $regex)
-	{
+	public function checkfileinfoMatches($key, $regex) {
 		\PHPUnit\Framework\Assert::assertRegExp($regex, $this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is true$/
 	 */
-	public function checkfileinfoIsTrue($key)
-	{
+	public function checkfileinfoIsTrue($key) {
 		\PHPUnit\Framework\Assert::assertTrue($this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is false$/
 	 */
-	public function checkfileinfoIsFalse($key)
-	{
+	public function checkfileinfoIsFalse($key) {
 		\PHPUnit\Framework\Assert::assertFalse($this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is not set/
 	 */
-	public function checkfileinfoIsNotSet($key)
-	{
+	public function checkfileinfoIsNotSet($key) {
 		\PHPUnit\Framework\Assert::assertArrayNotHasKey($key, $this->checkFileInfoResult);
 	}
 
@@ -255,8 +248,8 @@ class WopiContext implements Context {
 		if (count($this->fileIds) <= 1) {
 			throw new \Exception('Less than two file ids available for comparison');
 		}
-		$current = $this->fileIds[count($this->fileIds)-1];
-		$previous = $this->fileIds[count($this->fileIds)-2];
+		$current = $this->fileIds[count($this->fileIds) - 1];
+		$previous = $this->fileIds[count($this->fileIds) - 2];
 		Assert::assertEquals($current, $previous);
 	}
 
@@ -267,8 +260,8 @@ class WopiContext implements Context {
 		if (count($this->fileIds) <= 1) {
 			throw new \Exception('Less than two file ids available for comparison');
 		}
-		$current = $this->fileIds[count($this->fileIds)-1];
-		$previous = $this->fileIds[count($this->fileIds)-2];
+		$current = $this->fileIds[count($this->fileIds) - 1];
+		$previous = $this->fileIds[count($this->fileIds) - 2];
 		Assert::assertNotEquals($current, $previous);
 	}
 
@@ -293,5 +286,4 @@ class WopiContext implements Context {
 			$this->response = $e->getResponse();
 		}
 	}
-
 }

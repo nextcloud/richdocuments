@@ -74,5 +74,4 @@ class FederationContext implements Context {
 			$table
 		);
 	}
-
 }

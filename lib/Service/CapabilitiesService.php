@@ -66,7 +66,7 @@ class CapabilitiesService {
 		$isCODEInstalled = $this->appManager->isEnabledForUser($CODEAppID);
 		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
 		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
-		if($this->capabilities === null || $shouldRecheckCODECapabilities) {
+		if ($this->capabilities === null || $shouldRecheckCODECapabilities) {
 			$this->refetch();
 		}
 
@@ -131,16 +131,15 @@ class CapabilitiesService {
 			if (!is_array($capabilities)) {
 				$capabilities = [];
 			}
-
-
 		} catch (\Exception $e) {
 			$capabilities = [];
 		}
 
 		$this->capabilities = $capabilities;
 		$ttl = 3600;
-		if (count($capabilities) === 0)
+		if (count($capabilities) === 0) {
 			$ttl = 60;
+		}
 
 		$this->cache->set('capabilities', $capabilities, $ttl);
 	}

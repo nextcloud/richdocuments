@@ -140,11 +140,10 @@ class DirectViewController extends Controller {
 			}
 
 			$relativePath = '/new.odt';
-
 		} else {
 			try {
 				$item = $folder->getById($direct->getFileid())[0];
-				if(!($item instanceof Node)) {
+				if (!($item instanceof Node)) {
 					throw new \Exception();
 				}
 
@@ -190,7 +189,6 @@ class DirectViewController extends Controller {
 			$this->logger->logException($e);
 			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
-
 	}
 
 	public function showPublicShare(Direct $direct) {
@@ -245,12 +243,11 @@ class DirectViewController extends Controller {
 				return $response;
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app'=>'richdocuments']);
+			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
-
 	}
 
 	private function renderErrorPage($message) {

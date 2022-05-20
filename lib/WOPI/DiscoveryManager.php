@@ -77,8 +77,9 @@ class DiscoveryManager {
 			$options['verify'] = false;
 		}
 
-		if ($this->isProxyStarting($wopiDiscovery))
+		if ($this->isProxyStarting($wopiDiscovery)) {
 			$options['timeout'] = 180;
+		}
 
 		try {
 			return $client->get($wopiDiscovery, $options);
@@ -98,10 +99,11 @@ class DiscoveryManager {
 	private function isProxyStarting($url) {
 		$usesProxy = false;
 		$proxyPos = strrpos($url, 'proxy.php');
-		if ($proxyPos === false)
+		if ($proxyPos === false) {
 			$usesProxy = false;
-		else
+		} else {
 			$usesProxy = true;
+		}
 
 		if ($usesProxy === true) {
 			$statusUrl = substr($url, 0, $proxyPos);

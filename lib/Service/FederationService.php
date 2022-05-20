@@ -23,7 +23,6 @@
 
 namespace OCA\Richdocuments\Service;
 
-
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
 use OCA\Richdocuments\AppConfig;
@@ -70,8 +69,9 @@ class FederationService {
 		$this->request = $request;
 		$this->urlGenerator = $urlGenerator;
 		try {
-			$this->trustedServers = \OC::$server->query( \OCA\Federation\TrustedServers::class);
-		} catch (QueryException $e) {}
+			$this->trustedServers = \OC::$server->query(\OCA\Federation\TrustedServers::class);
+		} catch (QueryException $e) {
+		}
 	}
 
 	/**
@@ -128,8 +128,8 @@ class FederationService {
 				break;
 			}
 			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function ($v) {
-					return preg_quote($v, '/');
-				}, explode('*', $trusted))) . '$/i';
+				return preg_quote($v, '/');
+			}, explode('*', $trusted))) . '$/i';
 			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
 				return true;
 			}

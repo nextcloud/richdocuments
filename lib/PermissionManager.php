@@ -49,14 +49,14 @@ class PermissionManager {
 
 	public function isEnabledForUser(IUser $user) {
 		$enabledForGroups = $this->config->getAppValue(Application::APPNAME, 'use_groups', '');
-		if($enabledForGroups === '') {
+		if ($enabledForGroups === '') {
 			return true;
 		}
 
 		$groups = $this->splitGroups($enabledForGroups);
 		$uid = $user->getUID();
-		foreach($groups as $group) {
-			if($this->groupManager->isInGroup($uid, $group)) {
+		foreach ($groups as $group) {
+			if ($this->groupManager->isInGroup($uid, $group)) {
 				return true;
 			}
 		}

@@ -67,14 +67,14 @@ class WOPIMiddleware extends Middleware {
 
 	public function isWOPIAllowed(): bool {
 		$allowedRanges = $this->config->getAppValue(Application::APPNAME, 'wopi_allowlist');
-		if($allowedRanges === '') {
+		if ($allowedRanges === '') {
 			return true;
 		}
 		$allowedRanges = explode(',', $allowedRanges);
 
 		$userIp = $this->request->getRemoteAddress();
-		foreach($allowedRanges as $range) {
-			if($this->matchCidr($userIp, $range)) {
+		foreach ($allowedRanges as $range) {
+			if ($this->matchCidr($userIp, $range)) {
 				return true;
 			}
 		}
@@ -125,7 +125,7 @@ class WOPIMiddleware extends Middleware {
 			$binMask = str_pad($binMask, 32, '0');
 			$binMask = pack("H*", $binMask);
 
-			if ( ($ip & $binMask) === $subnet ) {
+			if (($ip & $binMask) === $subnet) {
 				return true;
 			}
 		}

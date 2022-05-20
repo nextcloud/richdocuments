@@ -28,8 +28,7 @@ use OCP\Capabilities\ICapability;
 use OCP\IL10N;
 
 class Capabilities implements ICapability {
-
-	const MIMETYPES = [
+	public const MIMETYPES = [
 		'application/vnd.oasis.opendocument.text',
 		'application/vnd.oasis.opendocument.spreadsheet',
 		'application/vnd.oasis.opendocument.graphics',
@@ -68,7 +67,7 @@ class Capabilities implements ICapability {
 		'text/csv'
 	];
 
-	const MIMETYPES_OPTIONAL = [
+	public const MIMETYPES_OPTIONAL = [
 		'image/svg+xml',
 		'application/pdf',
 		'text/plain',

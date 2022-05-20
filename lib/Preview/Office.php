@@ -21,8 +21,6 @@
  */
 namespace OCA\Richdocuments\Preview;
 
-use GuzzleHttp\Psr7\LimitStream;
-use function GuzzleHttp\Psr7\stream_for;
 use OC\Preview\Provider;
 use OCA\Richdocuments\Capabilities;
 use OCP\Http\Client\IClientService;
@@ -107,7 +105,5 @@ abstract class Office extends Provider {
 			return $image;
 		}
 		return false;
-
 	}
-
 }
