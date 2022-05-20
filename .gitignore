@@ -7,3 +7,4 @@ js/
 richdocuments.zip
 build/
 vendor/
+.php-cs-fixer.cache
