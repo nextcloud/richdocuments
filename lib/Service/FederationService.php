@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -78,7 +79,6 @@ class FederationService {
 		} catch (ContainerExceptionInterface $e) {
 		} catch (AutoloadNotAllowedException $e) {
 		}
-
 	}
 
 	public function getTrustedServers(): array {
@@ -86,7 +86,7 @@ class FederationService {
 			return [];
 		}
 
-		return array_map(function(array $server) {
+		return array_map(function (array $server) {
 			return $server['url'];
 		}, $this->trustedServers->getServers());
 	}
