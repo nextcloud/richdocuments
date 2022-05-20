@@ -5,7 +5,6 @@ import { emit } from '@nextcloud/event-bus'
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
 import PostMessageService from './services/postMessage.tsx'
 import Config from './services/config.tsx'
-import Preload from './services/preload'
 import Types from './helpers/types'
 import FilesAppIntegration from './view/FilesAppIntegration'
 import { splitPath } from './helpers'
@@ -151,52 +150,6 @@ const odfViewer = {
 		}
 		if (typeof (templateId) !== 'undefined') {
 			documentUrl = getDocumentUrlFromTemplate(templateId, fileName, fileDir)
-		}
-
-		/**
-		 * We need to reload the page to set a proper CSP if the file is federated
-		 * and the reload didn't happen for the exact same file
-		 *
-		 * @param {string} url the url
-		 * @param {Function} callback to be run after reload is complete
-		 */
-		const canAccessCSP = (url, callback) => {
-			let canEmbed = false
-			const frame = document.createElement('iframe')
-			frame.style.display = 'none'
-			frame.onload = () => {
-				canEmbed = true
-			}
-			document.body.appendChild(frame)
-			frame.setAttribute('src', url)
-			setTimeout(() => {
-				if (!canEmbed) {
-					callback()
-				}
-				document.body.removeChild(frame)
-			}, 1000)
-
-		}
-
-		// FIXME: Once Nextcloud 16 is minimum requirement we can just pass the allowed domains to initial state
-		// to check then if they are set properly
-		const reloadForFederationCSP = (fileName, shareOwnerId) => {
-			const preloadId = Preload.open ? parseInt(Preload.open.id) : -1
-			if (typeof shareOwnerId !== 'undefined') {
-				const lastIndex = shareOwnerId.lastIndexOf('@')
-				// only redirect if remote file, not opened though reload and csp blocks the request
-				if (shareOwnerId.substr(lastIndex).indexOf('/') !== -1 && fileId !== preloadId) {
-					canAccessCSP('https://' + shareOwnerId.substr(lastIndex) + '/ocs/v2.php/apps/richdocuments/api/v1/federation', () => {
-						console.debug('Cannot load federated instance though CSP, navigating to ', OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId))
-						window.location = OC.generateUrl('/apps/richdocuments/open?fileId=' + fileId)
-					})
-				}
-			}
-			return false
-		}
-
-		if (context) {
-			reloadForFederationCSP(fileName, context?.shareOwnerId)
 		}
 
 		$('head').append($('<link rel="stylesheet" type="text/css" href="' + OC.filePath('richdocuments', 'css', 'mobile.css') + '"/>'))
@@ -362,15 +315,6 @@ $(document).ready(function() {
 	}
 
 	OC.MimeType._mimeTypeIcons['application/vnd.oasis.opendocument.graphics'] = OC.imagePath('richdocuments', 'x-office-draw')
-
-	// Open the template picker if there was a create parameter detected on load
-	if (Preload.create && Preload.create.type && Preload.create.filename) {
-		FilesAppIntegration.preloadCreate()
-	}
-
-	if (Preload.open) {
-		FilesAppIntegration.preloadOpen()
-	}
 
 	// Open documents if a public page is opened for a supported mimetype
 	const isSupportedMime = isPublic && odfViewer.supportedMimes.indexOf($('#mimetype').val()) !== -1 && odfViewer.excludeMimeFromDefaultOpen.indexOf($('#mimetype').val()) === -1
