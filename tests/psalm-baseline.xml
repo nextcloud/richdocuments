@@ -24,19 +24,20 @@
     </MissingDependency>
   </file>
   <file src="lib/Command/ActivateConfig.php">
-    <UndefinedClass occurrences="1">
-      <code>Command</code>
-    </UndefinedClass>
+    <RedundantCondition occurrences="1">
+      <code>$public_wopi_url !== null</code>
+    </RedundantCondition>
   </file>
   <file src="lib/Command/ConvertToBigInt.php">
+    <MismatchingDocblockParamType occurrences="1">
+      <code>IDBConnection</code>
+    </MismatchingDocblockParamType>
     <UndefinedClass occurrences="1">
-      <code>Command</code>
+      <code>Type</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/Command/UpdateEmptyTemplates.php">
-    <UndefinedClass occurrences="1">
-      <code>Command</code>
-    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="1">
+      <code>$this-&gt;connection-&gt;getDatabasePlatform()</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/AssetsController.php">
     <MissingDependency occurrences="4">
@@ -190,10 +191,6 @@
     <UndefinedClass occurrences="1">
       <code>SharingExternalStorage</code>
     </UndefinedClass>
-    <UndefinedDocblockClass occurrences="2">
-      <code>$this-&gt;trustedServers</code>
-      <code>TrustedServers</code>
-    </UndefinedDocblockClass>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getRemote</code>
       <code>getToken</code>
