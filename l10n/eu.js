@@ -106,6 +106,7 @@ OC.L10N.register(
     "Cancel" : "Utzi",
     "Document loading failed" : "Dokumentua kargatzeak huts egin du",
     "Close" : "Itxi",
+    "Starting the built-in CODE server failed" : "CODE zerbitzari integratua hasteak huts egin du",
     "Failed to load {productName} - please try again later" : "Huts egin du {productName} kargatzean - saiatu berriro beranduago",
     "{productName} is not configured" : "{productName} ez dago konfiguratuta",
     "Error" : "Errorea",
