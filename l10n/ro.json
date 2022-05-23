@@ -1,5 +1,9 @@
 { "translations": {
+    "File already exists" : "Fișierul există deja",
     "Saved" : "Salvat",
+    "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Fișierul încărcat depășește directiva MAX_FILE_SIZE specificată în formularul HTML",
+    "No file was uploaded" : "Nu a fost încărcat niciun fișier",
+    "Missing a temporary folder" : "Lipsește un dosar temporar",
     "File is too big" : "Fișierul este prea mare",
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
     "Advanced settings" : "Setări avansate",
@@ -7,6 +11,7 @@
     "Description" : "Descriere",
     "No results" : "Niciun rezultat",
     "Cancel" : "Anulează",
+    "Close" : "Închide",
     "Error" : "Eroare",
     "Nickname" : "Pseudonim",
     "Save" : "Salvează",
@@ -16,6 +21,7 @@
     "Details" : "Detalii",
     "Download" : "Descărcare",
     "Could not create file" : "Nu s-a putut crea fisierul",
-    "Create" : "Creează"
+    "Create" : "Creează",
+    "Select template" : "Selectează șablon"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

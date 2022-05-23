@@ -17,6 +17,7 @@ OC.L10N.register(
     "Description" : "Тодорхойлолт",
     "No results" : "Үр дүн байхгүй",
     "Cancel" : "болиулах",
+    "Close" : "Хаах",
     "Error" : "Алдаа",
     "Nickname" : "Товч нэр",
     "Save" : "хадгалах",

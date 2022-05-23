@@ -1,11 +1,15 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "File already exists" : "ගොනුව දැනටමත් පවතී",
+    "No file was uploaded" : "කිසිදු ගොනුවක් උඩුගත කර නොමැත",
+    "Missing a temporary folder" : "තාවකාලික බහාලුමක් අස්ථානගත වී ඇත",
     "File is too big" : "ගොනුව ඉතා විශාලයි",
     "Empty" : "හිස්",
     "Description" : "විස්තරය",
     "No results" : "ප්‍රතිථල නැත",
     "Cancel" : "අවලංගු කරන්න",
+    "Close" : "වසන්න",
     "Error" : "දෝෂය",
     "Nickname" : "අන්වර්ථ නාමය",
     "Save" : "සුරකින්න",

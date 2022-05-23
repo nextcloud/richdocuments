@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "បាន​រក្សាទុក",
     "Description" : "ការ​អធិប្បាយ",
     "Cancel" : "បោះបង់",
+    "Close" : "បិទ",
     "Error" : "កំហុស",
     "Save" : "រក្សាទុក",
     "Remove from favorites" : "Remove from favorites",
