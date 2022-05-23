@@ -250,6 +250,10 @@ class WopiController extends Controller {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => urlencode($wopi->getGuestDisplayname()), 'size' => self::WOPI_AVATAR_SIZE]);
 		}
 
+		if ($isPublic) {
+			$response['UserExtraInfo']['is_guest'] = true;
+		}
+
 		if ($wopi->isRemoteToken()) {
 			$response = $this->setFederationFileInfo($wopi, $response);
 		}
