@@ -2,10 +2,12 @@ OC.L10N.register(
     "richdocuments",
     {
     "Saved" : "Պահված",
+    "File is too big" : "Ֆայլը չափազանց մեծ է",
     "Description" : "Նկարագրություն",
+    "Cancel" : "ընդհատել",
+    "Close" : "Փակել",
     "Error" : "Սխալ",
     "Nickname" : "Մականուն",
-    "Cancel" : "ընդհատել",
     "Save" : "Պահել",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

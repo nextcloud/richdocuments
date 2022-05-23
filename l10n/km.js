@@ -3,8 +3,9 @@ OC.L10N.register(
     {
     "Saved" : "បាន​រក្សាទុក",
     "Description" : "ការ​អធិប្បាយ",
-    "Error" : "កំហុស",
     "Cancel" : "បោះបង់",
+    "Close" : "បិទ",
+    "Error" : "កំហុស",
     "Save" : "រក្សាទុក",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
