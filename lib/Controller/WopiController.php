@@ -248,6 +248,10 @@ class WopiController extends Controller {
 			}
 		}
 
+		if ($isPublic) {
+			$response['UserExtraInfo']['is_guest'] = true;
+		}
+
 		if ($wopi->isRemoteToken()) {
 			$response = $this->setFederationFileInfo($wopi, $response);
 		}
