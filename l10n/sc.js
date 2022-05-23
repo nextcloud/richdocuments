@@ -148,17 +148,9 @@ OC.L10N.register(
     "template preview" : "anteprima de su modellu",
     "Select a template directory" : "Seletziona una cartella de is modellos",
     "Remove personal template folder" : "Boga sa cartella de is modellos personale",
-    "Document already exists" : "Su documentu esistit giai",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online rechedet unu serbidore seberadu chi funtzionat comente unu cliente WOPI pro frunire possibilidade de modìfica.",
-    "Install it from the app store." : "Installa·ddu dae sa butega de aplicatziones.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Si non faghet a dd'installare dae sa butega de aplicatziones, ddu podes fàghere a manos impreende custu cumandu:",
-    "it uses an insecure protocol (http)" : "impreat unu protocollu non seguru (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "Non faghet a ddu cuntatare dae internet (forsis pro unu firewall, o ca mancat s'inoltru de portas)",
+    "Document already exists" : "Su documentu esistit giai",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online est ativaducomente impostatzione predefinida pro totu is utentes. Candu est ativu, isceti sa gente de grupos ispetzìficos ddu podet impreare.",
-    "Current version" : "Versione atuale",
-    "New Document" : "Documentu nou",
-    "New Spreadsheet" : "Fògiu eletrònicu nou",
-    "New Presentation" : "Presentada noa",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

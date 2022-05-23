@@ -85,13 +85,9 @@ OC.L10N.register(
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
     "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
-    "Document already exists" : "La dokumento jam ekzistas",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online bezonas apartan servilon, kiu estas „WOPI“-kliento provizanta redaktan eblecon.",
+    "Document already exists" : "La dokumento jam ekzistas",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online uzeblas de ĉiuj uzantoj defaŭlte. Uzante tiun agordon, vi povas limigi al elektitaj grupoj.",
-    "Current version" : "Nuna versio",
-    "New Document" : "Nova dokumento",
-    "New Spreadsheet" : "Nova kalkultabelo",
-    "New Presentation" : "Nova prezentaĵo",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Ŝablonoj en tiu ĉi dosierujo estos aldonita al la ŝablona elektilo de „Collabora Online“."
 },
 "nplurals=2; plural=(n != 1);");

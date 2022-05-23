@@ -171,17 +171,9 @@ OC.L10N.register(
     "Select a template directory" : "Selecionar um diretório de modelos",
     "Remove personal template folder" : "Remover a pasta de modelos pessoais",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Os modelos dentro deste diretório serão adicionados ao seletor de modelos do Nextcloud Office.",
-    "Document already exists" : "Documento já existe",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "O Collabora Online requer um servidor separado atuando como um cliente do tipo WOPI para fornecer recursos de edição.",
-    "Install it from the app store." : "Instale-o na loja de aplicativos.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Se a instalação da loja de aplicativos falhar, você ainda poderá fazer isso manualmente usando este comando:",
-    "it uses an insecure protocol (http)" : "ele usa um protocolo inseguro (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "é inacessível pela Internet (possivelmente por causa de um firewall ou falta de encaminhamento de porta)",
+    "Document already exists" : "Documento já existe",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "O Collabora Online está habilitado para todos os usuários por padrão. Quando essa configuração está ativa, apenas os membros dos grupos especificados podem usá-la.",
-    "Current version" : "Versão Atual",
-    "New Document" : "Novo Documento",
-    "New Spreadsheet" : "Nova planilha",
-    "New Presentation" : "Nova Apresentação",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste diretório serão adicionados ao seletor de modelos do Collabora Online."
 },
 "nplurals=2; plural=(n > 1);");

@@ -59,9 +59,6 @@ OC.L10N.register(
     "Add a new template" : "새 템플릿 추가",
     "template preview" : "템플릿 미리보기",
     "Select a template directory" : "템플릿 디렉터리 선택",
-    "Document already exists" : "문서가 이미 존재합니다",
-    "New Document" : "새 문서",
-    "New Spreadsheet" : "새 스프레드시트",
-    "New Presentation" : "새 프레젠테이션"
+    "Document already exists" : "문서가 이미 존재합니다"
 },
 "nplurals=1; plural=0;");

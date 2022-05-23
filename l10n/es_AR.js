@@ -38,9 +38,6 @@ OC.L10N.register(
     "Create" : "Crear",
     "Select template" : "Seleccionar plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
-    "New Document" : "Nuevo Documento",
-    "New Spreadsheet" : "Nueva Hoja de cálculo",
-    "New Presentation" : "Nueva Presentación",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

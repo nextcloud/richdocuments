@@ -47,9 +47,6 @@ OC.L10N.register(
     "Guest" : "Invitado",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Could not create file" : "No fue posible crear el archivo",
-    "Create" : "Crear",
-    "New Document" : "Nuevo Documento",
-    "New Spreadsheet" : "Nueva Hoja de cálculo",
-    "New Presentation" : "Nueva Presentación"
+    "Create" : "Crear"
 },
 "nplurals=2; plural=(n != 1);");

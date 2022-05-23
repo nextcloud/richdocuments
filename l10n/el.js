@@ -163,17 +163,9 @@ OC.L10N.register(
     "Select a template directory" : "Επιλέξτε κατάλογο προτύπων",
     "Remove personal template folder" : "Κατάργηση προσωπικού φακέλου προτύπων",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Τα πρότυπα σε αυτό τον κατάλογο θα συμπεριληφθούν στην επιλογή προτύπων Nextcloud Office.",
-    "Document already exists" : "Το έγγραφο υπάρχει ήδη",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Το Collabora Online απαιτεί έναν ξεχωριστό διακομιστή που να λειτουργεί ως WOPI client για να παρέχει δυνατότητες επεξεργασίας.",
-    "Install it from the app store." : "Εγκατάσταση από το app store.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Εάν η εγκατάσταση από το app store αποτύχει, μπορείτε να το κάνετε χειροκίνητα με την εντολή:",
-    "it uses an insecure protocol (http)" : "χρησιμοποιεί ένα μη ασφαλές πρωτόκολλο (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "δεν είναι προσβάσιμο από το διαδίκτυο (πιθανόν λόγω τείχους προστασίας/firewall ή έλλειψης προώθησης θύρας/port forwarding)",
+    "Document already exists" : "Το έγγραφο υπάρχει ήδη",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Το Collabora Online είναι ενεργοποιημένο από προεπιλογή για όλους τους χρήστες. Όταν ενεργοποιηθεί αυτή η επιλογή, μόνο οι χρήστες από συγκεκριμένες ομάδες θα έχουν πρόσβαση.",
-    "Current version" : "Τρέχουσα έκδοση",
-    "New Document" : "Νέο Έγγραφο",
-    "New Spreadsheet" : "Νέο Υπολογιστικό φύλλο",
-    "New Presentation" : "Νέα Παρουσίαση",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Τα πρότυπα σε αυτό τον κατάλογο θα συμπεριληφθούν στο Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

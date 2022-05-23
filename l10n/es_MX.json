@@ -79,10 +79,6 @@
     "Remove personal template folder" : "Eliminar la carpeta de plantillas personales",
     "Document already exists" : "El documento ya existe",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online está habilitado para todos los usuarios por omisión. Cuando esta configuración está activa, solo los miembros de grupos específicos la pueden usar. ",
-    "Current version" : "Versión actual",
-    "New Document" : "Nuevo Documento",
-    "New Spreadsheet" : "Nueva Hoja de cálculo",
-    "New Presentation" : "Nueva Presentación",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

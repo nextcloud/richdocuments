@@ -50,9 +50,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
     "Could not create file" : "Could not create file",
     "Create" : "Create",
-    "Select template" : "Select template",
-    "New Document" : "New Document",
-    "New Spreadsheet" : "New Spreadsheet",
-    "New Presentation" : "New Presentation"
+    "Select template" : "Select template"
 },
 "nplurals=2; plural=(n != 1);");

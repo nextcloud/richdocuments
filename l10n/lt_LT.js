@@ -93,12 +93,6 @@ OC.L10N.register(
     "Add a new one?" : "Pridėti naują?",
     "template preview" : "šablono peržiūra",
     "Select a template directory" : "Pasirinkite šablonų katalogą",
-    "Document already exists" : "Dokumentas jau yra",
-    "it uses an insecure protocol (http)" : "ji naudoja nesaugų protokolą (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "ji yra nepasiekiama iš interneto (galimai, dėl užkardos ar neperadresuotų prievadų)",
-    "Current version" : "Dabartinė versija",
-    "New Document" : "Naujas dokumentas",
-    "New Spreadsheet" : "Nauja skaičiuoklė",
-    "New Presentation" : "Nauja pateiktis"
+    "Document already exists" : "Dokumentas jau yra"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -88,11 +88,6 @@ OC.L10N.register(
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
-    "Document already exists" : "Asiakirja on jo olemassa",
-    "Install it from the app store." : "Lataa sovelluskaupasta.",
-    "Current version" : "Nykyinen versio",
-    "New Document" : "Uusi asiakirja",
-    "New Spreadsheet" : "Uusi taulukko",
-    "New Presentation" : "Uusi esitys"
+    "Document already exists" : "Asiakirja on jo olemassa"
 },
 "nplurals=2; plural=(n != 1);");

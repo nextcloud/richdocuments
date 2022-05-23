@@ -136,17 +136,9 @@
     "template preview" : "visualització prèvia de la plantilla",
     "Select a template directory" : "Selecciona un directori de plantilles",
     "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals",
-    "Document already exists" : "El document ja existeix",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online requereix un servidor separat que actuï com a client de WOPI per proporcionar funcions d’edició.",
-    "Install it from the app store." : "Instal·leu-ho des de la botiga d'aplicacions.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Si la instal·lació des de la botiga d'aplicacions falla, encara podeu fer-ho manualment mitjançant aquesta ordre:",
-    "it uses an insecure protocol (http)" : "utilitza un protocol insegur (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "és inaccessible des d'Internet (possiblement a causa d'un tallafocs, o la manca de reenviament de port)",
+    "Document already exists" : "El document ja existeix",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online està activat per defecte per a tots els usuaris. Quan aquesta opció està activa, només els membres dels grups especificats poden utilitzar-la.",
-    "Current version" : "Versió actual",
-    "New Document" : "Nou Document",
-    "New Spreadsheet" : "Nou Full de Càlcul",
-    "New Presentation" : "Nova Presentació",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les plantilles d’aquest directori s’afegiran al selector de plantilles de Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

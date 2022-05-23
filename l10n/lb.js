@@ -22,9 +22,6 @@ OC.L10N.register(
     "Details" : "Detailer",
     "Download" : "Eroflueden",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
-    "Create" : "Erstellen",
-    "New Document" : "Neit Dokument",
-    "New Spreadsheet" : "Neit Aarbechtsblat",
-    "New Presentation" : "Nei Präsentatioun"
+    "Create" : "Erstellen"
 },
 "nplurals=2; plural=(n != 1);");

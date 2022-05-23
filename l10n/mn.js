@@ -29,9 +29,6 @@ OC.L10N.register(
     "Guest" : "Зочин",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
     "Could not create file" : "Файл үүсгэж чадсангүй",
-    "Create" : "Үүсгэх",
-    "New Document" : "шинэ документ",
-    "New Spreadsheet" : "шинэ хүснэгт",
-    "New Presentation" : "шинэ танилцуулга"
+    "Create" : "Үүсгэх"
 },
 "nplurals=2; plural=(n != 1);");

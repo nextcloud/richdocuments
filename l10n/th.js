@@ -61,11 +61,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง",
-    "Document already exists" : "มีเอกสารอยู่แล้ว",
-    "Install it from the app store." : "ติดตั้งจาก app store",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "หากติดตั้งจาก app store ล้มเหลว คุณยังสามารถทำได้ด้วยตนเองโดยใช้คำสั่งนี้:",
-    "New Document" : "เอกสารใหม่",
-    "New Spreadsheet" : "สเปรดชีตใหม่",
-    "New Presentation" : "งานนำเสนอใหม่"
+    "Document already exists" : "มีเอกสารอยู่แล้ว"
 },
 "nplurals=1; plural=0;");

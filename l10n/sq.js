@@ -37,9 +37,6 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",
     "Could not create file" : "Kartela s’u krijua dot",
     "Create" : "Krijo",
-    "Select template" : "Zgjidh shabllonin",
-    "New Document" : "Dokument i Ri",
-    "New Spreadsheet" : "Spreadsheet i ri",
-    "New Presentation" : "Prezantim i Ri"
+    "Select template" : "Zgjidh shabllonin"
 },
 "nplurals=2; plural=(n != 1);");

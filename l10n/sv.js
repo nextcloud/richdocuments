@@ -104,14 +104,9 @@ OC.L10N.register(
     "template preview" : "Förhandsgranskning av mall",
     "Select a template directory" : "Välj en mallmapp",
     "Remove personal template folder" : "Ta bort personlig mallmapp",
-    "Document already exists" : "Dokumentet finns redan",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online kräver en separat server som agerar WOPI-klient och tillhandahåller redigeringsmöjligheter. ",
-    "Install it from the app store." : "Installera det från app-butiken.",
+    "Document already exists" : "Dokumentet finns redan",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online är aktiverat för alla användare som skön. När den här inställningen är aktiv kan endast medlemmar i de angivna grupperna använda det.",
-    "Current version" : "Aktuell version",
-    "New Document" : "Nytt dokument",
-    "New Spreadsheet" : "Nytt kalkylblad",
-    "New Presentation" : "Ny presentation",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Mallar i denna mapp läggs till i mallväljaren för Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

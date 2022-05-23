@@ -108,13 +108,9 @@ OC.L10N.register(
     "template preview" : "پیش نمایش الگو",
     "Select a template directory" : "یک فهرست مسیر را انتخاب کنید",
     "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید",
-    "Document already exists" : "مستند از قبل موجود است",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online برای ارائه قابلیت های ویرایش به یک سرور مجزا که به عنوان مشتری WOPI مانند فعالیت می کند ، نیاز دارد.",
+    "Document already exists" : "مستند از قبل موجود است",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online بصورت پیش فرض برای همه کاربران فعال شده است. هنگامی که این تنظیم فعال است ، فقط اعضای گروه های مشخص شده می توانند از آن استفاده کنند.",
-    "Current version" : "نسخه فعلی",
-    "New Document" : "مستند جدید",
-    "New Spreadsheet" : "صفحه گسترده جدید",
-    "New Presentation" : "ارائه جدید",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "قالب های داخل این فهرست به مسیر الگوی Collabora Online افزودن."
 },
 "nplurals=2; plural=(n > 1);");

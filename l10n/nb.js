@@ -58,9 +58,6 @@ OC.L10N.register(
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
     "Select template" : "Velg mal",
-    "Document already exists" : "Dokumentet finnes allerede",
-    "New Document" : "Nytt dokument",
-    "New Spreadsheet" : "Nytt regneark",
-    "New Presentation" : "Ny presentasjon"
+    "Document already exists" : "Dokumentet finnes allerede"
 },
 "nplurals=2; plural=(n != 1);");

@@ -84,13 +84,9 @@
     "template preview" : "forskoðun sniðmáts",
     "Select a template directory" : "Veldu möppu undir sniðmát",
     "Remove personal template folder" : "Fjarlægja möppu fyrir eigin sniðmát",
-    "Document already exists" : "Skjal er þegar til staðar",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online krefst þess að sérstakur þjónn vinni sem WOPI-líkur biðlari svo hægt sé að breyta skjölum.",
+    "Document already exists" : "Skjal er þegar til staðar",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online er sjálfgefið virkjað fyrir alla notendur. Þegar þessi stilling er virk, geta aðeins meðlimir tiltekinna hópa notað það.",
-    "Current version" : "Fyrirliggjandi útgáfa",
-    "New Document" : "Nýtt skjal",
-    "New Spreadsheet" : "Nýtt töflureiknisskjal",
-    "New Presentation" : "Ný skyggnukynning",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sniðmátum inni í þessari möppu verður bætt í sniðmátaval Collabora Online."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -163,17 +163,9 @@ OC.L10N.register(
     "Select a template directory" : "Selecciona un directorio de plantillas",
     "Remove personal template folder" : "Elimina la carpeta personal de plantillas",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Las plantillas de esta carpeta se añadirán al selector de plantillas de Nextcloud Office.",
-    "Document already exists" : "El documento ya existe",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online requiere un servidor separado que actúe como un cliente WOPI para proveer capacidades de edición.",
-    "Install it from the app store." : "Instálalo desde la tienda de apps.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Si no funciona la instalación desde la App Store, todavía puede realizar un proceso manual con este comando:",
-    "it uses an insecure protocol (http)" : "utiliza un protocolo inseguro (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "es inalcanzable desde Internet (posiblemente debido a un cortafuegos, o falta de reenvío de puertos)",
+    "Document already exists" : "El documento ya existe",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online se activa por defecto para todos los usuarios. Al activar esta configuración, solo los miembros de los grupos especificados pueden usarlo.",
-    "Current version" : "Versión actual",
-    "New Document" : "Nuevo Documento",
-    "New Spreadsheet" : "Nueva Hoja de cálculo",
-    "New Presentation" : "Nueva Presentación",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas de esta carpeta se añadirán al selector de plantillas de Collabora Online."
 },
 "nplurals=2; plural=(n != 1);");

@@ -107,13 +107,9 @@ OC.L10N.register(
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
     "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
-    "Document already exists" : "Документот веќе постои",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "За користење на Collabora Online, потребно е користење на различен сервер кој работи како WOPI-клиент за да овозможи услови за уредување на датотеки.",
+    "Document already exists" : "Документот веќе постои",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Стандардно за сите корисници е овозможена Collabora Online. Кога овој параметар е активен, само членови на одредени рупи можат да го користат.",
-    "Current version" : "Моментална верзија",
-    "New Document" : "Нов Документ",
-    "New Spreadsheet" : "Нова Табела",
-    "New Presentation" : "Нова Презентација",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

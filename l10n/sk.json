@@ -161,17 +161,9 @@
     "Select a template directory" : "Vyberte priečinok šablón",
     "Remove personal template folder" : "Odstrániť osobný priečinok šablón",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablóny v tomto adresári budú pridané do výberu šablón v Nextcloud Office.",
-    "Document already exists" : "Dokument už existuje",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online vyžaduje samostatný server fungujúci ako WOPI klient, poskytúci možnosti úprav.",
-    "Install it from the app store." : "Nainštalujte ho z obchodu s aplikáciami.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Ak zlyhá inštalácia z obchodu s aplikáciami, môžete to urobiť pomocou tohto príkazu:",
-    "it uses an insecure protocol (http)" : "používa nezabezpečený protokol (http)",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "je nedostupný z internetu (pravdepodobne kvôli bráne firewall alebo chybe v presmerovaní portu)",
+    "Document already exists" : "Dokument už existuje",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online je predvolene povolená pre všetkých používateľov. Ak je toto nastavenie aktívne, môžu ho používať iba členovia špecifikovaných skupín.",
-    "Current version" : "Aktuálna verzia",
-    "New Document" : "Nový dokument",
-    "New Spreadsheet" : "Nová tabuľka",
-    "New Presentation" : "Nová prezentácia",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablóny v tomto priečinku sa pridajú do výberu šablón Collabora Online."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

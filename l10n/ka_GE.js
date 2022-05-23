@@ -43,9 +43,6 @@ OC.L10N.register(
     "Guest" : "სტუმარი",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
-    "Create" : "შექმნა",
-    "New Document" : "ახალი დოკუმენტი",
-    "New Spreadsheet" : "ახალი ცხრილი",
-    "New Presentation" : "ახალი პრეზენტაცია"
+    "Create" : "შექმნა"
 },
 "nplurals=2; plural=(n!=1);");

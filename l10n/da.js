@@ -50,9 +50,6 @@ OC.L10N.register(
     "Create a new document" : "Opret nyt dokument",
     "Could not create file" : "Kunne ikke oprette fil",
     "Create" : "Opret",
-    "Select template" : "Vælg model",
-    "New Document" : "Nyt Dokument",
-    "New Spreadsheet" : "Nyt Regneark",
-    "New Presentation" : "Ny Præsentation"
+    "Select template" : "Vælg model"
 },
 "nplurals=2; plural=(n != 1);");

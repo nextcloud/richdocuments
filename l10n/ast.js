@@ -38,9 +38,6 @@ OC.L10N.register(
     "Guest" : "Convidáu/ada",
     "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya",
     "Could not create file" : "Nun pudo crease'l ficheru",
-    "Create" : "Crear",
-    "New Document" : "Documentu nuevu",
-    "New Spreadsheet" : "Fueya nueva de cálculu",
-    "New Presentation" : "Presentación nueva"
+    "Create" : "Crear"
 },
 "nplurals=2; plural=(n != 1);");

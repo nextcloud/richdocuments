@@ -171,17 +171,9 @@ OC.L10N.register(
     "Select a template directory" : "Válasszon sablonkönyvtárat",
     "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "A mappán belüli sablonok hozzá lesznek adva a Nextcloud Office sablonválasztójához.",
-    "Document already exists" : "A dokumentum már létezik",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "A Collabora Online-hoz külön WOPI-szerű kliensként viselkedő kiszolgálóra van szükség a szerkesztési funkciók biztosításához.",
-    "Install it from the app store." : "Telepítse az alkalmazástárból.",
-    "If the installation from the app store fails, you can still do that manually using this command:" : "Ha az alkalmazástárból történő telepítés nem sikerül, akkor kézileg is megteheti ezzel a paranccsal:",
-    "it uses an insecure protocol (http)" : "nem biztonságos protokollt (http) használ",
-    "it is unreachable from the Internet (possibly because of a firewall, or lack of port forwarding)" : "nem érhető el az internet felől (lehetséges hogy tűzfal, vagy hiányzó porttovábbítás miatt)",
+    "Document already exists" : "A dokumentum már létezik",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "A Collabora Online alapértelmezetten minden felhasználó számára elérhető. Ha ez a beállítás aktív, akkor csak a megadott csoportok tagjai használhatják.",
-    "Current version" : "Jelenlegi verzió",
-    "New Document" : "Új dokumentum",
-    "New Spreadsheet" : "Új munkafüzet",
-    "New Presentation" : "Új bemutató",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtáron belüli sablonok hozzá lesznek adva a Collabora Online sablonválasztójához."
 },
 "nplurals=2; plural=(n != 1);");

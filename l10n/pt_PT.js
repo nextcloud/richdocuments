@@ -76,9 +76,6 @@ OC.L10N.register(
     "Add a new template" : "Adicionar novo modelo",
     "No templates defined." : "Sem modelos definidos",
     "Add a new one?" : "Adicionar novo?",
-    "Document already exists" : "O documento já existe",
-    "New Document" : "Novo Documento",
-    "New Spreadsheet" : "Nova Folha de Cálculo",
-    "New Presentation" : "Nova Apresentação"
+    "Document already exists" : "O documento já existe"
 },
 "nplurals=2; plural=(n != 1);");
