@@ -78,4 +78,4 @@ OC.L10N.register(
     "Add a new one?" : "Adicionar novo?",
     "Document already exists" : "O documento já existe"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
