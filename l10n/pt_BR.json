@@ -173,5 +173,5 @@
     "Document already exists" : "Documento já existe",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "O Collabora Online está habilitado para todos os usuários por padrão. Quando essa configuração está ativa, apenas os membros dos grupos especificados podem usá-la.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste diretório serão adicionados ao seletor de modelos do Collabora Online."
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
