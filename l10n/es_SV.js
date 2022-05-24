@@ -49,4 +49,4 @@ OC.L10N.register(
     "Could not create file" : "No fue posible crear el archivo",
     "Create" : "Crear"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

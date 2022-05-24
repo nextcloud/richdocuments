@@ -168,4 +168,4 @@ OC.L10N.register(
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online est par défaut activé pour tous les utilisateurs. Lorsque ce paramètre est actif, seuls les membres des groupes spécifiés peuvent l'utiliser.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online."
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

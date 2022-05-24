@@ -46,5 +46,5 @@
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Could not create file" : "No fue posible crear el archivo",
     "Create" : "Crear"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
