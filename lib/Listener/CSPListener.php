@@ -35,11 +35,11 @@ use OCP\IRequest;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 
 class CSPListener implements IEventListener {
-	private IRequest $request;
-	private AppConfig $config;
-	private IAppManager $appManager;
-	private FederationService $federationService;
-	private GlobalScaleConfig $globalScaleConfig;
+	private $request;
+	private $config;
+	private $appManager;
+	private $federationService;
+	private $globalScaleConfig;
 
 	public function __construct(IRequest $request, AppConfig $config, IAppManager $appManager, FederationService $federationService, GlobalScaleConfig $globalScaleConfig) {
 		$this->request = $request;
