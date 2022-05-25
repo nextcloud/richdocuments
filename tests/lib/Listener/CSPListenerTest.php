@@ -50,7 +50,7 @@ class CSPListenerTest extends TestCase {
 	private $gsConfig;
 	/** @var FederationService|MockObject */
 	private $federationService;
-	private CSPListener $listener;
+	private $listener;
 
 	public function setUp(): void {
 		parent::setUp();
