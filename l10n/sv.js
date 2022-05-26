@@ -47,6 +47,8 @@ OC.L10N.register(
     "Setting up a new server" : "Konfigurera en ny server",
     "Collabora Online should use the same protocol as the server installation." : "Collabora Online ska använda samma protokoll som serverinstallationen.",
     "Collabora Online server is reachable." : "Collabora Online-servern är nåbar.",
+    "Please configure a Collabora Online server to start editing documents" : "Konfigurera en Collabora Online-server för att börja redigera dokument",
+    "Use your own server" : "Använd en egen server",
     "URL (and Port) of Collabora Online-server" : "Webbadress (och port) till Collabora Online-server",
     "Disable certificate verification (insecure)" : "Använd inte certifikatsverifiering (osäkert)",
     "Loading available demo servers …" : "Läser in tillgängliga demo-servrar ...",
