@@ -23,11 +23,6 @@
 import { generateUrl, generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
-import Preload from '../services/preload'
-import { splitPath } from '../helpers'
-import Types from '../helpers/types'
-import Config from '../services/config.tsx'
-import NewFileMenu from './NewFileMenu'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
@@ -568,41 +563,6 @@ export default {
 			$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 			$buttons.eq(1).text(t('richdocuments', 'Create a new document'))
 		})
-	},
-
-	/**
-	 * Automaically open a document on page load
-	 */
-	preloadOpen() {
-		if (this.handlers.preloadOpen && this.handlers.preloadOpen(this)) {
-			return
-		}
-
-		const fileId = Preload.open.id
-		const path = Preload.open.filename
-		setTimeout(function() {
-			window.FileList.$fileList.one('updated', function() {
-				const [, file] = splitPath(path)
-				const fileModel = FileList.getModelForFile(file)
-				OCA.RichDocuments.open({ path, fileId, fileModel, fileList: window.FileList })
-			})
-		}, 250)
-	},
-
-	/**
-	 * Automaically open a template picker on page load
-	 */
-	preloadCreate() {
-		if (this.handlers.preloadCreate && this.handlers.preloadCreate(this)) {
-			return
-		}
-
-		setTimeout(function() {
-			window.FileList.$fileList.one('updated', function() {
-				const fileType = Types.getFileType(Preload.create.type, Config.get('ooxml'))
-				NewFileMenu._openTemplatePicker(Preload.create.type, fileType.mime, Preload.create.filename + '.' + fileType.extension)
-			})
-		}, 250)
 	},
 
 	loggingContext() {
