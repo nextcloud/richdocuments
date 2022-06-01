@@ -22,6 +22,7 @@ OC.L10N.register(
     "Add to favorites" : "Adăugați la favorite",
     "Details" : "Detalii",
     "Download" : "Descărcare",
+    "Guest" : "Invitat",
     "Could not create file" : "Nu s-a putut crea fisierul",
     "Create" : "Creează",
     "Select template" : "Selectează șablon"
