@@ -20,31 +20,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { loadState } from '@nextcloud/initial-state'
 
 class ConfigService {
-    private values: {[name: string]: string}
+
+    private values: {[name: string]: any}
+
     constructor () {
-        this.values = {}
-        this.loadFromGlobal('userId')
-        this.loadFromGlobal('urlsrc')
-        this.loadFromGlobal('directEdit')
-        this.loadFromGlobal('directGuest')
-        this.loadFromGlobal('permissions')
-        this.loadFromGlobal('instanceId')
-        this.loadFromGlobal('isPublicShare')
-    }
-    loadFromGlobal(key: string) {
-        // @ts-ignore
-        this.values[key] = window['richdocuments_' + key]
-    }
-    update(key: string, value: string) {
-        // @ts-ignore
+		this.values = loadState('richdocuments', 'document', {})
+	}
+
+    update(key: string, value: any) {
         this.values[key] = value
     }
-    get(key: string) {
-        if (typeof this.values[key] === 'undefined') {
-            this.loadFromGlobal(key)
-        }
+
+    get(key: string): any {
         return this.values[key]
     }
 }
