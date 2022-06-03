@@ -96,7 +96,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["http://public"], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", "http://public"], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'", "http://public"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -123,7 +123,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals([], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'"], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -135,7 +135,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["http://public"], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", "http://public"], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'", "http://public"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -147,7 +147,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["https://public"], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", "https://public"], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'", "https://public"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -165,7 +165,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["https://public", "*.example.com"], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", "https://public", "*.example.com"], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'", "https://public", "*.example.com"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -180,7 +180,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["http://internal"], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", "http://internal"], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'", "http://internal"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -193,7 +193,7 @@ class CSPListenerTest extends TestCase {
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
-			->willReturnCallback(function (AddContentSecurityPolicyEvent  $event) {
+			->willReturnCallback(function (AddContentSecurityPolicyEvent $event) {
 				$otherPolicy = new EmptyContentSecurityPolicy();
 				$otherPolicy->addAllowedFrameDomain('external.example.com');
 				$otherPolicy->addAllowedFormActionDomain('external.example.com');
@@ -205,7 +205,13 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $manager->getDefaultPolicy();
 
-		self::assertEquals(["external.example.com", "http://public"], $policy->getAllowedFrameDomains());
-		self::assertEquals(["'self'", "external.example.com", "http://public"], $policy->getAllowedFormActionDomains());
+		self::assertArrayUnordered(["'self'", "external.example.com", "http://public"], $policy->getAllowedFrameDomains(), "Domains are equal", 0.0, 10, true);
+		self::assertArrayUnordered(["'self'", "external.example.com", "http://public"], $policy->getAllowedFormActionDomains());
+	}
+
+	public static function assertArrayUnordered($expected, $actual, $msg = '') {
+		sort($expected);
+		sort($actual);
+		self::assertSame($expected, $actual, $msg);
 	}
 }
