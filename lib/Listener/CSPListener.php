@@ -67,6 +67,8 @@ class CSPListener implements IEventListener {
 		$urls = array_filter($urls);
 
 		$policy = new EmptyContentSecurityPolicy();
+		$policy->addAllowedFrameDomain("'self'");
+
 		foreach ($urls as $url) {
 			$policy->addAllowedFrameDomain($url);
 			$policy->addAllowedFormActionDomain($url);
