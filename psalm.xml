@@ -19,6 +19,9 @@
 			<directory name="vendor/jakub-onderka" />
 		</ignoreFiles>
 	</extraFiles>
+	<stubs>
+ 		<file name="tests/stub.phpstub" preloadClasses="true"/>
+ 	</stubs>
 	<issueHandlers>
 		<UndefinedMagicMethod>
 			<errorLevel type="suppress">
