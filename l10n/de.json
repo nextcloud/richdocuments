@@ -164,6 +164,7 @@
     "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Nextcloud Office hinzugefügt.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online benötigt einen separaten Server, der als WOPI-ähnlicher-Client fungiert, um Funktionen zum Bearbeiten bereitzustellen.",
+    "Loading {filename}…" : "Lade {filename} …",
     "Document already exists" : "Dokument existiert bereits",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online ist standardmäßig für alle Benutzer aktiviert. Wenn diese Einstellung aktiv ist, können nur Mitglieder der angegebenen Gruppen es verwenden.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt"
