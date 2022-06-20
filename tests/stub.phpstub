@@ -19,6 +19,12 @@ namespace Doctrine\DBAL\Platforms {
 	class SqlitePlatform {}
 }
 
+namespace OCA\Files_Sharing {
+	use \OCP\Share\IShare;
+	class SharedStorage {
+		public function getShare(): IShare {}
+	}
+}
 
 namespace OCA\Files_Sharing\Event {
 	use \OCP\Share\IShare;
