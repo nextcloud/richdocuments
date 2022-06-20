@@ -233,7 +233,7 @@ export default {
 
 	_addAvatarList() {
 		// Add the avatar toolbar if possible
-		const avatarList = $('<div id="richdocuments-avatars">')
+		const avatarList = $('<div id="richdocuments-avatars"></div>')
 		avatarList.on('click', function(e) {
 			e.stopPropagation()
 			$('#editors-menu').toggle()
@@ -339,7 +339,7 @@ export default {
 		const isFileOwner = !isPublic && this.getFileModel() && typeof this.getFileModel().get('shareOwner') === 'undefined'
 		const canEdit = this.getFileModel() && !!(this.getFileModel().get('permissions') & OC.PERMISSION_UPDATE)
 		if (isFileOwner && canEdit && !view.IsCurrentView) {
-			const removeButton = $('<div class="icon-close" title="' + t('richdocuments', 'Remove user') + '"/>')
+			const removeButton = $('<div class="icon-close" title="' + t('richdocuments', 'Remove user') + '"></div>')
 			removeButton.click(() => {
 				this.sendPostMessage('Action_RemoveView', { ViewId: view.ViewId })
 			})

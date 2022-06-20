@@ -173,7 +173,7 @@ const documentsMain = {
 			// remove previous viewer, if open, and set a new one
 			if (documentsMain.isViewerMode) {
 				$('#revViewer').remove()
-				$('#revViewerContainer').prepend($('<div id="revViewer">'))
+				$('#revViewerContainer').prepend($('<div id="revViewer"></div>'))
 			}
 
 			const urlsrc = getWopiUrl({ fileId, title, readOnly: true })
@@ -210,7 +210,7 @@ const documentsMain = {
 		loadRevViewerContainer() {
 			if (!$('revViewerContainer').length) {
 				$(document.body).prepend(documentsMain.UI.viewContainer)
-				const closeButton = $('<button class="icon-close closeButton" title="' + t('richdocuments', 'Close version preview') + '"/>')
+				const closeButton = $('<button class="icon-close closeButton" title="' + t('richdocuments', 'Close version preview') + '"></button>')
 				$('#revViewerContainer').prepend(closeButton)
 			}
 		},
