@@ -95,7 +95,7 @@ OC.L10N.register(
     "Current version (unsaved changes)" : "Aktuell version (osparade ändringar)",
     "Failed to revert the document to older version" : "Misslyckades att återställa dokumentet till en äldre version",
     "Please enter the filename for the new document" : "Ange ett filnamn för det nya dokumentet",
-    "Create a new document" : "Skapa nytt dokument",
+    "Create a new document" : "Skapa nytt ordbehandlingsdokument",
     "Could not create file" : "Kunde inte skapa fil",
     "Create" : "Skapa",
     "Select template" : "Välj mall",
