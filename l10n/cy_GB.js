@@ -5,6 +5,7 @@ OC.L10N.register(
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Mae'r ffeil lwythwyd i fyny'n fwy na chyfarwyddeb MAX_FILE_SIZE bennwyd yn y ffurflen HTML",
     "No file was uploaded" : "Ni lwythwyd ffeil i fyny",
     "Missing a temporary folder" : "Plygell dros dro yn eisiau",
+    "Office" : "Swyddfa",
     "Description" : "Disgrifiad",
     "No results" : "Dim canlyniadau",
     "Cancel" : "Diddymu",
