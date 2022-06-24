@@ -33,7 +33,7 @@ OC.L10N.register(
     "Invalid file provided" : "Fichier non valide",
     "Template not found" : "Modèle non trouvé",
     "Nextcloud Office" : "Nextcloud Office",
-    "Office" : "Bureau",
+    "Office" : "Suite bureautique",
     "Empty" : "Vide",
     "Anonymous guest" : "Invité anonyme",
     "%s (Guest)" : "%s (Invité)",
