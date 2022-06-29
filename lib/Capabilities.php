@@ -41,10 +41,14 @@ class Capabilities implements ICapability {
 		'application/vnd.visio',
 		'application/vnd.ms-visio.drawing',
 		'application/vnd.wordperfect',
-		'application/msonenote',
-		'application/msword',
 		'application/rtf',
 		'text/rtf',
+		'text/csv'
+	];
+
+	public const MIMETYPES_MSOFFICE = [
+		'application/msonenote',
+		'application/msword',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 		'application/vnd.ms-word.document.macroEnabled.12',
@@ -64,7 +68,6 @@ class Capabilities implements ICapability {
 		'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
 		'application/vnd.ms-powerpoint.template.macroEnabled.12',
 		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
-		'text/csv'
 	];
 
 	public const MIMETYPES_OPTIONAL = [
@@ -92,7 +95,12 @@ class Capabilities implements ICapability {
 	public function getCapabilities() {
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
-			$filteredMimetypes = self::MIMETYPES;
+			// Add MSOffice mime types only if OnlyOffice is not installed
+			if (\OC::$server->getAppManager()->getAppVersion('onlyooffice')) {
+				$filteredMimetypes = self::MIMETYPES;
+			} else {
+				$filteredMimetypes = array_merge(self::MIMETYPES, self::MIMETYPES_MSOFFICE);
+			}
 			// If version is too old, draw is not supported
 			if (!$this->capabilitiesService->hasDrawSupport()) {
 				$filteredMimetypes = array_diff($filteredMimetypes, [
