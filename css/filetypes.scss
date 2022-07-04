@@ -13,3 +13,11 @@
 .icon-filetype-draw {
 	background-image: url('../img/x-office-drawing.svg');
 }
+
+.icon-richdocuments {
+	background-image: url(../img/app-dark.svg);
+}
+
+body.dark .icon-richdocuments {
+	background-image: url(../img/app.svg);
+}
