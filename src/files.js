@@ -75,6 +75,10 @@ const odfViewer = {
 						return
 					}
 
+					if (context.fileInfoModel) {
+						context.fileId = context.fileInfoModel.get('id')
+					}
+
 					const fileModel = context.fileList.findFile(fileName)
 					const shareOwnerId = fileModel?.shareOwnerId
 					return this.onEdit(fileName, {
