@@ -4,7 +4,6 @@ OC.L10N.register(
     "New document" : "Naujas dokumentas",
     "New spreadsheet" : "Nauja skaičiuoklė",
     "New presentation" : "Nauja pateiktis",
-    "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Nepavyksta sukurti dokumento",
     "New Document.odt" : "Naujas dokumentas.odt",
     "New Spreadsheet.ods" : "Nauja skaičiuoklė.ods",
@@ -93,6 +92,7 @@ OC.L10N.register(
     "Add a new one?" : "Pridėti naują?",
     "template preview" : "šablono peržiūra",
     "Select a template directory" : "Pasirinkite šablonų katalogą",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentas jau yra"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

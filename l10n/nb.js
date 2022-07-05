@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Nytt dokument.odt",
     "New Spreadsheet.ods" : "Nytt regneark.ods",
     "New Presentation.odp" : "Ny presentasjon.odp",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
     "Select template" : "Velg mal",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentet finnes allerede"
 },
 "nplurals=2; plural=(n != 1);");

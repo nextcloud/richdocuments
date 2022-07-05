@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Nova dokumento.odt",
     "New Spreadsheet.ods" : "Nova kalkultabelo.ods",
     "New Presentation.odp" : "Nova prezentaĵo.odp",
@@ -85,6 +84,7 @@ OC.L10N.register(
     "template preview" : "ŝablona antaŭrigardo",
     "Select a template directory" : "Elekti ŝablonan dosierujon",
     "Remove personal template folder" : "Forigi dosierujon de personaj ŝablonoj",
+    "Collabora Online" : "Collabora Online",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online bezonas apartan servilon, kiu estas „WOPI“-kliento provizanta redaktan eblecon.",
     "Document already exists" : "La dokumento jam ekzistas",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online uzeblas de ĉiuj uzantoj defaŭlte. Uzante tiun agordon, vi povas limigi al elektitaj grupoj.",

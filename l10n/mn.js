@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "онлайн Collabora ",
     "New Document.odt" : "шинэ доккумент.odt",
     "New Spreadsheet.ods" : "шинэ  хүснэгт.ods",
     "New Presentation.odp" : "шинэ танилцуулга.odp",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Guest" : "Зочин",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
     "Could not create file" : "Файл үүсгэж чадсангүй",
-    "Create" : "Үүсгэх"
+    "Create" : "Үүсгэх",
+    "Collabora Online" : "онлайн Collabora "
 },
 "nplurals=2; plural=(n != 1);");
