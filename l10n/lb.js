@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Neit Dokument.odt",
     "New Spreadsheet.ods" : "Neien Spreadsheet.ods",
     "New Presentation.odp" : "Nei Presentatioun.odp",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Details" : "Detailer",
     "Download" : "Eroflueden",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
-    "Create" : "Erstellen"
+    "Create" : "Erstellen",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

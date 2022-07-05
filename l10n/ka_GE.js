@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "ახალი დოკუმენტი.odt",
     "New Spreadsheet.ods" : "ახალი ცხრილი.ods",
     "New Presentation.odp" : "ახალი პრეზენტაცია.odp",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Guest" : "სტუმარი",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
-    "Create" : "შექმნა"
+    "Create" : "შექმნა",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n!=1);");

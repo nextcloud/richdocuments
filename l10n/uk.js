@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Новий документ.odt",
     "New Spreadsheet.ods" : "Нова таблиця.ods",
     "New Presentation.odp" : "Нова презентація.odp",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "template preview" : "перегляд шаблону",
     "Select a template directory" : "Виберіть теку для шаблонів",
     "Remove personal template folder" : "Вилучити теку з власними шаблонами",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Документ уже існує",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цій теці буде додано до вибору шаблонів у Collabora Online"
 },

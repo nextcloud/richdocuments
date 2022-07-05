@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Documentu.odt nuevu",
     "New Spreadsheet.ods" : "Fueya_de_cálculu.ods nueva",
     "New Presentation.odp" : "Presentación.odp nueva",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Guest" : "Convidáu/ada",
     "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya",
     "Could not create file" : "Nun pudo crease'l ficheru",
-    "Create" : "Crear"
+    "Create" : "Crear",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

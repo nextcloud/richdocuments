@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Neit Dokument.odt",
     "New Spreadsheet.ods" : "Neien Spreadsheet.ods",
     "New Presentation.odp" : "Nei Presentatioun.odp",
@@ -20,6 +19,7 @@
     "Details" : "Detailer",
     "Download" : "Eroflueden",
     "Could not create file" : "De Fichier konnt net erstallt ginn",
-    "Create" : "Erstellen"
+    "Create" : "Erstellen",
+    "Collabora Online" : "Collabora Online"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
