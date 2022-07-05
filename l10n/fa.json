@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "همکاری آنلاین",
     "New Document.odt" : "مستند.odt جدید",
     "New Spreadsheet.ods" : "Spreadsheet.ods جدید",
     "New Presentation.odp" : "Presentation.odp جدید",
@@ -106,6 +105,7 @@
     "template preview" : "پیش نمایش الگو",
     "Select a template directory" : "یک فهرست مسیر را انتخاب کنید",
     "Remove personal template folder" : "پوشه قالب شخصی را حذف کنید",
+    "Collabora Online" : "همکاری آنلاین",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online برای ارائه قابلیت های ویرایش به یک سرور مجزا که به عنوان مشتری WOPI مانند فعالیت می کند ، نیاز دارد.",
     "Document already exists" : "مستند از قبل موجود است",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online بصورت پیش فرض برای همه کاربران فعال شده است. هنگامی که این تنظیم فعال است ، فقط اعضای گروه های مشخص شده می توانند از آن استفاده کنند.",

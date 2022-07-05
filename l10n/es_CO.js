@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Nuevo Documento.odt",
     "New Spreadsheet.ods" : "Nueva HojaDeCálculo.ods",
     "New Presentation.odp" : "Nueva Presentación.odp",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Guest" : "Invitado",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Could not create file" : "No fue posible crear el archivo",
-    "Create" : "Crear"
+    "Create" : "Crear",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

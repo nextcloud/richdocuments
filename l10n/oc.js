@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora en linha",
     "New Document.odt" : "Document Novèl.odt",
     "File already exists" : "Lo fichièr existís ja",
     "Saved" : "Enregistrat",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Download" : "Telecargar",
     "Guest" : "Convidat",
     "Could not create file" : "Impossible de crear lo fichièr",
-    "Create" : "Crear"
+    "Create" : "Crear",
+    "Collabora Online" : "Collabora en linha"
 },
 "nplurals=2; plural=(n > 1);");
