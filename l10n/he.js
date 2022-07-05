@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "מסמך חדש.odt",
     "New Spreadsheet.ods" : "גיליון נתונים חדש.ods",
     "New Presentation.odp" : "מצגת חדשה.odp",
@@ -102,6 +101,7 @@ OC.L10N.register(
     "template preview" : "תצוגה מקדימה של תבנית",
     "Select a template directory" : "בחירת תיקיית תבניות",
     "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "המסמך כבר קיים",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online."
 },

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Dokument.odt i ri",
     "New Spreadsheet.ods" : "Fletëllogaritje.ods e re  ",
     "New Presentation.odp" : "Prezantim.odp i ri",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",
     "Could not create file" : "Kartela s’u krijua dot",
     "Create" : "Krijo",
-    "Select template" : "Zgjidh shabllonin"
+    "Select template" : "Zgjidh shabllonin",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

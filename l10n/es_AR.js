@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Nuevo Documento.odt",
     "New Spreadsheet.ods" : "Nueva HojaDeCálculo.ods",
     "New Presentation.odp" : "Nueva Presentación.odp",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Create" : "Crear",
     "Select template" : "Seleccionar plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
+    "Collabora Online" : "Collabora Online",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

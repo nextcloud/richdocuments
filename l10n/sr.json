@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "New Document.odt",
     "New Spreadsheet.ods" : "New Spreadsheet.ods",
     "New Presentation.odp" : "New Presentation.odp",
@@ -84,6 +83,7 @@
     "template preview" : "претпреглед шаблона",
     "Select a template directory" : "Одаберите директоријум за шаблоне",
     "Remove personal template folder" : "Уклони личну фасциклу за шаблоне",
+    "Collabora Online" : "Collabora Online",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online захтева посебан сервер који се понаша као WOPI-Client да бисте добили могућност уређивања.",
     "Document already exists" : "Документ већ постоји",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online је укључена подразумевано за све кориснике. Када је ово подешавање укључено, само чланови означених група је могу користити.",

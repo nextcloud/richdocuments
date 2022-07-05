@@ -5,7 +5,6 @@ OC.L10N.register(
     "New spreadsheet" : "Uusi laskentataulukko",
     "New presentation" : "Uusi esitys",
     "New diagram" : "Uusi kaavio",
-    "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Dokumentin luonti epäonnistui",
     "New Document.odt" : "Uusi asiakirja.odt",
     "New Spreadsheet.ods" : "Uusi taulukko.ods",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
+    "Collabora Online" : "Collabora Online",
     "Loading {filename}…" : "Ladataan {filename}…",
     "Document already exists" : "Asiakirja on jo olemassa"
 },
