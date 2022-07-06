@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.1.1
+
+### Fixed
+
+- Fix filename encoding issues @juliushaertl [#2261](https://github.com/nextcloud/richdocuments/pull/2261)
+
+### Other
+
+- add "is_guest" to extra info user data [#2244](https://github.com/nextcloud/richdocuments/pull/2244)
+
 ## 6.1.0
 
 ### Added
