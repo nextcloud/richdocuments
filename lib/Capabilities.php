@@ -44,10 +44,13 @@ class Capabilities implements ICapability {
 		'application/vnd.visio',
 		'application/vnd.ms-visio.drawing',
 		'application/vnd.wordperfect',
-		'application/msonenote',
-		'application/msword',
 		'application/rtf',
 		'text/rtf',
+	];
+
+	public const MIMETYPES_MSOFFICE = [
+		'application/msonenote',
+		'application/msword',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 		'application/vnd.ms-word.document.macroEnabled.12',
@@ -116,25 +119,33 @@ class Capabilities implements ICapability {
 
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
-			$filteredMimetypes = self::MIMETYPES;
+
+			$defaultMimetypes = self::MIMETYPES;
 			$optionalMimetypes = self::MIMETYPES_OPTIONAL;
+
+			if (!$this->capabilitiesService->hasOtherOOXMLApps()) {
+				array_push($defaultMimetypes, ...self::MIMETYPES_MSOFFICE);
+			} else {
+				array_push($optionalMimetypes, ...self::MIMETYPES_MSOFFICE);
+			}
+
 			// If version is too old, draw is not supported
 			if (!$this->capabilitiesService->hasDrawSupport()) {
-				$filteredMimetypes = array_diff($filteredMimetypes, [
+				$defaultMimetypes = array_diff($defaultMimetypes, [
 					'application/vnd.oasis.opendocument.graphics',
 					'application/vnd.oasis.opendocument.graphics-flat-xml',
 				]);
 			}
 
 			if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
-				$filteredMimetypes[] = 'application/pdf';
+				$defaultMimetypes[] = 'application/pdf';
 				$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
 			}
 
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => $this->appManager->getAppVersion('richdocuments'),
-					'mimetypes' => array_values($filteredMimetypes),
+					'mimetypes' => array_values($defaultMimetypes),
 					'mimetypesNoDefaultOpen' => array_values($optionalMimetypes),
 					'mimetypesSecureView' => $this->config->useSecureViewAdditionalMimes() ? self::SECURE_VIEW_ADDITIONAL_MIMES : [],
 					'collabora' => $collaboraCapabilities,
