@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.6
+
+### Other
+
+- add "is_guest" to extra info user data [#2246](https://github.com/nextcloud/richdocuments/pull/2246)
+
 ## 5.0.5
 
 ### Fixed
