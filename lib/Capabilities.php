@@ -96,7 +96,7 @@ class Capabilities implements ICapability {
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
 			// Add MSOffice mime types only if OnlyOffice is not installed
-			if (\OC::$server->getAppManager()->getAppVersion('onlyooffice')) {
+			if (\OC::$server->getAppManager()->getAppVersion('onlyoffice')) {
 				$filteredMimetypes = self::MIMETYPES;
 			} else {
 				$filteredMimetypes = array_merge(self::MIMETYPES, self::MIMETYPES_MSOFFICE);
