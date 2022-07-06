@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Nytt dokument.odt",
     "New Spreadsheet.ods" : "Nytt regneark.ods",
     "New Presentation.odp" : "Ny presentasjon.odp",
@@ -56,6 +55,7 @@
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
     "Select template" : "Velg mal",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentet finnes allerede"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

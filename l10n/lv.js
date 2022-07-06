@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "Jauns Dokuments.odt",
     "New Spreadsheet.ods" : "Juans Spreadsheet.ods",
     "New Presentation.odp" : "Jauns Presentation.odp",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "Guest" : "Viesis",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Could not create file" : "Neizdevās izveidot datni",
-    "Create" : "Izveidot"
+    "Create" : "Izveidot",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

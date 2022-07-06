@@ -4,7 +4,6 @@ OC.L10N.register(
     "New document" : "Novo documento",
     "New spreadsheet" : "Nova folha de calculo",
     "New presentation" : "Nova apresentação",
-    "Collabora Online" : "Collabora Online",
     "Cannot create document" : "Não é possível criar o documento",
     "New Document.odt" : "Novo Documento.odt",
     "New Spreadsheet.ods" : "Nova Folhadecalculo.ods",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Add a new template" : "Adicionar novo modelo",
     "No templates defined." : "Sem modelos definidos",
     "Add a new one?" : "Adicionar novo?",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "O documento já existe"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

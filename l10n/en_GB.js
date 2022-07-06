@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora Online",
     "New Document.odt" : "New Document.odt",
     "New Spreadsheet.ods" : "New Spreadsheet.ods",
     "New Presentation.odp" : "New Presentation.odp",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
     "Could not create file" : "Could not create file",
     "Create" : "Create",
-    "Select template" : "Select template"
+    "Select template" : "Select template",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

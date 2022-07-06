@@ -1,5 +1,4 @@
 { "translations": {
-    "Collabora Online" : "Collabora en linha",
     "New Document.odt" : "Document Novèl.odt",
     "File already exists" : "Lo fichièr existís ja",
     "Saved" : "Enregistrat",
@@ -29,6 +28,7 @@
     "Download" : "Telecargar",
     "Guest" : "Convidat",
     "Could not create file" : "Impossible de crear lo fichièr",
-    "Create" : "Crear"
+    "Create" : "Crear",
+    "Collabora Online" : "Collabora en linha"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

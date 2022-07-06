@@ -1,7 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "Collabora Online" : "Collabora ออนไลน์",
     "New Document.odt" : "เอกสารใหม่.odt",
     "New Spreadsheet.ods" : "สเปรดชีตใหม่.ods",
     "New Presentation.odp" : "งานนำเสนอใหม่.odp",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง",
+    "Collabora Online" : "Collabora ออนไลน์",
     "Document already exists" : "มีเอกสารอยู่แล้ว"
 },
 "nplurals=1; plural=0;");
