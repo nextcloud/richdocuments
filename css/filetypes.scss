@@ -16,8 +16,5 @@
 
 .icon-richdocuments {
 	background-image: url(../img/app-dark.svg);
-}
-
-body.dark .icon-richdocuments {
-	background-image: url(../img/app.svg);
+	filter: var(--background-invert-if-dark);
 }
