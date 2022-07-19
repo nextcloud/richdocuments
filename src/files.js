@@ -166,14 +166,11 @@ const odfViewer = {
 		const viewport = document.querySelector('meta[name=viewport]')
 		viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
 		if (isPublic) {
-			// force the preview to adjust its height
-			$('#preview').append($iframe).css({ height: '100%' })
-			$('body').css({ height: '100%' })
+			$('body').append($iframe)
+			$iframe.addClass('full')
 			$('#content').addClass('full-height')
 			$('footer').addClass('hidden')
 			$('#imgframe').addClass('hidden')
-			$('.directLink').addClass('hidden')
-			$('.directDownload').addClass('hidden')
 			$('#controls').addClass('hidden')
 			$('#content').addClass('loading')
 		} else {
