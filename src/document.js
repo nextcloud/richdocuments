@@ -136,6 +136,7 @@ const documentsMain = {
 	isEditorMode: false,
 	isViewerMode: false,
 	isFrameReady: false,
+	isPublic: false,
 	ready: false,
 	fileName: null,
 	baseName: null,
@@ -176,7 +177,7 @@ const documentsMain = {
 				$('#revViewerContainer').prepend($('<div id="revViewer">'))
 			}
 
-			const urlsrc = getWopiUrl({ fileId, title, readOnly: true })
+			const urlsrc = getWopiUrl({ fileId, title, readOnly: true, closeButton: !documentsMain.isPublic || documentsMain.originalFileId })
 
 			// access_token - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)
@@ -231,7 +232,7 @@ const documentsMain = {
 			$(document.body).addClass('claro')
 			$(document.body).prepend(documentsMain.UI.container)
 
-			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: true, revisionHistory: !!Config.get('userId') })
+			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: !documentsMain.isPublic || documentsMain.originalFileId, revisionHistory: !documentsMain.isPublic })
 
 			// access_token - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)
@@ -517,6 +518,7 @@ const documentsMain = {
 		documentsMain.fileName = Config.get('title')
 		documentsMain.canEdit = Boolean(Config.get('permissions') & OC.PERMISSION_UPDATE)
 		documentsMain.canShare = typeof OC.Share !== 'undefined' && Config.get('permissions') & OC.PERMISSION_SHARE
+		documentsMain.isPublic = !Config.get('userId')
 
 		$('footer,nav').hide()
 		// fade out file list and show the document
