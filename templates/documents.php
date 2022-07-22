@@ -1,6 +1,6 @@
 <script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>">
 	var richdocuments_permissions = '<?php p($_['permissions']) ?>';
-	var richdocuments_title = '<?php print_unescaped(base64_encode(json_encode($_['title']))); ?>';
+	var richdocuments_title = '<?php print_unescaped(addslashes($_['title'])) ?>';
 	var richdocuments_fileId = '<?php p($_['fileId']) ?>';
 	var richdocuments_token = '<?php p($_['token'] ? $_['token'] : "") ?>';
 	var richdocuments_urlsrc = '<?php p($_['urlsrc'] ? $_['urlsrc'] : "") ?>';
