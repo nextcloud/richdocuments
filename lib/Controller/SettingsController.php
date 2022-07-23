@@ -147,13 +147,13 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setSettings($wopi_url,
-								$wopi_allowlist,
-								$disable_certificate_verification,
-								$edit_groups,
-								$use_groups,
-								$doc_format,
-								$external_apps,
-								$canonical_webroot) {
+		$wopi_allowlist,
+		$disable_certificate_verification,
+		$edit_groups,
+		$use_groups,
+		$doc_format,
+		$external_apps,
+		$canonical_webroot) {
 		$message = $this->l10n->t('Saved');
 
 		if ($wopi_url !== null) {
