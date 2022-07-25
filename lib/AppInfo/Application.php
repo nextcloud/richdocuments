@@ -24,22 +24,20 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
-use OC\EventDispatcher\SymfonyAdapter;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Listener\CSPListener;
+use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
-use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Service\CapabilitiesService;
-use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
@@ -47,7 +45,6 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\TemplateFileCreator;
@@ -70,6 +67,7 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleWare(WOPIMiddleware::class);
 		$context->registerEventListener(FileCreatedFromTemplateEvent::class, FileCreatedFromTemplateListener::class);
 		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
+		$context->registerEventListener(LoadViewer::class, LoadViewerListener::class);
 		$context->registerEventListener(ShareLinkAccessedEvent::class, ShareLinkListener::class);
 	}
 
@@ -132,40 +130,19 @@ class Application extends App implements IBootstrap {
 			});
 		});
 
-		$context->injectFn(function (SymfonyAdapter $symfonyAdapter, IEventDispatcher $eventDispatcher, InitialStateService $initialStateService, PermissionManager $permissionManager) {
-			$isEnabledForUser = $permissionManager->isEnabledForUser();
-			$eventDispatcher->addListener(LoadViewer::class, function () use ($initialStateService, $isEnabledForUser) {
-				if (!$isEnabledForUser) {
-					return;
-				}
+		if (class_exists('\OC\Files\Type\TemplateManager')) {
+			$manager = \OC_Helper::getFileTemplateManager();
 
-				$initialStateService->provideCapabilities();
-				\OCP\Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
-			});
-			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () use ($initialStateService, $isEnabledForUser) {
-				if (class_exists(ShareLinkAccessedEvent::class) || !$isEnabledForUser) {
-					return;
-				}
+			$manager->registerTemplate('application/vnd.openxmlformats-officedocument.wordprocessingml.document', dirname(__DIR__) . '/emptyTemplates/docxtemplate.docx');
+			$manager->registerTemplate('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', dirname(__DIR__) . '/emptyTemplates/xlsxtemplate.xlsx');
+			$manager->registerTemplate('application/vnd.openxmlformats-officedocument.presentationml.presentation', dirname(__DIR__) . '/emptyTemplates/pptxtemplate.pptx');
+			$manager->registerTemplate('application/vnd.oasis.opendocument.presentation', dirname(__DIR__) . '/emptyTemplates/template.odp');
+			$manager->registerTemplate('application/vnd.oasis.opendocument.text', dirname(__DIR__) . '/emptyTemplates/template.odt');
+			$manager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', dirname(__DIR__) . '/emptyTemplates/template.ods');
+		}
 
-				// Fallback for older releases than Nextcloud 22
-				$initialStateService->provideCapabilities();
-				\OCP\Util::addScript('richdocuments', 'richdocuments-files');
-			});
-
-			if (class_exists('\OC\Files\Type\TemplateManager')) {
-				$manager = \OC_Helper::getFileTemplateManager();
-
-				$manager->registerTemplate('application/vnd.openxmlformats-officedocument.wordprocessingml.document', dirname(__DIR__) . '/emptyTemplates/docxtemplate.docx');
-				$manager->registerTemplate('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', dirname(__DIR__) . '/emptyTemplates/xlsxtemplate.xlsx');
-				$manager->registerTemplate('application/vnd.openxmlformats-officedocument.presentationml.presentation', dirname(__DIR__) . '/emptyTemplates/pptxtemplate.pptx');
-				$manager->registerTemplate('application/vnd.oasis.opendocument.presentation', dirname(__DIR__) . '/emptyTemplates/template.odp');
-				$manager->registerTemplate('application/vnd.oasis.opendocument.text', dirname(__DIR__) . '/emptyTemplates/template.odt');
-				$manager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', dirname(__DIR__) . '/emptyTemplates/template.ods');
-			}
-
-			$this->registerProvider();
-			$this->checkAndEnableCODEServer();
-		});
+		$this->registerProvider();
+		$this->checkAndEnableCODEServer();
 	}
 
 	public function registerProvider() {
