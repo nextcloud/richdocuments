@@ -81,16 +81,23 @@ class Capabilities implements ICapability {
 	private $config;
 	/** @var CapabilitiesService */
 	private $capabilitiesService;
+	/** @var PermissionManager */
+	private $permissionManager;
 
 	private $capabilities = null;
 
-	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService) {
+	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager) {
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->capabilitiesService = $capabilitiesService;
+		$this->permissionManager = $permissionManager;
 	}
 
 	public function getCapabilities() {
+		if (!$this->permissionManager->isEnabledForUser()) {
+			return [];
+		}
+
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
 			$filteredMimetypes = self::MIMETYPES;
@@ -101,6 +108,7 @@ class Capabilities implements ICapability {
 					'application/vnd.oasis.opendocument.graphics-flat-xml',
 				]));
 			}
+
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
