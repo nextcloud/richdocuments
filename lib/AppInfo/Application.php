@@ -75,7 +75,7 @@ class Application extends App implements IBootstrap {
 		if ($currentUser !== null) {
 			/** @var PermissionManager $permissionManager */
 			$permissionManager = \OC::$server->query(PermissionManager::class);
-			if (!$permissionManager->isEnabledForUser($currentUser)) {
+			if (!$permissionManager->isEnabledForUser($currentUser->getUID())) {
 				return;
 			}
 		}
