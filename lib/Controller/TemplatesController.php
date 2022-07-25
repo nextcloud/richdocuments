@@ -63,10 +63,10 @@ class TemplatesController extends Controller {
 	 * @param IPreview $preview
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								IL10N $l10n,
-								TemplateManager $manager,
-								IPreview $preview) {
+		IRequest $request,
+		IL10N $l10n,
+		TemplateManager $manager,
+		IPreview $preview) {
 		parent::__construct($appName, $request);
 
 		$this->appName = $appName;

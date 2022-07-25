@@ -52,12 +52,12 @@ class AssetsController extends Controller {
 	private $urlGenerator;
 
 	public function __construct($appName,
-								IRequest $request,
-								AssetMapper $assetMapper,
-								IRootFolder $rootFolder,
-								$userId,
-								UserScopeService $userScopeService,
-								IURLGenerator $urlGenerator) {
+		IRequest $request,
+		AssetMapper $assetMapper,
+		IRootFolder $rootFolder,
+		$userId,
+		UserScopeService $userScopeService,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 
 		$this->assetMapper = $assetMapper;

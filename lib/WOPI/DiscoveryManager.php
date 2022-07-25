@@ -39,8 +39,8 @@ class DiscoveryManager {
 	private $discovery;
 
 	public function __construct(IClientService $clientService,
-								ICacheFactory $cacheFactory,
-								IConfig $config) {
+		ICacheFactory $cacheFactory,
+		IConfig $config) {
 		$this->clientService = $clientService;
 		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->config = $config;

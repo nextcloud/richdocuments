@@ -34,7 +34,7 @@ class PermissionManager {
 	private $groupManager;
 
 	public function __construct(IConfig $config,
-								IGroupManager $groupManager) {
+		IGroupManager $groupManager) {
 		$this->config = $config;
 		$this->groupManager = $groupManager;
 	}

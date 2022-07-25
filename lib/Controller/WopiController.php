@@ -388,7 +388,7 @@ class WopiController extends Controller {
 	 * @throws LockedException
 	 */
 	public function getFile($fileId,
-							$access_token) {
+		$access_token) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 
 		try {
@@ -462,7 +462,7 @@ class WopiController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function putFile($fileId,
-							$access_token) {
+		$access_token) {
 		list($fileId, , ) = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 

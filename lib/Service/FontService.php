@@ -53,9 +53,9 @@ class FontService {
 	private $config;
 
 	public function __construct(IAppData $appData,
-								ICacheFactory $cacheFactory,
-								IURLGenerator $url,
-								IConfig $config) {
+		ICacheFactory $cacheFactory,
+		IURLGenerator $url,
+		IConfig $config) {
 		$this->appData = $appData;
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
 		$this->url = $url;

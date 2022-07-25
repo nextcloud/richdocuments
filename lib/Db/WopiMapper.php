@@ -46,10 +46,10 @@ class WopiMapper extends Mapper {
 	private $appConfig;
 
 	public function __construct(IDBConnection $db,
-								ISecureRandom $random,
-								ILogger $logger,
-								ITimeFactory $timeFactory,
-								AppConfig $appConfig) {
+		ISecureRandom $random,
+		ILogger $logger,
+		ITimeFactory $timeFactory,
+		AppConfig $appConfig) {
 		parent::__construct($db, 'richdocuments_wopi', Wopi::class);
 
 		$this->random = $random;

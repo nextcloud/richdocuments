@@ -181,7 +181,7 @@ class RichDocumentsContext implements Context {
 		if ($lastServer) {
 			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://'. parse_url($lastServer, PHP_URL_HOST)  . (
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
-				). '/';
+			). '/';
 		}
 		$this->extractRichdocumentsFrontendContext($result);
 
