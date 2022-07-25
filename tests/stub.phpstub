@@ -39,6 +39,8 @@ namespace OCA\Files_Sharing\Event {
 	}
 }
 
-class OC_Helper {
-	public static function getFileTemplateManager() {}
+namespace {
+	class OC_Helper {
+		public static function getFileTemplateManager() {}
+	}
 }
