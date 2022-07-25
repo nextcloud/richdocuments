@@ -24,7 +24,7 @@ namespace OCA\Richdocuments;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IUser;
+use OCP\IUserSession;
 
 class PermissionManager {
 
@@ -32,11 +32,17 @@ class PermissionManager {
 	private $config;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IUserSession */
+	private $userSession;
 
-	public function __construct(IConfig $config,
-								IGroupManager $groupManager) {
+	public function __construct(
+		IConfig $config,
+		IGroupManager $groupManager,
+		IUserSession $userSession
+	) {
 		$this->config = $config;
 		$this->groupManager = $groupManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -47,16 +53,24 @@ class PermissionManager {
 		return explode('|', $groupString);
 	}
 
-	public function isEnabledForUser(IUser $user) {
+	public function isEnabledForUser(string $userId = null) {
+		if ($userId === null) {
+			$user = $this->userSession->getUser();
+			$userId = $user ? $user->getUID() : null;
+		}
+
+		if ($userId === null) {
+			return true;
+		}
+
 		$enabledForGroups = $this->config->getAppValue(Application::APPNAME, 'use_groups', '');
 		if($enabledForGroups === '') {
 			return true;
 		}
 
 		$groups = $this->splitGroups($enabledForGroups);
-		$uid = $user->getUID();
-		foreach($groups as $group) {
-			if($this->groupManager->isInGroup($uid, $group)) {
+		foreach ($groups as $group) {
+			if ($this->groupManager->isInGroup($userId, $group)) {
 				return true;
 			}
 		}
