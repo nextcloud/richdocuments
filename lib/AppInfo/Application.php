@@ -25,9 +25,11 @@
 namespace OCA\Richdocuments\AppInfo;
 
 use OC\EventDispatcher\SymfonyAdapter;
+use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Listener\CSPListener;
+use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\PermissionManager;
@@ -68,18 +70,10 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleWare(WOPIMiddleware::class);
 		$context->registerEventListener(FileCreatedFromTemplateEvent::class, FileCreatedFromTemplateListener::class);
 		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
+		$context->registerEventListener(ShareLinkAccessedEvent::class, ShareLinkListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$currentUser = \OC::$server->getUserSession()->getUser();
-		if ($currentUser !== null) {
-			/** @var PermissionManager $permissionManager */
-			$permissionManager = \OC::$server->query(PermissionManager::class);
-			if (!$permissionManager->isEnabledForUser($currentUser->getUID())) {
-				return;
-			}
-		}
-
 		$context->injectFn(function (ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService) {
 			if (empty($capabilitiesService->getCapabilities())) {
 				return;
@@ -138,12 +132,22 @@ class Application extends App implements IBootstrap {
 			});
 		});
 
-		$context->injectFn(function (SymfonyAdapter $symfonyAdapter, IEventDispatcher $eventDispatcher, InitialStateService $initialStateService) {
-			$eventDispatcher->addListener(LoadViewer::class, function () use ($initialStateService) {
+		$context->injectFn(function (SymfonyAdapter $symfonyAdapter, IEventDispatcher $eventDispatcher, InitialStateService $initialStateService, PermissionManager $permissionManager) {
+			$isEnabledForUser = $permissionManager->isEnabledForUser();
+			$eventDispatcher->addListener(LoadViewer::class, function () use ($initialStateService, $isEnabledForUser) {
+				if (!$isEnabledForUser) {
+					return;
+				}
+
 				$initialStateService->provideCapabilities();
 				\OCP\Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
 			});
-			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () use ($initialStateService) {
+			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts', function () use ($initialStateService, $isEnabledForUser) {
+				if (class_exists(ShareLinkAccessedEvent::class) || !$isEnabledForUser) {
+					return;
+				}
+
+				// Fallback for older releases than Nextcloud 22
 				$initialStateService->provideCapabilities();
 				\OCP\Util::addScript('richdocuments', 'richdocuments-files');
 			});
