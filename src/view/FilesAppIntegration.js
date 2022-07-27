@@ -549,7 +549,12 @@ export default {
 					if (type === 'text') {
 						type = 'document'
 					}
-					const dir = parent.$('#dir').val()
+					let dir = '/'
+					if (OCA.Sharing?.PublicApp) {
+						dir = OCA.Sharing.PublicApp.currentFileList.getCurrentDirectory()
+					} else {
+						dir = OCA.Files.App.currentFileList.getCurrentDirectory()
+					}
 					const url = generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
 					window.open(url, '_blank')
 				}
