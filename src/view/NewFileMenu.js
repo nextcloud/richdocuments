@@ -20,6 +20,7 @@
  *
  */
 
+import { getCurrentDirectory } from '../helpers/filesApp'
 import Types from '../helpers/types'
 import { createEmptyFile } from '../services/api'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
@@ -91,7 +92,7 @@ const NewFileMenu = {
 				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileModel.get('mimetype'), 'file', OC.PERMISSION_ALL)
 				fileAction.action(filename, {
 					$file: null,
-					dir: FileList.getCurrentDirectory(),
+					dir: getCurrentDirectory(),
 					FileList,
 					fileActions: FileList.fileActions,
 				})
@@ -102,16 +103,18 @@ const NewFileMenu = {
 	},
 
 	_createDocumentFromTemplate(templateId, mimetype, filename) {
+		const dir = getCurrentDirectory()
 		OCA.Files.Files.isFileNameValid(filename)
 		filename = FileList.getUniqueName(filename)
+
 		$.post(
 			generateUrl('apps/richdocuments/ajax/documents/create'),
-			{ mimetype, filename, dir: document.getElementById('dir').value },
+			{ mimetype, filename, dir },
 			function(response) {
 				if (response && response.status === 'success') {
 					FileList.add(response.data, { animate: false, scrollTo: false })
 					const fileModel = FileList.getModelForFile(filename)
-					const path = document.getElementById('dir').value + '/' + filename
+					const path = dir + '/' + filename
 					OCA.RichDocuments.openWithTemplate({
 						fileId: -1,
 						path,

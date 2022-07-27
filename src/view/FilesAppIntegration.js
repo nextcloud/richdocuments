@@ -23,6 +23,7 @@
 import { generateUrl, generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
+import { getCurrentDirectory } from '../helpers/filesApp'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
@@ -549,13 +550,7 @@ export default {
 					if (type === 'text') {
 						type = 'document'
 					}
-					let dir = '/'
-					if (OCA.Sharing?.PublicApp) {
-						dir = OCA.Sharing.PublicApp.currentFileList.getCurrentDirectory()
-					} else {
-						dir = OCA.Files.App.currentFileList.getCurrentDirectory()
-					}
-					const url = generateUrl('/apps/files/?dir=' + dir + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
+					const url = generateUrl('/apps/files/?dir=' + getCurrentDirectory() + '&richdocuments_create=' + type + '&richdocuments_filename=' + encodeURI(value))
 					window.open(url, '_blank')
 				}
 			},
