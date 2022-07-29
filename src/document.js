@@ -189,6 +189,8 @@ const documentsMain = {
 				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
 				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
+				// buy product for new customer users
+				+ '<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
@@ -246,6 +248,8 @@ const documentsMain = {
 				+ '<input name="ui_defaults" value="' + getUIDefaults() + '" type="hidden"/>'
 				+ '<input name="css_variables" value="' + generateCSSVarTokens() + '" type="hidden"/>'
 				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
+				// buy product for new customer users
+				+ '<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online
