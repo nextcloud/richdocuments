@@ -1,5 +1,5 @@
 /*
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -20,20 +20,13 @@
  *
  */
 
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentDirectory } from '../helpers/filesApp'
+/**
+ * @returns {string}
+ */
+export const getCurrentDirectory = () => {
+	if (OCA.Sharing?.PublicApp) {
+		return OCA.Sharing.PublicApp.fileList.getCurrentDirectory()
+	}
 
-export const createEmptyFile = async(mimeType, fileName) => {
-	const shareToken = document.getElementById('sharingToken')?.value
-	const directoryPath = getCurrentDirectory()
-
-	const response = await axios.post(generateOcsUrl('apps/richdocuments/api/v1', 2) + 'file', {
-		mimeType,
-		fileName,
-		directoryPath,
-		shareToken,
-	})
-
-	return response.data
+	return OCA.Files.App.currentFileList.getCurrentDirectory()
 }
