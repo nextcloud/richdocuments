@@ -39,6 +39,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\QueryException;
+use OCP\Constants;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -420,10 +421,10 @@ class WopiController extends Controller {
 
 		try {
 			/** @var File $file */
-			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
-			$file = $userFolder->getById($fileId)[0];
+			$file = $this->getFileForWopiToken($wopi);
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
+				$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 				$versionManager = \OC::$server->get(IVersionManager::class);
 				$info = $versionManager->getVersionFile($userFolder->getOwner(), $file, $version);
 				if ($info->getSize() === 0) {
@@ -555,9 +556,8 @@ class WopiController extends Controller {
 			}
 
 			if ($isPutRelative) {
-				// generate a token for the new file (the user still has to be
-				// logged in)
-				list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
+				// generate a token for the new file (the user still has to be logged in)
+				list(, $wopiToken) = $this->tokenManager->getToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
 				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 				$url = $this->urlGenerator->getAbsoluteURL($wopi);
@@ -645,8 +645,7 @@ class WopiController extends Controller {
 				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
 			} elseif ($isRenameFile) {
 				// the new file needs to be installed in the current user dir
-				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
-				$file = $userFolder->getById($fileId)[0];
+				$file = $this->getFileForWopiToken($wopi);
 
 				$suggested = $this->request->getHeader('X-WOPI-RequestedName');
 
@@ -676,11 +675,7 @@ class WopiController extends Controller {
 				$path = $this->rootFolder->getNonExistingName($path);
 				$file = $file->move($path);
 			} else {
-				$file = $userFolder->getById($fileId);
-				if (count($file) === 0) {
-					return new JSONResponse([], Http::STATUS_NOT_FOUND);
-				}
-				$file = $file[0];
+				$file = $this->getFileForWopiToken($wopi);
 
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
@@ -725,12 +720,15 @@ class WopiController extends Controller {
 
 			// generate a token for the new file (the user still has to be
 			// logged in)
-			list(, $wopiToken) = $this->tokenManager->getToken($file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
+			list(, $wopiToken) = $this->tokenManager->getToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
 			$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopiToken;
 			$url = $this->urlGenerator->getAbsoluteURL($wopi);
 
 			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+		} catch (NotFoundException $e) {
+			$this->logger->logException($e, ['level' => ILogger::INFO,	'app' => 'richdocuments', 'message' => 'File not found']);
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -841,31 +839,37 @@ class WopiController extends Controller {
 	 * @throws ShareNotFound
 	 */
 	private function getFileForWopiToken(Wopi $wopi) {
-		$file = null;
-
 		if (!empty($wopi->getShare())) {
 			$share = $this->shareManager->getShareByToken($wopi->getShare());
 			$node = $share->getNode();
-			if ($node instanceof Folder) {
-				$file = $node->getById($wopi->getFileid())[0];
-			} else {
-				$file = $node;
+
+			if ($node instanceof File) {
+				return $node;
 			}
-		} else {
-			// Group folders requires an active user to be set in order to apply the proper acl permissions as for anonymous requests it requires share permissions for read access
-			// https://github.com/nextcloud/groupfolders/blob/e281b1e4514cf7ef4fb2513fb8d8e433b1727eb6/lib/Mount/MountProvider.php#L169
-			$this->userScopeService->setUserScope($wopi->getEditorUid());
-			// Unless the editor is empty (public link) we modify the files as the current editor
-			// TODO: add related share token to the wopi table so we can obtain the
-			$userFolder = $this->rootFolder->getUserFolder($wopi->getUserForFileAccess());
-			$files = $userFolder->getById($wopi->getFileid());
-			if (isset($files[0]) && $files[0] instanceof File) {
-				$file = $files[0];
-			} else {
-				throw new NotFoundException('No valid file found for wopi token');
-			}
+
+			$nodes = $node->getById($wopi->getFileid());
+			return array_shift($nodes);
 		}
-		return $file;
+
+		// Group folders requires an active user to be set in order to apply the proper acl permissions as for anonymous requests it requires share permissions for read access
+		// https://github.com/nextcloud/groupfolders/blob/e281b1e4514cf7ef4fb2513fb8d8e433b1727eb6/lib/Mount/MountProvider.php#L169
+		$this->userScopeService->setUserScope($wopi->getEditorUid());
+		// Unless the editor is empty (public link) we modify the files as the current editor
+		// TODO: add related share token to the wopi table so we can obtain the
+		$userFolder = $this->rootFolder->getUserFolder($wopi->getUserForFileAccess());
+		$files = $userFolder->getById($wopi->getFileid());
+
+		if (count($files) === 0) {
+			throw new NotFoundException('No valid file found for wopi token');
+		}
+
+		// Workaround to always open files with edit permissions if multiple occurrences of
+		// the same file id are in the user home, ideally we should also track the path of the file when opening
+		usort($files, function (Node $a, Node $b) {
+			return ($b->getPermissions() & Constants::PERMISSION_UPDATE) <=> ($a->getPermissions() & Constants::PERMISSION_UPDATE);
+		});
+
+		return array_shift($files);
 	}
 
 	/**
