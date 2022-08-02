@@ -165,7 +165,6 @@ OC.L10N.register(
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office 需要一台运行 Collabora Online 的独立服务器来提供编辑功能。",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online （在线协作）需要一台单独的服务器作为类似网络应用开放平台接口（WOPI-like）的客户端来提供编辑功能。",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "默认情况下所有用户都能使用 {productName} 编辑文档。当此设置激活时，只有特定分组的成员才能编辑文档，而其他用户只能查看文档。",
-    "Loading {filename}…" : "正在加载 {filename}…",
     "Document already exists" : "文档已存在",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online（在线协作）已默认为所有用户启用。当此设置激活时，只有指定组的成员可以使用它。",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目录中的模板将被添加到在线协作的模板选择器。"
