@@ -172,7 +172,6 @@
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "O Nextcloud Office requer um servidor separado executando o Collabora Online para fornecer recursos de edição.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "O Collabora Online requer um servidor separado atuando como um cliente do tipo WOPI para fornecer recursos de edição.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Todos os usuários podem editar documentos com {productName} por padrão. Quando esta configuração está ativa, apenas os membros dos grupos especificados podem editar e os outros podem apenas visualizar documentos.",
-    "Loading {filename}…" : "Carregando {filename}…",
     "Document already exists" : "Documento já existe",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "O Collabora Online está habilitado para todos os usuários por padrão. Quando essa configuração está ativa, apenas os membros dos grupos especificados podem usá-la.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Os modelos dentro deste diretório serão adicionados ao seletor de modelos do Collabora Online."
