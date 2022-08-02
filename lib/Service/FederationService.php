@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
@@ -30,7 +33,7 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\TokenManager;
-use OCP\AppFramework\QueryException;
+use OCP\AutoloadNotAllowedException;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -41,6 +44,8 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\IShare;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class FederationService {
 
@@ -70,8 +75,21 @@ class FederationService {
 		$this->request = $request;
 		$this->urlGenerator = $urlGenerator;
 		try {
-			$this->trustedServers = \OC::$server->query( \OCA\Federation\TrustedServers::class);
-		} catch (QueryException $e) {}
+			$this->trustedServers = \OC::$server->get(\OCA\Federation\TrustedServers::class);
+		} catch (NotFoundExceptionInterface $e) {
+		} catch (ContainerExceptionInterface $e) {
+		} catch (AutoloadNotAllowedException $e) {
+		}
+	}
+
+	public function getTrustedServers(): array {
+		if (!$this->trustedServers) {
+			return [];
+		}
+
+		return array_map(function (array $server) {
+			return $server['url'];
+		}, $this->trustedServers->getServers());
 	}
 
 	/**
@@ -118,7 +136,7 @@ class FederationService {
 
 		$domain = $this->getDomainWithoutPort($domainWithPort);
 
-		$trustedList = array_merge($this->appConfig->getTrustedDomains(), [$this->request->getServerHost()]);
+		$trustedList = array_merge($this->appConfig->getGlobalScaleTrustedHosts(), [$this->request->getServerHost()]);
 		if (!is_array($trustedList)) {
 			return false;
 		}

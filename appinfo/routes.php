@@ -30,7 +30,6 @@ return [
 		//documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
-		['name' => 'document#openRemoteFile', 'url' => 'open', 'verb' => 'GET'],
 
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],

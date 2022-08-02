@@ -32,7 +32,6 @@ use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -45,6 +44,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 
 class DirectViewController extends Controller {
+	use DocumentTrait;
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -180,10 +180,7 @@ class DirectViewController extends Controller {
 
 			$this->initialState->provideDocument($wopi);
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-			$policy = new ContentSecurityPolicy();
-			$policy->allowInlineScript(true);
-			$policy->addAllowedFrameDomain($this->appConfig->getAppValue('public_wopi_url'));
-			$response->setContentSecurityPolicy($policy);
+			$this->applyPolicies($response);
 			return $response;
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
@@ -236,10 +233,7 @@ class DirectViewController extends Controller {
 
 				$this->initialState->provideDocument($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
-				$policy = new ContentSecurityPolicy();
-				$policy->allowInlineScript(true);
-				$policy->addAllowedFrameDomain($this->appConfig->getAppValue('public_wopi_url'));
-				$response->setContentSecurityPolicy($policy);
+				$this->applyPolicies($response);
 				return $response;
 			}
 		} catch (\Exception $e) {
