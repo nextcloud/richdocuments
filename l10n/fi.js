@@ -101,7 +101,6 @@ OC.L10N.register(
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
     "Collabora Online" : "Collabora Online",
-    "Loading {filename}…" : "Ladataan {filename}…",
     "Document already exists" : "Asiakirja on jo olemassa"
 },
 "nplurals=2; plural=(n != 1);");

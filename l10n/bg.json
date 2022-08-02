@@ -172,7 +172,6 @@
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office изисква отделен сървър, работещ с Collabora Online, за да предостави възможности за редактиране.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online изисква отделен сървър, действащ като WOPI-подобен клиент, за да предостави възможности за редактиране.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Всички потребители могат да редактират документи с {productName} по подразбиране. Когато тази настройка е активна, само членовете на посочените групи могат да редактират, а останалите могат само да преглеждат документи.",
-    "Loading {filename}…" : "Зареждане на {filename}…",
     "Document already exists" : "Документът вече съществува",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online е активирана за всички потребители по подразбиране. Когато тази настройка е активна, само членовете на посочените групи могат да я използват.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните в тази директория ще бъдат добавени към селектора на шаблони на Collabora Online."

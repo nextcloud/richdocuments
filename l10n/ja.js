@@ -174,7 +174,6 @@ OC.L10N.register(
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "編集機能を提供するために、Nextcloud OfficeはCollabora Onlineが動作するサーバーが別途必要です。",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Onlineには、編集機能を提供するためにWOPIのようにクライアントとして機能するサーバーが別途必要です。",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "デフォルトでは、全ユーザーに {productName} での編集権限があります。この設定を有効にした場合、指定したグループだけが編集でき、その他のユーザーはドキュメントの参照のみになります。",
-    "Loading {filename}…" : "{filename} を読み込み中…",
     "Document already exists" : "グループはすでに存在しています",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Onlineサーバーはデフォルトで有効です。この設定を有効にした場合、指定したグループでしか利用する事ができません。",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "このディレクトリ内のテンプレートは、Collabora Onlineのテンプレートセレクタに追加されます。"
