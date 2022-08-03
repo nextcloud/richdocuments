@@ -26,6 +26,7 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Events\DocumentOpenedEvent;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
@@ -41,6 +42,7 @@ use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
@@ -97,30 +99,13 @@ class WopiController extends Controller {
 	/** @var IGroupManager */
 	private $groupManager;
 	private ILockManager $lockManager;
+	private IEventDispatcher $eventDispatcher;
 
 	// Signifies LOOL that document has been changed externally in this storage
 	public const LOOL_STATUS_DOC_CHANGED = 1010;
 
 	public const WOPI_AVATAR_SIZE = 32;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IRootFolder $rootFolder
-	 * @param IURLGenerator $urlGenerator
-	 * @param IConfig $config
-	 * @param AppConfig $appConfig
-	 * @param TokenManager $tokenManager
-	 * @param IUserManager $userManager
-	 * @param WopiMapper $wopiMapper
-	 * @param ILogger $logger
-	 * @param TemplateManager $templateManager
-	 * @param IShareManager $shareManager
-	 * @param UserScopeService $userScopeService
-	 * @param FederationService $federationService
-	 * @param IEncryptionManager $encryptionManager
-	 * @param IGroupManager $groupManager
-	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -138,7 +123,8 @@ class WopiController extends Controller {
 		FederationService $federationService,
 		IEncryptionManager $encryptionManager,
 		IGroupManager $groupManager,
-		ILockManager $lockManager
+		ILockManager $lockManager,
+		IEventDispatcher $eventDispatcher
 	) {
 		parent::__construct($appName, $request);
 		$this->rootFolder = $rootFolder;
@@ -156,6 +142,7 @@ class WopiController extends Controller {
 		$this->encryptionManager = $encryptionManager;
 		$this->groupManager = $groupManager;
 		$this->lockManager = $lockManager;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -273,6 +260,11 @@ class WopiController extends Controller {
 		if ($wopi->isRemoteToken()) {
 			$response = $this->setFederationFileInfo($wopi, $response);
 		}
+
+		$this->eventDispatcher->dispatchTyped(new DocumentOpenedEvent(
+			$user ? $user->getUID() : null,
+			$file
+		));
 
 		return new JSONResponse($response);
 	}
