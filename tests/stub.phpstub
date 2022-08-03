@@ -1,0 +1,11 @@
+<?php
+
+
+namespace OCA\Federation {
+	class TrustedServers {
+		/** @returns bool */
+		public function isTrustedServer(string $url) {}
+		/** @returns array */
+		public function getServers() {}
+	}
+}
