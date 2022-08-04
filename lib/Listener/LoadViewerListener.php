@@ -52,7 +52,7 @@ class LoadViewerListener implements IEventListener {
 		}
 		if ($this->permissionManager->isEnabledForUser()) {
 			$this->initialStateService->provideCapabilities();
-			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
+			Util::addScript('richdocuments', 'richdocuments-viewer');
 		}
 	}
 }
