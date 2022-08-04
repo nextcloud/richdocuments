@@ -25,6 +25,7 @@ use OCA\Richdocuments\PermissionManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -34,6 +35,8 @@ class PermissionManagerTest extends TestCase {
 	private $config;
 	/** @var IGroupManager|MockObject */
 	private $groupManager;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var PermissionManager */
 	private $permissionManager;
 
@@ -41,30 +44,46 @@ class PermissionManagerTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->permissionManager = new PermissionManager($this->config, $this->groupManager);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->permissionManager = new PermissionManager($this->config, $this->groupManager, $this->userSession);
 	}
 
 	public function testIsEnabledForUserEnabledNoRestrictions() {
-		/** @var IUser|MockObject $user */
-		$user = $this->createMock(IUser::class);
-
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('richdocuments', 'use_groups', '')
 			->willReturn('');
 
-		$this->assertTrue($this->permissionManager->isEnabledForUser($user));
+		$this->assertTrue($this->permissionManager->isEnabledForUser('TestUser'));
 	}
 
-	public function testIsEnabledForUserEnabledNotInGroup() {
+	public function testIsEnabledForUserEnabledNotInGroupSession() {
 		/** @var IUser|MockBuilder $user */
 		$user = $this->createMock(IUser::class);
 		$user
-			->expects($this->once())
+			->expects($this->any())
 			->method('getUID')
 			->willReturn('TestUser');
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
 
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('richdocuments', 'use_groups', '')
+			->willReturn('Enabled1|Enabled2|Enabled3');
+
+		$this->groupManager
+			->expects($this->at(0))
+			->method('isInGroup')
+			->with('TestUser', 'Enabled1')
+			->willReturn(true);
+		$this->assertTrue($this->permissionManager->isEnabledForUser());
+	}
+
+	public function testIsEnabledForUserEnabledNotInGroup() {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -87,17 +106,10 @@ class PermissionManagerTest extends TestCase {
 			->with('TestUser', 'Enabled3')
 			->willReturn(false);
 
-		$this->assertFalse($this->permissionManager->isEnabledForUser($user));
+		$this->assertFalse($this->permissionManager->isEnabledForUser('TestUser'));
 	}
 
 	public function testIsEnabledForUserEnabledInGroup() {
-		/** @var IUser|MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user
-			->expects($this->once())
-			->method('getUID')
-			->willReturn('TestUser');
-
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -115,6 +127,6 @@ class PermissionManagerTest extends TestCase {
 			->with('TestUser', 'Enabled2')
 			->willReturn(true);
 
-		$this->assertTrue($this->permissionManager->isEnabledForUser($user));
+		$this->assertTrue($this->permissionManager->isEnabledForUser('TestUser'));
 	}
 }
