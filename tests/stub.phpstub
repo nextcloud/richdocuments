@@ -7,5 +7,40 @@ namespace OCA\Federation {
 		public function isTrustedServer(string $url) {}
 		/** @returns array */
 		public function getServers() {}
+		public function isTrustedServer($domainWithPort) {}
+    }
+}
+
+namespace OCA\Viewer\Event {
+	class LoadViewer extends \OCP\EventDispatcher\Event {}
+}
+
+namespace Doctrine\DBAL\Platforms {
+	class SqlitePlatform {}
+}
+
+
+namespace OCA\Files_Sharing\Event {
+	use \OCP\Share\IShare;
+	class ShareLinkAccessedEvent extends \OCP\EventDispatcher\Event {
+		public function __construct(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = '') {}
+
+		public function getShare(): IShare {
+		}
+
+		public function getStep(): string {
+		}
+
+		public function getErrorCode(): int {
+		}
+
+		public function getErrorMessage(): string {
+		}
+	}
+}
+
+namespace {
+	class OC_Helper {
+		public static function getFileTemplateManager() {}
 	}
 }
