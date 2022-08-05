@@ -35,7 +35,7 @@ class ConfigService {
     loadFromGlobal(key: string) {
         // @ts-ignore
         this.values[key] = window['richdocuments_' + key]
-		if (['path', 'title'].indexOf(key) !== -1) {
+		if (['path'].indexOf(key) !== -1) {
 			this.values[key] = JSON.parse(atob(this.values[key]));
 		}
     }
