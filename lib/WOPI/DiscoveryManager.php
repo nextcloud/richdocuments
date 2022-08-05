@@ -81,11 +81,7 @@ class DiscoveryManager {
 			$options['timeout'] = 180;
 		}
 
-		try {
-			return $client->get($wopiDiscovery, $options);
-		} catch (\Exception $e) {
-			throw $e;
-		}
+		return $client->get($wopiDiscovery, $options);
 	}
 
 	public function refetch() {
