@@ -28,7 +28,7 @@ export const createEmptyFile = async(mimeType, fileName) => {
 	const shareToken = document.getElementById('sharingToken')?.value
 	const directoryPath = getCurrentDirectory()
 
-	const response = await axios.post(generateOcsUrl('apps/richdocuments/api/v1', 2) + 'file', {
+	const response = await axios.post(generateOcsUrl('apps/richdocuments/api/v1/file', 2), {
 		mimeType,
 		fileName,
 		directoryPath,
