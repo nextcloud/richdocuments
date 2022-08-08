@@ -101,7 +101,7 @@ const odfViewer = {
 		let templateId
 
 		if (!odfViewer.isCollaboraConfigured) {
-			$.get(generateOcsUrl('cloud') + '/capabilities?format=json').then(
+			$.get(generateOcsUrl('cloud/capabilities?format=json')).then(
 				e => {
 					if ((OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
 						|| (typeof e.ocs.data.capabilities.richdocuments.collabora === 'object'

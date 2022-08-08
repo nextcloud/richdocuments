@@ -132,7 +132,7 @@ const NewFileMenu = {
 	_openTemplatePicker(type, mimetype, filename) {
 		const self = this
 		$.ajax({
-			url: generateOcsUrl('apps/richdocuments/api/v1/templates', 2) + type,
+			url: generateOcsUrl(`apps/richdocuments/api/v1/templates/${type}`, 2) + type,
 			dataType: 'json',
 		}).then(function(response) {
 			if (response.ocs.data.length === 1) {
