@@ -104,7 +104,7 @@ class WopiController extends Controller {
 	// Signifies LOOL that document has been changed externally in this storage
 	public const LOOL_STATUS_DOC_CHANGED = 1010;
 
-	public const WOPI_AVATAR_SIZE = 32;
+	public const WOPI_AVATAR_SIZE = 64;
 
 	public function __construct(
 		$appName,
