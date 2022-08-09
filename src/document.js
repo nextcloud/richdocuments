@@ -197,6 +197,7 @@ const documentsMain = {
 
 			$('#revViewer').append(form)
 			$('#revViewer').append(frame)
+			$('#loleafletframe_viewer').focus()
 
 			// submit that
 			$('#loleafletform_viewer').submit()
@@ -254,6 +255,7 @@ const documentsMain = {
 
 			$('#mainContainer').append(form)
 			$('#mainContainer').append(frame)
+			$('#loleafletframe').focus()
 
 			emit('richdocuments:wopi-load:started', {
 				wopiFileId: fileId,
