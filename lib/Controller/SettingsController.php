@@ -201,7 +201,7 @@ class SettingsController extends Controller {
 					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
 					$colon = strpos($public_wopi_url, ':', 0);
 					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)) {
-						$message = $this->l10n->t('Saved with error: Collabora Online should use the same protocol as the server installation.');
+						$message = $this->l10n->t('Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server.');
 					}
 				}
 			}
