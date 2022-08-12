@@ -9,7 +9,6 @@ OC.L10N.register(
     "New Presentation.pptx" : "Prezantim.pptx i ri",
     "File already exists" : "Skedari ekziston tashmë",
     "Saved" : "U ruajt",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
     "The file was uploaded" : "Skedari u ngarkua",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Kartela e ngarkuar tejkalon udhëzimin MAX_FILE_SIZE që qe përcaktuar te formulari HTML",
     "No file was uploaded" : "S’u ngarkua kartelë",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "Could not create file" : "Kartela s’u krijua dot",
     "Create" : "Krijo",
     "Select template" : "Zgjidh shabllonin",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit."
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,7 +7,6 @@
     "New Presentation.pptx" : "Nyt præsentation.pptx",
     "File already exists" : "Filen findes allerede",
     "Saved" : "Gemt",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen.",
     "The file was uploaded" : "Filen blev uploadet",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Den uploadede fil overstiger upload_max_filesize-direktivet i php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Den uploadede fil overskrider MAX_FILE_SIZE-direktivet, der blev angivet i HTML-formularen",
@@ -48,6 +47,7 @@
     "Could not create file" : "Kunne ikke oprette fil",
     "Create" : "Opret",
     "Select template" : "Vælg model",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

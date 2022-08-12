@@ -9,7 +9,6 @@ OC.L10N.register(
     "New Presentation.pptx" : "Presentación.pptx nueva",
     "File already exists" : "Yá esiste'l ficheru",
     "Saved" : "Guardóse",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor.",
     "The file was uploaded" : "Xubióse'l ficheru",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "El ficheru xubíu perpasa la direutiva de xuba upload_max_filesize en php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "El ficheru xubíu perpasa la direutiva \"MAX_FILE_SIZE\" especificada nel formulariu HTML",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya",
     "Could not create file" : "Nun pudo crease'l ficheru",
     "Create" : "Crear",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor."
 },
 "nplurals=2; plural=(n != 1);");

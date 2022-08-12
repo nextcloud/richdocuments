@@ -8,7 +8,6 @@
     "File already exists" : "파일이 이미 있습니다.",
     "Not allowed to create document" : "문서 생성이 허용되지 않았습니다",
     "Saved" : "저장됨",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
     "The file was uploaded" : "파일을 업로드함",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "업로드한 파일의 크기가 php.ini의 upload_max_filesize를 초과함",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "업로드한 파일의 크기가 HTML 폼에 지정한 MAX_FILE_SIZE를 초과함",
@@ -57,6 +56,7 @@
     "template preview" : "템플릿 미리보기",
     "Select a template directory" : "템플릿 디렉터리 선택",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
     "Document already exists" : "문서가 이미 존재합니다"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
