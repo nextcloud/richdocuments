@@ -10,7 +10,6 @@ OC.L10N.register(
     "File already exists" : "Файл вже існує",
     "Not allowed to create document" : "Не дозволено створювати документ",
     "Saved" : "Збережено",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
     "Invalid config key" : "Неправильний ключ конфігурації",
     "Error when saving" : "Помилка під час збереження",
     "The file was uploaded" : "Файл завантажено",
@@ -72,6 +71,7 @@ OC.L10N.register(
     "Select a template directory" : "Виберіть теку для шаблонів",
     "Remove personal template folder" : "Вилучити теку з власними шаблонами",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
     "Document already exists" : "Документ уже існує",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цій теці буде додано до вибору шаблонів у Collabora Online"
 },

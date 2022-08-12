@@ -10,7 +10,6 @@ OC.L10N.register(
     "File already exists" : "הקובץ כבר קיים",
     "Not allowed to create document" : "אין הרשאה ליצור מסמך",
     "Saved" : "נשמר",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "נשמר עם שגיאה: Collabora Online צריך להשתמש באותו פרוטוקול של ההתקנה בשרת.",
     "Invalid config key" : "מפתח ההגדרות שגוי",
     "Error when saving" : "שגיאה בעת השמירה",
     "The file was uploaded" : "הקובץ הועלה",
@@ -102,6 +101,7 @@ OC.L10N.register(
     "Select a template directory" : "בחירת תיקיית תבניות",
     "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "נשמר עם שגיאה: Collabora Online צריך להשתמש באותו פרוטוקול של ההתקנה בשרת.",
     "Document already exists" : "המסמך כבר קיים",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online."
 },

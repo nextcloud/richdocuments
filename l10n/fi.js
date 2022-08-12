@@ -15,7 +15,6 @@ OC.L10N.register(
     "File already exists" : "Tiedosto on jo olemassa",
     "Not allowed to create document" : "Asiakirjan luominen ei ole sallittu",
     "Saved" : "Tallennettu",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
     "Error when saving" : "Virhe tallentaessa",
     "The file was uploaded" : "Tiedosto lähetettiin",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Ladattu tiedosto on suurempi kuin php.ini-tiedostossa määritelty upload_max_filesize",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
     "Document already exists" : "Asiakirja on jo olemassa"
 },
 "nplurals=2; plural=(n != 1);");

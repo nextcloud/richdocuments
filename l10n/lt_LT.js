@@ -14,7 +14,6 @@ OC.L10N.register(
     "File already exists" : "Failas jau yra",
     "Not allowed to create document" : "Neleidžiama sukurti dokumentą",
     "Saved" : "Įrašyta",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Įrašyta su klaida: Collabora Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
     "Invalid config key" : "Neteisingas konfigūracijos raktas",
     "Error when saving" : "Klaida įrašant",
     "The file was uploaded" : "Failas buvo įkeltas",
@@ -93,6 +92,7 @@ OC.L10N.register(
     "template preview" : "šablono peržiūra",
     "Select a template directory" : "Pasirinkite šablonų katalogą",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Įrašyta su klaida: Collabora Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
     "Document already exists" : "Dokumentas jau yra"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

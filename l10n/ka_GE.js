@@ -9,7 +9,6 @@ OC.L10N.register(
     "New Presentation.pptx" : "ახალი პრეზენტაცია.pptx",
     "File already exists" : "ფაილი უკვე არსებობს",
     "Saved" : "შენახულია",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "ატვირთული ფაილი აჭარბებს php.ini-ში დაყენებულ upload_max_filesize დირექტივას",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "ატვირთული ფაილი აჭარბებს HTML ფორამაში მითითებულ MAX_FILE_SIZE დირექტივას",
     "No file was uploaded" : "ფაილი არ აიტვირთა",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
     "Create" : "შექმნა",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია."
 },
 "nplurals=2; plural=(n!=1);");

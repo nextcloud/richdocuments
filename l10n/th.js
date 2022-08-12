@@ -10,7 +10,6 @@ OC.L10N.register(
     "File already exists" : "มีไฟล์นี้อยู่แล้ว",
     "Not allowed to create document" : "ไม่ยอมให้สร้างเอกสาร",
     "Saved" : "บันทึกแล้ว",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
     "Invalid config key" : "การกำหนดค่าคีย์ไม่ถูกต้อง",
     "Error when saving" : "ข้อผิดพลาด ขณะบันทึก",
     "The file was uploaded" : "ไฟล์อัปโหลดแล้ว",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง",
     "Collabora Online" : "Collabora ออนไลน์",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
     "Document already exists" : "มีเอกสารอยู่แล้ว"
 },
 "nplurals=1; plural=0;");

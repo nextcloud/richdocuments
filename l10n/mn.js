@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Шинэ Spreadsheet.xlsx",
     "New Presentation.pptx" : "Шинэ танилцуулга.pptx",
     "Saved" : "хадгалагдсан",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
     "File is too big" : "Файлын хэмжээ хэт их байна",
     "Invalid file provided" : "Буруу файл байна",
     "Advanced settings" : "Нарийвчилсан тохиргоо",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
     "Could not create file" : "Файл үүсгэж чадсангүй",
     "Create" : "Үүсгэх",
-    "Collabora Online" : "онлайн Collabora "
+    "Collabora Online" : "онлайн Collabora ",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой."
 },
 "nplurals=2; plural=(n != 1);");
