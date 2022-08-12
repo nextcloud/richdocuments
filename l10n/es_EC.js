@@ -9,7 +9,6 @@ OC.L10N.register(
     "New Presentation.pptx" : "Nueva Presentación.pptx",
     "File already exists" : "El archivo ya existe",
     "Saved" : "Guardado",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor.",
     "The file was uploaded" : "El archivo fue cargado",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "El archivo cargado excede el valor establecido en la directiva upload_max_filesize en el archivo php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "El archivo cargado excede el valor especificado de la directiva MAX_FILE_SIZE en la forma de HTML",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Could not create file" : "No fue posible crear el archivo",
     "Create" : "Crear",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

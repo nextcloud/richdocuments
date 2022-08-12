@@ -9,7 +9,6 @@ OC.L10N.register(
     "New Presentation.pptx" : "New Presentation.pptx",
     "File already exists" : "File already exists",
     "Saved" : "Saved",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation.",
     "The file was uploaded" : "The file was uploaded",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "The uploaded file exceeds the upload_max_filesize directive in php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Could not create file" : "Could not create file",
     "Create" : "Create",
     "Select template" : "Select template",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation."
 },
 "nplurals=2; plural=(n != 1);");

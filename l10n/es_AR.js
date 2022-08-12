@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Nueva HojaDeCálculo.xlsx",
     "New Presentation.pptx" : "Nueva Presentación.pptx",
     "Saved" : "Guardado",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalacion del servidor.",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "El archivo subido sobrepasa el valor MAX_FILE_SIZE especificada en el formulario HTML",
     "No file was uploaded" : "No se subió ningún archivo ",
     "Missing a temporary folder" : "Falta un directorio temporal",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Select template" : "Seleccionar plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalacion del servidor.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

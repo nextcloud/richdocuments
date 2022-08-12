@@ -8,7 +8,6 @@ OC.L10N.register(
     "New Spreadsheet.xlsx" : "Nove-Folio-de-Labor.xlsx",
     "New Presentation.pptx" : "Nove-Presentation.pptx",
     "Saved" : "Salveguardate",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation.",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Le file incargate excede le directiva MAX_FILE_SIZE que esseva specificate in le formulario HTML",
     "No file was uploaded" : "Nulle file esseva incargate",
     "Missing a temporary folder" : "Il manca un dossier temporari",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",
     "Could not create file" : "Impossibile crear le file",
     "Create" : "Crear",
-    "Collabora Online" : "Collabora Online"
+    "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation."
 },
 "nplurals=2; plural=(n != 1);");
