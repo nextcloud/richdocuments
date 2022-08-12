@@ -10,7 +10,6 @@ OC.L10N.register(
     "File already exists" : "Filen finnes allerede",
     "Not allowed to create document" : "Ingen tillatelse til å lage nytt dokument",
     "Saved" : "Lagret",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som serverinstallasjonen.",
     "The file was uploaded" : "Filen ble lastet opp",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Filen er større enn definert grense i upload_max_filesize satt i php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Filen er større enn definert grense i MAX_FILE_SIZE  satt i HTML-formen.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Create" : "Ny",
     "Select template" : "Velg mal",
     "Collabora Online" : "Collabora Online",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som serverinstallasjonen.",
     "Document already exists" : "Dokumentet finnes allerede"
 },
 "nplurals=2; plural=(n != 1);");
