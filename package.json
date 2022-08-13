@@ -50,7 +50,7 @@
 		"@babel/plugin-transform-runtime": "^7.18.10",
 		"@babel/preset-env": "^7.18.10",
 		"@nextcloud/babel-config": "^1.0.0",
-		"@nextcloud/browserslist-config": "^2.2.0",
+		"@nextcloud/browserslist-config": "^2.3.0",
 		"@nextcloud/eslint-config": "^5.1.0",
 		"@nextcloud/eslint-plugin": "^2.0.0",
 		"@nextcloud/webpack-vue-config": "^4.1.0",
