@@ -14,6 +14,7 @@
     "File already exists" : "Plik już istnieje",
     "Not allowed to create document" : "Nie masz uprawnień do tworzenia dokumentu",
     "Saved" : "Zapisano",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Zapisano z błędem: Collabora Online powinien udostępniać ten sam protokół, co instalacja serwera. Sprawdź ustawienia ssl.enable i ssl.termination serwera Collabora Online.",
     "Invalid config key" : "Nieprawidłowy klucz konfiguracji",
     "Error when saving" : "Błąd podczas zapisu",
     "The file was uploaded" : "Plik został wysłany",
