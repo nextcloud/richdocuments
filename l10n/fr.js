@@ -31,7 +31,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Seuls des fichiers modèles peuvent être téléversés",
     "Invalid file provided" : "Fichier non valide",
     "Template not found" : "Modèle non trouvé",
-    "Office" : "Suite bureautique",
+    "Office" : "Nextcloud Office",
     "Empty" : "Vide",
     "Anonymous guest" : "Invité anonyme",
     "%s (Guest)" : "%s (Invité)",

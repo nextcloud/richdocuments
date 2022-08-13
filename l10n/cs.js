@@ -16,6 +16,7 @@ OC.L10N.register(
     "File already exists" : "Soubor už existuje",
     "Not allowed to create document" : "Nemáte oprávnění k vytvoření dokumentu",
     "Saved" : "Uloženo",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Chyba při ukládání: Collabora Online by měla exponovat stejný protokol jako instalace serveru. Zkontrolujte nastavení ssl.enable a ssl.termination na Collabora serveru, který využíváte.",
     "Invalid config key" : "Neplatný klíč nastavení",
     "Error when saving" : "Chyba při ukládání",
     "The file was uploaded" : "Soubor byl nahrán",
