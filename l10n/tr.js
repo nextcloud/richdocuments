@@ -16,6 +16,7 @@ OC.L10N.register(
     "File already exists" : "Dosya zaten var",
     "Not allowed to create document" : "Belge eklemeye izin verilmiyor",
     "Saved" : "Kaydedildi",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Sorunlu olarak kaydedildi: Collabora Online, sunucu kurulumuyla aynı iletişim kuralını kullandırmalıdır. Lütfen Collabora Online sunucunuzun ssl.enable ve ssl.termination ayarlarını denetleyin.",
     "Invalid config key" : "Yapılandırma anahtarı geçersiz",
     "Error when saving" : "Kaydedilirken sorun çıktı",
     "The file was uploaded" : "Dosya yüklendi",
