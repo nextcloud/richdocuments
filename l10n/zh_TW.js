@@ -16,6 +16,7 @@ OC.L10N.register(
     "File already exists" : "檔案已存在",
     "Not allowed to create document" : "不允許建立文件",
     "Saved" : "已儲存",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "儲存時發生錯誤：Collabora Online 應公開與伺服器安裝相同的協定。請檢查您的 Collabora Online 伺服器的 ssl.enable 與 ssl.termination 設定。",
     "Invalid config key" : "無效的設定鍵",
     "Error when saving" : "儲存時發生錯誤",
     "The file was uploaded" : "檔案已上傳",
