@@ -16,6 +16,7 @@ OC.L10N.register(
     "File already exists" : "Badago izen bereko fitxategi bat",
     "Not allowed to create document" : "Ez duzu baimenik dokumentua sortzeko",
     "Saved" : "Gordeta",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Errore batekin gordeta: Collabora Online-k zerbitzariaren instalazioaren protokolo bera erakutsi beharko luke. Mesedez, egiaztatu zure Collabora Online zerbitzariaren ssl.enable eta ssl.termination ezarpenak.",
     "Invalid config key" : "Konfigurazio gako baliogabea",
     "Error when saving" : "Errorea gordetzean",
     "The file was uploaded" : "Fitxategia kargatu da",
