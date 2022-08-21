@@ -16,6 +16,7 @@ OC.L10N.register(
     "File already exists" : "A fájl már létezik",
     "Not allowed to create document" : "Dokumentum létrehozása nem engedélyezett",
     "Saved" : "Mentve",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Hibával mentve: a Collabora Online-nak ugyanazt a protokollt kellene nyújtania mint a kiszolgálóoldali telepítésnek. Ellenőrizze a Collabora Online-kiszolgáló ssl.enable és ssl.termination beállításait.",
     "Invalid config key" : "Érvénytelen konfigurációs kulcs",
     "Error when saving" : "Hiba a mentés során",
     "The file was uploaded" : "A fájl feltöltve",
