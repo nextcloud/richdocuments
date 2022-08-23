@@ -15,7 +15,8 @@
     </RedundantCondition>
   </file>
   <file src="lib/AppInfo/Application.php">
-    <MissingDependency occurrences="18">
+    <MissingDependency occurrences="19">
+      <code>$container</code>
       <code>$container</code>
       <code>$container</code>
       <code>$container</code>
@@ -35,6 +36,10 @@
       <code>OpenDocument</code>
       <code>Pdf</code>
     </MissingDependency>
+    <UndefinedClass occurrences="2">
+      <code>ShareLinkAccessedEvent</code>
+      <code>\OC_Helper</code>
+    </UndefinedClass>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass occurrences="1">
@@ -74,12 +79,6 @@
   </file>
   <file src="lib/Controller/DocumentController.php">
     <InvalidCatch occurrences="1"/>
-    <InvalidReturnStatement occurrences="1">
-      <code>new TemplateResponse('core', 'error', $params, 'guest')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="5">
       <code>$fileId</code>
       <code>$item-&gt;getId()</code>
@@ -178,6 +177,14 @@
     <InvalidScalarArgument occurrences="1">
       <code>$time</code>
     </InvalidScalarArgument>
+  </file>
+  <file src="lib/Listener/ShareLinkListener.php">
+    <MissingDependency occurrences="1">
+      <code>ShareLinkListener</code>
+    </MissingDependency>
+    <UndefinedClass occurrences="1">
+      <code>ShareLinkAccessedEvent</code>
+    </UndefinedClass>
   </file>
   <file src="lib/Preview/MSExcel.php">
     <MissingDependency occurrences="1">
