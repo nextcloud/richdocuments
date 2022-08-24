@@ -209,7 +209,7 @@ class WopiController extends Controller {
 			'UserFriendlyName' => $userDisplayName,
 			'UserExtraInfo' => [],
 			'UserCanWrite' => (bool)$wopi->getCanwrite(),
-			'UserCanNotWriteRelative' => $this->encryptionManager->isEnabled() || $isPublic,
+			'UserCanNotWriteRelative' => $this->encryptionManager->isEnabled() || $isPublic || $wopi->getHideDownload(),
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
 			'SupportsRename' => !$isVersion,
