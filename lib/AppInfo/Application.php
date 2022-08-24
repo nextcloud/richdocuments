@@ -28,8 +28,10 @@ use OC\EventDispatcher\SymfonyAdapter;
 use OC\Files\Type\Detection;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\Federation\TrustedServers;
+use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
@@ -67,25 +69,15 @@ class Application extends App implements IBootstrap {
 		$context->registerTemplateProvider(CollaboraTemplateProvider::class);
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleWare(WOPIMiddleware::class);
+		$context->registerEventListener(ShareLinkAccessedEvent::class, ShareLinkListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$currentUser = \OC::$server->getUserSession()->getUser();
-		if($currentUser !== null) {
-			/** @var PermissionManager $permissionManager */
-			$permissionManager = \OC::$server->query(PermissionManager::class);
-			if(!$permissionManager->isEnabledForUser($currentUser)) {
+		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config, PermissionManager $permissionManager) {
+			if (!$permissionManager->isEnabledForUser()) {
 				return;
 			}
-		}
 
-		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
-		$eventDispatcher->addListener(LoadViewer::class, function () {
-			\OCP\Util::addScript('richdocuments', 'richdocuments-viewer');
-		});
-
-		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config) {
 			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
 				$odtType = new TemplateFileCreator('richdocuments', $l10n->t('New document'), ($ooxml ? '.docx' : '.odt'));
@@ -128,14 +120,23 @@ class Application extends App implements IBootstrap {
 			});
 		});
 
-		$context->injectFn(function (SymfonyAdapter $eventDispatcher) {
+		$context->injectFn(function (SymfonyAdapter $eventDispatcher, PermissionManager $permissionManager) {
+ 			$isEnabledForUser = $permissionManager->isEnabledForUser();
 			$eventDispatcher->addListener('OCA\Files::loadAdditionalScripts',
-				function() {
+				function() use ($isEnabledForUser) {
+					if (!$isEnabledForUser) {
+						return;
+					}
 					\OCP\Util::addScript('richdocuments', 'richdocuments-files');
 				}
 			);
 			$eventDispatcher->addListener('OCA\Files_Sharing::loadAdditionalScripts',
-				function() {
+				function() use ($isEnabledForUser) {
+					if (class_exists(ShareLinkAccessedEvent::class) || !$isEnabledForUser) {
+						return;
+					}
+
+	 				// Fallback for older releases than Nextcloud 22
 					\OCP\Util::addScript('richdocuments', 'richdocuments-files');
 				}
 			);
