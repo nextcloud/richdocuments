@@ -32,6 +32,7 @@ use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
+use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
@@ -72,8 +73,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService) {
-			if (empty($capabilitiesService->getCapabilities())) {
+		$context->injectFn(function (ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager) {
+			if (empty($capabilitiesService->getCapabilities()) || !$permissionManager->isEnabledForUser()) {
 				return;
 			}
 			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
