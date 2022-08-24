@@ -73,9 +73,11 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
+		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config, PermissionManager $permissionManager) {
+			if (!$permissionManager->isEnabledForUser()) {
+				return;
+			}
 
-
-		$context->injectFn(function(ITemplateManager $templateManager, IL10N $l10n, IConfig $config) {
 			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
 			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml) {
 				$odtType = new TemplateFileCreator('richdocuments', $l10n->t('New document'), ($ooxml ? '.docx' : '.odt'));
