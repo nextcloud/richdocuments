@@ -5,8 +5,7 @@
 
 **A [Nextcloud](https://nextcloud.com) app integrating Collabora Online into your Nextcloud!**
 
-![](https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png)
-
+![](https://raw.githubusercontent.com/nextcloud/richdocuments/master/screenshots/Nextcloud-writer.png)
 
 ## Development setup
 
