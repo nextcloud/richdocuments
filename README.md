@@ -7,6 +7,34 @@
 
 ![](https://raw.githubusercontent.com/nextcloud/richdocuments/master/screenshots/Nextcloud-writer.png)
 
+Nextcloud Office supports editing your documents in real time with multiple other editors, showing high fidelity, WYSIWYG rendering and preserving the layout and formatting of your documents.
+
+Users can insert and reply to comments and invite others without a Nextcloud account for anonymous editing of files with a public link shared folder.
+
+Nextcloud Office supports dozens of document formats including DOC, DOCX, PPT, PPTX, XLS, XLSX + ODF, Import/View Visio, Publisher and many more…
+
+Nextcloud Office is based on the Collabora Online Development Edition (CODE) and is available free and under heavy development, adding features and improvements all the time! Enterprise users have access to the more stable, scalable Collabora Online Enterprise based version through a Nextcloud support subscription.
+
+## Installation
+
+Nextcloud Office is built on Collabora Online which requires a dedicated service running next to the Nextcloud webserver stack. There are several ways to run the coolwsd service. For full details, see the related section in the admin manual https://docs.nextcloud.com/server/latest/admin_manual/office/index.html
+
+This repository covers only the Nextcloud integration app which requires a Collabora Online server to connect to.
+
+Note: it is possible to use Collabora Online’s integration with re-compiled and/or re-branded backends. This app may work with other WOPI Edtiors such as LibreOffice Online but it is not tested.
+
+### Federated editing / Global Scale
+
+Collaborative editing of federated documents requires richdocuments version 3.4 on all involved servers. Besides that the following conditions must be met:
+
+- Make sure the remote server is added as a trusted server
+- Allow any domain to embed Collabora Online in a frame:
+  `<frame_ancestors>https://*</frame_ancestors>` must be set in coolwsd.xml
+
+**Note:** Due to our content security policy we cannot open a document on a remote instance without reloading the page to allow Nextcloud embedding the remote Collabora Online instance in a frame.
+
+
+
 ## Development setup
 
 Just clone this repo into your apps directory ([Nextcloud server](https://github.com/nextcloud/server#running-master-checkouts) installation needed). Additionally, [npm](https://www.npmjs.com/) and [Node.js](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies and building the frontend code.
@@ -17,44 +45,6 @@ npm ci
 npm run dev
 ```
 
-## Installation
-
-### Server
-
-You will need a working Collabora Online server to connect to.
-Find out more about Nextcloud and Collabora Online, and how to setup an server here: https://nextcloud.com/collaboraonline/
-
-Note: it is possible to use Collabora Online’s integration with re-compiled and/or re-branded backends. This app may work with other WOPI Edtiors such as LibreOffice Online but it is not tested.
-
-### Nextcloud app
-
-In your Nextcloud, simply navigate to »Apps«, choose the category »Office & text«, find the Nextcloud Office app and enable it. Then open the administrator settings, navigate to the »Nextcloud Office« tab and specify your Collabora Online server.
-
-### Nextcloud/Collabora Online relation
-
-For the latest information about the Collabora Online and Nextcloud releases, please visit the:
-
-[Apps page of Collabora](https://apps.nextcloud.com/apps/richdocuments).
-
-### Federated editing / Global Scale
-Collaborative editing of federated documents requires richdocuments version 3.4 on all involved servers. Besides that the following conditions must be met:
-
-- Make sure the remote server is added as a trusted server
-- Allow any domain to embed Collabora Online in a frame:
-  `<frame_ancestors>https://*</frame_ancestors>` must be set in coolwsd.xml
-
-**Note:** Due to our content security policy we cannot open a document on a remote instance without reloading the page to allow Nextcloud embedding the remote Collabora Online instance in a frame.
-
-
-### Scripted installation (Ubuntu), Server + Nextcloud app
-The developers of the [Nextcloud VM](https://github.com/nextcloud/vm) has made a [script](https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora_docker.sh) that you can use.
-Please remember to check the variables in the script to suit your config before you run it, though it should work out of the box on all Ubuntu servers from 20.04 an upwards.
-
-The only thing you must have prepared before you run the script is to have SSL (https://) on your Nextcloud domain and to setup a DNS record to a new domain that you will host Collabora Online on (office.domain.com for example) and point that your server. SSL is set up with Let's Encrypt.
-
-To get the script, please type the following command: `wget https://raw.githubusercontent.com/nextcloud/vm/master/apps/collabora_docker.sh` and then run the script with `sudo bash collabora_docker.sh`.
-
-Please report any issues regarding the script in the [Nextcloud VM repo](https://github.com/nextcloud/vm/issues).
 
 ## Support
 
