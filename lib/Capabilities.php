@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments;
 
+use OCP\App\IAppManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
@@ -83,14 +84,17 @@ class Capabilities implements ICapability {
 	private $capabilitiesService;
 	/** @var PermissionManager */
 	private $permissionManager;
+	/** @var IAppManager */
+	private $appManager;
 
 	private $capabilities = null;
 
-	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager) {
+	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager) {
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->capabilitiesService = $capabilitiesService;
 		$this->permissionManager = $permissionManager;
+		$this->appManager = $appManager;
 	}
 
 	public function getCapabilities() {
@@ -107,6 +111,10 @@ class Capabilities implements ICapability {
 					'application/vnd.oasis.opendocument.graphics',
 					'application/vnd.oasis.opendocument.graphics-flat-xml',
 				]));
+			}
+
+			if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
+				$filteredMimetypes[] = 'application/pdf';
 			}
 
 			$this->capabilities = [
