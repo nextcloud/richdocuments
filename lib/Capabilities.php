@@ -27,6 +27,7 @@ use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
 	public const MIMETYPES = [
@@ -75,27 +76,24 @@ class Capabilities implements ICapability {
 		'text/spreadsheet'
 	];
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var AppConfig */
-	private $config;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var PermissionManager */
-	private $permissionManager;
-	/** @var IAppManager */
-	private $appManager;
+	private IL10N $l10n;
+	private AppConfig $config;
+	private CapabilitiesService $capabilitiesService;
+	private PermissionManager $permissionManager;
+	private IURLGenerator $urlGenerator;
+	private IAppManager $appManager;
 	private ?string $userId = null;
 
 	private $capabilities = null;
 
-	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager, ?string $userId) {
+	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager, ?string $userId, IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->capabilitiesService = $capabilitiesService;
 		$this->permissionManager = $permissionManager;
 		$this->appManager = $appManager;
 		$this->userId = $userId;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function getCapabilities() {
@@ -130,6 +128,7 @@ class Capabilities implements ICapability {
 					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
 					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
 					'productName' => $this->capabilitiesService->getProductName(),
+					'editonline_endpoint' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.document.editOnline'),
 					'config' => [
 						'wopi_url' => $this->config->getAppValue('wopi_url'),
 						'public_wopi_url' => $this->config->getAppValue('public_wopi_url'),

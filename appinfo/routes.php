@@ -33,6 +33,8 @@ return [
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 
+		['name' => 'document#editOnline', 'url' => 'editonline', 'verb' => 'GET'],
+
 		// external api access
 		['name' => 'document#extAppGetData', 'url' => '/ajax/extapp/data/{fileId}', 'verb' => 'POST'],
 
