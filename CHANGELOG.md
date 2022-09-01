@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.2.8
+
+## Fixed
+
+- Limit capabilities to users that are enabled @max-nextcloud [#2354](https://github.com/nextcloud/richdocuments/pull/2354)
+- Fix safari does not focus to document frame on startup @merttumer [#2372](https://github.com/nextcloud/richdocuments/pull/2372)
+- Fix document creation not showing in directory @juliushaertl [#2269](https://github.com/nextcloud/richdocuments/pull/2269)
+- Add "is_guest" to extra info user data @hcvcastro [#2242](https://github.com/nextcloud/richdocuments/pull/2242)
+
 ## 4.2.7
 
 - Disable remote image insertion on public links @juliushaertl
