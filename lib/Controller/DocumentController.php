@@ -17,10 +17,12 @@ use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\IConfig;
 use \OCP\ILogger;
 use \OCP\IRequest;
+use OC\User\NoUserException;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Constants;
 use OCP\Files\File;
@@ -30,13 +32,14 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 class DocumentController extends Controller {
 	use DocumentTrait;
 
-	/** @var string */
+	/** @var ?string */
 	private $uid;
 	/** @var IConfig */
 	private $config;
@@ -58,6 +61,7 @@ class DocumentController extends Controller {
 	private $federationService;
 	/** @var InitialStateService */
 	private $initialState;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(
 		$appName,
@@ -72,7 +76,8 @@ class DocumentController extends Controller {
 		ILogger $logger,
 		TemplateManager $templateManager,
 		FederationService $federationService,
-		InitialStateService $initialState
+		InitialStateService $initialState,
+		IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
 		$this->uid = $UserId;
@@ -86,6 +91,7 @@ class DocumentController extends Controller {
 		$this->templateManager = $templateManager;
 		$this->federationService = $federationService;
 		$this->initialState = $initialState;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -385,10 +391,50 @@ class DocumentController extends Controller {
 		return new TemplateResponse('core', '403', [], 'guest');
 	}
 
-	private function renderErrorPage($message) {
+	private function renderErrorPage(string $message, $status = Http::STATUS_INTERNAL_SERVER_ERROR) {
 		$params = [
 			'errors' => [['error' => $message]]
 		];
-		return new TemplateResponse('core', 'error', $params, 'guest');
+		$response = new TemplateResponse('core', 'error', $params, 'guest');
+		$response->setStatus($status);
+		return $response;
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 */
+	public function editOnline(string $path = null, string $userId = null) {
+		if ($path === null) {
+			return $this->renderErrorPage('No path provided');
+		}
+
+		if ($userId === null) {
+			$userId = $this->uid;
+		}
+
+		if ($userId !== null && $userId !== $this->uid) {
+			return $this->renderErrorPage('You are trying to open a file from another user account than the one you are currently logged in with.');
+		}
+
+		if ($userId === null) {
+			$params = [];
+			$params['redirect_url'] = $this->request->getRequestUri();
+			$params['user'] = $userId;
+			$url = $this->urlGenerator->linkToRoute('core.login.showLoginForm', $params);
+			return new RedirectResponse($url);
+		}
+
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($userId);
+			$file = $userFolder->get($path);
+			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
+			return new RedirectResponse($redirectUrl);
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+		} catch (NoUserException $e) {
+		}
+
+		return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
 	}
 }
