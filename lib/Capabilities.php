@@ -26,6 +26,7 @@ namespace OCA\Richdocuments;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
 	public const MIMETYPES = [
@@ -74,22 +75,20 @@ class Capabilities implements ICapability {
 		'text/spreadsheet'
 	];
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var AppConfig */
-	private $config;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var PermissionManager */
-	private $permissionManager;
+	private IL10N $l10n;
+	private AppConfig $config;
+	private CapabilitiesService $capabilitiesService;
+	private PermissionManager $permissionManager;
+	private IURLGenerator $urlGenerator;
 
 	private $capabilities = null;
 
-	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager) {
+	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->capabilitiesService = $capabilitiesService;
 		$this->permissionManager = $permissionManager;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function getCapabilities() {
@@ -117,6 +116,7 @@ class Capabilities implements ICapability {
 					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
 					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
 					'productName' => isset($collaboraCapabilities['productName']) ? $collaboraCapabilities['productName'] : $this->l10n->t('Nextcloud Office'),
+					'editonline_endpoint' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.document.editOnline'),
 					'config' => [
 						'wopi_url' => $this->config->getAppValue('wopi_url'),
 						'public_wopi_url' => $this->config->getAppValue('public_wopi_url'),
