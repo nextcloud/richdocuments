@@ -340,7 +340,6 @@ export default {
 
 		.viewer & {
 			height: 100vh;
-			top: -50px;
 		}
 	}
 
