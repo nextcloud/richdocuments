@@ -1,5 +1,5 @@
 import { emit } from '@nextcloud/event-bus'
-import { getRootUrl } from '@nextcloud/router'
+import { getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName'
@@ -11,9 +11,10 @@ import {
 	isDirectEditing,
 	isMobileInterfaceAvailable,
 } from './helpers/mobile'
-import { getWopiUrl, getSearchParam } from './helpers/url'
+import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url'
 
 import '../css/document.scss'
+import axios from '@nextcloud/axios'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,
@@ -307,6 +308,15 @@ const documentsMain = {
 
 						if (Config.get('userId') === null) {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
+						} else {
+							PostMessages.sendWOPIPostMessage('loolframe', 'Insert_Button', {
+								id: 'Open_Local_Editor',
+								imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+								mobile: false,
+								label: t('richdocuments', 'Open in local editor'),
+								hint: t('richdocuments', 'Open in local editor'),
+								insertBefore: 'undo',
+							})
 						}
 
 						emit('richdocuments:wopi-load:succeeded', {
@@ -442,6 +452,23 @@ const documentsMain = {
 					case 'File_Rename':
 						documentsMain.fileName = args.NewName
 						break
+					case 'Clicked_Button':
+						if (parsed.args.Id === 'Open_Local_Editor') {
+							documentsMain.UI.initiateOpenLocally()
+						} else {
+							console.debug('[document] Unhandled `Clicked_Button` post message', parsed)
+						}
+						break
+					case 'Get_Views_Resp':
+						if (documentsMain.openingLocally) {
+							documentsMain.UI.removeViews(parsed.args)
+							documentsMain.unlockFile()
+								.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
+								.then(() => {
+									documentsMain.openLocally()
+								})
+						}
+						break
 					default:
 						console.debug('[document] Unhandled post message', parsed)
 					}
@@ -500,6 +527,53 @@ const documentsMain = {
 				$(document.body).removeClass('claro')
 			})
 		},
+
+		initiateOpenLocally() {
+			OC.dialogs.confirmDestructive(
+				t('richdocuments', 'When opening a file locally, the document will close for all users currently viewing the document.'),
+				t('richdocuments', 'Open file locally'),
+				{
+					type: OC.dialogs.YES_NO_BUTTONS,
+					confirm: t('richdocuments', 'Open locally'),
+					confirmClasses: 'error',
+					cancel: t('richdocuments', 'Continue editing online'),
+				},
+				(decision) => {
+					if (!decision) {
+						return
+					}
+					documentsMain.openingLocally = true
+					PostMessages.sendWOPIPostMessage('loolframe', 'Get_Views')
+				}
+			)
+		},
+
+		removeViews(views) {
+			PostMessages.sendWOPIPostMessage('loolframe', 'Action_Save', {
+				DontTerminateEdit: false,
+				DontSaveIfUnmodified: false,
+				Notify: false,
+			})
+
+			views.forEach((view) => {
+				PostMessages.sendWOPIPostMessage('loolframe', 'Action_RemoveView', { ViewId: Number(view.ViewId) })
+			})
+		},
+	},
+
+	unlockFile() {
+		const unlockUrl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId
+		const unlockConfig = {
+			headers: { 'X-WOPI-Override': 'UNLOCK' }
+		}
+		return axios.post(unlockUrl, { access_token: documentsMain.token }, unlockConfig)
+	},
+
+	openLocally() {
+		if (documentsMain.openingLocally) {
+			documentsMain.openingLocally = false
+			window.location.href = 'nc://open/' + Config.get('userId') + '@' + getNextcloudUrl() + OC.encodePath(documentsMain.fullPath)
+		}
 	},
 
 	onStartup() {
@@ -560,6 +634,7 @@ const documentsMain = {
 
 		$('footer,nav').show()
 		documentsMain.UI.hideEditor()
+		documentsMain.openLocally()
 
 		PostMessages.sendPostMessage('parent', 'close', '*')
 	},
