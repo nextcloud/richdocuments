@@ -14,6 +14,7 @@
     "File already exists" : "Файлът вече съществува",
     "Not allowed to create document" : "Не е разрешено създаването на документ",
     "Saved" : "Запазване",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Записано с грешка: Collabora Online трябва да предложи същия протокол като инсталацията на сървъра. Моля, проверете настройките за ssl.enable и ssl.termination на вашия сървър Collabora Online.",
     "Invalid config key" : "Невалиден конфигурационен ключ",
     "Error when saving" : "Грешка при записването",
     "The file was uploaded" : "Файлът е качен",
