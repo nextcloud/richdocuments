@@ -58,10 +58,10 @@
 					<ActionButton icon="office-viewer__header__icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
-			<iframe class="office-viewer__iframe"
-				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
-				id="collaboraframe"
+			<iframe id="collaboraframe"
 				ref="documentFrame"
+				class="office-viewer__iframe"
+				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				:src="src" />
 		</div>
 	</transition>
@@ -338,11 +338,6 @@ export default {
 		}
 	}
 
-	::v-deep .viewer & {
-		height: 100vh;
-		top: -50px;
-	}
-
 	&__iframe {
 		width: 100%;
 		flex-grow: 1;
@@ -357,5 +352,12 @@ export default {
 	::v-deep .fade-leave-to {
 		opacity: 0;
 	}
+}
+</style>
+
+<style lang="scss">
+.viewer .office-viewer {
+	height: 100vh;
+	top: -50px;
 }
 </style>
