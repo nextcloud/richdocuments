@@ -22,9 +22,9 @@
 
 <template>
 	<transition name="fade" appear>
-		<div id="richdocuments-wrapper">
+		<div class="office-viewer">
 			<div v-if="showLoadingIndicator"
-				id="cool-loading-overlay"
+				id="office-viewer__loading-overlay"
 				:class="{ debug: debug }">
 				<EmptyContent v-if="!error" icon="icon-loading">
 					{{ t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false}) }}
@@ -44,7 +44,7 @@
 					</template>
 				</EmptyContent>
 			</div>
-			<div v-show="!useNativeHeader && showIframe" class="header">
+			<div v-show="!useNativeHeader && showIframe" class="office-viewer__header">
 				<div class="avatars">
 					<Avatar v-for="view in avatarViews"
 						:key="view.ViewId"
@@ -55,10 +55,11 @@
 						:style="viewColor(view)" />
 				</div>
 				<Actions>
-					<ActionButton icon="icon-menu-sidebar" @click="share" />
+					<ActionButton icon="office-viewer__header__icon-menu-sidebar" @click="share" />
 				</Actions>
 			</div>
-			<iframe :style="{visibility: showIframe ? 'visible' : 'hidden' }"
+			<iframe class="office-viewer__iframe"
+				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				id="collaboraframe"
 				ref="documentFrame"
 				:src="src" />
@@ -282,8 +283,21 @@ export default {
 	},
 }
 </script>
-<style lang="scss">
-	#cool-loading-overlay {
+<style lang="scss" scoped>
+.office-viewer {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	z-index: 100000;
+	max-width: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-main-background);
+	transition: opacity .25s;
+
+	&__loading-overlay {
 		border-top: 3px solid var(--color-primary-element);
 		position: absolute;
 		height: 100%;
@@ -296,12 +310,12 @@ export default {
 			opacity: .5;
 		}
 
-		.empty-content p {
+		::v-deep .empty-content p {
 			text-align: center;
 		}
 	}
 
-	.header {
+	&__header {
 		position: absolute;
 		right: 44px;
 		top: 3px;
@@ -313,47 +327,35 @@ export default {
 			display: flex;
 			padding: 4px;
 
-			.avatardiv {
+			::v-deep .avatardiv {
 				margin-left: -15px;
 				box-shadow: 0 0 3px var(--color-box-shadow);
 			}
-
 		}
 
-		.icon-menu-sidebar {
+		&__icon-menu-sidebar {
 			background-image: var(--icon-menu-sidebar-000) !important;
 		}
 	}
 
-	#richdocuments-wrapper {
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		position: absolute;
-		z-index: 100000;
-		max-width: 100%;
-		display: flex;
-		flex-direction: column;
-		background-color: var(--color-main-background);
-		transition: opacity .25s;
-
-		.viewer & {
-			height: 100vh;
-			top: -50px;
-		}
+	::v-deep .viewer & {
+		height: 100vh;
+		top: -50px;
 	}
 
-	iframe {
+	&__iframe {
 		width: 100%;
 		flex-grow: 1;
 	}
 
-	.fade-enter-active, .fade-leave-active {
+	::v-deep .fade-enter-active,
+	::v-deep .fade-leave-active {
 		transition: opacity .25s;
 	}
 
-	.fade-enter, .fade-leave-to {
+	::v-deep .fade-enter,
+	::v-deep .fade-leave-to {
 		opacity: 0;
 	}
+}
 </style>
