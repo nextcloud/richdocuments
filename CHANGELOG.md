@@ -1,12 +1,60 @@
 # Changelog
 
-## 6.0.0-beta.1
+## 7.0.0-beta.1
+
+### Added
+- Nextcloud 25 support
+- Give better hints on a protocol mismatch with the discovery endpoint @juliushaertl [#2371]
+- Emmit open event for each user on document open @juliushaertl [#2350]
+- Upload custom fonts from admin interface @eneiluj [#2032]
+- Token TTL app config value which sets expiration the WOPI token @Raudius [#2171]
+- Optimised avatar request @juliushaertl [#2269]
+
+## 6.2.0
+
+### Added
+- Allow download prevention on user shares @eneiluj [#2280](https://github.com/nextcloud/richdocuments/pull/2280)
+
+### Fixed
+- Limit capabilities to users that are enabled @juliushaertl [#2328](https://github.com/nextcloud/richdocuments/pull/2328)
+- Fix saving issue when a file is available multiple times in a users home folder @juliushaertl [#2330](https://github.com/nextcloud/richdocuments/pull/2330)
+- Cleanup Content Security Policy handling @juliushaertl [#2234](https://github.com/nextcloud/richdocuments/pull/2234)
+- Fix double-header on public links @marcelklehr [#2312](https://github.com/nextcloud/richdocuments/pull/2312)
+- Fix HTML entities showing in file names @Raudius [#2318](https://github.com/nextcloud/richdocuments/pull/2318)
+- Restored "Open with Nextcloud Office" option from context menu @Raudius [#2318](https://github.com/nextcloud/richdocuments/pull/2318)
+
+## 6.1.1
+
+### Fixed
+
+- Fix filename encoding issues @juliushaertl [#2261](https://github.com/nextcloud/richdocuments/pull/2261)
+
+### Other
+
+- add "is_guest" to extra info user data [#2244](https://github.com/nextcloud/richdocuments/pull/2244)
+
+## 6.1.0
+
+### Added
+- Added support for file locking @juliushaertl [#2104](https://github.com/nextcloud/richdocuments/pull/2104)
+
+### Fixed
+- Optimised audit triggering @juliushaertl [#1957](https://github.com/nextcloud/richdocuments/pull/1957)
+- Fixed viewer styling @juliushaertl [#2221](https://github.com/nextcloud/richdocuments/pull/2221) [#2212](https://github.com/nextcloud/richdocuments/pull/2212)
+- Disabled remote image insertion on public links @juliushaertl [#2175](https://github.com/nextcloud/richdocuments/pull/2175)
+- Fixed file revision behaviour on group folders @Raudius [#2172](https://github.com/nextcloud/richdocuments/pull/2197)
+
+
+## 6.0.0
 
 ### Added
 
 - Expose guest avatar images through wopi @juliushaertl [#1883](https://github.com/nextcloud/richdocuments/pull/1883)
 - add "is_admin" to extra info user data @hcvcastro [#1810](https://github.com/nextcloud/richdocuments/pull/1810)
 - Change wording from "New graphic" to "New diagram" @juliushaertl [#2031](https://github.com/nextcloud/richdocuments/pull/2031)
+- Created a minimal otg file @Ezinnem [#2130](https://github.com/nextcloud/richdocuments/pull/2130)
+- Adjust template preview ratio [#2154](https://github.com/nextcloud/richdocuments/pull/2154)
+- Compatibility with Nextcloud 24
 
 ### Fixed
 
@@ -27,9 +75,11 @@
 - Adapt branding css variables @juliushaertl [#2069](https://github.com/nextcloud/richdocuments/pull/2069)
 - Fix: missing settings messages @vinicius73 [#2095](https://github.com/nextcloud/richdocuments/pull/2095)
 - Allow MS Office template file extensions for TemplateSource usage @juliushaertl [#2110](https://github.com/nextcloud/richdocuments/pull/2110)
-
-### Other
-
+- Fixes CSP on Nextcloud installations not on root directory @Raudius [#2126](https://github.com/nextcloud/richdocuments/pull/2126)
+- Add app config to enable trusted domain list usage [#2163](https://github.com/nextcloud/richdocuments/pull/2163)
+- Add gs.trustedHosts to form-action csp [#2160](https://github.com/nextcloud/richdocuments/pull/2160)
+- Let integration tests pass again @juliushaertl [#2141](https://github.com/nextcloud/richdocuments/pull/2141)
+- Keep mime-type indices consecutive. [#2174](https://github.com/nextcloud/richdocuments/pull/2174)
 - Replace deprecated OC functions by @nextcloud/* npm pkgs ones @eneiluj [#2036](https://github.com/nextcloud/richdocuments/pull/2036)
 - fix: template.odg file must be real odg file @merttumer [#2127](https://github.com/nextcloud/richdocuments/pull/2127)
 - Update dependencies
