@@ -144,7 +144,7 @@ export default {
 			return this.loading >= LOADING_STATE.FRAME_READY
 		},
 		showLoadingIndicator() {
-			return this.loading !== LOADING_STATE.DOCUMENT_READY
+			return this.loading < LOADING_STATE.FRAME_READY
 		},
 		errorMessage() {
 			switch (parseInt(this.error)) {
