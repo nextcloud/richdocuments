@@ -119,7 +119,7 @@ OC.L10N.register(
     "Document loading failed" : "Laden des Dokuments fehlgeschlagen",
     "Close" : "Schließen",
     "Starting the built-in CODE server failed" : "Der Start des integrierten CODE-Servers ist fehlgeschlagen",
-    "Failed to load {productName} - please try again later" : "{productName} konnte nicht geladen werden - Bitte versuchen Sie es später noch einmal",
+    "Failed to load {productName} - please try again later" : "{productName} konnte nicht geladen werden - Bitte später erneut versuchen.",
     "{productName} is not configured" : "{productName} ist nicht eingerichtet",
     "Error" : "Fehler",
     "An error occurred" : "Es ist ein Fehler aufgetreten",
