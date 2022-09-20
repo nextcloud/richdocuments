@@ -16,6 +16,7 @@ OC.L10N.register(
     "File already exists" : "O arquivo já existe",
     "Not allowed to create document" : "Não é permitido criar documento",
     "Saved" : "Salvo",
+    "Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server." : "Salvo com erro: O Collabora Online deve expor o mesmo protocolo da instalação do servidor. Verifique as configurações de ssl.enable e ssl.termination do seu servidor Collabora Online.",
     "Invalid config key" : "Chave de configuração inválida",
     "Error when saving" : "Erro ao salvar",
     "The file was uploaded" : "O arquivo foi carregado",
