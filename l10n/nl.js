@@ -4,6 +4,7 @@ OC.L10N.register(
     "New document" : "Nieuw document",
     "New spreadsheet" : "Nieuw werkblad",
     "New presentation" : "Nieuwe presentatie",
+    "New diagram" : "Nieuw diagram",
     "Nextcloud Office" : "Nextcloud Office",
     "Cannot create document" : "Kan document niet creëren",
     "New Document.odt" : "Nieuw Document.odt",
