@@ -86,6 +86,10 @@ const getDocumentUrlForFile = (fileDir, fileId) => {
 		})
 }
 
+const getNextcloudUrl = () => {
+	return window.location.host + (window.location.port ? `:${window.location.port}` : '')
+}
+
 export {
 	getSearchParam,
 	getWopiUrl,
@@ -93,4 +97,5 @@ export {
 	getDocumentUrlFromTemplate,
 	getDocumentUrlForPublicFile,
 	getDocumentUrlForFile,
+	getNextcloudUrl,
 }
