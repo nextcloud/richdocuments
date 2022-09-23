@@ -1,5 +1,18 @@
 # Changelog
 
+
+## 7.0.0-beta.2
+
+### Added
+
+- Add local editing button to Nextcloud Office @Raudius [#2456](https://github.com/nextcloud/richdocuments/pull/2428)
+- Open PDF files by default when PDF viewer is disabled @Raudius [#2457](https://github.com/nextcloud/richdocuments/pull/2456)
+
+### Fixed
+
+- Always show the close button @juliushaertl [#2451](https://github.com/nextcloud/richdocuments/pull/2451)
+- Migrate to BEM and scoped SCSS @ChristophWurst [#2432](https://github.com/nextcloud/richdocuments/pull/2432)
+
 ## 7.0.0-beta.1
 
 ### Added
