@@ -307,6 +307,7 @@ class DocumentController extends Controller {
 					'instanceId' => $this->config->getSystemValue('instanceid'),
 					'canonical_webroot' => $this->appConfig->getAppValue('canonical_webroot'),
 					'userId' => $this->uid,
+					'isPublicShare' => true,
 				];
 
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);

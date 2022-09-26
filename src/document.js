@@ -308,7 +308,9 @@ const documentsMain = {
 
 						if (Config.get('userId') === null) {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
-						} else {
+						}
+
+						if (Config.get('userId') !== null && !Config.get('isPublicShare')) {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Insert_Button', {
 								id: 'Open_Local_Editor',
 								imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
