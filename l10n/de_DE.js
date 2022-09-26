@@ -141,7 +141,7 @@ OC.L10N.register(
     "Save As" : "Speichern als",
     "New filename" : "Neuer Dateiname",
     "Save" : "Speichern",
-    "When opening a file locally, the document will close for all users currently viewing the document." : "Beim lokalen Öffnen einer Datei wird das Dokument für alle Benutzer geschlossen, die das Dokument derzeit anzeigen.",
+    "When opening a file locally, the document will close for all users currently viewing the document." : "Beim lokalen Öffnen einer Datei wird das Dokument für alle Benutzer geschlossen, die das Dokument derzeit betrachten.",
     "Open file locally" : "Datei lokal öffnen",
     "Open locally" : "Lokal öffnen",
     "Continue editing online" : "Weiter online bearbeiten",

@@ -22,6 +22,7 @@ OC.L10N.register(
     "Invalid file provided" : "잘못된 파일 지정됨",
     "Office" : "사무실",
     "Empty" : "비어 있음",
+    "Edit office documents directly in your browser." : "오피스 문서를 브라우저에서 직접 편집하십시오.",
     "Advanced settings" : "고급 설정",
     "Restrict usage to specific groups" : "지정한 그룹만 사용할 수 있도록 제한",
     "Select groups" : "그룹 선택",
