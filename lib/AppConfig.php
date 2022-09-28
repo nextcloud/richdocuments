@@ -16,7 +16,7 @@ use \OCP\IConfig;
 
 class AppConfig {
 	public const WOPI_URL = 'wopi_url';
-	public const WOPI_URL_PUBLIC = 'wopi_url_public';
+	public const PUBLIC_WOPI_URL = 'public_wopi_url';
 
 	public const FEDERATION_USE_TRUSTED_DOMAINS = 'federation_use_trusted_domains';
 
@@ -128,7 +128,7 @@ class AppConfig {
 	}
 
 	public function getCollaboraUrlPublic(): string {
-		return $this->config->getAppValue(Application::APPNAME, self::WOPI_URL_PUBLIC, $this->getCollaboraUrlInternal());
+		return $this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL, $this->getCollaboraUrlInternal());
 	}
 
 	public function getCollaboraUrlInternal(): string {
