@@ -139,6 +139,7 @@
     "Save As" : "Gorde honela",
     "New filename" : "Fitxategi-izen berria",
     "Save" : "Gorde",
+    "When opening a file locally, the document will close for all users currently viewing the document." : "Fitxategi bat lokalean irekitzean, dokumentua ikusten ari diren beste erabiltzaile guztientzat itxiko da.",
     "Open file locally" : "Ireki fitxategia lokalean",
     "Open locally" : "Ireki lokalean",
     "Continue editing online" : "Jarraitu linean editatzen",
