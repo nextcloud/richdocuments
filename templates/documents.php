@@ -11,6 +11,7 @@
 	var richdocuments_canonical_webroot = '<?php p($_['canonical_webroot']) ?>';
 	var richdocuments_directEdit = <?php isset($_['direct']) ? p('true') : p('false') ?>;
 	var richdocuments_directGuest = <?php isset($_['directGuest']) ? p('true') : p('false') ?>;
+	var richdocuments_isPublicShare = <?php isset($_['isPublicShare']) && $_['isPublicShare'] ? p('true') : p('false') ?>;
 </script>
 
 <?php

@@ -31,6 +31,7 @@ class ConfigService {
         this.loadFromGlobal('directGuest')
         this.loadFromGlobal('permissions')
         this.loadFromGlobal('instanceId')
+        this.loadFromGlobal('isPublicShare')
     }
     loadFromGlobal(key: string) {
         // @ts-ignore
