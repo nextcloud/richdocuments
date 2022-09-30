@@ -345,7 +345,7 @@ class WopiController extends Controller {
 				return true;
 			}
 		}
-		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no') === 'yes') {
+		if ($userId !== null && $this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no') === 'yes') {
 			$groups = $this->appConfig->getAppValueArray('watermark_allGroupsList');
 			foreach ($groups as $group) {
 				if (\OC::$server->getGroupManager()->isInGroup($userId, $group)) {
