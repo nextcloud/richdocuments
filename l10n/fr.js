@@ -131,6 +131,7 @@ OC.L10N.register(
     "Save As" : "Enregistrer sous",
     "New filename" : "Nouveau nom de fichier",
     "Save" : "Enregistrer",
+    "Open locally" : "Ouvrir localement",
     "Edit with {productName}" : "Modifier avec {productName}",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Impossible de se connecter à {productName}. Veuillez réessayer plus tard ou contacter l'administrateur du serveur.",
     "Select a personal template folder" : "Sélectionnez le dossier personnel des modèles",
