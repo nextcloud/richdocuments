@@ -13,17 +13,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "cf23d23ef1287458378c43246bba6427d4535899"
+                "reference": "74fa82bb013bb329eb59b18d6eb94a660d724fea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/cf23d23ef1287458378c43246bba6427d4535899",
-                "reference": "cf23d23ef1287458378c43246bba6427d4535899",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/74fa82bb013bb329eb59b18d6eb94a660d724fea",
+                "reference": "74fa82bb013bb329eb59b18d6eb94a660d724fea",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3 || ~8.0.0",
-                "psr/container": "^1.0",
+                "psr/container": "^1.1.1",
                 "psr/event-dispatcher": "^1.0",
                 "psr/log": "^1.1"
             },
@@ -48,7 +48,8 @@
                 "issues": "https://github.com/ChristophWurst/nextcloud_composer/issues",
                 "source": "https://github.com/ChristophWurst/nextcloud_composer/tree/stable23"
             },
-            "time": "2021-11-11T14:10:44+00:00"
+            "abandoned": "nextcloud/ocp",
+            "time": "2022-08-23T02:31:53+00:00"
         },
         {
             "name": "jakub-onderka/php-parallel-lint",
@@ -732,5 +733,5 @@
     "platform-overrides": {
         "php": "7.3"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
