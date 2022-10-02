@@ -4,52 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d3a7a31fe18ac831540f6c616aeb809",
+    "content-hash": "244850420041147f44a9b3633237e028",
     "packages": [],
     "packages-dev": [
-        {
-            "name": "christophwurst/nextcloud",
-            "version": "dev-stable23",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "cf23d23ef1287458378c43246bba6427d4535899"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/cf23d23ef1287458378c43246bba6427d4535899",
-                "reference": "cf23d23ef1287458378c43246bba6427d4535899",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3 || ~8.0.0",
-                "psr/container": "^1.0",
-                "psr/event-dispatcher": "^1.0",
-                "psr/log": "^1.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "23.0.0-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "AGPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Christoph Wurst",
-                    "email": "christoph@winzerhof-wurst.at"
-                }
-            ],
-            "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
-            "support": {
-                "issues": "https://github.com/ChristophWurst/nextcloud_composer/issues",
-                "source": "https://github.com/ChristophWurst/nextcloud_composer/tree/stable23"
-            },
-            "time": "2021-11-11T14:10:44+00:00"
-        },
         {
             "name": "jakub-onderka/php-parallel-lint",
             "version": "v1.0.0",
@@ -102,6 +59,48 @@
             },
             "abandoned": "php-parallel-lint/php-parallel-lint",
             "time": "2018-02-24T15:31:20+00:00"
+        },
+        {
+            "name": "nextcloud/ocp",
+            "version": "dev-stable23",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextcloud-deps/ocp.git",
+                "reference": "f9c2024f8c87a4dc51c17e3eaf3ee267cfe66e12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/f9c2024f8c87a4dc51c17e3eaf3ee267cfe66e12",
+                "reference": "f9c2024f8c87a4dc51c17e3eaf3ee267cfe66e12",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3 || ~8.0.0",
+                "psr/container": "^1.1.1",
+                "psr/event-dispatcher": "^1.0",
+                "psr/log": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "23.0.0-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Christoph Wurst",
+                    "email": "christoph@winzerhof-wurst.at"
+                }
+            ],
+            "description": "Composer package containing Nextcloud's public API (classes, interfaces)",
+            "support": {
+                "source": "https://github.com/nextcloud-deps/ocp/tree/stable23"
+            },
+            "time": "2022-09-27T08:15:32+00:00"
         },
         {
             "name": "psalm/phar",
@@ -723,7 +722,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "roave/security-advisories": 20,
-        "christophwurst/nextcloud": 20
+        "nextcloud/ocp": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -732,5 +731,5 @@
     "platform-overrides": {
         "php": "7.3"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
