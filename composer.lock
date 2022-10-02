@@ -13,17 +13,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_composer.git",
-                "reference": "5c5d849a8796ab3b3ab803368d6e479d0b0d443d"
+                "reference": "67cd5561253fc7773084862caf643073422ffc70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/5c5d849a8796ab3b3ab803368d6e479d0b0d443d",
-                "reference": "5c5d849a8796ab3b3ab803368d6e479d0b0d443d",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_composer/zipball/67cd5561253fc7773084862caf643073422ffc70",
+                "reference": "67cd5561253fc7773084862caf643073422ffc70",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 || ~8.0 || ~8.1",
-                "psr/container": "^1.0",
+                "psr/container": "^1.1.1",
                 "psr/event-dispatcher": "^1.0",
                 "psr/log": "^1.1"
             },
@@ -31,7 +31,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "25.0.0-dev"
+                    "dev-master": "26.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -49,7 +49,8 @@
                 "issues": "https://github.com/ChristophWurst/nextcloud_composer/issues",
                 "source": "https://github.com/ChristophWurst/nextcloud_composer/tree/master"
             },
-            "time": "2022-05-06T01:53:16+00:00"
+            "abandoned": "nextcloud/ocp",
+            "time": "2022-10-02T02:47:38+00:00"
         },
         {
             "name": "composer/pcre",
