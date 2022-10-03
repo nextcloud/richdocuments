@@ -1,4 +1,5 @@
 module.exports = {
+	root: true,
 	globals: {
 		t: true,
 		n: true,
