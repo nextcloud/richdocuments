@@ -23,8 +23,7 @@
 <template>
 	<div class="settings-entry">
 		<label :for="id">{{ label }}</label><br>
-		<button
-			id="uploadlogo"
+		<button id="uploadlogo"
 			:class="{
 				'icon-upload': true,
 				svg: true,
@@ -68,7 +67,7 @@ export default {
 		mimetypes: {
 			type: Array,
 			default: () => ['*'],
-		}
+		},
 	},
 	data() {
 		return {

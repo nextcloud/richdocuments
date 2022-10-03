@@ -22,9 +22,9 @@
 
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentDirectory } from '../helpers/filesApp'
+import { getCurrentDirectory } from '../helpers/filesApp.js'
 
-export const createEmptyFile = async(mimeType, fileName) => {
+export const createEmptyFile = async (mimeType, fileName) => {
 	const shareToken = document.getElementById('sharingToken')?.value
 	const directoryPath = getCurrentDirectory()
 

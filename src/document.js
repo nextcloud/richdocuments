@@ -2,16 +2,16 @@ import { emit } from '@nextcloud/event-bus'
 import { getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
-import { setGuestName, shouldAskForGuestName } from './helpers/guestName'
-import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters'
+import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
+import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
 
 import PostMessageService from './services/postMessage.tsx'
 import {
 	callMobileMessage,
 	isDirectEditing,
 	isMobileInterfaceAvailable,
-} from './helpers/mobile'
-import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url'
+} from './helpers/mobile.js'
+import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
 
 import '../css/document.scss'
 import axios from '@nextcloud/axios'
@@ -124,13 +124,13 @@ $.widget('oc.guestNamePicker', {
 /**
  * Type definitions for WOPI Post message objects
  *
- * @typedef {Object} View
- * @property {Number} ViewId
+ * @typedef {object} View
+ * @property {number} ViewId
  * @property {string} UserName
  * @property {string} UserId
- * @property {Number} Color
- * @property {Boolean} ReadOnly
- * @property {Boolean} IsCurrentView
+ * @property {number} Color
+ * @property {boolean} ReadOnly
+ * @property {boolean} IsCurrentView
  */
 
 const documentsMain = {
@@ -566,7 +566,7 @@ const documentsMain = {
 	unlockFile() {
 		const unlockUrl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId
 		const unlockConfig = {
-			headers: { 'X-WOPI-Override': 'UNLOCK' }
+			headers: { 'X-WOPI-Override': 'UNLOCK' },
 		}
 		return axios.post(unlockUrl, { access_token: documentsMain.token }, unlockConfig)
 	},

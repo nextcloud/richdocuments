@@ -21,7 +21,7 @@
  */
 
 /**
- * @returns {string}
+ * @return {string}
  */
 export const getCurrentDirectory = () => {
 	if (OCA.Sharing?.PublicApp) {

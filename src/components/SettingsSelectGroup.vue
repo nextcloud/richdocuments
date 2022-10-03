@@ -40,7 +40,7 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { Multiselect } from '@nextcloud/vue'
 import { generateOcsUrl } from '@nextcloud/router'
 
 let uuid = 0

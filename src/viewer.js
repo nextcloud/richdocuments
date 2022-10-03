@@ -4,7 +4,7 @@
  * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@
 
 import '../css/filetypes.scss'
 
-import Office from './view/Office'
+import Office from './view/Office.vue'
 import { getCapabilities } from '@nextcloud/capabilities'
 
 const supportedMimes = getCapabilities().richdocuments.mimetypes
@@ -54,9 +54,9 @@ if (OCA.Viewer.openWith) {
 			displayName: actionDisplayName,
 			actionHandler: (fileName, context) => {
 				OCA.Viewer.openWith('richdocuments', {
-					path: context.fileInfoModel.getFullPath()
+					path: context.fileInfoModel.getFullPath(),
 				})
-			}
+			},
 		}
 
 		OCA.Files.fileActions.registerAction(action)

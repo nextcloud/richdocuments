@@ -37,7 +37,7 @@ export const isBuiltinCodeServerUsed = () => {
 	return richdocumentsCapabilities?.config?.wopi_url?.indexOf('proxy.php') !== -1
 }
 
-export const checkCollaboraConfiguration = async() => {
+export const checkCollaboraConfiguration = async () => {
 	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
 	if (!wopiUrl) {
 		throw Error(LOADING_ERROR.COLLABORA_UNCONFIGURED)
@@ -45,7 +45,7 @@ export const checkCollaboraConfiguration = async() => {
 }
 
 let proxyStatusCheckRetry = 0
-export const checkProxyStatus = async(_resolve, _reject) => {
+export const checkProxyStatus = async (_resolve, _reject) => {
 	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
 	if (wopiUrl.indexOf('proxy.php') === -1) {
 		return true
@@ -54,7 +54,7 @@ export const checkProxyStatus = async(_resolve, _reject) => {
 	const url = wopiUrl.slice(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 	const proxyStatusUrl = url + '?status'
 
-	const checkProxyStatusCallback = async(resolve, reject) => {
+	const checkProxyStatusCallback = async (resolve, reject) => {
 		const result = await axios.get(proxyStatusUrl)
 		if (!result || !result?.data?.status) {
 			reject('Failed to contact status endpoint')

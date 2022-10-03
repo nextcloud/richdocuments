@@ -277,14 +277,12 @@
 
 		<div v-if="isSetup" id="font-settings" class="section">
 			<h2>{{ t('richdocuments', 'Extra fonts') }}</h2>
-			<SettingsInputFile
-				:label="t('richdocuments', 'Upload extra font file')"
+			<SettingsInputFile :label="t('richdocuments', 'Upload extra font file')"
 				:button-title="t('richdocuments', 'Upload a font file')"
 				:uploading="uploadingFont"
 				:mimetypes="fontMimes"
 				@change="uploadFont" />
-			<SettingsFontList
-				:fonts="settings.fonts"
+			<SettingsFontList :fonts="settings.fonts"
 				:label="t('richdocuments', 'Available fonts')"
 				@deleted="onFontDeleted" />
 			<em>
@@ -374,16 +372,15 @@ import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { showWarning, showError } from '@nextcloud/dialogs'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import { Modal, Multiselect } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
-import SettingsCheckbox from './SettingsCheckbox'
-import SettingsInputText from './SettingsInputText'
-import SettingsSelectTag from './SettingsSelectTag'
-import SettingsSelectGroup from './SettingsSelectGroup'
-import SettingsExternalApps from './SettingsExternalApps'
-import SettingsInputFile from './SettingsInputFile'
-import SettingsFontList from './SettingsFontList'
+import SettingsCheckbox from './SettingsCheckbox.vue'
+import SettingsInputText from './SettingsInputText.vue'
+import SettingsSelectTag from './SettingsSelectTag.vue'
+import SettingsSelectGroup from './SettingsSelectGroup.vue'
+import SettingsExternalApps from './SettingsExternalApps.vue'
+import SettingsInputFile from './SettingsInputFile.vue'
+import SettingsFontList from './SettingsFontList.vue'
 
 import '@nextcloud/dialogs/styles/toast.scss'
 

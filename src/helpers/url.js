@@ -21,7 +21,7 @@
  */
 
 import { getRootUrl, generateUrl } from '@nextcloud/router'
-import { languageToBCP47 } from './index'
+import { languageToBCP47 } from './index.js'
 import Config from './../services/config.tsx'
 
 const getSearchParam = (name) => {
