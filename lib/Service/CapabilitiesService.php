@@ -33,7 +33,6 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesService {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IClientService */

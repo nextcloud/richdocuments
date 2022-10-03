@@ -47,7 +47,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 class OCSController extends \OCP\AppFramework\OCSController {
-
 	/** @var IRootFolder */
 	private $rootFolder;
 

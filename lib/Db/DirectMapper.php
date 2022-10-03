@@ -30,7 +30,6 @@ use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
 class DirectMapper extends Mapper {
-
 	/** @var int Limetime of a token is 10 minutes */
 	public const tokenLifeTime = 600;
 

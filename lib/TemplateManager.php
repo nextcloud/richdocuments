@@ -41,7 +41,6 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class TemplateManager {
-
 	/** @var string */
 	protected $userId;
 

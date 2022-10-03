@@ -47,7 +47,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class FederationService {
-
 	/** @var ICache */
 	private $cache;
 	/** @var IClientService */

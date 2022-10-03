@@ -27,7 +27,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 
 class DiscoveryManager {
-
 	/** @var IClientService */
 	private $clientService;
 	/** @var ICache */

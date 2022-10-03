@@ -31,7 +31,6 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 
 class InitialStateService {
-
 	/** @var IInitialState */
 	private $initialState;
 

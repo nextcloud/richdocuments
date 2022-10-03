@@ -29,7 +29,6 @@ use OCP\ILogger;
 use OCP\Image;
 
 abstract class Office extends Provider {
-
 	/** @var IClientService */
 	private $clientService;
 

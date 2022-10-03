@@ -126,7 +126,6 @@ class TemplatesController extends Controller {
 			if ($files['error'][0] === 0
 				&& is_uploaded_file($files['tmp_name'][0])
 				&& !Filesystem::isFileBlacklisted($files['tmp_name'][0])) {
-
 				// TODO: ensure the size limit is decent for preview
 				if ($files['size'][0] > $this->maxSize) {
 					return new JSONResponse(

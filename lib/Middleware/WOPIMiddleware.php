@@ -38,7 +38,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class WOPIMiddleware extends Middleware {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IRequest */

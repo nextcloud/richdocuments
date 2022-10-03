@@ -62,7 +62,6 @@ use OCP\AppFramework\Db\Entity;
  * @method static Wopi fromParams(array $params)
  */
 class Wopi extends Entity implements \JsonSerializable {
-
 	/**
 	 * WOPI token to open a file as a user on the current instance
 	 */

@@ -36,7 +36,6 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 
 class FederationController extends OCSController {
-
 	/** @var IConfig */
 	private $config;
 

@@ -27,7 +27,6 @@ use OC\BackgroundJob\TimedJob;
 use OCA\Richdocuments\Service\CapabilitiesService;
 
 class ObtainCapabilities extends TimedJob {
-
 	/** @var CapabilitiesService */
 	private $capabilitiesService;
 

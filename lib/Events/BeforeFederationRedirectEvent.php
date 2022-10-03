@@ -6,7 +6,6 @@ use OCP\Files\Node;
 use Symfony\Component\EventDispatcher\Event;
 
 class BeforeFederationRedirectEvent extends Event {
-
 	/** @var Node */
 	private $node;
 	/** @var string */
