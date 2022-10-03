@@ -39,7 +39,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CSPListenerTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	private $request;
 	/** @var AppConfig|MockObject */

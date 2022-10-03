@@ -34,7 +34,6 @@ use JuliusHaertl\NextcloudBehat\Context\ServerContext;
 use PHPUnit\Framework\Assert;
 
 class WopiContext implements Context {
-
 	/** @var ServerContext */
 	private $serverContext;
 	/** @var FilesContext */

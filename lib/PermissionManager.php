@@ -27,7 +27,6 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 
 class PermissionManager {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IGroupManager */

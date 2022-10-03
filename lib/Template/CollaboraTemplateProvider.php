@@ -35,7 +35,6 @@ use OCP\Files\Template\Template;
 use OCP\IURLGenerator;
 
 class CollaboraTemplateProvider implements ICustomTemplateProvider {
-
 	/** @var TemplateManager */
 	private $templateManager;
 	/** @var IURLGenerator */

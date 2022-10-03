@@ -31,7 +31,6 @@ use JuliusHaertl\NextcloudBehat\Context\ServerContext;
 use JuliusHaertl\NextcloudBehat\Context\SharingContext;
 
 class FederationContext implements Context {
-
 	/** @var ServerContext */
 	private $serverContext;
 	/** @var SharingContext */

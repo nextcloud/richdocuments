@@ -38,7 +38,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class AssetsController extends Controller {
-
 	/** @var AssetMapper */
 	private $assetMapper;
 

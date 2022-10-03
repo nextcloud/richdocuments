@@ -30,7 +30,6 @@ use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
-
 	/** @var IConfig Config */
 	private $config;
 

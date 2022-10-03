@@ -11,7 +11,6 @@ use JuliusHaertl\NextcloudBehat\Context\SharingContext;
 use PHPUnit\Framework\Assert;
 
 class RichDocumentsContext implements Context {
-
 	/** @var ServerContext */
 	private $serverContext;
 	/** @var FilesContext */

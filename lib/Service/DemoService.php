@@ -27,7 +27,6 @@ use OCP\Http\Client\IClientService;
 use OCP\ICache;
 
 class DemoService {
-
 	/**
 	 * @var ICache
 	 */

@@ -16,7 +16,6 @@ use \DateTimeZone;
 use OCP\Files\Folder;
 
 class Helper {
-
 	/** @var string|null */
 	private $userId;
 
