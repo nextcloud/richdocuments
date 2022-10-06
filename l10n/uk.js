@@ -24,7 +24,7 @@ OC.L10N.register(
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Розмір завантаженого файлу перевищує директиву MAX_FILE_SIZE, зазначену у HTML-формі",
     "The file was only partially uploaded" : "Файл завантажено лише частково",
     "No file was uploaded" : "Не вивантажено жодного файлу",
-    "Missing a temporary folder" : "Відсутня тека для тимчасових файлів",
+    "Missing a temporary folder" : "Відсутній каталог тимчасових файлів",
     "Could not write file to disk" : "Неможливо записати файл на диск",
     "A PHP extension stopped the file upload" : "Розширення PHP призупинило завантаження файлу",
     "No file uploaded or file size exceeds maximum of %s" : "Немає завантажених файлів або розмір файлу перевищує максимум %s",
@@ -147,7 +147,7 @@ OC.L10N.register(
     "Continue editing online" : "Продовжити редагування онлайн",
     "Edit with {productName}" : "Редагувати з {productName}",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не вдалося підключитися до {productName}. Спробуйте пізніше або зверніться до адміністратора свого сервера.",
-    "Select a personal template folder" : "Виберіть власну теку для шаблонів",
+    "Select a personal template folder" : "Виберіть каталог для ваших шаблонів",
     "Saving…" : "Збереження...",
     "Built-in CODE server failed to start" : "Не вдалося запустити вбудований сервер CODE",
     "Insert from {name}" : "Вставити з {name}",
@@ -172,8 +172,8 @@ OC.L10N.register(
     "No templates defined." : "Не визначено шаблони.",
     "Add a new one?" : "Додати новий?",
     "template preview" : "перегляд шаблону",
-    "Select a template directory" : "Виберіть теку для шаблонів",
-    "Remove personal template folder" : "Вилучити теку з власними шаблонами",
+    "Select a template directory" : "Виберіть каталог для шаблонів",
+    "Remove personal template folder" : "Вилучити каталог з вашими шаблонами",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Шаблони всередині цього каталогу буде додано до селектора шаблонів Nextcloud Office.",
     "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
@@ -182,6 +182,6 @@ OC.L10N.register(
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Усі користувачі можуть редагувати документи за допомогою {productName} за умовчанням. Коли цей параметр активний, лише учасники вказаних груп можуть редагувати, а інші можуть лише переглядати документи.",
     "Document already exists" : "Документ уже існує",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online увімкнено для всіх користувачів за замовчуванням. Коли цей параметр активний, ним можуть користуватися лише учасники вказаних груп.",
-    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цій теці буде додано до вибору шаблонів у Collabora Online"
+    "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цьому каталозі буде додано до вибору шаблонів у Collabora Online."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
