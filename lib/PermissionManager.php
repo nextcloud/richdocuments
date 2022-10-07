@@ -75,6 +75,10 @@ class PermissionManager {
 			}
 		}
 
+		if ($this->groupManager->isAdmin($userId)) {
+			return true;
+		}
+
 		return false;
 	}
 }
