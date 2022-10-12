@@ -72,10 +72,10 @@ class Direct extends Entity {
 		$this->addType('uid', 'string');
 		$this->addType('fileid', 'int');
 		$this->addType('timestamp', 'int');
-		$this->addType('template_destination', 'int');
-		$this->addType('template_id', 'int');
+		$this->addType('templateDestination', 'int');
+		$this->addType('templateId', 'int');
 		$this->addType('share', 'string');
-		$this->addType('initiator_host', 'string');
-		$this->addType('initiator_token', 'string');
+		$this->addType('initiatorHost', 'string');
+		$this->addType('initiatorToken', 'string');
 	}
 }
