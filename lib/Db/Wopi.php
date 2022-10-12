@@ -139,18 +139,18 @@ class Wopi extends Entity implements \JsonSerializable {
 	protected $tokenType = 0;
 
 	public function __construct() {
-		$this->addType('owner_uid', 'string');
-		$this->addType('editor_uid', 'string');
+		$this->addType('ownerUid', 'string');
+		$this->addType('editorUid', 'string');
 		$this->addType('fileid', 'int');
 		$this->addType('version', 'int');
 		$this->addType('canwrite', 'bool');
-		$this->addType('server_host', 'string');
+		$this->addType('serverHost', 'string');
 		$this->addType('token', 'string');
 		$this->addType('expiry', 'int');
-		$this->addType('guest_displayname', 'string');
+		$this->addType('guestDisplayname', 'string');
 		$this->addType('templateDestination', 'int');
 		$this->addType('templateId', 'int');
-		$this->addType('hide_download', 'bool');
+		$this->addType('hideDownload', 'bool');
 		$this->addType('direct', 'bool');
 		$this->addType('tokenType', 'int');
 	}
