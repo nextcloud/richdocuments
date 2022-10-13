@@ -574,7 +574,18 @@ const documentsMain = {
 	openLocally() {
 		if (documentsMain.openingLocally) {
 			documentsMain.openingLocally = false
-			window.location.href = 'nc://open/' + Config.get('userId') + '@' + getNextcloudUrl() + OC.encodePath(documentsMain.fullPath)
+
+			axios.post(
+				OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json',
+				{ path: documentsMain.fullPath }
+			).then((result) => {
+				const url = 'nc://open/'
+					+ Config.get('userId') + '@' + getNextcloudUrl()
+					+ OC.encodePath(documentsMain.fullPath)
+					+ '?token=' + result.data.ocs.data.token
+
+				window.location.href = url
+			})
 		}
 	},
 
