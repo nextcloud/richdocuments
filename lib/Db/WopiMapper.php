@@ -25,14 +25,14 @@ namespace OCA\Richdocuments\Db;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
-class WopiMapper extends Mapper {
+class WopiMapper extends QBMapper {
 	/** @var ISecureRandom */
 	private $random;
 
@@ -110,10 +110,7 @@ class WopiMapper extends Mapper {
 			'tokenType' => Wopi::TOKEN_TYPE_INITIATOR
 		]);
 
-		/** @var Wopi $wopi */
-		$wopi = $this->insert($wopi);
-
-		return $wopi;
+		return $this->insert($wopi);
 	}
 
 	/**
@@ -175,7 +172,7 @@ class WopiMapper extends Mapper {
 	private function calculateNewTokenExpiry(): int {
 		return $this->timeFactory->getTime() + (int) $this->appConfig->getAppValue('token_ttl');
 	}
-   
+
 	/**
 	 * @param int|null $limit
 	 * @param int|null $offset

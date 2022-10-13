@@ -24,20 +24,21 @@
 namespace OCA\Richdocuments\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
-class AssetMapper extends Mapper {
-	/** @var int Limetime of a token is 10 minutes */
-	public const tokenLifeTime = 600;
+/**
+ * @method findEntity(IQueryBuilder $query): Asset
+ */
+class AssetMapper extends QBMapper {
+	/** @var int Lifetime of a token is 10 minutes */
+	public const TOKEN_TTL = 600;
 
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var ITimeFactory */
-	private $time;
+	private ISecureRandom $random;
+	private ITimeFactory $time;
 
 	public function __construct(IDBConnection $db, ISecureRandom $random, ITimeFactory $timeFactory) {
 		parent::__construct($db, 'richdocuments_assets', Asset::class);
@@ -58,39 +59,31 @@ class AssetMapper extends Mapper {
 		$asset->setTimestamp($this->time->getTime());
 		$asset->setToken($this->random->generate(64, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS));
 
-		$asset = $this->insert($asset);
-		return $asset;
+		return $this->insert($asset);
 	}
 
 
 	/**
-	 * @param $token
-	 * @return Asset
 	 * @throws DoesNotExistException
 	 */
-	public function getAssetByToken($token) {
+	public function getAssetByToken(string $token): Asset {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('richdocuments_assets')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)));
 
-		$cursor = $qb->execute();
-		$data = $cursor->fetch();
-		$cursor->closeCursor();
+		try {
+			$asset = $this->findEntity($qb);
+			// Check the token lifetime
+			if ($asset->getTimestamp() + self::TOKEN_TTL < $this->time->getTime()) {
+				$this->delete($asset);
+				throw new DoesNotExistException('No asset for token found');
+			}
 
-		//There can only be one row since it is a unqiue field
-		if ($data === false) {
-			throw new DoesNotExistException('No asset for token found');
+			return $asset;
+		} catch (\Exception $e) {
 		}
 
-		$asset = Asset::fromRow($data);
-
-		// Check the token lifetime
-		if ($asset->getTimestamp() + self::tokenLifeTime < $this->time->getTime()) {
-			$this->delete($asset);
-			throw new DoesNotExistException('No asset for token found');
-		}
-
-		return $asset;
+		throw new DoesNotExistException('No asset for token found');
 	}
 }
