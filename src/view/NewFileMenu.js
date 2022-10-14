@@ -20,9 +20,9 @@
  *
  */
 
-import { getCurrentDirectory } from '../helpers/filesApp'
-import Types from '../helpers/types'
-import { createEmptyFile } from '../services/api'
+import { getCurrentDirectory } from '../helpers/filesApp.js'
+import Types from '../helpers/types.js'
+import { createEmptyFile } from '../services/api.js'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
 
 const isPublic = window.document.getElementById('isPublic')?.value === '1'

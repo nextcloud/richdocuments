@@ -24,7 +24,7 @@ import Config from './../services/config.tsx'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-import mobile from './mobile'
+import mobile from './mobile.js'
 
 let guestName = ''
 

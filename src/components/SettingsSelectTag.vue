@@ -45,7 +45,7 @@
 import axios from '@nextcloud/axios'
 
 import { generateRemoteUrl } from '@nextcloud/router'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { Multiselect } from '@nextcloud/vue'
 
 const xmlToJson = (xml) => {
 	let obj = {}

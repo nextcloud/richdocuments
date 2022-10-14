@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
-import AdminSettings from './components/AdminSettings'
+import AdminSettings from './components/AdminSettings.vue'
 import '../css/admin.scss'
 
 // CSP config for webpack dynamic chunk loading
@@ -27,7 +27,7 @@ new Vue({
 /**
  * Append a new template to the dom
  *
- * @param {Object} data the template data from the template controller response
+ * @param {object} data the template data from the template controller response
  */
 function appendTemplateFromData(data) {
 	const template = document.querySelector('.template-model').cloneNode(true)

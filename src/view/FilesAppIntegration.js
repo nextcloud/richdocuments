@@ -23,7 +23,7 @@
 import { generateUrl, generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import moment from '@nextcloud/moment'
-import { getCurrentDirectory } from '../helpers/filesApp'
+import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
@@ -314,7 +314,7 @@ export default {
 
 	/**
 	 * @param {View} view the view
-	 * @returns {$|HTMLElement}
+	 * @return {$|HTMLElement}
 	 * @private
 	 */
 	_userEntry(view) {
@@ -351,7 +351,7 @@ export default {
 
 	/**
 	 * @param {View} view the view
-	 * @returns {$|HTMLElement}
+	 * @return {$|HTMLElement}
 	 * @private
 	 */
 	_avatarForView(view) {

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import SettingsFont from './SettingsFont'
+import SettingsFont from './SettingsFont.vue'
 
 export default {
 	name: 'SettingsFontList',
@@ -46,7 +46,7 @@ export default {
 		fonts: {
 			type: Array,
 			default: () => [],
-		}
+		},
 	},
 	data() {
 		return {
@@ -63,7 +63,7 @@ export default {
 						? -1
 						: 0
 			})
-		}
+		},
 	},
 	methods: {
 	},

@@ -68,17 +68,15 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { Avatar, Actions, ActionButton, EmptyContent } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 
 import { basename, dirname } from 'path'
-import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url'
+import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url.js'
 import PostMessageService from '../services/postMessage.tsx'
-import FilesAppIntegration from './FilesAppIntegration'
-import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora'
+import FilesAppIntegration from './FilesAppIntegration.js'
+import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
+
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('collaboraframe').contentWindow,
