@@ -155,7 +155,6 @@ class TokenManager {
 				}
 
 				// disable download if at least one shared access has it disabled
-
 				foreach ($files as $file) {
 					$storage = $file->getStorage();
 					// using string as we have no guarantee that "files_sharing" app is loaded
@@ -166,7 +165,7 @@ class TokenManager {
 						/** @var SharedStorage $storage */
 						$share = $storage->getShare();
 						$attributes = $share->getAttributes();
-						if ($attributes !== null && !$attributes->getAttribute('permissions', 'download')) {
+						if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
 							$hideDownload = true;
 							break;
 						}
