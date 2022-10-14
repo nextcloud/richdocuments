@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -21,39 +23,33 @@
 
 namespace OCA\Richdocuments;
 
-use OCA\Richdocuments\AppInfo\Application;
-use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class PermissionManager {
-
-	/** @var IConfig */
+	/** @var AppConfig */
 	private $config;
 	/** @var IGroupManager */
 	private $groupManager;
+	/** @var IUserManager */
+	private $userManager;
 	/** @var IUserSession */
 	private $userSession;
 
 	public function __construct(
-		IConfig $config,
+		AppConfig $config,
 		IGroupManager $groupManager,
+		IUserManager $userManager,
 		IUserSession $userSession
 	) {
 		$this->config = $config;
 		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 	}
 
-	/**
-	 * @param string $groupString
-	 * @return array
-	 */
-	private function splitGroups($groupString) {
-		return explode('|', $groupString);
-	}
-
-	public function isEnabledForUser(string $userId = null) {
+	private function userMatchesGroupList(?string $userId = null, ?array $groupList = []): bool {
 		if ($userId === null) {
 			$user = $this->userSession->getUser();
 			$userId = $user ? $user->getUID() : null;
@@ -63,16 +59,44 @@ class PermissionManager {
 			return true;
 		}
 
-		$enabledForGroups = $this->config->getAppValue(Application::APPNAME, 'use_groups', '');
-		if($enabledForGroups === '') {
+		if ($groupList === null || $groupList === []) {
 			return true;
 		}
 
-		$groups = $this->splitGroups($enabledForGroups);
-		foreach ($groups as $group) {
-			if ($this->groupManager->isInGroup($userId, $group)) {
+		if ($this->groupManager->isAdmin($userId)) {
+			return true;
+		}
+
+		$userGroups = $this->groupManager->getUserGroupIds($this->userManager->get($userId));
+
+		foreach ($groupList as $group) {
+			if (in_array($group, $userGroups)) {
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	public function isEnabledForUser(string $userId = null): bool {
+		if ($this->userMatchesGroupList($userId, $this->config->getUseGroups())) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function userCanEdit(string $userId = null): bool {
+		if ($this->userMatchesGroupList($userId, $this->config->getEditGroups())) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function userIsFeatureLocked(string $userId = null): bool {
+		if ($this->config->isReadOnlyFeatureLocked() && !$this->userCanEdit($userId)) {
+			return true;
 		}
 
 		return false;
