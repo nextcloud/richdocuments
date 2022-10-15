@@ -11,9 +11,26 @@ env:
   APP_NAME: richdocuments
 
 jobs:
-  php:
+  files-changed:
     runs-on: ubuntu-latest
+    name: detect what files changed
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check for backend file changes
+        uses: getsentry/paths-filter@v2
+        id: changes
+        with:
+          token: ${{ github.token }}
+          filters: |
+            php:
+              - 'appinfo/**'
+              - 'lib/**'
+              - 'tests/**'
 
+  sqlite:
+    runs-on: ubuntu-latest
+    needs: [files-changed]
+    if: needs.files-changed.outputs.php == 'true'
     strategy:
       # do not stop on another job's failure
       fail-fast: false
@@ -79,6 +96,8 @@ jobs:
 
   mysql:
     runs-on: ubuntu-latest
+    needs: [files-changed]
+    if: needs.files-changed.outputs.php == 'true'
 
     strategy:
       # do not stop on another job's failure
@@ -152,6 +171,8 @@ jobs:
 
   pgsql:
     runs-on: ubuntu-latest
+    needs: [files-changed]
+    if: needs.files-changed.outputs.php == 'true'
 
     strategy:
       # do not stop on another job's failure
@@ -227,6 +248,8 @@ jobs:
 
   oci:
     runs-on: ubuntu-latest
+    needs: [files-changed]
+    if: needs.files-changed.outputs.php == 'true'
 
     strategy:
       # do not stop on another job's failure
