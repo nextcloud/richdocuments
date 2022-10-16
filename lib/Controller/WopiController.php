@@ -30,6 +30,7 @@ use OCA\Richdocuments\Events\DocumentOpenedEvent;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
+use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\TemplateManager;
@@ -80,6 +81,8 @@ class WopiController extends Controller {
 	private $appConfig;
 	/** @var TokenManager */
 	private $tokenManager;
+	/** @var PermissionManager */
+	private $permissionManager;
 	/** @var IUserManager */
 	private $userManager;
 	/** @var WopiMapper */
@@ -114,6 +117,7 @@ class WopiController extends Controller {
 		IConfig $config,
 		AppConfig $appConfig,
 		TokenManager $tokenManager,
+		PermissionManager $permissionManager,
 		IUserManager $userManager,
 		WopiMapper $wopiMapper,
 		ILogger $logger,
@@ -132,6 +136,7 @@ class WopiController extends Controller {
 		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->tokenManager = $tokenManager;
+		$this->permissionManager = $permissionManager;
 		$this->userManager = $userManager;
 		$this->wopiMapper = $wopiMapper;
 		$this->logger = $logger;
@@ -215,6 +220,7 @@ class WopiController extends Controller {
 			'HidePrintOption' => $wopi->getHideDownload(),
 			'DownloadAsPostMessage' => $wopi->getDirect(),
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
+			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
 		];
 
 		if ($wopi->hasTemplateId()) {

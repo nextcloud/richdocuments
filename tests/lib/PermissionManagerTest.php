@@ -21,12 +21,13 @@
 
 namespace Tests\Richdocuments;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\PermissionManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
-use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -35,6 +36,8 @@ class PermissionManagerTest extends TestCase {
 	private $config;
 	/** @var IGroupManager|MockObject */
 	private $groupManager;
+	/** @var IUserManager|MockObject */
+	private $userManager;
 	/** @var IUserSession|MockObject */
 	private $userSession;
 	/** @var PermissionManager */
@@ -42,91 +45,90 @@ class PermissionManagerTest extends TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		$this->config = $this->createMock(IConfig::class);
+		$this->config = $this->createMock(AppConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->permissionManager = new PermissionManager($this->config, $this->groupManager, $this->userSession);
+		$this->permissionManager = new PermissionManager($this->config, $this->groupManager, $this->userManager, $this->userSession);
 	}
 
-	public function testIsEnabledForUserEnabledNoRestrictions() {
+	public function testIsEnabledForUserEnabledNoRestrictions(): void {
 		$this->config
 			->expects($this->once())
-			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
-			->willReturn('');
+			->method('getUseGroups')
+			->willReturn(null);
 
 		$this->assertTrue($this->permissionManager->isEnabledForUser('TestUser'));
 	}
 
-	public function testIsEnabledForUserEnabledNotInGroupSession() {
-		/** @var IUser|MockBuilder $user */
-		$user = $this->createMock(IUser::class);
-		$user
-			->expects($this->any())
-			->method('getUID')
-			->willReturn('TestUser');
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
-
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
-			->willReturn('Enabled1|Enabled2|Enabled3');
-
-		$this->groupManager
-			->expects($this->at(0))
-			->method('isInGroup')
-			->with('TestUser', 'Enabled1')
-			->willReturn(true);
-		$this->assertTrue($this->permissionManager->isEnabledForUser());
+	public function dataGroupMatchGroups(): array {
+		return [
+			[['admin', 'guests'], ['admin'], true],
+			[['admin', 'guests'], [], false],
+			[['group1', 'group2', 'group3'], [], false],
+			[['group1', 'group2', 'group3'], ['group1'], true],
+			[['group1', 'group2', 'group3'], ['group2'], true],
+			[['group1', 'group2', 'group3'], ['group0', 'group3'], true],
+			[['group1', 'group2', 'group3'], ['group1', 'group2'], true],
+			[[], [], true],
+		];
 	}
 
-	public function testIsEnabledForUserEnabledNotInGroup() {
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
-			->willReturn('Enabled1|Enabled2|Enabled3');
+	/** @dataProvider dataGroupMatchGroups */
+	public function testEditGroups($editGroups, $userGroups, $result): void {
+		$userMock = $this->createMock(IUser::class);
+		$this->config->expects($this->any())
+			->method('getEditGroups')
+			->willReturn($editGroups);
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturn($userMock);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturn($userGroups);
 
-		$this->groupManager
-			->expects($this->at(0))
-			->method('isInGroup')
-			->with('TestUser', 'Enabled1')
-			->willReturn(false);
-		$this->groupManager
-			->expects($this->at(1))
-			->method('isInGroup')
-			->with('TestUser', 'Enabled2')
-			->willReturn(false);
-		$this->groupManager
-			->expects($this->at(2))
-			->method('isInGroup')
-			->with('TestUser', 'Enabled3')
-			->willReturn(false);
-
-		$this->assertFalse($this->permissionManager->isEnabledForUser('TestUser'));
+		$this->assertEquals($result, $this->permissionManager->userCanEdit('user1'));
 	}
 
-	public function testIsEnabledForUserEnabledInGroup() {
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('richdocuments', 'use_groups', '')
-			->willReturn('Enabled1|Enabled2|Enabled3');
+	/** @dataProvider dataGroupMatchGroups */
+	public function testUseGroups($editGroups, $userGroups, $result): void {
+		$userMock = $this->createMock(IUser::class);
+		$this->config->expects($this->any())
+			->method('getUseGroups')
+			->willReturn($editGroups);
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturn($userMock);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturn($userGroups);
 
-		$this->groupManager
-			->expects($this->at(0))
-			->method('isInGroup')
-			->with('TestUser', 'Enabled1')
-			->willReturn(false);
-		$this->groupManager
-			->expects($this->at(1))
-			->method('isInGroup')
-			->with('TestUser', 'Enabled2')
+		$this->assertEquals($result, $this->permissionManager->isEnabledForUser('user1'));
+	}
+
+	/** @dataProvider dataGroupMatchGroups */
+	public function testFeatureLock($editGroups, $userGroups, $result): void {
+		$userMock = $this->createMock(IUser::class);
+		$this->config->expects($this->any())
+			->method('getEditGroups')
+			->willReturn($editGroups);
+		$this->config->expects($this->any())
+			->method('isReadOnlyFeatureLocked')
 			->willReturn(true);
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturn($userMock);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturn($userGroups);
 
-		$this->assertTrue($this->permissionManager->isEnabledForUser('TestUser'));
+		$canEdit = $this->permissionManager->userCanEdit('user1');
+		$isLocked = $this->permissionManager->userIsFeatureLocked('user1');
+
+		$this->assertEquals(!$result, $isLocked);
+		$this->assertEquals($result, $canEdit);
+
+		// Users with edit permission should never be locked
+		$this->assertFalse($isLocked && $canEdit);
 	}
 }
