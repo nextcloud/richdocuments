@@ -41,9 +41,10 @@ if (OCA.Viewer) {
 // TODO: Viewer.openWith introduced with https://github.com/nextcloud/viewer/pull/1273
 //       This check can be replaced with `if(OCA.Viewer)` once NC 24 is EOL.
 if (OCA.Viewer.openWith) {
-	const supportedMimes = OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen
-	const actionName = 'Edit with ' + OC.getCapabilities().richdocuments.productName
-	const actionDisplayName = t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
+	const supportedMimes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
+	const actionName = 'Edit with ' + getCapabilities().richdocuments.productName
+	const actionDisplayNameEdit = t('richdocuments', 'Edit with {productName}', { productName: getCapabilities().richdocuments.productName }, undefined, { escape: false })
+	const actionDisplayNameOpen = t('richdocuments', 'Open with {productName}', { productName: getCapabilities().richdocuments.productName }, undefined, { escape: false })
 
 	for (const mime of supportedMimes) {
 		const action = {
@@ -51,7 +52,7 @@ if (OCA.Viewer.openWith) {
 			mime,
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-richdocuments',
-			displayName: actionDisplayName,
+			displayName: mime === 'application/pdf' ? actionDisplayNameOpen : actionDisplayNameEdit,
 			actionHandler: (fileName, context) => {
 				OCA.Viewer.openWith('richdocuments', {
 					path: context.fileInfoModel.getFullPath()
