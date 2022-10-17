@@ -46,7 +46,7 @@
 		"@nextcloud/babel-config": "^1.0.0",
 		"@nextcloud/browserslist-config": "^2.3.0",
 		"@nextcloud/eslint-config": "^8.1.2",
-		"@nextcloud/stylelint-config": "^2.2.0",
+		"@nextcloud/stylelint-config": "^2.3.0",
 		"@nextcloud/webpack-vue-config": "^5.3.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
 		"ts-loader": "^9.4.1",
