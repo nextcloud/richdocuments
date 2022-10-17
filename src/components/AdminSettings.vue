@@ -171,7 +171,7 @@
 							{{ t('richdocuments', 'Loading available demo servers …') }}
 						</p>
 						<p v-else-if="demoServers.length > 0">
-							<Multiselect v-if="serverMode === 'demo'"
+							<NcMultiselect v-if="serverMode === 'demo'"
 								v-model="settings.demoUrl"
 								:custom-label="demoServerLabel"
 								track-by="demo_url"
@@ -201,7 +201,7 @@
 			</fieldset>
 		</div>
 
-		<Modal v-if="serverMode === 'demo' && !approvedDemoModal" @close="serverMode = 'custom'">
+		<NcModal v-if="serverMode === 'demo' && !approvedDemoModal" @close="serverMode = 'custom'">
 			<div class="modal__content">
 				<p>{{ t('richdocuments', 'Please make sure you understand that the following will happen if you set up the Collabora Online demo.') }}</p>
 				<ul>
@@ -218,7 +218,7 @@
 					@click="approvedDemoModal=true">
 				<input type="button" :value="t('richdocuments', 'I will setup my own server')" @click="serverMode = 'custom'">
 			</div>
-		</Modal>
+		</NcModal>
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
@@ -398,7 +398,7 @@ import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { showWarning, showError } from '@nextcloud/dialogs'
-import { Modal, Multiselect } from '@nextcloud/vue'
+import { NcModal, NcMultiselect } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
 import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
@@ -427,11 +427,11 @@ export default {
 		SettingsInputText,
 		SettingsSelectTag,
 		SettingsSelectGroup,
-		Multiselect,
+		NcMultiselect,
 		SettingsExternalApps,
 		SettingsInputFile,
 		SettingsFontList,
-		Modal,
+		NcModal,
 	},
 	props: {
 		initial: {
