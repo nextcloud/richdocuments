@@ -1,27 +1,37 @@
 # Changelog
 
-
-## 7.0.0-beta.2
-
-### Added
-
-- Add local editing button to Nextcloud Office @Raudius [#2456](https://github.com/nextcloud/richdocuments/pull/2428)
-- Open PDF files by default when PDF viewer is disabled @Raudius [#2457](https://github.com/nextcloud/richdocuments/pull/2456)
-
-### Fixed
-
-- Always show the close button @juliushaertl [#2451](https://github.com/nextcloud/richdocuments/pull/2451)
-- Migrate to BEM and scoped SCSS @ChristophWurst [#2432](https://github.com/nextcloud/richdocuments/pull/2432)
-
-## 7.0.0-beta.1
+## 7.0.0
 
 ### Added
+
 - Nextcloud 25 support
 - Give better hints on a protocol mismatch with the discovery endpoint @juliushaertl [#2371]
 - Emmit open event for each user on document open @juliushaertl [#2350]
 - Upload custom fonts from admin interface @eneiluj [#2032]
 - Token TTL app config value which sets expiration the WOPI token @Raudius [#2171]
 - Optimised avatar request @juliushaertl [#2269]
+- Add local editing button to Nextcloud Office @Raudius [#2456](https://github.com/nextcloud/richdocuments/pull/2428)
+- Open PDF files by default when PDF viewer is disabled @Raudius [#2457](https://github.com/nextcloud/richdocuments/pull/2456)
+- Add config option to turn on Collabora feature lock for read only users [#2509](https://github.com/nextcloud/richdocuments/pull/2509)
+
+### Fixed
+
+- Fix: Hide local editing button for public shares [#2466](https://github.com/nextcloud/richdocuments/pull/2466)
+- Add CSRF token to local edit URL [#2501](https://github.com/nextcloud/richdocuments/pull/2501)
+- Always enable editing for admins [#2499](https://github.com/nextcloud/richdocuments/pull/2499)
+- Disable sharing for public links and versions if app is disabled [#2507](https://github.com/nextcloud/richdocuments/pull/2507)
+- Use proper product name in capabilities [#2531](https://github.com/nextcloud/richdocuments/pull/2531)
+- Only apply hideDownload if share attribute is actually false [#2528](https://github.com/nextcloud/richdocuments/pull/2528)
+- Always show the close button @juliushaertl [#2451](https://github.com/nextcloud/richdocuments/pull/2451)
+- Migrate to BEM and scoped SCSS @ChristophWurst [#2432](https://github.com/nextcloud/richdocuments/pull/2432)
+
+### Other
+
+- Migrate to nextcloud/OCP package in stable25 @nickvergessen [#2478](https://github.com/nextcloud/richdocuments/pull/2478)
+- Fix loading file without logged-in when watermark is enable for groups [#2481](https://github.com/nextcloud/richdocuments/pull/2481)
+- Fix `public_wopi_url` variable configuration name [#2504](https://github.com/nextcloud/richdocuments/pull/2504)
+- Backport/2526/stable25 @Raudius [#2530](https://github.com/nextcloud/richdocuments/pull/2530)
+- For PDFs rename context menu option to "Open with" @Raudius [#2535](https://github.com/nextcloud/richdocuments/pull/2535) 
 
 ## 6.2.0
 
