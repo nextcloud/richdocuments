@@ -22,6 +22,8 @@ class AppConfig {
 
 	public const SYSTEM_GS_TRUSTED_HOSTS = 'gs.trustedHosts';
 
+	public const READ_ONLY_FEATURE_LOCK = 'read_only_feature_lock';
+
 	private $defaults = [
 		'wopi_url' => '',
 		'timeout' => 15,
@@ -133,5 +135,31 @@ class AppConfig {
 
 	public function getCollaboraUrlInternal(): string {
 		return $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
+	}
+
+	public function getUseGroups(): ?array {
+		$groups = $this->config->getAppValue(Application::APPNAME, 'use_groups', '');
+		if ($groups === '') {
+			return null;
+		}
+
+		return $this->splitGroups($groups);
+	}
+
+	public function getEditGroups(): ?array {
+		$groups = $this->config->getAppValue(Application::APPNAME, 'edit_groups', '');
+		if ($groups === '') {
+			return null;
+		}
+
+		return $this->splitGroups($groups);
+	}
+
+	public function isReadOnlyFeatureLocked(): bool {
+		return $this->config->getAppValue(Application::APPNAME, self::READ_ONLY_FEATURE_LOCK, 'no') === 'yes';
+	}
+
+	private function splitGroups(string $groupString): array {
+		return explode('|', $groupString);
 	}
 }
