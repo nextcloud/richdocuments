@@ -1,5 +1,24 @@
 # Changelog
 
+## 6.3.0
+
+### Added
+
+- Add config option to turn on Collabora feature lock for read only users [#2510](https://github.com/nextcloud/richdocuments/pull/2510)
+
+### Fixed
+
+- Only apply hideDownload if share attribute is actually false [#2529](https://github.com/nextcloud/richdocuments/pull/2529)
+- Disable sharing for public links and versions if app is disabled [#2508](https://github.com/nextcloud/richdocuments/pull/2508)
+- Use proper product name in capabilities [#2532](https://github.com/nextcloud/richdocuments/pull/2532)
+
+### Other
+
+- Use correct server version for integration tests @juliushaertl [#2512](https://github.com/nextcloud/richdocuments/pull/2512)
+- Fix `public_wopi_url` variable configuration name [#2505](https://github.com/nextcloud/richdocuments/pull/2505)
+- Pin postgres version @Raudius [#2533](https://github.com/nextcloud/richdocuments/pull/2533)
+- For PDFs rename context menu option to "Open with" @Raudius [#2536](https://github.com/nextcloud/richdocuments/pull/2536)
+
 ## 6.2.1
 
 ### Added
