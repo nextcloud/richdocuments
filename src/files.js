@@ -49,52 +49,6 @@ const odfViewer = {
 	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
 	hideDownloadMimes: ['image/jpeg', 'image/svg+xml', 'image/cgm', 'image/vnd.dxf', 'image/x-emf', 'image/x-wmf', 'image/x-wpg', 'image/x-freehand', 'image/bmp', 'image/png', 'image/gif', 'image/tiff', 'image/jpg', 'image/jpeg', 'text/plain', 'application/pdf'],
 
-	registerFileActions() {
-		const EDIT_ACTION_NAME = 'Edit with ' + OC.getCapabilities().richdocuments.productName
-		for (const mime of odfViewer.supportedMimes) {
-			OCA.Files.fileActions.register(
-				mime,
-				EDIT_ACTION_NAME,
-				OC.PERMISSION_READ,
-				imagePath('core', 'actions/rename'),
-				(fileName, context) => {
-					// Workaround since the new template frontend doesn't pass
-					// the full context yet nor the filelist contains the element
-					// at the point when the action is triggered.
-					// This will be fixed by https://github.com/nextcloud/server/pull/25797
-					// but this should be kept for backward compatibility for now
-					if (!context?.$file) {
-						if (context?.fileList) {
-							context.fileList.setViewerMode(true)
-						}
-						const filePath = (context.dir === '/' ? '/' : context.dir + '/') + fileName
-						OCA.Files.App.fileList.filesClient.getFileInfo(filePath).then((status, fileInfo) => {
-							const fileModel = context.fileList.findFile(fileName)
-							const shareOwnerId = fileModel?.shareOwnerId || fileInfo?.shareOwnerId
-							context.fileId = fileInfo.id
-							return this.onEdit(fileName, {
-								...context,
-								shareOwnerId,
-							})
-						})
-						return
-					}
-
-					const fileModel = context.fileList.findFile(fileName)
-					const shareOwnerId = fileModel?.shareOwnerId
-					return this.onEdit(fileName, {
-						...context,
-						shareOwnerId,
-					})
-				},
-				t('richdocuments', 'Edit with {productName}', { productName: OC.getCapabilities().richdocuments.productName }, undefined, { escape: false })
-			)
-			if (odfViewer.excludeMimeFromDefaultOpen.indexOf(mime) === -1 || isDownloadHidden) {
-				OCA.Files.fileActions.setDefault(mime, EDIT_ACTION_NAME)
-			}
-		}
-	},
-
 	onEdit(fileName, context) {
 		let fileDir
 		let fileId
