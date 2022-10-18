@@ -567,6 +567,9 @@ class WopiController extends Controller {
 				$this->wopiMapper->update($wopi);
 			}
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
+		} catch (NotFoundException $e) {
+			$this->logger->logException($e, ['level' => ILogger::INFO,	'app' => 'richdocuments', 'message' => 'File not found']);
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
