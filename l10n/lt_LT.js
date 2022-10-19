@@ -42,6 +42,7 @@ OC.L10N.register(
     "I will setup my own server" : "Aš nusistatysiu asmeninį serverį",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Select groups" : "Pasirinkti grupes",
+    "Available fonts" : "Prieinami šriftai",
     "Secure view settings" : "Saugaus rodinio nustatymai",
     "Secure view enables you to secure documents by embedding a watermark" : "Saugusis rodinys leidžia jums apsaugoti dokumentus įterpiant vandenženklį",
     "Enable watermarking" : "Įjungti vandenženklių darymą",

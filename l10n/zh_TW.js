@@ -167,6 +167,7 @@ OC.L10N.register(
     "Create" : "建立",
     "Select template" : "選擇範本",
     "Edit with {productName}" : "使用 {productName} 編輯",
+    "Open with {productName}" : "使用 {productName} 開啟",
     "Global templates" : "全域範本",
     "Add a new template" : "加入新範本",
     "No templates defined." : "未定義範本。",
