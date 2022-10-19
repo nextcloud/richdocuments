@@ -167,6 +167,7 @@ OC.L10N.register(
     "Create" : "Vytvořit",
     "Select template" : "Vybrat šablonu",
     "Edit with {productName}" : "Upravit pomocí {productName}",
+    "Open with {productName}" : "Otevřít v {productName}",
     "Global templates" : "Globální šablony",
     "Add a new template" : "Přidat novou šablonu",
     "No templates defined." : "Nebyla určena žádná šablona.",
