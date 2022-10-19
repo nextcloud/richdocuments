@@ -167,6 +167,7 @@ OC.L10N.register(
     "Create" : "Erstellen",
     "Select template" : "Vorlage auswählen",
     "Edit with {productName}" : "Mit {productName} bearbeiten",
+    "Open with {productName}" : "Mit {productName} öffnen",
     "Global templates" : "Globale Vorlagen",
     "Add a new template" : "Neue Vorlage hinzufügen",
     "No templates defined." : "Keine Vorlagen definiert.",
