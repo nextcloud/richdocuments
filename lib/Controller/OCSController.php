@@ -34,6 +34,7 @@ use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
@@ -320,14 +321,14 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			throw new OCSBadRequestException('Invalid template provided');
 		}
 
-		$info = $this->mb_pathinfo($path);
-
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
-		$folder = $userFolder->get($info['dirname']);
-		$name = $folder->getNonExistingName($info['basename']);
-		$file = $folder->newFile($name);
-
 		try {
+			$info = $this->mb_pathinfo($path);
+
+			$userFolder = $this->rootFolder->getUserFolder($this->userId);
+			$folder = isset($info['dirname']) ? $userFolder->get($info['dirname']) : $userFolder;
+			$name = $folder->getNonExistingName($info['basename']);
+			$file = $folder->newFile($name);
+
 			$direct = $this->directMapper->newDirect($this->userId, $template, $file->getId());
 
 			return new DataResponse([
@@ -337,6 +338,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			throw new OCSException('Failed to create new file from template.');
 		}
 	}
 
