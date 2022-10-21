@@ -162,4 +162,16 @@ class AppConfig {
 	private function splitGroups(string $groupString): array {
 		return explode('|', $groupString);
 	}
+
+	/**
+	 * Allow to override values from the WOPI checkFileInfo response through app config
+	 */
+	public function getWopiOverride(): array {
+		$wopiOverride = $this->config->getAppValue(Application::APPNAME, 'wopi_override', '');
+		if ($wopiOverride !== '') {
+			$wopiOverride = json_decode($wopiOverride, true);
+			return $wopiOverride ?: [];
+		}
+		return [];
+	}
 }
