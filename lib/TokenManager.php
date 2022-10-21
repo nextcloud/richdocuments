@@ -36,6 +36,8 @@ use OCP\Files\File;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -210,6 +212,11 @@ class TokenManager {
 			}
 		}
 
+		// Check node readability (for storage wrapper overwrites like terms of services)
+		if (!$file->isReadable()) {
+			throw new NotPermittedException();
+		}
+
 		// force read operation to trigger possible audit logging
 		\OC_Hook::emit(
 			Filesystem::CLASSNAME,
@@ -270,9 +277,14 @@ class TokenManager {
 		$targetFile = $rootFolder->getById($targetFileId);
 		$targetFile = $targetFile[0] ?? null;
 		if (!$targetFile) {
-			// TODO: Exception
-			return null;
+			throw new NotFoundException();
 		}
+
+		// Check node readability (for storage wrapper overwrites like terms of services)
+		if (!$targetFile->isReadable()) {
+			throw new NotPermittedException();
+		}
+
 		$updatable = $targetFile->isUpdateable();
 		// Check if the editor (user who is accessing) is in editable group
 		// UserCanWrite only if
