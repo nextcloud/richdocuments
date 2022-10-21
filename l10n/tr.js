@@ -167,6 +167,7 @@ OC.L10N.register(
     "Create" : "Ekle",
     "Select template" : "Kalıp seçin",
     "Edit with {productName}" : "{productName} ile düzenle",
+    "Open with {productName}" : "{productName} ile aç",
     "Global templates" : "Genel kalıplar",
     "Add a new template" : "Yeni kalıp ekle",
     "No templates defined." : "Herhangi bir kalıp tanımlanmamış.",

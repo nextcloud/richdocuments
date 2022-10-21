@@ -167,6 +167,7 @@ OC.L10N.register(
     "Create" : "Създай",
     "Select template" : "Избор на шаблон",
     "Edit with {productName}" : "Редактиране с {productName}",
+    "Open with {productName}" : "Отваряне с {productName}",
     "Global templates" : "Глобални шаблони",
     "Add a new template" : "Добавяне на шаблон",
     "No templates defined." : "Няма дефинирани шаблони.",
