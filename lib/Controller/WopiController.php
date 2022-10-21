@@ -267,6 +267,8 @@ class WopiController extends Controller {
 			$response = $this->setFederationFileInfo($wopi, $response);
 		}
 
+		$response = array_merge($response, $this->appConfig->getWopiOverride());
+
 		$this->eventDispatcher->dispatchTyped(new DocumentOpenedEvent(
 			$user ? $user->getUID() : null,
 			$file
