@@ -22,6 +22,6 @@ script('richdocuments', 'richdocuments-document');
 	<div id="proxyLoadingIcon"></div>
 	<div id="proxyLoadingMessage"></div>
 </div>
-<div id="documents-content"></div>
+<div id="documents-content" data-theme-light></div>
 
 

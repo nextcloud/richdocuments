@@ -63,12 +63,13 @@ const generateCSSVarTokens = () => {
 		'--border-radius-pill': '--co-border-radius-pill',
 	}
 	let str = ''
+	const element = document.getElementById('documents-content') ?? document.documentElement
 	try {
 		for (const cssVarKey in cssVarMap) {
-			let cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey)
+			let cStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey)
 			if (!cStyle) {
 				// try suffix -dark instead
-				cStyle = window.parent.getComputedStyle(document.documentElement).getPropertyValue(cssVarKey + '-dark')
+				cStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey + '-dark')
 			}
 			if (!cStyle) continue // skip if it is not set
 			const varNames = cssVarMap[cssVarKey].split(':')
