@@ -27,6 +27,7 @@ const getUIDefaults = () => {
 	const statusBar = 'false'
 	const textRuler = 'false'
 	const sidebar = 'false'
+	const saveAsMode = 'group'
 	const uiMode = defaults.UIMode ?? 'classic' // or notebookbar
 
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
@@ -34,6 +35,7 @@ const getUIDefaults = () => {
 	uiDefaults += 'PresentationSidebar=' + sidebar + ';PresentationStatusbar=' + statusBar + ';'
 	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=' + statusBar + ';'
 	uiDefaults += 'UIMode=' + uiMode + ';'
+	uiDefaults += 'SaveAsMode=' + saveAsMode + ';'
 	return uiDefaults
 }
 

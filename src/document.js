@@ -463,7 +463,7 @@ const documentsMain = {
 							const nameInput = $dialog.find('input')[0]
 							nameInput.style.minWidth = '250px'
 							nameInput.style.maxWidth = '400px'
-							nameInput.value = documentsMain.fileName
+							nameInput.value = args.format ? documentsMain.fileName.substring(0, documentsMain.fileName.lastIndexOf('.') + 1) + args.format : documentsMain.fileName
 							nameInput.selectionStart = 0
 							nameInput.selectionEnd = documentsMain.fileName.lastIndexOf('.')
 						})
