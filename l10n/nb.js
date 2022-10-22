@@ -56,8 +56,8 @@ OC.L10N.register(
     "Could not create file" : "Klarte ikke å opprette fil",
     "Create" : "Ny",
     "Select template" : "Velg mal",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Lagret med feil: Collabora Online bør bruke samme protokoll som serverinstallasjonen.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentet finnes allerede"
 },
 "nplurals=2; plural=(n != 1);");

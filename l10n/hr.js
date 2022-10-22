@@ -146,9 +146,9 @@ OC.L10N.register(
     "template preview" : "pretpregled predloška",
     "Select a template directory" : "Odaberi direktorij predložaka",
     "Remove personal template folder" : "Ukloni osobnu mapu predložaka",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Spremljeno s pogreškom: Collabora Online treba koristiti isti protokol kao i instalacija poslužitelja.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online zahtijeva poseban poslužitelj koji djeluje kao WOPI ili sličan klijent kako bi osigurao mogućnost uređivanja.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokument već postoji",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online je prema zadanim postavkama omogućen za sve korisnike. Kad je ova postavka aktivna, mogu je koristiti samo pripadnici određenih grupa.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predlošci unutar ove mape bit će dodani u birač predložaka platforme Collabora Online."

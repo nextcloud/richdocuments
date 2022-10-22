@@ -175,11 +175,11 @@ OC.L10N.register(
     "Select a template directory" : "選擇範本目錄",
     "Remove personal template folder" : "移除個人範本資料夾",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "此目錄中的模板將會新增到 Nextcloud Office 的模板選擇器中。",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "儲存時發生錯誤：Collabora Online 應該使用與伺服器安裝相同的協定。",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office 需要運行 Collabora Online 的單獨伺服器來提供編輯功能。 ",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online 需要獨立的伺服器作為類 WOPI 的客戶端來提供編輯功能。",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "默認情況下，所有用戶都可以使用 {productName} 編輯文件。當此設置處於活動狀態時，只有指定組的成員可以編輯，其他人只能查看文件。",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "文件已存在",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online 預設對所有用戶啟用。當此設定啟用時，僅特定群組的用戶可以使用它。",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "此目錄中的範本將會新增到 Collabora Online 的範本選擇器中。"

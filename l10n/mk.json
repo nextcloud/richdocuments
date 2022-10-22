@@ -109,9 +109,9 @@
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
     "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
-    "Collabora Online" : "Уредување на документи",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Зачувано со грешка: Collabora Online треба да го користи истиот протокол како инсталација на серверот.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "За користење на Collabora Online, потребно е користење на различен сервер кој работи како WOPI-клиент за да овозможи услови за уредување на датотеки.",
+    "Collabora Online" : "Уредување на документи",
     "Document already exists" : "Документот веќе постои",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Стандардно за сите корисници е овозможена Collabora Online. Кога овој параметар е активен, само членови на одредени рупи можат да го користат.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Collabora Online."
