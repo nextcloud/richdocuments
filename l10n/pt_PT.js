@@ -74,8 +74,8 @@ OC.L10N.register(
     "Add a new template" : "Adicionar novo modelo",
     "No templates defined." : "Sem modelos definidos",
     "Add a new one?" : "Adicionar novo?",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gravado com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "O documento já existe"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

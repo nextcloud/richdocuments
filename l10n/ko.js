@@ -58,8 +58,8 @@ OC.L10N.register(
     "Add a new template" : "새 템플릿 추가",
     "template preview" : "템플릿 미리보기",
     "Select a template directory" : "템플릿 디렉터리 선택",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "문서가 이미 존재합니다"
 },
 "nplurals=1; plural=0;");

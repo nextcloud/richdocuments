@@ -175,11 +175,11 @@ OC.L10N.register(
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
     "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Nextcloud Office.",
-    "Collabora Online" : "Collabora en ligne",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sauvegardé avec une erreur : Collabora Online devrait utiliser le même protocole que lors de l'installation du serveur.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office nécessite un serveur séparé exécutant Collabora Online pour fournir des capacités d'édition.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online nécessite un serveur distinct agissant comme un client de type WOPI pour fournir des capacités d'édition.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Par défaut, tous les utilisateurs peuvent modifier les documents de {productName} . Lorsque ce paramètre est actif, seuls les membres des groupes spécifiés peuvent modifier et les autres ne peuvent que visualiser les documents.",
+    "Collabora Online" : "Collabora en ligne",
     "Document already exists" : "Ce document existe déjà",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online est par défaut activé pour tous les utilisateurs. Lorsque ce paramètre est actif, seuls les membres des groupes spécifiés peuvent l'utiliser.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Collabora Online."

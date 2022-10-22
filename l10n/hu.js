@@ -170,11 +170,11 @@ OC.L10N.register(
     "Select a template directory" : "Válasszon sablonkönyvtárat",
     "Remove personal template folder" : "Személyes sablonmappa eltávolítása",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "A mappán belüli sablonok hozzá lesznek adva a Nextcloud Office sablonválasztójához.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Hibával mentve: a Collabora Online-t ugyanazon protokollon kellene használni, mint a telepített kiszolgálót.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "A Nextcloud Office-hoz külön Collabora Online-t futtató kiszolgálóra van szükség a szerkesztési funkciók biztosításához.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "A Collabora Online-hoz külön WOPI-szerű kliensként viselkedő kiszolgálóra van szükség a szerkesztési funkciók biztosításához.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Alapértelmezetten az összes felhasználó szerkesztheti a dokumentumokat a(z) {productName} használatával. Ha a beállítás aktív, akkor csak az adott csoportok tagjai szerkeszthetnek, míg mások csak megtekinthetik a dokumentumokat.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "A dokumentum már létezik",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "A Collabora Online alapértelmezetten minden felhasználó számára elérhető. Ha ez a beállítás aktív, akkor csak a megadott csoportok tagjai használhatják.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "A könyvtáron belüli sablonok hozzá lesznek adva a Collabora Online sablonválasztójához."

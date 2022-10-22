@@ -35,7 +35,7 @@
     "Failed to revert the document to older version" : "Fallu al revertir el documentu a la versión más vieya",
     "Could not create file" : "Nun pudo crease'l ficheru",
     "Create" : "Crear",
-    "Collabora Online" : "Collabora Online",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor."
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor.",
+    "Collabora Online" : "Collabora Online"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
