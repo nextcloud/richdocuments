@@ -176,11 +176,11 @@ OC.L10N.register(
     "Select a template directory" : "Vorlagenverzeichnis auswählen",
     "Remove personal template folder" : "Persönlichen Vorlagenordner entfernen",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Nextcloud Office hinzugefügt.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mit Fehler gespeichert: Collabora Online sollte das gleiche Protokoll wie die Server-Installation nutzen.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office benötigt einen separaten Server, auf dem Collabora Online läuft, um Bearbeitungsfunktionen bereitzustellen.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online benötigt einen separaten Server, der als WOPI-ähnlicher-Client fungiert, um Bearbeitungsfunktionen bereitzustellen.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Alle Benutzer können Dokumente standardmäßig mit {productName} bearbeiten. Wenn diese Einstellung aktiv ist, können nur die Mitglieder der angegebenen Gruppen bearbeiten und die anderen nur Dokumente anzeigen.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokument existiert bereits",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online ist standardmäßig für alle Benutzer aktiviert. Wenn diese Einstellung aktiv ist, können nur Mitglieder der angegebenen Gruppen es verwenden.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Vorlagen in diesem Verzeichnis werden der Vorlagenauswahl von Collabora Online hinzugefügt."

@@ -161,9 +161,9 @@ OC.L10N.register(
     "Select a template directory" : "Selecteer een sjablonendirectory",
     "Remove personal template folder" : "Verwijder de persoonlijke sjablonenmap",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Sjablonen in deze directory worden toegevoegd aan de Nextcloud Office sjablonenkiezer.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Opgeslagen met een fout: Collabora Online moet hetzelfde protocol gebruiken als de serverinstallatie.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online vereist een aparte server die fungeert als een WOPI-achtige client om bewerkingsmogelijkheden te bieden.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Document bestaat al",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online is standaard ingeschakeld voor alle gebruikers. Als deze instelling actief is, kunnen alleen leden van de opgegeven groepen deze gebruiken.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Sjablonen in deze directory worden toegevoegd aan de Collabora Online sjablonenkiezer."

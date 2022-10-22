@@ -147,9 +147,9 @@ OC.L10N.register(
     "template preview" : "xem trước mẫu",
     "Select a template directory" : "Chọn một thư mục mẫu",
     "Remove personal template folder" : "Xóa mẫu thư mục cá nhân",
-    "Collabora Online" : "Cộng tác trực tuyến",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Đã lưu với lỗi: Collabora Online nên sử dụng cùng một giao thức với máy chủ.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online yêu cầu một máy chủ riêng biệt hoạt động như một Máy khách giống WOPI để cung cấp khả năng chỉnh sửa.",
+    "Collabora Online" : "Cộng tác trực tuyến",
     "Document already exists" : "Tài liệu đã tồn tại",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online được bật cho tất cả người dùng theo mặc định. Khi cài đặt này hoạt động. chỉ thành viên của các nhóm được chỉ định có thể sử dụng.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Các mẫu bên trong của thư mục này được thêm vào bộ mẫu chọn của Collabora Online"

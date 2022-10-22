@@ -173,11 +173,11 @@
     "Select a template directory" : "Vyberte priečinok šablón",
     "Remove personal template folder" : "Odstrániť osobný priečinok šablón",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablóny v tomto adresári budú pridané do výberu šablón v Nextcloud Office.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uložené s chybou: Collabora Online by mala používať rovnaký protokol ako nainštalovaný server.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office vyžaduje samostatný server so systémom Collabora Online, ktorý poskytuje možnosti úprav.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online vyžaduje samostatný server fungujúci ako WOPI klient, poskytúci možnosti úprav.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Všetci užívatelia môžu predvolene upravovať dokumenty pomocou služby {productName}. Keď je toto nastavenie aktívne, upravovať môžu iba členovia zadaných skupín, zatiaľ čo ostatní môžu iba prezerať dokumenty.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokument už existuje",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online je predvolene povolená pre všetkých používateľov. Ak je toto nastavenie aktívne, môžu ho používať iba členovia špecifikovaných skupín.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablóny v tomto priečinku sa pridajú do výberu šablón Collabora Online."

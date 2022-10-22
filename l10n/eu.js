@@ -175,11 +175,11 @@ OC.L10N.register(
     "Select a template directory" : "Hautatu txantiloien direktorioa",
     "Remove personal template folder" : "Kendu txantiloi pertsonalizatuen karpeta",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Direktorio honen barruan dauden txantiloiak Nextcloud Office-ko txantiloien hautatzailean gehituko dira.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Errorearekin gordeta: Collabora Onlinek zerbitzariko instalazioaren protokolo bera erabili beharko luke.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office-k Collabora Online exekutatzen duen zerbitzari bereizi bat behar du editatzeko gaitasunak eskaintzeko.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online-k zerbitzari bereizi bat behar du, WOPI moduko Bezero lana eginez ediziorako gaitasunak emateko.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Erabiltzaile guztiek edita ditzakete dokumentuak {productName} lehenespenez. Ezarpen hau aktibo dagoenean, zehaztutako taldeetako kideek soilik edita ditzakete eta gainerakoek dokumentuak soilik ikusi ditzakete.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentua badago dagoeneko",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online erabiltzaile guztientzat gaituta dago modu lehenetsian. Ezarpen hau aktibo dagoenean, zehaztutako taldeetako kideek bakarrik erabili dezakete.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Direktorio honetako txantiloiak Collabora Online-ko txantiloi hautatzailera gehituko dira"

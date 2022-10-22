@@ -28,7 +28,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
     "Could not create file" : "Файл үүсгэж чадсангүй",
     "Create" : "Үүсгэх",
-    "Collabora Online" : "онлайн Collabora ",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой."
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
+    "Collabora Online" : "онлайн Collabora "
 },
 "nplurals=2; plural=(n != 1);");

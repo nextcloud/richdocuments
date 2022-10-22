@@ -173,11 +173,11 @@
     "Select a template directory" : "Виберіть каталог для шаблонів",
     "Remove personal template folder" : "Вилучити каталог з вашими шаблонами",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Шаблони всередині цього каталогу буде додано до селектора шаблонів Nextcloud Office.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office потребує окремого сервера, на якому працює Collabora Online, щоб забезпечити можливості редагування.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Для Collabora Online потрібен окремий сервер, який діятиме як WOPI-подібний клієнт, щоб надавати можливості редагування.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Усі користувачі можуть редагувати документи за допомогою {productName} за умовчанням. Коли цей параметр активний, лише учасники вказаних груп можуть редагувати, а інші можуть лише переглядати документи.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Документ уже існує",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online увімкнено для всіх користувачів за замовчуванням. Коли цей параметр активний, ним можуть користуватися лише учасники вказаних груп.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Шаблони у цьому каталозі буде додано до вибору шаблонів у Collabora Online."

@@ -176,11 +176,11 @@ OC.L10N.register(
     "Select a template directory" : "Bir kalıp klasörü seçin",
     "Remove personal template folder" : "Kişisel kalıp klasörünü sil",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Bu klasör içindeki kalıplar Nextcloud Office kalıp seçicisine eklenecek.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sorunlu olarak kaydedildi: Collabora Online sunucuda kurulu olan iletişim kuralını kullanmalıdır.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office düzenleme özelliklerinin kullanılabilmesi için Collabora Online çalıştıran ayrı bir sunucu gereklidir.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online düzenleme özelliklerinin kullanılabilmesi için WOPI benzeri istemci olarak çalışacak ayrı bir sunucu gereklidir.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Varsayılan olarak tüm kullanıcılar belgeleri {productName} ile düzenleyebilir. Bu seçenek etkinleştirildiğinde, belgeleri yalnız belirtilen grupların üyeleri düzenleyebilirken, diğer kullanıcılar görüntüleyebilir ama düzenleyemez.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Belge zaten var",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online, varsayılan olarak tüm kullanıcılar için etkinleştirilmiştir. Bu seçenek etkinleştirildiğinde, yalnızca belirtilen grupların üyeleri kullanabilir.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Klasör içindeki kalıplar Collabora Online kalıp seçicisine eklenecek."
