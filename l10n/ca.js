@@ -136,9 +136,9 @@ OC.L10N.register(
     "template preview" : "visualització prèvia de la plantilla",
     "Select a template directory" : "Selecciona un directori de plantilles",
     "Remove personal template folder" : "Suprimeix la carpeta de plantilles personals",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "S'ha desat amb error: Collabora Online hauria de fer servir el mateix protocol que la instal·lació del servidor.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online requereix un servidor separat que actuï com a client de WOPI per proporcionar funcions d’edició.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "El document ja existeix",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online està activat per defecte per a tots els usuaris. Quan aquesta opció està activa, només els membres dels grups especificats poden utilitzar-la.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Les plantilles d’aquest directori s’afegiran al selector de plantilles de Collabora Online."

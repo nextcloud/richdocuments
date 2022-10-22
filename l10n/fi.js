@@ -99,8 +99,8 @@ OC.L10N.register(
     "template preview" : "mallipohjan esikatselu",
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Asiakirja on jo olemassa"
 },
 "nplurals=2; plural=(n != 1);");

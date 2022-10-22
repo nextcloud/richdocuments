@@ -42,7 +42,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",
     "Could not create file" : "ფაილი ვერ შეიქმნა",
     "Create" : "შექმნა",
-    "Collabora Online" : "Collabora Online",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია."
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n!=1);");

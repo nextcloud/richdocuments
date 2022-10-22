@@ -28,7 +28,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",
     "Could not create file" : "Impossibile crear le file",
     "Create" : "Crear",
-    "Collabora Online" : "Collabora Online",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation."
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation.",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

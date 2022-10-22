@@ -36,7 +36,7 @@ OC.L10N.register(
     "Could not create file" : "Kartela s’u krijua dot",
     "Create" : "Krijo",
     "Select template" : "Zgjidh shabllonin",
-    "Collabora Online" : "Collabora Online",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit."
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

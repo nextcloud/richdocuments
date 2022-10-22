@@ -146,9 +146,9 @@ OC.L10N.register(
     "template preview" : "anteprima de su modellu",
     "Select a template directory" : "Seletziona una cartella de is modellos",
     "Remove personal template folder" : "Boga sa cartella de is modellos personale",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Sarvadu cun errore: Collabora Online diat dèpere impreare su pròpiu protocollu de s'installatzione de su serbidore.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online rechedet unu serbidore seberadu chi funtzionat comente unu cliente WOPI pro frunire possibilidade de modìfica.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Su documentu esistit giai",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Collabora Online est ativaducomente impostatzione predefinida pro totu is utentes. Candu est ativu, isceti sa gente de grupos ispetzìficos ddu podet impreare.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Is modellos intro de custa cartella s'ant a agiùnghere a su seletore de su modellu de Collabora Online."

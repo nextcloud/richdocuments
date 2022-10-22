@@ -176,11 +176,11 @@ OC.L10N.register(
     "Select a template directory" : "Vyberte složku se šablonami",
     "Remove personal template folder" : "Odebrat složku s osobní šablonou",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Šablony nacházející se v této složce budou přidány do výběru šablon v Nextcloud Office.",
-    "Collabora Online" : "Collabora Online",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Uloženo s chybou: Collabora Online by mělo používat stejný protokol jako nainstalovaný server.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Kancelář vyžaduje oddělený server, na kterém jsou spuštěné Collabora Online, poskytující možnost upravování.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online potřebuje zvlášť server sloužící jako WOPI klient, poskytující možnosti upravování.",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit and the others can only view documents." : "Ve výchozím stavu mohou v {productName} upravovat dokumenty všichni uživatelé. Pokud je toto nastavení aktivní, pouze členové zadaných skupiny mohou upravovat a ostatní mohou dokumenty pouze prohlížet.",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokument už existuje",
     "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Ve výchozím stavu je Collabora Online zapnuté pro všechny uživatele. Pokud je toto nastavení aktivní, mohou Collabora Online používat jen členové zadaných skupin.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Šablony nacházející se v tomto adresáři budou přidány do výběru šablon v Collabora Online."

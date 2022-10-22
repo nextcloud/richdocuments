@@ -49,7 +49,7 @@ OC.L10N.register(
     "Could not create file" : "Could not create file",
     "Create" : "Create",
     "Select template" : "Select template",
-    "Collabora Online" : "Collabora Online",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation."
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "Saved with error: Collabora Online should use the same protocol as the server installation.",
+    "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");
