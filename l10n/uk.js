@@ -151,7 +151,7 @@ OC.L10N.register(
     "Built-in CODE server failed to start" : "Не вдалося запустити вбудований сервер CODE",
     "Insert from {name}" : "Вставити з {name}",
     "Remove from favorites" : "Вилучити з улюбленого",
-    "Add to favorites" : "Додати до обраного",
+    "Add to favorites" : "Вподобати",
     "Details" : "Деталі",
     "Download" : "Завантажити",
     "(read only)" : "(тільки для читання)",
