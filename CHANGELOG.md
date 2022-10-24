@@ -1,5 +1,19 @@
 # Changelog
 
+## 5.0.8
+
+### Fixed
+- Fix menu items highlighting when in dark mode [#2550](https://github.com/nextcloud/richdocuments/pull/2550) @juliushaertl
+- Invoke read permission check to trigger terms of services when creating a token [#2559](https://github.com/nextcloud/richdocuments/pull/2559) @juliushaertl
+- Do not fail if no directory is passed when creating a file from a template [#2543](https://github.com/nextcloud/richdocuments/pull/2543) @juliushaertl
+- Fix product name in capabilities [#2525](https://github.com/nextcloud/richdocuments/pull/2525) @juliushaertl
+- Fix PDF context menu label [#2527](https://github.com/nextcloud/richdocuments/pull/2527) @Raudius
+- Fix potential log spam by returning proper status code if file is not found [#2537](https://github.com/nextcloud/richdocuments/pull/2537) @juliushaertl
+- Fix `public_wopi_url` variable configuration name [#2468](https://github.com/nextcloud/richdocuments/pull/2468) @jeremyb
+- Only register templates if enabled for user [#2400](https://github.com/nextcloud/richdocuments/pull/2400) @juliushaertl
+- Fix safari not focusing document-frame on load [#2372](https://github.com/nextcloud/richdocuments/pull/2372) @merttumer
+
+
 ## 5.0.7
 
 ### Fixed
