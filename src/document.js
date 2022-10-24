@@ -1,5 +1,5 @@
 import { emit } from '@nextcloud/event-bus'
-import { getRootUrl, imagePath } from '@nextcloud/router'
+import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName'
@@ -471,6 +471,9 @@ const documentsMain = {
 								})
 						}
 						break
+					case 'UI_Mention':
+						documentsMain.sendUserList(parsed.args.text)
+						break
 					default:
 						console.debug('[document] Unhandled post message', parsed)
 					}
@@ -587,6 +590,23 @@ const documentsMain = {
 				window.location.href = url
 			})
 		}
+	},
+
+	sendUserList(search) {
+		axios.get(generateOcsUrl('core/autocomplete/get'), {
+			params: { search },
+		}).then((result) => {
+			if (!result.data.ocs) {
+				return
+			}
+
+			const list = result.data.ocs.data.map((user) => {
+				const profile = window.location.protocol + '//' + getNextcloudUrl() + '/index.php/u/' + user.id
+				return { username: user.label, profile }
+			})
+
+			PostMessages.sendWOPIPostMessage('loolframe', 'Action_Mention', { list })
+		})
 	},
 
 	onStartup() {
