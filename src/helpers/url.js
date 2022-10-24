@@ -90,7 +90,7 @@ const getDocumentUrlForFile = (fileDir, fileId) => {
 }
 
 const getNextcloudUrl = () => {
-	return window.location.host + (window.location.port ? `:${window.location.port}` : '')
+	return window.location.host
 }
 
 export {
