@@ -60,7 +60,10 @@ const generateCSSVarTokens = () => {
 		'--color-border-dark': '--co-border-dark',
 		'--border-radius-pill': '--co-border-radius-pill',
 	}
-	document.querySelector("link[href*='accessibility/css/user']").remove()
+
+	const accessibilityCss = document.querySelector("link[href*='accessibility/css/user']")
+	accessibilityCss && accessibilityCss.remove()
+
 	let str = ''
 	const element = document.getElementById('documents-content') ?? document.documentElement
 	try {
