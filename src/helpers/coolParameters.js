@@ -62,9 +62,12 @@ const generateCSSVarTokens = () => {
 		'--color-border-dark': '--co-border-dark',
 		'--border-radius-pill': '--co-border-radius-pill',
 	}
+
+	const accessibilityCss = document.querySelector("link[href*='accessibility/css/user']")
+	accessibilityCss && accessibilityCss.remove()
+
 	let str = ''
 	const element = document.getElementById('documents-content') ?? document.documentElement
-	document.querySelector("link[href*='accessibility/css/user']").remove()
 	try {
 		for (const cssVarKey in cssVarMap) {
 			let cStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey)
