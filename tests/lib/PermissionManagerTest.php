@@ -28,10 +28,13 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PermissionManagerTest extends TestCase {
+	/** @var AppConfig|MockObject */
+	private $appConfig;
 	/** @var IConfig|MockObject */
 	private $config;
 	/** @var IGroupManager|MockObject */
@@ -45,15 +48,17 @@ class PermissionManagerTest extends TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		$this->config = $this->createMock(AppConfig::class);
+		$this->appConfig = $this->createMock(AppConfig::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->permissionManager = new PermissionManager($this->config, $this->groupManager, $this->userManager, $this->userSession);
+		$this->systemTagMapper = $this->createMock(ISystemTagObjectMapper::class);
+		$this->permissionManager = new PermissionManager($this->appConfig, $this->config, $this->groupManager, $this->userManager, $this->userSession, $this->systemTagMapper);
 	}
 
 	public function testIsEnabledForUserEnabledNoRestrictions(): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
 			->method('getUseGroups')
 			->willReturn(null);
@@ -77,7 +82,7 @@ class PermissionManagerTest extends TestCase {
 	/** @dataProvider dataGroupMatchGroups */
 	public function testEditGroups($editGroups, $userGroups, $result): void {
 		$userMock = $this->createMock(IUser::class);
-		$this->config->expects($this->any())
+		$this->appConfig->expects($this->any())
 			->method('getEditGroups')
 			->willReturn($editGroups);
 		$this->userManager->expects($this->any())
@@ -93,7 +98,7 @@ class PermissionManagerTest extends TestCase {
 	/** @dataProvider dataGroupMatchGroups */
 	public function testUseGroups($editGroups, $userGroups, $result): void {
 		$userMock = $this->createMock(IUser::class);
-		$this->config->expects($this->any())
+		$this->appConfig->expects($this->any())
 			->method('getUseGroups')
 			->willReturn($editGroups);
 		$this->userManager->expects($this->any())
@@ -109,10 +114,10 @@ class PermissionManagerTest extends TestCase {
 	/** @dataProvider dataGroupMatchGroups */
 	public function testFeatureLock($editGroups, $userGroups, $result): void {
 		$userMock = $this->createMock(IUser::class);
-		$this->config->expects($this->any())
+		$this->appConfig->expects($this->any())
 			->method('getEditGroups')
 			->willReturn($editGroups);
-		$this->config->expects($this->any())
+		$this->appConfig->expects($this->any())
 			->method('isReadOnlyFeatureLocked')
 			->willReturn(true);
 		$this->userManager->expects($this->any())

@@ -23,12 +23,20 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments;
 
+use OCP\Constants;
+use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Share\IAttributes;
+use OCP\Share\IShare;
+use OCP\SystemTag\ISystemTagObjectMapper;
 
 class PermissionManager {
 	/** @var AppConfig */
+	private $appConfig;
+	/** @var IConfig */
 	private $config;
 	/** @var IGroupManager */
 	private $groupManager;
@@ -36,17 +44,23 @@ class PermissionManager {
 	private $userManager;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var ISystemTagObjectMapper */
+	private $systemTagObjectMapper;
 
 	public function __construct(
-		AppConfig $config,
-		IGroupManager $groupManager,
-		IUserManager $userManager,
-		IUserSession $userSession
+		AppConfig              $appConfig,
+		IConfig                $config,
+		IGroupManager          $groupManager,
+		IUserManager           $userManager,
+		IUserSession           $userSession,
+		ISystemTagObjectMapper $systemTagObjectMapper
 	) {
+		$this->appConfig = $appConfig;
 		$this->config = $config;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
+		$this->systemTagObjectMapper = $systemTagObjectMapper;
 	}
 
 	private function userMatchesGroupList(?string $userId = null, ?array $groupList = []): bool {
@@ -79,7 +93,7 @@ class PermissionManager {
 	}
 
 	public function isEnabledForUser(string $userId = null): bool {
-		if ($this->userMatchesGroupList($userId, $this->config->getUseGroups())) {
+		if ($this->userMatchesGroupList($userId, $this->appConfig->getUseGroups())) {
 			return true;
 		}
 
@@ -87,7 +101,7 @@ class PermissionManager {
 	}
 
 	public function userCanEdit(string $userId = null): bool {
-		if ($this->userMatchesGroupList($userId, $this->config->getEditGroups())) {
+		if ($this->userMatchesGroupList($userId, $this->appConfig->getEditGroups())) {
 			return true;
 		}
 
@@ -95,8 +109,78 @@ class PermissionManager {
 	}
 
 	public function userIsFeatureLocked(string $userId = null): bool {
-		if ($this->config->isReadOnlyFeatureLocked() && !$this->userCanEdit($userId)) {
+		if ($this->appConfig->isReadOnlyFeatureLocked() && !$this->userCanEdit($userId)) {
 			return true;
+		}
+
+		return false;
+	}
+
+	public function shouldWatermark(Node $node, ?string $userId = null, ?IShare $share = null): bool {
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no') === 'no') {
+			return false;
+		}
+
+		$fileId = $node->getId();
+
+		$isUpdatable = $node->isUpdateable() && (!$share || $share->getPermissions() & Constants::PERMISSION_UPDATE);
+
+		$hasShareAttributes = $share && method_exists($share, 'getAttributes') && $share->getAttributes() instanceof IAttributes;
+		$isDisabledDownload = $hasShareAttributes && $share->getAttributes()->getAttribute('permissions', 'download') === false;
+		$isHideDownload = $share && $share->getHideDownload();
+		$isSecureView = $isDisabledDownload || $isHideDownload;
+
+		if ($share && $share->getShareType() === IShare::TYPE_LINK) {
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no') === 'yes') {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no') === 'yes' && !$isUpdatable) {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no') === 'yes' && $isSecureView) {
+				return true;
+			}
+			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no') === 'yes') {
+				$tags = $this->appConfig->getAppValueArray('watermark_linkTagsList');
+				$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([$fileId], 'files')[$fileId];
+				foreach ($fileTags as $tagId) {
+					if (in_array($tagId, $tags, true)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
+			if ($node->getOwner()->getUID() !== $userId) {
+				return true;
+			}
+		}
+
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareRead', 'no') === 'yes' && !$isUpdatable) {
+			return true;
+		}
+
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareDisabledDownload', 'no') === 'yes' && $isDisabledDownload) {
+			return true;
+		}
+
+		if ($userId !== null && $this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no') === 'yes') {
+			$groups = $this->appConfig->getAppValueArray('watermark_allGroupsList');
+			foreach ($groups as $group) {
+				if ($this->groupManager->isInGroup($userId, $group)) {
+					return true;
+				}
+			}
+		}
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no') === 'yes') {
+			$tags = $this->appConfig->getAppValueArray('watermark_allTagsList');
+			$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([$fileId], 'files')[$fileId];
+			foreach ($fileTags as $tagId) {
+				if (in_array($tagId, $tags, true)) {
+					return true;
+				}
+			}
 		}
 
 		return false;
