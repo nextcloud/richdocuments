@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.9
+
+### Fixed
+- Fix editor not loading when accesibility app is disabled [#2381](https://github.com/nextcloud/richdocuments/pull/2581) @Raudius
+
 ## 5.0.8
 
 ### Fixed
