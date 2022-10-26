@@ -298,6 +298,12 @@
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure view settings') }}</h2>
 			<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
+			<ul>
+				<li>{{ t('richdocuments', 'The settings only apply to compatible office files that are opened in Nextcloud Office') }}</li>
+				<li>{{ t('richdocuments', 'The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print') }}</li>
+				<li>{{ t('richdocuments', 'Files may still be downloadable through Nextcloud unless restricted otherwise through sharing or access control settings') }}</li>
+				<li>{{ t('richdocuments', 'Previews will be blocked for watermarked files to not leak the first page of documents') }}</li>
+			</ul>
 			<SettingsCheckbox v-model="settings.watermark.enabled"
 				:label="t('richdocuments', 'Enable watermarking')"
 				hint=""
@@ -332,6 +338,12 @@
 				<SettingsCheckbox v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareRead"
 					:label="t('richdocuments', 'Show watermark for read only shares')"
+					hint=""
+					:disabled="updating"
+					@input="update" />
+				<SettingsCheckbox v-if="!settings.watermark.shareAll"
+					v-model="settings.watermark.shareDisabledDownload"
+					:label="t('richdocuments', 'Show watermark for shares without download permission')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
@@ -772,18 +784,18 @@ export default {
 		margin-left: 25px;
 		&:not(.multiselect) {
 			margin-top: 10px;
-			font-style: italic;
 		}
 
-		ul {
-			margin-bottom: 15px;
-		}
+	}
 
-		li {
-			list-style: disc;
-			padding: 3px;
-			margin-left: 20px;
-		}
+	ul {
+		margin-bottom: 15px;
+	}
+
+	li {
+		list-style: disc;
+		padding: 3px;
+		margin-left: 20px;
 	}
 
 	.modal__content {
