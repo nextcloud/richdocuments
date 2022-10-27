@@ -23,7 +23,7 @@
       <code>Pdf</code>
     </MissingDependency>
     <UndefinedClass occurrences="1">
-      <code>BeforeFetchPreviewEvent</code>
+      <code>BeforePreviewFetchedEvent</code>
     </UndefinedClass>
   </file>
   <file src="lib/Command/ActivateConfig.php">
@@ -154,7 +154,7 @@
   </file>
   <file src="lib/Listener/BeforeFetchPreviewListener.php">
     <UndefinedClass occurrences="1">
-      <code>BeforeFetchPreviewEvent</code>
+      <code>BeforePreviewFetchedEvent</code>
     </UndefinedClass>
   </file>
   <file src="lib/PermissionManager.php">
