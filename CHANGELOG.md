@@ -1,5 +1,22 @@
 # Changelog
 
+## 6.3.1
+
+### Added
+
+- Add app config to override wopi checkFileInfo [#2568](https://github.com/nextcloud/richdocuments/pull/2568)
+
+### Fixed
+
+- Invoke read permission check to trigger terms of services when creating a token [#2563](https://github.com/nextcloud/richdocuments/pull/2563)
+- option to use new grouped saveas [#2555](https://github.com/nextcloud/richdocuments/pull/2555)
+- Do not fail if no directory is passed when creating a file from a template [#2545](https://github.com/nextcloud/richdocuments/pull/2545)
+- Return proper status code if file is not found during writing [#2541](https://github.com/nextcloud/richdocuments/pull/2541)
+- Listen for event during preview rendering and apply secure view options [#2587](https://github.com/nextcloud/richdocuments/pull/2587)
+- Keep passing light theme values to Collabora as long as the dark mode is not available there [#2557](https://github.com/nextcloud/richdocuments/pull/2557)
+- Fix the theming adjustments when accesibility app is disabled @Raudius [#2580](https://github.com/nextcloud/richdocuments/pull/2580)
+
+
 ## 6.3.0
 
 ### Added
