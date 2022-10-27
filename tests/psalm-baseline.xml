@@ -22,6 +22,9 @@
       <code>OpenDocument</code>
       <code>Pdf</code>
     </MissingDependency>
+    <UndefinedClass occurrences="1">
+      <code>BeforePreviewFetchedEvent</code>
+    </UndefinedClass>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass occurrences="1">
@@ -75,24 +78,16 @@
       <code>$item-&gt;getId()</code>
       <code>$node-&gt;getId()</code>
     </InvalidScalarArgument>
-    <MissingDependency occurrences="7">
+    <MissingDependency occurrences="5">
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
-      <code>$this-&gt;rootFolder</code>
-      <code>BeforeFederationRedirectEvent</code>
       <code>IRootFolder</code>
       <code>IRootFolder</code>
     </MissingDependency>
     <RedundantCondition occurrences="1">
       <code>$app !== ''</code>
     </RedundantCondition>
-    <UndefinedClass occurrences="1">
-      <code>\OCA\Files_Sharing\External\Storage</code>
-    </UndefinedClass>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getRemote</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Controller/OCSController.php">
     <MissingDependency occurrences="4">
@@ -128,9 +123,7 @@
     </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/WopiController.php">
-    <MissingDependency occurrences="13">
-      <code>$this-&gt;rootFolder</code>
-      <code>$this-&gt;rootFolder</code>
+    <MissingDependency occurrences="11">
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
@@ -157,6 +150,16 @@
     <InvalidScalarArgument occurrences="1">
       <code>$time</code>
     </InvalidScalarArgument>
+  </file>
+  <file src="lib/Listener/BeforeFetchPreviewListener.php">
+    <UndefinedClass occurrences="1">
+      <code>BeforePreviewFetchedEvent</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/PermissionManager.php">
+    <RedundantCondition occurrences="1">
+      <code>$share &amp;&amp; method_exists($share, 'getAttributes')</code>
+    </RedundantCondition>
   </file>
   <file src="lib/Preview/MSExcel.php">
     <MissingDependency occurrences="1">
@@ -190,10 +193,6 @@
     <UndefinedClass occurrences="1">
       <code>SharingExternalStorage</code>
     </UndefinedClass>
-    <UndefinedDocblockClass occurrences="2">
-      <code>$this-&gt;trustedServers</code>
-      <code>TrustedServers</code>
-    </UndefinedDocblockClass>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getRemote</code>
       <code>getToken</code>
