@@ -33,7 +33,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\IUserSession;
-use OCP\Preview\BeforeFetchPreviewEvent;
+use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -52,7 +52,7 @@ class BeforeFetchPreviewListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!$event instanceof BeforeFetchPreviewEvent) {
+		if (!$event instanceof BeforePreviewFetchedEvent) {
 			return;
 		}
 		$shareToken = $this->request->getParam('token');
