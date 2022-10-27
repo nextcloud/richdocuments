@@ -1,5 +1,25 @@
 # Changelog
 
+## 7.0.1
+
+### Added
+
+- Add app config to override wopi checkFileInfo [#2567](https://github.com/nextcloud/richdocuments/pull/2567)
+
+### Fixed
+
+- Do not fail if no directory is passed when creating a file from a template [#2544](https://github.com/nextcloud/richdocuments/pull/2544)
+- Keep passing light theme values to Collabora as long as the dark mode is not available there [#2556](https://github.com/nextcloud/richdocuments/pull/2556)
+- Invoke read permission check to trigger terms of services when creating a token [#2562](https://github.com/nextcloud/richdocuments/pull/2562)
+- Return proper status code if file is not found during writing [#2540](https://github.com/nextcloud/richdocuments/pull/2540)
+- option to use new grouped saveas [#2554](https://github.com/nextcloud/richdocuments/pull/2554)
+- Listen for event during preview rendering and apply secure view options [#2586](https://github.com/nextcloud/richdocuments/pull/2586)
+- Fix redundant port number in url [#2575](https://github.com/nextcloud/richdocuments/pull/2575)
+
+### Dependencies
+
+- Update nextcloud/ocp dependency @nextcloud-command [#2571](https://github.com/nextcloud/richdocuments/pull/2571)
+
 ## 7.0.0
 
 ### Added
