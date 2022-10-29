@@ -75,6 +75,7 @@ OC.L10N.register(
     "Nickname" : "Smeknamn",
     "Set" : "Sätt",
     "Close version preview" : "Stäng förhandsgranskning av version",
+    "Open in local editor" : "Öppna i lokal editor",
     "Please enter the filename to store the document as." : "Vänligen ange ett filnamn att spara dokumentet som.",
     "Save As" : "Spara som",
     "New filename" : "Nytt filnamn",
