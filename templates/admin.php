@@ -8,7 +8,7 @@ script('files', 'jquery.fileupload');
 
 <?php if ($_['settings']['templatesAvailable'] === true) { ?>
 <form class="section" id="richdocuments-templates" method="post" action="/template/">
-	<input class="hidden-visually" id="add-template" type="file" />
+	<input name="files" class="hidden-visually" id="add-template" type="file" />
 	<h2>
 		<?php p($l->t('Global templates')) ?>
 		<label for="add-template" class="icon-add" title="<?php p($l->t('Add a new template')); ?>"></label>
