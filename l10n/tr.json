@@ -25,6 +25,7 @@
     "Could not write file to disk" : "Dosya diske yazılamadı",
     "A PHP extension stopped the file upload" : "Bir PHP eklentisi dosyanın yüklenmesini engelledi",
     "No file uploaded or file size exceeds maximum of %s" : "Herhangi bir dosya yüklenmedi ya da %s olan en büyük dosya boyutu sınırı aşıldı",
+    "Failed to upload the file" : "Dosya yüklenemedi",
     "File is too big" : "Dosya çok büyük",
     "Only template files can be uploaded" : "Yalnızca kalıp dosyaları yüklenebilir",
     "Invalid file provided" : "Belirtilen dosya geçersiz",
