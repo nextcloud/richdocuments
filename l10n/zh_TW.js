@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not write file to disk" : "無法將檔案寫入硬碟",
     "A PHP extension stopped the file upload" : "一個 PHP 擴充功能終止檔案的上傳",
     "No file uploaded or file size exceeds maximum of %s" : "沒有上傳檔案或檔案超過上限 %s",
+    "Failed to upload the file" : "上傳檔案失敗",
     "File is too big" : "檔案太大",
     "Only template files can be uploaded" : "僅可上傳範本檔案",
     "Invalid file provided" : "提供的檔案無效",
