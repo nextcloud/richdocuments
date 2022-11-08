@@ -4,6 +4,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
+import { enableScrollLock } from './helpers/safariFixer.js'
 
 import PostMessageService from './services/postMessage.tsx'
 import {
@@ -20,6 +21,10 @@ const PostMessages = new PostMessageService({
 	parent: window.parent,
 	loolframe: () => document.getElementById('loleafletframe').contentWindow,
 })
+
+if (isDirectEditing()) {
+	enableScrollLock()
+}
 
 let checkingProxyStatus = false
 
@@ -613,7 +618,7 @@ const documentsMain = {
 			{
 				type: OC.dialogs.YES_NO_BUTTONS,
 				confirm: t('richdocuments', 'Try again'),
-				cancel: t('richdocuments', 'Close')
+				cancel: t('richdocuments', 'Close'),
 			},
 			(decision) => {
 				if (decision) {

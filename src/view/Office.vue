@@ -76,6 +76,7 @@ import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/u
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
 import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
+import { enableScrollLock, disableScrollLock } from '../helpers/safariFixer.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
@@ -187,6 +188,7 @@ export default {
 	},
 	methods: {
 		async load() {
+			enableScrollLock()
 			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
 			if (isPublic) {
@@ -207,6 +209,7 @@ export default {
 			FilesAppIntegration.share()
 		},
 		close() {
+			disableScrollLock()
 			this.$parent.close()
 		},
 		postMessageHandler({ parsed, data }) {
