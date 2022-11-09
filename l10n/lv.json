@@ -10,6 +10,7 @@
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Augšupielādētā datne pārsniedz MAX_FILE_SIZE norādi, kas ir norādīta HTML formā",
     "No file was uploaded" : "Neviena datne netika augšupielādēta",
     "Missing a temporary folder" : "Trūkst pagaidu mapes",
+    "Failed to upload the file" : "Neizdevās augšupielādēt failu",
     "File is too big" : "Datne ir par lielu",
     "Invalid file provided" : "Norādīta nederīga datne",
     "Empty" : "Tukšs",
