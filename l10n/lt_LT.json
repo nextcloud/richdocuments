@@ -33,6 +33,7 @@
     "Could not establish connection to the Collabora Online server." : "Nepavyko užmegzti ryšio su Collabora Online serveriu.",
     "Collabora Online server is reachable." : "Collabora Online serveris yra pasiekiamas.",
     "Use your own server" : "Naudoti asmeninį serverį",
+    "Disable certificate verification (insecure)" : "Išjungti liudijimų tikrinimą (nesaugu)",
     "Use a demo server" : "Naudoti demonstracinį serverį",
     "it is a local setup (localhost)" : "tai yra vietinė sąranka (localhost)",
     "Loading available demo servers …" : "Įkeliami prieinami demonstraciniai serveriai…",
