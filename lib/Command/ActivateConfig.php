@@ -24,6 +24,7 @@
 
 namespace OCA\RichDocuments\Command;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
@@ -33,17 +34,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ActivateConfig extends Command {
-	/** @var AppConfig */
-	private $appConfig;
+	private AppConfig $appConfig;
 
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
+	private CapabilitiesService $capabilitiesService;
 
-	/** @var DiscoveryManager  */
-	private $discoveryManager;
+	private DiscoveryManager $discoveryManager;
 
-	/** @var Parser */
-	private $wopiParser;
+	private Parser $wopiParser;
 
 	public function __construct(AppConfig $appConfig, CapabilitiesService $capabilitiesService, DiscoveryManager $discoveryManager, Parser $wopiParser) {
 		parent::__construct();
@@ -75,7 +72,7 @@ class ActivateConfig extends Command {
 			$this->capabilitiesService->refetch();
 			$output->writeln('<info>Activated any config changes</info>');
 			return 0;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$output->writeln('<error>Failed to activate any config changes</error>');
 			$output->writeln($e->getMessage());
 			$output->writeln($e->getTraceAsString());

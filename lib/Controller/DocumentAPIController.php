@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Controller;
 
+use OCP\AppFramework\OCSController;
 use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Helper;
@@ -39,7 +40,7 @@ use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class DocumentAPIController extends \OCP\AppFramework\OCSController {
+class DocumentAPIController extends OCSController {
 	private $rootFolder;
 	private $shareManager;
 	private $templateManager;

@@ -22,6 +22,7 @@
  */
 
 declare(strict_types=1);
+use GuzzleHttp\Exception\BadResponseException;
 
 
 use Behat\Behat\Context\Context;
@@ -146,7 +147,7 @@ class DirectContext implements Context {
 		Assert::assertNotEmpty($params['fileId']);
 		Assert::assertNotEmpty($params['token']);
 
-		$currentServer = $currentServer ?? $this->serverContext->getBaseUrl();
+		$currentServer ??= $this->serverContext->getBaseUrl();
 
 		$this->wopiContext->setWopiParameters($currentServer, $params['fileId'], $params['token']);
 		Assert::assertEquals(200, $response->getStatusCode());
@@ -158,7 +159,7 @@ class DirectContext implements Context {
 	 */
 	public function theDirectEditingLinkIsOnlyValidOnce() {
 		if (!$this->directEditingLink) {
-			throw new \Exception('No existing direct editing link found to be checked');
+			throw new Exception('No existing direct editing link found to be checked');
 		}
 		$result = $this->openDirectEditingLink();
 		Assert::assertEquals(403, $result->getStatusCode());
@@ -167,7 +168,7 @@ class DirectContext implements Context {
 	private function openDirectEditingLink() {
 		// FIXME: track and assert redirect urls
 		if (!$this->directEditingLink) {
-			throw new \Exception('No existing direct editing link found to be checked');
+			throw new Exception('No existing direct editing link found to be checked');
 		}
 		$client = new Client();
 		try {
@@ -179,7 +180,7 @@ class DirectContext implements Context {
 					]
 				]
 			);
-		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
+		} catch (BadResponseException $e) {
 			return $e->getResponse();
 		}
 	}

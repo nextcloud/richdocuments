@@ -23,18 +23,13 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 
 class DemoService {
-	/**
-	 * @var ICache
-	 */
-	private $cache;
-	/**
-	 * @var IClientService
-	 */
-	private $clientService;
+	private ICache $cache;
+	private IClientService $clientService;
 
 	public function __construct(ICache $cache, IClientService $clientService) {
 		$this->cache = $cache;
@@ -44,17 +39,17 @@ class DemoService {
 	public function fetchDemoServers($refresh = false) {
 		$servers = $this->cache->get('richdocuments-demo');
 		if (!$refresh) {
-			return json_decode($servers, true);
+			return json_decode($servers, true, 512, JSON_THROW_ON_ERROR);
 		}
 		$demoServerList = 'https://col.la/nextclouddemoservers';
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->get($demoServerList);
-			$servers = json_decode($response->getBody(), true)['servers'] ?? [];
-		} catch (\Exception $e) {
+			$servers = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR)['servers'] ?? [];
+		} catch (Exception $e) {
 			$servers = [];
 		}
-		$this->cache->set('richdocuments-demo', json_encode($servers));
+		$this->cache->set('richdocuments-demo', json_encode($servers, JSON_THROW_ON_ERROR));
 		return $servers;
 	}
 }

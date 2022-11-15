@@ -23,6 +23,8 @@
 
 namespace OCA\Richdocuments\Service;
 
+use InvalidArgumentException;
+use OC_Util;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
@@ -33,20 +35,20 @@ class UserScopeService {
 	}
 
 	/**
-	 * Set a valid user in IUserSession since lots of server logic is relying on obtaining
-	 * the current acting user from that
-	 *
-	 * @param $uid
-	 * @throws \InvalidArgumentException
-	 */
-	public function setUserScope(string $uid = null) {
+  * Set a valid user in IUserSession since lots of server logic is relying on obtaining
+  * the current acting user from that
+  *
+  * @param $uid
+  * @throws InvalidArgumentException
+  */
+ public function setUserScope(string $uid = null) {
 		if ($uid === null) {
 			return;
 		}
 
 		$user = $this->userManager->get($uid);
 		if ($user === null) {
-			throw new \InvalidArgumentException('No user found for the uid ' . $uid);
+			throw new InvalidArgumentException('No user found for the uid ' . $uid);
 		}
 		$this->userSession->setUser($user);
 	}
@@ -60,7 +62,7 @@ class UserScopeService {
 	 * @param string $owner
 	 */
 	public function setFilesystemScope(string $owner) {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($owner);
+		OC_Util::tearDownFS();
+		OC_Util::setupFS($owner);
 	}
 }

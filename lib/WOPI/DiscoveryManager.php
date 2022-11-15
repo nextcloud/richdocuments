@@ -21,18 +21,17 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use OCP\Http\Client\IResponse;
+use Exception;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 
 class DiscoveryManager {
-	/** @var IClientService */
-	private $clientService;
-	/** @var ICache */
-	private $cache;
-	/** @var IConfig */
-	private $config;
+	private IClientService $clientService;
+	private ICache $cache;
+	private IConfig $config;
 
 	/** @var string */
 	private $discovery;
@@ -62,10 +61,10 @@ class DiscoveryManager {
 	}
 
 	/**
-	 * @return \OCP\Http\Client\IResponse
-	 * @throws \Exception
-	 */
-	public function fetchFromRemote() {
+  * @return IResponse
+  * @throws Exception
+  */
+ public function fetchFromRemote() {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		$wopiDiscovery = rtrim($remoteHost, '/') . '/hosting/discovery';
 
@@ -115,7 +114,7 @@ class DiscoveryManager {
 				$response = $client->get($statusUrl, $options);
 
 				if ($response->getStatusCode() === 200) {
-					$body = json_decode($response->getBody(), true);
+					$body = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
 					if ($body['status'] === 'starting'
 						|| $body['status'] === 'stopped'
@@ -123,7 +122,7 @@ class DiscoveryManager {
 						return true;
 					}
 				}
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				// ignore
 			}
 		}

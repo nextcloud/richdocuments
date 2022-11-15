@@ -22,6 +22,8 @@
  */
 namespace OCA\Richdocuments\Db;
 
+use JsonSerializable;
+use ReflectionClass;
 use OCP\AppFramework\Db\Entity;
 
 /**
@@ -61,7 +63,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string getShare()
  * @method static Wopi fromParams(array $params)
  */
-class Wopi extends Entity implements \JsonSerializable {
+class Wopi extends Entity implements JsonSerializable {
 	/**
 	 * WOPI token to open a file as a user on the current instance
 	 */
@@ -188,7 +190,7 @@ class Wopi extends Entity implements \JsonSerializable {
 
 	public function jsonSerialize() {
 		$properties = get_object_vars($this);
-		$reflection = new \ReflectionClass($this);
+		$reflection = new ReflectionClass($this);
 		$json = [];
 		foreach ($properties as $property => $value) {
 			if (strpos($property, '_') !== 0 && $reflection->hasProperty($property)) {

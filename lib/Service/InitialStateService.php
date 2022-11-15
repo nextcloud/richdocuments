@@ -25,23 +25,20 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OC;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 
 class InitialStateService {
-	/** @var IInitialState */
-	private $initialState;
+	private IInitialState $initialState;
 
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
+	private CapabilitiesService $capabilitiesService;
 
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
-	/** @var bool */
-	private $hasProvidedCapabilities = false;
+	private bool $hasProvidedCapabilities = false;
 
 	public function __construct(
 		IInitialState $initialState,
@@ -78,7 +75,7 @@ class InitialStateService {
 			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
 		}
 		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
-			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
+			OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getThemingDefaults()->getLogo())
 			: false));
 	}
 }

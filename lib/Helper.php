@@ -11,6 +11,7 @@
 
 namespace OCA\Richdocuments;
 
+use Exception;
 use \DateTime;
 use \DateTimeZone;
 use OCP\Files\Folder;
@@ -24,11 +25,11 @@ class Helper {
 	}
 
 	/**
-	 * @param string $fileId
-	 * @return array
-	 * @throws \Exception
-	 */
-	public static function parseFileId($fileId) {
+  * @param string $fileId
+  * @return array
+  * @throws Exception
+  */
+ public static function parseFileId($fileId) {
 		$arr = explode('_', $fileId);
 		$templateId = null;
 		if (count($arr) === 1) {
@@ -36,16 +37,16 @@ class Helper {
 			$instanceId = '';
 			$version = '0';
 		} elseif (count($arr) === 2) {
-			list($fileId, $instanceId) = $arr;
+			[$fileId, $instanceId] = $arr;
 			$version = '0';
 		} elseif (count($arr) === 3) {
-			list($fileId, $instanceId, $version) = $arr;
+			[$fileId, $instanceId, $version] = $arr;
 		} else {
-			throw new \Exception('$fileId has not the expected format');
+			throw new Exception('$fileId has not the expected format');
 		}
 
 		if (strpos($fileId, '-') !== false) {
-			list($fileId, $templateId) = explode('/', $fileId);
+			[$fileId, $templateId] = explode('/', $fileId);
 		}
 
 		return [

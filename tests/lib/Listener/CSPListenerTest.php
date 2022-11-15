@@ -204,7 +204,7 @@ class CSPListenerTest extends TestCase {
 
 		$policy = $manager->getDefaultPolicy();
 
-		self::assertArrayUnordered(["'self'", "external.example.com", "http://public", "nc:"], $policy->getAllowedFrameDomains(), "Domains are equal", 0.0, 10, true);
+		self::assertArrayUnordered(["'self'", "external.example.com", "http://public", "nc:"], $policy->getAllowedFrameDomains(), "Domains are equal");
 		self::assertArrayUnordered(["'self'", "external.example.com", "http://public"], $policy->getAllowedFormActionDomains());
 	}
 

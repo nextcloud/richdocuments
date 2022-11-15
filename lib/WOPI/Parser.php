@@ -21,9 +21,9 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use Exception;
 class Parser {
-	/** @var DiscoveryManager */
-	private $discoveryManager;
+	private DiscoveryManager $discoveryManager;
 
 	/**
 	 * @param DiscoveryManager $discoveryManager
@@ -33,11 +33,11 @@ class Parser {
 	}
 
 	/**
-	 * @param $mimetype
-	 * @return array
-	 * @throws \Exception
-	 */
-	public function getUrlSrc($mimetype) {
+  * @param $mimetype
+  * @return array
+  * @throws Exception
+  */
+ public function getUrlSrc($mimetype) {
 		$discovery = $this->discoveryManager->get();
 		if (\PHP_VERSION_ID < 80000) {
 			$loadEntities = libxml_disable_entity_loader(true);
@@ -56,6 +56,6 @@ class Parser {
 			];
 		}
 
-		throw new \Exception('Could not find urlsrc in WOPI');
+		throw new Exception('Could not find urlsrc in WOPI');
 	}
 }

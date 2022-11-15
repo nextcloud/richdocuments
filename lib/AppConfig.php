@@ -24,7 +24,7 @@ class AppConfig {
 
 	public const READ_ONLY_FEATURE_LOCK = 'read_only_feature_lock';
 
-	private $defaults = [
+	private array $defaults = [
 		'wopi_url' => '',
 		'timeout' => 15,
 		'watermark_text' => '{userId}',
@@ -42,8 +42,7 @@ class AppConfig {
 		'watermark_linkTagsList' => 'array'
 	];
 
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;
@@ -169,7 +168,7 @@ class AppConfig {
 	public function getWopiOverride(): array {
 		$wopiOverride = $this->config->getAppValue(Application::APPNAME, 'wopi_override', '');
 		if ($wopiOverride !== '') {
-			$wopiOverride = json_decode($wopiOverride, true);
+			$wopiOverride = json_decode($wopiOverride, true, 512, JSON_THROW_ON_ERROR);
 			return $wopiOverride ?: [];
 		}
 		return [];

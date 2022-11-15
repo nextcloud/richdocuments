@@ -11,6 +11,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\FontService;
@@ -42,28 +43,17 @@ class SettingsController extends Controller {
 		'application/vnd.oasis.opendocument.formula-template',
 	];
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var AppConfig */
-	private $appConfig;
-	/** @var IConfig */
-	private $config;
-	/** @var DiscoveryManager  */
-	private $discoveryManager;
-	/** @var Parser */
-	private $wopiParser;
+	private IL10N $l10n;
+	private AppConfig $appConfig;
+	private IConfig $config;
+	private DiscoveryManager $discoveryManager;
+	private Parser $wopiParser;
 	/** @var string */
 	private $userId;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var DemoService */
-	private $demoService;
-	/** @var ILogger */
-	private $logger;
-	/**
-	 * @var FontService
-	 */
-	private $fontService;
+	private CapabilitiesService $capabilitiesService;
+	private DemoService $demoService;
+	private ILogger $logger;
+	private FontService $fontService;
 
 	public function __construct($appName,
 		IRequest $request,
@@ -93,14 +83,14 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @throws \Exception
-	 */
-	public function checkSettings() {
+  * @PublicPage
+  * @NoCSRFRequired
+  * @throws Exception
+  */
+ public function checkSettings() {
 		try {
 			$response = $this->discoveryManager->fetchFromRemote();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return new DataResponse([
 				'status' => $e->getCode(),
@@ -113,7 +103,7 @@ class SettingsController extends Controller {
 
 	public function demoServers() {
 		$demoServers = $this->demoService->fetchDemoServers(true);
-		if (count($demoServers) > 0) {
+		if ((is_countable($demoServers) ? count($demoServers) : 0) > 0) {
 			return new DataResponse($demoServers);
 		}
 		return new NotFoundResponse([]);
@@ -205,7 +195,7 @@ class SettingsController extends Controller {
 					}
 				}
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			if ($wopi_url !== null) {
 				return new JSONResponse([
 					'status' => 'error',
@@ -307,14 +297,14 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @return JSONResponse|DataResponse
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontNames() {
+  * @NoAdminRequired
+  * @PublicPage
+  * @NoCSRFRequired
+  *
+  * @return JSONResponse|DataResponse
+  * @throws NotPermittedException
+  */
+ public function getFontNames() {
 		$fileNames = $this->fontService->getFontFileNames();
 		$etag = md5(implode('/', $fileNames));
 		$ifNoneMatchHeader = $this->request->getHeader('If-None-Match');
@@ -327,19 +317,17 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @return JSONResponse|DataResponse
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getJsonFontList() {
+  * @NoAdminRequired
+  * @PublicPage
+  * @NoCSRFRequired
+  *
+  * @return JSONResponse|DataResponse
+  * @throws NotPermittedException
+  */
+ public function getJsonFontList() {
 		$files = $this->fontService->getFontFiles();
 		$etags = array_map(
-			static function (ISimpleFile $f) {
-				return $f->getETag();
-			},
+			static fn(ISimpleFile $f) => $f->getETag(),
 			$files
 		);
 		$etag = md5(implode(',', $etags));
@@ -355,15 +343,15 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $name
-	 * @return DataDisplayResponse|DataResponse
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontFile(string $name) {
+  * @NoAdminRequired
+  * @PublicPage
+  * @NoCSRFRequired
+  *
+  * @param string $name
+  * @return DataDisplayResponse|DataResponse
+  * @throws NotPermittedException
+  */
+ public function getFontFile(string $name) {
 		try {
 			$fontFile = $this->fontService->getFontFile($name);
 			$etag = $fontFile->getETag();
@@ -383,15 +371,15 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $name
-	 * @return DataDisplayResponse
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontFileOverview(string $name): DataDisplayResponse {
+  * @NoAdminRequired
+  * @PublicPage
+  * @NoCSRFRequired
+  *
+  * @param string $name
+  * @return DataDisplayResponse
+  * @throws NotPermittedException
+  */
+ public function getFontFileOverview(string $name): DataDisplayResponse {
 		try {
 			$fontFileOverviewContent = $this->fontService->getFontFileOverview($name);
 			return new DataDisplayResponse(
@@ -405,12 +393,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @param string $name
-	 * @return DataResponse
-	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function deleteFontFile(string $name): DataResponse {
+  * @param string $name
+  * @return DataResponse
+  * @throws NotFoundException
+  * @throws NotPermittedException
+  */
+ public function deleteFontFile(string $name): DataResponse {
 		$this->fontService->deleteFontFile($name);
 		return new DataResponse();
 	}

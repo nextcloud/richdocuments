@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
@@ -33,18 +34,12 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesService {
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
-	/** @var ICache */
-	private $cache;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var LoggerInterface */
-	private $logger;
+	private IConfig $config;
+	private IClientService $clientService;
+	private ICache $cache;
+	private IAppManager $appManager;
+	private IL10N $l10n;
+	private LoggerInterface $logger;
 
 	/** @var array */
 	private $capabilities;
@@ -68,7 +63,7 @@ class CapabilitiesService {
 		$CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
 		$isCODEInstalled = $this->appManager->isEnabledForUser($CODEAppID);
 		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
-		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
+		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || (is_countable($this->capabilities) ? count($this->capabilities) : 0) === 0);
 		if ($this->capabilities === null || $shouldRecheckCODECapabilities) {
 			$this->refetch();
 		}
@@ -129,12 +124,12 @@ class CapabilitiesService {
 		try {
 			$response = $client->get($capabilitiesEndpoint, $options);
 			$responseBody = $response->getBody();
-			$capabilities = \json_decode($responseBody, true);
+			$capabilities = \json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
 
 			if (!is_array($capabilities)) {
 				$capabilities = [];
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to fetch the Collabora capabilities endpoint: ' . $e->getMessage(), [ 'exception' => $e ]);
 			$capabilities = [];
 		}

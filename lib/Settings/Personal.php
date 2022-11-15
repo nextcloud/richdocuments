@@ -31,13 +31,11 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 	/** @var IConfig Config */
-	private $config;
+	private IConfig $config;
 
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
+	private CapabilitiesService $capabilitiesService;
 
-	/** @var InitialStateService */
-	private $initialState;
+	private InitialStateService $initialState;
 
 	/** @var string */
 	private $userId;

@@ -22,6 +22,7 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use OC;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -36,20 +37,15 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 
 class FederationController extends OCSController {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
-	/** @var ILogger */
-	private $logger;
+	private ILogger $logger;
 
-	/** @var WopiMapper */
-	private $wopiMapper;
+	private WopiMapper $wopiMapper;
 
-	/** @var IUserManager */
-	private $userManager;
+	private IUserManager $userManager;
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(
 		string $appName,
@@ -99,12 +95,12 @@ class FederationController extends OCSController {
 		try {
 			$initiatorWopi = $this->wopiMapper->getWopiForToken($token);
 			if (empty($initiatorWopi->getEditorUid()) && !empty($initiatorWopi->getRemoteServer()) && !empty($initiatorWopi->getRemoteServerToken())) {
-				$client = \OC::$server->getHTTPClientService()->newClient();
+				$client = OC::$server->getHTTPClientService()->newClient();
 				$response = $client->post(
 					rtrim($initiatorWopi->getRemoteServer(), '/') . '/ocs/v2.php/apps/richdocuments/api/v1/federation/user?format=json',
 					[ 'body' => [ 'token' => $initiatorWopi->getRemoteServerToken() ], 'timeout' => 10 ]
 				);
-				$initiatorUser = \json_decode($response->getBody(), true)['ocs']['data'];
+				$initiatorUser = \json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR)['ocs']['data'];
 				$initiatorWopi->setGuestDisplayname($initiatorUser['displayName']);
 			} else {
 				$user = $this->userManager->get($initiatorWopi->getEditorUid());

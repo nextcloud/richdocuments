@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Controller;
 
+use OCP\AppFramework\Http\Response;
+use InvalidArgumentException;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -50,7 +52,7 @@ class TemplatesController extends Controller {
 	private LoggerInterface $logger;
 
 	/** @var int Max template size */
-	private $maxSize = 20 * 1024 * 1024;
+	private int $maxSize = 20 * 1024 * 1024;
 
 	/**
 	 * Templates controller
@@ -210,7 +212,7 @@ class TemplatesController extends Controller {
 		int $y,
 		bool $a = false,
 		bool $forceIcon = true,
-		string $mode = IPreview::MODE_FILL): Http\Response {
+		string $mode = IPreview::MODE_FILL): Response {
 		if (!($node instanceof Node) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -226,7 +228,7 @@ class TemplatesController extends Controller {
 			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}

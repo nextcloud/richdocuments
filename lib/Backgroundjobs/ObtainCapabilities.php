@@ -27,8 +27,7 @@ use OC\BackgroundJob\TimedJob;
 use OCA\Richdocuments\Service\CapabilitiesService;
 
 class ObtainCapabilities extends TimedJob {
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
+	private CapabilitiesService $capabilitiesService;
 
 	public function __construct(CapabilitiesService $capabilitiesService) {
 		$this->capabilitiesService = $capabilitiesService;

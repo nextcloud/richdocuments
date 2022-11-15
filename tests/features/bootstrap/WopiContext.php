@@ -22,6 +22,7 @@
  */
 
 declare(strict_types=1);
+use GuzzleHttp\Exception\ClientException;
 
 
 use Behat\Behat\Context\Context;
@@ -43,7 +44,7 @@ class WopiContext implements Context {
 	private $response;
 	private $currentServer;
 	private $fileId;
-	private $fileIds = [];
+	private array $fileIds = [];
 	private $wopiToken;
 	private $checkFileInfoResult;
 
@@ -83,7 +84,7 @@ class WopiContext implements Context {
 		$client = new Client();
 		$options = [];
 		$this->response = $client->get($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '?access_token=' . $this->wopiToken, $options);
-		$this->checkFileInfoResult = json_decode($this->response->getBody()->getContents(), true);
+		$this->checkFileInfoResult = json_decode($this->response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
@@ -100,7 +101,7 @@ class WopiContext implements Context {
 		];
 		try {
 			$this->response = $client->post($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '/contents?access_token=' . $this->wopiToken, $options);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
@@ -131,7 +132,7 @@ class WopiContext implements Context {
 	 * @Then /^checkFileInfo "([^"]*)" is "([^"]*)"$/
 	 */
 	public function checkfileinfoIs($key, $value) {
-		\PHPUnit\Framework\Assert::assertEquals($value, $this->checkFileInfoResult[$key]);
+		Assert::assertEquals($value, $this->checkFileInfoResult[$key]);
 	}
 
 
@@ -139,28 +140,28 @@ class WopiContext implements Context {
 	 * @Then /^checkFileInfo "([^"]*)" matches "([^"]*)"$/
 	 */
 	public function checkfileinfoMatches($key, $regex) {
-		\PHPUnit\Framework\Assert::assertRegExp($regex, $this->checkFileInfoResult[$key]);
+		Assert::assertRegExp($regex, $this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is true$/
 	 */
 	public function checkfileinfoIsTrue($key) {
-		\PHPUnit\Framework\Assert::assertTrue($this->checkFileInfoResult[$key]);
+		Assert::assertTrue($this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is false$/
 	 */
 	public function checkfileinfoIsFalse($key) {
-		\PHPUnit\Framework\Assert::assertFalse($this->checkFileInfoResult[$key]);
+		Assert::assertFalse($this->checkFileInfoResult[$key]);
 	}
 
 	/**
 	 * @Then /^checkFileInfo "([^"]*)" is not set/
 	 */
 	public function checkfileinfoIsNotSet($key) {
-		\PHPUnit\Framework\Assert::assertArrayNotHasKey($key, $this->checkFileInfoResult);
+		Assert::assertArrayNotHasKey($key, $this->checkFileInfoResult);
 	}
 
 	/**
@@ -174,7 +175,7 @@ class WopiContext implements Context {
 				$this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '/contents?access_token=' . $this->wopiToken,
 				[ 'sink' => $fp ]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
@@ -185,7 +186,7 @@ class WopiContext implements Context {
 	public function theFileIsEqual($comparison) {
 		$fp1 = fopen($this->downloadedFile, 'r');
 		$fp2 = fopen($comparison, 'r');
-		\PHPUnit\Framework\Assert::assertTrue($this->compareFiles($fp1, $fp2));
+		Assert::assertTrue($this->compareFiles($fp1, $fp2));
 	}
 
 	/**
@@ -194,7 +195,7 @@ class WopiContext implements Context {
 	public function theFileIsNotEqual($comparison) {
 		$fp1 = fopen($this->downloadedFile, 'r');
 		$fp2 = fopen($comparison, 'r');
-		\PHPUnit\Framework\Assert::assertFalse($this->compareFiles($fp1, $fp2));
+		Assert::assertFalse($this->compareFiles($fp1, $fp2));
 	}
 
 
@@ -245,7 +246,7 @@ class WopiContext implements Context {
 	 */
 	public function bothCollaboraFilesUsedTheSameFileId() {
 		if (count($this->fileIds) <= 1) {
-			throw new \Exception('Less than two file ids available for comparison');
+			throw new Exception('Less than two file ids available for comparison');
 		}
 		$current = $this->fileIds[count($this->fileIds) - 1];
 		$previous = $this->fileIds[count($this->fileIds) - 2];
@@ -257,7 +258,7 @@ class WopiContext implements Context {
 	 */
 	public function bothCollaboraFilesUsedADifferentFileId() {
 		if (count($this->fileIds) <= 1) {
-			throw new \Exception('Less than two file ids available for comparison');
+			throw new Exception('Less than two file ids available for comparison');
 		}
 		$current = $this->fileIds[count($this->fileIds) - 1];
 		$previous = $this->fileIds[count($this->fileIds) - 2];
@@ -281,7 +282,7 @@ class WopiContext implements Context {
 		];
 		try {
 			$this->response = $client->post($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '?access_token=' . $this->wopiToken, $options);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}

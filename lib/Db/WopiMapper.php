@@ -22,6 +22,7 @@
  */
 namespace OCA\Richdocuments\Db;
 
+use OCP\DB\Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
@@ -33,17 +34,13 @@ use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
 class WopiMapper extends QBMapper {
-	/** @var ISecureRandom */
-	private $random;
+	private ISecureRandom $random;
 
-	/** @var ILogger */
-	private $logger;
+	private ILogger $logger;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
+	private ITimeFactory $timeFactory;
 
-	/** @var AppConfig */
-	private $appConfig;
+	private AppConfig $appConfig;
 
 	public function __construct(IDBConnection $db,
 		ISecureRandom $random,
@@ -174,12 +171,12 @@ class WopiMapper extends QBMapper {
 	}
 
 	/**
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return int[]
-	 * @throws \OCP\DB\Exception
-	 */
-	public function getExpiredTokenIds(?int $limit = null, ?int $offset = null): array {
+  * @param int|null $limit
+  * @param int|null $offset
+  * @return int[]
+  * @throws Exception
+  */
+ public function getExpiredTokenIds(?int $limit = null, ?int $offset = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id')
 			->from('richdocuments_wopi')

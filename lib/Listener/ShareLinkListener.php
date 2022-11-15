@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use OCP\EventDispatcher\IEventListener;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
@@ -35,11 +36,10 @@ use OCP\EventDispatcher\Event;
 use OCP\Share\IShare;
 use OCP\Util;
 
-class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
+class ShareLinkListener implements IEventListener {
 	/** @var PermissionManager */
 	private $permissionManager;
-	/** @var InitialStateService */
-	private $initialStateService;
+	private InitialStateService $initialStateService;
 
 	public function __construct(PermissionManager $permissionManager, InitialStateService $initialStateService) {
 		$this->permissionManager = $permissionManager;

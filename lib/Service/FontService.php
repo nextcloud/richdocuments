@@ -23,6 +23,10 @@
 
 namespace OCA\Richdocuments\Service;
 
+use OCP\ICache;
+use OCP\Files\NotPermittedException;
+use Exception;
+use Throwable;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -35,22 +39,10 @@ use OCP\IURLGenerator;
 class FontService {
 	private const INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS = 3600;
 
-	/**
-	 * @var IAppData
-	 */
-	private $appData;
-	/**
-	 * @var \OCP\ICache
-	 */
-	private $cache;
-	/**
-	 * @var IURLGenerator
-	 */
-	private $url;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	private IAppData $appData;
+	private ICache $cache;
+	private IURLGenerator $url;
+	private IConfig $config;
 
 	public function __construct(IAppData $appData,
 		ICacheFactory $cacheFactory,
@@ -63,10 +55,10 @@ class FontService {
 	}
 
 	/**
-	 * @return ISimpleFolder
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	private function getFontAppDataDir(): ISimpleFolder {
+  * @return ISimpleFolder
+  * @throws NotPermittedException
+  */
+ private function getFontAppDataDir(): ISimpleFolder {
 		try {
 			return $this->appData->getFolder('fonts');
 		} catch (NotFoundException $e) {
@@ -75,10 +67,10 @@ class FontService {
 	}
 
 	/**
-	 * @return ISimpleFolder
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	private function getFontOverviewAppDataDir(): ISimpleFolder {
+  * @return ISimpleFolder
+  * @throws NotPermittedException
+  */
+ private function getFontOverviewAppDataDir(): ISimpleFolder {
 		try {
 			return $this->appData->getFolder('font-overviews');
 		} catch (NotFoundException $e) {
@@ -87,31 +79,29 @@ class FontService {
 	}
 
 	/**
-	 * Get the list of available font files
-	 *
-	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontFiles(): array {
+  * Get the list of available font files
+  *
+  * @return array
+  * @throws NotPermittedException
+  */
+ public function getFontFiles(): array {
 		$fontDir = $this->getFontAppDataDir();
 		return $fontDir->getDirectoryListing();
 	}
 
 	/**
-	 * Get the list of available font file names
-	 *
-	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontFileNames(): array {
+  * Get the list of available font file names
+  *
+  * @return array
+  * @throws NotPermittedException
+  */
+ public function getFontFileNames(): array {
 		$cacheKey = 'fontFileNames';
 		$cachedNames = $this->cache->get($cacheKey);
 		if ($cachedNames === null) {
 			$files = $this->getFontFiles();
 			$cachedNames = array_map(
-				static function (ISimpleFile $f) {
-					return $f->getName();
-				},
+				static fn(ISimpleFile $f) => $f->getName(),
 				$files
 			);
 			$this->cache->set($cacheKey, $cachedNames, self::INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS);
@@ -129,12 +119,10 @@ class FontService {
 	public function getFontList(array $fontFiles): array {
 		$url = $this->url;
 		$list = array_map(
-			static function (ISimpleFile $f) use ($url) {
-				return [
+			static fn(ISimpleFile $f) => [
 					'uri' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
 					'stamp' => $f->getETag(),
-				];
-			},
+				],
 			$fontFiles
 		);
 
@@ -147,12 +135,12 @@ class FontService {
 	}
 
 	/**
-	 * @param string $fileName
-	 * @param $newFileResource
-	 * @return array
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function uploadFontFile(string $fileName, $newFileResource): array {
+  * @param string $fileName
+  * @param $newFileResource
+  * @return array
+  * @throws NotPermittedException
+  */
+ public function uploadFontFile(string $fileName, $newFileResource): array {
 		$fontDir = $this->getFontAppDataDir();
 		$newFile = $fontDir->newFile($fileName, $newFileResource);
 		$this->generateFontOverview($newFile);
@@ -163,34 +151,34 @@ class FontService {
 	}
 
 	/**
-	 * @param string $fileName
-	 * @return ISimpleFile
-	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontFile(string $fileName): ISimpleFile {
+  * @param string $fileName
+  * @return ISimpleFile
+  * @throws NotFoundException
+  * @throws NotPermittedException
+  */
+ public function getFontFile(string $fileName): ISimpleFile {
 		$fontDir = $this->getFontAppDataDir();
 		return $fontDir->getFile($fileName);
 	}
 
 	/**
-	 * @param string $fileName
-	 * @return string
-	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFontFileOverview(string $fileName): string {
+  * @param string $fileName
+  * @return string
+  * @throws NotFoundException
+  * @throws NotPermittedException
+  */
+ public function getFontFileOverview(string $fileName): string {
 		$fontDir = $this->getFontOverviewAppDataDir();
 		return $fontDir->getFile($fileName . '.png')->getContent();
 	}
 
 	/**
-	 * @param string $fileName
-	 * @return void
-	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function deleteFontFile(string $fileName): void {
+  * @param string $fileName
+  * @return void
+  * @throws NotFoundException
+  * @throws NotPermittedException
+  */
+ public function deleteFontFile(string $fileName): void {
 		$fontDir = $this->getFontAppDataDir();
 		if ($fontDir->fileExists($fileName)) {
 			$fontDir->getFile($fileName)->delete();
@@ -236,7 +224,7 @@ class FontService {
 				imagepng($im, $imageFileResource);
 				imagedestroy($im);
 			}
-		} catch (\Exception | \Throwable $e) {
+		} catch (Exception | Throwable $e) {
 			// do nothing if there was any kind of error during overview generation
 			// the /apps/richdocuments/settings/fonts/FILE_NAME/overview request will fail with 404
 			// in the UI and display a fallback message

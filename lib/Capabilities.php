@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments;
 
+use OC;
 use OCP\App\IAppManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\Capabilities\ICapability;
@@ -75,16 +76,12 @@ class Capabilities implements ICapability {
 		'text/spreadsheet'
 	];
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var AppConfig */
-	private $config;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
+	private IL10N $l10n;
+	private AppConfig $config;
+	private CapabilitiesService $capabilitiesService;
 	/** @var PermissionManager */
 	private $permissionManager;
-	/** @var IAppManager */
-	private $appManager;
+	private IAppManager $appManager;
 
 	private $capabilities = null;
 
@@ -118,7 +115,7 @@ class Capabilities implements ICapability {
 
 			$this->capabilities = [
 				'richdocuments' => [
-					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
+					'version' => OC::$server->getAppManager()->getAppVersion('richdocuments'),
 					'mimetypes' => $filteredMimetypes,
 					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 					'collabora' => $collaboraCapabilities,

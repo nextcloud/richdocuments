@@ -21,6 +21,9 @@
 
 namespace OCA\Richdocuments;
 
+use Exception;
+use OC;
+use OC_Hook;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Richdocuments\Db\Direct;
@@ -44,30 +47,19 @@ use OCP\Share\IShare;
 use OCP\Util;
 
 class TokenManager {
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IManager */
-	private $shareManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var Parser */
-	private $wopiParser;
-	/** @var AppConfig */
-	private $appConfig;
+	private IRootFolder $rootFolder;
+	private IManager $shareManager;
+	private IURLGenerator $urlGenerator;
+	private Parser $wopiParser;
+	private AppConfig $appConfig;
 	/** @var string */
 	private $userId;
-	/** @var WopiMapper */
-	private $wopiMapper;
-	/** @var IL10N */
-	private $trans;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var Helper */
-	private $helper;
+	private WopiMapper $wopiMapper;
+	private IL10N $trans;
+	private IUserManager $userManager;
+	private IGroupManager $groupManager;
+	private CapabilitiesService $capabilitiesService;
+	private Helper $helper;
 
 	public function __construct(
 		IRootFolder $rootFolder,
@@ -98,14 +90,14 @@ class TokenManager {
 	}
 
 	/**
-	 * @param string $fileId
-	 * @param string $shareToken
-	 * @param string $editoruid
-	 * @return array
-	 * @throws \Exception
-	 */
-	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
-		list($fileId, , $version) = Helper::parseFileId($fileId);
+  * @param string $fileId
+  * @param string $shareToken
+  * @param string $editoruid
+  * @return array
+  * @throws Exception
+  */
+ public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
+		[$fileId, , $version] = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
 		// if the user is not logged-in do use the sharers storage
@@ -118,7 +110,7 @@ class TokenManager {
 				throw new ShareNotFound();
 			}
 
-			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
+			$updatable = (bool)($share->getPermissions() & Constants::PERMISSION_UPDATE);
 			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
 		} elseif ($this->userId !== null) {
@@ -169,7 +161,7 @@ class TokenManager {
 						}
 					}
 				}
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				throw $e;
 			}
 		} else {
@@ -177,7 +169,7 @@ class TokenManager {
 			// no active user login while generating the token
 			// this is required during WopiPutRelativeFile
 			if (is_null($editoruid)) {
-				\OC::$server->getLogger()->warning('Generating token for SaveAs without editoruid');
+				OC::$server->getLogger()->warning('Generating token for SaveAs without editoruid');
 				$updatable = true;
 			} else {
 				// Make sure we use the user folder if available since fetching all files by id from the root might be expensive
@@ -213,7 +205,7 @@ class TokenManager {
 		}
 
 		// force read operation to trigger possible audit logging
-		\OC_Hook::emit(
+		OC_Hook::emit(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_read,
 			[Filesystem::signal_param_path => $file->getPath()]
@@ -315,7 +307,7 @@ class TokenManager {
 
 	public function newInitiatorToken($sourceServer, Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
 		if ($node !== null) {
-			list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), $shareToken, $userId, $direct);
+			[$urlSrc, $token, $wopi] = $this->getToken($node->getId(), $shareToken, $userId, $direct);
 			$wopi->setServerHost($sourceServer);
 			$wopi->setTokenType(Wopi::TOKEN_TYPE_INITIATOR);
 			$this->wopiMapper->update($wopi);

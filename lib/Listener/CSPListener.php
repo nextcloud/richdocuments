@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 namespace OCA\Richdocuments\Listener;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\FederationService;
 use OCP\App\IAppManager;
@@ -90,22 +91,18 @@ class CSPListener implements IEventListener {
 			return [];
 		}
 
-		$trustedNextcloudDomains = array_filter(array_map(function ($server) {
-			return $this->federationService->isTrustedRemote($server) ? $server : null;
-		}, $this->federationService->getTrustedServers()));
+		$trustedNextcloudDomains = array_filter(array_map(fn($server) => $this->federationService->isTrustedRemote($server) ? $server : null, $this->federationService->getTrustedServers()));
 
 		$trustedCollaboraDomains = array_filter(array_map(function ($server) {
 			try {
 				return $this->federationService->getRemoteCollaboraURL($server);
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				// If there is no remote collabora server we can just skip that
 				return null;
 			}
 		}, $trustedNextcloudDomains));
 
-		return array_map(function ($url) {
-			return $this->domainOnly($url);
-		}, array_merge($trustedNextcloudDomains, $trustedCollaboraDomains));
+		return array_map(fn($url) => $this->domainOnly($url), array_merge($trustedNextcloudDomains, $trustedCollaboraDomains));
 	}
 
 	private function getGSDomains(): array {

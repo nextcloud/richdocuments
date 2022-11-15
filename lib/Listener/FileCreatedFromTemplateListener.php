@@ -32,8 +32,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 
 class FileCreatedFromTemplateListener implements IEventListener {
-	/** @var TemplateManager */
-	private $templateManager;
+	private TemplateManager $templateManager;
 
 	public function __construct(
 		TemplateManager $templateManager

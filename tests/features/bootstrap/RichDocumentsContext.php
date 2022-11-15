@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Cookie\CookieJar;
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Behat\Behat\Context\Context;
@@ -24,7 +25,7 @@ class RichDocumentsContext implements Context {
 	public $fileId;
 	public $wopiToken;
 	/** @var array List of opened file ids in order to compare opening accross instances*/
-	private $fileIds = [];
+	private array $fileIds = [];
 	/** @var array List of templates fetched for a given file type */
 	private $templates = [];
 
@@ -98,10 +99,10 @@ class RichDocumentsContext implements Context {
 		$this->serverContext->usingWebAsUser($userId);
 		$token = $this->sharingContext->getLastShareData()['token'];
 
-		$cookieJar = new \GuzzleHttp\Cookie\CookieJar();
+		$cookieJar = new CookieJar();
 		if ($guestName) {
 			$domain = parse_url($this->currentServer ?? $this->serverContext->getBaseUrl(), PHP_URL_HOST);
-			$cookieJar = \GuzzleHttp\Cookie\CookieJar::fromArray([
+			$cookieJar = CookieJar::fromArray([
 				'guestUser' => $guestName
 			], $domain);
 		}

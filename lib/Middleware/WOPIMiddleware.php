@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Middleware;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Controller\WopiController;
 use OCP\AppFramework\Http;
@@ -38,10 +39,8 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class WOPIMiddleware extends Middleware {
-	/** @var IConfig */
-	private $config;
-	/** @var IRequest */
-	private $request;
+	private IConfig $config;
+	private IRequest $request;
 
 	public function __construct(IConfig $config, IRequest $request) {
 		$this->config = $config;
@@ -56,7 +55,7 @@ class WOPIMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException($controller, $methodName, Exception $exception): Response {
 		if ($exception instanceof NotPermittedException && $controller instanceof WopiController) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -87,7 +86,7 @@ class WOPIMiddleware extends Middleware {
 	 * @copyright (IPv6) MW. https://stackoverflow.com/questions/7951061/matching-ipv6-address-to-a-cidr-subnet via
 	 */
 	private function matchCidr(string $ip, string $range): bool {
-		list($subnet, $bits) = array_pad(explode('/', $range), 2, null);
+		[$subnet, $bits] = array_pad(explode('/', $range), 2, null);
 		if ($bits === null) {
 			$bits = 32;
 		}

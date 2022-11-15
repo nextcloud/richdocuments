@@ -22,5 +22,6 @@
  */
 namespace OCA\Richdocuments\Exceptions;
 
-class UnknownTokenException extends \Exception {
+use Exception;
+class UnknownTokenException extends Exception {
 }

@@ -44,26 +44,19 @@ class TemplateManager {
 	/** @var string */
 	protected $userId;
 
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private IURLGenerator $urlGenerator;
 
-	/** @var IRootFolder */
-	private $rootFolder;
+	private IRootFolder $rootFolder;
 
-	/** @var IL10N */
-	private $l;
+	private IL10N $l;
 
-	/** @var IDBConnection */
-	private $db;
+	private IDBConnection $db;
 
-	/** @var IAppData */
-	private $appData;
+	private IAppData $appData;
 
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** Accepted templates mime types */
 	public const MIMES_DOCUMENTS = [
@@ -272,13 +265,9 @@ class TemplateManager {
 		$empty = $this->getEmpty($type);
 		$system = $this->getSystem($type);
 
-		$emptyFormatted = array_map(function (File $file) {
-			return $this->formatEmpty($file);
-		}, $empty);
+		$emptyFormatted = array_map(fn(File $file) => $this->formatEmpty($file), $empty);
 
-		$systemFormatted = array_map(function (File $file) {
-			return $this->formatNodeReturn($file);
-		}, $system);
+		$systemFormatted = array_map(fn(File $file) => $this->formatNodeReturn($file), $system);
 
 		return array_merge($emptyFormatted, $systemFormatted);
 	}
@@ -305,9 +294,7 @@ class TemplateManager {
 	public function getUserFormatted($type) {
 		$templates = $this->getUser($type);
 
-		return array_map(function (File $file) {
-			return $this->formatNodeReturn($file);
-		}, $templates);
+		return array_map(fn(File $file) => $this->formatNodeReturn($file), $templates);
 	}
 
 	/**

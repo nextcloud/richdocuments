@@ -34,27 +34,18 @@ use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
-	/** @var AppConfig */
-	private $appConfig;
+	private AppConfig $appConfig;
 
-	/** @var TemplateManager */
-	private $manager;
+	private TemplateManager $manager;
 
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
+	private CapabilitiesService $capabilitiesService;
 
-	/** @var DemoService */
-	private $demoService;
+	private DemoService $demoService;
 
-	/** @var InitialStateService */
-	private $initialState;
-	/**
-	 * @var FontService
-	 */
-	private $fontService;
+	private InitialStateService $initialState;
+	private FontService $fontService;
 
 	public function __construct(
 		IConfig             $config,

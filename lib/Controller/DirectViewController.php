@@ -22,6 +22,8 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
+use OC;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\DirectMapper;
@@ -46,32 +48,24 @@ use OCP\IRequest;
 class DirectViewController extends Controller {
 	use DocumentTrait;
 
-	/** @var IRootFolder */
-	private $rootFolder;
+	private IRootFolder $rootFolder;
 
-	/** @var TokenManager */
-	private $tokenManager;
+	private TokenManager $tokenManager;
 
-	/** @var DirectMapper */
-	private $directMapper;
+	private DirectMapper $directMapper;
 
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 
 	/** @var AppConfig */
 	private $appConfig;
 
-	/** @var TemplateManager */
-	private $templateManager;
+	private TemplateManager $templateManager;
 
-	/** @var FederationService */
-	private $federationService;
+	private FederationService $federationService;
 
-	/** @var ILogger */
-	private $logger;
+	private ILogger $logger;
 
-	/** @var InitialStateService */
-	private $initialState;
+	private InitialStateService $initialState;
 
 	public function __construct(
 		$appName,
@@ -134,8 +128,8 @@ class DirectViewController extends Controller {
 			}
 
 			try {
-				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
-			} catch (\Exception $e) {
+				[$urlSrc, $wopi] = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
+			} catch (Exception $e) {
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			}
 
@@ -144,7 +138,7 @@ class DirectViewController extends Controller {
 			try {
 				$item = $folder->getById($direct->getFileid())[0];
 				if (!($item instanceof Node)) {
-					throw new \Exception();
+					throw new Exception();
 				}
 
 				/** Open file from remote collabora */
@@ -155,8 +149,8 @@ class DirectViewController extends Controller {
 					return $response;
 				}
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
-			} catch (\Exception $e) {
+				[$urlSrc, $token, $wopi] = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
+			} catch (Exception $e) {
 				$this->logger->logException($e);
 				return $this->renderErrorPage('Failed to open the requested file.');
 			}
@@ -182,7 +176,7 @@ class DirectViewController extends Controller {
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$this->applyPolicies($response);
 			return $response;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e);
 			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
@@ -190,7 +184,7 @@ class DirectViewController extends Controller {
 
 	public function showPublicShare(Direct $direct) {
 		try {
-			$share = \OC::$server->getShareManager()->getShareByToken($direct->getShare());
+			$share = OC::$server->getShareManager()->getShareByToken($direct->getShare());
 
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
@@ -209,7 +203,7 @@ class DirectViewController extends Controller {
 				return $response;
 			}
 
-			$this->settings = \OC::$server->getConfig();
+			$this->settings = OC::$server->getConfig();
 			if ($node instanceof Node) {
 				$params = [
 					'permissions' => $share->getPermissions(),
@@ -223,7 +217,7 @@ class DirectViewController extends Controller {
 					'directGuest' => empty($direct->getUid()),
 				];
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
+				[$urlSrc, $token, $wopi] = $this->tokenManager->getToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
 				if (!empty($direct->getInitiatorHost())) {
 					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 				}
@@ -236,7 +230,7 @@ class DirectViewController extends Controller {
 				$this->applyPolicies($response);
 				return $response;
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}

@@ -23,6 +23,7 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use OC;
 use Exception;
 use GuzzleHttp\Exception\BadResponseException;
 use OCA\Richdocuments\Db\DirectMapper;
@@ -48,32 +49,24 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 class OCSController extends \OCP\AppFramework\OCSController {
-	/** @var IRootFolder */
-	private $rootFolder;
+	private IRootFolder $rootFolder;
 
 	/** @var string */
 	private $userId;
 
-	/** @var DirectMapper */
-	private $directMapper;
+	private DirectMapper $directMapper;
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private IURLGenerator $urlGenerator;
 
-	/** @var TemplateManager */
-	private $manager;
+	private TemplateManager $manager;
 
-	/** @var TokenManager */
-	private $tokenManager;
+	private TokenManager $tokenManager;
 
-	/** @var IManager */
-	private $shareManager;
+	private IManager $shareManager;
 
-	/** @var FederationService */
-	private $federationService;
+	private FederationService $federationService;
 
-	/** @var ILogger */
-	private $logger;
+	private ILogger $logger;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -157,11 +150,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 			$wopi = $this->tokenManager->newInitiatorToken($host, null, $shareToken, true, $this->userId);
 
-			$client = \OC::$server->getHTTPClientService()->newClient();
+			$client = OC::$server->getHTTPClientService()->newClient();
 			try {
 				$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
 					'body' => [
-						'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
+						'initiatorServer' => OC::$server->getURLGenerator()->getAbsoluteURL(''),
 						'initiatorToken' => $wopi->getToken(),
 						'shareToken' => $shareToken,
 						'path' => $path,
@@ -184,7 +177,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 				$this->logger->error('Failed to create link from initiator token. Unexpected response.', ['exception' => $e]);
 				return new DataResponse([], HTTP::STATUS_INTERNAL_SERVER_ERROR);
 			}
-			$url = \json_decode($response->getBody(), true)['ocs']['data']['url'];
+			$url = \json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR)['ocs']['data']['url'];
 
 			return new DataResponse([
 				'url' => $url,
@@ -338,7 +331,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e);
 			throw new OCSException('Failed to create new file from template.');
 		}

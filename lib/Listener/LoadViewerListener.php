@@ -38,8 +38,7 @@ use OCP\Util;
 class LoadViewerListener implements IEventListener {
 	/** @var PermissionManager */
 	private $permissionManager;
-	/** @var InitialStateService */
-	private $initialStateService;
+	private InitialStateService $initialStateService;
 
 	public function __construct(PermissionManager $permissionManager, InitialStateService $initialStateService) {
 		$this->permissionManager = $permissionManager;

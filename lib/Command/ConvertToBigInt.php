@@ -36,8 +36,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ConvertToBigInt extends Command {
-	/** @var IDBConnection */
-	private $connection;
+	private IDBConnection $connection;
 
 	/**
 	 * @param IDBConnection $connection

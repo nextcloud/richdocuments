@@ -24,6 +24,7 @@
 
 namespace OCA\Richdocuments\AppInfo;
 
+use OC;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
@@ -59,7 +60,7 @@ use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 class Application extends App implements IBootstrap {
 	public const APPNAME = 'richdocuments';
 
-	public function __construct(array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APPNAME, $urlParams);
 	}
 
@@ -144,30 +145,20 @@ class Application extends App implements IBootstrap {
 		/** @var IPreview $previewManager */
 		$previewManager = $container->query(IPreview::class);
 
-		$previewManager->registerProvider('/application\/vnd.ms-excel/', function () use ($container) {
-			return $container->query(MSExcel::class);
-		});
+		$previewManager->registerProvider('/application\/vnd.ms-excel/', fn() => $container->query(MSExcel::class));
 
-		$previewManager->registerProvider('/application\/msword/', function () use ($container) {
-			return $container->query(MSWord::class);
-		});
+		$previewManager->registerProvider('/application\/msword/', fn() => $container->query(MSWord::class));
 
-		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', function () use ($container) {
-			return $container->query(OOXML::class);
-		});
+		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', fn() => $container->query(OOXML::class));
 
-		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function () use ($container) {
-			return $container->query(OpenDocument::class);
-		});
+		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', fn() => $container->query(OpenDocument::class));
 
-		$previewManager->registerProvider('/application\/pdf/', function () use ($container) {
-			return $container->query(Pdf::class);
-		});
+		$previewManager->registerProvider('/application\/pdf/', fn() => $container->query(Pdf::class));
 	}
 
 	public function checkAndEnableCODEServer() {
 		// Supported only on Linux OS, and x86_64 & ARM64 platforms
-		$supportedArchs = array('x86_64', 'aarch64');
+		$supportedArchs = ['x86_64', 'aarch64'];
 		$osFamily = PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS;
 		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs)) {
 			return;
@@ -185,7 +176,7 @@ class Application extends App implements IBootstrap {
 				return;
 			}
 
-			$urlGenerator = \OC::$server->getURLGenerator();
+			$urlGenerator = OC::$server->getURLGenerator();
 			$relativeUrl = $urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
 			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
 			$new_wopi_url = $absoluteUrl . '?req=';

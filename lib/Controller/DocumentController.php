@@ -11,6 +11,9 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
+use OC;
+use OCP\Files\InvalidPathException;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
@@ -38,26 +41,17 @@ class DocumentController extends Controller {
 
 	/** @var string */
 	private $uid;
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
 	/** @var AppConfig */
 	private $appConfig;
-	/** @var ILogger */
-	private $logger;
-	/** @var IManager */
-	private $shareManager;
-	/** @var TokenManager */
-	private $tokenManager;
-	/** @var ISession */
-	private $session;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var TemplateManager */
-	private $templateManager;
-	/** @var FederationService */
-	private $federationService;
-	/** @var InitialStateService */
-	private $initialState;
+	private ILogger $logger;
+	private IManager $shareManager;
+	private TokenManager $tokenManager;
+	private ISession $session;
+	private IRootFolder $rootFolder;
+	private TemplateManager $templateManager;
+	private FederationService $federationService;
+	private InitialStateService $initialState;
 
 	public function __construct(
 		$appName,
@@ -114,15 +108,15 @@ class DocumentController extends Controller {
 					$folder = $this->rootFolder->getUserFolder($this->uid);
 					$item = $folder->getById($fileId)[0];
 					if (!($item instanceof Node)) {
-						throw new \Exception();
+						throw new Exception();
 					}
-					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
+					[$urlSrc, $token] = $this->tokenManager->getToken($item->getId());
 					return [
 						'status' => 'success',
 						'urlsrc' => $urlSrc,
 						'token' => $token
 					];
-				} catch (\Exception $e) {
+				} catch (Exception $e) {
 					$this->logger->logException($e, ['app' => 'richdocuments']);
 				}
 			}
@@ -151,7 +145,7 @@ class DocumentController extends Controller {
 			}
 
 			if (!($item instanceof File)) {
-				throw new \Exception();
+				throw new Exception();
 			}
 
 			/**
@@ -167,10 +161,10 @@ class DocumentController extends Controller {
 
 			$templateFile = $this->templateManager->getTemplateSource($item->getId());
 			if ($templateFile) {
-				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $this->uid, $item->getId());
+				[$urlSrc, $wopi] = $this->tokenManager->getTokenForTemplate($templateFile, $this->uid, $item->getId());
 				$token = $wopi->getToken();
 			} else {
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId());
+				[$urlSrc, $token, $wopi] = $this->tokenManager->getToken($item->getId());
 			}
 
 			$params = [
@@ -186,12 +180,12 @@ class DocumentController extends Controller {
 				'userId' => $this->uid
 			];
 
-			$encryptionManager = \OC::$server->getEncryptionManager();
+			$encryptionManager = OC::$server->getEncryptionManager();
 			if ($encryptionManager->isEnabled()) {
 				// Update the current file to be accessible with system public shared key
 				$owner = $item->getOwner()->getUID();
 				$absPath = '/' . $owner . '/' .  $item->getInternalPath();
-				$accessList = \OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
+				$accessList = OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
 				$accessList['public'] = true;
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
 			}
@@ -200,26 +194,26 @@ class DocumentController extends Controller {
 			$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 			$this->applyPolicies($response);
 			return $response;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
-	 * Create a new file from a template
-	 *
-	 * @param int $templateId
-	 * @param string $fileName
-	 * @param string $dir
-	 * @return TemplateResponse
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 * @throws \OCP\Files\InvalidPathException
-	 */
-	public function createFromTemplate($templateId, $fileName, $dir) {
+  * @NoAdminRequired
+  *
+  * Create a new file from a template
+  *
+  * @param int $templateId
+  * @param string $fileName
+  * @param string $dir
+  * @return TemplateResponse
+  * @throws NotFoundException
+  * @throws NotPermittedException
+  * @throws InvalidPathException
+  */
+ public function createFromTemplate($templateId, $fileName, $dir) {
 		if (!$this->templateManager->isTemplate($templateId)) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
@@ -238,7 +232,7 @@ class DocumentController extends Controller {
 		$file = $folder->newFile($fileName);
 
 		$template = $this->templateManager->get($templateId);
-		list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
+		[$urlSrc, $wopi] = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
 
 		$wopiFileId = $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid');
 
@@ -262,15 +256,15 @@ class DocumentController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $shareToken
-	 * @param string $fileName
-	 * @return TemplateResponse|RedirectResponse
-	 * @throws \Exception
-	 */
-	public function publicPage($shareToken, $fileName, $fileId) {
+  * @PublicPage
+  * @NoCSRFRequired
+  *
+  * @param string $shareToken
+  * @param string $fileName
+  * @return TemplateResponse|RedirectResponse
+  * @throws Exception
+  */
+ public function publicPage($shareToken, $fileName, $fileId) {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
@@ -278,7 +272,7 @@ class DocumentController extends Controller {
 				if (!$this->session->exists('public_link_authenticated')
 					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
 				) {
-					throw new \Exception('Invalid password');
+					throw new Exception('Invalid password');
 				}
 			}
 
@@ -310,7 +304,7 @@ class DocumentController extends Controller {
 					'isPublicShare' => true,
 				];
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+				[$urlSrc, $token, $wopi] = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params['token'] = $token;
 				$params['token_ttl'] = $wopi->getExpiry();
 				$params['urlsrc'] = $urlSrc;
@@ -320,7 +314,7 @@ class DocumentController extends Controller {
 				$this->applyPolicies($response);
 				return $response;
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
@@ -348,7 +342,7 @@ class DocumentController extends Controller {
 				if (!$this->session->exists('public_link_authenticated')
 					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
 				) {
-					throw new \Exception('Invalid password');
+					throw new Exception('Invalid password');
 				}
 			}
 
@@ -362,11 +356,11 @@ class DocumentController extends Controller {
 			}
 
 			if ($node instanceof Node) {
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $shareToken, $this->uid);
+				[$urlSrc, $token, $wopi] = $this->tokenManager->getToken($node->getId(), $shareToken, $this->uid);
 
 				$remoteWopi = $this->federationService->getRemoteFileDetails($remoteServer, $remoteServerToken);
 				if ($remoteWopi === null) {
-					throw new \Exception('Invalid remote file details for ' . $remoteServerToken);
+					throw new Exception('Invalid remote file details for ' . $remoteServerToken);
 				}
 				$this->tokenManager->upgradeToRemoteToken($wopi, $remoteWopi, $shareToken, $remoteServer, $remoteServerToken);
 
@@ -395,7 +389,7 @@ class DocumentController extends Controller {
 			}
 		} catch (ShareNotFound $e) {
 			return new TemplateResponse('core', '404', [], 'guest');
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->logException($e, ['app' => 'richdocuments']);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}

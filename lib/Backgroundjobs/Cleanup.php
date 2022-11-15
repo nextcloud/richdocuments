@@ -29,10 +29,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class Cleanup extends TimedJob {
-	/** @var IDBConnection */
-	private $db;
-	/** @var WopiMapper $wopiMapper */
-	private $wopiMapper;
+	private IDBConnection $db;
+	private WopiMapper $wopiMapper;
 
 	public function __construct(IDBConnection $db, WopiMapper $wopiMapper) {
 		$this->db = $db;
