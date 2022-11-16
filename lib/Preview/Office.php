@@ -77,7 +77,7 @@ abstract class Office extends Provider {
 		}
 
 		$client = $this->clientService->newClient();
-		$options = ['timeout' => 10];
+		$options = ['timeout' => 25];
 
 		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
