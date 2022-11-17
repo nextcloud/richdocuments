@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Multiselect v-model="inputValObjects"
+	<NcMultiselect v-model="inputValObjects"
 		:options="tags"
 		:options-limit="5"
 		:placeholder="label"
@@ -38,14 +38,14 @@
 		<template #option="scope">
 			{{ tagLabel(scope.option) }}
 		</template>
-	</Multiselect>
+	</NcMultiselect>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
 
 import { generateRemoteUrl } from '@nextcloud/router'
-import { Multiselect } from '@nextcloud/vue'
+import { NcMultiselect } from '@nextcloud/vue'
 
 const xmlToJson = (xml) => {
 	let obj = {}
@@ -135,7 +135,7 @@ let uuid = 0
 export default {
 	name: 'SettingsSelectTag',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	props: {
 		label: {

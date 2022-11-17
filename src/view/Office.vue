@@ -26,15 +26,15 @@
 			<div v-if="showLoadingIndicator"
 				id="office-viewer__loading-overlay"
 				:class="{ debug: debug }">
-				<EmptyContent v-if="!error" icon="icon-loading">
+				<NcEmptyContent v-if="!error" icon="icon-loading">
 					{{ t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false}) }}
 					<template #desc>
 						<button @click="close">
 							{{ t('richdocuments', 'Cancel') }}
 						</button>
 					</template>
-				</EmptyContent>
-				<EmptyContent v-else icon="icon-error">
+				</NcEmptyContent>
+				<NcEmptyContent v-else icon="icon-error">
 					{{ t('richdocuments', 'Document loading failed') }}
 					<template #desc>
 						{{ errorMessage }}<br><br>
@@ -42,11 +42,11 @@
 							{{ t('richdocuments', 'Close') }}
 						</button>
 					</template>
-				</EmptyContent>
+				</NcEmptyContent>
 			</div>
 			<div v-show="!useNativeHeader && showIframe" class="office-viewer__header">
 				<div class="avatars">
-					<Avatar v-for="view in avatarViews"
+					<NcAvatar v-for="view in avatarViews"
 						:key="view.ViewId"
 						:user="view.UserId"
 						:display-name="view.UserName"
@@ -54,9 +54,9 @@
 						:show-user-status-compact="false"
 						:style="viewColor(view)" />
 				</div>
-				<Actions>
-					<ActionButton icon="office-viewer__header__icon-menu-sidebar" @click="share" />
-				</Actions>
+				<NcActions>
+					<NcActionButton icon="office-viewer__header__icon-menu-sidebar" @click="share" />
+				</NcActions>
 			</div>
 			<iframe id="collaboraframe"
 				ref="documentFrame"
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { Avatar, Actions, ActionButton, EmptyContent } from '@nextcloud/vue'
+import { NcAvatar, NcActions, NcActionButton, NcEmptyContent } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 
 import { basename, dirname } from 'path'
@@ -92,10 +92,10 @@ const LOADING_STATE = {
 export default {
 	name: 'Office',
 	components: {
-		Avatar,
-		Actions,
-		ActionButton,
-		EmptyContent,
+		NcAvatar,
+		NcActions,
+		NcActionButton,
+		NcEmptyContent,
 	},
 	props: {
 		filename: {

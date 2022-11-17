@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Multiselect v-model="inputValObjects"
+	<NcMultiselect v-model="inputValObjects"
 		:options="groupsArray"
 		:options-limit="5"
 		:placeholder="label"
@@ -35,19 +35,19 @@
 		@input="update"
 		@search-change="asyncFindGroup">
 		<span slot="noResult">{{ t('settings', 'No results') }}</span>
-	</Multiselect>
+	</NcMultiselect>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import { Multiselect } from '@nextcloud/vue'
+import { NcMultiselect } from '@nextcloud/vue'
 import { generateOcsUrl } from '@nextcloud/router'
 
 let uuid = 0
 export default {
 	name: 'SettingsSelectGroup',
 	components: {
-		Multiselect,
+		NcMultiselect,
 	},
 	props: {
 		label: {
