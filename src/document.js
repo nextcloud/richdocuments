@@ -1,5 +1,5 @@
 import { emit } from '@nextcloud/event-bus'
-import { getRootUrl, imagePath } from '@nextcloud/router'
+import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
@@ -146,6 +146,7 @@ const documentsMain = {
 	renderComplete: false, // false till page is rendered with all required data about the document(s)
 	$deferredVersionRestoreAck: null,
 	wopiClientFeatures: null,
+	users: [],
 
 	// generates docKey for given fileId
 	_generateDocKey(wopiFileId) {
@@ -465,6 +466,14 @@ const documentsMain = {
 							console.debug('[document] Unhandled `Clicked_Button` post message', parsed)
 						}
 						break
+					case 'Views_List':
+						documentsMain.users = []
+						parsed.args.forEach((view) => {
+							if (!view.UserId.startsWith('Guest-')) {
+								documentsMain.users.push({ id: view.UserId, label: view.UserName })
+							}
+						})
+						break
 					case 'Get_Views_Resp':
 						if (documentsMain.openingLocally) {
 							documentsMain.UI.removeViews(parsed.args)
@@ -474,6 +483,9 @@ const documentsMain = {
 									documentsMain.openLocally()
 								})
 						}
+						break
+					case 'UI_Mention':
+						documentsMain.sendUserList(parsed.args.text)
 						break
 					default:
 						console.debug('[document] Unhandled post message', parsed)
@@ -591,6 +603,25 @@ const documentsMain = {
 				window.location.href = url
 			})
 		}
+	},
+
+	async sendUserList(search) {
+		let users = documentsMain.users
+
+		if (Config.get('userId') !== null) {
+			try {
+				const result = await axios.get(generateOcsUrl('core/autocomplete/get'), {
+					params: { search },
+				})
+				users = result.data.ocs.data
+			} catch (e) { }
+		}
+
+		const list = users.map((user) => {
+			const profile = window.location.protocol + '//' + getNextcloudUrl() + '/index.php/u/' + user.id
+			return { username: user.label, profile }
+		})
+		PostMessages.sendWOPIPostMessage('loolframe', 'Action_Mention', { list })
 	},
 
 	onStartup() {
