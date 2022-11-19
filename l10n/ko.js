@@ -37,6 +37,7 @@ OC.L10N.register(
     "Close" : "닫기",
     "Error" : "오류",
     "An error occurred" : "오류가 발생함",
+    "Please choose your nickname to continue as guest user." : "방문자로 계속하기 위해 별명을 입력하십시오",
     "Nickname" : "별명",
     "Set" : "설정",
     "Please enter the filename to store the document as." : "문서를 저장할 파일 이름을 입력하십시오.",
