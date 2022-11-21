@@ -153,7 +153,7 @@ OC.L10N.register(
     "Remove from favorites" : "Вилучити з улюбленого",
     "Add to favorites" : "Вподобати",
     "Details" : "Деталі",
-    "Download" : "Завантажити",
+    "Download" : "Звантажити",
     "(read only)" : "(тільки для читання)",
     "Remove user" : "Видалити користувача",
     "Guest" : "Гість",
