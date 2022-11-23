@@ -135,12 +135,13 @@ class DirectViewController extends Controller {
 
 			try {
 				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
+
+				$targetFile = $folder->getById($direct->getTemplateDestination())[0];
+				$relativePath = $folder->getRelativePath($targetFile->getPath());
 			} catch (\Exception $e) {
+				$this->logger->error('Failed to generate token for new file on direct editing', ['exception' => $e]);
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			}
-
-			$relativePath = '/new.odt';
-
 		} else {
 			try {
 				$item = $folder->getById($direct->getFileid())[0];
@@ -158,7 +159,7 @@ class DirectViewController extends Controller {
 
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
-				$this->logger->logException($e);
+				$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 				return $this->renderErrorPage('Failed to open the requested file.');
 			}
 
@@ -168,7 +169,7 @@ class DirectViewController extends Controller {
 		try {
 			$params = [
 				'permissions' => $item->getPermissions(),
-				'title' => $item->getName(),
+				'title' => basename($relativePath),
 				'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
 				'token' => $wopi->getToken(),
 				'urlsrc' => $urlSrc,
