@@ -42,9 +42,10 @@ abstract class Office extends Provider {
 	private $logger;
 
 	public function __construct(IClientService $clientService, IConfig $config, Capabilities $capabilities, ILogger $logger) {
+		parent::__construct();
 		$this->clientService = $clientService;
 		$this->config = $config;
-		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'];
+		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'] ?? [];
 		$this->logger = $logger;
 	}
 
