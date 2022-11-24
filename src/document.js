@@ -15,6 +15,7 @@ import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
 
 import '../css/document.scss'
 import axios from '@nextcloud/axios'
+import { DirectEditEmit, DirectEditListen, DownloadType } from 'nextcloud-direct-editing/dist/index'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,
@@ -22,6 +23,9 @@ const PostMessages = new PostMessageService({
 })
 
 let checkingProxyStatus = false
+
+const directEditEmit = new DirectEditEmit('DirectEditingMobileInterface')
+const directEditListen = new DirectEditListen()
 
 const checkProxyStatus = () => {
 	checkingProxyStatus = true
@@ -298,6 +302,7 @@ const documentsMain = {
 						documentsMain.isFrameReady = true
 						documentsMain.wopiClientFeatures = args.Features
 						callMobileMessage('documentLoaded')
+						directEditEmit.loaded()
 						break
 					case 'Document_Loaded':
 						PostMessages.unregisterPostMessageHandler(editorInitListener)
@@ -412,23 +417,40 @@ const documentsMain = {
 						return PostMessages.sendPostMessage('loolframe', data)
 					}
 
-					if (isMobileInterfaceAvailable()) {
+					if (directEditEmit.isInterfaceAvailable()) {
 						if (msgId === 'Download_As') {
+							let type = DownloadType.Default
+							switch (args['Type']) {
+								case 'print':
+									type = DownloadType.Print
+									break
+								case 'slideshow':
+									type = DownloadType.SlideShow
+									break
+							}
+
+							directEditEmit.downloadAs(args.URL, type)
 							return callMobileMessage('downloadAs', args)
 						}
 						if (msgId === 'File_Rename') {
+							directEditEmit.fileRename(args.NewName)
 							return callMobileMessage('fileRename', args)
 						} else if (msgId === 'UI_Paste') {
+							directEditEmit.paste()
 							callMobileMessage('paste')
 							return
 						}
 						if (msgId === 'UI_Close') {
+							directEditEmit.close()
 							callMobileMessage('close')
 						} else if (msgId === 'UI_InsertGraphic') {
+							directEditEmit.insertImage()
 							callMobileMessage('insertGraphic')
 						} else if (msgId === 'UI_Share') {
+							directEditEmit.share()
 							callMobileMessage('share')
 						} else if (msgId === 'UI_Hyperlink') {
+							directEditEmit.hyperlink(args.Url, args.Name)
 							callMobileMessage('hyperlink', args)
 						}
 						// Fallback to web UI for SaveAs, otherwise ignore other post messages
@@ -437,14 +459,16 @@ const documentsMain = {
 						}
 					}
 
+
+					directEditListen.onClose(documentsMain.onClose)
+					directEditListen.onGrabFocus(documentsMain.postGrabFocus)
+					directEditListen.onPostAsset((data) => {
+						documentsMain.postAsset(data.fileName, data.url)
+					})
+
 					switch (parsed.msgId) {
 					case 'UI_Close':
-					case 'close':
 						documentsMain.onClose()
-						break
-						// Messages received from the viewer
-					case 'postAsset':
-						documentsMain.postAsset(args.FileName, args.Url)
 						break
 					case 'UI_FileVersions':
 					case 'rev-history':
