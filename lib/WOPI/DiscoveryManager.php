@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -22,9 +25,11 @@
 namespace OCA\Richdocuments\WOPI;
 
 use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 class DiscoveryManager {
 
@@ -34,19 +39,24 @@ class DiscoveryManager {
 	private $cache;
 	/** @var IConfig */
 	private $config;
+	/** @var LoggerInterface */
+	private $logger;
 
-	/** @var string */
-	private $discovery;
+	private $discovery = null;
 
-	public function __construct(IClientService $clientService,
-								ICacheFactory $cacheFactory,
-								IConfig $config) {
+	public function __construct(
+		IClientService $clientService,
+		ICacheFactory $cacheFactory,
+		IConfig $config,
+		LoggerInterface $logger
+	) {
 		$this->clientService = $clientService;
 		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
-	public function get() {
+	public function get(): ?string {
 		if ($this->discovery) {
 			return $this->discovery;
 		}
@@ -63,10 +73,9 @@ class DiscoveryManager {
 	}
 
 	/**
-	 * @return \OCP\Http\Client\IResponse
-	 * @throws \Exception
+	 * @throws \Exception if a network error occurs
 	 */
-	public function fetchFromRemote() {
+	public function fetchFromRemote(): IResponse {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		$wopiDiscovery = rtrim($remoteHost, '/') . '/hosting/discovery';
 
@@ -80,14 +89,15 @@ class DiscoveryManager {
 		if ($this->isProxyStarting($wopiDiscovery))
 			$options['timeout'] = 180;
 
-		try {
-			return $client->get($wopiDiscovery, $options);
-		} catch (\Exception $e) {
-			throw $e;
-		}
+		$startTime = microtime(true);
+		$response = $client->get($wopiDiscovery, $options);
+		$duration = round(((microtime(true) - $startTime)), 3);
+		$this->logger->info('Fetched discovery endpoint from ' . $wopiDiscovery . ' in ' . $duration . ' seconds');
+
+		return $response;
 	}
 
-	public function refetch() {
+	public function refetch(): void {
 		$this->cache->remove('discovery');
 		$this->discovery = null;
 	}
@@ -95,7 +105,7 @@ class DiscoveryManager {
 	/**
 	 * @return boolean indicating if proxy.php is in initialize or false otherwise
 	 */
-	private function isProxyStarting($url) {
+	private function isProxyStarting(string $url): bool {
 		$usesProxy = false;
 		$proxyPos = strrpos($url, 'proxy.php');
 		if ($proxyPos === false)

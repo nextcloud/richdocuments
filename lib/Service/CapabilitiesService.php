@@ -30,6 +30,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
+use Psr\Log\LoggerInterface;
 
 class CapabilitiesService {
 
@@ -43,17 +44,21 @@ class CapabilitiesService {
 	private $appManager;
 	/** @var IL10N */
 	private $l10n;
+	/** @var LoggerInterface */
+	private $logger;
+
 
 	/** @var array */
 	private $capabilities;
 
 
-	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager, IL10N $l10n) {
+	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager, IL10N $l10n, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->clientService = $clientService;
 		$this->cache = $cacheFactory->createDistributed('richdocuments');
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
+		$this->logger = $logger;
 	}
 
 	public function getCapabilities() {
@@ -124,7 +129,10 @@ class CapabilitiesService {
 		}
 
 		try {
+			$startTime = microtime(true);
 			$response = $client->get($capabilitiesEndpoint, $options);
+			$duration = round(((microtime(true) - $startTime)), 3);
+			$this->logger->info('Fetched capabilities endpoint from ' . $capabilitiesEndpoint. ' in ' . $duration . ' seconds');
 			$responseBody = $response->getBody();
 			$capabilities = \json_decode($responseBody, true);
 
