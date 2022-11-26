@@ -80,7 +80,7 @@ class Application extends App implements IBootstrap {
 
 
 		$context->injectFn(function (ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager) {
-			if (empty($capabilitiesService->getCapabilities()) || !$permissionManager->isEnabledForUser()) {
+			if (!$permissionManager->isEnabledForUser() || empty($capabilitiesService->getCapabilities())) {
 				return;
 			}
 			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
