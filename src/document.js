@@ -600,9 +600,28 @@ const documentsMain = {
 					+ OC.encodePath(documentsMain.fullPath)
 					+ '?token=' + result.data.ocs.data.token
 
+				this.showOpenLocalConfirmation(url, window.top)
 				window.location.href = url
 			})
 		}
+	},
+
+	showOpenLocalConfirmation(url, _window) {
+		_window.OC.dialogs.confirmDestructive(
+			t('richdocuments', 'If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again.'),
+			t('richdocuments', 'Opening file locally…'),
+			{
+				type: OC.dialogs.YES_NO_BUTTONS,
+				confirm: t('richdocuments', 'Try again'),
+				cancel: t('richdocuments', 'Close')
+			},
+			(decision) => {
+				if (decision) {
+					_window.location = url
+					this.showOpenLocalConfirmation(url, _window)
+				}
+			}
+		)
 	},
 
 	async sendUserList(search) {
