@@ -62,7 +62,8 @@ class Personal implements ISettings {
 			'richdocuments',
 			'personal',
 			[
-				'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', '')
+				'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', ''),
+				'zoteroAPIKey' => $this->config->getUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', '')
 			],
 			'blank'
 		);

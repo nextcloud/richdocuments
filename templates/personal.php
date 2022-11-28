@@ -12,5 +12,14 @@ script('richdocuments', 'richdocuments-personal');
 		<button id="templateResetButton"><span  class="icon-delete" title="<?php p($l->t('Remove personal template folder')); ?>" data-toggle="tooltip"></span></button>
 	</p>
 	<p><em><?php p($l->t('Templates inside of this directory will be added to the template selector of Nextcloud Office.')); ?></em></p>
+
+	<div class="input-wrapper">
+		<p><label for="zoteroAPIKeyField"><?php p($l->t('Enter Zotero API Key')); ?></label><br />
+			<input type="text" name="zoteroAPIKeyField" id="zoteroAPIKeyField" value="<?php p($_['zoteroAPIKey']); ?>"/>
+			<button id="zoteroAPIKeySave"><span title="<?php p($l->t('Save Zotero API key')); ?>" data-toggle="tooltip">Save</span></button>
+			<button id="zoteroAPIKeyRemove"><span  class="icon-delete" title="<?php p($l->t('Remove Zotero API Key')); ?>" data-toggle="tooltip"></span></button>
+		</p>
+		<p><em><?php p($l->t('To use Zotero specify your API key here. You can create your API key in your ')); ?> <a href="https://www.zotero.org/settings/keys" target="_blank"><?php p($l->t('Zotero account API settings.')); ?></a></em></p>
+	</div>
 	</div>
 </div>

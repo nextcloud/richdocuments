@@ -10,6 +10,10 @@ $(function() {
 		this.templateSelectButton = document.getElementById('templateSelectButton')
 		this.templateResetButton = document.getElementById('templateResetButton')
 
+		this.zoteroAPIKeyInput = document.getElementById('zoteroAPIKeyField')
+		this.zoteroAPIKeySaveButton = document.getElementById('zoteroAPIKeySave')
+		this.zoteroAPIKeyRemoveButton = document.getElementById('zoteroAPIKeyRemove')
+
 		const self = this
 		this.templateSelectButton.addEventListener('click', function() {
 			OC.dialogs.filepicker(t('richdocuments', 'Select a personal template folder'), function(datapath, returntype) {
@@ -18,6 +22,12 @@ $(function() {
 		})
 
 		this.templateResetButton.addEventListener('click', this.resetSettings.bind(this))
+
+		this.zoteroAPIKeySaveButton.addEventListener('click', function() {
+				self.updateZoteroAPIKey(self.zoteroAPIKeyInput.value)
+		})
+
+		this.zoteroAPIKeyRemoveButton.addEventListener('click', this.resetZoteroAPI.bind(this))
 	}
 
 	PersonalSettings.prototype.updateSetting = function(path) {
@@ -33,6 +43,24 @@ $(function() {
 		const self = this
 		this._updateSetting({ templateFolder: '' }, function() {
 			self.templateInput.value = ''
+		}, function() {
+
+		})
+	}
+
+	PersonalSettings.prototype.updateZoteroAPIKey = function(key) {
+		const self = this
+		this._updateSetting({ zoteroAPIKeyInput: key }, function() {
+			self.zoteroAPIKeyInput.value = key
+		}, function() {
+
+		})
+	}
+
+	PersonalSettings.prototype.resetZoteroAPI = function() {
+		const self = this
+		this._updateSetting({ zoteroAPIKeyInput: '' }, function() {
+			self.zoteroAPIKeyInput.value = ''
 		}, function() {
 
 		})

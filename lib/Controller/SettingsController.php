@@ -285,13 +285,22 @@ class SettingsController extends Controller {
 	 * @param $value
 	 * @return JSONResponse
 	 */
-	public function setPersonalSettings($templateFolder) {
+	public function setPersonalSettings($templateFolder,
+		$zoteroAPIKeyInput) {
 		$message = $this->l10n->t('Saved');
 		$status = 'success';
 
 		if ($templateFolder !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'templateFolder', $templateFolder);
+			} catch (PreConditionNotMetException $e) {
+				$message = $this->l10n->t('Error when saving');
+				$status = 'error';
+			}
+		}
+		if ($zoteroAPIKeyInput !== null) {
+			try {
+				$this->config->setUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', $zoteroAPIKeyInput);
 			} catch (PreConditionNotMetException $e) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
