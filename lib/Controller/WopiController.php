@@ -559,6 +559,9 @@ class WopiController extends Controller {
 					$access_token) {
 		list($fileId, ,) = Helper::parseFileId($fileId);
 		$wopi = $this->wopiMapper->getWopiForToken($access_token);
+		if ((int) $fileId !== $wopi->getFileid()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
 		$isRenameFile = ($this->request->getHeader('X-WOPI-Override') === 'RENAME_FILE');
 
 		if (!$wopi->getCanwrite()) {
