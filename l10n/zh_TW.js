@@ -154,6 +154,7 @@ OC.L10N.register(
     "Open file locally" : "在本機開啟檔案",
     "Open locally" : "在本機開啟",
     "Continue editing online" : "繼續在線上編輯",
+    "Try again" : "再試一次",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
     "Select a personal template folder" : "選取個人範本資料夾",
     "Saving…" : "儲存中...",

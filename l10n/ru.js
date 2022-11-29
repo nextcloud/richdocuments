@@ -139,6 +139,7 @@ OC.L10N.register(
     "Save As" : "Сохранить как",
     "New filename" : "Новое имя файла",
     "Save" : "Сохранить",
+    "Try again" : "Попытаться снова",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не удалось подключиться к {productName}. Повторите попытку позже или обратитесь к администратору сервера.",
     "Select a personal template folder" : "Выбрать папку с личными шаблонами",
     "Saving…" : "Сохранение…",

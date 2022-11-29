@@ -17,6 +17,7 @@ OC.L10N.register(
     "Nickname" : "Kallenamn",
     "Set" : "Sett",
     "Save" : "Lagra",
+    "Try again" : "Forsøk att",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detaljar",

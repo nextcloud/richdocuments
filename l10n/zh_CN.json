@@ -143,6 +143,7 @@
     "Open file locally" : "在本地打开文件",
     "Open locally" : "本地打开",
     "Continue editing online" : "继续在线编辑",
+    "Try again" : "重试",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "连接到 {productName} 失败。请稍后重试或联系您的服务器管理员。",
     "Select a personal template folder" : "选择个人模板文件夹",
     "Saving…" : "正在保存…",

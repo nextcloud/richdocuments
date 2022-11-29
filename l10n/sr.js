@@ -58,6 +58,7 @@ OC.L10N.register(
     "Save As" : "Сачувај као",
     "New filename" : "Ново име фајла",
     "Save" : "Сачувај",
+    "Try again" : "Покушајте поново",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не могу да се повежем на {productName}. Покушајте касније или контактирајте администратора.",
     "Select a personal template folder" : "Одаберите личну фасциклу за шаблоне",
     "Saving…" : "Снимам…",

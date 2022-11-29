@@ -32,6 +32,7 @@ OC.L10N.register(
     "Save As" : "Guardar Como",
     "New filename" : "Nuevo nombredearchivo",
     "Save" : "Guardar",
+    "Try again" : "Vuelve a intentar",
     "Saving…" : "Guardando...",
     "Remove from favorites" : "Eliminar de favoritos",
     "Add to favorites" : "Agregar a tus favoritos",
