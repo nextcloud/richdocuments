@@ -131,6 +131,7 @@ OC.L10N.register(
     "Save As" : "Salva come",
     "New filename" : "Nuovo nome file",
     "Save" : "Salva",
+    "Try again" : "Riprova",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Connessione a {productName} non riuscita. Riprova più tardi o contatta l'amministratore del tuo server.",
     "Select a personal template folder" : "Seleziona una cartella dei modelli personali",
     "Saving…" : "Salvataggio in corso...",

@@ -154,6 +154,7 @@ OC.L10N.register(
     "Open file locally" : "A fájl megnyitása helyben",
     "Open locally" : "Megnyitás helyben",
     "Continue editing online" : "Online szerkesztés folytatása",
+    "Try again" : "Próbáld újra",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nem sikerült csatlakozni a következőhöz: {productName}. Próbálkozzon újra később, vagy lépjen kapcsolatba a kiszolgáló rendszergazdájával.",
     "Select a personal template folder" : "Válasszon személyes sablonmappát",
     "Saving…" : "Mentés…",

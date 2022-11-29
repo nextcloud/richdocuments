@@ -114,6 +114,7 @@ OC.L10N.register(
     "Save As" : "Gardar como",
     "New filename" : "Novo nome de ficheiro",
     "Save" : "Gardar",
+    "Try again" : "Ténteo de novo",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Produciuse un fallo ao conectar con {productName}. Ténteo de novo máis adiante ou contacte co administrador do seu servidor.",
     "Select a personal template folder" : "Seleccione un cartafol de modelos persoais",
     "Saving…" : "Gardando…",

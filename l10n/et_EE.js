@@ -24,6 +24,7 @@ OC.L10N.register(
     "An error occurred" : "Tekkis tõrge",
     "Nickname" : "Hüüdnimi",
     "Save" : "Salvesta",
+    "Try again" : "Proovi uuesti",
     "Saving…" : "Salvestamine...",
     "Remove from favorites" : "Eemalda lemmikutest",
     "Add to favorites" : "Lisa lemmikutesse",

@@ -38,6 +38,7 @@ OC.L10N.register(
     "Save As" : "Gem som",
     "New filename" : "Nyt filnavn",
     "Save" : "Gem",
+    "Try again" : "Prøv igen",
     "Saving…" : "Gemmer...",
     "Remove from favorites" : "Fjernet fra favoritter",
     "Add to favorites" : "Føj til favoritter",

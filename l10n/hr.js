@@ -118,6 +118,7 @@ OC.L10N.register(
     "Save As" : "Spremi kao",
     "New filename" : "Novi naziv datoteke",
     "Save" : "Spremi",
+    "Try again" : "Pokušajte ponovno",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nije uspjelo povezivanje s {productName}. Pokušajte ponovo kasnije ili se obratite svom administratoru poslužitelja.",
     "Select a personal template folder" : "Odaberite mapu osobnog predloška",
     "Saving…" : "Spremanje...",

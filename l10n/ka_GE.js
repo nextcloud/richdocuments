@@ -33,6 +33,7 @@ OC.L10N.register(
     "Save As" : "შენახვა როგორც",
     "New filename" : "ახალი ფაილის სახელი",
     "Save" : "შენახვა",
+    "Try again" : "სცადეთ ახლიდან",
     "Saving…" : "მიმდინარეობს შენახვა…",
     "Remove from favorites" : "რჩეულებიდან ამოშლა",
     "Add to favorites" : "რჩეულებში დამატება",

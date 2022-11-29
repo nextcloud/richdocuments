@@ -137,6 +137,7 @@
     "Save As" : "保存",
     "New filename" : "新しいファイル名",
     "Save" : "保存",
+    "Try again" : "もう一度やり直してください",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} が読み込めませんでした - しばらく後でもう一度お試しいただくか、このサーバーの管理者に問い合わせてください。",
     "Select a personal template folder" : "個人用のテンプレートフォルダーを選択する",
     "Saving…" : "保存中...",

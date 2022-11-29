@@ -52,6 +52,7 @@ OC.L10N.register(
     "Save As" : "Guardar Como",
     "New filename" : "Nuevo nombre de archivo",
     "Save" : "Guardar",
+    "Try again" : "Vuelve a intentar",
     "Select a personal template folder" : "Seleccionar la carpeta de plantillas personales",
     "Saving…" : "Guardando...",
     "Insert from {name}" : "Insertar desde {name}",
