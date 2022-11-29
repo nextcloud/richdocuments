@@ -45,6 +45,7 @@ OC.L10N.register(
     "Save As" : "Lagre som",
     "New filename" : "Nytt filnavn",
     "Save" : "Lagre",
+    "Try again" : "Prøv igjen",
     "Saving…" : "Lagrer…",
     "Remove from favorites" : "Fjern fra favoritter",
     "Add to favorites" : "Legg til i favoritter",

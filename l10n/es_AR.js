@@ -25,6 +25,7 @@ OC.L10N.register(
     "Please choose your nickname to continue as guest user." : "Por favor, elija su apodo para continuar como usuario invitado.",
     "Nickname" : "Apodo",
     "Save" : "Guardar",
+    "Try again" : "Inténtalo de nuevo",
     "Saving…" : "Guardando...",
     "Remove from favorites" : "Eliminado de favoritos",
     "Add to favorites" : "Agregar a favoritos",

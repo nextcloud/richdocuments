@@ -152,6 +152,7 @@
     "Open file locally" : "Ouvrir le fichier localement",
     "Open locally" : "Ouvrir localement",
     "Continue editing online" : "Continuer à éditer en ligne",
+    "Try again" : "Réessayez",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Impossible de se connecter à {productName}. Veuillez réessayer plus tard ou contacter l'administrateur du serveur.",
     "Select a personal template folder" : "Sélectionnez le dossier personnel des modèles",
     "Saving…" : "Enregistrement…",

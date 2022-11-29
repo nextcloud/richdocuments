@@ -19,6 +19,7 @@ OC.L10N.register(
     "Error" : "Алдаа",
     "Nickname" : "Товч нэр",
     "Save" : "хадгалах",
+    "Try again" : "Дахин оролдоно уу",
     "Saving…" : "хадаглаж байна...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

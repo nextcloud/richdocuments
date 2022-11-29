@@ -154,6 +154,7 @@ OC.L10N.register(
     "Open file locally" : "Otevřít soubor lokálně",
     "Open locally" : "Otevřít lokálně",
     "Continue editing online" : "Pokračovat v úpravách online",
+    "Try again" : "Zkusit znovu",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepodařilo se připojit k {productName}. Zkuste to prosím znovu později nebo se obraťte na správce serveru.",
     "Select a personal template folder" : "Vyberte složku s osobní šablonou",
     "Saving…" : "Ukládání…",

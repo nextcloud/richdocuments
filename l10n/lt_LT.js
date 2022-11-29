@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save As" : "Įrašyti kaip",
     "New filename" : "Naujas failo pavadinimas",
     "Save" : "Įrašyti",
+    "Try again" : "Bandykite dar kartą",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepavyko prisijungti prie {productName}. Vėliau bandykite dar kartą arba susisiekite su savo serverio administratoriumi.",
     "Select a personal template folder" : "Pasirinkti asmeninių šablonų aplanką",
     "Saving…" : "Įrašoma…",
