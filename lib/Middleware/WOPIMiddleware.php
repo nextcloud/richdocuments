@@ -29,6 +29,8 @@ namespace OCA\Richdocuments\Middleware;
 
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Controller\WopiController;
+use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -36,6 +38,7 @@ use OCP\AppFramework\Middleware;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 class WOPIMiddleware extends Middleware {
 
@@ -43,16 +46,39 @@ class WOPIMiddleware extends Middleware {
 	private $config;
 	/** @var IRequest */
 	private $request;
+	/** @var WopiMapper */
+	private $wopiMapper;
+	/** @var LoggerInterface */
+	private $logger;
 
-	public function __construct(IConfig $config, IRequest $request) {
+	public function __construct(IConfig $config, IRequest $request, WopiMapper $wopiMapper, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->request = $request;
+		$this->wopiMapper = $wopiMapper;
+		$this->logger = $logger;
 	}
 
 	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
 		if ($controller instanceof WopiController && !$this->isWOPIAllowed()) {
+			throw new NotPermittedException();
+		}
+
+		if (!$controller instanceof WopiController) {
+			return;
+		}
+
+		try {
+			$fileId = $this->request->getParam('fileId');
+			$accessToken = $this->request->getParam('access_token');
+			[$fileId, ,] = Helper::parseFileId($fileId);
+			$wopi = $this->wopiMapper->getWopiForToken($accessToken);
+			if ((int)$fileId !== $wopi->getFileid()) {
+				throw new NotPermittedException();
+			}
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to validate WOPI access', [ 'exception' => $e ]);
 			throw new NotPermittedException();
 		}
 	}
