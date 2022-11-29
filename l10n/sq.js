@@ -26,6 +26,7 @@ OC.L10N.register(
     "Error" : "Error",
     "Nickname" : "Nofkë",
     "Save" : "Ruaje",
+    "Try again" : "Provo përsëri",
     "Saving…" : "Duke u ruajtur...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Shtoje tek të parapëlqyerat",

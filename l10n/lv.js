@@ -28,6 +28,7 @@ OC.L10N.register(
     "An error occurred" : "Gadījās kļūda",
     "Nickname" : "Iesauka",
     "Save" : "Saglabāt",
+    "Try again" : "Mēģiniet vēlreiz",
     "Saving…" : "Saglabā...",
     "Remove from favorites" : "Noņemt no izlases",
     "Add to favorites" : "Pievienot izlasei",

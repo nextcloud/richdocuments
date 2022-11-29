@@ -131,6 +131,7 @@ OC.L10N.register(
     "Save As" : "Opslaan als",
     "New filename" : "Nieuwe bestandsnaam",
     "Save" : "Opslaan",
+    "Try again" : "Probeer opnieuw",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Verbinding met {productName} misukt. Probeer het later opnieuw or neem contact op met de beheerder.",
     "Select a personal template folder" : "Selecteer een persoonlijke sjablonenmap",
     "Saving…" : "Opslaan...",

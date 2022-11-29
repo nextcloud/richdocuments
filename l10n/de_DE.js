@@ -154,6 +154,7 @@ OC.L10N.register(
     "Open file locally" : "Datei lokal öffnen",
     "Open locally" : "Lokal öffnen",
     "Continue editing online" : "Weiter online bearbeiten",
+    "Try again" : "Nochmals versuchen",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Fehler beim Verbinden mit {productName}. Bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihren Administrator.",
     "Select a personal template folder" : "Persönlichen Vorlagenordner auswählen",
     "Saving…" : "Speichere…",

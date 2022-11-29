@@ -74,6 +74,7 @@ OC.L10N.register(
     "Save As" : "Tallenna nimellä",
     "New filename" : "Uusi tiedostonimi",
     "Save" : "Tallenna",
+    "Try again" : "Yritä uudelleen",
     "Select a personal template folder" : "Valitse henkilökohtainen mallipohjakansio",
     "Saving…" : "Tallennetaan...",
     "Remove from favorites" : "Poista suosikeista",

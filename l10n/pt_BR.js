@@ -150,6 +150,7 @@ OC.L10N.register(
     "Open file locally" : "Abrir o arquivo localmente",
     "Open locally" : "Abrir localmente",
     "Continue editing online" : "Continuar editando on-line",
+    "Try again" : "Tentar novamente",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Falha ao conectar-se a {productName}. Tente novamente mais tarde ou entre em contato com o administrador do servidor.",
     "Select a personal template folder" : "Selecione uma pasta de modelos pessoais",
     "Saving…" : "Salvando...",
