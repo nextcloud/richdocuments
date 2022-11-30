@@ -29,6 +29,7 @@ OC.L10N.register(
     "Nickname" : "كنية.\nلقب.",
     "Set" : "تعيين",
     "Save" : "حفظ",
+    "Try again" : "عاود المحاولة",
     "Saving…" : "جارٍ الحفظ …",
     "Remove from favorites" : "إزالتها مِن المفضلة",
     "Add to favorites" : "أضفه إلى المفضلة",
