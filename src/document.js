@@ -609,7 +609,7 @@ const documentsMain = {
 	showOpenLocalConfirmation(url, _window) {
 		_window.OC.dialogs.confirmDestructive(
 			t('richdocuments', 'If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again.'),
-			t('richdocuments', 'Opening file locally…'),
+			t('richdocuments', 'Opening file locally …'),
 			{
 				type: OC.dialogs.YES_NO_BUTTONS,
 				confirm: t('richdocuments', 'Try again'),
