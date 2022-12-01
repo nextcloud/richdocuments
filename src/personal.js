@@ -39,7 +39,7 @@ $(function() {
 	}
 
 	PersonalSettings.prototype._updateSetting = function(data, successCallback, errorCallback) {
-		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving…'))
+		OC.msg.startAction('#documents-admin-msg', t('richdocuments', 'Saving …'))
 		const request = new XMLHttpRequest()
 		request.open('POST', generateFilePath('richdocuments', 'ajax', 'personal.php'), true)
 		request.setRequestHeader('Content-Type', 'application/json')
