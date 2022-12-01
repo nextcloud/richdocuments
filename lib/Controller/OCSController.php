@@ -317,6 +317,17 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			throw new OCSBadRequestException('path and template must be set');
 		}
 
+		// Hotfix for android having a signed integer overflow and sending negative template id values
+		// This only works until the filecache size may reach 32bit unsigned integer limit,
+		// after that the android app needs to be bumped to use long instead of int
+		$template = (int)$template;
+		if ($template < 0) {
+			$tmpId = (0x7FFFFFFF & $template);
+			$tmpId |= (0x80000000 & ($template >> 32));
+			$template = $tmpId;
+		}
+
+
 		if (!$this->manager->isTemplate($template)) {
 			throw new OCSBadRequestException('Invalid template provided');
 		}
