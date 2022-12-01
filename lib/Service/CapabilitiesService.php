@@ -127,7 +127,10 @@ class CapabilitiesService {
 		}
 
 		try {
+			$startTime = microtime(true);
 			$response = $client->get($capabilitiesEndpoint, $options);
+			$duration = round(((microtime(true) - $startTime)), 3);
+			$this->logger->info('Fetched capabilities endpoint from ' . $capabilitiesEndpoint. ' in ' . $duration . ' seconds');
 			$responseBody = $response->getBody();
 			$capabilities = \json_decode($responseBody, true);
 
