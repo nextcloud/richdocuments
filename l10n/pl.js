@@ -154,6 +154,8 @@ OC.L10N.register(
     "Open file locally" : "Otwórz plik lokalnie",
     "Open locally" : "Otwórz lokalnie",
     "Continue editing online" : "Kontynuuj edycję online",
+    "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Jeśli plik nie otwiera się w lokalnym edytorze, upewnij się, że aplikacja desktopowa Nextcloud jest zainstalowana i otwarta, a następnie spróbuj ponownie.",
+    "Opening file locally…" : "Otwieranie pliku lokalnie…",
     "Try again" : "Spróbuj ponownie",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nie udało się połączyć z {productName}. Spróbuj ponownie później lub skontaktuj się z administratorem serwera.",
     "Select a personal template folder" : "Wybierz własny katalog szablonów",
