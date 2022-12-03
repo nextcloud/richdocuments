@@ -76,7 +76,7 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "Try again" : "Yritä uudelleen",
     "Select a personal template folder" : "Valitse henkilökohtainen mallipohjakansio",
-    "Saving…" : "Tallennetaan...",
+    "Saving …" : "Tallennetaan…",
     "Remove from favorites" : "Poista suosikeista",
     "Add to favorites" : "Lisää suosikkeihin",
     "Details" : "Yksityiskohdat",
@@ -101,6 +101,7 @@ OC.L10N.register(
     "Select a template directory" : "Valitse mallipohjakansio",
     "Remove personal template folder" : "Poista henkilökohtainen mallipohjakansio",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Tallennettu virheen kanssa: Collabora Onlinen tulee käyttää palvelimen kanssa samaa protokollaa.",
+    "Saving…" : "Tallennetaan...",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "Asiakirja on jo olemassa"
 },

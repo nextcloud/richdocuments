@@ -22,7 +22,7 @@ OC.L10N.register(
     "Error" : "Eroare",
     "Nickname" : "Pseudonim",
     "Save" : "Salvează",
-    "Saving…" : "Se salvează...",
+    "Saving …" : "Se salvează",
     "Remove from favorites" : "Șterge din favorite",
     "Add to favorites" : "Adăugați la favorite",
     "Details" : "Detalii",
@@ -30,6 +30,7 @@ OC.L10N.register(
     "Guest" : "Invitat",
     "Could not create file" : "Nu s-a putut crea fisierul",
     "Create" : "Creează",
-    "Select template" : "Selectează șablon"
+    "Select template" : "Selectează șablon",
+    "Saving…" : "Se salvează..."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -25,7 +25,7 @@ OC.L10N.register(
     "An error occurred" : "Terjadi kesalahan",
     "Nickname" : "Nama panggilan",
     "Save" : "Simpan",
-    "Saving…" : "Menyimpan...",
+    "Saving …" : "Menyimpan ...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Tambah ke favorit",
     "Details" : "Detil",
@@ -33,6 +33,7 @@ OC.L10N.register(
     "Guest" : "Tamu",
     "Could not create file" : "Tidak dapat membuat berkas",
     "Create" : "Buat",
-    "Select template" : "Pilih template"
+    "Select template" : "Pilih template",
+    "Saving…" : "Menyimpan..."
 },
 "nplurals=1; plural=0;");

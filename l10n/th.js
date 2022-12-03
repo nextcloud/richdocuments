@@ -52,6 +52,7 @@ OC.L10N.register(
     "An error occurred" : "เกิดข้อผิดพลาด",
     "Nickname" : "ชื่อเล่น",
     "Save" : "บันทึก",
+    "Saving …" : "กำลังบันทึก …",
     "Remove from favorites" : "ลบ รายการโปรด",
     "Add to favorites" : "เพิ่ม รายการโปรด",
     "Details" : "รายละเอียด",

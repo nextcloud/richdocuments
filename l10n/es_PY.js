@@ -33,7 +33,6 @@ OC.L10N.register(
     "New filename" : "Nuevo nombredearchivo",
     "Save" : "Guardar",
     "Try again" : "Vuelve a intentar",
-    "Saving…" : "Guardando...",
     "Remove from favorites" : "Eliminar de favoritos",
     "Add to favorites" : "Agregar a tus favoritos",
     "Details" : "Detalles",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not create file" : "No fue posible crear el archivo",
     "Create" : "Crear",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor.",
+    "Saving…" : "Guardando...",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

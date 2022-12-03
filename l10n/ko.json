@@ -45,7 +45,7 @@
     "New filename" : "새 파일 이름",
     "Save" : "저장",
     "Try again" : "다시 시도",
-    "Saving…" : "저장 중…",
+    "Saving …" : "저장중 …",
     "Remove from favorites" : "즐겨찾기에서 제거",
     "Add to favorites" : "즐겨찾기에 추가",
     "Details" : "세부사항",
@@ -61,6 +61,7 @@
     "template preview" : "템플릿 미리보기",
     "Select a template directory" : "템플릿 디렉터리 선택",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
+    "Saving…" : "저장 중…",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "문서가 이미 존재합니다"
 },"pluralForm" :"nplurals=1; plural=0;"

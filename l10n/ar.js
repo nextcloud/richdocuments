@@ -30,7 +30,6 @@ OC.L10N.register(
     "Set" : "تعيين",
     "Save" : "حفظ",
     "Try again" : "عاود المحاولة",
-    "Saving…" : "جارٍ الحفظ …",
     "Remove from favorites" : "إزالتها مِن المفضلة",
     "Add to favorites" : "أضفه إلى المفضلة",
     "Details" : "التفاصيل",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Create a new document" : "أنشئ مستندا جديدا",
     "Could not create file" : "لا يستطيع انشاء ملف ",
     "Create" : "إنشاء",
-    "Select template" : "حدد قالب"
+    "Select template" : "حدد قالب",
+    "Saving…" : "جارٍ الحفظ …"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -29,7 +29,7 @@ OC.L10N.register(
     "Nickname" : "Iesauka",
     "Save" : "Saglabāt",
     "Try again" : "Mēģiniet vēlreiz",
-    "Saving…" : "Saglabā...",
+    "Saving …" : "Saglabā ...",
     "Remove from favorites" : "Noņemt no izlases",
     "Add to favorites" : "Pievienot izlasei",
     "Details" : "Detaļas",
@@ -38,6 +38,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Could not create file" : "Neizdevās izveidot datni",
     "Create" : "Izveidot",
+    "Saving…" : "Saglabā...",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

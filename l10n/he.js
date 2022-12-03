@@ -76,7 +76,7 @@ OC.L10N.register(
     "Try again" : "לנסות שוב",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "החיבור אל {productName} נכשל. נא לנסות שוב או ליצור קשר עם הנהלת השרת.",
     "Select a personal template folder" : "בחירת תיקיית תבניות אישית",
-    "Saving…" : "מתבצעת שמירה…",
+    "Saving …" : "מתבצעת שמירה…",
     "Insert from {name}" : "הוספה מ־{name}",
     "Remove from favorites" : "הסרה מהמועדפים",
     "Add to favorites" : "הוספה למועדפים",
@@ -102,6 +102,7 @@ OC.L10N.register(
     "Select a template directory" : "בחירת תיקיית תבניות",
     "Remove personal template folder" : "הסרת תיקיית תבניות אישית",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "נשמר עם שגיאה: Collabora Online צריך להשתמש באותו פרוטוקול של ההתקנה בשרת.",
+    "Saving…" : "מתבצעת שמירה…",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "המסמך כבר קיים",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "תבניות בתוך התיקייה הזאת יתווספו לבורר התבניות של Collabora Online."

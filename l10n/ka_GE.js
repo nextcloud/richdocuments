@@ -34,7 +34,6 @@ OC.L10N.register(
     "New filename" : "ახალი ფაილის სახელი",
     "Save" : "შენახვა",
     "Try again" : "სცადეთ ახლიდან",
-    "Saving…" : "მიმდინარეობს შენახვა…",
     "Remove from favorites" : "რჩეულებიდან ამოშლა",
     "Add to favorites" : "რჩეულებში დამატება",
     "Details" : "დეტალები",
@@ -44,6 +43,7 @@ OC.L10N.register(
     "Could not create file" : "ფაილი ვერ შეიქმნა",
     "Create" : "შექმნა",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "შენახულია შეცდომით: Collabora Online უნდა იყენებდეს იგივე პროტოკოლს, რომელსაც იყენებს სერვერის ინსტალაცია.",
+    "Saving…" : "მიმდინარეობს შენახვა…",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n!=1);");
