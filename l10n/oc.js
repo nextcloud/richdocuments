@@ -23,7 +23,7 @@ OC.L10N.register(
     "An error occurred" : "Una error s’es producha",
     "Nickname" : "Escais",
     "Save" : "Enregistrar",
-    "Saving…" : "Enregistrament…",
+    "Saving …" : "Enregistrament...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalhs",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "Guest" : "Convidat",
     "Could not create file" : "Impossible de crear lo fichièr",
     "Create" : "Crear",
+    "Saving…" : "Enregistrament…",
     "Collabora Online" : "Collabora en linha"
 },
 "nplurals=2; plural=(n > 1);");

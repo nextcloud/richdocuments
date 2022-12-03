@@ -27,7 +27,6 @@ OC.L10N.register(
     "Nickname" : "Nofkë",
     "Save" : "Ruaje",
     "Try again" : "Provo përsëri",
-    "Saving…" : "Duke u ruajtur...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Shtoje tek të parapëlqyerat",
     "Details" : "Detajet",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Create" : "Krijo",
     "Select template" : "Zgjidh shabllonin",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
+    "Saving…" : "Duke u ruajtur...",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

@@ -8,8 +8,8 @@ OC.L10N.register(
     "Close" : "Close",
     "Error" : "Error",
     "Save" : "Save",
-    "Saving…" : "Saving…",
     "Details" : "Details",
-    "Download" : "Download"
+    "Download" : "Download",
+    "Saving…" : "Saving…"
 },
 "nplurals=1; plural=0;");

@@ -20,7 +20,6 @@ OC.L10N.register(
     "Nickname" : "Товч нэр",
     "Save" : "хадгалах",
     "Try again" : "Дахин оролдоно уу",
-    "Saving…" : "хадаглаж байна...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Дэлгэрэнгүй",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Could not create file" : "Файл үүсгэж чадсангүй",
     "Create" : "Үүсгэх",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
+    "Saving…" : "хадаглаж байна...",
     "Collabora Online" : "онлайн Collabora "
 },
 "nplurals=2; plural=(n != 1);");
