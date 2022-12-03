@@ -72,7 +72,7 @@ OC.L10N.register(
     "Try again" : "Bandykite dar kartą",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepavyko prisijungti prie {productName}. Vėliau bandykite dar kartą arba susisiekite su savo serverio administratoriumi.",
     "Select a personal template folder" : "Pasirinkti asmeninių šablonų aplanką",
-    "Saving…" : "Įrašoma…",
+    "Saving …" : "Įrašoma…",
     "Insert from {name}" : "Įterpti iš {name}",
     "Remove from favorites" : "Pašalinti iš mėgstamų",
     "Add to favorites" : "Pridėti į mėgstamus",
@@ -97,6 +97,7 @@ OC.L10N.register(
     "template preview" : "šablono peržiūra",
     "Select a template directory" : "Pasirinkite šablonų katalogą",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Įrašyta su klaida: Collabora Online turėtų naudoti tokį patį protokolą kaip ir serverio diegimas.",
+    "Saving…" : "Įrašoma…",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentas jau yra"
 },

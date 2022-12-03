@@ -22,12 +22,12 @@ OC.L10N.register(
     "Set" : "Stel in",
     "Save" : "Stoor",
     "Try again" : "Probeer weer",
-    "Saving…" : "Bewaar…",
     "Remove from favorites" : "Verwyder uit gunstelinge",
     "Add to favorites" : "Voeg by gunstelinge",
     "Details" : "Besonderhede",
     "Download" : "Laai af",
     "Guest" : "Gas",
-    "Create" : "Skep"
+    "Create" : "Skep",
+    "Saving…" : "Bewaar…"
 },
 "nplurals=2; plural=(n != 1);");

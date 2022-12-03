@@ -26,7 +26,6 @@ OC.L10N.register(
     "Nickname" : "Apodo",
     "Save" : "Guardar",
     "Try again" : "Inténtalo de nuevo",
-    "Saving…" : "Guardando...",
     "Remove from favorites" : "Eliminado de favoritos",
     "Add to favorites" : "Agregar a favoritos",
     "Details" : "Detalles",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Select template" : "Seleccionar plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalacion del servidor.",
+    "Saving…" : "Guardando...",
     "Collabora Online" : "Collabora Online",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."
 },

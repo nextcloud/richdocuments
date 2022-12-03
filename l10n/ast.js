@@ -29,7 +29,6 @@ OC.L10N.register(
     "Nickname" : "Nomatu",
     "Save" : "Guardar",
     "Try again" : "Tentalo de nueves",
-    "Saving…" : "Guardando...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalles",
@@ -39,6 +38,7 @@ OC.L10N.register(
     "Could not create file" : "Nun pudo crease'l ficheru",
     "Create" : "Crear",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardóse con fallos: Collabora Online debería usar el mesmu protocolu que'l de la instalación del sirvidor.",
+    "Saving…" : "Guardando...",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");

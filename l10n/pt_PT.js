@@ -57,7 +57,7 @@ OC.L10N.register(
     "New filename" : "Novo Nome de Ficheiro",
     "Save" : "Guardar",
     "Try again" : "Tentar novamente",
-    "Saving…" : "A guardar...",
+    "Saving …" : "A guardar...",
     "Insert from {name}" : "Inserir de {name}",
     "Remove from favorites" : "Remover de favoritos",
     "Add to favorites" : "Adicionar aos favoritos",
@@ -76,6 +76,7 @@ OC.L10N.register(
     "No templates defined." : "Sem modelos definidos",
     "Add a new one?" : "Adicionar novo?",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gravado com erro: Collabora Online deve usar o mesmo protocolo que a instalação do servidor.",
+    "Saving…" : "A guardar...",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "O documento já existe"
 },
