@@ -23,7 +23,7 @@
     "An error occurred" : "Terjadi kesalahan",
     "Nickname" : "Nama panggilan",
     "Save" : "Simpan",
-    "Saving…" : "Menyimpan...",
+    "Saving …" : "Menyimpan ...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Tambah ke favorit",
     "Details" : "Detil",
@@ -31,6 +31,7 @@
     "Guest" : "Tamu",
     "Could not create file" : "Tidak dapat membuat berkas",
     "Create" : "Buat",
-    "Select template" : "Pilih template"
+    "Select template" : "Pilih template",
+    "Saving…" : "Menyimpan..."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

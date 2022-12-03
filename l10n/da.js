@@ -41,7 +41,7 @@ OC.L10N.register(
     "New filename" : "Nyt filnavn",
     "Save" : "Gem",
     "Try again" : "Prøv igen",
-    "Saving…" : "Gemmer...",
+    "Saving …" : "Gemmer ...",
     "Remove from favorites" : "Fjernet fra favoritter",
     "Add to favorites" : "Føj til favoritter",
     "Details" : "Detaljer",
@@ -53,6 +53,7 @@ OC.L10N.register(
     "Create" : "Opret",
     "Select template" : "Vælg model",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Gemt med fejl: Collabora Online skal bruge samme protokol som server installationen.",
+    "Saving…" : "Gemmer...",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");
