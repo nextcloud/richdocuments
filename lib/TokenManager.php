@@ -139,7 +139,7 @@ class TokenManager {
 				// UserCanWrite only if
 				// 1. No edit groups are set or
 				// 2. if they are set, it is in one of the edit groups
-				$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups')));
+				$editGroups = array_filter(explode('|', $this->appConfig->getAppValue('edit_groups', '')));
 				$editorUser = $this->userManager->get($editoruid);
 				if ($updatable && count($editGroups) > 0 && $editorUser) {
 					$updatable = false;
