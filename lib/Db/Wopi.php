@@ -186,7 +186,7 @@ class Wopi extends Entity implements \JsonSerializable {
 		return (bool)$this->direct;
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): mixed {
 		$properties = get_object_vars($this);
 		$reflection = new \ReflectionClass($this);
 		$json = [];
