@@ -22,6 +22,7 @@ OC.L10N.register(
     "Set" : "Stel in",
     "Save" : "Stoor",
     "Try again" : "Probeer weer",
+    "Saving …" : "Bewaar tans…",
     "Remove from favorites" : "Verwyder uit gunstelinge",
     "Add to favorites" : "Voeg by gunstelinge",
     "Details" : "Besonderhede",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Nickname" : "Nomatu",
     "Save" : "Guardar",
     "Try again" : "Tentalo de nueves",
+    "Saving …" : "Guardando...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalles",

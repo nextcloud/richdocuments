@@ -155,6 +155,7 @@
     "Try again" : "Опитай отново",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Неуспешно свързване с {productName}. Моля, опитайте отново по-късно или се свържете с администратора на вашия сървър.",
     "Select a personal template folder" : "Изберете лична папка с шаблони",
+    "Saving …" : "Записване …",
     "Built-in CODE server failed to start" : "Вграденият CODE сървър не успя да стартира",
     "Insert from {name}" : "Вмъкване от {name}",
     "Remove from favorites" : "Премахни от любимите",
