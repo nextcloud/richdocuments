@@ -147,7 +147,7 @@
     "Try again" : "Nochmals versuchen",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Fehler beim Verbinden mit {productName}. Bitte versuchen es noch einmal oder kontaktiere deinen Administrator.",
     "Select a personal template folder" : "Persönlichen Vorlagenordner auswählen",
-    "Saving …" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Saving …" : "Speichern …",
     "Built-in CODE server failed to start" : "Integrierter CODE-Server konnte nicht gestartet werden",
     "Insert from {name}" : "Einfügen von {name}",
     "Remove from favorites" : "Aus den Favoriten entfernen",

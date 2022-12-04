@@ -30,6 +30,7 @@ OC.L10N.register(
     "Set" : "تعيين",
     "Save" : "حفظ",
     "Try again" : "عاود المحاولة",
+    "Saving …" : "جاري الحفظ…",
     "Remove from favorites" : "إزالتها مِن المفضلة",
     "Add to favorites" : "أضفه إلى المفضلة",
     "Details" : "التفاصيل",
