@@ -110,6 +110,7 @@
     "Try again" : "Torna a provar",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "No s'ha pogut connectar amb {productName}. Si us plau, torneu-ho a provar més tard o poseu-vos en contacte amb l'administrador del vostre servidor.",
     "Select a personal template folder" : "Seleccioneu una carpeta de plantilla personal",
+    "Saving …" : "S'està desant …",
     "Insert from {name}" : "Insereix de {name}",
     "Remove from favorites" : "Suprimeix de favorits",
     "Add to favorites" : "Afegeix a favorits",

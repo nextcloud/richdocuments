@@ -12,6 +12,7 @@ OC.L10N.register(
     "Close" : "Seriñ",
     "Error" : "Fazi",
     "Save" : "Enrollañ",
+    "Saving …" : "Orc'h enrolliñ",
     "Remove from favorites" : "Diverkañañ eus ar pennrolloù",
     "Add to favorites" : "Ouzhpennañ er pennrolloù",
     "Details" : "Munudoù",
