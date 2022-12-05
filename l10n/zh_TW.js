@@ -155,6 +155,7 @@ OC.L10N.register(
     "Open locally" : "在本機開啟",
     "Continue editing online" : "繼續在線上編輯",
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "若檔案無法在您的本機編輯器開啟，請確保安裝了 Nextcloud 桌面應用程式，並開啟應用程式後再試一次。",
+    "Opening file locally …" : "本機開啟檔案……",
     "Try again" : "再試一次",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
     "Select a personal template folder" : "選取個人範本資料夾",
