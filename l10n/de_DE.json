@@ -98,7 +98,7 @@
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "Die Einstellungen gelten nur für kompatible Office-Dateien, die in Nextcloud Office geöffnet werden",
     "The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print" : "Die folgenden Optionen in Nextcloud Office werden deaktiviert: Kopieren, Herunterladen, Exportieren, Drucken",
     "Files may still be downloadable through Nextcloud unless restricted otherwise through sharing or access control settings" : "Dateien können weiterhin über Nextcloud heruntergeladen werden, sofern dies nicht durch Freigabe- oder Zugriffskontrolleinstellungen eingeschränkt ist",
-    "Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured" : "Dateien können weiterhin über WOPI-Anforderungen heruntergeladen werden, wenn die WOPI-Einstellungen nicht korrekt konfiguriert sind",
+    "Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured" : "Dateien können u.U. weiterhin über WOPI-Anforderungen heruntergeladen werden, auch wenn die WOPI-Einstellungen nicht korrekt konfiguriert sind",
     "Previews will be blocked for watermarked files to not leak the first page of documents" : "Vorschauen werden für Dateien mit Wasserzeichen blockiert, damit die erste Seite der Dokumente nicht angezeigt wird",
     "Enable watermarking" : "Wasserzeichen aktivieren",
     "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Unterstützte Platzhalter: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
