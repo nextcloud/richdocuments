@@ -224,6 +224,10 @@ class WopiController extends Controller {
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
 		];
 
+		$zoteroAPIKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'zoteroAPIKey', '');
+		if (!empty($zoteroAPIKey)) {
+			$response['UserExtraInfo']['ZoteroAPIKey'] = $zoteroAPIKey;
+		}
 		if ($wopi->hasTemplateId()) {
 			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 			$templateUrl = $this->urlGenerator->getAbsoluteURL($templateUrl);

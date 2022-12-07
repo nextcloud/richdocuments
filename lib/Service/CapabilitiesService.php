@@ -98,6 +98,10 @@ class CapabilitiesService {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}
 
+	public function hasZoteroSupport(): bool {
+		return $this->getCapabilities()['hasZoteroSupport'] ?? false;
+	}
+
 	public function getProductName(): string {
 		$theme = $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud');
 
