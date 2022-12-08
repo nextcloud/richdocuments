@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.8.7
+
+### Fixed
+- Move fileid/token check to the WOPIMiddleware
+- show warning message on protocol mismatch with collabora
+- Keep Safari fallback for larger screen devices
+- richdocumentsframe use 100% of mobile screen height
+
+
 ## 3.8.6
 
 ### Fixed
