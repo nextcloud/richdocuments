@@ -1,5 +1,21 @@
 # Changelog
 
+## 6.3.2
+
+### Fixed
+
+- Improve error handling for global template uploads [#2611](https://github.com/nextcloud/richdocuments/pull/2611)
+- Increase timeout for preview generation [#2633](https://github.com/nextcloud/richdocuments/pull/2633)
+- Fix array access error when requesting preview while not having access to Collabora [#2642](https://github.com/nextcloud/richdocuments/pull/2642)
+- Pass the proper target path/name for new files created through direct editing [#2637](https://github.com/nextcloud/richdocuments/pull/2637)
+- Always show the close button [#2624](https://github.com/nextcloud/richdocuments/pull/2624)
+- Move WOPI checks to the middleware @juliushaertl [#2673](https://github.com/nextcloud/richdocuments/pull/2673)
+- Open PDF files by default when PDF viewer is disabled [#2598](https://github.com/nextcloud/richdocuments/pull/2598)
+- Show warning if "WOPI allow-list" not configured [#2608](https://github.com/nextcloud/richdocuments/pull/2608)
+- Add logging for remote requests [#2654](https://github.com/nextcloud/richdocuments/pull/2654)
+- Fix the return type according to global definition [#2666](https://github.com/nextcloud/richdocuments/pull/2666)
+
+
 ## 6.3.1
 
 ### Added
