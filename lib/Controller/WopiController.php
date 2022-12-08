@@ -550,6 +550,9 @@ class WopiController extends Controller {
 			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
 			list($fileId, , ) = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+			if ((int) $fileId !== $wopi->getFileid()) {
+				return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			}
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
