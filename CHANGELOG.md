@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.0.10
+
+### Fixed
+
+- Move WOPI checks to the middleware @juliushaertl [#2672](https://github.com/nextcloud/richdocuments/pull/2672)
+- Fix array access error when requesting preview while not having access to Collabora [#2643](https://github.com/nextcloud/richdocuments/pull/2643)
+- Increase timeout for preview generation [#2634](https://github.com/nextcloud/richdocuments/pull/2634)
+- Pass the proper target path/name for new files created through direct editing [#2638](https://github.com/nextcloud/richdocuments/pull/2638)
+
+
 ## 5.0.9
 
 ### Fixed
