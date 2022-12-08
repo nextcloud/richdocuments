@@ -1,5 +1,23 @@
 # Changelog
 
+## 7.0.2
+
+### Added
+
+- Add confirmation dialog after document is opened locally [#2649](https://github.com/nextcloud/richdocuments/pull/2649)
+
+### Fixed
+
+- Improve error handling for global template uploads [#2610](https://github.com/nextcloud/richdocuments/pull/2610)
+- Fix array access error when requesting preview while not having access to Collabora [#2641](https://github.com/nextcloud/richdocuments/pull/2641)
+- Increase timeout for preview generation [#2632](https://github.com/nextcloud/richdocuments/pull/2632)
+- Pass the proper target path/name for new files created through direct editing [#2636](https://github.com/nextcloud/richdocuments/pull/2636)
+- Move WOPI checks to the middleware @juliushaertl [#2674](https://github.com/nextcloud/richdocuments/pull/2674)
+- Show warning if "WOPI allow-list" not configured [#2607](https://github.com/nextcloud/richdocuments/pull/2607)
+- Adjust local editing button position in tabbed view [#2603](https://github.com/nextcloud/richdocuments/pull/2603)
+- Fix the return type according to global definition [#2665](https://github.com/nextcloud/richdocuments/pull/2665)
+- Add logging for remote requests [#2653](https://github.com/nextcloud/richdocuments/pull/2653)
+
 ## 7.0.1
 
 ### Added
