@@ -29,6 +29,7 @@ use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\Federation\TrustedServers;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
@@ -81,7 +82,9 @@ class Application extends App {
 		$this->getContainer()->registerService(WOPIMiddleware::class, function () use ($server) {
 			return new WOPIMiddleware(
 				$server->getConfig(),
-				$server->getRequest()
+				$server->getRequest(),
+				$server->query(WopiMapper::class),
+				$server->getLogger()
 			);
 		});
 
