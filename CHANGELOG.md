@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.2.9
+
+### Fixed
+
+- Move WOPI checks to the middleware @juliushaertl [#2671](https://github.com/nextcloud/richdocuments/pull/2671)
+- Do not fail if no directory is passed when creating a file from a template [#2547](https://github.com/nextcloud/richdocuments/pull/2547)
+- Invoke read permission check to trigger terms of services when creating a token [#2565](https://github.com/nextcloud/richdocuments/pull/2565)
+- Fix app display name @julien-nc [#2441](https://github.com/nextcloud/richdocuments/pull/2441)
+
 ## 4.2.8
 
 ## Fixed
