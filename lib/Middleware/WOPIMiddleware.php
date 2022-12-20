@@ -95,7 +95,7 @@ class WOPIMiddleware extends Middleware {
 		if ($allowedRanges === '') {
 			return true;
 		}
-		$allowedRanges = explode(',', $allowedRanges);
+		$allowedRanges = preg_split('/(\s|,|;|\|)+/', $allowedRanges);
 
 		$userIp = $this->request->getRemoteAddress();
 		foreach ($allowedRanges as $range) {
