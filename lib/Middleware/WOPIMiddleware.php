@@ -104,6 +104,7 @@ class WOPIMiddleware extends Middleware {
 			}
 		}
 
+		$this->logger->info('WOPI request denied from ' . $userIp . ' as it does not match the configured ranges: ' . implode(', ', $allowedRanges));
 		return false;
 	}
 
