@@ -28,7 +28,7 @@ class Helper {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function parseFileId($fileId) {
+	public static function parseFileId(string $fileId) {
 		$arr = explode('_', $fileId);
 		$templateId = null;
 		if (count($arr) === 1) {

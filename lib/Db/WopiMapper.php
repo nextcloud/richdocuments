@@ -32,6 +32,7 @@ use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 
+/** @template-extends QBMapper<Wopi> */
 class WopiMapper extends QBMapper {
 	/** @var ISecureRandom */
 	private $random;

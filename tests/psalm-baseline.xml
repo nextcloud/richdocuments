@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.x-dev@">
+<files psalm-version="dev-master@">
   <file src="lib/AppConfig.php">
     <InvalidArgument occurrences="1">
       <code>[]</code>
@@ -22,9 +22,6 @@
       <code>OpenDocument</code>
       <code>Pdf</code>
     </MissingDependency>
-    <UndefinedClass occurrences="1">
-      <code>BeforePreviewFetchedEvent</code>
-    </UndefinedClass>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <RedundantCondition occurrences="1">
@@ -49,9 +46,6 @@
       <code>IRootFolder</code>
       <code>IRootFolder</code>
     </MissingDependency>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;userScopeService</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/Controller/DirectViewController.php">
     <InvalidScalarArgument occurrences="1">
@@ -72,8 +66,7 @@
     </UndefinedClass>
   </file>
   <file src="lib/Controller/DocumentController.php">
-    <InvalidScalarArgument occurrences="5">
-      <code>$fileId</code>
+    <InvalidScalarArgument occurrences="4">
       <code>$item-&gt;getId()</code>
       <code>$item-&gt;getId()</code>
       <code>$item-&gt;getId()</code>
@@ -116,12 +109,6 @@
     <InvalidThrow occurrences="1">
       <code>NotFoundResponse</code>
     </InvalidThrow>
-    <MismatchingDocblockParamType occurrences="1">
-      <code>L10N</code>
-    </MismatchingDocblockParamType>
-    <UndefinedDocblockClass occurrences="1">
-      <code>L10N</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/WopiController.php">
     <MissingDependency occurrences="11">
@@ -151,11 +138,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$time</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="lib/Listener/BeforeFetchPreviewListener.php">
-    <UndefinedClass occurrences="1">
-      <code>BeforePreviewFetchedEvent</code>
-    </UndefinedClass>
   </file>
   <file src="lib/PermissionManager.php">
     <RedundantCondition occurrences="1">

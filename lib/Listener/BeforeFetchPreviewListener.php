@@ -38,6 +38,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
+/** @template-implements IEventListener<Event|BeforePreviewFetchedEvent> */
 class BeforeFetchPreviewListener implements IEventListener {
 	private PermissionManager $permissionManager;
 	private IUserSession $userSession;

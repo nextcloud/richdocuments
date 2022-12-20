@@ -26,13 +26,10 @@ namespace OCA\Richdocuments\Db;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
-/**
- * @method findEntity(IQueryBuilder $query): Asset
- */
+/** @template-extends QBMapper<Asset> */
 class AssetMapper extends QBMapper {
 	/** @var int Lifetime of a token is 10 minutes */
 	public const TOKEN_TTL = 600;

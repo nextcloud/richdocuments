@@ -96,10 +96,9 @@ class DocumentController extends Controller {
 	 * Requests is accepted only when a secret_token is provided set by admin in
 	 * settings page
 	 *
-	 * @param string $fileId
 	 * @return array access_token, urlsrc
 	 */
-	public function extAppGetData($fileId) {
+	public function extAppGetData(int $fileId) {
 		$secretToken = $this->request->getParam('secret_token');
 		$apps = array_filter(explode(',', $this->appConfig->getAppValue('external_apps')));
 		foreach ($apps as $app) {
