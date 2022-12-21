@@ -35,6 +35,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
+/** @template-implements IEventListener<Event|LoadViewer> */
 class LoadViewerListener implements IEventListener {
 	/** @var PermissionManager */
 	private $permissionManager;

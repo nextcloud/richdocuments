@@ -34,6 +34,7 @@ use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IRequest;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 
+/** @template-implements IEventListener<Event|AddContentSecurityPolicyEvent> */
 class CSPListener implements IEventListener {
 	private IRequest $request;
 	private AppConfig $config;

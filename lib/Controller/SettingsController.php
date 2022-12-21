@@ -471,7 +471,7 @@ class SettingsController extends Controller {
 		if (empty($file)) {
 			throw new UploadException($this->l10n->t('No file uploaded or file size exceeds maximum of %s', [Util::humanFileSize(Util::uploadLimit())]));
 		}
-		if (!empty($file) && array_key_exists('error', $file) && $file['error'] !== UPLOAD_ERR_OK) {
+		if (array_key_exists('error', $file) && $file['error'] !== UPLOAD_ERR_OK) {
 			throw new UploadException($phpFileUploadErrors[$file['error']]);
 		}
 		return $file;

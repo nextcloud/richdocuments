@@ -32,9 +32,11 @@ use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Share\IShare;
 use OCP\Util;
 
+/** @template-implements IEventListener<Event|ShareLinkAccessedEvent> */
 class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 	/** @var PermissionManager */
 	private $permissionManager;

@@ -104,7 +104,7 @@ class TokenManager {
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function getToken($fileId, $shareToken = null, $editoruid = null, $direct = false) {
+	public function getToken(string $fileId, $shareToken = null, $editoruid = null, $direct = false) {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;

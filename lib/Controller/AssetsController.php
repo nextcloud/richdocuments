@@ -38,17 +38,11 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class AssetsController extends Controller {
-	/** @var AssetMapper */
-	private $assetMapper;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var string */
-	private $userId;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
+	private AssetMapper $assetMapper;
+	private IRootFolder $rootFolder;
+	private ?string $userId;
+	private UserScopeService $userScopeService;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct($appName,
 		IRequest $request,
