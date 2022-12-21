@@ -116,7 +116,7 @@ class WOPIMiddleware extends Middleware {
 	private function matchCidr(string $ip, string $range): bool {
 		list($subnet, $bits) = array_pad(explode('/', $range), 2, null);
 		if ($bits === null) {
-			$bits = 32;
+			$bits = strpos($subnet, ':') !== false ? 128 : 32;
 		}
 		$bits = (int)$bits;
 
