@@ -127,6 +127,7 @@ OC.L10N.register(
     "template preview" : "поглед на шаблон",
     "Select a template directory" : "Избери директориум за шаблони",
     "Remove personal template folder" : "Отстрани го директориумот за сопствени шаблони",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Шаблоните во оваа папка ќе бидат додадени во делот за шаблони на Nextcloud Office.",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Зачувано со грешка: Collabora Online треба да го користи истиот протокол како инсталација на серверот.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "За користење на Collabora Online, потребно е користење на различен сервер кој работи како WOPI-клиент за да овозможи услови за уредување на датотеки.",
     "Saving…" : "Зачувува ...",
