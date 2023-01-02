@@ -56,3 +56,9 @@ class OC_Helper {
 	public static function getFileTemplateManager() {
 	}
 }
+
+namespace Symfony\Component\HttpFoundation {
+	class IpUtils {
+		public static function checkIp(?string $requestIp, $ips) {}
+	}
+}
