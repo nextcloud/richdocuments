@@ -40,7 +40,7 @@ if (OCA.Viewer) {
 
 // TODO: Viewer.openWith introduced with https://github.com/nextcloud/viewer/pull/1273
 //       This check can be replaced with `if(OCA.Viewer)` once NC 24 is EOL.
-if (OCA.Viewer.openWith) {
+if (OCA.Viewer.openWith && OCA?.Files?.fileActions) {
 	const supportedMimes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
 	const actionName = 'Edit with ' + getCapabilities().richdocuments.productName
 	const actionDisplayNameEdit = t('richdocuments', 'Edit with {productName}', { productName: getCapabilities().richdocuments.productName }, undefined, { escape: false })
