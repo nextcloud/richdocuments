@@ -7,31 +7,16 @@ import { showError } from '@nextcloud/dialogs'
 import { getDocumentUrlFromTemplate, getDocumentUrlForPublicFile, getDocumentUrlForFile } from './helpers/url'
 import PostMessageService from './services/postMessage.tsx'
 import Config from './services/config.tsx'
-import Types from './helpers/types'
-import FilesAppIntegration from './view/FilesAppIntegration'
-import { splitPath } from './helpers'
-import NewFileMenu from './view/NewFileMenu'
+import Types from './helpers/types.js'
+import FilesAppIntegration from './view/FilesAppIntegration.js'
+import { splitPath } from './helpers/index.js'
+import { enableScrollLock, disableScrollLock } from './helpers/safariFixer.js'
+import NewFileMenu from './view/NewFileMenu.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
 	FRAME_DOCUMENT: () => document.getElementById('richdocumentsframe').contentWindow,
 })
-
-const isBrandedVersion = OC.getCapabilities().richdocuments.collabora.productVersion.split('.')[0] >= 21
-
-// Workaround for Safari to resize the iframe to the proper height
-// as 100vh is not the proper viewport height there
-const handleResize = () => {
-	const frame = document.getElementById('richdocumentsframe')
-	if (frame) {
-		const headerOffset = (!isBrandedVersion && window.innerWidth > 768) ? 50 : 0
-		frame.style.maxHeight = (document.documentElement.clientHeight - headerOffset) + 'px'
-	}
-}
-window.addEventListener('resize', handleResize)
-if (window && window.visualViewport) {
-	visualViewport.addEventListener('resize', handleResize)
-}
 
 const isDownloadHidden = document.getElementById('hideDownload') && document.getElementById('hideDownload').value === 'true'
 
@@ -53,6 +38,8 @@ const odfViewer = {
 		let fileDir
 		let fileId
 		let templateId
+
+		enableScrollLock()
 
 		if (!odfViewer.isCollaboraConfigured) {
 			$.get(generateOcsUrl('cloud') + '/capabilities?format=json').then(
@@ -162,6 +149,7 @@ const odfViewer = {
 	},
 
 	onClose() {
+		disableScrollLock()
 		odfViewer.open = false
 		clearTimeout(odfViewer.loadingTimeout)
 		odfViewer.receivedLoading = false
@@ -291,7 +279,6 @@ $(document).ready(function() {
 					...FilesAppIntegration.loggingContext(),
 				})
 			} else {
-				handleResize()
 				emit('richdocuments:file-open:succeeded', {
 					...FilesAppIntegration.loggingContext(),
 				})
