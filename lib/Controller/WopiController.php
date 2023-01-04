@@ -205,6 +205,7 @@ class WopiController extends Controller {
 			'OwnerId' => $wopi->getOwnerUid(),
 			'UserFriendlyName' => $userDisplayName,
 			'UserExtraInfo' => [],
+			'UserPrivateInfo' => [],
 			'UserCanWrite' => (bool)$wopi->getCanwrite(),
 			'UserCanNotWriteRelative' => $isPublic || $this->encryptionManager->isEnabled() || $wopi->getHideDownload(),
 			'PostMessageOrigin' => $wopi->getServerHost(),
@@ -226,7 +227,7 @@ class WopiController extends Controller {
 
 		$zoteroAPIKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'zoteroAPIKey', '');
 		if (!empty($zoteroAPIKey)) {
-			$response['UserExtraInfo']['ZoteroAPIKey'] = $zoteroAPIKey;
+			$response['UserPrivateInfo']['ZoteroAPIKey'] = $zoteroAPIKey;
 		}
 		if ($wopi->hasTemplateId()) {
 			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
