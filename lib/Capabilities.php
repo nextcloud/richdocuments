@@ -104,6 +104,7 @@ class Capabilities implements ICapability {
 		if (!$this->capabilities) {
 			$collaboraCapabilities = $this->capabilitiesService->getCapabilities();
 			$filteredMimetypes = self::MIMETYPES;
+			$optionalMimetypes = self::MIMETYPES_OPTIONAL;
 			// If version is too old, draw is not supported
 			if (!$this->capabilitiesService->hasDrawSupport()) {
 				$filteredMimetypes = array_diff($filteredMimetypes, [
@@ -114,13 +115,14 @@ class Capabilities implements ICapability {
 
 			if (!$this->appManager->isEnabledForUser('files_pdfviewer')) {
 				$filteredMimetypes[] = 'application/pdf';
+				$optionalMimetypes = array_diff($optionalMimetypes, ['application/pdf']);
 			}
 
 			$this->capabilities = [
 				'richdocuments' => [
 					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
-					'mimetypes' => $filteredMimetypes,
-					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
+					'mimetypes' => array_values($filteredMimetypes),
+					'mimetypesNoDefaultOpen' => array_values($optionalMimetypes),
 					'collabora' => $collaboraCapabilities,
 					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
 					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
