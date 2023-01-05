@@ -1,6 +1,15 @@
 name: Cypress
 
-on: [push]
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 env:
   APP_NAME: richdocuments
@@ -41,7 +50,7 @@ jobs:
         run: npm i -g npm@7
 
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
@@ -54,7 +63,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Checkout viewer
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: nextcloud/viewer
           ref: ${{ matrix.server-versions }}
@@ -138,7 +147,12 @@ jobs:
           parallel: true
           wait-on: '${{ env.CYPRESS_baseUrl }}'
           working-directory: 'apps/${{ env.APP_NAME }}'
+          config: defaultCommandTimeout=10000,video=false
+          tag: ${{ github.event_name }}
         env:
+          # https://github.com/cypress-io/github-action/issues/124
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+          COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Upload test failure screenshots
