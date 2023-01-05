@@ -148,7 +148,7 @@ OC.L10N.register(
     "Open in local editor" : "Отваряне в локален редактор",
     "Please enter the filename to store the document as." : "Моля, въведете името на файла, за да съхраните документа като.",
     "Save As" : "Запиши като",
-    "New filename" : "Ново име на файл",
+    "New filename" : "Име на нов файл",
     "Save" : "Запазване",
     "When opening a file locally, the document will close for all users currently viewing the document." : "При отваряне на файл в локален редактор документът ще се затвори за всички потребители, които го разглеждат в момента.",
     "Open file locally" : "Локално отваряне на файл",
