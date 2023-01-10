@@ -31,7 +31,6 @@ describe('Create new office files', function() {
 	})
 
 	it('Shows create file entries', function() {
-		cy.visit('/apps/files')
 		cy.get('.files-controls .button.new')
 			.should('be.visible')
 			.click()
@@ -55,7 +54,6 @@ describe('Create new office files', function() {
 	]
 	newFileTypeLabels.forEach((filetype) => {
 		it('Create empty ' + filetype + ' file', function() {
-			cy.visit('/apps/files')
 			cy.get('.files-controls .button.new')
 				.should('be.visible')
 				.click()

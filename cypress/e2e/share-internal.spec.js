@@ -33,9 +33,6 @@ describe('File sharing of office documents', function() {
 		cy.uploadFile(shareOwner, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
 		cy.uploadFile(shareOwner, 'spreadsheet.ods', 'application/vnd.oasis.opendocument.spreadsheet', '/spreadsheet.ods')
 	})
-	beforeEach(function() {
-		cy.login(shareOwner)
-	})
 
 	it('Open a shared file', function() {
 		const filename = 'document.odt'
