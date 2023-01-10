@@ -74,7 +74,7 @@ class WOPIMiddleware extends Middleware {
 			$accessToken = $this->request->getParam('access_token');
 			[$fileId, ,] = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($accessToken);
-			if ((int)$fileId !== $wopi->getFileid()) {
+			if ((int)$fileId !== $wopi->getFileid() && (int)$fileId !== $wopi->getTemplateId()) {
 				throw new NotPermittedException();
 			}
 		} catch (\Exception $e) {
