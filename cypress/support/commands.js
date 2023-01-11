@@ -31,6 +31,24 @@ Cypress.Commands.add('logout', (route = '/') => {
 	})
 })
 
+Cypress.Commands.add('createFolder', (user, target) => {
+	cy.login(user)
+	const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+	const dirPath = target.split('/').map(encodeURIComponent).join('/')
+
+	return cy.request('/csrftoken')
+		.then(({ body }) => body.token)
+		.then(requesttoken => {
+			return cy.request({
+				url: `${rootPath}/${dirPath}`,
+				method: 'MKCOL',
+				headers: {
+					requesttoken,
+				},
+			})
+		})
+})
+
 /**
  * cy.uploadedFile - uploads a file from the fixtures folder
  *
@@ -40,7 +58,7 @@ Cypress.Commands.add('logout', (route = '/') => {
  * @param {string} [target] the target of the file relative to the user root
  */
 Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixture}`) => {
-	cy.clearCookies()
+	cy.login(user)
 	const fileName = basename(target)
 
 	// get fixture
@@ -53,20 +71,18 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 		const filePath = target.split('/').map(encodeURIComponent).join('/')
 		try {
 			const file = new File([blob], fileName, { type: mimeType })
-			await axios({
-				url: `${rootPath}${filePath}`,
-				method: 'PUT',
-				data: file,
-				headers: {
-					'Content-Type': mimeType,
-				},
-				auth: {
-					username: user.userId,
-					password: user.password,
-				},
-			}).then(response => {
-				cy.log(`Uploaded ${fixture} as ${fileName}`, response)
-			})
+			return cy.request('/csrftoken')
+				.then(({ body }) => body.token)
+				.then(requesttoken => {
+					return axios.put(`${rootPath}/${filePath}`, file, {
+						headers: {
+							requesttoken,
+							'Content-Type': mimeType,
+						},
+					}).then(response => {
+						cy.log(`Uploaded ${fileName}`, response.status)
+					})
+				})
 		} catch (error) {
 			cy.log(error)
 			throw new Error(`Unable to process fixture ${fixture}`)
@@ -127,6 +143,25 @@ Cypress.Commands.add('nextcloudEnableApp', (appId) => {
 	})
 })
 
+Cypress.Commands.add('setPersonalTemplateFolder', (user, templateFolder) => {
+	cy.login(user)
+	templateFolder = templateFolder.split('/').map(encodeURIComponent).join('/')
+
+	return cy.request('/csrftoken')
+		.then(({ body }) => body.token)
+		.then(requesttoken => {
+			return cy.request({
+				url: `${Cypress.env('baseUrl')}/index.php/apps/richdocuments/ajax/personal.php`,
+				method: 'POST',
+				headers: {
+					requesttoken,
+				},
+				body: {
+					templateFolder,
+				},
+			})
+		})
+})
 Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configValue) => {
 	cy.login(new User('admin', 'admin'))
 	cy.request({
