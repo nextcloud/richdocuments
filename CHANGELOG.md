@@ -1,5 +1,16 @@
 # Changelog
 
+## 5.0.11
+
+### Fixed
+
+- Fix creating new files from user templates [#2742](https://github.com/nextcloud/richdocuments/pull/2742)
+- Another attempt to work around Safari issues [#2719](https://github.com/nextcloud/richdocuments/pull/2719)
+- Be less strict with splitting the wopi allow list [#2694](https://github.com/nextcloud/richdocuments/pull/2694)
+- Improve error handling for global template uploads [#2612](https://github.com/nextcloud/richdocuments/pull/2612)
+- Fix IPv6 handling in WOPI allow list [#2711](https://github.com/nextcloud/richdocuments/pull/2711)
+
+
 ## 5.0.10
 
 ### Fixed
