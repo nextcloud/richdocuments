@@ -85,19 +85,22 @@ class Capabilities implements ICapability {
 	private $permissionManager;
 	/** @var IAppManager */
 	private $appManager;
+	private ?string $userId = null;
 
 	private $capabilities = null;
 
-	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager) {
+	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager, ?string $userId) {
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->capabilitiesService = $capabilitiesService;
 		$this->permissionManager = $permissionManager;
 		$this->appManager = $appManager;
+		$this->userId = $userId;
 	}
 
 	public function getCapabilities() {
-		if (!$this->permissionManager->isEnabledForUser()) {
+		// Only expose capabilities for users with enabled office or guests (where it depends on the share owner if they have access)
+		if (!$this->permissionManager->isEnabledForUser() && $this->userId !== null) {
 			return [];
 		}
 
