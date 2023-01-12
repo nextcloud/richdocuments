@@ -70,7 +70,9 @@ class PermissionManager {
 		}
 
 		if ($userId === null) {
-			return true;
+			// Access for public users will be checked separately based on the share owner
+			// when generating the WOPI  token and loading the scripts on public share links
+			return false;
 		}
 
 		if ($groupList === null || $groupList === []) {
