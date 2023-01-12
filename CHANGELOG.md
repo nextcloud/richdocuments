@@ -1,5 +1,26 @@
 # Changelog
 
+
+## 7.1.0
+
+### Added
+
+- introduce zotero integration for Nextcloud Office (Collabora Online) [#2738](https://github.com/nextcloud/richdocuments/pull/2738)
+
+### Fixed
+
+- Be less strict with splitting the wopi allow list [#2693](https://github.com/nextcloud/richdocuments/pull/2693)
+- Another attempt to work around Safari issues [#2718](https://github.com/nextcloud/richdocuments/pull/2718)
+- fix: Open pdf files by default on share links if files_pdfviewer is disabled [#2724](https://github.com/nextcloud/richdocuments/pull/2724)
+- fix(viewer): Do not attempt to register file actions if not available [#2721](https://github.com/nextcloud/richdocuments/pull/2721)
+- Load viewer scripts depending on share ownership [#2747](https://github.com/nextcloud/richdocuments/pull/2747)
+- Fix creating new files from user templates [#2741](https://github.com/nextcloud/richdocuments/pull/2741)
+- Log info message on wopi ip mismatch [#2690](https://github.com/nextcloud/richdocuments/pull/2690)
+- Fix IPv6 handling in WOPI allow list [#2709](https://github.com/nextcloud/richdocuments/pull/2709)
+- minimal template.odg (locale agnostic) [#2731](https://github.com/nextcloud/richdocuments/pull/2731)
+- Use private field for sharing Zotero key [#2739](https://github.com/nextcloud/richdocuments/pull/2739)
+
+
 ## 7.0.2
 
 ### Added
