@@ -42,16 +42,19 @@ class LoadViewerListener implements IEventListener {
 	/** @var InitialStateService */
 	private $initialStateService;
 
-	public function __construct(PermissionManager $permissionManager, InitialStateService $initialStateService) {
+	private ?string $userId = null;
+
+	public function __construct(PermissionManager $permissionManager, InitialStateService $initialStateService, ?string $userId) {
 		$this->permissionManager = $permissionManager;
 		$this->initialStateService = $initialStateService;
+		$this->userId = $userId;
 	}
 
 	public function handle(Event $event): void {
 		if (!$event instanceof LoadViewer) {
 			return;
 		}
-		if ($this->permissionManager->isEnabledForUser()) {
+		if ($this->permissionManager->isEnabledForUser() && $this->userId !== null) {
 			$this->initialStateService->provideCapabilities();
 			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
 		}
