@@ -187,6 +187,11 @@ class TokenManager {
 			throw new NotPermittedException();
 		}
 
+		// Safeguard that users without required group permissions cannot create a token
+		if (!$this->permissionManager->isEnabledForUser($owneruid) && !$this->permissionManager->isEnabledForUser($editoruid)) {
+			throw new NotPermittedException();
+		}
+
 		// force read operation to trigger possible audit logging
 		\OC_Hook::emit(
 			Filesystem::CLASSNAME,
