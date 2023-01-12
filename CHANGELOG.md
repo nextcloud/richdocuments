@@ -1,5 +1,17 @@
 # Changelog
 
+### Fixed
+
+- Be less strict with splitting the wopi allow list [#2695](https://github.com/nextcloud/richdocuments/pull/2695)
+- Another attempt to work around Safari issues [#2720](https://github.com/nextcloud/richdocuments/pull/2720)
+- Load viewer scripts depending on share ownership [#2748](https://github.com/nextcloud/richdocuments/pull/2748)
+- Fix creating new files from user templates [#2743](https://github.com/nextcloud/richdocuments/pull/2743)
+- fix: Open pdf files by default on share links if files_pdfviewer is disabled [#2725](https://github.com/nextcloud/richdocuments/pull/2725)
+- Fix IPv6 handling in WOPI allow list [#2710](https://github.com/nextcloud/richdocuments/pull/2710)
+- minimal template.odg (locale agnostic) [#2732](https://github.com/nextcloud/richdocuments/pull/2732)
+- Log info message on wopi ip mismatch [#2691](https://github.com/nextcloud/richdocuments/pull/2691)
+
+
 ## 6.3.2
 
 ### Fixed
