@@ -136,19 +136,20 @@ class DirectContext implements Context {
 			). '/';
 		}
 		$contents = $response->getBody()->getContents();
-		$re = '/var richdocuments_([A-z]+) = (.*);/m';
+
+		$re = '/id="initial-state-richdocuments-([A-z]+)" value="(.*)"/m';
 		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
-		$params = [];
+		$initialState = [];
 		foreach ($matches as $match) {
-			$params[$match[1]] = str_replace("'", "", $match[2]);
+			$initialState[$match[1]] = json_decode(base64_decode($match[2], true), true);
 		}
 
-		Assert::assertNotEmpty($params['fileId']);
-		Assert::assertNotEmpty($params['token']);
+		Assert::assertNotEmpty($initialState['fileId']);
+		Assert::assertNotEmpty($initialState['token']);
 
 		$currentServer = $currentServer ?? $this->serverContext->getBaseUrl();
 
-		$this->wopiContext->setWopiParameters($currentServer, $params['fileId'], $params['token']);
+		$this->wopiContext->setWopiParameters($currentServer, $initialState['fileId'], $initialState['token']);
 		Assert::assertEquals(200, $response->getStatusCode());
 	}
 
