@@ -168,6 +168,7 @@ OC.L10N.register(
     "Create" : "Sortu",
     "Select template" : "Hautatu txantiloia",
     "Edit with {productName}" : "Editatu honekin: {productName}",
+    "Open with {productName}" : "Ireki {productName}-(r)ekin",
     "Global templates" : "Txantiloi orokorrak",
     "Add a new template" : "Gehitu txantiloi berri bat",
     "No templates defined." : "Ez da txantiloirik definitu.",
