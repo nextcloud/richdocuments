@@ -5,7 +5,7 @@
 	"prefer-stable": true,
 	"config": {
 		"platform": {
-			"php": "7.4"
+			"php": "8.0"
 		}
 	},
 	"require-dev": {
@@ -28,7 +28,8 @@
 		"psalm": "psalm.phar",
 		"psalm:fix": "psalm.phar --alter --issues=InvalidReturnType,InvalidNullableReturnType,MismatchingDocblockParamType,MismatchingDocblockReturnType,MissingParamType,InvalidFalsableReturnType",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
-		"cs:fix": "php-cs-fixer fix"
+		"cs:fix": "php-cs-fixer fix",
+		"test:unit": "vendor/bin/phpunit -c tests/phpunit.xml"
 	},
 	"autoload-dev": {
 		"psr-4": {
