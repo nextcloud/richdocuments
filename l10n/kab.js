@@ -10,10 +10,13 @@ OC.L10N.register(
     "Cancel" : "Sefsex",
     "Close" : "Mdel",
     "Error" : "Erreur",
+    "Set" : "Sbadu",
     "Save" : "Sekles",
+    "Remove from favorites" : "Kkes-it seg ismal",
     "Add to favorites" : "Rnu ismal",
     "Details" : "Talqayt",
     "Download" : "Sider",
+    "Guest" : "Inebgi",
     "Create" : "Snulfu-d"
 },
 "nplurals=2; plural=(n != 1);");
