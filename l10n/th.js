@@ -21,7 +21,7 @@ OC.L10N.register(
     "Could not write file to disk" : "ไม่สามารถเขียนไฟล์ลงดิสก์",
     "A PHP extension stopped the file upload" : "ส่วนขยาย PHP ได้หยุดการอัปโหลดไฟล์",
     "File is too big" : "ไฟล์มีขนาดใหญ่เกินไป",
-    "Only template files can be uploaded" : "สามารถอัพโหลดได้เฉพาะไฟล์เทมเพลท",
+    "Only template files can be uploaded" : "สามารถอัปโหลดได้เฉพาะไฟล์เทมเพลท",
     "Invalid file provided" : "ระบุไฟล์ไม่ถูกต้อง",
     "Template not found" : "ไม่พบเทมเพลท",
     "Office" : "สำนักงาน",
@@ -60,8 +60,8 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Create" : "สร้าง",
-    "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกกับข้อผิดพลาด: Collabora ออนไลน์ควรใช้โปรโตคอลเดียวกันกับตอนติดตั้งเซิร์ฟเวอร์",
-    "Collabora Online" : "Collabora ออนไลน์",
+    "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกแล้ว แต่มีข้อผิดพลาด: Collabora Online ควรใช้โปรโตคอลเดียวกับการติดตั้งบนเซิร์ฟเวอร์",
+    "Collabora Online" : "Collabora Online",
     "Document already exists" : "มีเอกสารอยู่แล้ว"
 },
 "nplurals=1; plural=0;");
