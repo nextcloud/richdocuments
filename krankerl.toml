@@ -1,5 +1,7 @@
 [package]
 before_cmds = [
+	"composer install --working-dir=composer/",
+	"composer dump --working-dir=composer/",
 	"npm ci",
 	"npm run build"
 ]
