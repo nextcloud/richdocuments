@@ -22,7 +22,7 @@
  */
 
 
-namespace OCA\RichDocuments\Command;
+namespace OCA\Richdocuments\Command;
 
 use OCA\Richdocuments\TemplateManager;
 use Symfony\Component\Console\Command\Command;

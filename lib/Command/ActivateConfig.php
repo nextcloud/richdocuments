@@ -22,7 +22,7 @@
  */
 
 
-namespace OCA\RichDocuments\Command;
+namespace OCA\Richdocuments\Command;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
