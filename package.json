@@ -18,8 +18,8 @@
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
 		"lint:cypress": "eslint --ext .js cypress",
-		"stylelint": "stylelint css/* src",
-		"stylelint:fix": "stylelint css/* src --fix",
+		"stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss",
+		"stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss --fix",
 		"test": "NODE_ENV=test jest --passWithNoTests",
 		"test:coverage": "NODE_ENV=test jest --coverage"
 	},
