@@ -17,7 +17,7 @@ OC.L10N.register(
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "ขนาดไฟล์ที่อัปโหลดมีขนาดเกินค่า MAX_FILE_SIZE ที่ระบุไว้ในรูปแบบของ HTML",
     "The file was only partially uploaded" : "ไฟล์ถูกอัปโหลดเพียงบางส่วน",
     "No file was uploaded" : "ไม่มีไฟล์ที่ถูกอัปโหลด",
-    "Missing a temporary folder" : "โฟลเดอร์ชั่วคราวเกิดการสูญหาย",
+    "Missing a temporary folder" : "โฟลเดอร์ชั่วคราวขาดหาย",
     "Could not write file to disk" : "ไม่สามารถเขียนไฟล์ลงดิสก์",
     "A PHP extension stopped the file upload" : "ส่วนขยาย PHP ได้หยุดการอัปโหลดไฟล์",
     "File is too big" : "ไฟล์ใหญ่เกินไป",
