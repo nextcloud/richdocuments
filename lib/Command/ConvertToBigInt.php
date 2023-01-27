@@ -22,7 +22,7 @@
  */
 
 
-namespace OCA\RichDocuments\Command;
+namespace OCA\Richdocuments\Command;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
