@@ -20,7 +20,7 @@ OC.L10N.register(
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Poslana datoteka presega največjo dovoljeno velikosti, kot je zabeležena v datoteki php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Poslana datoteka presega velikost, ki je določena kot omejitev MAX_FILE_SIZE v zapisu HTML.",
     "The file was only partially uploaded" : "Datoteka ni bila poslana v celoti",
-    "No file was uploaded" : "Nobena datoteka ni bila poslana.",
+    "No file was uploaded" : "Datoteka ni bila poslana",
     "Missing a temporary folder" : "Začasna mapa ni na voljo",
     "Could not write file to disk" : "Datoteke ni mogoče zapisati na disk",
     "A PHP extension stopped the file upload" : "Razširitev PHP onemogoča pošiljanje datoteke",
