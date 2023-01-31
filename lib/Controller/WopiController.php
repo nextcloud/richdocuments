@@ -675,6 +675,11 @@ class WopiController extends Controller {
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
 
+			// epub is exception (can be uploaded but not opened so don't try to get access token)
+			if ($file->getMimeType() == 'application/epub+zip') {
+				return new JSONResponse([ 'Name' => $file->getName() ], Http::STATUS_OK);
+			}
+
 			// generate a token for the new file (the user still has to be
 			// logged in)
 			list(, $wopiToken) = $this->tokenManager->getToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
