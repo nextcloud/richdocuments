@@ -416,6 +416,7 @@ const SERVER_STATE_CONNECTION_ERROR = 2
 const PROTOCOL_MISMATCH = 3
 const fontMimes = [
 	'font/ttf',
+	'application/font-sfnt',
 	'font/opentype',
 	'application/vnd.oasis.opendocument.formula-template',
 ]
