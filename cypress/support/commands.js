@@ -141,7 +141,7 @@ Cypress.Commands.add('openFile', fileName => {
 })
 
 Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
-	return $iframe.contents().find('body')
+	return cy.wrap($iframe.contents().find('body'))
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
@@ -204,10 +204,7 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('not.have.class', 'icon-loading')
 })
 Cypress.Commands.add('waitForCollabora', () => {
-	cy.get('#collaboraframe', { timeout: 30000 }).iframe().should('exist').as('collaboraframe')
-	cy.get('@collaboraframe').within(() => {
-		cy.get('#loleafletframe', { timeout: 30000 }).iframe().should('exist').as('loleafletframe')
-	})
-
-	cy.get('@loleafletframe').find('#main-document-content').should('exist')
+	cy.get('[data-cy="documentframe"]', { timeout: 30000 }).iframe().should('be.visible').as('collaboraframe')
+	cy.get('@collaboraframe').find('[data-cy="coolframe"]', { timeout: 30000 }).iframe().should('be.visible').as('loleafletframe')
+	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
 })
