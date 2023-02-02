@@ -22,9 +22,6 @@
       <code>OpenDocument</code>
       <code>Pdf</code>
     </MissingDependency>
-    <UndefinedClass occurrences="1">
-      <code>BeforePreviewFetchedEvent</code>
-    </UndefinedClass>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass occurrences="1">
@@ -115,12 +112,6 @@
     <InvalidThrow occurrences="1">
       <code>NotFoundResponse</code>
     </InvalidThrow>
-    <MismatchingDocblockParamType occurrences="1">
-      <code>L10N</code>
-    </MismatchingDocblockParamType>
-    <UndefinedDocblockClass occurrences="1">
-      <code>L10N</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/WopiController.php">
     <MissingDependency occurrences="11">
@@ -151,15 +142,13 @@
       <code>$time</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/Listener/BeforeFetchPreviewListener.php">
-    <UndefinedClass occurrences="1">
-      <code>BeforePreviewFetchedEvent</code>
-    </UndefinedClass>
-  </file>
   <file src="lib/PermissionManager.php">
     <RedundantCondition occurrences="1">
       <code>$share &amp;&amp; method_exists($share, 'getAttributes')</code>
     </RedundantCondition>
+    <UndefinedClass occurrences="1">
+      <code>\OC_User</code>
+    </UndefinedClass>
   </file>
   <file src="lib/Preview/MSExcel.php">
     <MissingDependency occurrences="1">
