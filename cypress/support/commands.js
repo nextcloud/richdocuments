@@ -107,7 +107,7 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 	cy.login(user)
 	cy.ocsRequest(user, {
 		method: 'POST',
-		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares`,
+		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
 		body: {
 			path,
 			shareType: 0,
@@ -116,6 +116,23 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 		},
 	}).then(response => {
 		cy.log(`${user.userId} shared ${path} with ${targetUser.userId}`, response.status)
+	})
+})
+
+Cypress.Commands.add('shareLink', (user, path, shareData = {}) => {
+	cy.login(user)
+	cy.ocsRequest(user, {
+		method: 'POST',
+		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
+		body: {
+			path,
+			shareType: 3,
+			...shareData,
+		},
+	}).then(response => {
+		const token = response.body.ocs.data.token
+		cy.log(`${user.userId} shared ${path} as a link with token ${token}`, response.status)
+		cy.wrap(token)
 	})
 })
 
