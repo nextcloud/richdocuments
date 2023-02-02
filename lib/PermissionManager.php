@@ -65,8 +65,18 @@ class PermissionManager {
 
 	private function userMatchesGroupList(?string $userId = null, ?array $groupList = []): bool {
 		if ($userId === null) {
+			// Share links set the incognito mode so in order to still get the
+			// user information we need to temporarily switch it off to get the current user
+			$incognito = false;
+			if (\OC_User::isIncognitoMode()) {
+				\OC_User::setIncognitoMode(false);
+				$incognito = true;
+			}
 			$user = $this->userSession->getUser();
 			$userId = $user ? $user->getUID() : null;
+			if ($incognito) {
+				\OC_User::setIncognitoMode(true);
+			}
 		}
 
 		if ($userId === null) {
