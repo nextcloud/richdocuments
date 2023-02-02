@@ -60,6 +60,7 @@
 			</div>
 			<iframe id="collaboraframe"
 				ref="documentFrame"
+				data-cy="documentframe"
 				class="office-viewer__iframe"
 				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				:src="src" />

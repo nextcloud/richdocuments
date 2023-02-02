@@ -2,6 +2,33 @@
 
 declare(strict_types=1);
 
+class OC_User {
+	public static function isIncognitoMode() {}
+	public static function setIncognitoMode($status) {}
+}
+
+namespace OC\Hooks {
+	interface Emitter {
+		/**
+		 * @param string $scope
+		 * @param string $method
+		 * @param callable $callback
+		 * @return void
+		 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
+		 */
+		public function listen($scope, $method, callable $callback);
+
+		/**
+		 * @param string $scope optional
+		 * @param string $method optional
+		 * @param callable $callback optional
+		 * @return void
+		 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
+		 */
+		public function removeListener($scope = null, $method = null, callable $callback = null);
+	}
+}
+
 namespace OCA\Federation {
 	class TrustedServers {
 		public function getServers() {

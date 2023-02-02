@@ -93,7 +93,7 @@ const odfViewer = {
 
 		$('head').append($('<link rel="stylesheet" type="text/css" href="' + generateFilePath('richdocuments', 'css', 'mobile.css') + '"/>'))
 
-		const $iframe = $('<iframe id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
+		const $iframe = $('<iframe data-cy="documentframe" id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
 			(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl

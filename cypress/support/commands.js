@@ -107,7 +107,7 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 	cy.login(user)
 	cy.ocsRequest(user, {
 		method: 'POST',
-		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares`,
+		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
 		body: {
 			path,
 			shareType: 0,
@@ -119,12 +119,25 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 	})
 })
 
-Cypress.Commands.add('openFile', fileName => {
-	cy.get(`.files-filestable:visible tr[data-file="${fileName}"] a.name`).click()
+Cypress.Commands.add('shareLink', (user, path, shareData = {}) => {
+	cy.login(user)
+	cy.ocsRequest(user, {
+		method: 'POST',
+		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
+		body: {
+			path,
+			shareType: 3,
+			...shareData,
+		},
+	}).then(response => {
+		const token = response.body.ocs.data.token
+		cy.log(`${user.userId} shared ${path} as a link with token ${token}`, response.status)
+		cy.wrap(token)
+	})
 })
 
-Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
-	return $iframe.contents().find('body')
+Cypress.Commands.add('openFile', fileName => {
+	cy.get(`.files-filestable:visible tr[data-file="${fileName}"] a.name`).click()
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
@@ -187,10 +200,14 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('not.have.class', 'icon-loading')
 })
 Cypress.Commands.add('waitForCollabora', () => {
-	cy.get('#collaboraframe', { timeout: 30000 }).iframe().should('exist').as('collaboraframe')
-	cy.get('@collaboraframe').within(() => {
-		cy.get('#loleafletframe', { timeout: 30000 }).iframe().should('exist').as('loleafletframe')
-	})
-
-	cy.get('@loleafletframe').find('#main-document-content').should('exist')
+	cy.get('[data-cy="documentframe"]', { timeout: 30000 })
+		.its('0.contentDocument')
+		.its('body').should('not.be.empty')
+		.should('be.visible').should('not.be.empty')
+		.as('collaboraframe')
+	cy.get('@collaboraframe').find('[data-cy="coolframe"]', { timeout: 30000 })
+		.its('0.contentDocument')
+		.its('body').should('not.be.empty')
+		.as('loleafletframe')
+	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
 })
