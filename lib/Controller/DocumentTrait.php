@@ -2,11 +2,20 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FeaturePolicy;
+use OCP\AppFramework\Http\TemplateResponse;
 
 trait DocumentTrait {
 	private $appConfig;
+
+	private function documentTemplateResponse(Wopi $wopi, array $params): TemplateResponse {
+		$this->initialState->provideDocument($wopi, $params);
+		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
+		$this->applyPolicies($response);
+		return $response;
+	}
 
 	/**
 	 * Setup policy headers for the response

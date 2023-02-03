@@ -198,16 +198,17 @@ class RichDocumentsContext implements Context {
 
 	private function extractRichdocumentsFrontendContext($response) {
 		$contents = $response->getBody()->getContents();
-		$re = '/var richdocuments_([A-z]+) = (.*);/m';
+		$re = '/id="initial-state-richdocuments-([A-z]+)" value="(.*)"/m';
 		preg_match_all($re, $contents, $matches, PREG_SET_ORDER, 0);
 		$result = [];
 		foreach ($matches as $match) {
-			$result[$match[1]] = str_replace("'", "", $match[2]);
+			$result[$match[1]] = json_decode(base64_decode($match[2], true), true);
 		}
 
-		$this->fileIds[] = $result['fileId'];
-		$this->fileId = $result['fileId'];
-		$this->wopiToken = $result['token'];
+		$document = $result['document'];
+		$this->fileIds[] = $document['fileId'];
+		$this->fileId = $document['fileId'];
+		$this->wopiToken = $document['token'];
 		$this->wopiContext->setWopiParameters($this->currentServer, $this->fileId, $this->wopiToken);
 	}
 
