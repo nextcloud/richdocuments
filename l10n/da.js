@@ -1,6 +1,10 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "Nyt Dokument",
+    "New spreadsheet" : "Nyt Regneark",
+    "New presentation" : "Ny Præsentation",
+    "New diagram" : "Nyt diagram",
     "New Document.odt" : "Nyt dokument.odt",
     "New Spreadsheet.ods" : "Nyt regneark.ods",
     "New Presentation.odp" : "Ny præsentation.odp",
