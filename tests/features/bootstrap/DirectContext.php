@@ -144,12 +144,12 @@ class DirectContext implements Context {
 			$initialState[$match[1]] = json_decode(base64_decode($match[2], true), true);
 		}
 
-		Assert::assertNotEmpty($initialState['fileId']);
-		Assert::assertNotEmpty($initialState['token']);
+		Assert::assertNotEmpty($initialState['document']['fileId']);
+		Assert::assertNotEmpty($initialState['document']['token']);
 
 		$currentServer = $currentServer ?? $this->serverContext->getBaseUrl();
 
-		$this->wopiContext->setWopiParameters($currentServer, $initialState['fileId'], $initialState['token']);
+		$this->wopiContext->setWopiParameters($currentServer, $initialState['document']['fileId'], $initialState['document']['token']);
 		Assert::assertEquals(200, $response->getStatusCode());
 	}
 
