@@ -25,8 +25,6 @@ namespace OCA\Richdocuments\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * Class WopiEntity
- *
  * @package OCA\Richdocuments\Db
  *
  * @method void setOwnerUid(string $uid)
@@ -59,7 +57,6 @@ use OCP\AppFramework\Db\Entity;
  * @method int getTemplateId()
  * @method void setShare(string $token)
  * @method string getShare()
- * @method static Wopi fromParams(array $params)
  */
 class Wopi extends Entity implements \JsonSerializable {
 	/**
