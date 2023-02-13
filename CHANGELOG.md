@@ -1,5 +1,14 @@
 # Changelog
 
+## 6.3.4
+
+### Fixed
+
+- Fix loading share links for logged in users @juliushaertl [#2787](https://github.com/nextcloud/richdocuments/pull/2787)
+- Avoid exception when uploading epub [#2779](https://github.com/nextcloud/richdocuments/pull/2779)
+
+## 6.3.3
+
 ### Fixed
 
 - Be less strict with splitting the wopi allow list [#2695](https://github.com/nextcloud/richdocuments/pull/2695)
