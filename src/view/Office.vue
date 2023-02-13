@@ -360,6 +360,7 @@ export default {
 <style lang="scss">
 .viewer .office-viewer {
 	height: 100vh;
+	height: 100dvh;
 	top: -50px;
 }
 </style>
