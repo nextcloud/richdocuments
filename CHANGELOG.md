@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.1.1
+
+### Fixed
+
+- Fix loading share links for logged in users @juliushaertl [#2786](https://github.com/nextcloud/richdocuments/pull/2786)
+- Avoid exception when uploading epub [#2780](https://github.com/nextcloud/richdocuments/pull/2780)
+- allow to add ttf files [#2783](https://github.com/nextcloud/richdocuments/pull/2783)
 
 ## 7.1.0
 
