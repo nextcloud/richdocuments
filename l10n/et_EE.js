@@ -2,6 +2,7 @@ OC.L10N.register(
     "richdocuments",
     {
     "New Presentation.pptx" : "Uus esitlus.pptx",
+    "File already exists" : "Fail on juba olemas",
     "Saved" : "Salvestatud",
     "The file was uploaded" : "Fail laaditi üles",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Üleslaetud fail on suurem, kui php.ini failis määratud upload_max_filesize",
