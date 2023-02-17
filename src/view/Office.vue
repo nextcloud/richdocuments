@@ -344,6 +344,8 @@ export default {
 
 		.viewer & {
 			height: 100vh;
+			/* stylelint-disable-next-line */
+			height: 100dvh;
 			top: -50px;
 		}
 	}
