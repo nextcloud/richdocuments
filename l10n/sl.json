@@ -159,7 +159,7 @@
     "Saving…" : "Shranjevanje...",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokument že obstaja",
-    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Paket Collabora Online je privzeto omogočen vsem uporabnikom. Ko je ta nastavitev dejavna lahko uporabljajo paket le člani določenih skupin.",
+    "Collabora Online is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "Paket Collabora Online je privzeto omogočen vsem uporabnikom. Ko je ta nastavitev dejavna, lahko uporabljajo paket le člani določenih skupin.",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Predloge v tej mapi bodo na voljo izbirniku predlog paketa Collabora Online."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
