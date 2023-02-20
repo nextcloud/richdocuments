@@ -1,6 +1,9 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { getLinkWithPicker } from '@nextcloud/vue-richtext'
+import '@nextcloud/vue-richtext/dist/style.css'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
@@ -492,6 +495,12 @@ const documentsMain = {
 					case 'UI_Mention':
 						documentsMain.sendUserList(parsed.args.text)
 						break
+					case 'UI_PickLink':
+						documentsMain.openLinkPicker()
+						break
+					case 'Action_GetLinkPreview':
+						documentsMain.resolveLink(args.url)
+						break
 					default:
 						console.debug('[document] Unhandled post message', parsed)
 					}
@@ -646,6 +655,44 @@ const documentsMain = {
 			return { username: user.label, profile }
 		})
 		PostMessages.sendWOPIPostMessage('loolframe', 'Action_Mention', { list })
+	},
+
+	async openLinkPicker() {
+		try {
+			const link = await getLinkWithPicker(null, true)
+			PostMessages.sendWOPIPostMessage('loolframe', 'Action_InsertLink', { url: link })
+		} catch (e) {
+			showError(t('richdocuments', 'Failed to get a link with the picker'))
+			console.error('Link picker promise rejected :', e)
+		}
+	},
+
+	async resolveLink(url) {
+		try {
+			const result = await axios.get(generateOcsUrl('references/resolve', 2), {
+				params: {
+					reference: url,
+				},
+			})
+			const resolvedLink = result.data.ocs.data.references[url]
+			const title = resolvedLink?.openGraphObject?.name
+			const thumbnailUrl = resolvedLink?.openGraphObject?.thumb
+			let b64Image = null
+			if (thumbnailUrl) {
+				try {
+					const imageResponse = await axios.get(thumbnailUrl)
+					if (imageResponse?.status === 200 && imageResponse?.data) {
+						b64Image = btoa(unescape(encodeURIComponent(imageResponse.data)))
+					}
+				} catch (e) {
+					console.error('Error loading the reference image', e)
+				}
+			}
+			PostMessages.sendWOPIPostMessage('loolframe', ' Action_GetLinkPreview_Resp', { url, title, image: b64Image })
+		} catch (e) {
+			showError(t('richdocuments', 'Failed to get the link preview'))
+			console.error('Error resolving a reference', e)
+		}
 	},
 
 	onStartup() {

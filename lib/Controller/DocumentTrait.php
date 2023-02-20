@@ -6,11 +6,15 @@ use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 
 trait DocumentTrait {
 	private $appConfig;
 
 	private function documentTemplateResponse(Wopi $wopi, array $params): TemplateResponse {
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		$this->initialState->provideDocument($wopi, $params);
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
 		$this->applyPolicies($response);
