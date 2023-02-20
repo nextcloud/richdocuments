@@ -362,6 +362,8 @@ export default {
 <style lang="scss">
 .viewer .office-viewer {
 	height: 100vh;
+	/* stylelint-disable-next-line */
+	height: 100dvh;
 	top: -50px;
 }
 </style>
