@@ -24,6 +24,7 @@ OC.L10N.register(
     "Office" : "Office",
     "Empty" : "Tom",
     "Edit office documents directly in your browser." : "Rediger Office-dokumenter i nettleseren din.",
+    "Install it from the App Store." : "Installer den fra app-butikken.",
     "Advanced settings" : "Avanserte innstillinger",
     "Restrict usage to specific groups" : "Begrens bruk til gitte grupper",
     "Select groups" : "Velg grupper",
