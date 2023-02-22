@@ -38,7 +38,7 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Close" : "Lukk",
     "Error" : "Feil",
-    "An error occurred" : "En feil oppstod",
+    "An error occurred" : "En feil oppsto",
     "Please choose your nickname to continue as guest user." : "Vennligst velg et kallenavn for å fortsette som gjestebruker.",
     "Nickname" : "Kallenavn",
     "Set" : "Sett",
