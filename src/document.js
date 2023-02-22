@@ -660,7 +660,16 @@ const documentsMain = {
 	async openLinkPicker() {
 		try {
 			const link = await getLinkWithPicker(null, true)
-			PostMessages.sendWOPIPostMessage('loolframe', 'Action_InsertLink', { url: link })
+			try {
+				const url = new URL(link)
+				if (url.protocol === 'http:' || url.protocol === 'https:') {
+					PostMessages.sendWOPIPostMessage('loolframe', 'Action_InsertLink', { url: link })
+					return
+				}
+			} catch (e) {
+				console.debug('error when parsing the link picker result')
+			}
+			PostMessages.sendWOPIPostMessage('loolframe', 'Action_Paste', { Mimetype: 'text/plain', Data: link })
 		} catch (e) {
 			showError(t('richdocuments', 'Failed to get a link with the picker'))
 			console.error('Link picker promise rejected :', e)
