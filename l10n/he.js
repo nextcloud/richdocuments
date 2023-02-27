@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "New document" : "מסמך חדש",
     "New spreadsheet" : "גיליון נתונים חדש",
     "New presentation" : "מצגת חדשה",
     "New diagram" : "תרשים חדש",
