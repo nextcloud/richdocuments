@@ -686,18 +686,23 @@ const documentsMain = {
 			const resolvedLink = result.data.ocs.data.references[url]
 			const title = resolvedLink?.openGraphObject?.name
 			const thumbnailUrl = resolvedLink?.openGraphObject?.thumb
-			let b64Image = null
 			if (thumbnailUrl) {
 				try {
-					const imageResponse = await axios.get(thumbnailUrl)
+					const imageResponse = await axios.get(thumbnailUrl, { responseType: 'blob' })
 					if (imageResponse?.status === 200 && imageResponse?.data) {
-						b64Image = btoa(unescape(encodeURIComponent(imageResponse.data)))
+						const reader = new FileReader()
+						reader.addEventListener('loadend', (e) => {
+							const b64Image = e.target.result
+							PostMessages.sendWOPIPostMessage('loolframe', 'Action_GetLinkPreview_Resp', { url, title, image: b64Image })
+						})
+						reader.readAsDataURL(new Blob([imageResponse.data]))
 					}
 				} catch (e) {
 					console.error('Error loading the reference image', e)
 				}
+			} else {
+				PostMessages.sendWOPIPostMessage('loolframe', 'Action_GetLinkPreview_Resp', { url, title, image: null })
 			}
-			PostMessages.sendWOPIPostMessage('loolframe', 'Action_GetLinkPreview_Resp', { url, title, image: b64Image })
 		} catch (e) {
 			showError(t('richdocuments', 'Failed to get the link preview'))
 			console.error('Error resolving a reference', e)
