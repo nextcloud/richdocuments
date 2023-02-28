@@ -697,7 +697,7 @@ const documentsMain = {
 					console.error('Error loading the reference image', e)
 				}
 			}
-			PostMessages.sendWOPIPostMessage('loolframe', ' Action_GetLinkPreview_Resp', { url, title, image: b64Image })
+			PostMessages.sendWOPIPostMessage('loolframe', 'Action_GetLinkPreview_Resp', { url, title, image: b64Image })
 		} catch (e) {
 			showError(t('richdocuments', 'Failed to get the link preview'))
 			console.error('Error resolving a reference', e)
