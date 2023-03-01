@@ -695,7 +695,7 @@ const documentsMain = {
 							const b64Image = e.target.result
 							PostMessages.sendWOPIPostMessage('loolframe', 'Action_GetLinkPreview_Resp', { url, title, image: b64Image })
 						})
-						reader.readAsDataURL(new Blob([imageResponse.data]))
+						reader.readAsDataURL(imageResponse.data)
 					}
 				} catch (e) {
 					console.error('Error loading the reference image', e)
