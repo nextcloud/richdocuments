@@ -223,6 +223,7 @@ class WopiController extends Controller {
 			'DownloadAsPostMessage' => $wopi->getDirect(),
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
+			'EnableRemoteLinkPicker' => (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect(),
 		];
 
 		$zoteroAPIKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'zoteroAPIKey', '');
