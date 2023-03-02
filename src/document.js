@@ -187,7 +187,7 @@ const documentsMain = {
 				$('#revViewerContainer').prepend($('<div id="revViewer">'))
 			}
 
-			const urlsrc = getWopiUrl({ fileId, title, readOnly: true, closeButton: true })
+			const urlsrc = getWopiUrl({ fileId, title, readOnly: true, closeButton: !documentsMain.hideCloseButton })
 
 			// access_token & access_token_ttl - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)
@@ -247,7 +247,7 @@ const documentsMain = {
 			$(document.body).addClass('claro')
 			$(document.body).prepend(documentsMain.UI.container)
 
-			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: true, revisionHistory: !documentsMain.isPublic })
+			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: !documentsMain.hideCloseButton, revisionHistory: !documentsMain.isPublic })
 
 			// access_token - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)
@@ -733,6 +733,7 @@ const documentsMain = {
 		documentsMain.canEdit = Boolean(Config.get('permissions') & OC.PERMISSION_UPDATE)
 		documentsMain.canShare = typeof OC.Share !== 'undefined' && Config.get('permissions') & OC.PERMISSION_SHARE
 		documentsMain.isPublic = !Config.get('userId')
+		documentsMain.hideCloseButton = Config.get('hideCloseButton')
 
 		$('footer,nav').hide()
 		// fade out file list and show the document
