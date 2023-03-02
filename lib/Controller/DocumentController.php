@@ -312,6 +312,7 @@ class DocumentController extends Controller {
 				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				$params['token'] = $token;
 				$params['urlsrc'] = $urlSrc;
+				$params['hideCloseButton'] = $node instanceof File && $wopi->getHideDownload();
 
 				$this->initialState->provideDocument($wopi);
 				$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');
