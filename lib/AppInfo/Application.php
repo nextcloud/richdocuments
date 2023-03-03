@@ -217,33 +217,25 @@ class Application extends App implements IBootstrap {
 		}
 
 		/**
-		 * Dynamically add federated instances to the CSP whitelist
-		 */
-
-		// Do not operate if in a GS context
-		/** @var \OCP\GlobalScale\IConfig $globalScale */
-		$globalScale = $container->query(\OCP\GlobalScale\IConfig::class);
-		if (!$globalScale->isGlobalScaleEnabled()) {
-			/** @var TrustedServers $TrustedServers */
-			$TrustedServers = $container->query(\OCA\Federation\TrustedServers::class);
-			$federatedServers = $TrustedServers->getServers();
-			foreach ($federatedServers as $server) {
-				$policy->addAllowedFrameDomain($server['url']);
-				$this->addTrustedRemote($policy, $server['url']);
-			}
-		}
-
-		/**
 		 * Dynamically add CSP for federated editing
 		 */
 		if ($container->getServer()->getAppManager()->isEnabledForUser('federation')) {
 			/** @var FederationService $federationService */
 			$federationService = \OC::$server->query(FederationService::class);
 
-			// Always add trusted servers on global scale
 			/** @var \OCP\GlobalScale\IConfig $globalScale */
 			$globalScale = $container->query(\OCP\GlobalScale\IConfig::class);
-			if ($globalScale->isGlobalScaleEnabled()) {
+
+			if (!$globalScale->isGlobalScaleEnabled()) {
+				// Dynamically add federated instances to the CSP whitelist
+				/** @var TrustedServers $TrustedServers */
+				$TrustedServers = $container->query(\OCA\Federation\TrustedServers::class);
+				$federatedServers = $TrustedServers->getServers();
+				foreach ($federatedServers as $server) {
+					$policy->addAllowedFrameDomain($server['url']);
+					$this->addTrustedRemote($policy, $server['url']);
+				}
+			} else {
 				$trustedList = \OC::$server->getConfig()->getSystemValue('gs.trustedHosts', []);
 				foreach ($trustedList as $server) {
 					$policy->addAllowedFrameDomain($server);
@@ -251,6 +243,7 @@ class Application extends App implements IBootstrap {
 					$policy->addAllowedFormActionDomain($server);
 				}
 			}
+
 			$remoteAccess = $container->getServer()->getRequest()->getParam('richdocuments_remote_access');
 
 			if ($remoteAccess && $federationService->isTrustedRemote($remoteAccess)) {
