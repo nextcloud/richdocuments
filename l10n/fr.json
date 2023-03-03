@@ -155,6 +155,8 @@
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Si le fichier ne s'ouvre pas dans votre éditeur local, assurez-vous que l'application de bureau Nextcloud est installée et ouverte et réessayez.",
     "Opening file locally …" : "Ouvrir le fichier localement...",
     "Try again" : "Réessayez",
+    "Failed to get a link with the picker" : "Échec de l'obtention d'un lien avec le sélecteur",
+    "Failed to get the link preview" : "Échec de l'obtention d'une prévisualisation du lien",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Impossible de se connecter à {productName}. Veuillez réessayer plus tard ou contacter l'administrateur du serveur.",
     "Select a personal template folder" : "Sélectionnez le dossier personnel des modèles",
     "Failed to update the Zotero API key" : "Échec de la mise à jour de la clé d'API de Zotero",
