@@ -25,6 +25,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Само шаблонски фајлови могу бити отпремљени",
     "Invalid file provided" : "Дати фајл је неисправан",
     "Template not found" : "Шаблон није нађен",
+    "Office" : "Канцеларија",
     "Empty" : "Празно",
     "Anonymous guest" : "Анонимни гост",
     "%s (Guest)" : "%s (Гост)",
