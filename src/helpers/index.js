@@ -36,6 +36,11 @@ const languageToBCP47 = () => {
 		language = 'es-MX'
 	}
 
+	// Australia
+	if (language === 'en-GB' && locale === 'en_AU') {
+		language = 'en-AU'
+	}
+
 	// special case where setting the bc47 region depending on the locale setting makes sense
 	const whitelist = {
 		de: {
