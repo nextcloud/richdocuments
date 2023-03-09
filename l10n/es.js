@@ -157,6 +157,8 @@ OC.L10N.register(
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Si el archivo no abre en su editor local, asegúrese que la aplicación de escritorio de Nextcloud está instalada y ejecutándose e intente de nuevo.",
     "Opening file locally …" : "Abriendo el archivo localmente ...",
     "Try again" : "Vuelve a intentarlo",
+    "Failed to get a link with the picker" : "Fallo al obtener un enlace con el seleccionador",
+    "Failed to get the link preview" : "Fallo al obtener la vista previa del enlace",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Fallo al conectar con (productName). Por favor vuelva a intentarlo más tarde o contacte con su administrador del servidor.",
     "Select a personal template folder" : "Selecciona una carpeta de plantillas personales",
     "Failed to update the Zotero API key" : "No fue posible actualizar la llave API de Zotero",
