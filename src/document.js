@@ -263,6 +263,8 @@ const documentsMain = {
 			$('#mainContainer').append(frame)
 			$('#loleafletframe').focus()
 
+			documentsMain.registerAutoLogout($('#loleafletframe')[0])
+
 			emit('richdocuments:wopi-load:started', {
 				wopiFileId: fileId,
 			})
@@ -716,6 +718,27 @@ const documentsMain = {
 	 */
 	postGrabFocus() {
 		PostMessages.sendWOPIPostMessage('loolframe', 'Grab_Focus')
+	},
+
+	/**
+	 * Register activity listeners that prevent auto_logout from kicking in
+	 * (Core mechanism for this doesn't work, because we create a new frame)
+	 * @param window
+	 */
+	registerAutoLogout(window) {
+		const config = loadState('core', 'config')
+
+		if (!config.auto_logout) {
+			return
+		}
+
+		window.addEventListener('mousemove', e => {
+			localStorage.setItem('lastActive', Date.now())
+		})
+
+		window.addEventListener('touchstart', e => {
+			localStorage.setItem('lastActive', Date.now())
+		})
 	},
 }
 
