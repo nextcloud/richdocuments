@@ -1,5 +1,39 @@
 # Changelog
 
+## 8.0.0-beta.2
+
+### Added
+
+- Integrate the link picker @julien-nc [#2814](https://github.com/nextcloud/richdocuments/pull/2814)
+
+### Fixed
+
+- Fix regression on share links as logged in users @juliushaertl [#2784](https://github.com/nextcloud/richdocuments/pull/2784)
+- Fix viewer height on safari mobile @julien-nc [#2801](https://github.com/nextcloud/richdocuments/pull/2801)
+- Fix base64 image generation @julien-nc [#2826](https://github.com/nextcloud/richdocuments/pull/2826)
+
+### Dependencies
+
+- build(deps-dev): Bump cypress from 12.3.0 to 12.4.1 @dependabot[bot] [#2774](https://github.com/nextcloud/richdocuments/pull/2774)
+- build(deps-dev): Bump psalm/phar from 5.4.0 to 5.6.0 @dependabot[bot] [#2772](https://github.com/nextcloud/richdocuments/pull/2772)
+- build(deps): Bump @nextcloud/vue from 7.4.0 to 7.5.0 @dependabot[bot] [#2773](https://github.com/nextcloud/richdocuments/pull/2773)
+- build(deps-dev): Bump phpunit/phpunit from 9.5.28 to 9.6.3 @dependabot[bot] [#2796](https://github.com/nextcloud/richdocuments/pull/2796)
+- build(deps-dev): Bump friendsofphp/php-cs-fixer from 3.13.2 to 3.14.3 @dependabot[bot] [#2789](https://github.com/nextcloud/richdocuments/pull/2789)
+- build(deps-dev): Bump phpunit/phpunit from 9.5.28 to 9.6.1 @dependabot[bot] [#2788](https://github.com/nextcloud/richdocuments/pull/2788)
+- build(deps-dev): Bump friendsofphp/php-cs-fixer from 3.14.3 to 3.14.4 @dependabot[bot] [#2800](https://github.com/nextcloud/richdocuments/pull/2800)
+- build(deps-dev): Bump typescript from 4.9.4 to 4.9.5 @dependabot[bot] [#2791](https://github.com/nextcloud/richdocuments/pull/2791)
+- build(deps-dev): Bump cypress from 12.4.1 to 12.5.1 @dependabot[bot] [#2792](https://github.com/nextcloud/richdocuments/pull/2792)
+- build(deps-dev): Bump psalm/phar from 5.6.0 to 5.7.6 @dependabot[bot] [#2817](https://github.com/nextcloud/richdocuments/pull/2817)
+- build(deps-dev): Bump cypress from 12.5.1 to 12.7.0 @dependabot[bot] [#2818](https://github.com/nextcloud/richdocuments/pull/2818)
+- Update nextcloud/ocp dependency @nextcloud-command [#2840](https://github.com/nextcloud/richdocuments/pull/2840)
+
+### Other
+
+- allow to add ttf files @szaimen [#2782](https://github.com/nextcloud/richdocuments/pull/2782)
+- Move document params to initial state @juliushaertl [#2258](https://github.com/nextcloud/richdocuments/pull/2258)
+- fix: direct editing integration tests @juliushaertl [#2795](https://github.com/nextcloud/richdocuments/pull/2795)
+- chore(CI): Adjust testing matrix for Nextcloud 26 on stable26 @nickvergessen [#2829](https://github.com/nextcloud/richdocuments/pull/2829)
+
 ## 8.0.0-beta.1
 
 ### Added
