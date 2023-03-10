@@ -1,6 +1,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
@@ -262,6 +263,8 @@ const documentsMain = {
 			$('#mainContainer').append(form)
 			$('#mainContainer').append(frame)
 			$('#loleafletframe').focus()
+
+			documentsMain.registerAutoLogout($('#loleafletframe')[0])
 
 			emit('richdocuments:wopi-load:started', {
 				wopiFileId: fileId,
@@ -716,6 +719,28 @@ const documentsMain = {
 	 */
 	postGrabFocus() {
 		PostMessages.sendWOPIPostMessage('loolframe', 'Grab_Focus')
+	},
+
+	/**
+	 * Register activity listeners that prevent auto_logout from kicking in
+	 * (Core mechanism for this doesn't work, because we create a new frame)
+	 *
+	 * @param {Window} window The window object to listen to
+	 */
+	registerAutoLogout(window) {
+		const config = loadState('core', 'config')
+
+		if (!config.auto_logout) {
+			return
+		}
+
+		window.addEventListener('mousemove', e => {
+			localStorage.setItem('lastActive', Date.now())
+		})
+
+		window.addEventListener('touchstart', e => {
+			localStorage.setItem('lastActive', Date.now())
+		})
 	},
 }
 
