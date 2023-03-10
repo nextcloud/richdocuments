@@ -20,6 +20,7 @@ OC.L10N.register(
     "Office" : "مكتب",
     "Advanced settings" : "الإعدادات المتقدمة",
     "Select groups" : "إختر مجموعة",
+    "Failed to save settings" : "فشل حفظ الإعدادات",
     "Description" : "الوصف",
     "No results" : "دون أية نتيجة",
     "Cancel" : "إلغاء",
