@@ -36,6 +36,11 @@ const languageToBCP47 = () => {
 		language = 'es-MX'
 	}
 
+	// Australia
+	if (language === 'en-GB' && locale === 'en_AU') {
+		language = 'en-AU'
+	}
+
 	// special case where setting the bc47 region depending on the locale setting makes sense
 	const whitelist = {
 		de: {
@@ -55,9 +60,9 @@ const languageToBCP47 = () => {
 		return matchingWhitelist[locale]
 	}
 
-	// loleaflet expects a BCP47 language tag syntax
-	// when a the nextcloud language constist of two parts we sent both
-	// as the region is then provided by the language setting
+	// Collabora Online expects BCP47 language tag syntax.
+	// When the Nextcloud language consists of two parts, we send both,
+	// as the region is then provided by the language setting.
 	return language
 }
 
