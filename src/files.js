@@ -240,7 +240,7 @@ window.OCA.RichDocuments = {
 	},
 }
 
-$(document).ready(function() {
+addEventListener('DOMContentLoaded', () => {
 	// register file actions and menu
 	if (typeof OCA !== 'undefined'
 		&& typeof OCA.Files !== 'undefined'
