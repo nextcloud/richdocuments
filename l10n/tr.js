@@ -157,6 +157,8 @@ OC.L10N.register(
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Dosya yerel düzenleyicinizde açılmazsa, Nextcloud masaüstü uygulamasının kurulu ve açık olduğundan emin olduktan sonra yeniden deneyin.",
     "Opening file locally …" : "Dosya yerel olarak açılıyor…",
     "Try again" : "Yeniden deneyin",
+    "Failed to get a link with the picker" : "Seçici ile bir bağlantı alınamadı",
+    "Failed to get the link preview" : "Bağlantı ön izlemesi alınamadı",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} bağlantısı kurulurken bir sorun çıktı. Lütfen bir süre sonra yeniden deneyin ya da BT yöneticiniz ile görüşün.",
     "Select a personal template folder" : "Bir kişisel kalıp klasörü seçin",
     "Failed to update the Zotero API key" : "Zotero API anahtarı güncellenemedi",
