@@ -193,7 +193,7 @@
     "Remove Zotero API Key" : "A Zotero API-kulcs eltávolítása",
     "To use Zotero specify your API key here. You can create your API key in your" : "A Zotero használatához adja meg saját API-kulcsát itt. A saját API-kulcsát létre tudja hozni a saját",
     "Zotero account API settings." : "Zotero-fiókja API beállításaiban.",
-    "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "Ez a példány nem támogatja a Zotero-t, mert a funkció hiányzik vagy le van tiltva. Kérjük, lépjen kapcsolatba a rendszergazdával.",
+    "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "Ez a példány nem támogatja a Zoterót, mert a funkció hiányzik vagy le van tiltva. Lépjen kapcsolatba a rendszergazdával.",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Hibával mentve: a Collabora Online-t ugyanazon protokollon kellene használni, mint a telepített kiszolgálót.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "A Nextcloud Office-hoz külön Collabora Online-t futtató kiszolgálóra van szükség a szerkesztési funkciók biztosításához.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "A Collabora Online-hoz külön WOPI-szerű kliensként viselkedő kiszolgálóra van szükség a szerkesztési funkciók biztosításához.",
