@@ -21,7 +21,7 @@
  */
 
 import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateFilePath } from '@nextcloud/router'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 export const createEmptyFile = async (mimeType, fileName, templateId = null) => {
@@ -37,4 +37,8 @@ export const createEmptyFile = async (mimeType, fileName, templateId = null) => 
 	})
 
 	return response.data
+}
+
+export const savePersonalSetting = (data) => {
+	return axios.post(generateFilePath('richdocuments', 'ajax', 'personal.php'), data)
 }

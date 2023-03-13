@@ -64,6 +64,8 @@
 				class="office-viewer__iframe"
 				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				:src="src" />
+
+			<ZoteroHint v-if="showZotero" @submit="reload" />
 		</div>
 	</transition>
 </template>
@@ -72,6 +74,7 @@
 import { NcAvatar, NcActions, NcActionButton, NcEmptyContent } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 
+import ZoteroHint from '../components/Modal/ZoteroHint.vue'
 import { basename, dirname } from 'path'
 import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url.js'
 import PostMessageService from '../services/postMessage.tsx'
@@ -98,6 +101,7 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcEmptyContent,
+		ZoteroHint,
 	},
 	props: {
 		filename: {
@@ -121,6 +125,7 @@ export default {
 			loadingTimeout: null,
 			error: null,
 			views: [],
+			showZotero: false,
 		}
 	},
 	computed: {
@@ -213,6 +218,10 @@ export default {
 			disableScrollLock()
 			this.$parent.close()
 		},
+		reload() {
+			this.showZotero = false
+			this.$forceUpdate()
+		},
 		postMessageHandler({ parsed, data }) {
 			if (data === 'NC_ShowNamePicker') {
 				this.documentReady()
@@ -279,6 +288,9 @@ export default {
 				break
 			case 'UI_Share':
 				this.share()
+				break
+			case 'UI_ZoteroKeyMissing':
+				this.showZotero = true
 				break
 			}
 		},
