@@ -219,8 +219,9 @@ export default {
 			this.$parent.close()
 		},
 		reload() {
-			this.showZotero = false
-			this.$forceUpdate()
+			this.loading = LOADING_STATE.LOADING
+			this.load()
+			this.$refs.documentFrame.contentWindow.location.replace(this.src)
 		},
 		postMessageHandler({ parsed, data }) {
 			if (data === 'NC_ShowNamePicker') {

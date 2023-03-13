@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<NcModal>
+	<NcModal :show="show" @close="close">
 		<div class="zotero-hint">
 			<h2>{{ t('richdocument', 'Link to your Zotero library') }}</h2>
 			<BookOpenPageVariantOutline :size="96" />
@@ -58,6 +58,12 @@ export default {
 		NcButton,
 		NcTextField,
 	},
+	props: {
+		show: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	emits: ['submit'],
 	data() {
 		return {
@@ -75,6 +81,10 @@ export default {
 				showError(t('richdocuments', 'Failed to set Zotero API key'))
 			}
 			this.$emit('submit')
+			this.close()
+		},
+		close() {
+			this.$emit('update:show', false)
 		},
 	},
 }
