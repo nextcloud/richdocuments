@@ -226,8 +226,9 @@ class WopiController extends Controller {
 			'EnableRemoteLinkPicker' => (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect(),
 		];
 
-		$zoteroAPIKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'zoteroAPIKey', '');
-		if (!empty($zoteroAPIKey)) {
+		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
+		if (!$isPublic && $enableZotero) {
+			$zoteroAPIKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'zoteroAPIKey', '');
 			$response['UserPrivateInfo']['ZoteroAPIKey'] = $zoteroAPIKey;
 		}
 		if ($wopi->hasTemplateId()) {
