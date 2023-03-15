@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.2.10
+
+### Other
+
+- fix: Trigger initial setup earlier [#2851](https://github.com/nextcloud/richdocuments/pull/2851)
+- fix: Check for template id match in middleware @juliushaertl [#2863](https://github.com/nextcloud/richdocuments/pull/2863)
+
+
 ## 4.2.9
 
 ### Fixed
