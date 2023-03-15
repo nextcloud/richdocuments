@@ -77,6 +77,7 @@ OC.L10N.register(
     "template preview" : "Vista previa de plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
     "Remove personal template folder" : "Eliminar la carpeta de plantillas personales",
+    "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Nextcloud Online.",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalación del servidor.",
     "Saving…" : "Guardando...",
     "Collabora Online" : "Collabora Online",
