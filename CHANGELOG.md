@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.1.2
+
+### Fixed
+
+- Fix viewer height on safari mobile [#2806](https://github.com/nextcloud/richdocuments/pull/2806)
+- fix: Trigger initial setup earlier [#2849](https://github.com/nextcloud/richdocuments/pull/2849)
+- fix(auto_logout): Register auto_logout listeners to prevent auto_logout while editing [#2852](https://github.com/nextcloud/richdocuments/pull/2852)
+- Hide close button on single file shares that have hide download enabled [#2858](https://github.com/nextcloud/richdocuments/pull/2858)
+- Workaround for en-AU language/locale [#2843](https://github.com/nextcloud/richdocuments/pull/2843)
+
 ## 7.1.1
 
 ### Fixed
