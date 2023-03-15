@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.8.8
+
+### Fixed
+- Check for template id match in middleware
+
 ## 3.8.7
 
 ### Fixed
