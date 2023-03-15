@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.3.5
+
+### Fixed
+
+- Fix viewer height on safari mobile @julien-nc [#2807](https://github.com/nextcloud/richdocuments/pull/2807)
+- Workaround for en-AU language/locale [#2844](https://github.com/nextcloud/richdocuments/pull/2844)
+- fix: Trigger initial setup earlier [#2850](https://github.com/nextcloud/richdocuments/pull/2850)
+- Hide close button on single file shares that have hide download enabled [#2859](https://github.com/nextcloud/richdocuments/pull/2859)
+
+
 ## 6.3.4
 
 ### Fixed
