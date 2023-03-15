@@ -1,88 +1,29 @@
 # Changelog
 
-## 8.0.0-beta.2
+## 8.0.0
 
 ### Added
 
+- Compatibilitiy with Nextcloud 26
+- Add app config to override wopi checkFileInfo @juliushaertl [#2560](https://github.com/nextcloud/richdocuments/pull/2560)
+- Implement user mentions API @Raudius [#2576](https://github.com/nextcloud/richdocuments/pull/2576)
+- Add confirmation dialog after document is opened locally @Raudius [#2648](https://github.com/nextcloud/richdocuments/pull/2648)
 - Integrate the link picker @julien-nc [#2814](https://github.com/nextcloud/richdocuments/pull/2814)
 
 ### Fixed
 
+- fix(auto_logout): Register auto_logout listeners to prevent auto_logout while editing [#2853](https://github.com/nextcloud/richdocuments/pull/2853)
+- Hide close button on single file shares that have hide download enabled [#2857](https://github.com/nextcloud/richdocuments/pull/2857)
+- fix: Trigger initial setup earlier [#2848](https://github.com/nextcloud/richdocuments/pull/2848)
+- Workaround for en-AU language/locale [#2842](https://github.com/nextcloud/richdocuments/pull/2842)
 - Fix regression on share links as logged in users @juliushaertl [#2784](https://github.com/nextcloud/richdocuments/pull/2784)
 - Fix viewer height on safari mobile @julien-nc [#2801](https://github.com/nextcloud/richdocuments/pull/2801)
 - Fix base64 image generation @julien-nc [#2826](https://github.com/nextcloud/richdocuments/pull/2826)
-
-### Dependencies
-
-- build(deps-dev): Bump cypress from 12.3.0 to 12.4.1 @dependabot[bot] [#2774](https://github.com/nextcloud/richdocuments/pull/2774)
-- build(deps-dev): Bump psalm/phar from 5.4.0 to 5.6.0 @dependabot[bot] [#2772](https://github.com/nextcloud/richdocuments/pull/2772)
-- build(deps): Bump @nextcloud/vue from 7.4.0 to 7.5.0 @dependabot[bot] [#2773](https://github.com/nextcloud/richdocuments/pull/2773)
-- build(deps-dev): Bump phpunit/phpunit from 9.5.28 to 9.6.3 @dependabot[bot] [#2796](https://github.com/nextcloud/richdocuments/pull/2796)
-- build(deps-dev): Bump friendsofphp/php-cs-fixer from 3.13.2 to 3.14.3 @dependabot[bot] [#2789](https://github.com/nextcloud/richdocuments/pull/2789)
-- build(deps-dev): Bump phpunit/phpunit from 9.5.28 to 9.6.1 @dependabot[bot] [#2788](https://github.com/nextcloud/richdocuments/pull/2788)
-- build(deps-dev): Bump friendsofphp/php-cs-fixer from 3.14.3 to 3.14.4 @dependabot[bot] [#2800](https://github.com/nextcloud/richdocuments/pull/2800)
-- build(deps-dev): Bump typescript from 4.9.4 to 4.9.5 @dependabot[bot] [#2791](https://github.com/nextcloud/richdocuments/pull/2791)
-- build(deps-dev): Bump cypress from 12.4.1 to 12.5.1 @dependabot[bot] [#2792](https://github.com/nextcloud/richdocuments/pull/2792)
-- build(deps-dev): Bump psalm/phar from 5.6.0 to 5.7.6 @dependabot[bot] [#2817](https://github.com/nextcloud/richdocuments/pull/2817)
-- build(deps-dev): Bump cypress from 12.5.1 to 12.7.0 @dependabot[bot] [#2818](https://github.com/nextcloud/richdocuments/pull/2818)
-- Update nextcloud/ocp dependency @nextcloud-command [#2840](https://github.com/nextcloud/richdocuments/pull/2840)
-
-### Other
-
 - allow to add ttf files @szaimen [#2782](https://github.com/nextcloud/richdocuments/pull/2782)
 - Move document params to initial state @juliushaertl [#2258](https://github.com/nextcloud/richdocuments/pull/2258)
 - fix: direct editing integration tests @juliushaertl [#2795](https://github.com/nextcloud/richdocuments/pull/2795)
 - chore(CI): Adjust testing matrix for Nextcloud 26 on stable26 @nickvergessen [#2829](https://github.com/nextcloud/richdocuments/pull/2829)
 
-## 8.0.0-beta.1
-
-### Added
-
-- Add app config to override wopi checkFileInfo @juliushaertl [#2560](https://github.com/nextcloud/richdocuments/pull/2560)
-- Implement user mentions API @Raudius [#2576](https://github.com/nextcloud/richdocuments/pull/2576)
-- Add confirmation dialog after document is opened locally @Raudius [#2648](https://github.com/nextcloud/richdocuments/pull/2648)
-
-### Fixed
-
-- For PDFs rename context menu option to "Open with" @Raudius [#2527](https://github.com/nextcloud/richdocuments/pull/2527)
-- Do not fail if no directory is passed when creating a file from a template @juliushaertl [#2543](https://github.com/nextcloud/richdocuments/pull/2543)
-- Return proper status code if file is not found during writing @juliushaertl [#2537](https://github.com/nextcloud/richdocuments/pull/2537)
-- Use proper product name in capabilities @juliushaertl [#2525](https://github.com/nextcloud/richdocuments/pull/2525)
-- option to use new grouped saveas @pedropintosilva [#2551](https://github.com/nextcloud/richdocuments/pull/2551)
-- Keep passing light theme values to Collabora as long as the dark mode is not available there @juliushaertl [#2550](https://github.com/nextcloud/richdocuments/pull/2550)
-- Invoke read permission check to trigger terms of services when creating a token @juliushaertl [#2559](https://github.com/nextcloud/richdocuments/pull/2559)
-- Fix redundant port number in url @mayswind [#2573](https://github.com/nextcloud/richdocuments/pull/2573)
-- Improve error handling for global template uploads @juliushaertl [#2595](https://github.com/nextcloud/richdocuments/pull/2595)
-- Listen for event during preview rendering and apply secure view options @juliushaertl [#2579](https://github.com/nextcloud/richdocuments/pull/2579)
-- Adjust preview event name to BeforePreviewFetchedEvent @juliushaertl [#2588](https://github.com/nextcloud/richdocuments/pull/2588)
-- Pass the proper target path/name for new files created through direct editing @juliushaertl [#2626](https://github.com/nextcloud/richdocuments/pull/2626)
-- Increase timeout for preview generation @gitsan13 [#2623](https://github.com/nextcloud/richdocuments/pull/2623)
-- Fix array access error when requesting preview while not having access to Collabora @juliushaertl [#2640](https://github.com/nextcloud/richdocuments/pull/2640)
-- Move WOPI checks to the middleware @juliushaertl [#2669](https://github.com/nextcloud/richdocuments/pull/2669)
-- Be less strict with splitting the wopi allow list @juliushaertl [#2692](https://github.com/nextcloud/richdocuments/pull/2692)
-- Another attempt to work around Safari issues @juliushaertl [#2605](https://github.com/nextcloud/richdocuments/pull/2605)
-- fix(viewer): Do not attempt to register file actions if not available @juliushaertl [#2713](https://github.com/nextcloud/richdocuments/pull/2713)
-- fix: Open pdf files by default on share links if files_pdfviewer is disabled @juliushaertl [#2723](https://github.com/nextcloud/richdocuments/pull/2723)
-- Load viewer scripts depending on share ownership @juliushaertl [#2745](https://github.com/nextcloud/richdocuments/pull/2745)
-- Fix creating new files from user templates @juliushaertl [#2740](https://github.com/nextcloud/richdocuments/pull/2740)
-- Show warning if "WOPI allow-list" not configured @Raudius [#2604](https://github.com/nextcloud/richdocuments/pull/2604)
-- Adjust local editing button position in tabbed view @Raudius [#2597](https://github.com/nextcloud/richdocuments/pull/2597)
-- Add logging for remote requests @juliushaertl [#2652](https://github.com/nextcloud/richdocuments/pull/2652)
-- Fix the return type according to global definition @christianlupus [#2661](https://github.com/nextcloud/richdocuments/pull/2661)
-- Remove deprecation warning if no access groups are defined @christianlupus [#2662](https://github.com/nextcloud/richdocuments/pull/2662)
-- Valdnet patch 1 @Valdnet [#2656](https://github.com/nextcloud/richdocuments/pull/2656)
-- introduce zotero integration for Nextcloud Office (Collabora Online) @lpranam [#2657](https://github.com/nextcloud/richdocuments/pull/2657)
-- Log info message on wopi ip mismatch @juliushaertl [#2688](https://github.com/nextcloud/richdocuments/pull/2688)
-- ci(integration): Use apcu and speed up basic auth @juliushaertl [#2712](https://github.com/nextcloud/richdocuments/pull/2712)
-- Fix IPv6 handling in WOPI allow list @juliushaertl [#2696](https://github.com/nextcloud/richdocuments/pull/2696)
-- minimal template.odg (locale agnostic) @timar [#2730](https://github.com/nextcloud/richdocuments/pull/2730)
-- Add cypress tests @juliushaertl [#1939](https://github.com/nextcloud/richdocuments/pull/1939)
-- Use private field for sharing Zotero key @eszkadev [#2726](https://github.com/nextcloud/richdocuments/pull/2726)
-- l10n: Unified spelling and removed spaces @Valdnet [#2756](https://github.com/nextcloud/richdocuments/pull/2756)
-- perf(autoloader): Add composer autoloader @juliushaertl [#2768](https://github.com/nextcloud/richdocuments/pull/2768)
-- Rename main Git development branch from `master` to `main` @mejo- [#2761](https://github.com/nextcloud/richdocuments/pull/2761)
-- Avoid exception when uploading epub @eszkadev [#2767](https://github.com/nextcloud/richdocuments/pull/2767)
-- chore(CI): Update master php testing versions and workflow templates @nickvergessen [#2760](https://github.com/nextcloud/richdocuments/pull/2760)
 
 ## 7.0.0-beta.1
 
