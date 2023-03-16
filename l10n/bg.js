@@ -157,6 +157,8 @@ OC.L10N.register(
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Ако файлът не се отвори в локалния редактор, уверете се, че приложението за настолни компютри Nextcloud е инсталирано и отворено, и опитайте отново.",
     "Opening file locally …" : "Локално отваряне на файл ...",
     "Try again" : "Опитай отново",
+    "Failed to get a link with the picker" : "Неуспешно получаване на връзка с инструмента за избор",
+    "Failed to get the link preview" : "Неуспешно получаване на предварителен преглед на връзката",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Неуспешно свързване с {productName}. Моля, опитайте отново по-късно или се свържете с администратора на вашия сървър.",
     "Select a personal template folder" : "Изберете лична папка с шаблони",
     "Failed to update the Zotero API key" : "Неуспешно актуализиране на API ключа на Zotero",
