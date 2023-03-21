@@ -36,8 +36,9 @@ class Personal implements ISettings {
 	private $capabilities;
 
 	public function __construct(IConfig $config, Capabilities $capabilities, $userId) {
+		$capabilities = $capabilities->getCapabilities();
 		$this->config = $config;
-		$this->capabilities = $capabilities->getCapabilities()['richdocuments'];
+		$this->capabilities = isset($capabilities['richdocuments']) ? $capabilities['richdocuments'] : [];
 		$this->userId = $userId;
 	}
 
