@@ -71,7 +71,7 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 		const filePath = target.split('/').map(encodeURIComponent).join('/')
 		try {
 			const file = new File([blob], fileName, { type: mimeType })
-			return cy.request('/csrftoken')
+			cy.request('/csrftoken')
 				.then(({ body }) => body.token)
 				.then(requesttoken => {
 					return axios.put(`${rootPath}/${filePath}`, file, {
@@ -80,7 +80,12 @@ Cypress.Commands.add('uploadFile', (user, fixture, mimeType, target = `/${fixtur
 							'Content-Type': mimeType,
 						},
 					}).then(response => {
-						cy.log(`Uploaded ${fileName}`, response.status)
+						const fileId = Number( response.headers['oc-fileid']?.split('oc')?.[0])
+						cy.log(`Uploaded ${fileName}`,
+							response.status,
+							{ fileId }
+						)
+						cy.wrap(fileId)
 					})
 				})
 		} catch (error) {
@@ -199,13 +204,20 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
 })
-Cypress.Commands.add('waitForCollabora', () => {
-	cy.get('[data-cy="documentframe"]', { timeout: 30000 })
-		.its('0.contentDocument')
-		.its('body').should('not.be.empty')
-		.should('be.visible').should('not.be.empty')
-		.as('collaboraframe')
-	cy.get('@collaboraframe').find('[data-cy="coolframe"]', { timeout: 30000 })
+Cypress.Commands.add('waitForCollabora', (wrapped = true) => {
+	if (wrapped) {
+		cy.get('[data-cy="documentframe"]', { timeout: 30000 })
+			.its('0.contentDocument')
+			.its('body').should('not.be.empty')
+			.should('be.visible').should('not.be.empty')
+			.as('collaboraframe')
+	}
+
+	const coolFrame = wrapped
+		? cy.get('@collaboraframe').find('[data-cy="coolframe"]', { timeout: 30000 })
+		: cy.get('[data-cy="coolframe"]')
+
+	coolFrame
 		.its('0.contentDocument')
 		.its('body').should('not.be.empty')
 		.as('loleafletframe')
