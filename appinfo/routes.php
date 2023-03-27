@@ -27,10 +27,9 @@ namespace OCA\Richdocuments\AppInfo;
 
 return [
 	'routes' => [
-		//documents
+		// Page rendering of documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
-
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 
@@ -44,7 +43,7 @@ return [
 		['name' => 'wopi#postFile', 'url' => 'wopi/files/{fileId}', 'verb' => 'POST'],
 		['name' => 'wopi#getTemplate', 'url' => 'wopi/template/{fileId}', 'verb' => 'GET'],
 
-		//settings
+		// Settings
 		['name' => 'settings#setPersonalSettings', 'url' => 'ajax/personal.php', 'verb' => 'POST'],
 		['name' => 'settings#setSettings', 'url' => 'ajax/admin.php', 'verb' => 'POST'],
 		['name' => 'settings#getSettings', 'url' => 'ajax/settings.php', 'verb' => 'GET'],
@@ -58,10 +57,10 @@ return [
 		['name' => 'settings#deleteFontFile', 'url' => 'settings/fonts/{name}', 'verb' => 'DELETE'],
 		['name' => 'settings#uploadFontFile', 'url' => 'settings/fonts', 'verb' => 'POST'],
 
-		//Mobile access
+		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],
 
-		//assets
+		// Direct Editing: Assets
 		['name' => 'assets#create', 'url' => 'assets', 'verb' => 'POST'],
 		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
 
@@ -71,13 +70,15 @@ return [
 		['name' => 'templates#delete', 'url' => '/template/{fileId}', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
+		// Public pages: new file creation
 		['name' => 'documentAPI#create', 'url' => '/api/v1/file', 'verb' => 'POST'],
 
+		// Client API endpoints
 		['name' => 'OCS#createDirect', 'url' => '/api/v1/document', 'verb' => 'POST'],
 		['name' => 'OCS#createPublic', 'url' => '/api/v1/share', 'verb' => 'POST'],
 		['name' => 'OCS#createPublicFromInitiator', 'url' => '/api/v1/direct/share/initiator', 'verb' => 'POST'],
-		['name' => 'OCS#getTemplates', 'url' => '/api/v1/templates/{type}', 'verb' => 'GET'],
 		['name' => 'OCS#createFromTemplate', 'url' => '/api/v1/templates/new', 'verb' => 'POST'],
+		['name' => 'OCS#getTemplates', 'url' => '/api/v1/templates/{type}', 'verb' => 'GET'],
 
 		['name' => 'OCS#updateGuestName', 'url' => '/api/v1/wopi/guestname', 'verb' => 'POST'],
 
