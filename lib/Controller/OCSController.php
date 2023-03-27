@@ -289,6 +289,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 * @PublicPage
 	 *
 	 * @param string $type The template type
 	 * @return DataResponse

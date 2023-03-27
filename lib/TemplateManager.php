@@ -154,7 +154,7 @@ class TemplateManager {
 	 * @param int $fileId
 	 * @return File
 	 */
-	public function get($fileId) {
+	public function get(int $fileId) {
 		// is this a global template ?
 		$files = $this->getEmptyTemplateDir()->getDirectoryListing();
 

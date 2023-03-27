@@ -23,7 +23,7 @@
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
-export const createEmptyFile = async(mimeType, fileName) => {
+export const createEmptyFile = async(mimeType, fileName, templateId = null) => {
 	const shareToken = document.getElementById('sharingToken')?.value
 	const directoryPath = document.getElementById('dir')?.value
 
@@ -32,6 +32,7 @@ export const createEmptyFile = async(mimeType, fileName) => {
 		fileName,
 		directoryPath,
 		shareToken,
+		templateId,
 	})
 
 	return response.data

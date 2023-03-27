@@ -68,7 +68,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 * @PublicPage
 	 */
-	public function create(string $mimeType, string $fileName, string $directoryPath = '/', string $shareToken = null): JSONResponse {
+	public function create(string $mimeType, string $fileName, string $directoryPath = '/', string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);
@@ -123,8 +123,14 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		try {
 			$file = $folder->newFile($fileName);
 			$templateType = $this->templateManager->getTemplateTypeForExtension(pathinfo($fileName, PATHINFO_EXTENSION));
+
 			$empty = $this->templateManager->getEmpty($templateType);
 			$templateFile = array_shift($empty);
+
+			if ($templateId) {
+				$templateFile = $this->templateManager->get($templateId);
+			}
+
 			$file->putContent($this->templateManager->getEmptyFileContent($file->getExtension()));
 			if ($this->templateManager->isSupportedTemplateSource($templateFile->getExtension())) {
 				// Only use TemplateSource if supported filetype
