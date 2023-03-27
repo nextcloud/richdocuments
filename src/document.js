@@ -821,6 +821,7 @@ const documentsMain = {
 	/**
 	 * Register activity listeners that prevent auto_logout from kicking in
 	 * (Core mechanism for this doesn't work, because we create a new frame)
+	 *
 	 * @param window
 	 */
 	registerAutoLogout(window) {

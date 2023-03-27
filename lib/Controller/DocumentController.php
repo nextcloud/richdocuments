@@ -294,8 +294,13 @@ class DocumentController extends Controller {
 					'isPublicShare' => true,
 				];
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
-				$params['token'] = $token;
+				$templateFile = $this->templateManager->getTemplateSource($item->getId());
+				if ($templateFile) {
+					list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $this->uid, $item->getId());
+				} else {
+					list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+				}
+				$params['token'] = $wopi->getToken();
 				$params['token_ttl'] = $wopi->getExpiry();
 				$params['urlsrc'] = $urlSrc;
 				$params['hideCloseButton'] = $node instanceof File && $wopi->getHideDownload();

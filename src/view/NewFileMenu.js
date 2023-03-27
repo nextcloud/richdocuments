@@ -20,12 +20,11 @@
  *
  */
 
+import axios from '@nextcloud/axios'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 import Types from '../helpers/types.js'
 import { createEmptyFile } from '../services/api.js'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
-
-const isPublic = window.document.getElementById('isPublic')?.value === '1'
 
 /** @type OC.Plugin */
 const NewFileMenu = {
@@ -34,6 +33,7 @@ const NewFileMenu = {
 		const document = Types.getFileType('document')
 		const spreadsheet = Types.getFileType('spreadsheet')
 		const presentation = Types.getFileType('presentation')
+		const drawing = Types.getFileType('drawing')
 
 		newFileMenu.addMenuEntry({
 			id: 'add-' + document.extension,
@@ -42,7 +42,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-document',
 			fileType: 'x-office-document',
 			actionHandler(filename) {
-				if (!isPublic && OC.getCapabilities().richdocuments.templates) {
+				if (OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('document', document.mime, filename)
 				} else {
 					self._createDocument(document.mime, filename)
@@ -57,7 +57,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-spreadsheet',
 			fileType: 'x-office-spreadsheet',
 			actionHandler(filename) {
-				if (!isPublic && OC.getCapabilities().richdocuments.templates) {
+				if (OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 				} else {
 					self._createDocument(spreadsheet.mime, filename)
@@ -72,7 +72,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-presentation',
 			fileType: 'x-office-presentation',
 			actionHandler(filename) {
-				if (!isPublic && OC.getCapabilities().richdocuments.templates) {
+				if (OC.getCapabilities().richdocuments.templates) {
 					self._openTemplatePicker('presentation', presentation.mime, filename)
 				} else {
 					self._createDocument(presentation.mime, filename)
@@ -81,11 +81,11 @@ const NewFileMenu = {
 		})
 	},
 
-	_createDocument(mimetype, filename) {
+	_createDocument(mimetype, filename, templateId = null) {
 		OCA.Files.Files.isFileNameValid(filename)
 		filename = FileList.getUniqueName(filename)
 
-		createEmptyFile(mimetype, filename).then((response) => {
+		createEmptyFile(mimetype, filename, templateId).then((response) => {
 			if (response && response.status === 'success') {
 				FileList.add(response.data, { animate: true, scrollTo: true })
 				const fileModel = FileList.getModelForFile(filename)
@@ -102,46 +102,16 @@ const NewFileMenu = {
 		})
 	},
 
-	_createDocumentFromTemplate(templateId, mimetype, filename) {
-		const dir = getCurrentDirectory()
-		OCA.Files.Files.isFileNameValid(filename)
-		filename = FileList.getUniqueName(filename)
-
-		$.post(
-			generateUrl('apps/richdocuments/ajax/documents/create'),
-			{ mimetype, filename, dir },
-			function(response) {
-				if (response && response.status === 'success') {
-					FileList.add(response.data, { animate: false, scrollTo: false })
-					const fileModel = FileList.getModelForFile(filename)
-					const path = dir + '/' + filename
-					OCA.RichDocuments.openWithTemplate({
-						fileId: -1,
-						path,
-						templateId,
-						fileList: window.FileList,
-						fileModel,
-					})
-				} else {
-					OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
-				}
-			}
-		)
-	},
-
 	_openTemplatePicker(type, mimetype, filename) {
-		const self = this
-		$.ajax({
-			url: generateOcsUrl(`apps/richdocuments/api/v1/templates/${type}`, 2) + type,
-			dataType: 'json',
-		}).then(function(response) {
+		axios.get(generateOcsUrl(`apps/richdocuments/api/v1/templates/${type}`, 2)).then(({ data: response }) => {
 			if (response.ocs.data.length === 1) {
 				const { id } = response.ocs.data[0]
-				self._createDocumentFromTemplate(id, mimetype, filename)
+				this._createDocument(mimetype, filename, id)
 				return
 			}
-			self._buildTemplatePicker(response.ocs.data)
-				.then(function() {
+			this._buildTemplatePicker(response.ocs.data)
+				.then(() => {
+					const self = this
 					const buttonlist = [{
 						text: t('core', 'Cancel'),
 						classes: 'cancel',
@@ -153,7 +123,7 @@ const NewFileMenu = {
 						classes: 'primary',
 						click() {
 							const templateId = this.dataset.templateId
-							self._createDocumentFromTemplate(templateId, mimetype, filename)
+							self._createDocument(mimetype, filename, templateId)
 							$(this).ocdialog('close')
 						},
 					}]
@@ -168,8 +138,7 @@ const NewFileMenu = {
 	},
 
 	_buildTemplatePicker(data) {
-		const self = this
-		return $.get(generateFilePath('richdocuments', 'templates', 'templatePicker.html'), function(tmpl) {
+		return axios.get(generateFilePath('richdocuments', 'templates', 'templatePicker.html')).then(({ data: tmpl }) => {
 			const $tmpl = $(tmpl)
 			// init template picker
 			const $dlg = $tmpl.octemplate({
@@ -178,9 +147,9 @@ const NewFileMenu = {
 			})
 
 			// create templates list
-			const templates = _.values(data)
-			templates.forEach(function(template) {
-				self._appendTemplateFromData($dlg[0], template)
+			const templates = Object.values(data)
+			templates.forEach((template) => {
+				this._appendTemplateFromData($dlg[0], template)
 			})
 
 			$('body').append($dlg)
@@ -192,7 +161,8 @@ const NewFileMenu = {
 		template.className = ''
 		template.querySelector('img').src = generateUrl('apps/richdocuments/template/preview/' + data.id)
 		template.querySelector('h2').textContent = data.name
-		template.onclick = function() {
+		template.onclick = function(e) {
+			e.preventDefault()
 			dlg.dataset.templateId = data.id
 		}
 		if (!dlg.dataset.templateId) {
