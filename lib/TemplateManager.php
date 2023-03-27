@@ -165,6 +165,10 @@ class TemplateManager {
 			}
 		}
 
+		if ($this->userId === null && $this->config->getAppValue(Application::APPNAME, 'template_public', 'yes') !== 'yes') {
+			throw new NotFoundException();
+		}
+
 		// is this a global template ?
 		$files = $this->getSystemTemplateDir()->getDirectoryListing();
 
@@ -260,6 +264,9 @@ class TemplateManager {
 	 * @return File[]
 	 */
 	public function getSystem($type = null) {
+		if ($this->userId === null && $this->config->getAppValue(Application::APPNAME, 'template_public', 'yes') !== 'yes') {
+			return [];
+		}
 		$folder = $this->getSystemTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
@@ -290,6 +297,10 @@ class TemplateManager {
 	 * @return File[]
 	 */
 	public function getUser($type = null) {
+		if ($this->userId === null) {
+			return [];
+		}
+
 		try {
 			$templateDir = $this->getUserTemplateDir();
 			$templateFiles = $templateDir->getDirectoryListing();
@@ -304,6 +315,10 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function getUserFormatted($type) {
+		if ($this->userId === null) {
+			return [];
+		}
+
 		$templates = $this->getUser($type);
 
 		return array_map(function (File $file) {
@@ -317,12 +332,12 @@ class TemplateManager {
 	 * @return File[]
 	 */
 	public function getAll($type = 'document') {
-		$system = $this->getSystem();
-		$user = $this->getUser();
-
 		if (!array_key_exists($type, self::$tplTypes)) {
 			return [];
 		}
+
+		$system = $this->getSystem();
+		$user = $this->getUser();
 
 		return array_values(array_filter(array_merge($user, $system), function (File $template) use ($type) {
 			foreach (self::$tplTypes[$type] as $mime) {
