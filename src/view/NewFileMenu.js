@@ -79,6 +79,21 @@ const NewFileMenu = {
 				}
 			},
 		})
+
+		newFileMenu.addMenuEntry({
+			id: 'add-' + drawing.extension,
+			displayName: t('richdocuments', 'New drawing'),
+			templateName: t('richdocuments', 'New drawing') + '.' + drawing.extension,
+			iconClass: 'icon-filetype-draw',
+			fileType: 'x-office-drawing',
+			actionHandler(filename) {
+				if (OC.getCapabilities().richdocuments.templates) {
+					self._openTemplatePicker('drawing', drawing.mime, filename)
+				} else {
+					self._createDocument(drawing.mime, filename)
+				}
+			},
+		})
 	},
 
 	_createDocument(mimetype, filename, templateId = null) {
