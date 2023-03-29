@@ -478,7 +478,7 @@ class TemplateManager {
 			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
 			'type' => $this->flipTypes()[$template->getMimeType()],
 			'delete' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
-			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
+			'extension' => $template->getExtension(),
 		];
 	}
 
