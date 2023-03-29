@@ -98,6 +98,10 @@ const xmlToTagList = (xml) => {
 	for (const index in list) {
 		const tag = list[index]['d:propstat']
 
+		if (!tag) {
+			continue
+		}
+
 		if (tag['d:status']['#text'] !== 'HTTP/1.1 200 OK') {
 			continue
 		}
