@@ -91,10 +91,8 @@ export default {
 			return
 		}
 
-		if (this.getFileList()) {
-			this.getFileList().setViewerMode && this.getFileList().setViewerMode(false)
-			this.getFileList().reload && this.getFileList().reload()
-		}
+		this.updateFileInfo(undefined, Date.now())
+
 		this.fileModel = null
 		if (!isPublic) {
 			this.removeVersionSidebarEvents()
@@ -103,6 +101,8 @@ export default {
 	},
 
 	saveAs(newName) {
+		const oldFile = this.getFileModel()
+
 		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
 			return
 		}
@@ -112,8 +112,12 @@ export default {
 		}
 
 		if (this.getFileList()) {
+			const newFileModel = oldFile.clone()
+			newFileModel.set('name', newName)
+			newFileModel.set('mtime', Date.now())
 			this.getFileList()
-				.reload()
+				.add(newFileModel.toJSON())
+
 			OC.Apps.hideAppSidebar()
 		}
 	},
@@ -133,13 +137,15 @@ export default {
 	},
 
 	rename(newName) {
+		this.updateFileInfo(newName, Date.now())
+
 		this.fileName = newName
 
 		if (this.handlers.rename && this.handlers.rename(this)) {
 			return
 		}
+
 		if (this.getFileList()) {
-			this.getFileList().reload && this.getFileList().reload()
 			OC.Apps.hideAppSidebar()
 		}
 	},
@@ -574,6 +580,22 @@ export default {
 				filePath: (this.filePath ?? '') + '/' + this.fileName,
 			},
 		}
+	},
+
+	updateFileInfo(name, mtime) {
+		const fileInfo = this.getFileModel()
+		if (!fileInfo) {
+			return
+		}
+
+		if (name) {
+			fileInfo.set('name', name)
+		}
+
+		if (mtime) {
+			fileInfo.set('mtime', mtime)
+		}
+		fileInfo.trigger('change', this.getFileModel())
 	},
 
 }
