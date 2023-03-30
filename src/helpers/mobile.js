@@ -22,7 +22,7 @@
 
 import Config from './../services/config.tsx'
 
-const isDirectEditing = () => Config.get('directEdit')
+const isDirectEditing = () => Config.get('direct')
 
 const isMobileInterfaceAvailable = () => window.RichDocumentsMobileInterface
 	|| (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.RichDocumentsMobileInterface)
