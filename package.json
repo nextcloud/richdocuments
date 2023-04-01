@@ -54,7 +54,7 @@
 		"@nextcloud/webpack-vue-config": "^5.5.0",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
 		"cypress": "^12.9.0",
-		"eslint-plugin-cypress": "^2.12.1",
+		"eslint-plugin-cypress": "^2.13.2",
 		"ts-loader": "^9.4.2",
 		"typescript": "^4.9.5"
 	},
