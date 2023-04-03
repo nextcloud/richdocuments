@@ -523,7 +523,7 @@ const documentsMain = {
 							false
 						).then(function() {
 							const $dialog = $('.oc-dialog:visible')
-							const $buttons = $dialog.find('button')
+							const $buttons = $dialog.find('.oc-dialog-buttonrow button')
 							$buttons.eq(0).text(t('richdocuments', 'Cancel'))
 							$buttons.eq(1).text(t('richdocuments', 'Save'))
 							const nameInput = $dialog.find('input')[0]
