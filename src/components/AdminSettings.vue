@@ -715,7 +715,7 @@ export default {
 			// TODO define font format list
 			const files = event.target.files
 			const file = files[0]
-			if (!fontMimes.includes(file.type)) {
+			if (file.type !== '' && !fontMimes.includes(file.type)) {
 				showError(t('richdocuments', 'Font format not supported ({mime})', { mime: file.type }))
 				return
 			}
