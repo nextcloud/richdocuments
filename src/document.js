@@ -3,8 +3,7 @@ import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import { getLinkWithPicker } from '@nextcloud/vue-richtext'
-import '@nextcloud/vue-richtext/dist/style.css'
+import { getLinkWithPicker } from '@nextcloud/vue/dist/Components/NcRichText.js'
 import Config from './services/config.tsx'
 import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
@@ -821,6 +820,7 @@ const documentsMain = {
 	/**
 	 * Register activity listeners that prevent auto_logout from kicking in
 	 * (Core mechanism for this doesn't work, because we create a new frame)
+	 *
 	 * @param window
 	 */
 	registerAutoLogout(window) {
