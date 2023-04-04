@@ -38,6 +38,7 @@ OC.L10N.register(
     "New filename" : "Nuevo nombredearchivo",
     "Save" : "Guardar",
     "Try again" : "Vuelve a intentar",
+    "Saving …" : "Saving …",
     "Remove from favorites" : "Eliminar de favoritos",
     "Add to favorites" : "Agregar a tus favoritos",
     "Details" : "Detalles",
