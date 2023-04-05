@@ -215,6 +215,7 @@ export default {
 			FilesAppIntegration.share()
 		},
 		close() {
+			FilesAppIntegration.close()
 			disableScrollLock()
 			this.$parent.close()
 		},
@@ -266,6 +267,11 @@ export default {
 			case 'Get_Views_Resp':
 			case 'Views_List':
 				this.views = args
+				break
+			case 'Action_Save_Resp':
+				if (args.fileName !== this.filename) {
+					FilesAppIntegration.saveAs(args.fileName)
+				}
 				break
 			case 'UI_InsertGraphic':
 				FilesAppIntegration.insertGraphic((filename, url) => {
