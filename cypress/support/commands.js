@@ -223,3 +223,15 @@ Cypress.Commands.add('waitForCollabora', (wrapped = true) => {
 		.as('loleafletframe')
 	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
 })
+
+Cypress.Commands.add('uploadSystemTemplate', () => {
+	cy.login(new User('admin', 'admin'))
+	cy.visit('/settings/admin/richdocuments')
+	cy.get('#richdocuments-templates').scrollIntoView()
+	cy.get('input[type=file]#add-template').selectFile({
+		contents: 'cypress/fixtures/templates/presentation.otp',
+		fileName: 'systemtemplate.otp',
+		mimeType: 'application/vnd.oasis.opendocument.presentation-template',
+	}, { force: true })
+	cy.get('#richdocuments-templates li').contains('systemtemplate.otp')
+})
