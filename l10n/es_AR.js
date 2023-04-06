@@ -16,6 +16,7 @@ OC.L10N.register(
     "Empty" : "Vacío",
     "Advanced settings" : "Configuraciones avanzadas",
     "Select groups" : "Seleccionar grupos",
+    "Submit" : "Enviar",
     "Description" : "Descripción",
     "No results" : "Sin resultados",
     "Cancel" : "Cancelar",

@@ -44,6 +44,7 @@ OC.L10N.register(
     "Use a demo server" : "ใช้เซิร์ฟเวอร์สาธิต",
     "Advanced settings" : "การตั้งค่าขั้นสูง",
     "Select groups" : "เลือกกลุ่ม",
+    "Submit" : "ส่ง",
     "Description" : "คำอธิบาย",
     "No results" : "ไม่มีผลลัพธ์",
     "Cancel" : "ยกเลิก",

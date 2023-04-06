@@ -21,6 +21,7 @@
     "Use Canonical webroot" : "კანონიკური ვებრუტის მოხმარება",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "კანონიკური ვებრუტი, იმ შემთხვევაში თუ ერთზე მეტია Collabora-ს მოქმედებისთვის. მოგვაწოდეთ ერთ-ერთი ყველაზე ნაკლები შეზღუდვებით. მაგ.: გამოიყენეთ არა-შიბოლიზირებული ვებრუტი თუ ამ ინსტანციაზე წვდომა ექნება შიბოლიზირებულ და არა-შიბოლიზირებულ ვებრუტებს. იმ შემთხვევაში, თუ ინსტანციაზე მხოლოდ ერთ ვებრუტს აქვს წვდომა, შეგიძლიათ არ მიაქციოთ ამ პარამეტრს ყურადღება.",
     "Enable access for external apps" : "დართეთ წვდომა გარე აპლიკაციებზე",
+    "Submit" : "გაგზავნა",
     "Description" : "აღწერილობა",
     "No results" : "შედეგები არაა",
     "Cancel" : "უარყოფა",

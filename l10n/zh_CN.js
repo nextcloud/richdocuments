@@ -109,6 +109,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "请确认在您的 Collabora Online 服务器的 coolwsd.xml 文件中设置该 URL：{url}，以保证自动加载添加的字体。",
     "Failed to save settings" : "无法保存设置",
     "Font format not supported ({mime})" : "不支持的字体格式 ({mime})",
+    "Submit" : "提交",
     "Description" : "描述",
     "Add new token" : "添加新令牌",
     "No font overview" : "没有字体概览",

@@ -118,6 +118,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Certifique-se de definir este URL: {url} no arquivo coolwsd.xml do seu servidor Collabora Online para garantir que as fontes adicionadas sejam carregadas automaticamente.",
     "Failed to save settings" : "Erro ao salvar configurações",
     "Font format not supported ({mime})" : "Formato de fonte não suportado ({mime})",
+    "Submit" : "Enviar",
     "Description" : "Descrição",
     "Add new token" : "Adicionar novo token",
     "No font overview" : "Nenhuma visão geral da fonte",

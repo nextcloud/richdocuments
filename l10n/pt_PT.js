@@ -44,6 +44,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Permitir acesso a aplicações externas",
     "Enable watermarking" : "Activar marca-de-água",
     "Failed to save settings" : "Erro ao gravar as definições",
+    "Submit" : "Submeter",
     "Description" : "Descrição",
     "No results" : "Sem resultados",
     "Cancel" : "Cancelar",

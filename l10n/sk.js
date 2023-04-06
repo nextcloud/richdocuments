@@ -115,6 +115,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Uistite sa, že ste v súbore coolwsd.xml na serveri Collabora Online nastavili túto adresu URL: {url}, aby sa zabezpečilo automatické načítanie pridaných písiem.",
     "Failed to save settings" : "Nepodarilo sa uložiť nastavenia",
     "Font format not supported ({mime})" : "Formát fontu nie je podporovaný ({mime})",
+    "Submit" : "Odoslať",
     "Description" : "Popis",
     "Add new token" : "Pridať nový token",
     "No font overview" : "Žiadný náhľad fontu",
