@@ -128,13 +128,13 @@ $.widget('oc.guestNamePicker', {
 /**
  * Type definitions for WOPI Post message objects
  *
- * @typedef {Object} View
- * @property {Number} ViewId
+ * @typedef {object} View
+ * @property {number} ViewId
  * @property {string} UserName
  * @property {string} UserId
- * @property {Number} Color
- * @property {Boolean} ReadOnly
- * @property {Boolean} IsCurrentView
+ * @property {number} Color
+ * @property {boolean} ReadOnly
+ * @property {boolean} IsCurrentView
  */
 
 const documentsMain = {

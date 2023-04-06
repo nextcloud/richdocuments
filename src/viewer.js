@@ -55,9 +55,9 @@ if (OCA.Viewer.openWith) {
 			displayName: mime === 'application/pdf' ? actionDisplayNameOpen : actionDisplayNameEdit,
 			actionHandler: (fileName, context) => {
 				OCA.Viewer.openWith('richdocuments', {
-					path: context.fileInfoModel.getFullPath()
+					path: context.fileInfoModel.getFullPath(),
 				})
-			}
+			},
 		}
 
 		OCA.Files.fileActions.registerAction(action)
