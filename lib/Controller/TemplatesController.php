@@ -83,6 +83,7 @@ class TemplatesController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @PublicPage
 	 *
 	 * Get preview for a specific template
 	 *

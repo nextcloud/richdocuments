@@ -296,7 +296,7 @@ class DocumentController extends Controller {
 
 				$templateFile = $this->templateManager->getTemplateSource($item->getId());
 				if ($templateFile) {
-					list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $this->uid, $item->getId());
+					list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $share->getShareOwner(), $item->getId());
 				} else {
 					list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
 				}
