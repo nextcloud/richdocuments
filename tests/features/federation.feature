@@ -67,7 +67,7 @@ Background:
     And Collabora fetches checkFileInfo
     And checkFileInfo "BaseFileName" is "file-reshare-readonly.odt"
     And checkFileInfo "UserCanWrite" is true
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
     And as "user2" create a share with
@@ -83,7 +83,7 @@ Background:
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Share a file by federation and reshare it with write permissions
     Given on instance "serverA"
@@ -98,7 +98,7 @@ Background:
     And Collabora fetches checkFileInfo
     And checkFileInfo "BaseFileName" is "file-reshare-rw.odt"
     And checkFileInfo "UserCanWrite" is true
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
     And as "user2" create a share with
@@ -114,7 +114,7 @@ Background:
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @known-failure-ci
   Scenario: Share a file by federation and reshare it as a link
@@ -135,7 +135,7 @@ Background:
     And checkFileInfo "BaseFileName" is "file-reshare-link.odt"
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
     # This might fail curently due to using the same instance
@@ -153,5 +153,5 @@ Background:
     ## And checkFileInfo "OwnerId" is "user1"
     ## And both Collabora files used the same file id
     And checkFileInfo "UserCanWrite" is false
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"

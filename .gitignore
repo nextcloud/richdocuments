@@ -9,3 +9,7 @@ build/
 vendor/
 .php-cs-fixer.cache
 cypress/screenshots/
+
+## VSCode
+.vscode/
+*.code-workspace
