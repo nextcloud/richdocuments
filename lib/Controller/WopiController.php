@@ -803,7 +803,6 @@ class WopiController extends Controller {
 	 * @throws ShareNotFound
 	 */
 	private function getFileForWopiToken(Wopi $wopi) {
-		$this->userScopeService->setUserScope($wopi->getEditorUid());
 		if (!empty($wopi->getShare())) {
 			$share = $this->shareManager->getShareByToken($wopi->getShare());
 			$node = $share->getNode();
