@@ -23,9 +23,8 @@
 <template>
 	<div class="settings-font">
 		<label :title="name">{{ name }}</label>
-		<img :src="overviewUrl" :alt="t('richdocuments', 'No font overview')" />
-		<button
-			:class="{
+		<img :src="overviewUrl" :alt="t('richdocuments', 'No font overview')">
+		<button :class="{
 				'icon-delete': true,
 				svg: true,
 				'loading-small': disabled,
@@ -47,7 +46,7 @@ export default {
 		name: {
 			type: String,
 			required: true,
-		}
+		},
 	},
 	data() {
 		return {
