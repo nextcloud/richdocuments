@@ -19,6 +19,7 @@ OC.L10N.register(
     "Empty" : "Bosh",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Select groups" : "Përzgjidhni grupe",
+    "Submit" : "Dërgo",
     "Description" : "Përshkrim",
     "No results" : "Asnjë rezultat",
     "Cancel" : "Anullo",

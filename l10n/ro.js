@@ -15,6 +15,7 @@ OC.L10N.register(
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
     "Advanced settings" : "Setări avansate",
     "Select groups" : "Selectează grupuri ",
+    "Submit" : "Trimite",
     "Description" : "Descriere",
     "No results" : "Niciun rezultat",
     "Cancel" : "Anulează",

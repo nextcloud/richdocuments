@@ -54,6 +54,7 @@ OC.L10N.register(
     "Show watermark on tagged files" : "Rodyti vandenženklį ant failų su žymėmis",
     "Failed to save settings" : "Nepavyko įrašyti nustatymų",
     "Font format not supported ({mime})" : "Šrifto formatas nepalaikomas ({mime})",
+    "Submit" : "Pateikti",
     "Description" : "Aprašas",
     "Add new token" : "Pridėti naują prieigos raktą",
     "Delete this font" : "Ištrinti šį šriftą",

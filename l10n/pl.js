@@ -118,6 +118,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Upewnij się, że ustawiłeś ten adres URL: {url} w pliku coolwsd.xml serwera Collabora Online, aby mieć pewność, że dodane czcionki będą ładowane automatycznie.",
     "Failed to save settings" : "Nie udało się zapisać ustawień",
     "Font format not supported ({mime})" : "Format czcionki nie jest obsługiwany ({mime})",
+    "Submit" : "Wyślij",
     "Description" : "Opis",
     "Add new token" : "Dodaj nowy token",
     "No font overview" : "Brak przeglądu czcionki",

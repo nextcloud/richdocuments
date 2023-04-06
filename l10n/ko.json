@@ -31,6 +31,7 @@
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "웹 루트가 여러 개 있는 경우 Collabora에서 사용할 정규화된 웹 루트입니다. 제약 사항이 가장 적은 항목을 선택하십시오. 예: 이 인스턴스를 단일 인증(Shibboleth)을 사용하는 웹 루트와 단일 인증을 사용하지 않는 웹 루트에서 접근한다면 단일 인증을 사용하지 않는 쪽을 사용하십시오. 단일 웹 루트만 사용한다면 이 설정을 무시해도 됩니다.",
     "Enable access for external apps" : "외부 앱 접근 허용",
     "Failed to save settings" : "환경설정 저장 실패",
+    "Submit" : "제출",
     "Description" : "설명",
     "No results" : "결과 없음",
     "Cancel" : "취소",
