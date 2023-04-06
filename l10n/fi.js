@@ -55,6 +55,7 @@ OC.L10N.register(
     "Upload a font file" : "Lähetä fonttitiedosto",
     "Available fonts" : "Käytettävissä olevat fontit",
     "Failed to save settings" : "Asetusten tallentaminen epäonnistui",
+    "Submit" : "Lähetä",
     "Description" : "Kuvaus",
     "Add new token" : "Lisää uusi poletti",
     "Delete this font" : "Poista tämä fontti",

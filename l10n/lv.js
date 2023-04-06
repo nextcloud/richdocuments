@@ -20,6 +20,7 @@ OC.L10N.register(
     "Advanced settings" : "Paplašināti iestatījumi",
     "Select groups" : "Izvēlieties grupas",
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",
+    "Submit" : "Iesniegt",
     "Description" : "Apraksts",
     "No results" : "Nav rezultātu",
     "Cancel" : "Atcelt",

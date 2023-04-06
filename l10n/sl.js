@@ -97,6 +97,7 @@ OC.L10N.register(
     "Contact {0} to get an own installation." : "Stopite v stik z {0} in si zagotovite svojo namestitev.",
     "Failed to save settings" : "Shranjevanje nastavitev je spodletelo",
     "Font format not supported ({mime})" : "Zapis pisave ni podprt ({mime})",
+    "Submit" : "Pošlji",
     "Description" : "Opis",
     "Add new token" : "Dodaj nov žeton",
     "No font overview" : "Predogled pisave ni na voljo",

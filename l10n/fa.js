@@ -64,6 +64,7 @@ OC.L10N.register(
     "Show watermark on link shares with specific system tags" : "علامت چاپ سفید را در اشتراک پیوند با برچسب های خاص سیستم نشان دهید",
     "Contact {0} to get an own installation." : "تماس با {0} به نصب و راه اندازی را.",
     "Failed to save settings" : "تنظیمات ذخیره نشدند",
+    "Submit" : "ارسال",
     "Description" : "توضیحات",
     "Add new token" : "نشانه جدید افزودن",
     "No results" : "نتیجه ای یافت نشد",

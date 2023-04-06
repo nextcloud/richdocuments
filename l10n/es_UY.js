@@ -21,6 +21,7 @@ OC.L10N.register(
     "Select groups" : "Seleccionar grupos",
     "Restrict edit to specific groups" : "Limitar edición a grupos específicos",
     "Enable access for external apps" : "Habilitar acceso para aplicaciones externas",
+    "Submit" : "Enviar",
     "Description" : "Descripción",
     "No results" : "No hay resultados",
     "Cancel" : "Cancelar",

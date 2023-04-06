@@ -118,6 +118,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Állítsa be a következő URL-t a Collabora Online kiszolgáló coolwsd.xml fájljában, hogy a betűkészletek automatikusan betöltésre kerüljenek: {url}.",
     "Failed to save settings" : "A beállítások mentése sikertelen",
     "Font format not supported ({mime})" : "A betűkészlet formátuma nem támogatott ({mime})",
+    "Submit" : "Beküldés",
     "Description" : "Leírás",
     "Add new token" : "Új token hozzáadása",
     "No font overview" : "A betűkészletnek nincs áttekintése",

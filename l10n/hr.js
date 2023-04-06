@@ -93,6 +93,7 @@ OC.L10N.register(
     "Show watermark on link shares with specific system tags" : "Prikaži vodeni žig na poveznicama dijeljenja s određenim oznakama sustava",
     "Contact {0} to get an own installation." : "Obratite se {0} kako biste nabavili vlastitu instalaciju.",
     "Failed to save settings" : "Spremanje postavki nije uspjelo",
+    "Submit" : "Šalji",
     "Description" : "Opis",
     "Add new token" : "Dodaj novi token",
     "No results" : "Nema rezultata",

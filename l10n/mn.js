@@ -12,6 +12,7 @@ OC.L10N.register(
     "Invalid file provided" : "Буруу файл байна",
     "Advanced settings" : "Нарийвчилсан тохиргоо",
     "Select groups" : "бүлэг сонгох",
+    "Submit" : "мэдэгдэх",
     "Description" : "Тодорхойлолт",
     "No results" : "Үр дүн байхгүй",
     "Cancel" : "болиулах",
