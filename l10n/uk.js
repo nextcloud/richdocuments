@@ -109,6 +109,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Обов’язково встановіть цю URL-адресу: {url} у файлі coolwsd.xml вашого сервера Collabora Online, щоб забезпечити автоматичне завантаження доданих шрифтів.",
     "Failed to save settings" : "Неможливо зберегти налаштування",
     "Font format not supported ({mime})" : "Формат шрифту не підтримується ({mime})",
+    "Submit" : "Гаразд",
     "Description" : "Опис",
     "Add new token" : "Додати новий токен",
     "No font overview" : "Немає огляду шрифтів",

@@ -110,6 +110,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Ziurtatu URL hau ezarri duzula: {url} Collabora Online zerbitzariaren coolwsd.xml fitxategian gehitutako letra-tipoak automatikoki kargatzen direla ziurtatzeko.",
     "Failed to save settings" : "Ezarpenak gordetzeak huts egin du",
     "Font format not supported ({mime})" : "Letra-formatua ez da onartzen ({mime})",
+    "Submit" : "Bidali",
     "Description" : "Deskribapena",
     "Add new token" : "Gehitu token berria",
     "No font overview" : "Ez dago letra-tipoaren ikuspegi orokorra",

@@ -71,6 +71,7 @@ OC.L10N.register(
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "Inställningarna gäller endast för kompatibla office-filer som öppnas i Nextcloud Office",
     "The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print" : "Följande alternativ inom Nextcloud Office kommer att inaktiveras: Kopiera, Ladda ner, Exportera, Skriv ut",
     "Failed to save settings" : "Kunde inte spara inställningarna",
+    "Submit" : "Skicka",
     "Description" : "Beskrivning",
     "No font overview" : "Ingen typsnittsöversikt",
     "Delete this font" : "Ta bort detta typsnitt",

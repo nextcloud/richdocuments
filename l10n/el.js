@@ -103,6 +103,7 @@ OC.L10N.register(
     "Show watermark on link shares with specific system tags" : "Εμφάνιση υδατογραφήματος κοινόχρηστους συνδέσμους με συγκεκριμένες ετικέτες",
     "Contact {0} to get an own installation." : "Επικοινωνήστε με {0} για λήψη δικής σας εγκατάστασης.",
     "Failed to save settings" : "Αποτυχία αποθήκευσης ρυθμίσεων",
+    "Submit" : "Υποβολή",
     "Description" : "Περιγραφή",
     "Add new token" : "Προσθήκη νέου token",
     "No results" : "Κανένα αποτέλεσμα",

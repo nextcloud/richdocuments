@@ -33,6 +33,7 @@ OC.L10N.register(
     "Restrict edit to specific groups" : "Redigering begrænset til bestemte grupper",
     "Enable access for external apps" : "Tillad tilgang fra eksterne apps",
     "Failed to save settings" : "Kunne ikke gemme indstillinger",
+    "Submit" : "Tilføj",
     "Description" : "Beskrivelse",
     "No results" : "Ingen resultater",
     "Cancel" : "Annuller",

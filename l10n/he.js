@@ -58,6 +58,7 @@ OC.L10N.register(
     "Restrict edit to specific groups" : "הגבלת העריכה לקבוצות מסוימות",
     "Enable access for external apps" : "הפעלת גישה ליישומונים חיצוניים",
     "Failed to save settings" : "שמירת ההגדרות נכשלה",
+    "Submit" : "שליחה",
     "Description" : "תיאור",
     "Add new token" : "הוספת אסימון חדש",
     "No results" : "אין תוצאות",

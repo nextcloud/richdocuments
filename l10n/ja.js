@@ -108,6 +108,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "追加のフォントが自動的に読み込まれるように、お使いのCollabora Onlineサーバーのcoolwsd.xml内にURL「 {url} 」が設定されていることを確認してください。",
     "Failed to save settings" : "設定の保存に失敗しました",
     "Font format not supported ({mime})" : "サポートされていないフォント形式です ({mime})",
+    "Submit" : "送信",
     "Description" : "説明",
     "Add new token" : "新規トークンを追加",
     "No font overview" : "フォントの概要がありません",

@@ -43,6 +43,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Virkja aðgang fyrir utanaðkomandi forrit",
     "Secure view enables you to secure documents by embedding a watermark" : "Örugg sýn gerir þér kleift að verja skjöl með því að græða vatnsmerki í þau",
     "Failed to save settings" : "Mistókst að vista stillingar",
+    "Submit" : "Senda inn",
     "Description" : "Lýsing",
     "No results" : "Engar niðurstöður",
     "Cancel" : "Hætta við",

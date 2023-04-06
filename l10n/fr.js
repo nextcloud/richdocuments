@@ -118,6 +118,7 @@ OC.L10N.register(
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Veillez à définir cette URL : {url} dans le fichier coolwsd.xml de votre serveur Collabora Online pour que les polices ajoutées soient chargées automatiquement.",
     "Failed to save settings" : "Échec de l'enregistrement des paramètres",
     "Font format not supported ({mime})" : "Format de police non supporté ({mime})",
+    "Submit" : "Soumettre",
     "Description" : "Description",
     "Add new token" : "Ajouter un nouveau jeton",
     "No font overview" : "Pas d'aperçu de la police",

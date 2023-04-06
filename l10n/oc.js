@@ -15,6 +15,7 @@ OC.L10N.register(
     "File is too big" : "Fichièr tròp pesuc",
     "Invalid file provided" : "Fichièr provesit invalid",
     "Advanced settings" : "Paramètres avançats",
+    "Submit" : "Transmetre",
     "Description" : "Descripcion",
     "No results" : "Cap de resultat",
     "Cancel" : "Anullar",

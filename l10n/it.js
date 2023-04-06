@@ -102,6 +102,7 @@ OC.L10N.register(
     "Show watermark on link shares with specific system tags" : "Mostra la filigrana su tutte le condivisioni con collegamento con etichette di sistema specifiche",
     "Contact {0} to get an own installation." : "Contatta {0} per ottenere la tua installazione.",
     "Failed to save settings" : "Salvataggio impostazioni non riuscito",
+    "Submit" : "Invia",
     "Description" : "Descrizione",
     "Add new token" : "Aggiungi nuovo token",
     "No results" : "Nessun risultato",

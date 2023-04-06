@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enable access for external apps" : "Ebligi aliron el eksteraj aplikaĵoj",
     "Secure view enables you to secure documents by embedding a watermark" : "Sekuriga vido ebligas sekurigi dokumenton per enkorpigo de filigrano",
     "Failed to save settings" : "Konservo de agordoj malsukcesis",
+    "Submit" : "Sendi",
     "Description" : "Priskribo",
     "No results" : "Neniu rezulto",
     "Cancel" : "Nuligi",
