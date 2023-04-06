@@ -290,14 +290,12 @@
 
 		<div v-if="isSetup" id="font-settings" class="section">
 			<h2>{{ t('richdocuments', 'Extra fonts') }}</h2>
-			<SettingsInputFile
-				:label="t('richdocuments', 'Upload extra font file')"
+			<SettingsInputFile :label="t('richdocuments', 'Upload extra font file')"
 				:button-title="t('richdocuments', 'Upload a font file')"
 				:uploading="uploadingFont"
 				:mimetypes="fontMimes"
 				@change="uploadFont" />
-			<SettingsFontList
-				:fonts="settings.fonts"
+			<SettingsFontList :fonts="settings.fonts"
 				:label="t('richdocuments', 'Available fonts')"
 				@deleted="onFontDeleted" />
 			<em>

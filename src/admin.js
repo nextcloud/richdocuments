@@ -27,11 +27,12 @@ new Vue({
 /**
  * Append a new template to the dom
  *
- * @param {Object} data the template data from the template controller response
+ * @param {object} data the template data from the template controller response
  */
 function appendTemplateFromData(data) {
 	const template = document.querySelector('.template-model').cloneNode(true)
 	template.className = ''
+	template.dataset.filename = data.name
 	template.querySelector('img').src = data.preview
 	template.querySelector('figcaption').textContent = data.name
 	template.querySelector('.delete-template').href = data.delete
@@ -117,6 +118,7 @@ function initTemplateManager() {
 		},
 
 		success(e) {
+			document.querySelector(`[data-filename="${e.data.name}"]`)?.remove()
 			inputElmt.disabled = false
 			buttonElmt.className = 'icon-add'
 			// add template to dom
