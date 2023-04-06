@@ -36,7 +36,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a reshared file through direct editing
     Given on instance "serverA"
@@ -66,7 +66,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @federation
   Scenario: Open a federated shared file through direct editing
@@ -88,7 +88,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   @federation
   Scenario: Open a file in a federated shared folder through direct editing
@@ -111,7 +111,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a share link with direct editing
     Given on instance "serverA"
@@ -134,7 +134,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
     And the direct editing link is only valid once
 
   Scenario: Open a file in a shared folder of a share link with direct editing as read only
@@ -156,7 +156,7 @@ Feature: Direct editing
       | UserFriendlyName | user2-displayname         |
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable
     Given on instance "serverA"
@@ -180,7 +180,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable as a guest
     Given on instance "serverA"
@@ -206,7 +206,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable as a remote user
     Given on instance "serverA"
@@ -231,7 +231,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Open a file in a shared folder of a share link with direct editing as writable as a remote user with password
     Given on instance "serverA"
@@ -257,7 +257,7 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is true
     And both Collabora files used the same file id
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
     And as user "user2"
     When User "user2" cannot open the file "/document-share-link.odt" in the last share link through direct editing from server "serverA" with password "wrongpassword"
@@ -293,5 +293,5 @@ Feature: Direct editing
     And checkFileInfo "UserCanWrite" is false
     And both Collabora files used the same file id
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
-    Then Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And the direct editing link is only valid once

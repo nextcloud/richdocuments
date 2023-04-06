@@ -213,9 +213,9 @@ class WopiContext implements Context {
 	}
 
 	/**
-	 * @Then /^Collabora downoads the file and it is equal to "([^"]*)"$/
+	 * @Then /^Collabora downloads the file and it is equal to "([^"]*)"$/
 	 */
-	public function collaboraDownoadsTheFileAndItIsEqualTo($arg1) {
+	public function collaboraDownloadsTheFileAndItIsEqualTo($arg1) {
 		$this->collaboraDownloadsTheFile();
 		$this->theFileIsEqual($arg1);
 	}

@@ -50,7 +50,7 @@ Feature: WOPI
       | UserCanWrite |          |
       | OwnerId      | user1    |
     And checkFileInfo "UserId" matches "/Guest-/"
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
     Then both Collabora files used the same file id
 
@@ -71,7 +71,7 @@ Feature: WOPI
       | OwnerId          | user1             |
       | UserFriendlyName | Anonymous (Guest) |
     And checkFileInfo "UserId" matches "/Guest-/"
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
     Then both Collabora files used the same file id
 
@@ -90,7 +90,7 @@ Feature: WOPI
       | UserCanWrite |          |
       | OwnerId      | user1    |
       | UserId       | user1    |
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
     Then both Collabora files used the same file id
 
@@ -106,7 +106,7 @@ Feature: WOPI
       | UserCanWrite |          |
       | OwnerId      | user1    |
       | UserId       | user1    |
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
 
   Scenario: Fetch checkFileInfo for public share link with download hidden
@@ -216,7 +216,7 @@ Feature: WOPI
       | permissions | 1                  |
     Then User "user2" opens "/file-readonly.odt"
     And Collabora fetches checkFileInfo
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And checkFileInfo "UserCanWrite" is false
     And Collabora can not save the file with the content of "./../emptyTemplates/template.ods"
 
@@ -232,7 +232,7 @@ Feature: WOPI
     Then User "user2" opens "/file-rw.odt"
     And Collabora fetches checkFileInfo
     And checkFileInfo "UserCanWrite" is true
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
     And Collabora can save the file with the content of "./../emptyTemplates/template.ods"
 
   Scenario: Open a reshared file with read permissions
@@ -255,7 +255,7 @@ Feature: WOPI
     And Collabora downloads the file
     Then the file is equal to "./../emptyTemplates/template.odt"
     And checkFileInfo "UserCanWrite" is false
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.odt"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.odt"
 
 
   Scenario: Create a new wopi token from a template for a user and open it
@@ -291,7 +291,7 @@ Feature: WOPI
       | UserId           | user1             |
       | UserFriendlyName | user1-displayname |
     And Collabora downloads the file
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
   Scenario: Save as different user
     Given as user "user1"
@@ -317,4 +317,4 @@ Feature: WOPI
       | UserId           | user2             |
       | UserFriendlyName | user2-displayname |
     And Collabora downloads the file
-    And Collabora downoads the file and it is equal to "./../emptyTemplates/template.ods"
+    And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
