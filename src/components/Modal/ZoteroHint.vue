@@ -24,7 +24,7 @@
 		<div class="zotero-hint">
 			<h2>{{ t('richdocument', 'Link to your Zotero library') }}</h2>
 			<BookOpenPageVariantOutline :size="96" />
-			<p>{{ t('richdocuments', 'Connect your Zotero account to make use for references within Office.') }}</p>
+			<p>{{ t('richdocuments', 'Connect your Zotero account to make use of references within Office.') }}</p>
 			<p>
 				{{ t('richdocuments', 'You can generate an account key here:') }}
 				<a href="https://www.zotero.org/settings/keys/new" target="_blank" class="external">
