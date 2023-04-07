@@ -21,6 +21,7 @@ OC.L10N.register(
     "Office" : "Oficina",
     "Advanced settings" : "Axustes avanzaos",
     "Select groups" : "Esbillar grupos",
+    "Submit" : "Unviar",
     "Description" : "Descripción",
     "No results" : "Ensin resultaos",
     "Cancel" : "Encaboxar",
