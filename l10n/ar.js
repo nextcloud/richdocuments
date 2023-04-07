@@ -21,6 +21,7 @@ OC.L10N.register(
     "Advanced settings" : "الإعدادات المتقدمة",
     "Select groups" : "إختر مجموعة",
     "Failed to save settings" : "فشل حفظ الإعدادات",
+    "Submit" : "إرسال ",
     "Description" : "الوصف",
     "No results" : "دون أية نتيجة",
     "Cancel" : "إلغاء",
