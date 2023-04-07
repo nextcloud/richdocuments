@@ -13,6 +13,7 @@ OC.L10N.register(
     "File is too big" : "Lêer is te groot",
     "Invalid file provided" : "Ongeldige lêer verskaf",
     "Advanced settings" : "Gevorderde instellings",
+    "Submit" : "Dien in",
     "Description" : "Beskrywing",
     "Cancel" : "Kanselleer",
     "Close" : "Sluit",
