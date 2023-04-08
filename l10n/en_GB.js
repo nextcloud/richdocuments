@@ -119,6 +119,7 @@ OC.L10N.register(
     "Failed to save settings" : "Failed to save settings",
     "Font format not supported ({mime})" : "Font format not supported ({mime})",
     "Link to your Zotero library" : "Link to your Zotero library",
+    "Connect your Zotero account to make use of references within Office." : "Connect your Zotero account to make use of references within Office.",
     "You can generate an account key here:" : "You can generate an account key here:",
     "Zotero account settings" : "Zotero account settings",
     "Zotero API key" : "Zotero API key",
