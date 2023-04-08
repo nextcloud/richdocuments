@@ -117,6 +117,7 @@
     "Failed to save settings" : "Nastavení se nepodařilo uložit",
     "Font format not supported ({mime})" : "Formát písma není podporován ({mime})",
     "Link to your Zotero library" : "Odkaz na vaši Zotero knihovnu",
+    "Connect your Zotero account to make use of references within Office." : "Připojte svůj Zotero účet a používejte ho pro reference v rámci Office",
     "You can generate an account key here:" : "Klíč k účtu je možné vytvořit zde:",
     "Zotero account settings" : "Nastavení pro Zotero účet",
     "Zotero API key" : "Klíč k Zotero API",
