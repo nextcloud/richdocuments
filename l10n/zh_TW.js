@@ -119,6 +119,7 @@ OC.L10N.register(
     "Failed to save settings" : "設定儲存失敗",
     "Font format not supported ({mime})" : "不支援的字型格式 ({mime})",
     "Link to your Zotero library" : "連結至 Zotero 媒體庫",
+    "Connect your Zotero account to make use of references within Office." : "連結您的 Zotero 帳號以於辦公室套裝軟體中用於參考文獻。",
     "You can generate an account key here:" : "您可以在此產生帳號金鑰：",
     "Zotero account settings" : "Zotero 帳號設定",
     "Zotero API key" : "Zotero API 金鑰",
