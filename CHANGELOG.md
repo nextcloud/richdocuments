@@ -1,5 +1,14 @@
 # Changelog
 
+## 7.1.3
+
+### Fixed
+
+- fix(files): Avoid reloading the file list and use update methods instead [#2898](https://github.com/nextcloud/richdocuments/pull/2898)
+- fix: Properly select save as dialog buttons [#2892](https://github.com/nextcloud/richdocuments/pull/2892)
+- Fix file templates on public links @juliushaertl [#2902](https://github.com/nextcloud/richdocuments/pull/2902)
+
+
 ## 7.1.2
 
 ### Fixed
