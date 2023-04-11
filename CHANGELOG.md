@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.0.1
+
+### Added
+
+- Add modal to set zotero API key during editing [#2900](https://github.com/nextcloud/richdocuments/pull/2900)
+
+### Fixed
+
+- Fix issue when loading direct editing [#2879](https://github.com/nextcloud/richdocuments/pull/2879)
+- Fix file templates on public links [#2895](https://github.com/nextcloud/richdocuments/pull/2895)
+- fix(files): Avoid reloading the file list and use update methods instead [#2897](https://github.com/nextcloud/richdocuments/pull/2897)
+- fix: Properly select save as dialog buttons [#2891](https://github.com/nextcloud/richdocuments/pull/2891)
+
+
 ## 8.0.0
 
 ### Added
