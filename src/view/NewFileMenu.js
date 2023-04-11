@@ -117,7 +117,7 @@ const NewFileMenu = {
 	},
 
 	_openTemplatePicker(type, mimetype, filename) {
-		axios.get(generateOcsUrl(`apps/richdocuments/api/v1/templates/${type}`, 2)).then(({ data: response }) => {
+		axios.get(generateOcsUrl('apps/richdocuments/api/v1/templates', 2) + type).then(({ data: response }) => {
 			if (response.ocs.data.length === 1) {
 				const { id } = response.ocs.data[0]
 				this._createDocument(mimetype, filename, id)
