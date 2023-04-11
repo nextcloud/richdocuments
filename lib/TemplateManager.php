@@ -154,7 +154,7 @@ class TemplateManager {
 	 * @param int $fileId
 	 * @return File
 	 */
-	public function get($fileId) {
+	public function get(int $fileId) {
 		// is this a global template ?
 		$files = $this->getEmptyTemplateDir()->getDirectoryListing();
 
@@ -162,6 +162,10 @@ class TemplateManager {
 			if ($file->getId() === $fileId) {
 				return $file;
 			}
+		}
+
+		if ($this->userId === null && $this->config->getAppValue(Application::APPNAME, 'template_public', 'yes') !== 'yes') {
+			throw new NotFoundException();
 		}
 
 		// is this a global template ?
@@ -259,6 +263,9 @@ class TemplateManager {
 	 * @return File[]
 	 */
 	public function getSystem($type = null) {
+		if ($this->userId === null && $this->config->getAppValue(Application::APPNAME, 'template_public', 'yes') !== 'yes') {
+			return [];
+		}
 		$folder = $this->getSystemTemplateDir();
 
 		$templateFiles = $folder->getDirectoryListing();
@@ -289,6 +296,10 @@ class TemplateManager {
 	 * @return File[]
 	 */
 	public function getUser($type = null) {
+		if ($this->userId === null) {
+			return [];
+		}
+
 		try {
 			$templateDir   = $this->getUserTemplateDir();
 			$templateFiles = $templateDir->getDirectoryListing();
@@ -303,6 +314,10 @@ class TemplateManager {
 	 * @return array
 	 */
 	public function getUserFormatted($type) {
+		if ($this->userId === null) {
+			return [];
+		}
+
 		$templates = $this->getUser($type);
 
 		return array_map(function(File $file) {
@@ -316,12 +331,12 @@ class TemplateManager {
 	 * @return File[]
 	 */
 	public function getAll($type = 'document') {
-		$system = $this->getSystem();
-		$user   = $this->getUser();
-
 		if (!array_key_exists($type, self::$tplTypes)) {
 			return [];
 		}
+
+		$system = $this->getSystem();
+		$user = $this->getUser();
 
 		return array_values(array_filter(array_merge($user, $system), function (File $template) use ($type) {
 			foreach (self::$tplTypes[$type] as $mime) {
@@ -458,12 +473,12 @@ class TemplateManager {
 		$ooxml = $this->config->getAppValue(Application::APPNAME, 'doc_format', '') === 'ooxml';
 		$documentType = $this->flipTypes()[$template->getMimeType()];
 		return [
-			'id'        => $template->getId(),
-			'name'      => $template->getName(),
-			'preview'   => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
-			'type'      => $this->flipTypes()[$template->getMimeType()],
-			'delete'    => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
-			'extension' => ($ooxml && isset(self::TYPE_EXTENSION_OOXML[$documentType])) ? self::TYPE_EXTENSION_OOXML[$documentType] : self::TYPE_EXTENTION[$documentType],
+			'id' => $template->getId(),
+			'name' => $template->getName(),
+			'preview' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $template->getId()]),
+			'type' => $this->flipTypes()[$template->getMimeType()],
+			'delete' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.delete', ['fileId' => $template->getId()]),
+			'extension' => $template->getExtension(),
 		];
 	}
 
@@ -555,7 +570,7 @@ class TemplateManager {
 			$query = $this->db->getQueryBuilder();
 			$query->select('templateid')
 				->from('richdocuments_template')
-				->where($query->expr()->eq('userid', $query->createNamedParameter($this->userId)))
+				->where($this->userId !== null ? $query->expr()->eq('userid', $query->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR)) : $query->expr()->isNull('userid'))
 				->andWhere($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 			$result = $query->executeQuery();
 			$templateId = (int)$result->fetchOne();

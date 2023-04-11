@@ -309,8 +309,13 @@ class DocumentController extends Controller {
 					'userId' => $this->uid,
 				];
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
-				$params['token'] = $token;
+				$templateFile = $this->templateManager->getTemplateSource($item->getId());
+				if ($templateFile) {
+					list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $share->getShareOwner(), $item->getId());
+				} else {
+					list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
+				}
+				$params['token'] = $wopi->getToken();
 				$params['urlsrc'] = $urlSrc;
 				$params['hideCloseButton'] = $node instanceof File && $wopi->getHideDownload();
 
