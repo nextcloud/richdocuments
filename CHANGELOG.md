@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.3.6
+
+### Fixed
+
+- Fix file templates on public links @juliushaertl [#2903](https://github.com/nextcloud/richdocuments/pull/2903)
+
 ## 6.3.5
 
 ### Fixed
