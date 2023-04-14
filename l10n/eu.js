@@ -147,6 +147,7 @@ OC.L10N.register(
     "Open file locally" : "Ireki fitxategia lokalean",
     "Open locally" : "Ireki lokalean",
     "Continue editing online" : "Jarraitu linean editatzen",
+    "Opening file locally …" : "Fitxategia lokalean irekitzen ...",
     "Try again" : "Saiatu berriro",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Huts egin du hona konektatzean: {productName}. Saiatu berriro beranduago edo jarri zerbitzariaren administratzailearekin harremanetan.",
     "Select a personal template folder" : "Hautatu txantiloi pertsonalizatuentzako karpeta bat",
