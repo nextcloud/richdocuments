@@ -23,8 +23,8 @@
 
 namespace OCA\Richdocuments;
 
-use OCP\App\IAppManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
+use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
 

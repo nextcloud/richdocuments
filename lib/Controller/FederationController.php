@@ -22,13 +22,13 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
-use OCA\Richdocuments\Db\WopiMapper;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
