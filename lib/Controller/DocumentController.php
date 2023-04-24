@@ -11,11 +11,16 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use \OCA\Richdocuments\AppConfig;
+use \OCP\AppFramework\Controller;
+use \OCP\AppFramework\Http\TemplateResponse;
+use \OCP\IConfig;
+use \OCP\ILogger;
+use \OCP\IRequest;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
-use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Constants;
 use OCP\Files\File;
@@ -24,11 +29,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use \OCP\IRequest;
-use \OCP\IConfig;
-use \OCP\ILogger;
-use \OCP\AppFramework\Http\TemplateResponse;
-use \OCA\Richdocuments\AppConfig;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;

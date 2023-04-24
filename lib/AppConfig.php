@@ -11,8 +11,8 @@
 
 namespace OCA\Richdocuments;
 
-use OCA\Richdocuments\AppInfo\Application;
 use \OCP\IConfig;
+use OCA\Richdocuments\AppInfo\Application;
 
 class AppConfig {
 	public const WOPI_URL = 'wopi_url';

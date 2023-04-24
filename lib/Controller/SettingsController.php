@@ -11,13 +11,16 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use \OCP\AppFramework\Controller;
+use \OCP\IL10N;
+use \OCP\IRequest;
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\UploadException;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Richdocuments\WOPI\Parser;
-use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -26,11 +29,8 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\ILogger;
-use \OCP\IRequest;
-use \OCP\IL10N;
-use OCA\Richdocuments\AppConfig;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 

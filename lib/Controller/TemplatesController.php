@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Controller;
 
+use OC\Files\Filesystem;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -39,7 +40,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OC\Files\Filesystem;
 use Psr\Log\LoggerInterface;
 
 class TemplatesController extends Controller {
