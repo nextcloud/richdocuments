@@ -39,6 +39,7 @@ class SettingsController extends Controller {
 	public const FONT_MIME_TYPES = [
 		'font/ttf',
 		'application/font-sfnt',
+		'font/sfnt',
 		'font/opentype',
 		'application/vnd.oasis.opendocument.formula-template',
 	];
@@ -432,8 +433,15 @@ class SettingsController extends Controller {
 		try {
 			$file = $this->getUploadedFile('fontfile');
 			if (isset($file['tmp_name'], $file['name'], $file['type'])) {
-				if (!in_array($file['type'], self::FONT_MIME_TYPES, true)) {
-					return new JSONResponse(['error' => 'Font type not supported'], Http::STATUS_BAD_REQUEST);
+				$fileType = $file['type'];
+				if (function_exists('mime_content_type')) {
+					$fileType = @mime_content_type($file['tmp_name']);
+				}
+				if (!$fileType) {
+					$fileType = $file['type'];
+				}
+				if (!in_array($fileType, self::FONT_MIME_TYPES, true)) {
+					return new JSONResponse(['error' => 'Font type not supported: ' . $fileType], Http::STATUS_BAD_REQUEST);
 				}
 				$newFileResource = fopen($file['tmp_name'], 'rb');
 				if ($newFileResource === false) {
