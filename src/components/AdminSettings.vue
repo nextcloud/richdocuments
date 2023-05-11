@@ -766,8 +766,9 @@ export default {
 
 	input[type='text'],
 	.multiselect {
-		width: 100%;
-		max-width: 400px;
+		width: auto;
+		min-width: 200px;
+		max-width: 100%;
 	}
 
 	input#wopi_url {
