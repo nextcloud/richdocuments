@@ -137,6 +137,10 @@ class AppConfig {
 		return $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
 	}
 
+	public function getDisableCertificateValidation(): bool {
+		return $this->config->getAppValue(Application::APPNAME, 'disable_certificate_verification', 'no') === 'yes';
+	}
+
 	public function getUseGroups(): ?array {
 		$groups = $this->config->getAppValue(Application::APPNAME, 'use_groups', '');
 		if ($groups === '') {

@@ -34,6 +34,7 @@ return [
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 
 		['name' => 'document#editOnline', 'url' => 'editonline', 'verb' => 'GET'],
+		['name' => 'document#editOnlineTarget', 'url' => 'editonline/{fileId}/{target}', 'verb' => 'GET'],
 
 		// external api access
 		['name' => 'document#extAppGetData', 'url' => '/ajax/extapp/data/{fileId}', 'verb' => 'POST'],
@@ -87,5 +88,8 @@ return [
 		['name' => 'Federation#index', 'url' => '/api/v1/federation', 'verb' => 'GET'],
 		['name' => 'Federation#remoteWopiToken', 'url' => '/api/v1/federation', 'verb' => 'POST'],
 		['name' => 'Federation#initiatorUser', 'url' => '/api/v1/federation/user', 'verb' => 'POST'],
+
+		['name' => 'Target#getTargets', 'url' => '/api/v1/targets', 'verb' => 'GET'],
+		['name' => 'Target#getPreview', 'url' => '/api/v1/targets/preview', 'verb' => 'GET'],
 	],
 ];
