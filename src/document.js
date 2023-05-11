@@ -247,7 +247,7 @@ const documentsMain = {
 			$(document.body).addClass('claro')
 			$(document.body).prepend(documentsMain.UI.container)
 
-			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: !documentsMain.hideCloseButton, revisionHistory: !documentsMain.isPublic })
+			const urlsrc = getWopiUrl({ fileId, title, readOnly: false, closeButton: !documentsMain.hideCloseButton, revisionHistory: !documentsMain.isPublic, target: Config.get('target') })
 
 			// access_token - must be passed via a form post
 			const accessToken = encodeURIComponent(documentsMain.token)

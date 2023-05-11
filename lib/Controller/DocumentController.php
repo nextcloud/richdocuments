@@ -39,6 +39,8 @@ use OCP\Share\IManager;
 class DocumentController extends Controller {
 	use DocumentTrait;
 
+	public const SESSION_FILE_TARGET = 'richdocuments_openfile_target';
+
 	/** @var ?string */
 	private $uid;
 	/** @var IConfig */
@@ -140,12 +142,13 @@ class DocumentController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+	 * @UseSession
 	 *
 	 * @param string $fileId
 	 * @param string|null $path
 	 * @return RedirectResponse|TemplateResponse
 	 */
-	public function index($fileId, $path = null) {
+	public function index($fileId, ?string $path = null) {
 		try {
 			$folder = $this->rootFolder->getUserFolder($this->uid);
 
@@ -187,6 +190,14 @@ class DocumentController extends Controller {
 				'urlsrc' => $urlSrc,
 				'path' => $folder->getRelativePath($item->getPath()),
 			];
+
+			$targetData = $this->session->get(self::SESSION_FILE_TARGET);
+			if ($targetData) {
+				$this->session->remove(self::SESSION_FILE_TARGET);
+				if ($targetData['fileId'] === $item->getId()) {
+					$params['target'] = $targetData['target'];
+				}
+			}
 
 			$encryptionManager = \OC::$server->getEncryptionManager();
 			if ($encryptionManager->isEnabled()) {
@@ -403,8 +414,9 @@ class DocumentController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
+	 * @UseSession
 	 */
-	public function editOnline(string $path = null, string $userId = null) {
+	public function editOnline(string $path = null, ?string $userId = null, ?string $target = null) {
 		if ($path === null) {
 			return $this->renderErrorPage('No path provided');
 		}
@@ -428,6 +440,46 @@ class DocumentController extends Controller {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($userId);
 			$file = $userFolder->get($path);
+			if ($target !== null) {
+				$this->session->set(self::SESSION_FILE_TARGET, [
+					'fileId' => $file->getId(),
+					'target' => $target,
+				]);
+			}
+			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
+			return new RedirectResponse($redirectUrl);
+		} catch (NotFoundException $e) {
+		} catch (NotPermittedException $e) {
+		} catch (NoUserException $e) {
+		}
+
+		return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @UseSession
+	 */
+	public function editOnlineTarget(int $fileId, ?string $target = null) {
+		if (!$this->uid) {
+			return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($this->uid);
+			$files = $userFolder->getById($fileId);
+			$file = array_shift($files);
+			if (!$file) {
+				return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
+			}
+
+			if ($target !== null) {
+				$this->session->set(self::SESSION_FILE_TARGET, [
+					'fileId' => $file->getId(),
+					'target' => $target,
+				]);
+			}
 			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
 			return new RedirectResponse($redirectUrl);
 		} catch (NotFoundException $e) {
