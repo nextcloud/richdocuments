@@ -23,14 +23,13 @@
 <template>
 	<NcMultiselect v-model="inputValObjects"
 		:options="groupsArray"
-		:options-limit="5"
+		:auto-limit="false"
 		:placeholder="label"
 		track-by="id"
 		label="displayname"
 		class="multiselect-vue"
 		:multiple="true"
 		:close-on-select="false"
-		:tag-width="60"
 		:disabled="disabled"
 		@input="update"
 		@search-change="asyncFindGroup">
