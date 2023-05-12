@@ -185,7 +185,7 @@
 							{{ t('richdocuments', 'Loading available demo servers …') }}
 						</p>
 						<p v-else-if="demoServers.length > 0">
-							<NcMultiselect v-if="serverMode === 'demo'"
+							<NcSelect v-if="serverMode === 'demo'"
 								v-model="settings.demoUrl"
 								:custom-label="demoServerLabel"
 								track-by="demo_url"
@@ -349,7 +349,7 @@
 					:disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allTags" class="checkbox-details">
-					<SettingsSelectTag v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<NcSelectTags v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
 				<SettingsCheckbox v-model="settings.watermark.allGroups"
 					:label="t('richdocuments', 'Show watermark for users of groups')"
@@ -400,7 +400,7 @@
 					:disabled="updating"
 					@input="update" />
 				<p v-if="!settings.watermark.linkAll && settings.watermark.linkTags" class="checkbox-details">
-					<SettingsSelectTag v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
 			</div>
 		</div>
@@ -412,11 +412,10 @@ import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { showWarning, showError } from '@nextcloud/dialogs'
-import { NcModal, NcMultiselect, NcNoteCard } from '@nextcloud/vue'
+import { NcModal, NcSelect, NcSelectTags, NcNoteCard } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
 import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
-import SettingsSelectTag from './SettingsSelectTag.vue'
 import SettingsSelectGroup from './SettingsSelectGroup.vue'
 import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
@@ -443,9 +442,9 @@ export default {
 	components: {
 		SettingsCheckbox,
 		SettingsInputText,
-		SettingsSelectTag,
 		SettingsSelectGroup,
-		NcMultiselect,
+		NcSelect,
+		NcSelectTags,
 		SettingsExternalApps,
 		SettingsInputFile,
 		SettingsFontList,
