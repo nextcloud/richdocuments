@@ -21,31 +21,22 @@
   -->
 
 <template>
-	<NcMultiselect v-model="inputValObjects"
-		:options="tags"
-		:options-limit="5"
+	<NcSelect v-model="inputValObjects"
+		:options="selectOptions"
+		:limit="5"
 		:placeholder="label"
-		track-by="id"
-		:custom-label="tagLabel"
 		class="multiselect-vue"
 		:multiple="true"
 		:close-on-select="false"
-		:tag-width="60"
 		:disabled="disabled"
-		@input="update"
-		@search-change="asyncFind">
-		<span slot="noResult">{{ t('settings', 'No results') }}</span>
-		<template #option="scope">
-			{{ tagLabel(scope.option) }}
-		</template>
-	</NcMultiselect>
+		@input="update" />
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
 
 import { generateRemoteUrl } from '@nextcloud/router'
-import { NcMultiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 
 const xmlToJson = (xml) => {
 	let obj = {}
@@ -139,7 +130,7 @@ let uuid = 0
 export default {
 	name: 'SettingsSelectTag',
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 	props: {
 		label: {
@@ -169,6 +160,9 @@ export default {
 		id() {
 			return 'settings-input-text-' + this.uuid
 		},
+		selectOptions() {
+			return this.tags.map(this.tagToOption)
+		},
 	},
 	watch: {
 		value(newVal) {
@@ -184,12 +178,10 @@ export default {
 		})
 	},
 	methods: {
-		asyncFind(query) {
-		},
 		getValueObject() {
 			return this.value.filter((tag) => tag !== '').map(
-				(id) => this.tags.find((tag) => tag.id === id)
-			)
+				(id) => this.tags.find((tag) => Number(tag.id) === Number(id))
+			).map(this.tagToOption)
 		},
 		update() {
 			this.$emit('input', this.inputValObjects.map((element) => element.id))
@@ -202,6 +194,12 @@ export default {
 				return `${displayName} (restricted)`
 			}
 			return displayName
+		},
+		tagToOption(tag) {
+			return {
+				id: tag.id,
+				label: this.tagLabel(tag),
+			}
 		},
 	},
 }

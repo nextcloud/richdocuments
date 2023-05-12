@@ -22,7 +22,7 @@
 import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 
-import { registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Components/NcRichText.js'
+import { registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue'
 
 import DocumentTargetPicker from './view/DocumentTargetPicker.vue'
 

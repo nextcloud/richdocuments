@@ -171,7 +171,7 @@
 							{{ t('richdocuments', 'Loading available demo servers …') }}
 						</p>
 						<p v-else-if="demoServers.length > 0">
-							<NcMultiselect v-if="serverMode === 'demo'"
+							<NcSelect v-if="serverMode === 'demo'"
 								v-model="settings.demoUrl"
 								:custom-label="demoServerLabel"
 								track-by="demo_url"
@@ -398,12 +398,12 @@ import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { showWarning, showError } from '@nextcloud/dialogs'
-import { NcModal, NcMultiselect } from '@nextcloud/vue'
+import { NcModal, NcSelect } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
 import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
-import SettingsSelectTag from './SettingsSelectTag.vue'
 import SettingsSelectGroup from './SettingsSelectGroup.vue'
+import SettingsSelectTag from './SettingsSelectTag.vue'
 import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
@@ -424,14 +424,14 @@ const fontMimes = [
 export default {
 	name: 'AdminSettings',
 	components: {
+		NcSelect,
 		SettingsCheckbox,
-		SettingsInputText,
-		SettingsSelectTag,
-		SettingsSelectGroup,
-		NcMultiselect,
 		SettingsExternalApps,
-		SettingsInputFile,
 		SettingsFontList,
+		SettingsInputFile,
+		SettingsInputText,
+		SettingsSelectGroup,
+		SettingsSelectTag,
 		NcModal,
 	},
 	props: {
