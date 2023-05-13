@@ -12,7 +12,9 @@ OC.L10N.register(
     "Error" : "Error",
     "An error occurred" : "Prodúxose un error",
     "Nickname" : "Nomatu",
+    "Saving …" : "Guardando…",
     "Details" : "Detalles",
+    "Saving…" : "Guardando…",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=2; plural=(n != 1);");
