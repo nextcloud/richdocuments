@@ -1,5 +1,33 @@
 # Changelog
 
+## 8.1.0-beta.1
+
+### Added
+
+- Support for Nextcloud 27
+
+### Fixed
+
+- Fix regression on share links as logged in users @juliushaertl [#2784](https://github.com/nextcloud/richdocuments/pull/2784)
+- Fix viewer height on safari mobile @julien-nc [#2801](https://github.com/nextcloud/richdocuments/pull/2801)
+- Fix base64 image generation @julien-nc [#2826](https://github.com/nextcloud/richdocuments/pull/2826)
+- Fix issue when loading direct editing @juliushaertl [#2874](https://github.com/nextcloud/richdocuments/pull/2874)
+- fix: Avoid error when browser cannot detect font mimetype @juliushaertl [#2893](https://github.com/nextcloud/richdocuments/pull/2893)
+- Fix file templates on public links @juliushaertl [#2877](https://github.com/nextcloud/richdocuments/pull/2877)
+- fix(files): Avoid reloading the file list and use update methods instead @juliushaertl [#2881](https://github.com/nextcloud/richdocuments/pull/2881)
+- fix: Avoid setting user scope for share links @juliushaertl [#2899](https://github.com/nextcloud/richdocuments/pull/2899)
+- Improve group multiselect behaviour with multiple and long group names @juliushaertl [#2944](https://github.com/nextcloud/richdocuments/pull/2944)
+- allow to add ttf files @szaimen [#2782](https://github.com/nextcloud/richdocuments/pull/2782)
+- Move document params to initial state @juliushaertl [#2258](https://github.com/nextcloud/richdocuments/pull/2258)
+- fix: direct editing integration tests @juliushaertl [#2795](https://github.com/nextcloud/richdocuments/pull/2795)
+- Workaround for en-AU language/locale @timar [#2841](https://github.com/nextcloud/richdocuments/pull/2841)
+- fix: Trigger initial setup earlier @juliushaertl [#2846](https://github.com/nextcloud/richdocuments/pull/2846)
+- fix(auto_logout): Register auto_logout listeners to prevent auto_logout while editing @marcelklehr [#2845](https://github.com/nextcloud/richdocuments/pull/2845)
+- Hide close button on single file shares that have hide download enabled @sharonwuu [#2827](https://github.com/nextcloud/richdocuments/pull/2827)
+- fix: Properly select save as dialog buttons @juliushaertl [#2880](https://github.com/nextcloud/richdocuments/pull/2880)
+- String and test fixes @silopolis [#2901](https://github.com/nextcloud/richdocuments/pull/2901)
+- Dependency updates
+
 ## 8.0.0-beta.1
 
 ### Added
