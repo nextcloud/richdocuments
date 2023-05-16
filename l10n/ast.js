@@ -14,6 +14,7 @@ OC.L10N.register(
     "Nickname" : "Nomatu",
     "Saving …" : "Guardando…",
     "Details" : "Detalles",
+    "Download" : "Baxar",
     "Saving…" : "Guardando…",
     "Collabora Online" : "Collabora Online"
 },
