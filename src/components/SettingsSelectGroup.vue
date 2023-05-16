@@ -23,14 +23,13 @@
 <template>
 	<Multiselect v-model="inputValObjects"
 		:options="groupsArray"
-		:options-limit="5"
+		:auto-limit="false"
 		:placeholder="label"
 		track-by="id"
 		label="displayname"
 		class="multiselect-vue"
 		:multiple="true"
 		:close-on-select="false"
-		:tag-width="60"
 		:disabled="disabled"
 		@input="update"
 		@search-change="asyncFindGroup">
@@ -78,7 +77,9 @@ export default {
 			return 'settings-select-group-' + this.uuid
 		},
 		groupsArray() {
-			return Object.values(this.groups)
+			return Object.values(this.groups).sort((a, b) => {
+				return this.inputValObjects.indexOf(b) - this.inputValObjects.indexOf(a)
+			})
 		},
 	},
 	watch: {
@@ -89,6 +90,13 @@ export default {
 	created() {
 		this.uuid = uuid.toString()
 		uuid += 1
+
+		// Preseed with placeholder entries for groups
+		this.getValueObject().forEach((element) => {
+			this.$set(this.groups, element.id, element)
+		})
+		this.inputValObjects = this.getValueObject()
+		// Fetch actual group metadata
 		this.asyncFindGroup('').then((result) => {
 			this.inputValObjects = this.getValueObject()
 		})
@@ -112,7 +120,7 @@ export default {
 		},
 		asyncFindGroup(query) {
 			query = typeof query === 'string' ? encodeURI(query) : ''
-			return axios.get(generateOcsUrl(`cloud/groups/details?search=${query}&limit=10`, 2))
+			return axios.get(generateOcsUrl(`cloud/groups/details?search=${query}&limit=100`, 2))
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.groups).length > 0) {
 						response.data.ocs.data.groups.forEach((element) => {
