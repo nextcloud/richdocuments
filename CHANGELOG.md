@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.2
+
+### Fixed
+
+- Improve group multiselect behaviour with multiple and long group names [#2946](https://github.com/nextcloud/richdocuments/pull/2946)
+- fix: Avoid error when browser cannot detect font mimetype [#2935](https://github.com/nextcloud/richdocuments/pull/2935)
+- Dependency updates
+
 ## 8.0.1
 
 ### Added
