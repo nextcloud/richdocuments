@@ -15,6 +15,7 @@ OC.L10N.register(
     "Saving …" : "Guardando…",
     "Details" : "Detalles",
     "Download" : "Baxar",
+    "Zotero" : "Zotero",
     "Saving…" : "Guardando…",
     "Collabora Online" : "Collabora Online"
 },
