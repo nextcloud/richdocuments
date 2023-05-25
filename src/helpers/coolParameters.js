@@ -63,7 +63,7 @@ const generateCSSVarTokens = () => {
 		'--border-radius-pill': '--co-border-radius-pill',
 	}
 	let str = ''
-	const element = document.getElementById('documents-content') ?? document.documentElement
+	const element = document.getElementById('cool-var-source-light') ?? document.documentElement
 	try {
 		for (const cssVarKey in cssVarMap) {
 			let cStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey)
@@ -81,11 +81,71 @@ const generateCSSVarTokens = () => {
 		// Skip extracting css vars if we cannot access parent
 	}
 
+	// New dark mode compatible way to hand over our Nextcloud variables in both light/dark to Collabora
+	const lightElement = document.getElementById('cool-var-source-light') ?? document.documentElement
+	const darkElement = document.getElementById('cool-var-source-dark') ?? document.documentElement
+
+	const handover = [
+		'--color-main-background',
+		'--color-main-background-rgb',
+		'--color-main-background-translucent',
+		'--color-main-background-blur',
+		'--color-main-text',
+		'--color-text-maxcontrast',
+		'--color-box-shadow',
+		'--color-box-shadow-rgb',
+		'--default-font-size',
+		'--border-radius',
+		'--border-radius-large',
+		'--border-radius-rounded',
+		'--border-radius-pill',
+		'--default-clickable-area',
+		'--default-line-height',
+		'--default-grid-baseline',
+		'--color-primary',
+		'--color-primary-default',
+		'--color-primary-text',
+		'--color-primary-hover',
+		'--color-primary-light',
+		'--color-primary-light-text',
+		'--color-primary-light-hover',
+		'--color-primary-element',
+		'--color-primary-element-hover',
+		'--color-primary-element-text',
+		'--color-primary-element-light',
+		'--color-primary-element-light-hover',
+		'--color-primary-element-light-text',
+		'--color-primary-element-text-dark',
+		'--primary-invert-if-bright',
+		'--background-invert-if-bright',
+		'--background-invert-if-dark',
+	]
+	for (const i in handover) {
+		const varName = handover[i]
+
+		const lightStyle = window.getComputedStyle(lightElement).getPropertyValue(varName)
+		const darkStyle = window.getComputedStyle(darkElement).getPropertyValue(varName)
+
+		str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';'
+		str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';'
+
+		// Workaround for now as we need primary-invert-if-dark which is not available on server yet
+		if (varName === '--primary-invert-if-bright') {
+			if (lightStyle.trim() === 'no') {
+				str += '--nc-light-primary-invert-if-dark=invert(1);'
+				str += '--nc-dark-primary-invert-if-dark=invert(1);'
+			} else {
+				str += '--nc-light-primary-invert-if-dark=no;'
+				str += '--nc-dark-primary-invert-if-dark=no;'
+			}
+		}
+	}
+
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
 		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
 	}
-	return str
+	return str.replace(/["']/g, '\\\'')
 }
 
 export {
