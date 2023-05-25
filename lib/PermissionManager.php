@@ -135,7 +135,6 @@ class PermissionManager {
 		$isDisabledDownload = $hasShareAttributes && $share->getAttributes()->getAttribute('permissions', 'download') === false;
 		$isHideDownload = $share && $share->getHideDownload();
 		$isSecureView = $isDisabledDownload || $isHideDownload;
-
 		if ($share && $share->getShareType() === IShare::TYPE_LINK) {
 			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no') === 'yes') {
 				return true;
@@ -146,9 +145,11 @@ class PermissionManager {
 			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no') === 'yes' && $isSecureView) {
 				return true;
 			}
+
 			if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no') === 'yes') {
 				$tags = $this->appConfig->getAppValueArray('watermark_linkTagsList');
 				$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([$fileId], 'files')[$fileId];
+				$fileTags = array_map('strval', $fileTags);
 				foreach ($fileTags as $tagId) {
 					if (in_array($tagId, $tags, true)) {
 						return true;
@@ -182,6 +183,7 @@ class PermissionManager {
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no') === 'yes') {
 			$tags = $this->appConfig->getAppValueArray('watermark_allTagsList');
 			$fileTags = $this->systemTagObjectMapper->getTagIdsForObjects([$fileId], 'files')[$fileId];
+			$fileTags = array_map('strval', $fileTags);
 			foreach ($fileTags as $tagId) {
 				if (in_array($tagId, $tags, true)) {
 					return true;
