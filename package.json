@@ -55,7 +55,7 @@
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
 		"cypress": "^12.12.0",
 		"eslint-plugin-cypress": "^2.13.3",
-		"ts-loader": "^9.4.2",
+		"ts-loader": "^9.4.3",
 		"typescript": "^4.9.5"
 	},
 	"jest": {
