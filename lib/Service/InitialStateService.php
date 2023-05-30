@@ -78,7 +78,7 @@ class InitialStateService {
 		$this->initialState->provideInitialState('wopi', $wopi);
 		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
 		$this->initialState->provideInitialState('uiDefaults', [
-			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'classic')
+			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
 		]);
 		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
 		if (!$logoSet) {
