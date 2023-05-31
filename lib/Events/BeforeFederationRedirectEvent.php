@@ -2,8 +2,8 @@
 
 namespace OCA\Richdocuments\Events;
 
+use OCP\EventDispatcher\Event;
 use OCP\Files\Node;
-use Symfony\Component\EventDispatcher\Event;
 
 class BeforeFederationRedirectEvent extends Event {
 	/** @var Node */
@@ -16,6 +16,7 @@ class BeforeFederationRedirectEvent extends Event {
 	private $remote;
 
 	public function __construct($node, $relativePath, $remote) {
+		parent::__construct();
 		$this->node = $node;
 		$this->relativePath = $relativePath;
 		$this->remote = $remote;
