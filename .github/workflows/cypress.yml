@@ -34,7 +34,7 @@ jobs:
 
     services:
       collabora:
-        image: collabora/code
+        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
@@ -82,12 +82,6 @@ jobs:
           ini-values:
             apc.enable_cli=on
           coverage: none
-
-      - name: Find Docker Host IP
-        uses: addnab/docker-run-action@v1
-        with:
-          image: alpine:latest
-          run: "apk update > /dev/null && apk add iproute2 > /dev/null && ip -4 route show default | cut -d' ' -f3"
 
       - name: Set up Nextcloud
         env:
