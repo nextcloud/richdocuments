@@ -45,6 +45,8 @@ class PermissionManagerTest extends TestCase {
 	private $userSession;
 	/** @var PermissionManager */
 	private $permissionManager;
+	/** @var ISystemTagObjectMapper */
+	private $systemTagMapper;
 
 	public function setUp(): void {
 		parent::setUp();
