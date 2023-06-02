@@ -39,7 +39,7 @@ describe('Open existing office files', function() {
 	fileTests.forEach((filename) => {
 
 		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {
-			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
+			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'compact')
 			cy.login(randUser)
 
 			cy.visit('/apps/files', {
