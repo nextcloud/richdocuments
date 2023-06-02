@@ -98,6 +98,7 @@ jobs:
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
           php occ config:system:set force_language --value en
+          php occ app:enable --force testing
           php occ app:enable --force viewer
           php occ app:enable --force richdocuments
           php occ app:list
