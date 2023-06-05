@@ -131,7 +131,7 @@ OC.L10N.register(
     "New filename" : "Novo ime datoteke",
     "Save" : "Shrani",
     "Try again" : "Poskusi znova",
-    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Povezovanje s programom {productName} je spodletelo. Poskusite kasneje ali pa stopite v stik s skrbnikom sistema.",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Povezovanje s programom {productName} je spodletelo. Poskusite kasneje, ali pa stopite v stik s skrbnikom sistema.",
     "Select a personal template folder" : "Izbor osebne mape predlog",
     "Saving …" : "Poteka shranjevanje ...",
     "Insert from {name}" : "Vstavi iz imena {name}",
