@@ -24,23 +24,26 @@
 	<transition name="fade" appear>
 		<div class="office-viewer">
 			<div v-if="showLoadingIndicator"
-				id="office-viewer__loading-overlay"
+				class="office-viewer__loading-overlay"
 				:class="{ debug: debug }">
-				<NcEmptyContent v-if="!error" icon="icon-loading">
-					{{ t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false}) }}
-					<template #desc>
-						<button @click="close">
+				<NcEmptyContent v-if="!error" :title="t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false})">
+					<template #icon>
+						<NcLoadingIcon />
+					</template>
+					<template #action>
+						<NcButton @click="close">
 							{{ t('richdocuments', 'Cancel') }}
-						</button>
+						</NcButton>
 					</template>
 				</NcEmptyContent>
-				<NcEmptyContent v-else icon="icon-error">
-					{{ t('richdocuments', 'Document loading failed') }}
-					<template #desc>
-						{{ errorMessage }}<br><br>
-						<button @click="close">
+				<NcEmptyContent v-else :title="t('richdocuments', 'Document loading failed')" :description="errorMessage">
+					<template #icon>
+						<AlertOctagonOutline />
+					</template>
+					<template #action>
+						<NcButton @click="close">
 							{{ t('richdocuments', 'Close') }}
-						</button>
+						</NcButton>
 					</template>
 				</NcEmptyContent>
 			</div>
@@ -65,13 +68,14 @@
 				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 				:src="src" />
 
-			<ZoteroHint v-if="showZotero" @submit="reload" />
+			<ZoteroHint :show.sync="showZotero" @submit="reload" />
 		</div>
 	</transition>
 </template>
 
 <script>
-import { NcAvatar, NcActions, NcActionButton, NcEmptyContent } from '@nextcloud/vue'
+import { NcAvatar, NcButton, NcActions, NcActionButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 
 import ZoteroHint from '../components/Modal/ZoteroHint.vue'
@@ -97,10 +101,13 @@ const LOADING_STATE = {
 export default {
 	name: 'Office',
 	components: {
+		AlertOctagonOutline,
 		NcAvatar,
 		NcActions,
 		NcActionButton,
+		NcButton,
 		NcEmptyContent,
+		NcLoadingIcon,
 		ZoteroHint,
 	},
 	props: {
@@ -321,6 +328,7 @@ export default {
 	&__loading-overlay {
 		border-top: 3px solid var(--color-primary-element);
 		position: absolute;
+		display: flex;
 		height: 100%;
 		width: 100%;
 		z-index: 1;
@@ -333,6 +341,11 @@ export default {
 
 		::v-deep .empty-content p {
 			text-align: center;
+		}
+
+		.empty-content {
+			align-self: center;
+			flex-grow: 1;
 		}
 	}
 
