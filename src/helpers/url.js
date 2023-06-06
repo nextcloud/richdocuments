@@ -32,7 +32,7 @@ const getSearchParam = (name) => {
 	return decodeURI(results[1]) || ''
 }
 
-const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory }) => {
+const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory, target = undefined }) => {
 	// Only set the revision history parameter if the versions app is enabled
 	revisionHistory = revisionHistory && window?.oc_appswebroots?.files_versions
 
@@ -53,6 +53,7 @@ const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory }) =
 		+ (closeButton ? '&closebutton=1' : '')
 		+ (revisionHistory ? '&revisionhistory=1' : '')
 		+ (readOnly ? '&permission=readonly' : '')
+		+ (target ? '&target=' + encodeURIComponent(target) : '')
 }
 
 const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTemplate) => {
