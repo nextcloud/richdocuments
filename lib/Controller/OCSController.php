@@ -41,11 +41,11 @@ use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use Psr\Log\LoggerInterface;
 
 class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var IRootFolder */
@@ -72,7 +72,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/** @var FederationService */
 	private $federationService;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(string $appName,
@@ -85,7 +85,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		TokenManager $tokenManager,
 		IManager $shareManager,
 		FederationService $federationService,
-		ILogger $logger
+		LoggerInterface $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -340,7 +340,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		} catch (NotFoundException $e) {
 			throw new OCSNotFoundException();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('Failed to create new file from template.');
 		}
 	}

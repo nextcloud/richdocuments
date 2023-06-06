@@ -43,6 +43,7 @@ use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -55,6 +56,7 @@ use OCP\IL10N;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
+use OCP\Server;
 
 class Application extends App implements IBootstrap {
 	public const APPNAME = 'richdocuments';
@@ -142,26 +144,26 @@ class Application extends App implements IBootstrap {
 		$container = $this->getContainer();
 
 		/** @var IPreview $previewManager */
-		$previewManager = $container->query(IPreview::class);
+		$previewManager = $container->get(IPreview::class);
 
 		$previewManager->registerProvider('/application\/vnd.ms-excel/', function () use ($container) {
-			return $container->query(MSExcel::class);
+			return $container->get(MSExcel::class);
 		});
 
 		$previewManager->registerProvider('/application\/msword/', function () use ($container) {
-			return $container->query(MSWord::class);
+			return $container->get(MSWord::class);
 		});
 
 		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', function () use ($container) {
-			return $container->query(OOXML::class);
+			return $container->get(OOXML::class);
 		});
 
 		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function () use ($container) {
-			return $container->query(OpenDocument::class);
+			return $container->get(OpenDocument::class);
 		});
 
 		$previewManager->registerProvider('/application\/pdf/', function () use ($container) {
-			return $container->query(Pdf::class);
+			return $container->get(Pdf::class);
 		});
 	}
 
@@ -175,8 +177,8 @@ class Application extends App implements IBootstrap {
 
 		$CODEAppID = (php_uname('m') === 'x86_64') ? 'richdocumentscode' : 'richdocumentscode_arm64';
 
-		if ($this->getContainer()->getServer()->getAppManager()->isEnabledForUser($CODEAppID)) {
-			$appConfig = $this->getContainer()->query(AppConfig::class);
+		if (Server::get(IAppManager::class)->isEnabledForUser($CODEAppID)) {
+			$appConfig = $this->getContainer()->get(AppConfig::class);
 			$wopi_url = $appConfig->getAppValue('wopi_url');
 			$isCODEEnabled = strpos($wopi_url, 'proxy.php?req=') !== false;
 
@@ -198,8 +200,8 @@ class Application extends App implements IBootstrap {
 			$appConfig->setAppValue('wopi_url', $new_wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');
 
-			$discoveryManager = $this->getContainer()->query(DiscoveryManager::class);
-			$capabilitiesService = $this->getContainer()->query(CapabilitiesService::class);
+			$discoveryManager = $this->getContainer()->get(DiscoveryManager::class);
+			$capabilitiesService = $this->getContainer()->get(CapabilitiesService::class);
 
 			$discoveryManager->refetch();
 			$capabilitiesService->clear();

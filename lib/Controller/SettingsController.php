@@ -30,9 +30,9 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class SettingsController extends Controller {
 	// TODO adapt overview generation if we add more font mimetypes
@@ -60,7 +60,7 @@ class SettingsController extends Controller {
 	private $capabilitiesService;
 	/** @var DemoService */
 	private $demoService;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/**
 	 * @var FontService
@@ -77,7 +77,7 @@ class SettingsController extends Controller {
 		CapabilitiesService $capabilitiesService,
 		DemoService $demoService,
 		FontService $fontService,
-		ILogger $logger,
+		LoggerInterface $logger,
 		$userId
 	) {
 		parent::__construct($appName, $request);
@@ -103,7 +103,7 @@ class SettingsController extends Controller {
 		try {
 			$response = $this->discoveryManager->fetchFromRemote();
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
 				'status' => $e->getCode(),
 				'message' => 'Could not fetch discovery details'

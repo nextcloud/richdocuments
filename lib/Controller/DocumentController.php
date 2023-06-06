@@ -15,7 +15,6 @@ use \OCA\Richdocuments\AppConfig;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\IConfig;
-use \OCP\ILogger;
 use \OCP\IRequest;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
@@ -32,6 +31,7 @@ use OCP\Files\NotPermittedException;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use Psr\Log\LoggerInterface;
 
 class DocumentController extends Controller {
 	use DocumentTrait;
@@ -42,7 +42,7 @@ class DocumentController extends Controller {
 	private $config;
 	/** @var AppConfig */
 	private $appConfig;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IManager */
 	private $shareManager;
@@ -69,7 +69,7 @@ class DocumentController extends Controller {
 		IRootFolder $rootFolder,
 		ISession $session,
 		$UserId,
-		ILogger $logger,
+		LoggerInterface $logger,
 		TemplateManager $templateManager,
 		FederationService $federationService,
 		InitialStateService $initialState
@@ -122,7 +122,7 @@ class DocumentController extends Controller {
 						'token' => $token
 					];
 				} catch (\Exception $e) {
-					$this->logger->logException($e, ['app' => 'richdocuments']);
+					$this->logger->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 		}
@@ -194,7 +194,7 @@ class DocumentController extends Controller {
 
 			return $this->documentTemplateResponse($wopi, $params);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
@@ -308,7 +308,7 @@ class DocumentController extends Controller {
 				return $this->documentTemplateResponse($wopi, $params);
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 
@@ -378,7 +378,7 @@ class DocumentController extends Controller {
 		} catch (ShareNotFound $e) {
 			return new TemplateResponse('core', '404', [], 'guest');
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 

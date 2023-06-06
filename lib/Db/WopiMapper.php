@@ -29,15 +29,15 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 /** @template-extends QBMapper<Wopi> */
 class WopiMapper extends QBMapper {
 	/** @var ISecureRandom */
 	private $random;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var ITimeFactory */
@@ -48,7 +48,7 @@ class WopiMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db,
 		ISecureRandom $random,
-		ILogger $logger,
+		LoggerInterface $logger,
 		ITimeFactory $timeFactory,
 		AppConfig $appConfig) {
 		parent::__construct($db, 'richdocuments_wopi', Wopi::class);
@@ -143,13 +143,12 @@ class WopiMapper extends QBMapper {
 			->where(
 				$qb->expr()->eq('token', $qb->createNamedParameter($token))
 			);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		$this->logger->debug('Loaded WOPI Token record: {row}.', [
 			'row' => $row,
-			'app' => 'richdocuments'
 		]);
 		if ($row === false) {
 			throw new UnknownTokenException('Could not find token.');
