@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Andrii Ilkiv <a.ilkiv.ye@gmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +25,13 @@ namespace Tests\Richdocuments;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\PermissionManager;
+use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Share\IShare;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -137,5 +141,73 @@ class PermissionManagerTest extends TestCase {
 
 		// Users with edit permission should never be locked
 		$this->assertFalse($isLocked && $canEdit);
+	}
+
+
+	public function dataWatermarkTagIds(): array {
+		return [
+			[['1', '2', '3'], ['1', '2']],
+			// From php 8.1 queries on integer columns return integers
+			[[1, 2, 3], ['1', '2']],
+		];
+	}
+
+	/** @dataProvider dataWatermarkTagIds */
+	public function testShouldWatermarkOptionLinkTags(array $objectTagIds, array $watermarkTagIds): void {
+		$node = $this->createMock(Node::class);
+		$share = $this->createMock(IShare::class);
+		$userId = 'testUserId';
+
+		$this->config
+			->expects($this->exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no', 'yes'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkAll', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkRead', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkSecure', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_linkTags', 'no', 'yes'],
+			]);
+
+		$node->expects($this->once())->method('getId')->willReturn('testFileId');
+		$node->expects($this->once())->method('isUpdateable')->willReturn(false);
+
+		$share->expects($this->once())->method('getHideDownload')->willReturn(true);
+		$share->expects($this->once())->method('getAttributes')->willReturn(null);
+		$share->expects($this->once())->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$this->systemTagMapper->expects($this->once())->method('getTagIdsForObjects')->willReturn(['testFileId' => $objectTagIds]);
+		$this->appConfig->expects($this->once())->method('getAppValueArray')->willReturn($watermarkTagIds);
+
+		$result = $this->permissionManager->shouldWatermark($node, $userId, $share);
+
+		$this->assertTrue($result);
+	}
+
+	/** @dataProvider dataWatermarkTagIds */
+	public function testShouldWatermarkOptionAllTags(array $objectTagIds, array $watermarkTagIds): void {
+		$node = $this->createMock(Node::class);
+		$share = $this->createMock(IShare::class);
+		$userId = 'testUserId';
+
+		$this->config
+			->expects($this->exactly(6))
+			->method('getAppValue')
+			->willReturnMap([
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_enabled', 'no', 'yes'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareRead', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareDisabledDownload', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no', 'no'],
+				[AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allTags', 'no', 'yes'],
+			]);
+
+		$node->expects($this->once())->method('getId')->willReturn('testFileId');
+		$node->expects($this->once())->method('isUpdateable')->willReturn(false);
+		$this->systemTagMapper->expects($this->once())->method('getTagIdsForObjects')->willReturn(['testFileId' => $objectTagIds]);
+		$this->appConfig->expects($this->once())->method('getAppValueArray')->willReturn($watermarkTagIds);
+
+		$result = $this->permissionManager->shouldWatermark($node, $userId, null);
+
+		$this->assertTrue($result);
 	}
 }

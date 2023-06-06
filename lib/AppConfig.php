@@ -71,7 +71,7 @@ class AppConfig {
 
 	/**
 	 * @param $key
-	 * @return array
+	 * @return list<string>|string
 	 */
 	public function getAppValueArray($key) {
 		$value = $this->config->getAppValue($this->getAppNamespace($key), $key, []);
