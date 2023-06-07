@@ -29,6 +29,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Só podem ser carregados modelos",
     "Invalid file provided" : "Fornecido ficheiro inválido",
     "Template not found" : "O modelo não foi encontrado",
+    "Headings" : "Títulos",
+    "Images" : "Imagens",
     "Office" : "Escritório",
     "Empty" : "Vazio",
     "Anonymous guest" : "Convidado anónimo",

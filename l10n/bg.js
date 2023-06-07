@@ -33,6 +33,7 @@ OC.L10N.register(
     "Invalid file provided" : "Предоставен е невалиден файл",
     "Template not found" : "Шаблонът не е открит",
     "Nextcloud Office" : "Nextcloud Office",
+    "Headings" : "Заглавия",
     "Office" : "Офис",
     "Empty" : "Празно",
     "Anonymous guest" : "Анонимен гост",

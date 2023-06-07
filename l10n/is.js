@@ -25,6 +25,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Aðeins er hægt að senda inn sniðskrár",
     "Invalid file provided" : "Ógild skrá gefin",
     "Template not found" : "Sniðmát fannst ekki",
+    "Headings" : "Fyrirsagnir",
+    "Images" : "Myndir",
     "Office" : "Skrifstofa",
     "Empty" : "Tómt",
     "Anonymous guest" : "Nafnlaus gestur",

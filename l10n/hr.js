@@ -29,6 +29,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Mogu se otpremati samo datoteke predloška",
     "Invalid file provided" : "Nevažeća datoteka",
     "Template not found" : "Predložak nije pronađen",
+    "Headings" : "Naslovi",
+    "Images" : "Slike",
     "Office" : "Ured",
     "Empty" : "Prazno",
     "Anonymous guest" : "Anoniman gost",

@@ -22,6 +22,8 @@ OC.L10N.register(
     "File is too big" : "El archivo es demasiado grande",
     "Invalid file provided" : "Se proporcionó un archivo invalido",
     "Template not found" : "No se encontró la plantilla",
+    "Headings" : "Títulos",
+    "Images" : "Imágenes",
     "Office" : "Office",
     "Empty" : "Vacío",
     "Anonymous guest" : "Invitado Anónimo",

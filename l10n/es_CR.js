@@ -19,6 +19,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "Una extensión de PHP detuvo la carga del archivo",
     "File is too big" : "El archivo es demasiado grande.",
     "Invalid file provided" : "Archivo proporcionado inválido",
+    "Images" : "Imágenes",
     "Empty" : "Vacío",
     "Advanced settings" : "Configuraciones avanzados",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",

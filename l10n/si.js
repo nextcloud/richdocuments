@@ -5,6 +5,7 @@ OC.L10N.register(
     "No file was uploaded" : "කිසිදු ගොනුවක් උඩුගත කර නොමැත",
     "Missing a temporary folder" : "තාවකාලික බහාලුමක් අස්ථානගත වී ඇත",
     "File is too big" : "ගොනුව ඉතා විශාලයි",
+    "Images" : "පින්තූර",
     "Empty" : "හිස්",
     "Description" : "විස්තරය",
     "No results" : "ප්‍රතිථල නැත",

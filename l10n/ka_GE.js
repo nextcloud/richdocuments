@@ -15,6 +15,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "დროებითი დირექტორია არ არსებობს",
     "File is too big" : "ფაილი ზედმეტად დიდია",
     "Invalid file provided" : "არასწორი ფაილი",
+    "Images" : "სურათები",
     "Empty" : "ცარიელი",
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Restrict usage to specific groups" : "მოხმარების სპეციფიურ ჯგუფებზე შეზღუდვა",
