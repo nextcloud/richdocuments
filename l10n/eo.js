@@ -25,6 +25,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Nur ŝablondosieroj alŝuteblas",
     "Invalid file provided" : "Nevalida dosiero provizita",
     "Template not found" : "Ŝablono ne trovita",
+    "Headings" : "Titolaro",
+    "Images" : "Bildoj",
     "Empty" : "Malplena",
     "Anonymous guest" : "Sennoma gasto",
     "%s (Guest)" : "%s (gasto)",

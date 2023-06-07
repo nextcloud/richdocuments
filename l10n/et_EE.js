@@ -13,6 +13,7 @@ OC.L10N.register(
     "Could not write file to disk" : "Faili kirjutamine kettale ebaõnnestus",
     "File is too big" : "Fail on liiga suur",
     "Invalid file provided" : "Vigane fail",
+    "Images" : "Pildid",
     "Office" : "Kontor",
     "Empty" : "Tühi",
     "Advanced settings" : "Lisavalikud",

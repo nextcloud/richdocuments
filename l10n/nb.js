@@ -21,6 +21,8 @@ OC.L10N.register(
     "No file uploaded or file size exceeds maximum of %s" : "Ingen fil lastet opp eller filen er større enn %s",
     "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Ugyldig fil oppgitt",
+    "Headings" : "Overskrifter",
+    "Images" : "Bilder",
     "Office" : "Office",
     "Empty" : "Tom",
     "Edit office documents directly in your browser." : "Rediger Office-dokumenter i nettleseren din.",

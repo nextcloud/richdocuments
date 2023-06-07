@@ -14,6 +14,8 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "Una extension PHP a arrestat lo mandadís de fichièr",
     "File is too big" : "Fichièr tròp pesuc",
     "Invalid file provided" : "Fichièr provesit invalid",
+    "Headings" : "Títols",
+    "Images" : "Imatges",
     "Advanced settings" : "Paramètres avançats",
     "Submit" : "Transmetre",
     "Description" : "Descripcion",

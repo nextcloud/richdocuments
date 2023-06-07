@@ -13,6 +13,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "O extensie PHP a oprit încărcarea fișierelor",
     "File is too big" : "Fișierul este prea mare",
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
+    "Images" : "Imagini",
     "Advanced settings" : "Setări avansate",
     "Select groups" : "Selectează grupuri ",
     "Submit" : "Trimite",

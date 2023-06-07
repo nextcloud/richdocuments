@@ -24,6 +24,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "สามารถอัปโหลดได้เฉพาะไฟล์เทมเพลต",
     "Invalid file provided" : "ไฟล์ที่ระบุไม่ถูกต้อง",
     "Template not found" : "ไม่พบเทมเพลต",
+    "Images" : "รูปภาพ",
     "Office" : "สำนักงาน",
     "Empty" : "ว่างเปล่า",
     "Anonymous guest" : "ผู้เยี่ยมชมไม่ระบุตัวตน",

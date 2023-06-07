@@ -29,6 +29,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "ניתן להעלות קובצי תבניות בלבד",
     "Invalid file provided" : "הקובץ שסופק שגוי",
     "Template not found" : "התבנית לא נמצאה",
+    "Headings" : "כותרות",
+    "Images" : "תמונות",
     "Office" : "משרד",
     "Empty" : "ריק",
     "Anonymous guest" : "אורח אלמוני",
