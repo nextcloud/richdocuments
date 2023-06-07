@@ -29,6 +29,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Si podent carrigare isceti is archìvios modellu",
     "Invalid file provided" : "S'archìviu frunidu no est vàlidu",
     "Template not found" : "Modellu no agatadu",
+    "Headings" : "Intestatziones",
+    "Images" : "Imàgines",
     "Office" : "Ofìtziu",
     "Empty" : "Bòidu",
     "Anonymous guest" : "Persone invitada chene nùmene",

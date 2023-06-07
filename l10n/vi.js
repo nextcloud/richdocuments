@@ -32,6 +32,8 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Chỉ có thể tải lên tài liệu mẫu",
     "Invalid file provided" : "File không hợp lệ",
     "Template not found" : "Không tìm thấy mẫu",
+    "Headings" : "Đầu đề",
+    "Images" : "Hình ảnh",
     "Office" : "Văn phòng",
     "Empty" : "Trống",
     "Anonymous guest" : "Khách ẩn danh",

@@ -10,6 +10,7 @@ OC.L10N.register(
     "Saved" : "хадгалагдсан",
     "File is too big" : "Файлын хэмжээ хэт их байна",
     "Invalid file provided" : "Буруу файл байна",
+    "Images" : "Зургууд",
     "Advanced settings" : "Нарийвчилсан тохиргоо",
     "Select groups" : "бүлэг сонгох",
     "Submit" : "мэдэгдэх",
