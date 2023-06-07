@@ -25,6 +25,7 @@ OC.L10N.register(
     "Only template files can be uploaded" : "فقط فایلهای قالب قابل بارگیری هستند",
     "Invalid file provided" : "فایل داده‌شده نا معتبر است",
     "Template not found" : "الگوی یافت نشد",
+    "Images" : "تصاویر",
     "Office" : "دفتر",
     "Empty" : "خالی",
     "Anonymous guest" : "مهمان ناشناس",

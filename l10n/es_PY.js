@@ -15,6 +15,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Falta una carpeta temporal",
     "File is too big" : "El archivo es demasiado grande.",
     "Invalid file provided" : "Archivo proporcionado inválido",
+    "Images" : "Imágenes",
     "Empty" : "Vacío",
     "Advanced settings" : "Configuraciones avanzados",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",

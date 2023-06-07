@@ -28,6 +28,8 @@ OC.L10N.register(
     "File is too big" : "Failas yra per didelis",
     "Invalid file provided" : "Pateiktas neteisingas failas",
     "Template not found" : "Šablonas nerastas",
+    "Headings" : "Antraštės",
+    "Images" : "Paveikslai",
     "Office" : "Biuras",
     "Empty" : "Tuščias",
     "%s (Guest)" : "%s (Svečias)",

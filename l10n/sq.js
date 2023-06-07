@@ -15,6 +15,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Mungon një dosje e përkohshme",
     "File is too big" : "Skedari është shumë i madh",
     "Invalid file provided" : "U dha kartelë e pavlefshme",
+    "Images" : "Imazhe ",
     "Office" : "Zyrë",
     "Empty" : "Bosh",
     "Advanced settings" : "Rregullime të mëtejshme",

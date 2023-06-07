@@ -20,6 +20,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "PHP 확장 기능에서 파일 업로드를 차단함",
     "File is too big" : "파일이 너무 큼",
     "Invalid file provided" : "잘못된 파일 지정됨",
+    "Images" : "이미지",
     "Office" : "사무실",
     "Empty" : "비어 있음",
     "Anonymous guest" : "익명의 손님",
