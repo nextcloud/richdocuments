@@ -40,8 +40,8 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 class DirectViewController extends Controller {
 	use DocumentTrait;
@@ -67,7 +67,7 @@ class DirectViewController extends Controller {
 	/** @var FederationService */
 	private $federationService;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var InitialStateService */
@@ -84,7 +84,7 @@ class DirectViewController extends Controller {
 		AppConfig $appConfig,
 		TemplateManager $templateManager,
 		FederationService $federationService,
-		ILogger $logger
+		LoggerInterface $logger
 	) {
 		parent::__construct($appName, $request);
 
@@ -180,7 +180,7 @@ class DirectViewController extends Controller {
 
 			return $this->documentTemplateResponse($wopi, $params);
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
@@ -229,7 +229,7 @@ class DirectViewController extends Controller {
 				return $this->documentTemplateResponse($wopi, $params);
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 

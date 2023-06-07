@@ -39,19 +39,19 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class FederationService {
 	/** @var ICache */
 	private $cache;
 	/** @var IClientService */
 	private $clientService;
-	/** @var ILogger  */
+	/** @var LoggerInterface  */
 	private $logger;
 	/** @var TrustedServers */
 	private $trustedServers;
@@ -64,7 +64,7 @@ class FederationService {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, ILogger $logger, TokenManager $tokenManager, AppConfig $appConfig, IRequest $request, IURLGenerator $urlGenerator) {
+	public function __construct(ICacheFactory $cacheFactory, IClientService $clientService, LoggerInterface $logger, TokenManager $tokenManager, AppConfig $appConfig, IRequest $request, IURLGenerator $urlGenerator) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		$this->clientService = $clientService;
 		$this->logger = $logger;
@@ -198,7 +198,7 @@ class FederationService {
 			$this->cache->set($cacheKey, $data['ocs']['data']);
 			return Wopi::fromParams($data['ocs']['data']);
 		} catch (\Throwable $e) {
-			$this->logger->logException($e, ['message' => 'COOL-Federation-Source: Unable to fetch remote file details for ' . $remoteToken . ' from ' . $remote ]);
+			$this->logger->error($e->getMessage(), ['message' => 'COOL-Federation-Source: Unable to fetch remote file details for ' . $remoteToken . ' from ' . $remote, 'exception' => $e]);
 		}
 		return null;
 	}

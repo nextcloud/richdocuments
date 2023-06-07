@@ -59,7 +59,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -70,6 +69,7 @@ use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class WopiController extends Controller {
 	/** @var IRootFolder */
@@ -88,7 +88,7 @@ class WopiController extends Controller {
 	private $userManager;
 	/** @var WopiMapper */
 	private $wopiMapper;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var TemplateManager */
 	private $templateManager;
@@ -121,7 +121,7 @@ class WopiController extends Controller {
 		PermissionManager $permissionManager,
 		IUserManager $userManager,
 		WopiMapper $wopiMapper,
-		ILogger $logger,
+		LoggerInterface $logger,
 		TemplateManager $templateManager,
 		IShareManager $shareManager,
 		UserScopeService $userScopeService,
@@ -179,16 +179,16 @@ class WopiController extends Controller {
 				throw new NotFoundException('No valid file found for ' . $fileId);
 			}
 		} catch (NotFoundException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (UnknownTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (ExpiredTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -348,13 +348,13 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		} catch (UnknownTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (ExpiredTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -396,10 +396,10 @@ class WopiController extends Controller {
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
+			$this->logger->error('getFile failed: ' . $e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
-			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'Version manager could not be found when trying to restore file. Versioning app disabled?']);
+			$this->logger->error('Version manager could not be found when trying to restore file. Versioning app disabled?: ' . $e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
@@ -423,13 +423,13 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		} catch (UnknownTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (ExpiredTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -504,7 +504,7 @@ class WopiController extends Controller {
 					return $file->putContent($content);
 				});
 			} catch (LockedException $e) {
-				$this->logger->logException($e);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
 
@@ -523,10 +523,10 @@ class WopiController extends Controller {
 			}
 			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
 		} catch (NotFoundException $e) {
-			$this->logger->logException($e, ['level' => ILogger::INFO,	'app' => 'richdocuments', 'message' => 'File not found']);
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getFile failed']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -557,13 +557,13 @@ class WopiController extends Controller {
 				return new JSONResponse([], Http::STATUS_FORBIDDEN);
 			}
 		} catch (UnknownTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (ExpiredTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['app' => 'richdocuments']);
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -691,10 +691,10 @@ class WopiController extends Controller {
 
 			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
 		} catch (NotFoundException $e) {
-			$this->logger->logException($e, ['level' => ILogger::INFO,	'app' => 'richdocuments', 'message' => 'File not found']);
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'putRelativeFile failed']);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -857,7 +857,7 @@ class WopiController extends Controller {
 	 */
 	public function getTemplate($fileId, $access_token) {
 		try {
-			$wopi = $this->wopiMapper->getPathForToken($access_token);
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		} catch (UnknownTokenException $e) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (ExpiredTokenException $e) {
@@ -876,7 +876,7 @@ class WopiController extends Controller {
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['level' => ILogger::ERROR,	'app' => 'richdocuments', 'message' => 'getTemplate failed']);
+			$this->logger->error('getTemplate failed: ' . $e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}

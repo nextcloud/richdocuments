@@ -30,16 +30,16 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class FederationController extends OCSController {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var WopiMapper */
@@ -55,7 +55,7 @@ class FederationController extends OCSController {
 		string $appName,
 		IRequest $request,
 		IConfig $config,
-		ILogger $logger,
+		LoggerInterface $logger,
 		WopiMapper $wopiMapper,
 		IUserManager $userManager,
 		IURLGenerator $urlGenerator
