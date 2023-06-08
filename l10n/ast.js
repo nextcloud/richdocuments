@@ -7,6 +7,7 @@ OC.L10N.register(
     "New Presentation.pptx" : "Presentación_Nueva.pptx",
     "The file was uploaded" : "Xubióse'l ficheru",
     "The file was only partially uploaded" : "El ficheru xubióse parcialmente",
+    "Images" : "Imáxenes",
     "Advanced settings" : "Configuración avanzada",
     "Description" : "Descripción",
     "Error" : "Error",
