@@ -34,7 +34,7 @@ OC.L10N.register(
     "Template not found" : "Vorlage nicht gefunden",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Überschriften",
-    "Images" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Images" : "Bilder",
     "Office" : "Office",
     "Empty" : "Leer",
     "Anonymous guest" : "Anonymer Gast",

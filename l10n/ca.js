@@ -126,7 +126,7 @@ OC.L10N.register(
     "No font overview" : "Sense visió general de la font",
     "Delete this font" : "Elimina aquest tipus de lletra",
     "No results" : "Sense resultats",
-    "Select file or folder to link to" : "Seleccioneu el fitxer o la carpeta per enllaçar",
+    "Select file or folder to link to" : "Seleccioneu el fitxer o la carpeta que voleu enllaçar",
     "Loading {filename} …" : "S'està carregant {filename} …",
     "Cancel" : "Cancel·la",
     "Document loading failed" : "Ha fallat la càrrega del document",
