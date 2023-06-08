@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "Enrollet",
     "File is too big" : "Re vraz eo an teuliad",
     "Invalid file provided" : "An teuliad roet n'eo ket unan aotreet",
+    "Images" : "Skeudenn",
     "Office" : "Burev",
     "Select groups" : "Choaz ar strolladoù",
     "Submit" : "Kinnig",
