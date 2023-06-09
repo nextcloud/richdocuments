@@ -334,7 +334,7 @@ export default {
 		z-index: 1;
 		top: 0;
 		left: 0;
-		background-color: #fff;
+		background-color: var(--color-main-background);
 		&.debug {
 			opacity: .5;
 		}
