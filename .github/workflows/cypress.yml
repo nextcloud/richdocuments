@@ -8,7 +8,7 @@ on:
       - stable*
 
 concurrency:
-  group: ${{ github.head_ref || github.run_id }}
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
 
 env:
@@ -28,13 +28,13 @@ jobs:
         containers: [1, 2, 3, 4, 5]
         php-versions: [ '8.0' ]
         databases: [ 'sqlite' ]
-        server-versions: [ 'master' ]
+        server-versions: ['stable26']
 
     name: runner ${{ matrix.containers }}
 
     services:
       collabora:
-        image: collabora/code
+        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
@@ -83,12 +83,6 @@ jobs:
             apc.enable_cli=on
           coverage: none
 
-      - name: Find Docker Host IP
-        uses: addnab/docker-run-action@v1
-        with:
-          image: alpine:latest
-          run: "apk update > /dev/null && apk add iproute2 > /dev/null && ip -4 route show default | cut -d' ' -f3"
-
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
@@ -104,6 +98,7 @@ jobs:
           php occ user:add --password-from-env user1
           php occ user:add --password-from-env user2
           php occ config:system:set force_language --value en
+          php occ app:enable --force testing
           php occ app:enable --force viewer
           php occ app:enable --force richdocuments
           php occ app:list
