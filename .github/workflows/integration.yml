@@ -31,7 +31,7 @@ jobs:
 
     services:
       collabora:
-        image: collabora/code
+        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
@@ -100,14 +100,14 @@ jobs:
 
     services:
       mysql:
-        image: mariadb:10.5
+        image: ghcr.io/nextcloud/continuous-integration-mariadb-10.6:latest
         ports:
           - 4444:3306/tcp
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
       collabora:
-        image: collabora/code
+        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
@@ -176,7 +176,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:14
+        image: ghcr.io/nextcloud/continuous-integration-postgres-14:latest
         ports:
           - 4444:5432/tcp
         env:
@@ -185,7 +185,7 @@ jobs:
           POSTGRES_DB: nextcloud
         options: --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
       collabora:
-        image: collabora/code
+        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
@@ -254,11 +254,26 @@ jobs:
 
     services:
       oracle:
-        image: deepdiver/docker-oracle-xe-11g
+        image: ghcr.io/gvenzl/oracle-xe:11
+
+        # Provide passwords and other environment variables to container
+        env:
+          ORACLE_RANDOM_PASSWORD: true
+          APP_USER: autotest
+          APP_USER_PASSWORD: owncloud
+
+        # Forward Oracle port
         ports:
-          - "1521:1521"
+          - 1521:1521/tcp
+
+        # Provide healthcheck script options for startup
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
       collabora:
-        image: collabora/code
+        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
