@@ -21,78 +21,91 @@
   -->
 
 <template>
-	<transition name="fade" appear>
-		<div class="office-viewer">
-			<div v-if="showLoadingIndicator"
-				class="office-viewer__loading-overlay"
-				:class="{ debug: debug }">
-				<NcEmptyContent v-if="!error" :title="t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false})">
-					<template #icon>
-						<NcLoadingIcon />
-					</template>
-					<template #action>
-						<NcButton @click="close">
-							{{ t('richdocuments', 'Cancel') }}
-						</NcButton>
-					</template>
-				</NcEmptyContent>
-				<NcEmptyContent v-else :title="t('richdocuments', 'Document loading failed')" :description="errorMessage">
-					<template #icon>
-						<AlertOctagonOutline />
-					</template>
-					<template #action>
-						<NcButton @click="close">
-							{{ t('richdocuments', 'Close') }}
-						</NcButton>
-					</template>
-				</NcEmptyContent>
-			</div>
-			<div v-show="!useNativeHeader && showIframe" class="office-viewer__header">
-				<div class="avatars">
-					<NcAvatar v-for="view in avatarViews"
-						:key="view.ViewId"
-						:user="view.UserId"
-						:display-name="view.UserName"
-						:show-user-status="false"
-						:show-user-status-compact="false"
-						:style="viewColor(view)" />
-				</div>
-				<NcActions>
-					<NcActionButton icon="office-viewer__header__icon-menu-sidebar" @click="share" />
-				</NcActions>
-			</div>
-			<iframe id="collaboraframe"
-				ref="documentFrame"
-				data-cy="documentframe"
-				class="office-viewer__iframe"
-				:style="{visibility: showIframe ? 'visible' : 'hidden' }"
-				:src="src" />
-
-			<ZoteroHint :show.sync="showZotero" @submit="reload" />
+	<div class="office-viewer">
+		<div v-if="showLoadingIndicator"
+			class="office-viewer__loading-overlay"
+			:class="{ debug: debug }">
+			<NcEmptyContent v-if="!error" :title="t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false})">
+				<template #icon>
+					<NcLoadingIcon />
+				</template>
+				<template #action>
+					<NcButton @click="close">
+						{{ t('richdocuments', 'Cancel') }}
+					</NcButton>
+				</template>
+			</NcEmptyContent>
+			<NcEmptyContent v-else :title="t('richdocuments', 'Document loading failed')" :description="errorMessage">
+				<template #icon>
+					<AlertOctagonOutline />
+				</template>
+				<template #action>
+					<NcButton @click="close">
+						{{ t('richdocuments', 'Close') }}
+					</NcButton>
+				</template>
+			</NcEmptyContent>
 		</div>
-	</transition>
+		<form ref="form"
+			:target="iframeId"
+			:action="formData.action"
+			method="post">
+			<input name="access_token" :value="formData.accessToken" type="hidden">
+			<input name="access_token_ttl" :value="formData.accessTokenTTL" type="hidden">
+			<input name="ui_defaults" :value="formData.uiDefaults" type="hidden">
+			<input name="css_variables" :value="formData.cssVariables" type="hidden">
+			<input name="theme" :value="formData.theme" type="hidden">
+			<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden">
+		</form>
+		<iframe :id="iframeId"
+			ref="documentFrame"
+			:name="iframeId"
+			data-cy="documentframe"
+			scrolling="no"
+			allowfullscreen
+			class="office-viewer__iframe"
+			:style="{visibility: showIframe ? 'visible' : 'hidden' }"
+			:src="iframeSrc" />
+
+		<ZoteroHint :show.sync="showZotero" @submit="reload" />
+	</div>
 </template>
 
 <script>
-import { NcAvatar, NcButton, NcActions, NcActionButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
 import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 
 import ZoteroHint from '../components/Modal/ZoteroHint.vue'
 import { basename, dirname } from 'path'
-import { getDocumentUrlForFile, getDocumentUrlForPublicFile } from '../helpers/url.js'
+import { getRandomId } from '../helpers/index.js'
+import {
+	getNextcloudUrl,
+	getWopiUrl,
+} from '../helpers/url.js'
 import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
 import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
 import { enableScrollLock, disableScrollLock } from '../helpers/safariFixer.js'
-import { getLinkWithPicker } from '@nextcloud/vue/dist/Components/NcRichText.js'
 import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
+import {
+	generateUrl,
+	imagePath,
+} from '@nextcloud/router'
+import { getCapabilities } from '@nextcloud/capabilities'
+import {
+	generateCSSVarTokens,
+	getCollaboraTheme,
+	getUIDefaults,
+} from '../helpers/coolParameters.js'
+import Config from '../services/config.tsx'
+import openLocal from '../mixins/openLocal.js'
+import pickLink from '../mixins/pickLink.js'
+import saveAs from '../mixins/saveAs.js'
+import uiMention from '../mixins/uiMention.js'
+import version from '../mixins/version.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
-const PostMessages = new PostMessageService({
-	FRAME_DOCUMENT: () => document.getElementById('collaboraframe').contentWindow,
-})
 
 const LOADING_STATE = {
 	LOADING: 0,
@@ -105,14 +118,14 @@ export default {
 	name: 'Office',
 	components: {
 		AlertOctagonOutline,
-		NcAvatar,
-		NcActions,
-		NcActionButton,
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
 		ZoteroHint,
 	},
+	mixins: [
+		openLocal, pickLink, saveAs, uiMention, version,
+	],
 	props: {
 		filename: {
 			type: String,
@@ -127,36 +140,35 @@ export default {
 			required: false,
 			default: () => false,
 		},
+		source: {
+			type: String,
+			default: null,
+		},
 	},
 	data() {
 		return {
-			src: null,
+			postMessage: null,
+			iframeId: 'collaboraframe_' + getRandomId(),
+			iframeSrc: null,
 			loading: LOADING_STATE.LOADING,
 			loadingTimeout: null,
 			error: null,
 			views: [],
 
-			showZotero: false,
 			showLinkPicker: false,
+			showZotero: false,
+
+			formData: {
+				action: null,
+				accessToken: null,
+				accessTokenTTL: null,
+				uiDefaults: getUIDefaults(),
+				cssVariables: generateCSSVarTokens(),
+				theme: getCollaboraTheme(),
+			},
 		}
 	},
 	computed: {
-		basename() {
-			return basename(this.filename)
-		},
-		useNativeHeader() {
-			return true
-		},
-		avatarViews() {
-			return this.views
-		},
-		viewColor() {
-			return view => ({
-				'border-color': '#' + ('000000' + Number(view.Color).toString(16)).slice(-6),
-				'border-width': '2px',
-				'border-style': 'solid',
-			})
-		},
 		showIframe() {
 			return this.loading >= LOADING_STATE.FRAME_READY
 		},
@@ -176,8 +188,17 @@ export default {
 		debug() {
 			return !!window.TESTING
 		},
+		isPublic() {
+			return document.getElementById('isPublic')?.value === '1'
+		},
+		shareToken() {
+			return document.getElementById('sharingToken')?.value
+		},
 	},
 	async mounted() {
+		this.postMessage = new PostMessageService({
+			FRAME_DOCUMENT: () => document.getElementById(this.iframeId).contentWindow,
+		})
 		try {
 			await checkCollaboraConfiguration()
 			await checkProxyStatus()
@@ -187,98 +208,76 @@ export default {
 			return
 		}
 
-		const fileList = OCA?.Files?.App?.getCurrentFileList?.()
-		FilesAppIntegration.init({
-			fileName: basename(this.filename),
-			fileId: this.fileid,
-			filePath: dirname(this.filename),
-			fileList,
-			fileModel: fileList?.getModelForFile(basename(this.filename)),
-			sendPostMessage: (msgId, values) => {
-				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
-			},
-		})
-		PostMessages.registerPostMessageHandler(this.postMessageHandler)
+		if (this.fileid) {
+			const fileList = OCA?.Files?.App?.getCurrentFileList?.()
+			FilesAppIntegration.init({
+				fileName: basename(this.filename),
+				fileId: this.fileid,
+				filePath: dirname(this.filename),
+				fileList,
+				fileModel: fileList?.getModelForFile(basename(this.filename)),
+				sendPostMessage: (msgId, values) => {
+					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
+				},
+			})
+		}
+		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
+
 		this.load()
 	},
 	beforeDestroy() {
-		PostMessages.unregisterPostMessageHandler(this.postMessageHandler)
+		this.postMessage.unregisterPostMessageHandler(this.postMessageHandler)
 	},
 	methods: {
 		async load() {
+			const fileid = this.fileid ?? basename(dirname(this.source))
+			const version = this.fileid ? 0 : basename(this.source)
+
 			enableScrollLock()
-			const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
-			this.src = getDocumentUrlForFile(this.filename, this.fileid) + '&path=' + encodeURIComponent(this.filename)
-			if (isPublic) {
-				this.src = getDocumentUrlForPublicFile(this.filename, this.fileid)
-			}
+
+			// Generate WOPI token
+			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
+				fileId: fileid, shareToken: this.shareToken,
+			})
+			Config.update('urlsrc', data.urlSrc)
+
+			// Generate form and submit to the iframe
+			const action = getWopiUrl({
+				fileId: fileid + '_' + loadState('richdocuments', 'instanceId', 'instanceid') + (version > 0 ? '_' + version : ''),
+				title: this.filename,
+				readOnly: version > 0,
+				revisionHistory: !this.isPublic,
+				closeButton: !Config.get('hideCloseButton'),
+			})
+			this.$set(this.formData, 'action', action)
+			this.$set(this.formData, 'accessToken', data.token)
+			this.$nextTick(() => this.$refs.form.submit())
+
 			this.loading = LOADING_STATE.LOADING
 			this.loadingTimeout = setTimeout(() => {
-				console.error('FAILED')
+				console.error('Document loading failed due to timeout: Please check for failing network requests')
 				this.loading = LOADING_STATE.FAILED
 				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
-			}, (OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+			}, (getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+		},
+		sendPostMessage(msgId, values = {}) {
+			this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 		},
 		documentReady() {
 			this.loading = LOADING_STATE.DOCUMENT_READY
 			clearTimeout(this.loadingTimeout)
+			this.sendPostMessage('Host_PostmessageReady')
+			this.sendPostMessage('Insert_Button', {
+				id: 'Open_Local_Editor',
+				imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+				mobile: false,
+				label: t('richdocuments', 'Open in local editor'),
+				hint: t('richdocuments', 'Open in local editor'),
+				insertBefore: 'print',
+			})
 		},
 		async share() {
 			FilesAppIntegration.share()
-		},
-		async pickLink() {
-			try {
-				if (this.showLinkPicker) {
-					return
-				}
-				this.showLinkPicker = true
-				const link = await getLinkWithPicker(null, true)
-				try {
-					const url = new URL(link)
-					if (url.protocol === 'http:' || url.protocol === 'https:') {
-						PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_InsertLink', { url: link })
-						return
-					}
-				} catch (e) {
-					console.debug('error when parsing the link picker result')
-				}
-				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_Paste', { Mimetype: 'text/plain', Data: link })
-			} catch (e) {
-				console.error('Link picker promise rejected :', e)
-			} finally {
-				this.showLinkPicker = false
-			}
-		},
-		async resolveLink(url) {
-			try {
-				const result = await axios.get(generateOcsUrl('references/resolve', 2), {
-					params: {
-						reference: url,
-					},
-				})
-				const resolvedLink = result.data.ocs.data.references[url]
-				const title = resolvedLink?.openGraphObject?.name
-				const thumbnailUrl = resolvedLink?.openGraphObject?.thumb
-				if (thumbnailUrl) {
-					try {
-						const imageResponse = await axios.get(thumbnailUrl, { responseType: 'blob' })
-						if (imageResponse?.status === 200 && imageResponse?.data) {
-							const reader = new FileReader()
-							reader.addEventListener('loadend', (e) => {
-								const b64Image = e.target.result
-								PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_GetLinkPreview_Resp', { url, title, image: b64Image })
-							})
-							reader.readAsDataURL(imageResponse.data)
-						}
-					} catch (e) {
-						console.error('Error loading the reference image', e)
-					}
-				} else {
-					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_GetLinkPreview_Resp', { url, title, image: null })
-				}
-			} catch (e) {
-				console.error('Error resolving a reference', e)
-			}
 		},
 		close() {
 			FilesAppIntegration.close()
@@ -288,19 +287,14 @@ export default {
 		reload() {
 			this.loading = LOADING_STATE.LOADING
 			this.load()
-			this.$refs.documentFrame.contentWindow.location.replace(this.src)
+			this.$refs.documentFrame.contentWindow.location.replace(this.iframeSrc)
 		},
-		postMessageHandler({ parsed, data }) {
-			if (data === 'NC_ShowNamePicker') {
-				this.documentReady()
-				return
-			} else if (data === 'loading') {
-				this.loading = LOADING_STATE.LOADING
+		postMessageHandler({ parsed }) {
+			const { msgId, args, deprecated } = parsed
+			console.debug('[viewer] Received post message', msgId, args, deprecated)
+			if (deprecated) {
 				return
 			}
-			console.debug('[viewer] Received post message', parsed)
-			const { msgId, args, deprecated } = parsed
-			if (deprecated) { return }
 
 			switch (msgId) {
 			case 'App_LoadingStatus':
@@ -309,8 +303,7 @@ export default {
 					this.loading = LOADING_STATE.FRAME_READY
 					this.$emit('update:loaded', true)
 					FilesAppIntegration.initAfterReady()
-				}
-				if (args.Status === 'Document_Loaded') {
+				} else if (args.Status === 'Document_Loaded') {
 					this.documentReady()
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
@@ -325,14 +318,16 @@ export default {
 					this.loading = LOADING_STATE.FAILED
 				}
 				break
-			case 'loading':
-				break
-			case 'close':
+			case 'UI_Close':
 				this.close()
 				break
 			case 'Get_Views_Resp':
 			case 'Views_List':
 				this.views = args
+				this.unlockAndOpenLocally()
+				break
+			case 'UI_SaveAs':
+				this.saveAs(args.format)
 				break
 			case 'Action_Save_Resp':
 				if (args.fileName !== this.filename) {
@@ -341,8 +336,14 @@ export default {
 				break
 			case 'UI_InsertGraphic':
 				FilesAppIntegration.insertGraphic((filename, url) => {
-					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'postAsset', { FileName: filename, Url: url })
+					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_InsertGraphic', {
+						filename,
+						url,
+					})
 				})
+				break
+			case 'UI_Mention':
+				this.uiMention(parsed.args.text)
 				break
 			case 'UI_CreateFile':
 				FilesAppIntegration.createNewFile(args.DocumentType)
@@ -351,12 +352,11 @@ export default {
 				FilesAppIntegration.rename(args.NewName)
 				break
 			case 'UI_FileVersions':
-			case 'rev-history':
 				FilesAppIntegration.showRevHistory()
 				break
 			case 'App_VersionRestore':
 				if (args.Status === 'Pre_Restore_Ack') {
-					FilesAppIntegration.restoreVersionExecute()
+					this.handlePreRestoreAck()
 				}
 				break
 			case 'UI_Share':
@@ -371,28 +371,31 @@ export default {
 			case 'Action_GetLinkPreview':
 				this.resolveLink(args.url)
 				break
+			case 'Clicked_Button':
+				this.buttonClicked(args)
+				break
 			}
 		},
+
+		async buttonClicked(args) {
+			if (args?.Id === 'Open_Local_Editor') {
+				this.showOpenLocalConfirmation()
+			}
+		},
+
 	},
 }
 </script>
 <style lang="scss" scoped>
 .office-viewer {
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	position: absolute;
 	z-index: 100000;
 	max-width: 100%;
 	display: flex;
 	flex-direction: column;
 	background-color: var(--color-main-background);
-	transition: opacity .25s;
 
-	&__loading-overlay {
+	&__loading-overlay:not(.viewer__file--hidden) {
 		border-top: 3px solid var(--color-primary-element);
-		position: absolute;
 		display: flex;
 		height: 100%;
 		width: 100%;
@@ -414,48 +417,16 @@ export default {
 		}
 	}
 
-	&__header {
-		position: absolute;
-		right: 44px;
-		top: 3px;
-		z-index: 99999;
-		display: flex;
-		background-color: #fff;
-
-		.avatars {
-			display: flex;
-			padding: 4px;
-
-			::v-deep .avatardiv {
-				margin-left: -15px;
-				box-shadow: 0 0 3px var(--color-box-shadow);
-			}
-		}
-
-		&__icon-menu-sidebar {
-			background-image: var(--icon-menu-sidebar-000) !important;
-		}
-	}
-
 	&__iframe {
 		width: 100%;
 		flex-grow: 1;
-	}
-
-	::v-deep .fade-enter-active,
-	::v-deep .fade-leave-active {
-		transition: opacity .25s;
-	}
-
-	::v-deep .fade-enter,
-	::v-deep .fade-leave-to {
-		opacity: 0;
 	}
 }
 </style>
 
 <style lang="scss">
-.viewer .office-viewer {
+.viewer .office-viewer:not(.viewer__file--hidden) {
+	width: 100%;
 	height: 100vh;
 	height: 100dvh;
 	top: -50px;

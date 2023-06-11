@@ -2,6 +2,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FeaturePolicy;
@@ -10,7 +11,7 @@ use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 
 trait DocumentTrait {
-	private $appConfig;
+	private AppConfig $appConfig;
 
 	private function documentTemplateResponse(Wopi $wopi, array $params): TemplateResponse {
 		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
