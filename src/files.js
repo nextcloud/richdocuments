@@ -111,7 +111,6 @@ const odfViewer = {
 			$iframe.addClass('full')
 			$('#content').addClass('full-height')
 			$('footer').addClass('hidden')
-			$('#imgframe').addClass('hidden')
 			$('#controls').addClass('hidden')
 			$('#content').addClass('loading')
 		} else {
@@ -162,7 +161,6 @@ const odfViewer = {
 		if (isPublic) {
 			$('#content').removeClass('full-height')
 			$('footer').removeClass('hidden')
-			$('#imgframe').removeClass('hidden')
 			$('.directLink').removeClass('hidden')
 			$('.directDownload').removeClass('hidden')
 		}

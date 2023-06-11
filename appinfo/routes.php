@@ -32,6 +32,7 @@ return [
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
+		['name' => 'document#token', 'url' => '/token', 'verb' => 'POST'],
 
 		['name' => 'document#editOnline', 'url' => 'editonline', 'verb' => 'GET'],
 		['name' => 'document#editOnlineTarget', 'url' => 'editonline/{fileId}/{target}', 'verb' => 'GET'],

@@ -47,7 +47,7 @@ const getUIDefaults = () => {
 }
 
 const getCollaboraTheme = () => {
-	return loadState('richdocuments', 'theme', '')
+	return loadState('richdocuments', 'theme', 'nextcloud')
 }
 
 const generateCSSVarTokens = () => {

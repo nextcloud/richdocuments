@@ -20,9 +20,8 @@
  *
  */
 
-import { generateUrl, generateRemoteUrl, getRootUrl } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import moment from '@nextcloud/moment'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
@@ -80,10 +79,6 @@ export default {
 			this.getFileList().hideMask && this.getFileList().hideMask()
 			this.getFileList().setPageTitle && this.getFileList().setPageTitle(this.fileName)
 		}
-
-		if (!isPublic) {
-			this.addVersionSidebarEvents()
-		}
 	},
 
 	close() {
@@ -94,9 +89,6 @@ export default {
 		this.updateFileInfo(undefined, Date.now())
 
 		this.fileModel = null
-		if (!isPublic) {
-			this.removeVersionSidebarEvents()
-		}
 		$('#richdocuments-header').remove()
 	},
 
@@ -131,9 +123,9 @@ export default {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
-		if (OCA.Files.Sidebar) {
-			OCA.Files.Sidebar.open(this.filePath + '/' + this.fileName)
-		}
+
+		OCA?.Files?.Sidebar?.open(this.filePath + '/' + this.fileName)
+		OCA?.Files?.Sidebar?.setActiveTab('sharing')
 	},
 
 	rename(newName) {
@@ -427,115 +419,17 @@ export default {
 		avatardiv.append(popover)
 	},
 
-	addVersionSidebarEvents() {
-		$(document.querySelector('#content')).on('click.revisions', '.app-sidebar .preview-container', this.showVersionPreview.bind(this))
-		$(document.querySelector('#content')).on('click.revisions', '.app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
-		$(document.querySelector('#content')).on('mousedown.revisions', '.app-sidebar .revertVersion', this.restoreVersion.bind(this))
-		$(document.querySelector('#content')).on('click.revisionsTab', '.app-sidebar [data-tabid=versionsTabView]', this.addCurrentVersion.bind(this))
-	},
-
-	removeVersionSidebarEvents() {
-		$(document.querySelector('#content')).off('click.revisions')
-		$(document.querySelector('#content')).off('click.revisions')
-		$(document.querySelector('#content')).off('mousedown.revisions')
-		$(document.querySelector('#content')).off('click.revisionsTab')
-	},
-
-	addCurrentVersion() {
-		$('#lastSavedVersion').remove()
-		$('#currentVersion').remove()
-		if (this.getFileModel()) {
-			const preview = OC.MimeType.getIconUrl(this.getFileModel().get('mimetype'))
-			const mtime = this.getFileModel().get('mtime')
-			$('.tab.versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + ' (<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span>)</div></div></li></ul>')
-			$('.tab.versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version (unsaved changes)') + '</a></div></div></li></ul>')
-			$('.live-relative-timestamp').each(function() {
-				$(this).text(moment(parseInt($(this).attr('data-timestamp'), 10)).fromNow())
-			})
-		}
-	},
-
 	showRevHistory() {
 		if (this.handlers.showRevHistory && this.handlers.showRevHistory(this)) {
 			return
 		}
 
-		if (this.getFileList()) {
-			this.getFileList()
-				.showDetailsView(this.fileName, 'versionsTabView')
-			this.addCurrentVersion()
+		if (isPublic || !this.getFileList()) {
+			console.error('[FilesAppIntegration] Versions are not supported')
+			return
 		}
-	},
-
-	showVersionPreview(e) {
-		e.preventDefault()
-		let element = e.currentTarget.parentElement.parentElement
-		if ($(e.currentTarget).hasClass('downloadVersion')) {
-			element = e.currentTarget.parentElement.parentElement.parentElement.parentElement
-		}
-		const version = element.dataset.revision
-		const fileId = this.fileId
-		const title = this.fileName
-		console.debug('[FilesAppIntegration] showVersionPreview', version, fileId, title)
-		this.sendPostMessage('Action_loadRevViewer', { fileId, title, version })
-		$(element.parentElement.parentElement).find('li').removeClass('active')
-		$(element).addClass('active')
-	},
-
-	restoreVersion(e) {
-		e.preventDefault()
-		e.stopPropagation()
-
-		this.sendPostMessage('Host_VersionRestore', { Status: 'Pre_Restore' })
-
-		const version = e.currentTarget.parentElement.parentElement.dataset.revision
-
-		this._restoreVersionCallback = () => {
-			this._restoreDAV(version)
-			this._restoreVersionCallback = null
-		}
-
-		return false
-	},
-
-	restoreVersionExecute() {
-		if (this._restoreVersionCallback !== null) {
-			this._restoreVersionCallback()
-		}
-	},
-
-	restoreVersionAbort() {
-		this._restoreVersionCallback = null
-	},
-
-	_restoreSuccess(response) {
-		if (response.status === 'error') {
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
-		}
-		// Reload the document frame to get the new file
-		// TODO: ideally we should have a post messsage that can be sent to collabora to just reload the file once the restore is finished
-		document.getElementById('richdocumentsframe').src = document.getElementById('richdocumentsframe').src
-		OC.Apps.hideAppSidebar()
-	},
-
-	_restoreError() {
-		OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
-	},
-
-	_restoreDAV(version) {
-		const restoreUrl = getRootUrl() + '/remote.php/dav/versions/' + getCurrentUser().uid
-			+ '/versions/' + this.fileId + '/' + version
-		$.ajax({
-			type: 'MOVE',
-			url: restoreUrl,
-			headers: {
-				Destination: generateRemoteUrl('dav') + '/versions/' + getCurrentUser().uid + '/restore/target',
-			},
-			success: this._restoreSuccess.bind(this),
-			error: this._restoreError.bind(this),
-		})
+		OCA?.Files?.Sidebar?.open(this.filePath + '/' + this.fileName)
+		OCA?.Files?.Sidebar?.setActiveTab('version_vue')
 	},
 
 	/**

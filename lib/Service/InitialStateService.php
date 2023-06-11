@@ -67,6 +67,8 @@ class InitialStateService {
 		$this->initialState->provideInitialState('hasDrawSupport', $this->capabilitiesService->hasDrawSupport());
 		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
 
+		$this->provideOptions();
+
 		$this->hasProvidedCapabilities = true;
 	}
 
@@ -76,17 +78,8 @@ class InitialStateService {
 		$this->initialState->provideInitialState('document', $this->prepareParams($params));
 
 		$this->initialState->provideInitialState('wopi', $wopi);
-		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
-		$this->initialState->provideInitialState('uiDefaults', [
-			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
-		]);
-		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
-		if (!$logoSet) {
-			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
-		}
-		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
-			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
-			: false));
+
+		$this->provideOptions();
 	}
 
 	public function prepareParams(array $params): array {
@@ -107,5 +100,19 @@ class InitialStateService {
 		];
 
 		return array_merge($defaults, $params);
+	}
+
+	private function provideOptions(): void {
+		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
+		$this->initialState->provideInitialState('uiDefaults', [
+			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
+		]);
+		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
+		if (!$logoSet) {
+			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
+		}
+		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
+			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
+			: false));
 	}
 }

@@ -111,6 +111,8 @@ class TokenManager {
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
 			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
+			$rootFolder = $this->rootFolder->getUserFolder($owneruid);
+
 		} elseif ($this->userId !== null) {
 			try {
 				$editoruid = $this->userId;
@@ -205,7 +207,6 @@ class TokenManager {
 
 		return [
 			$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'], // url src might not be found ehre
-			$wopi->getToken(),
 			$wopi
 		];
 	}
@@ -279,7 +280,7 @@ class TokenManager {
 
 	public function newInitiatorToken($sourceServer, Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
 		if ($node !== null) {
-			list($urlSrc, $token, $wopi) = $this->getToken($node->getId(), $shareToken, $userId, $direct);
+			list($urlSrc, $wopi) = $this->getToken($node->getId(), $shareToken, $userId, $direct);
 			$wopi->setServerHost($sourceServer);
 			$wopi->setTokenType(Wopi::TOKEN_TYPE_INITIATOR);
 			$this->wopiMapper->update($wopi);
