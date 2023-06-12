@@ -1,13 +1,17 @@
 # Changelog
 
-## 8.1.0-beta.1
+## 8.1.0
 
 ### Added
 
 - Support for Nextcloud 27
+- Dark mode support for Collabora 23.05
+- Document targets [#2994](https://github.com/nextcloud/richdocuments/pull/2994)
 
 ### Fixed
 
+- fix: Pass over dark/light variants of our css variables [#2988](https://github.com/nextcloud/richdocuments/pull/2988)
+- fix: Adapt to new NcEmptyContent usage [#2987](https://github.com/nextcloud/richdocuments/pull/2987)
 - Fix regression on share links as logged in users @juliushaertl [#2784](https://github.com/nextcloud/richdocuments/pull/2784)
 - Fix viewer height on safari mobile @julien-nc [#2801](https://github.com/nextcloud/richdocuments/pull/2801)
 - Fix base64 image generation @julien-nc [#2826](https://github.com/nextcloud/richdocuments/pull/2826)
@@ -26,6 +30,10 @@
 - Hide close button on single file shares that have hide download enabled @sharonwuu [#2827](https://github.com/nextcloud/richdocuments/pull/2827)
 - fix: Properly select save as dialog buttons @juliushaertl [#2880](https://github.com/nextcloud/richdocuments/pull/2880)
 - String and test fixes @silopolis [#2901](https://github.com/nextcloud/richdocuments/pull/2901)
+- Fix plugin watermark for php 8.1 [#2990](https://github.com/nextcloud/richdocuments/pull/2990)
+- Update Writer template (template.odt) for dark mode. [#3003](https://github.com/nextcloud/richdocuments/pull/3003)
+- CollaboraOnline#6546 enable automatic color in default paragraph style [#2999](https://github.com/nextcloud/richdocuments/pull/2999)
+- fix: Allow dynamic autoloading for classes added during upgrade [#3001](https://github.com/nextcloud/richdocuments/pull/3001)
 - Dependency updates
 
 ## 8.0.0-beta.1
