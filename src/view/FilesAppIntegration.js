@@ -199,13 +199,18 @@ export default {
 		if (!this.getFileList() || !this.getFileList().getModelForFile || !this.getFileList()._updateDetailsView) {
 			return null
 		}
-		this.getFileList()._updateDetailsView(this.fileName, false)
-		this.fileModel = this.getFileList().getModelForFile(this.fileName)
+		try {
+			this.getFileList()._updateDetailsView(this.fileName, false)
 
-		if (this.fileModel && this.fileModel.on) {
-			this.fileModel.on('change', () => {
-				this._addHeaderFileActions()
-			})
+			this.fileModel = this.getFileList().getModelForFile(this.fileName)
+
+			if (this.fileModel && this.fileModel.on) {
+				this.fileModel.on('change', () => {
+					this._addHeaderFileActions()
+				})
+			}
+		} catch (e) {
+			return null
 		}
 
 		return this.fileModel
