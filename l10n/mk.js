@@ -96,7 +96,7 @@ OC.L10N.register(
     "Open in local editor" : "Отвори во локален уредувач",
     "Please enter the filename to store the document as." : "Напишете го името на документот за да го зачувате како такво.",
     "Save As" : "Зачувај како",
-    "New filename" : "Ново име на датотеката",
+    "New filename" : "Ново име на датотека",
     "Save" : "Зачувај",
     "Open file locally" : "Отвори ја датотеката локално",
     "Open locally" : "Отвори локално",
