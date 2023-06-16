@@ -145,7 +145,7 @@ OC.L10N.register(
     "Built-in CODE Server is starting up shortly, please wait." : "O servidor CODE incorporado estará iniciado en breve. Agarde.",
     "Built-in CODE Server is restarting, please wait." : "O servidor CODE incorporado está reiniciado. Agarde.",
     "Error: Cannot find the AppImage, please reinstall the Collabora Online Built-in server." : "Erro: non se atopa a AppImage, volva instalar o servidor incorporado Collabora Online.",
-    "Error: Unable to make the AppImage executable, please setup a standalone server." : "Erro: non foi posíbel executar a AppImage, configure un servidor independente.",
+    "Error: Unable to make the AppImage executable, please setup a standalone server." : "Erro: non é posíbel executar a AppImage, configure un servidor independente.",
     "Error: Exec disabled in PHP, please enable it, or setup a standalone server." : "Erro: a execución está desactivada en PHP, actívea ou configure un servidor independente.",
     "Error: Not running on x86-64 or ARM64 (aarch64) Linux, please setup a standalone server." : "Erro: non se está a executar en Linux x86-64 ou ARM64 (aarch64), configure un servidor independente.",
     "Error: The fontconfig library is not installed on your server, please install it or setup a standalone server." : "Erro: a biblioteca fontconfig non está instalada no servidor, instálea ou configure un servidor independente.",
