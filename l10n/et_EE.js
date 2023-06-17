@@ -19,6 +19,7 @@ OC.L10N.register(
     "Empty" : "Tühi",
     "Advanced settings" : "Lisavalikud",
     "Select groups" : "Vali grupid",
+    "Submit" : "Saada",
     "Description" : "Kirjeldus",
     "No results" : "Vasteid ei leitud",
     "Cancel" : "Loobu",
