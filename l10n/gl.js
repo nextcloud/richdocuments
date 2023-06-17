@@ -132,7 +132,7 @@ OC.L10N.register(
     "No font overview" : "Non hai vista previa xeral do tipo de letra",
     "Delete this font" : "Eliminar este tipo de letra",
     "No results" : "Sen resultados",
-    "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que quere enlazar",
+    "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
     "Loading {filename} …" : "Cargando {filename}…",
     "Cancel" : "Cancelar",
     "Document loading failed" : "Produciuse un fallo ao cargar o documento",
