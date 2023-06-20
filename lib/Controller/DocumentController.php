@@ -199,16 +199,6 @@ class DocumentController extends Controller {
 				}
 			}
 
-			$encryptionManager = \OC::$server->getEncryptionManager();
-			if ($encryptionManager->isEnabled()) {
-				// Update the current file to be accessible with system public shared key
-				$owner = $item->getOwner()->getUID();
-				$absPath = '/' . $owner . '/' .  $item->getInternalPath();
-				$accessList = \OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
-				$accessList['public'] = true;
-				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
-			}
-
 			return $this->documentTemplateResponse($wopi, $params);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
