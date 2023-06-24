@@ -18,7 +18,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "임시 폴더 없음",
     "Could not write file to disk" : "디스크에 파일을 쓸 수 없음",
     "A PHP extension stopped the file upload" : "PHP 확장 기능에서 파일 업로드를 차단함",
-    "No file uploaded or file size exceeds maximum of %s" : "파일이 업로드 되지 않았거나, 크기가 %s를 초과합니다.",
+    "No file uploaded or file size exceeds maximum of %s" : "파일이 업로드 되지 않았거나, 크기가 %s를 초과함",
     "File is too big" : "파일이 너무 큼",
     "Invalid file provided" : "잘못된 파일 지정됨",
     "Headings" : "제목",
