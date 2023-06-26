@@ -42,6 +42,7 @@ class SettingsController extends Controller {
 		'font/sfnt',
 		'font/opentype',
 		'application/vnd.oasis.opendocument.formula-template',
+		'application/vnd.ms-opentype',
 	];
 
 	/** @var IL10N */
