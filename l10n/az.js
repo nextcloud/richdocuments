@@ -8,6 +8,7 @@ OC.L10N.register(
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Select groups" : "Qrupları seç",
     "Description" : "Açıqlanma",
+    "No results" : "Nəticə yoxdur",
     "Cancel" : "Dayandır",
     "Close" : "Bağla",
     "Error" : "Səhv",
