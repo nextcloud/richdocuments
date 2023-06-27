@@ -6,7 +6,7 @@
     "New Spreadsheet.xlsx" : "새 스프레드시트.xlsx",
     "New Presentation.pptx" : "새 프레젠테이션.pptx",
     "File already exists" : "파일이 이미 있습니다.",
-    "Not allowed to create document" : "문서 생성이 허용되지 않았습니다",
+    "Not allowed to create document" : "문서 생성이 허용되지 않았습니다.",
     "Saved" : "저장됨",
     "The file was uploaded" : "파일을 업로드함",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "업로드한 파일의 크기가 php.ini의 upload_max_filesize를 초과함",
@@ -42,7 +42,7 @@
     "Close" : "닫기",
     "Error" : "오류",
     "An error occurred" : "오류가 발생함",
-    "Please choose your nickname to continue as guest user." : "손님 계정으로 계속하기 위해 별명을 입력하십시오",
+    "Please choose your nickname to continue as guest user." : "손님 계정으로 계속하기 위해 별명을 입력하세요.",
     "Nickname" : "별명",
     "Set" : "설정",
     "Please enter the filename to store the document as." : "문서를 저장할 파일 이름을 입력하십시오.",
@@ -68,6 +68,6 @@
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
     "Saving…" : "저장 중…",
     "Collabora Online" : "Collabora Online",
-    "Document already exists" : "문서가 이미 존재합니다"
+    "Document already exists" : "문서가 이미 존재합니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
