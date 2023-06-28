@@ -89,3 +89,7 @@ namespace Symfony\Component\HttpFoundation {
 		public static function checkIp(?string $requestIp, $ips) {}
 	}
 }
+
+#[\Attribute(Attribute::TARGET_PARAMETER)]
+class SensitiveParameter {
+}

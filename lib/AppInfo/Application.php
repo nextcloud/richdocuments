@@ -27,6 +27,7 @@ namespace OCA\Richdocuments\AppInfo;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Listener\BeforeFetchPreviewListener;
 use OCA\Richdocuments\Listener\CSPListener;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
@@ -80,6 +81,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, BeforeFetchPreviewListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, ReferenceListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
+		$context->registerSensitiveMethods(WopiMapper::class, [
+			'getPathForToken',
+			'getWopiForToken',
+		]);
 	}
 
 	public function boot(IBootContext $context): void {
