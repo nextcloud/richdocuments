@@ -5,163 +5,142 @@ on:
   push:
     branches:
       - main
+      - master
       - stable*
 
-concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
-  cancel-in-progress: true
-
 env:
-  APP_NAME: richdocuments
-  CYPRESS_baseUrl: http://172.17.0.1:8081/index.php
-  CYPRESS_collaboraUrl: http://172.17.0.1:9980
+  # Adjust APP_NAME if your repository name is different
+  APP_NAME: ${{ github.event.repository.name }}
+
+  # This represents the server branch to checkout.
+  # Usually it's the base branch of the PR, but for pushes it's the branch itself.
+  # e.g. 'main', 'stable27' or 'feature/my-feature
+  # n.b. server will use head_ref, as we want to test the PR branch.
+  BRANCH: ${{ github.base_ref || github.ref_name }}
 
 jobs:
-  cypress:
-
+  init:
     runs-on: ubuntu-latest
+    outputs:
+      nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
+      npmVersion: ${{ steps.versions.outputs.npmVersion }}
+
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+
+      - name: Check composer.json
+        id: check_composer
+        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
+        with:
+          files: "composer.json"
+
+      - name: Install composer dependencies
+        if: steps.check_composer.outputs.files_exists == 'true'
+        run: composer install --no-dev
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
+        id: versions
+        with:
+          fallbackNode: "^20"
+          fallbackNpm: "^9"
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Install node dependencies & build app
+        run: |
+          npm ci
+          TESTING=true npm run build --if-present
+
+      - name: Save context
+        uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        with:
+          key: cypress-context-${{ github.run_id }}
+          path: ./
+
+  cypress:
+    runs-on: ubuntu-latest
+    needs: init
 
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14.x]
-        containers: [1, 2, 3, 4, 5]
-        php-versions: [ '8.0' ]
-        databases: [ 'sqlite' ]
-        server-versions: [ 'master' ]
+        # Run multiple copies of the current job in parallel
+        # Please increase the number or runners as your tests suite grows
+        containers: ["component", 1, 2, 3]
 
     name: runner ${{ matrix.containers }}
 
-    services:
-      collabora:
-        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
-        env:
-          extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
-          aliasgroup1: 'http://172.17.0.1'
-        ports:
-          - "9980:9980"
-
     steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Restore context
+        uses: buildjet/cache/restore@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Set up npm7
-        run: npm i -g npm@7
+          fail-on-cache-miss: true
+          key: cypress-context-${{ github.run_id }}
+          path: ./
 
-      - name: Checkout server
-        uses: actions/checkout@v3
+      - name: Set up node ${{ needs.init.outputs.nodeVersion }}
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
-          repository: nextcloud/server
-          ref: ${{ matrix.server-versions }}
+          node-version: ${{ needs.init.outputs.nodeVersion }}
 
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+      - name: Set up npm ${{ needs.init.outputs.npmVersion }}
+        run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
-      - name: Checkout viewer
-        uses: actions/checkout@v3
-        with:
-          repository: nextcloud/viewer
-          ref: ${{ matrix.server-versions }}
-          path: apps/viewer
-
-      - name: Checkout ${{ env.APP_NAME }}
-        uses: actions/checkout@v2
-        with:
-          path: apps/${{ env.APP_NAME }}
-
-      - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd, apcu
-          ini-values:
-            apc.enable_cli=on
-          coverage: none
-
-      - name: Set up Nextcloud
-        env:
-          DB_PORT: 4444
-          PHP_CLI_SERVER_WORKERS: 10
-        run: |
-          mkdir data
-          echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
-          php occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
-          php occ config:system:set memcache.local --value="\\OC\\Memcache\\APCu"
-          php -f index.php
-          PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:8081 &
-          export OC_PASS=1234561
-          php occ user:add --password-from-env user1
-          php occ user:add --password-from-env user2
-          php occ config:system:set force_language --value en
-          php occ app:enable --force testing
-          php occ app:enable --force viewer
-          php occ app:enable --force richdocuments
-          php occ app:list
-          php occ config:system:set trusted_domains 1 --value="172.17.0.1"
-
-          php occ config:app:set richdocuments wopi_url --value="http://localhost:9980"
-          php occ config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
-          php occ config:system:set allow_local_remote_servers --value true --type bool
-          php occ richdocuments:activate-config
-
-          curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
-
-          curl -v http://localhost:9980/ --output -
-          curl -v http://localhost:9980/hosting/discovery --output -
-          curl -v http://localhost:9980/hosting/capabilities --output -
-
-          cat data/nextcloud.log
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: npm install, build richdocuments in testing mode
-        working-directory: apps/richdocuments
-        run: |
-          npm ci
-          npm run dev
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
+      - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
+        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73 # v5.8.1
         with:
           record: true
           parallel: true
-          wait-on: '${{ env.CYPRESS_baseUrl }}'
-          working-directory: 'apps/${{ env.APP_NAME }}'
-          config: defaultCommandTimeout=10000,video=false
+          # cypress run type
+          component: ${{ matrix.containers == 'component' }}
+          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
+          # cypress env
+          ci-build-id: ${{ github.sha }}-${{ github.run_number }}
           tag: ${{ github.event_name }}
         env:
+          # Needs to be prefixed with CYPRESS_
+          CYPRESS_BRANCH: ${{ env.BRANCH }}
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
-          COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
+          # Needed for some specific code workarounds
+          TESTING: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Upload test failure screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
+      - name: Upload snapshots
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: always()
         with:
-          name: Upload screenshots
-          path: apps/${{ env.APP_NAME }}/cypress/screenshots/
-          retention-days: 5
+          name: snapshots_${{ matrix.containers }}
+          path: cypress/snapshots
 
-      - name: Upload nextcloud logs
-        uses: actions/upload-artifact@v2
-        if: failure()
+      - name: Extract NC logs
+        if: failure() && matrix.containers != 'component'
+        run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
+
+      - name: Upload NC logs
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        if: failure() && matrix.containers != 'component'
         with:
-          name: Upload nextcloud log
-          path: data/nextcloud.log
-          retention-days: 5
+          name: nc_logs_${{ matrix.containers }}
+          path: nextcloud.log
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: [init, cypress]
+
+    if: always()
+
+    name: cypress-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.init.result != 'success' || ( needs.cypress.result != 'success' && needs.cypress.result != 'skipped' ) }}; then exit 1; fi
