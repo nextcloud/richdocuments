@@ -110,7 +110,7 @@ OC.L10N.register(
     "Enable watermarking" : "Activar o marcado de auga",
     "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Marcadores de posición compatíbeis: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Amosar a marca de auga nos ficheiros etiquetados",
-    "Select tags to enforce watermarking" : "Seleccionar etiquetas para forzar o marcado de auga",
+    "Select tags to enforce watermarking" : "Seleccionar etiquetas para impor o marcado de auga",
     "Show watermark for users of groups" : "Amosar a marca de auga en usuarios de grupos",
     "Show watermark for all shares" : "Amosar a marca de auga en todas as comparticións",
     "Show watermark for read only shares" : "Amosar a marca de auga nas comparticións de só lectura",
