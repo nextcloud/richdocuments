@@ -85,6 +85,10 @@ import PostMessageService from '../services/postMessage.tsx'
 import FilesAppIntegration from './FilesAppIntegration.js'
 import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
 import { enableScrollLock, disableScrollLock } from '../helpers/safariFixer.js'
+import { getLinkWithPicker } from '@nextcloud/vue/dist/Components/NcRichText.js'
+import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
@@ -221,6 +225,56 @@ export default {
 		async share() {
 			FilesAppIntegration.share()
 		},
+		async pickLink() {
+			try {
+				const link = await getLinkWithPicker(null, true)
+				try {
+					const url = new URL(link)
+					if (url.protocol === 'http:' || url.protocol === 'https:') {
+						PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_InsertLink', { url: link })
+						return
+					}
+				} catch (e) {
+					console.debug('error when parsing the link picker result')
+				}
+				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_Paste', { Mimetype: 'text/plain', Data: link })
+			} catch (e) {
+				showError(t('richdocuments', 'Failed to get a link with the picker'))
+				console.error('Link picker promise rejected :', e)
+			}
+		},
+		async resolveLink(url) {
+			try {
+				const result = await axios.get(generateOcsUrl('references/resolve', 2), {
+					params: {
+						reference: url,
+					},
+				})
+				const resolvedLink = result.data.ocs.data.references[url]
+				const title = resolvedLink?.openGraphObject?.name
+				const thumbnailUrl = resolvedLink?.openGraphObject?.thumb
+				if (thumbnailUrl) {
+					try {
+						const imageResponse = await axios.get(thumbnailUrl, { responseType: 'blob' })
+						if (imageResponse?.status === 200 && imageResponse?.data) {
+							const reader = new FileReader()
+							reader.addEventListener('loadend', (e) => {
+								const b64Image = e.target.result
+								PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_GetLinkPreview_Resp', { url, title, image: b64Image })
+							})
+							reader.readAsDataURL(imageResponse.data)
+						}
+					} catch (e) {
+						console.error('Error loading the reference image', e)
+					}
+				} else {
+					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_GetLinkPreview_Resp', { url, title, image: null })
+				}
+			} catch (e) {
+				showError(t('richdocuments', 'Failed to get the link preview'))
+				console.error('Error resolving a reference', e)
+			}
+		},
 		close() {
 			FilesAppIntegration.close()
 			disableScrollLock()
@@ -305,6 +359,12 @@ export default {
 				break
 			case 'UI_ZoteroKeyMissing':
 				this.showZotero = true
+				break
+			case 'UI_PickLink':
+				this.pickLink()
+				break
+			case 'Action_GetLinkPreview':
+				this.resolveLink(args.url)
 				break
 			}
 		},
