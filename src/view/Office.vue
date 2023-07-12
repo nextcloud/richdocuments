@@ -86,7 +86,6 @@ import FilesAppIntegration from './FilesAppIntegration.js'
 import { LOADING_ERROR, checkCollaboraConfiguration, checkProxyStatus } from '../services/collabora.js'
 import { enableScrollLock, disableScrollLock } from '../helpers/safariFixer.js'
 import { getLinkWithPicker } from '@nextcloud/vue/dist/Components/NcRichText.js'
-import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
@@ -136,7 +135,9 @@ export default {
 			loadingTimeout: null,
 			error: null,
 			views: [],
+
 			showZotero: false,
+			showLinkPicker: false,
 		}
 	},
 	computed: {
@@ -227,6 +228,10 @@ export default {
 		},
 		async pickLink() {
 			try {
+				if (this.showLinkPicker) {
+					return
+				}
+				this.showLinkPicker = true
 				const link = await getLinkWithPicker(null, true)
 				try {
 					const url = new URL(link)
@@ -239,8 +244,9 @@ export default {
 				}
 				PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_Paste', { Mimetype: 'text/plain', Data: link })
 			} catch (e) {
-				showError(t('richdocuments', 'Failed to get a link with the picker'))
 				console.error('Link picker promise rejected :', e)
+			} finally {
+				this.showLinkPicker = false
 			}
 		},
 		async resolveLink(url) {
@@ -271,7 +277,6 @@ export default {
 					PostMessages.sendWOPIPostMessage(FRAME_DOCUMENT, 'Action_GetLinkPreview_Resp', { url, title, image: null })
 				}
 			} catch (e) {
-				showError(t('richdocuments', 'Failed to get the link preview'))
 				console.error('Error resolving a reference', e)
 			}
 		},
