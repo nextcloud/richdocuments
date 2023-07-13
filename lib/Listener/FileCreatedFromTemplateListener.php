@@ -52,6 +52,13 @@ class FileCreatedFromTemplateListener implements IEventListener {
 		// Empty template
 		if ($templateFile === null) {
 			$event->getTarget()->putContent($this->templateManager->getEmptyFileContent($event->getTarget()->getExtension()));
+			$templateType = $this->templateManager->getTemplateTypeForExtension($event->getTarget()->getExtension());
+			$emptyTemplates = $this->templateManager->getEmpty($templateType);
+			$emptyTemplate = array_shift($emptyTemplates);
+			if ($emptyTemplate && $this->templateManager->isSupportedTemplateSource($emptyTemplate->getExtension())) {
+				// Only use TemplateSource if supported filetype
+				$this->templateManager->setTemplateSource($event->getTarget()->getId(), $emptyTemplate->getId());
+			}
 			return;
 		}
 
