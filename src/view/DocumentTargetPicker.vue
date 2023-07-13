@@ -201,4 +201,9 @@ h3 {
 	box-shadow: none !important;
 	flex-shrink: 0;
 }
+
+img {
+	max-width: 100px;
+	margin-left: 20px;
+}
 </style>
