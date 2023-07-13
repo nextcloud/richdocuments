@@ -12,7 +12,7 @@ env:
 
 jobs:
   php:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       # do not stop on another job's failure
@@ -70,7 +70,7 @@ jobs:
         run: phpunit -c tests/phpunit.xml
 
   mysql:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       # do not stop on another job's failure
@@ -137,7 +137,7 @@ jobs:
         run: phpunit -c tests/phpunit.xml
 
   pgsql:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       # do not stop on another job's failure
@@ -206,7 +206,7 @@ jobs:
         run: phpunit -c tests/phpunit.xml
 
   oci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       # do not stop on another job's failure
