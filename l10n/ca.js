@@ -161,8 +161,6 @@ OC.L10N.register(
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Si el fitxer no s'obre al vostre editor local, assegureu-vos que l'aplicació d'escriptori Nextcloud estigui instal·lada i obriu i torneu-ho a provar.",
     "Opening file locally …" : "Obrint el fitxer en local …",
     "Try again" : "Torna a provar-ho",
-    "Failed to get a link with the picker" : "No s'ha pogut obtenir un enllaç amb el selector",
-    "Failed to get the link preview" : "No s'ha pogut obtenir la previsualització de l'enllaç",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "No s'ha pogut connectar amb {productName}. Si us plau, torneu-ho a provar més tard o poseu-vos en contacte amb l'administrador del vostre servidor.",
     "Select a personal template folder" : "Seleccioneu una carpeta de plantilla personal",
     "Failed to update the Zotero API key" : "No s'ha pogut actualitzar la clau de l'API de Zotero",
