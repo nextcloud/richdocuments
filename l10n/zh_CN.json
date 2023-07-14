@@ -168,8 +168,6 @@
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "如果此文件无法在您的本地编辑器中带开，请确保安装了 Nextcloud 桌面应用，并再试一次。",
     "Opening file locally …" : "在本地打开 ...",
     "Try again" : "重试",
-    "Failed to get a link with the picker" : "无法使用 picker 获取链接",
-    "Failed to get the link preview" : "无法获取预览链接",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "连接到 {productName} 失败。请稍后重试或联系您的服务器管理员。",
     "Select a personal template folder" : "选择个人模板文件夹",
     "Failed to update the Zotero API key" : "无法更新 Zotero API 密钥",

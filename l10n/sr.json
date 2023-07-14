@@ -169,8 +169,6 @@
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Ако се фајл не отвори у вашем локалном едитору, обезбедите да је инсталирана Nextcloud десктоп апликација и покушајте поново.",
     "Opening file locally …" : "Фајл се отвара локално ...",
     "Try again" : "Покушајте поново",
-    "Failed to get a link with the picker" : "Линк није примљен бирачем",
-    "Failed to get the link preview" : "Није добијен преглед линка",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не могу да се повежем на {productName}. Покушајте касније или контактирајте администратора.",
     "Select a personal template folder" : "Одаберите личну фасциклу за шаблоне",
     "Failed to update the Zotero API key" : "Није успело ажурирање Zotero API кључа",
