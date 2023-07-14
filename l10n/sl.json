@@ -169,8 +169,6 @@
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Če se datoteka ne odpre krajevno, preverite, ali je nameščen in odprt namizni program Nextcloud, nato poskusite znova.",
     "Opening file locally …" : "Poteka krajevno odpiranje datoteke ...",
     "Try again" : "Poskusi znova",
-    "Failed to get a link with the picker" : "Pridobivanje povezave z izbirnikom je spodletelo",
-    "Failed to get the link preview" : "Pridobivanje predogleda povezave je spodletelo",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Povezovanje s programom {productName} je spodletelo. Poskusite kasneje, ali pa stopite v stik s skrbnikom sistema.",
     "Select a personal template folder" : "Izbor osebne mape predlog",
     "Failed to update the Zotero API key" : "Posodabljanje ključa vmesnika API Zotero je spodletelo",

@@ -112,7 +112,6 @@ OC.L10N.register(
     "Continue editing online" : "ادامهٔ ویرایش برخط",
     "Opening file locally …" : "گشودن محلی پرونده …",
     "Try again" : "تلاش دوباره",
-    "Failed to get the link preview" : "شمست در گرفتن پیش‌نمایش پیوند",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "شکست در اتّصال به {productName}. لطفاً بعداً دوباره امتحان کرده یا با مدیر کاسازتان تماس بگیرید.",
     "Select a personal template folder" : "یک پوشه قالب شخصی را انتخاب کنید",
     "Saving …" : "ذخیره کردن …",

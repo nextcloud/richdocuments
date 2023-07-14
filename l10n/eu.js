@@ -167,8 +167,6 @@ OC.L10N.register(
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Fitxategia zure editore lokalean irekitzen ez bada, ziurtatu Nextcloud mahaigaineko aplikazioa instalatuta dagoela eta ireki eta saiatu berriro.",
     "Opening file locally …" : "Fitxategia lokalean irekitzen ...",
     "Try again" : "Saiatu berriro",
-    "Failed to get a link with the picker" : "Ezin izan da hautatzailearekin estekarik lortu",
-    "Failed to get the link preview" : "Ezin izan da estekaren aurrebista lortu",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Huts egin du hona konektatzean: {productName}. Saiatu berriro beranduago edo jarri zerbitzariaren administratzailearekin harremanetan.",
     "Select a personal template folder" : "Hautatu txantiloi pertsonalizatuentzako karpeta bat",
     "Failed to update the Zotero API key" : "Ezin izan da eguneratu Zotero API gakoa",

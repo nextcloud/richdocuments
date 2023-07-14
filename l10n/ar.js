@@ -171,8 +171,6 @@ OC.L10N.register(
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "إذا لم يفتح الملف في المحرر المحلي على جهازك، فتأكد من تثبيت تطبيق عميل نكست كلاود لسطح المكتب Nextcloud desktop app و افتحه ثم حاول مرة أخرى.",
     "Opening file locally …" : "فتحُ الملف محلّيّاً جارٍ ...",
     "Try again" : "عاود المحاولة",
-    "Failed to get a link with the picker" : "تعذّر الحصول على ارتباط مع اللاقط الذكي smart picker",
-    "Failed to get the link preview" : "تعذّر الحصول على معاينة الرابط",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "فشل الاتصال بـ {productName}. يُرجى المحاولة مرة أخرى لاحقًا أو اتصل بمشرف الخادوم.",
     "Select a personal template folder" : "حدّد مجلدَ قالبٍ شخصيٍ",
     "Failed to update the Zotero API key" : "فشل تحديث مفتاح Zotero API",
