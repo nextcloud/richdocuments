@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "Abschnitte",
     "Images" : "Bilder",
     "Sheets" : "Blätter",
+    "Slides" : "Folien",
     "Office" : "Office",
     "Empty" : "Leer",
     "Anonymous guest" : "Anonymer Gast",
