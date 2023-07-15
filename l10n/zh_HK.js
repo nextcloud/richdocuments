@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "區塊",
     "Images" : "圖像",
     "Sheets" : "工作表",
+    "Slides" : "幻燈片",
     "Office" : "Nextcloud Office",
     "Empty" : "空的",
     "Anonymous guest" : "匿名訪客",

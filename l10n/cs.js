@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "Sekce",
     "Images" : "Obrázky",
     "Sheets" : "Listy",
+    "Slides" : "Stránky prezentace",
     "Office" : "Kancelář",
     "Empty" : "Prázdná",
     "Anonymous guest" : "Anonymní host",

@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "Sections",
     "Images" : "Images",
     "Sheets" : "Sheets",
+    "Slides" : "Slides",
     "Office" : "Office",
     "Empty" : "Empty",
     "Anonymous guest" : "Anonymous guest",

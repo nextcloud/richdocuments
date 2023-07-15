@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "الأقسام",
     "Images" : "الصِّوَر",
     "Sheets" : "الأوراق sheets",
+    "Slides" : "شرائح",
     "Office" : "المكتب",
     "Empty" : "فارغ",
     "Anonymous guest" : "ضيف مجهول",
