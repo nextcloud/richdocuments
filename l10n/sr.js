@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "Одељци",
     "Images" : "Слике",
     "Sheets" : "Листови",
+    "Slides" : "Слајдови",
     "Office" : "Канцеларија",
     "Empty" : "Празно",
     "Anonymous guest" : "Анонимни гост",
