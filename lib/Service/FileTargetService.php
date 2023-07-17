@@ -6,6 +6,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\ICacheFactory;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class FileTargetService {
@@ -16,6 +17,7 @@ class FileTargetService {
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
 		private ?string $userId,
 	) {
 	}
@@ -64,6 +66,13 @@ class FileTargetService {
 			];
 		}
 
+		if (isset($targets['Slide'])) {
+			$categories['slides'] = [
+				'label' => $this->l10n->t('Slides'),
+				'entries' => $this->mapTargets($filePath, $targets['Slide'], true)
+			];
+		}
+
 		$cache->set($cacheKey, $categories);
 
 		return $categories;
@@ -73,18 +82,22 @@ class FileTargetService {
 		return $this->remoteService->fetchTargetThumbnail($file, $target);
 	}
 
-	private function mapTargets(string $filePath, array $targets): array {
+	private function mapTargets(string $filePath, array $targets, bool $showPreview = false): array {
 		$result = [];
 		foreach ($targets as $name => $identifier) {
-			$result[] = [
+			$targetData = [
 				'id' => $identifier,
 				'name' => $name,
-				// Disable previews for now as they may cause endless requests against Collabora
-				// 'preview' => $this->urlGenerator->linkToOCSRouteAbsolute('richdocuments.Target.getPreview', [
-				// 	'path' => $filePath,
-				// 	'target' => $identifier,
-				// ]),
 			];
+
+			if ($showPreview) {
+				$targetData['preview'] = $this->urlGenerator->linkToOCSRouteAbsolute('richdocuments.Target.getPreview', [
+					'path' => $filePath,
+					'target' => $identifier,
+				]);
+			}
+
+			$result[] = $targetData;
 
 		}
 		return $result;
