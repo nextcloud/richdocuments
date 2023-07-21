@@ -122,7 +122,10 @@ class WopiMapper extends QBMapper {
 	 * @throws ExpiredTokenException
 	 * @throws UnknownTokenException
 	 */
-	public function getPathForToken($token) {
+	public function getPathForToken(
+		#[\SensitiveParameter]
+		$token
+	): Wopi {
 		return $this->getWopiForToken($token);
 	}
 
@@ -136,7 +139,10 @@ class WopiMapper extends QBMapper {
 	 * @throws UnknownTokenException
 	 * @throws ExpiredTokenException
 	 */
-	public function getWopiForToken($token) {
+	public function getWopiForToken(
+		#[\SensitiveParameter]
+		string $token
+	): Wopi {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('richdocuments_wopi')
