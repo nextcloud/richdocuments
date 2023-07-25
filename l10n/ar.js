@@ -55,7 +55,7 @@ OC.L10N.register(
     "Setting up a new server" : "إنشاء خادوم جديد",
     "Collabora Online should use the same protocol as the server installation." : "يجب على Collabora Online أن يستخدم نفس بروتوكول الخادوم المُنصّب.",
     "Collabora Online server is reachable." : "يمكن الوصول إلى خادوم Collabora Online .",
-    "Please configure a Collabora Online server to start editing documents" : "يرجى تهيئة خادم برمجية المجموعة المكتبية كولابورا أونلاين لبدء تحرير المستندات",
+    "Please configure a Collabora Online server to start editing documents" : "يرجى تهيئة خادم برمجية المجموعة المكتبية Collabora Online لبدء تحرير المستندات",
     "Use your own server" : "إستخدم خادومك ",
     "Nextcloud Office requires a separate server running Collabora Online to provide editing capabilities." : "يتطلب Nextcloud Office خادومًا منفصلاً يقوم بتشغيل Collabora Online لتوفير إمكانات التحرير.",
     "Collabora Online requires a separate server acting as a WOPI-like Client to provide editing capabilities." : "يتطلب Collabora Online خادومًا منفصلاً يعمل كعميل WOPI لتوفير إمكانات التحرير.",
