@@ -170,7 +170,7 @@
     "If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again." : "Se o ficheiro non se abre no seu editor local, asegurese de que a aplicación de escritorio Nextcloud estea instalada e en execución e ténteo de novo.",
     "Opening file locally …" : "Abrindo o ficheiro localmente…",
     "Try again" : "Ténteo de novo",
-    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Produciuse un fallo ao conectar con {productName}. Ténteo de novo máis adiante ou contacte coa administración do servidor.",
+    "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Produciuse un fallo ao conectar con {productName}. Ténteo de novo máis adiante ou contacte coa administración do seu servidor.",
     "Select a personal template folder" : "Seleccione un cartafol de modelos persoais",
     "Failed to update the Zotero API key" : "Produciuse un fallo ao actualizar a chave da API de Zotero",
     "Saving …" : "Gardando…",
