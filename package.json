@@ -53,7 +53,7 @@
     "@nextcloud/stylelint-config": "^2.3.1",
     "@nextcloud/webpack-vue-config": "^5.5.1",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
-    "cypress": "^12.17.1",
+    "cypress": "^12.17.2",
     "eslint-plugin-cypress": "^2.13.3",
     "ts-loader": "^9.4.4",
     "typescript": "^4.9.5"
