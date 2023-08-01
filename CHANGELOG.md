@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.1.1
+
+### Fixed
+
+- Fix document target picker and add slide support [#3067](https://github.com/nextcloud/richdocuments/pull/3067)
+- Accept alternative MIME type for OpenType fonts [#3038](https://github.com/nextcloud/richdocuments/pull/3038)
+- fix(Wopi): Mark sensitive parameter as such [#3076](https://github.com/nextcloud/richdocuments/pull/3076)
+- fix: Create empty files from template if available [#3065](https://github.com/nextcloud/richdocuments/pull/3065)
+- fix: Catch and skip errors for adjusting the files view when the file is not present in the list [#3012](https://github.com/nextcloud/richdocuments/pull/3012)
+
 ## 8.1.0
 
 ### Added
