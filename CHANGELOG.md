@@ -1,5 +1,16 @@
 # Changelog
 
+## 7.1.5
+
+### Fixed
+
+- Accept alternative MIME type for OpenType fonts [#3040](https://github.com/nextcloud/richdocuments/pull/3040)
+- fix: Catch and skip errors for adjusting the files view when the file is not present in the list [#3014](https://github.com/nextcloud/richdocuments/pull/3014)
+- Update Writer template (template.odt) for dark mode. [#3005](https://github.com/nextcloud/richdocuments/pull/3005)
+- Dependency updates
+
+
+
 ## 7.1.4
 
 ### Fixed
