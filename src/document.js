@@ -328,6 +328,7 @@ const documentsMain = {
 								id: 'Open_Local_Editor',
 								imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
 								mobile: false,
+								tablet: false,
 								label: t('richdocuments', 'Open in local editor'),
 								hint: t('richdocuments', 'Open in local editor'),
 								insertBefore: 'print',
