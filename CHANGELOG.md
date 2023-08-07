@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.0.3
+
+### Fixed
+
+- Fix plugin watermark for php 8.1 [#2989](https://github.com/nextcloud/richdocuments/pull/2989)
+- fix: Adapt to new NcEmptyContent usage [#2986](https://github.com/nextcloud/richdocuments/pull/2986)
+- fix: Catch and skip errors for adjusting the files view when the file is not present in the list [#3013](https://github.com/nextcloud/richdocuments/pull/3013)
+- fix: Create empty files from template if available [#3066](https://github.com/nextcloud/richdocuments/pull/3066)
+- Accept alternative MIME type for OpenType fonts [#3039](https://github.com/nextcloud/richdocuments/pull/3039)
+- fix: Allow dynamic autoloading for classes added during upgrade [#3002](https://github.com/nextcloud/richdocuments/pull/3002)
+- Update Writer template (template.odt) for dark mode. [#3004](https://github.com/nextcloud/richdocuments/pull/3004)
+- CollaboraOnline#6546 enable automatic color in default paragraph style [#3062](https://github.com/nextcloud/richdocuments/pull/3062)
+- Dependency updates
+
 ## 8.0.2
 
 ### Fixed
