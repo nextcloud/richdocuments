@@ -61,7 +61,7 @@ describe('Open existing office files', function() {
 
 			cy.get('#app-sidebar-vue')
 				.should('be.visible')
-			cy.get('.app-sidebar-header__maintitle')
+			cy.get('.app-sidebar-header__mainname')
 				.should('be.visible')
 				.should('contain.text', filename)
 			// FIXME: wait for sidebar tab content
@@ -97,7 +97,7 @@ describe('Open existing office files', function() {
 
 			cy.get('#app-sidebar-vue')
 				.should('be.visible')
-			cy.get('.app-sidebar-header__maintitle')
+			cy.get('.app-sidebar-header__mainname')
 				.should('be.visible')
 				.should('contain.text', filename)
 			// FIXME: wait for sidebar tab content
