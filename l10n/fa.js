@@ -92,6 +92,7 @@ OC.L10N.register(
     "Add new token" : "نشانه جدید افزودن",
     "Delete this font" : "حذف این قلم",
     "No results" : "نتیجه ای یافت نشد",
+    "Select file or folder to link to" : "فایل یا پوشه را برای پیوند انتخاب کنید",
     "Loading {filename} …" : "بار کردن {filename} …",
     "Cancel" : "لغو",
     "Document loading failed" : "بار کردن سند شکست خورد",
