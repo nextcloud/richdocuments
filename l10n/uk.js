@@ -168,7 +168,7 @@ OC.L10N.register(
     "Try again" : "Спробуйте ще раз",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не вдалося з'єднатися з {productName}. Спробуйте пізніше або зверніться до адміністратора вашого сервера.",
     "Select a personal template folder" : "Виберіть каталог для ваших шаблонів",
-    "Saving …" : "Збереження ..",
+    "Saving …" : "Збереження …",
     "Built-in CODE server failed to start" : "Не вдалося запустити вбудований сервер CODE",
     "Insert from {name}" : "Вставити з {name}",
     "Remove from favorites" : "Вилучити з улюбленого",
