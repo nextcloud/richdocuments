@@ -30,6 +30,8 @@ namespace OCA\Richdocuments\Middleware;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Controller\WopiController;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Exceptions\ExpiredTokenException;
+use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -77,6 +79,13 @@ class WOPIMiddleware extends Middleware {
 			if ((int)$fileId !== $wopi->getFileid() && (int)$fileId !== $wopi->getTemplateId()) {
 				throw new NotPermittedException();
 			}
+		} catch (UnknownTokenException|ExpiredTokenException $e) {
+			if ($this->request->getMethod() === 'POST') {
+				$this->logger->error('Failed to validate WOPI access during save', [ 'exception' => $e ]);
+			} else {
+				$this->logger->info('Invalid token for WOPI access', [ 'exception' => $e ]);
+			}
+			throw new NotPermittedException();
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to validate WOPI access', [ 'exception' => $e ]);
 			throw new NotPermittedException();
