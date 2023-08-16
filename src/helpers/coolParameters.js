@@ -85,6 +85,11 @@ const generateCSSVarTokens = () => {
 		// Skip extracting css vars if we cannot access parent
 	}
 
+	const primaryText = window.getComputedStyle(element).getPropertyValue('--color-primary-text')
+	if (primaryText.trim() === '#ffffff') {
+		str += '--nc-dark-primary-invert-if-dark=invert(100%);--nc-dark-primary-invert-if-bright=none;'
+	}
+
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
 		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
