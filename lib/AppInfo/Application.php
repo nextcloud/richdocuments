@@ -170,9 +170,11 @@ class Application extends App implements IBootstrap {
 			return $container->query(OpenDocument::class);
 		});
 
-		$previewManager->registerProvider('/application\/pdf/', function () use ($container) {
-			return $container->query(Pdf::class);
-		});
+		if (!$previewManager->isMimeSupported('application/pdf')) {
+			$previewManager->registerProvider('/application\/pdf/', function () use ($container) {
+				return $container->get(Pdf::class);
+			});
+		}
 	}
 
 	public function checkAndEnableCODEServer() {
