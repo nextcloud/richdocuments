@@ -46,7 +46,7 @@ const getCollaboraTheme = () => {
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
 	const cssVarMap = {
-		'--color-primary-text': '--co-primary-text',
+		'--color-primary-text': '--co-primary-text:--nc-color-primary-element-text',
 		'--color-primary-element': '--co-primary-element:--co-text-accent',
 		'--color-primary-light': '--co-primary-light',
 		'--color-primary-element-light': '--co-primary-element-light',
