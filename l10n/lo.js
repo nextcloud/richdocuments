@@ -1,6 +1,8 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "The file was uploaded" : "ຟາຍຖຶກອັບໂຫລດສຳເລັດ",
+    "No file was uploaded" : "ບໍ່ມີການອັບໂຫລດຟາຍ",
     "File is too big" : "ຟາຍໃຫຍ່ໂພດ",
     "Invalid file provided" : "ຟາຍບໍ່ຖືກຕ້ອງ",
     "No results" : "ບໍ່ມີຜົນ",
