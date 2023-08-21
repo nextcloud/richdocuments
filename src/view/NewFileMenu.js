@@ -107,8 +107,9 @@ const NewFileMenu = {
 				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileModel.get('mimetype'), 'file', OC.PERMISSION_ALL)
 				fileAction.action(filename, {
 					$file: null,
+					fileId: fileModel.id,
 					dir: getCurrentDirectory(),
-					FileList,
+					fileList: FileList,
 					fileActions: FileList.fileActions,
 				})
 			} else {
