@@ -46,7 +46,7 @@ const getCollaboraTheme = () => {
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
 	const cssVarMap = {
-		'--color-primary-text': '--co-primary-text',
+		'--color-primary-text': '--co-primary-text:--nc-color-primary-element-text',
 		'--color-primary-element': '--co-primary-element:--co-text-accent',
 		'--color-primary-light': '--co-primary-light',
 		'--color-primary-element-light': '--co-primary-element-light',
@@ -83,6 +83,11 @@ const generateCSSVarTokens = () => {
 		}
 	} catch (e) {
 		// Skip extracting css vars if we cannot access parent
+	}
+
+	const primaryText = window.getComputedStyle(element).getPropertyValue('--color-primary-text')
+	if (primaryText.trim() === '#ffffff') {
+		str += '--nc-dark-primary-invert-if-dark=invert(100%);--nc-dark-primary-invert-if-bright=none;'
 	}
 
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
