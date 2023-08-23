@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.3.7
+
+### Fixed
+
+- fix: Apply proper color values on Collabora 23.05 @juliushaertl [#3117](https://github.com/nextcloud/richdocuments/pull/3117)
+- fix: Revert change of extension which should refer to the new file extension [#3135](https://github.com/nextcloud/richdocuments/pull/3135)
+- fix: Use a proper empty xlsx file [#3127](https://github.com/nextcloud/richdocuments/pull/3127)
+- fix: fix: Provide valid fileList and fileId context on new file action [#3136](https://github.com/nextcloud/richdocuments/pull/3136)
+
+
 ## 6.3.6
 
 ### Fixed
