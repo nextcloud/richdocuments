@@ -1,5 +1,5 @@
 /*
- * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
+git add  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -107,7 +107,8 @@ const NewFileMenu = {
 				fileAction.action(filename, {
 					$file: null,
 					dir: FileList.getCurrentDirectory(),
-					FileList,
+					fileId: fileModel.id,
+					fileList: FileList,
 					fileActions: FileList.fileActions,
 				})
 			} else {
