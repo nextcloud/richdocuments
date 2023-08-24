@@ -24,6 +24,10 @@ class AppConfig {
 
 	public const READ_ONLY_FEATURE_LOCK = 'read_only_feature_lock';
 
+	// Load additional mime types (like images) on public share links when hide download is enabled
+	// Default: 'no', set to 'yes' to enable
+	public const USE_SECURE_VIEW_ADDITIONAL_MIMES = 'use_secure_view_additional_mimes';
+
 	private $defaults = [
 		'wopi_url' => '',
 		'timeout' => 15,
@@ -177,5 +181,9 @@ class AppConfig {
 			return $wopiOverride ?: [];
 		}
 		return [];
+	}
+
+	public function useSecureViewAdditionalMimes(): bool {
+		return $this->config->getAppValue(Application::APPNAME, self::USE_SECURE_VIEW_ADDITIONAL_MIMES, 'no') === 'yes';
 	}
 }

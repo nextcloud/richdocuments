@@ -73,7 +73,26 @@ class Capabilities implements ICapability {
 		'image/svg+xml',
 		'application/pdf',
 		'text/plain',
-		'text/spreadsheet'
+		'text/spreadsheet',
+	];
+
+	public const SECURE_VIEW_ADDITIONAL_MIMES = [
+		'image/jpeg',
+		'image/svg+xml',
+		'image/cgm',
+		'image/vnd.dxf',
+		'image/x-emf',
+		'image/x-wmf',
+		'image/x-wpg',
+		'image/x-freehand',
+		'image/bmp',
+		'image/png',
+		'image/gif',
+		'image/tiff',
+		'image/jpg',
+		'image/jpeg',
+		'text/plain',
+		'application/pdf',
 	];
 
 	private IL10N $l10n;
@@ -124,6 +143,7 @@ class Capabilities implements ICapability {
 					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
 					'mimetypes' => array_values($filteredMimetypes),
 					'mimetypesNoDefaultOpen' => array_values($optionalMimetypes),
+					'mimetypesSecureView' => $this->config->useSecureViewAdditionalMimes() ? self::SECURE_VIEW_ADDITIONAL_MIMES : [],
 					'collabora' => $collaboraCapabilities,
 					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) && $this->config->getAppValue('mobile_editing') ?: false,
 					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
