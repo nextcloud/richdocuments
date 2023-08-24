@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -26,7 +28,6 @@ namespace OCA\Richdocuments;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Capabilities implements ICapability {
@@ -66,7 +67,7 @@ class Capabilities implements ICapability {
 		'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
 		'application/vnd.ms-powerpoint.template.macroEnabled.12',
 		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
-		'text/csv'
+		'text/csv',
 	];
 
 	public const MIMETYPES_OPTIONAL = [
@@ -95,24 +96,16 @@ class Capabilities implements ICapability {
 		'application/pdf',
 	];
 
-	private IL10N $l10n;
-	private AppConfig $config;
-	private CapabilitiesService $capabilitiesService;
-	private PermissionManager $permissionManager;
-	private IURLGenerator $urlGenerator;
-	private IAppManager $appManager;
-	private ?string $userId = null;
+	private ?array $capabilities = null;
 
-	private $capabilities = null;
-
-	public function __construct(IL10N $l10n, AppConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager, ?string $userId, IURLGenerator $urlGenerator) {
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->permissionManager = $permissionManager;
-		$this->appManager = $appManager;
-		$this->userId = $userId;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private AppConfig $config,
+		private CapabilitiesService $capabilitiesService,
+		private PermissionManager $permissionManager,
+		private IAppManager $appManager,
+		private ?string $userId,
+		private IURLGenerator $urlGenerator
+	) {
 	}
 
 	public function getCapabilities() {
@@ -140,13 +133,13 @@ class Capabilities implements ICapability {
 
 			$this->capabilities = [
 				'richdocuments' => [
-					'version' => \OC::$server->getAppManager()->getAppVersion('richdocuments'),
+					'version' => $this->appManager->getAppVersion('richdocuments'),
 					'mimetypes' => array_values($filteredMimetypes),
 					'mimetypesNoDefaultOpen' => array_values($optionalMimetypes),
 					'mimetypesSecureView' => $this->config->useSecureViewAdditionalMimes() ? self::SECURE_VIEW_ADDITIONAL_MIMES : [],
 					'collabora' => $collaboraCapabilities,
-					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) && $this->config->getAppValue('mobile_editing') ?: false,
-					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
+					'direct_editing' => ($collaboraCapabilities['hasMobileSupport'] ?? false) && $this->config->getAppValue('mobile_editing') ?: false,
+					'templates' => ($collaboraCapabilities['hasTemplateSaveAs'] ?? false) || ($collaboraCapabilities['hasTemplateSource'] ?? false),
 					'productName' => $this->capabilitiesService->getProductName(),
 					'editonline_endpoint' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.document.editOnline'),
 					'config' => [
