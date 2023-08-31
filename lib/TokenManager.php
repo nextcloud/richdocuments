@@ -326,4 +326,8 @@ class TokenManager {
 		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
 		$this->wopiMapper->update($wopi);
 	}
+
+	public function getUrlSrc(File $file): string {
+		return $this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'];
+	}
 }

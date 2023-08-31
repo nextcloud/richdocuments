@@ -575,6 +575,7 @@ class TemplateManager {
 			$result = $query->executeQuery();
 			$templateId = (int)$result->fetchOne();
 
+			$query = $this->db->getQueryBuilder();
 			$query->delete('richdocuments_template')
 				->where($query->expr()->eq('userid', $query->createNamedParameter($this->userId)))
 				->andWhere($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));

@@ -237,7 +237,7 @@ export default {
 
 			// Generate WOPI token
 			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
-				fileId: fileid, shareToken: this.shareToken,
+				fileId: fileid, shareToken: this.shareToken, version,
 			})
 			Config.update('urlsrc', data.urlSrc)
 
