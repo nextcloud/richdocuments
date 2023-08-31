@@ -60,7 +60,7 @@
 		<iframe :id="iframeId"
 			ref="documentFrame"
 			:name="iframeId"
-			data-cy="documentframe"
+			data-cy="coolframe"
 			scrolling="no"
 			allowfullscreen
 			class="office-viewer__iframe"
