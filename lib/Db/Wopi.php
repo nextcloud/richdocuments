@@ -29,7 +29,7 @@ use OCP\AppFramework\Db\Entity;
  *
  * @method void setOwnerUid(string $uid)
  * @method string getOwnerUid()
- * @method void setEditorUid(string $uid)
+ * @method void setEditorUid(?string $uid)
  * @method string getEditorUid()
  * @method void setFileid(int $fileid)
  * @method int getFileid()

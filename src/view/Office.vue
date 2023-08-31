@@ -379,7 +379,7 @@ export default {
 
 		async buttonClicked(args) {
 			if (args?.Id === 'Open_Local_Editor') {
-				this.showOpenLocalConfirmation()
+				this.startOpenLocalProcess()
 			}
 		},
 

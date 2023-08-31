@@ -19,10 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { getRootUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-import { getNextcloudUrl } from '../helpers/url.js'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { encodePath } from '@nextcloud/paths'
+import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
+import { getNextcloudUrl } from '../helpers/url.js'
 
 // FIXME: Migrate to vue component
 export default {
@@ -32,17 +33,25 @@ export default {
 		}
 	},
 	methods: {
-		unlockAndOpenLocally() {
+		startOpenLocalProcess() {
+			this.showOpenLocalConfirmation()
+		},
+		async unlockAndOpenLocally() {
 			if (this.openingLocally) {
-				this.unlockFile()
-					.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
-					.then(() => {
-						this.openLocally()
-					})
+				let shouldContinue = true
+				try {
+					await this.unlockFile()
+				} catch (e) {
+					shouldContinue = e.response.status === 400
+				}
+
+				if (shouldContinue) {
+					this.openLocally()
+				}
 			}
 		},
+
 		showOpenLocalConfirmation() {
-			// FIXME: Migrate to vue
 			window.OC.dialogs.confirmDestructive(
 				t('richdocuments', 'When opening a file locally, the document will close for all users currently viewing the document.'),
 				t('richdocuments', 'Open file locally'),
@@ -54,6 +63,27 @@ export default {
 				},
 				(decision) => {
 					if (!decision) {
+						return
+					}
+					this.openingLocally = true
+					this.sendPostMessage('Get_Views')
+				})
+		},
+
+		showOpenLocalFinished() {
+			const fileName = this.filename
+			window.OC.dialogs.confirmDestructive(
+				t('richdocuments', 'The file should now open locally. If you don\'t see this happening, make sure that the desktop client is installed on your system.'),
+				t('richdocuments', 'Open file locally'),
+				{
+					type: OC.dialogs.YES_NO_BUTTONS,
+					confirm: t('richdocuments', 'Retry to open locally'),
+					confirmClasses: 'primary',
+					cancel: t('richdocuments', 'Continue editing online'),
+				},
+				(decision) => {
+					if (!decision) {
+						window.OCA.Viewer.open(fileName)
 						return
 					}
 					this.openingLocally = true
@@ -74,15 +104,16 @@ export default {
 				this.openingLocally = false
 
 				axios.post(
-					OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json',
-					{ path: this.filename }
+					generateOcsUrl('apps/files/api/v1/openlocaleditor'),
+					{ path: this.filename },
 				).then((result) => {
 					const url = 'nc://open/'
 						+ getCurrentUser()?.uid + '@' + getNextcloudUrl()
-						+ OC.encodePath(this.filename)
+						+ encodePath(this.filename)
 						+ '?token=' + result.data.ocs.data.token
 
-					this.showOpenLocalConfirmation(url, window.top)
+					this.showOpenLocalFinished(url, window.top)
+					this.close()
 					window.location.href = url
 				})
 			}

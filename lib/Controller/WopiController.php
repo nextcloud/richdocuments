@@ -510,12 +510,12 @@ class WopiController extends Controller {
 
 			if ($isPutRelative) {
 				// generate a token for the new file (the user still has to be logged in)
-				list(, $wopi) = $this->tokenManager->getToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
+				$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
-				$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
-				$url = $this->urlGenerator->getAbsoluteURL($wopi);
+				$wopiUrl = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
+				$wopiUrl = $this->urlGenerator->getAbsoluteURL($wopiUrl);
 
-				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $wopiUrl ], Http::STATUS_OK);
 			}
 			if ($wopi->hasTemplateId()) {
 				$wopi->setTemplateId(null);
@@ -684,12 +684,12 @@ class WopiController extends Controller {
 
 			// generate a token for the new file (the user still has to be
 			// logged in)
-			list(, $wopi) = $this->tokenManager->getToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
+			$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
-			$wopi = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
-			$url = $this->urlGenerator->getAbsoluteURL($wopi);
+			$wopiUrl = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
+			$wopiUrl = $this->urlGenerator->getAbsoluteURL($wopiUrl);
 
-			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $url ], Http::STATUS_OK);
+			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $wopiUrl ], Http::STATUS_OK);
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
