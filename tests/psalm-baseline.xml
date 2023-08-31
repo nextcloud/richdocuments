@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.6.0@e784128902dfe01d489c4123d69918a9f3c1eac5">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
       <code>[]</code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code>$value</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>array</code>
-    </InvalidReturnType>
     <RedundantCondition>
-      <code>array_key_exists($key, self::APP_SETTING_TYPES) &amp;&amp; self::APP_SETTING_TYPES[$key] === 'array'</code>
+      <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
     </RedundantCondition>
   </file>
   <file src="lib/AppInfo/Application.php">
@@ -23,25 +17,14 @@
       <code>Pdf</code>
     </MissingDependency>
   </file>
-  <file src="lib/Command/ActivateConfig.php">
-    <RedundantCondition>
-      <code>$public_wopi_url !== null</code>
-    </RedundantCondition>
-  </file>
   <file src="lib/Command/ConvertToBigInt.php">
-    <MismatchingDocblockParamType>
-      <code>IDBConnection</code>
-    </MismatchingDocblockParamType>
     <UndefinedClass>
       <code>Type</code>
     </UndefinedClass>
-    <UndefinedDocblockClass>
-      <code>$this-&gt;connection-&gt;getDatabasePlatform()</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/DirectViewController.php">
     <InvalidScalarArgument>
-      <code>$item-&gt;getId()</code>
+      <code><![CDATA[$item->getId()]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/Controller/DocumentAPIController.php">
@@ -50,30 +33,16 @@
     </UndefinedClass>
   </file>
   <file src="lib/Controller/DocumentController.php">
-    <InvalidArgument>
-      <code>$fileId</code>
-    </InvalidArgument>
     <InvalidScalarArgument>
-      <code>$item-&gt;getId()</code>
-      <code>$item-&gt;getId()</code>
-      <code>$item-&gt;getId()</code>
-      <code>$node-&gt;getId()</code>
+      <code><![CDATA[$node->getId()]]></code>
     </InvalidScalarArgument>
     <RedundantCondition>
       <code>$app !== ''</code>
     </RedundantCondition>
   </file>
-  <file src="lib/Controller/SettingsController.php">
-    <RedundantCondition>
-      <code>$public_wopi_url !== null</code>
-    </RedundantCondition>
-    <TooManyArguments>
-      <code>new NotFoundResponse([])</code>
-    </TooManyArguments>
-  </file>
   <file src="lib/Controller/TemplatesController.php">
     <InvalidReturnStatement>
-      <code>$this-&gt;fetchPreview($template, $x, $y, $a, $forceIcon, $mode)</code>
+      <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>DataResponse</code>
@@ -94,11 +63,6 @@
       <code>putContent</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/Events/BeforeFederationRedirectEvent.php">
-    <UndefinedClass>
-      <code>Event</code>
-    </UndefinedClass>
-  </file>
   <file src="lib/Helper.php">
     <InvalidScalarArgument>
       <code>$time</code>
@@ -106,7 +70,7 @@
   </file>
   <file src="lib/PermissionManager.php">
     <RedundantCondition>
-      <code>$share &amp;&amp; method_exists($share, 'getAttributes')</code>
+      <code><![CDATA[$share && method_exists($share, 'getAttributes')]]></code>
     </RedundantCondition>
   </file>
   <file src="lib/Preview/MSExcel.php">
@@ -146,26 +110,13 @@
       <code>getToken</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/Service/UserScopeService.php">
-    <UndefinedClass>
-      <code>\OC_Util</code>
-    </UndefinedClass>
-    <UndefinedThisPropertyAssignment>
-      <code>$this-&gt;userManager</code>
-      <code>$this-&gt;userSession</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch>
-      <code>$this-&gt;userManager</code>
-      <code>$this-&gt;userSession</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="lib/Template/CollaboraTemplateProvider.php">
     <InvalidReturnStatement>
-      <code>array_map(function (File $file) {
-			$template = new Template(CollaboraTemplateProvider::class, (string)$file-&gt;getId(), $file);
-			$template-&gt;setCustomPreviewUrl($this-&gt;urlGenerator-&gt;linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' =&gt; $file-&gt;getId()]));
+      <code><![CDATA[array_map(function (File $file) {
+			$template = new Template(CollaboraTemplateProvider::class, (string)$file->getId(), $file);
+			$template->setCustomPreviewUrl($this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $file->getId()]));
 			return $template;
-		}, $collaboraTemplates)</code>
+		}, $collaboraTemplates)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>array</code>
@@ -179,20 +130,9 @@
       <code>?File</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/TokenManager.php">
-    <InvalidScalarArgument>
-      <code>$node-&gt;getId()</code>
-    </InvalidScalarArgument>
-    <NullArgument>
-      <code>null</code>
-    </NullArgument>
-    <UndefinedInterfaceMethod>
-      <code>$targetFile</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/WOPI/Parser.php">
     <RedundantCondition>
-      <code>$result &amp;&amp; count($result) &gt; 0</code>
+      <code><![CDATA[$result && count($result) > 0]]></code>
     </RedundantCondition>
   </file>
 </files>

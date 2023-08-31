@@ -28,34 +28,21 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 
 class InitialStateService {
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var string|null */
-	private $userId;
-
-	/** @var bool */
-	private $hasProvidedCapabilities = false;
+	private bool $hasProvidedCapabilities = false;
 
 	public function __construct(
-		IInitialState $initialState,
-		CapabilitiesService $capabilitiesService,
-		IConfig $config,
-		$userId
+		private IInitialState $initialState,
+		private CapabilitiesService $capabilitiesService,
+		private IURLGenerator $urlGenerator,
+		private Defaults $themingDefaults,
+		private IConfig $config,
+		private ?string $userId,
 	) {
-		$this->initialState = $initialState;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	public function provideCapabilities(): void {
@@ -66,6 +53,7 @@ class InitialStateService {
 		$this->initialState->provideInitialState('productName', $this->capabilitiesService->getProductName());
 		$this->initialState->provideInitialState('hasDrawSupport', $this->capabilitiesService->hasDrawSupport());
 		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
+		$this->initialState->provideInitialState('instanceid', $this->config->getSystemValue('instanceid'));
 
 		$this->provideOptions();
 
@@ -112,7 +100,7 @@ class InitialStateService {
 			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
 		}
 		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
-			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
+			$this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo())
 			: false));
 	}
 }

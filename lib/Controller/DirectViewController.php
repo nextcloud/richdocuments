@@ -97,7 +97,9 @@ class DirectViewController extends Controller {
 			}
 
 			try {
-				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
+				$urlSrc = $this->tokenManager->getUrlSrc($item);
+
+				$wopi = $this->tokenManager->generateWopiTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
 
 				$targetFile = $folder->getById($direct->getTemplateDestination())[0];
 				$relativePath = $folder->getRelativePath($targetFile->getPath());
@@ -120,7 +122,8 @@ class DirectViewController extends Controller {
 					return $response;
 				}
 
-				list($urlSrc, $wopi) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
+				$urlSrc = $this->tokenManager->getUrlSrc($item);
+				$wopi = $this->tokenManager->generateWopiToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
 				$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 				return $this->renderErrorPage('Failed to open the requested file.');
@@ -181,7 +184,8 @@ class DirectViewController extends Controller {
 					'directGuest' => empty($direct->getUid()),
 				];
 
-				list($urlSrc, $wopi) = $this->tokenManager->getToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
+				$urlSrc = $this->tokenManager->getUrlSrc($node);
+				$wopi = $this->tokenManager->generateWopiToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
 				if (!empty($direct->getInitiatorHost())) {
 					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 				}

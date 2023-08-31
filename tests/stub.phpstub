@@ -93,3 +93,8 @@ namespace Symfony\Component\HttpFoundation {
 #[\Attribute(Attribute::TARGET_PARAMETER)]
 class SensitiveParameter {
 }
+
+class OC_Util {
+	public static function setupFS(?string $user);
+	public static function tearDownFS();
+}

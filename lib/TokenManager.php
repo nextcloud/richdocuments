@@ -21,6 +21,7 @@
 
 namespace OCA\Richdocuments;
 
+use Exception;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Richdocuments\Db\Direct;
@@ -88,20 +89,16 @@ class TokenManager {
 	}
 
 	/**
-	 * @param string $fileId
-	 * @param string $shareToken
-	 * @param string $editoruid
-	 * @return array
-	 * @throws \Exception
+	 * @throws Exception
 	 */
-	public function getToken(string $fileId, $shareToken = null, $editoruid = null, $direct = false) {
+	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false): Wopi {
 		list($fileId, , $version) = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
+		$rootFolder = $this->rootFolder;
 		// if the user is not logged-in do use the sharers storage
 		if ($shareToken !== null) {
 			/** @var File $file */
-			$rootFolder = $this->rootFolder;
 			$share = $this->shareManager->getShareByToken($shareToken);
 
 			if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
@@ -146,11 +143,10 @@ class TokenManager {
 						}
 					}
 				}
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				throw $e;
 			}
 		} else {
-			$rootFolder = $this->rootFolder;
 			// no active user login while generating the token
 			// this is required during WopiPutRelativeFile
 			if (is_null($editoruid)) {
@@ -203,12 +199,7 @@ class TokenManager {
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 		$guestName = $this->userId === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
-		$wopi = $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
-
-		return [
-			$this->wopiParser->getUrlSrc($file->getMimeType())['urlsrc'], // url src might not be found ehre
-			$wopi
-		];
+		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
 	}
 
 	/**
@@ -245,14 +236,13 @@ class TokenManager {
 		return $wopi;
 	}
 
-	public function getTokenForTemplate(File $templateFile, $userId, $targetFileId, $direct = false) {
+	public function generateWopiTokenForTemplate(File $templateFile, ?string $userId, int $targetFileId, bool $direct = false): Wopi {
 		$owneruid = $userId;
 		$editoruid = $userId;
 		$rootFolder = $this->rootFolder->getUserFolder($editoruid);
-		/** @var File $targetFile */
 		$targetFile = $rootFolder->getById($targetFileId);
-		$targetFile = $targetFile[0] ?? null;
-		if (!$targetFile) {
+		$targetFile = array_shift($targetFile);
+		if (!$targetFile instanceof File) {
 			throw new NotFoundException();
 		}
 
@@ -266,21 +256,16 @@ class TokenManager {
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
 		if ($this->capabilitiesService->hasTemplateSource()) {
-			$wopi = $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, 0, false, $direct, $templateFile->getId());
-		} else {
-			// Legacy way of creating new documents from a template
-			$wopi = $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, $targetFile->getId(), $direct);
+			return $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, 0, false, $direct, $templateFile->getId());
 		}
 
-		return [
-			$this->wopiParser->getUrlSrc($templateFile->getMimeType())['urlsrc'],
-			$wopi
-		];
+		// Legacy way of creating new documents from a template
+		return $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, $targetFile->getId(), $direct);
 	}
 
 	public function newInitiatorToken($sourceServer, Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
 		if ($node !== null) {
-			list($urlSrc, $wopi) = $this->getToken($node->getId(), $shareToken, $userId, $direct);
+			$wopi = $this->generateWopiToken((string)$node->getId(), $shareToken, $userId, $direct);
 			$wopi->setServerHost($sourceServer);
 			$wopi->setTokenType(Wopi::TOKEN_TYPE_INITIATOR);
 			$this->wopiMapper->update($wopi);
