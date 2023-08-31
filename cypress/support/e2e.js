@@ -23,3 +23,15 @@ Cypress.Screenshot.defaults({
 	overwrite: true,
 	capture: 'viewport',
 })
+
+Cypress.on('uncaught:exception', (err) => {
+	if (err.message.includes('ResizeObserver')) {
+		return false
+	}
+
+	if (err.message.includes('fetchpriority')) {
+		return false
+	}
+
+	return true
+})
