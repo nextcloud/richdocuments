@@ -204,7 +204,7 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
 })
-Cypress.Commands.add('waitForCollabora', (wrapped = true) => {
+Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 	if (wrapped) {
 		cy.get('[data-cy="documentframe"]', { timeout: 30000 })
 			.its('0.contentDocument')
