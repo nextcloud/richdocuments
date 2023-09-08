@@ -1,4 +1,5 @@
 import { emit } from '@nextcloud/event-bus'
+import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
@@ -609,7 +610,7 @@ const documentsMain = {
 			).then((result) => {
 				const url = 'nc://open/'
 					+ Config.get('userId') + '@' + getNextcloudUrl()
-					+ OC.encodePath(documentsMain.fullPath)
+					+ encodePath(documentsMain.fullPath)
 					+ '?token=' + result.data.ocs.data.token
 
 				this.showOpenLocalConfirmation(url, window.top)

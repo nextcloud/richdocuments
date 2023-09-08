@@ -51,7 +51,7 @@ describe('Public sharing of office documents', function() {
 							cy.spy(win, 'postMessage').as('postMessage')
 						},
 					})
-					cy.waitForCollabora()
+					cy.waitForCollabora(true)
 					cy.get('@loleafletframe').within(() => {
 						cy.get('#closebutton').click()
 					})

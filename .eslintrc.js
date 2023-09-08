@@ -14,6 +14,12 @@ module.exports = {
 		'plugin:cypress/recommended',
 	],
 	env: {
-		'cypress/globals': true
+		'cypress/globals': true,
 	},
+	rules: {
+		'import/no-named-as-default-member': 'off',
+		'jsdoc/check-values': 'off',
+		'jsdoc/valid-types': 'off',
+		'jsdoc/no-undefined-types': 'off',
+	}
 }

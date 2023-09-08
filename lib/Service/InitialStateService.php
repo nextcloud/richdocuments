@@ -28,34 +28,21 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Defaults;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 
 class InitialStateService {
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var string|null */
-	private $userId;
-
-	/** @var bool */
-	private $hasProvidedCapabilities = false;
+	private bool $hasProvidedCapabilities = false;
 
 	public function __construct(
-		IInitialState $initialState,
-		CapabilitiesService $capabilitiesService,
-		IConfig $config,
-		$userId
+		private IInitialState $initialState,
+		private CapabilitiesService $capabilitiesService,
+		private IURLGenerator $urlGenerator,
+		private Defaults $themingDefaults,
+		private IConfig $config,
+		private ?string $userId,
 	) {
-		$this->initialState = $initialState;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	public function provideCapabilities(): void {
@@ -66,6 +53,9 @@ class InitialStateService {
 		$this->initialState->provideInitialState('productName', $this->capabilitiesService->getProductName());
 		$this->initialState->provideInitialState('hasDrawSupport', $this->capabilitiesService->hasDrawSupport());
 		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
+		$this->initialState->provideInitialState('instanceid', $this->config->getSystemValue('instanceid'));
+
+		$this->provideOptions();
 
 		$this->hasProvidedCapabilities = true;
 	}
@@ -76,17 +66,8 @@ class InitialStateService {
 		$this->initialState->provideInitialState('document', $this->prepareParams($params));
 
 		$this->initialState->provideInitialState('wopi', $wopi);
-		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
-		$this->initialState->provideInitialState('uiDefaults', [
-			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
-		]);
-		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
-		if (!$logoSet) {
-			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
-		}
-		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
-			\OC::$server->getURLGenerator()->getAbsoluteURL(\OC::$server->getThemingDefaults()->getLogo())
-			: false));
+
+		$this->provideOptions();
 	}
 
 	public function prepareParams(array $params): array {
@@ -107,5 +88,19 @@ class InitialStateService {
 		];
 
 		return array_merge($defaults, $params);
+	}
+
+	private function provideOptions(): void {
+		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
+		$this->initialState->provideInitialState('uiDefaults', [
+			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
+		]);
+		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
+		if (!$logoSet) {
+			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
+		}
+		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
+			$this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo())
+			: false));
 	}
 }

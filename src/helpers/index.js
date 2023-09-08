@@ -76,8 +76,17 @@ const splitPath = (path) => {
 	return [directory, fileName]
 }
 
+const getRandomId = (length = 5) => {
+	return Math.random()
+		.toString(36)
+		.replace(/[^a-z]+/g, '')
+		.slice(0, length || 5)
+
+}
+
 export {
 	languageToBCP47,
 	getNextcloudVersion,
 	splitPath,
+	getRandomId,
 }
