@@ -112,6 +112,18 @@ class CapabilitiesService {
 		return $this->l10n->t('Nextcloud Office');
 	}
 
+	public function hasOtherOOXMLApps(): bool {
+		if ($this->appManager->isEnabledForUser('officeonline')) {
+			return true;
+		}
+
+		if ($this->appManager->isEnabledForUser('onlyoffice')) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function clear(): void {
 		$this->cache->remove('capabilities');
 	}
