@@ -2,8 +2,8 @@
 
 namespace OCA\Richdocuments\Events;
 
+use OCP\EventDispatcher\Event;
 use OCP\Files\Node;
-use Symfony\Component\EventDispatcher\Event;
 
 class BeforeFederationRedirectEvent extends Event {
 	/** @var Node */

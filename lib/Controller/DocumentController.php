@@ -1,4 +1,4 @@
-lib/Controller/DocumentController.php<?php
+<?php
 /**
  * ownCloud - Richdocuments App
  *
@@ -15,18 +15,15 @@ use \OCA\Richdocuments\AppConfig;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\IConfig;
-use \OCP\ILogger;
 use \OCP\IRequest;
 use Exception;
 use OC;
 use OC\User\NoUserException;
-use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -34,7 +31,6 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -42,8 +38,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\IConfig;
-use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
