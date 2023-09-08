@@ -119,7 +119,7 @@ class SettingsController extends Controller {
 		if (count($demoServers) > 0) {
 			return new DataResponse($demoServers);
 		}
-		return new NotFoundResponse([]);
+		return new NotFoundResponse();
 	}
 
 	/**

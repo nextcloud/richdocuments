@@ -17,9 +17,19 @@
       <code>Pdf</code>
     </MissingDependency>
   </file>
+  <file src="lib/Command/ActivateConfig.php">
+    <UndefinedClass>
+      <code>Command</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Command/ConvertToBigInt.php">
     <UndefinedClass>
-      <code>Type</code>
+      <code>Command</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/UpdateEmptyTemplates.php">
+    <UndefinedClass>
+      <code>Command</code>
     </UndefinedClass>
   </file>
   <file src="lib/Controller/DirectViewController.php">
