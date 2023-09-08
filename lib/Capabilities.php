@@ -102,7 +102,7 @@ class Capabilities implements ICapability {
 					'mimetypes' => self::MIMETYPES,
 					'mimetypesNoDefaultOpen' => self::MIMETYPES_OPTIONAL,
 					'collabora' => $collaboraCapabilities,
-					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) ?: false,
+					'direct_editing' => isset($collaboraCapabilities['hasMobileSupport']) && $this->config->getAppValue('mobile_editing') ?: false,
 					'templates' => isset($collaboraCapabilities['hasTemplateSaveAs']) || isset($collaboraCapabilities['hasTemplateSource']) ?: false,
 					'productName' => isset($collaboraCapabilities['productName']) ? $collaboraCapabilities['productName'] : $this->l10n->t('Collabora Online'),
 					'config' => [
