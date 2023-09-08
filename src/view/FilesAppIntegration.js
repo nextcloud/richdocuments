@@ -22,7 +22,7 @@
 
 import { generateUrl, generateRemoteUrl, getRootUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import moment from '@nextcloud/moment'
+import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
@@ -94,6 +94,9 @@ export default {
 		this.updateFileInfo(undefined, Date.now())
 
 		this.fileModel = null
+		this.fileName = null
+		this.fileId = null
+
 		if (!isPublic) {
 			this.removeVersionSidebarEvents()
 		}
@@ -428,32 +431,44 @@ export default {
 	},
 
 	addVersionSidebarEvents() {
-		$(document.querySelector('#content')).on('click.revisions', '.app-sidebar .preview-container', this.showVersionPreview.bind(this))
-		$(document.querySelector('#content')).on('click.revisions', '.app-sidebar .downloadVersion', this.showVersionPreview.bind(this))
-		$(document.querySelector('#content')).on('mousedown.revisions', '.app-sidebar .revertVersion', this.restoreVersion.bind(this))
-		$(document.querySelector('#content')).on('click.revisionsTab', '.app-sidebar [data-tabid=versionsTabView]', this.addCurrentVersion.bind(this))
+		subscribe('files_versions:view:open', this.handleVersionOpen.bind(this))
+		subscribe('files_versions:restore:requested', this.handleVersionRestore.bind(this))
+
+		// $(document.querySelector('#content')).on('mousedown.revisions', '.app-sidebar .revertVersion', this.restoreVersion.bind(this))
 	},
 
 	removeVersionSidebarEvents() {
-		$(document.querySelector('#content')).off('click.revisions')
-		$(document.querySelector('#content')).off('click.revisions')
-		$(document.querySelector('#content')).off('mousedown.revisions')
-		$(document.querySelector('#content')).off('click.revisionsTab')
+		unsubscribe('files_versions:view:open', this.handleVersionOpen.bind(this))
+		unsubscribe('files_versions:restore:requested', this.handleVersionRestore.bind(this))
 	},
 
-	addCurrentVersion() {
-		$('#lastSavedVersion').remove()
-		$('#currentVersion').remove()
-		if (this.getFileModel()) {
-			const preview = OC.MimeType.getIconUrl(this.getFileModel().get('mimetype'))
-			const mtime = this.getFileModel().get('mtime')
-			$('.tab.versionsTabView').prepend('<ul id="lastSavedVersion"><li data-revision="0"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Last saved version') + ' (<span class="versiondate has-tooltip live-relative-timestamp" data-timestamp="' + mtime + '"></span>)</div></div></li></ul>')
-			$('.tab.versionsTabView').prepend('<ul id="currentVersion"><li data-revision="" class="active"><div><div class="preview-container"><img src="' + preview + '" width="44" /></div><div class="version-container">\n'
-				+ '<div><a class="downloadVersion">' + t('richdocuments', 'Current version (unsaved changes)') + '</a></div></div></li></ul>')
-			$('.live-relative-timestamp').each(function() {
-				$(this).text(moment(parseInt($(this).attr('data-timestamp'), 10)).fromNow())
-			})
+	handleVersionOpen(event) {
+		const version = event.version.mtime !== event.fileInfo.mtime ? Math.round(event.version.mtime / 1000) : 0
+		const fileId = this.fileId
+		const title = this.fileName
+
+		if (!fileId) {
+			return
+		}
+
+		event.preventDefault = true
+
+		console.debug('[FilesAppIntegration] showVersionPreview', version, fileId, title, event)
+		this.sendPostMessage('Action_loadRevViewer', { fileId, title, version })
+	},
+
+	handleVersionRestore(event) {
+		event.preventDefault = true
+
+		this.versionInRestore = event.version
+
+		this.sendPostMessage('Host_VersionRestore', { Status: 'Pre_Restore' })
+
+		const version = Math.round(event.version.mtime / 1000)
+
+		this._restoreVersionCallback = () => {
+			this._restoreDAV(version)
+			this._restoreVersionCallback = null
 		}
 	},
 
@@ -464,40 +479,8 @@ export default {
 
 		if (this.getFileList()) {
 			this.getFileList()
-				.showDetailsView(this.fileName, 'versionsTabView')
-			this.addCurrentVersion()
+				.showDetailsView(this.fileName, 'version_vue')
 		}
-	},
-
-	showVersionPreview(e) {
-		e.preventDefault()
-		let element = e.currentTarget.parentElement.parentElement
-		if ($(e.currentTarget).hasClass('downloadVersion')) {
-			element = e.currentTarget.parentElement.parentElement.parentElement.parentElement
-		}
-		const version = element.dataset.revision
-		const fileId = this.fileId
-		const title = this.fileName
-		console.debug('[FilesAppIntegration] showVersionPreview', version, fileId, title)
-		this.sendPostMessage('Action_loadRevViewer', { fileId, title, version })
-		$(element.parentElement.parentElement).find('li').removeClass('active')
-		$(element).addClass('active')
-	},
-
-	restoreVersion(e) {
-		e.preventDefault()
-		e.stopPropagation()
-
-		this.sendPostMessage('Host_VersionRestore', { Status: 'Pre_Restore' })
-
-		const version = e.currentTarget.parentElement.parentElement.dataset.revision
-
-		this._restoreVersionCallback = () => {
-			this._restoreDAV(version)
-			this._restoreVersionCallback = null
-		}
-
-		return false
 	},
 
 	restoreVersionExecute() {
@@ -514,10 +497,11 @@ export default {
 		if (response.status === 'error') {
 			OC.Notification.showTemporary(t('richdocuments', 'Failed to revert the document to older version'))
 		}
-		// Reload the document frame to get the new file
-		// TODO: ideally we should have a post messsage that can be sent to collabora to just reload the file once the restore is finished
-		document.getElementById('richdocumentsframe').src = document.getElementById('richdocumentsframe').src
-		OC.Apps.hideAppSidebar()
+
+		OC.Notification.showTemporary(t('richdocuments', 'Version restored'))
+
+		emit('files_versions:restore:restored', this.versionInRestore)
+		this.versionInRestore = null
 	},
 
 	_restoreError() {
