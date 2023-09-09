@@ -52,7 +52,7 @@ describe('Nextcloud integration', function() {
 
 		cy.get('#app-sidebar-vue')
 			.should('be.visible')
-		cy.get('.app-sidebar-header__mainname')
+		cy.get('.app-sidebar-header__maintitle')
 			.should('be.visible')
 			.should('contain.text', filename)
 
@@ -67,13 +67,13 @@ describe('Nextcloud integration', function() {
 
 		cy.get('#app-sidebar-vue')
 			.should('be.visible')
-		cy.get('.app-sidebar-header__mainname')
+		cy.get('.app-sidebar-header__maintitle')
 			.should('be.visible')
 			.should('contain.text', filename)
 
 		cy.get('#tab-version_vue').should('be.visible')
 
-		cy.get('#tab-version_vue .line-one__name').contains('Current version')
+		cy.get('#tab-version_vue .line-one__title').contains('Current version')
 	})
 
 	it('Save as', function() {
@@ -96,7 +96,7 @@ describe('Nextcloud integration', function() {
 		cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 
 		// FIXME: We should not need to reload
-		cy.get('.breadcrumb__crumbs a').eq(0).click()
+		cy.get('.breadcrumb .crumbhome').eq(0).click()
 
 		cy.openFile('document.rtf')
 	})
@@ -123,7 +123,7 @@ describe('Nextcloud integration', function() {
 			cy.get('#insert-insert-graphic').click()
 			cy.get('#w2ui-overlay-insert-graphic-menu .menu-text').eq(1).click()
 		})
-		cy.get('.modal-container__content').should('be.visible')
+		cy.get('.modal-container').should('be.visible')
 	})
 
 	it('Smart picker', function() {
