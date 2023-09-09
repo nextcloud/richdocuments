@@ -90,7 +90,6 @@ OC.L10N.register(
     "Download" : "Laadi alla",
     "Remove user" : "Eemalda kasutaja",
     "Guest" : "Külaline",
-    "Last saved version" : "Viimati salvestatud versioon",
     "Create a new document" : "Loo uus dokument",
     "New drawing" : "Uus joonistus",
     "Could not create file" : "Faili loomine ebaõnnestus",
@@ -108,6 +107,7 @@ OC.L10N.register(
     "To use Zotero specify your API key here. You can create your API key in your" : "Zotero kasutamiseks sisesta siin oma API võti. Saad API võtme luua oma",
     "Zotero account API settings." : "Zotero konto API seadetes.",
     "Saving…" : "Salvestamine...",
+    "Last saved version" : "Viimati salvestatud versioon",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokument on juba olemas",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Selles kaustas olevad mallid lisatakse Collabora Online mallide valikusse."
