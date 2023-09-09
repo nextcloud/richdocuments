@@ -460,7 +460,7 @@ class DocumentController extends Controller {
 		// Pass through $version
 		$templateFile = $this->templateManager->getTemplateSource($file->getId());
 		if ($templateFile) {
-			return $this->tokenManager->generateWopiTokenForTemplate($templateFile, $share?->getShareOwner(), $file->getId());
+			return $this->tokenManager->generateWopiTokenForTemplate($templateFile, $share?->getShareOwner() ?? $this->userId, $file->getId());
 		}
 
 		return  $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
