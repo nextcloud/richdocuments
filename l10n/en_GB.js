@@ -173,6 +173,8 @@ OC.L10N.register(
     "Opening file locally …" : "Opening file locally …",
     "Try again" : "Try again",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Failed to connect to {productName}. Please try again later or contact your server administrator.",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system.",
+    "Retry to open locally" : "Retry to open locally",
     "Failed to revert the document to older version" : "Failed to revert the document to older version",
     "Select a personal template folder" : "Select a personal template folder",
     "Failed to update the Zotero API key" : "Failed to update the Zotero API key",
