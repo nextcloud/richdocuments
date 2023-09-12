@@ -173,6 +173,8 @@ OC.L10N.register(
     "Opening file locally …" : "本機開啟檔案……",
     "Try again" : "再試一次",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "連線到 {productName} 失敗。請稍後再試或聯絡您的伺服器管理員。",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "檔案現在應該在本機開啟。若您並未看到檔案在本機開啟，請確保您的系統上已安裝桌面客戶端。",
+    "Retry to open locally" : "重試本機開啟",
     "Failed to revert the document to older version" : "無法將文件還原為舊版",
     "Select a personal template folder" : "選取個人範本資料夾",
     "Failed to update the Zotero API key" : "更新 Zotero API 金鑰失敗",

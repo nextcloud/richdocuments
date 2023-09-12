@@ -171,6 +171,8 @@
     "Opening file locally …" : "Фајл се отвара локално ...",
     "Try again" : "Покушајте поново",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Не могу да се повежем на {productName}. Покушајте касније или контактирајте администратора.",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Фајл би сата требало да се отвори локално. Ако се то не деси, обезбедите да је десктоп клијент инсталиран на вашем систему.",
+    "Retry to open locally" : "Покушај да отвориш локално",
     "Failed to revert the document to older version" : "Грешка у враћању документа на старију верзију",
     "Select a personal template folder" : "Одаберите личну фасциклу за шаблоне",
     "Failed to update the Zotero API key" : "Није успело ажурирање Zotero API кључа",
