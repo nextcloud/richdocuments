@@ -11,13 +11,16 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-const browserify = require('@cypress/browserify-preprocessor')
 const cypressSplit = require('cypress-split')
+const browserify = require('@cypress/browserify-preprocessor')
+const webpack = require('@cypress/webpack-preprocessor')
+const webpackOptions = require('@nextcloud/webpack-vue-config')
 
 module.exports = (on, config) => {
 	cypressSplit(on, config)
 
 	on('file:preprocessor', browserify())
+	on('file:preprocessor', webpack({ webpackOptions }))
 
 	return config
 }
