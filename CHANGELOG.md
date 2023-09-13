@@ -1,5 +1,21 @@
 # Changelog
 
+## 8.2.0-beta.1
+
+### Added
+
+- Version support and iframe refactoring @juliushaertl [#3172](https://github.com/nextcloud/richdocuments/pull/3172)
+- feat: add config option mobile_editing [#3154](https://github.com/nextcloud/richdocuments/pull/3154)
+
+### Fixed
+
+- fix: Disable pdf preview gnerator through Collabora if server already… @szaimen [#3146](https://github.com/nextcloud/richdocuments/pull/3146)
+- fix: Log invalid wopi tokens at info level instead of error [#3110](https://github.com/nextcloud/richdocuments/pull/3110)
+- fix: Provide valid fileList and fileId context on new file action [#3128](https://github.com/nextcloud/richdocuments/pull/3128)
+- fix: Revert change of extension which should refer to the new file extension [#3132](https://github.com/nextcloud/richdocuments/pull/3132)
+- fix: Use a proper empty xlsx file [#3124](https://github.com/nextcloud/richdocuments/pull/3124)
+- CollaboraOnline#6546 enable automatic color in default paragraph style @thebearon [#3147](https://github.com/nextcloud/richdocuments/pull/3147)
+
 ## 8.1.1
 
 ### Fixed
