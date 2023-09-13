@@ -1,5 +1,21 @@
 # Changelog
 
+## 8.0.4
+
+### Added
+
+- feat: add config option mobile_editing [#3155](https://github.com/nextcloud/richdocuments/pull/3155)
+
+### Fixed
+
+- fix: Log invalid wopi tokens at info level instead of error [#3111](https://github.com/nextcloud/richdocuments/pull/3111)
+- Add tablet parm for Insert_Button [#3101](https://github.com/nextcloud/richdocuments/pull/3101)
+- fix: Disable pdf preview gnerator through Collabora if server already… [#3176](https://github.com/nextcloud/richdocuments/pull/3176)
+- fix: Provide valid fileList and fileId context on new file action [#3130](https://github.com/nextcloud/richdocuments/pull/3130)
+- fix: Revert change of extension which should refer to the new file extension [#3133](https://github.com/nextcloud/richdocuments/pull/3133)
+- fix: Use a proper empty xlsx file [#3125](https://github.com/nextcloud/richdocuments/pull/3125)
+- CollaboraOnline#6546 enable automatic color in default paragraph style @thebearon [#3148](https://github.com/nextcloud/richdocuments/pull/3148)
+
 ## 8.0.3
 
 ### Fixed
