@@ -1,5 +1,23 @@
 # Changelog
 
+
+## 7.1.6
+
+### Added
+
+- feat: add config option mobile_editing [#3156](https://github.com/nextcloud/richdocuments/pull/3156)
+
+### Dependencies
+
+- Update nextcloud/ocp dependency @nextcloud-command [#3164](https://github.com/nextcloud/richdocuments/pull/3164)
+
+### Other
+
+- fix: Provide valid fileList and fileId context on new file action [#3129](https://github.com/nextcloud/richdocuments/pull/3129)
+- fix: Revert change of extension which should refer to the new file extension [#3134](https://github.com/nextcloud/richdocuments/pull/3134)
+- CollaboraOnline#6546 enable automatic color in default paragraph style @thebearon [#3149](https://github.com/nextcloud/richdocuments/pull/3149)
+- fix: Use a proper empty xlsx file [#3126](https://github.com/nextcloud/richdocuments/pull/3126)
+
 ## 7.1.5
 
 ### Fixed
