@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.2.11
+
+### Added
+
+- feat: add config option mobile_editing [#3168](https://github.com/nextcloud/richdocuments/pull/3168)
+
+### Fixed
+
+- fix: Avoid error when federation is disabled @juliushaertl [#2831](https://github.com/nextcloud/richdocuments/pull/2831)
+
 ## 4.2.10
 
 ### Other
