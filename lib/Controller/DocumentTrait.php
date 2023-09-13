@@ -2,15 +2,15 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 
 trait DocumentTrait {
-	private $appConfig;
+	private AppConfig $appConfig;
 
 	private function documentTemplateResponse(Wopi $wopi, array $params): TemplateResponse {
 		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -26,11 +26,6 @@ trait DocumentTrait {
 	 */
 	private function applyPolicies($response) {
 		$collaboraHost = $this->domainOnly($this->appConfig->getCollaboraUrlPublic());
-
-		// FIXME We can skip inline source once templates/documents.php is migrated to IInitialState
-		$policy = new ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
-		$response->setContentSecurityPolicy($policy);
 
 		$featurePolicy = new FeaturePolicy();
 		$featurePolicy->addAllowedFullScreenDomain($collaboraHost);

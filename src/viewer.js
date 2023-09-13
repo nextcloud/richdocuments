@@ -35,6 +35,7 @@ if (OCA.Viewer) {
 		mimes: supportedMimes,
 		component: Office,
 		theme: 'light',
+		canCompare: true,
 	})
 }
 

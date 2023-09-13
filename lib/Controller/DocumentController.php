@@ -15,14 +15,21 @@ use \OCA\Richdocuments\AppConfig;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\IConfig;
-use \OCP\ILogger;
 use \OCP\IRequest;
+use Exception;
+use OC;
 use OC\User\NoUserException;
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Constants;
 use OCP\Files\File;
@@ -35,78 +42,43 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class DocumentController extends Controller {
 	use DocumentTrait;
 
 	public const SESSION_FILE_TARGET = 'richdocuments_openfile_target';
 
-	/** @var ?string */
-	private $uid;
-	/** @var IConfig */
-	private $config;
-	/** @var AppConfig */
-	private $appConfig;
-	/** @var ILogger */
-	private $logger;
-	/** @var IManager */
-	private $shareManager;
-	/** @var TokenManager */
-	private $tokenManager;
-	/** @var ISession */
-	private $session;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var TemplateManager */
-	private $templateManager;
-	/** @var FederationService */
-	private $federationService;
-	/** @var InitialStateService */
-	private $initialState;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		IConfig $config,
-		AppConfig $appConfig,
-		IManager $shareManager,
-		TokenManager $tokenManager,
-		IRootFolder $rootFolder,
-		ISession $session,
-		$UserId,
-		ILogger $logger,
-		TemplateManager $templateManager,
-		FederationService $federationService,
-		InitialStateService $initialState,
-		IURLGenerator $urlGenerator
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private IManager $shareManager,
+		private TokenManager $tokenManager,
+		private IRootFolder $rootFolder,
+		private ISession $session,
+		private ?string $userId,
+		private LoggerInterface $logger,
+		private TemplateManager $templateManager,
+		private FederationService $federationService,
+		private InitialStateService $initialState,
+		private IURLGenerator $urlGenerator
 	) {
 		parent::__construct($appName, $request);
-		$this->uid = $UserId;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->shareManager = $shareManager;
-		$this->tokenManager = $tokenManager;
-		$this->rootFolder = $rootFolder;
-		$this->session = $session;
-		$this->logger = $logger;
-		$this->templateManager = $templateManager;
-		$this->federationService = $federationService;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Returns the access_token and urlsrc for WOPI access for given $fileId
 	 * Requests is accepted only when a secret_token is provided set by admin in
 	 * settings page
 	 *
 	 * @return array access_token, urlsrc
 	 */
-	public function extAppGetData(int $fileId) {
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function extAppGetData(int $fileId): array {
 		$secretToken = $this->request->getParam('secret_token');
 		$apps = array_filter(explode(',', $this->appConfig->getAppValue('external_apps')));
 		foreach ($apps as $app) {
@@ -118,19 +90,16 @@ class DocumentController extends Controller {
 					'fileId' => $fileId
 				]);
 				try {
-					$folder = $this->rootFolder->getUserFolder($this->uid);
-					$item = $folder->getById($fileId)[0];
-					if (!($item instanceof Node)) {
-						throw new \Exception();
-					}
-					list($urlSrc, $token) = $this->tokenManager->getToken($item->getId());
+					$file = $this->getFileForUser($fileId);
+					$urlSrc = $this->tokenManager->getUrlSrc($file);
+					$wopi = $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId()));
 					return [
 						'status' => 'success',
 						'urlsrc' => $urlSrc,
-						'token' => $token
+						'token' => $wopi->getToken()
 					];
-				} catch (\Exception $e) {
-					$this->logger->logException($e, ['app' => 'richdocuments']);
+				} catch (Exception $e) {
+					$this->logger->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 		}
@@ -140,101 +109,70 @@ class DocumentController extends Controller {
 		];
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @UseSession
-	 *
-	 * @param string $fileId
-	 * @param string|null $path
-	 * @return RedirectResponse|TemplateResponse
-	 */
-	public function index($fileId, ?string $path = null) {
+	#[NoAdminRequired]
+	#[UseSession]
+	public function index($fileId, ?string $path = null): RedirectResponse|TemplateResponse {
 		try {
-			$folder = $this->rootFolder->getUserFolder($this->uid);
-
-			if ($path !== null) {
-				$item = $folder->get($path);
-			} else {
-				$item = $folder->getById($fileId)[0];
-			}
-
-			if (!($item instanceof File)) {
-				throw new \Exception();
-			}
+			$file = $this->getFileForUser($fileId, $path);
 
 			/**
 			 * Open file on source instance if it is originating from a federated share
 			 * The generated url will result in {@link remote()}
 			 */
-			$federatedUrl = $this->federationService->getRemoteRedirectURL($item);
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($file);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
 
-			$templateFile = $this->templateManager->getTemplateSource($item->getId());
-			if ($templateFile) {
-				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $this->uid, $item->getId());
-				$token = $wopi->getToken();
-			} else {
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId());
-			}
+			$wopi = $this->getToken($file);
 
 			$params = [
-				'permissions' => $item->getPermissions(),
-				'title' => $item->getName(),
-				'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
-				'token' => $token,
+				'permissions' => $file->getPermissions(),
+				'title' => $file->getName(),
+				'fileId' => $this->getWopiFileId($file->getId()),
+				'token' => $wopi->getToken(),
 				'token_ttl' => $wopi->getExpiry(),
-				'urlsrc' => $urlSrc,
-				'path' => $folder->getRelativePath($item->getPath()),
+				'urlsrc' => $this->tokenManager->getUrlSrc($file),
+				'path' => $file->getParent()->getRelativePath($file->getPath()),
 			];
 
 			$targetData = $this->session->get(self::SESSION_FILE_TARGET);
 			if ($targetData) {
 				$this->session->remove(self::SESSION_FILE_TARGET);
-				if ($targetData['fileId'] === $item->getId()) {
+				if ($targetData['fileId'] === $file->getId()) {
 					$params['target'] = $targetData['target'];
 				}
 			}
 
-			$encryptionManager = \OC::$server->getEncryptionManager();
+			$encryptionManager = OC::$server->getEncryptionManager();
 			if ($encryptionManager->isEnabled()) {
 				// Update the current file to be accessible with system public shared key
-				$owner = $item->getOwner()->getUID();
-				$absPath = '/' . $owner . '/' .  $item->getInternalPath();
-				$accessList = \OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
+				$owner = $file->getOwner()->getUID();
+				$absPath = '/' . $owner . '/' .  $file->getInternalPath();
+				$accessList = OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
 				$accessList['public'] = true;
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
 			}
 
 			return $this->documentTemplateResponse($wopi, $params);
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+		} catch (Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Create a new file from a template
-	 *
-	 * @param int $templateId
-	 * @param string $fileName
-	 * @param string $dir
-	 * @return TemplateResponse
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public function createFromTemplate($templateId, $fileName, $dir) {
+	#[NoAdminRequired]
+	public function createFromTemplate(int $templateId, string $fileName, string $dir = '/'): TemplateResponse {
 		if (!$this->templateManager->isTemplate($templateId)) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($this->uid);
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {
 			$folder = $userFolder->get($dir);
 		} catch (NotFoundException $e) {
@@ -248,14 +186,13 @@ class DocumentController extends Controller {
 		$file = $folder->newFile($fileName);
 
 		$template = $this->templateManager->get($templateId);
-		list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($template, $this->uid, $file->getId());
-
-		$wopiFileId = $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid');
+		$urlSrc = $this->tokenManager->getUrlSrc($file);
+		$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $this->userId, $file->getId());
 
 		$params = [
 			'permissions' => $template->getPermissions(),
 			'title' => $fileName,
-			'fileId' => $wopiFileId,
+			'fileId' => $this->getWopiFileId($file->getId()),
 			'token' => $wopi->getToken(),
 			'token_ttl' => $wopi->getExpiry(),
 			'urlsrc' => $urlSrc,
@@ -265,86 +202,46 @@ class DocumentController extends Controller {
 		return $this->documentTemplateResponse($wopi, $params);
 	}
 
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $shareToken
-	 * @param string $fileName
-	 * @return TemplateResponse|RedirectResponse
-	 * @throws \Exception
-	 */
-	public function publicPage($shareToken, $fileName, $fileId) {
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function publicPage(string $shareToken, string $fileName = null, int $fileId = null): TemplateResponse|RedirectResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
-			// not authenticated ?
-			if ($share->getPassword()) {
-				if (!$this->session->exists('public_link_authenticated')
-					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
-				) {
-					throw new \Exception('Invalid password');
-				}
-			}
-
-			if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
-				return new TemplateResponse('core', '403', [], 'guest');
-			}
-
-			$node = $share->getNode();
-			if ($node instanceof Folder) {
-				$item = $node->getById($fileId)[0];
-			} else {
-				$item = $node;
-			}
-			$federatedUrl = $this->federationService->getRemoteRedirectURL($item, null, $share);
+			$file = $this->getFileForShare($share, $fileId, $fileName);
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($file, null, $share);
 			if ($federatedUrl !== null) {
 				$response = new RedirectResponse($federatedUrl);
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
-			if ($item instanceof Node) {
-				$params = [
-					'permissions' => $share->getPermissions(),
-					'title' => $item->getName(),
-					'fileId' => $item->getId() . '_' . $this->config->getSystemValue('instanceid'),
-					'path' => '/',
-					'isPublicShare' => true,
-				];
 
-				$templateFile = $this->templateManager->getTemplateSource($item->getId());
-				if ($templateFile) {
-					list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($templateFile, $share->getShareOwner(), $item->getId());
-				} else {
-					list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), $shareToken, $this->uid);
-				}
-				$params['token'] = $wopi->getToken();
-				$params['token_ttl'] = $wopi->getExpiry();
-				$params['urlsrc'] = $urlSrc;
-				$params['hideCloseButton'] = $node instanceof File && $wopi->getHideDownload();
+			$params = [
+				'permissions' => $share->getPermissions(),
+				'title' => $file->getName(),
+				'fileId' => $this->getWopiFileId($file->getId()),
+				'path' => '/',
+				'isPublicShare' => true,
+			];
 
-				return $this->documentTemplateResponse($wopi, $params);
-			}
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+			$wopi = $this->getToken($file, $share);
+			$params['token'] = $wopi->getToken();
+			$params['token_ttl'] = $wopi->getExpiry();
+			$params['urlsrc'] = $this->tokenManager->getUrlSrc($file);
+			$params['hideCloseButton'] = $wopi->getHideDownload();
+
+			return $this->documentTemplateResponse($wopi, $params);
+		} catch (Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
-
-		return new TemplateResponse('core', '403', [], 'guest');
 	}
 
 	/**
 	 * Open file on Source instance with token from Initiator instance
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $shareToken
-	 * @param $remoteServer
-	 * @param $remoteServerToken
-	 * @param null $filePath
-	 * @return TemplateResponse
 	 */
-	public function remote($shareToken, $remoteServer, $remoteServerToken, $filePath = null) {
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function remote(string $shareToken, string $remoteServer, string $remoteServerToken, string $filePath = null): TemplateResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
@@ -352,7 +249,7 @@ class DocumentController extends Controller {
 				if (!$this->session->exists('public_link_authenticated')
 					|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
 				) {
-					throw new \Exception('Invalid password');
+					throw new Exception('Invalid password');
 				}
 			}
 
@@ -366,11 +263,12 @@ class DocumentController extends Controller {
 			}
 
 			if ($node instanceof Node) {
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $shareToken, $this->uid);
+				$urlSrc = $this->tokenManager->getUrlSrc($node);
+				$wopi = $this->tokenManager->generateWopiToken($node->getId(), $shareToken, $this->userId);
 
 				$remoteWopi = $this->federationService->getRemoteFileDetails($remoteServer, $remoteServerToken);
 				if ($remoteWopi === null) {
-					throw new \Exception('Invalid remote file details for ' . $remoteServerToken);
+					throw new Exception('Invalid remote file details for ' . $remoteServerToken);
 				}
 				$this->tokenManager->upgradeToRemoteToken($wopi, $remoteWopi, $shareToken, $remoteServer, $remoteServerToken);
 
@@ -382,8 +280,8 @@ class DocumentController extends Controller {
 				$params = [
 					'permissions' => $permissions,
 					'title' => $node->getName(),
-					'fileId' => $node->getId() . '_' . $this->config->getSystemValue('instanceid'),
-					'token' => $token,
+					'fileId' => $this->getWopiFileId($node->getId()),
+					'token' => $wopi->getToken(),
 					'token_ttl' => $wopi->getExpiry(),
 					'urlsrc' => $urlSrc,
 					'path' => '/',
@@ -394,15 +292,15 @@ class DocumentController extends Controller {
 			}
 		} catch (ShareNotFound $e) {
 			return new TemplateResponse('core', '404', [], 'guest');
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'richdocuments']);
+		} catch (Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
 
 		return new TemplateResponse('core', '403', [], 'guest');
 	}
 
-	private function renderErrorPage(string $message, $status = Http::STATUS_INTERNAL_SERVER_ERROR) {
+	private function renderErrorPage(string $message, int $status = Http::STATUS_INTERNAL_SERVER_ERROR): TemplateResponse {
 		$params = [
 			'errors' => [['error' => $message]]
 		];
@@ -411,21 +309,19 @@ class DocumentController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 * @UseSession
-	 */
-	public function editOnline(string $path = null, ?string $userId = null, ?string $target = null) {
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
+	#[UseSession]
+	public function editOnline(string $path = null, ?string $userId = null, ?string $target = null): RedirectResponse|TemplateResponse {
 		if ($path === null) {
 			return $this->renderErrorPage('No path provided');
 		}
 
 		if ($userId === null) {
-			$userId = $this->uid;
+			$userId = $this->userId;
 		}
 
-		if ($userId !== null && $userId !== $this->uid) {
+		if ($userId !== null && $userId !== $this->userId) {
 			return $this->renderErrorPage('You are trying to open a file from another user account than the one you are currently logged in with.');
 		}
 
@@ -448,31 +344,22 @@ class DocumentController extends Controller {
 			}
 			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
 			return new RedirectResponse($redirectUrl);
-		} catch (NotFoundException $e) {
-		} catch (NotPermittedException $e) {
-		} catch (NoUserException $e) {
+		} catch (NotFoundException|NotPermittedException|NoUserException) {
 		}
 
 		return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 * @UseSession
-	 */
-	public function editOnlineTarget(int $fileId, ?string $target = null) {
-		if (!$this->uid) {
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
+	#[UseSession]
+	public function editOnlineTarget(int $fileId, ?string $target = null): RedirectResponse|TemplateResponse {
+		if (!$this->userId) {
 			return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
 		}
 
 		try {
-			$userFolder = $this->rootFolder->getUserFolder($this->uid);
-			$files = $userFolder->getById($fileId);
-			$file = array_shift($files);
-			if (!$file) {
-				return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
-			}
+			$file = $this->getFileForUser($fileId);
 
 			if ($target !== null) {
 				$this->session->set(self::SESSION_FILE_TARGET, [
@@ -482,11 +369,104 @@ class DocumentController extends Controller {
 			}
 			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
 			return new RedirectResponse($redirectUrl);
-		} catch (NotFoundException $e) {
-		} catch (NotPermittedException $e) {
-		} catch (NoUserException $e) {
+		} catch (NotFoundException|NotPermittedException|NoUserException) {
 		}
 
 		return $this->renderErrorPage('File not found', Http::STATUS_NOT_FOUND);
+	}
+
+	#[PublicPage]
+	public function token(int $fileId, ?string $shareToken = null, ?string $path = null): DataResponse {
+		try {
+			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;
+			$file = $shareToken ? $this->getFileForShare($share, $fileId, $path) : $this->getFileForUser($fileId, $path);
+
+			$wopi = $this->getToken($file, $share);
+
+			return new DataResponse(array_merge(
+				[ 'urlSrc' => $this->tokenManager->getUrlSrc($file) ],
+				$wopi->jsonSerialize(),
+			));
+		} catch (Exception $e) {
+			$this->logger->error('Failed to generate token for file', [ 'exception' => $e ]);
+			return new DataResponse('Failed to generate token', Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
+	 * @throws NoUserException
+	 */
+	private function getFileForUser(int $fileId, string $path = null): File {
+		$folder = $this->rootFolder->getUserFolder($this->userId);
+
+		if ($path !== null) {
+			$node = $folder->get($path);
+		} else {
+			$nodes = $folder->getById($fileId);
+			$node = array_shift($nodes);
+		}
+
+		if ($node instanceof File) {
+			return $node;
+		}
+
+		throw new NotFoundException();
+	}
+
+	/**
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 */
+	private function getFileForShare(IShare $share, ?int $fileId, ?string $path = null): File {
+		// not authenticated ?
+		if ($share->getPassword()) {
+			if (!$this->session->exists('public_link_authenticated')
+				|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
+			) {
+				throw new NotPermittedException('Invalid password');
+			}
+		}
+
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			throw new NotPermittedException();
+		}
+
+		$node = $share->getNode();
+		if ($node instanceof File) {
+			return $node;
+		}
+
+		if ($fileId === null && $path === null) {
+			throw new NotFoundException();
+		}
+
+		if ($path !== null) {
+			$node = $node->get($path);
+		} else {
+			$nodes = $node->getById($fileId);
+			$node = array_shift($nodes);
+		}
+
+		if ($node instanceof File) {
+			return $node;
+		}
+
+		throw new NotFoundException();
+	}
+
+	private function getToken(File $file, ?IShare $share = null, int $version = null): Wopi {
+		// Pass through $version
+		$templateFile = $this->templateManager->getTemplateSource($file->getId());
+		if ($templateFile) {
+			return $this->tokenManager->generateWopiTokenForTemplate($templateFile, $share?->getShareOwner() ?? $this->userId, $file->getId());
+		}
+
+		return  $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
+	}
+
+	private function getWopiFileId(int $fileId, int $version = null): string {
+		return $fileId . '_' . $this->config->getSystemValue('instanceid') . ($version ? '_' . $version : '');
 	}
 }

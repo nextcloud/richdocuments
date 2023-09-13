@@ -46,57 +46,20 @@ use OCP\IRequest;
 class DirectViewController extends Controller {
 	use DocumentTrait;
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var TokenManager */
-	private $tokenManager;
-
-	/** @var DirectMapper */
-	private $directMapper;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var AppConfig */
-	private $appConfig;
-
-	/** @var TemplateManager */
-	private $templateManager;
-
-	/** @var FederationService */
-	private $federationService;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var InitialStateService */
-	private $initialState;
-
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		IRootFolder $rootFolder,
-		TokenManager $tokenManager,
-		DirectMapper $directMapper,
-		InitialStateService $initialState,
-		IConfig $config,
-		AppConfig $appConfig,
-		TemplateManager $templateManager,
-		FederationService $federationService,
-		ILogger $logger
+		private IRootFolder $rootFolder,
+		private TokenManager $tokenManager,
+		private DirectMapper $directMapper,
+		private InitialStateService $initialState,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private TemplateManager $templateManager,
+		private FederationService $federationService,
+		private ILogger $logger
 	) {
 		parent::__construct($appName, $request);
-
-		$this->rootFolder = $rootFolder;
-		$this->tokenManager = $tokenManager;
-		$this->directMapper = $directMapper;
-		$this->initialState = $initialState;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->templateManager = $templateManager;
-		$this->federationService = $federationService;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -134,7 +97,9 @@ class DirectViewController extends Controller {
 			}
 
 			try {
-				list($urlSrc, $wopi) = $this->tokenManager->getTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
+				$urlSrc = $this->tokenManager->getUrlSrc($item);
+
+				$wopi = $this->tokenManager->generateWopiTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
 
 				$targetFile = $folder->getById($direct->getTemplateDestination())[0];
 				$relativePath = $folder->getRelativePath($targetFile->getPath());
@@ -157,7 +122,8 @@ class DirectViewController extends Controller {
 					return $response;
 				}
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($item->getId(), null, $direct->getUid(), true);
+				$urlSrc = $this->tokenManager->getUrlSrc($item);
+				$wopi = $this->tokenManager->generateWopiToken($item->getId(), null, $direct->getUid(), true);
 			} catch (\Exception $e) {
 				$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 				return $this->renderErrorPage('Failed to open the requested file.');
@@ -218,11 +184,12 @@ class DirectViewController extends Controller {
 					'directGuest' => empty($direct->getUid()),
 				];
 
-				list($urlSrc, $token, $wopi) = $this->tokenManager->getToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
+				$urlSrc = $this->tokenManager->getUrlSrc($node);
+				$wopi = $this->tokenManager->generateWopiToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
 				if (!empty($direct->getInitiatorHost())) {
 					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 				}
-				$params['token'] = $token;
+				$params['token'] = $wopi->getToken();
 				$params['token_ttl'] = $wopi->getExpiry();
 				$params['urlsrc'] = $urlSrc;
 
