@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.3.8
+
+### Added
+
+- feat: add config option mobile_editing [#3157](https://github.com/nextcloud/richdocuments/pull/3157)
+
 ## 6.3.7
 
 ### Fixed
