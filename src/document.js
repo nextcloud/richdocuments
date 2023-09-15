@@ -223,7 +223,7 @@ const documentsMain = {
 		},
 
 		loadRevViewerContainer() {
-			if (!$('revViewerContainer').length) {
+			if (!$('#revViewerContainer').length) {
 				$(document.body).prepend(documentsMain.UI.viewContainer)
 				const closeButton = $('<button class="icon-close closeButton" title="' + t('richdocuments', 'Close version preview') + '"/>')
 				$('#revViewerContainer').prepend(closeButton)
@@ -379,40 +379,33 @@ const documentsMain = {
 						return
 					}
 
-					if (documentsMain.isViewerMode) {
-						let { fileId, title, version } = args
-						switch (parsed.msgId) {
-						case 'Action_loadRevViewer':
-							documentsMain.UI.loadRevViewerContainer()
-							if (fileId) {
-								fileId += '_' + Config.get('instanceId')
-								if (version) {
-									fileId += `_${version}`
-									title += `_${version}`
-								}
-								documentsMain.UI.showViewer(
-									fileId, title
-								)
+					let { fileId, title, version } = args
+					switch (parsed.msgId) {
+					case 'Action_loadRevViewer':
+						documentsMain.UI.loadRevViewerContainer()
+						if (fileId) {
+							fileId += '_' + Config.get('instanceId')
+							if (version) {
+								fileId += `_${version}`
+								title += `_${version}`
 							}
-							break
-						case 'Host_VersionRestore':
-							// resolve the deferred object immediately if client doesn't support version states
-							if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
-								console.error('No version support')
-								// Not forwarding message to collabora
-								return
-							}
-							documentsMain.onCloseViewer()
-							break
-						case 'App_VersionRestore':
-							// Status = Pre_Restore_Ack -> Ready to restore version
-							break
-						case 'UI_Share':
-							break
-						default:
+							documentsMain.UI.showViewer(
+								fileId, title
+							)
+						}
+						break
+					case 'Host_VersionRestore':
+						// resolve the deferred object immediately if client doesn't support version states
+						if (!documentsMain.wopiClientFeatures || !documentsMain.wopiClientFeatures.VersionStates) {
+							console.error('No version support')
+							// Not forwarding message to collabora
 							return
 						}
-
+						documentsMain.onCloseViewer()
+						break
+					case 'App_VersionRestore':
+						// Status = Pre_Restore_Ack -> Ready to restore version
+						break
 					}
 
 					// Pass all messages to viewer if not direct editing or
