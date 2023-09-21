@@ -171,6 +171,8 @@
     "Opening file locally …" : "Abriendo el archivo localmente ...",
     "Try again" : "Vuelve a intentarlo",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Fallo al conectar con (productName). Por favor vuelva a intentarlo más tarde o contacte con su administrador del servidor.",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "El archivo debería abrirse ahora de forma local. Si no ve que esto suceda, asegúrese de que el cliente de escritorio esté instalado en su sistema.",
+    "Retry to open locally" : "Reintentar la apertura local",
     "Failed to revert the document to older version" : "Fallo al revertir el documento a la versión anterior",
     "Select a personal template folder" : "Selecciona una carpeta de plantillas personales",
     "Failed to update the Zotero API key" : "No fue posible actualizar la llave API de Zotero",
