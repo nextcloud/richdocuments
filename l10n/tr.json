@@ -171,6 +171,8 @@
     "Opening file locally …" : "Dosya yerel olarak açılıyor…",
     "Try again" : "Yeniden deneyin",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} ile bağlantı kurulurken bir sorun çıktı. Lütfen bir süre sonra yeniden deneyin ya da BT yöneticiniz ile görüşün.",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Dosya yerel olarak açılmalıdır. Bu gerçekleşmiyorsa, sisteminizde masaüstü istemcisinin kurulu olduğundan emin olun.",
+    "Retry to open locally" : "Yerel olarak açmak için yeniden deneyin",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Select a personal template folder" : "Bir kişisel kalıp klasörü seçin",
     "Failed to update the Zotero API key" : "Zotero API anahtarı güncellenemedi",
