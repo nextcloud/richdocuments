@@ -27,6 +27,7 @@ OC.L10N.register(
     "Template not found" : "Ŝablono ne trovita",
     "Headings" : "Titolaro",
     "Images" : "Bildoj",
+    "Office" : "Oficejo",
     "Empty" : "Malplena",
     "Anonymous guest" : "Sennoma gasto",
     "%s (Guest)" : "%s (gasto)",
