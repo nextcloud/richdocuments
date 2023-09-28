@@ -201,7 +201,7 @@
     "Add a new one?" : "Ajouter un nouveau ?",
     "template preview" : "Prévisualisation du modèle",
     "Select a template directory" : "Sélectionnez un dossier pour les modèles",
-    "Remove personal template folder" : "Supprimer le dossier personnel des modèles",
+    "Remove personal template folder" : "Supprimer le dossier de modèles personnels",
     "Templates inside of this directory will be added to the template selector of Nextcloud Office." : "Les modèles de ce dossier seront ajoutés au sélecteur de modèle de Nextcloud Office.",
     "Zotero" : "Zotero",
     "Enter Zotero API Key" : "Saisir la clé d'API de Zotero",
