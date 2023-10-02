@@ -174,6 +174,7 @@ OC.L10N.register(
     "Try again" : "Zkusit znovu",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nepodařilo se připojit k {productName}. Zkuste to prosím znovu později nebo se obraťte na správce serveru.",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Soubor by se nyní měl otevřít místně. Pokud se to neděje, ověřte, že je v systému nainstalován klient pro počítač.",
+    "Retry to open locally" : "Opětovným pokusem otevřít lokálně",
     "Failed to revert the document to older version" : "Nepodařilo se vrátit dokument do podoby starší verze",
     "Select a personal template folder" : "Vyberte složku s osobní šablonou",
     "Failed to update the Zotero API key" : "Nepodařilo se zaktualizovat klíč k API služby Zotero",
