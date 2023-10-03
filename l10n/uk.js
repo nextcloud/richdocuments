@@ -210,6 +210,7 @@ OC.L10N.register(
     "Remove Zotero API Key" : "Вилучити ключ API для Zotero",
     "To use Zotero specify your API key here. You can create your API key in your" : "Щоби використовувати Zotero, будь ласка, зазначте тут ключ API. Ви можете створити власний ключ API у",
     "Zotero account API settings." : "налаштуваннях облікового запису Zotero.",
+    "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "Цей примірник не підтримує Zotero, оскільки цю функціональність вимкнено або вона відсутня. Будь ласка, сконтактуйте з адміністратором.",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Збережено з помилкою: Collabora Online має використовувати той же саме протокол, як й інші серверні інсталяції.",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office потребує окремого сервера, на якому працює Collabora Online, щоб забезпечити можливості редагування.",
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Для Collabora Online потрібен окремий сервер, який діятиме як WOPI-подібний клієнт, щоб надавати можливості редагування.",
