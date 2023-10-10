@@ -34,7 +34,7 @@
     "@nextcloud/moment": "^1.2.1",
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.1.2",
-    "@nextcloud/vue": "^7.12.4",
+    "@nextcloud/vue": "^7.12.6",
     "vue": "^2.7.14",
     "vue-material-design-icons": "^5.2.0"
   },
