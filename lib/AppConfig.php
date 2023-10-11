@@ -59,10 +59,10 @@ class AppConfig {
 	/**
 	 * Get a value by key
 	 * @param string $key
+	 * @param string|null $defaultValue The fallback value if no configuration and global fallback was found.
 	 * @return string
 	 */
-	public function getAppValue($key) {
-		$defaultValue = null;
+	public function getAppValue($key, $defaultValue = null) {
 		if (array_key_exists($key, $this->defaults)) {
 			$defaultValue = $this->defaults[$key];
 		}
