@@ -394,6 +394,14 @@ class DocumentController extends Controller {
 	}
 
 	/**
+	 * Since collabora does not extend the session on interaction we need to manually trigger this while editing
+	 */
+	#[NoAdminRequired]
+	public function heartbeat(): DataResponse {
+		return new DataResponse();
+	}
+
+	/**
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
 	 * @throws NoUserException
