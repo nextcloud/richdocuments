@@ -22,11 +22,20 @@
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
+import {
+	davGetClient,
+	davGetDefaultPropfind,
+	davResultToNode,
+	davRootPath,
+} from '@nextcloud/files'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
 export default {
+
+	fileNode: undefined,
 
 	fileModel: null,
 
@@ -51,6 +60,7 @@ export default {
 	},
 
 	init({ fileName, fileId, filePath, sendPostMessage, fileList, fileModel }) {
+		this.fileNode = undefined
 		this.fileName = fileName
 		this.fileId = fileId
 		this.fileList = fileList
@@ -63,6 +73,8 @@ export default {
 				this._addHeaderFileActions()
 			})
 		}
+
+		this.getFileNode()
 	},
 
 	registerHandler(event, callback) {
@@ -85,8 +97,6 @@ export default {
 		if (this.handlers.close && this.handlers.close(this)) {
 			return
 		}
-
-		this.updateFileInfo(undefined, Date.now())
 
 		this.fileModel = null
 		$('#richdocuments-header').remove()
@@ -481,7 +491,18 @@ export default {
 		}
 	},
 
-	updateFileInfo(name, mtime) {
+	async updateFileInfo(name, mtime) {
+		const node = await this.getFileNode()
+
+		if (node) {
+			if (mtime) {
+				node._data.mtime = new Date(mtime)
+			}
+
+			emit('files:node:updated', node)
+		}
+
+		// FIXME: Remove once all files app is moved to vue
 		const fileInfo = this.getFileModel()
 		if (!fileInfo) {
 			return
@@ -495,6 +516,29 @@ export default {
 			fileInfo.set('mtime', mtime)
 		}
 		fileInfo.trigger('change', this.getFileModel())
+	},
+
+	async getFileNode() {
+		if (typeof this.fileNode !== 'undefined') {
+			return this.fileNode
+		}
+
+		try {
+			const path = this.filePath + '/' + this.fileName
+			const client = davGetClient()
+			const results = await client.getDirectoryContents(`${davRootPath}${path}`, {
+				details: true,
+				data: davGetDefaultPropfind(),
+			})
+			const nodes = results.data.map((result) => davResultToNode(result))
+
+			this.fileNode = nodes[0] ?? null
+		} catch (e) {
+			console.error('Failed to fetch file metadata from webdav', e)
+			this.fileNode = null
+		}
+
+		return this.fileNode
 	},
 
 }
