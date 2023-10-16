@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.2.1
+
+### Fixed
+
+- fix: Mobile support shall be enabled by default @szaimen [#3200](https://github.com/nextcloud/richdocuments/pull/3200)
+- fix: Properly provide instance id [#3219](https://github.com/nextcloud/richdocuments/pull/3219)
+
 ## 8.2.0
 
 ### Added
