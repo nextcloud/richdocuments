@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.12
+
+### Fixed
+
+- fix: Mobile support shall be enabled by default [#3223](https://github.com/nextcloud/richdocuments/pull/3223)
+
 ## 4.2.11
 
 ### Added
