@@ -86,8 +86,6 @@ export default {
 			return
 		}
 
-		this.updateFileInfo(undefined, Date.now())
-
 		this.fileModel = null
 		$('#richdocuments-header').remove()
 	},

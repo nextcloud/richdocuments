@@ -157,6 +157,7 @@ export default {
 
 			showLinkPicker: false,
 			showZotero: false,
+			modified: false,
 
 			formData: {
 				action: null,
@@ -281,6 +282,9 @@ export default {
 		},
 		close() {
 			FilesAppIntegration.close()
+			if (this.modified) {
+				FilesAppIntegration.updateFileInfo(undefined, Date.now())
+			}
 			disableScrollLock()
 			this.$parent.close()
 		},
@@ -371,8 +375,19 @@ export default {
 			case 'Action_GetLinkPreview':
 				this.resolveLink(args.url)
 				break
+			case 'Action_Save':
+				if (this.modified) {
+					FilesAppIntegration.updateFileInfo(undefined, Date.now())
+				}
+				break
 			case 'Clicked_Button':
 				this.buttonClicked(args)
+				break
+			case 'Doc_ModifiedStatus':
+				if (args.Modified !== this.modified) {
+					FilesAppIntegration.updateFileInfo(undefined, Date.now())
+				}
+				this.modified = args.Modified
 				break
 			}
 		},
