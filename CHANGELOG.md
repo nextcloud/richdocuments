@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.0.5
+
+### Fixed
+
+- fix: Mobile support shall be enabled by default [#3220](https://github.com/nextcloud/richdocuments/pull/3220)
+- fix: Bring back version preview/restore @juliushaertl [#3171](https://github.com/nextcloud/richdocuments/pull/3171)
+
 ## 8.0.4
 
 ### Added
