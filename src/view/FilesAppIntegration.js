@@ -129,7 +129,7 @@ export default {
 			return
 		}
 
-		if (isPublic || !this.getFileList()) {
+		if (isPublic) {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
