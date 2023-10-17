@@ -312,6 +312,14 @@ export default {
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
 					this.$emit('update:loaded', true)
+				} else if (args.Status === 'Initialized') {
+					// collabora iframe is ready to handle postMessages
+					this.sendPostMessage('Error_Messages', {
+						websocketconnectionfailed: {
+							msg: t('richdocuments', 'Failed to load {productName} - socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator. For more info on proxy configuration please checkout', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') }) + ' %url',
+							url: 'https://docs.nextcloud.com/server/latest/admin_manual/office/proxy.html',
+						},
+					})
 				}
 				break
 			case 'Action_Load_Resp':
