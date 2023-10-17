@@ -445,5 +445,6 @@ export default {
 	height: 100vh;
 	height: 100dvh;
 	top: -50px;
+	position: absolute;
 }
 </style>
