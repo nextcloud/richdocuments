@@ -519,7 +519,7 @@ export default {
 	},
 
 	async getFileNode() {
-		if (typeof this.fileNode !== 'undefined') {
+		if (this.fileNode !== undefined) {
 			return this.fileNode
 		}
 
