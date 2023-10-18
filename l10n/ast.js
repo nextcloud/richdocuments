@@ -13,6 +13,7 @@ OC.L10N.register(
     "File is too big" : "El ficheru ye mui grande",
     "Images" : "Imáxenes",
     "Advanced settings" : "Configuración avanzada",
+    "Submit" : "Unviar",
     "Description" : "Descripción",
     "Error" : "Error",
     "An error occurred" : "Prodúxose un error",
