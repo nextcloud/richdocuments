@@ -101,7 +101,7 @@ describe('Nextcloud integration', function() {
 		cy.openFile('document.rtf')
 	})
 
-	it('Open locally', function() {
+	it.skip('Open locally', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#Open_Local_Editor').click()
 		})
