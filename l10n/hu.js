@@ -172,6 +172,7 @@ OC.L10N.register(
     "Opening file locally …" : "Fájl megnyitása helyben…",
     "Try again" : "Próbálja újra",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nem sikerült csatlakozni a következőhöz: {productName}. Próbálkozzon újra később, vagy lépjen kapcsolatba a kiszolgáló rendszergazdájával.",
+    "Retry to open locally" : "Helyi megnyitás újrapróbálása",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",
     "Select a personal template folder" : "Válasszon személyes sablonmappát",
     "Failed to update the Zotero API key" : "A Zotero API-kulcs frissítése sikertelen",
