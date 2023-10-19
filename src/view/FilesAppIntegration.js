@@ -434,7 +434,7 @@ export default {
 			return
 		}
 
-		if (isPublic || !this.getFileList()) {
+		if (isPublic || !OCA?.Files?.Sidebar) {
 			console.error('[FilesAppIntegration] Versions are not supported')
 			return
 		}
