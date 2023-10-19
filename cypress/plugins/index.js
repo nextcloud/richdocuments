@@ -12,9 +12,12 @@
 // the project's config changing)
 
 const browserify = require('@cypress/browserify-preprocessor')
+const cypressSplit = require('cypress-split')
 
 module.exports = (on, config) => {
+	cypressSplit(on, config)
 
 	on('file:preprocessor', browserify())
 
+	return config
 }

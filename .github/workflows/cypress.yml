@@ -138,17 +138,19 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          record: true
-          parallel: true
+          record: false
+          parallel: false
           wait-on: '${{ env.CYPRESS_baseUrl }}'
           working-directory: 'apps/${{ env.APP_NAME }}'
           config: defaultCommandTimeout=10000,video=false
-          tag: ${{ github.event_name }}
+          tag: ${{ false && github.event_name }}
         env:
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          SPLIT: ${{ strategy.job-total }}
+          SPLIT_INDEX: ${{ strategy.job-index }}
 
       - name: Upload test failure screenshots
         uses: actions/upload-artifact@v2
