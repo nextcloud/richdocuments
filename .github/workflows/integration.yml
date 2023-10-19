@@ -15,8 +15,35 @@ env:
   APP_NAME: richdocuments
 
 jobs:
-  php:
+  changes:
     runs-on: ubuntu-latest
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - 'appinfo/**'
+              - 'lib/**'
+              - 'templates/**'
+              - 'tests/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+
+  sqlite:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
 
     strategy:
       # do not stop on another job's failure
@@ -86,6 +113,9 @@ jobs:
 
   mysql:
     runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
 
     strategy:
       # do not stop on another job's failure
@@ -162,6 +192,9 @@ jobs:
 
   pgsql:
     runs-on: ubuntu-latest
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
 
     strategy:
       # do not stop on another job's failure
@@ -240,6 +273,9 @@ jobs:
 
   oci:
     runs-on: ubuntu-22.04
+
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
 
     strategy:
       # do not stop on another job's failure
@@ -324,3 +360,17 @@ jobs:
       - name: Run ${{ matrix.scenarios }} integration tests
         working-directory: apps/${{ env.APP_NAME }}
         run: cd tests && bash run-integration.sh features/${{ matrix.scenarios }}.feature
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: [changes, sqlite, mysql, pgsql, oci]
+
+    if: always()
+
+    name: phpunit-oci-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && ( needs.sqlite.result != 'success' || needs.mysql.result != 'success' || needs.pgsql.result != 'success' || needs.oci.result != 'success') }}; then exit 1; fi
