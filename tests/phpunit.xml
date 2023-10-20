@@ -1,26 +1,24 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="bootstrap.php"
-		 verbose="true"
-		 convertDeprecationsToExceptions="true"
-		 timeoutForSmallTests="900"
-		 timeoutForMediumTests="900"
-		 timeoutForLargeTests="900"
-		>
-	<testsuite name='Richdocuments App Tests'>
-		<directory suffix='.php'>./lib</directory>
-	</testsuite>
-	<!-- filters for code coverage -->
-	<filter>
-		<whitelist>
-			<directory suffix=".php">../../richdocuments</directory>
-			<exclude>
-				<directory suffix=".php">../../richdocuments/l10n</directory>
-				<directory suffix=".php">../../richdocuments/tests</directory>
-			</exclude>
-		</whitelist>
-	</filter>
-	<logging>
-		<!-- and this is where your report will be written -->
-		<log type="coverage-clover" target="./clover.xml"/>
-	</logging>
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="bootstrap.php" timeoutForSmallTests="900" timeoutForMediumTests="900" timeoutForLargeTests="900" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" cacheDirectory=".phpunit.cache">
+  <coverage>
+    <report>
+      <clover outputFile="./clover.xml"/>
+    </report>
+  </coverage>
+  <testsuite name="Richdocuments App Tests">
+    <directory suffix=".php">./lib</directory>
+  </testsuite>
+  <!-- filters for code coverage -->
+  <logging>
+    <!-- and this is where your report will be written -->
+  </logging>
+  <source>
+    <include>
+      <directory suffix=".php">../../richdocuments</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">../../richdocuments/l10n</directory>
+      <directory suffix=".php">../../richdocuments/tests</directory>
+    </exclude>
+  </source>
 </phpunit>

@@ -72,7 +72,7 @@ class PermissionManagerTest extends TestCase {
 		$this->assertTrue($this->permissionManager->isEnabledForUser('TestUser'));
 	}
 
-	public function dataGroupMatchGroups(): array {
+	public static function dataGroupMatchGroups(): array {
 		return [
 			[['admin', 'guests'], ['admin'], true],
 			[['admin', 'guests'], [], false],
@@ -144,7 +144,7 @@ class PermissionManagerTest extends TestCase {
 	}
 
 
-	public function dataWatermarkTagIds(): array {
+	public static function dataWatermarkTagIds(): array {
 		return [
 			[['1', '2', '3'], ['1', '2']],
 			// From php 8.1 queries on integer columns return integers
