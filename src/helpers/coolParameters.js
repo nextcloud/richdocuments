@@ -50,6 +50,13 @@ const getCollaboraTheme = () => {
 	return loadState('richdocuments', 'theme', 'nextcloud')
 }
 
+const createDataThemeDiv = (elementType, theme) => {
+	const element = document.createElement(elementType)
+	element.setAttribute('id', 'cool-var-source-' + theme)
+	element.setAttribute('data-theme-' + theme, '')
+	document.body.appendChild(element)
+	return element
+}
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
 	const cssVarMap = {
@@ -69,13 +76,13 @@ const generateCSSVarTokens = () => {
 		'--border-radius-pill': '--co-border-radius-pill',
 	}
 	let str = ''
-	const element = document.getElementById('cool-var-source-light') ?? document.documentElement
+	const lightElement = createDataThemeDiv('div', 'light')
 	try {
 		for (const cssVarKey in cssVarMap) {
-			let cStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey)
+			let cStyle = window.getComputedStyle(lightElement).getPropertyValue(cssVarKey)
 			if (!cStyle) {
 				// try suffix -dark instead
-				cStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey + '-dark')
+				cStyle = window.getComputedStyle(lightElement).getPropertyValue(cssVarKey + '-dark')
 			}
 			if (!cStyle) continue // skip if it is not set
 			const varNames = cssVarMap[cssVarKey].split(':')
@@ -88,8 +95,7 @@ const generateCSSVarTokens = () => {
 	}
 
 	// New dark mode compatible way to hand over our Nextcloud variables in both light/dark to Collabora
-	const lightElement = document.getElementById('cool-var-source-light') ?? document.documentElement
-	const darkElement = document.getElementById('cool-var-source-dark') ?? document.documentElement
+	const darkElement = createDataThemeDiv('div', 'dark')
 
 	const handover = [
 		'--color-main-background',
@@ -146,7 +152,9 @@ const generateCSSVarTokens = () => {
 			}
 		}
 	}
-
+	// cleanup theme elements after extracting property values
+	lightElement.remove()
+	darkElement.remove()
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
 		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
