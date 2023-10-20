@@ -75,7 +75,7 @@ class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
 		self::assertEquals($result, $this->middleware->isWOPIAllowed());
 	}
 
-	public function dataAllow() {
+	public static function dataAllow() {
 		return [
 			['192.168.178.1', '192.168.178.1', true],
 			['192.168.178.1', '192.168.178.2', false],
