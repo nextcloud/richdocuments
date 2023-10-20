@@ -197,6 +197,15 @@ class WopiController extends Controller {
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$isVersion = $version !== '0';
+
+		// If the file is locked manually by a user we want to open it read only for all others
+		$canWriteThroughLock = true;
+		try {
+			$locks = $this->lockManager->getLocks($wopi->getFileid());
+			$canWriteThroughLock = count($locks) > 0 && $locks[0]->getType() === ILock::TYPE_USER && $locks[0]->getOwner() !== $wopi->getEditorUid() ? false : true;
+		} catch (NoLockProviderException|PreConditionNotMetException) {
+		}
+
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
@@ -206,7 +215,7 @@ class WopiController extends Controller {
 			'UserFriendlyName' => $userDisplayName,
 			'UserExtraInfo' => [],
 			'UserPrivateInfo' => [],
-			'UserCanWrite' => (bool)$wopi->getCanwrite(),
+			'UserCanWrite' => $canWriteThroughLock && (bool)$wopi->getCanwrite(),
 			'UserCanNotWriteRelative' => $isPublic || $this->encryptionManager->isEnabled() || $wopi->getHideDownload(),
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
@@ -710,6 +719,11 @@ class WopiController extends Controller {
 		} catch (NoLockProviderException|PreConditionNotMetException $e) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (OwnerLockedException $e) {
+			// If a file is manually locked by a user we want to all this user to still perform a WOPI lock and write
+			if ($e->getLock()->getType() === ILock::TYPE_USER && $e->getLock()->getOwner() === $wopi->getEditorUid()) {
+				return new JSONResponse();
+			}
+
 			return new JSONResponse([], Http::STATUS_LOCKED);
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -724,6 +738,11 @@ class WopiController extends Controller {
 			));
 			return new JSONResponse();
 		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+			$locks = $this->lockManager->getLocks($wopi->getFileid());
+			$canWriteThroughLock = count($locks) > 0 && $locks[0]->getType() === ILock::TYPE_USER && $locks[0]->getOwner() !== $wopi->getEditorUid() ? false : true;
+			if ($canWriteThroughLock) {
+				return new JSONResponse();
+			}
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
