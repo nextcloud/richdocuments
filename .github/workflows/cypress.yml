@@ -145,6 +145,8 @@ jobs:
           config: defaultCommandTimeout=10000,video=false
           tag: ${{ false && github.event_name }}
         env:
+          # https://github.com/cypress-io/github-action/issues/524
+          npm_package_name: ${{ env.APP_NAME }}
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
