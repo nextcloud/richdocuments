@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sections" : "Szakaszok",
     "Images" : "Képek",
     "Sheets" : "Munkalapok",
+    "Slides" : "Diák",
     "Office" : "Office",
     "Empty" : "Üres",
     "Anonymous guest" : "Névtelen vendég",
