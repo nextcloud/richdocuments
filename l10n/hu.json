@@ -171,6 +171,7 @@
     "Opening file locally …" : "Fájl megnyitása helyben…",
     "Try again" : "Próbálja újra",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "Nem sikerült csatlakozni a következőhöz: {productName}. Próbálkozzon újra később, vagy lépjen kapcsolatba a kiszolgáló rendszergazdájával.",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "A fájlnak most helyileg meg kell nyílnia. Ha ezt nem látja, ellenőrizze, hogy az asztali kliens telepítve van-e a rendszeren.",
     "Retry to open locally" : "Helyi megnyitás újrapróbálása",
     "Failed to revert the document to older version" : "Nem sikerült visszaállítani a dokumentumot a korábbi verzióra",
     "Select a personal template folder" : "Válasszon személyes sablonmappát",
