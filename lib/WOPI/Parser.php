@@ -21,15 +21,22 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use Psr\Log\LoggerInterface;
+
 class Parser {
 	/** @var DiscoveryManager */
 	private $discoveryManager;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * @param DiscoveryManager $discoveryManager
+	 * @param LoggerInterface $logger
 	 */
-	public function __construct(DiscoveryManager $discoveryManager) {
+	public function __construct(DiscoveryManager $discoveryManager, LoggerInterface $logger) {
 		$this->discoveryManager = $discoveryManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -39,6 +46,7 @@ class Parser {
 	 */
 	public function getUrlSrc($mimetype) {
 		$discovery = $this->discoveryManager->get();
+		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
 		if (\PHP_VERSION_ID < 80000) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$discoveryParsed = simplexml_load_string($discovery);
@@ -56,6 +64,7 @@ class Parser {
 			];
 		}
 
+		$this->logger->warning('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
 		throw new \Exception('Could not find urlsrc in WOPI');
 	}
 }
