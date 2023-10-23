@@ -28,8 +28,9 @@ use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
+use OCA\Richdocuments\Listener\AddFeaturePolicyListener;
 use OCA\Richdocuments\Listener\BeforeFetchPreviewListener;
-use OCA\Richdocuments\Listener\CSPListener;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ReferenceListener;
@@ -60,6 +61,7 @@ use OCP\IL10N;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
+use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
 use OCP\Server;
 
 class Application extends App implements IBootstrap {
@@ -75,7 +77,8 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleWare(WOPIMiddleware::class);
 		$context->registerEventListener(FileCreatedFromTemplateEvent::class, FileCreatedFromTemplateListener::class);
-		$context->registerEventListener(AddContentSecurityPolicyEvent::class, CSPListener::class);
+		$context->registerEventListener(AddContentSecurityPolicyEvent::class, AddContentSecurityPolicyListener::class);
+		$context->registerEventListener(AddFeaturePolicyEvent::class, AddFeaturePolicyListener::class);
 		$context->registerEventListener(LoadViewer::class, LoadViewerListener::class);
 		$context->registerEventListener(ShareLinkAccessedEvent::class, ShareLinkListener::class);
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, BeforeFetchPreviewListener::class);

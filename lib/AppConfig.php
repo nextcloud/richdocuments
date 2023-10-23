@@ -13,6 +13,9 @@ namespace OCA\Richdocuments;
 
 use \OCP\IConfig;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Service\FederationService;
+use OCP\App\IAppManager;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 
 class AppConfig {
 	public const WOPI_URL = 'wopi_url';
@@ -28,7 +31,7 @@ class AppConfig {
 	// Default: 'no', set to 'yes' to enable
 	public const USE_SECURE_VIEW_ADDITIONAL_MIMES = 'use_secure_view_additional_mimes';
 
-	private $defaults = [
+	private array $defaults = [
 		'wopi_url' => '',
 		'timeout' => 15,
 		'watermark_text' => '{userId}',
@@ -46,15 +49,15 @@ class AppConfig {
 		'watermark_linkTagsList' => 'array'
 	];
 
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+		private IAppManager $appManager,
+		private GlobalScaleConfig $globalScaleConfig,
+	) {
 	}
 
 	public function getAppNamespace($key) {
-		if (strpos($key, 'watermark_') === 0) {
+		if (str_starts_with($key, 'watermark_')) {
 			return self::WATERMARK_APP_NAMESPACE;
 		}
 		return Application::APPNAME;
@@ -185,5 +188,58 @@ class AppConfig {
 
 	public function useSecureViewAdditionalMimes(): bool {
 		return $this->config->getAppValue(Application::APPNAME, self::USE_SECURE_VIEW_ADDITIONAL_MIMES, 'no') === 'yes';
+	}
+
+	public function getDomainList(): array {
+		$urls = array_merge(
+			[ $this->domainOnly($this->getCollaboraUrlPublic()) ],
+			$this->getFederationDomains(),
+			$this->getGSDomains()
+		);
+
+		return array_filter($urls);
+	}
+
+	private function getFederationDomains(): array {
+		if (!$this->appManager->isEnabledForUser('federation')) {
+			return [];
+		}
+
+		$federationService = \OCP\Server::get(FederationService::class);
+		$trustedNextcloudDomains = array_filter(array_map(function ($server) use ($federationService) {
+			return $federationService->isTrustedRemote($server) ? $server : null;
+		}, $federationService->getTrustedServers()));
+
+		$trustedCollaboraDomains = array_filter(array_map(function ($server) use ($federationService) {
+			try {
+				return $federationService->getRemoteCollaboraURL($server);
+			} catch (\Exception $e) {
+				// If there is no remote collabora server we can just skip that
+				return null;
+			}
+		}, $trustedNextcloudDomains));
+
+		return array_map(function ($url) {
+			return $this->domainOnly($url);
+		}, array_merge($trustedNextcloudDomains, $trustedCollaboraDomains));
+	}
+
+	private function getGSDomains(): array {
+		if (!$this->globalScaleConfig->isGlobalScaleEnabled()) {
+			return [];
+		}
+
+		return $this->getGlobalScaleTrustedHosts();
+	}
+
+	/**
+	 * Strips the path and query parameters from the URL.
+	 */
+	private function domainOnly(string $url): string {
+		$parsedUrl = parse_url($url);
+		$scheme = isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : '';
+		$host = $parsedUrl['host'] ?? '';
+		$port = isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '';
+		return "$scheme$host$port";
 	}
 }

@@ -26,19 +26,23 @@ declare(strict_types=1);
 
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\Listener\CSPListener;
+use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
 use OCA\Richdocuments\Service\FederationService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Test\TestCase;
 
-class CSPListenerTest extends TestCase {
+/**
+ * @group DB
+ */
+class AddContentSecurityPolicyListenerTest extends TestCase {
 	/** @var IRequest|MockObject */
 	private $request;
 	/** @var AppConfig|MockObject */
@@ -49,23 +53,31 @@ class CSPListenerTest extends TestCase {
 	private $gsConfig;
 	/** @var FederationService|MockObject */
 	private $federationService;
-	private CSPListener $listener;
+	private AddContentSecurityPolicyListener $listener;
 
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
-		$this->config = $this->createMock(AppConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->gsConfig = $this->createMock(GlobalScaleConfig::class);
 		$this->federationService = $this->createMock(FederationService::class);
 
-		$this->listener = new CSPListener(
+		$this->overwriteService(FederationService::class, $this->federationService);
+
+		$this->request = $this->createMock(IRequest::class);
+		$this->config = $this->getMockBuilder(AppConfig::class)
+			->setConstructorArgs([
+				$this->createMock(IConfig::class),
+				$this->appManager,
+				$this->gsConfig,
+			])
+			->onlyMethods(['getCollaboraUrlPublic', 'getGlobalScaleTrustedHosts'])
+			->getMock();
+
+
+		$this->listener = new AddContentSecurityPolicyListener(
 			$this->request,
 			$this->config,
-			$this->appManager,
-			$this->federationService,
-			$this->gsConfig
 		);
 	}
 

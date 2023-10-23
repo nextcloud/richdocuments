@@ -24,6 +24,7 @@
 namespace Tests\Richdocuments;
 
 use OCA\Richdocuments\AppConfig;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -33,11 +34,13 @@ class AppConfigTest extends TestCase {
 	private $config;
 	/** @var AppConfig */
 	private $appConfig;
-	
+
 	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = new AppConfig($this->config);
+		$this->appManager = $this->createMock(IAppManager::class);
+
+		$this->appConfig = new AppConfig($this->config, $this->appManager, $this->createMock(\OCP\GlobalScale\IConfig::class));
 	}
 
 	public function testGetAppValueArrayWithValues() {
