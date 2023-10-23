@@ -64,7 +64,7 @@ class Parser {
 			];
 		}
 
-		$this->logger->warning('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
+		$this->logger->error('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
 		throw new \Exception('Could not find urlsrc in WOPI');
 	}
 }
