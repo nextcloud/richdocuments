@@ -108,6 +108,7 @@ OC.L10N.register(
     "Description" : "Mô tả",
     "Add new token" : "Thêm token mới",
     "No results" : "Không có kết quả",
+    "Select file or folder to link to" : "Chọn tập tin hoặc thư mục để liên kết đến",
     "Cancel" : "Hủy bỏ",
     "Close" : "Đóng",
     "Failed to load {productName} - please try again later" : "Không tải được {productName} - vui lòng thử lại sau",
