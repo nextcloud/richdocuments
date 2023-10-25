@@ -266,6 +266,9 @@ addEventListener('DOMContentLoaded', () => {
 		if (deprecated) { return }
 
 		switch (msgId) {
+		case 'NC_ShowNamePicker':
+			clearTimeout(odfViewer.loadingTimeout)
+			break
 		case 'loading':
 			odfViewer.onReceiveLoading()
 			break
