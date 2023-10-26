@@ -31,6 +31,7 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
 use OCA\Richdocuments\Listener\AddFeaturePolicyListener;
 use OCA\Richdocuments\Listener\BeforeFetchPreviewListener;
+use OCA\Richdocuments\Listener\BeforeTemplateRenderedListener;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ReferenceListener;
@@ -52,6 +53,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ITemplateManager;
@@ -83,6 +85,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareLinkAccessedEvent::class, ShareLinkListener::class);
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, BeforeFetchPreviewListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, ReferenceListener::class);
+		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',

@@ -51,6 +51,7 @@ class AddContentSecurityPolicyListener implements IEventListener {
 		$policy = new EmptyContentSecurityPolicy();
 		$policy->addAllowedFrameDomain("'self'");
 		$policy->addAllowedFrameDomain("nc:");
+		$policy->allowEvalWasm(true);
 
 		foreach ($this->config->getDomainList() as $url) {
 			$policy->addAllowedFrameDomain($url);
