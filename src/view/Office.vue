@@ -221,6 +221,8 @@ export default {
 					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)
 				},
 			})
+
+			window.OCA?.Files?.Sidebar?.close()
 		}
 		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
 
