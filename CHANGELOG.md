@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.2.2
+
+### Fixed
+
+- Allow current user lock [#3239](https://github.com/nextcloud/richdocuments/pull/3239)
+- fix: Clear loading timeout when guest name is asked [#3257](https://github.com/nextcloud/richdocuments/pull/3257)
+- fix: Update file metadata only if file was changed @juliushaertl [#3231](https://github.com/nextcloud/richdocuments/pull/3231)
+- fix dropdowns have wrong mark color in browsers @Darshan-upadhyay1110 [#3242](https://github.com/nextcloud/richdocuments/pull/3242)
+- Close NC sidebar on file open [#3269](https://github.com/nextcloud/richdocuments/pull/3269)
+
 ## 8.2.1
 
 ### Fixed
