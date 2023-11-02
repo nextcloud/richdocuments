@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.6
+
+### Fixed
+
+- Allow current user lock [#3240](https://github.com/nextcloud/richdocuments/pull/3240)
+
 ## 8.0.5
 
 ### Fixed
