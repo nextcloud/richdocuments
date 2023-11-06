@@ -74,7 +74,7 @@ export default {
 			})
 		}
 
-		this.getFileNode()
+		this.getFileNode(true)
 	},
 
 	registerHandler(event, callback) {
@@ -102,7 +102,7 @@ export default {
 		$('#richdocuments-header').remove()
 	},
 
-	saveAs(newName) {
+	async saveAs(newName) {
 		const oldFile = this.getFileModel()
 
 		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
@@ -113,8 +113,19 @@ export default {
 			this.fileName = newName
 		}
 
+		const node = await this.getFileNode(true)
+
+		if (!node) {
+			return
+		}
+
+		this.changeFilesRoute(node.fileid)
+
+		OCA?.Files?.Sidebar?.close()
+
 		if (this.getFileList()) {
 			const newFileModel = oldFile.clone()
+			newFileModel.set('id', node.fileid)
 			newFileModel.set('name', newName)
 			newFileModel.set('mtime', Date.now())
 			this.getFileList()
@@ -518,8 +529,8 @@ export default {
 		fileInfo.trigger('change', this.getFileModel())
 	},
 
-	async getFileNode() {
-		if (this.fileNode !== undefined) {
+	async getFileNode(forceFetch = false) {
+		if (this.fileNode !== undefined && !forceFetch) {
 			return this.fileNode
 		}
 
@@ -539,6 +550,15 @@ export default {
 		}
 
 		return this.fileNode
+	},
+
+	changeFilesRoute(fileId) {
+		OCP?.Files?.Router?.goToRoute(
+			OCP.Files.Router.name,
+			{ ...OCP.Files.Router.params, fileid: fileId },
+			OCP.Files.Router.query,
+			true
+		)
 	},
 
 }
