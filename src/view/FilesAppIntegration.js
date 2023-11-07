@@ -22,11 +22,20 @@
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
+import {
+	davGetClient,
+	davGetDefaultPropfind,
+	davResultToNode,
+	davRootPath,
+} from '@nextcloud/files'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
 export default {
+
+	fileNode: undefined,
 
 	fileModel: null,
 
@@ -51,6 +60,7 @@ export default {
 	},
 
 	init({ fileName, fileId, filePath, sendPostMessage, fileList, fileModel }) {
+		this.fileNode = undefined
 		this.fileName = fileName
 		this.fileId = fileId
 		this.fileList = fileList
@@ -63,6 +73,8 @@ export default {
 				this._addHeaderFileActions()
 			})
 		}
+
+		this.getFileNode(true)
 	},
 
 	registerHandler(event, callback) {
@@ -90,7 +102,7 @@ export default {
 		$('#richdocuments-header').remove()
 	},
 
-	saveAs(newName) {
+	async saveAs(newName) {
 		const oldFile = this.getFileModel()
 
 		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
@@ -101,8 +113,19 @@ export default {
 			this.fileName = newName
 		}
 
+		const node = await this.getFileNode(true)
+
+		if (!node) {
+			return
+		}
+
+		this.changeFilesRoute(node.fileid)
+
+		OCA?.Files?.Sidebar?.close()
+
 		if (this.getFileList()) {
 			const newFileModel = oldFile.clone()
+			newFileModel.set('id', node.fileid)
 			newFileModel.set('name', newName)
 			newFileModel.set('mtime', Date.now())
 			this.getFileList()
@@ -117,7 +140,7 @@ export default {
 			return
 		}
 
-		if (isPublic || !this.getFileList()) {
+		if (isPublic) {
 			console.error('[FilesAppIntegration] Sharing is not supported')
 			return
 		}
@@ -479,7 +502,18 @@ export default {
 		}
 	},
 
-	updateFileInfo(name, mtime) {
+	async updateFileInfo(name, mtime) {
+		const node = await this.getFileNode()
+
+		if (node) {
+			if (mtime) {
+				node._data.mtime = new Date(mtime)
+			}
+
+			emit('files:node:updated', node)
+		}
+
+		// FIXME: Remove once all files app is moved to vue
 		const fileInfo = this.getFileModel()
 		if (!fileInfo) {
 			return
@@ -493,6 +527,38 @@ export default {
 			fileInfo.set('mtime', mtime)
 		}
 		fileInfo.trigger('change', this.getFileModel())
+	},
+
+	async getFileNode(forceFetch = false) {
+		if (this.fileNode !== undefined && !forceFetch) {
+			return this.fileNode
+		}
+
+		try {
+			const path = this.filePath + '/' + this.fileName
+			const client = davGetClient()
+			const results = await client.getDirectoryContents(`${davRootPath}${path}`, {
+				details: true,
+				data: davGetDefaultPropfind(),
+			})
+			const nodes = results.data.map((result) => davResultToNode(result))
+
+			this.fileNode = nodes[0] ?? null
+		} catch (e) {
+			console.error('Failed to fetch file metadata from webdav', e)
+			this.fileNode = null
+		}
+
+		return this.fileNode
+	},
+
+	changeFilesRoute(fileId) {
+		const currentParams = OC.Util.History.parseUrlQuery()
+		currentParams.openfile = fileId
+		const dir = currentParams.dir
+		delete currentParams.dir
+		const newUrl = 'dir=' + OC.encodePath(dir) + '&' + OC.buildQueryString(currentParams)
+		OC.Util.History.replaceState(newUrl)
 	},
 
 }
