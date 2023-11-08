@@ -1,5 +1,48 @@
 # Changelog
 
+## 8.3.0-beta.1
+
+### Added
+
+- Nextcloud 28 compatibility
+- Version support and iframe refactoring @juliushaertl [#3152](https://github.com/nextcloud/richdocuments/pull/3152)
+- feat: add config option mobile_editing @luka-nextcloud [#3141](https://github.com/nextcloud/richdocuments/pull/3141)
+- Exclude MSOffice mime types association if OnlyOffice app is installed @proxyconcept [#2301](https://github.com/nextcloud/richdocuments/pull/2301)
+- Improve logging for WOPI Parser @R0Wi [#3252](https://github.com/nextcloud/richdocuments/pull/3252)
+- Allow current user lock @ArtificialOwl [#3206](https://github.com/nextcloud/richdocuments/pull/3206)
+
+### Fixed
+
+- fix: Create empty files from template if available @juliushaertl [#3059](https://github.com/nextcloud/richdocuments/pull/3059)
+- Fix document target picker and add slide support @juliushaertl [#3058](https://github.com/nextcloud/richdocuments/pull/3058)
+- fix(Wopi): Mark sensitive parameter as such @nickvergessen [#3042](https://github.com/nextcloud/richdocuments/pull/3042)
+- fix: Log invalid wopi tokens at info level instead of error @juliushaertl [#3107](https://github.com/nextcloud/richdocuments/pull/3107)
+- Add tablet parm for Insert_Button @Darshan-upadhyay1110 [#3094](https://github.com/nextcloud/richdocuments/pull/3094)
+- fix: Allow to opt-in loading image mimes on hide download shares @juliushaertl [#3137](https://github.com/nextcloud/richdocuments/pull/3137)
+- fix: Use userId as a fallback for new file creation token @juliushaertl [#3177](https://github.com/nextcloud/richdocuments/pull/3177)
+- fix: Mobile support shall be enabled by default @juliushaertl [#3184](https://github.com/nextcloud/richdocuments/pull/3184)
+- fix: Properly provide instance id @juliushaertl [#3218](https://github.com/nextcloud/richdocuments/pull/3218)
+- fix: Update file metadata after save @juliushaertl [#3230](https://github.com/nextcloud/richdocuments/pull/3230)
+- fix dropdowns have wrong mark color in browsers @Darshan-upadhyay1110 [#3238](https://github.com/nextcloud/richdocuments/pull/3238)
+- fix: Add proper feature policy @juliushaertl [#3237](https://github.com/nextcloud/richdocuments/pull/3237)
+- fix: Clear loading timeout when guest name is asked @juliushaertl [#3256](https://github.com/nextcloud/richdocuments/pull/3256)
+- Close NC sidebar on file open @Darshan-upadhyay1110 [#3259](https://github.com/nextcloud/richdocuments/pull/3259)
+- fix: Properly update files app state when using saveAs @juliushaertl [#3277](https://github.com/nextcloud/richdocuments/pull/3277)
+- fix: Disable pdf preview gnerator through Collabora if server already has support for it @juliushaertl [#3112](https://github.com/nextcloud/richdocuments/pull/3112)
+- CollaboraOnline#6546 enable automatic color in default paragraph style @timar [#3103](https://github.com/nextcloud/richdocuments/pull/3103)
+- fix: Provide valid fileList and fileId context on new file action @juliushaertl [#3114](https://github.com/nextcloud/richdocuments/pull/3114)
+- fix: Revert change of extension which should refer to the new file extension @juliushaertl [#3115](https://github.com/nextcloud/richdocuments/pull/3115)
+- fix: Use a proper empty xlsx file @juliushaertl [#3113](https://github.com/nextcloud/richdocuments/pull/3113)
+- fix: Emit warning instead of info when WOIP request is denied @moan0s [#3261](https://github.com/nextcloud/richdocuments/pull/3261)
+
+### Other
+- Bump dependencies
+- Create pr-feedback.yml @max-nextcloud [#3051](https://github.com/nextcloud/richdocuments/pull/3051)
+- ci(cypress): Fix selectors for files to vue @juliushaertl [#3123](https://github.com/nextcloud/richdocuments/pull/3123)
+- test(cypress): Add test for share token direct editing @juliushaertl [#3160](https://github.com/nextcloud/richdocuments/pull/3160)
+- ci(cypress): Bump github action @juliushaertl [#3234](https://github.com/nextcloud/richdocuments/pull/3234)
+- chore(php): Add PHP 8.3 to test matrix @juliushaertl [#3253](https://github.com/nextcloud/richdocuments/pull/3253)
+
 ## 8.1.0-beta.1
 
 ### Added
