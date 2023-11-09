@@ -159,7 +159,7 @@ class PermissionManager {
 		}
 
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareAll', 'no') === 'yes') {
-			if ($node->getOwner()->getUID() !== $userId) {
+			if ($userId === null || $node->getOwner()?->getUID() !== $userId) {
 				return true;
 			}
 		}
