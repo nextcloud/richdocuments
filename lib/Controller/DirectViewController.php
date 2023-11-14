@@ -27,6 +27,7 @@ use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\DirectMapper;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\InitialStateService;
+use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
@@ -52,6 +53,7 @@ class DirectViewController extends Controller {
 		private IRootFolder $rootFolder,
 		private TokenManager $tokenManager,
 		private DirectMapper $directMapper,
+		private UserScopeService $userScopeService,
 		private InitialStateService $initialState,
 		private IConfig $config,
 		private AppConfig $appConfig,
@@ -88,6 +90,8 @@ class DirectViewController extends Controller {
 			return $this->showPublicShare($direct);
 		}
 
+		$this->userScopeService->setUserScope($direct->getUid());
+		$this->userScopeService->setFilesystemScope($direct->getUid());
 
 		$folder = $this->rootFolder->getUserFolder($direct->getUid());
 		if ($this->templateManager->isTemplate($direct->getFileid())) {
