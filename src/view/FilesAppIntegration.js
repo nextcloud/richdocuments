@@ -530,6 +530,10 @@ export default {
 	},
 
 	async getFileNode(forceFetch = false) {
+		if (isPublic) {
+			return
+		}
+
 		if (this.fileNode !== undefined && !forceFetch) {
 			return this.fileNode
 		}
