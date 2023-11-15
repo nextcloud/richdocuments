@@ -64,6 +64,14 @@ class Parser {
 			];
 		}
 
+		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', 'application/vnd.oasis.opendocument.text'));
+		if ($result && count($result) > 0) {
+			return [
+				'urlsrc' => (string)$result[0]['urlsrc'],
+				'action' => (string)$result[0]['name'],
+			];
+		}
+
 		$this->logger->error('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
 		throw new \Exception('Could not find urlsrc in WOPI');
 	}

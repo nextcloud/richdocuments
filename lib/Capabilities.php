@@ -70,6 +70,8 @@ class Capabilities implements ICapability {
 		'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
 		'application/vnd.ms-powerpoint.template.macroEnabled.12',
 		'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf',
 		'text/csv',
 	];
 
