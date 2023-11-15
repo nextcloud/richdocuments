@@ -33,6 +33,11 @@
       <code>Command</code>
     </UndefinedClass>
   </file>
+  <file src="lib/Command/InstallDefaultFonts.php">
+    <UndefinedClass>
+      <code>Command</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Controller/DirectViewController.php">
     <InvalidScalarArgument>
       <code><![CDATA[$item->getId()]]></code>
