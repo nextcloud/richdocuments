@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -240,6 +241,43 @@ class FontService {
 			// do nothing if there was any kind of error during overview generation
 			// the /apps/richdocuments/settings/fonts/FILE_NAME/overview request will fail with 404
 			// in the UI and display a fallback message
+		}
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function installDefaultFonts(): void {
+		$dirPath = __DIR__ . '/../../assets/fonts';
+
+		if (!is_dir($dirPath)) {
+			throw new Exception("Directory \"$dirPath\" does not exist!");
+		}
+
+		$handle = opendir($dirPath);
+
+		if (!$handle) {
+			throw new Exception("Failed opening directory \"$dirPath\"!");
+		}
+
+		while (false !== ($fileName = readdir($handle))) {
+			if ($fileName === '.' || $fileName === '..') {
+				continue;
+			}
+
+			$filePath = $dirPath . '/' . $fileName;
+
+			if (!is_file($filePath)) {
+				continue;
+			}
+
+			$fileHandle = fopen($filePath, 'r');
+
+			if (!$fileHandle) {
+				continue;
+			}
+
+			$this->uploadFontFile($fileName, $fileHandle);
 		}
 	}
 }
