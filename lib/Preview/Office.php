@@ -78,7 +78,11 @@ abstract class Office extends Provider {
 		}
 
 		$client = $this->clientService->newClient();
-		$options = ['timeout' => 25];
+		$options = [
+			'timeout' => 25,
+			// FIXME: Can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
+			'expect' => false,
+		];
 
 		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
