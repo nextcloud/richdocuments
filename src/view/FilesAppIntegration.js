@@ -105,13 +105,16 @@ export default {
 	async saveAs(newName) {
 		const oldFile = this.getFileModel()
 
+		if (newName) {
+			this.fileName = newName
+		}
+
+		const node = await this.getFileNode(true)
+
 		if (this.handlers.saveAs && this.handlers.saveAs(this)) {
 			return
 		}
 
-		if (newName) {
-			this.fileName = newName
-		}
 
 		const node = await this.getFileNode(true)
 
