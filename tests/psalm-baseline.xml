@@ -10,6 +10,7 @@
   </file>
   <file src="lib/AppInfo/Application.php">
     <MissingDependency>
+      <code>EMF</code>
       <code>MSExcel</code>
       <code>MSWord</code>
       <code>OOXML</code>
@@ -47,7 +48,7 @@
       <code><![CDATA[$node->getId()]]></code>
     </InvalidScalarArgument>
     <RedundantCondition>
-      <code>$app !== ''</code>
+      <code><![CDATA[$app !== '']]></code>
     </RedundantCondition>
   </file>
   <file src="lib/Controller/TemplatesController.php">
@@ -66,7 +67,7 @@
       <code>null</code>
     </NullArgument>
     <TypeDoesNotContainType>
-      <code>$path === ''</code>
+      <code><![CDATA[$path === '']]></code>
     </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>putContent</code>
@@ -82,6 +83,11 @@
     <RedundantCondition>
       <code><![CDATA[$share && method_exists($share, 'getAttributes')]]></code>
     </RedundantCondition>
+  </file>
+  <file src="lib/Preview/EMF.php">
+    <MissingDependency>
+      <code>Office</code>
+    </MissingDependency>
   </file>
   <file src="lib/Preview/MSExcel.php">
     <MissingDependency>
