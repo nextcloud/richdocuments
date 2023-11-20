@@ -17,7 +17,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 		// FIXME: Might be too wide, we should only do this when needed
 
-		$event->getResponse()->addHeader('Cross-Origin-Opener-Policy', 'same-origin');
-		$event->getResponse()->addHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+		//$event->getResponse()->addHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+		//$event->getResponse()->addHeader('Cross-Origin-Embedder-Policy', 'require-corp');
 	}
 }
