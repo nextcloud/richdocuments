@@ -37,6 +37,7 @@ use OCA\Richdocuments\Listener\ReferenceListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
+use OCA\Richdocuments\Preview\EMF;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
 use OCA\Richdocuments\Preview\OOXML;
@@ -173,6 +174,10 @@ class Application extends App implements IBootstrap {
 
 		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function () use ($container) {
 			return $container->get(OpenDocument::class);
+		});
+
+		$previewManager->registerProvider('/image\/emf/', function () use ($container) {
+			return $container->get(EMF::class);
 		});
 
 		if (!$previewManager->isMimeSupported('application/pdf')) {

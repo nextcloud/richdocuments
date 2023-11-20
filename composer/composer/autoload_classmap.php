@@ -52,6 +52,7 @@ return array(
     'OCA\\Richdocuments\\Migration\\Version30717Date20210310164901' => $baseDir . '/../lib/Migration/Version30717Date20210310164901.php',
     'OCA\\Richdocuments\\Migration\\Version50200Date20211220212457' => $baseDir . '/../lib/Migration/Version50200Date20211220212457.php',
     'OCA\\Richdocuments\\PermissionManager' => $baseDir . '/../lib/PermissionManager.php',
+    'OCA\\Richdocuments\\Preview\\EMF' => $baseDir . '/../lib/Preview/EMF.php',
     'OCA\\Richdocuments\\Preview\\MSExcel' => $baseDir . '/../lib/Preview/MSExcel.php',
     'OCA\\Richdocuments\\Preview\\MSWord' => $baseDir . '/../lib/Preview/MSWord.php',
     'OCA\\Richdocuments\\Preview\\OOXML' => $baseDir . '/../lib/Preview/OOXML.php',

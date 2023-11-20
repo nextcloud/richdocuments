@@ -67,6 +67,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Migration\\Version30717Date20210310164901' => __DIR__ . '/..' . '/../lib/Migration/Version30717Date20210310164901.php',
         'OCA\\Richdocuments\\Migration\\Version50200Date20211220212457' => __DIR__ . '/..' . '/../lib/Migration/Version50200Date20211220212457.php',
         'OCA\\Richdocuments\\PermissionManager' => __DIR__ . '/..' . '/../lib/PermissionManager.php',
+        'OCA\\Richdocuments\\Preview\\EMF' => __DIR__ . '/..' . '/../lib/Preview/EMF.php',
         'OCA\\Richdocuments\\Preview\\MSExcel' => __DIR__ . '/..' . '/../lib/Preview/MSExcel.php',
         'OCA\\Richdocuments\\Preview\\MSWord' => __DIR__ . '/..' . '/../lib/Preview/MSWord.php',
         'OCA\\Richdocuments\\Preview\\OOXML' => __DIR__ . '/..' . '/../lib/Preview/OOXML.php',
