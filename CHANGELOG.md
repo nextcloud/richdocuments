@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.2.3
+
+### Fixed
+
+- Update files app state on saveAs @juliushaertl [#3276](https://github.com/nextcloud/richdocuments/pull/3276)
+- fix: Set proper user scope for direct editing [#3294](https://github.com/nextcloud/richdocuments/pull/3294)
+- fix: Set expect guzzle option to false [#3301](https://github.com/nextcloud/richdocuments/pull/3301)
+- fix: Avoid fetching webdav on public links [#3302](https://github.com/nextcloud/richdocuments/pull/3302)
+- fix: Add proper feature policy @juliushaertl [#3272](https://github.com/nextcloud/richdocuments/pull/3272)
+- fix: Do not fail if node has no owner [#3279](https://github.com/nextcloud/richdocuments/pull/3279)
+
 ## 8.2.2
 
 ### Fixed
