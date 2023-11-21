@@ -19,6 +19,7 @@ OC.L10N.register(
     "Submit" : "Trimite",
     "Description" : "Descriere",
     "No results" : "Niciun rezultat",
+    "Select file or folder to link to" : "Selectați fișierul sau folderul țintă a link-ului",
     "Cancel" : "Anulează",
     "Close" : "Închide",
     "Error" : "Eroare",
