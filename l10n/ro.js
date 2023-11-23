@@ -14,6 +14,7 @@ OC.L10N.register(
     "File is too big" : "Fișierul este prea mare",
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
     "Images" : "Imagini",
+    "Office" : "Birou",
     "Advanced settings" : "Setări avansate",
     "Select groups" : "Selectează grupuri ",
     "Submit" : "Trimite",
