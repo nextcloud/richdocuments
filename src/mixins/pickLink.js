@@ -21,7 +21,7 @@
 
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-import { getLinkWithPicker } from '@nextcloud/vue'
+import { getLinkWithPicker } from '@nextcloud/vue/dist/Components/NcRichText.js'
 
 // FIXME: Migrate to vue component
 export default {
