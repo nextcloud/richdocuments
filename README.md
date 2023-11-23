@@ -1,7 +1,4 @@
 # Nextcloud Office
-[![Build Status](https://scrutinizer-ci.com/g/nextcloud/richdocuments/badges/build.png?b=main)](https://scrutinizer-ci.com/g/nextcloud/richdocuments/build-status/main)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/richdocuments/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/nextcloud/richdocuments/?branch=main)
-[![irc](https://img.shields.io/badge/IRC-%23nextcloud%20on%20freenode-orange.svg)](https://webchat.freenode.net/?channels=nextcloud)
 
 **A [Nextcloud](https://nextcloud.com) app integrating Collabora Online into your Nextcloud!**
 
