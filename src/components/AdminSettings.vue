@@ -51,6 +51,13 @@
 				<NcNoteCard v-else-if="serverError == 3" type="error">
 					<p>{{ t('richdocuments', 'Collabora Online should use the same protocol as the server installation.') }}</p>
 				</NcNoteCard>
+				<NcNoteCard v-else-if="serverError == 4" type="error">
+					<p>
+						{{ t('richdocuments', 'Your browser has been unable to connect to the Collabora server:') }}
+						{{ settings.public_wopi_url }}
+					</p>
+					<p>{{ t('richdocuments', 'This URL is determined on the Collabora server either from the configured URL or the server_name parameter in coolwsd.xml.') }}</p>
+				</NcNoteCard>
 				<NcNoteCard v-else type="success">
 					<p>{{ t('richdocuments', 'Collabora Online server is reachable.') }}</p>
 					<p>{{ settings.product_name }} {{ settings.product_version }} {{ settings.product_hash }}</p>
@@ -422,6 +429,8 @@ const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
 const SERVER_STATE_CONNECTION_ERROR = 2
 const PROTOCOL_MISMATCH = 3
+const SERVER_STATE_BROWSER_CONNECTION_ERROR = 4
+
 const fontMimes = [
 	'font/ttf',
 	'application/font-sfnt',
@@ -609,6 +618,16 @@ export default {
 			for (const settingKey in settings) {
 				this.settings[settingKey] = settings[settingKey]
 			}
+			this.checkFrontend()
+		},
+		async checkFrontend() {
+			try {
+				await fetch(this.settings.public_wopi_url + '/hosting/discovery', { mode: 'no-cors' })
+				await fetch(this.settings.public_wopi_url + '/hosting/capabilities', { mode: 'no-cors' })
+			} catch (e) {
+				console.error(e)
+				this.serverError = SERVER_STATE_BROWSER_CONNECTION_ERROR
+			}
 		},
 		async fetchDemoServers() {
 			try {
@@ -711,6 +730,8 @@ export default {
 				for (const settingKey in settings) {
 					this.settings[settingKey] = settings[settingKey]
 				}
+
+				this.checkFrontend()
 
 				return result
 			} catch (e) {
