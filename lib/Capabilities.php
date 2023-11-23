@@ -154,8 +154,9 @@ class Capabilities implements ICapability {
 					'productName' => $this->capabilitiesService->getProductName(),
 					'editonline_endpoint' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.document.editOnline'),
 					'config' => [
-						'wopi_url' => $this->config->getAppValue('wopi_url'),
-						'public_wopi_url' => $this->config->getAppValue('public_wopi_url'),
+						'wopi_url' => $this->config->getCollaboraUrlInternal(),
+						'public_wopi_url' => $this->config->getCollaboraUrlPublic(),
+						'wopi_callback_url' => $this->config->getNextcloudUrl(),
 						'disable_certificate_verification' => $this->config->getAppValue('disable_certificate_verification'),
 						'edit_groups' => $this->config->getAppValue('edit_groups'),
 						'use_groups' => $this->config->getAppValue('use_groups'),

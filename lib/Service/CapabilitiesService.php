@@ -70,7 +70,7 @@ class CapabilitiesService {
 		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
 		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
 		if ($this->capabilities === null || $shouldRecheckCODECapabilities) {
-			$this->refetch();
+			$this->fetchFromRemote();
 		}
 
 		if (!is_array($this->capabilities)) {
@@ -78,6 +78,18 @@ class CapabilitiesService {
 		}
 
 		return $this->capabilities;
+	}
+
+	public function getProductVersion(): ?string {
+		return $this->getCapabilities()['productVersion'] ?? null;
+	}
+
+	public function getProductHash(): ?string {
+		return $this->getCapabilities()['productVersionHash'] ?? null;
+	}
+
+	public function getServerProductName(): ?string {
+		return $this->getCapabilities()['productName'] ?? null;
 	}
 
 	public function hasNextcloudBranding(): bool {
@@ -124,16 +136,22 @@ class CapabilitiesService {
 		return false;
 	}
 
-	public function clear(): void {
+	public function resetCache(): void {
 		$this->cache->remove('capabilities');
 	}
 
-	public function refetch(): void {
+	public function getCapabilitiesEndpoint(): ?string {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		if ($remoteHost === '') {
+			return null;
+		}
+		return rtrim($remoteHost, '/') . '/hosting/capabilities';
+	}
+
+	public function fetchFromRemote($throw = false): void {
+		if (!$this->getCapabilitiesEndpoint()) {
 			return;
 		}
-		$capabilitiesEndpoint = rtrim($remoteHost, '/') . '/hosting/capabilities';
 
 		$client = $this->clientService->newClient();
 		$options = ['timeout' => 45, 'nextcloud' => ['allow_local_address' => true]];
@@ -144,9 +162,9 @@ class CapabilitiesService {
 
 		try {
 			$startTime = microtime(true);
-			$response = $client->get($capabilitiesEndpoint, $options);
+			$response = $client->get($this->getCapabilitiesEndpoint(), $options);
 			$duration = round(((microtime(true) - $startTime)), 3);
-			$this->logger->info('Fetched capabilities endpoint from ' . $capabilitiesEndpoint. ' in ' . $duration . ' seconds');
+			$this->logger->info('Fetched capabilities endpoint from ' . $this->getCapabilitiesEndpoint(). ' in ' . $duration . ' seconds');
 			$responseBody = $response->getBody();
 			$capabilities = \json_decode($responseBody, true);
 
@@ -155,6 +173,9 @@ class CapabilitiesService {
 			}
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to fetch the Collabora capabilities endpoint: ' . $e->getMessage(), [ 'exception' => $e ]);
+			if ($throw) {
+				throw $e;
+			}
 			$capabilities = [];
 		}
 

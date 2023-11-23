@@ -243,6 +243,7 @@ export default {
 				fileId: fileid, shareToken: this.shareToken, version,
 			})
 			Config.update('urlsrc', data.urlSrc)
+			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 
 			// Generate form and submit to the iframe
 			const action = getWopiUrl({

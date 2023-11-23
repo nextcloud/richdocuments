@@ -32,22 +32,29 @@ const getSearchParam = (name) => {
 	return decodeURI(results[1]) || ''
 }
 
+const getCallbackBaseUrl = () => {
+	const callbackUrl = Config.get('wopi_callback_url')
+	return callbackUrl || window.location.protocol + '//' + window.location.host + getRootUrl() + '/'
+}
+
+const getWopiSrc = (fileId) => {
+	// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+	// index.php is forced here to avoid different wopi srcs for the same document
+	const wopiurl = getCallbackBaseUrl() + '/index.php/apps/richdocuments/wopi/files/' + fileId
+	console.debug('[getWopiUrl] ' + wopiurl)
+	return wopiurl
+}
+
 const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory, target = undefined }) => {
 	// Only set the revision history parameter if the versions app is enabled
 	revisionHistory = revisionHistory && window?.oc_appswebroots?.files_versions
-
-	// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
-	// index.php is forced here to avoid different wopi srcs for the same document
-	const wopiurl = window.location.protocol + '//' + window.location.host + getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + fileId
-	console.debug('[getWopiUrl] ' + wopiurl)
-	const wopisrc = encodeURIComponent(wopiurl)
 
 	// urlsrc - the URL from discovery xml that we access for the particular
 	// document; we add various parameters to that.
 	// The discovery is available at
 	//   https://<loolwsd-server>:9980/hosting/discovery
 	return Config.get('urlsrc')
-		+ 'WOPISrc=' + wopisrc
+		+ 'WOPISrc=' + encodeURIComponent(getWopiSrc(fileId))
 		+ '&title=' + encodeURIComponent(title)
 		+ '&lang=' + languageToBCP47()
 		+ (closeButton ? '&closebutton=1' : '')
@@ -97,6 +104,7 @@ const getNextcloudUrl = () => {
 export {
 	getSearchParam,
 	getWopiUrl,
+	getCallbackBaseUrl,
 
 	getDocumentUrlFromTemplate,
 	getDocumentUrlForPublicFile,

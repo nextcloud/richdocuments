@@ -18,8 +18,13 @@ use OCP\App\IAppManager;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 
 class AppConfig {
+	// URL that Nextcloud will use to connect to Collabora
 	public const WOPI_URL = 'wopi_url';
+	// URL that the browser will use to connect to Collabora (inherited from the discovery endpoint of Collabora,
+	// either wopi_url or what is configured as server_name)
 	public const PUBLIC_WOPI_URL = 'public_wopi_url';
+	// URL that should be used by Collabora to connect back to Nextcloud (defaults to the users browser host)
+	public const WOPI_CALLBACK_URL = 'wopi_callback_url';
 
 	public const FEDERATION_USE_TRUSTED_DOMAINS = 'federation_use_trusted_domains';
 
@@ -144,6 +149,10 @@ class AppConfig {
 		return $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
 	}
 
+	public function getNextcloudUrl(): string {
+		return $this->config->getAppValue(Application::APPNAME, self::WOPI_CALLBACK_URL, '');
+	}
+
 	public function getDisableCertificateValidation(): bool {
 		return $this->config->getAppValue(Application::APPNAME, 'disable_certificate_verification', 'no') === 'yes';
 	}
@@ -235,7 +244,7 @@ class AppConfig {
 	/**
 	 * Strips the path and query parameters from the URL.
 	 */
-	private function domainOnly(string $url): string {
+	public function domainOnly(string $url): string {
 		$parsedUrl = parse_url($url);
 		$scheme = isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : '';
 		$host = $parsedUrl['host'] ?? '';
