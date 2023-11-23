@@ -34,54 +34,27 @@ use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
-	/** @var IConfig */
-	private $config;
-
-	/** @var AppConfig */
-	private $appConfig;
-
-	/** @var TemplateManager */
-	private $manager;
-
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	/** @var DemoService */
-	private $demoService;
-
-	/** @var InitialStateService */
-	private $initialState;
-	/**
-	 * @var FontService
-	 */
-	private $fontService;
-
 	public function __construct(
-		IConfig             $config,
-		AppConfig           $appConfig,
-		TemplateManager     $manager,
-		CapabilitiesService $capabilitiesService,
-		DemoService         $demoService,
-		FontService 		$fontService,
-		InitialStateService $initialStateService
+		private IConfig             $config,
+		private AppConfig           $appConfig,
+		private TemplateManager     $manager,
+		private CapabilitiesService $capabilitiesService,
+		private DemoService         $demoService,
+		private FontService 		$fontService,
+		private InitialStateService $initialStateService
 	) {
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->manager = $manager;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->demoService = $demoService;
-		$this->initialState = $initialStateService;
-		$this->fontService = $fontService;
 	}
 
-	public function getForm() {
-		$this->initialState->provideCapabilities();
+	public function getForm(): TemplateResponse {
+		$this->initialStateService->provideCapabilities();
 		return new TemplateResponse(
 			'richdocuments',
 			'admin',
 			[
 				'settings' => [
-					'wopi_url' => $this->config->getAppValue('richdocuments', 'wopi_url'),
+					'wopi_url' => $this->appConfig->getCollaboraUrlInternal(),
+					'public_wopi_url' => $this->appConfig->getCollaboraUrlPublic(),
+					'wopi_callback_url' => $this->appConfig->getNextcloudUrl(),
 					'wopi_allowlist' => $this->config->getAppValue('richdocuments', 'wopi_allowlist'),
 					'edit_groups' => $this->config->getAppValue('richdocuments', 'edit_groups'),
 					'use_groups' => $this->config->getAppValue('richdocuments', 'use_groups'),

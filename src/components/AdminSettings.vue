@@ -24,50 +24,57 @@
 	<div>
 		<div class="section">
 			<h2>{{ productName }}</h2>
-			<p v-if="hasNextcloudBranding">
+			<p v-if="hasNextcloudBranding" class="description">
 				{{ t('richdocuments', 'Nextcloud Office is a powerful Collabora Online based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
 			</p>
-			<p v-else>
+			<p v-else class="description">
 				{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
 			</p>
 
-			<!-- FIXME: Update this to NcNoteCard for NC25+ once we update the Nextcloud Vue-component library -->
-			<div v-if="settings.wopi_url && settings.wopi_url !== '' && !settings.wopi_allowlist" id="security-warning-state-warning">
-				<span class="icon icon-error-white" />
-				<span class="message">
+			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
+				<NcNoteCard v-if="serverError == 2" type="error">
+					<p>{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</p>
+					<p>{{ errorMessage }}</p>
+
+					<p v-if="isNginx && serverMode === 'builtin'">
+						{{ t('richdocuments', 'This might be due to a missing configuration of your web server. For more information, please visit: ') }}
+						<a title="Connecting Collabora Online Single Click with Nginx"
+							href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/"
+							target="_blank"
+							rel="noopener"
+							class="external">{{ t('richdocuments', 'Connecting Collabora Online Single Click with Nginx') }}</a>
+					</p>
+				</NcNoteCard>
+				<NcNoteCard v-else-if="serverError == 1" type="warning">
+					<p>{{ t('richdocuments', 'Setting up a new server') }}</p>
+				</NcNoteCard>
+				<NcNoteCard v-else-if="serverError == 3" type="error">
+					<p>{{ t('richdocuments', 'Collabora Online should use the same protocol as the server installation.') }}</p>
+				</NcNoteCard>
+				<NcNoteCard v-else type="success">
+					<p>{{ t('richdocuments', 'Collabora Online server is reachable.') }}</p>
+					<p>{{ settings.product_name }} {{ settings.product_version }} {{ settings.product_hash }}</p>
+					<p class="description">
+						<strong>{{ t('richdocuments', 'URL used by the browser:') }}</strong> <code>{{ settings.public_wopi_url }}</code><br>
+						<strong>{{ t('richdocuments', 'Nextcloud URL used by Collabora:') }}</strong> <code>{{ callbackUrl }}</code>
+						<i>{{ settings.wopi_callback_url ? '' : '(Determined from the browser URL)' }}</i>
+					</p>
+				</NcNoteCard>
+			</div>
+			<NcNoteCard v-else type="warning">
+				<p>{{ t('richdocuments', 'Please configure a Collabora Online server to start editing documents') }}</p>
+			</NcNoteCard>
+
+			<NcNoteCard v-if="settings.wopi_url && settings.wopi_url !== '' && !settings.wopi_allowlist" type="warning">
+				<p>
 					{{ t('richdocuments', 'You have not configured the allow-list for WOPI requests. Without this setting users may download restricted files via WOPI requests to the Nextcloud server.') }}
 					<a title="WOPI settings documentation"
 						href="https://docs.nextcloud.com/server/latest/admin_manual/office/configuration.html#wopi-settings"
 						target="_blank"
 						rel="noopener"
 						class="external">{{ t('richdocuments', 'Click here for more info') }}</a>
-				</span>
-			</div>
-
-			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
-				<div v-if="serverError == 2 && isNginx && serverMode === 'builtin'" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: ') }}<a title="Connecting Collabora Online Single Click with Nginx"
-						href="https://www.collaboraoffice.com/online/connecting-collabora-online-single-click-with-nginx/"
-						target="_blank"
-						rel="noopener"
-						class="external">{{ t('richdocuments', 'Connecting Collabora Online Single Click with Nginx') }}</a></span>
-				</div>
-				<div v-else-if="serverError == 2" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</span>
-				</div>
-				<div v-else-if="serverError == 1" id="security-warning-state-failure">
-					<span class="icon icon-loading" /><span class="message">{{ t('richdocuments', 'Setting up a new server') }}</span>
-				</div>
-				<div v-else-if="serverError == 3" id="security-warning-state-failure">
-					<span class="icon icon-close-white" /><span class="message">{{ t('richdocuments', 'Collabora Online should use the same protocol as the server installation.') }}</span>
-				</div>
-				<div v-else id="security-warning-state-ok">
-					<span class="icon icon-checkmark-white" /><span class="message">{{ t('richdocuments', 'Collabora Online server is reachable.') }}</span>
-				</div>
-			</div>
-			<div v-else id="security-warning-state-warning">
-				<span class="icon icon-error-white" /><span class="message">{{ t('richdocuments', 'Please configure a Collabora Online server to start editing documents') }}</span>
-			</div>
+				</p>
+			</NcNoteCard>
 
 			<fieldset>
 				<div>
@@ -101,7 +108,7 @@
 									:disabled="updating"
 									@change="updateServer">
 								<label for="disable_certificate_verification">{{ t('richdocuments', 'Disable certificate verification (insecure)') }}</label><br>
-								<em>{{ t('Enable if your Collabora Online server uses a self signed certificate') }}</em>
+								<em>{{ t('richdocuments', 'Enable if your Collabora Online server uses a self signed certificate') }}</em>
 							</p>
 						</form>
 					</div>
@@ -398,7 +405,7 @@ import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { showWarning, showError } from '@nextcloud/dialogs'
-import { NcModal, NcMultiselect } from '@nextcloud/vue'
+import { NcModal, NcMultiselect, NcNoteCard } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
 import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
@@ -409,6 +416,7 @@ import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
 
 import '@nextcloud/dialogs/dist/index.css'
+import { getCallbackBaseUrl } from '../helpers/url.js'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -433,6 +441,7 @@ export default {
 		SettingsInputFile,
 		SettingsFontList,
 		NcModal,
+		NcNoteCard,
 	},
 	props: {
 		initial: {
@@ -446,7 +455,8 @@ export default {
 			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
 
 			serverMode: '',
-			serverError: Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR,
+			serverError: SERVER_STATE_LOADING,
+			errorMessage: null,
 			hostErrors: [window.location.host === 'localhost' || window.location.host === '127.0.0.1', window.location.protocol !== 'https:', false],
 			demoServers: null,
 			CODEInstalled: 'richdocumentscode' in OC.appswebroots,
@@ -512,15 +522,21 @@ export default {
 </remote_font_config>
 			`
 		},
+		callbackUrl() {
+			return this.settings.wopi_callback_url ? this.settings.wopi_callback_url : getCallbackBaseUrl()
+		},
 	},
 	watch: {
-		'settings.wopi_url'(newVal, oldVal) {
+		'settings.public_wopi_url'(newVal, oldVal) {
 			if (newVal !== oldVal) {
 				const protocol = this.checkUrlProtocol(newVal)
 				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
 				if (protocol !== nextcloudProtocol) this.serverError = PROTOCOL_MISMATCH
 				else this.serverError = Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
 			}
+		},
+		isSetup() {
+			this.toggleTemplateSettings()
 		},
 	},
 	beforeMount() {
@@ -566,8 +582,34 @@ export default {
 			this.CODEAppID = 'richdocumentscode_arm64'
 		}
 		this.checkIfDemoServerIsActive()
+		this.checkSettings()
+		this.toggleTemplateSettings()
 	},
 	methods: {
+		async checkSettings() {
+			this.errorMessage = null
+			this.updating = true
+			this.serverError = SERVER_STATE_LOADING
+
+			let result
+			try {
+				result = await axios.get(generateUrl('/apps/richdocuments/settings/check'))
+				this.serverError = SERVER_STATE_OK
+
+			} catch (e) {
+				this.serverError = SERVER_STATE_CONNECTION_ERROR
+				result = e.response
+				const { message } = e.response.data.data
+				this.errorMessage = message
+			}
+
+			this.updating = false
+
+			const { settings } = result?.data?.data || {}
+			for (const settingKey in settings) {
+				this.settings[settingKey] = settings[settingKey]
+			}
+		},
 		async fetchDemoServers() {
 			try {
 				const result = await axios.get(generateUrl('/apps/richdocuments/settings/demo'))
@@ -654,6 +696,7 @@ export default {
 			this.checkIfDemoServerIsActive()
 		},
 		async updateSettings(data) {
+			this.errorMessage = null
 			this.updating = true
 			try {
 				const result = await axios.post(
@@ -663,15 +706,17 @@ export default {
 
 				this.updating = false
 
-				const { message } = result?.data?.data || {}
+				const { settings } = result?.data?.data || {}
 
-				if (message && message.length > 0) {
-					showWarning(message)
+				for (const settingKey in settings) {
+					this.settings[settingKey] = settings[settingKey]
 				}
 
 				return result
 			} catch (e) {
 				this.updating = false
+				const { message } = e.response.data.data
+				this.errorMessage = message
 				throw e
 			}
 		},
@@ -748,6 +793,13 @@ export default {
 				this.settings.fonts.splice(index, 1)
 			}
 		},
+		toggleTemplateSettings() {
+			if (this.isSetup) {
+				document.getElementById('richdocuments-templates').classList.remove('hidden')
+			} else {
+				document.getElementById('richdocuments-templates').classList.add('hidden')
+			}
+		},
 	},
 }
 </script>
@@ -755,6 +807,14 @@ export default {
 <style lang="scss" scoped>
 	p {
 		margin-bottom: 15px;
+	}
+
+	.notecard:deep(p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.description {
+		color: var(--color-text-maxcontrast);
 	}
 
 	p.checkbox-details {
@@ -780,13 +840,6 @@ export default {
 
 	.section {
 		border-bottom: 1px solid var(--color-border);
-	}
-
-	#security-warning-state-failure,
-	#security-warning-state-warning,
-	#security-warning-state-ok {
-		margin-top: 10px;
-		margin-bottom: 20px;
 	}
 
 	.option-inline {

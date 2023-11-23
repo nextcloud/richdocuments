@@ -11,28 +11,31 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use \OCP\AppFramework\Controller;
-use \OCP\IL10N;
-use \OCP\IRequest;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
+use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\UploadException;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
-use OCA\Richdocuments\WOPI\Parser;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IRequest;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Output\NullOutput;
 
 class SettingsController extends Controller {
 	// TODO adapt overview generation if we add more font mimetypes
@@ -45,120 +48,88 @@ class SettingsController extends Controller {
 		'application/vnd.ms-opentype',
 	];
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var AppConfig */
-	private $appConfig;
-	/** @var IConfig */
-	private $config;
-	/** @var DiscoveryManager  */
-	private $discoveryManager;
-	/** @var Parser */
-	private $wopiParser;
-	/** @var string */
-	private $userId;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var DemoService */
-	private $demoService;
-	/** @var LoggerInterface */
-	private $logger;
-	/**
-	 * @var FontService
-	 */
-	private $fontService;
-
 	public function __construct($appName,
 		IRequest $request,
-		IL10N $l10n,
-		AppConfig $appConfig,
-		IConfig $config,
-		DiscoveryManager $discoveryManager,
-		Parser $wopiParser,
-		CapabilitiesService $capabilitiesService,
-		DemoService $demoService,
-		FontService $fontService,
-		LoggerInterface $logger,
-		$userId
+		private IL10N $l10n,
+		private AppConfig $appConfig,
+		private IConfig $config,
+		private ConnectivityService $connectivityService,
+		private DiscoveryService $discoveryService,
+		private CapabilitiesService $capabilitiesService,
+		private DemoService $demoService,
+		private FontService $fontService,
+		private LoggerInterface $logger,
+		private ?string $userId
 	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->appConfig = $appConfig;
-		$this->config = $config;
-		$this->discoveryManager = $discoveryManager;
-		$this->wopiParser = $wopiParser;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->demoService = $demoService;
-		$this->logger = $logger;
-		$this->userId = $userId;
-		$this->fontService = $fontService;
-		$this->request = $request;
 	}
 
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @throws \Exception
-	 */
-	public function checkSettings() {
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function checkSettings(): DataResponse {
 		try {
-			$response = $this->discoveryManager->fetchFromRemote();
+			$output = new NullOutput();
+			$this->connectivityService->testDiscovery($output);
+			$this->connectivityService->testCapabilities($output);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
 				'status' => $e->getCode(),
-				'message' => 'Could not fetch discovery details'
+				'data' => [
+					// FIXME ONLY AS ADMIN
+					'message' => 'Failed to connect to the remote server: ' . $e->getMessage(),
+					'settings' => $this->getSettingsData(),
+				],
 			], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
-		return new DataResponse();
+		return new DataResponse([
+			'status' => 'success',
+			'data' => [
+				'settings' => $this->getSettingsData(),
+			]
+		]);
 	}
 
-	public function demoServers() {
+	public function demoServers(): DataResponse {
 		$demoServers = $this->demoService->fetchDemoServers(true);
 		if (count($demoServers) > 0) {
 			return new DataResponse($demoServers);
 		}
-		return new NotFoundResponse();
+		return new DataResponse([], Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 *
-	 * @return JSONResponse
-	 */
-	public function getSettings() {
-		return new JSONResponse([
-			'wopi_url' => $this->appConfig->getAppValue('wopi_url'),
+	#[NoAdminRequired]
+	public function getSettings(): JSONResponse {
+		return new JSONResponse($this->getSettingsData());
+	}
+
+	private function getSettingsData(): array {
+		return [
+			'wopi_url' => $this->appConfig->getCollaboraUrlInternal(),
+			'public_wopi_url' => $this->appConfig->getCollaboraUrlPublic(),
+			'wopi_callback_url' => $this->appConfig->getNextcloudUrl(),
 			'wopi_allowlist' => $this->appConfig->getAppValue('wopi_allowlist'),
-			'public_wopi_url' => $this->appConfig->getAppValue('public_wopi_url'),
 			'disable_certificate_verification' => $this->appConfig->getAppValue('disable_certificate_verification') === 'yes',
 			'edit_groups' => $this->appConfig->getAppValue('edit_groups'),
 			'use_groups' => $this->appConfig->getAppValue('use_groups'),
 			'doc_format' => $this->appConfig->getAppValue('doc_format'),
-		]);
+			'product_name' => $this->capabilitiesService->getServerProductName(),
+			'product_version' => $this->capabilitiesService->getProductVersion(),
+			'product_hash' => $this->capabilitiesService->getProductHash(),
+		];
 	}
 
-	/**
-	 * @param string $wopi_url
-	 * @param string $disable_certificate_verification
-	 * @param string $edit_groups
-	 * @param string $use_groups
-	 * @param string $doc_format
-	 * @param string $external_apps
-	 * @param string $canonical_webroot
-	 * @return JSONResponse
-	 */
-	public function setSettings($wopi_url,
-		$wopi_allowlist,
-		$disable_certificate_verification,
-		$edit_groups,
-		$use_groups,
-		$doc_format,
-		$external_apps,
-		$canonical_webroot) {
-		$message = $this->l10n->t('Saved');
-
+	public function setSettings(
+		?string $wopi_url,
+		?string $wopi_allowlist,
+		?bool $disable_certificate_verification,
+		?string $edit_groups,
+		?string $use_groups,
+		?string $doc_format,
+		?string $external_apps,
+		?string $canonical_webroot
+	): JSONResponse {
 		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
 		}
@@ -170,7 +141,7 @@ class SettingsController extends Controller {
 		if ($disable_certificate_verification !== null) {
 			$this->appConfig->setAppValue(
 				'disable_certificate_verification',
-				$disable_certificate_verification === true ? 'yes' : ''
+				$disable_certificate_verification ? 'yes' : ''
 			);
 		}
 
@@ -194,47 +165,30 @@ class SettingsController extends Controller {
 			$this->appConfig->setAppValue('canonical_webroot', $canonical_webroot);
 		}
 
-		$this->discoveryManager->refetch();
-		$this->capabilitiesService->clear();
 		try {
-			$capaUrlSrc = $this->wopiParser->getUrlSrc('Capabilities');
-			if (is_array($capaUrlSrc) && $capaUrlSrc['action'] === 'getinfo') {
-				$public_wopi_url = str_replace('/hosting/capabilities', '', $capaUrlSrc['urlsrc']);
-				if ($public_wopi_url !== null) {
-					$this->appConfig->setAppValue('public_wopi_url', $public_wopi_url);
-					$colon = strpos($public_wopi_url, ':', 0);
-					if ($this->request->getServerProtocol() !== substr($public_wopi_url, 0, $colon)) {
-						$message = $this->l10n->t('Saved with error: Collabora Online should expose the same protocol as the server installation. Please check the ssl.enable and ssl.termination settings of your Collabora Online server.');
-					}
-				}
-			}
-		} catch (\Exception $e) {
-			if ($wopi_url !== null) {
-				return new JSONResponse([
-					'status' => 'error',
-					'data' => ['message' => 'Failed to connect to the remote server']
-				], 500);
-			}
-		}
-
-		$this->capabilitiesService->clear();
-		$this->capabilitiesService->refetch();
-		if ($this->capabilitiesService->getCapabilities() === []) {
+			$output = new NullOutput();
+			$this->connectivityService->testDiscovery($output);
+			$this->connectivityService->testCapabilities($output);
+			$this->connectivityService->autoConfigurePublicUrl();
+		} catch (\Throwable $e) {
 			return new JSONResponse([
 				'status' => 'error',
-				'data' => ['message' => 'Failed to connect to the remote server', 'hint' => 'missing_capabilities']
+				'data' => ['message' => 'Failed to connect to the remote server: ' . $e->getMessage()]
 			], 500);
 		}
 
 		$response = [
 			'status' => 'success',
-			'data' => ['message' => $message]
+			'data' => [
+				'message' => $this->l10n->t('Saved'),
+				'settings' => $this->getSettingsData(),
+			]
 		];
 
 		return new JSONResponse($response);
 	}
 
-	public function updateWatermarkSettings($settings = []) {
+	public function updateWatermarkSettings($settings = []): JSONResponse {
 		$supportedOptions = [
 			'watermark_text',
 			'watermark_enabled',

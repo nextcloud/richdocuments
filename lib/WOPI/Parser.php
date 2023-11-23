@@ -21,40 +21,37 @@
 
 namespace OCA\Richdocuments\WOPI;
 
+use Exception;
+use OCA\Richdocuments\Service\DiscoveryService;
 use Psr\Log\LoggerInterface;
 
 class Parser {
-	/** @var DiscoveryManager */
-	private $discoveryManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/**
-	 * @param DiscoveryManager $discoveryManager
-	 * @param LoggerInterface $logger
-	 */
-	public function __construct(DiscoveryManager $discoveryManager, LoggerInterface $logger) {
-		$this->discoveryManager = $discoveryManager;
-		$this->logger = $logger;
+	public function __construct(
+		private DiscoveryService $discoveryService,
+		private LoggerInterface $logger
+	) {
 	}
 
 	/**
-	 * @param $mimetype
-	 * @return array
-	 * @throws \Exception
+	 * @throws Exception
 	 */
-	public function getUrlSrc($mimetype) {
-		$discovery = $this->discoveryManager->get();
-		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
-		if (\PHP_VERSION_ID < 80000) {
-			$loadEntities = libxml_disable_entity_loader(true);
-			$discoveryParsed = simplexml_load_string($discovery);
-			libxml_disable_entity_loader($loadEntities);
-		} else {
-			$discoveryParsed = simplexml_load_string($discovery);
-		}
+	public function getUrlSrcValue(string $appName): string {
+		$result = $this->getUrlSrc($appName)['urlsrc'];
 
+		// Fix for potentially escaped urls that are misconfigured on the Collabora docker image
+		// https://github.com/nextcloud/richdocuments/issues/3262
+		$result = str_replace('\.', '.', $result);
+
+		return (string)$result;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	private function getUrlSrc(string $mimetype): array {
+		$discovery = $this->discoveryService->get();
+		$this->logger->debug('WOPI::getUrlSrc discovery: {discovery}', ['discovery' => $discovery]);
+		$discoveryParsed = simplexml_load_string($discovery);
 
 		$result = $discoveryParsed->xpath(sprintf('/wopi-discovery/net-zone/app[@name=\'%s\']/action', $mimetype));
 		if ($result && count($result) > 0) {
@@ -65,6 +62,6 @@ class Parser {
 		}
 
 		$this->logger->error('Didn\'t find urlsrc for mimetype {mimetype} in this WOPI discovery response: {discovery}', ['mimetype' => $mimetype, 'discovery' => $discovery]);
-		throw new \Exception('Could not find urlsrc in WOPI');
+		throw new Exception('Could not find urlsrc for ' . $mimetype . ' in WOPI discovery response');
 	}
 }
