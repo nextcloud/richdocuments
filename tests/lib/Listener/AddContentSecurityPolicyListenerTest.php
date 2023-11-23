@@ -65,6 +65,9 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 		$this->overwriteService(FederationService::class, $this->federationService);
 
 		$this->request = $this->createMock(IRequest::class);
+		$this->request->method('getPathInfo')
+			->willReturn('/apps/files');
+
 		$this->config = $this->getMockBuilder(AppConfig::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),

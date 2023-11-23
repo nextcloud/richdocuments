@@ -64,8 +64,6 @@ class SettingsController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	#[PublicPage]
-	#[NoCSRFRequired]
 	public function checkSettings(): DataResponse {
 		try {
 			$output = new NullOutput();
@@ -76,7 +74,6 @@ class SettingsController extends Controller {
 			return new DataResponse([
 				'status' => $e->getCode(),
 				'data' => [
-					// FIXME ONLY AS ADMIN
 					'message' => 'Failed to connect to the remote server: ' . $e->getMessage(),
 					'settings' => $this->getSettingsData(),
 				],

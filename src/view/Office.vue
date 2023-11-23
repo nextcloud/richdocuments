@@ -171,7 +171,7 @@ export default {
 	},
 	computed: {
 		showIframe() {
-			return this.loading >= LOADING_STATE.FRAME_READY
+			return this.loading >= LOADING_STATE.FRAME_READY || this.debug
 		},
 		showLoadingIndicator() {
 			return this.loading < LOADING_STATE.FRAME_READY
