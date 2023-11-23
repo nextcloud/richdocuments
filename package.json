@@ -1,7 +1,7 @@
 {
   "name": "richdocuments",
   "description": "Collabora online integration",
-  "version": "8.3.0-beta.1",
+  "version": "8.4.0-dev",
   "authors": [
     {
       "name": "Julius Härtl",
