@@ -206,7 +206,7 @@ class AppConfig {
 			$this->getGSDomains()
 		);
 
-		return array_filter($urls);
+		return array_map(fn ($url) => idn_to_ascii($url), array_filter($urls));
 	}
 
 	private function getFederationDomains(): array {
