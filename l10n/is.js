@@ -48,6 +48,7 @@ OC.L10N.register(
     "Submit" : "Senda inn",
     "Description" : "Lýsing",
     "No results" : "Engar niðurstöður",
+    "Select file or folder to link to" : "Veldu skrá eða möppu til að tengja í",
     "Cancel" : "Hætta við",
     "Close" : "Loka",
     "Failed to load {productName} - please try again later" : "Mistókst að hlaða inn {productName} - reyndu aftur síðar",
