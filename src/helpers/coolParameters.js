@@ -33,7 +33,7 @@ const getUIDefaults = () => {
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
 	uiDefaults += 'TextSidebar=' + sidebar + ';TextStatusbar=' + statusBar + ';'
 	uiDefaults += 'PresentationSidebar=' + sidebar + ';PresentationStatusbar=' + statusBar + ';'
-	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=' + statusBar + ';'
+	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=true;'
 	uiDefaults += 'UIMode=' + uiMode + ';'
 	uiDefaults += 'SaveAsMode=' + saveAsMode + ';'
 	return uiDefaults
