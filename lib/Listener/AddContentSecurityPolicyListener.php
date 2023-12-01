@@ -59,11 +59,19 @@ class AddContentSecurityPolicyListener implements IEventListener {
 			$policy->addAllowedImageDomain($url);
 		}
 
+		if ($this->isSettingsPage()) {
+			$policy->addAllowedConnectDomain("*");
+		}
+
 		$event->addPolicy($policy);
 	}
 
 	private function isPageLoad(): bool {
 		$scriptNameParts = explode('/', $this->request->getScriptName());
 		return end($scriptNameParts) === 'index.php';
+	}
+
+	private function isSettingsPage(): bool {
+		return str_starts_with($this->request->getPathInfo(), '/settings/admin/richdocuments');
 	}
 }

@@ -97,6 +97,13 @@ class WOPIMiddleware extends Middleware {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($controller instanceof WopiController) {
+			$this->logger->error('Uncaught error: ' . $exception->getMessage(), [ 'exception' => $exception ]);
+			return new JSONResponse([
+				'message' => 'Error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
 		throw $exception;
 	}
 

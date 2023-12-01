@@ -45,8 +45,8 @@ use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
 use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
-use OCA\Richdocuments\WOPI\DiscoveryManager;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
@@ -220,10 +220,10 @@ class Application extends App implements IBootstrap {
 			$appConfig->setAppValue('wopi_url', $new_wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');
 
-			$discoveryManager = $this->getContainer()->get(DiscoveryManager::class);
+			$discoveryService = $this->getContainer()->get(DiscoveryService::class);
 			$capabilitiesService = $this->getContainer()->get(CapabilitiesService::class);
 
-			$discoveryManager->refetch();
+			$discoveryService->refetch();
 			$capabilitiesService->clear();
 			$capabilitiesService->refetch();
 		}

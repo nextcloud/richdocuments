@@ -797,6 +797,8 @@ $(document).ready(function() {
 
 	OCA.RichDocuments.documentsMain = documentsMain
 
+	Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
+
 	if (shouldAskForGuestName()) {
 		PostMessages.sendPostMessage('parent', 'NC_ShowNamePicker')
 		$('#documents-content').guestNamePicker()

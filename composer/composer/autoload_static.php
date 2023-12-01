@@ -76,7 +76,9 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Preview\\Pdf' => __DIR__ . '/..' . '/../lib/Preview/Pdf.php',
         'OCA\\Richdocuments\\Reference\\OfficeTargetReferenceProvider' => __DIR__ . '/..' . '/../lib/Reference/OfficeTargetReferenceProvider.php',
         'OCA\\Richdocuments\\Service\\CapabilitiesService' => __DIR__ . '/..' . '/../lib/Service/CapabilitiesService.php',
+        'OCA\\Richdocuments\\Service\\ConnectivityService' => __DIR__ . '/..' . '/../lib/Service/ConnectivityService.php',
         'OCA\\Richdocuments\\Service\\DemoService' => __DIR__ . '/..' . '/../lib/Service/DemoService.php',
+        'OCA\\Richdocuments\\Service\\DiscoveryService' => __DIR__ . '/..' . '/../lib/Service/DiscoveryService.php',
         'OCA\\Richdocuments\\Service\\FederationService' => __DIR__ . '/..' . '/../lib/Service/FederationService.php',
         'OCA\\Richdocuments\\Service\\FileTargetService' => __DIR__ . '/..' . '/../lib/Service/FileTargetService.php',
         'OCA\\Richdocuments\\Service\\FontService' => __DIR__ . '/..' . '/../lib/Service/FontService.php',
@@ -90,7 +92,6 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Template\\CollaboraTemplateProvider' => __DIR__ . '/..' . '/../lib/Template/CollaboraTemplateProvider.php',
         'OCA\\Richdocuments\\TokenManager' => __DIR__ . '/..' . '/../lib/TokenManager.php',
         'OCA\\Richdocuments\\UploadException' => __DIR__ . '/..' . '/../lib/UploadException.php',
-        'OCA\\Richdocuments\\WOPI\\DiscoveryManager' => __DIR__ . '/..' . '/../lib/WOPI/DiscoveryManager.php',
         'OCA\\Richdocuments\\WOPI\\Parser' => __DIR__ . '/..' . '/../lib/WOPI/Parser.php',
     );
 

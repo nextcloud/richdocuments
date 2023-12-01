@@ -51,6 +51,12 @@
       <code><![CDATA[$app !== '']]></code>
     </RedundantCondition>
   </file>
+  <file src="lib/Controller/SettingsController.php">
+    <UndefinedClass>
+      <code>NullOutput</code>
+      <code>NullOutput</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Controller/TemplatesController.php">
     <InvalidReturnStatement>
       <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
@@ -113,6 +119,12 @@
     <MissingDependency>
       <code>Office</code>
     </MissingDependency>
+  </file>
+  <file src="lib/Service/ConnectivityService.php">
+    <UndefinedClass>
+      <code>OutputInterface</code>
+      <code>OutputInterface</code>
+    </UndefinedClass>
   </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>

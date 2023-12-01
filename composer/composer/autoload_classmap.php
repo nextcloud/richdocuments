@@ -61,7 +61,9 @@ return array(
     'OCA\\Richdocuments\\Preview\\Pdf' => $baseDir . '/../lib/Preview/Pdf.php',
     'OCA\\Richdocuments\\Reference\\OfficeTargetReferenceProvider' => $baseDir . '/../lib/Reference/OfficeTargetReferenceProvider.php',
     'OCA\\Richdocuments\\Service\\CapabilitiesService' => $baseDir . '/../lib/Service/CapabilitiesService.php',
+    'OCA\\Richdocuments\\Service\\ConnectivityService' => $baseDir . '/../lib/Service/ConnectivityService.php',
     'OCA\\Richdocuments\\Service\\DemoService' => $baseDir . '/../lib/Service/DemoService.php',
+    'OCA\\Richdocuments\\Service\\DiscoveryService' => $baseDir . '/../lib/Service/DiscoveryService.php',
     'OCA\\Richdocuments\\Service\\FederationService' => $baseDir . '/../lib/Service/FederationService.php',
     'OCA\\Richdocuments\\Service\\FileTargetService' => $baseDir . '/../lib/Service/FileTargetService.php',
     'OCA\\Richdocuments\\Service\\FontService' => $baseDir . '/../lib/Service/FontService.php',
@@ -75,6 +77,5 @@ return array(
     'OCA\\Richdocuments\\Template\\CollaboraTemplateProvider' => $baseDir . '/../lib/Template/CollaboraTemplateProvider.php',
     'OCA\\Richdocuments\\TokenManager' => $baseDir . '/../lib/TokenManager.php',
     'OCA\\Richdocuments\\UploadException' => $baseDir . '/../lib/UploadException.php',
-    'OCA\\Richdocuments\\WOPI\\DiscoveryManager' => $baseDir . '/../lib/WOPI/DiscoveryManager.php',
     'OCA\\Richdocuments\\WOPI\\Parser' => $baseDir . '/../lib/WOPI/Parser.php',
 );

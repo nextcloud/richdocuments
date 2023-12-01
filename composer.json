@@ -9,7 +9,8 @@
 		}
 	},
 	"require": {
-		"ext-json": "*"
+		"ext-json": "*",
+		"ext-simplexml": "*"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",

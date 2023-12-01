@@ -29,21 +29,13 @@ use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\DB\Types;
-use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ConvertToBigInt extends Command {
-	/** @var IDBConnection */
-	private $connection;
-
-	/**
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
+	public function __construct(private Connection $connection) {
 		parent::__construct();
 	}
 
