@@ -37,6 +37,6 @@ class ObtainCapabilities extends TimedJob {
 	}
 
 	protected function run($argument) {
-		$this->capabilitiesService->refetch();
+		$this->capabilitiesService->fetchFromRemote();
 	}
 }

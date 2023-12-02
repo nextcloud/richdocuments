@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
 use OCP\AppFramework\Services\IInitialState;
@@ -37,6 +38,7 @@ class InitialStateService {
 
 	public function __construct(
 		private IInitialState $initialState,
+		private AppConfig $appConfig,
 		private CapabilitiesService $capabilitiesService,
 		private IURLGenerator $urlGenerator,
 		private Defaults $themingDefaults,
@@ -54,6 +56,7 @@ class InitialStateService {
 		$this->initialState->provideInitialState('hasDrawSupport', $this->capabilitiesService->hasDrawSupport());
 		$this->initialState->provideInitialState('hasNextcloudBranding', $this->capabilitiesService->hasNextcloudBranding());
 		$this->initialState->provideInitialState('instanceId', $this->config->getSystemValue('instanceid'));
+		$this->initialState->provideInitialState('wopi_callback_url', $this->appConfig->getNextcloudUrl());
 
 		$this->provideOptions();
 
