@@ -30,6 +30,7 @@
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online es una poderosa suite de ofimática basada en LibreOffice con edición colaborativa, que soporta todos los grandes formatos de archivo de documentos, hojas de cálculo y presentaciones y funciona con todos los navegadores modernos. ",
     "URL (and Port) of Collabora Online-server" : "URL (y puerto) del servidor de Collabora Online",
     "Disable certificate verification (insecure)" : "Deshabilitar la verificación de certificado (inseguro)",
+    "Enable if your Collabora Online server uses a self signed certificate" : "Habilitar si tu servidor Collabora Online usa un certificado autofirmado",
     "Advanced settings" : "Configuraciones avanzadas",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Usar Office Open XML (OOXML) en lugar del Formato de OpenDocument (ODF) por omisión para nuevos archivos",
     "Restrict usage to specific groups" : "Limitar uso a grupos específicos",
