@@ -35,6 +35,7 @@ OC.L10N.register(
     "Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers." : "Collabora Online er öflugur vöndull vinnuforrita byggður á LibreOffice og er með hópvinnslueiginleikum sem styðja við skráasnið allra helstu gerða skjala, töflureikna og kynninga, auk þess að virka í öllum nútímalegum vöfrum.",
     "URL (and Port) of Collabora Online-server" : "URL-slóð (og gátt) Collabora Online þjónsins",
     "Disable certificate verification (insecure)" : "Gera sannvottun skilríkja óvirka (óöruggt)",
+    "Enable if your Collabora Online server uses a self signed certificate" : "Virkja þetta ef Collabora Online þjónninn notar skilríki undirritað af handhafa",
     "Advanced settings" : "Ítarlegri valkostir",
     "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Nota Office Open XML (OOXML) í stað OpenDocument Format (ODF) sjálfgefið fyrir nýjar skrár",
     "Restrict usage to specific groups" : "Takmarka notkun við tiltekna hópa",
