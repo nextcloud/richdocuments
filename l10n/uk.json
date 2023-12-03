@@ -49,6 +49,7 @@
     "Setting up a new server" : "Налаштування нового сервера",
     "Collabora Online should use the same protocol as the server installation." : "Collabora Online має використовувати той самий протокол, що й інсталяція сервера.",
     "Collabora Online server is reachable." : "Сервер Collabora Online доступний.",
+    "Nextcloud URL used by Collabora:" : "URL Nextcloud для Collabora:",
     "Please configure a Collabora Online server to start editing documents" : "Щоб розпочати редагування документів, налаштуйте сервер Collabora Online",
     "You have not configured the allow-list for WOPI requests. Without this setting users may download restricted files via WOPI requests to the Nextcloud server." : "Не налаштовано список дозволу запитів WOPI. Якщо ці налаштування не буде сконфігуровано, користувачі матимуть змогу звантажувати файли, які мають обмеження, за допомогою запитів WOPI на сервері Nextcloud.",
     "Click here for more info" : "Клацніть тут для отримання додаткової інформації",
