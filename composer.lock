@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "650c94318e59b6b1bd4cc249ab7fe594",
+    "content-hash": "bc193c65f073be6b302fb48012e0a8ae",
     "packages": [],
     "packages-dev": [
         {
@@ -236,12 +236,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "86756191911b33909cc35ca30f1c1ec9d24280ea"
+                "reference": "93f6f51ffbea79808c76a2752ee4a064f997b85f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/86756191911b33909cc35ca30f1c1ec9d24280ea",
-                "reference": "86756191911b33909cc35ca30f1c1ec9d24280ea",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/93f6f51ffbea79808c76a2752ee4a064f997b85f",
+                "reference": "93f6f51ffbea79808c76a2752ee4a064f997b85f",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
                 "source": "https://github.com/nextcloud-deps/ocp/tree/stable28"
             },
-            "time": "2023-11-24T00:32:24+00:00"
+            "time": "2023-12-01T00:37:03+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2840,7 +2840,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
