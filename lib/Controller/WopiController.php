@@ -386,9 +386,8 @@ class WopiController extends Controller {
 			$file = $this->getFileForWopiToken($wopi);
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
-				$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
 				$versionManager = \OC::$server->get(IVersionManager::class);
-				$info = $versionManager->getVersionFile($userFolder->getOwner(), $file, $version);
+				$info = $versionManager->getVersionFile($this->userManager->get($wopi->getUserForFileAccess()), $file, $version);
 				if ($info->getSize() === 0) {
 					$response = new Http\Response();
 				} else {
