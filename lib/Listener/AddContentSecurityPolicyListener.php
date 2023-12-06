@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Listener;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -36,6 +37,7 @@ class AddContentSecurityPolicyListener implements IEventListener {
 	public function __construct(
 		private IRequest $request,
 		private AppConfig $config,
+		private CapabilitiesService $capabilitiesService,
 	) {
 	}
 
@@ -51,7 +53,10 @@ class AddContentSecurityPolicyListener implements IEventListener {
 		$policy = new EmptyContentSecurityPolicy();
 		$policy->addAllowedFrameDomain("'self'");
 		$policy->addAllowedFrameDomain("nc:");
-		$policy->allowEvalWasm(true);
+
+		if ($this->capabilitiesService->hasWASMSupport()) {
+			$policy->allowEvalWasm(true);
+		}
 
 		foreach ($this->config->getDomainList() as $url) {
 			$policy->addAllowedFrameDomain($url);
