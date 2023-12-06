@@ -7,17 +7,24 @@ namespace OCA\Richdocuments\Listener;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCA\Richdocuments\Service\CapabilitiesService;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent|Event> */
 class BeforeTemplateRenderedListener implements IEventListener {
+	private CapabilitiesService $capabilitiesService;
+
+	public function __construct(CapabilitiesService $capabilitiesService) {
+		$this->capabilitiesService = $capabilitiesService;
+	}
+
 	public function handle(Event $event): void {
 		if (!$event instanceof BeforeTemplateRenderedEvent) {
 			return;
 		}
 
-		// FIXME: Might be too wide, we should only do this when needed
-
-		//$event->getResponse()->addHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
-		//$event->getResponse()->addHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+		if ($this->capabilitiesService->hasWASMSupport()) {
+			$event->getResponse()->addHeader('Cross-Origin-Opener-Policy', 'same-origin');
+			$event->getResponse()->addHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+		}
 	}
 }
