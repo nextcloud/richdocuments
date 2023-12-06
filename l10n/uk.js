@@ -110,7 +110,7 @@ OC.L10N.register(
     "Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured" : "Файли все одно можна буде звантажити через запити WOPI, якщо відповідні налаштування не здійснено належним чином.",
     "Previews will be blocked for watermarked files to not leak the first page of documents" : "Для файлів, що містять водяні знаки, попередній перегляд буде вимкнено, щоби не показувати першу сторінку документів.",
     "Enable watermarking" : "Увімкнути водяний знак",
-    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Підтримувані заповнювачі: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Підтримувані шаблони заміни: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Показувати водяний знак на файлах із мітками",
     "Select tags to enforce watermarking" : "Виберіть мітки для застосування водяних знаків",
     "Show watermark for users of groups" : "Показувати водяний знак для користувачів груп",
