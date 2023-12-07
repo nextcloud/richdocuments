@@ -150,9 +150,9 @@ export default {
 	},
 
 	rename(newName) {
-		this.updateFileInfo(newName, Date.now())
+		this.updateFileInfo(decodeURIComponent(newName), Date.now())
 
-		this.fileName = newName
+		this.fileName = decodeURIComponent(newName)
 
 		if (this.handlers.rename && this.handlers.rename(this)) {
 			return
