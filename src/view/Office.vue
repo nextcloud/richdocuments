@@ -356,7 +356,7 @@ export default {
 				FilesAppIntegration.createNewFile(args.DocumentType)
 				break
 			case 'File_Rename':
-				FilesAppIntegration.rename(args.NewName)
+				FilesAppIntegration.rename(decodeURIComponent(args.NewName))
 				break
 			case 'UI_FileVersions':
 				FilesAppIntegration.showRevHistory()

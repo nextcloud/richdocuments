@@ -506,6 +506,10 @@ export default {
 		const node = await this.getFileNode()
 
 		if (node) {
+			if (name) {
+				node.rename(name)
+				emit('files:node:renamed', this.source)
+			}
 			if (mtime) {
 				node._data.mtime = new Date(mtime)
 			}
