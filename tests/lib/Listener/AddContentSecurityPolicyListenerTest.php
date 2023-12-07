@@ -27,6 +27,7 @@ declare(strict_types=1);
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -53,6 +54,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 	private $gsConfig;
 	/** @var FederationService|MockObject */
 	private $federationService;
+	private CapabilitiesService|MockObject $capabilitiesService;
 	private AddContentSecurityPolicyListener $listener;
 
 	public function setUp(): void {
@@ -76,11 +78,12 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 			])
 			->onlyMethods(['getCollaboraUrlPublic', 'getGlobalScaleTrustedHosts'])
 			->getMock();
-
+		$this->capabilitiesService = $this->createMock(CapabilitiesService::class);
 
 		$this->listener = new AddContentSecurityPolicyListener(
 			$this->request,
 			$this->config,
+			$this->capabilitiesService,
 		);
 	}
 
@@ -227,5 +230,25 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 		sort($expected);
 		sort($actual);
 		self::assertSame($expected, $actual, $msg);
+	}
+
+	public function testWasm() {
+		$this->expectPageLoad();
+		$this->capabilitiesService->method('hasWASMSupport')
+			->willReturn(true);
+
+		$policy = $this->getMergedPolicy();
+
+		self::assertTrue(str_contains($policy->buildPolicy(), ' \'wasm-unsafe-eval\''));
+	}
+
+	public function testNoWasm() {
+		$this->expectPageLoad();
+		$this->capabilitiesService->method('hasWASMSupport')
+			->willReturn(false);
+
+		$policy = $this->getMergedPolicy();
+
+		self::assertTrue(!str_contains($policy->buildPolicy(), ' \'wasm-unsafe-eval\''));
 	}
 }

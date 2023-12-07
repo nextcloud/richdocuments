@@ -114,6 +114,10 @@ class CapabilitiesService {
 		return $this->getCapabilities()['hasZoteroSupport'] ?? false;
 	}
 
+	public function hasWASMSupport(): bool {
+		return $this->getCapabilities()['hasWASMSupport'] ?? false;
+	}
+
 	public function getProductName(): string {
 		$theme = $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud');
 
