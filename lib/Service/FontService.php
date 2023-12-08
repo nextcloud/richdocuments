@@ -261,7 +261,7 @@ class FontService {
 		}
 
 		while (false !== ($fileName = readdir($handle))) {
-			if ($fileName === '.' || $fileName === '..') {
+			if (\str_starts_with($fileName, '.') || \str_ends_with($fileName, '.txt')) {
 				continue;
 			}
 

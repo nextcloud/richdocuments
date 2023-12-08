@@ -18,7 +18,7 @@ class InstallDefaultFonts implements IRepairStep {
 	public function run(IOutput $output): void {
 		$appVersion = $this->config->getAppValue('richdocuments', 'installed_version');
 
-		if (!empty($appVersion) && version_compare($appVersion, '8.2.2') < 1) {
+		if (!empty($appVersion) && version_compare($appVersion, '8.3.0', '>')) {
 			return;
 		}
 
