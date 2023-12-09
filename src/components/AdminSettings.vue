@@ -527,7 +527,7 @@ export default {
 		fontXmlHint() {
 			return `
 <remote_font_config>
-	<url desc="URL of optional JSON file that lists fonts to be included in Online" type="string" default="">${this.fontHintUrl}</url>
+	<url>${this.fontHintUrl}</url>
 </remote_font_config>
 			`
 		},

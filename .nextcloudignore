@@ -1,4 +1,5 @@
 src
+build
 .git
 tests
 node_modules

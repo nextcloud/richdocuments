@@ -21,6 +21,7 @@ import { User } from '@nextcloud/cypress'
 
 const usesHttps = Cypress.env('baseUrl').substr(0, 5) === 'https'
 const collaboraUrl = Cypress.env('collaboraUrl')
+const defaultFonts = ['AmaticSC-Regular.ttf']
 
 describe('Office admin settings', function() {
 
@@ -78,6 +79,13 @@ describe('Office admin settings', function() {
 		cy.get('#secure-view-settings')
 			.scrollIntoView()
 			.should('be.visible')
+
+		cy.get('#font-settings')
+			.scrollIntoView()
+			.should('be.visible')
+		defaultFonts.forEach(font => {
+			cy.get('.settings-entry.font-list-settings').contains(font)
+		})
 
 		// FIXME: Template settings only get visible after reload
 		cy.reload()

@@ -31,10 +31,16 @@ You can also edit your documents off-line with the Collabora Office app from the
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>
 		<job>OCA\Richdocuments\Backgroundjobs\Cleanup</job>
 	</background-jobs>
+	<repair-steps>
+		<install>
+			<step>OCA\Richdocuments\Migration\InstallDefaultFonts</step>
+		</install>
+	</repair-steps>
 	<commands>
 		<command>OCA\Richdocuments\Command\ActivateConfig</command>
 		<command>OCA\Richdocuments\Command\ConvertToBigInt</command>
 		<command>OCA\Richdocuments\Command\UpdateEmptyTemplates</command>
+		<command>OCA\Richdocuments\Command\InstallDefaultFonts</command>
 	</commands>
 	<settings>
 		<admin>OCA\Richdocuments\Settings\Admin</admin>
