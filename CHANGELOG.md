@@ -1,5 +1,22 @@
 # Changelog
 
+## 8.3.0-beta.2
+
+### Added
+
+- Add preview provider for emf files @kesselb [#3303](https://github.com/nextcloud/richdocuments/pull/3303)
+- Improve setup checks and url handling with separate callback url [#3333](https://github.com/nextcloud/richdocuments/pull/3333)
+- Ship default fonts [#3351](https://github.com/nextcloud/richdocuments/pull/3351)
+
+### Fixed
+
+- fix: Set proper user scope for direct editing @juliushaertl [#3293](https://github.com/nextcloud/richdocuments/pull/3293)
+- fix: Avoid fetching webdav on public links @juliushaertl [#3296](https://github.com/nextcloud/richdocuments/pull/3296)
+- fix: Set expect guzzle option to false @juliushaertl [#3298](https://github.com/nextcloud/richdocuments/pull/3298)
+- fix: Fix version access with new version backend on shared files [#3339](https://github.com/nextcloud/richdocuments/pull/3339)
+- fix: Make rename update the file list properly on files2vue [#3346](https://github.com/nextcloud/richdocuments/pull/3346)
+- fix: Do not fail if node has no owner @juliushaertl [#3278](https://github.com/nextcloud/richdocuments/pull/3278)
+
 ## 8.3.0-beta.1
 
 ### Added
