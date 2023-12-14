@@ -215,7 +215,7 @@ OC.L10N.register(
     "Remove Zotero API Key" : "移除 Zotero API 金鑰",
     "To use Zotero specify your API key here. You can create your API key in your" : "要使用 Zotero，請在此處指定您的 API 金鑰。您可以建立 API 金鑰，在您的",
     "Zotero account API settings." : "Zotero 帳號 API 設定。",
-    "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "此站台不支援˙ Zotero，因為缺少功能或已停用。請聯絡管理員。",
+    "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "此站台不支援 Zotero，因為缺少功能或已停用。請聯絡管理員。",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "儲存時發生錯誤：Collabora Online 應該使用與伺服器安裝相同的協定。",
     "Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: " : "無法建立到 Collabora Online 伺服器的連線。這可能是因為您網路伺服器的設定遺失的關係。要取得更多資訊，請造訪：",
     "Nextcloud Office requires a seperate server running Collabora Online to provide editing capabilities." : "Nextcloud Office 需要一台執行 Collabora Online 的獨立伺服器來提供編輯功能。",
