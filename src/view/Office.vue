@@ -350,7 +350,9 @@ export default {
 				})
 				break
 			case 'UI_Mention':
-				this.uiMention(parsed.args.text)
+				if (parsed.args.type === 'autocomplete') {
+					this.uiMention(parsed.args.text)
+				}
 				break
 			case 'UI_CreateFile':
 				FilesAppIntegration.createNewFile(args.DocumentType)
