@@ -10,6 +10,7 @@ updates:
   open-pull-requests-limit: 10
   reviewers:
   - juliushaertl
+  - luka-nextcloud
 - package-ecosystem: composer
   directory: "/"
   schedule:
