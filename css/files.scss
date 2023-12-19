@@ -21,10 +21,10 @@
 #richdocumentsframe {
 	background-color: #fff;
 	width:100%;
-	height: calc(100vh - 50px + 3px);
+	height: 100vh;
 	display:block;
 	position:absolute;
-	top: -3px;
+	top: 0px;
 	left: 0;
 	z-index:110;
 	&.full {
