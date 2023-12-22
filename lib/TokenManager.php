@@ -105,11 +105,11 @@ class TokenManager {
 				throw new ShareNotFound();
 			}
 
-			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
-			$hideDownload = $share->getHideDownload();
 			$owneruid = $share->getShareOwner();
+			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
+			$updatable = $updatable && $this->permissionManager->userCanEdit($owneruid);
+			$hideDownload = $share->getHideDownload();
 			$rootFolder = $this->rootFolder->getUserFolder($owneruid);
-
 		} elseif ($this->userId !== null) {
 			try {
 				$editoruid = $this->userId;
