@@ -421,7 +421,7 @@ import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
 
-import '@nextcloud/dialogs/dist/index.css'
+import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl } from '../helpers/url.js'
 
 const SERVER_STATE_OK = 0
@@ -520,7 +520,7 @@ export default {
 		},
 		fontHint() {
 			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically.',
-				{ url: this.fontHintUrl }
+				{ url: this.fontHintUrl },
 			)
 		},
 		fontXmlHint() {
@@ -719,7 +719,7 @@ export default {
 			try {
 				const result = await axios.post(
 					generateFilePath('richdocuments', 'ajax', 'admin.php'),
-					data
+					data,
 				)
 
 				this.updating = false

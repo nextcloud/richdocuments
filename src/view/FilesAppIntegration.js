@@ -482,7 +482,7 @@ export default {
 			},
 			true,
 			t('richdocuments', 'New filename'),
-			false
+			false,
 		).then(function() {
 			const $dialog = parent.$('.oc-dialog:visible')
 			const $buttons = $dialog.find('button')
@@ -565,7 +565,7 @@ export default {
 			OCP.Files.Router.name,
 			{ ...OCP.Files.Router.params, fileid: fileId },
 			OCP.Files.Router.query,
-			true
+			true,
 		)
 	},
 
