@@ -223,9 +223,9 @@ class Application extends App implements IBootstrap {
 			$discoveryService = $this->getContainer()->get(DiscoveryService::class);
 			$capabilitiesService = $this->getContainer()->get(CapabilitiesService::class);
 
-			$discoveryService->refetch();
-			$capabilitiesService->clear();
-			$capabilitiesService->refetch();
+			$discoveryService->resetCache();
+			$capabilitiesService->resetCache();
+			$capabilitiesService->fetchFromRemote();
 		}
 	}
 }
