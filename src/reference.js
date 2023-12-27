@@ -19,6 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import './init-shared.js'
+
 import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 

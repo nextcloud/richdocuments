@@ -19,33 +19,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// FIXME: Migrate to vue component
+import { spawnDialog } from '@nextcloud/dialogs'
+import SaveAs from '../components/Modal/SaveAs.vue'
+
 export default {
 	methods: {
 		async saveAs(format) {
-			window.OC.dialogs.prompt(
-				t('richdocuments', 'Please enter the filename to store the document as.'),
-				t('richdocuments', 'Save As'),
-				(result, value) => {
-					if (result === true && value) {
-						this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true })
-					}
+			spawnDialog(
+				SaveAs,
+				{
+					path: this.filename,
+					format,
+					description: t('richdocuments', 'Save a copy of the file as a new name and continue editing the new file'),
 				},
-				true,
-				t('richdocuments', 'New filename'),
-				false,
-			).then(() => {
-				const $dialog = $('.oc-dialog:visible')
-				const $buttons = $dialog.find('.oc-dialog-buttonrow button')
-				$buttons.eq(0).text(t('richdocuments', 'Cancel'))
-				$buttons.eq(1).text(t('richdocuments', 'Save'))
-				const nameInput = $dialog.find('input')[0]
-				nameInput.style.minWidth = '250px'
-				nameInput.style.maxWidth = '400px'
-				nameInput.value = format ? this.basename.substring(0, this.basename.lastIndexOf('.') + 1) + format : this.basename
-				nameInput.selectionStart = 0
-				nameInput.selectionEnd = this.basename.lastIndexOf('.')
-			})
+				(value) => value && this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true }),
+			)
 		},
 	},
 }

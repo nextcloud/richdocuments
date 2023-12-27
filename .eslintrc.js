@@ -21,5 +21,8 @@ module.exports = {
 		'jsdoc/check-values': 'off',
 		'jsdoc/valid-types': 'off',
 		'jsdoc/no-undefined-types': 'off',
+		'jsdoc/require-param-description': 'off',
+		'jsdoc/require-param-type': 'off',
+		'jsdoc/require-property-description': 'off',
 	}
 }

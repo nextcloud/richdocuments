@@ -22,7 +22,7 @@
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
@@ -32,6 +32,7 @@ import {
 	davResultToNode,
 	davRootPath,
 } from '@nextcloud/files'
+import SaveAs from '../components/Modal/SaveAs.vue'
 
 const isPublic = document.getElementById('isPublic') && document.getElementById('isPublic').value === '1'
 
@@ -256,31 +257,6 @@ export default {
 		this.renderAvatars()
 	},
 
-	_addAvatarList() {
-		// Add the avatar toolbar if possible
-		const avatarList = $('<div id="richdocuments-avatars">')
-		avatarList.on('click', function(e) {
-			e.stopPropagation()
-			$('#editors-menu').toggle()
-		})
-		$('#richdocuments-header').append(avatarList)
-	},
-
-	_addHeaderShareButton() {
-		if ($('header').length) {
-			const isInverted = Boolean(window?.OCA?.Theming?.inverted)
-			const $button = $('<div id="richdocuments-sharing"><a class="icon-collabora icon-shared ' + (isInverted ? 'icon-black' : 'icon-white') + '"></a></div>')
-			$('#richdocuments-header').append($button)
-			$button.on('click', () => {
-				if (!$('#app-sidebar').is(':visible')) {
-					return this.share()
-				}
-				OC.Apps.hideAppSidebar()
-			})
-			$('.searchbox').hide()
-		}
-	},
-
 	_addHeaderFileActions() {
 		console.debug('[FilesAppIntegration] Adding header file actions')
 		OC.unregisterMenu($('#richdocuments-actions .icon-more'), $('#richdocuments-actions-menu'))
@@ -468,11 +444,15 @@ export default {
 			return
 		}
 
-		OC.dialogs.prompt(
-			t('richdocuments', 'Please enter the filename for the new document'),
-			t('richdocuments', 'Save As'),
-			function(result, value) {
-				if (result === true && value) {
+		spawnDialog(
+			SaveAs,
+			{
+				name: t('richdocuments', 'New file'),
+				description: t('richdocuments', 'Please enter the filename for the new file'),
+				buttonText: t('richdocuments', 'Create'),
+			},
+			(value) => {
+				if (value) {
 					if (type === 'text') {
 						type = 'document'
 					}
@@ -480,15 +460,7 @@ export default {
 					window.open(url, '_blank')
 				}
 			},
-			true,
-			t('richdocuments', 'New filename'),
-			false,
-		).then(function() {
-			const $dialog = parent.$('.oc-dialog:visible')
-			const $buttons = $dialog.find('button')
-			$buttons.eq(0).text(t('richdocuments', 'Cancel'))
-			$buttons.eq(1).text(t('richdocuments', 'Create a new document'))
-		})
+		)
 	},
 
 	loggingContext() {

@@ -1,5 +1,5 @@
+import './init-shared.js'
 import { emit } from '@nextcloud/event-bus'
-import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
@@ -18,6 +18,8 @@ import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
 
 import '../css/document.scss'
 import axios from '@nextcloud/axios'
+import { spawnDialog } from '@nextcloud/dialogs'
+import SaveAs from './components/Modal/SaveAs.vue'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,
@@ -472,13 +474,6 @@ const documentsMain = {
 					case 'File_Rename':
 						documentsMain.fileName = args.NewName
 						break
-					case 'Clicked_Button':
-						if (parsed.args.Id === 'Open_Local_Editor') {
-							documentsMain.UI.initiateOpenLocally()
-						} else {
-							console.debug('[document] Unhandled `Clicked_Button` post message', parsed)
-						}
-						break
 					case 'Views_List':
 						documentsMain.users = []
 						parsed.args.forEach((view) => {
@@ -505,30 +500,14 @@ const documentsMain = {
 					}
 
 					if (msgId === 'UI_SaveAs') {
-						// TODO Move to file picker dialog with input field
-						OC.dialogs.prompt(
-							t('richdocuments', 'Please enter the filename to store the document as.'),
-							t('richdocuments', 'Save As'),
-							function(result, value) {
-								if (result === true && value) {
-									PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true })
-								}
+						spawnDialog(
+							SaveAs,
+							{
+								path: documentsMain.filename,
+								format: args.Format,
 							},
-							true,
-							t('richdocuments', 'New filename'),
-							false,
-						).then(function() {
-							const $dialog = $('.oc-dialog:visible')
-							const $buttons = $dialog.find('.oc-dialog-buttonrow button')
-							$buttons.eq(0).text(t('richdocuments', 'Cancel'))
-							$buttons.eq(1).text(t('richdocuments', 'Save'))
-							const nameInput = $dialog.find('input')[0]
-							nameInput.style.minWidth = '250px'
-							nameInput.style.maxWidth = '400px'
-							nameInput.value = args.format ? documentsMain.fileName.substring(0, documentsMain.fileName.lastIndexOf('.') + 1) + args.format : documentsMain.fileName
-							nameInput.selectionStart = 0
-							nameInput.selectionEnd = documentsMain.fileName.lastIndexOf('.')
-						})
+							(value) => value && this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true }),
+						)
 					} else if (msgId === 'Action_Save_Resp') {
 						if (args.success && args.fileName) {
 							documentsMain.fileName = args.fileName
@@ -559,26 +538,6 @@ const documentsMain = {
 			})
 		},
 
-		initiateOpenLocally() {
-			OC.dialogs.confirmDestructive(
-				t('richdocuments', 'When opening a file locally, the document will close for all users currently viewing the document.'),
-				t('richdocuments', 'Open file locally'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('richdocuments', 'Open locally'),
-					confirmClasses: 'error',
-					cancel: t('richdocuments', 'Continue editing online'),
-				},
-				(decision) => {
-					if (!decision) {
-						return
-					}
-					documentsMain.openingLocally = true
-					PostMessages.sendWOPIPostMessage('loolframe', 'Get_Views')
-				},
-			)
-		},
-
 		removeViews(views) {
 			PostMessages.sendWOPIPostMessage('loolframe', 'Action_Save', {
 				DontTerminateEdit: false,
@@ -598,43 +557,6 @@ const documentsMain = {
 			headers: { 'X-WOPI-Override': 'UNLOCK' },
 		}
 		return axios.post(unlockUrl, { access_token: documentsMain.token }, unlockConfig)
-	},
-
-	openLocally() {
-		if (documentsMain.openingLocally) {
-			documentsMain.openingLocally = false
-
-			axios.post(
-				OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json',
-				{ path: documentsMain.fullPath },
-			).then((result) => {
-				const url = 'nc://open/'
-					+ Config.get('userId') + '@' + getNextcloudUrl()
-					+ encodePath(documentsMain.fullPath)
-					+ '?token=' + result.data.ocs.data.token
-
-				this.showOpenLocalConfirmation(url, window.top)
-				window.location.href = url
-			})
-		}
-	},
-
-	showOpenLocalConfirmation(url, _window) {
-		_window.OC.dialogs.confirmDestructive(
-			t('richdocuments', 'If the file does not open in your local editor, make sure the Nextcloud desktop app is installed and open and try again.'),
-			t('richdocuments', 'Opening file locally …'),
-			{
-				type: OC.dialogs.YES_NO_BUTTONS,
-				confirm: t('richdocuments', 'Try again'),
-				cancel: t('richdocuments', 'Close'),
-			},
-			(decision) => {
-				if (decision) {
-					_window.location = url
-					this.showOpenLocalConfirmation(url, _window)
-				}
-			},
-		)
 	},
 
 	async sendUserList(search) {

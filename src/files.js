@@ -1,3 +1,5 @@
+import './init-shared.js'
+
 import '../css/filetypes.scss'
 import '../css/files.scss'
 

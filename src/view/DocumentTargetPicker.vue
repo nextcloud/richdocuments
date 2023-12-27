@@ -25,9 +25,9 @@
 	</div>
 	<div v-else class="office-target-picker">
 		<h2>{{ t('richdocuments', 'Link to office document section') }}</h2>
-		<NcLoadingIcon v-if="!sections || !fileId" :size="44" />
+		<NcLoadingIcon v-if="sections === null || !fileId" :size="44" />
 		<div v-else>
-			<NcEmptyContent v-if="sections.length === 0" :title="t('richdocuments', 'Could not find any section in the document')">
+			<NcEmptyContent v-if="sections.length === 0" :name="t('richdocuments', 'Could not find any section in the document')">
 				<template #icon>
 					<TableOfContentsIcon />
 				</template>
@@ -38,7 +38,7 @@
 					<ul>
 						<NcListItem v-for="entry in section.entries"
 							:key="entry.id"
-							:title="entry.name"
+							:name="entry.name"
 							:class="{ 'list-item__wrapper--active': entry.id === target }"
 							@click="setTarget(entry)">
 							<template v-if="entry.preview" #icon>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { FilePickerType } from '@nextcloud/dialogs'
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { NcButton, NcEmptyContent, NcListItem, NcLoadingIcon } from '@nextcloud/vue'
@@ -106,25 +106,20 @@ export default {
 		},
 		async openFilePicker() {
 			const self = this
-			OC.dialogs.filepicker(
-				t('files', 'Select file or folder to link to'),
-				function(file) {
-					const client = OC.Files.getClient()
-					client.getFileInfo(file).then((_status, fileInfo) => {
-						self.fileId = fileInfo.id
-					})
-					self.filePath = file
-					self.fetchReferences()
-				},
-				false, // multiselect
-				OC.getCapabilities().richdocuments.mimetypes, // mime filter
-				false, // modal
-				FilePickerType.Choose, // type
-				'',
-				{
-					target: this.$refs.picker,
-				},
-			)
+			await getFilePickerBuilder(t('files', 'Select file or folder to link to'))
+				.setMimeTypeFilter(OC.getCapabilities().richdocuments.mimetypes)
+				.addButton({
+					label: t('richdocuments', 'Insert image'),
+					callback: (files) => {
+						const file = files[0]
+						this.fileId = file.fileid
+						self.filePath = file.path
+						self.fetchReferences()
+					},
+				})
+				.setContainer(this.$refs.picker)
+				.build()
+				.pick()
 		},
 		setTarget(entry) {
 			this.target = entry.id

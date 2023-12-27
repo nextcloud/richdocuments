@@ -21,15 +21,11 @@
  *
  */
 
+import './init-shared.js'
 import '../css/filetypes.scss'
 
 import Office from './view/Office.vue'
 import { getCapabilities } from '@nextcloud/capabilities'
-
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(OC.requestToken)
-// eslint-disable-next-line
-__webpack_public_path__ = OC.linkTo('richdocuments', 'js/')
 
 const supportedMimes = getCapabilities().richdocuments.mimetypes
 
