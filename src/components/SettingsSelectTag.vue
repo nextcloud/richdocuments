@@ -102,7 +102,7 @@ const xmlToTagList = (xml) => {
 			continue
 		}
 
-		if (tag['d:status']['#text'] !== 'HTTP/1.1 200 OK') {
+		if ((tag['d:status']['#text'] ?? null) !== 'HTTP/1.1 200 OK') {
 			continue
 		}
 		result.push({

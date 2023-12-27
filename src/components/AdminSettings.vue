@@ -615,6 +615,10 @@ export default {
 
 			const { settings } = result?.data?.data || {}
 			for (const settingKey in settings) {
+				if (settingKey === 'use_groups' || settingKey === 'edit_groups') {
+					this.settings[settingKey] = settings[settingKey] ? settings[settingKey].split('|') : []
+					continue
+				}
 				this.settings[settingKey] = settings[settingKey]
 			}
 			this.checkFrontend()
@@ -727,6 +731,10 @@ export default {
 				const { settings } = result?.data?.data || {}
 
 				for (const settingKey in settings) {
+					if (settingKey === 'use_groups' || settingKey === 'edit_groups') {
+						this.settings[settingKey] = settings[settingKey] ? settings[settingKey].split('|') : []
+						continue
+					}
 					this.settings[settingKey] = settings[settingKey]
 				}
 

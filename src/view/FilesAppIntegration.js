@@ -22,6 +22,8 @@
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 import {
@@ -168,28 +170,26 @@ export default {
 			console.error('[FilesAppIntegration] insertGraphic is not supported')
 		}
 
-		const insertFileFromPath = (path) => {
+		const insertFileFromPath = async (path) => {
 			const filename = path.substring(path.lastIndexOf('/') + 1)
-			$.ajax({
-				type: 'POST',
-				url: generateUrl('apps/richdocuments/assets'),
-				data: {
-					path,
-				},
-			}).done(function(resp) {
-				insertFile(filename, resp.url)
-			})
+			const { data } = await axios.post(generateUrl('apps/richdocuments/assets'), { path })
+			insertFile(filename, data.url)
 		}
 
 		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath })) {
 			return
 		}
 
-		OC.dialogs.filepicker(t('richdocuments', 'Insert from {name}', { name: OC.theme.name }), function(path, type) {
-			if (type === OC.dialogs.FILEPICKER_TYPE_CHOOSE) {
-				insertFileFromPath(path)
-			}
-		}, false, ['image/png', 'image/gif', 'image/jpeg', 'image/svg'], true, OC.dialogs.FILEPICKER_TYPE_CHOOSE)
+		getFilePickerBuilder(t('richdocuments', 'Insert image from {name}', { name: OC.theme.name }))
+			.setMimeTypeFilter(['image/png', 'image/gif', 'image/jpeg', 'image/svg'])
+			.addButton({
+				label: t('richdocuments', 'Insert image'),
+				callback: (files) => {
+					insertFileFromPath(files[0].path)
+				},
+			})
+			.build()
+			.pick()
 	},
 
 	getFileList() {
