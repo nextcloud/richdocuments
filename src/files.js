@@ -1,3 +1,5 @@
+import './init-shared.js'
+
 import '../css/filetypes.scss'
 import '../css/files.scss'
 
@@ -60,7 +62,7 @@ const odfViewer = {
 							timeout: 0,
 						})
 					}
-				}
+				},
 			)
 			return
 		}
@@ -293,7 +295,7 @@ addEventListener('DOMContentLoaded', () => {
 				})
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
-					{ productName: OC.getCapabilities().richdocuments.productName }
+					{ productName: OC.getCapabilities().richdocuments.productName },
 				))
 			}
 			break

@@ -24,10 +24,10 @@
     "test:coverage": "NODE_ENV=test jest --coverage"
   },
   "dependencies": {
-    "@nextcloud/auth": "^2.1.0",
+    "@nextcloud/auth": "^2.2.1",
     "@nextcloud/axios": "^2.4.0",
     "@nextcloud/capabilities": "^1.1.0",
-    "@nextcloud/dialogs": "^4.2.2",
+    "@nextcloud/dialogs": "^5.0.3",
     "@nextcloud/event-bus": "^3.1.0",
     "@nextcloud/files": "^3.0.0",
     "@nextcloud/initial-state": "^2.1.0",
@@ -35,7 +35,7 @@
     "@nextcloud/moment": "^1.2.2",
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^2.2.0",
-    "@nextcloud/vue": "^7.12.6",
+    "@nextcloud/vue": "^8.3.0",
     "vue": "^2.7.15",
     "vue-material-design-icons": "^5.2.0"
   },
@@ -48,19 +48,19 @@
   },
   "devDependencies": {
     "@cypress/browserify-preprocessor": "^3.0.2",
-    "@cypress/webpack-preprocessor": "^6.0.0",
+    "@cypress/webpack-preprocessor": "^6.0.1",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/browserslist-config": "^3.0.0",
     "@nextcloud/cypress": "^1.0.0-beta.6",
-    "@nextcloud/eslint-config": "^8.2.1",
+    "@nextcloud/eslint-config": "^8.3.0",
     "@nextcloud/stylelint-config": "^2.3.1",
     "@nextcloud/webpack-vue-config": "^6.0.0",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
-    "cypress": "^13.6.1",
+    "cypress": "^13.6.2",
     "cypress-split": "^1.17.1",
     "eslint-plugin-cypress": "^2.15.1",
     "ts-loader": "^9.5.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.3.3"
   },
   "jest": {
     "verbose": true,

@@ -71,7 +71,7 @@ const getDocumentUrlFromTemplate = (templateId, fileName, fileDir, fillWithTempl
 			fileName,
 			dir: fileDir,
 			requesttoken: OC.requestToken,
-		}
+		},
 	)
 }
 
@@ -83,7 +83,7 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 			fileName,
 			fileId,
 			requesttoken: OC.requestToken,
-		}
+		},
 	)
 }
 

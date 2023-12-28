@@ -1,11 +1,9 @@
+import './init-shared.js'
 import '../css/admin.scss'
 import { generateFilePath } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 
-$(function() {
-
-	$('[data-toggle="tooltip"]').tooltip()
-
+(function() {
 	const PersonalSettings = function() {
 		this.templateInput = document.getElementById('templateInputField')
 		this.templateSelectButton = document.getElementById('templateSelectButton')
@@ -91,4 +89,4 @@ $(function() {
 	}
 
 	return new PersonalSettings()
-})
+})()

@@ -25,6 +25,7 @@ import { getCurrentDirectory } from '../helpers/filesApp.js'
 import Types from '../helpers/types.js'
 import { createEmptyFile } from '../services/api.js'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
 
 /** @type OC.Plugin */
 const NewFileMenu = {
@@ -113,7 +114,7 @@ const NewFileMenu = {
 					fileActions: FileList.fileActions,
 				})
 			} else {
-				OC.dialogs.alert(response.data.message, t('core', 'Could not create file'))
+				showError(t('core', 'Could not create file') + ': ' + response.data.message)
 			}
 		})
 	},

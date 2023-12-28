@@ -21,32 +21,30 @@
   -->
 
 <template>
-	<NcMultiselect v-model="inputValObjects"
+	<NcSelect v-model="inputValObjects"
 		:options="groupsArray"
-		:auto-limit="false"
+		:input-id="uuid"
 		:placeholder="label"
-		track-by="id"
 		label="displayname"
-		class="multiselect-vue"
 		:multiple="true"
 		:close-on-select="false"
 		:disabled="disabled"
 		@input="update"
-		@search-change="asyncFindGroup">
+		@search="asyncFindGroup">
 		<span slot="noResult">{{ t('settings', 'No results') }}</span>
-	</NcMultiselect>
+	</NcSelect>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import { NcMultiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 import { generateOcsUrl } from '@nextcloud/router'
 
 let uuid = 0
 export default {
 	name: 'SettingsSelectGroup',
 	components: {
-		NcMultiselect,
+		NcSelect,
 	},
 	props: {
 		label: {
@@ -68,6 +66,7 @@ export default {
 	},
 	data() {
 		return {
+			uuid: '',
 			inputValObjects: [],
 			groups: {},
 		}
@@ -112,7 +111,7 @@ export default {
 						}
 					}
 					return this.groups[id]
-				}
+				},
 			)
 		},
 		update() {

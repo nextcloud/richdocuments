@@ -1,4 +1,6 @@
+import './init-shared.js'
 import Vue from 'vue'
+import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import AdminSettings from './components/AdminSettings.vue'
 import '../css/admin.scss'
@@ -59,11 +61,8 @@ function deleteTemplate(event) {
 		elmt.classList.remove('icon-delete')
 
 		// send request
-		$.ajax({
-			url: remote,
-			type: 'DELETE',
-		})
-			.done(function() {
+		axios.delete(remote)
+			.then(function() {
 			// remove template
 				elmt.parentElement.remove()
 				// is list empty? Only the default template is left
@@ -72,7 +71,7 @@ function deleteTemplate(event) {
 					emptyElmt.classList.remove('hidden')
 				}
 			})
-			.fail(function(e) {
+			.catch(function(e) {
 			// failure, show warning
 				elmt.textContent = t('richdocuments', 'Error')
 				elmt.classList.remove('icon-loading')
@@ -139,6 +138,6 @@ function initTemplateManager() {
 	})
 }
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', () => {
 	initTemplateManager()
 })

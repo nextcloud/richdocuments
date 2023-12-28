@@ -25,7 +25,7 @@
 		<div v-if="showLoadingIndicator"
 			class="office-viewer__loading-overlay"
 			:class="{ debug: debug }">
-			<NcEmptyContent v-if="!error" :title="t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false})">
+			<NcEmptyContent v-if="!error" :name="t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false})">
 				<template #icon>
 					<NcLoadingIcon />
 				</template>
@@ -35,7 +35,7 @@
 					</NcButton>
 				</template>
 			</NcEmptyContent>
-			<NcEmptyContent v-else :title="t('richdocuments', 'Document loading failed')" :description="errorMessage">
+			<NcEmptyContent v-else :name="t('richdocuments', 'Document loading failed')" :description="errorMessage">
 				<template #icon>
 					<AlertOctagonOutline />
 				</template>

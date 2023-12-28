@@ -21,6 +21,7 @@
  *
  */
 
+import './init-shared.js'
 import '../css/filetypes.scss'
 
 import Office from './view/Office.vue'

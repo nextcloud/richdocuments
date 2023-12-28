@@ -83,12 +83,12 @@ describe('Nextcloud integration', function() {
 			cy.get('#w2ui-overlay-download-as-menu .menu-text').eq(1).click()
 		})
 
-		cy.get('.oc-dialog').should('be.visible')
-		cy.get('.oc-dialog input[type=text]')
+		cy.get('.saveas-dialog').should('be.visible')
+		cy.get('.saveas-dialog input[type=text]')
 			.should('be.visible')
-			.should('have.value', 'document.rtf')
+			.should('have.value', '/document.rtf')
 
-		cy.get('.oc-dialog button.primary').click()
+		cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#closebutton').click()

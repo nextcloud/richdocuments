@@ -21,11 +21,12 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+import { spawnDialog } from '@nextcloud/dialogs'
 import { encodePath } from '@nextcloud/paths'
 import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import { getNextcloudUrl } from '../helpers/url.js'
+import Confirmation from '../components/Modal/Confirmation.vue'
 
-// FIXME: Migrate to vue component
 export default {
 	data() {
 		return {
@@ -52,14 +53,13 @@ export default {
 		},
 
 		showOpenLocalConfirmation() {
-			window.OC.dialogs.confirmDestructive(
-				t('richdocuments', 'When opening a file locally, the document will close for all users currently viewing the document.'),
-				t('richdocuments', 'Open file locally'),
+			spawnDialog(
+				Confirmation,
 				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('richdocuments', 'Open locally'),
-					confirmClasses: 'error',
-					cancel: t('richdocuments', 'Continue editing online'),
+					name: t('richdocuments', 'Open file locally'),
+					description: t('richdocuments', 'When opening a file locally, the document will close for all users currently viewing the document.'),
+					confirmButtonText: t('richdocuments', 'Open locally'),
+					cancelButtonText: t('richdocuments', 'Continue editing online'),
 				},
 				(decision) => {
 					if (!decision) {
@@ -67,19 +67,19 @@ export default {
 					}
 					this.openingLocally = true
 					this.sendPostMessage('Get_Views')
-				})
+				},
+			)
 		},
 
 		showOpenLocalFinished() {
 			const fileName = this.filename
-			window.OC.dialogs.confirmDestructive(
-				t('richdocuments', 'The file should now open locally. If you don\'t see this happening, make sure that the desktop client is installed on your system.'),
-				t('richdocuments', 'Open file locally'),
+			spawnDialog(
+				Confirmation,
 				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('richdocuments', 'Retry to open locally'),
-					confirmClasses: 'primary',
-					cancel: t('richdocuments', 'Continue editing online'),
+					name: t('richdocuments', 'Open file locally'),
+					description: t('richdocuments', 'The file should now open locally. If you don\'t see this happening, make sure that the desktop client is installed on your system.'),
+					confirmButtonText: t('richdocuments', 'Retry to open locally'),
+					cancelButtonText: t('richdocuments', 'Continue editing online'),
 				},
 				(decision) => {
 					if (!decision) {
@@ -88,7 +88,8 @@ export default {
 					}
 					this.openingLocally = true
 					this.sendPostMessage('Get_Views')
-				})
+				},
+			)
 		},
 
 		unlockFile() {
