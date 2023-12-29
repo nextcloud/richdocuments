@@ -12,17 +12,17 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "PHP֊ի ընդլայնումն կանգնեցրեց նիշքի վերբեռնումը",
     "File is too big" : "Ֆայլը չափազանց մեծ է",
     "Invalid file provided" : "անվավեր նիշք",
-    "Description" : "Նկարագրություն",
     "Cancel" : "ընդհատել",
+    "Save" : "Պահել",
+    "Description" : "Նկարագրություն",
     "Close" : "Փակել",
     "Error" : "Սխալ",
     "Nickname" : "Մականուն",
-    "Save" : "Պահել",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Մանրամասներ",
     "Download" : "Ներբեռնել",
-    "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
-    "Create" : "Ստեղծել"
+    "Create" : "Ստեղծել",
+    "Could not create file" : "Չկարողացա ստեղծել ֆայլը"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,12 +1,12 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "Cancel" : "Cancel",
+    "Save" : "Save",
     "Description" : "Opis",
     "No results" : "Nema rezultata",
-    "Cancel" : "Cancel",
     "Close" : "Zatvori",
     "Error" : "Greška",
-    "Save" : "Save",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detalji",
