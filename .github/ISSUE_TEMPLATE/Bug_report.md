@@ -42,6 +42,10 @@ If applicable, add screenshots to help explain your problem.
 
 **Version of Collabora Online**
 
+**Configuration of the richdocuments app**
+```
+Insert the output of `./occ config:list richdocuments` (or equivalent adapted for your runtime environment)
+```
 
 <details>
 <summary>Logs</summary>
