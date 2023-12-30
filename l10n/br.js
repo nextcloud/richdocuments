@@ -7,6 +7,7 @@ OC.L10N.register(
     "Images" : "Skeudenn",
     "Office" : "Burev",
     "Select groups" : "Choaz ar strolladoù",
+    "Confirm" : "Kadarnañ",
     "Cancel" : "Arrest",
     "Save" : "Enrollañ",
     "Submit" : "Kinnig",
@@ -20,6 +21,7 @@ OC.L10N.register(
     "Details" : "Munudoù",
     "Download" : "Pellgargañ",
     "Guest" : "Kouviad",
+    "New file" : "Restr nevez",
     "Create" : "Krouiñ",
     "Select template" : "Choaz ur stumm skouer"
 },
