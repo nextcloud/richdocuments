@@ -14,6 +14,7 @@ OC.L10N.register(
     "Invalid file provided" : "Yanlış fayl təqdim edilib",
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Select groups" : "Qrupları seç",
+    "Confirm" : "Təsdiq edin",
     "Cancel" : "Dayandır",
     "Save" : "Saxla",
     "Description" : "Açıqlanma",
