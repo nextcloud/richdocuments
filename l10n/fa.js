@@ -93,7 +93,7 @@ OC.L10N.register(
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents." : "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents.",
     "Use Canonical webroot" : "از پارچه Canonical استفاده کنید",
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "پارچه معمولی ، در صورت وجود چندین مورد ، برای استفاده از Collabora است. کمترین محدودیت را برای یکی فراهم کنید. به عنوان مثال: اگر این نمونه از دستبندهای shibbolized و غیر shibbolized قابل دسترسی است ، از پارچه بدون shibbolized استفاده کنید. اگر فقط یک دستبند برای دسترسی به این نمونه استفاده می شود ، می توانید این تنظیمات را نادیده بگیرید.",
-    "Enable access for external apps" : "دسترسی به برنامه های خارجی را فعال کنید",
+    "Enable access for external apps" : "دسترسی به برنامه‌های خارجی را فعال کنید",
     "List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24" : "List of IPV4 and IPV6 IP-addresses and subnets that are allowed to perform requests of the WOPI endpoints. If no allow list is specified all hosts will be allowed. E.g. 10.0.0.20,10.0.4.0/24",
     "Extra fonts" : "قلم‌های اضافی",
     "Upload extra font file" : "بارگذاری پروندهٔ قلم اضافی",
