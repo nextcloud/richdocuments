@@ -150,7 +150,7 @@ OC.L10N.register(
     "Insert image" : "Bild einfügen",
     "Document loading failed" : "Laden des Dokuments fehlgeschlagen",
     "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Bitte überprüfen Sie das Collabora Online-Serverprotokoll für weitere Details und stellen Sie sicher, dass Nextcloud von dort aus erreichbar ist.",
-    "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Socket-Verbindung wurde unerwartet geschlossen. Der Reverse-Proxy ist möglicherweise falsch konfiguriert. Bitte wenden Sie sich an den Administrator.",
+    "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Socket-Verbindung wurde unerwartet geschlossen. Der Reverse-Proxy ist möglicherweise falsch konfiguriert. Bitte wenden Sie sich an die Administration.",
     "More information can be found in the reverse proxy documentation" : "Weitere Informationen finden Sie in der Reverse-Proxy-Dokumentation",
     "Close" : "Schließen",
     "Starting the built-in CODE server failed" : "Der Start des integrierten CODE-Servers ist fehlgeschlagen",
