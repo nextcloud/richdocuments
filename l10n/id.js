@@ -34,7 +34,7 @@ OC.L10N.register(
     "Details" : "Detil",
     "Download" : "Unduh",
     "Guest" : "Tamu",
-    "New file" : "File baru",
+    "New file" : "Berkas baru",
     "Create" : "Buat",
     "Could not create file" : "Tidak dapat membuat berkas",
     "Select template" : "Pilih template",
