@@ -114,6 +114,7 @@ import {
 	getUIDefaults,
 } from '../helpers/coolParameters.js'
 import Config from '../services/config.tsx'
+import autoLogout from '../mixins/autoLogout.js'
 import openLocal from '../mixins/openLocal.js'
 import pickLink from '../mixins/pickLink.js'
 import saveAs from '../mixins/saveAs.js'
@@ -140,7 +141,7 @@ export default {
 		ZoteroHint,
 	},
 	mixins: [
-		openLocal, pickLink, saveAs, uiMention, version,
+		autoLogout, openLocal, pickLink, saveAs, uiMention, version,
 	],
 	props: {
 		filename: {
