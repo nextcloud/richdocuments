@@ -22,6 +22,7 @@ OC.L10N.register(
     "An error occurred" : "Prodúxose un error",
     "Nickname" : "Nomatu",
     "Saving …" : "Guardando…",
+    "Remove from favorites" : "Quitar de Favoritos",
     "Details" : "Detalles",
     "Download" : "Baxar",
     "Zotero" : "Zotero",
