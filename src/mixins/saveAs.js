@@ -30,7 +30,7 @@ export default {
 				{
 					path: this.filename,
 					format,
-					description: t('richdocuments', 'Save a copy of the file as a new name and continue editing the new file'),
+					description: t('richdocuments', 'Save a copy of the file under a new name and continue editing the new file'),
 				},
 				(value) => value && this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true }),
 			)
