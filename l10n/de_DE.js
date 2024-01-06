@@ -181,7 +181,6 @@ OC.L10N.register(
     "Continue editing online" : "Weiter online bearbeiten",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Die Datei sollte nun lokal geöffnet werden. Wenn dies nicht der Fall ist, stellen Sie sicher, dass der Desktop-Client auf Ihrem System installiert ist.",
     "Retry to open locally" : "Erneut versuchen, lokal zu öffnen",
-    "Save a copy of the file as a new name and continue editing the new file" : "Speichern Sie eine Kopie der Datei unter einem neuen Namen und setzen Sie die Bearbeitung der neuen Datei fort",
     "Failed to revert the document to older version" : "Fehler beim Zurücksetzen des Dokumentes auf eine ältere Version",
     "Select a personal template folder" : "Persönlichen Vorlagenordner auswählen",
     "Failed to update the Zotero API key" : "Der Zotero-API-Schlüssel konnte nicht aktualisiert werden",
