@@ -181,6 +181,7 @@ OC.L10N.register(
     "Continue editing online" : "繼續在線編輯",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "該檔案現在應該在近端打開。如果檔案無法在近端打開，請確保您的系統上安裝了桌面客戶端。",
     "Retry to open locally" : "重試近端打開",
+    "Save a copy of the file under a new name and continue editing the new file" : "以新名字儲存檔案的副本並繼續編輯新檔案",
     "Failed to revert the document to older version" : "無法將文件還原為舊版",
     "Select a personal template folder" : "選擇個人範本資料夾",
     "Failed to update the Zotero API key" : "更新 Zotero API 密鑰失敗",
