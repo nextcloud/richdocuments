@@ -181,6 +181,7 @@ OC.L10N.register(
     "Continue editing online" : "Düzenlemeyi çevrim içi sürdür",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Dosya yerel olarak açılmalıdır. Bu gerçekleşmiyorsa, sisteminizde masaüstü istemcisinin kurulu olduğundan emin olun.",
     "Retry to open locally" : "Yerel olarak açmak için yeniden deneyin",
+    "Save a copy of the file under a new name and continue editing the new file" : "Yeni bir adla dosyanın başka bir kopyasını kaydedin ve yeni dosyayı düzenlemeyi sürdürün",
     "Failed to revert the document to older version" : "Belgenin önceki sürümü geri yüklenemedi",
     "Select a personal template folder" : "Bir kişisel kalıp klasörü seçin",
     "Failed to update the Zotero API key" : "Zotero API anahtarı güncellenemedi",
