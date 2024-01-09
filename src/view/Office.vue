@@ -25,7 +25,7 @@
 		<div v-if="showLoadingIndicator"
 			class="office-viewer__loading-overlay"
 			:class="{ debug: debug }">
-			<NcEmptyContent v-if="!error" :title="t('richdocuments', 'Loading {filename} …', { filename: basename }, 1, {escape: false})">
+			<NcEmptyContent v-if="!error" :title="loadingMessage">
 				<template #icon>
 					<NcLoadingIcon />
 				</template>
@@ -38,6 +38,21 @@
 			<NcEmptyContent v-else :title="t('richdocuments', 'Document loading failed')" :description="errorMessage">
 				<template #icon>
 					<AlertOctagonOutline />
+				</template>
+				<template #description>
+					<p>{{ errorMessage }}</p>
+					<p v-if="showAdminStorageFailure">
+						{{ t('richdocuments', 'Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there.') }}
+					</p>
+					<p v-if="showAdminWebsocketFailure">
+						{{ t('richdocuments', 'Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator.') }}
+						<a href="https://docs.nextcloud.com/server/latest/admin_manual/office/proxy.html"
+							target="_blank"
+							rel="noreferrer noopener"
+							class="external">
+							{{ t('richdocuments', 'More information can be found in the reverse proxy documentation') }}
+						</a>
+					</p>
 				</template>
 				<template #action>
 					<NcButton @click="close">
@@ -105,6 +120,7 @@ import pickLink from '../mixins/pickLink.js'
 import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
+import { getCurrentUser } from '@nextcloud/auth'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 
@@ -154,6 +170,8 @@ export default {
 			loading: LOADING_STATE.LOADING,
 			loadingTimeout: null,
 			error: null,
+			errorType: null,
+			loadingMsg: null,
 			views: [],
 
 			showLinkPicker: false,
@@ -187,6 +205,13 @@ export default {
 				return this.error
 			}
 		},
+		loadingMessage() {
+			if (this.loadingMsg) {
+				return this.loadingMsg
+			}
+
+			return t('richdocuments', 'Loading {filename} …', { filename: basename(this.filename) }, 1, { escape: false })
+		},
 		debug() {
 			return !!window.TESTING
 		},
@@ -195,6 +220,12 @@ export default {
 		},
 		shareToken() {
 			return document.getElementById('sharingToken')?.value
+		},
+		showAdminStorageFailure() {
+			return getCurrentUser()?.isAdmin && this.errorType === 'websocketloadfailed'
+		},
+		showAdminWebsocketFailure() {
+			return getCurrentUser()?.isAdmin && this.errorType === 'websocketconnectionfailed'
 		},
 	},
 	async mounted() {
@@ -322,8 +353,14 @@ export default {
 				if (args.success) {
 					this.documentReady()
 				} else {
-					this.error = args.errorMsg
-					this.loading = LOADING_STATE.FAILED
+					if (args.errorType === 'clusterscaling') {
+						this.loadingMsg = t('richdocuments', 'Cluster is scaling …')
+					} else {
+						this.error = args.errorMsg
+						this.errorType = args.errorType
+						this.loading = LOADING_STATE.FAILED
+						clearTimeout(this.loadingTimeout)
+					}
 				}
 				break
 			case 'UI_Close':
