@@ -24,6 +24,7 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Controller\Attribute\RestrictToWopiServer;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Events\DocumentOpenedEvent;
@@ -71,6 +72,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
+#[RestrictToWopiServer]
 class WopiController extends Controller {
 	/** @var IRootFolder */
 	private $rootFolder;
