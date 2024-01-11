@@ -17,6 +17,7 @@ return array(
     'OCA\\Richdocuments\\Command\\InstallDefaultFonts' => $baseDir . '/../lib/Command/InstallDefaultFonts.php',
     'OCA\\Richdocuments\\Command\\UpdateEmptyTemplates' => $baseDir . '/../lib/Command/UpdateEmptyTemplates.php',
     'OCA\\Richdocuments\\Controller\\AssetsController' => $baseDir . '/../lib/Controller/AssetsController.php',
+    'OCA\\Richdocuments\\Controller\\Attribute\\RestrictToWopiServer' => $baseDir . '/../lib/Controller/Attribute/RestrictToWopiServer.php',
     'OCA\\Richdocuments\\Controller\\DirectViewController' => $baseDir . '/../lib/Controller/DirectViewController.php',
     'OCA\\Richdocuments\\Controller\\DocumentAPIController' => $baseDir . '/../lib/Controller/DocumentAPIController.php',
     'OCA\\Richdocuments\\Controller\\DocumentController' => $baseDir . '/../lib/Controller/DocumentController.php',
