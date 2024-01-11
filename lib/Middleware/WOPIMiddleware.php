@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Middleware;
 
 use OCA\Richdocuments\AppInfo\Application;
-use OCA\Richdocuments\Controller\AssetsController;
+use OCA\Richdocuments\Controller\Attribute\RestrictToWopiServer;
 use OCA\Richdocuments\Controller\WopiController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
@@ -42,33 +42,31 @@ use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
+use ReflectionMethod;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 class WOPIMiddleware extends Middleware {
-	/** @var IConfig */
-	private $config;
-	/** @var IRequest */
-	private $request;
-	/** @var WopiMapper */
-	private $wopiMapper;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IConfig $config, IRequest $request, WopiMapper $wopiMapper, LoggerInterface $logger) {
-		$this->config = $config;
-		$this->request = $request;
-		$this->wopiMapper = $wopiMapper;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private IRequest $request,
+		private WopiMapper $wopiMapper,
+		private LoggerInterface $logger
+	) {
 	}
 
 	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
 		// Check controllers that are only supposed to be called by Collabora directly
-		// FIXME: This can be moved to a PHP attribute in the future
-		$isRestrictedController = $controller instanceof WopiController
-			|| ($controller instanceof AssetsController && $methodName === 'get');
-		if ($isRestrictedController && !$this->isWOPIAllowed()) {
+		$reflectionClass = new ReflectionClass($controller);
+		$hasClassAttribute = !empty($reflectionClass->getAttributes(RestrictToWopiServer::class));
+
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+		$hasMethodAttribute = !empty($reflectionMethod->getAttributes(RestrictToWopiServer::class));
+
+		$isRestricted = $hasClassAttribute || $hasMethodAttribute;
+		if ($isRestricted && !$this->isWOPIAllowed()) {
 			throw new NotPermittedException();
 		}
 

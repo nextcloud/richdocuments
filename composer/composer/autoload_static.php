@@ -32,6 +32,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Command\\InstallDefaultFonts' => __DIR__ . '/..' . '/../lib/Command/InstallDefaultFonts.php',
         'OCA\\Richdocuments\\Command\\UpdateEmptyTemplates' => __DIR__ . '/..' . '/../lib/Command/UpdateEmptyTemplates.php',
         'OCA\\Richdocuments\\Controller\\AssetsController' => __DIR__ . '/..' . '/../lib/Controller/AssetsController.php',
+        'OCA\\Richdocuments\\Controller\\Attribute\\RestrictToWopiServer' => __DIR__ . '/..' . '/../lib/Controller/Attribute/RestrictToWopiServer.php',
         'OCA\\Richdocuments\\Controller\\DirectViewController' => __DIR__ . '/..' . '/../lib/Controller/DirectViewController.php',
         'OCA\\Richdocuments\\Controller\\DocumentAPIController' => __DIR__ . '/..' . '/../lib/Controller/DocumentAPIController.php',
         'OCA\\Richdocuments\\Controller\\DocumentController' => __DIR__ . '/..' . '/../lib/Controller/DocumentController.php',

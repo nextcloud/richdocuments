@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Richdocuments\Controller\Attribute\RestrictToWopiServer;
 use OCA\Richdocuments\Db\AssetMapper;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCP\AppFramework\Controller;
@@ -92,6 +93,7 @@ class AssetsController extends Controller {
 	 * @param string $token
 	 * @return Http\Response
 	 */
+	#[RestrictToWopiServer]
 	public function get($token) {
 		try {
 			$asset = $this->assetMapper->getAssetByToken($token);
