@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Middleware;
 
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Controller\AssetsController;
 use OCA\Richdocuments\Controller\WopiController;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
@@ -63,7 +64,11 @@ class WOPIMiddleware extends Middleware {
 	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
-		if ($controller instanceof WopiController && !$this->isWOPIAllowed()) {
+		// Check controllers that are only supposed to be called by Collabora directly
+		// FIXME: This can be moved to a PHP attribute in the future
+		$isRestrictedController = $controller instanceof WopiController
+			|| ($controller instanceof AssetsController && $methodName === 'get');
+		if ($isRestrictedController && !$this->isWOPIAllowed()) {
 			throw new NotPermittedException();
 		}
 
