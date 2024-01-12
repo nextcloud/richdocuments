@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.1.9
+
+### Fixed
+
+- fix: Let wopi middleware also handle asset fetching [#3404](https://github.com/nextcloud/richdocuments/pull/3404)
+
 ## 7.1.8
 
 ### Fixed
