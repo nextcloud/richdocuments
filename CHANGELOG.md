@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.2.4
+
+### Fixed
+
+- fix: Fix version access with new version backend on shared files [#3340](https://github.com/nextcloud/richdocuments/pull/3340)
+- fix: Avoid 3px offset on public share links [#3371](https://github.com/nextcloud/richdocuments/pull/3371)
+- Fix opening file after rename in COOL @eszkadev [#3343](https://github.com/nextcloud/richdocuments/pull/3343)
+- feat: add loadingMessage() to show different loadingMsg @juliushaertl [#3399](https://github.com/nextcloud/richdocuments/pull/3399)
+- fix: mention popup reappears after inserting the mention @juliushaertl [#3398](https://github.com/nextcloud/richdocuments/pull/3398)
+- fix: Disable auto logout while editing [#3390](https://github.com/nextcloud/richdocuments/pull/3390)
+- fix: Consider owner group membership for public share links [#3376](https://github.com/nextcloud/richdocuments/pull/3376)
+- fix: Let wopi middleware also handle asset fetching [#3408](https://github.com/nextcloud/richdocuments/pull/3408)
+- Do not hide speadsheet statusbar by default [#3325](https://github.com/nextcloud/richdocuments/pull/3325)
+
 ## 8.2.3
 
 ### Fixed
