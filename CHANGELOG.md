@@ -1,5 +1,18 @@
 # Changelog
 
+## 8.3.1
+
+### Fixed
+
+- fix: mention popup reappears after inserting the mention [#3365](https://github.com/nextcloud/richdocuments/pull/3365)
+- fix: Use proper blob url for all fonts [#3362](https://github.com/nextcloud/richdocuments/pull/3362)
+- fix: Avoid 3px offset on public share links [#3370](https://github.com/nextcloud/richdocuments/pull/3370)
+- fix: Consider owner group membership for public share links [#3375](https://github.com/nextcloud/richdocuments/pull/3375)
+- fix(Application.php): Update methods post-refactor [#3383](https://github.com/nextcloud/richdocuments/pull/3383)
+- fix: Disable auto logout while editing [#3389](https://github.com/nextcloud/richdocuments/pull/3389)
+- feat: add loadingMessage() to show different loadingMsg @juliushaertl [#3400](https://github.com/nextcloud/richdocuments/pull/3400)
+- fix: Let wopi middleware also handle asset fetching [#3407](https://github.com/nextcloud/richdocuments/pull/3407)
+
 ## 8.3.0
 
 ### Added
