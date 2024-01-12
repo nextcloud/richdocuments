@@ -1,5 +1,12 @@
 # Changelog
 
+## 6.3.9
+
+### Fixed
+
+- fix: Mobile support shall be enabled by default [#3222](https://github.com/nextcloud/richdocuments/pull/3222)
+- fix: Let wopi middleware also handle asset fetching [#3405](https://github.com/nextcloud/richdocuments/pull/3405)
+
 ## 6.3.8
 
 ### Added
