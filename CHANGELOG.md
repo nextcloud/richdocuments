@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.0.12
+
+### Added
+
+- feat: add config option mobile_editing [#3158](https://github.com/nextcloud/richdocuments/pull/3158)
+
+### Fixed
+
+- fix: Let wopi middleware also handle asset fetching [#3406](https://github.com/nextcloud/richdocuments/pull/3406)
+
 ## 5.0.11
 
 ### Fixed
