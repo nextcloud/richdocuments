@@ -1,5 +1,22 @@
 # Changelog
 
+## 8.0.7
+
+### Fixed
+
+- Fix opening file after rename in COOL @eszkadev [#3341](https://github.com/nextcloud/richdocuments/pull/3341)
+- fix: Set expect guzzle option to false [#3300](https://github.com/nextcloud/richdocuments/pull/3300)
+- fix: Set proper user scope for direct editing @juliushaertl [#3397](https://github.com/nextcloud/richdocuments/pull/3397)
+- fix: Let wopi middleware also handle asset fetching [#3409](https://github.com/nextcloud/richdocuments/pull/3409)
+- fix(Wopi): Mark sensitive parameter as such @juliushaertl [#3401](https://github.com/nextcloud/richdocuments/pull/3401)
+- Do not hide speadsheet statusbar by default [#3326](https://github.com/nextcloud/richdocuments/pull/3326)
+- fix: Do not fail if node has no owner [#3280](https://github.com/nextcloud/richdocuments/pull/3280)
+
+### Dependencies
+
+- Update nextcloud/ocp dependency @nextcloud-command [#3291](https://github.com/nextcloud/richdocuments/pull/3291)
+- Update nextcloud/ocp dependency @nextcloud-command [#3395](https://github.com/nextcloud/richdocuments/pull/3395)
+
 ## 8.0.6
 
 ### Fixed
