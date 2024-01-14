@@ -29,8 +29,8 @@ OC.L10N.register(
     "An error occurred" : "Una error s’es producha",
     "Nickname" : "Escais",
     "Saving …" : "Enregistrament...",
-    "Remove from favorites" : "Remove from favorites",
-    "Add to favorites" : "Add to favorites",
+    "Remove from favorites" : "Tirar dels favorits",
+    "Add to favorites" : "Apondre als favorits",
     "Details" : "Detalhs",
     "Download" : "Telecargar",
     "Guest" : "Convidat",
@@ -38,6 +38,7 @@ OC.L10N.register(
     "Create" : "Crear",
     "Could not create file" : "Impossible de crear lo fichièr",
     "Saving…" : "Enregistrament…",
+    "Last saved version" : "Darrièra version salvagarda",
     "Collabora Online" : "Collabora en linha"
 },
 "nplurals=2; plural=(n > 1);");
