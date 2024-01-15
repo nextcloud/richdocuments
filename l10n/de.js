@@ -208,7 +208,7 @@ OC.L10N.register(
     "Enter Zotero API Key" : "Zotero API Key eingeben",
     "Save Zotero API key" : "Zotero API key speichern",
     "Remove Zotero API Key" : "Zotero API Key entfernen",
-    "To use Zotero specify your API key here. You can create your API key in your" : "Um Zotero zu verwenden, gebe hier deinen API-Schlüssel an. Erstellen kannst du deinen API-Schlüssel in deiner",
+    "To use Zotero specify your API key here. You can create your API key in your" : "Um Zotero zu verwenden, gib hier deinen API-Schlüssel an. Erstellen kannst du deinen API-Schlüssel in deiner",
     "Zotero account API settings." : "Zotero Konto API-Einstellungen.",
     "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "Diese Instanz unterstützt Zotero nicht, da die Funktion fehlt oder deaktiviert ist. Bitte wende dich an die Administration.",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mit Fehler gespeichert: Collabora Online sollte das gleiche Protokoll wie die Server-Installation nutzen.",
