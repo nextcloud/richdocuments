@@ -16,6 +16,7 @@ OC.L10N.register(
     "File is too big" : "Datne ir par lielu",
     "Invalid file provided" : "Norādīta nederīga datne",
     "Images" : "Attēli",
+    "Office" : "Birojs",
     "Empty" : "Tukšs",
     "Setting up a new server" : "Jauna servera iestatīšana",
     "Advanced settings" : "Paplašināti iestatījumi",
