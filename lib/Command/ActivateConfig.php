@@ -41,7 +41,7 @@ class ActivateConfig extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('richdocuments:activate-config')
 			->setAliases(['richdocuments:setup'])
@@ -50,7 +50,7 @@ class ActivateConfig extends Command {
 			->setDescription('Activate config changes');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			if ($input->getOption('wopi-url') !== null) {
 				$wopiUrl = $input->getOption('wopi-url');
