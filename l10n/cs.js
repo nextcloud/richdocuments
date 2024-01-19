@@ -130,6 +130,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Formát písma není podporován ({mime})",
     "Confirm" : "Potvrdit",
     "Cancel" : "Storno",
+    "Path to save" : "Umístění do kterého uložit",
     "Save" : "Uložit",
     "Save As" : "Uložit jako",
     "Link to your Zotero library" : "Odkaz na vaši Zotero knihovnu",
