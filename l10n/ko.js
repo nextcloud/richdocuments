@@ -64,6 +64,7 @@ OC.L10N.register(
     "Select template" : "템플릿 선택",
     "Global templates" : "전역 템플릿",
     "Add a new template" : "새 템플릿 추가",
+    "Add a new one?" : "새로 추가하시겠습니까?",
     "template preview" : "템플릿 미리보기",
     "Select a template directory" : "템플릿 디렉터리 선택",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "저장 오류 발생: Collabora Online과 서버 설치본이 같은 프로토콜을 사용해야 합니다.",
