@@ -409,6 +409,9 @@ export default {
 			case 'UI_Share':
 				this.share()
 				break
+			case 'Reset_Access_Token':
+				this.reload()
+				break
 			case 'UI_ZoteroKeyMissing':
 				this.showZotero = true
 				break
