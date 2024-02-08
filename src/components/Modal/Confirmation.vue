@@ -17,7 +17,8 @@
 	</NcModal>
 </template>
 <script>
-import { NcButton, NcModal } from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import { translate as t } from '@nextcloud/l10n'
 
 export default {

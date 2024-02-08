@@ -46,7 +46,9 @@
 </template>
 
 <script>
-import { NcModal, NcButton, NcTextField } from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import { showError } from '@nextcloud/dialogs'
 import BookOpenPageVariantOutline from 'vue-material-design-icons/BookOpenPageVariantOutline.vue'
 import { savePersonalSetting } from '../../services/api.js'

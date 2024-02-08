@@ -61,7 +61,10 @@
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-import { NcButton, NcEmptyContent, NcListItem, NcLoadingIcon } from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TableOfContentsIcon from 'vue-material-design-icons/TableOfContents.vue'
 
 export default {
