@@ -67,7 +67,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 * @PublicPage
 	 */
-	public function create(string $mimeType, string $fileName, string $directoryPath = '/', string $shareToken = null, ?int $templateId = null): JSONResponse {
+	public function create(string $mimeType, string $fileName, string $directoryPath = '/', ?string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);

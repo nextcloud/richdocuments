@@ -70,7 +70,7 @@ use OCP\Server;
 class Application extends App implements IBootstrap {
 	public const APPNAME = 'richdocuments';
 
-	public function __construct(array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APPNAME, $urlParams);
 	}
 
@@ -192,7 +192,7 @@ class Application extends App implements IBootstrap {
 
 	public function checkAndEnableCODEServer() {
 		// Supported only on Linux OS, and x86_64 & ARM64 platforms
-		$supportedArchs = array('x86_64', 'aarch64');
+		$supportedArchs = ['x86_64', 'aarch64'];
 		$osFamily = PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS;
 		if ($osFamily !== 'Linux' || !in_array(php_uname('m'), $supportedArchs)) {
 			return;

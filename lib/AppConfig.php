@@ -11,11 +11,11 @@
 
 namespace OCA\Richdocuments;
 
-use \OCP\IConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\FederationService;
 use OCP\App\IAppManager;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
+use OCP\IConfig;
 
 class AppConfig {
 	// URL that Nextcloud will use to connect to Collabora

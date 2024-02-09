@@ -145,9 +145,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	public function createPublic(
 		string $shareToken,
-		string $host = null,
+		?string $host = null,
 		string $path = '',
-		string $password = null
+		?string $password = null
 	): DataResponse {
 		if ($host) {
 			$remoteCollabora = $this->federationService->getRemoteCollaboraURL($host);
@@ -235,7 +235,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $initiatorToken,
 		string $shareToken,
 		string $path = '',
-		string $password = null
+		?string $password = null
 	): DataResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);

@@ -92,7 +92,7 @@ class TokenManager {
 	 * @throws Exception
 	 */
 	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false): Wopi {
-		list($fileId, , $version) = Helper::parseFileId($fileId);
+		[$fileId, , $version] = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
 		$rootFolder = $this->rootFolder;
@@ -263,7 +263,7 @@ class TokenManager {
 		return $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, $targetFile->getId(), $direct);
 	}
 
-	public function newInitiatorToken($sourceServer, Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
+	public function newInitiatorToken($sourceServer, ?Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
 		if ($node !== null) {
 			$wopi = $this->generateWopiToken((string)$node->getId(), $shareToken, $userId, $direct);
 			$wopi->setServerHost($sourceServer);
@@ -282,7 +282,7 @@ class TokenManager {
 		return $wopi;
 	}
 
-	public function prepareGuestName(string $guestName = null) {
+	public function prepareGuestName(?string $guestName = null) {
 		if (empty($guestName)) {
 			return $this->trans->t('Anonymous guest');
 		}

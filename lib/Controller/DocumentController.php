@@ -204,7 +204,7 @@ class DocumentController extends Controller {
 
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function publicPage(string $shareToken, string $fileName = null, int $fileId = null): TemplateResponse|RedirectResponse {
+	public function publicPage(string $shareToken, ?string $fileName = null, ?int $fileId = null): TemplateResponse|RedirectResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			$file = $this->getFileForShare($share, $fileId, $fileName);
@@ -241,7 +241,7 @@ class DocumentController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function remote(string $shareToken, string $remoteServer, string $remoteServerToken, string $filePath = null): TemplateResponse {
+	public function remote(string $shareToken, string $remoteServer, string $remoteServerToken, ?string $filePath = null): TemplateResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
 			// not authenticated ?
@@ -312,7 +312,7 @@ class DocumentController extends Controller {
 	#[NoCSRFRequired]
 	#[NoAdminRequired]
 	#[UseSession]
-	public function editOnline(string $path = null, ?string $userId = null, ?string $target = null): RedirectResponse|TemplateResponse {
+	public function editOnline(?string $path = null, ?string $userId = null, ?string $target = null): RedirectResponse|TemplateResponse {
 		if ($path === null) {
 			return $this->renderErrorPage('No path provided');
 		}
@@ -406,7 +406,7 @@ class DocumentController extends Controller {
 	 * @throws NotFoundException
 	 * @throws NoUserException
 	 */
-	private function getFileForUser(int $fileId, string $path = null): File {
+	private function getFileForUser(int $fileId, ?string $path = null): File {
 		$folder = $this->rootFolder->getUserFolder($this->userId);
 
 		if ($path !== null) {
@@ -464,7 +464,7 @@ class DocumentController extends Controller {
 		throw new NotFoundException();
 	}
 
-	private function getToken(File $file, ?IShare $share = null, int $version = null): Wopi {
+	private function getToken(File $file, ?IShare $share = null, ?int $version = null): Wopi {
 		// Pass through $version
 		$templateFile = $this->templateManager->getTemplateSource($file->getId());
 		if ($templateFile) {
@@ -474,7 +474,7 @@ class DocumentController extends Controller {
 		return  $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
 	}
 
-	private function getWopiFileId(int $fileId, int $version = null): string {
+	private function getWopiFileId(int $fileId, ?int $version = null): string {
 		return $fileId . '_' . $this->config->getSystemValue('instanceid') . ($version ? '_' . $version : '');
 	}
 }

@@ -209,7 +209,7 @@ class FederationService {
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
 	 */
-	public function getRemoteRedirectURL(File $item, Direct $direct = null, IShare $share = null) {
+	public function getRemoteRedirectURL(File $item, ?Direct $direct = null, ?IShare $share = null) {
 		if (!$item->getStorage()->instanceOfStorage(SharingExternalStorage::class)) {
 			return null;
 		}

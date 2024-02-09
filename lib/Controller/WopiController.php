@@ -168,7 +168,7 @@ class WopiController extends Controller {
 	 */
 	public function checkFileInfo($fileId, $access_token) {
 		try {
-			list($fileId, , $version) = Helper::parseFileId($fileId);
+			[$fileId, , $version] = Helper::parseFileId($fileId);
 
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			if ($wopi->isTemplateToken()) {
@@ -354,7 +354,7 @@ class WopiController extends Controller {
 	 */
 	public function getFile($fileId,
 		$access_token) {
-		list($fileId, , $version) = Helper::parseFileId($fileId);
+		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
@@ -427,7 +427,7 @@ class WopiController extends Controller {
 	 */
 	public function putFile($fileId,
 		$access_token) {
-		list($fileId, , ) = Helper::parseFileId($fileId);
+		[$fileId, , ] = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
 		try {
@@ -561,7 +561,7 @@ class WopiController extends Controller {
 		try {
 			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
 			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
-			list($fileId, , ) = Helper::parseFileId($fileId);
+			[$fileId, , ] = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			if ((int) $fileId !== $wopi->getFileid()) {
 				return new JSONResponse([], Http::STATUS_FORBIDDEN);

@@ -98,7 +98,7 @@ class PermissionManager {
 		return false;
 	}
 
-	public function isEnabledForUser(string $userId = null): bool {
+	public function isEnabledForUser(?string $userId = null): bool {
 		if ($this->userMatchesGroupList($userId, $this->appConfig->getUseGroups())) {
 			return true;
 		}
@@ -106,7 +106,7 @@ class PermissionManager {
 		return false;
 	}
 
-	public function userCanEdit(string $userId = null): bool {
+	public function userCanEdit(?string $userId = null): bool {
 		if ($this->userMatchesGroupList($userId, $this->appConfig->getEditGroups())) {
 			return true;
 		}
@@ -114,7 +114,7 @@ class PermissionManager {
 		return false;
 	}
 
-	public function userIsFeatureLocked(string $userId = null): bool {
+	public function userIsFeatureLocked(?string $userId = null): bool {
 		if ($this->appConfig->isReadOnlyFeatureLocked() && !$this->userCanEdit($userId)) {
 			return true;
 		}
