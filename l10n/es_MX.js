@@ -58,6 +58,7 @@ OC.L10N.register(
     "Close version preview" : "Cerrar la vista previa de la versión",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Select a personal template folder" : "Seleccionar la carpeta de plantillas personales",
+    "Saving …" : "Guardando ...",
     "Remove from favorites" : "Eliminar de favoritos",
     "Add to favorites" : "Agregar a favoritos",
     "Details" : "Detalles",
