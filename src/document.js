@@ -365,7 +365,7 @@ const documentsMain = {
 				}, 45000)
 			})
 
-			$('#loleafletframe').load(function() {
+			$('#loleafletframe').on('load', function() {
 				const ViewerToLool = [
 					'Action_FollowUser',
 					'Host_VersionRestore',
