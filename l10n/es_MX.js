@@ -48,6 +48,7 @@ OC.L10N.register(
     "Submit" : "Enviar",
     "Description" : "Descripción",
     "No results" : "Sin resultados",
+    "Select file or folder to link to" : "Seleccionar archivo o carpeta para enlazar.",
     "Insert image" : "Añadir imagen",
     "Close" : "Cerrar",
     "Error" : "Error",
