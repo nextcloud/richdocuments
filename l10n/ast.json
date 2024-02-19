@@ -3,6 +3,7 @@
     "New Presentation.odp" : "Presentación_Nueva.odp",
     "New Document.docx" : "Documentu_Nuevu.docx",
     "New Presentation.pptx" : "Presentación_Nueva.pptx",
+    "File already exists" : "El ficheru yá esiste",
     "Saved" : "Guardóse",
     "The file was uploaded" : "Xubióse'l ficheru",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "El ficheru xubíu supera la direutiva «upload_max_filesize» del ficheru php.ini",
