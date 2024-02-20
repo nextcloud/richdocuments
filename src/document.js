@@ -206,7 +206,7 @@ const documentsMain = {
 				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
-			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe_viewer" allowfullscreen nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
+			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe_viewer" allowfullscreen allow="clipboard-read *; clipboard-write *" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
 
 			$('#revViewer').append(form)
 			$('#revViewer').append(frame)
@@ -266,7 +266,7 @@ const documentsMain = {
 				+ '</form>'
 
 			// iframe that contains the Collabora Online
-			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen style="width:100%;height:100%;position:absolute;" />'
+			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen allow="clipboard-read *; clipboard-write *" style="width:100%;height:100%;position:absolute;" />'
 
 			$('#mainContainer').append(form)
 			$('#mainContainer').append(frame)
