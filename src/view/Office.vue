@@ -88,7 +88,9 @@
 </template>
 
 <script>
-import { NcButton, NcEmptyContent, NcLoadingIcon } from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 
