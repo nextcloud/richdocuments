@@ -306,14 +306,16 @@ export default {
 			this.loading = LOADING_STATE.DOCUMENT_READY
 			clearTimeout(this.loadingTimeout)
 			this.sendPostMessage('Host_PostmessageReady')
-			this.sendPostMessage('Insert_Button', {
-				id: 'Open_Local_Editor',
-				imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
-				mobile: false,
-				label: t('richdocuments', 'Open in local editor'),
-				hint: t('richdocuments', 'Open in local editor'),
-				insertBefore: 'print',
-			})
+			if (loadState('richdocuments', 'open_local_editor', true)) {
+				this.sendPostMessage('Insert_Button', {
+					id: 'Open_Local_Editor',
+					imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
+					mobile: false,
+					label: t('richdocuments', 'Open in local editor'),
+					hint: t('richdocuments', 'Open in local editor'),
+					insertBefore: 'print',
+				})
+			}
 		},
 		async share() {
 			FilesAppIntegration.share()
