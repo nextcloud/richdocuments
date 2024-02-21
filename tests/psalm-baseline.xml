@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+<files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
       <code>[]</code>
@@ -7,16 +7,6 @@
     <RedundantCondition>
       <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/AppInfo/Application.php">
-    <MissingDependency>
-      <code>EMF</code>
-      <code>MSExcel</code>
-      <code>MSWord</code>
-      <code>OOXML</code>
-      <code>OpenDocument</code>
-      <code>Pdf</code>
-    </MissingDependency>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass>
@@ -28,12 +18,12 @@
       <code>Command</code>
     </UndefinedClass>
   </file>
-  <file src="lib/Command/UpdateEmptyTemplates.php">
+  <file src="lib/Command/InstallDefaultFonts.php">
     <UndefinedClass>
       <code>Command</code>
     </UndefinedClass>
   </file>
-  <file src="lib/Command/InstallDefaultFonts.php">
+  <file src="lib/Command/UpdateEmptyTemplates.php">
     <UndefinedClass>
       <code>Command</code>
     </UndefinedClass>
@@ -53,7 +43,7 @@
       <code><![CDATA[$node->getId()]]></code>
     </InvalidScalarArgument>
     <RedundantCondition>
-      <code><![CDATA[$app !== '']]></code>
+      <code>$app !== ''</code>
     </RedundantCondition>
   </file>
   <file src="lib/Controller/SettingsController.php">
@@ -78,7 +68,7 @@
       <code>null</code>
     </NullArgument>
     <TypeDoesNotContainType>
-      <code><![CDATA[$path === '']]></code>
+      <code>$path === ''</code>
     </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>putContent</code>
@@ -95,35 +85,13 @@
       <code><![CDATA[$share && method_exists($share, 'getAttributes')]]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/Preview/EMF.php">
+  <file src="lib/Preview/Office.php">
     <MissingDependency>
-      <code>Office</code>
+      <code>Image</code>
     </MissingDependency>
-  </file>
-  <file src="lib/Preview/MSExcel.php">
-    <MissingDependency>
-      <code>Office</code>
-    </MissingDependency>
-  </file>
-  <file src="lib/Preview/MSWord.php">
-    <MissingDependency>
-      <code>Office</code>
-    </MissingDependency>
-  </file>
-  <file src="lib/Preview/OOXML.php">
-    <MissingDependency>
-      <code>Office</code>
-    </MissingDependency>
-  </file>
-  <file src="lib/Preview/OpenDocument.php">
-    <MissingDependency>
-      <code>Office</code>
-    </MissingDependency>
-  </file>
-  <file src="lib/Preview/Pdf.php">
-    <MissingDependency>
-      <code>Office</code>
-    </MissingDependency>
+    <UndefinedThisPropertyAssignment>
+      <code><![CDATA[$this->capabilitites]]></code>
+    </UndefinedThisPropertyAssignment>
   </file>
   <file src="lib/Service/ConnectivityService.php">
     <UndefinedClass>

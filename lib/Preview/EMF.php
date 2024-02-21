@@ -26,10 +26,11 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Preview;
 
 class EMF extends Office {
+	public const MIMETYPE_REGEX = '/image\/emf/';
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
-		return '/image\/emf/';
+	public function getMimeType(): string {
+		return self::MIMETYPE_REGEX;
 	}
 }

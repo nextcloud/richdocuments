@@ -23,10 +23,11 @@
 namespace OCA\Richdocuments\Preview;
 
 class Pdf extends Office {
+	public const MIMETYPE_REGEX = '/application\/pdf/';
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
-		return '/application\/pdf/';
+	public function getMimeType(): string {
+		return self::MIMETYPE_REGEX;
 	}
 }

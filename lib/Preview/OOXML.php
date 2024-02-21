@@ -22,10 +22,12 @@
 namespace OCA\Richdocuments\Preview;
 
 class OOXML extends Office {
+	public const MIMETYPE_REGEX = '/application\/vnd.openxmlformats-officedocument.*/';
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
-		return '/application\/vnd.openxmlformats-officedocument.*/';
+	public function getMimeType(): string {
+		return self::MIMETYPE_REGEX;
 	}
 }
