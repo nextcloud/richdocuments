@@ -77,6 +77,7 @@ return [
 	'ocs' => [
 		// Public pages: new file creation
 		['name' => 'documentAPI#create', 'url' => '/api/v1/file', 'verb' => 'POST'],
+		['name' => 'documentAPI#openLocal', 'url' => '/api/v1/local', 'verb' => 'POST'],
 
 		// Client API endpoints
 		['name' => 'OCS#createDirect', 'url' => '/api/v1/document', 'verb' => 'POST'],
