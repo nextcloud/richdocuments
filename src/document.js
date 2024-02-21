@@ -326,7 +326,7 @@ const documentsMain = {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Hide_Menu_Item', { id: 'insertgraphicremote' })
 						}
 
-						if (Config.get('userId') !== null && !Config.get('isPublicShare')) {
+						if (Config.get('userId') !== null && !Config.get('isPublicShare') && loadState('richdocuments', 'open_local_editor', true)) {
 							PostMessages.sendWOPIPostMessage('loolframe', 'Insert_Button', {
 								id: 'Open_Local_Editor',
 								imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
@@ -591,11 +591,7 @@ const documentsMain = {
 	},
 
 	unlockFile() {
-		const unlockUrl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + documentsMain.fileId
-		const unlockConfig = {
-			headers: { 'X-WOPI-Override': 'UNLOCK' },
-		}
-		return axios.post(unlockUrl, { access_token: documentsMain.token }, unlockConfig)
+		return axios.post(generateOcsUrl('apps/richdocuments/api/v1/local'), { fileId: this.fileid })
 	},
 
 	openLocally() {
