@@ -142,15 +142,15 @@ class AppConfig {
 	}
 
 	public function getCollaboraUrlPublic(): string {
-		return $this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL, $this->getCollaboraUrlInternal());
+		return rtrim($this->config->getAppValue(Application::APPNAME, self::PUBLIC_WOPI_URL, $this->getCollaboraUrlInternal()), '/');
 	}
 
 	public function getCollaboraUrlInternal(): string {
-		return $this->config->getAppValue(Application::APPNAME, self::WOPI_URL, '');
+		return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_URL, ''), '/');
 	}
 
 	public function getNextcloudUrl(): string {
-		return $this->config->getAppValue(Application::APPNAME, self::WOPI_CALLBACK_URL, '');
+		return rtrim($this->config->getAppValue(Application::APPNAME, self::WOPI_CALLBACK_URL, ''), '/');
 	}
 
 	public function getDisableCertificateValidation(): bool {

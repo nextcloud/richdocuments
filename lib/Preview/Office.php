@@ -22,31 +22,19 @@
 namespace OCA\Richdocuments\Preview;
 
 use OC\Preview\Provider;
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Image;
+use Psr\Log\LoggerInterface;
 
 abstract class Office extends Provider {
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var array */
-	private $capabilitites;
-
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct(IClientService $clientService, IConfig $config, Capabilities $capabilities, ILogger $logger) {
+	public function __construct(private IClientService $clientService, private AppConfig $config, Capabilities $capabilities, private LoggerInterface $logger) {
 		parent::__construct();
-		$this->clientService = $clientService;
-		$this->config = $config;
+
 		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'] ?? [];
-		$this->logger = $logger;
 	}
 
 	private function getWopiURL() {
@@ -91,13 +79,9 @@ abstract class Office extends Provider {
 		$options['multipart'] = [['name' => $path, 'contents' => $stream]];
 
 		try {
-			$response = $client->post($this->getWopiURL(). '/lool/convert-to/png', $options);
+			$response = $client->post($this->config->getCollaboraUrlInternal() . '/cool/convert-to/png', $options);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed to convert file to preview',
-				'level' => ILogger::INFO,
-				'app' => 'richdocuments',
-			]);
+			$this->logger->info('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
 			return false;
 		}
 
