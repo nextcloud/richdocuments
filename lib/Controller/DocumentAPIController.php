@@ -30,11 +30,17 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Lock\ILock;
+use OCP\Files\Lock\ILockManager;
+use OCP\Files\Lock\LockContext;
+use OCP\Files\Lock\NoLockProviderException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -45,15 +51,17 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	private $templateManager;
 	private $l10n;
 	private $logger;
+	private $lockManager;
 	private $userId;
 
-	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, $userId) {
+	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, ILockManager $lockManager, $userId) {
 		parent::__construct(Application::APPNAME, $request);
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->templateManager = $templateManager;
 		$this->l10n = $l10n;
 		$this->logger = $logger;
+		$this->lockManager = $lockManager;
 		$this->userId = $userId;
 	}
 
@@ -146,5 +154,24 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 			'status' => 'success',
 			'data' => \OCA\Files\Helper::formatFileInfo($file->getFileInfo())
 		]);
+	}
+
+	#[Http\Attribute\NoAdminRequired]
+	public function openLocal(int $fileId): DataResponse {
+		try {
+			$files = $this->rootFolder->getUserFolder($this->userId)->getById($fileId);
+			$file = array_shift($files);
+			$this->lockManager->unlock(new LockContext(
+				$file,
+				ILock::TYPE_APP,
+				Application::APPNAME
+			));
+			return new DataResponse([]);
+		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
 	}
 }
