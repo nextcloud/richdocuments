@@ -22,10 +22,11 @@
 namespace OCA\Richdocuments\Preview;
 
 class MSExcel extends Office {
+	public const MIMETYPE_REGEX = '/application\/vnd.ms-excel/';
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
-		return '/application\/vnd.ms-excel/';
+	public function getMimeType(): string {
+		return self::MIMETYPE_REGEX;
 	}
 }

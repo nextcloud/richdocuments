@@ -21,39 +21,23 @@
  */
 namespace OCA\Richdocuments\Preview;
 
-use OC\Preview\Provider;
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCP\Files\File;
 use OCP\Http\Client\IClientService;
-use OCP\IConfig;
-use OCP\ILogger;
+use OCP\IImage;
 use OCP\Image;
+use OCP\Preview\IProviderV2;
+use Psr\Log\LoggerInterface;
 
-abstract class Office extends Provider {
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var array */
-	private $capabilitites;
-
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct(IClientService $clientService, IConfig $config, Capabilities $capabilities, ILogger $logger) {
-		parent::__construct();
-		$this->clientService = $clientService;
-		$this->config = $config;
+abstract class Office implements IProviderV2 {
+	private array $capabilities = [];
+	
+	public function __construct(private IClientService $clientService, private AppConfig $config, Capabilities $capabilities, private LoggerInterface $logger) {
 		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'] ?? [];
-		$this->logger = $logger;
 	}
 
-	private function getWopiURL() {
-		return $this->config->getAppValue('richdocuments', 'wopi_url');
-	}
-
-	public function isAvailable(\OCP\Files\FileInfo $file) {
+	public function isAvailable(\OCP\Files\FileInfo $file): bool {
 		if (isset($this->capabilitites['collabora']['convert-to']['available'])) {
 			return (bool)$this->capabilitites['collabora']['convert-to']['available'];
 		}
@@ -63,18 +47,17 @@ abstract class Office extends Provider {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$fileInfo = $fileview->getFileInfo($path);
-		if (!$fileInfo || $fileInfo->getSize() === 0) {
-			return false;
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		if ($file->getSize() === 0) {
+			return null;
 		}
 
-		$useTempFile = $fileInfo->isEncrypted() || !$fileInfo->getStorage()->isLocal();
+		$useTempFile = $file->isEncrypted() || !$file->getStorage()->isLocal();
 		if ($useTempFile) {
-			$fileName = $fileview->toTmpFile($path);
+			$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
 			$stream = fopen($fileName, 'r');
 		} else {
-			$stream = $fileview->fopen($path, 'r');
+			$stream = $file->fopen('r');
 		}
 
 		$client = $this->clientService->newClient();
@@ -88,17 +71,13 @@ abstract class Office extends Provider {
 			$options['verify'] = false;
 		}
 
-		$options['multipart'] = [['name' => $path, 'contents' => $stream]];
+		$options['multipart'] = [['name' => $file->getName(), 'contents' => $stream]];
 
 		try {
-			$response = $client->post($this->getWopiURL(). '/lool/convert-to/png', $options);
+			$response = $client->post($this->config->getCollaboraUrlInternal() . '/cool/convert-to/png', $options);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed to convert file to preview',
-				'level' => ILogger::INFO,
-				'app' => 'richdocuments',
-			]);
-			return false;
+			$this->logger->info('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
+			return null;
 		}
 
 		$image = new Image();
@@ -108,6 +87,6 @@ abstract class Office extends Provider {
 			$image->scaleDownToFit($maxX, $maxY);
 			return $image;
 		}
-		return false;
+		return null;
 	}
 }

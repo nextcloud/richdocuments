@@ -22,10 +22,11 @@
 namespace OCA\Richdocuments\Preview;
 
 class MSWord extends Office {
+	public const MIMETYPE_REGEX = '/application\/msword/';
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
-		return '/application\/msword/';
+	public function getMimeType(): string {
+		return self::MIMETYPE_REGEX;
 	}
 }

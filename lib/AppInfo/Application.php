@@ -61,7 +61,6 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
@@ -92,6 +91,13 @@ class Application extends App implements IBootstrap {
 			'getPathForToken',
 			'getWopiForToken',
 		]);
+
+		$context->registerPreviewProvider(EMF::class, EMF::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(MSExcel::class, MSExcel::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(MSWord::class, MSWord::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(OOXML::class, OOXML::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(OpenDocument::class, OpenDocument::MIMETYPE_REGEX);
+		$context->registerPreviewProvider(Pdf::class, Pdf::MIMETYPE_REGEX);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -153,41 +159,7 @@ class Application extends App implements IBootstrap {
 			});
 		});
 
-		$this->registerProvider();
 		$this->checkAndEnableCODEServer();
-	}
-
-	public function registerProvider() {
-		$container = $this->getContainer();
-
-		/** @var IPreview $previewManager */
-		$previewManager = $container->get(IPreview::class);
-
-		$previewManager->registerProvider('/application\/vnd.ms-excel/', function () use ($container) {
-			return $container->get(MSExcel::class);
-		});
-
-		$previewManager->registerProvider('/application\/msword/', function () use ($container) {
-			return $container->get(MSWord::class);
-		});
-
-		$previewManager->registerProvider('/application\/vnd.openxmlformats-officedocument.*/', function () use ($container) {
-			return $container->get(OOXML::class);
-		});
-
-		$previewManager->registerProvider('/application\/vnd.oasis.opendocument.*/', function () use ($container) {
-			return $container->get(OpenDocument::class);
-		});
-
-		$previewManager->registerProvider('/image\/emf/', function () use ($container) {
-			return $container->get(EMF::class);
-		});
-
-		if (!$previewManager->isMimeSupported('application/pdf')) {
-			$previewManager->registerProvider('/application\/pdf/', function () use ($container) {
-				return $container->get(Pdf::class);
-			});
-		}
 	}
 
 	public function checkAndEnableCODEServer() {
