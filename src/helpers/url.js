@@ -34,7 +34,7 @@ const getSearchParam = (name) => {
 
 const getCallbackBaseUrl = () => {
 	const callbackUrl = Config.get('wopi_callback_url')
-	return callbackUrl || window.location.protocol + '//' + window.location.host + getRootUrl() + '/'
+	return callbackUrl || window.location.protocol + '//' + window.location.host + getRootUrl()
 }
 
 const getWopiSrc = (fileId) => {
