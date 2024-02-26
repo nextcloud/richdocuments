@@ -105,5 +105,7 @@ class InitialStateService {
 		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
 			$this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo())
 			: false));
+
+		$this->initialState->provideInitialState('open_local_editor', $this->config->getAppValue(Application::APPNAME, 'open_local_editor', 'yes') === 'yes');
 	}
 }

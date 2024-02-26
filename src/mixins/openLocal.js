@@ -22,7 +22,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { encodePath } from '@nextcloud/paths'
-import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { getNextcloudUrl } from '../helpers/url.js'
 
 // FIXME: Migrate to vue component
@@ -92,11 +92,7 @@ export default {
 		},
 
 		unlockFile() {
-			const unlockUrl = getRootUrl() + '/index.php/apps/richdocuments/wopi/files/' + this.fileid
-			const unlockConfig = {
-				headers: { 'X-WOPI-Override': 'UNLOCK' },
-			}
-			return axios.post(unlockUrl, { access_token: this.formData.accessToken }, unlockConfig)
+			return axios.post(generateOcsUrl('apps/richdocuments/api/v1/local'), { fileId: this.fileid })
 		},
 
 		openLocally() {
