@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.0.8
+
+### Fixed
+
+- fix: emit allow attribute on all iframes for the clipboard @vmiklos [#3485](https://github.com/nextcloud/richdocuments/pull/3485)
+- fix: Clear loading timeout when guest name is asked @max-nextcloud [#3444](https://github.com/nextcloud/richdocuments/pull/3444)
+
 ## 8.0.7
 
 ### Fixed
