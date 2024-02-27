@@ -74,39 +74,6 @@ use Psr\Log\LoggerInterface;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IConfig */
-	private $config;
-	/** @var AppConfig */
-	private $appConfig;
-	/** @var TokenManager */
-	private $tokenManager;
-	/** @var PermissionManager */
-	private $permissionManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var WopiMapper */
-	private $wopiMapper;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var TemplateManager */
-	private $templateManager;
-	/** @var IShareManager */
-	private $shareManager;
-	/** @var UserScopeService */
-	private $userScopeService;
-	/** @var FederationService */
-	private $federationService;
-	/** @var IEncryptionManager */
-	private $encryptionManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	private ILockManager $lockManager;
-	private IEventDispatcher $eventDispatcher;
-
 	// Signifies LOOL that document has been changed externally in this storage
 	public const LOOL_STATUS_DOC_CHANGED = 1010;
 
@@ -115,42 +82,25 @@ class WopiController extends Controller {
 	public function __construct(
 		$appName,
 		IRequest $request,
-		IRootFolder $rootFolder,
-		IURLGenerator $urlGenerator,
-		IConfig $config,
-		AppConfig $appConfig,
-		TokenManager $tokenManager,
-		PermissionManager $permissionManager,
-		IUserManager $userManager,
-		WopiMapper $wopiMapper,
-		LoggerInterface $logger,
-		TemplateManager $templateManager,
-		IShareManager $shareManager,
-		UserScopeService $userScopeService,
-		FederationService $federationService,
-		IEncryptionManager $encryptionManager,
-		IGroupManager $groupManager,
-		ILockManager $lockManager,
-		IEventDispatcher $eventDispatcher
+		private IRootFolder $rootFolder,
+		private IURLGenerator $urlGenerator,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private TokenManager $tokenManager,
+		private PermissionManager $permissionManager,
+		private IUserManager $userManager,
+		private WopiMapper $wopiMapper,
+		private LoggerInterface $logger,
+		private TemplateManager $templateManager,
+		private IShareManager $shareManager,
+		private UserScopeService $userScopeService,
+		private FederationService $federationService,
+		private IEncryptionManager $encryptionManager,
+		private IGroupManager $groupManager,
+		private ILockManager $lockManager,
+		private IEventDispatcher $eventDispatcher
 	) {
 		parent::__construct($appName, $request);
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->tokenManager = $tokenManager;
-		$this->permissionManager = $permissionManager;
-		$this->userManager = $userManager;
-		$this->wopiMapper = $wopiMapper;
-		$this->logger = $logger;
-		$this->templateManager = $templateManager;
-		$this->shareManager = $shareManager;
-		$this->userScopeService = $userScopeService;
-		$this->federationService = $federationService;
-		$this->encryptionManager = $encryptionManager;
-		$this->groupManager = $groupManager;
-		$this->lockManager = $lockManager;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
