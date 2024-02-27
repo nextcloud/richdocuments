@@ -185,6 +185,7 @@ class WopiController extends Controller {
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
 			'EnableRemoteLinkPicker' => (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect(),
+			'HasContentRange' => true,
 		];
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
@@ -349,7 +350,32 @@ class WopiController extends Controller {
 				if ($file->getSize() === 0) {
 					$response = new Http\Response();
 				} else {
-					$response = new StreamResponse($file->fopen('rb'));
+
+					$filesize = $file->getSize();
+					if ($this->request->getHeader('Range')) {
+						$partialContent = true;
+						preg_match('/bytes=(\d+)-(\d+)?/', $this->request->getHeader('Range'), $matches);
+
+						$offset = intval($matches[1] ?? 0);
+						$length = intval($matches[2] ?? 0) - $offset + 1;
+						if ($length <= 0) {
+							$length = $filesize - $offset;
+						}
+
+						$fp = $file->fopen('rb');
+						$rangeStream = fopen("php://temp", "w+b");
+						stream_copy_to_stream($fp, $rangeStream, $length, $offset);
+						fclose($fp);
+
+						fseek($rangeStream, 0);
+						$response = new StreamResponse($rangeStream);
+						$response->addHeader('Accept-Ranges', 'bytes');
+						$response->addHeader('Content-Length', $filesize);
+						$response->setStatus(Http::STATUS_PARTIAL_CONTENT);
+						$response->addHeader('Content-Range', 'bytes ' . $offset . '-' . ($offset + $length) . '/' . $filesize);
+					} else {
+						$response = new StreamResponse($file->fopen('rb'));
+					}
 				}
 			}
 			$response->addHeader('Content-Disposition', 'attachment');
