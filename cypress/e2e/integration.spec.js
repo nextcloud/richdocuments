@@ -96,7 +96,7 @@ describe('Nextcloud integration', function() {
 		cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 
 		// FIXME: We should not need to reload
-		cy.get('.breadcrumb__crumbs a').eq(0).click()
+		cy.get('.breadcrumb__crumbs a').eq(0).click({ force: true })
 
 		cy.openFile('document.rtf')
 	})
