@@ -78,6 +78,7 @@
 			data-cy="coolframe"
 			scrolling="no"
 			allowfullscreen
+			allow="clipboard-read *; clipboard-write *"
 			class="office-viewer__iframe"
 			:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 			:src="iframeSrc" />
