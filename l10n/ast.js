@@ -24,6 +24,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Submit" : "Unviar",
     "Description" : "Descripción",
+    "Select file or folder to link to" : "Seleicionar un ficheru o una carpeta a la qu'enllaciar",
     "Close" : "Zarrar",
     "Error" : "Error",
     "An error occurred" : "Prodúxose un error",
@@ -33,6 +34,7 @@ OC.L10N.register(
     "Add to favorites" : "Meter en Favoritos",
     "Details" : "Detalles",
     "Download" : "Baxar",
+    "Create" : "Crear",
     "Zotero" : "Zotero",
     "Saving…" : "Guardando…",
     "Collabora Online" : "Collabora Online"
