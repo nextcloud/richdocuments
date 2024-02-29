@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.2.5
+
+### Fixed
+
+- fix: emit allow attribute on all iframes for the clipboard (related t… @backportbot[bot] [#3484](https://github.com/nextcloud/richdocuments/pull/3484)
+- fix: emit allow attribute on iframe for the clipboard (fixes #3474) @backportbot[bot] [#3482](https://github.com/nextcloud/richdocuments/pull/3482)
+- Fix open locally with files lock and wopi allow list @backportbot[bot] [#3502](https://github.com/nextcloud/richdocuments/pull/3502)
+
+### Other
+
+- test(ci): use only 3 runners for cypress @max-nextcloud [#3412](https://github.com/nextcloud/richdocuments/pull/3412)
+
 ## 8.2.4
 
 ### Fixed
