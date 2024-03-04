@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.3.2
+
+### Fixed
+
+- [stable28] fix: emit allow attribute on iframe for the clipboard (fixes #3474) @backportbot[bot] [#3481](https://github.com/nextcloud/richdocuments/pull/3481)
+- [stable28] Fixes #3492 joining after document is renamed inside editor @backportbot[bot] [#3504](https://github.com/nextcloud/richdocuments/pull/3504)
+- [stable28] fix: emit allow attribute on all iframes for the clipboard (related t… @backportbot[bot] [#3483](https://github.com/nextcloud/richdocuments/pull/3483)
+- [stable28] fix: Properly use input model in settings text fields @backportbot[bot] [#3495](https://github.com/nextcloud/richdocuments/pull/3495)
+- [stable28] Fix open locally with files lock and wopi allow list @backportbot[bot] [#3503](https://github.com/nextcloud/richdocuments/pull/3503)
+
+### Other
+
+- test(ci): use only 3 runners for cypress @max-nextcloud [#3411](https://github.com/nextcloud/richdocuments/pull/3411)
+
 ## 8.3.1
 
 ### Fixed
