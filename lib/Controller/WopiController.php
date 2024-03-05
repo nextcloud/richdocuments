@@ -74,39 +74,6 @@ use Psr\Log\LoggerInterface;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IConfig */
-	private $config;
-	/** @var AppConfig */
-	private $appConfig;
-	/** @var TokenManager */
-	private $tokenManager;
-	/** @var PermissionManager */
-	private $permissionManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var WopiMapper */
-	private $wopiMapper;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var TemplateManager */
-	private $templateManager;
-	/** @var IShareManager */
-	private $shareManager;
-	/** @var UserScopeService */
-	private $userScopeService;
-	/** @var FederationService */
-	private $federationService;
-	/** @var IEncryptionManager */
-	private $encryptionManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	private ILockManager $lockManager;
-	private IEventDispatcher $eventDispatcher;
-
 	// Signifies LOOL that document has been changed externally in this storage
 	public const LOOL_STATUS_DOC_CHANGED = 1010;
 
@@ -115,42 +82,25 @@ class WopiController extends Controller {
 	public function __construct(
 		$appName,
 		IRequest $request,
-		IRootFolder $rootFolder,
-		IURLGenerator $urlGenerator,
-		IConfig $config,
-		AppConfig $appConfig,
-		TokenManager $tokenManager,
-		PermissionManager $permissionManager,
-		IUserManager $userManager,
-		WopiMapper $wopiMapper,
-		LoggerInterface $logger,
-		TemplateManager $templateManager,
-		IShareManager $shareManager,
-		UserScopeService $userScopeService,
-		FederationService $federationService,
-		IEncryptionManager $encryptionManager,
-		IGroupManager $groupManager,
-		ILockManager $lockManager,
-		IEventDispatcher $eventDispatcher
+		private IRootFolder $rootFolder,
+		private IURLGenerator $urlGenerator,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private TokenManager $tokenManager,
+		private PermissionManager $permissionManager,
+		private IUserManager $userManager,
+		private WopiMapper $wopiMapper,
+		private LoggerInterface $logger,
+		private TemplateManager $templateManager,
+		private IShareManager $shareManager,
+		private UserScopeService $userScopeService,
+		private FederationService $federationService,
+		private IEncryptionManager $encryptionManager,
+		private IGroupManager $groupManager,
+		private ILockManager $lockManager,
+		private IEventDispatcher $eventDispatcher
 	) {
 		parent::__construct($appName, $request);
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->tokenManager = $tokenManager;
-		$this->permissionManager = $permissionManager;
-		$this->userManager = $userManager;
-		$this->wopiMapper = $wopiMapper;
-		$this->logger = $logger;
-		$this->templateManager = $templateManager;
-		$this->shareManager = $shareManager;
-		$this->userScopeService = $userScopeService;
-		$this->federationService = $federationService;
-		$this->encryptionManager = $encryptionManager;
-		$this->groupManager = $groupManager;
-		$this->lockManager = $lockManager;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -235,6 +185,7 @@ class WopiController extends Controller {
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
 			'EnableRemoteLinkPicker' => (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect(),
+			'HasContentRange' => true,
 		];
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
@@ -399,7 +350,32 @@ class WopiController extends Controller {
 				if ($file->getSize() === 0) {
 					$response = new Http\Response();
 				} else {
-					$response = new StreamResponse($file->fopen('rb'));
+
+					$filesize = $file->getSize();
+					if ($this->request->getHeader('Range')) {
+						$partialContent = true;
+						preg_match('/bytes=(\d+)-(\d+)?/', $this->request->getHeader('Range'), $matches);
+
+						$offset = intval($matches[1] ?? 0);
+						$length = intval($matches[2] ?? 0) - $offset + 1;
+						if ($length <= 0) {
+							$length = $filesize - $offset;
+						}
+
+						$fp = $file->fopen('rb');
+						$rangeStream = fopen("php://temp", "w+b");
+						stream_copy_to_stream($fp, $rangeStream, $length, $offset);
+						fclose($fp);
+
+						fseek($rangeStream, 0);
+						$response = new StreamResponse($rangeStream);
+						$response->addHeader('Accept-Ranges', 'bytes');
+						$response->addHeader('Content-Length', $filesize);
+						$response->setStatus(Http::STATUS_PARTIAL_CONTENT);
+						$response->addHeader('Content-Range', 'bytes ' . $offset . '-' . ($offset + $length) . '/' . $filesize);
+					} else {
+						$response = new StreamResponse($file->fopen('rb'));
+					}
 				}
 			}
 			$response->addHeader('Content-Disposition', 'attachment');
