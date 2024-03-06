@@ -24,6 +24,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Submit" : "Unviar",
     "Description" : "Descripción",
+    "No results" : "Nun hai nengún resultáu",
     "Select file or folder to link to" : "Seleicionar un ficheru o una carpeta a la qu'enllaciar",
     "Close" : "Zarrar",
     "Error" : "Error",
