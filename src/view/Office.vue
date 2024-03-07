@@ -488,7 +488,7 @@ export default {
 </style>
 
 <style lang="scss">
-.viewer .office-viewer:not(.viewer__file--hidden) {
+.viewer .office-viewer:not(.viewer__file--hidden):not(.widget-file) {
 	width: 100%;
 	height: 100vh;
 	height: 100dvh;
