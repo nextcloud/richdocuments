@@ -1,5 +1,46 @@
 # Changelog
 
+## 8.4.0-beta.1
+
+### Added
+
+ Improve setup checks and url handling with separate callback url @juliushaertl [#3315](https://github.com/nextcloud/richdocuments/pull/3315)
+- Feature/fonts improvement @luka-nextcloud [#3304](https://github.com/nextcloud/richdocuments/pull/3304)
+- feat: Add headers for wasm support @juliushaertl [#3260](https://github.com/nextcloud/richdocuments/pull/3260)
+- enh(Issue_Template) Request richdocuments config in bug reports @joshtrichards [#3384](https://github.com/nextcloud/richdocuments/pull/3384)
+- feat/range requests @juliushaertl [#3505](https://github.com/nextcloud/richdocuments/pull/3505)
+
+### Fixed
+
+- fix: Fix version access with new version backend on shared files @juliushaertl [#3330](https://github.com/nextcloud/richdocuments/pull/3330)
+- fix: Make rename update the file list properly on files2vue @juliushaertl [#3345](https://github.com/nextcloud/richdocuments/pull/3345)
+- fix: Use proper blob url for all fonts @juliushaertl [#3361](https://github.com/nextcloud/richdocuments/pull/3361)
+- fix: mention popup reappears after inserting the mention @Rash419 [#3356](https://github.com/nextcloud/richdocuments/pull/3356)
+- fix(Application.php): Update methods post-refactor @joshtrichards [#3380](https://github.com/nextcloud/richdocuments/pull/3380)
+- fix: Consider owner group membership for public share links @juliushaertl [#3372](https://github.com/nextcloud/richdocuments/pull/3372)
+- fix: Avoid 3px offset on public share links @juliushaertl [#3369](https://github.com/nextcloud/richdocuments/pull/3369)
+- feat: add loadingMessage() to show different loadingMsg @Rash419 [#3311](https://github.com/nextcloud/richdocuments/pull/3311)
+- fix: Disable auto logout while editing @juliushaertl [#3224](https://github.com/nextcloud/richdocuments/pull/3224)
+- fix(i18n): Improved grammar @rakekniven [#3391](https://github.com/nextcloud/richdocuments/pull/3391)
+- fix: Let wopi middleware also handle asset fetching @juliushaertl [#3403](https://github.com/nextcloud/richdocuments/pull/3403)
+- fix: Drop use of deprecated jquery load @juliushaertl [#3469](https://github.com/nextcloud/richdocuments/pull/3469)
+- fix: emit allow attribute on iframe for the clipboard (fixes #3474) @vmiklos [#3475](https://github.com/nextcloud/richdocuments/pull/3475)
+- fix: emit allow attribute on all iframes for the clipboard (related t… @vmiklos [#3480](https://github.com/nextcloud/richdocuments/pull/3480)
+- fix: Properly use input model in settings text fields @juliushaertl [#3490](https://github.com/nextcloud/richdocuments/pull/3490)
+- Fix preview URLs and migrate providers to new API @juliushaertl [#3491](https://github.com/nextcloud/richdocuments/pull/3491)
+- Fix open locally with files lock and wopi allow list @juliushaertl [#3489](https://github.com/nextcloud/richdocuments/pull/3489)
+- Fixes #3492 joining after document is renamed inside editor @eszkadev [#3493](https://github.com/nextcloud/richdocuments/pull/3493)
+- fix: Avoid absolute positioning on interactive widgets @juliushaertl [#3513](https://github.com/nextcloud/richdocuments/pull/3513)
+
+### Other
+
+- Do not hide speadsheet statusbar by default @pedropintosilva [#3324](https://github.com/nextcloud/richdocuments/pull/3324)
+- chore(ci): configure dependabot reviewers @max-nextcloud [#3366](https://github.com/nextcloud/richdocuments/pull/3366)
+- Switch to NcSelect and `@nextcloud/vue` 8 @juliushaertl [#2945](https://github.com/nextcloud/richdocuments/pull/2945)
+- test(ci): use only 3 runners for cypress @max-nextcloud [#3410](https://github.com/nextcloud/richdocuments/pull/3410)
+- ActivateConfig: add type declarations @joshtrichards [#3424](https://github.com/nextcloud/richdocuments/pull/3424)
+- perf: Change to individual dist imports to decrease loaded component impact @juliushaertl [#3464](https://github.com/nextcloud/richdocuments/pull/3464)
+
 ## 8.3.0-beta.1
 
 ### Added
