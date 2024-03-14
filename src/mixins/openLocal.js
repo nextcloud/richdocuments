@@ -83,7 +83,7 @@ export default {
 				},
 				(decision) => {
 					if (!decision) {
-						window.OCA.Viewer.open(fileName)
+						window.OCA.Viewer.open({ path: fileName })
 						return
 					}
 					this.openingLocally = true
