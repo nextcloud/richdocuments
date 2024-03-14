@@ -23,8 +23,9 @@
 
 namespace OCA\Richdocuments\Backgroundjobs;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -34,7 +35,8 @@ class Cleanup extends TimedJob {
 	/** @var WopiMapper $wopiMapper */
 	private $wopiMapper;
 
-	public function __construct(IDBConnection $db, WopiMapper $wopiMapper) {
+	public function __construct(ITimeFactory $time, IDBConnection $db, WopiMapper $wopiMapper) {
+		parent::__construct($time);
 		$this->db = $db;
 		$this->wopiMapper = $wopiMapper;
 
