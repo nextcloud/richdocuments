@@ -28,12 +28,12 @@ const getUIDefaults = () => {
 	const textRuler = 'false'
 	const sidebar = 'false'
 	const saveAsMode = 'group'
-	const uiMode = defaults.UIMode ?? 'notebookbar' // or notebookbar
+	const uiMode = defaults.UIMode ?? 'notebookbar'
 
 	const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-	// FIXME For now we need to access parent here as the public page loaded for collabora doesn't have the user theme
-	const nextcloudDarkMode = parent.document.body.dataset.themeDark === '' || parent.document.body.dataset.themeDarkHighcontrast === ''
-	const matchedDarkMode = parent.document.body.dataset.themeDefault === '' ? systemDarkMode : nextcloudDarkMode
+	const dataset = (document.body.dataset.themes ? document.body.dataset : parent?.document.body.dataset) ?? {}
+	const nextcloudDarkMode = dataset?.themeDark === '' || dataset?.themeDarkHighcontrast === ''
+	const matchedDarkMode = (!dataset?.themes || dataset?.themes === '' || dataset?.themeDefault === '') ? systemDarkMode : nextcloudDarkMode
 	const uiTheme = matchedDarkMode ? 'dark' : 'light'
 
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
