@@ -73,7 +73,7 @@ describe('Nextcloud integration', function() {
 
 		cy.get('#tab-version_vue').should('be.visible')
 
-		cy.get('#tab-version_vue .version__info__label').contains('Current version')
+		cy.get('#tab-version_vue .list-item-content__name').contains('Current version')
 	})
 
 	it('Save as', function() {
