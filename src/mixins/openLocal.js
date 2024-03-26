@@ -82,6 +82,10 @@ export default {
 					cancel: t('richdocuments', 'Continue editing online'),
 				},
 				(decision) => {
+					if (window.event?.target.classList.contains('oc-dialog-close')) {
+						return
+					}
+
 					if (!decision) {
 						window.OCA.Viewer.open({ path: fileName })
 						return
