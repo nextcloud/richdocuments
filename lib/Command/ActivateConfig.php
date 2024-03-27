@@ -81,13 +81,16 @@ class ActivateConfig extends Command {
 				return 1;
 			}
 
-			try {
-				$this->connectivityService->testCapabilities($output);
-			} catch (\Throwable $e) {
-				// FIXME: Optional when allowing generic WOPI servers
-				$output->writeln('<error>Failed to fetch capabilities endpoint from ' . $this->capabilitiesService->getCapabilitiesEndpoint());
-				$output->writeln($e->getMessage());
-				return 1;
+			if ($this->connectivityService->hasCapabilities()) {
+				try {
+					$this->connectivityService->testCapabilities($output);
+				} catch (\Throwable $e) {
+					// FIXME: Optional when allowing generic WOPI servers
+					// We need this now
+					$output->writeln('<error>Failed to fetch capabilities endpoint from ' . $this->capabilitiesService->getCapabilitiesEndpoint());
+					$output->writeln($e->getMessage());
+					return 1;
+				}
 			}
 
 			try {

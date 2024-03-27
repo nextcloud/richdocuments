@@ -48,8 +48,17 @@ class ConnectivityService {
 		$output->writeln('<info>✓ Valid mimetype response</info>');
 
 		// FIXME: Optional when allowing generic WOPI servers
-		$this->parser->getUrlSrcValue('Capabilities');
-		$output->writeln('<info>✓ Valid capabilities entry</info>');
+		if ($this->hasCapabilities()) {
+			$output->writeln('<info>✓ Valid capabilities entry</info>');
+		}
+	}
+
+	public function hasCapabilities() : bool {
+		try {
+			return $this->parser->getUrlSrcValue('Capabilities') !== '';
+		} catch (\Throwable) {
+			return false;
+		}
 	}
 
 	public function testCapabilities(OutputInterface $output): void {
@@ -73,6 +82,10 @@ class ConnectivityService {
 	public function autoConfigurePublicUrl(): void {
 		$determinedUrl = $this->parser->getUrlSrcValue('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 		$detectedUrl = $this->appConfig->domainOnly($determinedUrl);
+		if ($detectedUrl === '') {
+			$determinedUrl = $this->parser->getUrlSrcByExtension('internal-http', 'docx', 'edit');
+			$detectedUrl = $this->appConfig->domainOnly($determinedUrl);
+		}
 		$this->appConfig->setAppValue('public_wopi_url', $detectedUrl);
 	}
 }
