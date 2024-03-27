@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.4.0-beta.2
+
+### Added
+
+- feat: Add new mdi icons @Pytal [#3538](https://github.com/nextcloud/richdocuments/pull/3538)
+
+### Fixed
+
+- fix: Use new viewer api to open files again after open locally @juliushaertl [#3524](https://github.com/nextcloud/richdocuments/pull/3524)
+- fix background jobs @tobiasKaminsky [#3527](https://github.com/nextcloud/richdocuments/pull/3527)
+- match dark theme of system if no nextcloud theme specified @lpranam [#3539](https://github.com/nextcloud/richdocuments/pull/3539)
+
 ## 8.4.0-beta.1
 
 ### Added
