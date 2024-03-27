@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.9
+
+### Fixed
+
+- Fix open locally with files lock and wopi allow list (backport stable26) @lpranam [#3515](https://github.com/nextcloud/richdocuments/pull/3515)
+
 ## 8.0.8
 
 ### Fixed
