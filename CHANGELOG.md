@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.3.3
+
+### Fixed
+
+- fix: Close button should just exit for the edit local modal @backportbot[bot] [#3550](https://github.com/nextcloud/richdocuments/pull/3550)
+- match dark theme of system if no nextcloud theme specified @backportbot[bot] [#3552](https://github.com/nextcloud/richdocuments/pull/3552)
+- fix: Use new viewer api to open files again after open locally @backportbot[bot] [#3526](https://github.com/nextcloud/richdocuments/pull/3526)
+
 ## 8.3.2
 
 ### Fixed
