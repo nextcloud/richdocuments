@@ -481,11 +481,13 @@ const documentsMain = {
 						break
 					case 'Get_Views_Resp':
 						if (documentsMain.openingLocally) {
-							documentsMain.UI.removeViews(parsed.args)
 							documentsMain.unlockFile()
 								.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
 								.then(() => {
-									documentsMain.openLocally()
+									documentsMain.openLocally().then(() => {
+										documentsMain.UI.removeViews(parsed.args)
+										documentsMain.close()
+									})
 								})
 						}
 						break
@@ -591,25 +593,24 @@ const documentsMain = {
 	},
 
 	unlockFile() {
-		return axios.post(generateOcsUrl('apps/richdocuments/api/v1/local'), { fileId: this.fileid })
+		return axios.post(generateOcsUrl('apps/richdocuments/api/v1/local'), { fileId: this.fileId })
 	},
 
-	openLocally() {
+	async openLocally() {
 		if (documentsMain.openingLocally) {
 			documentsMain.openingLocally = false
 
-			axios.post(
+			const result = await axios.post(
 				OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json',
 				{ path: documentsMain.fullPath }
-			).then((result) => {
-				const url = 'nc://open/'
-					+ Config.get('userId') + '@' + getNextcloudUrl()
-					+ OC.encodePath(documentsMain.fullPath)
-					+ '?token=' + result.data.ocs.data.token
+			)
+			const url = 'nc://open/'
+				+ Config.get('userId') + '@' + getNextcloudUrl()
+				+ OC.encodePath(documentsMain.fullPath)
+				+ '?token=' + result.data.ocs.data.token
 
-				this.showOpenLocalConfirmation(url, window.top)
-				window.location.href = url
-			})
+			this.showOpenLocalConfirmation(url, window.top)
+			window.open(url)
 		}
 	},
 
