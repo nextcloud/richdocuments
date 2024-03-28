@@ -51,7 +51,7 @@ jobs:
       matrix:
         php-versions: ['8.0']
         databases: ['sqlite']
-        server-versions: ['master']
+        server-versions: ['stable29']
         scenarios: ['wopi', 'direct', 'federation']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
