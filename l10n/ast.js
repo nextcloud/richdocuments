@@ -38,6 +38,7 @@ OC.L10N.register(
     "Add to favorites" : "Meter en Favoritos",
     "Details" : "Detalles",
     "Download" : "Baxar",
+    "New file" : "Ficheru nuevu",
     "Create" : "Crear",
     "Zotero" : "Zotero",
     "Saving…" : "Guardando…",
