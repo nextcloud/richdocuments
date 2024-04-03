@@ -425,7 +425,7 @@ class WopiController extends Controller {
 
 		if (!$this->encryptionManager->isEnabled() || $this->isMasterKeyEnabled()) {
 			// Set the user to register the change under his name
-			$this->userScopeService->setUserScope($wopi->getUserForFileAccess());
+			$this->userScopeService->setUserScope($wopi->getEditorUid());
 			$this->userScopeService->setFilesystemScope($isPutRelative ? $wopi->getEditorUid() : $wopi->getUserForFileAccess());
 		} else {
 			// Per-user encryption is enabled so that collabora isn't able to store the file by using the
