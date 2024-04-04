@@ -100,7 +100,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
-import { showInfo } from '@nextcloud/dialogs'
+import { showInfo, spawnDialog } from '@nextcloud/dialogs'
 
 import ZoteroHint from '../components/Modal/ZoteroHint.vue'
 import { basename, dirname } from 'path'
@@ -132,6 +132,7 @@ import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
 import { getCurrentUser } from '@nextcloud/auth'
+import { shouldAskForGuestName } from '../helpers/guestName.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 
@@ -188,6 +189,8 @@ export default {
 			error: null,
 			errorType: null,
 			loadingMsg: null,
+
+			guestName: null,
 
 			showLinkPicker: false,
 			showZotero: false,
@@ -279,7 +282,21 @@ export default {
 		}
 		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
 
-		await this.load()
+		if (shouldAskForGuestName()) {
+			const { default: GuestNamePicker } = await import(
+				/* webpackChunkName: 'GuestNamePicker' */
+				'../components/GuestNamePicker.vue')
+
+			spawnDialog(GuestNamePicker, {
+				fileName: basename(this.filename),
+				onSubmit: async (guestName) => {
+					this.guestName = guestName
+					await this.load()
+				},
+			})
+		} else {
+			await this.load()
+		}
 	},
 	beforeDestroy() {
 		this.postMessage.unregisterPostMessageHandler(this.postMessageHandler)
@@ -293,7 +310,7 @@ export default {
 
 			// Generate WOPI token
 			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
-				fileId: fileid, shareToken: this.shareToken, version,
+				fileId: fileid, shareToken: this.shareToken, version, guestName: this.guestName,
 			})
 			Config.update('urlsrc', data.urlSrc)
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
