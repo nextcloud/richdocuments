@@ -96,6 +96,7 @@ class TokenManager {
 		$owneruid = null;
 		$hideDownload = false;
 		$rootFolder = $this->rootFolder;
+
 		// if the user is not logged-in do use the sharers storage
 		if ($shareToken !== null) {
 			/** @var File $file */

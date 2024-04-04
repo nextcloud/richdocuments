@@ -94,14 +94,18 @@ class InitialStateService {
 	}
 
 	private function provideOptions(): void {
+		$this->initialState->provideInitialState('loggedInUser', $this->userId ?? false);
+
 		$this->initialState->provideInitialState('theme', $this->config->getAppValue(Application::APPNAME, 'theme', 'nextcloud'));
 		$this->initialState->provideInitialState('uiDefaults', [
 			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
 		]);
+
 		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
 		if (!$logoSet) {
 			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
 		}
+
 		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
 			$this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo())
 			: false));

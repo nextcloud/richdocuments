@@ -4,10 +4,8 @@ import { generateOcsUrl, getRootUrl, imagePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import Config from './services/config.tsx'
-import { setGuestName, shouldAskForGuestName } from './helpers/guestName.js'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
 import { enableScrollLock } from './helpers/safariFixer.js'
-
 import PostMessageService from './services/postMessage.tsx'
 import {
 	callMobileMessage,
@@ -15,7 +13,6 @@ import {
 	isMobileInterfaceAvailable,
 } from './helpers/mobile.js'
 import { getWopiUrl, getSearchParam, getNextcloudUrl } from './helpers/url.js'
-
 import '../css/document.scss'
 import axios from '@nextcloud/axios'
 import { spawnDialog } from '@nextcloud/dialogs'
@@ -93,42 +90,6 @@ const hideLoadingIndicator = () => {
 }
 
 showLoadingIndicator()
-
-$.widget('oc.guestNamePicker', {
-	_create() {
-		hideLoadingIndicator()
-
-		const text = document.createElement('div')
-		text.setAttribute('style', 'margin: 0 auto; margin-top: 100px; text-align: center;')
-		text.innerHTML = t('richdocuments', 'Please choose your nickname to continue as guest user.')
-
-		const div = document.createElement('div')
-		div.setAttribute('style', 'margin: 0 auto; width: 250px; display: flex;')
-		const nick = '<input type="text" placeholder="' + t('richdocuments', 'Nickname') + '" id="nickname" style="flex-grow: 1; border-right:none; border-top-right-radius: 0; border-bottom-right-radius: 0">'
-		const btn = '<input style="border-left:none; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -3px" type="button" id="btn" type="button" value="' + t('richdocuments', 'Set') + '">'
-		div.innerHTML = nick + btn
-
-		$('#documents-content').prepend(div)
-		$('#documents-content').prepend(text)
-		const setGuestNameSubmit = () => {
-			const username = $('#nickname').val()
-			div.remove()
-			text.innerText = ''
-			text.classList.add('icon-loading')
-			setGuestName(username).then(() => {
-				$('#documents-content').remove()
-				documentsMain.initSession()
-			})
-		}
-
-		$('#nickname').keyup(function(event) {
-			if (event.which === 13) {
-				setGuestNameSubmit()
-			}
-		})
-		$('#btn').click(() => setGuestNameSubmit())
-	},
-})
 
 /**
  * Type definitions for WOPI Post message objects
@@ -707,7 +668,7 @@ const documentsMain = {
 	},
 }
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', async () => {
 
 	if (!OCA.RichDocuments) {
 		OCA.RichDocuments = {}
@@ -721,12 +682,7 @@ $(document).ready(function() {
 
 	Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 
-	if (shouldAskForGuestName()) {
-		PostMessages.sendPostMessage('parent', 'NC_ShowNamePicker')
-		$('#documents-content').guestNamePicker()
-	} else {
-		documentsMain.initSession()
-	}
+	documentsMain.initSession()
 	documentsMain.renderComplete = true
 
 	const viewport = document.querySelector('meta[name=viewport]')
