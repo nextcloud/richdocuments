@@ -17,7 +17,7 @@ webpackConfig.entry = {
 webpackRules.RULE_JS.test = /\.m?js$/
 webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'@nextcloud/dialogs',
-	'@nextcloud/event-bus'
+	'@nextcloud/event-bus',
 ])
 
 // Replaces rules array
@@ -27,7 +27,7 @@ webpackConfig.module.rules = Object.values(webpackRules)
 webpackConfig.module.rules.push({
 	test: /\.tsx?$/,
 	use: ['babel-loader', 'ts-loader'],
-	exclude: /node_modules/
+	exclude: /node_modules/,
 })
 
 // Add typescript extension resolver
