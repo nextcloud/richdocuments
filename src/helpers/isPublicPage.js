@@ -1,5 +1,6 @@
 /**
  * Determines if the resource is a public share
+ *
  * @return {boolean}
  */
 function isPublic() {

@@ -204,6 +204,7 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
 })
+
 Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 	if (wrapped) {
 		cy.get('[data-cy="documentframe"]', { timeout: 30000 })
@@ -222,6 +223,28 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 		.its('body').should('not.be.empty')
 		.as('loleafletframe')
 	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
+})
+
+Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {
+	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
+		const calls = spy.getCalls()
+		const findMatchingCall = calls.find(call => call.args[0].indexOf('"MessageId":"' + messageId + '"') !== -1)
+		if (!findMatchingCall) {
+			return expect(findMatchingCall).to.not.be.undefined
+		}
+		if (!values) {
+			const object = JSON.parse(findMatchingCall.args[0])
+			values.forEach(value => {
+				expect(object.Values).to.have.property(value, values[value])
+			})
+		}
+	})
+})
+
+Cypress.Commands.add('inputCollaboraGuestName', (guestName = 'cloud') => {
+	cy.get('[data-cy="guestNameModal"]').should('be.visible')
+	cy.get('[data-cy="guestNameInput"]').type(guestName)
+	cy.get('[data-cy="guestNameSubmit"]').click()
 })
 
 Cypress.Commands.add('uploadSystemTemplate', () => {
