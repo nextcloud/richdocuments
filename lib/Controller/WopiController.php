@@ -485,7 +485,13 @@ class WopiController extends Controller {
 
 			$content = fopen('php://input', 'rb');
 
+			$freespace = $file->getParent()->getFreeSpace();
+			$contentLength = (int)$this->request->getHeader('Content-Length');
+
 			try {
+				if ($freespace >= 0 && $contentLength > $freespace) {
+					throw new \Exception('Not enough storage');
+				}
 				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content) {
 					return $file->putContent($content);
 				});
