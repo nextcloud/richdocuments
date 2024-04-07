@@ -19,6 +19,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Falta una carpeta temporal",
     "Could not write file to disk" : "No fue posible escribir a disco",
     "A PHP extension stopped the file upload" : "Una extensión de PHP detuvo la carga del archivo",
+    "No file uploaded or file size exceeds maximum of %s" : "No se ha cargado ningún archivo o el tamaño del archivo excede el máximo de %s",
     "File is too big" : "El archivo es demasiado grande",
     "Invalid file provided" : "Se proporcionó un archivo invalido",
     "Template not found" : "No se encontró la plantilla",
