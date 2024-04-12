@@ -38,7 +38,7 @@ const getCallbackBaseUrl = () => {
 }
 
 const getWopiSrc = (fileId) => {
-	// WOPISrc - URL that loolwsd will access (ie. pointing to ownCloud)
+	// WOPISrc - URL that Collabora will use to access Nextcloud
 	// index.php is forced here to avoid different wopi srcs for the same document
 	const wopiurl = getCallbackBaseUrl() + '/index.php/apps/richdocuments/wopi/files/' + fileId
 	console.debug('[getWopiUrl] ' + wopiurl)
