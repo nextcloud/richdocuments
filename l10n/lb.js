@@ -10,6 +10,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Et feelt en temporären Dossier",
     "Advanced settings" : "Erweidert Astellungen",
     "Select groups" : "Wiel Gruppen äus",
+    "Confirm" : "Konfirméieren",
     "Cancel" : "Ofbriechen",
     "Save" : "Späicheren",
     "Description" : "Beschreiwung",
