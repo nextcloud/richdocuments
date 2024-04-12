@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.4.0-beta.3
+
+### Fixed
+* fix(WopiController): In `putFile()` set editor user as user scope by @backportbot in https://github.com/nextcloud/richdocuments/pull/3561
+* fix: Use wopi callback url for all urls handed over to Collabora by @backportbot in https://github.com/nextcloud/richdocuments/pull/3583
+* don't alter file when there is not enough free space by @backportbot in https://github.com/nextcloud/richdocuments/pull/3581
+* chore(CI): Adjust testing matrix for Nextcloud 29 on stable29 by @nickvergessen in https://github.com/nextcloud/richdocuments/pull/3553
+
+**Full Changelog**: https://github.com/nextcloud/richdocuments/compare/v8.4.0-beta.2...v8.4.0-beta.3
+
 ## 8.4.0-beta.2
 
 ### Added
