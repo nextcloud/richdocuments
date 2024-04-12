@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.2.7
+
+### Fixed
+* fix(WopiController): In `putFile()` set editor user as user scope by @backportbot in https://github.com/nextcloud/richdocuments/pull/3559
+* fix: Allow configuring the wopi_callback_url by @juliushaertl in https://github.com/nextcloud/richdocuments/pull/3575
+* don't alter file when there is not enough free space by @backportbot in https://github.com/nextcloud/richdocuments/pull/3577
+
+
+**Full Changelog**: https://github.com/nextcloud/richdocuments/compare/v8.2.6...v8.2.7
+
 ## 8.2.6
 
 ### Fixed
