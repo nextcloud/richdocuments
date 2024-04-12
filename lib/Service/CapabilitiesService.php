@@ -102,10 +102,6 @@ class CapabilitiesService {
 		return version_compare($productVersion, '6.4.7', '>=');
 	}
 
-	public function hasTemplateSaveAs(): bool {
-		return $this->getCapabilities()['hasTemplateSaveAs'] ?? false;
-	}
-
 	public function hasTemplateSource(): bool {
 		return $this->getCapabilities()['hasTemplateSource'] ?? false;
 	}

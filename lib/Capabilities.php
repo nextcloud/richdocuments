@@ -150,7 +150,7 @@ class Capabilities implements ICapability {
 					'mimetypesSecureView' => $this->config->useSecureViewAdditionalMimes() ? self::SECURE_VIEW_ADDITIONAL_MIMES : [],
 					'collabora' => $collaboraCapabilities,
 					'direct_editing' => ($collaboraCapabilities['hasMobileSupport'] ?? false) && $this->config->getAppValue('mobile_editing', 'yes') === 'yes',
-					'templates' => ($collaboraCapabilities['hasTemplateSaveAs'] ?? false) || ($collaboraCapabilities['hasTemplateSource'] ?? false),
+					'templates' => ($collaboraCapabilities['hasTemplateSource'] ?? false),
 					'productName' => $this->capabilitiesService->getProductName(),
 					'editonline_endpoint' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.document.editOnline'),
 					'config' => [

@@ -152,10 +152,6 @@ class Wopi extends Entity implements \JsonSerializable {
 		$this->addType('tokenType', 'int');
 	}
 
-	public function isTemplateToken() {
-		return $this->getTemplateDestination() !== 0 && $this->getTemplateDestination() !== null;
-	}
-
 	public function hasTemplateId() {
 		return $this->getTemplateId() !== 0 && $this->getTemplateId() !== null;
 	}

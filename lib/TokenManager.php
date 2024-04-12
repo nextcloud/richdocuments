@@ -199,7 +199,7 @@ class TokenManager {
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 		$guestName = $this->userId === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
-		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
+		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken);
 	}
 
 	/**
@@ -255,12 +255,8 @@ class TokenManager {
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
-		if ($this->capabilitiesService->hasTemplateSource()) {
-			return $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, 0, false, $direct, $templateFile->getId());
-		}
-
-		// Legacy way of creating new documents from a template
-		return $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, $targetFile->getId(), $direct);
+		return $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null,
+			false, $direct, $templateFile->getId());
 	}
 
 	public function newInitiatorToken($sourceServer, ?Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {

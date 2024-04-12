@@ -51,7 +51,7 @@ class Personal implements ISettings {
 
 	/** @psalm-suppress InvalidNullableReturnType */
 	public function getForm() {
-		if (!$this->capabilitiesService->hasTemplateSaveAs() && !$this->capabilitiesService->hasTemplateSource()) {
+		if (!$this->capabilitiesService->hasTemplateSource()) {
 			/** @psalm-suppress NullableReturnStatement */
 			return null;
 		}
@@ -70,7 +70,7 @@ class Personal implements ISettings {
 	}
 
 	public function getSection() {
-		if (!$this->capabilitiesService->hasTemplateSaveAs() && !$this->capabilitiesService->hasTemplateSource()) {
+		if (!$this->capabilitiesService->hasTemplateSource()) {
 			return null;
 		}
 
