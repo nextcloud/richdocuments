@@ -194,9 +194,7 @@ class WopiController extends Controller {
 			$response['UserPrivateInfo']['ZoteroAPIKey'] = $zoteroAPIKey;
 		}
 		if ($wopi->hasTemplateId()) {
-			$templateUrl = 'index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
-			$templateUrl = $this->urlGenerator->getAbsoluteURL($templateUrl);
-			$response['TemplateSource'] = $templateUrl;
+			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
 		} elseif ($wopi->isTemplateToken()) {
 			// FIXME: Remove backward compatibility layer once TemplateSource is available in all supported Collabora versions
 			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
@@ -283,7 +281,7 @@ class WopiController extends Controller {
 			$response['TemplateSource'] = $templateUrl;
 		}
 		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER || ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST && $initiator->getEditorUid())) {
-			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/'. self::WOPI_AVATAR_SIZE;
+			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/' . self::WOPI_AVATAR_SIZE;
 		}
 
 		return $response;
@@ -503,11 +501,7 @@ class WopiController extends Controller {
 			if ($isPutRelative) {
 				// generate a token for the new file (the user still has to be logged in)
 				$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
-
-				$wopiUrl = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
-				$wopiUrl = $this->urlGenerator->getAbsoluteURL($wopiUrl);
-
-				return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $wopiUrl ], Http::STATUS_OK);
+				return new JSONResponse(['Name' => $file->getName(), 'Url' => $this->getWopiUrlForFile($wopi, $file)], Http::STATUS_OK);
 			}
 			if ($wopi->hasTemplateId()) {
 				$wopi->setTemplateId(null);
@@ -671,17 +665,14 @@ class WopiController extends Controller {
 
 			// epub is exception (can be uploaded but not opened so don't try to get access token)
 			if ($file->getMimeType() == 'application/epub+zip') {
-				return new JSONResponse([ 'Name' => $file->getName() ], Http::STATUS_OK);
+				return new JSONResponse(['Name' => $file->getName()], Http::STATUS_OK);
 			}
 
 			// generate a token for the new file (the user still has to be
 			// logged in)
 			$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
 
-			$wopiUrl = 'index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
-			$wopiUrl = $this->urlGenerator->getAbsoluteURL($wopiUrl);
-
-			return new JSONResponse([ 'Name' => $file->getName(), 'Url' => $wopiUrl ], Http::STATUS_OK);
+			return new JSONResponse(['Name' => $file->getName(), 'Url' => $this->getWopiUrlForFile($wopi, $file)], Http::STATUS_OK);
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
@@ -712,6 +703,7 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	private function unlock(Wopi $wopi, string $lock): JSONResponse {
 		try {
 			$this->lockManager->unlock(new LockContext(
@@ -894,5 +886,15 @@ class WopiController extends Controller {
 			// No encryption module enabled
 			return false;
 		}
+	}
+
+	private function getWopiUrlForFile(Wopi $wopi, File $file): string {
+		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
+	}
+
+	private function getWopiUrlForTemplate(Wopi $wopi): string {
+		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 	}
 }
