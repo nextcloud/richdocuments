@@ -93,6 +93,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AlertOctagonOutline from 'vue-material-design-icons/AlertOctagonOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
+import { showInfo } from '@nextcloud/dialogs'
 
 import ZoteroHint from '../components/Modal/ZoteroHint.vue'
 import { basename, dirname } from 'path'
@@ -175,7 +176,6 @@ export default {
 			error: null,
 			errorType: null,
 			loadingMsg: null,
-			views: [],
 
 			showLinkPicker: false,
 			showZotero: false,
@@ -371,10 +371,8 @@ export default {
 			case 'UI_Close':
 				this.close()
 				break
-			case 'Get_Views_Resp':
-			case 'Views_List':
-				this.views = args
-				this.unlockAndOpenLocally()
+			case 'Session_Closed':
+				this.handleSessionClosed(args)
 				break
 			case 'UI_SaveAs':
 				this.saveAs(args.format)
@@ -444,6 +442,18 @@ export default {
 			if (args?.Id === 'Open_Local_Editor') {
 				this.startOpenLocalProcess()
 			}
+		},
+
+		handleSessionClosed({ Reason }) {
+			if (Reason !== 'OwnerTermination') {
+				return
+			}
+			if (this.openingLocally) {
+				return
+			}
+
+			showInfo(t('richdocuments', 'The collaborative editing was terminated by another user'))
+			this.close()
 		},
 
 	},
