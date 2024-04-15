@@ -101,7 +101,7 @@ describe('Nextcloud integration', function() {
 		cy.openFile('document.rtf')
 	})
 
-	it.skip('Open locally', function() {
+	it('Open locally', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#Open_Local_Editor').click()
 		})
@@ -110,11 +110,19 @@ describe('Nextcloud integration', function() {
 		cy.get('.oc-dialog .oc-dialog-title')
 			.should('contain', 'Open file locally ')
 
-		cy.on('url:changed', (newUrl) => {
-			expect(newUrl).to.contain('nc://')
-		})
+		cy.intercept({
+			method: 'POST',
+			url: '**/openlocaleditor',
+		}).as('getLocalToken')
+		cy.window()
+			.then((window) => {
+			  cy.stub(window, 'open').as('open')
+			})
 		cy.get('.oc-dialog button.primary').click()
-
+		cy.wait('@getLocalToken').its('response.statusCode').should('equal', 200)
+		cy.get('@open').should('have.been.calledOnce')
+		const nextcloudHost = new URL(Cypress.config('baseUrl')).host
+		cy.get('@open').its('firstCall.args.0').should('contain', 'nc://open/' + randUser.userId + '@' + nextcloudHost + '/document.odt')
 	})
 
 	it('Insert image', function() {
