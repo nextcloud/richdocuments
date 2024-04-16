@@ -94,47 +94,29 @@ class DirectViewController extends Controller {
 		$this->userScopeService->setFilesystemScope($direct->getUid());
 
 		$folder = $this->rootFolder->getUserFolder($direct->getUid());
-		if ($this->templateManager->isTemplate($direct->getFileid())) {
-			$item = $this->templateManager->get($direct->getFileid());
-			if ($direct->getTemplateDestination() === 0 || $direct->getTemplateDestination() === null) {
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+
+		try {
+			$item = $folder->getById($direct->getFileid())[0];
+			if (!($item instanceof Node)) {
+				throw new \Exception();
 			}
 
-			try {
-				$urlSrc = $this->tokenManager->getUrlSrc($item);
-
-				$wopi = $this->tokenManager->generateWopiTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
-
-				$targetFile = $folder->getById($direct->getTemplateDestination())[0];
-				$relativePath = $folder->getRelativePath($targetFile->getPath());
-			} catch (\Exception $e) {
-				$this->logger->error('Failed to generate token for new file on direct editing', ['exception' => $e]);
-				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
-			}
-		} else {
-			try {
-				$item = $folder->getById($direct->getFileid())[0];
-				if (!($item instanceof Node)) {
-					throw new \Exception();
-				}
-
-				/** Open file from remote collabora */
-				$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
-				if ($federatedUrl !== null) {
-					$response = new RedirectResponse($federatedUrl);
-					$response->addHeader('X-Frame-Options', 'ALLOW');
-					return $response;
-				}
-
-				$urlSrc = $this->tokenManager->getUrlSrc($item);
-				$wopi = $this->tokenManager->generateWopiToken($item->getId(), null, $direct->getUid(), true);
-			} catch (\Exception $e) {
-				$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
-				return $this->renderErrorPage('Failed to open the requested file.');
+			/** Open file from remote collabora */
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($item, $direct);
+			if ($federatedUrl !== null) {
+				$response = new RedirectResponse($federatedUrl);
+				$response->addHeader('X-Frame-Options', 'ALLOW');
+				return $response;
 			}
 
-			$relativePath = $folder->getRelativePath($item->getPath());
+			$urlSrc = $this->tokenManager->getUrlSrc($item);
+			$wopi = $this->tokenManager->generateWopiToken($item->getId(), null, $direct->getUid(), true);
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
+			return $this->renderErrorPage('Failed to open the requested file.');
 		}
+
+		$relativePath = $folder->getRelativePath($item->getPath());
 
 		try {
 			$params = [

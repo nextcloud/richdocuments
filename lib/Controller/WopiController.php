@@ -121,12 +121,7 @@ class WopiController extends Controller {
 			[$fileId, , $version] = Helper::parseFileId($fileId);
 
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			if ($wopi->isTemplateToken()) {
-				$this->templateManager->setUserId($wopi->getOwnerUid());
-				$file = $this->templateManager->get($wopi->getFileid());
-			} else {
-				$file = $this->getFileForWopiToken($wopi);
-			}
+			$file = $this->getFileForWopiToken($wopi);
 			if (!($file instanceof File)) {
 				throw new NotFoundException('No valid file found for ' . $fileId);
 			}
@@ -195,11 +190,6 @@ class WopiController extends Controller {
 		}
 		if ($wopi->hasTemplateId()) {
 			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
-		} elseif ($wopi->isTemplateToken()) {
-			// FIXME: Remove backward compatibility layer once TemplateSource is available in all supported Collabora versions
-			$userFolder = $this->rootFolder->getUserFolder($wopi->getOwnerUid());
-			$file = $userFolder->getById($wopi->getTemplateDestination())[0];
-			$response['TemplateSaveAs'] = $file->getName();
 		}
 
 		$share = $this->getShareForWopiToken($wopi);
@@ -320,16 +310,6 @@ class WopiController extends Controller {
 
 		if ((int)$fileId !== $wopi->getFileid()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		}
-
-		// Template is just returned as there is no version logic
-		if ($wopi->isTemplateToken()) {
-			$this->templateManager->setUserId($wopi->getOwnerUid());
-			$file = $this->templateManager->get($wopi->getFileid());
-			$response = new StreamResponse($file->fopen('rb'));
-			$response->addHeader('Content-Disposition', 'attachment');
-			$response->addHeader('Content-Type', 'application/octet-stream');
-			return $response;
 		}
 
 		try {
@@ -585,10 +565,7 @@ class WopiController extends Controller {
 			// the new file needs to be installed in the current user dir
 			$userFolder = $this->rootFolder->getUserFolder($editor);
 
-			if ($wopi->isTemplateToken()) {
-				$this->templateManager->setUserId($wopi->getOwnerUid());
-				$file = $userFolder->getById($wopi->getTemplateDestination())[0];
-			} elseif ($isRenameFile) {
+			if ($isRenameFile) {
 				// the new file needs to be installed in the current user dir
 				$file = $this->getFileForWopiToken($wopi);
 

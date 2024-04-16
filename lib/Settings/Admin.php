@@ -63,7 +63,7 @@ class Admin implements ISettings {
 					'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 					'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === 'yes',
 					'templates' => $this->manager->getSystemFormatted(),
-					'templatesAvailable' => $this->capabilitiesService->hasTemplateSaveAs() || $this->capabilitiesService->hasTemplateSource(),
+					'templatesAvailable' => $this->capabilitiesService->hasTemplateSource(),
 					'settings' => $this->appConfig->getAppSettings(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
