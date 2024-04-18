@@ -51,11 +51,11 @@ describe('Public sharing of office documents', function() {
 							cy.spy(win, 'postMessage').as('postMessage')
 						},
 					})
-					cy.waitForCollabora(true)
+					cy.waitForCollabora()
 					cy.get('@loleafletframe').within(() => {
 						cy.get('#closebutton').click()
 					})
-					cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+					cy.get('#viewer', { timeout: 10000 }).should('not.exist')
 				})
 			})
 		}
