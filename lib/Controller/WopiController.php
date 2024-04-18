@@ -171,6 +171,7 @@ class WopiController extends Controller {
 			'EnableInsertRemoteImage' => !$isPublic,
 			'EnableShare' => $file->isShareable() && !$isVersion && !$isPublic,
 			'HideUserList' => '',
+			'EnableOwnerTermination' => $wopi->getCanwrite() && !$isPublic,
 			'DisablePrint' => $wopi->getHideDownload(),
 			'DisableExport' => $wopi->getHideDownload(),
 			'DisableCopy' => $wopi->getHideDownload(),
