@@ -112,7 +112,7 @@ export default {
 						}
 					}
 					return this.groups[id]
-				}
+				},
 			)
 		},
 		update() {

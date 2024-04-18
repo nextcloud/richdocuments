@@ -188,7 +188,7 @@ export default {
 		},
 		getValueObject() {
 			return this.value.filter((tag) => tag !== '').map(
-				(id) => this.tags.find((tag) => tag.id === id)
+				(id) => this.tags.find((tag) => tag.id === id),
 			)
 		},
 		update() {

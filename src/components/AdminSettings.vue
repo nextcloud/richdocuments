@@ -502,7 +502,7 @@ export default {
 		},
 		fontHint() {
 			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically.',
-				{ url: this.fontHintUrl }
+				{ url: this.fontHintUrl },
 			)
 		},
 		fontXmlHint() {
@@ -658,7 +658,7 @@ export default {
 			try {
 				const result = await axios.post(
 					generateFilePath('richdocuments', 'ajax', 'admin.php'),
-					data
+					data,
 				)
 
 				this.updating = false

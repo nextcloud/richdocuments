@@ -60,7 +60,7 @@ const odfViewer = {
 							timeout: 0,
 						})
 					}
-				}
+				},
 			)
 			return
 		}
@@ -258,8 +258,6 @@ addEventListener('DOMContentLoaded', () => {
 		return
 	}
 
-	odfViewer.onEdit(document.getElementById('filename').value)
-
 	PostMessages.registerPostMessageHandler(({ parsed }) => {
 		console.debug('[viewer] Received post message', parsed)
 		const { msgId, args, deprecated } = parsed
@@ -293,7 +291,7 @@ addEventListener('DOMContentLoaded', () => {
 				})
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
-					{ productName: OC.getCapabilities().richdocuments.productName }
+					{ productName: OC.getCapabilities().richdocuments.productName },
 				))
 			}
 			break

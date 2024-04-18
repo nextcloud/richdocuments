@@ -482,7 +482,7 @@ export default {
 			},
 			true,
 			t('richdocuments', 'New filename'),
-			false
+			false,
 		).then(function() {
 			const $dialog = parent.$('.oc-dialog:visible')
 			const $buttons = $dialog.find('button')
