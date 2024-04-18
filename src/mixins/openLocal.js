@@ -1,5 +1,5 @@
 /*
- * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
+* @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -36,20 +36,6 @@ export default {
 		startOpenLocalProcess() {
 			this.showOpenLocalConfirmation()
 		},
-		async unlockAndOpenLocally() {
-			if (this.openingLocally) {
-				let shouldContinue = true
-				try {
-					await this.unlockFile()
-				} catch (e) {
-					shouldContinue = e.response.status === 400
-				}
-
-				if (shouldContinue) {
-					this.openLocally()
-				}
-			}
-		},
 
 		showOpenLocalConfirmation() {
 			window.OC.dialogs.confirmDestructive(
@@ -66,8 +52,20 @@ export default {
 						return
 					}
 					this.openingLocally = true
-					this.sendPostMessage('Get_Views')
-				})
+					this.postMessage.registerPostMessageHandler(this.handleCloseSession)
+					this.sendPostMessage('Action_Save', {
+						DontTerminateEdit: false,
+						DontSaveIfUnmodified: false,
+						Notify: false,
+					})
+					this.sendPostMessage('Close_Session')
+				},
+			)
+		},
+
+		handleCloseSession() {
+			this.postMessage.unregisterPostMessageHandler(this.handleCloseSession)
+			this.openLocally()
 		},
 
 		showOpenLocalFinished() {
@@ -91,8 +89,9 @@ export default {
 						return
 					}
 					this.openingLocally = true
-					this.sendPostMessage('Get_Views')
-				})
+					this.openLocally()
+				},
+			)
 		},
 
 		unlockFile() {
@@ -114,7 +113,7 @@ export default {
 
 					this.showOpenLocalFinished(url, window.top)
 					this.close()
-					window.location.href = url
+					window.open(url, '_self')
 				})
 			}
 		},
