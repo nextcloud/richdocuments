@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.10-beta.1
+
+### Fixed
+
+- fix: Use Close_Session post message to properly end the Collabora editing before opening locally @juliushaertl [#3597](https://github.com/nextcloud/richdocuments/pull/3597)
+
 ## 8.0.9
 
 ### Fixed
