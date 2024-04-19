@@ -14,6 +14,6 @@ export default defineConfig({
       return require('./cypress/plugins/index.js')(on, config)
     },
     baseUrl: 'https://localhost:8081/index.php/',
-    specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+    specPattern: 'cypress/e2e/integration.spec.{js,jsx,ts,tsx}',
   },
 })

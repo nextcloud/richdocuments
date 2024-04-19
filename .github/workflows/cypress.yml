@@ -142,7 +142,7 @@ jobs:
           parallel: true
           wait-on: '${{ env.CYPRESS_baseUrl }}'
           working-directory: 'apps/${{ env.APP_NAME }}'
-          config: defaultCommandTimeout=10000,video=false
+          config: defaultCommandTimeout=10000,video=true
           tag: ${{ github.event_name }}
         env:
           # https://github.com/cypress-io/github-action/issues/124
