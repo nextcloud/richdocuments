@@ -1,6 +1,6 @@
 # Changelog
 
-## 8.3.3
+## 8.3.4
 ### Fixed
 * fix(WopiController): In `putFile()` set editor user as user scope by @backportbot in https://github.com/nextcloud/richdocuments/pull/3560
 * don't alter file when there is not enough free space by @backportbot in https://github.com/nextcloud/richdocuments/pull/3578
