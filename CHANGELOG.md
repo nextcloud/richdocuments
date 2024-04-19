@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.2.8-beta.1
+
+### Fixed
+
+- fix: Use Close_Session post message to properly end the Collabora editing before opening locally @backportbot[bot] [#3602](https://github.com/nextcloud/richdocuments/pull/3602)
+
 ## 8.2.7
 
 ### Fixed
