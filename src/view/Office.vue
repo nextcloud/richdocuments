@@ -271,6 +271,9 @@ export default {
 			case 'close':
 				this.close()
 				break
+			case 'close_other':
+				this.onSessionClosed()
+				break
 			case 'Get_Views_Resp':
 			case 'Views_List':
 				this.views = args
@@ -307,6 +310,10 @@ export default {
 				this.showZotero = true
 				break
 			}
+		},
+		onSessionClosed() {
+			window.OCP.Toast.error(t('richdocuments', 'The collaborative editing was terminated by another user'))
+			this.close()
 		},
 	},
 }

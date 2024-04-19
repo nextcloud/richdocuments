@@ -447,6 +447,9 @@ const documentsMain = {
 					case 'close':
 						documentsMain.onClose()
 						break
+					case 'Session_Closed':
+						documentsMain.onSessionClosed(args)
+						break
 						// Messages received from the viewer
 					case 'postAsset':
 						documentsMain.postAsset(args.FileName, args.Url)
@@ -478,18 +481,6 @@ const documentsMain = {
 								documentsMain.users.push({ id: view.UserId, label: view.UserName })
 							}
 						})
-						break
-					case 'Get_Views_Resp':
-						if (documentsMain.openingLocally) {
-							documentsMain.unlockFile()
-								.catch(_ => {}) // Unlocking failed, possibly because file was not locked, we want to proceed regardless.
-								.then(() => {
-									documentsMain.openLocally().then(() => {
-										documentsMain.UI.removeViews(parsed.args)
-										documentsMain.close()
-									})
-								})
-						}
 						break
 					case 'UI_Mention':
 						documentsMain.sendUserList(parsed.args.text)
@@ -573,31 +564,26 @@ const documentsMain = {
 					if (!decision) {
 						return
 					}
-					documentsMain.openingLocally = true
-					PostMessages.sendWOPIPostMessage('loolframe', 'Get_Views')
+					documentsMain.openLocallyPrepare()
 				}
 			)
 		},
-
-		removeViews(views) {
-			PostMessages.sendWOPIPostMessage('loolframe', 'Action_Save', {
-				DontTerminateEdit: false,
-				DontSaveIfUnmodified: false,
-				Notify: false,
-			})
-
-			views.forEach((view) => {
-				PostMessages.sendWOPIPostMessage('loolframe', 'Action_RemoveView', { ViewId: Number(view.ViewId) })
-			})
-		},
 	},
 
-	unlockFile() {
-		return axios.post(generateOcsUrl('apps/richdocuments/api/v1/local'), { fileId: this.fileId })
+	async openLocallyPrepare() {
+		documentsMain.openingLocally = true
+		PostMessages.sendWOPIPostMessage('loolframe', 'Action_Save', {
+			DontTerminateEdit: false,
+			DontSaveIfUnmodified: false,
+			Notify: false,
+		})
+		PostMessages.sendWOPIPostMessage('loolframe', 'Close_Session')
+		// When this is finished a 'Session_Closed' post message will trigger openLocally
 	},
-
 	async openLocally() {
 		if (documentsMain.openingLocally) {
+			// await documentsMain.unlockFile()
+
 			documentsMain.openingLocally = false
 
 			const result = await axios.post(
@@ -610,7 +596,8 @@ const documentsMain = {
 				+ '?token=' + result.data.ocs.data.token
 
 			this.showOpenLocalConfirmation(url, window.top)
-			window.open(url)
+			window.open(url, '_self')
+			this.onClose()
 		}
 	},
 
@@ -762,7 +749,6 @@ const documentsMain = {
 
 		$('footer,nav').show()
 		documentsMain.UI.hideEditor()
-		documentsMain.openLocally()
 
 		PostMessages.sendPostMessage('parent', 'close', '*')
 	},
@@ -829,6 +815,18 @@ const documentsMain = {
 		window.addEventListener('touchstart', e => {
 			localStorage.setItem('lastActive', Date.now())
 		})
+	},
+	onSessionClosed({ Reason }) {
+		if (Reason !== 'OwnerTermination') {
+			return
+		}
+
+		if (documentsMain.openingLocally) {
+			this.openLocally()
+			return
+		}
+
+		PostMessages.sendPostMessage('parent', 'close_other')
 	},
 }
 
