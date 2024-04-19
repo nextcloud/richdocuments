@@ -38,6 +38,7 @@ jobs:
         env:
           extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
+        options: --privileged
         ports:
           - "9980:9980"
 
