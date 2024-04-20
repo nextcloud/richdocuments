@@ -157,6 +157,7 @@ OC.L10N.register(
     "Loading {filename} …" : "正在載入 {filename}……",
     "Open in local editor" : "在本機編輯器中開啟",
     "Cluster is scaling …" : "正在擴展叢集……",
+    "The collaborative editing was terminated by another user" : "協作編輯被另一個使用者終止",
     "Failed to load {productName} - please try again later" : "載入 {productName} 失敗，請稍後再試",
     "{productName} is not configured" : "{productName} 沒有設定好",
     "Error" : "錯誤",

@@ -157,6 +157,7 @@ OC.L10N.register(
     "Loading {filename} …" : "Lade {filename} …",
     "Open in local editor" : "In lokalem Editor öffnen",
     "Cluster is scaling …" : "Cluster skaliert …",
+    "The collaborative editing was terminated by another user" : "Die gemeinsame Bearbeitung wurde von einem anderen Benutzer beendet",
     "Failed to load {productName} - please try again later" : "{productName} konnte nicht geladen werden - Bitte später erneut versuchen.",
     "{productName} is not configured" : "{productName} ist nicht eingerichtet",
     "Error" : "Fehler",

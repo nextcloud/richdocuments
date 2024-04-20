@@ -156,6 +156,8 @@ OC.L10N.register(
     "Starting the built-in CODE server failed" : "Le démarrage du serveur CODE intégré a échoué",
     "Loading {filename} …" : "Chargement de {filename} …",
     "Open in local editor" : "Ouvrir dans l'éditeur local",
+    "Cluster is scaling …" : "Le cluster est en cours de redimensionnement…",
+    "The collaborative editing was terminated by another user" : "La modification collaborative a été arrêtée par un autre utilisateur",
     "Failed to load {productName} - please try again later" : "Échec de chargement de {productName} - veuillez réessayer plus tard",
     "{productName} is not configured" : "{productName} n'est pas configuré",
     "Error" : "Erreur",

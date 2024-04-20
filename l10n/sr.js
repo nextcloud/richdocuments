@@ -157,6 +157,7 @@ OC.L10N.register(
     "Loading {filename} …" : "Учитава се {filename} …",
     "Open in local editor" : "ОТвори у локалном едитору",
     "Cluster is scaling …" : "Кластер се скалира…",
+    "The collaborative editing was terminated by another user" : "Зајднеичко уређивање је прекинуо други корисник",
     "Failed to load {productName} - please try again later" : "Не могу да учитам {productName} - покушајте поново касније",
     "{productName} is not configured" : "{productName} није подешен",
     "Error" : "Грешка",
