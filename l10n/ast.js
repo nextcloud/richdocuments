@@ -22,6 +22,7 @@ OC.L10N.register(
     "Images" : "Imáxenes",
     "Your browser has been unable to connect to the Collabora server:" : "El restolador nun foi a conectase al sirvidor de Collabora:",
     "Advanced settings" : "Configuración avanzada",
+    "Select groups" : "Seleicionar grupos",
     "Failed to save settings" : "Nun se pue guardar la configuración",
     "Confirm" : "Confirmar",
     "Cancel" : "Encaboxar",
