@@ -155,6 +155,7 @@
     "Loading {filename} …" : "تحميل {filename} …",
     "Open in local editor" : "إفتح في مُحرّر محلي",
     "Cluster is scaling …" : "العنقود يتمدد Cluster is scaling ...",
+    "The collaborative editing was terminated by another user" : "تمّ إنهاء التحرير التعاوني من قِبل مستخدِم آخر",
     "Failed to load {productName} - please try again later" : "فشل تحميل {productName} - يرجى المحاولة مرة أخرى لاحقًا",
     "{productName} is not configured" : "{productName} لم تتم تهيئته",
     "Error" : "خطأ",
