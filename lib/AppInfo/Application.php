@@ -35,6 +35,7 @@ use OCA\Richdocuments\Listener\BeforeTemplateRenderedListener;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ReferenceListener;
+use OCA\Richdocuments\Listener\RegisterTemplateFileCreatorListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
@@ -58,6 +59,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -78,6 +80,7 @@ class Application extends App implements IBootstrap {
 		$context->registerTemplateProvider(CollaboraTemplateProvider::class);
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleWare(WOPIMiddleware::class);
+		$context->registerEventListener(RegisterTemplateCreatorEvent::class, RegisterTemplateFileCreatorListener::class);
 		$context->registerEventListener(FileCreatedFromTemplateEvent::class, FileCreatedFromTemplateListener::class);
 		$context->registerEventListener(AddContentSecurityPolicyEvent::class, AddContentSecurityPolicyListener::class);
 		$context->registerEventListener(AddFeaturePolicyEvent::class, AddFeaturePolicyListener::class);
@@ -101,64 +104,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (ITemplateManager $templateManager, IL10N $l10n, IConfig $config, CapabilitiesService $capabilitiesService, PermissionManager $permissionManager, IAppManager $appManager) {
-			if (!$permissionManager->isEnabledForUser() || empty($capabilitiesService->getCapabilities())) {
-				return;
-			}
-			$ooxml = $config->getAppValue(self::APPNAME, 'doc_format', '') === 'ooxml';
-			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml, $appManager) {
-				$odtType = new TemplateFileCreator('richdocuments', $l10n->t('New document'), ($ooxml ? '.docx' : '.odt'));
-				if ($ooxml) {
-					$odtType->addMimetype('application/msword');
-					$odtType->addMimetype('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-				} else {
-					$odtType->addMimetype('application/vnd.oasis.opendocument.text');
-					$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
-				}
-				$odtType->setIconSvgInline(file_get_contents($appManager->getAppPath('richdocuments') . '/img/x-office-document.svg'));
-				$odtType->setRatio(21 / 29.7);
-				return $odtType;
-			});
-			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml, $appManager) {
-				$odsType = new TemplateFileCreator('richdocuments', $l10n->t('New spreadsheet'), ($ooxml ? '.xlsx' : '.ods'));
-				if ($ooxml) {
-					$odsType->addMimetype('application/vnd.ms-excel');
-					$odsType->addMimetype('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-				} else {
-					$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet');
-					$odsType->addMimetype('application/vnd.oasis.opendocument.spreadsheet-template');
-				}
-				$odsType->setIconSvgInline(file_get_contents($appManager->getAppPath('richdocuments') . '/img/x-office-spreadsheet.svg'));
-				$odsType->setRatio(16 / 9);
-				return $odsType;
-			});
-			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml, $appManager) {
-				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New presentation'), ($ooxml ? '.pptx' : '.odp'));
-				if ($ooxml) {
-					$odpType->addMimetype('application/vnd.ms-powerpoint');
-					$odpType->addMimetype('application/vnd.openxmlformats-officedocument.presentationml.presentation');
-				} else {
-					$odpType->addMimetype('application/vnd.oasis.opendocument.presentation');
-					$odpType->addMimetype('application/vnd.oasis.opendocument.presentation-template');
-				}
-				$odpType->setIconSvgInline(file_get_contents($appManager->getAppPath('richdocuments') . '/img/x-office-presentation.svg'));
-				$odpType->setRatio(16 / 9);
-				return $odpType;
-			});
-
-			if (!$capabilitiesService->hasDrawSupport()) {
-				return;
-			}
-			$templateManager->registerTemplateFileCreator(function () use ($l10n, $ooxml, $appManager) {
-				$odpType = new TemplateFileCreator('richdocuments', $l10n->t('New diagram'), '.odg');
-				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics');
-				$odpType->addMimetype('application/vnd.oasis.opendocument.graphics-template');
-				$odpType->setIconSvgInline(file_get_contents($appManager->getAppPath('richdocuments') . '/img/x-office-drawing.svg'));
-				$odpType->setRatio(1);
-				return $odpType;
-			});
-		});
-
 		$this->checkAndEnableCODEServer();
 	}
 
