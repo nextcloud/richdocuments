@@ -1,6 +1,6 @@
 # Changelog
 
-## 8.0.10-beta.1
+## 8.0.10
 
 ### Fixed
 
