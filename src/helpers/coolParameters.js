@@ -30,24 +30,31 @@ const getUIDefaults = () => {
 	const saveAsMode = 'group'
 	const uiMode = defaults.UIMode ?? 'notebookbar'
 
-	const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-	const dataset = (document.body.dataset.themes ? document.body.dataset : parent?.document.body.dataset) ?? {}
-	const nextcloudDarkMode = dataset?.themeDark === '' || dataset?.themeDarkHighcontrast === ''
-	const matchedDarkMode = (!dataset?.themes || dataset?.themes === '' || dataset?.themeDefault === '') ? systemDarkMode : nextcloudDarkMode
-	const uiTheme = matchedDarkMode ? 'dark' : 'light'
-
 	let uiDefaults = 'TextRuler=' + textRuler + ';'
 	uiDefaults += 'TextSidebar=' + sidebar + ';TextStatusbar=' + statusBar + ';'
 	uiDefaults += 'PresentationSidebar=' + sidebar + ';PresentationStatusbar=' + statusBar + ';'
 	uiDefaults += 'SpreadsheetSidebar=' + sidebar + ';SpreadsheetStatusbar=true;'
 	uiDefaults += 'UIMode=' + uiMode + ';'
-	uiDefaults += 'UITheme=' + uiTheme + ';'
+	uiDefaults += 'UITheme=' + getUITheme() + ';'
 	uiDefaults += 'SaveAsMode=' + saveAsMode + ';'
 	return uiDefaults
 }
 
 const getCollaboraTheme = () => {
 	return loadState('richdocuments', 'theme', 'nextcloud')
+}
+
+const getUITheme = () => {
+	const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+	let dataset = {}
+	try {
+		dataset = (document.body.dataset.themes ? document.body.dataset : parent?.document.body.dataset) ?? {}
+	} catch (e) {
+		// Ignore errors here in case we run into cross-origin domains
+	}
+	const nextcloudDarkMode = dataset?.themeDark === '' || dataset?.themeDarkHighcontrast === ''
+	const matchedDarkMode = (!dataset?.themes || dataset?.themes === '' || dataset?.themeDefault === '') ? systemDarkMode : nextcloudDarkMode
+	return matchedDarkMode ? 'dark' : 'light'
 }
 
 const createDataThemeDiv = (elementType, theme) => {
