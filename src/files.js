@@ -260,8 +260,6 @@ addEventListener('DOMContentLoaded', () => {
 		return
 	}
 
-	odfViewer.onEdit(document.getElementById('filename').value)
-
 	PostMessages.registerPostMessageHandler(({ parsed }) => {
 		console.debug('[viewer] Received post message', parsed)
 		const { msgId, args, deprecated } = parsed
