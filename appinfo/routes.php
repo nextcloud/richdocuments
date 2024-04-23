@@ -11,6 +11,7 @@ return [
 		// Page rendering of documents
 		['name' => 'document#index', 'url' => 'index', 'verb' => 'GET'],
 		['name' => 'document#remote', 'url' => 'remote', 'verb' => 'GET'],
+		['name' => 'document#remotePost', 'url' => 'remote', 'verb' => 'POST'],
 		['name' => 'document#createFromTemplate', 'url' => 'indexTemplate', 'verb' => 'GET'],
 		['name' => 'document#publicPage', 'url' => '/public', 'verb' => 'GET'],
 		['name' => 'document#token', 'url' => '/token', 'verb' => 'POST'],

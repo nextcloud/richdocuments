@@ -282,7 +282,9 @@ class DocumentController extends Controller {
 					'userId' => $remoteWopi->getEditorUid() ? ($remoteWopi->getEditorUid() . '@' . $remoteServer) : null,
 				];
 
-				return $this->documentTemplateResponse($wopi, $params);
+				$response = $this->documentTemplateResponse($wopi, $params);
+				$response->addHeader('X-Frame-Options', 'ALLOW');
+				return $response;
 			}
 		} catch (ShareNotFound $e) {
 			return new TemplateResponse('core', '404', [], 'guest');
@@ -293,6 +295,16 @@ class DocumentController extends Controller {
 
 		return new TemplateResponse('core', '403', [], 'guest');
 	}
+
+	/**
+	 * Open file on Source instance with token from Initiator instance
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function remotePost(string $shareToken, string $remoteServer, string $remoteServerToken, ?string $filePath = null): TemplateResponse {
+		return $this->remote($shareToken, $remoteServer, $remoteServerToken, $filePath);
+	}
+
 
 	private function renderErrorPage(string $message, int $status = Http::STATUS_INTERNAL_SERVER_ERROR): TemplateResponse {
 		$params = [
@@ -374,6 +386,13 @@ class DocumentController extends Controller {
 		try {
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;
 			$file = $shareToken ? $this->getFileForShare($share, $fileId, $path) : $this->getFileForUser($fileId, $path);
+
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($file);
+			if ($federatedUrl) {
+				return new DataResponse([
+					'federatedUrl' => $federatedUrl,
+				]);
+			}
 
 			$wopi = $this->getToken($file, $share);
 
