@@ -31,7 +31,7 @@ const getUIDefaults = () => {
 	const uiMode = defaults.UIMode ?? 'notebookbar'
 
 	const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-	const dataset = (document.body.dataset.themes ? document.body.dataset : parent?.document.body.dataset) ?? {}
+	const dataset = {} // (document.body.dataset.themes ? document.body.dataset : parent?.document.body.dataset) ?? {}
 	const nextcloudDarkMode = dataset?.themeDark === '' || dataset?.themeDarkHighcontrast === ''
 	const matchedDarkMode = (!dataset?.themes || dataset?.themes === '' || dataset?.themeDefault === '') ? systemDarkMode : nextcloudDarkMode
 	const uiTheme = matchedDarkMode ? 'dark' : 'light'
