@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.3.5
+
+### Fixed
+
+- fix: Use Close_Session post message to properly end the Collabora editing before opening locally @backportbot[bot] [#3603](https://github.com/nextcloud/richdocuments/pull/3603)
+- fix: Use wopi callback url for all urls handed over to Collabora @backportbot[bot] [#3584](https://github.com/nextcloud/richdocuments/pull/3584)
+
 ## 8.3.4
 ### Fixed
 * fix(WopiController): In `putFile()` set editor user as user scope by @backportbot in https://github.com/nextcloud/richdocuments/pull/3560
