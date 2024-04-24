@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="office-viewer">
+	<div class="office-viewer" :class="{ 'office-viewer__embedding': isEmbedded }">
 		<div v-if="showLoadingIndicator"
 			class="office-viewer__loading-overlay"
 			:class="{ debug: debug }">
@@ -83,11 +83,18 @@
 			:style="{visibility: showIframe ? 'visible' : 'hidden' }"
 			:src="iframeSrc" />
 
+		<NcButton v-if="isEmbedded && !hasWidgetEditingEnabled" class="toggle-interactive" @click="toggleEdit">
+			{{ t('richdocuments', 'Edit') }}
+			<template #icon>
+				<PencilIcon />
+			</template>
+		</NcButton>
 		<ZoteroHint :show.sync="showZotero" @submit="reload" />
 	</div>
 </template>
 
 <script>
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -142,6 +149,7 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
+		PencilIcon,
 		ZoteroHint,
 	},
 	mixins: [
@@ -165,6 +173,10 @@ export default {
 			type: String,
 			default: null,
 		},
+		isEmbedded: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -180,6 +192,7 @@ export default {
 			showLinkPicker: false,
 			showZotero: false,
 			modified: false,
+			hasWidgetEditingEnabled: false,
 
 			formData: {
 				action: null,
@@ -231,6 +244,11 @@ export default {
 			return getCurrentUser()?.isAdmin && this.errorType === 'websocketconnectionfailed'
 		},
 	},
+	watch: {
+		hasWidgetEditingEnabled() {
+			this.load()
+		},
+	},
 	async mounted() {
 		this.postMessage = new PostMessageService({
 			FRAME_DOCUMENT: () => document.getElementById(this.iframeId).contentWindow,
@@ -280,13 +298,15 @@ export default {
 			Config.update('urlsrc', data.urlSrc)
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 
+			const forceReadOnly = this.isEmbedded && !this.hasWidgetEditingEnabled
+
 			// Generate form and submit to the iframe
 			const action = getWopiUrl({
 				fileId: fileid + '_' + loadState('richdocuments', 'instanceId', 'instanceid') + (version > 0 ? '_' + version : ''),
 				title: this.filename,
-				readOnly: version > 0,
+				readOnly: forceReadOnly || version > 0,
 				revisionHistory: !this.isPublic,
-				closeButton: !Config.get('hideCloseButton'),
+				closeButton: !Config.get('hideCloseButton') && !this.isEmbedded,
 			})
 			this.$set(this.formData, 'action', action)
 			this.$set(this.formData, 'accessToken', data.token)
@@ -306,7 +326,7 @@ export default {
 			this.loading = LOADING_STATE.DOCUMENT_READY
 			clearTimeout(this.loadingTimeout)
 			this.sendPostMessage('Host_PostmessageReady')
-			if (loadState('richdocuments', 'open_local_editor', true)) {
+			if (loadState('richdocuments', 'open_local_editor', true) && !this.isEmbedded) {
 				this.sendPostMessage('Insert_Button', {
 					id: 'Open_Local_Editor',
 					imgurl: window.location.protocol + '//' + getNextcloudUrl() + imagePath('richdocuments', 'launch.svg'),
@@ -456,6 +476,10 @@ export default {
 			this.close()
 		},
 
+		toggleEdit() {
+			this.hasWidgetEditingEnabled = true
+		},
+
 	},
 }
 </script>
@@ -487,6 +511,19 @@ export default {
 		.empty-content {
 			align-self: center;
 			flex-grow: 1;
+		}
+	}
+
+	&__embedding {
+		min-height: 400px;
+
+		.toggle-interactive {
+			position: sticky;
+			bottom: 12px;
+			right: 12px;
+			z-index: 1;
+			margin-left: auto;
+			margin-right: 0;
 		}
 	}
 
