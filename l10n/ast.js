@@ -15,6 +15,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Falta una carpeta temporal",
     "Could not write file to disk" : "Nun se pudo escribir el ficheru nel discu",
     "A PHP extension stopped the file upload" : "Una estensión PHP paró la xuba de ficheros",
+    "No file uploaded or file size exceeds maximum of %s" : "Nun se xubió nengún ficheru o'l tamañu del ficheru supera'l máximu de %s",
     "Failed to upload the file" : "Nun se pue xubir el ficheru",
     "File is too big" : "El ficheru ye mui grande",
     "Invalid file provided" : "Fornióse un ficheru inválidu",
