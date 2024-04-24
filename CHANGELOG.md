@@ -1,5 +1,48 @@
 # Changelog
 
+## 8.4.0
+
+### Added
+
+- Support range requests for faster file opening @juliushaertl [#3505](https://github.com/nextcloud/richdocuments/pull/3505)
+- Adjust icons to new server style @Pytal [#3538](https://github.com/nextcloud/richdocuments/pull/3538)
+- Support for interactive widgets [#3620](https://github.com/nextcloud/richdocuments/pull/3620)
+
+### Fixed
+
+- fix: Consider owner group membership for public share links @juliushaertl [#3372](https://github.com/nextcloud/richdocuments/pull/3372)
+- fix: Avoid 3px offset on public share links @juliushaertl [#3369](https://github.com/nextcloud/richdocuments/pull/3369)
+- fix(Application.php): Update methods post-refactor @joshtrichards [#3380](https://github.com/nextcloud/richdocuments/pull/3380)
+- feat: add loadingMessage() to show different loadingMsg @Rash419 [#3311](https://github.com/nextcloud/richdocuments/pull/3311)
+- fix: Disable auto logout while editing @juliushaertl [#3224](https://github.com/nextcloud/richdocuments/pull/3224)
+- fix(i18n): Improved grammar @rakekniven [#3391](https://github.com/nextcloud/richdocuments/pull/3391)
+- fix: Let wopi middleware also handle asset fetching @juliushaertl [#3403](https://github.com/nextcloud/richdocuments/pull/3403)
+- fix: Drop use of deprecated jquery load @juliushaertl [#3469](https://github.com/nextcloud/richdocuments/pull/3469)
+- fix: emit allow attribute on all iframes for the clipboard (related t… @vmiklos [#3480](https://github.com/nextcloud/richdocuments/pull/3480)
+- fix: emit allow attribute on iframe for the clipboard (fixes #3474) @vmiklos [#3475](https://github.com/nextcloud/richdocuments/pull/3475)
+- Fix preview URLs and migrate providers to new API @juliushaertl [#3491](https://github.com/nextcloud/richdocuments/pull/3491)
+- fix: Properly use input model in settings text fields @juliushaertl [#3490](https://github.com/nextcloud/richdocuments/pull/3490)
+- Fix open locally with files lock and wopi allow list @juliushaertl [#3489](https://github.com/nextcloud/richdocuments/pull/3489)
+- Fixes #3492 joining after document is renamed inside editor @eszkadev [#3493](https://github.com/nextcloud/richdocuments/pull/3493)
+- fix: Avoid absolute positioning on interactive widgets @juliushaertl [#3513](https://github.com/nextcloud/richdocuments/pull/3513)
+- fix background jobs @tobiasKaminsky [#3527](https://github.com/nextcloud/richdocuments/pull/3527)
+- fix: Use new viewer api to open files again after open locally @juliushaertl [#3524](https://github.com/nextcloud/richdocuments/pull/3524)
+- match dark theme of system if no nextcloud theme specified @lpranam [#3539](https://github.com/nextcloud/richdocuments/pull/3539)
+- fix(WopiController): In `putFile()` set editor user as user scope @backportbot[bot] [#3561](https://github.com/nextcloud/richdocuments/pull/3561)
+- fix: Use wopi callback url for all urls handed over to Collabora @backportbot[bot] [#3583](https://github.com/nextcloud/richdocuments/pull/3583)
+- fix: Use Close_Session post message to properly end the Collabora editing before opening locally @backportbot[bot] [#3604](https://github.com/nextcloud/richdocuments/pull/3604)
+- don't alter file when there is not enough free space @backportbot[bot] [#3581](https://github.com/nextcloud/richdocuments/pull/3581)
+
+### Other
+
+- refactor: move to office.vue component @backportbot[bot] [#3615](https://github.com/nextcloud/richdocuments/pull/3615)
+- Switch to NcSelect and `@nextcloud/vue` 8 @juliushaertl [#2945](https://github.com/nextcloud/richdocuments/pull/2945)
+- enh(Issue_Template) Request richdocuments config in bug reports @joshtrichards [#3384](https://github.com/nextcloud/richdocuments/pull/3384)
+- test(ci): use only 3 runners for cypress @max-nextcloud [#3410](https://github.com/nextcloud/richdocuments/pull/3410)
+- ActivateConfig: add type declarations @joshtrichards [#3424](https://github.com/nextcloud/richdocuments/pull/3424)
+- perf: Change to individual dist imports to decrease loaded component impact @juliushaertl [#3464](https://github.com/nextcloud/richdocuments/pull/3464)
+- chore(CI): Adjust testing matrix for Nextcloud 29 on stable29 @nickvergessen [#3553](https://github.com/nextcloud/richdocuments/pull/3553)
+
 ## 8.4.0-beta.3
 
 ### Fixed
