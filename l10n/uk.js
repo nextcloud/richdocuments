@@ -127,6 +127,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Формат шрифту не підтримується ({mime})",
     "Confirm" : "Підтвердити",
     "Cancel" : "Скасувати",
+    "Path to save" : "Шлях для збереження",
     "Save" : "Зберегти",
     "Save As" : "Зберегти як",
     "Link to your Zotero library" : "Посилання на вашу бібліотеку Zotero",
