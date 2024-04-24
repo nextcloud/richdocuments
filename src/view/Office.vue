@@ -259,7 +259,7 @@ export default {
 		}
 		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
 
-		this.load()
+		await this.load()
 	},
 	beforeDestroy() {
 		this.postMessage.unregisterPostMessageHandler(this.postMessageHandler)

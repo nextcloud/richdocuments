@@ -33,7 +33,7 @@ export default {
 				},
 				true,
 				t('richdocuments', 'New filename'),
-				false
+				false,
 			).then(() => {
 				const $dialog = $('.oc-dialog:visible')
 				const $buttons = $dialog.find('.oc-dialog-buttonrow button')

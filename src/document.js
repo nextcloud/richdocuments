@@ -392,7 +392,7 @@ const documentsMain = {
 									title += `_${version}`
 								}
 								documentsMain.UI.showViewer(
-									fileId, title
+									fileId, title,
 								)
 							}
 							break
@@ -463,7 +463,7 @@ const documentsMain = {
 					case 'rev-history':
 						documentsMain.UI.loadRevViewerContainer()
 						documentsMain.UI.showViewer(
-							documentsMain.fileId, documentsMain.title
+							documentsMain.fileId, documentsMain.title,
 						)
 						break
 					case 'RD_Version_Restored':
@@ -516,7 +516,7 @@ const documentsMain = {
 							},
 							true,
 							t('richdocuments', 'New filename'),
-							false
+							false,
 						).then(function() {
 							const $dialog = $('.oc-dialog:visible')
 							const $buttons = $dialog.find('.oc-dialog-buttonrow button')
@@ -575,7 +575,7 @@ const documentsMain = {
 					}
 					documentsMain.openingLocally = true
 					PostMessages.sendWOPIPostMessage('loolframe', 'Get_Views')
-				}
+				},
 			)
 		},
 
@@ -606,7 +606,7 @@ const documentsMain = {
 
 			axios.post(
 				OC.linkToOCS('apps/files/api/v1', 2) + 'openlocaleditor?format=json',
-				{ path: documentsMain.fullPath }
+				{ path: documentsMain.fullPath },
 			).then((result) => {
 				const url = 'nc://open/'
 					+ Config.get('userId') + '@' + getNextcloudUrl()
@@ -633,7 +633,7 @@ const documentsMain = {
 					_window.location = url
 					this.showOpenLocalConfirmation(url, _window)
 				}
-			}
+			},
 		)
 	},
 
