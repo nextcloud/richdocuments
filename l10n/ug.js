@@ -7,6 +7,7 @@ OC.L10N.register(
     "Save" : "ساقلا",
     "Description" : "چۈشەندۈرۈش",
     "Close" : "ياپ",
+    "Edit" : "تەھرىر",
     "Error" : "خاتالىق",
     "Nickname" : "تەخەللۇس",
     "Remove from favorites" : "Remove from favorites",

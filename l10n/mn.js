@@ -20,6 +20,7 @@ OC.L10N.register(
     "Description" : "Тодорхойлолт",
     "No results" : "Үр дүн байхгүй",
     "Close" : "Хаах",
+    "Edit" : "Өөрчлөх",
     "Error" : "Алдаа",
     "Nickname" : "Товч нэр",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",

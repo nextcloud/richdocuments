@@ -149,6 +149,7 @@ OC.L10N.register(
     "Insert image" : "Inserir unha imaxe",
     "Document loading failed" : "Produciuse un fallo ao cargar o documento",
     "Close" : "Pechar",
+    "Edit" : "Editar",
     "Starting the built-in CODE server failed" : "Produciuse un erro ao iniciar o servidor CODE integrado",
     "Loading {filename} …" : "Cargando {filename}…",
     "Open in local editor" : "Abrir no editor local",

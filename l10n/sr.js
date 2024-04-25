@@ -153,6 +153,7 @@ OC.L10N.register(
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Веза утичнице је неочекивано прекинута. Можда је поглешно подешен обрнути прокси, молимо вас да се обратите администратору.",
     "More information can be found in the reverse proxy documentation" : "Више информација можете да пронађете у документацији обрнутог проксија",
     "Close" : "Затвори",
+    "Edit" : "Измени",
     "Starting the built-in CODE server failed" : "Није успело покретање уграђеног CODE сервера",
     "Loading {filename} …" : "Учитава се {filename} …",
     "Open in local editor" : "ОТвори у локалном едитору",

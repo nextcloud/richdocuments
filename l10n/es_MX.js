@@ -52,6 +52,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seleccionar archivo o carpeta para enlazar.",
     "Insert image" : "Añadir imagen",
     "Close" : "Cerrar",
+    "Edit" : "Editar",
     "Error" : "Error",
     "An error occurred" : "Se presentó un error",
     "Please choose your nickname to continue as guest user." : "Por favor elige tu apodo para continuar como un usuario invitado.",

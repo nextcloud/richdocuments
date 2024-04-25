@@ -25,6 +25,7 @@ OC.L10N.register(
     "No results" : "Tidak ada hasil",
     "Select file or folder to link to" : "Pilih berkas atau folder untuk ditautkan",
     "Close" : "Tutup",
+    "Edit" : "Sunting",
     "Error" : "Kesalahan",
     "An error occurred" : "Terjadi kesalahan",
     "Nickname" : "Nama panggilan",

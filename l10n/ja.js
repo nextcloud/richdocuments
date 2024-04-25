@@ -124,6 +124,7 @@ OC.L10N.register(
     "Insert image" : "画像の挿入",
     "Document loading failed" : "ドキュメントの読み込みに失敗",
     "Close" : "閉じる",
+    "Edit" : "編集",
     "Starting the built-in CODE server failed" : "内蔵のCODEサーバーの開始に失敗",
     "Loading {filename} …" : "{filename}を読み込み中…",
     "Failed to load {productName} - please try again later" : "{productName} が読み込めませんでした - しばらく後でもう一度試してください",

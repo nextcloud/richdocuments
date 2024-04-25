@@ -151,6 +151,7 @@
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Socket-Verbindung wurde unerwartet geschlossen. Der Reverse-Proxy ist möglicherweise falsch konfiguriert. Bitte wenden Sie sich an die Administration.",
     "More information can be found in the reverse proxy documentation" : "Weitere Informationen finden Sie in der Reverse-Proxy-Dokumentation",
     "Close" : "Schließen",
+    "Edit" : "Bearbeiten",
     "Starting the built-in CODE server failed" : "Der Start des integrierten CODE-Servers ist fehlgeschlagen",
     "Loading {filename} …" : "Lade {filename} …",
     "Open in local editor" : "In lokalem Editor öffnen",

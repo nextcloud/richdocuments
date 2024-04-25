@@ -77,6 +77,7 @@ OC.L10N.register(
     "No results" : "Vasteid ei leitud",
     "Document loading failed" : "Dokumendi laadimine ebaõnnestus",
     "Close" : "Sulge",
+    "Edit" : "Redigeeri",
     "{productName} is not configured" : "{productName} ei ole seadistatud",
     "Error" : "Viga",
     "An error occurred" : "Tekkis tõrge",

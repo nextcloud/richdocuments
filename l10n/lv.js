@@ -29,6 +29,7 @@ OC.L10N.register(
     "Description" : "Apraksts",
     "No results" : "Nav rezultātu",
     "Close" : "Aizvērt",
+    "Edit" : "Rediģēt",
     "Error" : "Kļūda",
     "An error occurred" : "Gadījās kļūda",
     "Nickname" : "Iesauka",

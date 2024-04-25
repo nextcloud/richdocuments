@@ -153,6 +153,7 @@ OC.L10N.register(
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "La conexión del socket se cerró inesperadamente. Es posible que el proxy reverso esté mal configurado, por favor contacte al administrador.",
     "More information can be found in the reverse proxy documentation" : "Más información se puede encontrar en la documentación del proxy reverso.",
     "Close" : "Cerrar",
+    "Edit" : "Editar",
     "Starting the built-in CODE server failed" : "El arranque del servidor CODE integrado ha fallado",
     "Loading {filename} …" : "Cargando {filename} ...",
     "Open in local editor" : "Abir en editor local",

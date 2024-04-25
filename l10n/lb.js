@@ -15,6 +15,7 @@ OC.L10N.register(
     "Save" : "Späicheren",
     "Description" : "Beschreiwung",
     "Close" : "Zoumaachen",
+    "Edit" : "Änneren",
     "Error" : "Fehler",
     "Nickname" : "Spëtznumm",
     "Remove from favorites" : "Remove from favorites",

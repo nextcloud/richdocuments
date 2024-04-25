@@ -105,6 +105,7 @@ OC.L10N.register(
     "No results" : "Nema rezultata",
     "Insert image" : "Umetni sliku",
     "Close" : "Zatvori",
+    "Edit" : "Uredi",
     "Failed to load {productName} - please try again later" : "Neuspjelo učitavanje {productName} – pokušajte ponovo kasnije",
     "Error" : "Pogreška",
     "An error occurred" : "Došlo je do pogreške",
