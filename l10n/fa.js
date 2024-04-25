@@ -142,6 +142,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "فایل یا پوشه را برای پیوند انتخاب کنید",
     "Document loading failed" : "بار کردن سند شکست خورد",
     "Close" : "بسته",
+    "Edit" : "ویرایش",
     "Starting the built-in CODE server failed" : "Starting the built-in CODE server failed",
     "Loading {filename} …" : "بار کردن {filename} …",
     "Open in local editor" : "Open in local editor",

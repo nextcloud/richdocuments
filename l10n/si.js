@@ -13,6 +13,7 @@ OC.L10N.register(
     "Description" : "විස්තරය",
     "No results" : "ප්‍රතිථල නැත",
     "Close" : "වසන්න",
+    "Edit" : "සංස්කරණය",
     "Error" : "දෝෂය",
     "Nickname" : "අන්වර්ථ නාමය",
     "Details" : "විස්තර",

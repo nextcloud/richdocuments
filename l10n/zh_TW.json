@@ -151,6 +151,7 @@
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "網路插座連線意外關閉。反向代理伺服器設定可能不正確，請聯絡管理員。",
     "More information can be found in the reverse proxy documentation" : "更多資訊可在反向代理伺服器文件中找到",
     "Close" : "關閉",
+    "Edit" : "編輯",
     "Starting the built-in CODE server failed" : "啟動內建的 CODE 伺服器失敗",
     "Loading {filename} …" : "正在載入 {filename}……",
     "Open in local editor" : "在本機編輯器中開啟",

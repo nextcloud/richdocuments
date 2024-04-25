@@ -141,6 +141,7 @@
     "Insert image" : "Kép beszúrása",
     "Document loading failed" : "A dokumentum betöltése sikertelen",
     "Close" : "Bezárás",
+    "Edit" : "Szerkesztés",
     "Starting the built-in CODE server failed" : "A beépített CODE kiszolgáló indítása sikertelen",
     "Loading {filename} …" : "{filename} betöltése…",
     "Open in local editor" : "Megnyitás helyi szerkesztőben",

@@ -27,6 +27,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Selectați fișierul sau folderul țintă a link-ului",
     "Insert image" : "Introdu imagine",
     "Close" : "Închide",
+    "Edit" : "Editează",
     "Error" : "Eroare",
     "An error occurred" : "A apărut o eraore",
     "Nickname" : "Pseudonim",

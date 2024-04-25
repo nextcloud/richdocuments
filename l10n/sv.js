@@ -128,6 +128,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Välj fil eller mapp att länka till",
     "Insert image" : "Infoga bild",
     "Close" : "Stäng",
+    "Edit" : "Redigera",
     "Loading {filename} …" : "Öppnar {filename} ...",
     "Open in local editor" : "Öppna i lokal editor",
     "Failed to load {productName} - please try again later" : "Kunde inte läsa in {productName} - vänligen försök igen senare",

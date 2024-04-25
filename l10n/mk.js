@@ -90,6 +90,7 @@ OC.L10N.register(
     "Insert image" : "Вметни фотографија",
     "Document loading failed" : "Неуспешно вчитување на документ",
     "Close" : "Затвори",
+    "Edit" : "Уреди",
     "Loading {filename} …" : "Се вчитува {filename} …",
     "Open in local editor" : "Отвори во локален уредувач",
     "Failed to load {productName} - please try again later" : "Неуспешно вчитување {productName} - обидете се повторно",

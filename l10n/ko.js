@@ -101,6 +101,7 @@ OC.L10N.register(
     "Document loading failed" : "문서 불러오기 실패",
     "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "더 자세한 정보는 Collabora Online 서버의 로그에서 확인하시고, Nextcloud가 해당 서버에 접근할 수 있는지 점검하십시오.",
     "Close" : "닫기",
+    "Edit" : "편집",
     "Starting the built-in CODE server failed" : "내장 CODE 서버 시작 실패",
     "Loading {filename} …" : "{filename}을(를) 로딩 중...",
     "Open in local editor" : "로컬 편집기로 열기",

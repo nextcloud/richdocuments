@@ -56,6 +56,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Veldu skrá eða möppu til að tengja í",
     "Insert image" : "Setja inn mynd",
     "Close" : "Loka",
+    "Edit" : "Breyta",
     "Failed to load {productName} - please try again later" : "Mistókst að hlaða inn {productName} - reyndu aftur síðar",
     "Error" : "Villa",
     "An error occurred" : "Villa kom upp",

@@ -55,6 +55,7 @@ OC.L10N.register(
     "No results" : "Neniu rezulto",
     "Insert image" : "Enmeti bildon",
     "Close" : "Malfermi",
+    "Edit" : "Modifi",
     "Failed to load {productName} - please try again later" : "Malsukceso ŝargi „{productName}“ — bv. reprovi poste",
     "Error" : "Eraro",
     "An error occurred" : "Eraro okazis",

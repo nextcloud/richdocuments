@@ -45,6 +45,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Link til fil eller mappe",
     "Insert image" : "Indsæt billede",
     "Close" : "Luk",
+    "Edit" : "Redigér",
     "Error" : "Fejl",
     "An error occurred" : "Der var en fejl",
     "Nickname" : "Kaldenavn",

@@ -77,6 +77,7 @@ OC.L10N.register(
     "Insert image" : "Lisää kuva",
     "Document loading failed" : "Asiakirjan lataaminen epäonnistui",
     "Close" : "Sulje",
+    "Edit" : "Muokkaa",
     "Loading {filename} …" : "Ladataan {filename}…",
     "Open in local editor" : "Avaa paikallisessa muokkaimessa",
     "Failed to load {productName} - please try again later" : "Ei voitu ladata {productName} - yritä myöhemmin uudelleen",

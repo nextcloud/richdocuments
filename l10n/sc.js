@@ -105,6 +105,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seletziona un'archìviu o una cartella de ligongiare",
     "Insert image" : "Inserta·nche immàgine",
     "Close" : "Serra",
+    "Edit" : "Modìfica",
     "Failed to load {productName} - please try again later" : "No at fatu a carrigare {productName} - torra a proare prus a tardu",
     "Error" : "Errore",
     "An error occurred" : "B'at àpidu un'errore",

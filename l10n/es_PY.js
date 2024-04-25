@@ -30,6 +30,7 @@ OC.L10N.register(
     "Description" : "Descripción",
     "No results" : "No hay resultados",
     "Close" : "Cerrar",
+    "Edit" : "Editar",
     "Error" : "Error",
     "An error occurred" : "Se presentó un error",
     "Nickname" : "Apodo",

@@ -32,6 +32,7 @@ OC.L10N.register(
     "Description" : "Descripción",
     "No results" : "No hay resultados",
     "Close" : "Cerrar",
+    "Edit" : "Editar",
     "Error" : "Error",
     "Please choose your nickname to continue as guest user." : "Por favor elige tu apodo para continuar como un usuario invitado.",
     "Nickname" : "Apodo",

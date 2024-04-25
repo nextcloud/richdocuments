@@ -147,6 +147,7 @@ OC.L10N.register(
     "Insert image" : "Додати зображення",
     "Document loading failed" : "Не вдалося завантажити документ",
     "Close" : "закрити",
+    "Edit" : "Редагувати",
     "Starting the built-in CODE server failed" : "Не вдалося запустити вбудований сервер CODE",
     "Loading {filename} …" : "Завантаження {filename}…",
     "Open in local editor" : "Відкрити в локальному редакторі",

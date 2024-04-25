@@ -10,6 +10,7 @@ OC.L10N.register(
     "Save" : "ບັນທຶກ",
     "No results" : "ບໍ່ມີຜົນ",
     "Close" : "ປິດ",
+    "Edit" : "ແກ້ໄຂ",
     "Error" : "ຜິດພາດ",
     "Saving …" : "ກຳລັງບັນທຶກ",
     "Remove from favorites" : "ຍ້າຍຈາກລາຍການທີ່ມັກ",

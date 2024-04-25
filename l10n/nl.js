@@ -115,6 +115,7 @@ OC.L10N.register(
     "Insert image" : "Invoegen afbeelding",
     "Document loading failed" : "Document laden mislukt",
     "Close" : "Sluit",
+    "Edit" : "Bewerken",
     "Starting the built-in CODE server failed" : "Het starten van de ingebouwde CODE-server is mislukt",
     "Loading {filename} …" : "{filename} laden ...",
     "Failed to load {productName} - please try again later" : "Kon  {productName} niet laden - probeer het later opnieuw",
