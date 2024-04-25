@@ -151,6 +151,7 @@
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Socket-tilkoblingen lukket uventet. Den omvendte proxyen kan være feilkonfigurert, vennligst kontakt administratoren.",
     "More information can be found in the reverse proxy documentation" : "Mer informasjon finner du i omvendt proxy-dokumentasjonen",
     "Close" : "Lukk",
+    "Edit" : "Rediger",
     "Starting the built-in CODE server failed" : "Oppstart av den innebygde CODE-serveren mislyktes",
     "Loading {filename} …" : "Laster {filename}…",
     "Open in local editor" : "Åpne i lokalt redigeringsprogram",

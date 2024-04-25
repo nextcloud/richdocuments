@@ -70,6 +70,7 @@ OC.L10N.register(
     "No results" : "אין תוצאות",
     "Insert image" : "הוספת תמונה",
     "Close" : "סגירה",
+    "Edit" : "עריכה",
     "Failed to load {productName} - please try again later" : "הטעינה של {productName} נכשלה - נא לנסות שוב מאוחר יותר",
     "Error" : "שגיאה",
     "An error occurred" : "אירעה שגיאה",

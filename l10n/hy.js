@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Պահել",
     "Description" : "Նկարագրություն",
     "Close" : "Փակել",
+    "Edit" : "մշակել",
     "Error" : "Սխալ",
     "Nickname" : "Մականուն",
     "Remove from favorites" : "Remove from favorites",

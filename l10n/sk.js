@@ -153,6 +153,7 @@ OC.L10N.register(
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Socketové pripojenie sa neočakávane ukončilo. Reverzný proxy server môže byť nesprávne nakonfigurovaný, prosím, kontaktujte administrátora.",
     "More information can be found in the reverse proxy documentation" : "Viac informácií nájdete v dokumentácii reverzného proxy.",
     "Close" : "Zatvoriť",
+    "Edit" : "Upraviť",
     "Starting the built-in CODE server failed" : "Spustenie vstavaného servera CODE zlyhalo",
     "Loading {filename} …" : "Načítava sa {filename}…",
     "Open in local editor" : "Otvoriť v lokálnom editore",

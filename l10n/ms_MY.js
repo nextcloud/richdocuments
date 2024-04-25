@@ -8,6 +8,7 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Description" : "Keterangan",
     "Close" : "Tutup",
+    "Edit" : "Sunting",
     "Error" : "Ralat",
     "Nickname" : "Nama Samaran",
     "Remove from favorites" : "Remove from favorites",

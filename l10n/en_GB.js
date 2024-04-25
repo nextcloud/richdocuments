@@ -153,6 +153,7 @@ OC.L10N.register(
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator.",
     "More information can be found in the reverse proxy documentation" : "More information can be found in the reverse proxy documentation",
     "Close" : "Close",
+    "Edit" : "Edit",
     "Starting the built-in CODE server failed" : "Starting the built-in CODE server failed",
     "Loading {filename} …" : "Loading {filename} …",
     "Open in local editor" : "Open in local editor",

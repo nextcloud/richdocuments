@@ -114,6 +114,7 @@
     "Insert image" : "Εισαγωγή εικόνας",
     "Document loading failed" : "Η φόρτωση του εγγράφου απέτυχε",
     "Close" : "Κλείσιμο",
+    "Edit" : "Επεξεργασία",
     "Starting the built-in CODE server failed" : "Η εκκίνηση του ενσωματωμένου διακομιστή CODE απέτυχε",
     "Loading {filename} …" : "Φόρτωση {filename} …",
     "Failed to load {productName} - please try again later" : "Σφάλμα φόρτωσης {productName} - παρακαλώ δοκιμάστε ξανά αργότερα",

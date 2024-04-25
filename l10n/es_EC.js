@@ -142,6 +142,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seleccionar archivo o carpeta para enlazar.",
     "Document loading failed" : "Error al cargar el documento",
     "Close" : "Cerrar",
+    "Edit" : "Editar",
     "Starting the built-in CODE server failed" : "Falló al iniciar el servidor CODE incorporado",
     "Loading {filename} …" : "Cargando {filename} …",
     "Open in local editor" : "Abrir en editor local",

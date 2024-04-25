@@ -142,6 +142,7 @@ OC.L10N.register(
     "Insert image" : "Vstavi sliko",
     "Document loading failed" : "Nalaganje dokumenta je spodletelo",
     "Close" : "Zapri",
+    "Edit" : "Uredi",
     "Starting the built-in CODE server failed" : "Zaganjanje vgrajenega strežnika CODE je spodletelo",
     "Loading {filename} …" : "Poteka nalaganje {filename} …",
     "Open in local editor" : "Odpri v krajevnem urejevalniku",

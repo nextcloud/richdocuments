@@ -68,6 +68,7 @@ OC.L10N.register(
     "Insert image" : "Įterpti paveikslą",
     "Document loading failed" : "Nepavyko įkelti dokumento",
     "Close" : "Užverti",
+    "Edit" : "Taisyti",
     "Loading {filename} …" : "Įkeliamas {filename}…",
     "Open in local editor" : "Atverti vietiniame redaktoriuje",
     "Failed to load {productName} - please try again later" : "Nepavyko įkelti {productName} - vėliau bandykite dar kartą",
