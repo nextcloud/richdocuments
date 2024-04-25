@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Salveguardar",
     "Description" : "Description",
     "Close" : "Clauder",
+    "Edit" : "Modificar",
     "Error" : "Error",
     "Nickname" : "Pseudonymo",
     "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",

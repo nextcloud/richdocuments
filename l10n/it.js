@@ -127,6 +127,7 @@ OC.L10N.register(
     "Insert image" : "Inserisci immagine",
     "Document loading failed" : "Caricamento del documento fallito",
     "Close" : "Chiudi",
+    "Edit" : "Modifica",
     "Starting the built-in CODE server failed" : "Avvio del server CODE integrato fallito",
     "Loading {filename} …" : "Caricamento di {filename} …",
     "Failed to load {productName} - please try again later" : "Caricamento di {productName} - riprova più tardi",

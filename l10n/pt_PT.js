@@ -54,6 +54,7 @@ OC.L10N.register(
     "Description" : "Descrição",
     "No results" : "Sem resultados",
     "Close" : "Fechar",
+    "Edit" : "Editar",
     "Error" : "Erro",
     "An error occurred" : "Ocorreu um erro",
     "Nickname" : "Alcunha",

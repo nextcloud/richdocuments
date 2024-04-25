@@ -142,6 +142,7 @@ OC.L10N.register(
     "Insert image" : "Txertatu irudia",
     "Document loading failed" : "Dokumentua kargatzeak huts egin du",
     "Close" : "Itxi",
+    "Edit" : "Aldatu",
     "Starting the built-in CODE server failed" : "CODE zerbitzari integratua hasteak huts egin du",
     "Loading {filename} …" : "{filename} kargatzen...",
     "Open in local editor" : "Ireki editore lokalean",

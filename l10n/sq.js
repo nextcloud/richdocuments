@@ -27,6 +27,7 @@ OC.L10N.register(
     "Description" : "Përshkrim",
     "No results" : "Asnjë rezultat",
     "Close" : "Mbylleni",
+    "Edit" : "Përpuno",
     "Error" : "Error",
     "Nickname" : "Nofkë",
     "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",

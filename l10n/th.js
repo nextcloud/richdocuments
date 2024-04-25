@@ -52,6 +52,7 @@ OC.L10N.register(
     "Description" : "คำอธิบาย",
     "No results" : "ไม่มีผลลัพธ์",
     "Close" : "ปิด",
+    "Edit" : "แก้ไข",
     "Error" : "ข้อผิดพลาด",
     "An error occurred" : "เกิดข้อผิดพลาด",
     "Nickname" : "ชื่อเล่น",

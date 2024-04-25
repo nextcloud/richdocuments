@@ -12,6 +12,7 @@ OC.L10N.register(
     "Save" : "Sekles",
     "No results" : "Ulac igmad",
     "Close" : "Mdel",
+    "Edit" : "Ẓreg",
     "Error" : "Erreur",
     "Set" : "Sbadu",
     "Remove from favorites" : "Kkes-it seg ismal",

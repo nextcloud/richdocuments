@@ -7,6 +7,7 @@ OC.L10N.register(
     "Cancel" : "﻿ರದ್ದು",
     "Save" : "﻿ಉಳಿಸಿ",
     "Close" : "ಮುಚ್ಚು",
+    "Edit" : "ಸಂಪಾದಿಸು",
     "Error" : "﻿ತಪ್ಪಾಗಿದೆ",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

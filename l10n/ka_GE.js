@@ -32,6 +32,7 @@ OC.L10N.register(
     "Description" : "აღწერილობა",
     "No results" : "შედეგები არაა",
     "Close" : "დახურვა",
+    "Edit" : "შეცვლა",
     "Error" : "შეცდომა",
     "Nickname" : "ნიკნეიმი",
     "Failed to revert the document to older version" : "დოკუმენტის ძველ ვერსიაზე დაბრუნება ვერ მოხერხდა",

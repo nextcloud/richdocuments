@@ -153,6 +153,7 @@ OC.L10N.register(
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "套接字連接意外關閉。反向代理可能配置不正確，請聯繫管理員處理。",
     "More information can be found in the reverse proxy documentation" : "更多資訊可以在反向代理伺服器說明書中找到",
     "Close" : "關閉",
+    "Edit" : "編輯",
     "Starting the built-in CODE server failed" : "未能啟動內置的 CODE 伺服器",
     "Loading {filename} …" : "正在加載 {filename} …",
     "Open in local editor" : "在近端編輯器中打開",

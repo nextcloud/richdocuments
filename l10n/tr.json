@@ -151,6 +151,7 @@
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "Soket bağlantısı beklenmedik bir şekilde kapandı. Ters vekil sunucu yanlış yapılandırılmış olabilir, lütfen yöneticiyle görüşün.",
     "More information can be found in the reverse proxy documentation" : "Ayrıntılı bilgi almak için ters vekil sunucu belgelerine bakabilirsiniz",
     "Close" : "Kapat",
+    "Edit" : "Düzenle",
     "Starting the built-in CODE server failed" : "İç CODE sunucusu başlatılamadı",
     "Loading {filename} …" : "{filename} yükleniyor…",
     "Open in local editor" : "Yerel düzenleyicide aç",

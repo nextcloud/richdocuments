@@ -121,6 +121,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Chọn tập tin hoặc thư mục để liên kết đến",
     "Insert image" : "Chèn ảnh",
     "Close" : "Đóng",
+    "Edit" : "Chỉnh sửa",
     "Failed to load {productName} - please try again later" : "Không tải được {productName} - vui lòng thử lại sau",
     "Error" : "Lỗi",
     "An error occurred" : "Có lỗi đã xảy ra",

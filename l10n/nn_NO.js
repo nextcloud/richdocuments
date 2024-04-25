@@ -14,6 +14,7 @@ OC.L10N.register(
     "Save" : "Lagra",
     "Description" : "Skildring",
     "Close" : "Lukk",
+    "Edit" : "Rediger",
     "Error" : "Feil",
     "An error occurred" : "Det oppstod ein feil.",
     "Nickname" : "Kallenamn",

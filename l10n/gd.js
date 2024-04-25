@@ -15,6 +15,7 @@ OC.L10N.register(
     "Save" : "Sàbhail",
     "No results" : "Gun toradh",
     "Close" : "Dùin",
+    "Edit" : "Deasaich",
     "Error" : "Mearachd",
     "Add to favorites" : "Cuir ris na h-annsachdan",
     "Details" : "Mion-fhiosrachadh",

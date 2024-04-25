@@ -30,6 +30,7 @@ OC.L10N.register(
     "Description" : "Descripción",
     "No results" : "No hay resultados",
     "Close" : "Cerrar",
+    "Edit" : "Editar",
     "Error" : "Error",
     "Nickname" : "Apodo",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a la versión anterior",

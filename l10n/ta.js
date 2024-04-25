@@ -8,6 +8,7 @@ OC.L10N.register(
     "Save" : "சேமிக்க ",
     "Description" : "விவரிப்பு",
     "Close" : "மூடுக",
+    "Edit" : "தொகுக்க",
     "Error" : "வழு",
     "Nickname" : "பட்டப்பெயர்",
     "Remove from favorites" : "Remove from favorites",

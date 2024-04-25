@@ -25,6 +25,7 @@ OC.L10N.register(
     "No results" : "Cap de resultat",
     "Insert image" : "Inserir imatge",
     "Close" : "Tampar",
+    "Edit" : "Modificar",
     "Error" : "Error",
     "An error occurred" : "Una error s’es producha",
     "Nickname" : "Escais",
