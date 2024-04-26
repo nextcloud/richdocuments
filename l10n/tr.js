@@ -158,6 +158,7 @@ OC.L10N.register(
     "Loading {filename} …" : "{filename} yükleniyor…",
     "Open in local editor" : "Yerel düzenleyicide aç",
     "Cluster is scaling …" : "Küme ölçekleniyor…",
+    "The collaborative editing was terminated by another user" : "İş birlikli düzenleme başka bir kullanıcı tarafından sonlandırıldı",
     "Failed to load {productName} - please try again later" : "{productName} yüklenemedi. Lütfen bir süre sonra yeniden deneyin",
     "{productName} is not configured" : "{productName} yapılandırılmamış",
     "Error" : "Hata",

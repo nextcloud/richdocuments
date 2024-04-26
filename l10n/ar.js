@@ -153,6 +153,7 @@ OC.L10N.register(
     "Socket connection closed unexpectedly. The reverse proxy might be misconfigured, please contact the administrator." : "تم إغلاق \"مقبس التوصيل\" socket connection بشكل غير متوقع. ربما تمّ تكوين الوكيل العكسي reverse proxy  بشكل خاطئ. يرجى الاتصال بمشرف النظام.",
     "More information can be found in the reverse proxy documentation" : "مزيد من المعلومات تجدها في توثيق \"الوكيل العكسي\" reverse proxy.",
     "Close" : "إغلاق",
+    "Edit" : "تحرير",
     "Starting the built-in CODE server failed" : "فشل بدء تشغيل خادم CODE المُدمَج",
     "Loading {filename} …" : "تحميل {filename} …",
     "Open in local editor" : "إفتح في مُحرّر محلي",
