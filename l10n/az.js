@@ -20,6 +20,7 @@ OC.L10N.register(
     "Description" : "Açıqlanma",
     "No results" : "Nəticə yoxdur",
     "Close" : "Bağla",
+    "Edit" : "Dəyişiklik et",
     "Error" : "Səhv",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",

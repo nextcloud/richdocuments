@@ -48,6 +48,7 @@ OC.L10N.register(
     "No results" : "Nun hai nengún resultáu",
     "Select file or folder to link to" : "Seleicionar un ficheru o una carpeta a la qu'enllaciar",
     "Close" : "Zarrar",
+    "Edit" : "Editar",
     "Loading {filename} …" : "Cargando «{filename}»…",
     "Open in local editor" : "Abrir nel editor llocaul",
     "The collaborative editing was terminated by another user" : "Otru usuariu terminó la edición collaborativa",

@@ -180,7 +180,7 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Не вдалося оновити ключ API для Zotero",
     "Saving …" : "Збереження …",
     "Built-in CODE server failed to start" : "Не вдалося запустити вбудований сервер CODE",
-    "Remove from favorites" : "Вилучити з улюбленого",
+    "Remove from favorites" : "Прибрати зірочку",
     "Add to favorites" : "Додати зірочку",
     "Details" : "Деталі",
     "Download" : "Звантажити",
