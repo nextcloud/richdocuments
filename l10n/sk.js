@@ -158,6 +158,7 @@ OC.L10N.register(
     "Loading {filename} …" : "Načítava sa {filename}…",
     "Open in local editor" : "Otvoriť v lokálnom editore",
     "Cluster is scaling …" : "Cluster sa škáluje ...",
+    "The collaborative editing was terminated by another user" : "Spoločnú úpravu ukončil iný užívateľ",
     "Failed to load {productName} - please try again later" : "Nepodarilo sa načítať {productName} - skúste to znova neskôr",
     "{productName} is not configured" : "{productName} nie je nakonfigurované",
     "Error" : "Chyba",
