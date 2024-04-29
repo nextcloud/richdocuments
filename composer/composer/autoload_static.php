@@ -58,6 +58,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Listener\\AddFeaturePolicyListener' => __DIR__ . '/..' . '/../lib/Listener/AddFeaturePolicyListener.php',
         'OCA\\Richdocuments\\Listener\\BeforeFetchPreviewListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeFetchPreviewListener.php',
         'OCA\\Richdocuments\\Listener\\FileCreatedFromTemplateListener' => __DIR__ . '/..' . '/../lib/Listener/FileCreatedFromTemplateListener.php',
+        'OCA\\Richdocuments\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Richdocuments\\Listener\\LoadViewerListener' => __DIR__ . '/..' . '/../lib/Listener/LoadViewerListener.php',
         'OCA\\Richdocuments\\Listener\\ReferenceListener' => __DIR__ . '/..' . '/../lib/Listener/ReferenceListener.php',
         'OCA\\Richdocuments\\Listener\\ShareLinkListener' => __DIR__ . '/..' . '/../lib/Listener/ShareLinkListener.php',
