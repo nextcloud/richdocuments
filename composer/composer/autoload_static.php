@@ -61,6 +61,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Listener\\FileCreatedFromTemplateListener' => __DIR__ . '/..' . '/../lib/Listener/FileCreatedFromTemplateListener.php',
         'OCA\\Richdocuments\\Listener\\LoadViewerListener' => __DIR__ . '/..' . '/../lib/Listener/LoadViewerListener.php',
         'OCA\\Richdocuments\\Listener\\ReferenceListener' => __DIR__ . '/..' . '/../lib/Listener/ReferenceListener.php',
+        'OCA\\Richdocuments\\Listener\\RegisterTemplateFileCreatorListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterTemplateFileCreatorListener.php',
         'OCA\\Richdocuments\\Listener\\ShareLinkListener' => __DIR__ . '/..' . '/../lib/Listener/ShareLinkListener.php',
         'OCA\\Richdocuments\\Middleware\\WOPIMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/WOPIMiddleware.php',
         'OCA\\Richdocuments\\Migration\\InstallDefaultFonts' => __DIR__ . '/..' . '/../lib/Migration/InstallDefaultFonts.php',

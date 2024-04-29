@@ -46,6 +46,7 @@ return array(
     'OCA\\Richdocuments\\Listener\\FileCreatedFromTemplateListener' => $baseDir . '/../lib/Listener/FileCreatedFromTemplateListener.php',
     'OCA\\Richdocuments\\Listener\\LoadViewerListener' => $baseDir . '/../lib/Listener/LoadViewerListener.php',
     'OCA\\Richdocuments\\Listener\\ReferenceListener' => $baseDir . '/../lib/Listener/ReferenceListener.php',
+    'OCA\\Richdocuments\\Listener\\RegisterTemplateFileCreatorListener' => $baseDir . '/../lib/Listener/RegisterTemplateFileCreatorListener.php',
     'OCA\\Richdocuments\\Listener\\ShareLinkListener' => $baseDir . '/../lib/Listener/ShareLinkListener.php',
     'OCA\\Richdocuments\\Middleware\\WOPIMiddleware' => $baseDir . '/../lib/Middleware/WOPIMiddleware.php',
     'OCA\\Richdocuments\\Migration\\InstallDefaultFonts' => $baseDir . '/../lib/Migration/InstallDefaultFonts.php',
