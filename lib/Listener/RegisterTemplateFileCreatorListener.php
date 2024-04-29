@@ -24,20 +24,16 @@ declare(strict_types=1);
  */
 namespace OCA\Richdocuments\Listener;
 
-use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IRequest;
-use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
 
 /** @template-implements IEventListener<Event|RegisterTemplateCreatorEvent> */
 class RegisterTemplateFileCreatorListener implements IEventListener {
