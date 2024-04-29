@@ -56,7 +56,8 @@ describe('Open existing office files', function() {
 			// Share action
 			cy.get('@loleafletframe').within(() => {
 				cy.get('#main-menu #menu-file > a').click()
-				cy.get('#main-menu #menu-shareas > a').click()
+				cy.wait(1000)
+				cy.get('#main-menu #menu-shareas > a').should('be.visible').click()
 			})
 
 			cy.get('#app-sidebar-vue')
