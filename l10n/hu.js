@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Új dokumentum",
-    "New spreadsheet" : "Új munkafüzet",
-    "New presentation" : "Új bemutató",
-    "New diagram" : "Új diagram",
     "Cannot create document" : "A dokumentum nem hozható létre",
     "New Document.odt" : "Új dokumentum.odt",
     "New Spreadsheet.ods" : "Új munkafüzet.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Csak sablonfájlokat lehet feltölteni",
     "Invalid file provided" : "Érvénytelen fájl lett megadva",
     "Template not found" : "A sablon nem található",
+    "New document" : "Új dokumentum",
+    "New spreadsheet" : "Új munkafüzet",
+    "New presentation" : "Új bemutató",
+    "New diagram" : "Új diagram",
     "Link to office document section" : "Hivatkozás egy irodai dokumentum szakaszához",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Címsorok",

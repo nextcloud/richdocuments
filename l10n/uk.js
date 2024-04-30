@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Новий документ",
-    "New spreadsheet" : "Нова електронна таблиця",
-    "New presentation" : "Нова презентація",
-    "New diagram" : "Нова діаграма",
     "Cannot create document" : "Неможливо створити документ",
     "New Document.odt" : "Новий документ.odt",
     "New Spreadsheet.ods" : "Нова таблиця.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Можна завантажити лише шаблони файлів",
     "Invalid file provided" : "Надано невірний файл",
     "Template not found" : "Шаблон не знайдено",
+    "New document" : "Новий документ",
+    "New spreadsheet" : "Нова електронна таблиця",
+    "New presentation" : "Нова презентація",
+    "New diagram" : "Нова діаграма",
     "Link to office document section" : "Прив'язати до розділу офісного документу",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Заголовок",

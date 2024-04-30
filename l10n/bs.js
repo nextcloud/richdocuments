@@ -9,6 +9,7 @@ OC.L10N.register(
     "Save" : "Spremi",
     "Description" : "Opis",
     "Close" : "Zatvori",
+    "Edit" : "Izmjeni",
     "Error" : "Greška",
     "Nickname" : "Nadimak",
     "Remove from favorites" : "Remove from favorites",

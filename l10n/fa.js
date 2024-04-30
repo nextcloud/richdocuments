@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "سند جدید",
-    "New spreadsheet" : "صفحهٔ گستردهٔ جدید",
-    "New presentation" : "ارائه جدید",
-    "New diagram" : "رسم جدید",
     "Cannot create document" : "نمی‌توان سند را ساخت",
     "New Document.odt" : "‫سند جدید.odt",
     "New Spreadsheet.ods" : "‫صفحه‌گسترده جدید.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "فقط فایلهای قالب قابل بارگیری هستند",
     "Invalid file provided" : "فایل داده‌شده نا معتبر است",
     "Template not found" : "الگوی یافت نشد",
+    "New document" : "سند جدید",
+    "New spreadsheet" : "صفحهٔ گستردهٔ جدید",
+    "New presentation" : "ارائه جدید",
+    "New diagram" : "رسم جدید",
     "Link to office document section" : "پیوند به بخش سند دفتری",
     "Nextcloud Office" : "دفتر نکست‌کلود",
     "Headings" : "عنوان‌ها",

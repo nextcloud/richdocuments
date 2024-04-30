@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Yeni belge",
-    "New spreadsheet" : "Yeni çalışma sayfası",
-    "New presentation" : "Yeni sunum",
-    "New diagram" : "Yeni şema",
     "Cannot create document" : "Belge oluşturulamadı",
     "New Document.odt" : "Yeni belge.odt",
     "New Spreadsheet.ods" : "Yeni çalışma sayfası.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Yalnızca kalıp dosyaları yüklenebilir",
     "Invalid file provided" : "Belirtilen dosya geçersiz",
     "Template not found" : "Kalıp bulunamadı",
+    "New document" : "Yeni belge",
+    "New spreadsheet" : "Yeni çalışma sayfası",
+    "New presentation" : "Yeni sunum",
+    "New diagram" : "Yeni şema",
     "Link to office document section" : "Ofis belgeleri bölümüne bağlantı",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Başlıklar",

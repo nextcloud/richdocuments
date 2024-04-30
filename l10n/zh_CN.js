@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "新文档",
-    "New spreadsheet" : "新表格",
-    "New presentation" : "新演示文稿",
-    "New diagram" : "新图表",
     "Cannot create document" : "无法创建文档 ",
     "New Document.odt" : "新建文档.odt",
     "New Spreadsheet.ods" : "新建工作表.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "只有模板文件能够上传",
     "Invalid file provided" : "提供的文件无效",
     "Template not found" : "模板未找到",
+    "New document" : "新文档",
+    "New spreadsheet" : "新表格",
+    "New presentation" : "新演示文稿",
+    "New diagram" : "新图表",
     "Link to office document section" : "链接到 office 文件节",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "标题",

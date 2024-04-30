@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Нови документ",
-    "New spreadsheet" : "Нова табела",
-    "New presentation" : "Нова презентација",
-    "New diagram" : "Нови дијаграм",
     "Cannot create document" : "Документ не може да се креира",
     "New Document.odt" : "New Document.odt",
     "New Spreadsheet.ods" : "New Spreadsheet.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Само шаблонски фајлови могу бити отпремљени",
     "Invalid file provided" : "Дати фајл је неисправан",
     "Template not found" : "Шаблон није нађен",
+    "New document" : "Нови документ",
+    "New spreadsheet" : "Нова табела",
+    "New presentation" : "Нова презентација",
+    "New diagram" : "Нови дијаграм",
     "Link to office document section" : "Линк на одељак канцеларијског документа",
     "Nextcloud Office" : "Nextcloud Офис",
     "Headings" : "Наслови",

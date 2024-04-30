@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Nový dokument",
-    "New spreadsheet" : "Nová tabuľka",
-    "New presentation" : "Nová prezentácia",
-    "New diagram" : "Nový diagram",
     "Cannot create document" : "Nedá sa vytvoriť dokument",
     "New Document.odt" : "Nový dokument.odt",
     "New Spreadsheet.ods" : "Nová tabuľka.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Nahrať je možné iba súbory šablón",
     "Invalid file provided" : "Zadaný neplatný súbor",
     "Template not found" : "Šablóna sa nenašla",
+    "New document" : "Nový dokument",
+    "New spreadsheet" : "Nová tabuľka",
+    "New presentation" : "Nová prezentácia",
+    "New diagram" : "Nový diagram",
     "Link to office document section" : "Odkaz na sekciu kancelárskeho dokumentu",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Nadpisy",

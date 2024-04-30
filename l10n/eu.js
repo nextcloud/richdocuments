@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Dokumentu berria",
-    "New spreadsheet" : "Kalkulu-orri berria",
-    "New presentation" : "Aurkezpen berria",
-    "New diagram" : "Diagrama berria",
     "Cannot create document" : "Ezin da dokumentua sortu",
     "New Document.odt" : "Dokumentu berria.odt",
     "New Spreadsheet.ods" : "Kalkulu-orri berria.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Txantiloi fitxategiak soilik igo daitezke",
     "Invalid file provided" : "Baliogabeko fitxategia eman da",
     "Template not found" : "Ez da txantiloia aurkitu",
+    "New document" : "Dokumentu berria",
+    "New spreadsheet" : "Kalkulu-orri berria",
+    "New presentation" : "Aurkezpen berria",
+    "New diagram" : "Diagrama berria",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Goiburuak",
     "Sections" : "Atalak",

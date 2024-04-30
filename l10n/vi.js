@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Tài liệu mới",
-    "New spreadsheet" : "Bảng tính mới",
-    "New presentation" : "Bản trình chiếu mới",
-    "New diagram" : "Sơ đồ mới",
     "Cannot create document" : "Không thể tạo tài liệu",
     "New Document.odt" : "Tài liệu mới.odt",
     "New Spreadsheet.ods" : "Bảng tính mới.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Chỉ có thể tải lên tài liệu mẫu",
     "Invalid file provided" : "File không hợp lệ",
     "Template not found" : "Không tìm thấy mẫu",
+    "New document" : "Tài liệu mới",
+    "New spreadsheet" : "Bảng tính mới",
+    "New presentation" : "Bản trình chiếu mới",
+    "New diagram" : "Sơ đồ mới",
     "Link to office document section" : "Liên kết đến phần tài liệu văn phòng",
     "Nextcloud Office" : "Văn phòng",
     "Headings" : "Đầu đề",

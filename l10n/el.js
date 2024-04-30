@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Νέο έγγραφο",
-    "New spreadsheet" : "Νέο λογιστικό φύλλο",
-    "New presentation" : "Νέα παρουσίαση",
-    "New diagram" : "Νέο διάγραμμα",
     "Cannot create document" : "Δεν είναι δυνατή η δημιουργία του εγγράφου",
     "New Document.odt" : "Νέο Έγγραφο.odt",
     "New Spreadsheet.ods" : "Νέο Λογιστικό Φύλλο.ods",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Μόνο αρχεία προτύπων μπορούν να μεταφορτωθούν",
     "Invalid file provided" : "Έχει δοθεί μη έγκυρο αρχείο",
     "Template not found" : "Δεν βρέθηκε το πρότυπο",
+    "New document" : "Νέο έγγραφο",
+    "New spreadsheet" : "Νέο λογιστικό φύλλο",
+    "New presentation" : "Νέα παρουσίαση",
+    "New diagram" : "Νέο διάγραμμα",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Επικεφαλίδες",
     "Images" : "Εικόνες",
