@@ -376,10 +376,14 @@ class DocumentController extends Controller {
 	}
 
 	#[PublicPage]
-	public function token(int $fileId, ?string $shareToken = null, ?string $path = null): DataResponse {
+	public function token(int $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null): DataResponse {
 		try {
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;
 			$file = $shareToken ? $this->getFileForShare($share, $fileId, $path) : $this->getFileForUser($fileId, $path);
+
+			if ($this->userId === null) {
+				$this->userId = $guestName;
+			}
 
 			$wopi = $this->getToken($file, $share);
 
@@ -471,7 +475,7 @@ class DocumentController extends Controller {
 			return $this->tokenManager->generateWopiTokenForTemplate($templateFile, $share?->getShareOwner() ?? $this->userId, $file->getId());
 		}
 
-		return  $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
+		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
 	}
 
 	private function getWopiFileId(int $fileId, ?int $version = null): string {

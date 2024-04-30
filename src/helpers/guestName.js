@@ -20,54 +20,32 @@
  *
  */
 
-import Config from './../services/config.tsx'
 import { getCurrentUser } from '@nextcloud/auth'
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
-import mobile from './mobile.js'
+import getLoggedInUser from '../helpers/getLoggedInUser.js'
 
-let guestName = ''
-
-const getGuestNameCookie = function() {
-	if (guestName === '') {
-		const name = 'guestUser='
-		const matchedCookie = document.cookie.split(';')
-			.map((cookie) => {
-				try {
-					return decodeURIComponent(cookie.trim())
-				} catch (e) {
-					return cookie.trim()
-				}
-			}).find((cookie) => {
-				return cookie.indexOf(name) === 0
-			})
-		guestName = matchedCookie ? matchedCookie.substring(name.length) : ''
-	}
-	return guestName
+const cookieAlreadySet = (cookieName) => {
+	return document.cookie
+		.split(';')
+		.some(cookie => {
+			return cookie.trim().startsWith(`${cookieName}=`)
+		})
 }
 
-const setGuestName = function(username) {
+const setGuestNameCookie = (username) => {
 	if (username !== '') {
 		document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
-		guestName = username
 	}
-	const accessToken = encodeURIComponent(Config.get('token'))
-	return axios.post(generateOcsUrl('apps/richdocuments/api/v1/wopi/guestname', 2), {
-		access_token: accessToken,
-		guestName,
-	})
 }
 
 const shouldAskForGuestName = () => {
-	return (!mobile.isDirectEditing() || Config.get('directGuest'))
-		&& (!getCurrentUser() || getCurrentUser()?.uid === '')
-		&& !Config.get('userId')
-		&& getGuestNameCookie() === ''
-		&& (Config.get('permissions') & OC.PERMISSION_UPDATE)
+	const noLoggedInUser = !getLoggedInUser()
+	const noGuestCookie = !cookieAlreadySet('guestUser')
+	const noCurrentUser = !getCurrentUser() || getCurrentUser()?.uid === ''
+
+	return noLoggedInUser && noGuestCookie && noCurrentUser
 }
 
 export {
-	getGuestNameCookie,
-	setGuestName,
+	setGuestNameCookie,
 	shouldAskForGuestName,
 }
