@@ -223,7 +223,21 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 		.as('loleafletframe')
 	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
 })
-
+Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {
+	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
+		const calls = spy.getCalls()
+		const findMatchingCall = calls.find(call => call.args[0].indexOf('"MessageId":"' + messageId + '"') !== -1)
+		if (!findMatchingCall) {
+			return expect(findMatchingCall).to.not.be.undefined
+		}
+		if (!values) {
+			const object = JSON.parse(findMatchingCall.args[0])
+			values.forEach(value => {
+				expect(object.Values).to.have.property(value, values[value])
+			})
+		}
+	})
+})
 Cypress.Commands.add('uploadSystemTemplate', () => {
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')

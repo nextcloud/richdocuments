@@ -435,6 +435,8 @@ export default {
 			case 'UI_ZoteroKeyMissing':
 				this.showZotero = true
 				break
+			// FIXME: Remove once https://github.com/CollaboraOnline/online/pull/8926 is released
+			case 'UI UI_PickLink':
 			case 'UI_PickLink':
 				this.pickLink()
 				break
