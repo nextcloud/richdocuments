@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "مستند جديد",
-    "New spreadsheet" : "جدول بيانات جديد",
-    "New presentation" : "عرض تقديمي جديد",
-    "New diagram" : "شكل توضيحي جديد",
     "Cannot create document" : "تعذّر إنشاء المستند",
     "New Document.odt" : "مستند جديد بتنسيق odt",
     "New Spreadsheet.ods" : "جدول بيانات جديد بتنسيق ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "يمكن تحميل ملفات القوالب template فقط",
     "Invalid file provided" : "تمّ تقديم ملف غير صالح",
     "Template not found" : "القالب template غير موجود",
+    "New document" : "مستند جديد",
+    "New spreadsheet" : "جدول بيانات جديد",
+    "New presentation" : "عرض تقديمي جديد",
+    "New diagram" : "شكل توضيحي جديد",
     "Link to office document section" : "رابط link قسم المستندات المكتبية",
     "Nextcloud Office" : "تطبيق \"المكتب\" لنكست كلاود Nextcloud Office",
     "Headings" : "العناوين الرئيسية",

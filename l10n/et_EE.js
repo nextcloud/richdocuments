@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Uus dokument",
-    "New spreadsheet" : "Uus arvutustabel",
-    "New presentation" : "Uus esitlus",
-    "New diagram" : "Uus diagramm",
     "Cannot create document" : "Dokumendi loomine ebaõnnestus",
     "New Document.odt" : "Uus dokument.odt",
     "New Spreadsheet.ods" : "Uus arvutustabel.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Üles saab laadida ainult mallifaile",
     "Invalid file provided" : "Vigane fail",
     "Template not found" : "Malli ei leitud",
+    "New document" : "Uus dokument",
+    "New spreadsheet" : "Uus arvutustabel",
+    "New presentation" : "Uus esitlus",
+    "New diagram" : "Uus diagramm",
     "Link to office document section" : "Link dokumendi lõigule",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Pealkirjad",

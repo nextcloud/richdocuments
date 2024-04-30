@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "সংরক্ষণ",
     "Description" : "বিবরণ",
     "Close" : "বন্ধ",
+    "Edit" : "সম্পাদনা",
     "Error" : "সমস্যা",
     "Nickname" : "ছদ্মনাম",
     "Remove from favorites" : "Remove from favorites",
