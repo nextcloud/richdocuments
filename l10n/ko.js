@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "새 문서",
-    "New spreadsheet" : "새 스프레드시트",
-    "New presentation" : "새 프레젠테이션",
-    "New diagram" : "새 도표",
     "Cannot create document" : "문서를 만들 수 없음",
     "New Document.odt" : "새 문서.odt",
     "New Spreadsheet.ods" : "새 스프레드시트.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "템플릿 파일만 업로드할 수 있습니다",
     "Invalid file provided" : "잘못된 파일 지정됨",
     "Template not found" : "템플릿을 찾을 수 없음",
+    "New document" : "새 문서",
+    "New spreadsheet" : "새 스프레드시트",
+    "New presentation" : "새 프레젠테이션",
+    "New diagram" : "새 도표",
     "Headings" : "제목",
     "Sections" : "섹션",
     "Images" : "이미지",

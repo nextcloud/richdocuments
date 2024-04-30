@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "מסמך חדש",
-    "New spreadsheet" : "גיליון נתונים חדש",
-    "New presentation" : "מצגת חדשה",
-    "New diagram" : "תרשים חדש",
     "New Document.odt" : "מסמך חדש.odt",
     "New Spreadsheet.ods" : "גיליון נתונים חדש.ods",
     "New Presentation.odp" : "מצגת חדשה.odp",
@@ -29,6 +25,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "ניתן להעלות קובצי תבניות בלבד",
     "Invalid file provided" : "הקובץ שסופק שגוי",
     "Template not found" : "התבנית לא נמצאה",
+    "New document" : "מסמך חדש",
+    "New spreadsheet" : "גיליון נתונים חדש",
+    "New presentation" : "מצגת חדשה",
+    "New diagram" : "תרשים חדש",
     "Headings" : "כותרות",
     "Images" : "תמונות",
     "Office" : "משרד",

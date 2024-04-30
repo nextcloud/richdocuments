@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Nytt dokument",
-    "New spreadsheet" : "Nytt regneark",
-    "New presentation" : "Ny presentasjon",
-    "New diagram" : "Nytt diagram",
     "Cannot create document" : "Kan ikke opprette dokument",
     "New Document.odt" : "Nytt dokument.odt",
     "New Spreadsheet.ods" : "Nytt regneark.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Kun malfiler kan lastes opp",
     "Invalid file provided" : "Ugyldig fil oppgitt",
     "Template not found" : "Mal ikke funnet",
+    "New document" : "Nytt dokument",
+    "New spreadsheet" : "Nytt regneark",
+    "New presentation" : "Ny presentasjon",
+    "New diagram" : "Nytt diagram",
     "Link to office document section" : "Link til Office-dokumentdelen",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Overskrifter",

@@ -1,9 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Novi dokument",
-    "New spreadsheet" : "Nova proračunska tablica",
-    "New presentation" : "Nova prezentacija",
     "Cannot create document" : "Dokument nije moguće stvoriti",
     "New Document.odt" : "Novi Dokument.odt",
     "New Spreadsheet.ods" : "Nova Proračunska tablica.ods",
@@ -29,6 +26,9 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Mogu se otpremati samo datoteke predloška",
     "Invalid file provided" : "Nevažeća datoteka",
     "Template not found" : "Predložak nije pronađen",
+    "New document" : "Novi dokument",
+    "New spreadsheet" : "Nova proračunska tablica",
+    "New presentation" : "Nova prezentacija",
     "Headings" : "Naslovi",
     "Images" : "Slike",
     "Office" : "Ured",

@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Uusi dokumentti",
-    "New spreadsheet" : "Uusi laskentataulukko",
-    "New presentation" : "Uusi esitys",
-    "New diagram" : "Uusi kaavio",
     "Cannot create document" : "Dokumentin luonti epäonnistui",
     "New Document.odt" : "Uusi asiakirja.odt",
     "New Spreadsheet.ods" : "Uusi taulukko.ods",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Vain mallipohjatiedostoja voi lähettää",
     "Invalid file provided" : "Määritetty virheellinen tiedosto",
     "Template not found" : "Mallipohjaa ei löytynyt",
+    "New document" : "Uusi dokumentti",
+    "New spreadsheet" : "Uusi laskentataulukko",
+    "New presentation" : "Uusi esitys",
+    "New diagram" : "Uusi kaavio",
     "Headings" : "Otsikot",
     "Images" : "Kuvat",
     "Office" : "Toimisto",

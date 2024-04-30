@@ -16,6 +16,7 @@ OC.L10N.register(
     "Description" : "Diskrivadur",
     "No results" : "Disoc'h ebet",
     "Close" : "Seriñ",
+    "Edit" : "Cheñch",
     "Error" : "Fazi",
     "Saving …" : "Orc'h enrolliñ",
     "Remove from favorites" : "Diverkañañ eus ar pennrolloù",

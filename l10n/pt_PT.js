@@ -1,9 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Novo documento",
-    "New spreadsheet" : "Nova folha de calculo",
-    "New presentation" : "Nova apresentação",
     "Cannot create document" : "Não é possível criar o documento",
     "New Document.odt" : "Novo Documento.odt",
     "New Spreadsheet.ods" : "Nova Folhadecalculo.ods",
@@ -29,6 +26,9 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Só podem ser carregados modelos",
     "Invalid file provided" : "Fornecido ficheiro inválido",
     "Template not found" : "O modelo não foi encontrado",
+    "New document" : "Novo documento",
+    "New spreadsheet" : "Nova folha de calculo",
+    "New presentation" : "Nova apresentação",
     "Headings" : "Títulos",
     "Images" : "Imagens",
     "Office" : "Escritório",
