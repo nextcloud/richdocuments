@@ -53,15 +53,7 @@ describe('Public sharing of office documents', function() {
 					})
 
 					cy.waitForCollabora()
-					cy.get('@postMessage', { timeout: 20000 }).should(spy => {
-						const calls = spy.getCalls()
-						const findMatchingCall = calls.find(call => call.args[0].indexOf('"MessageId":"App_LoadingStatus"') !== -1)
-						if (!findMatchingCall) {
-							return expect(findMatchingCall).to.not.be.undefined
-						}
-						const object = JSON.parse(findMatchingCall.args[0])
-						expect(object.Values).to.have.property('Status', 'Initialized')
-					})
+					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
 					cy.get('@loleafletframe').within(() => {
 						cy.get('#closebutton').click()
