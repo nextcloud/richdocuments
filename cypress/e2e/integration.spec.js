@@ -47,7 +47,7 @@ describe('Nextcloud integration', function() {
 	it('Sharing sidebar', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#File-tab-label').click()
-			cy.get('#ShareAs').click()
+			cy.get('#ShareAs-button').click()
 		})
 
 		cy.get('#app-sidebar-vue')
@@ -62,7 +62,7 @@ describe('Nextcloud integration', function() {
 	it('Versions sidebar', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#File-tab-label').click()
-			cy.get('#Rev-History').click()
+			cy.get('#Rev-History-button').click()
 		})
 
 		cy.get('#app-sidebar-vue')
@@ -76,11 +76,12 @@ describe('Nextcloud integration', function() {
 		cy.get('#tab-version_vue .version__info__label').contains('Current version')
 	})
 
+	// Currently it seems that Collabora is missing the save as button
 	it('Save as', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#File-tab-label').click()
 			cy.get('#saveas').click()
-			cy.get('#w2ui-overlay-download-as-menu .menu-text').eq(1).click()
+			cy.get('#saveas-entries #saveas-entry-1').click()
 		})
 
 		cy.get('.saveas-dialog').should('be.visible')
@@ -128,8 +129,8 @@ describe('Nextcloud integration', function() {
 	it('Insert image', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#Insert-tab-label').click()
-			cy.get('#insert-insert-graphic').click()
-			cy.get('#w2ui-overlay-insert-graphic-menu .menu-text').eq(1).click()
+			cy.get('#insert-insert-graphic-button').click()
+			cy.get('#insert-insert-graphic-entries #insert-insert-graphic-entry-1').click()
 		})
 		cy.get('.modal-container__content').should('be.visible')
 	})
@@ -137,7 +138,7 @@ describe('Nextcloud integration', function() {
 	it('Smart picker', function() {
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#Insert-tab-label').click()
-			cy.get('#insert-insert-remote-link').click()
+			cy.get('#insert-insert-remote-link-button').click()
 		})
 		cy.get('.reference-picker-modal--content').should('be.visible')
 	})
