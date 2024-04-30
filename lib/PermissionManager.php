@@ -67,7 +67,7 @@ class PermissionManager {
 				$incognito = true;
 			}
 			$user = $this->userSession->getUser();
-			$userId = $user ? $user->getUID() : null;
+			$userId = $user?->getUID();
 			if ($incognito) {
 				\OC_User::setIncognitoMode(true);
 			}
@@ -96,6 +96,24 @@ class PermissionManager {
 		}
 
 		return false;
+	}
+
+	public function loggedInUser(): ?string {
+		$incognito = false;
+
+		if (\OC_User::isIncognitoMode()) {
+			\OC_User::setIncognitoMode(false);
+			$incognito = true;
+		}
+
+		$user = $this->userSession->getUser();
+		$userId = $user?->getUID();
+
+		if ($incognito) {
+			\OC_User::setIncognitoMode(true);
+		}
+
+		return $userId;
 	}
 
 	public function isEnabledForUser(?string $userId = null): bool {

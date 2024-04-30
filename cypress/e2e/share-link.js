@@ -34,18 +34,17 @@ describe('Public sharing of office documents', function() {
 		cy.uploadFile(shareOwner, 'document.odt', 'application/vnd.oasis.opendocument.text', '/my-share/document.odt')
 	})
 
-	const matrix = [shareOwner, otherUser, null]
+	const userMatrix = [shareOwner, otherUser]
+	const guestName = randHash()
 
 	describe('Open a shared file', function() {
-		for (const index in matrix) {
-			const viewingUser = matrix[index]
+		for (const index in userMatrix) {
+			const viewingUser = userMatrix[index]
+
 			it('Loads file as user: ' + viewingUser?.userId, () => {
 				cy.shareLink(shareOwner, '/document.odt').then((token) => {
-					if (viewingUser !== null) {
-						cy.login(viewingUser)
-					} else {
-						cy.logout()
-					}
+					cy.login(viewingUser)
+
 					cy.visit(`/s/${token}`, {
 						onBeforeLoad(win) {
 							cy.spy(win, 'postMessage').as('postMessage')
@@ -58,21 +57,40 @@ describe('Public sharing of office documents', function() {
 					cy.get('@loleafletframe').within(() => {
 						cy.get('#closebutton').click()
 					})
+
 					cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 				})
 			})
 		}
+
+		it('Loads file as guest: ' + guestName, () => {
+			cy.shareLink(shareOwner, '/document.odt').then((token) => {
+				cy.logout()
+
+				cy.visit(`/s/${token}`, {
+					onBeforeLoad(win) {
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
+
+				cy.inputCollaboraGuestName(guestName)
+				cy.waitForCollabora()
+				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+				cy.get('@loleafletframe').within(() => {
+					cy.get('#closebutton').click()
+				})
+
+				cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+			})
+		})
 	})
 
 	describe('Open a file in a shared folder', function() {
-		for (const index in matrix) {
-			const viewingUser = matrix[index]
+		for (const index in userMatrix) {
+			const viewingUser = userMatrix[index]
 			it('Loads file in shared folder as user: ' + viewingUser?.userId, () => {
-				if (viewingUser !== null) {
-					cy.login(viewingUser)
-				} else {
-					cy.logout()
-				}
+				cy.login(viewingUser)
 
 				cy.shareLink(shareOwner, '/my-share').then((token) => {
 					cy.visit(`/s/${token}`, {
@@ -80,16 +98,45 @@ describe('Public sharing of office documents', function() {
 							cy.spy(win, 'postMessage').as('postMessage')
 						},
 					})
+
 					cy.get('tr[data-file="document.odt"] a.name').click()
+
 					cy.waitForViewer()
 					cy.waitForCollabora()
+					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
 					cy.get('@loleafletframe').within(() => {
 						cy.get('#closebutton').click()
 					})
+
 					cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 				})
 			})
-
 		}
+
+		it('Loads file in shared folder as guest: ' + guestName, () => {
+			cy.shareLink(shareOwner, '/my-share').then((token) => {
+				cy.logout()
+
+				cy.visit(`/s/${token}`, {
+					onBeforeLoad(win) {
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
+
+				cy.get('tr[data-file="document.odt"] a.name').click()
+
+				cy.inputCollaboraGuestName(guestName)
+				cy.waitForViewer()
+				cy.waitForCollabora()
+				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+				cy.get('@loleafletframe').within(() => {
+					cy.get('#closebutton').click()
+				})
+
+				cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+			})
+		})
 	})
 })

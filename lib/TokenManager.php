@@ -96,6 +96,7 @@ class TokenManager {
 		$owneruid = null;
 		$hideDownload = false;
 		$rootFolder = $this->rootFolder;
+
 		// if the user is not logged-in do use the sharers storage
 		if ($shareToken !== null) {
 			/** @var File $file */
@@ -198,7 +199,7 @@ class TokenManager {
 		);
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-		$guestName = $this->userId === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
+		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : $editoruid;
 		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken);
 	}
 

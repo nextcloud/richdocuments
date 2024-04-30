@@ -204,6 +204,7 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
 })
+
 Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 	if (wrapped) {
 		cy.get('[data-cy="documentframe"]', { timeout: 30000 })
@@ -223,6 +224,7 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 		.as('loleafletframe')
 	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
 })
+
 Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {
 	cy.get('@postMessage', { timeout: 20000 }).should(spy => {
 		const calls = spy.getCalls()
@@ -238,6 +240,13 @@ Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {
 		}
 	})
 })
+
+Cypress.Commands.add('inputCollaboraGuestName', (guestName = 'cloud') => {
+	cy.get('[data-cy="guestNameModal"]').should('be.visible')
+	cy.get('[data-cy="guestNameInput"]').type(guestName)
+	cy.get('[data-cy="guestNameSubmit"]').click()
+})
+
 Cypress.Commands.add('uploadSystemTemplate', () => {
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')

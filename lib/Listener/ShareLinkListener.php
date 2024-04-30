@@ -56,12 +56,15 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 		/** @var IShare $share */
 		$share = $event->getShare();
 		$owner = $share->getShareOwner();
+		$loggedInUser = $this->permissionManager->loggedInUser();
 
 		if ($this->permissionManager->isEnabledForUser($owner)) {
+			$this->initialStateService->prepareParams(['userId' => $loggedInUser]);
 			$this->initialStateService->provideCapabilities();
+
 			Util::addScript('richdocuments', 'richdocuments-files');
 			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
-			Util::addScript('richdocuments', 'richdocuments-public');
+			Util::addScript('richdocuments', 'richdocuments-public', 'viewer');
 		}
 	}
 }
