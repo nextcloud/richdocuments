@@ -51,7 +51,7 @@ describe('Open existing office files', function() {
 			cy.waitForViewer()
 			cy.waitForCollabora()
 
-			cy.screenshot('open-file_' + filename)
+			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
 			// Share action
 			cy.get('@loleafletframe').within(() => {
