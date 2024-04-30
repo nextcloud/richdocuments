@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Nov dokument",
-    "New spreadsheet" : "Nova preglednica",
-    "New presentation" : "Nova predstavitev",
-    "New diagram" : "Nov diagram",
     "Cannot create document" : "Dokumenta ni mogoče ustvariti",
     "New Document.odt" : "dokument.odt",
     "New Spreadsheet.ods" : "preglednica.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Poslati je mogoče le datoteke predlog",
     "Invalid file provided" : "Predložena je neveljavna datoteka",
     "Template not found" : "Predloge ni mogoče najti",
+    "New document" : "Nov dokument",
+    "New spreadsheet" : "Nova preglednica",
+    "New presentation" : "Nova predstavitev",
+    "New diagram" : "Nov diagram",
     "Link to office document section" : "Povezava do razdelka pisarniškega dokumenta",
     "Nextcloud Office" : "Paket Nextcloud Office",
     "Headings" : "Naslovi",

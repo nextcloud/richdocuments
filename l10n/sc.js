@@ -1,9 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Documentu nou",
-    "New spreadsheet" : "Fògiu eletrònicu nou",
-    "New presentation" : "Presentatzione noa",
     "Cannot create document" : "Non faghet a creare su documentu",
     "New Document.odt" : "Documentu nou.odt",
     "New Spreadsheet.ods" : "Fògiu eletrònicu nou.ods",
@@ -29,6 +26,9 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Si podent carrigare isceti is archìvios modellu",
     "Invalid file provided" : "S'archìviu frunidu no est vàlidu",
     "Template not found" : "Modellu no agatadu",
+    "New document" : "Documentu nou",
+    "New spreadsheet" : "Fògiu eletrònicu nou",
+    "New presentation" : "Presentatzione noa",
     "Headings" : "Intestatziones",
     "Images" : "Immàgines",
     "Office" : "Ofìtziu",

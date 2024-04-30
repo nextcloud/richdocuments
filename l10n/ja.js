@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "新規ドキュメント",
-    "New spreadsheet" : "新規スプレッドシート",
-    "New presentation" : "新規プレゼンテーション",
-    "New diagram" : "新規ダイアグラム",
     "Cannot create document" : "ドキュメントを作成できません",
     "New Document.odt" : "新規 Document.odt",
     "New Spreadsheet.ods" : "新規 Spreadsheet.ods",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "テンプレートファイルのみアップロードできます",
     "Invalid file provided" : "無効なファイルが提供されました",
     "Template not found" : "テンプレートが見つかりません",
+    "New document" : "新規ドキュメント",
+    "New spreadsheet" : "新規スプレッドシート",
+    "New presentation" : "新規プレゼンテーション",
+    "New diagram" : "新規ダイアグラム",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "見出し",
     "Sections" : "セクション",

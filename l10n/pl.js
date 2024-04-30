@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Nowy dokument",
-    "New spreadsheet" : "Nowy arkusz kalkulacyjny",
-    "New presentation" : "Nowa prezentacja",
-    "New diagram" : "Nowy diagram",
     "Cannot create document" : "Nie można utworzyć dokumentu",
     "New Document.odt" : "Nowy Dokument.odt",
     "New Spreadsheet.ods" : "Nowy Arkusz.ods",
@@ -31,6 +27,10 @@ OC.L10N.register(
     "Only template files can be uploaded" : "Można przesyłać tylko pliki szablonów",
     "Invalid file provided" : "Podano nieprawidłowy plik",
     "Template not found" : "Nie znaleziono szablonu",
+    "New document" : "Nowy dokument",
+    "New spreadsheet" : "Nowy arkusz kalkulacyjny",
+    "New presentation" : "Nowa prezentacja",
+    "New diagram" : "Nowy diagram",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Nagłówki",
     "Images" : "Obrazy",

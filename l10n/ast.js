@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Documentu nuevu",
-    "New spreadsheet" : "Fueya de cálculu nueva",
-    "New presentation" : "Presentación nueva",
-    "New diagram" : "Diagrama nuevu",
     "Cannot create document" : "Nun se pue crear el documentu",
     "New Document.odt" : "Documentu_Nuevu.odt",
     "New Spreadsheet.ods" : "Fueta_cálculu_nueva.ods",
@@ -28,6 +24,10 @@ OC.L10N.register(
     "File is too big" : "El ficheru ye mui grande",
     "Invalid file provided" : "Fornióse un ficheru inválidu",
     "Template not found" : "Nun s'atopó la plantía",
+    "New document" : "Documentu nuevu",
+    "New spreadsheet" : "Fueya de cálculu nueva",
+    "New presentation" : "Presentación nueva",
+    "New diagram" : "Diagrama nuevu",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Testeres",
     "Sections" : "Seiciones",

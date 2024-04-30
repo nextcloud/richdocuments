@@ -1,10 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Nyt Dokument",
-    "New spreadsheet" : "Nyt Regneark",
-    "New presentation" : "Ny Præsentation",
-    "New diagram" : "Nyt diagram",
     "New Document.odt" : "Nyt dokument.odt",
     "New Spreadsheet.ods" : "Nyt regneark.ods",
     "New Presentation.odp" : "Ny præsentation.odp",
@@ -24,6 +20,10 @@ OC.L10N.register(
     "No file uploaded or file size exceeds maximum of %s" : "Ingen fil blev uploadet eller fil størrelsen er større end det maksimale: %s.",
     "File is too big" : "Filen er for stor",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
+    "New document" : "Nyt Dokument",
+    "New spreadsheet" : "Nyt Regneark",
+    "New presentation" : "Ny Præsentation",
+    "New diagram" : "Nyt diagram",
     "Headings" : "Overskrifter",
     "Images" : "Billeder",
     "Office" : "Kontor",

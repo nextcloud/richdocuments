@@ -1,9 +1,6 @@
 OC.L10N.register(
     "richdocuments",
     {
-    "New document" : "Naujas dokumentas",
-    "New spreadsheet" : "Nauja skaičiuoklė",
-    "New presentation" : "Nauja pateiktis",
     "Cannot create document" : "Nepavyksta sukurti dokumento",
     "New Document.odt" : "Naujas dokumentas.odt",
     "New Spreadsheet.ods" : "Nauja skaičiuoklė.ods",
@@ -28,6 +25,9 @@ OC.L10N.register(
     "File is too big" : "Failas yra per didelis",
     "Invalid file provided" : "Pateiktas neteisingas failas",
     "Template not found" : "Šablonas nerastas",
+    "New document" : "Naujas dokumentas",
+    "New spreadsheet" : "Nauja skaičiuoklė",
+    "New presentation" : "Nauja pateiktis",
     "Headings" : "Antraštės",
     "Images" : "Paveikslai",
     "Office" : "Biuras",
