@@ -7,10 +7,10 @@
     "Close" : "ياپ",
     "Edit" : "تەھرىر",
     "Error" : "خاتالىق",
-    "Nickname" : "تەخەللۇس",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "چۈشۈر",
-    "Create" : "قۇر"
+    "Create" : "قۇر",
+    "Nickname" : "تەخەللۇس"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

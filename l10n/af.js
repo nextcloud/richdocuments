@@ -24,8 +24,6 @@ OC.L10N.register(
     "Close" : "Sluit",
     "Error" : "Fout",
     "An error occurred" : "'n Fout het voorgekom",
-    "Nickname" : "Bynaam",
-    "Set" : "Stel in",
     "Saving …" : "Bewaar tans…",
     "Remove from favorites" : "Verwyder uit gunstelinge",
     "Add to favorites" : "Voeg by gunstelinge",
@@ -33,6 +31,8 @@ OC.L10N.register(
     "Download" : "Laai af",
     "Guest" : "Gas",
     "Create" : "Skep",
+    "Nickname" : "Bynaam",
+    "Set" : "Stel in",
     "Saving…" : "Bewaar…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,10 +9,10 @@ OC.L10N.register(
     "Close" : "ياپ",
     "Edit" : "تەھرىر",
     "Error" : "خاتالىق",
-    "Nickname" : "تەخەللۇس",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "چۈشۈر",
-    "Create" : "قۇر"
+    "Create" : "قۇر",
+    "Nickname" : "تەخەللۇس"
 },
 "nplurals=2; plural=(n != 1);");
