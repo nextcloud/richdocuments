@@ -17,13 +17,13 @@ OC.L10N.register(
     "Edit" : "Rediger",
     "Error" : "Feil",
     "An error occurred" : "Det oppstod ein feil.",
-    "Nickname" : "Kallenamn",
-    "Set" : "Sett",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detaljar",
     "Download" : "Last ned",
     "Guest" : "Gjest",
-    "Create" : "Lag"
+    "Create" : "Lag",
+    "Nickname" : "Kallenamn",
+    "Set" : "Sett"
 },
 "nplurals=2; plural=(n != 1);");

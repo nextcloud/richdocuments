@@ -15,10 +15,10 @@ OC.L10N.register(
     "Close" : "වසන්න",
     "Edit" : "සංස්කරණය",
     "Error" : "දෝෂය",
-    "Nickname" : "අන්වර්ථ නාමය",
     "Details" : "විස්තර",
     "Download" : "බාගන්න",
     "New file" : "නව ගොනුව",
-    "Create" : "සාදන්න"
+    "Create" : "සාදන්න",
+    "Nickname" : "අන්වර්ථ නාමය"
 },
 "nplurals=2; plural=(n != 1);");
