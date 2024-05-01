@@ -27,8 +27,6 @@ OC.L10N.register(
     "Edit" : "Editar",
     "Error" : "Error",
     "An error occurred" : "Ocurrió un error",
-    "Please choose your nickname to continue as guest user." : "Por favor, elija su apodo para continuar como usuario invitado.",
-    "Nickname" : "Apodo",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a la versión anterior",
     "Remove from favorites" : "Eliminado de favoritos",
     "Add to favorites" : "Agregar a favoritos",
@@ -41,6 +39,8 @@ OC.L10N.register(
     "Select template" : "Seleccionar plantilla",
     "Select a template directory" : "Seleccionar un directorio de plantillas",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Guardado con error: Collabora Online debería usar el mismo protocolo que la instalacion del servidor.",
+    "Please choose your nickname to continue as guest user." : "Por favor, elija su apodo para continuar como usuario invitado.",
+    "Nickname" : "Apodo",
     "Saving…" : "Guardando...",
     "Collabora Online" : "Collabora Online",
     "Templates inside of this directory will be added to the template selector of Collabora Online." : "Las plantillas dentro de este directorio se agregarán al selector de plantillas de Collabora Online."

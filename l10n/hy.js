@@ -18,12 +18,12 @@ OC.L10N.register(
     "Close" : "Փակել",
     "Edit" : "մշակել",
     "Error" : "Սխալ",
-    "Nickname" : "Մականուն",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Մանրամասներ",
     "Download" : "Ներբեռնել",
     "Create" : "Ստեղծել",
-    "Could not create file" : "Չկարողացա ստեղծել ֆայլը"
+    "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
+    "Nickname" : "Մականուն"
 },
 "nplurals=2; plural=(n != 1);");

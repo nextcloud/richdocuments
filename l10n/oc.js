@@ -28,7 +28,6 @@ OC.L10N.register(
     "Edit" : "Modificar",
     "Error" : "Error",
     "An error occurred" : "Una error s’es producha",
-    "Nickname" : "Escais",
     "Saving …" : "Enregistrament...",
     "Remove from favorites" : "Tirar dels favorits",
     "Add to favorites" : "Apondre als favorits",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "New file" : "Fichièr novèl",
     "Create" : "Crear",
     "Could not create file" : "Impossible de crear lo fichièr",
+    "Nickname" : "Escais",
     "Saving…" : "Enregistrament…",
     "Last saved version" : "Darrièra version salvagarda",
     "Collabora Online" : "Collabora en linha"

@@ -10,10 +10,10 @@ OC.L10N.register(
     "Close" : "Tutup",
     "Edit" : "Sunting",
     "Error" : "Ralat",
-    "Nickname" : "Nama Samaran",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "Muat turun",
-    "Create" : "Buat"
+    "Create" : "Buat",
+    "Nickname" : "Nama Samaran"
 },
 "nplurals=1; plural=0;");

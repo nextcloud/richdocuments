@@ -22,7 +22,6 @@ OC.L10N.register(
     "Close" : "Хаах",
     "Edit" : "Өөрчлөх",
     "Error" : "Алдаа",
-    "Nickname" : "Товч нэр",
     "Failed to revert the document to older version" : " документыг хуучин хувилбар руу буцаах  амжилтгүй боллоо",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "Create" : "Үүсгэх",
     "Could not create file" : "Файл үүсгэж чадсангүй",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "алдааг хадгалсан: Collabora Online серверийн суулгалттай ижил протоколыг ашиглах ёстой.",
+    "Nickname" : "Товч нэр",
     "Saving…" : "хадаглаж байна...",
     "Collabora Online" : "онлайн Collabora "
 },

@@ -55,8 +55,6 @@ OC.L10N.register(
     "Error" : "Error",
     "An error occurred" : "Prodúxose un error",
     "Error: Unable to make the AppImage executable, please setup a standalone server." : "Error: nun ye posible facer que'l ficheru AppImage seya executable. Configura un sirvidor independiente.",
-    "Nickname" : "Nomatu",
-    "Set" : "Afitar",
     "Open locally" : "Abrir llocalmente",
     "Continue editing online" : "Siguir cola edición en llinia",
     "Saving …" : "Guardando…",
@@ -74,6 +72,8 @@ OC.L10N.register(
     "Global templates" : "Plantíes globales",
     "No templates defined." : "Nun se definió nenguna plantía.",
     "Zotero" : "Zotero",
+    "Nickname" : "Nomatu",
+    "Set" : "Afitar",
     "Saving…" : "Guardando…",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "El documentu yá esiste"

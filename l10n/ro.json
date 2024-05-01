@@ -28,7 +28,6 @@
     "Edit" : "Editează",
     "Error" : "Eroare",
     "An error occurred" : "A apărut o eraore",
-    "Nickname" : "Pseudonim",
     "Saving …" : "Se salvează",
     "Remove from favorites" : "Șterge din favorite",
     "Add to favorites" : "Adăugați la favorite",
@@ -39,6 +38,7 @@
     "Create" : "Creează",
     "Could not create file" : "Nu s-a putut crea fisierul",
     "Select template" : "Selectează șablon",
+    "Nickname" : "Pseudonim",
     "Saving…" : "Se salvează..."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
