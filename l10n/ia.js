@@ -20,7 +20,6 @@ OC.L10N.register(
     "Close" : "Clauder",
     "Edit" : "Modificar",
     "Error" : "Error",
-    "Nickname" : "Pseudonymo",
     "Failed to revert the document to older version" : "Il falleva a restaurar le documento a un version plus ancian",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Create" : "Crear",
     "Could not create file" : "Impossibile crear le file",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Salveguardate con error: Collabora Online deberea usar le mesme protocollo que le servitor de installation.",
+    "Nickname" : "Pseudonymo",
     "Saving…" : "Salveguardante...",
     "Collabora Online" : "Collabora Online"
 },

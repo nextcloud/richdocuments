@@ -55,7 +55,6 @@ OC.L10N.register(
     "Edit" : "แก้ไข",
     "Error" : "ข้อผิดพลาด",
     "An error occurred" : "เกิดข้อผิดพลาด",
-    "Nickname" : "ชื่อเล่น",
     "Failed to revert the document to older version" : "ไม่สามารถย้อนกลับเอกสารไปเป็นรุ่นก่อนหน้า",
     "Saving …" : "กำลังบันทึก …",
     "Remove from favorites" : "เอาออกจากรายการโปรด",
@@ -67,6 +66,7 @@ OC.L10N.register(
     "Could not create file" : "ไม่สามารถสร้างไฟล์",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "บันทึกแล้ว แต่มีข้อผิดพลาด: Collabora Online ควรใช้โปรโตคอลเดียวกับการติดตั้งบนเซิร์ฟเวอร์",
     "Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: " : "ไม่สามารถสร้างการเชื่อมต่อกับเซิร์ฟเวอร์ Collabora Online ซึ่งอาจเกิดจากการกำหนดค่าเว็บเซิร์ฟเวอร์ของคุณขาดหายไป สำหรับข้อมูลเพิ่มเติม กรุณาเยี่ยมชม:",
+    "Nickname" : "ชื่อเล่น",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "มีเอกสารอยู่แล้ว"
 },

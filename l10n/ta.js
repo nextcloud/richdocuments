@@ -10,11 +10,11 @@ OC.L10N.register(
     "Close" : "மூடுக",
     "Edit" : "தொகுக்க",
     "Error" : "வழு",
-    "Nickname" : "பட்டப்பெயர்",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "விவரங்கள்",
     "Download" : "பதிவிறக்குக",
-    "Create" : "உருவாக்குக"
+    "Create" : "உருவாக்குக",
+    "Nickname" : "பட்டப்பெயர்"
 },
 "nplurals=2; plural=(n != 1);");

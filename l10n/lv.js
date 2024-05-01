@@ -32,7 +32,6 @@ OC.L10N.register(
     "Edit" : "Rediģēt",
     "Error" : "Kļūda",
     "An error occurred" : "Gadījās kļūda",
-    "Nickname" : "Iesauka",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Saving …" : "Saglabā ...",
     "Remove from favorites" : "Noņemt no izlases",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "New file" : "Jauns fails",
     "Create" : "Izveidot",
     "Could not create file" : "Neizdevās izveidot datni",
+    "Nickname" : "Iesauka",
     "Saving…" : "Saglabā...",
     "Collabora Online" : "Collabora Online"
 },

@@ -30,7 +30,6 @@
     "Edit" : "Rediģēt",
     "Error" : "Kļūda",
     "An error occurred" : "Gadījās kļūda",
-    "Nickname" : "Iesauka",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Saving …" : "Saglabā ...",
     "Remove from favorites" : "Noņemt no izlases",
@@ -41,6 +40,7 @@
     "New file" : "Jauns fails",
     "Create" : "Izveidot",
     "Could not create file" : "Neizdevās izveidot datni",
+    "Nickname" : "Iesauka",
     "Saving…" : "Saglabā...",
     "Collabora Online" : "Collabora Online"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
