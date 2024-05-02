@@ -44,6 +44,7 @@ return array(
     'OCA\\Richdocuments\\Listener\\BeforeFetchPreviewListener' => $baseDir . '/../lib/Listener/BeforeFetchPreviewListener.php',
     'OCA\\Richdocuments\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listener/BeforeTemplateRenderedListener.php',
     'OCA\\Richdocuments\\Listener\\FileCreatedFromTemplateListener' => $baseDir . '/../lib/Listener/FileCreatedFromTemplateListener.php',
+    'OCA\\Richdocuments\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Richdocuments\\Listener\\LoadViewerListener' => $baseDir . '/../lib/Listener/LoadViewerListener.php',
     'OCA\\Richdocuments\\Listener\\ReferenceListener' => $baseDir . '/../lib/Listener/ReferenceListener.php',
     'OCA\\Richdocuments\\Listener\\RegisterTemplateFileCreatorListener' => $baseDir . '/../lib/Listener/RegisterTemplateFileCreatorListener.php',

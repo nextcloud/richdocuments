@@ -59,6 +59,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Listener\\BeforeFetchPreviewListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeFetchPreviewListener.php',
         'OCA\\Richdocuments\\Listener\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeTemplateRenderedListener.php',
         'OCA\\Richdocuments\\Listener\\FileCreatedFromTemplateListener' => __DIR__ . '/..' . '/../lib/Listener/FileCreatedFromTemplateListener.php',
+        'OCA\\Richdocuments\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Richdocuments\\Listener\\LoadViewerListener' => __DIR__ . '/..' . '/../lib/Listener/LoadViewerListener.php',
         'OCA\\Richdocuments\\Listener\\ReferenceListener' => __DIR__ . '/..' . '/../lib/Listener/ReferenceListener.php',
         'OCA\\Richdocuments\\Listener\\RegisterTemplateFileCreatorListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterTemplateFileCreatorListener.php',
