@@ -1,3 +1,5 @@
+import './init-shared.js'
+
 import isPublic from './helpers/isPublicPage.js'
 import isDocument from './helpers/isDocument.js'
 
