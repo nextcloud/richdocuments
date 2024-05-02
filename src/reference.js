@@ -18,6 +18,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import './init-shared.js'
 
 import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'

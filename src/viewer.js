@@ -22,6 +22,7 @@
  */
 
 import '../css/filetypes.scss'
+import './init-shared.js'
 
 import Office from './view/Office.vue'
 import { getCapabilities } from '@nextcloud/capabilities'
