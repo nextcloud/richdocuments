@@ -118,6 +118,12 @@ $modal-padding: calc(var(--default-grid-baseline) * 4);
 .modal__content {
 	padding: $modal-padding;
 
+	h3 {
+		display: flex;
+		align-items: center;
+		font-size: 1.3em;
+	}
+
 	.modal__form {
 		padding: 15px 0;
 	}

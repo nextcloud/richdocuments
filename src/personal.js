@@ -1,4 +1,6 @@
 import '../css/admin.scss'
+import './init-shared.js'
+
 import { generateFilePath } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 
