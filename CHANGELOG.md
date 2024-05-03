@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.3.6
+
+### Fixed
+
+* refactor: move to office.vue component by @backportbot in https://github.com/nextcloud/richdocuments/pull/3616
+* fix: redesign guest name picker and fix opening it for shared folders by @backportbot in https://github.com/nextcloud/richdocuments/pull/3641
+* fix: chunk loading error by @elzody in https://github.com/nextcloud/richdocuments/pull/3648
+* fix: file action to open PDFs with richdocuments when files_pdfviewer is enabled by @backportbot in https://github.com/nextcloud/richdocuments/pull/3650
+
+
+**Full Changelog**: https://github.com/nextcloud/richdocuments/compare/v8.3.5...v8.3.6
+
 ## 8.3.5
 
 ### Fixed
