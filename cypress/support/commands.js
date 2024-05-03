@@ -255,6 +255,14 @@ Cypress.Commands.add('closeDocument', () => {
 	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 })
 
+Cypress.Commands.add('verifyOpen', (filename) => {
+	cy.get('#app-sidebar-vue')
+		.should('be.visible')
+	cy.get('.app-sidebar-header__mainname')
+		.should('be.visible')
+		.should('contain.text', filename)
+})
+
 Cypress.Commands.add('uploadSystemTemplate', () => {
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')
