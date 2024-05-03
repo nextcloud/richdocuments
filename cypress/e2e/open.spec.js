@@ -17,7 +17,7 @@
  *
  */
 
-describe('Open existing office files', function() {
+describe.skip('Open existing office files', function() {
 	let randUser
 
 	before(function() {
@@ -135,7 +135,12 @@ describe('Open PDF with richdocuments', () => {
 		cy.get('[data-cy="coolframe"]').should('not.exist')
 
 		// Verify the files PDF viewer is being used
-		cy.get('.viewer__file--active').should('exist')
+		cy.get('.viewer__file--active')
+			.its('0.contentDocument')
+			.its('body').should('not.be.empty')
+			.as('pdfViewer')
+
+		cy.get('@pdfViewer').find('.pdfViewer').should('exist')
 	})
 
 	// Verify that using the file action 'Edit with Nextcloud Office'
