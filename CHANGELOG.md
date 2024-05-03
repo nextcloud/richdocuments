@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.2.9
+
+### Fixed
+
+* Redesign guest name picker and fix opening it for shared folders by @backportbot in https://github.com/nextcloud/richdocuments/pull/3640
+* refactor: move to office.vue component by @backportbot in https://github.com/nextcloud/richdocuments/pull/3617
+* test(cypress): Adapt selectors to Collabora 24.04 by @backportbot in https://github.com/nextcloud/richdocuments/pull/3639
+
+
+**Full Changelog**: https://github.com/nextcloud/richdocuments/compare/v8.2.8...v8.2.9
+
 ## 8.2.8
 
 ### Fixed
