@@ -17,7 +17,7 @@
  *
  */
 
-describe.skip('Open existing office files', function() {
+describe('Open existing office files', function() {
 	let randUser
 
 	before(function() {
