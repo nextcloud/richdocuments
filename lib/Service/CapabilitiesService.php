@@ -70,7 +70,7 @@ class CapabilitiesService {
 		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
 		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
 		if ($this->capabilities === null || $shouldRecheckCODECapabilities) {
-			$this->fetchFromRemote();
+			// $this->fetchFromRemote();
 		}
 
 		if (!is_array($this->capabilities)) {
