@@ -38,7 +38,7 @@ describe('Open existing office files', function() {
 	const fileTests = ['document.odt', 'presentation.odp', 'spreadsheet.ods', 'drawing.odg']
 	fileTests.forEach((filename) => {
 
-		it.skip('Classic UI: Open ' + filename + ' the viewer on file click', function() {
+		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'compact')
 			cy.login(randUser)
 
@@ -59,12 +59,8 @@ describe('Open existing office files', function() {
 				cy.get('#main-menu #menu-file > a').click()
 				cy.get('#main-menu #menu-shareas > a').should('be.visible').click()
 			})
+			cy.verifyOpen(filename)
 
-			cy.get('#app-sidebar-vue')
-				.should('be.visible')
-			cy.get('.app-sidebar-header__mainname')
-				.should('be.visible')
-				.should('contain.text', filename)
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
 			cy.screenshot('share-sidebar_' + filename)
@@ -73,7 +69,7 @@ describe('Open existing office files', function() {
 			cy.closeDocument()
 		})
 
-		it.skip('Notebookbar UI: Open ' + filename + ' the viewer on file click', function() {
+		it('Notebookbar UI: Open ' + filename + ' the viewer on file click', function() {
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'tabbed')
 			cy.login(randUser)
 
@@ -87,17 +83,10 @@ describe('Open existing office files', function() {
 			cy.waitForCollabora()
 
 			cy.screenshot('open-file_' + filename)
-
-			// Share action
 			cy.get('@loleafletframe').within(() => {
 				cy.get('button.icon-nextcloud-sidebar').click()
 			})
-
-			cy.get('#app-sidebar-vue')
-				.should('be.visible')
-			cy.get('.app-sidebar-header__mainname')
-				.should('be.visible')
-				.should('contain.text', filename)
+			cy.verifyOpen(filename)
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
 			cy.screenshot('share-sidebar_' + filename)
@@ -123,17 +112,25 @@ describe('Open PDF with richdocuments', () => {
 
 	beforeEach(() => {
 		cy.login(randUser)
+		cy.visit('/apps/files')
 	})
 
 	// Verify that clicking on the file uses the files PDF viewer
 	// and NOT richdocuments
-	it.skip('Open PDF with files PDF viewer', () => {})
+	it('Open PDF with files PDF viewer', () => {
+		cy.get('[data-cy-files-list-row-name="document.pdf"]').click()
+		cy.waitForViewer()
+
+		// Verify Collabora is not being used
+		cy.get('[data-cy="coolframe"]').should('not.exist')
+
+		// Verify the files PDF viewer is being used
+		cy.get('.viewer__file--active').should('exist')
+	})
 
 	// Verify that using the file action 'Edit with Nextcloud Office'
 	// opens the file using richdocuments
 	it('Open PDF with richdocuments', () => {
-		cy.visit('/apps/files')
-
 		cy.get('[data-cy-files-list-row-name="document.pdf"]').as('pdf')
 		cy.get('@pdf').find('.action-items').as('actions')
 
@@ -144,17 +141,11 @@ describe('Open PDF with richdocuments', () => {
 		cy.waitForViewer()
 		cy.waitForCollabora()
 
-		// Open the sidebar so we can verify that
-		// the correct file open by the file name
+		// Verify that the correct file is open
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#icon-nextcloud-sidebar').click()
+			cy.get('button.icon-nextcloud-sidebar').click()
 		})
-
-		cy.get('#app-sidebar-vue')
-			.should('be.visible')
-		cy.get('.app-sidebar-header__mainname')
-			.should('be.visible')
-			.should('contain.text', 'document.pdf')
+		cy.verifyOpen('document.pdf')
 
 		// Make sure we can close the document
 		cy.closeDocument()
