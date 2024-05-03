@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.4.1
+
+### Fixed
+
+* fix: redesign guest name picker and fix opening it for shared folders by @backportbot in https://github.com/nextcloud/richdocuments/pull/3642
+* fix: file action to open PDFs with richdocuments when files_pdfviewer is enabled by @backportbot in https://github.com/nextcloud/richdocuments/pull/3649
+
+
+**Full Changelog**: https://github.com/nextcloud/richdocuments/compare/v8.4.0...v8.4.1
+
 ## 8.4.0
 
 ### Added
