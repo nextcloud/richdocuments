@@ -1,7 +1,8 @@
 #!/bin/bash
 #
 # Download font files and put them into the assets/fonts folder for the release
-
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 FONTLIST=(
     "https://github.com/google/fonts/raw/main/ofl/amaticsc/AmaticSC-Regular.ttf"
     "https://github.com/google/fonts/raw/main/ofl/amaticsc/AmaticSC-Bold.ttf"

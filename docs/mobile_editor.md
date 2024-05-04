@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Mobile Editor OCS API
 
 This API is used to obtain a link for a document to load from mobile apps. The link will contain a

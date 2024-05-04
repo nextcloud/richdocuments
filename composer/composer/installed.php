@@ -1,4 +1,9 @@
-<?php return array(
+<?php
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+return array(
     'root' => array(
         'name' => '__root__',
         'pretty_version' => 'dev-main',

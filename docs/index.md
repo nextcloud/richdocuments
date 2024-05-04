@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Collabora Online in Nextcloud
 
 ![https://nextcloud.com/wp-content/themes/next/assets/img/features/Collabora_with_Talk_in_sidebar_1.png?x53054](https://nextcloud.com/wp-content/themes/next/assets/img/features/Collabora_with_Talk_in_sidebar_1.png?x53054)

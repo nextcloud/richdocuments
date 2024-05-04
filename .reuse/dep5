@@ -1,0 +1,24 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: richdocuments
+Upstream-Contact: Nextcloud <info@nextcloud.com>
+Source: https://github.com/nextcloud/richdocuments
+
+Files: .gitattributes .github/* .editorconfig babel.config.js .php-cs-fixer.dist.php package-lock.json package.json composer.json composer.lock */composer.json */composer.lock webpack.js stylelint.config.js .eslintrc.js .gitignore .jshintrc .l10nignore action/.gitignore action/package.json action/package-lock.json action/dist/index.js tests/* psalm.xml cypress/.env cypress/.eslintrc.js cypress/docker-compose.yml cypress/plugins/index.js cypress/tsconfig.json cypress.config.ts vendor-bin/*/composer.json stylelint.config.cjs vendor-bin/*/composer.lock .tx/config webpack.config.js tsconfig.json vite.config.ts js/vendor.LICENSE.txt krankerl.toml .npmignore cypress/fixtures/* postcss.config.js cypress/dockerNode.ts jest.config.js cypress.config.js relativeci.config.js .nextcloudignore .devcontainer/devcontainer.json .scrutinizer.yml .stylelintrc.js .tx/backport
+Copyright: none
+License: CC0-1.0
+
+Files: l10n/*.js l10n/*.json
+Copyright: 2016 Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: js/*.js.map js/*.js js/*.mjs js/*.mjs.map js/templates/*.handlebars emptyTemplates/*
+Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: screenshots/Nextcloud-presentation.png screenshots/Nextcloud-spreadsheet.png screenshots/Nextcloud-writer.png
+Copyright: Nextcloud GmbH and Nextcloud contributors
+License: CC0-1.0
+
+Files:img/app-dark.svg img/app.png img/app.svg img/launch.svg img/x-office-document.svg img/x-office-drawing.svg img/x-office-presentation.svg img/x-office-spreadsheet.svg
+Copyright: 2018-2024 Google LLC
+License: Apache-2.0
