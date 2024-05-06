@@ -5,6 +5,8 @@
 -->
 # Nextcloud Office
 
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/richdocuments)](https://api.reuse.software/info/github.com/nextcloud/richdocuments)
+
 **A [Nextcloud](https://nextcloud.com) app integrating Collabora Online into your Nextcloud!**
 
 ![](https://raw.githubusercontent.com/nextcloud/richdocuments/main/screenshots/Nextcloud-writer.png)
