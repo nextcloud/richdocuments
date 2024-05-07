@@ -320,6 +320,9 @@
 					{{ fontXmlHint }}
 				</pre>
 			</em>
+			<em>
+				{{ t('richdocuments', 'For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office installing their proprietary can be done following the documentation.') }} <a :href="fontCustomDocumentUrl" target="_blank">{{ t('richdocuments', 'Custom fonts documentation') }}</a>
+			</em>
 		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
@@ -477,6 +480,7 @@ export default {
 			uploadingFont: false,
 			fontMimes,
 			fontHintUrl: window.location.protocol + '//' + window.location.host + generateUrl('/apps/richdocuments/settings/fonts.json'),
+			fontCustomDocumentUrl: 'https://docs.nextcloud.com/server/latest/admin_manual/office/configuration.html#custom-fonts',
 			groups: [],
 			tags: [],
 			uiVisible: {
