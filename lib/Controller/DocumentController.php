@@ -288,7 +288,9 @@ class DocumentController extends Controller {
 					'userId' => $remoteWopi->getEditorUid() ? ($remoteWopi->getEditorUid() . '@' . $remoteServer) : null,
 				];
 
-				return $this->documentTemplateResponse($wopi, $params);
+				$response = $this->documentTemplateResponse($wopi, $params);
+				$response->addHeader('X-Frame-Options', 'ALLOW');
+				return $response;
 			}
 		} catch (ShareNotFound $e) {
 			return new TemplateResponse('core', '404', [], 'guest');
@@ -383,6 +385,13 @@ class DocumentController extends Controller {
 
 			if ($this->userId === null) {
 				$this->userId = $guestName;
+			}
+
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($file);
+			if ($federatedUrl) {
+				return new DataResponse([
+					'federatedUrl' => $federatedUrl,
+				]);
 			}
 
 			$wopi = $this->getToken($file, $share);

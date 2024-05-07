@@ -214,6 +214,7 @@ class FederationService {
 			return null;
 		}
 
+
 		$remote = $item->getStorage()->getRemote();
 		$remoteCollabora = $this->getRemoteCollaboraURL($remote);
 		if ($remoteCollabora !== '') {
@@ -230,6 +231,7 @@ class FederationService {
 			if ($direct && !empty($direct->getInitiatorHost()) && !empty($direct->getInitiatorToken())) {
 				$this->tokenManager->extendWithInitiatorUserToken($wopi, $direct->getInitiatorHost(), $direct->getInitiatorToken());
 			}
+
 
 			$url = rtrim($remote, '/') . '/index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
 				'&remoteServer=' . $initiatorServer .
