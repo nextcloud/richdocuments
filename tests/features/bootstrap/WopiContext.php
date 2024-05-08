@@ -247,8 +247,8 @@ class WopiContext implements Context {
 		if (count($this->fileIds) <= 1) {
 			throw new \Exception('Less than two file ids available for comparison');
 		}
-		$current = $this->fileIds[count($this->fileIds) - 1];
-		$previous = $this->fileIds[count($this->fileIds) - 2];
+		[$current] = explode('_', $this->fileIds[count($this->fileIds) - 1]);
+		[$previous] = explode('_', $this->fileIds[count($this->fileIds) - 2]);
 		Assert::assertEquals($current, $previous);
 	}
 
@@ -259,8 +259,9 @@ class WopiContext implements Context {
 		if (count($this->fileIds) <= 1) {
 			throw new \Exception('Less than two file ids available for comparison');
 		}
-		$current = $this->fileIds[count($this->fileIds) - 1];
-		$previous = $this->fileIds[count($this->fileIds) - 2];
+		var_dump($this->fileIds);
+		[$current] = explode('_', $this->fileIds[count($this->fileIds) - 1]);
+		[$previous] = explode('_', $this->fileIds[count($this->fileIds) - 2]);
 		Assert::assertNotEquals($current, $previous);
 	}
 
