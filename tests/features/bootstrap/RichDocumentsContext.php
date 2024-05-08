@@ -72,6 +72,27 @@ class RichDocumentsContext implements Context {
 		Assert::assertNotEmpty($this->wopiToken);
 	}
 
+	public function generateTokenWithApi($user, $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null) {
+		$this->serverContext->usingWebAsUser($user);
+		$this->serverContext->sendJSONRequest('POST', '/index.php/apps/richdocuments/token', [
+			'fileId' => $fileId,
+			'shareToken' => $shareToken,
+			'path' => $path,
+			'guestName' => $guestName,
+		]);
+		echo $this->serverContext->getResponse()->getStatusCode();
+
+		$response = $this->serverContext->getOCSResponse();
+
+		$this->fileId = $fileId  . '_ocfake';
+		$this->fileIds[] = $this->fileId;
+		$this->wopiToken = $response['token'];
+		$this->wopiContext->setWopiParameters($this->currentServer, $this->fileId, $this->wopiToken);
+
+		Assert::assertNotEmpty($this->fileId);
+		Assert::assertNotEmpty($this->wopiToken);
+	}
+
 
 	/**
 	 * @Then a guest opens the share link
@@ -82,6 +103,7 @@ class RichDocumentsContext implements Context {
 
 	/**
 	 * @Then a guest opens the share link as :guestName
+	 * @Then a guest opens the share link without guest name
 	 */
 	public function aGuestOpensTheShareLinkAs($guestName = null) {
 		$this->openTheShareLink(null, $guestName);
@@ -95,22 +117,11 @@ class RichDocumentsContext implements Context {
 	}
 
 	private function openTheShareLink($userId = null, $guestName = null, $fileId = null) {
-		$this->serverContext->usingWebAsUser($userId);
-		$token = $this->sharingContext->getLastShareData()['token'];
-
-		$cookieJar = new \GuzzleHttp\Cookie\CookieJar();
-		if ($guestName) {
-			$domain = parse_url($this->currentServer ?? $this->serverContext->getBaseUrl(), PHP_URL_HOST);
-			$cookieJar = \GuzzleHttp\Cookie\CookieJar::fromArray([
-				'guestUser' => $guestName
-			], $domain);
+		if ($fileId === null) {
+			$fileId = $this->sharingContext->getLastShareData()['item_source'];
 		}
-
-		$client = new Client();
-		$result = $client->get(
-			$this->serverContext->getBaseUrl() . 'index.php/apps/richdocuments/public?shareToken=' . $token . ($fileId ? '&fileId=' . $fileId : ''),
-			array_merge($this->serverContext->getWebOptions(), $userId ? [] : ['cookies' => $cookieJar]));
-		$this->extractRichdocumentsFrontendContext($result);
+		$shareToken = $this->sharingContext->getLastShareData()['token'];
+		$this->generateTokenWithApi($userId, $fileId, shareToken: $shareToken, guestName: $guestName);
 	}
 
 	/**
