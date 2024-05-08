@@ -184,10 +184,34 @@ Feature: WOPI
       | permissions | 3 |
     And the HTTP status code should be "200"
     Then Using web as guest
-    And a guest opens the share link as "Anonymous"
+    And a guest opens the share link as "My name"
     And Collabora fetches checkFileInfo
     And checkFileInfo "BaseFileName" is "file.odt"
     And checkFileInfo "UserId" matches "/Guest-/"
+    And checkFileInfo "UserFriendlyName" is "My name (Guest)"
+    And checkFileInfo "OwnerId" is "user1"
+    And checkFileInfo "UserCanWrite" is true
+    And Collabora downloads the file
+    Then the file is equal to "./../emptyTemplates/template.odt"
+    And Collabora saved the file with the content of "./../emptyTemplates/template.ods"
+    And Collabora downloads the file
+    Then the file is equal to "./../emptyTemplates/template.ods"
+
+  Scenario: Save a file as guest without name with write permissions
+    Given as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/file.odt"
+    And as "user1" create a share with
+      | path      | /file.odt |
+      | shareType | 3         |
+    And Updating last share with
+      | permissions | 3 |
+    And the HTTP status code should be "200"
+    Then Using web as guest
+    And a guest opens the share link without guest name
+    And Collabora fetches checkFileInfo
+    And checkFileInfo "BaseFileName" is "file.odt"
+    And checkFileInfo "UserId" matches "/Guest-/"
+    And checkFileInfo "UserFriendlyName" is "Anonymous guest"
     And checkFileInfo "OwnerId" is "user1"
     And checkFileInfo "UserCanWrite" is true
     And Collabora downloads the file
