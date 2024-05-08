@@ -381,10 +381,6 @@ class DocumentController extends Controller {
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;
 			$file = $shareToken ? $this->getFileForShare($share, $fileId, $path) : $this->getFileForUser($fileId, $path);
 
-			if ($this->userId === null) {
-				$this->userId = $guestName;
-			}
-
 			$wopi = $this->getToken($file, $share);
 
 			return new DataResponse(array_merge(
