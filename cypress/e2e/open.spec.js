@@ -137,10 +137,17 @@ describe('Open PDF with richdocuments', () => {
 	// opens the file using richdocuments
 	it('Open PDF with richdocuments', () => {
 		cy.get('[data-cy-files-list-row-name="document.pdf"]').as('pdf')
-		cy.get('@pdf').find('.action-items').as('actions')
+		cy.get('@pdf')
+			.find('.action-items')
+			.as('actions')
 
-		cy.get('@actions').find('.action-item__menutoggle').click()
-		cy.get('.action-button__longtext').contains('Edit with Nextcloud Office').click()
+		cy.wait(100)
+		cy.get('@actions')
+			.find('.action-item__menutoggle')
+			.click()
+		cy.get('.action-button__longtext')
+			.contains('Edit with Nextcloud Office')
+			.click()
 
 		// Wait for Collabora to open
 		cy.waitForViewer()
