@@ -313,6 +313,15 @@ class TokenManager {
 		$this->wopiMapper->update($wopi);
 	}
 
+	public function setGuestName(Wopi $wopi, ?string $guestName = null): Wopi {
+		if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_GUEST && $wopi->getTokenType() !== Wopi::TOKEN_TYPE_REMOTE_GUEST) {
+			return $wopi;
+		}
+
+		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
+		return $this->wopiMapper->update($wopi);
+	}
+
 	public function getUrlSrc(File $file): string {
 		return $this->wopiParser->getUrlSrcValue($file->getMimeType());
 	}
