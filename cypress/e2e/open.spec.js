@@ -61,11 +61,6 @@ describe('Open existing office files', function() {
 			})
 			cy.verifyOpen(filename)
 
-			cy.get('#app-sidebar-vue')
-				.should('be.visible')
-			cy.get('.app-sidebar-header__maintitle')
-				.should('be.visible')
-				.should('contain.text', filename)
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
 			cy.screenshot('share-sidebar_' + filename)
@@ -92,11 +87,7 @@ describe('Open existing office files', function() {
 				cy.get('button.icon-nextcloud-sidebar').click()
 			})
 
-			cy.get('#app-sidebar-vue')
-				.should('be.visible')
-			cy.get('.app-sidebar-header__maintitle')
-				.should('be.visible')
-				.should('contain.text', filename)
+			cy.verifyOpen(filename)
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
 			cy.screenshot('share-sidebar_' + filename)
@@ -128,7 +119,7 @@ describe('Open PDF with richdocuments', () => {
 	// Verify that clicking on the file uses the files PDF viewer
 	// and NOT richdocuments
 	it('Open PDF with files PDF viewer', () => {
-		cy.get('[data-cy-files-list-row-name="document.pdf"]').click()
+		cy.get('tr[data-file="document.pdf"]').click()
 		cy.waitForViewer()
 
 		// Verify Collabora is not being used
@@ -146,11 +137,11 @@ describe('Open PDF with richdocuments', () => {
 	// Verify that using the file action 'Edit with Nextcloud Office'
 	// opens the file using richdocuments
 	it('Open PDF with richdocuments', () => {
-		cy.get('[data-cy-files-list-row-name="document.pdf"]').as('pdf')
-		cy.get('@pdf').find('.action-items').as('actions')
+		cy.get('tr[data-file="document.pdf"]').as('pdf')
+		cy.get('@pdf').find('.fileactions').as('actions')
 
-		cy.get('@actions').find('.action-item__menutoggle').click()
-		cy.get('.action-button__longtext').contains('Edit with Nextcloud Office').click()
+		cy.get('@actions').find('a[data-action="menu"]').click()
+		cy.get('a.menuitem').contains('Open with Nextcloud Office').click()
 
 		// Wait for Collabora to open
 		cy.waitForViewer()

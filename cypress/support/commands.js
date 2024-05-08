@@ -258,7 +258,7 @@ Cypress.Commands.add('closeDocument', () => {
 Cypress.Commands.add('verifyOpen', (filename) => {
 	cy.get('#app-sidebar-vue')
 		.should('be.visible')
-	cy.get('.app-sidebar-header__mainname')
+	cy.get('.app-sidebar-header__maintitle')
 		.should('be.visible')
 		.should('contain.text', filename)
 })
