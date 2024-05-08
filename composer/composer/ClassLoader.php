@@ -1,11 +1,15 @@
 <?php
+
 /*
  * This file is part of Composer.
  *
- * SPDX-FileCopyrightText: Nils Adermann <naderman@naderman.de>
- * SPDX-FileCopyrightText: Jordi Boggiano <j.boggiano@seld.be>
- * SPDX-License-Identifier: MIT
+ * (c) Nils Adermann <naderman@naderman.de>
+ *     Jordi Boggiano <j.boggiano@seld.be>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace Composer\Autoload;
 
 /**
