@@ -383,6 +383,8 @@ class DocumentController extends Controller {
 
 			$wopi = $this->getToken($file, $share);
 
+			$this->tokenManager->setGuestName($wopi, $guestName);
+
 			return new DataResponse(array_merge(
 				[ 'urlSrc' => $this->tokenManager->getUrlSrc($file) ],
 				$wopi->jsonSerialize(),
