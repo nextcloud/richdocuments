@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
   <file src="lib/AppConfig.php">
     <InvalidArgument>

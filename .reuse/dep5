@@ -11,7 +11,7 @@ Files: l10n/*.js l10n/*.json
 Copyright: 2016 Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: js/*.js.map js/*.js js/*.mjs js/*.mjs.map js/templates/*.handlebars emptyTemplates/*
+Files: js/*.js.map js/*.js js/*.mjs js/*.mjs.map js/templates/*.handlebars emptyTemplates/* cypress/fixtures/* tests/features/*.feature
 Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 

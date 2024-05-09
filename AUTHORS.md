@@ -4,6 +4,7 @@
 -->
 # Authors
 
+- Andrii Ilkiv <a.ilkiv.ye@gmail.com>
 - Caolán McNamara <caolan.mcnamara@collabora.com>
 - Daniel Kesselberg <mail@danielkesselberg.de>
 - Elizabeth Danzberger <lizzy7128@tutanota.de>
@@ -14,6 +15,7 @@
 - Lukas Reschke <lukas@statuscode.ch>
 - Raul Ferreira Fuentes <raul@nextcloud.com>
 - Roeland Jago Douma <roeland@famdouma.nl>
+- Thomas Müller <thomas.mueller@tmit.eu>
 - Tor Lillqvist <tml@collabora.com>
 - Viktar Dubiniuk <dubiniuk@owncloud.com>
 - Collabora Productivity.
