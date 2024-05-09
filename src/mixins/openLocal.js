@@ -100,8 +100,6 @@ export default {
 
 		openLocally() {
 			if (this.openingLocally) {
-				this.openingLocally = false
-
 				axios.post(
 					generateOcsUrl('apps/files/api/v1/openlocaleditor'),
 					{ path: this.filename },
@@ -111,8 +109,13 @@ export default {
 						+ encodePath(this.filename)
 						+ '?token=' + result.data.ocs.data.token
 
-					this.showOpenLocalFinished(url, window.top)
-					this.close()
+					this.showOpenLocalFinished()
+					// Firefox may cancel requests that the files app could send when updating the file meta data
+					// so we need to wait a bit before closing the viewer
+					setTimeout(() => {
+						this.openingLocally = false
+						this.close()
+					}, 1000)
 					window.open(url, '_self')
 				})
 			}
