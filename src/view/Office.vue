@@ -446,7 +446,7 @@ export default {
 				this.buttonClicked(args)
 				break
 			case 'Doc_ModifiedStatus':
-				if (args.Modified !== this.modified) {
+				if (args.Modified !== this.modified && !this.openingLocally) {
 					FilesAppIntegration.updateFileInfo(undefined, Date.now())
 				}
 				this.modified = args.Modified
