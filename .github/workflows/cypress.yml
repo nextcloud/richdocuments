@@ -69,6 +69,13 @@ jobs:
           ref: ${{ matrix.server-versions }}
           path: apps/viewer
 
+      - name: Checkout files_pdfviewer
+        uses: actions/checkout@v3
+        with:
+          repository: nextcloud/files_pdfviewer
+          ref: ${{ matrix.server-versions }}
+          path: apps/files_pdfviewer
+
       - name: Checkout ${{ env.APP_NAME }}
         uses: actions/checkout@v2
         with:
@@ -100,6 +107,7 @@ jobs:
           php occ config:system:set force_language --value en
           php occ app:enable --force testing
           php occ app:enable --force viewer
+          php occ app:enable --force files_pdfviewer
           php occ app:enable --force richdocuments
           php occ app:list
           php occ config:system:set trusted_domains 1 --value="172.17.0.1"

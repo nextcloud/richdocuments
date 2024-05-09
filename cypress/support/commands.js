@@ -247,6 +247,22 @@ Cypress.Commands.add('inputCollaboraGuestName', (guestName = 'cloud') => {
 	cy.get('[data-cy="guestNameSubmit"]').click()
 })
 
+Cypress.Commands.add('closeDocument', () => {
+	cy.get('@loleafletframe').within(() => {
+		cy.get('#closebutton').click()
+	})
+
+	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+})
+
+Cypress.Commands.add('verifyOpen', (filename) => {
+	cy.get('#app-sidebar-vue')
+		.should('be.visible')
+	cy.get('.app-sidebar-header__maintitle')
+		.should('be.visible')
+		.should('contain.text', filename)
+})
+
 Cypress.Commands.add('uploadSystemTemplate', () => {
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')
