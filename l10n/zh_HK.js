@@ -105,6 +105,8 @@ OC.L10N.register(
     "Upload extra font file" : "上傳額外的字體檔案",
     "Upload a font file" : "上傳字體檔案",
     "Available fonts" : "可用字體",
+    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office installing their proprietary can be done following the documentation." : "為了獲得理想的文件相容性，我們建議您安裝常用字型。如果您的使用者使用 Microsoft Office，則可以依照文件安裝其專有字型。",
+    "Custom fonts documentation" : "自訂字型文件",
     "Secure view settings" : "安全檢視設定",
     "Secure view enables you to secure documents by embedding a watermark" : "安全檢視讓您可以透過嵌入水印來保護文件",
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "該設定僅適用於在 Nextcloud Office 中開啟的相容 Office 檔案",
