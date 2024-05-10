@@ -1,5 +1,15 @@
 # Changelog
 
+## 8.3.7
+
+### Fixed
+
+- test(open-pdf): open pdf with richdocuments via file-action [#3667](https://github.com/nextcloud/richdocuments/pull/3667)
+- fix: Avoid triggering file list requests during handover to desktop client [#3687](https://github.com/nextcloud/richdocuments/pull/3687)
+- fix: Do not set user id for guests [#3678](https://github.com/nextcloud/richdocuments/pull/3678)
+- Test guest name setting [#3683](https://github.com/nextcloud/richdocuments/pull/3683)
+- fix: Avoid loading file actions if app is disabled for users [#3674](https://github.com/nextcloud/richdocuments/pull/3674)
+
 ## 8.3.6
 
 ### Fixed
