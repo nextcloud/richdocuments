@@ -11,6 +11,10 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 const cypressSplit = require('cypress-split')
 const browserify = require('@cypress/browserify-preprocessor')
 const webpack = require('@cypress/webpack-preprocessor')

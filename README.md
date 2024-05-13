@@ -1,4 +1,11 @@
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Nextcloud Office
+
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/richdocuments)](https://api.reuse.software/info/github.com/nextcloud/richdocuments)
 
 **A [Nextcloud](https://nextcloud.com) app integrating Collabora Online into your Nextcloud!**
 

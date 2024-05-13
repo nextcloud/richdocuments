@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Assets API
 
 This api is used to insert files directly from your Nextcloud to a Collabora
@@ -27,4 +31,3 @@ postMessage API.
 
 An asset can be fetched once from the url obtained when creating the asset.
 The asset will be served with a proper `Content-Type`.
- 
