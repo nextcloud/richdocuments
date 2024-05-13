@@ -139,7 +139,7 @@ const NewFileMenu = {
 
 	_buildTemplatePicker(data) {
 		return axios.get(generateFilePath('richdocuments', 'templates', 'templatePicker.html')).then(({ data: tmpl }) => {
-			const $tmpl = $(tmpl)
+			const $tmpl = $(tmpl).eq(2)
 			// init template picker
 			const $dlg = $tmpl.octemplate({
 				dialog_name: 'template-picker',
