@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.3.10
+
+### Fixed
+
+- fix: Block incompatible operations with remote tokens [#3636](https://github.com/nextcloud/richdocuments/pull/3636)
+
 ## 6.3.9
 
 ### Fixed
