@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "File already exists" : "Tá an comhad ann cheana féin",
     "Saved" : "Shábháil",
     "The file was uploaded" : "Uaslódáladh an comhad",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Sáraíonn an comhad uaslódáilte an treoir upload_max_filesize i php.ini",
@@ -16,6 +17,8 @@ OC.L10N.register(
     "Confirm" : "Deimhnigh",
     "Cancel" : "Cealaigh",
     "Save" : "Sábháil",
+    "Submit" : "Cuir isteach",
+    "Edit" : "Cuir in eagar",
     "Error" : "Earráid",
     "Download" : "Íoslódáil",
     "Create" : "Cruthaigh"
