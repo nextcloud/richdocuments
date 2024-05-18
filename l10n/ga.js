@@ -18,8 +18,11 @@ OC.L10N.register(
     "Cancel" : "Cealaigh",
     "Save" : "Sábháil",
     "Submit" : "Cuir isteach",
+    "Close" : "Dún",
     "Edit" : "Cuir in eagar",
     "Error" : "Earráid",
+    "Remove from favorites" : "Bain ó cheanáin",
+    "Add to favorites" : "Cuir le ceanáin",
     "Download" : "Íoslódáil",
     "Create" : "Cruthaigh"
 },
