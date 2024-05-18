@@ -16,8 +16,11 @@
     "Cancel" : "Cealaigh",
     "Save" : "Sábháil",
     "Submit" : "Cuir isteach",
+    "Close" : "Dún",
     "Edit" : "Cuir in eagar",
     "Error" : "Earráid",
+    "Remove from favorites" : "Bain ó cheanáin",
+    "Add to favorites" : "Cuir le ceanáin",
     "Download" : "Íoslódáil",
     "Create" : "Cruthaigh"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
