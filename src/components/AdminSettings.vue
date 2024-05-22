@@ -304,7 +304,7 @@
 				</pre>
 			</em>
 			<em>
-				{{ t('richdocuments', 'For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office installing their proprietary can be done following the documentation.') }} <a :href="fontCustomDocumentUrl" target="_blank">{{ t('richdocuments', 'Custom fonts documentation') }}</a>
+				{{ t('richdocuments', 'For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation.') }} <a :href="fontCustomDocumentUrl" target="_blank">{{ t('richdocuments', 'Custom fonts documentation') }}</a>
 			</em>
 		</div>
 
