@@ -34,7 +34,7 @@ OC.L10N.register(
     "Description" : "Apraksts",
     "No results" : "Nav rezultātu",
     "Close" : "Aizvērt",
-    "Edit" : "Rediģēt",
+    "Edit" : "Labot",
     "Error" : "Kļūda",
     "An error occurred" : "Gadījās kļūda",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
@@ -49,6 +49,7 @@ OC.L10N.register(
     "Could not create file" : "Neizdevās izveidot datni",
     "Nickname" : "Iesauka",
     "Saving…" : "Saglabā...",
+    "Current version (unsaved changes)" : "Pašreizējā versija (nesaglabātas izmaiņas)",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
