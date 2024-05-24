@@ -14,7 +14,6 @@ OC.L10N.register(
     "File is too big" : "Tá an comhad ró-mhór.",
     "Invalid file provided" : "Comhad neamhbhailí curtha ar fáil",
     "Images" : "Íomhánna",
-    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office installing their proprietary can be done following the documentation." : "Le haghaidh comhoiriúnachta doiciméad idéalach molaimid duit clónna a úsáidtear go coitianta a shuiteáil. Má tá d'úsáideoirí ag obair le Microsoft Office is féidir a gcuid dílseánaigh a shuiteáil tar éis na doiciméid.",
     "Confirm" : "Deimhnigh",
     "Cancel" : "Cealaigh",
     "Save" : "Sábháil",
