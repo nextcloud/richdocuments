@@ -105,7 +105,6 @@ OC.L10N.register(
     "Upload extra font file" : "Téléverser un fichier de police supplémentaire",
     "Upload a font file" : "Téléverser un fichier de police",
     "Available fonts" : "Polices disponibles",
-    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office installing their proprietary can be done following the documentation." : "Pour une compatibilité idéale des documents, nous vous recommandons d'installer les polices couramment utilisées. Si vos utilisateurs travaillent avec Microsoft Office, l'installation de leur version propriétaire peut être effectuée en suivant la documentation.",
     "Custom fonts documentation" : "Documentation sur les polices personnalisées",
     "Secure view settings" : "Paramètres de la vue sécurisée",
     "Secure view enables you to secure documents by embedding a watermark" : "La vue sécurisée vous permet de protéger les documents en intégrant un filigrane",

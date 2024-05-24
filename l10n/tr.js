@@ -105,7 +105,6 @@ OC.L10N.register(
     "Upload extra font file" : "Ek yazı tipi dosyası yükle",
     "Upload a font file" : "Bir yazı tipi dosyası yükle",
     "Available fonts" : "Kullanıcılabilecek yazı tipleri",
-    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office installing their proprietary can be done following the documentation." : "İdeal belge uyumluluğu için sık kullanılan yazı tiplerini kurmanız önerilir. Kullanıcılarınız Microsoft Office ile kendi yazı tiplerini kullanıyorsa belgelere bakılarak kurulabilir.",
     "Custom fonts documentation" : "Özel yazı tipleri belgeleri",
     "Secure view settings" : "Güvenli görüntüleme ayarları",
     "Secure view enables you to secure documents by embedding a watermark" : "Güvenli görünüm belgelere bir filigran ekleyerek korumanızı sağlar",
