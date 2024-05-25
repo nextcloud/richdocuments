@@ -105,6 +105,7 @@ OC.L10N.register(
     "Upload extra font file" : "Отпреми фајл додатног фонта",
     "Upload a font file" : "Отпреми фајл фонта",
     "Available fonts" : "Доступни фонтови",
+    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation." : "Да бисте имали савршену компатибилност докумената, саветујемо вам да инсталирате фонтове који се уобичајено користе. Ако ваши корисници раде са Microsoft Office пакетом, инсталирање њихових власничких фонтова може да се уради ако се следе упутства из документације.",
     "Custom fonts documentation" : "Документација за произвољне фонтове",
     "Secure view settings" : "Подешавања безбедног приказа",
     "Secure view enables you to secure documents by embedding a watermark" : "Безбедни преглед омогућава да обезбедите документе тако што ћете им убацити водени жиг",
