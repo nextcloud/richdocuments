@@ -105,6 +105,7 @@ OC.L10N.register(
     "Upload extra font file" : "قُم برفع ملف الخطوط الإضافية",
     "Upload a font file" : "إرفَع ملف خطوط",
     "Available fonts" : "الخطوط المُتاحة",
+    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation." : "للحصول على توافق مثالي للمستندات، نوصيك بتثبيت الخطوط شائعة الاستخدام. إذا كان المستخدمون لديك يعملون على مايكروسوف أوفيس، فيمكن تثبيت الخطوط التي اعتادوا استعمالها بالكيفية الموضحة في الوثائق.",
     "Custom fonts documentation" : "توثيق للخطوط المخصصة",
     "Secure view settings" : "إعدادات العرض الآمن",
     "Secure view enables you to secure documents by embedding a watermark" : "يتيح لك العرض الآمن تأمين المستندات عن طريق إدراج علامة مائية",
