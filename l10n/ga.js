@@ -11,8 +11,10 @@ OC.L10N.register(
     "Missing a temporary folder" : "Fillteán sealadach ar iarraidh",
     "Could not write file to disk" : "Níorbh fhéidir an comhad a scríobh ar an diosca",
     "A PHP extension stopped the file upload" : "Chuir síneadh PHP stop le huaslódáil an chomhaid",
+    "No file uploaded or file size exceeds maximum of %s" : "Níl aon chomhad uaslódáilte nó méid comhaid níos mó ná uasmhéid%s",
     "File is too big" : "Tá an comhad ró-mhór.",
     "Invalid file provided" : "Comhad neamhbhailí curtha ar fáil",
+    "Headings" : "Ceannteidil",
     "Images" : "Íomhánna",
     "Confirm" : "Deimhnigh",
     "Cancel" : "Cealaigh",
@@ -20,6 +22,7 @@ OC.L10N.register(
     "Submit" : "Cuir isteach",
     "Description" : "Cur síos",
     "No results" : "Gan torthaí",
+    "Select file or folder to link to" : "Roghnaigh comhad nó fillteán le nascadh leis",
     "Close" : "Dún",
     "Edit" : "Cuir in eagar",
     "Error" : "Earráid",
@@ -28,6 +31,7 @@ OC.L10N.register(
     "Add to favorites" : "Cuir le ceanáin",
     "Details" : "Sonraí",
     "Download" : "Íoslódáil",
+    "Guest" : "Aoi",
     "Create" : "Cruthaigh"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
