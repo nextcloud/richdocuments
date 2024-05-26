@@ -16,6 +16,7 @@ OC.L10N.register(
     "Invalid file provided" : "Comhad neamhbhailí curtha ar fáil",
     "Headings" : "Ceannteidil",
     "Images" : "Íomhánna",
+    "Select groups" : "Roghnaigh grúpaí",
     "Confirm" : "Deimhnigh",
     "Cancel" : "Cealaigh",
     "Save" : "Sábháil",
