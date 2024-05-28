@@ -105,6 +105,7 @@ OC.L10N.register(
     "Upload extra font file" : "Upload extra font file",
     "Upload a font file" : "Upload a font file",
     "Available fonts" : "Available fonts",
+    "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation." : "For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation.",
     "Custom fonts documentation" : "Custom fonts documentation",
     "Secure view settings" : "Secure view settings",
     "Secure view enables you to secure documents by embedding a watermark" : "Secure view enables you to secure documents by embedding a watermark",
