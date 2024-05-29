@@ -14,6 +14,9 @@ OC.L10N.register(
     "No file uploaded or file size exceeds maximum of %s" : "Níl aon chomhad uaslódáilte nó méid comhaid níos mó ná uasmhéid%s",
     "File is too big" : "Tá an comhad ró-mhór.",
     "Invalid file provided" : "Comhad neamhbhailí curtha ar fáil",
+    "New document" : "Doiciméad nua",
+    "New spreadsheet" : "Scarbhileog nua",
+    "New presentation" : "Cur i láthair nua",
     "Headings" : "Ceannteidil",
     "Images" : "Íomhánna",
     "Select groups" : "Roghnaigh grúpaí",
@@ -33,6 +36,7 @@ OC.L10N.register(
     "Details" : "Sonraí",
     "Download" : "Íoslódáil",
     "Guest" : "Aoi",
-    "Create" : "Cruthaigh"
+    "Create" : "Cruthaigh",
+    "Select template" : "Roghnaigh teimpléad"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
