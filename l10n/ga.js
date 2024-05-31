@@ -19,6 +19,7 @@ OC.L10N.register(
     "New presentation" : "Cur i láthair nua",
     "Headings" : "Ceannteidil",
     "Images" : "Íomhánna",
+    "Advanced settings" : "Ardsocruithe",
     "Select groups" : "Roghnaigh grúpaí",
     "Confirm" : "Deimhnigh",
     "Cancel" : "Cealaigh",
