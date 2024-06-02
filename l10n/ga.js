@@ -31,6 +31,7 @@ OC.L10N.register(
     "Close" : "Dún",
     "Edit" : "Cuir in eagar",
     "Error" : "Earráid",
+    "An error occurred" : "Tharla earráid",
     "Saving …" : "Shábháil …",
     "Remove from favorites" : "Bain ó cheanáin",
     "Add to favorites" : "Cuir le ceanáin",
