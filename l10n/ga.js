@@ -21,6 +21,7 @@ OC.L10N.register(
     "Images" : "Íomhánna",
     "Advanced settings" : "Ardsocruithe",
     "Select groups" : "Roghnaigh grúpaí",
+    "Failed to save settings" : "Theip ar na socruithe a shábháil",
     "Confirm" : "Deimhnigh",
     "Cancel" : "Cealaigh",
     "Save" : "Sábháil",
