@@ -103,7 +103,6 @@ OC.L10N.register(
     "New drawing" : "Uusi piirros",
     "Could not create file" : "Tiedoston luominen epäonnistui",
     "Select template" : "Valitse mallipohja",
-    "Open with {productName}" : "Avaa sovelluksella {productName}",
     "Global templates" : "Yhteiset mallipohjat",
     "Add a new template" : "Lisää uusi mallipohja",
     "No templates defined." : "Mallipohjia ei ole määritelty.",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Current version (unsaved changes)" : "Nykyinen versio (tallentamattomia muutoksia)",
     "Please enter the filename for the new document" : "Anna tiedostonimi uudelle asiakirjalle",
     "Create a new document" : "Luo uusi asiakirja",
+    "Open with {productName}" : "Avaa sovelluksella {productName}",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "Asiakirja on jo olemassa"
 },
