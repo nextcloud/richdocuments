@@ -91,7 +91,6 @@ OC.L10N.register(
     "Create" : "Sukurti",
     "Could not create file" : "Nepavyko sukurti failo",
     "Select template" : "Pasirinkite šabloną",
-    "Open with {productName}" : "Atverti naudojant {productName}",
     "Global templates" : "Visuotiniai šablonai",
     "Add a new template" : "Pridėti naują šabloną",
     "No templates defined." : "Neapibrėžtas joks šablonas.",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Current version (unsaved changes)" : "Dabartinė versija (neįrašyti pakeitimai)",
     "Please enter the filename for the new document" : "Įveskite naujo dokumento failo pavadinimą",
     "Create a new document" : "Sukurti naują dokumentą",
+    "Open with {productName}" : "Atverti naudojant {productName}",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "Dokumentas jau yra"
 },
