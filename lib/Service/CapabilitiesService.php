@@ -8,52 +8,42 @@ namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
 use OCP\App\IAppManager;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
-use OCP\ICache;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
-class CapabilitiesService {
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
-	/** @var ICache */
-	private $cache;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var LoggerInterface */
-	private $logger;
+class CapabilitiesService extends CachedRequestService {
 
-	/** @var array */
-	private $capabilities;
+	private ?array $capabilities = null;
 
-
-	public function __construct(IConfig $config, IClientService $clientService, ICacheFactory $cacheFactory, IAppManager $appManager, IL10N $l10n, LoggerInterface $logger) {
-		$this->config = $config;
-		$this->clientService = $clientService;
-		$this->cache = $cacheFactory->createDistributed('richdocuments');
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->logger = $logger;
+	public function __construct(
+		private IClientService $clientService,
+		private ICacheFactory $cacheFactory,
+		private IAppDataFactory $appDataFactory,
+		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private IAppManager $appManager,
+		private IL10N $l10n,
+	) {
+		parent::__construct(
+			$this->clientService,
+			$this->cacheFactory,
+			$this->appDataFactory,
+			$this->appConfig,
+			$this->logger,
+			'capabilities',
+		);
 	}
 
 	public function getCapabilities() {
 		if (!$this->capabilities) {
-			$this->capabilities = $this->cache->get('capabilities');
-		}
-
-		$isARM64 = php_uname('m') === 'aarch64';
-		$CODEAppID = $isARM64 ? 'richdocumentscode_arm64' : 'richdocumentscode';
-		$isCODEInstalled = $this->appManager->isEnabledForUser($CODEAppID);
-		$isCODEEnabled = strpos($this->config->getAppValue('richdocuments', 'wopi_url'), 'proxy.php?req=') !== false;
-		$shouldRecheckCODECapabilities = $isCODEInstalled && $isCODEEnabled && ($this->capabilities === null || count($this->capabilities) === 0);
-		if ($this->capabilities === null || $shouldRecheckCODECapabilities) {
-			$this->fetchFromRemote();
+			$this->capabilities = $this->getParsedCapabilities();
 		}
 
 		if (!is_array($this->capabilities)) {
@@ -119,10 +109,6 @@ class CapabilitiesService {
 		return false;
 	}
 
-	public function resetCache(): void {
-		$this->cache->remove('capabilities');
-	}
-
 	public function getCapabilitiesEndpoint(): ?string {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
 		if ($remoteHost === '') {
@@ -131,43 +117,13 @@ class CapabilitiesService {
 		return rtrim($remoteHost, '/') . '/hosting/capabilities';
 	}
 
-	public function fetchFromRemote($throw = false): void {
-		if (!$this->getCapabilitiesEndpoint()) {
-			return;
-		}
+	protected function sendRequest(IClient $client): string {
+		$response = $client->get($this->getCapabilitiesEndpoint(), $this->getDefaultRequestOptions());
+		return (string)$response->getBody();
+	}
 
-		$client = $this->clientService->newClient();
-		$options = ['timeout' => 45, 'nextcloud' => ['allow_local_address' => true]];
-
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-			$options['verify'] = false;
-		}
-
-		try {
-			$startTime = microtime(true);
-			$response = $client->get($this->getCapabilitiesEndpoint(), $options);
-			$duration = round(((microtime(true) - $startTime)), 3);
-			$this->logger->info('Fetched capabilities endpoint from ' . $this->getCapabilitiesEndpoint(). ' in ' . $duration . ' seconds');
-			$responseBody = $response->getBody();
-			$capabilities = \json_decode($responseBody, true);
-
-			if (!is_array($capabilities)) {
-				$capabilities = [];
-			}
-		} catch (\Exception $e) {
-			$this->logger->error('Failed to fetch the Collabora capabilities endpoint: ' . $e->getMessage(), [ 'exception' => $e ]);
-			if ($throw) {
-				throw $e;
-			}
-			$capabilities = [];
-		}
-
-		$this->capabilities = $capabilities;
-		$ttl = 3600;
-		if (count($capabilities) === 0) {
-			$ttl = 60;
-		}
-
-		$this->cache->set('capabilities', $capabilities, $ttl);
+	private function getParsedCapabilities() {
+		$response = $this->get();
+		return json_decode($response, true);
 	}
 }

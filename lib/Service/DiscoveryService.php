@@ -28,120 +28,41 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
-use OCP\Http\Client\IResponse;
-use OCP\ICache;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
-class DiscoveryService {
-	private IClientService $clientService;
-	private ICache $cache;
-	private IConfig $config;
-	private LoggerInterface $logger;
-
-	private ?string $discovery = null;
-
+class DiscoveryService extends CachedRequestService {
 	public function __construct(
-		IClientService $clientService,
-		ICacheFactory $cacheFactory,
-		IConfig $config,
-		LoggerInterface $logger
+		private IClientService $clientService,
+		private ICacheFactory $cacheFactory,
+		private IAppDataFactory $appDataFactory,
+		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
+		private IConfig $config,
 	) {
-		$this->clientService = $clientService;
-		$this->cache = $cacheFactory->createDistributed('richdocuments');
-		$this->config = $config;
-		$this->logger = $logger;
+		parent::__construct(
+			$this->clientService,
+			$this->cacheFactory,
+			$this->appDataFactory,
+			$this->appConfig,
+			$this->logger,
+			'discovery',
+		);
 	}
 
-	public function get(): ?string {
-		if ($this->discovery) {
-			return $this->discovery;
-		}
-
-		$this->discovery = $this->cache->get('discovery');
-		if (!$this->discovery) {
-			$response = $this->fetchFromRemote();
-			$responseBody = $response->getBody();
-			$this->discovery = $responseBody;
-			$this->cache->set('discovery', $this->discovery, 3600);
-		}
-
-		return $this->discovery;
+	protected function sendRequest(IClient $client): string {
+		$response = $client->get($this->getDiscoveryEndpoint(), $this->getDefaultRequestOptions());
+		return (string)$response->getBody();
 	}
 
-	/**
-	 * @throws \Exception if a network error occurs
-	 */
-	public function fetchFromRemote(): IResponse {
+	private function getDiscoveryEndpoint(): string {
 		$remoteHost = $this->config->getAppValue('richdocuments', 'wopi_url');
-		$wopiDiscovery = rtrim($remoteHost, '/') . '/hosting/discovery';
+		return rtrim($remoteHost, '/') . '/hosting/discovery';
 
-		$client = $this->clientService->newClient();
-		$options = ['timeout' => 45, 'nextcloud' => ['allow_local_address' => true]];
-
-		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-			$options['verify'] = false;
-		}
-
-		if ($this->isProxyStarting($wopiDiscovery)) {
-			$options['timeout'] = 180;
-		}
-
-		$startTime = microtime(true);
-		$response = $client->get($wopiDiscovery, $options);
-		$duration = round(((microtime(true) - $startTime)), 3);
-		$this->logger->info('Fetched discovery endpoint from ' . $wopiDiscovery . ' in ' . $duration . ' seconds');
-
-		return $response;
-	}
-
-	public function resetCache(): void {
-		$this->cache->remove('discovery');
-		$this->discovery = null;
-	}
-
-	/**
-	 * @return boolean indicating if proxy.php is in initialize or false otherwise
-	 */
-	private function isProxyStarting(string $url): bool {
-		$usesProxy = false;
-		$proxyPos = strrpos($url, 'proxy.php');
-		if ($proxyPos === false) {
-			$usesProxy = false;
-		} else {
-			$usesProxy = true;
-		}
-
-		if ($usesProxy === true) {
-			$statusUrl = substr($url, 0, $proxyPos);
-			$statusUrl = $statusUrl . 'proxy.php?status';
-
-			$client = $this->clientService->newClient();
-			$options = ['timeout' => 5, 'nextcloud' => ['allow_local_address' => true]];
-
-			if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
-				$options['verify'] = false;
-			}
-
-			try {
-				$response = $client->get($statusUrl, $options);
-
-				if ($response->getStatusCode() === 200) {
-					$body = json_decode($response->getBody(), true);
-
-					if ($body['status'] === 'starting'
-						|| $body['status'] === 'stopped'
-						|| $body['status'] === 'restarting') {
-						return true;
-					}
-				}
-			} catch (\Exception $e) {
-				// ignore
-			}
-		}
-
-		return false;
 	}
 }

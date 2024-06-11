@@ -66,6 +66,7 @@ return array(
     'OCA\\Richdocuments\\Preview\\OpenDocument' => $baseDir . '/../lib/Preview/OpenDocument.php',
     'OCA\\Richdocuments\\Preview\\Pdf' => $baseDir . '/../lib/Preview/Pdf.php',
     'OCA\\Richdocuments\\Reference\\OfficeTargetReferenceProvider' => $baseDir . '/../lib/Reference/OfficeTargetReferenceProvider.php',
+    'OCA\\Richdocuments\\Service\\CachedRequestService' => $baseDir . '/../lib/Service/CachedRequestService.php',
     'OCA\\Richdocuments\\Service\\CapabilitiesService' => $baseDir . '/../lib/Service/CapabilitiesService.php',
     'OCA\\Richdocuments\\Service\\ConnectivityService' => $baseDir . '/../lib/Service/ConnectivityService.php',
     'OCA\\Richdocuments\\Service\\DemoService' => $baseDir . '/../lib/Service/DemoService.php',
