@@ -81,6 +81,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Preview\\OpenDocument' => __DIR__ . '/..' . '/../lib/Preview/OpenDocument.php',
         'OCA\\Richdocuments\\Preview\\Pdf' => __DIR__ . '/..' . '/../lib/Preview/Pdf.php',
         'OCA\\Richdocuments\\Reference\\OfficeTargetReferenceProvider' => __DIR__ . '/..' . '/../lib/Reference/OfficeTargetReferenceProvider.php',
+        'OCA\\Richdocuments\\Service\\CachedRequestService' => __DIR__ . '/..' . '/../lib/Service/CachedRequestService.php',
         'OCA\\Richdocuments\\Service\\CapabilitiesService' => __DIR__ . '/..' . '/../lib/Service/CapabilitiesService.php',
         'OCA\\Richdocuments\\Service\\ConnectivityService' => __DIR__ . '/..' . '/../lib/Service/ConnectivityService.php',
         'OCA\\Richdocuments\\Service\\DemoService' => __DIR__ . '/..' . '/../lib/Service/DemoService.php',
