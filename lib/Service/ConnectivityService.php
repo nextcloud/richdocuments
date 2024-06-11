@@ -41,7 +41,7 @@ class ConnectivityService {
 	 */
 	public function testDiscovery(OutputInterface $output): void {
 		$this->discoveryService->resetCache();
-		$this->discoveryService->fetchFromRemote();
+		$this->discoveryService->fetch();
 		$output->writeln('<info>✓ Fetched /hosting/discovery endpoint</info>');
 
 		$this->parser->getUrlSrcValue('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
@@ -54,7 +54,7 @@ class ConnectivityService {
 
 	public function testCapabilities(OutputInterface $output): void {
 		$this->capabilitiesService->resetCache();
-		$this->capabilitiesService->fetchFromRemote(true);
+		$this->capabilitiesService->fetch(true);
 		$output->writeln('<info>✓ Fetched /hosting/capabilities endpoint</info>');
 
 		if ($this->capabilitiesService->getCapabilities() === []) {

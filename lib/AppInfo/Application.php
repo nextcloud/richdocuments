@@ -198,12 +198,18 @@ class Application extends App implements IBootstrap {
 			$appConfig->setAppValue('wopi_url', $new_wopi_url);
 			$appConfig->setAppValue('disable_certificate_verification', 'yes');
 
+			/** @var DiscoveryService $discoveryService */
 			$discoveryService = $this->getContainer()->get(DiscoveryService::class);
+			/** @var CapabilitiesService $capabilitiesService */
 			$capabilitiesService = $this->getContainer()->get(CapabilitiesService::class);
 
 			$discoveryService->resetCache();
 			$capabilitiesService->resetCache();
-			$capabilitiesService->fetchFromRemote();
+			try {
+				$capabilitiesService->fetch();
+				$discoveryService->fetch();
+			} catch (\Exception $e) {
+			}
 		}
 	}
 }

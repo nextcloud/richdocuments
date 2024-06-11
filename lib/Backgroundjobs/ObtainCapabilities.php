@@ -24,21 +24,34 @@
 namespace OCA\Richdocuments\Backgroundjobs;
 
 use OCA\Richdocuments\Service\CapabilitiesService;
+use OCA\Richdocuments\Service\DiscoveryService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use Psr\Log\LoggerInterface;
 
 class ObtainCapabilities extends TimedJob {
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	public function __construct(ITimeFactory $time, CapabilitiesService $capabilitiesService) {
+	public function __construct(
+		ITimeFactory $time,
+		private LoggerInterface $logger,
+		private CapabilitiesService $capabilitiesService,
+		private DiscoveryService $discoveryService,
+	) {
 		parent::__construct($time);
-		$this->capabilitiesService = $capabilitiesService;
 
 		$this->setInterval(60 * 60);
 	}
 
 	protected function run($argument) {
-		$this->capabilitiesService->fetchFromRemote();
+		try {
+			$this->capabilitiesService->fetch();
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to fetch capabilities: ' . $e->getMessage(), ['exception' => $e]);
+		}
+
+		try {
+			$this->discoveryService->fetch();
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to fetch discovery: ' . $e->getMessage(), ['exception' => $e]);
+		}
 	}
 }
