@@ -242,7 +242,7 @@
 				:disabled="updating"
 				@input="updateOoxml" />
 
-			<SettingsCheckbox :value="settings.use_groups !== null"
+			<SettingsCheckbox :value="settings.use_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict usage to specific groups')"
 				:hint="t('richdocuments', '{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it.', { productName })"
 				:disabled="updating"
@@ -255,7 +255,7 @@
 					@input="updateUseGroups" />
 			</SettingsCheckbox>
 
-			<SettingsCheckbox :value="settings.edit_groups !== null"
+			<SettingsCheckbox :value="settings.edit_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict edit to specific groups')"
 				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents.', { productName })"
 				:disabled="updating"
