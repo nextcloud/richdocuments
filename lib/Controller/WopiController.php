@@ -210,7 +210,10 @@ class WopiController extends Controller {
 		}
 
 		if ($isPublic) {
-			$response['UserExtraInfo']['is_guest'] = true;
+			$response['UserExtraInfo']['is_guest'] = true; // DEPRECATED
+			$response['IsAnonymousUser'] = true;
+		} else {
+			$response['IsAnonymousUser'] = false;
 		}
 
 		if ($wopi->isRemoteToken()) {
