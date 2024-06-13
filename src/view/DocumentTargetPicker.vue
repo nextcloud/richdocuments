@@ -50,6 +50,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import TableOfContentsIcon from 'vue-material-design-icons/TableOfContents.vue'
+import { getCapabilities } from '../services/capabilities.ts'
 
 export default {
 	name: 'DocumentTargetPicker',
@@ -94,7 +95,7 @@ export default {
 		async openFilePicker() {
 			const self = this
 			await getFilePickerBuilder(t('files', 'Select file or folder to link to'))
-				.setMimeTypeFilter(OC.getCapabilities().richdocuments.mimetypes)
+				.setMimeTypeFilter(getCapabilities().mimetypes)
 				.addButton({
 					label: t('richdocuments', 'Insert image'),
 					callback: (files) => {

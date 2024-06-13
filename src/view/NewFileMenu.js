@@ -9,6 +9,7 @@ import Types from '../helpers/types.js'
 import { createEmptyFile } from '../services/api.js'
 import { generateUrl, generateFilePath, generateOcsUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
+import { getCapabilities } from '../services/capabilities.ts'
 
 /** @type OC.Plugin */
 const NewFileMenu = {
@@ -26,7 +27,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-document',
 			fileType: 'x-office-document',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().templates) {
 					self._openTemplatePicker('document', document.mime, filename)
 				} else {
 					self._createDocument(document.mime, filename)
@@ -41,7 +42,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-spreadsheet',
 			fileType: 'x-office-spreadsheet',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().templates) {
 					self._openTemplatePicker('spreadsheet', spreadsheet.mime, filename)
 				} else {
 					self._createDocument(spreadsheet.mime, filename)
@@ -56,7 +57,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-presentation',
 			fileType: 'x-office-presentation',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().templates) {
 					self._openTemplatePicker('presentation', presentation.mime, filename)
 				} else {
 					self._createDocument(presentation.mime, filename)
@@ -71,7 +72,7 @@ const NewFileMenu = {
 			iconClass: 'icon-filetype-draw',
 			fileType: 'x-office-drawing',
 			actionHandler(filename) {
-				if (OC.getCapabilities().richdocuments.templates) {
+				if (getCapabilities().templates) {
 					self._openTemplatePicker('drawing', drawing.mime, filename)
 				} else {
 					self._createDocument(drawing.mime, filename)

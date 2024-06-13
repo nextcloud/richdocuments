@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { registerFileAction, FileAction } from '@nextcloud/files'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getCapabilities } from './services/capabilities.ts'
 import { translate as t } from '@nextcloud/l10n'
 
 // eslint-disable-next-line import/no-unresolved
 import appIcon from '../img/app.svg?raw'
-
-const richdocuments = getCapabilities().richdocuments
 
 const openPdf = new FileAction({
 	id: 'office-open-pdf',
@@ -22,12 +20,12 @@ const openPdf = new FileAction({
 	displayName: () => {
 		return t('richdocuments',
 			'Edit with {productName}',
-			{ productName: richdocuments.productName })
+			{ productName: getCapabilities().productName })
 	},
 
 	enabled: () => {
 		// Only enable the file action when files_pdfviewer is enabled
-		const optionalMimetypes = richdocuments.mimetypesNoDefaultOpen
+		const optionalMimetypes = getCapabilities().mimetypesNoDefaultOpen
 		return optionalMimetypes.includes('application/pdf')
 	},
 

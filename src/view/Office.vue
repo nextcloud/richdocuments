@@ -101,7 +101,7 @@ import {
 	generateUrl,
 	imagePath,
 } from '@nextcloud/router'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getCapabilities } from './../services/capabilities.ts'
 import {
 	generateCSSVarTokens,
 	getCollaboraTheme,
@@ -317,7 +317,7 @@ export default {
 				console.error('Document loading failed due to timeout: Please check for failing network requests')
 				this.loading = LOADING_STATE.FAILED
 				this.error = t('richdocuments', 'Failed to load {productName} - please try again later', { productName: loadState('richdocuments', 'productName', 'Nextcloud Office') })
-			}, (getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+			}, (getCapabilities().config.timeout * 1000 || 15000))
 		},
 		sendPostMessage(msgId, values = {}) {
 			this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, msgId, values)

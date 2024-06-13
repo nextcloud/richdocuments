@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import axios from '@nextcloud/axios'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getCapabilities } from './../services/capabilities.ts'
 
 export const LOADING_ERROR = {
 	COLLABORA_UNCONFIGURED: 1,
@@ -11,17 +11,16 @@ export const LOADING_ERROR = {
 }
 
 export const isCollaboraConfigured = () => {
-	const collaboraCapabilities = getCapabilities()?.richdocuments?.collabora
+	const collaboraCapabilities = getCapabilities()?.collabora
 	return isBuiltinCodeServerUsed() || collaboraCapabilities.length !== 0
 }
 
 export const isBuiltinCodeServerUsed = () => {
-	const richdocumentsCapabilities = getCapabilities()?.richdocuments
-	return richdocumentsCapabilities?.config?.wopi_url?.indexOf('proxy.php') !== -1
+	return getCapabilities()?.config?.wopi_url?.indexOf('proxy.php') !== -1
 }
 
 export const checkCollaboraConfiguration = async () => {
-	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
+	const wopiUrl = getCapabilities()?.config?.wopi_url
 	if (!wopiUrl) {
 		throw Error(LOADING_ERROR.COLLABORA_UNCONFIGURED)
 	}
@@ -29,7 +28,7 @@ export const checkCollaboraConfiguration = async () => {
 
 let proxyStatusCheckRetry = 0
 export const checkProxyStatus = async (_resolve, _reject) => {
-	const wopiUrl = getCapabilities()?.richdocuments?.config?.wopi_url
+	const wopiUrl = getCapabilities()?.config?.wopi_url
 	if (wopiUrl.indexOf('proxy.php') === -1) {
 		return true
 	}

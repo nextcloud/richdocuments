@@ -409,6 +409,7 @@ import SettingsFontList from './SettingsFontList.vue'
 
 import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl } from '../helpers/url.js'
+import { getCapabilities } from '../services/capabilities.ts'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -529,7 +530,7 @@ export default {
 				const protocol = this.checkUrlProtocol(newVal)
 				const nextcloudProtocol = this.checkUrlProtocol(window.location.href)
 				if (protocol !== nextcloudProtocol) this.serverError = PROTOCOL_MISMATCH
-				else this.serverError = Object.values(OC.getCapabilities().richdocuments.collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
+				else this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
 			}
 		},
 		isSetup() {

@@ -18,6 +18,7 @@ import FilesAppIntegration from './view/FilesAppIntegration.js'
 import { splitPath } from './helpers/index.js'
 import { enableScrollLock, disableScrollLock } from './helpers/safariFixer.js'
 import NewFileMenu from './view/NewFileMenu.js'
+import { getCapabilities } from './services/capabilities.ts'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
 const PostMessages = new PostMessageService({
@@ -34,11 +35,11 @@ const odfViewer = {
 	receivedLoading: false,
 	isProxyStarting: false,
 	isCollaboraConfigured: (
-		(OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
-		|| (typeof OC.getCapabilities().richdocuments.collabora === 'object' && OC.getCapabilities().richdocuments.collabora.length !== 0)),
-	supportedMimes: OC.getCapabilities().richdocuments.mimetypes.concat(OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen),
-	excludeMimeFromDefaultOpen: OC.getCapabilities().richdocuments.mimetypesNoDefaultOpen,
-	hideDownloadMimes: OC.getCapabilities().richdocuments.mimetypesSecureView,
+		(getCapabilities().config.wopi_url.indexOf('proxy.php') !== -1)
+		|| (typeof getCapabilities().collabora === 'object' && getCapabilities().collabora.length !== 0)),
+	supportedMimes: getCapabilities().mimetypes.concat(getCapabilities().mimetypesNoDefaultOpen),
+	excludeMimeFromDefaultOpen: getCapabilities().mimetypesNoDefaultOpen,
+	hideDownloadMimes: getCapabilities().mimetypesSecureView,
 
 	onEdit(fileName, context) {
 		let fileDir
@@ -50,7 +51,7 @@ const odfViewer = {
 		if (!odfViewer.isCollaboraConfigured) {
 			$.get(generateOcsUrl('cloud/capabilities?format=json')).then(
 				e => {
-					if ((OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') !== -1)
+					if ((getCapabilities().config.wopi_url.indexOf('proxy.php') !== -1)
 						|| (typeof e.ocs.data.capabilities.richdocuments.collabora === 'object'
 						&& e.ocs.data.capabilities.richdocuments.collabora.length !== 0)) {
 						odfViewer.isCollaboraConfigured = true
@@ -101,11 +102,11 @@ const odfViewer = {
 
 		const $iframe = $('<iframe data-cy="documentframe" id="richdocumentsframe" nonce="' + btoa(OC.requestToken) + '" scrolling="no" allowfullscreen allow="clipboard-read *; clipboard-write *" src="' + documentUrl + '" />')
 		odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
-			(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+			(getCapabilities().config.timeout * 1000 || 15000))
 		$iframe.src = documentUrl
 
 		if ((OC.appswebroots.richdocumentscode || OC.appswebroots.richdocumentscode_arm64)
-			&& OC.getCapabilities().richdocuments.config.wopi_url.indexOf('proxy.php') >= 0) {
+			&& getCapabilities().config.wopi_url.indexOf('proxy.php') >= 0) {
 			odfViewer.checkProxyStatus()
 		}
 
@@ -183,15 +184,15 @@ const odfViewer = {
 				...FilesAppIntegration.loggingContext(),
 			})
 			odfViewer.onClose()
-			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: OC.getCapabilities().richdocuments.productName || 'Collabora Online' }))
+			OC.Notification.showTemporary(t('richdocuments', 'Failed to load {productName} - please try again later', { productName: getCapabilities().productName || 'Collabora Online' }))
 		} else if (!odfViewer.receivedLoading) {
 			odfViewer.loadingTimeout = setTimeout(odfViewer.onTimeout,
-				(OC.getCapabilities().richdocuments.config.timeout * 1000 || 15000))
+				(getCapabilities().config.timeout * 1000 || 15000))
 		}
 	},
 
 	checkProxyStatus() {
-		const wopiUrl = OC.getCapabilities().richdocuments.config.wopi_url
+		const wopiUrl = getCapabilities().config.wopi_url
 		const url = wopiUrl.slice(0, wopiUrl.indexOf('proxy.php') + 'proxy.php'.length)
 		$.get(url + '?status').done(function(result) {
 			if (result && result.status) {
@@ -211,7 +212,7 @@ const odfViewer = {
 	},
 }
 
-const settings = OC.getCapabilities().richdocuments.config || {}
+const settings = getCapabilities().config || {}
 Config.update('ooxml', settings.doc_format === 'ooxml')
 
 window.OCA.RichDocuments = {
@@ -297,7 +298,7 @@ addEventListener('DOMContentLoaded', () => {
 				})
 				odfViewer.onClose()
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to connect to {productName}. Please try again later or contact your server administrator.',
-					{ productName: OC.getCapabilities().richdocuments.productName },
+					{ productName: getCapabilities().productName },
 				))
 			}
 			break

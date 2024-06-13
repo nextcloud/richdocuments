@@ -7,9 +7,9 @@ import './init-shared.js'
 import '../css/filetypes.scss'
 
 import Office from './view/Office.vue'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getCapabilities } from './services/capabilities.ts'
 
-const supportedMimes = getCapabilities().richdocuments.mimetypes
+const supportedMimes = getCapabilities().mimetypes
 
 if (OCA.Viewer) {
 	OCA.Viewer.registerHandler({
