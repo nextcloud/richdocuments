@@ -223,13 +223,16 @@ class WopiController extends Controller {
 		if ($user !== null) {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => self::WOPI_AVATAR_SIZE]);
 			if ($this->groupManager->isAdmin($wopi->getEditorUid())) {
-				$response['UserExtraInfo']['is_admin'] = true;
+				$response['UserExtraInfo']['is_admin'] = true; // DEPRECATED
+				$response['IsAdminUser'] = true;
 			} else {
-				$response['UserExtraInfo']['is_admin'] = false;
+				$response['UserExtraInfo']['is_admin'] = false; // DEPRECATED
+				$response['IsAdminUser'] = false;
 			}
 		} else {
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => urlencode($wopi->getGuestDisplayname()), 'size' => self::WOPI_AVATAR_SIZE]);
-			$response['UserExtraInfo']['is_admin'] = false;
+			$response['UserExtraInfo']['is_admin'] = false; // DEPRECATED
+			$response['IsAdminUser'] = false;
 		}
 
 		if ($isPublic) {
