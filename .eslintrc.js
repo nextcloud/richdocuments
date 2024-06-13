@@ -15,6 +15,7 @@ module.exports = {
 	},
 	extends: [
 		'@nextcloud',
+		'@nextcloud/eslint-config/typescript',
 		'plugin:cypress/recommended',
 	],
 	env: {
