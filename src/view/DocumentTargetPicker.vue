@@ -93,7 +93,6 @@ export default {
 			}
 		},
 		async openFilePicker() {
-			const self = this
 			await getFilePickerBuilder(t('files', 'Select file or folder to link to'))
 				.setMimeTypeFilter(getCapabilities().mimetypes)
 				.addButton({
@@ -101,8 +100,8 @@ export default {
 					callback: (files) => {
 						const file = files[0]
 						this.fileId = file.fileid
-						self.filePath = file.path
-						self.fetchReferences()
+						this.filePath = file.path
+						this.fetchReferences()
 					},
 				})
 				.setContainer(this.$refs.picker)
