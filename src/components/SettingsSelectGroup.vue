@@ -26,6 +26,7 @@
 		:input-id="uuid"
 		:placeholder="label"
 		label="displayname"
+		:input-label="label"
 		:multiple="true"
 		:close-on-select="false"
 		:disabled="disabled"

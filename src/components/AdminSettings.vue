@@ -242,12 +242,12 @@
 				:disabled="updating"
 				@input="updateOoxml" />
 
-			<SettingsCheckbox :value="settings.use_groups !== null"
+			<SettingsCheckbox :value="settings.use_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict usage to specific groups')"
 				:hint="t('richdocuments', '{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it.', { productName })"
 				:disabled="updating"
 				@input="updateUseGroups">
-				<SettingsSelectGroup v-if="settings.use_groups !== null"
+				<SettingsSelectGroup v-if="uiVisible.use_groups || settings.use_groups?.length > 0"
 					v-model="settings.use_groups"
 					:label="t('richdocuments', 'Select groups')"
 					class="option-inline"
@@ -255,12 +255,12 @@
 					@input="updateUseGroups" />
 			</SettingsCheckbox>
 
-			<SettingsCheckbox :value="settings.edit_groups !== null"
+			<SettingsCheckbox :value="settings.edit_groups?.length > 0"
 				:label="t('richdocuments', 'Restrict edit to specific groups')"
 				:hint="t('richdocuments', 'All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents.', { productName })"
 				:disabled="updating"
 				@input="updateEditGroups">
-				<SettingsSelectGroup v-if="settings.edit_groups !== null"
+				<SettingsSelectGroup v-if="uiVisible.edit_groups || settings.edit_groups?.length > 0"
 					v-model="settings.edit_groups"
 					:label="t('richdocuments', 'Select groups')"
 					class="option-inline"
@@ -482,6 +482,8 @@ export default {
 			uiVisible: {
 				canonical_webroot: false,
 				external_apps: false,
+				use_groups: false,
+				edit_groups: false,
 			},
 			settings: {
 				demoUrl: null,
@@ -652,23 +654,27 @@ export default {
 			})
 		},
 		async updateUseGroups(enabled) {
-			if (enabled) {
-				this.settings.use_groups = enabled === true ? [] : enabled
-			} else {
-				this.settings.use_groups = null
+			if (typeof enabled === 'boolean') {
+				this.settings.use_groups = (enabled) ? [] : null
+				this.uiVisible.use_groups = Boolean(this.settings.use_groups)
+			} else if (enabled.length > 0) {
+				this.settings.use_groups = enabled
 			}
+
 			await this.updateSettings({
-				use_groups: this.settings.use_groups !== null ? this.settings.use_groups.join('|') : '',
+				use_groups: this.settings.use_groups?.join('|') ?? '',
 			})
 		},
 		async updateEditGroups(enabled) {
-			if (enabled) {
-				this.settings.edit_groups = enabled === true ? [] : enabled
-			} else {
-				this.settings.edit_groups = null
+			if (typeof enabled === 'boolean') {
+				this.settings.edit_groups = (enabled) ? [] : null
+				this.uiVisible.edit_groups = Boolean(this.settings.edit_groups)
+			} else if (enabled.length > 0) {
+				this.settings.edit_groups = enabled
 			}
+
 			await this.updateSettings({
-				edit_groups: this.settings.edit_groups !== null ? this.settings.edit_groups.join('|') : '',
+				edit_groups: this.settings.edit_groups?.join('|') ?? '',
 			})
 		},
 		async updateCanonicalWebroot(canonicalWebroot) {
