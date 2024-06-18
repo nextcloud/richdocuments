@@ -1,5 +1,20 @@
 # Changelog
 
+## 8.2.11
+
+### Fixed
+
+* Always pass is_admin property to userextrainfo [#3735](https://github.com/nextcloud/richdocuments/pull/3735)
+* Use new property for admin user indication [#3753](https://github.com/nextcloud/richdocuments/pull/3753)
+* Use new property for guest indication [#3761](https://github.com/nextcloud/richdocuments/pull/3761)
+* Run move in lock scope of the user [#3774](https://github.com/nextcloud/richdocuments/pull/3774)
+
+### Other
+
+* Update nextcloud/ocp dependency [#3695](https://github.com/nextcloud/richdocuments/pull/3695)
+* Update nextcloud/ocp dependency [#3724](https://github.com/nextcloud/richdocuments/pull/3724)
+* Update nextcloud/ocp dependency [#3747](https://github.com/nextcloud/richdocuments/pull/3747)
+
 ## 8.2.10
 
 ### Fixed
