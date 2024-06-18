@@ -1,5 +1,23 @@
 # Changelog
 
+## 8.4.3
+
+### Fixed
+
+* Remove legacy Viewer code [#3730](https://github.com/nextcloud/richdocuments/pull/3730)
+* Always pass is_admin property to userextrainfo [#3733](https://github.com/nextcloud/richdocuments/pull/3733)
+* Avoid requesting remote endpoints during bootstrap [#3750](https://github.com/nextcloud/richdocuments/pull/3750)
+* Use new property for admin user indication [#3751](https://github.com/nextcloud/richdocuments/pull/3751)
+* Use new property for guest indication [#3759](https://github.com/nextcloud/richdocuments/pull/3759)
+* Uncheck group limit in admin settings [#3764](https://github.com/nextcloud/richdocuments/pull/3764)
+* Run move in lock scope of the user [#3772](https://github.com/nextcloud/richdocuments/pull/3772)
+
+### Other
+
+* Update nextcloud/ocp dependency [#3698](https://github.com/nextcloud/richdocuments/pull/3698)
+* Update nextcloud/ocp dependency [#3716](https://github.com/nextcloud/richdocuments/pull/3716)
+* Update nextcloud/ocp dependency [#3744](https://github.com/nextcloud/richdocuments/pull/3744)
+
 ## 8.4.2
 
 ### Fixed
