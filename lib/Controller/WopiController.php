@@ -628,7 +628,13 @@ class WopiController extends Controller {
 
 				// create a unique new file
 				$path = $this->rootFolder->getNonExistingName($path);
-				$file = $file->move($path);
+				$this->lockManager->runInScope(new LockContext(
+					$this->getFileForWopiToken($wopi),
+					ILock::TYPE_APP,
+					Application::APPNAME
+				), function () use (&$file, $path) {
+					$file = $file->move($path);
+				});
 			} else {
 				$file = $this->getFileForWopiToken($wopi);
 
