@@ -6,19 +6,20 @@ import { loadState } from '@nextcloud/initial-state'
 
 class ConfigService {
 
-    private values: {[name: string]: any}
+	private values: {[name: string]: any}
 
-    constructor () {
+	constructor() {
 		this.values = loadState('richdocuments', 'document', {})
 	}
 
-    update(key: string, value: any) {
-        this.values[key] = value
-    }
+	update(key: string, value: any) {
+		this.values[key] = value
+	}
 
-    get(key: string): any {
-        return this.values[key]
-    }
+	get(key: string): any {
+		return this.values[key]
+	}
+
 }
 
 const Config = new ConfigService()

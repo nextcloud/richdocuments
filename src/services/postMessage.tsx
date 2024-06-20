@@ -2,24 +2,31 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { emit } from "@nextcloud/event-bus"
+import { emit } from '@nextcloud/event-bus'
 
 type MessageEventSource = Window | MessagePort | ServiceWorker;
 
+export interface WopiPostValues {
+	Deprecated?: boolean;
+}
 export interface WopiPost {
 	MessageId: string;
 	Values: WopiPostValues;
 }
 
-export interface WopiPostValues {
-	Deprecated?: boolean;
-}
-
 interface WindowCallbackHandler { (): Window}
 
+interface PostMessageHandlerParam {
+	data: any;
+	parsed: { msgId: string, args: WopiPostValues, deprecated: boolean }
+}
+
+type PostMessageHandler = (values: PostMessageHandlerParam) => void;
+
 export default class PostMessageService {
-	private readonly targets: {[name: string]: (Window|WindowCallbackHandler)};
-	private postMessageHandlers: Function[] = [];
+
+	private readonly targets: {[name: string]: (Window|WindowCallbackHandler)}
+	private postMessageHandlers: PostMessageHandler[] = []
 
 	constructor(targets: {[name: string]: (Window|WindowCallbackHandler)}) {
 		this.targets = targets
@@ -29,7 +36,7 @@ export default class PostMessageService {
 	}
 
 	sendPostMessage(target: string, message: any, targetOrigin: string = '*') {
-		let targetElement: Window;
+		let targetElement: Window
 		if (typeof this.targets[target] === 'function') {
 			targetElement = (this.targets[target] as WindowCallbackHandler)()
 		} else {
@@ -39,12 +46,11 @@ export default class PostMessageService {
 		console.debug('PostMessageService.sendPostMessage', target, message)
 	}
 
-
 	sendWOPIPostMessage(target: string, msgId: string, values: any = {}) {
 		const msg = {
 			MessageId: msgId,
 			SendTime: Date.now(),
-			Values: values
+			Values: values,
 		}
 
 		this.sendPostMessage(target, JSON.stringify(msg))
@@ -66,17 +72,17 @@ export default class PostMessageService {
 		return { msgId, args, deprecated }
 	}
 
-	registerPostMessageHandler(callback: Function) {
+	registerPostMessageHandler(callback: PostMessageHandler) {
 		this.postMessageHandlers.push(callback)
 	}
 
-	unregisterPostMessageHandler(callback: Function) {
+	unregisterPostMessageHandler(callback: PostMessageHandler) {
 		const handlerIndex = this.postMessageHandlers.findIndex(cb => cb === callback)
 		delete this.postMessageHandlers[handlerIndex]
 	}
 
 	private handlePostMessage(data: any) {
-		const parsed = PostMessageService.parsePostMessage(data);
+		const parsed = PostMessageService.parsePostMessage(data)
 		if (typeof parsed === 'undefined' || parsed === null) {
 			return
 		}
@@ -88,15 +94,15 @@ export default class PostMessageService {
 			}
 		} catch (e) {}
 
-		this.postMessageHandlers.forEach((fn: Function): void => {
+		this.postMessageHandlers.forEach((fn: PostMessageHandler): void => {
 			if (parsed.deprecated) {
 				console.debug('PostMessageService.handlePostMessage', 'Ignoring deprecated post message', parsed.msgId)
-				return;
+				return
 			}
 			try {
 				fn({
-					data: data,
-					parsed
+					data,
+					parsed,
 				})
 			} catch (e) {
 				console.error('Error during post message handler', parsed, e)

@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-const ooxml = OC.getCapabilities().richdocuments.config.doc_format === 'ooxml'
+import { getCapabilities } from '../services/capabilities.ts'
+
+const ooxml = getCapabilities().config.doc_format === 'ooxml'
 
 const getFileTypes = () => {
 	if (ooxml) {

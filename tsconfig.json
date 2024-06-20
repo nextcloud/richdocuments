@@ -9,9 +9,10 @@
 		"jsx": "react",
 		"allowJs": true
 	},
-	"include": ["src/**/*.tsx"],
+	"include": ["src/**/*.ts", "src/**/*.tsx"],
 	"exclude": [
 		"node_modules",
 		"vendor"
-	]
+	],
+	"typeRoots": ["node_modules/@types", "src/types"]
 }

@@ -15,6 +15,7 @@ module.exports = {
 	},
 	extends: [
 		'@nextcloud',
+		'@nextcloud/eslint-config/typescript',
 		'plugin:cypress/recommended',
 	],
 	env: {
@@ -28,5 +29,7 @@ module.exports = {
 		'jsdoc/require-param-description': 'off',
 		'jsdoc/require-param-type': 'off',
 		'jsdoc/require-property-description': 'off',
+		'@typescript-eslint/no-unused-vars': 'off',
+		'@typescript-eslint/no-explicit-any': 'off',
 	}
 }

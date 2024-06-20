@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getCapabilities } from './../services/capabilities.ts'
 
 /** @type Array.<String> */
-const mimetypes = getCapabilities().richdocuments.mimetypes
+const mimetypes = getCapabilities().mimetypes
 
 /**
  * Determines if the mimetype of the resource is supported by richdocuments

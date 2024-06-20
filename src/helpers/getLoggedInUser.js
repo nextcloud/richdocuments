@@ -6,9 +6,7 @@
 import { loadState } from '@nextcloud/initial-state'
 
 /**
- * Gets the current user's display name if logged in.
- *
- * @return boolean | string
+ * @return {boolean|string} Gets the current user's display name if logged in.
  */
 function getLoggedInUser() {
 	return loadState('richdocuments', 'loggedInUser')

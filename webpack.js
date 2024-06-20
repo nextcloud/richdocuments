@@ -28,13 +28,6 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 // Replaces rules array
 webpackConfig.module.rules = Object.values(webpackRules)
 
-// Add typescript rule
-webpackConfig.module.rules.push({
-	test: /\.tsx?$/,
-	use: ['babel-loader', 'ts-loader'],
-	exclude: /node_modules/,
-})
-
 // Raw files rule
 webpackConfig.module.rules.push({
 	resourceQuery: /raw/,

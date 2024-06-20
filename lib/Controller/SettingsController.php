@@ -6,17 +6,17 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\UploadException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -26,6 +26,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -430,5 +431,64 @@ class SettingsController extends Controller {
 			throw new UploadException($phpFileUploadErrors[$file['error']]);
 		}
 		return $file;
+	}
+
+	#[Http\Attribute\FrontpageRoute(verb: 'GET', url: '/autosetup')]
+	public function setupCode(IURLGenerator $urlGenerator, IAppManager $appManager, Capabilities $capabilities): DataResponse {
+		$statusCode = Http::STATUS_NOT_MODIFIED;
+		// If no collabora url is configured and richdocumentscode is enabled we will configure it
+		// TODO If richdocumentscode is configured we attempt to fetch capabilities to start it
+
+		// Supported only on Linux OS, and x86_64 & ARM64 platforms
+		$supportedArchs = ['x86_64', 'aarch64'];
+		$architecture = php_uname('m');
+		if (PHP_OS_FAMILY !== 'Linux' || !in_array($architecture, $supportedArchs)) {
+			return new DataResponse([
+				'message' => 'Invalid architecture for built-in CODE server.'
+			], Http::STATUS_NOT_MODIFIED);
+		}
+
+		$CODEAppID = ($architecture === 'x86_64') ? 'richdocumentscode' : 'richdocumentscode_arm64';
+
+		if ($appManager->isEnabledForUser($CODEAppID)) {
+			$wopiUrl = $this->appConfig->getAppValue('wopi_url');
+			$isCODEEnabled = str_contains($wopiUrl, 'proxy.php?req=');
+
+			// Check if we have the wopi_url set to custom currently
+			if ($wopiUrl !== null && $wopiUrl !== '' && $isCODEEnabled === false) {
+				return new DataResponse([
+					'message' => 'An office server is already configured'
+				], Http::STATUS_NOT_MODIFIED);
+			}
+
+			$relativeUrl = $urlGenerator->linkTo($CODEAppID, '') . 'proxy.php';
+			$absoluteUrl = $urlGenerator->getAbsoluteURL($relativeUrl);
+			$new_wopi_url = $absoluteUrl . '?req=';
+
+			// Check if the wopi url needs to be updated
+			if ($isCODEEnabled && $wopiUrl === $new_wopi_url) {
+				return new DataResponse([
+					'message' => 'The built-in CODE server is already configured'
+				], Http::STATUS_NOT_MODIFIED);
+			}
+
+			$this->appConfig->setAppValue('wopi_url', $new_wopi_url);
+			$this->appConfig->setAppValue('disable_certificate_verification', 'yes');
+
+			$this->discoveryService->resetCache();
+			$this->capabilitiesService->resetCache();
+			try {
+				$this->capabilitiesService->fetch();
+				$this->discoveryService->fetch();
+			} catch (\Exception $e) {
+				return new DataResponse([
+					'message' => 'Failed to get proxy.php endpoints: ' . $e->getMessage(),
+				], Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
+		}
+
+		return new DataResponse([
+			'capabilities' => $capabilities->getCapabilities()['richdocuments'],
+		], $statusCode);
 	}
 }
