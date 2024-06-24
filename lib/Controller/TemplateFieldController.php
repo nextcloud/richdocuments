@@ -5,9 +5,11 @@ namespace OCA\Richdocuments\Controller;
 use OCA\Richdocuments\Service\TemplateFieldService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class TemplateFieldController extends OCSController {
