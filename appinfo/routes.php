@@ -75,5 +75,7 @@ return [
 
 		['name' => 'Target#getTargets', 'url' => '/api/v1/targets', 'verb' => 'GET'],
 		['name' => 'Target#getPreview', 'url' => '/api/v1/targets/preview', 'verb' => 'GET'],
-	],
+
+        ['name' => 'TemplateField#extractFields', 'url' => '/api/v1/template/fields/extract', 'verb' => 'GET'],
+    ],
 ];
