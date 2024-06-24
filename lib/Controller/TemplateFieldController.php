@@ -11,7 +11,6 @@ use OCP\Files\Node;
 use OCP\IRequest;
 
 class TemplateFieldController extends OCSController {
-
 	private TemplateFieldService $templateFieldService;
 	private TemplateManager $templateManager;
 
@@ -39,6 +38,7 @@ class TemplateFieldController extends OCSController {
 	 * @param int $fileId
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function extractFields(int $fileId): DataResponse {
 		try {
 			$template = $this->templateManager->get($fileId);
@@ -50,6 +50,7 @@ class TemplateFieldController extends OCSController {
 		}
 	}
 
+	#[NoAdminRequired]
 	public function fillFields(Node $file, array $fieldValues): void {
 	}
 }
