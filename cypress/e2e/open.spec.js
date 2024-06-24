@@ -23,7 +23,7 @@ describe('Open existing office files', function() {
 	const fileTests = ['document.odt', 'presentation.odp', 'spreadsheet.ods', 'drawing.odg']
 	fileTests.forEach((filename) => {
 
-		it.skip('Classic UI: Open ' + filename + ' the viewer on file click', function() {
+		it('Classic UI: Open ' + filename + ' the viewer on file click', function() {
 			cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'compact')
 			cy.login(randUser)
 
