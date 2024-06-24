@@ -7,15 +7,37 @@
 
 namespace OCA\Richdocuments\Service;
 
+use OCA\Richdocuments\AppConfig;
 use OCP\Files\Node;
+use OCP\Http\Client\IClientService;
 
 class TemplateFieldService {
-	public function __construct() {
+	private IClientService $clientService;
+	private AppConfig $appConfig;
+
+	public function __construct(
+		IClientService $clientService,
+		AppConfig $appConfig
+	) {
+		$this->clientService = $clientService;
+		$this->appConfig = $appConfig;
 	}
 
 	public function extractFields(Node $file): ?array {
-		// Hit Collabora API here?
-		return [];
+		// TODO: Won't work until Collabora's endpoint is ready
+		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
+		$httpClient = $this->clientService->newClient();
+		
+		try {
+			$response = $httpClient->get(
+				$collaboraUrl . "/cool/extract-doc-structure",
+				['query' => ['limit' => 'content-control']]
+			);
+
+			return [$response->getBody()];
+		} catch (\Exception $e) {
+			return null;
+		}
 	}
 
 	public function fillFields(Node $file, array $fieldValues) {
