@@ -51,9 +51,9 @@ class TemplateFieldController extends OCSController {
 			$template = $this->templateManager->get($fileId);
 			$fields = $this->templateFieldService->extractFields($template);
 
-			return new DataResponse([$fields], Http::STATUS_OK);
+			return new DataResponse($fields, Http::STATUS_OK);
 		} catch (NotFoundException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse([$e->getMessage()], Http::STATUS_NOT_FOUND);
 		}
 	}
 
