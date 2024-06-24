@@ -463,7 +463,7 @@ export default {
 		if (node) {
 			if (name) {
 				node.rename(name)
-				emit('files:node:renamed', this.source)
+				emit('files:node:rename', this.source)
 			}
 			if (mtime) {
 				node._data.mtime = new Date(mtime)
