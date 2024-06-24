@@ -10,12 +10,19 @@ use OCP\AppFramework\OCSController;
 use OCP\Files\Node;
 use OCP\IRequest;
 
-// TODO: Probably move this into TemplatesController.php at some point
 class TemplateFieldController extends OCSController {
 
 	private TemplateFieldService $templateFieldService;
 	private TemplateManager $templateManager;
 
+	/**
+	 * Template fields controller
+	 *
+	 * @param string $appName,
+	 * @param IRequest $request,
+	 * @param TemplateFieldService $templateFieldService
+	 * @param TemplateManager $templateManager
+	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -35,7 +42,9 @@ class TemplateFieldController extends OCSController {
 	public function extractFields(int $fileId): DataResponse {
 		try {
 			$template = $this->templateManager->get($fileId);
-			return new DataResponse(['something' => $template], Http::STATUS_OK);
+			$fields = $this->templateFieldService->extractFields($template);
+
+			return new DataResponse([$fields], Http::STATUS_OK);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
