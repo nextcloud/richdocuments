@@ -10,7 +10,7 @@ class TemplateFieldService {
 
 	public function extractFields(Node $file): ?array {
 		// Hit Collabora API here?
-		return [$file->getOwner()->getDisplayName()];
+		return [];
 	}
 
 	public function fillFields(Node $file, array $fieldValues) {
