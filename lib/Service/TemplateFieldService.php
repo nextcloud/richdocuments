@@ -40,7 +40,17 @@ class TemplateFieldService {
 		}
 	}
 
-	public function fillFields(Node $file, array $fieldValues) {
-		
+	public function fillFields(Node $file, array $fieldValues): void {
+		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
+		$httpClient = $this->clientService->newClient();
+
+		try {
+			$response = $httpClient->post(
+				$collaboraUrl . "/cool/convert-to"
+			);
+		} catch(\Exception $e) {
+			// handle exception
+			throw $e;
+		}
 	}
 }

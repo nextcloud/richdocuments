@@ -77,5 +77,6 @@ return [
 		['name' => 'Target#getPreview', 'url' => '/api/v1/targets/preview', 'verb' => 'GET'],
 
 		['name' => 'TemplateField#extractFields', 'url' => '/api/v1/template/fields/extract/{fileId}', 'verb' => 'GET'],
+		['name' => 'TemplateField#fillFields', 'url' => '/api/v1/template/fields/fill/{fileId}', 'verb' => 'POST'],
 	],
 ];
