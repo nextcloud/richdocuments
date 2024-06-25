@@ -57,7 +57,16 @@ class TemplateFieldController extends OCSController {
 		}
 	}
 
+	/**
+	 * @param int $fileId
+	 * @param array $fieldValues
+	 * @return DataResponse
+	 */
 	#[NoAdminRequired]
-	public function fillFields(Node $file, array $fieldValues): void {
+	public function fillFields(int $fileId, array $fieldValues = []): DataResponse {
+		$template = $this->templateManager->get($fileId);
+		$this->templateFieldService->fillFields($template, $fieldValues);
+		
+		return new DataResponse(['values' => $fieldValues], Http::STATUS_OK);
 	}
 }
