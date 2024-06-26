@@ -13,7 +13,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
