@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Backgroundjobs;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\DiscoveryService;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -35,6 +36,7 @@ class ObtainCapabilities extends TimedJob {
 		private LoggerInterface $logger,
 		private CapabilitiesService $capabilitiesService,
 		private DiscoveryService $discoveryService,
+		private AppConfig $appConfig,
 	) {
 		parent::__construct($time);
 
@@ -42,6 +44,10 @@ class ObtainCapabilities extends TimedJob {
 	}
 
 	protected function run($argument) {
+		if (!$this->appConfig->getCollaboraUrlInternal()) {
+			return;
+		}
+
 		try {
 			$this->capabilitiesService->fetch();
 		} catch (\Exception $e) {
