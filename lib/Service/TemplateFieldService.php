@@ -10,6 +10,8 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppConfig;
 use OCP\Files\Node;
 use OCP\Http\Client\IClientService;
+use OCP\Files\Template\Field;
+use OCP\Files\Template\FieldType;
 
 class TemplateFieldService {
 	private IClientService $clientService;
