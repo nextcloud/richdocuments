@@ -14,22 +14,23 @@ use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 
 class TemplateFieldService {
-	private IClientService $clientService;
-	private AppConfig $appConfig;
 
 	public function __construct(
-		IClientService $clientService,
-		AppConfig $appConfig
+		private IClientService $clientService,
+		private AppConfig $appConfig,
+		private PdfService $pdfService,
 	) {
-		$this->clientService = $clientService;
-		$this->appConfig = $appConfig;
 	}
 
 	public function extractFields(Node $file): ?array {
+		if ($file->getMimeType() === 'application/pdf') {
+			return $this->pdfService->extractFields($file);
+		}
+
 		// TODO: Won't work until Collabora's endpoint is ready
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
-		
+
 		try {
 			$response = $httpClient->get(
 				$collaboraUrl . "/cool/extract-doc-structure",
@@ -43,6 +44,11 @@ class TemplateFieldService {
 	}
 
 	public function fillFields(Node $file, array $fieldValues): void {
+		if ($file->getMimeType() === 'application/pdf') {
+			$this->pdfService->fillFields($file, $fieldValues);
+			return;
+		}
+
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
 

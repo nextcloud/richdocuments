@@ -6,7 +6,9 @@
     },
     "autoload" : {
         "psr-4": {
-            "OCA\\Richdocuments\\": "../lib/"
+            "OCA\\Richdocuments\\": "../lib/",
+            "mikehaertl\\pdftk\\": "../vendor/mikehaertl/php-pdftk/src/",
+            "mikehaertl\\shellcommand\\": "../vendor/mikehaertl/php-shellcommand/src/"
         }
     }
 }
