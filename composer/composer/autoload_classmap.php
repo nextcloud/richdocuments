@@ -43,6 +43,7 @@ return array(
     'OCA\\Richdocuments\\Listener\\AddContentSecurityPolicyListener' => $baseDir . '/../lib/Listener/AddContentSecurityPolicyListener.php',
     'OCA\\Richdocuments\\Listener\\AddFeaturePolicyListener' => $baseDir . '/../lib/Listener/AddFeaturePolicyListener.php',
     'OCA\\Richdocuments\\Listener\\BeforeFetchPreviewListener' => $baseDir . '/../lib/Listener/BeforeFetchPreviewListener.php',
+    'OCA\\Richdocuments\\Listener\\BeforeGetTemplatesListener' => $baseDir . '/../lib/Listener/BeforeGetTemplatesListener.php',
     'OCA\\Richdocuments\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listener/BeforeTemplateRenderedListener.php',
     'OCA\\Richdocuments\\Listener\\FileCreatedFromTemplateListener' => $baseDir . '/../lib/Listener/FileCreatedFromTemplateListener.php',
     'OCA\\Richdocuments\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',

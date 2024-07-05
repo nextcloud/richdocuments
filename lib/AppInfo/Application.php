@@ -14,6 +14,7 @@ use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
 use OCA\Richdocuments\Listener\AddFeaturePolicyListener;
 use OCA\Richdocuments\Listener\BeforeFetchPreviewListener;
+use OCA\Richdocuments\Listener\BeforeGetTemplatesListener;
 use OCA\Richdocuments\Listener\BeforeTemplateRenderedListener;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\Listener\LoadAdditionalListener;
@@ -38,6 +39,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
+use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
@@ -65,6 +67,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, BeforeFetchPreviewListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, ReferenceListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+		$context->registerEventListener(BeforeGetTemplatesEvent::class, BeforeGetTemplatesListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',
