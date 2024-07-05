@@ -86,6 +86,8 @@ return array(
     'OCA\\Richdocuments\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
     'OCA\\Richdocuments\\TemplateManager' => $baseDir . '/../lib/TemplateManager.php',
     'OCA\\Richdocuments\\Template\\CollaboraTemplateProvider' => $baseDir . '/../lib/Template/CollaboraTemplateProvider.php',
+    'OCA\\Richdocuments\\Template\\Field' => $baseDir . '/../lib/Template/Field.php',
+    'OCA\\Richdocuments\\Template\\FieldType' => $baseDir . '/../lib/Template/FieldType.php',
     'OCA\\Richdocuments\\TokenManager' => $baseDir . '/../lib/TokenManager.php',
     'OCA\\Richdocuments\\UploadException' => $baseDir . '/../lib/UploadException.php',
     'OCA\\Richdocuments\\WOPI\\Parser' => $baseDir . '/../lib/WOPI/Parser.php',

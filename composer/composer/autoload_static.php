@@ -101,6 +101,8 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
         'OCA\\Richdocuments\\TemplateManager' => __DIR__ . '/..' . '/../lib/TemplateManager.php',
         'OCA\\Richdocuments\\Template\\CollaboraTemplateProvider' => __DIR__ . '/..' . '/../lib/Template/CollaboraTemplateProvider.php',
+        'OCA\\Richdocuments\\Template\\Field' => __DIR__ . '/..' . '/../lib/Template/Field.php',
+        'OCA\\Richdocuments\\Template\\FieldType' => __DIR__ . '/..' . '/../lib/Template/FieldType.php',
         'OCA\\Richdocuments\\TokenManager' => __DIR__ . '/..' . '/../lib/TokenManager.php',
         'OCA\\Richdocuments\\UploadException' => __DIR__ . '/..' . '/../lib/UploadException.php',
         'OCA\\Richdocuments\\WOPI\\Parser' => __DIR__ . '/..' . '/../lib/WOPI/Parser.php',
