@@ -64,7 +64,8 @@
 			allow="clipboard-read *; clipboard-write *"
 			class="office-viewer__iframe"
 			:style="{visibility: showIframe ? 'visible' : 'hidden' }"
-			:src="iframeSrc" />
+			:src="iframeSrc"
+			:title="iframeTitle" />
 
 		<NcButton v-if="isEmbedded && !hasWidgetEditingEnabled" class="toggle-interactive" @click="toggleEdit">
 			{{ t('richdocuments', 'Edit') }}
@@ -193,6 +194,9 @@ export default {
 	computed: {
 		showIframe() {
 			return this.loading >= LOADING_STATE.FRAME_READY || this.debug
+		},
+		iframeTitle() {
+			return loadState('richdocuments', 'productName', 'Nextcloud Office')
 		},
 		showLoadingIndicator() {
 			return this.loading < LOADING_STATE.FRAME_READY
