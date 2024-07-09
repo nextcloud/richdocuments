@@ -8,23 +8,30 @@
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\TemplateManager;
 use OCP\Files\Node;
 use OCP\Http\Client\IClientService;
 
 class TemplateFieldService {
 	private IClientService $clientService;
 	private AppConfig $appConfig;
+	private TemplateManager $templateManager;
 
 	public function __construct(
 		IClientService $clientService,
-		AppConfig $appConfig
+		AppConfig $appConfig,
+		TemplateManager $templateManager
 	) {
 		$this->clientService = $clientService;
 		$this->appConfig = $appConfig;
+		$this->templateManager = $templateManager;
 	}
 
-	public function extractFields(Node $file): ?array {
-		// TODO: Won't work until Collabora's endpoint is ready
+	public function extractFields(Node|int $file): ?array {
+		if (is_int($file)) {
+			$file = $this->templateManager->get($file);
+		}
+
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
 		
@@ -36,11 +43,16 @@ class TemplateFieldService {
 
 			return [$response->getBody()];
 		} catch (\Exception $e) {
+			// handle exception
 			return null;
 		}
 	}
 
-	public function fillFields(Node $file, array $fieldValues): void {
+	public function fillFields(Node|int $file, array $fieldValues): void {
+		if (is_int($file)) {
+			$file = $this->templateManager->get($file);
+		}
+
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
 
