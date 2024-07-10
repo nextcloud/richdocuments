@@ -8,7 +8,9 @@
 namespace OCA\Richdocuments\Template;
 
 class Field {
-	public FieldType $type;
+	private FieldType $type;
+	private int $index;
+	private string $content;
 
 	public function __construct(FieldType $type) {
 		$this->type = $type;
