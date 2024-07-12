@@ -11,6 +11,7 @@ use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\TemplateManager;
 use OCP\Files\Node;
 use OCP\Http\Client\IClientService;
+use OCP\Files\Template\Field;
 
 class TemplateFieldService {
 	private IClientService $clientService;
@@ -41,7 +42,25 @@ class TemplateFieldService {
 				['query' => ['limit' => 'content-control']]
 			);
 
-			return [$response->getBody()];
+			$fields = [];
+
+			foreach ($response->getBody()["DocStructure"] as $index => $attr) {
+				// Trim the index string to get the number
+				// e.g. ContentControls.ByIndex.0 would yield 0
+				$index = end(explode(".", $index));
+
+				$fields[] = [
+					new Field(
+						$index,
+						$attr["content"],
+						$attr["type"],
+						$attr["id"],
+						$attr["tag"]
+					)
+				];
+			}
+
+			return $fields;
 		} catch (\Exception $e) {
 			// handle exception
 			return null;
