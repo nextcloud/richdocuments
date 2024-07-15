@@ -66,8 +66,7 @@ class OfficeTargetReferenceProvider extends ADiscoverableReferenceProvider {
 
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$files = $userFolder->getById($fileId);
-			$file = array_shift($files);
+			$file = $userFolder->getFirstNodeById($fileId);
 		} catch (Exception $e) {
 			$this->logger->info('Failed to get file for office target reference: ' . $fileId, ['exception' => $e]);
 			return null;

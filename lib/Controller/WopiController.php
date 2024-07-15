@@ -409,11 +409,10 @@ class WopiController extends Controller {
 			if ($isPutRelative) {
 				// the new file needs to be installed in the current user dir
 				$userFolder = $this->rootFolder->getUserFolder($wopi->getEditorUid());
-				$file = $userFolder->getById($fileId);
-				if (count($file) === 0) {
+				$file = $userFolder->getFirstNodeById($fileId);
+				if ($file === null) {
 					return new JSONResponse([], Http::STATUS_NOT_FOUND);
 				}
-				$file = $file[0];
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
 
@@ -782,8 +781,7 @@ class WopiController extends Controller {
 				return $node;
 			}
 
-			$nodes = $node->getById($wopi->getFileid());
-			return array_shift($nodes);
+			return $node->getFirstNodeById($wopi->getFileid());
 		}
 
 		// Group folders requires an active user to be set in order to apply the proper acl permissions as for anonymous requests it requires share permissions for read access

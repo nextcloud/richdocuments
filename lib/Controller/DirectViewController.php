@@ -79,7 +79,7 @@ class DirectViewController extends Controller {
 		$folder = $this->rootFolder->getUserFolder($direct->getUid());
 
 		try {
-			$item = $folder->getById($direct->getFileid())[0];
+			$item = $folder->getFirstNodeById($direct->getFileid());
 			if (!($item instanceof Node)) {
 				throw new \Exception();
 			}
@@ -126,8 +126,7 @@ class DirectViewController extends Controller {
 
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
-				$nodes = $node->getById($direct->getFileid());
-				$node = array_shift($nodes);
+				$node = $node->getFirstNodeById($direct->getFileid());
 				if ($node === null) {
 					throw new NotFoundException();
 				}

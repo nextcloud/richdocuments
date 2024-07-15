@@ -408,8 +408,7 @@ class DocumentController extends Controller {
 		if ($path !== null) {
 			$node = $folder->get($path);
 		} else {
-			$nodes = $folder->getById($fileId);
-			$node = array_shift($nodes);
+			$node = $folder->getFirstNodeById($fileId);
 		}
 
 		if ($node instanceof File) {
@@ -449,8 +448,7 @@ class DocumentController extends Controller {
 		if ($path !== null) {
 			$node = $node->get($path);
 		} else {
-			$nodes = $node->getById($fileId);
-			$node = array_shift($nodes);
+			$node = $node->getFirstNodeById($fileId);
 		}
 
 		if ($node instanceof File) {

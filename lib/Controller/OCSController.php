@@ -94,13 +94,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function createDirect($fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$nodes = $userFolder->getById($fileId);
+			$node = $userFolder->getFirstNodeById($fileId);
 
-			if ($nodes === []) {
+			if ($node === null) {
 				throw new OCSNotFoundException();
 			}
 
-			$node = $nodes[0];
 			if ($node instanceof Folder) {
 				throw new OCSBadRequestException('Cannot view folder');
 			}
