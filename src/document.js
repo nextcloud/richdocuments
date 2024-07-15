@@ -22,6 +22,7 @@ import '../css/document.scss'
 import axios from '@nextcloud/axios'
 import { spawnDialog } from '@nextcloud/dialogs'
 import SaveAs from './components/Modal/SaveAs.vue'
+import { getCapabilities } from './services/capabilities.ts'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,
@@ -169,6 +170,8 @@ const documentsMain = {
 				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
 				// buy product for new customer users
 				+ '<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden"/>'
+				+ '<input name="host_session_id" value="nextcloud ' + OC.config.version
+					+ ' - richdocuments ' + getCapabilities().version + '" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
@@ -229,6 +232,8 @@ const documentsMain = {
 				+ '<input name="theme" value="' + getCollaboraTheme() + '" type="hidden"/>'
 				// buy product for new customer users
 				+ '<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden"/>'
+				+ '<input name="host_session_id" value="nextcloud ' + OC.config.version
+					+ ' - richdocuments ' + getCapabilities().version + '" type="hidden"/>'
 				+ '</form>'
 
 			// iframe that contains the Collabora Online

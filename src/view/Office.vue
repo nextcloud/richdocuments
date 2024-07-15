@@ -54,6 +54,7 @@
 			<input name="css_variables" :value="formData.cssVariables" type="hidden">
 			<input name="theme" :value="formData.theme" type="hidden">
 			<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden">
+			<input name="host_session_id" value="formData.hostSessionID" type="hidden">
 		</form>
 		<iframe :id="iframeId"
 			ref="documentFrame"
@@ -188,6 +189,7 @@ export default {
 				uiDefaults: getUIDefaults(),
 				cssVariables: generateCSSVarTokens(),
 				theme: getCollaboraTheme(),
+				hostSessionID: 'nextcloud ' + OC.config.version + ' - richdocuments ' + getCapabilities().version
 			},
 		}
 	},
