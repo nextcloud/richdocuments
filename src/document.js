@@ -11,6 +11,7 @@ import Config from './services/config.tsx'
 import { getUIDefaults, generateCSSVarTokens, getCollaboraTheme } from './helpers/coolParameters.js'
 import { enableScrollLock } from './helpers/safariFixer.js'
 import PostMessageService from './services/postMessage.tsx'
+import { getCapabilities } from './services/capabilities.ts'
 import {
 	callMobileMessage,
 	isDirectEditing,
@@ -171,7 +172,7 @@ const documentsMain = {
 				+ '</form>'
 
 			// iframe that contains the Collabora Online Viewer
-			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe_viewer" allowfullscreen allow="clipboard-read *; clipboard-write *" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;"/>'
+			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe_viewer" allowfullscreen allow="clipboard-read *; clipboard-write *" nonce="' + btoa(getRequestToken()) + '" style="width:100%;height:100%;position:absolute;" title="' + getCapabilities().productName + '"/>'
 
 			$('#revViewer').append(form)
 			$('#revViewer').append(frame)
@@ -231,7 +232,7 @@ const documentsMain = {
 				+ '</form>'
 
 			// iframe that contains the Collabora Online
-			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen allow="clipboard-read *; clipboard-write *" style="width:100%;height:100%;position:absolute;" />'
+			const frame = '<iframe data-cy="coolframe" id="loleafletframe" name="loleafletframe" nonce="' + btoa(getRequestToken()) + '" scrolling="no" allowfullscreen allow="clipboard-read *; clipboard-write *" style="width:100%;height:100%;position:absolute;" title="' + getCapabilities().productName + '"/>'
 
 			$('#mainContainer').append(form)
 			$('#mainContainer').append(frame)
