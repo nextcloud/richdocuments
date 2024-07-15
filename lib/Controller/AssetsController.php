@@ -93,13 +93,12 @@ class AssetsController extends Controller {
 
 		$this->userScopeService->setUserScope($asset->getUid());
 		$userFolder = $this->rootFolder->getUserFolder($asset->getUid());
-		$nodes = $userFolder->getById($asset->getFileid());
+		$node = $userFolder->getFirstNodeById($asset->getFileid());
 
-		if ($nodes === []) {
+		if ($node === null) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$node = array_pop($nodes);
 		if (!($node instanceof File)) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}

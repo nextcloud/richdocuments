@@ -154,7 +154,13 @@ class TokenManager {
 			}
 		}
 		/** @var File $file */
-		$file = $rootFolder->getById($fileId)[0];
+		$file = $rootFolder->getFirstNodeById($fileId);
+
+		// Check node readability (for storage wrapper overwrites like terms of services)
+		if ($file === null || !$file->isReadable()) {
+			throw new NotPermittedException();
+		}
+
 		// If its a public share, use the owner from the share, otherwise check the file object
 		if (is_null($owneruid)) {
 			$owner = $file->getOwner();
@@ -164,11 +170,6 @@ class TokenManager {
 			} else {
 				$owneruid = $owner->getUID();
 			}
-		}
-
-		// Check node readability (for storage wrapper overwrites like terms of services)
-		if (!$file->isReadable()) {
-			throw new NotPermittedException();
 		}
 
 		// Safeguard that users without required group permissions cannot create a token
@@ -226,8 +227,7 @@ class TokenManager {
 		$owneruid = $userId;
 		$editoruid = $userId;
 		$rootFolder = $this->rootFolder->getUserFolder($editoruid);
-		$targetFile = $rootFolder->getById($targetFileId);
-		$targetFile = array_shift($targetFile);
+		$targetFile = $rootFolder->getFirstNodeById($targetFileId);
 		if (!$targetFile instanceof File) {
 			throw new NotFoundException();
 		}

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
- - SPDX-License-Identifier: AGPL-3.0-or-later
--->
-<files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
+<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidArgument>
     <RedundantCondition>
       <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
@@ -14,22 +10,22 @@
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass>
-      <code>Command</code>
+      <code><![CDATA[Command]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Command/ConvertToBigInt.php">
     <UndefinedClass>
-      <code>Command</code>
+      <code><![CDATA[Command]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Command/InstallDefaultFonts.php">
     <UndefinedClass>
-      <code>Command</code>
+      <code><![CDATA[Command]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Command/UpdateEmptyTemplates.php">
     <UndefinedClass>
-      <code>Command</code>
+      <code><![CDATA[Command]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Controller/DirectViewController.php">
@@ -39,7 +35,7 @@
   </file>
   <file src="lib/Controller/DocumentAPIController.php">
     <UndefinedClass>
-      <code>\OCA\Files\Helper</code>
+      <code><![CDATA[\OCA\Files\Helper]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Controller/DocumentController.php">
@@ -47,13 +43,13 @@
       <code><![CDATA[$node->getId()]]></code>
     </InvalidScalarArgument>
     <RedundantCondition>
-      <code>$app !== ''</code>
+      <code><![CDATA[$app !== '']]></code>
     </RedundantCondition>
   </file>
   <file src="lib/Controller/SettingsController.php">
     <UndefinedClass>
-      <code>NullOutput</code>
-      <code>NullOutput</code>
+      <code><![CDATA[NullOutput]]></code>
+      <code><![CDATA[NullOutput]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Controller/TemplatesController.php">
@@ -61,27 +57,27 @@
       <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>DataResponse</code>
+      <code><![CDATA[DataResponse]]></code>
     </InvalidReturnType>
     <InvalidThrow>
-      <code>NotFoundResponse</code>
+      <code><![CDATA[NotFoundResponse]]></code>
     </InvalidThrow>
   </file>
   <file src="lib/Controller/WopiController.php">
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
     <TypeDoesNotContainType>
-      <code>$path === ''</code>
+      <code><![CDATA[$path === '']]></code>
     </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
-      <code>putContent</code>
-      <code>putContent</code>
+      <code><![CDATA[putContent]]></code>
+      <code><![CDATA[putContent]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Helper.php">
     <InvalidScalarArgument>
-      <code>$time</code>
+      <code><![CDATA[$time]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/PermissionManager.php">
@@ -91,7 +87,7 @@
   </file>
   <file src="lib/Preview/Office.php">
     <MissingDependency>
-      <code>Image</code>
+      <code><![CDATA[Image]]></code>
     </MissingDependency>
     <UndefinedThisPropertyAssignment>
       <code><![CDATA[$this->capabilitites]]></code>
@@ -99,20 +95,20 @@
   </file>
   <file src="lib/Service/ConnectivityService.php">
     <UndefinedClass>
-      <code>OutputInterface</code>
-      <code>OutputInterface</code>
+      <code><![CDATA[OutputInterface]]></code>
+      <code><![CDATA[OutputInterface]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>
-      <code>is_array($trustedList)</code>
+      <code><![CDATA[is_array($trustedList)]]></code>
     </TypeDoesNotContainType>
     <UndefinedClass>
-      <code>SharingExternalStorage</code>
+      <code><![CDATA[SharingExternalStorage]]></code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
-      <code>getRemote</code>
-      <code>getToken</code>
+      <code><![CDATA[getRemote]]></code>
+      <code><![CDATA[getToken]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Template/CollaboraTemplateProvider.php">
@@ -124,15 +120,7 @@
 		}, $collaboraTemplates)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>array</code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/TemplateManager.php">
-    <InvalidReturnStatement>
-      <code>$template</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>?File</code>
+      <code><![CDATA[array]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/WOPI/Parser.php">

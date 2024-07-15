@@ -162,9 +162,9 @@ class TemplateManager {
 
 		$templateDir = $this->getUserTemplateDir();
 		// finally get the template file
-		$files = $templateDir->getById($fileId);
-		if ($files !== []) {
-			return $files[0];
+		$file = $templateDir->getFirstNodeById($fileId);
+		if ($file !== null) {
+			return $file;
 		}
 
 		throw new NotFoundException();
@@ -575,7 +575,7 @@ class TemplateManager {
 			} catch (NotFoundException $e) {
 				$userFolder = $this->rootFolder->getUserFolder($this->userId);
 				try {
-					$template = $userFolder->getById($templateId);
+					$template = $userFolder->getFirstNodeById($templateId);
 				} catch (NotFoundException $e) {
 					$this->logger->warning('Could not retrieve template source file', ['exception' => $e]);
 					return null;

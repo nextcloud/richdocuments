@@ -142,8 +142,11 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	#[Http\Attribute\NoAdminRequired]
 	public function openLocal(int $fileId): DataResponse {
 		try {
-			$files = $this->rootFolder->getUserFolder($this->userId)->getById($fileId);
-			$file = array_shift($files);
+			$file = $this->rootFolder->getUserFolder($this->userId)->getFirstNodeById($fileId);
+			if ($file === null) {
+				return new DataResponse([], Http::STATUS_NOT_FOUND);
+			}
+
 			$this->lockManager->unlock(new LockContext(
 				$file,
 				ILock::TYPE_APP,
