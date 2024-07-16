@@ -8,7 +8,7 @@
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
-use OCA\Richdocuments\TemplateManager;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Template\Field;
 use OCP\Http\Client\IClientService;
@@ -16,21 +16,21 @@ use OCP\Http\Client\IClientService;
 class TemplateFieldService {
 	private IClientService $clientService;
 	private AppConfig $appConfig;
-	private TemplateManager $templateManager;
+	private IRootFolder $rootFolder;
 
 	public function __construct(
 		IClientService $clientService,
 		AppConfig $appConfig,
-		TemplateManager $templateManager
+		IRootFolder $rootFolder
 	) {
 		$this->clientService = $clientService;
 		$this->appConfig = $appConfig;
-		$this->templateManager = $templateManager;
+		$this->rootFolder = $rootFolder;
 	}
 
 	public function extractFields(Node|int $file): ?array {
 		if (is_int($file)) {
-			$file = $this->templateManager->get($file);
+			$file = $this->rootFolder->getFirstNodeById($file);
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -76,7 +76,7 @@ class TemplateFieldService {
 
 	public function fillFields(Node|int $file, array $fieldValues): void {
 		if (is_int($file)) {
-			$file = $this->templateManager->get($file);
+			$file = $this->rootFolder->getFirstNodeById($file);
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
