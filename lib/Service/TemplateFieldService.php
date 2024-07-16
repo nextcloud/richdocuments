@@ -10,8 +10,8 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\TemplateManager;
 use OCP\Files\Node;
-use OCP\Http\Client\IClientService;
 use OCP\Files\Template\Field;
+use OCP\Http\Client\IClientService;
 
 class TemplateFieldService {
 	private IClientService $clientService;
@@ -35,20 +35,26 @@ class TemplateFieldService {
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
+
+		$formData = [
+			'name' => 'data',
+			'contents' => $file->fopen('r'),
+			'headers' => ['Content-Type' => 'multipart/form-data'],
+		];
 		
 		try {
-			$response = $httpClient->get(
-				$collaboraUrl . "/cool/extract-doc-structure",
-				['query' => ['limit' => 'content-control']]
+			$response = $httpClient->post(
+				$collaboraUrl . "/cool/extract-document-structure",
+				[
+					'query' => ['limit' => 'content-control'],
+					'multipart' => [$formData],
+				]
 			);
 
+			$documentStructure = json_decode($response->getBody(), true)['DocStructure'];
 			$fields = [];
 
-			foreach ($response->getBody()["DocStructure"] as $index => $attr) {
-				// Trim the index string to get the number
-				// e.g. ContentControls.ByIndex.0 would yield 0
-				$index = end(explode(".", $index));
-
+			foreach ($documentStructure as $index => $attr) {
 				$fields[] = [
 					new Field(
 						$index,
@@ -60,9 +66,10 @@ class TemplateFieldService {
 				];
 			}
 
-			return $fields;
+			return array_merge([], ...$fields);
 		} catch (\Exception $e) {
 			// handle exception
+			var_dump($e->getMessage());
 			return null;
 		}
 	}
