@@ -60,6 +60,7 @@ class TemplateFieldService {
 						$index,
 						$attr["content"],
 						$attr["type"],
+						$attr["alias"],
 						$attr["id"],
 						$attr["tag"]
 					)
