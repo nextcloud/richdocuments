@@ -22,7 +22,6 @@ import '../css/document.scss'
 import axios from '@nextcloud/axios'
 import { spawnDialog } from '@nextcloud/dialogs'
 import SaveAs from './components/Modal/SaveAs.vue'
-import { getCapabilities } from './services/capabilities.ts'
 
 const PostMessages = new PostMessageService({
 	parent: window.parent,

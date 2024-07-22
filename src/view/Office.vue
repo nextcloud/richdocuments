@@ -189,7 +189,7 @@ export default {
 				uiDefaults: getUIDefaults(),
 				cssVariables: generateCSSVarTokens(),
 				theme: getCollaboraTheme(),
-				hostSessionID: 'nextcloud ' + OC.config.version + ' - richdocuments ' + getCapabilities().version
+				hostSessionID: 'nextcloud ' + OC.config.version + ' - richdocuments ' + getCapabilities().version,
 			},
 		}
 	},
