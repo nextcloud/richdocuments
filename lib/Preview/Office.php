@@ -23,6 +23,8 @@ namespace OCA\Richdocuments\Preview;
 
 use OC\Preview\Provider;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Service\RemoteOptionsService;
+use OCP\Files\FileInfo;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -53,7 +55,7 @@ abstract class Office extends Provider {
 		return $this->config->getAppValue('richdocuments', 'wopi_url');
 	}
 
-	public function isAvailable(\OCP\Files\FileInfo $file) {
+	public function isAvailable(FileInfo $file) {
 		if (isset($this->capabilitites['collabora']['convert-to']['available'])) {
 			return (bool)$this->capabilitites['collabora']['convert-to']['available'];
 		}
@@ -78,11 +80,9 @@ abstract class Office extends Provider {
 		}
 
 		$client = $this->clientService->newClient();
-		$options = [
-			'timeout' => 25,
-			// FIXME: Can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
-			'expect' => false,
-		];
+		$options = RemoteOptionsService::getDefaultOptions();
+		// FIXME: can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
+		$options['expect'] = false;
 
 		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
