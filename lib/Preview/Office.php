@@ -7,7 +7,9 @@ namespace OCA\Richdocuments\Preview;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Service\RemoteOptionsService;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Http\Client\IClientService;
 use OCP\IImage;
 use OCP\Image;
@@ -15,15 +17,20 @@ use OCP\Preview\IProviderV2;
 use Psr\Log\LoggerInterface;
 
 abstract class Office implements IProviderV2 {
-	private array $capabilities = [];
-	
-	public function __construct(private IClientService $clientService, private AppConfig $config, Capabilities $capabilities, private LoggerInterface $logger) {
-		$this->capabilitites = $capabilities->getCapabilities()['richdocuments'] ?? [];
+	private array $capabilities;
+
+	public function __construct(
+		private IClientService $clientService,
+		private AppConfig $config,
+		Capabilities $capabilities,
+		private LoggerInterface $logger,
+	) {
+		$this->capabilities = $capabilities->getCapabilities()['richdocuments'] ?? [];
 	}
 
-	public function isAvailable(\OCP\Files\FileInfo $file): bool {
-		if (isset($this->capabilitites['collabora']['convert-to']['available'])) {
-			return (bool)$this->capabilitites['collabora']['convert-to']['available'];
+	public function isAvailable(FileInfo $file): bool {
+		if (isset($this->capabilities['collabora']['convert-to']['available'])) {
+			return (bool)$this->capabilities['collabora']['convert-to']['available'];
 		}
 		return false;
 	}
@@ -45,11 +52,9 @@ abstract class Office implements IProviderV2 {
 		}
 
 		$client = $this->clientService->newClient();
-		$options = [
-			'timeout' => 25,
-			// FIXME: Can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
-			'expect' => false,
-		];
+		$options = RemoteOptionsService::getDefaultOptions();
+		// FIXME: can be removed once https://github.com/CollaboraOnline/online/issues/6983 is fixed upstream
+		$options['expect'] = false;
 
 		if ($this->config->getAppValue('richdocuments', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
