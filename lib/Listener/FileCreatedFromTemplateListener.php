@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use OCA\Richdocuments\Service\TemplateFieldService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -18,11 +19,15 @@ use OCP\Files\Template\FileCreatedFromTemplateEvent;
 class FileCreatedFromTemplateListener implements IEventListener {
 	/** @var TemplateManager */
 	private $templateManager;
+	/** @var TemplateFieldService */
+	private $templateFieldService;
 
 	public function __construct(
-		TemplateManager $templateManager
+		TemplateManager $templateManager,
+		TemplateFieldService $templateFieldService
 	) {
 		$this->templateManager = $templateManager;
+		$this->templateFieldService = $templateFieldService;
 	}
 
 	public function handle(Event $event): void {
@@ -49,6 +54,9 @@ class FileCreatedFromTemplateListener implements IEventListener {
 			// Only use TemplateSource if supported filetype
 			$this->templateManager->setTemplateSource($event->getTarget()->getId(), $templateFile->getId());
 		}
+
+		$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields());
+		$event->getTarget()->putContent($filledTemplate);
 
 		// Avoid having the mimetype of the source file set
 		$event->getTarget()->getStorage()->getCache()->update($event->getTarget()->getId(), [

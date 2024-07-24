@@ -28,7 +28,11 @@ class TemplateFieldService {
 		$this->rootFolder = $rootFolder;
 	}
 
-	public function extractFields(Node|int $file): ?array {
+	/**
+	 * @param Node|int $file
+	 * @return array|string
+	 */
+	public function extractFields(Node|int $file) {
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
@@ -38,7 +42,7 @@ class TemplateFieldService {
 
 		$formData = [
 			'name' => 'data',
-			'contents' => $file->fopen('r'),
+			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
 			'headers' => ['Content-Type' => 'multipart/form-data'],
 		];
 		
@@ -70,12 +74,16 @@ class TemplateFieldService {
 			return array_merge([], ...$fields);
 		} catch (\Exception $e) {
 			// handle exception
-			var_dump($e->getMessage());
-			return null;
+			return $e->getMessage();
 		}
 	}
 
-	public function fillFields(Node|int $file, array $fieldValues): void {
+	/**
+	 * @param Node|int $file
+	 * @param array $fields
+	 * @return string|resource
+	 */
+	public function fillFields(Node|int $file, array $fields = []) {
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
@@ -83,13 +91,33 @@ class TemplateFieldService {
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
 
+		$formData = [
+			'name' => 'data',
+			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
+			'headers' => ['Content-Type' => 'multipart/form-data'],
+		];
+
+		$formContents = [
+			'name' => 'transform',
+			'contents' => '{"Transforms": ' . json_encode($fields) . '}',
+		];
+
+		$formFormat = [
+			'name' => 'format',
+			'contents' => $file->getExtension(),
+		];
+
 		try {
 			$response = $httpClient->post(
-				$collaboraUrl . "/cool/convert-to"
+				$collaboraUrl . '/cool/transform-document-structure',
+				[
+					'multipart' => [$formData, $formFormat, $formContents]
+				]
 			);
-		} catch(\Exception $e) {
-			// handle exception
-			throw $e;
+
+			return $response->getBody();
+		} catch (\Exception $e) {
+			return $e->getMessage();
 		}
 	}
 }

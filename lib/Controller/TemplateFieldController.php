@@ -47,8 +47,7 @@ class TemplateFieldController extends OCSController {
 	#[NoAdminRequired]
 	public function extractFields(int $fileId): DataResponse {
 		try {
-			$template = $this->templateManager->get($fileId);
-			$fields = $this->templateFieldService->extractFields($template);
+			$fields = $this->templateFieldService->extractFields($fileId);
 
 			return new DataResponse($fields, Http::STATUS_OK);
 		} catch (NotFoundException $e) {
@@ -58,14 +57,13 @@ class TemplateFieldController extends OCSController {
 
 	/**
 	 * @param int $fileId
-	 * @param array $fieldValues
+	 * @param array $fields
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	public function fillFields(int $fileId, array $fieldValues = []): DataResponse {
-		$template = $this->templateManager->get($fileId);
-		$this->templateFieldService->fillFields($template, $fieldValues);
+	public function fillFields(int $fileId, array $fields): DataResponse {
+		$this->templateFieldService->fillFields($fileId, $fields);
 		
-		return new DataResponse(['values' => $fieldValues], Http::STATUS_OK);
+		return new DataResponse([], Http::STATUS_OK);
 	}
 }
