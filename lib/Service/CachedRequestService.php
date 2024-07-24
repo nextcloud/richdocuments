@@ -19,7 +19,6 @@ use OCP\ICacheFactory;
 use Psr\Log\LoggerInterface;
 
 abstract class CachedRequestService {
-
 	public function __construct(
 		private IClientService $clientService,
 		private ICacheFactory $cacheFactory,
@@ -91,12 +90,7 @@ abstract class CachedRequestService {
 	}
 
 	protected function getDefaultRequestOptions(): array {
-		$options = [
-			'timeout' => 5,
-			'nextcloud' => [
-				'allow_local_address' => true
-			]
-		];
+		$options = RemoteOptionsService::getDefaultOptions();
 
 		if ($this->appConfig->getValueString('richdocuments', 'disable_certificate_verification') === 'yes') {
 			$options['verify'] = false;
