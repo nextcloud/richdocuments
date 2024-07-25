@@ -90,6 +90,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Service\\FileTargetService' => __DIR__ . '/..' . '/../lib/Service/FileTargetService.php',
         'OCA\\Richdocuments\\Service\\FontService' => __DIR__ . '/..' . '/../lib/Service/FontService.php',
         'OCA\\Richdocuments\\Service\\InitialStateService' => __DIR__ . '/..' . '/../lib/Service/InitialStateService.php',
+        'OCA\\Richdocuments\\Service\\RemoteOptionsService' => __DIR__ . '/..' . '/../lib/Service/RemoteOptionsService.php',
         'OCA\\Richdocuments\\Service\\RemoteService' => __DIR__ . '/..' . '/../lib/Service/RemoteService.php',
         'OCA\\Richdocuments\\Service\\UserScopeService' => __DIR__ . '/..' . '/../lib/Service/UserScopeService.php',
         'OCA\\Richdocuments\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',

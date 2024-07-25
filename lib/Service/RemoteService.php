@@ -13,9 +13,6 @@ use OCP\Http\Client\IClientService;
 use Psr\Log\LoggerInterface;
 
 class RemoteService {
-
-	public const REMOTE_TIMEOUT_DEFAULT = 25;
-
 	public function __construct(
 		private AppConfig $appConfig,
 		private IClientService $clientService,
@@ -69,12 +66,10 @@ class RemoteService {
 			$stream = $file->fopen('rb');
 		}
 
-		$options = [
-			'timeout' => self::REMOTE_TIMEOUT_DEFAULT,
-			'multipart' => [
-				['name' => $file->getName(), 'contents' => $stream],
-				['name' => 'target', 'contents' => $target]
-			]
+		$options = RemoteOptionsService::getDefaultOptions(25);
+		$options['multipart'] = [
+			['name' => $file->getName(), 'contents' => $stream],
+			['name' => 'target', 'contents' => $target]
 		];
 
 		if ($this->appConfig->getDisableCertificateValidation()) {
