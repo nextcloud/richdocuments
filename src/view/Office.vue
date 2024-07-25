@@ -175,6 +175,14 @@ export default {
 			type: String,
 			default: null,
 		},
+		mime: {
+			type: String,
+			default: null,
+		},
+		permissions: {
+			type: String,
+			default: '',
+		},
 		isEmbedded: {
 			type: Boolean,
 			default: false,
@@ -284,7 +292,7 @@ export default {
 		}
 		this.postMessage.registerPostMessageHandler(this.postMessageHandler)
 
-		if (shouldAskForGuestName()) {
+		if (shouldAskForGuestName(this.mime, this.permissions?.includes('W'))) {
 			const { default: GuestNamePicker } = await import(
 				/* webpackChunkName: 'GuestNamePicker' */
 				'../components/GuestNamePicker.vue')
