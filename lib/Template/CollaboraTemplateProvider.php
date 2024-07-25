@@ -18,17 +18,11 @@ use OCP\Files\Template\Template;
 use OCP\IURLGenerator;
 
 class CollaboraTemplateProvider implements ICustomTemplateProvider {
-	/** @var TemplateManager */
-	private $templateManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ITemplateManager */
-	private $coreTemplateManager;
-
-	public function __construct(TemplateManager $templateManager, IURLGenerator $urlGenerator, ITemplateManager $coreTemplateManager) {
-		$this->templateManager = $templateManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->coreTemplateManager = $coreTemplateManager;
+	public function __construct(
+		private TemplateManager $templateManager,
+		private IURLGenerator $urlGenerator,
+		private ITemplateManager $coreTemplateManager
+	) {
 	}
 
 	public function getTemplateType(): string {
