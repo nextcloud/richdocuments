@@ -11,6 +11,7 @@ use OCA\Richdocuments\AppConfig;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Template\Field;
+use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
 
 class TemplateFieldService {
@@ -45,7 +46,7 @@ class TemplateFieldService {
 			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
 			'headers' => ['Content-Type' => 'multipart/form-data'],
 		];
-		
+
 		try {
 			$response = $httpClient->post(
 				$collaboraUrl . "/cool/extract-document-structure",
@@ -59,11 +60,16 @@ class TemplateFieldService {
 			$fields = [];
 
 			foreach ($documentStructure as $index => $attr) {
+				$fieldType = FieldType::tryFrom($attr['type']) ?? null;
+				if ($fieldType === null) {
+					continue;
+				}
+
 				$fields[] = [
 					new Field(
 						$index,
 						$attr["content"],
-						$attr["type"],
+						$fieldType,
 						$attr["alias"],
 						$attr["id"],
 						$attr["tag"]
