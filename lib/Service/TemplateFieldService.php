@@ -15,18 +15,11 @@ use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
 
 class TemplateFieldService {
-	private IClientService $clientService;
-	private AppConfig $appConfig;
-	private IRootFolder $rootFolder;
-
 	public function __construct(
-		IClientService $clientService,
-		AppConfig $appConfig,
-		IRootFolder $rootFolder
+		private IClientService $clientService,
+		private AppConfig $appConfig,
+		private IRootFolder $rootFolder
 	) {
-		$this->clientService = $clientService;
-		$this->appConfig = $appConfig;
-		$this->rootFolder = $rootFolder;
 	}
 
 	/**

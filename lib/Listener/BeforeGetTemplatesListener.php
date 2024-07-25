@@ -14,10 +14,9 @@ use OCP\Files\Template\BeforeGetTemplatesEvent;
 
 /** @template-implements IEventListener<BeforeGetTemplatesEvent|Event> */
 class BeforeGetTemplatesListener implements IEventListener {
-	private TemplateFieldService $templateFieldService;
-
-	public function __construct(TemplateFieldService $templateFieldService) {
-		$this->templateFieldService = $templateFieldService;
+	public function __construct(
+		private TemplateFieldService $templateFieldService
+	) {
 	}
 
 	public function handle(Event $event): void {
