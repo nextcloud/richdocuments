@@ -33,7 +33,12 @@ class UserScopeService {
 		if ($user === null) {
 			throw new InvalidArgumentException('No user found for the uid ' . $uid);
 		}
-		$this->userSession->setUser($user);
+
+		if (method_exists($this->userSession, 'setVolatileActiveUser')) {
+			$this->userSession->setVolatileActiveUser($user);
+		} else {
+			$this->userSession->setUser($user);
+		}
 	}
 
 	/**
