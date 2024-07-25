@@ -50,7 +50,7 @@ class TemplateFieldController extends OCSController {
 
 			return new DataResponse($fields, Http::STATUS_OK);
 		} catch (\Exception $e) {
-			return new DataResponse([$e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(["Unable to extract fields from given file"], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -66,7 +66,7 @@ class TemplateFieldController extends OCSController {
 		
 			return new DataResponse([], Http::STATUS_OK);
 		} catch (\Exception $e) {
-			return new DataResponse([$e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse(["Unable to fill fields into the given file"], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }
