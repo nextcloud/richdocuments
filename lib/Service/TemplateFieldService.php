@@ -13,12 +13,14 @@ use OCP\Files\Node;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
+use Psr\Log\LoggerInterface;
 
 class TemplateFieldService {
 	public function __construct(
 		private IClientService $clientService,
 		private AppConfig $appConfig,
-		private IRootFolder $rootFolder
+		private IRootFolder $rootFolder,
+		private LoggerInterface $logger
 	) {
 	}
 
@@ -71,8 +73,8 @@ class TemplateFieldService {
 
 			return array_merge([], ...$fields);
 		} catch (\Exception $e) {
-			// handle exception
-			return $e->getMessage();
+			$this->logger->error($e->getMessage());
+			return [];
 		}
 	}
 
@@ -116,7 +118,8 @@ class TemplateFieldService {
 
 			return $response->getBody();
 		} catch (\Exception $e) {
-			return $e->getMessage();
+			$this->logger->error($e->getMessage());
+			throw $e;
 		}
 	}
 }

@@ -13,7 +13,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class TemplateFieldController extends OCSController {
@@ -50,8 +49,8 @@ class TemplateFieldController extends OCSController {
 			$fields = $this->templateFieldService->extractFields($fileId);
 
 			return new DataResponse($fields, Http::STATUS_OK);
-		} catch (NotFoundException $e) {
-			return new DataResponse([$e->getMessage()], Http::STATUS_NOT_FOUND);
+		} catch (\Exception $e) {
+			return new DataResponse([$e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -62,8 +61,12 @@ class TemplateFieldController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function fillFields(int $fileId, array $fields): DataResponse {
-		$this->templateFieldService->fillFields($fileId, $fields);
+		try {
+			$this->templateFieldService->fillFields($fileId, $fields);
 		
-		return new DataResponse([], Http::STATUS_OK);
+			return new DataResponse([], Http::STATUS_OK);
+		} catch (\Exception $e) {
+			return new DataResponse([$e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 }
