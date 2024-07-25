@@ -34,19 +34,18 @@ class TemplateFieldService {
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
 		$httpClient = $this->clientService->newClient();
 
-		$formData = [
+		$form = RemoteOptionsService::getDefaultOptions();
+		$form['query'] = ['limit' => 'content-control'];
+		$form['multipart'] = [[
 			'name' => 'data',
 			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
 			'headers' => ['Content-Type' => 'multipart/form-data'],
-		];
+		]];
 
 		try {
 			$response = $httpClient->post(
 				$collaboraUrl . "/cool/extract-document-structure",
-				[
-					'query' => ['limit' => 'content-control'],
-					'multipart' => [$formData],
-				]
+				$form
 			);
 
 			$documentStructure = json_decode($response->getBody(), true)['DocStructure'];
@@ -96,7 +95,7 @@ class TemplateFieldService {
 			'headers' => ['Content-Type' => 'multipart/form-data'],
 		];
 
-		$formContents = [
+		$formTransform = [
 			'name' => 'transform',
 			'contents' => '{"Transforms": ' . json_encode($fields) . '}',
 		];
@@ -106,12 +105,13 @@ class TemplateFieldService {
 			'contents' => $file->getExtension(),
 		];
 
+		$form = RemoteOptionsService::getDefaultOptions();
+		$form['multipart'] = [$formData, $formTransform, $formFormat];
+
 		try {
 			$response = $httpClient->post(
 				$collaboraUrl . '/cool/transform-document-structure',
-				[
-					'multipart' => [$formData, $formFormat, $formContents]
-				]
+				$form
 			);
 
 			return $response->getBody();
