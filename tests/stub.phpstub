@@ -82,16 +82,6 @@ namespace OCA\Files_Sharing\Event {
 	}
 }
 
-namespace OCP\Files\Template {
-	use OCP\EventDispatcher\Event;
-
-	class BeforeGetTemplatesEvent extends Event {
-		public function __construct(array $templates) {}
-
-		public function getTemplates(): array {}
-	}
-}
-
 class OC_Helper {
 	public static function getFileTemplateManager() {
 	}
