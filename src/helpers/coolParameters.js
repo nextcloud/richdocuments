@@ -140,8 +140,14 @@ const generateCSSVarTokens = () => {
 	darkElement.remove()
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
-		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
+		str += '--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
 	}
+
+	// Get logo background color set via custom css app
+	const rootEl = document.querySelector(':root')
+	const logoBgColor = window.getComputedStyle(rootEl).getPropertyValue('--nc-logo-background')
+	str += '--nc-logo-background=' + logoBgColor + ';'
+
 	return str.replace(/["']/g, '\\\'')
 }
 
