@@ -143,10 +143,13 @@ const generateCSSVarTokens = () => {
 		str += '--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
 	}
 
-	// Get logo background color set via custom css app
 	const rootEl = document.querySelector(':root')
+
 	const logoBgColor = window.getComputedStyle(rootEl).getPropertyValue('--nc-logo-background')
-	str += '--nc-logo-background=' + logoBgColor + ';'
+	str += '--nc-logo-background=' + (logoBgColor === '' ? 'transparent' : logoBgColor) + ';'
+
+	const logoDisplay = window.getComputedStyle(rootEl).getPropertyValue('--nc-logo-display')
+	str += '--nc-logo-display=' + (logoDisplay === '' ? 'block' : logoDisplay) + ';'
 
 	return str.replace(/["']/g, '\\\'')
 }
