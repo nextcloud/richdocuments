@@ -140,8 +140,17 @@ const generateCSSVarTokens = () => {
 	darkElement.remove()
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
-		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
+		str += '--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
 	}
+
+	const rootEl = document.querySelector(':root')
+
+	const logoBgColor = window.getComputedStyle(rootEl).getPropertyValue('--nc-logo-background')
+	str += '--nc-logo-background=' + (logoBgColor === '' ? 'transparent' : logoBgColor) + ';'
+
+	const logoDisplay = window.getComputedStyle(rootEl).getPropertyValue('--nc-logo-display')
+	str += '--nc-logo-display=' + (logoDisplay === '' ? 'block' : logoDisplay) + ';'
+
 	return str.replace(/["']/g, '\\\'')
 }
 
