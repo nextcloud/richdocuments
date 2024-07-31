@@ -8,6 +8,8 @@
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -27,7 +29,8 @@ class TemplateFieldService {
 		private AppConfig $appConfig,
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
-		private ICacheFactory $cacheFactory
+		private ICacheFactory $cacheFactory,
+		private PdfService $pdfService,
 	) {
 	}
 
@@ -45,7 +48,7 @@ class TemplateFieldService {
 		}
 
 		try {
-			if (!$file) {
+			if (!$file || !$file instanceof File) {
 				throw new NotFoundException();
 			}
 
@@ -55,6 +58,12 @@ class TemplateFieldService {
 
 			if ($cachedResponse !== null) {
 				return $cachedResponse;
+			}
+
+			if ($file->getMimeType() === 'application/pdf') {
+				$fields = $this->pdfService->extractFields($file);
+				$localCache->set($cacheName, $fields, 3600);
+				return $fields;
 			}
 
 			$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -117,12 +126,17 @@ class TemplateFieldService {
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 
-			if (!$file) {
+			if (!$file || !$file instanceof File) {
 				$e = new NotFoundException();
 				$this->logger->error($e->getMessage());
 
 				throw $e;
 			}
+		}
+
+		if ($file->getMimeType() === 'application/pdf') {
+			$this->pdfService->fillFields($file, $fields);
+			return '';
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
