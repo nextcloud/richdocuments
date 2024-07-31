@@ -63,7 +63,7 @@ class TemplateFieldController extends OCSController {
 	public function fillFields(int $fileId, array $fields): DataResponse {
 		try {
 			$this->templateFieldService->fillFields($fileId, $fields);
-		
+
 			return new DataResponse([], Http::STATUS_OK);
 		} catch (\Exception $e) {
 			return new DataResponse(["Unable to fill fields into the given file"], Http::STATUS_INTERNAL_SERVER_ERROR);
