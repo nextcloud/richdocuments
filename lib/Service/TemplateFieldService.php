@@ -21,7 +21,8 @@ class TemplateFieldService {
 		private CapabilitiesService $capabilitiesService,
 		private AppConfig $appConfig,
 		private IRootFolder $rootFolder,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private PdfService $pdfService,
 	) {
 	}
 
@@ -36,6 +37,10 @@ class TemplateFieldService {
 
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
+		}
+
+		if ($file->getMimeType() === 'application/pdf') {
+			return $this->pdfService->extractFields($file);
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -95,6 +100,11 @@ class TemplateFieldService {
 
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
+		}
+
+		if ($file->getMimeType() === 'application/pdf') {
+			$this->pdfService->fillFields($file, $fields);
+			return '';
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
