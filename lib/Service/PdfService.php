@@ -24,20 +24,21 @@ class PdfService {
 
 		try {
 			$pdf = new Pdf($filePath);
-			$fields = $pdf->getDataFields();
+			$fields = $pdf->getDataFields() ?: [];
 			$templateFields = [];
 			$index = 0;
 			foreach ($fields as $field) {
-				$fieldType = FieldType::tryFrom($field['FieldType']) ?? null;
+				$fieldType = self::matchFieldType($field['FieldType']);
 
 				if ($fieldType === null) {
 					continue;
 				}
 
 				$templateFields[] = new Field(
-					$index,
-					$field['FieldName'],
+					(string)$index,
+					$field['FieldValue'],
 					$fieldType,
+					alias: $field['FieldName'],
 				);
 				$index++;
 			}
@@ -48,17 +49,42 @@ class PdfService {
 		}
 	}
 
-	public function fillFields(Node $file, array $fieldValues): void {
+	public function fillFields(Node $file, array $fieldValues) {
+		if (!$file instanceof \OCP\Files\File) {
+			return;
+		}
+
 		$filePath = $file->getStorage()->getLocalFile($file->getInternalPath());
 
 		try {
 			$pdf = new Pdf($filePath);
-			$pdf->fillForm($fieldValues);
+			$fields = $pdf->getDataFields();
+			$fillData = [];
+			foreach ($fieldValues as $index => $field) {
+				if (!isset($fields[$index])) {
+					continue;
+				}
+				$fieldName = $fields[$index]['FieldName'];
+				$fieldData = $field['content'] ?? $fields[$index]['FieldValue'];
+				$fillData[$fieldName] = $fieldData;
+			}
+			unset($pdf);
+
+			$pdf = new Pdf($filePath);
+			$pdf->fillForm($fillData);
 			$pdf->flatten();
 			$pdf->saveAs($filePath);
+			return file_get_contents($filePath);
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to fill fields in PDF: {error}', ['error' => $e->getMessage(), 'exception' => $e]);
 			throw $e;
 		}
+	}
+
+	public static function matchFieldType(string $type): ?FieldType {
+		return match ($type) {
+			'Text' => FieldType::RichText,
+			default => null
+		};
 	}
 }

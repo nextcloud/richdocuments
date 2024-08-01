@@ -8,8 +8,10 @@
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
+use OCA\Richdocuments\Capabilities;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
@@ -23,14 +25,16 @@ class TemplateFieldService {
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		private PdfService $pdfService,
+		private ?string $userId,
 	) {
 	}
 
 	/**
 	 * @param Node|int $file
-	 * @return array|string
+	 * @return Field[]
+	 * @throws NotFoundException
 	 */
-	public function extractFields(Node|int $file) {
+	public function extractFields(Node|int $file): array {
 		if (!$this->capabilitiesService->hasFormFilling()) {
 			return [];
 		}
@@ -41,6 +45,10 @@ class TemplateFieldService {
 
 		if ($file->getMimeType() === 'application/pdf') {
 			return $this->pdfService->extractFields($file);
+		}
+
+		if (in_array($file->getMimetype(), Capabilities::MIMETYPES)) {
+			return [];
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -90,10 +98,10 @@ class TemplateFieldService {
 
 	/**
 	 * @param Node|int $file
-	 * @param array $fields
+	 * @param array<string, array{content: string}> $fields
 	 * @return string|resource
 	 */
-	public function fillFields(Node|int $file, array $fields = []) {
+	public function fillFields(Node|int $file, array $fields = [], ?string $destination = null) {
 		if (!$this->capabilitiesService->hasFormFilling()) {
 			throw new \RuntimeException('Form filling not supported by the Collabora server');
 		}
@@ -103,8 +111,11 @@ class TemplateFieldService {
 		}
 
 		if ($file->getMimeType() === 'application/pdf') {
-			$this->pdfService->fillFields($file, $fields);
-			return '';
+			$content = $this->pdfService->fillFields($file, $fields);
+			if ($destination !== null) {
+				$this->writeToDestination($destination, $content);
+			}
+			return $content;
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -135,10 +146,19 @@ class TemplateFieldService {
 				$form
 			);
 
-			return $response->getBody();
+			$content = $response->getBody();
+			if ($destination !== null) {
+				$this->writeToDestination($destination, $content);
+			}
+			return $content;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
 			throw $e;
 		}
+	}
+
+	private function writeToDestination(string $destination, $data): void {
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$userFolder->newFile($destination, $data);
 	}
 }
