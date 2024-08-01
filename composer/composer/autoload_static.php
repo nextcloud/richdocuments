@@ -7,27 +7,32 @@ namespace Composer\Autoload;
 class ComposerStaticInitRichdocuments
 {
     public static $prefixLengthsPsr4 = array (
-        'm' =>
+        'm' => 
         array (
+            'mikehaertl\\tmp\\' => 15,
             'mikehaertl\\shellcommand\\' => 24,
             'mikehaertl\\pdftk\\' => 17,
         ),
-        'O' =>
+        'O' => 
         array (
             'OCA\\Richdocuments\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'mikehaertl\\shellcommand\\' =>
+        'mikehaertl\\tmp\\' => 
         array (
-            0 => __DIR__ . '/..' . '/../vendor/mikehaertl/php-shellcommand/src',
+            0 => __DIR__ . '/..' . '/mikehaertl/php-tmpfile/src',
         ),
-        'mikehaertl\\pdftk\\' =>
+        'mikehaertl\\shellcommand\\' => 
         array (
-            0 => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src',
+            0 => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src',
         ),
-        'OCA\\Richdocuments\\' =>
+        'mikehaertl\\pdftk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src',
+        ),
+        'OCA\\Richdocuments\\' => 
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -105,8 +110,8 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Service\\FileTargetService' => __DIR__ . '/..' . '/../lib/Service/FileTargetService.php',
         'OCA\\Richdocuments\\Service\\FontService' => __DIR__ . '/..' . '/../lib/Service/FontService.php',
         'OCA\\Richdocuments\\Service\\InitialStateService' => __DIR__ . '/..' . '/../lib/Service/InitialStateService.php',
-        'OCA\\Richdocuments\\Service\\RemoteOptionsService' => __DIR__ . '/..' . '/../lib/Service/RemoteOptionsService.php',
         'OCA\\Richdocuments\\Service\\PdfService' => __DIR__ . '/..' . '/../lib/Service/PdfService.php',
+        'OCA\\Richdocuments\\Service\\RemoteOptionsService' => __DIR__ . '/..' . '/../lib/Service/RemoteOptionsService.php',
         'OCA\\Richdocuments\\Service\\RemoteService' => __DIR__ . '/..' . '/../lib/Service/RemoteService.php',
         'OCA\\Richdocuments\\Service\\TemplateFieldService' => __DIR__ . '/..' . '/../lib/Service/TemplateFieldService.php',
         'OCA\\Richdocuments\\Service\\UserScopeService' => __DIR__ . '/..' . '/../lib/Service/UserScopeService.php',
@@ -118,14 +123,15 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\TokenManager' => __DIR__ . '/..' . '/../lib/TokenManager.php',
         'OCA\\Richdocuments\\UploadException' => __DIR__ . '/..' . '/../lib/UploadException.php',
         'OCA\\Richdocuments\\WOPI\\Parser' => __DIR__ . '/..' . '/../lib/WOPI/Parser.php',
-        'mikehaertl\\pdftk\\Command' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/Command.php',
-        'mikehaertl\\pdftk\\DataFields' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/DataFields.php',
-        'mikehaertl\\pdftk\\FdfFile' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/FdfFile.php',
-        'mikehaertl\\pdftk\\InfoFields' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/InfoFields.php',
-        'mikehaertl\\pdftk\\InfoFile' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/InfoFile.php',
-        'mikehaertl\\pdftk\\Pdf' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/Pdf.php',
-        'mikehaertl\\pdftk\\XfdfFile' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-pdftk/src/XfdfFile.php',
-        'mikehaertl\\shellcommand\\Command' => __DIR__ . '/..' . '/../vendor/mikehaertl/php-shellcommand/src/Command.php',
+        'mikehaertl\\pdftk\\Command' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/Command.php',
+        'mikehaertl\\pdftk\\DataFields' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/DataFields.php',
+        'mikehaertl\\pdftk\\FdfFile' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/FdfFile.php',
+        'mikehaertl\\pdftk\\InfoFields' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/InfoFields.php',
+        'mikehaertl\\pdftk\\InfoFile' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/InfoFile.php',
+        'mikehaertl\\pdftk\\Pdf' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/Pdf.php',
+        'mikehaertl\\pdftk\\XfdfFile' => __DIR__ . '/..' . '/mikehaertl/php-pdftk/src/XfdfFile.php',
+        'mikehaertl\\shellcommand\\Command' => __DIR__ . '/..' . '/mikehaertl/php-shellcommand/src/Command.php',
+        'mikehaertl\\tmp\\File' => __DIR__ . '/..' . '/mikehaertl/php-tmpfile/src/File.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
