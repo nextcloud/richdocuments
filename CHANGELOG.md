@@ -1,5 +1,20 @@
 # Changelog
 
+## 8.4.4
+
+### Fixed
+
+* Avoid background fetch if not configured [#3796](https://github.com/nextcloud/richdocuments/pull/3796)
+* Add 'title' attribute to iframe for accessibility [#3821](https://github.com/nextcloud/richdocuments/pull/3821)
+* Use shared default options for HTTP client requests [#3834](https://github.com/nextcloud/richdocuments/pull/3834)
+* Allow passing css var to change Collabora logo color [#3853](https://github.com/nextcloud/richdocuments/pull/3853)
+
+### Other
+* Update nextcloud/ocp dependency [#3803](https://github.com/nextcloud/richdocuments/pull/3803)
+* Update nextcloud/ocp dependency [#3818](https://github.com/nextcloud/richdocuments/pull/3818)
+* Update nextcloud/ocp dependency [#3829](https://github.com/nextcloud/richdocuments/pull/3829)
+* Update nextcloud/ocp dependency [#3849](https://github.com/nextcloud/richdocuments/pull/3849)
+
 ## 8.4.3
 
 ### Fixed
