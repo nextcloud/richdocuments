@@ -60,9 +60,9 @@ class TemplateFieldController extends OCSController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	public function fillFields(int $fileId, array $fields): DataResponse {
+	public function fillFields(int $fileId, array $fields, ?string $destination = null): DataResponse {
 		try {
-			$this->templateFieldService->fillFields($fileId, $fields);
+			$this->templateFieldService->fillFields($fileId, $fields, $destination);
 
 			return new DataResponse([], Http::STATUS_OK);
 		} catch (\Exception $e) {
