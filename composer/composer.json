@@ -6,9 +6,10 @@
     },
     "autoload" : {
         "psr-4": {
-            "OCA\\Richdocuments\\": "../lib/",
-            "mikehaertl\\pdftk\\": "../vendor/mikehaertl/php-pdftk/src/",
-            "mikehaertl\\shellcommand\\": "../vendor/mikehaertl/php-shellcommand/src/"
+            "OCA\\Richdocuments\\": "../lib/"
         }
+    },
+    "require": {
+        "mikehaertl/php-pdftk": "^0.13.1"
     }
 }

@@ -6,7 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = $vendorDir;
 
 return array(
-    'mikehaertl\\shellcommand\\' => array($baseDir . '/../vendor/mikehaertl/php-shellcommand/src'),
-    'mikehaertl\\pdftk\\' => array($baseDir . '/../vendor/mikehaertl/php-pdftk/src'),
+    'mikehaertl\\tmp\\' => array($vendorDir . '/mikehaertl/php-tmpfile/src'),
+    'mikehaertl\\shellcommand\\' => array($vendorDir . '/mikehaertl/php-shellcommand/src'),
+    'mikehaertl\\pdftk\\' => array($vendorDir . '/mikehaertl/php-pdftk/src'),
     'OCA\\Richdocuments\\' => array($baseDir . '/../lib'),
 );
