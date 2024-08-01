@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.2.12
+
+### Fixed
+
+* Update nextcloud/ocp dependency by @nextcloud-command [#3846](https://github.com/nextcloud/richdocuments/pull/3846)
+* Allow passing css var to change Collabora logo color [#3855](https://github.com/nextcloud/richdocuments/pull/3855)
+
 ## 8.2.11
 
 ### Fixed
