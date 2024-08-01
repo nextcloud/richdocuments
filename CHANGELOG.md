@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.3.9
+
+### Fixed
+
+* Add 'title' attribute to iframe for accessibility [#3822](https://github.com/nextcloud/richdocuments/pull/3822)
+* Allow passing css var to change Collabora logo color [#3854](https://github.com/nextcloud/richdocuments/pull/3854)
+
+### Other
+
+* Update nextcloud/ocp dependency [#3817](https://github.com/nextcloud/richdocuments/pull/3817)
+* Update nextcloud/ocp dependency [#3847](https://github.com/nextcloud/richdocuments/pull/3847)
+
 ## 8.3.8
 
 ### Fixed
