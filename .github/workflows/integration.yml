@@ -51,16 +51,17 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
+        code-image: [ 'release', 'nightly' ]
         php-versions: ['8.1']
         databases: ['sqlite']
         server-versions: ['master']
         scenarios: ['wopi', 'direct', 'federation']
 
-    name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: integration-${{ matrix.code-image }}-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
     services:
       collabora:
-        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
+        image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }}
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
