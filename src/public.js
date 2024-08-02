@@ -4,18 +4,25 @@
  */
 import isPublic from './helpers/isPublicPage.js'
 import isDocument from './helpers/isDocument.js'
+import isPdf from './helpers/isPdf.js'
 
 document.addEventListener('DOMContentLoaded', () => {
+	const validMimetype = (isDocument() || isPdf())
 
-	// Public share, but not a supported mimetype - do nothing
-	if (isPublic() && !isDocument()) {
+	// Viewer app not enabled
+	if (!OCA.Viewer) {
 		return
 	}
 
-	// Public share, and is a supported mimetype - open viewer
-	if (isPublic() && isDocument()) {
-		if (OCA.Viewer) {
-			OCA.Viewer.open({ path: '/' })
-		}
+	// Not a public share or is not a valid mimetype
+	if (!isPublic() || !validMimetype) {
+		return
+	}
+
+	// If the share is a PDF or another supported document, we proceed to open it
+	if (isPdf()) {
+		OCA.Viewer.openWith('richdocuments', { path: '/' })
+	} else if (isDocument()) {
+		OCA.Viewer.open({ path: '/' })
 	}
 })
