@@ -26,6 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        code-image: [ 'juliushaertl/nc-code-nightly:latest', 'collabora/code:latest' ]
         node-version: [16.x]
         containers: [1, 2, 3]
         php-versions: [ '8.1' ]
@@ -36,7 +37,7 @@ jobs:
 
     services:
       collabora:
-        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
+        image: ${{ matrix.code-image }}
         env:
           extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
