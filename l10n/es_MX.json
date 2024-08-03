@@ -58,6 +58,7 @@
     "Error" : "Error",
     "An error occurred" : "Se presentó un error",
     "Close version preview" : "Cerrar la vista previa de la versión",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "El archivo debería ahora abrirse localmente. Si no ve que esto suceda, asegúrese de que el cliente de escritorio esté instalado en su sistema.",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a una versión anterior",
     "Select a personal template folder" : "Seleccionar la carpeta de plantillas personales",
     "Saving …" : "Guardando ...",
