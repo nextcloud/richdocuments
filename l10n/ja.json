@@ -148,6 +148,7 @@
     "Close version preview" : "バージョンプレビューを閉じる",
     "Edit with {productName}" : "{productName} で編集",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "{productName} が読み込めませんでした - しばらく後でもう一度お試しいただくか、このサーバーの管理者に問い合わせてください。",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "ファイルがローカルで開かれます。これが発生しない場合は、デスクトップクライアントがシステムにインストールされていることを確認してください。",
     "Failed to revert the document to older version" : "以前のバージョンに戻すことに失敗しました。",
     "Select a personal template folder" : "個人用のテンプレートフォルダーを選択する",
     "Saving …" : "保存中...",
