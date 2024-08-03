@@ -66,13 +66,11 @@ class CapabilitiesService extends CachedRequestService {
 	}
 
 	public function hasNextcloudBranding(): bool {
-		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
-		return version_compare($productVersion, '21.11', '>=');
+		return $this->isVersionAtLeast('21.11');
 	}
 
 	public function hasDrawSupport(): bool {
-		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
-		return version_compare($productVersion, '6.4.7', '>=');
+		return $this->isVersionAtLeast('6.4.7');
 	}
 
 	public function hasTemplateSource(): bool {
@@ -85,6 +83,15 @@ class CapabilitiesService extends CachedRequestService {
 
 	public function hasWASMSupport(): bool {
 		return $this->getCapabilities()['hasWASMSupport'] ?? false;
+	}
+
+	public function hasFormFilling(): bool {
+		return $this->isVersionAtLeast('24.04.5.2');
+	}
+
+	private function isVersionAtLeast(string $version): bool {
+		$productVersion = $this->getCapabilities()['productVersion'] ?? '0.0.0.0';
+		return version_compare($productVersion, $version, '>=');
 	}
 
 	public function getProductName(): string {

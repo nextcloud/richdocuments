@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 class TemplateFieldService {
 	public function __construct(
 		private IClientService $clientService,
+		private CapabilitiesService $capabilitiesService,
 		private AppConfig $appConfig,
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger
@@ -29,6 +30,10 @@ class TemplateFieldService {
 	 * @return array|string
 	 */
 	public function extractFields(Node|int $file) {
+		if (!$this->capabilitiesService->hasFormFilling()) {
+			return [];
+		}
+
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
@@ -84,6 +89,10 @@ class TemplateFieldService {
 	 * @return string|resource
 	 */
 	public function fillFields(Node|int $file, array $fields = []) {
+		if (!$this->capabilitiesService->hasFormFilling()) {
+			throw new \RuntimeException('Form filling not supported by the Collabora server');
+		}
+
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}

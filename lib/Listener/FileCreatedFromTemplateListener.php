@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\TemplateFieldService;
 use OCA\Richdocuments\TemplateManager;
 use OCP\EventDispatcher\Event;
@@ -17,17 +18,12 @@ use OCP\Files\Template\FileCreatedFromTemplateEvent;
 
 /** @template-implements IEventListener<Event|FileCreatedFromTemplateEvent> */
 class FileCreatedFromTemplateListener implements IEventListener {
-	/** @var TemplateManager */
-	private $templateManager;
-	/** @var TemplateFieldService */
-	private $templateFieldService;
 
 	public function __construct(
-		TemplateManager $templateManager,
-		TemplateFieldService $templateFieldService
+		private TemplateManager $templateManager,
+		private TemplateFieldService $templateFieldService,
+		private CapabilitiesService $capabilitiesService,
 	) {
-		$this->templateManager = $templateManager;
-		$this->templateFieldService = $templateFieldService;
 	}
 
 	public function handle(Event $event): void {
@@ -55,8 +51,10 @@ class FileCreatedFromTemplateListener implements IEventListener {
 			$this->templateManager->setTemplateSource($event->getTarget()->getId(), $templateFile->getId());
 		}
 
-		$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields());
-		$event->getTarget()->putContent($filledTemplate);
+		if ($this->capabilitiesService->hasFormFilling()) {
+			$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields());
+			$event->getTarget()->putContent($filledTemplate);
+		}
 
 		// Avoid having the mimetype of the source file set
 		$event->getTarget()->getStorage()->getCache()->update($event->getTarget()->getId(), [
