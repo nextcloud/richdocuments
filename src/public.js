@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
 	}
 
-	if (isPdf()) {
+	if (isDownloadHidden() && isPdf()) {
 		OCA.Viewer.openWith('richdocuments', { path: '/' })
-	} else if (isDocument()) {
+	} else {
 		OCA.Viewer.open({ path: '/' })
 	}
 })
