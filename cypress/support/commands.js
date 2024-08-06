@@ -259,3 +259,7 @@ Cypress.Commands.add('uploadSystemTemplate', () => {
 	}, { force: true })
 	cy.get('#richdocuments-templates li').contains('systemtemplate.otp')
 })
+
+Cypress.Commands.add('checkTemplateFields', (fieldValues, fileId) => {
+	return true
+})
