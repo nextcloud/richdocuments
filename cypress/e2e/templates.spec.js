@@ -125,6 +125,11 @@ describe('Create templates with fields', () => {
 	})
 
 	it('Create a document from a template with fields', () => {
+		const fields = [
+			{ alias: 'Name', content: 'Nextcloud' },
+			{ alias: 'Favorite app', content: 'richdocuments' }
+		]
+
 		cy.visit('/apps/files')
 
 		// Create a new document
@@ -143,25 +148,17 @@ describe('Create templates with fields', () => {
 		cy.get('@templatePicker').contains('document').click()
 		cy.get('@templatePicker').find('input[type="submit"]').click()
 
-		// Enter test values into the template filler
-		cy.get('.template-field-modal__content').as('templateFiller')
-		cy.get('.template-field-modal__buttons').as('templateFillerButtons')
-
-		cy.get('@templateFiller').find('input[placeholder="Name"]').type('Nextcloud')
-		cy.get('@templateFiller').find('input[placeholder="Favorite app"]').type('richdocuments')
-
 		// Intercept the POST request to verify the correct fields are submitted
 		cy.intercept('POST', '**/templates/create', (req) => {
 			const templateFields = Object.values(req.body.templateFields)
 
-			templateFields[0].content = 'Nextcloud'
-			templateFields[1].content = 'richdocuments'
+			templateFields[0].content = fields[0].content
+			templateFields[1].content = fields[1].content
 
 			req.continue()
 		}).as('reqFillFields')
 
-		// Submit the template fields
-		cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
+		cy.submitTemplateFields(fields)
 
 		// Wait for the response and collect the file ID of the created file
 		cy.wait('@reqFillFields').then(({ response }) => {
@@ -170,7 +167,7 @@ describe('Create templates with fields', () => {
 
 		// Test if the fields currently match the values we passed to the template
 		cy.get('@createdFileId').then(createdFileId => {
-			cy.verifyTemplateFields(['Nextcloud', 'richdocuments'], createdFileId)
+			cy.verifyTemplateFields(fields, createdFileId)
 		})
 	})
 })
