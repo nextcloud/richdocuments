@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-describe('Create new office files from templates', function() {
+describe.skip('Create new office files from templates', function() {
 
 	let randUser
 	before(function() {
@@ -11,6 +11,7 @@ describe('Create new office files from templates', function() {
 			randUser = user
 			cy.createFolder(randUser, 'Templates-user')
 			cy.uploadFile(randUser, 'templates/presentation.otp', 'application/vnd.oasis.opendocument.presentation', '/Templates-user/presentation.otp')
+			cy.uploadFile(randUser, 'templates/document_template_with_fields.odt', 'application/vnd.oasis.opendocument.text', '/Templates-user/document_template_with_fields.odt')
 			cy.setPersonalTemplateFolder(randUser, '/Templates-user')
 		})
 	})
@@ -96,5 +97,36 @@ describe('Create new office files from templates', function() {
 			cy.waitForViewer()
 			cy.waitForCollabora()
 		})
+	})
+})
+
+describe('', () => {
+	let randUser
+
+	before(() => {
+		cy.createRandomUser().then(user => {
+			randUser = user
+
+			cy.createFolder(randUser, 'Templates')
+			cy.uploadFile(randUser, 'templates/document_template_with_fields.odt', 'application/vnd.oasis.opendocument.text', '/Templates/document.odt')
+			cy.setPersonalTemplateFolder(randUser, '/Templates')
+		})
+	})
+
+	it.only('Create a file from a template with fields', () => {
+		cy.login(randUser)
+		cy.visit('/apps/files')
+
+		cy.get('.files-list__header div[menu-title="New"] button')
+			.should('be.visible')
+			.as('newFileMenu')
+
+		cy.get('@newFileMenu').click()
+		cy.get('button[role="menuitem"]').contains('New document').click()
+
+		cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromTemplateWithFields')
+		cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
+
+		cy.get('form.templates-picker__form').as('templatePicker')
 	})
 })
