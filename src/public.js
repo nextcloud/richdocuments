@@ -14,9 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
 	}
 
-	if (isDownloadHidden() && isPdf()) {
+	const isEnabledFilesPdfViewer = getCapabilities().mimetypesNoDefaultOpen.includes('application/pdf')
+
+	if ((isDownloadHidden() || !isEnabledFilesPdfViewer) && isPdf()) {
 		OCA.Viewer.openWith('richdocuments', { path: '/' })
-	} else {
+	} else if (isDocument()) {
 		OCA.Viewer.open({ path: '/' })
 	}
 })
