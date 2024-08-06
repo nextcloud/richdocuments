@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-describe.skip('Create new office files from templates', function() {
+describe('Create new office files from templates', function() {
 
 	let randUser
 	before(function() {
@@ -11,7 +11,6 @@ describe.skip('Create new office files from templates', function() {
 			randUser = user
 			cy.createFolder(randUser, 'Templates-user')
 			cy.uploadFile(randUser, 'templates/presentation.otp', 'application/vnd.oasis.opendocument.presentation', '/Templates-user/presentation.otp')
-			cy.uploadFile(randUser, 'templates/document_template_with_fields.odt', 'application/vnd.oasis.opendocument.text', '/Templates-user/document_template_with_fields.odt')
 			cy.setPersonalTemplateFolder(randUser, '/Templates-user')
 		})
 	})
@@ -100,23 +99,35 @@ describe.skip('Create new office files from templates', function() {
 	})
 })
 
-describe('', () => {
+describe('Create templates with fields', () => {
 	let randUser
 
 	before(() => {
 		cy.createRandomUser().then(user => {
 			randUser = user
 
-			cy.createFolder(randUser, 'Templates')
+			cy.login(randUser)
+			cy.visit('/apps/files')
+			
+			// Create a templates folder
+			cy.get('.files-list__header div[menu-title="New"] button')
+				.should('be.visible')
+				.as('newFileMenu')
+
+			cy.get('@newFileMenu').click()
+			cy.get('button[role="menuitem"]').contains('Create templates folder').click()
+
+			cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
+
+			// Upload the fixtures into the templates folder
 			cy.uploadFile(randUser, 'templates/document_template_with_fields.odt', 'application/vnd.oasis.opendocument.text', '/Templates/document.odt')
-			cy.setPersonalTemplateFolder(randUser, '/Templates')
 		})
 	})
 
-	it.only('Create a file from a template with fields', () => {
-		cy.login(randUser)
+	it('Create a document from a template with fields', () => {
 		cy.visit('/apps/files')
 
+		// Create a new document
 		cy.get('.files-list__header div[menu-title="New"] button')
 			.should('be.visible')
 			.as('newFileMenu')
@@ -127,6 +138,19 @@ describe('', () => {
 		cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromTemplateWithFields')
 		cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
 
+		// Choose the document template
 		cy.get('form.templates-picker__form').as('templatePicker')
+		cy.get('@templatePicker').contains('document').click()
+		cy.get('@templatePicker').find('input[type="submit"]').click()
+
+		// Enter test values into the template filler
+		cy.get('.template-field-modal__content').as('templateFiller')
+		cy.get('.template-field-modal__buttons').as('templateFillerButtons')
+
+		cy.get('@templateFiller').find('input[placeholder="Name"]').type('Nextcloud')
+		cy.get('@templateFiller').find('input[placeholder="Favorite app"]').type('richdocuments')
+		cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
+
+		// TODO: Test if the fields currently match the given values
 	})
 })
