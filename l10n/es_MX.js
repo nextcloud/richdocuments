@@ -46,6 +46,7 @@ OC.L10N.register(
     "Canonical webroot, in case there are multiple, for Collabora to use. Provide the one with least restrictions. Eg: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance." : "webroot canonico, en caso de que haya varios, para que los use Collabora. Proporciona el que tenga menos restricciones. P. ej. Usa un webroot no-shibbolizado si la instancia es accesible por tanto un webroot shibbolizado y un no shibbolizado. Puedes ignorar esta configuracion si solo un webroot se usa para acceder a la instancia. ",
     "Enable access for external apps" : "Habilitar acceso para aplicaciones externas",
     "Failed to save settings" : "No se pudo guardar la configuración",
+    "Submit name" : "Enviar nombre",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
     "Save" : "Guardar",
