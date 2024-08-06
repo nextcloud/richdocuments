@@ -170,7 +170,7 @@ describe('Create templates with fields', () => {
 
 		// Test if the fields currently match the values we passed to the template
 		cy.get('@createdFileId').then(createdFileId => {
-			cy.checkTemplateFields(['Nextcloud', 'richdocuments'], createdFileId)
+			cy.verifyTemplateFields(['Nextcloud', 'richdocuments'], createdFileId)
 		})
 	})
 })

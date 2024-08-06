@@ -260,23 +260,24 @@ Cypress.Commands.add('uploadSystemTemplate', () => {
 	cy.get('#richdocuments-templates li').contains('systemtemplate.otp')
 })
 
-Cypress.Commands.add('checkTemplateFields', (fieldValues, templateId) => {
+Cypress.Commands.add('verifyTemplateFields', (fieldValues, templateId) => {
 	const apiEndpoint = '/ocs/v2.php/apps/richdocuments/api/v1/template/fields/extract/'
 
 	cy.request('/csrftoken')
 		.then(({ body }) => body.token)
-		.then(requesttoken => {
-			cy.request({
-				method: 'GET',
-				url: Cypress.env('baseUrl') + apiEndpoint + templateId + '?format=json',
-				headers: {
-					requesttoken
-				},
-			}).then(({ body }) => {
-				for (const index in body.ocs.data) {
-					cy.wrap(body.ocs.data[index]).as('formControl')
-					cy.get('@formControl').its('content').should('equal', fieldValues[index])
-				}
-			})
+		.as('requestToken')
+
+	cy.get('@requestToken').then(requesttoken => {
+		cy.request({
+			method: 'GET',
+			url: Cypress.env('baseUrl') + apiEndpoint + templateId + '?format=json',
+			headers: {
+				requesttoken
+			},
+		}).then(({ body }) => {
+			for (const index in body.ocs.data) {
+				expect(body.ocs.data[index].content).to.equal(fieldValues[index])
+			}
 		})
+	})
 })
