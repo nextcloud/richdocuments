@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Julius Härtl <jus@bitgrid.net>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 describe('Create new office files from templates', function() {
 
 	let randUser
@@ -16,28 +17,20 @@ describe('Create new office files from templates', function() {
 
 	it('Create a new file from a user template', function() {
 		cy.visit('/apps/files')
-		cy.get('.files-controls .button.new')
-			.should('be.visible')
-			.click()
 
-		cy.get('.newFileMenu', { timeout: 10000 })
+		cy.get('.files-list__header div[menu-title="New"] button')
 			.should('be.visible')
-			.contains('.menuitem', 'New presentation')
-			.as('menuitem')
-			.should('be.visible')
-			.click()
+			.as('newFileMenu')
 
-		cy.get('@menuitem').find('.filenameform input[type=text]').type('FileFromTemplate')
-		cy.get('@menuitem').find('.filenameform .icon-confirm').click()
+		cy.get('@newFileMenu').click()
+		cy.get('button[role="menuitem"]').contains('New presentation').click()
 
-		cy.get('.templates-picker__form')
-			.as('form')
-			.should('be.visible')
-			.contains('.template-picker__label', 'presentation')
-			.should('be.visible')
-			.click()
+		cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromTemplate')
+		cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
 
-		cy.get('@form').find('.templates-picker__buttons input[type=submit]').click()
+		cy.get('form.templates-picker__form').as('templatePicker')
+		cy.get('@templatePicker').contains('presentation').click()
+		cy.get('@templatePicker').find('input[type="submit"]').click()
 
 		cy.waitForViewer()
 		cy.waitForCollabora()
@@ -47,34 +40,26 @@ describe('Create new office files from templates', function() {
 		cy.uploadSystemTemplate()
 		cy.login(randUser)
 		cy.visit('/apps/files')
-		cy.get('.files-controls .button.new')
-			.should('be.visible')
-			.click()
 
-		cy.get('.newFileMenu', { timeout: 10000 })
+		cy.get('.files-list__header div[menu-title="New"] button')
 			.should('be.visible')
-			.contains('.menuitem', 'New presentation')
-			.as('menuitem')
-			.should('be.visible')
-			.click()
+			.as('newFileMenu')
 
-		cy.get('@menuitem').find('.filenameform input[type=text]').type('FileFromTemplate')
-		cy.get('@menuitem').find('.filenameform .icon-confirm').click()
+		cy.get('@newFileMenu').click()
+		cy.get('button[role="menuitem"]').contains('New presentation').click()
 
-		cy.get('.templates-picker__form')
-			.as('form')
-			.should('be.visible')
-			.contains('.template-picker__label', 'systemtemplate')
-			.should('be.visible')
-			.click()
+		cy.get('input[data-cy-files-new-node-dialog-input=""]').type('FileFromSystemTemplate')
+		cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
 
-		cy.get('@form').find('.templates-picker__buttons input[type=submit]').click()
+		cy.get('form.templates-picker__form').as('templatePicker')
+		cy.get('@templatePicker').contains('systemtemplate').click()
+		cy.get('@templatePicker').find('input[type="submit"]').click()
 
 		cy.waitForViewer()
 		cy.waitForCollabora()
 	})
 
-	it.only('Create a file from a system template as guest', () => {
+	it('Create a file from a system template as guest', () => {
 		cy.uploadSystemTemplate()
 		cy.createFolder(randUser, '/my-share')
 
