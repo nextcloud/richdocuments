@@ -101,7 +101,6 @@ describe.skip('Create new office files from templates', function() {
 
 describe('Create templates with fields', () => {
 	let randUser
-	let templateId
 
 	before(() => {
 		cy.createRandomUser().then(user => {
@@ -121,14 +120,7 @@ describe('Create templates with fields', () => {
 			cy.get('button[data-cy-files-new-node-dialog-submit=""]').click()
 
 			// Upload the fixtures into the templates folder
-			cy.uploadFile(
-				randUser,
-				'templates/document_template_with_fields.odt',
-				'application/vnd.oasis.opendocument.text',
-				'/Templates/document.odt'
-			).then(fileId => {
-				templateId = fileId
-			})
+			cy.uploadFile(randUser, 'templates/document_template_with_fields.odt', 'application/vnd.oasis.opendocument.text', '/Templates/document.odt')
 		})
 	})
 
@@ -168,10 +160,17 @@ describe('Create templates with fields', () => {
 			req.continue()
 		}).as('reqFillFields')
 
+		// Submit the template fields
 		cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
-		cy.wait('@reqFillFields')
+
+		// Wait for the response and collect the file ID of the created file
+		cy.wait('@reqFillFields').then(({ response }) => {
+			cy.wrap(response.body.ocs.data.fileid).as('createdFileId')
+		})
 
 		// Test if the fields currently match the values we passed to the template
-		cy.checkTemplateFields(['Nextcloud', 'richdocuments'], templateId)
+		cy.get('@createdFileId').then(createdFileId => {
+			cy.checkTemplateFields(['Nextcloud', 'richdocuments'], createdFileId)
+		})
 	})
 })
