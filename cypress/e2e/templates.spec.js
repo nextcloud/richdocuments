@@ -157,7 +157,19 @@ describe('Create templates with fields', () => {
 
 		cy.get('@templateFiller').find('input[placeholder="Name"]').type('Nextcloud')
 		cy.get('@templateFiller').find('input[placeholder="Favorite app"]').type('richdocuments')
+
+		// Intercept the POST request to verify the correct fields are submitted
+		cy.intercept('POST', '**/templates/create', (req) => {
+			const templateFields = Object.values(req.body.templateFields)
+
+			templateFields[0].content = 'Nextcloud'
+			templateFields[1].content = 'richdocuments'
+
+			req.continue()
+		}).as('reqFillFields')
+
 		cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
+		cy.wait('@reqFillFields')
 
 		// Test if the fields currently match the values we passed to the template
 		cy.checkTemplateFields(['Nextcloud', 'richdocuments'], templateId)
