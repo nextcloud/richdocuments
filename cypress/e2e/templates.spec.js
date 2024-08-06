@@ -152,8 +152,8 @@ describe('Create templates with fields', () => {
 		cy.intercept('POST', '**/templates/create', (req) => {
 			const templateFields = Object.values(req.body.templateFields)
 
-			templateFields[0].content = fields[0].content
-			templateFields[1].content = fields[1].content
+			expect(templateFields[0].content).to.equal(fields[0].content)
+			expect(templateFields[1].content).to.equal(fields[1].content)
 
 			req.continue()
 		}).as('reqFillFields')
