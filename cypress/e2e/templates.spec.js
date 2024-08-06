@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-describe.skip('Create new office files from templates', function() {
+describe('Create new office files from templates', function() {
 
 	let randUser
 	before(function() {
