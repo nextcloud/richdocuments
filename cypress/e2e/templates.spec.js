@@ -160,6 +160,6 @@ describe('Create templates with fields', () => {
 		cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
 
 		// Test if the fields currently match the values we passed to the template
-		cy.checkTemplateFields([], templateId)
+		cy.checkTemplateFields(['Nextcloud', 'richdocuments'], templateId)
 	})
 })
