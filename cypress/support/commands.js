@@ -275,7 +275,7 @@ Cypress.Commands.add('submitTemplateFields', (fields) => {
 	cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
 })
 
-Cypress.Commands.add('verifyTemplateFields', (fields, templateId) => {
+Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 	const apiEndpoint = '/ocs/v2.php/apps/richdocuments/api/v1/template/fields/extract/'
 
 	cy.request('/csrftoken')
@@ -285,7 +285,7 @@ Cypress.Commands.add('verifyTemplateFields', (fields, templateId) => {
 	cy.get('@requestToken').then(requesttoken => {
 		cy.request({
 			method: 'GET',
-			url: Cypress.env('baseUrl') + apiEndpoint + templateId + '?format=json',
+			url: Cypress.env('baseUrl') + apiEndpoint + fileId + '?format=json',
 			headers: {
 				requesttoken
 			},
