@@ -146,6 +146,13 @@ jobs:
           npm ci
           npm run dev
 
+      - name: Register index for cypress-split
+        env:
+          container: "${{ matrix.containers }}"
+        run: |
+          echo "container_index: $(($container - 1))"
+          echo "container_index=$(($container - 1))" >> $GITHUB_ENV
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
@@ -162,8 +169,8 @@ jobs:
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          SPLIT: ${{ strategy.job-total }}
-          SPLIT_INDEX: ${{ strategy.job-index }}
+          SPLIT: 3
+          SPLIT_INDEX: ${{ env.container_index }}
 
       - name: Upload test failure screenshots
         uses: actions/upload-artifact@v2
