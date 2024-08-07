@@ -20,12 +20,13 @@ const setGuestNameCookie = (username) => {
 	}
 }
 
-const shouldAskForGuestName = () => {
+const shouldAskForGuestName = (mimetype, canWrite) => {
 	const noLoggedInUser = !getLoggedInUser()
 	const noGuestCookie = !cookieAlreadySet('guestUser')
 	const noCurrentUser = !getCurrentUser() || getCurrentUser()?.uid === ''
+	const isReadOnlyPDF = mimetype === 'application/pdf' && !canWrite
 
-	return noLoggedInUser && noGuestCookie && noCurrentUser
+	return noLoggedInUser && noGuestCookie && noCurrentUser && !isReadOnlyPDF
 }
 
 export {
