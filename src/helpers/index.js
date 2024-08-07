@@ -90,3 +90,8 @@ export {
 	splitPath,
 	getRandomId,
 }
+
+export { default as isDocument } from './isDocument.js'
+export { default as isPdf } from './isPdf.js'
+export { default as isPublic } from './isPublicPage.js'
+export { default as isDownloadHidden } from './isDownloadHidden.js'
