@@ -1,19 +1,30 @@
 import './init-shared.js'
 
-import isPublic from './helpers/isPublicPage.js'
-import isDocument from './helpers/isDocument.js'
+import { getCapabilities } from '@nextcloud/capabilities'
+import {
+	isPublic,
+	isPdf,
+	isDocument,
+	isDownloadHidden,
+} from './helpers/index.js'
+import NewFileMenu from './view/NewFileMenu.js'
+
+const optionalMimetypes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
 
 document.addEventListener('DOMContentLoaded', () => {
-
-	// Public share, but not a supported mimetype - do nothing
-	if (isPublic() && !isDocument()) {
+	if (!isPublic() || !OCA.Viewer) {
 		return
 	}
 
-	// Public share, and is a supported mimetype - open viewer
-	if (isPublic() && isDocument()) {
-		if (OCA.Viewer) {
-			OCA.Viewer.open({ path: '/' })
-		}
+	if (OCA.Files && OCA.Files.fileActions) {
+		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
+	}
+
+	const isEnabledFilesPdfViewer = optionalMimetypes.includes('application/pdf')
+
+	if ((isDownloadHidden() || !isEnabledFilesPdfViewer) && isPdf()) {
+		OCA.Viewer.openWith('richdocuments', { path: '/' })
+	} else if (isDocument()) {
+		OCA.Viewer.open({ path: '/' })
 	}
 })

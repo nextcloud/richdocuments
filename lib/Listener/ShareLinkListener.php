@@ -62,7 +62,6 @@ class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
 			$this->initialStateService->prepareParams(['userId' => $loggedInUser]);
 			$this->initialStateService->provideCapabilities();
 
-			Util::addScript('richdocuments', 'richdocuments-files');
 			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
 			Util::addScript('richdocuments', 'richdocuments-public', 'viewer');
 		}
