@@ -1,9 +1,15 @@
 import './init-shared.js'
 
-import isPublic from './helpers/isPublicPage.js'
-import isDocument from './helpers/isDocument.js'
-import isPdf from './helpers/isPdf.js'
+import { getCapabilities } from '@nextcloud/capabilities'
+import {
+	isPublic,
+	isPdf,
+	isDocument,
+	isDownloadHidden,
+} from './helpers/index.js'
 import NewFileMenu from './view/NewFileMenu.js'
+
+const optionalMimetypes = getCapabilities().richdocuments.mimetypesNoDefaultOpen
 
 document.addEventListener('DOMContentLoaded', () => {
 	if (!isPublic() || !OCA.Viewer) {
@@ -14,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		OC.Plugins.register('OCA.Files.NewFileMenu', NewFileMenu)
 	}
 
-	const isEnabledFilesPdfViewer = getCapabilities().mimetypesNoDefaultOpen.includes('application/pdf')
+	const isEnabledFilesPdfViewer = optionalMimetypes.includes('application/pdf')
 
 	if ((isDownloadHidden() || !isEnabledFilesPdfViewer) && isPdf()) {
 		OCA.Viewer.openWith('richdocuments', { path: '/' })
