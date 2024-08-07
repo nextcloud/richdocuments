@@ -1,6 +1,9 @@
-import isPublic from './helpers/isPublicPage.js'
-import isDocument from './helpers/isDocument.js'
-import isPdf from './helpers/isPdf.js'
+import {
+	isPublic,
+	isPdf,
+	isDocument,
+	isDownloadHidden,
+} from './helpers/index.js'
 import NewFileMenu from './view/NewFileMenu.js'
 
 document.addEventListener('DOMContentLoaded', () => {
