@@ -8,5 +8,8 @@
         "psr-4": {
             "OCA\\Richdocuments\\": "../lib/"
         }
+    },
+    "require": {
+        "mikehaertl/php-pdftk": "^0.13.1"
     }
 }
