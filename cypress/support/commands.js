@@ -259,3 +259,40 @@ Cypress.Commands.add('uploadSystemTemplate', () => {
 	}, { force: true })
 	cy.get('#richdocuments-templates li').contains('systemtemplate.otp')
 })
+
+Cypress.Commands.add('submitTemplateFields', (fields) => {
+	// Enter test values into the template filler
+	cy.get('.template-field-modal__content').as('templateFiller')
+	cy.get('.template-field-modal__buttons').as('templateFillerButtons')
+
+	for (const field of fields) {
+		cy.get('@templateFiller')
+			.find(`input[placeholder="${field.alias}"]`)
+			.type(field.content)
+	}
+
+	// Submit the template fields
+	cy.get('@templateFillerButtons').find('button[aria-label="Submit button"]').click()
+})
+
+Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
+	const apiEndpoint = '/ocs/v2.php/apps/richdocuments/api/v1/template/fields/extract/'
+
+	cy.request('/csrftoken')
+		.then(({ body }) => body.token)
+		.as('requestToken')
+
+	cy.get('@requestToken').then(requesttoken => {
+		cy.request({
+			method: 'GET',
+			url: Cypress.env('baseUrl') + apiEndpoint + fileId + '?format=json',
+			headers: {
+				requesttoken
+			},
+		}).then(({ body }) => {
+			for (const index in body.ocs.data) {
+				expect(body.ocs.data[index].content).to.equal(fields[index].content)
+			}
+		})
+	})
+})
