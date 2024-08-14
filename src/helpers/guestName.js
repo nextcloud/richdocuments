@@ -20,32 +20,23 @@
  *
  */
 
-import { getCurrentUser } from '@nextcloud/auth'
+import {
+	getCurrentUser,
+	getGuestNickname,
+} from '@nextcloud/auth'
 import getLoggedInUser from '../helpers/getLoggedInUser.js'
 
-const cookieAlreadySet = (cookieName) => {
-	return document.cookie
-		.split(';')
-		.some(cookie => {
-			return cookie.trim().startsWith(`${cookieName}=`)
-		})
-}
-
-const setGuestNameCookie = (username) => {
-	if (username !== '') {
-		document.cookie = 'guestUser=' + encodeURIComponent(username) + '; path=/'
-	}
-}
-
-const shouldAskForGuestName = () => {
+/**
+ * Determines if the user should be asked to enter a guest name
+ *
+ * @param {string} mimetype - Mimetype of the file
+ * @param {boolean} canWrite - If write access is granted
+ */
+export function shouldAskForGuestName(mimetype, canWrite) {
 	const noLoggedInUser = !getLoggedInUser()
-	const noGuestCookie = !cookieAlreadySet('guestUser')
+	const noGuest = !getGuestNickname()
 	const noCurrentUser = !getCurrentUser() || getCurrentUser()?.uid === ''
+	const isReadOnlyPDF = mimetype === 'application/pdf' && !canWrite
 
-	return noLoggedInUser && noGuestCookie && noCurrentUser
-}
-
-export {
-	setGuestNameCookie,
-	shouldAskForGuestName,
+	return noLoggedInUser && noGuest && noCurrentUser && !isReadOnlyPDF
 }
