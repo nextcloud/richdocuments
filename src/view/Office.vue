@@ -123,7 +123,7 @@ import pickLink from '../mixins/pickLink.js'
 import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
-import { getCurrentUser } from '@nextcloud/auth'
+import { getCurrentUser, getGuestNickname } from '@nextcloud/auth'
 import { shouldAskForGuestName } from '../helpers/guestName.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
@@ -176,8 +176,6 @@ export default {
 			error: null,
 			errorType: null,
 			loadingMsg: null,
-
-			guestName: null,
 
 			showLinkPicker: false,
 			showZotero: false,
@@ -273,8 +271,7 @@ export default {
 
 			spawnDialog(GuestNamePicker, {
 				fileName: basename(this.filename),
-				onSubmit: async (guestName) => {
-					this.guestName = guestName
+				onSubmit: async () => {
 					await this.load()
 				},
 			})
@@ -294,7 +291,7 @@ export default {
 
 			// Generate WOPI token
 			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
-				fileId: fileid, shareToken: this.shareToken, version, guestName: this.guestName,
+				fileId: fileid, shareToken: this.shareToken, version, guestName: getGuestNickname(),
 			})
 			Config.update('urlsrc', data.urlSrc)
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
