@@ -128,6 +128,13 @@ class TemplateFieldService {
 
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
+
+			if (!$file) {
+				$e = new NotFoundException();
+				$this->logger->error($e->getMessage());
+
+				throw $e;
+			}
 		}
 
 		if (!$file || !$file instanceof File) {
