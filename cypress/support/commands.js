@@ -311,9 +311,21 @@ Cypress.Commands.add('submitTemplateFields', (fields) => {
 	cy.get('.template-field-modal__buttons').as('templateFillerButtons')
 
 	for (const field of fields) {
-		cy.get('@templateFiller')
-			.find(`input[placeholder="${field.alias}"]`)
-			.type(field.content)
+		switch (field.type) {
+		case 'rich-text':
+			cy.get('@templateFiller')
+				.find(`input[placeholder="${field.alias}"]`)
+				.type(field.content)
+			break
+		case 'checkbox':
+			cy.get('@templateFiller')
+				.find('span.checkbox-radio-switch__text').contains(field.alias)
+				.click()
+			break
+		default:
+			expect.fail('Using a field type not yet supported')
+			break
+		}
 	}
 
 	// Submit the template fields
@@ -332,11 +344,23 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 			method: 'GET',
 			url: Cypress.env('baseUrl') + apiEndpoint + fileId + '?format=json',
 			headers: {
-				requesttoken
+				requesttoken,
 			},
 		}).then(({ body }) => {
 			for (const index in body.ocs.data) {
-				expect(body.ocs.data[index].content).to.equal(fields[index].content)
+				const field = body.ocs.data[index]
+
+				switch (field.type) {
+				case 'rich-text':
+					expect(field.content).to.equal(fields[index].content)
+					break
+				case 'checkbox':
+					expect(field.checked).to.equal(fields[index].checked)
+					break
+				default:
+					expect.fail('Using a field type not yet supported')
+					break
+				}
 			}
 		})
 	})
