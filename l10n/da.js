@@ -48,6 +48,7 @@ OC.L10N.register(
     "Edit" : "Redigér",
     "Error" : "Fejl",
     "An error occurred" : "Der var en fejl",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Filen skulle nu åbne lokalt. Hvis dette ikke sker, så vær sikker på at  desktopklienten er installeret på dit system.",
     "Failed to revert the document to older version" : "Det lykkedes ikke at gendanne dokumentet, til en ældre version",
     "Saving …" : "Gemmer ...",
     "Remove from favorites" : "Fjernet fra favoritter",
