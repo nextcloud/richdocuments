@@ -10,6 +10,7 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppConfig;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
@@ -38,18 +39,22 @@ class TemplateFieldService {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
 
-		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
-		$httpClient = $this->clientService->newClient();
-
-		$form = RemoteOptionsService::getDefaultOptions();
-		$form['query'] = ['limit' => 'content-control'];
-		$form['multipart'] = [[
-			'name' => 'data',
-			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
-			'headers' => ['Content-Type' => 'multipart/form-data'],
-		]];
-
 		try {
+			if (!$file) {
+				throw new NotFoundException();
+			}
+
+			$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
+			$httpClient = $this->clientService->newClient();
+
+			$form = RemoteOptionsService::getDefaultOptions();
+			$form['query'] = ['limit' => 'content-control'];
+			$form['multipart'] = [[
+				'name' => 'data',
+				'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
+				'headers' => ['Content-Type' => 'multipart/form-data'],
+			]];
+
 			$response = $httpClient->post(
 				$collaboraUrl . "/cool/extract-document-structure",
 				$form
@@ -95,6 +100,13 @@ class TemplateFieldService {
 
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
+
+			if (!$file) {
+				$e = new NotFoundException();
+				$this->logger->error($e->getMessage());
+
+				throw $e;
+			}
 		}
 
 		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
