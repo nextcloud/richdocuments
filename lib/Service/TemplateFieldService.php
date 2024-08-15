@@ -14,15 +14,20 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use Psr\Log\LoggerInterface;
 
 class TemplateFieldService {
+	private ICache $cache;
+
 	public function __construct(
 		private IClientService $clientService,
 		private CapabilitiesService $capabilitiesService,
 		private AppConfig $appConfig,
 		private IRootFolder $rootFolder,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private ICacheFactory $cacheFactory
 	) {
 	}
 
@@ -42,6 +47,14 @@ class TemplateFieldService {
 		try {
 			if (!$file) {
 				throw new NotFoundException();
+			}
+
+			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
+			$cacheName = $file->getId() . "/" . $file->getEtag();
+			$cachedResponse = $localCache->get($cacheName);
+
+			if ($cachedResponse !== null) {
+				return $cachedResponse;
 			}
 
 			$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
@@ -81,7 +94,10 @@ class TemplateFieldService {
 				];
 			}
 
-			return array_merge([], ...$fields);
+			$fields = array_merge([], ...$fields);
+			$localCache->set($cacheName, $fields, 3600);
+
+			return $fields;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
 			return [];
