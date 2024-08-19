@@ -18,7 +18,7 @@
 		"psalm/phar": "^5.3",
 		"friendsofphp/php-cs-fixer": "^3.8",
 		"nextcloud/coding-standard": "^1.0",
-		"nextcloud/ocp": "dev-master",
+		"nextcloud/ocp": "dev-stable30",
 		"phpunit/phpunit": "^9.5"
 	},
 	"license": "AGPLv3",
