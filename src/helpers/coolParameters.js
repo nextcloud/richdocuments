@@ -158,7 +158,7 @@ const generateCSSVarTokens = () => {
 	darkElement.remove()
 	const customLogo = loadState('richdocuments', 'theming-customLogo', false)
 	if (customLogo) {
-		str += ';--nc-custom-logo=' + window.OCA?.Theming?.cacheBuster ?? 0 + ';'
+		str += `--nc-custom-logo=${window.OCA?.Theming?.cacheBuster ?? 0};`
 	}
 
 	const rootEl = document.querySelector(':root')
