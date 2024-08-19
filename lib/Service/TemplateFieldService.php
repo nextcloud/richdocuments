@@ -13,6 +13,7 @@ use OCP\Files\Node;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
+use OCP\ICacheFactory;
 use Psr\Log\LoggerInterface;
 
 class TemplateFieldService {
@@ -21,7 +22,8 @@ class TemplateFieldService {
 		private CapabilitiesService $capabilitiesService,
 		private AppConfig $appConfig,
 		private IRootFolder $rootFolder,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private ICacheFactory $cacheFactory
 	) {
 	}
 
@@ -38,18 +40,26 @@ class TemplateFieldService {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
 
-		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
-		$httpClient = $this->clientService->newClient();
-
-		$form = RemoteOptionsService::getDefaultOptions();
-		$form['query'] = ['limit' => 'content-control'];
-		$form['multipart'] = [[
-			'name' => 'data',
-			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
-			'headers' => ['Content-Type' => 'multipart/form-data'],
-		]];
-
 		try {
+			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
+			$cacheName = $file->getId() . "/" . $file->getEtag();
+			$cachedResponse = $localCache->get($cacheName);
+			
+			if ($cachedResponse !== null) {
+				return $cachedResponse;
+			}
+
+			$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
+			$httpClient = $this->clientService->newClient();
+
+			$form = RemoteOptionsService::getDefaultOptions();
+			$form['query'] = ['limit' => 'content-control'];
+			$form['multipart'] = [[
+				'name' => 'data',
+				'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
+				'headers' => ['Content-Type' => 'multipart/form-data'],
+			]];
+
 			$response = $httpClient->post(
 				$collaboraUrl . "/cool/extract-document-structure",
 				$form
@@ -76,7 +86,10 @@ class TemplateFieldService {
 				];
 			}
 
-			return array_merge([], ...$fields);
+			$fields = array_merge([], ...$fields);
+			$localCache->set($cacheName, $fields, 3600);
+
+			return $fields;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
 			return [];
