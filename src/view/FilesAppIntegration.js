@@ -169,7 +169,9 @@ export default {
 			.addButton({
 				label: t('richdocuments', 'Insert image'),
 				callback: (files) => {
-					insertFileFromPath(files[0].path)
+					if (files && files.length) {
+						insertFileFromPath(files[0].path)
+					}
 				},
 			})
 			.build()
