@@ -39,10 +39,10 @@
 </template>
 
 <script>
+import { setGuestNickname } from '@nextcloud/auth'
 import { NcButton, NcIconSvgWrapper, NcModal, NcTextField } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import { setGuestNameCookie } from '../helpers/guestName.js'
 
 export default {
 	name: 'GuestNamePicker',
@@ -103,10 +103,10 @@ export default {
 			this.guestName = guestName
 		},
 		async submit() {
-			setGuestNameCookie(this.guestName)
+			setGuestNickname(this.guestName)
 			this.show = false
 
-			await this.onSubmit(this.guestName)
+			await this.onSubmit()
 		},
 	},
 }
