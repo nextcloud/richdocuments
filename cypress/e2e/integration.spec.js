@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Julius Härtl <jus@bitgrid.net>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 describe('Nextcloud integration', function() {
 	let randUser
 
@@ -61,19 +62,18 @@ describe('Nextcloud integration', function() {
 		cy.get('#tab-version_vue .version__info__label').contains('Current version')
 	})
 
-	// Currently it seems that Collabora is missing the save as button
 	it('Save as', function() {
+		const exportFilename = 'document.rtf'
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#File-tab-label').click()
-			cy.get('#file-saveas').click()
-			// FIXME: Seems currently broken, so let's skip this step
-			// cy.get('#saveas-entries #saveas-entry-1').click()
+			cy.get('#saveas').click()
+			cy.get('#saveas-entries #saveas-entry-1').click()
 		})
 
 		cy.get('.saveas-dialog').should('be.visible')
 		cy.get('.saveas-dialog input[type=text]')
 			.should('be.visible')
-			.should('have.value', '/document.odt')
+			.should('have.value', `/${exportFilename}`)
 
 		cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
@@ -85,7 +85,7 @@ describe('Nextcloud integration', function() {
 		// FIXME: We should not need to reload
 		cy.get('.breadcrumb__crumbs a').eq(0).click({ force: true })
 
-		cy.openFile('document.odt')
+		cy.openFile(exportFilename)
 	})
 
 	it('Open locally', function() {
