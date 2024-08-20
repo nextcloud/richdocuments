@@ -76,8 +76,8 @@ describe('Nextcloud integration', function() {
 		cy.get('#tab-version_vue .list-item-content__name').contains('Current version')
 	})
 
-	// Currently it seems that Collabora is missing the save as button
 	it('Save as', function() {
+		const exportFilename = 'document.rtf'
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#File-tab-label').click()
 			cy.get('#saveas').click()
@@ -87,7 +87,7 @@ describe('Nextcloud integration', function() {
 		cy.get('.oc-dialog').should('be.visible')
 		cy.get('.oc-dialog input[type=text]')
 			.should('be.visible')
-			.should('have.value', 'document.rtf')
+			.should('have.value', `/${exportFilename}`)
 
 		cy.get('.oc-dialog button.primary').click()
 
@@ -99,7 +99,7 @@ describe('Nextcloud integration', function() {
 		// FIXME: We should not need to reload
 		cy.get('.breadcrumb__crumbs a').eq(0).click()
 
-		cy.openFile('document.rtf')
+		cy.openFile(exportFilename)
 	})
 
 	it('Open locally', function() {
