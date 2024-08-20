@@ -124,6 +124,44 @@ Cypress.Commands.add('shareFileToUser', (user, path, targetUser, shareData = {})
 	})
 })
 
+Cypress.Commands.add('shareFileToRemoteUser', (user, path, targetUser, shareData = {}) => {
+	cy.login(user)
+	const federatedId = `${targetUser.userId}@${url}`
+	return cy.ocsRequest(user, {
+		method: 'POST',
+		url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
+		body: {
+			path,
+			shareType: 6,
+			shareWith: federatedId,
+			...shareData,
+		},
+	}).then(response => {
+		cy.log(`${user.userId} shared ${path} with ${federatedId}`, response.status)
+		cy.login(targetUser)
+		return cy.ocsRequest(targetUser, {
+			method: 'GET',
+			url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending?format=json`,
+		})
+	}).then(({ body }) => {
+		for (const index in body.ocs.data) {
+			cy.ocsRequest(targetUser, {
+				method: 'POST',
+				url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/${body.ocs.data[index].id}`,
+			})
+			return cy.wrap(body.ocs.data[index].id)
+		}
+	}).then((shareId) => {
+		cy.ocsRequest(targetUser, {
+			method: 'GET',
+			url: `${url}/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/${shareId}?format=json`,
+		}).then((response) => {
+			cy.login(user)
+			return cy.wrap(response.body.ocs.data['file_id'])
+		})
+	})
+})
+
 Cypress.Commands.add('shareLink', (user, path, shareData = {}) => {
 	cy.login(user)
 	cy.ocsRequest(user, {
@@ -205,9 +243,10 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('not.have.class', 'icon-loading')
 })
 
-Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
+Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) => {
+	const wrappedFrameIdentifier = federated ? 'coolframe' : 'documentframe'
 	if (wrapped) {
-		cy.get('[data-cy="documentframe"]', { timeout: 30000 })
+		cy.get(`[data-cy="${wrappedFrameIdentifier}"]`, { timeout: 30000 })
 			.its('0.contentDocument')
 			.its('body').should('not.be.empty')
 			.should('be.visible').should('not.be.empty')
@@ -222,7 +261,13 @@ Cypress.Commands.add('waitForCollabora', (wrapped = false) => {
 		.its('0.contentDocument')
 		.its('body').should('not.be.empty')
 		.as('loleafletframe')
-	cy.get('@loleafletframe').find('#main-document-content').should('be.visible')
+
+	cy.get('@loleafletframe')
+		.within(() => {
+			cy.get('#main-document-content').should('be.visible')
+		})
+
+	return cy.get('@loleafletframe')
 })
 
 Cypress.Commands.add('waitForPostMessage', (messageId, values = undefined) => {

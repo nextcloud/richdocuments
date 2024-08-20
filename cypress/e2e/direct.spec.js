@@ -26,7 +26,7 @@ const createDirectEditingLink = (user, fileId) => {
 		body: {
 			fileId,
 		},
-		auth: { user: user.userId, pass: user.password },
+		// auth: { user: user.userId, pass: user.password },
 		headers: {
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -99,6 +99,21 @@ describe('Direct editing (legacy)', function() {
 					cy.visit(token)
 					cy.waitForCollabora(false)
 					cy.screenshot('direct-share-link')
+				})
+		})
+	})
+
+	it('Open a remotely shared file', () => {
+		cy.createRandomUser().then(shareRecipient => {
+			cy.login(randUser)
+			cy.shareFileToRemoteUser(randUser, '/document.odt', shareRecipient)
+				.then(incomingFileId => {
+					createDirectEditingLink(shareRecipient, incomingFileId)
+						.then((token) => {
+							cy.logout()
+							cy.visit(token)
+							cy.waitForCollabora(false)
+						})
 				})
 		})
 	})
