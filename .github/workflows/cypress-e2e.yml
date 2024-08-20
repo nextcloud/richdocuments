@@ -171,6 +171,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SPLIT: 3
           SPLIT_INDEX: ${{ env.container_index }}
+          CODE_RELEASE: ${{ matrix.code-image }}
 
       - name: Upload test failure screenshots
         uses: actions/upload-artifact@v2
