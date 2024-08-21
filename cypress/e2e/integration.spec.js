@@ -87,7 +87,7 @@ describe('Nextcloud integration', function() {
 		cy.get('.oc-dialog').should('be.visible')
 		cy.get('.oc-dialog input[type=text]')
 			.should('be.visible')
-			.should('have.value', `/${exportFilename}`)
+			.should('have.value', exportFilename)
 
 		cy.get('.oc-dialog button.primary').click()
 

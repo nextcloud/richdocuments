@@ -180,7 +180,7 @@ Cypress.Commands.add('shareLink', (user, path, shareData = {}) => {
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${fileName}"] a[data-cy-files-list-row-name-link]`).click()
+	cy.get(`[data-cy-files-list] tr[data-cy-files-list-row-name="${fileName}"] [data-cy-files-list-row-name-link]`).click()
 })
 
 Cypress.Commands.add('nextcloudEnableApp', (appId) => {
