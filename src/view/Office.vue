@@ -313,6 +313,14 @@ export default {
 			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
 				fileId: fileid, shareToken: this.shareToken, version, guestName: getGuestNickname(),
 			})
+
+			if (data.federatedUrl) {
+				this.$set(this.formData, 'action', data.federatedUrl)
+				this.$nextTick(() => this.$refs.form.submit())
+				this.loading = LOADING_STATE.DOCUMENT_READY
+				return
+			}
+
 			Config.update('urlsrc', data.urlSrc)
 			Config.update('wopi_callback_url', loadState('richdocuments', 'wopi_callback_url', ''))
 

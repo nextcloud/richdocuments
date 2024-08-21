@@ -161,6 +161,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
+          CODE_RELEASE: ${{ matrix.code-image }}
 
       - name: Upload test failure screenshots
         uses: actions/upload-artifact@v2
