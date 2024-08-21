@@ -4,6 +4,41 @@
 -->
 # Changelog
 
+## 8.5.0-beta.2
+
+### Fixed
+
+* Do not ask for guest name on read only pdfs @juliushaertl [#3832](https://github.com/nextcloud/richdocuments/pull/3832)
+* Allow passing css var to change Collabora logo color @elzody [#3840](https://github.com/nextcloud/richdocuments/pull/3840)
+* Add API docs for form extraction and filling API @juliushaertl [#3868](https://github.com/nextcloud/richdocuments/pull/3868)
+* Run cypress against code nightly @juliushaertl [#3869](https://github.com/nextcloud/richdocuments/pull/3869)
+* Remove unnecessary files from release build @juliushaertl [#3870](https://github.com/nextcloud/richdocuments/pull/3870)
+* Show PDF even when download hidden on public share @elzody [#3872](https://github.com/nextcloud/richdocuments/pull/3872)
+* Add check if collabora supports template filling @juliushaertl [#3875](https://github.com/nextcloud/richdocuments/pull/3875)
+* Properly split with multi-collabora matrix @juliushaertl [#3890](https://github.com/nextcloud/richdocuments/pull/3890)
+* Guest username not picked up the second time loading a share link @elzody [#3910](https://github.com/nextcloud/richdocuments/pull/3910)
+* Allow double click in image picker @eszkadev [#3927](https://github.com/nextcloud/richdocuments/pull/3927)
+* properly send custom logo to collabora @elzody [#3928](https://github.com/nextcloud/richdocuments/pull/3928)
+* Cache `extractFields` response from Collabora @elzody [#3932](https://github.com/nextcloud/richdocuments/pull/3932)
+* Bring back federated editing in viewer iframe @juliushaertl [#3940](https://github.com/nextcloud/richdocuments/pull/3940)
+* Switch to new API to set volatile user to prevent persisting it in any case @juliushaertl [#3833](https://github.com/nextcloud/richdocuments/pull/3833)
+
+### Other
+
+* Bump eslint-plugin-cypress from 3.3.0 to 3.4.0 @dependabot [#3841](https://github.com/nextcloud/richdocuments/pull/3841)
+* Bump typescript from 5.5.3 to 5.5.4 @dependabot [#3842](https://github.com/nextcloud/richdocuments/pull/3842)
+* Bump @nextcloud/paths from 2.2.0 to 2.2.1 @dependabot [#3843](https://github.com/nextcloud/richdocuments/pull/3843)
+* Bump @nextcloud/vue from 8.14.0 to 8.15.0 @dependabot [#3844](https://github.com/nextcloud/richdocuments/pull/3844)
+* Bump @nextcloud/files from 3.6.0 to 3.7.0 @dependabot [#3845](https://github.com/nextcloud/richdocuments/pull/3845)
+* Update nextcloud/ocp dependency @nextcloud-command [#3848](https://github.com/nextcloud/richdocuments/pull/3848)
+* Bump fast-xml-parser from 4.3.6 to 4.4.1 @dependabot [#3850](https://github.com/nextcloud/richdocuments/pull/3850)
+* Update nextcloud/ocp dependency @nextcloud-command [#3923](https://github.com/nextcloud/richdocuments/pull/3923)
+* Adjust testing matrix for Nextcloud 30 on stable30 @nickvergessen [#3904](https://github.com/nextcloud/richdocuments/pull/3904)
+* Bump @nextcloud/vue from 8.15.1 to 8.16.0 @dependabot [#3893](https://github.com/nextcloud/richdocuments/pull/3893)
+* Update nextcloud/ocp dependency @nextcloud-command [#3876](https://github.com/nextcloud/richdocuments/pull/3876)
+* Bump @nextcloud/vue from 8.15.0 to 8.15.1 @dependabot [#3873](https://github.com/nextcloud/richdocuments/pull/3873)
+* Bump cypress from 13.13.1 to 13.13.2 @dependabot [#3874](https://github.com/nextcloud/richdocuments/pull/3874)
+
 ## 8.5.0-beta.1
 
 ### Added
