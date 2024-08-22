@@ -1,5 +1,21 @@
 # Changelog
 
+## 8.3.10
+
+### Fixed
+
+* Block incompatible operations with remote tokens @juliushaertl [#3879](https://github.com/nextcloud/richdocuments/pull/3879)
+* Show PDF even when download hidden on public share @elzody [#3888](https://github.com/nextcloud/richdocuments/pull/3888)
+* Guest username not picked up the second time loading a share link @elzody [#3908](https://github.com/nextcloud/richdocuments/pull/3908)
+* Properly send custom logo to collabora @elzody [#3930](https://github.com/nextcloud/richdocuments/pull/3930)
+* Bring back federated editing in viewer iframe @juliushaertl [#3938](https://github.com/nextcloud/richdocuments/pull/3938)
+
+### Other
+
+* Switch to new API to set volatile user to prevent persisting it in any case @juliushaertl [#3861](https://github.com/nextcloud/richdocuments/pull/3861)
+* Remove unnecessary files from release build @juliushaertl [#3881](https://github.com/nextcloud/richdocuments/pull/3881)
+
+
 ## 8.3.9
 
 ### Fixed
