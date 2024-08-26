@@ -13,6 +13,9 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\Folder;
@@ -39,7 +42,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		private LoggerInterface $logger,
 		private ILockManager $lockManager,
 		private ISession $session,
-		private $userId,
+		private ?string $userId
 	) {
 		parent::__construct(Application::APPNAME, $request);
 	}
@@ -50,11 +53,10 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 * As the server template API for file creation is not available there, we need a dedicated API
 	 * in order to properly create files as public page visitors. This is being called in the new file
 	 * actions in src/view/NewFileMenu.js
-	 *
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=richdocumentsCreatePublic)
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'richdocumentsCreatePublic')]
 	public function create(string $mimeType, string $fileName, string $directoryPath = '/', ?string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
 			if ($shareToken !== null) {
@@ -148,7 +150,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		]);
 	}
 
-	#[Http\Attribute\NoAdminRequired]
+	#[NoAdminRequired]
 	public function openLocal(int $fileId): DataResponse {
 		try {
 			$file = $this->rootFolder->getUserFolder($this->userId)->getFirstNodeById($fileId);
