@@ -399,7 +399,7 @@ class SettingsController extends Controller {
 				return new JSONResponse($uploadResult);
 			}
 			return new JSONResponse(['error' => 'No uploaded file'], Http::STATUS_BAD_REQUEST);
-		} catch (UploadException | NotPermittedException $e) {
+		} catch (UploadException|NotPermittedException $e) {
 			$this->logger->error('Upload error', ['exception' => $e]);
 			return new JSONResponse(['error' => 'Upload error'], Http::STATUS_BAD_REQUEST);
 		}

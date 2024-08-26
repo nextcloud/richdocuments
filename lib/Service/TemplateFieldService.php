@@ -52,7 +52,7 @@ class TemplateFieldService {
 			}
 
 			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
-			$cacheName = $file->getId() . "/" . $file->getEtag();
+			$cacheName = $file->getId() . '/' . $file->getEtag();
 			$cachedResponse = $localCache->get($cacheName);
 
 			if ($cachedResponse !== null) {
@@ -81,7 +81,7 @@ class TemplateFieldService {
 			]];
 
 			$response = $httpClient->post(
-				$collaboraUrl . "/cool/extract-document-structure",
+				$collaboraUrl . '/cool/extract-document-structure',
 				$form
 			);
 
@@ -97,11 +97,11 @@ class TemplateFieldService {
 				$fields[] = [
 					new Field(
 						$index,
-						$attr["content"],
+						$attr['content'],
 						$fieldType,
-						$attr["alias"],
-						$attr["id"],
-						$attr["tag"]
+						$attr['alias'],
+						$attr['id'],
+						$attr['tag']
 					)
 				];
 			}

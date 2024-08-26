@@ -25,7 +25,7 @@ class BeforeGetTemplatesListener implements IEventListener {
 		}
 
 		foreach($event->getTemplates() as $template) {
-			$templateFileId = $template->jsonSerialize()["fileid"];
+			$templateFileId = $template->jsonSerialize()['fileid'];
 			$fields = $this->templateFieldService->extractFields($templateFileId);
 			
 			$template->setFields($fields);
