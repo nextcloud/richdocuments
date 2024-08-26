@@ -23,6 +23,7 @@ use OCP\Files\Lock\LockContext;
 use OCP\Files\Lock\NoLockProviderException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
@@ -37,6 +38,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		private IL10N $l10n,
 		private LoggerInterface $logger,
 		private ILockManager $lockManager,
+		private ISession $session,
 		private $userId,
 	) {
 		parent::__construct(Application::APPNAME, $request);
@@ -57,11 +59,17 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);
+
+				if ($share->getPassword()) {
+					if (!$this->session->exists('public_link_authenticated')
+						|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
+					) {
+						throw new Exception('Invalid password');
+					}
+				}
+
 				if (!($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)) {
-					return new JSONResponse([
-						'status' => 'error',
-						'message' => $this->l10n->t('Not allowed to create document')
-					], Http::STATUS_FORBIDDEN);
+					throw new Exception('No create permissions');
 				}
 			}
 
