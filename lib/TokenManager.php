@@ -199,8 +199,8 @@ class TokenManager {
 		);
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-		$guestName = $this->userId === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
-		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, 0, $hideDownload, $direct, 0, $shareToken);
+		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
+		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken);
 	}
 
 	/**
