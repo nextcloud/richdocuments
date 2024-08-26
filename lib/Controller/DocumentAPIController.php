@@ -51,6 +51,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @NoAdminRequired
 	 * @PublicPage
+	 * @BruteForceProtection(action=richdocumentsCreatePublic)
 	 */
 	public function create(string $mimeType, string $fileName, string $directoryPath = '/', ?string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
