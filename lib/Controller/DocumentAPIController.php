@@ -35,6 +35,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -45,15 +46,17 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	private $templateManager;
 	private $l10n;
 	private $logger;
+	private $session;
 	private $userId;
 
-	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, $userId) {
+	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, ISession $session, $userId) {
 		parent::__construct(Application::APPNAME, $request);
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
 		$this->templateManager = $templateManager;
 		$this->l10n = $l10n;
 		$this->logger = $logger;
+		$this->session = $session;
 		$this->userId = $userId;
 	}
 
@@ -72,11 +75,17 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);
+
+				if ($share->getPassword()) {
+					if (!$this->session->exists('public_link_authenticated')
+						|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
+					) {
+						throw new Exception('Invalid password');
+					}
+				}
+
 				if (!($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)) {
-					return new JSONResponse([
-						'status' => 'error',
-						'message' => $this->l10n->t('Not allowed to create document')
-					], Http::STATUS_FORBIDDEN);
+					throw new Exception('No create permissions');
 				}
 			}
 
