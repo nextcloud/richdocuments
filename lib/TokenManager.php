@@ -185,7 +185,7 @@ class TokenManager {
 		);
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : $editoruid;
+		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
 		return $this->wopiMapper->generateFileToken($fileId, $owneruid, $editoruid, $version, $updatable, $serverHost, $guestName, $hideDownload, $direct, 0, $shareToken);
 	}
 
