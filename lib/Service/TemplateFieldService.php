@@ -12,6 +12,7 @@ use OCA\Richdocuments\Capabilities;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
@@ -46,12 +47,16 @@ class TemplateFieldService {
 		}
 
 		try {
+			if (!$file || !$file instanceof File) {
+				throw new NotFoundException();
+			}
+
 			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
 			$cacheName = $file->getId() . "/" . $file->getEtag();
 			$cachedResponse = $localCache->get($cacheName);
-			
+
 			if ($cachedResponse !== null) {
-				// return $cachedResponse;
+				return $cachedResponse;
 			}
 
 			if ($file->getMimeType() === 'application/pdf') {
@@ -123,6 +128,13 @@ class TemplateFieldService {
 
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
+		}
+
+		if (!$file || !$file instanceof File) {
+			$e = new NotFoundException();
+			$this->logger->error($e->getMessage());
+
+			throw $e;
 		}
 
 		if ($file->getMimeType() === 'application/pdf') {
