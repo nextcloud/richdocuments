@@ -21,6 +21,7 @@
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
+		<directory name="composer" />
 		<directory name="vendor" />
 		<ignoreFiles>
 			<directory name="vendor/jakub-onderka" />
