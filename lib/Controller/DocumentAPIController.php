@@ -72,6 +72,12 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);
+				if (!($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)) {
+					return new JSONResponse([
+						'status' => 'error',
+						'message' => $this->l10n->t('Not allowed to create document')
+					], Http::STATUS_FORBIDDEN);
+				}
 			}
 
 			$rootFolder = $shareToken !== null ? $share->getNode() : $this->rootFolder->getUserFolder($this->userId);
