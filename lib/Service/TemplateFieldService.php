@@ -18,6 +18,7 @@ use OCP\Files\Template\FieldType;
 use OCP\Files\Template\InvalidFieldTypeException;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
+use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class TemplateFieldService {
@@ -28,6 +29,8 @@ class TemplateFieldService {
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		private ICacheFactory $cacheFactory,
+		private RemoteService $remoteService,
+		private ITempManager $tempManager,
 		private PdfService $pdfService,
 		private ?string $userId,
 	) {
@@ -133,7 +136,7 @@ class TemplateFieldService {
 	 * @param array<string, array{content: string}> $fields
 	 * @return string|resource
 	 */
-	public function fillFields(Node|int $file, array $fields = [], ?string $destination = null) {
+	public function fillFields(Node|int $file, array $fields = [], ?string $destination = null, ?string $format = null) {
 		if (!$this->capabilitiesService->hasFormFilling()) {
 			throw new \RuntimeException('Form filling not supported by the Collabora server');
 		}
@@ -186,6 +189,14 @@ class TemplateFieldService {
 			);
 
 			$content = $response->getBody();
+
+			if ($format !== null) {
+				$tmp = $this->tempManager->getTemporaryFile();
+				file_put_contents($tmp, $content);
+				$fp = fopen($tmp, 'rb');
+				$content = $this->remoteService->convertTo($file->getName(), $fp, $format);
+			}
+
 			if ($destination !== null) {
 				$this->writeToDestination($destination, $content);
 			}
