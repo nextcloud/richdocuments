@@ -9,7 +9,7 @@ namespace OCA\Richdocuments\Service;
 
 use mikehaertl\pdftk\Pdf;
 use OCP\Files\Node;
-use OCP\Files\Template\Field;
+use OCP\Files\Template\FieldFactory;
 use OCP\Files\Template\FieldType;
 use Psr\Log\LoggerInterface;
 
@@ -34,12 +34,14 @@ class PdfService {
 					continue;
 				}
 
-				$templateFields[] = new Field(
+				$templateField = FieldFactory::createField(
 					(string)$index,
-					$field['FieldValue'],
 					$fieldType,
-					alias: $field['FieldName'],
 				);
+				$templateField->setValue($field['FieldValue']);
+				$templateField->alias = $field['FieldName'];
+
+				$templateFields[] = $templateField;
 				$index++;
 			}
 			return $templateFields;
