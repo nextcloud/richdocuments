@@ -108,7 +108,7 @@ describe('Create templates with fields', () => {
 
 			cy.login(randUser)
 			cy.visit('/apps/files')
-			
+
 			// Create a templates folder
 			cy.get('.files-list__header div[menu-title="New"] button')
 				.should('be.visible')
@@ -126,8 +126,9 @@ describe('Create templates with fields', () => {
 
 	it('Create a document from a template with fields', () => {
 		const fields = [
-			{ alias: 'Name', content: 'Nextcloud' },
-			{ alias: 'Favorite app', content: 'richdocuments' }
+			{ type: 'rich-text', alias: 'Name', content: 'Nextcloud' },
+			{ type: 'rich-text', alias: 'Favorite app', content: 'richdocuments' },
+			{ type: 'checkbox', alias: 'Uses Nextcloud at home', checked: true },
 		]
 
 		cy.visit('/apps/files')

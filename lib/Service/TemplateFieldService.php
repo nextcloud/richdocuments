@@ -14,6 +14,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
+use OCP\Files\Template\FieldFactory;
 use OCP\Files\Template\FieldType;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
@@ -94,16 +95,23 @@ class TemplateFieldService {
 					continue;
 				}
 
-				$fields[] = [
-					new Field(
-						$index,
-						$attr['content'],
-						$fieldType,
-						$attr['alias'],
-						$attr['id'],
-						$attr['tag']
-					)
-				];
+				$field = FieldFactory::createField($index, $fieldType);
+				$field->id = $attr['id'];
+				$field->tag = $attr['tag'];
+				$field->alias = $attr['alias'];
+
+				switch ($fieldType) {
+					case FieldType::RichText:
+						$field->setValue($attr['content']);
+						break;
+					case FieldType::CheckBox:
+						$field->setValue($attr['Checked'] === 'true');
+						break;
+					default:
+						break;
+				}
+
+				$fields[] = [$field];
 			}
 
 			$fields = array_merge([], ...$fields);
