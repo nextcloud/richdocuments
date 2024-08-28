@@ -16,6 +16,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
 use OCP\Files\Template\FieldFactory;
 use OCP\Files\Template\FieldType;
+use OCP\Files\Template\InvalidFieldTypeException;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
 use Psr\Log\LoggerInterface;
@@ -95,7 +96,11 @@ class TemplateFieldService {
 					continue;
 				}
 
-				$field = FieldFactory::createField($index, $fieldType);
+				try {
+					$field = FieldFactory::createField($index, $fieldType);
+				} catch (InvalidFieldTypeException) {
+					continue;
+				}
 				$field->id = $attr['id'];
 				$field->tag = $attr['tag'];
 				$field->alias = $attr['alias'];
