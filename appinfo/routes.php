@@ -94,5 +94,7 @@ return [
 
 		['name' => 'Target#getTargets', 'url' => '/api/v1/targets', 'verb' => 'GET'],
 		['name' => 'Target#getPreview', 'url' => '/api/v1/targets/preview', 'verb' => 'GET'],
+
+		['name' => 'Mention#mention', 'url' => '/api/v1/mention/{fileId}', 'verb' => 'POST'],
 	],
 ];

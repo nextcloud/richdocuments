@@ -36,6 +36,7 @@ use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ReferenceListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
+use OCA\Richdocuments\Notification\Notifier;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
@@ -86,6 +87,8 @@ class Application extends App implements IBootstrap {
 			'getPathForToken',
 			'getWopiForToken',
 		]);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
