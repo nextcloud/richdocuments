@@ -4,6 +4,21 @@
 -->
 # Changelog
 
+## 8.5.0-beta.3
+
+### Added
+
+- Pass data to field depending on field type [#3954](https://github.com/nextcloud/richdocuments/pull/3954)
+
+### Fixed
+
+- fix: Do not set a guest name on actual users [#3950](https://github.com/nextcloud/richdocuments/pull/3950)
+- fix: Fix missing conflicts on pdf templating @juliushaertl [#3949](https://github.com/nextcloud/richdocuments/pull/3949)
+
+### Other
+
+- feat: implement PdfService using mikehaertl/php-pdftk [#3947](https://github.com/nextcloud/richdocuments/pull/3947)
+
 ## 8.5.0-beta.2
 
 ### Fixed
