@@ -35,7 +35,7 @@ class AddContentSecurityPolicyListener implements IEventListener {
 
 		$policy = new EmptyContentSecurityPolicy();
 		$policy->addAllowedFrameDomain("'self'");
-		$policy->addAllowedFrameDomain("nc:");
+		$policy->addAllowedFrameDomain('nc:');
 
 		if ($this->capabilitiesService->hasWASMSupport()) {
 			$policy->allowEvalWasm(true);
@@ -49,7 +49,7 @@ class AddContentSecurityPolicyListener implements IEventListener {
 		}
 
 		if ($this->isSettingsPage()) {
-			$policy->addAllowedConnectDomain("*");
+			$policy->addAllowedConnectDomain('*');
 		}
 
 		$event->addPolicy($policy);

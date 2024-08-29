@@ -158,7 +158,7 @@ class WopiMapper extends QBMapper {
 	 * @return int
 	 */
 	private function calculateNewTokenExpiry(): int {
-		return $this->timeFactory->getTime() + (int) $this->appConfig->getAppValue('token_ttl');
+		return $this->timeFactory->getTime() + (int)$this->appConfig->getAppValue('token_ttl');
 	}
 
 	/**

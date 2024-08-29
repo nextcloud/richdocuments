@@ -34,7 +34,7 @@ class FederationService {
 	private $cache;
 	/** @var IClientService */
 	private $clientService;
-	/** @var LoggerInterface  */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var TrustedServers */
 	private $trustedServers;

@@ -26,7 +26,7 @@ class RichDocumentsContext implements Context {
 	public $currentServer;
 	public $fileId;
 	public $wopiToken;
-	/** @var array List of opened file ids in order to compare opening accross instances*/
+	/** @var array List of opened file ids in order to compare opening accross instances */
 	private $fileIds = [];
 	/** @var array List of templates fetched for a given file type */
 	private $templates = [];

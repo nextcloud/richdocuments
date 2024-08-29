@@ -4,7 +4,6 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
@@ -54,7 +53,7 @@ class TemplateFieldService {
 			}
 
 			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
-			$cacheName = $file->getId() . "/" . $file->getEtag();
+			$cacheName = $file->getId() . '/' . $file->getEtag();
 			$cachedResponse = $localCache->get($cacheName);
 
 			if ($cachedResponse !== null) {
@@ -83,7 +82,7 @@ class TemplateFieldService {
 			]];
 
 			$response = $httpClient->post(
-				$collaboraUrl . "/cool/extract-document-structure",
+				$collaboraUrl . '/cool/extract-document-structure',
 				$form
 			);
 
