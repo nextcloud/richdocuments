@@ -79,5 +79,7 @@ return [
 
 		['name' => 'TemplateField#extractFields', 'url' => '/api/v1/template/fields/extract/{fileId}', 'verb' => 'GET'],
 		['name' => 'TemplateField#fillFields', 'url' => '/api/v1/template/fields/fill/{fileId}', 'verb' => 'POST'],
+
+		['name' => 'Mention#mention', 'url' => '/api/v1/mention/{fileId}', 'verb' => 'POST'],
 	],
 ];
