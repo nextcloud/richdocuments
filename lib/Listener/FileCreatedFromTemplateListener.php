@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\TemplateFieldService;
 use OCA\Richdocuments\TemplateManager;
@@ -28,6 +29,11 @@ class FileCreatedFromTemplateListener implements IEventListener {
 
 	public function handle(Event $event): void {
 		if (!($event instanceof FileCreatedFromTemplateEvent)) {
+			return;
+		}
+
+		$targetFile = $event->getTarget();
+		if (!in_array($targetFile->getMimetype(), Capabilities::MIMETYPES) && $targetFile->getMimeType() !== 'application/pdf') {
 			return;
 		}
 
