@@ -23,6 +23,7 @@ use OCA\Richdocuments\Listener\ReferenceListener;
 use OCA\Richdocuments\Listener\RegisterTemplateFileCreatorListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
+use OCA\Richdocuments\Notification\Notifier;
 use OCA\Richdocuments\Preview\EMF;
 use OCA\Richdocuments\Preview\MSExcel;
 use OCA\Richdocuments\Preview\MSWord;
@@ -80,6 +81,7 @@ class Application extends App implements IBootstrap {
 		$context->registerPreviewProvider(OOXML::class, OOXML::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(OpenDocument::class, OpenDocument::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(Pdf::class, Pdf::MIMETYPE_REGEX);
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
