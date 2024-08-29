@@ -179,7 +179,7 @@ class WopiController extends Controller {
 
 		$share = $this->getShareForWopiToken($wopi);
 		if ($this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share)) {
-			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : "";
+			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : '';
 			$replacements = [
 				'userId' => $wopi->getEditorUid(),
 				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
@@ -335,7 +335,7 @@ class WopiController extends Controller {
 						}
 
 						$fp = $file->fopen('rb');
-						$rangeStream = fopen("php://temp", "w+b");
+						$rangeStream = fopen('php://temp', 'w+b');
 						stream_copy_to_stream($fp, $rangeStream, $length, $offset);
 						fclose($fp);
 
@@ -512,7 +512,7 @@ class WopiController extends Controller {
 			$wopiLock = $this->request->getHeader('X-WOPI-Lock');
 			[$fileId, , ] = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-			if ((int) $fileId !== $wopi->getFileid()) {
+			if ((int)$fileId !== $wopi->getFileid()) {
 				return new JSONResponse([], Http::STATUS_FORBIDDEN);
 			}
 		} catch (UnknownTokenException $e) {

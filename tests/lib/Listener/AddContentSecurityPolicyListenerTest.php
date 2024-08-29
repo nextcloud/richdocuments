@@ -94,8 +94,8 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["'self'", "nc:" , "http://public"], $policy->getAllowedFrameDomains());
-		self::assertEquals(["'self'", "http://public"], $policy->getAllowedFormActionDomains());
+		self::assertEquals(["'self'", 'nc:' , 'http://public'], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", 'http://public'], $policy->getAllowedFormActionDomains());
 	}
 
 	public function testHandleRemote() {
@@ -121,7 +121,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["'self'", "nc:"], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", 'nc:'], $policy->getAllowedFrameDomains());
 		self::assertEquals(["'self'"], $policy->getAllowedFormActionDomains());
 	}
 
@@ -133,8 +133,8 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["'self'", "nc:", "http://public"], $policy->getAllowedFrameDomains());
-		self::assertEquals(["'self'", "http://public"], $policy->getAllowedFormActionDomains());
+		self::assertEquals(["'self'", 'nc:', 'http://public'], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", 'http://public'], $policy->getAllowedFormActionDomains());
 	}
 
 	public function testWopiUrl() {
@@ -145,8 +145,8 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["'self'", "nc:", "https://public"], $policy->getAllowedFrameDomains());
-		self::assertEquals(["'self'", "https://public"], $policy->getAllowedFormActionDomains());
+		self::assertEquals(["'self'", 'nc:', 'https://public'], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", 'https://public'], $policy->getAllowedFormActionDomains());
 	}
 
 	public function testGS() {
@@ -163,8 +163,8 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["'self'", "nc:", "https://public", "*.example.com"], $policy->getAllowedFrameDomains());
-		self::assertEquals(["'self'", "https://public", "*.example.com"], $policy->getAllowedFormActionDomains());
+		self::assertEquals(["'self'", 'nc:', 'https://public', '*.example.com'], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", 'https://public', '*.example.com'], $policy->getAllowedFormActionDomains());
 	}
 
 	public function testNoGS() {
@@ -178,8 +178,8 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $this->getMergedPolicy();
 
-		self::assertEquals(["'self'", "nc:", "http://internal"], $policy->getAllowedFrameDomains());
-		self::assertEquals(["'self'", "http://internal"], $policy->getAllowedFormActionDomains());
+		self::assertEquals(["'self'", 'nc:', 'http://internal'], $policy->getAllowedFrameDomains());
+		self::assertEquals(["'self'", 'http://internal'], $policy->getAllowedFormActionDomains());
 	}
 
 	public function testHandleMerged() {
@@ -203,8 +203,8 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $manager->getDefaultPolicy();
 
-		self::assertArrayUnordered(["'self'", "external.example.com", "http://public", "nc:"], $policy->getAllowedFrameDomains(), "Domains are equal", 0.0, 10, true);
-		self::assertArrayUnordered(["'self'", "external.example.com", "http://public"], $policy->getAllowedFormActionDomains());
+		self::assertArrayUnordered(["'self'", 'external.example.com', 'http://public', 'nc:'], $policy->getAllowedFrameDomains(), 'Domains are equal', 0.0, 10, true);
+		self::assertArrayUnordered(["'self'", 'external.example.com', 'http://public'], $policy->getAllowedFormActionDomains());
 	}
 
 	public static function assertArrayUnordered($expected, $actual, $msg = '') {

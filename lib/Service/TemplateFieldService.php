@@ -4,7 +4,6 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppConfig;
@@ -14,7 +13,9 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\Field;
+use OCP\Files\Template\FieldFactory;
 use OCP\Files\Template\FieldType;
+use OCP\Files\Template\InvalidFieldTypeException;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
 use Psr\Log\LoggerInterface;
@@ -52,7 +53,7 @@ class TemplateFieldService {
 			}
 
 			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
-			$cacheName = $file->getId() . "/" . $file->getEtag();
+			$cacheName = $file->getId() . '/' . $file->getEtag();
 			$cachedResponse = $localCache->get($cacheName);
 
 			if ($cachedResponse !== null) {
@@ -81,7 +82,7 @@ class TemplateFieldService {
 			]];
 
 			$response = $httpClient->post(
-				$collaboraUrl . "/cool/extract-document-structure",
+				$collaboraUrl . '/cool/extract-document-structure',
 				$form
 			);
 
@@ -94,16 +95,27 @@ class TemplateFieldService {
 					continue;
 				}
 
-				$fields[] = [
-					new Field(
-						$index,
-						$attr["content"],
-						$fieldType,
-						$attr["alias"],
-						$attr["id"],
-						$attr["tag"]
-					)
-				];
+				try {
+					$field = FieldFactory::createField($index, $fieldType);
+				} catch (InvalidFieldTypeException) {
+					continue;
+				}
+				$field->id = $attr['id'];
+				$field->tag = $attr['tag'];
+				$field->alias = $attr['alias'];
+
+				switch ($fieldType) {
+					case FieldType::RichText:
+						$field->setValue($attr['content']);
+						break;
+					case FieldType::CheckBox:
+						$field->setValue($attr['Checked'] === 'true');
+						break;
+					default:
+						break;
+				}
+
+				$fields[] = [$field];
 			}
 
 			$fields = array_merge([], ...$fields);

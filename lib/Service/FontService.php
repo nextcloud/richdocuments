@@ -220,7 +220,7 @@ class FontService {
 				imagepng($im, $imageFileResource);
 				imagedestroy($im);
 			}
-		} catch (\Exception | \Throwable $e) {
+		} catch (\Exception|\Throwable $e) {
 			// do nothing if there was any kind of error during overview generation
 			// the /apps/richdocuments/settings/fonts/FILE_NAME/overview request will fail with 404
 			// in the UI and display a fallback message
