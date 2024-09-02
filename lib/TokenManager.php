@@ -7,14 +7,14 @@
 namespace OCA\Richdocuments;
 
 use Exception;
-use OC\Files\Filesystem;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
-use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\WOPI\Parser;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -28,49 +28,18 @@ use OCP\Share\IShare;
 use OCP\Util;
 
 class TokenManager {
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IManager */
-	private $shareManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var Parser */
-	private $wopiParser;
-	/** @var string */
-	private $userId;
-	/** @var WopiMapper */
-	private $wopiMapper;
-	/** @var IL10N */
-	private $trans;
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-	/** @var Helper */
-	private $helper;
-	/** @var PermissionManager */
-	private $permissionManager;
-
 	public function __construct(
-		IRootFolder $rootFolder,
-		IManager $shareManager,
-		IURLGenerator $urlGenerator,
-		Parser $wopiParser,
-		CapabilitiesService $capabilitiesService,
-		$UserId,
-		WopiMapper $wopiMapper,
-		IL10N $trans,
-		Helper $helper,
-		PermissionManager $permissionManager
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+		private IURLGenerator $urlGenerator,
+		private Parser $wopiParser,
+		private ?string $userId,
+		private WopiMapper $wopiMapper,
+		private IL10N $trans,
+		private Helper $helper,
+		private PermissionManager $permissionManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->shareManager = $shareManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->wopiParser = $wopiParser;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->trans = $trans;
-		$this->userId = $UserId;
-		$this->wopiMapper = $wopiMapper;
-		$this->helper = $helper;
-		$this->permissionManager = $permissionManager;
 	}
 
 	/**
@@ -178,11 +147,7 @@ class TokenManager {
 		}
 
 		// force read operation to trigger possible audit logging
-		\OC_Hook::emit(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_read,
-			[Filesystem::signal_param_path => $file->getPath()]
-		);
+		$this->eventDispatcher->dispatchTyped(new BeforeNodeReadEvent($file));
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 		$guestName = $editoruid === null ? $this->prepareGuestName($this->helper->getGuestNameFromCookie()) : null;
