@@ -87,7 +87,7 @@ class TemplateFieldService {
 				$form
 			);
 
-			$documentStructure = json_decode($response->getBody(), true)['DocStructure'];
+			$documentStructure = json_decode($response->getBody(), true)['DocStructure'] ?? [];
 			$fields = [];
 
 			foreach ($documentStructure as $index => $attr) {
