@@ -147,6 +147,7 @@ OC.L10N.register(
     "Edit with {productName}" : "Modifica con {productName}",
     "Open locally" : "Aprire localmente",
     "Continue editing online" : "Continua a modificare in linea",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "I file dovrebbe ora aprirsi in locale. Se non succede, assicurati che il client desktop sia installato nel tuo sistema.",
     "Failed to revert the document to older version" : "Il ripristino del documento alla versione più datata non è riuscito",
     "Select a personal template folder" : "Seleziona una cartella dei modelli personali",
     "Failed to update the Zotero API key" : "Impossibile aggiornare la chiave API di Zotero",
