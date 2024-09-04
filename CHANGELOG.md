@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.4.6
+
+### Fixed
+* Do not ask for guest name on read only pdfs @juliushaertl [#3952](https://github.com/nextcloud/richdocuments/pull/3952)
+
+### Other
+* Upgrade `@nextcloud/files` to 3.8.0 @skjnldsv [#3974](https://github.com/nextcloud/richdocuments/pull/3974)
+
 ## 8.4.5
 
 ### Fixed
