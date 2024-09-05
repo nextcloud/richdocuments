@@ -24,7 +24,8 @@
 			</p>
 
 			<fieldset>
-				<NcTextField :value="guestName"
+				<NcTextField ref="guestNameInput"
+					:value="guestName"
 					data-cy="guestNameInput"
 					:label="t('richdocuments', 'Guest name')"
 					:placeholder="t('richdocuments', 'Anonymous guest')"
@@ -83,6 +84,10 @@ export default {
 	},
 
 	async mounted() {
+		this.$nextTick(() => {
+			this.$refs.guestNameInput.focus()
+		})
+
 		const name = document.getElementById('filename').value
 		const mimeTypeIcon = async () => {
 			const url = document.getElementById('mimetypeIcon').value
