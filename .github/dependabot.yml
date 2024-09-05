@@ -10,9 +10,13 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   open-pull-requests-limit: 10
+  labels:
+    - "3. to review"
+    - "dependencies"
   reviewers:
-  - juliushaertl
-  - luka-nextcloud
+    - juliushaertl
+    - luka-nextcloud
+
 - package-ecosystem: composer
   directory: "/"
   schedule:
@@ -21,6 +25,13 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   open-pull-requests-limit: 10
+  labels:
+    - "3. to review"
+    - "dependencies"
+  reviewers:
+    - juliushaertl
+    - luka-nextcloud
+
 - package-ecosystem: composer
   directory: "/tests"
   schedule:
@@ -28,4 +39,70 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "dependencies"
+  reviewers:
+    - juliushaertl
+    - luka-nextcloud
   open-pull-requests-limit: 10
+
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable28
+  labels:
+    - "3. to review"
+    - "dependencies"
+  reviewers:
+    - juliushaertl
+    - luka-nextcloud
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable29
+  labels:
+    - "3. to review"
+    - "dependencies"
+  reviewers:
+    - juliushaertl
+    - luka-nextcloud
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable30
+  labels:
+    - "3. to review"
+    - "dependencies"
+  reviewers:
+    - juliushaertl
+    - luka-nextcloud
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
