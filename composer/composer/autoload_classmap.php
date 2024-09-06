@@ -72,6 +72,7 @@ return array(
     'OCA\\Richdocuments\\Service\\FileTargetService' => $baseDir . '/../lib/Service/FileTargetService.php',
     'OCA\\Richdocuments\\Service\\FontService' => $baseDir . '/../lib/Service/FontService.php',
     'OCA\\Richdocuments\\Service\\InitialStateService' => $baseDir . '/../lib/Service/InitialStateService.php',
+    'OCA\\Richdocuments\\Service\\RemoteOptionsService' => $baseDir . '/../lib/Service/RemoteOptionsService.php',
     'OCA\\Richdocuments\\Service\\RemoteService' => $baseDir . '/../lib/Service/RemoteService.php',
     'OCA\\Richdocuments\\Service\\UserScopeService' => $baseDir . '/../lib/Service/UserScopeService.php',
     'OCA\\Richdocuments\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
