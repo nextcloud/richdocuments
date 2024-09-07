@@ -58,7 +58,7 @@
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "cypress": "^13.7.3",
     "cypress-split": "^1.21.2",
-    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-cypress": "^2.15.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5"
   },
