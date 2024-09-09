@@ -1,0 +1,132 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+class OC_User {
+	public static function isIncognitoMode() {}
+	public static function setIncognitoMode($status) {}
+}
+
+namespace OC\Hooks {
+	interface Emitter {
+		/**
+		 * @param string $scope
+		 * @param string $method
+		 * @param callable $callback
+		 * @return void
+		 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
+		 */
+		public function listen($scope, $method, callable $callback);
+
+		/**
+		 * @param string $scope optional
+		 * @param string $method optional
+		 * @param callable $callback optional
+		 * @return void
+		 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
+		 */
+		public function removeListener($scope = null, $method = null, callable $callback = null);
+	}
+}
+
+namespace OCA\Federation {
+	class TrustedServers {
+		public function getServers() {
+		}
+		public function isTrustedServer($domainWithPort) {
+		}
+	}
+}
+
+namespace OCA\Viewer\Event {
+	class LoadViewer extends \OCP\EventDispatcher\Event {
+	}
+}
+
+namespace Doctrine\DBAL\Platforms {
+	class SqlitePlatform {
+	}
+}
+
+namespace OCA\Files_Sharing {
+	use OCP\Files\Storage\IStorage;
+	use \OCP\Share\IShare;
+
+	abstract class SharedStorage implements IStorage {
+		public function getShare(): IShare {
+		}
+	}
+}
+
+namespace OCA\Files_Sharing\Event {
+	use \OCP\Share\IShare;
+
+	class ShareLinkAccessedEvent extends \OCP\EventDispatcher\Event {
+		public function __construct(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = '') {
+		}
+
+		public function getShare(): IShare {
+		}
+
+		public function getStep(): string {
+		}
+
+		public function getErrorCode(): int {
+		}
+
+		public function getErrorMessage(): string {
+		}
+	}
+}
+
+namespace OCA\Theming {
+	use OCA\Theming\Service\BackgroundService;
+	use OCA\Files\IAppData;
+	use OCP\ICacheFactory;
+	use OCP\IConfig;
+	use OCP\ITempManager;
+	use OCP\IURLGenerator;
+	use PSR\Log\LoggerInterface;
+
+	class ImageManager {
+		public function __construct(
+			IConfig $config,
+			IAppData $appData,
+			IURLGenerator $urlGenerator,
+			ICacheFactory $cacheFactory,
+			LoggerInterface $logger,
+			ITempManager $tempManager,
+			BackgroundService $backgroundService
+		) {
+		}
+
+		public function hasImage(string $key): bool {
+		}
+
+		public function getImageUrlAbsolute(string $key): string {
+		}
+	}
+}
+
+class OC_Helper {
+	public static function getFileTemplateManager() {
+	}
+}
+
+namespace Symfony\Component\HttpFoundation {
+	class IpUtils {
+		public static function checkIp(?string $requestIp, $ips) {}
+	}
+}
+
+#[\Attribute(Attribute::TARGET_PARAMETER)]
+class SensitiveParameter {
+}
+
+class OC_Util {
+	public static function setupFS(?string $user);
+	public static function tearDownFS();
+}

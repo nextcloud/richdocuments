@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+  <file src="lib/AppConfig.php">
+    <InvalidArgument>
+      <code><![CDATA[[]]]></code>
+    </InvalidArgument>
+    <RedundantCondition>
+      <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/Command/ActivateConfig.php">
+    <UndefinedClass>
+      <code><![CDATA[Command]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/ConvertToBigInt.php">
+    <UndefinedClass>
+      <code><![CDATA[Command]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/InstallDefaultFonts.php">
+    <UndefinedClass>
+      <code><![CDATA[Command]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Command/UpdateEmptyTemplates.php">
+    <UndefinedClass>
+      <code><![CDATA[Command]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Controller/DirectViewController.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$item->getId()]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/Controller/DocumentAPIController.php">
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Files\Helper]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Controller/DocumentController.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$node->getId()]]></code>
+    </InvalidScalarArgument>
+    <RedundantCondition>
+      <code><![CDATA[$app !== '']]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/Controller/SettingsController.php">
+    <UndefinedClass>
+      <code><![CDATA[NullOutput]]></code>
+      <code><![CDATA[NullOutput]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Controller/TemplatesController.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->fetchPreview($template, $x, $y, $a, $forceIcon, $mode)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[DataResponse]]></code>
+    </InvalidReturnType>
+    <InvalidThrow>
+      <code><![CDATA[NotFoundResponse]]></code>
+    </InvalidThrow>
+  </file>
+  <file src="lib/Controller/WopiController.php">
+    <NullArgument>
+      <code><![CDATA[null]]></code>
+    </NullArgument>
+    <TypeDoesNotContainType>
+      <code><![CDATA[$path === '']]></code>
+    </TypeDoesNotContainType>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[putContent]]></code>
+      <code><![CDATA[putContent]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Helper.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$time]]></code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="lib/PermissionManager.php">
+    <RedundantCondition>
+      <code><![CDATA[$share && method_exists($share, 'getAttributes')]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/Preview/Office.php">
+    <MissingDependency>
+      <code><![CDATA[Image]]></code>
+    </MissingDependency>
+  </file>
+  <file src="lib/Service/ConnectivityService.php">
+    <UndefinedClass>
+      <code><![CDATA[OutputInterface]]></code>
+      <code><![CDATA[OutputInterface]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Service/FederationService.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA[is_array($trustedList)]]></code>
+    </TypeDoesNotContainType>
+    <UndefinedClass>
+      <code><![CDATA[SharingExternalStorage]]></code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[getRemote]]></code>
+      <code><![CDATA[getToken]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Template/CollaboraTemplateProvider.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[array_map(function (File $file) {
+			$template = new Template(CollaboraTemplateProvider::class, (string)$file->getId(), $file);
+			$template->setCustomPreviewUrl($this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $file->getId()]));
+			return $template;
+		}, $collaboraTemplates)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[array]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="lib/WOPI/Parser.php">
+    <RedundantCondition>
+      <code><![CDATA[$result && count($result) > 0]]></code>
+    </RedundantCondition>
+  </file>
+</files>

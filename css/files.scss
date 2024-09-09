@@ -1,0 +1,138 @@
+/*!
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.icon-collabora {
+	opacity: 0.6;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.richdocuments-sharing .icon-shared {
+	display: block;
+	width: 16px;
+	height: 16px;
+	padding: 16px;
+	opacity: 0.6;
+}
+
+.richdocuments-sharing .icon-shared:hover,
+.richdocuments-sharing .icon-shared:focus {
+	opacity: 1;
+}
+
+#richdocumentsframe {
+	background-color: #fff;
+	width:100%;
+	height: 100vh;
+	display:block;
+	position:absolute;
+	top: 0px;
+	left: 0;
+	z-index:110;
+	&.full {
+		height: 100%;
+		position: fixed;
+		z-index: 2001; // Above app-content
+	}
+}
+
+#editors-menu {
+	min-width: 200px;
+	top: 50px;
+	z-index: 1600; // should be above #app-content(1000) and #talk-sidebar(1500)
+
+	ul li {
+		display: flex;
+		padding: 3px;
+		border-left: 3px solid transparent;
+		&.active {
+			border-left: 3px solid var(--color-primary-element);
+		}
+
+		.label {
+			padding: 6px;
+			flex-grow: 1;
+
+			.icon-play-next {
+				opacity: .5;
+				display: inline-block;
+				padding-left: 10px;
+				vertical-align: top;
+			}
+		}
+		label.label::before {
+			margin-right: 16px;
+			margin-left: 7px;
+		}
+		.icon-close {
+			padding: 8px;
+		}
+	}
+}
+
+#richdocuments-avatars {
+	position: relative;
+	right: -15px;
+
+	.header-right-richdocuments & {
+		right: 0;
+	}
+
+	& > .richdocuments-avatar {
+		float: right;
+		border-radius: 50%;
+		margin: 8px;
+		margin-left: -20px;
+		box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+		position: relative;
+		&.read-only {
+			opacity: 0.8;
+		}
+	}
+}
+
+#richdocuments-header {
+	display: flex;
+	& > div .icon-shared,
+	& > div .icon-more {
+		display: block;
+		min-width: 50px;
+		height: 50px;
+	}
+}
+
+#richdocuments-actions {
+	position: relative;
+	li {
+		white-space: nowrap;
+		a.icon-loading-small:after {
+			left: 19px;
+		}
+	}
+}
+
+#versionsTabView li {
+	padding-left: 15px;
+	margin-left: -15px;
+}
+
+#versionsTabView li.active {
+	border-left: 3px solid var(--color-primary-element, #000);
+	padding-left: 12px;
+}
+
+#currentVersion li,
+#lastSavedVersion li {
+	border-bottom: 1px solid rgba(100,100,100,.1);
+
+	.version-container .downloadVersion {
+		display: flex;
+		flex-direction: column;
+		margin-left: 12px;
+	}
+}
+
+@import 'templatePicker';

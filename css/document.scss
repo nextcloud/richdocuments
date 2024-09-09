@@ -1,0 +1,525 @@
+/*!
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+#editor {
+	box-shadow: none !important;
+}
+
+#editor ::-webkit-scrollbar-thumb {
+	background-color: #fff;
+}
+
+body {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+.documentslist { padding:5px; }
+
+.documentslist .document,
+.documentslist .progress,
+.documentslist .add-document{
+	display: inline-block;
+	height: 200px;
+	width: 200px;
+	float: left;
+	margin: 14px;
+	vertical-align: top;
+}
+
+.documentslist .progress div{
+	margin-top: 144px;
+	text-align: center;
+}
+
+.documentslist .document:hover,
+.documentslist .document a:focus {
+	background-color: #ddd;
+}
+
+.documentslist .session-active {
+	position: relative;
+	margin-left: 128px;
+	margin-top: 128px;
+	width: 32px;
+}
+
+.document a {
+	display: block;
+	position: relative;
+	height: 200px;
+	width: 200px;
+	background-repeat: no-repeat;
+	background-size: 200px;
+}
+
+.document a:hover {
+	border: 1px solid #818181;
+}
+
+.document label {
+	background: rgba(255, 255, 255, 0.7);
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	font-weight: normal;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: center;
+	padding: 0 8px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	white-space: nowrap;
+}
+
+.claro #header{
+	text-align: left;
+	position: absolute;
+	width: 100%;
+	padding:0;
+	z-index: 500 !important;
+}
+
+#header #dropdown{
+	right: auto;
+	top: 45px;
+}
+
+#header .padded{
+	margin-right:12px;
+}
+
+#document-title {
+	min-width:300px;
+	padding: 7px;
+	font-weight: normal;
+	color: #FFF;
+}
+
+#ocToolbar .filename{
+	padding: 5px 6px;
+	min-width: 300px;
+	margin-top: 0;
+}
+
+#odf-close{
+	position: absolute;
+	right: 0;
+	float: right;
+	padding: 18px;
+	background-color: transparent;
+	border: none;
+	opacity: .5;
+}
+
+#odf-close.icon-close {
+	height: 23px;
+	width: 23px;
+}
+
+#odf-invite{
+	margin-top: 0;
+	margin-left: 3px;
+	float: left;
+	background-position: 5px center;
+	padding-left: 24px;
+}
+
+#mainContainer{
+	position: absolute;
+	width:100%;
+	z-index: 500;
+	top: 0px;
+	bottom: 0;
+}
+
+#loadingContainer.icon-loading {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 600;
+	background-color: var(--color-main-background);
+}
+
+#proxyLoadingContainer {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: var(--color-main-background);
+}
+
+#proxyLoadingMessage {
+	position: relative;
+	margin-top: 10px;
+}
+
+#revViewerContainer{
+	position: absolute;
+	width: 100%;
+	z-index: 600;
+	background-color: #ddd !important;
+	top: 0px;
+	bottom: 0;
+}
+
+#revViewer{
+	position: relative;
+	height: 100%;
+}
+
+#revPanelContainer{
+	position: fixed;
+	width: 250px;
+	z-index: 600;
+	background-color: #efefef !important;
+	right: 0;
+	top: 0px;
+	bottom: 0;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+
+/* For close button image */
+#revViewerContainer .closeButton {
+	position: absolute;
+	right: 2px;
+	top: 5px;
+	width: 20px;
+	height: 24px;
+	z-index: 1;
+	border: none;
+}
+
+.loleaflet-font{
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+}
+
+#documents-overlay, #documents-overlay-below{
+	position: fixed;
+	top: 0px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	filter:alpha(opacity=60);
+	opacity: .6;
+	z-index: 1000;
+	background-color: #fff;
+}
+
+#documents-overlay-below{
+	right: 72px;
+	top: 0px;
+	filter:alpha(opacity=100);
+	opacity: 1;
+	background:#fff;
+	z-index: 999;
+}
+
+#file_upload_start{
+	display: block;
+	position:relative;
+	left:0; top:0; width:200px; height:100px;
+	margin-bottom: -110px;padding:0;
+	cursor:pointer; overflow:hidden;
+	font-size:1em;
+	-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)'; filter:alpha(opacity=0); opacity:0;
+	z-index:20;
+}
+
+#saving-document{
+	float:right;
+	display:none;
+}
+
+#warning-connection-lost{
+	position: relative;
+	z-index: 2000;
+	height: 19px;
+	margin-top: -2px;
+	padding: 13px 0;
+	text-align: center;
+	color: #ffffff;
+	background-color: #CE7070;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#warning-connection-lost img {
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	height: 20px;
+}
+
+#connection-lost{
+	right: 5px;
+	background: #fff;
+	width: 95%;
+	position: absolute;
+	top: 87px;
+}
+
+/* override WebODF styling here */
+#mainContainer #collaboration{
+	float:right;position: relative;z-index: 1;
+	width: 70px;padding:5px;
+}
+
+#members {
+	left: auto !important;
+	right:0px;
+	top: 4px !important;
+	padding-top: 47px !important;
+	background-color: #ddd !important;
+	z-index: 540;
+}
+
+.webodfeditor-memberListButton {
+	background-color: transparent !important;
+	box-shadow: none !important;
+	border: none !important;
+}
+
+.webodfeditor-memberListButton span {
+	display: block;
+	border-radius: 3px;
+	margin: auto;
+}
+
+.webodfeditor-memberListButton img{
+	border: 0 none !important;
+}
+
+.webodfeditor-memberListButton input{
+	width:46px;
+}
+
+#memberList .webodfeditor-memberListLabel {
+	color: #555 !important;
+	border-radius: 3px !important;
+	padding: 0 !important;
+	margin-bottom: 10px;
+	font-size: 10px !important;
+	text-align:center;
+}
+
+#ocToolbar, #ocToolbarInside{
+	border-bottom: none !important;
+	background:  none !important;
+	box-shadow: none !important;
+}
+
+#toolbar {
+	position:static !important;
+	min-height: 29px !important;
+	border-bottom: none !important;
+	border-radius: 2px;
+	margin: 6px 30px 0 0 !important;
+	padding: 0 !important;
+	box-shadow: none !important;
+	background: #F5F5F5 !important;
+}
+
+#ocToolbar .dijitToolbar{
+	float:left;
+}
+
+#toolbar > .dijit{
+	margin-top: 2px !important;
+	margin-left:3px;
+}
+
+#toolbar > span.dijit{
+	margin-left: 0;
+}
+
+#toolbar > .dijitComboBox{
+	margin: 3px 5px 0 3px !important;
+}
+
+#toolbar > .dijitComboBox .dijitInputInner{
+	vertical-align: middle;
+	line-height: 1.7em;
+}
+
+#container {
+	top: 39px !important;
+}
+
+#canvas > div {
+	box-shadow: none !important;
+}
+
+cursor > div {
+	padding-bottom: 0 !important;
+}
+
+editinfo > div.editInfoMarker {
+	width: 4px;
+	border-radius: 0;
+	box-shadow: 0 0 0 #fff;
+	background-clip:content-box;
+	padding: 0 5px;
+}
+
+.dijitToolbar{
+	min-height: 31px;
+	line-height: 1em;
+}
+
+.dijitToolbar .dijitDropDownButton {
+	padding-top: 2px;
+}
+
+.dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton {
+	margin-top: -1px;
+}
+
+.claro .dijitComboBox .dijitInputInner{
+	padding:0 1px !important;
+}
+
+.claro .dijitTextBox .dijitInputInner,
+.claro .dijitSpinner .dijitSpinnerButtonInner {
+	margin: 0;
+}
+
+/* part of dojo.css */
+.dojoTabular {border-collapse: collapse; border-spacing: 0; border: 1px solid #ccc; margin: 0 1.5em;}
+
+.dojoTabular th {text-align: center; font-weight: bold;}
+
+.dojoTabular thead,.dojoTabular tfoot {background-color: #efefef; border: 1px solid #ccc; border-width: 1px 0;}
+
+.dojoTabular th,.dojoTabular td {padding: 0.25em 0.5em;}
+
+document p{
+	cursor:auto;
+}
+
+.oc-dialog .fileexists {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.oc-dialog .fileexists .conflict .filename,
+.oc-dialog .fileexists .conflict .mtime,
+.oc-dialog .fileexists .conflict .size {
+	-webkit-touch-callout: initial;
+	-webkit-user-select: initial;
+	-khtml-user-select: initial;
+	-moz-user-select: initial;
+	-ms-user-select: initial;
+	user-select: initial;
+}
+
+.oc-dialog .fileexists .conflict .message {
+	color: #e9322d;
+}
+
+.oc-dialog .fileexists table {
+	width: 100%;
+}
+
+.oc-dialog .fileexists th {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.oc-dialog .fileexists th input[type='checkbox'] {
+	margin-right: 3px;
+}
+
+.oc-dialog .fileexists th:first-child {
+	width: 230px;
+}
+
+.oc-dialog .fileexists th label {
+	font-weight: normal;
+	color:black;
+}
+
+.oc-dialog .fileexists th .count {
+	margin-left: 3px;
+}
+
+.oc-dialog .fileexists .conflicts .template {
+	display: none;
+}
+
+.oc-dialog .fileexists .conflict {
+	width: 100%;
+	height: 85px;
+}
+
+.oc-dialog .fileexists .conflict .filename {
+	color:#777;
+	word-break: break-all;
+	clear: left;
+}
+
+.oc-dialog .fileexists .icon {
+	width: 64px;
+	height: 64px;
+	margin: 0px 5px 5px 5px;
+	background-repeat: no-repeat;
+	background-size: 64px 64px;
+	float: left;
+}
+
+.oc-dialog .fileexists .replacement {
+	float: left;
+	width: 230px;
+}
+
+.oc-dialog .fileexists .original {
+	float: left;
+	width: 230px;
+}
+
+.oc-dialog .fileexists .conflicts {
+	overflow-y:scroll;
+	max-height: 225px;
+}
+
+.oc-dialog .fileexists .conflict input[type='checkbox'] {
+	float: left;
+}
+
+.oc-dialog .fileexists #allfileslabel {
+	float:right;
+}
+
+.oc-dialog .fileexists #allfiles {
+	vertical-align: bottom;
+	position: relative;
+	top: -3px;
+}
+
+.oc-dialog .fileexists #allfiles + span{
+	vertical-align: bottom;
+}
+
+.oc-dialog .oc-dialog-buttonrow {
+	width:100%;
+	text-align:right;
+}
+
+.oc-dialog .oc-dialog-buttonrow .cancel {
+	float:left;
+}
+
+#documents-content {
+	margin: 0px auto;
+}

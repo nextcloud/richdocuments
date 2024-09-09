@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+version = 1
+SPDX-PackageName = "richdocuments"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/richdocuments"
+
+[[annotations]]
+path = [".gitattributes", ".github/issue_template.md", ".github/CODEOWNERS", ".editorconfig", "package-lock.json", "package.json", "composer.json", "composer.lock", "**/composer.json", "**/composer.lock", ".l10nignore", "cypress/tsconfig.json", "vendor-bin/**/composer.json", "vendor-bin/**/composer.lock", ".tx/config", "tsconfig.json", "js/vendor.LICENSE.txt", "krankerl.toml", ".npmignore", ".nextcloudignore", ".eslintrc.json", ".tx/backport"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["l10n/**.js", "l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["js/**.js.map", "js/**.js", "js/**.mjs", "js/**.mjs.map", "js/templates/**.handlebars", "emptyTemplates/**", "cypress/fixtures/**", "tests/data/**", "tests/features/**.feature", "tests/psalm-baseline.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "composer/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nils Adermann , Jordi Boggiano"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["screenshots/Nextcloud-presentation.png", "screenshots/Nextcloud-spreadsheet.png", "screenshots/Nextcloud-writer.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/app-dark.svg", "img/app.png", "img/app.svg", "img/launch.svg", "img/x-office-document.svg", "img/x-office-drawing.svg", "img/x-office-presentation.svg", "img/x-office-spreadsheet.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"

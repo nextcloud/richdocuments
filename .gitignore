@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-or-later
+/assets/fonts
+tests/clover.xml
+.idea
+node_modules/
+js/
+*.spec
+*.tar.gz
+richdocuments.zip
+build/
+vendor/
+.php-cs-fixer.cache
+cypress/screenshots/
+
+## VSCode
+.vscode/
+*.code-workspace

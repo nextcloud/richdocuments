@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+default:
+  autoload:
+    '': '%paths.base%/../features/bootstrap'
+  suites:
+    default:
+      filters:
+        tags: ~@known-failure-ci
+      paths:
+        - '%paths.base%/../features'
+      contexts:
+        - \JuliusHaertl\NextcloudBehat\Context\ServerContext:
+            servers:
+              default: http://localhost:8080
+              serverA: http://localhost:8080
+              serverB: http://localhost:8081
+        - \JuliusHaertl\NextcloudBehat\Context\SharingContext
+        - \JuliusHaertl\NextcloudBehat\Context\FilesContext
+        - RichDocumentsContext
+        - WopiContext
+        - DirectContext
+        - FederationContext
+        - ApiContext
+
+
+  extensions:
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+      filename: report.xml
+      outputDir: '%paths.base%/../output/'
