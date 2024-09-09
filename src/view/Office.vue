@@ -150,6 +150,10 @@ export default {
 			type: Number,
 			default: null,
 		},
+		displayname: {
+			type: String,
+			default: null,
+		},
 		hasPreview: {
 			type: Boolean,
 			required: false,
@@ -283,7 +287,7 @@ export default {
 				'../components/GuestNamePicker.vue')
 
 			spawnDialog(GuestNamePicker, {
-				fileName: basename(this.filename),
+				fileName: this.displayname,
 				onSubmit: async () => {
 					await this.load()
 				},
