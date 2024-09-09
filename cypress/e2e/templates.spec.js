@@ -18,7 +18,7 @@ describe('Create new office files from templates', function() {
 	it('Create a new file from a user template', function() {
 		cy.visit('/apps/files')
 
-		cy.get('.files-list__header div[menu-title="New"] button')
+		cy.get('[data-cy-upload-picker=""]')
 			.should('be.visible')
 			.as('newFileMenu')
 
@@ -41,7 +41,7 @@ describe('Create new office files from templates', function() {
 		cy.login(randUser)
 		cy.visit('/apps/files')
 
-		cy.get('.files-list__header div[menu-title="New"] button')
+		cy.get('[data-cy-upload-picker=""]')
 			.should('be.visible')
 			.as('newFileMenu')
 
@@ -59,7 +59,9 @@ describe('Create new office files from templates', function() {
 		cy.waitForCollabora()
 	})
 
-	it('Create a file from a system template as guest', () => {
+	// FIXME: Unskip once server API for new menu entries works on public shares
+	// https://github.com/nextcloud/richdocuments/issues/3170
+	it.skip('Create a file from a system template as guest', () => {
 		cy.uploadSystemTemplate()
 		cy.createFolder(randUser, '/my-share')
 
@@ -70,7 +72,7 @@ describe('Create new office files from templates', function() {
 				},
 			})
 
-			cy.get('.files-controls .button.new')
+			cy.get('[data-cy-upload-picker=""]')
 				.should('be.visible')
 				.click()
 
@@ -110,7 +112,7 @@ describe('Create templates with fields', () => {
 			cy.visit('/apps/files')
 
 			// Create a templates folder
-			cy.get('.files-list__header div[menu-title="New"] button')
+			cy.get('[data-cy-upload-picker=""]')
 				.should('be.visible')
 				.as('newFileMenu')
 
@@ -134,7 +136,7 @@ describe('Create templates with fields', () => {
 		cy.visit('/apps/files')
 
 		// Create a new document
-		cy.get('.files-list__header div[menu-title="New"] button')
+		cy.get('[data-cy-upload-picker=""]')
 			.should('be.visible')
 			.as('newFileMenu')
 
