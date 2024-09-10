@@ -18,7 +18,7 @@ SPDX-FileCopyrightText = "2016 Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["js/**.js.map", "js/**.js", "js/**.mjs", "js/**.mjs.map", "js/templates/**.handlebars", "emptyTemplates/**", "cypress/fixtures/**", "tests/features/**.feature", "tests/psalm-baseline.xml"]
+path = ["js/**.js.map", "js/**.js", "js/**.mjs", "js/**.mjs.map", "js/templates/**.handlebars", "emptyTemplates/**", "cypress/fixtures/**", "tests/data/**", "tests/features/**.feature", "tests/psalm-baseline.xml"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

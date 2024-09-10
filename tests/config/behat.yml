@@ -21,6 +21,7 @@ default:
         - WopiContext
         - DirectContext
         - FederationContext
+        - ApiContext
 
 
   extensions:
