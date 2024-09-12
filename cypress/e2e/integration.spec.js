@@ -141,6 +141,8 @@ describe('Nextcloud integration', function() {
 					.as('smartPickerDropdown')
 				cy.get('@smartPickerDropdown').click()
 				cy.get('@referencePickerContent')
+					.find('ul[aria-label="Options"]')
+					.should('be.visible')
 					.contains('Link to office document section')
 					.click()
 
