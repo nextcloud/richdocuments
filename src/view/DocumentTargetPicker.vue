@@ -24,7 +24,7 @@
 			<template v-else>
 				<div v-for="section in sections" :key="section.label">
 					<h3>{{ section.label }}</h3>
-					<ul>
+					<ul :data-cy-section-label="section.label">
 						<NcListItem v-for="entry in section.entries"
 							:key="entry.id"
 							:name="entry.name"
@@ -38,7 +38,10 @@
 				</div>
 			</template>
 			<div v-if="sections.length !== 0" class="office-target-picker__buttons">
-				<NcButton type="primary" :disabled="!target" @click="submit()">
+				<NcButton data-cy-link-to-section=""
+					type="primary"
+					:disabled="!target"
+					@click="submit()">
 					{{ t('richdocuments', 'Link to office document section') }}
 				</NcButton>
 			</div>
