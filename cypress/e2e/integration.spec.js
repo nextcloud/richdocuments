@@ -121,11 +121,47 @@ describe('Nextcloud integration', function() {
 		cy.get('.modal-container__content').should('be.visible')
 	})
 
-	it('Smart picker', function() {
-		cy.get('@loleafletframe').within(() => {
-			cy.get('#Insert-tab-label').click()
-			cy.get('#insert-insert-remote-link-button').click()
+	describe('Smart picker', function() {
+		describe('Link to office document section', function() {
+			beforeEach(function() {
+				// Proc the smart picker from Collabora
+				cy.get('@loleafletframe').within(() => {
+					cy.get('#Insert-tab-label').click()
+					cy.get('#insert-insert-remote-link-button').click()
+				})
+
+				// Wait for the reference picker to show
+				cy.get('.reference-picker-modal--content')
+					.should('be.visible')
+					.as('referencePickerContent')
+
+				// Select "Link to office document section"
+				cy.get('@referencePickerContent')
+					.find('input[id="provider-select-input"]')
+					.as('smartPickerDropdown')
+				cy.get('@smartPickerDropdown').click()
+				cy.get('@referencePickerContent')
+					.contains('Link to office document section')
+					.click()
+
+				// Pick the fixture document
+				cy.pickFile('document.odt')
+			})
+
+			it('Can link to heading', function() {
+				cy.get('[data-cy-section-label="Headings"]').children().first().click()
+				cy.get('[data-cy-link-to-section=""]').click()
+			})
+
+			it('Can link to section', function() {
+				cy.get('[data-cy-section-label="Sections"]').children().first().click()
+				cy.get('[data-cy-link-to-section=""]').click()
+			})
+
+			it('Can link to image', function() {
+				cy.get('[data-cy-section-label="Images"]').children().first().click()
+				cy.get('[data-cy-link-to-section=""]').click()
+			})
 		})
-		cy.get('.reference-picker-modal--content').should('be.visible')
 	})
 })
