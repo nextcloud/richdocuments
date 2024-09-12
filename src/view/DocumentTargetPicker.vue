@@ -51,7 +51,6 @@
 
 <script>
 import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
-import { spawnDialog } from '@nextcloud/dialogs'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
