@@ -4,6 +4,7 @@
  */
 
 import { getRootUrl, generateUrl } from '@nextcloud/router'
+import { getSharingToken } from '@nextcloud/sharing/public'
 import { languageToBCP47 } from './index.js'
 import Config from './../services/config.tsx'
 
@@ -62,7 +63,7 @@ const getDocumentUrlForPublicFile = (fileName, fileId) => {
 	return generateUrl(
 		'apps/richdocuments/public?shareToken={shareToken}&fileName={fileName}&requesttoken={requesttoken}&fileId={fileId}',
 		{
-			shareToken: document.getElementById('sharingToken').value,
+			shareToken: getSharingToken(),
 			fileName,
 			fileId,
 			requesttoken: OC.requestToken,

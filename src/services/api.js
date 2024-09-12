@@ -5,10 +5,11 @@
 
 import axios from '@nextcloud/axios'
 import { generateOcsUrl, generateFilePath } from '@nextcloud/router'
+import { getSharingToken } from '@nextcloud/sharing/public'
 import { getCurrentDirectory } from '../helpers/filesApp.js'
 
 export const createEmptyFile = async (mimeType, fileName, templateId = null) => {
-	const shareToken = document.getElementById('sharingToken')?.value
+	const shareToken = getSharingToken()
 	const directoryPath = getCurrentDirectory()
 
 	const response = await axios.post(generateOcsUrl('apps/richdocuments/api/v1/file', 2), {
