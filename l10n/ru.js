@@ -144,6 +144,7 @@ OC.L10N.register(
     "Select file or folder to link to" : "Выберите файл или папку для создания ссылки",
     "Insert image" : "Вставить изображение",
     "Document loading failed" : "Ошибка загрузки документа",
+    "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Для получения более подробной информации проверьте журнал сервера Collabora Online и убедитесь, что оттуда можно получить доступ к Nextcloud.",
     "Close" : "Закрыть",
     "Edit" : "Редактирование",
     "Starting the built-in CODE server failed" : "Не удалось запустить встроенный сервер CODE",
