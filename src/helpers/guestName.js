@@ -19,7 +19,11 @@ export function shouldAskForGuestName(mimetype, canWrite) {
 	const noLoggedInUser = !getLoggedInUser()
 	const noGuest = !getGuestNickname()
 	const noCurrentUser = !getCurrentUser() || getCurrentUser()?.uid === ''
-	const isReadOnlyPDF = mimetype === 'application/pdf' && !canWrite
+	// const isReadOnlyPDF = mimetype === 'application/pdf' && !canWrite
 
-	return noLoggedInUser && noGuest && noCurrentUser && !isReadOnlyPDF
+	if (!canWrite) {
+		return false
+	}
+
+	return noLoggedInUser && noGuest && noCurrentUser
 }
