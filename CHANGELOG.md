@@ -4,6 +4,61 @@
 -->
 # Changelog
 
+## 8.5.0
+
+### Added
+
+- Template workflow API @elzody [#3798](https://github.com/nextcloud/richdocuments/pull/3798)
+- Add fonts installation document URL @luka-nextcloud [#3647](https://github.com/nextcloud/richdocuments/pull/3647)
+
+### Fixed
+
+- Do not set a guest name on actual users [#3950](https://github.com/nextcloud/richdocuments/pull/3950)
+- Fix missing conflicts on pdf templating @juliushaertl [#3949](https://github.com/nextcloud/richdocuments/pull/3949)
+- Do not ask for guest name on read only pdfs @juliushaertl [#3832](https://github.com/nextcloud/richdocuments/pull/3832)
+- Allow passing css var to change Collabora logo color @elzody [#3840](https://github.com/nextcloud/richdocuments/pull/3840)
+- Add API docs for form extraction and filling API @juliushaertl [#3868](https://github.com/nextcloud/richdocuments/pull/3868)
+- Run cypress against code nightly @juliushaertl [#3869](https://github.com/nextcloud/richdocuments/pull/3869)
+- Remove unnecessary files from release build @juliushaertl [#3870](https://github.com/nextcloud/richdocuments/pull/3870)
+- Show PDF even when download hidden on public share @elzody [#3872](https://github.com/nextcloud/richdocuments/pull/3872)
+- Add check if collabora supports template filling @juliushaertl [#3875](https://github.com/nextcloud/richdocuments/pull/3875)
+- Properly split with multi-collabora matrix @juliushaertl [#3890](https://github.com/nextcloud/richdocuments/pull/3890)
+- Guest username not picked up the second time loading a share link @elzody [#3910](https://github.com/nextcloud/richdocuments/pull/3910)
+- Allow double click in image picker @eszkadev [#3927](https://github.com/nextcloud/richdocuments/pull/3927)
+- properly send custom logo to collabora @elzody [#3928](https://github.com/nextcloud/richdocuments/pull/3928)
+- Cache `extractFields` response from Collabora @elzody [#3932](https://github.com/nextcloud/richdocuments/pull/3932)
+- Bring back federated editing in viewer iframe @juliushaertl [#3940](https://github.com/nextcloud/richdocuments/pull/3940)
+- Switch to new API to set volatile user to prevent persisting it in any case @juliushaertl [#3833](https://github.com/nextcloud/richdocuments/pull/3833)
+- Use shared default options for HTTP client requests @mejo- [#3831](https://github.com/nextcloud/richdocuments/pull/3831)
+- Add host_session_id parameter @hcvcastro [#3763](https://github.com/nextcloud/richdocuments/pull/3763)
+- Use getFirstNodeById as it is cached @juliushaertl [#3820](https://github.com/nextcloud/richdocuments/pull/3820)
+- Add 'title' attribute to iframe for accessibility @Darshan-upadhyay1110 [#3807](https://github.com/nextcloud/richdocuments/pull/3807)
+- Avoid background fetch if not configured @juliushaertl [#3790](https://github.com/nextcloud/richdocuments/pull/3790)
+- Revert "ci: Skip failing open tests for now due to upstream bug" @juliushaertl [#3794](https://github.com/nextcloud/richdocuments/pull/3794)
+- Make built-in code server setup more stable @juliushaertl [#3762](https://github.com/nextcloud/richdocuments/pull/3762)
+- Block incompatible operations with remote tokens @juliushaertl [#3635](https://github.com/nextcloud/richdocuments/pull/3635)
+- Use new property for admin user indication @eszkadev [#3748](https://github.com/nextcloud/richdocuments/pull/3748)
+- Avoid requesting remote endpoints during bootstrap @juliushaertl [#3749](https://github.com/nextcloud/richdocuments/pull/3749)
+- Remove legacy Viewer code @elzody [#3727](https://github.com/nextcloud/richdocuments/pull/3727)
+- Always pass is_admin property to userextrainfo @eszkadev [#3726](https://github.com/nextcloud/richdocuments/pull/3726)
+- Grammar fixes for font install paragraph @roliverio [#3708](https://github.com/nextcloud/richdocuments/pull/3708)
+- Lazy register template creator through event @juliushaertl [#3614](https://github.com/nextcloud/richdocuments/pull/3614)
+- Make edit mode in interactive widgets opt-in @juliushaertl [#3619](https://github.com/nextcloud/richdocuments/pull/3619)
+
+
+### Other
+
+- Update workflows from templates @skjnldsv [#3816](https://github.com/nextcloud/richdocuments/pull/3816)
+- Migrate REUSE to TOML format @AndyScherzinger [#3814](https://github.com/nextcloud/richdocuments/pull/3814)
+- Updating lint-eslint.yml workflow from template @nextcloud-command [#3731](https://github.com/nextcloud/richdocuments/pull/3731)
+- Updating pr-feedback.yml workflow from template @nextcloud-command [#3725](https://github.com/nextcloud/richdocuments/pull/3725)
+- Add SPDX header @AndyScherzinger [#3664](https://github.com/nextcloud/richdocuments/pull/3664)
+- Updating appstore-build-publish.yml workflow from template @nextcloud-command [#3624](https://github.com/nextcloud/richdocuments/pull/3624)
+- Cleanup old TemplateSaveAs code as this is no longer supported by Collabora @juliushaertl [#3582](https://github.com/nextcloud/richdocuments/pull/3582)
+- Adapt min PHP version to 8.1 @juliushaertl [#3576](https://github.com/nextcloud/richdocuments/pull/3576)
+- Implement PdfService using mikehaertl/php-pdftk [#3947](https://github.com/nextcloud/richdocuments/pull/3947)
+- Pass data to field depending on field type [#3954](https://github.com/nextcloud/richdocuments/pull/3954)
+
 ## 8.5.0-beta.3
 
 ### Added
