@@ -8,7 +8,6 @@
 namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\Service\TemplateFieldService;
-use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -16,27 +15,12 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class TemplateFieldController extends OCSController {
-	private TemplateFieldService $templateFieldService;
-	private TemplateManager $templateManager;
-
-	/**
-	 * Template fields controller
-	 *
-	 * @param string $appName,
-	 * @param IRequest $request,
-	 * @param TemplateFieldService $templateFieldService
-	 * @param TemplateManager $templateManager
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		TemplateFieldService $templateFieldService,
-		TemplateManager $templateManager
+		private TemplateFieldService $templateFieldService,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->templateFieldService = $templateFieldService;
-		$this->templateManager = $templateManager;
 	}
 
 	/**
@@ -60,9 +44,14 @@ class TemplateFieldController extends OCSController {
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	public function fillFields(int $fileId, array $fields, ?string $destination = null): DataResponse {
+	public function fillFields(int $fileId, array $fields = [], ?string $destination = null, ?string $convert = null): DataResponse {
 		try {
-			$this->templateFieldService->fillFields($fileId, $fields, $destination);
+			$content = $this->templateFieldService->fillFields($fileId, $fields, $destination, $convert);
+
+			if ($destination === null) {
+				echo $content;
+				die();
+			}
 
 			return new DataResponse([], Http::STATUS_OK);
 		} catch (\Exception $e) {
