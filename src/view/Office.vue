@@ -103,6 +103,7 @@ import {
 	generateUrl,
 	imagePath,
 } from '@nextcloud/router'
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 import { getCapabilities } from './../services/capabilities.ts'
 import {
 	generateCSSVarTokens,
@@ -117,7 +118,6 @@ import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
 import { getCurrentUser, getGuestNickname } from '@nextcloud/auth'
-import { getSharingToken } from '@nextcloud/sharing/public'
 import { shouldAskForGuestName } from '../helpers/guestName.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
@@ -231,7 +231,7 @@ export default {
 			return !!window.TESTING
 		},
 		isPublic() {
-			return document.getElementById('isPublic')?.value === '1'
+			return isPublicShare()
 		},
 		shareToken() {
 			return getSharingToken()
