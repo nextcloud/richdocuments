@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { isPublicShare } from '@nextcloud/sharing/public'
 import {
-	isPublic,
 	isPdf,
 	isDocument,
 	isDownloadHidden,
@@ -13,7 +13,7 @@ import { getCapabilities } from './services/capabilities.ts'
 import NewFileMenu from './view/NewFileMenu.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-	if (!isPublic() || !OCA.Viewer) {
+	if (!isPublicShare() || !OCA.Viewer) {
 		return
 	}
 
