@@ -117,6 +117,7 @@ import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
 import { getCurrentUser, getGuestNickname } from '@nextcloud/auth'
+import { getSharingToken } from '@nextcloud/sharing/public'
 import { shouldAskForGuestName } from '../helpers/guestName.js'
 
 const FRAME_DOCUMENT = 'FRAME_DOCUMENT'
@@ -233,7 +234,7 @@ export default {
 			return document.getElementById('isPublic')?.value === '1'
 		},
 		shareToken() {
-			return document.getElementById('sharingToken')?.value
+			return getSharingToken()
 		},
 		showAdminStorageFailure() {
 			return getCurrentUser()?.isAdmin && this.errorType === 'websocketloadfailed'
