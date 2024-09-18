@@ -150,7 +150,7 @@ OC.L10N.register(
     "Collabora Online requires a seperate server acting as a WOPI-like Client to provide editing capabilities." : "Collabora Online rechedet unu serbidore seberadu chi funtzionat comente unu cliente WOPI pro frunire possibilidade de modìfica.",
     "Please choose your nickname to continue as guest user." : "Sèbera su nùmene tuo pro sighire comente persone invitada.",
     "Nickname" : "Nùmene",
-    "Set" : "Imposta",
+    "Set" : "Cunfigura",
     "Please enter the filename to store the document as." : "Inserta su nùmene de s'archìviu cun su chi ddu boles sarvare.",
     "New filename" : "Nùmene nou de s'archìviu",
     "Failed to connect to {productName}. Please try again later or contact your server administrator." : "No at fatu a si collegare a {productName}. Torra a proare prus a tardu o cuntata s'amministratzione de su serbidore.",
