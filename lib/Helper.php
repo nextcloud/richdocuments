@@ -10,11 +10,10 @@ use DateTimeZone;
 use OCP\Files\Folder;
 
 class Helper {
-	/** @var string|null */
-	private $userId;
-
-	public function __construct($userId) {
-		$this->userId = $userId;
+	/**
+	 * @param string|null $userId
+	 */
+	public function __construct(private $userId) {
 	}
 
 	/**
@@ -38,7 +37,7 @@ class Helper {
 			throw new \Exception('$fileId has not the expected format');
 		}
 
-		if (strpos($fileId, '-') !== false) {
+		if (str_contains($fileId, '-')) {
 			[$fileId, $templateId] = explode('/', $fileId);
 		}
 

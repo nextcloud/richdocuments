@@ -57,7 +57,7 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 			$internalPath = $userTemplatesFolder->getInternalPath();
 			$userTemplatePath = mb_strpos($internalPath, 'files/') === 0 ? mb_substr($internalPath, 5): $internalPath;
 			return $this->coreTemplateManager->getTemplatePath() === $userTemplatePath;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 		}
 		return false;
 	}

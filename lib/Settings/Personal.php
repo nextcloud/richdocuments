@@ -13,23 +13,12 @@ use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
-	/** @var IConfig Config */
-	private $config;
-
-	/** @var CapabilitiesService */
-	private $capabilitiesService;
-
-	/** @var InitialStateService */
-	private $initialState;
-
-	/** @var string */
-	private $userId;
-
-	public function __construct(IConfig $config, CapabilitiesService $capabilitiesService, InitialStateService $initialStateService, $userId) {
-		$this->config = $config;
-		$this->capabilitiesService = $capabilitiesService;
-		$this->initialState = $initialStateService;
-		$this->userId = $userId;
+	public function __construct(
+		private IConfig $config,
+		private CapabilitiesService $capabilitiesService,
+		private InitialStateService $initialState,
+		private ?string $userId
+	) {
 	}
 
 	/** @psalm-suppress InvalidNullableReturnType */

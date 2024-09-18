@@ -242,7 +242,7 @@ class SettingsController extends Controller {
 		if ($templateFolder !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'templateFolder', $templateFolder);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -250,7 +250,7 @@ class SettingsController extends Controller {
 		if ($zoteroAPIKeyInput !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', $zoteroAPIKeyInput);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -295,9 +295,7 @@ class SettingsController extends Controller {
 	public function getJsonFontList() {
 		$files = $this->fontService->getFontFiles();
 		$etags = array_map(
-			static function (ISimpleFile $f) {
-				return $f->getETag();
-			},
+			static fn (ISimpleFile $f) => $f->getETag(),
 			$files
 		);
 		$etag = md5(implode(',', $etags));
@@ -335,7 +333,7 @@ class SettingsController extends Controller {
 				Http::STATUS_OK,
 				['Content-Type' => $fontFile->getMimeType(), 'Etag' => $etag]
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
 		}
 	}
@@ -357,7 +355,7 @@ class SettingsController extends Controller {
 				Http::STATUS_OK,
 				['Content-Type' => 'image/png']
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
 		}
 	}

@@ -19,27 +19,14 @@ use OCP\Share\IShare;
 use OCP\SystemTag\ISystemTagObjectMapper;
 
 class PermissionManager {
-	private AppConfig $appConfig;
-	private IConfig $config;
-	private IGroupManager $groupManager;
-	private IUserManager $userManager;
-	private IUserSession $userSession;
-	private ISystemTagObjectMapper $systemTagObjectMapper;
-
 	public function __construct(
-		AppConfig              $appConfig,
-		IConfig                $config,
-		IGroupManager          $groupManager,
-		IUserManager           $userManager,
-		IUserSession           $userSession,
-		ISystemTagObjectMapper $systemTagObjectMapper
+		private AppConfig $appConfig,
+		private IConfig $config,
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private ISystemTagObjectMapper $systemTagObjectMapper
 	) {
-		$this->appConfig = $appConfig;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->userSession = $userSession;
-		$this->systemTagObjectMapper = $systemTagObjectMapper;
 	}
 
 	private function userMatchesGroupList(?string $userId = null, ?array $groupList = []): bool {

@@ -169,7 +169,7 @@ class DocumentController extends Controller {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {
 			$folder = $userFolder->get($dir);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
 
@@ -286,7 +286,7 @@ class DocumentController extends Controller {
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
-		} catch (ShareNotFound $e) {
+		} catch (ShareNotFound) {
 			return new TemplateResponse('core', '404', [], 'guest');
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);

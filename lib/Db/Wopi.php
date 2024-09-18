@@ -168,7 +168,7 @@ class Wopi extends Entity implements \JsonSerializable {
 		$reflection = new \ReflectionClass($this);
 		$json = [];
 		foreach ($properties as $property => $value) {
-			if (strpos($property, '_') !== 0 && $reflection->hasProperty($property)) {
+			if (!str_starts_with($property, '_') && $reflection->hasProperty($property)) {
 				$propertyReflection = $reflection->getProperty($property);
 				if (!$propertyReflection->isPrivate()) {
 					$json[$property] = $this->getter($property);

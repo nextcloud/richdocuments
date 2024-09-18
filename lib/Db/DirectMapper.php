@@ -17,16 +17,10 @@ class DirectMapper extends QBMapper {
 	/** @var int Lifetime of a token is 10 minutes */
 	public const TOKEN_TTL = 600;
 
-	protected ISecureRandom $random;
-	protected ITimeFactory $timeFactory;
-
 	public function __construct(IDBConnection $db,
-		ISecureRandom $random,
-		ITimeFactory $timeFactory) {
+		protected ISecureRandom $random,
+		protected ITimeFactory $timeFactory) {
 		parent::__construct($db, 'richdocuments_direct', Direct::class);
-
-		$this->random = $random;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -66,7 +60,7 @@ class DirectMapper extends QBMapper {
 			}
 
 			return $direct;
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 		}
 
 		throw new DoesNotExistException('No asset for token found');
