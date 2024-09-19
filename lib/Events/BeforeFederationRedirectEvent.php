@@ -9,20 +9,20 @@ use OCP\EventDispatcher\Event;
 use OCP\Files\Node;
 
 class BeforeFederationRedirectEvent extends Event {
-	/** @var Node */
-	private $node;
-	/** @var string */
-	private $relativePath;
 	/** @var string|null */
 	private $redirectUrl = null;
-	/** @var string */
-	private $remote;
 
-	public function __construct($node, $relativePath, $remote) {
+	/**
+	 * @param Node $node
+	 * @param string $relativePath
+	 * @param string $remote
+	 */
+	public function __construct(
+		private $node,
+		private $relativePath,
+		private $remote,
+	) {
 		parent::__construct();
-		$this->node = $node;
-		$this->relativePath = $relativePath;
-		$this->remote = $remote;
 	}
 
 	public function getRelativePath() {

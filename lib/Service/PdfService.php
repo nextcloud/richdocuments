@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 
 class PdfService {
 	public function __construct(
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

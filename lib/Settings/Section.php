@@ -12,17 +12,11 @@ use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class Section implements IIconSection {
-	/** @var IURLGenerator */
-	private $url;
-	/** @var CapabilitiesService */
-	private $capabilitites;
-	/** @var IL10N */
-	private $l10n;
-
-	public function __construct(IURLGenerator $url, CapabilitiesService $capabilities, IL10N $l10n) {
-		$this->url = $url;
-		$this->capabilitites = $capabilities;
-		$this->l10n = $l10n;
+	public function __construct(
+		private IURLGenerator $url,
+		private CapabilitiesService $capabilitites,
+		private IL10N $l10n,
+	) {
 	}
 
 	public function getID() {

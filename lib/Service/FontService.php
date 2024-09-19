@@ -18,32 +18,18 @@ use OCP\IURLGenerator;
 
 class FontService {
 	private const INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS = 3600;
-
-	/**
-	 * @var IAppData
-	 */
-	private $appData;
 	/**
 	 * @var \OCP\ICache
 	 */
 	private $cache;
-	/**
-	 * @var IURLGenerator
-	 */
-	private $url;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
 
-	public function __construct(IAppData $appData,
+	public function __construct(
+		private IAppData $appData,
 		ICacheFactory $cacheFactory,
-		IURLGenerator $url,
-		IConfig $config) {
-		$this->appData = $appData;
+		private IURLGenerator $url,
+		private IConfig $config,
+	) {
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
-		$this->url = $url;
-		$this->config = $config;
 	}
 
 	/**
@@ -53,7 +39,7 @@ class FontService {
 	private function getFontAppDataDir(): ISimpleFolder {
 		try {
 			return $this->appData->getFolder('fonts');
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return $this->appData->newFolder('fonts');
 		}
 	}
@@ -65,7 +51,7 @@ class FontService {
 	private function getFontOverviewAppDataDir(): ISimpleFolder {
 		try {
 			return $this->appData->getFolder('font-overviews');
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return $this->appData->newFolder('font-overviews');
 		}
 	}
@@ -93,9 +79,7 @@ class FontService {
 		if ($cachedNames === null) {
 			$files = $this->getFontFiles();
 			$cachedNames = array_map(
-				static function (ISimpleFile $f) {
-					return $f->getName();
-				},
+				static fn (ISimpleFile $f) => $f->getName(),
 				$files
 			);
 			$this->cache->set($cacheKey, $cachedNames, self::INVALIDATE_FONT_LIST_CACHE_AFTER_SECONDS);
@@ -113,12 +97,10 @@ class FontService {
 	public function getFontList(array $fontFiles): array {
 		$url = $this->url;
 		$list = array_map(
-			static function (ISimpleFile $f) use ($url) {
-				return [
-					'uri' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
-					'stamp' => $f->getETag(),
-				];
-			},
+			static fn (ISimpleFile $f) => [
+				'uri' => $url->linkToRouteAbsolute(Application::APPNAME . '.settings.getFontFile', ['name' => $f->getName()]),
+				'stamp' => $f->getETag(),
+			],
 			$fontFiles
 		);
 
@@ -220,7 +202,7 @@ class FontService {
 				imagepng($im, $imageFileResource);
 				imagedestroy($im);
 			}
-		} catch (\Exception|\Throwable $e) {
+		} catch (\Exception|\Throwable) {
 			// do nothing if there was any kind of error during overview generation
 			// the /apps/richdocuments/settings/fonts/FILE_NAME/overview request will fail with 404
 			// in the UI and display a fallback message

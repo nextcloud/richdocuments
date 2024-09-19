@@ -42,7 +42,7 @@ class DirectViewController extends Controller {
 		private AppConfig $appConfig,
 		private TemplateManager $templateManager,
 		private FederationService $federationService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}

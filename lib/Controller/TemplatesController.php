@@ -26,12 +26,6 @@ use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 class TemplatesController extends Controller {
-	private IL10N $l10n;
-	private TemplateManager $manager;
-	private IPreview $preview;
-	private IMimeTypeDetector $mimeTypeDetector;
-	private LoggerInterface $logger;
-
 	/** @var int Max template size */
 	private $maxSize = 20 * 1024 * 1024;
 
@@ -44,23 +38,19 @@ class TemplatesController extends Controller {
 	 * @param TemplateManager $manager
 	 * @param IPreview $preview
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		IL10N $l10n,
-		TemplateManager $manager,
-		IPreview $preview,
-		IMimeTypeDetector $mimeTypeDetector,
-		LoggerInterface $logger
+		private IL10N $l10n,
+		private TemplateManager $manager,
+		private IPreview $preview,
+		private IMimeTypeDetector $mimeTypeDetector,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 
 		$this->appName = $appName;
 		$this->request = $request;
-		$this->l10n = $l10n;
-		$this->manager = $manager;
-		$this->preview = $preview;
-		$this->mimeTypeDetector = $mimeTypeDetector;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -91,7 +81,7 @@ class TemplatesController extends Controller {
 
 		try {
 			$template = $this->manager->get($fileId);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -171,7 +161,7 @@ class TemplatesController extends Controller {
 				['data' => ['status' => 'success']],
 				Http::STATUS_NO_CONTENT
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new JSONResponse(
 				['data' => ['message' => $this->l10n->t('Template not found')]],
 				Http::STATUS_NOT_FOUND
@@ -208,9 +198,9 @@ class TemplatesController extends Controller {
 			$response->cacheFor(3600 * 24);
 
 			return $response;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\InvalidArgumentException $e) {
+		} catch (\InvalidArgumentException) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}

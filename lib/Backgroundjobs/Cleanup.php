@@ -13,15 +13,12 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class Cleanup extends TimedJob {
-	/** @var IDBConnection */
-	private $db;
-	/** @var WopiMapper $wopiMapper */
-	private $wopiMapper;
-
-	public function __construct(ITimeFactory $time, IDBConnection $db, WopiMapper $wopiMapper) {
+	public function __construct(
+		ITimeFactory $time,
+		private IDBConnection $db,
+		private WopiMapper $wopiMapper,
+	) {
 		parent::__construct($time);
-		$this->db = $db;
-		$this->wopiMapper = $wopiMapper;
 
 		$this->setInterval(60 * 60);
 	}

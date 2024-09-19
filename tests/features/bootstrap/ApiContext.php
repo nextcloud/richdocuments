@@ -71,7 +71,7 @@ class ApiContext implements Context {
 			];
 		}
 
-		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/template/fields/fill/' . $fileId  . '?'
+		$this->serverContext->sendOCSRequest('POST', 'apps/richdocuments/api/v1/template/fields/fill/' . $fileId . '?'
 			. ($convert ? '&convert=' . $convert : '')
 			. ($target ? '&destination=' . $target : ''), ['fields' => $formData]);
 

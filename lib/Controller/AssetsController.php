@@ -22,26 +22,16 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class AssetsController extends Controller {
-	private AssetMapper $assetMapper;
-	private IRootFolder $rootFolder;
-	private ?string $userId;
-	private UserScopeService $userScopeService;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		AssetMapper $assetMapper,
-		IRootFolder $rootFolder,
-		$userId,
-		UserScopeService $userScopeService,
-		IURLGenerator $urlGenerator) {
+		private AssetMapper $assetMapper,
+		private IRootFolder $rootFolder,
+		private ?string $userId,
+		private UserScopeService $userScopeService,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->assetMapper = $assetMapper;
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
-		$this->userScopeService = $userScopeService;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -56,7 +46,7 @@ class AssetsController extends Controller {
 
 		try {
 			$node = $userFolder->get($path);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -80,7 +70,7 @@ class AssetsController extends Controller {
 	public function get($token) {
 		try {
 			$asset = $this->assetMapper->getAssetByToken($token);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 

@@ -27,27 +27,6 @@ class TemplateManager {
 	/** @var string */
 	protected $userId;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IAppData */
-	private $appData;
-
-	/** @var LoggerInterface */
-	private $logger;
-
 	/** Accepted templates mime types */
 	public const MIMES_DOCUMENTS = [
 		'application/vnd.oasis.opendocument.text-template',
@@ -91,22 +70,15 @@ class TemplateManager {
 
 	public function __construct(
 		?string $userId,
-		IConfig $config,
-		IAppData $appData,
-		IURLGenerator $urlGenerator,
-		IRootFolder $rootFolder,
-		IL10N $l,
-		IDBConnection $connection,
-		LoggerInterface $logger
+		private IConfig $config,
+		private IAppData $appData,
+		private IURLGenerator $urlGenerator,
+		private IRootFolder $rootFolder,
+		private IL10N $l,
+		private IDBConnection $db,
+		private LoggerInterface $logger,
 	) {
 		$this->userId = $userId;
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
-		$this->db = $connection;
-		$this->logger = $logger;
-		$this->appData = $appData;
-		$this->l = $l;
 	}
 
 	private function ensureAppDataFolders() {
@@ -117,12 +89,12 @@ class TemplateManager {
 		 */
 		try {
 			$this->appData->getFolder('templates');
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$this->appData->newFolder('templates');
 		}
 		try {
 			$this->appData->getFolder('empty_templates');
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$this->appData->newFolder('empty_templates');
 		}
 	}
@@ -185,21 +157,13 @@ class TemplateManager {
 	}
 
 	public function getTemplateTypeForExtension(string $extension): ?string {
-		switch ($extension) {
-			case 'odt':
-			case 'docx':
-				return 'document';
-			case 'ods':
-			case 'xlsx':
-				return 'spreadsheet';
-			case 'odp':
-			case 'pptx':
-				return 'presentation';
-			case 'odg':
-				return 'drawing';
-		}
-
-		return null;
+		return match ($extension) {
+			'odt', 'docx' => 'document',
+			'ods', 'xlsx' => 'spreadsheet',
+			'odp', 'pptx' => 'presentation',
+			'odg' => 'drawing',
+			default => null,
+		};
 	}
 
 	public function getEmpty($type = null) {
@@ -234,7 +198,7 @@ class TemplateManager {
 		try {
 			$folder = $this->getEmptyTemplateDir();
 			$folder->delete();
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 		}
 		$this->appData->newFolder('empty_templates');
 		$this->getEmpty();
@@ -262,13 +226,9 @@ class TemplateManager {
 		$empty = $this->getEmpty($type);
 		$system = $this->getSystem($type);
 
-		$emptyFormatted = array_map(function (File $file) {
-			return $this->formatEmpty($file);
-		}, $empty);
+		$emptyFormatted = array_map(fn (File $file) => $this->formatEmpty($file), $empty);
 
-		$systemFormatted = array_map(function (File $file) {
-			return $this->formatNodeReturn($file);
-		}, $system);
+		$systemFormatted = array_map(fn (File $file) => $this->formatNodeReturn($file), $system);
 
 		return array_merge($emptyFormatted, $systemFormatted);
 	}
@@ -288,7 +248,7 @@ class TemplateManager {
 			$templateFiles = $templateDir->getDirectoryListing();
 
 			return $this->filterTemplates($templateFiles, $type);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return [];
 		}
 	}
@@ -303,9 +263,7 @@ class TemplateManager {
 
 		$templates = $this->getUser($type);
 
-		return array_map(function (File $file) {
-			return $this->formatNodeReturn($file);
-		}, $templates);
+		return array_map(fn (File $file) => $this->formatNodeReturn($file), $templates);
 	}
 
 	/**
@@ -354,7 +312,7 @@ class TemplateManager {
 
 		try {
 			$template = $folder->get($templateName);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$template = $folder->newFile($templateName);
 		}
 		$template->putContent($templateFile);
@@ -416,7 +374,7 @@ class TemplateManager {
 			// fallback to default template dir
 			try {
 				$templateDir = $userFolder->get('Templates');
-			} catch (NotFoundException $e) {
+			} catch (NotFoundException) {
 				throw new NotFoundException('Template directory not found');
 			}
 		}

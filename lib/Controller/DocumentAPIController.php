@@ -29,23 +29,17 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class DocumentAPIController extends \OCP\AppFramework\OCSController {
-	private $rootFolder;
-	private $shareManager;
-	private $templateManager;
-	private $l10n;
-	private $logger;
-	private $lockManager;
-	private $userId;
-
-	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, ILockManager $lockManager, $userId) {
+	public function __construct(
+		IRequest $request,
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+		private TemplateManager $templateManager,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+		private ILockManager $lockManager,
+		private $userId,
+	) {
 		parent::__construct(Application::APPNAME, $request);
-		$this->rootFolder = $rootFolder;
-		$this->shareManager = $shareManager;
-		$this->templateManager = $templateManager;
-		$this->l10n = $l10n;
-		$this->logger = $logger;
-		$this->lockManager = $lockManager;
-		$this->userId = $userId;
 	}
 
 	/**
@@ -153,9 +147,9 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 				Application::APPNAME
 			));
 			return new DataResponse([]);
-		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+		} catch (NoLockProviderException|PreConditionNotMetException) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

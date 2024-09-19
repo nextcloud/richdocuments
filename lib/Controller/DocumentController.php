@@ -58,7 +58,7 @@ class DocumentController extends Controller {
 		private TemplateManager $templateManager,
 		private FederationService $federationService,
 		private InitialStateService $initialState,
-		private IURLGenerator $urlGenerator
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -144,7 +144,7 @@ class DocumentController extends Controller {
 			if ($encryptionManager->isEnabled()) {
 				// Update the current file to be accessible with system public shared key
 				$owner = $file->getOwner()->getUID();
-				$absPath = '/' . $owner . '/' .  $file->getInternalPath();
+				$absPath = '/' . $owner . '/' . $file->getInternalPath();
 				$accessList = OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
 				$accessList['public'] = true;
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
@@ -169,7 +169,7 @@ class DocumentController extends Controller {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {
 			$folder = $userFolder->get($dir);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new TemplateResponse('core', '403', [], 'guest');
 		}
 
@@ -286,7 +286,7 @@ class DocumentController extends Controller {
 				$response->addHeader('X-Frame-Options', 'ALLOW');
 				return $response;
 			}
-		} catch (ShareNotFound $e) {
+		} catch (ShareNotFound) {
 			return new TemplateResponse('core', '404', [], 'guest');
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);

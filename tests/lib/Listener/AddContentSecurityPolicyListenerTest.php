@@ -72,7 +72,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) {
+			->willReturnCallback(function ($event): void {
 				$this->listener->handle($event);
 			});
 		$manager = new ContentSecurityPolicyManager($eventDispatcher);
@@ -191,7 +191,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
-			->willReturnCallback(function (AddContentSecurityPolicyEvent $event) {
+			->willReturnCallback(function (AddContentSecurityPolicyEvent $event): void {
 				$otherPolicy = new EmptyContentSecurityPolicy();
 				$otherPolicy->addAllowedFrameDomain('external.example.com');
 				$otherPolicy->addAllowedFormActionDomain('external.example.com');
@@ -203,7 +203,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 
 		$policy = $manager->getDefaultPolicy();
 
-		self::assertArrayUnordered(["'self'", 'external.example.com', 'http://public', 'nc:'], $policy->getAllowedFrameDomains(), 'Domains are equal', 0.0, 10, true);
+		self::assertArrayUnordered(["'self'", 'external.example.com', 'http://public', 'nc:'], $policy->getAllowedFrameDomains(), 'Domains are equal');
 		self::assertArrayUnordered(["'self'", 'external.example.com', 'http://public'], $policy->getAllowedFormActionDomains());
 	}
 

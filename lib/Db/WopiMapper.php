@@ -17,29 +17,14 @@ use Psr\Log\LoggerInterface;
 
 /** @template-extends QBMapper<Wopi> */
 class WopiMapper extends QBMapper {
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var AppConfig */
-	private $appConfig;
-
-	public function __construct(IDBConnection $db,
-		ISecureRandom $random,
-		LoggerInterface $logger,
-		ITimeFactory $timeFactory,
-		AppConfig $appConfig) {
+	public function __construct(
+		IDBConnection $db,
+		private ISecureRandom $random,
+		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
+		private AppConfig $appConfig,
+	) {
 		parent::__construct($db, 'richdocuments_wopi', Wopi::class);
-
-		$this->random = $random;
-		$this->logger = $logger;
-		$this->timeFactory = $timeFactory;
-		$this->appConfig = $appConfig;
 	}
 
 	/**
@@ -106,7 +91,7 @@ class WopiMapper extends QBMapper {
 	 */
 	public function getPathForToken(
 		#[\SensitiveParameter]
-		$token
+		$token,
 	): Wopi {
 		return $this->getWopiForToken($token);
 	}
@@ -123,7 +108,7 @@ class WopiMapper extends QBMapper {
 	 */
 	public function getWopiForToken(
 		#[\SensitiveParameter]
-		string $token
+		string $token,
 	): Wopi {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')

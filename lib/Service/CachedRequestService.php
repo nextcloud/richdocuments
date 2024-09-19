@@ -107,7 +107,7 @@ abstract class CachedRequestService {
 		$appData = $this->appDataFactory->get(Application::APPNAME);
 		try {
 			$folder = $appData->getFolder('remoteData');
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$folder = $appData->newFolder('remoteData');
 		}
 		return $folder;
@@ -147,7 +147,7 @@ abstract class CachedRequestService {
 						return true;
 					}
 				}
-			} catch (\Exception $e) {
+			} catch (\Exception) {
 				// ignore
 			}
 		}

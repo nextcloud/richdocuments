@@ -51,7 +51,7 @@ class AddFeaturePolicyListenerTest extends TestCase {
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) {
+			->willReturnCallback(function ($event): void {
 				$this->featurePolicyListener->handle($event);
 			});
 		$manager = new FeaturePolicyManager($eventDispatcher);

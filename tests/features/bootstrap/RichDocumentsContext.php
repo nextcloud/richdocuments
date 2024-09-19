@@ -65,9 +65,9 @@ class RichDocumentsContext implements Context {
 		$redirects = $result->getHeader('X-Guzzle-Redirect-History');
 		$lastServer = array_pop($redirects);
 		if ($lastServer) {
-			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://'. parse_url($lastServer, PHP_URL_HOST)  . (
+			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://' . parse_url($lastServer, PHP_URL_HOST) . (
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
-			). '/';
+			) . '/';
 		}
 		$this->extractRichdocumentsFrontendContext($result);
 
@@ -87,7 +87,7 @@ class RichDocumentsContext implements Context {
 
 		$response = $this->serverContext->getOCSResponse();
 
-		$this->fileId = $fileId  . '_ocfake';
+		$this->fileId = $fileId . '_ocfake';
 		$this->fileIds[] = $this->fileId;
 		$this->wopiToken = $response['token'];
 		$this->wopiContext->setWopiParameters($this->currentServer, $this->fileId, $this->wopiToken);
@@ -192,9 +192,9 @@ class RichDocumentsContext implements Context {
 		$redirects = $result->getHeader('X-Guzzle-Redirect-History');
 		$lastServer = array_pop($redirects);
 		if ($lastServer) {
-			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://'. parse_url($lastServer, PHP_URL_HOST)  . (
+			$this->currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://' . parse_url($lastServer, PHP_URL_HOST) . (
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
-			). '/';
+			) . '/';
 		}
 		$this->extractRichdocumentsFrontendContext($result);
 

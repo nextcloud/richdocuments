@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 class Parser {
 	public function __construct(
 		private DiscoveryService $discoveryService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

@@ -36,7 +36,7 @@ class TargetController extends \OCP\AppFramework\OCSController {
 		try {
 			$file = $this->getFile($path);
 			return new DataResponse($this->fileTargetService->getFileTargets($file));
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 		}
 
 		return new DataResponse('File not found', Http::STATUS_NOT_FOUND);
@@ -54,7 +54,7 @@ class TargetController extends \OCP\AppFramework\OCSController {
 				Http::STATUS_OK,
 				['Content-Type' => 'image/png']
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataResponse('File not found', Http::STATUS_NOT_FOUND);
 		}
 	}
@@ -71,7 +71,7 @@ class TargetController extends \OCP\AppFramework\OCSController {
 			}
 
 			return $file;
-		} catch (NotFoundException|NotPermittedException|NoUserException $e) {
+		} catch (NotFoundException|NotPermittedException|NoUserException) {
 			throw new NotFoundException();
 		}
 	}

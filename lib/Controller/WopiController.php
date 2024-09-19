@@ -82,7 +82,7 @@ class WopiController extends Controller {
 		private IEncryptionManager $encryptionManager,
 		private IGroupManager $groupManager,
 		private ILockManager $lockManager,
-		private IEventDispatcher $eventDispatcher
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -109,10 +109,7 @@ class WopiController extends Controller {
 			if (!($file instanceof File)) {
 				throw new NotFoundException('No valid file found for ' . $fileId);
 			}
-		} catch (NotFoundException $e) {
-			$this->logger->debug($e->getMessage(), ['exception' => $e]);
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
-		} catch (UnknownTokenException $e) {
+		} catch (NotFoundException|UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		} catch (ExpiredTokenException $e) {
@@ -188,9 +185,7 @@ class WopiController extends Controller {
 				'email' => $email,
 			];
 			$watermarkTemplate = $this->appConfig->getAppValue('watermark_text');
-			$response['WatermarkText'] = preg_replace_callback('/{(.+?)}/', function ($matches) use ($replacements) {
-				return $replacements[$matches[1]];
-			}, $watermarkTemplate);
+			$response['WatermarkText'] = preg_replace_callback('/{(.+?)}/', fn ($matches) => $replacements[$matches[1]], $watermarkTemplate);
 		}
 
 		$user = $this->userManager->get($wopi->getEditorUid());
@@ -463,9 +458,7 @@ class WopiController extends Controller {
 				if ($freespace >= 0 && $contentLength > $freespace) {
 					throw new \Exception('Not enough storage');
 				}
-				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content) {
-					return $file->putContent($content);
-				});
+				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
 			} catch (LockedException $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -566,9 +559,9 @@ class WopiController extends Controller {
 
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7') . '.' . $file->getExtension();
 
-				if (strpos($suggested, '.') === 0) {
+				if (str_starts_with($suggested, '.')) {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				} elseif (strpos($suggested, '/') !== 0) {
+				} elseif (!str_starts_with($suggested, '/')) {
 					$path = dirname($file->getPath()) . '/' . $suggested;
 				} else {
 					$path = $userFolder->getPath() . $suggested;
@@ -592,7 +585,7 @@ class WopiController extends Controller {
 					$this->getFileForWopiToken($wopi),
 					ILock::TYPE_APP,
 					Application::APPNAME
-				), function () use (&$file, $path) {
+				), function () use (&$file, $path): void {
 					$file = $file->move($path);
 				});
 			} else {
@@ -632,10 +625,8 @@ class WopiController extends Controller {
 			$this->userScopeService->setFilesystemScope($wopi->getEditorUid());
 
 			try {
-				$this->wrappedFilesystemOperation($wopi, function () use ($file, $content) {
-					return $file->putContent($content);
-				});
-			} catch (LockedException $e) {
+				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
+			} catch (LockedException) {
 				return new JSONResponse(['message' => 'File locked'], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
 
@@ -666,7 +657,7 @@ class WopiController extends Controller {
 				Application::APPNAME
 			));
 			return new JSONResponse();
-		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+		} catch (NoLockProviderException|PreConditionNotMetException) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		} catch (OwnerLockedException $e) {
 			// If a file is manually locked by a user we want to all this user to still perform a WOPI lock and write
@@ -675,7 +666,7 @@ class WopiController extends Controller {
 			}
 
 			return new JSONResponse([], Http::STATUS_LOCKED);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -688,14 +679,14 @@ class WopiController extends Controller {
 				Application::APPNAME
 			));
 			return new JSONResponse();
-		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+		} catch (NoLockProviderException|PreConditionNotMetException) {
 			$locks = $this->lockManager->getLocks($wopi->getFileid());
 			$canWriteThroughLock = count($locks) > 0 && $locks[0]->getType() === ILock::TYPE_USER && $locks[0]->getOwner() !== $wopi->getEditorUid() ? false : true;
 			if ($canWriteThroughLock) {
 				return new JSONResponse();
 			}
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -708,11 +699,11 @@ class WopiController extends Controller {
 				Application::APPNAME
 			));
 			return new JSONResponse();
-		} catch (NoLockProviderException|PreConditionNotMetException $e) {
+		} catch (NoLockProviderException|PreConditionNotMetException) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
-		} catch (OwnerLockedException $e) {
+		} catch (OwnerLockedException) {
 			return new JSONResponse([], Http::STATUS_LOCKED);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -729,7 +720,7 @@ class WopiController extends Controller {
 	 * @throws ShareNotFound
 	 */
 	protected function wrappedFilesystemOperation(Wopi $wopi, callable $filesystemOperation): void {
-		$retryOperation = function () use ($filesystemOperation) {
+		$retryOperation = function () use ($filesystemOperation): void {
 			$this->retryOperation($filesystemOperation);
 		};
 		try {
@@ -738,7 +729,7 @@ class WopiController extends Controller {
 				ILock::TYPE_APP,
 				Application::APPNAME
 			), $retryOperation);
-		} catch (NoLockProviderException $e) {
+		} catch (NoLockProviderException) {
 			$retryOperation();
 		}
 	}
@@ -798,9 +789,7 @@ class WopiController extends Controller {
 
 		// Workaround to always open files with edit permissions if multiple occurrences of
 		// the same file id are in the user home, ideally we should also track the path of the file when opening
-		usort($files, function (Node $a, Node $b) {
-			return ($b->getPermissions() & Constants::PERMISSION_UPDATE) <=> ($a->getPermissions() & Constants::PERMISSION_UPDATE);
-		});
+		usort($files, fn (Node $a, Node $b) => ($b->getPermissions() & Constants::PERMISSION_UPDATE) <=> ($a->getPermissions() & Constants::PERMISSION_UPDATE));
 
 		return array_shift($files);
 	}
@@ -808,7 +797,7 @@ class WopiController extends Controller {
 	private function getShareForWopiToken(Wopi $wopi): ?IShare {
 		try {
 			return $wopi->getShare() ? $this->shareManager->getShareByToken($wopi->getShare()) : null;
-		} catch (ShareNotFound $e) {
+		} catch (ShareNotFound) {
 		}
 
 		return null;
@@ -857,7 +846,7 @@ class WopiController extends Controller {
 		try {
 			$util = \OC::$server->query(\OCA\Encryption\Util::class);
 			return $util->isMasterKeyEnabled();
-		} catch (QueryException $e) {
+		} catch (QueryException) {
 			// No encryption module enabled
 			return false;
 		}

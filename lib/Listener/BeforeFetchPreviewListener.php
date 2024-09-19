@@ -24,16 +24,12 @@ use OCP\Share\IShare;
 
 /** @template-implements IEventListener<Event|BeforePreviewFetchedEvent> */
 class BeforeFetchPreviewListener implements IEventListener {
-	private PermissionManager $permissionManager;
-	private IUserSession $userSession;
-	private IRequest $request;
-	private IManager $shareManager;
-
-	public function __construct(PermissionManager $permissionManager, IUserSession $userSession, IRequest $request, IManager $shareManager) {
-		$this->permissionManager = $permissionManager;
-		$this->userSession = $userSession;
-		$this->request = $request;
-		$this->shareManager = $shareManager;
+	public function __construct(
+		private PermissionManager $permissionManager,
+		private IUserSession $userSession,
+		private IRequest $request,
+		private IManager $shareManager,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -56,7 +52,7 @@ class BeforeFetchPreviewListener implements IEventListener {
 		// Get different share for public previews as the share from the node is only set for mounted shares
 		try {
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : $share;
-		} catch (ShareNotFound $e) {
+		} catch (ShareNotFound) {
 		}
 
 		$userId = $this->userSession->getUser() ? $this->userSession->getUser()->getUID() : null;

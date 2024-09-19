@@ -30,56 +30,23 @@ use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 class OCSController extends \OCP\AppFramework\OCSController {
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var string */
-	private $userId;
-
-	/** @var DirectMapper */
-	private $directMapper;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var TemplateManager */
-	private $manager;
-
-	/** @var TokenManager */
-	private $tokenManager;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var FederationService */
-	private $federationService;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(string $appName,
+	/**
+	 * @param string $userId
+	 */
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IRootFolder $rootFolder,
-		$userId,
-		DirectMapper $directMapper,
-		IURLGenerator $urlGenerator,
-		TemplateManager $manager,
-		TokenManager $tokenManager,
-		IManager $shareManager,
-		FederationService $federationService,
-		LoggerInterface $logger
+		private IRootFolder $rootFolder,
+		private $userId,
+		private DirectMapper $directMapper,
+		private IURLGenerator $urlGenerator,
+		private TemplateManager $manager,
+		private TokenManager $tokenManager,
+		private IManager $shareManager,
+		private FederationService $federationService,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
-		$this->directMapper = $directMapper;
-		$this->urlGenerator = $urlGenerator;
-		$this->manager = $manager;
-		$this->tokenManager = $tokenManager;
-		$this->shareManager = $shareManager;
-		$this->federationService = $federationService;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -111,7 +78,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 					'token' => $direct->getToken()
 				])
 			]);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			throw new OCSNotFoundException();
 		}
 	}
@@ -128,7 +95,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $shareToken,
 		?string $host = null,
 		string $path = '',
-		?string $password = null
+		?string $password = null,
 	): DataResponse {
 		if ($host) {
 			$remoteCollabora = $this->federationService->getRemoteCollaboraURL($host);
@@ -174,7 +141,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
-		} catch (ShareNotFound $ex) {
+		} catch (ShareNotFound) {
 			$response = new DataResponse([], HTTP::STATUS_NOT_FOUND);
 			$response->throttle();
 			return $response;
@@ -216,11 +183,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $initiatorToken,
 		string $shareToken,
 		string $path = '',
-		?string $password = null
+		?string $password = null,
 	): DataResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);
-		} catch (ShareNotFound $ex) {
+		} catch (ShareNotFound) {
 			$response = new DataResponse([], HTTP::STATUS_NOT_FOUND);
 			$response->throttle();
 			return $response;
@@ -261,11 +228,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		try {
 			$this->tokenManager->updateGuestName($access_token, $guestName);
 			return new DataResponse([], Http::STATUS_OK);
-		} catch (UnknownTokenException $e) {
+		} catch (UnknownTokenException) {
 			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
 			$response->throttle();
 			return $response;
-		} catch (ExpiredTokenException $e) {
+		} catch (ExpiredTokenException) {
 			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);
 			$response->throttle();
 			return $response;
@@ -318,7 +285,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 					'token' => $direct->getToken()
 				])
 			]);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			throw new OCSNotFoundException();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);

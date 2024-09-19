@@ -19,36 +19,16 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class FederationController extends OCSController {
-	/** @var IConfig */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var WopiMapper */
-	private $wopiMapper;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IConfig $config,
-		LoggerInterface $logger,
-		WopiMapper $wopiMapper,
-		IUserManager $userManager,
-		IURLGenerator $urlGenerator
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private WopiMapper $wopiMapper,
+		private IUserManager $userManager,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->wopiMapper = $wopiMapper;
-		$this->userManager = $userManager;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -97,10 +77,10 @@ class FederationController extends OCSController {
 			}
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' returned');
 			return new DataResponse($initiatorWopi);
-		} catch (UnknownTokenException $e) {
+		} catch (UnknownTokenException) {
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . 'not found');
 			throw new OCSNotFoundException();
-		} catch (ExpiredTokenException $e) {
+		} catch (ExpiredTokenException) {
 			$this->logger->debug('COOL-Federation-Initiator: Token ' . $token . ' is expired');
 			throw new OCSNotFoundException();
 		}
@@ -132,10 +112,10 @@ class FederationController extends OCSController {
 				'displayName' => $user->getDisplayName(),
 				'avatar' => $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $wopi->getEditorUid(), 'size' => WopiController::WOPI_AVATAR_SIZE])
 			]);
-		} catch (UnknownTokenException $e) {
+		} catch (UnknownTokenException) {
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . 'not found');
 			throw new OCSNotFoundException();
-		} catch (ExpiredTokenException $e) {
+		} catch (ExpiredTokenException) {
 			$this->logger->debug('COOL-Federation-Initiator-User: Token ' . $token . ' is expired.');
 			throw new OCSNotFoundException();
 		}

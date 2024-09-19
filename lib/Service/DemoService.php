@@ -10,18 +10,10 @@ use OCP\Http\Client\IClientService;
 use OCP\ICache;
 
 class DemoService {
-	/**
-	 * @var ICache
-	 */
-	private $cache;
-	/**
-	 * @var IClientService
-	 */
-	private $clientService;
-
-	public function __construct(ICache $cache, IClientService $clientService) {
-		$this->cache = $cache;
-		$this->clientService = $clientService;
+	public function __construct(
+		private ICache $cache,
+		private IClientService $clientService,
+	) {
 	}
 
 	public function fetchDemoServers($refresh = false) {
@@ -34,7 +26,7 @@ class DemoService {
 		try {
 			$response = $client->get($demoServerList);
 			$servers = json_decode($response->getBody(), true)['servers'] ?? [];
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			$servers = [];
 		}
 		$this->cache->set('richdocuments-demo', json_encode($servers));

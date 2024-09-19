@@ -17,14 +17,12 @@ class AssetMapper extends QBMapper {
 	/** @var int Lifetime of a token is 10 minutes */
 	public const TOKEN_TTL = 600;
 
-	private ISecureRandom $random;
-	private ITimeFactory $time;
-
-	public function __construct(IDBConnection $db, ISecureRandom $random, ITimeFactory $timeFactory) {
+	public function __construct(
+		IDBConnection $db,
+		private ISecureRandom $random,
+		private ITimeFactory $time,
+	) {
 		parent::__construct($db, 'richdocuments_assets', Asset::class);
-
-		$this->random = $random;
-		$this->time = $timeFactory;
 	}
 
 	/**
@@ -61,7 +59,7 @@ class AssetMapper extends QBMapper {
 			}
 
 			return $asset;
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 		}
 
 		throw new DoesNotExistException('No asset for token found');

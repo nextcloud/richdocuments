@@ -112,9 +112,9 @@ class DirectContext implements Context {
 		$redirects = $response->getHeader('X-Guzzle-Redirect-History');
 		$lastServer = array_pop($redirects);
 		if ($lastServer) {
-			$currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://'. parse_url($lastServer, PHP_URL_HOST)  . (
+			$currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://' . parse_url($lastServer, PHP_URL_HOST) . (
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
-			). '/';
+			) . '/';
 		}
 		$contents = $response->getBody()->getContents();
 
@@ -128,7 +128,7 @@ class DirectContext implements Context {
 		Assert::assertNotEmpty($initialState['document']['fileId']);
 		Assert::assertNotEmpty($initialState['document']['token']);
 
-		$currentServer = $currentServer ?? $this->serverContext->getBaseUrl();
+		$currentServer ??= $this->serverContext->getBaseUrl();
 
 		$this->wopiContext->setWopiParameters($currentServer, $initialState['document']['fileId'], $initialState['document']['token']);
 		Assert::assertEquals(200, $response->getStatusCode());

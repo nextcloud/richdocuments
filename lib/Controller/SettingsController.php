@@ -43,7 +43,8 @@ class SettingsController extends Controller {
 		'application/vnd.ms-opentype',
 	];
 
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
 		private IL10N $l10n,
 		private AppConfig $appConfig,
@@ -54,7 +55,7 @@ class SettingsController extends Controller {
 		private DemoService $demoService,
 		private FontService $fontService,
 		private LoggerInterface $logger,
-		private ?string $userId
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -120,7 +121,7 @@ class SettingsController extends Controller {
 		?string $use_groups,
 		?string $doc_format,
 		?string $external_apps,
-		?string $canonical_webroot
+		?string $canonical_webroot,
 	): JSONResponse {
 		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
@@ -242,7 +243,7 @@ class SettingsController extends Controller {
 		if ($templateFolder !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'templateFolder', $templateFolder);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -250,7 +251,7 @@ class SettingsController extends Controller {
 		if ($zoteroAPIKeyInput !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', $zoteroAPIKeyInput);
-			} catch (PreConditionNotMetException $e) {
+			} catch (PreConditionNotMetException) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}
@@ -295,9 +296,7 @@ class SettingsController extends Controller {
 	public function getJsonFontList() {
 		$files = $this->fontService->getFontFiles();
 		$etags = array_map(
-			static function (ISimpleFile $f) {
-				return $f->getETag();
-			},
+			static fn (ISimpleFile $f) => $f->getETag(),
 			$files
 		);
 		$etag = md5(implode(',', $etags));
@@ -335,7 +334,7 @@ class SettingsController extends Controller {
 				Http::STATUS_OK,
 				['Content-Type' => $fontFile->getMimeType(), 'Etag' => $etag]
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
 		}
 	}
@@ -357,7 +356,7 @@ class SettingsController extends Controller {
 				Http::STATUS_OK,
 				['Content-Type' => 'image/png']
 			);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
 		}
 	}

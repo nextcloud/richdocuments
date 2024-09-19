@@ -13,11 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateEmptyTemplates extends Command {
-	/** @var TemplateManager */
-	private $templateManager;
-
-	public function __construct(TemplateManager $templateManager) {
-		$this->templateManager = $templateManager;
+	public function __construct(
+		private TemplateManager $templateManager,
+	) {
 		parent::__construct();
 	}
 
