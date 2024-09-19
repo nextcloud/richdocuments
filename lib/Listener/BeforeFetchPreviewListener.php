@@ -24,7 +24,12 @@ use OCP\Share\IShare;
 
 /** @template-implements IEventListener<Event|BeforePreviewFetchedEvent> */
 class BeforeFetchPreviewListener implements IEventListener {
-	public function __construct(private PermissionManager $permissionManager, private IUserSession $userSession, private IRequest $request, private IManager $shareManager) {
+	public function __construct(
+		private PermissionManager $permissionManager,
+		private IUserSession $userSession,
+		private IRequest $request,
+		private IManager $shareManager,
+	) {
 	}
 
 	public function handle(Event $event): void {

@@ -13,7 +13,9 @@ class Helper {
 	/**
 	 * @param string|null $userId
 	 */
-	public function __construct(private $userId) {
+	public function __construct(
+		private $userId,
+	) {
 	}
 
 	/**

@@ -21,7 +21,7 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 	public function __construct(
 		private TemplateManager $templateManager,
 		private IURLGenerator $urlGenerator,
-		private ITemplateManager $coreTemplateManager
+		private ITemplateManager $coreTemplateManager,
 	) {
 	}
 

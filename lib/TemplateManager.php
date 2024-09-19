@@ -76,7 +76,7 @@ class TemplateManager {
 		private IRootFolder $rootFolder,
 		private IL10N $l,
 		private IDBConnection $db,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		$this->userId = $userId;
 	}

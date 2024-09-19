@@ -11,7 +11,10 @@ namespace OCA\Richdocuments\Events;
 use OCP\Files\Node;
 
 class DocumentOpenedEvent extends \OCP\EventDispatcher\Event {
-	public function __construct(private ?string $userId, private Node $node) {
+	public function __construct(
+		private ?string $userId,
+		private Node $node,
+	) {
 	}
 
 	public function getUserId(): ?string {

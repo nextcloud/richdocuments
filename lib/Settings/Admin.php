@@ -24,7 +24,7 @@ class Admin implements ISettings {
 		private CapabilitiesService $capabilitiesService,
 		private DemoService         $demoService,
 		private FontService 		$fontService,
-		private InitialStateService $initialStateService
+		private InitialStateService $initialStateService,
 	) {
 	}
 

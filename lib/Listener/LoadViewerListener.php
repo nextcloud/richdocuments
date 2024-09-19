@@ -20,7 +20,11 @@ use OCP\Util;
 
 /** @template-implements IEventListener<Event|LoadViewer> */
 class LoadViewerListener implements IEventListener {
-	public function __construct(private PermissionManager $permissionManager, private InitialStateService $initialStateService, private ?string $userId) {
+	public function __construct(
+		private PermissionManager $permissionManager,
+		private InitialStateService $initialStateService,
+		private ?string $userId,
+	) {
 	}
 
 	public function handle(Event $event): void {

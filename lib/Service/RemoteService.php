@@ -24,7 +24,7 @@ class RemoteService {
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->put(
-				$this->appConfig->getCollaboraUrlInternal(). '/cool/extract-link-targets',
+				$this->appConfig->getCollaboraUrlInternal() . '/cool/extract-link-targets',
 				$this->getRequestOptionsForFile($file)
 			);
 		} catch (Exception $e) {
@@ -46,7 +46,7 @@ class RemoteService {
 	public function fetchTargetThumbnail(File $file, string $target): ?string {
 		$client = $this->clientService->newClient();
 		try {
-			$response = $client->put($this->appConfig->getCollaboraUrlInternal(). '/cool/get-thumbnail', $this->getRequestOptionsForFile($file, $target));
+			$response = $client->put($this->appConfig->getCollaboraUrlInternal() . '/cool/get-thumbnail', $this->getRequestOptionsForFile($file, $target));
 			return (string)$response->getBody();
 		} catch (Exception $e) {
 			$this->logger->info('Failed to fetch target thumbnail', ['exception' => $e]);

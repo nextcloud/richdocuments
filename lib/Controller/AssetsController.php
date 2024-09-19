@@ -22,13 +22,15 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class AssetsController extends Controller {
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
 		private AssetMapper $assetMapper,
 		private IRootFolder $rootFolder,
 		private ?string $userId,
 		private UserScopeService $userScopeService,
-		private IURLGenerator $urlGenerator) {
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request);
 	}
 

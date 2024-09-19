@@ -32,7 +32,7 @@ class WOPIMiddleware extends Middleware {
 		private IConfig $config,
 		private IRequest $request,
 		private WopiMapper $wopiMapper,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

@@ -112,9 +112,9 @@ class DirectContext implements Context {
 		$redirects = $response->getHeader('X-Guzzle-Redirect-History');
 		$lastServer = array_pop($redirects);
 		if ($lastServer) {
-			$currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://'. parse_url($lastServer, PHP_URL_HOST)  . (
+			$currentServer = parse_url($lastServer, PHP_URL_SCHEME) . '://' . parse_url($lastServer, PHP_URL_HOST) . (
 				parse_url($lastServer, PHP_URL_PORT) ? ':' . parse_url($lastServer, PHP_URL_PORT) : ''
-			). '/';
+			) . '/';
 		}
 		$contents = $response->getBody()->getContents();
 

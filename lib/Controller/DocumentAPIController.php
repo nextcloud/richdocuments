@@ -29,7 +29,16 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class DocumentAPIController extends \OCP\AppFramework\OCSController {
-	public function __construct(IRequest $request, private IRootFolder $rootFolder, private IManager $shareManager, private TemplateManager $templateManager, private IL10N $l10n, private LoggerInterface $logger, private ILockManager $lockManager, private $userId) {
+	public function __construct(
+		IRequest $request,
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+		private TemplateManager $templateManager,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+		private ILockManager $lockManager,
+		private $userId,
+	) {
 		parent::__construct(Application::APPNAME, $request);
 	}
 

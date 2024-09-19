@@ -38,13 +38,14 @@ class TemplatesController extends Controller {
 	 * @param TemplateManager $manager
 	 * @param IPreview $preview
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
 		private IL10N $l10n,
 		private TemplateManager $manager,
 		private IPreview $preview,
 		private IMimeTypeDetector $mimeTypeDetector,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 

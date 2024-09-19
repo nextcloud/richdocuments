@@ -33,7 +33,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @param string $userId
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		private IRootFolder $rootFolder,
 		private $userId,
@@ -43,7 +44,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		private TokenManager $tokenManager,
 		private IManager $shareManager,
 		private FederationService $federationService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -94,7 +95,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $shareToken,
 		?string $host = null,
 		string $path = '',
-		?string $password = null
+		?string $password = null,
 	): DataResponse {
 		if ($host) {
 			$remoteCollabora = $this->federationService->getRemoteCollaboraURL($host);
@@ -182,7 +183,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $initiatorToken,
 		string $shareToken,
 		string $path = '',
-		?string $password = null
+		?string $password = null,
 	): DataResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($shareToken);

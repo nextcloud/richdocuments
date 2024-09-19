@@ -23,10 +23,12 @@ class FontService {
 	 */
 	private $cache;
 
-	public function __construct(private IAppData $appData,
+	public function __construct(
+		private IAppData $appData,
 		ICacheFactory $cacheFactory,
 		private IURLGenerator $url,
-		private IConfig $config) {
+		private IConfig $config,
+	) {
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
 	}
 

@@ -26,7 +26,7 @@ class FederationController extends OCSController {
 		private LoggerInterface $logger,
 		private WopiMapper $wopiMapper,
 		private IUserManager $userManager,
-		private IURLGenerator $urlGenerator
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}

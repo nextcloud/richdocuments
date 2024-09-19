@@ -17,7 +17,11 @@ class AssetMapper extends QBMapper {
 	/** @var int Lifetime of a token is 10 minutes */
 	public const TOKEN_TTL = 600;
 
-	public function __construct(IDBConnection $db, private ISecureRandom $random, private ITimeFactory $time) {
+	public function __construct(
+		IDBConnection $db,
+		private ISecureRandom $random,
+		private ITimeFactory $time,
+	) {
 		parent::__construct($db, 'richdocuments_assets', Asset::class);
 	}
 

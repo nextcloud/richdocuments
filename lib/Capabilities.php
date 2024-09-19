@@ -90,7 +90,7 @@ class Capabilities implements ICapability {
 		private PermissionManager $permissionManager,
 		private IAppManager $appManager,
 		private ?string $userId,
-		private IURLGenerator $urlGenerator
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 

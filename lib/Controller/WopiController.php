@@ -82,7 +82,7 @@ class WopiController extends Controller {
 		private IEncryptionManager $encryptionManager,
 		private IGroupManager $groupManager,
 		private ILockManager $lockManager,
-		private IEventDispatcher $eventDispatcher
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}

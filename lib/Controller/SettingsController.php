@@ -43,7 +43,8 @@ class SettingsController extends Controller {
 		'application/vnd.ms-opentype',
 	];
 
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
 		private IL10N $l10n,
 		private AppConfig $appConfig,
@@ -54,7 +55,7 @@ class SettingsController extends Controller {
 		private DemoService $demoService,
 		private FontService $fontService,
 		private LoggerInterface $logger,
-		private ?string $userId
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -120,7 +121,7 @@ class SettingsController extends Controller {
 		?string $use_groups,
 		?string $doc_format,
 		?string $external_apps,
-		?string $canonical_webroot
+		?string $canonical_webroot,
 	): JSONResponse {
 		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);

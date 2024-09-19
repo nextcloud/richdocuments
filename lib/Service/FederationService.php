@@ -35,7 +35,15 @@ class FederationService {
 	/** @var TrustedServers */
 	private $trustedServers;
 
-	public function __construct(ICacheFactory $cacheFactory, private IClientService $clientService, private LoggerInterface $logger, private TokenManager $tokenManager, private AppConfig $appConfig, private IRequest $request, private IURLGenerator $urlGenerator) {
+	public function __construct(
+		ICacheFactory $cacheFactory,
+		private IClientService $clientService,
+		private LoggerInterface $logger,
+		private TokenManager $tokenManager,
+		private AppConfig $appConfig,
+		private IRequest $request,
+		private IURLGenerator $urlGenerator,
+	) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		try {
 			$this->trustedServers = \OC::$server->get(\OCA\Federation\TrustedServers::class);

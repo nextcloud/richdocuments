@@ -14,7 +14,7 @@ use OCP\IUserSession;
 class UserScopeService {
 	public function __construct(
 		private IUserSession $userSession,
-		private IUserManager $userManager
+		private IUserManager $userManager,
 	) {
 	}
 

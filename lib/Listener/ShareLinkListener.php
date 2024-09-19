@@ -21,7 +21,10 @@ use OCP\Util;
 
 /** @template-implements IEventListener<Event|ShareLinkAccessedEvent> */
 class ShareLinkListener implements \OCP\EventDispatcher\IEventListener {
-	public function __construct(private PermissionManager $permissionManager, private InitialStateService $initialStateService) {
+	public function __construct(
+		private PermissionManager $permissionManager,
+		private InitialStateService $initialStateService,
+	) {
 	}
 
 	public function handle(Event $event): void {

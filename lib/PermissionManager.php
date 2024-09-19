@@ -25,7 +25,7 @@ class PermissionManager {
 		private IGroupManager $groupManager,
 		private IUserManager $userManager,
 		private IUserSession $userSession,
-		private ISystemTagObjectMapper $systemTagObjectMapper
+		private ISystemTagObjectMapper $systemTagObjectMapper,
 	) {
 	}
 

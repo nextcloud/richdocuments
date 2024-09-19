@@ -15,7 +15,7 @@ use OCP\Files\Template\BeforeGetTemplatesEvent;
 /** @template-implements IEventListener<BeforeGetTemplatesEvent|Event> */
 class BeforeGetTemplatesListener implements IEventListener {
 	public function __construct(
-		private TemplateFieldService $templateFieldService
+		private TemplateFieldService $templateFieldService,
 	) {
 	}
 
@@ -24,7 +24,7 @@ class BeforeGetTemplatesListener implements IEventListener {
 			return;
 		}
 
-		foreach($event->getTemplates() as $template) {
+		foreach ($event->getTemplates() as $template) {
 			$templateFileId = $template->jsonSerialize()['fileid'];
 			$fields = $this->templateFieldService->extractFields($templateFileId);
 			

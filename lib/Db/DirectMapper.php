@@ -17,9 +17,11 @@ class DirectMapper extends QBMapper {
 	/** @var int Lifetime of a token is 10 minutes */
 	public const TOKEN_TTL = 600;
 
-	public function __construct(IDBConnection $db,
+	public function __construct(
+		IDBConnection $db,
 		protected ISecureRandom $random,
-		protected ITimeFactory $timeFactory) {
+		protected ITimeFactory $timeFactory,
+	) {
 		parent::__construct($db, 'richdocuments_direct', Direct::class);
 	}
 

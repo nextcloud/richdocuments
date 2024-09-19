@@ -11,7 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallDefaultFonts extends Command {
-	public function __construct(private FontService $fontService) {
+	public function __construct(
+		private FontService $fontService,
+	) {
 		parent::__construct();
 	}
 

@@ -14,7 +14,9 @@ use OCP\EventDispatcher\IEventListener;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent|Event> */
 class BeforeTemplateRenderedListener implements IEventListener {
-	public function __construct(private CapabilitiesService $capabilitiesService) {
+	public function __construct(
+		private CapabilitiesService $capabilitiesService,
+	) {
 	}
 
 	public function handle(Event $event): void {

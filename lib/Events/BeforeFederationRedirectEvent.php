@@ -17,7 +17,11 @@ class BeforeFederationRedirectEvent extends Event {
 	 * @param string $relativePath
 	 * @param string $remote
 	 */
-	public function __construct(private $node, private $relativePath, private $remote) {
+	public function __construct(
+		private $node,
+		private $relativePath,
+		private $remote,
+	) {
 		parent::__construct();
 	}
 

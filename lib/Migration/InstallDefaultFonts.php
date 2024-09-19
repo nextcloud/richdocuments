@@ -11,7 +11,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class InstallDefaultFonts implements IRepairStep {
-	public function __construct(private IConfig $config, private FontService $fontService) {
+	public function __construct(
+		private IConfig $config,
+		private FontService $fontService,
+	) {
 	}
 
 	public function getName(): string {

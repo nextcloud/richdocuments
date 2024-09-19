@@ -10,7 +10,10 @@ use OCP\Http\Client\IClientService;
 use OCP\ICache;
 
 class DemoService {
-	public function __construct(private ICache $cache, private IClientService $clientService) {
+	public function __construct(
+		private ICache $cache,
+		private IClientService $clientService,
+	) {
 	}
 
 	public function fetchDemoServers($refresh = false) {
