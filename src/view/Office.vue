@@ -557,11 +557,20 @@ export default {
 </style>
 
 <style lang="scss">
-.viewer .office-viewer:not(.viewer__file--hidden):not(.widget-file) {
+.viewer__content:not(.viewer--split) .office-viewer:not(.viewer__file--hidden):not(.widget-file) {
 	width: 100%;
 	height: 100vh;
 	height: 100dvh;
 	top: -50px;
 	position: absolute;
+}
+
+[data-handler="richdocuments"] .modal-container {
+	bottom: 0;
+}
+
+.viewer__content.viewer--split .office-viewer {
+	height: 100%;
+	width: 100%;
 }
 </style>
