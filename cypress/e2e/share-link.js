@@ -84,7 +84,8 @@ describe('Public sharing of office documents', function() {
 						},
 					})
 
-					cy.get('tr[data-file="document.odt"] a.name').click()
+					cy.get('button[data-cy-files-list-row-name-link=""]')
+						.click()
 
 					cy.waitForViewer()
 					cy.waitForCollabora()
@@ -109,7 +110,7 @@ describe('Public sharing of office documents', function() {
 					},
 				})
 
-				cy.get('tr[data-file="document.odt"] a.name').click()
+				cy.get('button[data-cy-files-list-row-name-link=""]').click()
 
 				cy.inputCollaboraGuestName(guestName)
 				cy.waitForViewer()
