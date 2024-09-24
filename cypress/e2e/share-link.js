@@ -23,8 +23,7 @@ import { randHash } from '../utils/index.js'
 const shareOwner = new User(randHash(), randHash())
 const otherUser = new User(randHash(), randHash())
 
-describe('Public sharing of office documents', function() {
-
+describe('Public sharing of office documents', () => {
 	before(function() {
 		cy.createUser(shareOwner)
 		cy.createUser(otherUser)
@@ -35,108 +34,102 @@ describe('Public sharing of office documents', function() {
 	})
 
 	const userMatrix = [shareOwner, otherUser]
-	const guestName = randHash()
 
-	describe('Open a shared file', function() {
-		for (const index in userMatrix) {
-			const viewingUser = userMatrix[index]
+	describe('Share with users', () => {
+		describe('Readonly file', () => {
+			for (const user of userMatrix) {
+				it('Loads readonly file as user: ' + user.userId, () => {
+					cy.shareLink(shareOwner, '/document.odt').then((token) => {
+						cy.login(user)
 
-			it('Loads file as user: ' + viewingUser?.userId, () => {
-				cy.shareLink(shareOwner, '/document.odt').then((token) => {
-					cy.login(viewingUser)
+						cy.visit(`/s/${token}`, {
+							onBeforeLoad(win) {
+								cy.spy(win, 'postMessage').as('postMessage')
+							},
+						})
 
-					cy.visit(`/s/${token}`, {
-						onBeforeLoad(win) {
-							cy.spy(win, 'postMessage').as('postMessage')
-						},
+						// Assert that we do not ask for guest name if logged in
+						cy.get('[data-cy="guestNameModal"]').should('not.exist')
+
+						waitForCollabora()
 					})
+				})
+			}
+		})
 
-					cy.waitForCollabora()
-					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+		describe('Editable file', () => {
+			for (const user of userMatrix) {
+				it('Loads editable file as user: ' + user.userId, () => {
+					cy.shareLink(shareOwner, '/document.odt', { permissions: 19 }).then((token) => {
+						cy.login(user)
 
-					cy.get('@loleafletframe').within(() => {
-						cy.get('#closebutton').click()
+						cy.visit(`/s/${token}`, {
+							onBeforeLoad(win) {
+								cy.spy(win, 'postMessage').as('postMessage')
+							},
+						})
+
+						// Assert that we do not ask for guest name if logged in
+						cy.get('[data-cy="guestNameModal"]').should('not.exist')
+
+						waitForCollabora()
 					})
-
-					cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 				})
-			})
-		}
-
-		it('Loads file as guest: ' + guestName, () => {
-			cy.shareLink(shareOwner, '/document.odt').then((token) => {
-				cy.logout()
-
-				cy.visit(`/s/${token}`, {
-					onBeforeLoad(win) {
-						cy.spy(win, 'postMessage').as('postMessage')
-					},
-				})
-
-				cy.inputCollaboraGuestName(guestName)
-				cy.waitForCollabora()
-				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
-
-				cy.get('@loleafletframe').within(() => {
-					cy.get('#closebutton').click()
-				})
-
-				cy.get('#viewer', { timeout: 5000 }).should('not.exist')
-			})
+			}
 		})
 	})
 
-	describe('Open a file in a shared folder', function() {
-		for (const index in userMatrix) {
-			const viewingUser = userMatrix[index]
-			it('Loads file in shared folder as user: ' + viewingUser?.userId, () => {
-				cy.login(viewingUser)
+	const guestName = randHash()
+	describe('Share with guests', () => {
+		describe('Readonly file', () => {
+			it('Loads readonly file as guest: ' + guestName, () => {
+				cy.shareLink(shareOwner, '/document.odt').then((token) => {
+					cy.logout()
 
-				cy.shareLink(shareOwner, '/my-share').then((token) => {
 					cy.visit(`/s/${token}`, {
 						onBeforeLoad(win) {
 							cy.spy(win, 'postMessage').as('postMessage')
 						},
 					})
 
-					cy.get('tr[data-file="document.odt"] a.name').click()
+					// Assert that we do not ask for guest name if we can't edit as a guest
+					cy.get('[data-cy="guestNameModal"]').should('not.exist')
 
-					cy.waitForViewer()
-					cy.waitForCollabora()
-					cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
-
-					cy.get('@loleafletframe').within(() => {
-						cy.get('#closebutton').click()
-					})
-
-					cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+					waitForCollabora()
 				})
 			})
-		}
+		})
 
-		it('Loads file in shared folder as guest: ' + guestName, () => {
-			cy.shareLink(shareOwner, '/my-share').then((token) => {
-				cy.logout()
+		describe('Editable file', () => {
+			it('Loads editable file as guest: ' + guestName, () => {
+				cy.shareLink(shareOwner, '/document.odt', { permissions: 19 }).then((token) => {
+					cy.logout()
 
-				cy.visit(`/s/${token}`, {
-					onBeforeLoad(win) {
-						cy.spy(win, 'postMessage').as('postMessage')
-					},
+					cy.visit(`/s/${token}`, {
+						onBeforeLoad(win) {
+							cy.spy(win, 'postMessage').as('postMessage')
+						},
+					})
+
+					// Assert that we do ask for guest name if we can edit as a guest
+					cy.get('[data-cy="guestNameModal"]').should('be.visible')
+
+					cy.inputCollaboraGuestName(guestName)
+					waitForCollabora()
 				})
-
-				cy.get('tr[data-file="document.odt"] a.name').click()
-
-				cy.inputCollaboraGuestName(guestName)
-				cy.waitForViewer()
-				cy.waitForCollabora()
-				cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
-
-				cy.get('@loleafletframe').within(() => {
-					cy.get('#closebutton').click()
-				})
-
-				cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 			})
 		})
 	})
 })
+
+function waitForCollabora() {
+	cy.waitForViewer()
+	cy.waitForCollabora()
+	cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
+
+	cy.get('@loleafletframe').within(() => {
+		cy.get('#closebutton').click()
+	})
+
+	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+}
