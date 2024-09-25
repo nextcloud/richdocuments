@@ -22,6 +22,7 @@ use OCA\Richdocuments\Listener\LoadViewerListener;
 use OCA\Richdocuments\Listener\ReferenceListener;
 use OCA\Richdocuments\Listener\RegisterTemplateFileCreatorListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
+use OCA\Richdocuments\Listener\RegisterDirectEditorEventListener;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\Preview\EMF;
 use OCA\Richdocuments\Preview\MSExcel;
@@ -40,6 +41,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
+use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Preview\BeforePreviewFetchedEvent;
@@ -80,6 +82,7 @@ class Application extends App implements IBootstrap {
 		$context->registerPreviewProvider(OOXML::class, OOXML::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(OpenDocument::class, OpenDocument::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(Pdf::class, Pdf::MIMETYPE_REGEX);
+		$context->registerEventListener(RegisterDirectEditorEvent::class, RegisterDirectEditorEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
