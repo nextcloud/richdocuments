@@ -1,5 +1,32 @@
 # Changelog
 
+## 8.3.11
+
+### Fixed
+
+* Do not ask for guest name on read only pdfs @juliushaertl [#3953](https://github.com/nextcloud/richdocuments/pull/3953)
+* Use shared default options for HTTP client requests @mejo- [#3993](https://github.com/nextcloud/richdocuments/pull/3993)
+* Pressing `Enter` submits guest name input @elzody [#4008](https://github.com/nextcloud/richdocuments/pull/4008)
+* Don't ask for guest name on view-only share @elzody [#4070](https://github.com/nextcloud/richdocuments/pull/4070)
+* Properly render compare view @juliushaertl [#4076](https://github.com/nextcloud/richdocuments/pull/4076)
+* Emit notification on mentions @juliushaertl [#4080](https://github.com/nextcloud/richdocuments/pull/4080)
+
+### Other
+
+* Update `@nextcloud` dependencies @skjnldsv [#4013](https://github.com/nextcloud/richdocuments/pull/4013)
+* Bump `@nextcloud/axios` from 2.5.0 to 2.5.1 @dependabot [#4058](https://github.com/nextcloud/richdocuments/pull/4058)
+* Bump `@nextcloud/cypress` from 1.0.0-beta.8 to 1.0.0-beta.9 @dependabot [#4059](https://github.com/nextcloud/richdocuments/pull/4059)
+* Update `nextcloud/ocp` dependency @nextcloud-command [#4062](https://github.com/nextcloud/richdocuments/pull/4062)
+* Bump `@nextcloud/dialogs` from 4.2.2 to 4.2.7 @dependabot [#3996](https://github.com/nextcloud/richdocuments/pull/3996)
+* Bump `@nextcloud/router` from 2.2.0 to 2.2.1 @dependabot [#3997](https://github.com/nextcloud/richdocuments/pull/3997)
+* Bump `eslint-plugin-cypress` from 2.15.1 to 2.15.2 @dependabot [#3998](https://github.com/nextcloud/richdocuments/pull/3998)
+* Update `nextcloud/ocp` dependency @nextcloud-command [#4004](https://github.com/nextcloud/richdocuments/pull/4004)
+* Bump `@cypress/webpack-preprocessor` from 6.0.0 to 6.0.2 @dependabot [#3978](https://github.com/nextcloud/richdocuments/pull/3978)
+* Bump `@nextcloud/cypress` from 1.0.0-beta.6 to 1.0.0-beta.8 @dependabot [#3983](https://github.com/nextcloud/richdocuments/pull/3983)
+* Bump `@nextcloud/vue` from 7.12.6 to 7.12.8 @dependabot [#3985](https://github.com/nextcloud/richdocuments/pull/3985)
+* Bump `@nextcloud/browserslist-config` from 3.0.0 to 3.0.1 @dependabot [#3986](https://github.com/nextcloud/richdocuments/pull/3986)
+* Bump `@nextcloud/webpack-vue-config` from 6.0.0 to 6.0.1 @dependabot [#3988](https://github.com/nextcloud/richdocuments/pull/3988)
+
 ## 8.3.10
 
 ### Fixed
