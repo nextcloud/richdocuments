@@ -31,6 +31,7 @@ OC.L10N.register(
     "New spreadsheet" : "جدول بيانات جديد",
     "New presentation" : "عرض تقديمي جديد",
     "New diagram" : "شكل توضيحي جديد",
+    "{user} has mentioned you in {node}" : "{user} أشار إليك في {node}",
     "Link to office document section" : "رابط link قسم المستندات المكتبية",
     "Nextcloud Office" : "تطبيق \"المكتب\" لنكست كلاود Nextcloud Office",
     "Headings" : "العناوين الرئيسية",
