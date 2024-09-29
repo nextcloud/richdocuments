@@ -31,6 +31,7 @@ OC.L10N.register(
     "New spreadsheet" : "Scarbhileog nua",
     "New presentation" : "Cur i láthair nua",
     "New diagram" : "Léaráid nua",
+    "{user} has mentioned you in {node}" : "Luaigh {user} thú in {node}",
     "Link to office document section" : "Nasc chuig an rannán doiciméad oifige",
     "Nextcloud Office" : "Oifig Nextcloud",
     "Headings" : "Ceannteidil",
