@@ -4,6 +4,26 @@
 -->
 # Changelog
 
+## 8.5.1
+
+### Added
+
+- Add parameter to allow converting files after filling out fields @juliushaertl [#4034](https://github.com/nextcloud/richdocuments/pull/4034)
+
+### Fixed
+
+- Don't ask for guest name on view-only share @elzody [#4072](https://github.com/nextcloud/richdocuments/pull/4072)
+- Properly render compare view @juliushaertl [#4078](https://github.com/nextcloud/richdocuments/pull/4078)
+- Emit notification on mentions @juliushaertl [#4082](https://github.com/nextcloud/richdocuments/pull/4082)
+- Fix missing `:` prefix @hcvcastro [#4011](https://github.com/nextcloud/richdocuments/pull/4011)
+
+### Other
+
+- Update nextcloud/ocp dependency @nextcloud-command [#4039](https://github.com/nextcloud/richdocuments/pull/4039)
+- Update nextcloud/ocp dependency @nextcloud-command [#4065](https://github.com/nextcloud/richdocuments/pull/4065)
+- Bump @nextcloud/axios from 2.5.0 to 2.5.1 @dependabot [#4056](https://github.com/nextcloud/richdocuments/pull/4056)
+- Bump @nextcloud/cypress from 1.0.0-beta.8 to 1.0.0-beta.9 @dependabot [#4057](https://github.com/nextcloud/richdocuments/pull/4057)
+
 ## 8.5.0
 
 ### Added
