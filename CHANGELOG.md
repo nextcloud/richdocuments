@@ -1,5 +1,34 @@
 # Changelog
 
+## 8.4.7
+
+### Fixed
+
+* Pressing `Enter` submits guest name input @elzody [#4007](https://github.com/nextcloud/richdocuments/pull/4007)
+* Don't ask for guest name on view-only share @elzody [#4071](https://github.com/nextcloud/richdocuments/pull/4071)
+* Properly render compare view @juliushaertl [#4077](https://github.com/nextcloud/richdocuments/pull/4077)
+* Emit notification on mentions @juliushaertl [#4081](https://github.com/nextcloud/richdocuments/pull/4081)
+
+### Other
+
+* Bump `@nextcloud/vue` from 8.11.1 to 8.11.3 @dependabot [#3979](https://github.com/nextcloud/richdocuments/pull/3979)
+* Bump `@nextcloud/browserslist-config` from 3.0.0 to 3.0.1 @dependabot [#3982](https://github.com/nextcloud/richdocuments/pull/3982)
+* Bump `@nextcloud/dialogs` from 5.2.0 to 5.2.1 @dependabot [#3984](https://github.com/nextcloud/richdocuments/pull/3984)
+* Bump `@cypress/webpack-preprocessor` from 6.0.1 to 6.0.2 @dependabot [#3987](https://github.com/nextcloud/richdocuments/pull/3987)
+* Bump typescript from 5.4.3 to 5.4.5 @dependabot [#3989](https://github.com/nextcloud/richdocuments/pull/3989)
+* Bump cypress from 13.7.1 to 13.7.3 @dependabot [#3999](https://github.com/nextcloud/richdocuments/pull/3999)
+* Bump `@nextcloud/cypress` from 1.0.0-beta.7 to 1.0.0-beta.8 @dependabot [#4000](https://github.com/nextcloud/richdocuments/pull/4000)
+* Bump `eslint-plugin-cypress` from 2.15.1 to 2.15.2 @dependabot [#4001](https://github.com/nextcloud/richdocuments/pull/4001)
+* Bump `cypress-split` from 1.21.0 to 1.21.2 @dependabot [#4002](https://github.com/nextcloud/richdocuments/pull/4002)
+* Update `nextcloud/ocp` dependency @nextcloud-command [#4006](https://github.com/nextcloud/richdocuments/pull/4006)
+* Update `@nextcloud` dependencies @skjnldsv [#4012](https://github.com/nextcloud/richdocuments/pull/4012)
+* Update cypress workflow deps @skjnldsv [#4024](https://github.com/nextcloud/richdocuments/pull/4024)
+* Bump `@nextcloud/axios` from 2.5.0 to 2.5.1 @dependabot [#4060](https://github.com/nextcloud/richdocuments/pull/4060)
+* Bump `@nextcloud/cypress` from 1.0.0-beta.8 to 1.0.0-beta.9 @dependabot [#4061](https://github.com/nextcloud/richdocuments/pull/4061)
+* Update `nextcloud/ocp` dependency @nextcloud-command [#4063](https://github.com/nextcloud/richdocuments/pull/4063)
+* npm audit @nextcloud-command [#4022](https://github.com/nextcloud/richdocuments/pull/4022)
+* npm audit @nextcloud-command [#4066](https://github.com/nextcloud/richdocuments/pull/4066)
+
 ## 8.4.6
 
 ### Fixed
