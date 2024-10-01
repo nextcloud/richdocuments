@@ -31,6 +31,7 @@ OC.L10N.register(
     "New spreadsheet" : "Нова табела",
     "New presentation" : "Нова презентација",
     "New diagram" : "Нови дијаграм",
+    "{user} has mentioned you in {node}" : "{user} вас је поменуо у {node}",
     "Link to office document section" : "Линк на одељак канцеларијског документа",
     "Nextcloud Office" : "Nextcloud Офис",
     "Headings" : "Наслови",
