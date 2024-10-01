@@ -1,5 +1,18 @@
 # Changelog
 
+## 8.2.13
+
+### Fixed
+
+* Show PDF even when download hidden on public share @elzody [#3887](https://github.com/nextcloud/richdocuments/pull/3887)
+* Properly send custom logo to collabora @elzody [#3931](https://github.com/nextcloud/richdocuments/pull/3931)
+* Emit notification on mentions @juliushaertl [#4079](https://github.com/nextcloud/richdocuments/pull/4079)
+
+### Other
+
+* Remove unnecessary files from release build @juliushaertl [#3882](https://github.com/nextcloud/richdocuments/pull/3882)
+* Switch to new API to set volatile user to prevent persisting it in any case @juliushaertl [#3862](https://github.com/nextcloud/richdocuments/pull/3862)
+
 ## 8.2.12
 
 ### Fixed
