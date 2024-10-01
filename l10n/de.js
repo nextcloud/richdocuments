@@ -31,6 +31,7 @@ OC.L10N.register(
     "New spreadsheet" : "Neue Tabelle",
     "New presentation" : "Neue Präsentation",
     "New diagram" : "Neues Diagramm",
+    "{user} has mentioned you in {node}" : "{user} hat dich in {node} erwähnt",
     "Link to office document section" : "Link zum Abschnitt im Bürodokument",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Überschriften",
