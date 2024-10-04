@@ -152,7 +152,7 @@ OC.L10N.register(
     "Delete this font" : "Supprimer cette police",
     "No results" : "Aucun résultat",
     "Could not find any section in the document" : "Aucune section n'a pu être trouvée dans le document",
-    "Select file or folder to link to" : "Sélectionnez le fichier ou le dossier à lier",
+    "Select file or folder to link to" : "Sélection d'un fichier ou d'un dossier à lier",
     "Insert image" : "Insérer une image",
     "Document loading failed" : "Échec du chargement du document",
     "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "Veuillez vérifier les journaux du serveur Collabora Online pour plus de détails et assuez-vous que Nextcloud peut l'atteindre.",

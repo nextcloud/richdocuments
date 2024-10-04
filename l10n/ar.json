@@ -71,7 +71,7 @@
     "If the installation from the App Store fails, you can still do that manually using this command:" : "إذا فشل التنصيب من متجر التطبيقات، فلا يزال بإمكانك عمله يدويًا باستخدام هذا الأمر:",
     "Use a demo server" : "إستخدِم خادمًا تجريبيًا",
     "You can use a demo server provided by Collabora and other service providers for giving Collabora Online a try." : "يمكنك استخدام الخادوم التجريبي المقدم من Collabora و بعض مُزوِّدي الخدمة الآخرين لتجربة Collabora Obline.",
-    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "خادوم نكست كلاود خاصّتك غير قادر على الاتصال بالخوادم التجريبية للأسباب التالية:",
+    "Your Nextcloud setup is not capable of connecting to the demo servers because:" : "خادم نكست كلاود الخاص بك غير قادر على الاتصال بالخوادم التجريبية للأسباب التالية:",
     "it is a local setup (localhost)" : "إنه تثبيت محلي (مضيف محلي)",
     "it uses an insecure protocol (HTTP)" : "إنه يستخدم بروتوكولاً غير آمن (HTTP)",
     "it is unreachable from the internet (possibly because of a firewall, or lack of port forwarding)" : "لا يمكن الوصول إليه من الإنترنت (ربما بسبب جدار حماية Firewall أو عدم وجود منفذ لإعادة التوجيه)",
