@@ -31,6 +31,7 @@ OC.L10N.register(
     "New spreadsheet" : "Yeni çalışma sayfası",
     "New presentation" : "Yeni sunum",
     "New diagram" : "Yeni şema",
+    "{user} has mentioned you in {node}" : "{user} kullanıcısı, {node} içinde sizi andı",
     "Link to office document section" : "Ofis belgeleri bölümüne bağlantı",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Başlıklar",
