@@ -29,6 +29,7 @@
     "New spreadsheet" : "Nova planilha",
     "New presentation" : "Nova apresentação",
     "New diagram" : "Novo diagrama",
+    "{user} has mentioned you in {node}" : "{user} mencionou você em {node}",
     "Link to office document section" : "Link para a seção de documentos do escritório",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "Títulos",
