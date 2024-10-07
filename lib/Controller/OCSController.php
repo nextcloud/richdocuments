@@ -278,7 +278,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$name = $folder->getNonExistingName($info['basename']);
 			$file = $folder->newFile($name);
 
-			$direct = $this->directMapper->newDirect($this->userId, $template, $file->getId());
+			$direct = $this->directMapper->newDirect($this->userId, $file->getId(), $template);
 
 			return new DataResponse([
 				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.directView.show', [
