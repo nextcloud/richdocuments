@@ -52,13 +52,13 @@ class DirectMapper extends QBMapper {
 	 * @param int $destination
 	 * @return Direct
 	 */
-	public function newDirect($uid, $fileid, $destination = null, $share = null, $initiatorHost = null, $initiatorToken = null) {
+	public function newDirect($uid, $fileid, $template = null, $share = null, $initiatorHost = null, $initiatorToken = null) {
 		$direct = new Direct();
 		$direct->setUid($uid);
 		$direct->setFileid($fileid);
 		$direct->setToken($this->random->generate(64, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER));
 		$direct->setTimestamp($this->timeFactory->getTime());
-		$direct->setTemplateDestination($destination);
+		$direct->setTemplateId($template);
 		$direct->setShare($share);
 		$direct->setInitiatorHost($initiatorHost);
 		$direct->setInitiatorToken($initiatorToken);
