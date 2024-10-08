@@ -21,8 +21,11 @@ use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\QueryException;
@@ -32,7 +35,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
-use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
 use OCP\Files\Lock\ILockManager;
@@ -41,7 +43,6 @@ use OCP\Files\Lock\NoLockProviderException;
 use OCP\Files\Lock\OwnerLockedException;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -89,18 +90,12 @@ class WopiController extends Controller {
 
 	/**
 	 * Returns general info about a file.
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @param string $fileId
-	 * @param string $access_token
-	 * @return JSONResponse
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
 	 */
-	public function checkFileInfo($fileId, $access_token) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}')]
+	public function checkFileInfo(string $fileId, string $access_token): JSONResponse {
 		try {
 			[$fileId, , $version] = Helper::parseFileId($fileId);
 
@@ -218,7 +213,7 @@ class WopiController extends Controller {
 		$response = array_merge($response, $this->appConfig->getWopiOverride());
 
 		$this->eventDispatcher->dispatchTyped(new DocumentOpenedEvent(
-			$user ? $user->getUID() : null,
+			$user?->getUID(),
 			$file
 		));
 
@@ -268,20 +263,12 @@ class WopiController extends Controller {
 
 	/**
 	 * Given an access token and a fileId, returns the contents of the file.
-	 * Expects a valid token in access_token parameter.
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $fileId
-	 * @param string $access_token
-	 * @return Http\Response
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 * @throws LockedException
 	 */
-	public function getFile($fileId,
-		$access_token) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}/contents')]
+	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
@@ -360,16 +347,12 @@ class WopiController extends Controller {
 	/**
 	 * Given an access token and a fileId, replaces the files with the request body.
 	 * Expects a valid token in access_token parameter.
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $fileId
-	 * @param string $access_token
-	 * @return JSONResponse
 	 */
-	public function putFile($fileId,
-		$access_token) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}/contents')]
+	public function putFile(string $fileId, string $access_token): JSONResponse {
 		[$fileId, , ] = Helper::parseFileId($fileId);
 		$isPutRelative = ($this->request->getHeader('X-WOPI-Override') === 'PUT_RELATIVE');
 
@@ -490,15 +473,11 @@ class WopiController extends Controller {
 	 * handles both saving and saving as.* Given an access token and a fileId, replaces the files with the request body.
 	 *
 	 * FIXME Cleanup this code as is a lot of shared logic between putFile and putRelativeFile
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param string $fileId
-	 * @param string $access_token
-	 * @return JSONResponse
-	 * @throws DoesNotExistException
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'POST', url: 'wopi/files/{fileId}')]
 	public function postFile(string $fileId, string $access_token): JSONResponse {
 		try {
 			$wopiOverride = $this->request->getHeader('X-WOPI-Override');
@@ -805,15 +784,12 @@ class WopiController extends Controller {
 
 	/**
 	 * Endpoint to return the template file that is requested by collabora to create a new document
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 * @param $fileId
-	 * @param $access_token
-	 * @return JSONResponse|StreamResponse
 	 */
-	public function getTemplate($fileId, $access_token) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'GET', url: 'wopi/template/{fileId}')]
+	public function getTemplate(string $fileId, string $access_token): JSONResponse|StreamResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 		} catch (UnknownTokenException $e) {
