@@ -79,6 +79,35 @@ namespace OCA\Files_Sharing\Event {
 	}
 }
 
+namespace OCA\Theming {
+	use OCA\Theming\Service\BackgroundService;
+	use OCA\Files\IAppData;
+	use OCP\ICacheFactory;
+	use OCP\IConfig;
+	use OCP\ITempManager;
+	use OCP\IURLGenerator;
+	use PSR\Log\LoggerInterface;
+
+	class ImageManager {
+		public function __construct(
+			IConfig $config,
+			IAppData $appData,
+			IURLGenerator $urlGenerator,
+			ICacheFactory $cacheFactory,
+			LoggerInterface $logger,
+			ITempManager $tempManager,
+			BackgroundService $backgroundService
+		) {
+		}
+
+		public function hasImage(string $key): bool {
+		}
+
+		public function getImageUrlAbsolute(string $key): string {
+		}
+	}
+}
+
 class OC_Helper {
 	public static function getFileTemplateManager() {
 	}
