@@ -390,6 +390,8 @@
 				</p>
 			</div>
 		</div>
+
+		<GlobalTemplates v-if="isSetup" />
 	</div>
 </template>
 
@@ -406,6 +408,7 @@ import SettingsSelectGroup from './SettingsSelectGroup.vue'
 import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
+import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
 
 import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl } from '../helpers/url.js'
@@ -435,6 +438,7 @@ export default {
 		SettingsExternalApps,
 		SettingsInputFile,
 		SettingsFontList,
+		GlobalTemplates,
 		NcModal,
 		NcNoteCard,
 	},
@@ -533,9 +537,6 @@ export default {
 				else this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
 			}
 		},
-		isSetup() {
-			this.toggleTemplateSettings()
-		},
 	},
 	beforeMount() {
 		for (const key in this.initial.settings) {
@@ -581,7 +582,6 @@ export default {
 		}
 		this.checkIfDemoServerIsActive()
 		this.checkSettings()
-		this.toggleTemplateSettings()
 	},
 	methods: {
 		async checkSettings() {
@@ -813,13 +813,6 @@ export default {
 			const index = this.settings.fonts.indexOf(name)
 			if (index !== -1) {
 				this.settings.fonts.splice(index, 1)
-			}
-		},
-		toggleTemplateSettings() {
-			if (this.isSetup) {
-				document.getElementById('richdocuments-templates').classList.remove('hidden')
-			} else {
-				document.getElementById('richdocuments-templates').classList.add('hidden')
 			}
 		},
 	},
