@@ -21,14 +21,7 @@
 		margin-top: -4px;
 		width: 300px !important;
 	}
-}
 
-input#zoteroAPIKeyField {
-	width: 300px;
-}
-
-#richdocuments,
-#richdocuments-templates {
 	// inline buttons on section headers
 	> h2 {
 		display: inline-flex;
@@ -55,77 +48,6 @@ input#zoteroAPIKeyField {
 	}
 }
 
-#richdocuments-templates {
-	> input {
-		// feedback for keyboard navigation
-		&:hover,
-		&:focus,
-		&:active {
-			+ h2 .icon-add,
-			+ h2 .icon-loading-small {
-				opacity: 0.7;
-			}
-			+ #emptycontent label {
-				color: var(--color-text-light);
-			}
-		}
-	}
-	ul:not(.hidden) {
-		display: flex;
-		flex-wrap: wrap;
-		li {
-			$size: 150px;
-			$sizeY: math.div($size, 210) * 297;
-			$space: 10px;
-			border-radius: var(--border-radius);
-			border: 1px solid var(--color-border);
-			margin: $space;
-			position: relative;
-			figure {
-				display: flex;
-				flex-direction: column;
-				width: $size;
-				margin: $space;
-				img, .templatePlaceholder {
-					width: $size;
-					height: $sizeY;
-					background-color: var(--color-background-dark);
-				}
-				figcaption {
-					margin-top: $space;
-				}
-			}
-			.delete-cover,
-			.delete-template {
-				width: $size;
-				height: $sizeY;
-				top: 0;
-				left: 0;
-				position: absolute;
-				margin: $space;
-				opacity: 0;
-				transition: opacity 250ms ease-in-out;
-				z-index: 3;
-				line-height: $sizeY;
-				text-align: center;
-				font-size: 20px;
-				background-size: 24px;
-				// text is set as bg
-				color: var(--color-background-darker);
-			}
-			.delete-cover {
-				// bg is set as color
-				background-color: var(--color-text-lighter);
-				z-index: 2;
-			}
-			&:hover .delete-template,
-			.delete-template:focus,
-			.delete-template.icon-loading {
-				opacity: 1;
-				+ .delete-cover {
-					opacity: 0.5;
-				}
-			}
-		}
-	}
+input#zoteroAPIKeyField {
+	width: 300px;
 }
