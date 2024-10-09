@@ -121,11 +121,70 @@ describe('Nextcloud integration', function() {
 		cy.get('.modal-container__content').should('be.visible')
 	})
 
-	it('Smart picker', function() {
-		cy.get('@loleafletframe').within(() => {
-			cy.get('#Insert-tab-label').click()
-			cy.get('#insert-insert-remote-link-button').click()
+	describe.only('Smart picker', function() {
+		describe('Link to office document section', function() {
+			beforeEach(function() {
+				// Proc the smart picker from Collabora
+				cy.get('@loleafletframe').within(() => {
+					cy.get('#Insert-tab-label').click()
+					cy.get('#insert-insert-remote-link-button').click()
+				})
+
+				// Wait for the reference picker to show
+				cy.get('.reference-picker-modal--content')
+					.should('be.visible')
+					.as('referencePickerContent')
+
+				// Select "Link to office document section"
+				cy.get('@referencePickerContent')
+					.find('input[id="provider-select-input"]')
+					.as('smartPickerDropdown')
+				cy.get('@smartPickerDropdown').click()
+				cy.get('@referencePickerContent')
+					.find('ul[aria-label="Options"]')
+					.should('be.visible')
+					.contains('Link to office document section')
+					.click()
+
+				// Pick the fixture document
+				cy.pickFile('document.odt')
+			})
+
+			it('Can link to heading', function() {
+				cy.get('.office-target-picker')
+					.contains('Headings')
+					.siblings()
+					.first()
+					.click()
+
+				cy.get('.office-target-picker__buttons')
+					.contains('Link to office document section')
+					.click()
+			})
+
+			it('Can link to section', function() {
+				cy.get('.office-target-picker')
+					.contains('Sections')
+					.siblings()
+					.first()
+					.click()
+
+				cy.get('.office-target-picker__buttons')
+					.contains('Link to office document section')
+					.click()
+			})
+
+			it('Can link to image', function() {
+				cy.get('.office-target-picker')
+					.contains('Images')
+					.siblings()
+					.first()
+					.click()
+
+				cy.get('.office-target-picker__buttons')
+					.contains('Link to office document section')
+					.click()
+			})
 		})
-		cy.get('.reference-picker-modal--content').should('be.visible')
 	})
 })
