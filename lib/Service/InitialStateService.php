@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Theming\ImageManager;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -22,6 +23,7 @@ class InitialStateService {
 	public function __construct(
 		private IInitialState $initialState,
 		private AppConfig $appConfig,
+		private ImageManager $imageManager,
 		private CapabilitiesService $capabilitiesService,
 		private IURLGenerator $urlGenerator,
 		private Defaults $themingDefaults,
@@ -84,15 +86,16 @@ class InitialStateService {
 			'UIMode' => $this->config->getAppValue(Application::APPNAME, 'uiDefaults-UIMode', 'notebookbar')
 		]);
 
-		$logoSet = $this->config->getAppValue('theming', 'logoheaderMime', '') !== '';
+		$logoType = 'logoheader';
+		$logoSet = $this->imageManager->hasImage($logoType);
 		if (!$logoSet) {
-			$logoSet = $this->config->getAppValue('theming', 'logoMime', '') !== '';
+			$logoType = 'logo';
+			$logoSet = $this->imageManager->hasImage($logoType);
 		}
 
-		$this->initialState->provideInitialState('theming-customLogo', ($logoSet ?
-			$this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo())
-			: false));
+		$logo = $logoSet ? $this->imageManager->getImageUrlAbsolute($logoType) : false;
 
+		$this->initialState->provideInitialState('theming-customLogo', $logo);
 		$this->initialState->provideInitialState('open_local_editor', $this->config->getAppValue(Application::APPNAME, 'open_local_editor', 'yes') === 'yes');
 	}
 }
