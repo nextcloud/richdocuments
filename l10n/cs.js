@@ -31,6 +31,7 @@ OC.L10N.register(
     "New spreadsheet" : "Nová tabulka",
     "New presentation" : "Nová prezentace",
     "New diagram" : "Nový diagram",
+    "{user} has mentioned you in {node}" : "{user} vás zmínil(a) v {node}",
     "Link to office document section" : "Odkázat na sekci v dokumentu",
     "Nextcloud Office" : "Nextcloud Kancelář",
     "Headings" : "Nadpisy",
