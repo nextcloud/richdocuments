@@ -29,6 +29,7 @@
     "New spreadsheet" : "新試算表",
     "New presentation" : "新簡報",
     "New diagram" : "新圖表",
+    "{user} has mentioned you in {node}" : "{user} 在 {node} 中提及您",
     "Link to office document section" : "連結到 Office 文件區塊",
     "Nextcloud Office" : "Nextcloud Office",
     "Headings" : "標題",
