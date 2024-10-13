@@ -238,7 +238,7 @@ OC.L10N.register(
     "Last saved version" : "النسخة الأخير المحفوظة",
     "Current version (unsaved changes)" : "النسخة الحالية ( لم يتم حفظ التعديلات)",
     "Please enter the filename for the new document" : "الرجاء إدخال اسم الملف للمستند الجديد",
-    "Create a new document" : "أنشِيءْ مُستنداً جديداً",
+    "Create a new document" : "إنشاء مستند جديد",
     "Open with {productName}" : "إفتح بـ {productName}",
     "Collabora Online" : "Collabora Online",
     "Document already exists" : "المستند موجود بالفعل",
