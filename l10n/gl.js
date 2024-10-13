@@ -92,7 +92,7 @@ OC.L10N.register(
     "I agree, and use the demo server" : "Estou de acordo e usarei o servidor de demostración",
     "I will setup my own server" : "Configurarei o meu propio servidor",
     "Advanced settings" : "Axustes avanzados",
-    "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Empregue o formato Office Open XML (OOXML) no canto do formato OpenDocument (ODF) como predeterminado para novos ficheiros",
+    "Use Office Open XML (OOXML) instead of OpenDocument Format (ODF) by default for new files" : "Empregue o formato Office Open XML (OOXML) en troques do formato OpenDocument (ODF) como predeterminado para novos ficheiros",
     "Restrict usage to specific groups" : "Restrinxir o uso a grupos específicos",
     "{productName} is enabled for all users by default. When this setting is active, only members of the specified groups can use it." : "{productName} está activado para todos os usuarios de xeito predeterminado. Cando este axuste está activo, só os membros dos grupos especificados poden usalo.",
     "Select groups" : "Seleccionar grupos",
