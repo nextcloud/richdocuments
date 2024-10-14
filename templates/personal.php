@@ -30,5 +30,18 @@ script('richdocuments', 'richdocuments-personal');
 	<?php } else { ?>
 		<p><em><?php p($l->t('This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration.')); ?></em></p>
 	<?php } ?>
+	<p><strong><?php p($l->t('Document signing')) ?></strong></p>
+	<?php if ($_['hasDocumentSigningSupport']) { ?>
+		<div class="input-wrapper">
+			<p><label for="documentSigningCaField"><?php p($l->t('Enter document signing CA chain')); ?></label><br />
+				<textarea type="text" name="documentSigningCaField" id="documentSigningCaField"><?php p($_['documentSigningCa']); ?></textarea><br />
+				<button id="documentSigningCaSave"><span title="<?php p($l->t('Save document signing CA chain')); ?>" data-toggle="tooltip">Save</span></button>
+				<button id="documentSigningCaRemove"><span  class="icon-delete" title="<?php p($l->t('Remove document signing CA chain')); ?>" data-toggle="tooltip"></span></button>
+			</p>
+			<p><em><?php p($l->t('To use document signing, specify your signing certificate, key and CA chain here.')); ?></em></p>
+		</div>
+	<?php } else { ?>
+		<p><em><?php p($l->t('This instance does not support document signing, because the feature is missing or disabled. Please contact the administrator.')); ?></em></p>
+	<?php } ?>
 	</div>
 </div>
