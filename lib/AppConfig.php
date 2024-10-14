@@ -54,6 +54,11 @@ class AppConfig {
 		'watermark_linkTagsList' => 'array'
 	];
 
+	private const INTEGER_LIST_KEYS = [
+		'watermark_allTagsList' => true,
+		'watermark_linkTagsList' => true,
+	];
+
 	public function __construct(
 		private IConfig $config,
 		private IAppManager $appManager,
@@ -123,7 +128,11 @@ class AppConfig {
 				$value = $value === 'yes' ? true : $value;
 				$result[$key] = $value === 'no' ? false : $value;
 			}
+			if (!empty(self::INTEGER_LIST_KEYS[$key])) {
+				$result[$key] = array_map('intval', $result[$key] ?? []);
+			}
 		}
+
 		return $result;
 	}
 
