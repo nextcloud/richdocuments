@@ -17,6 +17,10 @@ import { showError } from '@nextcloud/dialogs'
 		this.zoteroAPIKeySaveButton = document.getElementById('zoteroAPIKeySave')
 		this.zoteroAPIKeyRemoveButton = document.getElementById('zoteroAPIKeyRemove')
 
+		this.documentSigningCaInput = document.getElementById('documentSigningCaField')
+		this.documentSigningCaSaveButton = document.getElementById('documentSigningCaSave')
+		this.documentSigningCaRemoveButton = document.getElementById('documentSigningCaRemove')
+
 		const self = this
 		this.templateSelectButton.addEventListener('click', function() {
 			OC.dialogs.filepicker(t('richdocuments', 'Select a personal template folder'), function(datapath, returntype) {
@@ -31,6 +35,12 @@ import { showError } from '@nextcloud/dialogs'
 		})
 
 		this.zoteroAPIKeyRemoveButton.addEventListener('click', this.resetZoteroAPI.bind(this))
+
+		this.documentSigningCaSaveButton.addEventListener('click', function() {
+			self.updateDocumentSigningCa(self.documentSigningCaInput.value)
+		})
+
+		this.documentSigningCaRemoveButton.addEventListener('click', this.resetDocumentSigningCa.bind(this))
 	}
 
 	PersonalSettings.prototype.updateSetting = function(path) {
@@ -64,6 +74,24 @@ import { showError } from '@nextcloud/dialogs'
 		const self = this
 		this._updateSetting({ zoteroAPIKeyInput: '' }, function() {
 			self.zoteroAPIKeyInput.value = ''
+		}, function() {
+
+		})
+	}
+
+	PersonalSettings.prototype.updateDocumentSigningCa = function(ca) {
+		const self = this
+		this._updateSetting({ documentSigningCaInput: ca }, function() {
+			self.documentSigningCaInput.value = ca
+		}, function() {
+			showError(t('richdocuments', 'Failed to update the document signing CA chain'))
+		})
+	}
+
+	PersonalSettings.prototype.resetDocumentSigningCa = function() {
+		const self = this
+		this._updateSetting({ documentSigningCaInput: '' }, function() {
+			self.documentSigningCaInput.value = ''
 		}, function() {
 
 		})

@@ -235,7 +235,8 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setPersonalSettings($templateFolder,
-		$zoteroAPIKeyInput) {
+		$zoteroAPIKeyInput,
+		$documentSigningCaInput) {
 		$message = $this->l10n->t('Saved');
 		$status = 'success';
 
@@ -250,6 +251,15 @@ class SettingsController extends Controller {
 		if ($zoteroAPIKeyInput !== null) {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', $zoteroAPIKeyInput);
+			} catch (PreConditionNotMetException $e) {
+				$message = $this->l10n->t('Error when saving');
+				$status = 'error';
+			}
+		}
+
+		if ($documentSigningCaInput !== null) {
+			try {
+				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningCa', $documentSigningCaInput);
 			} catch (PreConditionNotMetException $e) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
