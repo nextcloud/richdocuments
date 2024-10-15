@@ -391,7 +391,7 @@
 			</div>
 		</div>
 
-		<GlobalTemplates />
+		<GlobalTemplates v-if="isSetup" />
 	</div>
 </template>
 
