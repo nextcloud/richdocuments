@@ -128,7 +128,7 @@ class AppConfig {
 				$value = $value === 'yes' ? true : $value;
 				$result[$key] = $value === 'no' ? false : $value;
 			}
-			if (!empty(self::INTEGER_LIST_KEYS[$key])) {
+			if (array_key_exists($key, self::INTEGER_LIST_KEYS)) {
 				$result[$key] = array_map('intval', $result[$key] ?? []);
 			}
 		}
