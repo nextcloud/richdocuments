@@ -35,6 +35,8 @@ class Personal implements ISettings {
 			[
 				'templateFolder' => $this->config->getUserValue($this->userId, 'richdocuments', 'templateFolder', ''),
 				'hasDocumentSigningSupport' => $this->capabilitiesService->hasDocumentSigningSupport(),
+				'documentSigningCert' => $this->config->getUserValue($this->userId, 'richdocuments', 'documentSigningCert', ''),
+				'documentSigningKey' => $this->config->getUserValue($this->userId, 'richdocuments', 'documentSigningKey', ''),
 				'documentSigningCa' => $this->config->getUserValue($this->userId, 'richdocuments', 'documentSigningCa', ''),
 				'hasZoteroSupport' => $this->capabilitiesService->hasZoteroSupport(),
 				'zoteroAPIKey' => $this->config->getUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', '')

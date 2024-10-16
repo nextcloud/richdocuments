@@ -167,6 +167,10 @@ class WopiController extends Controller {
 		}
 		$enableDocumentSigning = $this->config->getAppValue(Application::APPNAME, 'documentSigningEnabled', 'yes') === 'yes';
 		if (!$isPublic && $enableDocumentSigning) {
+			$documentSigningCert = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningCert', '');
+			$response['UserPrivateInfo']['SignatureCert'] = $documentSigningCert;
+			$documentSigningKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningKey', '');
+			$response['UserPrivateInfo']['SignatureKey'] = $documentSigningKey;
 			$documentSigningCa = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningCa', '');
 			$response['UserPrivateInfo']['SignatureCa'] = $documentSigningCa;
 		}

@@ -17,6 +17,12 @@ import { showError } from '@nextcloud/dialogs'
 		this.zoteroAPIKeySaveButton = document.getElementById('zoteroAPIKeySave')
 		this.zoteroAPIKeyRemoveButton = document.getElementById('zoteroAPIKeyRemove')
 
+		this.documentSigningCertInput = document.getElementById('documentSigningCertField')
+		this.documentSigningCertSaveButton = document.getElementById('documentSigningCertSave')
+		this.documentSigningCertRemoveButton = document.getElementById('documentSigningCertRemove')
+		this.documentSigningKeyInput = document.getElementById('documentSigningKeyField')
+		this.documentSigningKeySaveButton = document.getElementById('documentSigningKeySave')
+		this.documentSigningKeyRemoveButton = document.getElementById('documentSigningKeyRemove')
 		this.documentSigningCaInput = document.getElementById('documentSigningCaField')
 		this.documentSigningCaSaveButton = document.getElementById('documentSigningCaSave')
 		this.documentSigningCaRemoveButton = document.getElementById('documentSigningCaRemove')
@@ -36,10 +42,17 @@ import { showError } from '@nextcloud/dialogs'
 
 		this.zoteroAPIKeyRemoveButton.addEventListener('click', this.resetZoteroAPI.bind(this))
 
+		this.documentSigningCertSaveButton.addEventListener('click', function() {
+			self.updateDocumentSigningCert(self.documentSigningCertInput.value)
+		})
+		this.documentSigningCertRemoveButton.addEventListener('click', this.resetDocumentSigningCert.bind(this))
+		this.documentSigningKeySaveButton.addEventListener('click', function() {
+			self.updateDocumentSigningKey(self.documentSigningKeyInput.value)
+		})
+		this.documentSigningKeyRemoveButton.addEventListener('click', this.resetDocumentSigningKey.bind(this))
 		this.documentSigningCaSaveButton.addEventListener('click', function() {
 			self.updateDocumentSigningCa(self.documentSigningCaInput.value)
 		})
-
 		this.documentSigningCaRemoveButton.addEventListener('click', this.resetDocumentSigningCa.bind(this))
 	}
 
@@ -74,6 +87,42 @@ import { showError } from '@nextcloud/dialogs'
 		const self = this
 		this._updateSetting({ zoteroAPIKeyInput: '' }, function() {
 			self.zoteroAPIKeyInput.value = ''
+		}, function() {
+
+		})
+	}
+
+	PersonalSettings.prototype.updateDocumentSigningCert = function(ca) {
+		const self = this
+		this._updateSetting({ documentSigningCertInput: ca }, function() {
+			self.documentSigningCertInput.value = ca
+		}, function() {
+			showError(t('richdocuments', 'Failed to update the document signing CA chain'))
+		})
+	}
+
+	PersonalSettings.prototype.resetDocumentSigningCert = function() {
+		const self = this
+		this._updateSetting({ documentSigningCertInput: '' }, function() {
+			self.documentSigningCertInput.value = ''
+		}, function() {
+
+		})
+	}
+
+	PersonalSettings.prototype.updateDocumentSigningKey = function(ca) {
+		const self = this
+		this._updateSetting({ documentSigningKeyInput: ca }, function() {
+			self.documentSigningKeyInput.value = ca
+		}, function() {
+			showError(t('richdocuments', 'Failed to update the document signing CA chain'))
+		})
+	}
+
+	PersonalSettings.prototype.resetDocumentSigningKey = function() {
+		const self = this
+		this._updateSetting({ documentSigningKeyInput: '' }, function() {
+			self.documentSigningKeyInput.value = ''
 		}, function() {
 
 		})
