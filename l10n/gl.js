@@ -116,7 +116,7 @@ OC.L10N.register(
     "Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured" : "Os ficheiros aínda poden descargarse mediante solicitudes WOPI se os axustes WOPI non están configurados correctamente",
     "Previews will be blocked for watermarked files to not leak the first page of documents" : "Bloquearanse as vistas previas dos ficheiros con marca de auga para non divulgar accidentalmente a primeira páxina dos documentos",
     "Enable watermarking" : "Activar o marcado de auga",
-    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Marcadores de posición compatíbeis: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Marcadores de substitución compatíbeis: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Amosar a marca de auga nos ficheiros etiquetados",
     "Select tags to enforce watermarking" : "Seleccionar etiquetas para impor o marcado de auga",
     "Show watermark for users of groups" : "Amosar a marca de auga en usuarios de grupos",
