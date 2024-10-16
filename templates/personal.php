@@ -33,6 +33,16 @@ script('richdocuments', 'richdocuments-personal');
 	<p><strong><?php p($l->t('Document signing')) ?></strong></p>
 	<?php if ($_['hasDocumentSigningSupport']) { ?>
 		<div class="input-wrapper">
+			<p><label for="documentSigningCertField"><?php p($l->t('Enter document signing cert (in PEM format)')); ?></label><br />
+				<textarea type="text" name="documentSigningCertField" id="documentSigningCertField"><?php p($_['documentSigningCert']); ?></textarea><br />
+				<button id="documentSigningCertSave"><span title="<?php p($l->t('Save document signing cert')); ?>" data-toggle="tooltip">Save</span></button>
+				<button id="documentSigningCertRemove"><span  class="icon-delete" title="<?php p($l->t('Remove document signing cert')); ?>" data-toggle="tooltip"></span></button>
+			</p>
+			<p><label for="documentSigningKeyField"><?php p($l->t('Enter document signing key')); ?></label><br />
+				<textarea type="text" name="documentSigningKeyField" id="documentSigningKeyField"><?php p($_['documentSigningKey']); ?></textarea><br />
+				<button id="documentSigningKeySave"><span title="<?php p($l->t('Save document signing key')); ?>" data-toggle="tooltip">Save</span></button>
+				<button id="documentSigningKeyRemove"><span  class="icon-delete" title="<?php p($l->t('Remove document signing key')); ?>" data-toggle="tooltip"></span></button>
+			</p>
 			<p><label for="documentSigningCaField"><?php p($l->t('Enter document signing CA chain')); ?></label><br />
 				<textarea type="text" name="documentSigningCaField" id="documentSigningCaField"><?php p($_['documentSigningCa']); ?></textarea><br />
 				<button id="documentSigningCaSave"><span title="<?php p($l->t('Save document signing CA chain')); ?>" data-toggle="tooltip">Save</span></button>
