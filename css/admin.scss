@@ -27,6 +27,18 @@ input#zoteroAPIKeyField {
 	width: 300px;
 }
 
+textarea#documentSigningCertField {
+	width: 600px;
+}
+
+textarea#documentSigningKeyField {
+	width: 600px;
+}
+
+textarea#documentSigningCaField {
+	width: 600px;
+}
+
 #richdocuments,
 #richdocuments-templates {
 	// inline buttons on section headers
