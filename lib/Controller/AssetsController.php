@@ -23,6 +23,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use OCA\Files_Sharing\SharedStorage;
 use OCA\Richdocuments\Db\AssetMapper;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCP\AppFramework\Controller;
@@ -34,6 +35,7 @@ use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
@@ -79,8 +81,24 @@ class AssetsController extends Controller {
 
 		try {
 			$node = $userFolder->get($path);
+
+			if (!($node instanceof File)) {
+				return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			}
+
+			$storage = $node->getStorage();
+			if ($storage->instanceOfStorage(SharedStorage::class)) {
+				/** @var SharedStorage $storage */
+				$share = $storage->getShare();
+				$attributes = $share->getAttributes();
+				if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+					throw new NotPermittedException();
+				}
+			}
 		} catch (NotFoundException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		$asset = $this->assetMapper->newAsset($this->userId, $node->getId());
