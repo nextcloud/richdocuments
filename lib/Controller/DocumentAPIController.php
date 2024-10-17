@@ -13,6 +13,9 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\Folder;
@@ -23,29 +26,25 @@ use OCP\Files\Lock\LockContext;
 use OCP\Files\Lock\NoLockProviderException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class DocumentAPIController extends \OCP\AppFramework\OCSController {
-	private $rootFolder;
-	private $shareManager;
-	private $templateManager;
-	private $l10n;
-	private $logger;
-	private $lockManager;
-	private $userId;
-
-	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, ILockManager $lockManager, $userId) {
+	public function __construct(
+		IRequest $request,
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+		private TemplateManager $templateManager,
+		private IL10N $l10n,
+		private LoggerInterface $logger,
+		private ILockManager $lockManager,
+		private ISession $session,
+		private ?string $userId
+	) {
 		parent::__construct(Application::APPNAME, $request);
-		$this->rootFolder = $rootFolder;
-		$this->shareManager = $shareManager;
-		$this->templateManager = $templateManager;
-		$this->l10n = $l10n;
-		$this->logger = $logger;
-		$this->lockManager = $lockManager;
-		$this->userId = $userId;
 	}
 
 	/**
@@ -54,14 +53,26 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 * As the server template API for file creation is not available there, we need a dedicated API
 	 * in order to properly create files as public page visitors. This is being called in the new file
 	 * actions in src/view/NewFileMenu.js
-	 *
-	 * @NoAdminRequired
-	 * @PublicPage
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'richdocumentsCreatePublic')]
 	public function create(string $mimeType, string $fileName, string $directoryPath = '/', ?string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);
+
+				if ($share->getPassword()) {
+					if (!$this->session->exists('public_link_authenticated')
+						|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
+					) {
+						throw new Exception('Invalid password');
+					}
+				}
+
+				if (!($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)) {
+					throw new Exception('No create permissions');
+				}
 			}
 
 			$rootFolder = $shareToken !== null ? $share->getNode() : $this->rootFolder->getUserFolder($this->userId);
@@ -139,7 +150,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		]);
 	}
 
-	#[Http\Attribute\NoAdminRequired]
+	#[NoAdminRequired]
 	public function openLocal(int $fileId): DataResponse {
 		try {
 			$file = $this->rootFolder->getUserFolder($this->userId)->getFirstNodeById($fileId);
