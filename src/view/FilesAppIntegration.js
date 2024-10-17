@@ -165,6 +165,11 @@ export default {
 
 		getFilePickerBuilder(t('richdocuments', 'Insert image from {name}', { name: OC.theme.name }))
 			.setMimeTypeFilter(['image/png', 'image/gif', 'image/jpeg', 'image/svg'])
+			.setFilter((node) => {
+				const downloadShareAttribute = JSON.parse(node.attributes['share-attributes']).find((shareAttribute) => shareAttribute.key === 'download')
+				const downloadPermissions = downloadShareAttribute !== undefined ? (downloadShareAttribute.enabled || downloadShareAttribute.value) : true
+				return (node.permissions & OC.PERMISSION_READ) && downloadPermissions
+			})
 			.addButton({
 				label: t('richdocuments', 'Insert image'),
 				callback: (files) => {
