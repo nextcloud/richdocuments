@@ -11,6 +11,11 @@ import { getLinkWithPicker } from '@nextcloud/vue/dist/Components/NcRichText.js'
 export default {
 	methods: {
 		async pickLink() {
+			axios.get(generateOcsUrl('references/providers'))
+				.then((response) => {
+					console.log(response.data.ocs.data)
+				})
+
 			try {
 				if (this.showLinkPicker) {
 					return
