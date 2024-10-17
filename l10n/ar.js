@@ -194,7 +194,7 @@ OC.L10N.register(
     "Built-in CODE server failed to start" : "خادوم CODE المدمج فشل في البدء",
     "Insert image from {name}" : "إدراج صورة من  {name}",
     "Remove from favorites" : "حذف من المفضلة",
-    "Add to favorites" : "أضِف إلى المفضلة",
+    "Add to favorites" : "إضافة إلى المفضلة",
     "Details" : "التفاصيل",
     "Download" : "تنزيل",
     "(read only)" : "(للقراءة فقط)",
