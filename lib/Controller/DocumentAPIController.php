@@ -42,7 +42,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		private LoggerInterface $logger,
 		private ILockManager $lockManager,
 		private ISession $session,
-		private ?string $userId
+		private ?string $userId,
 	) {
 		parent::__construct(Application::APPNAME, $request);
 	}
