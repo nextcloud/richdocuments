@@ -1,5 +1,18 @@
 # Changelog
 
+## 8.4.8
+
+### Fixed
+* Display proper custom logo in collabora @elzody [#4107](https://github.com/nextcloud/richdocuments/pull/4107)
+* Admin Settings page when Watermark label selected @Koc [#4127](https://github.com/nextcloud/richdocuments/pull/4127)
+* Asset download checks @juliusknorr [#4134](https://github.com/nextcloud/richdocuments/pull/4134)
+* Brute force protection for public file creation @juliusknorr [#4142](https://github.com/nextcloud/richdocuments/pull/4142)
+
+### Other
+* Update nextcloud/ocp dependency @nextcloud-command [#4097](https://github.com/nextcloud/richdocuments/pull/4097)
+* Bump vue-material-design-icons from 5.3.0 to 5.3.1 @dependabot [#4110](https://github.com/nextcloud/richdocuments/pull/4110)
+* npm audit @nextcloud-command [#4121](https://github.com/nextcloud/richdocuments/pull/4121)
+
 ## 8.4.7
 
 ### Fixed
