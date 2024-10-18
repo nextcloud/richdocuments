@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.2.14
+
+### Fixed
+* Asset download checks @juliusknorr [#4136](https://github.com/nextcloud/richdocuments/pull/4136)
+* Brute force protection for public file creation @juliusknorr [#4144](https://github.com/nextcloud/richdocuments/pull/4144)
+
 ## 8.2.13
 
 ### Fixed
