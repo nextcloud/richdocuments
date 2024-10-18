@@ -40,6 +40,7 @@ use OCP\Files\Lock\LockContext;
 use OCP\Files\Lock\NoLockProviderException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
@@ -52,9 +53,10 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	private $l10n;
 	private $logger;
 	private $lockManager;
+	private $session;
 	private $userId;
 
-	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, ILockManager $lockManager, $userId) {
+	public function __construct(IRequest $request, IRootFolder $rootFolder, IManager $shareManager, TemplateManager $templateManager, IL10N $l10n, LoggerInterface $logger, ILockManager $lockManager, ISession $session, $userId) {
 		parent::__construct(Application::APPNAME, $request);
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
@@ -62,6 +64,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 		$this->l10n = $l10n;
 		$this->logger = $logger;
 		$this->lockManager = $lockManager;
+		$this->session = $session;
 		$this->userId = $userId;
 	}
 
@@ -74,11 +77,24 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @NoAdminRequired
 	 * @PublicPage
+	 * @BruteForceProtection(action=richdocumentsCreatePublic)
 	 */
 	public function create(string $mimeType, string $fileName, string $directoryPath = '/', string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
 			if ($shareToken !== null) {
 				$share = $this->shareManager->getShareByToken($shareToken);
+
+				if ($share->getPassword()) {
+					if (!$this->session->exists('public_link_authenticated')
+						|| $this->session->get('public_link_authenticated') !== (string)$share->getId()
+					) {
+						throw new Exception('Invalid password');
+					}
+				}
+
+				if (!($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)) {
+					throw new Exception('No create permissions');
+				}
 			}
 
 			$rootFolder = $shareToken !== null ? $share->getNode() : $this->rootFolder->getUserFolder($this->userId);
