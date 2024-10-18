@@ -85,6 +85,10 @@ class CapabilitiesService extends CachedRequestService {
 		return $this->getCapabilities()['hasWASMSupport'] ?? false;
 	}
 
+	public function hasDocumentSigningSupport(): bool {
+		return $this->getCapabilities()['hasDocumentSigningSupport'] ?? false;
+	}
+
 	public function hasFormFilling(): bool {
 		return $this->isVersionAtLeast('24.04.5.2');
 	}
