@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.3.12
+
+### Fixed
+* Display proper custom logo in collabora @elzody [#4106](https://github.com/nextcloud/richdocuments/pull/4106)
+* Asset download checks @juliusknorr [#4135](https://github.com/nextcloud/richdocuments/pull/4135)
+* Brute force protection for public file creation @juliusknorr [#4143](https://github.com/nextcloud/richdocuments/pull/4143)
+
+### Other
+* npm audit @nextcloud-command [#4092](https://github.com/nextcloud/richdocuments/pull/4092)
+* Update nextcloud/ocp dependency @nextcloud-command [#4099](https://github.com/nextcloud/richdocuments/pull/4099)
+* npm audit @nextcloud-command [#4118](https://github.com/nextcloud/richdocuments/pull/4118)
+
 ## 8.3.11
 
 ### Fixed
