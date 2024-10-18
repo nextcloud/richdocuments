@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Service;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\Wopi;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Theming\ImageManager;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
@@ -24,6 +25,7 @@ class InitialStateService {
 		private IInitialState $initialState,
 		private AppConfig $appConfig,
 		private ImageManager $imageManager,
+		private TemplateManager $templateManager,
 		private CapabilitiesService $capabilitiesService,
 		private IURLGenerator $urlGenerator,
 		private Defaults $themingDefaults,
@@ -56,6 +58,13 @@ class InitialStateService {
 		$this->initialState->provideInitialState('wopi', $wopi);
 
 		$this->provideOptions();
+	}
+
+	public function provideAdminSettings(): void {
+		$this->initialState->provideInitialState('adminSettings', [
+			'templatesAvailable' => $this->capabilitiesService->hasTemplateSource(),
+			'templates' => $this->templateManager->getSystemFormatted(),
+		]);
 	}
 
 	public function prepareParams(array $params): array {
