@@ -61,7 +61,7 @@ jobs:
 
     services:
       collabora:
-        image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }}
+        image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'ghcr.io/juliusknorr/code-nightly:latest' }}
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
@@ -140,7 +140,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: rootpassword
         options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
       collabora:
-        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
+        image: ghcr.io/juliusknorr/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
@@ -221,7 +221,7 @@ jobs:
           POSTGRES_DB: nextcloud
         options: --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
       collabora:
-        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
+        image: ghcr.io/juliusknorr/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
@@ -312,7 +312,7 @@ jobs:
           --health-timeout 5s
           --health-retries 10
       collabora:
-        image: ghcr.io/juliushaertl/nextcloud-dev-code:latest
+        image: ghcr.io/juliusknorr/nextcloud-dev-code:latest
         env:
           extra_params: '--o:ssl.enable=false'
           aliasgroup1: 'http://nextcloud'
