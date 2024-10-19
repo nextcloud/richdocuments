@@ -18,12 +18,12 @@ use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
 	public function __construct(
-		private IConfig             $config,
-		private AppConfig           $appConfig,
-		private TemplateManager     $manager,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private TemplateManager $manager,
 		private CapabilitiesService $capabilitiesService,
-		private DemoService         $demoService,
-		private FontService 		$fontService,
+		private DemoService $demoService,
+		private FontService $fontService,
 		private InitialStateService $initialStateService,
 	) {
 	}
