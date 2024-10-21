@@ -236,7 +236,10 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setPersonalSettings($templateFolder,
-		$zoteroAPIKeyInput) {
+		$zoteroAPIKeyInput,
+		$documentSigningCertInput,
+		$documentSigningKeyInput,
+		$documentSigningCaInput) {
 		$message = $this->l10n->t('Saved');
 		$status = 'success';
 
@@ -252,6 +255,31 @@ class SettingsController extends Controller {
 			try {
 				$this->config->setUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', $zoteroAPIKeyInput);
 			} catch (PreConditionNotMetException) {
+				$message = $this->l10n->t('Error when saving');
+				$status = 'error';
+			}
+		}
+
+		if ($documentSigningCertInput !== null) {
+			try {
+				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningCert', $documentSigningCertInput);
+			} catch (PreConditionNotMetException $e) {
+				$message = $this->l10n->t('Error when saving');
+				$status = 'error';
+			}
+		}
+		if ($documentSigningKeyInput !== null) {
+			try {
+				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningKey', $documentSigningKeyInput);
+			} catch (PreConditionNotMetException $e) {
+				$message = $this->l10n->t('Error when saving');
+				$status = 'error';
+			}
+		}
+		if ($documentSigningCaInput !== null) {
+			try {
+				$this->config->setUserValue($this->userId, 'richdocuments', 'documentSigningCa', $documentSigningCaInput);
+			} catch (PreConditionNotMetException $e) {
 				$message = $this->l10n->t('Error when saving');
 				$status = 'error';
 			}

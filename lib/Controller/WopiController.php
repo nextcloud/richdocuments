@@ -165,6 +165,15 @@ class WopiController extends Controller {
 			$zoteroAPIKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'zoteroAPIKey', '');
 			$response['UserPrivateInfo']['ZoteroAPIKey'] = $zoteroAPIKey;
 		}
+		$enableDocumentSigning = $this->config->getAppValue(Application::APPNAME, 'documentSigningEnabled', 'yes') === 'yes';
+		if (!$isPublic && $enableDocumentSigning) {
+			$documentSigningCert = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningCert', '');
+			$response['UserPrivateInfo']['SignatureCert'] = $documentSigningCert;
+			$documentSigningKey = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningKey', '');
+			$response['UserPrivateInfo']['SignatureKey'] = $documentSigningKey;
+			$documentSigningCa = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningCa', '');
+			$response['UserPrivateInfo']['SignatureCa'] = $documentSigningCa;
+		}
 		if ($wopi->hasTemplateId()) {
 			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
 		}
