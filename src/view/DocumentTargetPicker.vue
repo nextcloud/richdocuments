@@ -5,7 +5,12 @@
 
 <template>
 	<div v-if="filePath === null" class="office-target-picker">
-		<div ref="picker" class="reference-file-picker" />
+		<FilePicker :name="t('files', 'Select file or folder to link to')"
+			:buttons="filePickerButtons"
+			:allow-pick-directory="false"
+			:multiselect="false"
+			:mimetype-filter="validMimetypes"
+			container=".office-target-picker" />
 	</div>
 	<div v-else class="office-target-picker">
 		<h2>{{ t('richdocuments', 'Link to office document section') }}</h2>
@@ -19,7 +24,7 @@
 			<template v-else>
 				<div v-for="section in sections" :key="section.label">
 					<h3>{{ section.label }}</h3>
-					<ul>
+					<ul :data-cy-section-label="section.label">
 						<NcListItem v-for="entry in section.entries"
 							:key="entry.id"
 							:name="entry.name"
@@ -33,7 +38,10 @@
 				</div>
 			</template>
 			<div v-if="sections.length !== 0" class="office-target-picker__buttons">
-				<NcButton type="primary" :disabled="!target" @click="submit()">
+				<NcButton data-cy-link-to-section=""
+					type="primary"
+					:disabled="!target"
+					@click="submit()">
 					{{ t('richdocuments', 'Link to office document section') }}
 				</NcButton>
 			</div>
@@ -42,7 +50,7 @@
 </template>
 
 <script>
-import { getFilePickerBuilder } from '@nextcloud/dialogs'
+import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -59,6 +67,7 @@ export default {
 		NcEmptyContent,
 		NcListItem,
 		NcLoadingIcon,
+		FilePicker,
 		TableOfContentsIcon,
 	},
 	props: {
@@ -77,36 +86,44 @@ export default {
 			filePath: null,
 			target: null,
 			sections: null,
-		}
-	},
-	mounted() {
-		this.openFilePicker()
-		window.addEventListener('click', this.onWindowClick)
-	},
-	beforeDestroy() {
-		window.removeEventListener('click', this.onWindowClick)
-	},
-	methods: {
-		onWindowClick(e) {
-			if (e.target.tagName === 'A' && e.target.classList.contains('oc-dialog-close')) {
-				this.$emit('cancel')
-			}
-		},
-		async openFilePicker() {
-			await getFilePickerBuilder(t('files', 'Select file or folder to link to'))
-				.setMimeTypeFilter(getCapabilities().mimetypes)
-				.addButton({
-					label: t('richdocuments', 'Insert image'),
+			filePickerButtons: [
+				{
+					label: t('richdocuments', 'Cancel'),
+					callback: () => {
+						this.$emit('cancel')
+					},
+					type: 'secondary',
+				},
+				{
+					label: t('richdocuments', 'Select file'),
 					callback: (files) => {
 						const file = files[0]
 						this.fileId = file.fileid
 						this.filePath = file.path
 						this.fetchReferences()
 					},
-				})
-				.setContainer(this.$refs.picker)
-				.build()
-				.pick()
+					type: 'primary',
+				},
+			],
+		}
+	},
+	computed: {
+		validMimetypes() {
+			return getCapabilities().mimetypes
+		},
+	},
+	mounted() {
+		window.addEventListener('click', this.onWindowClick)
+	},
+	beforeDestroy() {
+		window.removeEventListener('click', this.onWindowClick)
+	},
+	methods: {
+		t,
+		onWindowClick(e) {
+			if (e.target.tagName === 'A' && e.target.classList.contains('oc-dialog-close')) {
+				this.$emit('cancel')
+			}
 		},
 		setTarget(entry) {
 			this.target = entry.id
@@ -129,34 +146,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.reference-file-picker {
-	flex-grow: 1;
-
-	&:deep(.oc-dialog) {
-		transform: none !important;
-		box-shadow: none !important;
-		flex-grow: 1 !important;
-		position: static !important;
-		width: 100% !important;
-		height: auto !important;
-		padding: 0 !important;
-		max-width: initial;
-
-		.oc-dialog-close {
-			display: none;
-		}
-
-		.oc-dialog-buttonrow.onebutton.aside {
-			position: absolute;
-			padding: 12px 32px;
-		}
-
-		.oc-dialog-content {
-			max-width: 100% !important;
-		}
-	}
-}
-
 .office-target-picker {
 	margin: calc(var(--default-grid-baseline) * 4);
 	flex-grow: 1;
