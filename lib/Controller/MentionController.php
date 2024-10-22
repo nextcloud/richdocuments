@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\Notification\IManager;
 
 class MentionController extends Controller {
@@ -25,6 +26,7 @@ class MentionController extends Controller {
 		private IRootFolder $rootFolder,
 		private IManager $manager,
 		private ITimeFactory $timeFactory,
+		private IUserManager $userManager,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -39,14 +41,22 @@ class MentionController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($mention);
+		// Reverse the array of users to pop off the first user later
+		$userResults = array_reverse($this->userManager->searchDisplayName($mention, 1));
+		if (count($userResults) < 1) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		// Get the first user returned in the array
+		$user = array_pop($userResults);
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$file = $userFolder->getById($fileId)[0];
 		if ($file === null) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		$notification = $this->manager->createNotification();
-		$notification->setUser($mention)
+		$notification->setUser($user->getUID())
 			->setApp(Application::APPNAME)
 			->setSubject(Notifier::TYPE_MENTIONED, [
 				Notifier::SUBJECT_MENTIONED_SOURCE_USER => $this->userId,
@@ -58,7 +68,6 @@ class MentionController extends Controller {
 			$notification->setDateTime(\DateTime::createFromImmutable($this->timeFactory->now()));
 			$this->manager->notify($notification);
 			return new DataResponse([], Http::STATUS_OK);
-
 		}
 
 		return new DataResponse([], Http::STATUS_NOT_FOUND);
