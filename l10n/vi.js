@@ -139,6 +139,7 @@ OC.L10N.register(
     "Open file locally" : "Mở tệp cục bộ (local)/ ngoại tuyến",
     "Open locally" : "Mở cục bộ (local)/ ngoại tuyến",
     "Continue editing online" : "Tiếp tục chỉnh sửa trục tuyến",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system.",
     "Failed to revert the document to older version" : "Không thể hoàn nguyên tài liệu sang phiên bản cũ hơn",
     "Select a personal template folder" : "Chọn một mẫu thư mục cá nhân",
     "Saving …" : "Đang lưu ...",
