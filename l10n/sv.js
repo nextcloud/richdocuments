@@ -102,6 +102,7 @@ OC.L10N.register(
     "Upload extra font file" : "Ladda upp extra typsnitts-fil",
     "Upload a font file" : "Ladda upp typsnitts-fil",
     "Available fonts" : "Tillgängliga typsnitt",
+    "Custom fonts documentation" : "Dokumentation för anpassade teckensnitt",
     "Secure view settings" : "Inställningar säker vy",
     "Secure view enables you to secure documents by embedding a watermark" : "Med säker vy kan du säkra dokument genom att bädda in en vattenstämpel",
     "The settings only apply to compatible office files that are opened in Nextcloud Office" : "Inställningarna gäller endast för kompatibla office-filer som öppnas i Nextcloud Office",
