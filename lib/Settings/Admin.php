@@ -30,6 +30,8 @@ class Admin implements ISettings {
 
 	public function getForm(): TemplateResponse {
 		$this->initialStateService->provideCapabilities();
+		$this->initialStateService->provideAdminSettings();
+
 		return new TemplateResponse(
 			'richdocuments',
 			'admin',
@@ -45,8 +47,6 @@ class Admin implements ISettings {
 					'external_apps' => $this->config->getAppValue('richdocuments', 'external_apps'),
 					'canonical_webroot' => $this->config->getAppValue('richdocuments', 'canonical_webroot'),
 					'disable_certificate_verification' => $this->config->getAppValue('richdocuments', 'disable_certificate_verification', '') === 'yes',
-					'templates' => $this->manager->getSystemFormatted(),
-					'templatesAvailable' => $this->capabilitiesService->hasTemplateSource(),
 					'settings' => $this->appConfig->getAppSettings(),
 					'demo_servers' => $this->demoService->fetchDemoServers(),
 					'web_server' => strtolower($_SERVER['SERVER_SOFTWARE']),
@@ -59,11 +59,11 @@ class Admin implements ISettings {
 		);
 	}
 
-	public function getSection() {
+	public function getSection(): string {
 		return 'richdocuments';
 	}
 
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 }

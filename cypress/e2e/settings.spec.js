@@ -72,11 +72,9 @@ describe('Office admin settings', function() {
 			cy.get('.settings-entry.font-list-settings').contains(font)
 		})
 
-		// FIXME: Template settings only get visible after reload
-		cy.reload()
-		cy.get('#richdocuments-templates')
+		cy.get('.settings-section__name')
+			.contains('Global Templates')
 			.scrollIntoView()
 			.should('be.visible')
-
 	})
 })
