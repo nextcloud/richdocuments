@@ -135,7 +135,7 @@ OC.L10N.register(
     "Connect your Zotero account to make use of references within Office." : "Подключите свою учетную запись Zotero, чтобы использовать ссылки в Office.",
     "You can generate an account key here:" : "Вы можете сгенерировать ключ учетной записи здесь:",
     "Zotero account settings" : "Настройки аккаунта Zotero",
-    "Zotero API key" : "Zotero API ключ",
+    "Zotero API key" : "Zotero API-ключ",
     "Submit" : "Отправить ответ",
     "Failed to set Zotero API key" : "Не удалось установить ключ API Zotero",
     "Description" : "Описание",
