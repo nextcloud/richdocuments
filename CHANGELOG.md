@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.3.11
+
+### Fixed
+
+- fix: Update empty templates [#4131](https://github.com/nextcloud/richdocuments/pull/4131)
+
 ## 6.3.10
 
 ### Fixed
