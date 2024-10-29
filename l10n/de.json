@@ -231,7 +231,7 @@
     "Enter document signing CA chain" : "CA-Kette für die Dokumentsignatur eingeben",
     "Save document signing CA chain" : "CA-Kette für die Dokumentsignatur speichern",
     "Remove document signing CA chain" : "CA-Kette für die Dokumentsignatur löschen",
-    "To use document signing, specify your signing certificate, key and CA chain here." : "Um die Dokumentsignatur zu verwenden, gieb hier dein Signaturzertifikat, deinen Schlüssel und deine CA-Kette an.",
+    "To use document signing, specify your signing certificate, key and CA chain here." : "Um die Dokumentsignatur zu verwenden, gib hier dein Signaturzertifikat, deinen Schlüssel und deine CA-Kette an.",
     "This instance does not support document signing, because the feature is missing or disabled. Please contact the administrator." : "Diese Instanz unterstützt das Signieren von Dokumenten nicht, da die Funktion fehlt oder deaktiviert ist. Bitte wende dich an die Administration.",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "Mit Fehler gespeichert: Collabora Online sollte das gleiche Protokoll wie die Server-Installation nutzen.",
     "Could not establish connection to the Collabora Online server. This might be due to a missing configuration of your web server. For more information, please visit: " : "Es konnte keine Verbindung zum Collabora Online-Server hergestellt werden. Dies könnte auf eine fehlende Konfiguration deines Web-Servers zurückzuführen sein. Für weitere Informationen besuche bitte:",
