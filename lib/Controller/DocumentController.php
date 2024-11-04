@@ -387,7 +387,7 @@ class DocumentController extends Controller {
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;
 			$file = $shareToken ? $this->getFileForShare($share, $fileId, $path) : $this->getFileForUser($fileId, $path);
 
-			$federatedUrl = $this->federationService->getRemoteRedirectURL($file);
+			$federatedUrl = $this->federationService->getRemoteRedirectURL($file, null, $share);
 			if ($federatedUrl) {
 				return new DataResponse([
 					'federatedUrl' => $federatedUrl,
