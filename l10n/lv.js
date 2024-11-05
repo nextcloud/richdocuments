@@ -35,6 +35,7 @@ OC.L10N.register(
     "Save" : "Saglabāt",
     "Submit" : "Iesniegt",
     "Description" : "Apraksts",
+    "No font overview" : "Nav fonta pārskata",
     "No results" : "Nav rezultātu",
     "Close" : "Aizvērt",
     "Edit" : "Labot",
