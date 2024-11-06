@@ -4,6 +4,7 @@
     "No file was uploaded" : "Ni lwythwyd ffeil i fyny",
     "Missing a temporary folder" : "Plygell dros dro yn eisiau",
     "Office" : "Swyddfa",
+    "New" : "Newydd",
     "Confirm" : "Cadarnhau",
     "Cancel" : "Diddymu",
     "Save" : "Cadw",
@@ -11,14 +12,14 @@
     "No results" : "Dim canlyniadau",
     "Close" : "Cau",
     "Edit" : "Golygu",
-    "Error" : "Gwall",
-    "An error occurred" : "Digwyddodd gwall",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Manylion",
     "Download" : "Llwytho i lawr",
     "New file" : "Ffeil newydd",
     "Create" : "Creu",
+    "Error" : "Gwall",
+    "An error occurred" : "Digwyddodd gwall",
     "Nickname" : "Llysenw"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }
