@@ -12,12 +12,12 @@ OC.L10N.register(
     "Description" : "বিবরণ",
     "Close" : "বন্ধ",
     "Edit" : "সম্পাদনা",
-    "Error" : "সমস্যা",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "বিসতারিত",
     "Download" : "ডাউনলোড",
     "Create" : "তৈরী কর",
+    "Error" : "সমস্যা",
     "Nickname" : "ছদ্মনাম"
 },
 "nplurals=2; plural=(n != 1);");

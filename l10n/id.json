@@ -13,6 +13,7 @@
     "File is too big" : "Berkas terlalu besar",
     "Invalid file provided" : "Berkas yang diberikan tidak sah",
     "Images" : "Gambar",
+    "New" : "Baru",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Select groups" : "Pilih grup",
     "Failed to save settings" : "Gagal simpan setelan",
@@ -24,8 +25,6 @@
     "Select file or folder to link to" : "Pilih berkas atau folder untuk ditautkan",
     "Close" : "Tutup",
     "Edit" : "Sunting",
-    "Error" : "Kesalahan",
-    "An error occurred" : "Terjadi kesalahan",
     "Saving …" : "Menyimpan ...",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Tambah ke favorit",
@@ -36,6 +35,8 @@
     "Create" : "Buat",
     "Could not create file" : "Tidak dapat membuat berkas",
     "Select template" : "Pilih template",
+    "Error" : "Kesalahan",
+    "An error occurred" : "Terjadi kesalahan",
     "Nickname" : "Nama panggilan",
     "Saving…" : "Menyimpan..."
 },"pluralForm" :"nplurals=1; plural=0;"
