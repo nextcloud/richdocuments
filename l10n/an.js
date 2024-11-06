@@ -13,9 +13,9 @@ OC.L10N.register(
     "Invalid file provided" : "Fichero proporzionau no valiu",
     "Cancel" : "Canzelar",
     "Close" : "Zarrar",
-    "Error" : "Error",
     "Details" : "Detalles",
     "Download" : "Escargar",
-    "Create" : "Crear"
+    "Create" : "Crear",
+    "Error" : "Error"
 },
 "nplurals=2; plural=(n != 1);");

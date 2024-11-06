@@ -10,12 +10,12 @@ OC.L10N.register(
     "Description" : "Opis",
     "Close" : "Zatvori",
     "Edit" : "Izmjeni",
-    "Error" : "Greška",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Download" : "Preuzmi",
     "Create" : "Ustvari",
     "Could not create file" : "Datoteku nije moguće kreirati",
+    "Error" : "Greška",
     "Nickname" : "Nadimak"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

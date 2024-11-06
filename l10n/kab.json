@@ -11,7 +11,6 @@
     "No results" : "Ulac igmad",
     "Close" : "Mdel",
     "Edit" : "Ẓreg",
-    "Error" : "Erreur",
     "Remove from favorites" : "Kkes-it seg ismal",
     "Add to favorites" : "Rnu ismal",
     "Details" : "Talqayt",
@@ -19,6 +18,7 @@
     "Guest" : "Inebgi",
     "New file" : "Rnu afaylu",
     "Create" : "Snulfu-d",
+    "Error" : "Erreur",
     "Set" : "Sbadu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
