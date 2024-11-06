@@ -7,6 +7,7 @@ OC.L10N.register(
     "File is too big" : "ගොනුව ඉතා විශාලයි",
     "Images" : "පින්තූර",
     "Empty" : "හිස්",
+    "New" : "නව",
     "Confirm" : "තහවුරු කරන්න",
     "Cancel" : "අවලංගු කරන්න",
     "Save" : "සුරකින්න",
@@ -14,11 +15,11 @@ OC.L10N.register(
     "No results" : "ප්‍රතිථල නැත",
     "Close" : "වසන්න",
     "Edit" : "සංස්කරණය",
-    "Error" : "දෝෂය",
     "Details" : "විස්තර",
     "Download" : "බාගන්න",
     "New file" : "නව ගොනුව",
     "Create" : "සාදන්න",
+    "Error" : "දෝෂය",
     "Nickname" : "අන්වර්ථ නාමය"
 },
 "nplurals=2; plural=(n != 1);");

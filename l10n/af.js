@@ -22,8 +22,6 @@ OC.L10N.register(
     "Description" : "Beskrywing",
     "Insert image" : "Voer beeld in",
     "Close" : "Sluit",
-    "Error" : "Fout",
-    "An error occurred" : "'n Fout het voorgekom",
     "Saving …" : "Bewaar tans…",
     "Remove from favorites" : "Verwyder uit gunstelinge",
     "Add to favorites" : "Voeg by gunstelinge",
@@ -31,6 +29,8 @@ OC.L10N.register(
     "Download" : "Laai af",
     "Guest" : "Gas",
     "Create" : "Skep",
+    "Error" : "Fout",
+    "An error occurred" : "'n Fout het voorgekom",
     "Nickname" : "Bynaam",
     "Set" : "Stel in",
     "Saving…" : "Bewaar…"

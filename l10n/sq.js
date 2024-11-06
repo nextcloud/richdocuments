@@ -18,6 +18,7 @@ OC.L10N.register(
     "Images" : "Imazhe ",
     "Office" : "Zyrë",
     "Empty" : "Bosh",
+    "New" : "I ri",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Select groups" : "Përzgjidhni grupe",
     "Confirm" : "Konfirmo",
@@ -28,7 +29,6 @@ OC.L10N.register(
     "No results" : "Asnjë rezultat",
     "Close" : "Mbylleni",
     "Edit" : "Përpuno",
-    "Error" : "Error",
     "Failed to revert the document to older version" : "Dështoi kthimi i dokumentit te versioni më i vjetër",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Shtoje tek të parapëlqyerat",
@@ -40,6 +40,7 @@ OC.L10N.register(
     "Could not create file" : "Kartela s’u krijua dot",
     "Select template" : "Zgjidh shabllonin",
     "Saved with error: Collabora Online should use the same protocol as the server installation." : "U ruajt me gabim: Collabora Online do të duhej të përdorte të njëjtin protokoll si instalimi i shërbyesit.",
+    "Error" : "Error",
     "Nickname" : "Nofkë",
     "Saving…" : "Duke u ruajtur...",
     "Collabora Online" : "Collabora Online"

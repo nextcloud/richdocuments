@@ -10,18 +10,19 @@
     "A PHP extension stopped the file upload" : "PHP֊ի ընդլայնումն կանգնեցրեց նիշքի վերբեռնումը",
     "File is too big" : "Ֆայլը չափազանց մեծ է",
     "Invalid file provided" : "անվավեր նիշք",
+    "New" : "Նոր",
     "Cancel" : "ընդհատել",
     "Save" : "Պահել",
     "Description" : "Նկարագրություն",
     "Close" : "Փակել",
     "Edit" : "մշակել",
-    "Error" : "Սխալ",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Մանրամասներ",
     "Download" : "Ներբեռնել",
     "Create" : "Ստեղծել",
     "Could not create file" : "Չկարողացա ստեղծել ֆայլը",
+    "Error" : "Սխալ",
     "Nickname" : "Մականուն"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
