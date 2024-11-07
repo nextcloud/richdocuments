@@ -22,6 +22,10 @@ class AddFeaturePolicyListener implements IEventListener {
 	) {
 	}
 
+		if (!$this->isPageLoad()) {
+			return;
+		}
+
 	public function handle(Event $event): void {
 		if (!$event instanceof AddFeaturePolicyEvent) {
 			return;
@@ -38,6 +42,12 @@ class AddFeaturePolicyListener implements IEventListener {
 		}
 
 		$event->addPolicy($policy);
+	}
+
+	private function isPageLoad(): bool {
+		$scriptNameParts = explode('/', $this->request->getScriptName());
+		return end($scriptNameParts) === 'index.php';
+	}
 	}
 
 	private function isPageLoad(): bool {

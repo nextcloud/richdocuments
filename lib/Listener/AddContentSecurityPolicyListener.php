@@ -24,6 +24,10 @@ class AddContentSecurityPolicyListener implements IEventListener {
 	) {
 	}
 
+		if (!$this->isPageLoad()) {
+			return;
+		}
+
 	public function handle(Event $event): void {
 		if (!$event instanceof AddContentSecurityPolicyEvent) {
 			return;
