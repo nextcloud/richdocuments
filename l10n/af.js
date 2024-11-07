@@ -14,6 +14,7 @@ OC.L10N.register(
     "Invalid file provided" : "Ongeldige lêer verskaf",
     "Headings" : "Koppe",
     "Images" : "Beelde",
+    "New" : "Nuut",
     "Advanced settings" : "Gevorderde instellings",
     "Confirm" : "Bevestig",
     "Cancel" : "Kanselleer",
