@@ -30,6 +30,7 @@ use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -74,6 +75,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'richdocumentsCreatePublic')]
+	#[AnonRateLimit(limit: 5, period: 120)]
 	public function create(string $mimeType, string $fileName, string $directoryPath = '/', ?string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
 			if ($shareToken !== null) {
@@ -100,10 +102,12 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 			}
 		} catch (Throwable $e) {
 			$this->logger->error('Failed to create document', ['exception' => $e]);
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'status' => 'error',
 				'message' => $this->l10n->t('Cannot create document')
 			], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
 		}
 
 		$basename = $this->l10n->t('New Document.odt');
