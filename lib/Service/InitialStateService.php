@@ -60,6 +60,10 @@ class InitialStateService {
 		$this->provideOptions();
 	}
 
+	public function providePresentation(bool $startPresentation = false): void {
+		$this->initialState->provideInitialState('startPresentation', $startPresentation);
+	}
+
 	public function provideAdminSettings(): void {
 		$this->initialState->provideInitialState('adminSettings', [
 			'templatesAvailable' => $this->capabilitiesService->hasTemplateSource(),
