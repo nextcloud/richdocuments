@@ -12,6 +12,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "PHP uzantısı faylın yüklənməsini dayandırdı",
     "File is too big" : "Fayl çox böyükdür",
     "Invalid file provided" : "Yanlış fayl təqdim edilib",
+    "New" : "Yeni",
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Select groups" : "Qrupları seç",
     "Confirm" : "Təsdiq edin",

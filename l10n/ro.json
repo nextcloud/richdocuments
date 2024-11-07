@@ -12,6 +12,7 @@
     "No file uploaded or file size exceeds maximum of %s" : "Niciun fișier pentru încărcare sau s-a depășit maximul de %s",
     "File is too big" : "Fișierul este prea mare",
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
+    "New document" : "Document nou",
     "Images" : "Imagini",
     "Office" : "Birou",
     "New" : "Nou",

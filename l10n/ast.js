@@ -36,6 +36,7 @@ OC.L10N.register(
     "Office" : "Oficina",
     "Anonymous guest" : "Convidáu anónimu",
     "%s (Guest)" : "%s (convidáut)",
+    "New" : "Nuevu",
     "Your browser has been unable to connect to the Collabora server:" : "El restolador nun foi a conectase al sirvidor de Collabora:",
     "Advanced settings" : "Configuración avanzada",
     "Select groups" : "Seleicionar grupos",
