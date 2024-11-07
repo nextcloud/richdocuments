@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\Richdocuments\Listener;
 
+use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
@@ -24,7 +25,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			return;
 		}
 
-		if ($this->capabilitiesService->hasWASMSupport()) {
+		if ($this->capabilitiesService->hasWASMSupport() && $event->getResponse()->getApp() === Application::APPNAME) {
 			$event->getResponse()->addHeader('Cross-Origin-Opener-Policy', 'same-origin');
 			$event->getResponse()->addHeader('Cross-Origin-Embedder-Policy', 'require-corp');
 		}
