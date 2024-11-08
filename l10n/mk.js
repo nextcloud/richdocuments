@@ -79,6 +79,7 @@ OC.L10N.register(
     "Show watermark on link shares with specific system tags" : "Прикажи воден жиг за споделувања преку линк кој се озналени со системска ознака",
     "Contact {0} to get an own installation." : "Контактирајте го {0} за да добиете сопствена инсталација.",
     "Failed to save settings" : "Неуспешно зачувување на параметрите",
+    "Submit name" : "Испрати име",
     "Confirm" : "Потврди",
     "Cancel" : "Откажи",
     "Save" : "Зачувај",
