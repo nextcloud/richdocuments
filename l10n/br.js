@@ -11,6 +11,7 @@ OC.L10N.register(
     "New presentation" : "Kinnig nevez",
     "Images" : "Skeudenn",
     "Office" : "Burev",
+    "New" : "Nevez",
     "Select groups" : "Choaz ar strolladoù",
     "Confirm" : "Kadarnañ",
     "Cancel" : "Arrest",
