@@ -53,6 +53,7 @@ OC.L10N.register(
     "Select groups" : "Pasirinkti grupes",
     "Extra fonts" : "Papildomi šriftai",
     "Available fonts" : "Prieinami šriftai",
+    "Custom fonts documentation" : "Tinkintų šriftų dokumentacija",
     "Secure view settings" : "Saugaus rodinio nustatymai",
     "Secure view enables you to secure documents by embedding a watermark" : "Saugusis rodinys leidžia jums apsaugoti dokumentus įterpiant vandenženklį",
     "Enable watermarking" : "Įjungti vandenženklių darymą",
