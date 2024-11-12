@@ -293,16 +293,19 @@ Cypress.Commands.add('verifyOpen', (filename) => {
 		.should('contain.text', filename)
 })
 
-Cypress.Commands.add('uploadSystemTemplate', () => {
+Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType }) => {
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')
-	cy.get('#richdocuments-templates').scrollIntoView()
-	cy.get('input[type=file]#add-template').selectFile({
-		contents: 'cypress/fixtures/templates/presentation.otp',
-		fileName: 'systemtemplate.otp',
-		mimeType: 'application/vnd.oasis.opendocument.presentation-template',
+
+	cy.get('.settings-section__name')
+		.contains('Global Templates')
+		.scrollIntoView()
+
+	cy.get('.settings-section input[type="file"]').selectFile({
+		contents: `cypress/fixtures/${fixturePath}`,
+		fileName,
+		mimeType,
 	}, { force: true })
-	cy.get('#richdocuments-templates li').contains('systemtemplate.otp')
 })
 
 Cypress.Commands.add('submitTemplateFields', (fields) => {

@@ -12,6 +12,7 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "PHP uzantısı faylın yüklənməsini dayandırdı",
     "File is too big" : "Fayl çox böyükdür",
     "Invalid file provided" : "Yanlış fayl təqdim edilib",
+    "New" : "Yeni",
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Select groups" : "Qrupları seç",
     "Confirm" : "Təsdiq edin",
@@ -21,12 +22,12 @@ OC.L10N.register(
     "No results" : "Nəticə yoxdur",
     "Close" : "Bağla",
     "Edit" : "Dəyişiklik et",
-    "Error" : "Səhv",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Detallar",
     "Download" : "Yüklə",
     "Create" : "Yarat",
-    "Could not create file" : "Faylı yaratmaq olmur"
+    "Could not create file" : "Faylı yaratmaq olmur",
+    "Error" : "Səhv"
 },
 "nplurals=2; plural=(n != 1);");

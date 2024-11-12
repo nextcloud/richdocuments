@@ -11,7 +11,6 @@ OC.L10N.register(
     "No results" : "ບໍ່ມີຜົນ",
     "Close" : "ປິດ",
     "Edit" : "ແກ້ໄຂ",
-    "Error" : "ຜິດພາດ",
     "Saving …" : "ກຳລັງບັນທຶກ",
     "Remove from favorites" : "ຍ້າຍຈາກລາຍການທີ່ມັກ",
     "Add to favorites" : "ເພີ່ມລາຍການທີ່ມັກ",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Download" : "ດາວໂຫລດ",
     "New file" : "ຟາຍໃໝ່",
     "Create" : "ສ້າງ",
-    "Select template" : "ເລືອກຕົວຢ່າງ"
+    "Select template" : "ເລືອກຕົວຢ່າງ",
+    "Error" : "ຜິດພາດ"
 },
 "nplurals=1; plural=0;");

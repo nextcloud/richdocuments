@@ -11,11 +11,12 @@ OC.L10N.register(
     "A PHP extension stopped the file upload" : "Una estensión de PHP aturó a carga de fichers",
     "File is too big" : "O fichero ye masiau gran",
     "Invalid file provided" : "Fichero proporzionau no valiu",
+    "New" : "Nuevo",
     "Cancel" : "Canzelar",
     "Close" : "Zarrar",
-    "Error" : "Error",
     "Details" : "Detalles",
     "Download" : "Escargar",
-    "Create" : "Crear"
+    "Create" : "Crear",
+    "Error" : "Error"
 },
 "nplurals=2; plural=(n != 1);");
