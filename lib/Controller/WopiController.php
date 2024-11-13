@@ -532,7 +532,8 @@ class WopiController extends Controller {
 
 		// Unless the editor is empty (public link) we modify the files as the current editor
 		$editor = $wopi->getEditorUid();
-		if ($editor === null && !$wopi->isRemoteToken()) {
+		$isPublic = $editor === null && !$wopi->isRemoteToken();
+		if ($isPublic) {
 			$editor = $wopi->getOwnerUid();
 		}
 
@@ -545,16 +546,10 @@ class WopiController extends Controller {
 				$file = $this->getFileForWopiToken($wopi);
 
 				$suggested = $this->request->getHeader('X-WOPI-RequestedName');
-
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7') . '.' . $file->getExtension();
 
-				if (str_starts_with($suggested, '.')) {
-					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				} elseif (!str_starts_with($suggested, '/')) {
-					$path = dirname($file->getPath()) . '/' . $suggested;
-				} else {
-					$path = $userFolder->getPath() . $suggested;
-				}
+				$parent = $isPublic ? dirname($file->getPath()) : $userFolder->getPath();
+				$path = $this->normalizePath($suggested, $parent);
 
 				if ($path === '') {
 					return new JSONResponse([
@@ -583,20 +578,8 @@ class WopiController extends Controller {
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
 
-				if ($suggested[0] === '.') {
-					$path = dirname($file->getPath()) . '/New File' . $suggested;
-				} elseif ($suggested[0] !== '/') {
-					$path = dirname($file->getPath()) . '/' . $suggested;
-				} else {
-					$path = $userFolder->getPath() . $suggested;
-				}
-
-				if ($path === '') {
-					return new JSONResponse([
-						'status' => 'error',
-						'message' => 'Cannot create the file'
-					]);
-				}
+				$parent = $isPublic ? dirname($file->getPath()) : $userFolder->getPath();
+				$path = $this->normalizePath($suggested, $parent);
 
 				// create the folder first
 				if (!$this->rootFolder->nodeExists(dirname($path))) {
@@ -610,8 +593,8 @@ class WopiController extends Controller {
 
 			$content = fopen('php://input', 'rb');
 			// Set the user to register the change under his name
-			$this->userScopeService->setUserScope($wopi->getEditorUid());
-			$this->userScopeService->setFilesystemScope($wopi->getEditorUid());
+			$this->userScopeService->setUserScope($editor);
+			$this->userScopeService->setFilesystemScope($editor);
 
 			try {
 				$this->wrappedFilesystemOperation($wopi, fn () => $file->putContent($content));
@@ -636,6 +619,13 @@ class WopiController extends Controller {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	private function normalizePath(string $path, ?string $parent = null): string {
+		$path = str_starts_with($path, '/') ? $path : '/' . $path;
+		$parent = is_null($parent) ? '' : rtrim($parent, '/');
+
+		return $parent . $path;
 	}
 
 	private function lock(Wopi $wopi, string $lock): JSONResponse {

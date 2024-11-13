@@ -342,3 +342,19 @@ Feature: WOPI
       | UserFriendlyName | user2-displayname |
     And Collabora downloads the file
     And Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
+
+  Scenario: Save as guest user to owner root
+    Given as user "user1"
+    And User "user1" creates a folder "SharedFolder"
+    And as "user1" create a share with
+      | path        | /SharedFolder |
+      | shareType   | 3             |
+    And Updating last share with
+      | permissions | 31 |
+    And Create new document as guest with file name "some-guest-document.odt"
+    And as "user1" the file "/SharedFolder/some-guest-document.odt" exists
+    And a guest opens the file "some-guest-document.odt" of the shared link
+    And Collabora fetches checkFileInfo
+    And Collabora saves the content of "./../emptyTemplates/template.ods" as "/saved-as-guest-document.odt"
+    And as "user1" the file "/SharedFolder/saved-as-guest-document.odt" exists
+    And as "user1" the file "/saved-as-guest-document.odt" does not exist
