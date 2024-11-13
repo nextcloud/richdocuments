@@ -187,7 +187,8 @@ class DocumentController extends Controller {
 
 		$template = $this->templateManager->get($templateId);
 		$urlSrc = $this->tokenManager->getUrlSrc($file);
-		$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $this->userId, $file->getId());
+		$isGuest = $this->userId === null;
+		$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $file->getId(), $this->userId, $isGuest);
 
 		$params = [
 			'permissions' => $template->getPermissions(),
@@ -400,7 +401,8 @@ class DocumentController extends Controller {
 				]);
 			}
 
-			$wopi = $this->getToken($file, $share);
+			$isGuest = $guestName || !$this->userId;
+			$wopi = $this->getToken($file, $share, null, $isGuest);
 
 			$this->tokenManager->setGuestName($wopi, $guestName);
 
@@ -485,11 +487,20 @@ class DocumentController extends Controller {
 		throw new NotFoundException();
 	}
 
-	private function getToken(File $file, ?IShare $share = null, int $version = null): Wopi {
+	private function getToken(File $file, ?IShare $share = null, ?int $version = null, bool $isGuest = false): Wopi {
 		// Pass through $version
 		$templateFile = $this->templateManager->getTemplateSource($file->getId());
 		if ($templateFile) {
-			return $this->tokenManager->generateWopiTokenForTemplate($templateFile, $share?->getShareOwner() ?? $this->userId, $file->getId());
+			$owneruid = $share?->getShareOwner() ?? $file->getOwner()->getUID();
+
+			return $this->tokenManager->generateWopiTokenForTemplate(
+				$templateFile,
+				$file->getId(),
+				$owneruid,
+				$isGuest,
+				false,
+				$share?->getPermissions()
+			);
 		}
 
 		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);

@@ -7,6 +7,10 @@ class OC_User {
 	public static function setIncognitoMode($status) {}
 }
 
+class OC_Hook {
+    public static function emit($signalClass, $signalName, $params = []);
+}
+
 namespace OC\Hooks {
 	interface Emitter {
 		/**
