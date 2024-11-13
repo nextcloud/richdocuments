@@ -128,8 +128,8 @@ const generateCSSVarTokens = () => {
 		const lightStyle = window.getComputedStyle(lightElement).getPropertyValue(varName)
 		const darkStyle = window.getComputedStyle(darkElement).getPropertyValue(varName)
 
-		str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';'
-		str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';'
+		if (lightStyle) str += varName.replace('--', '--nc-light-') + '=' + lightStyle.trim() + ';'
+		if (darkStyle) str += varName.replace('--', '--nc-dark-') + '=' + darkStyle.trim() + ';'
 
 		// Workaround for now as we need primary-invert-if-dark which is not available on server yet
 		if (varName === '--primary-invert-if-bright') {
