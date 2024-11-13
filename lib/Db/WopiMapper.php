@@ -68,6 +68,10 @@ class WopiMapper extends QBMapper {
 	 * @param string $serverHost
 	 * @param string $guestDisplayname
 	 * @param int $templateDestination
+	 * @param bool $hideDownload
+	 * @param bool $direct
+	 * @param int $templateId
+	 * @param string $share
 	 * @return Wopi
 	 */
 	public function generateFileToken($fileId, $owner, $editor, $version, $updatable, $serverHost, $guestDisplayname = null, $templateDestination = 0, $hideDownload = false, $direct = false, $templateId = 0, $share = null) {

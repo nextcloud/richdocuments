@@ -31,6 +31,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Utils;
 use JuliusHaertl\NextcloudBehat\Context\FilesContext;
 use JuliusHaertl\NextcloudBehat\Context\ServerContext;
+use JuliusHaertl\NextcloudBehat\Context\SharingContext;
 use PHPUnit\Framework\Assert;
 
 class WopiContext implements Context {
@@ -38,6 +39,8 @@ class WopiContext implements Context {
 	private $serverContext;
 	/** @var FilesContext */
 	private $filesContext;
+	/** @var SharingContext */
+	private $sharingContext;
 
 	private $downloadedFile;
 	private $response;
@@ -56,6 +59,7 @@ class WopiContext implements Context {
 		$environment = $scope->getEnvironment();
 		$this->serverContext = $environment->getContext(ServerContext::class);
 		$this->filesContext = $environment->getContext(FilesContext::class);
+		$this->sharingContext = $environment->getContext(SharingContext::class);
 	}
 
 	public function getWopiEndpointBaseUrl() {
@@ -100,6 +104,32 @@ class WopiContext implements Context {
 		];
 		try {
 			$this->response = $client->post($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $this->fileId . '/contents?access_token=' . $this->wopiToken, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then /^Create new document as guest with file name "([^"]*)"$/
+	 */
+	public function createDocumentAsGuest(string $name) {
+		$client = new Client();
+		$options = [
+			'body' => json_encode([
+				'directoryPath' => '/',
+				'fileName' => $name,
+				'mimeType' => 'application/vnd.oasis.opendocument.text',
+				'shareToken' => $this->sharingContext->getLastShareData()['token'],
+				'templateId' => 0,
+			]),
+			'headers' => [
+				'Content-Type' => 'application/json',
+				'OCS-ApiRequest' => 'true'
+			],
+		];
+
+		try {
+			$this->response = $client->post($this->getWopiEndpointBaseUrl() . 'ocs/v2.php/apps/richdocuments/api/v1/file', $options);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}

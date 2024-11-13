@@ -41,6 +41,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class TokenManager {
 	/** @var IRootFolder */
@@ -63,6 +64,8 @@ class TokenManager {
 	private $helper;
 	/** @var PermissionManager */
 	private $permissionManager;
+	/** @var LoggerInterface */
+	private $logger;
 
 	public function __construct(
 		IRootFolder $rootFolder,
@@ -74,7 +77,8 @@ class TokenManager {
 		WopiMapper $wopiMapper,
 		IL10N $trans,
 		Helper $helper,
-		PermissionManager $permissionManager
+		PermissionManager $permissionManager,
+		LoggerInterface $logger
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->shareManager = $shareManager;
@@ -86,6 +90,7 @@ class TokenManager {
 		$this->wopiMapper = $wopiMapper;
 		$this->helper = $helper;
 		$this->permissionManager = $permissionManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -151,7 +156,7 @@ class TokenManager {
 			// no active user login while generating the token
 			// this is required during WopiPutRelativeFile
 			if (is_null($editoruid)) {
-				\OC::$server->getLogger()->warning('Generating token for SaveAs without editoruid');
+				$this->logger->warning('Generating token for SaveAs without editoruid');
 				$updatable = true;
 			} else {
 				// Make sure we use the user folder if available since fetching all files by id from the root might be expensive
@@ -237,12 +242,18 @@ class TokenManager {
 		return $wopi;
 	}
 
-	public function generateWopiTokenForTemplate(File $templateFile, ?string $userId, int $targetFileId, bool $direct = false): Wopi {
-		$owneruid = $userId;
-		$editoruid = $userId;
-		$rootFolder = $this->rootFolder->getUserFolder($editoruid);
-		$targetFile = $rootFolder->getById($targetFileId);
-		$targetFile = array_shift($targetFile);
+	public function generateWopiTokenForTemplate(
+		File $templateFile,
+		int $targetFileId,
+		string $owneruid,
+		bool $isGuest,
+		bool $direct = false,
+		?int $sharePermissions = null,
+	): Wopi {
+		$editoruid = $isGuest ? null : $owneruid;
+
+		$rootFolder = $this->rootFolder->getUserFolder($owneruid);
+		$targetFile = $rootFolder->getFirstNodeById($targetFileId);
 		if (!$targetFile instanceof File) {
 			throw new NotFoundException();
 		}
@@ -252,16 +263,43 @@ class TokenManager {
 			throw new NotPermittedException();
 		}
 
-		$updatable = $targetFile->isUpdateable() && $this->permissionManager->userCanEdit($editoruid);
+		$updatable = $targetFile->isUpdateable();
+		if (!is_null($sharePermissions)) {
+			$shareUpdatable = (bool)($sharePermissions & \OCP\Constants::PERMISSION_UPDATE);
+			$updatable = $updatable && $shareUpdatable;
+		}
 
 		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 
 		if ($this->capabilitiesService->hasTemplateSource()) {
-			return $this->wopiMapper->generateFileToken($targetFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, 0, false, $direct, $templateFile->getId());
+			return $this->wopiMapper->generateFileToken(
+				$targetFile->getId(),
+				$owneruid,
+				$editoruid,
+				0,
+				$updatable,
+				$serverHost,
+				$isGuest ? '' : null,
+				0,
+				false,
+				$direct,
+				$templateFile->getId()
+			);
 		}
 
 		// Legacy way of creating new documents from a template
-		return $this->wopiMapper->generateFileToken($templateFile->getId(), $owneruid, $editoruid, 0, $updatable, $serverHost, null, $targetFile->getId(), $direct);
+		return $this->wopiMapper->generateFileToken(
+			$templateFile->getId(),
+			$owneruid,
+			$editoruid,
+			0,
+			$updatable,
+			$serverHost,
+			$isGuest ? '' : null,
+			$targetFile->getId(),
+			false,
+			$direct
+		);
 	}
 
 	public function newInitiatorToken($sourceServer, ?Node $node = null, $shareToken = null, bool $direct = false, $userId = null): Wopi {
