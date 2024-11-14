@@ -7,6 +7,7 @@
 namespace OCA\Richdocuments\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method void setUid(string $uid)
@@ -32,9 +33,9 @@ class Asset extends Entity {
 	protected $timestamp;
 
 	public function __construct() {
-		$this->addType('uid', 'string');
-		$this->addType('fileid', 'int');
-		$this->addType('token', 'string');
-		$this->addType('timestamp', 'int');
+		$this->addType('uid', Types::STRING);
+		$this->addType('fileid', Types::INTEGER);
+		$this->addType('token', Types::STRING);
+		$this->addType('timestamp', Types::INTEGER);
 	}
 }
