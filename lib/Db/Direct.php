@@ -7,6 +7,7 @@
 namespace OCA\Richdocuments\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method void setToken(string $token)
@@ -51,14 +52,14 @@ class Direct extends Entity {
 	protected $initiatorToken;
 
 	public function __construct() {
-		$this->addType('token', 'string');
-		$this->addType('uid', 'string');
-		$this->addType('fileid', 'int');
-		$this->addType('timestamp', 'int');
-		$this->addType('templateDestination', 'int');
-		$this->addType('templateId', 'int');
-		$this->addType('share', 'string');
-		$this->addType('initiatorHost', 'string');
-		$this->addType('initiatorToken', 'string');
+		$this->addType('token', Types::STRING);
+		$this->addType('uid', Types::STRING);
+		$this->addType('fileid', Types::INTEGER);
+		$this->addType('timestamp', Types::INTEGER);
+		$this->addType('templateDestination', Types::INTEGER);
+		$this->addType('templateId', Types::INTEGER);
+		$this->addType('share', Types::STRING);
+		$this->addType('initiatorHost', Types::STRING);
+		$this->addType('initiatorToken', Types::STRING);
 	}
 }
