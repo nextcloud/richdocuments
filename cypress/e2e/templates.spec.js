@@ -18,7 +18,7 @@ describe('Create new office files from templates', function() {
 	it('Create a new file from a user template', function() {
 		cy.visit('/apps/files')
 
-		cy.get('.files-list__header div[menu-title="New"] button')
+		cy.get('[data-cy-upload-picker=""]')
 			.should('be.visible')
 			.as('newFileMenu')
 
@@ -41,7 +41,7 @@ describe('Create new office files from templates', function() {
 		cy.login(randUser)
 		cy.visit('/apps/files')
 
-		cy.get('.files-list__header div[menu-title="New"] button')
+		cy.get('[data-cy-upload-picker=""]')
 			.should('be.visible')
 			.as('newFileMenu')
 
@@ -110,7 +110,7 @@ describe('Create templates with fields', () => {
 			cy.visit('/apps/files')
 
 			// Create a templates folder
-			cy.get('.files-list__header div[menu-title="New"] button')
+			cy.get('[data-cy-upload-picker=""]')
 				.should('be.visible')
 				.as('newFileMenu')
 
@@ -134,7 +134,7 @@ describe('Create templates with fields', () => {
 		cy.visit('/apps/files')
 
 		// Create a new document
-		cy.get('.files-list__header div[menu-title="New"] button')
+		cy.get('[data-cy-upload-picker=""]')
 			.should('be.visible')
 			.as('newFileMenu')
 
