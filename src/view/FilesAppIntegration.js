@@ -148,30 +148,33 @@ export default {
 		}
 	},
 
-	insertGraphic(insertFile) {
+	/**
+	 * @private
+	 */
+	insertFile_impl(mimeTypeFilter, insertFileProc, insertHandler) {
 		if (isPublicShare()) {
-			console.error('[FilesAppIntegration] insertGraphic is not supported')
+			console.error('[FilesAppIntegration] insertFile is not supported')
 		}
 
 		const insertFileFromPath = async (path) => {
 			const filename = path.substring(path.lastIndexOf('/') + 1)
 			const { data } = await axios.post(generateUrl('apps/richdocuments/assets'), { path })
-			insertFile(filename, data.url)
+			insertFileProc(filename, data.url)
 		}
 
-		if (this.handlers.insertGraphic && this.handlers.insertGraphic(this, { insertFileFromPath })) {
+		if (insertHandler && insertHandler(this, mimeTypeFilter, { insertFileFromPath })) {
 			return
 		}
 
-		getFilePickerBuilder(t('richdocuments', 'Insert image from {name}', { name: OC.theme.name }))
-			.setMimeTypeFilter(['image/png', 'image/gif', 'image/jpeg', 'image/svg'])
+		getFilePickerBuilder(t('richdocuments', 'Insert file from {name}', { name: OC.theme.name }))
+			.setMimeTypeFilter(mimeTypeFilter)
 			.setFilter((node) => {
 				const downloadShareAttribute = JSON.parse(node.attributes['share-attributes']).find((shareAttribute) => shareAttribute.key === 'download')
 				const downloadPermissions = downloadShareAttribute !== undefined ? (downloadShareAttribute.enabled || downloadShareAttribute.value) : true
 				return (node.permissions & OC.PERMISSION_READ) && downloadPermissions
 			})
 			.addButton({
-				label: t('richdocuments', 'Insert image'),
+				label: t('richdocuments', 'Insert file'),
 				callback: (files) => {
 					if (files && files.length) {
 						insertFileFromPath(files[0].path)
@@ -180,6 +183,16 @@ export default {
 			})
 			.build()
 			.pick()
+	},
+
+	insertGraphic(insertFileProc) {
+		this.insertFile_impl(['image/png', 'image/gif', 'image/jpeg', 'image/svg'],
+			insertFileProc,
+			(filesAppIntegration, mimeTypeFilter, { insertFileFromPath }) => { return this.handlers.insertGraphic && this.handlers.insertGraphic(filesAppIntegration, { insertFileFromPath }) })
+	},
+
+	insertFile(mimeTypeFilter, insertFileProc) {
+		this.insertFile_impl(mimeTypeFilter, insertFileProc, this.handlers.insertFile)
 	},
 
 	getFileList() {
