@@ -40,7 +40,7 @@ Collabora by default only allows embedding from the same remote that the initial
 
 Assuming gs1.example.com and gs2.example.com are Nextcloud servers:
 
-	coolconfig set net.frame_ancestors "*.example.com"
+	coolconfig set net.content_security_policy "frame-ancestors *.example.com:*;"
 
 ## Trusted hosts
 
