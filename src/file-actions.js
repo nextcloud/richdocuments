@@ -21,10 +21,15 @@ const openPdf = new FileAction({
 			{ productName: richdocuments.productName })
 	},
 
-	enabled: () => {
+	enabled: (files) => {
+		if (files.length !== 1) {
+			return false
+		}
+
+		const isPdf = files[0].mime === 'application/pdf'
 		// Only enable the file action when files_pdfviewer is enabled
 		const optionalMimetypes = richdocuments.mimetypesNoDefaultOpen
-		return optionalMimetypes.includes('application/pdf')
+		return isPdf && optionalMimetypes.includes('application/pdf')
 	},
 
 	exec: (file) => {
