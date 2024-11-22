@@ -93,7 +93,7 @@ class TemplateFieldService {
 			$fields = [];
 
 			foreach ($documentStructure as $index => $attr) {
-				$fieldType = FieldType::tryFrom($attr['type']) ?? null;
+				$fieldType = FieldType::tryFrom($attr['type'] ?? '') ?? null;
 				if ($fieldType === null) {
 					continue;
 				}
