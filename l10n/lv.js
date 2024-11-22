@@ -28,6 +28,7 @@ OC.L10N.register(
     "Empty" : "Tukšs",
     "New" : "Jauns",
     "Setting up a new server" : "Jauna servera iestatīšana",
+    "Click here for more info" : "Klikšķināt šeit, lai iegūtu vairāk informācijas",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Select groups" : "Izvēlieties grupas",
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",
