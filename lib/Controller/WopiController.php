@@ -145,6 +145,7 @@ class WopiController extends Controller {
 			'SupportsRename' => !$isVersion && !$wopi->isRemoteToken(),
 			'UserCanRename' => !$isPublic && !$isVersion && !$wopi->isRemoteToken(),
 			'EnableInsertRemoteImage' => !$isPublic,
+			'EnableInsertRemoteFile' => !$isPublic,
 			'EnableShare' => $file->isShareable() && !$isVersion && !$isPublic,
 			'HideUserList' => '',
 			'EnableOwnerTermination' => $wopi->getCanwrite() && !$isPublic,
