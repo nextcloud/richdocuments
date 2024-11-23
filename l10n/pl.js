@@ -189,7 +189,6 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Nie udało się zaktualizować klucza API Zotero",
     "Saving …" : "Zapisywanie…",
     "Built-in CODE server failed to start" : "Nie udało się uruchomić wbudowanego serwera CODE",
-    "Insert image from {name}" : "Wstaw obraz z {name}",
     "Remove from favorites" : "Usuń z ulubionych",
     "Add to favorites" : "Dodaj do ulubionych",
     "Details" : "Szczegóły",
