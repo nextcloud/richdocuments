@@ -190,7 +190,6 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Zotero API キーの更新に失敗しました",
     "Saving …" : "保存中...",
     "Built-in CODE server failed to start" : "内蔵のCODEサーバーの起動に失敗",
-    "Insert image from {name}" : "{name}から画像を挿入します",
     "Remove from favorites" : "お気に入りから削除",
     "Add to favorites" : "お気に入りに追加",
     "Details" : "詳細",

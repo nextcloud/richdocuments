@@ -186,7 +186,6 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Ezin izan da eguneratu Zotero API gakoa",
     "Saving …" : "Gordetzen ...",
     "Built-in CODE server failed to start" : "Ezin izan da abiarazi CODE zerbitzari integratua",
-    "Insert image from {name}" : "Txertatu irudia hemendik: {name}",
     "Remove from favorites" : "Kendu gogokoetatik",
     "Add to favorites" : "Gehitu gogokoetan",
     "Details" : "Xehetasunak",

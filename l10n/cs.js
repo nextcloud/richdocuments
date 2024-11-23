@@ -197,7 +197,6 @@ OC.L10N.register(
     "Failed to update the document signing CA chain" : "Nepodařilo se zaktualizovat řetězec cert. autority podepisování dokumentů",
     "Saving …" : "Ukládání…",
     "Built-in CODE server failed to start" : "Vestavěný CODE server se nepodařilo spustit",
-    "Insert image from {name}" : "Vložit obrázek z {name}",
     "Remove from favorites" : "Odebrat z oblíbených",
     "Add to favorites" : "Přidat do oblíbených",
     "Details" : "Podrobnosti",

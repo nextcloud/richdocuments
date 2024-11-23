@@ -192,7 +192,6 @@ OC.L10N.register(
     "Failed to update the document signing CA chain" : "Belge imzalama sertifika yetkilisi (CA) zinciri güncellenemedi",
     "Saving …" : "Kaydediliyor…",
     "Built-in CODE server failed to start" : "İç CODE sunucusu başlatılamadı",
-    "Insert image from {name}" : "{name} üzerinden görsel ekle",
     "Remove from favorites" : "Sık kullanılanlardan çıkar",
     "Add to favorites" : "Sık kullanılanlara ekle",
     "Details" : "Ayrıntılar",
