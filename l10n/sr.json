@@ -195,7 +195,6 @@
     "Failed to update the document signing CA chain" : "Није успело ажурирање CA ланца потписивања документа",
     "Saving …" : "Чувам…",
     "Built-in CODE server failed to start" : "Није успело покретање уграђеног CODE сервера",
-    "Insert image from {name}" : "Уметни слику из {name}",
     "Remove from favorites" : "Уклони из омиљених",
     "Add to favorites" : "Додај у омиљене",
     "Details" : "Детаљи",

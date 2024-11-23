@@ -190,7 +190,6 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Oppdatering av Zotero Api-nøkkelen feilet",
     "Saving …" : "Lagrer ...",
     "Built-in CODE server failed to start" : "Oppstart av innebygd CODE-server feilet",
-    "Insert image from {name}" : "Sett inn bilde fra {name}",
     "Remove from favorites" : "Fjern fra favoritter",
     "Add to favorites" : "Legg til i favoritter",
     "Details" : "Detaljer",

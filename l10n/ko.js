@@ -117,7 +117,6 @@ OC.L10N.register(
     "Select a personal template folder" : "개인 템플릿 폴더 설정",
     "Saving …" : "저장중 …",
     "Built-in CODE server failed to start" : "내장 CODE 서버 시작 실패",
-    "Insert image from {name}" : "{name}(으)로부터 이미지 삽입",
     "Remove from favorites" : "즐겨찾기에서 제거",
     "Add to favorites" : "즐겨찾기에 추가",
     "Details" : "세부사항",
