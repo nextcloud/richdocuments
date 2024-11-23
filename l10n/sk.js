@@ -187,7 +187,6 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Nepodarilo sa aktualizovať kľúč API pre Zotero.",
     "Saving …" : "Ukladám ...",
     "Built-in CODE server failed to start" : "Spustenie vstavaného servera CODE zlyhalo",
-    "Insert image from {name}" : "Vložiť obrázok z {name}",
     "Remove from favorites" : "Odstrániť z obľúbených",
     "Add to favorites" : "Pridať do obľúbených",
     "Details" : "Podrobnosti",

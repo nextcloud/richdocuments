@@ -183,7 +183,6 @@ OC.L10N.register(
     "Failed to update the Zotero API key" : "Failed to update the Zotero API key",
     "Saving …" : "Saving …",
     "Built-in CODE server failed to start" : "Built-in CODE server failed to start",
-    "Insert image from {name}" : "Insert image from {name}",
     "Remove from favorites" : "Remove from favorites",
     "Add to favorites" : "Add to favorites",
     "Details" : "Details",

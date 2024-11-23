@@ -197,7 +197,6 @@ OC.L10N.register(
     "Failed to update the document signing CA chain" : "移除文件簽署 CA 鏈",
     "Saving …" : "儲存中 ...",
     "Built-in CODE server failed to start" : "內置 CODE 伺服器啟動失敗",
-    "Insert image from {name}" : "從 {name} 插入圖像",
     "Remove from favorites" : "從最愛中移除",
     "Add to favorites" : "新增最愛",
     "Details" : "詳細資料",
