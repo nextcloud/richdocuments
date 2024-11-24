@@ -197,6 +197,8 @@ OC.L10N.register(
     "Failed to update the document signing CA chain" : "Theip ar an slabhra CA sínithe doiciméid a nuashonrú",
     "Saving …" : "Shábháil …",
     "Built-in CODE server failed to start" : "Theip ar an bhfreastalaí CODE ionsuite a thosú",
+    "Insert file from {name}" : " Ionsáigh comhad ó{name}",
+    "Insert file" : "Cuir isteach comhad",
     "Remove from favorites" : "Bain ó cheanáin",
     "Add to favorites" : "Cuir le ceanáin",
     "Details" : "Sonraí",
