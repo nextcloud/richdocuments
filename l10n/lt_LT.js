@@ -82,6 +82,7 @@ OC.L10N.register(
     "Failed to revert the document to older version" : "Nepavyko sugrąžinti dokumentą į senesnę versiją",
     "Select a personal template folder" : "Pasirinkti asmeninių šablonų aplanką",
     "Saving …" : "Įrašoma…",
+    "Insert file" : "Įterpti failą",
     "Remove from favorites" : "Pašalinti iš mėgstamų",
     "Add to favorites" : "Pridėti į mėgstamus",
     "Details" : "Išsamiau",

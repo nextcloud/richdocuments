@@ -162,6 +162,8 @@ OC.L10N.register(
     "Select a personal template folder" : "Välj en personlig mallmapp",
     "Failed to update the Zotero API key" : "Det gick inte att uppdatera Zotero API-nyckeln",
     "Saving …" : "Sparar …",
+    "Insert file from {name}" : "Infoga fil från {name}",
+    "Insert file" : "Infoga fil",
     "Remove from favorites" : "Ta bort från favoriter",
     "Add to favorites" : "Lägg till som favorit",
     "Details" : "Detaljer",
