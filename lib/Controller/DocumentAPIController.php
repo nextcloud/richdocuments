@@ -78,6 +78,7 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 * @PublicPage
 	 * @BruteForceProtection(action=richdocumentsCreatePublic)
+	 * @AnonRateThrottle(limit: 5, period: 120)
 	 */
 	public function create(string $mimeType, string $fileName, string $directoryPath = '/', string $shareToken = null, ?int $templateId = null): JSONResponse {
 		try {
@@ -105,10 +106,12 @@ class DocumentAPIController extends \OCP\AppFramework\OCSController {
 			}
 		} catch (Throwable $e) {
 			$this->logger->error('Failed to create document', ['exception' => $e]);
-			return new JSONResponse([
+			$response = new JSONResponse([
 				'status' => 'error',
 				'message' => $this->l10n->t('Cannot create document')
 			], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
 		}
 
 		$basename = $this->l10n->t('New Document.odt');
