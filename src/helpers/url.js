@@ -28,7 +28,7 @@ const getWopiSrc = (fileId) => {
 	return wopiurl
 }
 
-const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory, target = undefined }) => {
+const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = undefined }) => {
 	// Only set the revision history parameter if the versions app is enabled
 	revisionHistory = revisionHistory && window?.oc_appswebroots?.files_versions
 
