@@ -78,7 +78,7 @@ class TemplateFieldService {
 			$httpClient = $this->clientService->newClient();
 
 			$form = RemoteOptionsService::getDefaultOptions();
-			$form['query'] = ['limit' => 'content-control'];
+			$form['query'] = ['filter' => 'contentcontrol'];
 			$form['multipart'] = [[
 				'name' => 'data',
 				'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
@@ -94,7 +94,7 @@ class TemplateFieldService {
 			$fields = [];
 
 			foreach ($documentStructure as $index => $attr) {
-				$fieldType = FieldType::tryFrom($attr['type']) ?? null;
+				$fieldType = FieldType::tryFrom($attr['type'] ?? '') ?? null;
 				if ($fieldType === null) {
 					continue;
 				}
