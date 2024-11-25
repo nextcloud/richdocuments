@@ -38,7 +38,6 @@ const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory, tar
 	//   https://<loolwsd-server>:9980/hosting/discovery
 	return Config.get('urlsrc')
 		+ 'WOPISrc=' + encodeURIComponent(getWopiSrc(fileId))
-		+ '&title=' + encodeURIComponent(title)
 		+ '&lang=' + languageToBCP47()
 		+ (closeButton ? '&closebutton=1' : '')
 		+ (revisionHistory ? '&revisionhistory=1' : '')
