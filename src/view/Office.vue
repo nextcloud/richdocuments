@@ -315,7 +315,6 @@ export default {
 			// Generate form and submit to the iframe
 			const action = getWopiUrl({
 				fileId: fileid + '_' + loadState('richdocuments', 'instanceId', 'instanceid') + (version > 0 ? '_' + version : ''),
-				title: this.filename,
 				readOnly: version > 0,
 				revisionHistory: !this.isPublic,
 				closeButton: !Config.get('hideCloseButton'),
