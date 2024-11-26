@@ -197,6 +197,8 @@ OC.L10N.register(
     "Failed to update the document signing CA chain" : "فشل تحديث سلسلة \"سلطة التصديق\" CA لتوقيع المستندات",
     "Saving …" : "الحفظ جارٍ …",
     "Built-in CODE server failed to start" : "خادم CODE المدمج فشل في البدء",
+    "Insert file from {name}" : "أدخِل الملف من {name}",
+    "Insert file" : "أدخِل الملف",
     "Remove from favorites" : "حذف من المفضلة",
     "Add to favorites" : "إضافة إلى المفضلة",
     "Details" : "التفاصيل",
