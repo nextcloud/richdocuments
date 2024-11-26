@@ -29,7 +29,7 @@ const getWopiSrc = (fileId) => {
 	return wopiurl
 }
 
-const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false }) => {
+const getWopiUrl = ({ fileId, readOnly, closeButton, revisionHistory, target = undefined, startPresentation = false }) => {
 	// Only set the revision history parameter if the versions app is enabled
 	revisionHistory = revisionHistory && window?.oc_appswebroots?.files_versions
 
@@ -39,7 +39,6 @@ const getWopiUrl = ({ fileId, title, readOnly, closeButton, revisionHistory, tar
 	//   https://<loolwsd-server>:9980/hosting/discovery
 	return Config.get('urlsrc')
 		+ 'WOPISrc=' + encodeURIComponent(getWopiSrc(fileId))
-		+ '&title=' + encodeURIComponent(title)
 		+ '&lang=' + languageToBCP47()
 		+ (closeButton ? '&closebutton=1' : '')
 		+ (revisionHistory ? '&revisionhistory=1' : '')

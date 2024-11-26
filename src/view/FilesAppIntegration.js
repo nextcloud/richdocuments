@@ -149,6 +149,9 @@ export default {
 	},
 
 	/**
+	 * @param mimeTypeFilter
+	 * @param insertFileProc
+	 * @param insertHandler
 	 * @private
 	 */
 	insertFile_impl(mimeTypeFilter, insertFileProc, insertHandler) {
