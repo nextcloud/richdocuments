@@ -118,7 +118,6 @@
     "Show watermark for read only link shares" : "Vízjel megjelenítése a csak olvasható hivatkozásos megosztásoknál",
     "Show watermark on link shares with specific system tags" : "Vízjel megjelenítése a rendszercímkékkel ellátott link megosztásokon",
     "Contact {0} to get an own installation." : "Saját telepítés beszerzéséhez vegye fel a kapcsolatot a következővel: {0}",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Állítsa be a következő URL-t a Collabora Online kiszolgáló coolwsd.xml fájljában, hogy a betűkészletek automatikusan betöltésre kerüljenek: {url}.",
     "Failed to save settings" : "A beállítások mentése sikertelen",
     "Font format not supported ({mime})" : "A betűkészlet formátuma nem támogatott ({mime})",
     "Confirm" : "Megerősítés",

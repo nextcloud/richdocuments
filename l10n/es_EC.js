@@ -120,7 +120,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Mostrar marca de agua para compartidos de solo lectura con enlace",
     "Show watermark on link shares with specific system tags" : "Mostrar marca de agua en compartidos de enlace con etiquetas de sistema específicas",
     "Contact {0} to get an own installation." : "Contacta a {0} para obtener tu propia instalación.",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Asegúrate de configurar esta URL: {url} en el archivo coolwsd.xml de tu servidor Collabora Online para asegurar que las fuentes añadidas se carguen automáticamente.",
     "Failed to save settings" : "Error al guardar la configuración",
     "Font format not supported ({mime})" : "Formato de fuente no admitido ({mime})",
     "Confirm" : "Confirmar",

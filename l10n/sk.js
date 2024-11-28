@@ -126,7 +126,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Zobraziť vodoznak pre zdieľania odkazom, ktoré sú iba na čítanie.",
     "Show watermark on link shares with specific system tags" : "Zobraziť vodoznak pre zdieľania odkazom so špecifickými systémovými štítkami",
     "Contact {0} to get an own installation." : "Ak chcete získať vlastnú inštaláciu, kontaktujte {0}.",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Uistite sa, že ste v súbore coolwsd.xml na serveri Collabora Online nastavili túto adresu URL: {url}, aby sa zabezpečilo automatické načítanie pridaných písiem.",
     "Failed to save settings" : "Nepodarilo sa uložiť nastavenia",
     "Font format not supported ({mime})" : "Formát fontu nie je podporovaný ({mime})",
     "Guest name" : "Meno návštevníka",
