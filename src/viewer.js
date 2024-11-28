@@ -6,6 +6,7 @@
 import './init-shared.js'
 import '../css/filetypes.scss'
 
+import Vue from 'vue'
 import Office from './view/Office.vue'
 import { getCapabilities } from './services/capabilities.ts'
 import { autoSetupBuiltInCodeServerIfNeeded } from './services/builtInCode.ts'
@@ -17,7 +18,7 @@ if (OCA.Viewer) {
 		id: 'richdocuments',
 		group: null,
 		mimes: supportedMimes,
-		component: Office,
+		component: Vue.extend(Office),
 		theme: 'default',
 		canCompare: true,
 	})
