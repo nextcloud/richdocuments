@@ -119,7 +119,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Pokaži vodni žig za predmete v souporabi le za branje",
     "Show watermark on link shares with specific system tags" : "Pokaži vodni žig za predmete v souporabi, ki imajo posebne sistemske oznake",
     "Contact {0} to get an own installation." : "Stopite v stik z osebo {0} in si zagotovite svojo namestitev.",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Prepričajte se, da je v datoteki coolwsd.xml strežnika Collabora Online nastavljen naslov URL: {url}. S tega naslova se samodejno naložijo dodatne pisave.",
     "Failed to save settings" : "Shranjevanje nastavitev je spodletelo",
     "Font format not supported ({mime})" : "Zapis pisave ni podprt ({mime})",
     "Confirm" : "Potrdi",

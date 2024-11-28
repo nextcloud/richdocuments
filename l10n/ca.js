@@ -126,7 +126,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Mostra la marca d’aigua per als enllaços de elements compartits només de lectura",
     "Show watermark on link shares with specific system tags" : "Mostra la marca d’aigua en els enllaços d'elements compartits amb etiquetes específiques del sistema",
     "Contact {0} to get an own installation." : "Contactar {0} per obtenir una instal·lació pròpia.",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Assegureu-vos d'establir aquest URL: {url} al fitxer coolwsd.xml del vostre servidor de Collabora Online per assegurar-vos que els tipus de lletra afegits es carreguen automàticament.",
     "Failed to save settings" : "Ha fallat desar els paràmetres",
     "Font format not supported ({mime})" : "Format de tipus de lletra no suportat ({mime})",
     "Confirm" : "Confirma",

@@ -128,7 +128,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "読込専用ファイルの共有リンクに透かしを表示",
     "Show watermark on link shares with specific system tags" : "特定のシステムタグ付きの共有リンクに透かしを表示",
     "Contact {0} to get an own installation." : "独自インストールしたい場合は、{0} にご連絡ください。",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "追加のフォントが自動的に読み込まれるように、お使いのCollabora Onlineサーバーのcoolwsd.xml内にURL「 {url} 」が設定されていることを確認してください。",
     "Failed to save settings" : "設定の保存に失敗しました",
     "Font format not supported ({mime})" : "サポートされていないフォント形式です ({mime})",
     "Guest name" : "ゲスト名",

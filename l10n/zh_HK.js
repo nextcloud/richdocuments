@@ -134,7 +134,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "對唯讀連結分享顯示水印",
     "Show watermark on link shares with specific system tags" : "在具有特定系統標籤的連結分享上顯示水印",
     "Contact {0} to get an own installation." : "與 {0} 聯絡以自行安裝。",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "確保在您的 Collabora Online 伺服器的 coolwsd.xml 檔案中設置此 URL：{url}，以確保自動加載添加的字體。",
     "Failed to save settings" : "設定儲存失敗",
     "Font format not supported ({mime})" : "不支持字體格式 ({mime})",
     "Guest name" : "訪客名字",

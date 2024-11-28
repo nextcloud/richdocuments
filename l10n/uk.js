@@ -123,7 +123,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Показувати водяний знак для посилань спільного доступу, які є лише для читання",
     "Show watermark on link shares with specific system tags" : "Показувати водяний знак на спільних посиланнях із певними системними мітками",
     "Contact {0} to get an own installation." : "Зверніться до {0}, щоб отримати власну установку.",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Обов’язково встановіть цю URL-адресу: {url} у файлі coolwsd.xml вашого сервера Collabora Online, щоб забезпечити автоматичне завантаження доданих шрифтів.",
     "Failed to save settings" : "Неможливо зберегти налаштування",
     "Font format not supported ({mime})" : "Формат шрифту не підтримується ({mime})",
     "Submit name" : "Надайте ім'я",
