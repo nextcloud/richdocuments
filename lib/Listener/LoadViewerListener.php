@@ -14,7 +14,9 @@ namespace OCA\Richdocuments\Listener;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Viewer\Event\LoadViewer;
+use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
@@ -24,12 +26,15 @@ class LoadViewerListener implements IEventListener {
 	private $permissionManager;
 	/** @var InitialStateService */
 	private $initialStateService;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	private ?string $userId = null;
 
-	public function __construct(PermissionManager $permissionManager, InitialStateService $initialStateService, ?string $userId) {
+	public function __construct(PermissionManager $permissionManager, InitialStateService $initialStateService, IEventDispatcher $eventDispatcher, ?string $userId) {
 		$this->permissionManager = $permissionManager;
 		$this->initialStateService = $initialStateService;
+		$this->eventDispatcher = $eventDispatcher;
 		$this->userId = $userId;
 	}
 
@@ -40,6 +45,7 @@ class LoadViewerListener implements IEventListener {
 		if ($this->permissionManager->isEnabledForUser() && $this->userId !== null) {
 			$this->initialStateService->provideCapabilities();
 			Util::addScript('richdocuments', 'richdocuments-viewer', 'viewer');
+			$this->eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		}
 	}
 }
