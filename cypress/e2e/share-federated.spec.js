@@ -16,6 +16,7 @@ describe('Federated sharing of office documents', function() {
 		cy.createUser(shareOwner)
 
 		cy.uploadFile(shareOwner, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document.odt')
+		cy.uploadFile(shareOwner, 'document.odt', 'application/vnd.oasis.opendocument.text', '/document-reshare.odt')
 	})
 
 	it('Open a remotely shared file', function() {
@@ -35,6 +36,25 @@ describe('Federated sharing of office documents', function() {
 		cy.waitForCollabora(true, true).within(() => {
 			cy.get('#closebutton').click()
 			cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+		})
+	})
+
+	it('Open a remotely shared file as a link', function() {
+		cy.login(shareOwner)
+		cy.shareFileToRemoteUser(shareOwner, '/document-reshare.odt', shareRecipient)
+
+		cy.login(shareRecipient)
+		cy.visit('/apps/files')
+
+		cy.shareLink(shareRecipient, '/document-reshare.odt', { permissions: 1 }).then((token) => {
+			cy.logout()
+			cy.visit(`/s/${token}`, {
+				onBeforeLoad(win) {
+					cy.spy(win, 'postMessage').as('postMessage')
+				},
+			})
+			cy.waitForViewer()
+			cy.waitForCollabora(true, true)
 		})
 	})
 })

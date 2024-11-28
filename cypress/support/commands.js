@@ -118,6 +118,7 @@ Cypress.Commands.add('shareFileToRemoteUser', (user, path, targetUser, shareData
 		body: {
 			path,
 			shareType: 6,
+			permission: 31,
 			shareWith: federatedId,
 			...shareData,
 		},
