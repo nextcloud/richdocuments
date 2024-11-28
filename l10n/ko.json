@@ -82,7 +82,6 @@
     "Available fonts" : "사용 가능한 서체",
     "The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print" : "Nextcloud Office의 다음 기능들이 비활성화 됩니다: 복사, 다운로드, 내보내기, 프린트",
     "Enable watermarking" : "워터마크 활성화",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "이곳에서 추가한 서체를 자동으로 불러오기 위해서는, 주소: {url}(이)가 Collabora Online 서버의 coolwsd.xml 파일에 입력되어 있어야 합니다.",
     "Failed to save settings" : "환경설정 저장 실패",
     "Font format not supported ({mime})" : "지원되지 않는 서체 형식입니다 ({mime})",
     "Confirm" : "확인",

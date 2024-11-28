@@ -127,7 +127,6 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Erakutsi ur-marka irakurtzeko soilik diren esteka partekatzeentzat",
     "Show watermark on link shares with specific system tags" : "Erakutsi ur-marka sistema-etiketa espezifikoak dituzten esteka partekatzeentzat",
     "Contact {0} to get an own installation." : "Jarri harremanetan {0}(r)ekin instalazio propioa lortzeko.",
-    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically." : "Ziurtatu URL hau ezarri duzula: {url} Collabora Online zerbitzariaren coolwsd.xml fitxategian gehitutako letra-tipoak automatikoki kargatzen direla ziurtatzeko.",
     "Failed to save settings" : "Ezarpenak gordetzeak huts egin du",
     "Font format not supported ({mime})" : "Letra-formatua ez da onartzen ({mime})",
     "Guest name" : "Gonbidatu izena",
