@@ -368,7 +368,7 @@ export default {
 				FilesAppIntegration.updateFileInfo(undefined, Date.now())
 			}
 			disableScrollLock()
-			this.$parent.close()
+			this.$emit('close')
 		},
 		reload() {
 			this.loading = LOADING_STATE.LOADING
