@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<NcModal>
+	<NcModal :name="t('richdocuments', 'Save as')">
 		<div class="saveas-dialog">
 			<h1>{{ name }}</h1>
 			<p>{{ description }}</p>
@@ -96,8 +96,8 @@ export default {
 				const filenameWithoutExtension = filename.substring(0, filename.length - extension.length - 1)
 				return filenameWithoutExtension + '.' + (this.format !== '' ? this.format : extension)
 			},
-			set(event) {
-				this.selectedPath = event.target.value
+			set(value) {
+				this.selectedPath = value
 			},
 		},
 	},

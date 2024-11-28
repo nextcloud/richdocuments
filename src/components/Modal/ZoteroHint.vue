@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<NcModal :show="show" @close="close">
+	<NcModal :show="show" @close="close" :name="t('richdocument', 'Link to your Zotero library')">
 		<div class="zotero-hint">
 			<h2>{{ t('richdocument', 'Link to your Zotero library') }}</h2>
 			<BookOpenPageVariantOutline :size="96" />
