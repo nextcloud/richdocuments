@@ -387,6 +387,7 @@ class DocumentController extends Controller {
 	}
 
 	#[PublicPage]
+	#[NoCSRFRequired]
 	public function token(int $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null): DataResponse {
 		try {
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;
