@@ -128,6 +128,7 @@ OC.L10N.register(
     "Submit name" : "Надайте ім'я",
     "Confirm" : "Підтвердити",
     "Cancel" : "Скасувати",
+    "Save as" : "Зберегти як",
     "Path to save" : "Шлях для збереження",
     "Save" : "Зберегти",
     "Save As" : "Зберегти як",

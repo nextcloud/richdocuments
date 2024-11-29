@@ -132,6 +132,7 @@ OC.L10N.register(
     "Submit name" : "Odoslať meno",
     "Confirm" : "Potvrdiť",
     "Cancel" : "Zrušiť",
+    "Save as" : "Uložiť ako",
     "Path to save" : "Cesta pre ukladanie",
     "Save" : "Uložiť",
     "Save As" : "Uložiť ako",

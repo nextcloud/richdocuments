@@ -141,6 +141,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Před pokračováním k dokumentu zadejte jméno hosta které chcete použít. Pokud žádné nezadáte, bude použito výchozí.",
     "Confirm" : "Potvrdit",
     "Cancel" : "Storno",
+    "Save as" : "Uložit jako",
     "Path to save" : "Umístění do kterého uložit",
     "Save" : "Uložit",
     "Save As" : "Uložit jako",

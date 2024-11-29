@@ -114,6 +114,7 @@ OC.L10N.register(
     "Submit name" : "Fornisci il nome",
     "Confirm" : "Conferma",
     "Cancel" : "Annulla",
+    "Save as" : "Salva come",
     "Save" : "Salva",
     "Save As" : "Salva come",
     "Link to your Zotero library" : "Collegamento alla tua libreria Zotero",

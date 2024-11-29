@@ -136,6 +136,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Lütfen belgeye geçmeden önce kullanmak istediğiniz konuk adını yazın. Bir ad yazmazsanız, varsayılan ad kullanılır.",
     "Confirm" : "Onayla",
     "Cancel" : "İptal",
+    "Save as" : "Farklı kaydet",
     "Path to save" : "Kaydedilecek yol",
     "Save" : "Kaydet",
     "Save As" : "Farklı kaydet",

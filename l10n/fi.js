@@ -63,6 +63,7 @@ OC.L10N.register(
     "Failed to save settings" : "Asetusten tallentaminen epäonnistui",
     "Confirm" : "Vahvista",
     "Cancel" : "Peru",
+    "Save as" : "Tallenna nimellä",
     "Save" : "Tallenna",
     "Save As" : "Tallenna nimellä",
     "Link to your Zotero library" : "Linkki Zotero-kirjastoosi",

@@ -22,6 +22,7 @@ OC.L10N.register(
     "Select groups" : "Selectează grupuri ",
     "Confirm" : "Confirmă",
     "Cancel" : "Anulează",
+    "Save as" : "Salvează ca",
     "Save" : "Salvează",
     "Submit" : "Trimite",
     "Description" : "Descriere",
