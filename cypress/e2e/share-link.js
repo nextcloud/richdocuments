@@ -119,6 +119,4 @@ function waitForCollabora() {
 		cy.get('#closebutton').click()
 		cy.waitForViewerClose()
 	})
-
-	cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 }
