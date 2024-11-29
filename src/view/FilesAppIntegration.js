@@ -150,7 +150,7 @@ export default {
 	},
 
 	insertFile_impl(mimeTypeFilter, insertFileProc, insertHandler) {
-		if (isPublicShare()) {
+		if (isPublic) {
 			console.error('[FilesAppIntegration] insertFile is not supported')
 		}
 

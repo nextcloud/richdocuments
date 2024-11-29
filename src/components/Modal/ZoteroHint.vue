@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcModal :show="show" @close="close" :name="t('richdocument', 'Link to your Zotero library')">
+	<NcModal :show="show" :name="t('richdocument', 'Link to your Zotero library')" @close="close">
 		<div class="zotero-hint">
 			<h2>{{ t('richdocument', 'Link to your Zotero library') }}</h2>
 			<BookOpenPageVariantOutline :size="96" />
