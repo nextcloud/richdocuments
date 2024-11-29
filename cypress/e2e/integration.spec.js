@@ -93,8 +93,8 @@ describe('Nextcloud integration', function() {
 
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#closebutton').click()
+			cy.waitForViewerClose()
 		})
-		cy.get('#viewer', { timeout: 5000 }).should('not.exist')
 
 		// FIXME: We should not need to reload
 		cy.get('.breadcrumb__crumbs a').eq(0).click()
