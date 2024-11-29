@@ -123,6 +123,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Zapis pisave ni podprt ({mime})",
     "Confirm" : "Potrdi",
     "Cancel" : "Prekliči",
+    "Save as" : "Shrani kot",
     "Save" : "Shrani",
     "Save As" : "Shrani kot",
     "Link to your Zotero library" : "Povezava z zbirko Zotero",

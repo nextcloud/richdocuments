@@ -49,6 +49,7 @@ OC.L10N.register(
     "Failed to save settings" : "Mistókst að vista stillingar",
     "Confirm" : "Staðfesta",
     "Cancel" : "Hætta við",
+    "Save as" : "Vista sem",
     "Save" : "Vista",
     "Save As" : "Vista sem",
     "Submit" : "Senda inn",

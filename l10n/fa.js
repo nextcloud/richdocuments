@@ -124,6 +124,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Font format not supported ({mime})",
     "Confirm" : "تأیید",
     "Cancel" : "لغو",
+    "Save as" : "Save as",
     "Save" : "ذخیره",
     "Save As" : "ذخیره",
     "Link to your Zotero library" : "Link to your Zotero library",
