@@ -53,6 +53,9 @@ class ConnectivityService {
 	}
 
 	public function testCapabilities(?OutputInterface $output = null): void {
+		if (!$this->hasCapabilities()) {
+			return;
+		}
 		$this->capabilitiesService->fetch();
 		$output?->writeln('<info>✓ Fetched /hosting/capabilities endpoint</info>');
 
