@@ -141,6 +141,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Молимо вас да унесете име госта које желите да користите пре него што наставите ка документу. Ако не наведете име, употребиће се подразумевано.",
     "Confirm" : "Потврди",
     "Cancel" : "Одустани",
+    "Save as" : "Сачувај као",
     "Path to save" : "Путања за чување",
     "Save" : "Сачувај",
     "Save As" : "Сачувај као",

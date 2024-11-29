@@ -107,6 +107,7 @@ OC.L10N.register(
     "Failed to save settings" : "Αποτυχία αποθήκευσης ρυθμίσεων",
     "Confirm" : "Επιβεβαίωση",
     "Cancel" : "Ακύρωση",
+    "Save as" : "Αποθήκευση ως",
     "Save" : "Αποθήκευση",
     "Save As" : "Αποθήκευση ως",
     "Submit" : "Υποβολή",

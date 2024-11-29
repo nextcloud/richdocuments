@@ -34,6 +34,7 @@ OC.L10N.register(
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",
     "Confirm" : "Apstiprināt",
     "Cancel" : "Atcelt",
+    "Save as" : "Saglabāt kā",
     "Save" : "Saglabāt",
     "Submit" : "Iesniegt",
     "Description" : "Apraksts",

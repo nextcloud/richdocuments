@@ -129,6 +129,7 @@ OC.L10N.register(
     "Submit name" : "Отправить имя",
     "Confirm" : "Подтвердить",
     "Cancel" : "Отмена",
+    "Save as" : "Сохранить как",
     "Save" : "Сохранить",
     "Save As" : "Сохранить как",
     "Link to your Zotero library" : "Ссылка на вашу библиотеку Zotero",

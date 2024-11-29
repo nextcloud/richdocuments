@@ -88,6 +88,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "지원되지 않는 서체 형식입니다 ({mime})",
     "Confirm" : "확인",
     "Cancel" : "취소",
+    "Save as" : "다른 이름으로 저장",
     "Path to save" : "저장할 경로",
     "Save" : "저장",
     "Save As" : "다른 이름으로 저장",

@@ -134,6 +134,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Dokumentura jo aurretik sartu nahi duzun gonbidatu izena. Ez baduzu bat jartzen, lehenetsitakoa erabiliko da.",
     "Confirm" : "Berretsi",
     "Cancel" : "Utzi",
+    "Save as" : "Gorde honela",
     "Path to save" : "Gordetzeko bidea",
     "Save" : "Gorde",
     "Save As" : "Gorde honela",

@@ -62,6 +62,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Šrifto formatas nepalaikomas ({mime})",
     "Confirm" : "Patvirtinti",
     "Cancel" : "Atsisakyti",
+    "Save as" : "Įrašyti kaip",
     "Save" : "Įrašyti",
     "Save As" : "Įrašyti kaip",
     "Submit" : "Pateikti",

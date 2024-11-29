@@ -136,6 +136,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "ھۆججەتكە ئۆتۈشتىن بۇرۇن ئىشلەتمەكچى بولغان مېھمان نامىنى كىرگۈزۈڭ. بىرنى تەمىنلىمىسىڭىز سۈكۈتتىكى ھالەتتە ئىشلىتىلىدۇ.",
     "Confirm" : "جەزملەشتۈرۈڭ",
     "Cancel" : "ۋاز كەچ",
+    "Save as" : "ساقلاڭ",
     "Path to save" : "ساقلاش يولى",
     "Save" : "ساقلا",
     "Save As" : "Save As",

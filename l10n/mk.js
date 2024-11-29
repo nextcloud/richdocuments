@@ -82,6 +82,7 @@ OC.L10N.register(
     "Submit name" : "Испрати име",
     "Confirm" : "Потврди",
     "Cancel" : "Откажи",
+    "Save as" : "Зачувај како",
     "Save" : "Зачувај",
     "Save As" : "Зачувај како",
     "Submit" : "Испрати",
