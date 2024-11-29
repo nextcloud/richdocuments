@@ -35,7 +35,7 @@ describe('Federated sharing of office documents', function() {
 		cy.waitForViewer()
 		cy.waitForCollabora(true, true).within(() => {
 			cy.get('#closebutton').click()
-			cy.get('#viewer', { timeout: 5000 }).should('not.exist')
+			cy.waitForViewerClose()
 		})
 	})
 
