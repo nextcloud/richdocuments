@@ -135,6 +135,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Vennligst skriv inn gjestenavnet du vil bruke før du går videre til dokumentet. Hvis du ikke oppgir en, brukes standarden.",
     "Confirm" : "Bekreft",
     "Cancel" : "Avbryt",
+    "Save as" : "Lagre som",
     "Path to save" : "Sti for å lagre",
     "Save" : "Lagre",
     "Save As" : "Lagre som",

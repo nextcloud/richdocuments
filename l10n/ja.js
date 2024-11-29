@@ -135,6 +135,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "ドキュメントに進む前に、使用したいゲスト名を入力してください。入力がない場合、デフォルトが使用されます。",
     "Confirm" : "承認",
     "Cancel" : "キャンセル",
+    "Save as" : "保存",
     "Path to save" : "保存するパス",
     "Save" : "保存",
     "Save As" : "保存",

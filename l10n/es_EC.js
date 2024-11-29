@@ -124,6 +124,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Formato de fuente no admitido ({mime})",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
+    "Save as" : "Guardar como",
     "Save" : "Guardar",
     "Save As" : "Guardar Como",
     "Link to your Zotero library" : "Enlace a tu biblioteca de Zotero",

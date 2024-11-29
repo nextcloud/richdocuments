@@ -130,6 +130,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Ange gästnamnet du vill använda innan du fortsätter till dokumentet. Om du inte tillhandahåller något, kommer ett standardnamn att användas.",
     "Confirm" : "Bekräfta",
     "Cancel" : "Avbryt",
+    "Save as" : "Spara som",
     "Path to save" : "Sökväg för att spara",
     "Save" : "Spara",
     "Save As" : "Spara som",

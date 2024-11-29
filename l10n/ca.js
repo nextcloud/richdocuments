@@ -130,6 +130,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Format de tipus de lletra no suportat ({mime})",
     "Confirm" : "Confirma",
     "Cancel" : "Cancel·la",
+    "Save as" : "Anomena i desa",
     "Save" : "Desa",
     "Save As" : "Anomena i desa",
     "Link to your Zotero library" : "Enllaç a la teva biblioteca de Zotero",

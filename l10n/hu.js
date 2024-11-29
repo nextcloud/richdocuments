@@ -124,6 +124,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "A betűkészlet formátuma nem támogatott ({mime})",
     "Confirm" : "Megerősítés",
     "Cancel" : "Mégse",
+    "Save as" : "Mentés másként",
     "Save" : "Mentés",
     "Save As" : "Mentés másként",
     "Link to your Zotero library" : "Hivatkozás a Zotero könyvtárához",

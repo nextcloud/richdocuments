@@ -141,6 +141,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "Por favor, insira o nome do convidado que deseja usar antes de prosseguir com o documento. Se você não fornecer um, o padrão será usado.",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
+    "Save as" : "Salvar como",
     "Path to save" : "Caminho para salvar",
     "Save" : "Salvar",
     "Save As" : "Salvar Como",

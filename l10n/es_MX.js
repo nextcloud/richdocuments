@@ -50,6 +50,7 @@ OC.L10N.register(
     "Submit name" : "Enviar nombre",
     "Confirm" : "Confirmar",
     "Cancel" : "Cancelar",
+    "Save as" : "Guardar como",
     "Save" : "Guardar",
     "Save As" : "Guardar Como",
     "Submit" : "Enviar",
