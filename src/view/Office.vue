@@ -428,6 +428,14 @@ export default {
 					})
 				})
 				break
+			case 'UI_InsertFile':
+				FilesAppIntegration.insertFile(args.mimeTypeFilter, (filename, url) => {
+					this.postMessage.sendWOPIPostMessage(FRAME_DOCUMENT, args.callback, {
+						filename,
+						url,
+					})
+				})
+				break
 			case 'UI_Mention':
 				this.uiMention(parsed.args)
 				break
