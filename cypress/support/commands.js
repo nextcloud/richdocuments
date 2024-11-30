@@ -374,3 +374,12 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 		})
 	})
 })
+
+Cypress.Commands.add('pickFile', (filename) => {
+  cy.get('.office-target-picker')
+    .find(`tr[data-filename="${filename}"]`)
+    .click()
+  cy.get('.office-target-picker')
+    .find('button[aria-label="Select file"]')
+    .click()
+})
