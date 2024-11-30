@@ -43,6 +43,7 @@ OC.L10N.register(
     "Failed to save settings" : "Nun se pue guardar la configuración",
     "Confirm" : "Confirmar",
     "Cancel" : "Encaboxar",
+    "Save as" : "Guardar como",
     "Save" : "Guardar",
     "Submit" : "Unviar",
     "Description" : "Descripción",
