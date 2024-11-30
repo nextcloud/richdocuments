@@ -134,6 +134,7 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Zobrazovat vodoznak pro sdílení odkazem, která jsou pouze pro čtení",
     "Show watermark on link shares with specific system tags" : "Zobrazovat vodoznak na sdíleních odkazem, která jsou opatřena konkrétními systémovými štítky",
     "Contact {0} to get an own installation." : "Pro získání vlastní instalace se obraťte na {0}.",
+    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config." : "Zajistěte nastavení této URL: {url} v souboru coolwsd.xml na vámi využívaném Collabora Online serveru, aby se přidaná písma automaticky načítala. Mějte na vědomí, že http:// bude fungovat pouze v případě sestavení Collabora Online, určených pro ladění. V produkci je třeba pro nastavování vzdálených písem použít https://.",
     "Failed to save settings" : "Nastavení se nepodařilo uložit",
     "Font format not supported ({mime})" : "Formát písma není podporován ({mime})",
     "Guest name" : "Jméno hosta",
