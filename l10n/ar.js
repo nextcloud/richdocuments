@@ -142,6 +142,7 @@ OC.L10N.register(
     "Please enter the guest name you wish to use before proceeding to the document. If you don't provide one, the default will be used." : "الرجاء إدخال اسم الضيف الذي ترغب في استخدامه قبل المتابعة إلى المستند. إذا لم تقم بتعيين واحد، فسيتم استخدام الإعداد الافتراضي.",
     "Confirm" : "تأكيد",
     "Cancel" : "إلغاء",
+    "Save as" : "حفظ باسم",
     "Path to save" : "مسار الحفظ",
     "Save" : "حفظ",
     "Save As" : "حفظ باسم",
