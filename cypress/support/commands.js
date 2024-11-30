@@ -244,6 +244,11 @@ Cypress.Commands.add('waitForViewer', () => {
 		.and('not.have.class', 'icon-loading')
 })
 
+Cypress.Commands.add('waitForViewerClose', () => {
+	cy.get('#viewer', { timeout: 30000 })
+		.should('not.exist')
+})
+
 Cypress.Commands.add('waitForCollabora', (wrapped = false, federated = false) => {
 	const wrappedFrameIdentifier = federated ? 'coolframe' : 'documentframe'
 	if (wrapped) {
