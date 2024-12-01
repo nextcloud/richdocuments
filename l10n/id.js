@@ -25,6 +25,7 @@ OC.L10N.register(
     "Description" : "Deskrisi",
     "No results" : "Tidak ada hasil",
     "Select file or folder to link to" : "Pilih berkas atau folder untuk ditautkan",
+    "Select file" : "Pilih berkas",
     "Close" : "Tutup",
     "Edit" : "Sunting",
     "Saving …" : "Menyimpan ...",

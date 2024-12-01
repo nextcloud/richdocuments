@@ -44,7 +44,7 @@ OC.L10N.register(
     "Description" : "Beskrivelse",
     "No results" : "Ingen resultater",
     "Select file or folder to link to" : "Link til fil eller mappe",
-    "Insert image" : "Indsæt billede",
+    "Select file" : "Vælg fil",
     "Close" : "Luk",
     "Edit" : "Redigér",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Filen skulle nu åbne lokalt. Hvis dette ikke sker, så vær sikker på at  desktopklienten er installeret på dit system.",

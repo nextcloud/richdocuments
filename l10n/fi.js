@@ -76,7 +76,7 @@ OC.L10N.register(
     "Delete this font" : "Poista tämä fontti",
     "No results" : "Ei tuloksia",
     "Select file or folder to link to" : "Valitse tiedosto tai kansio, johon linkitetään",
-    "Insert image" : "Lisää kuva",
+    "Select file" : "Valitse tiedosto",
     "Document loading failed" : "Asiakirjan lataaminen epäonnistui",
     "Close" : "Sulje",
     "Edit" : "Muokkaa",

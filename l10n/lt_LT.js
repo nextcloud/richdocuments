@@ -70,7 +70,6 @@ OC.L10N.register(
     "Add new token" : "Pridėti naują prieigos raktą",
     "Delete this font" : "Ištrinti šį šriftą",
     "No results" : "Rezultatų nėra",
-    "Insert image" : "Įterpti paveikslą",
     "Document loading failed" : "Nepavyko įkelti dokumento",
     "Close" : "Užverti",
     "Edit" : "Taisyti",

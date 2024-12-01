@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Save" : "Lagra",
     "Description" : "Skildring",
+    "Select file" : "Vel fil",
     "Close" : "Lukk",
     "Edit" : "Rediger",
     "Remove from favorites" : "Remove from favorites",

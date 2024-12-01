@@ -90,7 +90,6 @@ OC.L10N.register(
     "Add new token" : "Додади нов токен",
     "No results" : "Нема резултати",
     "Select file or folder to link to" : "Изберете датотека или папка за линк до",
-    "Insert image" : "Вметни фотографија",
     "Document loading failed" : "Неуспешно вчитување на документ",
     "Close" : "Затвори",
     "Edit" : "Уреди",

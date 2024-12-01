@@ -120,7 +120,7 @@ OC.L10N.register(
     "Add new token" : "Thêm token mới",
     "No results" : "Không có kết quả",
     "Select file or folder to link to" : "Chọn tập tin hoặc thư mục để liên kết đến",
-    "Insert image" : "Chèn ảnh",
+    "Select file" : "Chọn tập tin",
     "Close" : "Đóng",
     "Edit" : "Chỉnh sửa",
     "Failed to load {productName} - please try again later" : "Không tải được {productName} - vui lòng thử lại sau",

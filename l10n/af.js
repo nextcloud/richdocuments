@@ -21,7 +21,6 @@ OC.L10N.register(
     "Save" : "Stoor",
     "Submit" : "Dien in",
     "Description" : "Beskrywing",
-    "Insert image" : "Voer beeld in",
     "Close" : "Sluit",
     "Saving …" : "Bewaar tans…",
     "Remove from favorites" : "Verwyder uit gunstelinge",

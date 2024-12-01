@@ -98,7 +98,7 @@ OC.L10N.register(
     "Delete this font" : "이 서체 삭제",
     "No results" : "결과 없음",
     "Select file or folder to link to" : "링크할 파일이나 폴더 선택",
-    "Insert image" : "이미지 삽입",
+    "Select file" : "파일 선택",
     "Document loading failed" : "문서 불러오기 실패",
     "Please check the Collabora Online server log for more details and make sure that Nextcloud can be reached from there." : "더 자세한 정보는 Collabora Online 서버의 로그에서 확인하시고, Nextcloud가 해당 서버에 접근할 수 있는지 점검하십시오.",
     "Close" : "닫기",

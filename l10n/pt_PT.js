@@ -54,6 +54,7 @@ OC.L10N.register(
     "Submit" : "Submeter",
     "Description" : "Descrição",
     "No results" : "Sem resultados",
+    "Select file" : "Selecione o ficheiro",
     "Close" : "Fechar",
     "Edit" : "Editar",
     "Edit with {productName}" : "Editar com {productName}",
