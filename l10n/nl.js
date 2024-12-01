@@ -113,7 +113,7 @@ OC.L10N.register(
     "Description" : "Omschrijving",
     "Add new token" : "Nieuw token toevoegen",
     "No results" : "Geen resultaten",
-    "Insert image" : "Invoegen afbeelding",
+    "Select file" : "Selecteer bestand",
     "Document loading failed" : "Document laden mislukt",
     "Close" : "Sluit",
     "Edit" : "Bewerken",

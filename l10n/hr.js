@@ -104,7 +104,6 @@ OC.L10N.register(
     "Description" : "Opis",
     "Add new token" : "Dodaj novi token",
     "No results" : "Nema rezultata",
-    "Insert image" : "Umetni sliku",
     "Close" : "Zatvori",
     "Edit" : "Uredi",
     "Failed to load {productName} - please try again later" : "Neuspjelo učitavanje {productName} – pokušajte ponovo kasnije",

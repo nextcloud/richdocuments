@@ -57,7 +57,7 @@ OC.L10N.register(
     "Description" : "Descripción",
     "No results" : "Sin resultados",
     "Select file or folder to link to" : "Seleccionar archivo o carpeta para enlazar.",
-    "Insert image" : "Añadir imagen",
+    "Select file" : "Seleccionar archivo",
     "Close" : "Cerrar",
     "Edit" : "Editar",
     "Close version preview" : "Cerrar la vista previa de la versión",
