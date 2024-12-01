@@ -127,7 +127,7 @@ OC.L10N.register(
     "Delete this font" : "Elimina questo carattere",
     "No results" : "Nessun risultato",
     "Select file or folder to link to" : "Seleziona un file o una cartella da collegare",
-    "Insert image" : "Inserisci immagine",
+    "Select file" : "Seleziona file",
     "Document loading failed" : "Caricamento del documento fallito",
     "Close" : "Chiudi",
     "Edit" : "Modifica",

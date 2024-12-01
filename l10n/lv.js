@@ -40,6 +40,7 @@ OC.L10N.register(
     "Description" : "Apraksts",
     "No font overview" : "Nav fonta pārskata",
     "No results" : "Nav rezultātu",
+    "Select file" : "Izvēlēties failu",
     "Close" : "Aizvērt",
     "Edit" : "Labot",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",

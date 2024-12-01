@@ -54,7 +54,6 @@ OC.L10N.register(
     "Submit" : "Sendi",
     "Description" : "Priskribo",
     "No results" : "Neniu rezulto",
-    "Insert image" : "Enmeti bildon",
     "Close" : "Malfermi",
     "Edit" : "Modifi",
     "Failed to load {productName} - please try again later" : "Malsukceso ŝargi „{productName}“ — bv. reprovi poste",

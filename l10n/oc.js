@@ -24,7 +24,7 @@ OC.L10N.register(
     "Submit" : "Transmetre",
     "Description" : "Descripcion",
     "No results" : "Cap de resultat",
-    "Insert image" : "Inserir imatge",
+    "Select file" : "Seleccionar fichièr",
     "Close" : "Tampar",
     "Edit" : "Modificar",
     "Saving …" : "Enregistrament...",
