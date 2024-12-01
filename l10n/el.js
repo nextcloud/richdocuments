@@ -115,7 +115,7 @@ OC.L10N.register(
     "Add new token" : "Προσθήκη νέου token",
     "No results" : "Κανένα αποτέλεσμα",
     "Select file or folder to link to" : "Επιλέξτε αρχείο ή φάκελο για σύνδεση",
-    "Insert image" : "Εισαγωγή εικόνας",
+    "Select file" : "Επιλέξτε Αρχείο",
     "Document loading failed" : "Η φόρτωση του εγγράφου απέτυχε",
     "Close" : "Κλείσιμο",
     "Edit" : "Επεξεργασία",

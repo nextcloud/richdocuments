@@ -32,6 +32,7 @@ OC.L10N.register(
     "Submit" : "Enviar",
     "Description" : "Descripción",
     "No results" : "Sin resultados",
+    "Select file" : "Seleccione archivo",
     "Close" : "Cerrar",
     "Edit" : "Editar",
     "Failed to revert the document to older version" : "Se presentó una falla al revertir el documento a la versión anterior",
