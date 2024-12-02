@@ -2,6 +2,22 @@
  * SPDX-FileCopyrightText: 2023 Julius Härtl <jus@bitgrid.net>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+const getTemplates = (user, type) => {
+	return cy.request({
+		method: 'GET',
+		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/templates/${type}?format=json`,
+		auth: { user: user.userId, pass: user.password },
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+	}).then(response => {
+		cy.log(response)
+		const templates = response.body?.ocs?.data
+		cy.wrap(templates)
+	})
+}
+
 const createDirectEditingLink = (user, fileId) => {
 	cy.login(user)
 	return cy.request({
@@ -10,6 +26,28 @@ const createDirectEditingLink = (user, fileId) => {
 		form: true,
 		body: {
 			fileId,
+		},
+		// auth: { user: user.userId, pass: user.password },
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+	}).then(response => {
+		cy.log(response)
+		const token = response.body?.ocs?.data?.url
+		cy.log(`Created direct editing token for ${user.userId}`, token)
+		cy.wrap(token)
+	})
+}
+
+const createNewFileDirectEditingLink = (user, path, template) => {
+	cy.login(user)
+	return cy.request({
+		method: 'POST',
+		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/templates/new?format=json`,
+		form: true,
+		body: {
+			path, template,
 		},
 		// auth: { user: user.userId, pass: user.password },
 		headers: {
@@ -72,6 +110,21 @@ describe('Direct editing (legacy)', function() {
 				cy.visit(token)
 				cy.waitForCollabora(false)
 				cy.screenshot('direct')
+			})
+	})
+
+	it('Open an new file', function() {
+		getTemplates(randUser, 'document')
+			.then((templates) => {
+				const emptyTemplate = templates.find((template) => template.name === 'Empty')
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
+				createNewFileDirectEditingLink(randUser, 'mynewfile.odt', emptyTemplate.id)
+					.then((token) => {
+						cy.logout()
+						cy.visit(token)
+						cy.waitForCollabora(false)
+						cy.screenshot('direct-new')
+					})
 			})
 	})
 
