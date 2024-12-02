@@ -39,6 +39,28 @@ const createDirectEditingLink = (user, fileId) => {
 	})
 }
 
+const createNewFileDirectEditingLink = (user, path, template) => {
+	cy.login(user)
+	return cy.request({
+		method: 'POST',
+		url: `${Cypress.env('baseUrl')}/ocs/v2.php/apps/richdocuments/api/v1/templates/new?format=json`,
+		form: true,
+		body: {
+			path, template,
+		},
+		// auth: { user: user.userId, pass: user.password },
+		headers: {
+			'OCS-ApiRequest': 'true',
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+	}).then(response => {
+		cy.log(response)
+		const token = response.body?.ocs?.data?.url
+		cy.log(`Created direct editing token for ${user.userId}`, token)
+		cy.wrap(token)
+	})
+}
+
 const createDirectEditingLinkForShareToken = (shareToken, host = undefined, path = '', password = undefined) => {
 	cy.logout()
 	return cy.request({
@@ -87,6 +109,21 @@ describe('Direct editing (legacy)', function() {
 				cy.visit(token)
 				cy.waitForCollabora(false)
 				cy.screenshot('direct')
+			})
+	})
+
+	it('Open an new file', function() {
+		getTemplates(randUser, 'document')
+			.then((templates) => {
+				const emptyTemplate = templates.find((template) => template.name === 'Empty')
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'classic')
+				createNewFileDirectEditingLink(randUser, 'mynewfile.odt', emptyTemplate.id)
+					.then((token) => {
+						cy.logout()
+						cy.visit(token)
+						cy.waitForCollabora(false)
+						cy.screenshot('direct-new')
+					})
 			})
 	})
 
