@@ -38,7 +38,7 @@ class MentionController extends Controller {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$file = $userFolder->getFirstNodeById($fileId);
 		if ($file === null) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(['message' => 'File not found for current user'], Http::STATUS_NOT_FOUND);
 		}
 
 		// Reverse the array of users to pop off the first user later
@@ -52,7 +52,7 @@ class MentionController extends Controller {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$file = $userFolder->getFirstNodeById($fileId);
 		if ($file === null) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse(['message' => 'File not found for mentioned user'], Http::STATUS_NOT_FOUND);
 		}
 
 		$notification = $this->manager->createNotification();
@@ -70,6 +70,6 @@ class MentionController extends Controller {
 			return new DataResponse([], Http::STATUS_OK);
 		}
 
-		return new DataResponse([], Http::STATUS_NOT_FOUND);
+		return new DataResponse(['message' => 'Notification already present'], Http::STATUS_NOT_FOUND);
 	}
 }
