@@ -158,6 +158,7 @@ class WopiController extends Controller {
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
 			'EnableRemoteLinkPicker' => (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect(),
+			'EnableRemoteAIAssistant' => true,
 			'HasContentRange' => true,
 		];
 
