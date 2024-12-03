@@ -493,7 +493,7 @@ class WopiController extends Controller {
 
 			$content = fopen('php://input', 'rb');
 
-			$freespace = $file->getParent()->getFreeSpace();
+			$freespace = (int)$file->getStorage()->free_space($file->getInternalPath());
 			$contentLength = (int)$this->request->getHeader('Content-Length');
 
 			try {
