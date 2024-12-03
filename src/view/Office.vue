@@ -114,6 +114,7 @@ import Config from '../services/config.tsx'
 import autoLogout from '../mixins/autoLogout.js'
 import openLocal from '../mixins/openLocal.js'
 import pickLink from '../mixins/pickLink.js'
+import assistant from '../mixins/assistant.js'
 import saveAs from '../mixins/saveAs.js'
 import uiMention from '../mixins/uiMention.js'
 import version from '../mixins/version.js'
@@ -140,7 +141,7 @@ export default {
 		ZoteroHint,
 	},
 	mixins: [
-		autoLogout, openLocal, pickLink, saveAs, uiMention, version,
+		autoLogout, openLocal, pickLink, saveAs, uiMention, version, assistant,
 	],
 	props: {
 		filename: {
@@ -466,6 +467,9 @@ export default {
 			case 'UI UI_PickLink':
 			case 'UI_PickLink':
 				this.pickLink()
+				break
+			case 'UI_InsertAIContent':
+				this.openAssistant()
 				break
 			case 'Action_GetLinkPreview':
 				this.resolveLink(args.url)

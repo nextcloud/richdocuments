@@ -120,6 +120,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\Richdocuments\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\Richdocuments\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
+        'OCA\\Richdocuments\\TaskProcessingManager' => __DIR__ . '/..' . '/../lib/TaskProcessingManager.php',
         'OCA\\Richdocuments\\TemplateManager' => __DIR__ . '/..' . '/../lib/TemplateManager.php',
         'OCA\\Richdocuments\\Template\\CollaboraTemplateProvider' => __DIR__ . '/..' . '/../lib/Template/CollaboraTemplateProvider.php',
         'OCA\\Richdocuments\\TokenManager' => __DIR__ . '/..' . '/../lib/TokenManager.php',

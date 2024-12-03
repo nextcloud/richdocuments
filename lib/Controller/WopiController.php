@@ -18,6 +18,7 @@ use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\UserScopeService;
+use OCA\Richdocuments\TaskProcessingManager;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
@@ -84,6 +85,7 @@ class WopiController extends Controller {
 		private IGroupManager $groupManager,
 		private ILockManager $lockManager,
 		private IEventDispatcher $eventDispatcher,
+		private TaskProcessingManager $taskProcessingManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -120,6 +122,8 @@ class WopiController extends Controller {
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$isVersion = $version !== '0';
+		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
+		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
 
 		// If the file is locked manually by a user we want to open it read only for all others
 		$canWriteThroughLock = true;
@@ -157,7 +161,8 @@ class WopiController extends Controller {
 			'DownloadAsPostMessage' => $wopi->getDirect(),
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
-			'EnableRemoteLinkPicker' => (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect(),
+			'EnableRemoteLinkPicker' => $isSmartPickerEnabled,
+			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 		];
 
