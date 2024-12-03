@@ -85,6 +85,16 @@ const getNextcloudUrl = () => {
 	return window.location.host
 }
 
+export const getCoolServerUrl = (collaboraBaseUrl) => {
+	// todo fix wopi Url
+	const wopiurl = getCallbackBaseUrl() + '/index.php/apps/richdocuments/wopi/admin-settings'
+
+	const AdminSettingsUrl = collaboraBaseUrl + '/browser/admin-settings.html?'
+
+	return AdminSettingsUrl
+		+ 'WOPISrc=' + encodeURIComponent(wopiurl)
+}
+
 export {
 	getSearchParam,
 	getWopiUrl,

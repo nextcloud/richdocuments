@@ -14,6 +14,15 @@
 				{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
 			</p>
 
+			<!-- New Collabora Admin Settings Section -->
+			<div id="admin-cool-frame-section" class="section">
+				<h2>{{ t('richdocuments', 'Collabora Admin Settings') }}</h2>
+				<CoolFrame :endpoint="'/cool/admin-settings'"
+					:public-wopi-url="settings.public_wopi_url"
+					access-token="accessToken"
+					access-token-t-t-l="accessTokenTTL" />
+			</div>
+
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
 				<NcNoteCard v-if="serverError == 2" type="error">
 					<p>{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</p>
@@ -427,6 +436,7 @@ import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
 import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl } from '../helpers/url.js'
 import { getCapabilities } from '../services/capabilities.ts'
+import CoolFrame from './CoolFrame.vue'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -456,6 +466,7 @@ export default {
 		GlobalTemplates,
 		NcModal,
 		NcNoteCard,
+		CoolFrame,
 	},
 	props: {
 		initial: {
@@ -512,6 +523,8 @@ export default {
 				},
 				fonts: [],
 			},
+			accessToken: '',
+			accessTokenTTL: '',
 		}
 	},
 	computed: {
