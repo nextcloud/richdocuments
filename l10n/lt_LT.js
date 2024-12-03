@@ -35,6 +35,8 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Svečias)",
     "Edit office documents directly in your browser." : "Redaguokite raštinės dokumentus tiesiogiai savo naršyklėje.",
     "New" : "Nauja",
+    "Template \"{name}\" already exists" : "Šablonas „{name}“ jau yra",
+    "Unable to delete template" : "Nepavyko ištrinti šablono",
     "Could not establish connection to the Collabora Online server." : "Nepavyko užmegzti ryšio su Collabora Online serveriu.",
     "Collabora Online server is reachable." : "Collabora Online serveris yra pasiekiamas.",
     "URL used by the browser:" : "Naršyklės naudojamas URL adresas:",
