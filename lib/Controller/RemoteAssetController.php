@@ -25,6 +25,11 @@ use OCP\IURLGenerator;
 
 class RemoteAssetController extends Controller {
 
+	public const SUPPORTED_PRESENTATION_MIMES = [
+		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.oasis.opendocument.presentation-template',
+	];
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -114,7 +119,9 @@ class RemoteAssetController extends Controller {
 					]),
 					'version' => $template->getEtag(),
 				];
-			}, $this->templateManager->getSystem('presentation'))),
+			}, array_filter($this->templateManager->getSystem('presentation'), function ($template) {
+				return in_array($template->getMimeType(), self::SUPPORTED_PRESENTATION_MIMES, true);
+			}))),
 		];
 
 		return $data;
