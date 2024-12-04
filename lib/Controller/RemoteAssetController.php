@@ -41,32 +41,7 @@ class RemoteAssetController extends Controller {
 	#[RestrictToWopiServer]
 	#[FrontpageRoute(verb: 'GET', url: '/settings/assets')]
 	public function getRemoteAssets(): DataResponse {
-		$data = [
-			'kind' => 'assetconfiguration',
-			'server' => $this->request->getServerHost(),
-			'templates' => [
-				'presentation' => array_values(array_map(function ($template) {
-					return [
-						'uri' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.remoteasset.downloadRemoteAsset', [
-							'type' => 'template-presentation',
-							'identifier' => $template->getId(),
-						]),
-						'version' => $template->getEtag(),
-					];
-				}, $this->templateManager->getSystem('presentation'))),
-			],
-			'fonts' => array_values(array_map(function ($font) {
-				return [
-					'uri' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.remoteasset.downloadRemoteAsset', [
-						'type' => 'font',
-						'identifier' => $font->getName(),
-					]),
-					'version' => $font->getEtag(),
-				];
-			}, $this->fontService->getFontFiles())),
-		];
-
-		return new DataResponse($data);
+		return new DataResponse($this->getRemoteAssetData());
 	}
 
 	#[NoAdminRequired]
@@ -97,5 +72,52 @@ class RemoteAssetController extends Controller {
 		return new DataResponse([], Http::STATUS_NOT_FOUND);
 	}
 
+
+	/**
+	 * @deprecated To remove once collabora no longer supports a searate remote font config (also cleanup fontsOnly param then)
+	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[RestrictToWopiServer]
+	#[FrontpageRoute(verb: 'GET', url: '/settings/fonts.json')]
+	public function getJsonFontList(): DataResponse {
+		return new DataResponse($this->getRemoteAssetData(true));
+	}
+
+	private function getRemoteAssetData(bool $fontsOnly = false): array {
+		$data = [
+			'kind' => 'assetconfiguration',
+			'server' => $this->request->getServerHost(),
+
+			'fonts' => array_values(array_map(function ($font) {
+				return [
+					'uri' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.remoteasset.downloadRemoteAsset', [
+						'type' => 'font',
+						'identifier' => $font->getName(),
+					]),
+					'version' => $font->getEtag(),
+				];
+			}, $this->fontService->getFontFiles())),
+		];
+
+		if ($fontsOnly) {
+			return $data;
+		}
+
+		$data['templates'] = [
+			'presentation' => array_values(array_map(function ($template) {
+				return [
+					'uri' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.remoteasset.downloadRemoteAsset', [
+						'type' => 'template-presentation',
+						'identifier' => $template->getId(),
+					]),
+					'version' => $template->getEtag(),
+				];
+			}, $this->templateManager->getSystem('presentation'))),
+		];
+
+		return $data;
+	}
 
 }
