@@ -25,6 +25,7 @@ return array(
     'OCA\\Richdocuments\\Controller\\FederationController' => $baseDir . '/../lib/Controller/FederationController.php',
     'OCA\\Richdocuments\\Controller\\MentionController' => $baseDir . '/../lib/Controller/MentionController.php',
     'OCA\\Richdocuments\\Controller\\OCSController' => $baseDir . '/../lib/Controller/OCSController.php',
+    'OCA\\Richdocuments\\Controller\\RemoteAssetController' => $baseDir . '/../lib/Controller/RemoteAssetController.php',
     'OCA\\Richdocuments\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Richdocuments\\Controller\\TargetController' => $baseDir . '/../lib/Controller/TargetController.php',
     'OCA\\Richdocuments\\Controller\\TemplateFieldController' => $baseDir . '/../lib/Controller/TemplateFieldController.php',
