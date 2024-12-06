@@ -1,5 +1,25 @@
 # Changelog
 
+## 8.4.9
+
+### Fixed
+- Adjust workflows docker images @elzody [#4166](https://github.com/nextcloud/richdocuments/pull/4166)
+- Get user by display name @elzody [#4198](https://github.com/nextcloud/richdocuments/pull/4198)
+- Properly throttle in error cases and add rate limit for public file creation @juliusknorr [#4202](https://github.com/nextcloud/richdocuments/pull/4202)
+- Skip css variable if not set (prevent warning on COOL side) @timar [#4223](https://github.com/nextcloud/richdocuments/pull/4223)
+- Limit open with Collabora action to pdf files @juliusknorr [#4233](https://github.com/nextcloud/richdocuments/pull/4233)
+- Remove deprecated `title` parameter @elzody [#4271](https://github.com/nextcloud/richdocuments/pull/4271)
+- Clarify the remote font config setting a bit @timar [#4275](https://github.com/nextcloud/richdocuments/pull/4275)
+- Link share of federated share @max-nextcloud [#4281](https://github.com/nextcloud/richdocuments/pull/4281)
+- Apply viewer wrapper as we do it in text @juliusknorr [#4288](https://github.com/nextcloud/richdocuments/pull/4288)
+- Attempt to make cypress tests more stable with a unified wait for close @juliusknorr [#4293](https://github.com/nextcloud/richdocuments/pull/4293)
+- Get storage from file instead of parent @elzody [#4303](https://github.com/nextcloud/richdocuments/pull/4303)
+- Do not treat guest as share owner @elzody [#4309](https://github.com/nextcloud/richdocuments/pull/4309)
+
+### Other
+- `npm` audits [#4164](https://github.com/nextcloud/richdocuments/pull/4164), [#4193](https://github.com/nextcloud/richdocuments/pull/4193), [#4219](https://github.com/nextcloud/richdocuments/pull/4219), [#4264](https://github.com/nextcloud/richdocuments/pull/4264)
+- Update Nextcloud dependencies [#4177](https://github.com/nextcloud/richdocuments/pull/4177), [#4211](https://github.com/nextcloud/richdocuments/pull/4211), [#4239](https://github.com/nextcloud/richdocuments/pull/4239), [#4254](https://github.com/nextcloud/richdocuments/pull/4254), [#4291](https://github.com/nextcloud/richdocuments/pull/4291), [#4297](https://github.com/nextcloud/richdocuments/pull/4297)
+
 ## 8.4.8
 
 ### Fixed
