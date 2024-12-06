@@ -27,7 +27,8 @@ export default {
 				const list = users.map((user) => {
 					const profile = window.location.protocol + '//' + getNextcloudUrl() + '/index.php/u/' + user.id
 					return {
-						username: user.label,
+						label: user.label,
+						username: user.id,
 						profile,
 					}
 				})

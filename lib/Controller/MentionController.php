@@ -14,10 +14,12 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Share\IShare;
 
 class MentionController extends Controller {
 	public function __construct(
@@ -27,6 +29,7 @@ class MentionController extends Controller {
 		private IManager $manager,
 		private ITimeFactory $timeFactory,
 		private IUserManager $userManager,
+		private ISearch $collaboratorSearch,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -41,22 +44,21 @@ class MentionController extends Controller {
 			return new DataResponse(['message' => 'File not found for current user'], Http::STATUS_NOT_FOUND);
 		}
 
-		// Reverse the array of users to pop off the first user later
-		$userResults = array_reverse($this->userManager->searchDisplayName($mention, 1));
-		if (count($userResults) < 1) {
+		[$searchResults, ] = $this->collaboratorSearch->search($mention, [IShare::TYPE_USER], false, 1, 0);
+		$matchedUsers = $searchResults['exact']['users'];
+		if (count($matchedUsers) < 1) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-
-		// Get the first user returned in the array
-		$user = array_pop($userResults);
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		
+		$user = array_pop($matchedUsers);
+		$userFolder = $this->rootFolder->getUserFolder($user['value']['shareWith']);
 		$file = $userFolder->getFirstNodeById($fileId);
 		if ($file === null) {
 			return new DataResponse(['message' => 'File not found for mentioned user'], Http::STATUS_NOT_FOUND);
 		}
 
 		$notification = $this->manager->createNotification();
-		$notification->setUser($user->getUID())
+		$notification->setUser($user['value']['shareWith'])
 			->setApp(Application::APPNAME)
 			->setSubject(Notifier::TYPE_MENTIONED, [
 				Notifier::SUBJECT_MENTIONED_SOURCE_USER => $this->userId,
