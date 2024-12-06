@@ -1,5 +1,23 @@
 # Changelog
 
+## 8.3.13
+
+### Fixed
+- Adjust workflows docker images @elzody [#4165](https://github.com/nextcloud/richdocuments/pull/4165)
+- Get user by display name @elzody [#4197](https://github.com/nextcloud/richdocuments/pull/4197)
+- Properly throttle in error cases and add rate limit for public file creation @juliusknorr [#4203](https://github.com/nextcloud/richdocuments/pull/4203)
+- Skip css variable if not set (prevent warning on COOL side) @timar [#4222](https://github.com/nextcloud/richdocuments/pull/4222)
+- Limit open with Collabora action to pdf files @juliusknorr [#4232](https://github.com/nextcloud/richdocuments/pull/4232)
+- Remove deprecated `title` parameter @elzody [#4270](https://github.com/nextcloud/richdocuments/pull/4270)
+- Link share of federated share @max-nextcloud [#4282](https://github.com/nextcloud/richdocuments/pull/4282)
+- Get storage from file instead of parent @elzody [#4304](https://github.com/nextcloud/richdocuments/pull/4304)
+- Do not treat guest as share owner @elzody [#4308](https://github.com/nextcloud/richdocuments/pull/4308)
+- Attempt to make cypress tests more stable with a unified wait for close @juliusknorr [#4294](https://github.com/nextcloud/richdocuments/pull/4294)
+
+### Other
+- `npm` audits [#4161](https://github.com/nextcloud/richdocuments/pull/4161), [#4190](https://github.com/nextcloud/richdocuments/pull/4190), [#4240](https://github.com/nextcloud/richdocuments/pull/4240), [#4266](https://github.com/nextcloud/richdocuments/pull/4266)
+- Update Nextcloud dependencies [#4176](https://github.com/nextcloud/richdocuments/pull/4176), [#4237](https://github.com/nextcloud/richdocuments/pull/4237), [#4255](https://github.com/nextcloud/richdocuments/pull/4255), [#4296](https://github.com/nextcloud/richdocuments/pull/4296), [#4290](https://github.com/nextcloud/richdocuments/pull/4290)
+
 ## 8.3.12
 
 ### Fixed
