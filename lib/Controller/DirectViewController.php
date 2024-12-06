@@ -103,7 +103,7 @@ class DirectViewController extends Controller {
 			try {
 				$urlSrc = $this->tokenManager->getUrlSrc($item);
 
-				$wopi = $this->tokenManager->generateWopiTokenForTemplate($item, $direct->getUid(), $direct->getTemplateDestination(), true);
+				$wopi = $this->tokenManager->generateWopiTokenForTemplate($item, $direct->getTemplateDestination(), $direct->getUid(), false, true);
 
 				$targetFile = $folder->getById($direct->getTemplateDestination())[0];
 				$relativePath = $folder->getRelativePath($targetFile->getPath());
