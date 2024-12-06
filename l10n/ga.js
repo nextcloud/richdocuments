@@ -134,6 +134,7 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Taispeáin comhartha uisce le haghaidh scaireanna naisc inléite amháin",
     "Show watermark on link shares with specific system tags" : "Taispeáin comhartha uisce ar scaireanna naisc le clibeanna córais ar leith",
     "Contact {0} to get an own installation." : "Déan teagmháil le {0} chun suiteáil féin a fháil.",
+    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config." : "Bí cinnte an URL seo a shocrú: {url} sa chomhad coolwsd.xml de do fhreastalaí Collabora Ar Líne chun a chinntiú go lódáiltear na clónna breise go huathoibríoch. Tabhair faoi deara le do thoil nach n-oibreoidh http:// ach le haghaidh tógála dífhabhtaithe de Collabora Online. I dtáirgeadh ní mór duit https:// a úsáid le haghaidh cianchumraíocht na gcló.",
     "Failed to save settings" : "Theip ar na socruithe a shábháil",
     "Font format not supported ({mime})" : "Ní thacaítear le formáid an chló ({mime})",
     "Guest name" : "Ainm aoi",
