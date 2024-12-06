@@ -4,6 +4,33 @@
 -->
 # Changelog
 
+## 8.5.3
+
+### Added
+- Digitally sign documents via software certificates @vmiklos [#4170](https://github.com/nextcloud/richdocuments/pull/4170)
+- Implement support for insertion of multimedia from Nextcloud assets @mikekaganski [#4286](https://github.com/nextcloud/richdocuments/pull/4286)
+
+### Fixed
+- Use file picker component directly @elzody [#4028](https://github.com/nextcloud/richdocuments/pull/4028)
+- Get user by display name @elzody [#4199](https://github.com/nextcloud/richdocuments/pull/4199)
+- Properly throttle in error cases and add rate limit for public file creation @juliusknorr [#4201](https://github.com/nextcloud/richdocuments/pull/4201)
+- Skip css variable if not set (prevent warning on COOL side) @timar [#4224](https://github.com/nextcloud/richdocuments/pull/4224)
+- Limit open with Collabora action to pdf files @juliusknorr [#4234](https://github.com/nextcloud/richdocuments/pull/4234)
+- Fix errors when extracting content controls @juliusknorr [#4268](https://github.com/nextcloud/richdocuments/pull/4268)
+- Remove deprecated `title` parameter @elzody [#4272](https://github.com/nextcloud/richdocuments/pull/4272)
+- Link share of federated share @max-nextcloud [#4280](https://github.com/nextcloud/richdocuments/pull/4280)
+- Get storage from file instead of parent @elzody [#4302](https://github.com/nextcloud/richdocuments/pull/4302)
+- Do not treat guest as share owner @elzody [#4310](https://github.com/nextcloud/richdocuments/pull/4310)
+- Apply viewer wrapper as we do it in text @juliusknorr [#4289](https://github.com/nextcloud/richdocuments/pull/4289)
+- Attempt to make cypress tests more stable with a unified wait for close @juliusknorr [#4287](https://github.com/nextcloud/richdocuments/pull/4287)
+- Clarify the remote font config setting a bit @timar [#4274](https://github.com/nextcloud/richdocuments/pull/4274)
+- Adjust workflows docker images @elzody [#4167](https://github.com/nextcloud/richdocuments/pull/4167)
+
+### Other
+- `npm` audits [#4162](https://github.com/nextcloud/richdocuments/pull/4162), [#4192](https://github.com/nextcloud/richdocuments/pull/4192), [#4218](https://github.com/nextcloud/richdocuments/pull/4218), [#4265](https://github.com/nextcloud/richdocuments/pull/4265)
+- Update Nextcloud dependencies [#4214](https://github.com/nextcloud/richdocuments/pull/4214), [#4227](https://github.com/nextcloud/richdocuments/pull/4227), [4238](https://github.com/nextcloud/richdocuments/pull/4238), [#4262](https://github.com/nextcloud/richdocuments/pull/4262), [#4283](https://github.com/nextcloud/richdocuments/pull/4283), [#4298](https://github.com/nextcloud/richdocuments/pull/4298)
+- Update `cypress-split` [#4156](https://github.com/nextcloud/richdocuments/pull/4156), [#4188](https://github.com/nextcloud/richdocuments/pull/4188), [#4261](https://github.com/nextcloud/richdocuments/pull/4261)
+
 ## 8.5.2
 
 ### Fixed
