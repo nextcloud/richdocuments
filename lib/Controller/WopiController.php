@@ -132,7 +132,7 @@ class WopiController extends Controller {
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
-			'Version' => $version,
+			'Version' => $file->getEtag(),
 			'UserId' => !$isPublic ? $wopi->getEditorUid() : $guestUserId,
 			'OwnerId' => $wopi->getOwnerUid(),
 			'UserFriendlyName' => $userDisplayName,
@@ -227,6 +227,20 @@ class WopiController extends Controller {
 			$file
 		));
 
+		// make checkfileinfo pass plain wopi
+		$customProperties = ["UserExtraInfo","UserPrivateInfo","EnableInsertRemoteImage","EnableInsertRemoteFile","EnableShare","HideUserList","EnableOwnerTermination","DisableExport","DisableCopy","HideExportOption","HidePrintOption","DownloadAsPostMessage","IsUserLocked","EnableRemoteLinkPicker","HasContentRange","IsAdminUser"];
+		foreach ($customProperties as $property) {
+			unset($response[$property]);
+		}
+
+		$response['SupportsUpdate'] = true;
+		$response['SupportsGetLock'] = $response['SupportsLocks'];
+		$response['SupportsContainers'] = false;
+		$response['SupportsDeleteFile'] = false;
+		$response['UserCanNotWriteRelative'] = false;
+		// $response['SupportedShareUrlTypes'] = '';
+		// $response['FileUrl'] = '';
+
 		return new JSONResponse($response);
 	}
 
@@ -278,7 +292,7 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}/contents')]
-	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse {
+	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse|Http\Response {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
@@ -342,6 +356,7 @@ class WopiController extends Controller {
 					}
 				}
 			}
+			$response->addHeader('X-WOPI-ItemVersion', $file->getEtag());
 			$response->addHeader('Content-Disposition', 'attachment');
 			$response->addHeader('Content-Type', 'application/octet-stream');
 			return $response;
@@ -466,7 +481,9 @@ class WopiController extends Controller {
 				$wopi->setTemplateId(null);
 				$this->wopiMapper->update($wopi);
 			}
-			return new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
+			$response = new JSONResponse(['LastModifiedTime' => Helper::toISO8601($file->getMTime())]);
+			$response->addHeader('X-WOPI-ItemVersion', $file->getEtag());
+			return $response;
 		} catch (NotFoundException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
@@ -508,19 +525,24 @@ class WopiController extends Controller {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		$response = null;
 		switch ($wopiOverride) {
 			case 'LOCK':
-				return $this->lock($wopi, $wopiLock);
+				$response = $this->lock($wopi, $wopiLock);
 			case 'UNLOCK':
-				return $this->unlock($wopi, $wopiLock);
+				$response = $this->unlock($wopi, $wopiLock);
 			case 'REFRESH_LOCK':
-				return $this->refreshLock($wopi, $wopiLock);
+				$response = $this->refreshLock($wopi, $wopiLock);
 			case 'GET_LOCK':
-				return $this->getLock($wopi, $wopiLock);
+				$response = $this->getLock($wopi, $wopiLock);
 			case 'RENAME_FILE':
 				break; //FIXME: Move to function
 			default:
 				break; //FIXME: Move to function and add error for unsupported method
+		}
+		if ($response !== null) {
+			$response->addHeader('X-WOPI-ItemVersion', $this->getFileForWopiToken($wopi)->getEtag());
+			return $response;
 		}
 
 
@@ -689,7 +711,9 @@ class WopiController extends Controller {
 
 	private function getLock(Wopi $wopi, string $lock): JSONResponse {
 		$locks = $this->lockManager->getLocks($wopi->getFileid());
-		return new JSONResponse();
+		$response = new JSONResponse();
+		$response->addHeader('X-WOPI-Lock', $lock);
+		return $response;
 	}
 
 	/**
