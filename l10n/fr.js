@@ -134,6 +134,7 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Afficher un filigrane pour les liens de partage en lecture seule",
     "Show watermark on link shares with specific system tags" : "Afficher un filigrane pour les liens de partage avec étiquettes collaboratives spécifiques",
     "Contact {0} to get an own installation." : "Contactez {0} pour obtenir votre propre installation. ",
+    "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config." : "Veillez à définir cette URL : {url} dans le fichier coolwsd.xml de votre serveur Collabora Online pour que les polices ajoutées soient chargées automatiquement.",
     "Failed to save settings" : "Échec de l'enregistrement des paramètres",
     "Font format not supported ({mime})" : "Format de police non supporté ({mime})",
     "Guest name" : "Nom d'invité",
