@@ -110,6 +110,9 @@ class SettingsController extends Controller {
 			'product_name' => $this->capabilitiesService->getServerProductName(),
 			'product_version' => $this->capabilitiesService->getProductVersion(),
 			'product_hash' => $this->capabilitiesService->getProductHash(),
+			'esignature_base_url' => $this->appConfig->getAppValue('esignature_base_url'),
+			'esignature_client_id' => $this->appConfig->getAppValue('esignature_client_id'),
+			'esignature_secret' => $this->appConfig->getAppValue('esignature_secret'),
 		];
 	}
 
@@ -122,6 +125,9 @@ class SettingsController extends Controller {
 		?string $doc_format,
 		?string $external_apps,
 		?string $canonical_webroot,
+		?string $esignature_base_url,
+		?string $esignature_client_id,
+		?string $esignature_secret,
 	): JSONResponse {
 		if ($wopi_url !== null) {
 			$this->appConfig->setAppValue('wopi_url', $wopi_url);
@@ -156,6 +162,18 @@ class SettingsController extends Controller {
 
 		if ($canonical_webroot !== null) {
 			$this->appConfig->setAppValue('canonical_webroot', $canonical_webroot);
+		}
+
+		if ($esignature_base_url !== null) {
+			$this->appConfig->setAppValue('esignature_base_url', $esignature_base_url);
+		}
+
+		if ($esignature_client_id !== null) {
+			$this->appConfig->setAppValue('esignature_client_id', $esignature_client_id);
+		}
+
+		if ($esignature_secret !== null) {
+			$this->appConfig->setAppValue('esignature_secret', $esignature_secret);
 		}
 
 		try {

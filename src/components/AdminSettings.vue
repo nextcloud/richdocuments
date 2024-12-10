@@ -391,6 +391,25 @@
 			</div>
 		</div>
 
+		<div v-if="isSetup" id="esignature-settings" class="section">
+			<h2>{{ t('richdocuments', 'Electronic signature settings') }}</h2>
+			<SettingsInputText v-model="settings.esignature_base_url"
+				:label="t('richdocuments', 'URL for the electronic signature API')"
+				:hint="t('richdocuments', 'The production API URL is https://id.eideasy.com, the test API URL is https://test.eideasy.com.')"
+				:disabled="updating"
+				@update="updateESignatureBaseUrl" />
+			<SettingsInputText v-model="settings.esignature_client_id"
+				:label="t('richdocuments', 'Client ID for the electronic signature API')"
+				:hint="t('richdocuments', 'Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret.')"
+				:disabled="updating"
+				@update="updateESignatureClientId" />
+			<SettingsInputText v-model="settings.esignature_secret"
+				:label="t('richdocuments', 'Secret for the electronic signature API')"
+				:hint="t('richdocuments', 'The secret may be downloadable via WOPI requests if WOPI settings are not correctly configured.')"
+				:disabled="updating"
+				@update="updateESignatureSecret" />
+		</div>
+
 		<GlobalTemplates v-if="isSetup" />
 	</div>
 </template>
@@ -686,6 +705,21 @@ export default {
 		async updateWopiAllowlist(allowlist) {
 			await this.updateSettings({
 				wopi_allowlist: allowlist,
+			})
+		},
+		async updateESignatureBaseUrl(url) {
+			await this.updateSettings({
+				esignature_base_url: url,
+			})
+		},
+		async updateESignatureClientId(id) {
+			await this.updateSettings({
+				esignature_client_id: id,
+			})
+		},
+		async updateESignatureSecret(secret) {
+			await this.updateSettings({
+				esignature_secret: secret,
 			})
 		},
 		async updateOoxml(enabled) {

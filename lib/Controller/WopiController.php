@@ -174,6 +174,19 @@ class WopiController extends Controller {
 			$response['UserPrivateInfo']['SignatureKey'] = $documentSigningKey;
 			$documentSigningCa = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningCa', '');
 			$response['UserPrivateInfo']['SignatureCa'] = $documentSigningCa;
+
+			$eSignatureBaseUrl = $this->config->getAppValue(Application::APPNAME, 'esignature_base_url');
+			if ($eSignatureBaseUrl !== '') {
+				$response['UserPrivateInfo']['ESignatureBaseUrl'] = $eSignatureBaseUrl;
+			}
+			$eSignatureClientId = $this->config->getAppValue(Application::APPNAME, 'esignature_client_id');
+			if ($eSignatureClientId !== '') {
+				$response['UserPrivateInfo']['ESignatureClientId'] = $eSignatureClientId;
+			}
+			$eSignatureSecret = $this->config->getAppValue(Application::APPNAME, 'esignature_secret');
+			if ($eSignatureSecret !== '') {
+				$response['UserPrivateInfo']['ESignatureSecret'] = $eSignatureSecret;
+			}
 		}
 		if ($wopi->hasTemplateId()) {
 			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
