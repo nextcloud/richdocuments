@@ -53,6 +53,9 @@ class Admin implements ISettings {
 					'os_family' => PHP_VERSION_ID >= 70200 ? PHP_OS_FAMILY : PHP_OS,
 					'platform' => php_uname('m'),
 					'fonts' => $this->fontService->getFontFileNames(),
+					'esignature_base_url' => $this->config->getAppValue('richdocuments', 'esignature_base_url'),
+					'esignature_client_id' => $this->config->getAppValue('richdocuments', 'esignature_client_id'),
+					'esignature_secret' => $this->config->getAppValue('richdocuments', 'esignature_secret'),
 				],
 			],
 			'blank'
