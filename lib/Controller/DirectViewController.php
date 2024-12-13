@@ -94,16 +94,17 @@ class DirectViewController extends Controller {
 			}
 
 			$wopi = null;
-			$template = $direct->getTemplateId() ? $this->templateManager->getTemplateSource($direct->getTemplateId()) : null;
+			$template = $direct->getTemplateId() ? $this->templateManager->get($direct->getTemplateId()) : null;
 
 			if ($template !== null) {
 				$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $direct->getUid(), $item->getId(), true);
 			}
 
 			if ($wopi === null) {
-				$urlSrc = $this->tokenManager->getUrlSrc($item);
-				$wopi = $this->tokenManager->generateWopiToken($item->getId(), null, $direct->getUid(), true);
+				$wopi = $this->tokenManager->generateWopiToken((string)$item->getId(), null, $direct->getUid(), true);
 			}
+
+			$urlSrc = $this->tokenManager->getUrlSrc($item);
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
