@@ -121,8 +121,13 @@ describe('Direct editing (legacy)', function() {
 				createNewFileDirectEditingLink(randUser, 'mynewfile.odt', emptyTemplate.id)
 					.then((token) => {
 						cy.logout()
-						cy.visit(token)
+						cy.visit(token, {
+							onBeforeLoad(win) {
+								cy.spy(win, 'postMessage').as('postMessage')
+							},
+						})
 						cy.waitForCollabora(false)
+						cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 						cy.screenshot('direct-new')
 					})
 			})
