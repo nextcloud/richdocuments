@@ -197,6 +197,8 @@ OC.L10N.register(
     "Failed to update the document signing CA chain" : "CA-Kette für die Dokumentsignatur konnte nicht aktualisiert werden",
     "Saving …" : "Speichern …",
     "Built-in CODE server failed to start" : "Integrierter CODE-Server konnte nicht gestartet werden",
+    "Insert file from {name}" : "Datei von {name} einfügen",
+    "Insert file" : "Datei einfügen",
     "Remove from favorites" : "Aus den Favoriten entfernen",
     "Add to favorites" : "Zu Favoriten hinzufügen",
     "Details" : "Details",
