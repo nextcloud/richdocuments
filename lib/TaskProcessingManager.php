@@ -8,16 +8,20 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments;
 
+use OCP\App\IAppManager;
+use OCP\IUserSession;
 use OCP\TaskProcessing\IManager;
 
 class TaskProcessingManager {
-	public const array SUPPORTED_TASK_TYPES = [
+	public const SUPPORTED_TASK_TYPES = [
 		'core:text2text',
 		'core:text2image',
 	];
 
 	public function __construct(
 		private IManager $taskProcessing,
+		private IAppManager $appManager,
+		private IUserSession $userSession,
 	) {
 	}
 
@@ -29,6 +33,9 @@ class TaskProcessingManager {
 			array_flip(self::SUPPORTED_TASK_TYPES)
 		);
 
-		return !empty($availableTaskTypes);
+		// Check if the Assistant is actually enabled for the user
+		$isAssistantEnabled = $this->appManager->isEnabledForUser('assistant', $this->userSession->getUser());
+
+		return !empty($availableTaskTypes) && $isAssistantEnabled;
 	}
 }
