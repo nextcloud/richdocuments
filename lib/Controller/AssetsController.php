@@ -20,8 +20,10 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\TaskProcessing\IManager;
 
 class AssetsController extends Controller {
 	public function __construct(
@@ -32,6 +34,8 @@ class AssetsController extends Controller {
 		private ?string $userId,
 		private UserScopeService $userScopeService,
 		private IURLGenerator $urlGenerator,
+		private IManager $taskProcessingManager,
+		private IL10N $l10n,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -78,14 +82,67 @@ class AssetsController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @param int $taskId
+	 * @param array<int> $fileIds
+	 * @return JSONResponse
+	 */
+	public function createFromTask(int $taskId, array $fileIds): JSONResponse {
+		$task = $this->taskProcessingManager->getTask($taskId);
+		$taskOutput = $task->getOutput();
+		$assets = [];
+
+		if ($task->getUserId() !== $this->userId) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		foreach ($fileIds as $fileId) {
+			$validFileIdForTask = array_key_exists($fileId, array_flip($taskOutput['images']));
+
+			if (!$validFileIdForTask) {
+				continue;
+			}
+
+			$node = $this->rootFolder->getFirstNodeById($fileId);
+			if (is_null($node)) {
+				$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+			}
+
+			if (!($node instanceof File)) {
+				return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			}
+
+			$asset = $this->assetMapper->newAsset($this->userId, $node->getId());
+			$assets[] = [
+				'filename' => $node->getName() . $node->getExtension(),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('richdocuments.assets.get', [
+					'token' => $asset->getToken(),
+					'fromTask' => true,
+				]),
+			];
+		}
+
+		if (empty($assets)) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('No files found for this task.'),
+			], Http::STATUS_NOT_FOUND);
+		}
+
+		return new JSONResponse($assets, Http::STATUS_CREATED);
+	}
+
+	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
 	 * @param string $token
+	 * @param boolean $fromTask
 	 * @return Http\Response
 	 */
 	#[RestrictToWopiServer]
-	public function get($token) {
+	public function get($token, $fromTask = false) {
 		try {
 			$asset = $this->assetMapper->getAssetByToken($token);
 		} catch (DoesNotExistException) {
@@ -98,10 +155,17 @@ class AssetsController extends Controller {
 			$this->assetMapper->delete($asset);
 		}
 
-
 		$this->userScopeService->setUserScope($asset->getUid());
-		$userFolder = $this->rootFolder->getUserFolder($asset->getUid());
-		$node = $userFolder->getFirstNodeById($asset->getFileid());
+
+		if ($fromTask) {
+			$node = $this->rootFolder->getFirstNodeById($asset->getFileid());
+			if (is_null($node)) {
+				$node = $this->rootFolder->getFirstNodeByIdInPath($asset->getFileid(), '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+			}
+		} else {
+			$userFolder = $this->rootFolder->getUserFolder($asset->getUid());
+			$node = $userFolder->getFirstNodeById($asset->getFileid());
+		}
 
 		if ($node === null) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -114,6 +178,7 @@ class AssetsController extends Controller {
 		$response = new StreamResponse($node->fopen('rb'));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', 'application/octet-stream');
+
 		return $response;
 	}
 }

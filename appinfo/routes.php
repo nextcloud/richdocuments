@@ -42,6 +42,7 @@ return [
 
 		// Direct Editing: Assets
 		['name' => 'assets#create', 'url' => 'assets', 'verb' => 'POST'],
+		['name' => 'assets#createFromTask', 'url' => 'assets/tasks', 'verb' => 'POST'],
 		['name' => 'assets#get', 'url' => 'assets/{token}', 'verb' => 'GET'],
 
 		// templates

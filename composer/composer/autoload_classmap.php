@@ -87,6 +87,7 @@ return array(
     'OCA\\Richdocuments\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\Richdocuments\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\Richdocuments\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
+    'OCA\\Richdocuments\\TaskProcessingManager' => $baseDir . '/../lib/TaskProcessingManager.php',
     'OCA\\Richdocuments\\TemplateManager' => $baseDir . '/../lib/TemplateManager.php',
     'OCA\\Richdocuments\\Template\\CollaboraTemplateProvider' => $baseDir . '/../lib/Template/CollaboraTemplateProvider.php',
     'OCA\\Richdocuments\\TokenManager' => $baseDir . '/../lib/TokenManager.php',
