@@ -19,8 +19,8 @@
 				<h2>{{ t('richdocuments', 'Collabora Admin Settings') }}</h2>
 				<CoolFrame :endpoint="'/cool/admin-settings'"
 					:public-wopi-url="settings.public_wopi_url"
-					access-token="accessToken"
-					access-token-t-t-l="accessTokenTTL" />
+					:access-token="accessToken"
+					:access-token-t-t-l="accessTokenTTL" />
 			</div>
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
@@ -432,6 +432,12 @@ import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
 import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
+import {
+	getCurrentUser,
+	getGuestNickname,
+} from '@nextcloud/auth'
+
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
 import '@nextcloud/dialogs/style.css'
 import { getCallbackBaseUrl } from '../helpers/url.js'
@@ -525,6 +531,7 @@ export default {
 			},
 			accessToken: '',
 			accessTokenTTL: '',
+			userId: '',
 		}
 	},
 	computed: {
@@ -544,6 +551,9 @@ export default {
 			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
 				{ url: this.fontHintUrl },
 			)
+		},
+		shareToken() {
+			return getSharingToken()
 		},
 		fontXmlHint() {
 			return `
@@ -565,6 +575,15 @@ export default {
 				else this.serverError = Object.values(getCapabilities().collabora).length > 0 ? SERVER_STATE_OK : SERVER_STATE_CONNECTION_ERROR
 			}
 		},
+	},
+	async mounted() {
+		const currentUser = getCurrentUser()
+		if (currentUser && currentUser.uid) {
+			this.userId = currentUser.uid
+			await this.generateAccessToken()
+		} else {
+			console.error('User not authenticated')
+		}
 	},
 	beforeMount() {
 		for (const key in this.initial.settings) {
@@ -612,6 +631,27 @@ export default {
 		this.checkSettings()
 	},
 	methods: {
+		async generateAccessToken() {
+			const fileId = -1
+			const path = `admin-settings/${this.userId}`
+			const guestName = this.userId
+
+			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
+				fileId,
+				path,
+				guestName,
+			})
+
+			if (data.token) {
+				this.accessToken = data.token
+				this.accessTokenTTL = data.token_ttl
+				console.debug('Admin settings WOPI token generated:', this.accessToken, this.accessTokenTTL)
+			} else if (data.federatedUrl) {
+				console.error('Federated URL returned, not expected for admin settings.')
+			} else {
+				console.error('Failed to generate token for admin settings')
+			}
+		},
 		async checkSettings() {
 			this.errorMessage = null
 			this.updating = true

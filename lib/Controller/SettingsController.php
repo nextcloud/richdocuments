@@ -96,7 +96,7 @@ class SettingsController extends Controller {
 	public function getSettings(): JSONResponse {
 		return new JSONResponse($this->getSettingsData());
 	}
-
+	// TODO : Provide Auth tokens here :)
 	private function getSettingsData(): array {
 		return [
 			'wopi_url' => $this->appConfig->getCollaboraUrlInternal(),
@@ -113,6 +113,7 @@ class SettingsController extends Controller {
 			'esignature_base_url' => $this->appConfig->getAppValue('esignature_base_url'),
 			'esignature_client_id' => $this->appConfig->getAppValue('esignature_client_id'),
 			'esignature_secret' => $this->appConfig->getAppValue('esignature_secret'),
+			'userId' => $this->userId
 		];
 	}
 
