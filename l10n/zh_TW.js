@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "找不到此任務的檔案。",
     "Cannot create document" : "無法建立文件",
     "New Document.odt" : "新文字文件.odt",
     "New Spreadsheet.ods" : "新試算表.ods",
@@ -185,6 +186,7 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "錯誤：無法啟動 Collabora Online 內建伺服器，請設定獨立的伺服器。",
     "Close version preview" : "關閉版本預覽",
     "Edit with {productName}" : "使用 {productName} 編輯",
+    "Insert into document" : "插入到文件中",
     "Open file locally" : "在本機開啟檔案",
     "When opening a file locally, the document will close for all users currently viewing the document." : "在本機開啟檔案時，該文件將會對目前檢視該文件的所有使用者關閉。",
     "Open locally" : "在本機開啟",
