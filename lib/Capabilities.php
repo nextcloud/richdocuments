@@ -28,6 +28,9 @@ class Capabilities implements ICapability {
 		'application/vnd.ms-visio.drawing',
 		'application/vnd.wordperfect',
 		'application/rtf',
+		'application/vnd.oasis.opendocument.text-template',
+		'application/vnd.oasis.opendocument.spreadsheet-template',
+		'application/vnd.oasis.opendocument.presentation-template',
 		'text/rtf',
 	];
 
