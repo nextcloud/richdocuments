@@ -164,6 +164,7 @@ class WopiController extends Controller {
 			'EnableRemoteLinkPicker' => $isSmartPickerEnabled,
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
+			'ServerPrivateInfo' => [],
 		];
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
@@ -179,6 +180,23 @@ class WopiController extends Controller {
 			$response['UserPrivateInfo']['SignatureKey'] = $documentSigningKey;
 			$documentSigningCa = $this->config->getUserValue($wopi->getEditorUid(), 'richdocuments', 'documentSigningCa', '');
 			$response['UserPrivateInfo']['SignatureCa'] = $documentSigningCa;
+
+			$eSignatureBaseUrl = $this->config->getAppValue(Application::APPNAME, 'esignature_base_url');
+			$eSignatureClientId = $this->config->getAppValue(Application::APPNAME, 'esignature_client_id');
+			$eSignatureSecret = $this->config->getAppValue(Application::APPNAME, 'esignature_secret');
+			if ($eSignatureBaseUrl === '' && $eSignatureClientId !== '' && $eSignatureSecret !== '') {
+				// If the client ID & secret is set, then assume a production base URL.
+				$eSignatureBaseUrl = 'https://id.eideasy.com';
+			}
+			if ($eSignatureBaseUrl !== '') {
+				$response['ServerPrivateInfo']['ESignatureBaseUrl'] = $eSignatureBaseUrl;
+			}
+			if ($eSignatureClientId !== '') {
+				$response['ServerPrivateInfo']['ESignatureClientId'] = $eSignatureClientId;
+			}
+			if ($eSignatureSecret !== '') {
+				$response['ServerPrivateInfo']['ESignatureSecret'] = $eSignatureSecret;
+			}
 		}
 		if ($wopi->hasTemplateId()) {
 			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
