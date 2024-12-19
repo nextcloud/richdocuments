@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Keine Dateien für diese Aufgabe gefunden.",
     "Cannot create document" : "Dokument kann nicht erstellt werden",
     "New Document.odt" : "Neues Dokument.odt",
     "New Spreadsheet.ods" : "Neue Kalkulationstabelle.ods",
@@ -185,6 +186,7 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Fehler: Der integrierte Collabora Online-Server kann nicht gestartet werden. Richten Sie einen eigenständigen Server ein.",
     "Close version preview" : "Versionsvorschau schließen",
     "Edit with {productName}" : "Mit {productName} bearbeiten",
+    "Insert into document" : "In das Dokument einfügen",
     "Open file locally" : "Datei lokal öffnen",
     "When opening a file locally, the document will close for all users currently viewing the document." : "Beim lokalen Öffnen einer Datei wird das Dokument für alle Benutzer geschlossen, die das Dokument derzeit betrachten.",
     "Open locally" : "Lokal öffnen",
