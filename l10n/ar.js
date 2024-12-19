@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "لا توجد أي ملفات لهذه المهمة.",
     "Cannot create document" : "تعذّر إنشاء المستند",
     "New Document.odt" : "مستند جديد بتنسيق odt",
     "New Spreadsheet.ods" : "جدول بيانات جديد بتنسيق ods",
@@ -185,6 +186,7 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "خطأ: لا يمكن بدء خادم Collabora Online المدمج. يُرجى إعداد خادم مستقل.",
     "Close version preview" : "إغلاق معاينة النسخة",
     "Edit with {productName}" : "حرّر بـ {productName}",
+    "Insert into document" : "إدراج في المستند",
     "Open file locally" : "فتح الملف محلّيّاً",
     "When opening a file locally, the document will close for all users currently viewing the document." : "عند فتح ملف محليًا، سيتم إغلاق المستند لجميع المستخدمين الذين يعرضون المستند حاليًا.",
     "Open locally" : "الفتح محلّيّاً",
