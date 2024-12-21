@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Níor aimsíodh aon chomhad don tasc seo.",
     "Cannot create document" : "Ní féidir doiciméad a chruthú",
     "New Document.odt" : "Doiciméad Nua.odt",
     "New Spreadsheet.ods" : "Scarbhileog Nua",
@@ -185,6 +186,7 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Earráid: Ní féidir an freastalaí Insuite Collabora Online a thosú, socraigh ceann neamhspleách le do thoil.",
     "Close version preview" : "Dún réamhamharc ar an leagan",
     "Edit with {productName}" : "Cuir in eagar le {productName}",
+    "Insert into document" : "Cuir isteach sa doiciméad",
     "Open file locally" : "Oscail comhad go háitiúil",
     "When opening a file locally, the document will close for all users currently viewing the document." : "Agus comhad á oscailt go háitiúil, dúnfar an doiciméad do gach úsáideoirí atá ag féachaint ar an doiciméad faoi láthair.",
     "Open locally" : "Oscail go háitiúil",
