@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Inga filer hittades för denna uppgift.",
     "Cannot create document" : "Kan inte skapa dokument",
     "New Document.odt" : "Nytt Dokument.odt",
     "New Spreadsheet.ods" : "Nytt Kalkylblad.ods",
@@ -116,6 +117,7 @@ OC.L10N.register(
     "Files may still be downloadable through Nextcloud unless restricted otherwise through sharing or access control settings" : "Filer kan fortfarande vara nedladdningsbara via Nextcloud om inte annat begränsas genom delning eller åtkomstkontrollinställningar",
     "Previews will be blocked for watermarked files to not leak the first page of documents" : "Förhandsgranskningar kommer att blockeras för filer med vattenstämpel för att inte läcka den första sidan i dokument",
     "Enable watermarking" : "Aktivera vattenstämpel",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Platshållare som stöds: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Visa vattenstämpel på taggade filer",
     "Select tags to enforce watermarking" : "Välj taggar för att framtvinga vattenmärkning",
     "Show watermark for users of groups" : "Visa vattenstämpel för användare av grupper",
@@ -123,6 +125,7 @@ OC.L10N.register(
     "Show watermark for read only shares" : "Visa vattenstämpel för skrivskyddade delningar",
     "Show watermark for shares without download permission" : "Visa vattenstämpel för delningar utan nedladdningstillstånd",
     "Show watermark for all link shares" : "Visa vattenstämpel för alla länkdelningar",
+    "Electronic signature settings" : "Inställningar för elektroniska signaturer",
     "Failed to save settings" : "Kunde inte spara inställningarna",
     "Font format not supported ({mime})" : "Fontformat stöds inte ({mime})",
     "Guest name" : "Gästnamn",
