@@ -84,6 +84,7 @@
     "Enable watermarking" : "워터마크 활성화",
     "Failed to save settings" : "환경설정 저장 실패",
     "Font format not supported ({mime})" : "지원되지 않는 서체 형식입니다 ({mime})",
+    "Submit name" : "이름 제출",
     "Confirm" : "확인",
     "Cancel" : "취소",
     "Save as" : "다른 이름으로 저장",

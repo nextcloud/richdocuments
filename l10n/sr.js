@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Није пронађен ниједан фајл за овај задатак.",
     "Cannot create document" : "Документ не може да се креира",
     "New Document.odt" : "New Document.odt",
     "New Spreadsheet.ods" : "New Spreadsheet.ods",
@@ -133,6 +134,8 @@ OC.L10N.register(
     "Show watermark for download hidden shares" : "Приказуј водени жиг за преузимање скривених дељења",
     "Show watermark for read only link shares" : "Показуј ведени жиг у дељењима преко линка која могу само да се читају",
     "Show watermark on link shares with specific system tags" : "Приказуј водени жиг у дељењима са одређеним системским ознакама",
+    "Electronic signature settings" : "Поставке електронског потписа",
+    "Client ID for the electronic signature API" : "ИД клијента за API електронског потписа",
     "Contact {0} to get an own installation." : "Обратите се {0} да набавите сопствену инсталацију.",
     "Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config." : "Обезбедите постављање следеће URL адресе: {url} у coolwsd.xml фајлу вашег Collabora Online сервера омогућава аутоматско учитавање додатих фонтова. Водите рачуна да ће http:// функционисати само са дибаг изградњама Collabora Online. За продукцију морате да користите https:// за конфигурисање удаљених фонтова.",
     "Failed to save settings" : "Грешка приликом чувања поставки",
