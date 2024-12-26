@@ -183,6 +183,7 @@
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Erro: non é posíbel iniciar o servidor integrado Collabora Online, configure un independente.",
     "Close version preview" : "Pechar a vista previa da versión",
     "Edit with {productName}" : "Editar con {productName}",
+    "Insert into document" : "Inserir no documento",
     "Open file locally" : "Abrir o ficheiro localmente",
     "When opening a file locally, the document will close for all users currently viewing the document." : "Ao abrir un ficheiro localmente, o documento pecharase para todos os usuarios que estean a ver o documento.",
     "Open locally" : "Abrir localmente",
