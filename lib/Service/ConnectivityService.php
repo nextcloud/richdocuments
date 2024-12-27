@@ -9,6 +9,8 @@ namespace OCA\Richdocuments\Service;
 use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\WOPI\Parser;
+use OCP\Http\Client\IClientService;
+use OCP\IURLGenerator;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ConnectivityService {
@@ -17,6 +19,8 @@ class ConnectivityService {
 		private DiscoveryService $discoveryService,
 		private CapabilitiesService $capabilitiesService,
 		private Parser $parser,
+		private IClientService $clientService,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -45,6 +49,38 @@ class ConnectivityService {
 			throw new \Exception('Empty capabilities, unexpected result from ' . $this->capabilitiesService->getCapabilitiesEndpoint());
 		}
 		$output->writeln('<info>✓ Detected WOPI server: ' . $this->capabilitiesService->getServerProductName() . ' ' . $this->capabilitiesService->getProductVersion() . '</info>');
+	}
+
+	public function testCallback(OutputInterface $output): void {
+		$url = $this->parser->getUrlSrcValue('Capabilities');
+		if ($url === '') {
+			// Fixme can we skip early if the collabora version does not have the wopiAccessCheck endpoint, maybe it can be exposed in discovery
+			return;
+		}
+
+		$url = str_replace('/hosting/capabilities', '/hosting/wopiAccessCheck', $url);
+
+		$callbackUrl = $this->urlGenerator->getAbsoluteURL('/status.php');
+
+		$client = $this->clientService->newClient();
+		try {
+			$response = $client->post($url, [
+				...RemoteOptionsService::getDefaultOptions(),
+				'body' => json_encode([
+					'callbackUrl' => $callbackUrl,
+				]),
+				'headers' => [
+					'Content-Type' => 'application/json',
+				],
+			]);
+			$result = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+			if ($result['status'] === 'CheckStatus::WopiHostNotAllowed') {
+				throw new \Exception('WOPI host not allowed by Collabora');
+			}
+		} catch (Exception $e) {
+			throw $e;
+		}
+		$output->writeln('<info>✓ URL Callback ok</info>');
 	}
 
 	/**

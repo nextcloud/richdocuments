@@ -81,6 +81,15 @@ class ActivateConfig extends Command {
 				return 1;
 			}
 
+			try {
+				$this->connectivityService->testCallback($output);
+			} catch (\Throwable $e) {
+				// FIXME: Optional when allowing generic WOPI servers
+				$output->writeln('<error>Failed to fetch wopi');
+				$output->writeln($e->getMessage());
+				return 1;
+			}
+
 			// Summarize URLs for easier debugging
 
 			$output->writeln('');
