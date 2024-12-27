@@ -16,6 +16,7 @@ use OCA\Richdocuments\TemplateManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
+use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<Event|FileCreatedFromTemplateEvent> */
 class FileCreatedFromTemplateListener implements IEventListener {
@@ -24,6 +25,7 @@ class FileCreatedFromTemplateListener implements IEventListener {
 		private TemplateManager $templateManager,
 		private TemplateFieldService $templateFieldService,
 		private CapabilitiesService $capabilitiesService,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -58,8 +60,12 @@ class FileCreatedFromTemplateListener implements IEventListener {
 		}
 
 		if ($this->capabilitiesService->hasFormFilling()) {
-			$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields());
-			$event->getTarget()->putContent($filledTemplate);
+			try {
+				$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields());
+				$event->getTarget()->putContent($filledTemplate);
+			} catch (\Exception $e) {
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
+			}
 		}
 
 		// Avoid having the mimetype of the source file set
