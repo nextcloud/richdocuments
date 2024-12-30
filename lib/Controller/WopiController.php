@@ -206,9 +206,13 @@ class WopiController extends Controller {
 		$share = $this->getShareForWopiToken($wopi);
 		if ($this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share)) {
 			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : "";
+			$currentDateTime = new \DateTime(
+				'now',
+				new \DateTimeZone($this->config->getSystemValueString('default_timezone', 'UTC'))
+			);
 			$replacements = [
 				'userId' => $wopi->getEditorUid(),
-				'date' => (new \DateTime())->format('Y-m-d H:i:s'),
+				'date' => $currentDateTime->format('Y-m-d H:i:s'),
 				'themingName' => \OC::$server->getThemingDefaults()->getName(),
 				'userDisplayName' => $userDisplayName,
 				'email' => $email,
