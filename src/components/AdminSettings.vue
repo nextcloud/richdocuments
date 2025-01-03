@@ -436,6 +436,7 @@ const SERVER_STATE_BROWSER_CONNECTION_ERROR = 4
 
 const fontMimes = [
 	'font/ttf',
+	'font/otf',
 	'application/font-sfnt',
 	'font/opentype',
 	'application/vnd.oasis.opendocument.formula-template',
