@@ -392,6 +392,50 @@ class WopiController extends Controller {
 		}
 	}
 
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'POST', url: 'wopi/settings')]
+	public function handleSettingsFile(string $access_token): JSONResponse {
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+
+			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
+				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
+			}
+
+			$content = fopen('php://input', 'rb');
+			if (!$content) {
+				throw new \Exception("Failed to read input stream.");
+			}
+
+			$fileContent = stream_get_contents($content);
+			fclose($content);
+
+			if (empty($fileContent)) {
+				throw new \Exception("No file content received.");
+			}
+
+			$jsonContent = json_decode($fileContent, true);
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				throw new \Exception("Invalid JSON content: " . json_last_error_msg());
+			}
+
+			return new JSONResponse($jsonContent, Http::STATUS_OK);
+
+		} catch (UnknownTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
+		} catch (ExpiredTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => 'Token expired'], Http::STATUS_UNAUTHORIZED);
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
 	/**
 	 * Given an access token and a fileId, replaces the files with the request body.
 	 * Expects a valid token in access_token parameter.
