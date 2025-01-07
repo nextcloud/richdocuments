@@ -62,30 +62,6 @@ class TokenManager {
 
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
-		    // // // Parse docKey to extract fileId
-			// // // Usually docKey is something like "<fileId>_<instanceid>[_version]"
-			// $parts = explode('_', $docKey);
-			// $fileId = (int)$parts[0];
-
-			// // If fileId is -1, this is the admin-settings scenario
-			// // Skip any file node lookup here and just proceed to generate a token
-			// if ($fileId === -1) {
-			// 	// Create a token without referencing a file node
-			// 	// Set fields as needed. No file-related constraints
-			// 	return $this->createToken([
-			// 		'fileid' => $fileId,
-			// 		'editor' => $editorUid,
-			// 		'canwrite' => true, // or false, depending on your needs
-			// 		'hideDownload' => false,
-			// 		'direct' => $direct,
-			// 		'templateId' => null,
-			// 		'version' => 0,
-			// 		'server_host' => '', // fill as needed
-			// 		'ownerUid' => $editorUid,
-			// 	]);
-			// }
-
-
 		// if the user is not logged-in do use the sharers storage
 		if ($shareToken !== null) {
 			/** @var File $file */
