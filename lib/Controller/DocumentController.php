@@ -385,24 +385,23 @@ class DocumentController extends Controller {
 	#[PublicPage]
 	public function token(int $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null): DataResponse {
 		try {
-			// if ($fileId === -1 && $path !== null && str_starts_with($path, 'admin-settings/')) {
-			// 	$parts = explode('/', $path);
-			// 	$adminUserId = $parts[1] ?? $this->userId; // fallback if needed
+			if ($fileId === -1 && $path !== null && str_starts_with($path, 'admin-settings/')) {
+				$parts = explode('/', $path);
+				$adminUserId = $parts[1] ?? $this->userId; // fallback if needed
 	
-			// 	$docKey = $fileId . '_' . $this->config->getSystemValue('instanceid');
+				$docKey = $fileId . '_' . $this->config->getSystemValue('instanceid');
 	
-			// 	$wopi = $this->tokenManager->generateWopiToken($fileId, null, $adminUserId);
+				$wopi = $this->tokenManager->generateWopiToken($fileId, null, $adminUserId);
 	
-			// 	$coolBaseUrl = $this->appConfig->getCollaboraUrlPublic();
-			// 	$adminSettingsWopiSrc = $coolBaseUrl . '/browser/admin-settings.html?' 
-			// 		. 'WOPISrc=' . urlencode($this->urlGenerator->getAbsoluteURL('/index.php/apps/richdocuments/wopi/admin-settings'));
+				$coolBaseUrl = $this->appConfig->getCollaboraUrlPublic();
+				$adminSettingsWopiSrc = $coolBaseUrl . '/browser/admin-settings.html?';
 	
-			// 	return new DataResponse([
-			// 		'urlSrc' => $adminSettingsWopiSrc,
-			// 		'token' => $wopi->getToken(),
-			// 		'token_ttl' => $wopi->getExpiry(),
-			// 	]);
-			// }
+				return new DataResponse([
+					'urlSrc' => $adminSettingsWopiSrc,
+					'token' => $wopi->getToken(),
+					'token_ttl' => $wopi->getExpiry(),
+				]);
+			}
 	
 			// Normal file handling (unchanged)
 			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : null;

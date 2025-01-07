@@ -48,10 +48,19 @@ class TokenManager {
 	 * @throws Exception
 	 */
 	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false): Wopi {
-		[$fileId, , $version] = Helper::parseFileId($fileId);
+		
 		$owneruid = null;
 		$hideDownload = false;
 		$rootFolder = $this->rootFolder;
+
+		if ($fileId == "-1") 
+		{
+			$editoruid = $this->userId;
+			$serverHost = $this->urlGenerator->getAbsoluteURL('/');
+			return $this->wopiMapper->generateUserSettingsToken($fileId, $owneruid, $editoruid, 0, true, $serverHost, "", $hideDownload, $direct, 0, $shareToken);
+		}
+
+		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		    // // // Parse docKey to extract fileId
 			// // // Usually docKey is something like "<fileId>_<instanceid>[_version]"

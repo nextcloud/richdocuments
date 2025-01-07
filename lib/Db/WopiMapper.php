@@ -66,6 +66,34 @@ class WopiMapper extends QBMapper {
 		return $wopi;
 	}
 
+	public function generateUserSettingsToken($fileId, $owner, $editor, $version, $updatable, $serverHost, ?string $guestDisplayname = null, $hideDownload = false, $direct = false, $templateId = 0, $share = null) {
+		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+
+		$wopi = Wopi::fromParams([
+			'fileid' => $fileId,
+			'ownerUid' => $owner,
+			'editorUid' => $editor,
+			'version' => $version,
+			'canwrite' => $updatable,
+			'serverHost' => $serverHost,
+			'token' => $token,
+			'expiry' => $this->calculateNewTokenExpiry(),
+			'guestDisplayname' => $guestDisplayname,
+			'hideDownload' => $hideDownload,
+			'direct' => $direct,
+			'templateId' => $templateId,
+			'remoteServer' => '',
+			'remoteServerToken' => '',
+			'share' => $share,
+			'tokenType' => Wopi::TOKEN_TYPE_SETTING_AUTH
+		]);
+
+		/** @var Wopi $wopi */
+		$wopi = $this->insert($wopi);
+
+		return $wopi;
+	}
+
 	public function generateInitiatorToken($uid, $remoteServer) {
 		$token = $this->random->generate(32, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
 
