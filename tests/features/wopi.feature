@@ -358,3 +358,21 @@ Feature: WOPI
     And Collabora saves the content of "./../emptyTemplates/template.ods" as "/saved-as-guest-document.odt"
     And as "user1" the file "/SharedFolder/saved-as-guest-document.odt" exists
     And as "user1" the file "/saved-as-guest-document.odt" does not exist
+
+  Scenario: Rename file on share link
+    Given as user "user1"
+
+    And User "user1" creates a folder "/SharedFolder"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/SharedFolder/file.odt"
+    And as "user1" create a share with
+      | path        | /SharedFolder |
+      | shareType   | 3             |
+    And Updating last share with
+      | permissions | 31 |
+    And User "user1" opens the file "file.odt" of the shared link
+    And Collabora fetches checkFileInfo
+
+    And as "user1" rename "/SharedFolder/file.odt" to "renamed_file"
+    And as "user1" the file "/SharedFolder/renamed_file.odt" exists
+    And as "user1" the file "/SharedFolder/file.odt" does not exist
+    And as "user1" the file "/renamed_file.odt" does not exist
