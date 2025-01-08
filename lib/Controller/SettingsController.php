@@ -7,6 +7,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
@@ -54,6 +55,7 @@ class SettingsController extends Controller {
 		private CapabilitiesService $capabilitiesService,
 		private DemoService $demoService,
 		private FontService $fontService,
+		private SettingsService $settingsService,
 		private LoggerInterface $logger,
 		private ?string $userId,
 	) {
@@ -448,6 +450,169 @@ class SettingsController extends Controller {
 		} catch (UploadException|NotPermittedException $e) {
 			$this->logger->error('Upload error', ['exception' => $e]);
 			return new JSONResponse(['error' => 'Upload error'], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @return JSONResponse
+	 * @throws UploadException
+	 * @throws NotPermittedException
+	 * @throws Exception
+	 */
+	public function uploadSystemFile(): JSONResponse {
+		try {
+			$file = $this->getUploadedFile('systemfile');
+			if (!isset($file['tmp_name'], $file['name'])) {
+				return new JSONResponse(['error' => 'No uploaded file'], 400);
+			}
+
+			$newFileResource = fopen($file['tmp_name'], 'rb');
+			if ($newFileResource === false) {
+				throw new UploadException('Could not open file resource');
+			}
+
+			$result = $this->settingsService->uploadSystemFile($file['name'], $newFileResource);
+			return new JSONResponse($result);
+		} catch (NotPermittedException $e) {
+			$this->logger->error('Not permitted', ['exception' => $e]);
+			return new JSONResponse(['error' => 'Not permitted'], 403);
+		} catch (UploadException $e) {
+			$this->logger->error('UploadException', ['exception' => $e]);
+			return new JSONResponse(['error' => $e->getMessage()], 400);
+		} catch (\Exception $e) {
+			$this->logger->error('General error', ['exception' => $e]);
+			return new JSONResponse(['error' => $e->getMessage()], 500);
+		}
+	}
+
+	/**
+	* @return JSONResponse
+	*/
+	public function getSystemFileList(): JSONResponse {
+		try {
+			$fileNames = $this->settingsService->getSystemFileNames();
+			return new JSONResponse($fileNames); 
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
+		}
+	}
+
+	/**
+	 * @param string $fileName
+	 * @return DataResponse
+	 * 
+ 	 * @NoAdminRequired
+ 	 * @NoCSRFRequired
+ 	 * @PublicPage
+	 *
+	 */
+	public function getSystemFile(string $fileName) {
+		try {
+			$systemFile = $this->settingsService->getSystemFile($fileName);
+			$mimeType = $systemFile->getMimeType() ?: 'application/octet-stream';
+			$fileContents = $systemFile->getContent();
+	
+			return new DataDisplayResponse(
+				$fileContents,
+				Http::STATUS_OK,
+				[
+					'Content-Type' => $mimeType,
+					'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+				]
+			);
+		} catch (NotFoundException $e) {
+			return new JSONResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
+		}
+	}
+	
+	/**
+	 * @return JSONResponse
+	 */
+	public function uploadUserFile(): JSONResponse {
+		// Make sure we know who is uploading
+		if ($this->userId === null) {
+			return new JSONResponse(['error' => 'User not logged in'], 401);
+		}
+
+		try {
+			// The key "userfile" must match the FormData append() key in Vue
+			$file = $this->getUploadedFile('userfile');
+			if (!isset($file['tmp_name'], $file['name'])) {
+				return new JSONResponse(['error' => 'No uploaded file'], 400);
+			}
+
+			$newFileResource = fopen($file['tmp_name'], 'rb');
+			if ($newFileResource === false) {
+				throw new UploadException('Could not open file resource');
+			}
+
+			$result = $this->settingsService->uploadUserFile($this->userId, $file['name'], $newFileResource);
+			return new JSONResponse($result);  // e.g. { "size": 1234 }
+		} catch (NotPermittedException $e) {
+			$this->logger->error('Not permitted', ['exception' => $e]);
+			return new JSONResponse(['error' => 'Not permitted'], 403);
+		} catch (UploadException $e) {
+			$this->logger->error('UploadException', ['exception' => $e]);
+			return new JSONResponse(['error' => $e->getMessage()], 400);
+		} catch (\Exception $e) {
+			$this->logger->error('General error', ['exception' => $e]);
+			return new JSONResponse(['error' => $e->getMessage()], 500);
+		}
+	}
+
+	/**
+	 * @return JSONResponse
+	 */
+	public function getUserFileList(): JSONResponse {
+		if ($this->userId === null) {
+			return new JSONResponse(['error' => 'User not logged in'], Http::STATUS_UNAUTHORIZED);
+		}
+
+		try {
+			$fileNames = $this->settingsService->getUserFileNames($this->userId);
+			return new JSONResponse($fileNames); 
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
+		} catch (\Exception $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @param string $fileName
+	 *
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function downloadUserFile(string $fileName) {
+		if ($this->userId === null) {
+			return new JSONResponse(['error' => 'User not logged in'], Http::STATUS_UNAUTHORIZED);
+		}
+	
+		try {
+			$userFile = $this->settingsService->getUserFile($this->userId, $fileName);
+			$mimeType = $userFile->getMimeType() ?: 'application/octet-stream';
+			$content = $userFile->getContent();  // get file bytes
+	
+			// Return as DataDisplayResponse
+			$response = new DataDisplayResponse(
+				$content,
+				Http::STATUS_OK,
+				[
+					'Content-Type' => $mimeType,
+					'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+				]
+			);
+	
+			return $response;
+		} catch (NotFoundException $e) {
+			return new JSONResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
+		} catch (\Exception $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
