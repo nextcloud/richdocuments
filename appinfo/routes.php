@@ -37,6 +37,12 @@ return [
 		['name' => 'settings#getFontFileOverview', 'url' => 'settings/fonts/{name}/overview', 'verb' => 'GET'],
 		['name' => 'settings#deleteFontFile', 'url' => 'settings/fonts/{name}', 'verb' => 'DELETE'],
 		['name' => 'settings#uploadFontFile', 'url' => 'settings/fonts', 'verb' => 'POST'],
+		['name' => 'settings#uploadSystemFile', 'url' => 'settings/system-files', 'verb' => 'POST'],
+		['name' => 'settings#getSystemFileList', 'url' => 'settings/system-files.json', 'verb' => 'GET' ],
+		['name' => 'settings#getSystemFile', 'url' => 'settings/system-files/{fileName}', 'verb' => 'GET'],
+		['name' => 'settings#uploadUserFile', 'url' => 'settings/user-files', 'verb' => 'POST'],
+		['name' => 'settings#getUserFileList', 'url' => 'settings/user-files.json', 'verb' => 'GET'],
+		['name' => 'settings#downloadUserFile', 'url' => 'settings/user-files/{fileName}', 'verb' => 'GET'],
 
 		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],
