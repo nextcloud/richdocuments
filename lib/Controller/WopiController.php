@@ -57,6 +57,7 @@ use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Richdocuments\Service\SettingsService;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
@@ -86,6 +87,7 @@ class WopiController extends Controller {
 		private ILockManager $lockManager,
 		private IEventDispatcher $eventDispatcher,
 		private TaskProcessingManager $taskProcessingManager,
+		private SettingsService $settingsService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -395,7 +397,7 @@ class WopiController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	#[FrontpageRoute(verb: 'POST', url: 'wopi/settings')]
+	#[FrontpageRoute(verb: 'POST', url: 'wopi/settings/upload')]
 	public function handleSettingsFile(string $access_token): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
@@ -408,34 +410,31 @@ class WopiController extends Controller {
 			if (!$content) {
 				throw new \Exception("Failed to read input stream.");
 			}
-
+	
 			$fileContent = stream_get_contents($content);
 			fclose($content);
 
-			if (empty($fileContent)) {
-				throw new \Exception("No file content received.");
-			}
 
-			$jsonContent = json_decode($fileContent, true);
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				throw new \Exception("Invalid JSON content: " . json_last_error_msg());
-			}
+			$newFileName = 'settings-' . uniqid() . '.json';
 
-			return new JSONResponse($jsonContent, Http::STATUS_OK);
+			$result = $this->settingsService->uploadSystemFile($newFileName, $fileContent);
+
+			return new JSONResponse([
+				'status' => 'success',
+				'filename' => $newFileName,
+				'details' => $result,
+			], Http::STATUS_OK);
 
 		} catch (UnknownTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
-		} catch (ExpiredTokenException $e) {
-			$this->logger->debug($e->getMessage(), ['exception' => $e]);
-			return new JSONResponse(['error' => 'Token expired'], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
-
+	
 	/**
 	 * Given an access token and a fileId, replaces the files with the request body.
 	 * Expects a valid token in access_token parameter.
