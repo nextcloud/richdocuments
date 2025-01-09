@@ -385,7 +385,7 @@ class DocumentController extends Controller {
 	#[PublicPage]
 	public function token(int $fileId, ?string $shareToken = null, ?string $path = null, ?string $guestName = null): DataResponse {
 		try {
-			if ($fileId === -1 && $path !== null && str_starts_with($path, 'admin-settings/')) {
+			if ($fileId === -1 && $path !== null && str_starts_with($path, 'adminIntegratorSettings/')) {
 				$parts = explode('/', $path);
 				$adminUserId = $parts[1] ?? $this->userId; // fallback if needed
 	
@@ -394,7 +394,7 @@ class DocumentController extends Controller {
 				$wopi = $this->tokenManager->generateWopiToken($fileId, null, $adminUserId);
 	
 				$coolBaseUrl = $this->appConfig->getCollaboraUrlPublic();
-				$adminSettingsWopiSrc = $coolBaseUrl . '/browser/admin-settings.html?';
+				$adminSettingsWopiSrc = $coolBaseUrl . '/browser/adminIntegratorSettings.html?';
 	
 				return new DataResponse([
 					'urlSrc' => $adminSettingsWopiSrc,
