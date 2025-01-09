@@ -235,4 +235,17 @@ class RichDocumentsContext implements Context {
 			'guestName' => $displayName,
 		], [ 'auth' => null ]);
 	}
+
+	/**
+	 * @Given /^as "([^"]*)" rename "([^"]*)" to "([^"]*)"$/
+	 */
+	public function renameFileTo($user, $file, $newName) {
+		$this->serverContext->usingWebAsUser($user);
+		$davClient = $this->filesContext->getSabreClient($user);
+		$path = $this->filesContext->makeSabrePath($user, $file);
+		$result = $davClient->propFind($path, ['{http://owncloud.org/ns}fileid']);
+		$fileId = $result['{http://owncloud.org/ns}fileid'];
+
+		$this->wopiContext->collaboraRenamesTo($fileId, $newName);
+	}
 }

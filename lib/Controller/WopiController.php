@@ -571,8 +571,7 @@ class WopiController extends Controller {
 				$suggested = $this->request->getHeader('X-WOPI-RequestedName');
 				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7') . '.' . $file->getExtension();
 
-				$parent = $isPublic ? dirname($file->getPath()) : $userFolder->getPath();
-				$path = $this->normalizePath($suggested, $parent);
+				$path = $this->normalizePath($suggested, dirname($file->getPath()));
 
 				if ($path === '') {
 					return new JSONResponse([
