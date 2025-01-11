@@ -433,7 +433,7 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: 'wopi/settings/upload')]
-	public function handleSettingsFile(string $fileId, string $access_token): JSONResponse {
+	public function uploadSettingsFile(string $fileId, string $access_token): JSONResponse {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
