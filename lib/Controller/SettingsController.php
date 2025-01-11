@@ -65,6 +65,7 @@ class SettingsController extends Controller {
 			$output = new NullOutput();
 			$this->connectivityService->testDiscovery($output);
 			$this->connectivityService->testCapabilities($output);
+			$this->connectivityService->testCallback($output);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
@@ -181,6 +182,7 @@ class SettingsController extends Controller {
 			$this->connectivityService->testDiscovery($output);
 			$this->connectivityService->testCapabilities($output);
 			$this->connectivityService->autoConfigurePublicUrl();
+			$this->connectivityService->testCallback($output);
 		} catch (\Throwable $e) {
 			return new JSONResponse([
 				'status' => 'error',
