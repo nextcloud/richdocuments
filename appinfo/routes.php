@@ -43,6 +43,7 @@ return [
 		['name' => 'settings#uploadUserFile', 'url' => 'settings/user-files', 'verb' => 'POST'],
 		['name' => 'settings#getUserFileList', 'url' => 'settings/user-files.json', 'verb' => 'GET'],
 		['name' => 'settings#downloadUserFile', 'url' => 'settings/user-files/{fileName}', 'verb' => 'GET'],
+		['name' => 'settings#deleteSystemFile', 'url' => 'settings/system-files/{fileName}', 'verb' => 'DELETE'],
 
 		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],

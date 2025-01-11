@@ -48,6 +48,11 @@
 							class="button">
 							{{ t('richdocuments', 'Download') }}
 						</a>
+
+						<button class="button"
+							@click="deleteSystemFile(fileName)">
+							{{ t('richdocuments', 'Delete') }}
+						</button>
 					</li>
 				</ul>
 			</div>
@@ -818,6 +823,23 @@ export default {
 				})
 				.catch((error) => {
 					console.error('Failed to load system files:', error)
+				})
+		},
+
+		deleteSystemFile(fileName) {
+			if (!window.confirm(`Are you sure you want to delete "${fileName}"?`)) {
+				return
+			}
+
+			const url = generateUrl('/apps/richdocuments/settings/system-files/' + encodeURIComponent(fileName))
+
+			axios.delete(url)
+				.then((response) => {
+					this.getSystemFiles()
+				})
+				.catch((error) => {
+					console.error('Delete error', error.response?.data || error)
+					showError(t('richdocuments', 'Could not delete file') + ': ' + fileName)
 				})
 		},
 
