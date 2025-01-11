@@ -24,68 +24,6 @@
 					:access-token-t-t-l="accessTokenTTL" />
 			</div>
 
-			<div v-if="isSetup" id="system-upload-settings" class="section">
-				<h2>{{ t('richdocuments', 'Upload System File (Minimal Example)') }}</h2>
-				<p>{{ t('richdocuments', 'Pick a file to upload into the system-settings folder:') }}</p>
-
-				<input type="file"
-					:disabled="uploadingSystemFile"
-					@change="uploadSystemFile">
-			</div>
-
-			<div id="system-file-list" class="section">
-				<h2>System Files</h2>
-				<button @click="getSystemFiles">
-					{{ t('richdocuments', 'Load System Files') }}
-				</button>
-
-				<ul>
-					<li v-for="fileName in systemFiles" :key="fileName">
-						{{ fileName }}
-						<a :href="downloadUrl(fileName)"
-							target="_blank"
-							rel="noopener"
-							class="button">
-							{{ t('richdocuments', 'Download') }}
-						</a>
-
-						<button class="button"
-							@click="deleteSystemFile(fileName)">
-							{{ t('richdocuments', 'Delete') }}
-						</button>
-					</li>
-				</ul>
-			</div>
-
-			<div v-if="isSetup" id="user-upload-settings" class="section">
-				<h2>Upload File to User Settings (Minimal Example)</h2>
-				<p>Select a file to store in "user-settings-{{ userId }}" folder:</p>
-
-				<input type="file"
-					:disabled="uploadingUserFile"
-					@change="uploadUserFile">
-			</div>
-
-			<div v-if="isSetup" id="user-files-section" class="section">
-				<h2>User Files</h2>
-				<p>Load and see your user-specific files stored in <strong>user-settings-{{ userId }}</strong>.</p>
-
-				<button :disabled="loadingUserFiles" @click="getUserFiles">
-					{{ loadingUserFiles ? 'Loading...' : 'Show my files' }}
-				</button>
-
-				<ul>
-					<li v-for="filename in userFiles" :key="filename">
-						{{ filename }}
-						<a :href="downloadUserFileUrl(filename)"
-							target="_blank"
-							rel="noopener">
-							Download
-						</a>
-					</li>
-				</ul>
-			</div>
-
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
 				<NcNoteCard v-if="serverError == 2" type="error">
 					<p>{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</p>
@@ -548,12 +486,6 @@ export default {
 			productName: loadState('richdocuments', 'productName', 'Nextcloud Office'),
 			hasNextcloudBranding: loadState('richdocuments', 'hasNextcloudBranding', true),
 
-			uploadingSystemFile: false,
-			systemFiles: [],
-			uploadingUserFile: false,
-			userFiles: [],
-			loadingUserFiles: false,
-
 			serverMode: '',
 			serverError: SERVER_STATE_LOADING,
 			errorMessage: null,
@@ -653,13 +585,6 @@ export default {
 			await this.generateAccessToken()
 		} else {
 			console.error('User not authenticated')
-		}
-		if (this.isSetup) {
-			this.getSystemFiles()
-		}
-
-		if (this.isSetup) {
-			this.getUserFiles()
 		}
 	},
 	beforeMount() {
@@ -786,110 +711,6 @@ export default {
 				OC.Notification.showTemporary(t('richdocuments', 'Failed to save settings'))
 				console.error(error)
 			})
-		},
-		uploadSystemFile(event) {
-			const file = event.target.files[0]
-			if (!file) {
-				return
-			}
-			this.uploadingSystemFile = true
-
-			const formData = new FormData()
-			formData.append('systemfile', file)
-
-			const url = this.$options.methods.generateSystemFilesUrl()
-
-			axios.post(url, formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			}).then((response) => {
-			}).catch((error) => {
-				console.error('System file upload error:', error)
-				showError(error?.response?.data?.error ?? 'Unknown error')
-			}).finally(() => {
-				this.uploadingSystemFile = false
-				event.target.value = ''
-			})
-		},
-
-		generateSystemFilesUrl() {
-			return generateUrl('/apps/richdocuments/settings/system-files')
-		},
-
-		getSystemFiles() {
-			const url = generateUrl('/apps/richdocuments/settings/system-files.json')
-			axios.get(url)
-				.then((response) => {
-					this.systemFiles = response.data
-				})
-				.catch((error) => {
-					console.error('Failed to load system files:', error)
-				})
-		},
-
-		deleteSystemFile(fileName) {
-			if (!window.confirm(`Are you sure you want to delete "${fileName}"?`)) {
-				return
-			}
-
-			const url = generateUrl('/apps/richdocuments/settings/system-files/' + encodeURIComponent(fileName))
-
-			axios.delete(url)
-				.then((response) => {
-					this.getSystemFiles()
-				})
-				.catch((error) => {
-					console.error('Delete error', error.response?.data || error)
-					showError(t('richdocuments', 'Could not delete file') + ': ' + fileName)
-				})
-		},
-
-		downloadUrl(fileName) {
-			return generateUrl('/apps/richdocuments/settings/system-files/' + encodeURIComponent(fileName))
-		},
-
-		uploadUserFile(event) {
-			const file = event.target.files[0]
-			if (!file) {
-				return
-			}
-			this.uploadingUserFile = true
-
-			const formData = new FormData()
-			formData.append('userfile', file)
-
-			const url = generateUrl('/apps/richdocuments/settings/user-files')
-			axios.post(url, formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			})
-				.then((response) => {
-				})
-				.catch((error) => {
-					console.error('User file upload error:', error)
-				})
-				.finally(() => {
-					this.uploadingUserFile = false
-					event.target.value = ''
-				})
-		},
-
-		getUserFiles() {
-			this.loadingUserFiles = true
-			const url = generateUrl('/apps/richdocuments/settings/user-files.json')
-			axios.get(url)
-				.then((response) => {
-					this.userFiles = response.data
-				})
-				.catch((error) => {
-					console.error('Failed to load user files:', error)
-					showError('Could not load your user files')
-				})
-				.finally(() => {
-					this.loadingUserFiles = false
-				})
-		},
-
-		downloadUserFileUrl(fileName) {
-			return generateUrl('/apps/richdocuments/settings/user-files/' + encodeURIComponent(fileName))
 		},
 
 		async updateUseGroups(enabled) {
