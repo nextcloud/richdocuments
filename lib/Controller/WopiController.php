@@ -58,6 +58,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use OCA\Richdocuments\Service\SettingsService;
+use \OCA\Richdocuments\WOPI\SettingsUrl;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
@@ -402,30 +403,24 @@ class WopiController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/settings')]
 	public function getSettings(string $type, string $access_token): JSONResponse {
-		if ($type !== 'UserSettingsUri') {
+		if (empty($type)) {
 			return new JSONResponse(['error' => 'Invalid type parameter'], Http::STATUS_BAD_REQUEST);
 		}
 	
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-	
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
 				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
 			}
 	
-			// user admin check
 			$user = $this->userManager->get($wopi->getEditorUid());
 			if (!$user || !$this->groupManager->isAdmin($user->getUID())) {
 				return new JSONResponse(['error' => 'Access denied'], Http::STATUS_FORBIDDEN);
 			}
 	
-			$systemFiles = $this->settingsService->getSystemFiles();
-			$formattedList = $this->settingsService->getSystemFileList($systemFiles);
-	
-			$response = new JSONResponse($formattedList);
-	
-			return $response;
-		} catch (UnknownTokenException|ExpiredTokenException $e) {
+			$userConfig = $this->settingsService->generateSettingsConfig($type);
+			return new JSONResponse($userConfig, Http::STATUS_OK);
+		} catch (UnknownTokenException | ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Unauthorized'], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
@@ -450,16 +445,17 @@ class WopiController extends Controller {
 			if (!$content) {
 				throw new \Exception("Failed to read input stream.");
 			}
-	
+
 			$fileContent = stream_get_contents($content);
 			fclose($content);
-
-			// TODO: JSON based upload
-			$result = $this->settingsService->uploadSystemFile($fileId, $fileContent);
-
+			
+			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
+			$settingsUrl = new SettingsUrl($fileId);
+			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent);
+			
 			return new JSONResponse([
 				'status' => 'success',
-				'filename' => $newFileName,
+				'filename' => $settingsUrl->getFileName(),
 				'details' => $result,
 			], Http::STATUS_OK);
 

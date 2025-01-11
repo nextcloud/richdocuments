@@ -30,6 +30,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
+use OCA\Richdocuments\WOPI\SettingsUrl;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -640,6 +641,35 @@ class SettingsController extends Controller {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	/**
+	 *  @param string $type 
+	 *  @param string $category 
+	 *  @param string $name 
+	 * 
+	 *  @return DataDisplayResponse
+	 * 
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 **/
+	public function getSettingsFile(string $type, string $category, string $name) {
+		try {
+			$systemFile = $this->settingsService->getSettingsFile($type, $category, $name);
+			return new DataDisplayResponse(
+				$systemFile->getContent(),
+				200,
+				[
+					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
+				]
+			);
+		} catch (NotFoundException $e) {
+			return new DataDisplayResponse('File not found.', 404);
+		} catch (\Exception $e) {
+			return new DataDisplayResponse('Something went wrong', 500);
+		}
+	}
+	
 
 	/**
 	 * @param string $key

@@ -44,6 +44,16 @@ return [
 		['name' => 'settings#getUserFileList', 'url' => 'settings/user-files.json', 'verb' => 'GET'],
 		['name' => 'settings#downloadUserFile', 'url' => 'settings/user-files/{fileName}', 'verb' => 'GET'],
 		['name' => 'settings#deleteSystemFile', 'url' => 'settings/system-files/{fileName}', 'verb' => 'DELETE'],
+		[
+			'name' => 'settings#getSettingsFile',
+			'url' => 'settings/{type}/{category}/{name}',
+			'verb' => 'GET',
+			'requirements' => [
+				'type' => '[a-zA-Z0-9_\-]+',
+				'category' => '[a-zA-Z0-9_\-]+',
+				'name' => '.+',
+			],
+		],
 
 		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],
