@@ -526,6 +526,31 @@ class SettingsController extends Controller {
 			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
 		}
 	}
+
+	/**
+	 * Delete a file by name from the "system-settings" directory.
+	 *
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $fileName Name of the file to delete (URL-encoded)
+	 * @return JSONResponse A simple JSON indicating success or error
+	 */
+	public function deleteSystemFile(string $fileName): JSONResponse {
+		try {
+			$this->settingsService->deleteSystemFile($fileName);
+			return new JSONResponse(['status' => 'success'], Http::STATUS_OK);
+		} catch (NotFoundException $e) {
+			return new JSONResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	
 	/**
 	 * @return JSONResponse

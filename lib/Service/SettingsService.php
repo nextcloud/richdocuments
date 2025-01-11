@@ -80,6 +80,36 @@ class SettingsService {
 	}
 
 	/**
+     * Get the formatted list of system-settings files.
+     *
+     * @param array $systemFiles Array of ISimpleFile objects
+     * @return array
+     */
+    public function getSystemFileList(array $systemFiles): array {
+        $urlGenerator = $this->urlGenerator;
+        $list = array_map(
+            function (ISimpleFile $f) use ($urlGenerator) {
+                return [
+                    'uri' => $urlGenerator->linkToRouteAbsolute(
+                        Application::APPNAME . '.settings.getSystemFile',
+                        ['fileName' => $f->getName()]
+                    ),
+                    'stamp' => $f->getETag(),
+                ];
+            },
+            $systemFiles
+        );
+
+        // Combine all ETags into a single ETag for the entire list
+        $combinedEtag = md5(implode(',', array_map(fn(ISimpleFile $f) => $f->getETag(), $systemFiles)));
+
+        return [
+            'files' => $list,
+            'etag' => $combinedEtag,
+        ];
+    }
+
+	/**
 	 * Return a list of file objects from the user-specific directory.
 	 *
 	 * @param string $userId
