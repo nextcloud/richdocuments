@@ -125,4 +125,9 @@
       <code><![CDATA[$result && count($result) > 0]]></code>
     </RedundantCondition>
   </file>
+  <file src="lib/WOPI/SettingsUrl.php">
+    <RedundantCondition>
+      <code><![CDATA[$result && count($result) > 0]]></code>
+    </RedundantCondition>
+  </file>
 </files>
