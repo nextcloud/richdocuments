@@ -21,7 +21,8 @@
 					:endpoint="'/cool/adminIntegratorSettings'"
 					:public-wopi-url="settings.public_wopi_url"
 					:access-token="accessToken"
-					:access-token-t-t-l="accessTokenTTL" />
+					:access-token-t-t-l="accessTokenTTL"
+					:wopi-setting-base-url="wopiSettingBaseUrl" />
 			</div>
 
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
@@ -441,7 +442,7 @@ import {
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
 import '@nextcloud/dialogs/style.css'
-import { getCallbackBaseUrl } from '../helpers/url.js'
+import { getCallbackBaseUrl, getConfigFileUrl } from '../helpers/url.js'
 import { getCapabilities } from '../services/capabilities.ts'
 import CoolFrame from './CoolFrame.vue'
 
@@ -534,6 +535,7 @@ export default {
 			accessTokenTTL: '',
 			userId: '',
 			tokenGenerated: false,
+			wopiSettingBaseUrl: '',
 		}
 	},
 	computed: {
@@ -583,6 +585,11 @@ export default {
 		if (currentUser && currentUser.uid) {
 			this.userId = currentUser.uid
 			await this.generateAccessToken()
+			if (this.accessToken) {
+				this.wopiSettingBaseUrl = getConfigFileUrl()
+				console.debug('wopiSettingBaseUrl', this.wopiSettingBaseUrl)
+				this.tokenGenerated = true
+			}
 		} else {
 			console.error('User not authenticated')
 		}
@@ -647,7 +654,6 @@ export default {
 			if (data.token) {
 				this.accessToken = data.token
 				this.accessTokenTTL = data.token_ttl
-				this.tokenGenerated = true
 				console.debug('Admin settings WOPI token generated:', this.accessToken, this.accessTokenTTL)
 			} else if (data.federatedUrl) {
 				console.error('Federated URL returned, not expected for admin settings.')
