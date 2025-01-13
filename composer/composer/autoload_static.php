@@ -58,6 +58,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Controller\\FederationController' => __DIR__ . '/..' . '/../lib/Controller/FederationController.php',
         'OCA\\Richdocuments\\Controller\\MentionController' => __DIR__ . '/..' . '/../lib/Controller/MentionController.php',
         'OCA\\Richdocuments\\Controller\\OCSController' => __DIR__ . '/..' . '/../lib/Controller/OCSController.php',
+        'OCA\\Richdocuments\\Controller\\RemoteAssetController' => __DIR__ . '/..' . '/../lib/Controller/RemoteAssetController.php',
         'OCA\\Richdocuments\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Richdocuments\\Controller\\TargetController' => __DIR__ . '/..' . '/../lib/Controller/TargetController.php',
         'OCA\\Richdocuments\\Controller\\TemplateFieldController' => __DIR__ . '/..' . '/../lib/Controller/TemplateFieldController.php',
