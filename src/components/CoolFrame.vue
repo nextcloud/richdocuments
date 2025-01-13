@@ -7,6 +7,7 @@
 			:target="iframeName">
 			<input type="hidden" name="access_token" :value="accessToken">
 			<input type="hidden" name="access_token_ttl" :value="accessTokenTTL">
+			<input type="hidden" name="wopi_setting_base_url" :value="wopiSettingBaseUrl">
 			<!-- TODO: Include any other necessary hidden inputs -->
 		</form>
 		<iframe :id="iframeName"
@@ -39,6 +40,10 @@ export default {
 		},
 		accessTokenTTL: {
 			type: [String, Number],
+			required: true,
+		},
+		wopiSettingBaseUrl: {
+			type: String,
 			required: true,
 		},
 	},

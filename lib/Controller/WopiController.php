@@ -954,6 +954,6 @@ class WopiController extends Controller {
 	// todo extract nextcloud url from everything
 	private function generateUserSettingsUri(Wopi $wopi): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=UserSettingsUri' . '&access_token=' . $wopi->getToken();
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=userconfig' . '&access_token=' . $wopi->getToken();
 	}
 }
