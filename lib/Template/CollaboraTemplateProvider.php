@@ -46,7 +46,7 @@ class CollaboraTemplateProvider implements ICustomTemplateProvider {
 
 		return array_map(function (File $file) {
 			$template = new Template(CollaboraTemplateProvider::class, (string)$file->getId(), $file);
-			$template->setCustomPreviewUrl($this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $file->getId()]));
+			$template->setCustomPreviewUrl($this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $file->getId(), 'a' => true]));
 			return $template;
 		}, $collaboraTemplates);
 	}
