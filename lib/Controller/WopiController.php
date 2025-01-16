@@ -468,6 +468,42 @@ class WopiController extends Controller {
 		}
 	}
 
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'DELETE', url: 'wopi/settings')]
+	public function deleteSettingsFile(string $fileId, string $access_token): JSONResponse {
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
+			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
+				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
+			}
+
+			// Parse the dynamic file path from `fileId`, e.g. "/settings/systemconfig/wordbook/en_US (1).dic"
+			$settingsUrl = new SettingsUrl($fileId);
+			$type = $settingsUrl->getType();
+			$category = $settingsUrl->getCategory();
+			$fileName = $settingsUrl->getFileName();
+
+			$this->settingsService->deleteSettingsFile($type, $category, $fileName);
+
+			return new JSONResponse([
+				'status' => 'success',
+				'message' => "File '$fileName' deleted from '$category' of type '$type'."
+			], Http::STATUS_OK);
+		} catch (UnknownTokenException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => 'Invalid token'], Http::STATUS_FORBIDDEN);
+		} catch (NotFoundException $e) {
+			return new JSONResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
+		} catch (NotPermittedException $e) {
+			return new JSONResponse(['error' => 'Not permitted'], Http::STATUS_FORBIDDEN);
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return new JSONResponse(['error' => 'Internal Server Error'], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	
 	/**
 	 * Given an access token and a fileId, replaces the files with the request body.

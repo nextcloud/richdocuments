@@ -14,6 +14,7 @@ use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use \OCP\Files\NotPermittedException;
 
 /**
  * A generic service to manage "system-wide" files
@@ -200,8 +201,38 @@ class SettingsService {
 			throw new NotFoundException("File '{$name}' not found in category '{$category}' for type '{$type}'.");
 		}
 	}
-	
-	// TODO: add route for delete setting config file? 
+
+	/**
+	 * Delete a specific settings file from the type/category directory.
+	 *
+	 * @param string $type
+	 * @param string $category
+	 * @param string $name
+	 */
+	public function deleteSettingsFile(string $type, string $category, string $name): void {
+		try {
+			$baseFolder = $this->appData->getFolder($type);
+		} catch (NotFoundException $e) {
+			throw new NotFoundException("Type folder '{$type}' not found.");
+		}
+		
+		try {
+			$categoryFolder = $baseFolder->getFolder($category);
+		} catch (NotFoundException $e) {
+			throw new NotFoundException("Category folder '{$category}' not found in type '{$type}'.");
+		}
+
+		try {
+			if (!$categoryFolder->fileExists($name)) {
+				throw new NotFoundException("File '{$name}' not found in category '{$category}' for type '{$type}'.");
+			}
+			$categoryFolder->getFile($name)->delete();
+		} catch (NotFoundException $e) {
+			throw $e;
+		} catch (NotPermittedException $e) {
+			throw $e;
+		}
+	}
 
 	// TODO: Handle installDefaultSystemFiles setting	
 
