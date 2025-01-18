@@ -60,7 +60,7 @@
     "cypress": "^13.17.0",
     "cypress-split": "^1.24.7",
     "eslint-plugin-cypress": "^3.5.0",
-    "ts-loader": "^9.5.1",
+    "ts-loader": "^9.5.2",
     "typescript": "^5.7.3"
   },
   "jest": {
