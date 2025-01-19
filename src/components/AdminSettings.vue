@@ -641,16 +641,7 @@ export default {
 	},
 	methods: {
 		async generateAccessToken() {
-			const fileId = -1
-			const path = `adminIntegratorSettings/${this.userId}`
-			const guestName = this.userId
-
-			const { data } = await axios.post(generateUrl('/apps/richdocuments/token'), {
-				fileId,
-				path,
-				guestName,
-			})
-
+			const { data } = await axios.get(generateUrl('/apps/richdocuments/settings/generateToken/admin'))
 			if (data.token) {
 				this.accessToken = data.token
 				this.accessTokenTTL = data.token_ttl

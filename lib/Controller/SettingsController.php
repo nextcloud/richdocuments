@@ -14,7 +14,9 @@ use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\UploadException;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCP\App\IAppManager;
+use OCP\IGroupManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -58,6 +60,9 @@ class SettingsController extends Controller {
 		private FontService $fontService,
 		private SettingsService $settingsService,
 		private LoggerInterface $logger,
+		private IGroupManager $groupManager,
+		private IURLGenerator $urlGenerator,
+		private WopiMapper $wopiMapper,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -409,6 +414,32 @@ class SettingsController extends Controller {
 		} catch (NotFoundException) {
 			return new DataDisplayResponse('', Http::STATUS_NOT_FOUND);
 		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $type - Type is 'admin' or 'user'
+	 * @return DataDisplayResponse
+	 */
+	public function generateIframeToken(string $type) : DataResponse {
+		$userId = $this->userId;
+		if ($type === 'admin' && !$this->groupManager->isAdmin($userId)) {
+			return new DataResponse([
+				'message' => 'Permission denied'
+			], Http::STATUS_FORBIDDEN);
+		}
+		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
+		$version = $this->capabilitiesService->getProductVersion();
+
+		$wopi = $this->wopiMapper->generateUserSettingsToken(-1, $userId, $version, $serverHost);
+
+		return new DataResponse([
+			'token' => $wopi->getToken(),
+			'token_ttl' => $wopi->getExpiry(),
+		]);
 	}
 
 	/**

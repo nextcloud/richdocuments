@@ -46,6 +46,7 @@ return [
 				'name' => '.+',
 			],
 		],
+		['name' => 'settings#generateIframeToken', 'url' => 'settings/generateToken/{type}', 'verb' => 'GET'],
 
 		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],

@@ -104,7 +104,7 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
-			// TODO: condition for $wopi not found?
+			// TODO: condition for $wopi not found? -auth???
 
 			$userSettingsUri = $this->generateUserSettingsUri($wopi);
 
@@ -413,7 +413,7 @@ class WopiController extends Controller {
 				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
 			}
 	
-			$user = $this->userManager->get($wopi->getEditorUid());
+			$user = $this->userManager->get($wopi->getOwnerUid());
 			if (!$user || !$this->groupManager->isAdmin($user->getUID())) {
 				return new JSONResponse(['error' => 'Access denied'], Http::STATUS_FORBIDDEN);
 			}
@@ -440,6 +440,8 @@ class WopiController extends Controller {
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
 				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
 			}
+
+			// auth - for admin??
 
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
