@@ -53,13 +53,6 @@ class TokenManager {
 		$hideDownload = false;
 		$rootFolder = $this->rootFolder;
 
-		if ($fileId == "-1") 
-		{
-			$editoruid = $this->userId;
-			$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-			return $this->wopiMapper->generateUserSettingsToken($fileId, $owneruid, $editoruid, 0, true, $serverHost, "", $hideDownload, $direct, 0, $shareToken);
-		}
-
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		// if the user is not logged-in do use the sharers storage
