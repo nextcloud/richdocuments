@@ -18,7 +18,7 @@
 			<div id="admin-cool-frame-section" class="section">
 				<h2>{{ t('richdocuments', 'Collabora Admin Settings') }}</h2>
 				<CoolFrame v-if="tokenGenerated"
-					:endpoint="'/cool/adminIntegratorSettings'"
+					:iframe-type="'admin'"
 					:public-wopi-url="settings.public_wopi_url"
 					:access-token="accessToken"
 					:access-token-t-t-l="accessTokenTTL"
