@@ -93,9 +93,8 @@ export const getCoolServerUrl = (collaboraBaseUrl) => {
 	// todo fix wopi Url
 	const wopiurl = getCallbackBaseUrl() + '/index.php/apps/richdocuments/wopi/files/-1'
 
-	const AdminSettingsUrl = collaboraBaseUrl + '/browser/dist/admin/adminIntegratorSettings.html?'
-
-	return AdminSettingsUrl
+	return collaboraBaseUrl
+		+ '/browser/dist/admin/adminIntegratorSettings.html?'
 		+ 'WOPISrc=' + encodeURIComponent(wopiurl)
 }
 

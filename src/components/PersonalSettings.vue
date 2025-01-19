@@ -34,6 +34,17 @@
 			</em>
 		</p>
 
+		<!-- user settings iframe  -->
+		<div id="user-cool-frame-section" class="section">
+			<h2>{{ t('richdocuments', 'Collabora User Settings') }}</h2>
+			<CoolFrame v-if="tokenGenerated"
+				:iframe-type="'user'"
+				:public-wopi-url="public_wopi_url"
+				:access-token="accessToken"
+				:access-token-t-t-l="accessTokenTTL"
+				:wopi-setting-base-url="wopiSettingBaseUrl" />
+		</div>
+
 		<!-- Zotero -->
 		<div class="zotero-section">
 			<p><strong>{{ t('richdocuments', 'Zotero') }}</strong></p>
@@ -114,7 +125,7 @@
 </template>
 
 <script>
-import { generateFilePath } from '@nextcloud/router'
+import { generateFilePath, generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
@@ -122,6 +133,13 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import DocSigningField from './DocSigningField.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import axios from '@nextcloud/axios'
+import {
+	getCurrentUser,
+} from '@nextcloud/auth'
+
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
+import { getConfigFileUrl } from '../helpers/url.js'
+import CoolFrame from './CoolFrame.vue'
 
 export default {
 	name: 'PersonalSettings',
@@ -131,6 +149,7 @@ export default {
 		NcButton,
 		DocSigningField,
 		DeleteIcon,
+		CoolFrame,
 	},
 	props: {
 		initial: {
@@ -147,9 +166,46 @@ export default {
 			documentSigningCert: this.initial.documentSigningCert || '',
 			documentSigningKey: this.initial.documentSigningKey || '',
 			documentSigningCa: this.initial.documentSigningCa || '',
+			tokenGenerated: false,
+			accessToken: '',
+			accessTokenTTL: '',
+			userId: '',
+			wopiSettingBaseUrl: '',
+			public_wopi_url: this.initial.publicWopiUrl || '',
+		}
+	},
+	computed: {
+		shareToken() {
+			return getSharingToken()
+		},
+	},
+	async mounted() {
+		const currentUser = getCurrentUser()
+		if (currentUser && currentUser.uid) {
+			this.userId = currentUser.uid
+			await this.generateAccessToken()
+			if (this.accessToken) {
+				this.wopiSettingBaseUrl = getConfigFileUrl()
+				console.debug('wopiSettingBaseUrl', this.wopiSettingBaseUrl)
+				this.tokenGenerated = true
+			}
+		} else {
+			console.error('User not authenticated')
 		}
 	},
 	methods: {
+		async generateAccessToken() {
+			const { data } = await axios.get(generateUrl('/apps/richdocuments/settings/generateToken/user'))
+			if (data.token) {
+				this.accessToken = data.token
+				this.accessTokenTTL = data.token_ttl
+				console.debug('Admin settings WOPI token generated:', this.accessToken, this.accessTokenTTL)
+			} else if (data.federatedUrl) {
+				console.error('Federated URL returned, not expected for admin settings.')
+			} else {
+				console.error('Failed to generate token for admin settings')
+			}
+		},
 		setZoteroAPIKey(newVal) {
 			this.zoteroAPIKey = newVal
 		},
