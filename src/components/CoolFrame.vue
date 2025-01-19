@@ -8,6 +8,7 @@
 			<input type="hidden" name="access_token" :value="accessToken">
 			<input type="hidden" name="access_token_ttl" :value="accessTokenTTL">
 			<input type="hidden" name="wopi_setting_base_url" :value="wopiSettingBaseUrl">
+			<input type="hidden" name="iframe_type" :value="iframeType">
 			<!-- TODO: Include any other necessary hidden inputs -->
 		</form>
 		<iframe :id="iframeName"
@@ -26,10 +27,6 @@ import { getCoolServerUrl } from '../helpers/url.js'
 export default {
 	name: 'CoolFrame',
 	props: {
-		endpoint: {
-			type: String,
-			required: true,
-		},
 		publicWopiUrl: {
 			type: String,
 			required: true,
@@ -43,6 +40,10 @@ export default {
 			required: true,
 		},
 		wopiSettingBaseUrl: {
+			type: String,
+			required: true,
+		},
+		iframeType: {
 			type: String,
 			required: true,
 		},
