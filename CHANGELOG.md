@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.2.15
+
+### Fixed
+
+- fix: Properly throttle in error cases and add rate limit for public file creation [#4204](https://github.com/nextcloud/richdocuments/pull/4204)
+- fix: get user by display name [#4196](https://github.com/nextcloud/richdocuments/pull/4196)
+
 ## 8.2.14
 
 ### Fixed
