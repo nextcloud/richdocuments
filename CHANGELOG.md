@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.12
+
+### Fixed
+
+- fix: Properly throttle in error cases and add rate limit for public file creation [#4205](https://github.com/nextcloud/richdocuments/pull/4205)
+
 ## 8.0.11
 
 ### Fixed
