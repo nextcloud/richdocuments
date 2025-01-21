@@ -168,7 +168,8 @@ class ConversionProvider implements IConversionProvider {
 			if ($mimeType === $targetMimeType) {
 				return [
 					'to' => $mimeType,
-					...$mimeInfo,
+					'extension' => $mimeInfo['extension'],
+					'displayName' => $mimeInfo['displayName'],
 				];
 			}
 		}
