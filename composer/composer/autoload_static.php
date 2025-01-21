@@ -63,6 +63,7 @@ class ComposerStaticInitRichdocuments
         'OCA\\Richdocuments\\Controller\\TemplateFieldController' => __DIR__ . '/..' . '/../lib/Controller/TemplateFieldController.php',
         'OCA\\Richdocuments\\Controller\\TemplatesController' => __DIR__ . '/..' . '/../lib/Controller/TemplatesController.php',
         'OCA\\Richdocuments\\Controller\\WopiController' => __DIR__ . '/..' . '/../lib/Controller/WopiController.php',
+        'OCA\\Richdocuments\\Conversion\\ConversionProvider' => __DIR__ . '/..' . '/../lib/Conversion/ConversionProvider.php',
         'OCA\\Richdocuments\\Db\\Asset' => __DIR__ . '/..' . '/../lib/Db/Asset.php',
         'OCA\\Richdocuments\\Db\\AssetMapper' => __DIR__ . '/..' . '/../lib/Db/AssetMapper.php',
         'OCA\\Richdocuments\\Db\\Direct' => __DIR__ . '/..' . '/../lib/Db/Direct.php',

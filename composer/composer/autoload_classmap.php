@@ -30,6 +30,7 @@ return array(
     'OCA\\Richdocuments\\Controller\\TemplateFieldController' => $baseDir . '/../lib/Controller/TemplateFieldController.php',
     'OCA\\Richdocuments\\Controller\\TemplatesController' => $baseDir . '/../lib/Controller/TemplatesController.php',
     'OCA\\Richdocuments\\Controller\\WopiController' => $baseDir . '/../lib/Controller/WopiController.php',
+    'OCA\\Richdocuments\\Conversion\\ConversionProvider' => $baseDir . '/../lib/Conversion/ConversionProvider.php',
     'OCA\\Richdocuments\\Db\\Asset' => $baseDir . '/../lib/Db/Asset.php',
     'OCA\\Richdocuments\\Db\\AssetMapper' => $baseDir . '/../lib/Db/AssetMapper.php',
     'OCA\\Richdocuments\\Db\\Direct' => $baseDir . '/../lib/Db/Direct.php',
