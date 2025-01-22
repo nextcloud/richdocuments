@@ -286,8 +286,8 @@
 		</div>
 
 		<div v-if="isSetup" id="font-settings" class="section">
-			<h2>{{ t('richdocuments', 'Extra fonts') }}</h2>
-			<SettingsInputFile :label="t('richdocuments', 'Upload extra font file')"
+			<h2>{{ t('richdocuments', 'Custom Fonts') }}</h2>
+			<SettingsInputFile :label="t('richdocuments', 'Upload font file')"
 				:button-title="t('richdocuments', 'Upload a font file')"
 				:uploading="uploadingFont"
 				:mimetypes="fontMimes"
@@ -309,7 +309,7 @@
 		</div>
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
-			<h2>{{ t('richdocuments', 'Secure view settings') }}</h2>
+			<h2>{{ t('richdocuments', 'Secure View') }}</h2>
 			<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
 			<ul>
 				<li>{{ t('richdocuments', 'The settings only apply to compatible office files that are opened in Nextcloud Office') }}</li>
@@ -392,7 +392,7 @@
 		</div>
 
 		<div v-if="isSetup" id="esignature-settings" class="section">
-			<h2>{{ t('richdocuments', 'Electronic signature settings') }}</h2>
+			<h2>{{ t('richdocuments', 'Electronic Signature') }}</h2>
 			<SettingsInputText v-model="settings.esignature_client_id"
 				:label="t('richdocuments', 'Client ID for the electronic signature API')"
 				:hint="t('richdocuments', 'Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret.')"
