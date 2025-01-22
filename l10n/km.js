@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Saved" : "បាន​រក្សាទុក",
     "New" : "ថ្មី",
-    "Cancel" : "បោះបង់",
     "Save" : "រក្សាទុក",
+    "Cancel" : "បោះបង់",
     "Description" : "ការ​អធិប្បាយ",
     "Select file" : "ជ្រើសរើសឯកសារ",
     "Close" : "បិទ",
