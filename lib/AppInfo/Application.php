@@ -10,6 +10,7 @@ namespace OCA\Richdocuments\AppInfo;
 
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Conversion\ConversionProvider;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Listener\AddContentSecurityPolicyListener;
 use OCA\Richdocuments\Listener\AddFeaturePolicyListener;
@@ -81,6 +82,7 @@ class Application extends App implements IBootstrap {
 		$context->registerPreviewProvider(OOXML::class, OOXML::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(OpenDocument::class, OpenDocument::MIMETYPE_REGEX);
 		$context->registerPreviewProvider(Pdf::class, Pdf::MIMETYPE_REGEX);
+		$context->registerFileConversionProvider(ConversionProvider::class);
 		$context->registerNotifierService(Notifier::class);
 	}
 
