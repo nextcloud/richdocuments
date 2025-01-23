@@ -105,20 +105,7 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
-			// TODO: condition for $wopi not found? -auth???
-
-			$userSettingsUri = $this->generateUserSettingsUri($wopi);
-
-			if ($fileId == '-1' && $wopi->getTokenType() == WOPI::TOKEN_TYPE_SETTING_AUTH) {
-				$response = [
-					'UserSettingsUri' => $userSettingsUri,
-				];
-
-				return new JSONResponse($response);
-			}
-
 			[$fileId, , $version] = Helper::parseFileId($fileId);
-
 			$file = $this->getFileForWopiToken($wopi);
 			if (!($file instanceof File)) {
 				throw new NotFoundException('No valid file found for ' . $fileId);
@@ -141,6 +128,9 @@ class WopiController extends Controller {
 		$isVersion = $version !== '0';
 		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
 		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
+
+		$userSettings = $this->generateSettings($wopi, 'userconfig');
+		$sharedSettings = $this->generateSettings($wopi, 'systemconfig');
 
 		// If the file is locked manually by a user we want to open it read only for all others
 		$canWriteThroughLock = true;
@@ -182,7 +172,8 @@ class WopiController extends Controller {
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
-			'UserSettingsUri' => $userSettingsUri,
+			'UserSettings' => $userSettings,
+			// 'SharedSettings' => $sharedSettings,
 		];
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
@@ -991,8 +982,12 @@ class WopiController extends Controller {
 		return $res['token'];
 	}
 	// todo extract nextcloud url from everything
-	private function generateUserSettingsUri(Wopi $wopi): string {
+	private function generateSettings(Wopi $wopi, string $type): array {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=userconfig' . '&access_token=' . $this->generateSettingToken($wopi) . '&fileId=' . '-1';
+		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $this->generateSettingToken($wopi) . '&fileId=' . '-1';
+		return [
+			'uri' => $uri,
+			'stamp' => time()
+		];
 	}
 }
