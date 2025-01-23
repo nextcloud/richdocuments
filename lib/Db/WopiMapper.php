@@ -77,7 +77,7 @@ class WopiMapper extends QBMapper {
 			'serverHost' => $serverHost,
 			'token' => $token,
 			'expiry' => $this->calculateNewTokenExpiry(),
-			'templateId' => "0",
+			'templateId' => '0',
 			'tokenType' => Wopi::TOKEN_TYPE_SETTING_AUTH,
 		]);
 

@@ -17,10 +17,12 @@ use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\PermissionManager;
 use OCA\Richdocuments\Service\FederationService;
+use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCA\Richdocuments\TaskProcessingManager;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
+use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -44,6 +46,7 @@ use OCP\Files\Lock\NoLockProviderException;
 use OCP\Files\Lock\OwnerLockedException;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -57,8 +60,6 @@ use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-use OCA\Richdocuments\Service\SettingsService;
-use \OCA\Richdocuments\WOPI\SettingsUrl;
 
 #[RestrictToWopiServer]
 class WopiController extends Controller {
@@ -108,9 +109,9 @@ class WopiController extends Controller {
 
 			$userSettingsUri = $this->generateUserSettingsUri($wopi);
 
-			if ($fileId == "-1" && $wopi->getTokenType() == WOPI::TOKEN_TYPE_SETTING_AUTH) {
+			if ($fileId == '-1' && $wopi->getTokenType() == WOPI::TOKEN_TYPE_SETTING_AUTH) {
 				$response = [
-					"UserSettingsUri" => $userSettingsUri,
+					'UserSettingsUri' => $userSettingsUri,
 				];
 
 				return new JSONResponse($response);
@@ -181,7 +182,7 @@ class WopiController extends Controller {
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
-			"UserSettingsUri" => $userSettingsUri,
+			'UserSettingsUri' => $userSettingsUri,
 		];
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
@@ -420,7 +421,7 @@ class WopiController extends Controller {
 	
 			$userConfig = $this->settingsService->generateSettingsConfig($type);
 			return new JSONResponse($userConfig, Http::STATUS_OK);
-		} catch (UnknownTokenException | ExpiredTokenException $e) {
+		} catch (UnknownTokenException|ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(['error' => 'Unauthorized'], Http::STATUS_UNAUTHORIZED);
 		} catch (\Exception $e) {
@@ -445,7 +446,7 @@ class WopiController extends Controller {
 
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
-				throw new \Exception("Failed to read input stream.");
+				throw new \Exception('Failed to read input stream.');
 			}
 
 			$fileContent = stream_get_contents($content);
@@ -992,6 +993,6 @@ class WopiController extends Controller {
 	// todo extract nextcloud url from everything
 	private function generateUserSettingsUri(Wopi $wopi): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=userconfig' . '&access_token=' . $wopi->getToken() . '&fileId=' .  '-1';
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=userconfig' . '&access_token=' . $wopi->getToken() . '&fileId=' . '-1';
 	}
 }
