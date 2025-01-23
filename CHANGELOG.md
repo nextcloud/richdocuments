@@ -4,6 +4,21 @@
 -->
 # Changelog
 
+## 8.6.0-beta.2
+
+### Added
+- File conversion provider @elzody [#4408](https://github.com/nextcloud/richdocuments/pull/4408)
+- Move personal user settings page to Vue @codewithvk [#4388](https://github.com/nextcloud/richdocuments/pull/4388)
+
+### Fixed
+- Adjust testing matrix for Nextcloud 31 @nickvergessen [#4400](https://github.com/nextcloud/richdocuments/pull/4400)
+- Incomplete return type list @blizzz [#4410](https://github.com/nextcloud/richdocuments/pull/4410)
+
+### Other
+- Update translations @nextcloud-bot
+- Update dependencies @nextcloud-command
+
+
 ## 8.6.0-beta.1
 
 ### Added
