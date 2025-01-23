@@ -1,20 +1,23 @@
 <?php
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
-use Exception;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
-use \OCP\Files\NotPermittedException;
 
 /**
  * A generic service to manage "system-wide" files
@@ -48,44 +51,44 @@ class SettingsService {
 	 */
 
 	public function ensureDirectory(SettingsUrl $settingsUrl): ISimpleFolder {
-        $type = $settingsUrl->getType();
-        $category = $settingsUrl->getCategory();
+		$type = $settingsUrl->getType();
+		$category = $settingsUrl->getCategory();
 
-        try {
-            $baseFolder = $this->appData->getFolder($type);
-        } catch (NotFoundException $e) {
-            $baseFolder = $this->appData->newFolder($type);
-        }
+		try {
+			$baseFolder = $this->appData->getFolder($type);
+		} catch (NotFoundException $e) {
+			$baseFolder = $this->appData->newFolder($type);
+		}
 
-        try {
-            $categoryFolder = $baseFolder->getFolder($category);
-        } catch (NotFoundException $e) {
-            $categoryFolder = $baseFolder->newFolder($category);
-        }
+		try {
+			$categoryFolder = $baseFolder->getFolder($category);
+		} catch (NotFoundException $e) {
+			$categoryFolder = $baseFolder->newFolder($category);
+		}
 
-        return $categoryFolder;
-    }
+		return $categoryFolder;
+	}
 
 	/**
 	 * Upload a file to the settings directory.
 	 * ex. $type/$category/$filename
 	 *
 	 * @param SettingsUrl $settingsUrl
-	 * @param resource $fileData
+	 * @param string $fileData
 	 * @return array ['stamp' => string, 'uri' => string]
 	 */
 
-	public function uploadFile(SettingsUrl $settingsUrl, $fileData): array {
-        $categoryFolder = $this->ensureDirectory($settingsUrl);
+	public function uploadFile(SettingsUrl $settingsUrl, string $fileData): array {
+		$categoryFolder = $this->ensureDirectory($settingsUrl);
 		$fileName = $settingsUrl->getFileName();
-        $newFile = $categoryFolder->newFile($fileName, $fileData);
-        $fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName);
+		$newFile = $categoryFolder->newFile($fileName, $fileData);
+		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName);
 
-        return [
-            'stamp' => $newFile->getETag(),
-            'uri' => $fileUri,
-        ];
-    }
+		return [
+			'stamp' => $newFile->getETag(),
+			'uri' => $fileUri,
+		];
+	}
 
 	/**
 	 * Get list of files in a setting category.
@@ -95,21 +98,21 @@ class SettingsService {
 	 * @return array Each item has 'stamp' and 'uri'.
 	 */
 	public function getCategoryFileList(string $type, string $category): array {
-        try {
-            $categoryFolder = $this->appData->getFolder($type . '/' . $category);
-        } catch (NotFoundException $e) {
-            return [];
-        }
+		try {
+			$categoryFolder = $this->appData->getFolder($type . '/' . $category);
+		} catch (NotFoundException $e) {
+			return [];
+		}
 
-        $files = $categoryFolder->getDirectoryListing();
+		$files = $categoryFolder->getDirectoryListing();
 
-        return array_map(function(ISimpleFile $file) use ($type, $category) {
-            return [
-                'stamp' => $file->getETag(),
-                'uri' => $this->generateFileUri($type, $category, $file->getName()),
-            ];
-        }, $files);
-    }
+		return array_map(function (ISimpleFile $file) use ($type, $category) {
+			return [
+				'stamp' => $file->getETag(),
+				'uri' => $this->generateFileUri($type, $category, $file->getName()),
+			];
+		}, $files);
+	}
 
 	/**
 	 * generate setting config
@@ -120,19 +123,19 @@ class SettingsService {
 	public function generateSettingsConfig(string $type): array {
 		$kind = $type === 'userconfig' ? 'user' : 'shared';
 
-        $config = [
-            'kind' => $kind,
-        ];
+		$config = [
+			'kind' => $kind,
+		];
 
-        $categories = $this->getAllCategories($type);
+		$categories = $this->getAllCategories($type);
 
-        foreach ($categories as $category) {
-            $files = $this->getCategoryFileList($type, $category);
+		foreach ($categories as $category) {
+			$files = $this->getCategoryFileList($type, $category);
 			$config[$category] = $files;
-        }
+		}
 
-        return $config;
-    }
+		return $config;
+	}
 
 	/**
 	 * Get all setting categories for a setting type.
@@ -140,20 +143,21 @@ class SettingsService {
 	 * @param string $type
 	 * @return string[]
 	 */
-    private function getAllCategories(string $type): array {
-        try {
-            $categories = [];
-            $directories = $this->appData->getFolder($type)->getFullDirectoryListing();
-            foreach ($directories as $dir) {
-                if ($dir instanceof ISimpleFolder) {
-                    $categories[] = $dir->getName();
-                }
-            }
-            return $categories;
-        } catch (NotFoundException $e) {
-            return [];
-        }
-    }
+	private function getAllCategories(string $type): array {
+		try {
+			$categories = [];
+			$folder = $this->appData->getFolder($type);
+			$directories = $folder->getFullDirectoryListing();
+			foreach ($directories as $dir) {
+				if ($dir instanceof ISimpleFolder) {
+					$categories[] = $dir->getName();
+				}
+			}
+			return $categories;
+		} catch (NotFoundException $e) {
+			return [];
+		}
+	}
 
 	/**
 	 * Generate file URL.
@@ -234,6 +238,6 @@ class SettingsService {
 		}
 	}
 
-	// TODO: Handle installDefaultSystemFiles setting	
+	// TODO: Handle installDefaultSystemFiles setting
 
 }

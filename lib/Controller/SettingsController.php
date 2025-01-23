@@ -7,16 +7,15 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
-use OCA\Richdocuments\Service\SettingsService;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
+use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\UploadException;
-use OCA\Richdocuments\Db\WopiMapper;
 use OCP\App\IAppManager;
-use OCP\IGroupManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -27,12 +26,12 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
-use OCA\Richdocuments\WOPI\SettingsUrl;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -422,7 +421,7 @@ class SettingsController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $type - Type is 'admin' or 'user'
-	 * @return DataDisplayResponse
+	 * @return DataResponse
 	 */
 	public function generateIframeToken(string $type) : DataResponse {
 		$userId = $this->userId;
@@ -486,12 +485,12 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 *  @param string $type 
-	 *  @param string $category 
-	 *  @param string $name 
-	 * 
-	 *  @return DataDisplayResponse
-	 * 
+	 * @param string $type
+	 * @param string $category
+	 * @param string $name
+	 *
+	 * @return DataDisplayResponse
+	 *
 	 * @NoAdminRequired
 	 * @PublicPage
 	 * @NoCSRFRequired
