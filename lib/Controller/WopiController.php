@@ -438,12 +438,7 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
-			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
-				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
-			}
-
-			// auth - for admin??
-
+			// TODO: auth - for admin??
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
 				throw new \Exception('Failed to read input stream.');
