@@ -7,7 +7,6 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
-use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
@@ -26,7 +25,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -59,9 +57,7 @@ class SettingsController extends Controller {
 		private FontService $fontService,
 		private SettingsService $settingsService,
 		private LoggerInterface $logger,
-		private IGroupManager $groupManager,
 		private IURLGenerator $urlGenerator,
-		private WopiMapper $wopiMapper,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -423,22 +419,15 @@ class SettingsController extends Controller {
 	 * @param string $type - Type is 'admin' or 'user'
 	 * @return DataResponse
 	 */
-	public function generateIframeToken(string $type) : DataResponse {
-		$userId = $this->userId;
-		if ($type === 'admin' && !$this->groupManager->isAdmin($userId)) {
+	public function generateIframeToken(string $type): DataResponse {
+		try {
+			$response = $this->settingsService->generateIframeToken($type, $this->userId);
+			return new DataResponse($response);
+		} catch (\Exception $e) {
 			return new DataResponse([
-				'message' => 'Permission denied'
-			], Http::STATUS_FORBIDDEN);
+				'message' => 'Settings token not generated.'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
-		$serverHost = $this->urlGenerator->getAbsoluteURL('/');
-		$version = $this->capabilitiesService->getProductVersion();
-
-		$wopi = $this->wopiMapper->generateUserSettingsToken(-1, $userId, $version, $serverHost);
-
-		return new DataResponse([
-			'token' => $wopi->getToken(),
-			'token_ttl' => $wopi->getExpiry(),
-		]);
 	}
 
 	/**
