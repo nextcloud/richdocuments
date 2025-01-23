@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -17,6 +18,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IURLGenerator;
 
 /**
@@ -36,6 +38,9 @@ class SettingsService {
 		ICacheFactory $cacheFactory,
 		private IURLGenerator $urlGenerator,
 		private IConfig $config,
+		private CapabilitiesService $capabilitiesService,
+		private WopiMapper $wopiMapper,
+		private IGroupManager $groupManager,
 	) {
 		// Create a distributed cache for caching file lists
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
@@ -114,6 +119,33 @@ class SettingsService {
 		}, $files);
 	}
 
+	/**
+	 * Get list of files in a setting category.
+	 *
+	 * @param string $type
+	 * @param string $userId
+	 */
+
+	public function generateIframeToken(string $type, string $userId): array {
+		try {
+			if ($type === 'admin' && !$this->groupManager->isAdmin($userId)) {
+				throw new NotPermittedException('Permission denied');
+			}
+	
+			$serverHost = $this->urlGenerator->getAbsoluteURL('/');
+			$version = $this->capabilitiesService->getProductVersion();
+	
+			$wopi = $this->wopiMapper->generateUserSettingsToken(-1, $userId, $version, $serverHost);
+	
+			return [
+				'token' => $wopi->getToken(),
+				'token_ttl' => $wopi->getExpiry(),
+			];
+		} catch (NotPermittedException $e) {
+			throw $e;
+		}
+	}
+	
 	/**
 	 * generate setting config
 	 *

@@ -411,12 +411,12 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
-				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_FORBIDDEN);
+				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_BAD_REQUEST);
 			}
 	
 			$user = $this->userManager->get($wopi->getOwnerUid());
 			if (!$user || !$this->groupManager->isAdmin($user->getUID())) {
-				return new JSONResponse(['error' => 'Access denied'], Http::STATUS_FORBIDDEN);
+				return new JSONResponse(['error' => 'Access denied'], Http::STATUS_BAD_REQUEST);
 			}
 	
 			$userConfig = $this->settingsService->generateSettingsConfig($type);
@@ -990,9 +990,14 @@ class WopiController extends Controller {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 	}
+	private function generateSettingToken(Wopi $wopi): string {
+		$userId = $wopi->getEditorUid();
+		$res = $this->settingsService->generateIframeToken('user', $userId);
+		return $res['token'];
+	}
 	// todo extract nextcloud url from everything
 	private function generateUserSettingsUri(Wopi $wopi): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=userconfig' . '&access_token=' . $wopi->getToken() . '&fileId=' . '-1';
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=userconfig' . '&access_token=' . $this->generateSettingToken($wopi) . '&fileId=' . '-1';
 	}
 }
