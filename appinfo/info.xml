@@ -11,7 +11,7 @@
 	<description><![CDATA[This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.
 
 You can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store.]]></description>
-	<version>8.6.0-beta.1</version>
+	<version>9.0.0-dev.0</version>
 	<licence>agpl</licence>
 	<author>Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk</author>
 	<types>
@@ -30,7 +30,7 @@ You can also edit your documents off-line with the Collabora Office app from the
 	<screenshot>https://github.com/nextcloud/richdocuments/raw/main/screenshots/Nextcloud-spreadsheet.png</screenshot>
 	<screenshot>https://github.com/nextcloud/richdocuments/raw/main/screenshots/Nextcloud-presentation.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="31" max-version="31"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Richdocuments\Backgroundjobs\ObtainCapabilities</job>
