@@ -305,7 +305,7 @@ class WopiController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}/contents')]
-	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse {
+	public function getFile(string $fileId, string $access_token): JSONResponse|StreamResponse|Http\Response {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		try {
