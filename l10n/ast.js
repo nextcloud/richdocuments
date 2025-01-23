@@ -42,6 +42,7 @@ OC.L10N.register(
     "Select groups" : "Seleicionar grupos",
     "Failed to save settings" : "Nun se pue guardar la configuración",
     "Save" : "Guardar",
+    "Remove" : "Quitar",
     "Confirm" : "Confirmar",
     "Cancel" : "Encaboxar",
     "Save as" : "Guardar como",
