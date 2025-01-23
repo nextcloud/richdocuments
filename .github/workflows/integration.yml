@@ -54,7 +54,7 @@ jobs:
         code-image: [ 'release', 'nightly' ]
         php-versions: ['8.1']
         databases: ['sqlite']
-        server-versions: ['master']
+        server-versions: ['stable31']
         scenarios: ['wopi', 'direct', 'federation', 'api']
 
     name: integration-${{ matrix.code-image }}-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
@@ -126,7 +126,7 @@ jobs:
       matrix:
         php-versions: ['8.1']
         databases: ['mysql']
-        server-versions: ['master']
+        server-versions: ['stable31']
         scenarios: ['wopi', 'direct', 'federation', 'api']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
@@ -205,7 +205,7 @@ jobs:
       matrix:
         php-versions: ['8.1']
         databases: ['pgsql']
-        server-versions: ['master']
+        server-versions: ['stable31']
         scenarios: ['wopi', 'direct', 'federation', 'api']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
@@ -286,7 +286,7 @@ jobs:
       matrix:
         php-versions: ['8.1']
         databases: ['oci']
-        server-versions: ['master']
+        server-versions: ['stable31']
         scenarios: ['wopi', 'direct', 'federation', 'api']
 
     name: integration-${{ matrix.scenarios }}-${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
