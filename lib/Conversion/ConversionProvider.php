@@ -148,7 +148,10 @@ class ConversionProvider implements IConversionProvider {
 	private function getMimeProvidersFor(array $inputMimeTypes, string $outputMimeType): array {
 		$outputMimeInfo = $this->getMimeInfoFor($outputMimeType);
 		if ($outputMimeInfo === null) {
-			$this->logger->error($this->l10n->t('Unable to fetch information on $s', [$outputMimeType]));
+			$this->logger->error(
+				$this->l10n->t('Unable to fetch information on %1$s',
+					[$outputMimeType]
+				));
 			throw new \Exception();
 		}
 
