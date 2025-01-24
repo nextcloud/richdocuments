@@ -56,8 +56,6 @@ OC.L10N.register(
     "Select groups" : "Valitse ryhmät",
     "Restrict edit to specific groups" : "Rajoita muokkaus tiettyihin ryhmiin",
     "Enable access for external apps" : "Salli pääsy ulkoisten sovellusten osalta",
-    "Extra fonts" : "Lisäfontit",
-    "Upload extra font file" : "Lähetä lisäfontin tiedosto",
     "Upload a font file" : "Lähetä fonttitiedosto",
     "Available fonts" : "Käytettävissä olevat fontit",
     "Failed to save settings" : "Asetusten tallentaminen epäonnistui",
