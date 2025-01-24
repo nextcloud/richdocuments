@@ -15,6 +15,8 @@ OC.L10N.register(
     "File is too big" : "Fișierul este prea mare",
     "Invalid file provided" : "Numele fișierului pe care l-ai oferit este invalid",
     "New document" : "Document nou",
+    "New spreadsheet" : "Foaie de calcul nouă",
+    "New presentation" : "Prezentare nouă",
     "Images" : "Imagini",
     "Office" : "Birou",
     "New" : "Nou",
