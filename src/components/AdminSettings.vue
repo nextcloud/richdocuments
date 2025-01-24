@@ -15,8 +15,7 @@
 			</p>
 
 			<!-- New Collabora Admin Settings Section -->
-			<div id="admin-cool-frame-section" class="section">
-				<h2>{{ t('richdocuments', 'Collabora Admin Settings') }}</h2>
+			<div id="admin-cool-frame-section">
 				<CoolFrame v-if="tokenGenerated"
 					:iframe-type="'admin'"
 					:public-wopi-url="settings.public_wopi_url"

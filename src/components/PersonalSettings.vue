@@ -35,8 +35,7 @@
 		</p>
 
 		<!-- user settings iframe  -->
-		<div id="user-cool-frame-section" class="section">
-			<h2>{{ t('richdocuments', 'Collabora User Settings') }}</h2>
+		<div id="user-cool-frame-section">
 			<CoolFrame v-if="tokenGenerated"
 				:iframe-type="'user'"
 				:public-wopi-url="public_wopi_url"
