@@ -12,7 +12,8 @@
 			<input type="hidden" name="access_token_ttl" :value="accessTokenTTL">
 			<input type="hidden" name="wopi_setting_base_url" :value="wopiSettingBaseUrl">
 			<input type="hidden" name="iframe_type" :value="iframeType">
-			<!-- TODO: Include any other necessary hidden inputs -->
+			<input type="hidden" name="css_variables" :value="cssVariables">
+			<!-- TODO: Include any other necessary hidden inputs - send css variables -->
 		</form>
 		<iframe :id="iframeName"
 			:name="iframeName"
@@ -25,6 +26,7 @@
 
 <script>
 
+import { generateCSSVarTokens } from '../helpers/coolParameters.js'
 import { getCoolServerUrl } from '../helpers/url.js'
 
 export default {
@@ -55,6 +57,7 @@ export default {
 		return {
 			iframeName: 'coolFrameIframe',
 			formAction: '',
+			cssVariables: generateCSSVarTokens(),
 		}
 	},
 	mounted() {
@@ -81,7 +84,8 @@ export default {
   <style scoped>
   .cool-frame-iframe {
     width: 100%;
-    height: 600px;
     border: none;
+	height: 60vh;
+	overflow-y: auto;
   }
   </style>
