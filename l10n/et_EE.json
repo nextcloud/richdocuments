@@ -63,8 +63,6 @@
     "Restrict edit to specific groups" : "Piira redigeerimist valitud gruppidele",
     "All users can edit documents with {productName} by default. When this setting is active, only the members of the specified groups can edit, whereas the others can only view documents." : "Vaikimisi saavad kõik kasutajad dokumente {productName} abil redigeerida. Kui see valik on aktiivne, võivad ainult valitud gruppide liikmed redigeerida, ülejäänud kasutajad võivad ainult dokumente vaadata.",
     "Enable access for external apps" : "Luba väliste rakenduste ligipääs",
-    "Extra fonts" : "Täiendavad fondid",
-    "Upload extra font file" : "Laadi üles täiendav font",
     "Upload a font file" : "Laadi üles font",
     "Available fonts" : "Saadaval fondid",
     "Save" : "Salvesta",
