@@ -149,6 +149,14 @@ class ConversionProvider implements IConversionProvider {
 		$outputMimeInfo = $this->getMimeInfoFor($outputMimeType);
 		if ($outputMimeInfo === null) {
 			$this->logger->error(
+				/*
+				 * TRANSLATORS
+				 * Shows the MIME type of the file (the file type)
+				 * For example:
+				 *    - application/pdf     (.pdf)
+				 *    - application/msword  (.doc)
+				 *    - text/plain          (.txt)
+				 */
 				$this->l10n->t('Unable to fetch information on %1$s',
 					[$outputMimeType]
 				));
