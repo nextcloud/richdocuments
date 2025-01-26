@@ -48,6 +48,7 @@ OC.L10N.register(
     "Secure view enables you to secure documents by embedding a watermark" : "Örugg sýn gerir þér kleift að verja skjöl með því að græða vatnsmerki í þau",
     "Failed to save settings" : "Mistókst að vista stillingar",
     "Save" : "Vista",
+    "Submit name" : "Nafn við innsendingu",
     "Confirm" : "Staðfesta",
     "Cancel" : "Hætta við",
     "Save as" : "Vista sem",
