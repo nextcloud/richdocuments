@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use OC\Files\Node\Folder;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\Files\IAppData;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -41,6 +43,7 @@ class SettingsService {
 		private CapabilitiesService $capabilitiesService,
 		private WopiMapper $wopiMapper,
 		private IGroupManager $groupManager,
+		private IRootFolder $rootFolder,
 	) {
 		// Create a distributed cache for caching file lists
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
@@ -178,14 +181,32 @@ class SettingsService {
 	private function getAllCategories(string $type): array {
 		try {
 			$categories = [];
-			$folder = $this->appData->getFolder($type);
-			$directories = $folder->getFullDirectoryListing();
+			$directories = $this->getCategoryDirFolderList($type);
 			foreach ($directories as $dir) {
-				if ($dir instanceof ISimpleFolder) {
+				if ($dir instanceof Folder) {
 					$categories[] = $dir->getName();
 				}
 			}
 			return $categories;
+		} catch (NotFoundException $e) {
+			return [];
+		}
+	}
+
+	/**
+	 *
+	 * @param string $type
+	 * @return Folder[]
+	 */
+	private function getCategoryDirFolderList(string $type) : array {
+		try {
+			$instanceId = $this->config->getSystemValue('instanceid', null);
+			if ($instanceId === null) {
+				throw new NotFoundException('Instance ID not found');
+			}
+			$rootFolder = $this->rootFolder;
+			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+			return $folder->getDirectoryListing();
 		} catch (NotFoundException $e) {
 			return [];
 		}
