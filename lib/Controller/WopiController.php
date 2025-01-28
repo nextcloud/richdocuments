@@ -173,7 +173,7 @@ class WopiController extends Controller {
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
 			'UserSettings' => $userSettings,
-			// 'SharedSettings' => $sharedSettings,
+			'SharedSettings' => $sharedSettings,
 		];
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
