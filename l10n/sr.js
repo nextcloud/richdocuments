@@ -29,6 +29,7 @@ OC.L10N.register(
     "Invalid file provided" : "Дати фајл је неисправан",
     "Template not found" : "Шаблон није нађен",
     "Unable to determine the proper file extension for %1$s" : "Не може да се одреди исправна екстензија фајла за %1$s",
+    "Unable to fetch information on %1$s" : "Нису могле да се прибаве информације о %1$s",
     "Portable Document Format (.pdf)" : "Portable Document Format (.pdf)",
     "Image (.png)" : "Слика (.png)",
     "Image (.svg)" : "Слика (.svg)",
