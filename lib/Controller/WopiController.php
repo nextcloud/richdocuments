@@ -103,9 +103,9 @@ class WopiController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: 'wopi/files/{fileId}')]
 	public function checkFileInfo(string $fileId, string $access_token): JSONResponse {
 		try {
-			$wopi = $this->wopiMapper->getWopiForToken($access_token);
-
 			[$fileId, , $version] = Helper::parseFileId($fileId);
+			
+			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			$file = $this->getFileForWopiToken($wopi);
 			if (!($file instanceof File)) {
 				throw new NotFoundException('No valid file found for ' . $fileId);

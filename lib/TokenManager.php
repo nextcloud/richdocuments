@@ -48,12 +48,10 @@ class TokenManager {
 	 * @throws Exception
 	 */
 	public function generateWopiToken(string $fileId, ?string $shareToken = null, ?string $editoruid = null, bool $direct = false): Wopi {
-		
+		[$fileId, , $version] = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
 		$rootFolder = $this->rootFolder;
-
-		[$fileId, , $version] = Helper::parseFileId($fileId);
 
 		// if the user is not logged-in do use the sharers storage
 		if ($shareToken !== null) {
