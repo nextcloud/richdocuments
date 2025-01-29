@@ -5,6 +5,7 @@
  */
 namespace OCA\Richdocuments\Preview;
 
+use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\RemoteService;
 use OCP\Files\File;
@@ -20,6 +21,7 @@ abstract class Office implements IProviderV2 {
 	public function __construct(
 		private RemoteService $remoteService,
 		private LoggerInterface $logger,
+		private AppConfig $appConfig,
 		Capabilities $capabilities,
 	) {
 		$this->capabilities = $capabilities->getCapabilities()['richdocuments'] ?? [];
@@ -27,7 +29,7 @@ abstract class Office implements IProviderV2 {
 
 	public function isAvailable(FileInfo $file): bool {
 		if (isset($this->capabilities['collabora']['convert-to']['available'])) {
-			return (bool)$this->capabilities['collabora']['convert-to']['available'];
+			return (bool)$this->capabilities['collabora']['convert-to']['available'] && $this->appConfig->isPreviewGenerationEnabled();
 		}
 		return false;
 	}
