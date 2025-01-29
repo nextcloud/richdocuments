@@ -35,4 +35,16 @@ By default Nextcloud will generate previews of Office files using the Collabora 
 From a shell running in the Nextcloud root directory, run the following `occ`
 command to configure a non-default base URL for eID Easy. For example:
 
-	./occ config:app:set --value https://test.eideasy.com richdocuments esignature_base_url
+	occ config:app:set richdocuments esignature_base_url --type string --value https://test.eideasy.com 
+
+### UI mode
+
+Switching between classic and tabbed view is possible as a default, however users can still change this while using Office:
+
+	occ config:app:set richdocuments uiDefaults-UIMode --type string --value classic
+
+### Disable local editing
+
+In case no desktop client is used on an instance you may disable the local editing button within office with:
+
+	occ config:app:set richdocuments open_local_editor --type string --value no
