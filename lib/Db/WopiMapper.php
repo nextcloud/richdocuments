@@ -72,6 +72,7 @@ class WopiMapper extends QBMapper {
 		$wopi = Wopi::fromParams([
 			'fileid' => $fileId,
 			'ownerUid' => $userId,
+			'editorUid' => $userId,
 			'version' => $version,
 			'canwrite' => true,
 			'serverHost' => $serverHost,

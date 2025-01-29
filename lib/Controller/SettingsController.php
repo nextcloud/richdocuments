@@ -7,6 +7,7 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
@@ -58,6 +59,7 @@ class SettingsController extends Controller {
 		private SettingsService $settingsService,
 		private LoggerInterface $logger,
 		private IURLGenerator $urlGenerator,
+		private WopiMapper $wopiMapper,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -484,8 +486,13 @@ class SettingsController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 **/
-	public function getSettingsFile(string $type, string $category, string $name) {
+	public function getSettingsFile(string $type, string $token, string $category, string $name) {
 		try {
+			$wopi = $this->wopiMapper->getWopiForToken($token);
+			if ($type === 'userconfig') {
+				$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
+				$type = $type . '/' . $userId;
+			}
 			$systemFile = $this->settingsService->getSettingsFile($type, $category, $name);
 			return new DataDisplayResponse(
 				$systemFile->getContent(),

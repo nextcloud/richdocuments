@@ -38,7 +38,7 @@ return [
 		['name' => 'settings#uploadFontFile', 'url' => 'settings/fonts', 'verb' => 'POST'],
 		[
 			'name' => 'settings#getSettingsFile',
-			'url' => 'settings/{type}/{category}/{name}',
+			'url' => 'settings/{type}/{token}/{category}/{name}',
 			'verb' => 'GET',
 			'requirements' => [
 				'type' => '[a-zA-Z0-9_\-]+',

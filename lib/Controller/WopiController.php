@@ -139,7 +139,9 @@ class WopiController extends Controller {
 
 		$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
-		$userSettings = $this->generateSettings($userId, 'userconfig');
+		if (!$isPublic) {
+			$userSettings = $this->generateSettings($userId, 'userconfig');
+		}
 		$sharedSettings = $this->generateSettings($userId, 'systemconfig');
 
 		$response = [
@@ -174,9 +176,12 @@ class WopiController extends Controller {
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
-			'UserSettings' => $userSettings,
 			'SharedSettings' => $sharedSettings,
 		];
+
+		if (!$isPublic) {
+			$response['UserSettings'] = $userSettings;
+		}
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
 		if (!$isPublic && $enableZotero) {
@@ -406,13 +411,12 @@ class WopiController extends Controller {
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
 				return new JSONResponse(['error' => 'Invalid token type'], Http::STATUS_BAD_REQUEST);
 			}
+
+			$isPublic = empty($wopi->getEditorUid());
+			$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
+			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 	
-			$user = $this->userManager->get($wopi->getOwnerUid());
-			if (!$user || !$this->groupManager->isAdmin($user->getUID())) {
-				return new JSONResponse(['error' => 'Access denied'], Http::STATUS_BAD_REQUEST);
-			}
-	
-			$userConfig = $this->settingsService->generateSettingsConfig($type);
+			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
 			return new JSONResponse($userConfig, Http::STATUS_OK);
 		} catch (UnknownTokenException|ExpiredTokenException $e) {
 			$this->logger->debug($e->getMessage(), ['exception' => $e]);
@@ -431,6 +435,7 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
+			$userId = $wopi->getEditorUid();
 			// TODO: auth - for admin??
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
@@ -442,7 +447,7 @@ class WopiController extends Controller {
 			
 			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
 			$settingsUrl = new SettingsUrl($fileId);
-			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent);
+			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
 			
 			return new JSONResponse([
 				'status' => 'success',
@@ -475,8 +480,9 @@ class WopiController extends Controller {
 			$type = $settingsUrl->getType();
 			$category = $settingsUrl->getCategory();
 			$fileName = $settingsUrl->getFileName();
+			$userId = $wopi->getEditorUid();
 
-			$this->settingsService->deleteSettingsFile($type, $category, $fileName);
+			$this->settingsService->deleteSettingsFile($type, $category, $fileName, $userId);
 
 			return new JSONResponse([
 				'status' => 'success',
