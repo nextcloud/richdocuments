@@ -25,7 +25,7 @@ class AppConfigTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->gsConfig = $this->createMock(IGlobalScaleConfig::class)
+		$this->gsConfig = $this->createMock(IGlobalScaleConfig::class);
 
 		$this->appConfig = new AppConfig($this->config, $this->appConfig, $this->appManager, $this->gsConfig);
 	}
