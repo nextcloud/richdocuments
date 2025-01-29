@@ -58,7 +58,7 @@ class SettingsService {
 	 * @return ISimpleFolder
 	 */
 
-	public function ensureDirectory(SettingsUrl $settingsUrl): ISimpleFolder {
+	public function ensureDirectory(SettingsUrl $settingsUrl, string $userId): ISimpleFolder {
 		$type = $settingsUrl->getType();
 		$category = $settingsUrl->getCategory();
 
@@ -66,6 +66,14 @@ class SettingsService {
 			$baseFolder = $this->appData->getFolder($type);
 		} catch (NotFoundException $e) {
 			$baseFolder = $this->appData->newFolder($type);
+		}
+
+		if ($type === 'userconfig') {
+			try {
+				$baseFolder = $baseFolder->getFolder($userId);
+			} catch (NotFoundException $e) {
+				$baseFolder = $baseFolder->newFolder($userId);
+			}
 		}
 
 		try {
@@ -86,11 +94,11 @@ class SettingsService {
 	 * @return array ['stamp' => string, 'uri' => string]
 	 */
 
-	public function uploadFile(SettingsUrl $settingsUrl, string $fileData): array {
-		$categoryFolder = $this->ensureDirectory($settingsUrl);
+	public function uploadFile(SettingsUrl $settingsUrl, string $fileData, string $userId): array {
+		$categoryFolder = $this->ensureDirectory($settingsUrl, $userId);
 		$fileName = $settingsUrl->getFileName();
 		$newFile = $categoryFolder->newFile($fileName, $fileData);
-		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName);
+		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName, $userId);
 
 		return [
 			'stamp' => $newFile->getETag(),
@@ -105,7 +113,7 @@ class SettingsService {
 	 * @param string $category
 	 * @return array Each item has 'stamp' and 'uri'.
 	 */
-	public function getCategoryFileList(string $type, string $category): array {
+	public function getCategoryFileList(string $type, string $category, string $userId): array {
 		try {
 			$categoryFolder = $this->appData->getFolder($type . '/' . $category);
 		} catch (NotFoundException $e) {
@@ -114,10 +122,10 @@ class SettingsService {
 
 		$files = $categoryFolder->getDirectoryListing();
 
-		return array_map(function (ISimpleFile $file) use ($type, $category) {
+		return array_map(function (ISimpleFile $file) use ($type, $category, $userId) {
 			return [
 				'stamp' => $file->getETag(),
-				'uri' => $this->generateFileUri($type, $category, $file->getName()),
+				'uri' => $this->generateFileUri($type, $category, $file->getName(), $userId),
 			];
 		}, $files);
 	}
@@ -155,17 +163,21 @@ class SettingsService {
 	 * @param string $type
 	 * @return array
 	 */
-	public function generateSettingsConfig(string $type): array {
+	public function generateSettingsConfig(string $type, string $userId): array {
 		$kind = $type === 'userconfig' ? 'user' : 'shared';
 
 		$config = [
 			'kind' => $kind,
 		];
 
+		if ($type === 'userconfig') {
+			$type = $type . '/' . $userId;
+		}
+
 		$categories = $this->getAllCategories($type);
 
 		foreach ($categories as $category) {
-			$files = $this->getCategoryFileList($type, $category);
+			$files = $this->getCategoryFileList($type, $category, $userId);
 			$config[$category] = $files;
 		}
 
@@ -220,11 +232,20 @@ class SettingsService {
 	 * @param string $fileName
 	 * @return string
 	 */
-	private function generateFileUri(string $type, string $category, string $fileName): string {
+	private function generateFileUri(string $type, string $category, string $fileName, string $userId): string {
+		
+		// Passing userId is dangerous so we have to trim from url...
+		if (strpos($type, '/') !== false) {
+			$type = explode('/', $type)[0];
+		}
+
+		$token = $this->generateIframeToken($type, $userId);
+		
 		return $this->urlGenerator->linkToRouteAbsolute(
 			'richdocuments.settings.getSettingsFile',
 			[
 				'type' => $type,
+				'token' => $token['token'],
 				'category' => $category,
 				'name' => $fileName,
 			]
@@ -266,11 +287,19 @@ class SettingsService {
 	 * @param string $category
 	 * @param string $name
 	 */
-	public function deleteSettingsFile(string $type, string $category, string $name): void {
+	public function deleteSettingsFile(string $type, string $category, string $name, string $userId): void {
 		try {
 			$baseFolder = $this->appData->getFolder($type);
 		} catch (NotFoundException $e) {
 			throw new NotFoundException("Type folder '{$type}' not found.");
+		}
+
+		if ($type === 'userconfig') {
+			try {
+				$baseFolder = $baseFolder->getFolder($userId);
+			} catch (NotFoundException $e) {
+				throw new NotFoundException("User folder '{$userId}' not found.");
+			}
 		}
 		
 		try {
