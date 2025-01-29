@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
-use OC\Files\Node\Folder;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\WOPI\SettingsUrl;
+use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -218,6 +218,9 @@ class SettingsService {
 			}
 			$rootFolder = $this->rootFolder;
 			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+			if (!$folder instanceof Folder) {
+				return [];
+			}
 			return $folder->getDirectoryListing();
 		} catch (NotFoundException $e) {
 			return [];
