@@ -1,7 +1,7 @@
 [package]
 before_cmds = [
-	"composer install --working-dir=composer/",
-	"composer dump --working-dir=composer/",
+	"composer install --no-dev",
+	"composer dump",
 	"bash ./build/download-fonts.sh",
 	"npm ci",
 	"npm run build"

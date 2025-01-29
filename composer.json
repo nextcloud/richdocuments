@@ -9,11 +9,14 @@
 		},
 		"allow-plugins": {
 			"bamarni/composer-bin-plugin": true
-		}
+		},
+		"optimize-autoloader": true,
+		"autoloader-suffix": "Richdocuments"
 	},
 	"require": {
 		"ext-json": "*",
-		"ext-simplexml": "*"
+		"ext-simplexml": "*",
+		"mikehaertl/php-pdftk": "^0.13.1"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",
@@ -40,6 +43,11 @@
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
 		"test:unit": "vendor/bin/phpunit -c tests/phpunit.xml"
+	},
+	"autoload" : {
+		"psr-4": {
+			"OCA\\Richdocuments\\": "./lib/"
+		}
 	},
 	"autoload-dev": {
 		"psr-4": {
