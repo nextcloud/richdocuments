@@ -101,6 +101,11 @@ jobs:
             apc.enable_cli=on
           coverage: none
 
+      - name: Install composer dependencies
+        working-directory: apps/richdocuments
+        run: |
+          composer install
+
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
