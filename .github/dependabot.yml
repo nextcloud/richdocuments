@@ -14,8 +14,8 @@ updates:
     - "3. to review"
     - "dependencies"
   reviewers:
-    - juliushaertl
-    - luka-nextcloud
+    - juliusknorr
+    - elzody
 
 - package-ecosystem: composer
   directory: "/"
@@ -29,8 +29,8 @@ updates:
     - "3. to review"
     - "dependencies"
   reviewers:
-    - juliushaertl
-    - luka-nextcloud
+    - juliusknorr
+    - elzody
 
 - package-ecosystem: composer
   directory: "/tests"
@@ -43,8 +43,8 @@ updates:
     - "3. to review"
     - "dependencies"
   reviewers:
-    - juliushaertl
-    - luka-nextcloud
+    - juliusknorr
+    - elzody
   open-pull-requests-limit: 10
 
 - package-ecosystem: npm
@@ -59,8 +59,8 @@ updates:
     - "3. to review"
     - "dependencies"
   reviewers:
-    - juliushaertl
-    - luka-nextcloud
+    - juliusknorr
+    - elzody
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
@@ -79,14 +79,14 @@ updates:
     - "3. to review"
     - "dependencies"
   reviewers:
-    - juliushaertl
-    - luka-nextcloud
+    - juliusknorr
+    - elzody
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
-  
+
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -99,8 +99,8 @@ updates:
     - "3. to review"
     - "dependencies"
   reviewers:
-    - juliushaertl
-    - luka-nextcloud
+    - juliusknorr
+    - elzody
   ignore:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
