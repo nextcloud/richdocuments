@@ -14,16 +14,6 @@
 				{{ t('richdocuments', 'Collabora Online is a powerful LibreOffice-based online office suite with collaborative editing, which supports all major documents, spreadsheet and presentation file formats and works together with all modern browsers.') }}
 			</p>
 
-			<!-- New Collabora Admin Settings Section -->
-			<div id="admin-cool-frame-section">
-				<CoolFrame v-if="tokenGenerated"
-					:iframe-type="'admin'"
-					:public-wopi-url="settings.public_wopi_url"
-					:access-token="accessToken"
-					:access-token-t-t-l="accessTokenTTL"
-					:wopi-setting-base-url="wopiSettingBaseUrl" />
-			</div>
-
 			<div v-if="settings.wopi_url && settings.wopi_url !== ''">
 				<NcNoteCard v-if="serverError == 2" type="error">
 					<p>{{ t('richdocuments', 'Could not establish connection to the Collabora Online server.') }}</p>
@@ -226,6 +216,15 @@
 				<input type="button" :value="t('richdocuments', 'I will setup my own server')" @click="serverMode = 'custom'">
 			</div>
 		</NcModal>
+
+		<div id="admin-cool-frame-section" class="section">
+			<CoolFrame v-if="tokenGenerated"
+				:iframe-type="'admin'"
+				:public-wopi-url="settings.public_wopi_url"
+				:access-token="accessToken"
+				:access-token-t-t-l="accessTokenTTL"
+				:wopi-setting-base-url="wopiSettingBaseUrl" />
+		</div>
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
