@@ -96,9 +96,9 @@ abstract class CachedRequestService {
 			$options['verify'] = false;
 		}
 
-		if ($this->isProxyStarting()) {
-			$options['timeout'] = 180;
-		}
+		//Defaultimeout of 5 seconds causes very often gateway timeouts 
+		$options['timeout'] = 180;
+		
 
 		return $options;
 	}
