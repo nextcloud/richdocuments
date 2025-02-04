@@ -217,14 +217,13 @@
 			</div>
 		</NcModal>
 
-		<div id="admin-cool-frame-section" class="section">
-			<CoolFrame v-if="tokenGenerated"
-				:iframe-type="'admin'"
-				:public-wopi-url="settings.public_wopi_url"
-				:access-token="accessToken"
-				:access-token-t-t-l="accessTokenTTL"
-				:wopi-setting-base-url="wopiSettingBaseUrl" />
-		</div>
+		<CoolFrame v-if="tokenGenerated"
+			class="section"
+			:iframe-type="'admin'"
+			:public-wopi-url="settings.public_wopi_url"
+			:access-token="accessToken"
+			:access-token-t-t-l="accessTokenTTL"
+			:wopi-setting-base-url="wopiSettingBaseUrl" />
 
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
@@ -432,10 +431,7 @@ import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
 import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
-import {
-	getCurrentUser,
-	getGuestNickname,
-} from '@nextcloud/auth'
+import { getCurrentUser } from '@nextcloud/auth'
 
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
@@ -531,7 +527,7 @@ export default {
 			},
 			accessToken: '',
 			accessTokenTTL: '',
-			userId: '',
+			userId: getCurrentUser()?.uid,
 			tokenGenerated: false,
 			wopiSettingBaseUrl: '',
 		}
@@ -579,9 +575,7 @@ export default {
 		},
 	},
 	async mounted() {
-		const currentUser = getCurrentUser()
-		if (currentUser && currentUser.uid) {
-			this.userId = currentUser.uid
+		if (this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
 			if (this.accessToken) {
 				this.wopiSettingBaseUrl = getConfigFileUrl()
@@ -644,8 +638,6 @@ export default {
 				this.accessToken = data.token
 				this.accessTokenTTL = data.token_ttl
 				console.debug('Admin settings WOPI token generated:', this.accessToken, this.accessTokenTTL)
-			} else if (data.federatedUrl) {
-				console.error('Federated URL returned, not expected for admin settings.')
 			} else {
 				console.error('Failed to generate token for admin settings')
 			}

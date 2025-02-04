@@ -35,14 +35,12 @@
 		</p>
 
 		<!-- user settings iframe  -->
-		<div id="user-cool-frame-section">
-			<CoolFrame v-if="tokenGenerated"
-				:iframe-type="'user'"
-				:public-wopi-url="public_wopi_url"
-				:access-token="accessToken"
-				:access-token-t-t-l="accessTokenTTL"
-				:wopi-setting-base-url="wopiSettingBaseUrl" />
-		</div>
+		<CoolFrame v-if="tokenGenerated"
+			:iframe-type="'user'"
+			:public-wopi-url="public_wopi_url"
+			:access-token="accessToken"
+			:access-token-t-t-l="accessTokenTTL"
+			:wopi-setting-base-url="wopiSettingBaseUrl" />
 
 		<!-- Zotero -->
 		<div class="zotero-section">
@@ -168,7 +166,7 @@ export default {
 			tokenGenerated: false,
 			accessToken: '',
 			accessTokenTTL: '',
-			userId: '',
+			userId: getCurrentUser()?.uid,
 			wopiSettingBaseUrl: '',
 			public_wopi_url: this.initial.publicWopiUrl || '',
 		}
@@ -179,9 +177,7 @@ export default {
 		},
 	},
 	async mounted() {
-		const currentUser = getCurrentUser()
-		if (currentUser && currentUser.uid) {
-			this.userId = currentUser.uid
+		if (this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
 			if (this.accessToken) {
 				this.wopiSettingBaseUrl = getConfigFileUrl()
@@ -199,8 +195,6 @@ export default {
 				this.accessToken = data.token
 				this.accessTokenTTL = data.token_ttl
 				console.debug('Admin settings WOPI token generated:', this.accessToken, this.accessTokenTTL)
-			} else if (data.federatedUrl) {
-				console.error('Federated URL returned, not expected for admin settings.')
 			} else {
 				console.error('Failed to generate token for admin settings')
 			}

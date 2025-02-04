@@ -414,8 +414,6 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 *
 	 * @param string $type - Type is 'admin' or 'user'
 	 * @return DataResponse
