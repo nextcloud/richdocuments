@@ -141,7 +141,7 @@ class ConversionProvider implements IConversionProvider {
 				[$targetMimeType]
 			));
 		}
-		
+
 		return $this->remoteService->convertFileTo($file, $targetFileExtension);
 	}
 
@@ -196,7 +196,7 @@ class ConversionProvider implements IConversionProvider {
 		return [
 			'application/pdf' => [
 				'extension' => 'pdf',
-				'displayName' => $this->l10n->t('Portable Document Format (.pdf)'),
+				'displayName' => $this->l10n->t('PDF (.pdf)'),
 			],
 			'image/png' => [
 				'extension' => 'png',
