@@ -190,7 +190,7 @@ jobs:
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: failure()
         with:
-          name: Upload screenshots
+          name: Upload screenshots ${{ matrix.code-image}}-${{ matrix.containers }}
           path: apps/${{ env.APP_NAME }}/cypress/screenshots/
           retention-days: 5
 
@@ -198,7 +198,7 @@ jobs:
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: failure()
         with:
-          name: Upload nextcloud log
+          name: Upload nextcloud log ${{ matrix.code-image}}-${{ matrix.containers }}
           path: data/nextcloud.log
           retention-days: 5
 
