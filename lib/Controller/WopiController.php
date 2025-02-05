@@ -437,7 +437,7 @@ class WopiController extends Controller {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
 			$userId = $wopi->getEditorUid();
-			// TODO: auth - for admin??
+
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
 				throw new \Exception('Failed to read input stream.');
@@ -985,10 +985,11 @@ class WopiController extends Controller {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 	}
+	
 	private function generateSettingToken(string $userId): string {
 		return $this->settingsService->generateIframeToken('user', $userId)['token'];
 	}
-	// todo extract nextcloud url from everything
+
 	private function generateSettings(string $userId, string $type): array {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $this->generateSettingToken($userId) . '&fileId=' . '-1';

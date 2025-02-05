@@ -49,8 +49,6 @@ class SettingsService {
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
 	}
 
-	// TODO: Implement file caching...
-
 	/**
 	 * Ensure the settings directory exists, if it doesn't exist then create it.
 	 *
@@ -322,7 +320,4 @@ class SettingsService {
 			throw $e;
 		}
 	}
-
-	// TODO: Handle installDefaultSystemFiles setting
-
 }
