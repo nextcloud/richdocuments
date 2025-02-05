@@ -81,6 +81,10 @@ class CapabilitiesService extends CachedRequestService {
 		return $this->getCapabilities()['hasZoteroSupport'] ?? false;
 	}
 
+	public function hasSettingIframeSupport(): bool {
+		return $this->getCapabilities()['hasSettingIframeSupport'] ?? false;
+	}
+
 	public function hasWASMSupport(): bool {
 		return $this->getCapabilities()['hasWASMSupport'] ?? false;
 	}

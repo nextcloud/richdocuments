@@ -36,6 +36,17 @@ return [
 		['name' => 'settings#getFontFileOverview', 'url' => 'settings/fonts/{name}/overview', 'verb' => 'GET'],
 		['name' => 'settings#deleteFontFile', 'url' => 'settings/fonts/{name}', 'verb' => 'DELETE'],
 		['name' => 'settings#uploadFontFile', 'url' => 'settings/fonts', 'verb' => 'POST'],
+		[
+			'name' => 'settings#getSettingsFile',
+			'url' => 'settings/{type}/{token}/{category}/{name}',
+			'verb' => 'GET',
+			'requirements' => [
+				'type' => '[a-zA-Z0-9_\-]+',
+				'category' => '[a-zA-Z0-9_\-]+',
+				'name' => '.+',
+			],
+		],
+		['name' => 'settings#generateIframeToken', 'url' => 'settings/generateToken/{type}', 'verb' => 'GET'],
 
 		// Direct Editing: Webview
 		['name' => 'directView#show', 'url' => '/direct/{token}', 'verb' => 'GET'],
