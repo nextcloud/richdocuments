@@ -524,6 +524,7 @@ export default {
 					text: '',
 				},
 				fonts: [],
+				hasSettingIframeSupport: false,
 			},
 			accessToken: '',
 			accessTokenTTL: '',
@@ -575,7 +576,7 @@ export default {
 		},
 	},
 	async mounted() {
-		if (this.userId && this.userId.length > 0) {
+		if (this.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
 			if (this.accessToken) {
 				this.wopiSettingBaseUrl = getConfigFileUrl()
@@ -583,7 +584,7 @@ export default {
 				this.tokenGenerated = true
 			}
 		} else {
-			console.error('User not authenticated')
+			console.error('Setting Iframe not supported')
 		}
 	},
 	beforeMount() {
@@ -607,6 +608,7 @@ export default {
 		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
 		Vue.set(this.settings, 'fonts', this.initial.fonts ? this.initial.fonts : [])
+		Vue.set(this.settings, 'hasSettingIframeSupport', this.initial.hasSettingIframeSupport ?? false)
 
 		this.uiVisible.canonical_webroot = !!(this.settings.canonical_webroot && this.settings.canonical_webroot !== '')
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')

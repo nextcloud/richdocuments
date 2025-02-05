@@ -41,6 +41,7 @@ class Personal implements ISettings {
 				'documentSigningKey' => $this->config->getUserValue($this->userId, 'richdocuments', 'documentSigningKey', ''),
 				'documentSigningCa' => $this->config->getUserValue($this->userId, 'richdocuments', 'documentSigningCa', ''),
 				'hasZoteroSupport' => $this->capabilitiesService->hasZoteroSupport(),
+				'hasSettingIframeSupport' => $this->capabilitiesService->hasSettingIframeSupport(),
 				'zoteroAPIKey' => $this->config->getUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', ''),
 				'publicWopiUrl' => $this->appConfig->getCollaboraUrlPublic(),
 			],

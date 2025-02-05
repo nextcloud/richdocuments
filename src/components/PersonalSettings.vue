@@ -158,6 +158,7 @@ export default {
 		return {
 			templateFolder: this.initial.templateFolder || '',
 			hasZoteroSupport: this.initial.hasZoteroSupport || false,
+			hasSettingIframeSupport: this.initial.hasSettingIframeSupport || false,
 			zoteroAPIKey: this.initial.zoteroAPIKey || '',
 			hasDocumentSigningSupport: this.initial.hasDocumentSigningSupport || false,
 			documentSigningCert: this.initial.documentSigningCert || '',
@@ -177,7 +178,7 @@ export default {
 		},
 	},
 	async mounted() {
-		if (this.userId && this.userId.length > 0) {
+		if (this.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
 			if (this.accessToken) {
 				this.wopiSettingBaseUrl = getConfigFileUrl()
@@ -185,7 +186,7 @@ export default {
 				this.tokenGenerated = true
 			}
 		} else {
-			console.error('User not authenticated')
+			console.error('Setting Iframe not supported')
 		}
 	},
 	methods: {
