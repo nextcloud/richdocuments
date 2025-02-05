@@ -40,7 +40,7 @@ class Helper {
 		}
 
 		if (str_contains($fileId, '-')) {
-			[$fileId, $templateId] = explode('/', $fileId);
+			[$fileId, $templateId] = array_pad(explode('/', $fileId), 2, null);
 		}
 
 		return [
