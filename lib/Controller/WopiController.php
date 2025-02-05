@@ -16,6 +16,7 @@ use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\PermissionManager;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\UserScopeService;
@@ -90,6 +91,7 @@ class WopiController extends Controller {
 		private IEventDispatcher $eventDispatcher,
 		private TaskProcessingManager $taskProcessingManager,
 		private SettingsService $settingsService,
+		private CapabilitiesService $capabilitiesService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -104,7 +106,7 @@ class WopiController extends Controller {
 	public function checkFileInfo(string $fileId, string $access_token): JSONResponse {
 		try {
 			[$fileId, , $version] = Helper::parseFileId($fileId);
-			
+
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			$file = $this->getFileForWopiToken($wopi);
 			if (!($file instanceof File)) {
@@ -139,10 +141,6 @@ class WopiController extends Controller {
 
 		$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
-		if (!$isPublic) {
-			$userSettings = $this->generateSettings($userId, 'userconfig');
-		}
-		$sharedSettings = $this->generateSettings($userId, 'systemconfig');
 
 		$response = [
 			'BaseFileName' => $file->getName(),
@@ -176,11 +174,14 @@ class WopiController extends Controller {
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
-			'SharedSettings' => $sharedSettings,
 		];
 
-		if (!$isPublic) {
-			$response['UserSettings'] = $userSettings;
+		if ($this->capabilitiesService->hasSettingIframeSupport()) {
+
+			if (!$isPublic) {
+				$response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
+			}
+			$response['SharedSettings'] = $this->generateSettings($userId, 'systemconfig');
 		}
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
