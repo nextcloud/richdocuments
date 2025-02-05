@@ -16,6 +16,7 @@ use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\PermissionManager;
+use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\Service\UserScopeService;
@@ -90,6 +91,7 @@ class WopiController extends Controller {
 		private IEventDispatcher $eventDispatcher,
 		private TaskProcessingManager $taskProcessingManager,
 		private SettingsService $settingsService,
+		private CapabilitiesService $capabilitiesService,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -139,11 +141,6 @@ class WopiController extends Controller {
 
 		$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
-		if (!$isPublic) {
-			$userSettings = $this->generateSettings($userId, 'userconfig');
-		}
-		$sharedSettings = $this->generateSettings($userId, 'systemconfig');
-
 		$response = [
 			'BaseFileName' => $file->getName(),
 			'Size' => $file->getSize(),
@@ -176,11 +173,19 @@ class WopiController extends Controller {
 			'EnableRemoteAIContent' => $isTaskProcessingEnabled,
 			'HasContentRange' => true,
 			'ServerPrivateInfo' => [],
-			'SharedSettings' => $sharedSettings,
 		];
+		
+		if ($this->capabilitiesService->hasSettingIframeSupport()) {
+			if (!$isPublic) {
+				$userSettings = $this->generateSettings($userId, 'userconfig');
+			}
+			$sharedSettings = $this->generateSettings($userId, 'systemconfig');
 
-		if (!$isPublic) {
-			$response['UserSettings'] = $userSettings;
+			$response['SharedSettings'] = $sharedSettings;
+
+			if (!$isPublic) {	
+				$response['UserSettings'] = $userSettings;
+			}
 		}
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
