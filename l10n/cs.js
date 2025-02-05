@@ -30,7 +30,6 @@ OC.L10N.register(
     "Template not found" : "Šablona nenalezena",
     "Unable to determine the proper file extension for %1$s" : "Nebylo možné zjistit správnou příponu souboru pro %1$s",
     "Unable to fetch information on %1$s" : "Nedaří se získat informaci o %1$s",
-    "Portable Document Format (.pdf)" : "Přenositelný formát dokumentů (.pdf)",
     "Image (.png)" : "Obrázek (.png)",
     "Image (.svg)" : "Obrázek (.svg)",
     "Text (.rtf)" : "Text (.rtf)",

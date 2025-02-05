@@ -30,7 +30,6 @@ OC.L10N.register(
     "Template not found" : "القالب template غير موجود",
     "Unable to determine the proper file extension for %1$s" : "يتعذّر تحديد الامتداد المناسب للملف %1$s",
     "Unable to fetch information on %1$s" : "يتعذّر جلب معلومات عن %1$s",
-    "Portable Document Format (.pdf)" : "صيغة \"بي دي إف\" (.pdf)",
     "Image (.png)" : "صورة (.png)",
     "Image (.svg)" : "صورة (.svg)",
     "Text (.rtf)" : "نصِّي (.rtf)",
