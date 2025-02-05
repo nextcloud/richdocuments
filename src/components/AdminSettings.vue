@@ -576,7 +576,7 @@ export default {
 		},
 	},
 	async mounted() {
-		if (this.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
+		if (this.settings.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
 			await this.generateAccessToken()
 			if (this.accessToken) {
 				this.wopiSettingBaseUrl = getConfigFileUrl()
