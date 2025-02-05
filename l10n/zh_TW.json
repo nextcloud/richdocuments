@@ -28,7 +28,6 @@
     "Template not found" : "找不到範本",
     "Unable to determine the proper file extension for %1$s" : "無法確認 %1$s 的正確副檔名",
     "Unable to fetch information on %1$s" : "無法擷取 %1$s 上的資料",
-    "Portable Document Format (.pdf)" : "可攜式文件格式 (.pdf)",
     "Image (.png)" : "圖片 (.png)",
     "Image (.svg)" : "圖片 (.svg)",
     "Text (.rtf)" : "文字 (.rtf)",

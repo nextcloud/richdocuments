@@ -30,7 +30,6 @@ OC.L10N.register(
     "Template not found" : "Template not found",
     "Unable to determine the proper file extension for %1$s" : "Unable to determine the proper file extension for %1$s",
     "Unable to fetch information on %1$s" : "Unable to fetch information on %1$s",
-    "Portable Document Format (.pdf)" : "Portable Document Format (.pdf)",
     "Image (.png)" : "Image (.png)",
     "Image (.svg)" : "Image (.svg)",
     "Text (.rtf)" : "Text (.rtf)",
