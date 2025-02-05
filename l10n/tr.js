@@ -30,7 +30,6 @@ OC.L10N.register(
     "Template not found" : "Kalıp bulunamadı",
     "Unable to determine the proper file extension for %1$s" : "%1$s için doğru dosya uzantısı belirlenemedi",
     "Unable to fetch information on %1$s" : "%1$s üzerine bilgiler alınamadı",
-    "Portable Document Format (.pdf)" : "Taşınabilir belge biçimi (.pdf)",
     "Image (.png)" : "Görsel (.png)",
     "Image (.svg)" : "Görsel (.svg)",
     "Text (.rtf)" : "Metin (.rtf)",
