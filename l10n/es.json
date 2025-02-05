@@ -27,7 +27,6 @@
     "Invalid file provided" : "Archivo proporcionado no válido",
     "Template not found" : "Plantilla no guardada",
     "Unable to determine the proper file extension for %1$s" : "No ha sido posible encontrar la extensión de archivo correcta para %1$s",
-    "Portable Document Format (.pdf)" : "Portable Document Format (.pdf)",
     "Image (.png)" : "Imagen (.png)",
     "Image (.svg)" : "Imagen (.svg)",
     "Text (.rtf)" : "Texto (.rtf)",

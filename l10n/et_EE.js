@@ -81,6 +81,7 @@ OC.L10N.register(
     "Description" : "Kirjeldus",
     "Delete this font" : "Kustuta see font",
     "No results" : "Vasteid ei leitud",
+    "Select file" : "Vali fail",
     "Document loading failed" : "Dokumendi laadimine ebaõnnestus",
     "Close" : "Sulge",
     "Edit" : "Redigeeri",
