@@ -13,7 +13,6 @@
 			<input type="hidden" name="wopi_setting_base_url" :value="wopiSettingBaseUrl">
 			<input type="hidden" name="iframe_type" :value="iframeType">
 			<input type="hidden" name="css_variables" :value="cssVariables">
-			<!-- TODO: Include any other necessary hidden inputs - send css variables -->
 		</form>
 		<iframe :id="iframeName"
 			:name="iframeName"
