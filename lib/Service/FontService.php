@@ -183,6 +183,9 @@ class FontService {
 			// but just a file path
 			$tmpFontFile = tmpfile();
 			$tmpFontFilePath = stream_get_meta_data($tmpFontFile)['uri'];
+			if (!file_exists($tmpFontFilePath)) {
+				return;
+			}
 			fwrite($tmpFontFile, $fontFile->getContent());
 			fflush($tmpFontFile);
 
