@@ -28,6 +28,7 @@
     "Template not found" : "Vorlage nicht gefunden",
     "Unable to determine the proper file extension for %1$s" : "Dateierweiterung von \"%1$s\" kann nicht erkannt werden",
     "Unable to fetch information on %1$s" : "Informationen über %1$s können nicht abgerufen werden",
+    "PDF (.pdf)" : "PDF (.pdf)",
     "Image (.png)" : "Bild (.png)",
     "Image (.svg)" : "Bild (.svg)",
     "Text (.rtf)" : "Text (.rtf)",

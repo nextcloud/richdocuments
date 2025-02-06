@@ -28,6 +28,7 @@
     "Template not found" : "Шаблон није нађен",
     "Unable to determine the proper file extension for %1$s" : "Не може да се одреди исправна екстензија фајла за %1$s",
     "Unable to fetch information on %1$s" : "Нису могле да се прибаве информације о %1$s",
+    "PDF (.pdf)" : "PDF (.pdf)",
     "Image (.png)" : "Слика (.png)",
     "Image (.svg)" : "Слика (.svg)",
     "Text (.rtf)" : "Текст (.rtf)",
