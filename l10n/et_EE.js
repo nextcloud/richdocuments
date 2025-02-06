@@ -70,6 +70,7 @@ OC.L10N.register(
     "Save" : "Salvesta",
     "Confirm" : "Kinnita",
     "Cancel" : "Tühista",
+    "Save as" : "Salvesta kui",
     "Submit" : "Saada",
     "Select a template directory" : "Vali mallide kaust",
     "Remove personal template folder" : "Eemalda isiklik mallide kaust",
