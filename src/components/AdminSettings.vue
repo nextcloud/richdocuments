@@ -217,6 +217,14 @@
 			</div>
 		</NcModal>
 
+		<CoolFrame v-if="tokenGenerated"
+			class="section"
+			:iframe-type="'admin'"
+			:public-wopi-url="settings.public_wopi_url"
+			:access-token="accessToken"
+			:access-token-t-t-l="accessTokenTTL"
+			:wopi-setting-base-url="wopiSettingBaseUrl" />
+
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
 			<SettingsCheckbox :value="isOoxml"
@@ -423,10 +431,14 @@ import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
 import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
+import { getCurrentUser } from '@nextcloud/auth'
+
+import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
 
 import '@nextcloud/dialogs/style.css'
-import { getCallbackBaseUrl } from '../helpers/url.js'
+import { getCallbackBaseUrl, getConfigFileUrl } from '../helpers/url.js'
 import { getCapabilities } from '../services/capabilities.ts'
+import CoolFrame from './CoolFrame.vue'
 
 const SERVER_STATE_OK = 0
 const SERVER_STATE_LOADING = 1
@@ -456,6 +468,7 @@ export default {
 		GlobalTemplates,
 		NcModal,
 		NcNoteCard,
+		CoolFrame,
 	},
 	props: {
 		initial: {
@@ -511,7 +524,13 @@ export default {
 					text: '',
 				},
 				fonts: [],
+				hasSettingIframeSupport: false,
 			},
+			accessToken: '',
+			accessTokenTTL: '',
+			userId: getCurrentUser()?.uid,
+			tokenGenerated: false,
+			wopiSettingBaseUrl: '',
 		}
 	},
 	computed: {
@@ -531,6 +550,9 @@ export default {
 			return t('richdocuments', 'Make sure to set this URL: {url} in the coolwsd.xml file of your Collabora Online server to ensure the added fonts get loaded automatically. Please note that http:// will only work for debug builds of Collabora Online. In production you must use https:// for remote font config.',
 				{ url: this.fontHintUrl },
 			)
+		},
+		shareToken() {
+			return getSharingToken()
 		},
 		fontXmlHint() {
 			return `
@@ -553,6 +575,18 @@ export default {
 			}
 		},
 	},
+	async mounted() {
+		if (this.settings.hasSettingIframeSupport && this.userId && this.userId.length > 0) {
+			await this.generateAccessToken()
+			if (this.accessToken) {
+				this.wopiSettingBaseUrl = getConfigFileUrl()
+				console.debug('wopiSettingBaseUrl', this.wopiSettingBaseUrl)
+				this.tokenGenerated = true
+			}
+		} else {
+			console.error('Setting Iframe not supported')
+		}
+	},
 	beforeMount() {
 		for (const key in this.initial.settings) {
 			if (!Object.prototype.hasOwnProperty.call(this.initial.settings, key)) {
@@ -574,6 +608,7 @@ export default {
 		Vue.set(this.settings, 'edit_groups', this.settings.edit_groups ? this.settings.edit_groups.split('|') : null)
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
 		Vue.set(this.settings, 'fonts', this.initial.fonts ? this.initial.fonts : [])
+		Vue.set(this.settings, 'hasSettingIframeSupport', this.initial.hasSettingIframeSupport ?? false)
 
 		this.uiVisible.canonical_webroot = !!(this.settings.canonical_webroot && this.settings.canonical_webroot !== '')
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')
@@ -599,6 +634,16 @@ export default {
 		this.checkSettings()
 	},
 	methods: {
+		async generateAccessToken() {
+			const { data } = await axios.get(generateUrl('/apps/richdocuments/settings/generateToken/admin'))
+			if (data.token) {
+				this.accessToken = data.token
+				this.accessTokenTTL = data.token_ttl
+				console.debug('Admin settings WOPI token generated:', this.accessToken, this.accessTokenTTL)
+			} else {
+				console.error('Failed to generate token for admin settings')
+			}
+		},
 		async checkSettings() {
 			this.errorMessage = null
 			this.updating = true
@@ -656,6 +701,7 @@ export default {
 				console.error(error)
 			})
 		},
+
 		async updateUseGroups(enabled) {
 			if (typeof enabled === 'boolean') {
 				this.settings.use_groups = (enabled) ? [] : null
