@@ -30,6 +30,7 @@ OC.L10N.register(
     "Template not found" : "Mallen kunde inte hittas",
     "Unable to determine the proper file extension for %1$s" : "Kan inte fastställa rätt filändelse för %1$s",
     "Unable to fetch information on %1$s" : "Kan inte hämta information om %1$s",
+    "PDF (.pdf)" : "PDF (.pdf)",
     "Image (.png)" : "Bild (.png)",
     "Image (.svg)" : "Bild (.svg)",
     "Text (.rtf)" : "Text (.rtf)",
