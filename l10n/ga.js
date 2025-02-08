@@ -30,6 +30,7 @@ OC.L10N.register(
     "Template not found" : "Teimpléad gan aimsiú",
     "Unable to determine the proper file extension for %1$s" : "Ní féidir an síneadh cuí comhaid a chinneadh le haghaidh %1$s",
     "Unable to fetch information on %1$s" : "Ní féidir faisnéis a fháil ar %1$s",
+    "PDF (.pdf)" : "PDF (.pdf)",
     "Image (.png)" : "Íomhá (.png)",
     "Image (.svg)" : "Íomhá (.svg)",
     "Text (.rtf)" : "Téacs (.rtf)",
