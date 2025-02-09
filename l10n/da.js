@@ -38,6 +38,7 @@ OC.L10N.register(
     "Failed to save settings" : "Kunne ikke gemme indstillinger",
     "Save" : "Gem",
     "Remove" : "Fjern",
+    "Submit name" : "Angiv navn",
     "Confirm" : "Bekræft",
     "Cancel" : "Annuller",
     "Save As" : "Gem som",
