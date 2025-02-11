@@ -177,7 +177,6 @@ class WopiController extends Controller {
 		];
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
-
 			if (!$isPublic) {
 				$response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
 			}
@@ -993,9 +992,10 @@ class WopiController extends Controller {
 	private function generateSettings(string $userId, string $type): array {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $this->generateSettingToken($userId) . '&fileId=' . '-1';
+		$etag = $this->settingsService->getFolderEtag($type);
 		return [
 			'uri' => $uri,
-			'stamp' => time()
+			'stamp' => $etag
 		];
 	}
 }
