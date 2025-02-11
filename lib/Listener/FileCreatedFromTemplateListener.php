@@ -54,17 +54,17 @@ class FileCreatedFromTemplateListener implements IEventListener {
 			return;
 		}
 
-		if ($this->templateManager->isSupportedTemplateSource($templateFile->getExtension())) {
-			// Only use TemplateSource if supported filetype
-			$this->templateManager->setTemplateSource($event->getTarget()->getId(), $templateFile->getId());
-		}
-
 		if ($this->capabilitiesService->hasFormFilling()) {
 			try {
-				$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields());
+				$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields(), null, $event->getTarget()->getExtension());
 				$event->getTarget()->putContent($filledTemplate);
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
+			}
+		} else {
+			if ($this->templateManager->isSupportedTemplateSource($templateFile->getExtension())) {
+				// Only use TemplateSource if supported filetype
+				$this->templateManager->setTemplateSource($event->getTarget()->getId(), $templateFile->getId());
 			}
 		}
 
