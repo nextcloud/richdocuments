@@ -11,6 +11,7 @@
 			type="file"
 			class="hidden-visually"
 			:accept="acceptedFileExtensions"
+			data-cy="newTemplateInput"
 			@change="selectFile">
 
 		<div class="template-buttons">
