@@ -1,22 +1,37 @@
 <template>
 	<NcSettingsSection :name="t('richdocuments', 'Custom Fonts')"
 		:description="description">
-		<NcListItem v-for="font in fonts" :key="font" one-line>
+		<NcListItem v-for="font in fonts"
+			:key="font"
+			one-line
+			force-display-actions>
 			<template #name>
 				{{ font }}
 			</template>
+
 			<template #subname>
 				<img :src="getFontPreview(font)"
 					:alt="t('richdocuments', 'No font overview')">
+			</template>
+
+			<template #extra-actions>
+				<NcButton @click="deleteFont(font)">
+					<template #icon>
+						<TrashCan :size="20" />
+					</template>
+				</NcButton>
 			</template>
 		</NcListItem>
 	</NcSettingsSection>
 </template>
 
 <script lang="js">
-import { NcSettingsSection, NcListItem } from '@nextcloud/vue'
+import { NcSettingsSection, NcListItem, NcButton } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
+import TrashCan from 'vue-material-design-icons/TrashCan.vue'
 
 export default {
 	name: 'CustomFonts',
@@ -24,6 +39,8 @@ export default {
 	components: {
 		NcSettingsSection,
 		NcListItem,
+		NcButton,
+		TrashCan,
 	},
 
 	props: {
@@ -50,6 +67,21 @@ export default {
 		getFontPreview(font) {
 			return generateUrl(`/apps/richdocuments/settings/fonts/${font}/overview`)
 		},
+		async deleteFont(font) {
+			try {
+				await axios.delete(generateUrl(`/apps/richdocuments/settings/fonts/${font}`))
+				this.$emit('delete', font)
+			} catch (err) {
+				console.error(err)
+				showError(err?.response?.data?.error)
+			}
+		},
 	},
 }
 </script>
+
+<style lang="css" scoped>
+.list-item__wrapper {
+	max-width: var(--sidebar-max-width);
+}
+</style>

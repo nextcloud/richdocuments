@@ -293,6 +293,9 @@
 				@update="updateWopiAllowlist" />
 		</div>
 
+		<CustomFonts :fonts="settings.fonts"
+			@delete="onFontDeleted" />
+
 		<div v-if="isSetup" id="font-settings" class="section">
 			<h2>{{ t('richdocuments', 'Custom Fonts') }}</h2>
 			<SettingsInputFile :label="t('richdocuments', 'Upload font file')"
@@ -431,6 +434,7 @@ import SettingsExternalApps from './SettingsExternalApps.vue'
 import SettingsInputFile from './SettingsInputFile.vue'
 import SettingsFontList from './SettingsFontList.vue'
 import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
+import CustomFonts from './AdminSettings/CustomFonts.vue'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
@@ -466,6 +470,7 @@ export default {
 		SettingsInputFile,
 		SettingsFontList,
 		GlobalTemplates,
+		CustomFonts,
 		NcModal,
 		NcNoteCard,
 		CoolFrame,
