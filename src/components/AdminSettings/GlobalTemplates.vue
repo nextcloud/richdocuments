@@ -9,6 +9,7 @@
 		<input ref="newTemplateInput"
 			type="file"
 			class="hidden-visually"
+			data-cy="newTemplateInput"
 			@change="selectFile">
 
 		<div class="template-buttons">

@@ -293,28 +293,7 @@
 				@update="updateWopiAllowlist" />
 		</div>
 
-		<div v-if="isSetup" id="font-settings" class="section">
-			<h2>{{ t('richdocuments', 'Custom Fonts') }}</h2>
-			<SettingsInputFile :label="t('richdocuments', 'Upload font file')"
-				:button-title="t('richdocuments', 'Upload a font file')"
-				:uploading="uploadingFont"
-				:mimetypes="fontMimes"
-				@change="uploadFont" />
-			<SettingsFontList :fonts="settings.fonts"
-				:label="t('richdocuments', 'Available fonts')"
-				@deleted="onFontDeleted" />
-			<em>
-				{{ fontHint }}
-			</em>
-			<em>
-				<pre>
-					{{ fontXmlHint }}
-				</pre>
-			</em>
-			<em>
-				{{ t('richdocuments', 'For ideal document compatibility we recommend you to install commonly used fonts. If your users are working with Microsoft Office, installing their proprietary fonts can be done following the documentation.') }} <a :href="fontCustomDocumentUrl" target="_blank">{{ t('richdocuments', 'Custom fonts documentation') }}</a>
-			</em>
-		</div>
+		<CustomFonts />
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure View') }}</h2>
@@ -428,9 +407,8 @@ import SettingsCheckbox from './SettingsCheckbox.vue'
 import SettingsInputText from './SettingsInputText.vue'
 import SettingsSelectGroup from './SettingsSelectGroup.vue'
 import SettingsExternalApps from './SettingsExternalApps.vue'
-import SettingsInputFile from './SettingsInputFile.vue'
-import SettingsFontList from './SettingsFontList.vue'
 import GlobalTemplates from './AdminSettings/GlobalTemplates.vue'
+import CustomFonts from './AdminSettings/CustomFonts.vue'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
@@ -463,9 +441,8 @@ export default {
 		NcSelect,
 		NcSelectTags,
 		SettingsExternalApps,
-		SettingsInputFile,
-		SettingsFontList,
 		GlobalTemplates,
+		CustomFonts,
 		NcModal,
 		NcNoteCard,
 		CoolFrame,
@@ -881,12 +858,6 @@ export default {
 			}).then(() => {
 				this.uploadingFont = false
 			})
-		},
-		onFontDeleted(name) {
-			const index = this.settings.fonts.indexOf(name)
-			if (index !== -1) {
-				this.settings.fonts.splice(index, 1)
-			}
 		},
 	},
 }
