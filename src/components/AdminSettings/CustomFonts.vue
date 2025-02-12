@@ -16,6 +16,14 @@
 						<img :src="getFontPreview(font)"
 							:alt="t('richdocuments', 'No font overview')">
 					</td>
+					<td>
+						<NcButton type="error"
+							@click="deleteFont(font)">
+							<template #icon>
+								<TrashCanIcon :size="20" />
+							</template>
+						</NcButton>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -36,6 +44,7 @@ import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import Upload from 'vue-material-design-icons/Upload.vue'
+import TrashCanIcon from 'vue-material-design-icons/TrashCan.vue'
 
 export default {
 	name: 'CustomFonts',
@@ -44,6 +53,7 @@ export default {
 		NcSettingsSection,
 		NcButton,
 		Upload,
+		TrashCanIcon,
 	},
 
 	props: {
@@ -91,6 +101,24 @@ table {
 	& caption {
 		font-weight: bold;
 	}
+
+	& tr {
+		& td {
+			padding: 5px;
+
+			& button {
+				visibility: hidden;
+			}
+		}
+	}
+
+	& tr:hover {
+		& td {
+			& button {
+				visibility: visible;
+			}
+		}
+	}
 }
 
 td {
@@ -104,7 +132,11 @@ td {
 }
 
 .font-settings__image {
-	vertical-align: baseline;
 	color: var(--color-text-maxcontrast);
+
+	& img {
+		vertical-align: middle;
+		filter: var(--primary-invert-if-bright);
+	}
 }
 </style>

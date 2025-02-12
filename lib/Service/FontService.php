@@ -187,9 +187,13 @@ class FontService {
 			fflush($tmpFontFile);
 
 			$im = imagecreatetruecolor(250, 30);
-			$bg_color = imagecolorallocate($im, 255, 255, 255);
+			imagealphablending($im, false);
+
+			$bg_color = imagecolorallocatealpha($im, 255, 255, 255, 127);
 			$font_color = imagecolorallocate($im, $color[0], $color[1], $color[2]);
-			imagefilledrectangle($im, 0, 0, 399, 29, $bg_color);
+			imagefill($im, 0, 0, $bg_color);
+			imagesavealpha($im, true);
+
 			$ttfResult = imagettftext($im, 20, 0, 0, 22, $font_color, $tmpFontFilePath, $text);
 			// this happens with invalid ttf fonts
 			if ($ttfResult === false) {
