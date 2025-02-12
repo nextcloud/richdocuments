@@ -1,46 +1,49 @@
 <template>
 	<NcSettingsSection :name="t('richdocuments', 'Custom Fonts')"
 		:description="description">
-		<NcListItem v-for="font in fonts"
-			:key="font"
-			one-line
-			force-display-actions>
-			<template #name>
-				{{ font }}
-			</template>
+		<table>
+			<caption>
+				{{ t('richdocuments', 'Available fonts') }}
+			</caption>
 
-			<template #subname>
-				<img :src="getFontPreview(font)"
-					:alt="t('richdocuments', 'No font overview')">
-			</template>
+			<tbody>
+				<tr v-for="font in fonts"
+					:key="font">
+					<td class="font-settings__name">
+						{{ font }}
+					</td>
+					<td class="font-settings__image">
+						<img :src="getFontPreview(font)"
+							:alt="t('richdocuments', 'No font overview')">
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-			<template #extra-actions>
-				<NcButton @click="deleteFont(font)">
-					<template #icon>
-						<TrashCan :size="20" />
-					</template>
-				</NcButton>
+		<NcButton>
+			<template #icon>
+				<Upload :size="20" />
 			</template>
-		</NcListItem>
+			{{ t('richdocuments', 'Upload font file') }}
+		</NcButton>
 	</NcSettingsSection>
 </template>
 
 <script lang="js">
-import { NcSettingsSection, NcListItem, NcButton } from '@nextcloud/vue'
+import { NcSettingsSection, NcButton } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import TrashCan from 'vue-material-design-icons/TrashCan.vue'
+import Upload from 'vue-material-design-icons/Upload.vue'
 
 export default {
 	name: 'CustomFonts',
 
 	components: {
 		NcSettingsSection,
-		NcListItem,
 		NcButton,
-		TrashCan,
+		Upload,
 	},
 
 	props: {
@@ -81,7 +84,27 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.list-item__wrapper {
-	max-width: var(--sidebar-max-width);
+table {
+	margin: calc(var(--default-grid-baseline) * 2) 0;
+	max-width: calc(var(--sidebar-max-width) * 1.2);
+
+	& caption {
+		font-weight: bold;
+	}
+}
+
+td {
+	padding: 5px;
+}
+
+.font-settings__name {
+	max-width: 250px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.font-settings__image {
+	vertical-align: baseline;
+	color: var(--color-text-maxcontrast);
 }
 </style>
