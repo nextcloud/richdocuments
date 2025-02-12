@@ -242,7 +242,12 @@ class SettingsService {
 			throw new NotFoundException('Instance ID not found');
 		}
 		$rootFolder = $this->rootFolder;
-		$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+		try {
+			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+		} catch (NotFoundException $e) {
+			$baseFolder = $this->appData->newFolder($type);
+			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+		}
 		return $folder;
 	}
 
