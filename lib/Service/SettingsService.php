@@ -97,6 +97,7 @@ class SettingsService {
 		$fileName = $settingsUrl->getFileName();
 		$newFile = $categoryFolder->newFile($fileName, $fileData);
 		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName, $userId);
+		$this->refreshFolderEtag($settingsUrl->getType());
 
 		return [
 			'stamp' => $newFile->getETag(),
@@ -154,6 +155,15 @@ class SettingsService {
 			throw $e;
 		}
 	}
+
+	/**
+	 *
+	 * @param string $type
+	 * @return string
+	 */
+	public function getFolderEtag($type) : string {
+		return $this->getTypeFolder($type)->getEtag();
+	}
 	
 	/**
 	 * generate setting config
@@ -210,12 +220,7 @@ class SettingsService {
 	 */
 	private function getCategoryDirFolderList(string $type) : array {
 		try {
-			$instanceId = $this->config->getSystemValue('instanceid', null);
-			if ($instanceId === null) {
-				throw new NotFoundException('Instance ID not found');
-			}
-			$rootFolder = $this->rootFolder;
-			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+			$folder = $this->getTypeFolder($type);
 			if (!$folder instanceof Folder) {
 				return [];
 			}
@@ -223,6 +228,36 @@ class SettingsService {
 		} catch (NotFoundException $e) {
 			return [];
 		}
+	}
+
+	/**
+	 * extract folder of $type
+	 *
+	 * @param string $type
+	 * @return Folder
+	 */
+	private function getTypeFolder($type) {
+		$instanceId = $this->config->getSystemValue('instanceid', null);
+		if ($instanceId === null) {
+			throw new NotFoundException('Instance ID not found');
+		}
+		$rootFolder = $this->rootFolder;
+		try {
+			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+		} catch (NotFoundException $e) {
+			$baseFolder = $this->appData->newFolder($type);
+			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
+		}
+		return $folder;
+	}
+
+	/**
+	 *
+	 * @param string $type
+	 */
+	private function refreshFolderEtag($type) {
+		$folder = $this->getTypeFolder($type);
+		$folder->getStorage()->getCache()->update($folder->getId(), [ 'etag' => uniqid() ]);
 	}
 
 	/**
@@ -314,6 +349,7 @@ class SettingsService {
 				throw new NotFoundException("File '{$name}' not found in category '{$category}' for type '{$type}'.");
 			}
 			$categoryFolder->getFile($name)->delete();
+			$this->refreshFolderEtag($type);
 		} catch (NotFoundException $e) {
 			throw $e;
 		} catch (NotPermittedException $e) {
