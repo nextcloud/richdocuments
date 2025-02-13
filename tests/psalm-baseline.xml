@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
       <code><![CDATA[[]]]></code>
@@ -28,11 +28,6 @@
       <code><![CDATA[Command]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/Controller/DirectViewController.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$item->getId()]]></code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/Controller/DocumentAPIController.php">
     <UndefinedClass>
       <code><![CDATA[\OCA\Files\Helper]]></code>
@@ -45,12 +40,6 @@
     <RedundantCondition>
       <code><![CDATA[$app !== '']]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/Controller/SettingsController.php">
-    <UndefinedClass>
-      <code><![CDATA[NullOutput]]></code>
-      <code><![CDATA[NullOutput]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/Controller/TemplatesController.php">
     <InvalidReturnStatement>
@@ -67,9 +56,6 @@
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
-    <TypeDoesNotContainType>
-      <code><![CDATA[$path === '']]></code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[putContent]]></code>
       <code><![CDATA[putContent]]></code>
@@ -91,10 +77,13 @@
     </MissingDependency>
   </file>
   <file src="lib/Service/ConnectivityService.php">
-    <UndefinedClass>
-      <code><![CDATA[OutputInterface]]></code>
-      <code><![CDATA[OutputInterface]]></code>
-    </UndefinedClass>
+    <InvalidCatch>
+      <code><![CDATA[try {
+			$result = $client->post($url, ['body' => json_encode(['callbackUrl' => $callbackUrl . '/status.php']), 'headers' => ['Content-Type' => 'application/json']]);
+		} catch (ClientException $e) {
+			$result = $e->getResponse();
+		}]]></code>
+    </InvalidCatch>
   </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>
@@ -107,18 +96,6 @@
       <code><![CDATA[getRemote]]></code>
       <code><![CDATA[getToken]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/Template/CollaboraTemplateProvider.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[array_map(function (File $file) {
-			$template = new Template(CollaboraTemplateProvider::class, (string)$file->getId(), $file);
-			$template->setCustomPreviewUrl($this->urlGenerator->linkToRouteAbsolute('richdocuments.templates.getPreview', ['fileId' => $file->getId()]));
-			return $template;
-		}, $collaboraTemplates)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/WOPI/Parser.php">
     <RedundantCondition>

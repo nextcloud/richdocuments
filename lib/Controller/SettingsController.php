@@ -32,7 +32,6 @@ use OCP\IURLGenerator;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Output\NullOutput;
 
 class SettingsController extends Controller {
 	// TODO adapt overview generation if we add more font mimetypes
@@ -67,9 +66,7 @@ class SettingsController extends Controller {
 
 	public function checkSettings(): DataResponse {
 		try {
-			$output = new NullOutput();
-			$this->connectivityService->testDiscovery($output);
-			$this->connectivityService->testCapabilities($output);
+			$this->connectivityService->test();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
@@ -182,9 +179,7 @@ class SettingsController extends Controller {
 		}
 
 		try {
-			$output = new NullOutput();
-			$this->connectivityService->testDiscovery($output);
-			$this->connectivityService->testCapabilities($output);
+			$this->connectivityService->test();
 			$this->connectivityService->autoConfigurePublicUrl();
 		} catch (\Throwable $e) {
 			return new JSONResponse([
@@ -504,7 +499,7 @@ class SettingsController extends Controller {
 			return new DataDisplayResponse('Something went wrong', 500);
 		}
 	}
-	
+
 
 	/**
 	 * @param string $key
