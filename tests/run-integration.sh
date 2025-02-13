@@ -48,10 +48,10 @@ PHP_CLI_SERVER_WORKERS=10 php -S localhost:$PORT_SERVERB -t $OC_PATH &
 PHPPIDB=$!
 
 
+$OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:app:set richdocuments wopi_url --value="http://localhost:9980"
 $OCC config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
 $OCC richdocuments:activate-config
-$OCC config:system:set allow_local_remote_servers --value true --type bool
 $OCC config:system:set gs.trustedHosts 0 --value="localhost:$PORT_SERVERA"
 $OCC config:system:set gs.trustedHosts 1 --value="localhost:$PORT_SERVERB"
 

@@ -147,11 +147,10 @@ jobs:
           php occ app:enable --force spreed
           php occ app:list
           php occ config:system:set trusted_domains 1 --value="172.17.0.1"
+          php occ config:system:set overwrite.cli.url --value="http://172.17.0.1:8081"
 
-          php occ config:app:set richdocuments wopi_url --value="http://localhost:9980"
-          php occ config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
           php occ config:system:set allow_local_remote_servers --value true --type bool
-          php occ richdocuments:activate-config
+          php occ richdocuments:activate-config --wopi-url="http://localhost:9980" --callback-url="http://172.17.0.1:8081"
 
           curl http://admin:admin@localhost:8081/ocs/v1.php/cloud/capabilities\?format\=json -H 'OCS-APIRequest: true'
 
