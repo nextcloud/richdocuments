@@ -4,6 +4,12 @@
 		<table>
 			<caption>
 				{{ t('richdocuments', 'Available fonts') }}
+				<NcButton size="small" style="display: inline-block; vertical-align: middle; margin: 4px;">
+					<template #icon>
+						<Upload :size="20" />
+					</template>
+					{{ t('richdocuments', 'Upload font file') }}
+				</NcButton>
 			</caption>
 
 			<tbody>
@@ -27,13 +33,6 @@
 				</tr>
 			</tbody>
 		</table>
-
-		<NcButton>
-			<template #icon>
-				<Upload :size="20" />
-			</template>
-			{{ t('richdocuments', 'Upload font file') }}
-		</NcButton>
 	</NcSettingsSection>
 </template>
 
