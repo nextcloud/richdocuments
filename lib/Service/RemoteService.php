@@ -52,16 +52,11 @@ class RemoteService {
 	}
 
 	private function getRequestOptionsForFile(File $file, ?string $target = null): array {
-		$useTempFile = $file->isEncrypted() || !$file->getStorage()->isLocal();
-		if ($useTempFile) {
-			$localFile = $file->getStorage()->getLocalFile($file->getInternalPath());
-			if (!is_string($localFile)) {
-				throw new NotFoundException('Could not get local file');
-			}
-			$stream = fopen($localFile, 'rb');
-		} else {
-			$stream = $file->fopen('rb');
+		$localFile = $file->getStorage()->getLocalFile($file->getInternalPath());
+		if (!is_string($localFile)) {
+			throw new NotFoundException('Could not get local file');
 		}
+		$stream = fopen($localFile, 'rb');
 
 		$options = RemoteOptionsService::getDefaultOptions(25);
 		$options['multipart'] = [
