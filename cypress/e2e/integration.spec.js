@@ -65,8 +65,8 @@ describe('Nextcloud integration', function() {
 	it('Save as', function() {
 		const exportFilename = 'document.rtf'
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#File-tab-label').click()
-			cy.get('#saveas').click()
+			cy.get('button[aria-label="File"]').click()
+			cy.get('button[aria-label="Save As"]').click()
 			cy.get('#saveas-entries #saveas-entry-1').click()
 		})
 
