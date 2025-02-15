@@ -21,7 +21,7 @@
 	"require-dev": {
 		"roave/security-advisories": "dev-master",
 		"jakub-onderka/php-parallel-lint": "^1.0.0",
-		"psalm/phar": "^5.3",
+		"psalm/phar": "^6.5",
 		"friendsofphp/php-cs-fixer": "^3.8",
 		"nextcloud/coding-standard": "^1.0",
 		"nextcloud/ocp": "dev-stable31",
