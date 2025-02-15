@@ -555,7 +555,7 @@ class WopiController extends Controller {
 					return new JSONResponse([], Http::STATUS_NOT_FOUND);
 				}
 				$suggested = $this->request->getHeader('X-WOPI-SuggestedTarget');
-				$suggested = mb_convert_encoding($suggested, 'utf-8', 'utf-7');
+				$suggested = (string)mb_convert_encoding($suggested, 'utf-8', 'utf-7');
 
 				if ($suggested[0] === '.') {
 					$path = dirname($file->getPath()) . '/New File' . $suggested;
