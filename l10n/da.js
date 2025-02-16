@@ -51,6 +51,7 @@ OC.L10N.register(
     "Submit name" : "Angiv navn",
     "Confirm" : "Bekræft",
     "Cancel" : "Annuller",
+    "Save as" : "Gem som",
     "Save As" : "Gem som",
     "Submit" : "Tilføj",
     "Description" : "Beskrivelse",
