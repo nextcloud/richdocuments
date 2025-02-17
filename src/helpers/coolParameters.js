@@ -157,7 +157,9 @@ const generateCSSVarTokens = () => {
 	str += '--nc-logo-background=' + (logoBgColor === '' ? 'transparent' : logoBgColor) + ';'
 
 	const logoDisplay = window.getComputedStyle(rootEl).getPropertyValue('--nc-logo-display')
-	str += '--nc-logo-display=' + (logoDisplay === '' ? 'block' : logoDisplay) + ';'
+	if (!logoDisplay) {
+		str += '--nc-logo-display=' + (logoDisplay === '' ? 'block' : logoDisplay) + ';'
+	}
 
 	return str.replace(/["']/g, '\\\'')
 }
