@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRootUrl, generateUrl } from '@nextcloud/router'
+import { getRootUrl, generateUrl, getBaseUrl } from '@nextcloud/router'
 import { getSharingToken } from '@nextcloud/sharing/public'
 import { languageToBCP47 } from './index.js'
 import Config from './../services/config.tsx'
@@ -82,7 +82,7 @@ const getDocumentUrlForFile = (fileDir, fileId) => {
 }
 
 export const getConfigFileUrl = () => {
-	return getCallbackBaseUrl() + generateUrl('apps/richdocuments/wopi/settings')
+	return getBaseUrl() + generateUrl('apps/richdocuments/wopi/settings')
 }
 
 const getNextcloudUrl = () => {
