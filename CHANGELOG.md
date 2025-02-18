@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.2.16
+
+### Fixed
+
+* Get storage from file instead of parent @elzody [#4469](https://github.com/nextcloud/richdocuments/pull/4469)
+
 ## 8.2.15
 
 ### Fixed
