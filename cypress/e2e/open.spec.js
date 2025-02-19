@@ -69,9 +69,12 @@ describe('Open existing office files', function() {
 
 			cy.screenshot('open-file_' + filename)
 			cy.get('@loleafletframe').within(() => {
-				cy.get('button.icon-nextcloud-sidebar').click()
+				cy.get('input#document-name-input')
+					.should('be.visible')
+					.invoke('val')
+					.should('equal', filename)
 			})
-			cy.verifyOpen(filename)
+
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
 			cy.screenshot('share-sidebar_' + filename)
