@@ -136,9 +136,11 @@ describe('Open PDF with richdocuments', () => {
 
 		// Verify that the correct file is open
 		cy.get('@loleafletframe').within(() => {
-			cy.get('button.icon-nextcloud-sidebar').click()
+			cy.get('input#document-name-input')
+				.should('be.visible')
+				.invoke('val')
+				.should('equal', 'document.pdf')
 		})
-		cy.verifyOpen('document.pdf')
 
 		// Make sure we can close the document
 		cy.closeDocument()
