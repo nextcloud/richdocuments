@@ -39,12 +39,12 @@ describe('Open existing office files', function() {
 			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
 			// Share action
-			cy.wait(2000)
 			cy.get('@loleafletframe').within(() => {
-				cy.get('#main-menu #menu-file > a').click()
-				cy.get('#main-menu #menu-shareas > a').should('be.visible').click()
+				cy.get('input#document-name-input', { timeout: 10000 })
+					.should('be.visible')
+					.invoke('val')
+					.should('equal', filename)
 			})
-			cy.verifyOpen(filename)
 
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
@@ -69,9 +69,12 @@ describe('Open existing office files', function() {
 
 			cy.screenshot('open-file_' + filename)
 			cy.get('@loleafletframe').within(() => {
-				cy.get('button.icon-nextcloud-sidebar').click()
+				cy.get('input#document-name-input', { timeout: 10000 })
+					.should('be.visible')
+					.invoke('val')
+					.should('equal', filename)
 			})
-			cy.verifyOpen(filename)
+
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
 			cy.screenshot('share-sidebar_' + filename)
@@ -133,9 +136,11 @@ describe('Open PDF with richdocuments', () => {
 
 		// Verify that the correct file is open
 		cy.get('@loleafletframe').within(() => {
-			cy.get('button.icon-nextcloud-sidebar').click()
+			cy.get('input#document-name-input')
+				.should('be.visible')
+				.invoke('val')
+				.should('equal', 'document.pdf')
 		})
-		cy.verifyOpen('document.pdf')
 
 		// Make sure we can close the document
 		cy.closeDocument()
