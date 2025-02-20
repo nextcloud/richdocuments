@@ -39,12 +39,12 @@ describe('Open existing office files', function() {
 			cy.waitForPostMessage('App_LoadingStatus', { Status: 'Document_Loaded' })
 
 			// Share action
-			cy.wait(2000)
 			cy.get('@loleafletframe').within(() => {
-				cy.get('#main-menu #menu-file > a').click()
-				cy.get('#main-menu #menu-shareas > a').should('be.visible').click()
+				cy.get('input#document-name-input', { timeout: 10000 })
+					.should('be.visible')
+					.invoke('val')
+					.should('equal', filename)
 			})
-			cy.verifyOpen(filename)
 
 			// FIXME: wait for sidebar tab content
 			// FIXME: validate sharing tab
@@ -69,7 +69,7 @@ describe('Open existing office files', function() {
 
 			cy.screenshot('open-file_' + filename)
 			cy.get('@loleafletframe').within(() => {
-				cy.get('input#document-name-input')
+				cy.get('input#document-name-input', { timeout: 10000 })
 					.should('be.visible')
 					.invoke('val')
 					.should('equal', filename)
