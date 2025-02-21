@@ -4,6 +4,12 @@
 -->
 # Changelog
 
+## 8.6.1
+
+### Fixed
+
+- Remove vendor/ from .nextcloudignore @elzody [#4503](https://github.com/nextcloud/richdocuments/pull/4503)
+
 ## 8.6.0
 
 ### Added
