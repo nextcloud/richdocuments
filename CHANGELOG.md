@@ -4,6 +4,50 @@
 -->
 # Changelog
 
+## 8.6.0
+
+### Added
+- File conversion provider @elzody [#4408](https://github.com/nextcloud/richdocuments/pull/4408)
+- Move personal user settings page to Vue @codewithvk [#4388](https://github.com/nextcloud/richdocuments/pull/4388)
+- Emit notification on mentions @juliusknorr [#3960](https://github.com/nextcloud/richdocuments/pull/3960)
+- Move template settings to vue component @elzody [#4125](https://github.com/nextcloud/richdocuments/pull/4125)
+- Digitally sign documents via software certificates @vmiklos [#4129](https://github.com/nextcloud/richdocuments/pull/4129)
+- `startPresentation` URL parameter @elzody [#4209](https://github.com/nextcloud/richdocuments/pull/4209)
+- Electronic signing, add settings for eIDEasy @vmiklos [#4328](https://github.com/nextcloud/richdocuments/pull/4328)
+- Insert text and images generated with nextcloud assistant @elzody [#4333](https://github.com/nextcloud/richdocuments/pull/4333)
+- Add Template and pages/numbers/keynote mimetypes @juliusknorr [#4350](https://github.com/nextcloud/richdocuments/pull/4350)
+- Add another option for otf font mimetypes @juliusknorr [#4368](https://github.com/nextcloud/richdocuments/pull/4368)
+
+### Fixed
+- Translation format specifier @elzody [#4412](https://github.com/nextcloud/richdocuments/pull/4412)
+- Read from local file stream to avoid locking during preview generation @juliusknorr [#4431](https://github.com/nextcloud/richdocuments/pull/4431)
+- Portable document format changed to PDF @elzody [#4444](https://github.com/nextcloud/richdocuments/pull/4444)
+- Adjust testing matrix for Nextcloud 31 @nickvergessen [#4400](https://github.com/nextcloud/richdocuments/pull/4400)
+- Incomplete return type list @blizzz [#4410](https://github.com/nextcloud/richdocuments/pull/4410)
+- Catch InvalidFieldTypeException @juliusknorr [#3956](https://github.com/nextcloud/richdocuments/pull/3956)
+- Check for mimetype before processing new file from template @juliusknorr [#3958](https://github.com/nextcloud/richdocuments/pull/3958)
+- Catch parsing errors or null doc structure @juliusknorr [#3967](https://github.com/nextcloud/richdocuments/pull/3967)
+- Dispatch event instead of hook for audit logging @juliusknorr [#3969](https://github.com/nextcloud/richdocuments/pull/3969)
+- Pressing `Enter` submits guest name input @elzody [#3992](https://github.com/nextcloud/richdocuments/pull/3992)
+- Failed token generation on public shares @elzody [#4030](https://github.com/nextcloud/richdocuments/pull/4030)
+- Use proper file id for direct editing @juliusknorr [#4101](https://github.com/nextcloud/richdocuments/pull/4101)
+- Use correct save path when renaming @elzody [#4378](https://github.com/nextcloud/richdocuments/pull/4378)
+- Proper messages to mention response @juliusknorr [#4102](https://github.com/nextcloud/richdocuments/pull/4102)
+- Use autocomplete api for mentions @elzody [#4210](https://github.com/nextcloud/richdocuments/pull/4210)
+- Use new db types constants @elzody [#4230](https://github.com/nextcloud/richdocuments/pull/4230)
+- Update federated-editing.md @maximelehericy [#4251](https://github.com/nextcloud/richdocuments/pull/4251)
+- Apply viewer wrapper as we do it in text @juliusknorr [#4278](https://github.com/nextcloud/richdocuments/pull/4278)
+- Properly get empty template for direct editing @juliusknorr [#4335](https://github.com/nextcloud/richdocuments/pull/4335)
+- Notifier::prepare() threw \InvalidArgumentException @nickvergessen [#4353](https://github.com/nextcloud/richdocuments/pull/4353)
+- Skip errors that may interrupt file creation @juliusknorr [#4360](https://github.com/nextcloud/richdocuments/pull/4360)
+- Apply proper default timezone for watermarks @juliusknorr [#4366](https://github.com/nextcloud/richdocuments/pull/4366)
+
+### Other
+- Update translations @nextcloud-bot
+- Update dependencies @nextcloud-command
+- Rector @juliusknorr [#4045](https://github.com/nextcloud/richdocuments/pull/4045)
+- Remove composer dir and redirect autoloader @elzody [#4430](https://github.com/nextcloud/richdocuments/pull/4430)
+
 ## 8.6.0-beta.2
 
 ### Added
