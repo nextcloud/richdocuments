@@ -32,8 +32,11 @@ describe('Nextcloud integration', function() {
 
 	it('Sharing sidebar', function() {
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#File-tab-label').click()
-			cy.get('#ShareAs-button').click()
+			cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
+				.should('be.visible')
+
+			cy.get('button[aria-label="File"]').click()
+			cy.get('button#ShareAs-button').click()
 		})
 
 		cy.get('#app-sidebar-vue')
@@ -47,8 +50,11 @@ describe('Nextcloud integration', function() {
 
 	it('Versions sidebar', function() {
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#File-tab-label').click()
-			cy.get('#Rev-History-button').click()
+			cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
+				.should('be.visible')
+
+			cy.get('button[aria-label="File"]').click()
+			cy.get('button[aria-label="See history"]').click()
 		})
 
 		cy.get('#app-sidebar-vue')
@@ -65,32 +71,40 @@ describe('Nextcloud integration', function() {
 	it.skip('Save as', function() {
 		const exportFilename = 'document.rtf'
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#File-tab-label').click()
-			cy.get('#saveas').click()
+			cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
+				.should('be.visible')
+
+			cy.get('button[aria-label="File"]').click()
+			cy.get('button[aria-label="Save As"]').click()
+
 			cy.get('#saveas-entries #saveas-entry-1').click()
 		})
 
-		cy.get('.saveas-dialog').should('be.visible')
-		cy.get('.saveas-dialog input[type=text]')
-			.should('be.visible')
-			.should('have.value', `/${exportFilename}`)
 
-		cy.get('.saveas-dialog button.button-vue--vue-primary').click()
+        cy.get('.saveas-dialog').should('be.visible')
+        cy.get('.saveas-dialog input[type=text]')
+            .should('be.visible')
+            .should('have.value', `/${exportFilename}`)
 
-		cy.get('@loleafletframe').within(() => {
-			cy.get('#closebutton').click()
-			cy.waitForViewerClose()
-		})
+        cy.get('.saveas-dialog button.button-vue--vue-primary').click()
 
-		// FIXME: We should not need to reload
-		cy.get('.breadcrumb__crumbs a').eq(0).click({ force: true })
+        cy.get('@loleafletframe').within(() => {
+            cy.get('#closebutton').click()
+            cy.waitForViewerClose()
+        })
 
-		cy.openFile(exportFilename)
+        // FIXME: We should not need to reload
+        cy.get('.breadcrumb__crumbs a').eq(0).click({ force: true })
+
+        cy.openFile(exportFilename)
 	})
 
 	it('Open locally', function() {
 		cy.get('@loleafletframe').within(() => {
-			cy.get('#Open_Local_Editor').click()
+			cy.get('.notebookbar-shortcuts-bar', { timeout: 30_000 })
+				.should('be.visible')
+
+			cy.get('button[aria-label="Open in local editor"]').click()
 		})
 
 		cy.get('.confirmation-dialog').should('be.visible')
