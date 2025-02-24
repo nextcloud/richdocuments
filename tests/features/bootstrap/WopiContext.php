@@ -316,4 +316,21 @@ class WopiContext implements Context {
 			$this->response = $e->getResponse();
 		}
 	}
+
+	public function collaboraRenamesTo($fileId, $newName) {
+		$client = new Client();
+		$options = [
+			'headers' => [
+				'X-LOOL-WOPI-Timestamp' => $this->checkFileInfoResult['LastModifiedTime'],
+				'X-WOPI-RequestedName' => $newName,
+				'X-WOPI-Override' => 'RENAME_FILE',
+			],
+		];
+
+		try {
+			$this->response = $client->post($this->getWopiEndpointBaseUrl() . 'index.php/apps/richdocuments/wopi/files/' . $fileId . '?access_token=' . $this->wopiToken, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
 }
