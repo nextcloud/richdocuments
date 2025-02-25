@@ -220,7 +220,7 @@
 		<CoolFrame v-if="tokenGenerated"
 			class="section"
 			:iframe-type="'admin'"
-			:public-wopi-url="settings.public_wopi_url"
+			:iframe-url="settings.setting_iframe_url"
 			:access-token="accessToken"
 			:access-token-t-t-l="accessTokenTTL"
 			:wopi-setting-base-url="wopiSettingBaseUrl" />
@@ -531,6 +531,7 @@ export default {
 				},
 				fonts: [],
 				hasSettingIframeSupport: false,
+				setting_iframe_url: '',
 			},
 			accessToken: '',
 			accessTokenTTL: '',
@@ -615,6 +616,7 @@ export default {
 		Vue.set(this.settings, 'use_groups', this.settings.use_groups ? this.settings.use_groups.split('|') : null)
 		Vue.set(this.settings, 'fonts', this.initial.fonts ? this.initial.fonts : [])
 		Vue.set(this.settings, 'hasSettingIframeSupport', this.initial.hasSettingIframeSupport ?? false)
+		Vue.set(this.settings, 'setting_iframe_url', this.initial.setting_iframe_url ?? '')
 
 		this.uiVisible.canonical_webroot = !!(this.settings.canonical_webroot && this.settings.canonical_webroot !== '')
 		this.uiVisible.external_apps = !!(this.settings.external_apps && this.settings.external_apps !== '')
