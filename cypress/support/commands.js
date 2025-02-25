@@ -292,11 +292,9 @@ Cypress.Commands.add('closeDocument', () => {
 })
 
 Cypress.Commands.add('verifyOpen', (filename) => {
-	cy.get('#app-sidebar-vue')
-		.should('be.visible')
-	cy.get('.app-sidebar-header__mainname')
-		.should('be.visible')
-		.should('contain.text', filename)
+	cy.get('input#document-name-input').should(($docName) => {
+		expect($docName.val()).to.equal(filename)
+	})
 })
 
 Cypress.Commands.add('uploadSystemTemplate', () => {
