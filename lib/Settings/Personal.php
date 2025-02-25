@@ -9,6 +9,7 @@ namespace OCA\Richdocuments\Settings;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\InitialStateService;
+use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
@@ -19,6 +20,7 @@ class Personal implements ISettings {
 		private AppConfig $appConfig,
 		private CapabilitiesService $capabilitiesService,
 		private InitialStateService $initialState,
+		private TokenManager $tokenManager,
 		private ?string $userId,
 	) {
 	}
@@ -44,6 +46,7 @@ class Personal implements ISettings {
 				'hasSettingIframeSupport' => $this->capabilitiesService->hasSettingIframeSupport(),
 				'zoteroAPIKey' => $this->config->getUserValue($this->userId, 'richdocuments', 'zoteroAPIKey', ''),
 				'publicWopiUrl' => $this->appConfig->getCollaboraUrlPublic(),
+				'setting_iframe_url' => $this->tokenManager->getUrlSrcForMimeType('Settings'),
 			],
 			'blank'
 		);
