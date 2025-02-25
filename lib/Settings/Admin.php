@@ -12,6 +12,7 @@ use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\InitialStateService;
 use OCA\Richdocuments\TemplateManager;
+use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
@@ -25,6 +26,7 @@ class Admin implements ISettings {
 		private DemoService $demoService,
 		private FontService $fontService,
 		private InitialStateService $initialStateService,
+		private TokenManager $tokenManager,
 	) {
 	}
 
@@ -57,6 +59,7 @@ class Admin implements ISettings {
 					'esignature_client_id' => $this->config->getAppValue('richdocuments', 'esignature_client_id'),
 					'esignature_secret' => $this->config->getAppValue('richdocuments', 'esignature_secret'),
 					'hasSettingIframeSupport' => $this->capabilitiesService->hasSettingIframeSupport(),
+					'setting_iframe_url' => $this->tokenManager->getUrlSrcForMimeType('Settings'),
 				],
 			],
 			'blank'

@@ -37,7 +37,7 @@
 		<!-- user settings iframe  -->
 		<CoolFrame v-if="tokenGenerated"
 			:iframe-type="'user'"
-			:public-wopi-url="public_wopi_url"
+			:iframe-url="settingIframeUrl"
 			:access-token="accessToken"
 			:access-token-t-t-l="accessTokenTTL"
 			:wopi-setting-base-url="wopiSettingBaseUrl" />
@@ -159,6 +159,7 @@ export default {
 			templateFolder: this.initial.templateFolder || '',
 			hasZoteroSupport: this.initial.hasZoteroSupport || false,
 			hasSettingIframeSupport: this.initial.hasSettingIframeSupport || false,
+			settingIframeUrl: this.initial.setting_iframe_url || '',
 			zoteroAPIKey: this.initial.zoteroAPIKey || '',
 			hasDocumentSigningSupport: this.initial.hasDocumentSigningSupport || false,
 			documentSigningCert: this.initial.documentSigningCert || '',
