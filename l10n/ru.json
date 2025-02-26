@@ -145,6 +145,7 @@
     "To use Zotero specify your API key here. You can create your API key in your" : "Чтобы использовать Zotero, укажите здесь свой ключ API. Вы можете создать свой ключ API в",
     "Zotero account API settings." : "Настройки API учетной записи Zotero.",
     "This instance does not support Zotero, because the feature is missing or disabled. Please contact the administration." : "Этот экземпляр не поддерживает Zotero, поскольку эта функция отсутствует или отключена. Пожалуйста, свяжитесь с администрацией.",
+    "Failed to save settings." : "Не удалось сохранить настройки.",
     "Description" : "Описание",
     "Add new token" : "Добавить токен",
     "No font overview" : "Нет средства просмотра шрифтов.",
