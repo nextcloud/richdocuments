@@ -155,6 +155,7 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Errore: impossibile avviare il server integrato Collabora Online, configura un server autonomo.",
     "Close version preview" : "Chiudi anteprima della versione",
     "Edit with {productName}" : "Modifica con {productName}",
+    "Open file locally" : "Apri file localmente",
     "Open locally" : "Aprire localmente",
     "Continue editing online" : "Continua a modificare in linea",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "I file dovrebbe ora aprirsi in locale. Se non succede, assicurati che il client desktop sia installato nel tuo sistema.",
