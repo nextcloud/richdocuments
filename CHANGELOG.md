@@ -1,5 +1,30 @@
 # Changelog
 
+## 8.4.10
+
+* [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.11 to 1.0.0-beta.12 (richdocuments#4317)](https://github.com/nextcloud/richdocuments/pull/4317)
+* [Chore(deps): Bump @nextcloud/moment from 1.3.1 to 1.3.2 (richdocuments#4344)](https://github.com/nextcloud/richdocuments/pull/4344)
+* [Chore(deps): Bump @nextcloud/files from 3.10.0 to 3.10.1 (richdocuments#4345)](https://github.com/nextcloud/richdocuments/pull/4345)
+* [Fix npm audit (richdocuments#4359)](https://github.com/nextcloud/richdocuments/pull/4359)
+* [Fix: Add another option for otf font mimetypes (richdocuments#4371)](https://github.com/nextcloud/richdocuments/pull/4371)
+* [Update nextcloud/ocp dependency (richdocuments#4384)](https://github.com/nextcloud/richdocuments/pull/4384)
+* [Chore(deps-dev): Bump ts-loader from 9.5.1 to 9.5.2 (richdocuments#4393)](https://github.com/nextcloud/richdocuments/pull/4393)
+* [Update nextcloud/ocp dependency (richdocuments#4414)](https://github.com/nextcloud/richdocuments/pull/4414)
+* [Fix: Read from local file stream to avoid locking during preview generation (richdocuments#4433)](https://github.com/nextcloud/richdocuments/pull/4433)
+* [Update nextcloud/ocp dependency (richdocuments#4437)](https://github.com/nextcloud/richdocuments/pull/4437)
+* [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.12 to 1.0.0-beta.13 (richdocuments#4449)](https://github.com/nextcloud/richdocuments/pull/4449)
+* [Update nextcloud/ocp dependency (richdocuments#4459)](https://github.com/nextcloud/richdocuments/pull/4459)
+* [Refactor: remove composer files (richdocuments#4467)](https://github.com/nextcloud/richdocuments/pull/4467)
+* [Chore(deps): Bump @nextcloud/files from 3.10.1 to 3.10.2 (richdocuments#4483)](https://github.com/nextcloud/richdocuments/pull/4483)
+* [Update nextcloud/ocp dependency (richdocuments#4490)](https://github.com/nextcloud/richdocuments/pull/4490)
+* [Fix npm audit (richdocuments#4494)](https://github.com/nextcloud/richdocuments/pull/4494)
+* [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.13 to 1.0.0-beta.14 (richdocuments#4511)](https://github.com/nextcloud/richdocuments/pull/4511)
+* [Fix npm audit (richdocuments#4518)](https://github.com/nextcloud/richdocuments/pull/4518)
+* [Fix(sharing): use correct save path when renaming (richdocuments#4519)](https://github.com/nextcloud/richdocuments/pull/4519)
+* [Fix(test): fix verify document open in notebookbar (richdocuments#4524)](https://github.com/nextcloud/richdocuments/pull/4524)
+* [Feat: do not send logo css if value not provided (richdocuments#4531)](https://github.com/nextcloud/richdocuments/pull/4531)
+* [Chore: remove `vendor/` from `.nextcloudignore` (richdocuments#4534)](https://github.com/nextcloud/richdocuments/pull/4534)
+
 ## 8.4.9
 
 ### Fixed
