@@ -235,10 +235,10 @@ class TemplateManager {
 
 	/**
 	 * Get all user templates
-	 *
+	 * @param $type
 	 * @return File[]
 	 */
-	public function getUser($type = null) {
+	public function getUser($type = null): array {
 		if ($this->userId === null) {
 			return [];
 		}
