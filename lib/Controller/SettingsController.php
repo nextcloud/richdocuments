@@ -7,11 +7,13 @@ namespace OCA\Richdocuments\Controller;
 
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
+use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
 use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
+use OCA\Richdocuments\Service\SettingsService;
 use OCA\Richdocuments\UploadException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -54,7 +56,10 @@ class SettingsController extends Controller {
 		private CapabilitiesService $capabilitiesService,
 		private DemoService $demoService,
 		private FontService $fontService,
+		private SettingsService $settingsService,
 		private LoggerInterface $logger,
+		private IURLGenerator $urlGenerator,
+		private WopiMapper $wopiMapper,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -96,7 +101,6 @@ class SettingsController extends Controller {
 	public function getSettings(): JSONResponse {
 		return new JSONResponse($this->getSettingsData());
 	}
-
 	private function getSettingsData(): array {
 		return [
 			'wopi_url' => $this->appConfig->getCollaboraUrlInternal(),
@@ -113,6 +117,7 @@ class SettingsController extends Controller {
 			'esignature_base_url' => $this->appConfig->getAppValue('esignature_base_url'),
 			'esignature_client_id' => $this->appConfig->getAppValue('esignature_client_id'),
 			'esignature_secret' => $this->appConfig->getAppValue('esignature_secret'),
+			'userId' => $this->userId
 		];
 	}
 
@@ -408,6 +413,23 @@ class SettingsController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $type - Type is 'admin' or 'user'
+	 * @return DataResponse
+	 */
+	public function generateIframeToken(string $type): DataResponse {
+		try {
+			$response = $this->settingsService->generateIframeToken($type, $this->userId);
+			return new DataResponse($response);
+		} catch (\Exception $e) {
+			return new DataResponse([
+				'message' => 'Settings token not generated.'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
 	 * @param string $name
 	 * @return DataResponse
 	 * @throws NotFoundException
@@ -449,6 +471,40 @@ class SettingsController extends Controller {
 			return new JSONResponse(['error' => 'Upload error'], Http::STATUS_BAD_REQUEST);
 		}
 	}
+
+	/**
+	 * @param string $type
+	 * @param string $category
+	 * @param string $name
+	 *
+	 * @return DataDisplayResponse
+	 *
+	 * @NoAdminRequired
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 **/
+	public function getSettingsFile(string $type, string $token, string $category, string $name) {
+		try {
+			$wopi = $this->wopiMapper->getWopiForToken($token);
+			if ($type === 'userconfig') {
+				$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
+				$type = $type . '/' . $userId;
+			}
+			$systemFile = $this->settingsService->getSettingsFile($type, $category, $name);
+			return new DataDisplayResponse(
+				$systemFile->getContent(),
+				200,
+				[
+					'Content-Type' => $systemFile->getMimeType() ?: 'application/octet-stream'
+				]
+			);
+		} catch (NotFoundException $e) {
+			return new DataDisplayResponse('File not found.', 404);
+		} catch (\Exception $e) {
+			return new DataDisplayResponse('Something went wrong', 500);
+		}
+	}
+	
 
 	/**
 	 * @param string $key
