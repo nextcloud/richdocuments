@@ -4,6 +4,37 @@
 -->
 # Changelog
 
+## 8.5.4
+
+* [Chore(deps-dev): Bump cypress-split from 1.24.6 to 1.24.7 (richdocuments#4318)](https://github.com/nextcloud/richdocuments/pull/4318)
+* [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.11 to 1.0.0-beta.12 (richdocuments#4319)](https://github.com/nextcloud/richdocuments/pull/4319)
+* [Chore(deps): Bump @nextcloud/moment from 1.3.1 to 1.3.2 (richdocuments#4340)](https://github.com/nextcloud/richdocuments/pull/4340)
+* [Chore(deps): Bump @nextcloud/files from 3.10.0 to 3.10.1 (richdocuments#4341)](https://github.com/nextcloud/richdocuments/pull/4341)
+* [Fix npm audit (richdocuments#4357)](https://github.com/nextcloud/richdocuments/pull/4357)
+* [Skip errors that may interrupt file creation (richdocuments#4365)](https://github.com/nextcloud/richdocuments/pull/4365)
+* [Fix: Add another option for otf font mimetypes (richdocuments#4372)](https://github.com/nextcloud/richdocuments/pull/4372)
+* [Fix(sharing): use correct save path when renaming (richdocuments#4379)](https://github.com/nextcloud/richdocuments/pull/4379)
+* [Update nextcloud/ocp dependency (richdocuments#4382)](https://github.com/nextcloud/richdocuments/pull/4382)
+* [Chore(deps-dev): Bump ts-loader from 9.5.1 to 9.5.2 (richdocuments#4395)](https://github.com/nextcloud/richdocuments/pull/4395)
+* [Update nextcloud/ocp dependency (richdocuments#4415)](https://github.com/nextcloud/richdocuments/pull/4415)
+* [Refactor: remove composer dir and redirect autoloader (richdocuments#4429)](https://github.com/nextcloud/richdocuments/pull/4429)
+* [Fix: Read from local file stream to avoid locking during preview generation (richdocuments#4432)](https://github.com/nextcloud/richdocuments/pull/4432)
+* [Update nextcloud/ocp dependency (richdocuments#4438)](https://github.com/nextcloud/richdocuments/pull/4438)
+* [Chore(deps-dev): Bump cypress-split from 1.24.7 to 1.24.9 (richdocuments#4456)](https://github.com/nextcloud/richdocuments/pull/4456)
+* [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.12 to 1.0.0-beta.13 (richdocuments#4457)](https://github.com/nextcloud/richdocuments/pull/4457)
+* [Chore(deps-dev): Bump cypress-split from 1.24.9 to 1.24.11 (richdocuments#4486)](https://github.com/nextcloud/richdocuments/pull/4486)
+* [Chore(deps): Bump @nextcloud/files from 3.10.1 to 3.10.2 (richdocuments#4487)](https://github.com/nextcloud/richdocuments/pull/4487)
+* [Update nextcloud/ocp dependency (richdocuments#4489)](https://github.com/nextcloud/richdocuments/pull/4489)
+* [Fix npm audit (richdocuments#4493)](https://github.com/nextcloud/richdocuments/pull/4493)
+* [Chore: remove `vendor/` from `.nextcloudignore` (richdocuments#4502)](https://github.com/nextcloud/richdocuments/pull/4502)
+* [Chore(deps-dev): Bump @nextcloud/eslint-config from 8.4.1 to 8.4.2 (richdocuments#4508)](https://github.com/nextcloud/richdocuments/pull/4508)
+* [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.13 to 1.0.0-beta.14 (richdocuments#4509)](https://github.com/nextcloud/richdocuments/pull/4509)
+* [Chore(deps-dev): Bump cypress-split from 1.24.11 to 1.24.14 (richdocuments#4510)](https://github.com/nextcloud/richdocuments/pull/4510)
+* [Update nextcloud/ocp dependency (richdocuments#4516)](https://github.com/nextcloud/richdocuments/pull/4516)
+* [Fix(test): fix verify document open in notebookbar (richdocuments#4520)](https://github.com/nextcloud/richdocuments/pull/4520)
+* [Templates: better support cross-format templates (richdocuments#4527)](https://github.com/nextcloud/richdocuments/pull/4527)
+* [Feat: do not send logo css if value not provided (richdocuments#4532)](https://github.com/nextcloud/richdocuments/pull/4532)
+
 ## 8.5.3
 
 ### Added
