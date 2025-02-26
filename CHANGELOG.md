@@ -4,6 +4,14 @@
 -->
 # Changelog
 
+## 8.6.2
+
+* [Update nextcloud/ocp dependency (richdocuments#4515)](https://github.com/nextcloud/richdocuments/pull/4515)
+* [Feat(settings): add admin & user setting iframe (richdocuments#4525)](https://github.com/nextcloud/richdocuments/pull/4525)
+* [Fix(url): correct WOPI settings URL to prevent duplicate `nextcloud` (richdocuments#4526)](https://github.com/nextcloud/richdocuments/pull/4526)
+* [Templates: better support cross-format templates (richdocuments#4528)](https://github.com/nextcloud/richdocuments/pull/4528)
+* [Feat: do not send logo css if value not provided (richdocuments#4533)](https://github.com/nextcloud/richdocuments/pull/4533)
+
 ## 8.6.1
 
 ### Fixed
