@@ -68,6 +68,11 @@ class Wopi extends Entity implements \JsonSerializable {
 	 */
 	public const TOKEN_TYPE_INITIATOR = 4;
 
+	/*
+	 * Temporary token that is used for authentication while communication between cool iframe and user/admin settings
+	 */
+	public const TOKEN_TYPE_SETTING_AUTH = 5;
+
 	/** @var string */
 	protected $ownerUid;
 

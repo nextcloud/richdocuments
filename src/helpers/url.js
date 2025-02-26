@@ -81,8 +81,17 @@ const getDocumentUrlForFile = (fileDir, fileId) => {
 		})
 }
 
+export const getConfigFileUrl = () => {
+	return generateUrl('apps/richdocuments/wopi/settings', null, { baseURL: getCallbackBaseUrl() })
+}
+
 const getNextcloudUrl = () => {
 	return window.location.host
+}
+
+export const getCoolServerUrl = (collaboraBaseUrl) => {
+	return collaboraBaseUrl
+		+ '/browser/dist/admin/adminIntegratorSettings.html'
 }
 
 export {
