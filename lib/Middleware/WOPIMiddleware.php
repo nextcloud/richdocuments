@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Middleware;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Controller\Attribute\RestrictToWopiServer;
 use OCA\Richdocuments\Controller\WopiController;
+use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
@@ -60,6 +61,11 @@ class WOPIMiddleware extends Middleware {
 			$accessToken = $this->request->getParam('access_token');
 			[$fileId, ,] = Helper::parseFileId($fileId);
 			$wopi = $this->wopiMapper->getWopiForToken($accessToken);
+
+			if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_SETTING_AUTH) {
+				return;
+			}
+
 			if ((int)$fileId !== $wopi->getFileid() && (int)$fileId !== $wopi->getTemplateId()) {
 				throw new NotPermittedException();
 			}
