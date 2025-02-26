@@ -31,6 +31,7 @@ OC.L10N.register(
     "Click here for more info" : "Klikšķināt šeit, lai iegūtu vairāk informācijas",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Select groups" : "Izvēlieties grupas",
+    "Show watermark on link shares with specific system tags" : "Rādīt ūdenszīmi saišu kopīgojumos, kuriem ir noteiktas sistēmas birkas",
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",
     "Save" : "Saglabāt",
     "Remove" : "Izņemt",

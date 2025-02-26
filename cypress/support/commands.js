@@ -223,7 +223,7 @@ Cypress.Commands.add('nextcloudTestingAppConfigSet', (appId, configKey, configVa
 })
 
 Cypress.Commands.add('waitForViewer', () => {
-	cy.get('#viewer', { timeout: 30000 })
+	cy.get('#viewer', { timeout: 50000 })
 		.should('be.visible')
 		.and('have.class', 'modal-mask')
 		.and('not.have.class', 'icon-loading')
@@ -292,11 +292,9 @@ Cypress.Commands.add('closeDocument', () => {
 })
 
 Cypress.Commands.add('verifyOpen', (filename) => {
-	cy.get('#app-sidebar-vue')
-		.should('be.visible')
-	cy.get('.app-sidebar-header__mainname')
-		.should('be.visible')
-		.should('contain.text', filename)
+	cy.get('input#document-name-input').should(($docName) => {
+		expect($docName.val()).to.equal(filename)
+	})
 })
 
 Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType }) => {

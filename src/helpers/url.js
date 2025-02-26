@@ -82,7 +82,7 @@ const getDocumentUrlForFile = (fileDir, fileId) => {
 }
 
 export const getConfigFileUrl = () => {
-	return getCallbackBaseUrl() + generateUrl('apps/richdocuments/wopi/settings')
+	return generateUrl('apps/richdocuments/wopi/settings', null, { baseURL: getCallbackBaseUrl() })
 }
 
 const getNextcloudUrl = () => {
