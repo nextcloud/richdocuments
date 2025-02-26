@@ -14,6 +14,7 @@ use OCA\Richdocuments\Service\DemoService;
 use OCA\Richdocuments\Service\DiscoveryService;
 use OCA\Richdocuments\Service\FontService;
 use OCA\Richdocuments\Service\SettingsService;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\UploadException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -61,6 +62,7 @@ class SettingsController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private WopiMapper $wopiMapper,
 		private ?string $userId,
+		private TemplateManager $templateManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -474,6 +476,7 @@ class SettingsController extends Controller {
 
 	/**
 	 * @param string $type
+	 * @param string $token
 	 * @param string $category
 	 * @param string $name
 	 *
@@ -490,7 +493,16 @@ class SettingsController extends Controller {
 				$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
 				$type = $type . '/' . $userId;
 			}
-			$systemFile = $this->settingsService->getSettingsFile($type, $category, $name);
+
+			// special handling for presentation template
+			if ($category === 'template') {
+				$this->templateManager->setUserId($userId);
+				$templateId = $this->request->getParam('identifier');
+				$systemFile = $this->templateManager->get((int)$templateId);
+			} else {
+				$systemFile = $this->settingsService->getSettingsFile($type, $category, $name);
+			}
+
 			return new DataDisplayResponse(
 				$systemFile->getContent(),
 				200,
@@ -504,7 +516,6 @@ class SettingsController extends Controller {
 			return new DataDisplayResponse('Something went wrong', 500);
 		}
 	}
-	
 
 	/**
 	 * @param string $key

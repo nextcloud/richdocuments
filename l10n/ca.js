@@ -131,6 +131,7 @@ OC.L10N.register(
     "Font format not supported ({mime})" : "Format de tipus de lletra no suportat ({mime})",
     "Save" : "Desa",
     "Remove" : "Suprimir",
+    "Submit name" : "Envia el nom",
     "Confirm" : "Confirma",
     "Cancel" : "Cancel·la",
     "Save as" : "Anomena i desa",

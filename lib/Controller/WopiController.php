@@ -178,7 +178,9 @@ class WopiController extends Controller {
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
 			if (!$isPublic) {
-				$response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
+				// FIXME: Figure out what is going on here
+				//        have not yet been able to trace the issue
+				// $response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
 			}
 			$response['SharedSettings'] = $this->generateSettings($userId, 'systemconfig');
 		}
@@ -405,7 +407,7 @@ class WopiController extends Controller {
 		if (empty($type)) {
 			return new JSONResponse(['error' => 'Invalid type parameter'], Http::STATUS_BAD_REQUEST);
 		}
-	
+
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 			if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_SETTING_AUTH) {
@@ -415,7 +417,7 @@ class WopiController extends Controller {
 			$isPublic = empty($wopi->getEditorUid());
 			$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
 			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
-	
+
 			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
 			return new JSONResponse($userConfig, Http::STATUS_OK);
 		} catch (UnknownTokenException|ExpiredTokenException $e) {
@@ -426,7 +428,7 @@ class WopiController extends Controller {
 			return new JSONResponse(['error' => 'Internal Server Error'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
@@ -444,11 +446,11 @@ class WopiController extends Controller {
 
 			$fileContent = stream_get_contents($content);
 			fclose($content);
-			
+
 			// Use the fileId as a file path URL (e.g., "/settings/systemconfig/wordbook/en_US%20(1).dic")
 			$settingsUrl = new SettingsUrl($fileId);
 			$result = $this->settingsService->uploadFile($settingsUrl, $fileContent, $userId);
-			
+
 			return new JSONResponse([
 				'status' => 'success',
 				'filename' => $settingsUrl->getFileName(),
@@ -501,7 +503,7 @@ class WopiController extends Controller {
 		}
 	}
 
-	
+
 	/**
 	 * Given an access token and a fileId, replaces the files with the request body.
 	 * Expects a valid token in access_token parameter.
@@ -984,7 +986,7 @@ class WopiController extends Controller {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 	}
-	
+
 	private function generateSettingToken(string $userId): string {
 		return $this->settingsService->generateIframeToken('user', $userId)['token'];
 	}

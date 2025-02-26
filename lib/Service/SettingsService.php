@@ -10,6 +10,7 @@ namespace OCA\Richdocuments\Service;
 
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\WopiMapper;
+use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\WOPI\SettingsUrl;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -44,6 +45,7 @@ class SettingsService {
 		private WopiMapper $wopiMapper,
 		private IGroupManager $groupManager,
 		private IRootFolder $rootFolder,
+		private TemplateManager $templateManager,
 	) {
 		// Create a distributed cache for caching file lists
 		$this->cache = $cacheFactory->createDistributed(Application::APPNAME);
@@ -141,12 +143,12 @@ class SettingsService {
 			if ($type === 'admin' && !$this->groupManager->isAdmin($userId)) {
 				throw new NotPermittedException('Permission denied');
 			}
-	
+
 			$serverHost = $this->urlGenerator->getAbsoluteURL('/');
 			$version = $this->capabilitiesService->getProductVersion();
-	
+
 			$wopi = $this->wopiMapper->generateUserSettingsToken(-1, $userId, $version, $serverHost);
-	
+
 			return [
 				'token' => $wopi->getToken(),
 				'token_ttl' => $wopi->getExpiry(),
@@ -164,7 +166,41 @@ class SettingsService {
 	public function getFolderEtag($type) : string {
 		return $this->getTypeFolder($type)->getEtag();
 	}
-	
+
+	public const SUPPORTED_PRESENTATION_MIMES = [
+		'application/vnd.oasis.opendocument.presentation',
+		'application/vnd.oasis.opendocument.presentation-template',
+	];
+
+	/**
+	 * @param string $type
+	 * @param string $userId
+	 * @return array
+	 */
+	public function getPresentationTemplates(string $type, string $userId): array {
+		$this->templateManager->setUserId($userId);
+		$templates = array_filter(
+			$type === 'systemconfig' ? $this->templateManager->getSystem('presentation') : $this->templateManager->getUser('presentation'),
+			function ($template) {
+				return in_array(
+					$template->getMimeType(),
+					self::SUPPORTED_PRESENTATION_MIMES,
+					true
+				);
+			}
+		);
+
+		$result = [];
+		foreach ($templates as $template) {
+			$uri = $this->generateFileUri($type, 'template', $template->getName(), $userId, $template->getId());
+			$result[] = [
+				'uri' => $uri,
+				'stamp' => $template->getEtag(),
+			];
+		}
+		return $result;
+	}
+
 	/**
 	 * generate setting config
 	 *
@@ -189,6 +225,7 @@ class SettingsService {
 			$config[$category] = $files;
 		}
 
+		$config['template'] = $this->getPresentationTemplates($type, $userId);
 		return $config;
 	}
 
@@ -268,15 +305,14 @@ class SettingsService {
 	 * @param string $fileName
 	 * @return string
 	 */
-	private function generateFileUri(string $type, string $category, string $fileName, string $userId): string {
-		
+	private function generateFileUri(string $type, string $category, string $fileName, string $userId, ?int $identifier = null): string {
 		// Passing userId is dangerous so we have to trim from url...
 		if (strpos($type, '/') !== false) {
 			$type = explode('/', $type)[0];
 		}
 
 		$token = $this->generateIframeToken($type, $userId);
-		
+
 		return $this->urlGenerator->linkToRouteAbsolute(
 			'richdocuments.settings.getSettingsFile',
 			[
@@ -284,6 +320,7 @@ class SettingsService {
 				'token' => $token['token'],
 				'category' => $category,
 				'name' => $fileName,
+				'identifier' => $identifier,
 			]
 		);
 	}
@@ -302,13 +339,13 @@ class SettingsService {
 		} catch (NotFoundException $e) {
 			throw new NotFoundException("Type folder '{$type}' not found.");
 		}
-		
+
 		try {
 			$categoryFolder = $baseFolder->getFolder($category);
 		} catch (NotFoundException $e) {
 			throw new NotFoundException("Category folder '{$category}' not found in type '{$type}'.");
 		}
-		
+
 		try {
 			return $categoryFolder->getFile($name);
 		} catch (NotFoundException $e) {
@@ -337,7 +374,7 @@ class SettingsService {
 				throw new NotFoundException("User folder '{$userId}' not found.");
 			}
 		}
-		
+
 		try {
 			$categoryFolder = $baseFolder->getFolder($category);
 		} catch (NotFoundException $e) {
