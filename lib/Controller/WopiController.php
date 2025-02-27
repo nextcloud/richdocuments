@@ -438,6 +438,10 @@ class WopiController extends Controller {
 
 			$userId = $wopi->getEditorUid();
 
+			if (empty($userId)) {
+				throw new \Exception('UserID is empty');
+			}
+
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
 				throw new \Exception('Failed to read input stream.');
