@@ -32,6 +32,8 @@ use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
+use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationProvider;
+use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationTaskType;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
@@ -84,6 +86,8 @@ class Application extends App implements IBootstrap {
 		$context->registerPreviewProvider(Pdf::class, Pdf::MIMETYPE_REGEX);
 		$context->registerFileConversionProvider(ConversionProvider::class);
 		$context->registerNotifierService(Notifier::class);
+		$context->registerTaskProcessingProvider(SlideDeckGenerationProvider::class);
+		$context->registerTaskProcessingTaskType(SlideDeckGenerationTaskType::class);
 	}
 
 	public function boot(IBootContext $context): void {
