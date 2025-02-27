@@ -178,9 +178,7 @@ class WopiController extends Controller {
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
 			if (!$isPublic) {
-				// FIXME: Figure out what is going on here
-				//        have not yet been able to trace the issue
-				// $response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
+				$response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
 			}
 			$response['SharedSettings'] = $this->generateSettings($userId, 'systemconfig');
 		}
@@ -437,7 +435,12 @@ class WopiController extends Controller {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($access_token);
 
+			// may be we are handling both types??
 			$userId = $wopi->getEditorUid();
+
+			if (empty($userId)) {
+				throw new \Exception('UserID is empty');
+			}
 
 			$content = fopen('php://input', 'rb');
 			if (!$content) {
