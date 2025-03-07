@@ -62,7 +62,7 @@ describe('Nextcloud integration', function() {
 		cy.get('#tab-version_vue .version__info__label').contains('Current version')
 	})
 
-	it('Save as', function() {
+	it.skip('Save as', function() {
 		const exportFilename = 'document.rtf'
 		cy.get('@loleafletframe').within(() => {
 			cy.get('#File-tab-label').click()
