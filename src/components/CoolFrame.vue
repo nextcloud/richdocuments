@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div>
+	<div v-if="isIframeLoaded">
 		<form ref="form"
 			:action="formAction"
 			method="post"
@@ -26,12 +26,11 @@
 <script>
 
 import { generateCSSVarTokens } from '../helpers/coolParameters.js'
-import { getCoolServerUrl } from '../helpers/url.js'
 
 export default {
 	name: 'CoolFrame',
 	props: {
-		publicWopiUrl: {
+		iframeUrl: {
 			type: String,
 			required: true,
 		},
@@ -57,15 +56,15 @@ export default {
 			iframeName: 'coolFrameIframe',
 			formAction: '',
 			cssVariables: generateCSSVarTokens(),
+			isIframeLoaded: false,
 		}
 	},
 	mounted() {
-		// Ensure publicWopiUrl is used to construct formAction
-		if (this.publicWopiUrl) {
-			this.formAction = getCoolServerUrl(this.publicWopiUrl)
-			console.debug('Form action URL generated:', this.formAction)
+		if (this.iframeUrl.length > 0) {
+			this.formAction = this.iframeUrl
+			this.isIframeLoaded = true
 		} else {
-			console.error('wopiUrl prop is missing')
+			return
 		}
 		console.debug('Form action URL generated')
 		// Submit the form to load the iframe content
