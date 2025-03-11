@@ -493,7 +493,7 @@ class DocumentController extends Controller {
 		if ($templateFile) {
 			$owneruid = $share?->getShareOwner() ?? $file->getOwner()->getUID();
 
-			return $this->tokenManager->generateWopiTokenForTemplate(
+			$wopiToken = $this->tokenManager->generateWopiTokenForTemplate(
 				$templateFile,
 				$file->getId(),
 				$owneruid,
@@ -501,7 +501,10 @@ class DocumentController extends Controller {
 				false,
 				$share?->getPermissions()
 			);
+			$this->tokenManager->setShareToken($wopiToken, $share?->getToken());
+			return $wopiToken;
 		}
+
 
 		return $this->tokenManager->generateWopiToken($this->getWopiFileId($file->getId(), $version), $share?->getToken(), $this->userId);
 	}

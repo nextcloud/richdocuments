@@ -52,7 +52,7 @@ class TokenManager {
 	private $urlGenerator;
 	/** @var Parser */
 	private $wopiParser;
-	/** @var string */
+	/** @var ?string */
 	private $userId;
 	/** @var WopiMapper */
 	private $wopiMapper;
@@ -73,7 +73,7 @@ class TokenManager {
 		IURLGenerator $urlGenerator,
 		Parser $wopiParser,
 		CapabilitiesService $capabilitiesService,
-		$UserId,
+		?string $UserId,
 		WopiMapper $wopiMapper,
 		IL10N $trans,
 		Helper $helper,
@@ -331,6 +331,11 @@ class TokenManager {
 		$wopi = $this->wopiMapper->getWopiForToken($accessToken);
 		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
 		$this->wopiMapper->update($wopi);
+	}
+
+	public function setShareToken(Wopi $wopi, ?string $shareToken): Wopi {
+		$wopi->setShare($shareToken);
+		return $this->wopiMapper->update($wopi);
 	}
 
 	public function setGuestName(Wopi $wopi, ?string $guestName = null): Wopi {
