@@ -38,6 +38,22 @@ Feature: Direct editing
     And Collabora can not save the file with the content of "./../emptyTemplates/template.odt"
     Then Collabora downloads the file and it is equal to "./../emptyTemplates/template.ods"
 
+  Scenario: Open a shared file share attributes for download set to false
+    Given on instance "serverA"
+    And as user "user1"
+    And User "user1" uploads file "./../emptyTemplates/template.odt" to "/document-shared-no-download.odt"
+    And as "user1" create a share with
+      | path        | /document-shared-no-download.odt |
+      | shareType   | 0                                |
+      | shareWith   | user2                            |
+      | permissions | 1                                |
+      | attributes  | [{"scope":"permissions","key":"download","value":false}] |
+    When User "user2" opens "/document-shared-no-download.odt" through direct editing
+    And Collabora fetches checkFileInfo
+    Then checkFileInfo "BaseFileName" is "document-shared-no-download.odt"
+    And checkFileInfo "DisableExport" is true
+
+
   Scenario: Open a reshared file through direct editing
     Given on instance "serverA"
     And as user "user1"

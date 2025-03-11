@@ -51,7 +51,6 @@ class TokenManager {
 		[$fileId, , $version] = Helper::parseFileId($fileId);
 		$owneruid = null;
 		$hideDownload = false;
-		$rootFolder = $this->rootFolder;
 
 		// if the user is not logged-in do use the sharers storage
 		if ($shareToken !== null) {
@@ -66,66 +65,43 @@ class TokenManager {
 			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
 			$updatable = $updatable && $this->permissionManager->userCanEdit($owneruid);
 			$hideDownload = $share->getHideDownload();
-			$rootFolder = $this->rootFolder->getUserFolder($owneruid);
-		} elseif ($this->userId !== null) {
-			try {
-				$editoruid = $this->userId;
-				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
+			$userFolder = $this->rootFolder->getUserFolder($owneruid);
+		} else {
+			$editoruid = $this->userId ?? $editoruid;
+			$userFolder = $this->rootFolder->getUserFolder($editoruid);
 
-				$files = $rootFolder->getById((int)$fileId);
-				$updatable = false;
-				foreach ($files as $file) {
-					if ($file->isUpdateable()) {
-						$updatable = true;
+			$files = $userFolder->getById((int)$fileId);
+			$updatable = false;
+			foreach ($files as $file) {
+				if ($file->isUpdateable()) {
+					$updatable = true;
+					break;
+				}
+			}
+
+			$updatable = $updatable && $this->permissionManager->userCanEdit($editoruid);
+
+			// disable download if at least one shared access has it disabled
+			foreach ($files as $file) {
+				$storage = $file->getStorage();
+				// using string as we have no guarantee that "files_sharing" app is loaded
+				if ($storage->instanceOfStorage(SharedStorage::class)) {
+					if (!method_exists(IShare::class, 'getAttributes')) {
 						break;
 					}
-				}
-
-				$updatable = $updatable && $this->permissionManager->userCanEdit($editoruid);
-
-				// disable download if at least one shared access has it disabled
-				foreach ($files as $file) {
-					$storage = $file->getStorage();
-					// using string as we have no guarantee that "files_sharing" app is loaded
-					if ($storage->instanceOfStorage(SharedStorage::class)) {
-						if (!method_exists(IShare::class, 'getAttributes')) {
-							break;
-						}
-						/** @var SharedStorage $storage */
-						$share = $storage->getShare();
-						$attributes = $share->getAttributes();
-						if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
-							$hideDownload = true;
-							break;
-						}
-					}
-				}
-			} catch (Exception $e) {
-				throw $e;
-			}
-		} else {
-			// no active user login while generating the token
-			// this is required during WopiPutRelativeFile
-			if (is_null($editoruid)) {
-				$this->logger->warning('Generating token for SaveAs without editoruid');
-				$updatable = true;
-			} else {
-				// Make sure we use the user folder if available since fetching all files by id from the root might be expensive
-				$rootFolder = $this->rootFolder->getUserFolder($editoruid);
-
-				$updatable = false;
-				$files = $rootFolder->getById($fileId);
-
-				foreach ($files as $file) {
-					if ($file->isUpdateable()) {
-						$updatable = true;
+					/** @var SharedStorage $storage */
+					$share = $storage->getShare();
+					$attributes = $share->getAttributes();
+					if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+						$hideDownload = true;
 						break;
 					}
 				}
 			}
 		}
+
 		/** @var File $file */
-		$file = $rootFolder->getFirstNodeById($fileId);
+		$file = $userFolder->getFirstNodeById($fileId);
 
 		// Check node readability (for storage wrapper overwrites like terms of services)
 		if ($file === null || !$file->isReadable()) {
@@ -280,6 +256,11 @@ class TokenManager {
 		$wopi = $this->wopiMapper->getWopiForToken($accessToken);
 		$wopi->setGuestDisplayname($this->prepareGuestName($guestName));
 		$this->wopiMapper->update($wopi);
+	}
+
+	public function setShareToken(Wopi $wopi, ?string $shareToken): Wopi {
+		$wopi->setShare($shareToken);
+		return $this->wopiMapper->update($wopi);
 	}
 
 	public function setGuestName(Wopi $wopi, ?string $guestName = null): Wopi {
