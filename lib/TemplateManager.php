@@ -316,7 +316,7 @@ class TemplateManager {
 			$template = $folder->newFile($templateName);
 		}
 		$template->putContent($templateFile);
-
+		$folder->getStorage()->getCache()->update($folder->getId(), [ 'etag' => uniqid() ]);
 		return $this->formatNodeReturn($this->get($template->getId()));
 	}
 
@@ -327,11 +327,13 @@ class TemplateManager {
 	 * @return boolean
 	 * @throws NotFoundException
 	 */
-	public function delete($fileId) {
-		$files = $this->getSystemTemplateDir()->getDirectoryListing();
+	public function delete($fileId): bool {
+		$folder = $this->getSystemTemplateDir();
+		$files = $folder->getDirectoryListing();
 		foreach ($files as $file) {
 			if ($file->getId() === $fileId) {
 				$file->delete();
+				$folder->getStorage()->getCache()->update($folder->getId(), [ 'etag' => uniqid() ]);
 				return true;
 			}
 		}
@@ -389,7 +391,7 @@ class TemplateManager {
 	/**
 	 * @return Folder
 	 */
-	private function getSystemTemplateDir() {
+	public function getSystemTemplateDir() {
 		$this->ensureAppDataFolders();
 		$path = 'appdata_' . $this->config->getSystemValue('instanceid', null) . '/richdocuments/templates';
 		return $this->rootFolder->get($path);
