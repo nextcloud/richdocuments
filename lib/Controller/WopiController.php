@@ -638,7 +638,7 @@ class WopiController extends Controller {
 
 			// generate a token for the new file (the user still has to be
 			// logged in)
-			$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), null, $wopi->getEditorUid(), $wopi->getDirect());
+			$wopi = $this->tokenManager->generateWopiToken((string)$file->getId(), $wopi->getShare(), $wopi->getEditorUid(), $wopi->getDirect());
 
 			return new JSONResponse(['Name' => $file->getName(), 'Url' => $this->getWopiUrlForFile($wopi, $file)], Http::STATUS_OK);
 		} catch (NotFoundException $e) {
