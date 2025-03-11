@@ -258,6 +258,11 @@ class TokenManager {
 		$this->wopiMapper->update($wopi);
 	}
 
+	public function setShareToken(Wopi $wopi, ?string $shareToken): Wopi {
+		$wopi->setShare($shareToken);
+		return $this->wopiMapper->update($wopi);
+	}
+
 	public function setGuestName(Wopi $wopi, ?string $guestName = null): Wopi {
 		if ($wopi->getTokenType() !== Wopi::TOKEN_TYPE_GUEST && $wopi->getTokenType() !== Wopi::TOKEN_TYPE_REMOTE_GUEST) {
 			return $wopi;
