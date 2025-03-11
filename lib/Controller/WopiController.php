@@ -996,7 +996,7 @@ class WopiController extends Controller {
 	private function generateSettings(string $userId, string $type): array {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $this->generateSettingToken($userId) . '&fileId=' . '-1';
-		$etag = $this->settingsService->getFolderEtag($type);
+		$etag = $this->settingsService->getFolderEtag($type) . $this->settingsService->getPresentationFolderEtag($type, $userId);
 		return [
 			'uri' => $uri,
 			'stamp' => $etag
