@@ -8,6 +8,8 @@ namespace Tests\Richdocuments;
 
 use OCA\Richdocuments\AppConfig;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\GlobalScale\IConfig as IGlobalScaleConfig;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -15,15 +17,17 @@ use Test\TestCase;
 class AppConfigTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
-	/** @var AppConfig */
+	/** @var IAppConfig */
 	private $appConfig;
 
 	public function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->gsConfig = $this->createMock(IGlobalScaleConfig::class);
 
-		$this->appConfig = new AppConfig($this->config, $this->appManager, $this->createMock(\OCP\GlobalScale\IConfig::class));
+		$this->appConfig = new AppConfig($this->config, $this->appConfig, $this->appManager, $this->gsConfig);
 	}
 
 	public function testGetAppValueArrayWithValues() {

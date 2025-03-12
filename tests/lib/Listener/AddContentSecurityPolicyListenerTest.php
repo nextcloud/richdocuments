@@ -13,6 +13,7 @@ use OCA\Richdocuments\Service\FederationService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
@@ -54,6 +55,7 @@ class AddContentSecurityPolicyListenerTest extends TestCase {
 		$this->config = $this->getMockBuilder(AppConfig::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
+				$this->createMock(IAppConfig::class),
 				$this->appManager,
 				$this->gsConfig,
 			])
