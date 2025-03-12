@@ -127,6 +127,7 @@ jobs:
           php occ app:enable --force richdocuments
           php occ app:list
           php occ config:system:set trusted_domains 1 --value="172.17.0.1"
+          php occ config:system:set overwrite.cli.url --value="http://localhost:8081"
 
           php occ config:app:set richdocuments wopi_url --value="http://localhost:9980"
           php occ config:app:set richdocuments public_wopi_url --value="http://localhost:9980"
