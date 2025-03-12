@@ -57,4 +57,33 @@ describe('Federated sharing of office documents', function() {
 			cy.waitForCollabora(true, true)
 		})
 	})
+
+	describe('Open files with symbols in their names', () => {
+		const symbols = ['%', '&']
+
+		symbols.forEach((symbol) => {
+			const filename = `next ${symbol} cloud.odt`
+
+			it(`${symbol} in file name`, () => {
+				cy.uploadFile(shareOwner, filename, 'application/vnd.oasis.opendocument.text', `/${filename}`)
+
+				cy.login(shareOwner)
+				cy.shareFileToRemoteUser(shareOwner, filename, shareRecipient)
+
+				cy.login(shareRecipient)
+				cy.visit('/apps/files', {
+					onBeforeLoad(win) {
+						cy.spy(win, 'postMessage').as('postMessage')
+					},
+				})
+
+				cy.openFile(filename)
+				cy.waitForViewer()
+				cy.waitForCollabora(true, true).within(() => {
+					cy.get('#closebutton').click()
+					cy.waitForViewerClose()
+				})
+			})
+		})
+	})
 })
