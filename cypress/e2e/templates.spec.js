@@ -126,9 +126,12 @@ describe('Create templates with fields', () => {
 
 	it('Create a document from a template with fields', () => {
 		const fields = [
-			{ type: 'rich-text', alias: 'Name', content: 'Nextcloud' },
-			{ type: 'rich-text', alias: 'Favorite app', content: 'richdocuments' },
-			{ type: 'checkbox', alias: 'Uses Nextcloud at home', checked: true },
+			{ index: 'ContentControls.ByIndex.0', type: 'rich-text', alias: 'Name', content: 'Nextcloud' },
+			{ index: 'ContentControls.ByIndex.1', type: 'rich-text', alias: 'Favorite app', content: 'richdocuments' },
+			{ index: 'ContentControls.ByIndex.2', type: 'checkbox', alias: 'Uses Nextcloud at home', checked: true },
+
+			{ index: 'ContentControls.ByIndex.3', type: 'rich-text', alias: '', content: '' },
+			{ index: 'ContentControls.ByIndex.4', type: 'checkbox', alias: '', checked: false },
 		]
 
 		cy.visit('/apps/files')
