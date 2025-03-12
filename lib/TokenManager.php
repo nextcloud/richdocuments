@@ -276,7 +276,7 @@ class TokenManager {
 	public function getUrlSrcForMimeType(string $type): ?string {
 		try {
 			return $this->wopiParser->getUrlSrcValue($type);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			return null;
 		}
 	}
