@@ -199,14 +199,18 @@ class FederationService {
 				$this->tokenManager->extendWithInitiatorUserToken($wopi, $direct->getInitiatorHost(), $direct->getInitiatorToken());
 			}
 
+			$url = rtrim($remote, '/') . '/index.php/apps/richdocuments/remote';
+			$params = [
+				'shareToken' => $item->getStorage()->getToken(),
+				'remoteServer' => $initiatorServer,
+				'remoteServerToken' => $initiatorToken,
+			];
 
-			$url = rtrim($remote, '/') . '/index.php/apps/richdocuments/remote?shareToken=' . $item->getStorage()->getToken() .
-				'&remoteServer=' . $initiatorServer .
-				'&remoteServerToken=' . $initiatorToken;
 			if ($item->getInternalPath() !== '') {
-				$url .= '&filePath=' . $item->getInternalPath();
+				$params['filePath'] = $item->getInternalPath();
 			}
-			return $url;
+
+			return $url . '?' . http_build_query($params);
 		}
 
 		throw new NotFoundException('Failed to connect to remote collabora instance for ' . $item->getId());
