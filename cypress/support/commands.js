@@ -319,19 +319,35 @@ Cypress.Commands.add('submitTemplateFields', (fields) => {
 
 	for (const field of fields) {
 		switch (field.type) {
+
 		case 'rich-text':
-			cy.get('@templateFiller')
-				.find(`input[placeholder="${field.alias}"]`)
-				.type(field.content)
+			if (!field.alias) {
+				cy.get('@templateFiller')
+					.find(`label[for="text-field${field.index}"]`)
+					.should('not.exist')
+			} else {
+				cy.get('@templateFiller')
+					.find(`input[placeholder="${field.alias}"]`)
+					.type(field.content)
+			}
+
 			break
+
 		case 'checkbox':
-			cy.get('@templateFiller')
-				.find('span.checkbox-radio-switch__text').contains(field.alias)
-				.click()
+			if (!field.alias) {
+				cy.get('@templateFiller')
+					.find(`input[id="checkbox-field${field.index}`)
+					.should('not.exist')
+			} else {
+				cy.get('@templateFiller')
+					.find('span.checkbox-radio-switch__text').contains(field.alias)
+					.click()
+			}
+
 			break
+
 		default:
 			expect.fail('Using a field type not yet supported')
-			break
 		}
 	}
 
@@ -356,6 +372,12 @@ Cypress.Commands.add('verifyTemplateFields', (fields, fileId) => {
 		}).then(({ body }) => {
 			for (const index in body.ocs.data) {
 				const field = body.ocs.data[index]
+
+				// If a field has no name or alias, we don't need
+				// to check it because it is not shown in the template filler
+				if (!field.alias) {
+					continue;
+				}
 
 				switch (field.type) {
 				case 'rich-text':
