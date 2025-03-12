@@ -55,6 +55,10 @@ class WOPIMiddleware extends Middleware {
 			return;
 		}
 
+		if (strpos($this->request->getRequestUri(), 'wopi/settings/upload') !== false) {
+			return;
+		}
+
 		try {
 			$fileId = $this->request->getParam('fileId');
 			$accessToken = $this->request->getParam('access_token');
