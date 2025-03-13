@@ -98,7 +98,8 @@ class SettingsService {
 		$categoryFolder = $this->ensureDirectory($settingsUrl, $userId);
 		$fileName = $settingsUrl->getFileName();
 		$newFile = $categoryFolder->newFile($fileName, $fileData);
-		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName, $userId);
+		$token = $this->generateIframeToken($settingsUrl->getType(), $userId);
+		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName, $token['token']);
 		$this->refreshFolderEtag($settingsUrl->getType());
 
 		return [
@@ -112,9 +113,10 @@ class SettingsService {
 	 *
 	 * @param string $type
 	 * @param string $category
+	 * @param string $token
 	 * @return array Each item has 'stamp' and 'uri'.
 	 */
-	public function getCategoryFileList(string $type, string $category, string $userId): array {
+	public function getCategoryFileList(string $type, string $category, string $token): array {
 		try {
 			$categoryFolder = $this->appData->getFolder($type . '/' . $category);
 		} catch (NotFoundException $e) {
@@ -123,10 +125,10 @@ class SettingsService {
 
 		$files = $categoryFolder->getDirectoryListing();
 
-		return array_map(function (ISimpleFile $file) use ($type, $category, $userId) {
+		return array_map(function (ISimpleFile $file) use ($type, $category, $token) {
 			return [
 				'stamp' => $file->getETag(),
-				'uri' => $this->generateFileUri($type, $category, $file->getName(), $userId),
+				'uri' => $this->generateFileUri($type, $category, $file->getName(), $token),
 			];
 		}, $files);
 	}
@@ -175,9 +177,10 @@ class SettingsService {
 	/**
 	 * @param string $type
 	 * @param string $userId
+	 * @param string $token
 	 * @return array
 	 */
-	public function getPresentationTemplates(string $type, string $userId): array {
+	public function getPresentationTemplates(string $type, string $userId, string $token): array {
 		$this->templateManager->setUserId($userId);
 		$templates = array_filter(
 			$type === 'systemconfig' ? $this->templateManager->getSystem('presentation') : $this->templateManager->getUser('presentation'),
@@ -192,7 +195,7 @@ class SettingsService {
 
 		$result = [];
 		foreach ($templates as $template) {
-			$uri = $this->generateFileUri($type, 'template', $template->getName(), $userId, $template->getId());
+			$uri = $this->generateFileUri($type, 'template', $template->getName(), $token, $template->getId());
 			$result[] = [
 				'uri' => $uri,
 				'stamp' => $template->getEtag(),
@@ -219,13 +222,14 @@ class SettingsService {
 		}
 
 		$categories = $this->getAllCategories($type);
+		$token = $this->generateIframeToken($type, $userId)['token'];
 
 		foreach ($categories as $category) {
-			$files = $this->getCategoryFileList($type, $category, $userId);
+			$files = $this->getCategoryFileList($type, $category, $token);
 			$config[$category] = $files;
 		}
 
-		$config['template'] = $this->getPresentationTemplates($type, $userId);
+		$config['template'] = $this->getPresentationTemplates($type, $userId, $token);
 		return $config;
 	}
 
@@ -305,19 +309,17 @@ class SettingsService {
 	 * @param string $fileName
 	 * @return string
 	 */
-	private function generateFileUri(string $type, string $category, string $fileName, string $userId, ?int $identifier = null): string {
+	private function generateFileUri(string $type, string $category, string $fileName, string $token, ?int $identifier = null): string {
 		// Passing userId is dangerous so we have to trim from url...
 		if (strpos($type, '/') !== false) {
 			$type = explode('/', $type)[0];
 		}
 
-		$token = $this->generateIframeToken($type, $userId);
-
 		return $this->urlGenerator->linkToRouteAbsolute(
 			'richdocuments.settings.getSettingsFile',
 			[
 				'type' => $type,
-				'token' => $token['token'],
+				'token' => $token,
 				'category' => $category,
 				'name' => $fileName,
 				'identifier' => $identifier,

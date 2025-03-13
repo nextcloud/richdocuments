@@ -177,12 +177,11 @@ class WopiController extends Controller {
 		];
 
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
+			$token = $this->generateSettingToken($userId);
 			if (!$isPublic) {
-				// FIXME: Figure out what is going on here
-				//        have not yet been able to trace the issue
-				// $response['UserSettings'] = $this->generateSettings($userId, 'userconfig');
+				$response['UserSettings'] = $this->generateSettings($token, 'userconfig');
 			}
-			$response['SharedSettings'] = $this->generateSettings($userId, 'systemconfig');
+			$response['SharedSettings'] = $this->generateSettings($token, 'systemconfig');
 		}
 
 		$enableZotero = $this->config->getAppValue(Application::APPNAME, 'zoteroEnabled', 'yes') === 'yes';
@@ -995,9 +994,9 @@ class WopiController extends Controller {
 		return $this->settingsService->generateIframeToken('user', $userId)['token'];
 	}
 
-	private function generateSettings(string $userId, string $type): array {
+	private function generateSettings(string $token, string $type): array {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $this->generateSettingToken($userId) . '&fileId=' . '-1';
+		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $token . '&fileId=' . '-1';
 		$etag = $this->settingsService->getFolderEtag($type);
 		return [
 			'uri' => $uri,
