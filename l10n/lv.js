@@ -45,6 +45,7 @@ OC.L10N.register(
     "Select file" : "Izvēlēties failu",
     "Close" : "Aizvērt",
     "Edit" : "Labot",
+    "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Datnei tagad vajadzētu atvērties. Ja tas nenotiek, jāpārliecinās, ka sistēmā ir uzstādīts Nextcloud klients.",
     "Failed to revert the document to older version" : "Neizdevās atjaunot dokumentu ar vecāku versiju",
     "Remove from favorites" : "Noņemt no izlases",
     "Add to favorites" : "Pievienot izlasei",
