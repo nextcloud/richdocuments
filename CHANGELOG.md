@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.4.11
+
+### Fixed
+
+- Properly handle editor user id for direct editing links [#4573](https://github.com/nextcloud/richdocuments/pull/4573)
+- fix(federation): properly encode file names [#4582](https://github.com/nextcloud/richdocuments/pull/4582)
+
+### Other
+
+- chore: update actions/cache [#4578](https://github.com/nextcloud/richdocuments/pull/4578)
+
 ## 8.4.10
 
 * [Chore(deps-dev): Bump @nextcloud/cypress from 1.0.0-beta.11 to 1.0.0-beta.12 (richdocuments#4317)](https://github.com/nextcloud/richdocuments/pull/4317)
