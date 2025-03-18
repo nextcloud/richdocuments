@@ -28,6 +28,7 @@ OC.L10N.register(
     "Add to favorites" : "Sevimlilarga qo'shing",
     "Details" : "Details",
     "Download" : "Download",
+    "Create" : "Yaratish",
     "Error" : "Error",
     "Saving…" : "Saving…"
 },
