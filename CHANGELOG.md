@@ -4,6 +4,26 @@
 -->
 # Changelog
 
+## 8.6.3
+
+### Added
+
+- feat: show presentation template in masterslides [#4585](https://github.com/nextcloud/richdocuments/pull/4585)
+
+### Fixed
+
+- fix(settings): enable UserSettings wopi response [#4552](https://github.com/nextcloud/richdocuments/pull/4552)
+- Properly handle editor user id for direct editing links [#4575](https://github.com/nextcloud/richdocuments/pull/4575)
+- fix: send etag for settings URLs and update etag on file changes [#4577](https://github.com/nextcloud/richdocuments/pull/4577)
+- fix(federation): properly encode file names [#4584](https://github.com/nextcloud/richdocuments/pull/4584)
+
+### Other
+
+- ci: Skip save as test until upstream bug is fixed [#4568](https://github.com/nextcloud/richdocuments/pull/4568)
+- chore: update actions/cache @elzody [#4570](https://github.com/nextcloud/richdocuments/pull/4570)
+- feat(test): add tests for template fields with empty labels [#4539](https://github.com/nextcloud/richdocuments/pull/4539)
+- fix(tests): use more generic selectors [#4579](https://github.com/nextcloud/richdocuments/pull/4579)
+
 ## 8.6.2
 
 * [Update nextcloud/ocp dependency (richdocuments#4515)](https://github.com/nextcloud/richdocuments/pull/4515)
