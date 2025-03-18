@@ -4,6 +4,22 @@
 -->
 # Changelog
 
+## 8.5.5
+
+### Added
+
+- feat(test): add tests for template fields with empty labels [#4538](https://github.com/nextcloud/richdocuments/pull/4538)
+
+### Fixed
+
+- Properly handle editor user id for direct editing links [#4574](https://github.com/nextcloud/richdocuments/pull/4574)
+- fix(federation): properly encode file names [#4583](https://github.com/nextcloud/richdocuments/pull/4583)
+
+### Other
+
+- ci: Skip save as test until upstream bug is fixed [#4569](https://github.com/nextcloud/richdocuments/pull/4569)
+- chore: update actions/cache [#4572](https://github.com/nextcloud/richdocuments/pull/4572)
+
 ## 8.5.4
 
 * [Chore(deps-dev): Bump cypress-split from 1.24.6 to 1.24.7 (richdocuments#4318)](https://github.com/nextcloud/richdocuments/pull/4318)
