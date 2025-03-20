@@ -473,7 +473,10 @@ class TemplateManager {
 		$emptyPath = __DIR__ . '/../emptyTemplates/template.' . $extension;
 
 		if (in_array($extension, $supportedExtensions, true) && file_exists($emptyPath)) {
-			return file_get_contents($emptyPath);
+			$emptyFileContent = file_get_contents($emptyPath);
+			if ($emptyFileContent !== false) {
+				return $emptyFileContent;
+			}
 		}
 
 		return '';
