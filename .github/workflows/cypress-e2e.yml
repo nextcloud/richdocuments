@@ -221,6 +221,10 @@ jobs:
           path: data/nextcloud.log
           retention-days: 5
 
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+
   summary:
     runs-on: ubuntu-latest
     needs: [ cypress ]
