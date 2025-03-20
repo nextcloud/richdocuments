@@ -4,13 +4,15 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <psalm
+		errorBaseline="tests/psalm-baseline.xml"
 		errorLevel="4"
+		findUnusedBaselineEntry="true"
+		findUnusedCode="false"
+		phpVersion="8.1"
 		resolveFromConfigFile="true"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns="https://getpsalm.org/schema/config"
 		xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-		errorBaseline="tests/psalm-baseline.xml"
-		phpVersion="8.1"
 	>
 	<stubs>
 		<file name="tests/stub.phpstub" preloadClasses="true"/>
@@ -34,13 +36,6 @@
 				<referencedMethod name="/Db\\.*::.*/" />
 			</errorLevel>
 		</UndefinedMagicMethod>
-		<UndefinedInterfaceMethod>
-			<errorLevel type="suppress">
-				<!-- FIXME Deprecated event handling -->
-				<referencedMethod name="OCP\IUserManager::listen" />
-				<referencedMethod name="OCP\IGroupManager::listen" />
-			</errorLevel>
-		</UndefinedInterfaceMethod>
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OC\*" />
