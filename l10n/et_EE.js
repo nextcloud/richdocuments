@@ -88,6 +88,8 @@ OC.L10N.register(
     "Close" : "Sulge",
     "Edit" : "Redigeeri",
     "Close version preview" : "Sulge versiooni eelvaade",
+    "Open file locally" : "Ava fail kohalikus seadmes",
+    "Open locally" : "Ava kohalikust andmeruumist",
     "Remove from favorites" : "Eemalda lemmikutest",
     "Add to favorites" : "Lisa lemmikutesse",
     "Details" : "Üksikasjad",
