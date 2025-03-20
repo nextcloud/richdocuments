@@ -9,6 +9,7 @@ namespace OCA\Richdocuments\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -16,6 +17,23 @@ use OCP\Migration\SimpleMigrationStep;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version2060Date20200302131958 extends SimpleMigrationStep {
+
+	public function __construct(
+		private IDBConnection $connection,
+	) {
+	}
+
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
+
+		if ($schema->hasTable('richdocuments_wopi')) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('richdocuments_wopi');
+			$qb->executeStatement();
+		}
+	}
+
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
@@ -25,6 +43,10 @@ class Version2060Date20200302131958 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
+
+		if ($schema->hasTable('richdocuments_wopi')) {
+			$schema->dropTable('richdocuments_wopi');
+		}
 
 		if (!$schema->hasTable('richdocuments_wopi')) {
 			$table = $schema->createTable('richdocuments_wopi');
