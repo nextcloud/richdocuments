@@ -85,7 +85,7 @@ class ConnectivityService {
 			'NotHttps' => $this->l10n->t('HTTPS is expected to connect to Collabora Online as the WOPI host uses it. This is necessary to prevent mixed content errors.'),
 			'NoScheme' => $this->l10n->t('A scheme (http:// or https://) for the WOPI host URL must be specified'),
 			'Timeout' => $this->l10n->t('The request didn’t get a response within the time frame allowed'),
-			default => $this->l10n->t('Unknown error. Check the server logs of Collabora for more details.'),
+			default => $this->l10n->t('Unknown error "%s". Check the server logs of Collabora for more details.', [$response['status']]),
 		};
 
 		if ($errorMessage) {
