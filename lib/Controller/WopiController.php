@@ -179,7 +179,7 @@ class WopiController extends Controller {
 		if ($this->capabilitiesService->hasSettingIframeSupport()) {
 			$token = $this->generateSettingToken($userId);
 			if (!$isPublic) {
-				$response['UserSettings'] = $this->generateSettings($token, 'userconfig');
+				$response['UserSettings'] = $this->generateSettings($token, 'userconfig', $userId);
 			}
 			$response['SharedSettings'] = $this->generateSettings($token, 'systemconfig');
 		}
@@ -994,10 +994,10 @@ class WopiController extends Controller {
 		return $this->settingsService->generateIframeToken('user', $userId)['token'];
 	}
 
-	private function generateSettings(string $token, string $type): array {
+	private function generateSettings(string $token, string $type, string $userId = ''): array {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
 		$uri = $nextcloudUrl . '/index.php/apps/richdocuments/wopi/settings' . '?type=' . $type . '&access_token=' . $token . '&fileId=' . '-1';
-		$etag = $this->settingsService->getFolderEtag($type);
+		$etag = $this->settingsService->getFolderEtag($type) . $this->settingsService->getPresentationFolderEtag($type, $userId);
 		return [
 			'uri' => $uri,
 			'stamp' => $etag

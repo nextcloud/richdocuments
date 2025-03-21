@@ -169,6 +169,24 @@ class SettingsService {
 		return $this->getTypeFolder($type)->getEtag();
 	}
 
+	/**
+	 *
+	 * @param string $type
+	 * @param string $userId
+	 * @return string
+	 */
+	public function getPresentationFolderEtag(string $type, string $userId) : string {
+		if ($type === 'systemconfig') {
+			return $this->templateManager->getSystemTemplateDir()->getEtag();
+		}
+		try {
+			$this->templateManager->setUserId($userId);
+			return $this->templateManager->getUserTemplateDir()->getEtag();
+		} catch (\Exception $e) {
+			return '';
+		}
+	}
+
 	public const SUPPORTED_PRESENTATION_MIMES = [
 		'application/vnd.oasis.opendocument.presentation',
 		'application/vnd.oasis.opendocument.presentation-template',
