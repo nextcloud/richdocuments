@@ -52,7 +52,8 @@ npm run dev
 
 ## Support
 
-- [Our Forum](https://help.nextcloud.com/c/support/collabora)
+- [Our Forum](https://help.nextcloud.com/c/support/office)
+- [Collabora Online Forum](https://forum.collaboraonline.com/)
 
 Enterprise users who need a more reliable and scalable solution can take advantage of Nextcloud GmbH's optional support contract for Collabora Online. Find out more about Enterprise support for Collabora Online over here: https://nextcloud.com/enterprise/
 
