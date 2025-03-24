@@ -25,6 +25,16 @@ token. These credentials then can be used by the 3rd party application to make c
 ### Canonical webroot
 Canonical webroot, in case there are multiple, for Collabora Online to use. Provide the one with least restrictions. E.g.: Use non-shibbolized webroot if this instance is accessed by both shibbolized and non-shibbolized webroots. You can ignore this setting if only one webroot is used to access this instance.
 
+### Theme
+
+By default Nextcloud Office comes with Nextcloud theme (monochrome icons following Nextcloud style), to change to a more traditional office look:
+
+	occ config:app:set richdocuments theme --value="collabora"
+
+To go back to default theme:
+
+	occ config:app:set richdocuments theme --value="nextcloud"
+
 ### Previews
 
 By default Nextcloud will generate previews of Office files using the Collabora file conversion endpoint. This can be turned off through
