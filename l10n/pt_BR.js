@@ -1,6 +1,7 @@
 OC.L10N.register(
     "richdocuments",
     {
+    "No files found for this task." : "Nenhum arquivo encontrado para essa tarefa.",
     "Cannot create document" : "Não é possível criar documento ",
     "New Document.odt" : "Novo Documento.odt",
     "New Spreadsheet.ods" : "Novo Planilha.ods",
@@ -141,6 +142,10 @@ OC.L10N.register(
     "Show watermark for read only link shares" : "Mostrar marca d'água para compartilhamentos por link somente leitura",
     "Show watermark on link shares with specific system tags" : "Mostrar marca d'água em links de compartilhamento com rótulos específicos",
     "Electronic Signature" : "Assinatura Eletrônica",
+    "Client ID for the electronic signature API" : "ID do cliente para a API de assinatura eletrônica",
+    "Fill in the registration form at https://eideasy.com/signup to obtain a client ID and secret." : "Preencha o formulário de registro em https://eideasy.com/signup para obter uma ID e um segredo de cliente.",
+    "Secret for the electronic signature API" : "Segredo da API de assinatura eletrônica",
+    "The secret may be downloadable via WOPI requests if WOPI allow list is not correctly configured." : "O segredo pode ser baixado por meio de solicitações WOPI se a lista de permissões WOPI não estiver configurada corretamente.",
     "Save" : "Salvar",
     "Remove" : "Remover",
     "Guest name" : "Nome do convidado",
@@ -206,6 +211,7 @@ OC.L10N.register(
     "Error: Cannot start the Collabora Online Built-in server, please setup a standalone one." : "Erro: Não foi possível iniciar o servidor Collabora Online integrado. Configure um servidor autônomo.",
     "Close version preview" : "Fechar a pré-visualização da versão",
     "Edit with {productName}" : "Editar com {productName}",
+    "Insert into document" : "Inserir no documento",
     "Open file locally" : "Abrir o arquivo localmente",
     "When opening a file locally, the document will close for all users currently viewing the document." : "Ao abrir um arquivo localmente, o documento será fechado para todos os usuários que estiverem visualizando o documento.",
     "Open locally" : "Abrir localmente",
