@@ -21,7 +21,8 @@
     "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss",
     "stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css css/*.scss --fix",
     "test": "NODE_ENV=test jest --passWithNoTests",
-    "test:coverage": "NODE_ENV=test jest --coverage"
+    "test:coverage": "NODE_ENV=test jest --coverage",
+    "start:nextcloud": "node playwright/start-nextcloud-server.mjs"
   },
   "dependencies": {
     "@nextcloud/auth": "^2.4.0",
