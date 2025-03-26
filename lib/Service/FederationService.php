@@ -92,6 +92,7 @@ class FederationService {
 	}
 
 	public function isTrustedRemote($domainWithPort) {
+		$domainWithPort = rtrim($domainWithPort, '/');
 		if (str_starts_with($domainWithPort, 'http://') || str_starts_with($domainWithPort, 'https://')) {
 			$port = parse_url($domainWithPort, PHP_URL_PORT);
 			$domainWithPort = parse_url($domainWithPort, PHP_URL_HOST) . ($port ? ':' . $port : '');
