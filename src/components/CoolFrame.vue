@@ -13,6 +13,7 @@
 			<input type="hidden" name="wopi_setting_base_url" :value="wopiSettingBaseUrl">
 			<input type="hidden" name="iframe_type" :value="iframeType">
 			<input type="hidden" name="css_variables" :value="cssVariables">
+			<input type="hidden" name="ui_theme" :value="uiTheme">
 		</form>
 		<iframe :id="iframeName"
 			:name="iframeName"
@@ -25,7 +26,7 @@
 
 <script>
 
-import { generateCSSVarTokens } from '../helpers/coolParameters.js'
+import { generateCSSVarTokens, getUITheme } from '../helpers/coolParameters.js'
 import { getCoolServerUrl } from '../helpers/url.js'
 
 export default {
@@ -57,6 +58,7 @@ export default {
 			iframeName: 'coolFrameIframe',
 			formAction: '',
 			cssVariables: generateCSSVarTokens(),
+			uiTheme: getUITheme(),
 		}
 	},
 	mounted() {
