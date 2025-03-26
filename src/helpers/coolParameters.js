@@ -168,4 +168,5 @@ export {
 	getUIDefaults,
 	getCollaboraTheme,
 	generateCSSVarTokens,
+	getUITheme,
 }
