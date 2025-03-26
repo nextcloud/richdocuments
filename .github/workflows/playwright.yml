@@ -17,7 +17,7 @@ jobs:
 
     services:
       collabora:
-        image: ${{ matrix.code-image == 'release' && 'collabora/code:latest' || 'juliushaertl/nc-code-nightly:latest' }}
+        image: 'collabora/code:latest'
         env:
           extra_params: '--o:ssl.enable=false --o:home_mode.enable=true'
           aliasgroup1: 'http://172.17.0.1'
