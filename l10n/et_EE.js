@@ -69,6 +69,7 @@ OC.L10N.register(
     "Upload a font file" : "Laadi üles font",
     "Available fonts" : "Saadaval fondid",
     "Save" : "Salvesta",
+    "Remove" : "Eemalda",
     "Confirm" : "Kinnita",
     "Cancel" : "Tühista",
     "Save as" : "Salvesta kui",
