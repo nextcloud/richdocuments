@@ -92,6 +92,7 @@ class FederationService {
 	}
 
 	public function isTrustedRemote($domainWithPort) {
+		$domainWithPort = rtrim($domainWithPort, '/');
 		if (str_starts_with($domainWithPort, 'http://') || str_starts_with($domainWithPort, 'https://')) {
 			$port = parse_url($domainWithPort, PHP_URL_PORT);
 			$domainWithPort = parse_url($domainWithPort, PHP_URL_HOST) . ($port ? ':' . $port : '');
@@ -112,6 +113,11 @@ class FederationService {
 			if (!is_string($trusted)) {
 				break;
 			}
+
+			if ($trusted === $domainWithPort || $trusted === $domain) {
+				return true;
+			}
+
 			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(fn ($v) => preg_quote($v, '/'), explode('*', $trusted))) . '$/i';
 			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
 				return true;
