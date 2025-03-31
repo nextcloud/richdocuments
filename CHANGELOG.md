@@ -4,6 +4,15 @@
 -->
 # Changelog
 
+## 8.5.6
+
+### Added
+- Composer instructions to readme @elzody [#4633](https://github.com/nextcloud/richdocuments/pull/4633)
+
+### Fixed
+- Ensure we have a clean database schema when migrating @juliusknorr [#4610](https://github.com/nextcloud/richdocuments/pull/4610)
+- Trim trailing slash before validating trusted remotes @juliusknorr [#4626](https://github.com/nextcloud/richdocuments/pull/4626)
+
 ## 8.5.5
 
 ### Added
