@@ -17,3 +17,7 @@ cypress/screenshots/
 ## VSCode
 .vscode/
 *.code-workspace
+
+# Playwright
+playwright-report/
+test-results/
