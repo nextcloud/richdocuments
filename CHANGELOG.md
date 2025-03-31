@@ -4,6 +4,16 @@
 -->
 # Changelog
 
+## 8.6.4
+
+### Added
+- Composer instructions in README @elzody [#4632](https://github.com/nextcloud/richdocuments/pull/4632)
+
+### Fixed
+- Reduce token generation for settings files @codewithvk [#4580](https://github.com/nextcloud/richdocuments/pull/4580)
+- Ensure we have a clean database schema when migrating @juliusknorr [#4609](https://github.com/nextcloud/richdocuments/pull/4609)
+- Adding/removing global template not reflected in sidebar @Rash419 [#4612](https://github.com/nextcloud/richdocuments/pull/4612)
+
 ## 8.6.3
 
 ### Added
