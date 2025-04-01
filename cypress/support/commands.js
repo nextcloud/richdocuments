@@ -301,11 +301,28 @@ Cypress.Commands.add('uploadSystemTemplate', ({ fixturePath, fileName, mimeType 
 	cy.login(new User('admin', 'admin'))
 	cy.visit('/settings/admin/richdocuments')
 
-	cy.get('.settings-section__name')
-		.contains('Global Templates')
+	cy.get('.settings-section')
+		.find('input[data-cy="newTemplateInput"')
+		.as('newTemplateInput')
+
+	cy.get('@newTemplateInput')
 		.scrollIntoView()
 
-	cy.get('.settings-section input[type="file"]').selectFile({
+	cy.get('@newTemplateInput').selectFile({
+		contents: `cypress/fixtures/${fixturePath}`,
+		fileName,
+		mimeType,
+	}, { force: true })
+})
+
+Cypress.Commands.add('uploadInputFile', ({ identifier, fixturePath, fileName, mimeType }) => {
+	cy.get('.settings-section')
+		.find(`input[data-cy="${identifier}"]`)
+		.as('fileInputElement')
+
+	cy.get('@fileInputElement').scrollIntoView()
+	
+	cy.get('@fileInputElement').selectFile({
 		contents: `cypress/fixtures/${fixturePath}`,
 		fileName,
 		mimeType,

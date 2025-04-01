@@ -6,7 +6,6 @@ import { User } from '@nextcloud/cypress'
 
 const usesHttps = Cypress.env('baseUrl').substr(0, 5) === 'https'
 const collaboraUrl = Cypress.env('collaboraUrl')
-const defaultFonts = ['AmaticSC-Regular.ttf']
 
 describe('Office admin settings', function() {
 
@@ -65,16 +64,51 @@ describe('Office admin settings', function() {
 			.scrollIntoView()
 			.should('be.visible')
 
-		cy.get('#font-settings')
-			.scrollIntoView()
-			.should('be.visible')
-		defaultFonts.forEach(font => {
-			cy.get('.settings-entry.font-list-settings').contains(font)
-		})
-
 		cy.get('.settings-section__name')
 			.contains('Global Templates')
 			.scrollIntoView()
 			.should('be.visible')
+	})
+})
+
+describe('Custom Fonts', function() {
+	const defaultFonts = ['AmaticSC-Regular.ttf']
+
+	beforeEach(function() {
+		cy.login(new User('admin', 'admin'))
+		cy.visit('/settings/admin/richdocuments')
+
+		cy.get('.settings-section__name')
+			.contains('Custom Fonts')
+			.scrollIntoView()
+			.should('be.visible')
+	})
+
+	it('Can delete a font', function() {
+		cy.intercept({
+			method: 'DELETE',
+			url: `**/richdocuments/settings/fonts/${defaultFonts[0]}`,
+		}).as('deleteFontRequest')
+
+		cy.get(`button[aria-label="Delete ${defaultFonts[0]}"]`)
+			.click({ force: true })
+
+		cy.wait('@deleteFontRequest').its('response.statusCode').should('eq', 200)
+	})
+
+	it('Can upload a font file', function() {
+		cy.intercept({
+			method: 'POST',
+			url: '**/richdocuments/settings/fonts',
+		}).as('uploadFontRequest')
+
+		cy.uploadInputFile({
+			identifier: 'newFontInput',
+			fixturePath: `fonts/${defaultFonts[0]}`,
+			fileName: defaultFonts[0],
+			mimeType: 'font/ttf',
+		})
+
+		cy.wait('@uploadFontRequest').its('response.statusCode').should('eq', 200)
 	})
 })
