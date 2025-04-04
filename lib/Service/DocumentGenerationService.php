@@ -20,11 +20,18 @@ use OCP\TaskProcessing\TaskTypes\TextToText;
 use RuntimeException;
 
 class DocumentGenerationService {
-	public const PROMPT = <<<EOF
+	public const TEXT_PROMPT = <<<EOF
 Generate a markdown document with titles, paragraphs, bullet points and tables if needed.
 Write the document in the same language as the description.
 
 Here is the document description:
+EOF;
+
+	public const SPREADSHEET_PROMPT = <<<EOF
+Generate a CSV spreadsheet. Use the semicolon as a column separator.
+Write the CSV content in the same language as the description.
+
+Here is the CSV spreadsheet description:
 EOF;
 
 	public function __construct(
@@ -34,13 +41,35 @@ EOF;
 	) {
 	}
 
-	public function generateDocument(?string $userId, string $description) {
-		$prompt = self::PROMPT;
+	public function generateTextDocument(?string $userId, string $description) {
+		$prompt = self::TEXT_PROMPT;
+		$taskInput = $prompt . "\n\n" . $description;
+		$markdownContent = $this->runTextToTextTask($taskInput, $userId);
+		$converter = new GithubFlavoredMarkdownConverter();
+		$htmlContent = $converter->convert($markdownContent)->getContent();
+		$htmlStream = $this->stringToStream($htmlContent);
+		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, 'docx');
+
+		return $docxContent;
+	}
+
+	public function generateSpreadSheetDocument(?string $userId, string $description) {
+		$prompt = self::SPREADSHEET_PROMPT;
+		$taskInput = $prompt . "\n\n" . $description;
+		$csvContent = $this->runTextToTextTask($taskInput, $userId);
+		$csvStream = $this->stringToStream($csvContent);
+		// TODO understand why this request works with CURL but not with remoteService->convertTo
+		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, 'xlsx');
+
+		return $xlsxContent;
+	}
+
+	private function runTextToTextTask(string $input, ?string $userId): string {
 		$task = new Task(
 			TextToText::ID,
-			['input' => $prompt . "\n\n" . $description],
+			['input' => $input],
 			Application::APPNAME,
-			$userId
+			$userId,
 		);
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
@@ -67,30 +96,52 @@ EOF;
 			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' does not have output key');
 		}
 
-		$markdownContent = $output['output'];
-		$converter = new GithubFlavoredMarkdownConverter();
-		$htmlContent = $converter->convert($markdownContent)->getContent();
+		/** @var string $taskOutputString */
+		$taskOutputString = $output['output'];
 
+		return $taskOutputString;
+	}
+
+	private function stringToStream(string $text) {
 		// TODO find a way to create a proper stream from a string instead of using a temp file
 
-		//$htmlStream = fopen(sprintf('data://text/plain,%s', $htmlContent), 'r');
-		//$htmlStream = fopen(sprintf('%s', $htmlContent), 'r');
+		//$stream = fopen(sprintf('data://text/plain,%s', $text), 'r');
+		//$stream = fopen(sprintf('%s', $text), 'r');
 
-		//$htmlStream = fopen('php://memory', 'r+');
-		//fwrite($htmlStream, $htmlContent);
-		//rewind($htmlStream);
+		//$stream = fopen('php://memory', 'r+');
+		//fwrite($stream, $text);
+		//rewind($stream);
 
+		// works
 		//$userStorage = $this->rootFolder->getUserFolder('user1');
-		//$file = $userStorage->getFirstNodeById(4830);
+		//$file = $userStorage->getFirstNodeById(4971);
 		//$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
-		//$htmlStream = fopen($fileName, 'rb');
+		//$stream = fopen($fileName, 'rb');
 
+		// works
+		//$userStorage = $this->rootFolder->getUserFolder('user1');
+		//$file = $userStorage->newFile('AAA.csv', $text);
+		//$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
+		//$stream = fopen($fileName, 'rb');
+
+		// this only works for html content sent to /cool/convert-to/docx
 		$tmpFilePath = $this->tempManager->getTemporaryFile();
-		file_put_contents($tmpFilePath, $htmlContent);
-		$htmlStream = fopen($tmpFilePath, 'rb');
+		file_put_contents($tmpFilePath, $text);
+		// 'rb' mode works there as well
+		$stream = fopen($tmpFilePath, 'r');
+		//$stream = \GuzzleHttp\Psr7\Utils::tryFopen($tmpFilePath, 'rb');
+		if ($stream === false) {
+			throw new RuntimeException('Failed to generate stream from string');
+		}
 
-		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, 'docx');
+		//$stream = \GuzzleHttp\Psr7\Utils::streamFor('string data');
 
-		return $docxContent;
+		//$stream = fopen('php://temp', 'r+');
+		//if ($text !== '') {
+		//	fwrite($stream, $text);
+		//	fseek($stream, 0);
+		//}
+
+		return $stream;
 	}
 }

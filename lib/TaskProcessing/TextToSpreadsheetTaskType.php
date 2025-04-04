@@ -14,8 +14,8 @@ use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
-class TextToDocumentTaskType implements ITaskType {
-	public const ID = Application::APPNAME . ':text_to_text_document';
+class TextToSpreadsheetTaskType implements ITaskType {
+	public const ID = Application::APPNAME . ':text_to_spreadsheet_document';
 
 	public function __construct(
 		private IL10N $l,
@@ -26,14 +26,14 @@ class TextToDocumentTaskType implements ITaskType {
 	 * @inheritDoc
 	 */
 	public function getName(): string {
-		return $this->l->t('Generate Office text document');
+		return $this->l->t('Generate Office spreadsheet document');
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Generate an Office text document from a prompt');
+		return $this->l->t('Generate an Office spreadsheet document from a prompt');
 	}
 
 	/**
