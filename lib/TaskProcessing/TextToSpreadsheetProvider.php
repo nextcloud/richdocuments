@@ -13,7 +13,7 @@ use OCA\Richdocuments\Service\DocumentGenerationService;
 use OCP\IL10N;
 use OCP\TaskProcessing\ISynchronousProvider;
 
-class TextToDocumentProvider implements ISynchronousProvider {
+class TextToSpreadsheetProvider implements ISynchronousProvider {
 
 	public function __construct(
 		private DocumentGenerationService $documentGenerationService,
@@ -22,15 +22,15 @@ class TextToDocumentProvider implements ISynchronousProvider {
 	}
 
 	public function getId(): string {
-		return Application::APPNAME . '-text_document_generator';
+		return Application::APPNAME . '-spreadsheet_generator';
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Nextcloud Office text document generator');
+		return $this->l10n->t('Nextcloud Office spreadsheet generator');
 	}
 
 	public function getTaskTypeId(): string {
-		return TextToDocumentTaskType::ID;
+		return TextToSpreadsheetTaskType::ID;
 	}
 
 	public function getExpectedRuntime(): int {
@@ -80,7 +80,7 @@ class TextToDocumentProvider implements ISynchronousProvider {
 			throw new \RuntimeException('Invalid input, expected "text" key with string value');
 		}
 
-		$fileContent = $this->documentGenerationService->generateTextDocument(
+		$fileContent = $this->documentGenerationService->generateSpreadsheetDocument(
 			$userId,
 			$input['text'],
 		);

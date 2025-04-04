@@ -34,6 +34,8 @@ use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentTaskType;
+use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetProvider;
+use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetTaskType;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
@@ -88,6 +90,8 @@ class Application extends App implements IBootstrap {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerTaskProcessingTaskType(TextToDocumentTaskType::class);
 		$context->registerTaskProcessingProvider(TextToDocumentProvider::class);
+		$context->registerTaskProcessingTaskType(TextToSpreadsheetTaskType::class);
+		$context->registerTaskProcessingProvider(TextToSpreadsheetProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

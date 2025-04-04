@@ -81,6 +81,7 @@ class RemoteService {
 			$options['verify'] = false;
 		}
 
+		error_log('OPTIONS: ' . json_encode($options));
 		$options['multipart'] = [['name' => $filename, 'contents' => $stream]];
 
 		try {
