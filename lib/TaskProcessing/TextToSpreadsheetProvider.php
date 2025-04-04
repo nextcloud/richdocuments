@@ -11,13 +11,17 @@ namespace OCA\Richdocuments\TaskProcessing;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\DocumentGenerationService;
 use OCP\IL10N;
+use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\ISynchronousProvider;
+use OCP\TaskProcessing\ShapeDescriptor;
+use OCP\TaskProcessing\ShapeEnumValue;
 
 class TextToSpreadsheetProvider implements ISynchronousProvider {
+	public const DEFAULT_TARGET_FORMAT = 'xlsx';
 
 	public function __construct(
 		private DocumentGenerationService $documentGenerationService,
-		private IL10N $l10n,
+		private IL10N $l,
 	) {
 	}
 
@@ -26,7 +30,7 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Nextcloud Office spreadsheet generator');
+		return $this->l->t('Nextcloud Office spreadsheet generator');
 	}
 
 	public function getTaskTypeId(): string {
@@ -42,19 +46,34 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 	}
 
 	public function getInputShapeDefaults(): array {
-		return [];
+		return [
+			'target_format' => self::DEFAULT_TARGET_FORMAT,
+		];
 	}
 
 	public function getOptionalInputShape(): array {
-		return [];
+		return [
+			'target_format' => new ShapeDescriptor(
+				$this->l->t('Document format'),
+				$this->l->t('The format of the generated document'),
+				EShapeType::Enum
+			),
+		];
 	}
 
 	public function getOptionalInputShapeEnumValues(): array {
-		return [];
+		return [
+			'target_format' => [
+				new ShapeEnumValue($this->l->t('OpenXML (xlsx)'), 'xlsx'),
+				new ShapeEnumValue($this->l->t('OpenDocument (ods)'), 'ods'),
+			],
+		];
 	}
 
 	public function getOptionalInputShapeDefaults(): array {
-		return [];
+		return [
+			'target_format' => self::DEFAULT_TARGET_FORMAT,
+		];
 	}
 
 	public function getOutputShapeEnumValues(): array {
@@ -80,9 +99,15 @@ class TextToSpreadsheetProvider implements ISynchronousProvider {
 			throw new \RuntimeException('Invalid input, expected "text" key with string value');
 		}
 
+		$targetFormat = self::DEFAULT_TARGET_FORMAT;
+		if (isset($input['target_format']) && is_string($input['target_format']) && in_array($input['target_format'], ['xlsx', 'ods'], true)) {
+			$targetFormat = $input['target_format'];
+		}
+
 		$fileContent = $this->documentGenerationService->generateSpreadsheetDocument(
 			$userId,
 			$input['text'],
+			$targetFormat,
 		);
 
 		return [
