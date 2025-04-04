@@ -9,6 +9,7 @@ namespace OCA\Richdocuments\Service;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
+use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetProvider;
 use OCP\ITempManager;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
@@ -54,13 +55,13 @@ EOF;
 		return $docxContent;
 	}
 
-	public function generateSpreadSheetDocument(?string $userId, string $description) {
+	public function generateSpreadSheetDocument(?string $userId, string $description, string $targetFormat = TextToSpreadsheetProvider::DEFAULT_TARGET_FORMAT) {
 		$prompt = self::SPREADSHEET_PROMPT;
 		$taskInput = $prompt . "\n\n" . $description;
 		$csvContent = $this->runTextToTextTask($taskInput, $userId);
 		$csvStream = $this->stringToStream($csvContent);
 		// TODO understand why this request works with CURL but not with remoteService->convertTo
-		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, 'xlsx');
+		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, $targetFormat);
 
 		return $xlsxContent;
 	}

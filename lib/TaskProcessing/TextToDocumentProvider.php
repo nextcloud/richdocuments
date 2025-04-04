@@ -46,9 +46,7 @@ class TextToDocumentProvider implements ISynchronousProvider {
 	}
 
 	public function getInputShapeDefaults(): array {
-		return [
-			'target_format' => self::DEFAULT_TARGET_FORMAT,
-		];
+		return [];
 	}
 
 	public function getOptionalInputShape(): array {
@@ -71,7 +69,9 @@ class TextToDocumentProvider implements ISynchronousProvider {
 	}
 
 	public function getOptionalInputShapeDefaults(): array {
-		return [];
+		return [
+			'target_format' => self::DEFAULT_TARGET_FORMAT,
+		];
 	}
 
 	public function getOutputShapeEnumValues(): array {
