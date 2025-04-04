@@ -8,6 +8,7 @@ namespace OCA\Richdocuments\Service;
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use OCA\Richdocuments\AppInfo\Application;
+use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
 use OCP\ITempManager;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
@@ -41,14 +42,14 @@ EOF;
 	) {
 	}
 
-	public function generateTextDocument(?string $userId, string $description) {
+	public function generateTextDocument(?string $userId, string $description, string $targetFormat = TextToDocumentProvider::DEFAULT_TARGET_FORMAT) {
 		$prompt = self::TEXT_PROMPT;
 		$taskInput = $prompt . "\n\n" . $description;
 		$markdownContent = $this->runTextToTextTask($taskInput, $userId);
 		$converter = new GithubFlavoredMarkdownConverter();
 		$htmlContent = $converter->convert($markdownContent)->getContent();
 		$htmlStream = $this->stringToStream($htmlContent);
-		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, 'docx');
+		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, $targetFormat);
 
 		return $docxContent;
 	}
