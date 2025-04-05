@@ -13,6 +13,7 @@
 			<input type="hidden" name="wopi_setting_base_url" :value="wopiSettingBaseUrl">
 			<input type="hidden" name="iframe_type" :value="iframeType">
 			<input type="hidden" name="css_variables" :value="cssVariables">
+			<input type="hidden" name="theme" :value="theme">
 			<input type="hidden" name="ui_theme" :value="uiTheme">
 		</form>
 		<iframe :id="iframeName"
@@ -26,8 +27,8 @@
 
 <script>
 
-import { generateCSSVarTokens, getUITheme } from '../helpers/coolParameters.js'
 import { getCoolServerUrl } from '../helpers/url.js'
+import { generateCSSVarTokens, getCollaboraTheme, getUITheme } from '../helpers/coolParameters.js'
 import PostMessageService from '../services/postMessage.tsx'
 
 export default {
@@ -58,7 +59,8 @@ export default {
 		return {
 			iframeName: 'coolFrameIframe',
 			formAction: '',
-			cssVariables: generateCSSVarTokens(),
+			cssVariables: generateCSSVarTokens(true),
+			theme: getCollaboraTheme(),
 			uiTheme: getUITheme(),
 			postMessage: null,
 		}
