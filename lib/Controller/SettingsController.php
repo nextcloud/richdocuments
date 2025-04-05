@@ -489,8 +489,8 @@ class SettingsController extends Controller {
 	public function getSettingsFile(string $type, string $token, string $category, string $name) {
 		try {
 			$wopi = $this->wopiMapper->getWopiForToken($token);
+			$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
 			if ($type === 'userconfig') {
-				$userId = $wopi->getEditorUid() ?: $wopi->getOwnerUid();
 				$type = $type . '/' . $userId;
 			}
 
