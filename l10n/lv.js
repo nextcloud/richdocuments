@@ -42,7 +42,7 @@ OC.L10N.register(
     "Description" : "Apraksts",
     "No font overview" : "Nav fonta pārskata",
     "No results" : "Nav rezultātu",
-    "Select file" : "Izvēlēties failu",
+    "Select file" : "Atlasīt datni",
     "Close" : "Aizvērt",
     "Edit" : "Labot",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Datnei tagad vajadzētu atvērties. Ja tas nenotiek, jāpārliecinās, ka sistēmā ir uzstādīts Nextcloud klients.",
