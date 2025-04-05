@@ -47,6 +47,42 @@ const createDataThemeDiv = (elementType, theme) => {
 	document.body.appendChild(element)
 	return element
 }
+
+const mapSettingVariables = (element, mapping) => {
+	let result = ''
+	for (const cssVarKey in mapping) {
+		const computedStyle = window.getComputedStyle(element).getPropertyValue(cssVarKey)
+		if (!computedStyle) continue
+		const tokenName = mapping[cssVarKey]
+		result += tokenName + '=' + computedStyle.trim() + ';'
+	}
+	return result
+}
+
+const generateSettingCssVarTokens = () => {
+	let str = ''
+	const lightElement = createDataThemeDiv('div', 'light')
+	const darkElement = createDataThemeDiv('div', 'dark')
+	const settingVarMapping = {
+		'--color-primary-element': '--co-settings-btn-primary',
+		'--color-primary-element-text': '--co-settings-btn-primary-text',
+		'--color-primary-element-light': '--co-settings-btn-light',
+		'--color-primary-element-light-text': '--co-settings-btn-light-text',
+		'--color-border': '--co-settings-border',
+		'--color-border-dark': '--co--settings-border-contrast',
+		'--color-main-text': '--co-settings-text',
+		'--color-text-maxcontrast': '--co-settings-text-maxcontrast',
+		'--color-main-background': '--co-settings-background',
+		'color-background-hover': '--co-settings-background-hover',
+	}
+	if (getUITheme() === 'dark') {
+		str += mapSettingVariables(darkElement, settingVarMapping)
+	} else {
+		str += mapSettingVariables(lightElement, settingVarMapping)
+	}
+	return str.replace(/["']/g, '\\\'')
+}
+
 const generateCSSVarTokens = () => {
 	/* NC versus COOL */
 	const cssVarMap = {
@@ -168,4 +204,7 @@ export {
 	getUIDefaults,
 	getCollaboraTheme,
 	generateCSSVarTokens,
+	getUITheme,
+	generateSettingCssVarTokens,
+
 }
