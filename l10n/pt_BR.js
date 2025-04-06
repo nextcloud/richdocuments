@@ -21,7 +21,7 @@ OC.L10N.register(
     "No file was uploaded" : "Nenhum arquivo foi enviado",
     "Missing a temporary folder" : "Faltando uma pasta temporária",
     "Could not write file to disk" : "Não foi possível gravar o arquivo no disco",
-    "A PHP extension stopped the file upload" : "Uma extensão PHP interrompeu o envio do arquivo",
+    "A PHP extension stopped the file upload" : "Uma extensão PHP interrompeu o upload do arquivo",
     "No file uploaded or file size exceeds maximum of %s" : "Nenhum arquivo carregado ou o tamanho do arquivo excede o máximo de%s",
     "Failed to upload the file" : "Falha ao carregar o arquivo",
     "File is too big" : "Arquivo muito grande",
