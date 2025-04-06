@@ -23,6 +23,7 @@ OC.L10N.register(
     "Remove" : "Hapus",
     "Confirm" : "Konfirmasi",
     "Cancel" : "Membatalkan",
+    "Save as" : "Simpan sebagai",
     "Description" : "Deskrisi",
     "No results" : "Tidak ada hasil",
     "Select file" : "Pilih berkas",
