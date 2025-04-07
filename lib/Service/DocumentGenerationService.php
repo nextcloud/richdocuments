@@ -10,7 +10,6 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
 use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetProvider;
-use OCP\ITempManager;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
@@ -39,7 +38,6 @@ EOF;
 	public function __construct(
 		private IManager $taskProcessingManager,
 		private RemoteService $remoteService,
-		private ITempManager $tempManager,
 	) {
 	}
 
@@ -60,7 +58,6 @@ EOF;
 		$taskInput = $prompt . "\n\n" . $description;
 		$csvContent = $this->runTextToTextTask($taskInput, $userId);
 		$csvStream = $this->stringToStream($csvContent);
-		// TODO understand why this request works with CURL but not with remoteService->convertTo
 		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, $targetFormat);
 
 		return $xlsxContent;
@@ -105,43 +102,16 @@ EOF;
 	}
 
 	private function stringToStream(string $text) {
-		// TODO find a way to create a proper stream from a string instead of using a temp file
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $text);
+		rewind($stream);
 
-		//$stream = fopen(sprintf('data://text/plain,%s', $text), 'r');
-		//$stream = fopen(sprintf('%s', $text), 'r');
-
-		//$stream = fopen('php://memory', 'r+');
-		//fwrite($stream, $text);
-		//rewind($stream);
-
-		// works
-		//$userStorage = $this->rootFolder->getUserFolder('user1');
-		//$file = $userStorage->getFirstNodeById(4971);
-		//$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
-		//$stream = fopen($fileName, 'rb');
-
-		// works
-		//$userStorage = $this->rootFolder->getUserFolder('user1');
-		//$file = $userStorage->newFile('AAA.csv', $text);
-		//$fileName = $file->getStorage()->getLocalFile($file->getInternalPath());
-		//$stream = fopen($fileName, 'rb');
-
-		// this only works for html content sent to /cool/convert-to/docx
-		$tmpFilePath = $this->tempManager->getTemporaryFile();
-		file_put_contents($tmpFilePath, $text);
-		// 'rb' mode works there as well
-		$stream = fopen($tmpFilePath, 'r');
-		//$stream = \GuzzleHttp\Psr7\Utils::tryFopen($tmpFilePath, 'rb');
-		if ($stream === false) {
-			throw new RuntimeException('Failed to generate stream from string');
-		}
-
-		//$stream = \GuzzleHttp\Psr7\Utils::streamFor('string data');
-
-		//$stream = fopen('php://temp', 'r+');
-		//if ($text !== '') {
-		//	fwrite($stream, $text);
-		//	fseek($stream, 0);
+		// This also works fine
+		//$tmpFilePath = $this->tempManager->getTemporaryFile();
+		//file_put_contents($tmpFilePath, $text);
+		//$stream = fopen($tmpFilePath, 'r');
+		//if ($stream === false) {
+		//	throw new RuntimeException('Failed to generate stream from string');
 		//}
 
 		return $stream;
