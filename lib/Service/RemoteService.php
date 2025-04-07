@@ -81,8 +81,8 @@ class RemoteService {
 			$options['verify'] = false;
 		}
 
-		error_log('OPTIONS: ' . json_encode($options));
-		$options['multipart'] = [['name' => $filename, 'contents' => $stream]];
+		// collabora does not want to read the input if there is no filename (for csv content for example)
+		$options['multipart'] = [['name' => $filename, 'filename' => $filename, 'contents' => $stream]];
 
 		try {
 			$response = $client->post($this->appConfig->getCollaboraUrlInternal() . '/cool/convert-to/' . $format, $options);
