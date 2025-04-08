@@ -19,6 +19,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -80,7 +81,7 @@ class DirectViewController extends Controller {
 
 		try {
 			$item = $folder->getFirstNodeById($direct->getFileid());
-			if (!($item instanceof Node)) {
+			if (!($item instanceof File)) {
 				throw new \Exception();
 			}
 
@@ -92,8 +93,18 @@ class DirectViewController extends Controller {
 				return $response;
 			}
 
+			$wopi = null;
+			$template = $direct->getTemplateId() ? $this->templateManager->get($direct->getTemplateId()) : null;
+
+			if ($template !== null) {
+				$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $item->getId(), $direct->getUid(), false, true);
+			}
+
+			if ($wopi === null) {
+				$wopi = $this->tokenManager->generateWopiToken((string)$item->getId(), null, $direct->getUid(), true);
+			}
+
 			$urlSrc = $this->tokenManager->getUrlSrc($item);
-			$wopi = $this->tokenManager->generateWopiToken($item->getId(), null, $direct->getUid(), true);
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
