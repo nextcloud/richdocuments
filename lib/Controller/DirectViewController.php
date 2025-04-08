@@ -97,7 +97,7 @@ class DirectViewController extends Controller {
 			$template = $direct->getTemplateId() ? $this->templateManager->get($direct->getTemplateId()) : null;
 
 			if ($template !== null) {
-				$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $direct->getUid(), $item->getId(), true);
+				$wopi = $this->tokenManager->generateWopiTokenForTemplate($template, $item->getId(), $direct->getUid(), false, true);
 			}
 
 			if ($wopi === null) {
