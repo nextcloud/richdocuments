@@ -18,8 +18,12 @@ describe('Global templates', function() {
 	})
 
 	it('Can be uploaded', function() {
+		cy.login(new User('admin', 'admin'))
+		cy.visit('/settings/admin/richdocuments')
+
 		cy.intercept('POST', '**/richdocuments/template').as('templateUploadRequest')
-		cy.uploadSystemTemplate({
+		cy.uploadInputFile({
+			identifier: 'newTemplateInput',
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
@@ -33,7 +37,11 @@ describe('Global templates', function() {
 	})
 
 	it('Can prevent uploading a duplicate', function() {
-		cy.uploadSystemTemplate({
+		cy.login(new User('admin', 'admin'))
+		cy.visit('/settings/admin/richdocuments')
+
+		cy.uploadInputFile({
+			identifier: 'newTemplateInput',
 			fixturePath: 'templates/presentation.otp',
 			fileName: 'systemtemplate.otp',
 			mimeType: 'application/vnd.oasis.opendocument.presentation-template',
