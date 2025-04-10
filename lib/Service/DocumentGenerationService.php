@@ -48,7 +48,7 @@ EOF;
 		$converter = new GithubFlavoredMarkdownConverter();
 		$htmlContent = $converter->convert($markdownContent)->getContent();
 		$htmlStream = $this->stringToStream($htmlContent);
-		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, $targetFormat);
+		$docxContent = $this->remoteService->convertTo('document.html', $htmlStream, $targetFormat, true);
 
 		return $docxContent;
 	}
@@ -58,7 +58,7 @@ EOF;
 		$taskInput = $prompt . "\n\n" . $description;
 		$csvContent = $this->runTextToTextTask($taskInput, $userId);
 		$csvStream = $this->stringToStream($csvContent);
-		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, $targetFormat);
+		$xlsxContent = $this->remoteService->convertTo('document.csv', $csvStream, $targetFormat, true);
 
 		return $xlsxContent;
 	}
