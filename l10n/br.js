@@ -15,7 +15,7 @@ OC.L10N.register(
     "Select groups" : "Choaz ar strolladoù",
     "Save" : "Enrollañ",
     "Confirm" : "Kadarnañ",
-    "Cancel" : "Arrest",
+    "Cancel" : "Nullañ",
     "Submit" : "Kinnig",
     "Description" : "Diskrivadur",
     "No results" : "Disoc'h ebet",
