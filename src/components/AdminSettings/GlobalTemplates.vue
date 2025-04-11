@@ -9,6 +9,7 @@
 		<input ref="newTemplateInput"
 			type="file"
 			class="hidden-visually"
+			:accept="acceptedFileExtensions"
 			@change="selectFile">
 
 		<div class="template-buttons">
@@ -66,6 +67,12 @@ export default {
 		return {
 			existingTemplates: [],
 			templatesAvailable: false,
+			templateExtensions: [
+				'.ott', '.otg', '.otp', '.ots',
+				'.dot', '.dotx',
+				'.xlt', '.xltx',
+				'.pot', '.potx',
+			],
 		}
 	},
 
@@ -78,6 +85,12 @@ export default {
 		this.existingTemplates = settings.templates?.filter((template) => {
 			return template.name !== 'Empty'
 		})
+	},
+
+	computed: {
+		acceptedFileExtensions() {
+			return this.templateExtensions.join(', ')
+		}
 	},
 
 	methods: {
