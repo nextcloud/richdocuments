@@ -5,7 +5,8 @@
 
 <template>
 	<NcSettingsSection v-if="templatesAvailable"
-		:name="t('richdocuments', 'Global Templates')">
+		:name="t('richdocuments', 'Global Templates')"
+		:description="description">
 		<input ref="newTemplateInput"
 			type="file"
 			class="hidden-visually"
@@ -76,6 +77,26 @@ export default {
 		}
 	},
 
+	computed: {
+		acceptedFileExtensions() {
+			return this.templateExtensions.join(', ')
+		},
+		description() {
+			return t(
+				'richdocuments',
+				'Accepted file types: {accepts}',
+				{
+					/*
+					 * TRANSLATORS
+					 * The file extensions will be displayed as
+					 *  .ott, .otg, .otp, .ots, and so on
+					 */
+					accepts: this.acceptedFileExtensions,
+				},
+			)
+		},
+	},
+
 	mounted() {
 		// Later maybe we can retrieve these settings from AdminSettings.vue`
 		// and pass them in as props (once AdminSettings is cleaned up)
@@ -85,12 +106,6 @@ export default {
 		this.existingTemplates = settings.templates?.filter((template) => {
 			return template.name !== 'Empty'
 		})
-	},
-
-	computed: {
-		acceptedFileExtensions() {
-			return this.templateExtensions.join(', ')
-		}
 	},
 
 	methods: {
