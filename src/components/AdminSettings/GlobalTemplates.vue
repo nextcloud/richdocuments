@@ -166,6 +166,10 @@ $padding: calc(var(--default-grid-baseline) * 3);
 	display: grid;
 	gap: calc(var(--default-grid-baseline) * 4);
 	grid-template-columns: repeat(auto-fit, 175px);
+
+	button {
+		padding: 0 !important;
+	}
 }
 
 .template-btn {
