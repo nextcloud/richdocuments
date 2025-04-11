@@ -9,7 +9,10 @@ class ConfigService {
 	private values: {[name: string]: any}
 
 	constructor() {
-		this.values = loadState('richdocuments', 'document', {})
+		this.values = {
+			wopi_callback_url: loadState('richdocuments', 'wopi_callback_url', ''),
+			...loadState('richdocuments', 'document', {}),
+		}
 	}
 
 	update(key: string, value: any) {
