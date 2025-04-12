@@ -60,6 +60,7 @@ OC.L10N.register(
     "Nickname" : "Iesauka",
     "Saving…" : "Saglabā...",
     "Current version (unsaved changes)" : "Pašreizējā versija (nesaglabātas izmaiņas)",
+    "Open with {productName}" : "Atvērt ar {productName}",
     "Collabora Online" : "Collabora Online"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
