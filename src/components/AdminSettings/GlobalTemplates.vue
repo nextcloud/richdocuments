@@ -5,10 +5,12 @@
 
 <template>
 	<NcSettingsSection v-if="templatesAvailable"
-		:name="t('richdocuments', 'Global Templates')">
+		:name="t('richdocuments', 'Global Templates')"
+		:description="description">
 		<input ref="newTemplateInput"
 			type="file"
 			class="hidden-visually"
+			:accept="acceptedFileExtensions"
 			@change="selectFile">
 
 		<div class="template-buttons">
@@ -66,7 +68,33 @@ export default {
 		return {
 			existingTemplates: [],
 			templatesAvailable: false,
+			templateExtensions: [
+				'.ott', '.otg', '.otp', '.ots',
+				'.dot', '.dotx',
+				'.xlt', '.xltx',
+				'.pot', '.potx',
+			],
 		}
+	},
+
+	computed: {
+		acceptedFileExtensions() {
+			return this.templateExtensions.join(', ')
+		},
+		description() {
+			return t(
+				'richdocuments',
+				'Accepted file types: {accepts}',
+				{
+					/*
+					 * TRANSLATORS
+					 * The file extensions will be displayed as
+					 *  .ott, .otg, .otp, .ots, and so on
+					 */
+					accepts: this.acceptedFileExtensions,
+				},
+			)
+		},
 	},
 
 	mounted() {
@@ -153,6 +181,10 @@ $padding: calc(var(--default-grid-baseline) * 3);
 	display: grid;
 	gap: calc(var(--default-grid-baseline) * 4);
 	grid-template-columns: repeat(auto-fit, 175px);
+
+	button {
+		padding: 0 !important;
+	}
 }
 
 .template-btn {
