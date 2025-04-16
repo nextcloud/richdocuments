@@ -64,6 +64,7 @@ class TextToDocumentProvider implements ISynchronousProvider {
 			'target_format' => [
 				new ShapeEnumValue($this->l->t('OpenXML (docx)'), 'docx'),
 				new ShapeEnumValue($this->l->t('OpenDocument (odt)'), 'odt'),
+				new ShapeEnumValue($this->l->t('Portable Document Format (pdf)'), 'pdf'),
 			],
 		];
 	}
@@ -98,7 +99,7 @@ class TextToDocumentProvider implements ISynchronousProvider {
 		}
 
 		$targetFormat = self::DEFAULT_TARGET_FORMAT;
-		if (isset($input['target_format']) && is_string($input['target_format']) && in_array($input['target_format'], ['docx', 'odt'], true)) {
+		if (isset($input['target_format']) && is_string($input['target_format']) && in_array($input['target_format'], ['docx', 'odt', 'pdf'], true)) {
 			$targetFormat = $input['target_format'];
 		}
 
