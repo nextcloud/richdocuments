@@ -57,6 +57,7 @@
     "%s (Guest)" : "%s (Convidado)",
     "Edit office documents directly in your browser." : "Edite documentos de escritório diretamente no navegador.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Este aplicativo pode se conectar a um servidor Collabora Online (ou outro). É um cliente semelhante ao WOPI. Nextcloud é o host WOPI. Leia a documentação para saber mais.\n\nVocê também pode editar seus documentos off-line com o aplicativo Collabora Office da loja **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** e **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)**.",
+    "Accepted file types: {accepts}" : "Tipos de arquivos aceitos: {accepts}",
     "Uploaded template \"{name}\"" : "Modelo carregado \"{name}\"",
     "Template \"{name}\" already exists" : "Modelo \"{name}\" já existe",
     "Unable to delete template" : "Não é possível excluir o modelo",
