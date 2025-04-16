@@ -136,7 +136,7 @@
     "Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured" : "Los archivos podrían todavía ser descargados a través de solicitudes WOPI si las configuraciones WOPI no están definidas correctamente",
     "Previews will be blocked for watermarked files to not leak the first page of documents" : "Las vistas previas serán bloqueadas para los archivos con marcas de agua de manera de no divulgar accidentalmente la primera página de los documentos",
     "Enable watermarking" : "Habilitar marcas de agua",
-    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Marcadores soportado: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
+    "Supported placeholders: {userId}, {userDisplayName}, {email}, {date}, {themingName}" : "Marcadores de posición soportados: {userId}, {userDisplayName}, {email}, {date}, {themingName}",
     "Show watermark on tagged files" : "Mostrar marcas de agua en los archivos etiquetados",
     "Select tags to enforce watermarking" : "Seleccionar etiquetas para forzar las marcas de agua",
     "Show watermark for users of groups" : "Mostrar marcas de agua para usuarios de grupos",

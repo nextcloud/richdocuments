@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (Guest)" : "%s（訪客）",
     "Edit office documents directly in your browser." : "直接在您的瀏覽器中編輯辦公室文件。",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "此應用程式可以連線到 Collabora Online（或其他的）伺服器（類 WOPI 的客戶端）。Nextcloud 是 WOPI 主機。請閱讀文件以取得更多資訊。\n\n您也可以從 **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** 與 **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** 的應用程式商店安裝並使用 Collabora Office 應用程式離線編輯您的文件。",
+    "Accepted file types: {accepts}" : "接受的檔案類型：{accepts}",
     "Uploaded template \"{name}\"" : "已上傳範本「{name}」",
     "Template \"{name}\" already exists" : "範本「{name}」已存在！",
     "Unable to delete template" : "無法刪除範本",

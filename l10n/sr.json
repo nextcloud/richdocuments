@@ -57,6 +57,7 @@
     "%s (Guest)" : "%s (Гост)",
     "Edit office documents directly in your browser." : "Мењајте канцеларијска документа директно у веб читачу.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Ова апликација може да се повеже са Collabora Online (или неким другим) сервером (WOPI клијентом). Nextcloud је WOPI хост. Молимо вас да прочитате документацију ако желите да сазнате више о овоме.\n\nСвоје документе можете да уређујете и ван мреже са Collabora Office апликацијом са **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** и **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** продавнице.",
+    "Accepted file types: {accepts}" : "Дозвољени типови фајлова: {accepts}",
     "Uploaded template \"{name}\"" : "Отпремљен је шаблон „{name}”",
     "Template \"{name}\" already exists" : "Шаблон „{name}” већ постоји",
     "Unable to delete template" : "Не може да се обрише шаблон",
