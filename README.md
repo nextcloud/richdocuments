@@ -37,7 +37,16 @@ Collaborative editing of federated documents requires richdocuments version 3.4 
 
 **Note:** Due to our content security policy we cannot open a document on a remote instance without reloading the page to allow Nextcloud embedding the remote Collabora Online instance in a frame.
 
+### AI document generation
 
+This app implements task processing providers to generate office documents from a user prompt. You can disable these providers
+in the "Artificial intelligence" admin settings section.
+
+This feature is accessible in the Assistant app.
+These providers require to setup multiple background job workers because each task schedules an extra one
+to actually generate the document content with a TextToText provider.
+
+See how to set up background job workers in the [related page of the Nextcloud admin documentation](https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#ai-overview-improve-ai-task-pickup-speed).
 
 ## Development setup
 
