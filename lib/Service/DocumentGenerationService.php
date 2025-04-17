@@ -105,15 +105,6 @@ EOF;
 		$stream = fopen('php://memory', 'r+');
 		fwrite($stream, $text);
 		rewind($stream);
-
-		// This also works fine
-		//$tmpFilePath = $this->tempManager->getTemporaryFile();
-		//file_put_contents($tmpFilePath, $text);
-		//$stream = fopen($tmpFilePath, 'r');
-		//if ($stream === false) {
-		//	throw new RuntimeException('Failed to generate stream from string');
-		//}
-
 		return $stream;
 	}
 }

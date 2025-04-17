@@ -37,7 +37,9 @@ Collaborative editing of federated documents requires richdocuments version 3.4 
 
 **Note:** Due to our content security policy we cannot open a document on a remote instance without reloading the page to allow Nextcloud embedding the remote Collabora Online instance in a frame.
 
+### AI document generation
 
+This app is able to generate office documents from a prompt using AI. See the [AI doc](./docs/ai.md).
 
 ## Development setup
 
