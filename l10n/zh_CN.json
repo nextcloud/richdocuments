@@ -57,6 +57,7 @@
     "%s (Guest)" : "%s（访客）",
     "Edit office documents directly in your browser." : "在您的浏览器中直接编辑办公文档。",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "本应用程序可以连接到 Collabora Online（或其他）服务器（类似 WOPI 的客户端）。 Nextcloud 是 WOPI 主机。请阅读文档以了解更多信息。\n\n您也可以从 **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** 和 **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** 商店下载 Collabora Office 应用程序来离线编辑文档。",
+    "Accepted file types: {accepts}" : "接受的文件类型：{accepts}",
     "Uploaded template \"{name}\"" : "已上传模板 “{name}”",
     "Template \"{name}\" already exists" : "模板 “{name}” 已存在",
     "Unable to delete template" : "无法删除模板",
