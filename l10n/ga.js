@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (Guest)" : "%s (Aoi)",
     "Edit office documents directly in your browser." : "Cuir doiciméid oifige in eagar go díreach i do bhrabhsálaí.",
     "This application can connect to a Collabora Online (or other) server (WOPI-like Client). Nextcloud is the WOPI Host. Please read the documentation to learn more about that.\n\nYou can also edit your documents off-line with the Collabora Office app from the **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** and **[iOS](https://apps.apple.com/us/app/collabora-office/id1440482071)** store." : "Is féidir leis an bhfeidhmchlár seo nascadh le freastalaí Collabora Online (nó freastalaí eile) (Cliant cosúil le WOPI). Is é Nextcloud an t-óstach WOPI. Léigh na doiciméid le do thoil chun tuilleadh a fhoghlaim faoi sin.\n\nIs féidir leat freisin do dhoiciméid a chur in eagar as-líne le haip Collabora Oifig ón **[Android](https://play.google.com/store/apps/details?id=com.collabora.libreoffice)** agus * *[iOS]( https://apps.apple.com/us/app/collabora-office/id1440482071)** siopa.",
+    "Accepted file types: {accepts}" : "Cineálacha comhaid a nglactar leo: {accepts}",
     "Uploaded template \"{name}\"" : "Uaslódáladh teimpléad \"{name}\"",
     "Template \"{name}\" already exists" : "Tá an teimpléad \"{name}\" ann cheana",
     "Unable to delete template" : "Ní féidir an teimpléad a scriosadh",
