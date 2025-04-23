@@ -42,6 +42,7 @@ OC.L10N.register(
     "Sheets" : "Blöð",
     "Slides" : "Skyggnur",
     "Office" : "Skrifstofa",
+    "Instructions" : "Leiðbeiningar",
     "Empty" : "Tómt",
     "Anonymous guest" : "Nafnlaus gestur",
     "%s (Guest)" : "%s (gestur)",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "برگه‌ها",
     "Slides" : "Slides",
     "Office" : "دفتر",
+    "Instructions" : "دستورالعمل ها",
     "Empty" : "خالی",
     "Anonymous guest" : "مهمان ناشناس",
     "%s (Guest)" : "%s (مهمان)",

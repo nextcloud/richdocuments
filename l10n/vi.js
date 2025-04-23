@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "Trang tính",
     "Slides" : "Trang trình bày",
     "Office" : "Văn phòng",
+    "Instructions" : "Hướng dẫn",
     "Empty" : "Trống",
     "Anonymous guest" : "Khách ẩn danh",
     "%s (Guest)" : "%s (Khách)",

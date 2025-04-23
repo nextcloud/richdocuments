@@ -38,6 +38,7 @@ OC.L10N.register(
     "Images" : "Slike",
     "Sheets" : "Preglednica",
     "Office" : "Pisarna",
+    "Instructions" : "Navodila",
     "Empty" : "Prazno",
     "Anonymous guest" : "Brezimni gost",
     "%s (Guest)" : "%s (gost)",

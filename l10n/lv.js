@@ -25,6 +25,7 @@ OC.L10N.register(
     "New presentation" : "Jauna prezentācija",
     "Images" : "Attēli",
     "Office" : "Birojs",
+    "Instructions" : "Norādes gatavošanai",
     "Empty" : "Tukšs",
     "New" : "Jauns",
     "Failed to save settings" : "Neizdevās saglabāt iestatījumus",

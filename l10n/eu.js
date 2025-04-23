@@ -40,6 +40,7 @@ OC.L10N.register(
     "Sheets" : "Orriak",
     "Slides" : "Diapositiba",
     "Office" : "Bulegoa",
+    "Instructions" : "Jarraibideak",
     "Empty" : "Hutsik",
     "Anonymous guest" : "Gonbidatu anonimoa",
     "%s (Guest)" : "%s (Gonbidatua)",
