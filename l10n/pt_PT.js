@@ -32,6 +32,7 @@ OC.L10N.register(
     "Headings" : "Títulos",
     "Images" : "Imagens",
     "Office" : "Escritório",
+    "Instructions" : "Instruções",
     "Empty" : "Vazio",
     "Anonymous guest" : "Convidado anónimo",
     "%s (Guest)" : "%s (Convidado)",

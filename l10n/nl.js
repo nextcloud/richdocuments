@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Werkbladen",
     "Slides" : "Presentaties",
     "Office" : "Office",
+    "Instructions" : "Instructies",
     "Empty" : "Leeg",
     "Anonymous guest" : "Anonieme gast",
     "%s (Guest)" : "%s (Gast)",

@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Листови",
     "Slides" : "Слајдови",
     "Office" : "Канцеларија",
+    "Instructions" : "Упутства",
     "Empty" : "Празно",
     "Anonymous guest" : "Анонимни гост",
     "%s (Guest)" : "%s (Гост)",

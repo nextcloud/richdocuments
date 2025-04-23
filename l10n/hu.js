@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "Munkalapok",
     "Slides" : "Diák",
     "Office" : "Office",
+    "Instructions" : "Utasítások",
     "Empty" : "Üres",
     "Anonymous guest" : "Névtelen vendég",
     "%s (Guest)" : "%s (Vendég)",

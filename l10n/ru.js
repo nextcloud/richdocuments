@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "Листы",
     "Slides" : "Слайды",
     "Office" : "Офис",
+    "Instructions" : "Инструкции",
     "Empty" : "Пустой",
     "Anonymous guest" : "Анонимный гость",
     "%s (Guest)" : "%s (Гость)",

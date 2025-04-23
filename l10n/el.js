@@ -34,6 +34,7 @@ OC.L10N.register(
     "Headings" : "Επικεφαλίδες",
     "Images" : "Εικόνες",
     "Office" : "Office",
+    "Instructions" : "Οδηγίες",
     "Empty" : "Κενό",
     "Anonymous guest" : "Ανώνυμος επισκέπτης",
     "%s (Guest)" : "%s (Επισκέπτης)",

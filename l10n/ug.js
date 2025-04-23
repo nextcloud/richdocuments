@@ -40,6 +40,7 @@ OC.L10N.register(
     "Sheets" : "Sheets",
     "Slides" : "تام تەسۋىر",
     "Office" : "Office",
+    "Instructions" : "كۆرسەتمە",
     "Empty" : "قۇرۇق",
     "Anonymous guest" : "نامسىز مېھمان",
     "%s (Guest)" : "% s (مېھمان)",

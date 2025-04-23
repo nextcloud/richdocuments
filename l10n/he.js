@@ -32,6 +32,7 @@ OC.L10N.register(
     "Headings" : "כותרות",
     "Images" : "תמונות",
     "Office" : "משרד",
+    "Instructions" : "הוראות",
     "Empty" : "ריק",
     "Anonymous guest" : "אורח אלמוני",
     "%s (Guest)" : "%s (אורח)",
