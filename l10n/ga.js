@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Bileoga",
     "Slides" : "Sleamhnáin",
     "Office" : "Oifig",
+    "Instructions" : "Comhaid Nextcloud ag teastáil",
     "Empty" : "Folamh",
     "Anonymous guest" : "Aoi gan ainm",
     "%s (Guest)" : "%s (Aoi)",

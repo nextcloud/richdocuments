@@ -35,6 +35,7 @@ OC.L10N.register(
     "Headings" : "Заглавија",
     "Images" : "Слики",
     "Office" : "Канцеларија",
+    "Instructions" : "Инструкции",
     "Empty" : "Празно",
     "Anonymous guest" : "Анонимен гостин",
     "%s (Guest)" : "%s (Гостин)",

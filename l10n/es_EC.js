@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "Hojas",
     "Slides" : "Diapositivas",
     "Office" : "Semana de colaboradores",
+    "Instructions" : "Instrucciones",
     "Empty" : "Vacío",
     "Anonymous guest" : "Invitado anónimo",
     "%s (Guest)" : "%s (Invitado)",

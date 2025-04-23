@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "シート",
     "Slides" : "スライド",
     "Office" : "オフィス",
+    "Instructions" : "手順",
     "Empty" : "空",
     "Anonymous guest" : "匿名ゲスト",
     "%s (Guest)" : "%s(人のゲスト)",

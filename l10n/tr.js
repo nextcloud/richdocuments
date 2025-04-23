@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Sayfalar",
     "Slides" : "Saydamlar",
     "Office" : "Office",
+    "Instructions" : "Yönerge",
     "Empty" : "Boş",
     "Anonymous guest" : "Anonim konuk",
     "%s (Guest)" : "%s (Konuk)",
