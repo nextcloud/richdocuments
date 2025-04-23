@@ -39,6 +39,7 @@ OC.L10N.register(
     "Sheets" : "Ark",
     "Slides" : "Lysbilder",
     "Office" : "Office",
+    "Instructions" : "Instruksjoner",
     "Empty" : "Tom",
     "Anonymous guest" : "Anonym gjest",
     "%s (Guest)" : "%s (gjest)",

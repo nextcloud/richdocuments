@@ -14,6 +14,7 @@ OC.L10N.register(
     "Invalid file provided" : "Invalid file provided",
     "New document" : "Yangi hujjat",
     "Images" : "Images",
+    "Instructions" : "Ko'rsatmalar",
     "New" : "New",
     "Failed to save settings" : "Sozlamalarni saqlab bo'lmadi",
     "Save" : "Save",

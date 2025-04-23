@@ -34,6 +34,7 @@ OC.L10N.register(
     "Headings" : "Antraštės",
     "Images" : "Paveikslai",
     "Office" : "Biuras",
+    "Instructions" : "Instrukcija",
     "Empty" : "Tuščias",
     "%s (Guest)" : "%s (Svečias)",
     "Edit office documents directly in your browser." : "Redaguokite raštinės dokumentus tiesiogiai savo naršyklėje.",

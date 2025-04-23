@@ -32,6 +32,7 @@ OC.L10N.register(
     "Headings" : "Naslovi",
     "Images" : "Slike",
     "Office" : "Ured",
+    "Instructions" : "Upute",
     "Empty" : "Prazno",
     "Anonymous guest" : "Anoniman gost",
     "%s (Guest)" : "%s (gost)",

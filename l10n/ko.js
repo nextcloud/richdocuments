@@ -37,6 +37,7 @@ OC.L10N.register(
     "Sheets" : "시트",
     "Slides" : "슬라이드",
     "Office" : "오피스",
+    "Instructions" : "지침",
     "Empty" : "비어 있음",
     "Anonymous guest" : "익명의 손님",
     "%s (Guest)" : "%s(손님)",

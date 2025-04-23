@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Follas",
     "Slides" : "Diapositivas",
     "Office" : "Oficina",
+    "Instructions" : "Instrucións",
     "Empty" : "Baleiro",
     "Anonymous guest" : "Convidado anónimo",
     "%s (Guest)" : "%s (Convidado)",

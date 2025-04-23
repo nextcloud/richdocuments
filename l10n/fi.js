@@ -33,6 +33,7 @@ OC.L10N.register(
     "Headings" : "Otsikot",
     "Images" : "Kuvat",
     "Office" : "Toimisto",
+    "Instructions" : "Ohjeet",
     "Empty" : "Tyhjä",
     "Anonymous guest" : "Anonyymi vieras",
     "%s (Guest)" : "%s (vieras)",

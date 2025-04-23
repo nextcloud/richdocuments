@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Tabuľky",
     "Slides" : "Prezentácie",
     "Office" : "Office",
+    "Instructions" : "Postup",
     "Empty" : "Prázdny",
     "Anonymous guest" : "Anonymný hosť",
     "%s (Guest)" : "%s (Hosť)",

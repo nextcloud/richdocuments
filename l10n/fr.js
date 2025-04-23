@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "Feuilles",
     "Slides" : "Diapositives",
     "Office" : "Nextcloud Office",
+    "Instructions" : "Instructions",
     "Empty" : "Vide",
     "Anonymous guest" : "Invité anonyme",
     "%s (Guest)" : "%s (Invité)",

@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "工作表",
     "Slides" : "幻灯片",
     "Office" : "Office",
+    "Instructions" : "说明",
     "Empty" : "空",
     "Anonymous guest" : "匿名访客",
     "%s (Guest)" : "%s（访客）",

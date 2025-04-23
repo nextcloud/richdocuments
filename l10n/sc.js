@@ -33,6 +33,7 @@ OC.L10N.register(
     "Headings" : "Intestatziones",
     "Images" : "Immàgines",
     "Office" : "Ofìtziu",
+    "Instructions" : "Inditos",
     "Empty" : "Bòidu",
     "Anonymous guest" : "Persone invitada chene nùmene",
     "%s (Guest)" : "%s (persone invitada)",
