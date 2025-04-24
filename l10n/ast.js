@@ -34,6 +34,7 @@ OC.L10N.register(
     "Images" : "Imáxenes",
     "Sheets" : "Fueyes",
     "Office" : "Oficina",
+    "Instructions" : "Instrucciones",
     "Anonymous guest" : "Convidáu anónimu",
     "%s (Guest)" : "%s (convidáut)",
     "New" : "Nuevu",
