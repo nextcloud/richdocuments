@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sheets" : "الأوراق sheets",
     "Slides" : "شرائح",
     "Office" : "المكتب",
+    "Instructions" : "تعليمات",
     "Empty" : "فارغ",
     "Anonymous guest" : "ضيف مجهول",
     "%s (Guest)" : "%s(ضيف)",
