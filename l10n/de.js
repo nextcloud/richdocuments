@@ -62,6 +62,7 @@ OC.L10N.register(
     "Portable Document Format (pdf)" : "Portables Dokumentenformat (.pdf)",
     "Generate Office text document" : "Office-Textdokument erstellen",
     "Generate an Office text document from a prompt" : "Ein Office-Textdokument aus einer Eingabeaufforderung heraus erstellen",
+    "Instructions" : "Anweisungen",
     "Describe the document you want the assistant to generate" : "Beschreiben Sie das Dokument, das der Assistent erstellen soll",
     "Generated Office document" : "Erstelltes Office-Dokument",
     "The Office document that was generated from the description" : "Das aufgrund der Beschreibung erstellte Office-Dokument",
