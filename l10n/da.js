@@ -35,6 +35,7 @@ OC.L10N.register(
     "Headings" : "Overskrifter",
     "Images" : "Billeder",
     "Office" : "Kontor",
+    "Instructions" : "Instruktioner",
     "Empty" : "Tom",
     "New" : "Ny",
     "Failed to save settings" : "Kunne ikke gemme indstillinger",
