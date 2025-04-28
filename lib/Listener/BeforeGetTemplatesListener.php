@@ -7,15 +7,16 @@
 
 namespace OCA\Richdocuments\Listener;
 
-use OCA\Richdocuments\Service\TemplateFieldService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IURLGenerator;
+use OCP\Files\Template\Template;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
 
 /** @template-implements IEventListener<BeforeGetTemplatesEvent|Event> */
 class BeforeGetTemplatesListener implements IEventListener {
 	public function __construct(
-		private TemplateFieldService $templateFieldService,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -24,11 +25,17 @@ class BeforeGetTemplatesListener implements IEventListener {
 			return;
 		}
 
+		/** @var $template Template */
 		foreach ($event->getTemplates() as $template) {
-			$templateFileId = $template->jsonSerialize()['fileid'];
-			$fields = $this->templateFieldService->extractFields($templateFileId);
+			$templateId = $template->jsonSerialize()['fileid'];
+			$fieldsUrl = $this->urlGenerator->linkToOCSRouteAbsolute(
+				'richdocuments.TemplateField.extractFields',
+				[
+					'fileId' => $templateId
+				],
+			);
 			
-			$template->setFields($fields);
+			$template->setFieldsUrl($fieldsUrl);
 		}
 	}
 }
