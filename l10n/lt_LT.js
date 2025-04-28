@@ -65,7 +65,7 @@ OC.L10N.register(
     "Custom fonts documentation" : "Tinkintų šriftų dokumentacija",
     "Secure view enables you to secure documents by embedding a watermark" : "Saugusis rodinys leidžia jums apsaugoti dokumentus įterpiant vandenženklį",
     "Enable watermarking" : "Įjungti vandenženklių darymą",
-    "Show watermark on tagged files" : "Rodyti vandenženklį ant failų su žymėmis",
+    "Show watermark on tagged files" : "Rodyti vandenženklį ant failų, turinčių žymas",
     "Save" : "Įrašyti",
     "Remove" : "Šalinti",
     "Confirm" : "Patvirtinti",
