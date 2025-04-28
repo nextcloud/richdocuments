@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
-use OCA\Files_Sharing\SharedStorage;
+use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\PermissionManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -20,7 +20,6 @@ use OCP\IUserSession;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
-use OCP\Share\IShare;
 
 /** @template-implements IEventListener<Event|BeforePreviewFetchedEvent> */
 class BeforeFetchPreviewListener implements IEventListener {
@@ -28,12 +27,14 @@ class BeforeFetchPreviewListener implements IEventListener {
 	private IUserSession $userSession;
 	private IRequest $request;
 	private IManager $shareManager;
+	private Helper $helper;
 
-	public function __construct(PermissionManager $permissionManager, IUserSession $userSession, IRequest $request, IManager $shareManager) {
+	public function __construct(PermissionManager $permissionManager, IUserSession $userSession, IRequest $request, IManager $shareManager, Helper $helper) {
 		$this->permissionManager = $permissionManager;
 		$this->userSession = $userSession;
 		$this->request = $request;
 		$this->shareManager = $shareManager;
+		$this->helper = $helper;
 	}
 
 	public function handle(Event $event): void {
@@ -42,21 +43,13 @@ class BeforeFetchPreviewListener implements IEventListener {
 		}
 		$shareToken = $this->request->getParam('token');
 
-		$share = null;
-
-		// Get share for internal shares
-		$storage = $event->getNode()->getStorage();
-		if (!$shareToken && $storage->instanceOfStorage(SharedStorage::class)) {
-			if (method_exists(IShare::class, 'getAttributes')) {
-				/** @var SharedStorage $storage */
-				$share = $storage->getShare();
-			}
-		}
-
-		// Get different share for public previews as the share from the node is only set for mounted shares
 		try {
-			$share = $shareToken ? $this->shareManager->getShareByToken($shareToken) : $share;
-		} catch (ShareNotFound $e) {
+			$share = $shareToken ?
+				// Get different share for public previews as the share from the node is only set for mounted shares
+				$this->shareManager->getShareByToken($shareToken)
+				// Get share for internal shares
+				: $this->helper->getShareFromNode($event->getNode());
+		} catch (ShareNotFound) {
 		}
 
 		$userId = $this->userSession->getUser() ? $this->userSession->getUser()->getUID() : null;

@@ -82,7 +82,8 @@ class WopiController extends Controller {
 		private IEncryptionManager $encryptionManager,
 		private IGroupManager $groupManager,
 		private ILockManager $lockManager,
-		private IEventDispatcher $eventDispatcher
+		private IEventDispatcher $eventDispatcher,
+		private Helper $helper,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -187,7 +188,7 @@ class WopiController extends Controller {
 			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
 		}
 
-		$share = $this->getShareForWopiToken($wopi);
+		$share = $this->getShareForWopiToken($wopi, $file);
 		if ($this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share)) {
 			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : '';
 			$replacements = [
@@ -804,10 +805,14 @@ class WopiController extends Controller {
 		return array_shift($files);
 	}
 
-	private function getShareForWopiToken(Wopi $wopi): ?IShare {
+	private function getShareForWopiToken(Wopi $wopi, File $file): ?IShare {
 		try {
-			return $wopi->getShare() ? $this->shareManager->getShareByToken($wopi->getShare()) : null;
-		} catch (ShareNotFound $e) {
+			$shareToken = $wopi->getShare();
+			if ($shareToken) {
+				return $this->shareManager->getShareByToken($shareToken);
+			}
+			return $this->helper->getShareFromNode($file);
+		} catch (ShareNotFound) {
 		}
 
 		return null;
