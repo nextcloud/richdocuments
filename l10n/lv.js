@@ -20,6 +20,7 @@ OC.L10N.register(
     "Failed to upload the file" : "Neizdevās augšupielādēt datni",
     "File is too big" : "Datne ir par lielu",
     "Invalid file provided" : "Norādīta nederīga datne",
+    "OpenDocument Text (.odt)" : "OpenDocument teksts (.odt)",
     "New document" : "Jauns dokuments",
     "New spreadsheet" : "Jauna izklājlapa",
     "New presentation" : "Jauna prezentācija",
