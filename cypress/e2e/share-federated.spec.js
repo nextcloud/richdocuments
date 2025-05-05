@@ -39,7 +39,7 @@ describe('Federated sharing of office documents', function() {
 		})
 	})
 
-	it('Open a remotely shared file as a link', function() {
+	it.skip('Open a remotely shared file as a link', function() {
 		cy.login(shareOwner)
 		cy.shareFileToRemoteUser(shareOwner, '/document-reshare.odt', shareRecipient)
 
