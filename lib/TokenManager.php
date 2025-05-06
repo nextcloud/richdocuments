@@ -7,7 +7,6 @@
 namespace OCA\Richdocuments;
 
 use Exception;
-use OCA\Files_Sharing\SharedStorage;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\Db\WopiMapper;
@@ -24,7 +23,6 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
-use OCP\Share\IShare;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -83,19 +81,13 @@ class TokenManager {
 
 			// disable download if at least one shared access has it disabled
 			foreach ($files as $file) {
-				$storage = $file->getStorage();
-				// using string as we have no guarantee that "files_sharing" app is loaded
-				if ($storage->instanceOfStorage(SharedStorage::class)) {
-					if (!method_exists(IShare::class, 'getAttributes')) {
-						break;
-					}
-					/** @var SharedStorage $storage */
-					$share = $storage->getShare();
-					$attributes = $share->getAttributes();
-					if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
-						$hideDownload = true;
-						break;
-					}
+				$share = $this->helper->getShareFromNode($file);
+				$attributes = $share?->getAttributes();
+				if ($attributes !== null
+					&& $attributes->getAttribute('permissions', 'download') === false
+				) {
+					$hideDownload = true;
+					break;
 				}
 			}
 		}
