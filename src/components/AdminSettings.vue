@@ -217,14 +217,6 @@
 			</div>
 		</NcModal>
 
-		<CoolFrame v-if="tokenGenerated"
-			class="section"
-			:iframe-type="'admin'"
-			:iframe-url="settings.setting_iframe_url"
-			:access-token="accessToken"
-			:access-token-t-t-l="accessTokenTTL"
-			:wopi-setting-base-url="wopiSettingBaseUrl" />
-
 		<div v-if="isSetup" id="advanced-settings" class="section">
 			<h2>{{ t('richdocuments', 'Advanced settings') }}</h2>
 			<SettingsCheckbox :value="isOoxml"
@@ -414,6 +406,14 @@
 		</div>
 
 		<GlobalTemplates v-if="isSetup" />
+
+		<CoolFrame v-if="tokenGenerated"
+			class="section"
+			:iframe-type="'admin'"
+			:iframe-url="settings.setting_iframe_url"
+			:access-token="accessToken"
+			:access-token-t-t-l="accessTokenTTL"
+			:wopi-setting-base-url="wopiSettingBaseUrl" />
 	</div>
 </template>
 

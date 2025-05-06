@@ -34,14 +34,6 @@
 			</em>
 		</p>
 
-		<!-- user settings iframe  -->
-		<CoolFrame v-if="tokenGenerated"
-			:iframe-type="'user'"
-			:iframe-url="settingIframeUrl"
-			:access-token="accessToken"
-			:access-token-t-t-l="accessTokenTTL"
-			:wopi-setting-base-url="wopiSettingBaseUrl" />
-
 		<!-- Zotero -->
 		<div class="zotero-section">
 			<p><strong>{{ t('richdocuments', 'Zotero') }}</strong></p>
@@ -118,6 +110,13 @@
 				</em>
 			</p>
 		</div>
+		<!-- user settings iframe  -->
+		<CoolFrame v-if="tokenGenerated"
+			:iframe-type="'user'"
+			:iframe-url="settingIframeUrl"
+			:access-token="accessToken"
+			:access-token-t-t-l="accessTokenTTL"
+			:wopi-setting-base-url="wopiSettingBaseUrl" />
 	</NcSettingsSection>
 </template>
 

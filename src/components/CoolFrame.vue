@@ -86,7 +86,7 @@ export default {
   .cool-frame-iframe {
     width: 100%;
     border: none;
-	height: 60vh;
+	height: 2000px;
 	overflow-y: auto;
   }
   </style>
