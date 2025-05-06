@@ -102,6 +102,9 @@ class SettingsService {
 		$fileUri = $this->generateFileUri($settingsUrl->getType(), $settingsUrl->getCategory(), $fileName, $token['token']);
 		$this->refreshFolderEtag($settingsUrl->getType());
 
+		if ($settingsUrl->getType() === 'userconfig' && $settingsUrl->getCategory() === 'browsersetting') {
+			$this->config->setUserValue($userId, 'richdocuments', 'browsersetting', $fileName);
+		}
 		return [
 			'stamp' => $newFile->getETag(),
 			'uri' => $fileUri,
