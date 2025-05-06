@@ -24,6 +24,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Security\ITrustedDomainHelper;
 use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -43,6 +44,7 @@ class FederationService {
 		private AppConfig $appConfig,
 		private IRequest $request,
 		private IURLGenerator $urlGenerator,
+		private ITrustedDomainHelper $trustedDomainHelper,
 	) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		try {
@@ -73,6 +75,11 @@ class FederationService {
 		if (!$this->isTrustedRemote($remote)) {
 			throw new \Exception('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
 		}
+
+		if ($this->trustedDomainHelper->isTrustedUrl($remote)) {
+			return $this->appConfig->getCollaboraUrlInternal();
+		}
+
 		$remoteCollabora = $this->cache->get('richdocuments_remote/' . $remote);
 		if ($remoteCollabora !== null) {
 			return $remoteCollabora;
@@ -112,7 +119,12 @@ class FederationService {
 			if (!is_string($trusted)) {
 				break;
 			}
+
+			// This regular expression ensures that wildcards for trusted domains
+			// are parsed properly in order to match subdomains:
+			// *.example.com => /^[-\.a-zA-Z0-9]*\.example\.com$/i
 			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(fn ($v) => preg_quote($v, '/'), explode('*', $trusted))) . '$/i';
+
 			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
 				return true;
 			}
