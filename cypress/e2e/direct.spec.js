@@ -161,4 +161,41 @@ describe('Direct editing (legacy)', function() {
 		})
 	})
 
+	it('Save as', function() {
+		createDirectEditingLink(randUser, fileId)
+			.then((token) => {
+				cy.nextcloudTestingAppConfigSet('richdocuments', 'uiDefaults-UIMode', 'tabbed')
+				cy.logout()
+				cy.visit(token)
+				cy.waitForCollabora(false)
+
+				cy.get('@loleafletframe').within(() => {
+					cy.get('.notebookbar-tabs-container', { timeout: 30_000 })
+						.should('be.visible')
+
+					cy.get('button[aria-label="File"]').click()
+					cy.get('button[aria-label="Save As"]').click()
+
+					cy.get('#saveas-entries #saveas-entry-1').click()
+				})
+
+				cy.get('.saveas-dialog')
+					.should('be.visible')
+				cy.get('.saveas-dialog input[type=text]')
+					.should('be.visible')
+					.should('have.value', 'document.odt')
+
+				cy.get('.saveas-dialog input[type=text]')
+					.clear()
+				cy.get('.saveas-dialog input[type=text]')
+					.type('/document.rtf')
+
+				cy.get('.saveas-dialog button.button-vue--vue-primary').click()
+
+				cy.get('@loleafletframe').within(() => {
+					cy.verifyOpen('document.rtf')
+				})
+			})
+	})
+
 })
