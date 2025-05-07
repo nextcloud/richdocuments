@@ -43,10 +43,6 @@ class TemplateFieldService {
 	 * @throws NotFoundException
 	 */
 	public function extractFields(Node|int $file): array {
-		if (!$this->capabilitiesService->hasFormFilling()) {
-			return [];
-		}
-
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
@@ -74,23 +70,12 @@ class TemplateFieldService {
 				return [];
 			}
 
-			$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
-			$httpClient = $this->clientService->newClient();
-
-			$form = RemoteOptionsService::getDefaultOptions();
-			$form['query'] = ['filter' => 'contentcontrol'];
-			$form['multipart'] = [[
-				'name' => 'data',
-				'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
-				'headers' => ['Content-Type' => 'multipart/form-data'],
-			]];
-
-			$response = $httpClient->post(
-				$collaboraUrl . '/cool/extract-document-structure',
-				$form
+			$documentStructure = $this->remoteService->extractDocumentStructure(
+				$file->getName(),
+				$file->getStorage()->fopen($file->getInternalPath(), 'r'),
+				'contentcontrol'
 			);
 
-			$documentStructure = json_decode($response->getBody(), true)['DocStructure'] ?? [];
 			$fields = [];
 
 			foreach ($documentStructure as $index => $attr) {
@@ -138,10 +123,6 @@ class TemplateFieldService {
 	 * @return string|resource
 	 */
 	public function fillFields(Node|int $file, array $fields = [], ?string $destination = null, ?string $format = null) {
-		if (!$this->capabilitiesService->hasFormFilling()) {
-			throw new \RuntimeException('Form filling not supported by the Collabora server');
-		}
-
 		if (is_int($file)) {
 			$file = $this->rootFolder->getFirstNodeById($file);
 		}
@@ -161,39 +142,18 @@ class TemplateFieldService {
 			return $content;
 		}
 
-		$collaboraUrl = $this->appConfig->getCollaboraUrlInternal();
-		$httpClient = $this->clientService->newClient();
-
-		$formData = [
-			'name' => 'data',
-			'contents' => $file->getStorage()->fopen($file->getInternalPath(), 'r'),
-			'headers' => ['Content-Type' => 'multipart/form-data'],
-		];
-
-		$formTransform = [
-			'name' => 'transform',
-			'contents' => '{"Transforms": ' . json_encode($fields) . '}',
-		];
-
-		$formFormat = [
-			'name' => 'format',
-			'contents' => $format === null ? $file->getExtension() : $format,
-		];
-
-		$form = RemoteOptionsService::getDefaultOptions();
-		$form['multipart'] = [$formData, $formTransform, $formFormat];
-
 		try {
-			$response = $httpClient->post(
-				$collaboraUrl . '/cool/transform-document-structure',
-				$form
+			$content = $this->remoteService->transformDocumentStructure(
+				$file->getName(),
+				$file->getStorage()->fopen($file->getInternalPath(), 'r'),
+				$fields,
+				$format === null ? $file->getExtension() : $format
 			);
-
-			$content = $response->getBody();
 
 			if ($destination !== null) {
 				$this->writeToDestination($destination, $content);
 			}
+
 			return $content;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage());
