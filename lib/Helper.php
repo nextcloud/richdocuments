@@ -7,7 +7,11 @@ namespace OCA\Richdocuments;
 
 use DateTime;
 use DateTimeZone;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Folder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Share\IShare;
 
 class Helper {
 	/** @var string|null */
@@ -80,5 +84,18 @@ class Helper {
 			return null;
 		}
 		return $_COOKIE['guestUser'];
+	}
+
+	public function getShareFromNode(Node $node): ?IShare {
+		try {
+			$storage = $node->getStorage();
+		} catch (NotFoundException) {
+			return null;
+		}
+		if ($storage->instanceOfStorage(SharedStorage::class)) {
+			/** @var SharedStorage $storage */
+			return $storage->getShare();
+		}
+		return null;
 	}
 }

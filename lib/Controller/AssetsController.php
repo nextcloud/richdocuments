@@ -6,9 +6,9 @@
 
 namespace OCA\Richdocuments\Controller;
 
-use OCA\Files_Sharing\SharedStorage;
 use OCA\Richdocuments\Controller\Attribute\RestrictToWopiServer;
 use OCA\Richdocuments\Db\AssetMapper;
+use OCA\Richdocuments\Helper;
 use OCA\Richdocuments\Service\UserScopeService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -30,13 +30,17 @@ class AssetsController extends Controller {
 	private UserScopeService $userScopeService;
 	private IURLGenerator $urlGenerator;
 
+	private Helper $helper;
+
 	public function __construct($appName,
 		IRequest $request,
 		AssetMapper $assetMapper,
 		IRootFolder $rootFolder,
 		$userId,
 		UserScopeService $userScopeService,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+		Helper $helper,
+	) {
 		parent::__construct($appName, $request);
 
 		$this->assetMapper = $assetMapper;
@@ -44,6 +48,7 @@ class AssetsController extends Controller {
 		$this->userId = $userId;
 		$this->userScopeService = $userScopeService;
 		$this->urlGenerator = $urlGenerator;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -63,14 +68,12 @@ class AssetsController extends Controller {
 				return new JSONResponse([], Http::STATUS_NOT_FOUND);
 			}
 
-			$storage = $node->getStorage();
-			if ($storage->instanceOfStorage(SharedStorage::class)) {
-				/** @var SharedStorage $storage */
-				$share = $storage->getShare();
-				$attributes = $share->getAttributes();
-				if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
-					throw new NotPermittedException();
-				}
+			$share = $this->helper->getShareFromNode($node);
+			$attributes = $share?->getAttributes();
+			if ($attributes !== null
+				&& $attributes->getAttribute('permissions', 'download') === false
+			) {
+				throw new NotPermittedException();
 			}
 		} catch (NotFoundException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
