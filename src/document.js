@@ -473,7 +473,7 @@ const documentsMain = {
 						spawnDialog(
 							SaveAs,
 							{
-								path: documentsMain.filename,
+								path: documentsMain.fileName,
 								format: args.Format,
 							},
 							(value) => value && this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true }),
