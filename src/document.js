@@ -467,7 +467,7 @@ const documentsMain = {
 								path: documentsMain.fileName,
 								format: args.Format,
 							},
-							(value) => value && this.sendPostMessage('Action_SaveAs', { Filename: value, Notify: true }),
+							(value) => value && PostMessages.sendWOPIPostMessage('loolframe', 'Action_SaveAs', { Filename: value, Notify: true }),
 						)
 					} else if (msgId === 'Action_Save_Resp') {
 						if (args.success && args.fileName) {
