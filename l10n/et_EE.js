@@ -83,6 +83,7 @@ OC.L10N.register(
     "Electronic Signature" : "Digiallkiri",
     "Save" : "Salvesta",
     "Remove" : "Eemalda",
+    "Submit name" : "Salvesta nimi",
     "Confirm" : "Kinnita",
     "Cancel" : "Tühista",
     "Save as" : "Salvesta kui",
