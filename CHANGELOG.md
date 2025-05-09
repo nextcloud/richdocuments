@@ -4,6 +4,20 @@
 -->
 # Changelog
 
+## 8.5.7
+
+### Fixed
+- Save as on mobile with direct editing by @juliusknorr in [#4741](https://github.com/nextcloud/richdocuments/pull/4741)
+- Fall back to super share if share token is not available by @blizzz in [#4738](https://github.com/nextcloud/richdocuments/pull/4738)
+- Do not fetch remote Collabora URL for own server by @elzody in [#4733](https://github.com/nextcloud/richdocuments/pull/4733)
+- Load viewer component asynchronously to reduce file size by @elzody in [#4684](https://github.com/nextcloud/richdocuments/pull/4684)
+- Use proper file id for direct editing by @juliusknorr in [#4586](https://github.com/nextcloud/richdocuments/pull/4586)
+
+### Other
+- npm audits
+- Dependency updates
+- Improve tests and CI workflows
+
 ## 8.5.6
 
 ### Added
