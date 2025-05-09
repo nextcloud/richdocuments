@@ -43,7 +43,7 @@ OC.L10N.register(
     "Submit" : "Iesniegt",
     "Description" : "Apraksts",
     "No font overview" : "Nav fonta pārskata",
-    "No results" : "Nav rezultātu",
+    "No results" : "Nav iznākuma",
     "Select file" : "Atlasīt datni",
     "Close" : "Aizvērt",
     "Edit" : "Labot",
