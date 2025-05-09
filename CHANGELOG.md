@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.4.12
+
+### Added
+- Composer installation instructions to README by @elzody in [#4634](https://github.com/nextcloud/richdocuments/pull/4634)
+
+### Fixed
+- Save as on mobile with direct editing by @juliusknorr in [#4740](https://github.com/nextcloud/richdocuments/pull/4740)
+- Do not fetch remote Collabora URL for own server by @elzody in [#4732](https://github.com/nextcloud/richdocuments/pull/4732)
+- Remove Composer files by @elzody in [#4635](https://github.com/nextcloud/richdocuments/pull/4635)
+
+### Other
+- npm audits
+- Dependency updates
+
 ## 8.4.11
 
 ### Fixed
