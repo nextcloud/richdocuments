@@ -55,6 +55,7 @@
 			<input name="theme" :value="formData.theme" type="hidden">
 			<input name="buy_product" value="https://nextcloud.com/pricing" type="hidden">
 			<input name="host_session_id" :value="formData.hostSessionID" type="hidden">
+			<input name="browser_setting" :value="formData.browserSetting" type="hidden">
 		</form>
 		<iframe :id="iframeId"
 			ref="documentFrame"
@@ -198,6 +199,7 @@ export default {
 				cssVariables: generateCSSVarTokens(),
 				theme: getCollaboraTheme(),
 				hostSessionID: 'nextcloud ' + OC.config.version + ' - richdocuments ' + getCapabilities().version,
+				browserSetting: loadState('richdocuments', 'browsersetting', ''),
 			},
 		}
 	},

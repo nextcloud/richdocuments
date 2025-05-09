@@ -14,6 +14,7 @@ use OCA\Richdocuments\Db\Wopi;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Theming\ImageManager;
 use OCP\AppFramework\Services\IInitialState;
+use OCA\Richdocuments\Service\SettingsService;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IURLGenerator;
@@ -31,6 +32,7 @@ class InitialStateService {
 		private Defaults $themingDefaults,
 		private IConfig $config,
 		private ?string $userId,
+		private SettingsService $settingsService,
 	) {
 	}
 
@@ -110,5 +112,12 @@ class InitialStateService {
 
 		$this->initialState->provideInitialState('theming-customLogo', $logo);
 		$this->initialState->provideInitialState('open_local_editor', $this->config->getAppValue(Application::APPNAME, 'open_local_editor', 'yes') === 'yes');
+		$fileName = $this->config->getUserValue($this->userId, Application::APPNAME, 'browsersetting');
+		if ($fileName) {
+			$browserSetting = $this->settingsService->getSettingsFile('userconfig/' . $this->userId,
+				'browsersetting',
+				$fileName);
+			$this->initialState->provideInitialState('browsersetting', $browserSetting->getContent());
+		}
 	}
 }
