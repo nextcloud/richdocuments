@@ -4,6 +4,23 @@
 -->
 # Changelog
 
+## 8.6.5
+
+### Fixed
+- Fix save as on mobile with direct editing by @juliusknorr in [#4742](https://github.com/nextcloud/richdocuments/pull/4742)
+- Fall back to super share if share token is not available by @blizzz in [#4737](https://github.com/nextcloud/richdocuments/pull/4737)
+- Do not fetch remote Collabora URL for own server by @elzody in [#4734](https://github.com/nextcloud/richdocuments/pull/4734)
+- Load WOPI callback URL from initial state into config service by @elzody in [#4685](https://github.com/nextcloud/richdocuments/pull/4685)
+- Load viewer component asynchronously to reduce file size by @elzody in [#4683](https://github.com/nextcloud/richdocuments/pull/4683)
+- Accepted global templates file types by @elzody in [#4679](https://github.com/nextcloud/richdocuments/pull/4679)
+- Send UI theme input to COOL settings iframe by @codewithvk in [#4668](https://github.com/nextcloud/richdocuments/pull/4668)
+- userId undefined issue for template by @codewithvk in [#4666](https://github.com/nextcloud/richdocuments/pull/4666)
+
+### Other
+- npm audits
+- Dependency updates
+- Improve tests and CI workflows
+
 ## 8.6.4
 
 ### Added
