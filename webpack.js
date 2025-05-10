@@ -34,7 +34,7 @@ webpackConfig.module.rules.push({
 })
 
 // Add typescript extension resolver
-webpackConfig.resolve.extensions.push('.tsx')
+webpackConfig.resolve.extensions = ['.*', '.ts', '.js', '.vue', '.tsx']
 
 // Export final config
 module.exports = webpackConfig

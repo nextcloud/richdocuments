@@ -4,7 +4,7 @@
  */
 import { basename } from 'path'
 import axios from '@nextcloud/axios'
-import { User, addCommands } from '@nextcloud/cypress'
+import { User, addCommands } from '@nextcloud/e2e-test-server'
 
 addCommands()
 
