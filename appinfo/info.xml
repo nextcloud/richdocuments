@@ -24,6 +24,7 @@ You can also edit your documents off-line with the Collabora Office app from the
 	<category>office</category>
 	<category>integration</category>
 	<website>https://collaboraoffice.com/</website>
+	<discussion>https://help.nextcloud.com/c/support/office</discussion>
 	<bugs>https://github.com/nextcloud/richdocuments/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/richdocuments.git</repository>
 	<screenshot>https://github.com/nextcloud/richdocuments/raw/main/screenshots/Nextcloud-writer.png</screenshot>
