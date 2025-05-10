@@ -101,6 +101,7 @@ OC.L10N.register(
     "Select file" : "Vali fail",
     "Select file or folder to link to" : "Vali lingitav fail või kaust",
     "{productName} is not configured" : "{productName} ei ole seadistatud",
+    "Loading {filename} …" : "Laadin vormi: {filename}…",
     "Document loading failed" : "Dokumendi laadimine ebaõnnestus",
     "Close" : "Sulge",
     "Edit" : "Redigeeri",
