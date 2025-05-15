@@ -162,6 +162,12 @@ class PermissionManager {
 			return true;
 		}
 
+		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareTalkPublic', 'no') === 'yes') {
+			if ($userId === null && $share->getShareType() === IShare::TYPE_ROOM) {
+				return true;
+			}
+		}
+
 		if ($userId !== null && $this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_allGroups', 'no') === 'yes') {
 			$groups = $this->appConfig->getAppValueArray('watermark_allGroupsList');
 			foreach ($groups as $group) {
