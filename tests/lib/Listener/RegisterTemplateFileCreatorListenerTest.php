@@ -53,6 +53,7 @@ class RegisterTemplateFileCreatorListenerTest extends TestCase {
 		$event = $this->createMock(RegisterTemplateCreatorEvent::class);
 		$event->method('getTemplateManager')->willReturn($this->templateManager);
 		$this->permissionManager->method('isEnabledForUser')->willReturn(false);
+		$this->permissionManager->method('userCanEdit')->willReturn(true);
 		$this->capabilitiesService->method('getCapabilities')->willReturn([]);
 
 		$listener = new RegisterTemplateFileCreatorListener(
@@ -70,6 +71,7 @@ class RegisterTemplateFileCreatorListenerTest extends TestCase {
 		$event = $this->createMock(RegisterTemplateCreatorEvent::class);
 		$event->method('getTemplateManager')->willReturn($this->templateManager);
 		$this->permissionManager->method('isEnabledForUser')->willReturn(true);
+		$this->permissionManager->method('userCanEdit')->willReturn(true);
 		$this->capabilitiesService->method('getCapabilities')->willReturn(['something']);
 		$this->capabilitiesService->method('hasDrawSupport')->willReturn(true);
 		$this->config->method('getAppValue')->willReturn('ooxml');
@@ -91,6 +93,7 @@ class RegisterTemplateFileCreatorListenerTest extends TestCase {
 		$event = $this->createMock(RegisterTemplateCreatorEvent::class);
 		$event->method('getTemplateManager')->willReturn($this->templateManager);
 		$this->permissionManager->method('isEnabledForUser')->willReturn(true);
+		$this->permissionManager->method('userCanEdit')->willReturn(true);
 		$this->capabilitiesService->method('getCapabilities')->willReturn(['something']);
 		$this->capabilitiesService->method('hasDrawSupport')->willReturn(false);
 		$this->config->method('getAppValue')->willReturn('ooxml');
@@ -105,6 +108,24 @@ class RegisterTemplateFileCreatorListenerTest extends TestCase {
 			$this->capabilitiesService,
 			$this->permissionManager
 		);
+		$listener->handle($event);
+	}
+
+	public function testHandleDoesNotRegisterIfUserCannotEdit() {
+		$event = $this->createMock(RegisterTemplateCreatorEvent::class);
+		$event->method('getTemplateManager')->willReturn($this->templateManager);
+		$this->permissionManager->method('isEnabledForUser')->willReturn(true);
+		$this->permissionManager->method('userCanEdit')->willReturn(false);
+		$this->capabilitiesService->method('getCapabilities')->willReturn(['something']);
+
+		$listener = new RegisterTemplateFileCreatorListener(
+			$this->l10n,
+			$this->config,
+			$this->appManager,
+			$this->capabilitiesService,
+			$this->permissionManager
+		);
+		$this->templateManager->expects($this->never())->method('registerTemplateFileCreator');
 		$listener->handle($event);
 	}
 }
