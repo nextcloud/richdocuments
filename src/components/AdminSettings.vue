@@ -310,16 +310,16 @@
 
 		<div v-if="isSetup" id="secure-view-settings" class="section">
 			<h2>{{ t('richdocuments', 'Secure View') }}</h2>
-			<p>{{ t('richdocuments', 'Secure view enables you to secure documents by embedding a watermark') }}</p>
+			<p>{{ t('richdocuments', 'Secure view enables you to secure office documents by blocking downloads, previews and showing a watermark') }}</p>
 			<ul>
 				<li>{{ t('richdocuments', 'The settings only apply to compatible office files that are opened in Nextcloud Office') }}</li>
+				<li>{{ t('richdocuments', 'Downloading the file through WebDAV will be blocked') }}</li>
 				<li>{{ t('richdocuments', 'The following options within Nextcloud Office will be disabled: Copy, Download, Export, Print') }}</li>
-				<li>{{ t('richdocuments', 'Files may still be downloadable through Nextcloud unless restricted otherwise through sharing or access control settings') }}</li>
 				<li>{{ t('richdocuments', 'Files may still be downloadable via WOPI requests if WOPI settings are not correctly configured') }}</li>
-				<li>{{ t('richdocuments', 'Previews will be blocked for watermarked files to not leak the first page of documents') }}</li>
+				<li>{{ t('richdocuments', 'Previews will be blocked') }}</li>
 			</ul>
 			<SettingsCheckbox v-model="settings.watermark.enabled"
-				:label="t('richdocuments', 'Enable watermarking')"
+				:label="t('richdocuments', 'Enable secure view')"
 				hint=""
 				:disabled="updating"
 				@input="update" />
@@ -331,62 +331,67 @@
 				@update="update" />
 			<div v-if="settings.watermark.enabled">
 				<SettingsCheckbox v-model="settings.watermark.allTags"
-					:label="t('richdocuments', 'Show watermark on tagged files')"
+					:label="t('richdocuments', 'Enforce secure view on tagged files')"
 					:disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allTags" class="checkbox-details">
 					<NcSelectTags v-model="settings.watermark.allTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
 				<SettingsCheckbox v-model="settings.watermark.allGroups"
-					:label="t('richdocuments', 'Show watermark for users of groups')"
+					:label="t('richdocuments', 'Enforce secure view for users of groups')"
 					:disabled="updating"
 					@input="update" />
 				<p v-if="settings.watermark.allGroups" class="checkbox-details">
 					<SettingsSelectGroup v-model="settings.watermark.allGroupsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
 				</p>
 				<SettingsCheckbox v-model="settings.watermark.shareAll"
-					:label="t('richdocuments', 'Show watermark for all shares')"
+					:label="t('richdocuments', 'Enforce secure view for all shares')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
 				<SettingsCheckbox v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareRead"
-					:label="t('richdocuments', 'Show watermark for read only shares')"
+					:label="t('richdocuments', 'Enforce secure view for read only shares')"
+					hint=""
+					:disabled="updating"
+					@input="update" />
+				<SettingsCheckbox v-model="settings.watermark.shareTalkPublic"
+					:label="t('richdocuments', 'Enforce secure view for all public Talk shares')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
 				<SettingsCheckbox v-if="!settings.watermark.shareAll"
 					v-model="settings.watermark.shareDisabledDownload"
-					:label="t('richdocuments', 'Show watermark for shares without download permission')"
+					:label="t('richdocuments', 'Enforce secure view for shares without download permission')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
 
 				<h3>Link shares</h3>
 				<SettingsCheckbox v-model="settings.watermark.linkAll"
-					:label="t('richdocuments', 'Show watermark for all link shares')"
+					:label="t('richdocuments', 'Enforce secure view for all link shares')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
 				<SettingsCheckbox v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkSecure"
-					:label="t('richdocuments', 'Show watermark for download hidden shares')"
+					:label="t('richdocuments', 'Enforce secure view for download hidden shares')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
 				<SettingsCheckbox v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkRead"
-					:label="t('richdocuments', 'Show watermark for read only link shares')"
+					:label="t('richdocuments', 'Enforce secure view for read only link shares')"
 					hint=""
 					:disabled="updating"
 					@input="update" />
 				<SettingsCheckbox v-if="!settings.watermark.linkAll"
 					v-model="settings.watermark.linkTags"
-					:label="t('richdocuments', 'Show watermark on link shares with specific system tags')"
+					:label="t('richdocuments', 'Enforce secure view on link shares with specific system tags')"
 					:disabled="updating"
 					@input="update" />
 				<p v-if="!settings.watermark.linkAll && settings.watermark.linkTags" class="checkbox-details">
-					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce watermarking')" @input="update" />
+					<NcSelectTags v-model="settings.watermark.linkTagsList" :label="t('richdocuments', 'Select tags to enforce secure view')" @input="update" />
 				</p>
 			</div>
 		</div>
@@ -512,6 +517,7 @@ export default {
 					enabled: false,
 					shareAll: false,
 					shareRead: false,
+					shareTalkPublic: true,
 					linkSecure: false,
 					linkRead: false,
 					linkAll: false,
