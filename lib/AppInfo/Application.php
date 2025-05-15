@@ -20,6 +20,7 @@ use OCA\Richdocuments\Listener\BeforeTemplateRenderedListener;
 use OCA\Richdocuments\Listener\FileCreatedFromTemplateListener;
 use OCA\Richdocuments\Listener\LoadAdditionalListener;
 use OCA\Richdocuments\Listener\LoadViewerListener;
+use OCA\Richdocuments\Listener\OverwritePublicSharePropertiesListener;
 use OCA\Richdocuments\Listener\ReferenceListener;
 use OCA\Richdocuments\Listener\RegisterTemplateFileCreatorListener;
 use OCA\Richdocuments\Listener\ShareLinkListener;
@@ -32,6 +33,7 @@ use OCA\Richdocuments\Preview\OOXML;
 use OCA\Richdocuments\Preview\OpenDocument;
 use OCA\Richdocuments\Preview\Pdf;
 use OCA\Richdocuments\Reference\OfficeTargetReferenceProvider;
+use OCA\Richdocuments\Storage\SecureViewWrapper;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationProvider;
 use OCA\Richdocuments\TaskProcessing\SlideDeckGenerationTaskType;
 use OCA\Richdocuments\TaskProcessing\TextToDocumentProvider;
@@ -39,6 +41,7 @@ use OCA\Richdocuments\TaskProcessing\TextToDocumentTaskType;
 use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetProvider;
 use OCA\Richdocuments\TaskProcessing\TextToSpreadsheetTaskType;
 use OCA\Richdocuments\Template\CollaboraTemplateProvider;
+use OCA\Talk\Events\OverwritePublicSharePropertiesEvent;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -47,6 +50,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\RegisterTemplateCreatorEvent;
@@ -62,6 +66,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $this, 'addStorageWrapper');
+
 		$context->registerTemplateProvider(CollaboraTemplateProvider::class);
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleWare(WOPIMiddleware::class);
@@ -76,6 +82,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(RenderReferenceEvent::class, ReferenceListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeGetTemplatesEvent::class, BeforeGetTemplatesListener::class);
+		$context->registerEventListener(OverwritePublicSharePropertiesEvent::class, OverwritePublicSharePropertiesListener::class);
 		$context->registerReferenceProvider(OfficeTargetReferenceProvider::class);
 		$context->registerSensitiveMethods(WopiMapper::class, [
 			'getPathForToken',
@@ -100,5 +107,31 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
+	}
+
+	/**
+	 * @internal
+	 */
+	public function addStorageWrapper(): void {
+		// FIXME: We can skip this if secure view is not enabled at all
+		// Needs to be added as the first layer
+		\OC\Files\Filesystem::addStorageWrapper('richdocuments', [$this, 'addStorageWrapperCallback'], -10);
+	}
+
+	/**
+	 * @param $mountPoint
+	 * @param IStorage $storage
+	 * @return SecureViewWrapper|IStorage
+	 *@internal
+	 */
+	public function addStorageWrapperCallback($mountPoint, IStorage $storage) {
+		if (!\OC::$CLI && $mountPoint !== '/') {
+			return new SecureViewWrapper([
+				'storage' => $storage,
+				'mountPoint' => $mountPoint,
+			]);
+		}
+
+		return $storage;
 	}
 }
