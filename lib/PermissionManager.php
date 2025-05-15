@@ -117,6 +117,10 @@ class PermissionManager {
 			return false;
 		}
 
+		if (!in_array($node->getMimetype(), $this->appConfig->getMimeTypes(), true)) {
+			return false;
+		}
+
 		$fileId = $node->getId();
 
 		$isUpdatable = $node->isUpdateable() && (!$share || $share->getPermissions() & Constants::PERMISSION_UPDATE);
@@ -163,7 +167,7 @@ class PermissionManager {
 		}
 
 		if ($this->config->getAppValue(AppConfig::WATERMARK_APP_NAMESPACE, 'watermark_shareTalkPublic', 'no') === 'yes') {
-			if ($userId === null && $share->getShareType() === IShare::TYPE_ROOM) {
+			if ($userId === null && $share?->getShareType() === IShare::TYPE_ROOM) {
 				return true;
 			}
 		}

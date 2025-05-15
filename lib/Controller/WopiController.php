@@ -135,6 +135,9 @@ class WopiController extends Controller {
 		$isSmartPickerEnabled = (bool)$wopi->getCanwrite() && !$isPublic && !$wopi->getDirect();
 		$isTaskProcessingEnabled = $isSmartPickerEnabled && $this->taskProcessingManager->isTaskProcessingEnabled();
 
+		$share = $this->getShareForWopiToken($wopi, $file);
+		$shouldUseSecureView = $this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share);
+
 		// If the file is locked manually by a user we want to open it read only for all others
 		$canWriteThroughLock = true;
 		try {
@@ -156,7 +159,7 @@ class WopiController extends Controller {
 			'UserExtraInfo' => [],
 			'UserPrivateInfo' => [],
 			'UserCanWrite' => $canWriteThroughLock && (bool)$wopi->getCanwrite(),
-			'UserCanNotWriteRelative' => $isPublic || $this->encryptionManager->isEnabled() || $wopi->getHideDownload() || $wopi->isRemoteToken(),
+			'UserCanNotWriteRelative' => $isPublic || $this->encryptionManager->isEnabled() || $wopi->getHideDownload() || $wopi->isRemoteToken() || $shouldUseSecureView,
 			'PostMessageOrigin' => $wopi->getServerHost(),
 			'LastModifiedTime' => Helper::toISO8601($file->getMTime()),
 			'SupportsRename' => !$isVersion && !$wopi->isRemoteToken(),
@@ -166,11 +169,11 @@ class WopiController extends Controller {
 			'EnableShare' => $file->isShareable() && !$isVersion && !$isPublic,
 			'HideUserList' => '',
 			'EnableOwnerTermination' => $wopi->getCanwrite() && !$isPublic,
-			'DisablePrint' => $wopi->getHideDownload(),
-			'DisableExport' => $wopi->getHideDownload(),
-			'DisableCopy' => $wopi->getHideDownload(),
-			'HideExportOption' => $wopi->getHideDownload(),
-			'HidePrintOption' => $wopi->getHideDownload(),
+			'DisablePrint' => $wopi->getHideDownload() || $shouldUseSecureView,
+			'DisableExport' => $wopi->getHideDownload() || $shouldUseSecureView,
+			'DisableCopy' => $wopi->getHideDownload() || $shouldUseSecureView,
+			'HideExportOption' => $wopi->getHideDownload() || $shouldUseSecureView,
+			'HidePrintOption' => $wopi->getHideDownload() || $shouldUseSecureView,
 			'DownloadAsPostMessage' => $wopi->getDirect(),
 			'SupportsLocks' => $this->lockManager->isLockProviderAvailable(),
 			'IsUserLocked' => $this->permissionManager->userIsFeatureLocked($wopi->getEditorUid()),
@@ -223,8 +226,7 @@ class WopiController extends Controller {
 			$response['TemplateSource'] = $this->getWopiUrlForTemplate($wopi);
 		}
 
-		$share = $this->getShareForWopiToken($wopi, $file);
-		if ($this->permissionManager->shouldWatermark($file, $wopi->getEditorUid(), $share)) {
+		if ($shouldUseSecureView) {
 			$email = $user !== null && !$isPublic ? $user->getEMailAddress() : '';
 			$currentDateTime = new \DateTime(
 				'now',
