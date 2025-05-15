@@ -109,6 +109,7 @@ jobs:
           mkdir data
           echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ config:system:set overwrite.cli.url --value="http://172.17.0.1:8081"
           ./occ app:enable --force ${{ env.APP_NAME }}
 
       - name: Run ${{ matrix.scenarios }} integration tests
@@ -188,6 +189,7 @@ jobs:
           mkdir data
           echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ config:system:set overwrite.cli.url --value="http://172.17.0.1:8081"
           ./occ app:enable --force ${{ env.APP_NAME }}
 
       - name: Run ${{ matrix.scenarios }} integration tests
@@ -269,6 +271,7 @@ jobs:
           mkdir data
           echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ config:system:set overwrite.cli.url --value="http://172.17.0.1:8081"
           ./occ app:enable --force ${{ env.APP_NAME }}
 
       - name: Run ${{ matrix.scenarios }} integration tests
@@ -359,6 +362,7 @@ jobs:
           echo '<?php $CONFIG=["memcache.local"=>"\OC\Memcache\APCu","hashing_default_password"=>true];' > config/config.php
           ./occ maintenance:install --verbose --database=oci --database-name=XE --database-host=127.0.0.1 --database-port=1521 --database-user=autotest --database-pass=owncloud --admin-user admin --admin-pass password
           php -f index.php
+          ./occ config:system:set overwrite.cli.url --value="http://172.17.0.1:8081"
           ./occ app:enable --force ${{ env.APP_NAME }}
 
       - name: Run ${{ matrix.scenarios }} integration tests
