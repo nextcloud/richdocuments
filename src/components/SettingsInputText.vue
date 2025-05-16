@@ -6,26 +6,29 @@
 <template>
 	<form @submit.prevent="submit">
 		<div class="input-wrapper">
-			<label :for="id">{{ label }}</label>
-			<input :id="id"
-				v-model="inputVal"
-				type="text"
+			<NcTextField v-model="inputVal"
+				:label="label"
 				:disabled="disabled"
-				@input="$emit('input', $event.target.value)">
-			<input type="submit"
-				class="icon-confirm"
-				value="">
+				@input="$emit('input', $event.target.value)" />
+			<NcButton type="submit"
+				:disabled="disabled"
+				@click="submit">
+				{{ t('richdocuments', 'Save') }}
+			</NcButton>
 		</div>
-		<p v-if="hint !== ''" class="hint">
-			{{ hint }}
-		</p>
 	</form>
 </template>
 
 <script>
-let uuid = 0
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+
 export default {
 	name: 'SettingsInputText',
+	components: {
+		NcTextField,
+		NcButton,
+	},
 	props: {
 		label: {
 			type: String,
@@ -49,19 +52,10 @@ export default {
 			inputVal: this.value,
 		}
 	},
-	computed: {
-		id() {
-			return 'settings-input-text-' + this.uuid
-		},
-	},
 	watch: {
 		value(newVal) {
 			this.inputVal = newVal
 		},
-	},
-	beforeCreate() {
-		this.uuid = uuid.toString()
-		uuid += 1
 	},
 	methods: {
 		submit() {
@@ -74,16 +68,14 @@ export default {
 <style scoped>
 	.input-wrapper {
 		display: flex;
-		flex-wrap: wrap;
 		width: 100%;
+		gap: calc(var(--default-grid-baseline) * 2);
+		align-items: baseline;
+	}
+
+	.input-field {
+		width: auto;
 		max-width: 400px;
-	}
-
-	label {
-		width: 100%;
-	}
-
-	input[type=text] {
 		flex-grow: 1;
 	}
 
