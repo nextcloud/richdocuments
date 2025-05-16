@@ -11,6 +11,7 @@ namespace OCA\Richdocuments\Storage;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Richdocuments\Middleware\WOPIMiddleware;
 use OCA\Richdocuments\PermissionManager;
+use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\ISharedStorage;
@@ -46,7 +47,8 @@ class SecureViewWrapper extends Wrapper {
 		$isWopiRequest = $this->wopiMiddleware->isWOPIRequest();
 
 		$isSharedStorage = $this->instanceOfStorage(ISharedStorage::class);
-		$node = $this->rootFolder->get($this->mountPoint)->get($path);
+		$mountNode = $this->rootFolder->get($this->mountPoint);
+		$node = $mountNode instanceof Folder ? $mountNode->get($path) : $mountNode;
 		$share = $isSharedStorage && method_exists($this, 'getShare') ? $this->getShare() : null;
 		$userId = $this->userSession->getUser()?->getUID();
 
