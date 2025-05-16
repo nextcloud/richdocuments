@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
       <code><![CDATA[[]]]></code>
@@ -7,6 +7,11 @@
     <RedundantCondition>
       <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
     </RedundantCondition>
+  </file>
+  <file src="lib/AppInfo/Application.php">
+    <MissingDependency>
+      <code><![CDATA[SecureViewWrapper|IStorage]]></code>
+    </MissingDependency>
   </file>
   <file src="lib/Command/ActivateConfig.php">
     <UndefinedClass>
