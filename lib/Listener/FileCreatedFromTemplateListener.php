@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Listener;
 
+use Exception;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\TemplateFieldService;
@@ -59,7 +60,7 @@ class FileCreatedFromTemplateListener implements IEventListener {
 			try {
 				$filledTemplate = $this->templateFieldService->fillFields($templateFile, $event->getTemplateFields(), null, $event->getTarget()->getExtension());
 				$event->getTarget()->putContent($filledTemplate);
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
 			}
 		} else {

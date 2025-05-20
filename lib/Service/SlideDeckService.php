@@ -7,6 +7,7 @@
 
 namespace OCA\Richdocuments\Service;
 
+use JsonException;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\TemplateManager;
 use OCP\IConfig;
@@ -48,7 +49,7 @@ EOF;
 
 		try {
 			$parsedStructure = $this->parseModelJSON($rawModelOutput);
-		} catch (\JsonException) {
+		} catch (JsonException) {
 			throw new RuntimeException('LLM generated faulty JSON data');
 		}
 

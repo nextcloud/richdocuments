@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\External\Storage as SharingExternalStorage;
 use OCA\Richdocuments\AppConfig;
@@ -25,10 +26,12 @@ use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ITrustedDomainHelper;
+use OCP\Server;
 use OCP\Share\IShare;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class FederationService {
 	/** @var ICache */
@@ -48,7 +51,7 @@ class FederationService {
 	) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		try {
-			$this->trustedServers = \OCP\Server::get(\OCA\Federation\TrustedServers::class);
+			$this->trustedServers = Server::get(TrustedServers::class);
 		} catch (NotFoundExceptionInterface|ContainerExceptionInterface|AutoloadNotAllowedException) {
 		}
 	}
@@ -64,7 +67,7 @@ class FederationService {
 	/**
 	 * @param $remote
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getRemoteCollaboraURL($remote) {
 		// If no protocol is provided we default to https
@@ -73,7 +76,7 @@ class FederationService {
 		}
 
 		if (!$this->isTrustedRemote($remote)) {
-			throw new \Exception('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
+			throw new Exception('Unable to determine collabora URL of remote server ' . $remote . ' - Remote is not a trusted server');
 		}
 
 		if ($this->trustedDomainHelper->isTrustedUrl($remote)) {
@@ -91,7 +94,7 @@ class FederationService {
 			$remoteCollabora = $data['ocs']['data']['wopi_url'];
 			$this->cache->set('richdocuments_remote/' . $remote, $remoteCollabora, 3600);
 			return $remoteCollabora;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			$this->logger->info('Unable to determine collabora URL of remote server ' . $remote, ['exception' => $e]);
 			$this->cache->set('richdocuments_remote/' . $remote, '', 300);
 		}
@@ -176,7 +179,7 @@ class FederationService {
 			$this->logger->debug('COOL-Federation-Source: Received remote file details for ' . $remoteToken . ' from ' . $remote . ': ' . json_encode($data['ocs']['data']));
 			$this->cache->set($cacheKey, $data['ocs']['data']);
 			return Wopi::fromParams($data['ocs']['data']);
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			$this->logger->error($e->getMessage(), ['message' => 'COOL-Federation-Source: Unable to fetch remote file details for ' . $remoteToken . ' from ' . $remote, 'exception' => $e]);
 		}
 		return null;

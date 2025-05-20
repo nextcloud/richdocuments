@@ -26,6 +26,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class TokenManager {
 	public function __construct(
@@ -61,7 +62,7 @@ class TokenManager {
 			}
 
 			$owneruid = $share->getShareOwner();
-			$updatable = (bool)($share->getPermissions() & \OCP\Constants::PERMISSION_UPDATE);
+			$updatable = (bool)($share->getPermissions() & Constants::PERMISSION_UPDATE);
 			$updatable = $updatable && $this->permissionManager->userCanEdit($owneruid);
 			$hideDownload = $share->getHideDownload();
 			$userFolder = $this->rootFolder->getUserFolder($owneruid);
@@ -182,7 +183,7 @@ class TokenManager {
 
 		$updatable = $targetFile->isUpdateable();
 		if (!is_null($sharePermissions)) {
-			$shareUpdatable = (bool)($sharePermissions & \OCP\Constants::PERMISSION_UPDATE);
+			$shareUpdatable = (bool)($sharePermissions & Constants::PERMISSION_UPDATE);
 			$updatable = $updatable && $shareUpdatable;
 		}
 
@@ -272,7 +273,7 @@ class TokenManager {
 	public function getUrlSrcForMimeType(string $type): ?string {
 		try {
 			return $this->wopiParser->getUrlSrcValue($type);
-		} catch (\Throwable $e) {
+		} catch (Throwable) {
 			return null;
 		}
 	}

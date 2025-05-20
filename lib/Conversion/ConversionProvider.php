@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Conversion;
 
+use Exception;
 use OCA\Richdocuments\Service\RemoteService;
 use OCP\Files\Conversion\ConversionMimeProvider;
 use OCP\Files\Conversion\IConversionProvider;
@@ -136,7 +137,7 @@ class ConversionProvider implements IConversionProvider {
 	public function convertFile(File $file, string $targetMimeType): mixed {
 		$targetFileExtension = $this->getExtensionForMimeType($targetMimeType);
 		if ($targetFileExtension === null) {
-			throw new \Exception($this->l10n->t(
+			throw new Exception($this->l10n->t(
 				'Unable to determine the proper file extension for %1$s',
 				[$targetMimeType]
 			));
@@ -160,7 +161,7 @@ class ConversionProvider implements IConversionProvider {
 				$this->l10n->t('Unable to fetch information on %1$s',
 					[$outputMimeType]
 				));
-			throw new \Exception();
+			throw new Exception();
 		}
 
 		$conversionMimeProviders = [];

@@ -63,7 +63,7 @@ class Notifier implements INotifier {
 
 				try {
 					$userFolder = $this->rootFolder->getUserFolder($targetUser);
-				} catch (NotPermittedException|NoUserException $e) {
+				} catch (NotPermittedException|NoUserException) {
 					throw new UnknownNotificationException();
 				}
 				$node = $userFolder->getFirstNodeById($fileId);

@@ -10,23 +10,25 @@ namespace OCA\Richdocuments\Middleware;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCP\IConfig;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class WOPIMiddlewareTest extends \PHPUnit\Framework\TestCase {
+class WOPIMiddlewareTest extends TestCase {
 	/**
-	 * @var IConfig|(IConfig&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+	 * @var IConfig|IConfig&MockObject|MockObject
 	 */
 	private $config;
 	/**
-	 * @var IRequest|(IRequest&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+	 * @var IRequest|IRequest&MockObject|MockObject
 	 */
 	private $request;
 	/**
-	 * @var WopiMapper|(WopiMapper&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
+	 * @var WopiMapper|WopiMapper&MockObject|MockObject
 	 */
 	private $wopiMapper;
 	/**
-	 * @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface|(LoggerInterface&\PHPUnit\Framework\MockObject\MockObject)
+	 * @var MockObject|LoggerInterface|LoggerInterface&MockObject
 	 */
 	private $logger;
 	private WOPIMiddleware $middleware;

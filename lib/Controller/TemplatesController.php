@@ -8,14 +8,19 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Controller;
 
+use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OCA\Richdocuments\TemplateManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -54,11 +59,6 @@ class TemplatesController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * Get preview for a specific template
 	 *
 	 * @param int $fileId The template id
 	 * @param int $x
@@ -69,6 +69,9 @@ class TemplatesController extends Controller {
 	 * @return DataResponse
 	 * @throws NotFoundResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function getPreview($fileId,
 		$x = 150,
 		$y = 150,
@@ -184,7 +187,7 @@ class TemplatesController extends Controller {
 		int $y,
 		bool $a = false,
 		bool $forceIcon = true,
-		string $mode = IPreview::MODE_FILL): Http\Response {
+		string $mode = IPreview::MODE_FILL): Response {
 		if (!($node instanceof Node) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -200,7 +203,7 @@ class TemplatesController extends Controller {
 			return $response;
 		} catch (NotFoundException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\InvalidArgumentException) {
+		} catch (InvalidArgumentException) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}

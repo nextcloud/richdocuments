@@ -16,6 +16,7 @@ use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
+use RuntimeException;
 
 class TextToDocumentProvider implements ISynchronousProvider {
 	public const DEFAULT_TARGET_FORMAT = 'docx';
@@ -92,11 +93,11 @@ class TextToDocumentProvider implements ISynchronousProvider {
 	 */
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		if ($userId === null) {
-			throw new \RuntimeException('User ID is required to process the prompt.');
+			throw new RuntimeException('User ID is required to process the prompt.');
 		}
 
 		if (!isset($input['text']) || !is_string($input['text'])) {
-			throw new \RuntimeException('Invalid input, expected "text" key with string value');
+			throw new RuntimeException('Invalid input, expected "text" key with string value');
 		}
 
 		$targetFormat = self::DEFAULT_TARGET_FORMAT;

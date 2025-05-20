@@ -22,7 +22,7 @@ return RectorConfig::configure()
 	->withPhpSets(php80: true)
 	->withTypeCoverageLevel(0)
 	->withSets([
-		// NextcloudSets::NEXTCLOUD_30,
+		NextcloudSets::NEXTCLOUD_30,
 	])
 	->withSkip([
 		// ReadOnlyPropertyRector::class,

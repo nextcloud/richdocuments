@@ -6,12 +6,14 @@
  */
 namespace OCA\Richdocuments;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Service\FederationService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\IConfig;
+use OCP\Server;
 
 class AppConfig {
 	// URL that Nextcloud will use to connect to Collabora
@@ -220,13 +222,13 @@ class AppConfig {
 			return [];
 		}
 
-		$federationService = \OCP\Server::get(FederationService::class);
+		$federationService = Server::get(FederationService::class);
 		$trustedNextcloudDomains = array_filter(array_map(fn ($server) => $federationService->isTrustedRemote($server) ? $server : null, $federationService->getTrustedServers()));
 
 		$trustedCollaboraDomains = array_filter(array_map(function ($server) use ($federationService) {
 			try {
 				return $federationService->getRemoteCollaboraURL($server);
-			} catch (\Exception) {
+			} catch (Exception) {
 				// If there is no remote collabora server we can just skip that
 				return null;
 			}

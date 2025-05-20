@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Db\WopiMapper;
 use OCA\Richdocuments\TemplateManager;
@@ -20,6 +21,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -33,7 +35,7 @@ class SettingsService {
 	private const INVALIDATE_FILE_LIST_CACHE_AFTER_SECONDS = 3600;
 
 	/**
-	 * @var \OCP\ICache
+	 * @var ICache
 	 */
 	private $cache;
 
@@ -72,14 +74,14 @@ class SettingsService {
 		if ($type === 'userconfig') {
 			try {
 				$baseFolder = $baseFolder->getFolder($userId);
-			} catch (NotFoundException $e) {
+			} catch (NotFoundException) {
 				$baseFolder = $baseFolder->newFolder($userId);
 			}
 		}
 
 		try {
 			$categoryFolder = $baseFolder->getFolder($category);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$categoryFolder = $baseFolder->newFolder($category);
 		}
 
@@ -120,18 +122,16 @@ class SettingsService {
 	public function getCategoryFileList(string $type, string $category, string $token): array {
 		try {
 			$categoryFolder = $this->appData->getFolder($type . '/' . $category);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return [];
 		}
 
 		$files = $categoryFolder->getDirectoryListing();
 
-		return array_map(function (ISimpleFile $file) use ($type, $category, $token) {
-			return [
-				'stamp' => $file->getETag(),
-				'uri' => $this->generateFileUri($type, $category, $file->getName(), $token),
-			];
-		}, $files);
+		return array_map(fn (ISimpleFile $file) => [
+			'stamp' => $file->getETag(),
+			'uri' => $this->generateFileUri($type, $category, $file->getName(), $token),
+		], $files);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class SettingsService {
 		try {
 			$this->templateManager->setUserId($userId);
 			return $this->templateManager->getUserTemplateDir()->getEtag();
-		} catch (\Exception $e) {
+		} catch (Exception) {
 			return '';
 		}
 	}
@@ -203,13 +203,11 @@ class SettingsService {
 		$this->templateManager->setUserId($userId);
 		$templates = array_filter(
 			$type === 'systemconfig' ? $this->templateManager->getSystem('presentation') : $this->templateManager->getUser('presentation'),
-			function ($template) {
-				return in_array(
-					$template->getMimeType(),
-					self::SUPPORTED_PRESENTATION_MIMES,
-					true
-				);
-			}
+			fn ($template) => in_array(
+				$template->getMimeType(),
+				self::SUPPORTED_PRESENTATION_MIMES,
+				true
+			)
 		);
 
 		$result = [];
@@ -268,7 +266,7 @@ class SettingsService {
 				}
 			}
 			return $categories;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return [];
 		}
 	}
@@ -285,7 +283,7 @@ class SettingsService {
 				return [];
 			}
 			return $folder->getDirectoryListing();
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return [];
 		}
 	}
@@ -304,7 +302,7 @@ class SettingsService {
 		$rootFolder = $this->rootFolder;
 		try {
 			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			$baseFolder = $this->appData->newFolder($type);
 			$folder = $rootFolder->get('appdata_' . $instanceId . '/richdocuments' . '/' . $type);
 		}
@@ -330,7 +328,7 @@ class SettingsService {
 	 */
 	private function generateFileUri(string $type, string $category, string $fileName, string $token, ?int $identifier = null): string {
 		// Passing userId is dangerous so we have to trim from url...
-		if (strpos($type, '/') !== false) {
+		if (str_contains($type, '/')) {
 			$type = explode('/', $type)[0];
 		}
 
@@ -369,7 +367,7 @@ class SettingsService {
 
 		try {
 			return $categoryFolder->getFile($name);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			throw new NotFoundException("File '{$name}' not found in category '{$category}' for type '{$type}'.");
 		}
 	}
@@ -391,7 +389,7 @@ class SettingsService {
 		if ($type === 'userconfig') {
 			try {
 				$baseFolder = $baseFolder->getFolder($userId);
-			} catch (NotFoundException $e) {
+			} catch (NotFoundException) {
 				throw new NotFoundException("User folder '{$userId}' not found.");
 			}
 		}
@@ -408,9 +406,7 @@ class SettingsService {
 			}
 			$categoryFolder->getFile($name)->delete();
 			$this->refreshFolderEtag($type);
-		} catch (NotFoundException $e) {
-			throw $e;
-		} catch (NotPermittedException $e) {
+		} catch (NotFoundException|NotPermittedException $e) {
 			throw $e;
 		}
 	}

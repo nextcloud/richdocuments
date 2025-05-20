@@ -36,6 +36,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -142,12 +143,12 @@ class DocumentController extends Controller {
 				}
 			}
 
-			$encryptionManager = \OCP\Server::get(IEncryptionManager::class);
+			$encryptionManager = Server::get(IEncryptionManager::class);
 			if ($encryptionManager->isEnabled()) {
 				// Update the current file to be accessible with system public shared key
 				$owner = $file->getOwner()->getUID();
 				$absPath = '/' . $owner . '/' . $file->getInternalPath();
-				$accessList = \OCP\Server::get(EncryptionFilesHelper::class)->getAccessList($absPath);
+				$accessList = Server::get(EncryptionFilesHelper::class)->getAccessList($absPath);
 				$accessList['public'] = true;
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
 			}

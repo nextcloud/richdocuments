@@ -6,6 +6,7 @@
  */
 namespace OCA\Richdocuments\Preview;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Capabilities;
 use OCA\Richdocuments\Service\RemoteService;
@@ -49,7 +50,7 @@ abstract class Office implements IProviderV2 {
 				$image->scaleDownToFit($maxX, $maxY);
 				return $image;
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->info('Failed to convert preview: ' . $e->getMessage(), ['exception' => $e]);
 			return null;
 		}

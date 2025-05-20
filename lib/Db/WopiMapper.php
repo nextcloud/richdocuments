@@ -11,10 +11,12 @@ use OCA\Richdocuments\Exceptions\ExpiredTokenException;
 use OCA\Richdocuments\Exceptions\UnknownTokenException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
+use SensitiveParameter;
 
 /** @template-extends QBMapper<Wopi> */
 class WopiMapper extends QBMapper {
@@ -113,7 +115,7 @@ class WopiMapper extends QBMapper {
 	 * @throws UnknownTokenException
 	 */
 	public function getPathForToken(
-		#[\SensitiveParameter]
+		#[SensitiveParameter]
 		$token,
 	): Wopi {
 		return $this->getWopiForToken($token);
@@ -130,7 +132,7 @@ class WopiMapper extends QBMapper {
 	 * @throws ExpiredTokenException
 	 */
 	public function getWopiForToken(
-		#[\SensitiveParameter]
+		#[SensitiveParameter]
 		string $token,
 	): Wopi {
 		$qb = $this->db->getQueryBuilder();
@@ -173,7 +175,7 @@ class WopiMapper extends QBMapper {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return int[]
-	 * @throws \OCP\DB\Exception
+	 * @throws Exception
 	 */
 	public function getExpiredTokenIds(?int $limit = null, ?int $offset = null): array {
 		$qb = $this->db->getQueryBuilder();

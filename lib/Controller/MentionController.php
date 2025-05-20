@@ -7,6 +7,7 @@
 
 namespace OCA\Richdocuments\Controller;
 
+use DateTime;
 use OCA\Richdocuments\AppInfo\Application;
 use OCA\Richdocuments\Notification\Notifier;
 use OCP\AppFramework\Controller;
@@ -68,7 +69,7 @@ class MentionController extends Controller {
 			->setObject('file', (string)$fileId);
 
 		if ($this->manager->getCount($notification) === 0) {
-			$notification->setDateTime(\DateTime::createFromImmutable($this->timeFactory->now()));
+			$notification->setDateTime(DateTime::createFromImmutable($this->timeFactory->now()));
 			$this->manager->notify($notification);
 			return new DataResponse([], Http::STATUS_OK);
 		}

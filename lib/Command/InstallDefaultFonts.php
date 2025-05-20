@@ -6,6 +6,7 @@
  */
 namespace OCA\Richdocuments\Command;
 
+use Exception;
 use OCA\Richdocuments\Service\FontService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +29,7 @@ class InstallDefaultFonts extends Command {
 		try {
 			$this->fontService->installDefaultFonts();
 			return 0;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$output->writeln('<error>Failed to install default fonts</error>');
 			$output->writeln($e->getMessage());
 			$output->writeln($e->getTraceAsString());

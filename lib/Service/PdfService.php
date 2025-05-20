@@ -7,7 +7,9 @@
 
 namespace OCA\Richdocuments\Service;
 
+use Exception;
 use mikehaertl\pdftk\Pdf;
+use OCP\Files\File;
 use OCP\Files\Node;
 use OCP\Files\Template\FieldFactory;
 use OCP\Files\Template\FieldType;
@@ -45,14 +47,14 @@ class PdfService {
 				$index++;
 			}
 			return $templateFields;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to extract fields from PDF: {error}', ['error' => $e->getMessage(), 'exception' => $e]);
 			return [];
 		}
 	}
 
 	public function fillFields(Node $file, array $fieldValues) {
-		if (!$file instanceof \OCP\Files\File) {
+		if (!$file instanceof File) {
 			return;
 		}
 
@@ -77,7 +79,7 @@ class PdfService {
 			$pdf->flatten();
 			$pdf->saveAs($filePath);
 			return file_get_contents($filePath);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to fill fields in PDF: {error}', ['error' => $e->getMessage(), 'exception' => $e]);
 			throw $e;
 		}

@@ -15,6 +15,10 @@ use OCA\Richdocuments\Service\FederationService;
 use OCA\Richdocuments\TemplateManager;
 use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -53,14 +57,12 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
-	 * Init a direct editing session
 	 *
 	 * @param int $fileId
 	 * @return DataResponse
 	 * @throws OCSNotFoundException|OCSBadRequestException
 	 */
+	#[NoAdminRequired]
 	public function createDirect($fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
@@ -89,11 +91,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Generate a direct editing link for a file in a public share to open with the current user
 	 *
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=richdocumentsCreatePublic)
-	 * @PublicPage
 	 * @throws OCSForbiddenException
 	 */
+	#[BruteForceProtection(action: 'richdocumentsCreatePublic')]
+	#[NoAdminRequired]
+	#[PublicPage]
 	public function createPublic(
 		string $shareToken,
 		?string $host = null,
@@ -176,11 +178,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=richdocumentsCreatePublicFromInitiator)
 	 * @throws OCSForbiddenException
 	 */
+	#[BruteForceProtection(action: 'richdocumentsCreatePublicFromInitiator')]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function createPublicFromInitiator(
 		string $initiatorServer,
 		string $initiatorToken,
@@ -222,11 +224,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * Generate a direct editing link for a file in a public share to open with the current user
-	 *
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=richdocumentsCreatePublic)
-	 * @PublicPage
 	 */
+	#[BruteForceProtection(action: 'richdocumentsCreatePublic')]
+	#[NoAdminRequired]
+	#[PublicPage]
 	public function updateGuestName(string $access_token, string $guestName): DataResponse {
 		try {
 			$this->tokenManager->updateGuestName($access_token, $guestName);
@@ -243,13 +244,13 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
 	 *
 	 * @param string $type The template type
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
 	public function getTemplates($type) {
 		if (array_key_exists($type, TemplateManager::$tplTypes)) {
 			$templates = $this->manager->getAllFormatted($type);
@@ -259,11 +260,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 *
 	 * @param string $path Where to create the document
 	 * @param int $template The template id
 	 */
+	#[NoAdminRequired]
 	public function createFromTemplate($path, $template) {
 		if ($path === null || $template === null) {
 			throw new OCSBadRequestException('path and template must be set');
@@ -290,7 +291,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (NotFoundException) {
 			throw new OCSNotFoundException();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSException('Failed to create new file from template.');
 		}

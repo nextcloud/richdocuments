@@ -6,6 +6,7 @@
  */
 namespace OCA\Richdocuments\Controller;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Direct;
 use OCA\Richdocuments\Db\DirectMapper;
@@ -17,6 +18,9 @@ use OCA\Richdocuments\TokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -52,14 +56,13 @@ class DirectViewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * @param string $token
 	 * @return JSONResponse|RedirectResponse|TemplateResponse
 	 * @throws NotFoundException
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function show($token) {
 		try {
 			$direct = $this->directMapper->getByToken($token);
@@ -85,7 +88,7 @@ class DirectViewController extends Controller {
 		try {
 			$item = $folder->getFirstNodeById($direct->getFileid());
 			if (!($item instanceof File)) {
-				throw new \Exception();
+				throw new Exception();
 			}
 
 			/** Open file from remote collabora */
@@ -108,7 +111,7 @@ class DirectViewController extends Controller {
 			}
 
 			$urlSrc = $this->tokenManager->getUrlSrc($item);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error('Failed to generate token for existing file on direct editing', ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}
@@ -128,7 +131,7 @@ class DirectViewController extends Controller {
 			];
 
 			return $this->documentTemplateResponse($wopi, $params);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return  $this->renderErrorPage('Failed to open the requested file.');
 		}
@@ -176,7 +179,7 @@ class DirectViewController extends Controller {
 
 				return $this->documentTemplateResponse($wopi, $params);
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $this->renderErrorPage('Failed to open the requested file.');
 		}

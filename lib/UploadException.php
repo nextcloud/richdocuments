@@ -7,5 +7,7 @@
 
 namespace OCA\Richdocuments;
 
-class UploadException extends \Exception {
+use Exception;
+
+class UploadException extends Exception {
 }

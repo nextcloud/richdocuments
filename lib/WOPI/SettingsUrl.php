@@ -17,11 +17,9 @@ class SettingsUrl {
 	private string $type;
 	private string $category;
 	private string $fileName;
-	private string $rawUrl;
 
-	public function __construct(string $url) {
-		$this->rawUrl = $url;
-		$this->parseUrl($url);
+	public function __construct(private string $rawUrl) {
+		$this->parseUrl($this->rawUrl);
 	}
 
 	/**

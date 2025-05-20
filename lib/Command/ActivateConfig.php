@@ -8,6 +8,7 @@
 
 namespace OCA\Richdocuments\Command;
 
+use Exception;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Service\CapabilitiesService;
 use OCA\Richdocuments\Service\ConnectivityService;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class ActivateConfig extends Command {
 	public function __construct(
@@ -59,7 +61,7 @@ class ActivateConfig extends Command {
 
 			try {
 				$this->connectivityService->testDiscovery($output);
-			} catch (\Throwable $e) {
+			} catch (Throwable $e) {
 				$output->writeln('<error>Failed to fetch discovery endpoint from ' . $this->appConfig->getCollaboraUrlInternal());
 				$output->writeln($e->getMessage());
 				return 1;
@@ -67,7 +69,7 @@ class ActivateConfig extends Command {
 
 			try {
 				$this->connectivityService->testCapabilities($output);
-			} catch (\Throwable $e) {
+			} catch (Throwable $e) {
 				// FIXME: Optional when allowing generic WOPI servers
 				$output->writeln('<error>Failed to fetch capabilities endpoint from ' . $this->capabilitiesService->getCapabilitiesEndpoint());
 				$output->writeln($e->getMessage());
@@ -76,7 +78,7 @@ class ActivateConfig extends Command {
 
 			try {
 				$this->connectivityService->autoConfigurePublicUrl();
-			} catch (\Throwable $e) {
+			} catch (Throwable $e) {
 				$output->writeln('<error>Failed to determine public URL from discovery response</error>');
 				$output->writeln($e->getMessage());
 				return 1;
@@ -100,7 +102,7 @@ class ActivateConfig extends Command {
 			}
 
 			return 0;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$output->writeln('<error>Failed to activate any config changes</error>');
 			$output->writeln($e->getMessage());
 			$output->writeln($e->getTraceAsString());
