@@ -16,7 +16,7 @@ trait DocumentTrait {
 	private AppConfig $appConfig;
 
 	private function documentTemplateResponse(Wopi $wopi, array $params): TemplateResponse {
-		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
 		$eventDispatcher->dispatchTyped(new RenderReferenceEvent());
 		$this->initialState->provideDocument($wopi, $params);
 		$response = new TemplateResponse('richdocuments', 'documents', $params, 'base');

@@ -23,6 +23,7 @@ use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Http\Client\IClientService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -37,6 +38,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		string $appName,
 		IRequest $request,
 		private IRootFolder $rootFolder,
+		private IClientService $clientService,
 		private $userId,
 		private DirectMapper $directMapper,
 		private IURLGenerator $urlGenerator,
@@ -105,11 +107,11 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 			$wopi = $this->tokenManager->newInitiatorToken($host, null, $shareToken, true, $this->userId);
 
-			$client = \OC::$server->getHTTPClientService()->newClient();
+			$client = $this->clientService->newClient();
 			try {
 				$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
 					'body' => [
-						'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
+						'initiatorServer' => $this->urlGenerator->getAbsoluteURL(''),
 						'initiatorToken' => $wopi->getToken(),
 						'shareToken' => $shareToken,
 						'path' => $path,

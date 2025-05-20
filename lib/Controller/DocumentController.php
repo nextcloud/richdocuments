@@ -6,7 +6,6 @@
 namespace OCA\Richdocuments\Controller;
 
 use Exception;
-use OC;
 use OC\User\NoUserException;
 use OCA\Richdocuments\AppConfig;
 use OCA\Richdocuments\Db\Wopi;
@@ -24,6 +23,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
+use OCP\Encryption\IFile as EncryptionFilesHelper;
+use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -140,12 +141,12 @@ class DocumentController extends Controller {
 				}
 			}
 
-			$encryptionManager = OC::$server->getEncryptionManager();
+			$encryptionManager = \OCP\Server::get(IEncryptionManager::class);
 			if ($encryptionManager->isEnabled()) {
 				// Update the current file to be accessible with system public shared key
 				$owner = $file->getOwner()->getUID();
 				$absPath = '/' . $owner . '/' . $file->getInternalPath();
-				$accessList = OC::$server->getEncryptionFilesHelper()->getAccessList($absPath);
+				$accessList = \OCP\Server::get(EncryptionFilesHelper::class)->getAccessList($absPath);
 				$accessList['public'] = true;
 				$encryptionManager->getEncryptionModule()->update($absPath, $owner, $accessList);
 			}

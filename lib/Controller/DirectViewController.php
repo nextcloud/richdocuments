@@ -26,6 +26,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Share\IManager as ShareManager;
 use Psr\Log\LoggerInterface;
 
 class DirectViewController extends Controller {
@@ -34,6 +35,7 @@ class DirectViewController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		private ShareManager $shareManager,
 		private IRootFolder $rootFolder,
 		private TokenManager $tokenManager,
 		private DirectMapper $directMapper,
@@ -133,7 +135,7 @@ class DirectViewController extends Controller {
 
 	public function showPublicShare(Direct $direct) {
 		try {
-			$share = \OC::$server->getShareManager()->getShareByToken($direct->getShare());
+			$share = $this->shareManager->getShareByToken($direct->getShare());
 
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
@@ -151,12 +153,11 @@ class DirectViewController extends Controller {
 				return $response;
 			}
 
-			$this->settings = \OC::$server->getConfig();
 			if ($node instanceof Node) {
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $node->getName(),
-					'fileId' => $node->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+					'fileId' => $node->getId() . '_' . $this->config->getSystemValueString('instanceid'),
 					'path' => '/',
 					'userId' => null,
 					'direct' => true,
@@ -164,7 +165,7 @@ class DirectViewController extends Controller {
 				];
 
 				$urlSrc = $this->tokenManager->getUrlSrc($node);
-				$wopi = $this->tokenManager->generateWopiToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
+				$wopi = $this->tokenManager->generateWopiToken((string)$node->getId(), $direct->getShare(), $direct->getUid(), true);
 				if (!empty($direct->getInitiatorHost())) {
 					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 				}
