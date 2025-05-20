@@ -111,7 +111,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			try {
 				$response = $client->post(rtrim($host, '/') . '/ocs/v2.php/apps/richdocuments/api/v1/direct/share/initiator?format=json', [
 					'body' => [
-						'initiatorServer' => \OC::$server->getURLGenerator()->getAbsoluteURL(''),
+						'initiatorServer' => $this->urlGenerator->getAbsoluteURL(''),
 						'initiatorToken' => $wopi->getToken(),
 						'shareToken' => $shareToken,
 						'path' => $path,

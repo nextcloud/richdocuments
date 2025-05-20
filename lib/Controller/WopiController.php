@@ -34,8 +34,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
+use OCP\Contacts\IManager as IContactsManager;
+use OCP\Defaults;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
@@ -125,7 +128,7 @@ class WopiController extends Controller {
 		}
 
 		$isPublic = empty($wopi->getEditorUid());
-		$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
+		$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
 		$user = $this->userManager->get($wopi->getEditorUid());
 		$userDisplayName = $user !== null && !$isPublic ? $user->getDisplayName() : $wopi->getGuestDisplayname();
 		$isVersion = $version !== '0';
@@ -230,7 +233,7 @@ class WopiController extends Controller {
 			$replacements = [
 				'userId' => $wopi->getEditorUid(),
 				'date' => $currentDateTime->format('Y-m-d H:i:s'),
-				'themingName' => \OC::$server->getThemingDefaults()->getName(),
+				'themingName' => \OCP\Server::get(Defaults::class)->getName(),
 				'userDisplayName' => $userDisplayName,
 				'email' => $email,
 			];
@@ -277,16 +280,16 @@ class WopiController extends Controller {
 
 
 	private function setFederationFileInfo(Wopi $wopi, $response) {
-		$response['UserId'] = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
+		$response['UserId'] = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
 
 		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER) {
 			$remoteUserId = $wopi->getGuestDisplayname();
-			$cloudID = \OC::$server->getCloudIdManager()->resolveCloudId($remoteUserId);
+			$cloudID = \OCP\Server::get(ICloudIdManager::class)->resolveCloudId($remoteUserId);
 			$response['UserId'] = $cloudID->getDisplayId();
 			$response['UserFriendlyName'] = $cloudID->getDisplayId();
 			$response['UserExtraInfo']['avatar'] = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => explode('@', $remoteUserId)[0], 'size' => self::WOPI_AVATAR_SIZE]);
 			$cleanCloudId = str_replace(['http://', 'https://'], '', $cloudID->getId());
-			$addressBookEntries = \OC::$server->getContactsManager()->search($cleanCloudId, ['CLOUD']);
+			$addressBookEntries = \OCP\Server::get(IContactsManager::class)->search($cleanCloudId, ['CLOUD']);
 			foreach ($addressBookEntries as $entry) {
 				if (isset($entry['CLOUD'])) {
 					foreach ($entry['CLOUD'] as $cloudID) {
@@ -348,7 +351,7 @@ class WopiController extends Controller {
 			$file = $this->getFileForWopiToken($wopi);
 			\OC_User::setIncognitoMode(true);
 			if ($version !== '0') {
-				$versionManager = \OC::$server->get(IVersionManager::class);
+				$versionManager = \OCP\Server::get(IVersionManager::class);
 				$info = $versionManager->getVersionFile($this->userManager->get($wopi->getUserForFileAccess()), $file, $version);
 				if ($info->getSize() === 0) {
 					$response = new Http\Response();
@@ -362,7 +365,6 @@ class WopiController extends Controller {
 
 					$filesize = $file->getSize();
 					if ($this->request->getHeader('Range')) {
-						$partialContent = true;
 						preg_match('/bytes=(\d+)-(\d+)?/', $this->request->getHeader('Range'), $matches);
 
 						$offset = intval($matches[1] ?? 0);
@@ -373,13 +375,13 @@ class WopiController extends Controller {
 
 						$fp = $file->fopen('rb');
 						$rangeStream = fopen('php://temp', 'w+b');
-						stream_copy_to_stream($fp, $rangeStream, $length, $offset);
+						stream_copy_to_stream($fp, $rangeStream, (int)$length, $offset);
 						fclose($fp);
 
 						fseek($rangeStream, 0);
 						$response = new StreamResponse($rangeStream);
 						$response->addHeader('Accept-Ranges', 'bytes');
-						$response->addHeader('Content-Length', $filesize);
+						$response->addHeader('Content-Length', (string)$filesize);
 						$response->setStatus(Http::STATUS_PARTIAL_CONTENT);
 						$response->addHeader('Content-Range', 'bytes ' . $offset . '-' . ($offset + $length) . '/' . $filesize);
 					} else {
@@ -415,7 +417,7 @@ class WopiController extends Controller {
 			}
 
 			$isPublic = empty($wopi->getEditorUid());
-			$guestUserId = 'Guest-' . \OC::$server->getSecureRandom()->generate(8);
+			$guestUserId = 'Guest-' . \OCP\Server::get(\OCP\Security\ISecureRandom::class)->generate(8);
 			$userId = !$isPublic ? $wopi->getEditorUid() : $guestUserId;
 
 			$userConfig = $this->settingsService->generateSettingsConfig($type, $userId);
@@ -977,7 +979,7 @@ class WopiController extends Controller {
 	 */
 	private function isMasterKeyEnabled(): bool {
 		try {
-			$util = \OC::$server->query(\OCA\Encryption\Util::class);
+			$util = \OCP\Server::get(\OCA\Encryption\Util::class);
 			return $util->isMasterKeyEnabled();
 		} catch (QueryException) {
 			// No encryption module enabled

@@ -153,12 +153,11 @@ class DirectViewController extends Controller {
 				return $response;
 			}
 
-			$this->settings = \OC::$server->getConfig();
 			if ($node instanceof Node) {
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $node->getName(),
-					'fileId' => $node->getId() . '_' . $this->settings->getSystemValue('instanceid'),
+					'fileId' => $node->getId() . '_' . $this->config->getSystemValueString('instanceid'),
 					'path' => '/',
 					'userId' => null,
 					'direct' => true,
@@ -166,7 +165,7 @@ class DirectViewController extends Controller {
 				];
 
 				$urlSrc = $this->tokenManager->getUrlSrc($node);
-				$wopi = $this->tokenManager->generateWopiToken($node->getId(), $direct->getShare(), $direct->getUid(), true);
+				$wopi = $this->tokenManager->generateWopiToken((string)$node->getId(), $direct->getShare(), $direct->getUid(), true);
 				if (!empty($direct->getInitiatorHost())) {
 					$this->tokenManager->upgradeFromDirectInitiator($direct, $wopi);
 				}

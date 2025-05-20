@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
       <code><![CDATA[[]]]></code>
@@ -41,6 +41,12 @@
       <code><![CDATA[$app !== '']]></code>
     </RedundantCondition>
   </file>
+  <file src="lib/Controller/OCSController.php">
+    <UndefinedClass>
+      <code><![CDATA[$e]]></code>
+      <code><![CDATA[BadResponseException]]></code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Controller/SettingsController.php">
     <UndefinedClass>
       <code><![CDATA[NullOutput]]></code>
@@ -59,9 +65,16 @@
     </InvalidThrow>
   </file>
   <file src="lib/Controller/WopiController.php">
+    <InvalidArgument>
+      <code><![CDATA[fn ($matches) => $replacements[$matches[1]]]]></code>
+    </InvalidArgument>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
+    <UndefinedClass>
+      <code><![CDATA[IVersionManager]]></code>
+      <code><![CDATA[\OCA\Encryption\Util]]></code>
+    </UndefinedClass>
     <UndefinedInterfaceMethod>
       <code><![CDATA[putContent]]></code>
       <code><![CDATA[putContent]]></code>

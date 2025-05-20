@@ -48,7 +48,7 @@ class FederationService {
 	) {
 		$this->cache = $cacheFactory->createDistributed('richdocuments_remote/');
 		try {
-			$this->trustedServers = \OC::$server->get(\OCA\Federation\TrustedServers::class);
+			$this->trustedServers = \OCP\Server::get(\OCA\Federation\TrustedServers::class);
 		} catch (NotFoundExceptionInterface|ContainerExceptionInterface|AutoloadNotAllowedException) {
 		}
 	}
