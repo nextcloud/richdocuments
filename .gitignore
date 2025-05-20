@@ -11,6 +11,7 @@ js/
 richdocuments.zip
 build/
 vendor/
+/vendor-bin/**/vendor/
 .php-cs-fixer.cache
 cypress/screenshots/
 

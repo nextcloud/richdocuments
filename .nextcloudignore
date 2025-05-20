@@ -27,9 +27,11 @@ Makefile
 mkdocs.yml
 node_modules
 psalm.xml
+rector.php
 run-eslint.sh
 screenshots
 src
 tests
 tsconfig.json
 webpack.*
+vendor-bin/
