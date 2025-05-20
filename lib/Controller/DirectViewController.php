@@ -26,6 +26,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Share\IManager as ShareManager;
 use Psr\Log\LoggerInterface;
 
 class DirectViewController extends Controller {
@@ -34,6 +35,7 @@ class DirectViewController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		private ShareManager $shareManager,
 		private IRootFolder $rootFolder,
 		private TokenManager $tokenManager,
 		private DirectMapper $directMapper,
@@ -133,7 +135,7 @@ class DirectViewController extends Controller {
 
 	public function showPublicShare(Direct $direct) {
 		try {
-			$share = \OC::$server->getShareManager()->getShareByToken($direct->getShare());
+			$share = $this->shareManager->getShareByToken($direct->getShare());
 
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
