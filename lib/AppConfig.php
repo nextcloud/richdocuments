@@ -256,7 +256,7 @@ class AppConfig {
 		$parsedUrl = parse_url($url);
 		$scheme = isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : '';
 		$host = $parsedUrl['host'] ?? '';
-		$port = isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '';
+		$port = isset($parsedUrl['port']) ? ':' . (string)$parsedUrl['port'] : '';
 		return "$scheme$host$port";
 	}
 }

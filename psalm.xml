@@ -5,7 +5,8 @@
 -->
 <psalm
 		errorBaseline="tests/psalm-baseline.xml"
-		errorLevel="4"
+	errorLevel="4"
+	ensureOverrideAttribute="false"
 		findUnusedBaselineEntry="true"
 		findUnusedCode="false"
 		phpVersion="8.1"
@@ -16,6 +17,8 @@
 	>
 	<stubs>
 		<file name="tests/stub.phpstub" preloadClasses="true"/>
+		<file name="tests/stubs/doctrine_dbal_types_type.php" preloadClasses="true"/>
+		<file name="tests/stubs/oca_encryption_util.php" preloadClasses="true"/>
 	</stubs>
 	<projectFiles>
 		<directory name="lib" />

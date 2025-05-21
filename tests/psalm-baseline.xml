@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
+<files psalm-version="6.8.2@720ed6b578ac24f9543c65c3d4cecea0ff348ccd">
   <file src="lib/AppConfig.php">
     <InvalidArgument>
       <code><![CDATA[[]]]></code>
@@ -8,25 +8,8 @@
       <code><![CDATA[array_key_exists($key, self::APP_SETTING_TYPES) && self::APP_SETTING_TYPES[$key] === 'array']]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/Command/ActivateConfig.php">
-    <UndefinedClass>
-      <code><![CDATA[Command]]></code>
-    </UndefinedClass>
-  </file>
   <file src="lib/Command/ConvertToBigInt.php">
-    <UndefinedClass>
-      <code><![CDATA[Command]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Command/InstallDefaultFonts.php">
-    <UndefinedClass>
-      <code><![CDATA[Command]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Command/UpdateEmptyTemplates.php">
-    <UndefinedClass>
-      <code><![CDATA[Command]]></code>
-    </UndefinedClass>
+    <UndefinedClass/>
   </file>
   <file src="lib/Controller/DocumentAPIController.php">
     <UndefinedClass>
@@ -45,12 +28,6 @@
     <UndefinedClass>
       <code><![CDATA[$e]]></code>
       <code><![CDATA[BadResponseException]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Controller/SettingsController.php">
-    <UndefinedClass>
-      <code><![CDATA[NullOutput]]></code>
-      <code><![CDATA[NullOutput]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/Controller/TemplatesController.php">
@@ -73,7 +50,6 @@
     </NullArgument>
     <UndefinedClass>
       <code><![CDATA[IVersionManager]]></code>
-      <code><![CDATA[\OCA\Encryption\Util]]></code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
       <code><![CDATA[putContent]]></code>
@@ -94,12 +70,6 @@
     <MissingDependency>
       <code><![CDATA[Image]]></code>
     </MissingDependency>
-  </file>
-  <file src="lib/Service/ConnectivityService.php">
-    <UndefinedClass>
-      <code><![CDATA[OutputInterface]]></code>
-      <code><![CDATA[OutputInterface]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/Service/FederationService.php">
     <TypeDoesNotContainType>
