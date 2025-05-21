@@ -12,8 +12,9 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
-use OCP\DB\Types;
+use OCP\DB\Types as OCPTypes;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -56,8 +57,8 @@ class ConvertToBigInt extends Command {
 				$column = $table->getColumn($columnName);
 				$isAutoIncrement = $column->getAutoincrement();
 				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
-					$column->setType(Type::getType(Types::BIGINT));
+				if ($column->getType()->getName() !== OCPTypes::BIGINT && !$isAutoIncrementOnSqlite) {
+					$column->setType(Type::getType(OCPTypes::BIGINT));
 					$column->setOptions(['length' => 20]);
 					$column->setUnsigned(true);
 
@@ -81,7 +82,7 @@ class ConvertToBigInt extends Command {
 			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', false);
 
-			if (!$helper->ask($input, $output, $question)) {
+			if (!$helper instanceof QuestionHelper || !$helper->ask($input, $output, $question)) {
 				return 1;
 			}
 		}

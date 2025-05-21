@@ -52,7 +52,7 @@ class RegisterTemplateFileCreatorListener implements IEventListener {
 				$odtType->addMimetype('application/vnd.oasis.opendocument.text-template');
 			}
 			$odtType->setIconSvgInline(file_get_contents($appPath . '/img/x-office-document.svg'));
-			$odtType->setRatio(21 / 29.7);
+			$odtType->setRatio(21.0 / 29.7);
 			return $odtType;
 		});
 		$templateManager->registerTemplateFileCreator(function () use ($ooxml, $appPath) {

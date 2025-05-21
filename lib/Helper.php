@@ -76,7 +76,7 @@ class Helper {
 
 		while ($folder->nodeExists($filename)) {
 			$fileNum++;
-			$filename = preg_replace('/(\.| \(\d+\)\.)([^.]*)$/', ' (' . $fileNum . ').$2', $filename);
+			$filename = preg_replace('/(\.| \(\d+\)\.)([^.]*)$/', ' (' . (string)$fileNum . ').$2', $filename);
 		}
 
 		return $filename;

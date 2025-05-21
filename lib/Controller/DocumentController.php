@@ -352,7 +352,7 @@ class DocumentController extends Controller {
 					'target' => $target,
 				]);
 			}
-			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
+			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . (string)$file->getId());
 			return new RedirectResponse($redirectUrl);
 		} catch (NotFoundException|NotPermittedException|NoUserException) {
 		}
@@ -377,7 +377,7 @@ class DocumentController extends Controller {
 					'target' => $target,
 				]);
 			}
-			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . $file->getId());
+			$redirectUrl = $this->urlGenerator->getAbsoluteURL('/index.php/f/' . (string)$file->getId());
 			return new RedirectResponse($redirectUrl);
 		} catch (NotFoundException|NotPermittedException|NoUserException) {
 		}
@@ -505,6 +505,6 @@ class DocumentController extends Controller {
 	}
 
 	private function getWopiFileId(int $fileId, ?int $version = null): string {
-		return $fileId . '_' . $this->config->getSystemValue('instanceid') . ($version ? '_' . $version : '');
+		return (string)$fileId . '_' . $this->config->getSystemValue('instanceid') . ($version ? '_' . (string)$version : '');
 	}
 }

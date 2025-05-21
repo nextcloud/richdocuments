@@ -54,7 +54,7 @@ class TemplateFieldService {
 			}
 
 			$localCache = $this->cacheFactory->createLocal('richdocuments_templates/');
-			$cacheName = $file->getId() . '/' . $file->getEtag();
+			$cacheName = (string)$file->getId() . '/' . $file->getEtag();
 			$cachedResponse = $localCache->get($cacheName);
 
 			if ($cachedResponse !== null) {

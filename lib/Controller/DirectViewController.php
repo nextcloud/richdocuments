@@ -122,7 +122,7 @@ class DirectViewController extends Controller {
 			$params = [
 				'permissions' => $item->getPermissions(),
 				'title' => basename($relativePath),
-				'fileId' => $wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
+				'fileId' => (string)$wopi->getFileid() . '_' . $this->config->getSystemValue('instanceid'),
 				'token' => $wopi->getToken(),
 				'token_ttl' => $wopi->getExpiry(),
 				'urlsrc' => $urlSrc,
@@ -161,7 +161,7 @@ class DirectViewController extends Controller {
 				$params = [
 					'permissions' => $share->getPermissions(),
 					'title' => $node->getName(),
-					'fileId' => $node->getId() . '_' . $this->config->getSystemValueString('instanceid'),
+					'fileId' => (string)$node->getId() . '_' . $this->config->getSystemValueString('instanceid'),
 					'path' => '/',
 					'userId' => null,
 					'direct' => true,

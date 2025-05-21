@@ -101,7 +101,7 @@ class Notifier implements INotifier {
 	protected function setParsedSubjectFromRichSubject(INotification $notification): void {
 		$placeholders = $replacements = [];
 		foreach ($notification->getRichSubjectParameters() as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
+			$placeholders[] = '{' . (string)$placeholder . '}';
 			if ($parameter['type'] === 'file') {
 				$replacements[] = $parameter['path'];
 			} else {

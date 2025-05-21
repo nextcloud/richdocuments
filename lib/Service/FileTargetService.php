@@ -28,7 +28,7 @@ class FileTargetService {
 
 	public function getFileTargets(File $file): array {
 		$cache = $this->cacheFactory->createDistributed('richdocuments-filetarget');
-		$cacheKey = $file->getId() . '_' . $file->getMTime();
+		$cacheKey = (string)$file->getId() . '_' . (string)$file->getMTime();
 		if ($cached = $cache->get($cacheKey)) {
 			return $cached;
 		}

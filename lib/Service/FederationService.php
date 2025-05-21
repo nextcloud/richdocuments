@@ -104,7 +104,7 @@ class FederationService {
 	public function isTrustedRemote($domainWithPort) {
 		if (str_starts_with($domainWithPort, 'http://') || str_starts_with($domainWithPort, 'https://')) {
 			$port = parse_url($domainWithPort, PHP_URL_PORT);
-			$domainWithPort = parse_url($domainWithPort, PHP_URL_HOST) . ($port ? ':' . $port : '');
+			$domainWithPort = parse_url($domainWithPort, PHP_URL_HOST) . ($port ? ':' . (string)$port : '');
 		}
 
 		if ($this->appConfig->isTrustedDomainAllowedForFederation() && $this->trustedServers !== null && $this->trustedServers->isTrustedServer($domainWithPort)) {
@@ -228,6 +228,6 @@ class FederationService {
 			return $url . '?' . http_build_query($params);
 		}
 
-		throw new NotFoundException('Failed to connect to remote collabora instance for ' . $item->getId());
+		throw new NotFoundException('Failed to connect to remote collabora instance for ' . (string)$item->getId());
 	}
 }

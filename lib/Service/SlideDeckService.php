@@ -150,7 +150,7 @@ EOF;
 		}
 
 		if ($task->getStatus() !== Task::STATUS_SUCCESSFUL) {
-			throw new RuntimeException('LLM backend Task with id ' . $task->getId() . ' failed or was cancelled');
+			throw new RuntimeException('LLM backend Task with id ' . (string)$task->getId() . ' failed or was cancelled');
 		}
 
 		return $task->getOutput()['output'];

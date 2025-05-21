@@ -49,7 +49,7 @@ trait DocumentTrait {
 		$parsed_url = parse_url($url);
 		$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
 		$host = $parsed_url['host'] ?? '';
-		$port = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+		$port = isset($parsed_url['port']) ? ':' . (string)$parsed_url['port'] : '';
 		return "$scheme$host$port";
 	}
 }

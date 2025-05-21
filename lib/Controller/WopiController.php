@@ -318,11 +318,11 @@ class WopiController extends Controller {
 
 		$response['UserFriendlyName'] = $this->tokenManager->prepareGuestName($initiator->getGuestDisplayname());
 		if ($initiator->hasTemplateId()) {
-			$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . $initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
+			$templateUrl = $wopi->getRemoteServer() . '/index.php/apps/richdocuments/wopi/template/' . (string)$initiator->getTemplateId() . '?access_token=' . $initiator->getToken();
 			$response['TemplateSource'] = $templateUrl;
 		}
 		if ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_USER || ($wopi->getTokenType() === Wopi::TOKEN_TYPE_REMOTE_GUEST && $initiator->getEditorUid())) {
-			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . $initiator->getEditorUid() . '/' . self::WOPI_AVATAR_SIZE;
+			$response['UserExtraInfo']['avatar'] = $wopi->getRemoteServer() . '/index.php/avatar/' . (string)$initiator->getEditorUid() . '/' . (string)self::WOPI_AVATAR_SIZE;
 		}
 
 		return $response;
@@ -377,14 +377,14 @@ class WopiController extends Controller {
 						preg_match('/bytes=(\d+)-(\d+)?/', $this->request->getHeader('Range'), $matches);
 
 						$offset = intval($matches[1] ?? 0);
-						$length = intval($matches[2] ?? 0) - $offset + 1;
+						$length = (int)((float)$filesize - (float)$offset);
 						if ($length <= 0) {
-							$length = $filesize - $offset;
+							$length = (int)((float)$filesize - (float)$offset);
 						}
 
 						$fp = $file->fopen('rb');
 						$rangeStream = fopen('php://temp', 'w+b');
-						stream_copy_to_stream($fp, $rangeStream, (int)$length, $offset);
+						stream_copy_to_stream($fp, $rangeStream, $length, $offset);
 						fclose($fp);
 
 						fseek($rangeStream, 0);
@@ -392,7 +392,7 @@ class WopiController extends Controller {
 						$response->addHeader('Accept-Ranges', 'bytes');
 						$response->addHeader('Content-Length', (string)$filesize);
 						$response->setStatus(Http::STATUS_PARTIAL_CONTENT);
-						$response->addHeader('Content-Range', 'bytes ' . $offset . '-' . ($offset + $length) . '/' . $filesize);
+						$response->addHeader('Content-Range', 'bytes ' . (string)$offset . '-' . (string)((int)($offset + $length)) . '/' . (string)$filesize);
 					} else {
 						$response = new StreamResponse($file->fopen('rb'));
 					}
@@ -998,12 +998,12 @@ class WopiController extends Controller {
 
 	private function getWopiUrlForFile(Wopi $wopi, File $file): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/files/' . $file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/files/' . (string)$file->getId() . '_' . $this->config->getSystemValue('instanceid') . '?access_token=' . $wopi->getToken();
 	}
 
 	private function getWopiUrlForTemplate(Wopi $wopi): string {
 		$nextcloudUrl = $this->appConfig->getNextcloudUrl() ?: trim($this->urlGenerator->getAbsoluteURL(''), '/');
-		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . $wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
+		return $nextcloudUrl . '/index.php/apps/richdocuments/wopi/template/' . (string)$wopi->getTemplateId() . '?access_token=' . $wopi->getToken();
 	}
 
 	private function generateSettingToken(string $userId): string {

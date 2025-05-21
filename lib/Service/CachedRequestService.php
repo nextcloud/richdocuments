@@ -74,7 +74,7 @@ abstract class CachedRequestService {
 		$startTime = microtime(true);
 		$response = $this->sendRequest($client);
 		$duration = round(((microtime(true) - $startTime)), 3);
-		$this->logger->info('Fetched remote endpoint from ' . $this->cacheKey . ' in ' . $duration . ' seconds');
+		$this->logger->info('Fetched remote endpoint from ' . $this->cacheKey . ' in ' . (string)$duration . ' seconds');
 
 		$this->getAppDataFolder()->newFile($this->cacheKey, $response);
 		$cache->set($this->cacheKey, $response);
