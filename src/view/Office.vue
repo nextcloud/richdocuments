@@ -386,6 +386,7 @@ export default {
 					this.$emit('update:loaded', true)
 					FilesAppIntegration.initAfterReady()
 				} else if (args.Status === 'Document_Loaded') {
+					this.sendPostMessage('Hide_Menu_Item', { id: 'help' })
 					this.documentReady()
 				} else if (args.Status === 'Failed') {
 					this.loading = LOADING_STATE.FAILED
