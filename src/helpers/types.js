@@ -49,7 +49,10 @@ const getFileTypes = () => {
 }
 
 const getFileType = (document) => {
-	return getFileTypes()[document]
+	return {
+		...getFileTypes()[document],
+		name: document,
+	}
 }
 
 export default {
