@@ -24,6 +24,7 @@ class BeforeGetTemplatesListener implements IEventListener {
 			return;
 		}
 
+		/** @psalm-suppress RedundantCondition */
 		if (method_exists($event, 'shouldGetFields') && !$event->shouldGetFields()) {
 			return;
 		}
