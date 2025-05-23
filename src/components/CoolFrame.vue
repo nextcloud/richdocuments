@@ -28,6 +28,7 @@
 
 import { generateCSSVarTokens, getUITheme } from '../helpers/coolParameters.js'
 import { languageToBCP47 } from '../helpers/index.js'
+import PostMessageService from '../services/postMessage.tsx'
 
 export default {
 	name: 'CoolFrame',
@@ -60,9 +61,15 @@ export default {
 			cssVariables: generateCSSVarTokens(),
 			isIframeLoaded: false,
 			uiTheme: getUITheme(),
+			postMessage: null,
 		}
 	},
 	mounted() {
+		this.postMessage = new PostMessageService({
+			parent: window.parent,
+		})
+		window.addEventListener('message', this.handlePostMessage)
+
 		if (this.iframeUrl.length > 0) {
 			this.formAction = this.iframeUrl + '?lang=' + languageToBCP47()
 			this.isIframeLoaded = true
@@ -79,6 +86,22 @@ export default {
 			}
 		})
 	},
+	beforeDestroy() {
+		window.removeEventListener('message', this.handlePostMessage)
+	},
+	methods: {
+		handlePostMessage(event) {
+			try {
+				const data = event.data
+				if (data.MessageId === 'Iframe_Height') {
+					document.getElementById(this.iframeName).height = data.Values.ContentHeight
+				}
+			} catch (e) {
+				console.error('Something went wrong with post message', e)
+			}
+		},
+	},
+
 }
 </script>
 
@@ -86,7 +109,9 @@ export default {
   .cool-frame-iframe {
     width: 100%;
     border: none;
-	height: 2000px;
 	overflow-y: auto;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
   }
   </style>
